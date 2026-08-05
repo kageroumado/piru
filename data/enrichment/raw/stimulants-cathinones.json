@@ -53,8 +53,7 @@
           "species": "rat",
           "tissue_or_cell": "rat caudate synaptosomes",
           "radioligand_or_probe": "[3H]-dopamine",
-          "reference": "doi:10.1038/npp.2011.304",
-          "is_review": false
+          "reference": "doi:10.1038/npp.2011.304"
         },
         {
           "target": "NET (release, [3H]-NE from rat synaptosomes)",
@@ -63,8 +62,7 @@
           "species": "rat",
           "tissue_or_cell": "rat hypothalamic synaptosomes",
           "radioligand_or_probe": "[3H]-norepinephrine",
-          "reference": "doi:10.1038/npp.2011.304",
-          "is_review": false
+          "reference": "doi:10.1038/npp.2011.304"
         },
         {
           "target": "SERT (release, [3H]-5-HT from rat synaptosomes)",
@@ -73,8 +71,7 @@
           "species": "rat",
           "tissue_or_cell": "rat whole brain synaptosomes",
           "radioligand_or_probe": "[3H]-serotonin",
-          "reference": "doi:10.1038/npp.2011.304",
-          "is_review": false
+          "reference": "doi:10.1038/npp.2011.304"
         },
         {
           "target": "TAAR1 (rat)",
@@ -84,8 +81,7 @@
           "action": "partialAgonist",
           "species": "rat",
           "tissue_or_cell": "HEK293 transient hTAAR1 cAMP",
-          "reference": "pmid:22897747",
-          "is_review": false
+          "reference": "pmid:22897747"
         },
         {
           "target": "hTAAR1",
@@ -93,8 +89,7 @@
           "ec50_nm": null,
           "action": "agonist",
           "species": "human",
-          "reference": "pmid:26791601",
-          "is_review": false
+          "reference": "pmid:26791601"
         }
       ],
       "functional": [],
@@ -256,8 +251,7 @@
           "species": "rat",
           "tissue_or_cell": "rat caudate synaptosomes",
           "radioligand_or_probe": "[3H]-dopamine",
-          "reference": "doi:10.1038/npp.2011.304",
-          "is_review": false
+          "reference": "doi:10.1038/npp.2011.304"
         },
         {
           "target": "NET (release)",
@@ -280,8 +274,7 @@
           "action": "agonist",
           "ec50_nm": null,
           "species": "human",
-          "reference": "pmid:26791601",
-          "is_review": false
+          "reference": "pmid:26791601"
         }
       ],
       "functional": [],
@@ -395,8 +388,7 @@
           "species": "rat",
           "tissue_or_cell": "rat caudate synaptosomes",
           "radioligand_or_probe": "[3H]-dopamine uptake",
-          "reference": "pmid:23072836",
-          "is_review": false
+          "reference": "pmid:23072836"
         },
         {
           "target": "DAT (human, HEK293)",
@@ -404,8 +396,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 stable hDAT-YFP",
-          "reference": "pmid:34361040",
-          "is_review": false
+          "reference": "pmid:34361040"
         },
         {
           "target": "NET",
@@ -428,16 +419,14 @@
           "ic50_nm": null,
           "action": "agonist",
           "species": "human",
-          "reference": "pmid:34361040",
-          "is_review": false
+          "reference": "pmid:34361040"
         },
         {
           "target": "σ1",
           "ki_nm": null,
           "action": "modulator",
           "species": "rat",
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [
@@ -587,8 +576,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 stable hDAT-YFP",
-          "reference": "pmid:34361040",
-          "is_review": false
+          "reference": "pmid:34361040"
         },
         {
           "target": "DAT (S-enantiomer, rat)",
@@ -723,8 +711,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 stable hDAT-YFP",
-          "reference": "pmid:34361040",
-          "is_review": false
+          "reference": "pmid:34361040"
         },
         {
           "target": "NET",
@@ -836,8 +823,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 stable hDAT",
-          "reference": "pmid:22897747",
-          "is_review": false
+          "reference": "pmid:22897747"
         },
         {
           "target": "NET",
@@ -931,8 +917,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stable hDAT",
           "reference": "doi:10.1007/s00213-018-5059-5",
-          "confidence": "high",
-          "is_review": false
+          "confidence": "high"
         },
         {
           "target": "NET",
@@ -1232,8 +1217,7 @@
           "action": "reuptakeInhibitor",
           "species": "rat",
           "tissue_or_cell": "rat caudate synaptosomes",
-          "reference": "pmid:36669877",
-          "is_review": false
+          "reference": "pmid:36669877"
         },
         {
           "target": "DAT (release)",
@@ -2013,8 +1997,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stable hDAT-YFP",
           "radioligand_or_probe": "[3H]-dopamine",
-          "reference": "pmid:30219933",
-          "is_review": false
+          "reference": "pmid:30219933"
         },
         {
           "target": "SERT (uptake, human)",
@@ -2192,8 +2175,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 stable hDAT",
-          "reference": "pmid:33689284",
-          "is_review": false
+          "reference": "pmid:33689284"
         },
         {
           "target": "SERT (uptake)",
@@ -2362,8 +2344,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 stable hDAT-YFP",
-          "reference": "pmid:25502630",
-          "is_review": false
+          "reference": "pmid:25502630"
         },
         {
           "target": "SERT (uptake, human)",
@@ -2451,8 +2432,7 @@
           "ec50_nm": 1100,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "pmid:22897747",
-          "is_review": false
+          "reference": "pmid:22897747"
         },
         {
           "target": "SERT (release)",
@@ -2782,8 +2762,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 stable hDAT",
-          "reference": "pmid:24275046",
-          "is_review": false
+          "reference": "pmid:24275046"
         },
         {
           "target": "SERT",
@@ -3643,8 +3622,7 @@
           "target": "DAT (uptake)",
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.3390/life14040429",
-          "is_review": true
+          "reference": "doi:10.3390/life14040429"
         }
       ],
       "functional": [],

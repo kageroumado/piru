@@ -28,8 +28,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain homogenate",
           "radioligand_or_probe": "[3H]-DAMGO",
-          "reference": "pmid:1851921",
-          "is_review": false
+          "reference": "pmid:1851921"
         },
         {
           "target": "MOR",
@@ -40,7 +39,6 @@
           "tissue_or_cell": "CHO membranes expressing recombinant human MOR",
           "radioligand_or_probe": "[3H]-diprenorphine displacement / [35S]GTPγS",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
-          "is_review": false,
           "comparable_set": "volpe-2011-human-mor-ki",
           "confidence": "HIGH"
         },
@@ -53,7 +51,6 @@
           "species": "rat",
           "tissue_or_cell": "rat MOPr, recombinant in HEK293",
           "reference": "doi:10.1124/mol.110.066613",
-          "is_review": false,
           "confidence": "HIGH"
         },
         {
@@ -65,7 +62,6 @@
           "species": "human",
           "tissue_or_cell": "human µ receptor (WT), recombinant in AtT20",
           "reference": "doi:10.1002/prp2.921",
-          "is_review": false,
           "confidence": "HIGH"
         },
         {
@@ -77,7 +73,6 @@
           "species": "human",
           "tissue_or_cell": "human MOR, transient in HEK293T",
           "reference": "doi:10.1021/acs.jmedchem.1c01273",
-          "is_review": false,
           "confidence": "HIGH"
         },
         {
@@ -89,7 +84,6 @@
           "species": "mixed",
           "tissue_or_cell": "mixed (heterologous cell lines and endogenous tissue)",
           "reference": "doi:10.1111/bph.12222",
-          "is_review": true,
           "confidence": "MEDIUM"
         },
         {
@@ -103,7 +97,6 @@
           "species": "human",
           "tissue_or_cell": "human MOR in CHO cells",
           "reference": "pmid:9686407",
-          "is_review": false,
           "confidence": "HIGH"
         }
       ],
@@ -289,8 +282,7 @@
           "species": "rat",
           "tissue_or_cell": "rat thalamic membranes",
           "radioligand_or_probe": "[3H]DAMGO; [35S]GTPγS",
-          "reference": "pmid:11448454",
-          "is_review": false
+          "reference": "pmid:11448454"
         }
       ],
       "functional": [
@@ -403,8 +395,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain membranes",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:11448454",
-          "is_review": false
+          "reference": "pmid:11448454"
         }
       ],
       "functional": [],
@@ -514,8 +505,7 @@
           "species": "human",
           "tissue_or_cell": "CHO membranes expressing recombinant human MOR",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:21866885",
-          "is_review": false
+          "reference": "pmid:21866885"
         },
         {
           "target": "KOR",
@@ -524,8 +514,7 @@
           "species": "human",
           "tissue_or_cell": "CHO membranes",
           "radioligand_or_probe": "[3H]U69593",
-          "reference": "pmid:21866885",
-          "is_review": false
+          "reference": "pmid:21866885"
         },
         {
           "target": "DOR",
@@ -534,8 +523,7 @@
           "species": "human",
           "tissue_or_cell": "CHO membranes",
           "radioligand_or_probe": "[3H]DPDPE",
-          "reference": "pmid:21866885",
-          "is_review": false
+          "reference": "pmid:21866885"
         },
         {
           "target": "NOP (ORL-1)",
@@ -544,8 +532,7 @@
           "species": "human",
           "tissue_or_cell": "CHO membranes",
           "radioligand_or_probe": "[3H]nociceptin",
-          "reference": "pmid:21866885",
-          "is_review": false
+          "reference": "pmid:21866885"
         },
         {
           "target": "MOR",
@@ -556,7 +543,6 @@
           "species": "rat",
           "tissue_or_cell": "rat MOPr, recombinant in HEK293",
           "reference": "doi:10.1124/mol.110.066613",
-          "is_review": false,
           "confidence": "HIGH"
         },
         {
@@ -568,7 +554,6 @@
           "species": "human",
           "tissue_or_cell": "human µ receptor (WT), recombinant in AtT20",
           "reference": "doi:10.1002/prp2.921",
-          "is_review": false,
           "confidence": "HIGH"
         },
         {
@@ -580,7 +565,6 @@
           "species": "human",
           "tissue_or_cell": "human MOR, transient in HEK293T",
           "reference": "doi:10.1021/acs.jmedchem.1c01273",
-          "is_review": false,
           "confidence": "HIGH"
         },
         {
@@ -594,7 +578,6 @@
           "species": "human",
           "tissue_or_cell": "human MOR in CHO cells",
           "reference": "pmid:9686407",
-          "is_review": false,
           "confidence": "MEDIUM"
         },
         {
@@ -605,7 +588,6 @@
           "species": "human",
           "tissue_or_cell": "human MOR (full-length OPRM1) in Chem-5 cell membranes",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
-          "is_review": false,
           "confidence": "HIGH"
         }
       ],
@@ -786,8 +768,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant human MOR / membrane",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1038/s41380-023-02353-z",
-          "is_review": false
+          "reference": "doi:10.1038/s41380-023-02353-z"
         },
         {
           "target": "MOR (S-methadone)",
@@ -796,8 +777,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant human MOR",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1038/s41380-023-02353-z",
-          "is_review": false
+          "reference": "doi:10.1038/s41380-023-02353-z"
         },
         {
           "target": "NMDA receptor (MK-801 site)",
@@ -807,8 +787,7 @@
           "species": "rat",
           "tissue_or_cell": "rat cortex",
           "radioligand_or_probe": "[3H]MK-801",
-          "reference": "pmid:9058409",
-          "is_review": false
+          "reference": "pmid:9058409"
         },
         {
           "target": "hERG (S-methadone)",
@@ -817,8 +796,7 @@
           "action": "channelBlocker",
           "species": "human",
           "tissue_or_cell": "HEK293-hERG",
-          "reference": "pmid:17329992",
-          "is_review": false
+          "reference": "pmid:17329992"
         },
         {
           "target": "MOR",
@@ -829,7 +807,6 @@
           "species": "rat",
           "tissue_or_cell": "rat MOPr, recombinant in HEK293",
           "reference": "doi:10.1124/mol.110.066613",
-          "is_review": false,
           "confidence": "HIGH"
         },
         {
@@ -843,7 +820,6 @@
           "species": "human",
           "tissue_or_cell": "human MOR in CHO cells",
           "reference": "pmid:9686407",
-          "is_review": false,
           "confidence": "HIGH"
         },
         {
@@ -854,7 +830,6 @@
           "species": "human",
           "tissue_or_cell": "human MOR (full-length OPRM1) in Chem-5 cell membranes",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
-          "is_review": false,
           "confidence": "HIGH"
         }
       ],
@@ -1024,8 +999,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:1851921",
-          "is_review": false
+          "reference": "pmid:1851921"
         },
         {
           "target": "MOR",
@@ -1035,7 +1009,6 @@
           "species": "human",
           "tissue_or_cell": "human MOR, recombinant membranes (binding only)",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
-          "is_review": false,
           "confidence": "HIGH for affinity, LOW for efficacy"
         }
       ],
@@ -1160,8 +1133,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1016/s0022-3565(25)11227-5",
-          "is_review": false
+          "reference": "doi:10.1016/s0022-3565(25)11227-5"
         },
         {
           "target": "MOR (+)-tramadol",
@@ -1170,8 +1142,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1016/s0022-3565(25)11227-5",
-          "is_review": false
+          "reference": "doi:10.1016/s0022-3565(25)11227-5"
         },
         {
           "target": "MOR (−)-tramadol",
@@ -1180,8 +1151,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1016/s0022-3565(25)11227-5",
-          "is_review": false
+          "reference": "doi:10.1016/s0022-3565(25)11227-5"
         },
         {
           "target": "SERT (+)-tramadol",
@@ -1190,8 +1160,7 @@
           "species": "rat",
           "tissue_or_cell": "rat synaptosomes",
           "radioligand_or_probe": "[3H]5-HT uptake",
-          "reference": "doi:10.1016/s0022-3565(25)11227-5",
-          "is_review": false
+          "reference": "doi:10.1016/s0022-3565(25)11227-5"
         },
         {
           "target": "NET (−)-tramadol",
@@ -1200,8 +1169,7 @@
           "species": "rat",
           "tissue_or_cell": "rat synaptosomes",
           "radioligand_or_probe": "[3H]NE uptake",
-          "reference": "doi:10.1016/s0022-3565(25)11227-5",
-          "is_review": false
+          "reference": "doi:10.1016/s0022-3565(25)11227-5"
         },
         {
           "target": "MOR",
@@ -1211,7 +1179,6 @@
           "species": "human",
           "tissue_or_cell": "human MOR, recombinant membranes",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
-          "is_review": false,
           "confidence": "HIGH"
         }
       ],
@@ -1345,7 +1312,6 @@
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "pmid:10961373",
-          "is_review": false,
           "comparable_set": "gillen-2000-rat-mor"
         },
         {
@@ -1356,7 +1322,6 @@
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "pmid:10961373",
-          "is_review": false,
           "comparable_set": "gillen-2000-rat-mor"
         },
         {
@@ -1368,7 +1333,6 @@
           "species": "human",
           "tissue_or_cell": "human µ receptor (WT), recombinant in AtT20",
           "reference": "doi:10.1002/prp2.921",
-          "is_review": false,
           "confidence": "HIGH"
         }
       ],
@@ -1473,7 +1437,6 @@
           "tissue_or_cell": "recombinant hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
-          "is_review": false,
           "comparable_set": "volpe-2011-human-mor-ki",
           "confidence": "HIGH"
         },
@@ -1486,7 +1449,6 @@
           "species": "rat",
           "tissue_or_cell": "rat MOPr, recombinant in HEK293",
           "reference": "doi:10.1124/mol.110.066613",
-          "is_review": false,
           "confidence": "HIGH"
         },
         {
@@ -1498,7 +1460,6 @@
           "species": "human",
           "tissue_or_cell": "human µ receptor (WT), recombinant in AtT20",
           "reference": "doi:10.1002/prp2.921",
-          "is_review": false,
           "confidence": "HIGH"
         }
       ],
@@ -1629,7 +1590,6 @@
           "tissue_or_cell": "recombinant hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
-          "is_review": false,
           "comparable_set": "volpe-2011-human-mor-ki",
           "confidence": "HIGH for affinity, LOW for efficacy"
         }
@@ -1745,7 +1705,6 @@
           "tissue_or_cell": "recombinant hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
-          "is_review": false,
           "comparable_set": "volpe-2011-human-mor-ki",
           "confidence": "HIGH for affinity, LOW for efficacy"
         }
@@ -1868,7 +1827,6 @@
           "tissue_or_cell": "recombinant hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
-          "is_review": false,
           "comparable_set": "volpe-2011-human-mor-ki",
           "confidence": "HIGH for affinity, LOW for efficacy"
         }
@@ -1973,7 +1931,6 @@
           "tissue_or_cell": "CHO-K1 hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1021/jacs.6b00360",
-          "is_review": false,
           "ec50_nm": 339,
           "intrinsic_activity_pct": 34,
           "comparable_set": "kruegel-2016-human-mor-bret-emax",
@@ -1987,8 +1944,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-K1 hKOR",
           "radioligand_or_probe": "[3H]U69593",
-          "reference": "doi:10.1021/jacs.6b00360",
-          "is_review": false
+          "reference": "doi:10.1021/jacs.6b00360"
         },
         {
           "target": "DOR",
@@ -1997,8 +1953,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-K1 hDOR",
           "radioligand_or_probe": "[3H]DPDPE",
-          "reference": "doi:10.1021/jacs.6b00360",
-          "is_review": false
+          "reference": "doi:10.1021/jacs.6b00360"
         }
       ],
       "functional": [
@@ -2166,7 +2121,6 @@
           "tissue_or_cell": "CHO-K1 hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1021/jacs.6b00360",
-          "is_review": false,
           "ec50_nm": 34.5,
           "intrinsic_activity_pct": 47,
           "comparable_set": "kruegel-2016-human-mor-bret-emax",
@@ -2180,8 +2134,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-K1 hKOR",
           "radioligand_or_probe": "[3H]U69593",
-          "reference": "doi:10.1021/jacs.6b00360",
-          "is_review": false
+          "reference": "doi:10.1021/jacs.6b00360"
         },
         {
           "target": "DOR",
@@ -2190,8 +2143,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-K1 hDOR",
           "radioligand_or_probe": "[3H]DPDPE",
-          "reference": "doi:10.1021/jacs.6b00360",
-          "is_review": false
+          "reference": "doi:10.1021/jacs.6b00360"
         }
       ],
       "functional": [
@@ -2418,8 +2370,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:17656655",
-          "is_review": false
+          "reference": "pmid:17656655"
         },
         {
           "target": "NET",
@@ -2428,8 +2379,7 @@
           "species": "human",
           "tissue_or_cell": "synaptosomes",
           "radioligand_or_probe": "[3H]NE uptake",
-          "reference": "pmid:17656655",
-          "is_review": false
+          "reference": "pmid:17656655"
         },
         {
           "target": "SERT",
@@ -2437,8 +2387,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "synaptosomes",
-          "reference": "pmid:17656655",
-          "is_review": false
+          "reference": "pmid:17656655"
         },
         {
           "target": "MOR",
@@ -2449,7 +2398,6 @@
           "species": "human",
           "tissue_or_cell": "human µ receptor (WT), recombinant in AtT20",
           "reference": "doi:10.1002/prp2.921",
-          "is_review": false,
           "confidence": "HIGH"
         }
       ],
@@ -2580,8 +2528,7 @@
           "species": "human",
           "tissue_or_cell": "membrane",
           "radioligand_or_probe": "[3H]U69593",
-          "reference": null,
-          "is_review": false
+          "reference": null
         },
         {
           "target": "σ1 (+)",
@@ -2590,8 +2537,7 @@
           "species": "guinea pig",
           "tissue_or_cell": "brain",
           "radioligand_or_probe": "[3H](+)-pentazocine",
-          "reference": "pmid:1359973",
-          "is_review": false
+          "reference": "pmid:1359973"
         },
         {
           "target": "MOR",
@@ -2600,8 +2546,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -2694,8 +2639,7 @@
           "species": "guinea pig",
           "tissue_or_cell": "brain membranes",
           "radioligand_or_probe": "[3H]U69593",
-          "reference": "doi:10.1016/0024-3205(93)90152-S",
-          "is_review": false
+          "reference": "doi:10.1016/0024-3205(93)90152-S"
         },
         {
           "target": "MOR",
@@ -2704,8 +2648,7 @@
           "species": "guinea pig",
           "tissue_or_cell": "brain membranes",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1016/0024-3205(93)90152-S",
-          "is_review": false
+          "reference": "doi:10.1016/0024-3205(93)90152-S"
         },
         {
           "target": "DOR",
@@ -2714,8 +2657,7 @@
           "species": "guinea pig",
           "tissue_or_cell": "brain membranes",
           "radioligand_or_probe": "[3H]DPDPE",
-          "reference": "doi:10.1016/0024-3205(93)90152-S",
-          "is_review": false
+          "reference": "doi:10.1016/0024-3205(93)90152-S"
         }
       ],
       "functional": [],
@@ -2825,8 +2767,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1016/j.yrtph.2010.12.007",
-          "is_review": false
+          "reference": "doi:10.1016/j.yrtph.2010.12.007"
         }
       ],
       "functional": [],
@@ -2960,8 +2901,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:12420793",
-          "is_review": false
+          "reference": "pmid:12420793"
         }
       ],
       "functional": [],
@@ -3073,8 +3013,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": null,
-          "is_review": true
+          "reference": null
         }
       ],
       "functional": [],
@@ -3175,8 +3114,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:1851921",
-          "is_review": false
+          "reference": "pmid:1851921"
         },
         {
           "target": "hERG (norpropoxyphene)",
@@ -3185,8 +3123,7 @@
           "action": "channelBlocker",
           "species": "human",
           "tissue_or_cell": "Xenopus oocytes / HEK293-hERG",
-          "reference": "pmid:10690289",
-          "is_review": false
+          "reference": "pmid:10690289"
         }
       ],
       "functional": [],
@@ -3305,8 +3242,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:1851921",
-          "is_review": false
+          "reference": "pmid:1851921"
         }
       ],
       "functional": [],
@@ -3407,8 +3343,7 @@
           "species": "human",
           "tissue_or_cell": "CHO recombinant",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:15627429",
-          "is_review": false
+          "reference": "pmid:15627429"
         },
         {
           "target": "MOR (nortilidine)",
@@ -3417,8 +3352,7 @@
           "species": "human",
           "tissue_or_cell": "CHO recombinant",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:15627429",
-          "is_review": false
+          "reference": "pmid:15627429"
         }
       ],
       "functional": [],
@@ -3535,7 +3469,6 @@
           "tissue_or_cell": "CHO recombinant",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1093/bja/87.1.27",
-          "is_review": false,
           "comparable_set": "power-2001-human-mor"
         },
         {
@@ -3547,7 +3480,6 @@
           "tissue_or_cell": "rat cortex",
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1093/bja/87.1.27",
-          "is_review": false,
           "comparable_set": "power-2001-rat-nmda"
         }
       ],
@@ -3638,8 +3570,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:1851921",
-          "is_review": false
+          "reference": "pmid:1851921"
         }
       ],
       "functional": [],
@@ -3728,8 +3659,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1007/BF02178565",
-          "is_review": false
+          "reference": "doi:10.1007/BF02178565"
         }
       ],
       "functional": [],
@@ -3966,8 +3896,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant",
           "radioligand_or_probe": "[3H]spiperone",
-          "reference": "pmid:8787038",
-          "is_review": false
+          "reference": "pmid:8787038"
         },
         {
           "target": "D2",
@@ -3976,8 +3905,7 @@
           "species": "human",
           "tissue_or_cell": "human striatum / recombinant",
           "radioligand_or_probe": "[3H]spiperone",
-          "reference": "pmid:8787038",
-          "is_review": false
+          "reference": "pmid:8787038"
         },
         {
           "target": "D3",
@@ -3986,8 +3914,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant",
           "radioligand_or_probe": "[3H]spiperone",
-          "reference": "pmid:8787038",
-          "is_review": false
+          "reference": "pmid:8787038"
         },
         {
           "target": "D5",
@@ -3996,8 +3923,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant",
           "radioligand_or_probe": "[3H]SCH23390",
-          "reference": "pmid:8787038",
-          "is_review": false
+          "reference": "pmid:8787038"
         },
         {
           "target": "D1",
@@ -4006,8 +3932,7 @@
           "species": "human",
           "tissue_or_cell": "human striatum",
           "radioligand_or_probe": "[3H]SCH23390",
-          "reference": "pmid:8787038",
-          "is_review": false
+          "reference": "pmid:8787038"
         },
         {
           "target": "5-HT1A",
@@ -4016,8 +3941,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant",
           "radioligand_or_probe": "[3H]8-OH-DPAT",
-          "reference": "pmid:8787038",
-          "is_review": false
+          "reference": "pmid:8787038"
         },
         {
           "target": "MOR",
@@ -4026,8 +3950,7 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -4144,8 +4067,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]MK-801",
-          "reference": "doi:10.1016/0014-2999(96)00382-2",
-          "is_review": false
+          "reference": "doi:10.1016/0014-2999(96)00382-2"
         },
         {
           "target": "MOR",
@@ -4154,8 +4076,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1016/0014-2999(96)00382-2",
-          "is_review": false
+          "reference": "doi:10.1016/0014-2999(96)00382-2"
         },
         {
           "target": "σ1",
@@ -4164,8 +4085,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H](+)-pentazocine",
-          "reference": "doi:10.1016/0014-2999(96)00382-2",
-          "is_review": false
+          "reference": "doi:10.1016/0014-2999(96)00382-2"
         },
         {
           "target": "KOR",
@@ -4174,8 +4094,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]U69593",
-          "reference": "doi:10.1016/0014-2999(96)00382-2",
-          "is_review": false
+          "reference": "doi:10.1016/0014-2999(96)00382-2"
         },
         {
           "target": "DOR",
@@ -4184,8 +4103,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DPDPE",
-          "reference": "doi:10.1016/0014-2999(96)00382-2",
-          "is_review": false
+          "reference": "doi:10.1016/0014-2999(96)00382-2"
         }
       ],
       "functional": [],
@@ -4274,8 +4192,7 @@
           "species": "human",
           "tissue_or_cell": "CHO recombinant",
           "radioligand_or_probe": "[35S]GTPγS",
-          "reference": "pmid:35142070",
-          "is_review": false
+          "reference": "pmid:35142070"
         },
         {
           "target": "MOR",
@@ -4285,8 +4202,7 @@
           "species": "human",
           "tissue_or_cell": "CHO recombinant",
           "radioligand_or_probe": "[35S]GTPγS",
-          "reference": "pmid:35142070",
-          "is_review": false
+          "reference": "pmid:35142070"
         }
       ],
       "functional": [],
@@ -4359,8 +4275,7 @@
           "species": "human",
           "tissue_or_cell": "CHO recombinant",
           "radioligand_or_probe": "various",
-          "reference": "doi:10.1172/jci.insight.97222",
-          "is_review": false
+          "reference": "doi:10.1172/jci.insight.97222"
         }
       ],
       "functional": [],
@@ -4431,8 +4346,7 @@
           "species": "mouse",
           "tissue_or_cell": "in vivo hot-plate",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1007/s11419-018-0454-5",
-          "is_review": true
+          "reference": "doi:10.1007/s11419-018-0454-5"
         }
       ],
       "functional": [],
@@ -4520,8 +4434,7 @@
           "species": "human",
           "tissue_or_cell": "CHO recombinant",
           "radioligand_or_probe": "[35S]GTPγS",
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -4702,8 +4615,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:8951931",
-          "is_review": false
+          "reference": "pmid:8951931"
         },
         {
           "target": "NMDA (MK-801 site)",
@@ -4712,8 +4624,7 @@
           "species": "rat",
           "tissue_or_cell": "rat cortex",
           "radioligand_or_probe": "[3H]MK-801",
-          "reference": "pmid:8951931",
-          "is_review": false
+          "reference": "pmid:8951931"
         }
       ],
       "functional": [],
@@ -5180,8 +5091,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatum",
           "radioligand_or_probe": "[3H]SCH23390 / [3H]spiperone",
-          "reference": "pmid:2907279",
-          "is_review": false
+          "reference": "pmid:2907279"
         },
         {
           "target": "MOR",
@@ -5190,8 +5100,7 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -5270,8 +5179,7 @@
           "species": "human",
           "tissue_or_cell": "CHO recombinant",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "pmid:40936282",
-          "is_review": false
+          "reference": "pmid:40936282"
         },
         {
           "target": "DOR",
@@ -5280,8 +5188,7 @@
           "species": "human",
           "tissue_or_cell": "CHO recombinant",
           "radioligand_or_probe": "[3H]DPDPE",
-          "reference": "pmid:40936282",
-          "is_review": false
+          "reference": "pmid:40936282"
         }
       ],
       "functional": [],
@@ -5507,7 +5414,6 @@
           "tissue_or_cell": "CHO-hMOR membranes",
           "radioligand_or_probe": "[35S]GTPgammaS",
           "reference": "pmid:19220294",
-          "is_review": false,
           "confidence": "high"
         }
       ]
@@ -5531,7 +5437,6 @@
           "tissue_or_cell": "CHO-hMOR membranes",
           "radioligand_or_probe": "[35S]GTPgammaS",
           "reference": "pmid:19220294",
-          "is_review": false,
           "confidence": "medium"
         }
       ]

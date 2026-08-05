@@ -28,8 +28,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "KOR",
@@ -44,8 +43,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "DOR",
@@ -60,8 +58,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "MOR",
@@ -79,8 +76,7 @@
           "species": "human",
           "tissue_or_cell": "FLP-FRT-HEK cells stably expressing hMOR; cAMP HTRF (Gi)",
           "radioligand_or_probe": "[3H]DAMGO (rat brain for affinity)",
-          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-          "is_review": false
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939"
         }
       ],
       "functional": [],
@@ -176,8 +172,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "KOR",
@@ -192,8 +187,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "DOR",
@@ -208,8 +202,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "MOR",
@@ -227,8 +220,7 @@
           "species": "human",
           "tissue_or_cell": "FLP-FRT-HEK hMOR; HTRF cAMP",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-          "is_review": false
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939"
         }
       ],
       "functional": [],
@@ -335,8 +327,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "KOR",
@@ -351,8 +342,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "DOR",
@@ -367,8 +357,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         }
       ],
       "functional": [],
@@ -459,8 +448,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "KOR",
@@ -475,8 +463,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "DOR",
@@ -491,8 +478,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         }
       ],
       "functional": [],
@@ -572,8 +558,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "KOR",
@@ -588,8 +573,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "DOR",
@@ -604,8 +588,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         }
       ],
       "functional": [],
@@ -685,8 +668,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "KOR",
@@ -701,8 +683,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "DOR",
@@ -717,8 +698,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         }
       ],
       "functional": [],
@@ -810,8 +790,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "KOR",
@@ -826,8 +805,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "DOR",
@@ -842,8 +820,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         }
       ],
       "functional": [],
@@ -920,8 +897,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         }
       ],
       "functional": [],
@@ -998,8 +974,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "KOR",
@@ -1014,8 +989,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         }
       ],
       "functional": [],
@@ -1098,8 +1072,7 @@
           "species": "human",
           "tissue_or_cell": "FLP-FRT-HEK hMOR; HTRF cAMP",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-          "is_review": false
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939"
         }
       ],
       "functional": [],
@@ -1190,8 +1163,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "KOR",
@@ -1206,8 +1178,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "DOR",
@@ -1222,8 +1193,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         }
       ],
       "functional": [],
@@ -1305,8 +1275,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "KOR",
@@ -1321,8 +1290,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "DOR",
@@ -1337,8 +1305,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         }
       ],
       "functional": [],
@@ -1419,8 +1386,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "KOR",
@@ -1435,8 +1401,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "DOR",
@@ -1451,8 +1416,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         }
       ],
       "functional": [],
@@ -1533,8 +1497,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "KOR",
@@ -1549,8 +1512,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "DOR",
@@ -1565,8 +1527,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         }
       ],
       "functional": [],
@@ -1644,8 +1605,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "KOR",
@@ -1660,8 +1620,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "DOR",
@@ -1676,8 +1635,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         }
       ],
       "functional": [],
@@ -1817,8 +1775,7 @@
           "species": "human",
           "tissue_or_cell": "FLP-FRT-HEK hMOR; HTRF cAMP / Gi pathway",
           "radioligand_or_probe": "[3H]DAMGO (rat brain for affinity)",
-          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-          "is_review": false
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939"
         }
       ],
       "functional": [
@@ -1936,8 +1893,7 @@
           "species": "human",
           "tissue_or_cell": "FLP-FRT-HEK hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-          "is_review": false
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939"
         }
       ],
       "functional": [],
@@ -2132,8 +2088,7 @@
           "species": "human",
           "tissue_or_cell": "PathHunter CHO cells stably expressing hMOR + β-arrestin2; GloSensor cAMP",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1111/bph.15064",
-          "is_review": false
+          "reference": "doi:10.1111/bph.15064"
         }
       ],
       "functional": [
@@ -2349,8 +2304,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing hMOR; [35S]GTPγS",
           "radioligand_or_probe": "[3H]diprenorphine (0.2 nM, KD 0.38 nM)",
-          "reference": "doi:10.1002/dta.2822",
-          "is_review": false
+          "reference": "doi:10.1002/dta.2822"
         },
         {
           "target": "MOR",
@@ -2365,8 +2319,7 @@
           "species": "human",
           "tissue_or_cell": "CHO hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false
+          "reference": "doi:10.1124/jpet.123.002052"
         },
         {
           "target": "MOR",
@@ -2377,7 +2330,6 @@
           "species": "rat",
           "tissue_or_cell": "rat MOPr, recombinant in HEK293",
           "reference": "doi:10.1124/mol.110.066613",
-          "is_review": false,
           "confidence": "HIGH"
         },
         {
@@ -2389,7 +2341,6 @@
           "species": "human",
           "tissue_or_cell": "human MOR, transient in HEK293T",
           "reference": "doi:10.1021/acs.jmedchem.1c01273",
-          "is_review": false,
           "confidence": "HIGH"
         },
         {
@@ -2403,7 +2354,6 @@
           "species": "human",
           "tissue_or_cell": "human MOR in CHO cells",
           "reference": "pmid:9686407",
-          "is_review": false,
           "confidence": "HIGH"
         },
         {
@@ -2414,7 +2364,6 @@
           "species": "human",
           "tissue_or_cell": "human MOR (full-length OPRM1) in Chem-5 cell membranes",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
-          "is_review": false,
           "confidence": "HIGH"
         }
       ],
@@ -2780,7 +2729,6 @@
           "tissue_or_cell": "Cell membrane preparation expressing recombinant hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
-          "is_review": false,
           "comparable_set": "volpe-2011-human-mor-ki",
           "confidence": "HIGH"
         }
@@ -3426,8 +3374,7 @@
           "species": "human",
           "tissue_or_cell": "rat brain membrane or CHO hMOR depending on source",
           "radioligand_or_probe": "[3H]DAMGO or [3H]diprenorphine",
-          "reference": "doi:10.3389/fphar.2019.00238",
-          "is_review": false
+          "reference": "doi:10.3389/fphar.2019.00238"
         }
       ],
       "functional": [],
@@ -3797,8 +3744,7 @@
           "species": "human",
           "tissue_or_cell": "rat brain membrane or CHO hMOR depending on source",
           "radioligand_or_probe": "[3H]DAMGO or [3H]diprenorphine",
-          "reference": "doi:10.3389/fphar.2019.00238",
-          "is_review": false
+          "reference": "doi:10.3389/fphar.2019.00238"
         }
       ],
       "functional": [],
@@ -4372,7 +4318,6 @@
           "tissue_or_cell": "rat brain homogenate membrane fraction",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "pmid:30791394",
-          "is_review": false,
           "comparable_set": "volpe-2019-rat-mor"
         }
       ],

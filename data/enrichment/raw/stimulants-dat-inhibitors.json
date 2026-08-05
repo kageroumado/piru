@@ -31,8 +31,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human DAT",
           "radioligand_or_probe": "[3H]dopamine uptake",
-          "reference": "pmid:10215666",
-          "is_review": false
+          "reference": "pmid:10215666"
         },
         {
           "target": "SERT",
@@ -42,8 +41,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human SERT",
           "radioligand_or_probe": "[3H]5-HT uptake",
-          "reference": "pmid:10215666",
-          "is_review": false
+          "reference": "pmid:10215666"
         },
         {
           "target": "NET",
@@ -53,8 +51,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human NET",
           "radioligand_or_probe": "[3H]norepinephrine uptake",
-          "reference": "pmid:10215666",
-          "is_review": false
+          "reference": "pmid:10215666"
         },
         {
           "target": "DAT",
@@ -63,8 +60,7 @@
           "species": "human",
           "tissue_or_cell": "human striatal membranes",
           "radioligand_or_probe": "[125I]RTI-55 competition",
-          "reference": "pmid:8245956",
-          "is_review": false
+          "reference": "pmid:8245956"
         }
       ],
       "functional": [
@@ -1046,8 +1042,7 @@
           "species": "human",
           "tissue_or_cell": "rat striatal synaptosomes / human DAT",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "doi:10.1038/sj.npp.1301534",
-          "is_review": true
+          "reference": "doi:10.1038/sj.npp.1301534"
         }
       ],
       "functional": [
@@ -2560,8 +2555,7 @@
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "cloned receptor",
-          "reference": "pmid:41667893",
-          "is_review": true
+          "reference": "pmid:41667893"
         }
       ],
       "functional": [],
@@ -3288,8 +3282,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatum",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "pmid:11249705",
-          "is_review": true
+          "reference": "pmid:11249705"
         },
         {
           "target": "NET",
@@ -3297,8 +3290,7 @@
           "action": "reuptakeInhibitor",
           "species": "rat",
           "tissue_or_cell": "rat cortex",
-          "reference": "pmid:11249705",
-          "is_review": true
+          "reference": "pmid:11249705"
         },
         {
           "target": "SERT",
@@ -3306,8 +3298,7 @@
           "action": "reuptakeInhibitor",
           "species": "rat",
           "tissue_or_cell": "rat brain",
-          "reference": "pmid:11249705",
-          "is_review": true
+          "reference": "pmid:11249705"
         }
       ],
       "functional": [],

@@ -37,8 +37,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human SERT, release of preloaded [3H]-5-HT",
           "radioligand_or_probe": "[3H]-5-HT efflux",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "DAT",
@@ -54,8 +53,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human DAT",
           "radioligand_or_probe": "[3H]-dopamine efflux",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "SERT",
@@ -67,8 +65,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 hSERT, [3H]-5-HT uptake",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "NET",
@@ -80,8 +77,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 hNET, [3H]-NE uptake",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "DAT",
@@ -93,8 +89,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 hDAT",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "5-HT2A",
@@ -103,8 +98,7 @@
           "intrinsic_activity_pct": null,
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing h5-HT2A",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "5-HT1A",
@@ -112,8 +106,7 @@
           "action": null,
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT1A",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "TAAR1",
@@ -121,8 +114,7 @@
           "action": "agonist",
           "species": "rat",
           "tissue_or_cell": "HEK293 stably expressing rat TAAR1",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "α2A-adrenergic",
@@ -130,8 +122,7 @@
           "action": null,
           "species": "human",
           "tissue_or_cell": "HEK293 hα2A",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "SERT",
@@ -142,8 +133,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "doi:10.1038/npp.2011.304",
-          "is_review": false
+          "reference": "doi:10.1038/npp.2011.304"
         },
         {
           "target": "DAT",
@@ -154,8 +144,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "doi:10.1038/npp.2011.304",
-          "is_review": false
+          "reference": "doi:10.1038/npp.2011.304"
         },
         {
           "target": "NET",
@@ -166,8 +155,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "doi:10.1038/npp.2011.304",
-          "is_review": false
+          "reference": "doi:10.1038/npp.2011.304"
         }
       ],
       "functional": [
@@ -385,8 +373,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "pmid:32875347",
-          "is_review": false
+          "reference": "pmid:32875347"
         },
         {
           "target": "5-HT2A",
@@ -395,8 +382,7 @@
           "intrinsic_activity_pct": null,
           "species": "rat",
           "tissue_or_cell": null,
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -530,8 +516,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 hSERT",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "NET",
@@ -543,8 +528,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 hNET",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "DAT",
@@ -556,8 +540,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 hDAT",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "SERT",
@@ -569,8 +552,7 @@
           "action": "releasingAgent",
           "species": "human",
           "tissue_or_cell": "HEK293 hSERT release",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "DAT",
@@ -578,16 +560,14 @@
           "action": "releasingAgent",
           "species": "human",
           "tissue_or_cell": "HEK293 hDAT release",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "5-HT2A",
           "ki_nm": 13000,
           "action": null,
           "species": "human",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         },
         {
           "target": "TAAR1",
@@ -595,8 +575,7 @@
           "action": "agonist",
           "species": "rat",
           "tissue_or_cell": "HEK293 rTAAR1",
-          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x"
         }
       ],
       "functional": [],
@@ -760,8 +739,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "doi:10.1007/s00213-017-4812-5",
-          "is_review": false
+          "reference": "doi:10.1007/s00213-017-4812-5"
         },
         {
           "target": "5-HT2A",
@@ -770,8 +748,7 @@
           "intrinsic_activity_pct": null,
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT2A",
-          "reference": "doi:10.1038/s41386-024-01972-6",
-          "is_review": false
+          "reference": "doi:10.1038/s41386-024-01972-6"
         }
       ],
       "functional": [],
@@ -875,8 +852,7 @@
           "intrinsic_activity_pct": 0,
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT2A",
-          "reference": "doi:10.1038/s41386-024-01972-6",
-          "is_review": false
+          "reference": "doi:10.1038/s41386-024-01972-6"
         },
         {
           "target": "SERT",
@@ -884,16 +860,14 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "doi:10.1007/s00213-017-4812-5",
-          "is_review": false
+          "reference": "doi:10.1007/s00213-017-4812-5"
         },
         {
           "target": "DAT",
           "ec50_nm": null,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "doi:10.1007/s00213-017-4812-5",
-          "is_review": false
+          "reference": "doi:10.1007/s00213-017-4812-5"
         }
       ],
       "functional": [],
@@ -1097,8 +1071,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human SERT",
-          "reference": "pmid:1685125",
-          "is_review": false
+          "reference": "pmid:1685125"
         },
         {
           "target": "NET",
@@ -1106,8 +1079,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human NET",
-          "reference": "pmid:1685125",
-          "is_review": false
+          "reference": "pmid:1685125"
         },
         {
           "target": "DAT",
@@ -1115,8 +1087,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human DAT",
-          "reference": "pmid:1685125",
-          "is_review": false
+          "reference": "pmid:1685125"
         }
       ],
       "functional": [],
@@ -1211,8 +1182,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 hNET",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "SERT",
@@ -1220,8 +1190,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 hSERT",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "DAT",
@@ -1229,8 +1198,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 hDAT",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "SERT",
@@ -1239,8 +1207,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "pmid:32875347",
-          "is_review": false
+          "reference": "pmid:32875347"
         },
         {
           "target": "DAT",
@@ -1249,8 +1216,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "pmid:32875347",
-          "is_review": false
+          "reference": "pmid:32875347"
         },
         {
           "target": "NET",
@@ -1259,8 +1225,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "pmid:32875347",
-          "is_review": false
+          "reference": "pmid:32875347"
         },
         {
           "target": "5-HT2A",
@@ -1268,8 +1233,7 @@
           "action": null,
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT2A",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "5-HT2B",
@@ -1278,32 +1242,28 @@
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT2B",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "5-HT2C",
           "ki_nm": 880,
           "action": null,
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "α2A",
           "ki_nm": 2900,
           "action": null,
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "TAAR1",
           "ki_nm": 40,
           "action": "agonist",
           "species": "rat",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         }
       ],
       "functional": [],
@@ -1398,24 +1358,21 @@
           "ic50_nm": 190,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "DAT",
           "ic50_nm": 3300,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "SERT",
           "ic50_nm": 930,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "DAT",
@@ -1423,8 +1380,7 @@
           "intrinsic_activity_pct": 101,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "pmid:32875347",
-          "is_review": false
+          "reference": "pmid:32875347"
         },
         {
           "target": "NET",
@@ -1432,8 +1388,7 @@
           "intrinsic_activity_pct": 98,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "pmid:32875347",
-          "is_review": false
+          "reference": "pmid:32875347"
         },
         {
           "target": "SERT",
@@ -1441,8 +1396,7 @@
           "intrinsic_activity_pct": 100,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "pmid:32875347",
-          "is_review": false
+          "reference": "pmid:32875347"
         },
         {
           "target": "5-HT2B",
@@ -1450,24 +1404,21 @@
           "intrinsic_activity_pct": 70,
           "action": "agonist",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "α2A",
           "ki_nm": 380,
           "action": null,
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "TAAR1",
           "ki_nm": 50,
           "action": "agonist",
           "species": "rat",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         }
       ],
       "functional": [],
@@ -1845,24 +1796,21 @@
           "ic50_nm": 290,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "SERT",
           "ic50_nm": 580,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "DAT",
           "ic50_nm": 49000,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "5-HT2B",
@@ -1870,16 +1818,14 @@
           "intrinsic_activity_pct": 50,
           "action": "agonist",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "5-HT2C",
           "ki_nm": 60,
           "action": null,
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         }
       ],
       "functional": [],
@@ -1962,24 +1908,21 @@
           "ic50_nm": 560,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "SERT",
           "ic50_nm": 2300,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "DAT",
           "ic50_nm": 33000,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "5-HT2B",
@@ -1987,16 +1930,14 @@
           "intrinsic_activity_pct": 66,
           "action": "agonist",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "5-HT2C",
           "ki_nm": 60,
           "action": null,
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         }
       ],
       "functional": [],
@@ -2076,32 +2017,28 @@
           "ic50_nm": 960,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "SERT",
           "ic50_nm": 1200,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "DAT",
           "ic50_nm": 77000,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         },
         {
           "target": "5-HT2C",
           "ki_nm": 100,
           "action": null,
           "species": "human",
-          "reference": "doi:10.1111/bph.13128",
-          "is_review": false
+          "reference": "doi:10.1111/bph.13128"
         }
       ],
       "functional": [],
@@ -2175,8 +2112,7 @@
           "ic50_nm": null,
           "action": "channelBlocker",
           "species": "human",
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -2277,8 +2213,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "pmid:22271821",
-          "is_review": false
+          "reference": "pmid:22271821"
         },
         {
           "target": "DAT",
@@ -2286,8 +2221,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "pmid:33811503",
-          "is_review": false
+          "reference": "pmid:33811503"
         },
         {
           "target": "NET",
@@ -2295,8 +2229,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "pmid:22271821",
-          "is_review": false
+          "reference": "pmid:22271821"
         }
       ],
       "functional": [],
@@ -2382,8 +2315,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "doi:10.1002/dta.2053",
-          "is_review": false
+          "reference": "doi:10.1002/dta.2053"
         }
       ],
       "functional": [],
@@ -2455,8 +2387,7 @@
           "action": "releasingAgent",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human SERT",
-          "reference": "pmid:24486525",
-          "is_review": false
+          "reference": "pmid:24486525"
         }
       ],
       "functional": [],
@@ -2592,16 +2523,14 @@
           "action": "enzymeInhibitor",
           "species": "human",
           "tissue_or_cell": "recombinant hMAO-A",
-          "reference": "pmid:24115740",
-          "is_review": false
+          "reference": "pmid:24115740"
         },
         {
           "target": "SERT",
           "ec50_nm": null,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -2689,8 +2618,7 @@
           "intrinsic_activity_pct": null,
           "species": "rat",
           "tissue_or_cell": "rat prefrontal cortex (in vivo)",
-          "reference": null,
-          "is_review": false
+          "reference": null
         },
         {
           "target": "SERT",
@@ -2698,32 +2626,28 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
-          "reference": "pmid:17223101",
-          "is_review": false
+          "reference": "pmid:17223101"
         },
         {
           "target": "DAT",
           "ec50_nm": 1500,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "pmid:17223101",
-          "is_review": false
+          "reference": "pmid:17223101"
         },
         {
           "target": "NET",
           "ec50_nm": 8900,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "pmid:17223101",
-          "is_review": false
+          "reference": "pmid:17223101"
         },
         {
           "target": "MAO-A",
           "ic50_nm": 31000,
           "action": "enzymeInhibitor",
           "species": "human",
-          "reference": "pmid:28302559",
-          "is_review": false
+          "reference": "pmid:28302559"
         }
       ],
       "functional": [],
@@ -3057,8 +2981,7 @@
           "ki_nm": null,
           "action": "agonist",
           "species": "rat",
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -3915,8 +3838,7 @@
           "action": "enzymeInhibitor",
           "species": "rat",
           "tissue_or_cell": "rat brain mitochondria",
-          "reference": "doi:10.3390/molecules26195914",
-          "is_review": true
+          "reference": "doi:10.3390/molecules26195914"
         }
       ],
       "functional": [],
@@ -4017,8 +3939,7 @@
           "intrinsic_activity_pct": 89,
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT2A",
-          "reference": "pmid:27216487",
-          "is_review": false
+          "reference": "pmid:27216487"
         },
         {
           "target": "5-HT2C",
@@ -4026,16 +3947,14 @@
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT2C",
-          "reference": "pmid:27216487",
-          "is_review": false
+          "reference": "pmid:27216487"
         },
         {
           "target": "5-HT1A",
           "ki_nm": 123.0,
           "action": "agonist",
           "species": "human",
-          "reference": "pmid:27216487",
-          "is_review": false
+          "reference": "pmid:27216487"
         },
         {
           "target": "5-HT1A",
@@ -4045,7 +3964,6 @@
           "species": "human",
           "tissue_or_cell": "human cloned receptor",
           "reference": "doi:10.1021/acsptsci.2c00177",
-          "is_review": false,
           "comparable_set": "glatfelter-2022-human-5ht",
           "confidence": "HIGH"
         },
@@ -4057,7 +3975,6 @@
           "species": "human",
           "tissue_or_cell": "human cloned receptor",
           "reference": "doi:10.1021/acsptsci.2c00177",
-          "is_review": false,
           "comparable_set": "glatfelter-2022-human-5ht",
           "confidence": "HIGH"
         }

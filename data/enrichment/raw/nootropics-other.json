@@ -35,8 +35,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 cells stably expressing human MOR",
           "radioligand_or_probe": "[3H]-diprenorphine",
-          "reference": "doi:10.1038/tp.2014.30",
-          "is_review": false
+          "reference": "doi:10.1038/tp.2014.30"
         },
         {
           "target": "δ-opioid receptor (human, hDOR)",
@@ -49,8 +48,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 cells stably expressing human DOR",
           "radioligand_or_probe": "[3H]-diprenorphine",
-          "reference": "doi:10.1038/tp.2014.30",
-          "is_review": false
+          "reference": "doi:10.1038/tp.2014.30"
         },
         {
           "target": "κ-opioid receptor (human)",
@@ -61,8 +59,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293/hKOR",
           "radioligand_or_probe": "[3H]-diprenorphine",
-          "reference": "doi:10.1038/tp.2014.30",
-          "is_review": false
+          "reference": "doi:10.1038/tp.2014.30"
         },
         {
           "target": "MOR (mu-opioid receptor)",
@@ -78,7 +75,6 @@
           "tissue_or_cell": "HEK293 expressing hMOR",
           "radioligand_or_probe": "BRET G-protein activation",
           "reference": "doi:10.1038/tp.2014.30",
-          "is_review": false,
           "confidence": "medium"
         }
       ],
@@ -463,8 +459,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant human MAO-A",
           "radioligand_or_probe": "kynuramine substrate",
-          "reference": "doi:10.1038/sj.bjp.0707430",
-          "is_review": false
+          "reference": "doi:10.1038/sj.bjp.0707430"
         },
         {
           "target": "MAO-B (human)",
@@ -478,8 +473,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant human MAO-B",
           "radioligand_or_probe": "kynuramine",
-          "reference": "doi:10.1038/sj.bjp.0707430",
-          "is_review": false
+          "reference": "doi:10.1038/sj.bjp.0707430"
         }
       ],
       "functional": [
@@ -932,8 +926,7 @@
           "species": "rat",
           "tissue_or_cell": "rat cortical homogenate",
           "radioligand_or_probe": "Ellman colorimetric (acetylthiocholine)",
-          "reference": "pmid:11516831",
-          "is_review": false
+          "reference": "pmid:11516831"
         }
       ],
       "functional": [
@@ -1545,8 +1538,7 @@
           "species": "rat",
           "tissue_or_cell": "striatal sections",
           "radioligand_or_probe": "[3H]-epibatidine displacement",
-          "reference": "pmid:17157884",
-          "is_review": false
+          "reference": "pmid:17157884"
         },
         {
           "target": "α6β2* nAChR (rat/monkey striatum)",
@@ -1556,8 +1548,7 @@
           "species": "rat",
           "tissue_or_cell": "striatal sections",
           "radioligand_or_probe": "[125I]-α-conotoxin MII",
-          "reference": "pmid:22550286",
-          "is_review": false
+          "reference": "pmid:22550286"
         }
       ],
       "functional": [
@@ -1688,8 +1679,7 @@
           "species": "rat",
           "tissue_or_cell": "rat cortex",
           "radioligand_or_probe": "[3H]-cytisine itself / [3H]-epibatidine",
-          "reference": "doi:10.1111/j.1476-5381.2010.00682.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1476-5381.2010.00682.x"
         }
       ],
       "functional": [],
@@ -1784,8 +1774,7 @@
           "species": "mixed",
           "tissue_or_cell": "rat cortex / HEK293 hα4β2",
           "radioligand_or_probe": "[3H]-cytisine, [3H]-epibatidine",
-          "reference": "doi:10.1016/s0960-894x(01)00193-7",
-          "is_review": false
+          "reference": "doi:10.1016/s0960-894x(01)00193-7"
         },
         {
           "target": "α7 nAChR",
@@ -1796,8 +1785,7 @@
           "species": "mixed",
           "tissue_or_cell": "hippocampal membranes / HEK293 α7",
           "radioligand_or_probe": "[125I]-α-bungarotoxin",
-          "reference": "doi:10.1016/s0960-894x(01)00193-7",
-          "is_review": false
+          "reference": "doi:10.1016/s0960-894x(01)00193-7"
         }
       ],
       "functional": [],
@@ -2457,8 +2445,7 @@
           "species": "rat",
           "tissue_or_cell": "cortex",
           "radioligand_or_probe": "[3H]-clonidine",
-          "reference": "pmid:11454649",
-          "is_review": true
+          "reference": "pmid:11454649"
         },
         {
           "target": "NMDA receptor (rat cortex)",
@@ -2471,8 +2458,7 @@
           "species": "rat",
           "tissue_or_cell": "cortical membranes",
           "radioligand_or_probe": "[3H]-MK-801 displacement",
-          "reference": "pmid:11454649",
-          "is_review": true
+          "reference": "pmid:11454649"
         }
       ],
       "functional": [],

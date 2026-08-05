@@ -112,7 +112,6 @@
           "tissue_or_cell": "recombinant human GABA-A in L(tk-) cells",
           "radioligand_or_probe": "[3H]Ro15-1788 (flumazenil)",
           "reference": "doi:10.1021/jm0110789",
-          "is_review": false,
           "confidence": "high"
         }
       ]
@@ -171,7 +170,6 @@
           "tissue_or_cell": "rat whole-forebrain P2 membranes",
           "radioligand_or_probe": "[3H]diazepam (1.9 nM)",
           "reference": "doi:10.1016/0014-2999(78)90085-7",
-          "is_review": false,
           "confidence": "medium"
         }
       ]
@@ -320,7 +318,6 @@
           "tissue_or_cell": "rat whole-forebrain P2 membranes",
           "radioligand_or_probe": "[3H]diazepam (1.9 nM)",
           "reference": "doi:10.1016/0014-2999(78)90085-7",
-          "is_review": false,
           "confidence": "medium"
         }
       ]
@@ -531,7 +528,6 @@
           "tissue_or_cell": "recombinant porcine alpha2delta-1",
           "radioligand_or_probe": "[3H]pregabalin (46 Ci/mmol, 1-125 nM)",
           "reference": "doi:10.1016/j.ejphar.2011.05.054",
-          "is_review": false,
           "confidence": "high"
         },
         {
@@ -548,7 +544,6 @@
           "tissue_or_cell": "recombinant human alpha2delta-2",
           "radioligand_or_probe": "[3H]pregabalin",
           "reference": "doi:10.1016/j.ejphar.2011.05.054",
-          "is_review": false,
           "confidence": "high"
         }
       ]
@@ -575,7 +570,6 @@
           "tissue_or_cell": "COS-7 membranes transfected with recombinant rabbit skeletal-muscle alpha2delta",
           "radioligand_or_probe": "[3H]gabapentin (57.7 Ci/mmol)",
           "reference": "doi:10.1074/jbc.271.10.5768",
-          "is_review": false,
           "confidence": "high"
         }
       ]
@@ -642,7 +636,6 @@
           "tissue_or_cell": "C6 glioma cells stably expressing rat MOR (C6mu)",
           "radioligand_or_probe": "[35S]GTPgammaS",
           "reference": "doi:10.1124/jpet.105.094276",
-          "is_review": false,
           "confidence": "high"
         }
       ]
@@ -689,7 +682,6 @@
           "tissue_or_cell": "CHO cells expressing hMOR",
           "radioligand_or_probe": "[35S]GTPgammaS",
           "reference": "doi:10.1007/s002100000266",
-          "is_review": false,
           "confidence": "high",
           "comparable_set": "gillen-2000-human-mor"
         }
@@ -833,7 +825,6 @@
           "tissue_or_cell": "rat thalamic membranes",
           "radioligand_or_probe": "[35S]GTPgammaS",
           "reference": "doi:10.1016/s0006-2952(01)00689-x",
-          "is_review": false,
           "confidence": "medium"
         }
       ]
@@ -915,7 +906,6 @@
           "tissue_or_cell": "HEK293 stably expressing hMOPr (high expression)",
           "radioligand_or_probe": "[35S]GTPgammaS",
           "reference": "doi:10.1124/mol.110.066613",
-          "is_review": false,
           "confidence": "high"
         }
       ]
@@ -985,7 +975,6 @@
           "tissue_or_cell": "CHO-K1 expressing hMOR",
           "radioligand_or_probe": "[35S]GTPgammaS",
           "reference": "doi:10.1124/jpet.107.126052",
-          "is_review": false,
           "confidence": "high"
         }
       ]
@@ -1028,7 +1017,6 @@
           "tissue_or_cell": "C6 glioma cells stably expressing rat MOR (C6mu)",
           "radioligand_or_probe": "[35S]GTPgammaS",
           "reference": "doi:10.1124/jpet.105.094276",
-          "is_review": false,
           "confidence": "high"
         }
       ]

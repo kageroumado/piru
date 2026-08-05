@@ -31,8 +31,7 @@
           "species": "human",
           "tissue_or_cell": "HEK-293 stably expressing human SERT",
           "radioligand_or_probe": "[3H]-5-HT uptake",
-          "reference": "pmid:9400006",
-          "is_review": false
+          "reference": "pmid:9400006"
         },
         {
           "target": "H1",
@@ -47,8 +46,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human H1",
           "radioligand_or_probe": "[3H]-pyrilamine",
-          "reference": "doi:10.1007/BF02246453",
-          "is_review": false
+          "reference": "doi:10.1007/BF02246453"
         },
         {
           "target": "M1",
@@ -63,8 +61,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M1",
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": "pmid:9400006",
-          "is_review": false
+          "reference": "pmid:9400006"
         },
         {
           "target": "sigma-1",
@@ -79,8 +76,7 @@
           "species": "human",
           "tissue_or_cell": "Jurkat cell membranes",
           "radioligand_or_probe": "[3H]-(+)-pentazocine",
-          "reference": "pmid:24508523",
-          "is_review": false
+          "reference": "pmid:24508523"
         }
       ],
       "functional": [],
@@ -246,8 +242,7 @@
           "species": "human",
           "tissue_or_cell": "HEK-293 hSERT",
           "radioligand_or_probe": "[3H]-citalopram",
-          "reference": "pmid:15955412",
-          "is_review": false
+          "reference": "pmid:15955412"
         },
         {
           "target": "SERT (allosteric)",
@@ -262,8 +257,7 @@
           "species": "human",
           "tissue_or_cell": "HEK-293 hSERT",
           "radioligand_or_probe": "[3H]-escitalopram dissociation kinetics",
-          "reference": "pmid:15955412",
-          "is_review": false
+          "reference": "pmid:15955412"
         },
         {
           "target": "H1",
@@ -278,8 +272,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human H1",
           "radioligand_or_probe": "[3H]-pyrilamine",
-          "reference": "doi:10.1007/BF02246453",
-          "is_review": false
+          "reference": "doi:10.1007/BF02246453"
         },
         {
           "target": "M1",
@@ -294,8 +287,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M1",
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": "pmid:9400006",
-          "is_review": false
+          "reference": "pmid:9400006"
         },
         {
           "target": "NET",
@@ -310,8 +302,7 @@
           "species": "rat",
           "tissue_or_cell": "rat frontal cortex",
           "radioligand_or_probe": "[3H]nisoxetine",
-          "reference": "pmid:20672825",
-          "is_review": false
+          "reference": "pmid:20672825"
         },
         {
           "target": "DAT",
@@ -326,8 +317,7 @@
           "species": "rat",
           "tissue_or_cell": "rat caudate-putamen",
           "radioligand_or_probe": "[3H]WIN 35,428",
-          "reference": "pmid:20672825",
-          "is_review": false
+          "reference": "pmid:20672825"
         },
         {
           "target": "sigma-1",
@@ -342,8 +332,7 @@
           "species": "human",
           "tissue_or_cell": "Jurkat cell membranes",
           "radioligand_or_probe": "[3H]-(+)-pentazocine",
-          "reference": "pmid:24508523",
-          "is_review": false
+          "reference": "pmid:24508523"
         }
       ],
       "functional": [],
@@ -488,8 +477,7 @@
           "species": "human",
           "tissue_or_cell": "hSERT-expressing cells",
           "radioligand_or_probe": "[3H]-5-HT uptake",
-          "reference": "pmid:9400006",
-          "is_review": false
+          "reference": "pmid:9400006"
         },
         {
           "target": "NET",
@@ -504,8 +492,7 @@
           "species": "human",
           "tissue_or_cell": "hNET-expressing cells",
           "radioligand_or_probe": null,
-          "reference": "pmid:9400006",
-          "is_review": false
+          "reference": "pmid:9400006"
         },
         {
           "target": "5-HT2C",
@@ -523,8 +510,7 @@
           "species": "rat",
           "tissue_or_cell": "choroid plexus / HeLa cells expressing 5-HT2C",
           "radioligand_or_probe": "[3H]-mesulergine / [3H]-5-HT",
-          "reference": "doi:10.1007/BF02246453",
-          "is_review": false
+          "reference": "doi:10.1007/BF02246453"
         },
         {
           "target": "sigma-1",
@@ -539,8 +525,7 @@
           "species": "human",
           "tissue_or_cell": "Jurkat cell membranes",
           "radioligand_or_probe": "[3H]-(+)-pentazocine",
-          "reference": "pmid:24508523",
-          "is_review": false
+          "reference": "pmid:24508523"
         }
       ],
       "functional": [],
@@ -682,8 +667,7 @@
           "species": "human",
           "tissue_or_cell": "hSERT-expressing cells",
           "radioligand_or_probe": "[3H]-5-HT uptake",
-          "reference": "pmid:9400006",
-          "is_review": false
+          "reference": "pmid:9400006"
         },
         {
           "target": "sigma-1",
@@ -698,8 +682,7 @@
           "species": "human",
           "tissue_or_cell": "Jurkat membranes / NG-108 cells",
           "radioligand_or_probe": "[3H]-(+)-pentazocine",
-          "reference": "pmid:24508523",
-          "is_review": false
+          "reference": "pmid:24508523"
         }
       ],
       "functional": [],
@@ -853,8 +836,7 @@
           "species": "human",
           "tissue_or_cell": "human brain / cloned hSERT",
           "radioligand_or_probe": "[3H]-paroxetine",
-          "reference": "pmid:9400006",
-          "is_review": false
+          "reference": "pmid:9400006"
         },
         {
           "target": "NET",
@@ -869,8 +851,7 @@
           "species": "human",
           "tissue_or_cell": "hNET-expressing cells",
           "radioligand_or_probe": null,
-          "reference": "pmid:9400006",
-          "is_review": false
+          "reference": "pmid:9400006"
         },
         {
           "target": "M1",
@@ -885,8 +866,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M1",
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": "pmid:9400006",
-          "is_review": false
+          "reference": "pmid:9400006"
         },
         {
           "target": "sigma-1",
@@ -901,8 +881,7 @@
           "species": "human",
           "tissue_or_cell": "Jurkat membranes",
           "radioligand_or_probe": "[3H]-(+)-pentazocine",
-          "reference": "pmid:24508523",
-          "is_review": false
+          "reference": "pmid:24508523"
         },
         {
           "target": "nNOS",
@@ -917,8 +896,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": null,
-          "reference": "pmid:8993087",
-          "is_review": false
+          "reference": "pmid:8993087"
         }
       ],
       "functional": [],
@@ -1043,8 +1021,7 @@
           "species": "human",
           "tissue_or_cell": "hSERT-expressing cells",
           "radioligand_or_probe": "[3H]-5-HT uptake",
-          "reference": "pmid:9400006",
-          "is_review": false
+          "reference": "pmid:9400006"
         },
         {
           "target": "DAT",
@@ -1059,8 +1036,7 @@
           "species": "human",
           "tissue_or_cell": "hDAT-expressing cells",
           "radioligand_or_probe": "[3H]-WIN35,428",
-          "reference": "pmid:9400006",
-          "is_review": false
+          "reference": "pmid:9400006"
         },
         {
           "target": "NET",
@@ -1075,8 +1051,7 @@
           "species": "human",
           "tissue_or_cell": "hNET-expressing cells",
           "radioligand_or_probe": null,
-          "reference": "pmid:9400006",
-          "is_review": false
+          "reference": "pmid:9400006"
         },
         {
           "target": "sigma-1",
@@ -1091,8 +1066,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain membranes (binding); PC12 cells (neurite outgrowth)",
           "radioligand_or_probe": "[3H]-(+)-pentazocine",
-          "reference": "pmid:24508523",
-          "is_review": false
+          "reference": "pmid:24508523"
         }
       ],
       "functional": [],
@@ -1248,8 +1222,7 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-pyrilamine",
-          "reference": null,
-          "is_review": null
+          "reference": null
         },
         {
           "target": null,
@@ -1264,8 +1237,7 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": null,
-          "is_review": null
+          "reference": null
         },
         {
           "target": null,
@@ -1280,8 +1252,7 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-mesulergine",
-          "reference": null,
-          "is_review": null
+          "reference": null
         },
         {
           "target": null,
@@ -1296,8 +1267,7 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-LY278584",
-          "reference": null,
-          "is_review": null
+          "reference": null
         },
         {
           "target": null,
@@ -1312,8 +1282,7 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-rauwolscine",
-          "reference": null,
-          "is_review": null
+          "reference": null
         },
         {
           "target": null,
@@ -1328,8 +1297,7 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-prazosin",
-          "reference": null,
-          "is_review": null
+          "reference": null
         },
         {
           "target": null,
@@ -1344,8 +1312,7 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": null,
-          "is_review": null
+          "reference": null
         },
         {
           "target": null,
@@ -1360,8 +1327,7 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": null
+          "reference": null
         }
       ],
       "functional": [],
@@ -1504,8 +1470,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human D2",
           "radioligand_or_probe": "[3H]-spiperone",
-          "reference": "pmid:8822531",
-          "is_review": false
+          "reference": "pmid:8822531"
         },
         {
           "target": "D1",
@@ -1520,8 +1485,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human D1",
           "radioligand_or_probe": "[3H]-SCH23390",
-          "reference": "pmid:8822531",
-          "is_review": false
+          "reference": "pmid:8822531"
         },
         {
           "target": "D3",
@@ -1536,8 +1500,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human D3",
           "radioligand_or_probe": "[3H]-spiperone",
-          "reference": "pmid:8822531",
-          "is_review": false
+          "reference": "pmid:8822531"
         },
         {
           "target": "D4",
@@ -1552,8 +1515,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human D4",
           "radioligand_or_probe": "[3H]-spiperone",
-          "reference": "pmid:8822531",
-          "is_review": false
+          "reference": "pmid:8822531"
         },
         {
           "target": "5-HT2A",
@@ -1568,8 +1530,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human 5-HT2A",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "pmid:8822531",
-          "is_review": false
+          "reference": "pmid:8822531"
         },
         {
           "target": "5-HT2C",
@@ -1584,8 +1545,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human 5-HT2C",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "reference": "pmid:8822531",
-          "is_review": false
+          "reference": "pmid:8822531"
         },
         {
           "target": "H1",
@@ -1600,8 +1560,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human H1",
           "radioligand_or_probe": "[3H]-pyrilamine",
-          "reference": "pmid:8822531",
-          "is_review": false
+          "reference": "pmid:8822531"
         },
         {
           "target": "M1",
@@ -1616,8 +1575,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M1",
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": "pmid:8822531",
-          "is_review": false
+          "reference": "pmid:8822531"
         },
         {
           "target": "M3",
@@ -1632,8 +1590,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M3",
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": "pmid:8822531",
-          "is_review": false
+          "reference": "pmid:8822531"
         },
         {
           "target": "α1-adrenergic",
@@ -1648,8 +1605,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human α1",
           "radioligand_or_probe": "[3H]-prazosin",
-          "reference": "pmid:8822531",
-          "is_review": false
+          "reference": "pmid:8822531"
         }
       ],
       "functional": [],
@@ -1834,8 +1790,7 @@
           "species": "human",
           "tissue_or_cell": "human brain mitochondria",
           "radioligand_or_probe": "5-HT deamination",
-          "reference": "doi:10.2165/00003088-199529050-00002",
-          "is_review": false
+          "reference": "doi:10.2165/00003088-199529050-00002"
         }
       ],
       "functional": [],
@@ -1972,8 +1927,7 @@
           "species": "human",
           "tissue_or_cell": "human brain mitochondria",
           "radioligand_or_probe": null,
-          "reference": "pmid:28655495",
-          "is_review": true
+          "reference": "pmid:28655495"
         },
         {
           "target": "MAO-B",
@@ -1988,8 +1942,7 @@
           "species": "human",
           "tissue_or_cell": "human brain mitochondria",
           "radioligand_or_probe": null,
-          "reference": "pmid:28655495",
-          "is_review": true
+          "reference": "pmid:28655495"
         }
       ],
       "functional": [],
@@ -2127,8 +2080,7 @@
           "species": "human",
           "tissue_or_cell": "human brain",
           "radioligand_or_probe": null,
-          "reference": "pmid:26316187",
-          "is_review": false
+          "reference": "pmid:26316187"
         },
         {
           "target": "MAO-B",
@@ -2143,8 +2095,7 @@
           "species": "human",
           "tissue_or_cell": "human brain",
           "radioligand_or_probe": null,
-          "reference": "pmid:33839994",
-          "is_review": true
+          "reference": "pmid:33839994"
         },
         {
           "target": "GABA-transaminase (GABA-T)",
@@ -2159,8 +2110,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": null,
-          "reference": "pmid:7931216",
-          "is_review": false
+          "reference": "pmid:7931216"
         },
         {
           "target": "alanine transaminase (ALA-T)",
@@ -2175,8 +2125,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": null,
-          "reference": "pmid:7931216",
-          "is_review": false
+          "reference": "pmid:7931216"
         }
       ],
       "functional": [],
@@ -2315,8 +2264,7 @@
           "species": "human",
           "tissue_or_cell": "purified recombinant GSK-3β",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1073/pnas.93.16.8455",
-          "is_review": false
+          "reference": "doi:10.1073/pnas.93.16.8455"
         },
         {
           "target": "GSK-3α",
@@ -2331,8 +2279,7 @@
           "species": "human",
           "tissue_or_cell": "purified GSK-3α",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1073/pnas.93.16.8455",
-          "is_review": false
+          "reference": "doi:10.1073/pnas.93.16.8455"
         },
         {
           "target": "Inositol monophosphatase (IMPase)",
@@ -2347,8 +2294,7 @@
           "species": "human",
           "tissue_or_cell": "purified IMPase",
           "radioligand_or_probe": null,
-          "reference": "pmid:6253491",
-          "is_review": false
+          "reference": "pmid:6253491"
         }
       ],
       "functional": [],
@@ -2511,8 +2457,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain Nav1.2 in oocytes",
           "radioligand_or_probe": "patch clamp",
-          "reference": "doi:10.1007/BF00373920",
-          "is_review": false
+          "reference": "doi:10.1007/BF00373920"
         },
         {
           "target": "Nav1.5 (late Na current, cardiac)",
@@ -2527,8 +2472,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 hNav1.5",
           "radioligand_or_probe": "patch clamp",
-          "reference": "pmid:35579204",
-          "is_review": false
+          "reference": "pmid:35579204"
         }
       ],
       "functional": [],
@@ -2682,8 +2626,7 @@
           "species": "rat",
           "tissue_or_cell": "rat and guinea pig brain membranes",
           "radioligand_or_probe": "[3H]-(+)-SKF-10047",
-          "reference": "pmid:2873494",
-          "is_review": false
+          "reference": "pmid:2873494"
         },
         {
           "target": "D2 (postsynaptic)",
@@ -2698,8 +2641,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1002/ddr.430090302",
-          "is_review": false
+          "reference": "doi:10.1002/ddr.430090302"
         }
       ],
       "functional": [],

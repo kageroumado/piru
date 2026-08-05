@@ -28,8 +28,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 transiently expressing human cloned KOR (cloned receptor)",
           "radioligand_or_probe": "[3H]-bremazocine (competition); 48 secondary targets in PDSP screen showed no significant displacement",
-          "reference": "doi:10.1073/pnas.182234399",
-          "is_review": false
+          "reference": "doi:10.1073/pnas.182234399"
         },
         {
           "target": "KOR",
@@ -44,8 +43,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 transiently expressing FLAG-His6-tagged human KOR",
           "radioligand_or_probe": "[3H]U69,593 and [3H]diprenorphine",
-          "reference": "doi:10.1021/bi900605n",
-          "is_review": false
+          "reference": "doi:10.1021/bi900605n"
         },
         {
           "target": "KOR",
@@ -60,8 +58,7 @@
           "species": "rat",
           "tissue_or_cell": "HEK293 expressing cloned rat KOR",
           "radioligand_or_probe": "[3H]U69,593",
-          "reference": "doi:10.1021/jm049438q",
-          "is_review": false
+          "reference": "doi:10.1021/jm049438q"
         },
         {
           "target": "MOR",
@@ -76,8 +73,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]diprenorphine",
-          "reference": "doi:10.1073/pnas.182234399",
-          "is_review": false
+          "reference": "doi:10.1073/pnas.182234399"
         }
       ],
       "functional": [
@@ -354,8 +350,7 @@
           "species": "human",
           "tissue_or_cell": "various — see notes",
           "radioligand_or_probe": "[3H]U69,593",
-          "reference": "doi:10.1021/jm049438q",
-          "is_review": false
+          "reference": "doi:10.1021/jm049438q"
         }
       ],
       "functional": [],
@@ -434,8 +429,7 @@
           "species": "rat",
           "tissue_or_cell": "HEK293 expressing cloned rat KOR",
           "radioligand_or_probe": "[3H]U69,593",
-          "reference": "doi:10.1021/jm049438q",
-          "is_review": false
+          "reference": "doi:10.1021/jm049438q"
         }
       ],
       "functional": [],
@@ -510,8 +504,7 @@
           "species": "rat",
           "tissue_or_cell": "HEK293 expressing cloned rat KOR",
           "radioligand_or_probe": "[3H]U69,593",
-          "reference": "doi:10.1021/jm049438q",
-          "is_review": false
+          "reference": "doi:10.1021/jm049438q"
         }
       ],
       "functional": [],
@@ -585,8 +578,7 @@
           "species": "rat",
           "tissue_or_cell": "HEK293 expressing cloned rat KOR",
           "radioligand_or_probe": "[3H]diprenorphine",
-          "reference": "doi:10.1021/jm049438q",
-          "is_review": false
+          "reference": "doi:10.1021/jm049438q"
         }
       ],
       "functional": [],
@@ -659,8 +651,7 @@
           "species": "rat",
           "tissue_or_cell": "HEK293 expressing cloned rat KOR",
           "radioligand_or_probe": "[3H]U69,593",
-          "reference": "doi:10.1021/np0205699",
-          "is_review": false
+          "reference": "doi:10.1021/np0205699"
         }
       ],
       "functional": [],
@@ -732,8 +723,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing cloned human KOR",
           "radioligand_or_probe": "[3H]diprenorphine (Bigham/Munro paper)",
-          "reference": "doi:10.1021/np030313i",
-          "is_review": false
+          "reference": "doi:10.1021/np030313i"
         }
       ],
       "functional": [],
@@ -806,8 +796,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human cloned KOR",
           "radioligand_or_probe": "[3H]diprenorphine",
-          "reference": "doi:10.1021/np030313i",
-          "is_review": false
+          "reference": "doi:10.1021/np030313i"
         }
       ],
       "functional": [],
@@ -880,8 +869,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human cloned KOR",
           "radioligand_or_probe": "[3H]diprenorphine",
-          "reference": "pmid:15987194",
-          "is_review": false
+          "reference": "pmid:15987194"
         }
       ],
       "functional": [],
@@ -954,8 +942,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human cloned MOR",
           "radioligand_or_probe": "[3H]diprenorphine",
-          "reference": "pmid:15987194",
-          "is_review": false
+          "reference": "pmid:15987194"
         }
       ],
       "functional": [],
@@ -1031,8 +1018,7 @@
           "species": "human",
           "tissue_or_cell": "CHO/HEK293 expressing human MOR (various)",
           "radioligand_or_probe": "[3H]diprenorphine",
-          "reference": "pmid:16033256",
-          "is_review": false
+          "reference": "pmid:16033256"
         },
         {
           "target": "KOR",
@@ -1047,8 +1033,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human cloned KOR",
           "radioligand_or_probe": "[3H]diprenorphine",
-          "reference": "pmid:23103502",
-          "is_review": false
+          "reference": "pmid:23103502"
         },
         {
           "target": "DOR",
@@ -1063,8 +1048,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]naltrindole",
-          "reference": "pmid:17090705",
-          "is_review": false
+          "reference": "pmid:17090705"
         }
       ],
       "functional": [
@@ -1201,8 +1185,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 transiently expressing FLAG-His6-tagged human KOR",
           "radioligand_or_probe": "[3H]U69,593 and [3H]diprenorphine",
-          "reference": null,
-          "is_review": false
+          "reference": null
         },
         {
           "target": "MOR",
@@ -1217,8 +1200,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [
@@ -1337,8 +1319,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 transiently expressing FLAG-His6-tagged human KOR",
           "radioligand_or_probe": "[3H]U69,593 and [3H]diprenorphine",
-          "reference": "pmid:19555087",
-          "is_review": false
+          "reference": "pmid:19555087"
         }
       ],
       "functional": [
@@ -1532,8 +1513,7 @@
           "species": "human",
           "tissue_or_cell": "CHO expressing human KOR",
           "radioligand_or_probe": "[3H]U69,593",
-          "reference": "pmid:18089845",
-          "is_review": false
+          "reference": "pmid:18089845"
         }
       ],
       "functional": [
@@ -1640,8 +1620,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human KOR (also DAT-KOR coexpressed)",
           "radioligand_or_probe": "[3H]diprenorphine",
-          "reference": "pmid:37375403",
-          "is_review": false
+          "reference": "pmid:37375403"
         }
       ],
       "functional": [

@@ -28,8 +28,7 @@
           "species": "human",
           "tissue_or_cell": "human brain homogenate (cortex) and CHO cells expressing human recombinant SV2A",
           "radioligand_or_probe": "[3H]-ucb 30889",
-          "reference": "pmid:21575627",
-          "is_review": false
+          "reference": "pmid:21575627"
         }
       ],
       "functional": [],

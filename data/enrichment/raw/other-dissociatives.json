@@ -29,8 +29,7 @@
           "species": "rat",
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]TCP (thienylphencyclidine)",
-          "reference": "pmid:2568580",
-          "is_review": false
+          "reference": "pmid:2568580"
         },
         {
           "target": "sigma-1",
@@ -40,8 +39,7 @@
           "species": "guinea pig",
           "tissue_or_cell": "guinea pig brain membranes",
           "radioligand_or_probe": "[3H](+)-pentazocine",
-          "reference": "pmid:10064839",
-          "is_review": false
+          "reference": "pmid:10064839"
         },
         {
           "target": "SERT (serotonin transporter)",
@@ -50,8 +48,7 @@
           "species": "human",
           "tissue_or_cell": "rat brain synaptosomes / HEK-hSERT comparison",
           "radioligand_or_probe": "[3H]paroxetine displacement / [3H]5-HT uptake",
-          "reference": "pmid:24587167",
-          "is_review": false
+          "reference": "pmid:24587167"
         },
         {
           "target": "NET (norepinephrine transporter)",
@@ -60,8 +57,7 @@
           "species": "human",
           "tissue_or_cell": "rat synaptosomes",
           "radioligand_or_probe": "[3H]nisoxetine displacement",
-          "reference": "pmid:24587167",
-          "is_review": false
+          "reference": "pmid:24587167"
         }
       ],
       "functional": [],
@@ -504,8 +500,7 @@
           "species": "mixed",
           "tissue_or_cell": "HEK-293 expressing h5-HT3A; N1E-115 neuroblastoma",
           "radioligand_or_probe": "5-HT-evoked inward current",
-          "reference": "pmid:11403963",
-          "is_review": false
+          "reference": "pmid:11403963"
         },
         {
           "target": "nicotinic alpha7 nAChR",
@@ -515,8 +510,7 @@
           "species": "rat",
           "tissue_or_cell": "cultured rat hippocampal neurons",
           "radioligand_or_probe": "choline (10 mM)-evoked whole-cell currents",
-          "reference": "pmid:15522999",
-          "is_review": false
+          "reference": "pmid:15522999"
         },
         {
           "target": "sigma-1",
@@ -525,8 +519,7 @@
           "species": "guinea pig",
           "tissue_or_cell": "guinea pig brain membranes",
           "radioligand_or_probe": "[3H](+)-pentazocine",
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -684,8 +677,7 @@
           "species": "rat",
           "tissue_or_cell": "rat forebrain homogenate",
           "radioligand_or_probe": "[3H](+)-MK-801 (5 nM); 100 μM glutamate, 30 μM glycine",
-          "reference": "doi:10.1371/journal.pone.0157021",
-          "is_review": false
+          "reference": "doi:10.1371/journal.pone.0157021"
         }
       ],
       "functional": [
@@ -829,8 +821,7 @@
           "species": "rat",
           "tissue_or_cell": "rat forebrain homogenate",
           "radioligand_or_probe": "[3H](+)-MK-801 (5 nM); 100 μM glu, 30 μM gly",
-          "reference": "doi:10.1371/journal.pone.0157021",
-          "is_review": false
+          "reference": "doi:10.1371/journal.pone.0157021"
         }
       ],
       "functional": [
@@ -1041,7 +1032,6 @@
           "tissue_or_cell": "rat whole-brain homogenate",
           "radioligand_or_probe": "(+)-[3H]MK-801 (1 nM); 100 μM glutamate, 10 μM glycine",
           "reference": "doi:10.1016/j.neuropharm.2016.08.004",
-          "is_review": false,
           "comparable_set": "kang-2017-rat-nmda"
         },
         {
@@ -1052,7 +1042,6 @@
           "tissue_or_cell": "PDSP primary screen / cloned hDAT",
           "radioligand_or_probe": "[3H]WIN-35,428 displacement",
           "reference": "doi:10.1016/j.neuropharm.2016.08.004",
-          "is_review": false,
           "comparable_set": "kang-2017-human-transporter"
         },
         {
@@ -1063,7 +1052,6 @@
           "tissue_or_cell": "PDSP primary screen",
           "radioligand_or_probe": "[3H]nisoxetine displacement",
           "reference": "doi:10.1016/j.neuropharm.2016.08.004",
-          "is_review": false,
           "comparable_set": "kang-2017-human-transporter"
         },
         {
@@ -1074,7 +1062,6 @@
           "tissue_or_cell": "PDSP",
           "radioligand_or_probe": "[3H](+)-pentazocine",
           "reference": "doi:10.1016/j.neuropharm.2016.08.004",
-          "is_review": false,
           "comparable_set": "kang-2017-guinea pig-transporter"
         },
         {
@@ -1085,7 +1072,6 @@
           "tissue_or_cell": "PDSP",
           "radioligand_or_probe": "[3H]DTG (with masking)",
           "reference": "doi:10.1016/j.neuropharm.2016.08.004",
-          "is_review": false,
           "comparable_set": "kang-2017-rat-transporter"
         }
       ],
@@ -1301,8 +1287,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain homogenate",
           "radioligand_or_probe": "[3H](+)-MK-801",
-          "reference": "pmid:31152702",
-          "is_review": false
+          "reference": "pmid:31152702"
         }
       ],
       "functional": [],
@@ -1378,8 +1363,7 @@
           "species": "rat",
           "tissue_or_cell": "rat cerebral cortical membrane / rat whole brain",
           "radioligand_or_probe": "(+)-[3H]MK-801",
-          "reference": "pmid:8355251",
-          "is_review": false
+          "reference": "pmid:8355251"
         }
       ],
       "functional": [],
@@ -1553,8 +1537,7 @@
           "species": "rat",
           "tissue_or_cell": "cultured rat hippocampal neurons; Xenopus oocytes expressing NR1/NR2 subunits",
           "radioligand_or_probe": "Whole-cell NMDA currents; inhibition >50% at 80% atm N2O at -60 mV",
-          "reference": "doi:10.1038/nm0498-460",
-          "is_review": false
+          "reference": "doi:10.1038/nm0498-460"
         },
         {
           "target": "mu-opioid (endogenous release, not direct binding)",
@@ -1564,8 +1547,7 @@
           "species": "rat",
           "tissue_or_cell": "rat PAG",
           "radioligand_or_probe": "Microdialysis of enkephalin / antinociception blockade by naloxone",
-          "reference": "doi:10.1097/00000542-200304000-00033",
-          "is_review": false
+          "reference": "doi:10.1097/00000542-200304000-00033"
         }
       ],
       "functional": [],
@@ -1774,8 +1756,7 @@
           "species": "rat",
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]MK-801",
-          "reference": "pmid:9138735",
-          "is_review": false
+          "reference": "pmid:9138735"
         },
         {
           "target": "kappa-opioid",
@@ -1786,7 +1767,6 @@
           "tissue_or_cell": "guinea pig brain membranes",
           "radioligand_or_probe": "[3H]U-69,593",
           "reference": "pmid:7796150",
-          "is_review": false,
           "comparable_set": "pearl-1995-guinea-pig-mor"
         },
         {
@@ -1798,7 +1778,6 @@
           "tissue_or_cell": "guinea pig brain",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "pmid:7796150",
-          "is_review": false,
           "comparable_set": "pearl-1995-guinea-pig-mor"
         },
         {
@@ -1810,7 +1789,6 @@
           "tissue_or_cell": "rat brain / HEK-hSERT",
           "radioligand_or_probe": "[3H]paroxetine; [3H]5-HT uptake",
           "reference": "pmid:7796150",
-          "is_review": false,
           "comparable_set": "pearl-1995-human-5ht"
         },
         {
@@ -1822,7 +1800,6 @@
           "tissue_or_cell": "rat liver / brain",
           "radioligand_or_probe": "[3H]DTG (with masking)",
           "reference": "pmid:7796150",
-          "is_review": false,
           "comparable_set": "pearl-1995-rat-5ht"
         },
         {
@@ -1834,7 +1811,6 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "reference": "pmid:7796150",
-          "is_review": false,
           "comparable_set": "pearl-1995-human-5ht"
         }
       ],

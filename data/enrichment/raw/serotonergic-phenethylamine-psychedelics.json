@@ -55,8 +55,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human 5-HT2A",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         },
         {
           "target": "5-HT2A",
@@ -71,8 +70,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human 5-HT2A",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false
+          "reference": "doi:10.1016/j.neuropharm.2015.08.034"
         },
         {
           "target": "5-HT2B",
@@ -87,8 +85,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human 5-HT2B",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false
+          "reference": "doi:10.1016/j.neuropharm.2015.08.034"
         },
         {
           "target": "5-HT2C",
@@ -103,8 +100,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human 5-HT2C",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false
+          "reference": "doi:10.1016/j.neuropharm.2015.08.034"
         },
         {
           "target": "TAAR1",
@@ -119,8 +115,7 @@
           "species": "rat",
           "tissue_or_cell": "HEK293 expressing rat TAAR1",
           "radioligand_or_probe": "[3H]-RO5166017",
-          "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false
+          "reference": "doi:10.1016/j.neuropharm.2015.08.034"
         },
         {
           "target": "α1A",
@@ -135,8 +130,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human α1A",
           "radioligand_or_probe": "[3H]-prazosin",
-          "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false
+          "reference": "doi:10.1016/j.neuropharm.2015.08.034"
         }
       ],
       "functional": [
@@ -399,8 +393,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human 5-HT2A",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false
+          "reference": "doi:10.1016/j.neuropharm.2015.08.034"
         },
         {
           "target": "5-HT2A",
@@ -415,8 +408,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1021/acs.chemrestox.5b00450",
-          "is_review": true
+          "reference": "doi:10.1021/acs.chemrestox.5b00450"
         },
         {
           "target": "5-HT2B",
@@ -431,8 +423,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false
+          "reference": "doi:10.1016/j.neuropharm.2015.08.034"
         },
         {
           "target": "5-HT2C",
@@ -447,8 +438,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false
+          "reference": "doi:10.1016/j.neuropharm.2015.08.034"
         },
         {
           "target": "SERT",
@@ -463,8 +453,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1021/acs.chemrestox.5b00450",
-          "is_review": true
+          "reference": "doi:10.1021/acs.chemrestox.5b00450"
         }
       ],
       "functional": [
@@ -619,8 +608,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false
+          "reference": "doi:10.1016/j.neuropharm.2015.08.034"
         },
         {
           "target": "5-HT2B",
@@ -635,8 +623,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false
+          "reference": "doi:10.1016/j.neuropharm.2015.08.034"
         },
         {
           "target": "5-HT2C",
@@ -651,8 +638,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false
+          "reference": "doi:10.1016/j.neuropharm.2015.08.034"
         },
         {
           "target": "SERT",
@@ -667,8 +653,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-citalopram",
-          "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false
+          "reference": "doi:10.1016/j.neuropharm.2015.08.034"
         },
         {
           "target": "NET",
@@ -683,8 +668,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false
+          "reference": "doi:10.1016/j.neuropharm.2015.08.034"
         }
       ],
       "functional": [
@@ -828,8 +812,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human 5-HT2A",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         },
         {
           "target": "5-HT2B",
@@ -847,8 +830,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         },
         {
           "target": "5-HT2C",
@@ -863,8 +845,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         }
       ],
       "functional": [
@@ -979,8 +960,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         },
         {
           "target": "5-HT2B",
@@ -995,8 +975,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         },
         {
           "target": "5-HT2C",
@@ -1011,8 +990,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         }
       ],
       "functional": [
@@ -1112,8 +1090,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293T",
           "radioligand_or_probe": "NanoBiT β-arrestin-2 recruitment",
-          "reference": null,
-          "is_review": false
+          "reference": null
         },
         {
           "target": "5-HT2A",
@@ -1131,8 +1108,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         },
         {
           "target": "5-HT2B",
@@ -1147,8 +1123,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         },
         {
           "target": "5-HT2C",
@@ -1163,8 +1138,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         }
       ],
       "functional": [
@@ -1260,8 +1234,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         },
         {
           "target": "5-HT2B",
@@ -1276,8 +1249,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         },
         {
           "target": "5-HT2C",
@@ -1292,8 +1264,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         }
       ],
       "functional": [
@@ -1385,8 +1356,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         },
         {
           "target": "5-HT2B",
@@ -1401,8 +1371,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         },
         {
           "target": "5-HT2C",
@@ -1417,8 +1386,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         }
       ],
       "functional": [
@@ -1530,8 +1498,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         }
       ],
       "functional": [],
@@ -1682,8 +1649,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false
+          "reference": "doi:10.1016/j.neuropharm.2015.08.034"
         }
       ],
       "functional": [],
@@ -1805,8 +1771,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": true
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         }
       ],
       "functional": [],
@@ -2033,8 +1998,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": true
+          "reference": "doi:10.1016/j.bcp.2018.10.025"
         }
       ],
       "functional": [],
@@ -2153,8 +2117,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1007/s00213-013-3303-6",
-          "is_review": false
+          "reference": "doi:10.1007/s00213-013-3303-6"
         },
         {
           "target": "5-HT2C",
@@ -2169,8 +2132,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "reference": "doi:10.1007/s00213-013-3303-6",
-          "is_review": false
+          "reference": "doi:10.1007/s00213-013-3303-6"
         },
         {
           "target": "5-HT1A",
@@ -2185,8 +2147,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-8-OH-DPAT",
-          "reference": "doi:10.1007/s00213-013-3303-6",
-          "is_review": false
+          "reference": "doi:10.1007/s00213-013-3303-6"
         }
       ],
       "functional": [],
@@ -2366,8 +2327,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "pmid:20126400",
-          "is_review": false
+          "reference": "pmid:20126400"
         },
         {
           "target": "5-HT2B",
@@ -2382,8 +2342,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "reference": "pmid:20126400",
-          "is_review": false
+          "reference": "pmid:20126400"
         },
         {
           "target": "5-HT2C",
@@ -2401,8 +2360,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "pmid:20126400",
-          "is_review": false
+          "reference": "pmid:20126400"
         }
       ],
       "functional": [],
@@ -2509,8 +2467,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": "pmid:24244317",
-          "is_review": false
+          "reference": "pmid:24244317"
         },
         {
           "target": "5-HT2B",
@@ -2525,8 +2482,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": "pmid:24244317",
-          "is_review": false
+          "reference": "pmid:24244317"
         },
         {
           "target": "5-HT2C",
@@ -2544,8 +2500,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": "pmid:24244317",
-          "is_review": false
+          "reference": "pmid:24244317"
         },
         {
           "target": "MAO-A",
@@ -2560,8 +2515,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -2973,8 +2927,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1021/acsptsci.4c00157",
-          "is_review": true
+          "reference": "doi:10.1021/acsptsci.4c00157"
         },
         {
           "target": "5-HT2B",
@@ -2989,8 +2942,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-K1",
           "radioligand_or_probe": null,
-          "reference": "pmid:10498829",
-          "is_review": false
+          "reference": "pmid:10498829"
         },
         {
           "target": "5-HT2C",
@@ -3008,8 +2960,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1021/acsptsci.4c00157",
-          "is_review": true
+          "reference": "doi:10.1021/acsptsci.4c00157"
         },
         {
           "target": "TAAR1",
@@ -3024,8 +2975,7 @@
           "species": "rat",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": "doi:10.1021/acsptsci.4c00157",
-          "is_review": true
+          "reference": "doi:10.1021/acsptsci.4c00157"
         }
       ],
       "functional": [
@@ -3161,8 +3111,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin (or [3H]-DOB itself)",
-          "reference": "pmid:2233697",
-          "is_review": false
+          "reference": "pmid:2233697"
         },
         {
           "target": "5-HT2B",
@@ -3177,8 +3126,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-K1",
           "radioligand_or_probe": null,
-          "reference": "pmid:10498829",
-          "is_review": false
+          "reference": "pmid:10498829"
         },
         {
           "target": "5-HT2C",
@@ -3196,8 +3144,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1007/PL00005315",
-          "is_review": false
+          "reference": "doi:10.1007/PL00005315"
         },
         {
           "target": "MAO-A",
@@ -3213,7 +3160,6 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "reference": null,
-          "is_review": true,
           "emax_pct": null
         }
       ],
@@ -3323,8 +3269,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1007/s00213-013-3303-6",
-          "is_review": false
+          "reference": "doi:10.1007/s00213-013-3303-6"
         },
         {
           "target": "5-HT2B",
@@ -3339,8 +3284,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "reference": "doi:10.1007/s00213-013-3303-6",
-          "is_review": false
+          "reference": "doi:10.1007/s00213-013-3303-6"
         },
         {
           "target": "5-HT2C",
@@ -3358,8 +3302,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1007/s00213-013-3303-6",
-          "is_review": false
+          "reference": "doi:10.1007/s00213-013-3303-6"
         }
       ],
       "functional": [],
@@ -3456,8 +3399,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1007/PL00005315",
-          "is_review": false
+          "reference": "doi:10.1007/PL00005315"
         },
         {
           "target": "5-HT2B",
@@ -3475,8 +3417,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293/CHO-K1",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "reference": "doi:10.1007/PL00005315",
-          "is_review": false
+          "reference": "doi:10.1007/PL00005315"
         },
         {
           "target": "5-HT2C",
@@ -3494,8 +3435,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1007/PL00005315",
-          "is_review": false
+          "reference": "doi:10.1007/PL00005315"
         }
       ],
       "functional": [],
@@ -3608,8 +3548,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.1007/PL00005315",
-          "is_review": false
+          "reference": "doi:10.1007/PL00005315"
         },
         {
           "target": "5-HT2B",
@@ -3627,8 +3566,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1007/PL00005315",
-          "is_review": false
+          "reference": "doi:10.1007/PL00005315"
         },
         {
           "target": "5-HT2C",
@@ -3643,8 +3581,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1007/PL00005315",
-          "is_review": false
+          "reference": "doi:10.1007/PL00005315"
         }
       ],
       "functional": [],
@@ -4286,7 +4223,6 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
           "reference": null,
-          "is_review": true,
           "emax_pct": null
         },
         {
@@ -4306,7 +4242,6 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
           "reference": null,
-          "is_review": true,
           "emax_pct": null
         },
         {
@@ -4326,7 +4261,6 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
           "reference": null,
-          "is_review": true,
           "emax_pct": null
         }
       ],
@@ -4618,7 +4552,6 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
           "reference": null,
-          "is_review": true,
           "emax_pct": null
         },
         {
@@ -4635,7 +4568,6 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
           "reference": null,
-          "is_review": true,
           "emax_pct": null
         },
         {
@@ -4655,7 +4587,6 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
           "reference": null,
-          "is_review": true,
           "emax_pct": null
         }
       ],
@@ -4851,8 +4782,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": "doi:10.3389/fphar.2019.01423",
-          "is_review": false
+          "reference": "doi:10.3389/fphar.2019.01423"
         }
       ],
       "functional": [
@@ -5157,8 +5087,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "reference": null,
-          "is_review": true
+          "reference": null
         },
         {
           "target": "5-HT2C (as psilocin)",
@@ -5176,8 +5105,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": true
+          "reference": null
         },
         {
           "target": "5-HT1A",
@@ -5185,7 +5113,6 @@
           "species": "human",
           "tissue_or_cell": "human cloned, transfected cells",
           "reference": "doi:10.1021/acsptsci.2c00177",
-          "is_review": false,
           "confidence": "HIGH"
         }
       ],
@@ -5419,8 +5346,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": "pmid:9537821",
-          "is_review": true
+          "reference": "pmid:9537821"
         }
       ],
       "functional": [],
@@ -5546,7 +5472,6 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "reference": null,
-          "is_review": true,
           "emax_pct": null
         }
       ],
@@ -5651,8 +5576,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-spiperone",
-          "reference": "doi:10.1021/jm950625l",
-          "is_review": true
+          "reference": "doi:10.1021/jm950625l"
         }
       ],
       "functional": [],
@@ -5789,8 +5713,7 @@
           "species": "rat",
           "tissue_or_cell": "cortical membranes",
           "radioligand_or_probe": null,
-          "reference": "https://en.wikipedia.org/wiki/Aniracetam",
-          "is_review": true
+          "reference": "https://en.wikipedia.org/wiki/Aniracetam"
         }
       ],
       "functional": [],
@@ -5893,8 +5816,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "reference": "https://en.wikipedia.org/wiki/Phenylpiracetam",
-          "is_review": true
+          "reference": "https://en.wikipedia.org/wiki/Phenylpiracetam"
         },
         {
           "target": "α4β2 nAChR",
@@ -5910,7 +5832,6 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "reference": null,
-          "is_review": true,
           "emax_pct": null
         }
       ],
@@ -6002,8 +5923,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-flunitrazepam",
-          "reference": "https://en.wikipedia.org/wiki/Nitrazepam",
-          "is_review": true
+          "reference": "https://en.wikipedia.org/wiki/Nitrazepam"
         }
       ],
       "functional": [],
@@ -6101,8 +6021,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": "https://en.wikipedia.org/wiki/Camazepam",
-          "is_review": true
+          "reference": "https://en.wikipedia.org/wiki/Camazepam"
         }
       ],
       "functional": [],
@@ -6199,8 +6118,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": "https://en.wikipedia.org/wiki/Pinazepam",
-          "is_review": true
+          "reference": "https://en.wikipedia.org/wiki/Pinazepam"
         }
       ],
       "functional": [],
@@ -6487,8 +6405,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-DAMGO",
-          "reference": "doi:10.1038/386499a0",
-          "is_review": false
+          "reference": "doi:10.1038/386499a0"
         }
       ],
       "functional": [],
@@ -6979,8 +6896,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain membrane",
           "radioligand_or_probe": "[3H]-CP-55,940",
-          "reference": "doi:10.1021/jm050135l",
-          "is_review": false
+          "reference": "doi:10.1021/jm050135l"
         }
       ],
       "functional": [],
@@ -7043,8 +6959,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]-CP-55,940",
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -7345,8 +7260,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -7434,7 +7348,6 @@
           "tissue_or_cell": "HEK293 membranes overexpressing human 5-HT2A",
           "radioligand_or_probe": "[3H]ketanserin",
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
           "confidence": "high"
         },
         {
@@ -7451,7 +7364,6 @@
           "tissue_or_cell": "HEK293 membranes overexpressing human 5-HT1A",
           "radioligand_or_probe": "[3H]8-OH-DPAT",
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
           "confidence": "high"
         }
       ]

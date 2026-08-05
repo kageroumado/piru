@@ -38,8 +38,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human H1 (recombinant) — value is for the active dexchlorpheniramine (S)-(+) enantiomer",
           "radioligand_or_probe": "[3H]-mepyramine (pyrilamine)",
-          "reference": "pmid:7714409",
-          "is_review": false
+          "reference": "pmid:7714409"
         },
         {
           "target": "H4",
@@ -55,7 +54,6 @@
           "tissue_or_cell": "recombinant human H4",
           "radioligand_or_probe": null,
           "reference": null,
-          "is_review": true,
           "emax_pct": null
         },
         {
@@ -71,8 +69,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M1",
           "radioligand_or_probe": "[3H]-NMS or [3H]-QNB (typical for PDSP entries)",
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "M2",
@@ -87,8 +84,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M2",
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "M3",
@@ -103,8 +99,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M3",
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "M4",
@@ -119,8 +114,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M4",
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "M5",
@@ -135,8 +129,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M5",
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "SERT",
@@ -151,8 +144,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human SERT",
           "radioligand_or_probe": "[3H]-citalopram or [3H]-paroxetine (compendium entry)",
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "NET",
@@ -167,8 +159,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human NET",
           "radioligand_or_probe": null,
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "DAT",
@@ -183,8 +174,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human DAT",
           "radioligand_or_probe": null,
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         }
       ],
       "functional": [],
@@ -376,8 +366,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human H1 receptor (recombinant)",
           "radioligand_or_probe": "[3H]-mepyramine (typical)",
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "H2",
@@ -392,8 +381,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human H2",
           "radioligand_or_probe": null,
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "M1",
@@ -408,8 +396,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M1",
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": "pmid:2884340 (Yasuda et al., Antimuscarinic effects of antihistamines; Mol Pharmacol)",
-          "is_review": false
+          "reference": "pmid:2884340 (Yasuda et al., Antimuscarinic effects of antihistamines; Mol Pharmacol)"
         },
         {
           "target": "M2",
@@ -424,8 +411,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M2",
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "M3",
@@ -440,8 +426,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M3",
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "M4",
@@ -456,8 +441,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M4",
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "M5",
@@ -472,8 +456,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human M5",
           "radioligand_or_probe": "[3H]-NMS",
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "D2",
@@ -488,8 +471,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human D2",
           "radioligand_or_probe": null,
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "D3",
@@ -504,8 +486,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human D3",
           "radioligand_or_probe": null,
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "5-HT2A",
@@ -520,8 +501,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human 5-HT2A",
           "radioligand_or_probe": "[3H]-ketanserin (typical for PDSP)",
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "5-HT2C",
@@ -536,8 +516,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human 5-HT2C",
           "radioligand_or_probe": null,
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "α1A",
@@ -552,8 +531,7 @@
           "species": "rat",
           "tissue_or_cell": "cloned rat α1A",
           "radioligand_or_probe": null,
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         },
         {
           "target": "α1B",
@@ -568,8 +546,7 @@
           "species": "rat",
           "tissue_or_cell": "cloned rat α1B",
           "radioligand_or_probe": null,
-          "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false
+          "reference": "https://pdsp.unc.edu/databases/kidb.php"
         }
       ],
       "functional": [
@@ -812,8 +789,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human 5-HT3A; whole-cell patch clamp",
           "radioligand_or_probe": "functional electrophysiology",
-          "reference": "pmid:27077139 (Lummis SCR group — The muscarinic antagonists scopolamine and atropine are competitive antagonists at 5-HT3 receptors; doi:10.1111/jnc.13628)",
-          "is_review": false
+          "reference": "pmid:27077139 (Lummis SCR group — The muscarinic antagonists scopolamine and atropine are competitive antagonists at 5-HT3 receptors; doi:10.1111/jnc.13628)"
         }
       ],
       "functional": [],

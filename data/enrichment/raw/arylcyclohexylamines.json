@@ -31,7 +31,6 @@
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "is_review": false,
           "comparable_set": "roth-2013-rat-nmda"
         },
         {
@@ -42,8 +41,7 @@
           "species": "rat",
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]MK-801",
-          "reference": "doi:10.1016/S0014-2999(97)01116-3",
-          "is_review": false
+          "reference": "doi:10.1016/S0014-2999(97)01116-3"
         },
         {
           "target": "NMDA (MK-801 site, R-enantiomer)",
@@ -52,8 +50,7 @@
           "species": "rat",
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]MK-801",
-          "reference": "doi:10.1016/S0014-2999(97)01116-3",
-          "is_review": false
+          "reference": "doi:10.1016/S0014-2999(97)01116-3"
         },
         {
           "target": "NMDA (MK-801 site, S-enantiomer)",
@@ -62,8 +59,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant human GluN1/GluN2A NMDA receptor (Xenopus oocytes)",
           "radioligand_or_probe": "two-electrode voltage-clamp electrophysiology (channel-block IC50)",
-          "reference": "doi:10.1038/s41586-021-03769-9",
-          "is_review": false
+          "reference": "doi:10.1038/s41586-021-03769-9"
         },
         {
           "target": "NMDA (MK-801 site, R-enantiomer)",
@@ -72,8 +68,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant human GluN1/GluN2A NMDA receptor (Xenopus oocytes)",
           "radioligand_or_probe": "two-electrode voltage-clamp electrophysiology (channel-block IC50)",
-          "reference": "doi:10.1038/s41586-021-03769-9",
-          "is_review": false
+          "reference": "doi:10.1038/s41586-021-03769-9"
         },
         {
           "target": "σ1",
@@ -82,8 +77,7 @@
           "species": "guinea pig",
           "tissue_or_cell": "guinea pig brain",
           "radioligand_or_probe": "[3H](+)-pentazocine",
-          "reference": "doi:10.1111/j.1600-0773.1995.tb01041.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1600-0773.1995.tb01041.x"
         },
         {
           "target": "σ1",
@@ -92,8 +86,7 @@
           "species": "guinea pig",
           "tissue_or_cell": "guinea pig brain",
           "radioligand_or_probe": "[3H](+)-pentazocine",
-          "reference": "doi:10.1111/j.1600-0773.1995.tb01041.x",
-          "is_review": false
+          "reference": "doi:10.1111/j.1600-0773.1995.tb01041.x"
         },
         {
           "target": "σ2 (racemate)",
@@ -102,8 +95,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DTG",
-          "reference": null,
-          "is_review": false
+          "reference": null
         },
         {
           "target": "μ-opioid",
@@ -112,8 +104,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant mu-opioid receptor expressed in CHO cells (CHO-mu)",
           "radioligand_or_probe": "[3H]diprenorphine",
-          "reference": "pmid:9915326",
-          "is_review": false
+          "reference": "pmid:9915326"
         },
         {
           "target": "κ-opioid",
@@ -122,8 +113,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant kappa-opioid receptor expressed in CHO cells (CHO-kappa)",
           "radioligand_or_probe": "[3H]diprenorphine",
-          "reference": "pmid:9915326",
-          "is_review": false
+          "reference": "pmid:9915326"
         }
       ],
       "functional": [
@@ -384,8 +374,7 @@
           "species": "rat",
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]MK-801",
-          "reference": "doi:10.1016/S0014-2999(97)01116-3",
-          "is_review": false
+          "reference": "doi:10.1016/S0014-2999(97)01116-3"
         },
         {
           "target": "μ-opioid",
@@ -394,8 +383,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant mu-opioid receptor expressed in CHO cells (CHO-mu)",
           "radioligand_or_probe": "[3H]diprenorphine",
-          "reference": "pmid:9915326",
-          "is_review": false
+          "reference": "pmid:9915326"
         }
       ],
       "functional": [
@@ -635,8 +623,7 @@
           "species": "rat",
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]MK-801",
-          "reference": "doi:10.1016/S0014-2999(97)01116-3",
-          "is_review": false
+          "reference": "doi:10.1016/S0014-2999(97)01116-3"
         },
         {
           "target": "μ-opioid",
@@ -748,8 +735,7 @@
           "species": "rat",
           "tissue_or_cell": "rat forebrain",
           "radioligand_or_probe": "[3H]MK-801",
-          "reference": "doi:10.1016/S0014-2999(97)01116-3",
-          "is_review": false
+          "reference": "doi:10.1016/S0014-2999(97)01116-3"
         }
       ],
       "functional": [],
@@ -847,8 +833,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant NMDA in HEK293",
           "radioligand_or_probe": "patch-clamp Ca2+ flux",
-          "reference": "doi:10.1073/pnas.1816071116",
-          "is_review": false
+          "reference": "doi:10.1073/pnas.1816071116"
         }
       ],
       "functional": [
@@ -1032,7 +1017,6 @@
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "is_review": false,
           "comparable_set": "roth-2013-rat-nmda"
         },
         {
@@ -1181,7 +1165,6 @@
           "tissue_or_cell": "rat forebrain",
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "is_review": false,
           "comparable_set": "roth-2013-rat-nmda"
         },
         {
@@ -1192,7 +1175,6 @@
           "tissue_or_cell": "guinea pig brain",
           "radioligand_or_probe": "[3H](+)-pentazocine",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "is_review": false,
           "comparable_set": "roth-2013-guinea-pig-transporter"
         },
         {
@@ -1444,7 +1426,6 @@
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "is_review": false,
           "comparable_set": "roth-2013-rat-nmda"
         },
         {
@@ -1730,8 +1711,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant human GluN1/GluN2B in HEK293",
           "radioligand_or_probe": "patch-clamp",
-          "reference": "doi:10.1111/bph.15680",
-          "is_review": false
+          "reference": "doi:10.1111/bph.15680"
         }
       ],
       "functional": [
@@ -1915,7 +1895,6 @@
           "tissue_or_cell": "rat forebrain",
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "is_review": false,
           "comparable_set": "roth-2013-rat-nmda"
         },
         {
@@ -2182,8 +2161,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatum",
           "radioligand_or_probe": "[3H]BTCP autoradiography",
-          "reference": "pmid:1681444",
-          "is_review": false
+          "reference": "pmid:1681444"
         },
         {
           "target": "NMDA (MK-801 site)",

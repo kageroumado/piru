@@ -32,8 +32,7 @@
           "species": "rat",
           "tissue_or_cell": "hippocampal pyramidal neurons (Lovinger 1989)",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1073/pnas.2435171100",
-          "is_review": false
+          "reference": "doi:10.1073/pnas.2435171100"
         },
         {
           "target": "GABA-A α4β3δ (extrasynaptic)",
@@ -48,8 +47,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human α4β3δ",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1126/science.2467382",
-          "is_review": false
+          "reference": "doi:10.1126/science.2467382"
         },
         {
           "target": "Glycine receptor α1 (homomeric)",
@@ -64,8 +62,7 @@
           "species": "human",
           "tissue_or_cell": "Xenopus oocytes expressing α1 GlyR",
           "radioligand_or_probe": null,
-          "reference": "pmid:9311780",
-          "is_review": false
+          "reference": "pmid:9311780"
         },
         {
           "target": "5-HT3",
@@ -80,8 +77,7 @@
           "species": "mouse",
           "tissue_or_cell": "NCB-20 neuroblastoma cells",
           "radioligand_or_probe": null,
-          "reference": "pmid:1922378",
-          "is_review": false
+          "reference": "pmid:1922378"
         }
       ],
       "functional": [
@@ -308,8 +304,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain membranes (hippocampus, cortex)",
           "radioligand_or_probe": "[3H]GHB or [3H]NCS-382",
-          "reference": "pmid:15567424",
-          "is_review": false
+          "reference": "pmid:15567424"
         },
         {
           "target": "GABA-B receptor (rat brain)",
@@ -324,8 +319,7 @@
           "species": "rat",
           "tissue_or_cell": "GIRK1/4 in CHO cells",
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": false
+          "reference": null
         },
         {
           "target": "α4β3δ GABA-A (extrasynaptic)",
@@ -340,8 +334,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 + Xenopus oocytes expressing human α4β3δ",
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [
@@ -508,8 +501,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": true
+          "reference": null
         }
       ],
       "functional": [],
@@ -635,8 +627,7 @@
           "species": "rat",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -857,8 +848,7 @@
           "species": "rat",
           "tissue_or_cell": "rat cerebral cortex purified synaptic plasma membranes",
           "radioligand_or_probe": "[3H]gabapentin",
-          "reference": "pmid:8384570",
-          "is_review": false
+          "reference": "pmid:8384570"
         }
       ],
       "functional": [
@@ -1005,8 +995,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant human α2δ-1 in baculovirus-infected Sf9 cells",
           "radioligand_or_probe": "[3H]gabapentin (competition)",
-          "reference": "pmid:15801823",
-          "is_review": false
+          "reference": "pmid:15801823"
         },
         {
           "target": "α2δ-2 (recombinant human)",
@@ -1021,8 +1010,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant human α2δ-2 in Sf9",
           "radioligand_or_probe": "[3H]gabapentin",
-          "reference": "pmid:15801823",
-          "is_review": false
+          "reference": "pmid:15801823"
         }
       ],
       "functional": [
@@ -1157,8 +1145,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain membranes",
           "radioligand_or_probe": "[3H]gabapentin",
-          "reference": "pmid:26234470",
-          "is_review": false
+          "reference": "pmid:26234470"
         },
         {
           "target": "GABA-B (rat brain)",
@@ -1173,8 +1160,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain / GIRK assay",
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": true
+          "reference": null
         }
       ],
       "functional": [],
@@ -1294,8 +1280,7 @@
           "species": "rat",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -1507,8 +1492,7 @@
           "species": "rat",
           "tissue_or_cell": "rat cerebellar / cortical membranes",
           "radioligand_or_probe": "[3H]GABA in presence of bicuculline / [3H]baclofen",
-          "reference": "pmid:6323949",
-          "is_review": false
+          "reference": "pmid:6323949"
         },
         {
           "target": "GABA-B (recombinant hR1a/R2)",
@@ -1523,8 +1507,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells expressing human GABA-B R1a/R2 coupled to Kir3.1/3.2",
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [
@@ -1676,8 +1659,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 or Xenopus oocytes expressing human α1β2γ2",
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -1810,8 +1792,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human α1β2γ2",
           "radioligand_or_probe": null,
-          "reference": "pmid:8821543",
-          "is_review": false
+          "reference": "pmid:8821543"
         }
       ],
       "functional": [],
@@ -1935,8 +1916,7 @@
           "species": "human",
           "tissue_or_cell": "Xenopus oocytes expressing human α1β2γ2S",
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -2592,8 +2572,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293/Xenopus oocytes expressing human α1β3γ2",
           "radioligand_or_probe": "[3H]-ortho-propofol-diazirine photolabel",
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -2730,8 +2709,7 @@
           "species": "rat",
           "tissue_or_cell": "rat cortical neurons",
           "radioligand_or_probe": null,
-          "reference": "pmid:8383736",
-          "is_review": false
+          "reference": "pmid:8383736"
         }
       ],
       "functional": [],
@@ -3229,8 +3207,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human α1β2γ2",
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -3346,8 +3323,7 @@
           "species": "rat",
           "tissue_or_cell": "rat frontal cortex",
           "radioligand_or_probe": "[3H]ketanserin",
-          "reference": "pmid:21975349",
-          "is_review": false
+          "reference": "pmid:21975349"
         }
       ],
       "functional": [],
@@ -3546,8 +3522,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293/CHO",
           "radioligand_or_probe": "[3H]raclopride",
-          "reference": null,
-          "is_review": false
+          "reference": null
         },
         {
           "target": "5-HT2A (human)",
@@ -3562,8 +3537,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]ketanserin",
-          "reference": null,
-          "is_review": false
+          "reference": null
         },
         {
           "target": "α1 adrenergic",
@@ -3578,8 +3552,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]prazosin",
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -3722,8 +3695,7 @@
           "species": "human",
           "tissue_or_cell": "CHO",
           "radioligand_or_probe": "[3H]pyrilamine",
-          "reference": "pmid:25065879",
-          "is_review": false
+          "reference": "pmid:25065879"
         },
         {
           "target": "muscarinic M1",
@@ -3738,8 +3710,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]NMS",
-          "reference": "pmid:8061993",
-          "is_review": false
+          "reference": "pmid:8061993"
         },
         {
           "target": "NMDA (open-channel block)",
@@ -3754,8 +3725,7 @@
           "species": "rat",
           "tissue_or_cell": "hippocampal neurons",
           "radioligand_or_probe": null,
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],
@@ -4176,8 +4146,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]rauwolscine",
-          "reference": "pmid:7791087",
-          "is_review": false
+          "reference": "pmid:7791087"
         },
         {
           "target": "I1 imidazoline (rostral ventrolateral medulla)",
@@ -4192,8 +4161,7 @@
           "species": null,
           "tissue_or_cell": "canine prostate / bovine RVLM membranes",
           "radioligand_or_probe": "[3H]clonidine",
-          "reference": "pmid:7509387",
-          "is_review": false
+          "reference": "pmid:7509387"
         }
       ],
       "functional": [],
@@ -4562,8 +4530,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]citalopram",
-          "reference": "pmid:21798331",
-          "is_review": false
+          "reference": "pmid:21798331"
         }
       ],
       "functional": [],
@@ -4759,8 +4726,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "reference": "doi:10.1021/jm9803875",
-          "is_review": false
+          "reference": "doi:10.1021/jm9803875"
         }
       ],
       "functional": [],
@@ -6447,8 +6413,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]flumazenil",
-          "reference": null,
-          "is_review": false
+          "reference": null
         }
       ],
       "functional": [],

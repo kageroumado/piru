@@ -26,8 +26,7 @@
           "species": "rat",
           "tissue_or_cell": "rat cortical membranes",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "reference": "pmid:10083975",
-          "is_review": false
+          "reference": "pmid:10083975"
         },
         {
           "target": "GABA-A α1β2γ2S (functional EC50 for GABA potentiation)",
@@ -42,8 +41,7 @@
           "species": "human",
           "tissue_or_cell": "Xenopus oocytes expressing human α1β2γ2S",
           "radioligand_or_probe": null,
-          "reference": "pmid:10083975",
-          "is_review": false
+          "reference": "pmid:10083975"
         }
       ],
       "functional": [
@@ -194,8 +192,7 @@
           "species": "human",
           "tissue_or_cell": "L(tk-) cells expressing recombinant human α1β2γ2",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "reference": "pmid:8391122",
-          "is_review": false
+          "reference": "pmid:8391122"
         },
         {
           "target": "GABA-A α2β2γ2",
@@ -210,8 +207,7 @@
           "species": "human",
           "tissue_or_cell": "L(tk-) cells, recombinant human α2β2γ2",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "reference": "pmid:8391122",
-          "is_review": false
+          "reference": "pmid:8391122"
         },
         {
           "target": "GABA-A α3β2γ2",
@@ -226,8 +222,7 @@
           "species": "human",
           "tissue_or_cell": "L(tk-) cells, recombinant human α3β2γ2",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "reference": "pmid:8391122",
-          "is_review": false
+          "reference": "pmid:8391122"
         },
         {
           "target": "GABA-A α5β2γ2",
@@ -242,8 +237,7 @@
           "species": "human",
           "tissue_or_cell": "L(tk-) cells, recombinant human α5β2γ2",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "reference": "pmid:8391122",
-          "is_review": false
+          "reference": "pmid:8391122"
         }
       ],
       "functional": [],
@@ -405,8 +399,7 @@
           "species": "rat",
           "tissue_or_cell": "Recombinant α1β2γ2 / α1β3γ2",
           "radioligand_or_probe": "[3H]flumazenil (Ro15-1788)",
-          "reference": "pmid:2157817",
-          "is_review": false
+          "reference": "pmid:2157817"
         },
         {
           "target": "GABA-A α5β3γ2",
@@ -421,8 +414,7 @@
           "species": "human",
           "tissue_or_cell": "Recombinant α5β3γ2",
           "radioligand_or_probe": "[3H]Ro15-1788",
-          "reference": "doi:10.1021/jm800889m",
-          "is_review": false
+          "reference": "doi:10.1021/jm800889m"
         }
       ],
       "functional": [],
@@ -580,8 +572,7 @@
           "species": "rat",
           "tissue_or_cell": "HEK293T expressing rat α1β2γ2",
           "radioligand_or_probe": "[3H]Ro15-1788",
-          "reference": "doi:10.1021/jm800889m",
-          "is_review": false
+          "reference": "doi:10.1021/jm800889m"
         },
         {
           "target": "GABA-A α2β2γ2",
@@ -599,8 +590,7 @@
           "species": "rat",
           "tissue_or_cell": "HEK293T expressing rat α2β2γ2",
           "radioligand_or_probe": "[3H]Ro15-1788",
-          "reference": "doi:10.1021/jm800889m",
-          "is_review": false
+          "reference": "doi:10.1021/jm800889m"
         },
         {
           "target": "GABA-A α3β2γ2",
@@ -618,8 +608,7 @@
           "species": "rat",
           "tissue_or_cell": "HEK293T expressing rat α3β2γ2",
           "radioligand_or_probe": "[3H]Ro15-1788",
-          "reference": "doi:10.1021/jm800889m",
-          "is_review": false
+          "reference": "doi:10.1021/jm800889m"
         },
         {
           "target": "GABA-A α5β2γ2",
@@ -637,8 +626,7 @@
           "species": "rat",
           "tissue_or_cell": "HEK293T expressing rat α5β2γ2",
           "radioligand_or_probe": "[3H]Ro15-1788",
-          "reference": "doi:10.1021/jm800889m",
-          "is_review": false
+          "reference": "doi:10.1021/jm800889m"
         }
       ],
       "functional": [],
@@ -768,8 +756,7 @@
           "species": "rat",
           "tissue_or_cell": "rat cortical membranes",
           "radioligand_or_probe": "[3H]flunitrazepam displacement",
-          "reference": "doi:10.2165/00003088-198106020-00001",
-          "is_review": true
+          "reference": "doi:10.2165/00003088-198106020-00001"
         }
       ],
       "functional": [],
@@ -1174,8 +1161,7 @@
           "species": "rat",
           "tissue_or_cell": "Rat brain membranes",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "reference": "doi:10.1016/S0014-2999(02)02191-X",
-          "is_review": false
+          "reference": "doi:10.1016/S0014-2999(02)02191-X"
         }
       ],
       "functional": [],
@@ -1412,8 +1398,7 @@
           "species": "rat",
           "tissue_or_cell": "Brain membranes",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "reference": "doi:10.2165/00003088-198106020-00001",
-          "is_review": true
+          "reference": "doi:10.2165/00003088-198106020-00001"
         }
       ],
       "functional": [],
@@ -1527,7 +1512,6 @@
           "tissue_or_cell": "mouse forebrain membranes",
           "radioligand_or_probe": "[3H]flunitrazepam (1 nM)",
           "reference": "doi:10.1016/0024-3205(84)90576-9",
-          "is_review": false,
           "confidence": "high"
         }
       ],
@@ -1960,7 +1944,6 @@
           "tissue_or_cell": "rat brain homogenate",
           "radioligand_or_probe": "[3H]flunitrazepam",
           "reference": "doi:10.1371/journal.pone.0088456",
-          "is_review": false,
           "confidence": "high"
         }
       ],
@@ -2092,8 +2075,7 @@
           "species": "rat",
           "tissue_or_cell": "Rat cortical membranes",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "reference": "doi:10.1021/jm800889m",
-          "is_review": false
+          "reference": "doi:10.1021/jm800889m"
         }
       ],
       "functional": [],
@@ -2321,7 +2303,6 @@
           "tissue_or_cell": "rat whole-forebrain P2 membranes",
           "radioligand_or_probe": "[3H]diazepam (1.9 nM)",
           "reference": "doi:10.1016/0014-2999(78)90085-7",
-          "is_review": false,
           "confidence": "high"
         }
       ],
@@ -2434,7 +2415,6 @@
           "tissue_or_cell": "rat cerebellar membranes",
           "radioligand_or_probe": "[3H]flunitrazepam (2 nM)",
           "reference": "doi:10.1016/0304-3940(83)90113-1",
-          "is_review": false,
           "confidence": "high"
         }
       ],
@@ -2533,7 +2513,6 @@
           "tissue_or_cell": "rat whole brain minus cerebellum",
           "radioligand_or_probe": "[3H]flunitrazepam (1 nM)",
           "reference": "doi:10.1016/j.bmc.2008.09.037",
-          "is_review": false,
           "confidence": "high"
         }
       ],
@@ -2710,7 +2689,6 @@
           "tissue_or_cell": "rat brain P2 synaptosomal membranes",
           "radioligand_or_probe": "[3H]flunitrazepam",
           "reference": "doi:10.1159/000118458",
-          "is_review": false,
           "confidence": "medium"
         }
       ],
@@ -2905,7 +2883,6 @@
           "tissue_or_cell": "rat cerebellar membranes",
           "radioligand_or_probe": "[3H]flumazenil (0.3 nM)",
           "reference": "doi:10.1254/fpj.98.5_399",
-          "is_review": false,
           "confidence": "medium"
         }
       ],
@@ -3004,7 +2981,6 @@
           "tissue_or_cell": "rat cerebral cortex membranes",
           "radioligand_or_probe": "[3H]flunitrazepam",
           "reference": "doi:10.1254/jjp.42.189",
-          "is_review": false,
           "confidence": "high"
         }
       ],
@@ -3096,8 +3072,7 @@
           "species": "rat",
           "tissue_or_cell": "Rat cortical membranes",
           "radioligand_or_probe": "[3H]flunitrazepam displacement",
-          "reference": "pmid:10083975",
-          "is_review": false
+          "reference": "pmid:10083975"
         }
       ],
       "functional": [
@@ -3884,7 +3859,6 @@
           "tissue_or_cell": "crude rat cerebral cortex membranes",
           "radioligand_or_probe": "[3H]flunitrazepam (0.98 nM)",
           "reference": "doi:10.1111/j.2042-7158.1984.tb04449.x",
-          "is_review": false,
           "confidence": "medium"
         }
       ],
@@ -4184,8 +4158,7 @@
           "species": "rat",
           "tissue_or_cell": "kidney mitochondrial membranes",
           "radioligand_or_probe": "[3H]Ro5-4864",
-          "reference": "doi:10.1186/1478-811X-11-13",
-          "is_review": false
+          "reference": "doi:10.1186/1478-811X-11-13"
         },
         {
           "target": "GABA-A benzodiazepine site",
@@ -4201,7 +4174,6 @@
           "tissue_or_cell": "Brain membranes",
           "radioligand_or_probe": "[3H]diazepam displacement",
           "reference": null,
-          "is_review": true,
           "emax_pct": null
         }
       ],
@@ -4397,7 +4369,6 @@
           "tissue_or_cell": "rat forebrain P2 crude synaptosomal fraction",
           "radioligand_or_probe": "[3H]diazepam (1.0 nM)",
           "reference": "doi:10.1016/0006-2952(84)90287-9",
-          "is_review": false,
           "confidence": "high"
         }
       ],
@@ -4553,7 +4524,6 @@
           "tissue_or_cell": "mouse cortical P2 synaptosomal membranes",
           "radioligand_or_probe": "[3H]flunitrazepam (1 nM)",
           "reference": "doi:10.1016/0091-3057(92)90170-K",
-          "is_review": false,
           "confidence": "high"
         }
       ],
@@ -4634,7 +4604,6 @@
           "tissue_or_cell": "C57BL/6J mouse brain membranes (minus cerebellum)",
           "radioligand_or_probe": "[3H]flunitrazepam (5 nM)",
           "reference": "doi:10.1016/j.bcp.2004.07.020",
-          "is_review": false,
           "confidence": "high"
         }
       ],
@@ -5228,7 +5197,6 @@
           "tissue_or_cell": "mouse brain receptors",
           "radioligand_or_probe": "[3H]flunitrazepam",
           "reference": "pmid:6148044",
-          "is_review": false,
           "confidence": "medium"
         }
       ],
@@ -5307,7 +5275,6 @@
           "tissue_or_cell": "rat cerebral cortex synaptosomal membranes",
           "radioligand_or_probe": "[3H]diazepam (0.6 nM)",
           "reference": "doi:10.1016/0024-3205(85)90089-X",
-          "is_review": false,
           "confidence": "high"
         }
       ],

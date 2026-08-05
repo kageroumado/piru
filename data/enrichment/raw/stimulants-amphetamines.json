@@ -53,8 +53,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 transiently expressing hTAAR1, cAMP readout",
           "radioligand_or_probe": "cAMP accumulation",
-          "reference": "pmid:11459929",
-          "is_review": false
+          "reference": "pmid:11459929"
         }
       ],
       "functional": [
@@ -2607,8 +2606,7 @@
           "action": "antagonist",
           "species": "human",
           "tissue_or_cell": "HEK293/h5-HT2B",
-          "reference": "doi:10.1021/acschemneuro.8b00415",
-          "is_review": true
+          "reference": "doi:10.1021/acschemneuro.8b00415"
         }
       ],
       "functional": [
@@ -4076,7 +4074,6 @@
           "tissue_or_cell": "HEK293 membranes overexpressing human 5-HT2A",
           "radioligand_or_probe": "[3H]ketanserin",
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
           "confidence": "high"
         },
         {
@@ -4093,7 +4090,6 @@
           "tissue_or_cell": "HEK293 membranes overexpressing human 5-HT1A",
           "radioligand_or_probe": "[3H]8-OH-DPAT",
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
           "confidence": "high"
         }
       ],
@@ -4186,7 +4182,6 @@
           "tissue_or_cell": "HEK293 membranes overexpressing human 5-HT2A",
           "radioligand_or_probe": "[3H]ketanserin",
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
           "confidence": "high"
         },
         {
@@ -4203,7 +4198,6 @@
           "tissue_or_cell": "HEK293 membranes overexpressing human 5-HT1A",
           "radioligand_or_probe": "[3H]8-OH-DPAT",
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
           "confidence": "high"
         }
       ],

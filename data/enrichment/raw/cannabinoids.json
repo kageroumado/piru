@@ -233,8 +233,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB1 membranes",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmid:25311884",
-          "is_review": false
+          "reference": "pmid:25311884"
         },
         {
           "target": "CB2",
@@ -249,8 +248,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB2 membranes",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1089/can.2023.0212",
-          "is_review": false
+          "reference": "doi:10.1089/can.2023.0212"
         },
         {
           "target": "TRPA1",
@@ -265,8 +263,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing hTRPA1",
           "radioligand_or_probe": "calcium flux",
-          "reference": "pmid:21175579",
-          "is_review": false
+          "reference": "pmid:21175579"
         }
       ],
       "functional": [],
@@ -363,8 +360,7 @@
           "species": "rat",
           "tissue_or_cell": "CHO-r5HT1A and brain membranes",
           "radioligand_or_probe": "[3H]-8-OH-DPAT",
-          "reference": null,
-          "is_review": false
+          "reference": null
         },
         {
           "target": "COX-2",
@@ -379,8 +375,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant human COX-2",
           "radioligand_or_probe": null,
-          "reference": "pmid:18556441",
-          "is_review": false
+          "reference": "pmid:18556441"
         }
       ],
       "functional": [],
@@ -480,7 +475,6 @@
           "tissue_or_cell": "CHO-hα2A membranes",
           "radioligand_or_probe": "[3H]-rauwolscine",
           "reference": "pmid:20002104",
-          "is_review": false,
           "comparable_set": "cascio-2010-human-5ht1a"
         },
         {
@@ -497,7 +491,6 @@
           "tissue_or_cell": "rat brainstem membranes",
           "radioligand_or_probe": "[3H]-8-OH-DPAT",
           "reference": "pmid:20002104",
-          "is_review": false,
           "comparable_set": "cascio-2010-rat-5ht1a"
         },
         {
@@ -514,7 +507,6 @@
           "tissue_or_cell": "MF1 mouse whole-brain membranes",
           "radioligand_or_probe": "[3H]-CP55,940",
           "reference": "doi:10.1111/j.1476-5381.2009.00515.x",
-          "is_review": false,
           "comparable_set": "cascio-2010-mouse-cb1"
         }
       ],
@@ -596,8 +588,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing hTRPV1",
           "radioligand_or_probe": "calcium flux",
-          "reference": "doi:10.1021/cn5000524",
-          "is_review": false
+          "reference": "doi:10.1021/cn5000524"
         },
         {
           "target": "TRPA1",
@@ -612,8 +603,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293-hTRPA1",
           "radioligand_or_probe": "calcium flux",
-          "reference": "doi:10.1021/cn5000524",
-          "is_review": false
+          "reference": "doi:10.1021/cn5000524"
         },
         {
           "target": "DAGL-α",
@@ -628,8 +618,7 @@
           "species": "human",
           "tissue_or_cell": "human recombinant DAGL-alpha (COS cell expression)",
           "radioligand_or_probe": null,
-          "reference": "pmid:21175579",
-          "is_review": false
+          "reference": "pmid:21175579"
         }
       ],
       "functional": [],
@@ -728,8 +717,7 @@
           "species": "human",
           "tissue_or_cell": "COS-7 expressing hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmid:25311884",
-          "is_review": false
+          "reference": "pmid:25311884"
         },
         {
           "target": "CB2",
@@ -747,8 +735,7 @@
           "species": "human",
           "tissue_or_cell": "COS-7 expressing hCB2",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmid:25311884",
-          "is_review": false
+          "reference": "pmid:25311884"
         },
         {
           "target": "CB1",
@@ -756,7 +743,6 @@
           "comparable_set": "jnatprod-2019-human-cb",
           "species": "human",
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
-          "is_review": false,
           "confidence": "LOW",
           "action": "partialAgonist"
         },
@@ -766,7 +752,6 @@
           "comparable_set": "jnatprod-2019-human-cb",
           "species": "human",
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
-          "is_review": false,
           "confidence": "LOW",
           "action": "partialAgonist"
         },
@@ -784,7 +769,6 @@
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
-          "is_review": false,
           "confidence": "high"
         },
         {
@@ -801,7 +785,6 @@
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
-          "is_review": false,
           "confidence": "high"
         }
       ],
@@ -977,7 +960,6 @@
           "comparable_set": "dta-2024-hhc-jwh018-normalised",
           "species": "human",
           "reference": "doi:10.1002/dta.3750",
-          "is_review": false,
           "confidence": "HIGH",
           "action": "agonist"
         }
@@ -1135,8 +1117,7 @@
           "species": "mixed",
           "tissue_or_cell": "rat cerebellum / hCB1-CHO",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmid:10940540",
-          "is_review": false
+          "reference": "pmid:10940540"
         },
         {
           "target": "CB2",
@@ -1154,8 +1135,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmid:10940540",
-          "is_review": false
+          "reference": "pmid:10940540"
         }
       ],
       "functional": [],
@@ -1244,8 +1224,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmid:25921407",
-          "is_review": false
+          "reference": "pmid:25921407"
         },
         {
           "target": "CB2",
@@ -1260,8 +1239,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB2",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmid:25921407",
-          "is_review": false
+          "reference": "pmid:25921407"
         },
         {
           "target": "CB1",
@@ -1271,7 +1249,6 @@
           "action": "agonist",
           "species": "human",
           "reference": "doi:10.1021/acschemneuro.3c00530",
-          "is_review": false,
           "confidence": "HIGH"
         }
       ],
@@ -1360,8 +1337,7 @@
           "species": "human",
           "tissue_or_cell": "AtT20 cells expressing hCB1",
           "radioligand_or_probe": "fluorometric membrane potential assay",
-          "reference": "pmid:26134475",
-          "is_review": false
+          "reference": "pmid:26134475"
         },
         {
           "target": "CB2",
@@ -1376,8 +1352,7 @@
           "species": "human",
           "tissue_or_cell": "AtT20 cells expressing hCB2",
           "radioligand_or_probe": null,
-          "reference": "pmid:26134475",
-          "is_review": false
+          "reference": "pmid:26134475"
         }
       ],
       "functional": [],
@@ -1517,8 +1492,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmid:26105953",
-          "is_review": false
+          "reference": "pmid:26105953"
         },
         {
           "target": "CB2",
@@ -1533,8 +1507,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB2",
           "radioligand_or_probe": null,
-          "reference": "pmid:26105953",
-          "is_review": false
+          "reference": "pmid:26105953"
         }
       ],
       "functional": [],
@@ -1614,8 +1587,7 @@
           "species": "human",
           "tissue_or_cell": "AtT20 cells expressing hCB1",
           "radioligand_or_probe": "fluorometric membrane potential",
-          "reference": "pmid:26134475",
-          "is_review": false
+          "reference": "pmid:26134475"
         },
         {
           "target": "CB2",
@@ -1630,8 +1602,7 @@
           "species": "human",
           "tissue_or_cell": "AtT20-hCB2",
           "radioligand_or_probe": null,
-          "reference": "pmid:26134475",
-          "is_review": false
+          "reference": "pmid:26134475"
         },
         {
           "target": "CB1",
@@ -1647,7 +1618,6 @@
           "tissue_or_cell": "CHO membranes expressing human CB1 (Cerep/Eurofins)",
           "radioligand_or_probe": "[3H]CP-55,940",
           "reference": "doi:10.1007/s00213-016-4237-6",
-          "is_review": false,
           "confidence": "medium"
         }
       ],
@@ -1793,8 +1763,7 @@
           "species": "human",
           "tissue_or_cell": "AequoScreen-hCB1",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1007/s00204-025-04082-4",
-          "is_review": false
+          "reference": "doi:10.1007/s00204-025-04082-4"
         },
         {
           "target": "CB2",
@@ -1809,8 +1778,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": "doi:10.1007/s00204-025-04082-4",
-          "is_review": false
+          "reference": "doi:10.1007/s00204-025-04082-4"
         }
       ],
       "functional": [],
@@ -1899,8 +1867,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": "doi:10.1002/dta.3657",
-          "is_review": false
+          "reference": "doi:10.1002/dta.3657"
         }
       ],
       "functional": [],
@@ -1985,8 +1952,7 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": "pmid:37903509",
-          "is_review": false
+          "reference": "pmid:37903509"
         }
       ],
       "functional": [],
@@ -2062,8 +2028,7 @@
           "species": "human",
           "tissue_or_cell": "AtT20-hCB1",
           "radioligand_or_probe": "fluorometric membrane potential",
-          "reference": "pmid:26134475",
-          "is_review": false
+          "reference": "pmid:26134475"
         },
         {
           "target": "CB2",
@@ -2078,8 +2043,7 @@
           "species": "human",
           "tissue_or_cell": "AtT20-hCB2",
           "radioligand_or_probe": null,
-          "reference": "pmid:26134475",
-          "is_review": false
+          "reference": "pmid:26134475"
         }
       ],
       "functional": [],
@@ -2156,8 +2120,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "doi:10.1021/acschemneuro.0c00644",
-          "is_review": false
+          "reference": "doi:10.1021/acschemneuro.0c00644"
         }
       ],
       "functional": [],
@@ -2301,8 +2264,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "doi:10.1038/s41386-021-01227-8",
-          "is_review": false
+          "reference": "doi:10.1038/s41386-021-01227-8"
         },
         {
           "target": "CB1",
@@ -2312,7 +2274,6 @@
           "action": "agonist",
           "species": "human",
           "reference": "doi:10.1021/acschemneuro.3c00530",
-          "is_review": false,
           "confidence": "HIGH"
         }
       ],
@@ -2400,8 +2361,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293-hCB1",
           "radioligand_or_probe": "β-arrestin-2 recruitment",
-          "reference": "pmid:33787091",
-          "is_review": false
+          "reference": "pmid:33787091"
         }
       ],
       "functional": [],
@@ -2499,8 +2459,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293-hCB1",
           "radioligand_or_probe": "β-arrestin recruitment",
-          "reference": "doi:10.1021/acschemneuro.5b00107",
-          "is_review": false
+          "reference": "doi:10.1021/acschemneuro.5b00107"
         }
       ],
       "functional": [],
@@ -2628,8 +2587,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmc:7415729",
-          "is_review": false
+          "reference": "pmc:7415729"
         },
         {
           "target": "CB2",
@@ -2644,8 +2602,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293-hCB2",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmc:7415729",
-          "is_review": false
+          "reference": "pmc:7415729"
         }
       ],
       "functional": [],
@@ -2735,8 +2692,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "doi:10.1021/acschemneuro.5b00107",
-          "is_review": false
+          "reference": "doi:10.1021/acschemneuro.5b00107"
         }
       ],
       "functional": [],
@@ -2823,8 +2779,7 @@
           "species": "human",
           "tissue_or_cell": "HEK-293 expressing human CB1R",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmid:38844801",
-          "is_review": false
+          "reference": "pmid:38844801"
         },
         {
           "target": "CB2",
@@ -2839,8 +2794,7 @@
           "species": "rat",
           "tissue_or_cell": "rat spleen membranes",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmid:25220897",
-          "is_review": true
+          "reference": "pmid:25220897"
         }
       ],
       "functional": [],
@@ -2916,8 +2870,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293-hCB1",
           "radioligand_or_probe": "β-arrestin recruitment",
-          "reference": "pmid:32296768",
-          "is_review": false
+          "reference": "pmid:32296768"
         }
       ],
       "functional": [],
@@ -3003,8 +2956,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "doi:10.1056/NEJMoa1610300",
-          "is_review": false
+          "reference": "doi:10.1056/NEJMoa1610300"
         },
         {
           "target": "CB2",
@@ -3019,8 +2971,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB2",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "doi:10.1056/NEJMoa1610300",
-          "is_review": false
+          "reference": "doi:10.1056/NEJMoa1610300"
         }
       ],
       "functional": [],
@@ -3349,7 +3300,6 @@
           "comparable_set": "jnatprod-2015-human-cb",
           "species": "human",
           "reference": "doi:10.1021/acs.jnatprod.5b00065",
-          "is_review": false,
           "confidence": "HIGH",
           "action": "partialAgonist"
         },
@@ -3359,7 +3309,6 @@
           "comparable_set": "jnatprod-2015-human-cb",
           "species": "human",
           "reference": "doi:10.1021/acs.jnatprod.5b00065",
-          "is_review": false,
           "confidence": "HIGH",
           "action": "partialAgonist"
         },
@@ -3369,7 +3318,6 @@
           "comparable_set": "ejmech-2024-cb1",
           "species": "human",
           "reference": "doi:10.1016/j.ejmech.2024.116164",
-          "is_review": false,
           "confidence": "MEDIUM",
           "action": "partialAgonist"
         },
@@ -3381,7 +3329,6 @@
           "action": "partialAgonist",
           "species": "human",
           "reference": "doi:10.1021/acschemneuro.3c00530",
-          "is_review": false,
           "confidence": "HIGH"
         }
       ]
@@ -3397,7 +3344,6 @@
           "comparable_set": "jnatprod-2015-human-cb",
           "species": "human",
           "reference": "doi:10.1021/acs.jnatprod.5b00065",
-          "is_review": false,
           "confidence": "MEDIUM",
           "action": "partialAgonist"
         },
@@ -3407,7 +3353,6 @@
           "comparable_set": "jnatprod-2015-human-cb",
           "species": "human",
           "reference": "doi:10.1021/acs.jnatprod.5b00065",
-          "is_review": false,
           "confidence": "MEDIUM",
           "action": "partialAgonist"
         },
@@ -3425,7 +3370,6 @@
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
-          "is_review": false,
           "confidence": "high"
         },
         {
@@ -3442,7 +3386,6 @@
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
-          "is_review": false,
           "confidence": "high"
         }
       ]
@@ -3459,7 +3402,6 @@
           "comparable_set": "dta-2024-hhc-jwh018-normalised",
           "species": "human",
           "reference": "doi:10.1002/dta.3750",
-          "is_review": false,
           "confidence": "HIGH",
           "action": "partialAgonist"
         },
@@ -3470,7 +3412,6 @@
           "comparable_set": "dta-2024-hhc-jwh018-normalised",
           "species": "human",
           "reference": "doi:10.1002/dta.3750",
-          "is_review": false,
           "confidence": "HIGH",
           "action": "partialAgonist"
         }
@@ -3488,7 +3429,6 @@
           "comparable_set": "dta-2024-hhc-jwh018-normalised",
           "species": "human",
           "reference": "doi:10.1002/dta.3750",
-          "is_review": false,
           "confidence": "HIGH",
           "action": "partialAgonist"
         },
@@ -3499,7 +3439,6 @@
           "comparable_set": "dta-2024-hhc-jwh018-normalised",
           "species": "human",
           "reference": "doi:10.1002/dta.3750",
-          "is_review": false,
           "confidence": "HIGH",
           "action": "partialAgonist"
         }
@@ -3517,7 +3456,6 @@
           "comparable_set": "dta-2024-hhc-jwh018-normalised",
           "species": "human",
           "reference": "doi:10.1002/dta.3750",
-          "is_review": false,
           "confidence": "LOW",
           "action": "partialAgonist"
         }
@@ -3534,7 +3472,6 @@
           "comparable_set": "jnatprod-2019-human-cb",
           "species": "human",
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
-          "is_review": false,
           "confidence": "LOW",
           "action": "negativeAllostericModulator"
         },
@@ -3544,7 +3481,6 @@
           "comparable_set": "jnatprod-2019-human-cb",
           "species": "human",
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
-          "is_review": false,
           "confidence": "LOW",
           "action": "modulator"
         }
@@ -3561,7 +3497,6 @@
           "comparable_set": "jnatprod-2019-human-cb",
           "species": "human",
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
-          "is_review": false,
           "confidence": "LOW",
           "action": "partialAgonist"
         },
@@ -3571,7 +3506,6 @@
           "comparable_set": "jnatprod-2019-human-cb",
           "species": "human",
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
-          "is_review": false,
           "confidence": "LOW",
           "action": "modulator"
         }
@@ -3596,7 +3530,6 @@
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
-          "is_review": false,
           "confidence": "high"
         },
         {
@@ -3613,7 +3546,6 @@
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
-          "is_review": false,
           "confidence": "high"
         }
       ]
@@ -3637,7 +3569,6 @@
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
-          "is_review": false,
           "confidence": "high"
         },
         {
@@ -3654,7 +3585,6 @@
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
-          "is_review": false,
           "confidence": "high"
         }
       ]
@@ -3678,7 +3608,6 @@
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
-          "is_review": false,
           "confidence": "high"
         },
         {
@@ -3695,7 +3624,6 @@
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
-          "is_review": false,
           "confidence": "high"
         }
       ]
@@ -3719,7 +3647,6 @@
           "tissue_or_cell": "purified human CB1 (Eurofins/Cerep)",
           "radioligand_or_probe": "[3H]CP-55,940 (2 nM, Kd 2.4 nM)",
           "reference": "doi:10.1038/s41598-019-56785-1",
-          "is_review": false,
           "confidence": "high"
         },
         {
@@ -3736,7 +3663,6 @@
           "tissue_or_cell": "purified human CB2",
           "radioligand_or_probe": "[3H]WIN 55,212-2 (0.8 nM, Kd 1.5 nM)",
           "reference": "doi:10.1038/s41598-019-56785-1",
-          "is_review": false,
           "confidence": "high"
         }
       ]
@@ -3760,7 +3686,6 @@
           "tissue_or_cell": "human CB1 (radioligand binding)",
           "radioligand_or_probe": "[3H]CP-55,940",
           "reference": "doi:10.1016/0960-894X(95)00573-C",
-          "is_review": false,
           "confidence": "medium"
         },
         {
@@ -3777,7 +3702,6 @@
           "tissue_or_cell": "human CB2 (radioligand binding)",
           "radioligand_or_probe": "[3H]CP-55,940",
           "reference": "doi:10.1016/0960-894X(95)00573-C",
-          "is_review": false,
           "confidence": "medium"
         }
       ]
@@ -3801,7 +3725,6 @@
           "tissue_or_cell": "rat brain synaptosomal membranes",
           "radioligand_or_probe": "[3H]HU-243 (Kd 45 pM)",
           "reference": "doi:10.1021/jm050709m",
-          "is_review": false,
           "confidence": "medium"
         }
       ]
@@ -3825,7 +3748,6 @@
           "tissue_or_cell": "CHO membranes expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940 (0.1 nM)",
           "reference": "doi:10.1007/s11419-016-0320-2",
-          "is_review": false,
           "confidence": "medium"
         },
         {
@@ -3842,7 +3764,6 @@
           "tissue_or_cell": "CHO membranes expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
           "reference": "doi:10.1007/s11419-016-0320-2",
-          "is_review": false,
           "confidence": "high"
         }
       ]
@@ -3866,7 +3787,6 @@
           "tissue_or_cell": "CHO membranes expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940",
           "reference": "doi:10.1007/s11419-016-0320-2",
-          "is_review": false,
           "confidence": "high"
         },
         {
@@ -3883,7 +3803,6 @@
           "tissue_or_cell": "CHO membranes expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
           "reference": "doi:10.1007/s11419-016-0320-2",
-          "is_review": false,
           "confidence": "high"
         }
       ]
@@ -3915,7 +3834,6 @@
           "tissue_or_cell": "HEK293 membranes expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940",
           "reference": "doi:10.1021/acschemneuro.2c00034",
-          "is_review": false,
           "confidence": "high"
         },
         {
@@ -3932,7 +3850,6 @@
           "tissue_or_cell": "HEK293 membranes expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
           "reference": "doi:10.1021/acschemneuro.2c00034",
-          "is_review": false,
           "confidence": "high"
         }
       ]
