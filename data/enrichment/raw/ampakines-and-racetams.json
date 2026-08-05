@@ -227,7 +227,6 @@
     ],
     "notes": "Originally MKC-231 (Mitsubishi Tanabe); licensed to BrainCells as BCI-540. Failed in MDD Phase 2a (2008-2009). Mechanism (HACU enhancement) is genuinely unusual but rests on a small number of rat papers; the entire human evidence base is essentially absent. Treat all anecdotal human dose ranges with skepticism.",
     "references_consulted": [
-      "pmid:10543440",
       "pmid:14617342"
     ]
   },
@@ -1708,8 +1707,6 @@
     ],
     "notes": "Daiichi compound; reached Japanese approval for post-stroke apathy. Western development stopped due to dog-specific hepatotoxicity. The pleiotropic mechanism makes 'racetam' nearly a misnomer — most racetams don't touch nAChR or Ca channels directly.",
     "references_consulted": [
-      "pmid:1611056",
-      "pmid:9300758",
       "doi:10.1111/j.1527-3458.1996.tb00305.x"
     ]
   },
@@ -2140,8 +2137,7 @@
     ],
     "notes": "Approved in much of Europe (cognitive disorders, cortical myoclonus) and ex-Soviet states; never approved in US. CSF concentrations reach ~30-40% of plasma; t½ in CSF (~8 h) is longer than plasma (~5-6 h). The remarkable feature of piracetam pharmacology is the durability of the mechanistic gap: 60 years, hundreds of papers, no consensus target. Doses are gram-scale precisely because intrinsic activity at any candidate target is low.",
     "references_consulted": [
-      "pmid:7820328",
-      "pmid:15994140"
+      "pmid:7820328"
     ]
   },
   {

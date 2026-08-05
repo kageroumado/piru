@@ -595,7 +595,7 @@
       {
         "enzyme": "minimal hepatic metabolism",
         "fraction_of_clearance_pct": 20,
-        "metabolite_name": "N-glucuronide-memantine, 6-OH-memantine, 1-nitroso-deaminated-memantine",
+        "metabolite_name": "memantine N-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf",
@@ -764,7 +764,7 @@
       {
         "enzyme": "CYP3A4/CYP2C19 (presumed, by analogy and metabolite profiling)",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "hydroxy-diphenidine (on piperidine ring), N-dealkylated diphenidine",
+        "metabolite_name": "hydroxy-diphenidine",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.3109/15563650.2015.1033630",
@@ -930,7 +930,7 @@
       {
         "enzyme": "CYP-mediated (presumed CYP3A4)",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "hydroxy-2-MXP (piperidine ring), O-desmethyl-2-MXP, hydroxylated O-desmethyl-2-MXP",
+        "metabolite_name": "hydroxy-2-MXP",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "pmid:25698777",

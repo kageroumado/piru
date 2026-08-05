@@ -129,7 +129,7 @@
       {
         "enzyme": "FMO3",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "amphetamine N-oxide / norephedrine",
+        "metabolite_name": "amphetamine N-oxide",
         "metabolite_active": true,
         "reference": "pmid:28910145"
       },
@@ -691,7 +691,7 @@
         "ki_or_ic50_nm": 1000,
         "concern_level": "moderate",
         "clinical_consequence": "Vesicular DA depletion — substrate of contributing to cytosolic DA → ROS → terminal neurotoxicity",
-        "reference": "pmid:9504281"
+        "reference": null
       }
     ],
     "tags_to_add": [
@@ -707,7 +707,6 @@
       "pmid:11071707",
       "pmid:11459929",
       "doi:10.1124/dmd.30.10.1059",
-      "pmid:9504281",
       "doi:10.1124/pr.116.012799"
     ]
   },
@@ -853,7 +852,7 @@
     "metabolism": [
       {
         "enzyme": "CYP2D6",
-        "metabolite_name": "l-amphetamine + 4-hydroxy-l-methamphetamine",
+        "metabolite_name": "l-amphetamine",
         "metabolite_active": true,
         "reference": "doi:10.1124/dmd.30.10.1059"
       }
@@ -994,7 +993,7 @@
     "metabolism": [
       {
         "enzyme": null,
-        "metabolite_name": "4-fluoro-p-hydroxyamphetamine, 4-fluoronorephedrine",
+        "metabolite_name": "4-fluoro-p-hydroxyamphetamine",
         "metabolite_active": false,
         "reference": "pmid:31785931"
       }
@@ -1509,7 +1508,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "4-chlorophenylacetone",
         "metabolite_active": false,
-        "reference": "pmid:1495370"
+        "reference": null
       }
     ],
     "off_targets": [
@@ -1531,7 +1530,6 @@
     ],
     "notes": "PCA is the prototype serotonergic neurotoxin amphetamine. Standard tool for inducing selective 5-HT axonal lesions in animals. NOT for human use.",
     "references_consulted": [
-      "pmid:1495370",
       "doi:10.3389/fphar.2019.01590",
       "pmid:1196472"
     ]
@@ -1677,7 +1675,7 @@
     "metabolism": [
       {
         "enzyme": "FMO / CYP",
-        "metabolite_name": "4-methylsulfinylamphetamine, 4-methylsulfonylamphetamine, 4-methylthiobenzoic acid",
+        "metabolite_name": "4-methylsulfinylamphetamine",
         "metabolite_active": false,
         "reference": "doi:10.1007/164_2018_113"
       }
@@ -1773,7 +1771,7 @@
     "metabolism": [
       {
         "enzyme": "CYP2D6",
-        "metabolite_name": "4-hydroxyamphetamine + para-methoxyhydroxyamphetamine",
+        "metabolite_name": "4-hydroxyamphetamine",
         "metabolite_active": true,
         "reference": "doi:10.3389/fphar.2019.01590"
       }
@@ -2371,7 +2369,7 @@
       },
       {
         "enzyme": "CYP2D6",
-        "metabolite_name": "norephedrine + 4-hydroxyephedrine",
+        "metabolite_name": "norephedrine",
         "metabolite_active": true,
         "reference": null
       }
@@ -2722,7 +2720,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293/h5-HT2B",
           "reference": "doi:10.1021/acschemneuro.8b00415",
-          "notes": "Maier 2018 — 4,4'-DMAR is inactive at 5-HT2B despite being a balanced SNDRA"
+          "notes": "Maier 2018 — 4,4'-DMAR is inactive at 5-HT2B despite being a balanced SNDRA",
+          "is_review": true
         }
       ],
       "functional": [
@@ -4100,7 +4099,7 @@
     "metabolism": [
       {
         "enzyme": "CYP2D6 / CYP3A4",
-        "metabolite_name": "4-fluoromethamphetamine + 4-fluoroamphetamine",
+        "metabolite_name": "4-fluoromethamphetamine",
         "metabolite_active": true,
         "reference": null
       }

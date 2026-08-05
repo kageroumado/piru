@@ -265,7 +265,7 @@
       {
         "enzyme": "UGT",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "HMMA-glucuronide, HMMA-sulfate",
+        "metabolite_name": "HMMA glucuronide",
         "metabolite_active": false,
         "reference": "doi:10.1097/00007691-200404000-00009",
         "notes": "Phase II conjugation of HMMA."
@@ -284,7 +284,7 @@
         "mechanism": "CYP2D6 + CYP3A4 inhibition",
         "ki_um": null,
         "clinical_effect": "Massive AUC increase reported in case reports; fatalities documented in HIV patients combining MDMA with protease inhibitors.",
-        "reference": "pmid:9498768"
+        "reference": null
       },
       {
         "with": "fluoxetine",
@@ -428,7 +428,7 @@
           "intrinsic_activity_pct": null,
           "species": "rat",
           "tissue_or_cell": null,
-          "reference": "pmid:8013917",
+          "reference": null,
           "is_review": false,
           "notes": "MDA has substantially greater direct 5-HT2A agonist activity than MDMA — this explains its more psychedelic, less prosocial subjective profile. Particularly the (R)-(−)-MDA isomer is more 5-HT2A-active."
         },
@@ -668,7 +668,7 @@
           "dose_in_study_mg": 140,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "pmid:11071027",
+          "reference": null,
           "notes": "Half-life ~4 h (shorter than MDMA). Tmax ~2 h."
         }
       ],
@@ -678,7 +678,7 @@
       {
         "enzyme": "CYP2D6",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "MDA (N-deethylation gives MDA-like metabolite), HHEA",
+        "metabolite_name": "MDA",
         "metabolite_active": true,
         "reference": "doi:10.1016/s0006-2952(00)00284-7",
         "notes": "N-deethylation yields MDA. O-demethylenation analogous to MDMA."
@@ -730,8 +730,7 @@
     "notes": "N-ethyl substitution markedly reduces DA-releasing activity vs MDMA — explains the colder, less reinforcing, more 'pure empathogen' subjective profile users report. Was briefly used in early MDMA-assisted psychotherapy when MDMA was scheduled.",
     "references_consulted": [
       "doi:10.1111/j.1476-5381.2012.02145.x",
-      "doi:10.1016/s0006-2952(00)00284-7",
-      "pmid:11071027"
+      "doi:10.1016/s0006-2952(00)00284-7"
     ]
   },
   {
@@ -863,7 +862,7 @@
     "metabolism": [
       {
         "enzyme": "CYP2D6",
-        "metabolite_name": "S-MDA, S-HHMA",
+        "metabolite_name": "S-HHMA",
         "metabolite_active": true,
         "reference": "doi:10.1124/dmd.108.021543",
         "notes": "Stereoselectively faster metabolism than R-enantiomer."
@@ -1000,7 +999,7 @@
     "metabolism": [
       {
         "enzyme": "CYP2D6",
-        "metabolite_name": "R-MDA, R-HHMA",
+        "metabolite_name": "R-HHMA",
         "metabolite_active": true,
         "reference": "doi:10.1124/dmd.108.021543",
         "notes": "Slower than S-enantiomer."
@@ -1094,7 +1093,7 @@
       {
         "enzyme": "peptidases/aminopeptidases (extrahepatic and hepatic)",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "MDA + L-lysine",
+        "metabolite_name": "MDA",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.1038/s41386-025-02248-3",
@@ -2442,7 +2441,7 @@
     "metabolism": [
       {
         "enzyme": "CYP",
-        "metabolite_name": "PAL-287 (N-demethylation), ring-hydroxy metabolites",
+        "metabolite_name": "PAL-287",
         "metabolite_active": true,
         "reference": null,
         "notes": "Aromatic hydroxylation of the naphthalene ring is a major pathway in vitro."
@@ -4080,7 +4079,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain mitochondria",
           "reference": "doi:10.3390/molecules26195914",
-          "is_review": false,
+          "is_review": true,
           "notes": "Weak MAO inhibitor — lacks basic nitrogen typical of MAOIs, so the activity is mild. Probably contributes to nutmeg's monoaminergic effects."
         }
       ],
@@ -4190,7 +4189,7 @@
         },
         {
           "target": "5-HT2C",
-          "ki_nm": 97,
+          "ki_nm": 94.0,
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT2C",
@@ -4199,7 +4198,7 @@
         },
         {
           "target": "5-HT1A",
-          "ki_nm": 567,
+          "ki_nm": 123.0,
           "action": "agonist",
           "species": "human",
           "reference": "pmid:27216487",

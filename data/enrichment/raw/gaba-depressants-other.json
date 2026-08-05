@@ -101,7 +101,7 @@
           "reference_agonist": "GABA",
           "species": "human",
           "cell_system": "various",
-          "reference": "pmid:11929553",
+          "reference": null,
           "notes": "Synaptic α1β2γ2 receptors are RELATIVELY ethanol-insensitive (require >60 mM, supra-lethal); the behaviourally relevant GABA-A potentiation appears mediated by extrasynaptic δ-subunit receptors AND by indirect mechanisms (allopregnanolone release, GABA release from interneurons via 5-HT3)."
         }
       ],
@@ -146,7 +146,7 @@
           "concentration_unit": "mg/dL BAC",
           "threshold": 20,
           "peak_effect": 80,
-          "reference": "pmid:7847091",
+          "reference": null,
           "notes": "0.02 BAC = subtle effects; 0.05 = impairment; 0.08 = legal intoxication; 0.30 = stupor; 0.40 = LD50 (untreated); >0.50 typically fatal but tolerance changes this."
         }
       ]
@@ -167,7 +167,7 @@
         "metabolite_name": "acetate",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:8244398",
+        "reference": null,
         "notes": "ALDH2*2 (Glu487Lys) — homozygotes have <10% enzyme activity, severe acetaldehyde accumulation; ~30-50% of East Asians carry at least one *2 allele. Strong protection against alcoholism."
       },
       {
@@ -210,7 +210,7 @@
         "mechanism": "CYP2E1 induction shifts paracetamol metabolism toward toxic NAPQI metabolite; glutathione depletion in chronic drinkers",
         "ki_um": null,
         "clinical_effect": "Increased hepatotoxicity risk at supratherapeutic paracetamol doses in chronic alcohol users.",
-        "reference": "pmid:9952275"
+        "reference": null
       },
       {
         "with": "benzodiazepines / opioids / barbiturates",
@@ -286,7 +286,6 @@
       "pmid:14595397",
       "pmid:9311780",
       "pmid:1922378",
-      "pmid:8244398",
       "pmid:9105402"
     ]
   },
@@ -425,7 +424,7 @@
       {
         "enzyme": "GHB dehydrogenase (cytosolic) + succinic semialdehyde dehydrogenase (mitochondrial)",
         "fraction_of_clearance_pct": 95,
-        "metabolite_name": "succinic semialdehyde → succinate (Krebs cycle)",
+        "metabolite_name": "succinic semialdehyde",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "pmid:11061418",
@@ -445,7 +444,7 @@
         "mechanism": "SSADH (succinic semialdehyde dehydrogenase) inhibition",
         "ki_um": null,
         "clinical_effect": "Markedly elevated GHB AUC and prolonged half-life; contraindicated with Xyrem.",
-        "reference": "pmid:22050829"
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -501,7 +500,6 @@
       "pmid:10591456",
       "pmid:22778411",
       "pmid:15538955",
-      "pmid:18211851",
       "pmid:11061418"
     ]
   },
@@ -670,7 +668,7 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "assay_buffer_notes": "1,4-BD is converted in two steps: alcohol dehydrogenase (ADH) → γ-hydroxybutyraldehyde → aldehyde dehydrogenase (ALDH) → GHB. Both enzymes are the same as for ethanol metabolism.",
-          "reference": "pmid:15351964",
+          "reference": null,
           "is_review": false,
           "notes": "Onset slower than GHB or GBL (~20-40 min) because of two-step enzymatic conversion. Co-administration with ethanol drastically slows conversion (ADH competitive substrate) → unpredictable, delayed, prolonged effects."
         }
@@ -706,7 +704,7 @@
       {
         "enzyme": "ADH then ALDH",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "γ-hydroxybutyraldehyde → GHB",
+        "metabolite_name": "GHB",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,
@@ -775,9 +773,7 @@
       "Quantitative human PK study"
     ],
     "notes": "Slowest-onset GHB prodrug due to two enzymatic conversion steps. Co-ingestion with ethanol is uniquely dangerous because the ADH bottleneck causes BD to accumulate then release as ethanol clears.",
-    "references_consulted": [
-      "pmid:15351964"
-    ]
+    "references_consulted": []
   },
   {
     "name": "Aceburic acid",
@@ -824,7 +820,7 @@
       {
         "enzyme": "Carboxylesterase (CES1/CES2)",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "GHB + acetate",
+        "metabolite_name": "GHB",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": null,
@@ -1271,7 +1267,7 @@
       {
         "enzyme": "(minimal — mostly excreted unchanged)",
         "fraction_of_clearance_pct": 35,
-        "metabolite_name": "various minor hydroxylation/conjugation products",
+        "metabolite_name": null,
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,
@@ -1944,7 +1940,7 @@
       {
         "enzyme": "CYP3A4, CYP2C19, CYP2E1",
         "fraction_of_clearance_pct": 95,
-        "metabolite_name": "3'-hydroxypentobarbital + further oxidation",
+        "metabolite_name": "3'-hydroxypentobarbital",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,
@@ -2066,7 +2062,7 @@
       {
         "enzyme": "CYP3A4 (hepatic oxidation)",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "4'-hydroxymethaqualone + ring-hydroxylation metabolites",
+        "metabolite_name": "4'-hydroxymethaqualone",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,
@@ -2430,7 +2426,7 @@
       {
         "enzyme": "CYP2C19, CYP3A4",
         "fraction_of_clearance_pct": 99,
-        "metabolite_name": "pentobarbital (active, minor) + hydroxylation products",
+        "metabolite_name": "pentobarbital",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
         "reference": null,
@@ -2765,7 +2761,7 @@
       {
         "enzyme": "CYP2B6 (+CYP2C9)",
         "fraction_of_clearance_pct": 40,
-        "metabolite_name": "4-hydroxypropofol → glucuronide/sulfate",
+        "metabolite_name": "4-hydroxypropofol",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "pmid:11135730",
@@ -3520,7 +3516,7 @@
       {
         "enzyme": "CYP3A4, CYP1A2 (major); CYP2D6 (minor)",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "N-desmethylcyclobenzaprine + N-glucuronide",
+        "metabolite_name": "N-desmethylcyclobenzaprine",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,
@@ -3788,7 +3784,7 @@
       {
         "enzyme": "CYP3A4 (major)",
         "fraction_of_clearance_pct": 80,
-        "metabolite_name": "quetiapine sulfoxide + N-desalkylquetiapine (norquetiapine) + O-desalkylquetiapine",
+        "metabolite_name": "norquetiapine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "pmid:16390352",
@@ -4571,7 +4567,7 @@
       {
         "enzyme": "CYP2D6 (major)",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "4-hydroxypropranolol (active, ~equipotent)",
+        "metabolite_name": "4-hydroxypropranolol",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,
@@ -4708,7 +4704,7 @@
       {
         "enzyme": "CYP3A4, CYP1A2, CYP2C9",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "various hydroxylated/dealkylated kavalactones",
+        "metabolite_name": null,
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,
@@ -4772,9 +4768,7 @@
       "Quantitative receptor binding for individual kavalactones"
     ],
     "notes": "Hepatotoxicity is the main safety concern; aqueous root preparations (traditional) are safer than ethanol/acetone extracts of aerial parts.",
-    "references_consulted": [
-      "pmid:11489425"
-    ]
+    "references_consulted": []
   },
   {
     "name": "Kanna",
@@ -5225,7 +5219,7 @@
       {
         "enzyme": "GABA transaminase (GABA-T)",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "succinic semialdehyde → succinate",
+        "metabolite_name": "succinic semialdehyde",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,
@@ -5955,7 +5949,7 @@
       {
         "enzyme": "CYP2E1",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "phosgene + HCl",
+        "metabolite_name": "phosgene",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,

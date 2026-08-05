@@ -298,7 +298,7 @@
         "metabolite_name": "hydroxylated CBC species",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:38630918"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -342,8 +342,7 @@
     "notes": "No clinical human PK data; classified as non-intoxicating because CB1 affinity is too weak for psychoactive effect at achievable doses.",
     "references_consulted": [
       "pmid:25311884",
-      "doi:10.1089/can.2023.0212",
-      "pmid:38630918"
+      "doi:10.1089/can.2023.0212"
     ]
   },
   {
@@ -378,7 +377,7 @@
           "tissue_or_cell": "CHO-r5HT1A and brain membranes",
           "radioligand_or_probe": "[3H]-8-OH-DPAT",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1111/bph.12827",
+          "reference": null,
           "is_review": false,
           "notes": "Bolognini 2013: CBDA is more potent than CBD at 5-HT1A in vitro and in vivo anti-nausea models."
         },
@@ -463,7 +462,6 @@
     ],
     "notes": "Raw cannabinoid acid in fresh plant material — converted to CBD by heat/UV/time. Mechanism differs from CBD: more potent 5-HT1A agonist, has selective COX-2 inhibition (CBD does not). Has been formulated as a metallic salt 'EPM301' for stability.",
     "references_consulted": [
-      "doi:10.1111/bph.12827",
       "pmid:18556441",
       "doi:10.1089/can.2016.0017"
     ]
@@ -537,7 +535,7 @@
           "tissue_or_cell": "CHO-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
           "assay_buffer_notes": null,
-          "reference": "doi:10.1111/j.1476-5381.2008.00109.x",
+          "reference": null,
           "is_review": false,
           "notes": "Weak partial agonist / very weak antagonist."
         }
@@ -585,8 +583,7 @@
     ],
     "notes": "Often marketed as 'mother of all cannabinoids' (biosynthetic precursor). Importantly, primary pharmacology is NOT cannabinoid — sub-nM α2-adrenoceptor agonism is much more potent than CB1/CB2 activity. Safety concern: potential additive hypotension/bradycardia with clonidine or β-blockers.",
     "references_consulted": [
-      "pmid:20002104",
-      "doi:10.1111/j.1476-5381.2008.00109.x"
+      "pmid:20002104"
     ]
   },
   {
@@ -1061,7 +1058,7 @@
           "bias_factor_log": null,
           "bias_reference_compound": "CP55,940",
           "interpretation": "Synthetic cannabinoids including JWH-018 show modest β-arrestin bias relative to THC; arrestin recruitment correlates with tachycardia and seizure liability",
-          "reference": "doi:10.1111/bph.15117"
+          "reference": null
         }
       ],
       "receptor_oligomerisation": [],
@@ -1362,7 +1359,7 @@
       {
         "enzyme": "CYP2C9/3A4 + CES",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "defluorinated hydroxy metabolites; can produce 5-OH-JWH-018-like species",
+        "metabolite_name": "5-hydroxypentyl-JWH-018",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,
@@ -1738,7 +1735,7 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "amide hydrolysis products and pentyl hydroxylation",
+        "metabolite_name": "ADB-PINACA amide-hydrolysis metabolite",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.1021/acschemneuro.7b00116"
@@ -1906,7 +1903,7 @@
       {
         "enzyme": "CYP3A4/CES1",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "amide hydrolysis (carboxylic acid) and N-butyl hydroxylation",
+        "metabolite_name": "ADB-BUTINACA amide-hydrolysis metabolite",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "pmid:34811926"
@@ -1999,7 +1996,7 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "hexyl-hydroxylated and amide-hydrolysed species",
+        "metabolite_name": "ADB-HEXINACA amide-hydrolysis metabolite",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.1002/dta.3657"
@@ -2430,7 +2427,7 @@
       {
         "enzyme": "CES1/CYP3A4",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "methyl ester hydrolysis → tert-leucine acid",
+        "metabolite_name": "5F-MDMB-PICA ester-hydrolysis metabolite (M1)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:31461219",
@@ -2522,7 +2519,7 @@
       {
         "enzyme": "CES1",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "methyl-ester hydrolysis → carboxylic acid (M1)",
+        "metabolite_name": "MDMB-4en-PINACA ester-hydrolysis metabolite (M1)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": null,
@@ -2531,7 +2528,7 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "pent-4-enyl hydroxylation and epoxidation",
+        "metabolite_name": "hydroxy-MDMB-4en-PINACA",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,
@@ -2777,7 +2774,7 @@
       {
         "enzyme": "CYP3A4/CYP2C9",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "ω-OH-adamantyl and pentyl hydroxylation",
+        "metabolite_name": "hydroxyadamantyl-5F-AKB48",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "pmc:7415729"
@@ -2871,7 +2868,7 @@
       {
         "enzyme": "carboxylesterase/CES1",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "8-OH-quinoline + 5F-pentyl-indole-3-carboxylic acid",
+        "metabolite_name": "5F-pentylindole-3-carboxylic acid",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:24518903",
@@ -2963,7 +2960,7 @@
           "radioligand_or_probe": "[3H]-CP55,940",
           "assay_buffer_notes": null,
           "reference": "pmid:25220897",
-          "is_review": false,
+          "is_review": true,
           "notes": null
         }
       ],
@@ -3061,7 +3058,7 @@
       {
         "enzyme": "CES1",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "methyl ester hydrolysis → free acid (inactive)",
+        "metabolite_name": "AMB-CHMICA ester-hydrolysis metabolite",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:35788413"
@@ -3320,7 +3317,7 @@
       {
         "enzyme": "CYP2D6/CYP3A4",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "pyrrolidine ring oxidation, ω-1 hydroxylation",
+        "metabolite_name": "2''-oxo-4F-PHP",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "pmc:7796222"
@@ -3443,7 +3440,6 @@
       "pmid:8632377",
       "doi:10.1111/bph.13250",
       "pmid:20002104",
-      "doi:10.1111/bph.12827",
       "pmid:18556441",
       "pmid:17828291"
     ]

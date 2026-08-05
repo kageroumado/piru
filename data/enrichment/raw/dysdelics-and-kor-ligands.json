@@ -328,7 +328,6 @@
       "doi:10.1021/jm049438q",
       "pmid:18434204",
       "pmid:19462483",
-      "pmid:27780703",
       "pmid:32869039",
       "doi:10.1016/j.biopsych.2012.05.030",
       "pmid:25320048",
@@ -1158,7 +1157,7 @@
       {
         "enzyme": "Carboxylesterase (plasma)",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "Salvinorin B + benzoic acid",
+        "metabolite_name": "salvinorin B",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:17090705"
@@ -1897,7 +1896,6 @@
       "pmid:17090705",
       "pmid:18434204",
       "pmid:19462483",
-      "pmid:27780703",
       "pmid:32869039",
       "doi:10.1016/j.biopsych.2012.05.030",
       "pmid:37354128",

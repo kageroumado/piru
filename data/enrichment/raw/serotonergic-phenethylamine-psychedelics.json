@@ -341,10 +341,10 @@
       },
       {
         "target": "μ-opioid",
-        "ki_or_ic50_nm": 82,
+        "ki_or_ic50_nm": null,
         "concern_level": "low",
         "clinical_consequence": "Reported low-affinity binding; clinical relevance unknown",
-        "reference": "https://en.wikipedia.org/wiki/25I-NBOMe"
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -373,7 +373,6 @@
       "doi:10.1016/j.bcp.2018.10.025",
       "doi:10.1002/dta.2031",
       "doi:10.1002/dta.2044",
-      "doi:10.1093/jat/bku015",
       "pmid:26378143",
       "pmid:20956470",
       "doi:10.1021/acs.jmedchem.2c00702",
@@ -548,7 +547,7 @@
       {
         "enzyme": "CYP2D6",
         "fraction_of_clearance_pct": 69,
-        "metabolite_name": "5-DM-25B-NBOMe and hydroxy metabolites",
+        "metabolite_name": "5-DM-25B-NBOMe",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.1021/acs.chemrestox.5b00450"
@@ -777,7 +776,7 @@
       {
         "enzyme": "CYP2D6",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "hydroxy and O-didemethyl metabolites",
+        "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.1002/dta.2044"
@@ -950,7 +949,7 @@
       {
         "enzyme": "CYP2D6",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "O-desmethyl and hydroxy metabolites",
+        "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.1021/acs.chemrestox.5b00450"
@@ -1095,7 +1094,7 @@
       {
         "enzyme": "CYP2D6",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "O-demethyl and hydroxy metabolites (class)",
+        "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.1021/acs.chemrestox.5b00450"
@@ -1525,7 +1524,7 @@
       {
         "enzyme": "CYP2D6",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "hydroxy and dealkylation products",
+        "metabolite_name": "2C-I",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.1002/dta.2031"
@@ -1630,7 +1629,7 @@
       {
         "enzyme": "CYP2D6",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "phenolic glucuronide + hydroxy metabolites",
+        "metabolite_name": "hydroxy-25B-NBOH",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,
@@ -3249,7 +3248,7 @@
       {
         "enzyme": "CYP",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "deiodinated/dealkylated metabolites",
+        "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null
@@ -3378,7 +3377,7 @@
           "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": null,
-          "ic50_nm": 100000,
+          "ic50_nm": null,
           "intrinsic_activity_pct": null,
           "reference_agonist": null,
           "action": "enzymeInhibitor",
@@ -3386,9 +3385,10 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/2,5-Dimethoxy-4-bromoamphetamine",
+          "reference": null,
           "is_review": true,
-          "notes": "Weak MAO inhibition"
+          "notes": "Removed: 100µM = no inhibition. Original value was a non-measurement.",
+          "emax_pct": null
         },
         {
           "target": "5-HT1A",
@@ -3440,7 +3440,7 @@
           "route": "oral",
           "bioavailability_pct": null,
           "cmax_ng_per_ml": null,
-          "tmax_min": 180,
+          "tmax_min": null,
           "auc_0_inf_ng_h_per_ml": null,
           "half_life_min": null,
           "vd_l_per_kg": null,
@@ -3449,7 +3449,7 @@
           "dose_in_study_mg": 2,
           "subject_n": null,
           "subject_demographics": "PIHKAL/case-series",
-          "reference": "https://en.wikipedia.org/wiki/2,5-Dimethoxy-4-bromoamphetamine",
+          "reference": null,
           "notes": "Typical dose 1–3 mg racemic, 1–2 mg R-isomer; onset 1–2 h; peak 3–4 h; duration 18–36 h"
         }
       ],
@@ -3771,18 +3771,18 @@
       {
         "enzyme": "CYP demethylation",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "2-DM-DOM and 5-DM-DOM",
+        "metabolite_name": null,
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "https://en.wikipedia.org/wiki/DOM_(drug)"
       },
       {
         "enzyme": "renal",
-        "fraction_of_clearance_pct": 12,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "unchanged parent",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://en.wikipedia.org/wiki/DOM_(drug)"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -4536,7 +4536,7 @@
       "binding": [
         {
           "target": "5-HT2A",
-          "ki_nm": 2100,
+          "ki_nm": null,
           "ki_ci_nm": [
             216,
             10000
@@ -4551,13 +4551,14 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Escaline",
+          "reference": null,
           "is_review": true,
-          "notes": "~2-fold higher affinity than mescaline (5500 nM)"
+          "notes": "~2-fold higher affinity than mescaline (5500 nM)",
+          "emax_pct": null
         },
         {
           "target": "5-HT2B",
-          "ki_nm": 148,
+          "ki_nm": null,
           "ki_ci_nm": [
             148,
             551
@@ -4572,13 +4573,14 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Escaline",
+          "reference": null,
           "is_review": true,
-          "notes": null
+          "notes": null,
+          "emax_pct": null
         },
         {
           "target": "5-HT2C",
-          "ki_nm": 177,
+          "ki_nm": null,
           "ki_ci_nm": [
             177,
             4366
@@ -4593,9 +4595,10 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Escaline",
+          "reference": null,
           "is_review": true,
-          "notes": null
+          "notes": null,
+          "emax_pct": null
         }
       ],
       "functional": [],
@@ -4752,7 +4755,7 @@
           "route": "oral",
           "bioavailability_pct": null,
           "cmax_ng_per_ml": null,
-          "tmax_min": 120,
+          "tmax_min": null,
           "auc_0_inf_ng_h_per_ml": null,
           "half_life_min": null,
           "vd_l_per_kg": null,
@@ -4761,7 +4764,7 @@
           "dose_in_study_mg": 45,
           "subject_n": null,
           "subject_demographics": "PIHKAL",
-          "reference": "https://en.wikipedia.org/wiki/Proscaline",
+          "reference": null,
           "notes": "30–60 mg active; duration 8–12 h"
         }
       ],
@@ -4819,7 +4822,7 @@
           "route": "oral",
           "bioavailability_pct": null,
           "cmax_ng_per_ml": null,
-          "tmax_min": 120,
+          "tmax_min": null,
           "auc_0_inf_ng_h_per_ml": null,
           "half_life_min": null,
           "vd_l_per_kg": null,
@@ -4828,7 +4831,7 @@
           "dose_in_study_mg": 60,
           "subject_n": null,
           "subject_demographics": "PIHKAL",
-          "reference": "https://en.wikipedia.org/wiki/Isoproscaline",
+          "reference": null,
           "notes": "40–80 mg active; duration 10–16 h"
         }
       ],
@@ -4878,7 +4881,7 @@
       "binding": [
         {
           "target": "5-HT2A",
-          "ki_nm": 72,
+          "ki_nm": null,
           "ki_ci_nm": [
             72,
             955
@@ -4893,13 +4896,14 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Methallylescaline",
+          "reference": null,
           "is_review": true,
-          "notes": null
+          "notes": null,
+          "emax_pct": null
         },
         {
           "target": "5-HT2B",
-          "ki_nm": 110,
+          "ki_nm": null,
           "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": null,
@@ -4911,13 +4915,14 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Methallylescaline",
+          "reference": null,
           "is_review": true,
-          "notes": null
+          "notes": null,
+          "emax_pct": null
         },
         {
           "target": "5-HT2C",
-          "ki_nm": 5.1,
+          "ki_nm": null,
           "ki_ci_nm": [
             5.1,
             520
@@ -4932,9 +4937,10 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Methallylescaline",
+          "reference": null,
           "is_review": true,
-          "notes": "Notable 5-HT2C selectivity"
+          "notes": "Notable 5-HT2C selectivity",
+          "emax_pct": null
         }
       ],
       "functional": [],
@@ -4949,7 +4955,7 @@
           "route": "oral",
           "bioavailability_pct": null,
           "cmax_ng_per_ml": null,
-          "tmax_min": 120,
+          "tmax_min": null,
           "auc_0_inf_ng_h_per_ml": null,
           "half_life_min": null,
           "vd_l_per_kg": null,
@@ -4958,7 +4964,7 @@
           "dose_in_study_mg": 50,
           "subject_n": null,
           "subject_demographics": "PIHKAL",
-          "reference": "https://en.wikipedia.org/wiki/Methallylescaline",
+          "reference": null,
           "notes": "40–65 mg; duration 12–16 h; steep dose-response"
         }
       ],
@@ -5450,7 +5456,7 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Psilocybin",
+          "reference": null,
           "is_review": true,
           "notes": "Psilocybin itself is inactive; activity attributable to psilocin formed by alkaline phosphatase"
         },
@@ -5471,7 +5477,7 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Psilocybin",
+          "reference": null,
           "is_review": true,
           "notes": null
         },
@@ -5492,7 +5498,7 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Psilocybin",
+          "reference": null,
           "is_review": true,
           "notes": null
         },
@@ -5529,7 +5535,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "https://en.wikipedia.org/wiki/Psilocybin",
+          "reference": null,
           "notes": "Bioavailability 52.7±20.4% as psilocin; psilocin t1/2 2.1–4.7 h; effects 4–6 h"
         }
       ],
@@ -5623,7 +5629,7 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-mepyramine",
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Doxylamine",
+          "reference": null,
           "is_review": true,
           "notes": "Primary target"
         },
@@ -5641,7 +5647,7 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-NMS",
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Doxylamine",
+          "reference": null,
           "is_review": true,
           "notes": null
         },
@@ -5659,7 +5665,7 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Doxylamine",
+          "reference": null,
           "is_review": true,
           "notes": null
         }
@@ -5685,7 +5691,7 @@
           "dose_in_study_mg": 25,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "https://en.wikipedia.org/wiki/Doxylamine",
+          "reference": null,
           "notes": "Tmax 1.5–2.5 h; t1/2 10–12 h"
         },
         {
@@ -5701,7 +5707,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "https://en.wikipedia.org/wiki/Doxylamine",
+          "reference": null,
           "notes": null
         }
       ],
@@ -5800,7 +5806,7 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-ketanserin",
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Trazodone",
+          "reference": null,
           "is_review": true,
           "notes": "5-HT2A antagonist, not agonist"
         },
@@ -5821,7 +5827,7 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Trazodone",
+          "reference": null,
           "is_review": true,
           "notes": null
         },
@@ -5842,7 +5848,7 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-prazosin",
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Trazodone",
+          "reference": null,
           "is_review": true,
           "notes": "Drives orthostatic hypotension"
         },
@@ -5863,7 +5869,7 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Trazodone",
+          "reference": null,
           "is_review": true,
           "notes": null
         }
@@ -5889,7 +5895,7 @@
           "dose_in_study_mg": 100,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "https://en.wikipedia.org/wiki/Trazodone",
+          "reference": null,
           "notes": "IR t1/2 4–15 h; ER 9–13 h"
         }
       ],
@@ -5902,7 +5908,7 @@
         "metabolite_name": "m-chlorophenylpiperazine (mCPP) — active",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://en.wikipedia.org/wiki/Trazodone"
+        "reference": null
       },
       {
         "enzyme": "CYP2D6",
@@ -5910,7 +5916,7 @@
         "metabolite_name": "hydroxy-trazodone",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://en.wikipedia.org/wiki/Trazodone"
+        "reference": null
       },
       {
         "enzyme": "CYP1A2",
@@ -5918,7 +5924,7 @@
         "metabolite_name": "hydroxylated metabolites",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://en.wikipedia.org/wiki/Trazodone"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -5993,7 +5999,7 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-8-OH-DPAT",
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Vilazodone",
+          "reference": null,
           "is_review": true,
           "notes": null
         },
@@ -6011,7 +6017,7 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-citalopram",
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Vilazodone",
+          "reference": null,
           "is_review": true,
           "notes": null
         },
@@ -6021,7 +6027,7 @@
           "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": null,
-          "ic50_nm": 69,
+          "ic50_nm": null,
           "intrinsic_activity_pct": null,
           "reference_agonist": null,
           "action": "enzymeInhibitor",
@@ -6029,9 +6035,10 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Vilazodone",
+          "reference": null,
           "is_review": true,
-          "notes": "Potent VMAT2 inhibition"
+          "notes": "Removed: wrong action + Wikipedia-only. Original value was a non-measurement.",
+          "emax_pct": null
         }
       ],
       "functional": [],
@@ -6055,7 +6062,7 @@
           "dose_in_study_mg": 40,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "https://en.wikipedia.org/wiki/Vilazodone",
+          "reference": null,
           "notes": "F=72% with food; t1/2 25 h"
         }
       ],
@@ -6141,7 +6148,7 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-ketanserin",
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Ziprasidone",
+          "reference": null,
           "is_review": true,
           "notes": null
         },
@@ -6159,7 +6166,7 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-spiperone",
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Ziprasidone",
+          "reference": null,
           "is_review": true,
           "notes": null
         },
@@ -6180,7 +6187,7 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-8-OH-DPAT",
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Ziprasidone",
+          "reference": null,
           "is_review": true,
           "notes": null
         },
@@ -6198,13 +6205,13 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Ziprasidone",
+          "reference": null,
           "is_review": true,
           "notes": null
         },
         {
           "target": "hERG",
-          "ki_nm": 169,
+          "ki_nm": null,
           "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": null,
@@ -6216,9 +6223,9 @@
           "tissue_or_cell": "HEK293 expressing Kv11.1",
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Ziprasidone",
+          "reference": null,
           "is_review": true,
-          "notes": "Drives QTc prolongation — black-box-adjacent FDA warning"
+          "notes": "Drives QTc prolongation — black-box-adjacent FDA warning Ki field was a duplication of IC50; nulled."
         }
       ],
       "functional": [],
@@ -6242,7 +6249,7 @@
           "dose_in_study_mg": 80,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "https://en.wikipedia.org/wiki/Ziprasidone",
+          "reference": null,
           "notes": "F=60% with food; t1/2 7–10 h"
         },
         {
@@ -6258,7 +6265,7 @@
           "dose_in_study_mg": 20,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "https://en.wikipedia.org/wiki/Ziprasidone",
+          "reference": null,
           "notes": "Tmax 1 h IM"
         }
       ],
@@ -6271,7 +6278,7 @@
         "metabolite_name": "benzisothiazole sulphone",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://en.wikipedia.org/wiki/Ziprasidone"
+        "reference": null
       },
       {
         "enzyme": "CYP3A4",
@@ -6279,7 +6286,7 @@
         "metabolite_name": "S-methyl-dihydro-ziprasidone",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://en.wikipedia.org/wiki/Ziprasidone"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -6306,7 +6313,7 @@
         "ki_or_ic50_nm": 169,
         "concern_level": "high",
         "clinical_consequence": "QTc prolongation; contraindicated with other QT-prolonging agents",
-        "reference": "https://en.wikipedia.org/wiki/Ziprasidone"
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -6385,7 +6392,7 @@
           "dose_in_study_mg": 750,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "https://en.wikipedia.org/wiki/Aniracetam",
+          "reference": null,
           "notes": "Very short t1/2 (~30 min); active via metabolites"
         }
       ],
@@ -6398,15 +6405,15 @@
         "metabolite_name": "N-anisoyl-GABA",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://en.wikipedia.org/wiki/Aniracetam"
+        "reference": null
       },
       {
         "enzyme": "hepatic",
         "fraction_of_clearance_pct": 25,
-        "metabolite_name": "p-anisic acid + 2-pyrrolidinone",
-        "metabolite_active": false,
+        "metabolite_name": "N-anisoyl-GABA",
+        "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://en.wikipedia.org/wiki/Aniracetam"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -6477,7 +6484,7 @@
           "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": null,
-          "ic50_nm": 5860,
+          "ic50_nm": null,
           "intrinsic_activity_pct": null,
           "reference_agonist": null,
           "action": "channelBlocker",
@@ -6485,9 +6492,10 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Phenylpiracetam",
+          "reference": null,
           "is_review": true,
-          "notes": null
+          "notes": null,
+          "emax_pct": null
         }
       ],
       "functional": [],
@@ -6511,7 +6519,7 @@
           "dose_in_study_mg": 100,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "https://en.wikipedia.org/wiki/Phenylpiracetam",
+          "reference": null,
           "notes": "Not extensively metabolised; ~60% biliary excretion of parent"
         }
       ],
@@ -6607,7 +6615,7 @@
           "dose_in_study_mg": 10,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "https://en.wikipedia.org/wiki/Nitrazepam",
+          "reference": null,
           "notes": "t1/2 16.5–48 h; ~29 h young, ~40 h elderly"
         }
       ],
@@ -6710,7 +6718,7 @@
           "dose_in_study_mg": 20,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "https://en.wikipedia.org/wiki/Camazepam",
+          "reference": null,
           "notes": "Terminal t1/2 6.4–10.5 h"
         }
       ],
@@ -7981,7 +7989,7 @@
       {
         "enzyme": "CYP2D6/3A4",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "O-demethyl and hydroxy metabolites (class)",
+        "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,

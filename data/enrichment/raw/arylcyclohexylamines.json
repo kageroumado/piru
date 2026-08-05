@@ -279,7 +279,7 @@
         "with": "rifampin",
         "mechanism": "CYP3A4 and CYP2B6 induction",
         "clinical_effect": "Reduces ketamine and S-ketamine AUC ~80%",
-        "reference": "doi:10.1097/00000542-199605000-00012"
+        "reference": null
       },
       {
         "with": "ticlopidine",
@@ -364,7 +364,6 @@
       "doi:10.1523/JNEUROSCI.3481-08.2009",
       "pmid:7097501",
       "doi:10.1124/dmd.30.7.853",
-      "doi:10.1016/j.euroneuro.2011.07.006",
       "doi:10.1176/appi.ajp.2018.18020138",
       "doi:10.1038/s41398-024-02744-y"
     ]
@@ -405,7 +404,7 @@
           "species": "guinea pig",
           "tissue_or_cell": "guinea pig brain",
           "radioligand_or_probe": "[3H](+)-pentazocine",
-          "reference": "doi:10.1016/j.euroneuro.2011.07.006",
+          "reference": null,
           "is_review": false,
           "notes": null
         },
@@ -457,14 +456,14 @@
           "dose_in_study_mg": 84,
           "subject_n": null,
           "subject_demographics": "TRD patients (Spravato pivotal trials)",
-          "reference": "doi:10.1007/s40262-016-0436-x",
+          "reference": null,
           "notes": "Janssen Spravato label; Tmax 20-40 min, terminal t½ ~7-12 h. Plasma can be measured within 7 min."
         },
         {
           "route": "intravenous",
           "bioavailability_pct": 100,
           "half_life_min": 300,
-          "reference": "doi:10.1097/00000542-199605000-00012"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -539,7 +538,6 @@
     "notes": "FDA-approved 2019 as Spravato (intranasal) for treatment-resistant depression and 2020 for major depressive disorder with acute suicidal ideation. Same PK/PD parameters apply to S-Ketamine record.",
     "references_consulted": [
       "doi:10.1016/S0014-2999(97)01116-3",
-      "doi:10.1007/s40262-016-0436-x",
       "doi:10.1124/dmd.30.7.853"
     ]
   },
@@ -584,14 +582,14 @@
           "half_life_min": 450,
           "protein_binding_pct": 44,
           "dose_in_study_mg": 84,
-          "reference": "doi:10.1007/s40262-016-0436-x",
+          "reference": null,
           "notes": "Spravato label"
         },
         {
           "route": "intravenous",
           "bioavailability_pct": 100,
           "half_life_min": 300,
-          "reference": "doi:10.1097/00000542-199605000-00012"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -676,7 +674,7 @@
           "species": "guinea pig",
           "tissue_or_cell": "guinea pig brain",
           "radioligand_or_probe": "[3H](+)-pentazocine",
-          "reference": "doi:10.1016/j.euroneuro.2011.07.006",
+          "reference": null,
           "is_review": false,
           "notes": "5× higher σ1 affinity than S-ketamine; Hashimoto hypothesizes σ1 agonism mediates arketamine's longer antidepressant effect."
         },
@@ -770,7 +768,6 @@
     "notes": "Hashimoto group has driven most of the preclinical arketamine literature (2014-present). Major theoretical interest because lower NMDA blockade + longer antidepressant effect challenges the simple 'NMDA antagonism = antidepressant' model.",
     "references_consulted": [
       "doi:10.1016/S0014-2999(97)01116-3",
-      "doi:10.1016/j.euroneuro.2011.07.006",
       "pmc:PMC12298542"
     ]
   },
@@ -1159,14 +1156,14 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": 50,
-        "metabolite_name": "PCHP, c-PPC and t-PPC (piperidine-ring hydroxylation products)",
+        "metabolite_name": "PCHP",
         "metabolite_active": false,
         "reference": "pmid:9152594"
       },
       {
         "enzyme": "CYP2B6",
         "fraction_of_clearance_pct": 30,
-        "metabolite_name": "p-hydroxy-PCP (4-hydroxy-PCP), which decomposes spontaneously to an electrophilic quinone methide",
+        "metabolite_name": "4-hydroxy-PCP",
         "metabolite_active": false,
         "reference": "pmid:17892269"
       }
@@ -2285,7 +2282,7 @@
     "metabolism": [
       {
         "enzyme": "CYP",
-        "metabolite_name": "PCP-OH and BTCP-OH derivatives",
+        "metabolite_name": "hydroxy-BTCP",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
         "reference": "doi:10.1021/jm970078z",
@@ -4829,7 +4826,6 @@
       "doi:10.1038/s41586-021-03769-9",
       "doi:10.1038/nature17998",
       "doi:10.1523/JNEUROSCI.3481-08.2009",
-      "doi:10.1016/j.euroneuro.2011.07.006",
       "doi:10.1124/dmd.30.7.853",
       "doi:10.3390/ijms232415574",
       "doi:10.1038/s41398-024-02744-y",

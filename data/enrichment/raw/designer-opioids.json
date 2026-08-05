@@ -409,7 +409,7 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "metodesnitazene (N-desethyl) + O-demethyl-metonitazene",
+        "metabolite_name": "metodesnitazene",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.1016/j.drugalcdep.2023.109939",
@@ -1181,7 +1181,7 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "further N-deethylated and hydroxylated species",
+        "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.1016/j.drugalcdep.2023.109939",
@@ -1964,10 +1964,10 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "hydroxylated and N-dealkylated metabolites",
+        "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1016/j.neuropharm.2024.110115",
+        "reference": null,
         "notes": "Hepatocyte studies show oxidative metabolism; primary metabolites are hydroxy-brorphine and the descyclized piperidine ring-opened products."
       }
     ],
@@ -2009,8 +2009,7 @@
     "notes": "Piperidine-benzimidazolone scaffold — a bridge between nitazenes (benzimidazole) and fentanyl-like piperidines. Found in supply since 2019; mostly displaced by nitazenes by 2022 but resurfaced 2023.",
     "references_consulted": [
       "doi:10.1016/j.drugalcdep.2023.109939",
-      "doi:10.1007/s00204-021-03207-9",
-      "doi:10.1016/j.neuropharm.2024.110115"
+      "doi:10.1007/s00204-021-03207-9"
     ]
   },
   {
@@ -2223,7 +2222,7 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "N-desethyl-U-49900 and N,N-didesethyl-N-desmethyl-U-49900",
+        "metabolite_name": "N-desethyl-U-49900",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.1002/dta.2273",
@@ -2358,7 +2357,7 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "hydroxy-MT-45 and N-dealkylated metabolites",
+        "metabolite_name": "hydroxy-MT-45",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null,
@@ -3059,7 +3058,7 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": 80,
-        "metabolite_name": "N-dealkylated and O-demethylated metabolites",
+        "metabolite_name": "norsufentanil",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 10,
         "reference": "pmid:8712396",
@@ -3185,7 +3184,7 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": 95,
-        "metabolite_name": "noralfentanil and N-phenylpropanamide",
+        "metabolite_name": "noralfentanil",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:8886601",
@@ -4127,7 +4126,7 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "dihydrodiol-furanylfentanyl + nor-furanylfentanyl",
+        "metabolite_name": "dihydrodiol-furanylfentanyl",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.3389/fphar.2019.00238",
@@ -4911,8 +4910,7 @@
     "shared_safety": "Found in supply since 2019. Fatalities reported in US/EU. Naloxone-responsive but potency exceeds morphine. Not detected by fentanyl test strips. Resurgence post-2023 after initial decline.",
     "sar_summary": "Para-halogen on arylethyl phenyl ring: H << F < Cl ≈ Br ≈ I at MOR. The 'orphine' parent (no para-halogen) is much weaker.",
     "key_references": [
-      "doi:10.1016/j.drugalcdep.2023.109939",
-      "doi:10.1016/j.neuropharm.2024.110115"
+      "doi:10.1016/j.drugalcdep.2023.109939"
     ]
   }
 ]

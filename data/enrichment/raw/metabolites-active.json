@@ -234,7 +234,7 @@
     "metabolism": [
       {
         "enzyme": "CYP3A4 (N-demethylation)",
-        "metabolite_name": "desmethylflunitrazepam (N-desmethylflunitrazepam / norflunitrazepam)",
+        "metabolite_name": "norflunitrazepam",
         "metabolite_active": true,
         "metabolite_half_life_min": null,
         "metabolite_half_life_range_min": null,
@@ -1198,7 +1198,7 @@
     "metabolism": [
       {
         "enzyme": "CYP2D6",
-        "metabolite_name": "desvenlafaxine (O-desmethylvenlafaxine, ODV)",
+        "metabolite_name": "desvenlafaxine",
         "metabolite_active": true,
         "metabolite_half_life_min": 660,
         "metabolite_half_life_range_min": [

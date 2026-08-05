@@ -425,7 +425,6 @@
     ],
     "notes": "Atypical psychostimulant approved in Russia (Ladasten) for asthenia. Mechanism is genomic upregulation of dopamine synthesis enzymes rather than classical monoamine release or reuptake inhibition. Most clinical and PK literature is in Russian and not independently validated. WADA-banned for athletic competition (2002 Salt Lake City Olympics doping case).",
     "references_consulted": [
-      "doi:10.1007/s11055-008-9013-6",
       "https://en.wikipedia.org/wiki/Bromantane"
     ]
   },
@@ -771,7 +770,7 @@
       {
         "enzyme": "plasma + brain peptidases",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "Pro-Gly-Pro and smaller fragments",
+        "metabolite_name": "Pro-Gly-Pro",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null
@@ -2028,7 +2027,7 @@
       {
         "enzyme": "intestinal/hepatic glycerophosphocholine phosphodiesterase",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "choline + sn-glycero-3-phosphate",
+        "metabolite_name": "choline",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null
@@ -2377,7 +2376,7 @@
       {
         "enzyme": "phase II conjugation (UGT)",
         "fraction_of_clearance_pct": 80,
-        "metabolite_name": "idebenone glucuronide / sulfate",
+        "metabolite_name": "idebenone glucuronide",
         "metabolite_active": false,
         "reference": null
       }
@@ -2542,7 +2541,7 @@
           "tissue_or_cell": "cortex",
           "radioligand_or_probe": "[3H]-clonidine",
           "reference": "pmid:11454649",
-          "is_review": false,
+          "is_review": true,
           "notes": "Wide affinity range across α2 subtypes (Ki 0.8-164 μM); generally weak."
         },
         {
@@ -2557,7 +2556,7 @@
           "tissue_or_cell": "cortical membranes",
           "radioligand_or_probe": "[3H]-MK-801 displacement",
           "reference": "pmid:11454649",
-          "is_review": false,
+          "is_review": true,
           "notes": "Very weak (Ki 37-190 μM) — likely clinically negligible at oral nootropic doses."
         }
       ],
@@ -2586,7 +2585,7 @@
       {
         "enzyme": "agmatinase",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "putrescine + urea",
+        "metabolite_name": "putrescine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null
@@ -3795,8 +3794,7 @@
       "doi:10.1038/sj.bjp.0707430",
       "pmid:11516831",
       "pmid:17157884",
-      "doi:10.1038/mp.2015.178",
-      "doi:10.1007/s11055-008-9013-6"
+      "doi:10.1038/mp.2015.178"
     ]
   }
 ]

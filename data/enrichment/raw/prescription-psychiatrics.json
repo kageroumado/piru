@@ -118,7 +118,7 @@
           "dose_in_study_mg": 40,
           "subject_n": 12,
           "subject_demographics": "Healthy adults",
-          "reference": "doi:10.2165/00003088-200039040-00003"
+          "reference": null
         }
       ],
       "concentration_effect": [
@@ -991,7 +991,7 @@
       {
         "enzyme": "CYP2D6",
         "fraction_of_clearance_pct": 80,
-        "metabolite_name": "catechol intermediates → glucuronides/sulfates (all inactive)",
+        "metabolite_name": "paroxetine catechol",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:12584155"
@@ -1480,7 +1480,7 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": 45,
-        "metabolite_name": "demethylmirtazapine and N-oxide",
+        "metabolite_name": "demethylmirtazapine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 10,
         "reference": "doi:10.2165/00003088-200038060-00001"
@@ -2121,7 +2121,7 @@
       {
         "enzyme": "Hepatic (non-CYP)",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "4-hydroxytranylcypromine, N-acetyltranylcypromine",
+        "metabolite_name": "4-hydroxytranylcypromine",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:11099737"
@@ -2351,7 +2351,7 @@
         "NAT2"
       ],
       "phenotype_effects": "Slow N-acetylators (NAT2 PMs) may show altered phenelzine disposition; clinical significance uncertain.",
-      "reference": "pmid:7088016"
+      "reference": null
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "MAO resynthesis ~2-3 weeks",

@@ -20069,11 +20069,10 @@
     "half_life_minutes": 480.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [
-      "https://en.wikipedia.org/wiki/Camazepam"
-    ],
+    "references": [],
     "data_gaps": [
-      "mechanism_of_action"
+      "mechanism_of_action",
+      "references"
     ]
   },
   {
@@ -41152,8 +41151,7 @@
     "mechanism_summary": "MDEA 作为神经递质释放剂与神经递质再摄取抑制剂，作用于单胺类神经递质：血清素、多巴胺和去甲肾上腺素。这些神经递质负责调节专注、动机、愉悦与奖赏。\n\nMDEA 那种偏“昏沉压身”的效应，被认为源于它相较于 MDMA，对释放血清素的相对活性高于多巴胺呢。\n\nMDEA 还会刺激催产素和催乳素的释放。这两种激素目前正在被研究，因其可能参与调节信任感与爱的感受。",
     "effects": [],
     "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal106.shtml",
-      "A randomized, comparative open-label study on the efficacy of latanoprost and timolol in steroid induced ocular hypertension after photorefractive keratectomy."
+      "https://erowid.org/library/books_online/pihkal/pihkal106.shtml"
     ],
     "data_gaps": []
   },
@@ -63620,10 +63618,10 @@
       "Sedation",
       "Thought deceleration"
     ],
-    "references": [
-      "https://en.wikipedia.org/wiki/Zopiclone"
-    ],
-    "data_gaps": []
+    "references": [],
+    "data_gaps": [
+      "references"
+    ]
   },
   {
     "name": "α-PCYP",

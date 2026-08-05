@@ -178,7 +178,7 @@
       "functional": [
         {
           "target": "5-HT2A",
-          "readout": "\u03b2-arrestin-2 recruitment",
+          "readout": "β-arrestin-2 recruitment",
           "ec50_nm": 1.4,
           "emax_pct": 73,
           "reference_agonist": "5-HT",
@@ -188,7 +188,7 @@
         },
         {
           "target": "5-HT2A",
-          "readout": "G\u03b1q calcium / IP1",
+          "readout": "Gαq calcium / IP1",
           "ec50_nm": 12,
           "emax_pct": 56,
           "reference_agonist": "5-HT",
@@ -201,19 +201,19 @@
         {
           "target": "5-HT2A",
           "pathways_compared": [
-            "G\u03b1q",
-            "\u03b2-arrestin-2"
+            "Gαq",
+            "β-arrestin-2"
           ],
           "bias_factor_log": 0.7,
           "bias_reference_compound": "5-HT",
-          "interpretation": "LSD is \u03b2-arrestin-biased over Gq at 5-HT2A \u2014 opposite of 5-MeO-DMT. The 'lid' over the orthosteric pocket (Leu229, ECL2) traps LSD in an arrestin-favoring conformation, giving its very long residence time (~4 h koff)",
+          "interpretation": "LSD is β-arrestin-biased over Gq at 5-HT2A — opposite of 5-MeO-DMT. The 'lid' over the orthosteric pocket (Leu229, ECL2) traps LSD in an arrestin-favoring conformation, giving its very long residence time (~4 h koff)",
           "reference": "doi:10.1016/j.cell.2016.12.033"
         },
         {
           "target": "5-HT2B",
           "pathways_compared": [
-            "G\u03b1q",
-            "\u03b2-arrestin-2"
+            "Gαq",
+            "β-arrestin-2"
           ],
           "bias_factor_log": 1.0,
           "bias_reference_compound": "5-HT",
@@ -225,11 +225,11 @@
         {
           "complex": "5-HT2A/mGluR2 heteromer",
           "evidence": "BRET, coIP, behaviour in mGluR2-KO mice",
-          "functional_consequence": "5-HT2A\u2192mGluR2 cross-coupling required for hallucinogenic G\u03b1i signalling but not G\u03b1q; KO abolishes head-twitch",
+          "functional_consequence": "5-HT2A→mGluR2 cross-coupling required for hallucinogenic Gαi signalling but not Gαq; KO abolishes head-twitch",
           "reference": "doi:10.1038/nature06612"
         }
       ],
-      "downstream_signalling": "At 5-HT2A: G\u03b1q\u2192PLC\u03b2\u2192IP3/DAG\u2192Ca\u00b2\u207a + recruits \u03b2-arrestin-2 with very slow dissociation (residence time hours, vs minutes for 5-HT). Also PLA2-mediated arachidonic acid release. Activates ERK1/2 via both Gq and arrestin arms. EGR1/2 immediate-early-gene fingerprint in cortex distinguishes hallucinogenic from non-hallucinogenic 5-HT2A agonists.",
+      "downstream_signalling": "At 5-HT2A: Gαq→PLCβ→IP3/DAG→Ca²⁺ + recruits β-arrestin-2 with very slow dissociation (residence time hours, vs minutes for 5-HT). Also PLA2-mediated arachidonic acid release. Activates ERK1/2 via both Gq and arrestin arms. EGR1/2 immediate-early-gene fingerprint in cortex distinguishes hallucinogenic from non-hallucinogenic 5-HT2A agonists.",
       "neuroimaging": [
         {
           "modality": "fMRI BOLD",
@@ -238,7 +238,7 @@
         },
         {
           "modality": "PET",
-          "finding": "Cmax ~5 nM at 100 \u00b5g; receptor occupancy of 5-HT2A estimated 50\u201370% at peak",
+          "finding": "Cmax ~5 nM at 100 µg; receptor occupancy of 5-HT2A estimated 50–70% at peak",
           "reference": "doi:10.1002/cpt.2057"
         }
       ]
@@ -257,7 +257,7 @@
           "protein_binding_pct": null,
           "dose_in_study_mg": 0.1,
           "subject_n": 16,
-          "subject_demographics": "8M/8F, age 25\u201347, healthy",
+          "subject_demographics": "8M/8F, age 25–47, healthy",
           "reference": "doi:10.1111/bcp.13918"
         },
         {
@@ -308,15 +308,15 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.1124/dmd.115.064550, which is delamanid plasma metabolism. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
+        "notes": "Citation removed: this value was attributed to doi:10.1124/dmd.115.064550, which is delamanid plasma metabolism. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       },
       {
         "enzyme": "CYP1A2/2D6/2E1/2C9",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "nor-LSD, lysergic acid ethylamide (LAE), 13/14-OH-LSD",
+        "metabolite_name": "nor-LSD",
         "metabolite_active": null,
         "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.1124/dmd.115.064550, which is delamanid plasma metabolism. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
+        "notes": "Citation removed: this value was attributed to doi:10.1124/dmd.115.064550, which is delamanid plasma metabolism. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       }
     ],
     "drug_interactions_pk": [
@@ -324,13 +324,13 @@
         "with": "ritonavir",
         "mechanism": "CYP3A4 inhibition",
         "ki_um": null,
-        "clinical_effect": "Expected ~2\u00d7 increase in LSD AUC; theoretical from CYP3A4 contribution",
+        "clinical_effect": "Expected ~2× increase in LSD AUC; theoretical from CYP3A4 contribution",
         "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.1124/dmd.115.064550, which is delamanid plasma metabolism. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
+        "notes": "Citation removed: this value was attributed to doi:10.1124/dmd.115.064550, which is delamanid plasma metabolism. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
       },
       {
         "with": "lithium",
-        "mechanism": "PD interaction \u2014 seizure risk reports in case series",
+        "mechanism": "PD interaction — seizure risk reports in case series",
         "ki_um": null,
         "clinical_effect": "Markedly intensified and prolonged trip; seizure reports",
         "reference": "pmid:34348413"
@@ -343,10 +343,10 @@
         "HTR2A (His452Tyr)"
       ],
       "phenotype_effects": "HTR2A His452Tyr variant (allele freq ~9%) blunts subjective and arrestin-driven responses to 5-HT2A agonists. CYP2D6 PM status would extend half-life modestly given small CYP2D6 contribution.",
-      "reference": "pmid:35894503"
+      "reference": null
     },
     "tolerance_and_dependence": {
-      "receptor_downregulation_half_time": "5-HT2A downregulation in rat cortex within 4 days of daily LSD; full tolerance to behavioural effects in humans after 3\u20134 daily doses, recovery in 4\u20137 days off-drug",
+      "receptor_downregulation_half_time": "5-HT2A downregulation in rat cortex within 4 days of daily LSD; full tolerance to behavioural effects in humans after 3–4 daily doses, recovery in 4–7 days off-drug",
       "cross_tolerance": [
         "psilocybin",
         "psilocin",
@@ -360,7 +360,7 @@
     },
     "off_targets": [
       {
-        "target": "\u03c31",
+        "target": "σ1",
         "ki_or_ic50_nm": null,
         "concern_level": "low",
         "clinical_consequence": "Weak interaction reported; not considered clinically meaningful for LSD",
@@ -384,10 +384,10 @@
     "confidence": "high",
     "data_gaps_remaining": [
       "protein binding %",
-      "absolute oral bioavailability \u2014 most studies estimate from IV/oral cross-over",
+      "absolute oral bioavailability — most studies estimate from IV/oral cross-over",
       "PET human 5-HT2A occupancy versus dose"
     ],
-    "notes": "Ippolito 2025 (doi:10.1111/bph.70109) challenges the canonical 'arrestin-biased' narrative \u2014 argues that signalling efficacy not bias separates hallucinogenic from non-hallucinogenic 5-HT2A agonists. Field remains unresolved.",
+    "notes": "Ippolito 2025 (doi:10.1111/bph.70109) challenges the canonical 'arrestin-biased' narrative — argues that signalling efficacy not bias separates hallucinogenic from non-hallucinogenic 5-HT2A agonists. Field remains unresolved.",
     "references_consulted": [
       "doi:10.1016/j.cell.2017.01.020",
       "doi:10.1111/bcp.13918",
@@ -413,7 +413,7 @@
     "class_context_id": "ergolines-lysergamides",
     "pharmacology": {
       "primary_targets": [
-        "prodrug\u2192LSD",
+        "prodrug→LSD",
         "5-HT2A (low direct)"
       ],
       "binding": [
@@ -426,7 +426,7 @@
           "radioligand_or_probe": "[3H]-ketanserin",
           "reference": "pmid:31756337",
           "is_review": false,
-          "notes": "N1-acyl substitution reduces direct 5-HT2A affinity 20\u201330\u00d7 vs LSD"
+          "notes": "N1-acyl substitution reduces direct 5-HT2A affinity 20–30× vs LSD"
         }
       ],
       "functional": [
@@ -443,7 +443,7 @@
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Acts via in-vivo deacylation to LSD by serum carboxylesterases (t\u00bd ~5 min in human serum in vitro); pharmacology thereafter = LSD.",
+      "downstream_signalling": "Acts via in-vivo deacylation to LSD by serum carboxylesterases (t½ ~5 min in human serum in vitro); pharmacology thereafter = LSD.",
       "neuroimaging": []
     },
     "human_pk": {
@@ -529,7 +529,7 @@
     "class_context_id": "ergolines-lysergamides",
     "pharmacology": {
       "primary_targets": [
-        "prodrug\u2192LSD"
+        "prodrug→LSD"
       ],
       "binding": [
         {
@@ -606,7 +606,7 @@
       "human PK",
       "controlled dose-response"
     ],
-    "notes": "Brandt et al 2020 (Drug Test Anal): in-vitro hydrolysis t\u00bd ~5 min in human serum; head-twitch ED50 mouse 430 nmol/kg \u2248 LSD potency",
+    "notes": "Brandt et al 2020 (Drug Test Anal): in-vitro hydrolysis t½ ~5 min in human serum; head-twitch ED50 mouse 430 nmol/kg ≈ LSD potency",
     "references_consulted": [
       "pmid:32180350"
     ]
@@ -625,7 +625,7 @@
     "class_context_id": "ergolines-lysergamides",
     "pharmacology": {
       "primary_targets": [
-        "prodrug\u2192LSD"
+        "prodrug→LSD"
       ],
       "binding": [
         {
@@ -708,7 +708,7 @@
     "class_context_id": "ergolines-lysergamides",
     "pharmacology": {
       "primary_targets": [
-        "prodrug\u2192LSD"
+        "prodrug→LSD"
       ],
       "binding": [
         {
@@ -720,7 +720,7 @@
           "radioligand_or_probe": "[3H]-ketanserin",
           "reference": "pmid:31756337",
           "is_review": false,
-          "notes": "Brandt 2020: N1-acetyl reduces 5-HT2A affinity 1\u20132 orders of magnitude vs LSD"
+          "notes": "Brandt 2020: N1-acetyl reduces 5-HT2A affinity 1–2 orders of magnitude vs LSD"
         }
       ],
       "functional": [
@@ -815,7 +815,7 @@
           "radioligand_or_probe": "[3H]-ketanserin",
           "reference": "doi:10.1002/dta.1985",
           "is_review": false,
-          "notes": "Similar potency to LSD in head-twitch assay; affinity within ~2\u00d7 of LSD"
+          "notes": "Similar potency to LSD in head-twitch assay; affinity within ~2× of LSD"
         }
       ],
       "functional": [
@@ -832,7 +832,7 @@
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Class-typical 5-HT2A\u2192Gq/arrestin signalling; expected somewhat less arrestin-biased than LSD due to N6 modification altering 'lid' interaction (extrapolated, not measured)",
+      "downstream_signalling": "Class-typical 5-HT2A→Gq/arrestin signalling; expected somewhat less arrestin-biased than LSD due to N6 modification altering 'lid' interaction (extrapolated, not measured)",
       "neuroimaging": []
     },
     "human_pk": {
@@ -870,7 +870,7 @@
       "human PK",
       "biased-agonism profile"
     ],
-    "notes": "Brandt 2017 Part II: AL-LAD \u2248 LSD potency in HTR; subjective duration shorter (~6\u20138 h) and visuals more prominent per user reports.",
+    "notes": "Brandt 2017 Part II: AL-LAD ≈ LSD potency in HTR; subjective duration shorter (~6–8 h) and visuals more prominent per user reports.",
     "references_consulted": [
       "doi:10.1002/dta.1985"
     ]
@@ -904,7 +904,7 @@
           "radioligand_or_probe": null,
           "reference": "pmid:42257400",
           "is_review": true,
-          "notes": "Comparable to slightly weaker 5-HT2A affinity than LSD (5.2 vs 3.5 nM in this dataset, from different sources); the ~3\u00d7 lower human dose suggests higher CNS exposure rather than higher receptor affinity"
+          "notes": "Comparable to slightly weaker 5-HT2A affinity than LSD (5.2 vs 3.5 nM in this dataset, from different sources); the ~3× lower human dose suggests higher CNS exposure rather than higher receptor affinity"
         }
       ],
       "functional": [],
@@ -949,7 +949,7 @@
       "human dose-response",
       "biased agonism"
     ],
-    "notes": "Anecdotally ~1.5\u20132\u00d7 more potent than LSD per gram; pharmacology essentially LSD-like with shorter duration",
+    "notes": "Anecdotally ~1.5–2× more potent than LSD per gram; pharmacology essentially LSD-like with shorter duration",
     "references_consulted": []
   },
   {
@@ -1016,7 +1016,7 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [
-      "everything quantitative \u2014 no controlled human or in-vitro Ki publication located"
+      "everything quantitative — no controlled human or in-vitro Ki publication located"
     ],
     "notes": "Shulgin TIHKAL #25; receptor-level data absent from peer-reviewed literature.",
     "references_consulted": []
@@ -1065,7 +1065,7 @@
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Designed as a conformationally constrained LSD analogue \u2014 confirmed (S,S)-azetidide enforces the active LSD bioactive amide rotamer",
+      "downstream_signalling": "Designed as a conformationally constrained LSD analogue — confirmed (S,S)-azetidide enforces the active LSD bioactive amide rotamer",
       "neuroimaging": []
     },
     "human_pk": {
@@ -1123,7 +1123,7 @@
     "pharmacology": {
       "primary_targets": [
         "5-HT2A",
-        "\u03b1-adrenergic"
+        "α-adrenergic"
       ],
       "binding": [
         {
@@ -1141,7 +1141,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Significantly less arrestin-biased than LSD per emerging data; weaker overall potency; pronounced 5-HT2B and \u03b1-adrenergic activity drives sedation rather than visuals",
+      "downstream_signalling": "Significantly less arrestin-biased than LSD per emerging data; weaker overall potency; pronounced 5-HT2B and α-adrenergic activity drives sedation rather than visuals",
       "neuroimaging": []
     },
     "human_pk": {
@@ -1177,10 +1177,10 @@
     },
     "off_targets": [
       {
-        "target": "\u03b1-adrenergic / D2",
+        "target": "α-adrenergic / D2",
         "ki_or_ic50_nm": null,
         "concern_level": "moderate",
-        "clinical_consequence": "Sedation, vasoconstriction \u2014 likely contributor to morning-glory body load",
+        "clinical_consequence": "Sedation, vasoconstriction — likely contributor to morning-glory body load",
         "reference": null
       }
     ],
@@ -1220,7 +1220,7 @@
     "class_context_id": "4-substituted-tryptamines-psilocin-family",
     "pharmacology": {
       "primary_targets": [
-        "prodrug\u2192psilocin",
+        "prodrug→psilocin",
         "5-HT2A (modest direct)"
       ],
       "binding": [
@@ -1233,7 +1233,7 @@
           "radioligand_or_probe": "[3H]-ketanserin",
           "reference": "doi:10.1021/acsptsci.2c00222",
           "is_review": false,
-          "notes": "Klein et al 2023 \u2014 direct affinity ~12\u00d7 weaker than psilocin (Ki 7.5 nM in same assay)"
+          "notes": "Klein et al 2023 — direct affinity ~12× weaker than psilocin (Ki 7.5 nM in same assay)"
         },
         {
           "target": "5-HT2C",
@@ -1298,7 +1298,7 @@
       "functional": [
         {
           "target": "5-HT2A",
-          "readout": "G\u03b1q Ca\u00b2\u207a",
+          "readout": "Gαq Ca²⁺",
           "ec50_nm": 220,
           "emax_pct": 39.5,
           "reference_agonist": "5-HT",
@@ -1380,7 +1380,7 @@
     "class_context_id": "4-substituted-tryptamines-psilocin-family",
     "pharmacology": {
       "primary_targets": [
-        "prodrug\u21924-HO-DET"
+        "prodrug→4-HO-DET"
       ],
       "binding": [],
       "functional": [],
@@ -1452,7 +1452,7 @@
     "class_context_id": "4-substituted-tryptamines-psilocin-family",
     "pharmacology": {
       "primary_targets": [
-        "prodrug\u21924-HO-MET"
+        "prodrug→4-HO-MET"
       ],
       "binding": [],
       "functional": [],
@@ -1523,7 +1523,7 @@
     "class_context_id": "4-substituted-tryptamines-psilocin-family",
     "pharmacology": {
       "primary_targets": [
-        "prodrug\u21924-HO-DIPT"
+        "prodrug→4-HO-DIPT"
       ],
       "binding": [],
       "functional": [],
@@ -1593,7 +1593,7 @@
     "class_context_id": "4-substituted-tryptamines-psilocin-family",
     "pharmacology": {
       "primary_targets": [
-        "prodrug\u21924-HO-MiPT"
+        "prodrug→4-HO-MiPT"
       ],
       "binding": [],
       "functional": [],
@@ -1662,7 +1662,7 @@
     "class_context_id": "4-substituted-tryptamines-psilocin-family",
     "pharmacology": {
       "primary_targets": [
-        "prodrug\u21924-HO-DPT"
+        "prodrug→4-HO-DPT"
       ],
       "binding": [],
       "functional": [],
@@ -1759,13 +1759,13 @@
           "emax_pct": null,
           "reference_agonist": null,
           "species": "mouse",
-          "cell_system": "in vivo (0.3\u20133 mg/kg active)",
+          "cell_system": "in vivo (0.3–3 mg/kg active)",
           "reference": "doi:10.1021/acsptsci.2c00222"
         }
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Slower plasma hydrolysis than acetate (propionyl is more lipophilic, slower esterase turnover) \u2192 smoother PK",
+      "downstream_signalling": "Slower plasma hydrolysis than acetate (propionyl is more lipophilic, slower esterase turnover) → smoother PK",
       "neuroimaging": []
     },
     "human_pk": {
@@ -1831,7 +1831,7 @@
     "class_context_id": "4-substituted-tryptamines-psilocin-family",
     "pharmacology": {
       "primary_targets": [
-        "prodrug\u21924-HO-MET"
+        "prodrug→4-HO-MET"
       ],
       "binding": [],
       "functional": [],
@@ -1920,7 +1920,7 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
           "reference": "doi:10.1021/acschemneuro.8b00186",
-          "is_review": false,
+          "is_review": true,
           "notes": "Multi-study compilation"
         },
         {
@@ -1935,7 +1935,7 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
           "reference": "doi:10.1021/acschemneuro.8b00186",
-          "is_review": false,
+          "is_review": true,
           "notes": null
         },
         {
@@ -1950,7 +1950,7 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-8-OH-DPAT",
           "reference": "doi:10.1021/acschemneuro.8b00186",
-          "is_review": false,
+          "is_review": true,
           "notes": null
         },
         {
@@ -1965,7 +1965,7 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-LSD",
           "reference": "doi:10.1021/acschemneuro.8b00186",
-          "is_review": false,
+          "is_review": true,
           "notes": "Cardiac valvulopathy concern with chronic 5-HT2B agonism"
         },
         {
@@ -1980,14 +1980,14 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-LSD",
           "reference": "doi:10.1021/acschemneuro.8b00186",
-          "is_review": false,
+          "is_review": true,
           "notes": null
         }
       ],
       "functional": [
         {
           "target": "5-HT2A",
-          "readout": "G\u03b1q Ca\u00b2\u207a",
+          "readout": "Gαq Ca²⁺",
           "ec50_nm": 10,
           "emax_pct": 95,
           "reference_agonist": "5-HT",
@@ -1997,7 +1997,7 @@
         },
         {
           "target": "5-HT2A",
-          "readout": "\u03b2-arrestin-2 recruitment",
+          "readout": "β-arrestin-2 recruitment",
           "ec50_nm": 13,
           "emax_pct": 70,
           "reference_agonist": "5-HT",
@@ -2010,17 +2010,17 @@
         {
           "target": "5-HT2A",
           "pathways_compared": [
-            "G\u03b1q",
-            "\u03b2-arrestin-2"
+            "Gαq",
+            "β-arrestin-2"
           ],
           "bias_factor_log": 0.0,
           "bias_reference_compound": "5-HT",
-          "interpretation": "Per Ippolito 2025 and Wallach 2024 panels: psilocin shows minimal Gq/arrestin bias relative to 5-HT \u2014 efficacy at Gq is what matters, not bias",
+          "interpretation": "Per Ippolito 2025 and Wallach 2024 panels: psilocin shows minimal Gq/arrestin bias relative to 5-HT — efficacy at Gq is what matters, not bias",
           "reference": "doi:10.1111/bph.70109"
         }
       ],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "5-HT2A G\u03b1q\u2192PLC\u03b2\u2192IP3/DAG; activates G\u03b111, G\u03b1i/o (some species); ERK1/2 and AKT activation; CREB phosphorylation in cortical neurons; rapid BDNF release via 5-HT2A and TrkB-independent of arrestin (Vargas 2023). Not a direct TrkB ligand.",
+      "downstream_signalling": "5-HT2A Gαq→PLCβ→IP3/DAG; activates Gα11, Gαi/o (some species); ERK1/2 and AKT activation; CREB phosphorylation in cortical neurons; rapid BDNF release via 5-HT2A and TrkB-independent of arrestin (Vargas 2023). Not a direct TrkB ligand.",
       "neuroimaging": [
         {
           "modality": "fMRI BOLD",
@@ -2037,7 +2037,7 @@
     "human_pk": {
       "routes": [
         {
-          "route": "oral (as psilocybin \u2192 psilocin)",
+          "route": "oral (as psilocybin → psilocin)",
           "bioavailability_pct": 52.7,
           "cmax_ng_per_ml": 8.2,
           "tmax_min": 105,
@@ -2060,7 +2060,7 @@
           "dose_in_study_mg": 1,
           "subject_n": 12,
           "subject_demographics": "healthy adults Hasler 1997",
-          "reference": "pmid:9089915"
+          "reference": null
         }
       ],
       "concentration_effect": [
@@ -2084,7 +2084,7 @@
       {
         "enzyme": "MAO-A",
         "fraction_of_clearance_pct": 15,
-        "metabolite_name": "4-hydroxyindole-3-acetaldehyde \u2192 4-hydroxyindole-3-acetic acid (4-HIAA)",
+        "metabolite_name": "4-hydroxyindole-3-acetaldehyde",
         "metabolite_active": false,
         "reference": "pmid:38741590"
       },
@@ -2109,7 +2109,7 @@
         "mechanism": "5-HT2A downregulation + PD attenuation",
         "ki_um": null,
         "clinical_effect": "Reduced subjective response after chronic SSRI",
-        "reference": "doi:10.1556/2054.2022.00198"
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -2122,7 +2122,7 @@
       "reference": "pmid:38741590"
     },
     "tolerance_and_dependence": {
-      "receptor_downregulation_half_time": "Rapid tachyphylaxis: full tolerance to subjective effects within 3 daily doses, ~5\u20137 d recovery; 5-HT2A internalisation in vivo within hours",
+      "receptor_downregulation_half_time": "Rapid tachyphylaxis: full tolerance to subjective effects within 3 daily doses, ~5–7 d recovery; 5-HT2A internalisation in vivo within hours",
       "cross_tolerance": [
         "LSD",
         "DMT",
@@ -2166,7 +2166,7 @@
       "absolute oral bioavailability variance source",
       "biased-agonism debate resolution"
     ],
-    "notes": "Psilocybin is the bioavailable prodrug \u2014 gastric dephosphorylation by alkaline phosphatase and intestinal phosphatases yields psilocin near-quantitatively. Wikipedia binding ranges reflect inter-laboratory variance.",
+    "notes": "Psilocybin is the bioavailable prodrug — gastric dephosphorylation by alkaline phosphatase and intestinal phosphatases yields psilocin near-quantitatively. Wikipedia binding ranges reflect inter-laboratory variance.",
     "references_consulted": [
       "doi:10.1021/acschemneuro.8b00186",
       "doi:10.1126/science.abl8615",
@@ -2207,9 +2207,9 @@
           "half_life_min": 165,
           "dose_in_study_mg": null,
           "subject_n": null,
-          "subject_demographics": "varies by species; cubensis ~6\u201310 mg psilocybin/g dried",
+          "subject_demographics": "varies by species; cubensis ~6–10 mg psilocybin/g dried",
           "reference": "pmid:9204776",
-          "notes": "1 g dried cubensis \u2248 5\u201310 mg psilocybin \u2248 moderate dose"
+          "notes": "1 g dried cubensis ≈ 5–10 mg psilocybin ≈ moderate dose"
         }
       ],
       "concentration_effect": []
@@ -2299,13 +2299,13 @@
           "radioligand_or_probe": "[3H]-ketanserin",
           "reference": "doi:10.1021/acsptsci.2c00177",
           "is_review": false,
-          "notes": "Sherwood/Glatfelter 2022: norpsilocin Ki ~13 nM; ~2\u00d7 higher 5-HT2A affinity than psilocin in same assay; full Emax"
+          "notes": "Sherwood/Glatfelter 2022: norpsilocin Ki ~13 nM; ~2× higher 5-HT2A affinity than psilocin in same assay; full Emax"
         }
       ],
       "functional": [
         {
           "target": "5-HT2A",
-          "readout": "G\u03b1q Ca\u00b2\u207a",
+          "readout": "Gαq Ca²⁺",
           "ec50_nm": 2,
           "emax_pct": 100,
           "reference_agonist": "5-HT",
@@ -2316,7 +2316,7 @@
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "More potent than psilocin in vitro but does not produce HTR in mice \u2014 Glatfelter 2022/2025 demonstrate poor BBB penetration due to secondary amine + 4-OH log-D",
+      "downstream_signalling": "More potent than psilocin in vitro but does not produce HTR in mice — Glatfelter 2022/2025 demonstrate poor BBB penetration due to secondary amine + 4-OH log-D",
       "neuroimaging": []
     },
     "human_pk": {
@@ -2354,7 +2354,7 @@
     "data_gaps_remaining": [
       "human PK"
     ],
-    "notes": "Critical SAR finding: N-methyl removal increases potency but kills CNS bioavailability. Same finding for baeocystin \u2192 norpsilocin in mushrooms.",
+    "notes": "Critical SAR finding: N-methyl removal increases potency but kills CNS bioavailability. Same finding for baeocystin → norpsilocin in mushrooms.",
     "references_consulted": [
       "doi:10.1021/acsptsci.2c00177",
       "pmid:38189238"
@@ -2374,13 +2374,13 @@
     "class_context_id": "4-substituted-tryptamines-psilocin-family",
     "pharmacology": {
       "primary_targets": [
-        "prodrug\u21924-hydroxytryptamine (4-HT)"
+        "prodrug→4-hydroxytryptamine (4-HT)"
       ],
       "binding": [],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Dephosphorylates to 4-HT (no methyls); peripheral, no HTR in mice \u2014 like norpsilocin, BBB-limited",
+      "downstream_signalling": "Dephosphorylates to 4-HT (no methyls); peripheral, no HTR in mice — like norpsilocin, BBB-limited",
       "neuroimaging": []
     },
     "human_pk": {
@@ -2464,7 +2464,7 @@
       "functional": [
         {
           "target": "5-HT2A",
-          "readout": "G\u03b1q",
+          "readout": "Gαq",
           "ec50_nm": 15,
           "emax_pct": 90,
           "reference_agonist": "5-HT",
@@ -2475,7 +2475,7 @@
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Class-typical psilocin-like 5-HT2A\u2192Gq engagement; ~20% lower potency than psilocin in vitro but similar HTR potency",
+      "downstream_signalling": "Class-typical psilocin-like 5-HT2A→Gq engagement; ~20% lower potency than psilocin in vitro but similar HTR potency",
       "neuroimaging": []
     },
     "human_pk": {
@@ -2550,13 +2550,13 @@
           "radioligand_or_probe": "[3H]-ketanserin",
           "reference": "pmid:27216487",
           "is_review": false,
-          "notes": "Rickli; ~7-fold selective for 5-HT2A over 5-HT2C \u2014 among the most 2A-selective psilocin analogues"
+          "notes": "Rickli; ~7-fold selective for 5-HT2A over 5-HT2C — among the most 2A-selective psilocin analogues"
         }
       ],
       "functional": [
         {
           "target": "5-HT2A",
-          "readout": "G\u03b1q Ca\u00b2\u207a",
+          "readout": "Gαq Ca²⁺",
           "ec50_nm": null,
           "emax_pct": null,
           "reference_agonist": "5-HT",
@@ -2733,7 +2733,7 @@
       "functional": [
         {
           "target": "5-HT2C",
-          "readout": "G\u03b1q Ca\u00b2\u207a",
+          "readout": "Gαq Ca²⁺",
           "ec50_nm": 6400,
           "emax_pct": 72,
           "reference_agonist": "5-HT",
@@ -2744,7 +2744,7 @@
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Unusually weak 5-HT2C engagement relative to 5-HT2A \u2014 may explain short duration anecdotally reported",
+      "downstream_signalling": "Unusually weak 5-HT2C engagement relative to 5-HT2A — may explain short duration anecdotally reported",
       "neuroimaging": []
     },
     "human_pk": {
@@ -2781,7 +2781,7 @@
     "data_gaps_remaining": [
       "human PK"
     ],
-    "notes": "Klein 2020 \u2014 distinctly low 5-HT2C activity vs related 4-HO compounds.",
+    "notes": "Klein 2020 — distinctly low 5-HT2C activity vs related 4-HO compounds.",
     "references_consulted": []
   },
   {
@@ -2810,7 +2810,7 @@
           "radioligand_or_probe": null,
           "reference": "pmid:33860183",
           "is_review": false,
-          "notes": "Klein 2020 \u2014 modest affinity, full agonist Emax"
+          "notes": "Klein 2020 — modest affinity, full agonist Emax"
         }
       ],
       "functional": [],
@@ -2872,7 +2872,7 @@
         "5-HT2A",
         "5-HT1A",
         "5-HT2C",
-        "\u03c31",
+        "σ1",
         "TAAR1",
         "SERT"
       ],
@@ -2890,7 +2890,7 @@
           "radioligand_or_probe": "[3H]-ketanserin (lower Ki) / [3H]-DOI (higher)",
           "reference": "pmid:27216487",
           "is_review": false,
-          "notes": "Wide range across radioligands \u2014 affinity state-dependent; Rickli 2016 ~118 nM with ketanserin"
+          "notes": "Wide range across radioligands — affinity state-dependent; Rickli 2016 ~118 nM with ketanserin"
         },
         {
           "target": "5-HT1A",
@@ -2915,7 +2915,7 @@
           "notes": null
         },
         {
-          "target": "\u03c31",
+          "target": "σ1",
           "ki_nm": 14750,
           "action": "agonist",
           "species": "human",
@@ -2923,7 +2923,7 @@
           "radioligand_or_probe": "[3H]-(+)-pentazocine",
           "reference": "doi:10.1126/science.1166127",
           "is_review": false,
-          "notes": "Fontanilla 2009: \u03c31 agonism at 50\u2013100 \u03bcM intracellular \u2014 likely relevant only at endogenous-like accumulated levels"
+          "notes": "Fontanilla 2009: σ1 agonism at 50–100 μM intracellular — likely relevant only at endogenous-like accumulated levels"
         },
         {
           "target": "SERT",
@@ -2946,7 +2946,7 @@
           "radioligand_or_probe": "cAMP",
           "reference": "pmid:11459929",
           "is_review": false,
-          "notes": "Bunzow 2001 \u2014 weak agonist"
+          "notes": "Bunzow 2001 — weak agonist"
         },
         {
           "target": "5-HT2A",
@@ -2958,14 +2958,14 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "MEDIUM",
-          "notes": "5-HT1A recorded as '>10,000' (censored, not a number) \u2014 the PDSP does not measure above 10 uM. So DMT is 2A-leaning by at least 4.3x, but the true ratio is a lower bound only. Source flags ND/PH=4/0 for DMT.",
+          "notes": "5-HT1A recorded as '>10,000' (censored, not a number) — the PDSP does not measure above 10 uM. So DMT is 2A-leaning by at least 4.3x, but the true ratio is a lower bound only. Source flags ND/PH=4/0 for DMT.",
           "action": "agonist"
         }
       ],
       "functional": [
         {
           "target": "5-HT2A",
-          "readout": "G\u03b1q Ca\u00b2\u207a",
+          "readout": "Gαq Ca²⁺",
           "ec50_nm": 120,
           "emax_pct": 90,
           "reference_agonist": "5-HT",
@@ -2978,8 +2978,8 @@
         {
           "target": "5-HT2A",
           "pathways_compared": [
-            "G\u03b1q",
-            "\u03b2-arrestin-2"
+            "Gαq",
+            "β-arrestin-2"
           ],
           "bias_factor_log": 0.0,
           "bias_reference_compound": "5-HT",
@@ -2988,11 +2988,11 @@
         }
       ],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Multiple low-affinity targets; \u03c31 chaperone role at endogenous concentrations; rapid efficacious 5-HT2A response despite modest Ki due to fast on-rate; short residence time \u2192 no tolerance with repeated dosing",
+      "downstream_signalling": "Multiple low-affinity targets; σ1 chaperone role at endogenous concentrations; rapid efficacious 5-HT2A response despite modest Ki due to fast on-rate; short residence time → no tolerance with repeated dosing",
       "neuroimaging": [
         {
           "modality": "fMRI BOLD",
-          "finding": "Global increases in functional connectivity, marked DMN disintegration; effects peak within 5\u201310 min of IV bolus",
+          "finding": "Global increases in functional connectivity, marked DMN disintegration; effects peak within 5–10 min of IV bolus",
           "reference": "doi:10.1038/s41398-023-02477-4"
         }
       ]
@@ -3069,7 +3069,7 @@
       {
         "enzyme": "CYP2D6/peroxidase (minor)",
         "fraction_of_clearance_pct": 5,
-        "metabolite_name": "N-oxide; 6-OH-DMT",
+        "metabolite_name": "DMT N-oxide",
         "metabolite_active": false,
         "reference": null
       }
@@ -3109,7 +3109,7 @@
     },
     "off_targets": [
       {
-        "target": "\u03c31",
+        "target": "σ1",
         "ki_or_ic50_nm": 14750,
         "concern_level": "low",
         "clinical_consequence": "Likely relevant only at endogenous accumulated concentrations; not at recreational doses",
@@ -3140,9 +3140,8 @@
       "sigma-1 relevance in vivo at exogenous doses",
       "real-time intracerebral concentrations"
     ],
-    "notes": "Half-life is ~6\u201315 min depending on study; major source of variability is IV bolus vs infusion kinetics. Lawn/Eckern\u00e4s work on infusion shows sustained effects without tachyphylaxis at <10 ng/mL plateau.",
+    "notes": "Half-life is ~6–15 min depending on study; major source of variability is IV bolus vs infusion kinetics. Lawn/Eckernäs work on infusion shows sustained effects without tachyphylaxis at <10 ng/mL plateau.",
     "references_consulted": [
-      "pmid:8067486",
       "pmid:27216487",
       "doi:10.1038/s41398-023-02477-4",
       "doi:10.1126/science.1166127",
@@ -3317,7 +3316,7 @@
       "functional": [
         {
           "target": "5-HT2A",
-          "readout": "G\u03b1q",
+          "readout": "Gαq",
           "ec50_nm": null,
           "emax_pct": 75,
           "reference_agonist": "5-HT",
@@ -3328,7 +3327,7 @@
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Diethyl substitution sterically blocks MAO-A binding \u2192 orally active without MAOI co-administration",
+      "downstream_signalling": "Diethyl substitution sterically blocks MAO-A binding → orally active without MAOI co-administration",
       "neuroimaging": []
     },
     "human_pk": {
@@ -3351,7 +3350,7 @@
       {
         "enzyme": "MAO-A (weak substrate due to steric block)",
         "fraction_of_clearance_pct": 30,
-        "metabolite_name": "diethyltryptamine N-oxide, hydroxylated indoles",
+        "metabolite_name": "DET N-oxide",
         "metabolite_active": null,
         "reference": null
       }
@@ -3577,7 +3576,7 @@
       "5-HT2A Ki",
       "human PK"
     ],
-    "notes": "Active SC/IM at 100\u2013250 mg per Shulgin TiHKAL; Grof used DPT in 1970s for terminal cancer patients.",
+    "notes": "Active SC/IM at 100–250 mg per Shulgin TiHKAL; Grof used DPT in 1970s for terminal cancer patients.",
     "references_consulted": [
       "pmid:15886504"
     ]
@@ -3615,7 +3614,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Distinctive perceptual signature is auditory distortion rather than visual \u2014 receptor basis unknown but may involve 5-HT2A modulation of medial geniculate / auditory cortex",
+      "downstream_signalling": "Distinctive perceptual signature is auditory distortion rather than visual — receptor basis unknown but may involve 5-HT2A modulation of medial geniculate / auditory cortex",
       "neuroimaging": []
     },
     "human_pk": {
@@ -3789,7 +3788,7 @@
         "5-HT2A",
         "5-HT2C",
         "TAAR1",
-        "\u03c31"
+        "σ1"
       ],
       "binding": [
         {
@@ -3808,7 +3807,7 @@
           "radioligand_or_probe": "[3H]-8-OH-DPAT",
           "reference": "doi:10.1111/jnc.15587",
           "is_review": false,
-          "notes": "Reckweg 2022: highest-affinity target by ~100-1000\u00d7"
+          "notes": "Reckweg 2022: highest-affinity target by ~100-1000×"
         },
         {
           "target": "5-HT2A",
@@ -3851,7 +3850,7 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "The extreme end of the axis: ~1058x 1A-selective, an order of magnitude MORE 1A-selective than the ~100x figure in common circulation. Independently corroborated in direction by Puigseslloses 2024 (2.57 vs 105 nM, 41x) \u2014 both agree 5-MeO-DMT is strongly 1A-selective, and both agree its 1A Ki is low single-digit nM; they differ ~19x on the 2A value. Source flags ND/PH=4/0.",
+          "notes": "The extreme end of the axis: ~1058x 1A-selective, an order of magnitude MORE 1A-selective than the ~100x figure in common circulation. Independently corroborated in direction by Puigseslloses 2024 (2.57 vs 105 nM, 41x) — both agree 5-MeO-DMT is strongly 1A-selective, and both agree its 1A Ki is low single-digit nM; they differ ~19x on the 2A value. Source flags ND/PH=4/0.",
           "action": "agonist"
         },
         {
@@ -3864,7 +3863,7 @@
           "reference": "doi:10.1371/journal.pone.0009019",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "The extreme end of the axis: ~1058x 1A-selective, an order of magnitude MORE 1A-selective than the ~100x figure in common circulation. Independently corroborated in direction by Puigseslloses 2024 (2.57 vs 105 nM, 41x) \u2014 both agree 5-MeO-DMT is strongly 1A-selective, and both agree its 1A Ki is low single-digit nM; they differ ~19x on the 2A value. Source flags ND/PH=4/0.",
+          "notes": "The extreme end of the axis: ~1058x 1A-selective, an order of magnitude MORE 1A-selective than the ~100x figure in common circulation. Independently corroborated in direction by Puigseslloses 2024 (2.57 vs 105 nM, 41x) — both agree 5-MeO-DMT is strongly 1A-selective, and both agree its 1A Ki is low single-digit nM; they differ ~19x on the 2A value. Source flags ND/PH=4/0.",
           "action": "agonist"
         },
         {
@@ -3877,7 +3876,7 @@
           "reference": "doi:10.1038/s41380-024-02506-8",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Printed as 2.57 +/- 0.09 nM (1A) and 105 +/- 22 nM (2A). Second independent both-receptor measurement. This paper's whole thesis is that 5-MeO-tryptamines are 1A-preferring and that 1A agonism DAMPENS the 2A-mediated psychedelic arm \u2014 direct mechanistic support for plotting this axis at all.",
+          "notes": "Printed as 2.57 +/- 0.09 nM (1A) and 105 +/- 22 nM (2A). Second independent both-receptor measurement. This paper's whole thesis is that 5-MeO-tryptamines are 1A-preferring and that 1A agonism DAMPENS the 2A-mediated psychedelic arm — direct mechanistic support for plotting this axis at all.",
           "action": "agonist"
         },
         {
@@ -3890,14 +3889,14 @@
           "reference": "doi:10.1038/s41380-024-02506-8",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Printed as 2.57 +/- 0.09 nM (1A) and 105 +/- 22 nM (2A). Second independent both-receptor measurement. This paper's whole thesis is that 5-MeO-tryptamines are 1A-preferring and that 1A agonism DAMPENS the 2A-mediated psychedelic arm \u2014 direct mechanistic support for plotting this axis at all.",
+          "notes": "Printed as 2.57 +/- 0.09 nM (1A) and 105 +/- 22 nM (2A). Second independent both-receptor measurement. This paper's whole thesis is that 5-MeO-tryptamines are 1A-preferring and that 1A agonism DAMPENS the 2A-mediated psychedelic arm — direct mechanistic support for plotting this axis at all.",
           "action": "agonist"
         }
       ],
       "functional": [
         {
           "target": "5-HT2A",
-          "readout": "G\u03b1q Ca\u00b2\u207a",
+          "readout": "Gαq Ca²⁺",
           "ec50_nm": 30,
           "emax_pct": 92,
           "reference_agonist": "5-HT",
@@ -3907,7 +3906,7 @@
         },
         {
           "target": "5-HT2A",
-          "readout": "\u03b2-arrestin-2 recruitment",
+          "readout": "β-arrestin-2 recruitment",
           "ec50_nm": 2200,
           "emax_pct": 40,
           "reference_agonist": "5-HT",
@@ -3920,17 +3919,17 @@
         {
           "target": "5-HT2A",
           "pathways_compared": [
-            "G\u03b1q",
-            "\u03b2-arrestin-2"
+            "Gαq",
+            "β-arrestin-2"
           ],
           "bias_factor_log": -1.5,
           "bias_reference_compound": "5-HT",
-          "interpretation": "G-protein biased (opposite of LSD) \u2014 much weaker \u03b2-arrestin recruitment relative to Gq. May explain low/absent tachyphylaxis with repeated dosing",
+          "interpretation": "G-protein biased (opposite of LSD) — much weaker β-arrestin recruitment relative to Gq. May explain low/absent tachyphylaxis with repeated dosing",
           "reference": "doi:10.1111/jnc.15587"
         }
       ],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Dominant 5-HT1A engagement drives the 'ego-loss without imagery' phenomenology \u2014 competing 5-HT2A activation gives the breakthrough mystical experience. \u03b2-arrestin2 KO enhances 5-MeO-DMT response in mice (Pottie 2020), supporting Gq-driven mechanism.",
+      "downstream_signalling": "Dominant 5-HT1A engagement drives the 'ego-loss without imagery' phenomenology — competing 5-HT2A activation gives the breakthrough mystical experience. β-arrestin2 KO enhances 5-MeO-DMT response in mice (Pottie 2020), supporting Gq-driven mechanism.",
       "neuroimaging": []
     },
     "human_pk": {
@@ -3958,7 +3957,7 @@
           "half_life_min": 28,
           "dose_in_study_mg": 1,
           "subject_n": 38,
-          "subject_demographics": "Bistue Mill\u00f3n 2025",
+          "subject_demographics": "Bistue Millón 2025",
           "reference": "doi:10.1038/s41386-025-02167-3"
         },
         {
@@ -4024,7 +4023,7 @@
         "CYP2D6",
         "MAO-A VNTR"
       ],
-      "phenotype_effects": "CYP2D6 PM: less bufotenin formed; may experience purer 5-HT1A-driven effects. UM: more bufotenin \u2192 stronger 5-HT2A effects.",
+      "phenotype_effects": "CYP2D6 PM: less bufotenin formed; may experience purer 5-HT1A-driven effects. UM: more bufotenin → stronger 5-HT2A effects.",
       "reference": "pmid:20942780"
     },
     "tolerance_and_dependence": {
@@ -4037,7 +4036,7 @@
     },
     "off_targets": [
       {
-        "target": "\u03c31",
+        "target": "σ1",
         "ki_or_ic50_nm": null,
         "concern_level": "low",
         "clinical_consequence": "Mild",
@@ -4071,7 +4070,7 @@
       "absolute bioavailability per route",
       "long-term cardiovascular signal at 5-HT2B"
     ],
-    "notes": "5-MeO-DMT is the canonical G-protein-biased 5-HT2A agonist among classical psychedelics \u2014 opposite end of the bias spectrum from LSD. This is mechanistically tied to its lack of tachyphylaxis and the qualitative difference in phenomenology (ego-loss with minimal imagery).",
+    "notes": "5-MeO-DMT is the canonical G-protein-biased 5-HT2A agonist among classical psychedelics — opposite end of the bias spectrum from LSD. This is mechanistically tied to its lack of tachyphylaxis and the qualitative difference in phenomenology (ego-loss with minimal imagery).",
     "references_consulted": [
       "doi:10.1111/jnc.15587",
       "pmid:20942780",
@@ -4113,7 +4112,7 @@
           "radioligand_or_probe": "[3H]-ketanserin",
           "reference": "doi:10.34133/research.0987",
           "is_review": false,
-          "notes": "~10\u00d7 higher 5-HT2A affinity than 5-MeO-DMT"
+          "notes": "~10× higher 5-HT2A affinity than 5-MeO-DMT"
         },
         {
           "target": "5-HT3",
@@ -4124,13 +4123,13 @@
           "radioligand_or_probe": "[3H]-BRL-43694",
           "reference": null,
           "is_review": false,
-          "notes": "High 5-HT3 activity \u2014 drives nausea/vomiting"
+          "notes": "High 5-HT3 activity — drives nausea/vomiting"
         }
       ],
       "functional": [
         {
           "target": "5-HT2A",
-          "readout": "G\u03b1q",
+          "readout": "Gαq",
           "ec50_nm": 3.5,
           "emax_pct": 95,
           "reference_agonist": "5-HT",
@@ -4141,7 +4140,7 @@
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Strong 5-HT2A and 5-HT3 \u2014 combination yields intense somatic load (vasoconstriction, vomiting) limiting recreational use; CNS entry limited by 5-OH polarity (cf. norpsilocin)",
+      "downstream_signalling": "Strong 5-HT2A and 5-HT3 — combination yields intense somatic load (vasoconstriction, vomiting) limiting recreational use; CNS entry limited by 5-OH polarity (cf. norpsilocin)",
       "neuroimaging": []
     },
     "human_pk": {
@@ -4156,7 +4155,7 @@
           "subject_n": 1,
           "subject_demographics": "McLeod 1958 historical case",
           "reference": "pmid:13577255",
-          "notes": "Severe somatic effects at IV doses \u22654 mg \u2014 facial cyanosis, hypertension"
+          "notes": "Severe somatic effects at IV doses ≥4 mg — facial cyanosis, hypertension"
         }
       ],
       "concentration_effect": []
@@ -4217,7 +4216,7 @@
       "modern human PK",
       "intranasal/oral PK"
     ],
-    "notes": "5-hydroxy substitution gives higher 5-HT2A affinity but BBB-limited like other peripherally polar 5-OH tryptamines \u2014 most psychoactivity may occur via central conversion or paradox. Anu Anaipakkam Bufo Alvarius venom = 5-MeO-DMT, not bufotenin.",
+    "notes": "5-hydroxy substitution gives higher 5-HT2A affinity but BBB-limited like other peripherally polar 5-OH tryptamines — most psychoactivity may occur via central conversion or paradox. Anu Anaipakkam Bufo Alvarius venom = 5-MeO-DMT, not bufotenin.",
     "references_consulted": [
       "doi:10.34133/research.0987",
       "pmid:13577255"
@@ -4241,7 +4240,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "See Bufotenin entry \u2014 same compound",
+      "downstream_signalling": "See Bufotenin entry — same compound",
       "neuroimaging": []
     },
     "human_pk": {
@@ -4360,13 +4359,13 @@
           "radioligand_or_probe": "various",
           "reference": null,
           "is_review": false,
-          "notes": "Citation removed: this value was attributed to pmid:27216487, which is Rickli 2016, whose tested panel does not include this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified. Rickli 2016 \u2014 high 5-HT2A, 5-HT2C, 5-HT1A; lower DAT/NET than \u03b1MT family"
+          "notes": "Citation removed: this value was attributed to pmid:27216487, which is Rickli 2016, whose tested panel does not include this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Rickli 2016 — high 5-HT2A, 5-HT2C, 5-HT1A; lower DAT/NET than αMT family"
         }
       ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "5-HT2A agonism + SERT inhibition \u2192 in-vivo DA/5-HT/glutamate efflux in rat NAc/PFC. Pronounced 5-HT release may contribute to entactogenic-tinged effects",
+      "downstream_signalling": "5-HT2A agonism + SERT inhibition → in-vivo DA/5-HT/glutamate efflux in rat NAc/PFC. Pronounced 5-HT release may contribute to entactogenic-tinged effects",
       "neuroimaging": []
     },
     "human_pk": {
@@ -4389,7 +4388,7 @@
       {
         "enzyme": "CYP2D6",
         "fraction_of_clearance_pct": 40,
-        "metabolite_name": "5-OH-DiPT (O-demethylated, active)",
+        "metabolite_name": "5-OH-DiPT",
         "metabolite_active": true,
         "reference": "pmid:16510126"
       },
@@ -4549,7 +4548,7 @@
         "5-HT1A",
         "DAT",
         "SERT",
-        "\u03c31"
+        "σ1"
       ],
       "binding": [
         {
@@ -4561,7 +4560,7 @@
           "radioligand_or_probe": "[3H]-ketanserin",
           "reference": "pmid:26739781",
           "is_review": false,
-          "notes": "Broad screen: binds 5-HT1A/D/E/2A/2B/2C/6, \u03b12A/B/C, H1, \u03ba-opioid, \u03c31/2 \u2014 promiscuous"
+          "notes": "Broad screen: binds 5-HT1A/D/E/2A/2B/2C/6, α2A/B/C, H1, κ-opioid, σ1/2 — promiscuous"
         }
       ],
       "functional": [],
@@ -4589,7 +4588,7 @@
     },
     "off_targets": [
       {
-        "target": "\u03ba-opioid",
+        "target": "κ-opioid",
         "ki_or_ic50_nm": null,
         "concern_level": "low",
         "clinical_consequence": "Mild dysphoric component possible at high doses",
@@ -4855,7 +4854,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Broad 5-HT2 agonist; reduced potency in monoamine release vs \u03b1MT family",
+      "downstream_signalling": "Broad 5-HT2 agonist; reduced potency in monoamine release vs αMT family",
       "neuroimaging": []
     },
     "human_pk": {
@@ -4967,7 +4966,7 @@
   {
     "name": "5-MEO-AET",
     "aliases_added": [
-      "5-methoxy-\u03b1-ethyltryptamine"
+      "5-methoxy-α-ethyltryptamine"
     ],
     "iupac_name": null,
     "smiles": null,
@@ -4984,7 +4983,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "\u03b1-alkyl extends half-life and gives MAO resistance; 5-MeO reduces release vs \u03b1MT base",
+      "downstream_signalling": "α-alkyl extends half-life and gives MAO resistance; 5-MeO reduces release vs αMT base",
       "neuroimaging": []
     },
     "human_pk": {
@@ -5051,7 +5050,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Pyrrolidine ring rigidifies N-substituent \u2192 favors 5-HT1A engagement; weak 5-HT2A activity \u2192 low/minimal classic psychedelic effects expected",
+      "downstream_signalling": "Pyrrolidine ring rigidifies N-substituent → favors 5-HT1A engagement; weak 5-HT2A activity → low/minimal classic psychedelic effects expected",
       "neuroimaging": []
     },
     "human_pk": {
@@ -5087,7 +5086,7 @@
       "Ki numbers",
       "human use data"
     ],
-    "notes": "Interesting SAR \u2014 pyrrolidine N-substituent gives most-selective 5-HT1A profile among classical tryptamines.",
+    "notes": "Interesting SAR — pyrrolidine N-substituent gives most-selective 5-HT1A profile among classical tryptamines.",
     "references_consulted": [
       "doi:10.1038/s41380-024-02506-8"
     ]
@@ -5096,7 +5095,7 @@
     "name": "5-MEO-TMT",
     "aliases_added": [
       "5-methoxy-2-methyl-DMT",
-      "5-methoxy-\u03b1-methyltryptamine alt-form"
+      "5-methoxy-α-methyltryptamine alt-form"
     ],
     "iupac_name": null,
     "smiles": null,
@@ -5207,8 +5206,8 @@
   {
     "name": "5-MEO-AMT",
     "aliases_added": [
-      "5-methoxy-\u03b1-methyltryptamine",
-      "\u03b1,O-dimethylserotonin"
+      "5-methoxy-α-methyltryptamine",
+      "α,O-dimethylserotonin"
     ],
     "iupac_name": null,
     "smiles": null,
@@ -5259,7 +5258,7 @@
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Markedly weaker monoamine release than \u03b1MT (5-MeO substitution abolishes most release activity); \u03b1-methyl provides MAO resistance and very long half-life (12\u201324 h subjective). Weak MAO-A inhibition (IC50 31 \u03bcM) clinically irrelevant.",
+      "downstream_signalling": "Markedly weaker monoamine release than αMT (5-MeO substitution abolishes most release activity); α-methyl provides MAO resistance and very long half-life (12–24 h subjective). Weak MAO-A inhibition (IC50 31 μM) clinically irrelevant.",
       "neuroimaging": []
     },
     "human_pk": {
@@ -5274,7 +5273,7 @@
           "subject_n": null,
           "subject_demographics": "case reports/Shulgin",
           "reference": null,
-          "notes": "Threshold ~2 mg; very long duration 12\u201324 h"
+          "notes": "Threshold ~2 mg; very long duration 12–24 h"
         }
       ],
       "concentration_effect": []
@@ -5327,10 +5326,9 @@
       "human PK",
       "exact Ki at 5-HT2A"
     ],
-    "notes": "Several confirmed fatalities (UK, US 2003\u20132006); narrow margin of safety due to long duration and serotonergic load.",
+    "notes": "Several confirmed fatalities (UK, US 2003–2006); narrow margin of safety due to long duration and serotonergic load.",
     "references_consulted": [
-      "pmid:30053461",
-      "pmid:9089915"
+      "pmid:30053461"
     ]
   },
   {
@@ -5362,7 +5360,7 @@
           "radioligand_or_probe": "[3H]-8-OH-DPAT",
           "reference": "doi:10.1038/s41380-024-02506-8",
           "is_review": false,
-          "notes": "Endogenous tryptamine, low \u03bcM range at most 5-HT receptors"
+          "notes": "Endogenous tryptamine, low μM range at most 5-HT receptors"
         }
       ],
       "functional": [],
@@ -5381,7 +5379,7 @@
           "half_life_min": null,
           "dose_in_study_mg": 50,
           "subject_n": null,
-          "subject_demographics": "Soviet radioprotectant studies 1960s\u20131980s",
+          "subject_demographics": "Soviet radioprotectant studies 1960s–1980s",
           "reference": null
         }
       ],
@@ -5486,7 +5484,7 @@
   {
     "name": "alpha-Methyltryptamine",
     "aliases_added": [
-      "\u03b1MT",
+      "αMT",
       "AMT",
       "Indopan",
       "3-IT"
@@ -5546,7 +5544,7 @@
           "species": "human",
           "cell_system": "human MAO-A enzyme",
           "reference": null,
-          "notes": "Citation removed: this value was attributed to doi:10.1016/j.neuint.2017.05.005, which is a calcium-activated potassium channel review. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced \u2014 treat as unverified."
+          "notes": "Citation removed: this value was attributed to doi:10.1016/j.neuint.2017.05.005, which is a calcium-activated potassium channel review. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
         }
       ],
       "biased_agonism": [],
@@ -5566,7 +5564,7 @@
           "subject_n": null,
           "subject_demographics": "case reports",
           "reference": null,
-          "notes": "Half-life ~16 h gives 12\u201324 h subjective duration"
+          "notes": "Half-life ~16 h gives 12–24 h subjective duration"
         }
       ],
       "concentration_effect": []
@@ -5575,7 +5573,7 @@
       {
         "enzyme": "CYP2D6, MAO-A (partial substrate)",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "6-OH-AMT, hippuric acid pathway",
+        "metabolite_name": "6-OH-AMT",
         "metabolite_active": null,
         "reference": null
       }
@@ -5583,7 +5581,7 @@
     "drug_interactions_pk": [
       {
         "with": "MAOI",
-        "mechanism": "AMT itself is a weak MAOI; combination \u2192 serotonergic toxicity",
+        "mechanism": "AMT itself is a weak MAOI; combination → serotonergic toxicity",
         "ki_um": 0.38,
         "clinical_effect": "Increased AMT and 5-HT load",
         "reference": null
@@ -5609,7 +5607,7 @@
         "target": "5-HT2B",
         "ki_or_ic50_nm": null,
         "concern_level": "moderate",
-        "clinical_consequence": "Chronic 5-HT release engages 5-HT2B \u2192 valvulopathy concern as with MDMA",
+        "clinical_consequence": "Chronic 5-HT release engages 5-HT2B → valvulopathy concern as with MDMA",
         "reference": null
       }
     ],
@@ -5633,7 +5631,6 @@
     ],
     "notes": "Developed at Upjohn 1960s; sold in USSR as Indopan antidepressant; multiple deaths during 2000s research-chemical wave.",
     "references_consulted": [
-      "pmid:9089915",
       "doi:10.1016/j.neuint.2017.05.005"
     ]
   },
@@ -5691,9 +5688,9 @@
   {
     "name": "a-ET",
     "aliases_added": [
-      "\u03b1ET",
+      "αET",
       "etryptamine",
-      "\u03b1-ethyltryptamine",
+      "α-ethyltryptamine",
       "Monase"
     ],
     "iupac_name": null,
@@ -5712,7 +5709,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Marketed as Monase antidepressant in 1960s by Upjohn; withdrawn due to agranulocytosis. Pharmacology similar to AMT \u2014 releaser + weak MAOI.",
+      "downstream_signalling": "Marketed as Monase antidepressant in 1960s by Upjohn; withdrawn due to agranulocytosis. Pharmacology similar to AMT — releaser + weak MAOI.",
       "neuroimaging": []
     },
     "human_pk": {
@@ -5777,7 +5774,7 @@
   {
     "name": "etryptamine",
     "aliases_added": [
-      "\u03b1ET"
+      "αET"
     ],
     "iupac_name": null,
     "smiles": null,
@@ -5908,7 +5905,7 @@
           "radioligand_or_probe": "kynuramine assay",
           "reference": "doi:10.1016/j.fct.2009.12.019",
           "is_review": false,
-          "notes": "Herraiz 2010: IC50 2\u20135 nM at human MAO-A; potent, reversible, competitive (RIMA)"
+          "notes": "Herraiz 2010: IC50 2–5 nM at human MAO-A; potent, reversible, competitive (RIMA)"
         },
         {
           "target": "MAO-B",
@@ -5932,7 +5929,7 @@
           "radioligand_or_probe": "kinase assay",
           "reference": "doi:10.1042/bj20070797",
           "is_review": false,
-          "notes": "Bain 2007: ATP-competitive DYRK1A inhibitor; relevant to \u03b2-cell proliferation interest"
+          "notes": "Bain 2007: ATP-competitive DYRK1A inhibitor; relevant to β-cell proliferation interest"
         },
         {
           "target": "I2 imidazoline receptor",
@@ -5942,7 +5939,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain membranes",
           "radioligand_or_probe": "[3H]-idazoxan",
-          "reference": "pmid:8584208",
+          "reference": null,
           "is_review": false,
           "notes": null
         }
@@ -5995,7 +5992,7 @@
         "with": "SSRI",
         "mechanism": "Serotonin syndrome via MAO-A inhibition + SERT inhibition",
         "ki_um": null,
-        "clinical_effect": "Potentially fatal \u2014 washout 5 weeks recommended for fluoxetine",
+        "clinical_effect": "Potentially fatal — washout 5 weeks recommended for fluoxetine",
         "reference": null
       },
       {
@@ -6042,8 +6039,7 @@
     "references_consulted": [
       "doi:10.1016/j.fct.2009.12.018",
       "pmid:9700761",
-      "doi:10.1371/journal.pone.0019409",
-      "doi:10.1016/j.taap.2010.04.020"
+      "doi:10.1371/journal.pone.0019409"
     ]
   },
   {
@@ -6076,7 +6072,7 @@
           "radioligand_or_probe": "kynuramine",
           "reference": "doi:10.1016/j.fct.2009.12.019",
           "is_review": false,
-          "notes": "Similar potency to harmine but more lipophilic \u2014 penetrates CNS better"
+          "notes": "Similar potency to harmine but more lipophilic — penetrates CNS better"
         }
       ],
       "functional": [],
@@ -6207,7 +6203,7 @@
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Dominant SRI activity (~3 \u03bcM IC50), weak MAO-A. The 'mood-elevating' tail of ayahuasca; contributes to extended duration via slow clearance (t\u00bd 8.9 h vs 2 h for harmine).",
+      "downstream_signalling": "Dominant SRI activity (~3 μM IC50), weak MAO-A. The 'mood-elevating' tail of ayahuasca; contributes to extended duration via slow clearance (t½ 8.9 h vs 2 h for harmine).",
       "neuroimaging": []
     },
     "human_pk": {
@@ -6271,7 +6267,7 @@
     "data_gaps_remaining": [
       "definitive role in ayahuasca duration"
     ],
-    "notes": "Long t\u00bd (8.9 h) makes THH the lingering mood-elevator after ayahuasca acute trip subsides.",
+    "notes": "Long t½ (8.9 h) makes THH the lingering mood-elevator after ayahuasca acute trip subsides.",
     "references_consulted": [
       "doi:10.1016/j.fct.2009.12.018",
       "pmid:9700761"
@@ -6303,7 +6299,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Endogenous neurotransmitter \u2014 reference agonist for all 14 5-HT receptor subtypes. Doesn't cross BBB (5-OH polarity).",
+      "downstream_signalling": "Endogenous neurotransmitter — reference agonist for all 14 5-HT receptor subtypes. Doesn't cross BBB (5-OH polarity).",
       "neuroimaging": []
     },
     "human_pk": {
@@ -6367,7 +6363,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Charged form of serotonin \u2014 physiological pH species",
+      "downstream_signalling": "Charged form of serotonin — physiological pH species",
       "neuroimaging": []
     },
     "human_pk": {
@@ -6453,13 +6449,13 @@
           "radioligand_or_probe": "various",
           "reference": "pmid:18254726",
           "is_review": false,
-          "notes": "Quinone reductase 2 \u2014 antioxidant relevance"
+          "notes": "Quinone reductase 2 — antioxidant relevance"
         }
       ],
       "functional": [
         {
           "target": "MT1",
-          "readout": "G\u03b1i cAMP inhibition",
+          "readout": "Gαi cAMP inhibition",
           "ec50_nm": 0.3,
           "emax_pct": 83,
           "reference_agonist": null,
@@ -6477,7 +6473,7 @@
           "reference": "pmid:15266022"
         }
       ],
-      "downstream_signalling": "MT1 sleep onset (G\u03b1i\u2192cAMP\u2193 + PLC activation); MT2 circadian phase shift; MT3 antioxidant. cAMP-PKA-CREB downstream. No serotonergic agonism at typical doses.",
+      "downstream_signalling": "MT1 sleep onset (Gαi→cAMP↓ + PLC activation); MT2 circadian phase shift; MT3 antioxidant. cAMP-PKA-CREB downstream. No serotonergic agonism at typical doses.",
       "neuroimaging": []
     },
     "human_pk": {
@@ -6518,13 +6514,13 @@
         "mechanism": "Potent CYP1A2 inhibition",
         "ki_um": null,
         "clinical_effect": "Up to 17-fold AUC increase",
-        "reference": "doi:10.1124/dmd.117.075788"
+        "reference": null
       },
       {
         "with": "smoking (CYP1A2 induction)",
         "mechanism": "CYP1A2 induction",
         "ki_um": null,
-        "clinical_effect": "~30\u201350% AUC reduction",
+        "clinical_effect": "~30–50% AUC reduction",
         "reference": null
       },
       {
@@ -6539,7 +6535,7 @@
       "relevant_genes": [
         "CYP1A2*1F (rs762551)"
       ],
-      "phenotype_effects": "Slow CYP1A2 metabolisers have ~3\u00d7 longer half-life and higher AUC at standard doses",
+      "phenotype_effects": "Slow CYP1A2 metabolisers have ~3× longer half-life and higher AUC at standard doses",
       "reference": "doi:10.1124/dmd.117.075788"
     },
     "tolerance_and_dependence": {
@@ -6574,9 +6570,7 @@
       "intracerebral exposure at exogenous doses"
     ],
     "notes": "Massive CYP1A2 substrate sensitivity drives most clinically meaningful DDIs. Fluvoxamine + melatonin essentially contraindicated.",
-    "references_consulted": [
-      "doi:10.1124/dmd.117.075788"
-    ]
+    "references_consulted": []
   },
   {
     "name": "5-htp",
@@ -6593,13 +6587,13 @@
     "class_context_id": "endogenous-tryptamines",
     "pharmacology": {
       "primary_targets": [
-        "AADC substrate \u2192 serotonin precursor"
+        "AADC substrate → serotonin precursor"
       ],
       "binding": [],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Crosses BBB, decarboxylated by AADC \u2192 serotonin; bypasses TPH2 rate-limiting step. Elevates 5-HT centrally AND peripherally (no peripheral AADC inhibitor \u2192 GI/cardiac side effects unlike L-DOPA + carbidopa).",
+      "downstream_signalling": "Crosses BBB, decarboxylated by AADC → serotonin; bypasses TPH2 rate-limiting step. Elevates 5-HT centrally AND peripherally (no peripheral AADC inhibitor → GI/cardiac side effects unlike L-DOPA + carbidopa).",
       "neuroimaging": []
     },
     "human_pk": {
@@ -6678,7 +6672,7 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Eosinophilia-myalgia syndrome was traced to contaminated L-tryptophan, not 5-HTP \u2014 but FDA still cautious. Pharmaceutical-grade 5-HTP from Griffonia simplicifolia.",
+    "notes": "Eosinophilia-myalgia syndrome was traced to contaminated L-tryptophan, not 5-HTP — but FDA still cautious. Pharmaceutical-grade 5-HTP from Griffonia simplicifolia.",
     "references_consulted": [
       "doi:10.1006/abbi.1998.0973"
     ]
@@ -6697,7 +6691,7 @@
     "class_context_id": "endogenous-tryptamines",
     "pharmacology": {
       "primary_targets": [
-        "TPH2 substrate \u2192 5-HTP \u2192 5-HT",
+        "TPH2 substrate → 5-HTP → 5-HT",
         "kynurenine pathway"
       ],
       "binding": [],
@@ -6811,7 +6805,7 @@
       ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Endogenous trace amine; rapidly cleared by MAO-A (t\u00bd <1 min). Not orally psychoactive due to first-pass MAO. TAAR1 endogenous ligand.",
+      "downstream_signalling": "Endogenous trace amine; rapidly cleared by MAO-A (t½ <1 min). Not orally psychoactive due to first-pass MAO. TAAR1 endogenous ligand.",
       "neuroimaging": []
     },
     "human_pk": {
@@ -6855,8 +6849,7 @@
     "data_gaps_remaining": [],
     "notes": "Endogenous, but not orally active alone.",
     "references_consulted": [
-      "pmid:11459929",
-      "pmid:9089915"
+      "pmid:11459929"
     ]
   },
   {
@@ -6931,7 +6924,7 @@
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Endogenous in mammals; intermediate in INMT pathway from tryptamine \u2192 DMT. Rapidly cleared by MAO-A.",
+      "downstream_signalling": "Endogenous in mammals; intermediate in INMT pathway from tryptamine → DMT. Rapidly cleared by MAO-A.",
       "neuroimaging": []
     },
     "human_pk": {
@@ -7121,7 +7114,7 @@
       {
         "enzyme": "CYP1A2 (primary)",
         "fraction_of_clearance_pct": 70,
-        "metabolite_name": "N-desmethylzolmitriptan (active, 5-HT1B/D potent)",
+        "metabolite_name": "N-desmethylzolmitriptan",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "pmid:10553725"
@@ -7129,7 +7122,7 @@
       {
         "enzyme": "MAO-A",
         "fraction_of_clearance_pct": 25,
-        "metabolite_name": "indole-acetic-acid derivative; also inactivates N-desmethylzolmitriptan",
+        "metabolite_name": "zolmitriptan indole acetic acid metabolite",
         "metabolite_active": false,
         "reference": null
       }
@@ -7146,7 +7139,7 @@
         "with": "moclobemide (MAOI)",
         "mechanism": "MAO-A inhibition",
         "ki_um": null,
-        "clinical_effect": "N-desmethyl metabolite AUC 1.5\u20133\u00d7 \u2014 coadmin contraindicated",
+        "clinical_effect": "N-desmethyl metabolite AUC 1.5–3× — coadmin contraindicated",
         "reference": null
       },
       {
@@ -7185,7 +7178,7 @@
         "target": "Coronary 5-HT1B",
         "ki_or_ic50_nm": 5,
         "concern_level": "high",
-        "clinical_consequence": "Contraindicated in CAD \u2014 angina/MI risk",
+        "clinical_consequence": "Contraindicated in CAD — angina/MI risk",
         "reference": null
       }
     ],
@@ -7193,7 +7186,7 @@
       "sex": null,
       "age": "Caution in elderly with CAD risk",
       "weight": null,
-      "renal_or_hepatic": "Hepatic impairment doubles AUC \u2014 dose-reduce"
+      "renal_or_hepatic": "Hepatic impairment doubles AUC — dose-reduce"
     },
     "tags_to_add": [
       "triptan",
@@ -7287,13 +7280,13 @@
     "class_context_id": "ergolines-lysergamides",
     "pharmacology": {
       "primary_targets": [
-        "\u03b1-adrenergic (antagonist)",
+        "α-adrenergic (antagonist)",
         "D2 (partial agonist)",
         "5-HT (modulator)"
       ],
       "binding": [
         {
-          "target": "\u03b11-adrenergic",
+          "target": "α1-adrenergic",
           "ki_nm": null,
           "action": "antagonist",
           "species": "human",
@@ -7344,7 +7337,7 @@
           "subject_n": null,
           "subject_demographics": null,
           "reference": null,
-          "notes": "Very low oral bioavailability \u2014 sublingual preferred"
+          "notes": "Very low oral bioavailability — sublingual preferred"
         }
       ],
       "concentration_effect": []
@@ -7363,7 +7356,7 @@
         "with": "CYP3A4 inhibitors (azoles, macrolides)",
         "mechanism": "CYP3A4 inhibition",
         "ki_um": null,
-        "clinical_effect": "Ergot toxicity risk \u2014 vasoconstriction, gangrene historical concern",
+        "clinical_effect": "Ergot toxicity risk — vasoconstriction, gangrene historical concern",
         "reference": null
       }
     ],
@@ -7405,7 +7398,7 @@
       "specific Ki for each constituent",
       "valvulopathy quantification"
     ],
-    "notes": "Dihydrogenated ergots have alpha-blocker rather than 5-HT2A agonist character \u2014 bottom of the ergoline spectrum. Mostly historical interest.",
+    "notes": "Dihydrogenated ergots have alpha-blocker rather than 5-HT2A agonist character — bottom of the ergoline spectrum. Mostly historical interest.",
     "references_consulted": []
   },
   {
@@ -9688,7 +9681,7 @@
     "references_consulted": []
   },
   {
-    "name": "4-HO-\u03b1MT",
+    "name": "4-HO-αMT",
     "aliases_added": [],
     "iupac_name": null,
     "smiles": null,
@@ -10112,7 +10105,7 @@
     "references_consulted": []
   },
   {
-    "name": "4-Me-\u03b1MT",
+    "name": "4-Me-αMT",
     "aliases_added": [],
     "iupac_name": null,
     "smiles": null,
@@ -10324,7 +10317,7 @@
     "references_consulted": []
   },
   {
-    "name": "4-Methyl-\u03b1-ethyltryptamine",
+    "name": "4-Methyl-α-ethyltryptamine",
     "aliases_added": [],
     "iupac_name": null,
     "smiles": null,
@@ -11649,7 +11642,7 @@
     "references_consulted": []
   },
   {
-    "name": "5-Chloro-\u03b1MT",
+    "name": "5-Chloro-αMT",
     "aliases_added": [],
     "iupac_name": null,
     "smiles": null,
@@ -11808,7 +11801,7 @@
     "references_consulted": []
   },
   {
-    "name": "5-ethoxy-\u03b1MT",
+    "name": "5-ethoxy-αMT",
     "aliases_added": [],
     "iupac_name": null,
     "smiles": null,
@@ -12179,7 +12172,7 @@
     "references_consulted": []
   },
   {
-    "name": "5-fluoro-\u03b1-methyltryptamine",
+    "name": "5-fluoro-α-methyltryptamine",
     "aliases_added": [],
     "iupac_name": null,
     "smiles": null,
@@ -14882,7 +14875,7 @@
     "references_consulted": []
   },
   {
-    "name": "7-methyl-\u03b1-ethyltryptamine",
+    "name": "7-methyl-α-ethyltryptamine",
     "aliases_added": [],
     "iupac_name": null,
     "smiles": null,
@@ -21878,7 +21871,7 @@
     "references_consulted": []
   },
   {
-    "name": "N-acetyl-\u03b2-oxotryptamine",
+    "name": "N-acetyl-β-oxotryptamine",
     "aliases_added": [],
     "iupac_name": null,
     "smiles": null,
@@ -25005,7 +24998,7 @@
     "references_consulted": []
   },
   {
-    "name": "\u03b1-methyl-5-HT",
+    "name": "α-methyl-5-HT",
     "aliases_added": [],
     "iupac_name": null,
     "smiles": null,
@@ -25061,10 +25054,10 @@
     "is_class_context": true,
     "class_context_id": "ergolines-lysergamides",
     "class_name": "Ergolines and lysergamides (LSD-family 5-HT2A agonists)",
-    "shared_mechanism": "Tetracyclic ergoline scaffold acting as polypharmacology 5-HT agonists with highest potency at 5-HT2A. The diethylamide moiety (LSD) plus the ergoline rigid core enables a 'lid' interaction with ECL2 (Leu229) of the 5-HT2A orthosteric pocket, trapping the receptor in a \u03b2-arrestin-favouring conformation. Residence time on the receptor is ~3\u20134 hours \u2014 orders of magnitude longer than 5-HT \u2014 directly producing the long subjective duration. Pharmacology also includes potent 5-HT1A, 5-HT2C, 5-HT6, 5-HT7, D1/D2 partial agonism, and TAAR1 activity. Wacker 2017 (Cell) and Kim 2020 (Cell) crystal structures clarified the bias mechanism; Ippolito 2025 (Br J Pharmacol) reopened the debate by arguing that signalling efficacy (not bias) differentiates hallucinogenic from non-hallucinogenic 5-HT2A ligands.",
-    "shared_pk_summary": "Oral bioavailability ~70\u201380%; Cmax 1\u20135 ng/mL for typical 50\u2013200 \u00b5g doses; Tmax 1.5\u20132.5 h; t\u00bd 2.5\u20134 h (LSD itself). Subjective duration far exceeds plasma t\u00bd due to slow receptor dissociation. Metabolism: CYP3A4 (~30%), CYP2D6, CYP1A2, CYP2E1 (minor) \u2014 major metabolite 2-oxo-3-OH-LSD is inactive. N1-acyl prodrugs (1P-, 1cP-, 1B-, ALD-52) hydrolyse to LSD via plasma/liver carboxylesterases (CES1/2) with in-vitro t\u00bd ~5 min; in vivo functionally equivalent to LSD.",
-    "shared_safety": "Acute lethal toxicity in humans extraordinarily low (no clearly documented overdose deaths from pure LSD). Main acute risks: psychological distress, hyperthermia at supratherapeutic doses (>1 mg), serotonin-syndrome risk when combined with SSRIs/MAOIs/lithium (lithium combination linked to seizures). Chronic risks: HPPD (rare), psychiatric vulnerability in predisposed individuals. Cardiovascular concern at high doses via 5-HT2B (valvulopathy) is theoretical for chronic high-frequency dosing only. hERG affinity weak (Ki ~6 \u03bcM).",
-    "sar_summary": "N6-methyl \u2192 ethyl (ETH-LAD) or allyl (AL-LAD) modestly changes potency and qualitative profile; diethylamide \u2192 2,4-dimethylazetidide (LSZ) constrains the bioactive rotamer and slightly outperforms LSD; replacement with amide (LSA) drops potency ~30\u00d7 and shifts toward sedative profile via \u03b1-adrenergic. N1 acylation reduces direct 5-HT2A binding 1\u20132 orders of magnitude but is restored in vivo by serum esterase hydrolysis (the prodrug pattern: 1P-/1cP-/1B-LSD, ALD-52). Dihydrogenation at 9,10 (ergoloids/Hydergine) abolishes hallucinogenic activity and produces \u03b1-adrenergic blocker profile.",
+    "shared_mechanism": "Tetracyclic ergoline scaffold acting as polypharmacology 5-HT agonists with highest potency at 5-HT2A. The diethylamide moiety (LSD) plus the ergoline rigid core enables a 'lid' interaction with ECL2 (Leu229) of the 5-HT2A orthosteric pocket, trapping the receptor in a β-arrestin-favouring conformation. Residence time on the receptor is ~3–4 hours — orders of magnitude longer than 5-HT — directly producing the long subjective duration. Pharmacology also includes potent 5-HT1A, 5-HT2C, 5-HT6, 5-HT7, D1/D2 partial agonism, and TAAR1 activity. Wacker 2017 (Cell) and Kim 2020 (Cell) crystal structures clarified the bias mechanism; Ippolito 2025 (Br J Pharmacol) reopened the debate by arguing that signalling efficacy (not bias) differentiates hallucinogenic from non-hallucinogenic 5-HT2A ligands.",
+    "shared_pk_summary": "Oral bioavailability ~70–80%; Cmax 1–5 ng/mL for typical 50–200 µg doses; Tmax 1.5–2.5 h; t½ 2.5–4 h (LSD itself). Subjective duration far exceeds plasma t½ due to slow receptor dissociation. Metabolism: CYP3A4 (~30%), CYP2D6, CYP1A2, CYP2E1 (minor) — major metabolite 2-oxo-3-OH-LSD is inactive. N1-acyl prodrugs (1P-, 1cP-, 1B-, ALD-52) hydrolyse to LSD via plasma/liver carboxylesterases (CES1/2) with in-vitro t½ ~5 min; in vivo functionally equivalent to LSD.",
+    "shared_safety": "Acute lethal toxicity in humans extraordinarily low (no clearly documented overdose deaths from pure LSD). Main acute risks: psychological distress, hyperthermia at supratherapeutic doses (>1 mg), serotonin-syndrome risk when combined with SSRIs/MAOIs/lithium (lithium combination linked to seizures). Chronic risks: HPPD (rare), psychiatric vulnerability in predisposed individuals. Cardiovascular concern at high doses via 5-HT2B (valvulopathy) is theoretical for chronic high-frequency dosing only. hERG affinity weak (Ki ~6 μM).",
+    "sar_summary": "N6-methyl → ethyl (ETH-LAD) or allyl (AL-LAD) modestly changes potency and qualitative profile; diethylamide → 2,4-dimethylazetidide (LSZ) constrains the bioactive rotamer and slightly outperforms LSD; replacement with amide (LSA) drops potency ~30× and shifts toward sedative profile via α-adrenergic. N1 acylation reduces direct 5-HT2A binding 1–2 orders of magnitude but is restored in vivo by serum esterase hydrolysis (the prodrug pattern: 1P-/1cP-/1B-LSD, ALD-52). Dihydrogenation at 9,10 (ergoloids/Hydergine) abolishes hallucinogenic activity and produces α-adrenergic blocker profile.",
     "key_references": [
       "doi:10.1016/j.cell.2017.01.020",
       "doi:10.1016/j.cell.2020.08.024",
@@ -25079,9 +25072,9 @@
   {
     "is_class_context": true,
     "class_context_id": "4-substituted-tryptamines-psilocin-family",
-    "class_name": "4-Substituted tryptamines (psilocin/psilocybin family \u2014 4-OH, 4-AcO, 4-PrO, 4-PO esters/ethers)",
-    "shared_mechanism": "4-Hydroxylation of the tryptamine indole confers high 5-HT2A potency with full-to-partial Gq efficacy. N-alkyl size modulates 5-HT1A vs 5-HT2A balance: small N-methyl (psilocin) gives full Emax at 5-HT2A with substantial 5-HT2C; larger N-alkyl (4-HO-MIPT, 4-HO-DET) progressively favours 5-HT2A over 5-HT2C/SERT. Per Ippolito 2025, the family shows minimal Gq-vs-arrestin bias (LSD-distinct). 4-Phosphate (psilocybin), 4-acetate (4-AcO-DMT etc), and 4-propionate (4-PrO-DMT) are prodrugs requiring intestinal/plasma hydrolysis to the active 4-OH species; the prodrug improves oral bioavailability and reduces gastric instability of the hot 4-OH phenol. Norpsilocin (no N-methyls) is more potent than psilocin at 5-HT2A in vitro BUT does not produce hallucinogenic HTR in mice \u2014 secondary-amine 4-OH compounds are BBB-restricted (Glatfelter 2022).",
-    "shared_pk_summary": "Oral psilocybin bioavailability 52.7 \u00b1 20% (as psilocin); Cmax ~19 ng/mL psilocin at 25 mg psilocybin; Tmax 1.5\u20132 h; t\u00bd 2\u20133 h. Metabolism: dominant UGT1A10 (intestinal) + UGT1A9 (hepatic) glucuronidation (~80%) + MAO-A oxidation (~15%) \u2192 4-HIAA; CYP2D6/3A4 minor. Protein binding ~66%. Free phenol (psilocin) chemically unstable in solution at neutral pH (autoxidation to bluish quinone).",
+    "class_name": "4-Substituted tryptamines (psilocin/psilocybin family — 4-OH, 4-AcO, 4-PrO, 4-PO esters/ethers)",
+    "shared_mechanism": "4-Hydroxylation of the tryptamine indole confers high 5-HT2A potency with full-to-partial Gq efficacy. N-alkyl size modulates 5-HT1A vs 5-HT2A balance: small N-methyl (psilocin) gives full Emax at 5-HT2A with substantial 5-HT2C; larger N-alkyl (4-HO-MIPT, 4-HO-DET) progressively favours 5-HT2A over 5-HT2C/SERT. Per Ippolito 2025, the family shows minimal Gq-vs-arrestin bias (LSD-distinct). 4-Phosphate (psilocybin), 4-acetate (4-AcO-DMT etc), and 4-propionate (4-PrO-DMT) are prodrugs requiring intestinal/plasma hydrolysis to the active 4-OH species; the prodrug improves oral bioavailability and reduces gastric instability of the hot 4-OH phenol. Norpsilocin (no N-methyls) is more potent than psilocin at 5-HT2A in vitro BUT does not produce hallucinogenic HTR in mice — secondary-amine 4-OH compounds are BBB-restricted (Glatfelter 2022).",
+    "shared_pk_summary": "Oral psilocybin bioavailability 52.7 ± 20% (as psilocin); Cmax ~19 ng/mL psilocin at 25 mg psilocybin; Tmax 1.5–2 h; t½ 2–3 h. Metabolism: dominant UGT1A10 (intestinal) + UGT1A9 (hepatic) glucuronidation (~80%) + MAO-A oxidation (~15%) → 4-HIAA; CYP2D6/3A4 minor. Protein binding ~66%. Free phenol (psilocin) chemically unstable in solution at neutral pH (autoxidation to bluish quinone).",
     "shared_safety": "Wide therapeutic index. Acute lethality essentially nil from pure compound. Main concerns: bad-trip psychological distress, transient hypertension/tachycardia, modest 5-HT2B activity giving theoretical valvulopathy risk for chronic high-frequency dosing. Drug interactions: SSRI chronic use blunts response (5-HT2A downregulation); MAOIs modestly potentiate via blocking 15% MAO-A clearance.",
     "sar_summary": "4-position modification: 4-OH (psilocin family, active) > 4-AcO (prodrug, equivalent in vivo) > 4-PrO (slower onset prodrug) > 4-PO (psilocybin itself, the natural prodrug). N-substituents: NMe2 (psilocin, full agonist), NMeEt (4-HO-MET, similar potency), NMeiPr (4-HO-MIPT, more 2A-selective), NEt2 (4-HO-DET, Hofmann's CZ-74), NPr2 (4-HO-DPT), NiPr2 (4-HO-DiPT, unusually weak 5-HT2C). Removing both N-methyls (norpsilocin, 4-HT) destroys CNS bioavailability despite higher intrinsic potency.",
     "key_references": [
@@ -25095,10 +25088,10 @@
     "is_class_context": true,
     "class_context_id": "5-MeO-tryptamines",
     "class_name": "5-Methoxy-tryptamines (5-MeO-DMT family, including bufotenin)",
-    "shared_mechanism": "5-Methoxy substitution flips the 5-HT2A/5-HT1A selectivity vs the 4-OH family \u2014 5-MeO-DMT itself is 100\u20131000\u00d7 selective for 5-HT1A over 5-HT2A. The defining biased-agonism story: 5-MeO-DMT is G-protein biased AT 5-HT2A (favouring Gq Ca\u00b2\u207a over \u03b2-arrestin), the opposite of LSD's arrestin bias. This is thought to underlie the qualitative difference in phenomenology (ego-loss without visuals) and the absence of tachyphylaxis with repeated dosing. 5-Methoxy substitution dramatically REDUCES monoamine release potency vs unsubstituted tryptamines (\u03b1MT) and abolishes oral MAO resistance \u2014 most 5-MeO compounds require MAOI (ayahuasca) or non-oral routes to be active.",
-    "shared_pk_summary": "5-MeO-DMT vaporized: onset seconds, peak 1 min, duration 15\u201320 min. IM: onset 1\u20136 min, duration up to 60 min. Sublingual: Tmax 20 min, t\u00bd 28 min. Insufflation (BPL-003 benzoate): Tmax 9 min, t\u00bd 30 min. Plasma t\u00bd very short (12\u201319 min) due to rapid MAO-A clearance. Metabolism: MAO-A (~70%) \u2192 5-methoxyindole-3-acetic acid; CYP2D6 (~20%) \u2192 bufotenin (5-HO-DMT, active metabolite with ~10\u00d7 higher 5-HT2A affinity). Bufotenin itself is much more BBB-limited due to 5-OH polarity.",
+    "shared_mechanism": "5-Methoxy substitution flips the 5-HT2A/5-HT1A selectivity vs the 4-OH family — 5-MeO-DMT itself is 100–1000× selective for 5-HT1A over 5-HT2A. The defining biased-agonism story: 5-MeO-DMT is G-protein biased AT 5-HT2A (favouring Gq Ca²⁺ over β-arrestin), the opposite of LSD's arrestin bias. This is thought to underlie the qualitative difference in phenomenology (ego-loss without visuals) and the absence of tachyphylaxis with repeated dosing. 5-Methoxy substitution dramatically REDUCES monoamine release potency vs unsubstituted tryptamines (αMT) and abolishes oral MAO resistance — most 5-MeO compounds require MAOI (ayahuasca) or non-oral routes to be active.",
+    "shared_pk_summary": "5-MeO-DMT vaporized: onset seconds, peak 1 min, duration 15–20 min. IM: onset 1–6 min, duration up to 60 min. Sublingual: Tmax 20 min, t½ 28 min. Insufflation (BPL-003 benzoate): Tmax 9 min, t½ 30 min. Plasma t½ very short (12–19 min) due to rapid MAO-A clearance. Metabolism: MAO-A (~70%) → 5-methoxyindole-3-acetic acid; CYP2D6 (~20%) → bufotenin (5-HO-DMT, active metabolite with ~10× higher 5-HT2A affinity). Bufotenin itself is much more BBB-limited due to 5-OH polarity.",
     "shared_safety": "Wide acute margin from pure compound but unique among classical psychedelics for blackout-amnesia at moderate doses, autonomic instability, transient unconsciousness/cataleptic state. Reports of cardiac strain at high doses. CYP2D6 inhibitor co-use (paroxetine, fluoxetine) blocks bufotenin formation. MAOI combination dangerous (serotonin syndrome).",
-    "sar_summary": "N-alkyl size: small Me, Et, iPr similar. \u03b1Methyl (5-MeO-AMT) extends half-life dramatically (~16 h). Pyrrolidine N (5-MeO-PYR-T) maximises 5-HT1A selectivity. Allyl-amino derivatives (5-MeO-DALT, 5-MeO-MALT) are most 5-HT2A-preferring among 5-MeO family \u2014 opposite to most others. 5-Methoxy \u2192 5-hydroxy (bufotenin) increases receptor affinity 10\u00d7 but BBB-limits the compound. Halogenation at 4, 6, or 7 (4F-5-MeO-DMT etc) explored as SAR probes.",
+    "sar_summary": "N-alkyl size: small Me, Et, iPr similar. αMethyl (5-MeO-AMT) extends half-life dramatically (~16 h). Pyrrolidine N (5-MeO-PYR-T) maximises 5-HT1A selectivity. Allyl-amino derivatives (5-MeO-DALT, 5-MeO-MALT) are most 5-HT2A-preferring among 5-MeO family — opposite to most others. 5-Methoxy → 5-hydroxy (bufotenin) increases receptor affinity 10× but BBB-limits the compound. Halogenation at 4, 6, or 7 (4F-5-MeO-DMT etc) explored as SAR probes.",
     "key_references": [
       "doi:10.1111/jnc.15587",
       "pmid:20942780",
@@ -25111,13 +25104,12 @@
   {
     "is_class_context": true,
     "class_context_id": "simple-tryptamines-DMT-family",
-    "class_name": "Simple N,N-dialkyltryptamines (DMT, DET, DPT, DIPT, MIPT, EIPT etc \u2014 no 4- or 5- ring substitution)",
-    "shared_mechanism": "Tryptamine + 2 alkyls on the side-chain N. Direct moderate-affinity 5-HT2A agonists (Ki 100\u2013500 nM range, partial-to-full Emax at Gq). Larger N-alkyls progressively block MAO-A active site, so N,N-dimethyl (DMT) needs MAOI for oral activity, N,N-diethyl (DET) is borderline orally active, N,N-dipropyl (DPT) and N,N-diisopropyl (DIPT) are orally active. Also \u03c31, TAAR1, weak SERT at micromolar; sigma-1 likely relevant for endogenous DMT but not exogenous recreational doses.",
-    "shared_pk_summary": "DMT IV t\u00bd 6\u201315 min; smoked similar. With MAOI (ayahuasca, DMT t\u00bd extends to 4 h). DPT/DIPT SC active 30\u201360 min onset. Metabolism: MAO-A dominant (90% DMT); minor CYP2D6 (N-oxide, 6-OH). No CYP2D6 PM contraindication established.",
+    "class_name": "Simple N,N-dialkyltryptamines (DMT, DET, DPT, DIPT, MIPT, EIPT etc — no 4- or 5- ring substitution)",
+    "shared_mechanism": "Tryptamine + 2 alkyls on the side-chain N. Direct moderate-affinity 5-HT2A agonists (Ki 100–500 nM range, partial-to-full Emax at Gq). Larger N-alkyls progressively block MAO-A active site, so N,N-dimethyl (DMT) needs MAOI for oral activity, N,N-diethyl (DET) is borderline orally active, N,N-dipropyl (DPT) and N,N-diisopropyl (DIPT) are orally active. Also σ1, TAAR1, weak SERT at micromolar; sigma-1 likely relevant for endogenous DMT but not exogenous recreational doses.",
+    "shared_pk_summary": "DMT IV t½ 6–15 min; smoked similar. With MAOI (ayahuasca, DMT t½ extends to 4 h). DPT/DIPT SC active 30–60 min onset. Metabolism: MAO-A dominant (90% DMT); minor CYP2D6 (N-oxide, 6-OH). No CYP2D6 PM contraindication established.",
     "shared_safety": "Acute lethality nil at recreational doses. Cardiovascular: brief BP/HR spike during peak. MAOI combination danger (ayahuasca with SSRI = serotonin syndrome). No tachyphylaxis with closely spaced dosing per Strassman 1996.",
-    "sar_summary": "Alkyl ladder Me<Et<Pr<iPr progressively reduces MAO-A susceptibility and shifts phenomenology (DIPT uniquely produces auditory rather than visual distortion). Asymmetric N-substitution (MIPT, EIPT) produces hybrid profiles. \u03b1-methyl substitution (\u03b1MT, \u03b1ET) confers MAO resistance + dopamine release \u2192 stimulant/entactogen hybrid.",
+    "sar_summary": "Alkyl ladder Me<Et<Pr<iPr progressively reduces MAO-A susceptibility and shifts phenomenology (DIPT uniquely produces auditory rather than visual distortion). Asymmetric N-substitution (MIPT, EIPT) produces hybrid profiles. α-methyl substitution (αMT, αET) confers MAO resistance + dopamine release → stimulant/entactogen hybrid.",
     "key_references": [
-      "pmid:8067486",
       "pmid:27216487",
       "doi:10.1038/s41398-023-02477-4",
       "doi:10.1126/science.1166127",
@@ -25128,13 +25120,12 @@
   {
     "is_class_context": true,
     "class_context_id": "alpha-alkyl-tryptamines",
-    "class_name": "\u03b1-Alkyl tryptamines (\u03b1MT, \u03b1ET and analogues \u2014 substrate-type releasers / hybrid psychedelic-stimulant)",
-    "shared_mechanism": "\u03b1-Methyl (or \u03b1-ethyl) substitution sterically blocks MAO-A oxidative deamination AND converts the compound into a substrate-type SERT/NET/DAT releaser by analogy with amphetamine. Net pharmacology: full 5-HT/NE/DA release + 5-HT2A agonism + weak MAO-A inhibition. Hybrid stimulant-entactogen-psychedelic phenomenology \u2014 \u03b1MT was sold as Indopan antidepressant in USSR, \u03b1ET as Monase by Upjohn (withdrawn 1962 for agranulocytosis).",
-    "shared_pk_summary": "\u03b1MT oral t\u00bd ~16 h, onset 1\u20132 h, duration 12\u201324 h. Long duration is the dominant safety risk. Metabolism CYP2D6 + partial MAO-A.",
-    "shared_safety": "Multiple deaths in 2000s research-chemical wave from 5-HT-syndrome-like presentations at moderate doses (40\u201360 mg). 5-HT2B chronic concern (cf. fenfluramine, MDMA). Agranulocytosis idiosyncrasy reported for \u03b1ET. Narrow margin between recreational and toxic dose vs other tryptamines.",
-    "sar_summary": "\u03b1-methyl baseline (\u03b1MT) vs \u03b1-ethyl (\u03b1ET) \u2014 longer chain reduces potency. Ring substitution (5-MeO-AMT) attenuates DA/NE release while preserving 5-HT release + 5-HT2A agonism.",
+    "class_name": "α-Alkyl tryptamines (αMT, αET and analogues — substrate-type releasers / hybrid psychedelic-stimulant)",
+    "shared_mechanism": "α-Methyl (or α-ethyl) substitution sterically blocks MAO-A oxidative deamination AND converts the compound into a substrate-type SERT/NET/DAT releaser by analogy with amphetamine. Net pharmacology: full 5-HT/NE/DA release + 5-HT2A agonism + weak MAO-A inhibition. Hybrid stimulant-entactogen-psychedelic phenomenology — αMT was sold as Indopan antidepressant in USSR, αET as Monase by Upjohn (withdrawn 1962 for agranulocytosis).",
+    "shared_pk_summary": "αMT oral t½ ~16 h, onset 1–2 h, duration 12–24 h. Long duration is the dominant safety risk. Metabolism CYP2D6 + partial MAO-A.",
+    "shared_safety": "Multiple deaths in 2000s research-chemical wave from 5-HT-syndrome-like presentations at moderate doses (40–60 mg). 5-HT2B chronic concern (cf. fenfluramine, MDMA). Agranulocytosis idiosyncrasy reported for αET. Narrow margin between recreational and toxic dose vs other tryptamines.",
+    "sar_summary": "α-methyl baseline (αMT) vs α-ethyl (αET) — longer chain reduces potency. Ring substitution (5-MeO-AMT) attenuates DA/NE release while preserving 5-HT release + 5-HT2A agonism.",
     "key_references": [
-      "pmid:9089915",
       "doi:10.1016/j.neuint.2017.05.005",
       "pmid:30053461"
     ]
@@ -25142,16 +25133,15 @@
   {
     "is_class_context": true,
     "class_context_id": "beta-carboline-MAOI",
-    "class_name": "\u03b2-Carbolines (harmala alkaloids \u2014 harmine, harmaline, THH)",
-    "shared_mechanism": "Tricyclic \u03b2-carbolines from Peganum harmala (Syrian rue) and Banisteriopsis caapi (ayahuasca vine). Harmine and harmaline are potent, reversible, competitive MAO-A inhibitors (IC50 2\u20138 nM at human MAO-A, >10,000\u00d7 selective over MAO-B). Mechanism enables oral DMT activity (the essence of ayahuasca). Also DYRK1A inhibition (harmine, IC50 80 nM) \u2014 significant for \u03b2-cell proliferation research; mild 5-HT2A binding; very weak SSRI activity (THH is a 3 \u03bcM SSRI).",
-    "shared_pk_summary": "Harmine oral (ayahuasca) Cmax ~115 ng/mL at 250 mg, Tmax 90 min, t\u00bd 2 h. Harmaline similar but more lipophilic (better CNS penetration). THH t\u00bd 9 h (the lingering 'afterglow' component). Metabolism CYP1A2 + CYP2D6 \u2192 O-demethylated harmol/harmalol (active, lower potency).",
-    "shared_safety": "Reversible MAO-A inhibition is safer than irreversible MAOIs (phenelzine) for tyramine interactions, but combination with SSRIs/SNRIs/triptans/other serotonergic agents \u2192 serotonin syndrome (recommend 5-week fluoxetine washout). Acute \u03b2-carboline doses produce tremor, nausea, sedation (harmaline > harmine). Pure harmine deaths essentially unreported.",
-    "sar_summary": "Aromatic dihydro/tetrahydro reduction: harmine (fully aromatic, most potent MAOI) \u2192 harmaline (dihydro, more sedating) \u2192 THH (tetrahydro, weak MAOI, SSRI character). N-methylation, ring methoxylation tune potency. Banisterine = harmine (alternative name).",
+    "class_name": "β-Carbolines (harmala alkaloids — harmine, harmaline, THH)",
+    "shared_mechanism": "Tricyclic β-carbolines from Peganum harmala (Syrian rue) and Banisteriopsis caapi (ayahuasca vine). Harmine and harmaline are potent, reversible, competitive MAO-A inhibitors (IC50 2–8 nM at human MAO-A, >10,000× selective over MAO-B). Mechanism enables oral DMT activity (the essence of ayahuasca). Also DYRK1A inhibition (harmine, IC50 80 nM) — significant for β-cell proliferation research; mild 5-HT2A binding; very weak SSRI activity (THH is a 3 μM SSRI).",
+    "shared_pk_summary": "Harmine oral (ayahuasca) Cmax ~115 ng/mL at 250 mg, Tmax 90 min, t½ 2 h. Harmaline similar but more lipophilic (better CNS penetration). THH t½ 9 h (the lingering 'afterglow' component). Metabolism CYP1A2 + CYP2D6 → O-demethylated harmol/harmalol (active, lower potency).",
+    "shared_safety": "Reversible MAO-A inhibition is safer than irreversible MAOIs (phenelzine) for tyramine interactions, but combination with SSRIs/SNRIs/triptans/other serotonergic agents → serotonin syndrome (recommend 5-week fluoxetine washout). Acute β-carboline doses produce tremor, nausea, sedation (harmaline > harmine). Pure harmine deaths essentially unreported.",
+    "sar_summary": "Aromatic dihydro/tetrahydro reduction: harmine (fully aromatic, most potent MAOI) → harmaline (dihydro, more sedating) → THH (tetrahydro, weak MAOI, SSRI character). N-methylation, ring methoxylation tune potency. Banisterine = harmine (alternative name).",
     "key_references": [
       "doi:10.1016/j.fct.2009.12.018",
       "pmid:9700761",
-      "doi:10.1371/journal.pone.0019409",
-      "doi:10.1016/j.taap.2010.04.020"
+      "doi:10.1371/journal.pone.0019409"
     ]
   },
   {
@@ -25159,11 +25149,10 @@
     "class_context_id": "endogenous-tryptamines",
     "class_name": "Endogenous tryptamines (serotonin, melatonin, 5-HTP, tryptophan, NMT, tryptamine itself)",
     "shared_mechanism": "Endogenous mammalian tryptamines/precursors. Serotonin is the reference 5-HT receptor agonist (14 subtypes). Melatonin is selective for MT1/MT2 (subnanomolar Ki). Tryptamine itself is the prototype TAAR1 agonist (EC50 110 nM) but rapidly MAO-A-cleared, so not orally psychoactive alone. 5-HTP and tryptophan are precursors: cross BBB and increase central serotonin via AADC/TPH2.",
-    "shared_pk_summary": "Serotonin: not orally psychoactive (BBB impermeable). Melatonin: oral F ~15%, Tmax 40 min, t\u00bd 45 min, CYP1A2-dominated metabolism (fluvoxamine raises AUC 17\u00d7). 5-HTP: oral F 70%, t\u00bd 1.5\u20132 h, AADC-converted. Tryptophan: ~95% routed to kynurenine, only ~5% to 5-HT synthesis.",
-    "shared_safety": "Generally safe in physiological/supplement doses. 5-HTP + MAOI/SSRI \u2192 serotonin syndrome. Melatonin in pregnancy and immune-suppressed populations cautious. Tryptophan EMS outbreak 1989 linked to Showa Denko contamination, not the amino acid itself.",
-    "sar_summary": "Hydroxyl position determines receptor target: 5-OH (serotonin) \u2192 5-HT receptors; 5-methoxy + N-acetyl (melatonin) \u2192 MT1/MT2; phosphorylation at 4 (psilocybin) \u2192 4-HT prodrug system.",
+    "shared_pk_summary": "Serotonin: not orally psychoactive (BBB impermeable). Melatonin: oral F ~15%, Tmax 40 min, t½ 45 min, CYP1A2-dominated metabolism (fluvoxamine raises AUC 17×). 5-HTP: oral F 70%, t½ 1.5–2 h, AADC-converted. Tryptophan: ~95% routed to kynurenine, only ~5% to 5-HT synthesis.",
+    "shared_safety": "Generally safe in physiological/supplement doses. 5-HTP + MAOI/SSRI → serotonin syndrome. Melatonin in pregnancy and immune-suppressed populations cautious. Tryptophan EMS outbreak 1989 linked to Showa Denko contamination, not the amino acid itself.",
+    "sar_summary": "Hydroxyl position determines receptor target: 5-OH (serotonin) → 5-HT receptors; 5-methoxy + N-acetyl (melatonin) → MT1/MT2; phosphorylation at 4 (psilocybin) → 4-HT prodrug system.",
     "key_references": [
-      "doi:10.1124/dmd.117.075788",
       "doi:10.1006/abbi.1998.0973",
       "pmid:11459929"
     ]
@@ -25171,10 +25160,10 @@
   {
     "is_class_context": true,
     "class_context_id": "triptans-5HT1B1D",
-    "class_name": "Triptans (5-HT1B/1D agonists \u2014 antimigraine sumatriptan family)",
+    "class_name": "Triptans (5-HT1B/1D agonists — antimigraine sumatriptan family)",
     "shared_mechanism": "Selective 5-HT1B and 5-HT1D agonists. 5-HT1B activation constricts cranial vessels; 5-HT1D inhibits trigeminal sensory neuropeptide release. Antimigraine without psychedelic activity (no significant 5-HT2A binding at therapeutic concentrations). Coronary 5-HT1B activation is the main contraindication (chest pain, MI risk in CAD).",
-    "shared_pk_summary": "Zolmitriptan: oral F 40%, Tmax 2 h, t\u00bd 3 h; active CYP1A2-mediated N-desmethyl metabolite has ~2\u00d7 higher 5-HT1B/D affinity than parent. Metabolism CYP1A2 (primary) + MAO-A (inactivates active metabolite).",
-    "shared_safety": "FDA black-box serotonin syndrome warning with SSRIs/SNRIs/MAOIs (despite weak 5-HT2A activity \u2014 class-wide caution). Coronary vasospasm risk: contraindicated in CAD, uncontrolled HTN, recent MI. Medication-overuse headache with frequent use.",
+    "shared_pk_summary": "Zolmitriptan: oral F 40%, Tmax 2 h, t½ 3 h; active CYP1A2-mediated N-desmethyl metabolite has ~2× higher 5-HT1B/D affinity than parent. Metabolism CYP1A2 (primary) + MAO-A (inactivates active metabolite).",
+    "shared_safety": "FDA black-box serotonin syndrome warning with SSRIs/SNRIs/MAOIs (despite weak 5-HT2A activity — class-wide caution). Coronary vasospasm risk: contraindicated in CAD, uncontrolled HTN, recent MI. Medication-overuse headache with frequent use.",
     "sar_summary": "Indole or indazole core + ethylamine + sulfonamide/amide tail. Naratriptan, zolmitriptan, rizatriptan, frovatriptan, eletriptan, almotriptan, sumatriptan differ in CNS penetration, half-life, and CYP route.",
     "key_references": []
   },
@@ -25182,9 +25171,9 @@
     "is_class_context": true,
     "class_context_id": "non-recreational-pharma-or-peptide",
     "class_name": "Non-recreational pharmaceutical or peptide compounds (peptide hormones, kinase probes, neuropeptide ligands)",
-    "shared_mechanism": "These compounds appear in the parent dataset due to indole-containing or tryptophan-containing substructure but have no recreational/psychedelic relevance. Includes GnRH agonists (buserelin, leuprolide, goserelin, nafarelin, histrelin, etc \u2014 pituitary-gonadal axis suppression for prostate cancer / endometriosis / precocious puberty); CCK-A/B receptor ligands (PD-series, BC-264, GR94800 \u2014 research probes); growth-hormone secretagogues (pralmorelin, anamorelin, examorelin, macimorelin); HDAC inhibitors (dacinostat); and miscellaneous research tool compounds.",
-    "shared_pk_summary": "Highly variable by class \u2014 peptides typically require SC/IM/depot delivery, very short plasma half-life unless in depot formulation (goserelin acetate 28-day depot, leuprolide LAR 1/3/6-month).",
-    "shared_safety": "Class-specific \u2014 GnRH agonists cause hypogonadism (hot flashes, bone density loss, sexual dysfunction); CCK ligands largely not approved for human use.",
+    "shared_mechanism": "These compounds appear in the parent dataset due to indole-containing or tryptophan-containing substructure but have no recreational/psychedelic relevance. Includes GnRH agonists (buserelin, leuprolide, goserelin, nafarelin, histrelin, etc — pituitary-gonadal axis suppression for prostate cancer / endometriosis / precocious puberty); CCK-A/B receptor ligands (PD-series, BC-264, GR94800 — research probes); growth-hormone secretagogues (pralmorelin, anamorelin, examorelin, macimorelin); HDAC inhibitors (dacinostat); and miscellaneous research tool compounds.",
+    "shared_pk_summary": "Highly variable by class — peptides typically require SC/IM/depot delivery, very short plasma half-life unless in depot formulation (goserelin acetate 28-day depot, leuprolide LAR 1/3/6-month).",
+    "shared_safety": "Class-specific — GnRH agonists cause hypogonadism (hot flashes, bone density loss, sexual dysfunction); CCK ligands largely not approved for human use.",
     "sar_summary": "Not applicable as a psychedelic class. Included only for namespace deduplication.",
     "key_references": []
   },
@@ -25205,7 +25194,7 @@
     "shared_mechanism": "Halogenation (F, Cl, Br) of the tryptamine indole at 4, 5, 6, or 7 produces lab probes for SAR studies of 5-HT receptor selectivity, MAO substrate properties, and SERT/SLC6A4 substrate behaviour. Examples: 5,7-dihydroxytryptamine (5,7-DHT, classical serotonergic neurotoxin), 5-bromotryptamine, 6-fluorotryptamine, 4-Br-DMT, 5-Cl-DMT. Most have not been characterised in humans and lack controlled pharmacology data.",
     "shared_pk_summary": "Unknown in humans.",
     "shared_safety": "5,7-DHT and 5,6-DHT are documented serotonergic axon toxins (rodent stereotaxic studies). Other halogenated tryptamines lack human safety data.",
-    "sar_summary": "Position 5 halogenation usually preserves 5-HT receptor affinity while altering metabolic stability. Position 4 strongly favours psychedelic activity (cf. psilocin). 5,6/5,7-dihydroxy \u2192 neurotoxin.",
+    "sar_summary": "Position 5 halogenation usually preserves 5-HT receptor affinity while altering metabolic stability. Position 4 strongly favours psychedelic activity (cf. psilocin). 5,6/5,7-dihydroxy → neurotoxin.",
     "key_references": []
   },
   {
@@ -25214,8 +25203,8 @@
     "class_name": "Generic / obscure tryptamine NPS without published pharmacology",
     "shared_mechanism": "Novel psychoactive substance tryptamines without published controlled in-vitro or human characterisation. Pharmacology is inferred from structural class (likely 5-HT2A partial agonists), but no quantitative receptor data is published.",
     "shared_pk_summary": "Unknown.",
-    "shared_safety": "Unknown \u2014 extrapolated from class.",
-    "sar_summary": "See parent class entries (4-OH, 5-MeO, \u03b1alkyl) depending on substitution pattern.",
+    "shared_safety": "Unknown — extrapolated from class.",
+    "sar_summary": "See parent class entries (4-OH, 5-MeO, αalkyl) depending on substitution pattern.",
     "key_references": []
   },
   {

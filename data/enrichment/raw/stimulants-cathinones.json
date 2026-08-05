@@ -320,13 +320,13 @@
     "metabolism": [
       {
         "enzyme": "CYP2D6",
-        "metabolite_name": "MDC (3,4-methylenedioxycathinone, N-demethyl)",
+        "metabolite_name": "MDC",
         "metabolite_active": true,
         "reference": "doi:10.3390/ijms232314636"
       },
       {
         "enzyme": "CYP2B6/CYP1A2 (O-demethylenation)",
-        "metabolite_name": "HHMC (3,4-dihydroxy-N-methylcathinone), then HMMC (4-OH-3-methoxy-N-methylcathinone) via COMT",
+        "metabolite_name": "HHMC",
         "metabolite_active": true,
         "reference": "doi:10.3390/ijms232314636",
         "notes": "HMMC is the major urinary metabolite (Cmax 10-14× lower than parent, AUC 21-29× lower); pathway parallels MDMA but methylone does NOT autoinhibit CYP2D6, hence linear PK"
@@ -491,9 +491,9 @@
     "metabolism": [
       {
         "enzyme": "CYP2D6",
-        "metabolite_name": "3,4-dihydroxypyrovalerone (catechol-PV, O-demethylenation)",
+        "metabolite_name": "3,4-dihydroxypyrovalerone",
         "metabolite_active": true,
-        "reference": "pmid:23922010",
+        "reference": null,
         "notes": "Strano-Rossi 2010 — CYP2D6, CYP1A2, CYP2C19 all contribute to O-demethylenation; catechol metabolite further methylated by COMT to 4-OH-3-MeO-PV (predominant urinary metabolite)"
       },
       {
@@ -509,7 +509,7 @@
         "with": "CYP2D6 inhibitors",
         "mechanism": "CYP2D6 inhibition",
         "clinical_effect": "Reduced demethylenation may prolong half-life and increase toxicity risk",
-        "reference": "pmid:23922010"
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -575,7 +575,6 @@
       "pmid:23039876",
       "pmid:34361040",
       "doi:10.1021/acschemneuro.5b00006",
-      "pmid:23922010",
       "pmid:27029951",
       "pmid:25239817",
       "doi:10.3390/ijms27010059",
@@ -670,7 +669,7 @@
     "metabolism": [
       {
         "enzyme": "CYP2D6 / CYP1A2 / CYP2C19",
-        "metabolite_name": "OH-α-PVP (ω-1 hydroxylation), 2′′-oxo-α-PVP (pyrrolidine oxidation)",
+        "metabolite_name": "OH-α-PVP",
         "metabolite_active": false,
         "reference": null,
         "notes": "Citation removed: this value was attributed to doi:10.1007/s11419-015-0265-x, which is synthetic-cannabinoid urine metabolites, not a cathinone. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Sauer 2009 / Negreira 2015 — multiple oxidative pathways; ketone reduction (carbonyl reductase) gives β-OH metabolite; no clinically active metabolites identified"
@@ -790,7 +789,7 @@
     "metabolism": [
       {
         "enzyme": "CYP-mediated oxidation",
-        "metabolite_name": "ω-1 hydroxy α-PHP, 2′′-oxo α-PHP (pyrrolidine oxidation), β-OH α-PHP (ketone reduction)",
+        "metabolite_name": "ω-1 hydroxy α-PHP",
         "metabolite_active": false,
         "reference": "doi:10.1007/s11419-018-0428-7",
         "notes": "Manier 2018 Forensic Toxicol — primary metabolic routes are ω-1 hydroxylation, pyrrolidine ring oxidation to 2-oxo, and β-keto reduction; longer alkyl chain (vs α-PVP) shifts metabolism toward chain hydroxylation"
@@ -821,7 +820,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "moderate",
         "clinical_consequence": "Cardiotoxicity reported in fatal intoxications; channel-specific data not published",
-        "reference": "doi:10.1016/j.toxlet.2025.01.003"
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -1342,7 +1341,7 @@
     "metabolism": [
       {
         "enzyme": "CYP-mediated",
-        "metabolite_name": "nor-4-CMC (N-demethyl), β-OH-4-CMC (ketone reduction), 4-Cl-4-OH-MC (ring hydroxylation)",
+        "metabolite_name": "nor-4-CMC",
         "metabolite_active": true,
         "reference": null
       }
@@ -1396,7 +1395,6 @@
     ],
     "notes": "4-CMC (clephedrone) has been the dominant post-mephedrone cathinone in Europe since 2016 with >100 fatalities reported. The 4-chloro SAR analogy to PCA/4-CA is the most important toxicological concern that distinguishes 4-CMC from 4-MMC; while classical 5-HT neurotoxicity has not been firmly demonstrated, the in vitro toxicology is concerning.",
     "references_consulted": [
-      "pmid:36876024",
       "doi:10.1007/s12640-020-00227-8",
       "doi:10.3390/ijms27010089",
       "doi:10.1002/dta.2229",
@@ -1428,7 +1426,7 @@
           "action": "reuptakeInhibitor",
           "species": "rat",
           "tissue_or_cell": "rat caudate synaptosomes",
-          "reference": "pmid:36876024",
+          "reference": null,
           "is_review": false,
           "notes": "3-CMC IC50 0.208 μM at DAT; about 5× more potent than 4-CMC at DAT, but also a partial SERT releaser"
         },
@@ -1437,7 +1435,7 @@
           "ic50_nm": 670,
           "action": "reuptakeInhibitor",
           "species": "rat",
-          "reference": "pmid:36876024",
+          "reference": null,
           "notes": "DAT/SERT ratio 3.22 — more DA-preferring than 4-CMC; 3-position halogen partially escapes the SERT-shift seen at 4-position"
         }
       ],
@@ -1452,7 +1450,7 @@
     "metabolism": [
       {
         "enzyme": "CYP2D6/CYP2B6",
-        "metabolite_name": "nor-3-CMC (N-demethyl), ring-hydroxylated metabolites",
+        "metabolite_name": "nor-3-CMC",
         "metabolite_active": true,
         "reference": "doi:10.1002/dta.2229"
       }
@@ -1503,7 +1501,6 @@
     ],
     "notes": "3-CMC emerged as a 4-CMC replacement after EU scheduling; clinically similar fatality and addiction profile. The 3-position halogen is less SERT-shifted than 4-position but still produces delayed cytotoxicity in vitro.",
     "references_consulted": [
-      "pmid:36876024",
       "doi:10.1007/s12640-020-00227-8",
       "doi:10.1002/dta.2229"
     ]
@@ -1530,7 +1527,7 @@
           "target": "DAT",
           "action": "reuptakeInhibitor",
           "species": "rat",
-          "reference": "pmid:36876024",
+          "reference": null,
           "notes": "2-CMC has been characterized in the same Wojcieszak series as 3-CMC and 4-CMC; reduced potency vs 3- and 4-isomers due to steric clash of ortho-Cl with carbonyl/amine; ortho-substitution generally weakens monoamine transporter binding"
         }
       ],
@@ -1585,7 +1582,6 @@
     ],
     "notes": "2-CMC is the least active of the chlorocathinone positional series due to ortho-Cl steric interference. Lower toxicity than 4-CMC in vitro.",
     "references_consulted": [
-      "pmid:36876024",
       "doi:10.1007/s12640-020-00227-8"
     ]
   },
@@ -1820,7 +1816,7 @@
     "metabolism": [
       {
         "enzyme": "CYP2D6",
-        "metabolite_name": "ephedrine (β-keto reduction); ring-hydroxylated metabolites",
+        "metabolite_name": "ephedrine",
         "metabolite_active": true,
         "reference": "pmid:33298381"
       }
@@ -2066,7 +2062,7 @@
     "metabolism": [
       {
         "enzyme": "CYP2D6/CYP2B6",
-        "metabolite_name": "MDC (N-deethyl, identical to methylone N-demethyl), HHEC/HMEC (catechol pathway via CYP1A2 then COMT)",
+        "metabolite_name": "MDC",
         "metabolite_active": true,
         "reference": "doi:10.1208/s12248-017-0132-2"
       }
@@ -2420,7 +2416,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 stable hDAT",
-          "reference": "pmid:32542207",
+          "reference": null,
           "notes": "Costa 2020 — N-ethylpentylone is significantly more potent than pentylone/butylone at all three transporters; PURE blocker (no substrate activity at any transporter)"
         },
         {
@@ -2482,9 +2478,7 @@
       "human PK"
     ],
     "notes": "N-ethylpentylone caused the 2017-2018 'Ephylone in MDMA' fatality cluster. The pharmacological lesson: extending N-substituent (Me→Et) at the methylenedioxy-pentyl scaffold dramatically increases potency AND abolishes substrate behavior, producing a pyrrolidinophenone-like pure-blocker profile without the pyrrolidine ring.",
-    "references_consulted": [
-      "pmid:32542207"
-    ]
+    "references_consulted": []
   },
   {
     "name": "4-MEC",
@@ -2808,7 +2802,7 @@
     "metabolism": [
       {
         "enzyme": "CYP-mediated",
-        "metabolite_name": "ring-hydroxylated, N-demethyl, β-keto-reduced metabolites",
+        "metabolite_name": null,
         "metabolite_active": true,
         "reference": "pmid:22359337"
       }
@@ -2834,7 +2828,7 @@
         "target": "Oxidative stress / autophagy (HT22 neurons)",
         "concern_level": "moderate",
         "clinical_consequence": "Induces ROS production and autophagy in vitro at micromolar concentrations",
-        "reference": "pmid:30248994"
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -2856,7 +2850,6 @@
     ],
     "notes": "3-fluoro vs 4-fluoro (flephedrone): meta-fluoro is rarer in cathinones and slightly perturbs DA/SERT balance. Often confused with 4-FMC in analytical reports.",
     "references_consulted": [
-      "pmid:30248994",
       "pmid:22359337"
     ]
   },
@@ -3487,7 +3480,7 @@
       {
         "enzyme": "CYP3A4 / CYP3A5",
         "fraction_of_clearance_pct": 60,
-        "metabolite_name": "ethcathinone (N-deethyl), further to ephedrine-like",
+        "metabolite_name": "ethcathinone",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.1038/s41598-019-54436-z",
@@ -3829,7 +3822,8 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "reference": "doi:10.3390/life14040429",
-          "notes": "Daskalova 2024 — α-PiHP IC50 at DAT roughly equivalent to α-PVP (~30 nM); slightly weaker at NET; pure blocker"
+          "notes": "Daskalova 2024 — α-PiHP IC50 at DAT roughly equivalent to α-PVP (~30 nM); slightly weaker at NET; pure blocker",
+          "is_review": true
         }
       ],
       "functional": [],
@@ -3850,7 +3844,7 @@
     "metabolism": [
       {
         "enzyme": "CYP-mediated",
-        "metabolite_name": "ω-hydroxylated, β-keto-reduced, pyrrolidine-oxidized metabolites",
+        "metabolite_name": null,
         "metabolite_active": false,
         "reference": "doi:10.3390/ijms22010230"
       }
@@ -4226,7 +4220,6 @@
     ],
     "notes": "4-CEC is critical SAR data: 4-Cl + N-ethyl shifts the profile much more toward SERT than 4-Cl + N-methyl (4-CMC), changing from balanced SNDRA (4-CMC) to SERT-selective releaser (4-CEC).",
     "references_consulted": [
-      "pmid:36876024",
       "doi:10.1002/hup.2621",
       "doi:10.1007/s12640-020-00227-8"
     ]
@@ -4433,7 +4426,7 @@
     "metabolism": [
       {
         "enzyme": "CYP-mediated",
-        "metabolite_name": "N-demethyl-pentylone, β-OH metabolites, ring-hydroxylated metabolites",
+        "metabolite_name": "N-demethyl-pentylone",
         "metabolite_active": true,
         "reference": "pmid:37690187"
       }
@@ -4679,7 +4672,7 @@
     "metabolism": [
       {
         "enzyme": "CYP-mediated",
-        "metabolite_name": "ω/ω-1 hydroxylated, pyrrolidine 2′′-oxo metabolites",
+        "metabolite_name": null,
         "metabolite_active": false,
         "reference": "doi:10.3390/ijms22010230"
       }

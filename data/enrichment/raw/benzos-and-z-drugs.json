@@ -944,7 +944,7 @@
           "tissue_or_cell": "Cortical membranes / recombinant",
           "radioligand_or_probe": "[3H]flunitrazepam",
           "assay_buffer_notes": null,
-          "reference": "pmid:8391122",
+          "reference": null,
           "is_review": false,
           "notes": "Imidazobenzodiazepine; pH-dependent ring-opening enables water solubility at acidic pH for IV/IM formulation."
         }
@@ -1084,8 +1084,7 @@
     "references_consulted": [
       "pmid:6138080",
       "pmid:8004131",
-      "pmc:PMC6096899",
-      "pmid:8391122"
+      "pmc:PMC6096899"
     ]
   },
   {
@@ -1116,7 +1115,7 @@
           "tissue_or_cell": "Rat cortical membranes",
           "radioligand_or_probe": "[3H]flunitrazepam",
           "assay_buffer_notes": null,
-          "reference": "pmid:8391122",
+          "reference": null,
           "is_review": false,
           "notes": "Sub-nanomolar to low-nanomolar at all α subunits; among the highest-affinity classical benzodiazepines."
         }
@@ -1216,8 +1215,7 @@
     "data_gaps_remaining": [],
     "notes": "Long t1/2 (30–40 h) makes clonazepam useful for sustained anxiolysis/anticonvulsant action but contributes to accumulation and protracted withdrawal.",
     "references_consulted": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/017533s059lbl.pdf",
-      "pmid:8391122"
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/017533s059lbl.pdf"
     ]
   },
   {
@@ -1387,7 +1385,7 @@
           "tissue_or_cell": "Cortical membranes",
           "radioligand_or_probe": "[3H]flunitrazepam (self-labelled)",
           "assay_buffer_notes": null,
-          "reference": "pmid:8391122",
+          "reference": null,
           "is_review": false,
           "notes": "Used as the canonical radioligand for benzodiazepine binding studies."
         }
@@ -1483,8 +1481,7 @@
     "notes": "Schedule III in US (others IV); reformulated with blue dye to deter DFSA (drug-facilitated sexual assault) use.",
     "references_consulted": [
       "pmid:11259331",
-      "pmid:12640218",
-      "pmid:8391122"
+      "pmid:12640218"
     ]
   },
   {
@@ -2218,7 +2215,7 @@
           "dose_in_study_mg": 7.5,
           "subject_n": null,
           "subject_demographics": "Imovane product monograph",
-          "reference": "https://en.wikipedia.org/wiki/Zopiclone",
+          "reference": null,
           "notes": "t1/2 5 h; not approved in US (eszopiclone marketed instead)."
         }
       ],
@@ -2231,7 +2228,7 @@
         "metabolite_name": "N-desmethylzopiclone",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 10,
-        "reference": "https://en.wikipedia.org/wiki/Zopiclone"
+        "reference": null
       },
       {
         "enzyme": "CYP3A4",
@@ -2239,7 +2236,7 @@
         "metabolite_name": "zopiclone-N-oxide (inactive)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "https://en.wikipedia.org/wiki/Zopiclone"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -2317,7 +2314,7 @@
           "tissue_or_cell": "Recombinant α1βγ2",
           "radioligand_or_probe": "[3H]flumazenil",
           "assay_buffer_notes": null,
-          "reference": "https://pubmed.ncbi.nlm.nih.gov/12423785/",
+          "reference": null,
           "is_review": false,
           "notes": "Brand: Sonata; generic name zaleplon. Dämgen & Lüddens 1999: 12-, 10-, 27× selective for α1 vs α2, α3, α5 respectively — most α1-selective of the Z-drugs."
         }
@@ -2410,8 +2407,7 @@
     "data_gaps_remaining": [],
     "notes": "Most α1-selective Z-drug. Aldehyde oxidase metabolism is unusual — gives different DDI profile than CYP-metabolized Z-drugs.",
     "references_consulted": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/020859s011lbl.pdf",
-      "https://pubmed.ncbi.nlm.nih.gov/12423785/"
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/020859s011lbl.pdf"
     ]
   },
   {
@@ -3868,7 +3864,7 @@
       {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "lorazepam (3-hydroxylation + N-demethylation)",
+        "metabolite_name": "lorazepam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "doi:10.1002/dta.1628",
@@ -4218,7 +4214,7 @@
         },
         {
           "target": "GABA-A benzodiazepine site",
-          "ki_nm": 10000,
+          "ki_nm": null,
           "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": null,
@@ -4230,9 +4226,10 @@
           "tissue_or_cell": "Brain membranes",
           "radioligand_or_probe": "[3H]diazepam displacement",
           "assay_buffer_notes": null,
-          "reference": "https://en.wikipedia.org/wiki/Ro5-4864",
+          "reference": null,
           "is_review": true,
-          "notes": "No clinically meaningful GABA-A activity. Behaviorally distinct from typical benzodiazepines."
+          "notes": "Removed: 10µM = no binding. Original value was a non-measurement.",
+          "emax_pct": null
         }
       ],
       "functional": [],
@@ -4252,10 +4249,10 @@
     "off_targets": [
       {
         "target": "GABA-A benzodiazepine site",
-        "ki_or_ic50_nm": 10000,
+        "ki_or_ic50_nm": null,
         "concern_level": "low",
-        "clinical_consequence": "Negligible classical benzodiazepine activity — does not function as a sedative/anxiolytic.",
-        "reference": "https://en.wikipedia.org/wiki/Ro5-4864"
+        "clinical_consequence": "Removed: 10µM = no binding",
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -5991,7 +5988,6 @@
     "shared_safety": "The signal harm of benzodiazepines is RESPIRATORY DEPRESSION when combined with other CNS depressants — especially opioids, alcohol, GHB/GBL, and Z-drugs themselves. Alone, benzodiazepines are remarkably non-lethal: documented LD50 ratios are extraordinary (the original Roche estimates put diazepam's LD50/ED50 at >100). Almost all benzodiazepine-attributed deaths involve concurrent CNS depressants. The 2010s/2020s overdose epidemic in North America/Europe with designer benzos (clonazolam, flualprazolam, bromazolam) overwhelmingly involves co-ingestion of fentanyl or its analogues. Specific risks: (1) anterograde amnesia (more pronounced with triazolam, alprazolam, midazolam, flunitrazepam → DFSA potential); (2) paradoxical disinhibition / behavioural disinhibition (~1–2% incidence, more common in elderly, children, alcoholics, those with personality disorders); (3) physical dependence and withdrawal, with seizure risk on abrupt cessation from high doses of short-acting compounds (alprazolam, triazolam, oxazepam) — withdrawal can be fatal without taper; (4) increased fall/fracture risk in elderly; (5) cognitive impairment with chronic use; (6) tolerance to anticonvulsant/hypnotic effects more rapid than to anxiolytic effects. Flumazenil is a competitive antagonist at the benzodiazepine site and reverses sedation acutely (1–2 h duration); not used in chronic users because it can precipitate withdrawal seizures. Z-drugs additionally carry a recognized risk of complex sleep-related behaviours (sleep-driving, sleep-eating, sleep-sex) prompting an FDA boxed warning in 2019 for zolpidem, zaleplon, eszopiclone.",
     "sar_summary": "Core 1,4-benzodiazepin-2-one scaffold: 7-substituent on the fused benzene determines potency (7-Cl in diazepam, 7-Br in phenazepam/flubromazepam → more potent than unsubstituted; 7-NO2 in clonazepam/flunitrazepam/nitrazepam → very high affinity); 5-aryl group is essential (phenyl = standard; 2'-Cl in lorazepam/clonazepam/diclazepam → potency boost; 2'-F in flunitrazepam/midazolam → metabolic stability + potency; 2-pyridyl in bromazepam/pyrazolam → different metabolic fate). N1-substitution: H = standard (nordazepam); methyl (diazepam) → modest change; 2,2,2-trifluoroethyl (halazepam, quazepam) → α1-selectivity hint; diethylaminoethyl (flurazepam) → prodrug-like, parent inactive, all activity from N-dealkylation. 3-position: 3-OH (oxazepam, lorazepam, temazepam, lormetazepam) → bypasses CYP, direct glucuronidation, no active metabolites, hepatic-safe; 3-methyl (meclonazepam) → adds stereochemistry. RING MODIFICATIONS: triazolo-annulation [1,2,4-triazolo[4,3-a]] (alprazolam, triazolam, estazolam, clonazolam, flubromazolam, flualprazolam, bromazolam, adinazolam) → markedly increases intrinsic activity at the benzodiazepine site → higher potency, faster tolerance, more severe withdrawal; thieno-replacement of the benzene (etizolam, brotizolam, clotiazepam, deschloroetizolam, metizolam) → thienodiazepine, faster onset, slightly different binding kinetics; 1,5-benzodiazepine ring rearrangement (clobazam) → mild α2-preference, less sedation. PRO-DRUGS exploit aminopeptidase cleavage (avizafone → diazepam; rilmazafone → triazolobenzodiazepine metabolite) or gastric chemical hydrolysis (clorazepate → nordazepam; ketazolam → diazepam; oxazolam → nordazepam) or CYP-mediated N-dealkylation (prazepam → nordazepam; flurazepam → norflurazepam; quazepam → 2-oxoquazepam; medazepam → diazepam). Z-DRUGS occupy the benzodiazepine site without sharing the benzo scaffold: imidazopyridine (zolpidem, α1-preferring), pyrazolopyrimidine (zaleplon, highly α1-preferring), cyclopyrrolone (zopiclone/eszopiclone, non-selective like classical benzos). The α1G201 residue (Pritchett & Seeburg 1991) is the structural determinant for zolpidem's α1 selectivity. TSPO ligands (Ro5-4864 = 4'-chlorodiazepam) share the benzodiazepine scaffold but bind a structurally unrelated mitochondrial protein and have no GABA-A activity.",
     "key_references": [
-      "pmid:8391122",
       "doi:10.1021/jm800889m",
       "doi:10.2165/00003088-197803010-00005",
       "doi:10.2165/00003088-198106020-00001",
