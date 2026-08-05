@@ -1344,7 +1344,7 @@
         "enzyme": "CYP-mediated",
         "metabolite_name": "nor-4-CMC (N-demethyl), β-OH-4-CMC (ketone reduction), 4-Cl-4-OH-MC (ring hydroxylation)",
         "metabolite_active": true,
-        "reference": "doi:10.1002/dta.2229"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -1840,14 +1840,14 @@
         "mephedrone"
       ],
       "withdrawal_syndrome": "Stimulant withdrawal; severe psychosis with chronic use (especially Russian 'jeff' epidemics from KMnO4-contaminated synthesis with manganese parkinsonism)",
-      "reference": "pmid:18266875"
+      "reference": "pmid:18322282"
     },
     "off_targets": [
       {
         "target": "Manganese (synthesis contaminant)",
         "concern_level": "high",
         "clinical_consequence": "Street methcathinone from KMnO4-mediated synthesis is contaminated with Mn²⁺, causing irreversible extrapyramidal syndrome (manganese parkinsonism) in chronic users",
-        "reference": "pmid:18266875",
+        "reference": "pmid:18322282",
         "notes": "Distinct from intrinsic methcathinone pharmacology — a synthesis-contaminant toxicity"
       }
     ],
@@ -4145,32 +4145,32 @@
       "binding": [
         {
           "target": "DAT (uptake)",
-          "ic50_nm": 1455,
+          "ic50_nm": null,
           "action": "reuptakeInhibitor",
           "species": "rat",
-          "reference": "pmid:36876024",
+          "reference": null,
           "notes": "Wojcieszak 2023 — 4-CEC is a DAT blocker (inactive as releaser)"
         },
         {
           "target": "NET (uptake)",
-          "ic50_nm": 2848,
+          "ic50_nm": null,
           "action": "reuptakeInhibitor",
           "species": "rat",
-          "reference": "pmid:36876024"
+          "reference": null
         },
         {
           "target": "SERT (uptake)",
-          "ic50_nm": 589,
+          "ic50_nm": null,
           "action": "reuptakeInhibitor",
           "species": "rat",
-          "reference": "pmid:36876024"
+          "reference": null
         },
         {
           "target": "SERT (release)",
-          "ec50_nm": 191,
+          "ec50_nm": null,
           "action": "releasingAgent",
           "species": "rat",
-          "reference": "pmid:36876024",
+          "reference": null,
           "notes": "SERT-selective substrate releaser; DAT blocker — hybrid mechanism like 4-MEC. 4-Cl + N-ethyl combination strongly shifts toward 5-HT"
         }
       ],

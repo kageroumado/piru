@@ -1231,7 +1231,7 @@
       "binding": [
         {
           "target": "KOR",
-          "ki_nm": 0.59,
+          "ki_nm": null,
           "ki_ci_nm": [
             0.38,
             0.8
@@ -1246,13 +1246,13 @@
           "tissue_or_cell": "HEK293 transiently expressing FLAG-His6-tagged human KOR",
           "radioligand_or_probe": "[3H]U69,593 and [3H]diprenorphine",
           "assay_buffer_notes": "Ki = 0.59 ± 0.21 nM — described as the most potent KOR agonist identified to date (Yan et al. 2009, Biochemistry).",
-          "reference": "pmid:19053825",
+          "reference": null,
           "is_review": false,
           "notes": "Note: literature commonly conflates 'Mesyl Sal B' (RB-64 / 22-methylsulfonyl Sal B) with 22-thiocyanatosalvinorin A; the latter is more rigorously what RB-64 refers to. They are closely related C-22 (oxymethylene-substituted Sal B) probes from the Roth lab. Treat the input compound name 'Mesyl Sal B / RB-64' as the irreversible covalent-tethered Roth probe."
         },
         {
           "target": "MOR",
-          "ki_nm": 10000,
+          "ki_nm": null,
           "ki_ci_nm": null,
           "kd_nm": null,
           "ec50_nm": null,
@@ -1264,7 +1264,7 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]DAMGO",
           "assay_buffer_notes": "Ki >> 10,000 nM — no significant MOR/DOR activity",
-          "reference": "pmid:19053825",
+          "reference": null,
           "is_review": false,
           "notes": null
         }
@@ -1387,7 +1387,7 @@
           "tissue_or_cell": "HEK293 transiently expressing FLAG-His6-tagged human KOR",
           "radioligand_or_probe": "[3H]U69,593 and [3H]diprenorphine",
           "assay_buffer_notes": "Yan et al. 2009 (Biochemistry) — Ki 0.59 ± 0.21 nM, the most potent KOR agonist reported at time of publication.",
-          "reference": "pmid:19053825",
+          "reference": "pmid:19555087",
           "is_review": false,
           "notes": "Same RB-64 compound as the 'Mesyl Sal B' entry above (literature variably uses either name). The reactive thiocyanate at C-22 of Sal B forms a covalent bond with KOR."
         }

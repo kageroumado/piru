@@ -661,20 +661,20 @@
         "reference": null
       },
       {
-        "enzyme": "CYP2D6 (N-demethylation, minor)",
-        "fraction_of_clearance_pct": 15,
-        "metabolite_name": "amphetamine",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 50,
-        "reference": "doi:10.1124/dmd.30.10.1059",
+        "enzyme": null,
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": null,
         "notes": "~15% of meth dose appears as amphetamine in urine; useful forensic marker"
       },
       {
-        "enzyme": "renal excretion (unchanged)",
-        "fraction_of_clearance_pct": 45,
-        "metabolite_name": "unchanged methamphetamine",
-        "metabolite_active": true,
-        "reference": "doi:10.1124/dmd.30.10.1059",
+        "enzyme": null,
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "reference": null,
         "notes": "Highly pH-dependent like amphetamine"
       }
     ],
@@ -1162,9 +1162,9 @@
         {
           "target": "DAT",
           "readout": "[3H]-DA release",
-          "ec50_nm": 24,
+          "ec50_nm": null,
           "species": "rat",
-          "reference": "pmid:15914673",
+          "reference": null,
           "notes": "Wee 2005 / Negus PAL-353 series — 3-FA potent DA releaser, similar to amphetamine"
         },
         {
@@ -1177,9 +1177,9 @@
         {
           "target": "SERT",
           "readout": "[3H]-5-HT release",
-          "ec50_nm": 1937,
+          "ec50_nm": null,
           "species": "rat",
-          "reference": "pmid:15914673",
+          "reference": null,
           "notes": "Weak SERT releaser — intermediate between 2-FA and 4-FA"
         }
       ],
@@ -3763,7 +3763,7 @@
           "reference_agonist": "PEA",
           "species": "rat",
           "cell_system": "rTAR1 transfected",
-          "reference": "pmid:11723238",
+          "reference": "pmid:11723224",
           "notes": "Bunzow 2001 — hordenine at 1 µM matches PEA at 1 µM in stimulating cAMP"
         }
       ],

@@ -1624,13 +1624,13 @@
         "with": "rifampicin",
         "mechanism": "CYP3A4 induction",
         "clinical_effect": "\u2193 oxycodone AUC \u226585%; loss of analgesia",
-        "reference": "doi:10.1038/clpt.2009.198"
+        "reference": null
       },
       {
         "with": "paroxetine",
         "mechanism": "CYP2D6 inhibition",
         "clinical_effect": "Reduces oxymorphone formation; small reduction in subjective effects",
-        "reference": "doi:10.1007/s00228-009-0654-3"
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -2604,7 +2604,7 @@
         "with": "MAOIs / strong serotonergics",
         "mechanism": "pharmacodynamic \u2014 NE excess",
         "clinical_effect": "Hypertensive crisis with MAOIs (contraindicated). Serotonin syndrome risk lower than tramadol because SERT activity minimal.",
-        "reference": "doi:10.1517/14740338.2013.793669"
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -3179,7 +3179,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1016/j.forsciint.2017.01.003",
+          "reference": null,
           "is_review": true,
           "notes": "Casati 2017 review. Desomorphine is a full MOR agonist; in animal models 8-10\u00d7 morphine potency due to high lipophilicity \u2192 rapid BBB entry."
         }
@@ -3208,7 +3208,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "desomorphine-3-glucuronide",
         "metabolite_active": false,
-        "reference": "doi:10.1016/j.forsciint.2017.01.003"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -3226,7 +3226,7 @@
         "all MOR full agonists"
       ],
       "withdrawal_syndrome": "Severe and rapid morphine-type withdrawal owing to short half-life.",
-      "reference": "doi:10.1016/j.forsciint.2017.01.003"
+      "reference": null
     },
     "off_targets": [
       {
@@ -3234,7 +3234,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Devastating necrotising soft-tissue lesions in krokodil users are caused by reactive impurities (phosphorus, iodine, hydrochloric acid) from clandestine codeine\u2192desomorphine synthesis \u2014 NOT desomorphine itself.",
-        "reference": "doi:10.1016/j.forsciint.2017.01.003"
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -4190,7 +4190,7 @@
         "with": "5-HT3 antagonists (ondansetron)",
         "mechanism": "pharmacodynamic \u2014 additive QT + severe hypotension",
         "clinical_effect": "Profound hypotension/syncope reported \u2014 CONTRAINDICATED.",
-        "reference": "doi:10.1212/01.WNL.0000031426.21683.E2"
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -4215,7 +4215,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "moderate",
         "clinical_consequence": "Apomorphine can prolong QT; avoid in patients with QT-prolonging meds.",
-        "reference": "doi:10.1212/01.WNL.0000031426.21683.E2"
+        "reference": null
       }
     ],
     "demographic_differences": {

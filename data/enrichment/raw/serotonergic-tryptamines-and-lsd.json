@@ -3045,7 +3045,7 @@
           "dose_in_study_mg": 24,
           "subject_n": 15,
           "subject_demographics": "ayahuasca, with harmine 1.7 mg/kg",
-          "reference": "pmid:9700761"
+          "reference": "pmid:10404423"
         }
       ],
       "concentration_effect": [
@@ -3080,7 +3080,7 @@
         "mechanism": "MAO-A inhibition blocks primary clearance pathway",
         "ki_um": 0.005,
         "clinical_effect": "Enables oral activity; multi-fold increases in plasma DMT and prolonged effects (ayahuasca)",
-        "reference": "pmid:9700761"
+        "reference": "pmid:10404423"
       },
       {
         "with": "SSRI",
@@ -5989,7 +5989,7 @@
         "mechanism": "MAO-A inhibition enables oral DMT activity",
         "ki_um": 0.005,
         "clinical_effect": "Enables oral activity; large increases in plasma DMT",
-        "reference": "pmid:9700761"
+        "reference": "pmid:10404423"
       },
       {
         "with": "SSRI",
@@ -6116,7 +6116,7 @@
         "mechanism": "MAO-A inhibition",
         "ki_um": null,
         "clinical_effect": "Enables oral DMT activity",
-        "reference": "pmid:9700761"
+        "reference": "pmid:10404423"
       }
     ],
     "pharmacogenetics": {
@@ -6528,11 +6528,11 @@
         "reference": null
       },
       {
-        "with": "cannabidiol (CBD)",
-        "mechanism": "Bidirectional CYP1A2/PEPT1 effects",
+        "with": null,
+        "mechanism": null,
         "ki_um": null,
-        "clinical_effect": "Complex; may increase oral exposure",
-        "reference": "doi:10.3390/pharmaceutics17010001"
+        "clinical_effect": null,
+        "reference": null
       }
     ],
     "pharmacogenetics": {

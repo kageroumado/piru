@@ -335,7 +335,7 @@
         "target": "Bladder urothelium",
         "concern_level": "high",
         "clinical_consequence": "Ulcerative cystitis in chronic high-dose users (>1 g/day); norketamine implicated as direct urothelial toxin",
-        "reference": "doi:10.1111/j.1464-410X.2008.07597.x"
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -846,7 +846,7 @@
         "target": "bladder urothelium",
         "concern_level": "high",
         "clinical_consequence": "Proposed primary mediator of ketamine cystitis in chronic users",
-        "reference": "doi:10.1111/j.1464-410X.2008.07597.x"
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -1665,12 +1665,12 @@
         {
           "target": "NMDA (MK-801 site)",
           "ki_nm": null,
-          "ic50_nm": 679,
+          "ic50_nm": null,
           "action": "channelBlocker",
           "species": "rat",
           "tissue_or_cell": "recombinant NMDA",
           "radioligand_or_probe": "patch-clamp",
-          "reference": "doi:10.3390/molecules27227938",
+          "reference": null,
           "notes": "Bonaventura 2022 / Wallach group; IC50 ~0.68 μM. Less potent than MXE despite structural similarity."
         }
       ],

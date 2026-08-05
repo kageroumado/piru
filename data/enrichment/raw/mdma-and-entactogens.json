@@ -277,7 +277,7 @@
         "mechanism": "CYP2D6 inhibition (paroxetine inhibits, MDMA is a 2D6 substrate)",
         "ki_um": null,
         "clinical_effect": "Paroxetine pretreatment increases MDMA AUC by ~30% but blunts subjective effects via SSRI block of SERT — net effect is reduced euphoria with higher exposure.",
-        "reference": "doi:10.1038/sj.clpt.6100353"
+        "reference": null
       },
       {
         "with": "ritonavir",
@@ -338,7 +338,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "low",
         "clinical_consequence": "Weak hERG block at supratherapeutic concentrations; clinically relevant QT prolongation usually requires overdose or co-ingestion. Hyperthermia from MDMA toxicity is the dominant cardiac concern, not QT.",
-        "reference": "pmid:21692585"
+        "reference": null
       },
       {
         "target": "VMAT2",
@@ -1230,9 +1230,9 @@
       {
         "target": "thermoregulation",
         "ki_or_ic50_nm": null,
-        "concern_level": "high",
-        "clinical_consequence": "Animal LD50 studies show MDAI can cause severe hyperthermia despite its 'non-neurotoxic' reputation — fatalities documented.",
-        "reference": "doi:10.1016/j.etap.2016.03.013"
+        "concern_level": null,
+        "clinical_consequence": null,
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -2829,7 +2829,7 @@
           "intrinsic_activity_pct": null,
           "species": "rat",
           "tissue_or_cell": "rat prefrontal cortex (in vivo)",
-          "reference": "doi:10.1016/j.neuropharm.2018.06.020",
+          "reference": null,
           "is_review": false,
           "notes": "Induces head-twitch response in mice via 5-HT2A — a classic psychedelic assay readout. Very high 5-HT2A potency."
         },

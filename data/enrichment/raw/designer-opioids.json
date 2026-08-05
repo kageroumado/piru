@@ -2361,7 +2361,7 @@
         "metabolite_name": "hydroxy-MT-45 and N-dealkylated metabolites",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1002/dta.2358",
+        "reference": null,
         "notes": "Multiple hydroxylated and dealkylated phase I metabolites identified in human urine (Helander 2018)."
       }
     ],
@@ -2459,7 +2459,7 @@
         "metabolite_name": "N-desmethyl-AH-7921",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1007/s00204-016-1907-4",
+        "reference": null,
         "notes": "Vorce 2014 / Karinen 2014 — N-desmethyl is major metabolite in human urine."
       }
     ],
@@ -2756,7 +2756,7 @@
         "ABCB1"
       ],
       "phenotype_effects": "CYP3A4*22 carriers have reduced clearance. OPRM1 A118G (rs1799971) — G-allele carriers need higher fentanyl doses for equivalent analgesia (Park 2007). ABCB1 (P-gp) polymorphisms affect brain efflux.",
-      "reference": "doi:10.1038/clpt.2008.59"
+      "reference": null
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "MOR internalisation occurs within minutes; receptor recycling t½ ~30 min. Chronic exposure causes desensitisation rather than downregulation.",

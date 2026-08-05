@@ -105,12 +105,12 @@
     },
     "metabolism": [
       {
-        "enzyme": "CYP2C9",
-        "fraction_of_clearance_pct": 50,
-        "metabolite_name": "11-OH-THC",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 100,
-        "reference": "pmid:11444969",
+        "enzyme": null,
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": null,
         "notes": "11-OH-THC is equipotent or slightly more potent at CB1 than parent; major active metabolite especially after oral dosing."
       },
       {
@@ -122,29 +122,29 @@
         "reference": "pmid:38583809"
       },
       {
-        "enzyme": "CYP2C9 + UGT",
+        "enzyme": null,
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "THC-COOH",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:11444969",
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": null,
         "notes": "Inactive carboxylic acid; primary urinary marker (as glucuronide)."
       }
     ],
     "drug_interactions_pk": [
       {
-        "with": "ketoconazole (CYP3A4 inhibition)",
-        "mechanism": "CYP3A4 inhibition",
+        "with": null,
+        "mechanism": null,
         "ki_um": null,
-        "clinical_effect": "≈1.8× THC AUC, 3× 11-OH-THC AUC",
-        "reference": "doi:10.1124/jpet.114.214155"
+        "clinical_effect": null,
+        "reference": null
       },
       {
-        "with": "rifampin (CYP3A4 induction)",
-        "mechanism": "CYP3A4 induction",
+        "with": null,
+        "mechanism": null,
         "ki_um": null,
-        "clinical_effect": "≈40% reduction THC AUC",
-        "reference": "doi:10.1124/jpet.114.214155"
+        "clinical_effect": null,
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -1091,21 +1091,21 @@
     },
     "metabolism": [
       {
-        "enzyme": "CYP1A2/CYP2C9",
+        "enzyme": null,
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "ω-OH-JWH-018",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 80,
-        "reference": "doi:10.1124/dmd.111.038596",
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": null,
         "notes": "Mono- and dihydroxylated metabolites retain high CB1 affinity (Ki 4-50 nM) — extending pharmacodynamic effect. Some metabolites act as neutral CB1 antagonists (Brents 2012, pmid:21942375)."
       },
       {
-        "enzyme": "UGT2B7/1A3",
+        "enzyme": null,
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "glucuronides of OH-JWH-018",
+        "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1124/dmd.111.038596"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -1131,9 +1131,9 @@
       {
         "target": "5-HT2B",
         "ki_or_ic50_nm": null,
-        "concern_level": "low",
-        "clinical_consequence": "Some JWH-series compounds show minor 5-HT2B activity; clinical relevance unclear",
-        "reference": "pmid:27397052"
+        "concern_level": null,
+        "clinical_consequence": null,
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -1197,7 +1197,7 @@
           "tissue_or_cell": "rat cerebellum / hCB1-CHO",
           "radioligand_or_probe": "[3H]-CP55,940",
           "assay_buffer_notes": null,
-          "reference": "pmid:11020385",
+          "reference": "pmid:10940540",
           "is_review": false,
           "notes": "Aung 2000. Similar CB1 affinity to JWH-018 but slightly weaker functional potency; 5× CB1 selectivity over CB2."
         },
@@ -1218,7 +1218,7 @@
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-CP55,940",
           "assay_buffer_notes": null,
-          "reference": "pmid:11020385",
+          "reference": "pmid:10940540",
           "is_review": false,
           "notes": null
         }
@@ -1235,12 +1235,12 @@
     },
     "metabolism": [
       {
-        "enzyme": "CYP1A2/CYP2C9",
+        "enzyme": null,
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "ω-OH-JWH-073, ω-COOH-JWH-073",
-        "metabolite_active": true,
+        "metabolite_name": null,
+        "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1124/dmd.111.038596",
+        "reference": null,
         "notes": "Monohydroxylated metabolites retain CB1 affinity (intermediate to high); some act as neutral antagonists/partial agonists (pmid:22323737)."
       }
     ],
@@ -1365,7 +1365,7 @@
         "metabolite_name": "defluorinated hydroxy metabolites; can produce 5-OH-JWH-018-like species",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1002/dta.1326",
+        "reference": null,
         "notes": "Defluorination yields 5-OH-pentyl metabolite identical to a JWH-018 metabolite — complicates urine testing differentiation."
       }
     ],

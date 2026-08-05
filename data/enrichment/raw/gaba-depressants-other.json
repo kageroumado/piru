@@ -715,11 +715,11 @@
     ],
     "drug_interactions_pk": [
       {
-        "with": "ethanol",
-        "mechanism": "Competitive ADH inhibition → delayed conversion to GHB; ethanol metabolism wins, BD pools",
+        "with": null,
+        "mechanism": null,
         "ki_um": null,
-        "clinical_effect": "Delayed/prolonged sedation, re-dosing risk, increased overdose deaths.",
-        "reference": "pmid:15351964"
+        "clinical_effect": null,
+        "reference": null
       },
       {
         "with": "fomepizole (4-methylpyrazole)",
@@ -954,12 +954,12 @@
     },
     "metabolism": [
       {
-        "enzyme": "(none — not metabolised in humans)",
-        "fraction_of_clearance_pct": 0,
+        "enzyme": null,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": null,
-        "metabolite_active": false,
+        "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:12895126",
+        "reference": null,
         "notes": "Excreted essentially unchanged in urine. No CYP involvement. No drug-drug interactions via CYP."
       }
     ],
@@ -1134,17 +1134,17 @@
         "metabolite_name": null,
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:20136736",
+        "reference": null,
         "notes": "<2% metabolised. ~98% renally excreted unchanged."
       }
     ],
     "drug_interactions_pk": [
       {
-        "with": "opioids",
-        "mechanism": "Pharmacodynamic: shared CNS/respiratory depression",
+        "with": null,
+        "mechanism": null,
         "ki_um": null,
-        "clinical_effect": "Coronial data show pregabalin involved in ~10-25% of opioid overdose deaths in regions with high prescription; UK reclassified as Schedule 3 controlled drug in 2019.",
-        "reference": "pmid:32102803"
+        "clinical_effect": null,
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -1284,7 +1284,7 @@
         "mechanism": "Pharmacodynamic synergy at GABA-B and respiratory centres",
         "ki_um": null,
         "clinical_effect": "Major respiratory depression / sedation risk.",
-        "reference": "pmid:30627427"
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -1304,7 +1304,7 @@
         "pregabalin"
       ],
       "withdrawal_syndrome": "Onset 12-48 h after last dose. Severe: anxiety, agitation, psychomotor activation, insomnia, hallucinations, psychosis, autonomic instability, occasionally seizures. Duration 2-4 weeks with protracted PAWS up to months. Closely resembles GHB and severe BZ withdrawal. Treatment: baclofen tapers ± benzodiazepines; multiple Baltic/Russian case reports document the syndrome (Ahuja 2018, Hardman 2019, Magsalin 2018, Joshi 2017).",
-      "reference": "pmid:30627427"
+      "reference": null
     },
     "off_targets": [],
     "demographic_differences": {
@@ -1812,11 +1812,11 @@
     ],
     "drug_interactions_pk": [
       {
-        "with": "warfarin, oral contraceptives, theophylline, many AEDs",
-        "mechanism": "Strong pan-CYP induction (CAR/PXR activation) — CYP2B6, CYP2C9, CYP3A4 induced 2-5x",
+        "with": null,
+        "mechanism": null,
         "ki_um": null,
-        "clinical_effect": "Markedly reduced exposure of CYP3A/2C substrates; classic inducer.",
-        "reference": "pmid:11226216"
+        "clinical_effect": null,
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -2851,7 +2851,7 @@
           "tissue_or_cell": "rat cortical neurons",
           "radioligand_or_probe": null,
           "assay_buffer_notes": "Trichloroethanol (TCE) — the active metabolite — potentiates GABA-A currents at the barbiturate site (Lovinger & Peoples).",
-          "reference": "pmid:1334432",
+          "reference": "pmid:8383736",
           "is_review": false,
           "notes": "Chloral hydrate itself is essentially a prodrug for TCE."
         }
@@ -4600,7 +4600,7 @@
         "mechanism": "Propranolol MBI of CYP2D6",
         "ki_um": null,
         "clinical_effect": "Reduced metabolism of co-administered CYP2D6 substrates.",
-        "reference": "pmid:31682279"
+        "reference": null
       }
     ],
     "pharmacogenetics": {

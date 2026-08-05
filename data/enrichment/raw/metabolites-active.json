@@ -495,7 +495,7 @@
         "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "receptor_affinity",
-        "reference": "doi:10.1186/ar3860",
+        "reference": null,
         "notes": "Norcyclobenzaprine (NCBP) is an established active metabolite that binds the same monoaminergic/serotonergic receptor panel as cyclobenzaprine, with comparable or in some cases numerically tighter binding at individual receptors (e.g. 5-HT1A Ki reported as ~3200 nM for NCBP vs ~5300 nM for cyclobenzaprine), though it is generally described in the broader literature as less potent overall and longer-lived than the parent, contributing to extended CNS effects (e.g. next-day sedation) beyond what cyclobenzaprine's own half-life would predict. A directly verified, citable quantitative value for NCBP's own half-life or its formation fraction from cyclobenzaprine was not located, so those fields are left null rather than estimated.",
         "metabolite_mechanism_vs_parent": "scaled"
       }

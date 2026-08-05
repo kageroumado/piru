@@ -192,7 +192,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Use-dependent Na block; QRS widening, arrhythmia, sudden cardiac death; treatment of cocaine wide-QRS is sodium bicarbonate",
-        "reference": "doi:10.1111/j.1476-5381.2010.00744.x"
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -381,21 +381,21 @@
         "notes": "Stereoselective: l-MPH cleared 5-10x faster than d-MPH. CES1 G143E (rs71647871, ~3% allele freq) reduces clearance, increases AUC."
       },
       {
-        "enzyme": "CES1 + ethanol",
+        "enzyme": null,
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "ethylphenidate",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 80,
-        "reference": "doi:10.1038/srep07111",
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": null,
         "notes": "Transesterification \u2014 analogous to cocaethylene; increases d-MPH exposure and euphoria."
       }
     ],
     "drug_interactions_pk": [
       {
-        "with": "ethanol",
-        "mechanism": "CES1 transesterification",
-        "clinical_effect": "Increased d-MPH AUC, ethylphenidate formation, enhanced euphoria",
-        "reference": "doi:10.1038/srep07111"
+        "with": null,
+        "mechanism": null,
+        "clinical_effect": null,
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -419,9 +419,9 @@
       {
         "target": "5-HT1A",
         "ki_or_ic50_nm": null,
-        "concern_level": "low",
-        "clinical_consequence": "Weak partial 5-HT1A agonism at high doses possibly contributes to mood effects",
-        "reference": "pmid:18164836"
+        "concern_level": null,
+        "clinical_consequence": null,
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -544,22 +544,22 @@
       "binding": [
         {
           "target": "DAT",
-          "ki_nm": 230,
+          "ki_nm": null,
           "action": "reuptakeInhibitor",
           "species": "rat",
           "tissue_or_cell": "rat striatal synaptosomes",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "doi:10.1038/srep07111",
+          "reference": null,
           "notes": "d-threo isomer; affinity similar to d-MPH at DAT."
         },
         {
           "target": "NET",
-          "ki_nm": 3700,
+          "ki_nm": null,
           "action": "reuptakeInhibitor",
           "species": "rat",
           "tissue_or_cell": "rat cortical membranes",
           "radioligand_or_probe": "[3H]nisoxetine",
-          "reference": "doi:10.1038/srep07111",
+          "reference": null,
           "notes": "~18-fold lower NET affinity than d-MPH \u2014 explains selectively dopaminergic profile."
         }
       ],
@@ -571,11 +571,11 @@
     },
     "metabolism": [
       {
-        "enzyme": "CES1",
+        "enzyme": null,
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "ritalinic acid + ethanol",
-        "metabolite_active": false,
-        "reference": "doi:10.1038/srep07111"
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "reference": null
       }
     ],
     "tags_to_add": [
