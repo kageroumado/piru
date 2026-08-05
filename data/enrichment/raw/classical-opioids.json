@@ -974,7 +974,7 @@
         "with": "rifampicin",
         "mechanism": "CYP3A4/2B6 induction",
         "clinical_effect": "Precipitates methadone withdrawal in maintenance patients",
-        "reference": "doi:10.1056/NEJM197605132942005"
+        "reference": null
       },
       {
         "with": "fluconazole / fluvoxamine",
