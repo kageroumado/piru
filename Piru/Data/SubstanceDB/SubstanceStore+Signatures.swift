@@ -32,7 +32,8 @@ extension SubstanceStore {
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT b.id, b.target, b.action, b.ki_nm, b.ec50_nm, b.ic50_nm,
                            b.relative_tau, b.intrinsic_activity_pct, b.emax_pct,
-                           b.comparable_set, b.citation_id, b.species, b.reference_agonist,
+                           b.comparable_set, b.citation_id, b.species, b.assay_system,
+                           b.reference_agonist,
                            s.canonical_name AS substance_name, s.popularity,
                            c.doi, c.pmid, c.year
                       FROM bindings b
@@ -57,6 +58,7 @@ extension SubstanceStore {
                         comparableSet: row["comparable_set"],
                         citationID: row["citation_id"],
                         species: row["species"],
+                        assaySystem: row["assay_system"],
                         referenceAgonist: row["reference_agonist"],
                         doi: row["doi"],
                         pmid: row["pmid"],
@@ -76,7 +78,7 @@ extension SubstanceStore {
             return try substancesDB.read { db in
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT f.id, f.target, f.ec50_nm, f.ic50_nm, f.emax_pct, f.reference_agonist,
-                           f.species, f.citation_id,
+                           f.species, f.assay_system, f.citation_id,
                            s.canonical_name AS substance_name, s.popularity,
                            c.doi, c.pmid, c.year
                       FROM functional_assays f
@@ -97,6 +99,7 @@ extension SubstanceStore {
                         emaxPct: row["emax_pct"],
                         citationID: row["citation_id"],
                         species: row["species"],
+                        assaySystem: row["assay_system"],
                         referenceAgonist: row["reference_agonist"],
                         doi: row["doi"],
                         pmid: row["pmid"],

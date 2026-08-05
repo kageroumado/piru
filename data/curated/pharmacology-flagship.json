@@ -118,7 +118,6 @@
     "bindings": [
       { "target": "SERT", "action": "releasingAgent", "ec50_nm": 1690, "confidence": "MEDIUM", "reference": "10.1371/journal.pone.0036476", "notes": "Human SERT release EC50 ~1.69 µM (HEK293); rat synaptosome ~74 nM — ~23× cross-platform disagreement, use within-assay ratios. MDMA is 5-HT-leaning (SERT most potent in the synaptosome platform)." },
       { "target": "NET", "action": "releasingAgent", "ec50_nm": 77.4, "confidence": "MEDIUM", "reference": "10.1021/acschemneuro.8b00155", "notes": "NET release EC50 77.4 nM (rat synaptosome, Rothman/Baumann review). Use within-assay ratios." },
-      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 22000, "confidence": "MEDIUM", "reference": "10.1111/j.1476-5381.2012.02145.x", "notes": "Human DAT release EC50 ~22 µM (HEK293); rat synaptosome ~142–278 nM — ~80× disagreement. MDMA is DA-weak relative to SERT/NET. Use within-assay ratios." },
       { "target": "5-HT2A", "action": "agonist", "ki_nm": 7800, "confidence": "MEDIUM", "reference": "10.1371/journal.pone.0036476", "notes": "Weak, low-affinity 5-HT2A ligand (~7.8 µM); not a meaningful direct agonist at therapeutic concentrations. Primary serotonergic action is SERT-mediated release." }
     ]
   },

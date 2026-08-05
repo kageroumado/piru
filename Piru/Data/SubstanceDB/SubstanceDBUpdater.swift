@@ -348,7 +348,6 @@ final class SubstanceDBUpdater {
             sqlitePath: "",
             sqliteSha256: "",
             sqliteSizeBytes: 0,
-            releaseNotes: "",
         )
     }
 }

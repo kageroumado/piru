@@ -27,6 +27,7 @@ struct SignatureComparabilityTests {
         set: String? = nil,
         citation: Int64? = nil,
         species: String? = "human",
+        assaySystem: String? = nil,
         reference: String? = nil,
         action: String? = nil,
     ) -> SignatureLeg {
@@ -34,7 +35,8 @@ struct SignatureComparabilityTests {
             id: id, substanceName: substance, target: target, action: action,
             kiNm: ki, ec50Nm: ec50, ic50Nm: ic50,
             relativeTau: tau, intrinsicActivityPct: intrinsic, emaxPct: nil,
-            comparableSet: set, citationID: citation, species: species, referenceAgonist: reference,
+            comparableSet: set, citationID: citation, species: species,
+            assaySystem: assaySystem, referenceAgonist: reference,
         )
     }
 
@@ -60,7 +62,7 @@ struct SignatureComparabilityTests {
         ]
         let group = SignatureComparability.admits(legs)
         #expect(group?.basis == .ec50)
-        #expect(group?.key == .citation(2, species: "human"))
+        #expect(group?.key == .citation(2, species: "human", assaySystem: nil))
     }
 
     @Test
@@ -78,6 +80,18 @@ struct SignatureComparabilityTests {
             Self.leg("1", "MDMA", .sert, ec50: 49.6, citation: 5, species: "rat"),
             Self.leg("2", "MDMA", .dat, ec50: 51.2, citation: 5, species: "rat"),
             Self.leg("3", "MDMA", .net, ec50: 54.1, citation: 5, species: "human"),
+        ]
+        #expect(SignatureComparability.admits(legs) == nil)
+        let groups = SignatureComparability.partition(legs)
+        #expect(groups.count == 2)
+    }
+
+    @Test
+    func `Same citation and species but different assay systems are separate groups`() {
+        let legs = [
+            Self.leg("1", "MDMA", .sert, ec50: 49.6, citation: 5, species: "human", assaySystem: "synaptosome"),
+            Self.leg("2", "MDMA", .dat, ec50: 51.2, citation: 5, species: "human", assaySystem: "synaptosome"),
+            Self.leg("3", "MDMA", .net, ec50: 54.1, citation: 5, species: "human", assaySystem: "recombinant"),
         ]
         #expect(SignatureComparability.admits(legs) == nil)
         let groups = SignatureComparability.partition(legs)
@@ -163,6 +177,7 @@ struct ClassSignatureTests {
         set: String? = nil,
         citation: Int64? = nil,
         species: String? = "human",
+        assaySystem: String? = nil,
         reference: String? = nil,
         action: String? = nil,
     ) -> SignatureLeg {
@@ -170,7 +185,8 @@ struct ClassSignatureTests {
             id: id, substanceName: substance, target: target, action: action,
             kiNm: ki, ec50Nm: ec50, ic50Nm: ic50,
             relativeTau: tau, intrinsicActivityPct: intrinsic, emaxPct: nil,
-            comparableSet: set, citationID: citation, species: species, referenceAgonist: reference,
+            comparableSet: set, citationID: citation, species: species,
+            assaySystem: assaySystem, referenceAgonist: reference,
         )
     }
 

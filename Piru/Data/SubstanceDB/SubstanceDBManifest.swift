@@ -34,8 +34,6 @@ struct SubstanceDBManifest: Codable, Equatable, Hashable {
     let sqliteSha256: String
     let sqliteSizeBytes: Int
 
-    let releaseNotes: String
-
     /// JSON decoder configured with the snake_case key strategy the build
     /// script emits. Static so callers don't have to remember.
     static let jsonDecoder: JSONDecoder = {

@@ -16,8 +16,7 @@ struct SubstanceDBManifestTests {
       },
       "sqlite_path": "piru-substances.sqlite",
       "sqlite_sha256": "abc123",
-      "sqlite_size_bytes": 4276224,
-      "release_notes": "Initial build."
+      "sqlite_size_bytes": 4276224
     }
     """#
 
@@ -30,7 +29,6 @@ struct SubstanceDBManifestTests {
         #expect(manifest.substanceCount == 1_629)
         #expect(manifest.sqliteSha256 == "abc123")
         #expect(manifest.sqliteSizeBytes == 4_276_224)
-        #expect(manifest.releaseNotes == "Initial build.")
         #expect(manifest.sources["tripsit"]?["categories"] == 100)
     }
 
@@ -79,7 +77,6 @@ struct SubstanceDBManifestTests {
             sqlitePath: "piru-substances.sqlite",
             sqliteSha256: "deadbeef",
             sqliteSizeBytes: 1_024,
-            releaseNotes: "Test build",
         )
     }
 }
@@ -143,7 +140,6 @@ struct SubstanceDBUpdaterTests {
             sqlitePath: "piru-substances.sqlite",
             sqliteSha256: "",
             sqliteSizeBytes: 0,
-            releaseNotes: "",
         )
         let resolved = SubstanceDBUpdater.sqliteURL(manifestURL: manifestURL, manifest: manifest)
         #expect(resolved.absoluteString == "https://github.com/kageroumado/piru/releases/download/db/piru-substances.sqlite")
@@ -156,7 +152,7 @@ struct SubstanceDBUpdaterTests {
             schemaVersion: 1, contentVersion: "", generatedAt: "", generatorVersion: "",
             substanceCount: 0, sources: [:],
             sqlitePath: "piru-substances.sqlite",
-            sqliteSha256: "", sqliteSizeBytes: 0, releaseNotes: "",
+            sqliteSha256: "", sqliteSizeBytes: 0,
         )
         let resolved = SubstanceDBUpdater.sqliteURL(manifestURL: manifestURL, manifest: manifest)
         #expect(resolved.absoluteString == "https://example.com/some/owner/repo/branch/Piru/Data/piru-substances.sqlite")
@@ -210,7 +206,6 @@ struct SubstanceDBUpdaterTests {
             sqlitePath: "piru-substances.sqlite",
             sqliteSha256: String(repeating: "0", count: 64),
             sqliteSizeBytes: 0,
-            releaseNotes: "Test remote build",
         )
         return try SubstanceDBManifest.jsonEncoder.encode(manifest)
     }
@@ -291,7 +286,6 @@ struct SubstanceDBUpdaterTests {
             sqlitePath: "piru-substances.sqlite",
             sqliteSha256: "",
             sqliteSizeBytes: 0,
-            releaseNotes: "",
         )
         let resolved = SubstanceDBUpdater.sqliteURL(manifestURL: manifestURL, manifest: manifest)
         #expect(resolved.absoluteString == "https://example.test/some/dir/piru-substances.sqlite")

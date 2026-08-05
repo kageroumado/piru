@@ -91,12 +91,6 @@ struct SubstanceDBUpdateRow: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
             .accessibilityElement(children: .combine)
-            if !remote.releaseNotes.isEmpty {
-                Text(remote.releaseNotes)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
             HStack {
                 Text(formattedSize(remote.sqliteSizeBytes))
                     .font(.caption2)

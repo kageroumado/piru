@@ -96,6 +96,7 @@ nonisolated struct SignatureLeg: Identifiable, Hashable, Sendable {
     let comparableSet: String?
     let citationID: Int64?
     let species: String?
+    let assaySystem: String?
     let referenceAgonist: String?
     let doi: String?
     let pmid: Int?
@@ -119,6 +120,7 @@ nonisolated struct SignatureLeg: Identifiable, Hashable, Sendable {
         comparableSet: String? = nil,
         citationID: Int64? = nil,
         species: String? = nil,
+        assaySystem: String? = nil,
         referenceAgonist: String? = nil,
         doi: String? = nil,
         pmid: Int? = nil,
@@ -138,6 +140,7 @@ nonisolated struct SignatureLeg: Identifiable, Hashable, Sendable {
         self.comparableSet = comparableSet
         self.citationID = citationID
         self.species = species
+        self.assaySystem = assaySystem
         self.referenceAgonist = referenceAgonist
         self.doi = doi
         self.pmid = pmid
@@ -149,13 +152,11 @@ nonisolated struct SignatureLeg: Identifiable, Hashable, Sendable {
     /// when a curator has tagged the uniform panel, rows outside it were deliberately left out, so a
     /// shared paper is not enough to re-admit them. `nil` for a row with neither — never plottable.
     ///
-    /// The citation fallback narrows by species so a paper that reports measurements in both
-    /// rat and human tissue does not merge them into one group. A future `assay_system`
-    /// classifier (derived from `tissue_or_cell`) will further separate preparations within
-    /// one species; raw `tissue_or_cell` strings are too noisy to hash on directly.
+    /// The citation fallback narrows by species and assay system so a paper that reports
+    /// measurements in both rat synaptosomes and human recombinant cells does not merge them.
     var comparabilityKey: ComparabilityKey? {
         if let comparableSet, !comparableSet.isEmpty { return .panel(comparableSet) }
-        if let citationID { return .citation(citationID, species: species) }
+        if let citationID { return .citation(citationID, species: species, assaySystem: assaySystem) }
         return nil
     }
 
@@ -196,10 +197,9 @@ nonisolated struct SignatureLeg: Identifiable, Hashable, Sendable {
 nonisolated enum ComparabilityKey: Hashable, Sendable {
     /// A curated uniform panel (`bindings.comparable_set`) — the strong form.
     case panel(String)
-    /// One publication, narrowed by species so a paper reporting measurements in both rat
-    /// and human cannot merge them. A future `assay_system` classifier will add preparation
-    /// separation within one species.
-    case citation(Int64, species: String?)
+    /// One publication, narrowed by species and assay system so a paper reporting
+    /// measurements in both rat synaptosomes and human recombinant cells does not merge them.
+    case citation(Int64, species: String?, assaySystem: String?)
 
     /// Whether the group's comparability was *declared* by a curator rather than inferred from a
     /// shared citation. Surfaced in the caption so the reader can tell the two apart.
@@ -268,8 +268,8 @@ nonisolated struct ComparableGroup: Identifiable, Hashable, Sendable {
     var id: String {
         switch key {
         case let .panel(name): "panel:\(name):\(basis.rawValue)"
-        case let .citation(cid, species):
-            "cite:\(cid):\(species ?? ""):\(basis.rawValue)"
+        case let .citation(cid, species, assaySystem):
+            "cite:\(cid):\(species ?? ""):\(assaySystem ?? ""):\(basis.rawValue)"
         }
     }
 
