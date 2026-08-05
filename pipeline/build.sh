@@ -52,10 +52,13 @@ step "6/8  Build the bundled SQLite the app ships"
 # extracts; then tag-promotion, dedup, chemnoise purge, display classification.
 python3 pipeline/build/sqlite.py
 
-step "7/8  Human-readable snapshots → data/snapshots/"
+step "7/9  Human-readable snapshots → data/snapshots/"
 python3 pipeline/build/snapshots.py
 
-step "8/8  Regression + invariant tests"
+step "8/9  Signature coverage snapshot → data/snapshots/signature-coverage.json"
+python3 pipeline/audit/signature_coverage.py --write
+
+step "9/9  Regression + invariant tests"
 python3 pipeline/build/tests/test_sqlite.py
 python3 pipeline/build/tests/test_overlay_integrity.py
 python3 pipeline/build/tests/test_psid.py

@@ -33,7 +33,8 @@
           "assay_buffer_notes": "Used as the reference comparator in Roth 2013 (MK-801 Ki ≈ 5.7 nM in same assay)",
           "reference": "doi:10.1371/journal.pone.0059334",
           "is_review": false,
-          "notes": "Racemic ketamine; widely cited canonical value"
+          "notes": "Racemic ketamine; widely cited canonical value",
+          "comparable_set": "roth-2013-rat-nmda"
         },
         {
           "target": "NMDA (MK-801 site, S-enantiomer)",
@@ -482,7 +483,7 @@
     "metabolism": [
       {
         "enzyme": "CYP3A4",
-        "fraction_of_clearance_pct": 60,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "S-norketamine",
         "metabolite_active": true,
         "reference": "doi:10.1124/dmd.30.7.853",
@@ -490,7 +491,7 @@
       },
       {
         "enzyme": "CYP2B6",
-        "fraction_of_clearance_pct": 30,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "S-norketamine",
         "metabolite_active": true,
         "reference": "doi:10.1124/dmd.30.7.853"
@@ -608,7 +609,7 @@
     "metabolism": [
       {
         "enzyme": "CYP3A4",
-        "fraction_of_clearance_pct": 60,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "S-norketamine",
         "metabolite_active": true,
         "reference": "doi:10.1124/dmd.30.7.853"
@@ -1099,7 +1100,8 @@
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
           "is_review": false,
-          "notes": "Roth 2013. Range across literature 59-250 nM; PCP is reference parent compound"
+          "notes": "Roth 2013. Range across literature 59-250 nM; PCP is reference parent compound",
+          "comparable_set": "roth-2013-rat-nmda"
         },
         {
           "target": "σ1",
@@ -1109,7 +1111,8 @@
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H](+)-pentazocine",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "Ki >10,000 nM in Roth 2013"
+          "notes": "Ki >10,000 nM in Roth 2013",
+          "comparable_set": "roth-2013-rat-transporter"
         },
         {
           "target": "DAT",
@@ -1117,7 +1120,8 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "Ki >10,000 nM in direct binding; functional DA-releasing effects may involve allosteric sites"
+          "notes": "Ki >10,000 nM in direct binding; functional DA-releasing effects may involve allosteric sites",
+          "comparable_set": "roth-2013-human-transporter"
         }
       ],
       "functional": [],
@@ -1251,7 +1255,8 @@
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
           "is_review": false,
-          "notes": "Roth 2013. Among the most potent NMDA antagonists in the arylcyclohexylamine class — ~3× more potent than PCP, ~30× more than ketamine."
+          "notes": "Roth 2013. Among the most potent NMDA antagonists in the arylcyclohexylamine class — ~3× more potent than PCP, ~30× more than ketamine.",
+          "comparable_set": "roth-2013-rat-nmda"
         },
         {
           "target": "σ1",
@@ -1262,7 +1267,8 @@
           "radioligand_or_probe": "[3H](+)-pentazocine",
           "reference": "doi:10.1371/journal.pone.0059334",
           "is_review": false,
-          "notes": "Some sources cite 436 nM. The high σ1 affinity (42 nM if accurate) at clinically achievable concentrations may explain the distinctive agitation/psychosis profile."
+          "notes": "Some sources cite 436 nM. The high σ1 affinity (42 nM if accurate) at clinically achievable concentrations may explain the distinctive agitation/psychosis profile.",
+          "comparable_set": "roth-2013-guinea-pig-transporter"
         },
         {
           "target": "σ2",
@@ -1270,7 +1276,8 @@
           "action": "modulator",
           "species": "rat",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "Ki >10,000 nM"
+          "notes": "Ki >10,000 nM",
+          "comparable_set": "roth-2013-rat-transporter"
         },
         {
           "target": "SERT",
@@ -1279,7 +1286,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing hSERT",
           "radioligand_or_probe": "[125I]RTI-55",
-          "reference": "doi:10.1371/journal.pone.0059334"
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "comparable_set": "roth-2013-human-transporter"
         }
       ],
       "functional": [],
@@ -1404,7 +1412,8 @@
           "tissue_or_cell": "rat forebrain",
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "Roth 2013. Lower NMDA affinity than 3-MeO isomer (20 nM) and lower than PCP (59 nM) — 4-position substitution disfavored at PCP site. PsychonautWiki cites 20 nM but Roth's reported value is 404 nM."
+          "notes": "Roth 2013. Lower NMDA affinity than 3-MeO isomer (20 nM) and lower than PCP (59 nM) — 4-position substitution disfavored at PCP site. PsychonautWiki cites 20 nM but Roth's reported value is 404 nM.",
+          "comparable_set": "roth-2013-rat-nmda"
         },
         {
           "target": "σ1",
@@ -1412,7 +1421,8 @@
           "action": "agonist",
           "species": "guinea pig",
           "radioligand_or_probe": "[3H](+)-pentazocine",
-          "reference": "doi:10.1371/journal.pone.0059334"
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "comparable_set": "roth-2013-guinea-pig-transporter"
         },
         {
           "target": "σ2",
@@ -1421,21 +1431,24 @@
           "species": "rat",
           "radioligand_or_probe": "[3H]DTG",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "Notable σ2 activity"
+          "notes": "Notable σ2 activity",
+          "comparable_set": "roth-2013-rat-transporter"
         },
         {
           "target": "SERT",
           "ki_nm": 844,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1371/journal.pone.0059334"
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "comparable_set": "roth-2013-human-transporter"
         },
         {
           "target": "NET",
           "ki_nm": 713,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1371/journal.pone.0059334"
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "comparable_set": "roth-2013-human-transporter"
         }
       ],
       "functional": [],
@@ -1516,7 +1529,8 @@
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
           "is_review": false,
-          "notes": "Roth 2013 reported 259 ± 76 nM (some texts cite 337). ~3× higher NMDA affinity than ketamine."
+          "notes": "Roth 2013 reported 259 ± 76 nM (some texts cite 337). ~3× higher NMDA affinity than ketamine.",
+          "comparable_set": "roth-2013-rat-nmda"
         },
         {
           "target": "SERT",
@@ -1527,7 +1541,8 @@
           "tissue_or_cell": "HEK293 expressing hSERT",
           "radioligand_or_probe": "[125I]RTI-55",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "S-(+)-MXE Ki 320 nM, R-(-)-MXE Ki 510 nM. Confirmed functional SERT inhibitor (Hondebrink 2017)."
+          "notes": "S-(+)-MXE Ki 320 nM, R-(-)-MXE Ki 510 nM. Confirmed functional SERT inhibitor (Hondebrink 2017).",
+          "comparable_set": "roth-2013-human-transporter"
         },
         {
           "target": "NET",
@@ -1535,7 +1550,8 @@
           "ic50_nm": 20000,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1371/journal.pone.0059334"
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "comparable_set": "roth-2013-human-transporter"
         },
         {
           "target": "DAT",
@@ -1543,7 +1559,8 @@
           "ic50_nm": 33000,
           "action": "reuptakeInhibitor",
           "species": "human",
-          "reference": "doi:10.1371/journal.pone.0059334"
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "comparable_set": "roth-2013-human-transporter"
         },
         {
           "target": "σ1",
@@ -1551,21 +1568,24 @@
           "action": "agonist",
           "species": "guinea pig",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "Ki >10,000 nM — surprisingly weak vs 3-MeO-PCP (42 nM)"
+          "notes": "Ki >10,000 nM — surprisingly weak vs 3-MeO-PCP (42 nM)",
+          "comparable_set": "roth-2013-guinea-pig-transporter"
         },
         {
           "target": "σ2",
           "ki_nm": 10000,
           "action": "modulator",
           "species": "rat",
-          "reference": "doi:10.1371/journal.pone.0059334"
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "comparable_set": "roth-2013-rat-transporter"
         },
         {
           "target": "μ-opioid",
           "ki_nm": 10000,
           "action": "agonist",
           "species": "human",
-          "reference": "doi:10.1371/journal.pone.0059334"
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "comparable_set": "roth-2013-human-transporter"
         }
       ],
       "functional": [
@@ -1996,7 +2016,8 @@
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
           "is_review": false,
-          "notes": "Roth 2013. ~3× lower NMDA potency than 3-MeO-PCP (20 nM); piperidine → N-ethyl loss of one ring lowers affinity."
+          "notes": "Roth 2013. ~3× lower NMDA potency than 3-MeO-PCP (20 nM); piperidine → N-ethyl loss of one ring lowers affinity.",
+          "comparable_set": "roth-2013-rat-nmda"
         },
         {
           "target": "σ1",
@@ -2004,7 +2025,8 @@
           "action": "agonist",
           "species": "guinea pig",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "Approximate; Roth reports 'appreciable σ1 affinity'"
+          "notes": "Approximate; Roth reports 'appreciable σ1 affinity'",
+          "comparable_set": "roth-2013-guinea-pig-transporter"
         }
       ],
       "functional": [],

@@ -729,7 +729,8 @@
           "reference": "doi:10.1007/s002100000266",
           "is_review": false,
           "confidence": "high",
-          "notes": "Gillen 2000 Table 2. Parent has essentially zero MOR efficacy; opioid effect is entirely via (+)-M1 metabolite."
+          "notes": "Gillen 2000 Table 2. Parent has essentially zero MOR efficacy; opioid effect is entirely via (+)-M1 metabolite.",
+          "comparable_set": "gillen-2000-human-mor"
         }
       ]
     }

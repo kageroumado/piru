@@ -92,6 +92,10 @@ ABSTRACT_CACHE = REPO / "data/sources/citation-abstract-cache.json"
 ALLOWLIST = REPO / "data/curated/citation-topicality-allowlist.json"
 #: Known-real defects awaiting re-sourcing. See `load_backlog`.
 BACKLOG = REPO / "data/curated/citation-topicality-backlog.json"
+#: The same, for the zero-overlap gate. Kept apart from `BACKLOG` so the two
+#: ratchets burn down independently — a defect parked for the broader absence
+#: gate must not also buy silence from the stricter one.
+ZERO_OVERLAP_BACKLOG = REPO / "data/curated/citation-zero-overlap-backlog.json"
 USER_AGENT = "piru-citation-topicality/1.0 (https://github.com/kageroumado/piru)"
 
 #: Extends `verify_citations.SYNONYMS` with the expansions this check needs:
@@ -907,6 +911,28 @@ class Finding:
         """
         return self.verdict == "ABSENT" and self.has_abstract and self.numeric
 
+    @property
+    def is_zero_overlap(self) -> bool:
+        """Nothing in the paper connects it to the row that cites it.
+
+        Stricter than `is_hard_absence` on both axes. It spans WRONG_SUBSTANCE
+        as well as ABSENT, and it additionally requires that the row's *target*
+        went unnamed — which is what removes the one innocent reading absence
+        has. The α1β2γ2 cloning paper that measured a benzodiazepine panel in
+        Table 2 names the receptor and is excluded here; the shark-bite case
+        report names neither the drug nor the receptor and is not.
+
+        So the class is: the abstract was read, the substance is nowhere in it,
+        the target is nowhere in it, and the citing row is a per-compound
+        number that has no "general background" reading available.
+        """
+        return (
+            self.verdict in ("WRONG_SUBSTANCE", "ABSENT")
+            and self.has_abstract
+            and self.numeric
+            and self.target_named is None
+        )
+
     def line(self) -> str:
         other = f" → paper names {self.other}" if self.other else ""
         return (
@@ -1108,7 +1134,7 @@ def load_allowlist() -> set[str]:
         return set()
 
 
-def load_backlog() -> set[str]:
+def load_backlog(path: Path = BACKLOG) -> set[str]:
     """Findings already adjudicated as **real defects**, awaiting re-sourcing.
 
     Deliberately a different file from the allowlist, because they mean opposite
@@ -1121,10 +1147,10 @@ def load_backlog() -> set[str]:
     defect fails immediately, because it isn't in this file and nothing may be
     added to it.
     """
-    if not BACKLOG.exists():
+    if not path.exists():
         return set()
     try:
-        return {k for k in json.loads(BACKLOG.read_text()) if not k.startswith("_")}
+        return {k for k in json.loads(path.read_text()) if not k.startswith("_")}
     except (ValueError, OSError):
         return set()
 
@@ -1179,6 +1205,13 @@ def main() -> int:
         "names no rival compound, which WRONG_SUBSTANCE structurally cannot see.",
     )
     parser.add_argument(
+        "--gate-zero-overlap",
+        action="store_true",
+        help="also fail when a per-compound number cites a paper whose abstract "
+        "names neither the substance nor the row's target. Spans WRONG_SUBSTANCE "
+        "and ABSENT alike, and ratchets against its own backlog.",
+    )
+    parser.add_argument(
         "--gate-domain",
         action="store_true",
         help="also fail when a per-compound number cites a paper MEDLINE indexed "
@@ -1190,6 +1223,12 @@ def main() -> int:
         type=float,
         default=0.60,
         help="minimum score a hard ABSENT must reach to fail --gate-absent",
+    )
+    parser.add_argument(
+        "--gate-zero-overlap-threshold",
+        type=float,
+        default=0.70,
+        help="minimum score a zero-overlap finding must reach to fail --gate-zero-overlap",
     )
     parser.add_argument(
         "--gate-threshold",
@@ -1466,6 +1505,35 @@ def main() -> int:
                 print(
                     f"citation-topicality: {len(stale)} backlog entries no longer flagged — "
                     f"delete them from {BACKLOG.relative_to(REPO)}:",
+                )
+                for key in sorted(stale)[:20]:
+                    print(f"  {key}")
+        if args.gate_zero_overlap:
+            zero_backlog = load_backlog(ZERO_OVERLAP_BACKLOG)
+            zero = [
+                f
+                for f in buckets.get("WRONG_SUBSTANCE", []) + buckets.get("ABSENT", [])
+                if f.is_zero_overlap and f.score >= args.gate_zero_overlap_threshold
+            ]
+            seen = {id(f) for f in failures}
+            failures += [
+                f
+                for f in zero
+                if id(f) not in seen
+                and f"{f.identifier}|{f.substance}" not in allow
+                and f"{f.identifier}|{f.substance}" not in zero_backlog
+            ]
+            outstanding = {f"{f.identifier}|{f.substance}" for f in zero} & zero_backlog
+            if outstanding:
+                print(
+                    f"\ncitation-topicality: {len(outstanding)} known zero-overlap "
+                    "defect(s) still on the backlog."
+                )
+            if stale := zero_backlog - {f"{f.identifier}|{f.substance}" for f in zero}:
+                print(
+                    f"citation-topicality: {len(stale)} zero-overlap backlog entries no "
+                    f"longer flagged — delete them from "
+                    f"{ZERO_OVERLAP_BACKLOG.relative_to(REPO)}:",
                 )
                 for key in sorted(stale)[:20]:
                     print(f"  {key}")

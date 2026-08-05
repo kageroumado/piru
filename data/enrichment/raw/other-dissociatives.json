@@ -539,7 +539,7 @@
           "kd_nm": null,
           "ic50_nm": 1200,
           "action": "antagonist",
-          "species": "human/mouse",
+          "species": "mixed",
           "tissue_or_cell": "HEK-293 expressing h5-HT3A; N1E-115 neuroblastoma",
           "radioligand_or_probe": "5-HT-evoked inward current",
           "assay_buffer_notes": null,
@@ -1101,7 +1101,8 @@
           "assay_buffer_notes": "10 mM HEPES, pH 7.4",
           "reference": "doi:10.1016/j.neuropharm.2016.08.004",
           "is_review": false,
-          "notes": "Kang et al. 2017 (Neuropharmacology 112:144-149). Same assay gave ketamine Ki 324 ± 19 nM and MK-801 Ki 2.1 ± 0.3 nM — ephenidine is intermediate, ~5x more potent than ketamine."
+          "notes": "Kang et al. 2017 (Neuropharmacology 112:144-149). Same assay gave ketamine Ki 324 ± 19 nM and MK-801 Ki 2.1 ± 0.3 nM — ephenidine is intermediate, ~5x more potent than ketamine.",
+          "comparable_set": "kang-2017-rat-nmda"
         },
         {
           "target": "DAT",
@@ -1113,7 +1114,8 @@
           "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2016.08.004",
           "is_review": false,
-          "notes": "Sub-micromolar DAT affinity is unusual for this class and predicts mild stimulant overlay."
+          "notes": "Sub-micromolar DAT affinity is unusual for this class and predicts mild stimulant overlay.",
+          "comparable_set": "kang-2017-human-transporter"
         },
         {
           "target": "NET",
@@ -1125,7 +1127,8 @@
           "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2016.08.004",
           "is_review": false,
-          "notes": null
+          "notes": null,
+          "comparable_set": "kang-2017-human-transporter"
         },
         {
           "target": "sigma-1",
@@ -1137,7 +1140,8 @@
           "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2016.08.004",
           "is_review": false,
-          "notes": null
+          "notes": null,
+          "comparable_set": "kang-2017-guinea pig-transporter"
         },
         {
           "target": "sigma-2",
@@ -1149,7 +1153,8 @@
           "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2016.08.004",
           "is_review": false,
-          "notes": null
+          "notes": null,
+          "comparable_set": "kang-2017-rat-transporter"
         }
       ],
       "functional": [
@@ -1873,7 +1878,8 @@
           "assay_buffer_notes": null,
           "reference": "pmid:7796150",
           "is_review": false,
-          "notes": "Sweetnam et al. 1995; Glick & Maisonneuve attribute anti-addictive effects partly to kappa agonism. Lower-affinity than noribogaine."
+          "notes": "Sweetnam et al. 1995; Glick & Maisonneuve attribute anti-addictive effects partly to kappa agonism. Lower-affinity than noribogaine.",
+          "comparable_set": "pearl-1995-guinea-pig-mor"
         },
         {
           "target": "mu-opioid",
@@ -1886,7 +1892,8 @@
           "assay_buffer_notes": null,
           "reference": "pmid:7796150",
           "is_review": false,
-          "notes": "Glick et al. 1995 originally reported high mu affinity — that work used non-standard conditions. Standard radioligand displacement gives Ki ~5 μM."
+          "notes": "Glick et al. 1995 originally reported high mu affinity — that work used non-standard conditions. Standard radioligand displacement gives Ki ~5 μM.",
+          "comparable_set": "pearl-1995-guinea-pig-mor"
         },
         {
           "target": "SERT",
@@ -1899,7 +1906,8 @@
           "assay_buffer_notes": null,
           "reference": "pmid:7796150",
           "is_review": false,
-          "notes": "Non-competitive inhibition of SERT (distinct from typical SSRI competitive mechanism)."
+          "notes": "Non-competitive inhibition of SERT (distinct from typical SSRI competitive mechanism).",
+          "comparable_set": "pearl-1995-human-5ht"
         },
         {
           "target": "sigma-2",
@@ -1912,7 +1920,8 @@
           "assay_buffer_notes": null,
           "reference": "pmid:7796150",
           "is_review": false,
-          "notes": "Sigma-2 is the highest-affinity ibogaine target identified; functional consequences less well-mapped than NMDA/kappa."
+          "notes": "Sigma-2 is the highest-affinity ibogaine target identified; functional consequences less well-mapped than NMDA/kappa.",
+          "comparable_set": "pearl-1995-rat-5ht"
         },
         {
           "target": "5-HT2A",
@@ -1925,7 +1934,8 @@
           "assay_buffer_notes": null,
           "reference": "pmid:7796150",
           "is_review": false,
-          "notes": "Glick & Maisonneuve 1998 — weak 5-HT2A agonism may contribute to the visionary/oneirogen subjective effects."
+          "notes": "Glick & Maisonneuve 1998 — weak 5-HT2A agonism may contribute to the visionary/oneirogen subjective effects.",
+          "comparable_set": "pearl-1995-human-5ht"
         }
       ],
       "functional": [],

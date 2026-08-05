@@ -2676,6 +2676,17 @@ class TestMetaboliteNameCollisions(unittest.TestCase):
         clashes = {k: sorted(v) for k, v in seen.items() if len(v) > 1}
         self.assertEqual(clashes, {}, f"one metabolite spelled two ways: {clashes}")
 
+    def test_clearance_fractions_do_not_exceed_one(self):
+        over = self.db.execute(
+            "SELECT s.canonical_name, m.citation_id,"
+            "       ROUND(SUM(m.fraction_of_clearance_pct)) AS total, COUNT(*) AS n"
+            "  FROM metabolism m JOIN substances s ON s.id = m.substance_id"
+            " WHERE m.fraction_of_clearance_pct IS NOT NULL AND m.citation_id IS NOT NULL"
+            " GROUP BY m.substance_id, m.citation_id"
+            " HAVING total > 100"
+        ).fetchall()
+        self.assertEqual(over, [], f"clearance fractions exceed 100%: {over}")
+
 
 class TestComparableSetIntegrity(unittest.TestCase):
     """A pharmacology number means nothing without the basis it was measured on.
@@ -2772,6 +2783,98 @@ class TestComparableSetIntegrity(unittest.TestCase):
             for name in ("Buprenorphine", "Morphine")
         )
         self.assertLess(bup, morph, "buprenorphine should bind tighter than morphine")
+
+
+_SIGNATURE_TARGET_SQL = (
+    "(b.target IN ('SERT','DAT','NET','5-HTT')"
+    " OR b.target LIKE '5-HT2A%' OR b.target LIKE '5-HT1A%'"
+    " OR b.target LIKE 'MOR%' OR b.target LIKE '\μ-opioid%' OR b.target LIKE 'mu-opioid%'"
+    " OR b.target LIKE 'CB1%' OR b.target LIKE 'NMDA%')"
+)
+
+
+class TestSignatureGates(unittest.TestCase):
+    """Build-time invariants for the class-signature pipeline.
+
+    These lock the properties that Swift's ComparabilityKey and SignatureBasis
+    already enforce at runtime — if a row breaks them, the build fails before
+    it ships.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        p = Path(__file__).resolve().parents[3] / "Piru/Data/piru-substances.sqlite"
+        if not p.exists():
+            raise unittest.SkipTest("piru-substances.sqlite not built")
+        cls.db = sqlite3.connect(p)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.db.close()
+
+    def test_a_comparable_set_is_one_study(self):
+        split = self.db.execute(
+            "SELECT comparable_set, COUNT(DISTINCT citation_id), COUNT(*)"
+            "  FROM bindings"
+            " WHERE comparable_set IS NOT NULL AND citation_id IS NOT NULL"
+            " GROUP BY comparable_set HAVING COUNT(DISTINCT citation_id) > 1"
+        ).fetchall()
+        self.assertEqual(split, [], f"comparable_set spans multiple citations: {split}")
+
+    def test_a_declared_panel_row_is_cited(self):
+        uncited = self.db.execute(
+            "SELECT s.canonical_name, b.target, b.comparable_set"
+            "  FROM bindings b JOIN substances s ON s.id = b.substance_id"
+            " WHERE b.comparable_set IS NOT NULL AND b.citation_id IS NULL"
+        ).fetchall()
+        self.assertEqual(uncited, [], f"panel rows with no citation: {uncited}")
+
+    def test_release_and_reuptake_never_share_a_column(self):
+        bad = self.db.execute(
+            "SELECT s.canonical_name, b.target, b.action, b.ki_nm, b.ec50_nm, b.ic50_nm"
+            "  FROM bindings b JOIN substances s ON s.id = b.substance_id"
+            " WHERE b.target IN ('SERT', 'DAT', 'NET', '5-HTT')"
+            "   AND ("
+            "        (b.action LIKE 'releasingAgent%' AND (b.ki_nm IS NOT NULL OR b.ic50_nm IS NOT NULL))"
+            "     OR (b.action LIKE 'reuptakeInhibitor%' AND b.ec50_nm IS NOT NULL)"
+            "   )"
+        ).fetchall()
+        self.assertEqual(bad, [], f"transporter row mixes release and reuptake basis: {bad}")
+
+    def test_a_plottable_group_is_one_species(self):
+        mixed = self.db.execute(
+            "SELECT COALESCE(b.comparable_set, 'c:' || b.citation_id) AS grp,"
+            "       GROUP_CONCAT(DISTINCT b.species)"
+            "  FROM bindings b"
+            " WHERE (b.comparable_set IS NOT NULL OR b.citation_id IS NOT NULL)"
+            "   AND b.species IS NOT NULL"
+            f"  AND {_SIGNATURE_TARGET_SQL}"
+            " GROUP BY grp HAVING COUNT(DISTINCT b.species) > 1"
+        ).fetchall()
+        mixed = [row for row in mixed if "not-comparable" not in row[0]]
+        self.assertEqual(mixed, [], f"plottable group spans multiple species: {mixed}")
+
+    def test_no_new_uncited_numeric_values(self):
+        rows = self.db.execute(
+            "SELECT s.canonical_name || '|' || b.target || '|' || b.action"
+            "  FROM bindings b JOIN substances s ON s.id = b.substance_id"
+            " WHERE b.citation_id IS NULL"
+            "   AND COALESCE(b.ki_nm, b.kd_nm, b.ec50_nm, b.ic50_nm) IS NOT NULL"
+            " UNION ALL "
+            "SELECT s.canonical_name || '|' || f.target || '|' || f.readout"
+            "  FROM functional_assays f JOIN substances s ON s.id = f.substance_id"
+            " WHERE f.citation_id IS NULL"
+            "   AND COALESCE(f.ec50_nm, f.ic50_nm, f.emax_pct) IS NOT NULL"
+        ).fetchall()
+        current = {r[0] for r in rows}
+        backlog = _REPO / "data/curated/uncited-numeric-backlog.json"
+        known = set(json.loads(backlog.read_text())) if backlog.exists() else set()
+        self.assertEqual(current - known, set(), f"new uncited numeric rows: {current - known}")
+        if stale := known - current:
+            print(
+                f"\n{len(stale)} entries now cited — delete from {backlog.name}: "
+                f"{sorted(stale)[:10]}"
+            )
 
 
 if __name__ == "__main__":

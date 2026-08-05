@@ -373,7 +373,7 @@
     },
     "metabolism": [
       {
-        "enzyme": "CES1 (carboxylesterase 1A1)",
+        "enzyme": "CES1A1",
         "fraction_of_clearance_pct": 80,
         "metabolite_name": "ritalinic acid",
         "metabolite_active": false,
@@ -505,7 +505,7 @@
     "metabolism": [
       {
         "enzyme": "CES1A1",
-        "fraction_of_clearance_pct": 80,
+        "fraction_of_clearance_pct": null,
         "metabolite_name": "d-ritalinic acid",
         "metabolite_active": false,
         "reference": "pmid:15082749"

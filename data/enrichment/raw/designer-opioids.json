@@ -2844,7 +2844,8 @@
           "assay_buffer_notes": null,
           "reference": "doi:10.3390/molecules24040740",
           "is_review": false,
-          "notes": "Among the most potent MOR ligands known. Kd 0.024 nM at human MOR (Ramos-Gonzalez 2023). ~10,000× morphine in-vivo."
+          "notes": "Among the most potent MOR ligands known. Kd 0.024 nM at human MOR (Ramos-Gonzalez 2023). ~10,000× morphine in-vivo.",
+          "comparable_set": "volpe-2019-human-mor"
         }
       ],
       "functional": [
@@ -3158,7 +3159,8 @@
           "assay_buffer_notes": null,
           "reference": "doi:10.3390/molecules24040740",
           "is_review": false,
-          "notes": "Volpe 2011: human MOR Ki 7.65 nM. Lower lipophilicity than fentanyl → faster onset due to high free-fraction at physiological pH."
+          "notes": "Volpe 2011: human MOR Ki 7.65 nM. Lower lipophilicity than fentanyl → faster onset due to high free-fraction at physiological pH.",
+          "comparable_set": "volpe-2019-rat-mor"
         }
       ],
       "functional": [],
@@ -3279,7 +3281,8 @@
           "assay_buffer_notes": null,
           "reference": "doi:10.3390/molecules24040740",
           "is_review": false,
-          "notes": "Slightly more potent than fentanyl at binding. Methyl-ester structure designed to be hydrolysed by nonspecific tissue/plasma esterases."
+          "notes": "Slightly more potent than fentanyl at binding. Methyl-ester structure designed to be hydrolysed by nonspecific tissue/plasma esterases.",
+          "comparable_set": "volpe-2019-rat-mor"
         }
       ],
       "functional": [],
@@ -3392,7 +3395,8 @@
           "assay_buffer_notes": null,
           "reference": "doi:10.3390/molecules24040740",
           "is_review": false,
-          "notes": "Among highest MOR affinity of fentanyl analogues. Carfentanil + 3-methyl substitution. Very slow dissociation kinetics — drove its abandonment as clinical anaesthetic (effect duration too long)."
+          "notes": "Among highest MOR affinity of fentanyl analogues. Carfentanil + 3-methyl substitution. Very slow dissociation kinetics — drove its abandonment as clinical anaesthetic (effect duration too long).",
+          "comparable_set": "volpe-2019-rat-mor"
         }
       ],
       "functional": [],
@@ -4706,7 +4710,8 @@
           "assay_buffer_notes": null,
           "reference": "pmid:30791394",
           "is_review": false,
-          "notes": "IC50 0.48 nM at rat brain MOR ([3H]DAMGO displacement), against fentanyl 1.23 nM in the same assay. Changes selectivity from μ>κ>δ to μ>δ≥κ. In rat brain Cmax exceeds fentanyl by 1.5× per Canfield 2024 PK study."
+          "notes": "IC50 0.48 nM at rat brain MOR ([3H]DAMGO displacement), against fentanyl 1.23 nM in the same assay. Changes selectivity from μ>κ>δ to μ>δ≥κ. In rat brain Cmax exceeds fentanyl by 1.5× per Canfield 2024 PK study.",
+          "comparable_set": "volpe-2019-rat-mor"
         }
       ],
       "functional": [],

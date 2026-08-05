@@ -1029,6 +1029,7 @@ CREATE TABLE bindings (
     reference_agonist      TEXT,
     species                TEXT,
     tissue_or_cell         TEXT,
+    assay_system           TEXT,
     radioligand            TEXT,
     assay_notes            TEXT,
     source_id              INTEGER NOT NULL REFERENCES sources(id),
@@ -1056,6 +1057,7 @@ CREATE TABLE functional_assays (
     reference_agonist TEXT,
     species           TEXT,
     cell_system       TEXT,
+    assay_system      TEXT,
     source_id         INTEGER NOT NULL REFERENCES sources(id),
     citation_id       INTEGER REFERENCES citations(id),
     notes             TEXT
@@ -3425,6 +3427,34 @@ def to_int(v) -> int | None:
             return None
 
 
+_ASSAY_RECOMBINANT = re.compile(
+    r"hek|cho[-\s]|cos-|att-?20|sf9|xenopus|aequoscreen|recombinant|cloned|transfect|expressing|purified human",
+    re.IGNORECASE,
+)
+_ASSAY_NATIVE = re.compile(
+    r"homogenate|membrane|cortex|striatum|hippocampus|cerebellum|forebrain|brain|spleen|liver|kidney|lung|heart|ileum",
+    re.IGNORECASE,
+)
+_ASSAY_IN_VIVO = re.compile(r"in.vivo|hot.plate|tail.flick|writhing", re.IGNORECASE)
+
+
+def classify_assay_system(tissue: str | None) -> str | None:
+    if not tissue:
+        return None
+    t = tissue.lower()
+    if "synaptosom" in t:
+        return "synaptosome"
+    if "mixed" in t or "various" in t:
+        return "mixed"
+    if _ASSAY_IN_VIVO.search(tissue):
+        return "in-vivo"
+    if _ASSAY_RECOMBINANT.search(tissue):
+        return "recombinant"
+    if _ASSAY_NATIVE.search(tissue):
+        return "native-membrane"
+    return None
+
+
 def normalise_confidence(v) -> str | None:
     """Canonicalise a citation-verification grade to HIGH|MEDIUM|LOW, or None.
 
@@ -5233,7 +5263,7 @@ class Build:
         src = self.source_ids[source_slug]
         ki_ci = b.get("ki_ci_nm") or [None, None]
         self.cur.execute(
-            "INSERT INTO bindings(substance_id, target, action, ki_nm, ki_ci_lower_nm, ki_ci_upper_nm, kd_nm, ec50_nm, ic50_nm, emax_pct, intrinsic_activity_pct, affinity_tier, relative_tau, comparable_set, reference_agonist, species, tissue_or_cell, radioligand, assay_notes, source_id, citation_id, is_review, confidence, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO bindings(substance_id, target, action, ki_nm, ki_ci_lower_nm, ki_ci_upper_nm, kd_nm, ec50_nm, ic50_nm, emax_pct, intrinsic_activity_pct, affinity_tier, relative_tau, comparable_set, reference_agonist, species, tissue_or_cell, assay_system, radioligand, assay_notes, source_id, citation_id, is_review, confidence, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sid,
                 b.get("target"),
@@ -5252,6 +5282,7 @@ class Build:
                 b.get("reference_agonist"),
                 b.get("species"),
                 b.get("tissue_or_cell"),
+                classify_assay_system(b.get("tissue_or_cell")),
                 b.get("radioligand_or_probe") or b.get("radioligand"),
                 b.get("assay_buffer_notes") or b.get("assay_notes"),
                 src,
@@ -5268,7 +5299,7 @@ class Build:
             return
         src = self.source_ids[source_slug]
         self.cur.execute(
-            "INSERT INTO functional_assays(substance_id, target, readout, ec50_nm, ic50_nm, emax_pct, reference_agonist, species, cell_system, source_id, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO functional_assays(substance_id, target, readout, ec50_nm, ic50_nm, emax_pct, reference_agonist, species, cell_system, assay_system, source_id, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sid,
                 f.get("target"),
@@ -5279,6 +5310,7 @@ class Build:
                 f.get("reference_agonist"),
                 f.get("species"),
                 f.get("cell_system"),
+                classify_assay_system(f.get("cell_system") or f.get("tissue_or_cell")),
                 src,
                 self.cite(f.get("reference")),
                 f.get("notes"),

@@ -1234,7 +1234,8 @@
           "radioligand_or_probe": "[3H]-ketanserin",
           "reference": "doi:10.1021/acsptsci.2c00222",
           "is_review": false,
-          "notes": "Klein et al 2023 — direct affinity ~12× weaker than psilocin (Ki 7.5 nM in same assay)"
+          "notes": "Klein et al 2023 — direct affinity ~12× weaker than psilocin (Ki 7.5 nM in same assay)",
+          "comparable_set": "glatfelter-2023-human-5ht"
         },
         {
           "target": "5-HT2C",
@@ -1245,7 +1246,8 @@
           "radioligand_or_probe": "[3H]-mesulergine",
           "reference": "doi:10.1021/acsptsci.2c00222",
           "is_review": false,
-          "notes": null
+          "notes": null,
+          "comparable_set": "glatfelter-2023-human-5ht"
         },
         {
           "target": "5-HT1A",
@@ -1256,7 +1258,8 @@
           "radioligand_or_probe": "[3H]-8-OH-DPAT",
           "reference": "doi:10.1021/acsptsci.2c00222",
           "is_review": false,
-          "notes": null
+          "notes": null,
+          "comparable_set": "glatfelter-2023-human-5ht"
         },
         {
           "target": "SERT",
@@ -1267,7 +1270,8 @@
           "radioligand_or_probe": "[3H]-citalopram",
           "reference": "doi:10.1021/acsptsci.2c00222",
           "is_review": false,
-          "notes": "Minimal SERT interaction"
+          "notes": "Minimal SERT interaction",
+          "comparable_set": "glatfelter-2023-human-5ht"
         },
         {
           "target": "5-HT1A",
@@ -1752,7 +1756,8 @@
           "radioligand_or_probe": "various",
           "reference": "doi:10.1021/acsptsci.2c00222",
           "is_review": false,
-          "notes": "Klein 2023: weaker direct binding than parent 4-HO-DMT but similar in-vivo HTR; suggests prodrug-like behaviour"
+          "notes": "Klein 2023: weaker direct binding than parent 4-HO-DMT but similar in-vivo HTR; suggests prodrug-like behaviour",
+          "comparable_set": "glatfelter-2023-human-5ht"
         }
       ],
       "functional": [
@@ -2643,7 +2648,8 @@
           "radioligand_or_probe": "[3H]-ketanserin",
           "reference": "doi:10.1021/acsptsci.2c00222",
           "is_review": false,
-          "notes": "Recently profiled by Klein 2023; affinities largely unknown in human cloned systems per Rickli 2016"
+          "notes": "Recently profiled by Klein 2023; affinities largely unknown in human cloned systems per Rickli 2016",
+          "comparable_set": "glatfelter-2023-rat-5ht"
         }
       ],
       "functional": [],
@@ -3314,7 +3320,8 @@
           "radioligand_or_probe": "[3H]-ketanserin",
           "reference": "doi:10.1021/acsptsci.2c00222",
           "is_review": false,
-          "notes": "Klein 2023: Emax >70% at Gq"
+          "notes": "Klein 2023: Emax >70% at Gq",
+          "comparable_set": "glatfelter-2023-human-5ht"
         }
       ],
       "functional": [

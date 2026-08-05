@@ -4403,7 +4403,7 @@
           "intrinsic_activity_pct": null,
           "reference_agonist": null,
           "action": "agonist",
-          "species": "other",
+          "species": null,
           "tissue_or_cell": "canine prostate / bovine RVLM membranes",
           "radioligand_or_probe": "[3H]clonidine",
           "assay_buffer_notes": "Bousquet — I1 binding correlates better with antihypertensive potency than α2A binding; classical 'central sympatholytic' mechanism is now revised to include I1.",

@@ -93,7 +93,9 @@ jobs:
       # allowlist because they mean opposite things, and nothing may be added
       # to it. That is what makes this a ratchet rather than a rubber stamp.
       - name: No citations attached to the wrong substance
-        run: python3 pipeline/audit/citation_topicality.py --offline --gate --gate-absent
+        run: python3 pipeline/audit/citation_topicality.py --offline --gate --gate-absent --gate-zero-overlap
+      - name: Signature coverage (no regression)
+        run: python3 pipeline/audit/signature_coverage.py --gate
       # verify_citations proves the identifier RESOLVES; citation_topicality
       # proves the paper is about the right molecule. Neither compares the
       # identifier to the human LABEL a curator wrote beside it — which is how

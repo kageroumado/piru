@@ -1423,7 +1423,8 @@
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "pmid:10961373",
           "is_review": false,
-          "notes": "Raffa 1992 — (+) enantiomer is the potent MOR agonist; ≈400× more potent than parent (+)-tramadol."
+          "notes": "Raffa 1992 — (+) enantiomer is the potent MOR agonist; ≈400× more potent than parent (+)-tramadol.",
+          "comparable_set": "gillen-2000-rat-mor"
         },
         {
           "target": "MOR (−)-O-DSMT",
@@ -1433,7 +1434,8 @@
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "pmid:10961373",
-          "is_review": false
+          "is_review": false,
+          "comparable_set": "gillen-2000-rat-mor"
         },
         {
           "target": "MOR",
@@ -3686,7 +3688,8 @@
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1093/bja/87.1.27",
           "is_review": false,
-          "notes": "Levorphanol Ki ~1.4 nM at hMOR; similar profile across MOR/DOR/KOR + NMDA + SNRI."
+          "notes": "Levorphanol Ki ~1.4 nM at hMOR; similar profile across MOR/DOR/KOR + NMDA + SNRI.",
+          "comparable_set": "power-2001-human-mor"
         },
         {
           "target": "NMDA receptor (levorphanol)",
@@ -3698,7 +3701,8 @@
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1093/bja/87.1.27",
           "is_review": false,
-          "notes": "Non-competitive NMDA antagonist, contributes to neuropathic analgesia."
+          "notes": "Non-competitive NMDA antagonist, contributes to neuropathic analgesia.",
+          "comparable_set": "power-2001-rat-nmda"
         }
       ],
       "functional": [],
@@ -4184,7 +4188,7 @@
           "target": "MOR",
           "ki_nm": null,
           "action": "agonist",
-          "species": "no significant data",
+          "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
           "reference": null,
