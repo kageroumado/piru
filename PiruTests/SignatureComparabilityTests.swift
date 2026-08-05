@@ -60,7 +60,7 @@ struct SignatureComparabilityTests {
         ]
         let group = SignatureComparability.admits(legs)
         #expect(group?.basis == .ec50)
-        #expect(group?.key == .citation(2))
+        #expect(group?.key == .citation(2, species: "human"))
     }
 
     @Test
@@ -70,6 +70,18 @@ struct SignatureComparabilityTests {
             Self.leg("2", "MDMA", .net, ec50: 54.1, citation: 3),
         ]
         #expect(SignatureComparability.admits(legs) == nil)
+    }
+
+    @Test
+    func `Same citation but different species are separate groups`() {
+        let legs = [
+            Self.leg("1", "MDMA", .sert, ec50: 49.6, citation: 5, species: "rat"),
+            Self.leg("2", "MDMA", .dat, ec50: 51.2, citation: 5, species: "rat"),
+            Self.leg("3", "MDMA", .net, ec50: 54.1, citation: 5, species: "human"),
+        ]
+        #expect(SignatureComparability.admits(legs) == nil)
+        let groups = SignatureComparability.partition(legs)
+        #expect(groups.count == 2)
     }
 
     @Test

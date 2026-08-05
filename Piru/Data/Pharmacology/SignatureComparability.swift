@@ -148,9 +148,14 @@ nonisolated struct SignatureLeg: Identifiable, Hashable, Sendable {
     /// Which experiment this row belongs to. A declared `comparable_set` **wins** over the citation:
     /// when a curator has tagged the uniform panel, rows outside it were deliberately left out, so a
     /// shared paper is not enough to re-admit them. `nil` for a row with neither — never plottable.
+    ///
+    /// The citation fallback narrows by species so a paper that reports measurements in both
+    /// rat and human tissue does not merge them into one group. A future `assay_system`
+    /// classifier (derived from `tissue_or_cell`) will further separate preparations within
+    /// one species; raw `tissue_or_cell` strings are too noisy to hash on directly.
     var comparabilityKey: ComparabilityKey? {
         if let comparableSet, !comparableSet.isEmpty { return .panel(comparableSet) }
-        if let citationID { return .citation(citationID) }
+        if let citationID { return .citation(citationID, species: species) }
         return nil
     }
 
@@ -191,9 +196,10 @@ nonisolated struct SignatureLeg: Identifiable, Hashable, Sendable {
 nonisolated enum ComparabilityKey: Hashable, Sendable {
     /// A curated uniform panel (`bindings.comparable_set`) — the strong form.
     case panel(String)
-    /// One publication (`bindings.citation_id`) — the fallback when no panel is declared. Weaker: a
-    /// paper can report several incomparable tables.
-    case citation(Int64)
+    /// One publication, narrowed by species so a paper reporting measurements in both rat
+    /// and human cannot merge them. A future `assay_system` classifier will add preparation
+    /// separation within one species.
+    case citation(Int64, species: String?)
 
     /// Whether the group's comparability was *declared* by a curator rather than inferred from a
     /// shared citation. Surfaced in the caption so the reader can tell the two apart.
@@ -262,7 +268,8 @@ nonisolated struct ComparableGroup: Identifiable, Hashable, Sendable {
     var id: String {
         switch key {
         case let .panel(name): "panel:\(name):\(basis.rawValue)"
-        case let .citation(cid): "cite:\(cid):\(basis.rawValue)"
+        case let .citation(cid, species):
+            "cite:\(cid):\(species ?? ""):\(basis.rawValue)"
         }
     }
 
