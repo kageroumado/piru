@@ -92,10 +92,6 @@ ABSTRACT_CACHE = REPO / "data/sources/citation-abstract-cache.json"
 ALLOWLIST = REPO / "data/curated/citation-topicality-allowlist.json"
 #: Known-real defects awaiting re-sourcing. See `load_backlog`.
 BACKLOG = REPO / "data/curated/citation-topicality-backlog.json"
-#: The same, for the zero-overlap gate. Kept apart from `BACKLOG` so the two
-#: ratchets burn down independently — a defect parked for the broader absence
-#: gate must not also buy silence from the stricter one.
-ZERO_OVERLAP_BACKLOG = REPO / "data/curated/citation-zero-overlap-backlog.json"
 USER_AGENT = "piru-citation-topicality/1.0 (https://github.com/kageroumado/piru)"
 
 #: Extends `verify_citations.SYNONYMS` with the expansions this check needs:
@@ -1509,7 +1505,6 @@ def main() -> int:
                 for key in sorted(stale)[:20]:
                     print(f"  {key}")
         if args.gate_zero_overlap:
-            zero_backlog = load_backlog(ZERO_OVERLAP_BACKLOG)
             zero = [
                 f
                 for f in buckets.get("WRONG_SUBSTANCE", []) + buckets.get("ABSENT", [])
@@ -1519,24 +1514,8 @@ def main() -> int:
             failures += [
                 f
                 for f in zero
-                if id(f) not in seen
-                and f"{f.identifier}|{f.substance}" not in allow
-                and f"{f.identifier}|{f.substance}" not in zero_backlog
+                if id(f) not in seen and f"{f.identifier}|{f.substance}" not in allow
             ]
-            outstanding = {f"{f.identifier}|{f.substance}" for f in zero} & zero_backlog
-            if outstanding:
-                print(
-                    f"\ncitation-topicality: {len(outstanding)} known zero-overlap "
-                    "defect(s) still on the backlog."
-                )
-            if stale := zero_backlog - {f"{f.identifier}|{f.substance}" for f in zero}:
-                print(
-                    f"citation-topicality: {len(stale)} zero-overlap backlog entries no "
-                    f"longer flagged — delete them from "
-                    f"{ZERO_OVERLAP_BACKLOG.relative_to(REPO)}:",
-                )
-                for key in sorted(stale)[:20]:
-                    print(f"  {key}")
         if failures:
             print(
                 f"\ncitation-topicality: FAILED — {len(failures)} citation(s) are about a "

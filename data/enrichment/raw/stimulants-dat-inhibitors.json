@@ -31,10 +31,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human DAT",
           "radioligand_or_probe": "[3H]dopamine uptake",
-          "assay_buffer_notes": null,
           "reference": "pmid:10215666",
-          "is_review": false,
-          "notes": "Eshleman et al. 1999 - hDAT/hSERT/hNET stably expressed in HEK293, [3H]neurotransmitter uptake inhibition."
+          "is_review": false
         },
         {
           "target": "SERT",
@@ -45,8 +43,7 @@
           "tissue_or_cell": "HEK293 stably expressing human SERT",
           "radioligand_or_probe": "[3H]5-HT uptake",
           "reference": "pmid:10215666",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "NET",
@@ -57,8 +54,7 @@
           "tissue_or_cell": "HEK293 stably expressing human NET",
           "radioligand_or_probe": "[3H]norepinephrine uptake",
           "reference": "pmid:10215666",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "DAT",
@@ -68,8 +64,7 @@
           "tissue_or_cell": "human striatal membranes",
           "radioligand_or_probe": "[125I]RTI-55 competition",
           "reference": "pmid:8245956",
-          "is_review": false,
-          "notes": "High-affinity site (0.2 nM Kd) from striatal saturation; low-affinity site Kd 1.5 nM. Rank order RTI-55>GBR-12909>mazindol>WIN-35,428>methylphenidate>cocaine."
+          "is_review": false
         }
       ],
       "functional": [
@@ -81,8 +76,7 @@
           "reference_agonist": null,
           "species": "human",
           "cell_system": "in vivo",
-          "reference": "doi:10.1038/386827a0",
-          "notes": "0.3-0.6 mg/kg IV cocaine blocks 60-77% of striatal DAT (Volkow et al. 1997); subjective high correlates with occupancy."
+          "reference": "doi:10.1038/386827a0"
         }
       ],
       "downstream_signalling": "Increases extracellular DA/NE/5-HT by transporter blockade; stabilises DAT in outward-facing open conformation (fast binding/dissociation). Striatal DA spike drives D1/D2 signalling responsible for reinforcement.",
@@ -124,8 +118,7 @@
           "tmax_min": 5,
           "half_life_min": 56,
           "protein_binding_pct": 91,
-          "reference": "pmid:8926741",
-          "notes": "Smoked free-base (crack) — onset within seconds; subjective 'liking' higher than IV at matched plasma."
+          "reference": "pmid:8926741"
         },
         {
           "route": "oral",
@@ -166,8 +159,7 @@
         "metabolite_name": "norcocaine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 80,
-        "reference": "pmid:8926741",
-        "notes": "Norcocaine is hepatotoxic (further oxidized to nitroxide radical)."
+        "reference": "pmid:8926741"
       },
       {
         "enzyme": "Carboxylesterase 1 (CES1) + ethanol",
@@ -175,8 +167,7 @@
         "metabolite_name": "cocaethylene",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:14636972",
-        "notes": "Forms only with co-ingested ethanol (CES1/hCE1 transesterification; Laizure 2003 PMID 12485947). ~17% of the cocaine dose converts, route-dependent (oral 34 / IV 24 / smoked 18%; Harris 2003 PMID 14636972). Equipotent to cocaine at DAT but weaker at SERT/NET (more dopamine-selective; Hearn 1991 PMID 1988563); longer half-life ~1.7-2 h vs cocaine ~1 h (Perez-Reyes 1994). hERG IC50 1.2-4.0 µM (O'Leary 2002 PMID 11744013), comparable to cocaine ~4.4 µM -- a cardiac-caution signal, NOT the debunked 18-25x sudden-death claim."
+        "reference": "pmid:14636972"
       }
     ],
     "off_targets": [
@@ -212,7 +203,6 @@
     "data_gaps_remaining": [
       "Quantitative biased signalling data (DAT is not a GPCR)"
     ],
-    "notes": "Prototype fast-binding/fast-dissociation DAT inhibitor — the paradigmatic 'cocaine-like' kinetic profile against which atypical DAT inhibitors are contrasted.",
     "references_consulted": [
       "pmid:8245956",
       "doi:10.1038/386827a0",
@@ -255,8 +245,7 @@
           "tmax_min": 5,
           "half_life_min": 56,
           "protein_binding_pct": 91,
-          "reference": "pmid:8926741",
-          "notes": "Arterial venous gradient produces a brain bolus ~6-8 sec post-inhalation; sharper peak than IV at matched dose; subjective 'liking' higher than IV."
+          "reference": "pmid:8926741"
         }
       ],
       "concentration_effect": []
@@ -276,7 +265,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Pharmacologically identical to cocaine; PK differences derive entirely from inhalation route. See Cocaine record for full data.",
     "references_consulted": [
       "pmid:8926741"
     ]
@@ -308,8 +296,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatal synaptosomes",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "pmid:8786705",
-          "notes": "Pan et al. 1994; racemic d,l-threo-MPH."
+          "reference": "pmid:8786705"
         },
         {
           "target": "NET",
@@ -318,8 +305,7 @@
           "species": "rat",
           "tissue_or_cell": "rat cortical membranes",
           "radioligand_or_probe": "[3H]nisoxetine",
-          "reference": "pmid:8786705",
-          "notes": "Higher NET than DAT affinity in vitro."
+          "reference": "pmid:8786705"
         },
         {
           "target": "SERT",
@@ -327,8 +313,7 @@
           "ic50_nm": 100000,
           "action": "reuptakeInhibitor",
           "species": "rat",
-          "reference": "pmid:8786705",
-          "notes": "Essentially inactive at SERT."
+          "reference": "pmid:8786705"
         }
       ],
       "functional": [
@@ -338,8 +323,7 @@
           "emax_pct": 60,
           "species": "human",
           "cell_system": "in vivo",
-          "reference": "doi:10.1176/ajp.155.10.1325",
-          "notes": "Volkow et al. — 0.5 mg/kg oral methylphenidate produces >50% striatal DAT occupancy in adults."
+          "reference": "doi:10.1176/ajp.155.10.1325"
         }
       ],
       "downstream_signalling": "Cocaine-like fast-binding DAT inhibitor; NET inhibition in PFC drives prefrontal DA increase (since PFC DA clearance is NET-dominated). Dexmethylphenidate (d-threo) is the eutomer ~10x more potent than l-threo.",
@@ -365,8 +349,7 @@
           "dose_in_study_mg": 20,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "pmid:8430051",
-          "notes": "d-MPH bioavailability 22±8%, l-MPH only 5±3% due to first-pass CES1 hydrolysis; protein binding 10-33%."
+          "reference": "pmid:8430051"
         }
       ],
       "concentration_effect": []
@@ -377,8 +360,7 @@
         "fraction_of_clearance_pct": 80,
         "metabolite_name": "ritalinic acid",
         "metabolite_active": false,
-        "reference": "pmid:15082749",
-        "notes": "Stereoselective: l-MPH cleared 5-10x faster than d-MPH. CES1 G143E (rs71647871, ~3% allele freq) reduces clearance, increases AUC."
+        "reference": "pmid:15082749"
       },
       {
         "enzyme": null,
@@ -386,8 +368,7 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Transesterification — analogous to cocaethylene; increases d-MPH exposure and euphoria."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -437,7 +418,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Cocaine-like kinetic class (fast binding/dissociation) despite differing structure; therapeutic oral dosing achieves slower brain pharmacokinetics, which is thought to reduce abuse liability vs IV/insufflated routes.",
     "references_consulted": [
       "pmid:8786705",
       "doi:10.1176/ajp.155.10.1325",
@@ -472,8 +452,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatal synaptosomes",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "pmid:8786705",
-          "notes": "d-threo eutomer; ~5-10x more potent than l-threo at DAT and NET."
+          "reference": "pmid:8786705"
         },
         {
           "target": "NET",
@@ -497,8 +476,7 @@
           "half_life_min": 135,
           "protein_binding_pct": 15,
           "dose_in_study_mg": 10,
-          "reference": "pmid:19412495",
-          "notes": "d-MPH alone — same first-pass CES1 hydrolysis; PK linear 2.5-20 mg."
+          "reference": "pmid:19412495"
         }
       ]
     },
@@ -518,7 +496,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Pure d-threo eutomer of methylphenidate; preferred when avoiding peripheral l-enantiomer NE-driven side effects.",
     "references_consulted": [
       "pmid:8786705",
       "pmid:15082749"
@@ -548,8 +525,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatal synaptosomes",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": null,
-          "notes": "d-threo isomer; affinity similar to d-MPH at DAT."
+          "reference": null
         },
         {
           "target": "NET",
@@ -558,8 +534,7 @@
           "species": "rat",
           "tissue_or_cell": "rat cortical membranes",
           "radioligand_or_probe": "[3H]nisoxetine",
-          "reference": null,
-          "notes": "~18-fold lower NET affinity than d-MPH — explains selectively dopaminergic profile."
+          "reference": null
         }
       ],
       "functional": [],
@@ -586,7 +561,6 @@
     "data_gaps_remaining": [
       "No human PK studies; oral/IN/IV dosing data are anecdotal."
     ],
-    "notes": "Ethyl ester homolog of MPH — increased DAT/NET selectivity ratio; formed endogenously when MPH is taken with alcohol.",
     "references_consulted": [
       "doi:10.1038/srep07111",
       "pmid:25068922"
@@ -617,8 +591,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatal synaptosomes",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "pmid:8786705",
-          "notes": "Deutsch et al. — 3,4-dichloro substitution mimics catechol; ~7x more potent than MPH."
+          "reference": "pmid:8786705"
         }
       ],
       "functional": [],
@@ -633,8 +606,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "3,4-dichlororitalinic acid",
         "metabolite_active": false,
-        "reference": "pmid:8786705",
-        "notes": "Dichloro substitution slows ester hydrolysis — extended duration."
+        "reference": "pmid:8786705"
       }
     ],
     "tags_to_add": [
@@ -646,7 +618,6 @@
     "data_gaps_remaining": [
       "No human PK; clinical case reports only."
     ],
-    "notes": "3,4-Dichloro group greatly increases DAT/NET affinity and resists CES1 hydrolysis → long half-life. Slow onset but high reinforcement in animal SAR.",
     "references_consulted": [
       "pmid:8786705"
     ]
@@ -678,8 +649,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatal synaptosomes",
           "radioligand_or_probe": "[3H]dopamine uptake",
-          "reference": "doi:10.1002/dta.2167",
-          "notes": "McLaughlin et al. 2017; threo-4F-MPH mixture — 2-3x more potent than MPH at DAT."
+          "reference": "doi:10.1002/dta.2167"
         }
       ],
       "functional": [],
@@ -706,7 +676,6 @@
     "data_gaps_remaining": [
       "No human PK studies."
     ],
-    "notes": "Para-fluoro homolog of MPH; 2-3x more potent at DAT than MPH in rat synaptosomes.",
     "references_consulted": [
       "doi:10.1002/dta.2167"
     ]
@@ -738,7 +707,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Duplicate entry of 4F-MPH — see canonical 4F-MPH record.",
     "references_consulted": []
   },
   {
@@ -772,7 +740,6 @@
     "data_gaps_remaining": [
       "No published binding data, no human PK."
     ],
-    "notes": "Combined 4-fluoro + ethyl ester modifications of MPH; pharmacology inferred from analogues, not measured.",
     "references_consulted": []
   },
   {
@@ -804,7 +771,6 @@
     "data_gaps_remaining": [
       "No published Ki/IC50 in mammalian tissue; clinical case reports only."
     ],
-    "notes": "Designer phenidate; SAR predicts moderate DAT affinity but specific values not in literature.",
     "references_consulted": []
   },
   {
@@ -832,8 +798,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatal synaptosomes",
           "radioligand_or_probe": "[3H]dopamine uptake",
-          "reference": "doi:10.1089/cap.2013.0074",
-          "notes": "Heal et al. — IPP IC50 ~200 nM at DAT; >10,000 nM at NET and SERT."
+          "reference": "doi:10.1089/cap.2013.0074"
         },
         {
           "target": "NET",
@@ -856,8 +821,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "ritalinic acid",
         "metabolite_active": false,
-        "reference": "doi:10.1089/cap.2013.0074",
-        "notes": "Branched ester slows CES1 hydrolysis — sustained duration vs MPH."
+        "reference": "doi:10.1089/cap.2013.0074"
       }
     ],
     "tags_to_add": [
@@ -869,7 +833,6 @@
     "data_gaps_remaining": [
       "No human PK."
     ],
-    "notes": "Ester homolog of MPH; selectively DAT inhibitor with sustained PK due to slower esterase hydrolysis.",
     "references_consulted": [
       "doi:10.1089/cap.2013.0074"
     ]
@@ -913,7 +876,6 @@
     "data_gaps_remaining": [
       "No quantitative human binding data; SAR-only inference."
     ],
-    "notes": "Longer-chain ester analogue of MPH/EPH; selective for DAT.",
     "references_consulted": [
       "doi:10.1089/cap.2013.0074"
     ]
@@ -941,8 +903,7 @@
         {
           "route": "oral",
           "half_life_min": 420,
-          "reference": "pmid:31951804",
-          "notes": "Half-life ~7 h (about half of modafinil); 30-60% of modafinil dose is converted to modafinil acid."
+          "reference": "pmid:31951804"
         }
       ]
     },
@@ -953,7 +914,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Major circulating metabolite; pharmacologically inert at clinical concentrations.",
     "references_consulted": [
       "pmid:31951804"
     ]
@@ -980,8 +940,7 @@
         {
           "route": "oral",
           "half_life_min": 2400,
-          "reference": "pmid:31951804",
-          "notes": "Long half-life ~40 h; accumulates with chronic dosing."
+          "reference": "pmid:31951804"
         }
       ]
     },
@@ -993,7 +952,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Oxidation product of modafinil; long-lived but pharmacologically inert for wakefulness.",
     "references_consulted": [
       "pmid:31951804"
     ]
@@ -1025,8 +983,7 @@
           "bioavailability_pct": null,
           "tmax_min": 60,
           "half_life_min": 60,
-          "reference": "doi:10.1080/08897077.2019.1700584",
-          "notes": "Adrafinil itself is short-lived; converted to modafinil (t1/2 12-15 h) within 1-2 hours. ~50% of dose becomes modafinil; remainder modafinilic acid."
+          "reference": "doi:10.1080/08897077.2019.1700584"
         }
       ]
     },
@@ -1058,7 +1015,6 @@
     "data_gaps_remaining": [
       "Quantitative bioconversion rates in humans."
     ],
-    "notes": "Prodrug of modafinil; carries additional hepatotoxicity risk from hydroxamic acid moiety not present in modafinil.",
     "references_consulted": [
       "doi:10.1080/08897077.2019.1700584"
     ]
@@ -1091,7 +1047,6 @@
           "tissue_or_cell": "rat striatal synaptosomes / human DAT",
           "radioligand_or_probe": "[3H]WIN-35,428",
           "reference": "doi:10.1038/sj.npp.1301534",
-          "notes": "R-enantiomer ~3-fold more potent than S; functional DAT inhibition at clinically achieved CNS concentrations.",
           "is_review": true
         }
       ],
@@ -1102,8 +1057,7 @@
           "emax_pct": 50,
           "species": "human",
           "cell_system": "in vivo (PET)",
-          "reference": "doi:10.1001/jama.2009.351",
-          "notes": "Modafinil 200-400 mg displaces [11C]cocaine binding 39-54% in striatum (Volkow et al. 2009)."
+          "reference": "doi:10.1001/jama.2009.351"
         }
       ],
       "downstream_signalling": "Atypical DAT inhibitor — slower binding kinetics than cocaine; preserves outward-occluded DAT conformation. Activates orexin/hypocretin neurons in lateral hypothalamus and downstream histaminergic neurons in TMN — wakefulness is orexin/histamine dependent.",
@@ -1125,8 +1079,7 @@
           "half_life_min": 900,
           "protein_binding_pct": 60,
           "dose_in_study_mg": 150,
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/021875s011lbl.pdf",
-          "notes": "Half-life ~15 h; food delays Tmax by 2-4 h but does not affect AUC."
+          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/021875s011lbl.pdf"
         }
       ]
     },
@@ -1168,7 +1121,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "R-enantiomer of modafinil; longer effective duration than racemic modafinil due to slower clearance of (R)-isomer (~10 h elimination of R vs 3-4 h for S).",
     "references_consulted": [
       "doi:10.1001/jama.2009.351",
       "doi:10.1038/sj.npp.1301534"
@@ -1200,8 +1152,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatal membranes",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "doi:10.1021/acschemneuro.8b00340",
-          "notes": "Racemate Ki 4090 nM; (S)-enantiomer 2970 nM, (R)-enantiomer 4830 nM — flipped vs modafinil where R is more potent."
+          "reference": "doi:10.1021/acschemneuro.8b00340"
         }
       ],
       "functional": [],
@@ -1220,7 +1171,6 @@
     "data_gaps_remaining": [
       "No human PK; no clinical trials beyond early phase."
     ],
-    "notes": "Bis-(4-fluoro) analogue of modafinil; ~4x more potent at DAT in vitro, and lacks CYP3A4 induction.",
     "references_consulted": [
       "doi:10.1021/acschemneuro.8b00340"
     ]
@@ -1254,7 +1204,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Duplicate of Bisfluoromodafinil — see canonical record above.",
     "references_consulted": []
   },
   {
@@ -1300,7 +1249,6 @@
     "data_gaps_remaining": [
       "No human PK; no quantitative binding data outside patent."
     ],
-    "notes": "Bisfluoro analogue of adrafinil; pharmacology entirely from Lafon patent and analogy.",
     "references_consulted": [
       "patent:CA1192222A"
     ]
@@ -1340,7 +1288,6 @@
     "data_gaps_remaining": [
       "No quantitative binding data; no human PK; mechanism speculative."
     ],
-    "notes": "Not structurally related to modafinil despite being grouped with eugeroics. Evidence base is anecdotal.",
     "references_consulted": []
   },
   {
@@ -1369,7 +1316,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Duplicate of Hydrafinil — see canonical record.",
     "references_consulted": []
   },
   {
@@ -1399,8 +1345,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human DAT",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "pmid:8878059",
-          "notes": "Eshleman et al.; saturation Kd 16 nM in human cloned DAT. Rat striatum Kd ~14 nM."
+          "reference": "pmid:8878059"
         },
         {
           "target": "DAT",
@@ -1409,8 +1354,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatal membranes",
           "radioligand_or_probe": "[3H]WIN-35,428 (self)",
-          "reference": "pmid:7830281",
-          "notes": "Carroll et al. 1995, J Med Chem 38:379. Ki = 22.95 nM ([3H]DA uptake inhibition, rat striatum)."
+          "reference": "pmid:7830281"
         },
         {
           "target": "SERT",
@@ -1419,8 +1363,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]paroxetine",
-          "reference": "pmid:7830281",
-          "notes": "Carroll et al. 1995, J Med Chem 38:379. Ki = 100.56 nM ([3H]5-HT uptake inhibition, rat cortex). The previous value (692 nM) was the radioligand-binding IC50 from the same paper's Table 2, not the Ki from Table 1."
+          "reference": "pmid:7830281"
         },
         {
           "target": "NET",
@@ -1429,8 +1372,7 @@
           "species": "rat",
           "tissue_or_cell": "rat cortical membranes",
           "radioligand_or_probe": "[3H]nisoxetine",
-          "reference": "pmid:7830281",
-          "notes": "Carroll et al. 1995, J Med Chem 38:379. Ki = 38.59 nM ([3H]NE uptake inhibition, rat cortex)."
+          "reference": "pmid:7830281"
         }
       ],
       "functional": [],
@@ -1449,7 +1391,6 @@
     "data_gaps_remaining": [
       "No human PK or subjective effect data."
     ],
-    "notes": "Reference DAT radioligand; phenyltropane core with 4-fluoro replacing benzoyloxy of cocaine.",
     "references_consulted": [
       "pmid:8878059",
       "pmid:1675639"
@@ -1481,8 +1422,7 @@
           "species": "human",
           "tissue_or_cell": "human striatal membranes",
           "radioligand_or_probe": "[125I]RTI-55",
-          "reference": "pmid:8245956",
-          "notes": "High-affinity site Kd 0.2 nM; low-affinity site Kd 1.5 nM. Most potent phenyltropane at DAT."
+          "reference": "pmid:8245956"
         },
         {
           "target": "SERT",
@@ -1491,8 +1431,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[125I]RTI-55 (self)",
-          "reference": "pmid:1411961",
-          "notes": "Boja et al. 1992 — high SERT affinity makes RTI-55 a non-selective DAT/SERT radioligand."
+          "reference": "pmid:1411961"
         },
         {
           "target": "DAT",
@@ -1512,8 +1451,7 @@
         {
           "route": "intravenous (tracer dose)",
           "half_life_min": null,
-          "reference": "pmid:12952503",
-          "notes": "Brain uptake plateaus 12-24 h post-injection; SPECT image acquired 24 h post."
+          "reference": "pmid:12952503"
         }
       ]
     },
@@ -1525,7 +1463,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "4-iodo phenyltropane; [123I] form (iometopane / DaTscan-precursor) is FDA-approved imaging agent.",
     "references_consulted": [
       "pmid:8245956",
       "pmid:1411961",
@@ -1555,8 +1492,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatal membranes",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "pmid:9704880",
-          "notes": "Howell et al. 1998; ~1500-fold DAT selectivity over NET, ~1200-fold over SERT."
+          "reference": "pmid:9704880"
         },
         {
           "target": "NET",
@@ -1594,7 +1530,6 @@
     "data_gaps_remaining": [
       "No human data."
     ],
-    "notes": "DAT-selective with cocaine-like discriminative stimulus but slower kinetics; reduces cocaine self-administration in primates at high DAT occupancy.",
     "references_consulted": [
       "pmid:9704880"
     ]
@@ -1629,7 +1564,6 @@
     "data_gaps_remaining": [
       "No human data."
     ],
-    "notes": "4-methyl phenyltropane; archetypal 'cocaine-like' phenyltropane.",
     "references_consulted": []
   },
   {
@@ -1661,7 +1595,6 @@
     "data_gaps_remaining": [
       "Specific Ki values not in primary literature accessed."
     ],
-    "notes": "Phenyltropane developed by Carroll group; pharmacology characterized in series studies but specific numerical data sparse.",
     "references_consulted": []
   },
   {
@@ -1691,7 +1624,6 @@
     "data_gaps_remaining": [
       "No quantitative binding/PK data publicly available."
     ],
-    "notes": "Designer tropane; minimal published pharmacology.",
     "references_consulted": []
   },
   {
@@ -1729,7 +1661,6 @@
     "data_gaps_remaining": [
       "No quantitative human Ki; no human PK."
     ],
-    "notes": "Designer cocaine analog detected by EMCDDA in 2008 'bath salt' products. Primarily a sodium-channel blocker.",
     "references_consulted": []
   },
   {
@@ -1757,8 +1688,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatum / human DAT",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "pmid:34420294",
-          "notes": "Newman group; high-affinity DAT ligand."
+          "reference": "pmid:34420294"
         },
         {
           "target": "DAT",
@@ -1797,7 +1727,6 @@
     "data_gaps_remaining": [
       "No human PK or subjective effect data."
     ],
-    "notes": "Key counter-example to the modafinil 'atypical' template: high DAT affinity + outward-open stabilization = cocaine-like behavioral profile. Demonstrates conformational basis (not just chemical scaffold) determines abuse liability.",
     "references_consulted": [
       "pmid:34420294",
       "pmc:9976790",
@@ -1829,8 +1758,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatum",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "pmid:14755006",
-          "notes": "Newman/Katz group; higher DAT affinity than benztropine."
+          "reference": "pmid:14755006"
         }
       ],
       "functional": [],
@@ -1866,7 +1794,6 @@
     "data_gaps_remaining": [
       "No human PK; SAR data primarily in rats/monkeys."
     ],
-    "notes": "Prototype N-substituted benztropine atypical DAT inhibitor — high DAT affinity, slow onset, reduced cocaine-like effects.",
     "references_consulted": [
       "pmid:14755006",
       "pmid:15846468"
@@ -1897,8 +1824,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatum",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "pmid:20855444",
-          "notes": "Hiranita et al. 2010 — high DAT affinity, but additional DAT-independent binding in striatum (residual binding in DAT-knockout mice)."
+          "reference": "pmid:20855444"
         },
         {
           "target": "σ1",
@@ -1937,7 +1863,6 @@
     "data_gaps_remaining": [
       "No human data."
     ],
-    "notes": "Long N-butyl chain shifts benztropine series to atypical/non-reinforcing profile. Candidate medication for cocaine use disorder.",
     "references_consulted": [
       "pmid:20855444"
     ]
@@ -1968,8 +1893,7 @@
           "species": "mouse",
           "tissue_or_cell": "mouse striatal synaptosomes",
           "radioligand_or_probe": "[3H]dopamine uptake",
-          "reference": "pmid:20504502",
-          "notes": "Naphthyridine-class DRI; highly DAT-selective with no NET activity."
+          "reference": "pmid:20504502"
         }
       ],
       "functional": [],
@@ -1988,7 +1912,6 @@
     "data_gaps_remaining": [
       "No human PK or modern receptor-panel data."
     ],
-    "notes": "Highly potent and DAT-selective; common research tool for selective DA enhancement. Discovered as serendipitous CNS stimulant in early antibiotic SAR.",
     "references_consulted": []
   },
   {
@@ -2015,8 +1938,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatal synaptosomes",
           "radioligand_or_probe": "[3H]dopamine uptake",
-          "reference": "doi:10.1021/acsomega.3c09348",
-          "notes": "(S)-CE-123 — Sitte/Hutchinson groups; atypical, non-substrate DAT inhibitor."
+          "reference": "doi:10.1021/acsomega.3c09348"
         }
       ],
       "functional": [],
@@ -2035,7 +1957,6 @@
     "data_gaps_remaining": [
       "No human data."
     ],
-    "notes": "(S)-CE-123 is the active enantiomer; modafinil analog with cognitive-enhancing profile in rodents without strong reinforcement.",
     "references_consulted": [
       "doi:10.1021/acsomega.3c09348"
     ]
@@ -2061,8 +1982,7 @@
           "action": "reuptakeInhibitor",
           "species": "rat",
           "tissue_or_cell": "rat striatum",
-          "reference": "pmid:8511716",
-          "notes": "Husbands et al. 1993 — >4000-fold DAT selectivity over SERT and NET; GBR-12935 homopiperazine homologue."
+          "reference": "pmid:8511716"
         }
       ],
       "functional": [],
@@ -2080,7 +2000,6 @@
     "data_gaps_remaining": [
       "Specific numerical Ki not in primary source accessed."
     ],
-    "notes": "Reference for extreme DAT-over-SERT/NET selectivity in the GBR series.",
     "references_consulted": [
       "pmid:8511716"
     ]
@@ -2116,7 +2035,6 @@
     "data_gaps_remaining": [
       "No quantitative Ki in accessible literature."
     ],
-    "notes": "Historical Lilly antidepressant candidate; pharmacology summarised in patents and secondary sources only.",
     "references_consulted": []
   },
   {
@@ -2139,8 +2057,7 @@
           "action": "negativeAllostericModulator",
           "species": "rat",
           "tissue_or_cell": "rat striatum",
-          "reference": null,
-          "notes": "Allosterically modulates cocaine and HIV-Tat binding to DAT without itself blocking DA uptake substantially."
+          "reference": null
         }
       ],
       "functional": [],
@@ -2159,7 +2076,6 @@
     "data_gaps_remaining": [
       "No human data."
     ],
-    "notes": "Allosteric DAT modulator developed at Southern Research Institute; mechanistically distinct from orthosteric inhibitors.",
     "references_consulted": []
   },
   {
@@ -2186,7 +2102,6 @@
     "data_gaps_remaining": [
       "Compound name not found in primary literature; possibly a misspelling of 'indatraline' or obscure designer compound. No DAT/NET/SERT Ki, PK, or mechanism data identified."
     ],
-    "notes": "Insufficient primary literature; if this is intended as indatraline, see Indatraline record.",
     "references_consulted": []
   },
   {
@@ -2211,26 +2126,6 @@
       ],
       "binding": [
         {
-          "target": "NET",
-          "ki_nm": 1400,
-          "action": "reuptakeInhibitor",
-          "species": "human",
-          "tissue_or_cell": "HEK293 expressing human NET",
-          "radioligand_or_probe": "[3H]nisoxetine",
-          "reference": null,
-          "notes": "CAUTION: this NET/DAT/SERT triple (1400/2800/45000) has NET more potent than DAT, inverting every published radioligand-binding study (Tatsumi 1997: DAT 520, SERT 9100, NET 52000 nM). The rank-order inversion is the signature of uptake-inhibition IC50, not binding Ki. These values may be IC50 mislabeled as Ki; original source unidentified."
-        },
-        {
-          "target": "DAT",
-          "ki_nm": 2800,
-          "action": "reuptakeInhibitor",
-          "species": "human",
-          "tissue_or_cell": "HEK293 expressing human DAT",
-          "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": null,
-          "notes": "CAUTION: may be uptake-inhibition IC50 rather than binding Ki. See NET row for details of rank-order inversion vs Tatsumi 1997 binding data."
-        },
-        {
           "target": "DAT",
           "ki_nm": null,
           "ic50_nm": 305,
@@ -2240,23 +2135,13 @@
           "reference": "pmid:28220701"
         },
         {
-          "target": "SERT",
-          "ki_nm": 45000,
-          "action": "reuptakeInhibitor",
-          "species": "human",
-          "tissue_or_cell": "HEK293",
-          "reference": null,
-          "notes": "CAUTION: may be uptake-inhibition IC50 rather than binding Ki. See NET row for details of rank-order inversion vs Tatsumi 1997 binding data."
-        },
-        {
           "target": "α4β2 nAChR",
           "ki_nm": null,
           "ic50_nm": 12000,
           "action": "antagonist",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human α4β2",
-          "reference": "pmid:20158204",
-          "notes": "Non-competitive nicotinic antagonism — basis for Zyban smoking-cessation indication."
+          "reference": "pmid:20158204"
         },
         {
           "target": "α3β4 nAChR",
@@ -2275,8 +2160,7 @@
           "emax_pct": 25,
           "species": "human",
           "cell_system": "in vivo",
-          "reference": "pmid:12185406",
-          "notes": "Bupropion at clinical doses (150-300 mg/day) achieves only ~25% striatal DAT occupancy — weaker than methylphenidate."
+          "reference": "pmid:12185406"
         }
       ],
       "downstream_signalling": "Weak parent + active hydroxybupropion metabolite (NET-selective) drives clinical NE/DA enhancement. Nicotinic antagonism is mechanistically separate and drives smoking cessation."
@@ -2291,8 +2175,7 @@
           "half_life_min": 1260,
           "protein_binding_pct": 84,
           "dose_in_study_mg": 150,
-          "reference": null,
-          "notes": "t1/2 ~21 h for parent; hydroxybupropion t1/2 ~20 h and reaches 4-7x higher plasma than parent."
+          "reference": null
         }
       ]
     },
@@ -2303,8 +2186,7 @@
         "metabolite_name": "hydroxybupropion",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
-        "reference": "doi:10.1124/dmd.112.050591",
-        "notes": "Active NET-selective metabolite; reaches 4-7x higher steady-state plasma than parent."
+        "reference": "doi:10.1124/dmd.112.050591"
       },
       {
         "enzyme": "11β-HSD1 + AKR reduction",
@@ -2312,8 +2194,7 @@
         "metabolite_name": "threohydrobupropion",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 20,
-        "reference": "pmid:23804523",
-        "notes": "Carbonyl reduction; threohydro responsible for dry mouth."
+        "reference": "pmid:23804523"
       },
       {
         "enzyme": "11β-HSD1 + AKR reduction",
@@ -2321,8 +2202,7 @@
         "metabolite_name": "erythrohydrobupropion",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 10,
-        "reference": "pmid:23804523",
-        "notes": "Erythrohydro plasma levels correlate with insomnia."
+        "reference": "pmid:23804523"
       }
     ],
     "drug_interactions_pk": [
@@ -2374,7 +2254,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Weak NDRI at parent + strong nAChR antagonism; clinical activity driven substantially by hydroxybupropion (NET-selective active metabolite). NDRI profile gives less euphoria than pure DRIs because NET inhibition normalises PFC DA without striatal DA spike.",
     "references_consulted": [
       "pmid:12185406",
       "doi:10.1124/dmd.112.050591",
@@ -2408,8 +2287,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human NET",
           "radioligand_or_probe": "[3H]nisoxetine",
-          "reference": "pmid:12431845",
-          "notes": "Wong et al. — highly NET-selective."
+          "reference": "pmid:12431845"
         },
         {
           "target": "SERT",
@@ -2425,8 +2303,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human DAT",
-          "reference": "pmid:12431845",
-          "notes": "~290-fold NET selectivity over DAT."
+          "reference": "pmid:12431845"
         }
       ],
       "functional": [],
@@ -2442,8 +2319,7 @@
           "half_life_min": 312,
           "protein_binding_pct": 98,
           "dose_in_study_mg": 40,
-          "reference": "pmc:4876529",
-          "notes": "EMs (CYP2D6 normal): F 63%, t1/2 5.2 h. PMs: F 94%, t1/2 21.6 h, AUC 10x higher, Cmax 5x higher."
+          "reference": "pmc:4876529"
         }
       ]
     },
@@ -2454,8 +2330,7 @@
         "metabolite_name": "4-hydroxyatomoxetine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
-        "reference": "pmc:4876529",
-        "notes": "Equipotent at NET but rapidly glucuronidated → low plasma exposure."
+        "reference": "pmc:4876529"
       },
       {
         "enzyme": "CYP2C19 (minor)",
@@ -2516,7 +2391,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Highly NET-selective; benefits cognitive ADHD without reinforcement. Classic example of how NET inhibition alone raises PFC DA via co-transport, without striatal liability.",
     "references_consulted": [
       "pmc:4876529"
     ]
@@ -2549,8 +2423,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human NET",
           "radioligand_or_probe": "[3H]nisoxetine",
-          "reference": "doi:10.1007/s40268-026-00543-y",
-          "notes": "Yu et al. updated NET Ki = 0.13 µM; selective NRI."
+          "reference": "doi:10.1007/s40268-026-00543-y"
         },
         {
           "target": "5-HT2C",
@@ -2588,8 +2461,7 @@
           "half_life_min": 420,
           "protein_binding_pct": 76,
           "dose_in_study_mg": 400,
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2025/211964s013lbl.pdf",
-          "notes": "Qelbree ER: Tmax 5 h, t1/2 7 h."
+          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2025/211964s013lbl.pdf"
         }
       ]
     },
@@ -2632,7 +2504,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Recently re-launched as Qelbree (ER capsules) for ADHD. Differs from atomoxetine in adding 5-HT2C partial agonism (anti-anxiety / pro-cognition).",
     "references_consulted": [
       "doi:10.1007/s40268-026-00543-y",
       "doi:10.1007/s40261-024-01356-0"
@@ -2665,8 +2536,7 @@
           "species": "human",
           "tissue_or_cell": "cloned human dopamine transporter (transfected cell membranes)",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "pmid:9537821",
-          "notes": "High DAT affinity, only modestly DAT-selective."
+          "reference": "pmid:9537821"
         },
         {
           "target": "NET",
@@ -2691,7 +2561,6 @@
           "species": "human",
           "tissue_or_cell": "cloned receptor",
           "reference": "pmid:41667893",
-          "notes": "NLS Pharmaceutics 2021 — partial OX2R agonism is mechanism for narcolepsy efficacy.",
           "is_review": true
         }
       ],
@@ -2708,8 +2577,7 @@
           "half_life_min": 600,
           "protein_binding_pct": null,
           "dose_in_study_mg": 1,
-          "reference": "pmid:525256",
-          "notes": "Half-life ~10 h."
+          "reference": "pmid:525256"
         }
       ]
     },
@@ -2723,7 +2591,6 @@
     "data_gaps_remaining": [
       "Quantitative human PK studies are old/sparse."
     ],
-    "notes": "Mid-affinity NDRI with significant orexin-2 agonism — uniquely positioned for narcolepsy. Phase 2 trials in ADHD met endpoints (NLS Pharmaceutics).",
     "references_consulted": [
       "pmid:525256"
     ]
@@ -2748,8 +2615,7 @@
           "ki_nm": null,
           "action": "reuptakeInhibitor",
           "species": "rat",
-          "reference": null,
-          "notes": "Wikipedia/SAR: ring-expanded imidazoline → ~10x increase in DAT affinity vs mazindol; no peer-reviewed Ki accessible."
+          "reference": null
         }
       ],
       "functional": [],
@@ -2767,7 +2633,6 @@
     "data_gaps_remaining": [
       "No published quantitative Ki, no human PK."
     ],
-    "notes": "Designer mazindol homologue; primarily anecdotal pharmacology.",
     "references_consulted": []
   },
   {
@@ -2805,8 +2670,7 @@
           "half_life_min": 60,
           "protein_binding_pct": null,
           "dose_in_study_mg": 70,
-          "reference": "pmc:4257105",
-          "notes": "Parent LDX t1/2 <1 h. Liberated d-amphetamine: Tmax 3-5 h, t1/2 9-10 h. RBC hydrolysis saturable but capacity exceeds clinical doses."
+          "reference": "pmc:4257105"
         }
       ]
     },
@@ -2828,7 +2692,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Pharmacology entirely via d-amphetamine; prodrug design (RBC-activated) eliminates abuse-liability shortcut of IV/IN use (rate-limiting hydrolysis is unchanged by route).",
     "references_consulted": [
       "pmc:4257105",
       "pmc:4937656"
@@ -2858,7 +2721,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Brand name for lisdexamfetamine — see canonical record.",
     "references_consulted": []
   },
   {
@@ -2891,8 +2753,7 @@
           "tmax_min": 480,
           "half_life_min": null,
           "dose_in_study_mg": 39.2,
-          "reference": "https://www.fda.gov/media/166741/download",
-          "notes": "Azstarys is 70% SDX + 30% IR d-MPH; d-MPH from SDX peaks ~8 h post-dose, providing late-day coverage."
+          "reference": "https://www.fda.gov/media/166741/download"
         }
       ]
     },
@@ -2914,7 +2775,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Like LDX, prodrug design intended to prevent route-of-administration abuse: IV or IN bypasses gut activation, so SDX itself produces no CNS effects.",
     "references_consulted": [
       "https://www.fda.gov/media/166741/download"
     ]
@@ -2945,8 +2805,7 @@
           "species": "rat",
           "tissue_or_cell": "rat caudate synaptosomes",
           "radioligand_or_probe": "[3H]dopamine release",
-          "reference": "pmid:12106802",
-          "notes": "Rothman et al. 2002 — phenmetrazine is a substrate-type releaser at DAT and NET."
+          "reference": "pmid:12106802"
         },
         {
           "target": "NET",
@@ -2964,8 +2823,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat synaptosomes",
-          "reference": "pmid:12106802",
-          "notes": "Negligible serotonergic releasing activity."
+          "reference": "pmid:12106802"
         }
       ],
       "functional": [],
@@ -2998,7 +2856,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Historical anorectic (Preludin); high abuse liability led to withdrawal. Prototype phenylmorpholine releaser scaffold.",
     "references_consulted": [
       "pmid:23211394"
     ]
@@ -3028,8 +2885,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat synaptosomes",
-          "reference": "doi:10.1016/j.neuropharm.2017.10.006",
-          "notes": "Mayer et al. 2018 — NE/DA releaser."
+          "reference": "doi:10.1016/j.neuropharm.2017.10.006"
         },
         {
           "target": "NET",
@@ -3100,7 +2956,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Common research-chemical-era NE/DA releaser; vascular toxicity reported.",
     "references_consulted": [
       "doi:10.1016/j.neuropharm.2017.10.006",
       "pmc:5694401"
@@ -3134,7 +2989,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Duplicate of 3-Fluorophenmetrazine — see canonical record.",
     "references_consulted": []
   },
   {
@@ -3154,38 +3008,6 @@
         "DAT",
         "NET"
       ],
-      "binding": [
-        {
-          "target": "DAT",
-          "ki_nm": null,
-          "ec50_nm": 27,
-          "action": "releasingAgent",
-          "species": "rat",
-          "tissue_or_cell": "rat synaptosomes",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to doi:10.1016/j.bmcl.2015.04.083, which is hybrid liposomes in a rheumatoid-arthritis mouse model. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Namjoshi/Blough/Rothman 2015 — NDA releaser."
-        },
-        {
-          "target": "NET",
-          "ki_nm": null,
-          "ec50_nm": 75,
-          "action": "releasingAgent",
-          "species": "rat",
-          "tissue_or_cell": "rat synaptosomes",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to doi:10.1016/j.bmcl.2015.04.083, which is hybrid liposomes in a rheumatoid-arthritis mouse model. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
-        },
-        {
-          "target": "SERT",
-          "ki_nm": null,
-          "ec50_nm": 301,
-          "action": "releasingAgent",
-          "species": "rat",
-          "tissue_or_cell": "rat synaptosomes",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to doi:10.1016/j.bmcl.2015.04.083, which is hybrid liposomes in a rheumatoid-arthritis mouse model. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
-        }
-      ],
       "functional": [],
       "downstream_signalling": "3-Chloro analog — more potent DA releaser than 3-FPM, with measurable but modest serotonergic component."
     },
@@ -3201,7 +3023,6 @@
     "data_gaps_remaining": [
       "No human PK."
     ],
-    "notes": "PAL-series phenmetrazine analog studied as cocaine-substitution candidate.",
     "references_consulted": [
       "doi:10.1016/j.bmcl.2015.04.083"
     ]
@@ -3232,8 +3053,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat synaptosomes",
-          "reference": "doi:10.1002/dta.2396",
-          "notes": "McLaughlin et al. 2018 — para-methyl adds SERT activity."
+          "reference": "doi:10.1002/dta.2396"
         },
         {
           "target": "NET",
@@ -3251,8 +3071,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "tissue_or_cell": "rat synaptosomes",
-          "reference": "doi:10.1002/dta.2396",
-          "notes": "Notable SERT activity — entactogen-like profile."
+          "reference": "doi:10.1002/dta.2396"
         }
       ],
       "functional": [],
@@ -3271,7 +3090,6 @@
     "data_gaps_remaining": [
       "No human PK."
     ],
-    "notes": "Para-methyl group adds 5-HT activity → MDMA-like phenomenology distinct from parent phenmetrazine.",
     "references_consulted": [
       "doi:10.1002/dta.2396"
     ]
@@ -3301,7 +3119,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Duplicate/synonym for 4-Methylphenmetrazine — see canonical record.",
     "references_consulted": []
   },
   {
@@ -3329,8 +3146,7 @@
           "action": "reuptakeInhibitor",
           "species": "rat",
           "tissue_or_cell": "rat synaptosomes",
-          "reference": "pmid:39903277",
-          "notes": "MDPM — minimal SERT activity despite methylenedioxy substitution."
+          "reference": "pmid:39903277"
         }
       ],
       "functional": [],
@@ -3348,7 +3164,6 @@
     "data_gaps_remaining": [
       "Quantitative DAT/NET EC50 not yet published (early notification 2024)."
     ],
-    "notes": "Detected as MDMA synthesis impurity; pharmacology only preliminarily characterised.",
     "references_consulted": [
       "pmid:39903277"
     ]
@@ -3380,7 +3195,6 @@
     "data_gaps_remaining": [
       "No primary pharmacology data accessible."
     ],
-    "notes": "Stereoisomer/regioisomer of phenmetrazine; SAR-only profile.",
     "references_consulted": []
   },
   {
@@ -3409,8 +3223,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human DAT",
-          "reference": "doi:10.1038/srep31385",
-          "notes": "Phendimetrazine itself blocks basal DAT current (uptake inhibitor profile); metabolite phenmetrazine induces inward current (substrate/releaser). Dissociable mechanisms."
+          "reference": "doi:10.1038/srep31385"
         }
       ],
       "functional": [],
@@ -3444,7 +3257,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Slow N-demethylation provides flatter PK profile of active metabolite phenmetrazine — reduces abuse liability vs phenmetrazine alone.",
     "references_consulted": [
       "doi:10.1038/srep31385",
       "pmid:23211394"
@@ -3514,7 +3326,6 @@
     "data_gaps_remaining": [
       "Limited published human PK from terminated trials."
     ],
-    "notes": "BMS/NeuroSearch SNDRI; Parkinson's program terminated.",
     "references_consulted": [
       "pmid:11249705"
     ]
@@ -3544,8 +3355,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatum",
           "radioligand_or_probe": "[3H]WIN-35,428",
-          "reference": "doi:10.1038/srep34655",
-          "notes": "(1R,3S) enantiomer; potent triple reuptake inhibitor."
+          "reference": "doi:10.1038/srep34655"
         },
         {
           "target": "NET",
@@ -3581,7 +3391,6 @@
     "data_gaps_remaining": [
       "No human PK published."
     ],
-    "notes": "Lundbeck SNDRI from 1985; widely used research tool for monoamine transporter studies (MS binding assays).",
     "references_consulted": [
       "doi:10.1038/srep34655",
       "pmid:25899387"
@@ -3620,7 +3429,6 @@
     "data_gaps_remaining": [
       "Quantitative Ki not in accessible primary literature."
     ],
-    "notes": "Historical Pfizer NDRI scaffold; SAR led to sertraline. Pharmacology summarized in secondary sources.",
     "references_consulted": []
   },
   {
@@ -3648,8 +3456,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human DAT",
-          "reference": "pmid:35785702",
-          "notes": "Hopkins et al. — high DAT potency."
+          "reference": "pmid:35785702"
         },
         {
           "target": "NET",
@@ -3680,8 +3487,7 @@
           "half_life_min": 3720,
           "protein_binding_pct": null,
           "dose_in_study_mg": 8,
-          "reference": "pmid:25948101",
-          "notes": "Tmax 10-12 h, t1/2 47-77 h."
+          "reference": "pmid:25948101"
         }
       ]
     },
@@ -3694,7 +3500,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Very flat PK from ultra-long half-life mimics infusion kinetics → abolishes peak-trough abuse pattern even though it's a triple reuptake inhibitor.",
     "references_consulted": [
       "doi:10.1124/jpet.114.220293",
       "pmid:25948101"
@@ -3756,7 +3561,6 @@
     "data_gaps_remaining": [
       "No human data."
     ],
-    "notes": "Janssen triple reuptake inhibitor; never marketed. Cleanest published Ki for triple reuptake series.",
     "references_consulted": [
       "pmid:18499098"
     ]
@@ -3785,8 +3589,7 @@
           "readout": "[3H]monoamine uptake (rat synaptosomes)",
           "species": "rat",
           "cell_system": "rat brain synaptosomes",
-          "reference": "pmid:7205281",
-          "notes": "DeMet & Sokoloski 1981 — noncompetitive inhibition mode (unusual for monoamine reuptake inhibitors)."
+          "reference": "pmid:7205281"
         }
       ],
       "downstream_signalling": "Noncompetitive triple reuptake inhibitor; differentiates pridefine from competitive uptake blockers. Antidepressant trials 1970s-80s; not marketed."
@@ -3804,7 +3607,6 @@
     "data_gaps_remaining": [
       "Specific Ki values not extracted from 1981 papers."
     ],
-    "notes": "Historic noncompetitive SNDRI; mechanistic curiosity (most reuptake inhibitors are competitive).",
     "references_consulted": [
       "pmid:7205281"
     ]
@@ -3843,7 +3645,6 @@
     "data_gaps_remaining": [
       "No quantitative Ki in accessible primary literature."
     ],
-    "notes": "Historic anorectic from 1970s; minimal published modern pharmacology.",
     "references_consulted": []
   },
   {

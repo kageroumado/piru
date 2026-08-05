@@ -73,8 +73,7 @@
           "dose_in_study_mg": 34,
           "subject_n": 6,
           "subject_demographics": "occasional cannabis users",
-          "reference": "pmid:17712819",
-          "notes": "Smoking bioavailability 18-50% depending on smoking topography; terminal half-life is long (1-3 days) due to deep adipose redistribution."
+          "reference": "pmid:17712819"
         },
         {
           "route": "oral",
@@ -89,8 +88,7 @@
           "dose_in_study_mg": 20,
           "subject_n": 11,
           "subject_demographics": "healthy adult volunteers",
-          "reference": "pmid:6250760",
-          "notes": "First-pass metabolism produces ~equipotent 11-OH-THC, contributing to delayed/more intense effects of edibles."
+          "reference": "pmid:6250760"
         }
       ],
       "concentration_effect": [
@@ -110,8 +108,7 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "11-OH-THC is equipotent or slightly more potent at CB1 than parent; major active metabolite especially after oral dosing."
+        "reference": null
       },
       {
         "enzyme": "CYP3A4",
@@ -127,8 +124,7 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Inactive carboxylic acid; primary urinary marker (as glucuronide)."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -176,8 +172,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "low",
         "clinical_consequence": "May contribute to metabolic effects and anti-inflammatory action",
-        "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.1111/j.1476-5381.2009.00467.x, which is the estrogenic activity of non-aromatic steroids. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -197,7 +192,6 @@
     "data_gaps_remaining": [
       "definitive Bmax data in human living brain for CB1 downregulation"
     ],
-    "notes": "Δ9-THC's PARTIAL agonism at CB1 (~15-30% intrinsic activity vs CP55,940) is the single most important pharmacological fact distinguishing natural cannabis from synthetic cannabinoid full agonists. This ceiling effect is why THC has never produced confirmed lethal overdose: maximum CB1 activation is intrinsically limited regardless of dose.",
     "references_consulted": [
       "pmid:8632377",
       "pmid:11444969",
@@ -239,10 +233,8 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB1 membranes",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "pmid:25311884",
-          "is_review": false,
-          "notes": "Weak CB1 binding (~20× weaker than THC) — not the primary mechanism."
+          "is_review": false
         },
         {
           "target": "CB2",
@@ -257,10 +249,8 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB2 membranes",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1089/can.2023.0212",
-          "is_review": false,
-          "notes": "CB2 activity resides exclusively in (−) isomer; (+) isomer inactive at CB2."
+          "is_review": false
         },
         {
           "target": "TRPA1",
@@ -275,10 +265,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing hTRPA1",
           "radioligand_or_probe": "calcium flux",
-          "assay_buffer_notes": null,
           "reference": "pmid:21175579",
-          "is_review": false,
-          "notes": "Both enantiomers active at TRPA1 (stereo-non-selective)."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -339,7 +327,6 @@
       "human PK",
       "in vivo TRPA1 contribution to subjective effects"
     ],
-    "notes": "No clinical human PK data; classified as non-intoxicating because CB1 affinity is too weak for psychoactive effect at achievable doses.",
     "references_consulted": [
       "pmid:25311884",
       "doi:10.1089/can.2023.0212"
@@ -376,10 +363,8 @@
           "species": "rat",
           "tissue_or_cell": "CHO-r5HT1A and brain membranes",
           "radioligand_or_probe": "[3H]-8-OH-DPAT",
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": false,
-          "notes": "Bolognini 2013: CBDA is more potent than CBD at 5-HT1A in vitro and in vivo anti-nausea models."
+          "is_review": false
         },
         {
           "target": "COX-2",
@@ -394,10 +379,8 @@
           "species": "human",
           "tissue_or_cell": "recombinant human COX-2",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:18556441",
-          "is_review": false,
-          "notes": "Takeda 2008: CBDA IC50 ~2 µM at COX-2 with 9× selectivity over COX-1; methylation of carboxyl group abolishes selectivity — carboxylate is the pharmacophore."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -417,8 +400,7 @@
         "metabolite_name": "CBD",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1089/can.2016.0017",
-        "notes": "Decarboxylates to CBD on heating (smoking/vaping) or storage; in body, CBDA mostly stable but slowly converts."
+        "reference": "doi:10.1089/can.2016.0017"
       }
     ],
     "drug_interactions_pk": [],
@@ -460,7 +442,6 @@
       "human PK data",
       "absolute Ki at 5-HT1A"
     ],
-    "notes": "Raw cannabinoid acid in fresh plant material — converted to CBD by heat/UV/time. Mechanism differs from CBD: more potent 5-HT1A agonist, has selective COX-2 inhibition (CBD does not). Has been formulated as a metallic salt 'EPM301' for stability.",
     "references_consulted": [
       "pmid:18556441",
       "doi:10.1089/can.2016.0017"
@@ -498,10 +479,8 @@
           "species": "human",
           "tissue_or_cell": "CHO-hα2A membranes",
           "radioligand_or_probe": "[3H]-rauwolscine",
-          "assay_buffer_notes": null,
           "reference": "pmid:20002104",
           "is_review": false,
-          "notes": "Cascio 2010: CBG is potent (sub-nM) α2-adrenoceptor agonist — likely dominant mechanism for in vivo effects (sedation, hypotension, anti-anxiety).",
           "comparable_set": "cascio-2010-human-5ht1a"
         },
         {
@@ -517,10 +496,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brainstem membranes",
           "radioligand_or_probe": "[3H]-8-OH-DPAT",
-          "assay_buffer_notes": null,
           "reference": "pmid:20002104",
           "is_review": false,
-          "notes": "Cascio 2010: Moderate potency 5-HT1A antagonist; opposite direction from CBD.",
           "comparable_set": "cascio-2010-rat-5ht1a"
         },
         {
@@ -536,10 +513,8 @@
           "species": "mouse",
           "tissue_or_cell": "MF1 mouse whole-brain membranes",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1111/j.1476-5381.2009.00515.x",
           "is_review": false,
-          "notes": "Cascio et al. 2010, Br J Pharmacol 159:129, PMID 20002104. Ki = 381 nM in MF1 mouse brain, not human as previously labeled. Weak partial agonist / very weak antagonist.",
           "comparable_set": "cascio-2010-mouse-cb1"
         }
       ],
@@ -584,7 +559,6 @@
       "human PK",
       "clinical CV monitoring data for high-dose CBG"
     ],
-    "notes": "Often marketed as 'mother of all cannabinoids' (biosynthetic precursor). Importantly, primary pharmacology is NOT cannabinoid — sub-nM α2-adrenoceptor agonism is much more potent than CB1/CB2 activity. Safety concern: potential additive hypotension/bradycardia with clonidine or β-blockers.",
     "references_consulted": [
       "pmid:20002104"
     ]
@@ -622,10 +596,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing hTRPV1",
           "radioligand_or_probe": "calcium flux",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/cn5000524",
-          "is_review": false,
-          "notes": "De Petrocellis 2011/2014: CBDV activates and rapidly desensitises TRPV1 — putative anticonvulsant mechanism."
+          "is_review": false
         },
         {
           "target": "TRPA1",
@@ -640,10 +612,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293-hTRPA1",
           "radioligand_or_probe": "calcium flux",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/cn5000524",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "DAGL-α",
@@ -658,10 +628,8 @@
           "species": "human",
           "tissue_or_cell": "human recombinant DAGL-alpha (COS cell expression)",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:21175579",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -685,8 +653,7 @@
           "dose_in_study_mg": 800,
           "subject_n": 60,
           "subject_demographics": "GWP42006 Phase 1 healthy volunteers",
-          "reference": "pmid:35364618",
-          "notes": "Generally well-tolerated; Phase 2 trial in drug-resistant focal epilepsy did NOT show efficacy (GW Pharma 2018)."
+          "reference": "pmid:35364618"
         }
       ],
       "concentration_effect": []
@@ -723,7 +690,6 @@
       "definitive human PK parameters",
       "drug interaction data"
     ],
-    "notes": "Propyl analogue of CBD. Studied as anticonvulsant (GWP42006), but Phase 2 trial in focal epilepsy was negative. Continues to be studied for autism (Rett, Fragile X).",
     "references_consulted": [
       "doi:10.1021/cn5000524"
     ]
@@ -762,10 +728,8 @@
           "species": "human",
           "tissue_or_cell": "COS-7 expressing hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "pmid:25311884",
-          "is_review": false,
-          "notes": "Weak partial agonist — ~5× weaker than THC at CB1."
+          "is_review": false
         },
         {
           "target": "CB2",
@@ -783,21 +747,17 @@
           "species": "human",
           "tissue_or_cell": "COS-7 expressing hCB2",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "pmid:25311884",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "CB1",
           "ki_nm": 13.0,
           "comparable_set": "jnatprod-2019-human-cb",
           "species": "human",
-          "assay_notes": "displacement of [3H]CP55940 from recombinant human receptor, Sf9 membranes",
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "Same-document set with CBD and CBG below. HEAVY CAVEAT: retrieved CBN CB1 Ki values scatter across nearly two orders of magnitude between documents — 13 nM here, 100 nM (10.1016/j.ejmech.2024.116164), 308 nM (ChEMBL doc CHEMBL1133684), and 70 nM / 1100 nM within a single further document (10.1021/acs.jnatprod.0c00965). Showalter 1996 independently gives CBN CB2 Ki = 96.3 +/- 14 nM against the 16 nM here. Do not ship a single CBN affinity number.",
           "action": "partialAgonist"
         },
         {
@@ -805,11 +765,9 @@
           "ki_nm": 16.0,
           "comparable_set": "jnatprod-2019-human-cb",
           "species": "human",
-          "assay_notes": "displacement of [3H]CP55940 from recombinant human receptor, Sf9 membranes",
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "Same-document set with CBD and CBG below. HEAVY CAVEAT: retrieved CBN CB1 Ki values scatter across nearly two orders of magnitude between documents — 13 nM here, 100 nM (10.1016/j.ejmech.2024.116164), 308 nM (ChEMBL doc CHEMBL1133684), and 70 nM / 1100 nM within a single further document (10.1021/acs.jnatprod.0c00965). Showalter 1996 independently gives CBN CB2 Ki = 96.3 +/- 14 nM against the 16 nM here. Do not ship a single CBN affinity number.",
           "action": "partialAgonist"
         },
         {
@@ -825,11 +783,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Wiley 2024 Table 1: 285 nM (95% CI 154-520). ChEMBL 13 nM outlier (J Nat Prod 2019) is ~20x off — do not use."
+          "confidence": "high"
         },
         {
           "target": "CB2",
@@ -844,11 +800,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Wiley 2024 Table 1: 163 nM (95% CI 83-330)."
+          "confidence": "high"
         }
       ],
       "functional": [],
@@ -872,8 +826,7 @@
           "dose_in_study_mg": 20,
           "subject_n": 6,
           "subject_demographics": "cannabis users",
-          "reference": "pmid:2960395",
-          "notes": "Highly variable t1/2 = 32±17 h."
+          "reference": "pmid:2960395"
         }
       ],
       "concentration_effect": []
@@ -885,8 +838,7 @@
         "metabolite_name": "11-OH-CBN",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:17303175",
-        "notes": "CYP2C9 catalyses 11-hydroxylation; CYP3A4 mediates 8β-hydroxylation. 11-OH-CBN has higher CB1/CB2 affinity than parent."
+        "reference": "pmid:17303175"
       },
       {
         "enzyme": "CYP3A4",
@@ -929,7 +881,6 @@
     "data_gaps_remaining": [
       "claimed sedation/sleep effects have weak human RCT support"
     ],
-    "notes": "Marketed as 'sleep cannabinoid' but human evidence for sedative effect is weak — likely the 11-OH metabolite contributes more than parent. Forms via THC oxidation during aged/poorly-stored cannabis.",
     "references_consulted": [
       "pmid:25311884",
       "pmid:17303175"
@@ -967,8 +918,7 @@
         "metabolite_name": "CBN",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Decarboxylates to CBN on heating; itself the oxidative degradation product of THCA."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -1001,7 +951,6 @@
       "human PK",
       "any clinical reports"
     ],
-    "notes": "Cannabinolic acid is an oxidative degradation product found in aged cannabis. Almost no primary pharmacology in the literature; widely assumed inactive (like other -A precursors) until decarboxylated to CBN.",
     "references_consulted": []
   },
   {
@@ -1023,57 +972,13 @@
       "binding": [
         {
           "target": "CB1",
-          "ki_nm": 9.0,
-          "ki_ci_nm": [
-            4.0,
-            14.0
-          ],
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
-          "action": "agonist",
-          "species": "mixed",
-          "tissue_or_cell": "rat cerebellar membranes (Aung 2000); also reported on hCB1-CHO",
-          "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
-          "reference": "doi:10.1021/acs.jmedchem.1c00442",
-          "is_review": false,
-          "notes": "Aung et al 2000 founding measurement; ~4× more potent than Δ9-THC at CB1 AND full agonist (~100% efficacy vs THC's ~25%). This combination is what makes JWH-018 dramatically more dangerous than cannabis."
-        },
-        {
-          "target": "CB2",
-          "ki_nm": 2.94,
-          "ki_ci_nm": [
-            0.29,
-            5.59
-          ],
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
-          "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "rat spleen / hCB2-CHO",
-          "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
-          "reference": "doi:10.1021/acs.jmedchem.1c00442",
-          "is_review": false,
-          "notes": null
-        },
-        {
-          "target": "CB1",
           "intrinsic_activity_pct": 103.0,
           "reference_agonist": "JWH-018 (self, = 100% by definition of the normalization)",
           "comparable_set": "dta-2024-hhc-jwh018-normalised",
           "species": "human",
-          "assay_notes": "human CB1, recombinant CHO-K1, aequorin luminescence",
           "reference": "doi:10.1002/dta.3750",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Printed as EC50 22.5 nM (95% CI 19.9-25.6) and efficacy 103% (102-105). Signal was normalized to JWH-018 at 60 uM = 100%, so the 103% is the fitted curve maximum against that anchor. CB1 Ki NOT retrieved — JWH-018 is not resolvable in ChEMBL by that synonym. The paper states only qualitatively that JWH-018 has about 4x higher binding affinity than Delta-9-THC and an in vivo ED50 about 2x lower in mouse.",
           "action": "agonist"
         }
       ],
@@ -1121,8 +1026,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "case-series only",
-          "reference": null,
-          "notes": "No controlled human PK; only post-mortem and emergency-room concentrations reported (0.1–199 ng/mL parent in blood)."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -1134,8 +1038,7 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Mono- and dihydroxylated metabolites retain high CB1 affinity (Ki 4-50 nM) — extending pharmacodynamic effect. Some metabolites act as neutral CB1 antagonists (Brents 2012, pmid:21942375)."
+        "reference": null
       },
       {
         "enzyme": null,
@@ -1162,8 +1065,7 @@
         "other SCRAs"
       ],
       "withdrawal_syndrome": "Onset within 24 h, peak 2-7 d, can persist 2-4 weeks. Anxiety, tachycardia, hypertension, sweating, tremor, GI distress, severe insomnia, craving. More severe than cannabis withdrawal.",
-      "reference": null,
-      "notes": "Citation removed: this value was attributed to doi:10.1016/j.drugalcdep.2014.07.027, which is a natural-cannabis withdrawal cohort with no synthetic-cannabinoid data. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+      "reference": null
     },
     "off_targets": [
       {
@@ -1193,7 +1095,6 @@
     "data_gaps_remaining": [
       "controlled human PK"
     ],
-    "notes": "Prototype 'K2/Spice' synthetic cannabinoid. The combination of high CB1 affinity AND full intrinsic activity (vs THC's partial agonism) drives the severe toxicity profile: seizures, acute kidney injury, myocardial infarction, psychosis, hyperthermia, agitated delirium. Schedule I (US) since 2011.",
     "references_consulted": [
       "pmid:11020385",
       "doi:10.1021/acschemneuro.5b00107",
@@ -1234,10 +1135,8 @@
           "species": "mixed",
           "tissue_or_cell": "rat cerebellum / hCB1-CHO",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "pmid:10940540",
-          "is_review": false,
-          "notes": "Aung 2000. Similar CB1 affinity to JWH-018 but slightly weaker functional potency; 5× CB1 selectivity over CB2."
+          "is_review": false
         },
         {
           "target": "CB2",
@@ -1255,10 +1154,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "pmid:10940540",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1278,8 +1175,7 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Monohydroxylated metabolites retain CB1 affinity (intermediate to high); some act as neutral antagonists/partial agonists (pmid:22323737)."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -1312,7 +1208,6 @@
     "data_gaps_remaining": [
       "human PK"
     ],
-    "notes": "Butyl homologue of JWH-018; among first-generation Spice constituents. Schedule I (US).",
     "references_consulted": [
       "pmid:11020385",
       "doi:10.1124/dmd.111.038596",
@@ -1349,10 +1244,8 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "pmid:25921407",
-          "is_review": false,
-          "notes": "Deng/Makriyannis 2001. Fluorination at ω-position dramatically increases CB1 affinity and metabolic stability vs JWH-018."
+          "is_review": false
         },
         {
           "target": "CB2",
@@ -1367,10 +1260,8 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB2",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "pmid:25921407",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "CB1",
@@ -1379,11 +1270,9 @@
           "comparable_set": "acscn-2023-cb1-gi-cp55940-normalised",
           "action": "agonist",
           "species": "human",
-          "assay_notes": "human CB1R, HEK-293T, BRET Gαi engagement (CB1R-Rluc / Gαi-mVenus), Emax read at 16 min",
           "reference": "doi:10.1021/acschemneuro.3c00530",
           "is_review": false,
-          "confidence": "HIGH",
-          "notes": "105.8 ± 2.3% of CP55,940. Yano 2023 Table 1, CB1R-Gαi engagement at 16 min, Emax normalised against CP55,940 = 100% in the same assay. Reported as % of CP55,940 with SEM; pEC50 for THC could not be determined (ND), so this row carries efficacy only and no potency. The β-arrestin-2 arm of the same table gives a near-identical ordering (THC 36.0, AM2201 106.5, 5F-MDMB-PICA 147.7) and is deliberately NOT loaded: two pathway sets would partition into two ladders and the axis would pick one arbitrarily."
+          "confidence": "HIGH"
         }
       ],
       "functional": [],
@@ -1403,8 +1292,7 @@
         "metabolite_name": "5-hydroxypentyl-JWH-018",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Defluorination yields 5-OH-pentyl metabolite identical to a JWH-018 metabolite — complicates urine testing differentiation."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -1438,7 +1326,6 @@
     "data_gaps_remaining": [
       "controlled human PK"
     ],
-    "notes": "ω-fluorinated analogue of JWH-018. Bioisosteric fluorine increases potency and prolongs half-life vs parent. Schedule I.",
     "references_consulted": [
       "doi:10.1002/dta.1326"
     ]
@@ -1473,10 +1360,8 @@
           "species": "human",
           "tissue_or_cell": "AtT20 cells expressing hCB1",
           "radioligand_or_probe": "fluorometric membrane potential assay",
-          "assay_buffer_notes": null,
           "reference": "pmid:26134475",
-          "is_review": false,
-          "notes": "Originally Pfizer (WO 2009/106980) as analgesic candidate."
+          "is_review": false
         },
         {
           "target": "CB2",
@@ -1491,10 +1376,8 @@
           "species": "human",
           "tissue_or_cell": "AtT20 cells expressing hCB2",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:26134475",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1547,7 +1430,6 @@
     "data_gaps_remaining": [
       "human PK"
     ],
-    "notes": "Schedule I. Distinct from AMB-FUBINACA (methyl ester) — AB has terminal carboxamide. Pfizer 2009 patent.",
     "references_consulted": [
       "pmid:25755108"
     ]
@@ -1603,7 +1485,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "This entry is a casing-variant duplicate of AB-FUBINACA in the source list. Merge recommended at the source.",
     "references_consulted": []
   },
   {
@@ -1636,10 +1517,8 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "pmid:26105953",
-          "is_review": false,
-          "notes": "Wiley 2015: Highest efficacy and one of highest potencies among non-MDMB SCRAs studied; full agonist vs partial THC."
+          "is_review": false
         },
         {
           "target": "CB2",
@@ -1654,10 +1533,8 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB2",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:26105953",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1705,7 +1582,6 @@
     "data_gaps_remaining": [
       "human PK"
     ],
-    "notes": "Associated with multiple mass intoxication and fatality clusters. The cyclohexylmethyl (CHM) variant of AB series.",
     "references_consulted": [
       "pmid:26105953"
     ]
@@ -1738,10 +1614,8 @@
           "species": "human",
           "tissue_or_cell": "AtT20 cells expressing hCB1",
           "radioligand_or_probe": "fluorometric membrane potential",
-          "assay_buffer_notes": null,
           "reference": "pmid:26134475",
-          "is_review": false,
-          "notes": "Banister 2015 ACS Chem Neurosci 6(9):1546-59. Sub-nM functional potency; full agonist."
+          "is_review": false
         },
         {
           "target": "CB2",
@@ -1756,10 +1630,8 @@
           "species": "human",
           "tissue_or_cell": "AtT20-hCB2",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:26134475",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "CB1",
@@ -1774,11 +1646,9 @@
           "species": "human",
           "tissue_or_cell": "CHO membranes expressing human CB1 (Cerep/Eurofins)",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": "8 concentrations, Cheng-Prusoff",
           "reference": "doi:10.1007/s00213-016-4237-6",
           "is_review": false,
-          "confidence": "medium",
-          "notes": "Gatch & Forster 2016. Recovered from Results prose, no SEM given."
+          "confidence": "medium"
         }
       ],
       "functional": [],
@@ -1832,7 +1702,6 @@
     "data_gaps_remaining": [
       "human PK"
     ],
-    "notes": "Post-K2-ban second-generation synthetic cannabinoid. Associated with a 2013 outbreak in Colorado of severe intoxications/deaths.",
     "references_consulted": []
   },
   {
@@ -1892,7 +1761,6 @@
       "no confirmed structure in literature",
       "could be 2H- vs 1H-indazole regio-isomer"
     ],
-    "notes": "Likely refers to the 2H-indazole positional isomer or alternative pentyl branching. CB1 activity typically much weaker than parent (Banister SAR data shows 2H-indazole regio-isomers often have >10× reduced CB1 affinity).",
     "references_consulted": []
   },
   {
@@ -1925,10 +1793,8 @@
           "species": "human",
           "tissue_or_cell": "AequoScreen-hCB1",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/s00204-025-04082-4",
-          "is_review": false,
-          "notes": "EC50 7.72 nM in alternative assays; multiple methods converge on ultrapotent full agonism."
+          "is_review": false
         },
         {
           "target": "CB2",
@@ -1943,10 +1809,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/s00204-025-04082-4",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2000,7 +1864,6 @@
       "human PK",
       "prevalence data"
     ],
-    "notes": "Dominant SCRA in UK/EU prison contraband 2020-2023; multiple fatalities and 'mamba' presentations.",
     "references_consulted": [
       "doi:10.1007/s00204-025-04082-4",
       "pmid:34811926"
@@ -2036,10 +1899,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1002/dta.3657",
-          "is_review": false,
-          "notes": "Functional assay confirms full CB1 agonism in low-nM range; specific EC50 not reported in publicly accessible Giorgetti 2024 abstract. Hexyl homologue of ADB-PINACA — Banister-class SAR suggests hexyl gives modestly lower affinity than pentyl."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2093,7 +1954,6 @@
       "explicit EC50",
       "human PK"
     ],
-    "notes": "Emerged 2021 in Europe; designed to evade analogue legislation that targets pentyl chain length. SAR predicts modestly reduced CB1 activity vs ADB-PINACA but still ultrapotent.",
     "references_consulted": [
       "doi:10.1002/dta.3657"
     ]
@@ -2125,10 +1985,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:37903509",
-          "is_review": false,
-          "notes": "Per Cannaert/Stove 2023, removing the N-alkyl group ((S)-ADB-INACA = no chain) substantially reduces CB1 activity while CB2 effect is smaller. Likely a synthesis intermediate or pharmacologically weak species — not a major street SCRA."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2170,7 +2028,6 @@
       "definitive structure (is the indazole N1 truly unsubstituted?)",
       "Ki/EC50"
     ],
-    "notes": "Likely an SAR intermediate or designation for the des-alkyl species. Without N-alkyl substituent, CB1 activity is greatly diminished per the Aung/Banister SAR.",
     "references_consulted": [
       "pmid:37903509"
     ]
@@ -2205,10 +2062,8 @@
           "species": "human",
           "tissue_or_cell": "AtT20-hCB1",
           "radioligand_or_probe": "fluorometric membrane potential",
-          "assay_buffer_notes": null,
           "reference": "pmid:26134475",
-          "is_review": false,
-          "notes": "Banister 2015. Indole counterpart of ADB-PINACA."
+          "is_review": false
         },
         {
           "target": "CB2",
@@ -2223,10 +2078,8 @@
           "species": "human",
           "tissue_or_cell": "AtT20-hCB2",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:26134475",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2270,7 +2123,6 @@
     "data_gaps_remaining": [
       "human PK"
     ],
-    "notes": "Indole analogue of ADB-PINACA (indazole). Identified in Japan 2013.",
     "references_consulted": []
   },
   {
@@ -2304,10 +2156,8 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/acschemneuro.0c00644",
-          "is_review": false,
-          "notes": "Krotulski et al / Halberstadt 2020. EC50 across assays ranges 0.20–7.39 nM (signal-amplification differences). Emax 67.7% relative to CP55,940 — high but not super-Emax."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2327,8 +2177,7 @@
         "metabolite_name": "methyl ester hydrolysis to free carboxylic acid (M7)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:33236189",
-        "notes": "Carboxylic acid metabolite is inactive at CB1 — analogous to MDMB-CHMICA metabolism."
+        "reference": "pmid:33236189"
       }
     ],
     "drug_interactions_pk": [],
@@ -2362,7 +2211,6 @@
     "data_gaps_remaining": [
       "controlled human PK"
     ],
-    "notes": "Dominant SCRA in 2019-2021 forensic casework worldwide. Methyl ester rapidly hydrolyses to inactive acid — short duration vs amide-headgroup analogues.",
     "references_consulted": [
       "doi:10.1021/acschemneuro.0c00644"
     ]
@@ -2420,7 +2268,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Naming-variant duplicate of 4F-MDMB-BINACA. Merge recommended at source.",
     "references_consulted": []
   },
   {
@@ -2454,10 +2301,8 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1038/s41386-021-01227-8",
-          "is_review": false,
-          "notes": "Schindler 2022. EC50 reported 0.45-27.6 nM across assays. Indole counterpart of 4F-MDMB-BINACA."
+          "is_review": false
         },
         {
           "target": "CB1",
@@ -2466,11 +2311,9 @@
           "comparable_set": "acscn-2023-cb1-gi-cp55940-normalised",
           "action": "agonist",
           "species": "human",
-          "assay_notes": "human CB1R, HEK-293T, BRET Gαi engagement (CB1R-Rluc / Gαi-mVenus), Emax read at 16 min",
           "reference": "doi:10.1021/acschemneuro.3c00530",
           "is_review": false,
-          "confidence": "HIGH",
-          "notes": "142.1 ± 2.7% of CP55,940 — a super-agonist relative to the reference. Yano 2023 Table 1, CB1R-Gαi engagement at 16 min, Emax normalised against CP55,940 = 100% in the same assay. Reported as % of CP55,940 with SEM; pEC50 for THC could not be determined (ND), so this row carries efficacy only and no potency. The β-arrestin-2 arm of the same table gives a near-identical ordering (THC 36.0, AM2201 106.5, 5F-MDMB-PICA 147.7) and is deliberately NOT loaded: two pathway sets would partition into two ladders and the axis would pick one arbitrarily."
+          "confidence": "HIGH"
         }
       ],
       "functional": [],
@@ -2490,8 +2333,7 @@
         "metabolite_name": "5F-MDMB-PICA ester-hydrolysis metabolite (M1)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:31461219",
-        "notes": "Acid metabolite is inactive at CB1; defluorinated and ω-OH metabolites retain partial activity."
+        "reference": "pmid:31461219"
       }
     ],
     "drug_interactions_pk": [],
@@ -2525,7 +2367,6 @@
     "data_gaps_remaining": [
       "controlled human PK"
     ],
-    "notes": "One of dominant SCRAs in fatal poisonings 2018-2021. Linked to numerous deaths across US/EU.",
     "references_consulted": [
       "doi:10.1038/s41386-021-01227-8",
       "pmid:31461219"
@@ -2559,10 +2400,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293-hCB1",
           "radioligand_or_probe": "β-arrestin-2 recruitment",
-          "assay_buffer_notes": null,
           "reference": "pmid:33787091",
-          "is_review": false,
-          "notes": "Cannaert 2021. EC50 1.88–2.47 nM with Emax 221–299% relative to JWH-018 — super-efficacious. ~10× CB1 affinity of JWH-018. Pent-4-enyl side chain is novel and bypasses fluoropentyl analogue laws."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2582,8 +2421,7 @@
         "metabolite_name": "MDMB-4en-PINACA ester-hydrolysis metabolite (M1)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.3390/toxics11080697, which is a PAH/metal air-pollution cancer-risk study. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+        "reference": null
       },
       {
         "enzyme": "CYP3A4",
@@ -2591,8 +2429,7 @@
         "metabolite_name": "hydroxy-MDMB-4en-PINACA",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.3390/toxics11080697, which is a PAH/metal air-pollution cancer-risk study. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -2626,7 +2463,6 @@
     "data_gaps_remaining": [
       "controlled human PK"
     ],
-    "notes": "One of the most dangerous SCRAs identified. Super-efficacious CB1 agonist. The pent-4-enyl side chain is a 'designer evasion' of pentyl/fluoropentyl analogue scheduling. DEA Schedule I (2026).",
     "references_consulted": [
       "pmid:33787091",
       "doi:10.3390/toxics11080697"
@@ -2663,10 +2499,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293-hCB1",
           "radioligand_or_probe": "β-arrestin recruitment",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/acschemneuro.5b00107",
-          "is_review": false,
-          "notes": "Banister 2015. The valine variant (less bulky tert-leucine vs MDMB analogues); lower efficacy than MDMB-headgroup analogues."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2710,7 +2544,6 @@
       "human PK",
       "explicit Ki"
     ],
-    "notes": "NOTE: source list's aliases include '5F-AMB' and 'AMB-FUBINACA' but these are DIFFERENT compounds (5F-AMB has indazole core; AMB-FUBINACA has fluorobenzyl substituent). Source data needs correction.",
     "references_consulted": [
       "doi:10.1021/acschemneuro.5b00107"
     ]
@@ -2761,7 +2594,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Filler entry — no second 5F-MDMB-PICA distinct compound exists.",
     "references_consulted": []
   },
   {
@@ -2796,10 +2628,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "pmc:7415729",
-          "is_review": false,
-          "notes": "Canazza 2020. EC50 31 nM, Emax 190% vs CP55,940 — full/super agonist."
+          "is_review": false
         },
         {
           "target": "CB2",
@@ -2814,10 +2644,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293-hCB2",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "pmc:7415729",
-          "is_review": false,
-          "notes": "CB2-selective (~7× vs CB1) at binding level."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2872,7 +2700,6 @@
     "data_gaps_remaining": [
       "human PK"
     ],
-    "notes": "Fluorinated adamantyl-indazole SCRA. WHO ECDD critical review 2016.",
     "references_consulted": [
       "pmc:7415729"
     ]
@@ -2908,10 +2735,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/acschemneuro.5b00107",
-          "is_review": false,
-          "notes": "Banister 2015. Sub-nM CB1 binding; 26× more potent than JWH-018."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2931,8 +2756,7 @@
         "metabolite_name": "5F-pentylindole-3-carboxylic acid",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "pmid:24518903",
-        "notes": "Ester hydrolysis to inactive carboxylic acid — likely contributes to relatively short duration but does NOT prevent acute toxicity."
+        "reference": "pmid:24518903"
       }
     ],
     "drug_interactions_pk": [],
@@ -2967,7 +2791,6 @@
     "data_gaps_remaining": [
       "human PK"
     ],
-    "notes": "Linked to multiple fatalities and seizures. Schedule I (US 2014).",
     "references_consulted": [
       "doi:10.1021/acschemneuro.5b00107"
     ]
@@ -3000,10 +2823,8 @@
           "species": "human",
           "tissue_or_cell": "HEK-293 expressing human CB1R",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "pmid:38844801",
-          "is_review": false,
-          "notes": "Makriyannis adamantoylindole series; the N-methylpiperidin-2-ylmethyl group retains CB1 affinity despite adamantoyl preferring CB2."
+          "is_review": false
         },
         {
           "target": "CB2",
@@ -3018,10 +2839,8 @@
           "species": "rat",
           "tissue_or_cell": "rat spleen membranes",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "pmid:25220897",
-          "is_review": true,
-          "notes": null
+          "is_review": true
         }
       ],
       "functional": [],
@@ -3065,7 +2884,6 @@
       "human PK",
       "in vivo data"
     ],
-    "notes": "Less potent than indazole-carboxamides; lower clinical risk profile. Detected as designer drug in Hungary 2011 alongside other adamantoylindoles.",
     "references_consulted": []
   },
   {
@@ -3098,10 +2916,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293-hCB1",
           "radioligand_or_probe": "β-arrestin recruitment",
-          "assay_buffer_notes": null,
           "reference": "pmid:32296768",
-          "is_review": false,
-          "notes": "Banister 2015. Ultrapotent: EC50 0.14 nM, ~8× more potent than JWH-018."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -3155,7 +2971,6 @@
     "data_gaps_remaining": [
       "human PK"
     ],
-    "notes": "Associated with 71 serious adverse events incl. 29 deaths across 9 European countries 2014-2016. EMCDDA risk assessment 2017.",
     "references_consulted": []
   },
   {
@@ -3188,10 +3003,8 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1056/NEJMoa1610300",
-          "is_review": false,
-          "notes": "Adams/Banister 2016 (NEJM, 'Zombie outbreak' paper). Estimated 85× more potent than Δ9-THC at activating CB1."
+          "is_review": false
         },
         {
           "target": "CB2",
@@ -3206,10 +3019,8 @@
           "species": "human",
           "tissue_or_cell": "CHO-hCB2",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1056/NEJMoa1610300",
-          "is_review": false,
-          "notes": "CB2-selective at binding level."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -3233,8 +3044,7 @@
           "dose_in_study_mg": null,
           "subject_n": 8,
           "subject_demographics": "Brooklyn 'zombie' cluster victims (case series)",
-          "reference": "doi:10.1056/NEJMoa1610300",
-          "notes": "Blood AMB-FUBINACA carboxylic acid metabolite 17 µg/L; parent rapidly hydrolysed. Plant material contained 16 mg/g of compound."
+          "reference": "doi:10.1056/NEJMoa1610300"
         }
       ],
       "concentration_effect": []
@@ -3246,8 +3056,7 @@
         "metabolite_name": "AMB-FUBINACA carboxylic acid (AMB-FUBINACA-COOH)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1007/s11419-022-00649-3",
-        "notes": "Methyl ester rapidly cleaved in plasma; main urinary marker for forensic detection."
+        "reference": "doi:10.1007/s11419-022-00649-3"
       }
     ],
     "drug_interactions_pk": [],
@@ -3283,7 +3092,6 @@
     "data_gaps_remaining": [
       "controlled human PK"
     ],
-    "notes": "NB: The compound name field in source data is corrupted — actual compound is AMB-FUBINACA (methyl 2-{[1-(4-fluorobenzyl)-1H-indazole-3-carbonyl]amino}-3-methylbutanoate). Caused Brooklyn mass casualty event July 2016 (33 affected, 18 hospitalised). Original Pfizer 2009 patent. Rapid hydrolysis to inactive acid in plasma — short duration but acute toxicity is the primary danger.",
     "references_consulted": [
       "doi:10.1056/NEJMoa1610300",
       "doi:10.1007/s11419-022-00649-3"
@@ -3342,7 +3150,6 @@
     "data_gaps_remaining": [
       "Cannot identify the actual compound 4F-NEB; no literature matches a cannabinoid"
     ],
-    "notes": "DATA ERROR: '4F-NEB' does not correspond to any known synthetic cannabinoid in the primary literature. The tag 'synthetic-cannabinoid' is likely incorrect. May refer to a misnamed pyrrolidinophenone (stimulant) or a fabricated/non-existent entity. Recommend removing this compound or correcting its classification at the source.",
     "references_consulted": []
   },
   {
@@ -3421,7 +3228,6 @@
     "data_gaps_remaining": [
       "specific DAT/NET Ki for 4F-α-PHP"
     ],
-    "notes": "DATA ERROR: 4F-α-PHP is a synthetic CATHINONE (pyrrolidinophenone-class stimulant), NOT a synthetic cannabinoid. It has no significant CB1/CB2 activity. The 'synthetic-cannabinoid' tag must be removed.",
     "references_consulted": [
       "pmc:7796222"
     ]
@@ -3483,7 +3289,6 @@
     "data_gaps_remaining": [
       "any binding affinity data — Shulgin only tested behavioural effects"
     ],
-    "notes": "DATA ERROR: MADAM-6 is a PHENETHYLAMINE/MDxx analogue (6-methyl-MDMA), not a synthetic cannabinoid. Shulgin reports it as essentially inactive at oral doses ≤280 mg (PIHKAL entry #99). The 'synthetic-cannabinoid' tag is incorrect.",
     "references_consulted": [
       "pihkal:99"
     ]
@@ -3543,11 +3348,9 @@
           "ki_nm": 18.0,
           "comparable_set": "jnatprod-2015-human-cb",
           "species": "human",
-          "assay_notes": "displacement of [3H]CP55940 from full-length human recombinant receptor (HEK293)",
           "reference": "doi:10.1021/acs.jnatprod.5b00065",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Same-document pair with the Delta-8-THC row below — these two are directly comparable. Efficacy null: no CP55,940-referenced Emax for Delta-9-THC was retrieved. THC's partial agonism is the premise of this axis but the NUMBER is not yet in hand.",
           "action": "partialAgonist"
         },
         {
@@ -3555,11 +3358,9 @@
           "ki_nm": 42.0,
           "comparable_set": "jnatprod-2015-human-cb",
           "species": "human",
-          "assay_notes": "displacement of [3H]CP55940 from full-length human recombinant receptor (HEK293)",
           "reference": "doi:10.1021/acs.jnatprod.5b00065",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "Same-document pair with the Delta-8-THC row below — these two are directly comparable. Efficacy null: no CP55,940-referenced Emax for Delta-9-THC was retrieved. THC's partial agonism is the premise of this axis but the NUMBER is not yet in hand.",
           "action": "partialAgonist"
         },
         {
@@ -3567,23 +3368,9 @@
           "ki_nm": 39.0,
           "comparable_set": "ejmech-2024-cb1",
           "species": "human",
-          "assay_notes": "displacement of [3H]CP55940 from human CB1",
           "reference": "doi:10.1016/j.ejmech.2024.116164",
           "is_review": false,
           "confidence": "MEDIUM",
-          "notes": "Second document, retrieved via ChEMBL (CHEMBL6083178). Included because the SAME document also measures Delta-8-THC, CBN and CBG at CB1, giving a second internally-consistent comparison set.",
-          "action": "partialAgonist"
-        },
-        {
-          "target": "CB1",
-          "ki_nm": 5.05,
-          "comparable_set": "pdsp-ki-panel-human",
-          "species": "human",
-          "assay_notes": "[3H]CP-55940, human cloned",
-          "reference": "doi:10.1371/journal.pone.0009019",
-          "is_review": false,
-          "confidence": "MEDIUM",
-          "notes": "Third independent Delta-9-THC CB1 figure, from the same Ray 2010 paper that anchors the psychedelic axis, so it shares a provenance frame with axis 1. That table lists three CB1 measurements — 13.7 nM (human cortical membranes), 15.3 nM (human cloned), 5.05 nM (human cloned, [3H]CP-55940) — and reports an average of 10.19 nM; CB2 average 16.85 nM. The 5.05 value is the single tightest human-cloned CP-55940-based measurement in that table.",
           "action": "partialAgonist"
         },
         {
@@ -3593,11 +3380,9 @@
           "comparable_set": "acscn-2023-cb1-gi-cp55940-normalised",
           "action": "partialAgonist",
           "species": "human",
-          "assay_notes": "human CB1R, HEK-293T, BRET Gαi engagement (CB1R-Rluc / Gαi-mVenus), Emax read at 16 min",
           "reference": "doi:10.1021/acschemneuro.3c00530",
           "is_review": false,
-          "confidence": "HIGH",
-          "notes": "36.1 ± 4.1% of CP55,940. Yano 2023 Table 1, CB1R-Gαi engagement at 16 min, Emax normalised against CP55,940 = 100% in the same assay. Reported as % of CP55,940 with SEM; pEC50 for THC could not be determined (ND), so this row carries efficacy only and no potency. The β-arrestin-2 arm of the same table gives a near-identical ordering (THC 36.0, AM2201 106.5, 5F-MDMB-PICA 147.7) and is deliberately NOT loaded: two pathway sets would partition into two ladders and the axis would pick one arbitrarily. This is the row the CB1 efficacy axis was missing: THC's three other comparable_sets are radioligand BINDING panels (Ki only, no Emax), so the ladder could not gate on any of them. MAGNITUDE rests on this one experiment; the ORDERING does not. Sachdev 2020 (doi:10.1002/prp2.566, HEK-CB1 CAMYEL, a different lab and a different assay) reports its group's prior quantitative work as \"all SCRAs tested showed between 20- and 300-fold greater agonist activity at CB1 compared to THC\", and describes THC as a partial agonist against high-efficacy SCRAs. That paper cannot substitute for this row — it reports no THC Emax at all (THC did not measurably stimulate its Gαs arm) — so treat 36.1% as one lab's figure for a fact many labs agree on in direction."
+          "confidence": "HIGH"
         }
       ]
     }
@@ -3611,11 +3396,9 @@
           "ki_nm": 78.0,
           "comparable_set": "jnatprod-2015-human-cb",
           "species": "human",
-          "assay_notes": "displacement of [3H]CP55940 from full-length human recombinant receptor (HEK293)",
           "reference": "doi:10.1021/acs.jnatprod.5b00065",
           "is_review": false,
           "confidence": "MEDIUM",
-          "notes": "Same document as Delta-9 above, so the ~4.3x weaker CB1 binding of Delta-8 vs Delta-9 is an apples-to-apples statement. BUT other retrieved documents disagree on the size of that gap: 10.1016/j.ejmech.2024.116164 gives Delta-9 CB1 39 nM and Delta-8 CB1 40 nM (essentially IDENTICAL), and ChEMBL holds Delta-8 CB1 values spanning 28.5-78 nM across 8 documents. Consensus direction: Delta-8 is equal-to-somewhat-weaker at CB1. Do NOT ship a precise Delta-8/Delta-9 potency ratio.",
           "action": "partialAgonist"
         },
         {
@@ -3623,23 +3406,9 @@
           "ki_nm": 12.0,
           "comparable_set": "jnatprod-2015-human-cb",
           "species": "human",
-          "assay_notes": "displacement of [3H]CP55940 from full-length human recombinant receptor (HEK293)",
           "reference": "doi:10.1021/acs.jnatprod.5b00065",
           "is_review": false,
           "confidence": "MEDIUM",
-          "notes": "Same document as Delta-9 above, so the ~4.3x weaker CB1 binding of Delta-8 vs Delta-9 is an apples-to-apples statement. BUT other retrieved documents disagree on the size of that gap: 10.1016/j.ejmech.2024.116164 gives Delta-9 CB1 39 nM and Delta-8 CB1 40 nM (essentially IDENTICAL), and ChEMBL holds Delta-8 CB1 values spanning 28.5-78 nM across 8 documents. Consensus direction: Delta-8 is equal-to-somewhat-weaker at CB1. Do NOT ship a precise Delta-8/Delta-9 potency ratio.",
-          "action": "partialAgonist"
-        },
-        {
-          "target": "CB1",
-          "ki_nm": 40.0,
-          "comparable_set": "ejmech-2024-cb1",
-          "species": "human",
-          "assay_notes": "displacement of [3H]CP55940 from human CB1",
-          "reference": "doi:10.1016/j.ejmech.2024.116164",
-          "is_review": false,
-          "confidence": "MEDIUM",
-          "notes": "In this document Delta-8 (40 nM) and Delta-9 (39 nM) are indistinguishable at CB1 — the direct counterweight to the 78-vs-18 split in the 2015 J Nat Prod document.",
           "action": "partialAgonist"
         },
         {
@@ -3655,11 +3424,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
-          "assay_buffer_notes": "90 min, 30 C, GF/C filtration; Ki constrained to Kd 1.2 nM",
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Wiley/Marusich/Blough 2024 Table 1: 36 nM (95% CI 25-52)."
+          "confidence": "high"
         },
         {
           "target": "CB2",
@@ -3674,11 +3441,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Wiley 2024 Table 1: 69 nM (95% CI 37-126)."
+          "confidence": "high"
         }
       ]
     }
@@ -3693,11 +3458,9 @@
           "reference_agonist": "JWH-018",
           "comparable_set": "dta-2024-hhc-jwh018-normalised",
           "species": "human",
-          "assay_notes": "human CB1, recombinant CHO-K1, aequorin luminescence (G-protein pathway)",
           "reference": "doi:10.1002/dta.3750",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "9R epimer. Printed as EC50 101 nM (95% CI 81.9-125) and efficacy 64% (95% CI 62-66) relative to JWH-018. REFERENCE AGONIST IS JWH-018, NOT CP55,940 — this value cannot be dropped onto a CP55,940-normalized scale without a conversion the retrieved literature does not provide. Partial agonist.",
           "action": "partialAgonist"
         },
         {
@@ -3706,11 +3469,9 @@
           "reference_agonist": "JWH-018",
           "comparable_set": "dta-2024-hhc-jwh018-normalised",
           "species": "human",
-          "assay_notes": "human CB1, recombinant CHO-K1, aequorin luminescence (G-protein pathway)",
           "reference": "doi:10.1002/dta.3750",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "9S epimer. Printed as EC50 1190 nM (95% CI 951-1490) and efficacy 68% (95% CI 65-71). THE KEY HHC FINDING: the epimers differ ~11.8x in POTENCY (101 vs 1190 nM) but are statistically INDISTINGUISHABLE in EFFICACY (64% vs 68%). So on an efficacy axis the two epimers sit on top of each other; the 9R/9S distinction belongs on a potency axis, not this one. Products contain variable mixtures — reported 9R:9S ratios range 0.2:1 to 2.4:1 in US retail product and 0.27-0.89 in Belgian seizures — so a given package's potency is genuinely unpredictable.",
           "action": "partialAgonist"
         }
       ]
@@ -3726,11 +3487,9 @@
           "reference_agonist": "JWH-018",
           "comparable_set": "dta-2024-hhc-jwh018-normalised",
           "species": "human",
-          "assay_notes": "human CB1, recombinant CHO-K1, aequorin luminescence",
           "reference": "doi:10.1002/dta.3750",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "9R epimer. Printed as EC50 44.4 nM (95% CI 33.6-58.7), efficacy 61% (58-64). The most POTENT of the semi-synthetics tested, within ~2x of JWH-018, yet still only partial in efficacy.",
           "action": "partialAgonist"
         },
         {
@@ -3739,11 +3498,9 @@
           "reference_agonist": "JWH-018",
           "comparable_set": "dta-2024-hhc-jwh018-normalised",
           "species": "human",
-          "assay_notes": "human CB1, recombinant CHO-K1, aequorin luminescence",
           "reference": "doi:10.1002/dta.3750",
           "is_review": false,
           "confidence": "HIGH",
-          "notes": "9S epimer. Printed as EC50 134 nM (95% CI 109-164), efficacy 66% (63-68). Same pattern as HHC: 9S is ~3x less potent, equal efficacy.",
           "action": "partialAgonist"
         }
       ]
@@ -3759,11 +3516,9 @@
           "reference_agonist": "JWH-018",
           "comparable_set": "dta-2024-hhc-jwh018-normalised",
           "species": "human",
-          "assay_notes": "human CB1, recombinant CHO-K1, aequorin luminescence",
           "reference": "doi:10.1002/dta.3750",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "9R epimer. Printed as EC50 '>33,000' nM with no clear plateau and efficacy '>27%' — both are BOUNDS, not values; emax recorded here as the stated lower bound. The 9S epimer showed NO activation at all (n.d.). Authors conclude the acetates are prodrugs converted to HHC in vivo, so intrinsic CB1 numbers understate their real-world effect.",
           "action": "partialAgonist"
         }
       ]
@@ -3778,11 +3533,9 @@
           "ki_nm": 1459.0,
           "comparable_set": "jnatprod-2019-human-cb",
           "species": "human",
-          "assay_notes": "displacement of [3H]CP55940 from recombinant human receptor, Sf9 membranes",
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "Same document as CBN/CBG. Retrieved CBD CB1 values scatter 151-4350 nM across five documents. The robust, source-independent statement is only the ORDER: CBD binds CB1 roughly two orders of magnitude more weakly than THC and is not meaningfully an orthosteric CB1 agonist. Efficacy null — no CB1 Emax retrieved, which is appropriate since CBD's pharmacology is not orthosteric CB1 agonism.",
           "action": "negativeAllostericModulator"
         },
         {
@@ -3790,11 +3543,9 @@
           "ki_nm": 372.0,
           "comparable_set": "jnatprod-2019-human-cb",
           "species": "human",
-          "assay_notes": "displacement of [3H]CP55940 from recombinant human receptor, Sf9 membranes",
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "Same document as CBN/CBG. Retrieved CBD CB1 values scatter 151-4350 nM across five documents. The robust, source-independent statement is only the ORDER: CBD binds CB1 roughly two orders of magnitude more weakly than THC and is not meaningfully an orthosteric CB1 agonist. Efficacy null — no CB1 Emax retrieved, which is appropriate since CBD's pharmacology is not orthosteric CB1 agonism.",
           "action": "modulator"
         }
       ]
@@ -3809,11 +3560,9 @@
           "ki_nm": 897.0,
           "comparable_set": "jnatprod-2019-human-cb",
           "species": "human",
-          "assay_notes": "displacement of [3H]CP55940 from recombinant human receptor, Sf9 membranes",
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "Same document as CBD/CBN. Retrieved CBG CB1 values span 400-2600 nM across four documents. Weak CB1 binder; like CBD it does not belong on an efficacy ladder as an agonist.",
           "action": "partialAgonist"
         },
         {
@@ -3821,11 +3570,9 @@
           "ki_nm": 153.0,
           "comparable_set": "jnatprod-2019-human-cb",
           "species": "human",
-          "assay_notes": "displacement of [3H]CP55940 from recombinant human receptor, Sf9 membranes",
           "reference": "doi:10.1021/acs.jnatprod.8b00874",
           "is_review": false,
           "confidence": "LOW",
-          "notes": "Same document as CBD/CBN. Retrieved CBG CB1 values span 400-2600 nM across four documents. Weak CB1 binder; like CBD it does not belong on an efficacy ladder as an agonist.",
           "action": "modulator"
         }
       ]
@@ -3848,11 +3595,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
-          "assay_buffer_notes": "90 min, 30 C, GF/C filtration; Ki constrained to Kd 1.2 nM",
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Wiley 2024 Table 1: 20 nM (95% CI 14-30)."
+          "confidence": "high"
         },
         {
           "target": "CB2",
@@ -3867,11 +3612,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Wiley 2024 Table 1: 52 nM (95% CI 36-77)."
+          "confidence": "high"
         }
       ]
     }
@@ -3893,11 +3636,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Wiley 2024 Table 1: 17 nM (95% CI 9-30). Highest CB1 affinity in the Wiley panel."
+          "confidence": "high"
         },
         {
           "target": "CB2",
@@ -3912,11 +3653,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Wiley 2024 Table 1: 47 nM (95% CI 32-69)."
+          "confidence": "high"
         }
       ]
     }
@@ -3938,11 +3677,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940 (~1 nM)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Wiley 2024 Table 1: 63 nM (95% CI 27-144). Single epimer (6aR,9R)-delta10-THC."
+          "confidence": "high"
         },
         {
           "target": "CB2",
@@ -3957,11 +3694,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 P2 membranes stably expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.pnpbp.2024.110984",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Wiley 2024 Table 1: 28 nM (95% CI 17-46). Modestly CB2-preferring (~2.3x)."
+          "confidence": "high"
         }
       ]
     }
@@ -3983,11 +3718,9 @@
           "species": "human",
           "tissue_or_cell": "purified human CB1 (Eurofins/Cerep)",
           "radioligand_or_probe": "[3H]CP-55,940 (2 nM, Kd 2.4 nM)",
-          "assay_buffer_notes": "10 concentrations in duplicate, Cheng-Prusoff",
           "reference": "doi:10.1038/s41598-019-56785-1",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Citti 2019. In-run control CP55,940 Ki 0.93 nM. ~17x Δ9-THC."
+          "confidence": "high"
         },
         {
           "target": "CB2",
@@ -4002,11 +3735,9 @@
           "species": "human",
           "tissue_or_cell": "purified human CB2",
           "radioligand_or_probe": "[3H]WIN 55,212-2 (0.8 nM, Kd 1.5 nM)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1038/s41598-019-56785-1",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Citti 2019. Different radioligand from the CB1 assay — do not compute CB1/CB2 ratio from this pair."
+          "confidence": "high"
         }
       ]
     }
@@ -4028,11 +3759,9 @@
           "species": "human",
           "tissue_or_cell": "human CB1 (radioligand binding)",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/0960-894X(95)00573-C",
           "is_review": false,
-          "confidence": "medium",
-          "notes": "Gareau et al. 1996, Bioorg Med Chem Lett 6:189. Ki = 2.19 nM, human CB1, [3H]CP-55940."
+          "confidence": "medium"
         },
         {
           "target": "CB2",
@@ -4047,11 +3776,9 @@
           "species": "human",
           "tissue_or_cell": "human CB2 (radioligand binding)",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/0960-894X(95)00573-C",
           "is_review": false,
-          "confidence": "medium",
-          "notes": "Gareau et al. 1996, Bioorg Med Chem Lett 6:189. Ki = 1.84 nM, human CB2, [3H]CP-55940. Essentially balanced CB1/CB2, ~10x higher-affinity than THC at CB1."
+          "confidence": "medium"
         }
       ]
     }
@@ -4073,11 +3800,9 @@
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomal membranes",
           "radioligand_or_probe": "[3H]HU-243 (Kd 45 pM)",
-          "assay_buffer_notes": "90 min, 30 C, Cheng-Prusoff. Radioligand is [3H]HU-243 — not on a common scale with [3H]CP-55,940 rows.",
           "reference": "doi:10.1021/jm050709m",
           "is_review": false,
-          "confidence": "medium",
-          "notes": "Ben-Shabat 2006. Parent CBD >10,000 nM in same run — hydrogenation raises CB1 affinity >70-fold."
+          "confidence": "medium"
         }
       ]
     }
@@ -4099,11 +3824,9 @@
           "species": "human",
           "tissue_or_cell": "CHO membranes expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940 (0.1 nM)",
-          "assay_buffer_notes": "mean +/- SEM of 3-5 experiments",
           "reference": "doi:10.1007/s11419-016-0320-2",
           "is_review": false,
-          "confidence": "medium",
-          "notes": "Hess/Muller 2016 Table 1, compound 15. SEM is 57% of mean (widest in table)."
+          "confidence": "medium"
         },
         {
           "target": "CB2",
@@ -4118,11 +3841,9 @@
           "species": "human",
           "tissue_or_cell": "CHO membranes expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/s11419-016-0320-2",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Hess 2016 Table 1. ~5x CB2-preferring."
+          "confidence": "high"
         }
       ]
     }
@@ -4144,11 +3865,9 @@
           "species": "human",
           "tissue_or_cell": "CHO membranes expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/s11419-016-0320-2",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Hess 2016 Table 1, compound 16. 5F-APICA."
+          "confidence": "high"
         },
         {
           "target": "CB2",
@@ -4163,104 +3882,20 @@
           "species": "human",
           "tissue_or_cell": "CHO membranes expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/s11419-016-0320-2",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Hess 2016 Table 1. Subnanomolar."
+          "confidence": "high"
         }
       ]
     }
   },
   {
     "name": "THJ-018",
-    "pharmacology": {
-      "binding": [
-        {
-          "target": "CB1",
-          "ki_nm": 5.84,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "CHO membranes expressing human CB1",
-          "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": null,
-          "reference": "doi:10.1007/s11419-016-0320-2",
-          "is_review": false,
-          "confidence": "high",
-          "notes": "Hess 2016 Table 1, compound 28. Indazole analog of JWH-018."
-        },
-        {
-          "target": "CB2",
-          "ki_nm": 4.57,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "CHO membranes expressing human CB2",
-          "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": null,
-          "reference": "doi:10.1007/s11419-016-0320-2",
-          "is_review": false,
-          "confidence": "high",
-          "notes": "Hess 2016 Table 1. Essentially balanced CB1/CB2."
-        }
-      ]
-    }
+    "pharmacology": {}
   },
   {
     "name": "THJ-2201",
-    "pharmacology": {
-      "binding": [
-        {
-          "target": "CB1",
-          "ki_nm": 1.34,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "CHO membranes expressing human CB1",
-          "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": null,
-          "reference": "doi:10.1007/s11419-016-0320-2",
-          "is_review": false,
-          "confidence": "high",
-          "notes": "Hess 2016 Table 1, compound 29. Gatch & Forster 2016 says 'THJ-2201 was not tested for binding' — never attribute a Ki to Gatch for this compound."
-        },
-        {
-          "target": "CB2",
-          "ki_nm": 1.32,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "CHO membranes expressing human CB2",
-          "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": null,
-          "reference": "doi:10.1007/s11419-016-0320-2",
-          "is_review": false,
-          "confidence": "high",
-          "notes": "Hess 2016 Table 1. Fluorination of THJ-018 improves affinity ~4x at CB1, ~3.5x at CB2."
-        }
-      ]
-    }
+    "pharmacology": {}
   },
   {
     "name": "5F-ADB-PINACA",
@@ -4279,11 +3914,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 membranes expressing human CB1",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": "pKi 8.89 +/- 0.12",
           "reference": "doi:10.1021/acschemneuro.2c00034",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Markham 2022, compound 18."
+          "confidence": "high"
         },
         {
           "target": "CB2",
@@ -4298,11 +3931,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 membranes expressing human CB2",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": "pKi 9.50 +/- 0.06",
           "reference": "doi:10.1021/acschemneuro.2c00034",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Markham 2022. Highest-affinity compound in the library."
+          "confidence": "high"
         }
       ]
     }

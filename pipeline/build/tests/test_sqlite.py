@@ -2854,7 +2854,7 @@ class TestSignatureGates(unittest.TestCase):
         mixed = [row for row in mixed if "not-comparable" not in row[0]]
         self.assertEqual(mixed, [], f"plottable group spans multiple species: {mixed}")
 
-    def test_no_new_uncited_numeric_values(self):
+    def test_no_uncited_numeric_values(self):
         rows = self.db.execute(
             "SELECT s.canonical_name || '|' || b.target || '|' || b.action"
             "  FROM bindings b JOIN substances s ON s.id = b.substance_id"
@@ -2866,15 +2866,7 @@ class TestSignatureGates(unittest.TestCase):
             " WHERE f.citation_id IS NULL"
             "   AND COALESCE(f.ec50_nm, f.ic50_nm, f.emax_pct) IS NOT NULL"
         ).fetchall()
-        current = {r[0] for r in rows}
-        backlog = _REPO / "data/curated/uncited-numeric-backlog.json"
-        known = set(json.loads(backlog.read_text())) if backlog.exists() else set()
-        self.assertEqual(current - known, set(), f"new uncited numeric rows: {current - known}")
-        if stale := known - current:
-            print(
-                f"\n{len(stale)} entries now cited — delete from {backlog.name}: "
-                f"{sorted(stale)[:10]}"
-            )
+        self.assertEqual(rows, [], f"uncited numeric rows: {[r[0] for r in rows]}")
 
 
 if __name__ == "__main__":

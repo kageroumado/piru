@@ -35,10 +35,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 cells stably expressing human MOR",
           "radioligand_or_probe": "[3H]-diprenorphine",
-          "assay_buffer_notes": "standard binding buffer; mean ± SD reported as 383 ± 183 nM",
           "reference": "doi:10.1038/tp.2014.30",
-          "is_review": false,
-          "notes": "Gassaway et al. 2014 — the seminal MOR characterization of tianeptine. Low affinity but high efficacy at MOR."
+          "is_review": false
         },
         {
           "target": "δ-opioid receptor (human, hDOR)",
@@ -51,10 +49,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 cells stably expressing human DOR",
           "radioligand_or_probe": "[3H]-diprenorphine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1038/tp.2014.30",
-          "is_review": false,
-          "notes": "~100× weaker than MOR; functionally irrelevant at therapeutic exposures."
+          "is_review": false
         },
         {
           "target": "κ-opioid receptor (human)",
@@ -66,8 +62,7 @@
           "tissue_or_cell": "HEK293/hKOR",
           "radioligand_or_probe": "[3H]-diprenorphine",
           "reference": "doi:10.1038/tp.2014.30",
-          "is_review": false,
-          "notes": "Negligible binding at KOR — selectivity ratio MOR >> KOR."
+          "is_review": false
         },
         {
           "target": "MOR (mu-opioid receptor)",
@@ -82,11 +77,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing hMOR",
           "radioligand_or_probe": "BRET G-protein activation",
-          "assay_buffer_notes": "EC50 194 +/- 70 nM at hMOR. BRET, not GTPgammaS. Authors' classification as 'full agonist', no explicit numeric Emax tabulated.",
           "reference": "doi:10.1038/tp.2014.30",
           "is_review": false,
-          "confidence": "medium",
-          "notes": "Gassaway 2014. 100% is the authors' stated classification, not a tabulated Emax."
+          "confidence": "medium"
         }
       ],
       "functional": [
@@ -98,8 +91,7 @@
           "reference_agonist": "DAMGO (Emax normalized to 100%)",
           "species": "human",
           "cell_system": "HEK293",
-          "reference": "doi:10.1038/tp.2014.30",
-          "notes": "Full agonist efficacy at MOR — equivalent maximal G-protein activation to DAMGO. EC50 194 ± 70 nM."
+          "reference": "doi:10.1038/tp.2014.30"
         },
         {
           "target": "μ-opioid receptor (mouse)",
@@ -109,8 +101,7 @@
           "reference_agonist": "DAMGO",
           "species": "mouse",
           "cell_system": "HEK293/mMOR",
-          "reference": "doi:10.1038/tp.2014.30",
-          "notes": "Species shift — mouse MOR 3× less sensitive than human."
+          "reference": "doi:10.1038/tp.2014.30"
         },
         {
           "target": "μ-opioid receptor (human)",
@@ -120,8 +111,7 @@
           "reference_agonist": "DAMGO",
           "species": "human",
           "cell_system": "HEK293/hMOR",
-          "reference": "doi:10.1038/tp.2014.30",
-          "notes": "Tianeptine inhibits forskolin-stimulated cAMP via Gαi coupling at MOR — confirms canonical opioid signaling."
+          "reference": "doi:10.1038/tp.2014.30"
         }
       ],
       "biased_agonism": [
@@ -162,8 +152,7 @@
           "dose_in_study_mg": 12.5,
           "subject_n": null,
           "subject_demographics": "healthy volunteers",
-          "reference": "doi:10.1021/acschemneuro.4c00519",
-          "notes": "High oral bioavailability (~99%, range 66-100%); rapid absorption with minimal first-pass effect. Terminal t½ 2.5 ± 1.1 h. Half-life prolongs to 4-9 h in elderly. MC5 metabolite t½ 7.2 ± 5.7 h."
+          "reference": "doi:10.1021/acschemneuro.4c00519"
         }
       ],
       "concentration_effect": []
@@ -175,16 +164,14 @@
         "metabolite_name": "MC5 (tianeptine pentanoic acid)",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1021/acschemneuro.4c00519",
-        "notes": "Primary clearance route is mitochondrial β-oxidation of the heptanoic acid side chain — NOT CYP-mediated. This is unusual among psychotropics and minimizes CYP-mediated DDIs."
+        "reference": "doi:10.1021/acschemneuro.4c00519"
       },
       {
         "enzyme": "minor CYP-mediated oxidation",
         "fraction_of_clearance_pct": null,
         "metabolite_name": "reactive covalent metabolites",
         "metabolite_active": null,
-        "reference": "doi:10.1021/acschemneuro.4c00519",
-        "notes": "Minor pathway; reactive metabolite formation has been observed but is not a dominant clearance route."
+        "reference": "doi:10.1021/acschemneuro.4c00519"
       }
     ],
     "drug_interactions_pk": [
@@ -253,7 +240,6 @@
       "quantitative bias factor for G-protein vs β-arrestin at MOR",
       "human PET MOR occupancy at therapeutic dose"
     ],
-    "notes": "CRITICAL SAFETY: Tianeptine is a μ-opioid receptor FULL AGONIST with sub-micromolar EC50. The historical 'SSRE' / 'atypical antidepressant' framing is medically obsolete and dangerously underplays the true pharmacology. At supratherapeutic doses (>50 mg, often 500-5000 mg in abuse), tianeptine produces classical opioid intoxication, respiratory depression, addiction, and withdrawal. Numerous US gas-station products ('Zaza', 'Tianaa', 'Neptune's Fix') have caused poison-control epidemics and FDA warnings. Treat as a short-acting MOR agonist for clinical and harm-reduction purposes.",
     "references_consulted": [
       "doi:10.1038/tp.2014.30",
       "doi:10.1021/acschemneuro.4c00519",
@@ -298,8 +284,7 @@
           "protein_binding_pct": 94,
           "dose_in_study_mg": 12.5,
           "subject_demographics": "healthy adult volunteers",
-          "reference": "doi:10.1021/acschemneuro.4c00519",
-          "notes": "PK identical to tianeptine free acid since sodium salt dissociates fully."
+          "reference": "doi:10.1021/acschemneuro.4c00519"
         }
       ],
       "concentration_effect": []
@@ -335,7 +320,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Pharmacologically identical to free-acid tianeptine. Same FDA warnings and opioid-equivalent risk profile.",
     "references_consulted": [
       "doi:10.1038/tp.2014.30",
       "doi:10.1021/acschemneuro.4c00519"
@@ -372,8 +356,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "in vivo rat brain",
-          "reference": null,
-          "notes": "Bromantane upregulates TH and AADC mRNA/protein in dopaminergic regions over 1-2 h post-dose, increasing newly-synthesized dopamine stores without releasing pre-formed pools. This is the basis for its 'actoprotector' / atypical psychostimulant profile."
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -395,8 +378,7 @@
           "dose_in_study_mg": 100,
           "subject_n": null,
           "subject_demographics": "Russian Phase II/III in asthenia/depression",
-          "reference": null,
-          "notes": "Russian-language PK literature reports oral t½ ~11 h; lipophilic adamantane scaffold gives high BBB penetrance. Cmax data poorly reported in English-language sources."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -442,7 +424,6 @@
       "validated English-language PK",
       "controlled long-term safety data outside Russian Federation"
     ],
-    "notes": "Atypical psychostimulant approved in Russia (Ladasten) for asthenia. Mechanism is genomic upregulation of dopamine synthesis enzymes rather than classical monoamine release or reuptake inhibition. Most clinical and PK literature is in Russian and not independently validated. WADA-banned for athletic competition (2002 Salt Lake City Olympics doping case).",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Bromantane"
     ]
@@ -482,10 +463,8 @@
           "species": "human",
           "tissue_or_cell": "recombinant human MAO-A",
           "radioligand_or_probe": "kynuramine substrate",
-          "assay_buffer_notes": "Ki 27 nM; IC50 ranges 70-164 nM depending on enzyme/substrate concentration",
           "reference": "doi:10.1038/sj.bjp.0707430",
-          "is_review": false,
-          "notes": "Ramsay et al. 2007 — confirms predicted MAO-A inhibition that explains the serotonin syndrome risk when MB is co-administered with SSRIs/SNRIs."
+          "is_review": false
         },
         {
           "target": "MAO-B (human)",
@@ -500,8 +479,7 @@
           "tissue_or_cell": "recombinant human MAO-B",
           "radioligand_or_probe": "kynuramine",
           "reference": "doi:10.1038/sj.bjp.0707430",
-          "is_review": false,
-          "notes": "~80× selectivity for MAO-A over MAO-B."
+          "is_review": false
         }
       ],
       "functional": [
@@ -513,8 +491,7 @@
           "reference_agonist": null,
           "species": "various (human cell lines, rat brain mitochondria)",
           "cell_system": "isolated mitochondria",
-          "reference": "doi:10.3390/ijms17030312",
-          "notes": "MB cycles between oxidized (MB) and reduced (MBH2/leucomethylene blue) forms, donating electrons to cytochrome c and rescuing electron transport when Complex I or III are inhibited. Effect is biphasic — low doses (0.5-4 mg/kg) enhance respiration; high doses (>10 mg/kg) inhibit."
+          "reference": "doi:10.3390/ijms17030312"
         }
       ],
       "biased_agonism": [],
@@ -543,8 +520,7 @@
           "dose_in_study_mg": 100,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Oral F ~72%, terminal t½ 10-18 h, very large Vd reflecting tissue distribution especially to brain (lipophilic + cation transport). Metabolized to leucomethylene blue (active reduced form)."
+          "reference": null
         },
         {
           "route": "intravenous",
@@ -552,8 +528,7 @@
           "half_life_min": 300,
           "vd_l_per_kg": null,
           "dose_in_study_mg": 100,
-          "reference": null,
-          "notes": "FDA-approved IV use for methemoglobinemia (1-2 mg/kg)."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -565,8 +540,7 @@
         "metabolite_name": "leucomethylene blue (reduced form)",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Redox cycling between MB and leucomethylene blue is the mechanistic basis for mitochondrial electron-transfer effects."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -617,7 +591,6 @@
     "data_gaps_remaining": [
       "concentration-effect curve for cognitive enhancement in humans"
     ],
-    "notes": "MB is a POTENT reversible MAO-A inhibitor (Ki 27 nM) and this is the clinically dominant pharmacology at the doses used for cognitive enhancement (0.5-4 mg/kg). Serotonergic-drug combinations have caused fatal serotonin syndrome. The mitochondrial electron-shunt mechanism is real but biphasic — efficacy peaks at low doses and reverses at high doses.",
     "references_consulted": [
       "doi:10.1038/sj.bjp.0707430",
       "doi:10.3390/ijms17030312"
@@ -651,8 +624,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "in vivo",
-          "reference": "pmid:16635254",
-          "notes": "Single intranasal semax dose increases BDNF mRNA ~3× in hippocampus and TrkB phosphorylation ~1.6× within hours; effect peaks 8 h, sustained 12-24 h via active metabolite Pro-Gly-Pro."
+          "reference": "pmid:16635254"
         }
       ],
       "biased_agonism": [],
@@ -674,8 +646,7 @@
           "dose_in_study_mg": 0.3,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Parent peptide t½ 2-5 min in plasma; intranasal route bypasses GI proteolysis. BBB penetrance via olfactory/trigeminal pathway; hippocampal/cortical accumulation within 30-60 min."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -687,8 +658,7 @@
         "metabolite_name": "Pro-Gly-Pro (PGP)",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "PGP is itself biologically active, brain-accumulating, and responsible for the prolonged BDNF/NGF mRNA upregulation."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -723,7 +693,6 @@
       "controlled human BDNF measurement",
       "long-term safety"
     ],
-    "notes": "Synthetic analog of ACTH(4-10) with the N-terminal phenylalanine replaced and a C-terminal Pro-Gly-Pro tail for metabolic stabilization. Approved in Russia for stroke and cognitive disorders. Almost all clinical data is from Russian research groups (Myasoedov lab); independent replication is sparse.",
     "references_consulted": [
       "pmid:16635254"
     ]
@@ -756,8 +725,7 @@
           "reference_agonist": null,
           "species": "rat / human cell line",
           "cell_system": "IMR-32 neuroblastoma; in vivo rat",
-          "reference": "doi:10.3389/fphar.2017.00089",
-          "notes": "Selank does not bind the benzodiazepine site; modulates expression of GABA-A subunits over hours-days, producing anxiolysis without sedation or dependence in animal models."
+          "reference": "doi:10.3389/fphar.2017.00089"
         }
       ],
       "biased_agonism": [],
@@ -779,8 +747,7 @@
           "dose_in_study_mg": 0.3,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Cleared from circulation within ~10 min by liver/kidney; behavioral effects outlast parent peptide via active metabolites."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -827,7 +794,6 @@
       "direct binding data at any GABA-A subunit",
       "validated human PK"
     ],
-    "notes": "Russian-developed peptide anxiolytic approved for generalized anxiety / neurasthenia. Tuftsin-derived (immunomodulatory). Most clinical data Russian; treat as low-to-medium evidence outside its country of origin.",
     "references_consulted": [
       "doi:10.3389/fphar.2017.00089",
       "pmid:30255741"
@@ -862,8 +828,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "primary hippocampal neurons",
-          "reference": null,
-          "notes": "The endogenous metabolite cyclo-Pro-Gly (cyclic prolylglycine, cPG) is a positive AMPA-receptor modulator. Noopept itself has weak direct receptor activity — most pharmacology is mediated by cPG."
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -885,8 +850,7 @@
           "dose_in_study_mg": 20,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Parent t½ <90 min; small-molecule (not peptide) chemistry permits oral absorption despite peptide-like structure. Russian clinical use: 10-30 mg TID."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -898,8 +862,7 @@
         "metabolite_name": "cyclo-Pro-Gly (cPG)",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "cPG is endogenous and is the active species — explains the disconnect between short parent t½ and prolonged effect."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -935,7 +898,6 @@
       "direct receptor binding at clinically relevant concentrations",
       "human metabolism / PK quantification"
     ],
-    "notes": "Russian-developed and -approved (Noopept brand) for cognitive impairment of vascular origin. Often miscategorized as a racetam — it is a glycyl-proline dipeptide ester, not a 2-oxopyrrolidine. Active species in vivo is cyclo-Pro-Gly.",
     "references_consulted": []
   },
   {
@@ -970,10 +932,8 @@
           "species": "rat",
           "tissue_or_cell": "rat cortical homogenate",
           "radioligand_or_probe": "Ellman colorimetric (acetylthiocholine)",
-          "assay_buffer_notes": "Ki 24.9 nM, IC50 82 nM in rat cortex; 900-fold selectivity for AChE over BuChE",
           "reference": "pmid:11516831",
-          "is_review": false,
-          "notes": "Reversible, mixed-type inhibitor with longer duration of action than donepezil due to slow off-rate from peripheral anionic site."
+          "is_review": false
         }
       ],
       "functional": [
@@ -986,8 +946,7 @@
           "reference_agonist": "NMDA",
           "species": "rat",
           "cell_system": "dissociated hippocampal neurons",
-          "reference": "pmid:11516831",
-          "notes": "Non-competitive, voltage-independent NMDA inhibition with IC50 ~126 μM — ~5000× weaker than AChE. Clinically negligible at typical doses (200 μg)."
+          "reference": "pmid:11516831"
         }
       ],
       "biased_agonism": [],
@@ -1010,8 +969,7 @@
           "dose_in_study_mg": 0.2,
           "subject_n": null,
           "subject_demographics": "healthy adults",
-          "reference": null,
-          "notes": "Oral t½ 10-14 h. High BBB penetration. Effective doses 50-200 μg PO BID."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -1066,7 +1024,6 @@
     "data_gaps_remaining": [
       "validated human plasma PK at OTC supplement doses"
     ],
-    "notes": "Mechanistically equivalent to FDA-approved AChE inhibitors (donepezil et al.) — natural-product status does not reduce the cholinergic pharmacology. The NMDA antagonist component (IC50 ~126 μM) is too weak to contribute clinically at oral OTC doses. Should be treated with the same caution as prescription AChE inhibitors regarding co-administration with anticholinergics, neuromuscular blockers, and other cholinergic agents.",
     "references_consulted": [
       "pmid:11516831",
       "pmid:10437121"
@@ -1101,8 +1058,7 @@
           "reference_agonist": null,
           "species": "human (recombinant)",
           "cell_system": "purified enzyme",
-          "reference": "pmid:32285253",
-          "notes": "IC50 1 μM for MAO-A; 15.5 μM for MAO-B → ~15× MAO-A selectivity. Substantially weaker than methylene blue or moclobemide."
+          "reference": "pmid:32285253"
         },
         {
           "target": "BDNF mRNA (mouse cortical astrocytes)",
@@ -1112,8 +1068,7 @@
           "reference_agonist": null,
           "species": "mouse",
           "cell_system": "primary cortical astrocytes",
-          "reference": "pmid:32285253",
-          "notes": "2-fold BDNF mRNA increase via PI3K pathway; also upregulates NCAM1, TGFβ2, NT-3, artemin. May contribute to reported dopaminergic neuroprotection."
+          "reference": "pmid:32285253"
         }
       ],
       "biased_agonism": [],
@@ -1167,7 +1122,6 @@
       "human cognitive trials",
       "binding affinity at non-MAO targets (5-HT2A, 5-HT2C, imidazoline)"
     ],
-    "notes": "Endogenous β-carboline; MAO-A IC50 ~1 μM (moderate, not weak — reclassify tag). Most data from one German lab group studying Parkinson neuroprotection. Self-experimenters have reported dopaminergic stimulant-like effects, but no controlled human data. The β-carboline scaffold has known off-target promiscuity (other β-carbolines hit 5-HT2C, imidazoline, BZD-binding site) that has NOT been systematically characterized for 9-Me-BC.",
     "references_consulted": [
       "pmid:32285253"
     ]
@@ -1203,8 +1157,7 @@
           "reference_agonist": null,
           "species": "rat / mouse",
           "cell_system": "various injury models",
-          "reference": null,
-          "notes": "Bulk of BPC-157 mechanistic work is from Sikiric lab (University of Zagreb) in rodent models. No defined high-affinity receptor; proposed as a 'pleiotropic signaling modulator'."
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -1226,8 +1179,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "NCT02637284 (PharmaCotherapia) Phase I study planned to evaluate oral PK of Bepecin (BPC-157) in healthy volunteers — public results have not been published."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -1265,7 +1217,6 @@
       "controlled human efficacy trials",
       "independent replication outside Sikiric lab"
     ],
-    "notes": "15-amino-acid synthetic peptide reported to be a fragment of a human gastric juice protein (BPC). >90% of mechanistic literature comes from one Croatian lab (Sikiric et al.). PL-14736 Phase II for ulcerative colitis was conducted but full results never published as a standalone clinical paper. WADA-banned (S0 'non-approved substance'). Honest assessment: extensive animal data, almost zero published human data, no defined receptor, no published PK. Use as nootropic is unsupported.",
     "references_consulted": []
   },
   {
@@ -1293,8 +1244,7 @@
           "reference_agonist": null,
           "species": "mouse (and cell lines)",
           "cell_system": "primary neurons, SAMP8 and APP/PS1 transgenic mice",
-          "reference": "doi:10.1111/acel.12715",
-          "notes": "Goldberg et al. 2018 — identified ATP5A as the molecular target via photoaffinity labeling. Modulation triggers CAMKK2-dependent AMPK/mTOR activation, mimicking caloric restriction signaling."
+          "reference": "doi:10.1111/acel.12715"
         }
       ],
       "biased_agonism": [],
@@ -1312,8 +1262,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Phase I human safety/PK trial completed in 2020 (sponsored by Abrexa Pharmaceuticals); detailed PK parameters have not been published in peer-reviewed literature."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -1350,7 +1299,6 @@
       "human efficacy data",
       "off-target screen"
     ],
-    "notes": "Curcumin-derived experimental compound developed in the Schubert lab at Salk. Mechanism (ATP synthase α subunit) identified by Goldberg et al. 2018. Phase I human trial completed but unpublished. All efficacy data is preclinical (SAMP8 aging, APP/PS1 AD models). Use as a 'nootropic' is unsupported by human data.",
     "references_consulted": [
       "doi:10.1111/acel.12715"
     ]
@@ -1381,8 +1329,7 @@
           "reference_agonist": null,
           "species": "mouse / rat",
           "cell_system": "hippocampal NPCs",
-          "reference": "doi:10.1038/mp.2015.178",
-          "notes": "Stimulates adult hippocampal neurogenesis at sub-μM concentrations in vitro; molecular target unidentified despite extensive screening."
+          "reference": "doi:10.1038/mp.2015.178"
         }
       ],
       "biased_agonism": [],
@@ -1405,8 +1352,7 @@
           "dose_in_study_mg": 40,
           "subject_n": 24,
           "subject_demographics": "MDD patients, Phase 1B multiple-ascending-dose",
-          "reference": "doi:10.1038/mp.2015.178",
-          "notes": "Mean t½ 17.4-20.5 h; steady-state at 96-120 h. Dose-proportional AUC across cohorts."
+          "reference": "doi:10.1038/mp.2015.178"
         }
       ],
       "concentration_effect": []
@@ -1443,7 +1389,6 @@
       "human neurogenesis biomarker",
       "off-target screen"
     ],
-    "notes": "Benzylpiperazine-aminopyridine developed by Neuralstem Inc. for MDD. Phase 2 (n=220, 40 and 80 mg vs placebo, 12 weeks) FAILED its primary MADRS endpoint, though some secondary cognition endpoints improved. Despite the marketing as a 'neurogenic antidepressant', no defined receptor target has been published. Treat as preliminary / unproven for nootropic use.",
     "references_consulted": [
       "doi:10.1038/mp.2015.178",
       "doi:10.1038/s41380-018-0334-8"
@@ -1468,20 +1413,6 @@
         "allosteric potentiating ligand at nAChRs (controversial)"
       ],
       "binding": [],
-      "functional": [
-        {
-          "target": "AChE (human erythrocyte)",
-          "readout": "Ellman assay",
-          "ec50_nm": null,
-          "ic50_nm": 800,
-          "emax_pct": null,
-          "reference_agonist": null,
-          "species": "human",
-          "cell_system": "erythrocyte AChE",
-          "reference": null,
-          "notes": "Reversible, competitive AChE inhibitor with IC50 ~800 nM (less potent than donepezil ~6 nM, more potent than rivastigmine)."
-        }
-      ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
       "downstream_signalling": "Dual mechanism debated. Pereira's work claimed positive allosteric modulation of α4β2 and α7 nAChRs at the 'APL' site, but Kowal et al. 2018 (doi:10.1111/bph.14329) reported negative results in carefully controlled assays on human α4β2 and α7 nAChRs — calling the PAM mechanism into question. AChE inhibition remains the universally accepted dominant mechanism.",
@@ -1502,8 +1433,7 @@
           "dose_in_study_mg": 8,
           "subject_n": null,
           "subject_demographics": "AD patients",
-          "reference": "pmid:12751272",
-          "notes": "Oral F ~90%, low protein binding (18%), t½ ~7 h. Cleared by CYP2D6 and CYP3A4 + renal."
+          "reference": "pmid:12751272"
         }
       ],
       "concentration_effect": []
@@ -1576,7 +1506,6 @@
     "data_gaps_remaining": [
       "definitive resolution of nAChR APL mechanism controversy"
     ],
-    "notes": "FDA-approved for mild-to-moderate Alzheimer disease. Lower AChE potency than donepezil but with proposed (controversial) nicotinic positive allosteric modulation. Significant CYP2D6 contribution to clearance — relevant for poor metabolizers.",
     "references_consulted": [
       "pmid:12751272",
       "doi:10.1111/bph.14329"
@@ -1616,10 +1545,8 @@
           "species": "rat",
           "tissue_or_cell": "striatal sections",
           "radioligand_or_probe": "[3H]-epibatidine displacement",
-          "assay_buffer_notes": null,
           "reference": "pmid:17157884",
-          "is_review": false,
-          "notes": "Coe et al. 2005 — sub-nM affinity; 45% of nicotine's max efficacy at α4β2."
+          "is_review": false
         },
         {
           "target": "α6β2* nAChR (rat/monkey striatum)",
@@ -1630,8 +1557,7 @@
           "tissue_or_cell": "striatal sections",
           "radioligand_or_probe": "[125I]-α-conotoxin MII",
           "reference": "pmid:22550286",
-          "is_review": false,
-          "notes": "Highly potent at α6β2; relevant for VTA dopamine modulation."
+          "is_review": false
         }
       ],
       "functional": [
@@ -1643,8 +1569,7 @@
           "reference_agonist": "nicotine",
           "species": "rat",
           "cell_system": "NAc slices",
-          "reference": "pmid:17157884",
-          "notes": "Partial agonism explains both attenuation of nicotine reward (blocks the full nicotine signal) and reduction of withdrawal craving (maintains baseline dopamine)."
+          "reference": "pmid:17157884"
         }
       ],
       "biased_agonism": [],
@@ -1667,8 +1592,7 @@
           "dose_in_study_mg": 1,
           "subject_n": null,
           "subject_demographics": "healthy smokers",
-          "reference": "pmid:17101743",
-          "notes": "Oral F >90%, t½ ~24 h, low protein binding, predominantly renal excretion (92% unchanged in urine — minimal metabolism)."
+          "reference": "pmid:17101743"
         }
       ],
       "concentration_effect": []
@@ -1679,8 +1603,7 @@
         "fraction_of_clearance_pct": 10,
         "metabolite_name": "N-carbamoyl glucuronide (minor)",
         "metabolite_active": false,
-        "reference": "pmid:17101743",
-        "notes": "92% of dose excreted unchanged in urine — varenicline is essentially a renally-cleared drug."
+        "reference": "pmid:17101743"
       }
     ],
     "drug_interactions_pk": [
@@ -1729,7 +1652,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "FDA-approved smoking cessation aid. Historic neuropsychiatric AE black-box was removed after the EAGLES trial (NCT01456936) found no increased risk vs placebo. The cardiovascular AE signal in patients with CV disease is real but small.",
     "references_consulted": [
       "pmid:17157884",
       "pmid:17101743"
@@ -1766,10 +1688,8 @@
           "species": "rat",
           "tissue_or_cell": "rat cortex",
           "radioligand_or_probe": "[3H]-cytisine itself / [3H]-epibatidine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1111/j.1476-5381.2010.00682.x",
-          "is_review": false,
-          "notes": "Sub-nanomolar affinity but very low efficacy (~11% of nicotine's max DA release) — explains the historical use as a smoking cessation aid and the lower efficacy than varenicline (45%)."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1793,8 +1713,7 @@
           "dose_in_study_mg": 3,
           "subject_n": null,
           "subject_demographics": "healthy smokers",
-          "reference": "pmid:25231024",
-          "notes": "Jeong et al. 2015 — single 3 mg oral dose; t½ ~4.5 h; predominantly renal clearance unchanged."
+          "reference": "pmid:25231024"
         }
       ],
       "concentration_effect": []
@@ -1829,7 +1748,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Cheap natural-product alkaloid (from Cytisus laburnum) used as smoking cessation aid in Eastern Europe for >50 years; basis structure for varenicline design.",
     "references_consulted": [
       "pmid:25231024",
       "doi:10.1111/j.1476-5381.2010.00682.x",
@@ -1866,10 +1784,8 @@
           "species": "mixed",
           "tissue_or_cell": "rat cortex / HEK293 hα4β2",
           "radioligand_or_probe": "[3H]-cytisine, [3H]-epibatidine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/s0960-894x(01)00193-7",
-          "is_review": false,
-          "notes": "Xu et al. 2001, Bioorg Med Chem Lett 11:1245, PMID 11354387. Ki = 1.0 nM ([3H]nicotine, rat brain). Reference Ki ~1 nM at α4β2 — the high-affinity neuronal nicotinic target."
+          "is_review": false
         },
         {
           "target": "α7 nAChR",
@@ -1881,8 +1797,7 @@
           "tissue_or_cell": "hippocampal membranes / HEK293 α7",
           "radioligand_or_probe": "[125I]-α-bungarotoxin",
           "reference": "doi:10.1016/s0960-894x(01)00193-7",
-          "is_review": false,
-          "notes": "Xu et al. 2001, Bioorg Med Chem Lett 11:1245, PMID 11354387. Ki = 0.77 uM = 770 nM ([3H]MLA). ~770× lower affinity than α4β2 but still functionally activated at smoked-tobacco brain concentrations."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1905,8 +1820,7 @@
           "dose_in_study_mg": 1,
           "subject_n": null,
           "subject_demographics": "adult smokers",
-          "reference": "pmid:17979512",
-          "notes": "Smoked nicotine reaches brain in 7-19 s (fastest of any nicotine route)."
+          "reference": "pmid:17979512"
         },
         {
           "route": "oral (gum)",
@@ -1914,8 +1828,7 @@
           "tmax_min": 30,
           "half_life_min": 120,
           "dose_in_study_mg": 4,
-          "reference": null,
-          "notes": "Buccal absorption; first-pass metabolism reduces F."
+          "reference": null
         },
         {
           "route": "transdermal",
@@ -1992,7 +1905,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Despite being categorized as 'nootropic' in this dataset, nicotine is a Schedule-equivalent abuse-potential alkaloid with high addiction liability. Pure nicotine without combustion products still produces dependence, cardiovascular effects, and adolescent neurodevelopmental harm. The cognitive enhancement is real but modest and largely a withdrawal-relief phenomenon in dependent users.",
     "references_consulted": [
       "pmid:17979512"
     ]
@@ -2036,8 +1948,7 @@
           "dose_in_study_mg": 1000,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Choline component elevates plasma choline within 1 h; brain ACh increase demonstrated in rats."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2090,7 +2001,6 @@
       "controlled human cognitive endpoint data",
       "long-term safety with chronic high doses"
     ],
-    "notes": "Established choline donor with EU OTC approval as Gliatilin/Delecit. Recent epidemiology raised concern that high choline intake may increase stroke risk via gut microbiome TMAO production — a potential downside not captured in classical 'cholinergic precursor' framing. The Korean cohort (Lee 2021) showed dose-response association between choline alfoscerate use and incident stroke; causality remains debated.",
     "references_consulted": []
   },
   {
@@ -2132,8 +2042,7 @@
           "dose_in_study_mg": 500,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "pmid:6684463",
-          "notes": "Biphasic plasma levels: peak at 1 h (free choline + cytidine) and second peak at 24 h (after CNS incorporation/release cycle). 62.8% of [14C] dose appears as brain phospholipids."
+          "reference": "pmid:6684463"
         }
       ],
       "concentration_effect": []
@@ -2170,7 +2079,6 @@
     "data_gaps_remaining": [
       "controlled human cognitive endpoint data in healthy adults"
     ],
-    "notes": "Differs from alpha-GPC by additionally supplying cytidine (→ uridine in humans) for nucleotide pool. Best-evidenced use is ischemic stroke recovery (ICTUS trial neutral; meta-analyses positive at higher doses). Nootropic effect in healthy adults is modest in controlled trials.",
     "references_consulted": [
       "pmid:6684463"
     ]
@@ -2210,8 +2118,7 @@
           "half_life_min": null,
           "dose_in_study_mg": 1000,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Rapidly hydrolyzed pre-systemically; PK driven by liberated DMAE."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2223,8 +2130,7 @@
         "metabolite_name": "DMAE",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Ester hydrolysis yields DMAE (deanol → choline → ACh) and p-chlorophenoxyacetic acid (pCPA, may cross BBB independently)"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -2256,7 +2162,6 @@
       "modern controlled PK",
       "validated cognitive endpoints"
     ],
-    "notes": "1960s pharmaceutical (Lucidril). Mechanism is DMAE release + (possibly) pCPA. DMAE itself has limited evidence for cognitive enhancement; pregnant-rat teratogenicity has been reported (avoid in pregnancy).",
     "references_consulted": []
   },
   {
@@ -2291,8 +2196,7 @@
           "half_life_min": null,
           "dose_in_study_mg": null,
           "subject_demographics": "stroke, AD, vascular dementia patients",
-          "reference": "doi:10.1002/med.21960",
-          "notes": "IM and IV-only — oral not feasible due to peptide degradation. PK not well characterized due to undefined active species."
+          "reference": "doi:10.1002/med.21960"
         }
       ],
       "concentration_effect": []
@@ -2328,7 +2232,6 @@
       "identification of active components",
       "modern Western RCT replication"
     ],
-    "notes": "Used in Eastern Europe, Russia, and parts of Asia for stroke, TBI, and dementia. Cochrane review (2017) suggests possible benefit in acute ischemic stroke and vascular dementia but evidence quality is moderate. Cannot be used orally. Theoretical TSE/prion risk from porcine brain raw material is regulated by source-country veterinary standards.",
     "references_consulted": [
       "doi:10.1002/med.21960"
     ]
@@ -2361,8 +2264,7 @@
           "reference_agonist": "ubiquinone",
           "species": "human",
           "cell_system": "LHON patient fibroblasts",
-          "reference": "doi:10.1186/1756-0500-4-557",
-          "notes": "Idebenone acts as a short-chain ubiquinone analog. NQO1 reduces it to idebenol, which donates electrons directly to Complex III — bypassing Complex I defects. The metabolite QS10 also restores electron transfer."
+          "reference": "doi:10.1186/1756-0500-4-557"
         }
       ],
       "biased_agonism": [],
@@ -2385,8 +2287,7 @@
           "dose_in_study_mg": 300,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Very low oral F due to extensive first-pass metabolism; mainly circulates as glucuronide/sulfate conjugates. Improved absorption with high-fat meal."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2429,7 +2330,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "EMA-approved for LHON (Raxone). Nootropic claim in healthy adults is not supported by controlled data; effective dose for LHON is 900 mg/day, far above typical nootropic regimens.",
     "references_consulted": [
       "doi:10.1186/1756-0500-4-557"
     ]
@@ -2473,8 +2373,7 @@
           "dose_in_study_mg": 100,
           "subject_n": null,
           "subject_demographics": "healthy adults",
-          "reference": "doi:10.1155/2019/4981420",
-          "notes": "Linear PK, t½ ~1.5 h, onset 15-60 min — faster and shorter than caffeine."
+          "reference": "doi:10.1155/2019/4981420"
         }
       ],
       "concentration_effect": []
@@ -2521,7 +2420,6 @@
       "receptor binding Ki at A1, A2A",
       "long-term tolerance/dependence data"
     ],
-    "notes": "Marketed as 'fast caffeine alternative' (Dynamine). Plausible adenosine antagonism but binding affinities have not been quantitatively published.",
     "references_consulted": [
       "doi:10.1155/2019/4981420"
     ]
@@ -2560,8 +2458,7 @@
           "tissue_or_cell": "cortex",
           "radioligand_or_probe": "[3H]-clonidine",
           "reference": "pmid:11454649",
-          "is_review": true,
-          "notes": "Wide affinity range across α2 subtypes (Ki 0.8-164 μM); generally weak."
+          "is_review": true
         },
         {
           "target": "NMDA receptor (rat cortex)",
@@ -2575,8 +2472,7 @@
           "tissue_or_cell": "cortical membranes",
           "radioligand_or_probe": "[3H]-MK-801 displacement",
           "reference": "pmid:11454649",
-          "is_review": true,
-          "notes": "Very weak (Ki 37-190 μM) — likely clinically negligible at oral nootropic doses."
+          "is_review": true
         }
       ],
       "functional": [],
@@ -2594,8 +2490,7 @@
           "half_life_min": null,
           "dose_in_study_mg": 1000,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Polyamine transporter substrate; first-pass metabolism by intestinal/hepatic agmatinase to putrescine. Oral bioavailability is low and not well quantified."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2647,7 +2542,6 @@
       "human PK",
       "validated cognitive endpoints"
     ],
-    "notes": "Endogenous polyamine with low μM-mM Ki across multiple targets. Animal data support anxiolytic and antinociceptive effects; human data minimal.",
     "references_consulted": [
       "pmid:11454649"
     ]
@@ -2672,31 +2566,6 @@
         "IKK (IκB kinase) — anti-inflammatory"
       ],
       "binding": [],
-      "functional": [
-        {
-          "target": "PDE1",
-          "readout": "cAMP/cGMP hydrolysis",
-          "ec50_nm": null,
-          "ic50_nm": 14000,
-          "emax_pct": null,
-          "reference_agonist": null,
-          "species": "various",
-          "cell_system": "purified enzyme",
-          "reference": null,
-          "notes": "IC50 in the low μM range; in vivo plasma Cmax (~60-180 nM) is 100-1000× below in-vitro active concentration — a real discrepancy."
-        },
-        {
-          "target": "voltage-gated Na+ channels",
-          "readout": "patch clamp",
-          "ec50_nm": null,
-          "ic50_nm": 8000,
-          "emax_pct": null,
-          "reference_agonist": null,
-          "species": "rat",
-          "cell_system": "neurons",
-          "reference": null
-        }
-      ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
       "downstream_signalling": "Multi-target — PDE1 inhibition raises cAMP/cGMP (cerebral vasodilation); Na+ channel block (anticonvulsant / neuroprotective); IKK inhibition (anti-inflammatory). Plasma concentrations achievable from oral dosing fall well below the IC50s for all three targets, raising mechanistic questions about clinical efficacy.",
@@ -2717,8 +2586,7 @@
           "dose_in_study_mg": 10,
           "subject_n": null,
           "subject_demographics": "healthy adults",
-          "reference": null,
-          "notes": "Very low oral F (~7%) due to first-pass; t½ ~2 h. Major metabolite apovincaminic acid (AVA) has much longer t½ but no defined pharmacology."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2763,7 +2631,6 @@
     "data_gaps_remaining": [
       "mechanism reconciling in-vivo concentrations with in-vitro IC50s"
     ],
-    "notes": "Apovincamine ester, semisynthetic Vinca minor alkaloid. Used clinically in Eastern Europe and Hungary for stroke/cognitive decline. FDA classified as unsafe in pregnancy (2019 warning) due to risk of miscarriage. Cochrane review: insufficient evidence for cognitive benefit.",
     "references_consulted": []
   },
   {
@@ -2802,8 +2669,7 @@
           "half_life_min": 300,
           "dose_in_study_mg": 600,
           "subject_demographics": "adults",
-          "reference": null,
-          "notes": "Approximate t½ ~5 h; rapidly reduced/hydrolyzed to thiamine. Often dosed 200-600 mg BID."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2839,7 +2705,6 @@
       "mechanism of D1 upregulation",
       "controlled dependence/withdrawal data"
     ],
-    "notes": "Approved in France as Arcalion for asthenia. Functionally a thiamine donor with central effects beyond what thiamine supplementation produces. Reported habit-forming potential in nootropic forums is consistent with chronic dopaminergic adaptation.",
     "references_consulted": []
   },
   {
@@ -2882,8 +2747,7 @@
           "dose_in_study_mg": 50,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Bioavailability ~80% vs ~20% for resveratrol; t½ ~105 min vs ~14 min for resveratrol. Better BBB penetration."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2919,7 +2783,6 @@
       "controlled human cognitive endpoint data",
       "direct vs indirect SIRT1 activation"
     ],
-    "notes": "Naturally occurring in blueberries. Pharmacologically superior absorption/distribution profile vs resveratrol but human cognitive data are sparse.",
     "references_consulted": []
   },
   {
@@ -2958,8 +2821,7 @@
           "half_life_min": 150,
           "dose_in_study_mg": 200,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "t½ ~2.5 h; 72-74% of dose excreted in urine within 24 h as conjugates."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -3003,7 +2865,6 @@
       "modern controlled efficacy data",
       "binding affinities at claimed neurotransmitter targets"
     ],
-    "notes": "1960s German pharmaceutical (Merck). Used for dementia / cognitive impairment in Germany, Eastern Europe. Hepatotoxicity and Stevens-Johnson-like reactions are documented adverse events.",
     "references_consulted": []
   },
   {
@@ -3033,8 +2894,7 @@
           "reference_agonist": null,
           "species": "human / rodent",
           "cell_system": "various epithelial cell lines",
-          "reference": "doi:10.3389/fncel.2025.1601366",
-          "notes": "Direct covalent modification of Keap1 cysteine 151 releases Nrf2 — most potent natural-product Nrf2 activator."
+          "reference": "doi:10.3389/fncel.2025.1601366"
         }
       ],
       "biased_agonism": [],
@@ -3057,8 +2917,7 @@
           "dose_in_study_mg": 50,
           "subject_n": null,
           "subject_demographics": "healthy adults",
-          "reference": "doi:10.1371/journal.pone.0140963",
-          "notes": "F up to 70% if administered as free SFN with active myrosinase; ~10% if administered as glucoraphanin precursor without myrosinase. Eliminated as thiol conjugates (mercapturic acid) in urine."
+          "reference": "doi:10.1371/journal.pone.0140963"
         }
       ],
       "concentration_effect": []
@@ -3070,8 +2929,7 @@
         "metabolite_name": "SFN-NAC",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1371/journal.pone.0140963",
-        "notes": "Mercapturic acid pathway: SFN-glutathione → SFN-cysteine → SFN-NAC (the urinary metabolite)"
+        "reference": "doi:10.1371/journal.pone.0140963"
       }
     ],
     "drug_interactions_pk": [],
@@ -3106,7 +2964,6 @@
     "data_gaps_remaining": [
       "direct human cognitive endpoint data"
     ],
-    "notes": "Broccoli sprout isothiocyanate; most potent natural-product Nrf2 activator. Cognitive claims are largely extrapolated from anti-oxidant/anti-inflammatory mechanism rather than direct trial data.",
     "references_consulted": [
       "doi:10.1371/journal.pone.0140963",
       "doi:10.3389/fncel.2025.1601366"
@@ -3138,8 +2995,7 @@
           "reference_agonist": "HGF",
           "species": "rat",
           "cell_system": "primary hippocampal neurons / in vivo",
-          "reference": "pmid:25187433",
-          "notes": "McCoy et al. 2013 — Dihexa potentiates HGF activity at picomolar concentrations. Reported as ~10⁷× more potent than BDNF in some synaptogenesis assays."
+          "reference": "pmid:25187433"
         }
       ],
       "biased_agonism": [],
@@ -3191,7 +3047,6 @@
       "any human PK or safety data",
       "long-term oncogenicity studies"
     ],
-    "notes": "Developed at Washington State University (Harding lab) from angiotensin IV. Zero published human trial data despite being marketed by gray-market peptide vendors. The HGF/c-Met augmentation mechanism creates a theoretical oncogenic risk that has not been formally evaluated in long-term studies — caution warranted.",
     "references_consulted": [
       "pmid:25187433"
     ]
@@ -3257,7 +3112,6 @@
       "all human data — PK, safety, efficacy",
       "independent replication outside Iqbal lab"
     ],
-    "notes": "Iqbal lab (NY State Inst. for Basic Research) developed in rodent AD models. Five published peer-reviewed studies, all from single group, all preclinical. No human data.",
     "references_consulted": []
   },
   {
@@ -3290,8 +3144,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "in vivo and primary neurons",
-          "reference": "doi:10.3389/fphar.2024.1431894",
-          "notes": "Tenuigenin (senegenin), tenuifolin, polygalasaponins, onjisaponin B all act on overlapping mechanisms: ACh enhancement (AChE inhibition), BDNF upregulation, anti-Aβ effects, antioxidant."
+          "reference": "doi:10.3389/fphar.2024.1431894"
         }
       ],
       "biased_agonism": [],
@@ -3343,7 +3196,6 @@
       "human PK",
       "controlled human cognitive trials"
     ],
-    "notes": "Traditional Chinese Medicine herb (yuan zhi). Multiple saponin actives with overlapping anti-AD mechanisms in rodent models. Standardization varies wildly between preparations; human evidence is preliminary.",
     "references_consulted": [
       "doi:10.3389/fphar.2024.1431894"
     ]
@@ -3381,8 +3233,7 @@
           "dose_in_study_mg": 5,
           "subject_n": 47,
           "subject_demographics": "healthy adults, double-blind",
-          "reference": "doi:10.1007/BF00432846",
-          "notes": "Hansl 1978 — single 5 mg dose 2-2.5 h before testing improved 24-h word recall by 87-200%."
+          "reference": "doi:10.1007/BF00432846"
         }
       ],
       "concentration_effect": []
@@ -3420,7 +3271,6 @@
       "modern safety profile",
       "any PK data"
     ],
-    "notes": "Only one published human trial (Hansl 1978) with striking but unreplicated memory enhancement claim. No mechanism identified in 47 subsequent years. Nootropic vendor interest revived in 2010s but no new data. Treat with skepticism.",
     "references_consulted": [
       "doi:10.1007/BF00432846"
     ]
@@ -3443,19 +3293,6 @@
         "5-HT3 receptor (antagonist, low μM)"
       ],
       "binding": [],
-      "functional": [
-        {
-          "target": "α7 nAChR (human)",
-          "readout": "calcium flux / electrophysiology",
-          "ec50_nm": 168,
-          "emax_pct": 50,
-          "reference_agonist": "acetylcholine",
-          "species": "human",
-          "cell_system": "HEK293/hα7",
-          "reference": null,
-          "notes": "Selective α7 partial agonist; 5-HT3 antagonist at higher concentrations."
-        }
-      ],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
       "downstream_signalling": "α7 nAChR activation → Ca²⁺ influx → CREB → BDNF + cognitive enhancement (theorized). Failed to translate in late-stage trials.",
@@ -3470,8 +3307,7 @@
           "half_life_min": 3600,
           "dose_in_study_mg": 1,
           "subject_demographics": "healthy adults",
-          "reference": null,
-          "notes": "Very long t½ (~60 h) enables once-daily dosing."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -3515,7 +3351,6 @@
       "published Ki values",
       "complete CYP profile"
     ],
-    "notes": "EnVivo/FORUM Pharmaceuticals α7 partial agonist for cognitive impairment in schizophrenia and AD. Phase 2b was promising in mild-moderate AD but Phase 3 failed efficacy + GI safety halted further development.",
     "references_consulted": []
   },
   {
@@ -3543,8 +3378,7 @@
           "reference_agonist": "acetylcholine",
           "species": "human",
           "cell_system": "HEK293/hα7",
-          "reference": null,
-          "notes": "Selective α7 partial agonist developed by AbbVie."
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -3586,7 +3420,6 @@
       "published Ki",
       "PK parameters"
     ],
-    "notes": "AbbVie α7 selective partial agonist. Phase 2b (smokers and nonsmokers) for cognitive impairment in schizophrenia failed primary MCCB endpoint. AbbVie discontinued development.",
     "references_consulted": [
       "doi:10.1176/appi.ajp.2015.15010093",
       "doi:10.1038/npp.2016.101"
@@ -3649,7 +3482,6 @@
       "recent PK data",
       "Ki at human cloned receptors"
     ],
-    "notes": "Abbott Laboratories nicotinic agonist. Cognitive effects observed but development discontinued; superseded by ABT-126.",
     "references_consulted": []
   },
   {
@@ -3686,8 +3518,7 @@
           "dose_in_study_mg": 50,
           "subject_n": null,
           "subject_demographics": "healthy adults / AAMI / ADHD",
-          "reference": null,
-          "notes": "PK previously characterized in Phase 1 single-ascending-dose (Targacept). Linear kinetics reported."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -3722,7 +3553,6 @@
       "published Ki at hα4β2",
       "specific PK parameters"
     ],
-    "notes": "Targacept/AstraZeneca brain-selective α4β2 partial agonist. Promising cognitive results in AAMI and adult ADHD Phase 2, development discontinued.",
     "references_consulted": []
   },
   {
@@ -3751,8 +3581,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "in vivo microdialysis",
-          "reference": "pmid:24317442",
-          "notes": "DA release driven by α7 nAChR; ACh release driven by 5-HT3 antagonism. Bell-shaped dose-response."
+          "reference": "pmid:24317442"
         }
       ],
       "biased_agonism": [],
@@ -3793,7 +3622,6 @@
     "data_gaps_remaining": [
       "published Ki / PK parameters"
     ],
-    "notes": "Roche dual α7/5-HT3 partial agonist/antagonist. Failed primary MCCB endpoint in schizophrenia cognitive impairment trial, though negative symptoms improved.",
     "references_consulted": [
       "pmid:24317442",
       "pmid:24549101"

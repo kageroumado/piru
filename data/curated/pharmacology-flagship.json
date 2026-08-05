@@ -1,372 +1,1059 @@
 [
   {
-    "_comment": "Pharmacology-axis flagship seed. Graded, citation-verified Vd / Kᵢ / EC₅₀ / IC₅₀ transcribed from the private evidence run (~/Developer/piru-data/pharmacology-evidence). Each value carries its own confidence (HIGH|MEDIUM|LOW) + a primary-literature reference. fu is left at the default (1) per the Stage-0 resolution; real protein binding lands in the alcohol/benzo verticals. Ingested by ingest_pharmacology_flagship() as peer-review-primary; rows ADD to (never overwrite) existing data and the app resolver prefers the graded value.",
     "name": "Ethanol",
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 0.7, "bioavailability_pct": 88, "confidence": "HIGH", "reference": "10.1016/j.forsciint.2018.10.033", "notes": "Vd ~0.7 L/kg (male representative; women ~0.6). Oral F 80–96%, meal/dose-dependent first-pass. Elimination is zero-order (Michaelis–Menten), not first-order — no first-order t½ applies." }
+      {
+        "route": "oral",
+        "vd_l_per_kg": 0.7,
+        "bioavailability_pct": 88,
+        "confidence": "HIGH",
+        "reference": "10.1016/j.forsciint.2018.10.033"
+      }
     ]
   },
   {
     "name": "THC",
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 3.4, "bioavailability_pct": 6, "half_life_min": 180, "confidence": "HIGH", "reference": "PMID 30001569", "notes": "True Vdss ~3.4 L/kg (inhaled, IV-anchored); the oral apparent V/F is much larger and route-confounded, so the IV Vdss is used here. Oral F ~6% (inhaled ~18%). 180 min = effect-site/psychoactive duration; terminal plasma t½ (22 h→days from lipid redistribution) must NOT be used for psychoactive modeling." }
-    ],
-    "bindings": [
-      { "target": "CB1", "action": "partialAgonist", "ki_nm": 25.1, "ec50_nm": 5.2, "confidence": "HIGH", "reference": "10.1038/sj.bjp.0707399", "notes": "CB1 Ki 25.1 ± 5.5 nM (human meta-analytic mean; span 2.9–53 nM). cAMP EC50 5.2 nM, Emax 70% (partial agonist). Active metabolite 11-OH-THC is ~95× higher affinity (Ki 0.37 nM)." }
+      {
+        "route": "oral",
+        "vd_l_per_kg": 3.4,
+        "bioavailability_pct": 6,
+        "half_life_min": 180,
+        "confidence": "HIGH",
+        "reference": "PMID 30001569"
+      }
     ]
   },
   {
     "name": "Caffeine",
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 0.69, "bioavailability_pct": 100, "half_life_min": 300, "confidence": "HIGH", "reference": "10.1111/j.1365-2125.1985.tb02799.x", "notes": "Vd ~0.69 L/kg; F ~100% (108% report is AUC artifact). t½ ~5 h healthy non-smoking adult — CYP1A2-dependent (smokers ~3.5 h, OC ~10.7 h)." }
+      {
+        "route": "oral",
+        "vd_l_per_kg": 0.69,
+        "bioavailability_pct": 100,
+        "half_life_min": 300,
+        "confidence": "HIGH",
+        "reference": "10.1111/j.1365-2125.1985.tb02799.x"
+      }
     ],
     "bindings": [
-      { "target": "Adenosine A1", "action": "antagonist", "ki_nm": 10700, "confidence": "MEDIUM", "reference": "10.1016/j.neulet.2010.10.068", "notes": "A1 Ki ~10.7 µM (human recombinant) to ~61 µM (human PET/CHO); assay-dependent, ~6× disagreement. Non-selective across adenosine subtypes." },
-      { "target": "Adenosine A2A", "action": "antagonist", "ki_nm": 9560, "confidence": "MEDIUM", "reference": "10.1111/bph.15103", "notes": "A2A Ki ~9.56 µM (human recombinant; single surviving human source). Primary behaviorally-relevant target (wakefulness/arousal). Non-selective across A1/A2A/A2B/A3 (~1.4×)." }
+      {
+        "target": "Adenosine A1",
+        "action": "antagonist",
+        "ki_nm": 10700,
+        "confidence": "MEDIUM",
+        "reference": "10.1016/j.neulet.2010.10.068"
+      },
+      {
+        "target": "Adenosine A2A",
+        "action": "antagonist",
+        "ki_nm": 9560,
+        "confidence": "MEDIUM",
+        "reference": "10.1111/bph.15103"
+      }
     ]
   },
   {
     "name": "Nicotine",
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 2.6, "bioavailability_pct": 40, "half_life_min": 120, "confidence": "HIGH", "reference": "10.1007/978-3-540-69248-5_2", "notes": "Benowitz canonical Vss ~2.6 L/kg (range 1.0–4.3). Oral/swallowed F ~40%; inhaled pulmonary absorption near-complete. t½ ~2 h single-phase; cotinine t½ ~16 h; CYP2A6-dependent." }
+      {
+        "route": "oral",
+        "vd_l_per_kg": 2.6,
+        "bioavailability_pct": 40,
+        "half_life_min": 120,
+        "confidence": "HIGH",
+        "reference": "10.1007/978-3-540-69248-5_2"
+      }
     ],
     "bindings": [
-      { "target": "nAChR α4β2", "action": "agonist", "ec50_nm": 2400, "confidence": "MEDIUM", "reference": "PMID 14555718", "notes": "Activation EC50 ~2.4 µM (high-affinity state). Desensitization IC50 ~9.7–61 nM is 200–1000× lower, so physiological nicotine primarily desensitizes rather than activates. In-vitro, rat-based with human extrapolation." }
+      {
+        "target": "nAChR α4β2",
+        "action": "agonist",
+        "ec50_nm": 2400,
+        "confidence": "MEDIUM",
+        "reference": "PMID 14555718"
+      }
     ]
   },
   {
-    "names": ["Dextroamphetamine", "Amphetamine"],
+    "names": [
+      "Dextroamphetamine",
+      "Amphetamine"
+    ],
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 4.0, "bioavailability_pct": 75, "half_life_min": 600, "confidence": "HIGH", "reference": "PMID 26329917", "notes": "d-Amphetamine: true Vd ~4 L/kg (oral Vz/F ~5.4 inflated); F ~75% (tertiary, MEDIUM); t½ ~10 h. Applied to racemic Amphetamine as a close approximation (l-isomer t½ slightly longer). XR prolongs Tmax, not t½." }
+      {
+        "route": "oral",
+        "vd_l_per_kg": 4.0,
+        "bioavailability_pct": 75,
+        "half_life_min": 600,
+        "confidence": "HIGH",
+        "reference": "PMID 26329917"
+      }
     ],
     "bindings": [
-      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 24.8, "confidence": "MEDIUM", "reference": "10.1037/a0036595", "notes": "d-Amph functional release EC50 at DAT 24.8 nM (rat synaptosome, Rothman/Baumann platform). Use ratios within this assay, not absolute (cross-platform 5–25 nM). DA-leaning, near-SERT-sparing." },
-      { "target": "NET", "action": "releasingAgent", "ec50_nm": 7.2, "confidence": "MEDIUM", "reference": "10.1037/a0036595", "notes": "NET release EC50 7.2 nM (same assay as DAT). NET most potent; NET ≈ DAT ≫ SERT. Use within-assay ratios." },
-      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 1765, "confidence": "MEDIUM", "reference": "10.1037/a0036595", "notes": "SERT release EC50 1765 nM (same assay). SERT/DAT ratio ~71 — near-SERT-sparing. Use within-assay ratios." }
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "ec50_nm": 24.8,
+        "confidence": "MEDIUM",
+        "reference": "10.1037/a0036595"
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "ec50_nm": 7.2,
+        "confidence": "MEDIUM",
+        "reference": "10.1037/a0036595"
+      },
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "ec50_nm": 1765,
+        "confidence": "MEDIUM",
+        "reference": "10.1037/a0036595"
+      }
     ]
   },
   {
     "name": "Methylphenidate",
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 2.23, "bioavailability_pct": 22, "half_life_min": 150, "confidence": "HIGH", "reference": "10.1186/1471-2210-6-6", "notes": "Racemate IV Vss 2.23 L/kg (d-MPH 2.65, l-MPH 1.80). d-MPH oral F 22% (l-MPH 5%); MEDIUM (no DOI source). t½ ~2.5 h (IR); CES1A1 de-esterification. XR prolongs Tmax not t½. (Reference is for the binding IC50s below.)" }
+      {
+        "route": "oral",
+        "vd_l_per_kg": 2.23,
+        "bioavailability_pct": 22,
+        "half_life_min": 150,
+        "confidence": "HIGH",
+        "reference": "10.1186/1471-2210-6-6"
+      }
     ],
     "bindings": [
-      { "target": "DAT", "action": "reuptakeInhibitor", "ic50_nm": 80, "confidence": "HIGH", "reference": "10.1186/1471-2210-6-6", "notes": "Human DAT uptake-inhibition IC50 ~60–140 nM (racemic dl-threo-MPH). Pure blocker — does NOT evoke transporter-mediated efflux (mechanistically distinct from amphetamine)." },
-      { "target": "NET", "action": "reuptakeInhibitor", "ic50_nm": 100, "confidence": "HIGH", "reference": "10.1186/1471-2210-6-6", "notes": "Human NET uptake-inhibition IC50 ~0.10 µM. DAT ≈ NET ≫ SERT." },
-      { "target": "SERT", "action": "reuptakeInhibitor", "ic50_nm": 100000, "confidence": "HIGH", "reference": "10.1186/1471-2210-6-6", "notes": "SERT IC50 ~100 µM — ~1000× weaker than DAT/NET; effectively SERT-sparing." }
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 80,
+        "confidence": "HIGH",
+        "reference": "10.1186/1471-2210-6-6"
+      },
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 100,
+        "confidence": "HIGH",
+        "reference": "10.1186/1471-2210-6-6"
+      },
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 100000,
+        "confidence": "HIGH",
+        "reference": "10.1186/1471-2210-6-6"
+      }
     ]
   },
   {
     "name": "Psilocin",
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 3.97, "bioavailability_pct": 52.7, "half_life_min": 120, "confidence": "MEDIUM", "reference": "10.1007/s40262-024-01454-4", "notes": "True IV Vss ~3.97 L/kg (277 L ÷ 70 kg; Hasler n=3). Oral F 52.7% (n=3, single source, LOW). Oral t½ ~2 h. ~80% of circulating psilocin is glucuronide. Psilocin is the active metabolite of psilocybin." }
+      {
+        "route": "oral",
+        "vd_l_per_kg": 3.97,
+        "bioavailability_pct": 52.7,
+        "half_life_min": 120,
+        "confidence": "MEDIUM",
+        "reference": "10.1007/s40262-024-01454-4"
+      }
     ],
     "bindings": [
-      { "target": "5-HT2A", "action": "agonist", "ki_nm": 41.1, "ec50_nm": 74.5, "confidence": "HIGH", "reference": "10.1016/j.euroneuro.2016.05.001", "notes": "5-HT2A Ki 41.1 nM (human cloned, HEK293); functional EC50 ≤74.5 nM. ~10× lower affinity than LSD. Bidirectional cross-tolerance with LSD (human controlled)." }
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "ki_nm": 41.1,
+        "ec50_nm": 74.5,
+        "confidence": "HIGH",
+        "reference": "10.1016/j.euroneuro.2016.05.001"
+      }
     ]
   },
   {
     "name": "Lysergic Acid Diethylamide",
     "pk_routes": [
-      { "route": "oral", "half_life_min": 228, "confidence": "HIGH", "reference": "10.1111/bcp.13918", "notes": "Primary elimination t½ ~3.8 h (2.4–7.3 h at 100 µg); biphasic at higher dose. No Vd record in the evidence run. Long apparent effect duration vs plasma t½ is slow 5-HT2A dissociation (ECL2 'lid'), not PK." }
+      {
+        "route": "oral",
+        "half_life_min": 228,
+        "confidence": "HIGH",
+        "reference": "10.1111/bcp.13918"
+      }
     ],
     "bindings": [
-      { "target": "5-HT2A", "action": "partialAgonist", "ki_nm": 4, "ec50_nm": 261, "confidence": "HIGH", "reference": "10.1016/j.cell.2016.12.033", "notes": "5-HT2A Ki 4 nM (binding + crystal structure); functional EC50 261 nM, Emax 28% (partial). Exceptionally slow dissociation. ~10× tighter binding than psilocin." }
+      {
+        "target": "5-HT2A",
+        "action": "partialAgonist",
+        "ki_nm": 4,
+        "ec50_nm": 261,
+        "confidence": "HIGH",
+        "reference": "10.1016/j.cell.2016.12.033"
+      }
     ]
   },
   {
     "name": "Morphine",
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 3.5, "bioavailability_pct": 23, "half_life_min": 120, "confidence": "HIGH", "reference": "PMID 2719903", "notes": "Vd 1–4.7 L/kg (FDA label, parenteral); 3.5 = midpoint. Oral F ~22–24% (extensive first-pass glucuronidation). Dominant terminal t½ ~2 h; the ~15 h slow phase is a trivial fraction and not for one-compartment modeling. Active metabolite M6G is a potent MOR agonist." }
+      {
+        "route": "oral",
+        "vd_l_per_kg": 3.5,
+        "bioavailability_pct": 23,
+        "half_life_min": 120,
+        "confidence": "HIGH",
+        "reference": "PMID 2719903"
+      }
     ],
     "bindings": [
-      { "target": "MOR", "action": "agonist", "ki_nm": 37, "confidence": "HIGH", "reference": "10.1016/j.yrtph.2010.12.007", "notes": "MOR Ki ~1.2–74 nM across assays (37 ≈ geometric-mean of range). Full agonist in intact-cell functional assays (Emax 96%)." }
+      {
+        "target": "MOR",
+        "action": "agonist",
+        "ki_nm": 37,
+        "confidence": "HIGH",
+        "reference": "10.1016/j.yrtph.2010.12.007"
+      }
     ]
   },
   {
     "name": "Oxycodone",
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 2.6, "bioavailability_pct": 75, "half_life_min": 210, "confidence": "HIGH", "reference": "10.1016/j.yrtph.2010.12.007", "notes": "FDA Roxicodone IV Vss 2.6 L/kg; oral F ~60–87% (higher than morphine, less first-pass). IR t½ ~3.5 h. CYP3A4→noroxycodone (major), CYP2D6→oxymorphone (minor, high µ-affinity). (Reference is for the MOR Ki below.)" }
+      {
+        "route": "oral",
+        "vd_l_per_kg": 2.6,
+        "bioavailability_pct": 75,
+        "half_life_min": 210,
+        "confidence": "HIGH",
+        "reference": "10.1016/j.yrtph.2010.12.007"
+      }
     ],
     "bindings": [
-      { "target": "MOR", "action": "agonist", "ki_nm": 400, "confidence": "HIGH", "reference": "10.1016/j.yrtph.2010.12.007", "notes": "MOR Ki ~26–780 nM (~10–22× weaker than morphine; rank order consistent). Full agonist in intact-cell assays (Emax 90%)." }
+      {
+        "target": "MOR",
+        "action": "agonist",
+        "ki_nm": 400,
+        "confidence": "HIGH",
+        "reference": "10.1016/j.yrtph.2010.12.007"
+      }
     ]
   },
   {
     "name": "Diazepam",
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 1.1, "bioavailability_pct": 94, "half_life_min": 2760, "confidence": "HIGH", "reference": "PMID 6849499", "notes": "Vd ~1.1 L/kg young adults (rises to ~1.7 in elderly). Oral F ~94%. t½ ~46 h; active metabolite desmethyldiazepam t½ ~71–100 h extends duration. CYP2C19 + CYP3A4 (poor 2C19 metabolizers ↑ exposure)." }
+      {
+        "route": "oral",
+        "vd_l_per_kg": 1.1,
+        "bioavailability_pct": 94,
+        "half_life_min": 2760,
+        "confidence": "HIGH",
+        "reference": "PMID 6849499"
+      }
     ],
     "bindings": [
-      { "target": "GABA-A α1β2γ2", "action": "positiveAllostericModulator", "ki_nm": 3, "confidence": "HIGH", "reference": "10.1073/pnas.74.9.3805", "notes": "BZ-site Kd ~3 nM (rat brain); cold-diazepam Ki ~4.8–15 nM across α1/2/3/5 (non-selective classical profile)." }
+      {
+        "target": "GABA-A α1β2γ2",
+        "action": "positiveAllostericModulator",
+        "ki_nm": 3,
+        "confidence": "HIGH",
+        "reference": "10.1073/pnas.74.9.3805"
+      }
     ]
   },
   {
     "name": "Alprazolam",
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 0.8, "bioavailability_pct": 90, "half_life_min": 672, "confidence": "HIGH", "reference": "PMID 1964224", "notes": "Vd ~0.8 L/kg (IV ~0.72). Oral F ~90%. t½ ~11.2 h (FDA IR mean). Metabolites pharmacologically minor (≈single-parent kinetics, unlike diazepam). CYP3A4 only — not CYP2C19. (Reference is for the binding Kd below.)" }
+      {
+        "route": "oral",
+        "vd_l_per_kg": 0.8,
+        "bioavailability_pct": 90,
+        "half_life_min": 672,
+        "confidence": "HIGH",
+        "reference": "PMID 1964224"
+      }
     ],
     "bindings": [
-      { "target": "GABA-A α1β2γ2", "action": "positiveAllostericModulator", "ki_nm": 4.6, "confidence": "HIGH", "reference": "PMID 1964224", "notes": "BZ-site Kd ~4.6 nM (rat brain); slightly more potent than diazepam. Ashton diazepam-equivalent ~0.5 mg ≡ 10 mg diazepam." }
+      {
+        "target": "GABA-A α1β2γ2",
+        "action": "positiveAllostericModulator",
+        "ki_nm": 4.6,
+        "confidence": "HIGH",
+        "reference": "PMID 1964224"
+      }
     ]
   },
   {
     "name": "MDMA",
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 6.5, "tmax_min": 120, "half_life_min": 522, "confidence": "MEDIUM", "reference": "10.1097/00007691-200404000-00009", "notes": "Tmax ~2 h. Apparent V/F ~6.5 L/kg (453 L ÷ 70 kg; oral, true Vd likely lower). Racemic oral t½ ~8.7 h (R ~11–14 h, S ~4–5 h). Non-linear PK from CYP2D6 autoinhibition → t½ rises with dose. Absolute oral F is definitionally underivable (no human IV arm)." }
+      {
+        "route": "oral",
+        "vd_l_per_kg": 6.5,
+        "tmax_min": 120,
+        "half_life_min": 522,
+        "confidence": "MEDIUM",
+        "reference": "10.1097/00007691-200404000-00009"
+      }
     ],
     "bindings": [
-      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 1690, "confidence": "MEDIUM", "reference": "10.1371/journal.pone.0036476", "notes": "Human SERT release EC50 ~1.69 µM (HEK293); rat synaptosome ~74 nM — ~23× cross-platform disagreement, use within-assay ratios. MDMA is 5-HT-leaning (SERT most potent in the synaptosome platform)." },
-      { "target": "NET", "action": "releasingAgent", "ec50_nm": 77.4, "confidence": "MEDIUM", "reference": "10.1021/acschemneuro.8b00155", "notes": "NET release EC50 77.4 nM (rat synaptosome, Rothman/Baumann review). Use within-assay ratios." },
-      { "target": "5-HT2A", "action": "agonist", "ki_nm": 7800, "confidence": "MEDIUM", "reference": "10.1371/journal.pone.0036476", "notes": "Weak, low-affinity 5-HT2A ligand (~7.8 µM); not a meaningful direct agonist at therapeutic concentrations. Primary serotonergic action is SERT-mediated release." }
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "ec50_nm": 1690,
+        "confidence": "MEDIUM",
+        "reference": "10.1371/journal.pone.0036476"
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "ec50_nm": 77.4,
+        "confidence": "MEDIUM",
+        "reference": "10.1021/acschemneuro.8b00155"
+      },
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "ki_nm": 7800,
+        "confidence": "MEDIUM",
+        "reference": "10.1371/journal.pone.0036476"
+      }
     ]
   },
   {
-    "_comment": "RC-EXPANSION BATCH (2026-06-23 ingestion). Graded, citation-verified transporter release/uptake + binding + human PK transcribed from the private RC evidence runs (cathinones-releasers, cathinones-pyrovalerones, amphetamine-analogues, tramadol-odsmt, gabapentinoids, neuro-eugeroics). The per-substance MECHANISM FLAG is encoded by the binding action: releasingAgent (substrate efflux, EC50) vs reuptakeInhibitor (pure blocker, IC50) — the single most important correction (an α-alkyl or N-ethyl substituent flips DAT substrate→blocker; pyrrolidinophenones are pure blockers, naphyrone the SERT-blocking exception). Transporter potencies are mostly rat-synaptosome — use WITHIN-ASSAY DAT:SERT ratios, never absolute cross-platform nM (~20–150× gaps). Human PK ships only where a controlled study exists; absolute oral F is omitted where no IV arm exists (definitionally underivable). Four transcription-wrong PMIDs flagged in the evidence run are corrected here (Baumann 23072836 not 23303048; Kolanos 24116392 not 24216377; Eshleman 27799294 not 27758844; Rickli 25624004 not 25548109).",
     "name": "Mephedrone",
-    "aliases": ["4-MMC"],
+    "aliases": [
+      "4-MMC"
+    ],
     "pk_routes": [
-      { "route": "oral", "tmax_min": 75, "half_life_min": 129, "species": "human", "confidence": "HIGH", "reference": "PMID 27206266", "notes": "Papaseit 2016 (controlled oral): 200 mg Tmax 1.25 h, elimination t½ ~2.15 h; 150 mg Cmax 122.6 ng/mL at ~1 h. Rapid absorption + short half-life — the short t½ (NOT the mechanism) drives compulsive redosing. Absolute oral F underivable (no human IV arm). Human t½/Tmax always win over scaled rat kinetics." },
-      { "route": "oral", "vd_l_per_kg": 2.6, "bioavailability_pct": 10, "protein_binding_pct": 21.59, "species": "rat", "confidence": "LOW", "reference": "10.1007/s00213-013-3108-7", "notes": "Martínez-Clemente 2013 (rat IV+oral): true Vd 2.6 L/kg (IV-anchored), oral F ~10% (7.3–11.2%), plasma protein binding 21.6%, whole-animal CL 1.69 L/h. NO human Vd/F study exists for mephedrone (no human IV arm), so rat is the class-default distribution — species-flagged 'rat' so the resolver floors Vd confidence and (allometry) leaves Vd/kg species-invariant. Feeds 2-MMC via the pk_reference pointer." }
+      {
+        "route": "oral",
+        "tmax_min": 75,
+        "half_life_min": 129,
+        "species": "human",
+        "confidence": "HIGH",
+        "reference": "PMID 27206266"
+      },
+      {
+        "route": "oral",
+        "vd_l_per_kg": 2.6,
+        "bioavailability_pct": 10,
+        "protein_binding_pct": 21.59,
+        "species": "rat",
+        "confidence": "LOW",
+        "reference": "10.1007/s00213-013-3108-7"
+      }
     ],
     "bindings": [
-      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 49.1, "confidence": "HIGH", "reference": "PMID 22169943", "notes": "Baumann 2012, rat brain synaptosome release. Same-assay triple DAT 49.1 / NET 62.7 / SERT 118.3 nM → DAT:SERT 2.41 (balanced, MDMA-like empathogen — NOT catecholamine-skewed like 3-MMC). Mechanism: substrate-type releaser (also inhibits uptake), not a pure blocker. Use within-assay ratios." },
-      { "target": "NET", "action": "releasingAgent", "ec50_nm": 62.7, "confidence": "HIGH", "reference": "PMID 22169943", "notes": "Baumann 2012, rat synaptosome — same-assay with DAT 49.1 / SERT 118.3." },
-      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 118.3, "confidence": "HIGH", "reference": "PMID 22169943", "notes": "Baumann 2012, rat synaptosome. DAT:SERT 2.41 — balanced nonselective releaser." }
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "ec50_nm": 49.1,
+        "confidence": "HIGH",
+        "reference": "PMID 22169943"
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "ec50_nm": 62.7,
+        "confidence": "HIGH",
+        "reference": "PMID 22169943"
+      },
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "ec50_nm": 118.3,
+        "confidence": "HIGH",
+        "reference": "PMID 22169943"
+      }
     ]
   },
   {
     "name": "Methylone",
-    "aliases": ["bk-MDMA"],
+    "aliases": [
+      "bk-MDMA"
+    ],
     "pk_routes": [
-      { "route": "oral", "half_life_min": 384, "confidence": "HIGH", "reference": "PMID 36873994", "notes": "Poyatos 2023 (controlled oral 200 mg): Cmax ~604 ng/mL, Tmax 2 h, elimination t½ ~6.4 h. Earlier onset/offset than MDMA; sustained HR rise to ~10 h. Absolute oral F underivable (no IV arm)." }
+      {
+        "route": "oral",
+        "half_life_min": 384,
+        "confidence": "HIGH",
+        "reference": "PMID 36873994"
+      }
     ],
     "bindings": [
-      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 133, "confidence": "HIGH", "reference": "PMID 22169943", "notes": "Baumann 2012, rat synaptosome release. Same-assay triple DAT 133 / NET 152.3 / SERT 242.1 nM → DAT:SERT 1.82 (balanced/empathogen-like, MDMA-like but less potent at all three). Substrate-type releaser, not a pure blocker. Use within-assay ratios." },
-      { "target": "NET", "action": "releasingAgent", "ec50_nm": 152.3, "confidence": "HIGH", "reference": "PMID 22169943", "notes": "Baumann 2012, rat synaptosome — same-assay with DAT 133 / SERT 242.1." },
-      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 242.1, "confidence": "HIGH", "reference": "PMID 22169943", "notes": "Baumann 2012, rat synaptosome. DAT:SERT 1.82 — balanced nonselective releaser." }
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "ec50_nm": 133,
+        "confidence": "HIGH",
+        "reference": "PMID 22169943"
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "ec50_nm": 152.3,
+        "confidence": "HIGH",
+        "reference": "PMID 22169943"
+      },
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "ec50_nm": 242.1,
+        "confidence": "HIGH",
+        "reference": "PMID 22169943"
+      }
     ]
   },
   {
     "name": "4-CMC",
-    "aliases": ["Clephedrone", "4-chloromethcathinone"],
+    "aliases": [
+      "Clephedrone",
+      "4-chloromethcathinone"
+    ],
     "bindings": [
-      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 91, "confidence": "MEDIUM", "reference": "PMID 36669877", "notes": "Chojnacki 2023, rat synaptosome release. Same-assay triple DAT 91 / NET 99 / SERT 169 nM → DAT:SERT ~1.9 (balanced, mephedrone-like). Uptake-inhibition IC50 separately DAT 1014 / NET 559 / SERT 542 nM. NOTE: clephedrone = 4-CMC, clophedrone = 3-CMC — isomer-specific, never collapse the ortho/meta/para axis. Use within-assay ratios." },
-      { "target": "NET", "action": "releasingAgent", "ec50_nm": 99, "confidence": "MEDIUM", "reference": "PMID 36669877", "notes": "Chojnacki 2023, rat synaptosome — same-assay with DAT 91 / SERT 169." },
-      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 169, "confidence": "MEDIUM", "reference": "PMID 36669877", "notes": "Chojnacki 2023, rat synaptosome. DAT:SERT ~1.9 — balanced nonselective releaser." }
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "ec50_nm": 91,
+        "confidence": "MEDIUM",
+        "reference": "PMID 36669877"
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "ec50_nm": 99,
+        "confidence": "MEDIUM",
+        "reference": "PMID 36669877"
+      },
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "ec50_nm": 169,
+        "confidence": "MEDIUM",
+        "reference": "PMID 36669877"
+      }
     ]
   },
   {
     "name": "3-MMC",
-    "aliases": ["Metaphedrone", "3-methylmethcathinone"],
+    "aliases": [
+      "Metaphedrone",
+      "3-methylmethcathinone"
+    ],
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 5.0, "tmax_min": 90, "half_life_min": 180, "clearance_ml_per_min_per_kg": 21.4, "cmax_ng_per_ml": 104.2, "dose_in_study_mg": 50, "subject_n": 14, "species": "human", "confidence": "MEDIUM", "reference": "10.1038/s41386-024-02042-7", "notes": "Vejmola/Kuypers/Ramaekers 2024 — first controlled human study (N=14; oral 25/50/100 mg; Cmax 39.1/104.2/210.9 ng/mL, dose-linear; median Tmax 1.5 h; t½ 3.0 h). Apparent Vd/F 5.0 L/kg (~350 L @70kg) back-solved from human Cmax; apparent CL/F ~90 L/h (≈21.4 mL/min/kg @70kg) from the EXTRAPOLATED AUC — NOT the naive 150 L/h off the truncated AUC₀-5.5h (truncation caveat). F omitted (apparent-F=1 convention). REFUTES the pig Vd 8 L/kg / F 7% (Shimshoni 2015 WHO ECDD): an apparent 5 L/kg is incompatible with 7% F, so the pig numbers are NOT stored." }
+      {
+        "route": "oral",
+        "vd_l_per_kg": 5.0,
+        "tmax_min": 90,
+        "half_life_min": 180,
+        "clearance_ml_per_min_per_kg": 21.4,
+        "cmax_ng_per_ml": 104.2,
+        "dose_in_study_mg": 50,
+        "subject_n": 14,
+        "species": "human",
+        "confidence": "MEDIUM",
+        "reference": "10.1038/s41386-024-02042-7"
+      }
     ],
     "bindings": [
-      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 28, "confidence": "MEDIUM", "reference": "PMID 30354055", "notes": "Walther 2019, rat synaptosome release (same-assay DAT 28 / NET 27 / SERT 268 nM → DAT:SERT 9.6); Blough 2019 same-assay DAT 70.6 / SERT 292 → DAT:SERT 4.1. Catecholamine-LEANING (DAT:SERT 4–10) — MORE dopaminergic / less serotonergic than its para-isomer mephedrone (4-MMC, DAT:SERT 2.4 same assay), the lone DAT>SERT exception. Substrate-type releaser that also inhibits uptake. Use within-assay ratios." },
-      { "target": "NET", "action": "releasingAgent", "ec50_nm": 27, "confidence": "MEDIUM", "reference": "PMID 30354055", "notes": "Walther 2019, rat synaptosome — same-assay with DAT 28 / SERT 268." },
-      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 268, "confidence": "MEDIUM", "reference": "PMID 30354055", "notes": "Walther 2019, rat synaptosome. DAT:SERT ~9.6 — catecholamine-selective; NOT interchangeable with 4-MMC." }
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "ec50_nm": 28,
+        "confidence": "MEDIUM",
+        "reference": "PMID 30354055"
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "ec50_nm": 27,
+        "confidence": "MEDIUM",
+        "reference": "PMID 30354055"
+      },
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "ec50_nm": 268,
+        "confidence": "MEDIUM",
+        "reference": "PMID 30354055"
+      }
     ]
   },
   {
     "name": "2-MMC",
-    "aliases": ["2-methylmethcathinone"],
-    "bindings": [
-      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 81, "confidence": "HIGH", "reference": "10.1021/acschemneuro.8b00524", "notes": "Walther 2019 (canonical Table 1), rat synaptosome release. Same-assay triple DAT 81 / NET 53 / SERT 490 nM, rank NET > DAT >> SERT → DAT:SERT ~6 (catecholamine-favouring, NOT a balanced empathogen). FAR more DAT-selective than 4-MMC — a positional-isomer effect, NOT 'ortho mephedrone'. (Table 1 lists 81; an earlier read of 80 rounds the same value.) Use within-assay ratios." },
-      { "target": "NET", "action": "releasingAgent", "ec50_nm": 53, "confidence": "HIGH", "reference": "10.1021/acschemneuro.8b00524", "notes": "Walther 2019 (Table 1), rat synaptosome — same-assay with DAT 81 / SERT 490." },
-      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 490, "confidence": "HIGH", "reference": "10.1021/acschemneuro.8b00524", "notes": "Walther 2019 (Table 1), rat synaptosome. DAT:SERT ~6 — DAT-selective." }
+    "aliases": [
+      "2-methylmethcathinone"
     ],
-    "pk_reference": { "name": "Mephedrone", "fields": ["vd", "bioavailability", "tmax", "half_life"], "confidence": "LOW", "notes": "No primary 2-MMC PK exists for any parameter (only metabolite-ID / forensic concentration studies). 4-MMC (mephedrone) is the structural-analogue surrogate — an explicitly-flagged borrow, never labelled 2-MMC data. Web-surfaced 't½ ~50 min / CL 199 L/h' are 3-MMC values (a trap) and are NOT used." }
+    "bindings": [
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "ec50_nm": 81,
+        "confidence": "HIGH",
+        "reference": "10.1021/acschemneuro.8b00524"
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "ec50_nm": 53,
+        "confidence": "HIGH",
+        "reference": "10.1021/acschemneuro.8b00524"
+      },
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "ec50_nm": 490,
+        "confidence": "HIGH",
+        "reference": "10.1021/acschemneuro.8b00524"
+      }
+    ],
+    "pk_reference": {
+      "name": "Mephedrone",
+      "fields": [
+        "vd",
+        "bioavailability",
+        "tmax",
+        "half_life"
+      ],
+      "confidence": "LOW"
+    }
   },
   {
     "name": "MDPV",
     "bindings": [
-      { "target": "DAT", "action": "reuptakeInhibitor", "ic50_nm": 4.1, "confidence": "HIGH", "reference": "PMID 23072836", "notes": "Baumann 2013, rat brain synaptosome uptake IC50 (NOT release — MDPV is a PURE cocaine-like reuptake BLOCKER, monensin-confirmed, no transporter-mediated efflux; the bulky pyrrolidine sterically prevents translocation). ~50× cocaine at DAT. Human-HEK ~10 nM (Simmler) / 30 nM (Kolaczynska). Same-assay triple DAT 4.1 / NET 26 / SERT 3349 → SERT-sparing (DAT:SERT ~817). NOT a releaser/super-amphetamine. PMID corrected (23072836, not the gathered-wrong 23303048)." },
-      { "target": "NET", "action": "reuptakeInhibitor", "ic50_nm": 26, "confidence": "HIGH", "reference": "PMID 23072836", "notes": "Baumann 2013, rat synaptosome (~10× cocaine at NET); human-HEK ~50–80 nM. Same-assay with DAT 4.1 / SERT 3349." },
-      { "target": "SERT", "action": "reuptakeInhibitor", "ic50_nm": 3349, "confidence": "HIGH", "reference": "PMID 23072836", "notes": "Baumann 2013, rat synaptosome — SERT-sparing (low-µM); the mechanistic basis of MDPV's cocaine-like, non-entactogen profile. DAT:SERT ~817." }
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 4.1,
+        "confidence": "HIGH",
+        "reference": "PMID 23072836"
+      },
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 26,
+        "confidence": "HIGH",
+        "reference": "PMID 23072836"
+      },
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 3349,
+        "confidence": "HIGH",
+        "reference": "PMID 23072836"
+      }
     ]
   },
   {
     "name": "Alpha-PVP",
-    "aliases": ["α-PVP", "a-PVP", "Flakka"],
+    "aliases": [
+      "α-PVP",
+      "a-PVP",
+      "Flakka"
+    ],
     "bindings": [
-      { "target": "DAT", "action": "reuptakeInhibitor", "ic50_nm": 12.8, "confidence": "HIGH", "reference": "PMID 24594476", "notes": "Marusich 2014, rat synaptosome uptake IC50 (Kolanos 17.5). PURE cocaine-like reuptake blocker, no efflux. Human-HEK hDAT ~390 nM. BALANCED DAT+NET blocker (DAT 12.8 ≈ NET 14.2, within ~2–3×), slightly NET-favouring at human transporters. SERT-sparing: hDAT/hSERT selectivity 2893 (Eshleman, PMID 27799294) — the most DAT-selective pyrrolidinophenone. 'Flakka excited-delirium/cannibal' is laundered newspaper folklore, not a distinct drug effect." },
-      { "target": "NET", "action": "reuptakeInhibitor", "ic50_nm": 14.2, "confidence": "HIGH", "reference": "PMID 24594476", "notes": "Marusich 2014, rat synaptosome; human-HEK hNET ~160 nM (NET-favouring in the human assay). Balanced with DAT, not a dopamine-selective drug." },
-      { "target": "SERT", "action": "reuptakeInhibitor", "confidence": "HIGH", "reference": "PMID 26217965", "notes": "Effectively inactive — no significant [3H]5-HT uptake inhibition at 10 µM (rat). SERT-sparing; α-PVP's selectivity is over SERT (DAT:SERT ~2893), NOT over NET." }
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 12.8,
+        "confidence": "HIGH",
+        "reference": "PMID 24594476"
+      },
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 14.2,
+        "confidence": "HIGH",
+        "reference": "PMID 24594476"
+      },
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "confidence": "HIGH",
+        "reference": "PMID 26217965"
+      }
     ]
   },
   {
     "name": "Alpha-PHP",
-    "aliases": ["α-PHP"],
+    "aliases": [
+      "α-PHP"
+    ],
     "bindings": [
-      { "target": "DAT", "action": "reuptakeInhibitor", "ic50_nm": 60, "confidence": "MEDIUM", "reference": "PMID 34361040", "notes": "Kolaczynska 2021, human-HEK uptake IC50. Pure DAT/NET reuptake blocker (not a substrate/releaser). Same-assay DAT 60 / NET 60 / SERT >245000 nM — SERT-sparing." },
-      { "target": "NET", "action": "reuptakeInhibitor", "ic50_nm": 60, "confidence": "MEDIUM", "reference": "PMID 34361040", "notes": "Kolaczynska 2021, human-HEK — DAT ≈ NET; SERT effectively inactive (>245 µM)." }
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 60,
+        "confidence": "MEDIUM",
+        "reference": "PMID 34361040"
+      },
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 60,
+        "confidence": "MEDIUM",
+        "reference": "PMID 34361040"
+      }
     ]
   },
   {
     "name": "Alpha-PiHP",
-    "aliases": ["α-PiHP"],
+    "aliases": [
+      "α-PiHP"
+    ],
     "bindings": [
-      { "target": "DAT", "action": "reuptakeInhibitor", "ic50_nm": 13.4, "confidence": "LOW", "reference": "PMID 40381809", "notes": "Baarset 2025 — DAT IC50 ~13.4 nM from a single proprietary-dye assay (LOW; NOT the Kolaczynska panel). Potency ~equivalent to α-PVP at DAT, slightly lower at NET, SERT-sparing (DAT>>NET>SERT). Ship rank/mechanism, not the absolute number as fact: pure pyrrolidinophenone reuptake blocker, distinct chain isomer of α-PHP." }
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 13.4,
+        "confidence": "LOW",
+        "reference": "PMID 40381809"
+      }
     ]
   },
   {
     "name": "Naphyrone",
-    "aliases": ["NRG-1", "Naphthylpyrovalerone"],
+    "aliases": [
+      "NRG-1",
+      "Naphthylpyrovalerone"
+    ],
     "bindings": [
-      { "target": "DAT", "action": "reuptakeInhibitor", "ic50_nm": 40, "confidence": "MEDIUM", "reference": "doi:10.1016/j.euroneuro.2014.12.012", "notes": "Rickli 2015, human-HEK uptake IC50. Naphyrone is the pyrovalerone-family OUTLIER: a NON-selective triple reuptake inhibitor (DAT 40 / NET 11.7 / SERT 46 nM) — the ONLY pyrovalerone that potently blocks SERT, so it is NOT SERT-sparing and carries serotonergic-interaction relevance the rest of the family lack. Pure blocker, no efflux." },
-      { "target": "NET", "action": "reuptakeInhibitor", "ic50_nm": 11.7, "confidence": "MEDIUM", "reference": "doi:10.1016/j.euroneuro.2014.12.012", "notes": "Rickli 2015, human-HEK — most potent of the triple. Same-assay with DAT 40 / SERT 46." },
-      { "target": "SERT", "action": "reuptakeInhibitor", "ic50_nm": 46, "confidence": "MEDIUM", "reference": "doi:10.1016/j.euroneuro.2014.12.012", "notes": "Rickli 2015, human-HEK. Potent SERT block (~46 nM) — the family exception; do NOT mark naphyrone SERT-sparing." }
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 40,
+        "confidence": "MEDIUM",
+        "reference": "doi:10.1016/j.euroneuro.2014.12.012"
+      },
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 11.7,
+        "confidence": "MEDIUM",
+        "reference": "doi:10.1016/j.euroneuro.2014.12.012"
+      },
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 46,
+        "confidence": "MEDIUM",
+        "reference": "doi:10.1016/j.euroneuro.2014.12.012"
+      }
     ]
   },
   {
     "name": "MDPBP",
     "bindings": [
-      { "target": "DAT", "action": "reuptakeInhibitor", "ic50_nm": 70, "confidence": "MEDIUM", "reference": "PMID 34361040", "notes": "Kolaczynska 2021, human-HEK uptake IC50. Pure DAT/NET reuptake blocker, DAT-preferring, SERT-sparing. Same-assay DAT 70 / NET 140 / SERT 11000 nM (DAT:SERT ~157). DAT potency tracks side-chain length: MDPV 30 > MDPBP 70 > MDPPP 540 nM (a real SAR ladder, not uniform class potency)." },
-      { "target": "NET", "action": "reuptakeInhibitor", "ic50_nm": 140, "confidence": "MEDIUM", "reference": "PMID 34361040", "notes": "Kolaczynska 2021, human-HEK — same-assay with DAT 70 / SERT 11000." },
-      { "target": "SERT", "action": "reuptakeInhibitor", "ic50_nm": 11000, "confidence": "MEDIUM", "reference": "PMID 34361040", "notes": "Kolaczynska 2021, human-HEK — SERT-sparing (DAT:SERT ~157)." }
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 70,
+        "confidence": "MEDIUM",
+        "reference": "PMID 34361040"
+      },
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 140,
+        "confidence": "MEDIUM",
+        "reference": "PMID 34361040"
+      },
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 11000,
+        "confidence": "MEDIUM",
+        "reference": "PMID 34361040"
+      }
     ]
   },
   {
     "name": "MDPPP",
     "bindings": [
-      { "target": "DAT", "action": "reuptakeInhibitor", "ic50_nm": 540, "confidence": "MEDIUM", "reference": "PMID 34361040", "notes": "Kolaczynska 2021, human-HEK uptake IC50. Pure DAT/NET reuptake blocker — the LEAST potent pyrrolidinophenone (family floor), DAT-preferring, SERT-sparing. Same-assay DAT 540 / NET 1700 / SERT 43000 nM (DAT:SERT ~80)." },
-      { "target": "NET", "action": "reuptakeInhibitor", "ic50_nm": 1700, "confidence": "MEDIUM", "reference": "PMID 34361040", "notes": "Kolaczynska 2021, human-HEK — same-assay with DAT 540 / SERT 43000." },
-      { "target": "SERT", "action": "reuptakeInhibitor", "ic50_nm": 43000, "confidence": "MEDIUM", "reference": "PMID 34361040", "notes": "Kolaczynska 2021, human-HEK — SERT-sparing." }
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 540,
+        "confidence": "MEDIUM",
+        "reference": "PMID 34361040"
+      },
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 1700,
+        "confidence": "MEDIUM",
+        "reference": "PMID 34361040"
+      },
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 43000,
+        "confidence": "MEDIUM",
+        "reference": "PMID 34361040"
+      }
     ]
   },
   {
     "name": "3-FA",
-    "aliases": ["3-fluoroamphetamine", "PAL-353", "meta-fluoroamphetamine"],
-    "bindings": [
-      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 24.2, "confidence": "HIGH", "reference": "PMID 15677348", "notes": "Wee 2005, rat synaptosome release (PAL-353). Same-assay triple DA 24.2 / NE 16.1 / 5-HT 1937 nM → ~80× DA-over-5HT selectivity, strongly catecholamine-selective (≈plain amphetamine). Substrate-type releaser. The serotonergic lean is a PARA property (4-FA/4-MA) — do NOT propagate to 3-FA. The forum '2-FA ~24 nM' figure is actually THIS meta isomer. Use within-assay ratios." },
-      { "target": "NET", "action": "releasingAgent", "ec50_nm": 16.1, "confidence": "HIGH", "reference": "PMID 15677348", "notes": "Wee 2005, rat synaptosome — most potent of the triple (NE 16.1 < DA 24.2 << 5-HT 1937)." },
-      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 1937, "confidence": "HIGH", "reference": "PMID 15677348", "notes": "Wee 2005, rat synaptosome — the LEAST potent 5-HT releaser of the series; catecholamine-selective." }
+    "aliases": [
+      "3-fluoroamphetamine",
+      "PAL-353",
+      "meta-fluoroamphetamine"
     ]
   },
   {
     "name": "4-FA",
-    "aliases": ["4-fluoroamphetamine", "PAL-303", "para-fluoroamphetamine"],
+    "aliases": [
+      "4-fluoroamphetamine",
+      "PAL-303",
+      "para-fluoroamphetamine"
+    ],
     "pk_routes": [
-      { "route": "oral", "half_life_min": 510, "confidence": "HIGH", "reference": "PMID 30912312", "notes": "Toennes 2019 (CONTROLLED oral 100 mg): t½ ~8–9 h (enantioselective, R-isomer longer), Tmax ~2 h, Cmax median 195 ng/mL — the fluoroamphetamine family's ONLY human PK. Absolute oral F underivable (no IV arm). NOTE: 4-FA carries a disproportionate severe-toxicity signal (cerebral hemorrhage, reverse-Takotsubo, MI, fatalities) with BP effects EXAGGERATED vs MDMA — NOT a safer 'ecstasy-light'." }
+      {
+        "route": "oral",
+        "half_life_min": 510,
+        "confidence": "HIGH",
+        "reference": "PMID 30912312"
+      }
     ],
     "bindings": [
-      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 51.5, "confidence": "MEDIUM", "reference": "PMID 15677348", "notes": "Wee 2005, rat synaptosome release (PAL-303). Same-assay triple DA 51.5 / NE 28.0 / 5-HT 939 nM. Substrate-type releaser with concurrent uptake inhibition; more serotonergic than the meta/ortho fluoro isomers (a para-position property). Use within-assay ratios." },
-      { "target": "NET", "action": "releasingAgent", "ec50_nm": 28.0, "confidence": "MEDIUM", "reference": "PMID 15677348", "notes": "Wee 2005, rat synaptosome — same-assay with DA 51.5 / 5-HT 939." },
-      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 939, "confidence": "MEDIUM", "reference": "PMID 15677348", "notes": "Wee 2005, rat synaptosome — para-position serotonergic lean (vs 3-FA's 1937 nM)." }
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "ec50_nm": 51.5,
+        "confidence": "MEDIUM",
+        "reference": "PMID 15677348"
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "ec50_nm": 28.0,
+        "confidence": "MEDIUM",
+        "reference": "PMID 15677348"
+      },
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "ec50_nm": 939,
+        "confidence": "MEDIUM",
+        "reference": "PMID 15677348"
+      }
     ]
   },
   {
     "name": "4-MA",
-    "aliases": ["4-methylamphetamine", "PAL-313", "para-methylamphetamine"],
+    "aliases": [
+      "4-methylamphetamine",
+      "PAL-313",
+      "para-methylamphetamine"
+    ],
     "bindings": [
-      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 53.4, "confidence": "HIGH", "reference": "PMID 15677348", "notes": "Wee 2005, rat synaptosome release. Same-assay triple SERT 53.4 / NET 22.2 / DAT 44.1 nM — near-BALANCED, STRONGLY serotonergic relative to the fluoro isomers (in vivo 5-HT ~18× baseline >> DA ~5×). The most potent 5-HT releaser of the series. PMA-like dual mechanism behind >12 European fatalities. Use within-assay ratios." },
-      { "target": "NET", "action": "releasingAgent", "ec50_nm": 22.2, "confidence": "HIGH", "reference": "PMID 15677348", "notes": "Wee 2005, rat synaptosome — same-assay with SERT 53.4 / DAT 44.1." },
-      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 44.1, "confidence": "HIGH", "reference": "PMID 15677348", "notes": "Wee 2005, rat synaptosome — balanced DA+NE+5-HT releaser." },
-      { "target": "MAO-A", "action": "enzymeInhibitor", "confidence": "MEDIUM", "reference": "10.1111/j.1600-0773.1977.tb02673.x", "notes": "Ross 1977 — 4-MA is a genuine MAO-A inhibitor (qualitative 'potent'; NO clean modern human/in-vitro IC50 exists). This PMA-like dual mechanism (serotonin-releaser + MAO-A inhibition) is the serotonin-toxicity / hyperthermia danger and is RING-POSITION-SPECIFIC to 4-MA (para-methyl) — never propagate it to the fluoro isomers. NEVER ship 4-MTA's ~250 nM here (4-MTA is a different compound, 4-methylTHIOamphetamine)." }
+      {
+        "target": "MAO-A",
+        "action": "enzymeInhibitor",
+        "confidence": "MEDIUM",
+        "reference": "10.1111/j.1600-0773.1977.tb02673.x"
+      }
     ]
   },
   {
     "name": "Tramadol",
     "pk_routes": [
-      { "route": "oral", "vd_l_per_kg": 2.7, "bioavailability_pct": 75, "half_life_min": 378, "confidence": "HIGH", "reference": "FDA ULTRAM (tramadol HCl) Prescribing Information, NDA 20-281", "notes": "FDA ULTRAM PI: racemic t½ 6.3 ± 1.4 h, Vd ~2.7 L/kg, ~20% protein-bound. Oral F ~68–75% single dose, rising toward ~90–100% with REPEATED dosing (saturable first-pass: steady-state Cmax +16%, AUC +36%). Parent tramadol is itself an active SNRI (monoaminergic + seizure-threshold-lowering); only the µ-OPIOID limb is CYP2D6/M1-gated." }
+      {
+        "route": "oral",
+        "vd_l_per_kg": 2.7,
+        "bioavailability_pct": 75,
+        "half_life_min": 378,
+        "confidence": "HIGH",
+        "reference": "FDA ULTRAM (tramadol HCl) Prescribing Information, NDA 20-281"
+      }
     ],
     "bindings": [
-      { "target": "MOR", "action": "agonist", "ki_nm": 2400, "confidence": "MEDIUM", "reference": "PMID 10961373", "notes": "Gillen 2000 (CHO) racemic µ-OR Ki 2400 nM; Raffa 1996 (HN9.10) 17000 nM — weak parent affinity. The µ-opioid analgesia is carried almost entirely by the active metabolite (+)-M1/O-DSMT (3.4 nM), so a CYP2D6 poor-metabolizer loses opioid analgesia but RETAINS (and may elevate) the serotonergic/seizure liability — tramadol is NOT a 'clean prodrug'." }
+      {
+        "target": "MOR",
+        "action": "agonist",
+        "ki_nm": 2400,
+        "confidence": "MEDIUM",
+        "reference": "PMID 10961373"
+      }
     ]
   },
   {
     "name": "O-DSMT",
-    "aliases": ["O-desmethyltramadol", "M1"],
+    "aliases": [
+      "O-desmethyltramadol",
+      "M1"
+    ],
     "bindings": [
-      { "target": "MOR", "action": "agonist", "ki_nm": 3.4, "confidence": "HIGH", "reference": "PMID 10961373", "notes": "Gillen 2000, cloned human µ-OR: (+)-M1 Ki 3.4 nM, (−)-M1 240 nM. M1 is the active opioid metabolite of tramadol and essentially the SOLE carrier of its µ-opioid analgesia (~700× the racemic parent's affinity). A potent full µ-agonist with real respiratory-depression risk — 'cleaner than tramadol' is NOT 'safer': there is NO human PK for ingested O-DSMT, so exogenous dosing is uncalibrated (Vd/CL/F/equivalence ship as NONE)." }
+      {
+        "target": "MOR",
+        "action": "agonist",
+        "ki_nm": 3.4,
+        "confidence": "HIGH",
+        "reference": "PMID 10961373"
+      }
     ]
   },
   {
     "name": "Gabapentin",
     "bindings": [
-      { "target": "α2δ-1", "action": "modulator", "kd_nm": 59, "ic50_nm": 140, "confidence": "HIGH", "reference": "PMID 8621444", "notes": "Gee 1996 — the SOLE molecular target: gabapentin binds the Caᵥ α2δ-1 (CACNA2D1) auxiliary subunit (Kd ~59 nM / IC50 ~140 nM), genetically proven causal by the R217A knock-in. MYTH-BUST: NO binding or agonist activity at GABA-A / GABA-B / benzodiazepine receptors and no effect on GABA uptake (clean 38-target panel) — it is NOT a GABA-mimetic despite the name. Any GABA-system effects are indirect/downstream." },
-      { "target": "α2δ-2", "action": "modulator", "kd_nm": 153, "confidence": "MEDIUM", "reference": "PMID 27069626", "notes": "Patel & Dickenson 2016 — secondary binding to the α2δ-2 (CACNA2D2) subunit; non-subtype-selective between α2δ-1 and α2δ-2." }
+      {
+        "target": "α2δ-1",
+        "action": "modulator",
+        "kd_nm": 59,
+        "ic50_nm": 140,
+        "confidence": "HIGH",
+        "reference": "PMID 8621444"
+      },
+      {
+        "target": "α2δ-2",
+        "action": "modulator",
+        "kd_nm": 153,
+        "confidence": "MEDIUM",
+        "reference": "PMID 27069626"
+      }
     ]
   },
   {
     "name": "Pregabalin",
     "bindings": [
-      { "target": "α2δ-1", "action": "modulator", "ic50_nm": 80, "confidence": "MEDIUM", "reference": "PMID 21651903", "notes": "Li 2011 — α2δ-1 binding ~80 nM. The 'pregabalin is settled-tighter than gabapentin (~32 nM)' claim is REJECTED: rank order is assay-dependent (displacement 80 vs 140 nM one way; SAR series ~180 vs ~120 nM the other) and the ~32 nM figure has no resolvable citation. What IS robust is pregabalin's higher in-vivo potency and its dose-LINEAR absorption (~90% F, dose-independent), not a binding-affinity advantage. MYTH-BUST: no GABA-A/B/BZD activity — not a GABA mimetic." },
-      { "target": "α2δ-2", "action": "modulator", "confidence": "MEDIUM", "reference": "PMID 21651903", "notes": "Li 2011 — binds α2δ-1 and α2δ-2 (non-subtype-selective); no α2δ-3/-4." }
+      {
+        "target": "α2δ-1",
+        "action": "modulator",
+        "ic50_nm": 80,
+        "confidence": "MEDIUM",
+        "reference": "PMID 21651903"
+      },
+      {
+        "target": "α2δ-2",
+        "action": "modulator",
+        "confidence": "MEDIUM",
+        "reference": "PMID 21651903"
+      }
     ]
   },
   {
     "name": "Memantine",
     "pk_routes": [
-      { "route": "oral", "half_life_min": 4200, "confidence": "HIGH", "reference": "PMID 9862242", "notes": "Terminal t½ ~60–80 h (Namenda FDA label; renal-impairment tail to ~100–124 h). pH-DEPENDENT renal excretion (Freudenthaler 1998): ~48% excreted unchanged; renal clearance acidic urine ~210–219 vs alkaline ~19–31 mL/min (7–10×) — urinary alkalinization (diet, carbonic-anhydrase inhibitors) reduces clearance ~80% and raises levels. Oral F ~100% (well absorbed)." }
+      {
+        "route": "oral",
+        "half_life_min": 4200,
+        "confidence": "HIGH",
+        "reference": "PMID 9862242"
+      }
     ],
     "bindings": [
-      { "target": "NMDA", "action": "channelBlocker", "ic50_nm": 1000, "confidence": "HIGH", "reference": "PMID 11026484", "notes": "Parsons 2000 — uncompetitive, voltage-dependent, FAST-off-rate OPEN-CHANNEL blocker, IC50 ~1 µM (0.46–3 µM; 0.46 at NR1a/2B). This MODERATE/LOW affinity + fast kinetics is exactly why memantine is clinically tolerated where high-affinity blockers (ketamine/PCP) are psychotomimetic. The circulating '~22 nM' (Xia 2010) is a different extrasynaptic-preferential FUNCTIONAL endpoint, not the channel-block IC50." },
-      { "target": "α7 nAChR", "action": "antagonist", "ic50_nm": 340, "confidence": "HIGH", "reference": "PMID 15522999", "notes": "Aracava 2005 — α7 IC50 0.34 µM in RAT (−60 mV). SPECIES CAVEAT: human α7 IC50 (~5 µM) OVERLAPS NMDA potency — the dramatic 'more potent at α7 than NMDA' rank order is a rat artifact, NOT a human truth. No human PET/occupancy data." },
-      { "target": "5-HT3", "action": "antagonist", "ic50_nm": 2200, "confidence": "MEDIUM", "reference": "PMID 11403963", "notes": "Rammes 2001 — non-competitive 5-HT3 antagonist IC50 ~2.2 µM (human recombinant). Off-target." },
-      { "target": "sigma-1", "action": "modulator", "ki_nm": 2600, "confidence": "MEDIUM", "reference": "PMID 15090047", "notes": "Peeters 2004 — sigma-1 binding Ki ~2.6 µM. Off-target; binding-only (functional direction not established here)." }
+      {
+        "target": "NMDA",
+        "action": "channelBlocker",
+        "ic50_nm": 1000,
+        "confidence": "HIGH",
+        "reference": "PMID 11026484"
+      },
+      {
+        "target": "α7 nAChR",
+        "action": "antagonist",
+        "ic50_nm": 340,
+        "confidence": "HIGH",
+        "reference": "PMID 15522999"
+      },
+      {
+        "target": "5-HT3",
+        "action": "antagonist",
+        "ic50_nm": 2200,
+        "confidence": "MEDIUM",
+        "reference": "PMID 11403963"
+      },
+      {
+        "target": "sigma-1",
+        "action": "modulator",
+        "ki_nm": 2600,
+        "confidence": "MEDIUM",
+        "reference": "PMID 15090047"
+      }
     ]
   },
   {
     "name": "Modafinil",
     "bindings": [
-      { "target": "DAT", "action": "reuptakeInhibitor", "confidence": "MEDIUM", "reference": "PMID 22537794", "notes": "Loland 2012 — modafinil's real mechanism is an ATYPICAL DAT reuptake inhibitor that stabilises an inward-facing transporter conformation (wake-promoting psychostimulant in mechanism). MYTH-BUST: it has NO NMDA open-channel block, 5-HT3, α7 or sigma-1 profile and does NOT share memantine's mechanism. 'Not a stimulant' is a regulatory/marketing distinction (low abuse liability, atypical kinetics), not a non-dopaminergic mechanism." }
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "confidence": "MEDIUM",
+        "reference": "PMID 22537794"
+      }
     ]
   },
   {
     "name": "Armodafinil",
     "bindings": [
-      { "target": "DAT", "action": "reuptakeInhibitor", "confidence": "MEDIUM", "reference": "PMID 22537794", "notes": "Armodafinil = R-(−)-enantiomer of modafinil (~3× the S-enantiomer's DAT affinity), same atypical-DAT-inhibitor mechanism in kind. NOT an NMDA/sigma-1 'neuro-nootropic'." }
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "confidence": "MEDIUM",
+        "reference": "PMID 22537794"
+      }
     ]
   },
   {
-    "_comment": "BENZOFURAN lean-pass gaps (2026-06-23). 5-APB/6-APB/5-APDB/6-APDB already carry full enrichment records; these three had zero bindings. Benzofurans are entactogen-type (MDMA-like) substrate releasers; the standout safety axis is submicromolar 5-HT2B PARTIAL AGONISM (the fenfluramine/MDA valvular-heart antitarget MDMA does NOT engage) — a mechanistic red flag for chronic/repeated dosing, never an observed human outcome. 5-EAPB is the exception (N-ethylation abolishes 5-HT2B). Release triples are rat-synaptosome (use within-assay DAT:SERT ratios); 'Benzo Fury' deaths are polydrug.",
     "name": "5-MAPB",
     "bindings": [
-      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 41, "confidence": "HIGH", "reference": "PMID 32875347", "notes": "Brandt 2020, rat brain synaptosome release. Same-assay triple DAT 41 / NET 24 / SERT 64 nM → DAT:SERT 1.56 (balanced, MDMA-like entactogen). Use within-assay ratios." },
-      { "target": "NET", "action": "releasingAgent", "ec50_nm": 24, "confidence": "HIGH", "reference": "PMID 32875347", "notes": "Brandt 2020, rat synaptosome — same-assay with DAT 41 / SERT 64." },
-      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 64, "confidence": "HIGH", "reference": "PMID 32875347", "notes": "Brandt 2020, rat synaptosome. DAT:SERT 1.56 — balanced entactogen-type releaser." }
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "ec50_nm": 41,
+        "confidence": "HIGH",
+        "reference": "PMID 32875347"
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "ec50_nm": 24,
+        "confidence": "HIGH",
+        "reference": "PMID 32875347"
+      },
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "ec50_nm": 64,
+        "confidence": "HIGH",
+        "reference": "PMID 32875347"
+      }
     ]
   },
   {
     "name": "6-MAPB",
     "bindings": [
-      { "target": "DAT", "action": "releasingAgent", "ec50_nm": 20, "confidence": "HIGH", "reference": "PMID 32875347", "notes": "Brandt 2020, rat brain synaptosome release. Same-assay triple DAT 20 / NET 14 / SERT 33 nM → DAT:SERT 1.65 (balanced, MDMA-like entactogen). Use within-assay ratios." },
-      { "target": "NET", "action": "releasingAgent", "ec50_nm": 14, "confidence": "HIGH", "reference": "PMID 32875347", "notes": "Brandt 2020, rat synaptosome — same-assay with DAT 20 / SERT 33." },
-      { "target": "SERT", "action": "releasingAgent", "ec50_nm": 33, "confidence": "HIGH", "reference": "PMID 32875347", "notes": "Brandt 2020, rat synaptosome. DAT:SERT 1.65 — balanced entactogen-type releaser." }
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "ec50_nm": 20,
+        "confidence": "HIGH",
+        "reference": "PMID 32875347"
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "ec50_nm": 14,
+        "confidence": "HIGH",
+        "reference": "PMID 32875347"
+      },
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "ec50_nm": 33,
+        "confidence": "HIGH",
+        "reference": "PMID 32875347"
+      }
     ]
   },
   {
     "name": "5-EAPB",
     "bindings": [
-      { "target": "SERT", "action": "reuptakeInhibitor", "ic50_nm": 720, "confidence": "MEDIUM", "reference": "PMID 25765500", "notes": "Rickli 2015, human transporters. Same-assay uptake-inhibition triple NET 560 / DAT 4900 / SERT 720 nM (SERT/NET-leaning, weak DAT). A clean release triple was not verified this pass. THE 5-HT2B EXCEPTION: unlike its benzofuran siblings, 5-EAPB shows NO functional 5-HT2B activation (Emax 0% up to <20 µM) — N-ethylation abolishes the valvulopathy antitarget, so the family-wide 5-HT2B red flag must NOT be applied to it." },
-      { "target": "NET", "action": "reuptakeInhibitor", "ic50_nm": 560, "confidence": "MEDIUM", "reference": "PMID 25765500", "notes": "Rickli 2015, human transporters — same-assay with DAT 4900 / SERT 720; most potent of the triple." },
-      { "target": "DAT", "action": "reuptakeInhibitor", "ic50_nm": 4900, "confidence": "MEDIUM", "reference": "PMID 25765500", "notes": "Rickli 2015, human transporters — weak DAT (4.9 µM), SERT/NET-leaning." },
-      { "target": "5-HT2A", "action": "agonist", "ec50_nm": 7600, "emax_pct": 29, "confidence": "MEDIUM", "reference": "PMID 25765500", "notes": "Rickli 2015 — weak 5-HT2A partial agonist (EC50 7.6 µM, Emax 29%, Ki 2.7 µM)." }
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 720,
+        "confidence": "MEDIUM",
+        "reference": "PMID 25765500"
+      },
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 560,
+        "confidence": "MEDIUM",
+        "reference": "PMID 25765500"
+      },
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "ic50_nm": 4900,
+        "confidence": "MEDIUM",
+        "reference": "PMID 25765500"
+      },
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "ec50_nm": 7600,
+        "emax_pct": 29,
+        "confidence": "MEDIUM",
+        "reference": "PMID 25765500"
+      }
     ]
   },
   {
-   "_comment": "METHAMPHETAMINE + AMPHETAMINE (2026-06-28). Substrate-releaser EC50 triples (rat brain synaptosome, Rothman 2001 PMID 11071707; amph reproduced by Banks/Bauer 2014 PMID 24796848) + human PK. NET most potent, DAT close, SERT weak-but-present (meth ~30x, amph ~70x weaker than DAT). action=releasingAgent (NOT reuptakeInhibitor — they are substrates, contrasted with methylphenidate). Carry within-assay ratios, not cross-platform nM.",
-   "name": "Methamphetamine",
-   "pk_routes": [
-   {"route": "oral", "bioavailability_pct": 67, "tmax_min": 180, "half_life_min": 600, "vd_l_per_kg": 3.7, "protein_binding_pct": 53, "confidence": "MEDIUM", "reference": "DOI 10.1111/j.1360-0443.2009.02564.x", "notes": "Cruickshank & Dyer 2009 Addiction review (oral F ~67%, Tmax ~3 h, t1/2 ~9-12 h); Vd 3.2-4.2 L/kg Cook 1993 (Drug Metab Dispos 21:717); protein binding 53% / Vd 5.3 L/kg Schepers 2003 PMID 12507968. Vd range 3.2-5.3 L/kg across sources."}
-   ],
-   "bindings": [
-   {"target": "NET", "action": "releasingAgent", "ec50_nm": 12.3, "confidence": "MEDIUM", "reference": "PMID 11071707", "notes": "Rothman 2001 Synapse, (+)-methamphetamine NE release, rat brain synaptosome. Same-assay triple NET 12.3 / DAT 24.5 / SERT 736."},
-   {"target": "DAT", "action": "releasingAgent", "ec50_nm": 24.5, "confidence": "MEDIUM", "reference": "PMID 11071707", "notes": "Rothman 2001 Synapse, (+)-methamphetamine DA release, rat brain synaptosome."},
-   {"target": "SERT", "action": "releasingAgent", "ec50_nm": 736, "confidence": "MEDIUM", "reference": "PMID 11071707", "notes": "Rothman 2001 Synapse, (+)-methamphetamine 5-HT release, rat brain synaptosome — weak but present; Baumann 2012 reports ~1292 nM, carry as ~736-1292 nM."}
-   ]
+    "name": "Methamphetamine",
+    "pk_routes": [
+      {
+        "route": "oral",
+        "bioavailability_pct": 67,
+        "tmax_min": 180,
+        "half_life_min": 600,
+        "vd_l_per_kg": 3.7,
+        "protein_binding_pct": 53,
+        "confidence": "MEDIUM",
+        "reference": "DOI 10.1111/j.1360-0443.2009.02564.x"
+      }
+    ],
+    "bindings": [
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "ec50_nm": 12.3,
+        "confidence": "MEDIUM",
+        "reference": "PMID 11071707"
+      },
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "ec50_nm": 24.5,
+        "confidence": "MEDIUM",
+        "reference": "PMID 11071707"
+      },
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "ec50_nm": 736,
+        "confidence": "MEDIUM",
+        "reference": "PMID 11071707"
+      }
+    ]
   },
   {
-   "name": "Amphetamine",
-   "pk_routes": [
-   {"route": "oral", "bioavailability_pct": 75, "tmax_min": 180, "half_life_min": 630, "vd_l_per_kg": 4.0, "protein_binding_pct": 20, "confidence": "MEDIUM", "reference": "PMID 28910145", "notes": "Markowitz & Patrick 2017 (oral F ~75%); d-amph t1/2 ~9.8-11 h (Adderall IR/XR FDA labels); Vd ~4 L/kg (StatPearls) / oral Vz/F ~5.4 L/kg (Roberts 2015 PMID 26329917); Tmax ~3 h and protein binding ~16-20% are textbook (LOW-MEDIUM)."}
-   ],
-   "bindings": [
-   {"target": "NET", "action": "releasingAgent", "ec50_nm": 7.2, "confidence": "MEDIUM", "reference": "PMID 24796848", "notes": "Banks/Bauer 2014 reproducing Rothman 2001 (PMID 11071707); (+)-amphetamine NE release, rat brain synaptosome (Rothman 7.07 nM)."},
-   {"target": "DAT", "action": "releasingAgent", "ec50_nm": 24.8, "confidence": "MEDIUM", "reference": "PMID 24796848", "notes": "Banks/Bauer 2014 reproducing Rothman 2001; (+)-amphetamine DA release, rat synaptosome. Same-platform runs span DAT 5-24.8 nM."},
-   {"target": "SERT", "action": "releasingAgent", "ec50_nm": 1765, "confidence": "MEDIUM", "reference": "PMID 24796848", "notes": "Banks/Bauer 2014 reproducing Rothman 2001; (+)-amphetamine 5-HT release, rat synaptosome — very weak (near-SERT-sparing); undetectable to 10 uM in some runs (Schindler/Baumann 2021 PMID 33082158)."}
-   ]
+    "name": "Amphetamine",
+    "pk_routes": [
+      {
+        "route": "oral",
+        "bioavailability_pct": 75,
+        "tmax_min": 180,
+        "half_life_min": 630,
+        "vd_l_per_kg": 4.0,
+        "protein_binding_pct": 20,
+        "confidence": "MEDIUM",
+        "reference": "PMID 28910145"
+      }
+    ],
+    "bindings": [
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "ec50_nm": 7.2,
+        "confidence": "MEDIUM",
+        "reference": "PMID 24796848"
+      },
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "ec50_nm": 24.8,
+        "confidence": "MEDIUM",
+        "reference": "PMID 24796848"
+      },
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "ec50_nm": 1765,
+        "confidence": "MEDIUM",
+        "reference": "PMID 24796848"
+      }
+    ]
   }
 ]

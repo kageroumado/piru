@@ -38,10 +38,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human H1 (recombinant) — value is for the active dexchlorpheniramine (S)-(+) enantiomer",
           "radioligand_or_probe": "[3H]-mepyramine (pyrilamine)",
-          "assay_buffer_notes": null,
           "reference": "pmid:7714409",
-          "is_review": false,
-          "notes": "(R)-(-)-levochlorpheniramine Ki is 211–361 nM at the same receptor — ~80-fold weaker. Racemic chlorpheniramine maleate is the marketed preparation; dexchlorpheniramine carries virtually all H1 activity."
+          "is_review": false
         },
         {
           "target": "H4",
@@ -56,10 +54,8 @@
           "species": "human",
           "tissue_or_cell": "recombinant human H4",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": null,
           "is_review": true,
-          "notes": "Aggregated tabulation; PDSP record is the primary source.",
           "emax_pct": null
         },
         {
@@ -75,10 +71,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M1",
           "radioligand_or_probe": "[3H]-NMS or [3H]-QNB (typical for PDSP entries)",
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": "Chlorpheniramine is a weak anticholinergic relative to e.g. diphenhydramine; the M1-M5 Ki values (25–78 µM range) are well above therapeutic free plasma concentrations (typically <30 nM), so clinical anticholinergic burden at antiemetic/antihistamine doses is modest."
+          "is_review": false
         },
         {
           "target": "M2",
@@ -93,10 +87,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M2",
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "M3",
@@ -111,10 +103,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M3",
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "M4",
@@ -129,10 +119,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M4",
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "M5",
@@ -147,10 +135,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M5",
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "SERT",
@@ -165,10 +151,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human SERT",
           "radioligand_or_probe": "[3H]-citalopram or [3H]-paroxetine (compendium entry)",
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": "Chlorpheniramine is essentially equipotent to many marketed SSRIs at SERT and was the original lead Tabakoff/Carlsson worked from in the 1960s. It has clinical relevance: chlorpheniramine + an SSRI has triggered serotonin syndrome in case reports (pmid:16413139)."
+          "is_review": false
         },
         {
           "target": "NET",
@@ -183,10 +167,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human NET",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": "Weak; ~95× less potent than at SERT."
+          "is_review": false
         },
         {
           "target": "DAT",
@@ -201,10 +183,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human DAT",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -234,8 +214,7 @@
           "dose_in_study_mg": 10,
           "subject_n": 6,
           "subject_demographics": "Healthy adult subjects",
-          "reference": "pmid:7106172 (Peets EA, Jackson M, Symchowicz S — Pharmacokinetics of chlorpheniramine after IV and oral administration, 1982; J Pharmacol Exp Ther)",
-          "notes": "Range of half-life observed: 19–43 h. Bioavailability from 10 mg oral solution 34–59%; from 8 mg tablets 25–44% (extensive gut wall first-pass metabolism)."
+          "reference": "pmid:7106172 (Peets EA, Jackson M, Symchowicz S — Pharmacokinetics of chlorpheniramine after IV and oral administration, 1982; J Pharmacol Exp Ther)"
         },
         {
           "route": "intravenous",
@@ -250,8 +229,7 @@
           "dose_in_study_mg": 10,
           "subject_n": 6,
           "subject_demographics": "Healthy adult subjects",
-          "reference": "pmid:7106172",
-          "notes": "Mean t1/2 ~20 h IV, longer (28 h mean) after PO due to flip-flop kinetics."
+          "reference": "pmid:7106172"
         }
       ],
       "concentration_effect": [
@@ -345,7 +323,6 @@
       "No human PET occupancy curve at multiple doses",
       "No fraction of clearance per CYP isoform quantified"
     ],
-    "notes": "Chlorpheniramine is unusual among first-generation antihistamines for its potent SERT activity (Ki 15.2 nM) — comparable to some marketed SSRIs — and its weak muscarinic activity (Ki >15 µM at M1-M5). It is the H1 antagonist most often implicated in case-reported serotonin syndrome with SSRIs. The 'anticholinergic' grouping is partially misleading: chlorpheniramine's anticholinergic load is modest compared to diphenhydramine, hydroxyzine, or promethazine. Stereoselectivity is pharmacologically meaningful — dexchlorpheniramine alone is marketed in some regions and is ~80× more H1-potent than the (R)-(-) enantiomer.",
     "references_consulted": [
       "pmid:7714409",
       "pmid:11994058",
@@ -399,10 +376,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human H1 receptor (recombinant)",
           "radioligand_or_probe": "[3H]-mepyramine (typical)",
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": "Sub-nM (0.33 nM) reported in some assays; 1-2 nM is the most commonly cited consensus. Behaves as inverse agonist (stabilises inactive H1 conformation) as for all first-gen H1 antagonists."
+          "is_review": false
         },
         {
           "target": "H2",
@@ -417,10 +392,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human H2",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "M1",
@@ -435,10 +408,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M1",
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": "pmid:2884340 (Yasuda et al., Antimuscarinic effects of antihistamines; Mol Pharmacol)",
-          "is_review": false,
-          "notes": "Promethazine is the most potent muscarinic antagonist among the common first-gen antihistamines — comparable to atropine at M1 (~1 nM)."
+          "is_review": false
         },
         {
           "target": "M2",
@@ -453,10 +424,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M2",
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "M3",
@@ -471,10 +440,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M3",
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "M4",
@@ -489,10 +456,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M4",
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "M5",
@@ -507,10 +472,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M5",
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "D2",
@@ -525,10 +488,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human D2",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": "D2 affinity is moderate but clinically meaningful — explains the antiemetic action via chemoreceptor trigger zone and the rare extrapyramidal symptoms (dystonia, akathisia) reported with parenteral promethazine."
+          "is_review": false
         },
         {
           "target": "D3",
@@ -543,10 +504,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human D3",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2A",
@@ -561,10 +520,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human 5-HT2A",
           "radioligand_or_probe": "[3H]-ketanserin (typical for PDSP)",
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -579,10 +536,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human 5-HT2C",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": "5-HT2C antagonism may contribute to anxiolytic and orexigenic properties."
+          "is_review": false
         },
         {
           "target": "α1A",
@@ -597,10 +552,8 @@
           "species": "rat",
           "tissue_or_cell": "cloned rat α1A",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": "α1 blockade explains the orthostatic hypotension seen with parenteral promethazine."
+          "is_review": false
         },
         {
           "target": "α1B",
@@ -615,10 +568,8 @@
           "species": "rat",
           "tissue_or_cell": "cloned rat α1B",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "https://pdsp.unc.edu/databases/kidb.php",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [
@@ -653,8 +604,7 @@
           "dose_in_study_mg": 50,
           "subject_n": null,
           "subject_demographics": "Healthy adults",
-          "reference": "medscape:406904",
-          "notes": "Although >80% of an oral dose is absorbed, first-pass hepatic glucuronidation and sulfoxidation reduce absolute bioavailability to ~25%. Cmax from 25-50 mg oral 11-23 ng/mL; Tmax 2-3 h."
+          "reference": "medscape:406904"
         },
         {
           "route": "intramuscular",
@@ -669,8 +619,7 @@
           "dose_in_study_mg": 25,
           "subject_n": null,
           "subject_demographics": "Healthy adults",
-          "reference": "ncbi:books/NBK544361 (StatPearls — Promethazine)",
-          "notes": "Mean t1/2 9.8 ± 3.4 h IM. Higher Cmax than oral due to bypass of first-pass."
+          "reference": "ncbi:books/NBK544361 (StatPearls — Promethazine)"
         },
         {
           "route": "intravenous",
@@ -685,8 +634,7 @@
           "dose_in_study_mg": 25,
           "subject_n": null,
           "subject_demographics": "Healthy adults",
-          "reference": "medscape:406904",
-          "notes": "IV t1/2 9-16 h. IV promethazine carries FDA black-box warning for severe tissue injury including gangrene if extravasation occurs."
+          "reference": "medscape:406904"
         }
       ],
       "concentration_effect": [
@@ -815,7 +763,6 @@
       "Fraction of clearance per CYP isoform not quantified",
       "No PET H1 occupancy data published for promethazine"
     ],
-    "notes": "Promethazine is a phenothiazine — chemically related to chlorpromazine and other antipsychotics — and inherits the polypharmacology: potent H1 (~1 nM), potent muscarinic (1-12 nM at all subtypes — among the most potent anticholinergic antihistamines), moderate D2 (260 nM), 5-HT2A/2C (6-19 nM), α1 (~25 nM). This breadth explains its multi-modal clinical use (sedative, antiemetic, anti-vertigo, allergy) and its risks: anticholinergic delirium, EPS, hERG-mediated QT prolongation, orthostatic hypotension. The 'lean' recreational use (promethazine-codeine cough syrup) exploits the synergistic sedation; deaths are typically from opioid respiratory depression but promethazine contributes via additive CNS depression and arrhythmogenesis.",
     "references_consulted": [
       "pmid:8946477",
       "pmid:2884340",
@@ -853,111 +800,6 @@
       ],
       "binding": [
         {
-          "target": "M1",
-          "ki_nm": 0.55,
-          "ki_ci_nm": [
-            0.4,
-            0.8
-          ],
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": 0,
-          "reference_agonist": "acetylcholine",
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": "CHO-K1 cells expressing cloned human M1",
-          "radioligand_or_probe": "[3H]-N-methylscopolamine ([3H]-NMS)",
-          "assay_buffer_notes": "Standard membrane binding, 25°C; values from Buckley et al. 1989 (CHO-K1 cloned receptors) and PDSP compilations.",
-          "reference": "pmid:2704370 (Buckley NJ et al. — Antagonist binding properties of five cloned muscarinic receptors expressed in CHO-K1 cells; Mol Pharmacol 1989)",
-          "is_review": false,
-          "notes": "Scopolamine is broadly equipotent across M1-M5 in cloned binding assays, with Ki values typically <1 nM at all five subtypes. The 'non-selective' description is accurate at the equilibrium binding level — apparent functional selectivity in vivo arises from differential CNS penetration vs peripheral exposure and from kinetic differences (slower off-rate at some subtypes)."
-        },
-        {
-          "target": "M2",
-          "ki_nm": 0.42,
-          "ki_ci_nm": [
-            0.3,
-            0.6
-          ],
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": 0,
-          "reference_agonist": "acetylcholine",
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": "CHO-K1 cells expressing cloned human M2",
-          "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
-          "reference": "pmid:2704370",
-          "is_review": false,
-          "notes": null
-        },
-        {
-          "target": "M3",
-          "ki_nm": 0.55,
-          "ki_ci_nm": [
-            0.4,
-            0.8
-          ],
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": 0,
-          "reference_agonist": "acetylcholine",
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": "CHO-K1 cells expressing cloned human M3",
-          "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
-          "reference": "pmid:2704370",
-          "is_review": false,
-          "notes": null
-        },
-        {
-          "target": "M4",
-          "ki_nm": 0.4,
-          "ki_ci_nm": [
-            0.3,
-            0.6
-          ],
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": 0,
-          "reference_agonist": "acetylcholine",
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": "CHO-K1 cells expressing cloned human M4",
-          "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
-          "reference": "pmid:2704370",
-          "is_review": false,
-          "notes": null
-        },
-        {
-          "target": "M5",
-          "ki_nm": 0.55,
-          "ki_ci_nm": [
-            0.4,
-            0.9
-          ],
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": 0,
-          "reference_agonist": "acetylcholine",
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": "CHO-K1 cells expressing cloned human M5",
-          "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
-          "reference": "pmid:2704370",
-          "is_review": false,
-          "notes": null
-        },
-        {
           "target": "5-HT3",
           "ki_nm": null,
           "ki_ci_nm": null,
@@ -970,10 +812,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human 5-HT3A; whole-cell patch clamp",
           "radioligand_or_probe": "functional electrophysiology",
-          "assay_buffer_notes": null,
           "reference": "pmid:27077139 (Lummis SCR group — The muscarinic antagonists scopolamine and atropine are competitive antagonists at 5-HT3 receptors; doi:10.1111/jnc.13628)",
-          "is_review": false,
-          "notes": "Competitive 5-HT3 antagonism (IC50 ~2 µM) — likely contributes to scopolamine's modest antiemetic action independent of muscarinic block, particularly in motion sickness."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1008,8 +848,7 @@
           "dose_in_study_mg": 0.4,
           "subject_n": 6,
           "subject_demographics": "6 healthy male subjects",
-          "reference": "doi:10.1023/A:1015916423156 (Putcha L et al. — Pharmacokinetics and oral bioavailability of scopolamine in normal subjects; Pharm Res 1989)",
-          "notes": "Bioavailability ranged 10.7-48.2% — highly variable. Cmax 528.6 ± 109.4 pg/mL. Oral PO is unreliable; transdermal or parenteral routes preferred for clinical use."
+          "reference": "doi:10.1023/A:1015916423156 (Putcha L et al. — Pharmacokinetics and oral bioavailability of scopolamine in normal subjects; Pharm Res 1989)"
         },
         {
           "route": "intravenous",
@@ -1024,8 +863,7 @@
           "dose_in_study_mg": 0.4,
           "subject_n": 6,
           "subject_demographics": "Healthy subjects",
-          "reference": "pmid:16175141 (Renner UD, Oertel R, Kirch W — Pharmacokinetics and pharmacodynamics in clinical use of scopolamine; Ther Drug Monit 2005)",
-          "notes": "Mean Cmax 2909.8 ± 240.9 pg/mL after 0.4 mg IV; mean terminal t1/2 ~1.5 h IV (range 1.2-2.5 h). Plasma declines biexponentially with rapid distribution phase."
+          "reference": "pmid:16175141 (Renner UD, Oertel R, Kirch W — Pharmacokinetics and pharmacodynamics in clinical use of scopolamine; Ther Drug Monit 2005)"
         },
         {
           "route": "transdermal",
@@ -1040,8 +878,7 @@
           "dose_in_study_mg": 1.5,
           "subject_n": null,
           "subject_demographics": "Adult patients/healthy adults",
-          "reference": "pmid:16175141",
-          "notes": "1.5 mg Transderm Scōp patch delivers ~0.5 mg over 72 h; steady-state plasma 56-245 pg/mL maintained over 72 h. Protective effect emerges 6-8 h after application; clinically used for motion sickness and post-operative nausea."
+          "reference": "pmid:16175141"
         },
         {
           "route": "intranasal",
@@ -1056,8 +893,7 @@
           "dose_in_study_mg": 0.4,
           "subject_n": 12,
           "subject_demographics": "12 healthy adults, randomised crossover",
-          "reference": "pmid:25187210 (Wu et al. — Dose escalation pharmacokinetics of intranasal scopolamine gel; J Clin Pharmacol 2015)",
-          "notes": "Intranasal gel 0.1, 0.2, 0.4 mg showed linear PK; Tmax ~1.3 h. Higher bioavailability than oral by bypassing first-pass."
+          "reference": "pmid:25187210 (Wu et al. — Dose escalation pharmacokinetics of intranasal scopolamine gel; J Clin Pharmacol 2015)"
         }
       ],
       "concentration_effect": [
@@ -1178,7 +1014,6 @@
       "No published hERG IC50 for scopolamine",
       "Pediatric PK studies very limited"
     ],
-    "notes": "Scopolamine is the prototypical CNS-penetrant tropane alkaloid muscarinic antagonist — the high BBB permeability of the parent compound (vs the quaternary peripheral analogues N-butylscopolamine/hyoscine butylbromide and glycopyrrolate) is what distinguishes it. Acts as a non-selective M1-M5 antagonist in binding assays (~0.4-0.6 nM at all subtypes), but its clinical CNS-selectivity profile vs atropine is mostly explained by its higher CNS:peripheral concentration ratio (3-4× atropine's) and greater oral CNS-side-effect profile. The rapid antidepressant action (Drevets / Furey trials, 4 µg/kg IV) appears M1-mediated via PFC GABAergic interneuron disinhibition → glutamate surge → BDNF → mTORC1 — similar final pathway to ketamine. The deliriant profile at recreational doses (oral 1-4 mg, or seeds of Datura/Brugmansia) reflects pan-cortical M1 antagonism producing true (non-insight) hallucinations and amnesia. Datura/Brugmansia content is unpredictable: scopolamine/hyoscyamine/atropine ratios vary 10-40× between specimens, seasons, soils, and plant parts, making botanical preparations exceptionally dangerous.",
     "references_consulted": [
       "pmid:2704370",
       "pmid:16175141",
@@ -1256,7 +1091,6 @@
       "No analytical chemistry characterising 'jenkem' preparations",
       "Most authoritative sources (Snopes, toxicology reviews) classify it as urban legend / media hoax with isolated, unverified African street-children case reports"
     ],
-    "notes": "Jenkem does NOT belong in the anticholinergic-deliriants category. It is not an anticholinergic compound and likely does not produce reliable psychoactive effects at all. Origin: 2007 US media panic based on a 1995 BBC report about Zambian street children — the actual psychoactive substance abused by those children was overwhelmingly inhalant solvents (glue, petrol), not faecal gas. Recommendation: remove Jenkem from the substance database, or reclassify under 'hoax/unverified substances' if retention is needed for harm-reduction education purposes. If retained: warning copy should emphasise (a) likely hoax status, (b) genuine biological/chemical inhalation risks if attempted, (c) no expected psychoactive benefit.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Jenkem",
       "https://www.snopes.com/fact-check/jenkem/",

@@ -55,10 +55,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human 5-HT2A",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": "Reported range across studies 0.044–2.2 nM"
+          "is_review": false
         },
         {
           "target": "5-HT2A",
@@ -73,10 +71,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human 5-HT2A",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
-          "notes": "Rickli et al. 2015"
+          "is_review": false
         },
         {
           "target": "5-HT2B",
@@ -91,10 +87,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human 5-HT2B",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
-          "notes": "Range 1.4–231 nM across studies"
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -109,10 +103,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human 5-HT2C",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
-          "notes": "Range 0.43–7.0 nM"
+          "is_review": false
         },
         {
           "target": "TAAR1",
@@ -127,10 +119,8 @@
           "species": "rat",
           "tissue_or_cell": "HEK293 expressing rat TAAR1",
           "radioligand_or_probe": "[3H]-RO5166017",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "α1A",
@@ -145,10 +135,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human α1A",
           "radioligand_or_probe": "[3H]-prazosin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
-          "notes": "Range 370 to >500 nM; contributes to sympathomimetic toxicity"
+          "is_review": false
         }
       ],
       "functional": [
@@ -201,8 +189,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Case-series and self-report",
-          "reference": "https://psychonautwiki.org/wiki/25I-NBOMe",
-          "notes": "Effects 6–10 h sublingual, peak ~2 h. Common dose 500–800 µg buccal/sublingual"
+          "reference": "https://psychonautwiki.org/wiki/25I-NBOMe"
         },
         {
           "route": "insufflation",
@@ -217,8 +204,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Case-series",
-          "reference": "https://psychonautwiki.org/wiki/25I-NBOMe",
-          "notes": "Effects 4–6 h"
+          "reference": "https://psychonautwiki.org/wiki/25I-NBOMe"
         },
         {
           "route": "oral",
@@ -233,8 +219,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "https://psychonautwiki.org/wiki/25I-NBOMe",
-          "notes": "Oral bioavailability described as 'very low'; effects 50–100× weaker than non-oral routes due to first-pass O-demethylation"
+          "reference": "https://psychonautwiki.org/wiki/25I-NBOMe"
         }
       ],
       "concentration_effect": [
@@ -367,7 +352,6 @@
       "hERG IC50",
       "Sex/age differences"
     ],
-    "notes": "Most pharmacologically characterised NBOMe. ≥19 US deaths attributed by 2015; numerous mass-spec confirmed intoxications worldwide. Often misrepresented as LSD on blotter — the bitter / metallic / numb-tongue taste distinguishes them.",
     "references_consulted": [
       "doi:10.1016/j.neuropharm.2015.08.034",
       "doi:10.1016/j.bcp.2018.10.025",
@@ -415,10 +399,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human 5-HT2A",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
-          "notes": "Rickli 2015 reports subnanomolar affinity; range 0.19–0.8 nM across studies"
+          "is_review": false
         },
         {
           "target": "5-HT2A",
@@ -433,10 +415,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/acs.chemrestox.5b00450",
-          "is_review": true,
-          "notes": "Caspar 2018 review collated value"
+          "is_review": true
         },
         {
           "target": "5-HT2B",
@@ -451,10 +431,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -469,10 +447,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "SERT",
@@ -487,10 +463,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/acs.chemrestox.5b00450",
-          "is_review": true,
-          "notes": "Weak transporter binding"
+          "is_review": true
         }
       ],
       "functional": [
@@ -517,8 +491,7 @@
         {
           "modality": "PET",
           "finding": "Cimbi-36 cortical binding sensitive to 5-HT release after amphetamine challenge",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:30877748, which is broiler phytase and myo-inositol mineral solubility. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+          "reference": null
         }
       ]
     },
@@ -537,8 +510,7 @@
           "dose_in_study_mg": 0.4,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "https://en.wikipedia.org/wiki/25B-NBOMe",
-          "notes": "Typical sublingual dose 400 µg; onset 45–75 min; duration 8–12 h"
+          "reference": "https://en.wikipedia.org/wiki/25B-NBOMe"
         }
       ],
       "concentration_effect": []
@@ -605,7 +577,6 @@
       "Quantitative human PK parameters for the unlabelled compound (only PET microdose data exist)",
       "hERG IC50"
     ],
-    "notes": "Tritiated form (Cimbi-36) is a research-grade 5-HT2A agonist PET tracer. Fatal intoxications reported (Indiana 2014, see PMID 26378133).",
     "references_consulted": [
       "doi:10.1016/j.neuropharm.2015.08.034",
       "doi:10.1021/acs.chemrestox.5b00450",
@@ -648,10 +619,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
-          "notes": "Range 0.7–1.6 nM"
+          "is_review": false
         },
         {
           "target": "5-HT2B",
@@ -666,10 +635,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
-          "notes": "Low intrinsic activity at 2B"
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -684,10 +651,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "SERT",
@@ -702,10 +667,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-citalopram",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "NET",
@@ -720,10 +683,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [
@@ -758,8 +719,7 @@
           "dose_in_study_mg": 0.6,
           "subject_n": null,
           "subject_demographics": "Self-report",
-          "reference": "https://en.wikipedia.org/wiki/25C-NBOMe",
-          "notes": "Threshold 100–250 µg; strong 450–800 µg; very strong >800 µg sublingual"
+          "reference": "https://en.wikipedia.org/wiki/25C-NBOMe"
         }
       ],
       "concentration_effect": []
@@ -828,7 +788,6 @@
       "Quantitative human PK",
       "hERG IC50"
     ],
-    "notes": "Overdose occurs at as little as 2× normal dose. Multiple fatalities reported.",
     "references_consulted": [
       "doi:10.1016/j.neuropharm.2015.08.034",
       "doi:10.1002/dta.2044",
@@ -869,10 +828,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human 5-HT2A",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": "Nichols 2018 IP-1 assay"
+          "is_review": false
         },
         {
           "target": "5-HT2B",
@@ -890,10 +847,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -908,10 +863,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [
@@ -988,7 +941,6 @@
       "Human PK",
       "Reported recreational doses"
     ],
-    "notes": "Sub-nanomolar 5-HT2A affinity with full efficacy. Less prevalent than 25I-/25B-/25C- in user reports.",
     "references_consulted": [
       "doi:10.1016/j.bcp.2018.10.025"
     ]
@@ -1027,10 +979,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": "Nichols 2018"
+          "is_review": false
         },
         {
           "target": "5-HT2B",
@@ -1045,10 +995,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -1063,10 +1011,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [
@@ -1132,7 +1078,6 @@
       "Human PK",
       "Reported recreational dose ranges"
     ],
-    "notes": null,
     "references_consulted": [
       "doi:10.1016/j.bcp.2018.10.025"
     ]
@@ -1167,10 +1112,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293T",
           "radioligand_or_probe": "NanoBiT β-arrestin-2 recruitment",
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": false,
-          "notes": "Higher Emax than LSD reference"
+          "is_review": false
         },
         {
           "target": "5-HT2A",
@@ -1188,10 +1131,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": "Nichols 2018 IP-1 assay"
+          "is_review": false
         },
         {
           "target": "5-HT2B",
@@ -1206,10 +1147,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -1224,10 +1163,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [
@@ -1286,7 +1223,6 @@
       "Human PK",
       "Active dose in humans"
     ],
-    "notes": "4-H parent of the NBOMe series. ~10× weaker than 25I/25B/25C-NBOMe at 5-HT2A.",
     "references_consulted": [
       "doi:10.1016/j.bcp.2018.10.025"
     ]
@@ -1324,10 +1260,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2B",
@@ -1342,10 +1276,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -1360,10 +1292,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [
@@ -1417,7 +1347,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "4-nitro NBOMe; comparable to 25E-NBOMe in 5-HT2A binding.",
     "references_consulted": [
       "doi:10.1016/j.bcp.2018.10.025"
     ]
@@ -1456,10 +1385,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": "0.061 nM also reported in 11C-Cimbi PET literature"
+          "is_review": false
         },
         {
           "target": "5-HT2B",
@@ -1474,10 +1401,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": "Low Emax at 2B mitigates valvulopathy concern"
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -1492,10 +1417,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [
@@ -1572,7 +1495,6 @@
       "Human PK",
       "Clinical doses"
     ],
-    "notes": "NBOH series: ortho-OH replaces ortho-OMe of NBOMe. Similar receptor profile, faster metabolism (CLint 118.7 mL/min/kg vs 70.1 for 25I-NBOMe). Partial hydrolysis to 2C-I in vivo.",
     "references_consulted": [
       "doi:10.1016/j.bcp.2018.10.025",
       "doi:10.1002/dta.2031"
@@ -1608,10 +1530,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": false,
-          "notes": "Subnanomolar by class analogy to 25I-NBOH (Ki 0.17 nM); exact value not separately tabulated"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1631,8 +1551,7 @@
         "metabolite_name": "hydroxy-25B-NBOH",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.1002/dta.2031, which is only the 25I- compounds; this analog was never studied. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -1666,7 +1585,6 @@
       "Human PK",
       "Active dose"
     ],
-    "notes": "NBOH-2C-B; ortho-OH variant of 25B-NBOMe. Limited direct binding data.",
     "references_consulted": [
       "doi:10.1016/j.bcp.2018.10.025"
     ]
@@ -1730,7 +1648,6 @@
       "EC50/Emax",
       "Human PK"
     ],
-    "notes": "Very limited published pharmacology; profile expected to mirror 25C-NBOMe with NBOH-typical phenolic glucuronidation.",
     "references_consulted": [
       "doi:10.1016/j.bcp.2018.10.025"
     ]
@@ -1765,10 +1682,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
-          "is_review": false,
-          "notes": "Rickli 2015: 25G-NBOMe with 3,4-dimethyl substitution showed NO functional activity at 5-HT2A in the IP-1 assay — indicating bulky 3-position substitution blocks the active conformation"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1803,7 +1718,6 @@
       "Quantitative Ki",
       "Human reports"
     ],
-    "notes": "3,4-dimethyl substitution on the phenethylamine ring sterically blocks the 5-HT2A active pose per Rickli 2015 SAR.",
     "references_consulted": [
       "doi:10.1016/j.neuropharm.2015.08.034"
     ]
@@ -1860,7 +1774,6 @@
       "Human PK",
       "Doses"
     ],
-    "notes": "Not represented in major in-vitro panels.",
     "references_consulted": []
   },
   {
@@ -1892,10 +1805,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": true,
-          "notes": "Reported as potent 5-HT2A agonist (EC50 in nanomolar range, class-typical) but specific values not isolated from review"
+          "is_review": true
         }
       ],
       "functional": [],
@@ -1939,7 +1850,6 @@
       "Quantitative Ki/EC50",
       "Human PK"
     ],
-    "notes": "Parent 2C-P has Ki 8 nM at 5-HT2A; NBOMe derivative likely subnanomolar by class analogy.",
     "references_consulted": [
       "doi:10.1016/j.bcp.2018.10.025"
     ]
@@ -1987,7 +1897,6 @@
     "data_gaps_remaining": [
       "See 25P-NBOMe record"
     ],
-    "notes": "Duplicate entry — same molecule as 25P-NBOMe.",
     "references_consulted": []
   },
   {
@@ -2040,7 +1949,6 @@
       "Compound-specific Ki",
       "Human PK"
     ],
-    "notes": "NBOMe analogue of 2C-T-2 (4-ethylthio). Not separately characterised in major panels.",
     "references_consulted": []
   },
   {
@@ -2093,7 +2001,6 @@
       "Compound-specific Ki",
       "Human PK"
     ],
-    "notes": "NBOMe analogue of 2C-T-4 (4-isopropylthio).",
     "references_consulted": []
   },
   {
@@ -2126,10 +2033,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.bcp.2018.10.025",
-          "is_review": true,
-          "notes": "Reported as potent 5-HT2A full agonist comparable to 25I-NBOMe (subnanomolar Ki) in Nichols 2018 panel"
+          "is_review": true
         }
       ],
       "functional": [],
@@ -2166,7 +2071,6 @@
       "Quantitative Ki",
       "Human PK"
     ],
-    "notes": "Ortho-fluoro instead of ortho-methoxy on the benzyl ring.",
     "references_consulted": [
       "doi:10.1016/j.bcp.2018.10.025"
     ]
@@ -2216,7 +2120,6 @@
       "EC50",
       "Human PK"
     ],
-    "notes": "Methylenedioxy benzyl variant; minimal published data.",
     "references_consulted": []
   },
   {
@@ -2250,10 +2153,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/s00213-013-3303-6",
-          "is_review": false,
-          "notes": "Range 23.9–32.4 nM"
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -2268,10 +2169,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/s00213-013-3303-6",
-          "is_review": false,
-          "notes": "Range 12.7–150 nM"
+          "is_review": false
         },
         {
           "target": "5-HT1A",
@@ -2286,10 +2185,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-8-OH-DPAT",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/s00213-013-3303-6",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2313,8 +2210,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "PIHKAL self-report",
-          "reference": "https://en.wikipedia.org/wiki/2C-D",
-          "notes": "Typical dose 20–60 mg; onset 20–30 min; duration 4–6 h"
+          "reference": "https://en.wikipedia.org/wiki/2C-D"
         }
       ],
       "concentration_effect": []
@@ -2373,7 +2269,6 @@
       "Quantitative human PK",
       "EC50/Emax values"
     ],
-    "notes": "Among the weakest of the 2C-x in subjective potency; sometimes used as 'antidepressant-like' dose by Shulgin.",
     "references_consulted": [
       "doi:10.1007/s00213-013-3303-6"
     ]
@@ -2435,7 +2330,6 @@
       "EC50",
       "Human PK"
     ],
-    "notes": "Not separately tabulated in major Ki panels; expected intermediate potency between 2C-E and 2C-P.",
     "references_consulted": []
   },
   {
@@ -2472,10 +2366,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "pmid:20126400",
-          "is_review": false,
-          "notes": "Range 11–11.6 nM"
+          "is_review": false
         },
         {
           "target": "5-HT2B",
@@ -2490,10 +2382,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": "pmid:20126400",
-          "is_review": false,
-          "notes": "Subnanomolar at 2B raises valvulopathy concern"
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -2511,10 +2401,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:20126400",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2538,8 +2426,7 @@
           "dose_in_study_mg": 15,
           "subject_n": null,
           "subject_demographics": "Self-report",
-          "reference": "https://en.wikipedia.org/wiki/2C-B-FLY",
-          "notes": "10–20 mg typical; duration 6–10 h, occasionally up to 20 h"
+          "reference": "https://en.wikipedia.org/wiki/2C-B-FLY"
         }
       ],
       "concentration_effect": []
@@ -2582,7 +2469,6 @@
       "Human PK",
       "Verified bioavailability"
     ],
-    "notes": "Two 2009 deaths attributed to material sold as 2C-B-FLY that was actually Bromo-DragonFLY-contaminated — pure 2C-B-FLY human safety profile unestablished.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/2C-B-FLY"
     ]
@@ -2623,10 +2509,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:24244317",
-          "is_review": false,
-          "notes": "Among the most potent 5-HT2A agonists known; Nichols 1998 original report"
+          "is_review": false
         },
         {
           "target": "5-HT2B",
@@ -2641,10 +2525,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:24244317",
-          "is_review": false,
-          "notes": "Subnanomolar at 2B — strong valvulopathy concern"
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -2662,10 +2544,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:24244317",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "MAO-A",
@@ -2680,10 +2560,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": false,
-          "notes": "MAO-A inhibition reported but no primary Ki source identified; contributes to serotonin syndrome risk"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2707,8 +2585,7 @@
           "dose_in_study_mg": 0.5,
           "subject_n": null,
           "subject_demographics": "Case-series",
-          "reference": "https://en.wikipedia.org/wiki/Bromo-DragonFLY",
-          "notes": "Typical dose 100–1000 µg; onset delayed up to 6 h; duration 12–24 h, sometimes 2–3 days. Fatal at ~700 µg."
+          "reference": "https://en.wikipedia.org/wiki/Bromo-DragonFLY"
         }
       ],
       "concentration_effect": []
@@ -2778,7 +2655,6 @@
       "Quantitative human PK",
       "hERG IC50"
     ],
-    "notes": "≥5 deaths documented (Scandinavia + US). Mislabelling as 2C-B-FLY (20× less potent) has caused mass overdoses. Resistant to MAO/CYP → very long duration.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Bromo-DragonFLY"
     ]
@@ -2832,7 +2708,6 @@
       "Human PK",
       "Verified bioactivity"
     ],
-    "notes": "Limited published pharmacology; β-keto group typically reduces 5-HT2A binding ~10× vs parent.",
     "references_consulted": []
   },
   {
@@ -2880,7 +2755,6 @@
       "EC50",
       "Human PK"
     ],
-    "notes": "Minimal published pharmacology.",
     "references_consulted": []
   },
   {
@@ -2929,7 +2803,6 @@
       "EC50",
       "Human PK"
     ],
-    "notes": "β-OH metabolite of 2C-B reported as in-vivo metabolic intermediate.",
     "references_consulted": []
   },
   {
@@ -2973,7 +2846,6 @@
       "Ki",
       "Any pharmacology"
     ],
-    "notes": "Identifier 2C-B-AN does not map to a published compound in the searched literature; possibly a market label or aniline-substituted variant of unknown structure.",
     "references_consulted": []
   },
   {
@@ -3016,7 +2888,6 @@
       "Structural confirmation",
       "Any pharmacology"
     ],
-    "notes": "Street label without analytical confirmation per input metadata.",
     "references_consulted": []
   },
   {
@@ -3064,7 +2935,6 @@
       "EC50",
       "Human PK"
     ],
-    "notes": "PIHKAL #79. Naphthalene-fused 2C series.",
     "references_consulted": []
   },
   {
@@ -3103,10 +2973,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/acsptsci.4c00157",
-          "is_review": true,
-          "notes": "Wide reported range; [3H]-DOI itself is used as a radioligand for 5-HT2A high-affinity state"
+          "is_review": true
         },
         {
           "target": "5-HT2B",
@@ -3121,10 +2989,8 @@
           "species": "human",
           "tissue_or_cell": "CHO-K1",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:10498829",
-          "is_review": false,
-          "notes": "Porter 1999 FLIPR Ca2+ assay"
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -3142,10 +3008,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/acsptsci.4c00157",
-          "is_review": true,
-          "notes": "Ki ratio 5-HT2A/2C ~3.9x (0.46 vs 1.8 nM); EC50 inverts (2A 0.42 vs 2C 0.14 nM)"
+          "is_review": true
         },
         {
           "target": "TAAR1",
@@ -3160,36 +3024,8 @@
           "species": "rat",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/acsptsci.4c00157",
-          "is_review": true,
-          "notes": "Reported as TAAR1 agonist at high concentrations"
-        },
-        {
-          "target": "5-HT1A",
-          "ki_nm": 2219,
-          "comparable_set": "pdsp-ki-panel-human",
-          "species": "human",
-          "tissue_or_cell": "human cloned (PDSP)",
-          "assay_notes": "NIMH-PDSP radioligand competition panel",
-          "reference": "doi:10.1371/journal.pone.0009019",
-          "is_review": false,
-          "confidence": "HIGH",
-          "notes": "Glatfelter 2022 measures DOI at 5 nM (5-HT2A) with 5-HT1A below the screening threshold — same DIRECTION (strongly 2A-leaning) but ~33x tighter at 2A. DOI is a research-standard agonist, not a consumer substance; included as an axis anchor.",
-          "action": "modulator"
-        },
-        {
-          "target": "5-HT2A",
-          "ki_nm": 165.4,
-          "comparable_set": "pdsp-ki-panel-human",
-          "species": "human",
-          "tissue_or_cell": "human cloned (PDSP)",
-          "assay_notes": "NIMH-PDSP radioligand competition panel",
-          "reference": "doi:10.1371/journal.pone.0009019",
-          "is_review": false,
-          "confidence": "HIGH",
-          "notes": "Glatfelter 2022 measures DOI at 5 nM (5-HT2A) with 5-HT1A below the screening threshold — same DIRECTION (strongly 2A-leaning) but ~33x tighter at 2A. DOI is a research-standard agonist, not a consumer substance; included as an axis anchor.",
-          "action": "partialAgonist"
+          "is_review": true
         }
       ],
       "functional": [
@@ -3285,7 +3121,6 @@
       "Human PK",
       "Human-clinical Cmax/Tmax"
     ],
-    "notes": "[3H]-DOI is the canonical 5-HT2A agonist-state radioligand. (R)-isomer ~4× more potent than (S). Mouse HTR ED50 ~1 mg/kg s.c.; potency in mouse HTR correlates r=0.94 with human hallucinogenic potency across compounds.",
     "references_consulted": [
       "doi:10.1021/acsptsci.4c00157",
       "pmid:18297054"
@@ -3326,10 +3161,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin (or [3H]-DOB itself)",
-          "assay_buffer_notes": null,
           "reference": "pmid:2233697",
-          "is_review": false,
-          "notes": "[3H]-DOB labels high-affinity state of 5-HT2 receptor (Nelson 1990)"
+          "is_review": false
         },
         {
           "target": "5-HT2B",
@@ -3344,10 +3177,8 @@
           "species": "human",
           "tissue_or_cell": "CHO-K1",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:10498829",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -3365,10 +3196,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/PL00005315",
-          "is_review": false,
-          "notes": "Nelson Lucaites Wainscott Glennon 1999"
+          "is_review": false
         },
         {
           "target": "MAO-A",
@@ -3383,37 +3212,9 @@
           "species": "rat",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": null,
           "is_review": true,
-          "notes": "Removed: 100µM = no inhibition. Original value was a non-measurement.",
           "emax_pct": null
-        },
-        {
-          "target": "5-HT1A",
-          "ki_nm": 2550,
-          "comparable_set": "pdsp-ki-panel-human",
-          "species": "human",
-          "tissue_or_cell": "human cloned (PDSP)",
-          "assay_notes": "NIMH-PDSP radioligand competition panel",
-          "reference": "doi:10.1371/journal.pone.0009019",
-          "is_review": false,
-          "confidence": "HIGH",
-          "notes": "Not on the requested list but retrieved from the same panel at zero marginal cost; it is the 2A-selective mirror image of 5-MeO-DMT and makes a clean opposite anchor for the axis. Source flags ND/PH=0/0 (fully determined row).",
-          "action": "modulator"
-        },
-        {
-          "target": "5-HT2A",
-          "ki_nm": 23.1,
-          "comparable_set": "pdsp-ki-panel-human",
-          "species": "human",
-          "tissue_or_cell": "human cloned (PDSP)",
-          "assay_notes": "NIMH-PDSP radioligand competition panel",
-          "reference": "doi:10.1371/journal.pone.0009019",
-          "is_review": false,
-          "confidence": "HIGH",
-          "notes": "Not on the requested list but retrieved from the same panel at zero marginal cost; it is the 2A-selective mirror image of 5-MeO-DMT and makes a clean opposite anchor for the axis. Source flags ND/PH=0/0 (fully determined row).",
-          "action": "partialAgonist"
         }
       ],
       "functional": [
@@ -3448,8 +3249,7 @@
           "dose_in_study_mg": 2,
           "subject_n": null,
           "subject_demographics": "PIHKAL/case-series",
-          "reference": null,
-          "notes": "Typical dose 1–3 mg racemic, 1–2 mg R-isomer; onset 1–2 h; peak 3–4 h; duration 18–36 h"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -3484,7 +3284,6 @@
     "data_gaps_remaining": [
       "Quantitative human Cmax/half-life"
     ],
-    "notes": "[3H]-DOB labels 5-HT2 high-affinity state (Nelson 1990). Long duration → frequent re-dosing toxicity. Several reported fatalities at supratherapeutic doses.",
     "references_consulted": [
       "doi:10.1007/PL00005315",
       "pmid:2233697"
@@ -3524,10 +3323,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/s00213-013-3303-6",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2B",
@@ -3542,10 +3339,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/s00213-013-3303-6",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -3563,10 +3358,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/s00213-013-3303-6",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -3590,8 +3383,7 @@
           "dose_in_study_mg": 2,
           "subject_n": null,
           "subject_demographics": "Self-report",
-          "reference": "https://en.wikipedia.org/wiki/DOC_(drug)",
-          "notes": "Typical dose 1.5–3 mg; duration 12–24 h"
+          "reference": "https://en.wikipedia.org/wiki/DOC_(drug)"
         }
       ],
       "concentration_effect": []
@@ -3624,7 +3416,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "Negligible monoamine transporter binding (SERT/NET/DAT >7,700 nM).",
     "references_consulted": [
       "doi:10.1007/s00213-013-3303-6",
       "https://en.wikipedia.org/wiki/DOC_(drug)"
@@ -3665,10 +3456,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/PL00005315",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2B",
@@ -3686,10 +3475,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293/CHO-K1",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/PL00005315",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -3707,36 +3494,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/PL00005315",
-          "is_review": false,
-          "notes": null
-        },
-        {
-          "target": "5-HT1A",
-          "ki_nm": 3656,
-          "comparable_set": "pdsp-ki-panel-human",
-          "species": "human",
-          "tissue_or_cell": "human cloned (PDSP)",
-          "assay_notes": "NIMH-PDSP radioligand competition panel",
-          "reference": "doi:10.1371/journal.pone.0009019",
-          "is_review": false,
-          "confidence": "HIGH",
-          "notes": "Source flags ND/PH=3/0.",
-          "action": "modulator"
-        },
-        {
-          "target": "5-HT2A",
-          "ki_nm": 507.4,
-          "comparable_set": "pdsp-ki-panel-human",
-          "species": "human",
-          "tissue_or_cell": "human cloned (PDSP)",
-          "assay_notes": "NIMH-PDSP radioligand competition panel",
-          "reference": "doi:10.1371/journal.pone.0009019",
-          "is_review": false,
-          "confidence": "HIGH",
-          "notes": "Source flags ND/PH=3/0.",
-          "action": "agonist"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -3760,8 +3519,7 @@
           "dose_in_study_mg": 6,
           "subject_n": null,
           "subject_demographics": "PIHKAL self-report",
-          "reference": "https://en.wikipedia.org/wiki/DOM_(drug)",
-          "notes": "Typical 3–10 mg; onset 30–90 min; duration 5–24 h"
+          "reference": "https://en.wikipedia.org/wiki/DOM_(drug)"
         }
       ],
       "concentration_effect": []
@@ -3811,7 +3569,6 @@
     "data_gaps_remaining": [
       "Quantitative human PK"
     ],
-    "notes": "First DOx, synthesised by Shulgin 1964. Slow onset + long duration led to street-overdose epidemic in 1967 'STP scare'.",
     "references_consulted": [
       "doi:10.1007/PL00005315",
       "https://en.wikipedia.org/wiki/DOM_(drug)"
@@ -3851,10 +3608,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/PL00005315",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2B",
@@ -3872,10 +3627,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/PL00005315",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -3890,10 +3643,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/PL00005315",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -3917,8 +3668,7 @@
           "dose_in_study_mg": 4,
           "subject_n": null,
           "subject_demographics": "PIHKAL self-report",
-          "reference": "https://en.wikipedia.org/wiki/DOET",
-          "notes": "2–6 mg; duration 5–20 h dose-dependent; 10–40% urinary unchanged in 24 h"
+          "reference": "https://en.wikipedia.org/wiki/DOET"
         }
       ],
       "concentration_effect": []
@@ -3951,7 +3701,6 @@
     "data_gaps_remaining": [
       "Quantitative PK"
     ],
-    "notes": null,
     "references_consulted": [
       "doi:10.1007/PL00005315",
       "https://en.wikipedia.org/wiki/DOET"
@@ -4003,7 +3752,6 @@
       "EC50",
       "Human PK"
     ],
-    "notes": "Limited published pharmacology; expected potent DOx by analogy with 2C-IP/DOET.",
     "references_consulted": []
   },
   {
@@ -4043,8 +3791,7 @@
           "dose_in_study_mg": 4,
           "subject_n": null,
           "subject_demographics": "PIHKAL",
-          "reference": null,
-          "notes": "PIHKAL active range 2.5–5 mg, duration 6–10 h"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4067,7 +3814,6 @@
       "Ki/EC50",
       "Quantitative PK"
     ],
-    "notes": "PIHKAL #69. 4-propyl DOx.",
     "references_consulted": []
   },
   {
@@ -4114,7 +3860,6 @@
       "Ki",
       "Human reports"
     ],
-    "notes": "PIHKAL inactive at tested doses up to 25 mg per Shulgin (no human data).",
     "references_consulted": []
   },
   {
@@ -4162,7 +3907,6 @@
     "data_gaps_remaining": [
       "Any Ki data"
     ],
-    "notes": "PIHKAL #63. Considered inactive by Shulgin at trialed doses.",
     "references_consulted": []
   },
   {
@@ -4209,7 +3953,6 @@
       "Ki",
       "Human PK"
     ],
-    "notes": "PIHKAL #64.",
     "references_consulted": []
   },
   {
@@ -4256,7 +3999,6 @@
       "Ki",
       "Human PK"
     ],
-    "notes": "PIHKAL #67. 4-nitro DOx.",
     "references_consulted": []
   },
   {
@@ -4306,7 +4048,6 @@
       "EC50",
       "Human PK"
     ],
-    "notes": "PIHKAL #122. Meta-DOB.",
     "references_consulted": []
   },
   {
@@ -4354,7 +4095,6 @@
       "EC50",
       "Human PK"
     ],
-    "notes": "PIHKAL #124.",
     "references_consulted": []
   },
   {
@@ -4401,7 +4141,6 @@
       "Structure verification",
       "All pharmacology"
     ],
-    "notes": "PIHKAL entry; minimal published data.",
     "references_consulted": []
   },
   {
@@ -4448,7 +4187,6 @@
     "data_gaps_remaining": [
       "All pharmacology"
     ],
-    "notes": "PIHKAL entry; limited data.",
     "references_consulted": []
   },
   {
@@ -4488,8 +4226,7 @@
           "dose_in_study_mg": 30,
           "subject_n": null,
           "subject_demographics": "PIHKAL",
-          "reference": null,
-          "notes": "Active 20–50 mg, duration 8–16 h"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4512,7 +4249,6 @@
       "Ki",
       "EC50"
     ],
-    "notes": "PIHKAL #117. Methoxyethyl-amphetamine M.",
     "references_consulted": []
   },
   {
@@ -4549,10 +4285,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": null,
           "is_review": true,
-          "notes": "~2-fold higher affinity than mescaline (5500 nM)",
           "emax_pct": null
         },
         {
@@ -4571,10 +4305,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": null,
           "is_review": true,
-          "notes": null,
           "emax_pct": null
         },
         {
@@ -4593,10 +4325,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": null,
           "is_review": true,
-          "notes": null,
           "emax_pct": null
         }
       ],
@@ -4621,8 +4351,7 @@
           "dose_in_study_mg": 50,
           "subject_n": null,
           "subject_demographics": "PIHKAL Shulgin self-assay",
-          "reference": "https://en.wikipedia.org/wiki/Escaline",
-          "notes": "40–60 mg active; duration 8–12 h"
+          "reference": "https://en.wikipedia.org/wiki/Escaline"
         }
       ],
       "concentration_effect": []
@@ -4672,7 +4401,6 @@
       "Quantitative PK",
       "EC50/Emax"
     ],
-    "notes": "4-ethoxy mescaline analogue. Class TMS metabolism by MAO-A.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Escaline"
     ]
@@ -4722,7 +4450,6 @@
     "data_gaps_remaining": [
       "See Escaline record"
     ],
-    "notes": "Duplicate entry — same compound as Escaline.",
     "references_consulted": []
   },
   {
@@ -4763,8 +4490,7 @@
           "dose_in_study_mg": 45,
           "subject_n": null,
           "subject_demographics": "PIHKAL",
-          "reference": null,
-          "notes": "30–60 mg active; duration 8–12 h"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4787,7 +4513,6 @@
       "Quantitative Ki/EC50",
       "PK"
     ],
-    "notes": "PIHKAL. 4-propoxy mescaline analogue.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Proscaline"
     ]
@@ -4830,8 +4555,7 @@
           "dose_in_study_mg": 60,
           "subject_n": null,
           "subject_demographics": "PIHKAL",
-          "reference": null,
-          "notes": "40–80 mg active; duration 10–16 h"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4855,7 +4579,6 @@
       "EC50",
       "Quantitative PK"
     ],
-    "notes": "PIHKAL #97.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Isoproscaline"
     ]
@@ -4894,10 +4617,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": null,
           "is_review": true,
-          "notes": null,
           "emax_pct": null
         },
         {
@@ -4913,10 +4634,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": null,
           "is_review": true,
-          "notes": null,
           "emax_pct": null
         },
         {
@@ -4935,10 +4654,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": null,
           "is_review": true,
-          "notes": "Notable 5-HT2C selectivity",
           "emax_pct": null
         }
       ],
@@ -4963,8 +4680,7 @@
           "dose_in_study_mg": 50,
           "subject_n": null,
           "subject_demographics": "PIHKAL",
-          "reference": null,
-          "notes": "40–65 mg; duration 12–16 h; steep dose-response"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4989,7 +4705,6 @@
       "EC50/Emax",
       "PK"
     ],
-    "notes": "PIHKAL #94.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Methallylescaline"
     ]
@@ -5031,8 +4746,7 @@
           "dose_in_study_mg": 200,
           "subject_n": null,
           "subject_demographics": "PIHKAL",
-          "reference": null,
-          "notes": "150–250 mg active per PIHKAL"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5056,7 +4770,6 @@
       "EC50",
       "Quantitative PK"
     ],
-    "notes": "PIHKAL #103. Methylenedioxy mescaline.",
     "references_consulted": []
   },
   {
@@ -5103,7 +4816,6 @@
     "data_gaps_remaining": [
       "Any 5-HT2A activity data"
     ],
-    "notes": "Mescaline O-demethylated metabolite; minor pathway in humans.",
     "references_consulted": []
   },
   {
@@ -5139,10 +4851,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.3389/fphar.2019.01423",
-          "is_review": false,
-          "notes": "Kolaczynska 2019; bulkier 4-OMe reduces affinity vs DOM"
+          "is_review": false
         }
       ],
       "functional": [
@@ -5177,8 +4887,7 @@
           "dose_in_study_mg": 25,
           "subject_n": null,
           "subject_demographics": "PIHKAL",
-          "reference": null,
-          "notes": "Active range 20–40 mg, duration 8–12 h"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5209,7 +4918,6 @@
     "data_gaps_remaining": [
       "Quantitative PK"
     ],
-    "notes": "PIHKAL #158.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.01423"
     ]
@@ -5251,8 +4959,7 @@
           "dose_in_study_mg": 35,
           "subject_n": null,
           "subject_demographics": "PIHKAL",
-          "reference": null,
-          "notes": "25–50 mg active; duration 12–16 h"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5276,7 +4983,6 @@
       "EC50",
       "PK"
     ],
-    "notes": "PIHKAL #162.",
     "references_consulted": []
   },
   {
@@ -5324,7 +5030,6 @@
       "EC50",
       "PK"
     ],
-    "notes": "PIHKAL #66.",
     "references_consulted": []
   },
   {
@@ -5375,7 +5080,6 @@
       "EC50",
       "PK"
     ],
-    "notes": "PIHKAL #76. Class-misfit in this enrichment group (entactogen rather than classic 5-HT2A psychedelic).",
     "references_consulted": []
   },
   {
@@ -5418,7 +5122,6 @@
       "Structure",
       "Source of identifier"
     ],
-    "notes": "Identifier not recovered in literature search; existing 'inactive' tag retained.",
     "references_consulted": []
   },
   {
@@ -5454,31 +5157,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": true,
-          "notes": "ki_nm nulled: 6.0 nM appeared in no database or paper; every published psilocin 5-HT2A Ki is 25-390 nM (Rickli 2016: 49 nM). The value was the lower bound of the CI, not a measured Ki. Psilocybin itself is inactive; activity attributable to psilocin formed by alkaline phosphatase"
-        },
-        {
-          "target": "5-HT2B (as psilocin)",
-          "ki_nm": 4.6,
-          "ki_ci_nm": [
-            4.6,
-            410
-          ],
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "partialAgonist",
-          "species": "human",
-          "tissue_or_cell": "HEK293",
-          "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": true,
-          "notes": null
+          "is_review": true
         },
         {
           "target": "5-HT2C (as psilocin)",
@@ -5496,21 +5176,17 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": true,
-          "notes": "ki_nm nulled: 10 nM appeared in no database or paper; every published psilocin 5-HT2C Ki is 140-721 nM (Rickli 2016: 721 nM). The value was the lower bound of the CI, not a measured Ki."
+          "is_review": true
         },
         {
           "target": "5-HT1A",
           "ki_nm": 5284,
           "species": "human",
           "tissue_or_cell": "human cloned, transfected cells",
-          "assay_notes": "radioligand competition; [3H]WAY100635 (1A), [3H]ketanserin (2A)",
           "reference": "doi:10.1021/acsptsci.2c00177",
           "is_review": false,
-          "confidence": "HIGH",
-          "notes": "5-HT2A null because psilocybin produced <50% inhibition of radioligand binding in the 10 uM primary screen, i.e. it is effectively inactive at 2A. This is the expected result: psilocybin is a prodrug and is dephosphorylated to psilocin in vivo. Plot psilocin, not psilocybin, on this axis."
+          "confidence": "HIGH"
         }
       ],
       "functional": [],
@@ -5534,8 +5210,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Bioavailability 52.7±20.4% as psilocin; psilocin t1/2 2.1–4.7 h; effects 4–6 h"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5594,7 +5269,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Mis-tagged in source as 'no-human-data' but extensive Phase 2/3 clinical literature exists. Tryptamine, not phenethylamine — class-misfit in this enrichment group.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Psilocybin"
     ]
@@ -5612,62 +5286,6 @@
       "primary_targets": [
         "H1",
         "muscarinic"
-      ],
-      "binding": [
-        {
-          "target": "H1",
-          "ki_nm": 42,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": null,
-          "radioligand_or_probe": "[3H]-mepyramine",
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": true,
-          "notes": "Primary target"
-        },
-        {
-          "target": "M1",
-          "ki_nm": 490,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": null,
-          "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": true,
-          "notes": null
-        },
-        {
-          "target": "M5",
-          "ki_nm": 180,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": null,
-          "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": true,
-          "notes": null
-        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -5690,8 +5308,7 @@
           "dose_in_study_mg": 25,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Tmax 1.5–2.5 h; t1/2 10–12 h"
+          "reference": null
         },
         {
           "route": "insufflation",
@@ -5706,8 +5323,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": null
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5766,7 +5382,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "MISCLASSIFIED in source — doxylamine is a first-gen antihistamine (ethanolamine class), NOT a phenethylamine psychedelic. Tags should be removed.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Doxylamine"
     ]
@@ -5789,27 +5404,6 @@
       ],
       "binding": [
         {
-          "target": "5-HT2A",
-          "ki_nm": 20,
-          "ki_ci_nm": [
-            20,
-            45
-          ],
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": null,
-          "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": true,
-          "notes": "5-HT2A antagonist, not agonist"
-        },
-        {
           "target": "SERT",
           "ki_nm": 160,
           "ki_ci_nm": [
@@ -5825,52 +5419,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:9537821",
-          "is_review": true,
-          "notes": null
-        },
-        {
-          "target": "α1A",
-          "ki_nm": 12,
-          "ki_ci_nm": [
-            12,
-            42
-          ],
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": null,
-          "radioligand_or_probe": "[3H]-prazosin",
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": true,
-          "notes": "Drives orthostatic hypotension"
-        },
-        {
-          "target": "H1",
-          "ki_nm": 220,
-          "ki_ci_nm": [
-            220,
-            1100
-          ],
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": null,
-          "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": true,
-          "notes": null
+          "is_review": true
         }
       ],
       "functional": [],
@@ -5894,8 +5444,7 @@
           "dose_in_study_mg": 100,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "IR t1/2 4–15 h; ER 9–13 h"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5960,7 +5509,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Class-misfit in this enrichment group — Trazodone is a SARI antidepressant, NOT a serotonergic phenethylamine psychedelic.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Trazodone"
     ]
@@ -5985,42 +5533,6 @@
       ],
       "binding": [
         {
-          "target": "5-HT1A",
-          "ki_nm": 0.1,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": 65,
-          "reference_agonist": "5-HT",
-          "action": "partialAgonist",
-          "species": "human",
-          "tissue_or_cell": "HEK293",
-          "radioligand_or_probe": "[3H]-8-OH-DPAT",
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": true,
-          "notes": null
-        },
-        {
-          "target": "SERT",
-          "ki_nm": 0.1,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": 2.1,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "reuptakeInhibitor",
-          "species": "human",
-          "tissue_or_cell": "HEK293",
-          "radioligand_or_probe": "[3H]-citalopram",
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": true,
-          "notes": null
-        },
-        {
           "target": "VMAT2",
           "ki_nm": null,
           "ki_ci_nm": null,
@@ -6033,10 +5545,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": null,
           "is_review": true,
-          "notes": "Removed: wrong action + Wikipedia-only. Original value was a non-measurement.",
           "emax_pct": null
         }
       ],
@@ -6061,8 +5571,7 @@
           "dose_in_study_mg": 40,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "F=72% with food; t1/2 25 h"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -6104,7 +5613,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Class-misfit — antidepressant, not a phenethylamine psychedelic.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Vilazodone"
     ]
@@ -6131,27 +5639,6 @@
       ],
       "binding": [
         {
-          "target": "5-HT2A",
-          "ki_nm": 0.08,
-          "ki_ci_nm": [
-            0.08,
-            1.4
-          ],
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": null,
-          "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": true,
-          "notes": null
-        },
-        {
           "target": "D2",
           "ki_nm": 4.8,
           "ki_ci_nm": null,
@@ -6164,67 +5651,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-spiperone",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/jm950625l",
-          "is_review": true,
-          "notes": null
-        },
-        {
-          "target": "5-HT1A",
-          "ki_nm": 2.5,
-          "ki_ci_nm": [
-            2.5,
-            76
-          ],
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "partialAgonist",
-          "species": "human",
-          "tissue_or_cell": null,
-          "radioligand_or_probe": "[3H]-8-OH-DPAT",
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": true,
-          "notes": null
-        },
-        {
-          "target": "α1A",
-          "ki_nm": 18,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": null,
-          "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": true,
-          "notes": null
-        },
-        {
-          "target": "hERG",
-          "ki_nm": null,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": 169,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "channelBlocker",
-          "species": "human",
-          "tissue_or_cell": "HEK293 expressing Kv11.1",
-          "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": true,
-          "notes": "Drives QTc prolongation — black-box-adjacent FDA warning Ki field was a duplication of IC50; nulled."
+          "is_review": true
         }
       ],
       "functional": [],
@@ -6248,8 +5676,7 @@
           "dose_in_study_mg": 80,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "F=60% with food; t1/2 7–10 h"
+          "reference": null
         },
         {
           "route": "intramuscular",
@@ -6264,8 +5691,7 @@
           "dose_in_study_mg": 20,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Tmax 1 h IM"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -6330,7 +5756,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Class-misfit — atypical antipsychotic, not a phenethylamine psychedelic. Strong hERG blocker → highly relevant for harm-reduction interaction warnings.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Ziprasidone"
     ]
@@ -6364,10 +5789,8 @@
           "species": "rat",
           "tissue_or_cell": "cortical membranes",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "https://en.wikipedia.org/wiki/Aniracetam",
-          "is_review": true,
-          "notes": "PAM that slows AMPA receptor desensitisation"
+          "is_review": true
         }
       ],
       "functional": [],
@@ -6391,8 +5814,7 @@
           "dose_in_study_mg": 750,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Very short t1/2 (~30 min); active via metabolites"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -6434,7 +5856,6 @@
     "data_gaps_remaining": [
       "Human Cmax/AUC"
     ],
-    "notes": "Class-misfit — nootropic racetam, not a psychedelic.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Aniracetam"
     ]
@@ -6472,10 +5893,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "https://en.wikipedia.org/wiki/Phenylpiracetam",
-          "is_review": true,
-          "notes": "(R)-isomer is selective DAT inhibitor"
+          "is_review": true
         },
         {
           "target": "α4β2 nAChR",
@@ -6490,10 +5909,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": null,
           "is_review": true,
-          "notes": null,
           "emax_pct": null
         }
       ],
@@ -6518,8 +5935,7 @@
           "dose_in_study_mg": 100,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Not extensively metabolised; ~60% biliary excretion of parent"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -6553,7 +5969,6 @@
     "data_gaps_remaining": [
       "Quantitative human PK"
     ],
-    "notes": "Class-misfit — stimulant nootropic, not a psychedelic.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Phenylpiracetam"
     ]
@@ -6587,10 +6002,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]-flunitrazepam",
-          "assay_buffer_notes": null,
           "reference": "https://en.wikipedia.org/wiki/Nitrazepam",
-          "is_review": true,
-          "notes": "Full BZD-site PAM"
+          "is_review": true
         }
       ],
       "functional": [],
@@ -6614,8 +6027,7 @@
           "dose_in_study_mg": 10,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "t1/2 16.5–48 h; ~29 h young, ~40 h elderly"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -6655,7 +6067,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Class-misfit — benzodiazepine, not a phenethylamine psychedelic.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Nitrazepam"
     ]
@@ -6690,10 +6101,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "https://en.wikipedia.org/wiki/Camazepam",
-          "is_review": true,
-          "notes": "Low intrinsic BZD affinity; effects mostly via temazepam metabolite"
+          "is_review": true
         }
       ],
       "functional": [],
@@ -6717,8 +6126,7 @@
           "dose_in_study_mg": 20,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Terminal t1/2 6.4–10.5 h"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -6757,7 +6165,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Class-misfit. Temazepam prodrug.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Camazepam"
     ]
@@ -6792,10 +6199,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "https://en.wikipedia.org/wiki/Pinazepam",
-          "is_review": true,
-          "notes": null
+          "is_review": true
         }
       ],
       "functional": [],
@@ -6852,7 +6257,6 @@
     "data_gaps_remaining": [
       "Quantitative PK"
     ],
-    "notes": "Class-misfit — N-propargyl-nordazepam prodrug.",
     "references_consulted": [
       "https://en.wikipedia.org/wiki/Pinazepam"
     ]
@@ -6907,7 +6311,6 @@
     "data_gaps_remaining": [
       "Any mammalian 5-HT pharmacology (none expected)"
     ],
-    "notes": "MISCLASSIFIED. This is a plant IAA-biosynthesis intermediate, not a recreational drug.",
     "references_consulted": []
   },
   {
@@ -6955,7 +6358,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "MISCLASSIFIED. Plant indole biosynthesis intermediate.",
     "references_consulted": []
   },
   {
@@ -7005,7 +6407,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "MISCLASSIFIED — same plant compound as (E)/(Z) IAOx entries.",
     "references_consulted": []
   },
   {
@@ -7055,7 +6456,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "MISCLASSIFIED — plant indole pathway, not human-relevant pharmacology.",
     "references_consulted": []
   },
   {
@@ -7087,10 +6487,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-DAMGO",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1038/386499a0",
-          "is_review": false,
-          "notes": "Endogenous μ-opioid tetrapeptide; Zadina et al. 1997"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -7126,7 +6524,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "MISCLASSIFIED — endogenous μ-opioid tetrapeptide, not a phenethylamine psychedelic.",
     "references_consulted": [
       "pmid:9252259"
     ]
@@ -7176,7 +6573,6 @@
     ],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "MISCLASSIFIED — microbial natural product, not a psychedelic.",
     "references_consulted": []
   },
   {
@@ -7224,7 +6620,6 @@
     ],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "MISCLASSIFIED.",
     "references_consulted": []
   },
   {
@@ -7271,7 +6666,6 @@
     ],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "MISCLASSIFIED — plant alkaloid.",
     "references_consulted": []
   },
   {
@@ -7318,7 +6712,6 @@
     ],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "MISCLASSIFIED.",
     "references_consulted": []
   },
   {
@@ -7364,7 +6757,6 @@
     "data_gaps_remaining": [
       "Structure identification (no literature match)"
     ],
-    "notes": "Identifier does not resolve to any published compound. Likely spurious entry; tags removed.",
     "references_consulted": []
   },
   {
@@ -7410,7 +6802,6 @@
     ],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "MISCLASSIFIED — plant natural product.",
     "references_consulted": []
   },
   {
@@ -7460,7 +6851,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "MISCLASSIFIED — research-grade GnRH analogue.",
     "references_consulted": []
   },
   {
@@ -7514,7 +6904,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "MISCLASSIFIED — cytotoxic GnRH-targeted chemotherapeutic.",
     "references_consulted": []
   },
   {
@@ -7558,7 +6947,6 @@
     ],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Class-misfit — oxazolidone, not a phenethylamine.",
     "references_consulted": []
   },
   {
@@ -7591,10 +6979,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain membrane",
           "radioligand_or_probe": "[3H]-CP-55,940",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/jm050135l",
-          "is_review": false,
-          "notes": "(R)-enantiomer; racemate is 2.8 nM, (S)-enantiomer 560 nM. Deng et al. 2005, J Med Chem 48:6386, PMID 16190764."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -7625,7 +7011,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Class-misfit — synthetic cannabinoid, not in this class.",
     "references_consulted": [
       "pmid:14622937"
     ]
@@ -7658,10 +7043,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]-CP-55,940",
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -7692,7 +7075,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Class-misfit — synthetic cannabinoid.",
     "references_consulted": [
       "pmid:15893213"
     ]
@@ -7744,7 +7126,6 @@
       "Ki at μ-opioid",
       "Human PK"
     ],
-    "notes": "Class-misfit — methadone analogue, not a psychedelic.",
     "references_consulted": []
   },
   {
@@ -7796,7 +7177,6 @@
       "EC50",
       "Human PK"
     ],
-    "notes": "Class-misfit — pemoline-class stimulant, not a psychedelic.",
     "references_consulted": []
   },
   {
@@ -7839,7 +7219,6 @@
       "Structure",
       "All pharmacology"
     ],
-    "notes": "Identifier not recovered in literature; existing 'inactive' tag retained.",
     "references_consulted": []
   },
   {
@@ -7887,7 +7266,6 @@
       "EC50",
       "Human PK"
     ],
-    "notes": "Class-misfit — designer stimulant.",
     "references_consulted": []
   },
   {
@@ -7935,7 +7313,6 @@
       "EC50",
       "Human PK"
     ],
-    "notes": "Class-misfit — designer stimulant.",
     "references_consulted": []
   },
   {
@@ -7968,10 +7345,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": false,
-          "notes": "3-OMe (meta) regioisomer of 25C-NBOMe (ortho-OMe). The 2-OMe (ortho) on the benzyl ring of standard NBOMes is critical for 5-HT2A active-pose docking — meta-OMe regioisomers like NB3OMe typically lose ~10-30× potency vs ortho parents per Heim 2003 SAR work"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -7991,8 +7366,7 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.1002/dta.2044, which is the 2-methoxybenzyl NBOMe isomers, not this positional isomer. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -8032,92 +7406,20 @@
       "Human PK",
       "Active dose"
     ],
-    "notes": "3-OMe positional isomer of 25C-NBOMe. The 2'-OMe orientation is required for optimal 5-HT2A active-state docking; 3'-OMe NBOMe regioisomers are typically less potent (Heim/Nichols SAR).",
     "references_consulted": []
   },
   {
     "name": "Mescaline",
-    "pharmacology": {
-      "binding": [
-        {
-          "target": "5-HT1A",
-          "ki_nm": 1841,
-          "comparable_set": "pdsp-ki-panel-human",
-          "species": "human",
-          "tissue_or_cell": "human cloned (PDSP)",
-          "assay_notes": "NIMH-PDSP radioligand competition panel",
-          "reference": "doi:10.1371/journal.pone.0009019",
-          "is_review": false,
-          "confidence": "LOW",
-          "notes": "5-HT2A recorded as '>10,000' (censored). Ray explicitly names mescaline as one of seven drugs whose receptor profile is TRUNCATED by the PDSP's 10 uM ceiling — its best hit exceeds 100 nM, so the measurable range is narrower than the perceptible range. Mescaline is a genuinely low-affinity, high-dose drug; do not infer 1A-selectivity from this row.",
-          "action": "modulator"
-        }
-      ]
-    }
+    "pharmacology": {}
   },
   {
     "name": "2C-B",
-    "pharmacology": {
-      "binding": [
-        {
-          "target": "5-HT1A",
-          "ki_nm": 240.8,
-          "comparable_set": "pdsp-ki-panel-human",
-          "species": "human",
-          "tissue_or_cell": "human cloned (PDSP)",
-          "assay_notes": "NIMH-PDSP radioligand competition panel",
-          "reference": "doi:10.1371/journal.pone.0009019",
-          "is_review": false,
-          "confidence": "HIGH",
-          "notes": "Source flags ND/PH=1/2 for 2C-B, i.e. two cells in its 67-site row are non-human substitutions; whether either is 1A or 2A is not resolvable from the file.",
-          "action": "modulator"
-        },
-        {
-          "target": "5-HT2A",
-          "ki_nm": 27.6,
-          "comparable_set": "pdsp-ki-panel-human",
-          "species": "human",
-          "tissue_or_cell": "human cloned (PDSP)",
-          "assay_notes": "NIMH-PDSP radioligand competition panel",
-          "reference": "doi:10.1371/journal.pone.0009019",
-          "is_review": false,
-          "confidence": "HIGH",
-          "notes": "Source flags ND/PH=1/2 for 2C-B, i.e. two cells in its 67-site row are non-human substitutions; whether either is 1A or 2A is not resolvable from the file.",
-          "action": "partialAgonist"
-        }
-      ]
-    }
+    "pharmacology": {}
   },
   {
     "name": "2C-E",
     "pharmacology": {
       "binding": [
-        {
-          "target": "5-HT1A",
-          "ki_nm": 307.3,
-          "comparable_set": "pdsp-ki-panel-human",
-          "species": "human",
-          "tissue_or_cell": "human cloned (PDSP)",
-          "assay_notes": "NIMH-PDSP radioligand competition panel",
-          "reference": "doi:10.1371/journal.pone.0009019",
-          "is_review": false,
-          "confidence": "HIGH",
-          "notes": "Source flags ND/PH=0/2 for 2C-E (two non-human substitutions somewhere in the row).",
-          "action": "modulator"
-        },
-        {
-          "target": "5-HT2A",
-          "ki_nm": 43.9,
-          "comparable_set": "pdsp-ki-panel-human",
-          "species": "human",
-          "tissue_or_cell": "human cloned (PDSP)",
-          "assay_notes": "NIMH-PDSP radioligand competition panel",
-          "reference": "doi:10.1371/journal.pone.0009019",
-          "is_review": false,
-          "confidence": "HIGH",
-          "notes": "Source flags ND/PH=0/2 for 2C-E (two non-human substitutions somewhere in the row).",
-          "action": "modulator"
-        },
         {
           "target": "5-HT2A",
           "ki_nm": 10.5,
@@ -8131,11 +7433,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 membranes overexpressing human 5-HT2A",
           "radioligand_or_probe": "[3H]ketanserin",
-          "assay_buffer_notes": "Cheng-Prusoff; author ratio 34",
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Rickli 2015 Table 1."
+          "confidence": "high"
         },
         {
           "target": "5-HT1A",
@@ -8150,11 +7450,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 membranes overexpressing human 5-HT1A",
           "radioligand_or_probe": "[3H]8-OH-DPAT",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Rickli 2015 Table 1: 0.36 +/- 0.04 uM. Paired with 5-HT2A (same batch)."
+          "confidence": "high"
         }
       ]
     }

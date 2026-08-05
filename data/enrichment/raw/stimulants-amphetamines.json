@@ -53,10 +53,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 transiently expressing hTAAR1, cAMP readout",
           "radioligand_or_probe": "cAMP accumulation",
-          "assay_buffer_notes": null,
           "reference": "pmid:11459929",
-          "is_review": false,
-          "notes": "Bunzow et al. 2001 — original TAAR1 (then TA1) cloning paper; racemic amphetamine listed as full agonist with EC50 ~1.8 µM"
+          "is_review": false
         }
       ],
       "functional": [
@@ -68,8 +66,7 @@
           "reference_agonist": "self",
           "species": "rat",
           "cell_system": "rat caudate synaptosomes",
-          "reference": "pmid:11071707",
-          "notes": "Rothman 2001 Synapse — d-amphetamine, EC50 24.8 nM DA release"
+          "reference": "pmid:11071707"
         },
         {
           "target": "NET (rat brain synaptosomes, [3H]-NE release)",
@@ -79,8 +76,7 @@
           "reference_agonist": "self",
           "species": "rat",
           "cell_system": "rat hypothalamic synaptosomes",
-          "reference": "pmid:11071707",
-          "notes": "Rothman 2001 — d-amphetamine, EC50 7.07 nM NE release; ~3.5× more potent at NET than DAT"
+          "reference": "pmid:11071707"
         },
         {
           "target": "SERT (rat brain synaptosomes, [3H]-5-HT release)",
@@ -90,8 +86,7 @@
           "reference_agonist": "self",
           "species": "rat",
           "cell_system": "rat whole brain synaptosomes",
-          "reference": "pmid:11071707",
-          "notes": "Rothman 2001 — d-amphetamine, very weak SERT releaser (~250× weaker than at DAT)"
+          "reference": "pmid:11071707"
         }
       ],
       "downstream_signalling": "Amphetamine enters DA terminals as a DAT substrate, activates cytosolic TAAR1, which signals through Gαs to elevate cAMP/PKA and through Gαq/Ca²+, both of which phosphorylate DAT at N-terminal serines (Ser7, Ser12, Ser53), promoting reverse transport. PKC activation also internalises DAT. Inside terminals, amphetamine collapses VMAT2 proton gradient (it is a weak base, accumulates in vesicles) and as α-MPT inhibitor / direct vesicle disruptor, dumps DA into cytosol which is then reverse-transported.",
@@ -112,8 +107,7 @@
           "half_life_min": 600,
           "vd_l_per_kg": 3.5,
           "protein_binding_pct": 20,
-          "reference": "pmid:28910145",
-          "notes": "Markowitz & Patrick 2017 — d-amphetamine t1/2 9–11 h, l-amphetamine 11–14 h, Tmax IR 2.5–3.5 h, XR 5.3–8.2 h; protein binding 16–20%"
+          "reference": "pmid:28910145"
         }
       ]
     },
@@ -144,8 +138,7 @@
         "fraction_of_clearance_pct": 30,
         "metabolite_name": "unchanged amphetamine",
         "metabolite_active": true,
-        "reference": "pmid:28910145",
-        "notes": "Highly pH-dependent: 1–75% urinary recovery of unchanged drug; acidic urine clears faster"
+        "reference": "pmid:28910145"
       }
     ],
     "pharmacogenetics": {
@@ -177,7 +170,6 @@
     "data_gaps_remaining": [
       "Direct human σ1 binding data for racemic amphetamine"
     ],
-    "notes": "The 'amphetamine' record in the user database is racemic. In clinical formulations the salt is usually d-isomer (Dexedrine) or 3:1 d/l mixture (Adderall). Pharmacological data above are for d-amphetamine — l-amphetamine has a separate record and is dramatically weaker at DAT but only slightly weaker at NET.",
     "references_consulted": [
       "pmid:11071707",
       "pmid:28910145",
@@ -257,8 +249,7 @@
           "half_life_min": 600,
           "vd_l_per_kg": 3.5,
           "protein_binding_pct": 20,
-          "reference": "pmid:28910145",
-          "notes": "IR formulation Tmax 2.5–3.5 h; XR 5.3–8.2 h; t1/2 9–11 h adults, 6–8 h children"
+          "reference": "pmid:28910145"
         }
       ]
     },
@@ -309,7 +300,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Dextroamphetamine is the more clinically used enantiomer; ~3–4× more potent than l-amphetamine on a per-mg basis at DAT, ~1.3× at NET. Adderall is a 3:1 d:l salt mixture intended to provide longer duration (l-amph t1/2 longer).",
     "references_consulted": [
       "pmid:11071707",
       "pmid:28910145",
@@ -355,7 +345,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Dexedrine is a brand name for d-amphetamine sulfate; pharmacology identical to Dextroamphetamine record.",
     "references_consulted": [
       "pmid:28910145"
     ]
@@ -389,8 +378,7 @@
           "reference_agonist": "self",
           "species": "rat",
           "cell_system": "rat caudate synaptosomes",
-          "reference": "doi:10.1002/syn.20444",
-          "notes": "Forsyth 2012; l-amph EC50 ~28 nM at DA — only slightly weaker than d-amph"
+          "reference": "doi:10.1002/syn.20444"
         },
         {
           "target": "NET (rat synaptosomes)",
@@ -400,8 +388,7 @@
           "reference_agonist": "self",
           "species": "rat",
           "cell_system": "rat hypothalamic synaptosomes",
-          "reference": "doi:10.1002/syn.20444",
-          "notes": "l-amphetamine has the highest NE:DA selectivity ratio of any amphetamine (~3:1), and dose proportional NE release correlates better with the subjective 'rush' than DA release does (Rothman 2001 PMID 11071707)"
+          "reference": "doi:10.1002/syn.20444"
         }
       ],
       "downstream_signalling": "l-amph has substantially weaker effect on DAT phosphorylation and DA release relative to d-amph but nearly equivalent NE release; explains why Adderall (3:1 d:l) is 'smoother' than pure d-amph (Dexedrine) — extra NE without proportional DA spike."
@@ -413,8 +400,7 @@
           "bioavailability_pct": 90,
           "tmax_min": 200,
           "half_life_min": 780,
-          "reference": "pmid:28910145",
-          "notes": "l-amph t1/2 11.7–15.2 h (longer than d-amph 9–11 h); accounts for tail of Adderall effect"
+          "reference": "pmid:28910145"
         }
       ]
     },
@@ -434,7 +420,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "The R-(-)-enantiomer. Has the longest half-life of the amphetamine enantiomers. Selectively releases NE > DA >> 5-HT.",
     "references_consulted": [
       "pmid:11071707",
       "doi:10.1002/syn.20444",
@@ -473,8 +458,7 @@
           "bioavailability_pct": 90,
           "tmax_min": 180,
           "half_life_min": 720,
-          "reference": "pmid:28910145",
-          "notes": "IR: Tmax ~3 h, t1/2 9–14 h (composite of d and l); XR (bead capsule, 50% IR + 50% delayed) extends Tmax to ~7 h, total clinical effect ~10–12 h; Mydayis is triple-bead, effect ~16 h"
+          "reference": "pmid:28910145"
         }
       ]
     },
@@ -513,7 +497,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Brand-name 3:1 d:l amphetamine. Pharmacology is the weighted combination of d- and l-amphetamine records.",
     "references_consulted": [
       "pmid:28910145"
     ]
@@ -548,8 +531,7 @@
           "species": "guinea pig",
           "tissue_or_cell": "guinea pig brain membranes",
           "radioligand_or_probe": "[3H]-(+)-pentazocine",
-          "reference": "pmid:17223101",
-          "notes": "Nichols/Nguyen — micromolar σ1 affinity; activation implicated in methamphetamine-induced neuroinflammation and dopaminergic neurotoxicity"
+          "reference": "pmid:17223101"
         },
         {
           "target": "σ2",
@@ -570,8 +552,7 @@
           "reference_agonist": "self",
           "species": "rat",
           "cell_system": "rat caudate synaptosomes",
-          "reference": "pmid:11071707",
-          "notes": "d-meth EC50 8.5–24.5 nM (range across labs); ~3× more DA-potent than d-amphetamine"
+          "reference": "pmid:11071707"
         },
         {
           "target": "NET — d-methamphetamine",
@@ -589,8 +570,7 @@
           "emax_pct": 100,
           "reference_agonist": "self",
           "species": "rat",
-          "reference": "pmid:11071707",
-          "notes": "5-HT release EC50 ~1 µM — modest but non-trivial, accounts for some 'rush' euphoria distinguishing meth from amph"
+          "reference": "pmid:11071707"
         },
         {
           "target": "DAT — l-methamphetamine",
@@ -599,8 +579,7 @@
           "emax_pct": 100,
           "reference_agonist": "self",
           "species": "rat",
-          "reference": "pmid:11071707",
-          "notes": "l-meth ~50× weaker than d-meth at DAT. This is the form released as metabolite of selegiline."
+          "reference": "pmid:11071707"
         },
         {
           "target": "NET — l-methamphetamine",
@@ -609,19 +588,7 @@
           "emax_pct": 100,
           "reference_agonist": "self",
           "species": "rat",
-          "reference": "pmid:11071707",
-          "notes": "Only ~2× weaker than d-meth at NET; this is why l-meth (Vicks Vapor Inhaler) has decongestant action despite minimal CNS stimulation"
-        },
-        {
-          "target": "TAAR1",
-          "readout": "cAMP",
-          "ec50_nm": 920,
-          "emax_pct": 100,
-          "reference_agonist": "β-PEA",
-          "species": "human",
-          "cell_system": "HEK293/hTAAR1",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:11459929, which is the trace-amine receptor discovery paper, which tested no amphetamines. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+          "reference": "pmid:11071707"
         }
       ],
       "downstream_signalling": "Methamphetamine adds two features to amphetamine pharmacology: (1) σ1 agonism, which through chaperone effects on D1, BiP/GRP78, and microglial NF-κB drives chronic-use neurotoxicity (Nguyen Pharmacol Rev 2017, doi:10.1124/pr.116.012799); (2) the N-methyl group increases lipophilicity, raising brain:plasma ratio and intracellular accumulation in DA terminals. Reactive oxygen species from cytosolic DA auto-oxidation are the proximate cause of DAT terminal degeneration (McCann 1998 PMID 9504281).",
@@ -666,16 +633,14 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "~15% of meth dose appears as amphetamine in urine; useful forensic marker"
+        "reference": null
       },
       {
         "enzyme": null,
         "fraction_of_clearance_pct": null,
         "metabolite_name": null,
         "metabolite_active": null,
-        "reference": null,
-        "notes": "Highly pH-dependent like amphetamine"
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -702,7 +667,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Listed entry is racemic; clinical/illicit material is overwhelmingly d-meth. d-meth is ~3× more DA-potent than d-amphetamine; this and the σ1 component drive its higher abuse potential and chronic neurotoxicity profile.",
     "references_consulted": [
       "pmid:11071707",
       "pmid:11459929",
@@ -782,7 +746,6 @@
       "TAAR1-agonist"
     ],
     "confidence": "high",
-    "notes": "The clinical and illicit form. See Methamphetamine record for full data.",
     "references_consulted": [
       "pmid:11071707"
     ]
@@ -814,16 +777,14 @@
           "ec50_nm": 416,
           "species": "rat",
           "cell_system": "rat caudate synaptosomes",
-          "reference": "pmid:11071707",
-          "notes": "~50× weaker than d-meth at DAT; this is why Vicks Vapor Inhaler (l-meth) has minimal CNS stimulation despite being structurally identical to street meth"
+          "reference": "pmid:11071707"
         },
         {
           "target": "NET",
           "readout": "[3H]-NE release",
           "ec50_nm": 28.5,
           "species": "rat",
-          "reference": "pmid:11071707",
-          "notes": "Only ~2× weaker than d-meth — drives the decongestant/vasoconstrictor action"
+          "reference": "pmid:11071707"
         },
         {
           "target": "SERT",
@@ -842,8 +803,7 @@
           "bioavailability_pct": 65,
           "tmax_min": 30,
           "half_life_min": 660,
-          "reference": null,
-          "notes": "OTC Vicks Vapor Inhaler contains 50 mg l-meth; produces detectable urinary meth (and amphetamine from N-demethylation) with no CNS effect — common forensic confound"
+          "reference": null
         }
       ]
     },
@@ -861,7 +821,6 @@
     ],
     "tags_to_remove": [],
     "confidence": "high",
-    "notes": "Also a metabolite of selegiline (deprenyl) at therapeutic doses — explains some of selegiline's amphetamine-like effects.",
     "references_consulted": [
       "pmid:11071707"
     ]
@@ -892,7 +851,6 @@
     },
     "metabolism": [],
     "confidence": "high",
-    "notes": "Racemic form. See D-methamphetamine and L-methamphetamine records.",
     "references_consulted": [
       "pmid:11071707"
     ]
@@ -944,8 +902,7 @@
           "action": "partialAgonist",
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human 5-HT2B, calcium flux",
-          "reference": "pmid:25624004",
-          "notes": "Weak 5-HT2B partial agonism — concerning for chronic use but in low-μM range"
+          "reference": "pmid:25624004"
         }
       ],
       "functional": [
@@ -955,8 +912,7 @@
           "ec50_nm": 200,
           "species": "rat",
           "cell_system": "rat caudate synaptosomes",
-          "reference": "pmid:17223101",
-          "notes": "Nagai 2007 — 4-FA is intermediate, releases DA at ~200 nM"
+          "reference": "pmid:17223101"
         },
         {
           "target": "NET",
@@ -970,8 +926,7 @@
           "readout": "[3H]-5-HT release",
           "ec50_nm": 730,
           "species": "rat",
-          "reference": "pmid:17223101",
-          "notes": "4-FA shows meaningful 5-HT release (~4× weaker than DA) — accounts for empathogenic effects users describe; profile is between amphetamine and MDMA"
+          "reference": "pmid:17223101"
         }
       ],
       "downstream_signalling": "Intermediate between amphetamine and MDMA — DA release dominant but enough SERT engagement to produce empathogenic component."
@@ -982,8 +937,7 @@
           "route": "oral",
           "tmax_min": 120,
           "half_life_min": 510,
-          "reference": "pmid:30912312",
-          "notes": "de Sousa Fernandes Perna et al. — single 100–150 mg oral doses in healthy volunteers, t1/2 ~11 h, Tmax ~2 h"
+          "reference": "pmid:30912312"
         }
       ]
     },
@@ -1013,7 +967,6 @@
       "TAAR1 EC50 not measured",
       "Detailed PK in chronic users"
     ],
-    "notes": "4-FA is the canonical 'intermediate' fluoroamphetamine. Several Dutch case reports of cardiac events and cerebral haemorrhage at recreational doses.",
     "references_consulted": [
       "pmid:17223101"
     ]
@@ -1046,7 +999,6 @@
     },
     "metabolism": [],
     "confidence": "high",
-    "notes": "Duplicate of 4-Fluoroamphetamine entry. See that record for full data.",
     "references_consulted": [
       "pmid:17223101"
     ]
@@ -1075,16 +1027,14 @@
           "readout": "[3H]-DA release",
           "ec50_nm": null,
           "species": "rat",
-          "reference": null,
-          "notes": "Wee 2005 J Pharmacol Exp Ther — 2-FA is DA-selective releaser, similar potency profile to d-amphetamine with weaker SERT effect than 4-FA"
+          "reference": null
         },
         {
           "target": "SERT",
           "readout": "[3H]-5-HT release",
           "ec50_nm": null,
           "species": "rat",
-          "reference": null,
-          "notes": "EC50 >10 µM — essentially no SERT release; cleaner DA-selective profile than 4-FA"
+          "reference": null
         }
       ],
       "downstream_signalling": "Pure amphetamine-like DA-NE release — the 2-fluoro substitution does NOT shift toward SERT (unlike 4-fluoro)."
@@ -1100,7 +1050,6 @@
     "data_gaps_remaining": [
       "No human PK studies published"
     ],
-    "notes": "Ortho-fluoro is the 'safest' fluoroamphetamine regiochemically — DA-selective like amphetamine, without the 4-halogen shift toward serotonergic neurotoxicity.",
     "references_consulted": [
       "pmid:15914673"
     ]
@@ -1130,7 +1079,6 @@
     },
     "metabolism": [],
     "confidence": "medium",
-    "notes": "Duplicate of 2-Fluoroamphetamine. See that record.",
     "references_consulted": [
       "pmid:15914673"
     ]
@@ -1160,8 +1108,7 @@
           "readout": "[3H]-DA release",
           "ec50_nm": null,
           "species": "rat",
-          "reference": null,
-          "notes": "Wee 2005 / Negus PAL-353 series — 3-FA potent DA releaser, similar to amphetamine"
+          "reference": null
         },
         {
           "target": "NET",
@@ -1175,8 +1122,7 @@
           "readout": "[3H]-5-HT release",
           "ec50_nm": null,
           "species": "rat",
-          "reference": null,
-          "notes": "Weak SERT releaser — intermediate between 2-FA and 4-FA"
+          "reference": null
         }
       ],
       "downstream_signalling": "Behaviour close to methamphetamine in DA/NE release; meta-fluoro is a 'minimal-shift' substituent."
@@ -1186,8 +1132,7 @@
         {
           "route": "oral",
           "half_life_min": 90,
-          "reference": "pmid:31642004",
-          "notes": "Jiang 2020 — t1/2 in rats ~90 min, comparable to amphetamine. Limited human data."
+          "reference": "pmid:31642004"
         }
       ]
     },
@@ -1196,7 +1141,6 @@
       "DA-NE-releaser"
     ],
     "confidence": "medium",
-    "notes": "3-FA has stronger half-life-shortening effect (similar to amphetamine) than 4-FA — users report shorter duration.",
     "references_consulted": [
       "pmid:15914673",
       "pmid:31642004"
@@ -1222,7 +1166,6 @@
     },
     "metabolism": [],
     "confidence": "medium",
-    "notes": "Duplicate of 3-Fluoroamphetamine.",
     "references_consulted": [
       "pmid:15914673"
     ]
@@ -1251,8 +1194,7 @@
           "readout": "[3H]-DA release",
           "ec50_nm": 100,
           "species": "human",
-          "reference": "pmid:25624004",
-          "notes": "Rickli 2015 — 4-FMA between 4-FA and methamphetamine in profile"
+          "reference": "pmid:25624004"
         },
         {
           "target": "SERT",
@@ -1269,7 +1211,6 @@
     },
     "metabolism": [],
     "confidence": "medium",
-    "notes": "Less serotonergic than 4-FA, more amphetamine-like — limited published data.",
     "references_consulted": []
   },
   {
@@ -1301,7 +1242,6 @@
       "No published binding/release EC50",
       "No human PK"
     ],
-    "notes": "Popular UK research chemical, very limited literature.",
     "references_consulted": []
   },
   {
@@ -1328,7 +1268,6 @@
     "data_gaps_remaining": [
       "No published binding/release data"
     ],
-    "notes": "Research chemical; no published literature.",
     "references_consulted": []
   },
   {
@@ -1357,7 +1296,6 @@
     "data_gaps_remaining": [
       "No published binding/release data"
     ],
-    "notes": "Research chemical, very limited data.",
     "references_consulted": []
   },
   {
@@ -1380,7 +1318,6 @@
     },
     "metabolism": [],
     "confidence": "low",
-    "notes": "See 2-fea record.",
     "references_consulted": []
   },
   {
@@ -1407,7 +1344,6 @@
     "data_gaps_remaining": [
       "No published binding/release data"
     ],
-    "notes": "Research chemical; very limited data.",
     "references_consulted": []
   },
   {
@@ -1435,7 +1371,6 @@
     "data_gaps_remaining": [
       "No published binding/release data"
     ],
-    "notes": "Research chemical; no published literature.",
     "references_consulted": []
   },
   {
@@ -1460,7 +1395,6 @@
     },
     "metabolism": [],
     "confidence": "low",
-    "notes": "See 4-fea record.",
     "references_consulted": []
   },
   {
@@ -1490,8 +1424,7 @@
           "ec50_nm": 28.3,
           "species": "rat",
           "cell_system": "rat whole brain synaptosomes",
-          "reference": "pmid:1495370",
-          "notes": "Fuller 1992 — PCA is the canonical highly selective SERT releaser"
+          "reference": "pmid:1495370"
         }
       ],
       "downstream_signalling": "Massive 5-HT release → MAO-A inhibition (IC50 1.9–4 µM) → serotonin syndrome → selective serotonergic axonal degeneration via cytosolic 5-HT auto-oxidation. Mechanism of long-term neurotoxicity still debated (toxic metabolite vs ROS)."
@@ -1525,7 +1458,6 @@
     "data_gaps_remaining": [
       "No human clinical PK — research-only compound used in preclinical neurotoxicity models"
     ],
-    "notes": "PCA is the prototype serotonergic neurotoxin amphetamine. Standard tool for inducing selective 5-HT axonal lesions in animals. NOT for human use.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.01590",
       "pmid:1196472"
@@ -1558,8 +1490,7 @@
           "readout": "[3H]-5-HT release",
           "ec50_nm": 35,
           "species": "rat",
-          "reference": "pmid:38154512",
-          "notes": "Saha 2017 — similar to PCA, potent SERT releaser; N-methyl boosts NET activity"
+          "reference": "pmid:38154512"
         }
       ],
       "downstream_signalling": "Like PCA but with NET component from N-methyl. Equally neurotoxic to 5-HT terminals."
@@ -1572,7 +1503,6 @@
       "serotonergic-neurotoxin"
     ],
     "confidence": "high",
-    "notes": "Research chemical. Highly neurotoxic. Same risk profile as PCA.",
     "references_consulted": []
   },
   {
@@ -1619,7 +1549,6 @@
     "data_gaps_remaining": [
       "No published EC50 release values; profile inferred from PCA homology and rat neurotoxicity data"
     ],
-    "notes": "Same SERT-dominant + neurotoxic + MAOI profile as PCA. Not for human use.",
     "references_consulted": [
       "pmid:1196472",
       "doi:10.3389/fphar.2019.01590"
@@ -1652,16 +1581,14 @@
           "readout": "[3H]-5-HT release",
           "ec50_nm": null,
           "species": "rat",
-          "reference": null,
-          "notes": "Huang et al. — 4-MTA is potent SERT releaser, similar to PCA"
+          "reference": null
         },
         {
           "target": "DAT",
           "readout": "[3H]-DA release",
           "ec50_nm": null,
           "species": "rat",
-          "reference": null,
-          "notes": "Weak DA release — SERT-dominant"
+          "reference": null
         }
       ],
       "downstream_signalling": "SERT-dominant release + MAO-A inhibition (IC50 250 nM) is the classic 'PMA-like' lethal combination. Hyperthermic serotonin syndrome with delayed onset. 4-MTA additionally has 5-HT2A agonism."
@@ -1696,7 +1623,6 @@
       "Human PK never characterised (illicit-only)",
       "5-HT2B affinity unmeasured"
     ],
-    "notes": "4-MTA was marketed as 'flatliners' in the UK 1999–2001 and caused multiple fatal serotonin syndrome cases. The combination of SERT release + MAO-A inhibition is the lethal mechanism. Notably 4-MTA does NOT cause MDMA-like axonal neurotoxicity in rats despite equipotent 5-HT release — suggests neurotoxicity is not purely a function of SERT release magnitude.",
     "references_consulted": [
       "pmid:12649293",
       "doi:10.3389/fphar.2019.01590",
@@ -1723,7 +1649,6 @@
     },
     "metabolism": [],
     "confidence": "high",
-    "notes": "Duplicate of 4-Methylthioamphetamine.",
     "references_consulted": [
       "pmid:12649293"
     ]
@@ -1756,8 +1681,7 @@
           "readout": "[3H]-5-HT release",
           "ec50_nm": null,
           "species": "rat",
-          "reference": null,
-          "notes": "Potent SERT releaser; combined with MAO-A inhibition this is the killing mechanism"
+          "reference": null
         }
       ],
       "downstream_signalling": "SERT release + MAO-A inhibition (IC50 300–600 nM) → massive cytosolic 5-HT accumulation → serotonin syndrome with malignant hyperthermia. Onset is delayed (4–6 h) compared to MDMA (~1 h), causing users to redose thinking they got bad ecstasy."
@@ -1798,7 +1722,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "PMA is the canonical 'fake MDMA' killer compound. Often sold as ecstasy. Delayed onset → redosing → fatal hyperthermia. CYP2D6 PMs are at multiplied risk.",
     "references_consulted": [
       "pmid:12649293",
       "doi:10.3389/fphar.2019.01590"
@@ -1825,7 +1748,6 @@
     },
     "metabolism": [],
     "confidence": "high",
-    "notes": "Duplicate of Para-Methoxyamphetamine.",
     "references_consulted": []
   },
   {
@@ -1856,8 +1778,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293/h5-HT2B",
           "radioligand_or_probe": "[3H]-LSD or [3H]-mesulergine",
-          "reference": "pmid:11104741",
-          "notes": "Rothman/Setola 2000 — parent fenfluramine has weak 5-HT2B; the danger is its metabolite norfenfluramine"
+          "reference": "pmid:11104741"
         },
         {
           "target": "5-HT2A",
@@ -1880,8 +1801,7 @@
           "readout": "[3H]-5-HT release",
           "ec50_nm": 79.3,
           "species": "rat",
-          "reference": "pmid:11104741",
-          "notes": "Potent SERT releaser — basis for anorectic effect"
+          "reference": "pmid:11104741"
         },
         {
           "target": "NET",
@@ -1895,8 +1815,7 @@
           "readout": "[3H]-DA release",
           "ec50_nm": 10000,
           "species": "rat",
-          "reference": "pmid:11104741",
-          "notes": "Essentially inactive at DAT"
+          "reference": "pmid:11104741"
         }
       ],
       "downstream_signalling": "Acute: SERT release → anorexia, satiety. Chronic: metabolite norfenfluramine accumulates → 5-HT2B-mediated mitogenesis on cardiac valves → fibrous valvular thickening (mitral and aortic), pulmonary hypertension. Now reformulated for Dravet syndrome (Fintepla) at much lower doses, with REMS for echocardiography. Anticonvulsant action likely involves σ1 modulation (Sourbron 2017 doi:10.1111/epi.13691)."
@@ -1910,8 +1829,7 @@
           "half_life_min": 1200,
           "vd_l_per_kg": 11,
           "protein_binding_pct": 50,
-          "reference": "doi:10.1007/bf00547426",
-          "notes": "Caccia 1986 — fenfluramine t1/2 13–30 h (mean ~19 h depending on enantiomer); active metabolite norfenfluramine t1/2 1.5–2× longer (~30 h), accumulates with chronic dosing"
+          "reference": "doi:10.1007/bf00547426"
         }
       ]
     },
@@ -1923,7 +1841,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 400,
         "reference": "pmid:30336805",
-        "notes": "Norfenfluramine is 400× more 5-HT2B-active than parent (Ki 52 nM vs 4134 nM); also has 5-HT2C activity (Ki 557 nM)",
         "metabolite_potency_target": "SERT",
         "metabolite_potency_basis": "receptor_affinity",
         "metabolite_mechanism_vs_parent": "divergent"
@@ -1983,7 +1900,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Fenfluramine itself is a relatively safe SERT releaser; the danger is its metabolite norfenfluramine, which is a potent 5-HT2B agonist (Ki 52 nM, EC50 ~18 nM, Emax ~73%). After 24+ months chronic dosing ~30% of patients develop echocardiographic valvulopathy. Reformulated as Fintepla for Dravet syndrome 2020 at sub-anorectic doses with REMS.",
     "references_consulted": [
       "pmid:11104741",
       "doi:10.2165/00003088-198611030-00003",
@@ -2018,8 +1934,7 @@
           "route": "oral",
           "tmax_min": 90,
           "half_life_min": 480,
-          "reference": "doi:10.1111/bcpt.12584",
-          "notes": "Katselou 2016 — fenethylline oral, parent t1/2 short (~8 h); amphetamine and theophylline metabolites detected for 24+ h"
+          "reference": "doi:10.1111/bcpt.12584"
         }
       ]
     },
@@ -2045,7 +1960,6 @@
       "amphetamine-theophylline-codrug"
     ],
     "confidence": "medium",
-    "notes": "The famous 'Captagon' drug widely used in Middle East. Functionally an amphetamine + theophylline prodrug.",
     "references_consulted": [
       "doi:10.1111/bcpt.12584"
     ]
@@ -2077,8 +1991,7 @@
           "tmax_min": 90,
           "half_life_min": 270,
           "protein_binding_pct": 87,
-          "reference": null,
-          "notes": "Parent t1/2 4–6 h; metabolites (d-meth, d-amph) drive duration and effect"
+          "reference": null
         }
       ]
     },
@@ -2102,7 +2015,6 @@
       "Schedule-III-US"
     ],
     "confidence": "medium",
-    "notes": "FDA-approved Schedule III anorectic. Prodrug of d-methamphetamine and d-amphetamine. Triggers positive amphetamine UDS.",
     "references_consulted": []
   },
   {
@@ -2132,8 +2044,7 @@
           "action": "antagonist",
           "species": "human",
           "tissue_or_cell": "HEK293/h5-HT2B",
-          "reference": "pmid:17017961",
-          "notes": "Critically, phentermine is INACTIVE as a ligand or agonist of 5-HT2 receptors — this is why phen-only had no valvulopathy/PPH signal while fenfluramine did"
+          "reference": "pmid:17017961"
         }
       ],
       "functional": [
@@ -2142,8 +2053,7 @@
           "readout": "[3H]-NE release",
           "ec50_nm": 28.8,
           "species": "rat",
-          "reference": "pmid:14612135",
-          "notes": "Rothman/Baumann 2003 — phentermine is NE-selective releaser"
+          "reference": "pmid:14612135"
         },
         {
           "target": "DAT",
@@ -2157,8 +2067,7 @@
           "readout": "[3H]-5-HT release",
           "ec50_nm": 3043,
           "species": "rat",
-          "reference": "pmid:14612135",
-          "notes": "Weak SERT releaser — clinically negligible"
+          "reference": "pmid:14612135"
         }
       ],
       "downstream_signalling": "NE/DA release without significant SERT engagement; α,α-dimethyl substitution protects from MAO and CYP and gives long half-life (~20 h)."
@@ -2171,8 +2080,7 @@
           "cmax_ng_per_ml": 200,
           "half_life_min": 1320,
           "dose_in_study_mg": 15,
-          "reference": null,
-          "notes": "FDA label / DrugBank — Cmax ~200 ng/mL at 15 mg steady state, Tmax 6 h, t1/2 20–25 h (pH-dependent; 7–8 h in acidic urine). Only ~6% metabolised; mostly excreted unchanged renally."
+          "reference": null
         }
       ]
     },
@@ -2201,7 +2109,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Currently FDA-approved as Adipex-P (15/37.5 mg) and Qsymia (phentermine + topiramate). The α,α-dimethyl gives long t1/2 and pure NE-DA release without 5-HT2B activity → no valvulopathy.",
     "references_consulted": [
       "pmid:14612135",
       "pmid:17017961"
@@ -2243,7 +2150,6 @@
       "PPH"
     ],
     "confidence": "high",
-    "notes": "Historic combination, withdrawn 1997. See individual Phentermine and Fenfluramine records.",
     "references_consulted": [
       "pmid:11104741"
     ]
@@ -2275,8 +2181,7 @@
           "readout": "[3H]-NE release",
           "ec50_nm": 218,
           "species": "rat",
-          "reference": "pmid:14612135",
-          "notes": "(+)-ephedrine substantially weaker than (-)-ephedrine (43-72 nM); the (-) form is the clinical/natural enantiomer"
+          "reference": "pmid:14612135"
         },
         {
           "target": "DAT",
@@ -2300,7 +2205,6 @@
     },
     "metabolism": [],
     "confidence": "medium",
-    "notes": "The (+) enantiomer; weaker than natural (-)-ephedrine. Stereochemistry matters: ephedrine = erythro, pseudoephedrine = threo.",
     "references_consulted": [
       "pmid:14612135"
     ]
@@ -2333,8 +2237,7 @@
           "readout": "[3H]-NE release",
           "ec50_nm": 72.4,
           "species": "rat",
-          "reference": "pmid:14612135",
-          "notes": "(-)-ephedrine — 3× more potent than (+)-ephedrine"
+          "reference": "pmid:14612135"
         },
         {
           "target": "DAT",
@@ -2354,8 +2257,7 @@
           "tmax_min": 60,
           "half_life_min": 360,
           "protein_binding_pct": 27,
-          "reference": null,
-          "notes": "Oral F 88%; ~60% renal excretion unchanged; t1/2 ~6 h (pH-dependent)"
+          "reference": null
         }
       ]
     },
@@ -2378,7 +2280,6 @@
       "indirect-sympathomimetic"
     ],
     "confidence": "high",
-    "notes": "Natural ephedrine from Ephedra sinica. Classic indirect sympathomimetic. β-hydroxyl differentiates it from amphetamine — less CNS stimulant, more peripheral pressor.",
     "references_consulted": [
       "pmid:14612135"
     ]
@@ -2408,8 +2309,7 @@
           "readout": "[3H]-NE release",
           "ec50_nm": 224,
           "species": "rat",
-          "reference": "pmid:14612135",
-          "notes": "Modest NE release; 9-fold selectivity over DA"
+          "reference": "pmid:14612135"
         },
         {
           "target": "DAT",
@@ -2429,8 +2329,7 @@
           "tmax_min": 114,
           "half_life_min": 324,
           "protein_binding_pct": 25,
-          "reference": null,
-          "notes": "F ~100%, Tmax 1–4 h (IR) / 2–6 h (ER), t1/2 5.4 h (range 3–16 h pH-dependent); 43–96% renal excretion unchanged"
+          "reference": null
         }
       ]
     },
@@ -2447,7 +2346,6 @@
       "OTC-decongestant"
     ],
     "confidence": "high",
-    "notes": "The threo-diastereomer of ephedrine. Far weaker CNS effect than ephedrine despite similar pressor activity. Used as nasal decongestant.",
     "references_consulted": [
       "pmid:14612135"
     ]
@@ -2477,7 +2375,6 @@
     },
     "metabolism": [],
     "confidence": "low",
-    "notes": "Mirror image of OTC pseudoephedrine. Limited published data; assumed weaker NE release.",
     "references_consulted": []
   },
   {
@@ -2500,7 +2397,6 @@
     },
     "metabolism": [],
     "confidence": "medium",
-    "notes": "Racemic. Pharmacology = weighted mix of (-) and (+) ephedrine.",
     "references_consulted": [
       "pmid:14612135"
     ]
@@ -2545,8 +2441,7 @@
           "readout": "[3H]-5-HT release",
           "ec50_nm": 193,
           "species": "rat",
-          "reference": "pmid:12163129",
-          "notes": "Notable SERT release component — distinguishes aminorex from amphetamine and explains the PPH risk"
+          "reference": "pmid:12163129"
         },
         {
           "target": "5-HT2B",
@@ -2556,8 +2451,7 @@
           "reference_agonist": "5-HT",
           "species": "human",
           "cell_system": "HEK293/h5-HT2B",
-          "reference": "pmid:17017961",
-          "notes": "Weak direct 5-HT2B agonism (33× weaker than its NE release EC50). PPH mechanism likely also via SERT-released 5-HT acting at vascular 5-HT2B."
+          "reference": "pmid:17017961"
         }
       ],
       "downstream_signalling": "Mixed monoamine releaser with significant SERT component → indirect 5-HT2B activation on pulmonary vasculature → mitogenesis → PPH. Caused epidemic of 582 PPH cases 1965–1972 (Gurtner BMJ doi:10.1136/bmj.4.5680.279)."
@@ -2582,7 +2476,6 @@
     ],
     "tags_to_remove": [],
     "confidence": "high",
-    "notes": "First synthetic anorectic to cause an epidemic of PPH — established the 5-HT2B/SERT-release link to pulmonary vascular disease. Withdrawn 1972.",
     "references_consulted": [
       "pmid:12163129",
       "pmid:17017961"
@@ -2615,8 +2508,7 @@
           "readout": "[3H]-DA release",
           "ec50_nm": 1.7,
           "species": "rat",
-          "reference": "doi:10.1002/dta.1668",
-          "notes": "Brandt 2014 — cis-4-MAR is among the most potent DA releasers known"
+          "reference": "doi:10.1002/dta.1668"
         },
         {
           "target": "NET",
@@ -2630,8 +2522,7 @@
           "readout": "[3H]-5-HT release",
           "ec50_nm": 53.2,
           "species": "rat",
-          "reference": "doi:10.1002/dta.1668",
-          "notes": "Modest SERT release — concerning for 5-HT2B liability"
+          "reference": "doi:10.1002/dta.1668"
         }
       ],
       "downstream_signalling": "Extremely potent monoamine releaser; cis-(±) is recreational form. Stereochemistry critical — trans isomers much weaker."
@@ -2642,8 +2533,7 @@
           "route": "oral",
           "tmax_min": 60,
           "half_life_min": 870,
-          "reference": "pmid:3373171",
-          "notes": "User reports 12–16 h duration oral; t1/2 estimated ~10–19 h"
+          "reference": "pmid:3373171"
         }
       ]
     },
@@ -2661,7 +2551,6 @@
       "long-duration"
     ],
     "confidence": "high",
-    "notes": "Long-acting, extremely potent — among the most potent DA releasers documented. Cis-(±)-4-MAR is the recreational stereoisomer.",
     "references_consulted": [
       "doi:10.1002/dta.1668",
       "pmid:3373171"
@@ -2691,7 +2580,6 @@
     "data_gaps_remaining": [
       "No published EC50 release values"
     ],
-    "notes": "Less studied than 4-MAR. Aminorex congener.",
     "references_consulted": []
   },
   {
@@ -2720,7 +2608,6 @@
           "species": "human",
           "tissue_or_cell": "HEK293/h5-HT2B",
           "reference": "doi:10.1021/acschemneuro.8b00415",
-          "notes": "Maier 2018 — 4,4'-DMAR is inactive at 5-HT2B despite being a balanced SNDRA",
           "is_review": true
         }
       ],
@@ -2744,8 +2631,7 @@
           "readout": "[3H]-5-HT release",
           "ec50_nm": 18.5,
           "species": "rat",
-          "reference": "doi:10.1002/dta.1668",
-          "notes": "Well-balanced SERT release — comparable potency to DA and NE; closer to MDMA than amphetamine"
+          "reference": "doi:10.1002/dta.1668"
         }
       ],
       "downstream_signalling": "Balanced triple monoamine releaser (DA ≈ NE ≈ 5-HT all in 8–27 nM range) → high serotonin syndrome risk in OD especially with co-ingestants. Despite SERT release, no direct 5-HT2B activity."
@@ -2759,7 +2645,6 @@
       "fatal-overdose-risk"
     ],
     "confidence": "high",
-    "notes": "Caused ≥31 deaths in Europe by Feb 2014 (Brandt 2014). Balanced SNDRA → hyperthermic serotonin syndrome. Often co-ingested with other stimulants which amplified toxicity.",
     "references_consulted": [
       "doi:10.1002/dta.1668",
       "doi:10.1021/acschemneuro.8b00415"
@@ -2789,7 +2674,6 @@
     "data_gaps_remaining": [
       "No published EC50"
     ],
-    "notes": "Research chemical aminorex congener.",
     "references_consulted": []
   },
   {
@@ -2817,7 +2701,6 @@
     "data_gaps_remaining": [
       "No published EC50"
     ],
-    "notes": "Research chemical aminorex congener.",
     "references_consulted": []
   },
   {
@@ -2844,7 +2727,6 @@
     "data_gaps_remaining": [
       "No published EC50"
     ],
-    "notes": "Research chemical aminorex congener.",
     "references_consulted": []
   },
   {
@@ -2872,7 +2754,6 @@
     "data_gaps_remaining": [
       "EC50 not published"
     ],
-    "notes": "Aminorex analogue, abandoned anorectic.",
     "references_consulted": []
   },
   {
@@ -2902,8 +2783,7 @@
           "ic50_nm": 1000,
           "species": "human",
           "cell_system": "HEK293/hSERT",
-          "reference": "pmid:21073814",
-          "notes": "SERT-preferring; β-keto + para-methoxy combination shifts to serotonergic"
+          "reference": "pmid:21073814"
         }
       ],
       "downstream_signalling": "β-keto analogue of PMMA. SERT-dominant releaser → serotonin syndrome risk. Lack of DA component → users keep redosing seeking effect → hyperthermic toxicity. Multiple Swedish fatalities (Wikström 2010)."
@@ -2913,8 +2793,7 @@
         {
           "route": "oral",
           "half_life_min": 1572,
-          "reference": "pmid:21073814",
-          "notes": "Reported t1/2 ~26 h — unusually long for a cathinone"
+          "reference": "pmid:21073814"
         }
       ]
     },
@@ -2924,7 +2803,6 @@
       "fatal-toxicity"
     ],
     "confidence": "medium",
-    "notes": "β-keto cathinone with para-methoxy. Caused fatal serotonin-syndrome poisonings in Sweden 2010. Note: belongs to cathinone group, may be better categorised there.",
     "references_consulted": [
       "pmid:21073814"
     ]
@@ -2955,8 +2833,7 @@
           "route": "oral",
           "tmax_min": 180,
           "half_life_min": 600,
-          "reference": "pmid:9708845",
-          "notes": "t1/2 7–12 h (7 h children, 11–12 h adults); enables once-daily dosing"
+          "reference": "pmid:9708845"
         }
       ]
     },
@@ -2975,7 +2852,6 @@
       "DA-selective"
     ],
     "confidence": "high",
-    "notes": "Withdrawn in US 2005 due to fatal idiosyncratic hepatotoxicity. Mechanism is selective DA release/reuptake inhibition without NE component.",
     "references_consulted": [
       "pmid:9708845",
       "pmid:18217792"
@@ -3004,7 +2880,6 @@
       "Mechanism not directly characterised",
       "No published EC50"
     ],
-    "notes": "Related to pemoline. Sold as designer 'nootropic' research chemical.",
     "references_consulted": []
   },
   {
@@ -3033,8 +2908,7 @@
         {
           "route": "inhaled (nasal inhaler)",
           "half_life_min": 240,
-          "reference": null,
-          "notes": "t1/2 ~4 ± 1.5 h"
+          "reference": null
         }
       ]
     },
@@ -3044,7 +2918,6 @@
       "cyclohexyl-amphetamine"
     ],
     "confidence": "medium",
-    "notes": "OTC Benzedrex inhaler. Widely abused via oral/IV ingestion despite intended inhalational use (cardiotoxicity risk).",
     "references_consulted": []
   },
   {
@@ -3076,8 +2949,7 @@
         {
           "route": "oral",
           "half_life_min": 510,
-          "reference": null,
-          "notes": "t1/2 ~8.5 h — accumulates with repeated dosing"
+          "reference": null
         }
       ]
     },
@@ -3096,7 +2968,6 @@
       "banned-FDA"
     ],
     "confidence": "medium",
-    "notes": "Aliphatic NDRA. Was marketed as supplement (Jack3D, OxyElitePro) until FDA banned 2013 after deaths.",
     "references_consulted": [
       "doi:10.1124/jpet.122.001514"
     ]
@@ -3142,7 +3013,6 @@
     "data_gaps_remaining": [
       "No published EC50 binding/release data"
     ],
-    "notes": "DMAA replacement marketed in supplements. Similar mechanism, limited data.",
     "references_consulted": []
   },
   {
@@ -3175,8 +3045,7 @@
           "reference_agonist": "self",
           "species": "human",
           "cell_system": "HEK293/hTAAR1",
-          "reference": "pmid:11459929",
-          "notes": "Bunzow/Borowsky 2001 — PEA is the prototypical TAAR1 endogenous agonist"
+          "reference": "pmid:11459929"
         },
         {
           "target": "DAT",
@@ -3184,16 +3053,7 @@
           "ec50_nm": 39.5,
           "species": "rat",
           "cell_system": "brain synaptosomes",
-          "reference": "pmid:25548026",
-          "notes": "Reith 2015 Table 1: phenethylamine DA release EC50 39.5 ± 1.8 nM (n=3, triplicate, rat brain synaptosomes)"
-        },
-        {
-          "target": "NET",
-          "readout": "[3H]-NE release",
-          "ec50_nm": 10.9,
-          "species": "rat",
-          "cell_system": "brain synaptosomes",
-          "notes": "Blough 2008 (book chapter in Trudell & Izenwasser, Transporters as Targets for Drugs); not PubMed-indexed. Consistent with the amphetamine-family NE-preferring pattern (Rothman 2001 Synapse 39:32-41)"
+          "reference": "pmid:25548026"
         }
       ],
       "downstream_signalling": "Endogenous trace amine; equipotent to amphetamine at DAT in vitro but orally inactive in humans up to 1.6 g (Sabelli 1986) due to rapid first-pass MAO metabolism."
@@ -3204,8 +3064,7 @@
           "route": "oral",
           "bioavailability_pct": 1,
           "half_life_min": 10,
-          "reference": "pmid:11459929",
-          "notes": "Endogenous PEA t1/2 ~30 s in DA neurons; oral PEA t1/2 5–10 min (intestinal + hepatic MAO). Effectively orally inactive."
+          "reference": "pmid:11459929"
         }
       ]
     },
@@ -3232,7 +3091,6 @@
       "orally-inactive"
     ],
     "confidence": "high",
-    "notes": "The endogenous trace amine prototype. α-methylation (→ amphetamine) protects from MAO and gives oral activity.",
     "references_consulted": [
       "pmid:11071707",
       "pmid:11459929"
@@ -3258,7 +3116,6 @@
     },
     "metabolism": [],
     "confidence": "high",
-    "notes": "Duplicate of Phenethylamine.",
     "references_consulted": [
       "pmid:11071707"
     ]
@@ -3300,7 +3157,6 @@
       "TAAR1-agonist"
     ],
     "confidence": "medium",
-    "notes": "Endogenous trace amine present in human brain. MAO-B preferred substrate; orally weak.",
     "references_consulted": []
   },
   {
@@ -3327,7 +3183,6 @@
     "data_gaps_remaining": [
       "No published TAAR1 EC50"
     ],
-    "notes": "N-ethyl trace amine; minor pharmacology.",
     "references_consulted": []
   },
   {
@@ -3368,8 +3223,7 @@
           "route": "oral",
           "bioavailability_pct": 1,
           "half_life_min": 5,
-          "reference": null,
-          "notes": "Almost entirely degraded by intestinal/hepatic MAO-A; threshold for cheese reaction on MAOI is ~10 mg"
+          "reference": null
         }
       ]
     },
@@ -3396,7 +3250,6 @@
       "cheese-reaction-MAOI"
     ],
     "confidence": "high",
-    "notes": "Major dietary amine in aged cheese, cured meat, fermented foods. Cheese reaction is the canonical MAOI dietary interaction.",
     "references_consulted": [
       "pmid:11459929"
     ]
@@ -3420,7 +3273,6 @@
     },
     "metabolism": [],
     "confidence": "high",
-    "notes": "Duplicate of Tyramine.",
     "references_consulted": [
       "pmid:11459929"
     ]
@@ -3451,8 +3303,7 @@
           "emax_pct": 100,
           "reference_agonist": "PEA",
           "species": "human",
-          "reference": "pmid:11459929",
-          "notes": "Slightly more potent than p-tyramine at hTAAR1"
+          "reference": "pmid:11459929"
         }
       ],
       "downstream_signalling": "Endogenous trace amine; similar profile to p-tyramine."
@@ -3462,7 +3313,6 @@
     },
     "metabolism": [],
     "confidence": "medium",
-    "notes": "Endogenous trace amine, less studied than p-tyramine.",
     "references_consulted": [
       "pmid:11459929"
     ]
@@ -3493,8 +3343,7 @@
           "emax_pct": 100,
           "reference_agonist": "PEA",
           "species": "human",
-          "reference": "pmid:11459929",
-          "notes": "One of four endogenous TAAR1 agonists (PEA, tyramine, octopamine, synephrine)"
+          "reference": "pmid:11459929"
         }
       ],
       "downstream_signalling": "Endogenous trace amine; 400–2000× weaker than NE at mammalian adrenergic receptors. Does not cross BBB readily."
@@ -3508,7 +3357,6 @@
       "TAAR1-agonist"
     ],
     "confidence": "medium",
-    "notes": "Endogenous trace amine. Major neurotransmitter in invertebrates (analogue of NE in insects).",
     "references_consulted": [
       "pmid:11459929"
     ]
@@ -3532,7 +3380,6 @@
     },
     "metabolism": [],
     "confidence": "medium",
-    "notes": "Duplicate.",
     "references_consulted": [
       "pmid:11459929"
     ]
@@ -3563,8 +3410,7 @@
           "emax_pct": 81,
           "reference_agonist": "PEA",
           "species": "human",
-          "reference": "pmid:11459929",
-          "notes": "Low-potency TAAR1 partial agonist"
+          "reference": "pmid:11459929"
         }
       ],
       "downstream_signalling": "Weak α1-selective adrenergic agonist + low-potency TAAR1 agonist. p-Synephrine (Citrus aurantium) — distinct from m-synephrine (phenylephrine) which is ~100× more potent at α1."
@@ -3575,8 +3421,7 @@
           "route": "oral",
           "tmax_min": 90,
           "half_life_min": 120,
-          "reference": null,
-          "notes": "t1/2 ~2 h"
+          "reference": null
         }
       ]
     },
@@ -3586,7 +3431,6 @@
       "trace-amine"
     ],
     "confidence": "medium",
-    "notes": "Found in bitter orange (Citrus aurantium); common in fat-burner supplements. Very weak compared to m-synephrine (phenylephrine).",
     "references_consulted": [
       "pmid:11459929"
     ]
@@ -3612,7 +3456,6 @@
     },
     "metabolism": [],
     "confidence": "low",
-    "notes": "Enantiomer of synephrine.",
     "references_consulted": []
   },
   {
@@ -3636,7 +3479,6 @@
     },
     "metabolism": [],
     "confidence": "low",
-    "notes": "Enantiomer of synephrine.",
     "references_consulted": []
   },
   {
@@ -3658,7 +3500,6 @@
     },
     "metabolism": [],
     "confidence": "low",
-    "notes": "Ionic form of D-synephrine.",
     "references_consulted": []
   },
   {
@@ -3678,19 +3519,6 @@
       "primary_targets": [
         "α1-adrenergic"
       ],
-      "binding": [
-        {
-          "target": "α1A-adrenergic",
-          "ki_nm": null,
-          "ec50_nm": 75,
-          "intrinsic_activity_pct": 100,
-          "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "recombinant α1A",
-          "reference": null,
-          "notes": "Selective α1 full agonist; minimal β activity"
-        }
-      ],
       "functional": [],
       "downstream_signalling": "Direct α1 agonist (Gq → PLC → IP3/DAG → vasoconstriction). The meta-hydroxyl positions it for α1 selectivity unlike para (synephrine) which is weak."
     },
@@ -3701,15 +3529,13 @@
           "bioavailability_pct": 0.03,
           "tmax_min": 75,
           "half_life_min": 150,
-          "reference": "pmid:17264159",
-          "notes": "Hatton 2007 meta-analysis — oral F is essentially zero (massive first-pass MAO-A); explains FDA 2023 finding that oral phenylephrine is ineffective as decongestant"
+          "reference": "pmid:17264159"
         },
         {
           "route": "intravenous",
           "bioavailability_pct": 100,
           "half_life_min": 150,
-          "reference": null,
-          "notes": "IV phenylephrine is the standard pressor for spinal anaesthesia hypotension"
+          "reference": null
         }
       ]
     },
@@ -3727,7 +3553,6 @@
       "ineffective-oral"
     ],
     "confidence": "high",
-    "notes": "FDA advisory panel September 2023 found oral phenylephrine ineffective as nasal decongestant — massive first-pass metabolism leaves no systemic drug. IV is potent and effective.",
     "references_consulted": [
       "pmid:17264159"
     ]
@@ -3761,8 +3586,7 @@
           "reference_agonist": "PEA",
           "species": "rat",
           "cell_system": "rTAR1 transfected",
-          "reference": "pmid:11723224",
-          "notes": "Bunzow 2001 — hordenine at 1 µM matches PEA at 1 µM in stimulating cAMP"
+          "reference": "pmid:11723224"
         }
       ],
       "downstream_signalling": "Indirect sympathomimetic via NE release; selective MAO-B substrate (Km 479 µM, Vmax 128 nM/mg/h in rat liver, not deaminated by MAO-A). Poor BBB penetration — peripheral activity dominates."
@@ -3784,7 +3608,6 @@
       "TAAR1-agonist"
     ],
     "confidence": "medium",
-    "notes": "Found in barley and some cacti. Marketed in pre-workout supplements as 'focus' ingredient. Poor BBB penetration limits CNS effect.",
     "references_consulted": [
       "pmid:11723238",
       "doi:10.1111/j.2042-7158.1989.tb06492.x"
@@ -3810,7 +3633,6 @@
     },
     "metabolism": [],
     "confidence": "medium",
-    "notes": "Duplicate of Hordenine.",
     "references_consulted": [
       "pmid:11723238"
     ]
@@ -3841,7 +3663,6 @@
     },
     "metabolism": [],
     "confidence": "medium",
-    "notes": "Endogenous trace amine; found in some cacti and bitter orange. Pre-workout supplement ingredient.",
     "references_consulted": []
   },
   {
@@ -3876,8 +3697,7 @@
         {
           "route": "intravenous",
           "half_life_min": 1,
-          "reference": null,
-          "notes": "Plasma t1/2 ~1 min (newborn ~2 min, preterm ~5 min); rapidly metabolised by MAO + COMT + ALDH to HVA"
+          "reference": null
         }
       ]
     },
@@ -3895,7 +3715,6 @@
       "IV-pressor"
     ],
     "confidence": "high",
-    "notes": "Endogenous neurotransmitter. Used clinically as IV pressor (peripherally) — does not cross BBB so no CNS effects of exogenous administration.",
     "references_consulted": []
   },
   {
@@ -3917,7 +3736,6 @@
     },
     "metabolism": [],
     "confidence": "high",
-    "notes": "Salt form of dopamine. See dopamine record.",
     "references_consulted": []
   },
   {
@@ -3949,7 +3767,6 @@
     },
     "metabolism": [],
     "confidence": "medium",
-    "notes": "Active metabolite of ibopamine (oral DA prodrug). Used historically for cardiac inotropy.",
     "references_consulted": []
   },
   {
@@ -3989,7 +3806,6 @@
       "research-only"
     ],
     "confidence": "high",
-    "notes": "6-OHDA is the classic experimental neurotoxin for selective DA terminal lesions. Standard tool in Parkinson's disease animal models.",
     "references_consulted": []
   },
   {
@@ -4015,7 +3831,6 @@
       "research-only"
     ],
     "confidence": "high",
-    "notes": "Noradrenergic neurotoxin counterpart to 6-OHDA.",
     "references_consulted": []
   },
   {
@@ -4046,7 +3861,6 @@
     "data_gaps_remaining": [
       "No published TAAR1 EC50"
     ],
-    "notes": "Endogenous metabolite of dopamine via COMT.",
     "references_consulted": []
   },
   {
@@ -4068,7 +3882,6 @@
     },
     "metabolism": [],
     "confidence": "low",
-    "notes": "Catechol O-methylation product (minor pathway).",
     "references_consulted": []
   },
   {
@@ -4112,7 +3925,6 @@
       "Detailed human PK",
       "Quantitative MAO-B Ki vs selegiline"
     ],
-    "notes": "Selegiline analogue used as PET imaging agent. Reduced amphetamine metabolite formation vs parent selegiline.",
     "references_consulted": []
   },
   {
@@ -4139,7 +3951,6 @@
     "data_gaps_remaining": [
       "Identity ambiguous in source; no published EC50"
     ],
-    "notes": "Name DESOXY ambiguous: PIHKAL entry vs desoxypipradrol; assuming PIHKAL DOM analogue.",
     "references_consulted": []
   },
   {
@@ -4167,7 +3978,6 @@
     "data_gaps_remaining": [
       "No published EC50 release values"
     ],
-    "notes": "Research chemical; very limited data.",
     "references_consulted": []
   },
   {
@@ -4198,7 +4008,6 @@
     "data_gaps_remaining": [
       "No published EC50"
     ],
-    "notes": "Meta-chloroamphetamine. Distinct from PCA — less serotonergic shift expected. Research chemical.",
     "references_consulted": []
   },
   {
@@ -4220,7 +4029,6 @@
     },
     "metabolism": [],
     "confidence": "medium",
-    "notes": "Capitalisation duplicate.",
     "references_consulted": [
       "pmid:21073814"
     ]
@@ -4252,8 +4060,7 @@
           "action": "partialAgonist",
           "species": "human",
           "tissue_or_cell": "HEK293/h5-HT2A",
-          "reference": "pmid:26318099",
-          "notes": "Range across labs Ki 550–17,400 nM, EC50 88–30,200 nM, Emax 33–107%"
+          "reference": "pmid:26318099"
         },
         {
           "target": "5-HT2A",
@@ -4268,11 +4075,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 membranes overexpressing human 5-HT2A",
           "radioligand_or_probe": "[3H]ketanserin",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Rickli 2015 Table 1: 6.3 +/- 1.8 uM. Author ratio 0.73 (binds 5-HT1A more tightly)."
+          "confidence": "high"
         },
         {
           "target": "5-HT1A",
@@ -4287,11 +4092,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 membranes overexpressing human 5-HT1A",
           "radioligand_or_probe": "[3H]8-OH-DPAT",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Rickli 2015 Table 1: 4.6 +/- 0.4 uM. Paired with 5-HT2A (same batch)."
+          "confidence": "high"
         }
       ],
       "functional": [],
@@ -4303,8 +4106,7 @@
           "route": "oral",
           "tmax_min": 105,
           "half_life_min": 215,
-          "reference": null,
-          "notes": "Recent re-analysis (2020s) gives t1/2 ~3.6 h (range 2.6–5.3 h), correcting earlier 6 h estimate. Onset 0.5–0.9 h; Tmax 1.6–2.3 h."
+          "reference": null
         }
       ]
     },
@@ -4314,8 +4116,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "3,4,5-trimethoxyphenylacetic acid",
         "metabolite_active": false,
-        "reference": null,
-        "notes": "Mescaline is a poor substrate of purified human MAO; deamination pathway unclear. Not significantly metabolised by CYP2D6."
+        "reference": null
       }
     ],
     "tags_to_add": [
@@ -4323,7 +4124,6 @@
       "psychedelic"
     ],
     "confidence": "high",
-    "notes": "Mescaline is a phenethylamine but a classical psychedelic, not a stimulant — included here because of phenethylamine class membership. Active metabolite of peyote (Lophophora williamsii).",
     "references_consulted": []
   },
   {
@@ -4363,8 +4163,7 @@
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "HEK293/h5-HT2B",
-          "reference": "pmid:26318099",
-          "notes": "Concerning 5-HT2B activity (Ki 13.5–97 nM) — chronic 2C-B use may carry valvulopathy risk"
+          "reference": "pmid:26318099"
         },
         {
           "target": "5-HT2C",
@@ -4386,11 +4185,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 membranes overexpressing human 5-HT2A",
           "radioligand_or_probe": "[3H]ketanserin",
-          "assay_buffer_notes": "Cheng-Prusoff",
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Rickli 2015 Table 1."
+          "confidence": "high"
         },
         {
           "target": "5-HT1A",
@@ -4405,11 +4202,9 @@
           "species": "human",
           "tissue_or_cell": "HEK293 membranes overexpressing human 5-HT1A",
           "radioligand_or_probe": "[3H]8-OH-DPAT",
-          "assay_buffer_notes": "Cheng-Prusoff; author-reported 5-HT2A/5-HT1A ratio = 28",
           "reference": "doi:10.1016/j.neuropharm.2015.08.034",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Rickli 2015 Table 1. Paired with 5-HT2A row (same batch)."
+          "confidence": "high"
         }
       ],
       "functional": [],
@@ -4423,8 +4218,7 @@
           "tmax_min": 130,
           "half_life_min": 110,
           "dose_in_study_mg": 30,
-          "reference": null,
-          "notes": "Cmax 2.5 ng/mL (10 mg) to 5.4–6.4 ng/mL (30 mg); Tmax 2.0–2.4 h; t1/2 1.2–2.5 h"
+          "reference": null
         }
       ]
     },
@@ -4434,7 +4228,6 @@
       "5-HT2B-agonist"
     ],
     "confidence": "high",
-    "notes": "Classical 2C psychedelic. Note: not a stimulant per se but included due to phenethylamine class membership.",
     "references_consulted": []
   },
   {
@@ -4456,8 +4249,7 @@
           "ki_nm": null,
           "action": "agonist",
           "species": "human",
-          "reference": null,
-          "notes": "Estimated based on the NBOMe series boost: parent 2C-T is moderate, N-benzyl modification increases affinity 30–100×"
+          "reference": null
         }
       ],
       "functional": [],
@@ -4490,7 +4282,6 @@
     "data_gaps_remaining": [
       "Specific Ki for 25T-NBOMe family members not individually published"
     ],
-    "notes": "NBOMe variant. NBOMe N-benzyl modification boosts 5-HT2A affinity 30–100× over parent 2C compound. Multiple deaths in series.",
     "references_consulted": []
   },
   {
@@ -4513,7 +4304,6 @@
     },
     "metabolism": [],
     "confidence": "low",
-    "notes": "NBOMe variant of 2C-T-4.",
     "references_consulted": []
   },
   {
@@ -4536,7 +4326,6 @@
     },
     "metabolism": [],
     "confidence": "low",
-    "notes": "NBOMe variant of 2C-T-7.",
     "references_consulted": []
   }
 ]

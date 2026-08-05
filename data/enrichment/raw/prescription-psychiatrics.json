@@ -31,10 +31,8 @@
           "species": "human",
           "tissue_or_cell": "HEK-293 stably expressing human SERT",
           "radioligand_or_probe": "[3H]-5-HT uptake",
-          "assay_buffer_notes": null,
           "reference": "pmid:9400006",
-          "is_review": false,
-          "notes": "Racemate; S-enantiomer carries activity. Hyttel JCP 1994 reports Ki ~1-4 nM for citalopram across multiple preparations."
+          "is_review": false
         },
         {
           "target": "H1",
@@ -49,10 +47,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human H1",
           "radioligand_or_probe": "[3H]-pyrilamine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/BF02246453",
-          "is_review": false,
-          "notes": "Highest off-target among citalopram receptors; underlies sedation."
+          "is_review": false
         },
         {
           "target": "M1",
@@ -67,10 +63,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M1",
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": "pmid:9400006",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "sigma-1",
@@ -85,10 +79,8 @@
           "species": "human",
           "tissue_or_cell": "Jurkat cell membranes",
           "radioligand_or_probe": "[3H]-(+)-pentazocine",
-          "assay_buffer_notes": null,
           "reference": "pmid:24508523",
-          "is_review": false,
-          "notes": "Weakest sigma-1 affinity among SSRIs aside from paroxetine."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -215,7 +207,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Racemate; R-enantiomer is pharmacologically inactive at SERT but contributes to hERG affinity and antagonises the active S-enantiomer via allosteric site (basis for escitalopram development).",
     "references_consulted": [
       "pmid:9400006",
       "doi:10.1007/BF02246453",
@@ -255,10 +246,8 @@
           "species": "human",
           "tissue_or_cell": "HEK-293 hSERT",
           "radioligand_or_probe": "[3H]-citalopram",
-          "assay_buffer_notes": null,
           "reference": "pmid:15955412",
-          "is_review": false,
-          "notes": "S-enantiomer carries SERT activity; ~30-fold more potent than R-citalopram."
+          "is_review": false
         },
         {
           "target": "SERT (allosteric)",
@@ -273,10 +262,8 @@
           "species": "human",
           "tissue_or_cell": "HEK-293 hSERT",
           "radioligand_or_probe": "[3H]-escitalopram dissociation kinetics",
-          "assay_buffer_notes": null,
           "reference": "pmid:15955412",
-          "is_review": false,
-          "notes": "Allosteric site in TM10-12 (residues A505/L506/I507/S574/I575); binding here slows escitalopram dissociation from orthosteric site, enhancing inhibition. Mechanism unique to citalopram series."
+          "is_review": false
         },
         {
           "target": "H1",
@@ -291,10 +278,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human H1",
           "radioligand_or_probe": "[3H]-pyrilamine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/BF02246453",
-          "is_review": false,
-          "notes": "6× lower H1 affinity than racemic citalopram (the R-enantiomer contributes the H1 binding)."
+          "is_review": false
         },
         {
           "target": "M1",
@@ -309,10 +294,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M1",
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": "pmid:9400006",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "NET",
@@ -327,10 +310,8 @@
           "species": "rat",
           "tissue_or_cell": "rat frontal cortex",
           "radioligand_or_probe": "[3H]nisoxetine",
-          "assay_buffer_notes": null,
           "reference": "pmid:20672825",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "DAT",
@@ -345,10 +326,8 @@
           "species": "rat",
           "tissue_or_cell": "rat caudate-putamen",
           "radioligand_or_probe": "[3H]WIN 35,428",
-          "assay_buffer_notes": null,
           "reference": "pmid:20672825",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "sigma-1",
@@ -363,10 +342,8 @@
           "species": "human",
           "tissue_or_cell": "Jurkat cell membranes",
           "radioligand_or_probe": "[3H]-(+)-pentazocine",
-          "assay_buffer_notes": null,
           "reference": "pmid:24508523",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -477,7 +454,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Therapeutic exploitation of citalopram's SERT allosteric site is the canonical example of allosteric self-potentiation in clinical psychopharmacology.",
     "references_consulted": [
       "pmid:15955412"
     ]
@@ -512,10 +488,8 @@
           "species": "human",
           "tissue_or_cell": "hSERT-expressing cells",
           "radioligand_or_probe": "[3H]-5-HT uptake",
-          "assay_buffer_notes": null,
           "reference": "pmid:9400006",
-          "is_review": false,
-          "notes": "Tatsumi et al. 1997 — definitive monoamine transporter Ki table for antidepressants."
+          "is_review": false
         },
         {
           "target": "NET",
@@ -530,10 +504,8 @@
           "species": "human",
           "tissue_or_cell": "hNET-expressing cells",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:9400006",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -551,10 +523,8 @@
           "species": "rat",
           "tissue_or_cell": "choroid plexus / HeLa cells expressing 5-HT2C",
           "radioligand_or_probe": "[3H]-mesulergine / [3H]-5-HT",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1007/BF02246453",
-          "is_review": false,
-          "notes": "Competitive reversible 5-HT2C antagonism is functionally relevant — disinhibits prefrontal DA/NE release."
+          "is_review": false
         },
         {
           "target": "sigma-1",
@@ -569,10 +539,8 @@
           "species": "human",
           "tissue_or_cell": "Jurkat cell membranes",
           "radioligand_or_probe": "[3H]-(+)-pentazocine",
-          "assay_buffer_notes": null,
           "reference": "pmid:24508523",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -596,8 +564,7 @@
           "dose_in_study_mg": 40,
           "subject_n": 20,
           "subject_demographics": "Healthy adults",
-          "reference": "pmid:8194283",
-          "notes": "Parent t1/2 1-3 days acute; 4-6 days chronic. Norfluoxetine t1/2 ~7-15 days (essentially eliminates need for tapering)."
+          "reference": "pmid:8194283"
         }
       ],
       "concentration_effect": []
@@ -679,7 +646,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "The long half-life of norfluoxetine (~7-15 days) makes fluoxetine the SSRI most likely to cause serotonin syndrome when switching to MAOIs (requires 5-week washout) and most robust to occasional missed doses.",
     "references_consulted": [
       "pmid:9400006",
       "doi:10.3390/pharmaceutics13020148"
@@ -716,10 +682,8 @@
           "species": "human",
           "tissue_or_cell": "hSERT-expressing cells",
           "radioligand_or_probe": "[3H]-5-HT uptake",
-          "assay_buffer_notes": null,
           "reference": "pmid:9400006",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "sigma-1",
@@ -734,10 +698,8 @@
           "species": "human",
           "tissue_or_cell": "Jurkat membranes / NG-108 cells",
           "radioligand_or_probe": "[3H]-(+)-pentazocine",
-          "assay_buffer_notes": null,
           "reference": "pmid:24508523",
-          "is_review": false,
-          "notes": "Highest sigma-1 affinity in the SSRI class; fluvoxamine is the prototypical sigma-1 agonist among prescribed antidepressants. Sigma-1 agonism implicated in pro-cognitive and ER-stress-attenuating effects."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -851,7 +813,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Strongest CYP1A2 inhibitor among SSRIs — clinically defining interaction profile.",
     "references_consulted": [
       "pmid:9400006",
       "doi:10.2165/00003088-199427030-00002"
@@ -892,10 +853,8 @@
           "species": "human",
           "tissue_or_cell": "human brain / cloned hSERT",
           "radioligand_or_probe": "[3H]-paroxetine",
-          "assay_buffer_notes": null,
           "reference": "pmid:9400006",
-          "is_review": false,
-          "notes": "Highest SERT affinity of any approved SSRI. Crystal structure of paroxetine-hSERT complex resolved (Coleman et al. 2020)."
+          "is_review": false
         },
         {
           "target": "NET",
@@ -910,10 +869,8 @@
           "species": "human",
           "tissue_or_cell": "hNET-expressing cells",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:9400006",
-          "is_review": false,
-          "notes": "Highest NET affinity of any SSRI — paroxetine functions as a weak SNRI at higher doses."
+          "is_review": false
         },
         {
           "target": "M1",
@@ -928,10 +885,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M1",
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": "pmid:9400006",
-          "is_review": false,
-          "notes": "Most anticholinergic SSRI — accounts for dry mouth, constipation, cognitive blunting."
+          "is_review": false
         },
         {
           "target": "sigma-1",
@@ -946,10 +901,8 @@
           "species": "human",
           "tissue_or_cell": "Jurkat membranes",
           "radioligand_or_probe": "[3H]-(+)-pentazocine",
-          "assay_buffer_notes": null,
           "reference": "pmid:24508523",
-          "is_review": false,
-          "notes": "Lowest sigma-1 affinity of any SSRI."
+          "is_review": false
         },
         {
           "target": "nNOS",
@@ -964,10 +917,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:8993087",
-          "is_review": false,
-          "notes": "Novel NOS inhibition (Finkel et al. 1996) — paroxetine is unique among SSRIs in this property; implicated in sexual dysfunction profile."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1055,7 +1006,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Pregnancy category D for first-trimester cardiac malformation risk — only SSRI with this designation.",
     "references_consulted": [
       "pmid:9400006",
       "pmid:8993087",
@@ -1093,10 +1043,8 @@
           "species": "human",
           "tissue_or_cell": "hSERT-expressing cells",
           "radioligand_or_probe": "[3H]-5-HT uptake",
-          "assay_buffer_notes": null,
           "reference": "pmid:9400006",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "DAT",
@@ -1111,10 +1059,8 @@
           "species": "human",
           "tissue_or_cell": "hDAT-expressing cells",
           "radioligand_or_probe": "[3H]-WIN35,428",
-          "assay_buffer_notes": null,
           "reference": "pmid:9400006",
-          "is_review": false,
-          "notes": "Sertraline is the only SSRI with clinically meaningful DAT affinity (~50× lower than SERT but still 10× higher than other SSRIs). Likely contributes to its activating profile and abuse-deterrent characteristics."
+          "is_review": false
         },
         {
           "target": "NET",
@@ -1129,10 +1075,8 @@
           "species": "human",
           "tissue_or_cell": "hNET-expressing cells",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:9400006",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "sigma-1",
@@ -1147,10 +1091,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain membranes (binding); PC12 cells (neurite outgrowth)",
           "radioligand_or_probe": "[3H]-(+)-pentazocine",
-          "assay_buffer_notes": null,
           "reference": "pmid:24508523",
-          "is_review": false,
-          "notes": "Sertraline acts as a sigma-1 inverse agonist (unlike fluvoxamine which is an agonist). Inhibits NGF-induced neurite outgrowth via sigma-1, suppresses hippocampal LTP at low μM."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1270,7 +1212,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": null,
     "references_consulted": [
       "pmid:9400006",
       "doi:10.1097/FPC.0000000000000378"
@@ -1307,10 +1248,8 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-pyrilamine",
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": null,
-          "notes": "Among the most potent H1 antagonists in clinical use — accounts for sedation, weight gain, appetite stimulation."
+          "is_review": null
         },
         {
           "target": null,
@@ -1325,10 +1264,8 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": null,
-          "notes": null
+          "is_review": null
         },
         {
           "target": null,
@@ -1343,10 +1280,8 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": null,
-          "notes": null
+          "is_review": null
         },
         {
           "target": null,
@@ -1361,10 +1296,8 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-LY278584",
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": null,
-          "notes": "5-HT3 antagonism gives anti-nausea property and avoids GI side-effects typical of SSRIs."
+          "is_review": null
         },
         {
           "target": null,
@@ -1379,10 +1312,8 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-rauwolscine",
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": null,
-          "notes": "Central α2 autoreceptor antagonism on noradrenergic neurons disinhibits NE release; heteroreceptor blockade on serotonergic terminals enhances 5-HT release. Core 'NaSSA' mechanism."
+          "is_review": null
         },
         {
           "target": null,
@@ -1397,10 +1328,8 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-prazosin",
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": null,
-          "notes": null
+          "is_review": null
         },
         {
           "target": null,
@@ -1415,10 +1344,8 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": null,
-          "notes": "Weak muscarinic affinity → minimal anticholinergic effects."
+          "is_review": null
         },
         {
           "target": null,
@@ -1433,10 +1360,8 @@
           "species": null,
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": null,
-          "notes": "Mirtazapine has negligible SERT/NET binding — does not directly inhibit reuptake."
+          "is_review": null
         }
       ],
       "functional": [],
@@ -1543,7 +1468,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Dose-dependent sedation paradox: 15 mg is more sedating than 30 mg because at higher doses α2-mediated noradrenergic alerting offsets H1-mediated sedation. Frequent off-label use as a sleep aid uses the low end.",
     "references_consulted": [
       "pmid:10333982",
       "doi:10.2165/00003088-200038060-00001"
@@ -1580,10 +1504,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human D2",
           "radioligand_or_probe": "[3H]-spiperone",
-          "assay_buffer_notes": null,
           "reference": "pmid:8822531",
-          "is_review": false,
-          "notes": "Bymaster et al. 1996 — definitive olanzapine receptor profile."
+          "is_review": false
         },
         {
           "target": "D1",
@@ -1598,10 +1520,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human D1",
           "radioligand_or_probe": "[3H]-SCH23390",
-          "assay_buffer_notes": null,
           "reference": "pmid:8822531",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "D3",
@@ -1616,10 +1536,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human D3",
           "radioligand_or_probe": "[3H]-spiperone",
-          "assay_buffer_notes": null,
           "reference": "pmid:8822531",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "D4",
@@ -1634,10 +1552,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human D4",
           "radioligand_or_probe": "[3H]-spiperone",
-          "assay_buffer_notes": null,
           "reference": "pmid:8822531",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2A",
@@ -1652,10 +1568,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human 5-HT2A",
           "radioligand_or_probe": "[3H]-ketanserin",
-          "assay_buffer_notes": null,
           "reference": "pmid:8822531",
-          "is_review": false,
-          "notes": "5-HT2A:D2 ratio of ~3:1 is the canonical 'atypical' fingerprint."
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -1670,10 +1584,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human 5-HT2C",
           "radioligand_or_probe": "[3H]-mesulergine",
-          "assay_buffer_notes": null,
           "reference": "pmid:8822531",
-          "is_review": false,
-          "notes": "5-HT2C antagonism is a key driver of olanzapine-induced weight gain and metabolic syndrome."
+          "is_review": false
         },
         {
           "target": "H1",
@@ -1688,10 +1600,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human H1",
           "radioligand_or_probe": "[3H]-pyrilamine",
-          "assay_buffer_notes": null,
           "reference": "pmid:8822531",
-          "is_review": false,
-          "notes": "Major contributor to sedation and weight gain."
+          "is_review": false
         },
         {
           "target": "M1",
@@ -1706,10 +1616,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M1",
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": "pmid:8822531",
-          "is_review": false,
-          "notes": "Strong M1 antagonism. Anticholinergic effects, but also protects against EPS."
+          "is_review": false
         },
         {
           "target": "M3",
@@ -1724,10 +1632,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human M3",
           "radioligand_or_probe": "[3H]-NMS",
-          "assay_buffer_notes": null,
           "reference": "pmid:8822531",
-          "is_review": false,
-          "notes": "M3 antagonism on pancreatic β-cells implicated in insulin secretion impairment and type 2 diabetes risk."
+          "is_review": false
         },
         {
           "target": "α1-adrenergic",
@@ -1742,10 +1648,8 @@
           "species": "human",
           "tissue_or_cell": "cloned human α1",
           "radioligand_or_probe": "[3H]-prazosin",
-          "assay_buffer_notes": null,
           "reference": "pmid:8822531",
-          "is_review": false,
-          "notes": "Orthostatic hypotension."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1761,8 +1665,7 @@
         {
           "modality": "PET",
           "finding": "M2 muscarinic occupancy in patients on therapeutic doses ~40-60% ([123I]-IQNB).",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:10617464, which is a C. elegans potassium-channel mutation and feeding behaviour. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+          "reference": null
         }
       ]
     },
@@ -1895,7 +1798,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Combines highest weight-gain liability among atypicals (H1 + 5-HT2C + M3) with potent antipsychotic efficacy approaching clozapine — the classic efficacy/metabolic trade-off.",
     "references_consulted": [
       "pmid:8822531",
       "doi:10.2165/00003088-199937030-00001",
@@ -1932,10 +1834,8 @@
           "species": "human",
           "tissue_or_cell": "human brain mitochondria",
           "radioligand_or_probe": "5-HT deamination",
-          "assay_buffer_notes": null,
           "reference": "doi:10.2165/00003088-199529050-00002",
-          "is_review": false,
-          "notes": "Reversible competitive MAO-A inhibitor (RIMA). Selectivity ratio MAO-A:MAO-B ~10:1 in vitro, higher in vivo because the reversibility means MAO-B remains available."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2038,7 +1938,6 @@
     "data_gaps_remaining": [
       "precise human MAO-A Ki under physiological conditions"
     ],
-    "notes": "Reversibility is the defining feature — recommended washout to SSRI/MAOI switch is only 24-48 h vs 2 weeks for irreversible MAOIs.",
     "references_consulted": [
       "doi:10.2165/00003088-199529050-00002",
       "pmid:11309556",
@@ -2073,10 +1972,8 @@
           "species": "human",
           "tissue_or_cell": "human brain mitochondria",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:28655495",
-          "is_review": true,
-          "notes": "Irreversible covalent inhibitor — forms adduct with FAD cofactor via cyclopropyl ring opening. At low doses (20 mg/d) selective for MAO-A; at higher doses also inhibits MAO-B and gains weak DAT/NET inhibition."
+          "is_review": true
         },
         {
           "target": "MAO-B",
@@ -2091,28 +1988,8 @@
           "species": "human",
           "tissue_or_cell": "human brain mitochondria",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:28655495",
-          "is_review": true,
-          "notes": null
-        },
-        {
-          "target": "LSD1 (KDM1A)",
-          "ki_nm": null,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": 21000,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "enzymeInhibitor",
-          "species": "human",
-          "tissue_or_cell": "purified LSD1",
-          "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
-          "reference": "doi:10.1016/j.bmc.2010.12.024",
-          "is_review": false,
-          "notes": "Off-target epigenetic effect: lysine-specific demethylase 1 inhibition. Scaffold has been re-purposed for LSD1-inhibitor cancer drugs (e.g. iadademstat)."
+          "is_review": true
         }
       ],
       "functional": [],
@@ -2215,7 +2092,6 @@
     "data_gaps_remaining": [
       "precise in vivo Ki/Kinact for human MAO-A vs MAO-B"
     ],
-    "notes": "Structurally amphetamine-like (cyclopropyl-locked phenethylamine), but amphetamine is NOT a metabolite (Baker et al. confirmed via mass spec). Has mild releasing activity in vitro.",
     "references_consulted": [
       "pmid:28655495",
       "pmid:11099737",
@@ -2251,10 +2127,8 @@
           "species": "human",
           "tissue_or_cell": "human brain",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:26316187",
-          "is_review": false,
-          "notes": "Irreversible non-selective hydrazine MAO inhibitor; phenelzine is both substrate AND inhibitor — unusual."
+          "is_review": false
         },
         {
           "target": "MAO-B",
@@ -2269,10 +2143,8 @@
           "species": "human",
           "tissue_or_cell": "human brain",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:33839994",
-          "is_review": true,
-          "notes": null
+          "is_review": true
         },
         {
           "target": "GABA-transaminase (GABA-T)",
@@ -2287,10 +2159,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:7931216",
-          "is_review": false,
-          "notes": "Inhibition via the active metabolite β-phenylethylidenehydrazine (PEH). Raises brain GABA levels — contributes to anxiolytic effect distinct from monoamine actions."
+          "is_review": false
         },
         {
           "target": "alanine transaminase (ALA-T)",
@@ -2305,10 +2175,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:7931216",
-          "is_review": false,
-          "notes": "Active metabolite raises brain alanine."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2414,7 +2282,6 @@
     "data_gaps_remaining": [
       "quantitative human PK Cmax/Vd/AUC due to rapid metabolism and self-inactivation"
     ],
-    "notes": "Unique among MAOIs in possessing GABAergic and aldehyde-scavenging activity via its active metabolite PEH. The 'no-human-data' tag in source is incorrect — phenelzine has 60+ years of human clinical use (Nardil).",
     "references_consulted": [
       "pmid:7931216"
     ]
@@ -2448,10 +2315,8 @@
           "species": "human",
           "tissue_or_cell": "purified recombinant GSK-3β",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Mg2+ uncompetitive — Li+ binds the catalytic Mg2+ pocket",
           "reference": "doi:10.1073/pnas.93.16.8455",
-          "is_review": false,
-          "notes": "Direct Ki ~2 mM is above therapeutic serum lithium (0.6-1.2 mM) — but uncompetitive Mg-binding produces meaningful enzyme inhibition at clinical concentrations through enhanced Akt-mediated Ser9 phosphorylation."
+          "is_review": false
         },
         {
           "target": "GSK-3α",
@@ -2466,10 +2331,8 @@
           "species": "human",
           "tissue_or_cell": "purified GSK-3α",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1073/pnas.93.16.8455",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "Inositol monophosphatase (IMPase)",
@@ -2484,10 +2347,8 @@
           "species": "human",
           "tissue_or_cell": "purified IMPase",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:6253491",
-          "is_review": false,
-          "notes": "Inositol depletion hypothesis: blocks PIP2 resynthesis → dampens 5-HT2/M1/α1 signalling."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2617,7 +2478,6 @@
       "rigorous human PK comparison of orotate vs carbonate salt",
       "evidence that lithium orotate at supplement doses (5-20 mg elemental) reaches clinically meaningful brain concentrations"
     ],
-    "notes": "Lithium orotate provides ~3.83 mg elemental Li per 100 mg salt vs 18.8 mg from lithium carbonate. Supplement doses (typically 5-20 mg elemental) yield serum lithium typically <0.05 mM — well below the 0.6-1.2 mM therapeutic range for bipolar disorder. Hahnemann's 1976 study found no PK difference between salts; recent Smith/Schrauzer claims of preferential brain uptake of orotate salt are unsubstantiated in controlled studies.",
     "references_consulted": [
       "doi:10.1073/pnas.93.16.8455",
       "pmid:1260219",
@@ -2651,10 +2511,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain Nav1.2 in oocytes",
           "radioligand_or_probe": "patch clamp",
-          "assay_buffer_notes": "IC50 strongly voltage-dependent: 280 μM at -120 mV holding potential, 28.8 μM at -95 mV — use-dependent block of inactivated channels",
           "reference": "doi:10.1007/BF00373920",
-          "is_review": false,
-          "notes": "Use-dependent / state-dependent — preferentially binds inactivated state. Stabilises Na channel inactivation, reduces glutamate/aspartate release."
+          "is_review": false
         },
         {
           "target": "Nav1.5 (late Na current, cardiac)",
@@ -2669,10 +2527,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 hNav1.5",
           "radioligand_or_probe": "patch clamp",
-          "assay_buffer_notes": null,
           "reference": "pmid:35579204",
-          "is_review": false,
-          "notes": "Cardiac Na channel block underlies FDA warning for ventricular arrhythmia in patients with structural heart disease (2020)."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2751,8 +2607,7 @@
         "HLA-A*31:01"
       ],
       "phenotype_effects": "HLA-B*15:02 carriers (predominantly Han Chinese, SE Asian) have ~1000× higher SJS/TEN risk — pre-prescription testing recommended in these populations. HLA-A*31:01 also confers risk in European populations. UGT1A4*2/*3 alleles affect clearance.",
-      "reference": null,
-      "notes": "Citation removed: this value was attributed to doi:10.1038/nature11147, which is abacavir and carbamazepine HLA associations, not this drug. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+      "reference": null
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
@@ -2792,7 +2647,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "The slow 6-week titration schedule is non-negotiable for safety, not gradual dose-finding — rapid titration is the dominant SJS/TEN risk factor independent of total dose.",
     "references_consulted": [
       "doi:10.1111/bcp.12984",
       "doi:10.1007/BF00373920",
@@ -2828,28 +2682,8 @@
           "species": "rat",
           "tissue_or_cell": "rat and guinea pig brain membranes",
           "radioligand_or_probe": "[3H]-(+)-SKF-10047",
-          "assay_buffer_notes": null,
           "reference": "pmid:2873494",
-          "is_review": false,
-          "notes": "Ferris et al. 1986 — original characterisation. Selective sigma antagonist; ~100× weaker at PCP/NMDA site (IC50 43 μM). No significant μ/δ/κ opioid activity at 10 μM."
-        },
-        {
-          "target": "DAT",
-          "ki_nm": null,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": 600,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "reuptakeInhibitor",
-          "species": "rat",
-          "tissue_or_cell": "rat striatum",
-          "radioligand_or_probe": "[3H]-WIN-35,428",
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": false,
-          "notes": "Citation removed: this value was attributed to doi:10.1124/jpet.106.105163, which is caffeic acid antihyperglycemic effects in db/db mice. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Rimcazole is unusual: blocks DAT without producing cocaine-like behavioural effects, possibly due to dual sigma antagonism. Inspired SAR programs for cocaine-abuse treatment."
+          "is_review": false
         },
         {
           "target": "D2 (postsynaptic)",
@@ -2864,10 +2698,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "doi:10.1002/ddr.430090302",
-          "is_review": false,
-          "notes": "Original antipsychotic mechanism could not be explained by direct D2 blockade (Ferris 1986); negligible postsynaptic dopaminergic effects in vivo."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2912,7 +2744,6 @@
       "precise Ki for human sigma-1 vs sigma-2 subtypes",
       "human metabolism pathway"
     ],
-    "notes": "Investigational atypical antipsychotic from Burroughs Wellcome that failed Phase III. Of historical interest because it was the first selective sigma antagonist trialed as an antipsychotic, ultimately disproving the sigma-receptor hypothesis of schizophrenia.",
     "references_consulted": [
       "pmid:2873494",
       "doi:10.1002/ddr.430090302",
@@ -2986,7 +2817,6 @@
       "human PK",
       "structural confirmation of mechanism"
     ],
-    "notes": "Discontinued German antidepressant (1970s development) at oral 100-300 mg/d. Its major active metabolite benzylpiperazine (BZP) is now better known as a recreational stimulant and Schedule I drug in many jurisdictions — befuraline is essentially a BZP prodrug masked by the benzofuroyl carrier.",
     "references_consulted": [
       "pmid:582130",
       "pmid:4089015"
@@ -3061,7 +2891,6 @@
       "human PK parameters",
       "mechanism of hepatotoxicity"
     ],
-    "notes": "Withdrawn 1999-2000 due to hepatotoxicity. No longer clinically available.",
     "references_consulted": [
       "pmid:1752382"
     ]
@@ -3139,7 +2968,6 @@
       "metabolism",
       "any data more recent than 1970s preclinical work"
     ],
-    "notes": "DuPont investigational SNDRI from 1960s-70s that failed clinical trials and was never marketed. Structurally a rigid bicyclic phenethylamine analog. Notable for being one of the earliest reported triple-reuptake inhibitors.",
     "references_consulted": [
       "doi:10.1007/BF01252511"
     ]

@@ -32,10 +32,8 @@
           "species": "rat",
           "tissue_or_cell": "hippocampal pyramidal neurons (Lovinger 1989)",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Whole-cell patch; ~50 mM ethanol gives ~50% inhibition of NMDA-evoked current; effect is NOT voltage-dependent (so not Mg2+ pore-block-like).",
           "reference": "doi:10.1073/pnas.2435171100",
-          "is_review": false,
-          "notes": "Lovinger, White, Weight 1989, Science 243:1721 — landmark paper. ~50 mM corresponds to ~0.23 g/dL BAC, achievable in heavy drinkers."
+          "is_review": false
         },
         {
           "target": "GABA-A α4β3δ (extrasynaptic)",
@@ -50,10 +48,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human α4β3δ",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Potentiation observed at concentrations as low as 1–3 mM (~5–15 mg/dL BAC) at δ-containing extrasynaptic receptors — controversial; many labs failed to replicate.",
           "reference": "doi:10.1126/science.2467382",
-          "is_review": false,
-          "notes": "Wallner, Hanchar, Olsen 2003. Sensitivity at δ-subunit receptors is disputed; later studies (Borghese et al. 2006, pmid:16921002) failed to replicate the effect, suggesting it requires specific assay conditions."
+          "is_review": false
         },
         {
           "target": "Glycine receptor α1 (homomeric)",
@@ -68,10 +64,8 @@
           "species": "human",
           "tissue_or_cell": "Xenopus oocytes expressing α1 GlyR",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Ethanol potentiates glycine-evoked Cl- current; effect mapped to residues in TM2/TM3 (S267, A52). Mihic, Whiting, Harris 1997 Nature 389:385.",
           "reference": "pmid:9311780",
-          "is_review": false,
-          "notes": "Mihic-Harris site — alcohol pocket in TM2/3 confirmed by mutagenesis."
+          "is_review": false
         },
         {
           "target": "5-HT3",
@@ -86,10 +80,8 @@
           "species": "mouse",
           "tissue_or_cell": "NCB-20 neuroblastoma cells",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Lovinger, White 1991 — ethanol 25-200 mM potentiates 5-HT-evoked cation current 2-3x.",
           "reference": "pmid:1922378",
-          "is_review": false,
-          "notes": "Underlies emetic and reinforcing effects; ondansetron (5-HT3 antagonist) reduces alcohol craving in early-onset alcoholics."
+          "is_review": false
         }
       ],
       "functional": [
@@ -101,8 +93,7 @@
           "reference_agonist": "GABA",
           "species": "human",
           "cell_system": "various",
-          "reference": null,
-          "notes": "Synaptic α1β2γ2 receptors are RELATIVELY ethanol-insensitive (require >60 mM, supra-lethal); the behaviourally relevant GABA-A potentiation appears mediated by extrasynaptic δ-subunit receptors AND by indirect mechanisms (allopregnanolone release, GABA release from interneurons via 5-HT3)."
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -136,8 +127,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Mixed populations; Vd ~0.55 L/kg males, ~0.50 L/kg females (less body water).",
-          "reference": "pmid:26231237",
-          "notes": "Zero-order elimination via ADH (Km ~0.1 g/L = ~2 mM; saturated above ~0.02 g/dL BAC). Elimination rate ~0.015 g/dL/h (range 0.010-0.025); 4-5x higher when CYP2E1 is induced in chronic heavy drinkers. F% reduced by first-pass gastric ADH (~10-25%). Tmax 30-90 min on empty stomach, 60-180 min with food."
+          "reference": "pmid:26231237"
         }
       ],
       "concentration_effect": [
@@ -146,8 +136,7 @@
           "concentration_unit": "mg/dL BAC",
           "threshold": 20,
           "peak_effect": 80,
-          "reference": null,
-          "notes": "0.02 BAC = subtle effects; 0.05 = impairment; 0.08 = legal intoxication; 0.30 = stupor; 0.40 = LD50 (untreated); >0.50 typically fatal but tolerance changes this."
+          "reference": null
         }
       ]
     },
@@ -158,8 +147,7 @@
         "metabolite_name": "acetaldehyde",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:17718394",
-        "notes": "ADH1B*2 (Arg47His) variant common in East Asians — ~40x faster Vmax → acetaldehyde flush; ADH1B*3 (Arg369Cys) in African ancestry. Acetaldehyde is the toxic intermediate responsible for the disulfiram-like reaction, mutagenicity, and hangover."
+        "reference": "pmid:17718394"
       },
       {
         "enzyme": "ALDH2 (mitochondrial aldehyde dehydrogenase)",
@@ -167,8 +155,7 @@
         "metabolite_name": "acetate",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "ALDH2*2 (Glu487Lys) — homozygotes have <10% enzyme activity, severe acetaldehyde accumulation; ~30-50% of East Asians carry at least one *2 allele. Strong protection against alcoholism."
+        "reference": null
       },
       {
         "enzyme": "CYP2E1",
@@ -176,8 +163,7 @@
         "metabolite_name": "acetaldehyde",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:7956028",
-        "notes": "Low-affinity (Km ~10 mM) but inducible up to 10x by chronic ethanol — explains accelerated clearance in heavy drinkers and increased hepatotoxicity (CYP2E1 generates ROS). Disulfiram is a mechanism-based CYP2E1 inactivator (its metabolite DDC)."
+        "reference": "pmid:7956028"
       },
       {
         "enzyme": "Catalase",
@@ -185,8 +171,7 @@
         "metabolite_name": "acetaldehyde",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:7956028",
-        "notes": "Brain catalase pathway contributes to central ethanol metabolism and may be relevant to behavioural effects (acetaldehyde in CNS is rewarding)."
+        "reference": "pmid:7956028"
       }
     ],
     "drug_interactions_pk": [
@@ -202,8 +187,7 @@
         "mechanism": "ALDH inhibition (similar to disulfiram)",
         "ki_um": null,
         "clinical_effect": "Disulfiram-like flushing reaction with ethanol co-ingestion.",
-        "reference": null,
-        "notes": "Citation removed: this value was attributed to pmid:14640476, which is cumulative copper poisoning in sheep. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+        "reference": null
       },
       {
         "with": "acetaminophen / paracetamol",
@@ -280,7 +264,6 @@
     "data_gaps_remaining": [
       "Quantitative cross-talk between ethanol PAM and neurosteroid pathway in humans"
     ],
-    "notes": "The 'GABA-A potentiator' label is correct but misleading — ethanol's direct GABA-A effects require >>10 mM at synaptic receptors; the behaviourally relevant GABA enhancement is mostly via neurosteroid (allopregnanolone) induction. NMDA antagonism dominates at typical intoxicating BACs.",
     "references_consulted": [
       "pmid:2467611",
       "pmid:14595397",
@@ -325,10 +308,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain membranes (hippocampus, cortex)",
           "radioligand_or_probe": "[3H]GHB or [3H]NCS-382",
-          "assay_buffer_notes": "Maitre lab — multiple papers from 1980s identifying stereoselective, saturable binding distinct from GABA-B. NCS-382 (Maitre 1990) is the selective antagonist (Ki ~340 nM) that does NOT bind GABA-B.",
           "reference": "pmid:15567424",
-          "is_review": false,
-          "notes": "Castelli et al. 2004 (Neurosci Lett) — confirmed by molecular evidence that [3H]GHB does NOT bind HEK293 expressing GABA-B R1/R2. Identity of the GHB receptor cloned in 2003 (Andriamampandry, Maitre — pmid:14555562) as GPR172A is contested; the true molecular identity remains uncertain."
+          "is_review": false
         },
         {
           "target": "GABA-B receptor (rat brain)",
@@ -343,10 +324,8 @@
           "species": "rat",
           "tissue_or_cell": "GIRK1/4 in CHO cells",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Lingenhoehl et al. 1999 (pmid:10591456) — GHB is a low-potency weak partial agonist at GABA-B (EC50 ~150-500 μM, Emax ~25-30% of baclofen). At clinically achieved brain conc. (~250-500 μM at recreational doses) GHB activates GABA-B sufficiently to produce sedation and respiratory depression — GABA-B is the target responsible for the intoxicating effects.",
           "reference": null,
-          "is_review": false,
-          "notes": "CRITICAL: low-dose GHB (~10-30 mg/kg) reaches conc that activates only the high-affinity GHB receptor → mild stimulation, euphoria. High-dose (>50 mg/kg) GHB reaches ~250-500 μM and engages GABA-B → sedation, coma. This biphasic dose-response is mechanistically explained by the two binding sites."
+          "is_review": false
         },
         {
           "target": "α4β3δ GABA-A (extrasynaptic)",
@@ -361,10 +340,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 + Xenopus oocytes expressing human α4β3δ",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Absalom et al. 2012 — GHB is a low-potency (EC50 ~140 μM) but quite efficacious agonist at α4β1δ and α4β3δ GABA-A; partial inverse agonism at α4β3γ2 at higher conc. δ-selective effect parallels neurosteroid pharmacology.",
           "reference": null,
-          "is_review": false,
-          "notes": "PNAS paper proposes that δ-GABA-A contributes to GHB's absence-seizure liability and to the dose-dependent switch from euphoria to sedation."
+          "is_review": false
         }
       ],
       "functional": [
@@ -405,8 +382,7 @@
           "dose_in_study_mg": null,
           "subject_n": 8,
           "subject_demographics": "Brenneisen et al. 2004 healthy volunteers, 25 mg/kg PO; t1/2 = 30.4 ± 2.45 min, Vd 52.7 ± 15 L.",
-          "reference": "pmid:15538955",
-          "notes": "F% low (~25%) due to extensive first-pass and pre-systemic decarboxylation; absorption AND elimination are capacity-limited — doubling dose more than doubles AUC and Cmax. Food reduces Cmax by ~70%. Within the recreational dose range, half-life lengthens from ~30 min (low dose) to ~60-90 min (high dose) as metabolism saturates."
+          "reference": "pmid:15538955"
         }
       ],
       "concentration_effect": [
@@ -415,8 +391,7 @@
           "concentration_unit": "mg/L plasma",
           "threshold": 50,
           "peak_effect": 250,
-          "reference": "pmid:18211851",
-          "notes": "Couper & Logan: plasma >50 mg/L drowsiness; >150 mg/L unconsciousness; >250 mg/L deep coma. Toxic range overlaps recreational range — narrow therapeutic index."
+          "reference": "pmid:18211851"
         }
       ]
     },
@@ -427,8 +402,7 @@
         "metabolite_name": "succinic semialdehyde",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:11061418",
-        "notes": "GHB → SSA → succinate → CO2 + H2O. Endogenous pathway, saturable (Km ~50-100 μM). β-oxidation pathway also contributes. Renal excretion of unchanged GHB <5%."
+        "reference": "pmid:11061418"
       }
     ],
     "drug_interactions_pk": [
@@ -494,7 +468,6 @@
       "Molecular identity of the high-affinity GHB receptor in humans (GPR172A controversial)",
       "Quantitative human PK-PD model for narrow therapeutic window"
     ],
-    "notes": "The dual-receptor pharmacology (high-affinity GHB receptor at low doses; GABA-B at high doses) is the single most important and most-overlooked fact about this compound. Maitre's group (Strasbourg, 1980s-2000s) did the foundational work characterising the GHB-specific binding site; Couper & Logan provided forensic concentration-effect data.",
     "references_consulted": [
       "pmid:15567424",
       "pmid:10591456",
@@ -535,10 +508,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "GBL itself is essentially inactive at GHB/GABA-B; its effects derive from peripheral and tissue-lactonase conversion to GHB.",
           "reference": null,
-          "is_review": true,
-          "notes": "Citation removed: this value was attributed to pmid:11071567, which is HHV8 virion morphogenesis in endothelium. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Lettieri & Fung 1979; Roth & Giarman 1968. The lactone form is extremely lipophilic → faster absorption and more rapid onset than equimolar GHB. F% approaches 100% (vs 25% for GHB) due to bypass of first-pass GHB-saturable metabolism."
+          "is_review": true
         }
       ],
       "functional": [],
@@ -562,8 +533,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Lettieri & Fung 1979 — GBL t1/2 in plasma ~1 min; GHB Cmax higher and Tmax shorter after GBL than equimolar GHB.",
-          "reference": "pmid:113586",
-          "notes": "Equimolar conversion: 1 mL GBL ≈ 1.6 g GHB equivalent (density 1.13 g/mL, MW 86.1 vs GHB MW 104.1). Faster onset and higher peak make GBL more dangerous than GHB even at 'equivalent' doses."
+          "reference": "pmid:113586"
         }
       ],
       "concentration_effect": []
@@ -575,8 +545,7 @@
         "metabolite_name": "GHB",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:113586",
-        "notes": "Conversion is essentially complete and very rapid (t1/2 <1 min in plasma at 37°C). All subsequent PK/PD is GHB pharmacology."
+        "reference": "pmid:113586"
       }
     ],
     "drug_interactions_pk": [
@@ -629,7 +598,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "GBL is operationally indistinguishable from GHB after the first minute, but the faster onset and higher F% make it disproportionately overdose-prone. Per-volume potency is ~1.6x GHB.",
     "references_consulted": [
       "pmid:113586",
       "pmid:11071567"
@@ -667,10 +635,8 @@
           "species": "rat",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "1,4-BD is converted in two steps: alcohol dehydrogenase (ADH) → γ-hydroxybutyraldehyde → aldehyde dehydrogenase (ALDH) → GHB. Both enzymes are the same as for ethanol metabolism.",
           "reference": null,
-          "is_review": false,
-          "notes": "Onset slower than GHB or GBL (~20-40 min) because of two-step enzymatic conversion. Co-administration with ethanol drastically slows conversion (ADH competitive substrate) → unpredictable, delayed, prolonged effects."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -694,8 +660,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "pmid:30450642",
-          "notes": "Pharmacokinetics governed by ADH Km (saturable) — like ethanol, exhibits zero-order conversion at high doses. Equimolar potency to GHB. Ethanol co-ingestion → ADH competition → delayed and unpredictable onset, can cause stacking overdoses."
+          "reference": "pmid:30450642"
         }
       ],
       "concentration_effect": []
@@ -707,8 +672,7 @@
         "metabolite_name": "GHB",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Competition with ethanol at ADH explains the well-documented danger of mixing BD with alcohol."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -772,7 +736,6 @@
     "data_gaps_remaining": [
       "Quantitative human PK study"
     ],
-    "notes": "Slowest-onset GHB prodrug due to two enzymatic conversion steps. Co-ingestion with ethanol is uniquely dangerous because the ADH bottleneck causes BD to accumulate then release as ethanol clears.",
     "references_consulted": []
   },
   {
@@ -810,8 +773,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "No published human PK data; treated as a GHB prodrug by analogy."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -824,7 +786,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": null,
-        "notes": "Inferred by chemical analogy.",
         "metabolite_potency_target": "GABA-B",
         "metabolite_potency_basis": "clinical",
         "metabolite_mechanism_vs_parent": "scaled"
@@ -863,7 +824,6 @@
     "data_gaps_remaining": [
       "All human PK and PD data"
     ],
-    "notes": "Obscure GHB prodrug; no significant clinical or research literature beyond the substance ID.",
     "references_consulted": []
   },
   {
@@ -897,10 +857,8 @@
           "species": "rat",
           "tissue_or_cell": "rat cerebral cortex purified synaptic plasma membranes",
           "radioligand_or_probe": "[3H]gabapentin",
-          "assay_buffer_notes": "Suman-Chauhan et al. 1993 — original characterisation of the α2δ binding site. Gomez et al. confirmed in recombinant α2δ-1: Kd ~59 nM at α2δ-1 vs 153 nM at α2δ-2.",
           "reference": "pmid:8384570",
-          "is_review": false,
-          "notes": "Note: NOT a GABA receptor ligand despite the name. Does NOT bind GABA-A, GABA-B, or GABA-T. Therapeutic effect via Cav α2δ-1 binding → reduced trafficking of Cav2.1/2.2 to presynaptic terminals → ↓glutamate release. Effect manifests over hours-days, not seconds."
+          "is_review": false
         }
       ],
       "functional": [
@@ -912,8 +870,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "DRG neurons / cortical synaptosomes",
-          "reference": null,
-          "notes": "Reduces stimulated glutamate release ~25-40%; effect requires hours-days of treatment, reflecting reduced trafficking of α2δ-1-containing Cav channels to the membrane rather than acute channel block."
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -936,8 +893,7 @@
           "dose_in_study_mg": 300,
           "subject_n": null,
           "subject_demographics": "Healthy adults; PK is dose-dependent due to saturable LAT1 absorption.",
-          "reference": "pmid:20818832",
-          "notes": "F% drops from ~60% at 300 mg → ~47% at 600 mg → ~34% at 1200 mg → ~25% at 3600 mg due to saturation of LAT1 (SLC7A5, L-type amino acid transporter) in gut. t1/2 5-7 h (longer in renal failure: CL closely tracks CrCl). Negligible protein binding. ~100% renally excreted unchanged."
+          "reference": "pmid:20818832"
         }
       ],
       "concentration_effect": [
@@ -946,8 +902,7 @@
           "concentration_unit": "μg/mL plasma",
           "threshold": 2,
           "peak_effect": 20,
-          "reference": null,
-          "notes": "Therapeutic range approximate; no formal therapeutic drug monitoring established."
+          "reference": null
         }
       ]
     },
@@ -958,8 +913,7 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Excreted essentially unchanged in urine. No CYP involvement. No drug-drug interactions via CYP."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -968,8 +922,7 @@
         "mechanism": "Reduced gabapentin absorption (~20% AUC decrease)",
         "ki_um": null,
         "clinical_effect": "Separate doses by ≥2 h.",
-        "reference": null,
-        "notes": "Citation removed: this value was attributed to pmid:1907103, which is lactose absorption from the colon of newborn piglets. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+        "reference": null
       },
       {
         "with": "opioids (morphine, oxycodone)",
@@ -1020,7 +973,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "The name 'gabapentin' is misleading — it has no direct action at any GABA receptor. The mechanism is Cav α2δ-1 binding with downstream effects on glutamate (not GABA) release. Saturable LAT1 absorption makes dose-response flatten at high doses.",
     "references_consulted": [
       "pmid:23567998"
     ]
@@ -1053,10 +1005,8 @@
           "species": "human",
           "tissue_or_cell": "recombinant human α2δ-1 in baculovirus-infected Sf9 cells",
           "radioligand_or_probe": "[3H]gabapentin (competition)",
-          "assay_buffer_notes": "Belliotti et al. 2005, Bian et al. 2006 — pregabalin Ki 32 nM at α2δ-1 (~6x higher affinity than gabapentin Ki ~140 nM). Kd 6.0 nM in direct binding.",
           "reference": "pmid:15801823",
-          "is_review": false,
-          "notes": "(S)-enantiomer is active; (R) is inactive."
+          "is_review": false
         },
         {
           "target": "α2δ-2 (recombinant human)",
@@ -1071,10 +1021,8 @@
           "species": "human",
           "tissue_or_cell": "recombinant human α2δ-2 in Sf9",
           "radioligand_or_probe": "[3H]gabapentin",
-          "assay_buffer_notes": "Pregabalin nearly equipotent at α2δ-1 vs α2δ-2 (Kd 6 vs 7 nM); gabapentin shows ~3x α2δ-1 preference.",
           "reference": "pmid:15801823",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [
@@ -1086,8 +1034,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "spinal cord slices, DRG",
-          "reference": "pmid:14668287",
-          "notes": "Reduces stimulated transmitter release ~30-50% (Dooley et al. 2007)."
+          "reference": "pmid:14668287"
         }
       ],
       "biased_agonism": [],
@@ -1110,8 +1057,7 @@
           "dose_in_study_mg": 300,
           "subject_n": null,
           "subject_demographics": "Healthy adults; PK linear up to clinical doses (LAT1 not saturated at standard 150-600 mg/d).",
-          "reference": "pmid:20818832",
-          "notes": "Bioavailability ~90% (higher than gabapentin because pregabalin uses multiple transporters in addition to LAT1). PK linear, predictable. t1/2 6.3 h. Renal excretion ~98% unchanged. No food effect on AUC."
+          "reference": "pmid:20818832"
         }
       ],
       "concentration_effect": [
@@ -1120,8 +1066,7 @@
           "concentration_unit": "ng/mL",
           "threshold": 1500,
           "peak_effect": 5000,
-          "reference": null,
-          "notes": "Approximate; clinical response is dose-rather-than-conc guided."
+          "reference": null
         }
       ]
     },
@@ -1132,8 +1077,7 @@
         "metabolite_name": null,
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "<2% metabolised. ~98% renally excreted unchanged."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -1175,7 +1119,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Higher α2δ affinity (~6x) and predictable linear PK distinguish pregabalin from gabapentin. Higher abuse and overdose liability than gabapentin in surveillance data.",
     "references_consulted": [
       "pmid:15801823",
       "pmid:20136736",
@@ -1214,10 +1157,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain membranes",
           "radioligand_or_probe": "[3H]gabapentin",
-          "assay_buffer_notes": "Zvejniece et al. 2015 — R-phenibut Ki 23 μM; S-phenibut 39 μM; baclofen 156 μM; gabapentin 50 nM. R-phenibut is the active enantiomer for α2δ binding (~7000x weaker than gabapentin but pharmacologically relevant at high mg doses).",
           "reference": "pmid:26234470",
-          "is_review": false,
-          "notes": "Key paper. R-phenibut also produces gabapentin-like anti-nociceptive effects in mice."
+          "is_review": false
         },
         {
           "target": "GABA-B (rat brain)",
@@ -1232,10 +1173,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain / GIRK assay",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Lapin 2001 review of Soviet/post-Soviet work. R-phenibut is the active enantiomer; S-phenibut shows little GABA-B activity. EC50 in μM range, Emax ~30-50% of baclofen at GABA-B.",
           "reference": null,
-          "is_review": true,
-          "notes": "Original characterization by Khaunina & Lapin 1976 (Soviet literature, untranslated)."
+          "is_review": true
         }
       ],
       "functional": [],
@@ -1259,8 +1198,7 @@
           "dose_in_study_mg": 250,
           "subject_n": null,
           "subject_demographics": "Limited Soviet PK data (single study cited in WHO 2021 pre-review). 65% excreted unchanged in urine.",
-          "reference": "https://cdn.who.int/media/docs/default-source/essential-medicines/unedited--advance-copy-44th-ecdd-critical-review-report_phenibut.pdf",
-          "notes": "t1/2 ~5.3 h. Reportedly only ~0.1% reaches brain. Crosses placenta and BBB. Limited modern PK literature."
+          "reference": "https://cdn.who.int/media/docs/default-source/essential-medicines/unedited--advance-copy-44th-ecdd-critical-review-report_phenibut.pdf"
         }
       ],
       "concentration_effect": []
@@ -1272,8 +1210,7 @@
         "metabolite_name": null,
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "~65% urinary unchanged."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -1322,7 +1259,6 @@
     "data_gaps_remaining": [
       "Quantitative human PK; clinical brain conc-effect relationships"
     ],
-    "notes": "The withdrawal syndrome described by Magsalin & Khan 2014, Hardman 2019, Ahuja 2018 in English-language case series and earlier in untranslated Baltic/Russian literature is mechanistically explained by GABA-B receptor downregulation — analogous to GHB protracted withdrawal. Phenibut is the only dual GABA-B + α2δ ligand in widespread non-medical use.",
     "references_consulted": [
       "pmid:11378828",
       "pmid:30627427"
@@ -1358,10 +1294,8 @@
           "species": "rat",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Fluorine substitution at para-position of phenyl ring typically increases lipophilicity (logP ~0.5 higher), CNS penetration, and metabolic stability vs phenibut. Often anecdotally reported as 2-5x more potent than phenibut.",
           "reference": null,
-          "is_review": false,
-          "notes": "No peer-reviewed Ki/EC50 published."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1385,8 +1319,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "No formal human PK; user reports suggest longer duration than phenibut (8-16 h) consistent with fluorine-induced metabolic stabilisation."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -1427,7 +1360,6 @@
     "data_gaps_remaining": [
       "Quantitative binding, functional, PK"
     ],
-    "notes": "RC analogue of phenibut. Same dual GABA-B + α2δ mechanism inferred but no formal pharmacology characterization in peer-reviewed literature. The 'Fluorophenibut' entry is a duplicate.",
     "references_consulted": []
   },
   {
@@ -1487,7 +1419,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Duplicate library entry for 4-Fluorophenibut. Consolidate.",
     "references_consulted": []
   },
   {
@@ -1543,7 +1474,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Duplicate library entry for 4-Fluorophenibut.",
     "references_consulted": []
   },
   {
@@ -1577,10 +1507,8 @@
           "species": "rat",
           "tissue_or_cell": "rat cerebellar / cortical membranes",
           "radioligand_or_probe": "[3H]GABA in presence of bicuculline / [3H]baclofen",
-          "assay_buffer_notes": "Classical value from Bowery 1980s. Recombinant hR1a/R1b receptors give higher EC50s (~30 μM) — discrepancy attributed to lack of native receptor accessory proteins (KCTD subunits) in recombinant systems.",
           "reference": "pmid:6323949",
-          "is_review": false,
-          "notes": "R-baclofen is the active enantiomer (~50-200x more potent than S)."
+          "is_review": false
         },
         {
           "target": "GABA-B (recombinant hR1a/R2)",
@@ -1595,10 +1523,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells expressing human GABA-B R1a/R2 coupled to Kir3.1/3.2",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Liu et al. 2004 — EC50 11.3 μM at hR1a/R2 + Kir3.1/3.2 channels. Differs from native receptor EC50 by ~100x, illustrating the role of accessory subunits.",
           "reference": null,
-          "is_review": false,
-          "notes": "Reference agonist for the GABA-B receptor."
+          "is_review": false
         }
       ],
       "functional": [
@@ -1640,8 +1566,7 @@
           "dose_in_study_mg": 10,
           "subject_n": null,
           "subject_demographics": "Healthy adults.",
-          "reference": null,
-          "notes": "t1/2 2-6 h. 70-85% renally excreted unchanged. ~15% hepatic deamination."
+          "reference": null
         },
         {
           "route": "intrathecal",
@@ -1656,8 +1581,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Spasticity patients (Lioresal Intrathecal).",
-          "reference": null,
-          "notes": "Intrathecal dosing 1000x lower than oral (~50-800 μg/day vs 30-80 mg/day PO). Bypasses limited BBB penetration."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -1669,8 +1593,7 @@
         "metabolite_name": "β-(p-chlorophenyl)-γ-hydroxybutyric acid",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Most clearance is renal of unchanged drug."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -1679,8 +1602,7 @@
         "mechanism": "Pharmacodynamic synergy",
         "ki_um": null,
         "clinical_effect": "Profound CNS / respiratory depression. Intrathecal baclofen withdrawal is a medical emergency (rebound spasticity, hyperthermia, rhabdomyolysis).",
-        "reference": null,
-        "notes": "Citation removed: this value was attributed to pmid:24199712, which is BCG intravesical therapy for bladder cancer. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -1695,8 +1617,7 @@
         "phenibut"
       ],
       "withdrawal_syndrome": "Onset 24-72 h after oral discontinuation; faster after pump failure (intrathecal). Severe rebound spasticity, hallucinations, seizures, autonomic instability, hyperthermia, rhabdomyolysis. Intrathecal withdrawal can be fatal — requires emergency intrathecal restart or oral high-dose substitution.",
-      "reference": null,
-      "notes": "Citation removed: this value was attributed to pmid:24199712, which is BCG intravesical therapy for bladder cancer. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+      "reference": null
     },
     "off_targets": [],
     "demographic_differences": {
@@ -1714,7 +1635,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Reference selective GABA-B agonist. The R1/R2 obligate heterodimer architecture (Marshall & Foord 1998; Pin & Bettler crystal structures) and KCTD accessory subunits are essential for understanding why recombinant Ki values diverge from native-tissue Ki values by 100-1000x.",
     "references_consulted": [
       "pmid:6323949",
       "pmid:9844053",
@@ -1756,10 +1676,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 or Xenopus oocytes expressing human α1β2γ2",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Phenobarbital potentiates GABA-A in 50-500 μM range; at >1 mM activates the channel directly (without GABA). Therapeutic plasma 10-40 μg/mL (43-170 μM) — overlap with potentiation range. Lower direct activation than pentobarbital (less anaesthesia, more anticonvulsant utility).",
           "reference": null,
-          "is_review": false,
-          "notes": "Reduced propensity to directly activate vs pentobarbital — explains lower anaesthetic potency but acceptable safety margin for chronic anti-epileptic use."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1783,8 +1701,7 @@
           "dose_in_study_mg": 100,
           "subject_n": null,
           "subject_demographics": "Adults; t1/2 70-140 h (mean ~100 h).",
-          "reference": "pmid:7068937",
-          "notes": "Extraordinarily long t1/2 (~4 days) — allows once-daily dosing for epilepsy. ~25-50% renal unchanged; balance hepatic CYP2C9, CYP2C19 oxidation."
+          "reference": "pmid:7068937"
         }
       ],
       "concentration_effect": [
@@ -1804,8 +1721,7 @@
         "metabolite_name": "p-hydroxyphenobarbital",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Also CYP2C19, CYP2E1 minor."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -1860,7 +1776,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Less direct GABA-A channel activation than pentobarbital → better therapeutic index for chronic epilepsy use. Classic CAR/PXR-mediated CYP inducer (predates the cloning of nuclear receptors — 'phenobarbital induction' was the prototype).",
     "references_consulted": [
       "pmid:23026953",
       "pmid:7068937"
@@ -1895,10 +1810,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human α1β2γ2",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Steinbach lab: pentobarbital ~50-100 μM PAM; ~500 μM direct agonist (channel opening without GABA). Plasma anaesthetic conc 20-50 μg/mL (~80-200 μM) — overlap with both modes.",
           "reference": "pmid:8821543",
-          "is_review": false,
-          "notes": "The direct agonist mode (channel opens with no GABA) is the property that makes barbiturates more lethal than benzos — overdose produces sustained chloride conductance independent of endogenous GABA tone, → flat-line EEG, respiratory arrest."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1922,8 +1835,7 @@
           "dose_in_study_mg": 100,
           "subject_n": null,
           "subject_demographics": "Adults.",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:4034678, which is 1H-NMR resonance assignment in excised rat brain. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. t1/2 15-50 h. Hepatic oxidation (CYP3A4, CYP2C19) → inactive metabolites. <1% renal unchanged."
+          "reference": null
         }
       ],
       "concentration_effect": [
@@ -1932,8 +1844,7 @@
           "concentration_unit": "μg/mL",
           "threshold": 20,
           "peak_effect": 50,
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:4034678, which is 1H-NMR resonance assignment in excised rat brain. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+          "reference": null
         }
       ]
     },
@@ -1944,8 +1855,7 @@
         "metabolite_name": "3'-hydroxypentobarbital",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -1989,7 +1899,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Higher direct-channel-opening efficacy than phenobarbital explains its preferential use for anaesthesia and euthanasia.",
     "references_consulted": [
       "pmid:4034678"
     ]
@@ -2026,10 +1935,8 @@
           "species": "human",
           "tissue_or_cell": "Xenopus oocytes expressing human α1β2γ2S",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Hammer et al. 2015 — methaqualone PAM at α1,2,3,5β2,3γ2S with EC50 ~1-10 μM. Diverse functionalities at α4,6β1,2,3δ subtypes ranging from inactive → negative AM → positive AM → super-agonist.",
           "reference": null,
-          "is_review": false,
-          "notes": "Binding site distinct from BZ and barbiturate sites — overlaps with etomidate/propofol intersubunit transmembrane site. Crystal structure: methaqualone widens TM2 ion-conducting pore."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2053,8 +1960,7 @@
           "dose_in_study_mg": 250,
           "subject_n": 12,
           "subject_demographics": "12 healthy subjects; single 250 mg oral doses; peak blood concentration 1.0-2.7 ug/mL at ~1-2 h.",
-          "reference": "pmid:6834256",
-          "notes": "t1/2 20-60 h. Extensive hepatic hydroxylation (CYP3A4 likely). Lipophilic, large Vd."
+          "reference": "pmid:6834256"
         }
       ],
       "concentration_effect": []
@@ -2066,8 +1972,7 @@
         "metabolite_name": "4'-hydroxymethaqualone",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -2100,7 +2005,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Hammer 2015 (Mol Pharmacol) is the definitive modern characterisation. The etomidate-site binding distinguishes it from BZ and barbiturate-site modulators.",
     "references_consulted": [
       "pmid:26195733"
     ]
@@ -2143,8 +2047,7 @@
           "dose_in_study_mg": 300,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Largely renal excretion (~70-90% unchanged) due to low lipophilicity."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2156,8 +2059,7 @@
         "metabolite_name": null,
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Mostly excreted unchanged."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -2191,7 +2093,6 @@
     "data_gaps_remaining": [
       "Modern binding/functional Ki data"
     ],
-    "notes": "Historic; rarely used clinically since the 1950s.",
     "references_consulted": []
   },
   {
@@ -2232,8 +2133,7 @@
           "dose_in_study_mg": 200,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Hepatic hydroxylation."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2245,8 +2145,7 @@
         "metabolite_name": "3'-hydroxyamobarbital",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -2288,7 +2187,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "'Truth serum' historical use due to disinhibition at sub-anaesthetic doses.",
     "references_consulted": []
   },
   {
@@ -2329,8 +2227,7 @@
           "dose_in_study_mg": 100,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Used in MAID protocols (Switzerland, Belgium, Oregon)."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2342,8 +2239,7 @@
         "metabolite_name": "various oxidation products",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -2376,7 +2272,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Classic 'rainbow' Tuinal component (with amobarbital).",
     "references_consulted": []
   },
   {
@@ -2417,8 +2312,7 @@
           "dose_in_study_mg": 250,
           "subject_n": null,
           "subject_demographics": "Adults; t1/2β 11 h but clinical recovery <10 min due to peripheral redistribution.",
-          "reference": null,
-          "notes": "Classic 'context-sensitive half-life' demonstration drug — single dose is short due to redistribution; infusions accumulate dramatically."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2431,7 +2325,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
         "reference": null,
-        "notes": null,
         "metabolite_potency_target": "GABA-A",
         "metabolite_potency_basis": "receptor_affinity",
         "metabolite_mechanism_vs_parent": "scaled"
@@ -2468,7 +2361,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Withdrawn from US market 2011 (manufacturer cited execution-protocol concerns).",
     "references_consulted": [
       "pmid:6404261"
     ]
@@ -2530,7 +2422,6 @@
     "data_gaps_remaining": [
       "All modern human PK"
     ],
-    "notes": "Largely historic.",
     "references_consulted": []
   },
   {
@@ -2570,8 +2461,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Marked stereoselective PK: R-enantiomer cleared ~3x faster than S by CYP2C19."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2583,8 +2473,7 @@
         "metabolite_name": "3'-hydroxyhexobarbital",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:3385644",
-        "notes": "Classical CYP2C19 probe."
+        "reference": "pmid:3385644"
       }
     ],
     "drug_interactions_pk": [],
@@ -2617,7 +2506,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Important historical role establishing CYP2C19 polymorphism's clinical effect.",
     "references_consulted": []
   },
   {
@@ -2673,7 +2561,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Combination product; see secobarbital and amobarbital entries.",
     "references_consulted": []
   },
   {
@@ -2705,10 +2592,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293/Xenopus oocytes expressing human α1β3γ2",
           "radioligand_or_probe": "[3H]-ortho-propofol-diazirine photolabel",
-          "assay_buffer_notes": "Olsen 2018 review and Cohen 2014 (PMC3951778) — labels β-M286 at the β+/α- intersubunit transmembrane site. β3-N265M mutation abolishes anaesthesia in mice (Jurd 2003).",
           "reference": null,
-          "is_review": false,
-          "notes": "Photolabelling identifies multiple binding sites; β+/α- pocket dominant for anaesthetic effect."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2738,8 +2623,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Adults.",
-          "reference": "pmid:2684471",
-          "notes": "Three-compartment model. Rapid distribution t1/2α 2-4 min, redistribution t1/2β 30-70 min, terminal t1/2γ 4-12 h. Context-sensitive half-life ~25 min even after 8-h infusion — major advantage over thiopental. Hepatic + extrahepatic CL exceeds liver blood flow (extra-hepatic clearance, ~30% of total)."
+          "reference": "pmid:2684471"
         }
       ],
       "concentration_effect": [
@@ -2759,8 +2643,7 @@
         "metabolite_name": "propofol-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Major pathway."
+        "reference": null
       },
       {
         "enzyme": "CYP2B6 (+CYP2C9)",
@@ -2768,8 +2651,7 @@
         "metabolite_name": "4-hydroxypropofol",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:11135730",
-        "notes": null
+        "reference": "pmid:11135730"
       }
     ],
     "drug_interactions_pk": [],
@@ -2815,7 +2697,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "The β3-N265M knock-in mouse experiments (Jurd 2003) genetically prove β3-containing GABA-A as the anaesthetic target. Distinct β3 vs β2 selectivity from etomidate.",
     "references_consulted": [
       "pmid:24316736",
       "pmid:3257315",
@@ -2849,10 +2730,8 @@
           "species": "rat",
           "tissue_or_cell": "rat cortical neurons",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Trichloroethanol (TCE) — the active metabolite — potentiates GABA-A currents at the barbiturate site (Lovinger & Peoples).",
           "reference": "pmid:8383736",
-          "is_review": false,
-          "notes": "Chloral hydrate itself is essentially a prodrug for TCE."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2876,8 +2755,7 @@
           "dose_in_study_mg": 500,
           "subject_n": 18,
           "subject_demographics": "18 healthy male volunteers, aged 21-31; TCE terminal t1/2 9.3-10.2 h.",
-          "reference": "pmid:9522024",
-          "notes": "Parent chloral hydrate is detectable only 8-60 min post-dose at very low concentrations; its terminal t1/2 is too short and variable to quantify, so bioavailability is characterised by the active metabolite trichloroethanol, whose t1/2 dominates clinical effect."
+          "reference": "pmid:9522024"
         }
       ],
       "concentration_effect": []
@@ -2890,7 +2768,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 200,
         "reference": "pmid:3615341",
-        "notes": "TCE is more potent than parent; subsequently glucuronidated to urochloralic acid (inactive), the rate-limiting elimination step.",
         "metabolite_potency_target": "GABA-A",
         "metabolite_potency_basis": "receptor_affinity",
         "metabolite_mechanism_vs_parent": "scaled"
@@ -2952,7 +2829,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Classical 'knockout drops' (Mickey Finn). Mostly replaced by BZs and other sedatives. TCE is the relevant pharmacologically active species.",
     "references_consulted": [
       "pmid:1334432"
     ]
@@ -3005,7 +2881,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Trade name duplicate — see Chloral Hydrate.",
     "references_consulted": []
   },
   {
@@ -3062,7 +2937,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Adduct formulation intended to reduce gastric irritation. Long withdrawn.",
     "references_consulted": []
   },
   {
@@ -3101,8 +2975,7 @@
           "dose_in_study_mg": 250,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Erratic absorption; saturable, food-affected. t1/2 8-12 h. Active hydroxylated metabolite (4-hydroxyglutethimide)."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -3114,8 +2987,7 @@
         "metabolite_name": "4-hydroxyglutethimide",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Active metabolite implicated in delayed coma after overdose."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -3166,7 +3038,6 @@
     "data_gaps_remaining": [
       "Modern receptor binding data"
     ],
-    "notes": "Withdrawn most markets. Notable for delayed overdose presentation (active metabolite).",
     "references_consulted": []
   },
   {
@@ -3206,8 +3077,7 @@
           "dose_in_study_mg": 300,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": null
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -3243,7 +3113,6 @@
     "data_gaps_remaining": [
       "Modern PK/PD"
     ],
-    "notes": "Withdrawn 1965.",
     "references_consulted": []
   },
   {
@@ -3283,8 +3152,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Biphasic, two-compartment; lipid sequestration explains prolonged coma."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -3296,8 +3164,7 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -3331,7 +3198,6 @@
     "data_gaps_remaining": [
       "Modern receptor data"
     ],
-    "notes": "Withdrawn.",
     "references_consulted": []
   },
   {
@@ -3363,10 +3229,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human α1β2γ2",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Gonzalez et al. 2009: carisoprodol potentiates and directly gates GABA-A in a barbiturate-like manner (EC50 ~480 μM PAM; ~3 mM direct activation). Meprobamate metabolite contributes substantially to abuse liability.",
           "reference": null,
-          "is_review": false,
-          "notes": "PMC2858432 — 'Abuse Potential of Soma: the GABA-A Receptor as a Target' is the modern definitive characterisation."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -3390,8 +3254,7 @@
           "dose_in_study_mg": 350,
           "subject_n": null,
           "subject_demographics": "Adults. t1/2 carisoprodol 1-2 h; meprobamate metabolite t1/2 6-17 h.",
-          "reference": "pmid:14506299",
-          "notes": "CYP2C19 PMs: 4x parent exposure, 50% less meprobamate — abuse pattern differs by genotype."
+          "reference": "pmid:14506299"
         }
       ],
       "concentration_effect": []
@@ -3403,8 +3266,7 @@
         "metabolite_name": "meprobamate",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:14506299",
-        "notes": "Meprobamate is the major anxiolytic metabolite; itself was a marketed drug (Miltown, withdrawn for abuse)."
+        "reference": "pmid:14506299"
       }
     ],
     "drug_interactions_pk": [
@@ -3448,7 +3310,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "The CYP2C19 pharmacogenetic dimension is unusual and clinically meaningful — PMs get more direct sedation, EMs get more meprobamate-mediated anxiolysis.",
     "references_consulted": [
       "pmid:19457260",
       "pmid:14506299"
@@ -3485,10 +3346,8 @@
           "species": "rat",
           "tissue_or_cell": "rat frontal cortex",
           "radioligand_or_probe": "[3H]ketanserin",
-          "assay_buffer_notes": "Cyclobenzaprine is structurally a tricyclic (amitriptyline analogue with cycloheptatriene bridge); affinity profile overlaps with TCA receptor pattern.",
           "reference": "pmid:21975349",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -3512,8 +3371,7 @@
           "dose_in_study_mg": 10,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "t1/2 18 h. Extensive first-pass (F ~33-55%). Hepatic CYP3A4/CYP1A2/CYP2D6 metabolism + glucuronidation."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -3525,8 +3383,7 @@
         "metabolite_name": "N-desmethylcyclobenzaprine",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -3571,7 +3428,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Structurally a TCA (amitriptyline analogue); shares cardiac sodium-channel risk in overdose.",
     "references_consulted": []
   },
   {
@@ -3611,8 +3467,7 @@
           "dose_in_study_mg": 800,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "t1/2 ~9 h. Food markedly increases F% (~50% Cmax increase)."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -3624,8 +3479,7 @@
         "metabolite_name": null,
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -3656,7 +3510,6 @@
     "data_gaps_remaining": [
       "Receptor target identification"
     ],
-    "notes": "Mechanism truly not well-characterised.",
     "references_consulted": []
   },
   {
@@ -3681,24 +3534,6 @@
       ],
       "binding": [
         {
-          "target": "H1 (human)",
-          "ki_nm": 11,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": "HEK293",
-          "radioligand_or_probe": "[3H]pyrilamine",
-          "assay_buffer_notes": "Goldstein 2005 — H1 affinity drives the dominant sedative effect at low doses (25-100 mg), explaining the widespread off-label sleep use.",
-          "reference": "doi:10.1016/j.bmcl.2020.127681",
-          "is_review": false,
-          "notes": null
-        },
-        {
           "target": "D2 (human)",
           "ki_nm": null,
           "ki_ci_nm": null,
@@ -3711,10 +3546,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293/CHO",
           "radioligand_or_probe": "[3H]raclopride",
-          "assay_buffer_notes": "Low D2 affinity + fast dissociation explain antipsychotic efficacy at 300+ mg but minimal EPS.",
           "reference": null,
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2A (human)",
@@ -3729,10 +3562,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]ketanserin",
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "α1 adrenergic",
@@ -3747,10 +3578,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]prazosin",
-          "assay_buffer_notes": null,
           "reference": null,
-          "is_review": false,
-          "notes": "Drives orthostatic hypotension."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -3780,8 +3609,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Adults; pooled review of human PK studies; mean terminal t1/2 ~7 h, linear kinetics up to 375 mg twice daily.",
-          "reference": "pmid:11510628",
-          "notes": "Extensive hepatic CYP3A4. F% well-absorbed; food has minor effect."
+          "reference": "pmid:11510628"
         }
       ],
       "concentration_effect": []
@@ -3793,8 +3621,7 @@
         "metabolite_name": "norquetiapine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:16390352",
-        "notes": "Norquetiapine is the pharmacologically interesting active metabolite — NET inhibitor + 5-HT1A partial agonist."
+        "reference": "pmid:16390352"
       },
       {
         "enzyme": "CYP2D6 (minor)",
@@ -3802,8 +3629,7 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -3859,7 +3685,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Off-label sleep aid usage exploits H1/α1 dominance at low doses — separate phenomenon from antipsychotic efficacy.",
     "references_consulted": [
       "pmid:15694239",
       "pmid:10618008"
@@ -3897,10 +3722,8 @@
           "species": "human",
           "tissue_or_cell": "CHO",
           "radioligand_or_probe": "[3H]pyrilamine",
-          "assay_buffer_notes": "First-generation H1 — high CNS penetration (logP 3.3, no Pgp efflux). Inverse agonism vs neutral antagonism debate: clinical practice unaffected.",
           "reference": "pmid:25065879",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "muscarinic M1",
@@ -3915,10 +3738,8 @@
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]NMS",
-          "assay_buffer_notes": "Anticholinergic activity drives deliriant effects in overdose.",
           "reference": "pmid:8061993",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "NMDA (open-channel block)",
@@ -3933,10 +3754,8 @@
           "species": "rat",
           "tissue_or_cell": "hippocampal neurons",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": "Sernagor et al. — open-channel block of NMDA at micromolar conc; explains ketamine-like effects at very high doses.",
           "reference": null,
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -3960,8 +3779,7 @@
           "dose_in_study_mg": 50,
           "subject_n": null,
           "subject_demographics": "Adults; t1/2 ~9 h.",
-          "reference": "pmid:2391399",
-          "notes": "First-pass ~50% via CYP2D6, CYP1A2, CYP2C9, CYP2C19. Elderly t1/2 doubled."
+          "reference": "pmid:2391399"
         }
       ],
       "concentration_effect": []
@@ -3973,8 +3791,7 @@
         "metabolite_name": "N-demethyldiphenhydramine",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:17020955",
-        "notes": "Also CYP1A2, CYP2C9, CYP2C19."
+        "reference": "pmid:17020955"
       }
     ],
     "drug_interactions_pk": [
@@ -4031,7 +3848,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Major OTC sedative; cardiotoxicity profile in overdose underappreciated by the public.",
     "references_consulted": [
       "pmid:8061993",
       "pmid:26581328",
@@ -4095,7 +3911,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "8-chlorotheophylline is pharmacologically trivial at the doses used. See Diphenhydramine.",
     "references_consulted": []
   },
   {
@@ -4150,7 +3965,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Trade name duplicate.",
     "references_consulted": []
   },
   {
@@ -4170,26 +3984,6 @@
         "H1 (inverse agonist)",
         "5-HT2A (antagonist)",
         "D2 (weak)"
-      ],
-      "binding": [
-        {
-          "target": "5-HT2A",
-          "ki_nm": 50,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": null,
-          "radioligand_or_probe": "[3H]ketanserin",
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": false,
-          "notes": "5-HT2A contributes to anxiolysis."
-        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -4212,8 +4006,7 @@
           "dose_in_study_mg": 39,
           "subject_n": 7,
           "subject_demographics": "7 healthy adults; single oral dose 0.7 mg/kg (mean 39.0 mg); terminal t1/2 20.0 +/- 4.1 h.",
-          "reference": "pmid:6141198",
-          "notes": null
+          "reference": "pmid:6141198"
         }
       ],
       "concentration_effect": []
@@ -4226,7 +4019,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": null,
-        "notes": "Cetirizine is itself a marketed antihistamine.",
         "metabolite_potency_target": "H1",
         "metabolite_potency_basis": "receptor_affinity",
         "metabolite_mechanism_vs_parent": "scaled"
@@ -4269,7 +4061,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Useful anxiolytic in BZ-sparing protocols.",
     "references_consulted": []
   },
   {
@@ -4310,8 +4101,7 @@
           "dose_in_study_mg": 50,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "t1/2 ~20 h. Hepatic N-demethylation to norcyclizine (active)."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4323,8 +4113,7 @@
         "metabolite_name": "norcyclizine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -4354,7 +4143,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Notable IV abuse potential (euphoria) recognised in palliative/perioperative settings.",
     "references_consulted": []
   },
   {
@@ -4388,10 +4176,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]rauwolscine",
-          "assay_buffer_notes": null,
           "reference": "pmid:7791087",
-          "is_review": false,
-          "notes": "Partial agonist (~70% Emax vs noradrenaline)."
+          "is_review": false
         },
         {
           "target": "I1 imidazoline (rostral ventrolateral medulla)",
@@ -4406,10 +4192,8 @@
           "species": null,
           "tissue_or_cell": "canine prostate / bovine RVLM membranes",
           "radioligand_or_probe": "[3H]clonidine",
-          "assay_buffer_notes": "Bousquet — I1 binding correlates better with antihypertensive potency than α2A binding; classical 'central sympatholytic' mechanism is now revised to include I1.",
           "reference": "pmid:7509387",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -4433,8 +4217,7 @@
           "dose_in_study_mg": 0.2,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "pmid:3293868",
-          "notes": "t1/2 12-16 h. 40-60% renal unchanged."
+          "reference": "pmid:3293868"
         },
         {
           "route": "transdermal",
@@ -4449,8 +4232,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Catapres-TTS weekly patch."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4462,8 +4244,7 @@
         "metabolite_name": "p-hydroxyclonidine",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "~50% renal unchanged."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -4501,7 +4282,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "The I1 imidazoline receptor is poorly recognised in clinical pharmacology curricula — clonidine is the prototype I1 agonist.",
     "references_consulted": [
       "pmid:7791087",
       "pmid:7509387",
@@ -4525,26 +4305,6 @@
         "β1 / β2 adrenergic (non-selective antagonist; S-(–)-enantiomer ~100x more potent)",
         "5-HT1A (weak antagonist at high conc.)"
       ],
-      "binding": [
-        {
-          "target": "β1 / β2 adrenergic (human)",
-          "ki_nm": 5,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": 0,
-          "reference_agonist": null,
-          "action": "antagonist",
-          "species": "human",
-          "tissue_or_cell": null,
-          "radioligand_or_probe": "[125I]CYP",
-          "assay_buffer_notes": "S-(–)-propranolol is the cardioactive enantiomer; R-(+) has membrane-stabilising effect.",
-          "reference": null,
-          "is_review": false,
-          "notes": null
-        }
-      ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
@@ -4566,8 +4326,7 @@
           "dose_in_study_mg": 40,
           "subject_n": null,
           "subject_demographics": "Adults.",
-          "reference": null,
-          "notes": "Massive first-pass (~75%). t1/2 3-6 h IR. Hepatic CYP2D6 + CYP1A2 + CYP2C19. CYP2D6 mechanism-based inhibitor (autoinhibition)."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4579,8 +4338,7 @@
         "metabolite_name": "4-hydroxypropranolol",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Mechanism-based inhibitor of CYP2D6 — autoinhibition contributes to dose-dependent nonlinear PK."
+        "reference": null
       },
       {
         "enzyme": "CYP1A2",
@@ -4588,8 +4346,7 @@
         "metabolite_name": "naphthoxylactic acid",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -4645,7 +4402,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Off-label use for performance anxiety leverages peripheral β-blockade rather than central anxiolysis.",
     "references_consulted": [
       "pmid:31682279"
     ]
@@ -4679,8 +4435,7 @@
           "reference_agonist": "GABA",
           "species": "rat",
           "cell_system": "cortical neurons",
-          "reference": null,
-          "notes": "Kavain, dihydrokavain, methysticin, dihydromethysticin, yangonin, desmethoxyyangonin all show modest GABA-A potentiation. Binding site distinct from BZ site (flumazenil insensitive)."
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -4703,8 +4458,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Kavain t1/2 ~9 h after standard 200 mg extract."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4716,8 +4470,7 @@
         "metabolite_name": null,
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -4776,7 +4529,6 @@
     "data_gaps_remaining": [
       "Quantitative receptor binding for individual kavalactones"
     ],
-    "notes": "Hepatotoxicity is the main safety concern; aqueous root preparations (traditional) are safer than ethanol/acetone extracts of aerial parts.",
     "references_consulted": []
   },
   {
@@ -4810,10 +4562,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]citalopram",
-          "assay_buffer_notes": "Mesembrine — the primary alkaloid — is a high-affinity SERT inhibitor (~SSRI-like) plus weak PDE4 inhibitor.",
           "reference": "pmid:21798331",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -4837,8 +4587,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Limited PK data."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4884,7 +4633,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "Library classifies as depressant but mesembrine is SSRI-like. Should not be grouped with GABAergic depressants.",
     "references_consulted": [
       "pmid:25379886"
     ]
@@ -4914,8 +4662,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "cortical neurons",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:23142028, which is proline-induced astrocyte cytoskeleton remodeling. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Withaferin A and withanolides bind BZ-like site with weak affinity."
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -4938,8 +4685,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Withaferin A poorly characterised in humans."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4981,7 +4727,6 @@
     "data_gaps_remaining": [
       "Human PK of withanolides"
     ],
-    "notes": "Clinical anxiolytic effect modest but reproducible.",
     "references_consulted": [
       "pmid:23142028"
     ]
@@ -5014,10 +4759,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]CP-55,940",
-          "assay_buffer_notes": "Dronabinol = synthetic Δ9-THC. Miscategorised here as GABAergic depressant; pharmacology is cannabinoid (see cannabinoids enrichment file).",
           "reference": "doi:10.1021/jm9803875",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -5041,8 +4784,7 @@
           "dose_in_study_mg": 10,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Marinol = encapsulated dronabinol in sesame oil. F ~6-20% due to first-pass; high inter-individual variability."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5055,7 +4797,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": null,
-        "notes": "11-OH-THC is further oxidized to THC-COOH (inactive, long t½, the urinalysis target)",
         "metabolite_potency_target": "CB1",
         "metabolite_potency_basis": "receptor_affinity",
         "metabolite_mechanism_vs_parent": "scaled"
@@ -5091,7 +4832,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Miscategorised here as depressant; this is dronabinol (Δ9-THC). See cannabinoids enrichment file for full pharmacology.",
     "references_consulted": [
       "pmid:12502350"
     ]
@@ -5134,8 +4874,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Limited Western PK. FDA banned as supplement 2015."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5147,8 +4886,7 @@
         "metabolite_name": "GABA",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Prodrug hydrolysis yields GABA (active, GABAergic) and nicotinic acid (niacin, vitamin B3)"
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -5179,7 +4917,6 @@
     "data_gaps_remaining": [
       "Modern PK and PD characterisation"
     ],
-    "notes": "Soviet nootropic; mostly Russian-language data.",
     "references_consulted": []
   },
   {
@@ -5221,8 +4958,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "pmid:26500584",
-          "notes": "BBB passage of orally administered GABA is unresolved - long assumed negligible, but the studies addressing it are contradictory and methodologically heterogeneous. Any behavioral effect of GABA supplements may act via limited BBB passage or indirectly via the enteric nervous system; the mechanism is not established, and the evidence for a calming effect comes largely from researchers with a potential conflict of interest."
+          "reference": "pmid:26500584"
         }
       ],
       "concentration_effect": []
@@ -5234,8 +4970,7 @@
         "metabolite_name": "succinic semialdehyde",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -5265,7 +5000,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Oral GABA supplements unlikely to produce direct central effects.",
     "references_consulted": []
   },
   {
@@ -5307,8 +5041,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Short t1/2 ~1.5 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5344,7 +5077,6 @@
     "data_gaps_remaining": [
       "Acute binding data"
     ],
-    "notes": "Mechanism poorly characterised; clinical efficacy unproven.",
     "references_consulted": []
   },
   {
@@ -5359,26 +5091,6 @@
     "pharmacology": {
       "primary_targets": [
         "GABA-A α2β2γ2 (subunit-selective partial agonist at BZ site)"
-      ],
-      "binding": [
-        {
-          "target": "GABA-A BZ site (α2 preferring)",
-          "ki_nm": 1,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": 40,
-          "reference_agonist": "diazepam",
-          "action": "partialAgonist",
-          "species": "rat",
-          "tissue_or_cell": "rat brain",
-          "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": "Cyclopyrrolone (related to zopiclone). Partial agonist with α2/α3 selectivity → anxiolytic without sedation in animal models.",
-          "reference": null,
-          "is_review": false,
-          "notes": null
-        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -5401,8 +5113,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "t1/2 ~6 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5436,7 +5147,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Discontinued. Notable for the (failed) subtype-selectivity concept.",
     "references_consulted": []
   },
   {
@@ -5478,8 +5188,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Active metabolite t1/2 ~70-100 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5491,8 +5200,7 @@
         "metabolite_name": "descarboxyloflazepate",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -5525,7 +5233,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Benzodiazepine prodrug; see benzos enrichment file.",
     "references_consulted": []
   },
   {
@@ -5580,7 +5287,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Obscure water-soluble BZ.",
     "references_consulted": []
   },
   {
@@ -5638,7 +5344,6 @@
     "data_gaps_remaining": [
       "All quantitative pharmacology"
     ],
-    "notes": "Designer BZ analog; see benzos file.",
     "references_consulted": []
   },
   {
@@ -5680,8 +5385,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Massive first-pass (~90%) in healthy adults; reduced first-pass in cirrhosis → 5-10x higher exposure (dose adjust)."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5693,8 +5397,7 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -5738,7 +5441,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "UK-specific clinical use; high abuse liability noted in early trials.",
     "references_consulted": []
   },
   {
@@ -5780,8 +5482,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "MAC 0.75% in adults. Blood:gas partition coefficient 2.3 → slower onset/offset than modern agents."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5793,8 +5494,7 @@
         "metabolite_name": "trifluoroacetic acid (reactive)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "TFA acylation of hepatocyte proteins → 'halothane hepatitis' (1:6000-1:35000 anaesthetics, immune-mediated)."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -5834,7 +5534,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Largely replaced by sevoflurane/desflurane. Historic importance for understanding anaesthesia mechanisms.",
     "references_consulted": []
   },
   {
@@ -5877,8 +5576,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "MAC ~1.9% (less potent than modern agents). Slow onset, prolonged emergence."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5911,7 +5609,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Historic.",
     "references_consulted": []
   },
   {
@@ -5951,8 +5648,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": null
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5964,8 +5660,7 @@
         "metabolite_name": "phosgene",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Hepatotoxic reactive metabolite."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -6004,7 +5699,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Historic; IARC Group 2B carcinogen.",
     "references_consulted": []
   },
   {
@@ -6065,7 +5759,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Miscategorised. See deliriants file.",
     "references_consulted": []
   },
   {
@@ -6108,8 +5801,7 @@
           "dose_in_study_mg": 250,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Extraordinarily long t1/2 ~14-21 days. Tmax 6-24 h. Large Vd (lipophilic). Hepatic CYP3A4."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -6121,8 +5813,7 @@
         "metabolite_name": "carboxymefloquine",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": null
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -6160,7 +5851,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Not a primary psychoactive; included here only because of AE profile.",
     "references_consulted": []
   },
   {
@@ -6219,7 +5909,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Miscategorised. See stimulants file.",
     "references_consulted": []
   },
   {
@@ -6277,7 +5966,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Less potent than methaqualone.",
     "references_consulted": []
   },
   {
@@ -6336,7 +6024,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Quinazolinone analog.",
     "references_consulted": []
   },
   {
@@ -6403,7 +6090,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Reported convulsant liability.",
     "references_consulted": []
   },
   {
@@ -6460,7 +6146,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Japanese-only muscle relaxant.",
     "references_consulted": []
   },
   {
@@ -6520,7 +6205,6 @@
     "data_gaps_remaining": [
       "All human data"
     ],
-    "notes": "Obscure quinazolinone analog.",
     "references_consulted": []
   },
   {
@@ -6580,7 +6264,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Obscure Russian phenibut analog.",
     "references_consulted": []
   },
   {
@@ -6622,8 +6305,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Tertiary alcohol — NOT a substrate for ADH; cleared mostly by glucuronidation, much slower than ethanol → t1/2 ~6 h vs 1 h for ethanol equivalent."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -6635,8 +6317,7 @@
         "metabolite_name": "2M2B-glucuronide",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Bypass of ADH explains long t1/2 and absence of acetaldehyde."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -6678,7 +6359,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Recreational research chemical. Differs from ethanol in PK (no ADH metabolism, no acetaldehyde, longer t1/2).",
     "references_consulted": []
   },
   {
@@ -6736,7 +6416,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Not a GABAergic depressant.",
     "references_consulted": []
   },
   {
@@ -6768,10 +6447,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]flumazenil",
-          "assay_buffer_notes": "Flavone; weak GABA-A NAM. Pro-cognitive effects in rodents attributed to BZ-NAM activity.",
           "reference": null,
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -6791,8 +6468,7 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Low oral bioavailability."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -6824,7 +6500,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "BZ-site NAM — opposite direction of action vs the rest of this group.",
     "references_consulted": [
       "pmid:14998663"
     ]
@@ -6880,7 +6555,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Miscategorised; phenethylamine sympathomimetic.",
     "references_consulted": []
   },
   {
@@ -6934,7 +6608,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Endogenous; miscategorised.",
     "references_consulted": []
   },
   {
@@ -6990,7 +6663,6 @@
     "data_gaps_remaining": [
       "All"
     ],
-    "notes": "PubChem entry; no pharmacology.",
     "references_consulted": []
   },
   {
@@ -7046,7 +6718,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Midodrine active metabolite; miscategorised.",
     "references_consulted": []
   },
   {
@@ -7101,7 +6772,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Catecholamine metabolite; miscategorised.",
     "references_consulted": []
   },
   {
@@ -7155,7 +6825,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Miscategorised.",
     "references_consulted": []
   },
   {
@@ -7209,7 +6878,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Endogenous; miscategorised.",
     "references_consulted": []
   },
   {
@@ -7264,7 +6932,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Catecholamine metabolite; miscategorised.",
     "references_consulted": []
   },
   {
@@ -7318,7 +6985,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Miscategorised.",
     "references_consulted": []
   },
   {
@@ -7359,8 +7025,7 @@
         "metabolite_name": null,
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:15060511",
-        "notes": "Near-complete presystemic CYP1A2 metabolism (oral bioavailability ~34% from extensive first-pass; only ~2.7% excreted unchanged). Clearance is CYP1A2-dominated, so strong CYP1A2 inhibitors cause very large PK interactions: fluvoxamine raised tizanidine AUC ~33-fold (range 14-103x) with SBP falling to ~79-80 mmHg (Granfors 2004, PMID 15060511); ciprofloxacin raised AUC ~10-fold (Granfors 2004, PMID 15536460). FDA-contraindicated with fluvoxamine and ciprofloxacin; CYP1A2 induction by tobacco smoking lowers tizanidine exposure."
+        "reference": "pmid:15060511"
       }
     ],
     "drug_interactions_pk": [
@@ -7379,7 +7044,6 @@
         "reference": "pmid:15592331"
       }
     ],
-    "confidence": "high",
-    "notes": "Closes the Stage-4c MetabolicModulation gap: tizanidine previously had no CYP1A2 metabolism row, so its grade-A CYP1A2-inhibitor interactions were not surfaced. Grounded in the 2026-06-22 alpha-2/beta-blocker paper-review run (alpha2-betablocker-evidence.json)."
+    "confidence": "high"
   }
 ]

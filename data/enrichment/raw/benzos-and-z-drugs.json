@@ -26,10 +26,8 @@
           "species": "rat",
           "tissue_or_cell": "rat cortical membranes",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": null,
           "reference": "pmid:10083975",
-          "is_review": false,
-          "notes": "Sanna et al. 2005 — comparator value for etizolam study."
+          "is_review": false
         },
         {
           "target": "GABA-A α1β2γ2S (functional EC50 for GABA potentiation)",
@@ -44,10 +42,8 @@
           "species": "human",
           "tissue_or_cell": "Xenopus oocytes expressing human α1β2γ2S",
           "radioligand_or_probe": null,
-          "assay_buffer_notes": null,
           "reference": "pmid:10083975",
-          "is_review": false,
-          "notes": "Maximum potentiation 98% above GABA-EC20 baseline."
+          "is_review": false
         }
       ],
       "functional": [
@@ -82,8 +78,7 @@
           "dose_in_study_mg": 1,
           "subject_n": null,
           "subject_demographics": "Healthy adults (Xanax FDA label / Greenblatt reviews)",
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/018276s045lbl.pdf",
-          "notes": "Mean t1/2 ~11.2 h (range 6.3–26.9); F ≈ 90% IR tablet; protein binding ~80% (mostly albumin)."
+          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/018276s045lbl.pdf"
         }
       ],
       "concentration_effect": []
@@ -95,8 +90,7 @@
         "metabolite_name": "α-hydroxyalprazolam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:8646822",
-        "notes": "Schmider et al. — kinetic-dynamic study with erythromycin confirmed CYP3A4 as the major hydroxylation pathway. α-OH-alprazolam is roughly half as potent as parent in vivo."
+        "reference": "pmid:8646822"
       },
       {
         "enzyme": "CYP3A4",
@@ -167,7 +161,6 @@
     "data_gaps_remaining": [
       "Subunit-specific Ki values (paper-by-paper they vary; classical view is non-selective)"
     ],
-    "notes": "Triazolo ring confers higher intrinsic efficacy and faster tolerance development than 1,4-benzodiazepines like diazepam. Withdrawal severity at moderate doses is clinically significant due to short t1/2.",
     "references_consulted": [
       "pmid:8646822",
       "pmc:PMC2408964",
@@ -201,10 +194,8 @@
           "species": "human",
           "tissue_or_cell": "L(tk-) cells expressing recombinant human α1β2γ2",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": null,
           "reference": "pmid:8391122",
-          "is_review": false,
-          "notes": "Hadingham et al. 1993 — canonical Ki values for human recombinant receptors. Classical 'non-selective' profile across α1/α2/α3/α5 with single-digit nM affinity."
+          "is_review": false
         },
         {
           "target": "GABA-A α2β2γ2",
@@ -219,10 +210,8 @@
           "species": "human",
           "tissue_or_cell": "L(tk-) cells, recombinant human α2β2γ2",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": null,
           "reference": "pmid:8391122",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "GABA-A α3β2γ2",
@@ -237,10 +226,8 @@
           "species": "human",
           "tissue_or_cell": "L(tk-) cells, recombinant human α3β2γ2",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": null,
           "reference": "pmid:8391122",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "GABA-A α5β2γ2",
@@ -255,10 +242,8 @@
           "species": "human",
           "tissue_or_cell": "L(tk-) cells, recombinant human α5β2γ2",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": null,
           "reference": "pmid:8391122",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [],
@@ -288,8 +273,7 @@
           "dose_in_study_mg": 10,
           "subject_n": null,
           "subject_demographics": "Healthy adults — Greenblatt clinical pharmacokinetics review",
-          "reference": "doi:10.2165/00003088-197803010-00005",
-          "notes": "Parent t1/2 ~20–48 h; active metabolite nordazepam t1/2 50–100 h dominates effective duration on chronic dosing."
+          "reference": "doi:10.2165/00003088-197803010-00005"
         },
         {
           "route": "rectal",
@@ -316,8 +300,7 @@
         "metabolite_name": "temazepam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.2165/00003088-197803010-00005",
-        "notes": "3-hydroxylation"
+        "reference": "doi:10.2165/00003088-197803010-00005"
       },
       {
         "enzyme": "CYP2C19",
@@ -326,7 +309,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": "doi:10.2165/00003088-197803010-00005",
-        "notes": "N-demethylation — primary route. Nordazepam t1/2 ~50–100 h; further metabolized to oxazepam (CYP3A4 hydroxylation) then UGT2B15-glucuronidated.",
         "metabolite_potency_target": "GABA-A",
         "metabolite_potency_basis": "receptor_affinity",
         "metabolite_mechanism_vs_parent": "scaled"
@@ -390,7 +372,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Reference 'classical' non-selective benzodiazepine. Active metabolite cascade (nordazepam → oxazepam) dominates pharmacology on chronic dosing.",
     "references_consulted": [
       "pmid:8391122",
       "doi:10.2165/00003088-197803010-00005",
@@ -424,10 +405,8 @@
           "species": "rat",
           "tissue_or_cell": "Recombinant α1β2γ2 / α1β3γ2",
           "radioligand_or_probe": "[3H]flumazenil (Ro15-1788)",
-          "assay_buffer_notes": null,
           "reference": "pmid:2157817",
-          "is_review": false,
-          "notes": "Langer & Faure-Halley 1992; Pritchett & Seeburg 1990–1991."
+          "is_review": false
         },
         {
           "target": "GABA-A α5β3γ2",
@@ -442,10 +421,8 @@
           "species": "human",
           "tissue_or_cell": "Recombinant α5β3γ2",
           "radioligand_or_probe": "[3H]Ro15-1788",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/jm800889m",
-          "is_review": false,
-          "notes": "Hanson 2008. Zolpidem effectively does not bind α5-containing GABA-A — defining feature distinguishing it from eszopiclone."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -482,8 +459,7 @@
           "dose_in_study_mg": 10,
           "subject_n": null,
           "subject_demographics": "Healthy adults — Ambien FDA label",
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf",
-          "notes": "Short t1/2 ~1.4–4.5 h; rapid onset (Tmax 1.6 h). Substantial first-pass."
+          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf"
         }
       ],
       "concentration_effect": []
@@ -496,7 +472,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf",
-        "notes": "All metabolites inactive at benzodiazepine site; carboxylic acid metabolites excreted renally.",
         "metabolite_potency_target": "GABA-A"
       },
       {
@@ -566,7 +541,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Prototype α1-selective Z-drug. Defining feature: no α5 affinity. Complex sleep-related behaviors (sleep-driving, sleep-eating) are FDA-recognized risk; female PK differences led to dose halving.",
     "references_consulted": [
       "doi:10.1021/jm800889m",
       "doi:10.1038/srep28674",
@@ -606,10 +580,8 @@
           "species": "rat",
           "tissue_or_cell": "HEK293T expressing rat α1β2γ2",
           "radioligand_or_probe": "[3H]Ro15-1788",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/jm800889m",
-          "is_review": false,
-          "notes": "Hanson et al. 2008."
+          "is_review": false
         },
         {
           "target": "GABA-A α2β2γ2",
@@ -627,10 +599,8 @@
           "species": "rat",
           "tissue_or_cell": "HEK293T expressing rat α2β2γ2",
           "radioligand_or_probe": "[3H]Ro15-1788",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/jm800889m",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "GABA-A α3β2γ2",
@@ -648,10 +618,8 @@
           "species": "rat",
           "tissue_or_cell": "HEK293T expressing rat α3β2γ2",
           "radioligand_or_probe": "[3H]Ro15-1788",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/jm800889m",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "GABA-A α5β2γ2",
@@ -669,10 +637,8 @@
           "species": "rat",
           "tissue_or_cell": "HEK293T expressing rat α5β2γ2",
           "radioligand_or_probe": "[3H]Ro15-1788",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/jm800889m",
-          "is_review": false,
-          "notes": "Note: eszopiclone retains α5 affinity unlike zolpidem — likely contributes to its memory/learning effects."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -696,8 +662,7 @@
           "dose_in_study_mg": 2,
           "subject_n": null,
           "subject_demographics": "Healthy adults — Lunesta FDA label",
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021476s030lbl.pdf",
-          "notes": "t1/2 ~6 h. High-fat meal reduces Cmax by ~21% and prolongs Tmax to 2 h."
+          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021476s030lbl.pdf"
         }
       ],
       "concentration_effect": []
@@ -709,8 +674,7 @@
         "metabolite_name": "(S)-N-desmethylzopiclone",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021476s030lbl.pdf",
-        "notes": "Minor activity at benzodiazepine site. (S)-zopiclone-N-oxide is the main inactive metabolite."
+        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021476s030lbl.pdf"
       },
       {
         "enzyme": "CYP2E1",
@@ -769,7 +733,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Cyclopyrrolone Z-drug; structurally unrelated to benzos but binds the same site. Unlike zolpidem, retains α5 affinity → more amnesic/cognitive impact.",
     "references_consulted": [
       "doi:10.1021/jm800889m",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021476s030lbl.pdf"
@@ -805,10 +768,8 @@
           "species": "rat",
           "tissue_or_cell": "rat cortical membranes",
           "radioligand_or_probe": "[3H]flunitrazepam displacement",
-          "assay_buffer_notes": null,
           "reference": "doi:10.2165/00003088-198106020-00001",
-          "is_review": true,
-          "notes": "Greenblatt clinical pharmacokinetics review (1981) — 2-amino-substituted 1,4-benzodiazepine with non-selective binding across α1/α2/α3/α5."
+          "is_review": true
         }
       ],
       "functional": [],
@@ -832,8 +793,7 @@
           "dose_in_study_mg": 2,
           "subject_n": 6,
           "subject_demographics": "Healthy adults — Greenblatt 1979",
-          "reference": "doi:10.1002/jps.2600680119",
-          "notes": "t1/2 12–16 h IV; oral F ~93%; IM F ~83–100%."
+          "reference": "doi:10.1002/jps.2600680119"
         },
         {
           "route": "intramuscular",
@@ -861,7 +821,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:23554428",
-        "notes": "Both R- and S-lorazepam glucuronidated by UGT2B4, 2B7, 2B15. UGT2B15*2/*2 PMs show 40–50% lower lorazepam CL (Chung 2005, pmid:15961980).",
         "metabolite_potency_target": "GABA-A"
       },
       {
@@ -914,7 +873,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Preferred benzo in hepatic dysfunction due to glucuronidation-only metabolism (also true for oxazepam and temazepam — 'LOT' rule). High binding affinity (~2 nM) at GABA-A relative to diazepam (~14 nM).",
     "references_consulted": [
       "doi:10.1002/jps.2600680119",
       "doi:10.2165/00003088-198106020-00001",
@@ -934,26 +892,6 @@
     "pharmacology": {
       "primary_targets": [
         "GABA-A (α1-preferring)"
-      ],
-      "binding": [
-        {
-          "target": "GABA-A benzodiazepine site",
-          "ki_nm": 3,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "positiveAllostericModulator",
-          "species": "human",
-          "tissue_or_cell": "Cortical membranes / recombinant",
-          "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": false,
-          "notes": "Imidazobenzodiazepine; pH-dependent ring-opening enables water solubility at acidic pH for IV/IM formulation."
-        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -976,8 +914,7 @@
           "dose_in_study_mg": 7.5,
           "subject_n": null,
           "subject_demographics": "Healthy adults",
-          "reference": "pmid:6138080",
-          "notes": "Extensive first-pass (CYP3A4 in gut wall and liver)."
+          "reference": "pmid:6138080"
         },
         {
           "route": "intravenous",
@@ -1020,7 +957,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 20,
         "reference": "pmid:8004131",
-        "notes": "Kronbach 1989 / Gorski review; 1-OH-midazolam ≈ 20% of parent's BZ-receptor affinity. Active metabolite contributes to clinical effect, especially in renal failure where glucuronide can accumulate.",
         "metabolite_potency_target": "GABA-A",
         "metabolite_potency_basis": "receptor_affinity",
         "metabolite_mechanism_vs_parent": "scaled"
@@ -1095,7 +1031,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Imidazobenzodiazepine designed for IV use — pH-dependent ring opens at pH <4 (water-soluble open form), closes at physiological pH (lipophilic active form). Massive intersubject variability in oral PK due to CYP3A4-dependent first pass.",
     "references_consulted": [
       "pmid:6138080",
       "pmid:8004131",
@@ -1114,26 +1049,6 @@
     "pharmacology": {
       "primary_targets": [
         "GABA-A (non-selective benzodiazepine site)"
-      ],
-      "binding": [
-        {
-          "target": "GABA-A benzodiazepine site",
-          "ki_nm": 1,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "positiveAllostericModulator",
-          "species": "rat",
-          "tissue_or_cell": "Rat cortical membranes",
-          "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": false,
-          "notes": "Sub-nanomolar to low-nanomolar at all α subunits; among the highest-affinity classical benzodiazepines."
-        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -1156,8 +1071,7 @@
           "dose_in_study_mg": 2,
           "subject_n": null,
           "subject_demographics": "Healthy adults — Klonopin FDA label",
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/017533s059lbl.pdf",
-          "notes": "t1/2 30–40 h (range 18–60)."
+          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/017533s059lbl.pdf"
         }
       ],
       "concentration_effect": []
@@ -1170,7 +1084,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "Klonopin FDA label",
-        "notes": "Nitroreduction to inactive 7-amino metabolite (major); minor 3-hydroxylation. 7-amino subsequently acetylated by NAT2 to 7-acetamido-clonazepam.",
         "metabolite_potency_target": "GABA-A"
       },
       {
@@ -1230,7 +1143,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Long t1/2 (30–40 h) makes clonazepam useful for sustained anxiolysis/anticonvulsant action but contributes to accumulation and protracted withdrawal.",
     "references_consulted": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/017533s059lbl.pdf"
     ]
@@ -1262,10 +1174,8 @@
           "species": "rat",
           "tissue_or_cell": "Rat brain membranes",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/S0014-2999(02)02191-X",
-          "is_review": false,
-          "notes": "Triazolobenzodiazepine with very high intrinsic activity."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1289,8 +1199,7 @@
           "dose_in_study_mg": 0.25,
           "subject_n": null,
           "subject_demographics": "Halcion FDA label / Greenblatt",
-          "reference": "https://www.pfizermedical.com/halcion/clinical-pharmacology",
-          "notes": "Short t1/2 1.5–5.5 h (mean ~2.3 h). High first-pass."
+          "reference": "https://www.pfizermedical.com/halcion/clinical-pharmacology"
         }
       ],
       "concentration_effect": []
@@ -1302,8 +1211,7 @@
         "metabolite_name": "α-hydroxytriazolam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "Halcion FDA label",
-        "notes": "Rapidly glucuronidated → minimal pharmacological contribution. 4-hydroxytriazolam is the minor pathway."
+        "reference": "Halcion FDA label"
       }
     ],
     "drug_interactions_pk": [
@@ -1368,7 +1276,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Highest-potency hypnotic benzo (0.125–0.5 mg dose). Notorious 1980s controversy over psychiatric adverse effects ('Halcion suit'); withdrawn in UK 1991.",
     "references_consulted": [
       "https://www.pfizermedical.com/halcion/clinical-pharmacology",
       "doi:10.1016/S0014-2999(02)02191-X"
@@ -1386,26 +1293,6 @@
     "pharmacology": {
       "primary_targets": [
         "GABA-A (non-selective)"
-      ],
-      "binding": [
-        {
-          "target": "GABA-A benzodiazepine site",
-          "ki_nm": 1.5,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "positiveAllostericModulator",
-          "species": "rat",
-          "tissue_or_cell": "Cortical membranes",
-          "radioligand_or_probe": "[3H]flunitrazepam (self-labelled)",
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": false,
-          "notes": "Used as the canonical radioligand for benzodiazepine binding studies."
-        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -1428,8 +1315,7 @@
           "dose_in_study_mg": 2,
           "subject_n": null,
           "subject_demographics": "Healthy adults",
-          "reference": "pmid:11259331",
-          "notes": "t1/2 18–24 h."
+          "reference": "pmid:11259331"
         }
       ],
       "concentration_effect": []
@@ -1441,8 +1327,7 @@
         "metabolite_name": "desmethylflunitrazepam (norflunitrazepam)",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:11259331",
-        "notes": "Km 108 μM CYP3A4 / 11 μM CYP2C19 — CYP2C19 is the high-affinity contributor at low concentrations."
+        "reference": "pmid:11259331"
       },
       {
         "enzyme": "CYP2C19",
@@ -1459,7 +1344,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:11259331",
-        "notes": "Nitroreduction by CYP3A4 + nitroreductase; inactive but the primary forensic urinary marker.",
         "metabolite_potency_target": "GABA-A"
       }
     ],
@@ -1496,7 +1380,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Schedule III in US (others IV); reformulated with blue dye to deter DFSA (drug-facilitated sexual assault) use.",
     "references_consulted": [
       "pmid:11259331",
       "pmid:12640218"
@@ -1529,10 +1412,8 @@
           "species": "rat",
           "tissue_or_cell": "Brain membranes",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": null,
           "reference": "doi:10.2165/00003088-198106020-00001",
-          "is_review": true,
-          "notes": "Lower potency than diazepam; clinically used as anxiolytic with intermediate t1/2."
+          "is_review": true
         }
       ],
       "functional": [],
@@ -1556,8 +1437,7 @@
           "dose_in_study_mg": 15,
           "subject_n": null,
           "subject_demographics": "Greenblatt 1981 review",
-          "reference": "doi:10.2165/00003088-198106020-00001",
-          "notes": "t1/2 3–21 h (mean ~8 h); slowest oral absorption of any benzo (Tmax ~2–4 h)."
+          "reference": "doi:10.2165/00003088-198106020-00001"
         }
       ],
       "concentration_effect": []
@@ -1570,7 +1450,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:12386133",
-        "notes": "Court 2002 — S-isomer almost exclusively glucuronidated by UGT2B15. R-isomer uses UGT2B7 and UGT1A9.",
         "metabolite_potency_target": "GABA-A"
       },
       {
@@ -1615,7 +1494,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Terminal metabolite of nordazepam pathway (oxazepam is what diazepam ultimately becomes). Marketed as Serax. LOT rule.",
     "references_consulted": [
       "doi:10.2165/00003088-198106020-00001",
       "pmid:12386133"
@@ -1648,11 +1526,9 @@
           "species": "mouse",
           "tissue_or_cell": "mouse forebrain membranes",
           "radioligand_or_probe": "[3H]flunitrazepam (1 nM)",
-          "assay_buffer_notes": "0-4 C, 30 min (n>=4)",
           "reference": "doi:10.1016/0024-3205(84)90576-9",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Chweh 1984 Table I. IC50, not Ki (no radioligand Kd reported)."
+          "confidence": "high"
         }
       ],
       "functional": [],
@@ -1676,8 +1552,7 @@
           "dose_in_study_mg": 30,
           "subject_n": null,
           "subject_demographics": "Restoril FDA label",
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/018163s065lbl.pdf",
-          "notes": "t1/2 8–15 h; intermediate hypnotic duration."
+          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/018163s065lbl.pdf"
         }
       ],
       "concentration_effect": []
@@ -1690,7 +1565,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:40543327",
-        "notes": "Stereoselective: UGT2B7/1A9 dominant for R-temazepam; UGT2B15/1A6 for S-temazepam.",
         "metabolite_potency_target": "GABA-A"
       },
       {
@@ -1729,7 +1603,6 @@
     "data_gaps_remaining": [
       "Subunit-specific Ki not separately characterized; assumed non-selective like other 1,4-benzos"
     ],
-    "notes": "Active metabolite of diazepam; clinically used as standalone hypnotic. LOT rule applies.",
     "references_consulted": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/018163s065lbl.pdf"
     ]
@@ -1746,26 +1619,6 @@
     "pharmacology": {
       "primary_targets": [
         "GABA-A (non-selective)"
-      ],
-      "binding": [
-        {
-          "target": "GABA-A benzodiazepine site",
-          "ki_nm": 11,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "positiveAllostericModulator",
-          "species": "rat",
-          "tissue_or_cell": "Brain membranes",
-          "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": null,
-          "reference": "doi:10.2165/00003088-197803010-00005",
-          "is_review": true,
-          "notes": "Comparable affinity to diazepam; the long-acting backbone of diazepam, prazepam, clorazepate, halazepam metabolism."
-        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -1788,8 +1641,7 @@
           "dose_in_study_mg": 5,
           "subject_n": null,
           "subject_demographics": "Greenblatt review",
-          "reference": "doi:10.2165/00003088-197803010-00005",
-          "notes": "t1/2 50–100 h; accumulates substantially on chronic dosing."
+          "reference": "doi:10.2165/00003088-197803010-00005"
         }
       ],
       "concentration_effect": []
@@ -1801,8 +1653,7 @@
         "metabolite_name": "oxazepam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.2165/00003088-197803010-00005",
-        "notes": "3-hydroxylation → oxazepam → UGT2B15 glucuronidation."
+        "reference": "doi:10.2165/00003088-197803010-00005"
       }
     ],
     "drug_interactions_pk": [],
@@ -1829,7 +1680,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Marketed alone in France/Italy (Nordaz). Also the active metabolite of diazepam, clorazepate, prazepam, halazepam, medazepam, ketazolam — anything that eventually demethylates to a 1,4-benzodiazepin-2-one without N1 substituent.",
     "references_consulted": [
       "doi:10.2165/00003088-197803010-00005"
     ]
@@ -1869,8 +1719,7 @@
           "dose_in_study_mg": 25,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "doi:10.2165/00003088-197803050-00004",
-          "notes": "t1/2 5–30 h (mean 12 h); demoxepam t1/2 14–95 h."
+          "reference": "doi:10.2165/00003088-197803050-00004"
         }
       ],
       "concentration_effect": []
@@ -1890,8 +1739,7 @@
         "metabolite_name": "demoxepam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.2165/00003088-197803050-00004",
-        "notes": "Demoxepam t1/2 14–95 h; further metabolized to nordazepam → oxazepam."
+        "reference": "doi:10.2165/00003088-197803050-00004"
       },
       {
         "enzyme": "CYP2C19",
@@ -1933,7 +1781,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Sternbach's 1955 discovery; first benzodiazepine. Cascade metabolism gives 'self-tapering' withdrawal that suits alcohol detoxification.",
     "references_consulted": [
       "doi:10.2165/00003088-197803050-00004"
     ]
@@ -1979,7 +1826,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Duplicate entry; see Chlordiazepoxide. Recommend deduplication in source data.",
     "references_consulted": []
   },
   {
@@ -2017,8 +1863,7 @@
           "dose_in_study_mg": 6,
           "subject_n": null,
           "subject_demographics": "Lexotan product monograph",
-          "reference": "https://e-lactancia.org/media/papers/Bromazepam-DS-2012.pdf",
-          "notes": "t1/2 17 h (range 11–22 h)."
+          "reference": "https://e-lactancia.org/media/papers/Bromazepam-DS-2012.pdf"
         }
       ],
       "concentration_effect": []
@@ -2030,8 +1875,7 @@
         "metabolite_name": "3-hydroxybromazepam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:14517708",
-        "notes": "Fluvoxamine (CYP1A2 inhibitor) ↑ AUC 2.4-fold. Itraconazole (CYP3A4 inhibitor) has no effect → CYP3A4 not involved."
+        "reference": "pmid:14517708"
       },
       {
         "enzyme": "UGT",
@@ -2083,7 +1927,6 @@
     "data_gaps_remaining": [
       "Specific GABA-A subunit Ki values not separately determined"
     ],
-    "notes": "Unusual among benzos in being metabolized predominantly by CYP1A2 rather than CYP3A4. Marketed primarily outside US (Lexotan/Lexotanil).",
     "references_consulted": [
       "pmid:14517708",
       "https://e-lactancia.org/media/papers/Bromazepam-DS-2012.pdf"
@@ -2116,11 +1959,9 @@
           "species": "rat",
           "tissue_or_cell": "rat brain homogenate",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": "Cheng-Prusoff from Kd 1.5 nM (n=4)",
           "reference": "doi:10.1371/journal.pone.0088456",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Jensen 2014 Table 1. 1,5-benzodiazepine. Active metabolite N-desmethylclobazam Ki 133 nM in same panel."
+          "confidence": "high"
         }
       ],
       "functional": [],
@@ -2144,8 +1985,7 @@
           "dose_in_study_mg": 10,
           "subject_n": null,
           "subject_demographics": "Onfi FDA label",
-          "reference": "pmc:PMC5914180",
-          "notes": "Clobazam t1/2 36–42 h; N-desmethylclobazam (norclobazam) t1/2 71–82 h."
+          "reference": "pmc:PMC5914180"
         }
       ],
       "concentration_effect": []
@@ -2158,7 +1998,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 25,
         "reference": "pmc:PMC5914180",
-        "notes": "~2/3 of clobazam undergoes N-demethylation. Norclobazam is ~25% as potent but at chronic dosing reaches plasma concentrations 8–20× clobazam.",
         "metabolite_potency_target": "GABA-A",
         "metabolite_potency_basis": "receptor_affinity",
         "metabolite_mechanism_vs_parent": "scaled"
@@ -2170,7 +2009,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmc:PMC5914180",
-        "notes": "CYP2C19 PMs have 5× higher norclobazam levels — clinically important for dosing in Asian populations.",
         "metabolite_potency_target": "GABA-A"
       }
     ],
@@ -2222,7 +2060,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Structural outlier among benzos (1,5- rather than 1,4-). Lower sedation per equipotent anxiolytic dose. Norclobazam carries most of the chronic-dosing effect.",
     "references_consulted": [
       "pmc:PMC5914180",
       "https://www.ncbi.nlm.nih.gov/books/NBK546789/"
@@ -2255,10 +2092,8 @@
           "species": "rat",
           "tissue_or_cell": "Rat cortical membranes",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1021/jm800889m",
-          "is_review": false,
-          "notes": "Racemic mixture; S-enantiomer (eszopiclone) is ~50× more active."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2282,8 +2117,7 @@
           "dose_in_study_mg": 7.5,
           "subject_n": null,
           "subject_demographics": "Imovane product monograph",
-          "reference": null,
-          "notes": "t1/2 5 h; not approved in US (eszopiclone marketed instead)."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2351,7 +2185,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Racemic version of eszopiclone; activity dominated by S-enantiomer. Not approved in US.",
     "references_consulted": [
       "doi:10.1021/jm800889m",
       "https://en.wikipedia.org/wiki/Zopiclone"
@@ -2369,26 +2202,6 @@
     "pharmacology": {
       "primary_targets": [
         "GABA-A α1βγ2 (highly preferring)"
-      ],
-      "binding": [
-        {
-          "target": "GABA-A α1βγ2",
-          "ki_nm": 7,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "positiveAllostericModulator",
-          "species": "human",
-          "tissue_or_cell": "Recombinant α1βγ2",
-          "radioligand_or_probe": "[3H]flumazenil",
-          "assay_buffer_notes": null,
-          "reference": null,
-          "is_review": false,
-          "notes": "Brand: Sonata; generic name zaleplon. Dämgen & Lüddens 1999: 12-, 10-, 27× selective for α1 vs α2, α3, α5 respectively — most α1-selective of the Z-drugs."
-        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -2411,8 +2224,7 @@
           "dose_in_study_mg": 10,
           "subject_n": null,
           "subject_demographics": "Sonata FDA label",
-          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/020859s011lbl.pdf",
-          "notes": "Very short t1/2 ~1 h. Extensive first-pass via aldehyde oxidase (not CYP)."
+          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/020859s011lbl.pdf"
         }
       ],
       "concentration_effect": []
@@ -2425,7 +2237,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "Sonata FDA label",
-        "notes": "Unusual: primary clearance is via aldehyde oxidase, not CYP. Minimal CYP interactions.",
         "metabolite_potency_target": "GABA-A"
       },
       {
@@ -2478,7 +2289,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Most α1-selective Z-drug. Aldehyde oxidase metabolism is unusual — gives different DDI profile than CYP-metabolized Z-drugs.",
     "references_consulted": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/020859s011lbl.pdf"
     ]
@@ -2510,11 +2320,9 @@
           "species": "rat",
           "tissue_or_cell": "rat whole-forebrain P2 membranes",
           "radioligand_or_probe": "[3H]diazepam (1.9 nM)",
-          "assay_buffer_notes": "Ki = IC50/(1+C/KD), KD 3.4 nM",
           "reference": "doi:10.1016/0014-2999(78)90085-7",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Braestrup & Squires 1978 Table 1."
+          "confidence": "high"
         }
       ],
       "functional": [],
@@ -2538,8 +2346,7 @@
           "dose_in_study_mg": 30,
           "subject_n": null,
           "subject_demographics": "Dalmane FDA label",
-          "reference": "https://www.drugs.com/monograph/flurazepam.html",
-          "notes": "Parent t1/2 2.3 h; active metabolite N-desalkylflurazepam dominates effect."
+          "reference": "https://www.drugs.com/monograph/flurazepam.html"
         }
       ],
       "concentration_effect": []
@@ -2551,8 +2358,7 @@
         "metabolite_name": "N-desalkylflurazepam (norflurazepam)",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "https://www.drugs.com/monograph/flurazepam.html",
-        "notes": "t1/2 47–150 h; accumulates with chronic dosing."
+        "reference": "https://www.drugs.com/monograph/flurazepam.html"
       },
       {
         "enzyme": "CYP3A4",
@@ -2596,7 +2402,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Effectively a prodrug; all chronic effect mediated by N-desalkylflurazepam (= norflurazepam).",
     "references_consulted": [
       "https://www.drugs.com/monograph/flurazepam.html"
     ]
@@ -2628,11 +2433,9 @@
           "species": "rat",
           "tissue_or_cell": "rat cerebellar membranes",
           "radioligand_or_probe": "[3H]flunitrazepam (2 nM)",
-          "assay_buffer_notes": "0 C, 90 min; hippocampus IC50 163.7 nM (ratio 5.5)",
           "reference": "doi:10.1016/0304-3940(83)90113-1",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Sieghart 1983 Table I. IC50, not Ki. BZ1-preferring (5.5x cerebellum vs hippocampus)."
+          "confidence": "high"
         }
       ],
       "functional": [],
@@ -2656,8 +2459,7 @@
           "dose_in_study_mg": 15,
           "subject_n": null,
           "subject_demographics": "Doral FDA label",
-          "reference": null,
-          "notes": "Parent t1/2 ~36 h; N-desalkyl-2-oxoquazepam t1/2 ~70 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2677,8 +2479,7 @@
         "metabolite_name": "N-desalkyl-2-oxoquazepam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Identical to N-desalkylflurazepam in structure — long-acting common metabolite."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -2702,7 +2503,6 @@
     "data_gaps_remaining": [
       "Subunit-specific Ki not published in detail"
     ],
-    "notes": "Only commercial benzo claiming α1 selectivity; clinical advantage modest because the major metabolite is non-selective and long-lived.",
     "references_consulted": []
   },
   {
@@ -2732,11 +2532,9 @@
           "species": "rat",
           "tissue_or_cell": "rat whole brain minus cerebellum",
           "radioligand_or_probe": "[3H]flunitrazepam (1 nM)",
-          "assay_buffer_notes": "25 C, 60 min (MDS Pharma Services)",
           "reference": "doi:10.1016/j.bmc.2008.09.037",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Nakagawa 2008 Table 1. IC50, not Ki."
+          "confidence": "high"
         }
       ],
       "functional": [],
@@ -2760,8 +2558,7 @@
           "dose_in_study_mg": 2,
           "subject_n": null,
           "subject_demographics": "ProSom FDA label",
-          "reference": null,
-          "notes": "t1/2 10–24 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2799,7 +2596,6 @@
     "data_gaps_remaining": [
       "Specific subunit Ki not in literature"
     ],
-    "notes": "Triazolobenzodiazepine hypnotic — intermediate t1/2 between triazolam and alprazolam. Withdrawn from many markets.",
     "references_consulted": []
   },
   {
@@ -2837,8 +2633,7 @@
           "dose_in_study_mg": 15,
           "subject_n": null,
           "subject_demographics": "Tranxene FDA label",
-          "reference": null,
-          "notes": "Parent not detected systemically; nordazepam t1/2 50–100 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2850,8 +2645,7 @@
         "metabolite_name": "nordazepam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Decarboxylation requires acidic pH — antacids/PPIs can reduce conversion and onset."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -2886,7 +2680,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Prodrug — nordazepam carries all activity. Reduced gastric acidity impairs conversion.",
     "references_consulted": []
   },
   {
@@ -2916,11 +2709,9 @@
           "species": "rat",
           "tissue_or_cell": "rat brain P2 synaptosomal membranes",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": "22 C, 30 min (n=3)",
           "reference": "doi:10.1159/000118458",
           "is_review": false,
-          "confidence": "medium",
-          "notes": "Jacqmin & Ansseau 1988 Table II. IC50, not Ki. Prodrug — nordazepam (24.9 nM) carries the clinical effect."
+          "confidence": "medium"
         }
       ],
       "functional": [],
@@ -2944,8 +2735,7 @@
           "dose_in_study_mg": 10,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Effect via nordazepam; t1/2 50–100 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2977,7 +2767,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Prodrug for nordazepam, like clorazepate.",
     "references_consulted": []
   },
   {
@@ -3032,7 +2821,6 @@
     "data_gaps_remaining": [
       "Specific PK"
     ],
-    "notes": "Discontinued in most markets; pharmacology essentially that of nordazepam.",
     "references_consulted": []
   },
   {
@@ -3087,7 +2875,6 @@
     "data_gaps_remaining": [
       "Specific human PK numbers"
     ],
-    "notes": "Prodrug — metabolized to diazepam then nordazepam.",
     "references_consulted": []
   },
   {
@@ -3117,11 +2904,9 @@
           "species": "rat",
           "tissue_or_cell": "rat cerebellar membranes",
           "radioligand_or_probe": "[3H]flumazenil (0.3 nM)",
-          "assay_buffer_notes": "37 C, 30 min, 100 uM bicuculline, Cheng-Prusoff Kd 8.8 nM; omega2 (spinal cord) 29 nM",
           "reference": "doi:10.1254/fpj.98.5_399",
           "is_review": false,
-          "confidence": "medium",
-          "notes": "Ozawa 1991 Table 2. Measured at 37 C (not cold-assay panel-comparable). omega1-preferring (1:2.9)."
+          "confidence": "medium"
         }
       ],
       "functional": [],
@@ -3145,8 +2930,7 @@
           "dose_in_study_mg": 1,
           "subject_n": null,
           "subject_demographics": "Noctamid SmPC",
-          "reference": null,
-          "notes": "t1/2 8–14 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -3168,7 +2952,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": null,
-        "notes": "Minor N-demethylation to lorazepam.",
         "metabolite_potency_target": "GABA-A",
         "metabolite_potency_basis": "receptor_affinity",
         "metabolite_mechanism_vs_parent": "scaled"
@@ -3191,7 +2974,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Like lorazepam plus N1-methyl; mostly glucuronidated; hepatic-disease-friendly.",
     "references_consulted": []
   },
   {
@@ -3221,11 +3003,9 @@
           "species": "rat",
           "tissue_or_cell": "rat cerebral cortex membranes",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1254/jjp.42.189",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Watanabe 1986 Table 2. Corrects ChEMBL IC50 2.6 nM (miscited from a 2020 review)."
+          "confidence": "high"
         }
       ],
       "functional": [],
@@ -3249,8 +3029,7 @@
           "dose_in_study_mg": 0.25,
           "subject_n": null,
           "subject_demographics": "Lendormin SmPC",
-          "reference": null,
-          "notes": "t1/2 ~5 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -3288,7 +3067,6 @@
     "data_gaps_remaining": [
       "Specific subunit Ki"
     ],
-    "notes": "Marketed in Japan/Europe (Lendormin); not US.",
     "references_consulted": []
   },
   {
@@ -3318,10 +3096,8 @@
           "species": "rat",
           "tissue_or_cell": "Rat cortical membranes",
           "radioligand_or_probe": "[3H]flunitrazepam displacement",
-          "assay_buffer_notes": null,
           "reference": "pmid:10083975",
-          "is_review": false,
-          "notes": "Sanna et al. 1999. Higher affinity than alprazolam (7.9 nM) in the same assay."
+          "is_review": false
         }
       ],
       "functional": [
@@ -3356,8 +3132,7 @@
           "dose_in_study_mg": 0.5,
           "subject_n": null,
           "subject_demographics": "Healthy adults — Sanna 2005",
-          "reference": "pmid:2065698",
-          "notes": "Parent t1/2 ~3.4 h; α-hydroxyetizolam t1/2 ~8 h."
+          "reference": "pmid:2065698"
         }
       ],
       "concentration_effect": []
@@ -3369,8 +3144,7 @@
         "metabolite_name": "α-hydroxyetizolam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:15232663",
-        "notes": "α-hydroxyetizolam is active and has longer t1/2 (~8 h) than parent. Major urinary forensic marker."
+        "reference": "pmid:15232663"
       },
       {
         "enzyme": "CYP2C19",
@@ -3378,8 +3152,7 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:16261363",
-        "notes": "Clinically meaningful contribution: CYP2C19 poor metabolizers show ~60% higher etizolam AUC (287 vs 178 ng*h/mL) and longer t1/2 (14.8 vs 10.5 h) than extensive metabolizers, with measurably greater sedation."
+        "reference": "pmid:16261363"
       }
     ],
     "drug_interactions_pk": [
@@ -3416,7 +3189,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Schedule IV in Japan/Italy/India (legitimate Rx); scheduled or controlled in most other Western countries. Bridge compound between classical benzos and designer benzos — was prescribed for decades before becoming a major NPS in 2010s.",
     "references_consulted": []
   },
   {
@@ -3454,8 +3226,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "WHO ECDD review",
-          "reference": "pmid:2858403",
-          "notes": "t1/2 ~60 h in healthy adults; 15–60 h range. Tmax ~4 h. Effects last up to 5 days; some case reports describe symptoms up to 3 weeks post-ingestion."
+          "reference": "pmid:2858403"
         }
       ],
       "concentration_effect": []
@@ -3467,8 +3238,7 @@
         "metabolite_name": "3-hydroxyphenazepam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:2858403",
-        "notes": "3-OH-phenazepam is active but in humans plasma levels are very low (<3 ng/mL) — minimal contribution. Subsequently glucuronidated."
+        "reference": "pmid:2858403"
       },
       {
         "enzyme": "CYP3A4",
@@ -3508,7 +3278,6 @@
     "data_gaps_remaining": [
       "Specific subunit Ki not published; assumed non-selective like other 1,4-benzos"
     ],
-    "notes": "Originally developed in USSR 1970s as an anxiolytic/anticonvulsant; emerged as a major NPS in Europe 2007 onward. Among the longest-t1/2 benzodiazepines and a notable post-mortem-finding NPS.",
     "references_consulted": [
       "pmid:2858403",
       "https://ecddrepository.org/sites/default/files/2023-04/5.8_phenazepam_prerev.pdf"
@@ -3569,7 +3338,6 @@
     "data_gaps_remaining": [
       "Specific human PK with this compound as the parent administered"
     ],
-    "notes": "Active metabolite of phenazepam, sold separately as a designer benzo (sometimes labelled '3-OH-P' or '3-OH-phenazepam'). Equipotent to phenazepam by Russian-literature accounts.",
     "references_consulted": [
       "pmid:2858403"
     ]
@@ -3613,7 +3381,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Duplicate entry of 3-Hydroxyphenazepam — recommend deduplication.",
     "references_consulted": []
   },
   {
@@ -3651,8 +3418,7 @@
           "dose_in_study_mg": 4,
           "subject_n": 1,
           "subject_demographics": "Self-experiment, single male volunteer",
-          "reference": "doi:10.1002/jms.3279",
-          "notes": "Moosmann 2013 self-experiment. t1/2 ~106 h. Detection in urine for 28 days, serum for 23 days."
+          "reference": "doi:10.1002/jms.3279"
         }
       ],
       "concentration_effect": []
@@ -3702,7 +3468,6 @@
     "data_gaps_remaining": [
       "Population PK (only N=1 self-experiment data)"
     ],
-    "notes": "Extremely long t1/2 (106 h) — among the longest of any benzodiazepine. 4 mg dose produces detectable serum levels for nearly a month.",
     "references_consulted": [
       "doi:10.1002/jms.3279"
     ]
@@ -3742,8 +3507,7 @@
           "dose_in_study_mg": 0.5,
           "subject_n": 1,
           "subject_demographics": "Self-experiment, single volunteer",
-          "reference": "doi:10.1002/dta.2203",
-          "notes": "Huppertz 2018 self-experiment, 0.5 mg. t1/2 ~10–20 h. Detection in urine up to 8 days."
+          "reference": "doi:10.1002/dta.2203"
         }
       ],
       "concentration_effect": []
@@ -3787,7 +3551,6 @@
     "data_gaps_remaining": [
       "Population PK; subunit Ki not published"
     ],
-    "notes": "Active oral dose 0.25–0.5 mg — among the most potent benzodiazepines synthesized. Post-mortem-case-series subject in 5+ studies (Hikin/Abdul 2020, Lewis 2019). Rat PK studies show ~2× larger Vd and CL vs alprazolam (doi:10.1016/j.taap.2023.116481).",
     "references_consulted": [
       "doi:10.1002/dta.2203",
       "https://journals.sagepub.com/doi/10.1177/0025802420950273"
@@ -3833,7 +3596,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": null,
-        "notes": "Parallel to clonazepam nitroreduction.",
         "metabolite_potency_target": "GABA-A"
       }
     ],
@@ -3865,7 +3627,6 @@
     "data_gaps_remaining": [
       "Published human PK; subunit binding"
     ],
-    "notes": "First synthesized 1971 (Hester); appeared as NPS ~2014. Recreational doses 0.25–1 mg. Notorious for blackouts, paradoxical disinhibition, and acute respiratory depression risk when combined with opioids/alcohol.",
     "references_consulted": []
   },
   {
@@ -3903,8 +3664,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Estimated from rat PK + post-mortem cases (Rice/Hikin 2019)",
-          "reference": "pmid:36907383",
-          "notes": "Rat PK: Vd and CL ~2× alprazolam; t1/2 ~2× longer (extrapolation to human ~18 h)."
+          "reference": "pmid:36907383"
         }
       ],
       "concentration_effect": []
@@ -3948,7 +3708,6 @@
     "data_gaps_remaining": [
       "Human PK (only rat + post-mortem)"
     ],
-    "notes": "Major designer benzo of late 2010s. Nine-case post-mortem series by Rice & Hikin 2019; deaths involved poly-drug intoxication, none attributed to flualprazolam alone.",
     "references_consulted": []
   },
   {
@@ -4006,7 +3765,6 @@
     "data_gaps_remaining": [
       "Human PK; subunit Ki"
     ],
-    "notes": "Emerged as a major opioid adulterant in 2022–2024 North American drug supply. Increasingly detected in overdose deaths. CFSRE NPS Discovery monitoring shows >300% increase 2022–2023.",
     "references_consulted": []
   },
   {
@@ -4044,8 +3802,7 @@
           "dose_in_study_mg": 1,
           "subject_n": 1,
           "subject_demographics": "Self-experiment (Moosmann)",
-          "reference": "doi:10.1002/dta.1628",
-          "notes": "Parent t1/2 ~42 h. Active metabolites delorazepam (detectable 6 days), lorazepam (19 days), lormetazepam (11 days)."
+          "reference": "doi:10.1002/dta.1628"
         }
       ],
       "concentration_effect": []
@@ -4073,8 +3830,7 @@
         "metabolite_name": "lorazepam",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1002/dta.1628",
-        "notes": "Unusual: diclazepam metabolism converges with several marketed benzo metabolites."
+        "reference": "doi:10.1002/dta.1628"
       }
     ],
     "drug_interactions_pk": [],
@@ -4096,7 +3852,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Notable for producing lorazepam and lormetazepam as active metabolites in vivo. Confounds urine drug testing (positive for prescription benzos).",
     "references_consulted": [
       "doi:10.1002/dta.1628"
     ]
@@ -4128,11 +3883,9 @@
           "species": "rat",
           "tissue_or_cell": "crude rat cerebral cortex membranes",
           "radioligand_or_probe": "[3H]flunitrazepam (0.98 nM)",
-          "assay_buffer_notes": "Cheng-Prusoff from Kd 1.09 nM",
           "reference": "doi:10.1111/j.2042-7158.1984.tb04449.x",
           "is_review": false,
-          "confidence": "medium",
-          "notes": "Sethy 1984 Table 1. Prodrug — N-desmethyladinazolam (active metabolite) Ki 6.96 nM in same table."
+          "confidence": "medium"
         }
       ],
       "functional": [],
@@ -4156,8 +3909,7 @@
           "dose_in_study_mg": 20,
           "subject_n": null,
           "subject_demographics": "Healthy young volunteers (Fleishaker 1992)",
-          "reference": "pmid:1474178",
-          "notes": "Parent t1/2 ~2.9 h, NDMAD t1/2 ~2.8 h; elderly: +40%."
+          "reference": "pmid:1474178"
         }
       ],
       "concentration_effect": []
@@ -4170,7 +3922,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 2500,
         "reference": "pmid:1474178",
-        "notes": ">80% of dose converted to NDMAD. Affinity for benzodiazepine receptors is ~25× parent's.",
         "metabolite_potency_target": "GABA-A",
         "metabolite_potency_basis": "receptor_affinity",
         "metabolite_mechanism_vs_parent": "scaled"
@@ -4203,7 +3954,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Developed by Upjohn 1970s as 'Deracyn' antidepressant; never marketed. Re-emerged as a designer benzo. Effectively a prodrug for NDMAD.",
     "references_consulted": [
       "pmid:1474178"
     ]
@@ -4243,8 +3993,7 @@
           "dose_in_study_mg": 1,
           "subject_n": 1,
           "subject_demographics": "Self-experiment (Moosmann 2013)",
-          "reference": "doi:10.1007/s11419-013-0187-4",
-          "notes": "t1/2 ~17 h. Unique among designer benzos in being directly glucuronidated (no Phase I)."
+          "reference": "doi:10.1007/s11419-013-0187-4"
         }
       ],
       "concentration_effect": []
@@ -4257,7 +4006,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:28677876",
-        "notes": "Unusual — pyrazolam is excreted largely as parent + glucuronide; no hydroxy metabolites detected.",
         "metabolite_potency_target": "GABA-A"
       }
     ],
@@ -4282,7 +4030,6 @@
     "data_gaps_remaining": [
       "Subunit Ki; broader population PK"
     ],
-    "notes": "First designer benzo to enter the NPS market (~2012). Unique: no Phase I metabolism — direct glucuronidation makes it CYP-interaction-resistant.",
     "references_consulted": [
       "doi:10.1002/dta.1525"
     ]
@@ -4342,7 +4089,6 @@
     "data_gaps_remaining": [
       "Human PK; receptor binding"
     ],
-    "notes": "Active metabolite of flunitrazepam sold separately. 3-OH structure means lorazepam-like metabolism.",
     "references_consulted": []
   },
   {
@@ -4407,7 +4153,6 @@
     "data_gaps_remaining": [
       "Standalone PK as parent drug"
     ],
-    "notes": "Aliases include fonazepam, norflunitrazepam, Ro05-4435. Active metabolite of flunitrazepam.",
     "references_consulted": [
       "pmid:11259331"
     ]
@@ -4439,10 +4184,8 @@
           "species": "rat",
           "tissue_or_cell": "kidney mitochondrial membranes",
           "radioligand_or_probe": "[3H]Ro5-4864",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1186/1478-811X-11-13",
-          "is_review": false,
-          "notes": "Selective TSPO agonist; lacks affinity for central GABA-A benzodiazepine site."
+          "is_review": false
         },
         {
           "target": "GABA-A benzodiazepine site",
@@ -4457,10 +4200,8 @@
           "species": "rat",
           "tissue_or_cell": "Brain membranes",
           "radioligand_or_probe": "[3H]diazepam displacement",
-          "assay_buffer_notes": null,
           "reference": null,
           "is_review": true,
-          "notes": "Removed: 10µM = no binding. Original value was a non-measurement.",
           "emax_pct": null
         }
       ],
@@ -4506,7 +4247,6 @@
     "data_gaps_remaining": [
       "Human PK (research compound only)"
     ],
-    "notes": "Critical distinction: despite the name and benzodiazepine scaffold, Ro5-4864 is a TSPO agonist research compound — not a GABAergic anxiolytic. Suppresses mast cell pro-inflammatory function. Investigated for neuroprotection. Should be flagged distinctly from classical benzos in any harm-reduction database.",
     "references_consulted": [
       "doi:10.1186/1478-811X-11-13",
       "https://en.wikipedia.org/wiki/Ro5-4864"
@@ -4557,7 +4297,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Duplicate of 4'-chlorodiazepam; recommend deduplication. The 'GABAA-PAM' tag is incorrect — this compound does not act on GABA-A.",
     "references_consulted": []
   },
   {
@@ -4595,8 +4334,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Military pharmacology studies",
-          "reference": null,
-          "notes": "Rapidly converted to diazepam within minutes of IM injection. Faster than IM diazepam (poor IM absorption) due to water solubility."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4629,7 +4367,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Water-soluble diazepam prodrug developed by Roche; used in French/UK military auto-injectors for organophosphate nerve-agent treatment.",
     "references_consulted": []
   },
   {
@@ -4659,11 +4396,9 @@
           "species": "rat",
           "tissue_or_cell": "rat forebrain P2 crude synaptosomal fraction",
           "radioligand_or_probe": "[3H]diazepam (1.0 nM)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/0006-2952(84)90287-9",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Fujimoto 1984 Table 2. Prodrug — the weak affinity IS the finding. Active metabolites M-1 2.1 nM, M-2/M-3 0.9 nM."
+          "confidence": "high"
         }
       ],
       "functional": [],
@@ -4687,8 +4422,7 @@
           "dose_in_study_mg": 2,
           "subject_n": null,
           "subject_demographics": "Japanese PMDA data",
-          "reference": null,
-          "notes": "Parent has no benzodiazepine receptor activity; active metabolite t1/2 ~10 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4721,7 +4455,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Marketed in Japan as Rhythmy hypnotic; developed by Shionogi. Pharmacologically distinct from avizafone in that the metabolite is a novel triazolobenzodiazepine rather than diazepam.",
     "references_consulted": []
   },
   {
@@ -4736,27 +4469,6 @@
     "pharmacology": {
       "primary_targets": [
         "GABA-A (non-selective)"
-      ],
-      "binding": [
-        {
-          "target": "GABA-A benzodiazepine site",
-          "ki_nm": null,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": 2.8,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": null,
-          "action": "positiveAllostericModulator",
-          "species": "rat",
-          "tissue_or_cell": "rat brain membranes",
-          "radioligand_or_probe": "[3H]diazepam",
-          "assay_buffer_notes": "Mohler & Okada 1977 conditions",
-          "reference": null,
-          "is_review": false,
-          "confidence": "high",
-          "notes": "Fryer 1982 Table I. IC50, not Ki."
-        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -4779,8 +4491,7 @@
           "dose_in_study_mg": 0.5,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "t1/2 50–100 h (very long); active metabolite lorazepam via 3-hydroxylation."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4812,7 +4523,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Marketed in Italy; metabolite of diclazepam. Also called nordiclazepam or chlordesmethyldiazepam.",
     "references_consulted": []
   },
   {
@@ -4842,11 +4552,9 @@
           "species": "mouse",
           "tissue_or_cell": "mouse cortical P2 synaptosomal membranes",
           "radioligand_or_probe": "[3H]flunitrazepam (1 nM)",
-          "assay_buffer_notes": "4 C, 60 min, Cheng-Prusoff (n=3)",
           "reference": "doi:10.1016/0091-3057(92)90170-K",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Miller 1992 Tables 1-2. Shared active metabolite of flurazepam and quazepam."
+          "confidence": "high"
         }
       ],
       "functional": [],
@@ -4870,8 +4578,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "https://www.drugs.com/monograph/flurazepam.html",
-          "notes": "t1/2 47–150 h."
+          "reference": "https://www.drugs.com/monograph/flurazepam.html"
         }
       ],
       "concentration_effect": []
@@ -4895,7 +4602,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Identical to N-desalkylflurazepam. Active metabolite of flurazepam (Dalmane) and quazepam (Doral).",
     "references_consulted": [
       "https://www.drugs.com/monograph/flurazepam.html"
     ]
@@ -4927,11 +4633,9 @@
           "species": "mouse",
           "tissue_or_cell": "C57BL/6J mouse brain membranes (minus cerebellum)",
           "radioligand_or_probe": "[3H]flunitrazepam (5 nM)",
-          "assay_buffer_notes": "Cheng-Prusoff from Kd 3.8 nM",
           "reference": "doi:10.1016/j.bcp.2004.07.020",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Ogris 2004 Table 1."
+          "confidence": "high"
         }
       ],
       "functional": [],
@@ -4955,8 +4659,7 @@
           "dose_in_study_mg": 5,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "t1/2 ~4 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -4991,7 +4694,6 @@
     "data_gaps_remaining": [
       "Receptor Ki; detailed PK"
     ],
-    "notes": "Thienodiazepine sister to etizolam; widely marketed in Japan (Rize, Trecalmo).",
     "references_consulted": []
   },
   {
@@ -5037,7 +4739,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "Marketed in Spain only (Tiadipona); withdrawn from many markets due to hepatotoxicity reports.",
     "references_consulted": [
       "doi:10.1007/s11419-022-00616-y"
     ]
@@ -5077,8 +4778,7 @@
           "dose_in_study_mg": 40,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "t1/2 ~9 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5100,7 +4800,6 @@
     "data_gaps_remaining": [
       "Detailed metabolism"
     ],
-    "notes": "Marketed in Austria; minor benzodiazepine hypnotic.",
     "references_consulted": []
   },
   {
@@ -5156,7 +4855,6 @@
     "data_gaps_remaining": [
       "Specific PK"
     ],
-    "notes": "Oxazolobenzodiazepine prodrug.",
     "references_consulted": []
   },
   {
@@ -5209,7 +4907,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Japanese-marketed (Serenal); prodrug.",
     "references_consulted": []
   },
   {
@@ -5262,7 +4959,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Prodrug of diazepam.",
     "references_consulted": []
   },
   {
@@ -5306,7 +5002,6 @@
     "data_gaps_remaining": [
       "PK"
     ],
-    "notes": null,
     "references_consulted": []
   },
   {
@@ -5350,7 +5045,6 @@
     "data_gaps_remaining": [
       "PK"
     ],
-    "notes": null,
     "references_consulted": []
   },
   {
@@ -5404,7 +5098,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "EMA suspended 2013 due to risk of severe skin reactions (Stevens-Johnson syndrome).",
     "references_consulted": []
   },
   {
@@ -5442,8 +5135,7 @@
           "dose_in_study_mg": 1,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "t1/2 6–12 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5465,7 +5157,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": null,
     "references_consulted": []
   },
   {
@@ -5507,7 +5198,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": null,
     "references_consulted": []
   },
   {
@@ -5537,11 +5227,9 @@
           "species": "mouse",
           "tissue_or_cell": "mouse brain receptors",
           "radioligand_or_probe": "[3H]flunitrazepam",
-          "assay_buffer_notes": null,
           "reference": "pmid:6148044",
           "is_review": false,
-          "confidence": "medium",
-          "notes": "Oki 1984, abstract-verified only (full text unobtainable)."
+          "confidence": "medium"
         }
       ],
       "functional": [],
@@ -5565,8 +5253,7 @@
           "dose_in_study_mg": 2,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "pmid:2633923",
-          "notes": "t1/2 ~50 h."
+          "reference": "pmid:2633923"
         }
       ],
       "concentration_effect": []
@@ -5588,7 +5275,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Japan only.",
     "references_consulted": [
       "pmid:2633923"
     ]
@@ -5620,11 +5306,9 @@
           "species": "rat",
           "tissue_or_cell": "rat cerebral cortex synaptosomal membranes",
           "radioligand_or_probe": "[3H]diazepam (0.6 nM)",
-          "assay_buffer_notes": "4 C, 15 min (n=5)",
           "reference": "doi:10.1016/0024-3205(85)90089-X",
           "is_review": false,
-          "confidence": "high",
-          "notes": "Nakatsuka 1985 Table II. Corrects ChEMBL 85 nM (DrugMatrix screening panel)."
+          "confidence": "high"
         }
       ],
       "functional": [],
@@ -5648,8 +5332,7 @@
           "dose_in_study_mg": 5,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "t1/2 ~20 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -5680,7 +5363,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Major NPS in Malaysia, Singapore, Hong Kong as 'Erimin-5'.",
     "references_consulted": []
   },
   {
@@ -5726,7 +5408,6 @@
     "data_gaps_remaining": [
       "Essentially all"
     ],
-    "notes": "3-hydroxy metabolite of nimetazepam.",
     "references_consulted": []
   },
   {
@@ -5784,7 +5465,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "Designer benzo with combined triazolo + nitro features.",
     "references_consulted": []
   },
   {
@@ -5832,7 +5512,6 @@
     "data_gaps_remaining": [
       "Essentially all"
     ],
-    "notes": "Designer benzo, active oral dose reported ~0.1 mg. Insufficient peer-reviewed PK.",
     "references_consulted": []
   },
   {
@@ -5879,7 +5558,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": null,
     "references_consulted": [
       "doi:10.1007/s11419-022-00616-y"
     ]
@@ -5928,7 +5606,6 @@
     "data_gaps_remaining": [
       "All published PK; receptor binding"
     ],
-    "notes": "Designer benzo; sparse peer-reviewed data.",
     "references_consulted": []
   },
   {
@@ -5975,7 +5652,6 @@
     "data_gaps_remaining": [
       "Published human PK"
     ],
-    "notes": null,
     "references_consulted": []
   },
   {
@@ -6020,7 +5696,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": null,
     "references_consulted": []
   },
   {
@@ -6067,7 +5742,6 @@
     "data_gaps_remaining": [
       "Receptor binding; PK"
     ],
-    "notes": "Developed as anti-schistosomal. Hester 1971 patent.",
     "references_consulted": []
   },
   {
@@ -6113,7 +5787,6 @@
     "data_gaps_remaining": [
       "Essentially all peer-reviewed data"
     ],
-    "notes": "Sparse data; community-reported potent.",
     "references_consulted": []
   },
   {
@@ -6173,7 +5846,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "Synonymous with 'Phenazolam' as vendor name. EMCDDA monitoring since 2018.",
     "references_consulted": [
       "doi:10.1007/s11419-022-00616-y"
     ]
@@ -6222,7 +5894,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Duplicate of clobromazolam — recommend deduplication.",
     "references_consulted": []
   },
   {
@@ -6256,8 +5927,7 @@
         "metabolite_name": "desalkylgidazepam (bromonordiazepam)",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.1007/s11419-022-00616-y, which is a designer-benzodiazepine QSAR panel not including this compound. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -6280,7 +5950,6 @@
     "data_gaps_remaining": [
       "Western peer-reviewed PK"
     ],
-    "notes": "Ukrainian/Russian prescription anxiolytic. Active metabolite bromonordiazepam itself has emerged as a designer benzo (desalkylgidazepam).",
     "references_consulted": [
       "doi:10.1007/s11419-022-00616-y"
     ]
@@ -6329,7 +5998,6 @@
     "data_gaps_remaining": [
       "Human PK (vet use only)"
     ],
-    "notes": "Veterinary use — Telazol/Zoletil combination with tiletamine.",
     "references_consulted": []
   },
   {

@@ -28,10 +28,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=4; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "KOR",
@@ -46,10 +44,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=4; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "DOR",
@@ -64,10 +60,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=4; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "MOR",
@@ -85,10 +79,8 @@
           "species": "human",
           "tissue_or_cell": "FLP-FRT-HEK cells stably expressing hMOR; cAMP HTRF (Gi)",
           "radioligand_or_probe": "[3H]DAMGO (rat brain for affinity)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-          "is_review": false,
-          "notes": "EC50 of 23.1 pM makes etonitazene one of most potent nitazenes functionally; in-vivo rat antinociception ED50 0.00174 mg/kg"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -108,8 +100,7 @@
         "metabolite_name": "N-desethyl etonitazene",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-        "notes": "N-deethylation via CYP3A4; metabolite retains μ-agonist activity"
+        "reference": "doi:10.1016/j.drugalcdep.2023.109939"
       }
     ],
     "drug_interactions_pk": [],
@@ -148,7 +139,6 @@
       "Biased agonism specifically at MOR vs DAMGO",
       "Receptor downregulation kinetics in human cells"
     ],
-    "notes": "Morphine-equivalent potency ~1000–1500× (in-vivo rat). Naloxone reverses but multiple doses (≥4 mg cumulative) often needed.",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052",
       "doi:10.1016/j.drugalcdep.2023.109939",
@@ -186,10 +176,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "KOR",
@@ -204,10 +192,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=6; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "DOR",
@@ -222,10 +208,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=4; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "MOR",
@@ -243,10 +227,8 @@
           "species": "human",
           "tissue_or_cell": "FLP-FRT-HEK hMOR; HTRF cAMP",
           "radioligand_or_probe": "[3H]DAMGO",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-          "is_review": false,
-          "notes": "Rat antinociception ED50 0.00704 mg/kg; ~100× more potent than fentanyl in-vivo (Krotulski 2020)"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -267,7 +249,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 100,
         "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-        "notes": "N-desethyl metabolite is itself a MOR full agonist with Ki 1.53 nM (Vandeputte 2023) — found in post-mortem casework",
         "metabolite_potency_target": "MOR",
         "metabolite_potency_basis": "receptor_affinity",
         "metabolite_mechanism_vs_parent": "scaled"
@@ -278,8 +259,7 @@
         "metabolite_name": "O-deisopropyl isotonitazene",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:39092223",
-        "notes": "Cleavage of isopropyl ether by CYP1A2 yields des-alkyl phenol metabolite (etodesnitazene scaffold)"
+        "reference": "pmid:39092223"
       }
     ],
     "drug_interactions_pk": [],
@@ -320,7 +300,6 @@
       "Volume of distribution",
       "Bias factor at MOR vs reference compound"
     ],
-    "notes": "First nitazene to cause large death-cluster (2019-2020); replaced rapidly by analogues after WHO scheduling.",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052",
       "doi:10.1016/j.drugalcdep.2023.109939",
@@ -356,10 +335,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "KOR",
@@ -374,10 +351,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=5; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "DOR",
@@ -392,10 +367,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=4; full MOR agonist relative to DAMGO"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -415,8 +388,7 @@
         "metabolite_name": "metodesnitazene",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-        "notes": "N-deethylation and O-demethylation both observed; metodesnitazene metabolite has Ki 19.3 nM (less potent than parent)"
+        "reference": "doi:10.1016/j.drugalcdep.2023.109939"
       }
     ],
     "drug_interactions_pk": [],
@@ -453,7 +425,6 @@
       "Tmax/Cmax",
       "Bias factor"
     ],
-    "notes": "Methoxy chain ~3× weaker than ethoxy isomer (etonitazene). US-Schedule-I 2022.",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052",
       "doi:10.1016/j.drugalcdep.2023.109939"
@@ -488,10 +459,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=6; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "KOR",
@@ -506,10 +475,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "DOR",
@@ -524,10 +491,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -574,7 +539,6 @@
       "Metabolism",
       "Post-mortem casework numbers"
     ],
-    "notes": "Alkoxy chain SAR: methoxy < butoxy < propoxy < ethoxy ≈ isopropoxy at MOR (Vandeputte 2023).",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052"
     ]
@@ -608,10 +572,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "KOR",
@@ -626,10 +588,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=4; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "DOR",
@@ -644,10 +604,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "Ki and EC50 both > assay upper limit; weak DOR partial agonist (Emax 15%)"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -694,7 +652,6 @@
       "Human PK",
       "Casework"
     ],
-    "notes": "Among the weakest nitazenes per Kozell 2024 — Ki ~60× higher than etonitazene; still subnanomolar at MOR in some assays.",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052"
     ]
@@ -728,10 +685,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=6; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "KOR",
@@ -746,10 +701,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=5; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "DOR",
@@ -764,10 +717,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=7; full MOR agonist relative to DAMGO"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -787,8 +738,7 @@
         "metabolite_name": "N-desethyl protonitazene",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-        "notes": "N-desethyl protonitazene reported in casework as active metabolite and as standalone marketed compound (NDP)"
+        "reference": "doi:10.1016/j.drugalcdep.2023.109939"
       }
     ],
     "drug_interactions_pk": [],
@@ -824,7 +774,6 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "Frequently co-detected with N-desethyl-protonitazene metabolite in fatal cases.",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052",
       "doi:10.1016/j.drugalcdep.2023.109939"
@@ -861,10 +810,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "KOR",
@@ -879,10 +826,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=5; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "DOR",
@@ -897,10 +842,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=4; full MOR agonist relative to DAMGO"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -944,7 +887,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "5-nitro absent — name has 'des-nitro'. Marketed since 2020 in EU/NA grey market.",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052"
     ]
@@ -978,10 +920,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1025,7 +965,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "DUPLICATE record — same compound as Etodesnitazene. Recommend dedup in upstream substance list.",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052"
     ]
@@ -1059,10 +998,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "KOR",
@@ -1077,10 +1014,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=4; full MOR agonist relative to DAMGO"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1126,7 +1061,6 @@
       "Human PK",
       "Casework"
     ],
-    "notes": "Weakest 5-des-nitro alkoxy nitazene tested. Still ~5× more potent than morphine functionally.",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052"
     ]
@@ -1164,10 +1098,8 @@
           "species": "human",
           "tissue_or_cell": "FLP-FRT-HEK hMOR; HTRF cAMP",
           "radioligand_or_probe": "[3H]DAMGO",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-          "is_review": false,
-          "notes": "Data reported for N-desethyl ISOtonitazene (DEI) in Vandeputte 2023 — same N-desethyl moiety; pharmacologically near-identical to N-desethyl protonitazene. EC50 4.13 pM — among most potent MOR ligands ever characterised in vitro."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1187,8 +1119,7 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-        "notes": "Already an N-desethyl metabolite of protonitazene; further demethylation observed in human hepatocyte incubations."
+        "reference": "doi:10.1016/j.drugalcdep.2023.109939"
       }
     ],
     "drug_interactions_pk": [],
@@ -1224,7 +1155,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "Sold as a drug in its own right since ~2022 — was both a metabolite and a parent. β-arrestin superagonism (Emax >100% DAMGO) explains why respiratory depression is worse than the analgesic Ki ratio predicts.",
     "references_consulted": [
       "doi:10.1016/j.drugalcdep.2023.109939",
       "doi:10.1124/jpet.123.002052"
@@ -1260,10 +1190,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "KOR",
@@ -1278,10 +1206,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=4; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "DOR",
@@ -1296,10 +1222,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1346,7 +1270,6 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "Pyrrolidine replaces diethylamine — appeared after 2020 ITZ ban as next-gen analogue.",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052",
       "doi:10.1038/s41386-022-01396-0"
@@ -1382,10 +1305,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=4; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "KOR",
@@ -1400,10 +1321,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=5; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "DOR",
@@ -1418,10 +1337,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1466,7 +1383,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "Among the more recently-emerged pyrrolidino-nitazene analogues. Still subnanomolar MOR Ki.",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052"
     ]
@@ -1503,10 +1419,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "KOR",
@@ -1521,10 +1435,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "DOR",
@@ -1539,10 +1451,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1589,7 +1499,6 @@
       "Human PK",
       "Recent casework numbers (emerged late 2024)"
     ],
-    "notes": "First seen mid-2024. ~5× more potent than fentanyl in cell-based assays per CFSRE monograph; in-vivo potency ~1000× morphine.",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052"
     ]
@@ -1624,10 +1533,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=4; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "KOR",
@@ -1642,10 +1549,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "DOR",
@@ -1660,10 +1565,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1708,7 +1611,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "Subnanomolar functional EC50.",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052"
     ]
@@ -1742,10 +1644,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "KOR",
@@ -1760,10 +1660,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=4; full MOR agonist relative to DAMGO"
+          "is_review": false
         },
         {
           "target": "DOR",
@@ -1778,10 +1676,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
           "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "n=3; full MOR agonist relative to DAMGO"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1826,7 +1722,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "Original Ciba nitazene from 1950s. Para-Cl substitution gives ~20× weaker MOR Ki than ethoxy isomer (etonitazene).",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052"
     ]
@@ -1888,7 +1783,6 @@
       "No published Ki for unsubstituted 'nitazene' parent at human MOR",
       "All published data are for substituted analogues"
     ],
-    "notes": "The unsubstituted parent — rarely encountered. Reference numbers (Kozell, Vandeputte) refer to substituted analogues, not this compound specifically.",
     "references_consulted": [
       "doi:10.1124/jpet.123.002052"
     ]
@@ -1923,10 +1817,8 @@
           "species": "human",
           "tissue_or_cell": "FLP-FRT-HEK hMOR; HTRF cAMP / Gi pathway",
           "radioligand_or_probe": "[3H]DAMGO (rat brain for affinity)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-          "is_review": false,
-          "notes": "Less potent than fentanyl at binding (Ki ~17× higher than fentanyl 1.4 nM in same assay), but comparable in-vivo potency (rat antinociception ED50 0.0858 mg/kg)"
+          "is_review": false
         }
       ],
       "functional": [
@@ -1938,8 +1830,7 @@
           "reference_agonist": "hydromorphone",
           "species": "human",
           "cell_system": "HEK293T transient; NanoBiT MOR-β-arrestin2",
-          "reference": "doi:10.1007/s00204-021-03207-9",
-          "notes": "Brorphine analogues do NOT show significant bias vs hydromorphone (Connors 2024 — Neuropharmacology); Emax above reference compound (so-called 'superagonist' for arrestin)"
+          "reference": "doi:10.1007/s00204-021-03207-9"
         }
       ],
       "biased_agonism": [
@@ -1970,8 +1861,7 @@
         "metabolite_name": null,
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Hepatocyte studies show oxidative metabolism; primary metabolites are hydroxy-brorphine and the descyclized piperidine ring-opened products."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -2009,7 +1899,6 @@
       "Volume of distribution",
       "Specific CYP fraction-of-clearance"
     ],
-    "notes": "Piperidine-benzimidazolone scaffold — a bridge between nitazenes (benzimidazole) and fentanyl-like piperidines. Found in supply since 2019; mostly displaced by nitazenes by 2022 but resurfaced 2023.",
     "references_consulted": [
       "doi:10.1016/j.drugalcdep.2023.109939",
       "doi:10.1007/s00204-021-03207-9"
@@ -2033,60 +1922,6 @@
       "binding": [
         {
           "target": "MOR",
-          "ki_nm": 11.1,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": "DAMGO",
-          "action": "agonist",
-          "species": "rat",
-          "tissue_or_cell": "rat brain membrane homogenate",
-          "radioligand_or_probe": "[3H]DAMGO",
-          "assay_buffer_notes": null,
-          "reference": "doi:10.1007/s00204-020-02766-7",
-          "is_review": false,
-          "notes": "Original Upjohn (1978) compound — designed as morphine alternative. ~7.5× more potent than morphine in-vivo despite weaker binding."
-        },
-        {
-          "target": "KOR",
-          "ki_nm": 287.0,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": "U69,593",
-          "action": "agonist",
-          "species": "rat",
-          "tissue_or_cell": "rat brain membrane",
-          "radioligand_or_probe": "[3H]U69,593",
-          "assay_buffer_notes": null,
-          "reference": "doi:10.1007/s00204-020-02766-7",
-          "is_review": false,
-          "notes": null
-        },
-        {
-          "target": "DOR",
-          "ki_nm": 1220.0,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": "DPDPE",
-          "action": "agonist",
-          "species": "rat",
-          "tissue_or_cell": "rat brain membrane",
-          "radioligand_or_probe": "[3H]DPDPE",
-          "assay_buffer_notes": null,
-          "reference": "doi:10.1007/s00204-020-02766-7",
-          "is_review": false,
-          "notes": null
-        },
-        {
-          "target": "MOR",
           "ki_nm": 14.3,
           "ki_ci_nm": [
             10.6,
@@ -2101,10 +1936,8 @@
           "species": "human",
           "tissue_or_cell": "FLP-FRT-HEK hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-          "is_review": false,
-          "notes": "Full agonist at MOR; rat antinociception ED50 0.405 mg/kg"
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2128,8 +1961,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Male rats, allometric extrapolation to human",
-          "reference": "doi:10.1007/s00204-020-02766-7",
-          "notes": "Human CL extrapolated 0.944–1.371 L/h/kg via PBPK + IVIVE; no human clinical PK studies exist."
+          "reference": "doi:10.1007/s00204-020-02766-7"
         }
       ],
       "concentration_effect": []
@@ -2141,8 +1973,7 @@
         "metabolite_name": "N-desmethyl-U-47700",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:36976985",
-        "notes": "Krotulski 2017 — primary metabolite N-desmethyl-U-47700; secondary N,N-didesmethyl. CYP3A4/3A5/2B6/2C19 all contribute."
+        "reference": "pmid:36976985"
       },
       {
         "enzyme": "CYP2C19",
@@ -2150,8 +1981,7 @@
         "metabolite_name": "N-desmethyl-U-47700",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:36976985",
-        "notes": null
+        "reference": "pmid:36976985"
       }
     ],
     "drug_interactions_pk": [],
@@ -2191,7 +2021,6 @@
       "Tmax human",
       "Specific β-arrestin bias"
     ],
-    "notes": "Original Upjohn 1978 compound. ~7.5× morphine in-vivo (rat). Was the #1 designer opioid by deaths 2015-2017 before scheduled.",
     "references_consulted": [
       "doi:10.1016/j.drugalcdep.2023.109939",
       "doi:10.1007/s00204-020-02766-7"
@@ -2228,8 +2057,7 @@
         "metabolite_name": "N-desethyl-U-49900",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1002/dta.2273",
-        "notes": "Krotulski 2017 — major metabolite N-desethyl; N,N-didesethyl-N-desmethyl most abundant in urine."
+        "reference": "doi:10.1002/dta.2273"
       }
     ],
     "drug_interactions_pk": [],
@@ -2265,7 +2093,6 @@
       "Specific Ki at MOR/KOR/DOR (only relative GTPγS Emax published)",
       "Human PK"
     ],
-    "notes": "Direct N-ethyl homologue of U-47700. Less potent functionally; appeared mid-2017 as scheduling workaround.",
     "references_consulted": [
       "doi:10.1002/dta.2273",
       "doi:10.1016/j.toxac.2022.02.001"
@@ -2305,10 +2132,8 @@
           "species": "human",
           "tissue_or_cell": "PathHunter CHO cells stably expressing hMOR + β-arrestin2; GloSensor cAMP",
           "radioligand_or_probe": "[3H]DAMGO",
-          "assay_buffer_notes": "Ki range 18-57 nM across studies",
           "reference": "doi:10.1111/bph.15064",
-          "is_review": false,
-          "notes": "MT-45 is uniquely a poor recruiter of β-arrestin2 — see biased_agonism field."
+          "is_review": false
         }
       ],
       "functional": [
@@ -2320,8 +2145,7 @@
           "reference_agonist": "DAMGO (EC50 1.0 nM)",
           "species": "human",
           "cell_system": "PathHunter CHO",
-          "reference": "doi:10.1111/bph.15064",
-          "notes": "Compare to morphine EC50 5.4 nM in same assay — MT-45 ~240× weaker functionally"
+          "reference": "doi:10.1111/bph.15064"
         },
         {
           "target": "MOR",
@@ -2331,8 +2155,7 @@
           "reference_agonist": "DAMGO (EC50 200 nM)",
           "species": "human",
           "cell_system": "PathHunter CHO",
-          "reference": "doi:10.1111/bph.15064",
-          "notes": "EC50 23 μM — i.e., MT-45 is dramatically G-protein biased; very poor β-arrestin recruiter."
+          "reference": "doi:10.1111/bph.15064"
         }
       ],
       "biased_agonism": [
@@ -2363,8 +2186,7 @@
         "metabolite_name": "hydroxy-MT-45",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Multiple hydroxylated and dealkylated phase I metabolites identified in human urine (Helander 2018)."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -2409,7 +2231,6 @@
       "Human PK",
       "Mechanism of ototoxicity"
     ],
-    "notes": "Synthesised at Dainippon (Japan) 1970s as morphine alternative. ~80% morphine-equivalent analgesic potency. Distinctive ototoxicity — unique to MT-45 in opioid class.",
     "references_consulted": [
       "doi:10.1111/bph.15064",
       "doi:10.1002/dta.2358"
@@ -2441,8 +2262,7 @@
           "reference_agonist": "DAMGO",
           "species": "human",
           "cell_system": "HT-1080 fibrosarcoma expressing hMOR",
-          "reference": "doi:10.1002/prp2.511",
-          "notes": "Hsu 2019 — AH-7921 induced ~5% MOR internalisation (morphine-like; lower than DAMGO or U-47700)."
+          "reference": "doi:10.1002/prp2.511"
         }
       ],
       "biased_agonism": [],
@@ -2461,8 +2281,7 @@
         "metabolite_name": "N-desmethyl-AH-7921",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": null,
-        "notes": "Vorce 2014 / Karinen 2014 — N-desmethyl is major metabolite in human urine."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -2498,7 +2317,6 @@
       "Direct Ki at MOR/KOR/DOR at human receptor",
       "Human PK"
     ],
-    "notes": "Allen & Hanburys 1970s research compound (the 'AH' prefix = Allen+Hanburys). 0.8× morphine analgesic potency. Cluster of fatalities 2012-2013 Europe.",
     "references_consulted": [
       "doi:10.1002/prp2.511",
       "doi:10.1007/s11419-015-0271-z"
@@ -2531,10 +2349,8 @@
           "species": "human",
           "tissue_or_cell": "CHO cells stably expressing hMOR; [35S]GTPγS",
           "radioligand_or_probe": "[3H]diprenorphine (0.2 nM, KD 0.38 nM)",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1002/dta.2822",
-          "is_review": false,
-          "notes": "Same paper measured IC50 1.23 nM in rat brain (Filizola 2019)."
+          "is_review": false
         },
         {
           "target": "MOR",
@@ -2549,10 +2365,8 @@
           "species": "human",
           "tissue_or_cell": "CHO hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1124/jpet.123.002052",
-          "is_review": false,
-          "notes": "Reference value used by Kozell 2024 to benchmark all nitazenes."
+          "is_review": false
         },
         {
           "target": "MOR",
@@ -2562,11 +2376,9 @@
           "reference_agonist": "DAMGO",
           "species": "rat",
           "tissue_or_cell": "rat MOPr, recombinant in HEK293",
-          "assay_notes": "[35S]GTPγS, operational tau",
           "reference": "doi:10.1124/mol.110.066613",
           "is_review": false,
-          "confidence": "HIGH",
-          "notes": "derived as 12.3/28.5 from retrieved tau values 12.3 ± 0.6 and 28.5 ± 1.1. See also source-C, where fentanyl reaches Emax 122% of DAMGO in a low-amplification BRET Gi1 assay — the two are different metrics and must not be averaged."
+          "confidence": "HIGH"
         },
         {
           "target": "MOR",
@@ -2576,11 +2388,9 @@
           "reference_agonist": "DAMGO",
           "species": "human",
           "tissue_or_cell": "human MOR, transient in HEK293T",
-          "assay_notes": "TRUPATH BRET Gαi1 dissociation",
           "reference": "doi:10.1021/acs.jmedchem.1c01273",
           "is_review": false,
-          "confidence": "HIGH",
-          "notes": "Exceeds DAMGO in this assay. Intrinsic activity (Emax), NOT intrinsic efficacy — do not place on the same axis as source-A/source-B tau values."
+          "confidence": "HIGH"
         },
         {
           "target": "MOR",
@@ -2592,11 +2402,9 @@
           "reference_agonist": "DAMGO",
           "species": "human",
           "tissue_or_cell": "human MOR in CHO cells",
-          "assay_notes": "[35S]GTPγS on human mu-CHO membranes; Ki by [3H]DAMGO displacement",
           "reference": "pmid:9686407",
           "is_review": false,
-          "confidence": "HIGH",
-          "notes": "Indistinguishable from DAMGO on Emax in this amplified system, consistent with source-C's 122%. Its EC50 is only ~2x morphine's here — fentanyl's ~100x clinical potency is not a receptor-level number."
+          "confidence": "HIGH"
         },
         {
           "target": "MOR",
@@ -2605,11 +2413,9 @@
           "comparable_set": "volpe-2011-human-mor-ki",
           "species": "human",
           "tissue_or_cell": "human MOR (full-length OPRM1) in Chem-5 cell membranes",
-          "assay_notes": "uniform radioligand binding, [3H]-DAMGO",
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
           "is_review": false,
-          "confidence": "HIGH",
-          "notes": "Essentially equipotent with morphine at the receptor (1.346 vs 1.168 nM) despite ~100x clinical potency. source-T gives 0.7 ± 0.3 nM. Volpe's own discussion notes literature fentanyl Ki values spanning 0.007-214 nM, which is exactly why a uniform panel is worth more than per-drug bests."
+          "confidence": "HIGH"
         }
       ],
       "functional": [
@@ -2621,8 +2427,7 @@
           "reference_agonist": "DAMGO",
           "species": "human",
           "cell_system": "FLP-FRT-HEK hMOR",
-          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
-          "notes": null
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939"
         },
         {
           "target": "MOR",
@@ -2632,8 +2437,7 @@
           "reference_agonist": "DAMGO (EC50 200 nM)",
           "species": "human",
           "cell_system": "HEK293T",
-          "reference": "doi:10.1111/bph.16084",
-          "notes": "log(EC50) = -6.41; not significantly biased vs DAMGO."
+          "reference": "doi:10.1111/bph.16084"
         }
       ],
       "biased_agonism": [
@@ -2668,8 +2472,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Adult anaesthesia patients (Mather 1983; Singleton 1987)",
-          "reference": "pmid:7389247",
-          "notes": "Terminal t½ 3-7 h; Vd large due to lipophilicity; context-sensitive t½ ~250 min after 4h infusion."
+          "reference": "pmid:7389247"
         },
         {
           "route": "transdermal",
@@ -2684,8 +2487,7 @@
           "dose_in_study_mg": 2.5,
           "subject_n": 8,
           "subject_demographics": "Adults",
-          "reference": "pmid:2729633",
-          "notes": "Apparent elimination half-life is depot-controlled (18-22 h) — much longer than IV t½."
+          "reference": "pmid:2729633"
         },
         {
           "route": "insufflation",
@@ -2700,8 +2502,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Adults",
-          "reference": "pmid:34880961",
-          "notes": "Intranasal fentanyl bioavailability 71-89% across studies."
+          "reference": "pmid:34880961"
         }
       ],
       "concentration_effect": [
@@ -2710,16 +2511,14 @@
           "concentration_unit": "ng/mL",
           "threshold": 0.6,
           "peak_effect": 1.5,
-          "reference": "doi:10.1097/00000542-199006000-00007",
-          "notes": "Plasma 0.5-2 ng/mL = post-op analgesia; ≥3 ng/mL = anaesthesia / respiratory depression begins."
+          "reference": "doi:10.1097/00000542-199006000-00007"
         },
         {
           "effect": "respiratory depression (clinically significant)",
           "concentration_unit": "ng/mL",
           "threshold": 2.0,
           "peak_effect": 10.0,
-          "reference": "doi:10.1097/00000542-199006000-00007",
-          "notes": null
+          "reference": "doi:10.1097/00000542-199006000-00007"
         }
       ]
     },
@@ -2731,7 +2530,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:8886601",
-        "notes": "Tateishi 1996 — CYP3A4 N-dealkylation is the dominant pathway; norfentanyl is essentially inactive. CYP3A5 contributes minor fraction.",
         "metabolite_potency_target": "MOR"
       }
     ],
@@ -2801,7 +2599,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Reference compound for the class. ~80-100× morphine potency parenteral. Wooden chest syndrome is the #1 acute mechanism of sudden death (especially with very-rapid-onset routes — IV bolus, smoking). Naloxone reverses but high cumulative doses may be required for illicit-route exposures.",
     "references_consulted": [
       "doi:10.1002/dta.2822",
       "doi:10.1124/jpet.123.002052",
@@ -2827,27 +2624,6 @@
       "primary_targets": [
         "MOR"
       ],
-      "binding": [
-        {
-          "target": "MOR",
-          "ki_nm": null,
-          "ki_ci_nm": null,
-          "kd_nm": 0.024,
-          "ec50_nm": null,
-          "ic50_nm": 0.19,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "DAMGO",
-          "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "Multiple — rat brain (Filizola 2019 IC50 0.19 nM) and human cloned MOR; carfentanil itself used as PET radioligand ([11C]carfentanil)",
-          "radioligand_or_probe": "[3H]DAMGO; carfentanil also serves as MOR PET tracer",
-          "assay_buffer_notes": null,
-          "reference": "doi:10.3390/molecules24040740",
-          "is_review": false,
-          "notes": "Among the most potent MOR ligands known. Kd 0.024 nM at human MOR (Ramos-Gonzalez 2023). ~10,000× morphine in-vivo.",
-          "comparable_set": "volpe-2019-human-mor"
-        }
-      ],
       "functional": [
         {
           "target": "MOR",
@@ -2857,8 +2633,7 @@
           "reference_agonist": "DAMGO",
           "species": "human",
           "cell_system": "HEK293T",
-          "reference": "doi:10.1111/bph.16084",
-          "notes": "log(EC50) -8.11; 130× more potent than fentanyl at G-protein activation."
+          "reference": "doi:10.1111/bph.16084"
         },
         {
           "target": "MOR",
@@ -2868,8 +2643,7 @@
           "reference_agonist": "DAMGO",
           "species": "human",
           "cell_system": "HEK293T",
-          "reference": "doi:10.1111/bph.16084",
-          "notes": "log(EC50) -8.50; 625× more potent than DAMGO at β-arrestin2."
+          "reference": "doi:10.1111/bph.16084"
         }
       ],
       "biased_agonism": [
@@ -2910,8 +2684,7 @@
           "dose_in_study_mg": null,
           "subject_n": 1,
           "subject_demographics": "Single case report — intentional self-exposure",
-          "reference": "pmid:29679387",
-          "notes": "Case-report-derived t½ 5.7h for carfentanil and 11.8h for norcarfentanyl (one-compartment model)."
+          "reference": "pmid:29679387"
         }
       ],
       "concentration_effect": []
@@ -2924,7 +2697,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:29679387",
-        "notes": "N-dealkylation to norcarfentanyl (inactive) is dominant pathway; also monohydroxylation of piperidine ring.",
         "metabolite_potency_target": "MOR"
       }
     ],
@@ -2974,7 +2746,6 @@
       "Human PK (only case reports)",
       "Volume of distribution"
     ],
-    "notes": "Veterinary use only (Wildnil). ~10,000× morphine in-vivo. Detection in illicit supply since 2016. The β-arrestin bias + naloxone-resistant receptor conformation is a CRITICAL safety message — may need nalmefene or naltrexone instead of naloxone in pure carfentanil exposures.",
     "references_consulted": [
       "doi:10.3390/molecules24040740",
       "doi:10.1111/bph.16084",
@@ -3008,12 +2779,9 @@
           "species": "human",
           "tissue_or_cell": "Cell membrane preparation expressing recombinant hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1016/j.yrtph.2010.12.007",
           "is_review": false,
-          "notes": "Lowest Ki of 19 approved opioids in Volpe 2011 uniform ranking — most-potent FDA-approved MOR ligand. Volpe 2011 is a uniform radioligand BINDING panel and reports no functional efficacy; an Emax previously attached to this row has been removed rather than left attributed to a study that did not measure it.",
           "comparable_set": "volpe-2011-human-mor-ki",
-          "assay_notes": "uniform radioligand binding, single-assay panel of 19 approved opioids",
           "confidence": "HIGH"
         }
       ],
@@ -3038,8 +2806,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Adult anaesthesia patients",
-          "reference": "doi:10.1097/00000542-198409000-00010",
-          "notes": "Bovill 1984. Approximately half the elimination t½ of fentanyl."
+          "reference": "doi:10.1097/00000542-198409000-00010"
         },
         {
           "route": "sublingual",
@@ -3054,8 +2821,7 @@
           "dose_in_study_mg": 0.015,
           "subject_n": 38,
           "subject_demographics": "Adults",
-          "reference": "pmid:25544247",
-          "notes": "Sublingual sufentanil (Dsuvia) FDA-approved 2018 for acute pain."
+          "reference": "pmid:25544247"
         }
       ],
       "concentration_effect": []
@@ -3068,7 +2834,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 10,
         "reference": "pmid:8712396",
-        "notes": "Predominantly CYP3A4 N-dealkylation. Desmethyl-sufentanil retains ~10% potency.",
         "metabolite_potency_target": "MOR",
         "metabolite_potency_basis": "receptor_affinity",
         "metabolite_mechanism_vs_parent": "scaled"
@@ -3123,7 +2888,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "FDA-approved 1984. ~7-10× fentanyl. Approved sublingual form for acute pain (Dsuvia). High protein binding (92%) leads to ICU dose adjustments in hypoalbuminemia.",
     "references_consulted": [
       "doi:10.1016/j.yrtph.2010.12.007",
       "doi:10.1097/00000542-198409000-00010"
@@ -3141,27 +2905,6 @@
     "pharmacology": {
       "primary_targets": [
         "MOR"
-      ],
-      "binding": [
-        {
-          "target": "MOR",
-          "ki_nm": 14.3,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": 38.9,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "DAMGO",
-          "action": "agonist",
-          "species": "rat",
-          "tissue_or_cell": "rat brain membrane",
-          "radioligand_or_probe": "[3H]DAMGO",
-          "assay_buffer_notes": null,
-          "reference": "doi:10.3390/molecules24040740",
-          "is_review": false,
-          "notes": "Volpe 2011: human MOR Ki 7.65 nM. Lower lipophilicity than fentanyl → faster onset due to high free-fraction at physiological pH.",
-          "comparable_set": "volpe-2019-rat-mor"
-        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -3184,8 +2927,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Adults",
-          "reference": "pmid:6128948",
-          "notes": "Smaller Vd than fentanyl; context-sensitive t½ 47 min after 3h infusion (vs remifentanil 3 min, fentanyl 250 min)."
+          "reference": "pmid:6128948"
         }
       ],
       "concentration_effect": []
@@ -3198,7 +2940,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "pmid:8886601",
-        "notes": "Used clinically as CYP3A4 probe substrate.",
         "metabolite_potency_target": "MOR"
       }
     ],
@@ -3243,7 +2984,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "FDA-approved 1986. ~1/4 to 1/10 fentanyl potency but ~3× faster onset and shorter duration. Clinically the CYP3A4 phenotyping probe substrate (alfentanil ER) because >95% CL via 3A4.",
     "references_consulted": [
       "doi:10.3390/molecules24040740",
       "doi:10.1016/j.yrtph.2010.12.007"
@@ -3263,27 +3003,6 @@
     "pharmacology": {
       "primary_targets": [
         "MOR"
-      ],
-      "binding": [
-        {
-          "target": "MOR",
-          "ki_nm": 1.4,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": 0.6,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "DAMGO",
-          "action": "agonist",
-          "species": "rat",
-          "tissue_or_cell": "rat brain membrane",
-          "radioligand_or_probe": "[3H]DAMGO",
-          "assay_buffer_notes": null,
-          "reference": "doi:10.3390/molecules24040740",
-          "is_review": false,
-          "notes": "Slightly more potent than fentanyl at binding. Methyl-ester structure designed to be hydrolysed by nonspecific tissue/plasma esterases.",
-          "comparable_set": "volpe-2019-rat-mor"
-        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -3306,8 +3025,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": "Adults",
-          "reference": "pmid:10511072",
-          "notes": "Context-sensitive t½ ~3 min — independent of infusion duration. Cleared by nonspecific blood and tissue esterases; not affected by hepatic/renal failure."
+          "reference": "pmid:10511072"
         }
       ],
       "concentration_effect": []
@@ -3320,7 +3038,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 1,
         "reference": "pmid:10511072",
-        "notes": "Carboxylic acid metabolite — ~1/4000th remifentanil potency.",
         "metabolite_potency_target": "MOR",
         "metabolite_potency_basis": "receptor_affinity",
         "metabolite_mechanism_vs_parent": "scaled"
@@ -3356,7 +3073,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "FDA-approved 1996. Unique among opioids: clearance by nonspecific esterases (not CYP). Context-sensitive t½ of 3 min regardless of infusion duration — by design. Clinical OIH risk after even short infusions.",
     "references_consulted": [
       "doi:10.3390/molecules24040740",
       "doi:10.1097/00000539-199907000-00004"
@@ -3377,27 +3093,6 @@
     "pharmacology": {
       "primary_targets": [
         "MOR"
-      ],
-      "binding": [
-        {
-          "target": "MOR",
-          "ki_nm": null,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": 0.21,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "DAMGO",
-          "action": "agonist",
-          "species": "rat",
-          "tissue_or_cell": "rat brain membrane",
-          "radioligand_or_probe": "[3H]DAMGO",
-          "assay_buffer_notes": null,
-          "reference": "doi:10.3390/molecules24040740",
-          "is_review": false,
-          "notes": "Among highest MOR affinity of fentanyl analogues. Carfentanil + 3-methyl substitution. Very slow dissociation kinetics — drove its abandonment as clinical anaesthetic (effect duration too long).",
-          "comparable_set": "volpe-2019-rat-mor"
-        }
       ],
       "functional": [],
       "biased_agonism": [],
@@ -3453,7 +3148,6 @@
       "Human PK",
       "Off-rate kinetics"
     ],
-    "notes": "~6000× morphine. Janssen 1976. Never reached clinical practice due to extreme duration of action.",
     "references_consulted": [
       "doi:10.3390/molecules24040740"
     ]
@@ -3493,7 +3187,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
         "metabolite_potency_target": "MOR"
       }
     ],
@@ -3545,7 +3238,6 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "~30% of fentanyl analgesic potency (rat hot-plate ED50 0.021 mg/kg vs fentanyl 0.0061). Acetyl group (vs fentanyl's propionyl) reduces MOR affinity. Killed many in 2013-2014 cluster before being scheduled.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238",
       "doi:10.3389/fphar.2019.00238",
@@ -3587,7 +3279,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
         "metabolite_potency_target": "MOR"
       }
     ],
@@ -3639,7 +3330,6 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "~75% of fentanyl analgesic potency. α,β-unsaturated amide makes acrylfentanyl a potential covalent modifier (reactive Michael acceptor) — disputed. Fatalities 2016-2017.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238",
       "doi:10.3389/fphar.2019.00238",
@@ -3702,7 +3392,6 @@
     ],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "DUPLICATE — same compound as Acrylfentanyl. Recommend dedup in upstream substance list.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238"
     ]
@@ -3737,10 +3426,8 @@
           "species": "human",
           "tissue_or_cell": "rat brain membrane or CHO hMOR depending on source",
           "radioligand_or_probe": "[3H]DAMGO or [3H]diprenorphine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.3389/fphar.2019.00238",
-          "is_review": false,
-          "notes": "Ki 32 nM at MOR (~32× weaker than fentanyl). Metabolised by CYP2D6 AND CYP3A4 (notable — most fentalogs are CYP3A4-dominant). Active metabolites include hydroxybutyrfentanyl and carboxybutyrfentanyl."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -3761,7 +3448,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
         "metabolite_potency_target": "MOR"
       },
       {
@@ -3770,8 +3456,7 @@
         "metabolite_name": "hydroxybutyrfentanyl",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:30930421",
-        "notes": "Steuer 2017 — CYP2D6 contribution makes PM/UM polymorphisms potentially relevant."
+        "reference": "pmid:30930421"
       }
     ],
     "drug_interactions_pk": [
@@ -3829,7 +3514,6 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "Ki 32 nM at MOR (~32× weaker than fentanyl). Metabolised by CYP2D6 AND CYP3A4 (notable — most fentalogs are CYP3A4-dominant). Active metabolites include hydroxybutyrfentanyl and carboxybutyrfentanyl.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238",
       "doi:10.3389/fphar.2019.00238",
@@ -3873,7 +3557,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
         "metabolite_potency_target": "MOR"
       }
     ],
@@ -3925,7 +3608,6 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "Para-methoxy substitution on anilino phenyl + butyryl chain. No published direct human-MOR Ki; class-based fentanyl-like activity inferred.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238",
       "doi:10.3389/fphar.2019.00238",
@@ -3989,7 +3671,6 @@
     ],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "DUPLICATE — same compound as 4-Methoxybutyrfentanyl. Recommend dedup.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238"
     ]
@@ -4029,7 +3710,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
         "metabolite_potency_target": "MOR"
       }
     ],
@@ -4081,7 +3761,6 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "Para-chloro on anilino phenyl + isobutyryl chain. NPS supply 2018-2020. No direct Ki published.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238",
       "doi:10.3389/fphar.2019.00238",
@@ -4118,10 +3797,8 @@
           "species": "human",
           "tissue_or_cell": "rat brain membrane or CHO hMOR depending on source",
           "radioligand_or_probe": "[3H]DAMGO or [3H]diprenorphine",
-          "assay_buffer_notes": null,
           "reference": "doi:10.3389/fphar.2019.00238",
-          "is_review": false,
-          "notes": "Ki 0.028 nM (Goggin 2017) — extremely high MOR affinity. EC50 2.52 nM in CHO hMOR GTPγS (7× more potent than fentanyl 17.9 nM in same assay). Hydroxy-furanyl metabolite is one of the major in-vivo species."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -4142,7 +3819,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
         "metabolite_potency_target": "MOR"
       },
       {
@@ -4151,8 +3827,7 @@
         "metabolite_name": "dihydrodiol-furanylfentanyl",
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Furan ring undergoes epoxidation then dihydrodiol formation — distinctive metabolic pathway."
+        "reference": "doi:10.3389/fphar.2019.00238"
       }
     ],
     "drug_interactions_pk": [],
@@ -4202,7 +3877,6 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "Ki 0.028 nM (Goggin 2017) — extremely high MOR affinity. EC50 2.52 nM in CHO hMOR GTPγS (7× more potent than fentanyl 17.9 nM in same assay). Hydroxy-furanyl metabolite is one of the major in-vivo species.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238",
       "doi:10.3389/fphar.2019.00238",
@@ -4244,7 +3918,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
         "metabolite_potency_target": "MOR"
       }
     ],
@@ -4296,7 +3969,6 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "~30% of fentanyl potency (rat ED50 0.053 mg/kg vs 0.018). Major metabolites: O-demethyl-methoxyacetylfentanyl, 4-ANPP.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238",
       "doi:10.3389/fphar.2019.00238",
@@ -4337,7 +4009,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
         "metabolite_potency_target": "MOR"
       }
     ],
@@ -4389,7 +4060,6 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "Cyclopentanecarbonyl in place of propionyl. Detected 2017-2018. Metabolised to norcyclopentylfentanyl + hydroxylated species.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238",
       "doi:10.3389/fphar.2019.00238",
@@ -4430,7 +4100,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
         "metabolite_potency_target": "MOR"
       }
     ],
@@ -4482,7 +4151,6 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "Saturated furanyl analogue. Lower potency than furanylfentanyl (no ring epoxidation pathway).",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238",
       "doi:10.3389/fphar.2019.00238",
@@ -4523,7 +4191,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
         "metabolite_potency_target": "MOR"
       }
     ],
@@ -4575,7 +4242,6 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "Pentanoyl (C5) chain — longer than fentanyl propionyl (C3) or butyrfentanyl butyryl (C4). Reduced MOR Ki vs butyrfentanyl per SAR.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238",
       "doi:10.3389/fphar.2019.00238",
@@ -4618,7 +4284,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
         "metabolite_potency_target": "MOR"
       }
     ],
@@ -4670,7 +4335,6 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "4-F on anilino phenyl + butyryl chain. p-F substitution typically improves potency vs butyrfentanyl (SAR).",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238",
       "doi:10.3389/fphar.2019.00238",
@@ -4707,10 +4371,8 @@
           "species": "rat",
           "tissue_or_cell": "rat brain homogenate membrane fraction",
           "radioligand_or_probe": "[3H]DAMGO",
-          "assay_buffer_notes": null,
           "reference": "pmid:30791394",
           "is_review": false,
-          "notes": "IC50 0.48 nM at rat brain MOR ([3H]DAMGO displacement), against fentanyl 1.23 nM in the same assay. Changes selectivity from μ>κ>δ to μ>δ≥κ. In rat brain Cmax exceeds fentanyl by 1.5× per Canfield 2024 PK study.",
           "comparable_set": "volpe-2019-rat-mor"
         }
       ],
@@ -4732,7 +4394,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis.",
         "metabolite_potency_target": "MOR"
       }
     ],
@@ -4783,7 +4444,6 @@
       "Human PK",
       "Bias factor"
     ],
-    "notes": "IC50 0.48 nM at rat brain MOR ([3H]DAMGO displacement), against fentanyl 1.23 nM in the same assay. Changes selectivity from μ>κ>δ to μ>δ≥κ. In rat brain Cmax exceeds fentanyl by 1.5× per Canfield 2024 PK study.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238",
       "doi:10.1002/dta.2822"
@@ -4821,7 +4481,6 @@
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": 0,
         "reference": "doi:10.3389/fphar.2019.00238",
-        "notes": "Methylenedioxy ring may also be cleaved by CYP1A2 (catechol formation) by analogy with MDMA/safrole.",
         "metabolite_potency_target": "MOR"
       }
     ],
@@ -4867,7 +4526,6 @@
       "No metabolism data",
       "No casework"
     ],
-    "notes": "Detected briefly in NPS supply ~2017. Minimal published pharmacological characterisation.",
     "references_consulted": [
       "doi:10.3389/fphar.2019.00238"
     ]

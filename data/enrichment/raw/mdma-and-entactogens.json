@@ -37,10 +37,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human SERT, release of preloaded [3H]-5-HT",
           "radioligand_or_probe": "[3H]-5-HT efflux",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false,
-          "notes": "Simmler et al 2013, human transporter. Note that rat synaptosome assays (Baumann/Rothman) give SERT release EC50 ~75 nM — 70× more potent. The species difference is real and matters."
+          "is_review": false
         },
         {
           "target": "DAT",
@@ -56,10 +54,8 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing human DAT",
           "radioligand_or_probe": "[3H]-dopamine efflux",
-          "assay_buffer_notes": null,
           "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false,
-          "notes": "Rat synaptosome: 154 nM (much more potent at rat DAT)."
+          "is_review": false
         },
         {
           "target": "SERT",
@@ -72,8 +68,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 hSERT, [3H]-5-HT uptake",
           "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "NET",
@@ -86,8 +81,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 hNET, [3H]-NE uptake",
           "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false,
-          "notes": "MDMA is most potent at NET — explains the sympathomimetic profile."
+          "is_review": false
         },
         {
           "target": "DAT",
@@ -100,8 +94,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 hDAT",
           "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "5-HT2A",
@@ -111,18 +104,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 stably expressing h5-HT2A",
           "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false,
-          "notes": "Weak partial agonist. Functional data: 5-HT2A activation contributes little at clinical doses."
-        },
-        {
-          "target": "5-HT2B",
-          "ki_nm": 500,
-          "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "h5-HT2B cloned receptor, [3H]-LSD binding",
-          "reference": null,
-          "is_review": false,
-          "notes": "Setola & Roth 2003. 5-HT2B agonism is the proposed mechanism of MDMA-associated valvular heart disease (fenfluramine-like). Active metabolite MDA is more potent at 5-HT2B (Ki ~100 nM)."
+          "is_review": false
         },
         {
           "target": "5-HT1A",
@@ -131,8 +113,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT1A",
           "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "TAAR1",
@@ -141,8 +122,7 @@
           "species": "rat",
           "tissue_or_cell": "HEK293 stably expressing rat TAAR1",
           "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false,
-          "notes": "Human TAAR1 affinity is much weaker for amphetamines; rat data is not a good predictor."
+          "is_review": false
         },
         {
           "target": "α2A-adrenergic",
@@ -151,8 +131,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 hα2A",
           "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "SERT",
@@ -164,8 +143,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
           "reference": "doi:10.1038/npp.2011.304",
-          "is_review": false,
-          "notes": "Baumann 2012 Table 1 — rat brain synaptosomes, [3H]5-HT release, 1 µM reserpine, selective blockers isolating one transporter per arm. Same-table companion to the DAT and NET values."
+          "is_review": false
         },
         {
           "target": "DAT",
@@ -177,8 +155,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
           "reference": "doi:10.1038/npp.2011.304",
-          "is_review": false,
-          "notes": "Baumann 2012 Table 1 — [3H]MPP+ release. The paper's own DAT/SERT ratio (0.97) is arithmetically consistent with these cells."
+          "is_review": false
         },
         {
           "target": "NET",
@@ -190,8 +167,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
           "reference": "doi:10.1038/npp.2011.304",
-          "is_review": false,
-          "notes": "Baumann 2012 Table 1 — [3H]MPP+ release. On this assay MDMA is non-selective across all three transporters; three human studies on other bases put DAT well behind, so basis and species must be shown wherever this is plotted."
+          "is_review": false
         }
       ],
       "functional": [
@@ -203,8 +179,7 @@
           "reference_agonist": "5-HT",
           "species": "human",
           "cell_system": "HEK293",
-          "reference": "doi:10.1038/s41386-024-01972-6",
-          "notes": "Racemic and S-MDMA show weak partial agonism; R-MDMA has negligible functional activity despite higher binding affinity. Stereoselective dissociation between binding and function."
+          "reference": "doi:10.1038/s41386-024-01972-6"
         }
       ],
       "biased_agonism": [],
@@ -234,16 +209,14 @@
         "metabolite_name": "HHMA (3,4-dihydroxymethamphetamine)",
         "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1124/dmd.104.001180",
-        "notes": "Primary O-demethylenation pathway. CYP2D6 catalyses the demethylenation that generates the catechol HHMA, which then forms reactive ortho-quinones that covalently bind and inactivate CYP2D6 — this is the mechanism-based inhibition."
+        "reference": "doi:10.1124/dmd.104.001180"
       },
       {
         "enzyme": "CYP1A2",
         "fraction_of_clearance_pct": null,
         "metabolite_name": "HHMA",
         "metabolite_active": false,
-        "reference": "doi:10.1016/s0006-2952(00)00284-7",
-        "notes": "Minor contribution to demethylenation."
+        "reference": "doi:10.1016/s0006-2952(00)00284-7"
       },
       {
         "enzyme": "CYP2B6",
@@ -251,24 +224,21 @@
         "metabolite_name": "MDA",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1124/dmd.108.021543",
-        "notes": "Primary N-demethylation enzyme — produces active metabolite MDA. CYP2B6 contributes more than CYP2D6 to this pathway."
+        "reference": "doi:10.1124/dmd.108.021543"
       },
       {
         "enzyme": "COMT",
         "fraction_of_clearance_pct": null,
         "metabolite_name": "HMMA (4-hydroxy-3-methoxymethamphetamine)",
         "metabolite_active": false,
-        "reference": "doi:10.1097/00007691-200404000-00009",
-        "notes": "Methylates HHMA. HMMA is the major urinary metabolite."
+        "reference": "doi:10.1097/00007691-200404000-00009"
       },
       {
         "enzyme": "UGT",
         "fraction_of_clearance_pct": null,
         "metabolite_name": "HMMA glucuronide",
         "metabolite_active": false,
-        "reference": "doi:10.1097/00007691-200404000-00009",
-        "notes": "Phase II conjugation of HMMA."
+        "reference": "doi:10.1097/00007691-200404000-00009"
       }
     ],
     "drug_interactions_pk": [
@@ -296,8 +266,7 @@
         "with": "moclobemide / other MAOIs",
         "mechanism": "MAO-A inhibition",
         "clinical_effect": "Severe risk: massive 5-HT accumulation → serotonin syndrome, hyperthermia, fatality. Absolute contraindication.",
-        "reference": null,
-        "notes": "Citation removed: this value was attributed to pmid:10605976, which is H. pylori faecal/oral shedding. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -377,7 +346,6 @@
       "Exact human 5-HT2B Ki (Setola data sometimes cited as 500 nM, sometimes as higher)",
       "Quantitative protein binding fraction"
     ],
-    "notes": "MDMA-assisted therapy for PTSD: MAPS/Lykos submitted NDA Dec 2023 based on MAPP1 (NCT03537014, n=90) and MAPP2 (n=104) Phase 3 trials, both meeting primary endpoint (CAPS-5 reduction vs placebo+therapy). FDA issued Complete Response Letter Aug 2024 citing functional unblinding, AE underreporting, and concerns about therapy delivery — not efficacy. Drug listed in DEA Schedule I; FDA breakthrough designation 2017. The Holze 2024 enantiomer trial (NCT05277636) showed S-MDMA 100 mg ≈ racemic 125 mg ≈ R-MDMA 300 mg for overall effect intensity.",
     "references_consulted": [
       "doi:10.1111/j.1476-5381.2012.02145.x",
       "doi:10.1046/j.1365-2125.2000.00121.x",
@@ -418,8 +386,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
           "reference": "pmid:32875347",
-          "is_review": false,
-          "notes": "MDA induces release of 5-HT, DA, and NE. Slightly serotonin-selective vs DA but less so than MDMA (DAT:SERT ratio ≈ 0.36, less SERT-selective than MDMA)."
+          "is_review": false
         },
         {
           "target": "5-HT2A",
@@ -429,18 +396,7 @@
           "species": "rat",
           "tissue_or_cell": null,
           "reference": null,
-          "is_review": false,
-          "notes": "MDA has substantially greater direct 5-HT2A agonist activity than MDMA — this explains its more psychedelic, less prosocial subjective profile. Particularly the (R)-(−)-MDA isomer is more 5-HT2A-active."
-        },
-        {
-          "target": "5-HT2B",
-          "ki_nm": 100,
-          "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "h5-HT2B cloned",
-          "reference": null,
-          "is_review": false,
-          "notes": "5× more potent at 5-HT2B than MDMA. MDA is the major active metabolite of MDMA — chronic MDMA users get repeated 5-HT2B exposure via MDA, driving VHD risk."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -464,8 +420,7 @@
           "dose_in_study_mg": 92,
           "subject_n": 23,
           "subject_demographics": "12 women, 11 men; healthy adults; equimolar to 100 mg MDMA",
-          "reference": "doi:10.1038/s41386-025-02248-3",
-          "notes": "Holze 2025 — MDA produces qualitatively more psychedelic (5D-ASC) effects than MDMA at equimolar doses; comparable cardiovascular effects."
+          "reference": "doi:10.1038/s41386-025-02248-3"
         }
       ],
       "concentration_effect": []
@@ -476,16 +431,14 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "HHA (3,4-dihydroxyamphetamine)",
         "metabolite_active": false,
-        "reference": "doi:10.1016/j.toxlet.2009.06.866",
-        "notes": "O-demethylenation. MDA, like MDMA, is also a mechanism-based inhibitor of CYP2D6."
+        "reference": "doi:10.1016/j.toxlet.2009.06.866"
       },
       {
         "enzyme": "CYP2B6",
         "fraction_of_clearance_pct": null,
         "metabolite_name": null,
         "metabolite_active": false,
-        "reference": "doi:10.1016/j.toxlet.2009.06.866",
-        "notes": "Minor contribution."
+        "reference": "doi:10.1016/j.toxlet.2009.06.866"
       }
     ],
     "drug_interactions_pk": [
@@ -493,8 +446,7 @@
         "with": "MAOIs",
         "mechanism": "MAO inhibition",
         "clinical_effect": "Contraindicated — serotonin syndrome risk identical to MDMA.",
-        "reference": null,
-        "notes": "Citation removed: this value was attributed to pmid:10605976, which is H. pylori faecal/oral shedding. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+        "reference": null
       }
     ],
     "pharmacogenetics": {
@@ -543,7 +495,6 @@
     "data_gaps_remaining": [
       "Detailed human transporter EC50 (Simmler did not include MDA; rat synaptosome data dominates the literature)"
     ],
-    "notes": "MDA is both a recreational drug and the active N-demethyl metabolite of MDMA. Its longer half-life (~8 h) explains the persistent next-day stimulant tail after MDMA use. Schedule I.",
     "references_consulted": [
       "doi:10.1038/s41386-025-02248-3",
       null
@@ -619,8 +570,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 hSERT release",
           "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false,
-          "notes": "Full SERT releaser like MDMA."
+          "is_review": false
         },
         {
           "target": "DAT",
@@ -629,8 +579,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 hDAT release",
           "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false,
-          "notes": "EC50 > 100,000 nM — does NOT release dopamine appreciably. This is the key distinction from MDMA. Rat synaptosome data: dopamine release EC50 = 622 nM, Emax 61% (partial releaser)."
+          "is_review": false
         },
         {
           "target": "5-HT2A",
@@ -638,8 +587,7 @@
           "action": null,
           "species": "human",
           "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
-          "is_review": false,
-          "notes": "Weaker 5-HT2A than MDMA."
+          "is_review": false
         },
         {
           "target": "TAAR1",
@@ -668,8 +616,7 @@
           "dose_in_study_mg": 140,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": null,
-          "notes": "Half-life ~4 h (shorter than MDMA). Tmax ~2 h."
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -680,8 +627,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "MDA",
         "metabolite_active": true,
-        "reference": "doi:10.1016/s0006-2952(00)00284-7",
-        "notes": "N-deethylation yields MDA. O-demethylenation analogous to MDMA."
+        "reference": "doi:10.1016/s0006-2952(00)00284-7"
       }
     ],
     "drug_interactions_pk": [
@@ -727,7 +673,6 @@
       "Cmax at standard recreational doses",
       "Specific 5-HT2B data"
     ],
-    "notes": "N-ethyl substitution markedly reduces DA-releasing activity vs MDMA — explains the colder, less reinforcing, more 'pure empathogen' subjective profile users report. Was briefly used in early MDMA-assisted psychotherapy when MDMA was scheduled.",
     "references_consulted": [
       "doi:10.1111/j.1476-5381.2012.02145.x",
       "doi:10.1016/s0006-2952(00)00284-7"
@@ -787,7 +732,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "DUPLICATE: This entry is the same compound as 'MDE' in the same list. Recommend deduplication. See MDE record.",
     "references_consulted": []
   },
   {
@@ -817,8 +761,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
           "reference": "doi:10.1007/s00213-017-4812-5",
-          "is_review": false,
-          "notes": "S-MDMA is the more potent monoamine releaser of the two enantiomers — particularly at DAT and NET. Drives the stimulant component of racemic MDMA."
+          "is_review": false
         },
         {
           "target": "5-HT2A",
@@ -828,8 +771,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT2A",
           "reference": "doi:10.1038/s41386-024-01972-6",
-          "is_review": false,
-          "notes": "Weak partial agonist (functionally weak despite measurable binding)."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -853,8 +795,7 @@
           "dose_in_study_mg": 125,
           "subject_n": 24,
           "subject_demographics": "healthy adults; randomized crossover",
-          "reference": "doi:10.1038/s41386-024-01972-6",
-          "notes": "Holze/Liechti 2024. S-MDMA half-life only ~4.1 h vs R-MDMA ~12 h — S-enantiomer is preferentially cleared (probably faster CYP2D6 metabolism). Subjective effects strongly favour stimulation/'drug high'/happiness; greater SBP/DBP increase than R-MDMA."
+          "reference": "doi:10.1038/s41386-024-01972-6"
         }
       ],
       "concentration_effect": []
@@ -864,8 +805,7 @@
         "enzyme": "CYP2D6",
         "metabolite_name": "S-HHMA",
         "metabolite_active": true,
-        "reference": "doi:10.1124/dmd.108.021543",
-        "notes": "Stereoselectively faster metabolism than R-enantiomer."
+        "reference": "doi:10.1124/dmd.108.021543"
       }
     ],
     "drug_interactions_pk": [],
@@ -905,7 +845,6 @@
     "data_gaps_remaining": [
       "S-MDMA specific transporter EC50 at human transporters"
     ],
-    "notes": "S-(+)-MDMA is the more stimulant-like enantiomer; 100 mg S-MDMA ≈ 125 mg racemic MDMA in overall acute effect intensity. Not currently in clinical development as a standalone agent — the racemic mixture (midomafetamine) is what Lykos submitted. Category 'Antidepressant' in source is misleading; this is the same class as MDMA.",
     "references_consulted": [
       "doi:10.1038/s41386-024-01972-6",
       "doi:10.1007/s00213-017-4812-5"
@@ -937,8 +876,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT2A",
           "reference": "doi:10.1038/s41386-024-01972-6",
-          "is_review": false,
-          "notes": "Higher specific 5-HT2A binding affinity than S-MDMA but NEGLIGIBLE functional activity — a binding/function dissociation. So 'psychedelic-like' marketing claims need scepticism — in humans, R-MDMA did NOT produce more psychedelic effects than S-MDMA at the doses tested."
+          "is_review": false
         },
         {
           "target": "SERT",
@@ -947,8 +885,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
           "reference": "doi:10.1007/s00213-017-4812-5",
-          "is_review": false,
-          "notes": "Retains SERT-releasing activity (less than S-enantiomer)."
+          "is_review": false
         },
         {
           "target": "DAT",
@@ -956,8 +893,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "reference": "doi:10.1007/s00213-017-4812-5",
-          "is_review": false,
-          "notes": "Much less DA release than S-MDMA — proposed safety advantage (less reinforcing, less hyperthermic, less neurotoxic in animals)."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -978,8 +914,7 @@
           "dose_in_study_mg": 125,
           "subject_n": 24,
           "subject_demographics": "healthy adults",
-          "reference": "doi:10.1038/s41386-024-01972-6",
-          "notes": "R-MDMA half-life ~12 h (3× longer than S). Slower CYP2D6 metabolism."
+          "reference": "doi:10.1038/s41386-024-01972-6"
         },
         {
           "route": "oral",
@@ -990,8 +925,7 @@
           "dose_in_study_mg": 250,
           "subject_n": 24,
           "subject_demographics": "healthy adults",
-          "reference": "doi:10.1038/s41386-024-01972-6",
-          "notes": "Dose-doubled R-MDMA — exposure roughly doubles linearly (less nonlinear than racemic)."
+          "reference": "doi:10.1038/s41386-024-01972-6"
         }
       ],
       "concentration_effect": []
@@ -1001,8 +935,7 @@
         "enzyme": "CYP2D6",
         "metabolite_name": "R-HHMA",
         "metabolite_active": true,
-        "reference": "doi:10.1124/dmd.108.021543",
-        "notes": "Slower than S-enantiomer."
+        "reference": "doi:10.1124/dmd.108.021543"
       }
     ],
     "drug_interactions_pk": [],
@@ -1042,7 +975,6 @@
     "data_gaps_remaining": [
       "Whether R-MDMA's preclinical safety advantages survive at therapeutically equivalent doses"
     ],
-    "notes": "R-(−)-MDMA is being explored as a potentially safer therapeutic alternative to racemic MDMA. MindMed and others have programs. The human data (Holze 2024) tempers preclinical enthusiasm — at equipotent doses (~300 mg R ≈ 125 mg racemic), overall subjective intensity, MEQ30, and 5D-ASC are similar; the hoped-for 'more psychedelic, less stimulant' dissociation did not emerge in humans.",
     "references_consulted": [
       "doi:10.1038/s41386-024-01972-6",
       "doi:10.1007/s00213-017-4812-5"
@@ -1083,8 +1015,7 @@
           "dose_in_study_mg": 164,
           "subject_n": 23,
           "subject_demographics": "12 women, 11 men; healthy adults; equimolar to 92 mg MDA",
-          "reference": "doi:10.1038/s41386-025-02248-3",
-          "notes": "Holze 2025. Lys-MDA produced MDA-like subjective effects with markedly delayed onset and lower peak intensity — confirms prodrug behaviour. Tmax of liberated MDA delayed vs direct MDA administration. Active duration extended."
+          "reference": "doi:10.1038/s41386-025-02248-3"
         }
       ],
       "concentration_effect": []
@@ -1096,8 +1027,7 @@
         "metabolite_name": "MDA",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
-        "reference": "doi:10.1038/s41386-025-02248-3",
-        "notes": "Lysine amide bond hydrolysed to liberate MDA. Then MDA follows its own CYP2D6/2B6 metabolism."
+        "reference": "doi:10.1038/s41386-025-02248-3"
       }
     ],
     "drug_interactions_pk": [],
@@ -1138,7 +1068,6 @@
       "Vd of intact prodrug",
       "Effect of food on absorption"
     ],
-    "notes": "Investigational prodrug being developed for delayed-onset, smoother PK profile suitable for psychotherapy contexts. WO2023028022A1 patent. Lykos and other developers are exploring this class. Category 'Antidepressant' in source is incorrect — this is an entactogen prodrug.",
     "references_consulted": [
       "doi:10.1038/s41386-025-02248-3"
     ]
@@ -1169,8 +1098,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human SERT",
           "reference": "pmid:1685125",
-          "is_review": false,
-          "notes": "Johnson, Frescas, Oberlender, Nichols 1991."
+          "is_review": false
         },
         {
           "target": "NET",
@@ -1188,8 +1116,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human DAT",
           "reference": "pmid:1685125",
-          "is_review": false,
-          "notes": "~12× selective for SERT over DAT — most SERT-selective of the entactogen class."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -1251,7 +1178,6 @@
       "Human PK data",
       "Human 5-HT2B affinity"
     ],
-    "notes": "Originally developed by David Nichols (Purdue) as a tool to study selective serotonin release without neurotoxicity. Sold as 'sparkle'/'mindy' RC in 2010s. Marketing as 'safe MDMA alternative' is misleading — Corkery review documents fatalities and the Pálenicek 2016 rat LD50 study shows narrow safety margin.",
     "references_consulted": [
       "doi:10.1002/hup.2298",
       "doi:10.1016/j.etap.2016.03.013"
@@ -1286,8 +1212,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 hNET",
           "reference": "doi:10.1111/bph.13128",
-          "is_review": false,
-          "notes": "Iversen et al 2013."
+          "is_review": false
         },
         {
           "target": "SERT",
@@ -1315,8 +1240,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
           "reference": "pmid:32875347",
-          "is_review": false,
-          "notes": "Brandt et al 2020 — extremely potent releaser (3-10× more potent than MDA)."
+          "is_review": false
         },
         {
           "target": "DAT",
@@ -1355,8 +1279,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 h5-HT2B",
           "reference": "doi:10.1111/bph.13128",
-          "is_review": false,
-          "notes": "Full nM agonist at 5-HT2B — major cardiotoxicity concern. Same fenfluramine-class red flag."
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -1445,7 +1368,6 @@
       "Human PK data — no published controlled-dose study",
       "Specific Cmax/half-life"
     ],
-    "notes": "Sold extensively as 'benzofury' 2010-2014; UK ban May 2014 followed multiple fatalities. The combination of low-nM SNDR release and potent 5-HT2B agonism makes it significantly more dangerous than MDMA at equivalent subjective doses.",
     "references_consulted": [
       "doi:10.1002/dta.1389"
     ]
@@ -1502,8 +1424,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "reference": "pmid:32875347",
-          "is_review": false,
-          "notes": "Extremely potent DA releaser — single-digit nM. Drives stimulant character and abuse liability."
+          "is_review": false
         },
         {
           "target": "NET",
@@ -1530,8 +1451,7 @@
           "action": "agonist",
           "species": "human",
           "reference": "doi:10.1111/bph.13128",
-          "is_review": false,
-          "notes": "Even more potent at 5-HT2B than 5-APB. Significant cardiac valvulopathy risk."
+          "is_review": false
         },
         {
           "target": "α2A",
@@ -1539,8 +1459,7 @@
           "action": null,
           "species": "human",
           "reference": "doi:10.1111/bph.13128",
-          "is_review": false,
-          "notes": "Higher α2A affinity than 5-APB."
+          "is_review": false
         },
         {
           "target": "TAAR1",
@@ -1610,7 +1529,6 @@
     "data_gaps_remaining": [
       "Controlled human PK"
     ],
-    "notes": "6-APB has longer onset (~2 h) and longer duration (8-12 h) than MDMA. Multiple fatalities in UK/EU 2012-2014.",
     "references_consulted": [
       "doi:10.1002/dta.1389"
     ]
@@ -1650,8 +1568,7 @@
         "enzyme": "CYP2D6",
         "metabolite_name": "5-APB (N-demethylation)",
         "metabolite_active": true,
-        "reference": null,
-        "notes": "Inferred from MDMA→MDA analogy."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -1678,8 +1595,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Inherits 5-HT2B agonism of 5-APB scaffold.",
-        "reference": null,
-        "notes": "Class inference, not a measurement: benzofurans as a class are 5-HT2B agonists (Rickli 2015), but this compound was not in that panel and no measured value for it was retrieved. Previously mis-cited to a 2012 editorial."
+        "reference": null
       }
     ],
     "demographic_differences": {
@@ -1698,7 +1614,6 @@
       "Specific 5-MAPB transporter EC50",
       "5-HT2B specific data for the N-methyl variant"
     ],
-    "notes": "N-methyl variant of 5-APB. Sold as RC. Inherits cardiotoxicity concerns.",
     "references_consulted": [
       "doi:10.1002/dta.1389"
     ]
@@ -1776,7 +1691,6 @@
       "Direct human transporter EC50 for 6-MAPB",
       "5-HT2B Ki for 6-MAPB specifically"
     ],
-    "notes": "N-methyl-6-APB. Limited direct pharmacology data; class-level extrapolation only.",
     "references_consulted": [
       "doi:10.1002/dta.1389"
     ]
@@ -1843,7 +1757,6 @@
       "Direct binding/release data",
       "5-HT2B data for the N-ethyl variant"
     ],
-    "notes": "Research chemical, sparse peer-reviewed data. Pharmacology inferred from class.",
     "references_consulted": []
   },
   {
@@ -1906,7 +1819,6 @@
     "data_gaps_remaining": [
       "Everything — no peer-reviewed pharmacology"
     ],
-    "notes": "Research chemical with no direct pharmacology data.",
     "references_consulted": []
   },
   {
@@ -1950,8 +1862,7 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "reference": "doi:10.1111/bph.13128",
-          "is_review": false,
-          "notes": "Very weak DAT — near-pure NE/5-HT releaser-inhibitor."
+          "is_review": false
         },
         {
           "target": "5-HT2B",
@@ -1960,8 +1871,7 @@
           "action": "agonist",
           "species": "human",
           "reference": "doi:10.1111/bph.13128",
-          "is_review": false,
-          "notes": "Lower potency at 5-HT2B than 5-APB but still partial agonism — lower but not zero cardiac risk."
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -1969,8 +1879,7 @@
           "action": null,
           "species": "human",
           "reference": "doi:10.1111/bph.13128",
-          "is_review": false,
-          "notes": "Notably high 5-HT2C affinity — may contribute to subjective effects."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2023,7 +1932,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "Dihydrobenzofuran variant. More selective for serotonin than 5-APB.",
     "references_consulted": [
       "doi:10.1002/dta.1389"
     ]
@@ -2080,8 +1988,7 @@
           "action": "agonist",
           "species": "human",
           "reference": "doi:10.1111/bph.13128",
-          "is_review": false,
-          "notes": "Potent 5-HT2B agonist (similar to 6-APB scaffold)."
+          "is_review": false
         },
         {
           "target": "5-HT2C",
@@ -2142,7 +2049,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "Dihydrobenzofuran variant. Closely related to 6-APB.",
     "references_consulted": [
       "doi:10.1002/dta.1389"
     ]
@@ -2239,7 +2145,6 @@
       "5-HT2B for the N-methyl variant",
       "Human PK"
     ],
-    "notes": "N-methyl dihydrobenzofuran variant.",
     "references_consulted": [
       "doi:10.1002/dta.1389"
     ]
@@ -2266,43 +2171,12 @@
       ],
       "binding": [
         {
-          "target": "DAT",
-          "ec50_nm": 8.6,
-          "action": "releasingAgent",
-          "species": "human",
-          "tissue_or_cell": "HEK293 hDAT",
-          "reference": null,
-          "is_review": false,
-          "notes": "Citation removed: this value was attributed to doi:10.1016/j.neuropharm.2018.06.025, which is a pediatric traumatic-brain-injury therapy review. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Niello et al 2018 — single-digit nM SNDRA."
-        },
-        {
-          "target": "SERT",
-          "ec50_nm": 18.5,
-          "action": "releasingAgent",
-          "species": "human",
-          "tissue_or_cell": "HEK293 hSERT",
-          "reference": null,
-          "is_review": false,
-          "notes": "Citation removed: this value was attributed to doi:10.1016/j.neuropharm.2018.06.025, which is a pediatric traumatic-brain-injury therapy review. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
-        },
-        {
-          "target": "NET",
-          "ec50_nm": 26.9,
-          "action": "releasingAgent",
-          "species": "human",
-          "tissue_or_cell": "HEK293 hNET",
-          "reference": null,
-          "is_review": false,
-          "notes": "Citation removed: this value was attributed to doi:10.1016/j.neuropharm.2018.06.025, which is a pediatric traumatic-brain-injury therapy review. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
-        },
-        {
           "target": "VMAT2",
           "ic50_nm": null,
           "action": "channelBlocker",
           "species": "human",
           "reference": null,
-          "is_review": false,
-          "notes": "Citation removed: this value was attributed to doi:10.1016/j.neuropharm.2018.06.025, which is a pediatric traumatic-brain-injury therapy review. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Inhibits VMAT2 — like MDMA — supports neurotoxicity hypothesis."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2343,8 +2217,7 @@
         "target": "VMAT2",
         "concern_level": "high",
         "clinical_consequence": "Chronic neurotoxicity risk.",
-        "reference": null,
-        "notes": "Citation removed: this value was attributed to doi:10.1016/j.neuropharm.2018.06.025, which is a pediatric traumatic-brain-injury therapy review. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+        "reference": null
       },
       {
         "target": "pulmonary vasculature (aminorex-class)",
@@ -2372,7 +2245,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "31 fatalities in Europe 2013-2014 (19 in Northern Ireland alone). EU controlled 2015. The most dangerous compound in this list by user-fatality ratio. Schedule equivalent in most jurisdictions.",
     "references_consulted": [
       "doi:10.1016/j.neuropharm.2018.06.025",
       "doi:10.1111/bcpt.12399"
@@ -2406,8 +2278,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
           "reference": "pmid:22271821",
-          "is_review": false,
-          "notes": "Wee/Negus dataset. Balanced SNDRA, low-nM."
+          "is_review": false
         },
         {
           "target": "DAT",
@@ -2443,8 +2314,7 @@
         "enzyme": "CYP",
         "metabolite_name": "PAL-287",
         "metabolite_active": true,
-        "reference": null,
-        "notes": "Aromatic hydroxylation of the naphthalene ring is a major pathway in vitro."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -2487,7 +2357,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "Triple-monoamine releaser with research-pharmacology pedigree (PAL series). No published human controlled data; very limited recreational user-base data.",
     "references_consulted": []
   },
   {
@@ -2514,8 +2383,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain synaptosomes",
           "reference": "doi:10.1002/dta.2053",
-          "is_review": false,
-          "notes": "McLaughlin et al 2017 — only weak SERT releasing activity. Inactive as DAT/NET releaser."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2559,7 +2427,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "Sold 2015+ as legal mephedrone alternative. Pharmacology disappointing; actual recreational potency may reflect contamination with active congeners.",
     "references_consulted": [
       "doi:10.1002/dta.2053"
     ]
@@ -2589,8 +2456,7 @@
           "species": "human",
           "tissue_or_cell": "HEK293 expressing human SERT",
           "reference": "pmid:24486525",
-          "is_review": false,
-          "notes": "Halogenated aminoindane variant of MDAI — similar SERT-selective release profile. Iodo substituent is a classic 'safety' analogue used by Nichols to map non-neurotoxic releasers."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2636,7 +2502,6 @@
       "Specific EC50 values",
       "Human PK"
     ],
-    "notes": "Halogenated MDAI relative. Originally a Nichols/Purdue research probe.",
     "references_consulted": []
   },
   {
@@ -2698,7 +2563,6 @@
     "data_gaps_remaining": [
       "Direct pharmacology data"
     ],
-    "notes": "Limited published pharmacology.",
     "references_consulted": []
   },
   {
@@ -2729,8 +2593,7 @@
           "species": "human",
           "tissue_or_cell": "recombinant hMAO-A",
           "reference": "pmid:24115740",
-          "is_review": false,
-          "notes": "Potent and selective MAO-A inhibitor — this is the dominant pharmacology and the source of its lethality. Not primarily a transporter substrate."
+          "is_review": false
         },
         {
           "target": "SERT",
@@ -2738,8 +2601,7 @@
           "action": "releasingAgent",
           "species": "rat",
           "reference": null,
-          "is_review": false,
-          "notes": "Triple monoamine releaser similar to AMT."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2798,7 +2660,6 @@
     "data_gaps_remaining": [
       "Specific human PK"
     ],
-    "notes": "One of the most dangerous compounds in this list. Entered EU market 2011 sold as legal MDMA replacement; clustered fatalities (Sweden 14, UK ≥6, others) led to rapid scheduling. Not an entactogen-class compound clinically — it is an MAOI+releaser. Mislabeled by retail.",
     "references_consulted": []
   },
   {
@@ -2829,8 +2690,7 @@
           "species": "rat",
           "tissue_or_cell": "rat prefrontal cortex (in vivo)",
           "reference": null,
-          "is_review": false,
-          "notes": "Induces head-twitch response in mice via 5-HT2A — a classic psychedelic assay readout. Very high 5-HT2A potency."
+          "is_review": false
         },
         {
           "target": "SERT",
@@ -2863,8 +2723,7 @@
           "action": "enzymeInhibitor",
           "species": "human",
           "reference": "pmid:28302559",
-          "is_review": false,
-          "notes": "Weak MAO-A inhibitor."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -2920,7 +2779,6 @@
     "data_gaps_remaining": [
       "Human PK"
     ],
-    "notes": "MISCATEGORIZED: This is a serotonergic psychedelic (5-HT2A agonist), not an entactogen. Closely related to 5-MeO-DMT / AMT. Recategorize as Psychedelic. Schedule I in US.",
     "references_consulted": [
       "doi:10.1016/j.neuropharm.2018.06.020"
     ]
@@ -2958,8 +2816,7 @@
         "enzyme": "N-hydroxyamine reductase",
         "metabolite_name": "MDA",
         "metabolite_active": true,
-        "reference": null,
-        "notes": "Rapid N-OH reduction to MDA in vivo. MDOH is functionally an MDA prodrug."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -3003,7 +2860,6 @@
     "data_gaps_remaining": [
       "Direct binding/release data — only PIHKAL human dose-response is published"
     ],
-    "notes": "PIHKAL #114. Functionally an MDA prodrug.",
     "references_consulted": [
       "https://erowid.org/library/books_online/pihkal/pihkal114.shtml"
     ]
@@ -3067,7 +2923,6 @@
     "data_gaps_remaining": [
       "Modern transporter assay data"
     ],
-    "notes": "PIHKAL compound. N-propyl chain reduces potency. Limited published pharmacology.",
     "references_consulted": []
   },
   {
@@ -3126,7 +2981,6 @@
     "data_gaps_remaining": [
       "Direct pharmacology data"
     ],
-    "notes": "PIHKAL N-allyl variant.",
     "references_consulted": []
   },
   {
@@ -3179,7 +3033,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "DUPLICATE: Same compound as 'MDA' in this list. Recommend deduplication.",
     "references_consulted": []
   },
   {
@@ -3205,8 +3058,7 @@
           "action": "agonist",
           "species": "rat",
           "reference": null,
-          "is_review": false,
-          "notes": "Shulgin PIHKAL #132 — described as 'psychedelic with euphoric properties.' 5-HT2A agonism is the dominant pharmacology, more than transporter substrate activity. Active dose 100-250 mg, duration 6-8 h."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -3259,7 +3111,6 @@
     "data_gaps_remaining": [
       "Modern receptor-binding data"
     ],
-    "notes": "PIHKAL #132. Proposed active metabolite of myristicin from nutmeg.",
     "references_consulted": []
   },
   {
@@ -3318,7 +3169,6 @@
     "data_gaps_remaining": [
       "Receptor-binding data"
     ],
-    "notes": "PIHKAL #133. Positional methoxy isomer of MMDA.",
     "references_consulted": []
   },
   {
@@ -3371,7 +3221,6 @@
     "data_gaps_remaining": [
       "All pharmacology"
     ],
-    "notes": "PIHKAL positional isomer with negligible published data.",
     "references_consulted": []
   },
   {
@@ -3424,7 +3273,6 @@
     "data_gaps_remaining": [
       "All pharmacology"
     ],
-    "notes": "PIHKAL.",
     "references_consulted": []
   },
   {
@@ -3485,7 +3333,6 @@
     "data_gaps_remaining": [
       "Receptor binding"
     ],
-    "notes": "PIHKAL #62.",
     "references_consulted": []
   },
   {
@@ -3542,7 +3389,6 @@
     "data_gaps_remaining": [
       "All receptor data"
     ],
-    "notes": "PIHKAL #63.",
     "references_consulted": []
   },
   {
@@ -3603,7 +3449,6 @@
     "data_gaps_remaining": [
       "Receptor data"
     ],
-    "notes": "PIHKAL halogenated MDA.",
     "references_consulted": []
   },
   {
@@ -3664,7 +3509,6 @@
     "data_gaps_remaining": [
       "All pharmacology"
     ],
-    "notes": "Halogenated MDMA analogue. Negligible published data.",
     "references_consulted": []
   },
   {
@@ -3719,7 +3563,6 @@
     "data_gaps_remaining": [
       "All pharmacology"
     ],
-    "notes": "PIHKAL methylthio variant.",
     "references_consulted": []
   },
   {
@@ -3774,7 +3617,6 @@
     "data_gaps_remaining": [
       "All pharmacology"
     ],
-    "notes": "PIHKAL benzoxathiol variant.",
     "references_consulted": []
   },
   {
@@ -3829,7 +3671,6 @@
     "data_gaps_remaining": [
       "All pharmacology"
     ],
-    "notes": "PIHKAL.",
     "references_consulted": []
   },
   {
@@ -3884,7 +3725,6 @@
     "data_gaps_remaining": [
       "All pharmacology"
     ],
-    "notes": "PIHKAL β-methoxy variant.",
     "references_consulted": []
   },
   {
@@ -3940,7 +3780,6 @@
     "data_gaps_remaining": [
       "All pharmacology"
     ],
-    "notes": "Sparse data.",
     "references_consulted": []
   },
   {
@@ -3995,7 +3834,6 @@
     "data_gaps_remaining": [
       "Direct binding data"
     ],
-    "notes": "Inactive positional isomer of MDA.",
     "references_consulted": []
   },
   {
@@ -4050,7 +3888,6 @@
     "data_gaps_remaining": [
       "Direct binding data"
     ],
-    "notes": "Inactive positional isomer of MDMA.",
     "references_consulted": []
   },
   {
@@ -4079,8 +3916,7 @@
           "species": "rat",
           "tissue_or_cell": "rat brain mitochondria",
           "reference": "doi:10.3390/molecules26195914",
-          "is_review": true,
-          "notes": "Weak MAO inhibitor — lacks basic nitrogen typical of MAOIs, so the activity is mild. Probably contributes to nutmeg's monoaminergic effects."
+          "is_review": true
         }
       ],
       "functional": [],
@@ -4100,8 +3936,7 @@
           "dose_in_study_mg": null,
           "subject_n": null,
           "subject_demographics": null,
-          "reference": "doi:10.3390/molecules26195914",
-          "notes": "Onset of nutmeg intoxication 3-8 hours; duration 24-48 h. Pharmacokinetics dominated by extensive first-pass metabolism."
+          "reference": "doi:10.3390/molecules26195914"
         }
       ],
       "concentration_effect": []
@@ -4111,8 +3946,7 @@
         "enzyme": "CYP",
         "metabolite_name": "MMDA (proposed)",
         "metabolite_active": true,
-        "reference": "doi:10.3390/molecules26195914",
-        "notes": "Aminotransferase-mediated formation of 3-methoxy-4,5-MDA in rodents. Quantitative role in humans unclear."
+        "reference": "doi:10.3390/molecules26195914"
       }
     ],
     "drug_interactions_pk": [
@@ -4153,7 +3987,6 @@
       "Quantitative human MMDA formation",
       "Specific metabolic enzymes"
     ],
-    "notes": "Nutmeg primary aromatic ether. Not a true entactogen — included in this group because of the methylenedioxy ring. Psychoactivity is delayed (3-8 h onset) and dysphoric/deliriant rather than empathogenic.",
     "references_consulted": [
       "doi:10.3390/molecules26195914"
     ]
@@ -4206,34 +4039,6 @@
         },
         {
           "target": "5-HT1A",
-          "ki_nm": 62.6,
-          "ec50_nm": null,
-          "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "human cloned receptor",
-          "reference": "doi:10.1371/journal.pone.0009019",
-          "is_review": false,
-          "notes": "Ray 2010 NIMH-PDSP receptorome panel (35 drugs x 67 sites, one lab, one protocol), supplementary Table S2. This panel puts psilocin 5.4x TIGHTER at 5-HT1A than 5-HT2A — the opposite lean from the acschemneuro and 27216487 values also carried here. Direction is contested; do not plot psilocin as a settled point on a 1A/2A axis.",
-          "comparable_set": "pdsp-ki-panel-human",
-          "assay_notes": "NIMH-PDSP radioligand competition panel",
-          "confidence": "MEDIUM"
-        },
-        {
-          "target": "5-HT2A",
-          "ki_nm": 339.6,
-          "ec50_nm": null,
-          "action": "partialAgonist",
-          "species": "human",
-          "tissue_or_cell": "human cloned receptor",
-          "reference": "doi:10.1371/journal.pone.0009019",
-          "is_review": false,
-          "notes": "Ray 2010 PDSP panel, Table S2 — companion to the 62.6 nM 5-HT1A value from the same panel.",
-          "comparable_set": "pdsp-ki-panel-human",
-          "assay_notes": "NIMH-PDSP radioligand competition panel",
-          "confidence": "MEDIUM"
-        },
-        {
-          "target": "5-HT1A",
           "ki_nm": 164,
           "ec50_nm": null,
           "action": "agonist",
@@ -4241,9 +4046,7 @@
           "tissue_or_cell": "human cloned receptor",
           "reference": "doi:10.1021/acsptsci.2c00177",
           "is_review": false,
-          "notes": "Glatfelter 2022, human cloned receptors, [3H]WAY100635 / [3H]ketanserin. A third reading: essentially BALANCED (164 vs 180 nM), between the 2A-leaning and 1A-leaning panels.",
           "comparable_set": "glatfelter-2022-human-5ht",
-          "assay_notes": "radioligand competition; [3H]WAY100635 (1A), [3H]ketanserin (2A)",
           "confidence": "HIGH"
         },
         {
@@ -4255,9 +4058,7 @@
           "tissue_or_cell": "human cloned receptor",
           "reference": "doi:10.1021/acsptsci.2c00177",
           "is_review": false,
-          "notes": "Glatfelter 2022 — companion to the 164 nM 5-HT1A value from the same paper.",
           "comparable_set": "glatfelter-2022-human-5ht",
-          "assay_notes": "radioligand competition; [3H]WAY100635 (1A), [3H]ketanserin (2A)",
           "confidence": "HIGH"
         }
       ],
@@ -4306,7 +4107,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "MISCATEGORIZED: Psilocin is a classical psychedelic (5-HT2A agonist), not an entactogen. This is the bioactive form of psilocybin. Recategorize.",
     "references_consulted": []
   },
   {
@@ -4368,7 +4168,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "MISCATEGORIZED: Ayahuasca is a psychedelic brew (MAOI + DMT), not an entactogen. Recategorize.",
     "references_consulted": []
   },
   {
@@ -4427,7 +4226,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "MISCATEGORIZED: Yopo is a tryptamine-psychedelic snuff, not an entactogen. Recategorize.",
     "references_consulted": []
   },
   {
@@ -4486,7 +4284,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "GROUP ERROR: JWH-367 is a synthetic cannabinoid, NOT in the MDMA family. Should be moved to a cannabinoid group entirely.",
     "references_consulted": []
   },
   {
@@ -4547,7 +4344,6 @@
     "data_gaps_remaining": [
       "Direct binding/functional data"
     ],
-    "notes": "MISCATEGORIZED: NBOMe-class psychedelic, not entactogen.",
     "references_consulted": []
   },
   {
@@ -4582,8 +4378,7 @@
         "enzyme": "esterases",
         "metabolite_name": "4-HO-MiPT",
         "metabolite_active": true,
-        "reference": null,
-        "notes": "Acetate ester prodrug."
+        "reference": null
       }
     ],
     "drug_interactions_pk": [],
@@ -4617,7 +4412,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "MISCATEGORIZED: Tryptamine psychedelic, not entactogen.",
     "references_consulted": []
   },
   {
@@ -4683,7 +4477,6 @@
     "data_gaps_remaining": [
       "Direct EC50/IC50 values"
     ],
-    "notes": "Pyrovalerone cathinone — should be in stimulant group, not entactogen group.",
     "references_consulted": [
       "doi:10.3390/ph14080732"
     ]
@@ -4748,7 +4541,6 @@
     "data_gaps_remaining": [
       "Direct EC50/IC50 values"
     ],
-    "notes": "Pyrovalerone cathinone — should be in stimulant group.",
     "references_consulted": []
   },
   {
@@ -4811,7 +4603,6 @@
     "data_gaps_remaining": [
       "Direct binding data"
     ],
-    "notes": "Pyrovalerone cathinone.",
     "references_consulted": []
   },
   {
@@ -4864,7 +4655,6 @@
     "data_gaps_remaining": [
       "All pharmacology"
     ],
-    "notes": "Negligible published data.",
     "references_consulted": []
   },
   {
@@ -4926,7 +4716,6 @@
     "data_gaps_remaining": [
       "Direct EC50/IC50"
     ],
-    "notes": "Aminoindane variant.",
     "references_consulted": []
   },
   {
@@ -4977,7 +4766,6 @@
     "data_gaps_remaining": [
       "All pharmacology — no peer-reviewed data found"
     ],
-    "notes": "Negligible published data. Possibly an obscure or fictional compound name.",
     "references_consulted": []
   },
   {
@@ -5039,7 +4827,6 @@
     "data_gaps_remaining": [
       "Direct binding/release data"
     ],
-    "notes": "Limited published pharmacology.",
     "references_consulted": []
   },
   {
@@ -5091,7 +4878,6 @@
       "Identification",
       "All pharmacology"
     ],
-    "notes": "Ambiguous identification; no clear peer-reviewed referent.",
     "references_consulted": []
   },
   {
@@ -5156,7 +4942,6 @@
     "data_gaps_remaining": [
       "Specific Ki/EC50 values"
     ],
-    "notes": "Piperazine class. Should probably be in a piperazine group.",
     "references_consulted": []
   },
   {
@@ -5207,7 +4992,6 @@
     "data_gaps_remaining": [
       "Identification and pharmacology"
     ],
-    "notes": "Ambiguous identification.",
     "references_consulted": []
   },
   {
@@ -5262,7 +5046,6 @@
     "data_gaps_remaining": [
       "All pharmacology"
     ],
-    "notes": "Sparse data.",
     "references_consulted": []
   },
   {

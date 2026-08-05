@@ -28,10 +28,8 @@
           "species": "human",
           "tissue_or_cell": "human brain homogenate (cortex) and CHO cells expressing human recombinant SV2A",
           "radioligand_or_probe": "[3H]-ucb 30889",
-          "assay_buffer_notes": "37 C; standard binding buffer",
           "reference": "pmid:21575627",
-          "is_review": false,
-          "notes": "Reported ~15-20x higher affinity for SV2A than levetiracetam in same assay system; pIC50 ~7.4. Brivaracetam shows no measurable affinity for AMPA receptors despite the racetam scaffold — the SV2A site is the entire mechanism."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -148,7 +146,6 @@
     "data_gaps_remaining": [
       "No direct AMPA receptor binding data — confirmed absent rather than missing"
     ],
-    "notes": "Despite the 'racetam' name, brivaracetam has no AMPA activity; it is an SV2A ligand and structurally a 4-propyl derivative of levetiracetam. Higher SV2A affinity and better brain penetration than levetiracetam translate to faster onset of seizure protection. The behavioral/psychiatric adverse-event profile (irritability, depression) is qualitatively similar to but milder than levetiracetam.",
     "references_consulted": [
       "pmid:18341673",
       "pmid:18496489",
@@ -225,7 +222,6 @@
       "Phase 2a major depressive disorder trial by BrainCells failed to meet primary endpoint (BCI-540); detailed PK never published",
       "No human EEG or fMRI signature"
     ],
-    "notes": "Originally MKC-231 (Mitsubishi Tanabe); licensed to BrainCells as BCI-540. Failed in MDD Phase 2a (2008-2009). Mechanism (HACU enhancement) is genuinely unusual but rests on a small number of rat papers; the entire human evidence base is essentially absent. Treat all anecdotal human dose ranges with skepticism.",
     "references_consulted": [
       "pmid:14617342"
     ]
@@ -322,7 +318,6 @@
       "Published human PK parameters",
       "Phase 2 efficacy data in sleep apnea (results never disclosed publicly)"
     ],
-    "notes": "Lead respiratory-stimulant AMPAkine from RespireRx (post-Cortex). Phase 2a in opioid-induced respiratory depression was conducted at Duke (NCT02735629); top-line readout was positive directionally but compound has not progressed. Almost all 'data' in the public domain are RespireRx press releases — treat as such.",
     "references_consulted": [
       "doi:10.1213/ANE.0000000000000080",
       "NCT02735629"
@@ -381,7 +376,6 @@
     "data_gaps_remaining": [
       "Everything — structure, Ki, EC50, PK, all unpublished"
     ],
-    "notes": "Listed in RespireRx pipeline materials as an injectable, water-soluble companion to CX-1739. No peer-reviewed primary literature exists; treat as an effectively unverified compound.",
     "references_consulted": [
       "https://respirerx.com/cx1942/"
     ]
@@ -402,17 +396,6 @@
       "binding": [],
       "functional": [
         {
-          "target": "AMPA receptor (native, rat hippocampus)",
-          "readout": "field EPSP amplitude in hippocampal CA1",
-          "ec50_nm": 170000,
-          "emax_pct": 50,
-          "reference_agonist": "glutamate",
-          "species": "rat",
-          "cell_system": "acute hippocampal slice",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:9054453, which is FUT1 fucosyltransferase gene structure. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. EC50 ~170 µM for ~50% potentiation of fast EPSPs; potency ~10-fold higher than aniracetam in same prep."
-        },
-        {
           "target": "AMPA receptor (recombinant)",
           "readout": "deactivation slowing of glutamate-evoked currents in excised patches",
           "ec50_nm": null,
@@ -420,8 +403,7 @@
           "reference_agonist": "glutamate",
           "species": "rat (recombinant GluA expressed in HEK293)",
           "cell_system": "HEK293; outside-out patch",
-          "reference": "pmid:11640919",
-          "notes": "CX-516 is the prototypical 'high-impact' / Type I benzamide AMPAkine: slows deactivation strongly with only modest desensitization block. Arai-defined high-impact class."
+          "reference": "pmid:11640919"
         }
       ],
       "biased_agonism": [],
@@ -490,7 +472,6 @@
       "Numerical human PK parameters (Cmax, Vd, CL never published as full PK)",
       "Direct Ki at any AMPA subunit (no binding-site occupant — modulates allosterically)"
     ],
-    "notes": "First clinical-stage AMPAkine; the eponymous 'high-impact' (Type I) benzamide. Multiple Phase 2 trials (schizophrenia adjunct to clozapine, mild cognitive impairment, Alzheimer's, Fragile X syndrome). All failed primary endpoints, generally attributed to low potency (EC50 ~170 µM) and ~2h half-life requiring frequent dosing. Cortex Pharma stopped development around 2006-2007.",
     "references_consulted": [
       "pmid:9054453",
       "pmid:11640919",
@@ -521,8 +502,7 @@
           "reference_agonist": "glutamate",
           "species": "rat",
           "cell_system": "HEK293 expressing GluA1-4 with TARPs; outside-out patch",
-          "reference": "pmid:11640919",
-          "notes": "CX-546 slows deactivation ~10-fold following 1 ms glutamate pulses; reduces desensitization more potently than CX-516 or IDRA-21 but less than cyclothiazide. Classified as 'low-impact / Type II' by some authors and 'intermediate' by others — operates primarily through desensitization-block axis."
+          "reference": "pmid:11640919"
         },
         {
           "target": "AMPA receptor",
@@ -532,8 +512,7 @@
           "reference_agonist": "fluorowillardiine",
           "species": "rat (recombinant)",
           "cell_system": "HEK293",
-          "reference": "pmid:19717789",
-          "notes": "Modulation magnitude depends strongly on GluA subunit and TARP partner; effect varies by brain region — implies functional selectivity that has not been fully exploited pharmacologically."
+          "reference": "pmid:19717789"
         }
       ],
       "biased_agonism": [],
@@ -578,7 +557,6 @@
       "No human PK",
       "No clinical safety signal"
     ],
-    "notes": "Cortex research tool; never advanced to clinic. Notable for being one of the first AMPAkines characterized to have GluA-subunit/TARP-dependent modulation magnitude, hinting at the possibility of brain-region selectivity that no compound has yet exploited successfully.",
     "references_consulted": [
       "pmid:11640919"
     ]
@@ -606,8 +584,7 @@
           "reference_agonist": "glutamate",
           "species": "rat",
           "cell_system": "hippocampal slice + HEK293 recombinant GluA",
-          "reference": "pmid:10999951",
-          "notes": "Blocks desensitization with EC50 ~44 µM; slows deactivation 8.4-fold (1 ms glutamate pulses). Synaptic fEPSP potentiation EC50 20-40 µM. Belongs to the benzoxazine subgroup — structurally rigid and more potent than the benzamide series."
+          "reference": "pmid:10999951"
         }
       ],
       "biased_agonism": [],
@@ -658,7 +635,6 @@
     "data_gaps_remaining": [
       "No human PK or clinical exposure"
     ],
-    "notes": "The high-impact AMPAkine reference compound for the desensitization-block axis. Frequently mislabeled in popular sources — note that 'high impact' refers to the magnitude of receptor modulation and Gq coupling, NOT to the mechanism (which is desensitization block rather than deactivation slowing). Both deactivation-slowers (CX-516) and strong desensitization-blockers (CX-614, cyclothiazide) can be high-impact; the unifying biomarker is Gq/ER-Ca2+ recruitment.",
     "references_consulted": [
       "pmid:10999951",
       "doi:10.1002/syn.22310"
@@ -687,8 +663,7 @@
           "reference_agonist": "AMPA / glutamate",
           "species": "rat (preclinical) and human (Phase 2)",
           "cell_system": "rat hippocampal slice; clinical EEG-correlated psychometric battery in humans",
-          "reference": "pmid:17712521",
-          "notes": "Benzothiadiazine class — same family as IDRA-21 but more potent. EEG signature at active doses is increased fast-frequency power. Higher-impact than CX-516."
+          "reference": "pmid:17712521"
         }
       ],
       "biased_agonism": [],
@@ -773,7 +748,6 @@
       "Specific cardiac toxicity findings",
       "Direct AMPA EC50 in recombinant system"
     ],
-    "notes": "Co-developed by Cortex and Organon (Schering-Plough, then Merck). Multiple Phase 2 trials in schizophrenia (NCT00425815 — terminated), depression, and elderly cognition. The Wezenberg 2007 paper is striking for showing dissociable memory effects — short-term memory enhanced, episodic memory impaired — within a single dose, hinting at the complex dose-response of AMPA potentiation.",
     "references_consulted": [
       "pmid:17712521",
       "NCT00425815"
@@ -802,8 +776,7 @@
           "reference_agonist": "glutamate",
           "species": "rat / human",
           "cell_system": "hippocampal slice; preBötzinger complex respiratory model",
-          "reference": "pmid:16835355",
-          "notes": "Classified as low-impact (Type II) AMPAkine; preferentially attenuates desensitization without strong Gq coupling. This profile is the rationale for safer respiratory-stimulant use vs. high-impact compounds."
+          "reference": "pmid:16835355"
         }
       ],
       "biased_agonism": [],
@@ -868,7 +841,6 @@
       "Published binding/functional EC50 in standardized assay",
       "Detailed human PK parameters"
     ],
-    "notes": "The most-characterized low-impact AMPAkine; DARPA funded both rodent and human work as a sleep-deprivation countermeasure. 2025 Phase 2A in adult ADHD reported a 'promising therapeutic profile' — RespireRx is the current sponsor.",
     "references_consulted": [
       "pmid:16835355",
       "pmid:17542456",
@@ -930,7 +902,6 @@
       "Human PK",
       "Mechanism validation"
     ],
-    "notes": "Investigational, mostly characterized in patent literature. Phase 2 work in HIV-associated and chemotherapy-induced peripheral neuropathy. Almost no peer-reviewed primary pharmacology.",
     "references_consulted": [
       "DB13018"
     ]
@@ -962,9 +933,7 @@
           "species": "human",
           "tissue_or_cell": "rat brain SV2A; activity carried entirely by (S)-enantiomer",
           "radioligand_or_probe": "[3H]-levetiracetam",
-          "assay_buffer_notes": null,
-          "reference": "pmid:15210974",
-          "notes": "Etiracetam is the racemic mixture; the (R)-enantiomer is essentially inactive at SV2A. Resolved (S)-enantiomer became levetiracetam (Keppra)."
+          "reference": "pmid:15210974"
         }
       ],
       "functional": [],
@@ -1009,7 +978,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Historical UCB compound (UCB-6474); never marketed as such — supplanted by the (S)-enantiomer (levetiracetam) once chiral resolution showed the (R)-half was inactive.",
     "references_consulted": [
       "pmid:15210974"
     ]
@@ -1037,8 +1005,7 @@
           "reference_agonist": "glutamate",
           "species": "human (recombinant)",
           "cell_system": "Xenopus oocyte / HEK293 expressing human GluA",
-          "reference": "pmid:24900368",
-          "notes": "70 µM IDRA-21 doubles charge transfer; slows deactivation and attenuates desensitization. ~10-30x more potent than aniracetam in behavioral reversal of scopolamine/alprazolam amnesia."
+          "reference": "pmid:24900368"
         }
       ],
       "biased_agonism": [],
@@ -1100,7 +1067,6 @@
       "Clinical safety signal",
       "CSF concentrations after oral dosing"
     ],
-    "notes": "The prototypical benzothiadiazine AMPAkine and progenitor of many later compounds. Popular as a research chemical for self-experimentation; absence of human PK or formal safety data makes any consumer use a leap. Activity is enantioselective — racemic material from grey-market vendors has half-strength.",
     "references_consulted": [
       "pmid:24900368",
       "pmid:15111017"
@@ -1159,7 +1125,6 @@
     "data_gaps_remaining": [
       "Everything — no peer-reviewed pharmacology"
     ],
-    "notes": "Listed in older racetam-series catalogues. No clinical or preclinical efficacy data of substance in the indexed literature.",
     "references_consulted": []
   },
   {
@@ -1189,9 +1154,7 @@
           "species": "human",
           "tissue_or_cell": "CHO cells expressing human recombinant SV2A; human cortex membranes",
           "radioligand_or_probe": "[3H]-ucb 30889",
-          "assay_buffer_notes": "37 C; Ki dependent on assay conditions — reported 0.8 µM to 8 µM range across labs",
-          "reference": "pmid:16876775",
-          "notes": "Often quoted as ~1.6 µM in CHO-hSV2A or 6-8 µM in brain tissue at 37 C — the difference reflects assay temperature and membrane composition rather than a true affinity discrepancy. Stereospecific: (R)-enantiomer is ~1000x weaker."
+          "reference": "pmid:16876775"
         }
       ],
       "functional": [],
@@ -1284,7 +1247,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "FDA-approved anticonvulsant since 1999 (Keppra). The accidental discovery story (originally screened for cognitive enhancement, only later found anticonvulsant) is part of why it carries the racetam name. Crucially: levetiracetam has NO AMPA receptor activity — the racetam scaffold is a coincidence of nomenclature with piracetam, not mechanism.",
     "references_consulted": [
       "pmid:15210974",
       "pmid:16876775",
@@ -1316,8 +1278,7 @@
           "reference_agonist": "glutamate",
           "species": "rat",
           "cell_system": "hippocampal slice (CA3-CA1) and HEK293 recombinant",
-          "reference": "pmid:23103715",
-          "notes": "Biarylpropylsulfonamide class; ~1000-fold more potent than CX-516 or cyclothiazide. Potentiates AMPA EPSCs without affecting NMDA EPSCs."
+          "reference": "pmid:23103715"
         }
       ],
       "biased_agonism": [],
@@ -1371,7 +1332,6 @@
       "Quantitative EC50 in standardized recombinant assay",
       "Any human exposure"
     ],
-    "notes": "Eli Lilly research compound; pure research tool, never entered humans. Often used as the reference high-potency AMPAkine in mechanistic studies.",
     "references_consulted": [
       "pmid:23103715"
     ]
@@ -1401,8 +1361,7 @@
           "reference_agonist": "glutamate",
           "species": "rat",
           "cell_system": "rat hippocampus in vivo and slice",
-          "reference": "pmid:12763094",
-          "notes": "Chronic LY-451646 treatment increased adult rat hippocampal cell proliferation, suggesting BDNF-mediated neurogenic effect downstream of sustained AMPA potentiation."
+          "reference": "pmid:12763094"
         }
       ],
       "biased_agonism": [],
@@ -1449,7 +1408,6 @@
       "Human PK",
       "Direct EC50"
     ],
-    "notes": "Eli Lilly tool compound. Mibampator (LY-451395) — the same enantiomer in a slightly different context — was advanced into Phase 2 for agitation in Alzheimer's but failed efficacy and was discontinued.",
     "references_consulted": [
       "pmid:12763094"
     ]
@@ -1477,8 +1435,7 @@
           "reference_agonist": null,
           "species": "rat / mouse",
           "cell_system": "in vivo",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:15084601, which is endoglin/zyxin focal-adhesion cell biology. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Biarylpropylsulfonamide; one of the most studied LY-series for neuroprotection. Potent BDNF induction is invoked as the downstream mechanism for cognitive and neuroprotective effects."
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -1524,7 +1481,6 @@
       "Human exposure",
       "Standardized EC50"
     ],
-    "notes": "Lilly research tool used heavily in Parkinson's neuroprotection literature. Never advanced past preclinical.",
     "references_consulted": [
       "pmid:15084601"
     ]
@@ -1552,8 +1508,7 @@
           "reference_agonist": "carbachol",
           "species": "rat",
           "cell_system": "brain slice; transfected cell line",
-          "reference": "pmid:1976437",
-          "notes": "Reported as M1-selective partial agonist; this distinguishes it from most racetams which are not direct cholinergic agonists."
+          "reference": "pmid:1976437"
         }
       ],
       "biased_agonism": [],
@@ -1596,7 +1551,6 @@
       "Human PK",
       "Numerical Ki / EC50 at M1"
     ],
-    "notes": "Developed by Boehringer Ingelheim (WEB-1881). Phase 2 dementia trials in Japan in the early 1990s did not lead to approval; abandoned.",
     "references_consulted": [
       "pmid:1976437"
     ]
@@ -1619,17 +1573,6 @@
       "binding": [],
       "functional": [
         {
-          "target": "high-voltage-activated Ca2+ channel (L-type)",
-          "readout": "Ca2+ current amplification in patch clamp; bell-shaped DR with peak at 1 µM",
-          "ec50_nm": 1000,
-          "emax_pct": 200,
-          "reference_agonist": null,
-          "species": "rat",
-          "cell_system": "DRG neurons; cortical neurons",
-          "reference": null,
-          "notes": "Two-fold potentiation of long-lasting Ca2+ current component; bell-shaped concentration-response with peak at 1 µM is unusual and reproducible."
-        },
-        {
           "target": "α4β2 / α7 nAChR",
           "readout": "current potentiation",
           "ec50_nm": null,
@@ -1637,8 +1580,7 @@
           "reference_agonist": "ACh",
           "species": "rat / Xenopus oocyte",
           "cell_system": "expressed nAChR",
-          "reference": null,
-          "notes": "PKA-dependent potentiation of α4β2 nAChR; mechanism distinct from direct agonism."
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -1706,7 +1648,6 @@
       "Full human PK parameters (Vd, CL)",
       "Direct Ki at GABA-A site"
     ],
-    "notes": "Daiichi compound; reached Japanese approval for post-stroke apathy. Western development stopped due to dog-specific hepatotoxicity. The pleiotropic mechanism makes 'racetam' nearly a misnomer — most racetams don't touch nAChR or Ca channels directly.",
     "references_consulted": [
       "doi:10.1111/j.1527-3458.1996.tb00305.x"
     ]
@@ -1736,8 +1677,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "in vivo behavioral",
-          "reference": "pmid:19741506",
-          "notes": "3 and 10 mg/kg twice daily (i.p., 12 days) enhanced day-1 acquisition in the Morris water maze; all doses improved spatial memory retrieval, with no confound in the cued version of the task."
+          "reference": "pmid:19741506"
         }
       ],
       "biased_agonism": [],
@@ -1796,7 +1736,6 @@
       "Published binding/EC50 in standardized assay",
       "Phase 2 PK parameters"
     ],
-    "notes": "Merck inherited from Schering-Plough/Organon. Failed depression Phase 2; no further development. Detailed mechanism characterization in literature is thin compared to LY/CX series.",
     "references_consulted": [
       "NCT00610649",
       "NCT00262665"
@@ -1826,8 +1765,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "hippocampal synaptosomes; 100 mg/kg/day x several days",
-          "reference": "pmid:2694231",
-          "notes": "Repeated 100 mg/kg PO increased HACU by 31% in hippocampus. Direct receptor binding for AMPA is essentially absent — cognitive effect is downstream of cholinergic activation."
+          "reference": "pmid:2694231"
         }
       ],
       "biased_agonism": [],
@@ -1897,7 +1835,6 @@
     "data_gaps_remaining": [
       "Direct receptor binding constants (essentially none exist because target is ill-defined)"
     ],
-    "notes": "Approved as cognitive enhancer in Italy and parts of Asia; never in US/UK. Bioavailability 56-82% depending on study. Like piracetam, the molecular target is essentially unknown — the consensus 'mechanism' is downstream cholinergic activation.",
     "references_consulted": [
       "pmid:2694231",
       "doi:10.1007/BF03189650"
@@ -1926,8 +1863,7 @@
           "reference_agonist": "glutamate",
           "species": "rat (recombinant)",
           "cell_system": "Xenopus oocytes expressing GluRA-D",
-          "reference": "pmid:9221774",
-          "notes": "100 µM PEPA produces 7-fold increase in glutamate affinity at GluA3-flop. Striking selectivity: no activity at kainate (GluR6) or NMDA receptors. Preferential modulation of flop variants is opposite to cyclothiazide (flip-selective)."
+          "reference": "pmid:9221774"
         }
       ],
       "biased_agonism": [],
@@ -1971,7 +1907,6 @@
       "Direct binding affinity",
       "Any human exposure"
     ],
-    "notes": "Sekiguchi/Wada 1997 — third major chemical line of AMPA PAMs (after benzothiadiazines and benzamides). Research tool; never advanced clinically. The flop selectivity is a distinguishing feature exploited in some pharmacological dissection studies.",
     "references_consulted": [
       "pmid:9221774"
     ]
@@ -2032,7 +1967,6 @@
       "Human PK",
       "Comparative potency vs phenylpiracetam parent"
     ],
-    "notes": "Almost entirely a grey-market research chemical — vendor literature claims a 'longer-acting phenylpiracetam' but no peer-reviewed PK or pharmacology supports that. Original Russian work characterizes it as anticonvulsant, not stimulant. Be skeptical of any claimed potency advantage over phenylpiracetam.",
     "references_consulted": []
   },
   {
@@ -2059,8 +1993,7 @@
           "reference_agonist": "glutamate",
           "species": "rat",
           "cell_system": "hippocampal slice; reported only at mM concentrations",
-          "reference": null,
-          "notes": "Direct AMPA potentiation in vitro requires millimolar piracetam — likely irrelevant at therapeutic exposures. Proposed mechanism is enhanced AMPA receptor 'density' or membrane fluidity rather than allosteric binding."
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -2136,7 +2069,6 @@
     "data_gaps_remaining": [
       "Direct molecular target at therapeutic concentrations — genuinely unknown after decades"
     ],
-    "notes": "Approved in much of Europe (cognitive disorders, cortical myoclonus) and ex-Soviet states; never approved in US. CSF concentrations reach ~30-40% of plasma; t½ in CSF (~8 h) is longer than plasma (~5-6 h). The remarkable feature of piracetam pharmacology is the durability of the mechanistic gap: 60 years, hundreds of papers, no consensus target. Doses are gram-scale precisely because intrinsic activity at any candidate target is low.",
     "references_consulted": [
       "pmid:7820328"
     ]
@@ -2164,8 +2096,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "hippocampal synaptosomes",
-          "reference": "pmid:2694231",
-          "notes": "Pramiracetam is among the most potent racetams at enhancing HACU; the diisopropylethylamine side chain confers high lipophilicity and brain penetration."
+          "reference": "pmid:2694231"
         }
       ],
       "biased_agonism": [],
@@ -2228,7 +2159,6 @@
       "Published human PK with Cmax/Vd/CL",
       "Mechanism resolution"
     ],
-    "notes": "Originally Parke-Davis (CI-879); marketed in Italy (Pramistar) for cognitive disorders. ~15x more potent than piracetam in animal cognition models — attributed to better brain penetration rather than higher intrinsic activity at any specific target.",
     "references_consulted": [
       "pmid:2694231"
     ]
@@ -2286,7 +2216,6 @@
     "data_gaps_remaining": [
       "Essentially everything"
     ],
-    "notes": "Parke-Davis CI-911; older racetam analog with no usable pharmacology data. Should be treated as effectively unstudied.",
     "references_consulted": []
   },
   {
@@ -2312,8 +2241,7 @@
           "reference_agonist": "AMPA / glutamate",
           "species": "rat",
           "cell_system": "rat hippocampal and frontal cortex slice",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to pmid:14625032, which is trans-sodium crocetinate and brain oxygen delivery. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. S-18986 is a benzothiadiazine PAM (Servier). Increases ACh release in hippocampus of young and aged rats; cognitive enhancement in episodic, working, declarative memory tasks across multiple paradigms."
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -2368,7 +2296,6 @@
       "Human exposure",
       "Standardized EC50"
     ],
-    "notes": "Servier research tool studied extensively in aged-rat cognitive models. Never reached published human trials. Reference compound for the 'reversal of age-related cognitive decline' AMPAkine paradigm.",
     "references_consulted": [
       "pmid:14625032",
       "pmid:18762915"
@@ -2401,9 +2328,7 @@
           "species": "human",
           "tissue_or_cell": "CHO-hSV2A",
           "radioligand_or_probe": "[3H]-ucb 30889",
-          "assay_buffer_notes": null,
-          "reference": "pmid:17199025",
-          "notes": "One log-unit higher SV2A affinity than levetiracetam (Ki ~60 nM vs ~1.6 µM in CHO). Activity is enantioselective."
+          "reference": "pmid:17199025"
         }
       ],
       "functional": [],
@@ -2448,7 +2373,6 @@
     "data_gaps_remaining": [
       "Human Phase 2 efficacy/safety data (limited public disclosure)"
     ],
-    "notes": "UCB-44212; entered Phase 2 for refractory partial seizures but development halted (~2010) in favor of brivaracetam. Higher SV2A affinity than either levetiracetam or brivaracetam suggests the limiting factor was something other than target engagement.",
     "references_consulted": [
       "pmid:17199025"
     ]
@@ -2477,8 +2401,7 @@
           "reference_agonist": null,
           "species": "mouse / rat",
           "cell_system": "in vivo behavior; rat hippocampal slice",
-          "reference": "pmid:14600801",
-          "notes": "CRITICAL: direct interaction of sunifiram with AMPA receptors has NEVER been demonstrated in vitro. All evidence for AMPA involvement is indirect (pharmacological antagonism of the antiamnesic effect by NBQX). The Romanelli/Galeotti papers explicitly note the absence of direct binding data."
+          "reference": "pmid:14600801"
         }
       ],
       "biased_agonism": [],
@@ -2524,7 +2447,6 @@
       "Human PK — none published",
       "Independent replication of antiamnesic activity outside the original Italian group"
     ],
-    "notes": "EXTREMELY IMPORTANT: sunifiram is popularly described as an AMPAkine, but the entire evidence base is from a handful of papers by Romanelli/Galeotti/Pellegrini-Giampietro (DM-235), all using indirect pharmacological inference. No direct AMPA receptor binding has ever been demonstrated. Vendor and grey-market literature dramatically overstates the mechanistic confidence. Treat as a poorly-characterized cognition-enhancement candidate, not as a validated AMPA PAM. The 'AMPA-PAM' tag should be removed from any consumer-facing data presentation.",
     "references_consulted": [
       "pmid:14600801",
       "PMC6741768"
@@ -2553,8 +2475,7 @@
           "reference_agonist": null,
           "species": "rat",
           "cell_system": "hippocampal slice",
-          "reference": "pmid:14600801",
-          "notes": "Same paper group as sunifiram. Reverses NBQX amnesia in mice. As with sunifiram, no direct AMPA receptor binding has been shown — AMPA involvement inferred from antagonism of behavioral effects by AMPA antagonist NBQX."
+          "reference": "pmid:14600801"
         }
       ],
       "biased_agonism": [],
@@ -2600,7 +2521,6 @@
       "Human exposure",
       "Independent confirmation of preclinical efficacy outside the original group"
     ],
-    "notes": "Same caveats as sunifiram (the two were characterized together by the Romanelli/Galeotti group). Despite frequent vendor classification as 'AMPA PAM,' there is no direct binding evidence. The compound's name and reputation drastically outrun its evidence base.",
     "references_consulted": [
       "pmid:14600801",
       "PMC6741768"

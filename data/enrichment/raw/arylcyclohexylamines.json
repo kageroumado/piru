@@ -30,10 +30,8 @@
           "species": "rat",
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]MK-801",
-          "assay_buffer_notes": "Used as the reference comparator in Roth 2013 (MK-801 Ki ≈ 5.7 nM in same assay)",
           "reference": "doi:10.1371/journal.pone.0059334",
           "is_review": false,
-          "notes": "Racemic ketamine; widely cited canonical value",
           "comparable_set": "roth-2013-rat-nmda"
         },
         {
@@ -45,8 +43,7 @@
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1016/S0014-2999(97)01116-3",
-          "is_review": false,
-          "notes": "S-ketamine ~4× higher affinity than R-ketamine"
+          "is_review": false
         },
         {
           "target": "NMDA (MK-801 site, R-enantiomer)",
@@ -56,8 +53,7 @@
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1016/S0014-2999(97)01116-3",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "NMDA (MK-801 site, S-enantiomer)",
@@ -67,8 +63,7 @@
           "tissue_or_cell": "recombinant human GluN1/GluN2A NMDA receptor (Xenopus oocytes)",
           "radioligand_or_probe": "two-electrode voltage-clamp electrophysiology (channel-block IC50)",
           "reference": "doi:10.1038/s41586-021-03769-9",
-          "is_review": false,
-          "notes": "Zhang et al. 2021 Nature (PMID 34321660). S-ketamine IC50 0.60 µM at the human NMDA receptor; ~4× more potent than R-ketamine, matching Oye 1992 human-brain data."
+          "is_review": false
         },
         {
           "target": "NMDA (MK-801 site, R-enantiomer)",
@@ -78,8 +73,7 @@
           "tissue_or_cell": "recombinant human GluN1/GluN2A NMDA receptor (Xenopus oocytes)",
           "radioligand_or_probe": "two-electrode voltage-clamp electrophysiology (channel-block IC50)",
           "reference": "doi:10.1038/s41586-021-03769-9",
-          "is_review": false,
-          "notes": "Zhang et al. 2021 Nature (PMID 34321660). R-ketamine IC50 2.39 µM at the human NMDA receptor."
+          "is_review": false
         },
         {
           "target": "σ1",
@@ -89,8 +83,7 @@
           "tissue_or_cell": "guinea pig brain",
           "radioligand_or_probe": "[3H](+)-pentazocine",
           "reference": "doi:10.1111/j.1600-0773.1995.tb01041.x",
-          "is_review": false,
-          "notes": "S(+)-ketamine; Hustveit, Maurset & Oye 1995, Pharmacol Toxicol 77:355, PMID 8835358."
+          "is_review": false
         },
         {
           "target": "σ1",
@@ -100,8 +93,7 @@
           "tissue_or_cell": "guinea pig brain",
           "radioligand_or_probe": "[3H](+)-pentazocine",
           "reference": "doi:10.1111/j.1600-0773.1995.tb01041.x",
-          "is_review": false,
-          "notes": "R(−)-ketamine; Hustveit, Maurset & Oye 1995, Pharmacol Toxicol 77:355, PMID 8835358."
+          "is_review": false
         },
         {
           "target": "σ2 (racemate)",
@@ -111,8 +103,7 @@
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H]DTG",
           "reference": null,
-          "is_review": false,
-          "notes": "Very weak; clinical relevance unclear"
+          "is_review": false
         },
         {
           "target": "μ-opioid",
@@ -122,8 +113,7 @@
           "tissue_or_cell": "recombinant mu-opioid receptor expressed in CHO cells (CHO-mu)",
           "radioligand_or_probe": "[3H]diprenorphine",
           "reference": "pmid:9915326",
-          "is_review": false,
-          "notes": "Hirota et al. 1997; functional agonism debated. Williams 2018 naltrexone trial showed naltrexone blocks ketamine antidepressant effect but Yoon 2019 reanalysis questioned methodology"
+          "is_review": false
         },
         {
           "target": "κ-opioid",
@@ -133,8 +123,7 @@
           "tissue_or_cell": "recombinant kappa-opioid receptor expressed in CHO cells (CHO-kappa)",
           "radioligand_or_probe": "[3H]diprenorphine",
           "reference": "pmid:9915326",
-          "is_review": false,
-          "notes": null
+          "is_review": false
         }
       ],
       "functional": [
@@ -146,8 +135,7 @@
           "reference_agonist": null,
           "species": "mouse",
           "cell_system": "HEK293 expressing HCN1; cortical pyramidal neurons",
-          "reference": "doi:10.1523/JNEUROSCI.3481-08.2009",
-          "notes": "EC50 ~8-16 μM for racemate; S-ketamine ~2× more potent (EC50 ~7 μM). Within clinically anesthetic free plasma range (5-10 μM). Chen et al. 2009 — HCN1 knockout abolishes ketamine hypnosis"
+          "reference": "doi:10.1523/JNEUROSCI.3481-08.2009"
         }
       ],
       "biased_agonism": [],
@@ -186,8 +174,7 @@
           "dose_in_study_mg": 30,
           "subject_n": 6,
           "subject_demographics": "adults",
-          "reference": "pmid:7097501",
-          "notes": "Clements & Nimmo 1981. Terminal t½ ~2.5 h (range 2-4 h)"
+          "reference": "pmid:7097501"
         },
         {
           "route": "intramuscular",
@@ -203,8 +190,7 @@
           "bioavailability_pct": 45,
           "tmax_min": 22,
           "half_life_min": 120,
-          "reference": "doi:10.1213/00000539-199311000-00007",
-          "notes": "Yanagihara et al. report 45% absolute bioavailability; some studies give 25-50% range"
+          "reference": "doi:10.1213/00000539-199311000-00007"
         },
         {
           "route": "oral",
@@ -212,8 +198,7 @@
           "tmax_min": 30,
           "half_life_min": 180,
           "protein_binding_pct": 47,
-          "reference": "doi:10.1097/00000542-199310000-00003",
-          "notes": "Grant et al. 1981; oral bioavailability 17-20% due to extensive first-pass; norketamine/ketamine ratio ~6.4 in plasma with oral route"
+          "reference": "doi:10.1097/00000542-199310000-00003"
         },
         {
           "route": "sublingual",
@@ -232,16 +217,14 @@
           "concentration_unit": "ng/mL",
           "threshold": 640,
           "peak_effect": 2000,
-          "reference": "doi:10.1097/00000542-198202000-00007",
-          "notes": "Plasma ketamine ~640-1000 ng/mL produces unconsciousness; recovery at <500 ng/mL"
+          "reference": "doi:10.1097/00000542-198202000-00007"
         },
         {
           "effect": "analgesia / antidepressant subanesthetic",
           "concentration_unit": "ng/mL",
           "threshold": 70,
           "peak_effect": 200,
-          "reference": "pmid:19741495",
-          "notes": "Subanesthetic plasma ~100-200 ng/mL during 0.5 mg/kg IV infusion produces analgesia and antidepressant response"
+          "reference": "pmid:19741495"
         }
       ]
     },
@@ -252,8 +235,7 @@
         "metabolite_name": "norketamine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 33,
-        "reference": "doi:10.1124/dmd.30.7.853",
-        "notes": "Yanagihara 2002, Hijazi 2002. CYP2B6 demethylates S- and R-ketamine equipotently"
+        "reference": "doi:10.1124/dmd.30.7.853"
       },
       {
         "enzyme": "CYP3A4",
@@ -261,8 +243,7 @@
         "metabolite_name": "norketamine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 33,
-        "reference": "doi:10.1124/dmd.30.7.853",
-        "notes": "CYP3A4 demethylates S-ketamine faster than R-ketamine; primary in human liver microsomes per some reports"
+        "reference": "doi:10.1124/dmd.30.7.853"
       },
       {
         "enzyme": "CYP2B6/CYP2A6",
@@ -270,8 +251,7 @@
         "metabolite_name": "(2R,6R)-hydroxynorketamine",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1038/nature17998",
-        "notes": "HNK does NOT block NMDA at antidepressant-relevant doses (Zanos 2016, Suzuki 2017 doi:10.1073/pnas.1816071116); acts via α7 nAChR and AMPA potentiation"
+        "reference": "doi:10.1038/nature17998"
       },
       {
         "enzyme": "CYP2B6",
@@ -368,7 +348,6 @@
     "data_gaps_remaining": [
       "definitive μ-opioid functional agonism vs allosteric modulation; mechanism of urothelial toxicity"
     ],
-    "notes": "Reference compound for the entire class. Zhang 2021 Nature (doi:10.1038/s41586-021-03769-9) revealed S-ketamine binds NMDA channel central vestibule with two distinct sub-poses; key residues GluN2A-L642 and GluN1-N616. R-ketamine has longer-lasting/stronger antidepressant effect in rodents despite lower NMDA affinity (Hashimoto group).",
     "references_consulted": [
       "doi:10.1371/journal.pone.0059334",
       "doi:10.1038/s41586-021-03769-9",
@@ -406,19 +385,7 @@
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1016/S0014-2999(97)01116-3",
-          "is_review": false,
-          "notes": "Ebert 1997; ~4× higher affinity than R-ketamine. Some sources report 560 nM."
-        },
-        {
-          "target": "σ1",
-          "ki_nm": 131000,
-          "action": "agonist",
-          "species": "guinea pig",
-          "tissue_or_cell": "guinea pig brain",
-          "radioligand_or_probe": "[3H](+)-pentazocine",
-          "reference": null,
-          "is_review": false,
-          "notes": null
+          "is_review": false
         },
         {
           "target": "μ-opioid",
@@ -428,8 +395,7 @@
           "tissue_or_cell": "recombinant mu-opioid receptor expressed in CHO cells (CHO-mu)",
           "radioligand_or_probe": "[3H]diprenorphine",
           "reference": "pmid:9915326",
-          "is_review": false,
-          "notes": "Hirota 1997"
+          "is_review": false
         }
       ],
       "functional": [
@@ -468,8 +434,7 @@
           "dose_in_study_mg": 84,
           "subject_n": null,
           "subject_demographics": "TRD patients (Spravato pivotal trials)",
-          "reference": null,
-          "notes": "Janssen Spravato label; Tmax 20-40 min, terminal t½ ~7-12 h. Plasma can be measured within 7 min."
+          "reference": null
         },
         {
           "route": "intravenous",
@@ -486,8 +451,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "S-norketamine",
         "metabolite_active": true,
-        "reference": "doi:10.1124/dmd.30.7.853",
-        "notes": "CYP3A4 demethylates S-ketamine faster than R-ketamine"
+        "reference": "doi:10.1124/dmd.30.7.853"
       },
       {
         "enzyme": "CYP2B6",
@@ -547,7 +511,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "FDA-approved 2019 as Spravato (intranasal) for treatment-resistant depression and 2020 for major depressive disorder with acute suicidal ideation. Same PK/PD parameters apply to S-Ketamine record.",
     "references_consulted": [
       "doi:10.1016/S0014-2999(97)01116-3",
       "doi:10.1124/dmd.30.7.853"
@@ -575,8 +538,7 @@
           "species": "rat",
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]MK-801",
-          "reference": "doi:10.1016/S0014-2999(97)01116-3",
-          "notes": "Same compound as Esketamine record; entry retained because input list contains both names."
+          "reference": "doi:10.1016/S0014-2999(97)01116-3"
         }
       ],
       "functional": [],
@@ -594,8 +556,7 @@
           "half_life_min": 450,
           "protein_binding_pct": 44,
           "dose_in_study_mg": 84,
-          "reference": null,
-          "notes": "Spravato label"
+          "reference": null
         },
         {
           "route": "intravenous",
@@ -646,7 +607,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Chemically identical to Esketamine. Input list has both names — Piru likely benefits from a dedup pass.",
     "references_consulted": [
       "doi:10.1016/S0014-2999(97)01116-3"
     ]
@@ -676,19 +636,7 @@
           "tissue_or_cell": "rat forebrain membranes",
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1016/S0014-2999(97)01116-3",
-          "is_review": false,
-          "notes": "Ebert 1997. ~4-5× lower affinity than S-ketamine."
-        },
-        {
-          "target": "σ1",
-          "ki_nm": 27000,
-          "action": "agonist",
-          "species": "guinea pig",
-          "tissue_or_cell": "guinea pig brain",
-          "radioligand_or_probe": "[3H](+)-pentazocine",
-          "reference": null,
-          "is_review": false,
-          "notes": "5× higher σ1 affinity than S-ketamine; Hashimoto hypothesizes σ1 agonism mediates arketamine's longer antidepressant effect."
+          "is_review": false
         },
         {
           "target": "μ-opioid",
@@ -720,14 +668,12 @@
           "half_life_min": 200,
           "subject_n": 24,
           "subject_demographics": "healthy Chinese adults",
-          "reference": "pmc:PMC12298542",
-          "notes": "(R)-ketamine PK nonlinear; cautious dose-escalation recommended"
+          "reference": "pmc:PMC12298542"
         },
         {
           "route": "subcutaneous",
           "bioavailability_pct": null,
-          "reference": "ASCP 2023 conference proceedings",
-          "notes": "Perception Neuroscience PCN-101 IV-to-SC bridging study; SC well-tolerated"
+          "reference": "ASCP 2023 conference proceedings"
         }
       ],
       "concentration_effect": []
@@ -738,8 +684,7 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "R-norketamine",
         "metabolite_active": true,
-        "reference": "doi:10.1124/dmd.30.7.853",
-        "notes": "CYP2B6 demethylates both enantiomers similarly; CYP3A4 prefers S-ketamine"
+        "reference": "doi:10.1124/dmd.30.7.853"
       }
     ],
     "drug_interactions_pk": [],
@@ -777,7 +722,6 @@
       "Phase 3 efficacy data",
       "Definitive σ1-mediated mechanism in humans"
     ],
-    "notes": "Hashimoto group has driven most of the preclinical arketamine literature (2014-present). Major theoretical interest because lower NMDA blockade + longer antidepressant effect challenges the simple 'NMDA antagonism = antidepressant' model.",
     "references_consulted": [
       "doi:10.1016/S0014-2999(97)01116-3",
       "pmc:PMC12298542"
@@ -805,8 +749,7 @@
           "tissue_or_cell": "rat forebrain",
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1016/S0014-2999(97)01116-3",
-          "is_review": false,
-          "notes": "Ebert 1997. S-norketamine Ki ~1700 nM; R-norketamine Ki ~13,000 nM. About 3× less potent than parent ketamine at NMDA. After oral ketamine, norketamine plasma >> ketamine plasma (ratio ~6:1) — major contributor to oral PD."
+          "is_review": false
         }
       ],
       "functional": [],
@@ -821,8 +764,7 @@
           "route": "oral",
           "bioavailability_pct": null,
           "half_life_min": 350,
-          "reference": "doi:10.1097/00000542-199310000-00003",
-          "notes": "Norketamine forms via first-pass; plasma half-life ~5-6 h, longer than parent ketamine"
+          "reference": "doi:10.1097/00000542-199310000-00003"
         }
       ],
       "concentration_effect": []
@@ -873,7 +815,6 @@
     ],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Tag 'no-human-data' is wrong — norketamine is detected in every human ketamine PK study; it's an active metabolite, not a research chemical.",
     "references_consulted": [
       "doi:10.1016/S0014-2999(97)01116-3",
       "doi:10.1124/dmd.30.7.853"
@@ -907,8 +848,7 @@
           "tissue_or_cell": "recombinant NMDA in HEK293",
           "radioligand_or_probe": "patch-clamp Ca2+ flux",
           "reference": "doi:10.1073/pnas.1816071116",
-          "is_review": false,
-          "notes": "Suzuki 2017: (2R,6R)-HNK does NOT block NMDA at antidepressant-relevant concentrations (≤10 μM). Earlier Moaddel 2013 claim of NMDA antagonism not replicated. HNK binds closed/desensitized NMDA receptors at much higher concentrations (Lumsden 2019)"
+          "is_review": false
         }
       ],
       "functional": [
@@ -919,16 +859,14 @@
           "emax_pct": null,
           "species": "rat/mouse",
           "cell_system": "hippocampal neurons",
-          "reference": "doi:10.1038/s41398-024-02744-y",
-          "notes": "Marcantoni 2024: HNK (not ketamine) acts via α7-nAChR. Selective α7 antagonist or Chrna7 KO abolishes HNK-induced synaptic and nuclear regulations."
+          "reference": "doi:10.1038/s41398-024-02744-y"
         },
         {
           "target": "AMPA",
           "readout": "synaptic potentiation (mEPSC)",
           "species": "rat",
           "cell_system": "hippocampal slices",
-          "reference": "doi:10.1038/nature17998",
-          "notes": "Zanos 2016: (2R,6R)-HNK potentiates AMPA via presynaptic mechanism. AMPA blockade by NBQX abolishes antidepressant effect."
+          "reference": "doi:10.1038/nature17998"
         }
       ],
       "biased_agonism": [],
@@ -942,8 +880,7 @@
           "route": "oral",
           "bioavailability_pct": null,
           "half_life_min": null,
-          "reference": "NCT04711005",
-          "notes": "NIH Phase 1 single ascending dose study (Zarate group); preliminary data shows oral bioavailability adequate for therapeutic exposure"
+          "reference": "NCT04711005"
         }
       ],
       "concentration_effect": []
@@ -989,7 +926,6 @@
       "Definitive mechanism (α7 vs mGlu2 controversy)",
       "Human efficacy Phase 2"
     ],
-    "notes": "Major mechanism controversy. Zarate/Gould (NIH) push α7-nAChR + AMPA mechanism (Zanos 2016 Nature, Marcantoni 2024 Transl Psychiatry). Moaddel 2013 originally claimed NMDA antagonism but Suzuki 2017 PNAS showed no NMDA block at antidepressant-relevant doses. Different from parent ketamine — should NOT be tagged NMDA-antagonist.",
     "references_consulted": [
       "doi:10.1038/nature17998",
       "doi:10.1073/pnas.1816071116",
@@ -1017,8 +953,7 @@
           "ic50_nm": 100000,
           "action": "channelBlocker",
           "species": "rat",
-          "reference": "doi:10.1038/nature17998",
-          "notes": "Essentially inactive at NMDA"
+          "reference": "doi:10.1038/nature17998"
         }
       ],
       "functional": [
@@ -1027,8 +962,7 @@
           "readout": "calcium flux",
           "species": "human",
           "cell_system": "expressed α7",
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to doi:10.1124/jpet.112.198887, which is cardiac late-sodium-current inhibitors. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. DHNK is a negative allosteric modulator of α7-nAChR at low μM; opposite direction to HNK"
+          "reference": null
         }
       ],
       "biased_agonism": [],
@@ -1067,7 +1001,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Major terminal metabolite of ketamine; long half-life (~12 h). Plasma DHNK is a marker of chronic ketamine exposure.",
     "references_consulted": [
       "doi:10.1038/nature17998",
       "doi:10.1124/jpet.112.198887"
@@ -1100,7 +1033,6 @@
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
           "is_review": false,
-          "notes": "Roth 2013. Range across literature 59-250 nM; PCP is reference parent compound",
           "comparable_set": "roth-2013-rat-nmda"
         },
         {
@@ -1111,7 +1043,6 @@
           "tissue_or_cell": "rat brain",
           "radioligand_or_probe": "[3H](+)-pentazocine",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "Ki >10,000 nM in Roth 2013",
           "comparable_set": "roth-2013-rat-transporter"
         },
         {
@@ -1120,7 +1051,6 @@
           "action": "reuptakeInhibitor",
           "species": "human",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "Ki >10,000 nM in direct binding; functional DA-releasing effects may involve allosteric sites",
           "comparable_set": "roth-2013-human-transporter"
         }
       ],
@@ -1145,8 +1075,7 @@
           "half_life_min": 1800,
           "vd_l_per_kg": 6.2,
           "protein_binding_pct": 65,
-          "reference": "pmid:6391896",
-          "notes": "Cook 1982; t½ 1-3 days, mean ~21 h. Vd highly variable due to lipophilicity."
+          "reference": "pmid:6391896"
         },
         {
           "route": "oral",
@@ -1162,8 +1091,7 @@
           "concentration_unit": "ng/mL",
           "threshold": 10,
           "peak_effect": 100,
-          "reference": "pmid:6391896",
-          "notes": "Coma/death typically >200 ng/mL plasma"
+          "reference": "pmid:6391896"
         }
       ]
     },
@@ -1221,7 +1149,6 @@
     "tags_to_remove": [],
     "confidence": "high",
     "data_gaps_remaining": [],
-    "notes": "Originally Parke-Davis Sernyl (1956); withdrawn from human use 1965 due to emergence delirium. Schedule II in US. Roth 2013 found PCP highly selective NMDA+σ2 with weak DAT/σ1. Two binding poses at PCP site (Zhang 2021 Nature, doi:10.1038/s41586-021-03769-9) explain SAR discrepancies across the class.",
     "references_consulted": [
       "doi:10.1371/journal.pone.0059334",
       "pmid:6391896",
@@ -1255,7 +1182,6 @@
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
           "is_review": false,
-          "notes": "Roth 2013. Among the most potent NMDA antagonists in the arylcyclohexylamine class — ~3× more potent than PCP, ~30× more than ketamine.",
           "comparable_set": "roth-2013-rat-nmda"
         },
         {
@@ -1267,7 +1193,6 @@
           "radioligand_or_probe": "[3H](+)-pentazocine",
           "reference": "doi:10.1371/journal.pone.0059334",
           "is_review": false,
-          "notes": "Some sources cite 436 nM. The high σ1 affinity (42 nM if accurate) at clinically achievable concentrations may explain the distinctive agitation/psychosis profile.",
           "comparable_set": "roth-2013-guinea-pig-transporter"
         },
         {
@@ -1276,7 +1201,6 @@
           "action": "modulator",
           "species": "rat",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "Ki >10,000 nM",
           "comparable_set": "roth-2013-rat-transporter"
         },
         {
@@ -1303,8 +1227,7 @@
           "bioavailability_pct": null,
           "tmax_min": 90,
           "half_life_min": 660,
-          "reference": "doi:10.1080/20961790.2021.1928821",
-          "notes": "Estimated t½ 10-11 h from case reports; no controlled PK studies in humans"
+          "reference": "doi:10.1080/20961790.2021.1928821"
         },
         {
           "route": "insufflation",
@@ -1319,8 +1242,7 @@
           "concentration_unit": "ng/mL",
           "threshold": 50,
           "peak_effect": 3525,
-          "reference": "doi:10.1080/20961790.2021.1928821",
-          "notes": "Fatal range 50-3,525 ng/mL femoral blood (Bakota 2016, Chatterton 2017, Allard 2021)"
+          "reference": "doi:10.1080/20961790.2021.1928821"
         }
       ]
     },
@@ -1329,8 +1251,7 @@
         "enzyme": "CYP-mediated O-demethylation + N-dealkylation",
         "metabolite_name": "3-OH-PCP",
         "metabolite_active": true,
-        "reference": "doi:10.1080/20961790.2021.1928821",
-        "notes": "Major metabolite is the 3-hydroxy demethylation product (3-OH-PCP), itself an NMDA antagonist and μ-opioid agonist"
+        "reference": "doi:10.1080/20961790.2021.1928821"
       }
     ],
     "drug_interactions_pk": [],
@@ -1348,8 +1269,7 @@
         "3-MeO-PCE"
       ],
       "withdrawal_syndrome": "Psychological dependence; agitation/psychosis on cessation in heavy users",
-      "reference": null,
-      "notes": "Citation removed: this value was attributed to doi:10.1016/j.forsciint.2017.02.022, which is GHB cut-offs in biological samples. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified."
+      "reference": null
     },
     "off_targets": [
       {
@@ -1378,7 +1298,6 @@
       "σ1 Ki discrepancy (42 vs 436 nM)",
       "controlled human PK"
     ],
-    "notes": "Distinct clinical profile from MXE and ketamine — much higher agitation/mania/psychosis risk plus narrow therapeutic window. Multiple fatalities (Chatterton 2017 reported 7 deaths in Sweden 2014-2016). The combination of very high NMDA affinity, σ1 agonism, and SERT inhibition is essentially unique in the class.",
     "references_consulted": [
       "doi:10.1371/journal.pone.0059334",
       "doi:10.1080/20961790.2021.1928821",
@@ -1412,7 +1331,6 @@
           "tissue_or_cell": "rat forebrain",
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "Roth 2013. Lower NMDA affinity than 3-MeO isomer (20 nM) and lower than PCP (59 nM) — 4-position substitution disfavored at PCP site. PsychonautWiki cites 20 nM but Roth's reported value is 404 nM.",
           "comparable_set": "roth-2013-rat-nmda"
         },
         {
@@ -1431,7 +1349,6 @@
           "species": "rat",
           "radioligand_or_probe": "[3H]DTG",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "Notable σ2 activity",
           "comparable_set": "roth-2013-rat-transporter"
         },
         {
@@ -1494,7 +1411,6 @@
     "data_gaps_remaining": [
       "human PK"
     ],
-    "notes": "Para-methoxy substitution → reduced NMDA affinity vs meta-methoxy (3-MeO-PCP); ~20× less potent at NMDA than 3-MeO isomer per Roth 2013 — opposite of what's often claimed in casual references. Often considered the 'gentlest' of the methoxy-PCP series.",
     "references_consulted": [
       "doi:10.1371/journal.pone.0059334"
     ]
@@ -1529,7 +1445,6 @@
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
           "is_review": false,
-          "notes": "Roth 2013 reported 259 ± 76 nM (some texts cite 337). ~3× higher NMDA affinity than ketamine.",
           "comparable_set": "roth-2013-rat-nmda"
         },
         {
@@ -1541,7 +1456,6 @@
           "tissue_or_cell": "HEK293 expressing hSERT",
           "radioligand_or_probe": "[125I]RTI-55",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "S-(+)-MXE Ki 320 nM, R-(-)-MXE Ki 510 nM. Confirmed functional SERT inhibitor (Hondebrink 2017).",
           "comparable_set": "roth-2013-human-transporter"
         },
         {
@@ -1568,7 +1482,6 @@
           "action": "agonist",
           "species": "guinea pig",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "Ki >10,000 nM — surprisingly weak vs 3-MeO-PCP (42 nM)",
           "comparable_set": "roth-2013-guinea-pig-transporter"
         },
         {
@@ -1595,8 +1508,7 @@
           "ec50_nm": null,
           "species": "rat",
           "cell_system": "in vivo",
-          "reference": "pmid:34384790",
-          "notes": "Marti et al. 2021: MXE behavioral effects (motor facilitation, visual sensory inhibition, PPI disruption) attenuated by the 5-HT2 antagonists ketanserin and MDL 100907; in vivo microdialysis showed MXE alters 5-HT in medial prefrontal cortex and nucleus accumbens"
+          "reference": "pmid:34384790"
         }
       ],
       "biased_agonism": [],
@@ -1611,8 +1523,7 @@
           "bioavailability_pct": null,
           "tmax_min": 90,
           "half_life_min": 270,
-          "reference": "doi:10.1002/dta.1881",
-          "notes": "Hill 2012; t½ ~3-6 h"
+          "reference": "doi:10.1002/dta.1881"
         },
         {
           "route": "insufflation",
@@ -1667,7 +1578,6 @@
       "controlled human PK",
       "long-term cystitis incidence"
     ],
-    "notes": "Most-studied of the post-2010 RC dissociatives. Combination of high-affinity NMDA blockade (Ki 259 nM) + SERT inhibition (Ki 481 nM) is the canonical 2'-oxo + 3-methoxy + N-ethyl pharmacophore. Designed by Lee 2010 (UK patent) as a putative analgesic.",
     "references_consulted": [
       "doi:10.1371/journal.pone.0059334",
       "doi:10.1002/dta.1881",
@@ -1698,8 +1608,7 @@
           "species": "rat",
           "tissue_or_cell": "recombinant NMDA",
           "radioligand_or_probe": "patch-clamp",
-          "reference": null,
-          "notes": "Bonaventura 2022 / Wallach group; IC50 ~0.68 μM. Less potent than MXE despite structural similarity."
+          "reference": null
         }
       ],
       "functional": [],
@@ -1742,7 +1651,6 @@
       "σ1, SERT, μ-opioid binding profiles",
       "human PK"
     ],
-    "notes": "Methyl analogue of MXE (3-methyl in place of 3-methoxy). Sold post-2020 as MXE replacement. The 3-methyl substituent loses H-bonding capacity vs methoxy → expected reduction in NMDA affinity, consistent with IC50 679 nM.",
     "references_consulted": [
       "doi:10.3390/molecules27227938"
     ]
@@ -1799,7 +1707,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Identical to DMXE; input list has both names — Piru should dedup.",
     "references_consulted": []
   },
   {
@@ -1824,8 +1731,7 @@
           "tissue_or_cell": "recombinant human GluN1/GluN2B in HEK293",
           "radioligand_or_probe": "patch-clamp",
           "reference": "doi:10.1111/bph.15680",
-          "is_review": false,
-          "notes": "Štefková-Mazochová 2022. Comparable to ketamine; S-DCK ~3× more potent than R-DCK in inhibition of NMDA currents."
+          "is_review": false
         }
       ],
       "functional": [
@@ -1849,8 +1755,7 @@
           "route": "oral",
           "tmax_min": 60,
           "half_life_min": 360,
-          "reference": "PsychonautWiki / case reports",
-          "notes": "User-reported t½ longer than ketamine (~4-6 h vs 2-3 h); no controlled studies"
+          "reference": "PsychonautWiki / case reports"
         }
       ],
       "concentration_effect": []
@@ -1894,7 +1799,6 @@
       "controlled human PK",
       "cystitis incidence"
     ],
-    "notes": "Removal of 2-chloro from ketamine — gives slower CYP metabolism and longer subjective duration. Štefková-Mazochová 2022 is the only published rigorous PK/PD study (rats).",
     "references_consulted": [
       "doi:10.1111/bph.15680"
     ]
@@ -1918,8 +1822,7 @@
           "ki_nm": null,
           "action": "channelBlocker",
           "species": null,
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to doi:10.1016/j.forsciint.2021.110815, which is trace elements in lung for seawater-drowning diagnosis. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. No formal Ki measurement published as of 2024. Assumed similar to ketamine (Ki ~600 nM) based on F-for-Cl bioisostere logic."
+          "reference": null
         }
       ],
       "functional": [],
@@ -1933,8 +1836,7 @@
         {
           "route": "insufflation",
           "half_life_min": null,
-          "reference": "pmid:38619360",
-          "notes": "Analytically confirmed in fatal and non-fatal cases (blood 457-5885 ug/L; hair up to ~80 ng/mg), with nor-2-FDCK and dihydro metabolites; insufflation is the predominant reported route, but no published route-specific dose-response or PK data exist."
+          "reference": "pmid:38619360"
         }
       ],
       "concentration_effect": []
@@ -1950,8 +1852,7 @@
         "enzyme": "CYP",
         "metabolite_name": "dehydronor-2F-DCK",
         "metabolite_active": false,
-        "reference": "pmid:34515415",
-        "notes": "Major metabolite identified in vivo (Theofel 2021)"
+        "reference": "pmid:34515415"
       }
     ],
     "drug_interactions_pk": [],
@@ -1983,7 +1884,6 @@
       "formal Ki measurements",
       "controlled human PK"
     ],
-    "notes": "F-for-Cl bioisostere of ketamine. Multiple fatalities documented (Theofel 2024 doi:10.1093/jat/bkae003, Pelletier 2024 doi:10.1016/j.forsciint.2024). WHO ECDD critical review 2023 recommended scheduling.",
     "references_consulted": [
       "pmid:34515415",
       "doi:10.1016/j.forsciint.2021.110815"
@@ -2016,7 +1916,6 @@
           "radioligand_or_probe": "[3H]MK-801",
           "reference": "doi:10.1371/journal.pone.0059334",
           "is_review": false,
-          "notes": "Roth 2013. ~3× lower NMDA potency than 3-MeO-PCP (20 nM); piperidine → N-ethyl loss of one ring lowers affinity.",
           "comparable_set": "roth-2013-rat-nmda"
         },
         {
@@ -2025,7 +1924,6 @@
           "action": "agonist",
           "species": "guinea pig",
           "reference": "doi:10.1371/journal.pone.0059334",
-          "notes": "Approximate; Roth reports 'appreciable σ1 affinity'",
           "comparable_set": "roth-2013-guinea-pig-transporter"
         }
       ],
@@ -2040,8 +1938,7 @@
         {
           "route": "insufflation",
           "half_life_min": null,
-          "reference": null,
-          "notes": "Citation removed: this value was attributed to doi:10.1016/j.forsciint.2021.110815, which is trace elements in lung for seawater-drowning diagnosis. Verified against PubMed/Crossref in the 2026-08-01 topicality audit. The number is retained but is now unsourced — treat as unverified. Implicated in fatalities along with 2F-DCK"
+          "reference": null
         }
       ],
       "concentration_effect": []
@@ -2079,7 +1976,6 @@
       "formal σ1 Ki",
       "human PK"
     ],
-    "notes": "Non-keto analogue of MXE; shares 3-methoxy substitution but lacks the 2'-oxo group. Has the same agitation/psychosis liability as 3-MeO-PCP per case reports.",
     "references_consulted": [
       "doi:10.1371/journal.pone.0059334",
       "doi:10.1016/j.forsciint.2021.110815"
@@ -2144,7 +2040,6 @@
       "human PK",
       "SAR vs MXE"
     ],
-    "notes": "N-methyl analogue of MXE (N-methyl instead of N-ethyl). Predicted similar NMDA affinity (200-400 nM) and SERT activity but no published binding data.",
     "references_consulted": []
   },
   {
@@ -2207,7 +2102,6 @@
       "σ1 binding",
       "human PK"
     ],
-    "notes": "Eticyclidone. No published binding data; speculated NMDA Ki 100-400 nM based on structural homology.",
     "references_consulted": []
   },
   {
@@ -2262,7 +2156,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Same compound as O-PCE.",
     "references_consulted": []
   },
   {
@@ -2290,16 +2183,14 @@
           "tissue_or_cell": "rat striatum",
           "radioligand_or_probe": "[3H]BTCP autoradiography",
           "reference": "pmid:1681444",
-          "is_review": false,
-          "notes": "Vignon 1988; IC50 7-8 nM for DA uptake. ~50× selectivity over SERT/NET."
+          "is_review": false
         },
         {
           "target": "NMDA (MK-801 site)",
           "ki_nm": 6000,
           "action": "channelBlocker",
           "species": "rat",
-          "reference": "pmid:3384005",
-          "notes": "Essentially inactive at NMDA — BTCP is a 'PCP without NMDA activity'"
+          "reference": "pmid:3384005"
         }
       ],
       "functional": [],
@@ -2318,8 +2209,7 @@
         "metabolite_name": "hydroxy-BTCP",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": 50,
-        "reference": "doi:10.1021/jm970078z",
-        "notes": "Two active hydroxylated metabolites bind DAT with Ki within 2× of parent"
+        "reference": "doi:10.1021/jm970078z"
       }
     ],
     "drug_interactions_pk": [],
@@ -2354,7 +2244,6 @@
     "data_gaps_remaining": [
       "human PK (no human studies)"
     ],
-    "notes": "Atypical arylcyclohexylamine — replacing the phenyl with benzothiophene shifts pharmacology entirely from NMDA blockade to DAT inhibition. Behaviorally cocaine-like, not PCP-like. Tag 'NMDA-antagonist' is wrong.",
     "references_consulted": [
       "pmid:1681444",
       "doi:10.1021/jm970078z",
@@ -2382,8 +2271,7 @@
           "species": "rat",
           "tissue_or_cell": "rat striatum",
           "radioligand_or_probe": "[3H]BTCP",
-          "reference": "doi:10.1021/jm970078z",
-          "notes": "Hydroxylated BTCP metabolite; retains DAT affinity within 2× of parent"
+          "reference": "doi:10.1021/jm970078z"
         }
       ],
       "functional": [],
@@ -2424,7 +2312,6 @@
     ],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Hydroxylated BTCP metabolite. Like parent, DAT-selective; not an NMDA blocker.",
     "references_consulted": [
       "doi:10.1021/jm970078z"
     ]
@@ -2448,8 +2335,7 @@
           "ki_nm": null,
           "action": "channelBlocker",
           "species": null,
-          "reference": null,
-          "notes": "No published Ki value identified in literature search."
+          "reference": null
         }
       ],
       "functional": [],
@@ -2467,8 +2353,7 @@
         "enzyme": "CYP",
         "metabolite_name": "nor-tiletamine",
         "metabolite_active": true,
-        "reference": "pmid:24020890",
-        "notes": "Kumar 2014: marked species differences in metabolism. Pig liver microsomes show different pathways than human."
+        "reference": "pmid:24020890"
       }
     ],
     "drug_interactions_pk": [],
@@ -2500,7 +2385,6 @@
       "NMDA Ki",
       "human PK"
     ],
-    "notes": "Veterinary dissociative; component of Telazol (with zolazepam, 1:1). No published human PK or human Ki binding studies.",
     "references_consulted": [
       "pmid:24020890",
       "pmid:17083465"
@@ -2556,7 +2440,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "Research-chemical N-methyl variant of tiletamine. No published binding or PK data.",
     "references_consulted": []
   },
   {
@@ -2578,8 +2461,7 @@
           "ki_nm": null,
           "action": "channelBlocker",
           "species": null,
-          "reference": null,
-          "notes": "PCPy is the pyrrolidine analogue of PCP; binds the PCP site. Roth 2013 did not include rolicyclidine. No quantitative Ki published; estimated similar potency to PCP based on classical SAR papers from 1970s (Maddox 1965)."
+          "reference": null
         }
       ],
       "functional": [],
@@ -2624,7 +2506,6 @@
       "formal Ki",
       "human PK"
     ],
-    "notes": "Synthesized in 1958 (Maddox/Parke-Davis). Never developed clinically. Schedule I in US.",
     "references_consulted": []
   },
   {
@@ -2676,7 +2557,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Cross-reference: see the original 3-MeO-PCE record (Ki 61 nM NMDA, Roth 2013). Same compound, distinct input list entry.",
     "references_consulted": [
       "doi:10.1371/journal.pone.0059334"
     ]
@@ -2738,7 +2618,6 @@
       "human PK",
       "σ1 binding"
     ],
-    "notes": "Two entries in input list (3-F-PCP and 3-Fluoro-PCP refer to the same compound). No published binding data; estimated potency similar to or greater than PCP.",
     "references_consulted": []
   },
   {
@@ -2791,7 +2670,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Same compound as 3-Fluoro-PCP.",
     "references_consulted": []
   },
   {
@@ -2847,7 +2725,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "Emerging 2020s research chemical. Cases of intoxication documented but no published binding data.",
     "references_consulted": []
   },
   {
@@ -2903,7 +2780,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "Pyrrolidine + 3-methyl analogue. No published binding data.",
     "references_consulted": []
   },
   {
@@ -2958,7 +2834,6 @@
     "data_gaps_remaining": [
       "formal Ki"
     ],
-    "notes": "Morpholine N-replacement of 3-MeO-PCP. Wallach group has reported the PCMo series shows ~10× lower NMDA affinity than the piperidine series.",
     "references_consulted": [
       "doi:10.1021/acschemneuro.7b00269"
     ]
@@ -3016,7 +2891,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published binding data.",
     "references_consulted": []
   },
   {
@@ -3071,7 +2945,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published binding data.",
     "references_consulted": []
   },
   {
@@ -3131,7 +3004,6 @@
     "data_gaps_remaining": [
       "formal MOR/KOR/NMDA Ki"
     ],
-    "notes": "3-HO-PCE is the N-ethyl analogue of 3-HO-PCP. Critical safety concern: 3-OH substitution at meta of arylcyclohexylamines confers μ-opioid agonism — major overdose risk (respiratory depression) when combined with NMDA blockade dissociation.",
     "references_consulted": []
   },
   {
@@ -3188,7 +3060,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "Same as Bromoketamine record.",
     "references_consulted": []
   },
   {
@@ -3241,7 +3112,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Same compound as 2-Bromodeschloroketamine.",
     "references_consulted": []
   },
   {
@@ -3296,7 +3166,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Name is a contradiction. May refer to ketamine or to a different positional isomer per black-market vendor naming.",
     "references_consulted": []
   },
   {
@@ -3354,7 +3223,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "Possibly equivalent to Canket / Fluorexetamine — name overlaps with these in marketplace usage.",
     "references_consulted": []
   },
   {
@@ -3409,7 +3277,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "Same as Methoxyketamine record.",
     "references_consulted": []
   },
   {
@@ -3464,7 +3331,6 @@
     "tags_to_remove": [],
     "confidence": "low",
     "data_gaps_remaining": [],
-    "notes": "Same compound as 2-MeO-Ketamine.",
     "references_consulted": []
   },
   {
@@ -3522,7 +3388,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published binding data.",
     "references_consulted": []
   },
   {
@@ -3577,7 +3442,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "N-substitution variant of ketamine. Abelian 2024 β-keto SAR paper (cited in task brief) covers N-alkyl variants but specific value not captured here.",
     "references_consulted": []
   },
   {
@@ -3632,7 +3496,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published data.",
     "references_consulted": []
   },
   {
@@ -3687,7 +3550,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published data.",
     "references_consulted": []
   },
   {
@@ -3742,7 +3604,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published data.",
     "references_consulted": []
   },
   {
@@ -3797,7 +3658,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "Likely deoxy analogue of methoxmetamine. No published data.",
     "references_consulted": []
   },
   {
@@ -3823,8 +3683,7 @@
           "ec50_nm": null,
           "species": "rat",
           "cell_system": "in vivo",
-          "reference": "doi:10.1007/s00213-019-05219-x",
-          "notes": "Han 2019: NENK, 2-MeO-NEK, 4-MeO-NEK produce rapid antidepressant-like effects via AMPA + 5-HT2 receptor activation. NENK = ethketamine."
+          "reference": "doi:10.1007/s00213-019-05219-x"
         }
       ],
       "biased_agonism": [],
@@ -3868,7 +3727,6 @@
       "formal NMDA Ki",
       "human PK"
     ],
-    "notes": "Same as Ethylketamine record. Han 2019 (Psychopharmacology) showed antidepressant activity at lower doses than ketamine in rodents via 5-HT2-dependent mechanism.",
     "references_consulted": [
       "doi:10.1007/s00213-019-05219-x"
     ]
@@ -3928,7 +3786,6 @@
     "tags_to_remove": [],
     "confidence": "medium",
     "data_gaps_remaining": [],
-    "notes": "Same compound as Ethketamine.",
     "references_consulted": [
       "doi:10.1007/s00213-019-05219-x"
     ]
@@ -3954,8 +3811,7 @@
           "ki_nm": null,
           "action": "channelBlocker",
           "species": null,
-          "reference": null,
-          "notes": "No formal Ki published. Expected affinity similar to MXE (~300 nM) based on F-for-MeO bioisostere logic in the 3-position (smaller F → less H-bonding → likely modestly lower NMDA affinity)."
+          "reference": null
         }
       ],
       "functional": [],
@@ -3996,7 +3852,6 @@
     "data_gaps_remaining": [
       "formal Ki"
     ],
-    "notes": "Note alias collision: the name 'Fluorexetamine' has been used for both 3-F-MXE-like compounds and 2'-F-MXE — verify identity per source. Canket entry covers the 2'-F variant.",
     "references_consulted": []
   },
   {
@@ -4052,7 +3907,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "2'-Fluoro-2-Oxo-PCE. Marketplace identity ambiguous — sometimes called 'Canberra ketamine'. The name 'Fluorexetamine' overlaps with this and with 3-F-2-oxo-PCE.",
     "references_consulted": []
   },
   {
@@ -4115,7 +3969,6 @@
     "data_gaps_remaining": [
       "formal MOR/NMDA Ki"
     ],
-    "notes": "3-Hydroxy MXE analogue. Major safety concern: meta-OH arylcyclohexylamines (3-HO-PCP, 3-HO-PCE) have shown high μ-opioid affinity, raising respiratory depression risk uncharacteristic of pure NMDA antagonists.",
     "references_consulted": []
   },
   {
@@ -4170,7 +4023,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published data.",
     "references_consulted": []
   },
   {
@@ -4223,7 +4075,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published data.",
     "references_consulted": []
   },
   {
@@ -4280,7 +4131,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published data.",
     "references_consulted": []
   },
   {
@@ -4338,7 +4188,6 @@
     "data_gaps_remaining": [
       "formal Ki"
     ],
-    "notes": "Theoretically the highest-affinity NMDA antagonist in the class per SAR analysis (combines 3-MeO from 3-MeO-PCP and 2'-oxo from ketamine, with piperidine).",
     "references_consulted": []
   },
   {
@@ -4393,7 +4242,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published data.",
     "references_consulted": []
   },
   {
@@ -4446,7 +4294,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published data.",
     "references_consulted": []
   },
   {
@@ -4501,7 +4348,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published data.",
     "references_consulted": []
   },
   {
@@ -4556,7 +4402,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published data.",
     "references_consulted": []
   },
   {
@@ -4611,7 +4456,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published data.",
     "references_consulted": []
   },
   {
@@ -4666,7 +4510,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published data.",
     "references_consulted": []
   },
   {
@@ -4728,7 +4571,6 @@
       "formal Ki",
       "human PK"
     ],
-    "notes": "Hybrid of PCP scaffold + ketamine-style β-keto. No formal binding data.",
     "references_consulted": [
       "doi:10.1038/s41586-021-03769-9"
     ]
@@ -4786,7 +4628,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published data.",
     "references_consulted": []
   },
   {
@@ -4843,7 +4684,6 @@
     "data_gaps_remaining": [
       "all pharmacology"
     ],
-    "notes": "No published data.",
     "references_consulted": []
   },
   {
