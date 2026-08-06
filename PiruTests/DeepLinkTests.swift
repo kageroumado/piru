@@ -447,6 +447,52 @@ struct DeepLinkTests {
         #expect(outcome.tab == .library)
         #expect(outcome.sheet == .quickLog(routine: nil))
     }
+
+    // MARK: - Inventory deep links (restock action)
+
+    @Test
+    func `piru://inventory/<uuid> opens the inventory item form on the Tools tab`() {
+        let id = UUID()
+        let outcome = decode("piru://inventory/\(id.uuidString)")
+        #expect(outcome?.tab == .tools)
+        #expect(outcome?.sheet == .inventoryItemForm(id: id))
+    }
+
+    @Test
+    func `piru://inventory with no id opens a new inventory item form`() {
+        let outcome = decode("piru://inventory")
+        #expect(outcome?.tab == .tools)
+        #expect(outcome?.sheet == .inventoryItemForm(id: nil))
+    }
+
+    @Test
+    func `piru://inventory with a malformed UUID returns nil`() {
+        #expect(decode("piru://inventory/not-a-uuid") == nil)
+    }
+
+    @Test
+    func `Inventory item form round-trips through encode → decode`() {
+        let id = UUID()
+        let snap = NavigatorSnapshot(
+            selectedTab: .tools,
+            sheetStack: [.inventoryItemForm(id: id)],
+        )
+        guard let url = DeepLink.encode(snap), let outcome = DeepLink.decode(url) else {
+            Issue.record("Expected encode+decode to succeed")
+            return
+        }
+        #expect(outcome.tab == .tools)
+        #expect(outcome.sheet == .inventoryItemForm(id: id))
+    }
+
+    @Test
+    func `Inventory item form with prefill encodes to nil`() {
+        let snap = NavigatorSnapshot(
+            selectedTab: .tools,
+            sheetStack: [.inventoryItemForm(id: nil, prefillSubstance: "Adderall")],
+        )
+        #expect(DeepLink.encode(snap) == nil)
+    }
 }
 
 // MARK: - Helpers

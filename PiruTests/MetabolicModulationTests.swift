@@ -17,7 +17,7 @@ struct MetabolicModulationTests {
             metabolitePotencyBasis: nil, metabolitePotencyTarget: nil,
             metaboliteMechanismVsParent: .unknown,
             metaboliteHalfLifeMinutes: nil, formationFractionPct: nil,
-            sourceSlug: "test", doi: nil, pmid: nil, notes: nil,
+            route: nil, sourceSlug: "test", doi: nil, pmid: nil, notes: nil,
         )
     }
 

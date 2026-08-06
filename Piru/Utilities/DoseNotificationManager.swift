@@ -32,7 +32,7 @@ enum DoseNotificationManager {
     /// action — marks the occurrences skipped and cancels the remaining
     /// re-asks *without launching the UI*, so dismissing a nag is
     /// friction-free). Comedown and next-dose get **View Timeline**.
-    /// Inventory's Restock action waits on an inventory deep-link route.
+    /// Inventory gets **Restock** (opens the item's form via deep link).
     static func registerCategories() {
         let log = UNNotificationAction(
             identifier: logActionID,
@@ -49,6 +49,11 @@ enum DoseNotificationManager {
             title: String(localized: "View Timeline"),
             options: [.foreground],
         )
+        let restock = UNNotificationAction(
+            identifier: restockActionID,
+            title: String(localized: "Restock"),
+            options: [.foreground],
+        )
 
         var categories: Set<UNNotificationCategory> = []
         for identifier in [routineCategoryID, routineFollowUpCategoryID] {
@@ -61,12 +66,14 @@ enum DoseNotificationManager {
                 identifier: identifier, actions: [viewTimeline], intentIdentifiers: [], options: [],
             ))
         }
+        categories.insert(UNNotificationCategory(
+            identifier: inventoryCategoryID, actions: [restock], intentIdentifiers: [], options: [],
+        ))
         for identifier in [
             RampDownScheduler.hydrationCategoryID,
             RampDownScheduler.sleepCategoryID,
             RampDownScheduler.cumulativeCategoryID,
             RampDownScheduler.phaseCategoryID,
-            inventoryCategoryID,
         ] {
             categories.insert(UNNotificationCategory(
                 identifier: identifier, actions: [], intentIdentifiers: [], options: [],
@@ -83,6 +90,7 @@ enum DoseNotificationManager {
     nonisolated static let logActionID = "piru.action.log"
     nonisolated static let skipTodayActionID = "piru.action.skipToday"
     nonisolated static let viewTimelineActionID = "piru.action.viewTimeline"
+    nonisolated static let restockActionID = "piru.action.restock"
 
     // MARK: - Dose lifecycle
 
@@ -826,6 +834,7 @@ enum DoseNotificationManager {
         content.sound = .default
         content.categoryIdentifier = inventoryCategoryID
         content.threadIdentifier = inventoryThreadIdentifier
+        content.userInfo = [deepLinkUserInfoKey: "\(DeepLink.scheme)://inventory/\(itemID.uuidString)"]
         UNUserNotificationCenter.current().add(UNNotificationRequest(
             identifier: inventoryNotificationIdentifier(itemID),
             content: content,
@@ -913,7 +922,8 @@ final class DoseNotificationDelegate: NSObject, UNUserNotificationCenterDelegate
             // land at the notification's deep link; dismissals do nothing.
             case UNNotificationDefaultActionIdentifier,
                  DoseNotificationManager.logActionID,
-                 DoseNotificationManager.viewTimelineActionID:
+                 DoseNotificationManager.viewTimelineActionID,
+                 DoseNotificationManager.restockActionID:
                 guard let link,
                       let url = URL(string: link),
                       let outcome = DeepLink.decode(url)

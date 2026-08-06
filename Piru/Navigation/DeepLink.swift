@@ -30,6 +30,10 @@ import Foundation
 /// **Medication sheets**:
 /// - `piru://meds/<category>` → present `.dailyDoseLog(category:)`
 ///
+/// **Inventory sheets**:
+/// - `piru://inventory/<uuid>` → present `.inventoryItemForm(id:)` (restock)
+/// - `piru://inventory` → present `.inventoryItemForm(id: nil)` (new item)
+///
 /// **Push destinations** (replace the target tab's stack):
 /// - `piru://tool/<name>` → Tools tab, push that tool full-screen. `<name>`
 ///   matches a `Tool` raw value case-insensitively (`tolerance`, `ceiling`,
@@ -132,6 +136,19 @@ nonisolated enum DeepLink {
             return DeepLinkOutcome(
                 tab: overrideTab ?? .journal,
                 sheet: .dailyDoseLog(category: category),
+            )
+
+        case "inventory":
+            if let segment = pathSegments.first {
+                guard let id = UUID(uuidString: segment) else { return nil }
+                return DeepLinkOutcome(
+                    tab: overrideTab ?? .tools,
+                    sheet: .inventoryItemForm(id: id),
+                )
+            }
+            return DeepLinkOutcome(
+                tab: overrideTab ?? .tools,
+                sheet: .inventoryItemForm(id: nil),
             )
 
         case "tool":
@@ -301,6 +318,15 @@ nonisolated enum DeepLink {
             components.host = "meds"
             components.path = "/\(category)"
 
+        case let .inventoryItemForm(id, prefillSubstance, prefillSalt):
+            if prefillSubstance != nil || prefillSalt != nil {
+                return nil
+            }
+            components.host = "inventory"
+            if let id {
+                components.path = "/\(id.uuidString)"
+            }
+
         case .onboarding,
              .entryEdit,
              .dailyDoseSettings,
@@ -316,9 +342,7 @@ nonisolated enum DeepLink {
              .sourcePriority,
              .doseSources,
              .advancedSearch,
-             .inventoryItemForm,
              .inventoryItemEdit:
-            // Not represented as deep links — these are app-internal flows.
             return nil
         }
 
