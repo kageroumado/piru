@@ -8,5 +8,6 @@ struct PiruWidgetBundle: WidgetBundle {
         TodaySummaryWidget()
         RecentDoseWidget()
         InventoryWidget()
+        NextDoseWidget()
     }
 }

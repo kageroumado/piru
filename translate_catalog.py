@@ -6053,6 +6053,11 @@ WT = {
         "查看今天的用药安排，并直接从主屏幕完成服用。",
         "查看今天的用藥安排，並直接從主畫面完成服用。",
     ),
+    "Next Dose": ("下一剂", "下一劑"),
+    "Countdown to your next scheduled med.": (
+        "距离下一次计划用药的倒计时。",
+        "距離下一次計畫用藥的倒計時。",
+    ),
     "See how much you have left of what you track.": (
         "查看你追踪的物品还剩多少。",
         "查看你追蹤的物品還剩多少。",
