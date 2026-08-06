@@ -11188,6 +11188,9 @@
         }
       }
     },
+    "Bliss" : {
+
+    },
     "Blocks 5-HT₂A while weakly inhibiting serotonin reuptake. The receptor block dominates at low doses, which is why trazodone reached far more people as a sleep drug than as an antidepressant." : {
       "localizations" : {
         "zh-Hans" : {
@@ -13807,6 +13810,9 @@
         }
       }
     },
+    "Combinations" : {
+
+    },
     "Combine repeat doses of the same substance into a single curve, where each redose adds to the combined intensity. When off, each dose is drawn as its own line." : {
       "localizations" : {
         "zh-Hans" : {
@@ -15153,6 +15159,9 @@
         }
       }
     },
+    "Craving" : {
+
+    },
     "Create \"%@\"" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -15865,6 +15874,9 @@
           }
         }
       }
+    },
+    "Danger" : {
+
     },
     "Dangerous" : {
       "localizations" : {
@@ -22046,6 +22058,9 @@
         }
       }
     },
+    "Faint" : {
+
+    },
     "Faint dots are other compounds measured on the same basis — each in its own study, drawn for scale." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -23982,6 +23997,9 @@
         }
       }
     },
+    "Guideline: %@" : {
+
+    },
     "H-bond acceptors" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24669,6 +24687,24 @@
           }
         }
       }
+    },
+    "Higher is more pleasure" : {
+
+    },
+    "Higher is more pleasure. The opioid warmth signal — fades with tolerance." : {
+
+    },
+    "Higher is more pleasure. The opioid warmth signal." : {
+
+    },
+    "Higher is more pull" : {
+
+    },
+    "Higher is more pull. The rush and craving signal — can grow with repeated use even as the high fades." : {
+
+    },
+    "Higher is more pull. The rush and craving signal." : {
+
     },
     "Higher-priority sources that don't list this field are skipped." : {
       "localizations" : {
@@ -27904,6 +27940,9 @@
           }
         }
       }
+    },
+    "Liking" : {
+
     },
     "Limited" : {
       "localizations" : {
@@ -38218,6 +38257,9 @@
           }
         }
       }
+    },
+    "Pull" : {
+
     },
     "Pull this dose into its own session." : {
       "localizations" : {
@@ -52477,6 +52519,12 @@
         }
       }
     },
+    "Wanting" : {
+
+    },
+    "Warm" : {
+
+    },
     "Warmth, empathy, and emotional openness." : {
       "localizations" : {
         "zh-Hans" : {
@@ -52541,6 +52589,9 @@
           }
         }
       }
+    },
+    "Water & heat" : {
+
     },
     "Water nudges timed to your dose — stimulants and empathogens mask thirst." : {
       "localizations" : {

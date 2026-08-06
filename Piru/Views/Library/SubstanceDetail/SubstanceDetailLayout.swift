@@ -62,6 +62,16 @@ struct SubstanceDetailLayout: View {
             EffectsSection(substance: substance, policy: policy, showAllEffects: showAllEffects)
         }
 
+        // Combinations — curated notable interactions, ranked by evidence.
+        if placement(.combinations) == .inline {
+            CombinationsSection(combinations: substance.combinations)
+        }
+
+        // Water & heat — thermoregulation and hydration guidance.
+        if placement(.water) == .inline {
+            WaterHeatSection(guidance: substance.waterHeat)
+        }
+
         // 5–6. What makes it different / In the body — mechanism · receptor · PK ·
         //      metabolism, one inline block or one deep-page target.
         pharmacologyInline

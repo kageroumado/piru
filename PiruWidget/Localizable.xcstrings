@@ -445,7 +445,20 @@
       }
     },
     "Countdown to your next scheduled med." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距离下一次计划用药的倒计时。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距離下一次計畫用藥的倒計時。"
+          }
+        }
+      }
     },
     "Current Session" : {
       "localizations" : {
@@ -496,7 +509,20 @@
       }
     },
     "Due" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待服用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待服用"
+          }
+        }
+      }
     },
     "Due · %@" : {
       "localizations" : {
@@ -515,7 +541,20 @@
       }
     },
     "Due now" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现在该服用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在該服用"
+          }
+        }
+      }
     },
     "Every 2 days" : {
       "localizations" : {
@@ -822,7 +861,20 @@
       }
     },
     "Next Dose" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一劑"
+          }
+        }
+      }
     },
     "No active doses" : {
       "localizations" : {

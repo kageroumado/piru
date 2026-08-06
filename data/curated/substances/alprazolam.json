@@ -5,5 +5,27 @@
     "阿普唑侖",
     "赞安诺",
     "贊安諾"
+  ],
+  "combinations": [
+    {
+      "severity": "danger",
+      "name": "Opioids",
+      "description": "The classic fatal pairing — both suppress breathing by different mechanisms, and the combination is behind a large share of opioid deaths. Tolerance to one gives no protection against the other. Do not combine."
+    },
+    {
+      "severity": "danger",
+      "name": "Alcohol",
+      "description": "Additive CNS depression that scales unpredictably — blackouts, unrousable sedation, and respiratory depression at doses that would be unremarkable separately. Alprazolam's fast onset makes the combined hit land harder than longer benzodiazepines. Do not combine."
+    },
+    {
+      "severity": "caution",
+      "name": "Gabapentinoids",
+      "description": "Gabapentin and pregabalin add their own sedation and respiratory depression on top of the benzodiazepine's. If both are prescribed, keep the timing spaced and avoid stacking anything else sedating on the same evening."
+    },
+    {
+      "severity": "caution",
+      "name": "Other depressants",
+      "description": "Sedating antihistamines, sleep medications, other benzodiazepines — everything sedating stacks, and alprazolam's amnesia makes redosing-you an unreliable narrator. Count the total depressant load, not each drug alone."
+    }
   ]
 }

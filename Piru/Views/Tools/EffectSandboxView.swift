@@ -155,6 +155,17 @@ final class EffectSandboxModel {
         planResults.map(\.result).max { $0.contentSpan < $1.contentSpan }
     }
 
+    /// The union of active lenses across all plans — a lens appears if *any*
+    /// plan's simulation produces meaningful signal on that channel.
+    var activeLenses: [EffectLens] {
+        var seen = Set<EffectLens>()
+        for pr in planResults {
+            seen.formUnion(pr.result.activeLenses)
+        }
+        guard !seen.isEmpty else { return EffectLens.mechanisticBase }
+        return EffectLens.allCases.filter { seen.contains($0) && $0 != .timeline }
+    }
+
     /// Curves for the chart, colored by plan. Empty when only one plan is active —
     /// a lone plan keeps the richer single-curve rendering (gradient fill, crash red).
     var comparisonSeries: [MechanisticComparisonSeries] {
@@ -664,7 +675,7 @@ private struct SandboxChartPager: View {
             if model.isComparing { legend }
             TabView(selection: $page) {
                 overviewPage.tag(0)
-                ForEach(Array(EffectLens.mechanistic.enumerated()), id: \.element) { index, lens in
+                ForEach(Array(model.activeLenses.enumerated()), id: \.element) { index, lens in
                     singlePage(lens).tag(index + 1)
                 }
             }
@@ -698,7 +709,7 @@ private struct SandboxChartPager: View {
     /// ("Feeling flat, Strain doubled"), and a paged view alone would hide it.
     private var overviewPage: some View {
         LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 6) {
-            ForEach(EffectLens.mechanistic) { lens in
+            ForEach(model.activeLenses) { lens in
                 VStack(alignment: .leading, spacing: 0) {
                     label(lens, font: .caption2)
                     chart(lens, height: 76)
@@ -769,6 +780,8 @@ private struct SandboxChartPager: View {
     private func footer(for lens: EffectLens) -> LocalizedStringKey {
         switch lens {
         case .feeling: "Higher is better. Pleasure and warmth rise above the line; the comedown dips below."
+        case .wanting: "Higher is more pull. The rush and craving signal."
+        case .liking: "Higher is more pleasure. The opioid warmth signal."
         case .energy: "Higher is livelier. Drive rises above the line, sedation sits below."
         case .compulsion: "Lower is better. The pull to take another dose."
         case .strain: "Lower is better. Load on the body."

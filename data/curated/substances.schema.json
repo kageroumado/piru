@@ -39,7 +39,18 @@
     "popularAliases": {"type": "array", "items": {"type": "string", "minLength": 1},
       "description": "Ordered common street/brand names for the detail header (≤~4). Popular substances only; distinct from the `aliases` search index. Never auto-derived."},
     "misconceptions": {"type": "array", "items": {"$ref": "#/$defs/mythBust"},
-      "description": "Cited corrections to common claims (the 'Common misconceptions' section). Popular substances only."}
+      "description": "Cited corrections to common claims (the 'Common misconceptions' section). Popular substances only."},
+    "combinations": {"type": "array", "items": {"$ref": "#/$defs/combination"},
+      "description": "Hand-curated notable combinations, editorial detail-page content. Ranked by evidence, not reputation. Popular substances only."},
+    "waterHeat": {
+      "type": "object",
+      "required": ["headline", "body"],
+      "additionalProperties": false,
+      "properties": {
+        "headline": {"type": "string", "description": "Big-number display (e.g. '≈ 1 glass / hour')"},
+        "body": {"type": "string", "description": "Explanation, may contain **bold**"}
+      },
+      "description": "Thermoregulation/hydration guidance card. Only for substances that raise body temperature or alter fluid balance."}
   },
   "$defs": {
     "range": {"type": "object", "required": ["lower", "upper"], "properties": {
@@ -93,6 +104,17 @@
           "properties": {"text": {"type": "string", "minLength": 1}, "attribution": {"type": "string", "minLength": 1}},
           "description": "Rare flagship-only attributed quotation."}
       }
+    },
+    "combination": {
+      "type": "object",
+      "required": ["severity", "name", "description"],
+      "properties": {
+        "severity": {"enum": ["danger", "caution", "note"]},
+        "name": {"type": "string", "description": "Substance or class name (e.g. 'MAOIs', 'Alcohol')"},
+        "description": {"type": "string", "description": "Plain-language explanation, may contain **bold**"},
+        "note": {"type": "string", "description": "Optional qualifier tag (e.g. 'blunts')"}
+      },
+      "additionalProperties": false
     },
     "mythCitation": {
       "type": "object",

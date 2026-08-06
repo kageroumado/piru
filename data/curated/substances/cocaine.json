@@ -4,5 +4,23 @@
     "可卡因",
     "古柯碱",
     "古柯鹼"
+  ],
+  "combinations": [
+    {
+      "severity": "danger",
+      "name": "MAOIs",
+      "description": "Phenelzine, tranylcypromine, selegiline, etc. — MAO inhibition leaves the catecholamine surge nowhere to go, so pressor effects stack into hypertensive crisis. Do not combine."
+    },
+    {
+      "severity": "caution",
+      "name": "Alcohol",
+      "description": "The liver combines the two into **cocaethylene** — a second active stimulant with a longer half-life and more cardiac strain than cocaine itself. The pairing feels smoother, which is exactly why both tend to get redosed further than either alone."
+    },
+    {
+      "severity": "note",
+      "name": "Beta-blockers",
+      "description": "Not the danger it is rumored to be. The 'unopposed alpha-stimulation' warning came from case reports; outcome data show no excess harm from beta-blockade in cocaine-positive patients. The narrow remaining concern is non-selective propranolol during active cocaine chest pain — outside that, being on a beta-blocker is not itself a red flag.",
+      "note": "debunked"
+    }
   ]
 }

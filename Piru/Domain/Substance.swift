@@ -1264,6 +1264,43 @@ struct MythBust: Codable, Hashable {
     }
 }
 
+/// One hand-curated notable combination — a row in the detail page's
+/// "Combinations" section. Editorial content ranked by evidence, not
+/// reputation: what to know *before* taking it, complementing the
+/// `InteractionChecker` (which fires on doses already logged). Curated and
+/// popular-substances-only; absent for the long tail.
+struct Combination: Codable, Hashable, Sendable {
+    /// Evidence-ranked severity tier for a combination row.
+    enum Severity: String, Codable, Hashable, Sendable {
+        /// Life-threatening; avoid entirely (e.g. MDMA + MAOIs).
+        case danger
+        /// Real risk; be careful (e.g. MDMA + alcohol).
+        case caution
+        /// Worth knowing; not dangerous (e.g. SSRIs mostly blunt MDMA).
+        case note
+    }
+
+    let severity: Severity
+    /// Substance or class name (e.g. "MAOIs", "Alcohol").
+    let name: String
+    /// Plain-language explanation naming the direction of risk and why. May
+    /// contain Markdown `**bold**`; rendered with `AttributedString(markdown:)`.
+    let description: String
+    /// Optional qualifier tag (e.g. "blunts").
+    let note: String?
+}
+
+/// Curated thermoregulation/hydration guidance — the detail page's "Water &
+/// heat" card. Bounded on both sides: a rate while active *and* the warning
+/// that over-drinking causes hyponatremia. Only for substances that raise body
+/// temperature or alter fluid balance; nil for the long tail.
+struct WaterHeatGuidance: Codable, Hashable, Sendable {
+    /// Big-number display (e.g. "≈ 1 glass / hour").
+    let headline: String
+    /// Explanation of why, and the upper bound. May contain Markdown `**bold**`.
+    let body: String
+}
+
 struct Substance: Identifiable {
     let id: UUID
     let name: String
@@ -1395,6 +1432,14 @@ struct Substance: Identifiable {
     /// misconceptions" section). Popular-substances-only; empty for the long
     /// tail. Detail-only. See ``MythBust``.
     let misconceptions: [MythBust]
+    /// Hand-curated notable combinations (the "Combinations" section).
+    /// Popular-substances-only; empty for the long tail. Detail-only. See
+    /// ``Combination``.
+    let combinations: [Combination]
+    /// Curated hydration/thermoregulation guidance (the "Water & heat" card).
+    /// Only for substances that raise body temperature or alter fluid balance;
+    /// nil otherwise. Detail-only. See ``WaterHeatGuidance``.
+    let waterHeat: WaterHeatGuidance?
 
     nonisolated init(
         name: String,
@@ -1435,6 +1480,8 @@ struct Substance: Identifiable {
         physicochemical: Physicochemical? = nil,
         popularAliases: [String] = [],
         misconceptions: [MythBust] = [],
+        combinations: [Combination] = [],
+        waterHeat: WaterHeatGuidance? = nil,
     ) {
         self.id = Self.deterministicID(forName: name)
         self.name = name
@@ -1475,6 +1522,8 @@ struct Substance: Identifiable {
         self.physicochemical = physicochemical
         self.popularAliases = popularAliases
         self.misconceptions = misconceptions
+        self.combinations = combinations
+        self.waterHeat = waterHeat
     }
 
     /// Title shown in lists and the detail header — the region-appropriate
@@ -1986,6 +2035,8 @@ extension Substance: Codable {
         physicochemical = nil
         popularAliases = []
         misconceptions = []
+        combinations = []
+        waterHeat = nil
     }
 
     func encode(to encoder: Encoder) throws {

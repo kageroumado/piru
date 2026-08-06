@@ -3588,6 +3588,8 @@ T = {
     "Driven": ("起劲", "起勁"),
     "Flat": ("平淡", "平淡"),
     "Sedated": ("镇静", "鎮靜"),
+    "Craving": ("渴望", "渴望"),
+    "Bliss": ("极乐", "極樂"),
     "Present": ("有感", "有感"),
     "Low": ("低", "低"),
     "Expand Graph": ("展开图表", "展開圖表"),
@@ -3840,6 +3842,10 @@ T = {
     "Also known as": ("别名", "別名"),
     # Substance detail — redesign (misconceptions + "for the curious" launcher)
     "Common misconceptions": ("常见误解", "常見誤解"),
+    "Combinations": ("组合", "組合"),
+    "Water & heat": ("水分与温度", "水分與溫度"),
+    "Danger": ("危险", "危險"),
+    "Guideline: %@": ("指南：%@", "指南：%@"),
     "For the curious": ("给好奇的你", "給好奇的你"),
     "Myth: %@": ("误解：%@", "誤解：%@"),
     "Retracted source: %@": ("已撤稿的来源：%@", "已撤稿的來源：%@"),
@@ -5763,6 +5769,8 @@ T = {
     # Effect Estimates screen redesign — large title, one model card, taller graphs,
     # two bottom detail groups, and the "How this works" explainer (2026-07-10).
     "Effect Estimates": ("效应估算", "效應估算"),
+    "Wanting": ("渴求", "渴求"),
+    "Liking": ("愉悦", "愉悅"),
     "Compulsion": ("冲动", "衝動"),
     "Strain": ("负荷", "負荷"),
     "Experimental": ("实验性", "實驗性"),
@@ -5803,6 +5811,24 @@ T = {
     "Higher is livelier. Drive rises above the line, sedation sits below.": (
         "越高越有活力。驱动力升至基线之上，镇静则落于其下。",
         "越高越有活力。驅動力升至基線之上，鎮靜則落於其下。",
+    ),
+    "Higher is more pull. The rush and craving signal — can grow with repeated use even as the high fades.": (
+        "越高渴求越强。冲动与渴望信号 — 即使快感减退，反复使用也可能使渴求增强。",
+        "越高渴求越強。衝動與渴望信號 — 即使快感減退，反覆使用也可能使渴求增強。",
+    ),
+    "Higher is more pleasure. The opioid warmth signal — fades with tolerance.": (
+        "越高愉悦越强。阿片温暖信号 — 随耐受而减弱。",
+        "越高愉悅越強。阿片溫暖信號 — 隨耐受而減弱。",
+    ),
+    "Higher is more pull": ("越高渴求越强", "越高渴求越強"),
+    "Higher is more pleasure": ("越高愉悦越强", "越高愉悅越強"),
+    "Higher is more pull. The rush and craving signal.": (
+        "越高渴求越强。冲动与渴望信号。",
+        "越高渴求越強。衝動與渴望信號。",
+    ),
+    "Higher is more pleasure. The opioid warmth signal.": (
+        "越高愉悦越强。阿片温暖信号。",
+        "越高愉悅越強。阿片溫暖信號。",
     ),
     "Lower is better. The pull to take another dose.": (
         "越低越好。再服一剂的冲动。",

@@ -5,5 +5,17 @@
     "K粉",
     "K他命",
     "克他命"
+  ],
+  "combinations": [
+    {
+      "severity": "caution",
+      "name": "Alcohol & CNS depressants",
+      "description": "Sedation and respiratory depression add up, and ketamine's dissociation makes it hard to notice either happening. Nausea and vomiting are also more likely — a real problem if you can't protect your airway. If combining at all, keep both doses low and don't dose alone."
+    },
+    {
+      "severity": "caution",
+      "name": "Stimulants",
+      "description": "The stimulant masks ketamine's sedation, so doses that would have put you down feel manageable — until the stimulant fades first and the full dissociative load lands at once. Judge the ketamine dose as if the stimulant weren't there."
+    }
   ]
 }

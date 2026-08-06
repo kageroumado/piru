@@ -144,11 +144,10 @@ struct SubstanceMisconceptionsTests {
         let legacyDB = tempDir.appendingPathComponent("legacy.sqlite")
         try fm.copyItem(at: bundled, to: legacyDB)
 
-        // Drop an editorial column to reproduce the pre-column schema. Dropping
-        // one is enough: `hasEditorialColumns()` requires *both*, so a table
-        // missing either takes the legacy path. (Dropping the last column trips
-        // a SQLite quirk with the trailing schema comment; `popular_aliases`
-        // isn't last, so it drops cleanly.)
+        // Drop an editorial column to reproduce the pre-column schema. Each
+        // editorial column is probed independently, so dropping one leaves the
+        // others still loadable — the dropped column degrades to its empty
+        // default while existing columns resolve normally.
         var handle: OpaquePointer?
         #expect(sqlite3_open(legacyDB.path, &handle) == SQLITE_OK)
         var errmsg: UnsafeMutablePointer<CChar>?
@@ -164,13 +163,12 @@ struct SubstanceMisconceptionsTests {
             prewarmsAllCache: false,
         )
 
-        // The detail surface still resolves — MDMA comes back (not nil), just
-        // with empty editorial arrays instead of throwing on the missing columns.
+        // The detail surface still resolves — MDMA comes back (not nil). The
+        // *dropped* column degrades to empty; the remaining columns load fine.
         let mdma = try #require(
             store.lookup("MDMA"),
             "A column-less DB must still resolve substances",
         )
-        #expect(mdma.misconceptions.isEmpty)
         #expect(mdma.popularAliases.isEmpty)
         // And an ordinary field still resolves, proving the row loaded fully.
         #expect(!mdma.aliases.isEmpty)

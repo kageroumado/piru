@@ -613,7 +613,11 @@ CREATE TABLE substances (
     -- `aliases` search index). `misconceptions` is a JSON array of MythBust
     -- (claim / correction / citations[{citation,role,note}] / pullQuote),
     -- serialized to the iOS `[MythBust]` Codable shape by
-    -- build_misconceptions_json(). Decoded in SubstanceStore.decodeJSONBlob.
+    -- build_misconceptions_json(). `combinations` is a JSON array of
+    -- Combination (severity / name / description / note), built by
+    -- build_combinations_json(). `water_heat` is a JSON WaterHeatGuidance
+    -- object (headline / body), built by build_water_heat_json(). All decoded
+    -- in SubstanceStore.decodeJSONBlob.
     -- Normalized therapeutic subclass (SSRI / SNRI / SARI / NDRI / TCA / MAOI / …),
     -- from data/curated/drug-classes.json. The free `tags` carry the same idea in
     -- four spellings and two granularities ("SSRI" and "ssri", "TCA" and
@@ -625,7 +629,9 @@ CREATE TABLE substances (
     drug_class              TEXT,
     drug_class_ambiguous    INTEGER NOT NULL DEFAULT 0,
     popular_aliases         TEXT,
-    misconceptions          TEXT
+    misconceptions          TEXT,
+    combinations            TEXT,
+    water_heat              TEXT
 );
 CREATE INDEX idx_substances_normalized  ON substances(normalized_name);
 CREATE INDEX idx_substances_inchikey    ON substances(inchikey)    WHERE inchikey    IS NOT NULL;
@@ -3387,6 +3393,60 @@ def build_misconceptions_json(raw) -> str | None:
     return json.dumps(out, ensure_ascii=False)
 
 
+#: Valid ``Combination.severity`` raw values (mirror the iOS enum). An item with
+#: a severity outside this set is dropped at build.
+_COMBINATION_SEVERITIES = {"danger", "caution", "note"}
+
+
+def build_combinations_json(raw) -> str | None:
+    """Transform curated ``combinations`` into the iOS ``[Combination]``
+    Codable JSON stored in ``substances.combinations``.
+
+    Author shape (one list item)::
+
+        {"severity": "danger"|"caution"|"note",
+         "name": str,                             # substance or class name
+         "description": str,                      # may contain **markdown bold**
+         "note": str?}                            # optional qualifier tag
+
+    Malformed items are skipped defensively (``validate_curated.py`` is the
+    authoritative gate). Returns a compact JSON string, or None when there is
+    nothing to store."""
+    if not isinstance(raw, list) or not raw:
+        return None
+    out: list[dict] = []
+    for c in raw:
+        if not isinstance(c, dict):
+            continue
+        severity = c.get("severity")
+        name = (c.get("name") or "").strip()
+        description = (c.get("description") or "").strip()
+        if severity not in _COMBINATION_SEVERITIES or not name or not description:
+            continue
+        item: dict = {"severity": severity, "name": name, "description": description}
+        note = (c.get("note") or "").strip()
+        if note:
+            item["note"] = note
+        out.append(item)
+    if not out:
+        return None
+    return json.dumps(out, ensure_ascii=False)
+
+
+def build_water_heat_json(raw) -> str | None:
+    """Transform curated ``waterHeat`` into the iOS ``WaterHeatGuidance``
+    Codable JSON stored in ``substances.water_heat`` — a straight passthrough
+    of ``{"headline": str, "body": str}``. Returns None when either field is
+    missing or empty."""
+    if not isinstance(raw, dict):
+        return None
+    headline = (raw.get("headline") or "").strip()
+    body = (raw.get("body") or "").strip()
+    if not headline or not body:
+        return None
+    return json.dumps({"headline": headline, "body": body}, ensure_ascii=False)
+
+
 # Citation URLs/labels that are chemical identifiers or database landing pages,
 # NOT primary literature. They already appear elsewhere — CAS/InChIKey in the
 # Chemistry card, PubChem behind "View on PubChem", and tripsit/psychonautwiki/
@@ -5719,6 +5779,20 @@ class Build:
                 self.stats["curated_misconceptions"] = (
                     self.stats.get("curated_misconceptions", 0) + 1
                 )
+            combos = build_combinations_json(s.get("combinations"))
+            if combos:
+                self.cur.execute(
+                    "UPDATE substances SET combinations = ? WHERE id = ?",
+                    (combos, sid),
+                )
+                self.stats["curated_combinations"] = self.stats.get("curated_combinations", 0) + 1
+            water = build_water_heat_json(s.get("waterHeat"))
+            if water:
+                self.cur.execute(
+                    "UPDATE substances SET water_heat = ? WHERE id = ?",
+                    (water, sid),
+                )
+                self.stats["curated_water_heat"] = self.stats.get("curated_water_heat", 0) + 1
         if s.get("category"):
             self.add_category(sid, slug, s["category"])
         for tag in s.get("tags") or []:

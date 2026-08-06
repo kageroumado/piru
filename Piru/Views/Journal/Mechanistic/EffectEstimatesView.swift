@@ -135,7 +135,7 @@ struct EffectEstimatesView: View {
             if isBusySession {
                 complexityNote
             }
-            ForEach(EffectLens.mechanistic) { lens in
+            ForEach(result.activeLenses) { lens in
                 lensCard(lens)
             }
             coverageGroup
@@ -258,6 +258,10 @@ struct EffectEstimatesView: View {
         switch lens {
         case .feeling:
             "Higher is better. Pleasure and warmth rise above the line; the comedown dips below."
+        case .wanting:
+            "Higher is more pull. The rush and craving signal — can grow with repeated use even as the high fades."
+        case .liking:
+            "Higher is more pleasure. The opioid warmth signal — fades with tolerance."
         case .energy:
             "Higher is livelier. Drive rises above the line, sedation sits below."
         case .compulsion:

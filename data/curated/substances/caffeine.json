@@ -2,5 +2,19 @@
   "name": "Caffeine",
   "aliases": [
     "咖啡因"
+  ],
+  "combinations": [
+    {
+      "severity": "note",
+      "name": "Stimulants",
+      "description": "Additive on heart rate and anxiety — caffeine on top of amphetamine or similar mostly adds jitter, not function. If a stimulant is already on board, the coffee is usually redundant.",
+      "note": "additive"
+    },
+    {
+      "severity": "note",
+      "name": "Alcohol",
+      "description": "Caffeine masks how drunk you feel without changing how drunk you are — the 'wide-awake drunk' effect behind energy-drink cocktails. Impairment is unchanged; awareness of it isn't.",
+      "note": "masks"
+    }
   ]
 }

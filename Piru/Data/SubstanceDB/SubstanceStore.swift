@@ -1333,27 +1333,21 @@ final class SubstanceStore {
         return try? JSONDecoder().decode(T.self, from: data)
     }
 
-    /// Whether the opened `substances` table carries the curated editorial
-    /// columns (`popular_aliases`, `misconceptions`), probed once via
-    /// `PRAGMA table_info` and cached.
-    @ObservationIgnored private var editorialColumnsPresent: Bool?
+    /// Which additive editorial columns the opened `substances` table carries,
+    /// probed once via `PRAGMA table_info` and cached. Checked per-column so a
+    /// DB that has `popular_aliases`/`misconceptions` but predates
+    /// `combinations`/`water_heat` still loads what it has.
+    @ObservationIgnored private var editorialColumnSet: Set<String>?
 
-    /// Guards the resolve SELECT against an **older** substance DB that predates
-    /// these additive columns. Both the current bundled DB *and* an opt-in
-    /// OTA-applied copy in `Documents/` are read; a `b33`-era schema-6 DB
-    /// applied via OTA lacks these columns, and naming them unconditionally in
-    /// the SELECT would throw `no such column` on **every** row — blanking the
-    /// entire detail surface after an app update. Probing keeps the addition
-    /// genuinely additive: the fields degrade to empty on an older DB instead of
-    /// failing the resolve, so the shipped `schema_version` need not bump. (B1.)
-    private func hasEditorialColumns() -> Bool {
-        if let editorialColumnsPresent { return editorialColumnsPresent }
-        let present = (try? substancesDB.read { db in
+    private func editorialColumns() -> Set<String> {
+        if let editorialColumnSet { return editorialColumnSet }
+        let all: Set = ["popular_aliases", "misconceptions", "combinations", "water_heat"]
+        let present: Set<String> = (try? substancesDB.read { db -> Set<String> in
             let names = try Row.fetchAll(db, sql: "PRAGMA table_info(substances)")
                 .compactMap { $0["name"] as String? }
-            return Set(names).isSuperset(of: ["popular_aliases", "misconceptions"])
-        }) ?? false
-        editorialColumnsPresent = present
+            return all.intersection(names)
+        }) ?? []
+        editorialColumnSet = present
         return present
     }
 
@@ -1365,9 +1359,13 @@ final class SubstanceStore {
         let cacheKey = "\(id)|\(appLanguage.rawValue)"
         if let cached = resolvedCache[cacheKey] { return cached }
 
-        // Include the curated editorial columns only when the opened DB actually
-        // has them (an older OTA-applied copy may not) — see `hasEditorialColumns`.
-        let editorialColumns = hasEditorialColumns() ? ", popular_aliases, misconceptions" : ""
+        // Include each curated editorial column only when the opened DB actually
+        // has it — an older OTA-applied copy may predate some of them.
+        let ec = editorialColumns()
+        let editorialColumns = ["popular_aliases", "misconceptions", "combinations", "water_heat"]
+            .filter { ec.contains($0) }
+            .map { ", \($0)" }
+            .joined()
 
         do {
             let resolved = try substancesDB.read { db -> Substance? in
@@ -1402,8 +1400,10 @@ final class SubstanceStore {
                 // to a language-keyed store (mirror `mechanisms_summary`'s
                 // language PK) — a pipeline + reader change + wholesale rebuild,
                 // not a user-data migration (the substance DB is a build artifact).
-                let popularAliases = Self.decodeJSONBlob([String].self, coreRow["popular_aliases"]) ?? []
-                let misconceptions = Self.decodeJSONBlob([MythBust].self, coreRow["misconceptions"]) ?? []
+                let popularAliases = ec.contains("popular_aliases") ? Self.decodeJSONBlob([String].self, coreRow["popular_aliases"]) ?? [] : []
+                let misconceptions = ec.contains("misconceptions") ? Self.decodeJSONBlob([MythBust].self, coreRow["misconceptions"]) ?? [] : []
+                let combinations = ec.contains("combinations") ? Self.decodeJSONBlob([Combination].self, coreRow["combinations"]) ?? [] : []
+                let waterHeat = ec.contains("water_heat") ? Self.decodeJSONBlob(WaterHeatGuidance.self, coreRow["water_heat"]) : nil
                 let physicochemical = Physicochemical(
                     logP: coreRow["logp"] as Double?,
                     logD: coreRow["logd"] as Double?,
@@ -1479,6 +1479,8 @@ final class SubstanceStore {
                     physicochemical: physicochemical.hasAnyValue ? physicochemical : nil,
                     popularAliases: popularAliases,
                     misconceptions: misconceptions,
+                    combinations: combinations,
+                    waterHeat: waterHeat,
                 )
             }
             if let resolved {

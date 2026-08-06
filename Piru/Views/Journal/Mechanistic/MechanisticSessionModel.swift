@@ -50,6 +50,9 @@ nonisolated enum MechanisticSessionModel {
         /// content extent — the window and scroller frame it, so a short session
         /// fits fully and shows no scroller.
         let contentSpan: Double
+        /// The mechanistic lenses active for this session — includes wanting
+        /// and liking only when their signals are meaningful.
+        let activeLenses: [EffectLens]
 
         /// The value of a lens's channel nearest a given hour. `timeline.t` is
         /// monotonically increasing, so binary-search — this runs per lens pill
@@ -154,6 +157,7 @@ nonisolated enum MechanisticSessionModel {
         guard !agents.isEmpty else { return nil }
 
         let timeline = EffectEngine.simulate(EffectParams(), agents: agents, tMax: tMax)
+        let activeLenses = EffectLens.mechanisticLenses(for: timeline)
 
         // Fixed session-wide ranges per mechanistic axis. The axis is anchored to
         // a **semi-absolute** reference (``EffectLens/referenceScale``) rather than
@@ -164,7 +168,7 @@ nonisolated enum MechanisticSessionModel {
         // reference floor, reserving comedown room so the baseline reads clearly
         // horizontal even when nothing dips below it.
         var ranges: [String: AxisRange] = [:]
-        for lens in EffectLens.mechanistic {
+        for lens in activeLenses {
             guard let channel = lens.channel else { continue }
             let series = timeline[keyPath: channel]
             let anchor = lens.referenceScale
@@ -181,7 +185,7 @@ nonisolated enum MechanisticSessionModel {
         // meaningfully active (or the last dose). The window/scroller frame this,
         // not the padded `tMax`, so short sessions fit whole and hide the scroller.
         var contentSpan = doses.map(\.hours).max() ?? 0
-        for lens in EffectLens.mechanistic {
+        for lens in activeLenses {
             guard let channel = lens.channel else { continue }
             let series = timeline[keyPath: channel]
             guard series.count == timeline.t.count else { continue }
@@ -198,7 +202,7 @@ nonisolated enum MechanisticSessionModel {
         }
         contentSpan = min(max(contentSpan + 0.5, 1), tMax)
 
-        return Result(timeline: timeline, ranges: ranges, tMax: tMax, contentSpan: contentSpan)
+        return Result(timeline: timeline, ranges: ranges, tMax: tMax, contentSpan: contentSpan, activeLenses: activeLenses)
     }
 }
 

@@ -47,5 +47,18 @@
       },
       "notes": "Doses are mg of Δ9-THC (edibles/oils). Oral THC has low, variable bioavailability and converts to stronger 11-OH-THC; wait ≥2 h before any redose."
     }
+  ],
+  "combinations": [
+    {
+      "severity": "caution",
+      "name": "CNS depressants",
+      "description": "Alcohol, benzodiazepines, opioids — sedation is additive, and cannabis plus alcohol in particular multiplies dizziness and nausea ('the spins'). Order matters too: alcohol first raises THC absorption. Keep one of them light."
+    },
+    {
+      "severity": "note",
+      "name": "Psychedelics",
+      "description": "Cannabis reliably intensifies LSD and psilocybin, and a familiar dose mid-trip can restart the peak or tip it difficult. It's the most common ingredient in difficult-experience reports — if adding it, use a fraction of your usual amount.",
+      "note": "intensifies"
+    }
   ]
 }

@@ -51,5 +51,32 @@
         }
       }
     }
-  ]
+  ],
+  "combinations": [
+    {
+      "severity": "danger",
+      "name": "MAOIs",
+      "description": "Phenelzine, tranylcypromine, selegiline, etc. — MAO inhibition removes the main breakdown route for the released norepinephrine and dopamine, so pressor effects stack into hypertensive crisis. Do not combine."
+    },
+    {
+      "severity": "caution",
+      "name": "Alcohol",
+      "description": "The stimulant masks how tired and how drunk you are, so both tend to get redosed past where either would go alone. Cardiovascular load adds up; judgment of it does not."
+    },
+    {
+      "severity": "caution",
+      "name": "Other stimulants",
+      "description": "Cocaine, MDMA, caffeine in quantity — heart rate and blood pressure effects are additive. Stacking stimulants raises the cardiovascular load faster than it raises the effect you wanted."
+    },
+    {
+      "severity": "note",
+      "name": "SSRIs",
+      "description": "Amphetamine's serotonin release is minor, so the combination is common and mostly uneventful — but reuptake inhibition can accentuate the norepinephrine side: more jitter, higher pulse. Worth noticing, not fearing.",
+      "note": "adds NE"
+    }
+  ],
+  "waterHeat": {
+    "headline": "Sip to thirst",
+    "body": "Stimulants suppress thirst without changing how much fluid you actually need — which isn't much more than usual unless you're dancing or in the heat. Sip to thirst rather than forcing water; a dry mouth is from reduced saliva, not dehydration."
+  }
 }

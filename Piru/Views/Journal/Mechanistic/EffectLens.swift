@@ -17,6 +17,14 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
     case feeling
     /// Focused, activated energy (NE + cortical DA). Dips into sedation.
     case energy
+    /// How much you'd *want* it — incentive salience, the rush prediction error.
+    /// Separates the craving/pull signal from the hedonic experience. Visible
+    /// only when the session involves dopaminergic substances with meaningful
+    /// rush signal.
+    case wanting
+    /// How much you'd *enjoy* it — mu-opioid hedonic warmth minus dynorphin
+    /// aversion. Visible only when the session involves opioidergic substances.
+    case liking
     /// The pull to redose — incentive salience, rate-gated, serotonin-braked.
     case compulsion
     /// Physiological load (cardiovascular + respiratory cost), paired with Apple
@@ -35,6 +43,8 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         switch self {
         case .timeline: "Timeline"
         case .feeling: "Feeling"
+        case .wanting: "Wanting"
+        case .liking: "Liking"
         case .energy: "Energy"
         case .compulsion: "Compulsion"
         case .strain: "Strain"
@@ -45,6 +55,8 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         switch self {
         case .timeline: "chart.xyaxis.line"
         case .feeling: "face.smiling"
+        case .wanting: "arrow.up.heart.fill"
+        case .liking: "sparkles"
         case .energy: "bolt.fill"
         case .compulsion: "flame.fill"
         case .strain: "gauge.with.dots.needle.67percent"
@@ -55,6 +67,8 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         switch self {
         case .timeline: Color(hex: "8e8e93")
         case .feeling: Color(hex: "ff9f0a")
+        case .wanting: Color(hex: "ff375f")
+        case .liking: Color(hex: "bf5af2")
         case .energy: Color(hex: "ff6b35")
         case .compulsion: Color(hex: "e0457b")
         case .strain: Color(hex: "ff3b30")
@@ -67,6 +81,8 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         switch self {
         case .timeline: nil
         case .feeling: \.eu
+        case .wanting: \.wanting
+        case .liking: \.liking
         case .energy: \.drive
         case .compulsion: \.compul
         case .strain: \.danger
@@ -77,8 +93,8 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
     /// (drawn red). Compulsion and Strain are one-sided (they only rise from zero).
     var isSigned: Bool {
         switch self {
-        case .feeling, .energy: true
-        case .timeline, .compulsion, .strain: false
+        case .feeling, .energy, .liking: true
+        case .timeline, .wanting, .compulsion, .strain: false
         }
     }
 
@@ -97,6 +113,8 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         switch self {
         case .timeline: (1, 0)
         case .feeling: (1.5, -0.55)
+        case .wanting: (1.2, 0)
+        case .liking: (1.0, -0.3)
         case .energy: (2.0, -0.95)
         case .compulsion: (0.8, 0)
         case .strain: (2.4, 0)
@@ -115,6 +133,8 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         switch self {
         case .timeline: nil
         case .feeling: "Higher is better"
+        case .wanting: "Higher is more pull"
+        case .liking: "Higher is more pleasure"
         case .energy: "Higher is livelier"
         case .compulsion: "Lower is better"
         case .strain: "Lower is better"
@@ -133,6 +153,13 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
             if value > 0.4 { return ("face.smiling", false) }
             if value > -0.2 { return ("face.dashed", false) }
             return ("face.dashed", true)
+        case .wanting:
+            if value > 0.6 { return ("arrow.up.heart.fill", false) }
+            return ("arrow.up.heart", false)
+        case .liking:
+            if value > 0.4 { return ("sparkles", false) }
+            if value > -0.1 { return ("sparkle", false) }
+            return ("sparkle", true)
         case .energy:
             if value > 1.5 { return ("bolt.fill", false) }
             if value > -0.4 { return ("bolt", false) }
@@ -155,6 +182,10 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
             ""
         case .feeling:
             value > 1.2 ? "Euphoric" : value > 0.4 ? "Good" : value > -0.2 ? "Mild" : "Comedown"
+        case .wanting:
+            value > 0.8 ? "Craving" : value > 0.3 ? "Pull" : value > 0.05 ? "Mild" : "Quiet"
+        case .liking:
+            value > 0.6 ? "Bliss" : value > 0.2 ? "Warm" : value > -0.1 ? "Faint" : "Flat"
         case .energy:
             value > 1.5 ? "Wired" : value > 0.4 ? "Driven" : value > -0.4 ? "Flat" : "Sedated"
         case .compulsion:
@@ -164,6 +195,26 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         }
     }
 
-    /// The mechanistic lenses, in display order (excludes ``timeline``).
-    static let mechanistic: [EffectLens] = [.feeling, .energy, .compulsion, .strain]
+    /// The base mechanistic lenses, in display order (excludes ``timeline``
+    /// and the conditional wanting/liking pair).
+    static let mechanisticBase: [EffectLens] = [.feeling, .energy, .compulsion, .strain]
+
+    /// The mechanistic lenses for a given simulation result. When the wanting
+    /// or liking channels carry meaningful signal (peak > threshold), they
+    /// appear after Feeling — surfacing the incentive-sensitization split
+    /// ("the drug does less *and* you want it more") on stimulant/opioid
+    /// sessions without cluttering sessions where those signals are inert.
+    static func mechanisticLenses(for timeline: EffectTimeline) -> [EffectLens] {
+        let wantingPeak = timeline.wanting.reduce(0.0) { max($0, $1) }
+        let likingPeak = timeline.liking.reduce(0.0) { max($0, abs($1)) }
+        let threshold = 0.05
+        var lenses: [EffectLens] = [.feeling]
+        if wantingPeak > threshold { lenses.append(.wanting) }
+        if likingPeak > threshold { lenses.append(.liking) }
+        lenses.append(contentsOf: [.energy, .compulsion, .strain])
+        return lenses
+    }
+
+    /// Backward-compatible accessor for contexts that don't have a timeline.
+    static let mechanistic: [EffectLens] = mechanisticBase
 }
