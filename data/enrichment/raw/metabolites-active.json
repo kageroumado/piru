@@ -1211,12 +1211,30 @@
           1140,
           1440
         ],
-        "formation_fraction_pct": null,
         "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1373/clinchem.2008.122119",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "metabolite_mechanism_vs_parent": "scaled",
+        "route": "oral",
+        "formation_fraction_pct": 50
+      },
+      {
+        "enzyme": "CYP2C9/CYP3A4 (11-hydroxylation)",
+        "metabolite_name": "11-hydroxy-THC (11-OH-THC)",
+        "metabolite_active": true,
+        "metabolite_half_life_min": 1260,
+        "metabolite_half_life_range_min": [
+          1140,
+          1440
+        ],
+        "metabolite_tmax_min": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "metabolite_potency_basis": "unknown",
+        "reference": "doi:10.1373/clinchem.2008.122119",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "route": "inhaled",
+        "formation_fraction_pct": 5
       }
     ]
   },
@@ -1232,12 +1250,30 @@
           1140,
           1440
         ],
-        "formation_fraction_pct": null,
         "metabolite_tmax_min": null,
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": "unknown",
         "reference": "doi:10.1373/clinchem.2008.122119",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "metabolite_mechanism_vs_parent": "scaled",
+        "route": "oral",
+        "formation_fraction_pct": 50
+      },
+      {
+        "enzyme": "CYP2C9/CYP3A4 (11-hydroxylation)",
+        "metabolite_name": "11-hydroxy-THC (11-OH-THC)",
+        "metabolite_active": true,
+        "metabolite_half_life_min": 1260,
+        "metabolite_half_life_range_min": [
+          1140,
+          1440
+        ],
+        "metabolite_tmax_min": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "metabolite_potency_basis": "unknown",
+        "reference": "doi:10.1373/clinchem.2008.122119",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "route": "inhaled",
+        "formation_fraction_pct": 5
       }
     ]
   },

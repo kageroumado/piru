@@ -743,7 +743,7 @@ extension SubstanceStore {
                            m.metabolite_active, m.metabolite_potency_vs_parent_pct,
                            m.metabolite_potency_basis, m.metabolite_potency_target,
                            m.metabolite_mechanism_vs_parent, m.metabolite_half_life_min,
-                           m.formation_fraction_pct, m.notes,
+                           m.formation_fraction_pct, m.route, m.notes,
                            src.slug AS source_slug, c.doi, c.pmid,
                            -- The metabolite's OWN sourced half-life, when we carry it as a
                            -- substance. Linking beats copying (see the `metabolite_substance_id`
@@ -793,6 +793,7 @@ extension SubstanceStore {
                         metaboliteHalfLifeMinutes: (row["metabolite_own_half_life_min"] as Double?)
                             ?? (row["metabolite_half_life_min"] as Double?),
                         formationFractionPct: row["formation_fraction_pct"],
+                        route: row["route"],
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),

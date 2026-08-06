@@ -90,12 +90,14 @@
       {
         "alias": "amfetamine",
         "kind": "generic",
-        "locale": "en"
+        "locale": "en",
+        "authority": "INN"
       },
       {
         "alias": "amfetaminum",
         "kind": "generic",
-        "locale": "la"
+        "locale": "la",
+        "authority": "INN-Latin"
       },
       {
         "alias": "amph",
@@ -104,7 +106,8 @@
       {
         "alias": "amphetamin",
         "kind": "generic",
-        "locale": "de"
+        "locale": "de",
+        "authority": "national"
       },
       {
         "alias": "amphetamines",
@@ -362,7 +365,8 @@
       {
         "alias": "Bromazepamum",
         "kind": "generic",
-        "locale": "la"
+        "locale": "la",
+        "authority": "INN-Latin"
       },
       {
         "alias": "Brozam",
@@ -1029,7 +1033,8 @@
       {
         "alias": "Sodium oxybate",
         "kind": "generic",
-        "locale": "en"
+        "locale": "en",
+        "authority": "USAN"
       },
       {
         "alias": "Xyrem",
@@ -1306,7 +1311,8 @@
       {
         "alias": "lysergide",
         "kind": "generic",
-        "locale": "en"
+        "locale": "en",
+        "authority": "INN"
       },
       {
         "alias": "mellow yellow",
@@ -2794,5 +2800,15 @@
         "kind": "distinct_substance"
       }
     ]
-  }
+  },
+  "authority_vocabulary": [
+    "INN",
+    "INN-Latin",
+    "USAN",
+    "BAN",
+    "JAN",
+    "national",
+    "historical",
+    "common"
+  ]
 }

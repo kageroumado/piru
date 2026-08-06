@@ -39,6 +39,9 @@ extension SubstanceStore {
         let metaboliteHalfLifeMinutes: Double?
         /// Percent of an administered parent dose that becomes this metabolite.
         let formationFractionPct: Double?
+        /// The route of administration this row applies to, when route-specific
+        /// (e.g. oral vs inhaled THC → 11-OH-THC). Nil = route-agnostic.
+        let route: String?
         let sourceSlug: String
         let doi: String?
         let pmid: Int?

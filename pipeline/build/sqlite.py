@@ -666,6 +666,13 @@ CREATE TABLE aliases (
     -- (the full chemical/abbreviation/street/regional taxonomy is deferred). Not a
     -- facet and not a lookup key — display ordering only.
     kind             TEXT,
+    -- Naming authority for generic (nonproprietary) names: INN, USAN, BAN, JAN,
+    -- national, historical, common. NULL for non-generic kinds.
+    authority        TEXT,
+    -- Brand family grouping: brands sharing a family collapse to the flagship
+    -- in the header subtitle (Adderall/Adderall IR/Adderall XR → "Adderall").
+    -- Populated by collapse_brand_families() from shared prefix analysis.
+    brand_family     TEXT,
     -- Ordering hint within the brands of one substance: 0 = a curated flagship
     -- (brands.json — the name people know best, e.g. Ritalin), 1 = an auto-derived
     -- form-map brand (a release/isomer product like Concerta/Focalin), NULL for a
@@ -1216,6 +1223,7 @@ CREATE TABLE metabolism (
     -- Distinct from fraction_of_clearance_pct (see above).
     formation_fraction_pct           REAL,
     metabolite_tmax_min              REAL,
+    route                            TEXT,
     citation_id                      INTEGER REFERENCES citations(id),
     notes                            TEXT
 );
@@ -5500,7 +5508,7 @@ class Build:
         if m.get("mechanism_note"):
             notes = f"{notes} {m['mechanism_note']}".strip() if notes else m["mechanism_note"]
         self.cur.execute(
-            "INSERT INTO metabolism(substance_id, source_id, enzyme, fraction_of_clearance_pct, metabolite_name, metabolite_active, metabolite_potency_vs_parent_pct, metabolite_potency_basis, metabolite_potency_target, metabolite_mechanism_vs_parent, metabolite_half_life_min, metabolite_half_life_low_min, metabolite_half_life_high_min, formation_fraction_pct, metabolite_tmax_min, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO metabolism(substance_id, source_id, enzyme, fraction_of_clearance_pct, metabolite_name, metabolite_active, metabolite_potency_vs_parent_pct, metabolite_potency_basis, metabolite_potency_target, metabolite_mechanism_vs_parent, metabolite_half_life_min, metabolite_half_life_low_min, metabolite_half_life_high_min, formation_fraction_pct, metabolite_tmax_min, route, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sid,
                 src,
@@ -5519,6 +5527,7 @@ class Build:
                 high,
                 to_float(m.get("formation_fraction_pct")),
                 to_float(m.get("metabolite_tmax_min")),
+                m.get("route"),
                 self.cite(m.get("reference")),
                 notes,
             ),
@@ -8172,12 +8181,65 @@ class Build:
                     stats["unmatched_alias"] += 1
                     continue
                 self.cur.execute(
-                    "UPDATE aliases SET kind = ?, locale = ? WHERE rowid = ?",
-                    (entry["kind"], entry.get("locale"), row[0]),
+                    "UPDATE aliases SET kind = ?, locale = ?, authority = ? WHERE rowid = ?",
+                    (entry["kind"], entry.get("locale"), entry.get("authority"), row[0]),
                 )
                 stats["kinds_set"] += 1
                 if entry.get("locale"):
                     stats["locales_set"] += 1
+                if entry.get("authority"):
+                    stats["authorities_set"] = stats.get("authorities_set", 0) + 1
+        return stats
+
+    _BRAND_FAMILY_BLOCKLIST = frozenset(
+        {
+            "Ritalin",
+            "Riphenidate",
+        }
+    )
+
+    def collapse_brand_families(self) -> dict[str, int]:
+        """Group brand aliases sharing a prefix into families for header dedup.
+
+        "Adderall", "Adderall IR", "Adderall XR" all get brand_family='Adderall'.
+        A naive prefix rule would wrongly merge Ritalin/Riphenidate, so pairs in
+        _BRAND_FAMILY_BLOCKLIST are excluded.
+        """
+        brands = self.cur.execute(
+            "SELECT rowid, substance_id, alias FROM aliases WHERE kind = 'brand'"
+        ).fetchall()
+        by_substance: dict[int, list[tuple[int, str]]] = {}
+        for rowid, sid, alias in brands:
+            by_substance.setdefault(sid, []).append((rowid, alias))
+
+        stats = {"families_set": 0}
+        for _sid, members in by_substance.items():
+            names = sorted(members, key=lambda m: len(m[1]))
+            assigned: dict[int, str] = {}
+            for rowid, alias in names:
+                for _, shorter in names:
+                    if shorter == alias:
+                        continue
+                    if len(shorter) >= len(alias):
+                        continue
+                    if (
+                        alias.lower().startswith(shorter.lower())
+                        and shorter not in self._BRAND_FAMILY_BLOCKLIST
+                        and alias not in self._BRAND_FAMILY_BLOCKLIST
+                    ):
+                        assigned[rowid] = shorter
+                        break
+            for rowid, alias in names:
+                if rowid not in assigned:
+                    family_members = [r for r, _ in names if assigned.get(r) == alias]
+                    if family_members:
+                        assigned[rowid] = alias
+            for rowid, family in assigned.items():
+                self.cur.execute(
+                    "UPDATE aliases SET brand_family = ? WHERE rowid = ?",
+                    (family, rowid),
+                )
+                stats["families_set"] += 1
         return stats
 
     def apply_drug_classes(self) -> dict[str, int]:
@@ -9703,17 +9765,17 @@ class Build:
         """
         rows = self.cur.execute(
             "SELECT id, substance_id, metabolite_name, metabolite_half_life_min,"
-            " metabolite_potency_basis, fraction_of_clearance_pct FROM metabolism"
+            " metabolite_potency_basis, fraction_of_clearance_pct, route FROM metabolism"
             " WHERE metabolite_name IS NOT NULL"
         ).fetchall()
 
-        def key(substance_id: int, name: str) -> tuple[int, str]:
+        def key(substance_id: int, name: str, route: str | None = None) -> tuple:
             base = re.sub(r"\s*\([^)]*\)\s*$", "", name or "").strip()
-            return (substance_id, re.sub(r"[\s\-]+", "", base).lower())
+            return (substance_id, re.sub(r"[\s\-]+", "", base).lower(), route)
 
-        groups: dict[tuple[int, str], list[tuple]] = {}
+        groups: dict[tuple, list[tuple]] = {}
         for row in rows:
-            groups.setdefault(key(row[1], row[2]), []).append(row)
+            groups.setdefault(key(row[1], row[2], row[6]), []).append(row)
 
         def is_rich(row: tuple) -> bool:
             # A clearance fraction counts. Triazolam's two α-hydroxytriazolam rows
@@ -9738,26 +9800,17 @@ class Build:
             "SELECT id, substance_id, metabolite_name, enzyme, metabolite_potency_basis,"
             " metabolite_mechanism_vs_parent,"
             " metabolite_half_life_min, metabolite_potency_vs_parent_pct,"
-            " formation_fraction_pct, citation_id, notes FROM metabolism"
+            " formation_fraction_pct, citation_id, notes, route FROM metabolism"
             " WHERE metabolite_name IS NOT NULL"
         ).fetchall()
         exact_groups: dict[tuple, list[tuple]] = {}
         for row in exact:
             if row[0] in doomed:
                 continue
-            # Strip the qualifier researchers append — "CYP3A4" and "CYP3A4
-            # (oxidation)" are one pathway, and treating them as two left
-            # contradicting rows standing side by side (oxycodone -> noroxycodone
-            # was both `unknown` and `divergent`, methadone -> EDDP likewise),
-            # which a metabolite-grouped UI renders as doubled statements.
             enzyme = re.sub(r"\s*\([^)]*\)", "", row[3] or "")
             enzyme = re.sub(r"[\s\-]+", "", enzyme).lower()
-            # NULL and 'unknown' basis are one bucket: both mean "no usable
-            # basis". Keeping them apart split two of the four contradicting
-            # pairs back into separate groups. Distinct *usable* bases still
-            # separate, which is what preserves oxycodone's clinical + affinity.
             basis = row[4] if row[4] not in (None, "unknown") else None
-            exact_groups.setdefault(key(row[1], row[2]) + (enzyme, basis), []).append(row)
+            exact_groups.setdefault(key(row[1], row[2], row[11]) + (enzyme, basis), []).append(row)
 
         def informativeness(row: tuple) -> int:
             # A classified mechanism outweighs raw field count: between a row
@@ -10505,6 +10558,8 @@ def main() -> int:
 
     alias_facets = build.annotate_alias_facets()
     print(f"Alias facet annotation: {alias_facets}", file=sys.stderr)
+    brand_families = build.collapse_brand_families()
+    print(f"Brand families: {brand_families}", file=sys.stderr)
     alias_sweep = build.sweep_wrong_molecule_aliases()
     print(f"Wrong-molecule alias sweep: {alias_sweep}", file=sys.stderr)
 
