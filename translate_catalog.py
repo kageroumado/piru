@@ -2424,6 +2424,10 @@ T = {
         "长期大量使用会形成依赖——突然停用可能很危险。要逐渐减量。",
         "長期大量使用會形成依賴——突然停用可能很危險。要逐漸減量。",
     ),
+    "Regular use over weeks builds physical dependence — stopping abruptly can be dangerous even if you don't feel tolerant. Taper gradually.": (
+        "连续数周的规律使用会形成身体依赖——即使你没有感觉到耐受，突然停用也可能很危险。要逐步减量。",
+        "連續數週的規律使用會形成身體依賴——即使你沒有感覺到耐受，突然停用也可能很危險。要逐步減量。",
+    ),
     "Don't stop α₂-agonists cold after regular use — blood pressure can rebound. Taper.": (
         "规律使用 α₂ 激动剂后别一下子停掉——血压可能反弹。要逐渐减量。",
         "規律使用 α₂ 激動劑後別一下子停掉——血壓可能反彈。要逐漸減量。",
@@ -5534,6 +5538,14 @@ T = {
     "Compare benzodiazepine doses against diazepam, or convert between two — the way clinicians do when switching for a taper.": (
         "将苯二氮䓬的剂量与地西泮比较，或在两种之间换算——就像临床医生在为减量而换药时所做的那样。",
         "將苯二氮䓬的劑量與地西泮比較，或在兩種之間換算——就像臨床醫師在為減量而換藥時所做的那樣。",
+    ),
+    "Compare benzodiazepine doses against diazepam, or convert between two. Switching to a long-acting benzo before tapering is standard practice, though evidence for better outcomes is limited.": (
+        "将苯二氮䓬的剂量与地西泮比较，或在两种之间换算。换用长效苯二氮䓬后再减量是常规做法，但改善结局的证据有限。",
+        "將苯二氮䓬的劑量與地西泮比較，或在兩種之間換算。換用長效苯二氮䓬後再減量是常規做法，但改善結局的證據有限。",
+    ),
+    "If you have been drinking heavily and daily for weeks, stopping abruptly can be medically dangerous — seizures and delirium tremens peak 2–4 days after the last drink. Seek medical advice before going cold turkey.": (
+        "如果你连续数周每天大量饮酒，突然戒断可能非常危险——癫痫发作和震颤性谵妄通常在最后一杯后 2–4 天达到高峰。戒酒前请先咨询医生。",
+        "如果你連續數週每天大量飲酒，突然戒斷可能非常危險——癲癇發作和震顫性譫妄通常在最後一杯後 2–4 天達到高峰。戒酒前請先諮詢醫師。",
     ),
     "mg": ("mg", "mg"),
     "Equivalent Dose": ("等效剂量", "等效劑量"),

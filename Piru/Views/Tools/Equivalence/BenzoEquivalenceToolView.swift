@@ -84,7 +84,7 @@ struct BenzoEquivalenceToolView: View {
                 .accessibilityHidden(true)
             Text("Benzo Equivalence")
                 .font(.title3.weight(.semibold))
-            Text("Compare benzodiazepine doses against diazepam, or convert between two — the way clinicians do when switching for a taper.")
+            Text("Compare benzodiazepine doses against diazepam, or convert between two. Switching to a long-acting benzo before tapering is standard practice, though evidence for better outcomes is limited.")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
                 .multilineTextAlignment(.center)

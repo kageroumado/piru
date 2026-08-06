@@ -531,7 +531,7 @@ nonisolated enum ReceptorClasses {
         if t.contains("sert") || t.contains("serotonin transporter") { return .serotonergicReleaser }
         if t.contains("dat") || t.contains("net") || t.contains("dopamine transporter")
             || t.contains("norepinephrine transporter") || t.contains("noradrenaline transporter") { return .catecholamineStimulant }
-        if t.contains("gaba") { return .gaba }
+        if t.contains("gaba-a") || t.contains("gabaa") || t.contains("α4β3δ gaba") { return .gaba }
         // Adrenergic / adrenoceptor targets, keyed *after* gaba so GABA-A subunit strings (e.g.
         // "GABA-A α2β2γ2", which contain "α2") route to gaba first. α1 / unspecified adrenergic
         // deliberately fall through to `.unknown` — a different receptor, out of scope (§3.5).

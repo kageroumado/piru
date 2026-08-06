@@ -152,8 +152,10 @@ struct ToleranceRow: Identifiable {
     // MARK: - Safety notes
 
     /// The trimmed one-sentence safety notes for this class, gated by tier where the note is Pharma-Nerd
-    /// depth. Reset-overdose / dependence warnings only make sense once there is tolerance to lose;
-    /// adrenergic rebound always shows (it's the whole point of those faint-tolerance cards).
+    /// depth. Reset-overdose warnings need tolerance to lose; dependence warnings
+    /// key on chronicity (duration of regular use), not tolerance magnitude —
+    /// therapeutic-dose dependence develops without measurable tolerance (NAV26 §5.6).
+    /// Adrenergic rebound always shows (it's the whole point of those faint-tolerance cards).
     func safetyNotes(tier: UserProfile) -> [ToleranceSafetyNote] {
         var notes: [ToleranceSafetyNote] = []
 
@@ -172,8 +174,8 @@ struct ToleranceRow: Identifiable {
                 add("After a break, tolerance drops fast — a dose that felt fine before can stop your breathing. Restart low.")
             }
         case .dependenceKindling:
-            if hasTolerance {
-                add("Heavy regular use builds dependence — stopping abruptly can be dangerous. Taper.")
+            if snapshot.chronicExposure > 0.10 {
+                add("Regular use over weeks builds physical dependence — stopping abruptly can be dangerous even if you don't feel tolerant. Taper gradually.")
             }
         case .alpha2Rebound:
             add("Don't stop α₂-agonists cold after regular use — blood pressure can rebound. Taper.")

@@ -11189,7 +11189,20 @@
       }
     },
     "Bliss" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "极乐"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "極樂"
+          }
+        }
+      }
     },
     "Blocks 5-HT₂A while weakly inhibiting serotonin reuptake. The receptor block dominates at low doses, which is why trazodone reached far more people as a sleep drug than as an antidepressant." : {
       "localizations" : {
@@ -13811,7 +13824,20 @@
       }
     },
     "Combinations" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "组合"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "組合"
+          }
+        }
+      }
     },
     "Combine repeat doses of the same substance into a single curve, where each redose adds to the combined intensity. When off, each dose is drawn as its own line." : {
       "localizations" : {
@@ -14206,6 +14232,7 @@
       }
     },
     "Compare benzodiazepine doses against diazepam, or convert between two — the way clinicians do when switching for a taper." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14220,6 +14247,9 @@
           }
         }
       }
+    },
+    "Compare benzodiazepine doses against diazepam, or convert between two. Switching to a long-acting benzo before tapering is standard practice, though evidence for better outcomes is limited." : {
+
     },
     "Compare benzodiazepine doses to diazepam" : {
       "localizations" : {
@@ -15160,7 +15190,20 @@
       }
     },
     "Craving" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "渴望"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "渴望"
+          }
+        }
+      }
     },
     "Create \"%@\"" : {
       "extractionState" : "stale",
@@ -15876,7 +15919,20 @@
       }
     },
     "Danger" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "危险"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "危險"
+          }
+        }
+      }
     },
     "Dangerous" : {
       "localizations" : {
@@ -23998,7 +24054,20 @@
       }
     },
     "Guideline: %@" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指南：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指南：%@"
+          }
+        }
+      }
     },
     "H-bond acceptors" : {
       "localizations" : {
@@ -24474,6 +24543,7 @@
       }
     },
     "Heavy regular use builds dependence — stopping abruptly can be dangerous. Taper." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24689,22 +24759,100 @@
       }
     },
     "Higher is more pleasure" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高愉悦越强"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高愉悅越強"
+          }
+        }
+      }
     },
     "Higher is more pleasure. The opioid warmth signal — fades with tolerance." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高愉悦越强。阿片温暖信号 — 随耐受而减弱。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高愉悅越強。阿片溫暖信號 — 隨耐受而減弱。"
+          }
+        }
+      }
     },
     "Higher is more pleasure. The opioid warmth signal." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高愉悦越强。阿片温暖信号。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高愉悅越強。阿片溫暖信號。"
+          }
+        }
+      }
     },
     "Higher is more pull" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高渴求越强"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高渴求越強"
+          }
+        }
+      }
     },
     "Higher is more pull. The rush and craving signal — can grow with repeated use even as the high fades." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高渴求越强。冲动与渴望信号 — 即使快感减退，反复使用也可能使渴求增强。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高渴求越強。衝動與渴望信號 — 即使快感減退，反覆使用也可能使渴求增強。"
+          }
+        }
+      }
     },
     "Higher is more pull. The rush and craving signal." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高渴求越强。冲动与渴望信号。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越高渴求越強。衝動與渴望信號。"
+          }
+        }
+      }
     },
     "Higher-priority sources that don't list this field are skipped." : {
       "localizations" : {
@@ -25754,6 +25902,9 @@
           }
         }
       }
+    },
+    "If you have been drinking heavily and daily for weeks, stopping abruptly can be medically dangerous — seizures and delirium tremens peak 2–4 days after the last drink. Seek medical advice before going cold turkey." : {
+
     },
     "If you lose this passphrase, the backup can't be recovered. There is no reset." : {
       "localizations" : {
@@ -27942,7 +28093,20 @@
       }
     },
     "Liking" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "愉悦"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "愉悅"
+          }
+        }
+      }
     },
     "Limited" : {
       "localizations" : {
@@ -39690,6 +39854,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "冷藏（2–8 °C）"
+          }
+        }
+      }
+    },
+    "Regular use over weeks builds physical dependence — stopping abruptly can be dangerous even if you don't feel tolerant. Taper gradually." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连续数周的规律使用会形成身体依赖——即使你没有感觉到耐受，突然停用也可能很危险。要逐步减量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連續數週的規律使用會形成身體依賴——即使你沒有感覺到耐受，突然停用也可能很危險。要逐步減量。"
           }
         }
       }
@@ -52520,7 +52700,20 @@
       }
     },
     "Wanting" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "渴求"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "渴求"
+          }
+        }
+      }
     },
     "Warm" : {
 
@@ -52591,7 +52784,20 @@
       }
     },
     "Water & heat" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "水分与温度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "水分與溫度"
+          }
+        }
+      }
     },
     "Water nudges timed to your dose — stimulants and empathogens mask thirst." : {
       "localizations" : {
