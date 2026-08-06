@@ -22,7 +22,7 @@ struct WikidataCompound {
     let inchiKey: String? // P235
     let smiles: String? // P233
     let pubchemCID: Int? // P662
-    let drugClass: [String] // P5642 + drug-class labels via P31/P279
+    let drugClass: [String] // P5642 (risk-factor) + drug-class labels via P31/P279
     /// The seed category (e.g. "Designer drugs") this came from. Used for
     /// `category` mapping when nothing more specific is found.
     let seedCategory: WikidataSource.Seed
@@ -39,7 +39,7 @@ struct WikidataSource {
     /// (transitive `subclass-of`). On Wikidata, individual chemical compounds
     /// are typically modeled as *subclasses* of their class concept, not as
     /// instances — so P279* finds the actual compound list. QIDs verified
-    /// 2026-05; counts in comments are approximate.
+    /// 2026-08; counts in comments are approximate.
     enum Seed: String, CaseIterable {
         case phenethylamine = "Q422693" // ~1500 compounds
         case tryptamine = "Q10705510" // ~3600 compounds
@@ -48,7 +48,7 @@ struct WikidataSource {
         case syntheticCannabinoid = "Q19904200" // ~5 compounds
         case opioid = "Q427523" // ~10 compounds
         case designerDrug = "Q1200715" // ~5 compounds
-        case hallucinogen = "Q189553" // ~10 compounds
+        case hallucinogen = "Q194270" // ~17 compounds (was Q189553 = otolaryngology)
 
         var label: String {
             switch self {
@@ -123,7 +123,9 @@ struct WikidataSource {
     /// SPARQL: items that are transitive subclasses of `seed`. Wikidata
     /// models individual compounds as `wdt:P279*` (subclass-of) of their
     /// chemical-class hub, so this pattern enumerates them. Optional
-    /// CAS/InChIKey/SMILES/PubChem CID, plus drug-class labels via P5642.
+    /// CAS/InChIKey/SMILES/PubChem CID, plus P5642 (risk-factor, not drug-class
+    /// — returns empty for all tested compounds; category falls through to
+    /// seedCategory.defaultCategory or categoryFromTags).
     private func sparql(seed: Seed) -> String {
         """
         SELECT ?item ?itemLabel ?cas ?inchikey ?smiles ?pubchem (GROUP_CONCAT(DISTINCT ?classLabel; separator="|") AS ?classes) (GROUP_CONCAT(DISTINCT ?alias; separator="|") AS ?aliases)

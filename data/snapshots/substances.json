@@ -10747,14 +10747,13 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 390.0,
     "mechanism_summary": "5-MAPB 是一种针对单胺类神经递质的三重神经递质再摄取抑制剂，作用对象包括norepinephrine、dopamine和serotonin；同时，它也是 5-HT 与 5-HT 受体的受体激动剂。此外，还有推测认为 5-MAPB 也会作为上述神经递质的神经递质释放剂发挥作用。\n\n因此，像 5-MAPB 这样的释放剂，可能会通过结合并部分阻断通常负责从突触间隙清除并再摄取这些单胺的转运蛋白，来有效提高脑内血清素、去甲肾上腺素和多巴胺的水平。这样一来，血清素、多巴胺和去甲肾上腺素就会在大脑中与奖赏和认知相关的多个区域积累，从而带来兴奋和躯体欣快感等效应哦。",
     "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
+    "references": [
+      "10.1016/j.annemergmed.2016.03.042"
+    ],
+    "data_gaps": []
   },
   {
     "name": "5-Mapdb",
