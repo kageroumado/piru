@@ -1,0 +1,15 @@
+{
+  "name": "Magnesium/Magaldrate",
+  "aliases": [],
+  "category": "Gastrointestinal",
+  "defaultRoute": "oral",
+  "routes": [],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Magaldrate"
+  ],
+  "tags": [
+    "antacid",
+    "OTC",
+    "combination-product"
+  ]
+}

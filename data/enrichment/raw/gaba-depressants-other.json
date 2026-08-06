@@ -63,21 +63,6 @@
           "tissue_or_cell": "Xenopus oocytes expressing α1 GlyR",
           "radioligand_or_probe": null,
           "reference": "pmid:9311780"
-        },
-        {
-          "target": "5-HT3",
-          "ki_nm": null,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": null,
-          "reference_agonist": "5-HT",
-          "action": "positiveAllostericModulator",
-          "species": "mouse",
-          "tissue_or_cell": "NCB-20 neuroblastoma cells",
-          "radioligand_or_probe": null,
-          "reference": "pmid:1922378"
         }
       ],
       "functional": [
@@ -218,13 +203,6 @@
     },
     "off_targets": [
       {
-        "target": "Kir3 (GIRK) channels",
-        "ki_or_ic50_nm": null,
-        "concern_level": "low",
-        "clinical_consequence": "Direct GIRK potentiation contributes to GABA-B-like analgesia and sedation at high doses.",
-        "reference": "pmid:9846786"
-      },
-      {
         "target": "nAChR α4β2 (inhibition at intox conc.)",
         "ki_or_ic50_nm": null,
         "concern_level": "moderate",
@@ -256,7 +234,6 @@
       "pmid:2467611",
       "pmid:14595397",
       "pmid:9311780",
-      "pmid:1922378",
       "pmid:9105402"
     ]
   },
@@ -372,24 +349,8 @@
       ],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "GHB dehydrogenase (cytosolic) + succinic semialdehyde dehydrogenase (mitochondrial)",
-        "fraction_of_clearance_pct": 95,
-        "metabolite_name": "succinic semialdehyde",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:11061418"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
-      {
-        "with": "ethanol",
-        "mechanism": "Pharmacodynamic: shared GABA-B and respiratory depression; ethanol also competes for ADH/aldehyde dehydrogenase",
-        "ki_um": null,
-        "clinical_effect": "Marked synergistic respiratory depression; ethanol prolongs GHB half-life ~30%.",
-        "reference": "pmid:23435037"
-      },
       {
         "with": "valproate",
         "mechanism": "SSADH (succinic semialdehyde dehydrogenase) inhibition",
@@ -398,13 +359,7 @@
         "reference": null
       }
     ],
-    "pharmacogenetics": {
-      "relevant_genes": [
-        "ALDH5A1 (SSADH)"
-      ],
-      "phenotype_effects": "SSADH deficiency (Aldh5a1 -/-) accumulates GHB and GABA, causing intellectual disability and seizures — illustrates the saturable metabolism vulnerability.",
-      "reference": "pmid:11061418"
-    },
+    "pharmacogenetics": null,
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": "Chronic GHB → GABA-B receptor desensitization and downregulation (rodent studies); contributes to severe withdrawal.",
       "cross_tolerance": [
@@ -417,15 +372,7 @@
       "withdrawal_syndrome": "Onset 1-6 h after last dose (very short — driven by short t1/2). Mild: tremor, anxiety, insomnia, tachycardia. Severe: delirium, psychosis, hallucinations, autonomic instability — closely resembles severe alcohol/benzo withdrawal; can be life-threatening. Treatment: high-dose benzodiazepines + baclofen + sometimes phenobarbital. The protracted course (psychiatric sequelae weeks-to-months) is attributed to GABA-B receptor downregulation.",
       "reference": "pmid:11174231"
     },
-    "off_targets": [
-      {
-        "target": "endogenous opioid release (dopamine via GABA-B disinhibition)",
-        "ki_or_ic50_nm": null,
-        "concern_level": "low",
-        "clinical_consequence": "Reinforcing properties partly opioid-mediated; naloxone partially blocks GHB-induced dopamine release in some studies.",
-        "reference": "pmid:8121535"
-      }
-    ],
+    "off_targets": [],
     "demographic_differences": {
       "sex": "Females may have higher GHB AUC than males at same mg/kg (rat data); limited human evidence.",
       "age": null,
@@ -449,8 +396,7 @@
       "pmid:15567424",
       "pmid:10591456",
       "pmid:22778411",
-      "pmid:15538955",
-      "pmid:11061418"
+      "pmid:15538955"
     ]
   },
   {
@@ -495,44 +441,11 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 95,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 15,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 1,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": null,
-          "subject_n": null,
-          "subject_demographics": "Lettieri & Fung 1979 — GBL t1/2 in plasma ~1 min; GHB Cmax higher and Tmax shorter after GBL than equimolar GHB.",
-          "reference": "pmid:113586"
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "Serum lactonase / paraoxonase (PON1)",
-        "fraction_of_clearance_pct": 100,
-        "metabolite_name": "GHB",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:113586"
-      }
-    ],
-    "drug_interactions_pk": [
-      {
-        "with": "ethanol",
-        "mechanism": "Pharmacodynamic synergy + slowed GHB clearance",
-        "ki_um": null,
-        "clinical_effect": "Major respiratory-depression risk; common in club-drug overdoses.",
-        "reference": "pmid:23435037"
-      }
-    ],
+    "metabolism": [],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "PON1"
@@ -575,7 +488,6 @@
     "confidence": "high",
     "data_gaps_remaining": [],
     "references_consulted": [
-      "pmid:113586",
       "pmid:11071567"
     ]
   },
@@ -6364,7 +6276,6 @@
       "pmid:6323949",
       "pmid:23026953",
       "pmid:26195733",
-      "pmid:11061418",
       "pmid:30627427"
     ]
   },

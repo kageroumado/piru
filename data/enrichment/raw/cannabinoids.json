@@ -1149,6 +1149,28 @@
           "radioligand_or_probe": "[35S]GTPγS",
           "reference": "doi:10.1016/j.bcp.2012.01.004",
           "comparable_set": "brents-2012-mouse-cb1-gtpgs-cp55940"
+        },
+        {
+          "target": "CB2",
+          "action": "agonist",
+          "intrinsic_activity_pct": 93,
+          "reference_agonist": "CP 55,940",
+          "comparable_set": "rajasekaran-2013-human-cb2-ac-cp55940",
+          "species": "human",
+          "tissue_or_cell": "CHO expressing human CB2",
+          "reference": "doi:10.1016/j.taap.2013.03.012",
+          "notes": "adenylyl cyclase inhibition assay"
+        },
+        {
+          "target": "CB2",
+          "action": "partialAgonist",
+          "intrinsic_activity_pct": 42,
+          "reference_agonist": "CP 55,940",
+          "comparable_set": "rajasekaran-2013-human-cb2-gtpgs-cp55940",
+          "species": "human",
+          "tissue_or_cell": "CHO expressing human CB2",
+          "radioligand_or_probe": "[35S]GTPγS",
+          "reference": "doi:10.1016/j.taap.2013.03.012"
         }
       ],
       "functional": [],

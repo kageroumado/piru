@@ -1,0 +1,21 @@
+{
+  "name": "Beclomethasone",
+  "aliases": [
+    "QVAR",
+    "QVAR RediHaler",
+    "Beconase",
+    "倍氯米松"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Beclometasone_dipropionate",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/21700"
+  ],
+  "tags": [
+    "corticosteroid",
+    "anti-inflammatory",
+    "prescription-only"
+  ]
+}

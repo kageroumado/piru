@@ -1,0 +1,22 @@
+{
+  "name": "Fluticasone",
+  "aliases": [
+    "Flonase",
+    "Flovent",
+    "Cutivate",
+    "氟替卡松"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Fluticasone",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5311101"
+  ],
+  "tags": [
+    "corticosteroid",
+    "anti-inflammatory",
+    "prescription-only",
+    "OTC-nasal"
+  ]
+}

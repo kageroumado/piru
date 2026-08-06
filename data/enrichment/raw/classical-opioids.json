@@ -385,12 +385,6 @@
     "human_pk": {
       "routes": [
         {
-          "route": "intravenous",
-          "bioavailability_pct": 100,
-          "half_life_min": 3,
-          "reference": "doi:10.1111/add.16201"
-        },
-        {
           "route": "insufflation",
           "bioavailability_pct": 50,
           "tmax_min": 5,
@@ -450,8 +444,7 @@
     "data_gaps_remaining": [],
     "references_consulted": [
       "pmid:11448454",
-      "pmid:31268284",
-      "doi:10.1111/add.16201"
+      "pmid:31268284"
     ]
   },
   {

@@ -1,0 +1,15 @@
+{
+  "name": "Magnesium/Sodium",
+  "aliases": [],
+  "category": "Gastrointestinal",
+  "defaultRoute": "oral",
+  "routes": [],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Magnesium_hydroxide"
+  ],
+  "tags": [
+    "antacid",
+    "OTC",
+    "combination-product"
+  ]
+}

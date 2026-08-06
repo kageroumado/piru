@@ -74,6 +74,18 @@
           "tissue_or_cell": "HEK293",
           "radioligand_or_probe": "[3H]diprenorphine",
           "reference": "doi:10.1073/pnas.182234399"
+        },
+        {
+          "target": "KOR",
+          "action": "agonist",
+          "ec50_nm": 2.2,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "U69593",
+          "comparable_set": "munro-2008-human-kor-gtpgs-u69593",
+          "species": "human",
+          "tissue_or_cell": "CHO expressing human KOR",
+          "radioligand_or_probe": "[35S]GTPγS",
+          "reference": "doi:10.1021/jm049438q"
         }
       ],
       "functional": [

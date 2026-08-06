@@ -1,0 +1,21 @@
+{
+  "name": "Hydrocortisone",
+  "aliases": [
+    "Cortaid",
+    "Cortef",
+    "Cortizone",
+    "氢化可的松"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Hydrocortisone",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5754"
+  ],
+  "tags": [
+    "corticosteroid",
+    "anti-inflammatory",
+    "OTC-topical"
+  ]
+}

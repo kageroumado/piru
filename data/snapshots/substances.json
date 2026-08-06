@@ -16370,6 +16370,41 @@
     ]
   },
   {
+    "name": "Beclomethasone",
+    "display_name": "",
+    "aliases": [
+      "Beconase",
+      "QVAR",
+      "QVAR RediHaler",
+      "倍氯米松"
+    ],
+    "category": "Endocrine",
+    "display_class": "medical_rx",
+    "tags": [
+      "anti-inflammatory",
+      "corticosteroid",
+      "prescription-only"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [
+      "https://en.wikipedia.org/wiki/Beclometasone_dipropionate"
+    ],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action"
+    ]
+  },
+  {
     "name": "Befuraline",
     "display_name": "",
     "aliases": [],
@@ -27814,6 +27849,42 @@
     ]
   },
   {
+    "name": "Fluticasone",
+    "display_name": "",
+    "aliases": [
+      "Cutivate",
+      "Flonase",
+      "Flovent",
+      "氟替卡松"
+    ],
+    "category": "Endocrine",
+    "display_class": "medical_rx",
+    "tags": [
+      "OTC-nasal",
+      "anti-inflammatory",
+      "corticosteroid",
+      "prescription-only"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [
+      "https://en.wikipedia.org/wiki/Fluticasone"
+    ],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action"
+    ]
+  },
+  {
     "name": "Flutoprazepam",
     "display_name": "",
     "aliases": [
@@ -28445,13 +28516,14 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1.0,
+    "half_life_minutes": null,
     "mechanism_summary": "Prodrug → GHB (GABA-B Agonist)",
     "effects": [],
-    "references": [
-      "Process of establishing a hyperalimentation team."
-    ],
-    "data_gaps": []
+    "references": [],
+    "data_gaps": [
+      "half_life_minutes",
+      "references"
+    ]
   },
   {
     "name": "Gepirone",
@@ -30250,6 +30322,41 @@
       "Preclinical and Clinical Pharmacology of Hydrocodone for Chronic Pain: A Mini Review"
     ],
     "data_gaps": []
+  },
+  {
+    "name": "Hydrocortisone",
+    "display_name": "",
+    "aliases": [
+      "Cortaid",
+      "Cortef",
+      "Cortizone",
+      "氢化可的松"
+    ],
+    "category": "Endocrine",
+    "display_class": "medical_rx",
+    "tags": [
+      "OTC-topical",
+      "anti-inflammatory",
+      "corticosteroid"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [
+      "https://en.wikipedia.org/wiki/Hydrocortisone"
+    ],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action"
+    ]
   },
   {
     "name": "Hydromorphone",
@@ -32491,35 +32598,39 @@
     "display_name": "",
     "aliases": [
       "LTG",
-      "Lamictal"
+      "Lamictal",
+      "拉莫三嗪"
     ],
-    "category": "",
-    "display_class": "recreational",
+    "category": "Anticonvulsant",
+    "display_class": "medical_rx",
     "tags": [
       "HLA-B*15:02-test-required",
       "SJS-TEN-risk",
       "UGT1A4-substrate",
+      "anticonvulsant",
       "class:Phenyl-triazine anticonvulsant",
+      "mood-stabilizer",
+      "prescription-only",
       "sodium-channel-blocker",
       "use-dependent-block"
     ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1740.0,
     "mechanism_summary": "Voltage-Gated Sodium Channel Blocker and Glutamate Release Inhibitor",
     "effects": [],
     "references": [
+      "https://en.wikipedia.org/wiki/Lamotrigine",
       "Pharmacokinetics of lamotrigine and its metabolite N‐2‐glucuronide: Influence of polymorphism of UDP‐glucuronosyltransferases and drug transporters"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route"
+    ]
   },
   {
     "name": "Lean",
@@ -32913,14 +33024,10 @@
       "renal-excretion",
       "supplement"
     ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1440.0,
@@ -32931,6 +33038,7 @@
       "https://en.wikipedia.org/wiki/Lithium_orotate"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "duration_by_route",
       "mechanism_of_action"
     ]
@@ -33828,6 +33936,66 @@
     ],
     "data_gaps": [
       "duration_by_route",
+      "mechanism_of_action"
+    ]
+  },
+  {
+    "name": "Magnesium/Magaldrate",
+    "display_name": "",
+    "aliases": [],
+    "category": "Gastrointestinal",
+    "display_class": "medical_rx",
+    "tags": [
+      "OTC",
+      "antacid",
+      "combination-product"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [
+      "https://en.wikipedia.org/wiki/Magaldrate"
+    ],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action"
+    ]
+  },
+  {
+    "name": "Magnesium/Sodium",
+    "display_name": "",
+    "aliases": [],
+    "category": "Gastrointestinal",
+    "display_class": "medical_rx",
+    "tags": [
+      "OTC",
+      "antacid",
+      "combination-product"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [
+      "https://en.wikipedia.org/wiki/Magnesium_hydroxide"
+    ],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -37344,6 +37512,7 @@
       "Concerta",
       "Daytrana",
       "Dexmethylphenidate",
+      "Dexmethylphenidate Hydrochloride Extended-release",
       "Equasym XL",
       "Focalin",
       "Focalin XR",
@@ -37355,6 +37524,7 @@
       "Relexxii",
       "Riphenidate",
       "Ritalin",
+      "Ritalin LA",
       "Rubifen SR",
       "biphentin",
       "d,l-threo-methylphenidate",
@@ -38624,6 +38794,7 @@
       "Mister Blue",
       "Morf",
       "Morphia",
+      "Morphine Sulfate Extended-release",
       "Morphium",
       "Morpho",
       "Oramorph",
@@ -42522,7 +42693,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1800.0,
+    "half_life_minutes": null,
     "mechanism_summary": "Non-Competitive NMDA Antagonist and Dopamine Reuptake Inhibitor",
     "effects": [
       "Acuity suppression",
@@ -42570,10 +42741,11 @@
       "Visual disconnection",
       "Visual sliding"
     ],
-    "references": [
-      "[Exercise ECG in the diagnosis of coronary heart disease]."
-    ],
-    "data_gaps": []
+    "references": [],
+    "data_gaps": [
+      "half_life_minutes",
+      "references"
+    ]
   },
   {
     "name": "PE",

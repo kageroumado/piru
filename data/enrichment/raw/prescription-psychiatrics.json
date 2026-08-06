@@ -2538,7 +2538,7 @@
         "ki_or_ic50_nm": null,
         "concern_level": "high",
         "clinical_consequence": "Stevens-Johnson syndrome / toxic epidermal necrolysis in ~1/1000 (epilepsy) to ~1/2500 (bipolar). Slow titration (25 mg×2 wk, 50 mg×2 wk, then up to 100-200 mg) reduces risk roughly 10-fold. Risk amplified by valproate co-administration.",
-        "reference": "doi:10.1056/NEJM199501193320304"
+        "reference": null
       },
       {
         "target": "cardiac Nav1.5",

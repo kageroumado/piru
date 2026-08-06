@@ -296,13 +296,6 @@
         "concern_level": "moderate",
         "clinical_consequence": "MDMA rapidly decreases vesicular monoamine (VMAT-2) transport in rat striatum after high-dose administration; unlike methamphetamine, the deficit partially recovers within 24 h.",
         "reference": "pmid:11861820"
-      },
-      {
-        "target": "TPH2 (tryptophan hydroxylase)",
-        "ki_or_ic50_nm": null,
-        "concern_level": "moderate",
-        "clinical_consequence": "Inactivates the enzyme that makes serotonin — by oxidising its sulfhydryl groups, not by binding it, and partly driven by the dopamine MDMA itself releases. Rodent activity falls 30–60% within 1–3 h; a low dose recovers within 24 h without new protein synthesis, while past ~3 days after a high dose the enzyme no longer reactivates. This is the mechanism behind the days-after flatness. Human evidence is a single autopsied heavy polydrug user with no dose history, so the magnitude in people is unestablished.",
-        "reference": "pmid:2571797"
       }
     ],
     "demographic_differences": {

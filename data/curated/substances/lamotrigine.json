@@ -1,0 +1,20 @@
+{
+  "name": "Lamotrigine",
+  "aliases": [
+    "拉莫三嗪",
+    "Lamictal"
+  ],
+  "category": "Anticonvulsant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Lamotrigine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3878"
+  ],
+  "tags": [
+    "anticonvulsant",
+    "mood-stabilizer",
+    "sodium-channel-blocker",
+    "prescription-only"
+  ]
+}

@@ -2857,15 +2857,7 @@
           "reference": "pmid:10404423"
         }
       ],
-      "concentration_effect": [
-        {
-          "effect": "Hallucinogen Rating Scale total",
-          "concentration_unit": "ng/mL",
-          "threshold": 12,
-          "peak_effect": 50,
-          "reference": "pmid:8067486"
-        }
-      ]
+      "concentration_effect": []
     },
     "metabolism": [
       {

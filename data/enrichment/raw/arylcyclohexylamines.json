@@ -1014,33 +1014,8 @@
       ]
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "smoked",
-          "bioavailability_pct": 70,
-          "tmax_min": 30,
-          "half_life_min": 1800,
-          "vd_l_per_kg": 6.2,
-          "protein_binding_pct": 65,
-          "reference": "pmid:6391896"
-        },
-        {
-          "route": "oral",
-          "bioavailability_pct": 72,
-          "tmax_min": 90,
-          "half_life_min": 1800,
-          "reference": "pmid:6391896"
-        }
-      ],
-      "concentration_effect": [
-        {
-          "effect": "intoxication threshold",
-          "concentration_unit": "ng/mL",
-          "threshold": 10,
-          "peak_effect": 100,
-          "reference": "pmid:6391896"
-        }
-      ]
+      "routes": [],
+      "concentration_effect": []
     },
     "metabolism": [
       {
@@ -1066,17 +1041,7 @@
       "phenotype_effects": null,
       "reference": null
     },
-    "tolerance_and_dependence": {
-      "receptor_downregulation_half_time": "Tolerance develops to subjective effects within days of repeated use",
-      "cross_tolerance": [
-        "ketamine",
-        "MXE",
-        "3-MeO-PCP",
-        "PCE"
-      ],
-      "withdrawal_syndrome": "Heavy chronic users: anxiety, depression, craving, weight loss, sleep disturbance; psychotic symptoms may persist weeks",
-      "reference": "pmid:6391896"
-    },
+    "tolerance_and_dependence": null,
     "off_targets": [
       {
         "target": "GIRK channels",
@@ -1098,7 +1063,6 @@
     "data_gaps_remaining": [],
     "references_consulted": [
       "doi:10.1371/journal.pone.0059334",
-      "pmid:6391896",
       "doi:10.1038/s41586-021-03769-9"
     ]
   },

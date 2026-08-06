@@ -9438,14 +9438,8 @@ class Build:
             return {"substances": 0, "rows": 0}
         ph = ",".join("?" * len(sids))
         rows = 0
-        # Keep salt-tagged rows: a salt family (e.g. Lithium) can be medical_rx at
-        # the parent yet carry an OTC/supplement salt (lithium orotate) with a real
-        # ladder the salt picker needs. Only the plain (salt_form IS NULL) clinical
-        # ladder is a prescriber's-domain dose to drop.
         for table in ("dose_ranges", "durations", "durations_of_action", "protocol_dosing"):
-            cur = self.cur.execute(
-                f"DELETE FROM {table} WHERE substance_id IN ({ph}) AND salt_form IS NULL", sids
-            )
+            cur = self.cur.execute(f"DELETE FROM {table} WHERE substance_id IN ({ph})", sids)
             rows += cur.rowcount
         return {"substances": len(sids), "rows": rows}
 

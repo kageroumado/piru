@@ -1675,6 +1675,28 @@
           "tissue_or_cell": "hippocampal membranes / HEK293 α7",
           "radioligand_or_probe": "[125I]-α-bungarotoxin",
           "reference": "doi:10.1016/s0960-894x(01)00193-7"
+        },
+        {
+          "target": "α4β2 nAChR",
+          "action": "agonist",
+          "ec50_nm": 52000,
+          "intrinsic_activity_pct": 85,
+          "reference_agonist": "ACh",
+          "comparable_set": "papke-2000-human-nachr-oocyte-ach",
+          "species": "human",
+          "tissue_or_cell": "Xenopus oocyte expressing human α4β2",
+          "reference": "doi:10.1046/j.1471-4159.2000.0750204.x"
+        },
+        {
+          "target": "α7 nAChR",
+          "action": "agonist",
+          "ec50_nm": 8000,
+          "intrinsic_activity_pct": 82,
+          "reference_agonist": "ACh",
+          "comparable_set": "papke-2000-human-nachr-oocyte-ach",
+          "species": "human",
+          "tissue_or_cell": "Xenopus oocyte expressing human α7",
+          "reference": "doi:10.1046/j.1471-4159.2000.0750204.x"
         }
       ],
       "functional": [],
