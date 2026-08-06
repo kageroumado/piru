@@ -225,6 +225,11 @@ nonisolated enum ReceptorClasses {
             case respiratory
             /// Stimulant cardiovascular/pressor load — the redose-toxicity axis.
             case cardiovascular
+            /// Benzodiazepine cognitive/psychomotor impairment — the escalation-impairment axis.
+            /// Sedation tolerizes near-completely in ~2 weeks; memory and psychomotor impairment
+            /// do not tolerize at all (VINK12). The dose goes up because sedation fades, but the
+            /// impairment scales with the new, higher dose.
+            case cognitiveImpairment
         }
 
         /// The harm axis this endpoint tracks.
@@ -380,9 +385,11 @@ nonisolated enum ReceptorClasses {
                 safetyEndpoint: nil,
             )
         case .gaba:
-            // Benzodiazepines / alcohol: a redose pool plus a days-scale adaptive shift (sedative
-            // tolerance is fast but far less elastic than opioids); dependence + kindling is the safety
-            // hand-off.
+            // Benzodiazepines / alcohol: sedative tolerance is fast (near-complete in ~2 weeks,
+            // VINK12) but anxiolytic and cognitive/psychomotor tolerance are absent or negligible.
+            // The primary layer represents the blended sedative+anxiolytic shift; the safety
+            // endpoint captures the cognitive impairment that does NOT tolerize — so the dose
+            // that no longer sedates still impairs memory and coordination at full strength.
             Parameters(
                 acuteShiftMax: 0.4, tauAcuteMinutes: 6 * T.hour,
                 adaptiveShiftMax: 1.0, tauAdaptiveMinutes: 14 * T.day,
@@ -390,8 +397,12 @@ nonisolated enum ReceptorClasses {
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .dependenceKindling, confidence: .low,
                 classDefaultVdLPerKg: 1.1,
-                sourceNote: "§3: sedative tolerance 2–4× fast (~3–5 d); far less elastic than opioids (acute 0.4 + adaptive 1.0 → ~4× worst-case, matching the controlled sedative literature). Anxiolytic tolerance slow/absent (Stage C differential). Dependence/kindling safety axis. Grade low.",
-                safetyEndpoint: nil,
+                sourceNote: "§3: sedative tolerance near-complete ~2 wk (VINK12); anxiolytic/amnesic tolerance absent. Primary blended (acute 0.4 + adaptive 1.0 → ~4× worst-case). Cognitive impairment endpoint shift ≡ 1 (no tolerance). Dependence/kindling safety axis. Grade low.",
+                safetyEndpoint: SafetyEndpoint(
+                    kind: .cognitiveImpairment,
+                    acuteShiftMax: 0, tauAcuteMinutes: 6 * T.hour,
+                    adaptiveShiftMax: 0, tauAdaptiveMinutes: 14 * T.day,
+                ),
             )
         case .nmdaAntagonist:
             // Ketamine / DXM / MXE: days-scale adaptive shift + a redose pool; cumulative toxicity.

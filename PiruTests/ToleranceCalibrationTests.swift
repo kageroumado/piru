@@ -989,9 +989,13 @@ struct ToleranceCalibrationTests {
         #expect(gaba.sAdaptive > 0) // the adaptive layer has accrued
         #expect(gaba.sDeep == 0) // GABA deepShiftMax is 0
         #expect(gaba.responseFraction < 1) // not fully naïve
-        // No safety endpoint yet — §B adds .cognitiveImpairment.
-        #expect(gaba.safetyEndpointKind == nil)
-        #expect(gaba.safetyGap == nil)
+        // §B: the cognitive impairment endpoint does not tolerize (both shiftMax = 0) → its
+        // shift factor is always 1 and safetyGap equals the primary shiftFactor.
+        #expect(gaba.safetyEndpointKind == .cognitiveImpairment)
+        let safetyShift = try #require(gaba.safetyShiftFactor)
+        #expect(abs(safetyShift - 1) < 1e-6) // cognitive shift ≡ 1 (no tolerance)
+        let gap = try #require(gaba.safetyGap)
+        #expect(abs(gap - gaba.shiftFactor) < 1e-6) // gap = primary / 1
     }
 
     // MARK: - 27. Protein-binding 50× gap visible in occupancy (§H.3)

@@ -6175,6 +6175,11 @@ T = {
     ),
     "doi:10.3390/ijms27031430": ("doi:10.3390/ijms27031430", "doi:10.3390/ijms27031430"),
     "RCT, n = 78": ("随机对照试验，n = 78", "隨機對照試驗，n = 78"),
+    # GABA cognitive impairment safety note (§B, 2026-08-06).
+    "The dose that no longer makes you sleepy impairs your memory and coordination exactly as much as it did on day one.": (
+        "不再让你困倦的剂量对你的记忆和协调能力的损害与第一天完全相同。",
+        "不再讓你困倦的劑量對你的記憶和協調能力的損害與第一天完全相同。",
+    ),
     # Phenibut protracted-withdrawal warning (§L.2, 2026-08-06).
     "If you are using phenibut or F-phenibut daily, dependence develops within weeks. Protracted withdrawal can last months — taper gradually with medical guidance.": (
         "如果你每天使用苯乙胺丁酸或氟苯乙胺丁酸，数周内就会产生依赖。迁延性戒断可持续数月——在医疗指导下逐步减量。",

@@ -26106,7 +26106,20 @@
       }
     },
     "If you are using phenibut or F-phenibut daily, dependence develops within weeks. Protracted withdrawal can last months — taper gradually with medical guidance." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你每天使用苯乙胺丁酸或氟苯乙胺丁酸，数周内就会产生依赖。迁延性戒断可持续数月——在医疗指导下逐步减量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你每天使用苯乙胺丁酸或氟苯乙胺丁酸，數週內就會產生依賴。遷延性戒斷可持續數月——在醫療指導下逐步減量。"
+          }
+        }
+      }
     },
     "If you feel anxious, focus on slow breathing. It passes." : {
       "localizations" : {
@@ -49261,6 +49274,9 @@
           }
         }
       }
+    },
+    "The dose that no longer makes you sleepy impairs your memory and coordination exactly as much as it did on day one." : {
+
     },
     "The engine can simulate these as part of a plan, but they need a calibrated substance in the same plan to anchor the curve." : {
       "localizations" : {

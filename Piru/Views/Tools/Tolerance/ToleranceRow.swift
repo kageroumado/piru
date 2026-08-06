@@ -185,10 +185,10 @@ struct ToleranceRow: Identifiable {
             break
         }
 
-        // §6: stimulant cardiovascular is two mechanisms. Lead with the in-session hazard (safety-critical,
-        // always) — the acute pressor doesn't tolerize, so chasing a faded high stacks fresh spikes. The
-        // chronic line is calm and shows only once the chronic (adaptive) endpoint is actually engaged, so
-        // it never implies dangerous cumulative load for a light/therapeutic user.
+        if snapshot.safetyEndpointKind == .cognitiveImpairment, hasTolerance {
+            add("The dose that no longer makes you sleepy impairs your memory and coordination exactly as much as it did on day one.")
+        }
+
         if snapshot.safetyEndpointKind == .cardiovascular {
             add("Within a session the high fades faster than the strain on your heart — chasing it with more stacks onto a blood-pressure spike that hasn't eased. Space your doses.")
             if let cardiovascular = snapshot.safetyShiftFactor, cardiovascular > 1.05 {
