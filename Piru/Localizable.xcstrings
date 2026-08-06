@@ -4477,6 +4477,9 @@
     "5-HT₂A receptor" : {
 
     },
+    "7-aminoclonazepam has no meaningful activity at GABA-A — it's an inactive metabolite used as a urinary marker for clonazepam exposure, not a contributor to the drug's effect." : {
+
+    },
     "7D" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14705,6 +14708,9 @@
           }
         }
       }
+    },
+    "Cotinine has negligible nicotinic activity — it's the standard biomarker for tobacco exposure, not a continuation of nicotine's effect. Its long half-life (~16 hours) is why it's detectable in blood and urine days after the last cigarette." : {
+
     },
     "Couldn't access the secure keychain." : {
       "localizations" : {
@@ -33370,6 +33376,9 @@
     "Norbuprenorphine acts differently from buprenorphine — it behaves more like a full opioid agonist and contributes to respiratory effects, which buprenorphine's own ceiling doesn't fully predict." : {
 
     },
+    "Norephedrine (phenylpropanolamine) is a peripheral sympathomimetic — it raises blood pressure and narrows blood vessels more than amphetamine's central action would predict. It adds cardiovascular load the parent's CNS profile doesn't warn about." : {
+
+    },
     "norepinephrine transporter" : {
       "localizations" : {
         "zh-Hans" : {
@@ -33402,6 +33411,9 @@
           }
         }
       }
+    },
+    "Norfenfluramine is a more potent serotonin releaser than fenfluramine itself — it drives much of the pharmacological effect, including the 5-HT₂B agonism linked to cardiac valve damage in the 1990s weight-loss era." : {
+
     },
     "Noribogaine is long-lived and acts differently from ibogaine — it leans more on serotonin reuptake and κ-opioid signaling, and it is a large part of the extended after-effect rather than a continuation of the peak." : {
 
@@ -48962,6 +48974,9 @@
           }
         }
       }
+    },
+    "This unusual Phase II conjugate retains the nor-mephedrone core — whether it has pharmacological activity is unknown, but its long plasma half-life means it lingers well past mephedrone's short duration." : {
+
     },
     "This will cancel the comedown notification." : {
       "localizations" : {

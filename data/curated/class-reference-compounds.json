@@ -1,0 +1,50 @@
+{
+  "_comment": "Curated reference compounds for each class-signature family. These are the recognisable names that should always be labelled on the signature axis, replacing the Wikipedia-popularity sort. Each entry is a substance name (must match canonical_name) with an optional rank (lower = more prominent). Ranks don't need to be contiguous.",
+  "families": {
+    "muOpioid": [
+      {"name": "Morphine", "rank": 0},
+      {"name": "Fentanyl", "rank": 1},
+      {"name": "Buprenorphine", "rank": 2},
+      {"name": "Oxycodone", "rank": 3},
+      {"name": "Methadone", "rank": 4},
+      {"name": "Heroin", "rank": 5},
+      {"name": "Codeine", "rank": 6},
+      {"name": "Tramadol", "rank": 7},
+      {"name": "Hydromorphone", "rank": 8}
+    ],
+    "cannabinoid1": [
+      {"name": "THC", "rank": 0},
+      {"name": "Cannabis", "rank": 1},
+      {"name": "JWH-018", "rank": 2},
+      {"name": "CBD", "rank": 3},
+      {"name": "THCV", "rank": 4}
+    ],
+    "serotonin": [
+      {"name": "LSD", "rank": 0},
+      {"name": "Psilocybin", "rank": 1},
+      {"name": "DMT", "rank": 2},
+      {"name": "Mescaline", "rank": 3},
+      {"name": "2C-B", "rank": 4},
+      {"name": "DOI", "rank": 5},
+      {"name": "5-MeO-DMT", "rank": 6}
+    ],
+    "transporters": [
+      {"name": "MDMA", "rank": 0},
+      {"name": "Amphetamine", "rank": 1},
+      {"name": "Cocaine", "rank": 2},
+      {"name": "Methylphenidate", "rank": 3},
+      {"name": "Methamphetamine", "rank": 4},
+      {"name": "Mephedrone", "rank": 5},
+      {"name": "Fluoxetine", "rank": 6},
+      {"name": "Venlafaxine", "rank": 7}
+    ],
+    "nmda": [
+      {"name": "Ketamine", "rank": 0},
+      {"name": "PCP", "rank": 1},
+      {"name": "Dextromethorphan", "rank": 2},
+      {"name": "Memantine", "rank": 3},
+      {"name": "Nitrous", "rank": 4},
+      {"name": "MXE", "rank": 5}
+    ]
+  }
+}

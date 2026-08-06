@@ -34,13 +34,18 @@ extension SubstanceStore {
                            b.relative_tau, b.intrinsic_activity_pct, b.emax_pct,
                            b.comparable_set, b.citation_id, b.species, b.assay_system,
                            b.reference_agonist,
-                           s.canonical_name AS substance_name, s.popularity,
+                           s.canonical_name AS substance_name,
+                           CASE WHEN r.substance_id IS NOT NULL
+                                THEN 100.0 - COALESCE(r.rank, 0) * 0.1
+                                ELSE s.popularity END AS popularity,
                            c.doi, c.pmid, c.year
                       FROM bindings b
                       JOIN substances s ON s.id = b.substance_id
                       LEFT JOIN citations c ON c.id = b.citation_id
+                      LEFT JOIN class_reference_compounds r
+                           ON r.substance_id = s.id AND r.family = ?
                      WHERE \(Self.targetPredicate(family))
-                """)
+                """, arguments: [family.rawValue])
                 return rows.compactMap { row -> SignatureLeg? in
                     guard let target = SignatureTarget.normalized(row["target"]) else { return nil }
                     let id: Int64 = row["id"]
@@ -79,11 +84,16 @@ extension SubstanceStore {
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT f.id, f.target, f.ec50_nm, f.ic50_nm, f.emax_pct, f.reference_agonist,
                            f.species, f.assay_system, f.citation_id,
-                           s.canonical_name AS substance_name, s.popularity,
+                           s.canonical_name AS substance_name,
+                           CASE WHEN r.substance_id IS NOT NULL
+                                THEN 100.0 - COALESCE(r.rank, 0) * 0.1
+                                ELSE s.popularity END AS popularity,
                            c.doi, c.pmid, c.year
                       FROM functional_assays f
                       JOIN substances s ON s.id = f.substance_id
                       LEFT JOIN citations c ON c.id = f.citation_id
+                      LEFT JOIN class_reference_compounds r
+                           ON r.substance_id = s.id AND r.family = 'transporters'
                      WHERE f.target IN ('SERT', 'DAT', 'NET')
                 """)
                 return rows.compactMap { row -> SignatureLeg? in
@@ -110,6 +120,23 @@ extension SubstanceStore {
             }
         } catch {
             logger.error("functionalAssayLegs failed: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
+
+    func classReferenceCompounds(family: SignatureFamily) -> Set<String> {
+        do {
+            return try substancesDB.read { db in
+                let rows = try Row.fetchAll(db, sql: """
+                    SELECT s.canonical_name
+                      FROM class_reference_compounds r
+                      JOIN substances s ON s.id = r.substance_id
+                     WHERE r.family = ?
+                     ORDER BY r.rank
+                """, arguments: [family.rawValue])
+                return Set(rows.map { $0["canonical_name"] as String })
+            }
+        } catch {
             return []
         }
     }

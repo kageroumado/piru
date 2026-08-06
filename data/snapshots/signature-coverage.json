@@ -13,10 +13,10 @@
   },
   "cannabinoid1": {
     "substances": 38,
-    "plottable": 22
+    "plottable": 21
   },
   "nmda": {
-    "substances": 36,
+    "substances": 35,
     "plottable": 9
   }
 }

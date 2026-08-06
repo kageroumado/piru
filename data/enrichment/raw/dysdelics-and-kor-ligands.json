@@ -37,7 +37,7 @@
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
+          "intrinsic_activity_pct": null,
           "reference_agonist": "U69593",
           "action": "agonist",
           "species": "human",

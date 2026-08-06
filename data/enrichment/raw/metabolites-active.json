@@ -1008,7 +1008,7 @@
           "ki_nm": null,
           "ki_ci_nm": null,
           "kd_nm": null,
-          "ec50_nm": null,
+          "ec50_nm": 123,
           "ic50_nm": null,
           "intrinsic_activity_pct": 100,
           "reference_agonist": "DAMGO",
@@ -1017,6 +1017,7 @@
           "tissue_or_cell": "C6 glioma cells stably expressing rat MOR (C6mu)",
           "radioligand_or_probe": "[35S]GTPgammaS",
           "reference": "doi:10.1124/jpet.105.094276",
+          "comparable_set": "thompson-2004-rat-mor-c6-gtpgs",
           "confidence": "high"
         }
       ]

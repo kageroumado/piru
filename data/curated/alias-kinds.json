@@ -17,6 +17,22 @@
     "street"
   ],
   "substances": {
+    "2C-H": [
+      {
+        "alias": "DMPEA",
+        "kind": "distinct_substance"
+      }
+    ],
+    "Alpha-Lipoic Acid": [
+      {
+        "alias": "R-ALA",
+        "kind": "distinct_substance"
+      },
+      {
+        "alias": "R-Lipoic Acid",
+        "kind": "distinct_substance"
+      }
+    ],
     "Amphetamine": [
       {
         "alias": "(AlphaS)-alpha-methylbenzeneethanamine",
@@ -426,6 +442,12 @@
         "locale": "zh-Hans"
       }
     ],
+    "Citalopram": [
+      {
+        "alias": "Escitalopram",
+        "kind": "distinct_substance"
+      }
+    ],
     "Cocaine": [
       {
         "alias": "base",
@@ -711,6 +733,12 @@
         "locale": "zh-Hans"
       }
     ],
+    "Dextropropoxyphene": [
+      {
+        "alias": "Propoxyphene",
+        "kind": "distinct_substance"
+      }
+    ],
     "Diphenhydramine": [
       {
         "alias": "Aller-g-time",
@@ -844,6 +872,16 @@
         "alias": "苯海拉明",
         "kind": "generic",
         "locale": "zh-Hans"
+      },
+      {
+        "alias": "Unisom SleepTabs",
+        "kind": "distinct_substance"
+      }
+    ],
+    "Ethylphenidate": [
+      {
+        "alias": "d-threo-ethylphenidate",
+        "kind": "distinct_substance"
       }
     ],
     "Flunitrazepam": [
@@ -949,10 +987,6 @@
     ],
     "GHB": [
       {
-        "alias": "1,4-BD",
-        "kind": "distinct_substance"
-      },
-      {
         "alias": "4-hydroxybutanoic acid",
         "kind": "chemical"
       },
@@ -961,16 +995,8 @@
         "kind": "chemical"
       },
       {
-        "alias": "4-丁内酯",
-        "kind": "distinct_substance"
-      },
-      {
         "alias": "4-内酯",
         "kind": "malformed"
-      },
-      {
-        "alias": "4-羟基丁酸内酯",
-        "kind": "distinct_substance"
       },
       {
         "alias": "G",
@@ -980,10 +1006,6 @@
       {
         "alias": "Gamma-Hydroxybutyric Acid",
         "kind": "expansion"
-      },
-      {
-        "alias": "GBL",
-        "kind": "distinct_substance"
       },
       {
         "alias": "Liquid Ecstasy",
@@ -1022,17 +1044,9 @@
         "kind": "chemical"
       },
       {
-        "alias": "γ-丁内酯",
-        "kind": "distinct_substance"
-      },
-      {
         "alias": "γ-羟基丁酸",
         "kind": "chemical",
         "locale": "zh-Hans"
-      },
-      {
-        "alias": "γ-羟基丁酸内酯",
-        "kind": "distinct_substance"
       },
       {
         "alias": "γ-羥基丁酸",
@@ -1040,13 +1054,15 @@
         "locale": "zh-Hant"
       },
       {
-        "alias": "氧杂环戊烷-2-酮",
-        "kind": "distinct_substance"
-      },
-      {
         "alias": "羟基丁酸钠",
         "kind": "chemical",
         "locale": "zh-Hans"
+      }
+    ],
+    "Hexedrone": [
+      {
+        "alias": "Hexen",
+        "kind": "distinct_substance"
       }
     ],
     "Ketamine": [
@@ -1452,10 +1468,6 @@
         "alias": "stacy",
         "kind": "street",
         "locale": "en"
-      },
-      {
-        "alias": "tenamfetamine",
-        "kind": "distinct_substance"
       },
       {
         "alias": "The Love Drug",
@@ -1993,6 +2005,18 @@
       {
         "alias": "哌甲酯（Methylphenidate）",
         "kind": "malformed"
+      }
+    ],
+    "Milnacipran": [
+      {
+        "alias": "Levomilnacipran",
+        "kind": "distinct_substance"
+      }
+    ],
+    "Modafinil": [
+      {
+        "alias": "Armodafinil",
+        "kind": "distinct_substance"
       }
     ],
     "Morphine": [
@@ -2646,6 +2670,18 @@
         "locale": "zh-Hans"
       }
     ],
+    "Psilocybin mushrooms": [
+      {
+        "alias": "Psilocybin",
+        "kind": "distinct_substance"
+      }
+    ],
+    "Salvinorin A": [
+      {
+        "alias": "Salvia",
+        "kind": "distinct_substance"
+      }
+    ],
     "Sodium": [
       {
         "alias": "Anti Cavity Fluoride",
@@ -2750,6 +2786,12 @@
       {
         "alias": "Up And Up Sensitive Maximum Strength Mint",
         "kind": "product"
+      }
+    ],
+    "Zopiclone": [
+      {
+        "alias": "Eszopiclone",
+        "kind": "distinct_substance"
       }
     ]
   }

@@ -306,9 +306,7 @@ def extract_pyrls():
         pharm = di.get("pharmacology") or {}
         mech_text = strip_html(pharm.get("mechanism"))
         mechanism = (
-            {"summary": mech_text, "description": mech_text, "references": []}
-            if mech_text
-            else None
+            {"summary": mech_text, "description": None, "references": []} if mech_text else None
         )
         indications = [
             strip_html(_txt(x)) for x in ((di.get("indications") or {}).get("labeled") or [])
@@ -422,7 +420,7 @@ def extract_medtap():
         default_route = routes_mapped[0] if routes_mapped else "oral"
         sections = e.get("sections") or []
         pharm = _section(sections, {"Pharmacology"})
-        mechanism = {"summary": pharm, "description": pharm, "references": []} if pharm else None
+        mechanism = {"summary": pharm, "description": None, "references": []} if pharm else None
         indications = _section(sections, {"Indications"})
         contras = _section(sections, {"Contraindications/Cautions", "Contraindications"})
         rx = _first(e.get("rx")).upper()

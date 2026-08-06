@@ -66,7 +66,7 @@
           "ki_nm": null,
           "ki_ci_nm": null,
           "kd_nm": null,
-          "ec50_nm": null,
+          "ec50_nm": 194,
           "ic50_nm": null,
           "intrinsic_activity_pct": 100,
           "reference_agonist": "DAMGO",
@@ -75,6 +75,7 @@
           "tissue_or_cell": "HEK293 expressing hMOR",
           "radioligand_or_probe": "BRET G-protein activation",
           "reference": "doi:10.1038/tp.2014.30",
+          "comparable_set": "gassaway-2014-human-mor-bret-damgo",
           "confidence": "medium"
         }
       ],
@@ -1768,7 +1769,7 @@
           "target": "α4β2 nAChR (human / rat)",
           "ki_nm": 1,
           "ki_ci_nm": null,
-          "intrinsic_activity_pct": 100,
+          "intrinsic_activity_pct": null,
           "reference_agonist": "epibatidine",
           "action": "agonist",
           "species": "mixed",
@@ -1779,7 +1780,7 @@
         {
           "target": "α7 nAChR",
           "ki_nm": 770,
-          "intrinsic_activity_pct": 100,
+          "intrinsic_activity_pct": null,
           "reference_agonist": null,
           "action": "agonist",
           "species": "mixed",

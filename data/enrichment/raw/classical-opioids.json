@@ -22,7 +22,7 @@
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
+          "intrinsic_activity_pct": null,
           "reference_agonist": "DAMGO",
           "action": "agonist",
           "species": "rat",
@@ -2200,7 +2200,7 @@
       {
         "enzyme": "UGT / further oxidation",
         "fraction_of_clearance_pct": null,
-        "metabolite_name": "mitragynine pseudoindoxyl (and glucuronides)",
+        "metabolite_name": "mitragynine pseudoindoxyl",
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "pmid:27556704"

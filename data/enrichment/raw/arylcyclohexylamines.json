@@ -758,7 +758,7 @@
     "metabolism": [
       {
         "enzyme": "CYP2B6",
-        "metabolite_name": "(2R,6R)/(2S,6S)-hydroxynorketamine",
+        "metabolite_name": "hydroxynorketamine",
         "metabolite_active": true,
         "reference": "doi:10.1038/nature17998"
       },

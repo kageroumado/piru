@@ -42,20 +42,7 @@
         "TAAR1",
         "VMAT2"
       ],
-      "binding": [
-        {
-          "target": "TAAR1",
-          "ki_nm": null,
-          "ec50_nm": 1800,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "β-PEA",
-          "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "HEK293 transiently expressing hTAAR1, cAMP readout",
-          "radioligand_or_probe": "cAMP accumulation",
-          "reference": "pmid:11459929"
-        }
-      ],
+      "binding": [],
       "functional": [
         {
           "target": "DAT (rat brain synaptosomes, [3H]-DA release)",

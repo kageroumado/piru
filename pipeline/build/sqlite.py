@@ -108,6 +108,7 @@ FREEODWIKI = REPO / "data/sources/freeodwiki.json"
 # The build drops citations this proved dead (HTTP 404/410) so no broken link ships.
 LINK_CACHE = REPO / "data/sources/link-cache.json"
 PSYCHONAUTWIKI = REPO / "data/sources/psychonautwiki.json"
+PUBMED_PUBTYPES = REPO / "data/sources/pubmed-pubtypes.json"
 ENRICHMENT_DIR = REPO / "data/enrichment/raw"
 
 #: Which dosing regime a source's dose ladders describe. Several substances have
@@ -1389,6 +1390,13 @@ CREATE INDEX idx_molecule_shapes_substance ON molecule_shapes(substance_id);
 CREATE TABLE manifest (
     key   TEXT PRIMARY KEY,
     value TEXT NOT NULL
+);
+
+CREATE TABLE class_reference_compounds (
+    family         TEXT NOT NULL,
+    substance_id   INTEGER NOT NULL REFERENCES substances(id),
+    rank           INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (family, substance_id)
 );
 """
 
@@ -4202,12 +4210,19 @@ class Build:
             return cid
 
         # A prior call may have inserted this paper under the other identifier
-        # before the cross-fill resolved it. Check partial-key matches.
+        # (or with a different URL) before the cross-fill resolved it.
         existing_cid = None
-        if doi and pmid:
+        if doi or pmid:
+            clauses, params = [], []
+            if doi:
+                clauses.append("doi = ?")
+                params.append(doi)
+            if pmid:
+                clauses.append("pmid = ?")
+                params.append(pmid)
             row = self.cur.execute(
-                "SELECT id FROM citations WHERE doi = ? OR pmid = ?",
-                (doi, pmid),
+                f"SELECT id FROM citations WHERE {' OR '.join(clauses)}",
+                params,
             ).fetchone()
             if row:
                 existing_cid = row[0]
@@ -4499,9 +4514,23 @@ class Build:
         except sqlite3.IntegrityError:
             pass
 
+    _TAG_NORMALIZE: dict[str, str] = {
+        "ssri": "SSRI",
+        "snri": "SNRI",
+        "sari": "SARI",
+        "ndri": "NDRI",
+        "nassa": "NaSSA",
+        "rima": "RIMA",
+        "maoi": "MAOI",
+        "tca": "TCA",
+        "tricyclic antidepressant": "TCA",
+        "tricyclic": "TCA",
+    }
+
     def add_tag(self, sid: int, source_slug: str, tag: str, confidence: str | None = None) -> None:
         if not tag or is_dosage_form_tag(tag):
             return
+        tag = self._TAG_NORMALIZE.get(tag.lower(), tag)
         src = self.source_ids[source_slug]
         # Cache unconditionally so the dose-magnitude gate sees every tag
         # any source asserts for this substance, even if the row was already
@@ -8189,6 +8218,30 @@ class Build:
             stats["ambiguous"] += ambiguous
         return stats
 
+    def populate_class_reference_compounds(self) -> dict[str, int]:
+        """Fill `class_reference_compounds` from curated JSON."""
+        path = CURATED_DIR.parent / "class-reference-compounds.json"
+        stats = {"inserted": 0, "unmatched": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        for family, entries in payload.get("families", {}).items():
+            for entry in entries:
+                sid = self.substance_ids.get(normalise(entry["name"]))
+                if sid is None:
+                    stats["unmatched"] += 1
+                    continue
+                try:
+                    self.cur.execute(
+                        "INSERT INTO class_reference_compounds(family, substance_id, rank)"
+                        " VALUES (?, ?, ?)",
+                        (family, sid, entry.get("rank", 0)),
+                    )
+                    stats["inserted"] += 1
+                except sqlite3.IntegrityError:
+                    pass
+        return stats
+
     def derive_half_lives_from_pk(self) -> dict[str, int]:
         """Give a substance a `half_lives` row when its only half-life is sitting in
         `pk_routes`.
@@ -8340,14 +8393,16 @@ class Build:
         for parent, name in form_brands:
             brand += self.cur.execute(
                 "UPDATE aliases SET kind='brand', brand_rank=1 WHERE alias_normalized=? AND substance_id="
-                "(SELECT id FROM substances WHERE canonical_name=?)",
+                "(SELECT id FROM substances WHERE canonical_name=?)"
+                " AND kind IS NOT 'distinct_substance'",
                 (normalise(name), parent),
             ).rowcount
         brand_missing = []
         for parent, name, rank in flagship_brands:
             cur = self.cur.execute(
                 "UPDATE aliases SET kind='brand', brand_rank=? WHERE alias_normalized=? AND substance_id="
-                "(SELECT id FROM substances WHERE canonical_name=?)",
+                "(SELECT id FROM substances WHERE canonical_name=?)"
+                " AND kind IS NOT 'distinct_substance'",
                 (rank, normalise(name), parent),
             )
             if cur.rowcount:
@@ -10444,6 +10499,8 @@ def main() -> int:
 
     drug_classes = build.apply_drug_classes()
     print(f"Drug classes: {drug_classes}", file=sys.stderr)
+    class_refs = build.populate_class_reference_compounds()
+    print(f"Class reference compounds: {class_refs}", file=sys.stderr)
 
     derived_half_lives = build.derive_half_lives_from_pk()
     print(f"Half-lives derived from PK: {derived_half_lives}", file=sys.stderr)
@@ -10506,16 +10563,36 @@ def main() -> int:
     # so it surfaces as a card printed twice. Strip the mechanically-identical
     # ones before the file is sealed; value duplicates (same numbers, different
     # notes) are only reported — see pipeline/build/dedupe.py.
-    # Propagate is_review from binding rows to citations. The per-row flag
-    # is set in enrichment; the citation-level flag was never written by any
-    # INSERT. If ANY binding row marks a citation as review, the citation is.
-    review_propagated = db.execute(
-        """UPDATE citations SET is_review = 1
-           WHERE id IN (SELECT DISTINCT citation_id FROM bindings WHERE is_review = 1)
-             AND is_review = 0"""
-    ).rowcount
-    if review_propagated:
-        print(f"is_review: propagated to {review_propagated} citation(s) from binding rows")
+    # Derive is_review from PubMed publication types (the only honest source).
+    _REVIEW_PUBTYPES = {
+        "Review",
+        "Systematic Review",
+        "Meta-Analysis",
+        "Scoping Review",
+        "Practice Guideline",
+        "Guideline",
+    }
+    _pubtypes = json.loads(PUBMED_PUBTYPES.read_text()) if PUBMED_PUBTYPES.exists() else {}
+    review_pmids = {
+        pmid for pmid, types in _pubtypes.items() if any(t in _REVIEW_PUBTYPES for t in types)
+    }
+    review_flagged = 0
+    if review_pmids:
+        for pmid in review_pmids:
+            review_flagged += db.execute(
+                "UPDATE citations SET is_review = 1 WHERE pmid = ? AND is_review = 0",
+                (pmid,),
+            ).rowcount
+        db.execute(
+            """UPDATE bindings SET is_review = 1
+               WHERE citation_id IN (SELECT id FROM citations WHERE is_review = 1)
+                 AND is_review = 0"""
+        )
+    print(
+        f"is_review: {len(_pubtypes)} PMIDs cached, {len(review_pmids)} are reviews, "
+        f"{review_flagged} citation(s) flagged",
+        file=sys.stderr,
+    )
     db.commit()
 
     dedupe = dedupe_database(db)

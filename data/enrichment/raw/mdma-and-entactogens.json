@@ -1393,7 +1393,7 @@
         {
           "target": "SERT",
           "ec50_nm": 36,
-          "intrinsic_activity_pct": 100,
+          "intrinsic_activity_pct": null,
           "action": "releasingAgent",
           "species": "rat",
           "reference": "pmid:32875347"

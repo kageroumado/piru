@@ -3653,17 +3653,6 @@
           "reference": "doi:10.1111/jnc.15587"
         },
         {
-          "target": "TAAR1",
-          "ki_nm": null,
-          "ec50_nm": 110,
-          "intrinsic_activity_pct": 100,
-          "action": "agonist",
-          "species": "rat",
-          "tissue_or_cell": "HEK293",
-          "radioligand_or_probe": "cAMP",
-          "reference": "pmid:11459929"
-        },
-        {
           "target": "5-HT1A",
           "ki_nm": 1.9,
           "comparable_set": "pdsp-ki-panel-human",

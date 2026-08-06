@@ -70,7 +70,7 @@ nonisolated enum MetaboliteEditorial {
         // Normeperidine is a convulsant, not a painkiller — the reason meperidine
         // is not used for ongoing pain.
         .init(
-            parent: "Demerol",
+            parent: "Pethidine",
             metabolite: "normeperidine",
             note: "Normeperidine isn't a painkiller — it's a stimulating metabolite that builds up with repeated or high doses and lowers the seizure threshold. It's why meperidine isn't used for long-term pain.",
         ),
@@ -132,6 +132,39 @@ nonisolated enum MetaboliteEditorial {
             parent: "Hydroxyzine",
             metabolite: "cetirizine",
             note: "Cetirizine — a common non-drowsy antihistamine — is hydroxyzine's main metabolite. It's far less sedating, so hydroxyzine's calming effect gives way to a plainer antihistamine as it converts.",
+        ),
+        // Norephedrine adds sympathomimetic tone (vasoconstriction, BP rise)
+        // that amphetamine's central action doesn't predict.
+        .init(
+            parent: "Amphetamine",
+            metabolite: "norephedrine",
+            note: "Norephedrine (phenylpropanolamine) is a peripheral sympathomimetic — it raises blood pressure and narrows blood vessels more than amphetamine's central action would predict. It adds cardiovascular load the parent's CNS profile doesn't warn about.",
+        ),
+        // 7-Aminoclonazepam is pharmacologically inactive — the standard
+        // urinary marker.
+        .init(
+            parent: "Clonazepam",
+            metabolite: "7-aminoclonazepam",
+            note: "7-aminoclonazepam has no meaningful activity at GABA-A — it's an inactive metabolite used as a urinary marker for clonazepam exposure, not a contributor to the drug's effect.",
+        ),
+        // Norfenfluramine is the serotonin releaser that drove fenfluramine's
+        // weight-loss action (and its cardiac valve damage).
+        .init(
+            parent: "Fenfluramine",
+            metabolite: "norfenfluramine",
+            note: "Norfenfluramine is a more potent serotonin releaser than fenfluramine itself — it drives much of the pharmacological effect, including the 5-HT₂B agonism linked to cardiac valve damage in the 1990s weight-loss era.",
+        ),
+        // N-succinyl-nor-mephedrone — a Phase II conjugate with unknown activity.
+        .init(
+            parent: "Mephedrone",
+            metabolite: "N-succinyl-nor-mephedrone",
+            note: "This unusual Phase II conjugate retains the nor-mephedrone core — whether it has pharmacological activity is unknown, but its long plasma half-life means it lingers well past mephedrone's short duration.",
+        ),
+        // Cotinine is the long-lived marker, not a nicotinic agonist.
+        .init(
+            parent: "Nicotine",
+            metabolite: "cotinine",
+            note: "Cotinine has negligible nicotinic activity — it's the standard biomarker for tobacco exposure, not a continuation of nicotine's effect. Its long half-life (~16 hours) is why it's detectable in blood and urine days after the last cigarette.",
         ),
     ]
 }

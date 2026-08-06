@@ -257,11 +257,11 @@
           "kd_nm": null,
           "ec50_nm": 90,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "AITC (mustard oil)",
+          "intrinsic_activity_pct": 119,
+          "reference_agonist": "AITC 100 µM",
           "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "HEK293 expressing hTRPA1",
+          "species": "rat",
+          "tissue_or_cell": "HEK293 expressing rTRPA1",
           "radioligand_or_probe": "calcium flux",
           "reference": "pmid:21175579"
         }
@@ -597,13 +597,13 @@
           "kd_nm": null,
           "ec50_nm": 420,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "AITC",
+          "intrinsic_activity_pct": 105,
+          "reference_agonist": "AITC 100 µM",
           "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "HEK293-hTRPA1",
-          "radioligand_or_probe": "calcium flux",
-          "reference": "doi:10.1021/cn5000524"
+          "species": "rat",
+          "tissue_or_cell": "HEK293 expressing rTRPA1",
+          "radioligand_or_probe": "Ca2+ fluorimetry (Fluo-4)",
+          "reference": "pmid:21175579"
         },
         {
           "target": "DAGL-α",
@@ -1111,8 +1111,8 @@
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
           "action": "agonist",
           "species": "mixed",
           "tissue_or_cell": "rat cerebellum / hCB1-CHO",
@@ -1129,19 +1129,32 @@
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": "[3H]-CP55,940",
           "reference": "pmid:10940540"
+        },
+        {
+          "target": "CB1",
+          "ki_nm": 12.9,
+          "ec50_nm": 276.5,
+          "intrinsic_activity_pct": 104,
+          "reference_agonist": "CP 55,940",
+          "action": "agonist",
+          "species": "mouse",
+          "tissue_or_cell": "mouse brain homogenate",
+          "radioligand_or_probe": "[35S]GTPγS",
+          "reference": "doi:10.1016/j.bcp.2012.01.004",
+          "comparable_set": "brents-2012-mouse-cb1-gtpgs-cp55940"
         }
       ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Full CB1 agonist (Gi-cAMP); shorter butyl side chain gives somewhat shorter duration than pentyl analogues.",
+      "downstream_signalling": "Full CB1 agonist (104% of CP 55,940 in GTPγS, Brents 2012).",
       "neuroimaging": []
     },
     "human_pk": {
@@ -1218,13 +1231,14 @@
           "kd_nm": null,
           "ec50_nm": 38,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
+          "intrinsic_activity_pct": 111,
+          "reference_agonist": "WIN 55,212-2",
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "CHO-hCB1",
-          "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmid:25921407"
+          "tissue_or_cell": "AtT20-hCB1",
+          "radioligand_or_probe": "fluorometric membrane potential",
+          "reference": "pmid:25921407",
+          "comparable_set": "banister-2015a-human-cb-flipr-win55212"
         },
         {
           "target": "CB2",
@@ -1233,13 +1247,14 @@
           "kd_nm": null,
           "ec50_nm": 58,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
+          "intrinsic_activity_pct": 102,
+          "reference_agonist": "WIN 55,212-2",
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "CHO-hCB2",
-          "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmid:25921407"
+          "tissue_or_cell": "AtT20-hCB2",
+          "radioligand_or_probe": "fluorometric membrane potential",
+          "reference": "pmid:25921407",
+          "comparable_set": "banister-2015a-human-cb-flipr-win55212"
         },
         {
           "target": "CB1",
@@ -1331,13 +1346,14 @@
           "kd_nm": null,
           "ec50_nm": 1.8,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
+          "intrinsic_activity_pct": 108,
+          "reference_agonist": "CP 55,940",
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "AtT20 cells expressing hCB1",
-          "radioligand_or_probe": "fluorometric membrane potential assay",
-          "reference": "pmid:26134475"
+          "tissue_or_cell": "AtT20-hCB1",
+          "radioligand_or_probe": "fluorometric membrane potential",
+          "reference": "pmid:26134475",
+          "comparable_set": "banister-2015b-human-cb-flipr-cp55940"
         },
         {
           "target": "CB2",
@@ -1346,13 +1362,14 @@
           "kd_nm": null,
           "ec50_nm": 3.2,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
+          "intrinsic_activity_pct": 95,
+          "reference_agonist": "CP 55,940",
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "AtT20 cells expressing hCB2",
-          "radioligand_or_probe": null,
-          "reference": "pmid:26134475"
+          "tissue_or_cell": "AtT20-hCB2",
+          "radioligand_or_probe": "fluorometric membrane potential",
+          "reference": "pmid:26134475",
+          "comparable_set": "banister-2015b-human-cb-flipr-cp55940"
         }
       ],
       "functional": [],
@@ -1486,28 +1503,30 @@
           "kd_nm": null,
           "ec50_nm": 7.4,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
+          "intrinsic_activity_pct": 165,
+          "reference_agonist": "CP 55,940",
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "CHO-hCB1",
-          "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmid:26105953"
+          "tissue_or_cell": "CHO-hCB1 membranes",
+          "radioligand_or_probe": "[35S]GTPγS",
+          "reference": "pmid:26105953",
+          "comparable_set": "wiley-2015-human-cb-gtpgs-cp55940"
         },
         {
           "target": "CB2",
           "ki_nm": 0.45,
           "ki_ci_nm": null,
           "kd_nm": null,
-          "ec50_nm": 0.91,
+          "ec50_nm": 232.4,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
+          "intrinsic_activity_pct": 56,
+          "reference_agonist": "CP 55,940",
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "CHO-hCB2",
-          "radioligand_or_probe": null,
-          "reference": "pmid:26105953"
+          "tissue_or_cell": "CHO-hCB2 membranes",
+          "radioligand_or_probe": "[35S]GTPγS",
+          "reference": "pmid:26105953",
+          "comparable_set": "wiley-2015-human-cb-gtpgs-cp55940"
         }
       ],
       "functional": [],
@@ -1579,15 +1598,16 @@
           "ki_nm": null,
           "ki_ci_nm": null,
           "kd_nm": null,
-          "ec50_nm": 0.59,
+          "ec50_nm": 0.52,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
+          "intrinsic_activity_pct": 117,
+          "reference_agonist": "CP 55,940",
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "AtT20 cells expressing hCB1",
+          "tissue_or_cell": "AtT20-hCB1",
           "radioligand_or_probe": "fluorometric membrane potential",
-          "reference": "pmid:26134475"
+          "reference": "pmid:26134475",
+          "comparable_set": "banister-2015b-human-cb-flipr-cp55940"
         },
         {
           "target": "CB2",
@@ -1596,13 +1616,14 @@
           "kd_nm": null,
           "ec50_nm": 0.88,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
+          "intrinsic_activity_pct": 107,
+          "reference_agonist": "CP 55,940",
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "AtT20-hCB2",
-          "radioligand_or_probe": null,
-          "reference": "pmid:26134475"
+          "radioligand_or_probe": "fluorometric membrane potential",
+          "reference": "pmid:26134475",
+          "comparable_set": "banister-2015b-human-cb-flipr-cp55940"
         },
         {
           "target": "CB1",
@@ -1757,13 +1778,14 @@
           "kd_nm": null,
           "ec50_nm": 6.36,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
           "reference_agonist": "CP55,940",
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "AequoScreen-hCB1",
           "radioligand_or_probe": null,
-          "reference": "doi:10.1007/s00204-025-04082-4"
+          "reference": "doi:10.1007/s00204-025-04082-4",
+          "emax_pct": 118,
+          "assay_system": "AequoScreen Ca2+, CHO-K1"
         },
         {
           "target": "CB2",
@@ -1772,13 +1794,14 @@
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
           "reference_agonist": "CP55,940",
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": null,
           "radioligand_or_probe": null,
-          "reference": "doi:10.1007/s00204-025-04082-4"
+          "reference": "doi:10.1007/s00204-025-04082-4",
+          "emax_pct": 118,
+          "assay_system": "AequoScreen Ca2+, CHO-K1"
         }
       ],
       "functional": [],
@@ -2022,13 +2045,14 @@
           "kd_nm": null,
           "ec50_nm": 0.69,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
+          "intrinsic_activity_pct": 98,
+          "reference_agonist": "CP 55,940",
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "AtT20-hCB1",
           "radioligand_or_probe": "fluorometric membrane potential",
-          "reference": "pmid:26134475"
+          "reference": "pmid:26134475",
+          "comparable_set": "banister-2015b-human-cb-flipr-cp55940"
         },
         {
           "target": "CB2",
@@ -2037,13 +2061,14 @@
           "kd_nm": null,
           "ec50_nm": 1.8,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
+          "intrinsic_activity_pct": 94,
+          "reference_agonist": "CP 55,940",
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "AtT20-hCB2",
-          "radioligand_or_probe": null,
-          "reference": "pmid:26134475"
+          "radioligand_or_probe": "fluorometric membrane potential",
+          "reference": "pmid:26134475",
+          "comparable_set": "banister-2015b-human-cb-flipr-cp55940"
         }
       ],
       "functional": [],
@@ -2258,13 +2283,14 @@
           "kd_nm": null,
           "ec50_nm": 1.46,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
           "reference_agonist": "CP55,940",
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "CHO-hCB1",
           "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "doi:10.1038/s41386-021-01227-8"
+          "reference": "doi:10.1038/s41386-021-01227-8",
+          "emax_pct": 113,
+          "assay_system": "[35S]GTPgS, recombinant"
         },
         {
           "target": "CB1",
@@ -2432,7 +2458,8 @@
     "name": "MMB-2201",
     "aliases_added": [
       "5F-AMB-PICA",
-      "MMB-5F-PICA"
+      "MMB-5F-PICA",
+      "5F-MMB-PICA"
     ],
     "iupac_name": "methyl (2S)-2-{[1-(5-fluoropentyl)-1H-indole-3-carbonyl]amino}-3-methylbutanoate",
     "smiles": "COC(=O)[C@@H](NC(=O)c1cn(CCCCCF)c2ccccc12)C(C)C",
@@ -2448,24 +2475,35 @@
       "binding": [
         {
           "target": "CB1",
-          "ki_nm": null,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": 1.0,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
+          "ki_nm": 6.45,
+          "ec50_nm": 27.0,
+          "intrinsic_activity_pct": 295,
+          "reference_agonist": "basal",
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "HEK293-hCB1",
-          "radioligand_or_probe": "β-arrestin recruitment",
-          "reference": "doi:10.1021/acschemneuro.5b00107"
+          "tissue_or_cell": "HEK293 membranes expressing hCB1",
+          "radioligand_or_probe": "[35S]GTPγS",
+          "reference": "doi:10.1016/j.pbb.2022.173467",
+          "comparable_set": "marusich-2022-human-cb-gtpgs"
+        },
+        {
+          "target": "CB2",
+          "ki_nm": 3.40,
+          "ec50_nm": 8.19,
+          "intrinsic_activity_pct": 78,
+          "reference_agonist": "basal",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 membranes expressing hCB2",
+          "radioligand_or_probe": "[35S]GTPγS",
+          "reference": "doi:10.1016/j.pbb.2022.173467",
+          "comparable_set": "marusich-2022-human-cb-gtpgs"
         }
       ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Full CB1 agonist.",
+      "downstream_signalling": "Full CB1 agonist (295% of basal in GTPγS, Marusich 2022); partial at CB2 (78% of basal).",
       "neuroimaging": []
     },
     "human_pk": {
@@ -2581,28 +2619,13 @@
           "kd_nm": null,
           "ec50_nm": 31.0,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 190,
-          "reference_agonist": "CP55,940 = 100",
+          "intrinsic_activity_pct": 182,
+          "reference_agonist": "basal",
           "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "HEK293-hCB1",
-          "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmc:7415729"
-        },
-        {
-          "target": "CB2",
-          "ki_nm": 0.27,
-          "ki_ci_nm": null,
-          "kd_nm": null,
-          "ec50_nm": null,
-          "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
-          "action": "agonist",
-          "species": "human",
-          "tissue_or_cell": "HEK293-hCB2",
-          "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "pmc:7415729"
+          "species": "mouse",
+          "tissue_or_cell": "mouse whole brain membranes",
+          "radioligand_or_probe": "[35S]GTPγS",
+          "reference": "doi:10.1016/j.pbb.2020.172949"
         }
       ],
       "functional": [],
@@ -2686,19 +2709,20 @@
           "kd_nm": null,
           "ec50_nm": 2.8,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
-          "reference_agonist": "CP55,940",
+          "intrinsic_activity_pct": 108,
+          "reference_agonist": "WIN 55,212-2",
           "action": "agonist",
           "species": "human",
-          "tissue_or_cell": "HEK293-hCB1",
-          "radioligand_or_probe": "[3H]-CP55,940",
-          "reference": "doi:10.1021/acschemneuro.5b00107"
+          "tissue_or_cell": "AtT20-hCB1",
+          "radioligand_or_probe": "fluorometric membrane potential",
+          "reference": "pmid:25921407",
+          "comparable_set": "banister-2015a-human-cb-flipr-win55212"
         }
       ],
       "functional": [],
       "biased_agonism": [],
       "receptor_oligomerisation": [],
-      "downstream_signalling": "Full CB1 agonist.",
+      "downstream_signalling": "Full CB1 agonist (108% of WIN 55,212-2 in FLIPR/GIRK).",
       "neuroimaging": []
     },
     "human_pk": {
@@ -3328,8 +3352,32 @@
           "comparable_set": "acscn-2023-cb1-gi-cp55940-normalised",
           "action": "partialAgonist",
           "species": "human",
+          "assay_system": "BRET Gi1 dissociation, HEK293T",
           "reference": "doi:10.1021/acschemneuro.3c00530",
-          "confidence": "HIGH"
+          "confidence": "HIGH",
+          "notes": "Y-axis cutoff at highest concentration, not fitted Emax (curve did not plateau)"
+        },
+        {
+          "target": "CB1",
+          "intrinsic_activity_pct": 27.2,
+          "reference_agonist": "CP55,940",
+          "action": "partialAgonist",
+          "species": "mouse",
+          "assay_system": "[35S]GTPgS, whole brain membranes",
+          "reference": "pmid:9384246",
+          "confidence": "HIGH",
+          "notes": "37% stimulation over basal vs CP-55,940 136%; EC50 70.9 nM vs 61.7 nM"
+        },
+        {
+          "target": "CB1",
+          "intrinsic_activity_pct": 25.9,
+          "reference_agonist": "CP55,940",
+          "action": "partialAgonist",
+          "species": "rat",
+          "assay_system": "[35S]GTPgS, cerebellar membranes",
+          "reference": "pmid:9642247",
+          "confidence": "HIGH",
+          "notes": "Normalized to levonantradol=100%; CP-55,940 81%, THC 21%"
         }
       ]
     }

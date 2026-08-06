@@ -2868,6 +2868,63 @@ class TestSignatureGates(unittest.TestCase):
         ).fetchall()
         self.assertEqual(rows, [], f"uncited numeric rows: {[r[0] for r in rows]}")
 
+    def test_class_reference_compounds_populated(self):
+        families = self.db.execute(
+            "SELECT family, COUNT(*) FROM class_reference_compounds GROUP BY family"
+        ).fetchall()
+        self.assertGreater(
+            len(families),
+            0,
+            "class_reference_compounds table is empty",
+        )
+        for family, count in families:
+            self.assertGreaterEqual(
+                count,
+                3,
+                f"family {family!r} has fewer than 3 reference compounds",
+            )
+
+    def test_clearance_fractions_do_not_exceed_100(self):
+        over = self.db.execute(
+            "SELECT s.canonical_name, m.citation_id, SUM(m.fraction_of_clearance_pct)"
+            "  FROM metabolism m JOIN substances s ON s.id = m.substance_id"
+            " WHERE m.fraction_of_clearance_pct IS NOT NULL"
+            " GROUP BY m.substance_id, m.citation_id"
+            " HAVING SUM(m.fraction_of_clearance_pct) > 100"
+        ).fetchall()
+        self.assertEqual(
+            over,
+            [],
+            f"clearance fractions exceed 100% per (substance, citation): {over}",
+        )
+
+    def test_is_review_derived_from_pubmed_pubtype(self):
+        pubtypes_path = Path(__file__).resolve().parents[3] / "data/sources/pubmed-pubtypes.json"
+        if not pubtypes_path.exists():
+            self.skipTest("pubmed-pubtypes.json not fetched")
+        pubtypes = json.loads(pubtypes_path.read_text())
+        review_types = {
+            "Review",
+            "Systematic Review",
+            "Meta-Analysis",
+            "Scoping Review",
+            "Practice Guideline",
+            "Guideline",
+        }
+        review_pmids = {
+            pmid for pmid, types in pubtypes.items() if any(t in review_types for t in types)
+        }
+        if not review_pmids:
+            return
+        flagged = self.db.execute("SELECT COUNT(*) FROM citations WHERE is_review = 1").fetchone()[
+            0
+        ]
+        self.assertGreater(
+            flagged,
+            0,
+            "pubmed-pubtypes.json has reviews but no citation is flagged is_review=1",
+        )
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

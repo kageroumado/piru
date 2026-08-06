@@ -70,13 +70,14 @@
           "kd_nm": null,
           "ec50_nm": 0.0231,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
           "reference_agonist": "DAMGO",
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "FLP-FRT-HEK cells stably expressing hMOR; cAMP HTRF (Gi)",
           "radioligand_or_probe": "[3H]DAMGO (rat brain for affinity)",
-          "reference": "doi:10.1016/j.drugalcdep.2023.109939"
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
+          "emax_pct": 108,
+          "assay_system": "HTRF cAMP, CHO-hMOR"
         }
       ],
       "functional": [],
@@ -214,13 +215,14 @@
           "kd_nm": null,
           "ec50_nm": 0.0536,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
           "reference_agonist": "DAMGO",
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "FLP-FRT-HEK hMOR; HTRF cAMP",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1016/j.drugalcdep.2023.109939"
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
+          "emax_pct": 106,
+          "assay_system": "HTRF cAMP, CHO-hMOR"
         }
       ],
       "functional": [],
@@ -1066,13 +1068,23 @@
           "kd_nm": null,
           "ec50_nm": 0.00413,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
+          "intrinsic_activity_pct": null,
           "reference_agonist": "DAMGO",
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "FLP-FRT-HEK hMOR; HTRF cAMP",
           "radioligand_or_probe": "[3H]DAMGO",
           "reference": "doi:10.1016/j.drugalcdep.2023.109939"
+        },
+        {
+          "target": "MOR",
+          "intrinsic_activity_pct": 106,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "assay_system": "NanoBiT G-protein, HEK293",
+          "reference": "doi:10.1007/s00204-024-03774-7",
+          "confidence": "HIGH"
         }
       ],
       "functional": [],
@@ -1769,7 +1781,7 @@
           "kd_nm": null,
           "ec50_nm": 2.06,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
+          "intrinsic_activity_pct": null,
           "reference_agonist": "DAMGO",
           "action": "agonist",
           "species": "human",
@@ -1887,13 +1899,14 @@
           "kd_nm": null,
           "ec50_nm": 4.47,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
           "reference_agonist": "DAMGO",
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "FLP-FRT-HEK hMOR",
           "radioligand_or_probe": "[3H]DAMGO",
-          "reference": "doi:10.1016/j.drugalcdep.2023.109939"
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
+          "emax_pct": 92,
+          "assay_system": "[35S]GTPgS, CHO-hMOR"
         }
       ],
       "functional": [],
@@ -3368,13 +3381,14 @@
           "kd_nm": null,
           "ec50_nm": null,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
           "reference_agonist": "DAMGO",
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "rat brain membrane or CHO hMOR depending on source",
           "radioligand_or_probe": "[3H]DAMGO or [3H]diprenorphine",
-          "reference": "doi:10.3389/fphar.2019.00238"
+          "reference": "doi:10.3389/fphar.2019.00238",
+          "emax_pct": 106,
+          "assay_system": "HTRF cAMP, CHO-hMOR"
         }
       ],
       "functional": [],
@@ -3738,13 +3752,14 @@
           "kd_nm": null,
           "ec50_nm": 2.52,
           "ic50_nm": null,
-          "intrinsic_activity_pct": 100,
           "reference_agonist": "DAMGO",
           "action": "agonist",
           "species": "human",
           "tissue_or_cell": "rat brain membrane or CHO hMOR depending on source",
           "radioligand_or_probe": "[3H]DAMGO or [3H]diprenorphine",
-          "reference": "doi:10.3389/fphar.2019.00238"
+          "reference": "doi:10.3389/fphar.2019.00238",
+          "emax_pct": 105,
+          "assay_system": "HTRF cAMP, CHO-hMOR"
         }
       ],
       "functional": [],
