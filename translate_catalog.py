@@ -6175,6 +6175,16 @@ T = {
     ),
     "doi:10.3390/ijms27031430": ("doi:10.3390/ijms27031430", "doi:10.3390/ijms27031430"),
     "RCT, n = 78": ("随机对照试验，n = 78", "隨機對照試驗，n = 78"),
+    # CYP2D6 metabolizer status (§F, 2026-08-06).
+    "CYP2D6 status": ("CYP2D6状态", "CYP2D6狀態"),
+    "Poor metabolizer": ("慢代谢者", "慢代謝者"),
+    "Intermediate metabolizer": ("中间代谢者", "中間代謝者"),
+    "Extensive metabolizer": ("快代谢者", "快代謝者"),
+    "Ultra-rapid metabolizer": ("超快代谢者", "超快代謝者"),
+    "CYP2D6 metabolizer status affects how your body handles codeine, tramadol, MDMA, and several other substances — set it if you know yours from a pharmacogenomics test. Unknown is treated as extensive (the most common).": (
+        "CYP2D6代谢者状态影响你的身体处理可待因、曲马多、MDMA等多种物质的方式——如果你通过药物基因组学检测知道自己的类型，请在此设置。「未知」按照最常见的「快代谢者」处理。",
+        "CYP2D6代謝者狀態影響你的身體處理可待因、曲馬多、MDMA等多種物質的方式——如果你通過藥物基因組學檢測知道自己的類型，請在此設置。「未知」按照最常見的「快代謝者」處理。",
+    ),
     # Gabapentinoid α2δ class (§K.6, 2026-08-06).
     "Gabapentinoids (α2δ)": ("加巴喷丁类 (α2δ)", "加巴噴丁類 (α2δ)"),
     "Gabapentinoids": ("加巴喷丁类", "加巴噴丁類"),

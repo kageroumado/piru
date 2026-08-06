@@ -4,6 +4,26 @@ import Observation
 import os
 import SwiftData
 
+/// Self-reported CYP2D6 metabolizer phenotype. The four clinical categories from CPIC guidelines;
+/// `unknown` is the safe default (treated as extensive, the population majority).
+enum CYP2D6Status: String, CaseIterable, Codable {
+    case unknown
+    case poor
+    case intermediate
+    case extensive
+    case ultraRapid
+
+    var label: LocalizedStringResource {
+        switch self {
+        case .unknown: "Unknown"
+        case .poor: "Poor metabolizer"
+        case .intermediate: "Intermediate metabolizer"
+        case .extensive: "Extensive metabolizer"
+        case .ultraRapid: "Ultra-rapid metabolizer"
+        }
+    }
+}
+
 /// Single home for user *profile / physiology* state, persisted via SwiftData.
 ///
 /// Consolidates what used to be scattered: the disclosure tier lived in `SubstanceStore`'s GRDB prefs
@@ -78,6 +98,11 @@ final class UserProfileStore {
     /// off by default; gates the acetaldehyde readout in the alcohol vertical (Stage 5 / Foundation B).
     private(set) var aldh2Deficient: Bool = false
 
+    /// Self-reported CYP2D6 metabolizer status. Affects PK for codeine, tramadol, MDMA, and others.
+    /// `unknown` is the default (treated as extensive — the population majority). Surfaces educational
+    /// notes on affected substances; a coarse PK multiplier is behind the Pharma Nerd tier.
+    private(set) var cyp2d6Status: CYP2D6Status = .unknown
+
     // MARK: - Configuration
 
     /// Bind to the app's shared container. Call once at launch, before any view reads profile state.
@@ -102,6 +127,7 @@ final class UserProfileStore {
             smokesTobacco = false
             grapefruitLoggingEnabled = false
             aldh2Deficient = false
+            cyp2d6Status = .unknown
             return
         }
         disclosureTier = UserProfile(rawValue: record.disclosureTierRaw) ?? .harmReduction
@@ -111,6 +137,7 @@ final class UserProfileStore {
         smokesTobacco = record.smokesTobacco
         grapefruitLoggingEnabled = record.grapefruitLoggingEnabled
         aldh2Deficient = record.aldh2Deficient
+        cyp2d6Status = CYP2D6Status(rawValue: record.cyp2d6StatusRaw) ?? .unknown
     }
 
     private static var defaultLegacyPrefsDBURL: URL {
@@ -153,6 +180,14 @@ final class UserProfileStore {
         guard value != aldh2Deficient else { return }
         aldh2Deficient = value
         ensureRecord().aldh2Deficient = value
+        save()
+    }
+
+    /// Persist the self-reported CYP2D6 metabolizer status.
+    func setCYP2D6Status(_ value: CYP2D6Status) {
+        guard value != cyp2d6Status else { return }
+        cyp2d6Status = value
+        ensureRecord().cyp2d6StatusRaw = value.rawValue
         save()
     }
 

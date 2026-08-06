@@ -110,10 +110,18 @@ struct SettingsView: View {
                         Label("I get the alcohol flush", systemImage: "wineglass")
                     }
                     .tint(Theme.accent)
+
+                    Picker(selection: cyp2d6Binding) {
+                        ForEach(CYP2D6Status.allCases, id: \.self) { status in
+                            Text(status.label).tag(status)
+                        }
+                    } label: {
+                        Label("CYP2D6 status", systemImage: "DNA")
+                    }
                 } header: {
                     Text("Metabolism")
                 } footer: {
-                    Text("Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. The alcohol flush (facial redness, fast heartbeat, nausea after a little alcohol) signals the ALDH2 variant — turn it on to see acetaldehyde, the toxic by-product it lets build up, on alcohol entries. All three are shown only where they actually change a drug's levels or risk.")
+                    Text("Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. The alcohol flush (facial redness, fast heartbeat, nausea after a little alcohol) signals the ALDH2 variant — turn it on to see acetaldehyde, the toxic by-product it lets build up, on alcohol entries. CYP2D6 metabolizer status affects how your body handles codeine, tramadol, MDMA, and several other substances — set it if you know yours from a pharmacogenomics test. Unknown is treated as extensive (the most common).")
                 }
 
                 Section("Data") {
@@ -199,6 +207,13 @@ struct SettingsView: View {
         Binding(
             get: { profileStore.aldh2Deficient },
             set: { profileStore.setALDH2Deficient($0) },
+        )
+    }
+
+    private var cyp2d6Binding: Binding<CYP2D6Status> {
+        Binding(
+            get: { profileStore.cyp2d6Status },
+            set: { profileStore.setCYP2D6Status($0) },
         )
     }
 

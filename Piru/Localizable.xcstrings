@@ -15976,6 +15976,9 @@
         }
       }
     },
+    "CYP2D6 status" : {
+
+    },
     "D3-Preferring Dopamine Partial Agonist" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -22303,6 +22306,9 @@
         }
       }
     },
+    "Extensive metabolizer" : {
+
+    },
     "Extremely Potent Substance" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23784,10 +23790,36 @@
       }
     },
     "Gabapentinoids" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加巴喷丁类"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加巴噴丁類"
+          }
+        }
+      }
     },
     "Gabapentinoids (α2δ)" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加巴喷丁类 (α2δ)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加巴噴丁類 (α2δ)"
+          }
+        }
+      }
     },
     "Gastrointestinal" : {
       "localizations" : {
@@ -27347,6 +27379,9 @@
           }
         }
       }
+    },
+    "Intermediate metabolizer" : {
+
     },
     "Intihar Onleme Hatti" : {
       "localizations" : {
@@ -38133,6 +38168,9 @@
         }
       }
     },
+    "Poor metabolizer" : {
+
+    },
     "Popularity" : {
       "localizations" : {
         "zh-Hans" : {
@@ -43333,7 +43371,20 @@
       }
     },
     "Sedative tolerance builds; dependence can develop within weeks of daily use. Phenibut withdrawal is among the most severe." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镇静耐受性会逐渐建立；每日使用数周即可产生依赖。苯乙胺丁酸的戒断反应属于最严重的类型之一。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎮靜耐受性會逐漸建立；每日使用數週即可產生依賴。苯乙胺丁酸的戒斷反應屬於最嚴重的類型之一。"
+          }
+        }
+      }
     },
     "Sedative-Hypnotic" : {
       "localizations" : {
@@ -51263,6 +51314,7 @@
       }
     },
     "Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. The alcohol flush (facial redness, fast heartbeat, nausea after a little alcohol) signals the ALDH2 variant — turn it on to see acetaldehyde, the toxic by-product it lets build up, on alcohol entries. All three are shown only where they actually change a drug's levels or risk." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -51277,6 +51329,9 @@
           }
         }
       }
+    },
+    "Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. The alcohol flush (facial redness, fast heartbeat, nausea after a little alcohol) signals the ALDH2 variant — turn it on to see acetaldehyde, the toxic by-product it lets build up, on alcohol entries. CYP2D6 metabolizer status affects how your body handles codeine, tramadol, MDMA, and several other substances — set it if you know yours from a pharmacogenomics test. Unknown is treated as extensive (the most common)." : {
+
     },
     "Tobacco smoking" : {
       "localizations" : {
@@ -52351,6 +52406,9 @@
         }
       }
     },
+    "Ultra-rapid metabolizer" : {
+
+    },
     "Unassigned" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -52504,6 +52562,9 @@
           }
         }
       }
+    },
+    "Unknown" : {
+
     },
     "unknown date" : {
       "localizations" : {
@@ -55416,7 +55477,20 @@
       }
     },
     "α2δ subunit (VGCC)" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "α2δ亚基 (VGCC)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "α2δ亞基 (VGCC)"
+          }
+        }
+      }
     },
     "α₂-adrenoceptor" : {
 
