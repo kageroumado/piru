@@ -1677,26 +1677,37 @@
           "reference": "doi:10.1016/s0960-894x(01)00193-7"
         },
         {
-          "target": "α4β2 nAChR",
+          "target": "α4β2 nAChR (HS, (α4)₂(β2)₃)",
           "action": "agonist",
-          "ec50_nm": 52000,
-          "intrinsic_activity_pct": 85,
+          "ec50_nm": 1000,
+          "intrinsic_activity_pct": 28,
           "reference_agonist": "ACh",
-          "comparable_set": "papke-2000-human-nachr-oocyte-ach",
+          "comparable_set": "moroni-2006-human-nachr-oocyte-ach",
           "species": "human",
-          "tissue_or_cell": "Xenopus oocyte expressing human α4β2",
-          "reference": "doi:10.1046/j.1471-4159.2000.0750204.x"
+          "tissue_or_cell": "Xenopus oocyte expressing human α4β2 (HS stoichiometry)",
+          "reference": "doi:10.1124/mol.106.023044"
+        },
+        {
+          "target": "α4β2 nAChR (LS, (α4)₃(β2)₂)",
+          "action": "agonist",
+          "ec50_nm": 34000,
+          "intrinsic_activity_pct": 62,
+          "reference_agonist": "ACh",
+          "comparable_set": "moroni-2006-human-nachr-oocyte-ach",
+          "species": "human",
+          "tissue_or_cell": "Xenopus oocyte expressing human α4β2 (LS stoichiometry)",
+          "reference": "doi:10.1124/mol.106.023044"
         },
         {
           "target": "α7 nAChR",
           "action": "agonist",
-          "ec50_nm": 8000,
-          "intrinsic_activity_pct": 82,
+          "ec50_nm": 12000,
+          "intrinsic_activity_pct": 80,
           "reference_agonist": "ACh",
-          "comparable_set": "papke-2000-human-nachr-oocyte-ach",
+          "comparable_set": "papke-2009-human-a7-oocyte-netcharge-ach",
           "species": "human",
-          "tissue_or_cell": "Xenopus oocyte expressing human α7",
-          "reference": "doi:10.1046/j.1471-4159.2000.0750204.x"
+          "tissue_or_cell": "Xenopus oocyte expressing human α7 (net charge)",
+          "reference": "doi:10.1124/jpet.108.150151"
         }
       ],
       "functional": [],
