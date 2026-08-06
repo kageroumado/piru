@@ -138,6 +138,11 @@ nonisolated struct PharmacologyParameters {
     /// receptor rows for it (`Specs/tolerance-faithful-model-improvements.md` §7 follow-up). Empty when
     /// the substance has no category that maps to a modeled tolerance class.
     let categoryClasses: Set<ReceptorClasses.ReceptorClass>
+    /// Fraction of total plasma concentration that is **unbound** (free) — `fu = 1 − proteinBinding/100`.
+    /// Multiplied into the molar → nM prefactor in the tolerance engine so occupancy is computed against
+    /// *free* drug, matching the assay conditions the Kᵢ/EC₅₀ was measured under. Defaults to **1.0**
+    /// (no binding correction) when no `protein_binding_pct` is available for the substance.
+    let fractionUnbound: Double
     /// Engaged targets carrying a numeric half-max, **tightest (most potent) first**.
     let targets: [TargetEngagement]
 
@@ -163,6 +168,7 @@ nonisolated struct PharmacologyParameters {
         intrinsicEfficacy: Double = 1,
         categoryClasses: Set<ReceptorClasses.ReceptorClass> = [],
         pkSpecies: String? = nil,
+        fractionUnbound: Double = 1,
     ) {
         self.substanceName = substanceName
         self.molarMassGramsPerMole = molarMassGramsPerMole
@@ -180,6 +186,7 @@ nonisolated struct PharmacologyParameters {
         self.intrinsicEfficacy = intrinsicEfficacy
         self.categoryClasses = categoryClasses
         self.pkSpecies = pkSpecies
+        self.fractionUnbound = fractionUnbound
         self.targets = targets
     }
 
@@ -204,9 +211,10 @@ nonisolated struct PharmacologyParameters {
     /// Peak fractional occupancy/engagement of the primary target for a single oral dose, evaluated
     /// at the modeled Tmax. A pure composition of the Foundation-A pathway — dose → molar
     /// concentration → Hill occupancy — and the function the dose-dependence gate exercises end to
-    /// end. Returns nil when inputs are insufficient. `fu` defaults to 1 (Stage 0; real unbound
-    /// fraction lands with the alcohol/benzo verticals).
-    func peakPrimaryOccupancy(doseMg: Double, weightKg: Double, unboundFraction fu: Double = 1) -> Double? {
+    /// end. Returns nil when inputs are insufficient. `fu` defaults to the stored
+    /// ``fractionUnbound``; pass an explicit value to override (tests use this to compare fu=1 vs
+    /// fu=0.02 without rebuilding the parameters).
+    func peakPrimaryOccupancy(doseMg: Double, weightKg: Double, unboundFraction fu: Double? = nil) -> Double? {
         guard let vdLPerKg, let molarMassGramsPerMole, let halfLifeMinutes,
               let bioavailabilityFraction, let primaryTarget else { return nil }
         let ke = PKModel.ke(fromHalfLifeMinutes: halfLifeMinutes)
@@ -216,7 +224,7 @@ nonisolated struct PharmacologyParameters {
             dose: doseMg * doseScale, bioavailability: bioavailabilityFraction, vdPerKg: vdLPerKg,
             weightKg: weightKg, molarMassGramsPerMole: molarMassGramsPerMole, ke: ke, ka: ka, at: peak,
         )
-        let freeNanomolar = fu * molar * 1e9 // mol/L → nM, matching the half-max unit
+        let freeNanomolar = (fu ?? fractionUnbound) * molar * 1e9
         return PKModel.occupancy(concentration: freeNanomolar, halfMax: primaryTarget.halfMaxNanomolar)
     }
 }

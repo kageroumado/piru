@@ -727,7 +727,17 @@ extension SubstanceStore {
             intrinsicEfficacy: intrinsicEfficacy,
             categoryClasses: categoryClasses,
             pkSpecies: pkSpecies,
+            fractionUnbound: Self.resolveFractionUnbound(pk: pk),
         )
+    }
+
+    /// Fraction-unbound (`fu`) from the best available `protein_binding_pct` across all PK rows for the
+    /// substance. Prefers a human row, then any row, returning `1.0` when none carries the field.
+    private nonisolated static func resolveFractionUnbound(pk: [PKRouteHit]) -> Double {
+        let pct = pk.first { $0.species == "human" && $0.proteinBindingPct != nil }?.proteinBindingPct
+            ?? pk.first { $0.proteinBindingPct != nil }?.proteinBindingPct
+        guard let pct else { return 1 }
+        return max(0.001, 1 - pct / 100)
     }
 
     /// Metabolism rows (enzymes/pathways + metabolites) for a substance, with

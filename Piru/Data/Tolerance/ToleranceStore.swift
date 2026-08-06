@@ -671,11 +671,12 @@ final class ToleranceStore {
             // Only badge the prediction down for a *guessed onset*: with no Tmax we fall back to `4·ke`
             // (unchanged behavior), so the onset contributes no uncertainty (`.high` = min no-op).
             let onsetConfidence: ConfidenceTier = sourceParams.tmaxMinutes == nil ? .high : sourceParams.tmaxConfidence
-            // molar = (F·dose·scale/Vd)·shape /1000 /MW ; ×1e9 → nM (fu = 1, Stage 1). One
-            // concentration() call per contributor per step then multiplies this prefactor. `doseScale`
-            // converts a logged *preparation* mass to active-compound mass (Kratom→mitragynine etc.); 1
-            // for pure compounds.
-            let prefactorNanomolar = (f * doseMg * sourceParams.doseScale / vd) / 1_000 / mw * 1e9
+            // free molar = fu·(F·dose·scale/Vd)·shape /1000 /MW ; ×1e9 → nM. One concentration()
+            // call per contributor per step then multiplies this prefactor. `fractionUnbound` corrects
+            // total→free plasma concentration so occupancy matches the assay conditions (Kᵢ is measured
+            // against free drug). `doseScale` converts a logged preparation mass to active-compound mass.
+            let fu = sourceParams.fractionUnbound
+            let prefactorNanomolar = fu * (f * doseMg * sourceParams.doseScale / vd) / 1_000 / mw * 1e9
 
             // Most-potent *surviving* target per class (targets are tightest-first, so the first per
             // class wins) — drives any modulation edge's presence curve.
