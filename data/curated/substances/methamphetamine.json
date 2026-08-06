@@ -5,6 +5,12 @@
     "甲基苯丙胺",
     "甲基安非他命"
   ],
+  "popularAliases": [
+    "Meth",
+    "Crystal",
+    "Ice",
+    "Crank"
+  ],
   "combinations": [
     {
       "severity": "danger",

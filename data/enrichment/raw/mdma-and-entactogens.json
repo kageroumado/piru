@@ -296,6 +296,13 @@
         "concern_level": "moderate",
         "clinical_consequence": "MDMA rapidly decreases vesicular monoamine (VMAT-2) transport in rat striatum after high-dose administration; unlike methamphetamine, the deficit partially recovers within 24 h.",
         "reference": "pmid:11861820"
+      },
+      {
+        "target": "5-HT2B",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "MDMA and its metabolite MDA agonise 5-HT2B and drive fenfluramine-like proliferation of heart-valve cells in vitro — the same mechanism that made fen-phen cause valvulopathy. A small echocardiographic study of regular users found more mild-to-moderate valvular regurgitation than in controls. The concern is chronic, frequent use; a single or occasional dose is not implicated.",
+        "reference": "doi:10.1124/mol.63.6.1223"
       }
     ],
     "demographic_differences": {

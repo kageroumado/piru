@@ -4,6 +4,11 @@
     "羟考酮",
     "羥考酮"
   ],
+  "popularAliases": [
+    "Oxy",
+    "Roxy",
+    "Percocet"
+  ],
   "combinations": [
     {
       "severity": "danger",
