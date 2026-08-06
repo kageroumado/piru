@@ -54,7 +54,17 @@ struct ToleranceToolView: View {
                     switch detailMode {
                     case .perReceptor:
                         ForEach(rows) { row in
-                            Section { ToleranceCard(row: row, tier: tier) }
+                            Section {
+                                ToleranceCard(row: row, tier: tier)
+                                if row.snapshot.receptorClass == .gaba {
+                                    NavigationLink {
+                                        InterventionLedgerView()
+                                    } label: {
+                                        Label("Discontinuation evidence", systemImage: "list.bullet.clipboard")
+                                            .font(.subheadline)
+                                    }
+                                }
+                            }
                         }
                     case .perSubstance:
                         TolerancePerSubstanceSection(

@@ -6067,6 +6067,119 @@ T = {
     "All phases": ("全部阶段", "全部階段"),
     # PK card: how many distinct studies stand behind one route (2026-07-25).
     "%lld studies": ("%lld 项研究", "%lld 項研究"),
+    # Intervention ledger — GABA discontinuation evidence (§J, 2026-08-06).
+    "Discontinuation evidence": ("停药证据", "停藥證據"),
+    "Discontinuation Evidence": ("停药证据", "停藥證據"),
+    "Clinical trial evidence for interventions during benzodiazepine discontinuation. Each row is what the study found — not a recommendation.": (
+        "苯二氮卓类停药干预措施的临床试验证据。每行是研究发现——不是建议。",
+        "苯二氮卓類停藥干預措施的臨床試驗證據。每行是研究發現——不是建議。",
+    ),
+    "Supported by evidence": ("有证据支持", "有證據支持"),
+    "Not supported by evidence": ("无证据支持", "無證據支持"),
+    "This half is the more useful half.": ("这一半更有用。", "這一半更有用。"),
+    "Not medical advice. Benzodiazepine discontinuation can be medically dangerous — these are research findings, not a plan.": (
+        "非医疗建议。苯二氮卓类停药可能有医疗风险——这些是研究发现，不是方案。",
+        "非醫療建議。苯二氮卓類停藥可能有醫療風險——這些是研究發現，不是方案。",
+    ),
+    "CBT + gradual taper": ("认知行为疗法 + 逐步减量", "認知行為療法 + 逐步減量"),
+    "The strongest result in the literature. Discontinuation significantly higher than taper alone at both 3 months and 6–12 months.": (
+        "文献中最强的结果。停药率在3个月和6–12个月时均显著高于单纯减量。",
+        "文獻中最強的結果。停藥率在3個月和6–12個月時均顯著高於單純減量。",
+    ),
+    "Meta-analysis": ("荟萃分析", "薈萃分析"),
+    "Gradual taper": ("逐步减量", "逐步減量"),
+    "About two-thirds discontinue short-term; roughly one-third sustain long-term. Consensus rate: 25% reduction per week over 4–6 weeks.": (
+        "约三分之二短期成功停药；约三分之一长期维持。共识方案：4–6周内每周减少25%。",
+        "約三分之二短期成功停藥；約三分之一長期維持。共識方案：4–6週內每週減少25%。",
+    ),
+    "Clinical consensus": ("临床共识", "臨床共識"),
+    "Imipramine": ("丙米嗪", "丙米嗪"),
+    "Taper success 82.6% vs 37.5% placebo.": (
+        "减量成功率82.6% vs 安慰剂37.5%。",
+        "減量成功率82.6% vs 安慰劑37.5%。",
+    ),
+    "RCT, n = 107": ("随机对照试验，n = 107", "隨機對照試驗，n = 107"),
+    "More patients BZD-free at week 5; lower withdrawal incidence and anxiety in elderly.": (
+        "第5周时更多患者已停用苯二氮卓；老年患者戒断发生率和焦虑均降低。",
+        "第5週時更多患者已停用苯二氮卓；老年患者戒斷發生率和焦慮均降低。",
+    ),
+    "3 RCTs": ("3项随机对照试验", "3項隨機對照試驗"),
+    "Pregabalin": ("普瑞巴林", "普瑞巴林"),
+    "Safe and effective for tapering off long-term use; improved sleep.": (
+        "对长期使用者减量安全有效；改善睡眠。",
+        "對長期使用者減量安全有效；改善睡眠。",
+    ),
+    "1 RCT (n = 106) + open study (n = 282)": (
+        "1项随机对照试验 (n = 106) + 开放研究 (n = 282)",
+        "1項隨機對照試驗 (n = 106) + 開放研究 (n = 282)",
+    ),
+    "Valproate": ("丙戊酸盐", "丙戊酸鹽"),
+    "79% abstinent at 5 weeks post-taper vs placebo. No effect at 12 weeks.": (
+        "减量后第5周79%戒断 vs 安慰剂。第12周时无效果。",
+        "減量後第5週79%戒斷 vs 安慰劑。第12週時無效果。",
+    ),
+    "RCT": ("随机对照试验", "隨機對照試驗"),
+    "Flumazenil": ("氟马西尼", "氟馬西尼"),
+    "Reversed withdrawal scores and craving vs oxazepam taper and placebo. Inpatient IV only — dangerous in chronic users (precipitated withdrawal).": (
+        "逆转了戒断评分和渴求（对比奥沙西泮减量和安慰剂）。仅限住院静脉注射——对长期使用者危险（诱发戒断）。",
+        "逆轉了戒斷評分和渴求（對比奧沙西泮減量和安慰劑）。僅限住院靜脈注射——對長期使用者危險（誘發戒斷）。",
+    ),
+    "2 trials": ("2项试验", "2項試驗"),
+    "Melatonin": ("褪黑素", "褪黑素"),
+    "One small positive trial (n = 34); two larger negative trials (n = 80, n = 38 at 1-year follow-up). Improved sleep quality without improving discontinuation.": (
+        "一项小型阳性试验 (n = 34)；两项较大的阴性试验 (n = 80, n = 38，1年随访)。改善了睡眠质量但未改善停药率。",
+        "一項小型陽性試驗 (n = 34)；兩項較大的陰性試驗 (n = 80, n = 38，1年隨訪)。改善了睡眠品質但未改善停藥率。",
+    ),
+    "Long-acting benzo switch": ("换用长效苯二氮卓", "換用長效苯二氮卓"),
+    "Insufficient evidence to support the efficacy of this strategy — despite being the standard move and the core of the Ashton method.": (
+        "证据不足以支持该策略的有效性——尽管它是标准操作且是Ashton方法的核心。",
+        "證據不足以支持該策略的有效性——儘管它是標準操作且是Ashton方法的核心。",
+    ),
+    "Gabapentin": ("加巴喷丁", "加巴噴丁"),
+    "No difference vs placebo.": ("与安慰剂无差异。", "與安慰劑無差異。"),
+    "n = 19, underpowered": ("n = 19，统计效力不足", "n = 19，統計效力不足"),
+    "Lithium": ("锂盐", "鋰鹽"),
+    "More than 60% discontinuation in both arms; no difference.": (
+        "两组停药率均超过60%；无差异。",
+        "兩組停藥率均超過60%；無差異。",
+    ),
+    "n = 244": ("n = 244", "n = 244"),
+    "Progesterone": ("黄体酮", "黃體酮"),
+    "No difference on withdrawal severity, anxiety, or drug-free status.": (
+        "戒断严重程度、焦虑或无药状态均无差异。",
+        "戒斷嚴重程度、焦慮或無藥狀態均無差異。",
+    ),
+    "n = 40": ("n = 40", "n = 40"),
+    "Magnesium aspartate": ("天冬氨酸镁", "天冬氨酸鎂"),
+    "No difference on any endpoint.": ("所有终点均无差异。", "所有終點均無差異。"),
+    "n = 144": ("n = 144", "n = 144"),
+    "Ondansetron": ("昂丹司琼", "昂丹司瓊"),
+    "No effect on taper rate, withdrawal severity, or anxiety.": (
+        "对减量速率、戒断严重程度或焦虑无效。",
+        "對減量速率、戒斷嚴重程度或焦慮無效。",
+    ),
+    "n = 108": ("n = 108", "n = 108"),
+    "Buspirone": ("丁螺环酮", "丁螺環酮"),
+    "Four small trials with contradictory results.": (
+        "四项小型试验，结果相互矛盾。",
+        "四項小型試驗，結果相互矛盾。",
+    ),
+    "Propranolol": ("普萘洛尔", "普萘洛爾"),
+    "Reduced symptom severity in completers; no effect on dropout rate or incidence.": (
+        "完成者的症状严重程度降低；对退出率或发生率无影响。",
+        "完成者的症狀嚴重程度降低；對退出率或發生率無影響。",
+    ),
+    "Navarrete F, et al. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430.": (
+        "Navarrete F 等。苯二氮卓类依赖：临床和分子方面、预防策略和治疗方法。Int J Mol Sci. 2026;27(3):1430.",
+        "Navarrete F 等。苯二氮卓類依賴：臨床和分子方面、預防策略和治療方法。Int J Mol Sci. 2026;27(3):1430.",
+    ),
+    "doi:10.3390/ijms27031430": ("doi:10.3390/ijms27031430", "doi:10.3390/ijms27031430"),
+    "RCT, n = 78": ("随机对照试验，n = 78", "隨機對照試驗，n = 78"),
+    # Phenibut protracted-withdrawal warning (§L.2, 2026-08-06).
+    "If you are using phenibut or F-phenibut daily, dependence develops within weeks. Protracted withdrawal can last months — taper gradually with medical guidance.": (
+        "如果你每天使用苯乙胺丁酸或氟苯乙胺丁酸，数周内就会产生依赖。迁延性戒断可持续数月——在医疗指导下逐步减量。",
+        "如果你每天使用苯乙胺丁酸或氟苯乙胺丁酸，數週內就會產生依賴。遷延性戒斷可持續數月——在醫療指導下逐步減量。",
+    ),
 }
 
 # Widget translations

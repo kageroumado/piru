@@ -170,6 +170,29 @@ struct ToleranceCalibrationTests {
         )
     }
 
+    /// A PK-complete **Alprazolam** — a moderate-half-life GABA-A PAM (t½ 11.5 h, 80% protein-bound).
+    /// The tighter Kᵢ relative to ``diazepam(referenceDoseMg:)`` reflects the higher per-mg potency;
+    /// combined with the lower Vd and shorter half-life it produces a moderate occupancy that exercises
+    /// the shift's dynamic range at therapeutic doses (1 mg) without saturating.
+    static func alprazolam(referenceDoseMg: Double) -> PharmacologyParameters {
+        PharmacologyParameters(
+            substanceName: "Alprazolam",
+            molarMassGramsPerMole: 309,
+            vdLPerKg: 1.0,
+            bioavailabilityFraction: 0.9,
+            bioavailabilityConfidence: .high,
+            doseScale: 1,
+            doseScaleConfidence: .high,
+            halfLifeMinutes: 690,
+            vdConfidence: .high,
+            referenceDoseMg: referenceDoseMg,
+            suppressesSerotoninSynthesis: false,
+            targets: [
+                .init(target: "GABA-A", action: .positiveAllostericModulator, halfMaxNanomolar: 15, kind: .ki, confidence: .high),
+            ],
+        )
+    }
+
     /// A PK-complete **Diazepam** representative (GABA-A PAM) — the class stand-in the GABA fallback
     /// resolves `ToleranceStore.classRepresentative[.gaba]` to.
     static func diazepam(referenceDoseMg: Double) -> PharmacologyParameters {
@@ -926,5 +949,70 @@ struct ToleranceCalibrationTests {
             now: Self.now, weightKg: 70,
         )
         #expect(try #require(absent[.psychedelic5HT2A]).confidence > .low)
+    }
+
+    // MARK: - 25. Therapeutic alprazolam → gauge close to full (§H.1)
+
+    @Test
+    func `Therapeutic alprazolam builds only modest GABA tolerance`() throws {
+        // 1 mg daily for 30 d against a 6 mg heavy ceiling → dose ratio 0.17, far below the deep
+        // gate. VINK12: anxiolytic tolerance does not develop. The blended gauge merges sedative
+        // (tolerizes) and anxiolytic (doesn't) into one scalar; the combined reading must stay
+        // close to full for therapeutic dosing even at fu=1 (§A will lower occupancy further).
+        let params = ["Alprazolam": Self.alprazolam(referenceDoseMg: 6)]
+        let states = ToleranceStore.simulate(
+            doses: Self.dailyDoses("Alprazolam", mg: 1, days: 30),
+            params: params, now: Self.now, weightKg: 70,
+        )
+        let gaba = try #require(states[.gaba])
+        // At fu=1 the overestimated occupancy drives the shift higher than reality (§A will
+        // correct this, pushing the reading toward 0.85+). The current baseline is ~0.69.
+        #expect(gaba.responseFraction > 0.60)
+        #expect(gaba.shiftFactor < 2.5) // modest right-shift at therapeutic doses
+        #expect(gaba.sDeep == 0) // GABA deepShiftMax is 0
+    }
+
+    // MARK: - 26. Diazepam 14-day course → measurable shift (§H.2 baseline)
+
+    @Test
+    func `Diazepam fourteen-day course produces measurable GABA tolerance`() throws {
+        // 10 mg daily for 14 d (1/3 of the heavy ceiling). The adaptive layer (τ 14 d) has had one
+        // full time-constant to build. §B will split the reading into near-complete sedative +
+        // preserved anxiolytic; until then the blended scalar is the golden baseline.
+        let params = ["Diazepam": Self.diazepam(referenceDoseMg: 30)]
+        let states = ToleranceStore.simulate(
+            doses: Self.dailyDoses("Diazepam", mg: 10, days: 14),
+            params: params, now: Self.now, weightKg: 70,
+        )
+        let gaba = try #require(states[.gaba])
+        #expect(gaba.shiftFactor > 1) // some tolerance has built
+        #expect(gaba.sAdaptive > 0) // the adaptive layer has accrued
+        #expect(gaba.sDeep == 0) // GABA deepShiftMax is 0
+        #expect(gaba.responseFraction < 1) // not fully naïve
+        // No safety endpoint yet — §B adds .cognitiveImpairment.
+        #expect(gaba.safetyEndpointKind == nil)
+        #expect(gaba.safetyGap == nil)
+    }
+
+    // MARK: - 27. Protein-binding 50× gap visible in occupancy (§H.3)
+
+    @Test
+    func `Protein binding produces a dramatic occupancy difference for diazepam`() throws {
+        // Diazepam: 98% protein-bound (fu = 0.02). peakPrimaryOccupancy already accepts
+        // unboundFraction (Stage 0; the stored field lands in §A). At fu=1 (current engine)
+        // occupancy is overestimated — this pins the expected magnitude of the correction.
+        let params = Self.diazepam(referenceDoseMg: 30)
+        let atFuOne = try #require(
+            params.peakPrimaryOccupancy(doseMg: 10, weightKg: 70, unboundFraction: 1),
+        )
+        let atFuReal = try #require(
+            params.peakPrimaryOccupancy(doseMg: 10, weightKg: 70, unboundFraction: 0.02),
+        )
+        // fu=1 saturates occupancy; fu=0.02 sits well below the Hill half-maximum.
+        #expect(atFuOne > 0.7)
+        #expect(atFuReal < 0.25)
+        // The sigmoidal compression narrows the 50× concentration gap, but the absolute
+        // occupancy drop is still large.
+        #expect(atFuOne - atFuReal > 0.4)
     }
 }

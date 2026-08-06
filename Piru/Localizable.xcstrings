@@ -4393,6 +4393,22 @@
         }
       }
     },
+    "1 RCT (n = 106) + open study (n = 282)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1项随机对照试验 (n = 106) + 开放研究 (n = 282)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1項隨機對照試驗 (n = 106) + 開放研究 (n = 282)"
+          }
+        }
+      }
+    },
     "1-800-222-1222 (US)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4453,6 +4469,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "1年"
+          }
+        }
+      }
+    },
+    "2 trials" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2项试验"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2項試驗"
+          }
+        }
+      }
+    },
+    "3 RCTs" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3项随机对照试验"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3項隨機對照試驗"
           }
         }
       }
@@ -4779,6 +4827,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "60 分鐘"
+          }
+        }
+      }
+    },
+    "79% abstinent at 5 weeks post-taper vs placebo. No effect at 12 weeks." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "减量后第5周79%戒断 vs 安慰剂。第12周时无效果。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "減量後第5週79%戒斷 vs 安慰劑。第12週時無效果。"
           }
         }
       }
@@ -6167,6 +6231,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "關於此部分"
+          }
+        }
+      }
+    },
+    "About two-thirds discontinue short-term; roughly one-third sustain long-term. Consensus rate: 25% reduction per week over 4–6 weeks." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "约三分之二短期成功停药；约三分之一长期维持。共识方案：4–6周内每周减少25%。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "約三分之二短期成功停藥；約三分之一長期維持。共識方案：4–6週內每週減少25%。"
           }
         }
       }
@@ -11852,6 +11932,22 @@
         }
       }
     },
+    "Buspirone" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "丁螺环酮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "丁螺環酮"
+          }
+        }
+      }
+    },
     "By dose" : {
       "comment" : "Intensity dial eyebrow"
     },
@@ -12496,6 +12592,22 @@
     },
     "CB1 receptor" : {
 
+    },
+    "CBT + gradual taper" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "认知行为疗法 + 逐步减量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "認知行為療法 + 逐步減量"
+          }
+        }
+      }
     },
     "CDC daily-risk bands: ≥ %lld MME caution, ≥ %lld MME high-risk (per day)." : {
       "localizations" : {
@@ -13402,6 +13514,22 @@
         }
       }
     },
+    "Clinical consensus" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "临床共识"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "臨床共識"
+          }
+        }
+      }
+    },
     "Clinical medications, by therapeutic class." : {
       "localizations" : {
         "zh-Hans" : {
@@ -13414,6 +13542,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "臨床藥物，按治療類別劃分。"
+          }
+        }
+      }
+    },
+    "Clinical trial evidence for interventions during benzodiazepine discontinuation. Each row is what the study found — not a recommendation." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "苯二氮卓类停药干预措施的临床试验证据。每行是研究发现——不是建议。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "苯二氮卓類停藥干預措施的臨床試驗證據。每行是研究發現——不是建議。"
           }
         }
       }
@@ -14249,7 +14393,20 @@
       }
     },
     "Compare benzodiazepine doses against diazepam, or convert between two. Switching to a long-acting benzo before tapering is standard practice, though evidence for better outcomes is limited." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将苯二氮䓬的剂量与地西泮比较，或在两种之间换算。换用长效苯二氮䓬后再减量是常规做法，但改善结局的证据有限。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將苯二氮䓬的劑量與地西泮比較，或在兩種之間換算。換用長效苯二氮䓬後再減量是常規做法，但改善結局的證據有限。"
+          }
+        }
+      }
     },
     "Compare benzodiazepine doses to diazepam" : {
       "localizations" : {
@@ -16897,6 +17054,38 @@
         }
       }
     },
+    "Discontinuation evidence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停药证据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停藥證據"
+          }
+        }
+      }
+    },
+    "Discontinuation Evidence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停药证据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停藥證據"
+          }
+        }
+      }
+    },
     "Dismiss" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17092,6 +17281,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "DOI"
+          }
+        }
+      }
+    },
+    "doi:10.3390/ijms27031430" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "doi:10.3390/ijms27031430"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "doi:10.3390/ijms27031430"
           }
         }
       }
@@ -22580,6 +22785,22 @@
         }
       }
     },
+    "Flumazenil" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "氟马西尼"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "氟馬西尼"
+          }
+        }
+      }
+    },
     "Fluvoxamine" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22771,6 +22992,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分子式"
+          }
+        }
+      }
+    },
+    "Four small trials with contradictory results." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "四项小型试验，结果相互矛盾。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "四項小型試驗，結果相互矛盾。"
           }
         }
       }
@@ -23483,7 +23720,20 @@
       }
     },
     "Gabapentin" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加巴喷丁"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加巴噴丁"
+          }
+        }
+      }
     },
     "Gabapentin — falls with dose" : {
       "localizations" : {
@@ -23934,6 +24184,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "良好"
+          }
+        }
+      }
+    },
+    "Gradual taper" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐步减量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐步減量"
           }
         }
       }
@@ -25839,6 +26105,9 @@
         }
       }
     },
+    "If you are using phenibut or F-phenibut daily, dependence develops within weeks. Protracted withdrawal can last months — taper gradually with medical guidance." : {
+
+    },
     "If you feel anxious, focus on slow breathing. It passes." : {
       "localizations" : {
         "zh-Hans" : {
@@ -25904,7 +26173,20 @@
       }
     },
     "If you have been drinking heavily and daily for weeks, stopping abruptly can be medically dangerous — seizures and delirium tremens peak 2–4 days after the last drink. Seek medical advice before going cold turkey." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你连续数周每天大量饮酒，突然戒断可能非常危险——癫痫发作和震颤性谵妄通常在最后一杯后 2–4 天达到高峰。戒酒前请先咨询医生。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你連續數週每天大量飲酒，突然戒斷可能非常危險——癲癇發作和震顫性譫妄通常在最後一杯後 2–4 天達到高峰。戒酒前請先諮詢醫師。"
+          }
+        }
+      }
     },
     "If you lose this passphrase, the backup can't be recovered. There is no reset." : {
       "localizations" : {
@@ -25982,6 +26264,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "圖片"
+          }
+        }
+      }
+    },
+    "Imipramine" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "丙米嗪"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "丙米嗪"
           }
         }
       }
@@ -26862,6 +27160,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "洞察"
+          }
+        }
+      }
+    },
+    "Insufficient evidence to support the efficacy of this strategy — despite being the standard move and the core of the Ashton method." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "证据不足以支持该策略的有效性——尽管它是标准操作且是Ashton方法的核心。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "證據不足以支持該策略的有效性——儘管它是標準操作且是Ashton方法的核心。"
           }
         }
       }
@@ -28252,6 +28566,22 @@
         }
       }
     },
+    "Lithium" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "锂盐"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鋰鹽"
+          }
+        }
+      }
+    },
     "Little tolerance builds — the thing to watch is stopping suddenly." : {
       "localizations" : {
         "zh-Hans" : {
@@ -28900,6 +29230,22 @@
         }
       }
     },
+    "Long-acting benzo switch" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "换用长效苯二氮卓"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "換用長效苯二氮卓"
+          }
+        }
+      }
+    },
     "Long-Acting Opioid Receptor Antagonist" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -29213,6 +29559,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "虛構藥物"
+          }
+        }
+      }
+    },
+    "Magnesium aspartate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天冬氨酸镁"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天冬氨酸鎂"
           }
         }
       }
@@ -29929,6 +30291,22 @@
         }
       }
     },
+    "Melatonin" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "褪黑素"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "褪黑素"
+          }
+        }
+      }
+    },
     "Melatonin MT1/MT2 Receptor Agonist" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -30071,6 +30449,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "與上一段合併"
+          }
+        }
+      }
+    },
+    "Meta-analysis" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "荟萃分析"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "薈萃分析"
           }
         }
       }
@@ -31115,6 +31509,22 @@
         }
       }
     },
+    "More patients BZD-free at week 5; lower withdrawal incidence and anxiety in elderly." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第5周时更多患者已停用苯二氮卓；老年患者戒断发生率和焦虑均降低。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第5週時更多患者已停用苯二氮卓；老年患者戒斷發生率和焦慮均降低。"
+          }
+        }
+      }
+    },
     "More pills" : {
       "localizations" : {
         "zh-Hans" : {
@@ -31127,6 +31537,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "增加藥片"
+          }
+        }
+      }
+    },
+    "More than 60% discontinuation in both arms; no difference." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两组停药率均超过60%；无差异。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兩組停藥率均超過60%；無差異。"
           }
         }
       }
@@ -31779,6 +32205,86 @@
         }
       }
     },
+    "n = 19, underpowered" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n = 19，统计效力不足"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n = 19，統計效力不足"
+          }
+        }
+      }
+    },
+    "n = 40" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n = 40"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n = 40"
+          }
+        }
+      }
+    },
+    "n = 108" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n = 108"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n = 108"
+          }
+        }
+      }
+    },
+    "n = 144" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n = 144"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n = 144"
+          }
+        }
+      }
+    },
+    "n = 244" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n = 244"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n = 244"
+          }
+        }
+      }
+    },
     "nAChR" : {
 
     },
@@ -31891,6 +32397,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "大自然、藝術或寧靜的音樂能溫柔地幫助您消化。"
+          }
+        }
+      }
+    },
+    "Navarrete F, et al. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navarrete F 等。苯二氮卓类依赖：临床和分子方面、预防策略和治疗方法。Int J Mol Sci. 2026;27(3):1430."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navarrete F 等。苯二氮卓類依賴：臨床和分子方面、預防策略和治療方法。Int J Mol Sci. 2026;27(3):1430."
           }
         }
       }
@@ -32818,6 +33340,54 @@
         }
       }
     },
+    "No difference on any endpoint." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有终点均无差异。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有終點均無差異。"
+          }
+        }
+      }
+    },
+    "No difference on withdrawal severity, anxiety, or drug-free status." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "戒断严重程度、焦虑或无药状态均无差异。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "戒斷嚴重程度、焦慮或無藥狀態均無差異。"
+          }
+        }
+      }
+    },
+    "No difference vs placebo." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与安慰剂无差异。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與安慰劑無差異。"
+          }
+        }
+      }
+    },
     "No dose ladders matched" : {
       "localizations" : {
         "zh-Hans" : {
@@ -32862,6 +33432,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "尚未記錄任何劑量"
+          }
+        }
+      }
+    },
+    "No effect on taper rate, withdrawal severity, or anxiety." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对减量速率、戒断严重程度或焦虑无效。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對減量速率、戒斷嚴重程度或焦慮無效。"
           }
         }
       }
@@ -34131,6 +34717,22 @@
         }
       }
     },
+    "Not medical advice. Benzodiazepine discontinuation can be medically dangerous — these are research findings, not a plan." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非医疗建议。苯二氮卓类停药可能有医疗风险——这些是研究发现，不是方案。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非醫療建議。苯二氮卓類停藥可能有醫療風險——這些是研究發現，不是方案。"
+          }
+        }
+      }
+    },
     "Not Now" : {
       "localizations" : {
         "zh-Hans" : {
@@ -34193,6 +34795,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未排序"
+          }
+        }
+      }
+    },
+    "Not supported by evidence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无证据支持"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無證據支持"
           }
         }
       }
@@ -34824,6 +35442,22 @@
         }
       }
     },
+    "Ondansetron" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "昂丹司琼"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "昂丹司瓊"
+          }
+        }
+      }
+    },
     "One card per mechanism" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -34854,6 +35488,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "同一組實驗"
+          }
+        }
+      }
+    },
+    "One small positive trial (n = 34); two larger negative trials (n = 80, n = 38 at 1-year follow-up). Improved sleep quality without improving discontinuation." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一项小型阳性试验 (n = 34)；两项较大的阴性试验 (n = 80, n = 38，1年随访)。改善了睡眠质量但未改善停药率。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一項小型陽性試驗 (n = 34)；兩項較大的陰性試驗 (n = 80, n = 38，1年隨訪)。改善了睡眠品質但未改善停藥率。"
           }
         }
       }
@@ -37695,6 +38345,22 @@
         }
       }
     },
+    "Pregabalin" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "普瑞巴林"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "普瑞巴林"
+          }
+        }
+      }
+    },
     "Pregabalin — flat ~90%" : {
       "localizations" : {
         "zh-Hans" : {
@@ -38211,6 +38877,22 @@
         }
       }
     },
+    "Progesterone" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "黄体酮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "黃體酮"
+          }
+        }
+      }
+    },
     "Progress" : {
       "localizations" : {
         "zh-Hans" : {
@@ -38223,6 +38905,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "進度"
+          }
+        }
+      }
+    },
+    "Propranolol" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "普萘洛尔"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "普萘洛爾"
           }
         }
       }
@@ -38826,6 +39524,55 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "速度勝過用量"
+          }
+        }
+      }
+    },
+    "RCT" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随机对照试验"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨機對照試驗"
+          }
+        }
+      }
+    },
+    "RCT, n = 78" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随机对照试验，n = 78"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨機對照試驗，n = 78"
+          }
+        }
+      }
+    },
+    "RCT, n = 107" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随机对照试验，n = 107"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨機對照試驗，n = 107"
           }
         }
       }
@@ -39740,6 +40487,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "預計反應減弱——約為靜息狀態的 %lld%%。"
+          }
+        }
+      }
+    },
+    "Reduced symptom severity in completers; no effect on dropout rate or incidence." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成者的症状严重程度降低；对退出率或发生率无影响。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成者的症狀嚴重程度降低；對退出率或發生率無影響。"
           }
         }
       }
@@ -41248,6 +42011,22 @@
         }
       }
     },
+    "Reversed withdrawal scores and craving vs oxazepam taper and placebo. Inpatient IV only — dangerous in chronic users (precipitated withdrawal)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逆转了戒断评分和渴求（对比奥沙西泮减量和安慰剂）。仅限住院静脉注射——对长期使用者危险（诱发戒断）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逆轉了戒斷評分和渴求（對比奧沙西泮減量和安慰劑）。僅限住院靜脈注射——對長期使用者危險（誘發戒斷）。"
+          }
+        }
+      }
+    },
     "Reverses the transporters to pump monoamines out (substrate efflux) — the MDMA/amphetamine-type mechanism." : {
       "localizations" : {
         "zh-Hans" : {
@@ -41845,6 +42624,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "SADAG Crisis Line"
+          }
+        }
+      }
+    },
+    "Safe and effective for tapering off long-term use; improved sleep." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对长期使用者减量安全有效；改善睡眠。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對長期使用者減量安全有效；改善睡眠。"
           }
         }
       }
@@ -47514,6 +48309,22 @@
         }
       }
     },
+    "Supported by evidence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有证据支持"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有證據支持"
+          }
+        }
+      }
+    },
     "Supports physiological functions through various mechanisms including enzyme cofactor activity, antioxidant effects, neurotransmitter precursor supply, hormonal modulation, or direct receptor interactions. Mechanisms vary widely and are substance-specific." : {
       "localizations" : {
         "zh-Hans" : {
@@ -48020,6 +48831,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "他噴他多"
+          }
+        }
+      }
+    },
+    "Taper success 82.6% vs 37.5% placebo." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "减量成功率82.6% vs 安慰剂37.5%。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "減量成功率82.6% vs 安慰劑37.5%。"
           }
         }
       }
@@ -49045,6 +49872,22 @@
         }
       }
     },
+    "The strongest result in the literature. Discontinuation significantly higher than taper alone at both 3 months and 6–12 months." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文献中最强的结果。停药率在3个月和6–12个月时均显著高于单纯减量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文獻中最強的結果。停藥率在3個月和6–12個月時均顯著高於單純減量。"
+          }
+        }
+      }
+    },
     "The target opioid can't be linearly converted — see the note below." : {
       "localizations" : {
         "zh-Hans" : {
@@ -49462,6 +50305,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此檔案不是有效的 Piru 備份。"
+          }
+        }
+      }
+    },
+    "This half is the more useful half." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这一半更有用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這一半更有用。"
           }
         }
       }
@@ -52187,6 +53046,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正使用平均值 60 kg。在上方設定你的體重，讓估算貼合你自己——越輕，同樣的劑量作用越強。"
+          }
+        }
+      }
+    },
+    "Valproate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "丙戊酸盐"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "丙戊酸鹽"
           }
         }
       }

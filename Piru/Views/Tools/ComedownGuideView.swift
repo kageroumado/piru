@@ -284,6 +284,7 @@ struct ComedownGuideView: View {
                 avoid: [
                     "Don't 'hair of the dog' — more depressant just delays recovery.",
                     "If you have been drinking heavily and daily for weeks, stopping abruptly can be medically dangerous — seizures and delirium tremens peak 2–4 days after the last drink. Seek medical advice before going cold turkey.",
+                    "If you are using phenibut or F-phenibut daily, dependence develops within weeks. Protracted withdrawal can last months — taper gradually with medical guidance.",
                     "Avoid painkillers that stress the liver (acetaminophen) after heavy alcohol use.",
                     "Don't drive or make important decisions until fully sober.",
                     "Avoid greasy, heavy food — it sounds good but often makes nausea worse.",
