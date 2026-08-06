@@ -44718,6 +44718,12 @@
         }
       }
     },
+    "Skipped" : {
+
+    },
+    "Skipped for today" : {
+
+    },
     "Sleep" : {
       "localizations" : {
         "zh-Hans" : {

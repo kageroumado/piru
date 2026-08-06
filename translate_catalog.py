@@ -938,6 +938,8 @@ T = {
     "Right now — subjective state": ("此刻 — 主观感受", "此刻 — 主觀感受"),
     "Elimination": ("消除", "消除"),
     "Taken": ("摄入", "攝入"),
+    "Skipped": ("已跳过", "已跳過"),
+    "Skipped for today": ("今天已跳过", "今天已跳過"),
     "Intensity": ("强度", "強度"),
     "Next": ("下一阶段", "下一階段"),
     "baseline": ("基线", "基線"),

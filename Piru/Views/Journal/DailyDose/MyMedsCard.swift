@@ -15,6 +15,7 @@ struct MyMedsCard: View {
     @Query private var todayEntries: [DoseEntry]
     @Query private var recentEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
+    @Query private var todayOccurrences: [RoutineOccurrence]
 
     @State private var supplementsExpanded = false
     @State private var streak: Int?
@@ -33,6 +34,9 @@ struct MyMedsCard: View {
             filter: #Predicate<DoseEntry> { $0.timestamp >= cutoff },
             sort: \DoseEntry.timestamp,
         )
+        _todayOccurrences = Query(
+            filter: #Predicate<RoutineOccurrence> { $0.dueDay >= dayStart },
+        )
     }
 
     // MARK: Slot derivation
@@ -40,18 +44,28 @@ struct MyMedsCard: View {
     /// One checkable dose slot: a due med × one of its reminder times (or a
     /// single "anytime" slot). Earliest slots absorb today's matched doses
     /// first.
+    enum SlotState {
+        case pending
+        case taken
+        case skipped
+    }
+
     struct MedSlot: Identifiable {
         let item: DailyDoseItem
         let time: Int?
         let index: Int
-        let taken: Bool
+        let state: SlotState
+
+        var taken: Bool {
+            state == .taken
+        }
 
         var id: String {
             item.substance + String(item.sortOrder) + "#" + String(index)
         }
 
         var isDueNow: Bool {
-            guard !taken else { return false }
+            guard state == .pending else { return false }
             guard let time else { return true }
             return time <= Self.nowMinutes
         }
@@ -64,16 +78,31 @@ struct MyMedsCard: View {
 
     private var allSlots: [MedSlot] {
         var slots: [MedSlot] = []
+        let occurrencesByKey = Dictionary(
+            todayOccurrences.map { (RoutineOccurrenceService.slotKey(for: $0), $0) },
+            uniquingKeysWith: { _, last in last },
+        )
         for item in items where !item.isAsNeeded && AdherenceCalculator.isDue(item, on: .now) {
             let times = item.reminderTimesMinutes.sorted()
             let expected = max(1, times.count)
-            let matched = todayEntries.count { AdherenceCalculator.entryMatches(entry: $0, item: item) }
             for index in 0 ..< expected {
+                let slotMinutes = times.indices.contains(index) ? times[index] : nil
+                let key = RoutineOccurrenceService.slotKey(
+                    substance: item.substance,
+                    substanceUID: item.substanceUID,
+                    route: item.route,
+                    slotMinutes: slotMinutes,
+                )
+                let state: SlotState = switch occurrencesByKey[key]?.state {
+                case .logged: .taken
+                case .skipped: .skipped
+                default: .pending
+                }
                 slots.append(MedSlot(
                     item: item,
-                    time: times.indices.contains(index) ? times[index] : nil,
+                    time: slotMinutes,
                     index: index,
-                    taken: index < matched,
+                    state: state,
                 ))
             }
         }
@@ -250,7 +279,7 @@ struct MyMedsCard: View {
             title: displayName(for: slot.item),
             subtitle: "\(slot.item.amount.doseFormatted) \(slot.item.unit)",
             timeText: slot.time.map(Self.timeText),
-            taken: slot.taken,
+            slotState: slot.state,
             due: slot.isDueNow,
             indented: indented,
             onToggle: {
@@ -322,7 +351,7 @@ struct MyMedsCard: View {
         let allDone = done == quietSlots.count
         return ZStack {
             if allDone {
-                CheckCircle(done: true, due: false)
+                CheckCircle(state: .taken, due: false)
             } else {
                 Circle()
                     .stroke(Color(.tertiarySystemFill), lineWidth: 2.5)
@@ -474,26 +503,41 @@ struct MyMedsCard: View {
 
 // MARK: - Row subviews
 
-/// The checked/unchecked circle shared by slot rows and the collapsed
+/// The checked/unchecked/skipped circle shared by slot rows and the collapsed
 /// Supplements row.
 private struct CheckCircle: View {
-    let done: Bool
+    let state: MyMedsCard.SlotState
     let due: Bool
 
     var body: some View {
         ZStack {
             Circle()
-                .fill(done ? Color.green : Color.clear)
+                .fill(state == .taken ? Color.green : Color.clear)
             Circle()
-                .stroke(done ? Color.green : (due ? Theme.accent : Color(.tertiarySystemFill)), lineWidth: 2)
-            if done {
+                .stroke(strokeColor, lineWidth: 2)
+            switch state {
+            case .taken:
                 Image(systemName: "checkmark")
                     .font(.system(size: 11, weight: .bold))
                     .foregroundStyle(.white)
+            case .skipped:
+                Image(systemName: "minus")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(.secondary)
+            case .pending:
+                EmptyView()
             }
         }
         .frame(width: 24, height: 24)
         .accessibilityHidden(true)
+    }
+
+    private var strokeColor: Color {
+        switch state {
+        case .taken: .green
+        case .skipped: Color(.tertiarySystemFill)
+        case .pending: due ? Theme.accent : Color(.tertiarySystemFill)
+        }
     }
 }
 
@@ -504,43 +548,45 @@ private struct SlotRowView: View {
     let title: String
     let subtitle: String
     let timeText: String?
-    let taken: Bool
+    let slotState: MyMedsCard.SlotState
     let due: Bool
     let indented: Bool
-    /// Log (when untaken) or unlog (when taken) — driven by the check-circle.
     let onToggle: () -> Void
-    /// Open the med's detail — driven by the rest of the row.
     let onOpen: () -> Void
+
+    private var taken: Bool {
+        slotState == .taken
+    }
 
     var body: some View {
         HStack(spacing: 10) {
-            // The check-circle is the ONLY logging control — tap to log, tap
-            // again to unlog. Isolating it here is what stops a stray tap on
-            // the row from silently writing (or being unable to reverse) a dose.
             Button(action: onToggle) {
-                CheckCircle(done: taken, due: due)
+                CheckCircle(state: slotState, due: due)
                     .contentShape(Circle())
             }
             .buttonStyle(.plain)
+            .disabled(slotState == .skipped)
             .accessibilityLabel(title)
-            .accessibilityValue(taken ? Text("Taken") : Text("Not taken yet"))
-            .accessibilityHint(taken ? Text("Unlogs this dose") : Text("Logs this dose"))
+            .accessibilityValue(accessibilityStateValue)
+            .accessibilityHint(slotState == .skipped ? Text("Skipped for today") : taken ? Text("Unlogs this dose") : Text("Logs this dose"))
 
-            // The rest of the row opens the med — a safe, non-destructive tap
-            // (matching the Reminders idiom: circle completes, text opens).
             Button(action: onOpen) {
                 HStack(spacing: 10) {
                     VStack(alignment: .leading, spacing: 1) {
                         Text(title)
-                            .font(.subheadline.weight(taken ? .regular : .medium))
-                            .foregroundStyle(taken ? Theme.secondaryLabel : .primary)
+                            .font(.subheadline.weight(dismissed ? .regular : .medium))
+                            .foregroundStyle(dismissed ? Theme.secondaryLabel : .primary)
                             .strikethrough(taken, color: Theme.secondaryLabel.opacity(0.5))
                         Text(subtitle)
                             .font(.caption)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                     Spacer()
-                    if due, timeText != nil {
+                    if slotState == .skipped {
+                        Text("Skipped")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    } else if due, timeText != nil {
                         Text("due")
                             .font(.caption2.weight(.bold))
                             .padding(.horizontal, 7)
@@ -562,5 +608,18 @@ private struct SlotRowView: View {
         }
         .padding(.vertical, 7)
         .padding(.leading, indented ? 22 : 0)
+        .opacity(slotState == .skipped ? 0.6 : 1)
+    }
+
+    private var dismissed: Bool {
+        taken || slotState == .skipped
+    }
+
+    private var accessibilityStateValue: Text {
+        switch slotState {
+        case .taken: Text("Taken")
+        case .skipped: Text("Skipped")
+        case .pending: Text("Not taken yet")
+        }
     }
 }
