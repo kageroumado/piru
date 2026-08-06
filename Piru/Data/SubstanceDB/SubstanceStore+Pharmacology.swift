@@ -365,6 +365,8 @@ extension SubstanceStore {
             // §5c: keyed on the active compound (Kratom→Mitragynine), defaulting to full-agonist 1.0.
             intrinsicEfficacy: ToleranceStore.intrinsicEfficacyByName[routed.name.lowercased()] ?? 1,
             categoryClasses: categoryClasses,
+            // Metabolites route through the **active compound** (Kratom→Mitragynine), like binding/PK.
+            metabolites: Self.metaboliteContributors(from: metabolism(forSubstanceName: routed.name)),
         )
     }
 
@@ -436,6 +438,9 @@ extension SubstanceStore {
                 referenceDoseMg: referenceDoseMg,
                 intrinsicEfficacy: ToleranceStore.intrinsicEfficacyByName[routed.name.lowercased()] ?? 1,
                 categoryClasses: categoryClasses,
+                metabolites: id.map {
+                    metaboliteContributors(from: metabolismRows(substanceID: $0, db: queue, order: order))
+                } ?? [],
             )
         }
         return out
@@ -604,6 +609,7 @@ extension SubstanceStore {
         doseScale: Double = 1, doseScaleConfidence: ConfidenceTier = .high,
         referenceDoseMg: Double? = nil, intrinsicEfficacy: Double = 1,
         categoryClasses: Set<ReceptorClasses.ReceptorClass> = [],
+        metabolites: [PharmacologyParameters.MetaboliteContributor] = [],
     ) -> PharmacologyParameters {
         // Read Vd, F, and half-life from a SINGLE coherent pk row — never pair a Vd from one study
         // with an F or half-life from another. That cross-pairing silently double-counts F when a
@@ -728,6 +734,7 @@ extension SubstanceStore {
             categoryClasses: categoryClasses,
             pkSpecies: pkSpecies,
             fractionUnbound: Self.resolveFractionUnbound(pk: pk),
+            metabolites: metabolites,
         )
     }
 
@@ -745,8 +752,21 @@ extension SubstanceStore {
     /// enzyme name. Drives the Pharmacokinetics disclosure's metabolism block.
     func metabolism(forSubstanceName name: String) -> [MetabolismHit] {
         guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+        return Self.metabolismRows(substanceID: substanceID, db: substancesDB, order: enabledSourceOrder)
+    }
+
+    /// Metabolism rows for one substance id on the given connection — `nonisolated static` so the
+    /// off-main tolerance resolve reads them on the batch connection (mirrors ``bindingRows`` /
+    /// ``pharmacokineticsRows``). The metabolite's own half-life is resolved by source priority from
+    /// the linked substance's ``half_lives`` (falling back to the scalar column) exactly as the
+    /// interactive read does.
+    nonisolated static func metabolismRows(
+        substanceID: Int64, db queue: DatabaseQueue, order: [String],
+    ) -> [MetabolismHit] {
+        let enabledSourceListSQL = enabledSourceListSQL(order)
+        let priorityCaseSQL = priorityCaseSQL(order)
         do {
-            return try substancesDB.read { db in
+            return try queue.read { db in
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT m.id, m.enzyme, m.fraction_of_clearance_pct, m.metabolite_name,
                            ms.canonical_name AS metabolite_substance_name,
@@ -815,6 +835,40 @@ extension SubstanceStore {
             logger.error("metabolism(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
+    }
+
+    /// Distil metabolism rows into the tolerance engine's ``PharmacologyParameters/MetaboliteContributor``s
+    /// (K.5). Only rows that name a metabolite **and** carry a half-life become contributors — the PK
+    /// shape needs the half-life, and an enzyme-only row (no metabolite) has nothing to fold. Rows are
+    /// deduped by metabolite identity, keeping the strongest evidence (a foldable + clinical-basis row
+    /// beats a receptor-affinity duplicate — diazepam carries both a `receptor_affinity` and a
+    /// `clinical` nordazepam row; the clinical one, which also carries the half-life, wins).
+    nonisolated static func metaboliteContributors(
+        from hits: [MetabolismHit],
+    ) -> [PharmacologyParameters.MetaboliteContributor] {
+        /// Higher rank = stronger evidence to keep on a duplicate metabolite.
+        func rank(_ c: PharmacologyParameters.MetaboliteContributor) -> Int {
+            (c.canFold ? 2 : 0) + (c.isClinicalBasis ? 1 : 0)
+        }
+        var byKey: [String: PharmacologyParameters.MetaboliteContributor] = [:]
+        for hit in hits {
+            guard let halfLife = hit.metaboliteHalfLifeMinutes, halfLife > 0,
+                  let name = hit.metaboliteSubstanceName ?? hit.metaboliteName, !name.isEmpty
+            else { continue }
+            let candidate = PharmacologyParameters.MetaboliteContributor(
+                metaboliteName: name,
+                metaboliteSubstanceName: hit.metaboliteSubstanceName,
+                halfLifeMinutes: halfLife,
+                formationFractionPct: hit.formationFractionPct,
+                potencyVsParentPct: hit.metabolitePotencyVsParentPct,
+                potencyBasis: hit.metabolitePotencyBasis?.rawValue,
+                mechanismVsParent: hit.metaboliteMechanismVsParent.rawValue,
+            )
+            let key = name.lowercased()
+            if let existing = byKey[key], rank(existing) >= rank(candidate) { continue }
+            byKey[key] = candidate
+        }
+        return Array(byKey.values)
     }
 
     /// Distinct binding targets sorted by how many substances hit them.
