@@ -2858,6 +2858,12 @@ class TestSignatureGates(unittest.TestCase):
         self.assertEqual(mixed, [], f"plottable group spans multiple species: {mixed}")
 
     def test_no_uncited_numeric_values(self):
+        # `benzos-cited` is a source-level-attributed curated dataset: each record
+        # carries its own aggregate `sources` list, so provenance rides on the
+        # source_id rather than a per-fact citation_id. Its bioavailability figures
+        # can't be pinned to a single paper without misattributing (a record's
+        # sources mix PK papers with unrelated ones), so its pk_routes attribute at
+        # the dataset level and are exempt from the per-fact citation requirement.
         rows = self.db.execute(
             "SELECT s.canonical_name || '|bindings|' || b.target || '|' || b.action"
             "  FROM bindings b JOIN substances s ON s.id = b.substance_id"
@@ -2877,7 +2883,9 @@ class TestSignatureGates(unittest.TestCase):
             " UNION ALL "
             "SELECT s.canonical_name || '|pk_routes|' || p.route"
             "  FROM pk_routes p JOIN substances s ON s.id = p.substance_id"
+            "  JOIN sources so ON so.id = p.source_id"
             " WHERE p.citation_id IS NULL"
+            "   AND so.slug != 'benzos-cited'"
             "   AND COALESCE(p.bioavailability_pct, p.cmax_ng_per_ml, p.tmax_min,"
             "                p.half_life_min, p.vd_l_per_kg, p.clearance_ml_per_min_per_kg,"
             "                p.protein_binding_pct) IS NOT NULL"

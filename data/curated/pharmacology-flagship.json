@@ -1055,5 +1055,170 @@
         "reference": "PMID 24796848"
       }
     ]
+  },
+  {
+    "name": "Flunitrazepam",
+    "bindings": [
+      {
+        "target": "GABA-A α1β3γ2 (human recombinant)",
+        "action": "positiveAllostericModulator",
+        "ki_nm": 2.2,
+        "species": "human",
+        "radioligand": "[3H]Ro 15-1788",
+        "confidence": "HIGH",
+        "reference": "10.1021/jm990341r",
+        "notes": "Human recombinant subtype-resolved (α1β3γ2 = 2.2 nM); representative BZ-site Ki ~2–4 nM."
+      }
+    ]
+  },
+  {
+    "name": "Clonazepam",
+    "bindings": [
+      {
+        "target": "GABA-A benzodiazepine site",
+        "action": "positiveAllostericModulator",
+        "ki_nm": 2.0,
+        "species": "bovine",
+        "radioligand": "[3H]flunitrazepam",
+        "confidence": "MEDIUM",
+        "reference": "10.1021/np50094a001",
+        "notes": "Reference-compound value by [3H]flunitrazepam displacement; classic BZ-site Ki ~1–2 nM, multiply replicated."
+      }
+    ]
+  },
+  {
+    "name": "Midazolam",
+    "bindings": [
+      {
+        "target": "GABA-A benzodiazepine site",
+        "action": "positiveAllostericModulator",
+        "ki_nm": 2.0,
+        "species": "rat",
+        "radioligand": "[3H]flunitrazepam",
+        "confidence": "MEDIUM",
+        "reference": "10.1016/s0960-894x(02)00512-7",
+        "notes": "Rat BZD-receptor reference-compound Ki = 2 nM; consistent with textbook ~1–2 nM."
+      }
+    ]
+  },
+  {
+    "name": "Nitrazepam",
+    "bindings": [
+      {
+        "target": "GABA-A benzodiazepine site",
+        "action": "positiveAllostericModulator",
+        "ki_nm": 38.0,
+        "species": "bovine",
+        "radioligand": "[3H]flunitrazepam",
+        "confidence": "MEDIUM",
+        "reference": "10.1021/jm00382a022",
+        "notes": "IC50 = 38 nM (reference compound). Corroborated by DrugMatrix (44.6 nM) and NCATS SPD rat Gabra1 (22 nM); modern assays read ~22–45 nM vs the older folklore ~9–10 nM."
+      }
+    ]
+  },
+  {
+    "name": "Temazepam",
+    "bindings": [
+      {
+        "target": "GABA-A benzodiazepine site",
+        "action": "positiveAllostericModulator",
+        "ki_nm": 44.0,
+        "species": "rat",
+        "radioligand": "NCATS SPD Gabra1 binding",
+        "confidence": "LOW",
+        "reference": "10.1038/s41467-023-40064-9",
+        "notes": "AC50 = 44 nM at rat Gabra1 (Secondary Pharmacology Database, PMID 37468498). Classic tabulations put temazepam ~16–26 nM; modern screen reads weaker. Temazepam = 3-hydroxydiazepam."
+      }
+    ]
+  },
+  {
+    "name": "Estazolam",
+    "bindings": [
+      {
+        "target": "GABA-A benzodiazepine site",
+        "action": "positiveAllostericModulator",
+        "ki_nm": 46.6,
+        "species": "rat",
+        "radioligand": "[3H]flunitrazepam",
+        "confidence": "MEDIUM",
+        "reference": "10.1016/j.bmc.2008.09.037",
+        "notes": "IC50 = 46.6 nM (reference compound). Corroborated: NCATS SPD rat Gabra1 = 33.6 nM, BindingDB human α1β3γ2 = 28.4 nM; ~28–47 nM across three sources."
+      }
+    ]
+  },
+  {
+    "name": "Nordazepam",
+    "bindings": [
+      {
+        "target": "GABA-A benzodiazepine site",
+        "action": "positiveAllostericModulator",
+        "ki_nm": 9.4,
+        "species": "rodent",
+        "radioligand": "[3H] displacement",
+        "confidence": "MEDIUM",
+        "reference": "10.1021/jm00372a012",
+        "notes": "IC50 ~9.4 nM (reference compound); ≈ diazepam affinity. Nordazepam (N-desmethyldiazepam) is diazepam's major active metabolite."
+      }
+    ]
+  },
+  {
+    "name": "Delorazepam",
+    "bindings": [
+      {
+        "target": "GABA-A benzodiazepine site",
+        "action": "positiveAllostericModulator",
+        "ki_nm": 2.0,
+        "species": "rat",
+        "radioligand": "[3H]diazepam",
+        "confidence": "HIGH",
+        "reference": "10.1016/0024-3205(85)90089-x",
+        "notes": "Ki = 2.0 nM (Cheng-Prusoff from IC50), read from Nakatsuka 1985 Table II (listed as chlordesmethyldiazepam). Potent active benzo; also the active metabolite of cloxazolam."
+      }
+    ]
+  },
+  {
+    "name": "Pinazepam",
+    "bindings": [
+      {
+        "target": "GABA-A benzodiazepine site (cerebellum)",
+        "action": "positiveAllostericModulator",
+        "ki_nm": 28.0,
+        "species": "rat",
+        "radioligand": "[3H]flumazenil",
+        "confidence": "MEDIUM",
+        "reference": "10.1016/s0091-3057(96)00565-5",
+        "notes": "IC50 = 28 nM in cerebellum (De Sarro 1997 Table 4). N-propargyl-nordazepam analog, active in its own right; partly converts to nordazepam."
+      }
+    ]
+  },
+  {
+    "name": "Phenazepam",
+    "bindings": [
+      {
+        "target": "GABA-A α1β2γ2 (human recombinant)",
+        "action": "positiveAllostericModulator",
+        "ki_nm": 0.05,
+        "species": "human",
+        "radioligand": "[3H]flunitrazepam",
+        "confidence": "HIGH",
+        "reference": "10.1016/j.bmcl.2022.128637",
+        "notes": "Competitive [3H]flunitrazepam displacement Ki, human recombinant panel (α1 0.05, α2 0.06, α3 0.12, α5 0.68 nM); sub-nanomolar."
+      }
+    ]
+  },
+  {
+    "name": "Bromazolam",
+    "bindings": [
+      {
+        "target": "GABA-A α1β2γ2 (human recombinant)",
+        "action": "positiveAllostericModulator",
+        "ki_nm": 2.8,
+        "species": "human",
+        "radioligand": "[3H]flunitrazepam",
+        "confidence": "MEDIUM",
+        "reference": "10.1016/j.bmcl.2022.128637",
+        "notes": "Real measured Ki despite being a designer benzo (8-bromo-alprazolam analog, Cook lab). Single med-chem source, no independent replication. NOT bromazepam."
+      }
+    ]
   }
 ]
