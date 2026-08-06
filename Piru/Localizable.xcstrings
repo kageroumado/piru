@@ -23783,6 +23783,12 @@
         }
       }
     },
+    "Gabapentinoids" : {
+
+    },
+    "Gabapentinoids (α2δ)" : {
+
+    },
     "Gastrointestinal" : {
       "localizations" : {
         "zh-Hans" : {
@@ -43326,6 +43332,9 @@
         }
       }
     },
+    "Sedative tolerance builds; dependence can develop within weeks of daily use. Phenibut withdrawal is among the most severe." : {
+
+    },
     "Sedative-Hypnotic" : {
       "localizations" : {
         "zh-Hans" : {
@@ -49276,7 +49285,20 @@
       }
     },
     "The dose that no longer makes you sleepy impairs your memory and coordination exactly as much as it did on day one." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再让你困倦的剂量对你的记忆和协调能力的损害与第一天完全相同。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再讓你困倦的劑量對你的記憶和協調能力的損害與第一天完全相同。"
+          }
+        }
+      }
     },
     "The engine can simulate these as part of a plan, but they need a calibrated substance in the same plan to anchor the curve." : {
       "localizations" : {
@@ -55392,6 +55414,9 @@
           }
         }
       }
+    },
+    "α2δ subunit (VGCC)" : {
+
     },
     "α₂-adrenoceptor" : {
 

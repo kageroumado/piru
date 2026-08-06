@@ -141,6 +141,7 @@ final class ToleranceStore {
         // 5-HT2A psychedelic representative; Ketamine the NMDA dissociative one.
         .psychedelic5HT2A: "Psilocin",
         .nmdaAntagonist: "Ketamine",
+        .alpha2Delta: "Pregabalin",
     ]
 
     /// Oral **morphine-milligram-equivalent** factors (CDC 2022, §3.1) — morphine-mg per 1 mg of the

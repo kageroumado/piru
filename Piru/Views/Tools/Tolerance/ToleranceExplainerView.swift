@@ -162,7 +162,7 @@ struct ToleranceExplainerView: View {
     private var orderedClasses: [ReceptorClasses.ReceptorClass] {
         [
             .psychedelic5HT2A, .muOpioid, .gaba, .nmdaAntagonist, .cannabinoidCB1, .adenosine,
-            .catecholamineStimulant, .serotonergicReleaser, .nicotinic, .alpha2Agonist, .betaBlocker,
+            .catecholamineStimulant, .serotonergicReleaser, .nicotinic, .alpha2Delta, .alpha2Agonist, .betaBlocker,
         ]
     }
 
@@ -199,6 +199,8 @@ struct ToleranceExplainerView: View {
             "Runs down with use and returns over weeks. MDMA-type use is slower because it dents serotonin supply as well as the receptors."
         case .nicotinic:
             "Mostly fast receptor desensitization that recovers between uses rather than a lasting change."
+        case .alpha2Delta:
+            "Sedative tolerance builds; dependence can develop within weeks of daily use. Phenibut withdrawal is among the most severe."
         case .alpha2Agonist:
             "Barely builds tolerance — the real risk is stopping suddenly: blood pressure can rebound hard. Taper, don't quit cold."
         case .betaBlocker:

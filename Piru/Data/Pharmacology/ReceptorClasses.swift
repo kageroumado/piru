@@ -83,6 +83,9 @@ nonisolated enum ReceptorClasses {
         /// β-adrenergic antagonists (propranolol, metoprolol): little efficacy tolerance — a faint
         /// reading that *hosts* the discontinuation **rebound** warning (§3.5).
         case betaBlocker
+        /// α2δ voltage-gated calcium channel modulators (gabapentin, pregabalin, phenibut): hypnotic
+        /// tolerance develops; anxiolytic tolerance unclear; dependence can be severe (phenibut).
+        case alpha2Delta
         /// No curated class — generic class-default kinetics at the lowest confidence.
         case unknown
 
@@ -143,6 +146,7 @@ nonisolated enum ReceptorClasses {
             case .nicotinic: "Nicotinic (nAChR)"
             case .alpha2Agonist: "α₂-agonists (clonidine)"
             case .betaBlocker: "Beta-blockers (propranolol)"
+            case .alpha2Delta: "Gabapentinoids (α2δ)"
             case .unknown: "Other"
             }
         }
@@ -161,6 +165,7 @@ nonisolated enum ReceptorClasses {
             case .nicotinic: "Nicotine"
             case .alpha2Agonist: "α₂-agonists"
             case .betaBlocker: "Beta-blockers"
+            case .alpha2Delta: "Gabapentinoids"
             case .unknown: "Other"
             }
         }
@@ -179,6 +184,7 @@ nonisolated enum ReceptorClasses {
             case .nicotinic: "nAChR"
             case .alpha2Agonist: "α₂-adrenoceptor"
             case .betaBlocker: "β-adrenoceptor"
+            case .alpha2Delta: "α2δ subunit (VGCC)"
             case .unknown: "Other"
             }
         }
@@ -404,6 +410,25 @@ nonisolated enum ReceptorClasses {
                     adaptiveShiftMax: 0, tauAdaptiveMinutes: 14 * T.day,
                 ),
             )
+        case .alpha2Delta:
+            // Gabapentinoids (gabapentin, pregabalin, phenibut, F-phenibut): hypnotic tolerance
+            // develops; anxiolytic tolerance unclear. Dependence can be severe, especially
+            // phenibut (protracted withdrawal within weeks of daily use). Same per-effect
+            // differential as GABA: the cognitive impairment endpoint does not tolerize.
+            Parameters(
+                acuteShiftMax: 0.3, tauAcuteMinutes: 6 * T.hour,
+                adaptiveShiftMax: 0.8, tauAdaptiveMinutes: 10 * T.day,
+                deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
+                synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
+                safetyAxis: .dependenceKindling, confidence: .low,
+                classDefaultVdLPerKg: 0.8,
+                sourceNote: "Gabapentinoid tolerance: hypnotic well-attested, anxiolytic unclear. Phenibut dependence within weeks. Cognitive impairment endpoint shift ≡ 1. Thinner literature than GABA; grade low.",
+                safetyEndpoint: SafetyEndpoint(
+                    kind: .cognitiveImpairment,
+                    acuteShiftMax: 0, tauAcuteMinutes: 6 * T.hour,
+                    adaptiveShiftMax: 0, tauAdaptiveMinutes: 10 * T.day,
+                ),
+            )
         case .nmdaAntagonist:
             // Ketamine / DXM / MXE: days-scale adaptive shift + a redose pool; cumulative toxicity.
             // Also a modulator of others' tolerance (ToleranceModulation).
@@ -522,6 +547,7 @@ nonisolated enum ReceptorClasses {
         case .nicotinic: [.agonist, .partialAgonist]
         case .alpha2Agonist: [.agonist, .partialAgonist]
         case .betaBlocker: [.antagonist]
+        case .alpha2Delta: [.modulator, .channelBlocker, .partialAgonist]
         case .unknown: []
         }
     }
@@ -545,6 +571,7 @@ nonisolated enum ReceptorClasses {
             if t.contains("α2") || t.contains("alpha-2") || t.contains("alpha2") || t.contains("alpha 2") { return .alpha2Agonist }
             if t.contains("β") || t.contains("beta") { return .betaBlocker }
         }
+        if t.contains("alpha2delta") || t.contains("α2δ") { return .alpha2Delta }
         if t.contains("nmda") { return .nmdaAntagonist }
         if t.contains("cb1") || t.contains("cannabinoid") { return .cannabinoidCB1 }
         if t.contains("adenosine") { return .adenosine }
@@ -577,7 +604,7 @@ nonisolated enum ReceptorClasses {
     /// (designer benzos, fluoro-amphetamines, RC opioids) that ships without curated bindings.
     ///
     /// Only categories with a well-defined mechanism class map; the rest (nootropic, supplement,
-    /// gabapentinoid — whose target is α2δ, not a modeled tolerance class — etc.) return `nil`.
+    /// etc.) return `nil`.
     static func toleranceClass(forCategory category: SubstanceCategory) -> ReceptorClass? {
         switch category {
         case .stimulant, .eugeroic: .catecholamineStimulant
@@ -591,6 +618,7 @@ nonisolated enum ReceptorClasses {
         case .dissociative: .nmdaAntagonist
         case .empathogen: .serotonergicReleaser
         case .cannabinoid: .cannabinoidCB1
+        case .gabapentinoid: .alpha2Delta
         default: nil
         }
     }

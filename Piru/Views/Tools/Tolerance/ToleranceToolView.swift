@@ -256,6 +256,7 @@ extension ReceptorClasses.ReceptorClass {
         case .adenosine: Color(red: 0.64, green: 0.52, blue: 0.37)
         case .nicotinic: Color(red: 0.60, green: 0.55, blue: 0.35)
         case .alpha2Agonist, .betaBlocker: Color(red: 0.88, green: 0.32, blue: 0.29)
+        case .alpha2Delta: Color(red: 0.40, green: 0.60, blue: 0.80)
         case .unknown: .gray
         }
     }

@@ -6175,6 +6175,14 @@ T = {
     ),
     "doi:10.3390/ijms27031430": ("doi:10.3390/ijms27031430", "doi:10.3390/ijms27031430"),
     "RCT, n = 78": ("随机对照试验，n = 78", "隨機對照試驗，n = 78"),
+    # Gabapentinoid α2δ class (§K.6, 2026-08-06).
+    "Gabapentinoids (α2δ)": ("加巴喷丁类 (α2δ)", "加巴噴丁類 (α2δ)"),
+    "Gabapentinoids": ("加巴喷丁类", "加巴噴丁類"),
+    "α2δ subunit (VGCC)": ("α2δ亚基 (VGCC)", "α2δ亞基 (VGCC)"),
+    "Sedative tolerance builds; dependence can develop within weeks of daily use. Phenibut withdrawal is among the most severe.": (
+        "镇静耐受性会逐渐建立；每日使用数周即可产生依赖。苯乙胺丁酸的戒断反应属于最严重的类型之一。",
+        "鎮靜耐受性會逐漸建立；每日使用數週即可產生依賴。苯乙胺丁酸的戒斷反應屬於最嚴重的類型之一。",
+    ),
     # GABA cognitive impairment safety note (§B, 2026-08-06).
     "The dose that no longer makes you sleepy impairs your memory and coordination exactly as much as it did on day one.": (
         "不再让你困倦的剂量对你的记忆和协调能力的损害与第一天完全相同。",
