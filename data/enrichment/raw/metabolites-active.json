@@ -1694,20 +1694,6 @@
     "parent_half_life_notes": "FDA Adderall XR label: mean d-amphetamine elimination half-life is 10 h in adults, 11 h in adolescents (13-17y), 9 h in children (6-12y); pH-dependent renal excretion (shorter in acidic urine). l-amphetamine is cleared more slowly (11-14 h) but is less pharmacologically relevant to the stimulant/euphoric profile than d-amphetamine.",
     "metabolism": [
       {
-        "enzyme": "CYP2D6 / DBH",
-        "metabolite_name": "4-hydroxyamphetamine",
-        "metabolite_active": true,
-        "metabolite_half_life_min": null,
-        "metabolite_half_life_range_min": null,
-        "formation_fraction_pct": 2,
-        "metabolite_tmax_min": null,
-        "metabolite_potency_vs_parent_pct": null,
-        "metabolite_potency_basis": "unknown",
-        "reference": null,
-        "reference_notes": "FDA label mass-balance data (Adderall/dextroamphetamine NDA labeling, accessdata.fda.gov) reports ~2% of an oral dose recovered in urine as p-hydroxyamphetamine, alongside ~42% unchanged amphetamine and ~25% hippuric acid. No DOI/PMID could be verified for a specific primary human PK paper isolating this metabolite's own half-life or potency, so those fields are null.",
-        "metabolite_mechanism_vs_parent": "scaled"
-      },
-      {
         "enzyme": "Dopamine beta-hydroxylase (side-chain oxidation)",
         "metabolite_name": "norephedrine",
         "metabolite_active": true,
@@ -1807,20 +1793,6 @@
         "metabolite_potency_basis": "unknown",
         "reference": null,
         "metabolite_mechanism_vs_parent": "scaled"
-      },
-      {
-        "enzyme": "Plasma/hepatic cholinesterase (hydrolysis)",
-        "metabolite_name": "benzoylecgonine",
-        "metabolite_active": false,
-        "metabolite_half_life_min": null,
-        "metabolite_half_life_range_min": null,
-        "formation_fraction_pct": null,
-        "metabolite_tmax_min": null,
-        "metabolite_potency_vs_parent_pct": 0,
-        "metabolite_potency_basis": "receptor_affinity",
-        "reference": null,
-        "metabolite_mechanism_vs_parent": "scaled",
-        "metabolite_potency_target": "DAT"
       }
     ]
   },

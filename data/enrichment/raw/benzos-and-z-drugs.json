@@ -1063,26 +1063,7 @@
       ],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "CYP3A4",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "7-amino-clonazepam",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": "Klonopin FDA label",
-        "metabolite_potency_target": "GABA-A"
-      },
-      {
-        "enzyme": "NAT2",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "7-acetamido-clonazepam",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": "Klonopin FDA label",
-        "metabolite_potency_target": "GABA-A"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "ketoconazole / itraconazole",
@@ -1190,16 +1171,7 @@
       ],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "CYP3A4",
-        "fraction_of_clearance_pct": 90,
-        "metabolite_name": "α-hydroxytriazolam",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": "Halcion FDA label"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "ketoconazole",
@@ -2085,47 +2057,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 80,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 90,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 300,
-          "vd_l_per_kg": 1.3,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 45,
-          "dose_in_study_mg": 7.5,
-          "subject_n": null,
-          "subject_demographics": "Imovane product monograph",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "CYP3A4",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "N-desmethylzopiclone",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 10,
-        "reference": null,
-        "metabolite_potency_target": "GABA-A",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
-      },
-      {
-        "enzyme": "CYP3A4",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "zopiclone-N-oxide (inactive)",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": null,
-        "metabolite_potency_target": "GABA-A"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "erythromycin / ketoconazole",
@@ -2211,26 +2146,7 @@
       ],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "Aldehyde oxidase",
-        "fraction_of_clearance_pct": 60,
-        "metabolite_name": "5-oxo-zaleplon",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": "Sonata FDA label",
-        "metabolite_potency_target": "GABA-A"
-      },
-      {
-        "enzyme": "CYP3A4",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "desethylzaleplon",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": "Sonata FDA label",
-        "metabolite_potency_target": "GABA-A"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "cimetidine",
@@ -2425,23 +2341,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 120,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 2160,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 95,
-          "dose_in_study_mg": 15,
-          "subject_n": null,
-          "subject_demographics": "Doral FDA label",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -2523,38 +2423,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 120,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 720,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 93,
-          "dose_in_study_mg": 2,
-          "subject_n": null,
-          "subject_demographics": "ProSom FDA label",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "CYP3A4",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "4-hydroxyestazolam",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 5,
-        "reference": null,
-        "metabolite_potency_target": "GABA-A",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": null,
     "tolerance_and_dependence": null,
@@ -2598,35 +2470,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 91,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 60,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 4200,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 97,
-          "dose_in_study_mg": 15,
-          "subject_n": null,
-          "subject_demographics": "Tranxene FDA label",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "non-enzymatic gastric hydrolysis",
-        "fraction_of_clearance_pct": 100,
-        "metabolite_name": "nordazepam",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "antacids / PPIs",
@@ -2699,23 +2546,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 360,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 4200,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 10,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -2893,47 +2724,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 80,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 120,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 600,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 88,
-          "dose_in_study_mg": 1,
-          "subject_n": null,
-          "subject_demographics": "Noctamid SmPC",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "UGT",
-        "fraction_of_clearance_pct": 80,
-        "metabolite_name": "lormetazepam-glucuronide",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": null,
-        "metabolite_potency_target": "GABA-A"
-      },
-      {
-        "enzyme": "CYP3A4",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "lorazepam",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 100,
-        "reference": null,
-        "metabolite_potency_target": "GABA-A",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": null,
     "tolerance_and_dependence": null,
@@ -2991,38 +2785,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 70,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 60,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 300,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 90,
-          "dose_in_study_mg": 0.25,
-          "subject_n": null,
-          "subject_demographics": "Lendormin SmPC",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "CYP3A4",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "α-hydroxybrotizolam",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 10,
-        "reference": null,
-        "metabolite_potency_target": "GABA-A",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": null,
     "tolerance_and_dependence": null,
@@ -3563,15 +3329,6 @@
         "metabolite_active": null,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null
-      },
-      {
-        "enzyme": "nitroreductase",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "8-aminoclonazolam",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": null,
-        "metabolite_potency_target": "GABA-A"
       }
     ],
     "drug_interactions_pk": [],
@@ -4032,17 +3789,7 @@
       "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "UGT",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "nifoxipam-glucuronide",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": null,
-        "metabolite_potency_target": "GABA-A"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": null,
     "tolerance_and_dependence": null,
@@ -4292,35 +4039,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "intramuscular",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 10,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": null,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": null,
-          "subject_n": null,
-          "subject_demographics": "Military pharmacology studies",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "Plasma aminopeptidases",
-        "fraction_of_clearance_pct": 100,
-        "metabolite_name": "diazepam",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": null,
     "tolerance_and_dependence": null,
@@ -4379,35 +4101,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 60,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 600,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 2,
-          "subject_n": null,
-          "subject_demographics": "Japanese PMDA data",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "Aminopeptidase (intestinal)",
-        "fraction_of_clearance_pct": 100,
-        "metabolite_name": "Active triazolobenzodiazepine metabolite",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": null,
     "tolerance_and_dependence": null,
@@ -4448,23 +4145,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 90,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 4200,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 0.5,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -4614,23 +4295,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 60,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 240,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 5,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -4733,23 +4398,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": null,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 540,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 40,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [],
@@ -5090,23 +4739,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 80,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 120,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 480,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 1,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [],
@@ -5285,23 +4918,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": null,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 1200,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 5,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -5401,17 +5018,7 @@
       "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "nitroreductase / CYP3A4",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "8-amino-nitrazolam",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": null,
-        "metabolite_potency_target": "GABA-A"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": null,
     "tolerance_and_dependence": null,

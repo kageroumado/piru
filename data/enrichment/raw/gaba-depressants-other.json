@@ -126,15 +126,7 @@
           "reference": "pmid:26231237"
         }
       ],
-      "concentration_effect": [
-        {
-          "effect": "subjective intoxication / impairment",
-          "concentration_unit": "mg/dL BAC",
-          "threshold": 20,
-          "peak_effect": 80,
-          "reference": null
-        }
-      ]
+      "concentration_effect": []
     },
     "metabolism": [
       {
@@ -378,15 +370,7 @@
           "reference": "pmid:15538955"
         }
       ],
-      "concentration_effect": [
-        {
-          "effect": "sedation / coma",
-          "concentration_unit": "mg/L plasma",
-          "threshold": 50,
-          "peak_effect": 250,
-          "reference": "pmid:18211851"
-        }
-      ]
+      "concentration_effect": []
     },
     "metabolism": [
       {
@@ -769,19 +753,7 @@
       ],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "Carboxylesterase (CES1/CES2)",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "GHB",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 100,
-        "reference": null,
-        "metabolite_potency_target": "GABA-B",
-        "metabolite_potency_basis": "clinical",
-        "metabolite_mechanism_vs_parent": "scaled"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -886,15 +858,7 @@
           "reference": "pmid:20818832"
         }
       ],
-      "concentration_effect": [
-        {
-          "effect": "anticonvulsant efficacy",
-          "concentration_unit": "μg/mL plasma",
-          "threshold": 2,
-          "peak_effect": 20,
-          "reference": null
-        }
-      ]
+      "concentration_effect": []
     },
     "metabolism": [
       {
@@ -1048,26 +1012,9 @@
           "reference": "pmid:20818832"
         }
       ],
-      "concentration_effect": [
-        {
-          "effect": "neuropathic pain reduction (NRS)",
-          "concentration_unit": "ng/mL",
-          "threshold": 1500,
-          "peak_effect": 5000,
-          "reference": null
-        }
-      ]
+      "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "(none — not metabolised)",
-        "fraction_of_clearance_pct": 0,
-        "metabolite_name": null,
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": null,
@@ -1189,16 +1136,7 @@
       ],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "(minimal — mostly excreted unchanged)",
-        "fraction_of_clearance_pct": 35,
-        "metabolite_name": null,
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "baclofen, GHB, ethanol, benzodiazepines, opioids",
@@ -1569,16 +1507,7 @@
       ],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "Hepatic deamination (minor)",
-        "fraction_of_clearance_pct": 15,
-        "metabolite_name": "β-(p-chlorophenyl)-γ-hydroxybutyric acid",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "ethanol, benzodiazepines, opioids, GHB, phenibut",
@@ -1802,43 +1731,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 60,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 1500,
-          "vd_l_per_kg": 1.0,
-          "clearance_ml_per_min_per_kg": 0.4,
-          "protein_binding_pct": 55,
-          "dose_in_study_mg": 100,
-          "subject_n": null,
-          "subject_demographics": "Adults.",
-          "reference": null
-        }
-      ],
-      "concentration_effect": [
-        {
-          "effect": "anaesthesia",
-          "concentration_unit": "μg/mL",
-          "threshold": 20,
-          "peak_effect": 50,
-          "reference": null
-        }
-      ]
+      "routes": [],
+      "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "CYP3A4, CYP2C19, CYP2E1",
-        "fraction_of_clearance_pct": 95,
-        "metabolite_name": "3'-hydroxypentobarbital",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "(many CYP substrates)",
@@ -2013,35 +1909,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 100,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 120,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 5400,
-          "vd_l_per_kg": 0.5,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 300,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "renal excretion + minor hepatic",
-        "fraction_of_clearance_pct": 30,
-        "metabolite_name": null,
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [],
@@ -2099,35 +1970,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 90,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 1350,
-          "vd_l_per_kg": 0.9,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 60,
-          "dose_in_study_mg": 200,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "CYP2C19, CYP3A4",
-        "fraction_of_clearance_pct": 90,
-        "metabolite_name": "3'-hydroxyamobarbital",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "CYP substrates",
@@ -2193,35 +2039,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 90,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 60,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 1500,
-          "vd_l_per_kg": 1.5,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 50,
-          "dose_in_study_mg": 100,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "CYP2C19, CYP3A4",
-        "fraction_of_clearance_pct": 95,
-        "metabolite_name": "various oxidation products",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -2278,38 +2099,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "intravenous",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": null,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": null,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": 3.4,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 250,
-          "subject_n": null,
-          "subject_demographics": "Adults; t1/2β 11 h but clinical recovery <10 min due to peripheral redistribution.",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "CYP2C19, CYP3A4",
-        "fraction_of_clearance_pct": 99,
-        "metabolite_name": "pentobarbital",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 50,
-        "reference": null,
-        "metabolite_potency_target": "GABA-A",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -2427,23 +2220,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 60,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 240,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": null,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -2939,23 +2716,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 120,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 720,
-          "vd_l_per_kg": 2.7,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 50,
-          "dose_in_study_mg": 250,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -3041,23 +2802,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 90,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 240,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 300,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [],
@@ -3116,23 +2861,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 90,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 1500,
-          "vd_l_per_kg": 4.0,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 35,
-          "dose_in_study_mg": null,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -3217,44 +2946,11 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 90,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 120,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 60,
-          "dose_in_study_mg": 350,
-          "subject_n": null,
-          "subject_demographics": "Adults. t1/2 carisoprodol 1-2 h; meprobamate metabolite t1/2 6-17 h.",
-          "reference": "pmid:14506299"
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "CYP2C19",
-        "fraction_of_clearance_pct": 70,
-        "metabolite_name": "meprobamate",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": "pmid:14506299"
-      }
-    ],
-    "drug_interactions_pk": [
-      {
-        "with": "CYP2C19 inhibitors (omeprazole, fluoxetine, fluvoxamine)",
-        "mechanism": "↓ meprobamate formation, ↑ carisoprodol exposure",
-        "ki_um": null,
-        "clinical_effect": "Increased sedation from parent; reduced anxiolytic efficacy.",
-        "reference": "pmid:14506299"
-      }
-    ],
+    "metabolism": [],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP2C19"
@@ -3288,8 +2984,7 @@
     "confidence": "high",
     "data_gaps_remaining": [],
     "references_consulted": [
-      "pmid:19457260",
-      "pmid:14506299"
+      "pmid:19457260"
     ]
   },
   {
@@ -3333,23 +3028,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 35,
-          "cmax_ng_per_ml": 25,
-          "tmax_min": 240,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 1080,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": 0.7,
-          "protein_binding_pct": 93,
-          "dose_in_study_mg": 10,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -3429,23 +3108,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 180,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 540,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 800,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -3595,14 +3258,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "pmid:16390352"
-      },
-      {
-        "enzyme": "CYP2D6 (minor)",
-        "fraction_of_clearance_pct": 10,
-        "metabolite_name": null,
-        "metabolite_active": null,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -3766,13 +3421,6 @@
     ],
     "drug_interactions_pk": [
       {
-        "with": "CYP2D6 substrates",
-        "mechanism": "DPH is a potent CYP2D6 inhibitor (Ki ~1 μM)",
-        "ki_um": 1.0,
-        "clinical_effect": "Inhibits metoprolol, codeine, tamoxifen, antipsychotic metabolism.",
-        "reference": "pmid:11907491"
-      },
-      {
         "with": "anticholinergic load",
         "mechanism": "Additive cholinergic blockade",
         "ki_um": null,
@@ -3820,8 +3468,7 @@
     "data_gaps_remaining": [],
     "references_consulted": [
       "pmid:8061993",
-      "pmid:26581328",
-      "pmid:11907491"
+      "pmid:26581328"
     ]
   },
   {
@@ -3981,19 +3628,7 @@
       ],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "CYP3A4/5",
-        "fraction_of_clearance_pct": 60,
-        "metabolite_name": "cetirizine",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 100,
-        "reference": null,
-        "metabolite_potency_target": "H1",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [],
@@ -4057,23 +3692,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 120,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 1200,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 50,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -4186,35 +3805,11 @@
           "subject_n": null,
           "subject_demographics": null,
           "reference": "pmid:3293868"
-        },
-        {
-          "route": "transdermal",
-          "bioavailability_pct": 60,
-          "cmax_ng_per_ml": null,
-          "tmax_min": null,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": null,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": null,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
         }
       ],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "hepatic (CYP2D6 minor)",
-        "fraction_of_clearance_pct": 50,
-        "metabolite_name": "p-hydroxyclonidine",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "TCAs",
@@ -4280,23 +3875,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 25,
-          "cmax_ng_per_ml": 80,
-          "tmax_min": 90,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 240,
-          "vd_l_per_kg": 4,
-          "clearance_ml_per_min_per_kg": 16,
-          "protein_binding_pct": 90,
-          "dose_in_study_mg": 40,
-          "subject_n": null,
-          "subject_demographics": "Adults.",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -4305,14 +3884,6 @@
         "fraction_of_clearance_pct": null,
         "metabolite_name": "4-hydroxypropranolol",
         "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      },
-      {
-        "enzyme": "CYP1A2",
-        "fraction_of_clearance_pct": 20,
-        "metabolite_name": "naphthoxylactic acid",
-        "metabolite_active": false,
         "metabolite_potency_vs_parent_pct": null,
         "reference": null
       }
@@ -4412,23 +3983,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 105,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 540,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": null,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -4736,38 +4291,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 10,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 120,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 1800,
-          "vd_l_per_kg": 10,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 97,
-          "dose_in_study_mg": 10,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "CYP2C9, CYP3A4",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "11-OH-THC",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 100,
-        "reference": null,
-        "metabolite_potency_target": "CB1",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -4845,16 +4372,7 @@
       ],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "amidases (hydrolysis to GABA + niacin)",
-        "fraction_of_clearance_pct": 100,
-        "metabolite_name": "GABA",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [],
@@ -4993,23 +4511,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 79,
-          "cmax_ng_per_ml": null,
-          "tmax_min": null,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 90,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": null,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [],
@@ -5065,23 +4567,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": null,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 360,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": null,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [],
@@ -5140,35 +4626,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": null,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 5400,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": null,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "carboxylesterases",
-        "fraction_of_clearance_pct": 100,
-        "metabolite_name": "descarboxyloflazepate",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -5337,23 +4798,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 10,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 60,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 240,
-          "vd_l_per_kg": 9,
-          "clearance_ml_per_min_per_kg": 16,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": null,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -5453,16 +4898,7 @@
       ],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "CYP2E1 (~20% — high for a volatile)",
-        "fraction_of_clearance_pct": 20,
-        "metabolite_name": "trifluoroacetic acid (reactive)",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -5753,23 +5189,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 1080,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 30000,
-          "vd_l_per_kg": 20,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 98,
-          "dose_in_study_mg": 250,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -6257,35 +5677,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 30,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 360,
-          "vd_l_per_kg": 0.6,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": null,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "UGT (glucuronidation)",
-        "fraction_of_clearance_pct": 90,
-        "metabolite_name": "2M2B-glucuronide",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "other GABA-A PAMs",

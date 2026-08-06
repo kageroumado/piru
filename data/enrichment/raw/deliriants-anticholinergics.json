@@ -222,15 +222,7 @@
           "reference": "pmid:7106172"
         }
       ],
-      "concentration_effect": [
-        {
-          "effect": "H1-mediated suppression of histamine-induced wheal",
-          "concentration_unit": "ng/mL",
-          "threshold": 1.5,
-          "peak_effect": 5,
-          "reference": "researchgate:232794187 (Simons FE — Chlorpheniramine plasma concentration and histamine H1 receptor occupancy)"
-        }
-      ]
+      "concentration_effect": []
     },
     "metabolism": [
       {
@@ -567,62 +559,8 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 25,
-          "cmax_ng_per_ml": 17,
-          "tmax_min": 165,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 720,
-          "vd_l_per_kg": 13.4,
-          "clearance_ml_per_min_per_kg": 17,
-          "protein_binding_pct": 93,
-          "dose_in_study_mg": 50,
-          "subject_n": null,
-          "subject_demographics": "Healthy adults",
-          "reference": "medscape:406904"
-        },
-        {
-          "route": "intramuscular",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 150,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 588,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 93,
-          "dose_in_study_mg": 25,
-          "subject_n": null,
-          "subject_demographics": "Healthy adults",
-          "reference": "ncbi:books/NBK544361 (StatPearls — Promethazine)"
-        },
-        {
-          "route": "intravenous",
-          "bioavailability_pct": 100,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 0,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 750,
-          "vd_l_per_kg": 13.4,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 93,
-          "dose_in_study_mg": 25,
-          "subject_n": null,
-          "subject_demographics": "Healthy adults",
-          "reference": "medscape:406904"
-        }
-      ],
-      "concentration_effect": [
-        {
-          "effect": "Sedation onset",
-          "concentration_unit": "ng/mL",
-          "threshold": 10,
-          "peak_effect": 20,
-          "reference": "ncbi:books/NBK544361"
-        }
-      ]
+      "routes": [],
+      "concentration_effect": []
     },
     "metabolism": [
       {
@@ -649,15 +587,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "pmid:8946477"
-      },
-      {
-        "enzyme": "UGT (glucuronidation)",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "promethazine N-glucuronide",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": null,
-        "metabolite_potency_target": "H1"
       }
     ],
     "drug_interactions_pk": [

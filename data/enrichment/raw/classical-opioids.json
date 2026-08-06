@@ -173,28 +173,7 @@
         }
       ]
     },
-    "metabolism": [
-      {
-        "enzyme": "UGT2B7",
-        "fraction_of_clearance_pct": 70,
-        "metabolite_name": "morphine-3-glucuronide (M3G)",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": "doi:10.1016/j.bja.2017.10.014",
-        "metabolite_potency_target": "MOR"
-      },
-      {
-        "enzyme": "UGT2B7",
-        "fraction_of_clearance_pct": 10,
-        "metabolite_name": "morphine-6-glucuronide (M6G)",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 200,
-        "reference": "doi:10.1016/j.bja.2017.10.014",
-        "metabolite_potency_target": "MOR",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "rifampicin",
@@ -250,7 +229,6 @@
     "references_consulted": [
       "pmid:1851921",
       "doi:10.1016/j.yrtph.2010.12.007",
-      "doi:10.1016/j.bja.2017.10.014",
       "doi:10.1056/NEJMra1604339"
     ]
   },
@@ -865,34 +843,9 @@
           "reference": "doi:10.2165/00003088-200241140-00003"
         }
       ],
-      "concentration_effect": [
-        {
-          "effect": "QTc prolongation",
-          "concentration_unit": "ng/mL",
-          "threshold": 200,
-          "peak_effect": 1000,
-          "reference": null
-        }
-      ]
+      "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "CYP2B6",
-        "fraction_of_clearance_pct": 74,
-        "metabolite_name": "EDDP (2-ethylidene-1,5-dimethyl-3,3-diphenylpyrrolidine)",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": null,
-        "metabolite_potency_target": "MOR"
-      },
-      {
-        "enzyme": "CYP3A4",
-        "fraction_of_clearance_pct": 5,
-        "metabolite_name": "EDDP",
-        "metabolite_active": false,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "rifampicin",
@@ -1601,46 +1554,11 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 24,
-          "tmax_min": 60,
-          "half_life_min": 150,
-          "vd_l_per_kg": 4,
-          "protein_binding_pct": 19,
-          "reference": null
-        },
-        {
-          "route": "intravenous",
-          "bioavailability_pct": 100,
-          "half_life_min": 150,
-          "vd_l_per_kg": 4,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "UGT2B7 (>95%)",
-        "fraction_of_clearance_pct": 95,
-        "metabolite_name": "hydromorphone-3-glucuronide (H3G)",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": null,
-        "metabolite_potency_target": "MOR"
-      }
-    ],
-    "drug_interactions_pk": [
-      {
-        "with": "cannabinoids (CBD, THC, CBN)",
-        "mechanism": "UGT2B7 inhibition",
-        "ki_um": 0.82,
-        "clinical_effect": "potential increase in hydromorphone AUC",
-        "reference": null
-      }
-    ],
+    "metabolism": [],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "UGT2B7 (*2)",
@@ -2016,13 +1934,6 @@
         "metabolite_potency_target": "MOR",
         "metabolite_potency_basis": "receptor_affinity",
         "metabolite_mechanism_vs_parent": "scaled"
-      },
-      {
-        "enzyme": "CYP2D6",
-        "fraction_of_clearance_pct": 10,
-        "metabolite_name": "various demethylated metabolites",
-        "metabolite_active": null,
-        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -3580,14 +3491,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "half_life_min": 150,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [

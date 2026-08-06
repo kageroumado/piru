@@ -92,23 +92,7 @@
       ]
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 80,
-          "cmax_ng_per_ml": 50,
-          "tmax_min": 240,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 2160,
-          "vd_l_per_kg": 12,
-          "clearance_ml_per_min_per_kg": 4.5,
-          "protein_binding_pct": 80,
-          "dose_in_study_mg": 40,
-          "subject_n": 12,
-          "subject_demographics": "Healthy adults",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": [
         {
           "effect": "QTc prolongation (ΔmsEC)",
@@ -1102,17 +1086,6 @@
       "concentration_effect": []
     },
     "metabolism": [
-      {
-        "enzyme": "CYP2B6",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "desmethylsertraline",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 2,
-        "reference": null,
-        "metabolite_potency_target": "SERT",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
-      },
       {
         "enzyme": "CYP2C19",
         "fraction_of_clearance_pct": null,

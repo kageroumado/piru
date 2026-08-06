@@ -273,15 +273,6 @@
     },
     "metabolism": [
       {
-        "enzyme": "CYP3A4",
-        "fraction_of_clearance_pct": 30,
-        "metabolite_name": "2-oxo-3-hydroxy-LSD (O-H-LSD)",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": null,
-        "metabolite_potency_target": "5-HT2A"
-      },
-      {
         "enzyme": "CYP1A2/2D6/2E1/2C9",
         "fraction_of_clearance_pct": null,
         "metabolite_name": "nor-LSD",
@@ -1941,17 +1932,6 @@
           "subject_n": 6,
           "subject_demographics": "Hasler 1997 / Brown 2017 healthy adults",
           "reference": "pmid:9204776"
-        },
-        {
-          "route": "intravenous (as psilocybin)",
-          "bioavailability_pct": 100,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 2,
-          "half_life_min": 72,
-          "dose_in_study_mg": 1,
-          "subject_n": 12,
-          "subject_demographics": "healthy adults Hasler 1997",
-          "reference": null
         }
       ],
       "concentration_effect": [
@@ -2845,21 +2825,6 @@
       "routes": [
         {
           "route": "intravenous",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": 75,
-          "tmax_min": null,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": null,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 25,
-          "subject_n": 11,
-          "subject_demographics": "Strassman 1994; healthy volunteers M+F",
-          "reference": null
-        },
-        {
-          "route": "intravenous",
           "bioavailability_pct": 100,
           "cmax_ng_per_ml": 45,
           "tmax_min": 2.5,
@@ -2907,13 +2872,6 @@
         "enzyme": "MAO-A",
         "fraction_of_clearance_pct": null,
         "metabolite_name": "indole-3-acetic acid (IAA)",
-        "metabolite_active": false,
-        "reference": null
-      },
-      {
-        "enzyme": "CYP2D6/peroxidase (minor)",
-        "fraction_of_clearance_pct": 5,
-        "metabolite_name": "DMT N-oxide",
         "metabolite_active": false,
         "reference": null
       }
@@ -3186,15 +3144,7 @@
       ],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "MAO-A (weak substrate due to steric block)",
-        "fraction_of_clearance_pct": 30,
-        "metabolite_name": "DET N-oxide",
-        "metabolite_active": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [],
@@ -4161,19 +4111,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 60,
-          "half_life_min": null,
-          "dose_in_study_mg": 10,
-          "subject_n": null,
-          "subject_demographics": "case reports",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -5064,15 +5002,7 @@
       "withdrawal_syndrome": "None reported but documented fatalities at high doses",
       "reference": null
     },
-    "off_targets": [
-      {
-        "target": "DAT",
-        "ki_or_ic50_nm": 8900,
-        "concern_level": "moderate",
-        "clinical_consequence": "Weak DA release; serotonergic toxicity is the primary concern, several deaths reported",
-        "reference": null
-      }
-    ],
+    "off_targets": [],
     "demographic_differences": {
       "sex": null,
       "age": null,
@@ -5268,19 +5198,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": null,
-          "half_life_min": 960,
-          "dose_in_study_mg": 20,
-          "subject_n": null,
-          "subject_demographics": "case reports",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -5292,15 +5210,7 @@
         "reference": null
       }
     ],
-    "drug_interactions_pk": [
-      {
-        "with": "MAOI",
-        "mechanism": "AMT itself is a weak MAOI; combination → serotonergic toxicity",
-        "ki_um": 0.38,
-        "clinical_effect": "Increased AMT and 5-HT load",
-        "reference": null
-      }
-    ],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
         "CYP2D6"
@@ -5652,23 +5562,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral (as ayahuasca brew)",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": 115,
-          "tmax_min": null,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": null,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 250,
-          "subject_n": 15,
-          "subject_demographics": "Callaway 1996 healthy Brazilian UDV members",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -5780,19 +5674,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral (as ayahuasca)",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": 35,
-          "tmax_min": null,
-          "half_life_min": null,
-          "dose_in_study_mg": 30,
-          "subject_n": 15,
-          "subject_demographics": "Callaway 1996",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -5925,15 +5807,7 @@
         "reference": null
       }
     ],
-    "drug_interactions_pk": [
-      {
-        "with": "SSRI",
-        "mechanism": "Combined SERT inhibition",
-        "ki_um": 3.4,
-        "clinical_effect": "Additive serotonergic load",
-        "reference": null
-      }
-    ],
+    "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [],
       "phenotype_effects": null,
@@ -5999,15 +5873,7 @@
       "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "MAO-A",
-        "fraction_of_clearance_pct": 90,
-        "metabolite_name": "5-HIAA",
-        "metabolite_active": false,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [
@@ -6184,13 +6050,6 @@
         "metabolite_name": "6-sulfatoxymelatonin (urine marker)",
         "metabolite_active": false,
         "reference": null
-      },
-      {
-        "enzyme": "CYP2C19/CYP1B1 (minor)",
-        "fraction_of_clearance_pct": 15,
-        "metabolite_name": "6-OH-melatonin",
-        "metabolite_active": false,
-        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -6281,30 +6140,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 70,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 90,
-          "half_life_min": 100,
-          "dose_in_study_mg": 100,
-          "subject_n": null,
-          "subject_demographics": "various",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "AADC (DOPA decarboxylase)",
-        "fraction_of_clearance_pct": 80,
-        "metabolite_name": "serotonin",
-        "metabolite_active": true,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "MAOI",
@@ -6383,37 +6222,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 120,
-          "half_life_min": 130,
-          "dose_in_study_mg": 1000,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "IDO1/TDO2 (kynurenine)",
-        "fraction_of_clearance_pct": 95,
-        "metabolite_name": "kynurenine",
-        "metabolite_active": true,
-        "reference": null
-      },
-      {
-        "enzyme": "TPH2 (serotonin)",
-        "fraction_of_clearance_pct": 3,
-        "metabolite_name": "5-HTP",
-        "metabolite_active": true,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [],
@@ -6478,15 +6290,7 @@
       "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "MAO-A/B",
-        "fraction_of_clearance_pct": 95,
-        "metabolite_name": "indole-3-acetic acid",
-        "metabolite_active": false,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
       "relevant_genes": [],
@@ -6750,17 +6554,6 @@
           "subject_n": null,
           "subject_demographics": "label",
           "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/020768s029lbl.pdf"
-        },
-        {
-          "route": "intranasal",
-          "bioavailability_pct": 102,
-          "cmax_ng_per_ml": 8.6,
-          "tmax_min": 180,
-          "half_life_min": 180,
-          "dose_in_study_mg": 5,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
         }
       ],
       "concentration_effect": []
@@ -6773,13 +6566,6 @@
         "metabolite_active": true,
         "metabolite_potency_vs_parent_pct": null,
         "reference": "pmid:10553725"
-      },
-      {
-        "enzyme": "MAO-A",
-        "fraction_of_clearance_pct": 25,
-        "metabolite_name": "zolmitriptan indole acetic acid metabolite",
-        "metabolite_active": false,
-        "reference": null
       }
     ],
     "drug_interactions_pk": [
@@ -6821,22 +6607,7 @@
       "withdrawal_syndrome": "Medication-overuse headache with chronic daily use",
       "reference": null
     },
-    "off_targets": [
-      {
-        "target": "5-HT1A",
-        "ki_or_ic50_nm": 600,
-        "concern_level": "low",
-        "clinical_consequence": "Minor",
-        "reference": null
-      },
-      {
-        "target": "Coronary 5-HT1B",
-        "ki_or_ic50_nm": 5,
-        "concern_level": "high",
-        "clinical_consequence": "Contraindicated in CAD — angina/MI risk",
-        "reference": null
-      }
-    ],
+    "off_targets": [],
     "demographic_differences": {
       "sex": null,
       "age": "Caution in elderly with CAD risk",
@@ -6973,19 +6744,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 5,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 120,
-          "half_life_min": 180,
-          "dose_in_study_mg": 3,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [

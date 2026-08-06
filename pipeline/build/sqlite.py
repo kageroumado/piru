@@ -4826,7 +4826,11 @@ class Build:
         if not cache_path.exists():
             return 0
         cache = json.loads(cache_path.read_text())
-        dead = [u for u, e in cache.items() if e.get("verdict") == "dead"]
+        dead = [
+            u
+            for u, e in cache.items()
+            if e.get("verdict") == "dead" and "accessdata.fda.gov" not in u
+        ]
         if not dead:
             return 0
         # Fact tables that carry a nullable citation_id (everything except the

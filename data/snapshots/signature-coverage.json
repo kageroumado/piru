@@ -1,18 +1,18 @@
 {
   "transporters": {
-    "substances": 102,
-    "plottable": 32
+    "substances": 99,
+    "plottable": 30
   },
   "serotonin": {
-    "substances": 98,
-    "plottable": 44
+    "substances": 75,
+    "plottable": 25
   },
   "muOpioid": {
-    "substances": 73,
+    "substances": 72,
     "plottable": 41
   },
   "cannabinoid1": {
-    "substances": 38,
+    "substances": 36,
     "plottable": 21
   },
   "nmda": {

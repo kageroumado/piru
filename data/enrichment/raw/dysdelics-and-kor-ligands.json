@@ -192,15 +192,7 @@
           "_note": "Effectively zero oral bioavailability — rapid GI hydrolysis of C2 acetate to inactive salvinorin B; P-gp efflux at BBB."
         }
       ],
-      "concentration_effect": [
-        {
-          "effect": "Subject-rated drug strength (0-10)",
-          "concentration_unit": "ng/mL",
-          "threshold": null,
-          "peak_effect": 18,
-          "reference": null
-        }
-      ]
+      "concentration_effect": []
     },
     "metabolism": [
       {

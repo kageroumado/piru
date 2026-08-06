@@ -284,13 +284,6 @@
     },
     "off_targets": [
       {
-        "target": "5-HT2B",
-        "ki_or_ic50_nm": 500,
-        "concern_level": "moderate",
-        "clinical_consequence": "Cardiac valvular fibrosis with chronic/repeated heavy use (fenfluramine-like mechanism). Epidemiological evidence supports increased VHD risk in regular MDMA users.",
-        "reference": null
-      },
-      {
         "target": "hERG",
         "ki_or_ic50_nm": null,
         "concern_level": "low",
@@ -453,15 +446,7 @@
       "withdrawal_syndrome": "No physical withdrawal; post-acute serotonergic comedown.",
       "reference": null
     },
-    "off_targets": [
-      {
-        "target": "5-HT2B",
-        "ki_or_ic50_nm": 100,
-        "concern_level": "moderate",
-        "clinical_consequence": "Cardiac valvulopathy risk; MDA is the more potent 5-HT2B agonist of the MDxx family.",
-        "reference": null
-      }
-    ],
+    "off_targets": [],
     "demographic_differences": {
       "sex": null,
       "age": null,
@@ -585,19 +570,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 120,
-          "half_life_min": 240,
-          "dose_in_study_mg": 140,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -2760,15 +2733,7 @@
       "withdrawal_syndrome": null,
       "reference": null
     },
-    "off_targets": [
-      {
-        "target": "5-HT2B (via MDA metabolite)",
-        "ki_or_ic50_nm": 100,
-        "concern_level": "moderate",
-        "clinical_consequence": "Inherits MDA's 5-HT2B agonism.",
-        "reference": null
-      }
-    ],
+    "off_targets": [],
     "demographic_differences": {
       "sex": null,
       "age": null,

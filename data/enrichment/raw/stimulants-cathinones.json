@@ -614,13 +614,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "half_life_min": 270,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -1989,33 +1983,7 @@
         "DAT",
         "SERT"
       ],
-      "binding": [
-        {
-          "target": "DAT (uptake, human)",
-          "ic50_nm": 1440,
-          "action": "reuptakeInhibitor",
-          "species": "human",
-          "tissue_or_cell": "HEK293 stable hDAT-YFP",
-          "radioligand_or_probe": "[3H]-dopamine",
-          "reference": "pmid:30219933"
-        },
-        {
-          "target": "SERT (uptake, human)",
-          "ic50_nm": 24400,
-          "action": "reuptakeInhibitor",
-          "species": "human",
-          "tissue_or_cell": "HEK293 stable hSERT-YFP",
-          "reference": "pmid:30219933"
-        },
-        {
-          "target": "SERT (release)",
-          "ec50_nm": 330,
-          "action": "releasingAgent",
-          "species": "human",
-          "tissue_or_cell": "HEK293 stable hSERT-YFP",
-          "reference": "pmid:30219933"
-        }
-      ],
+      "binding": [],
       "functional": [],
       "downstream_signalling": "Hybrid mechanism: DAT blocker + SERT substrate. The α-ethyl group (vs methyl in methylone) creates steric hindrance for DAT translocation but permits SERT.",
       "neuroimaging": []
@@ -2059,9 +2027,7 @@
       "human PK",
       "NET data"
     ],
-    "references_consulted": [
-      "pmid:30219933"
-    ]
+    "references_consulted": []
   },
   {
     "name": "Pentylone",
@@ -2081,30 +2047,7 @@
         "DAT",
         "SERT"
       ],
-      "binding": [
-        {
-          "target": "DAT (uptake, human)",
-          "ic50_nm": 310,
-          "action": "reuptakeInhibitor",
-          "species": "human",
-          "tissue_or_cell": "HEK293 stable hDAT-YFP",
-          "reference": "pmid:30219933"
-        },
-        {
-          "target": "SERT (uptake, human)",
-          "ic50_nm": 11700,
-          "action": "reuptakeInhibitor",
-          "species": "human",
-          "reference": "pmid:30219933"
-        },
-        {
-          "target": "SERT (release)",
-          "ec50_nm": 1030,
-          "action": "releasingAgent",
-          "species": "human",
-          "reference": "pmid:30219933"
-        }
-      ],
+      "binding": [],
       "functional": [],
       "downstream_signalling": "Hybrid DAT-blocker / partial-SERT-substrate. More DAT-selective than butylone — drives stimulant rather than entactogen experience.",
       "neuroimaging": []
@@ -2147,9 +2090,7 @@
     "data_gaps_remaining": [
       "human PK"
     ],
-    "references_consulted": [
-      "pmid:30219933"
-    ]
+    "references_consulted": []
   },
   {
     "name": "Eutylone",

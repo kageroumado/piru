@@ -2161,28 +2161,9 @@
       "downstream_signalling": "Weak parent + active hydroxybupropion metabolite (NET-selective) drives clinical NE/DA enhancement. Nicotinic antagonism is mechanistically separate and drives smoking cessation."
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": 130,
-          "tmax_min": 180,
-          "half_life_min": 1260,
-          "protein_binding_pct": 84,
-          "dose_in_study_mg": 150,
-          "reference": null
-        }
-      ]
+      "routes": []
     },
     "metabolism": [
-      {
-        "enzyme": "CYP2B6 (hydroxylation)",
-        "fraction_of_clearance_pct": 50,
-        "metabolite_name": "hydroxybupropion",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 50,
-        "reference": "doi:10.1124/dmd.112.050591"
-      },
       {
         "enzyme": "11β-HSD1 + AKR reduction",
         "fraction_of_clearance_pct": 30,
@@ -2251,7 +2232,6 @@
     "data_gaps_remaining": [],
     "references_consulted": [
       "pmid:12185406",
-      "doi:10.1124/dmd.112.050591",
       "pmid:23804523",
       "pmid:28220701",
       "pmc:3763712"

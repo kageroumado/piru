@@ -1655,7 +1655,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 360.0,
+    "half_life_minutes": null,
     "mechanism_summary": "2-甲基-2-丁醇会抑制 GABA 受体 上一个促惊厥位点的结合，[[10]](#cite_note-10) 这会导致带负电荷的氯离子进入神经元，从而增加神经元放电所需的兴奋量。由于它是一种叔醇，它不能像乙醇那样被乙醇脱氢酶代谢成醛（醛是导致大量摄入 乙醇 后宿醉的原因）。这使得 2M2B 比伯醇安全得多呢。[[11]](#cite_note-11) 但是嘛，这也导致了一个后果，就是 2-甲基-2-丁醇的作用时间延长了，摄入后效果可持续长达 12 小时哦。",
     "effects": [
       "Amnesia",
@@ -1673,6 +1673,7 @@
     ],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "references"
     ]
   },
@@ -2128,7 +2129,6 @@
       "2C-B-NBOMe",
       "BOM 2-CB",
       "Cimbi-36",
-      "NBOMe-2C-B",
       "New Nexus",
       "Nova"
     ],
@@ -2136,9 +2136,7 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
-      "CYP2D6-substrate",
       "NBOMe",
-      "PET-tracer-Cimbi-36",
       "class:substituted phenethylamines",
       "phenethylamine",
       "research-chemical"
@@ -2217,10 +2215,7 @@
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
-    "tags": [
-      "NBOMe-regioisomer",
-      "likely-weaker-than-25C-NBOMe"
-    ],
+    "tags": [],
     "default_route": "buccal",
     "all_routes": [
       "buccal",
@@ -2249,8 +2244,7 @@
     "name": "25C-NBOH",
     "display_name": "",
     "aliases": [
-      "2C-C-NBOH",
-      "NBOH-2C-C"
+      "2C-C-NBOH"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -2295,11 +2289,8 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
-      "CYP2D6-substrate",
-      "CYP3A4-substrate",
       "NBOMe",
       "class:substituted phenethylamines",
-      "fatality-documented",
       "phenethylamine",
       "research-chemical"
     ],
@@ -2416,14 +2407,12 @@
     "display_name": "",
     "aliases": [
       "25d",
-      "2C-D-NBOMe",
-      "NBOMe-2C-D"
+      "2C-D-NBOMe"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
-      "CYP2D6-substrate",
       "NBOMe",
       "class:substituted phenethylamines",
       "phenethylamine",
@@ -2481,14 +2470,12 @@
     "name": "25E-NBOMe",
     "display_name": "",
     "aliases": [
-      "25e",
-      "NBOMe-2C-E"
+      "25e"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
-      "CYP2D6-substrate",
       "NBOMe",
       "phenethylamine",
       "research-chemical"
@@ -2518,15 +2505,13 @@
     "display_name": "",
     "aliases": [
       "25g",
-      "25gnbome",
-      "NBOMe-2C-G"
+      "25gnbome"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
       "NBOMe",
-      "likely-inactive",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -2596,8 +2581,7 @@
     "name": "25I-NBF",
     "display_name": "",
     "aliases": [
-      "2C-I-NBF",
-      "NBF-2C-I"
+      "2C-I-NBF"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -2639,8 +2623,7 @@
       "25I-NB34MD",
       "2C-I-NBMD",
       "Cimbi-29",
-      "INBMDO",
-      "NBMD-2C-I"
+      "INBMDO"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -2687,11 +2670,9 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
-      "CYP2D6-substrate",
       "NBOH",
       "class:substituted phenethylamines",
       "phenethylamine",
-      "phenolic-glucuronidation",
       "research-chemical",
       "tentative"
     ],
@@ -2735,12 +2716,8 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
-      "CYP2D6-substrate",
-      "CYP3A4-substrate",
       "NBOMe",
       "class:substituted phenethylamines",
-      "fatality-documented",
-      "hERG-data-lacking",
       "phenethylamine",
       "research-chemical"
     ],
@@ -2865,8 +2842,7 @@
     "display_name": "",
     "aliases": [
       "2-C-N-NBOMe",
-      "25n",
-      "NBOMe-2C-N"
+      "25n"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -2901,35 +2877,22 @@
   {
     "name": "25P-NBOMe",
     "display_name": "",
-    "aliases": [
-      "25P",
-      "2C-P-NBOMe",
-      "NBOMe",
-      "NBOMe-2C-P",
-      "P-NBOMe"
-    ],
+    "aliases": [],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
       "NBOMe",
-      "duplicate-of-25P-NBOMe",
       "phenethylamine",
       "research-chemical",
       "tentative"
     ],
-    "default_route": "inhalation",
+    "default_route": "oral",
     "all_routes": [
-      "inhalation",
-      "insufflation",
-      "oral",
-      "sublingual"
+      "oral"
     ],
     "routes_with_dose": [
-      "inhalation",
-      "insufflation",
-      "oral",
-      "sublingual"
+      "oral"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
@@ -2990,8 +2953,7 @@
     "name": "25T-4-NBOMe",
     "display_name": "",
     "aliases": [
-      "25t4-NBOMe",
-      "NBOMe-2C-T-4"
+      "25t4-NBOMe"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -3103,7 +3065,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 110.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [
       "Acuity enhancement",
@@ -3161,6 +3123,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal020.shtml"
     ],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -3210,12 +3173,10 @@
     "tags": [
       "2C-x",
       "5-HT2A-agonist",
-      "5-HT2B-strong",
       "class:substituted benzofurans",
       "class:substituted phenethylamines",
       "phenethylamine",
-      "research-chemical",
-      "valvulopathy-concern"
+      "research-chemical"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -3381,7 +3342,6 @@
     "tags": [
       "2C-x",
       "5-HT2A-agonist",
-      "MAO-substrate",
       "PIHKAL",
       "class:Phenethylamine",
       "class:substituted phenethylamines",
@@ -3875,7 +3835,6 @@
     "tags": [
       "2C-x",
       "5-HT2A-agonist",
-      "MAO-substrate",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -4065,6 +4024,43 @@
     ],
     "data_gaps": [
       "half_life_minutes"
+    ]
+  },
+  {
+    "name": "2C-P-NBOMe",
+    "display_name": "",
+    "aliases": [
+      "25P",
+      "25P-NBOMe",
+      "NBOMe",
+      "NBOMe-2C-P",
+      "P-NBOMe"
+    ],
+    "category": "",
+    "display_class": "recreational",
+    "tags": [],
+    "default_route": "inhalation",
+    "all_routes": [
+      "inhalation",
+      "insufflation",
+      "sublingual"
+    ],
+    "routes_with_dose": [
+      "inhalation",
+      "insufflation",
+      "sublingual"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
     ]
   },
   {
@@ -12470,6 +12466,100 @@
     ]
   },
   {
+    "name": "A-pvp",
+    "display_name": "",
+    "aliases": [
+      "Flak",
+      "Flakka",
+      "Gravel",
+      "O-2387",
+      "Prolintanone",
+      "alpha-PVP",
+      "alpha-Pyrrolidinopentiophenone",
+      "apvp",
+      "desmethylpyrovalerone",
+      "flocka",
+      "α-PVP",
+      "α-Pyrrolidinopentiophenone",
+      "α-pyrrolidinovalerophenone",
+      "αpvp",
+      "β-ketone-prolintane"
+    ],
+    "category": "Stimulant",
+    "display_class": "recreational",
+    "tags": [
+      "DAT-NET-selective",
+      "DRI",
+      "TAAR1-inactive-human",
+      "cathinone",
+      "class:cathinone",
+      "class:substituted cathinones",
+      "class:substituted pyrrolidines",
+      "fatalities-reported",
+      "habit-forming",
+      "high-psychosis-risk",
+      "high-risk",
+      "pure-reuptake-inhibitor",
+      "pyrrolidinophenone",
+      "research-chemical",
+      "slow-DAT-off-rate"
+    ],
+    "default_route": "inhalation",
+    "all_routes": [
+      "inhalation",
+      "insufflation",
+      "oral"
+    ],
+    "routes_with_dose": [
+      "inhalation",
+      "insufflation",
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "α-PVP 是一种强效且具有选择性的 去甲肾上腺素-多巴胺 再摄取抑制剂 (NDRI)，其效力与 MDPV 相似。α-PVP 不作为转运体底物，也就是说，它不会引起神经递质的释放（不像苯丙胺那样）。它是比经典兴奋剂可卡因和苯丙胺更强效的 DAT 和 NET 抑制剂呢。\n\nMDPV、α-PVP、可卡因和苯丙胺对多巴胺 (DAT)、去甲肾上腺素 (NET) 和血清素 (SERT) 转运体 [3H] 递质摄取的抑制作用对比：",
+    "effects": [
+      "Acuity suppression",
+      "Analysis enhancement",
+      "Anxiety",
+      "Appetite suppression",
+      "Cognitive euphoria",
+      "Cognitive fatigue",
+      "Compulsive redosing",
+      "Dehydration",
+      "Depression",
+      "Difficulty urinating",
+      "Disinhibition",
+      "Ego inflation",
+      "Focus enhancement",
+      "Immersion enhancement",
+      "Increased heart rate",
+      "Increased libido",
+      "Increased perspiration",
+      "Irritability",
+      "Motivation enhancement",
+      "Spontaneous tactile sensations",
+      "Stimulation",
+      "Tactile enhancement",
+      "Teeth grinding",
+      "Thought acceleration",
+      "Thought deceleration",
+      "Time distortion",
+      "Vasoconstriction",
+      "Vibrating vision",
+      "Wakefulness"
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Alpha-Pyrrolidinopentiophenone",
+      "https://www.dea.gov/sites/default/files/2018-07/alpha-PVP-2018.pdf"
+    ],
+    "data_gaps": [
+      "half_life_minutes"
+    ]
+  },
+  {
     "name": "A-pvt",
     "display_name": "",
     "aliases": [
@@ -14363,98 +14453,6 @@
     ]
   },
   {
-    "name": "alpha-PVP",
-    "display_name": "",
-    "aliases": [
-      "A-PVP",
-      "Flak",
-      "Flakka",
-      "Gravel",
-      "O-2387",
-      "Prolintanone",
-      "alpha-Pyrrolidinopentiophenone",
-      "apvp",
-      "desmethylpyrovalerone",
-      "flocka",
-      "α-PVP",
-      "α-Pyrrolidinopentiophenone",
-      "α-pyrrolidinovalerophenone",
-      "αpvp",
-      "β-ketone-prolintane"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "DAT-NET-selective",
-      "DRI",
-      "TAAR1-inactive-human",
-      "cathinone",
-      "class:cathinone",
-      "class:substituted cathinones",
-      "class:substituted pyrrolidines",
-      "fatalities-reported",
-      "habit-forming",
-      "high-psychosis-risk",
-      "high-risk",
-      "pure-reuptake-inhibitor",
-      "pyrrolidinophenone",
-      "research-chemical",
-      "slow-DAT-off-rate"
-    ],
-    "default_route": "inhalation",
-    "all_routes": [
-      "inhalation",
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "inhalation",
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": 270.0,
-    "mechanism_summary": "α-PVP 是一种强效且具有选择性的 去甲肾上腺素-多巴胺 再摄取抑制剂 (NDRI)，其效力与 MDPV 相似。α-PVP 不作为转运体底物，也就是说，它不会引起神经递质的释放（不像苯丙胺那样）。它是比经典兴奋剂可卡因和苯丙胺更强效的 DAT 和 NET 抑制剂呢。\n\nMDPV、α-PVP、可卡因和苯丙胺对多巴胺 (DAT)、去甲肾上腺素 (NET) 和血清素 (SERT) 转运体 [3H] 递质摄取的抑制作用对比：",
-    "effects": [
-      "Acuity suppression",
-      "Analysis enhancement",
-      "Anxiety",
-      "Appetite suppression",
-      "Cognitive euphoria",
-      "Cognitive fatigue",
-      "Compulsive redosing",
-      "Dehydration",
-      "Depression",
-      "Difficulty urinating",
-      "Disinhibition",
-      "Ego inflation",
-      "Focus enhancement",
-      "Immersion enhancement",
-      "Increased heart rate",
-      "Increased libido",
-      "Increased perspiration",
-      "Irritability",
-      "Motivation enhancement",
-      "Spontaneous tactile sensations",
-      "Stimulation",
-      "Tactile enhancement",
-      "Teeth grinding",
-      "Thought acceleration",
-      "Thought deceleration",
-      "Time distortion",
-      "Vasoconstriction",
-      "Vibrating vision",
-      "Wakefulness"
-    ],
-    "references": [
-      "https://en.wikipedia.org/wiki/Alpha-Pyrrolidinopentiophenone",
-      "https://www.dea.gov/sites/default/files/2018-07/alpha-PVP-2018.pdf"
-    ],
-    "data_gaps": []
-  },
-  {
     "name": "alpha-Pyrrolidinohexiophenone",
     "display_name": "",
     "aliases": [
@@ -14662,12 +14660,10 @@
       "CAS 444912-75-8",
       "R(+)-AM-2233"
     ],
-    "category": "Cannabinoid",
+    "category": "",
     "display_class": "recreational",
     "tags": [
-      "CB1-agonist",
-      "class:benzoylindole synthetic cannabinoid",
-      "synthetic-cannabinoid"
+      "class:benzoylindole synthetic cannabinoid"
     ],
     "default_route": "inhalation",
     "all_routes": [
@@ -14695,12 +14691,9 @@
     "name": "AM-694",
     "display_name": "",
     "aliases": [],
-    "category": "Cannabinoid",
+    "category": "",
     "display_class": "recreational",
-    "tags": [
-      "CB1-agonist",
-      "synthetic-cannabinoid"
-    ],
+    "tags": [],
     "default_route": "inhalation",
     "all_routes": [
       "inhalation",
@@ -15124,6 +15117,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/012036s098lbl.pdf",
       "https://en.wikipedia.org/wiki/Amitriptyline",
       "https://www.ncbi.nlm.nih.gov/books/NBK537225/"
     ],
@@ -15161,11 +15155,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1350.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -15357,11 +15352,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 960.0,
+    "half_life_minutes": null,
     "mechanism_summary": "另见：血清素能致幻剂\n\nαMT 是一种相对平衡的再摄取抑制剂，也是三种主要单胺类神经递质（血清素、去甲肾上腺素和多巴胺）的释放剂，并且是非选择性的血清素受体激动剂。\n\n人们认为 αMT 的迷幻效果来自于它在 5-HT2A 受体上作为部分激动剂的功效。\n\nαMT 还作为血清素、去甲肾上腺素和多巴胺的释放剂起作用。它在体外和体内也表现出非常微弱的非选择性 可逆性MAOA抑制剂（RIMA）活性，但在常规剂量下，这一点似乎不太重要（甚至可能完全不重要）。",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "references"
     ]
   },
@@ -15698,6 +15694,7 @@
     "mechanism_summary": "Dopamine D2 Partial Agonist and Serotonin Modulator",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021436s038lbl.pdf",
       "https://en.wikipedia.org/wiki/Aripiprazole",
       "https://www.fda.gov/media/71096/download"
     ],
@@ -15768,6 +15765,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/022117lbl.pdf",
       "https://en.wikipedia.org/wiki/Asenapine"
     ],
     "data_gaps": [
@@ -16120,6 +16118,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/020975s013lbl.pdf",
       "https://en.wikipedia.org/wiki/Azelastine"
     ],
     "data_gaps": [
@@ -16323,11 +16322,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 5400.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -16557,11 +16557,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 270.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -16919,7 +16920,6 @@
       "bk-2-CB",
       "bk-2cb",
       "bk2cb",
-      "Β-keto-2C-B",
       "Β-酮-2C-B",
       "ΒK-2C-B"
     ],
@@ -16954,9 +16954,7 @@
   {
     "name": "bk-2C-I",
     "display_name": "",
-    "aliases": [
-      "Β-keto-2C-I"
-    ],
+    "aliases": [],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
@@ -17453,6 +17451,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/211371s000lbl.pdf",
       "https://en.wikipedia.org/wiki/Brexanolone"
     ],
     "data_gaps": [
@@ -17493,6 +17492,7 @@
     "mechanism_summary": "Serotonin-Dopamine Activity Modulator (D2 Partial Agonist)",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/205422orig1s000lbl.pdf",
       "https://en.wikipedia.org/wiki/Brexpiprazole"
     ],
     "data_gaps": [
@@ -17530,6 +17530,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/205836lbl.pdf",
       "https://en.wikipedia.org/wiki/Brivaracetam"
     ],
     "data_gaps": [
@@ -17729,23 +17730,18 @@
     "display_name": "",
     "aliases": [
       "B-DFLY",
-      "BDFLY",
       "DOB-DragonFLY",
       "Dragonfly",
+      "bdfly",
       "bromo-d-fly",
       "bromo-dragon-fly"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "5-HT2B-strong",
       "class:substituted amphetamines",
       "class:substituted benzofurans",
-      "fatality-documented",
-      "research-chemical",
-      "ultra-potent",
-      "vasospasm-risk",
-      "α1-strong"
+      "research-chemical"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -17935,11 +17931,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 300.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -18163,6 +18160,7 @@
     "mechanism_summary": "Norepinephrine-Dopamine Reuptake Inhibitor (NDRI)",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018644s059lbl.pdf",
       "https://en.wikipedia.org/wiki/Bupropion",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2001/20358s19lbl.pdf"
     ],
@@ -18559,7 +18557,6 @@
       "GABAA-PAM",
       "benzodiazepine",
       "habit-forming",
-      "prodrug",
       "tentative"
     ],
     "default_route": "oral",
@@ -18572,11 +18569,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 480.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -18881,6 +18879,7 @@
     "mechanism_summary": "D3-Preferring Dopamine Partial Agonist",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/204370orig1s000lbl.pdf",
       "https://en.wikipedia.org/wiki/Cariprazine"
     ],
     "data_gaps": [
@@ -19193,7 +19192,8 @@
     "mechanism_summary": "Multimodal Modulator (Non-Intoxicating Cannabinoid)",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Cannabidiol"
+      "https://en.wikipedia.org/wiki/Cannabidiol",
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2018/210365lbl.pdf"
     ],
     "data_gaps": []
   },
@@ -19582,6 +19582,7 @@
       "Dry mouth"
     ],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/20784slr013_zyrtec_lbl.pdf",
       "https://en.wikipedia.org/wiki/Cetirizine"
     ],
     "data_gaps": [
@@ -19800,6 +19801,7 @@
       "Sedation"
     ],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/012140s027lbl.pdf",
       "https://en.wikipedia.org/wiki/Chlorphenamine",
       "Clinical pharmacokinetics of chlorpheniramine"
     ],
@@ -19843,6 +19845,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/010138s030lbl.pdf",
       "https://en.wikipedia.org/wiki/Chlorpromazine"
     ],
     "data_gaps": [
@@ -19935,6 +19938,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/017683s094lbl.pdf",
       "https://en.wikipedia.org/wiki/Cimetidine"
     ],
     "data_gaps": [
@@ -19966,11 +19970,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 540.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -20016,7 +20021,9 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s044,021046s019lbl.pdf",
       "https://en.wikipedia.org/wiki/Citalopram",
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021323s047lbl.pdf",
       "https://en.wikipedia.org/wiki/Escitalopram",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s043lbl.pdf"
     ],
@@ -20279,11 +20286,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 240.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -20316,6 +20324,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/019906s022lbl.pdf",
       "https://en.wikipedia.org/wiki/Clomipramine",
       "Clinical Pharmacokinetics of Clomipramine"
     ],
@@ -20581,11 +20590,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 4200.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -20622,11 +20632,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 240.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -20702,6 +20713,7 @@
     "mechanism_summary": "Multi-Receptor Antagonist (Atypical Antipsychotic with Unique Efficacy)",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/019758s083lbl.pdf",
       "https://en.wikipedia.org/wiki/Clozapine"
     ],
     "data_gaps": []
@@ -21326,11 +21338,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1200.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -21513,6 +21526,7 @@
       "Sedation"
     ],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/009761s028lbl.pdf",
       "https://en.wikipedia.org/wiki/Cyproheptadine"
     ],
     "data_gaps": [
@@ -21901,11 +21915,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 4200.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -22120,7 +22135,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 360.0,
+    "half_life_minutes": null,
     "mechanism_summary": "更多信息：NMDA受体拮抗剂\n\n由于缺乏关于该物质的研究，所有关于其药理学的讨论都纯粹基于其结构以及与其他芳基环己胺类解离剂（如 3-MeO-PCP、PCP 和 MXE）在主观效应上的相似性。考虑到这一点，DCK 被认为是一种 NMDA受体拮抗剂哦。NMDA 受体是一种 谷氨酸 受体，允许兴奋性电信号在大脑和脊柱的神经元之间传递；为了让信号通过，受体必须是开放的。解离剂通过阻断 NMDA 受体来使它们失活。这种神经元的断连会导致身体感觉、运动协调、记忆回忆的普遍丧失，最终导致这种物质特有的“K-hole（K洞）”体验呢。",
     "effects": [
       "Acuity suppression",
@@ -22172,10 +22187,11 @@
       "Visual sliding"
     ],
     "references": [
-      "https://en.wikipedia.org/wiki/Deschloroketamine",
-      "PsychonautWiki / case reports"
+      "https://en.wikipedia.org/wiki/Deschloroketamine"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "half_life_minutes"
+    ]
   },
   {
     "name": "Desipramine",
@@ -22203,6 +22219,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/011835s065lbl.pdf",
       "https://en.wikipedia.org/wiki/Desipramine"
     ],
     "data_gaps": [
@@ -22238,6 +22255,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/021117s025lbl.pdf",
       "https://en.wikipedia.org/wiki/Desloratadine"
     ],
     "data_gaps": [
@@ -22396,6 +22414,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021992s030lbl.pdf",
       "https://en.wikipedia.org/wiki/Desvenlafaxine",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/021992s030lbl.pdf"
     ],
@@ -23230,6 +23249,7 @@
       "Visual haze"
     ],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/08495s041lbl.pdf",
       "https://en.wikipedia.org/wiki/Diphenhydramine",
       "Pharmacokinetics of diphenhydramine and a demethylated metabolite following intravenous and oral administration"
     ],
@@ -23636,11 +23656,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 510.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -24063,7 +24084,6 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
-      "likely-inactive",
       "phenethylamine"
     ],
     "default_route": "",
@@ -24101,10 +24121,8 @@
       "DOx",
       "PIHKAL",
       "class:substituted amphetamines",
-      "long-duration",
       "phenethylamine",
-      "research-chemical",
-      "research-radioligand"
+      "research-chemical"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -24171,7 +24189,6 @@
       "DOx",
       "PIHKAL",
       "class:substituted amphetamines",
-      "long-duration",
       "phenethylamine",
       "research-chemical"
     ],
@@ -24239,7 +24256,6 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
-      "long-duration",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -24276,14 +24292,11 @@
     "tags": [
       "5-HT2A-agonist",
       "DOx",
-      "Gq-biased",
       "PIHKAL",
       "class:substituted amphetamines",
-      "head-twitch-standard",
       "phenethylamine",
       "radioligand-origin",
-      "research-chemical",
-      "research-radioligand"
+      "research-chemical"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -24352,7 +24365,6 @@
       "DOx",
       "PIHKAL",
       "class:substituted amphetamines",
-      "long-duration",
       "phenethylamine",
       "research-chemical"
     ],
@@ -24470,6 +24482,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/022036lbl.pdf",
       "https://en.wikipedia.org/wiki/Doxepin"
     ],
     "data_gaps": [
@@ -24491,7 +24504,6 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
-      "CYP2D6-substrate",
       "DOx",
       "H1-antagonist",
       "OTC",
@@ -24500,7 +24512,6 @@
       "antihistamine",
       "deliriant",
       "first-gen-antihistamine",
-      "muscarinic-antagonist",
       "phenethylamine",
       "sedating",
       "sleep-aid"
@@ -24519,6 +24530,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021876s004lbl.pdf",
       "https://en.wikipedia.org/wiki/Doxylamine",
       "The pharmacokinetics of doxylamine: use of automated gas chromatography with nitrogen-phosphorus detection"
     ],
@@ -24675,6 +24687,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018651s029lbl.pdf",
       "https://en.wikipedia.org/wiki/Dronabinol"
     ],
     "data_gaps": [
@@ -24783,6 +24796,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/125469s030lbl.pdf",
       "https://en.wikipedia.org/wiki/Dulaglutide"
     ],
     "data_gaps": [
@@ -24815,6 +24829,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021427s045lbl.pdf",
       "https://en.wikipedia.org/wiki/Duloxetine"
     ],
     "data_gaps": [
@@ -24887,6 +24902,37 @@
       "half_life_minutes",
       "mechanism_of_action",
       "references"
+    ]
+  },
+  {
+    "name": "E; ESCALINE",
+    "display_name": "",
+    "aliases": [],
+    "category": "Psychedelic",
+    "display_class": "recreational",
+    "tags": [
+      "PIHKAL",
+      "phenethylamine"
+    ],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal072.shtml"
+    ],
+    "data_gaps": [
+      "half_life_minutes",
+      "mechanism_of_action"
     ]
   },
   {
@@ -25240,7 +25286,7 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 3600.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [
@@ -25249,6 +25295,7 @@
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -25281,35 +25328,6 @@
       "Wiehle 2013 BJU Int"
     ],
     "data_gaps": []
-  },
-  {
-    "name": "Endomorphin-1",
-    "display_name": "",
-    "aliases": [],
-    "category": "Peptide",
-    "display_class": "medical_rx",
-    "tags": [
-      "MOR-agonist",
-      "no-human-data",
-      "opioid-peptide"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
   },
   {
     "name": "Ephedrine",
@@ -25510,6 +25528,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/210365s006lbl.pdf",
       "https://en.wikipedia.org/wiki/Epidiolex"
     ],
     "data_gaps": [
@@ -25594,17 +25613,13 @@
     "name": "Escaline",
     "display_name": "",
     "aliases": [
-      "E; ESCALINE",
       "艾斯卡林",
       "艾斯卡林d"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "PIHKAL",
       "class:substituted phenethylamines",
-      "duplicate-of-Escaline",
-      "phenethylamine",
       "research-chemical"
     ],
     "default_route": "oral",
@@ -25662,11 +25677,10 @@
       "Transformations",
       "Wakefulness"
     ],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal072.shtml"
-    ],
+    "references": [],
     "data_gaps": [
-      "half_life_minutes"
+      "half_life_minutes",
+      "references"
     ]
   },
   {
@@ -25697,11 +25711,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 720.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -25993,7 +26008,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 150.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [
       "Anxiety suppression",
@@ -26013,6 +26028,7 @@
     ],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -26443,6 +26459,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/022200lbl.pdf",
       "https://en.wikipedia.org/wiki/Exenatide"
     ],
     "data_gaps": [
@@ -26572,6 +26589,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/019462s039lbl.pdf",
       "https://en.wikipedia.org/wiki/Famotidine"
     ],
     "data_gaps": [
@@ -26605,13 +26623,14 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 90.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Fasoracetam"
     ],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -26799,6 +26818,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/020872s032lbl.pdf",
       "https://en.wikipedia.org/wiki/Fexofenadine"
     ],
     "data_gaps": [
@@ -26856,7 +26876,6 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
-      "entactogen-like",
       "phenethylamine"
     ],
     "default_route": "oral",
@@ -27668,6 +27687,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/018936s114lbl.pdf",
       "https://en.wikipedia.org/wiki/Fluoxetine",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/018936s064lbl.pdf"
     ],
@@ -27712,6 +27732,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/016403s037lbl.pdf",
       "https://en.wikipedia.org/wiki/Fluphenazine"
     ],
     "data_gaps": [
@@ -27861,6 +27882,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019842s034lbl.pdf",
       "https://en.wikipedia.org/wiki/Fluvoxamine"
     ],
     "data_gaps": [
@@ -28343,7 +28365,8 @@
     "mechanism_summary": "Galantamine is a tertiary amine alkaloid and a competitive, reversible acetylcholinesterase inhibitor. It is thought to exert its therapeutic effects by enhancing cholinergic function. This is accomplished by inhibiting acetylcholinesterase — the enzyme responsible for breaking down acetylcholine — thereby increasing acetylcholine concentrations. Higher concentrations of acetylcholine are also associated with higher levels of cognition and focus.\n\nGalantamine is also a potent allosteric potentiating ligand at human nicotinic acetylcholine receptors (nAChRs) α4β2, α3β4, and α6β4, as well as chimeric chicken/rat nAChRs α7/5-HT3, acting in specific regions of the brain. By binding to the allosteric site of nAChRs, a conformational change occurs in the receptor that enhances its response to acetylcholine. This modulation of nicotinic cholinergic receptors on cholinergic neurons in turn increases acetylcholine release. However, more recent research suggests that galantamine does not function as a positive allosteric modulator at human nAChR α4β2 or α7 receptors. Galantamine also potentiates the effects of NMDA receptor antagonists such as memantine and ketamine, and may directly antagonize these receptors at high doses — a property thought to be associated with galantamine's mild dissociative effects.\n\nThroughout the body, galantamine also acts as a weaker, competitive, reversible cholinesterase inhibitor. By inhibiting acetylcholinesterase, it increases the concentration of acetylcholine in certain brain regions, thereby enhancing its activity. Galantamine's influence on nAChRs together with its synergistic inhibition of acetylcholinesterase constitute a dual mechanism of action. This mechanism is hypothesized to potentially alleviate some symptoms of Alzheimer's disease.",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Galantamine"
+      "https://en.wikipedia.org/wiki/Galantamine",
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021169s032lbl.pdf"
     ],
     "data_gaps": []
   },
@@ -28814,11 +28837,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 720.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -29122,6 +29146,7 @@
     "mechanism_summary": "As a typical antipsychotic, haloperidol has a highly diverse pharmacological profile. It acts primarily as an antagonist at dopamine D receptors and also as an inverse agonist at D receptors. Haloperidol is similarly an antagonist at serotonin 5-HT receptors, though this action is less pronounced than that of quetiapine. Unlike many antipsychotics, haloperidol has little affinity for muscarinic acetylcholine receptors or histamine receptors, and therefore less commonly causes sedation, weight gain, or hypotension.",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/016462s036lbl.pdf",
       "https://en.wikipedia.org/wiki/Haloperidol"
     ],
     "data_gaps": []
@@ -29568,11 +29593,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 240.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -30156,7 +30182,7 @@
     "has_dose_data": true,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 180.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [
@@ -30164,6 +30190,7 @@
     ],
     "data_gaps": [
       "duration_by_route",
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -30269,11 +30296,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 150.0,
+    "half_life_minutes": null,
     "mechanism_summary": "The hydromorphone molecule exerts its effects by binding to and activating μ-opioid receptors as a receptor agonist. This occurs because opioids are structurally similar to endogenous endorphins. Endorphins are associated with analgesia, sedation, cognitive euphoria, and physical euphoria. They can be released in response to pain, intense exercise, orgasm, or excitement. This mimicry of natural endorphins produces the euphoric, analgesic, and anxiolytic effects characteristic of the drug.\n\nThe recreational effects of this compound, including cognitive euphoria and physical euphoria, arise because opioids structurally mimic the endogenous endorphins that are naturally produced in the body and that similarly act on μ-opioid receptor clusters in the brain. Synthetic opioids such as heroin mimic these natural endorphins in a structural manner, thereby producing euphoric, analgesic, and anxiolytic effects. This is because natural endorphins are responsible for reducing pain, inducing sedation, and producing a sense of pleasure. Natural endorphins can be released in response to pain, intense exercise, orgasm, or general excitement.",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "references"
     ]
   },
@@ -30355,6 +30383,7 @@
     "mechanism_summary": "Hydroxyzine acts primarily as a potent histamine H1 receptor antagonist. Notably, compared to other first-generation antihistamines such as diphenhydramine, hydroxyzine has lower affinity for muscarinic acetylcholine receptors — and is therefore less likely to induce hallucinatory states or delirium. In addition to its antihistaminic activity, hydroxyzine also acts as an antagonist at 5-HT receptors (which most likely accounts for its anxiolytic effects), dopamine D receptors, and alpha-adrenergic receptors. Among first-generation antihistamines, hydroxyzine is unique in its anxiolytic properties.\n\nPharmacokinetically, hydroxyzine is rapidly metabolized and readily crosses the blood-brain barrier. When taken orally, it is rapidly absorbed through the gastrointestinal tract and metabolized in the liver. Effects typically begin within 15–30 minutes, with peak plasma concentration occurring approximately two hours after administration. Hydroxyzine and its metabolites have a relatively long half-life; sedative effects, however, generally persist for approximately 4–6 hours. In adults, the elimination half-life of hydroxyzine is approximately 20 hours.\n\nLow doses of hydroxyzine (occupying fewer than 20% of H1 receptors) do not produce drowsiness, whereas high doses (occupying 50% or more of H1 receptors) produce sedation.\n\nHydroxyzine also exhibits anticholinergic and sedative properties that are useful in the treatment of conditions such as anxiety and tension. Its anticholinergic properties derive from its ability to block muscarinic acetylcholine receptors, which helps reduce muscle spasms and other symptoms associated with excessive cholinergic activity. Its sedative properties are primarily attributed to antagonism of central H1 receptors and, to a lesser extent, serotonin 5-HT receptors. These combined actions contribute to its efficacy in managing anxiety and promoting relaxation.\n\nHydroxyzine is also used to manage nausea and vomiting, primarily through its antihistaminic effects. The drug's action at H1 receptors helps alleviate nausea arising from motion sickness and other vestibular disorders. Additionally, hydroxyzine's antagonism of dopamine D receptors in the chemoreceptor trigger zone (CTZ) contributes to its antiemetic properties.\n\nAs an antihistamine, hydroxyzine is effective in treating allergic reactions such as urticaria (hives) and chronic pruritus. By blocking H1 receptors, hydroxyzine reduces the effects of histamine release, including vasodilation, increased vascular permeability, and stimulation of sensory nerves that cause itching.",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/011459s060lbl.pdf",
       "https://en.wikipedia.org/wiki/Hydroxyzine",
       "The pharmacokinetics and antihistaminic of the H1 receptor antagonist hydroxyzine."
     ],
@@ -30531,7 +30560,7 @@
     "has_dose_data": true,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 144.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [
@@ -30539,6 +30568,7 @@
     ],
     "data_gaps": [
       "duration_by_route",
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -30723,6 +30753,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/022192lbl.pdf",
       "https://en.wikipedia.org/wiki/Iloperidone"
     ],
     "data_gaps": [
@@ -30786,6 +30817,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/012449s069lbl.pdf",
       "https://en.wikipedia.org/wiki/Imipramine",
       "https://www.ncbi.nlm.nih.gov/books/NBK425164/"
     ],
@@ -30836,7 +30868,6 @@
     "tags": [
       "habit-forming",
       "research-chemical",
-      "stimulant",
       "tentative"
     ],
     "default_route": "inhalation",
@@ -31195,6 +31226,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/010632s041lbl.pdf",
       "https://en.wikipedia.org/wiki/Isocarboxazid"
     ],
     "data_gaps": [
@@ -31368,7 +31400,7 @@
     "name": "Isoproscaline",
     "display_name": "",
     "aliases": [
-      "IP"
+      "ip"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -31832,11 +31864,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 540.0,
+    "half_life_minutes": null,
     "mechanism_summary": "Pharmacologically, kava's effects derive from 18 distinct chemical constituents found in the plant — the kavalactones — of which six have been found to produce psychoactive effects directly in the body. First, kavain, dihydrokavain, and dihydromethysticin all act on GABA receptors as agonists, producing the familiar anxiolytic effects. Dihydrokavain is also a reversible, selective monoamine oxidase inhibitor, acting specifically on the MAO-B enzyme. Next is methysticin, which is notable for its ability to activate CB receptors in the endocannabinoid system. Desmethoxyyangonin is likewise a MAO-B inhibitor and increases dopamine levels in the nucleus accumbens. This, combined with its apparent ability to raise serotonin and other catecholamine concentrations, may be why kava is considered to promote attention. Finally there is yangonin. Evidence suggests that yangonin may be a serotonin-norepinephrine reuptake inhibitor (SNRI), and there is also evidence that it may be an activator of NMDA receptors. Yangonin has also been shown to be a potent GABA receptor agonist and a positive allosteric modulator that enhances GABA potency. Due to its antagonism of sodium (Na⁺) channels, yangonin also exerts mild anticonvulsant effects. It is simultaneously an effective mood stabilizer, acting both as a calcium (Ca²⁺) channel antagonist and as a positive regulator of potassium channels (K⁺ channels). Its action on calcium channels also renders it an effective anticonvulsant, and in synergy with methysticin it produces good analgesic effects by acting simultaneously on calcium channels and the endocannabinoid system.",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "references"
     ]
   },
@@ -31974,6 +32007,7 @@
     ],
     "references": [
       "https://en.wikipedia.org/wiki/Arketamine",
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/211243lbl.pdf",
       "https://en.wikipedia.org/wiki/Esketamine",
       "Pharmacokinetics of ketamine and its major metabolites norketamine, hydroxynorketamine, and dehydronorketamine: a model-based analysis"
     ],
@@ -32621,6 +32655,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/021035s078s080,021505s021s024lbl.pdf",
       "https://en.wikipedia.org/wiki/Levetiracetam"
     ],
     "data_gaps": [
@@ -32655,6 +32690,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/021937s002lbl.pdf",
       "https://en.wikipedia.org/wiki/Levocetirizine"
     ],
     "data_gaps": [
@@ -32806,6 +32842,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/022341s031lbl.pdf",
       "https://en.wikipedia.org/wiki/Liraglutide"
     ],
     "data_gaps": [
@@ -33077,11 +33114,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 480.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -33117,6 +33155,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/19657s070lbl.pdf",
       "https://en.wikipedia.org/wiki/Loratadine"
     ],
     "data_gaps": [
@@ -33209,11 +33248,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 600.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -33251,6 +33291,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/022549lbl.pdf",
       "https://en.wikipedia.org/wiki/Loxapine"
     ],
     "data_gaps": [
@@ -33587,6 +33628,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/200603s009lbl.pdf",
       "https://en.wikipedia.org/wiki/Lurasidone"
     ],
     "data_gaps": [
@@ -34266,13 +34308,15 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 240.0,
+    "half_life_minutes": null,
     "mechanism_summary": "MDEA 作为神经递质释放剂与神经递质再摄取抑制剂，作用于单胺类神经递质：血清素、多巴胺和去甲肾上腺素。这些神经递质负责调节专注、动机、愉悦与奖赏。\n\nMDEA 那种偏“昏沉压身”的效应，被认为源于它相较于 MDMA，对释放血清素的相对活性高于多巴胺呢。\n\nMDEA 还会刺激催产素和催乳素的释放。这两种激素目前正在被研究，因其可能参与调节信任感与爱的感受。",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/pihkal/pihkal106.shtml"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "half_life_minutes"
+    ]
   },
   {
     "name": "MDHOET",
@@ -35045,6 +35089,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/012771s027lbl.pdf",
       "https://en.wikipedia.org/wiki/Meclizine"
     ],
     "data_gaps": [
@@ -35243,13 +35288,14 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 30000.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -35421,6 +35467,7 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Memantine",
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2018/021487s023s024lbl.pdf",
       "Pharmacokinetic study of memantine in healthy and renally impaired subjects"
     ],
     "data_gaps": []
@@ -35699,7 +35746,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 215.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [
       "Acuity enhancement",
@@ -35750,6 +35797,7 @@
     ],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -35840,7 +35888,6 @@
       "5-HT2A-agonist",
       "DOx",
       "PIHKAL",
-      "likely-weaker-than-DOB",
       "phenethylamine"
     ],
     "default_route": "oral",
@@ -35947,11 +35994,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 540.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -36019,7 +36067,6 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "5-HT2C-selective",
       "PIHKAL",
       "class:substituted phenethylamines",
       "phenethylamine",
@@ -36437,12 +36484,9 @@
     "aliases": [
       "IC-26"
     ],
-    "category": "Opioid",
+    "category": "",
     "display_class": "recreational",
-    "tags": [
-      "MOR-agonist",
-      "opioid"
-    ],
+    "tags": [],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -36793,10 +36837,7 @@
   {
     "name": "METHYL-DOB",
     "display_name": "",
-    "aliases": [
-      "TMA-Br",
-      "α,α-dimethyl-DOB"
-    ],
+    "aliases": [],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
@@ -37040,7 +37081,7 @@
     "has_dose_data": true,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 900.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [
@@ -37048,6 +37089,7 @@
     ],
     "data_gaps": [
       "duration_by_route",
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -37405,11 +37447,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 240.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -37865,7 +37908,9 @@
       "Blood pressure elevation"
     ],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/204168s000lbl.pdf",
       "https://en.wikipedia.org/wiki/Levomilnacipran",
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/022256s009lbl.pdf",
       "https://en.wikipedia.org/wiki/Milnacipran"
     ],
     "data_gaps": [
@@ -38070,6 +38115,7 @@
     "mechanism_summary": "Noradrenergic and Specific Serotonergic Antidepressant (NaSSA)",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/020415s028lbl.pdf",
       "https://en.wikipedia.org/wiki/Mirtazapine",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/020415s030lbl.pdf"
     ],
@@ -38453,7 +38499,9 @@
       "Wakefulness"
     ],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021875s029lbl.pdf",
       "https://en.wikipedia.org/wiki/Armodafinil",
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/020717s037s038lbl.pdf",
       "https://en.wikipedia.org/wiki/Modafinil",
       "Functional neuroanatomy of dopaminergic arousal systems: implications for the wake-promoting effect of psychostimulants, with particular reference to modafinil"
     ],
@@ -39529,12 +39577,9 @@
       "NMC",
       "NMCY"
     ],
-    "category": "Stimulant",
+    "category": "",
     "display_class": "recreational",
-    "tags": [
-      "DAT-NET-inhibitor",
-      "stimulant"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral",
@@ -39785,6 +39830,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2006/018677s011lbl.pdf",
       "https://en.wikipedia.org/wiki/Nabilone"
     ],
     "data_gaps": [
@@ -40179,6 +40225,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/020152s018lbl.pdf",
       "https://en.wikipedia.org/wiki/Nefazodone"
     ],
     "data_gaps": [
@@ -40412,11 +40459,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1200.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -41148,6 +41196,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/012230s062lbl.pdf",
       "https://en.wikipedia.org/wiki/Nortriptyline"
     ],
     "data_gaps": [
@@ -41450,6 +41499,7 @@
     "mechanism_summary": "Olanzapine is known to cause more weight gain than other antipsychotics and to induce type 2 diabetes more frequently. However, it is less likely to cause tardive dyskinesia or extrapyramidal reactions. It appears to be an effective treatment for schizophrenia.",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/020592s074lbl.pdf",
       "https://en.wikipedia.org/wiki/Olanzapine"
     ],
     "data_gaps": []
@@ -41482,6 +41532,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/021521s004lbl.pdf",
       "https://en.wikipedia.org/wiki/Olopatadine"
     ],
     "data_gaps": [
@@ -42048,13 +42099,14 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 360.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -42129,6 +42181,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021999s026lbl.pdf",
       "https://en.wikipedia.org/wiki/Paliperidone"
     ],
     "data_gaps": [
@@ -42368,6 +42421,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020031s071lbl.pdf",
       "https://en.wikipedia.org/wiki/Paroxetine"
     ],
     "data_gaps": [
@@ -42767,11 +42821,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1500.0,
+    "half_life_minutes": null,
     "mechanism_summary": "巴比妥类药物的行为与苯二氮卓类物质相似。戊巴比妥结合于GABAA受体的变构位点，并增强内源性配体γ-氨基丁酸（GABA）的效应。当巴比妥类药物结合到GABAA受体时，会导致离子孔开放时间延长，从而引起细胞内氯离子浓度增加。由于该位点是大脑中最多产的抑制性受体组，其调节导致了巴比妥类药物对神经系统的镇静（或平复）效应。\n\n戊巴比妥的生物利用度为70-90%。45-60%的戊巴比妥会与蛋白质结合。其生物半衰期为15-48小时。戊巴比妥由肝脏代谢并由肾脏排泄。",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "references"
     ]
   },
@@ -42880,6 +42935,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/012013s074lbl.pdf",
       "https://en.wikipedia.org/wiki/Perphenazine"
     ],
     "data_gaps": [
@@ -43197,6 +43253,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/009768s055lbl.pdf",
       "https://en.wikipedia.org/wiki/Phenelzine"
     ],
     "data_gaps": [
@@ -43460,11 +43517,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1320.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -43575,7 +43633,6 @@
     "category": "Nootropic",
     "display_class": "recreational",
     "tags": [
-      "DAT-inhibitor",
       "WADA-banned",
       "class:racetams",
       "nootropic",
@@ -43822,6 +43879,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/207318orig1s000lbl.pdf",
       "https://en.wikipedia.org/wiki/Pimavanserin"
     ],
     "data_gaps": [
@@ -43861,6 +43919,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/017473s055lbl.pdf",
       "https://en.wikipedia.org/wiki/Pimozide"
     ],
     "data_gaps": [
@@ -43879,8 +43938,7 @@
     "tags": [
       "GABAA-PAM",
       "benzodiazepine",
-      "habit-forming",
-      "prodrug"
+      "habit-forming"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -44070,11 +44128,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1500.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -44325,11 +44384,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 4200.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -44714,6 +44774,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/007491s044lbl.pdf",
       "https://en.wikipedia.org/wiki/Promethazine",
       "Pharmacokinetics of promethazine hydrochloride after administration of rectal suppositories and oral syrup to healthy subjects"
     ],
@@ -44871,11 +44932,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 240.0,
+    "half_life_minutes": null,
     "mechanism_summary": "Propylhexedrine acts as a neurotransmitter releasing agent (SNDRA) at the monoamine neurotransmitters dopamine, norepinephrine, and serotonin, binding to their transporters and causing them to operate in reverse, thereby pumping these neurotransmitters from the cytoplasm into the synaptic cleft, where they can bind to their respective receptors. In addition, propylhexedrine inhibits VMAT2, which further increases the concentrations of these monoamines, as VMAT2 is responsible for transporting all three neurotransmitters from the synaptic cleft back into the cytoplasm.\n\nLike phenethylamine, amphetamine, methamphetamine, and MDMA, propylhexedrine also acts as an agonist at TAAR1. TAAR1 agonism causes phosphorylation of the dopamine transporter (DAT) via protein kinase A and C (PKA and PKC) signaling. Both PKA and PKC result in non-competitive dopamine reuptake inhibition, while PKC alone also causes dopamine release/DAT reversal.\n\nThe pharmacological actions of propylhexedrine are similar to those of phenethylamine-class substances such as amphetamines, though it is generally less centrally active and less suited for recreational use.\n\nBecause propylhexedrine substitutes a cyclohexane ring for the phenyl ring of methamphetamine, it lacks the blood-brain barrier permeability that the phenyl group confers upon amphetamines, resulting in a greater ratio of peripheral to central nervous system activity.\n\nThe half-life of propylhexedrine is 2.5–6.5 hours and varies depending on urinary pH and the activity levels of certain cytochrome P450 enzymes. Higher urinary pH prolongs duration, while lower urinary pH shortens it. Elevated activity of certain cytochrome P450 enzymes also shortens duration.\n\nPropylhexedrine is metabolized by certain cytochrome P450 enzymes to norpropylhexedrine, cyclohexyl methyl ketoxime, cis-4-hydroxypropylhexedrine, and trans-4-hydroxypropylhexedrine.",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "references"
     ]
   },
@@ -45252,12 +45314,10 @@
       "5HT2A-agonist",
       "natural-product",
       "no-human-data",
-      "prodrug",
       "prodrug-to-psilocin",
       "psilocybe-mushroom",
       "psychedelic",
-      "tryptamine",
-      "tryptamine-not-phenethylamine"
+      "tryptamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -45405,6 +45465,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/210557s000lbl.pdf",
       "https://en.wikipedia.org/wiki/Bremelanotide"
     ],
     "data_gaps": [
@@ -45435,7 +45496,7 @@
     "has_dose_data": true,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 105.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [
@@ -45443,6 +45504,7 @@
     ],
     "data_gaps": [
       "duration_by_route",
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -45634,7 +45696,7 @@
     "has_dose_data": true,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 150.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [
@@ -45642,6 +45704,7 @@
     ],
     "data_gaps": [
       "duration_by_route",
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -45654,7 +45717,6 @@
     "tags": [
       "habit-forming",
       "research-chemical",
-      "stimulant",
       "tentative"
     ],
     "default_route": "inhalation",
@@ -45780,11 +45842,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 2160.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -45884,6 +45947,7 @@
       "Thought deceleration"
     ],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/022047s019lbl.pdf",
       "https://en.wikipedia.org/wiki/Quetiapine",
       "Steady-State Pharmacokinetic, Safety, and Tolerability Profiles of Quetiapine, Norquetiapine, and Other Quetiapine Metabolites in Pediatric and Adult Patients with Psychotic Disorders"
     ],
@@ -46275,12 +46339,13 @@
     "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 600.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
       "dose_ranges_by_route",
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -46355,6 +46420,7 @@
     "mechanism_summary": "利培酮的药理作用比较复杂，不过它的主要作用机制是作为多巴胺能 D2 受体拮抗剂。这意味着它会阻止多巴胺与该受体结合，同时自身并不会激活它。它还会阻断大多数血清素受体，对 5-HT₂A、5-HT₂B 和 5-HT₂C 血清素受体表现为反向激动剂。利培酮对 5-HT₂A 受体的亲和力最强。此外，它还作为 5-HT₇ 血清素受体的不可逆拮抗剂。它的催眠作用来自对多巴胺 D2 受体的阻断。",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/020272s056lbl.pdf",
       "https://en.wikipedia.org/wiki/Risperidone",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2005/020272s042,020588s030,021444s016,021346s010lbl.pdf"
     ],
@@ -46462,11 +46528,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 5400.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -47287,11 +47354,12 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 1500.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action",
       "references"
     ]
@@ -47323,13 +47391,14 @@
     "has_dose_data": true,
     "has_duration_data": false,
     "has_protocol_dosing": true,
-    "half_life_minutes": 10.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Selank"
     ],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -47367,6 +47436,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021336s010lbl.pdf",
       "https://en.wikipedia.org/wiki/Selegiline"
     ],
     "data_gaps": [
@@ -47485,6 +47555,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/213051s006lbl.pdf",
       "https://en.wikipedia.org/wiki/Semaglutide"
     ],
     "data_gaps": [
@@ -47518,13 +47589,15 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": true,
-    "half_life_minutes": 4.0,
+    "half_life_minutes": null,
     "mechanism_summary": "Semax的神经保护与神经再生效应，通常被归因于它对脑源性神经营养因子（BDNF）及其信号受体TrkB的提升与表达。BDNF是一种支持突触和树突生长/维持的蛋白，同时也会促进保护性通路，从而增强细胞存活能力。\n\n此外，Semax还能迅速刺激多巴胺能与血清素能系统。研究表明，这不仅会显著增强更传统精神兴奋剂（如右旋苯丙胺）的效应，同时也使它具备焦虑抑制、抗抑郁以及抗应激（无论是生物学还是心理学层面）等特性呢。",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Semax"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "half_life_minutes"
+    ]
   },
   {
     "name": "Serdexmethylphenidate",
@@ -47628,6 +47701,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/019839s092lbl.pdf",
       "https://en.wikipedia.org/wiki/Sertraline",
       "Clinical Pharmacokinetics of Sertraline"
     ],
@@ -48109,13 +48183,14 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 300.0,
+    "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Sulbutiamine"
     ],
     "data_gaps": [
+      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -48572,10 +48647,10 @@
     "half_life_minutes": 540.0,
     "mechanism_summary": "替马西泮是一种长效的GABA受体正向变构调节剂。GABA是我们大脑里主要的抑制性神经递质哦。当替马西泮与受体结合时，它会让GABA受体的氯离子通道打开得更频繁，这样神经元就会发生超极化，也就是说，神经元变得更不容易兴奋了呢。这就导致了镇静、肌肉放松和抗焦虑的效果喵。",
     "effects": [],
-    "references": [],
-    "data_gaps": [
-      "references"
-    ]
+    "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/018163s065lbl.pdf"
+    ],
+    "data_gaps": []
   },
   {
     "name": "Tesamorelin",
@@ -48608,6 +48683,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/022505s013lbl.pdf",
       "https://en.wikipedia.org/wiki/Tesamorelin"
     ],
     "data_gaps": [
@@ -49564,6 +49640,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2022/215866s000lbl.pdf",
       "https://en.wikipedia.org/wiki/Tirzepatide"
     ],
     "data_gaps": [
@@ -49811,7 +49888,6 @@
     "name": "TMA-6",
     "display_name": "",
     "aliases": [
-      "2,4,6-trimethoxyamphetamine",
       "2,4,6-三甲氧基苯丙胺"
     ],
     "category": "Psychedelic",
@@ -50127,6 +50203,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/010894s042lbl.pdf",
       "https://en.wikipedia.org/wiki/Tranylcypromine"
     ],
     "data_gaps": [
@@ -50150,10 +50227,7 @@
     "category": "Antidepressant",
     "display_class": "dual_use",
     "tags": [
-      "5-HT2A-antagonist",
-      "CYP3A4-substrate",
       "SARI",
-      "SERT-inhibitor",
       "antidepressant",
       "class:Triazolopyridine derivative",
       "prescription-only",
@@ -50174,6 +50248,7 @@
     "mechanism_summary": "Serotonin Antagonist and Reuptake Inhibitor (SARI)",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/018207s030lbl.pdf",
       "https://en.wikipedia.org/wiki/Trazodone",
       "https://www.accessdata.fda.gov/drugsatfda_docs/nda/2010/022411s000MedR.pdf"
     ],
@@ -50775,7 +50850,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Varenicline"
+      "https://en.wikipedia.org/wiki/Varenicline",
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/021928s011lbl.pdf"
     ],
     "data_gaps": [
       "duration_by_route",
@@ -50808,6 +50884,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/020151s068,020699s057lbl.pdf",
       "https://en.wikipedia.org/wiki/Venlafaxine",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020151s059lbl.pdf"
     ],
@@ -50856,8 +50933,6 @@
     "display_class": "medical_rx",
     "tags": [
       "5-HT1A-partial-agonist",
-      "CYP3A4-substrate",
-      "SPARI",
       "SSRI",
       "antidepressant",
       "prescription-only",
@@ -50873,6 +50948,7 @@
     "mechanism_summary": "SSRI and 5-HT1A Partial Agonist",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/022567s012lbl.pdf",
       "https://en.wikipedia.org/wiki/Vilazodone"
     ],
     "data_gaps": [
@@ -50909,10 +50985,11 @@
     "half_life_minutes": 420.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2025/211964s013lbl.pdf"
+    ],
     "data_gaps": [
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -51390,6 +51467,7 @@
     "mechanism_summary": "Multimodal Serotonergic Antidepressant",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/204447s013lbl.pdf",
       "https://en.wikipedia.org/wiki/Vortioxetine"
     ],
     "data_gaps": [
@@ -51705,15 +51783,12 @@
     "category": "Antipsychotic",
     "display_class": "medical_rx",
     "tags": [
-      "5-HT2A-antagonist",
       "5HT2A-antagonist",
       "D2-antagonist",
-      "QT-prolongation",
       "QTc-risk",
       "antipsychotic",
       "atypical-antipsychotic",
       "benzisothiazole",
-      "hERG-strong",
       "prescription-only"
     ],
     "default_route": "intramuscular",
@@ -51732,6 +51807,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/020825s032lbl.pdf",
       "https://en.wikipedia.org/wiki/Ziprasidone"
     ],
     "data_gaps": [
@@ -51801,12 +51877,13 @@
     "half_life_minutes": 180.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/020768s029lbl.pdf"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -51960,7 +52037,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 300.0,
+    "half_life_minutes": null,
     "mechanism_summary": "尽管结构不同，佐匹克隆与苯二氮卓类物质具有几乎相同的药理学特征。它的作用机制是结合到与苯二氮卓类药物相同的位点，并作为完全激动剂发挥作用，从而正向调节对苯二氮卓敏感的GABAA 受体，并增强 GABA 在 GABAA 受体上的结合，从而产生佐匹克隆的主观效应。\n\n因为 GABA 是大脑中主要的抑制性神经递质，受体的激活会导致佐匹克隆产生镇静和抗焦虑的效果。除了苯二氮卓类的药理特性外，佐匹克隆还具有一些类似巴比妥类药物的特性。\n\n此外，它（连同去甲基佐匹克隆）是烟碱乙酰胆碱受体的非竞争性拮抗剂。 这可能是导致类似谵妄效果的原因。\n\n佐匹克隆的代谢产物去甲基佐匹克隆也具有药理活性，尽管它主要具有抗焦虑特性。一项研究发现佐匹克隆对 α1 和 α5 亚基有一些轻微的选择性， 尽管通常认为它在结合 α1、α2、α3 和 α5 GABAA 苯二氮卓受体复合物时是非选择性的。\n\n研究发现去甲基佐匹克隆具有部分激动剂的特性，这与作为完全激动剂的母体药物佐匹克隆不同。 佐匹克隆的作用机制与苯二氮卓类药物相似，在运动活动以及多巴胺和血清素更新率方面也有类似的影响。",
     "effects": [
       "Amnesia",
@@ -51976,6 +52053,7 @@
     ],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
       "references"
     ]
   },
@@ -52066,7 +52144,6 @@
       "BOH-2cb",
       "BOH2CB",
       "BOHB",
-      "Β-hydroxy-2C-B",
       "βOH-2C-B"
     ],
     "category": "Psychedelic",

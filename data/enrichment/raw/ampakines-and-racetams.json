@@ -2104,23 +2104,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 180,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 270,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 30,
-          "dose_in_study_mg": 400,
-          "subject_n": null,
-          "subject_demographics": "Italian Phase 1/2 program",
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [],

@@ -172,19 +172,6 @@
       "routes": [
         {
           "route": "sublingual",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 120,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": null,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": null,
-          "subject_n": null,
-          "subject_demographics": "Case-series and self-report",
-          "reference": "https://psychonautwiki.org/wiki/25I-NBOMe"
-        },
         {
           "route": "insufflation",
           "bioavailability_pct": null,
@@ -223,13 +210,6 @@
           "threshold": 0.25,
           "peak_effect": null,
           "reference": "pmid:26378143"
-        },
-        {
-          "effect": "postmortem heart blood (fatal)",
-          "concentration_unit": "ng/mL",
-          "threshold": null,
-          "peak_effect": 19.8,
-          "reference": null
         }
       ]
     },
@@ -5123,23 +5103,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 52.7,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 90,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 180,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": null,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -5221,38 +5185,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 24.7,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 120,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 660,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 25,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        },
-        {
-          "route": "insufflation",
-          "bioavailability_pct": 70.8,
-          "cmax_ng_per_ml": null,
-          "tmax_min": null,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": null,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": null,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -5356,23 +5289,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 71,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 90,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 540,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 100,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -5482,23 +5399,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 72,
-          "cmax_ng_per_ml": null,
-          "tmax_min": null,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 1500,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 96,
-          "dose_in_study_mg": 40,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -5586,58 +5487,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 60,
-          "cmax_ng_per_ml": null,
-          "tmax_min": null,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 480,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 99,
-          "dose_in_study_mg": 80,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        },
-        {
-          "route": "intramuscular",
-          "bioavailability_pct": 100,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 60,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": null,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": 99,
-          "dose_in_study_mg": 20,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "aldehyde oxidase",
-        "fraction_of_clearance_pct": 65,
-        "metabolite_name": "benzisothiazole sulphone",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      },
-      {
-        "enzyme": "CYP3A4",
-        "fraction_of_clearance_pct": 33,
-        "metabolite_name": "S-methyl-dihydro-ziprasidone",
-        "metabolite_active": null,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "ketoconazole",
@@ -5656,15 +5509,7 @@
     ],
     "pharmacogenetics": null,
     "tolerance_and_dependence": null,
-    "off_targets": [
-      {
-        "target": "hERG",
-        "ki_or_ic50_nm": 169,
-        "concern_level": "high",
-        "clinical_consequence": "QTc prolongation; contraindicated with other QT-prolonging agents",
-        "reference": null
-      }
-    ],
+    "off_targets": [],
     "demographic_differences": {
       "sex": null,
       "age": null,
@@ -5723,43 +5568,10 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 30,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 30,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 750,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
-    "metabolism": [
-      {
-        "enzyme": "hepatic hydrolysis",
-        "fraction_of_clearance_pct": 75,
-        "metabolite_name": "N-anisoyl-GABA",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      },
-      {
-        "enzyme": "hepatic",
-        "fraction_of_clearance_pct": 25,
-        "metabolite_name": "N-anisoyl-GABA",
-        "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": null,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [],
     "pharmacogenetics": null,
     "tolerance_and_dependence": null,
@@ -5842,23 +5654,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 100,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 60,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 240,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 100,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -5933,23 +5729,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 75,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 120,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 1740,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 10,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -6031,23 +5811,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 90,
-          "cmax_ng_per_ml": null,
-          "tmax_min": null,
-          "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 480,
-          "vd_l_per_kg": null,
-          "clearance_ml_per_min_per_kg": null,
-          "protein_binding_pct": null,
-          "dose_in_study_mg": 20,
-          "subject_n": null,
-          "subject_demographics": null,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [

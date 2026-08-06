@@ -636,15 +636,7 @@
       "phenotype_effects": "CYP2D6 PMs show slightly higher meth plasma exposure and lower amphetamine metabolite; small clinical effect.",
       "reference": null
     },
-    "off_targets": [
-      {
-        "target": "VMAT2",
-        "ki_or_ic50_nm": 1000,
-        "concern_level": "moderate",
-        "clinical_consequence": "Vesicular DA depletion — substrate of contributing to cytosolic DA → ROS → terminal neurotoxicity",
-        "reference": null
-      }
-    ],
+    "off_targets": [],
     "tags_to_add": [
       "σ1-agonist",
       "TAAR1-agonist",
@@ -709,15 +701,7 @@
       "downstream_signalling": "See Methamphetamine record."
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 67,
-          "tmax_min": 180,
-          "half_life_min": 600,
-          "reference": null
-        }
-      ]
+      "routes": []
     },
     "metabolism": [
       {
@@ -783,15 +767,7 @@
       "downstream_signalling": "Predominantly peripheral sympathomimetic via NE release; weak central DA action limits abuse potential."
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "intranasal (Vicks inhaler)",
-          "bioavailability_pct": 65,
-          "tmax_min": 30,
-          "half_life_min": 660,
-          "reference": null
-        }
-      ]
+      "routes": []
     },
     "metabolism": [
       {
@@ -1971,15 +1947,7 @@
       "downstream_signalling": "Prodrug — undergoes N-debenzylation by CYP2B6 and CYP3A4 to dextromethamphetamine (and onward to d-amphetamine via N-demethylation). The intact benzphetamine is minimally pharmacologically active."
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "tmax_min": 90,
-          "half_life_min": 270,
-          "protein_binding_pct": 87,
-          "reference": null
-        }
-      ]
+      "routes": []
     },
     "metabolism": [
       {
@@ -2059,26 +2027,9 @@
       "downstream_signalling": "NE/DA release without significant SERT engagement; α,α-dimethyl substitution protects from MAO and CYP and gives long half-life (~20 h)."
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "tmax_min": 360,
-          "cmax_ng_per_ml": 200,
-          "half_life_min": 1320,
-          "dose_in_study_mg": 15,
-          "reference": null
-        }
-      ]
+      "routes": []
     },
-    "metabolism": [
-      {
-        "enzyme": "renal excretion (unchanged)",
-        "fraction_of_clearance_pct": 70,
-        "metabolite_name": "unchanged phentermine",
-        "metabolite_active": true,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "MAOIs",
@@ -2236,25 +2187,9 @@
       "downstream_signalling": "Indirect sympathomimetic (NE release) + weak direct α/β agonism. β-hydroxyl reduces BBB penetration; ephedrine is more peripheral than amphetamine."
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 88,
-          "tmax_min": 60,
-          "half_life_min": 360,
-          "protein_binding_pct": 27,
-          "reference": null
-        }
-      ]
+      "routes": []
     },
     "metabolism": [
-      {
-        "enzyme": "renal excretion (unchanged)",
-        "fraction_of_clearance_pct": 60,
-        "metabolite_name": "unchanged ephedrine",
-        "metabolite_active": true,
-        "reference": null
-      },
       {
         "enzyme": "CYP2D6",
         "metabolite_name": "norephedrine",
@@ -2308,26 +2243,9 @@
       "downstream_signalling": "Indirect sympathomimetic, almost entirely via NE release. Direct α1/α2/β receptor binding is negligible (Kact >10 µM). The diastereomer of ephedrine — threo configuration weakens NE release ~3× vs ephedrine."
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 100,
-          "tmax_min": 114,
-          "half_life_min": 324,
-          "protein_binding_pct": 25,
-          "reference": null
-        }
-      ]
+      "routes": []
     },
-    "metabolism": [
-      {
-        "enzyme": "renal excretion (unchanged)",
-        "fraction_of_clearance_pct": 70,
-        "metabolite_name": "unchanged pseudoephedrine",
-        "metabolite_active": true,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "tags_to_add": [
       "OTC-decongestant"
     ],
@@ -2889,13 +2807,7 @@
       "downstream_signalling": "Cyclohexyl analogue of methamphetamine — saturated ring loses TAAR1 efficacy and reduces CNS penetration vs methamphetamine. Primarily peripheral sympathomimetic; nasal decongestant via NE release / α1 agonism."
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "inhaled (nasal inhaler)",
-          "half_life_min": 240,
-          "reference": null
-        }
-      ]
+      "routes": []
     },
     "metabolism": [],
     "tags_to_add": [
@@ -2930,13 +2842,7 @@
       "downstream_signalling": "Non-aromatic aliphatic amine NDRA — releases NE and DA without aromatic ring. Indirectly raises blood pressure via NE release. Lacks TAAR1 efficacy. Recently confirmed as NDRA by Small 2023 (doi:10.1124/jpet.122.001514)."
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "half_life_min": 510,
-          "reference": null
-        }
-      ]
+      "routes": []
     },
     "metabolism": [],
     "off_targets": [
@@ -3203,24 +3109,9 @@
       "downstream_signalling": "Endogenous trace amine, TAAR1 agonist, indirect sympathomimetic via VMAT2 displacement. Does NOT cross BBB — pharmacologic effects entirely peripheral. The 'cheese reaction': MAOI inhibition allows oral tyramine to escape first-pass MAO → massive peripheral NE release from sympathetic terminals → hypertensive crisis."
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "bioavailability_pct": 1,
-          "half_life_min": 5,
-          "reference": null
-        }
-      ]
+      "routes": []
     },
-    "metabolism": [
-      {
-        "enzyme": "MAO-A (preferred)",
-        "fraction_of_clearance_pct": 95,
-        "metabolite_name": "4-hydroxyphenylacetic acid",
-        "metabolite_active": false,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "drug_interactions_pk": [
       {
         "with": "MAOIs (especially non-selective)",
@@ -3401,14 +3292,7 @@
       "downstream_signalling": "Weak α1-selective adrenergic agonist + low-potency TAAR1 agonist. p-Synephrine (Citrus aurantium) — distinct from m-synephrine (phenylephrine) which is ~100× more potent at α1."
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "tmax_min": 90,
-          "half_life_min": 120,
-          "reference": null
-        }
-      ]
+      "routes": []
     },
     "metabolism": [],
     "tags_to_add": [
@@ -3515,12 +3399,6 @@
           "tmax_min": 75,
           "half_life_min": 150,
           "reference": "pmid:17264159"
-        },
-        {
-          "route": "intravenous",
-          "bioavailability_pct": 100,
-          "half_life_min": 150,
-          "reference": null
         }
       ]
     },
@@ -3678,23 +3556,9 @@
       "downstream_signalling": "Endogenous catecholamine. Full agonist at all five DA receptor subtypes; at high doses also activates α1 and β1 directly. Does NOT cross BBB."
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "intravenous",
-          "half_life_min": 1,
-          "reference": null
-        }
-      ]
+      "routes": []
     },
-    "metabolism": [
-      {
-        "enzyme": "MAO + COMT + ALDH",
-        "fraction_of_clearance_pct": 100,
-        "metabolite_name": "homovanillic acid (HVA)",
-        "metabolite_active": false,
-        "reference": null
-      }
-    ],
+    "metabolism": [],
     "tags_to_add": [
       "neurotransmitter",
       "IV-pressor"
@@ -4084,14 +3948,7 @@
       "downstream_signalling": "Classical psychedelic. 5-HT2A partial agonist with significant biased agonism at 5-HT2C. NOT amphetamine-like despite having an aminoethyl side chain (no α-methyl)."
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "tmax_min": 105,
-          "half_life_min": 215,
-          "reference": null
-        }
-      ]
+      "routes": []
     },
     "metabolism": [
       {
@@ -4192,16 +4049,7 @@
       "downstream_signalling": "Classical 5-HT2A partial agonist psychedelic. Notable 5-HT2B activity is a chronic-use concern."
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "cmax_ng_per_ml": 5.4,
-          "tmax_min": 130,
-          "half_life_min": 110,
-          "dose_in_study_mg": 30,
-          "reference": null
-        }
-      ]
+      "routes": []
     },
     "metabolism": [],
     "tags_to_add": [

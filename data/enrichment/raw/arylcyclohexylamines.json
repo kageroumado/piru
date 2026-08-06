@@ -409,28 +409,7 @@
       ]
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "intranasal",
-          "bioavailability_pct": 48,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 30,
-          "half_life_min": 450,
-          "vd_l_per_kg": 9,
-          "clearance_ml_per_min_per_kg": 30,
-          "protein_binding_pct": 44,
-          "dose_in_study_mg": 84,
-          "subject_n": null,
-          "subject_demographics": "TRD patients (Spravato pivotal trials)",
-          "reference": null
-        },
-        {
-          "route": "intravenous",
-          "bioavailability_pct": 100,
-          "half_life_min": 300,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -536,23 +515,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "intranasal",
-          "bioavailability_pct": 48,
-          "tmax_min": 30,
-          "half_life_min": 450,
-          "protein_binding_pct": 44,
-          "dose_in_study_mg": 84,
-          "reference": null
-        },
-        {
-          "route": "intravenous",
-          "bioavailability_pct": 100,
-          "half_life_min": 300,
-          "reference": null
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [
@@ -1210,12 +1173,6 @@
           "tmax_min": 90,
           "half_life_min": 660,
           "reference": "doi:10.1080/20961790.2021.1928821"
-        },
-        {
-          "route": "insufflation",
-          "tmax_min": 30,
-          "half_life_min": 660,
-          "reference": "PsychonautWiki / case reports"
         }
       ],
       "concentration_effect": [
@@ -1505,12 +1462,6 @@
           "tmax_min": 90,
           "half_life_min": 270,
           "reference": "doi:10.1002/dta.1881"
-        },
-        {
-          "route": "insufflation",
-          "tmax_min": 30,
-          "half_life_min": 240,
-          "reference": "PsychonautWiki / case reports"
         }
       ],
       "concentration_effect": []
@@ -1730,14 +1681,7 @@
       "neuroimaging": []
     },
     "human_pk": {
-      "routes": [
-        {
-          "route": "oral",
-          "tmax_min": 60,
-          "half_life_min": 360,
-          "reference": "PsychonautWiki / case reports"
-        }
-      ],
+      "routes": [],
       "concentration_effect": []
     },
     "metabolism": [

@@ -2402,14 +2402,6 @@
     },
     "metabolism": [
       {
-        "enzyme": "CES1",
-        "fraction_of_clearance_pct": null,
-        "metabolite_name": "MDMB-4en-PINACA ester-hydrolysis metabolite (M1)",
-        "metabolite_active": false,
-        "metabolite_potency_vs_parent_pct": 0,
-        "reference": null
-      },
-      {
         "enzyme": "CYP3A4",
         "fraction_of_clearance_pct": null,
         "metabolite_name": "hydroxy-MDMB-4en-PINACA",
@@ -2488,7 +2480,7 @@
         },
         {
           "target": "CB2",
-          "ki_nm": 3.40,
+          "ki_nm": 3.4,
           "ec50_nm": 8.19,
           "intrinsic_activity_pct": 78,
           "reference_agonist": "basal",
