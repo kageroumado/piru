@@ -166,5 +166,19 @@ nonisolated enum MetaboliteEditorial {
             metabolite: "cotinine",
             note: "Cotinine has negligible nicotinic activity — it's the standard biomarker for tobacco exposure, not a continuation of nicotine's effect. Its long half-life (~16 hours) is why it's detectable in blood and urine days after the last cigarette.",
         ),
+        // EDDP is inactive — the standard urinary marker for methadone.
+        .init(
+            parent: "Methadone",
+            metabolite: "EDDP",
+            note: "EDDP has no opioid activity — it's the primary urinary marker for methadone compliance monitoring, not a contributor to the drug's effect or duration.",
+        ),
+        // M3G is the major morphine metabolite (~60%) and is neuroexcitatory,
+        // not analgesic — the reason high-dose or renally impaired patients
+        // get myoclonus and hyperalgesia rather than more pain relief.
+        .init(
+            parent: "Morphine",
+            metabolite: "morphine-3-glucuronide",
+            note: "M3G is morphine's major metabolite (~60% of the dose) and has no analgesic activity — at high concentrations it's neuroexcitatory, contributing to myoclonus and paradoxical pain increase rather than pain relief. It accumulates in renal impairment, which is why morphine dosing needs adjustment when kidneys are compromised.",
+        ),
     ]
 }

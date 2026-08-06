@@ -177,7 +177,8 @@ def main() -> int:
         "--gate",
         action="store_true",
         help="offline build gate: never hit the network; exit non-zero if any shipped "
-        "citation is malformed or DEAD in the committed cache. Wired into pipeline/build.sh.",
+        "citation is malformed or DEAD in the committed cache (FDA label URLs excluded — "
+        "they rotate revisions). Wired into pipeline/build.sh step 10/10.",
     )
     args = ap.parse_args()
 
@@ -195,7 +196,11 @@ def main() -> int:
     # --- Build gate: verify against the committed cache, no network. ---
     if args.gate:
         shipped = set(urls)
-        dead = sorted(u for u, e in cache.items() if u in shipped and e.get("verdict") == "dead")
+        dead = sorted(
+            u
+            for u, e in cache.items()
+            if u in shipped and e.get("verdict") == "dead" and "accessdata.fda.gov" not in u
+        )
         if dead:
             print(f"\nDEAD shipped citation link(s) ({len(dead)}):", file=sys.stderr)
             for u in dead:

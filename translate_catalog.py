@@ -368,6 +368,49 @@ T = {
     "During a Session": ("使用期间", "使用期間"),
     "Safety Limits": ("安全限度", "安全限度"),
     "Supplies": ("库存", "庫存"),
+    "Safety & Supplies": ("安全与库存", "安全與庫存"),
+    "Session Alerts": ("使用期间提醒", "使用期間提醒"),
+    "All on": ("全部开启", "全部開啟"),
+    "All off": ("全部关闭", "全部關閉"),
+    "Comedown": ("缓和期", "緩和期"),
+    "Hydration": ("补水", "補水"),
+    "Sleep": ("睡眠", "睡眠"),
+    "Phase": ("阶段", "階段"),
+    "Next-Dose": ("下一剂", "下一劑"),
+    "Re-ask %lld": ("第 %lld 次再问", "第 %lld 次再問"),
+    "Add Re-ask": ("添加再问", "新增再問"),
+    "Remove Last": ("移除最后一个", "移除最後一個"),
+    "5 min": ("5 分钟", "5 分鐘"),
+    "10 min": ("10 分钟", "10 分鐘"),
+    "15 min": ("15 分钟", "15 分鐘"),
+    "20 min": ("20 分钟", "20 分鐘"),
+    "30 min": ("30 分钟", "30 分鐘"),
+    "45 min": ("45 分钟", "45 分鐘"),
+    "60 min": ("60 分钟", "60 分鐘"),
+    "Reminders fire at each med's times. Quiet meds share one reminder per time of day. Logging a dose clears its follow-ups.": (
+        "提醒按每种药物的设定时间触发。静音药物共享每个时段一次提醒。记录剂量后后续提醒自动取消。",
+        "提醒按每種藥物的設定時間觸發。靜音藥物共享每個時段一次提醒。記錄劑量後後續提醒自動取消。",
+    ),
+    "Timed from the typical onset and duration of each dose you log, for its substance and route. These are estimates from published data — Piru doesn't sense anything.": (
+        "根据你记录的每剂量的物质和给药途径，按典型起效时间和持续时间计时。这些是基于已发表数据的估算——Piru 不感知任何东西。",
+        "根據你記錄的每劑量的物質和給藥途徑，按典型起效時間和持續時間計時。這些是基於已發表資料的估算——Piru 不感知任何東西。",
+    ),
+    "Totals include scheduled meds, as-needed doses, and everything else — the safety net doesn't care why you took it.": (
+        "总量包括计划用药、按需用药和其他所有——安全网不在乎你为什么服用。",
+        "總量包括計畫用藥、按需用藥和其他所有——安全網不在乎你為什麼服用。",
+    ),
+    "Comedown alerts are armed per dose in Ramp-Down.": (
+        "缓和期提醒在「渐减」中按剂量启用。",
+        "緩和期提醒在「漸減」中按劑量啟用。",
+    ),
+    "Turning off the cumulative dose warning removes a safety net.": (
+        "关闭累积剂量警告将移除一层安全保障。",
+        "關閉累積劑量警告將移除一層安全保障。",
+    ),
+    "If a dose isn't logged, ask again after these intervals. Applies to every med. A med can override or opt out in its own settings. Re-asks never scold — they just ask.": (
+        "如果剂量未记录，按这些间隔再次提醒。适用于所有药物。每种药物可单独覆盖或退出。再次提醒绝不训斥——只是问一声。",
+        "如果劑量未記錄，按這些間隔再次提醒。適用於所有藥物。每種藥物可單獨覆蓋或退出。再次提醒絕不訓斥——只是問一聲。",
+    ),
     "Notifications Enabled": ("通知已开启", "通知已開啟"),
     "Notifications Are Off": ("通知已关闭", "通知已關閉"),
     "Allow Notifications": ("允许通知", "允許通知"),
@@ -3949,6 +3992,87 @@ T = {
     "Acts differently from %@ — not simply stronger or weaker.": (
         "作用方式与 %@ 不同——并非单纯更强或更弱。",
         "作用方式與 %@ 不同——並非單純更強或更弱。",
+    ),
+    # ---- Curated divergent-metabolite editorial notes (MetaboliteEditorial.swift) ----
+    "Tramadol is itself a weak opioid that also raises serotonin and noradrenaline. Most of the opioid effect people feel comes from this metabolite — and how much you make of it depends on a CYP2D6 gene, so the same dose can be a real opioid for one person and almost none for another.": (
+        "曲马多本身是一种弱阿片类药物,同时也会升高血清素和去甲肾上腺素。大多数人感受到的阿片效应来自这个代谢物——而生成量取决于 CYP2D6 基因,因此同样的剂量对一些人来说是真正的阿片效应,对另一些人则几乎没有。",
+        "曲馬多本身是一種弱鴉片類藥物,同時也會升高血清素和去甲腎上腺素。大多數人感受到的鴉片效應來自這個代謝物——而生成量取決於 CYP2D6 基因,因此同樣的劑量對一些人來說是真正的鴉片效應,對另一些人則幾乎沒有。",
+    ),
+    "mCPP acts on serotonin in a different way than trazodone — it tends to feel activating or anxious rather than sedating, which is part of why trazodone's later hours can feel unlike its calm onset.": (
+        "mCPP 以不同于曲唑酮的方式作用于血清素——它倾向于产生激活感或焦虑感,而非镇静,这是曲唑酮后半段感受可能与平静的起效阶段不同的部分原因。",
+        "mCPP 以不同於曲唑酮的方式作用於血清素——它傾向於產生激活感或焦慮感,而非鎮靜,這是曲唑酮後半段感受可能與平靜的起效階段不同的部分原因。",
+    ),
+    "Noribogaine is long-lived and acts differently from ibogaine — it leans more on serotonin reuptake and κ-opioid signaling, and it is a large part of the extended after-effect rather than a continuation of the peak.": (
+        "去甲伊博加因半衰期长,作用方式与伊博加因不同——更依赖血清素再摄取和 κ-阿片信号传导,构成延长后效应的重要部分,而非高峰期的延续。",
+        "去甲伊博加因半衰期長,作用方式與伊博加因不同——更依賴血清素再攝取和 κ-鴉片訊號傳導,構成延長後效應的重要部分,而非高峰期的延續。",
+    ),
+    "Normeperidine isn't a painkiller — it's a stimulating metabolite that builds up with repeated or high doses and lowers the seizure threshold. It's why meperidine isn't used for long-term pain.": (
+        "去甲哌替啶不是止痛药——它是一种兴奋性代谢物,在反复或大剂量使用时蓄积,降低癫痫发作阈值。这是哌替啶不用于长期镇痛的原因。",
+        "去甲哌替啶不是止痛藥——它是一種興奮性代謝物,在反覆或大劑量使用時蓄積,降低癲癇發作閾值。這是哌替啶不用於長期鎮痛的原因。",
+    ),
+    "Dextrorphan blocks NMDA receptors more strongly than DXM itself does — it's the more dissociative species, and the main reason the character shifts at higher doses rather than simply lasting longer.": (
+        "右啡烷对 NMDA 受体的阻断作用强于右美沙芬本身——它是更具解离性的活性种,也是高剂量时体验特征转变而非仅仅持续更久的主要原因。",
+        "右啡烷對 NMDA 受體的阻斷作用強於右美沙芬本身——它是更具解離性的活性種,也是高劑量時體驗特徵轉變而非僅僅持續更久的主要原因。",
+    ),
+    "Meprobamate is a long-lived, barbiturate-like sedative in its own right — it acts more like a classic downer than carisoprodol, and much of the sedation and the dependence potential come from it rather than the parent.": (
+        "美普罗巴酯本身就是一种长效的巴比妥类镇静剂——其作用更像经典的镇静药物,大部分镇静作用和依赖潜力来自于它而非母体药物。",
+        "美普羅巴酯本身就是一種長效的巴比妥類鎮靜劑——其作用更像經典的鎮靜藥物,大部分鎮靜作用和依賴潛力來自於它而非母體藥物。",
+    ),
+    "Nortriptyline is a marketed antidepressant in its own right, and it leans more on noradrenaline than amitriptyline does — so the metabolite's character is more activating than the parent's.": (
+        "去甲替林本身就是一种上市的抗抑郁药,比阿米替林更偏向去甲肾上腺素——因此代谢物的特征比母体药物更具激活性。",
+        "去甲替林本身就是一種上市的抗憂鬱藥,比阿米替林更偏向去甲腎上腺素——因此代謝物的特徵比母體藥物更具激活性。",
+    ),
+    "Desipramine is a marketed antidepressant in its own right, and more noradrenergic than imipramine — so as it forms, the effect shifts toward the more activating end.": (
+        "地昔帕明本身就是一种上市的抗抑郁药,比丙咪嗪更偏向去甲肾上腺素能——因此随着它的生成,效应向更具激活性的方向转移。",
+        "地昔帕明本身就是一種上市的抗憂鬱藥,比丙咪嗪更偏向去甲腎上腺素能——因此隨著它的生成,效應向更具激活性的方向轉移。",
+    ),
+    "The desmethyl metabolite shifts clomipramine's strongly serotonergic action toward noradrenaline, so the two don't act quite alike — the balance moves as the metabolite accumulates.": (
+        "去甲基代谢物将氯丙咪嗪强烈的血清素能作用向去甲肾上腺素方向转移,因此两者的作用并不完全相同——随着代谢物蓄积,平衡发生变化。",
+        "去甲基代謝物將氯丙咪嗪強烈的血清素能作用向去甲腎上腺素方向轉移,因此兩者的作用並不完全相同——隨著代謝物蓄積,平衡發生變化。",
+    ),
+    "Norquetiapine adds effects quetiapine largely lacks — noradrenaline reuptake inhibition and antidepressant-like activity — so it contributes a different character than the parent's sedation.": (
+        "去甲喹硫平增加了喹硫平基本不具备的作用——去甲肾上腺素再摄取抑制和抗抑郁样活性——因此它贡献的特征不同于母体药物的镇静作用。",
+        "去甲喹硫平增加了喹硫平基本不具備的作用——去甲腎上腺素再攝取抑制和抗憂鬱樣活性——因此它貢獻的特徵不同於母體藥物的鎮靜作用。",
+    ),
+    "This metabolite (HNK) barely touches the NMDA receptor ketamine acts on — it's studied for a separate, non-dissociative antidepressant effect, so it isn't simply ketamine continuing.": (
+        "这种代谢物(HNK)几乎不作用于氯胺酮所靶向的 NMDA 受体——它被研究的是一种独立的、非解离性的抗抑郁效应,因此并非氯胺酮效果的简单延续。",
+        "這種代謝物(HNK)幾乎不作用於氯胺酮所靶向的 NMDA 受體——它被研究的是一種獨立的、非解離性的抗憂鬱效應,因此並非氯胺酮效果的簡單延續。",
+    ),
+    "Norbuprenorphine acts differently from buprenorphine — it behaves more like a full opioid agonist and contributes to respiratory effects, which buprenorphine's own ceiling doesn't fully predict.": (
+        "去甲丁丙诺啡的作用方式不同于丁丙诺啡——它更像完全阿片激动剂,对呼吸抑制有贡献,而丁丙诺啡自身的天花板效应并不能完全预测这一点。",
+        "去甲丁丙諾啡的作用方式不同於丁丙諾啡——它更像完全鴉片促效劑,對呼吸抑制有貢獻,而丁丙諾啡自身的天花板效應並不能完全預測這一點。",
+    ),
+    "Cetirizine — a common non-drowsy antihistamine — is hydroxyzine's main metabolite. It's far less sedating, so hydroxyzine's calming effect gives way to a plainer antihistamine as it converts.": (
+        "西替利嗪——一种常见的非嗜睡抗组胺药——是羟嗪的主要代谢物。它的镇静作用弱得多,因此随着转化,羟嗪的镇静效果逐渐让位于单纯的抗组胺作用。",
+        "西替利嗪——一種常見的非嗜睡抗組織胺藥——是羥嗪的主要代謝物。它的鎮靜作用弱得多,因此隨著轉化,羥嗪的鎮靜效果逐漸讓位於單純的抗組織胺作用。",
+    ),
+    "Norephedrine (phenylpropanolamine) is a peripheral sympathomimetic — it raises blood pressure and narrows blood vessels more than amphetamine's central action would predict. It adds cardiovascular load the parent's CNS profile doesn't warn about.": (
+        "去甲麻黄碱(苯丙醇胺)是一种外周拟交感神经药——它升高血压和收缩血管的程度超过安非他明的中枢作用所能预测的。它增加了母体药物 CNS 特征所未提示的心血管负荷。",
+        "去甲麻黃鹼(苯丙醇胺)是一種外周擬交感神經藥——它升高血壓和收縮血管的程度超過安非他命的中樞作用所能預測的。它增加了母體藥物 CNS 特徵所未提示的心血管負荷。",
+    ),
+    "7-aminoclonazepam has no meaningful activity at GABA-A — it's an inactive metabolite used as a urinary marker for clonazepam exposure, not a contributor to the drug's effect.": (
+        "7-氨基氯硝西泮在 GABA-A 上无显著活性——它是一种无活性代谢物,用作氯硝西泮暴露的尿液标志物,不参与药物效应。",
+        "7-胺基氯硝西泮在 GABA-A 上無顯著活性——它是一種無活性代謝物,用作氯硝西泮暴露的尿液標誌物,不參與藥物效應。",
+    ),
+    "Norfenfluramine is a more potent serotonin releaser than fenfluramine itself — it drives much of the pharmacological effect, including the 5-HT₂B agonism linked to cardiac valve damage in the 1990s weight-loss era.": (
+        "去甲芬氟拉明是比芬氟拉明更强效的血清素释放剂——它驱动了大部分药理效应,包括与 1990 年代减肥时期心脏瓣膜损伤相关的 5-HT₂B 激动作用。",
+        "去甲芬氟拉明是比芬氟拉明更強效的血清素釋放劑——它驅動了大部分藥理效應,包括與 1990 年代減肥時期心臟瓣膜損傷相關的 5-HT₂B 促效作用。",
+    ),
+    "This unusual Phase II conjugate retains the nor-mephedrone core — whether it has pharmacological activity is unknown, but its long plasma half-life means it lingers well past mephedrone's short duration.": (
+        "这种不寻常的 II 相结合物保留了去甲甲卡西酮的核心结构——是否具有药理活性尚不明确,但其较长的血浆半衰期意味着它在甲卡西酮的短暂作用期过后仍会存留。",
+        "這種不尋常的 II 相結合物保留了去甲甲卡西酮的核心結構——是否具有藥理活性尚不明確,但其較長的血漿半衰期意味著它在甲卡西酮的短暫作用期過後仍會存留。",
+    ),
+    "Cotinine has negligible nicotinic activity — it's the standard biomarker for tobacco exposure, not a continuation of nicotine's effect. Its long half-life (~16 hours) is why it's detectable in blood and urine days after the last cigarette.": (
+        "可替宁的烟碱活性可忽略——它是烟草暴露的标准生物标志物,而非尼古丁效应的延续。其约 16 小时的长半衰期是最后一支烟后数天仍可在血液和尿液中检出的原因。",
+        "可替寧的菸鹼活性可忽略——它是菸草暴露的標準生物標誌物,而非尼古丁效應的延續。其約 16 小時的長半衰期是最後一支菸後數天仍可在血液和尿液中檢出的原因。",
+    ),
+    "EDDP has no opioid activity — it's the primary urinary marker for methadone compliance monitoring, not a contributor to the drug's effect or duration.": (
+        "EDDP 无阿片活性——它是美沙酮依从性监测的主要尿液标志物,不参与药物效应或持续时间。",
+        "EDDP 無鴉片活性——它是美沙酮依從性監測的主要尿液標誌物,不參與藥物效應或持續時間。",
+    ),
+    "M3G is morphine's major metabolite (~60% of the dose) and has no analgesic activity — at high concentrations it's neuroexcitatory, contributing to myoclonus and paradoxical pain increase rather than pain relief. It accumulates in renal impairment, which is why morphine dosing needs adjustment when kidneys are compromised.": (
+        "M3G 是吗啡的主要代谢物(约占剂量的 60%),无镇痛活性——高浓度时具有神经兴奋性,导致肌阵挛和矛盾性疼痛加重而非缓解。它在肾功能损害时蓄积,这是肾功能不全时需要调整吗啡剂量的原因。",
+        "M3G 是嗎啡的主要代謝物(約佔劑量的 60%),無鎮痛活性——高濃度時具有神經興奮性,導致肌陣攣和矛盾性疼痛加重而非緩解。它在腎功能損害時蓄積,這是腎功能不全時需要調整嗎啡劑量的原因。",
     ),
     "Your body turns %1$@ into %2$@, which is active too.": (
         "身体会将 %1$@ 转化为 %2$@,后者同样具有活性。",

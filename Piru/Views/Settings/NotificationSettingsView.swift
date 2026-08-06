@@ -4,14 +4,7 @@ import UIKit
 import UserNotifications
 
 /// The unified notification management screen: every notification type the app
-/// can send as a row with a plain-language *why* and a real toggle, under an
-/// honest OS-permission header.
-///
-/// What this screen lists is the contract (`Specs/notifications-system.md`
-/// §Honesty): the app sends nothing that isn't controllable here. Rows are
-/// grouped the way the catalog groups them — dose reminders, session alerts,
-/// safety limits, supplies — plus the Live Activity switch, which lives here
-/// because users look for it here even though it isn't a notification.
+/// can send, grouped into three navigable sections with per-type detail sheets.
 struct NotificationSettingsView: View {
     @State private var prefs = NotificationPreferencesStore.shared
     @State private var authStatus: UNAuthorizationStatus?
@@ -19,8 +12,6 @@ struct NotificationSettingsView: View {
     @AppStorage("liveActivityEnabled") private var autoLiveActivity = false
     @Environment(\.scenePhase) private var scenePhase
 
-    /// Rows gray out when the OS grant is missing or everything is paused —
-    /// disabled with an explanatory footer, never silently inert.
     private var rowsDisabled: Bool {
         authStatus == .denied || !prefs.masterEnabled
     }
@@ -36,18 +27,23 @@ struct NotificationSettingsView: View {
 
                 liveActivitySection
 
-                typeSection(
-                    types: [.routine, .routineFollowUp, .nextDose],
+                categorySummarySection(
+                    category: .reminders,
                     header: "Dose Reminders",
-                    footer: "Quiet meds' reminders arrive silently — no buzz, no lock-screen wake. If you use iOS Scheduled Summary, they batch there.",
+                    footer: "Reminders fire at each med's times. Quiet meds share one reminder per time of day. Logging a dose clears its follow-ups.",
                 )
-                typeSection(types: [.comedown, .phase, .hydration, .sleep], header: "During a Session")
-                typeSection(types: [.cumulative], header: "Safety Limits")
-                typeSection(types: [.inventory], header: "Supplies")
+                categorySummarySection(
+                    category: .session,
+                    header: "During a Session",
+                    footer: "Timed from the typical onset and duration of each dose you log, for its substance and route. These are estimates from published data — Piru doesn't sense anything.",
+                )
+                categorySummarySection(
+                    category: .safety,
+                    header: "Safety & Supplies",
+                    footer: "Totals include scheduled meds, as-needed doses, and everything else — the safety net doesn't care why you took it.",
+                )
 
                 quietHoursSection
-
-                timeSensitiveSection
             }
             .listRowBackground(CardBackground())
         }
@@ -57,7 +53,6 @@ struct NotificationSettingsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .task { await refresh() }
         .onChange(of: scenePhase) { _, phase in
-            // Returning from Settings.app after flipping the OS switch.
             if phase == .active { Task { await refresh() } }
         }
         .onChange(of: prefs.typeEnabled) {
@@ -79,25 +74,46 @@ struct NotificationSettingsView: View {
         }
     }
 
-    private func typeSection(
-        types: [NotificationType],
+    private func categorySummarySection(
+        category: NotificationCategory,
         header: LocalizedStringKey,
-        footer: LocalizedStringKey? = nil,
+        footer: LocalizedStringKey,
     ) -> some View {
         Section {
-            ForEach(types) { type in
-                NotificationTypeRow(
-                    type: type,
-                    nextFireDate: nextFireDates[type],
+            NavigationLink {
+                NotificationTypeDetailSheet(
+                    category: category,
+                    nextFireDates: nextFireDates,
                     disabled: rowsDisabled,
                 )
+            } label: {
+                VStack(alignment: .leading, spacing: 4) {
+                    Label(category.title, systemImage: category.symbol)
+                    let summary = enabledSummary(for: category)
+                    Text(summary)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
             }
+            .disabled(rowsDisabled)
+            .opacity(rowsDisabled ? 0.55 : 1)
         } header: {
             Text(header)
         } footer: {
-            if let footer {
-                Text(footer)
-            }
+            Text(footer)
+        }
+    }
+
+    private func enabledSummary(for category: NotificationCategory) -> String {
+        let types = category.types
+        let enabled = types.filter { prefs.isTypeEnabled($0) }
+        if enabled.count == types.count {
+            return String(localized: "All on")
+        } else if enabled.isEmpty {
+            return String(localized: "All off")
+        } else {
+            let names = enabled.map { String(localized: $0.shortTitle) }
+            return names.joined(separator: ", ")
         }
     }
 
@@ -133,24 +149,6 @@ struct NotificationSettingsView: View {
         }
     }
 
-    private var timeSensitiveSection: some View {
-        Section {
-            // Reminders first, the safety net last — mirroring the type
-            // sections above rather than raw enum order.
-            ForEach([NotificationType.routine, .routineFollowUp, .nextDose, .cumulative]) { type in
-                Toggle(isOn: timeSensitiveBinding(type)) {
-                    Label(type.rowTitle, systemImage: type.rowSymbol)
-                }
-                .tint(Theme.accent)
-            }
-        } header: {
-            Text("Time Sensitive")
-        } footer: {
-            Text("Time Sensitive notifications can break through Focus modes and the notification summary. Turn off any you'd rather have wait.")
-        }
-        .disabled(rowsDisabled)
-    }
-
     private var liveActivitySection: some View {
         Section {
             Toggle(isOn: $autoLiveActivity) {
@@ -173,13 +171,6 @@ struct NotificationSettingsView: View {
         )
     }
 
-    private func timeSensitiveBinding(_ type: NotificationType) -> Binding<Bool> {
-        Binding(
-            get: { prefs.isTimeSensitiveEnabled(type) },
-            set: { prefs.setTimeSensitive(type, $0) },
-        )
-    }
-
     private var quietHoursBinding: Binding<Bool> {
         Binding(
             get: { prefs.quietHoursEnabled },
@@ -187,7 +178,6 @@ struct NotificationSettingsView: View {
         )
     }
 
-    /// Minutes-from-midnight ↔ `Date` bridge for the quiet-hours pickers.
     private func quietTimeBinding(
         _ keyPath: KeyPath<NotificationPreferencesStore, Int>,
         apply: @escaping (Int) -> Void,
@@ -214,9 +204,6 @@ struct NotificationSettingsView: View {
         await refreshNextFireDates()
     }
 
-    /// Earliest pending fire date per type — the "Next: …" transparency line
-    /// that turns the screen from a toggle wall into a window on what the app
-    /// is actually about to do.
     private func refreshNextFireDates() async {
         let pending = await UNUserNotificationCenter.current().pendingNotificationRequests()
         var next: [NotificationType: Date] = [:]
@@ -241,11 +228,200 @@ struct NotificationSettingsView: View {
     }
 }
 
+// MARK: - Notification Category
+
+/// Groups notification types into the three spec sections.
+nonisolated enum NotificationCategory {
+    case reminders
+    case session
+    case safety
+
+    var types: [NotificationType] {
+        switch self {
+        case .reminders: [.routine, .routineFollowUp, .nextDose]
+        case .session: [.comedown, .phase, .hydration, .sleep]
+        case .safety: [.cumulative, .inventory]
+        }
+    }
+
+    var title: LocalizedStringKey {
+        switch self {
+        case .reminders: "Med Reminders"
+        case .session: "Session Alerts"
+        case .safety: "Safety & Supplies"
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .reminders: "repeat"
+        case .session: "waveform.path.ecg"
+        case .safety: "exclamationmark.triangle"
+        }
+    }
+}
+
+// MARK: - Detail Sheet
+
+/// Drill-in for a notification category: per-type toggles with explanations,
+/// per-type Time Sensitive delivery, and (for reminders) the editable Ask Again
+/// cadence — the sole editor of `NotificationPreferences.askAgainDefaultMinutes`.
+struct NotificationTypeDetailSheet: View {
+    let category: NotificationCategory
+    let nextFireDates: [NotificationType: Date]
+    let disabled: Bool
+
+    @State private var prefs = NotificationPreferencesStore.shared
+    @Query private var notificationPreferences: [NotificationPreferences]
+
+    var body: some View {
+        List {
+            Group {
+                typesSection
+
+                if category.types.contains(where: \.supportsTimeSensitive) {
+                    timeSensitiveSection
+                }
+
+                if category == .reminders {
+                    askAgainSection
+                }
+            }
+            .listRowBackground(CardBackground())
+        }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
+        .navigationTitle(category.title)
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var typesSection: some View {
+        Section {
+            ForEach(category.types) { type in
+                NotificationTypeRow(
+                    type: type,
+                    nextFireDate: nextFireDates[type],
+                    disabled: disabled,
+                )
+            }
+        } footer: {
+            Text(category.sectionFooter)
+        }
+    }
+
+    private var timeSensitiveSection: some View {
+        Section {
+            ForEach(category.types.filter(\.supportsTimeSensitive)) { type in
+                Toggle(isOn: timeSensitiveBinding(type)) {
+                    Label(type.rowTitle, systemImage: type.rowSymbol)
+                }
+                .tint(Theme.accent)
+            }
+        } header: {
+            Text("Time Sensitive")
+        } footer: {
+            Text("Time Sensitive notifications can break through Focus modes and the notification summary. Turn off any you'd rather have wait.")
+        }
+        .disabled(disabled)
+    }
+
+    private var askAgainSection: some View {
+        Section {
+            let cadence = notificationPreferences.first?.askAgainDefaultMinutes ?? [10]
+            ForEach(Array(cadence.enumerated()), id: \.offset) { index, _ in
+                HStack {
+                    Text("Re-ask \(index + 1)")
+                    Spacer()
+                    Picker("", selection: askAgainMinutesBinding(index: index)) {
+                        Text("5 min").tag(5)
+                        Text("10 min").tag(10)
+                        Text("15 min").tag(15)
+                        Text("20 min").tag(20)
+                        Text("30 min").tag(30)
+                        Text("45 min").tag(45)
+                        Text("60 min").tag(60)
+                    }
+                    .labelsHidden()
+                }
+            }
+            Button {
+                addReask()
+            } label: {
+                Label("Add Re-ask", systemImage: "plus.circle")
+            }
+            .disabled(cadence.count >= 4)
+            if cadence.count > 1 {
+                Button(role: .destructive) {
+                    removeLastReask()
+                } label: {
+                    Label("Remove Last", systemImage: "minus.circle")
+                }
+            }
+        } header: {
+            Text("Ask Again")
+        } footer: {
+            Text("If a dose isn't logged, ask again after these intervals. Applies to every med. A med can override or opt out in its own settings. Re-asks never scold — they just ask.")
+        }
+    }
+
+    // MARK: - Bindings
+
+    private func timeSensitiveBinding(_ type: NotificationType) -> Binding<Bool> {
+        Binding(
+            get: { prefs.isTimeSensitiveEnabled(type) },
+            set: { prefs.setTimeSensitive(type, $0) },
+        )
+    }
+
+    private func askAgainMinutesBinding(index: Int) -> Binding<Int> {
+        Binding(
+            get: {
+                let cadence = notificationPreferences.first?.askAgainDefaultMinutes ?? [10]
+                return index < cadence.count ? cadence[index] : 10
+            },
+            set: { newValue in
+                guard let record = notificationPreferences.first else { return }
+                var cadence = record.askAgainDefaultMinutes
+                if index < cadence.count {
+                    cadence[index] = newValue
+                    record.askAgainDefaultMinutes = cadence
+                }
+            },
+        )
+    }
+
+    private func addReask() {
+        guard let record = notificationPreferences.first else { return }
+        var cadence = record.askAgainDefaultMinutes
+        let last = cadence.last ?? 10
+        cadence.append(min(last + 10, 60))
+        record.askAgainDefaultMinutes = cadence
+    }
+
+    private func removeLastReask() {
+        guard let record = notificationPreferences.first else { return }
+        var cadence = record.askAgainDefaultMinutes
+        guard cadence.count > 1 else { return }
+        cadence.removeLast()
+        record.askAgainDefaultMinutes = cadence
+    }
+}
+
+extension NotificationCategory {
+    var sectionFooter: LocalizedStringKey {
+        switch self {
+        case .reminders:
+            "Quiet meds' reminders arrive silently — no buzz, no lock-screen wake. If you use iOS Scheduled Summary, they batch there."
+        case .session:
+            "Comedown alerts are armed per dose in Ramp-Down."
+        case .safety:
+            "Turning off the cumulative dose warning removes a safety net."
+        }
+    }
+}
+
 // MARK: - Permission header
 
-/// One honest status row reflecting the real `UNUserNotificationCenter`
-/// authorization: enabled, ask (a button triggering the single central
-/// request), or denied (deep-links to Settings.app).
 private struct NotificationPermissionSection: View {
     let status: UNAuthorizationStatus?
     let requestPermission: () async -> Void
@@ -289,7 +465,6 @@ private struct NotificationPermissionSection: View {
                     Label(requesting ? "Asking…" : "Allow Notifications", systemImage: "bell.badge")
                 }
             default:
-                // Still loading — keep the section stable so the list doesn't jump.
                 Label {
                     Text("Checking Permission…")
                 } icon: {
@@ -311,8 +486,6 @@ private struct NotificationPermissionSection: View {
 
 // MARK: - Type row
 
-/// One catalog row: symbol + title + toggle, with the type's one-line *why*
-/// and, when something is scheduled, the next fire time.
 private struct NotificationTypeRow: View {
     let type: NotificationType
     let nextFireDate: Date?
@@ -326,8 +499,6 @@ private struct NotificationTypeRow: View {
                 Label(type.rowTitle, systemImage: type.rowSymbol)
             }
             .tint(Theme.accent)
-            // The visible caption doubles as the toggle's hint, so VoiceOver
-            // explains the switch at the control instead of one swipe later.
             .accessibilityHint(Text(type.rowWhy))
             Text(type.rowWhy)
                 .font(.caption)
@@ -353,8 +524,6 @@ private struct NotificationTypeRow: View {
 
 // MARK: - Row catalog copy
 
-/// The management screen's authored catalog — title, symbol, and the
-/// plain-language *why it exists* shown in front of the user.
 extension NotificationType {
     var rowTitle: LocalizedStringKey {
         switch self {
@@ -367,6 +536,20 @@ extension NotificationType {
         case .routineFollowUp: "Ask Again"
         case .nextDose: "Next-Dose Window"
         case .inventory: "Low Stock Alerts"
+        }
+    }
+
+    var shortTitle: LocalizedStringResource {
+        switch self {
+        case .comedown: "Comedown"
+        case .hydration: "Hydration"
+        case .sleep: "Sleep"
+        case .phase: "Phase"
+        case .cumulative: "Cumulative"
+        case .routine: "Reminders"
+        case .routineFollowUp: "Ask Again"
+        case .nextDose: "Next-Dose"
+        case .inventory: "Low Stock"
         }
     }
 
