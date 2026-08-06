@@ -6203,6 +6203,36 @@ T = {
         "如果你每天使用苯乙胺丁酸或氟苯乙胺丁酸，数周内就会产生依赖。迁延性戒断可持续数月——在医疗指导下逐步减量。",
         "如果你每天使用苯乙胺丁酸或氟苯乙胺丁酸，數週內就會產生依賴。遷延性戒斷可持續數月——在醫療指導下逐步減量。",
     ),
+    # CYP2D6 pharmacogenomic notes (§F.2 wiring, 2026-08-06).
+    "CYP2D6: %@": ("CYP2D6：%@", "CYP2D6：%@"),
+    "Reduced conversion to active metabolite — you may get less effect from %@.": (
+        "活性代谢物转化减少——%@ 的效果可能较弱。",
+        "活性代謝物轉化減少——%@ 的效果可能較弱。",
+    ),
+    "Mildly reduced conversion to active metabolite — effect may be modestly lower.": (
+        "活性代谢物转化略微减少——效果可能略低。",
+        "活性代謝物轉化略微減少——效果可能略低。",
+    ),
+    "Faster conversion to active metabolite — higher active metabolite exposure. For codeine, this is an FDA contraindication due to the risk of respiratory depression.": (
+        "活性代谢物转化加快——活性代谢物暴露量更高。对于可待因，因呼吸抑制风险，FDA 列为禁忌。",
+        "活性代謝物轉化加快——活性代謝物暴露量更高。對於可待因，因呼吸抑制風險，FDA 列為禁忌。",
+    ),
+    "Slower CYP2D6 clearance — %@ may last longer and accumulate at repeated doses.": (
+        "CYP2D6 清除较慢——%@ 的持续时间可能更长，多次给药时可能蓄积。",
+        "CYP2D6 清除較慢——%@ 的持續時間可能更長，多次給藥時可能蓄積。",
+    ),
+    "Mildly slower CYP2D6 clearance — duration may be modestly longer.": (
+        "CYP2D6 清除略慢——持续时间可能略长。",
+        "CYP2D6 清除略慢——持續時間可能略長。",
+    ),
+    "Faster CYP2D6 clearance — shorter duration. Be aware of re-dose timing.": (
+        "CYP2D6 清除加快——持续时间更短。注意补服时机。",
+        "CYP2D6 清除加快——持續時間更短。注意補服時機。",
+    ),
+    "CYP2D6 is a major metabolic pathway for %@.": (
+        "CYP2D6 是 %@ 的主要代谢途径。",
+        "CYP2D6 是 %@ 的主要代謝途徑。",
+    ),
 }
 
 # Widget translations
@@ -6591,6 +6621,15 @@ if __name__ == "__main__":
         "What this does not model",
         "The idea first, then every stage from your dose to the line on the chart.",
         "The calculation, step by step",
+        # CYP2D6 pharmacogenomic notes (§F.2, 2026-08-06).
+        "CYP2D6: %@",
+        "Reduced conversion to active metabolite — you may get less effect from %@.",
+        "Mildly reduced conversion to active metabolite — effect may be modestly lower.",
+        "Faster conversion to active metabolite — higher active metabolite exposure. For codeine, this is an FDA contraindication due to the risk of respiratory depression.",
+        "Slower CYP2D6 clearance — %@ may last longer and accumulate at repeated doses.",
+        "Mildly slower CYP2D6 clearance — duration may be modestly longer.",
+        "Faster CYP2D6 clearance — shorter duration. Be aware of re-dose timing.",
+        "CYP2D6 is a major metabolic pathway for %@.",
     }
 
     print("--- Piru main app catalog ---")

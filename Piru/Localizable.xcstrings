@@ -15976,8 +15976,53 @@
         }
       }
     },
+    "CYP2D6 is a major metabolic pathway for %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 是 %@ 的主要代谢途径。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 是 %@ 的主要代謝途徑。"
+          }
+        }
+      }
+    },
     "CYP2D6 status" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6状态"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6狀態"
+          }
+        }
+      }
+    },
+    "CYP2D6: %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6：%@"
+          }
+        }
+      }
     },
     "D3-Preferring Dopamine Partial Agonist" : {
       "extractionState" : "stale",
@@ -22307,7 +22352,20 @@
       }
     },
     "Extensive metabolizer" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正常代谢型"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正常代謝型"
+          }
+        }
+      }
     },
     "Extremely Potent Substance" : {
       "localizations" : {
@@ -22373,6 +22431,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "又快又真實，但停用後恢復得相當快。"
+          }
+        }
+      }
+    },
+    "Faster conversion to active metabolite — higher active metabolite exposure. For codeine, this is an FDA contraindication due to the risk of respiratory depression." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性代谢物转化加快——活性代谢物暴露量更高。对于可待因，因呼吸抑制风险，FDA 列为禁忌。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性代謝物轉化加快——活性代謝物暴露量更高。對於可待因，因呼吸抑制風險，FDA 列為禁忌。"
+          }
+        }
+      }
+    },
+    "Faster CYP2D6 clearance — shorter duration. Be aware of re-dose timing." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 清除加快——持续时间更短。注意补服时机。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 清除加快——持續時間更短。注意補服時機。"
           }
         }
       }
@@ -27381,7 +27471,20 @@
       }
     },
     "Intermediate metabolizer" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中间代谢型"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中間代謝型"
+          }
+        }
+      }
     },
     "Intihar Onleme Hatti" : {
       "localizations" : {
@@ -30654,6 +30757,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "輕微耐受"
+          }
+        }
+      }
+    },
+    "Mildly reduced conversion to active metabolite — effect may be modestly lower." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性代谢物转化略微减少——效果可能略低。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性代謝物轉化略微減少——效果可能略低。"
+          }
+        }
+      }
+    },
+    "Mildly slower CYP2D6 clearance — duration may be modestly longer." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 清除略慢——持续时间可能略长。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 清除略慢——持續時間可能略長。"
           }
         }
       }
@@ -38169,7 +38304,20 @@
       }
     },
     "Poor metabolizer" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "慢代谢型"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "慢代謝型"
+          }
+        }
+      }
     },
     "Popularity" : {
       "localizations" : {
@@ -40494,6 +40642,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "直腸給藥"
+          }
+        }
+      }
+    },
+    "Reduced conversion to active metabolite — you may get less effect from %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性代谢物转化减少——%@ 的效果可能较弱。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性代謝物轉化減少——%@ 的效果可能較弱。"
           }
         }
       }
@@ -46033,6 +46197,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "緩釋植入劑"
+          }
+        }
+      }
+    },
+    "Slower CYP2D6 clearance — %@ may last longer and accumulate at repeated doses." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 清除较慢——%@ 的持续时间可能更长，多次给药时可能蓄积。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 清除較慢——%@ 的持續時間可能更長，多次給藥時可能蓄積。"
           }
         }
       }
@@ -52407,7 +52587,20 @@
       }
     },
     "Ultra-rapid metabolizer" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "超快代谢型"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "超快代謝型"
+          }
+        }
+      }
     },
     "Unassigned" : {
       "extractionState" : "stale",
@@ -52564,7 +52757,20 @@
       }
     },
     "Unknown" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知"
+          }
+        }
+      }
     },
     "unknown date" : {
       "localizations" : {
