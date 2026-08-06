@@ -4312,6 +4312,22 @@
         }
       }
     },
+    "1 day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 天"
+          }
+        }
+      }
+    },
     "1 dose" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4441,6 +4457,38 @@
         }
       }
     },
+    "1–2 days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1–2 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1–2 天"
+          }
+        }
+      }
+    },
+    "1–4 days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1–4 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1–4 天"
+          }
+        }
+      }
+    },
     "1,500+ substances" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4489,6 +4537,38 @@
         }
       }
     },
+    "2–4 weeks, with a protracted tail in some people." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "持续 2–4 周，部分人有迁延的尾期。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "持續 2–4 週，部分人有遷延的尾期。"
+          }
+        }
+      }
+    },
+    "2–7 days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2–7 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2–7 天"
+          }
+        }
+      }
+    },
     "3 RCTs" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4501,6 +4581,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "3項隨機對照試驗"
+          }
+        }
+      }
+    },
+    "3–7 days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3–7 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3–7 天"
           }
         }
       }
@@ -4540,6 +4636,38 @@
     },
     "5-HT₂A receptor" : {
 
+    },
+    "5–14 days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5–14 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5–14 天"
+          }
+        }
+      }
+    },
+    "6–24 hours" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6–24 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6–24 小時"
+          }
+        }
+      }
     },
     "7-aminoclonazepam has no meaningful activity at GABA-A — it's an inactive metabolite used as a urinary marker for clonazepam exposure, not a contributor to the drug's effect." : {
       "localizations" : {
@@ -10787,6 +10915,9 @@
         }
       }
     },
+    "Before the usual onset window for your slowest-clearing drug — symptoms, if any, would typically start later." : {
+
+    },
     "Before You Deleted Everything" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16971,6 +17102,22 @@
         }
       }
     },
+    "diazepam, chlordiazepoxide, clonazepam" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地西泮、氯氮䓬、氯硝西泮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地西泮、氯氮䓬、氯硝西泮"
+          }
+        }
+      }
+    },
     "Die Dargebotene Hand" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22356,13 +22503,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "正常代谢型"
+            "value" : "快代谢者"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "正常代謝型"
+            "value" : "快代謝者"
           }
         }
       }
@@ -24312,6 +24459,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "良好"
+          }
+        }
+      }
+    },
+    "Gradual onset, persists until treated." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐渐出现，直到得到治疗才缓解。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐漸出現，直到得到治療才緩解。"
           }
         }
       }
@@ -26361,6 +26524,38 @@
         }
       }
     },
+    "If You Stop" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你停用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你停用"
+          }
+        }
+      }
+    },
+    "If you stop: withdrawal timing" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你停用：戒断时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你停用：戒斷時間"
+          }
+        }
+      }
+    },
     "If you've been using regularly, talk to a doctor about tapering — never stop abruptly." : {
       "localizations" : {
         "zh-Hans" : {
@@ -27470,18 +27665,34 @@
         }
       }
     },
-    "Intermediate metabolizer" : {
+    "intermediate" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "中间代谢型"
+            "value" : "中效"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "中間代謝型"
+            "value" : "中效"
+          }
+        }
+      }
+    },
+    "Intermediate metabolizer" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中间代谢者"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中間代謝者"
           }
         }
       }
@@ -28349,6 +28560,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "體內剩餘"
+          }
+        }
+      }
+    },
+    "Less than a day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不到一天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不到一天"
           }
         }
       }
@@ -29387,6 +29614,22 @@
         }
       }
     },
+    "long-acting" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长效"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長效"
+          }
+        }
+      }
+    },
     "Long-acting benzo switch" : {
       "localizations" : {
         "zh-Hans" : {
@@ -29416,6 +29659,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "長效阿片受體拮抗劑"
+          }
+        }
+      }
+    },
+    "Longer-acting drugs delay onset because the drug is still leaving your system. Active metabolites (diazepam, chlordiazepoxide, clonazepam) can push the window later still." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长效药物会推迟起始，因为药物仍在从体内清除。活性代谢物（地西泮、氯氮䓬、氯硝西泮）会让这一时间窗更晚出现。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長效藥物會延後起始，因為藥物仍在從體內清除。活性代謝物（地西泮、氯氮䓬、氯硝西泮）會讓這一時間窗更晚出現。"
           }
         }
       }
@@ -32867,6 +33126,22 @@
         }
       }
     },
+    "New symptoms the drug wasn't treating — insomnia, tremor, and, after regular use, seizure risk." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药物原本并未治疗的新症状——失眠、震颤，规律使用后还有癫痫发作风险。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥物原本並未治療的新症狀——失眠、震顫，規律使用後還有癲癇發作風險。"
+          }
+        }
+      }
+    },
     "New time on %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -33783,6 +34058,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無半衰期資料 — 未建模消除"
+          }
+        }
+      }
+    },
+    "No half-life on file for your logged drugs, so the onset window can't be placed." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你记录的药物没有半衰期数据，因此无法定位起始时间窗。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你記錄的藥物沒有半衰期資料，因此無法定位起始時間窗。"
           }
         }
       }
@@ -34922,6 +35213,22 @@
         }
       }
     },
+    "Not medical advice. Stopping a benzodiazepine abruptly after regular use can cause seizures. These are population timings, not a taper plan." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非医疗建议。规律使用后突然停用苯二氮䓬类药物可能引发癫痫发作。这些是群体层面的时间，而非减量方案。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非醫療建議。規律使用後突然停用苯二氮䓬類藥物可能引發癲癇發作。這些是群體層面的時間，而非減量方案。"
+          }
+        }
+      }
+    },
     "Not Now" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35742,6 +36049,44 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "起效"
+          }
+        }
+      }
+    },
+    "Onset %@, peak %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Onset %1$@, peak %2$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起始 %@，高峰 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起始 %@，高峰 %@"
+          }
+        }
+      }
+    },
+    "Onset 1–2 days, time-limited (days)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1–2 天出现，持续时间有限（数天）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1–2 天出現，持續時間有限（數天）。"
           }
         }
       }
@@ -36819,6 +37164,9 @@
           }
         }
       }
+    },
+    "Past the typical peak window for your drugs — a protracted tail can still persist for weeks." : {
+
     },
     "Patient Name (Optional)" : {
       "localizations" : {
@@ -38308,13 +38656,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "慢代谢型"
+            "value" : "慢代谢者"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "慢代謝型"
+            "value" : "慢代謝者"
           }
         }
       }
@@ -39996,6 +40344,22 @@
         }
       }
     },
+    "Rebound" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "反跳"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "反跳"
+          }
+        }
+      }
+    },
     "Rebound anxiety is temporary. Avoid caffeine and alcohol. Breathing exercises: 4 in, 7 hold, 8 out." : {
       "localizations" : {
         "zh-Hans" : {
@@ -40870,6 +41234,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "規律性"
+          }
+        }
+      }
+    },
+    "Relapse" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复发"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "復發"
           }
         }
       }
@@ -45320,6 +45700,22 @@
         }
       }
     },
+    "short-acting" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短效"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短效"
+          }
+        }
+      }
+    },
     "Shot" : {
       "localizations" : {
         "zh-Hans" : {
@@ -45786,6 +46182,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "類似於阿立哌唑,作為多巴胺 D2 和血清素 5-HT1A 受體的部分激動劑,以及 5-HT2A 受體的拮抗劑。與阿立哌唑相比,在 D2 受體上的內在活性較低(更像拮抗劑),5-HT1A 部分激動更強,這可能減少靜坐不能並改善耐受性。"
+          }
+        }
+      }
+    },
+    "Since your last dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距上次用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距上次用藥"
           }
         }
       }
@@ -49267,6 +49679,22 @@
         }
       }
     },
+    "temazepam, oxazepam, bromazepam" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "替马西泮、奥沙西泮、溴西泮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "替馬西泮、奧沙西泮、溴西泮"
+          }
+        }
+      }
+    },
     "Text HOME to 741741" : {
       "localizations" : {
         "zh-Hans" : {
@@ -49936,6 +50364,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「絕不可同用」的舊說法在很大程度上是醫學迷思——大型綜述未發現真正的危害。但兩者都會增加心臟負擔，因此也並非可以隨意同用。"
+          }
+        }
+      }
+    },
+    "The original symptoms return — the thing the drug was treating comes back." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原有症状重新出现——药物本来在治疗的问题又回来了。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原有症狀重新出現——藥物本來在治療的問題又回來了。"
+          }
+        }
+      }
+    },
+    "The original symptoms return, briefly stronger than before." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原有症状重新出现，并在短期内比之前更强。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原有症狀重新出現，並在短期內比之前更強。"
           }
         }
       }
@@ -50978,6 +51438,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這將取消緩和期通知。"
+          }
+        }
+      }
+    },
+    "Three kinds of \"withdrawal\"" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三种“戒断”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三種「戒斷」"
           }
         }
       }
@@ -52228,6 +52704,22 @@
         }
       }
     },
+    "triazolam, alprazolam, lorazepam" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三唑仑、阿普唑仑、劳拉西泮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三唑侖、阿普唑侖、勞拉西泮"
+          }
+        }
+      }
+    },
     "Tricyclic antidepressant" : {
       "localizations" : {
         "zh-Hans" : {
@@ -52591,13 +53083,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "超快代谢型"
+            "value" : "超快代谢者"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "超快代謝型"
+            "value" : "超快代謝者"
           }
         }
       }
@@ -54143,6 +54635,22 @@
         }
       }
     },
+    "What stopping looks like, at the population level — three things people call \"withdrawal\" that behave differently, and roughly when each starts for drugs like the ones you've logged. Timing is from research populations, not a prediction for you." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从群体层面看停药会怎样——人们所说的“戒断”其实包含三种表现不同的情况，以及对于你记录过的这类药物，每种大约何时开始。这些时间来自研究人群，并非对你个人的预测。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從群體層面看停藥會怎樣——人們所說的「戒斷」其實包含三種表現不同的情況，以及對於你記錄過的這類藥物，每種大約何時開始。這些時間來自研究人群，並非對你個人的預測。"
+          }
+        }
+      }
+    },
     "What the engine uses" : {
       "localizations" : {
         "zh-Hans" : {
@@ -54450,6 +54958,22 @@
         }
       }
     },
+    "When symptoms start" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "症状何时开始"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "症狀何時開始"
+          }
+        }
+      }
+    },
     "When you stop, that push-back is briefly left unopposed — which is why withdrawal or a comedown often feels like the mirror of the drug's effects (a stimulant's flatness, an opioid's aches)." : {
       "localizations" : {
         "zh-Hans" : {
@@ -54741,6 +55265,22 @@
         }
       }
     },
+    "Withdrawal" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "戒断"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "戒斷"
+          }
+        }
+      }
+    },
     "Within a session" : {
       "localizations" : {
         "zh-Hans" : {
@@ -54772,6 +55312,9 @@
           }
         }
       }
+    },
+    "Within the window when symptoms for drugs like yours typically begin and peak." : {
+
     },
     "Within-session redose" : {
       "extractionState" : "stale",
@@ -55354,6 +55897,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的飲品"
+          }
+        }
+      }
+    },
+    "your drugs" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的药物"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的藥物"
           }
         }
       }

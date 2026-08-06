@@ -10,6 +10,92 @@ from pathlib import Path
 # Translations: English -> (Simplified, Traditional)
 T = {
     # ---------------------------------------------------------------
+    # I.ref — GABA withdrawal reference card (WithdrawalReferenceView).
+    # Population-level relapse/rebound/withdrawal taxonomy + onset bands.
+    # ---------------------------------------------------------------
+    "If You Stop": ("如果你停用", "如果你停用"),
+    "If you stop: withdrawal timing": ("如果你停用：戒断时间", "如果你停用：戒斷時間"),
+    'What stopping looks like, at the population level — three things people call "withdrawal" that behave differently, and roughly when each starts for drugs like the ones you\'ve logged. Timing is from research populations, not a prediction for you.': (
+        "从群体层面看停药会怎样——人们所说的“戒断”其实包含三种表现不同的情况，以及对于你记录过的这类药物，每种大约何时开始。这些时间来自研究人群，并非对你个人的预测。",
+        "從群體層面看停藥會怎樣——人們所說的「戒斷」其實包含三種表現不同的情況，以及對於你記錄過的這類藥物，每種大約何時開始。這些時間來自研究人群，並非對你個人的預測。",
+    ),
+    'Three kinds of "withdrawal"': ("三种“戒断”", "三種「戒斷」"),
+    "When symptoms start": ("症状何时开始", "症狀何時開始"),
+    "Longer-acting drugs delay onset because the drug is still leaving your system. Active metabolites (diazepam, chlordiazepoxide, clonazepam) can push the window later still.": (
+        "长效药物会推迟起始，因为药物仍在从体内清除。活性代谢物（地西泮、氯氮䓬、氯硝西泮）会让这一时间窗更晚出现。",
+        "長效藥物會延後起始，因為藥物仍在從體內清除。活性代謝物（地西泮、氯氮䓬、氯硝西泮）會讓這一時間窗更晚出現。",
+    ),
+    "Not medical advice. Stopping a benzodiazepine abruptly after regular use can cause seizures. These are population timings, not a taper plan.": (
+        "非医疗建议。规律使用后突然停用苯二氮䓬类药物可能引发癫痫发作。这些是群体层面的时间，而非减量方案。",
+        "非醫療建議。規律使用後突然停用苯二氮䓬類藥物可能引發癲癇發作。這些是群體層面的時間，而非減量方案。",
+    ),
+    "Since your last dose": ("距上次用药", "距上次用藥"),
+    "Less than a day": ("不到一天", "不到一天"),
+    "1 day": ("1 天", "1 天"),
+    "No half-life on file for your logged drugs, so the onset window can't be placed.": (
+        "你记录的药物没有半衰期数据，因此无法定位起始时间窗。",
+        "你記錄的藥物沒有半衰期資料，因此無法定位起始時間窗。",
+    ),
+    "Before the usual onset window for your slowest-clearing drug — symptoms, if any, would typically start later.": (
+        "早于你清除最慢的药物通常的起始时间窗——即使会出现症状，通常也会更晚开始。",
+        "早於你清除最慢的藥物通常的起始時間窗——即使會出現症狀，通常也會更晚開始。",
+    ),
+    "Within the window when symptoms for drugs like yours typically begin and peak.": (
+        "正处于此类药物症状通常开始并达到高峰的时间窗内。",
+        "正處於此類藥物症狀通常開始並達到高峰的時間窗內。",
+    ),
+    "Past the typical peak window for your drugs — a protracted tail can still persist for weeks.": (
+        "已过你的药物通常的高峰时间窗——但迁延的尾期仍可能持续数周。",
+        "已過你的藥物通常的高峰時間窗——但遷延的尾期仍可能持續數週。",
+    ),
+    "Onset %@, peak %@": ("起始 %@，高峰 %@", "起始 %@，高峰 %@"),
+    "your drugs": ("你的药物", "你的藥物"),
+    "long-acting": ("长效", "長效"),
+    "intermediate": ("中效", "中效"),
+    "short-acting": ("短效", "短效"),
+    "diazepam, chlordiazepoxide, clonazepam": (
+        "地西泮、氯氮䓬、氯硝西泮",
+        "地西泮、氯氮䓬、氯硝西泮",
+    ),
+    "temazepam, oxazepam, bromazepam": ("替马西泮、奥沙西泮、溴西泮", "替馬西泮、奧沙西泮、溴西泮"),
+    "triazolam, alprazolam, lorazepam": (
+        "三唑仑、阿普唑仑、劳拉西泮",
+        "三唑侖、阿普唑侖、勞拉西泮",
+    ),
+    "2–7 days": ("2–7 天", "2–7 天"),
+    "5–14 days": ("5–14 天", "5–14 天"),
+    "1–2 days": ("1–2 天", "1–2 天"),
+    "3–7 days": ("3–7 天", "3–7 天"),
+    "6–24 hours": ("6–24 小时", "6–24 小時"),
+    "1–4 days": ("1–4 天", "1–4 天"),
+    "Relapse": ("复发", "復發"),
+    "Rebound": ("反跳", "反跳"),
+    "Withdrawal": ("戒断", "戒斷"),
+    "The original symptoms return — the thing the drug was treating comes back.": (
+        "原有症状重新出现——药物本来在治疗的问题又回来了。",
+        "原有症狀重新出現——藥物本來在治療的問題又回來了。",
+    ),
+    "The original symptoms return, briefly stronger than before.": (
+        "原有症状重新出现，并在短期内比之前更强。",
+        "原有症狀重新出現，並在短期內比之前更強。",
+    ),
+    "New symptoms the drug wasn't treating — insomnia, tremor, and, after regular use, seizure risk.": (
+        "药物原本并未治疗的新症状——失眠、震颤，规律使用后还有癫痫发作风险。",
+        "藥物原本並未治療的新症狀——失眠、震顫，規律使用後還有癲癇發作風險。",
+    ),
+    "Gradual onset, persists until treated.": (
+        "逐渐出现，直到得到治疗才缓解。",
+        "逐漸出現，直到得到治療才緩解。",
+    ),
+    "Onset 1–2 days, time-limited (days).": (
+        "1–2 天出现，持续时间有限（数天）。",
+        "1–2 天出現，持續時間有限（數天）。",
+    ),
+    "2–4 weeks, with a protracted tail in some people.": (
+        "持续 2–4 周，部分人有迁延的尾期。",
+        "持續 2–4 週，部分人有遷延的尾期。",
+    ),
+    # ---------------------------------------------------------------
     # Live Activity timer labels — orphaned in PiruLiveActivityExtension's own
     # catalog, so they shipped English to zh users on the Lock Screen.
     "Elapsed": ("已用时间", "已用時間"),
