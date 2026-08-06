@@ -111,8 +111,13 @@ struct ToleranceRow: Identifiable {
     }
 
     var chartCaption: LocalizedStringResource {
-        let minutes = max(recoveryMinutes(toTolerance: 0.10) ?? 0, 0)
-        let phrase = durationPhrase(minutes: minutes)
+        let nominalMinutes = max(recoveryMinutes(toTolerance: 0.10) ?? 0, 0)
+        let u = snapshot.uncertaintyFraction
+        let optimisticMinutes = max(recoveryMinutes(toTolerance: 0.10, shiftScale: 1 / (1 + u)) ?? 0, 0)
+        let pessimisticMinutes = max(recoveryMinutes(toTolerance: 0.10, shiftScale: 1 + u) ?? 0, 0)
+        let lo = durationPhrase(minutes: min(optimisticMinutes, pessimisticMinutes))
+        let hi = durationPhrase(minutes: max(optimisticMinutes, pessimisticMinutes))
+        let phrase = lo == hi ? lo : "\(lo)–\(hi)"
         if snapshot.sDeep > 0.05 {
             return "Most of it fades in \(phrase) if you stop now — the deep part takes months."
         }
@@ -131,20 +136,17 @@ struct ToleranceRow: Identifiable {
     /// gauge (with the class's mechanism-aware cap, exactly as ``PDModel/responseFraction``) gives the
     /// shift `S` at which that response is reached, then all four layers decay on their own time-constants
     /// to it. The cap must match the curve/bar or the axis span and the plotted line would disagree.
-    func recoveryMinutes(toTolerance target: Double) -> Double? {
-        // Match the gauge's mechanism-aware cap (§5): capped at ½ for release/reuptake proxies, uncapped
-        // (just shy of 1 to avoid a divide-by-zero) for agonists — so the axis span never disagrees with
-        // the plotted line or the bar.
+    func recoveryMinutes(toTolerance target: Double, shiftScale: Double = 1) -> Double? {
         let cap = snapshot.receptorClass.gaugeOccupancyCap ?? 0.999_999
         let occupancy = min(cap, max(0, snapshot.representativeOccupancy))
         let ratio = occupancy / (1 - occupancy)
         let responseTarget = max(0.000_001, 1 - target)
         let targetShift = max(1, (ratio + 1) / responseTarget - ratio)
         let layers = [
-            (s: snapshot.sAcute, tau: params.tauAcuteMinutes),
-            (s: snapshot.sAdaptive, tau: params.tauAdaptiveMinutes),
-            (s: snapshot.sDeep, tau: params.tauDeepMinutes),
-            (s: snapshot.sSynthesis, tau: params.tauSynthesisMinutes),
+            (s: snapshot.sAcute * shiftScale, tau: params.tauAcuteMinutes),
+            (s: snapshot.sAdaptive * shiftScale, tau: params.tauAdaptiveMinutes),
+            (s: snapshot.sDeep * shiftScale, tau: params.tauDeepMinutes),
+            (s: snapshot.sSynthesis * shiftScale, tau: params.tauSynthesisMinutes),
         ]
         return PDModel.shiftDecayMinutes(layers: layers, toShift: targetShift)
     }

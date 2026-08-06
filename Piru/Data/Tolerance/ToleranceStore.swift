@@ -82,6 +82,43 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
         guard let safetyShiftFactor else { return nil }
         return shiftFactor / max(1, safetyShiftFactor)
     }
+
+    /// Confidence-derived half-width of the shift uncertainty band ∈ [0, 1). The band is
+    /// `shiftFactor ÷ (1+u) ... shiftFactor × (1+u)` — wider for lower confidence, reflecting
+    /// that the class kinetics are population averages with varying evidence quality.
+    var uncertaintyFraction: Double {
+        switch confidence {
+        case .high: 0.15
+        case .medium: 0.25
+        case .low: 0.40
+        case .unverified: 0.60
+        }
+    }
+
+    /// Optimistic bound of the shift factor (less tolerance than nominal).
+    var shiftFactorLow: Double {
+        shiftFactor / (1 + uncertaintyFraction)
+    }
+    /// Pessimistic bound of the shift factor (more tolerance than nominal).
+    var shiftFactorHigh: Double {
+        shiftFactor * (1 + uncertaintyFraction)
+    }
+
+    /// Response fraction at the pessimistic (higher) shift — the lower bound of response.
+    var responseFractionLow: Double {
+        PDModel.responseFraction(
+            shiftFactor: shiftFactorHigh, representativeOccupancy: representativeOccupancy,
+            occupancyCap: receptorClass.gaugeOccupancyCap,
+        )
+    }
+
+    /// Response fraction at the optimistic (lower) shift — the upper bound of response.
+    var responseFractionHigh: Double {
+        PDModel.responseFraction(
+            shiftFactor: shiftFactorLow, representativeOccupancy: representativeOccupancy,
+            occupancyCap: receptorClass.gaugeOccupancyCap,
+        )
+    }
 }
 
 /// Owns the user's **per-target tolerance state**, recomputed by replaying the dose log through

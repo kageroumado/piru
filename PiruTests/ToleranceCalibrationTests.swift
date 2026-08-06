@@ -1020,7 +1020,26 @@ struct ToleranceCalibrationTests {
         #expect(atFuOne - atFuReal > 0.4)
     }
 
-    // MARK: - 28. Diazepam-equivalence path: a named benzo uses its validated ratio (§K.4)
+    // MARK: - 28. Uncertainty bands scale with confidence (§E)
+
+    @Test
+    func `Uncertainty bands widen with lower confidence`() throws {
+        let params = ["TestStimulant": Self.stimulant(referenceDoseMg: 60)]
+        let states = ToleranceStore.simulate(
+            doses: Self.dailyDoses("TestStimulant", mg: 40, days: 14),
+            params: params, now: Self.now, weightKg: 70,
+        )
+        let stim = try #require(states[.catecholamineStimulant])
+        #expect(stim.shiftFactorLow < stim.shiftFactor)
+        #expect(stim.shiftFactorHigh > stim.shiftFactor)
+        #expect(stim.responseFractionLow < stim.responseFraction)
+        #expect(stim.responseFractionHigh > stim.responseFraction)
+        let bandWidth = stim.shiftFactorHigh - stim.shiftFactorLow
+        #expect(bandWidth > 0)
+        #expect(stim.uncertaintyFraction == 0.40) // .low confidence class
+    }
+
+    // MARK: - 29. Diazepam-equivalence path: a named benzo uses its validated ratio (§K.4)
 
     @Test
     func `A named PK-less benzo uses its diazepam-equivalence at the low confidence floor`() throws {
