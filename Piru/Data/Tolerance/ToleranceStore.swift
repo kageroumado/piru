@@ -154,6 +154,25 @@ final class ToleranceStore {
         "oxymorphone": 3, "hydromorphone": 4, "tramadol": 0.2,
     ]
 
+    /// **Diazepam-milligram-equivalent** factors — diazepam-mg per 1 mg of the named benzodiazepine.
+    /// The structural analogue of ``opioidMMEPerMg`` for the GABA fallback: a named benzo with no PK
+    /// is modeled as Diazepam at `dose × factor` mg, lifting the confidence floor from `.unverified`
+    /// (dose-fraction guess) to `.low` (validated clinical equivalence). 27 ratios from the Ashton
+    /// manual / manufacturer data, cross-checked against the DB's `diazepam_equivalents` table.
+    /// Designer benzos with no validated equivalence (etizolam excepted) are deliberately absent and
+    /// fall through to the dose-fraction proxy.
+    nonisolated static let gabaDiazepamPerMg: [String: Double] = [
+        "alprazolam": 20, "bromazepam": 1.667, "chlordiazepoxide": 0.2,
+        "clobazam": 0.5, "clonazepam": 20, "clorazepate": 0.667,
+        "diazepam": 1, "estazolam": 5, "etizolam": 10,
+        "flunitrazepam": 10, "flurazepam": 0.333, "halazepam": 0.25,
+        "ketazolam": 0.333, "loprazolam": 5, "lorazepam": 10,
+        "lormetazepam": 10, "medazepam": 0.5, "midazolam": 1.333,
+        "nitrazepam": 2, "nordazepam": 1, "oxazepam": 0.333,
+        "phenazepam": 20, "prazepam": 0.5, "quazepam": 0.667,
+        "temazepam": 0.5, "triazolam": 40,
+    ]
+
     /// Entactogens whose metabolites suppress serotonin synthesis (TPH) → weeks-scale recovery, unlike
     /// the cathinone releasers (mephedrone etc.) which spare synthesis and reset in days (§3.4). Keyed
     /// by canonical name, lowercased. Methylenedioxy entactogens only — **not** cathinones: membership
@@ -768,8 +787,10 @@ final class ToleranceStore {
                     let equivalentDoseMg: Double
                     let confidenceFloor: ConfidenceTier
                     if cls == .muOpioid, let mme = Self.opioidMMEPerMg[dose.substance.lowercased()] {
-                        // Named opioid → CDC morphine-mg-equivalent, modeled as Morphine at that dose.
                         equivalentDoseMg = doseMg * mme
+                        confidenceFloor = .low
+                    } else if cls == .gaba, let deq = Self.gabaDiazepamPerMg[dose.substance.lowercased()] {
+                        equivalentDoseMg = doseMg * deq
                         confidenceFloor = .low
                     } else {
                         // Generic dose-fraction proxy: the same fraction of the heavy ceiling, expressed

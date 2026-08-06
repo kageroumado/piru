@@ -1019,4 +1019,32 @@ struct ToleranceCalibrationTests {
         // occupancy drop is still large.
         #expect(atFuOne - atFuReal > 0.4)
     }
+
+    // MARK: - 28. Diazepam-equivalence path: a named benzo uses its validated ratio (§K.4)
+
+    @Test
+    func `A named PK-less benzo uses its diazepam-equivalence at the low confidence floor`() throws {
+        // Temazepam: diazepam factor 0.5 → 20 mg temazepam ≡ 10 mg diazepam. The equivalence path
+        // carries .low (validated clinical ratio), not .unverified (dose-fraction guess).
+        let params = [
+            "temazepam": Self.pkLessBenzo(name: "temazepam", referenceDoseMg: 30),
+            "Diazepam": Self.diazepam(referenceDoseMg: 30),
+        ]
+        let states = ToleranceStore.simulate(
+            doses: Self.dailyDoses("temazepam", mg: 20, days: 14),
+            params: params, now: Self.now, weightKg: 70,
+        )
+        let gaba = try #require(states[.gaba])
+        #expect(gaba.shiftFactor > 1)
+        #expect(gaba.confidence == .low)
+        #expect(gaba.contributors == ["temazepam"])
+
+        // Cross-check: 20 mg temazepam × 0.5 = 10 mg diazepam — same as logging Diazepam directly.
+        let viaDiazepam = ToleranceStore.simulate(
+            doses: Self.dailyDoses("Diazepam", mg: 10, days: 14),
+            params: params, now: Self.now, weightKg: 70,
+        )
+        let directGaba = try #require(viaDiazepam[.gaba])
+        #expect(abs(gaba.shiftFactor - directGaba.shiftFactor) < 1e-6)
+    }
 }
