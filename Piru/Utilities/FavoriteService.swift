@@ -34,17 +34,24 @@ enum FavoriteService {
             substanceUID: substanceUID, substance: substance,
             isomer: isomer, releaseForm: releaseForm, saltForm: saltForm,
         )
+        let nowFavorite: Bool
         if let existing = favorites.first(where: { $0.identityKey == identity }) {
             context.delete(existing)
-            return false
+            nowFavorite = false
+        } else {
+            let nextOrder = (favorites.map(\.sortOrder).max() ?? -1) + 1
+            context.insert(FavoriteSubstance(
+                substance: substance, sortOrder: nextOrder,
+                substanceUID: substanceUID, isomer: isomer,
+                releaseForm: releaseForm, saltForm: saltForm, productName: productName,
+            ))
+            nowFavorite = true
         }
-        let nextOrder = (favorites.map(\.sortOrder).max() ?? -1) + 1
-        context.insert(FavoriteSubstance(
-            substance: substance, sortOrder: nextOrder,
-            substanceUID: substanceUID, isomer: isomer,
-            releaseForm: releaseForm, saltForm: saltForm, productName: productName,
-        ))
-        return true
+        // Reflect the change on the watch immediately — the favorites/recents manifest
+        // otherwise only refreshes on a dose log. The push reads this same main context,
+        // so it sees the pending insert/delete without waiting for the caller's save.
+        PhoneSyncCoordinator.shared.pushManifest()
+        return nowFavorite
     }
 
     private static func fetchAll(in context: ModelContext) -> [FavoriteSubstance] {

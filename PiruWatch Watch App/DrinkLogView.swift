@@ -52,6 +52,11 @@ struct DrinkVolumeView: View {
     /// Raw Crown accumulator, snapped to ``volumeML`` in 10 mL steps.
     @State private var volumeCrown: Double = 0
     @State private var abv: Double = 0
+    /// The Crown drives whichever element has focus. With the ABV ± and Log buttons
+    /// also focusable, focus has to be pinned to the volume control or the Crown does
+    /// nothing — hence explicit focus here (the amount view needs none: Log is its
+    /// only button).
+    @FocusState private var volumeFocused: Bool
 
     /// Volume nudge, matching the dock's 10 mL increment.
     private static let volumeStepML = 10.0
@@ -81,6 +86,7 @@ struct DrinkVolumeView: View {
             .padding(.top, 2)
         }
         .focusable()
+        .focused($volumeFocused)
         .digitalCrownRotation(
             $volumeCrown,
             from: 0,
@@ -100,6 +106,7 @@ struct DrinkVolumeView: View {
             volumeML = preset.volumeML
             abv = preset.defaultABV
             volumeCrown = preset.volumeML
+            volumeFocused = true
         }
         .navigationTitle("Volume")
         .navigationBarTitleDisplayMode(.inline)
@@ -107,11 +114,12 @@ struct DrinkVolumeView: View {
 
     private var abvStepper: some View {
         HStack(spacing: 8) {
-            Button { abv = max(0.5, abv - 0.5) } label: { Image(systemName: "minus") }
+            // Return focus to the volume Crown after a tap, so it stays adjustable.
+            Button { abv = max(0.5, abv - 0.5); volumeFocused = true } label: { Image(systemName: "minus") }
             Text("\(WatchDoseFormat.amount(abv))% ABV")
                 .font(.caption)
                 .monospacedDigit()
-            Button { abv = min(80, abv + 0.5) } label: { Image(systemName: "plus") }
+            Button { abv = min(80, abv + 0.5); volumeFocused = true } label: { Image(systemName: "plus") }
         }
         .buttonStyle(.bordered)
         .controlSize(.mini)
