@@ -1960,25 +1960,48 @@ final class SubstanceStore {
         """, arguments: [substanceID])
     }
 
-    /// One locale-resolved prose row from a text table, the single definitive
-    /// `LIMIT 1` pass that `resolvedDescription`/`resolvedMechanism` share:
-    /// matching-language text floats above source priority, English/`und` is the
-    /// fallback (see ``ContentLanguage/clauses(column:)``). The table is aliased
-    /// `t`; the returned row also carries `machine_translated` + `source_slug` so
-    /// callers build their typed value. `table` is a fixed internal literal (no
-    /// injection surface).
+    /// One locale-resolved prose row from a text table that
+    /// `resolvedDescription`/`resolvedMechanism` share: matching-language text
+    /// floats above source priority, English/`und` is the language fallback (see
+    /// ``ContentLanguage/clauses(column:)``). Runs a strict enabled-source +
+    /// preferred-language pass first, then a relaxed pass that keeps the same
+    /// ORDER BY but drops the two hard filters, so a substance that only has
+    /// prose from a deprioritized source or another language shows it rather than
+    /// a blank section. The table is aliased `t`; the returned row also carries
+    /// `machine_translated` + `source_slug` so callers build their typed value.
+    /// `table` is a fixed internal literal (no injection surface).
     private func resolvedTextRow(
         db: Database, from table: String, selecting columns: String,
         substanceID: Int64, language: ContentLanguage,
     ) throws -> Row? {
         let lang = language.clauses(column: "t.language")
-        return try Row.fetchOne(db, sql: """
+        // Primary: the highest-priority enabled source, in the preferred language.
+        if let row = try Row.fetchOne(db, sql: """
             SELECT \(columns), t.machine_translated, src.slug AS source_slug
               FROM \(table) t
               JOIN sources src ON src.id = t.source_id
              WHERE t.substance_id = ?
                AND src.slug IN (\(enabledSourceListSQL))
                \(lang.whereAnd)
+             ORDER BY \(lang.orderPrefix)\(priorityCaseSQL) ASC
+             LIMIT 1
+        """, arguments: [substanceID]) {
+            return row
+        }
+        // Fallback: prose exists, just not from an enabled source in the
+        // preferred language — show it rather than a blank section. The same
+        // ORDER BY still floats the preferred language and the user's source
+        // priority to the top (a deprioritized or disabled source sorts last via
+        // priorityCaseSQL's ELSE), so the best available row wins; only the two
+        // hard filters that were hiding it are dropped. This also covers the
+        // empty-source-order window at launch — enabledSourceListSQL is then ''
+        // and matches nothing, which would otherwise blank every overview until
+        // the user's priority list finishes loading.
+        return try Row.fetchOne(db, sql: """
+            SELECT \(columns), t.machine_translated, src.slug AS source_slug
+              FROM \(table) t
+              JOIN sources src ON src.id = t.source_id
+             WHERE t.substance_id = ?
              ORDER BY \(lang.orderPrefix)\(priorityCaseSQL) ASC
              LIMIT 1
         """, arguments: [substanceID])
