@@ -970,21 +970,21 @@ struct ToleranceCalibrationTests {
     // MARK: - 25. Therapeutic alprazolam → gauge close to full (§H.1)
 
     @Test
-    func `Therapeutic alprazolam builds only modest GABA tolerance`() throws {
-        // 1 mg daily for 30 d against a 6 mg heavy ceiling → dose ratio 0.17, far below the deep
-        // gate. VINK12: anxiolytic tolerance does not develop. The blended gauge merges sedative
-        // (tolerizes) and anxiolytic (doesn't) into one scalar; the combined reading must stay
-        // close to full for therapeutic dosing even at fu=1 (§A will lower occupancy further).
+    func `Therapeutic alprazolam builds substantial sedative GABA tolerance`() throws {
+        // 1 mg daily for 30 d against a 6 mg heavy ceiling → dose ratio 0.17, far below the deep gate.
+        // §B.cal: the primary gauge is now the SEDATIVE endpoint alone (VINK12: sedation tolerizes
+        // near-complete), so even at a therapeutic anxiolytic dose the sedative response is roughly
+        // halved — the drowsiness fades while the anxiolytic effect (not gauged here) and the
+        // cognitive-impairment endpoint (shift ≡ 1) do not tolerize. Baseline ~0.48 response / ~3.9×
+        // shift at fu=1 (§A's occupancy correction will temper both).
         let params = ["Alprazolam": Self.alprazolam(referenceDoseMg: 6)]
         let states = ToleranceStore.simulate(
             doses: Self.dailyDoses("Alprazolam", mg: 1, days: 30),
             params: params, now: Self.now, weightKg: 70,
         )
         let gaba = try #require(states[.gaba])
-        // At fu=1 the overestimated occupancy drives the shift higher than reality (§A will
-        // correct this, pushing the reading toward 0.85+). The current baseline is ~0.69.
-        #expect(gaba.responseFraction > 0.60)
-        #expect(gaba.shiftFactor < 2.5) // modest right-shift at therapeutic doses
+        #expect(gaba.responseFraction > 0.40 && gaba.responseFraction < 0.58)
+        #expect(gaba.shiftFactor > 3 && gaba.shiftFactor < 5) // sedative-alone right-shift
         #expect(gaba.sDeep == 0) // GABA deepShiftMax is 0
     }
 
