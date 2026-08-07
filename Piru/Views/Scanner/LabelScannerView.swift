@@ -230,26 +230,30 @@ private struct DataScannerRepresentable: UIViewControllerRepresentable {
         }
     }
 
-    static func dismantleUIViewController(_ scanner: DataScannerViewController, coordinator: Coordinator) {
+    static func dismantleUIViewController(_ scanner: DataScannerViewController, coordinator _: Coordinator) {
         scanner.stopScanning()
     }
 
-    func makeCoordinator() -> Coordinator { Coordinator(model: model) }
+    func makeCoordinator() -> Coordinator {
+        Coordinator(model: model)
+    }
 
     final class Coordinator: NSObject, DataScannerViewControllerDelegate {
         let model: LabelScanModel
         var isScanning = false
 
-        init(model: LabelScanModel) { self.model = model }
+        init(model: LabelScanModel) {
+            self.model = model
+        }
 
-        func dataScanner(_ dataScanner: DataScannerViewController, didTapOn item: RecognizedItem) {
+        func dataScanner(_: DataScannerViewController, didTapOn item: RecognizedItem) {
             model.handleTap(on: item)
         }
 
         func dataScanner(
-            _ dataScanner: DataScannerViewController,
+            _: DataScannerViewController,
             didAdd addedItems: [RecognizedItem],
-            allItems: [RecognizedItem],
+            allItems _: [RecognizedItem],
         ) {
             model.autoHandle(addedItems)
         }

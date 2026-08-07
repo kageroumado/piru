@@ -19,9 +19,15 @@ struct ResolvedDrug {
     var route: RouteOfAdministration?
     let source: Source
 
-    var canonicalName: String { substance.name }
-    var stagingRoute: RouteOfAdministration { route ?? substance.defaultRoute }
-    var stagingUnit: String { unit ?? substance.unit(for: stagingRoute) }
+    var canonicalName: String {
+        substance.name
+    }
+    var stagingRoute: RouteOfAdministration {
+        route ?? substance.defaultRoute
+    }
+    var stagingUnit: String {
+        unit ?? substance.unit(for: stagingRoute)
+    }
     /// The amount to pre-fill in QuickLog: the scanned strength, else the
     /// substance's reference (common) dose for the route, else 0.
     var stagingAmount: Double {

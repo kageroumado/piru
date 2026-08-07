@@ -26,13 +26,15 @@ private struct Entry: TimelineEntry {
 }
 
 private struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> Entry { Entry(date: Date()) }
+    func placeholder(in _: Context) -> Entry {
+        Entry(date: Date())
+    }
 
-    func getSnapshot(in context: Context, completion: @escaping (Entry) -> Void) {
+    func getSnapshot(in _: Context, completion: @escaping (Entry) -> Void) {
         completion(Entry(date: Date()))
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
+    func getTimeline(in _: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         // Static shortcut — one entry, never refreshed.
         completion(Timeline(entries: [Entry(date: Date())], policy: .never))
     }

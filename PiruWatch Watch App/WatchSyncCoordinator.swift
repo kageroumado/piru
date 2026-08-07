@@ -59,8 +59,8 @@ final class WatchSyncCoordinator: NSObject {
 extension WatchSyncCoordinator: WCSessionDelegate {
     nonisolated func session(
         _ session: WCSession,
-        activationDidCompleteWith activationState: WCSessionActivationState,
-        error: Error?,
+        activationDidCompleteWith _: WCSessionActivationState,
+        error _: Error?,
     ) {
         // Decode off the delegate queue: the context dictionary isn't Sendable, the
         // manifest is — so only the manifest crosses onto the main actor.
@@ -68,15 +68,15 @@ extension WatchSyncCoordinator: WCSessionDelegate {
         Task { @MainActor in self.apply(manifest) }
     }
 
-    nonisolated func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
+    nonisolated func session(_: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
         guard let manifest = QuickLogManifest(applicationContext: applicationContext) else { return }
         Task { @MainActor in self.apply(manifest) }
     }
 
     nonisolated func session(
-        _ session: WCSession,
-        didFinish userInfoTransfer: WCSessionUserInfoTransfer,
-        error: Error?,
+        _: WCSession,
+        didFinish _: WCSessionUserInfoTransfer,
+        error _: Error?,
     ) {
         Task { @MainActor in self.pendingCount = max(0, self.pendingCount - 1) }
     }

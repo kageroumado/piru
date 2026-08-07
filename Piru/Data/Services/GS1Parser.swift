@@ -31,13 +31,13 @@ enum GS1Parser {
 
     /// AIs with a defined fixed value width (digits after the 2-char AI).
     private static let fixedWidths: [String: Int] = [
-        "00": 18,  // SSCC
-        "01": 14,  // GTIN
-        "11": 6,   // production date  YYMMDD
-        "13": 6,   // packaging date
-        "15": 6,   // best-before
-        "16": 6,   // sell-by
-        "17": 6,   // expiry          YYMMDD
+        "00": 18, // SSCC
+        "01": 14, // GTIN
+        "11": 6, // production date  YYMMDD
+        "13": 6, // packaging date
+        "15": 6, // best-before
+        "16": 6, // sell-by
+        "17": 6, // expiry          YYMMDD
     ]
 
     static func parse(_ payload: String) -> GS1Data {
@@ -61,7 +61,9 @@ enum GS1Parser {
             } else {
                 // Variable length: consume to the next separator or end.
                 var end = i
-                while end < n, chars[end] != groupSeparator { end += 1 }
+                while end < n, chars[end] != groupSeparator {
+                    end += 1
+                }
                 let value = String(chars[i ..< end])
                 i = end
                 assign(ai: ai, value: value, into: &result)

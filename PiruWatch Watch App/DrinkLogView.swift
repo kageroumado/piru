@@ -92,7 +92,7 @@ struct DrinkVolumeView: View {
         .digitalCrownRotation(
             $volumeCrown,
             from: 0,
-            through: 2000,
+            through: 2_000,
             by: Self.volumeStepML,
             sensitivity: .low,
             isContinuous: false,
@@ -134,8 +134,12 @@ struct DrinkVolumeView: View {
         .controlSize(.mini)
     }
 
-    private var grams: Double { WatchDrinkMath.grams(volumeML: volumeML, abv: abv) }
-    private var drinks: Double { WatchDrinkMath.standardDrinks(volumeML: volumeML, abv: abv) }
+    private var grams: Double {
+        WatchDrinkMath.grams(volumeML: volumeML, abv: abv)
+    }
+    private var drinks: Double {
+        WatchDrinkMath.standardDrinks(volumeML: volumeML, abv: abv)
+    }
 
     private func log() {
         let payload = item.makePayload(

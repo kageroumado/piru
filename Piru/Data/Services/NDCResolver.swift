@@ -12,7 +12,9 @@ struct NDCProduct: Equatable {
     /// openFDA route names, e.g. `["ORAL"]`.
     var routes: [String]
 
-    var displayName: String? { genericName ?? brandName }
+    var displayName: String? {
+        genericName ?? brandName
+    }
 }
 
 /// GTIN → NDC arithmetic. US drug barcodes embed the National Drug Code inside a
@@ -47,11 +49,13 @@ enum NDC {
     static func productNDCCandidates(fromNDC10 ndc10: String) -> [String] {
         let d = Array(ndc10)
         guard d.count == 10 else { return [] }
-        func slice(_ r: Range<Int>) -> String { String(d[r]) }
+        func slice(_ r: Range<Int>) -> String {
+            String(d[r])
+        }
         return [
-            "\(slice(0..<5))-\(slice(5..<9))",   // 5-4-1
-            "\(slice(0..<5))-\(slice(5..<8))",   // 5-3-2
-            "\(slice(0..<4))-\(slice(4..<8))",   // 4-4-2
+            "\(slice(0 ..< 5))-\(slice(5 ..< 9))", // 5-4-1
+            "\(slice(0 ..< 5))-\(slice(5 ..< 8))", // 5-3-2
+            "\(slice(0 ..< 4))-\(slice(4 ..< 8))", // 4-4-2
         ]
     }
 }
@@ -110,7 +114,7 @@ struct NDCResolver {
         )
     }
 
-    private func fetch<T: Decodable>(_ type: T.Type, from url: URL) async -> T? {
+    private func fetch<T: Decodable>(_: T.Type, from url: URL) async -> T? {
         do {
             var request = URLRequest(url: url)
             request.setValue("application/json", forHTTPHeaderField: "Accept")

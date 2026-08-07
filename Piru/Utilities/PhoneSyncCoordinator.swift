@@ -52,7 +52,9 @@ final class PhoneSyncCoordinator: NSObject {
 
         let colors = (try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []
         var hexMap: [String: String] = [:]
-        for color in colors { hexMap[color.substance.lowercased()] = color.hexColor }
+        for color in colors {
+            hexMap[color.substance.lowercased()] = color.hexColor
+        }
 
         let manifest = QuickLogManifestBuilder.build(
             in: context,
@@ -103,24 +105,24 @@ final class PhoneSyncCoordinator: NSObject {
 
 extension PhoneSyncCoordinator: WCSessionDelegate {
     nonisolated func session(
-        _ session: WCSession,
+        _: WCSession,
         activationDidCompleteWith activationState: WCSessionActivationState,
-        error: Error?,
+        error _: Error?,
     ) {
         guard activationState == .activated else { return }
         Task { @MainActor in self.pushManifest() }
     }
 
-    nonisolated func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any]) {
+    nonisolated func session(_: WCSession, didReceiveUserInfo userInfo: [String: Any]) {
         // Decode off the delegate queue: the dictionary isn't Sendable, but the resulting
         // payload is — so only the payload crosses onto the main actor.
         guard let payload = WatchDosePayload(userInfo: userInfo) else { return }
         Task { @MainActor in self.receive(payload) }
     }
 
-    // Required on iOS: after a session deactivates (the user switched paired watches),
-    // reactivate so the new watch is served.
-    nonisolated func sessionDidBecomeInactive(_ session: WCSession) {}
+    /// Required on iOS: after a session deactivates (the user switched paired watches),
+    /// reactivate so the new watch is served.
+    nonisolated func sessionDidBecomeInactive(_: WCSession) {}
 
     nonisolated func sessionDidDeactivate(_ session: WCSession) {
         session.activate()

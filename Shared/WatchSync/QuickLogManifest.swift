@@ -51,12 +51,14 @@ nonisolated struct QuickLogManifestItem: Codable, Hashable, Sendable, Identifiab
     var isByVolume: Bool
 
     // MARK: Drink detail (a specific recorded drink chip) — nil for mass items.
+
     var volumeML: Double?
     var abv: Double?
     var drinkName: String?
     var emoji: String?
 
     // MARK: PSID identity.
+
     var substanceUID: String?
     var isomer: String?
     var releaseForm: String?
@@ -120,14 +122,6 @@ nonisolated struct ManifestDrinkPreset: Codable, Hashable, Sendable, Identifiabl
     var volumeML: Double
     /// Pre-filled ABV %, nudgeable on the watch.
     var defaultABV: Double
-
-    init(id: String, name: String, emoji: String, volumeML: Double, defaultABV: Double) {
-        self.id = id
-        self.name = name
-        self.emoji = emoji
-        self.volumeML = volumeML
-        self.defaultABV = defaultABV
-    }
 }
 
 // MARK: - Watch-side payload construction

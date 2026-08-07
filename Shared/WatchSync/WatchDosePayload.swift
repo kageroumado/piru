@@ -43,6 +43,7 @@ nonisolated struct WatchDosePayload: Codable, Hashable, Sendable, Identifiable {
     var emoji: String?
 
     // MARK: PSID identity — carried from the manifest item so the phone logs the
+
     // right product/family, not a fuzzy name match. All nil for a facet-less log.
 
     var substanceUID: String?
