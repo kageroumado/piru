@@ -658,30 +658,37 @@ struct StagedDoseEditor: View {
     }
 
     private var unitMenu: some View {
-        Menu {
-            ForEach(unitMenuChoices, id: \.self) { unit in
-                Button {
-                    item.unit = unit
-                } label: {
-                    if unit == item.unit {
-                        Label(unit, systemImage: "checkmark")
-                    } else {
-                        Text(unit)
+        // Decoupled + fixed-size like the route pill: as a `Menu` label the
+        // UIKit button sized "mg" outside the transaction, so the amount field's
+        // morph squeezed it into two stacked letters ("m / g") mid-flight.
+        HStack(spacing: 2) {
+            Text(item.unit)
+            Image(systemName: "chevron.down")
+                .font(.caption2.weight(.semibold))
+        }
+        .font(.subheadline.weight(.medium))
+        .foregroundStyle(Theme.secondaryLabel)
+        .fixedSize(horizontal: true, vertical: false)
+        .accessibilityHidden(true)
+        .overlay {
+            Menu {
+                ForEach(unitMenuChoices, id: \.self) { unit in
+                    Button {
+                        item.unit = unit
+                    } label: {
+                        if unit == item.unit {
+                            Label(unit, systemImage: "checkmark")
+                        } else {
+                            Text(unit)
+                        }
                     }
                 }
+            } label: {
+                Color.clear.contentShape(Rectangle())
             }
-        } label: {
-            HStack(spacing: 2) {
-                Text(item.unit)
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.semibold))
-            }
-            .font(.subheadline.weight(.medium))
-            .foregroundStyle(Theme.secondaryLabel)
+            .accessibilityLabel("Dose unit")
+            .accessibilityValue(item.unit)
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Dose unit")
-        .accessibilityValue(item.unit)
     }
 
     private var unitMenuChoices: [String] {
@@ -721,44 +728,55 @@ struct StagedDoseEditor: View {
     }
 
     private var routeMenu: some View {
-        Menu {
-            ForEach(RouteOfAdministration.allCases) { route in
-                Button {
-                    item.route = route
-                    SaltPicker.revalidate(&item.saltForm, against: item.librarySubstance?.saltForms(for: route) ?? [])
-                    IsomerPicker.revalidate(
-                        &item.isomer,
-                        against: (item.librarySubstance?.isomerOptions(for: route) ?? []).map {
-                            IsomerPicker.Option(code: $0.code, displayName: $0.displayName)
-                        },
-                    )
-                } label: {
-                    if route == item.route {
-                        Label(String(localized: route.localizedName), systemImage: "checkmark")
-                    } else {
-                        Text(route.localizedName)
+        // Decoupled like the When chip: the visible pill is plain SwiftUI with
+        // the Menu overlaid as an invisible tap target. As a `Menu` *label* the
+        // pill was sized by the UIKit menu button, which applies the width
+        // outside the SwiftUI transaction — so the tray's expand/collapse morph
+        // interpolated a stale frame and clipped the label ("Sublingual" →
+        // "subling…"). `fixedSize` pins it to its ideal width for the whole
+        // animation; the overlay keeps the width SwiftUI-owned.
+        HStack(spacing: 5) {
+            Image(systemName: "arrow.down.circle")
+                .imageScale(.small)
+            Text(item.route.localizedName)
+                .lineLimit(1)
+            Image(systemName: "chevron.down")
+                .font(.caption2.weight(.semibold))
+        }
+        .font(.footnote.weight(.semibold))
+        .fixedSize(horizontal: true, vertical: false)
+        .padding(.horizontal, 11)
+        .frame(height: pillHeight)
+        .background(Color(.secondarySystemFill), in: Capsule())
+        .foregroundStyle(.primary)
+        .accessibilityHidden(true)
+        .overlay {
+            Menu {
+                ForEach(RouteOfAdministration.allCases) { route in
+                    Button {
+                        item.route = route
+                        SaltPicker.revalidate(&item.saltForm, against: item.librarySubstance?.saltForms(for: route) ?? [])
+                        IsomerPicker.revalidate(
+                            &item.isomer,
+                            against: (item.librarySubstance?.isomerOptions(for: route) ?? []).map {
+                                IsomerPicker.Option(code: $0.code, displayName: $0.displayName)
+                            },
+                        )
+                    } label: {
+                        if route == item.route {
+                            Label(String(localized: route.localizedName), systemImage: "checkmark")
+                        } else {
+                            Text(route.localizedName)
+                        }
                     }
                 }
+            } label: {
+                Color.clear.contentShape(Capsule())
             }
-        } label: {
-            HStack(spacing: 5) {
-                Image(systemName: "arrow.down.circle")
-                    .imageScale(.small)
-                Text(item.route.localizedName)
-                    .lineLimit(1)
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.semibold))
-            }
-            .font(.footnote.weight(.semibold))
-            .padding(.horizontal, 11)
-            .frame(height: pillHeight)
-            .background(Color(.secondarySystemFill), in: Capsule())
-            .foregroundStyle(.primary)
+            .accessibilityLabel("Route")
+            .accessibilityValue(item.route.localizedName)
         }
-        .buttonStyle(.plain)
         .trayMorph(id: "route-\(item.id)", in: namespace, isSource: false)
-        .accessibilityLabel("Route")
-        .accessibilityValue(item.route.localizedName)
     }
 
     // MARK: - Pill picker (branded fixed-strength meds)

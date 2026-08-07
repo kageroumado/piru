@@ -41,10 +41,10 @@ struct TrayStagedListCard: View {
                                 TrayRow(dose: item, model: model, namespace: morphNamespace)
                             }
                         }
-                        .padding(.horizontal, 8)
+                        .padding(.horizontal, 16)
                     }
                     if item.id != lastVisibleID {
-                        Divider().padding(.leading, 42)
+                        Divider().padding(.leading, 16)
                     }
                 }
             }
@@ -594,6 +594,10 @@ struct TrayRow: View {
                     .accessibilityLabel("Needs an amount")
             }
             ROAPill(route: dose.route)
+                // Same squeeze as the amount text below: mid-morph the matched
+                // siblings carry inflated frames that clip "sublingual" into
+                // "subling…". Pin it to its intrinsic width for the animation.
+                .fixedSize()
                 .trayMorph(id: "route-\(dose.id)", in: namespace)
             Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit.unitDisplay(for: dose.totalAmount))")
                 .font(.body.weight(.semibold))

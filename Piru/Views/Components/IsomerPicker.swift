@@ -74,36 +74,44 @@ struct IsomerPicker: View {
     // MARK: Menu pill (tray)
 
     private func menuPill(namespace: Namespace.ID, id: String, height: CGFloat) -> some View {
-        Menu {
-            ForEach(options) { option in
-                Button {
-                    selection = option.code
-                } label: {
-                    if option.code == selection {
-                        Label(label(for: option), systemImage: "checkmark")
-                    } else {
-                        Text(label(for: option))
+        // Decoupled + fixed-size like the tray's route pill: a `Menu` label is
+        // sized by the UIKit menu button outside the SwiftUI transaction, so the
+        // tray's expand/collapse `matchedGeometryEffect` interpolated a stale
+        // frame and clipped the label. The Menu is an invisible overlay instead.
+        HStack(spacing: 5) {
+            Image(systemName: "circle.lefthalf.filled")
+                .imageScale(.small)
+            Text(current.map { label(for: $0) } ?? "")
+            Image(systemName: "chevron.down")
+                .font(.caption2.weight(.semibold))
+        }
+        .font(.footnote.weight(.semibold))
+        .fixedSize(horizontal: true, vertical: false)
+        .padding(.horizontal, 11)
+        .frame(height: height)
+        .background(Color(.secondarySystemFill), in: Capsule())
+        .foregroundStyle(.primary)
+        .accessibilityHidden(true)
+        .overlay {
+            Menu {
+                ForEach(options) { option in
+                    Button {
+                        selection = option.code
+                    } label: {
+                        if option.code == selection {
+                            Label(label(for: option), systemImage: "checkmark")
+                        } else {
+                            Text(label(for: option))
+                        }
                     }
                 }
+            } label: {
+                Color.clear.contentShape(Capsule())
             }
-        } label: {
-            HStack(spacing: 5) {
-                Image(systemName: "circle.lefthalf.filled")
-                    .imageScale(.small)
-                Text(current.map { label(for: $0) } ?? "")
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.semibold))
-            }
-            .font(.footnote.weight(.semibold))
-            .padding(.horizontal, 11)
-            .frame(height: height)
-            .background(Color(.secondarySystemFill), in: Capsule())
-            .foregroundStyle(.primary)
+            .accessibilityLabel(Text("Isomer"))
+            .accessibilityValue(current.map { label(for: $0) } ?? "")
         }
-        .buttonStyle(.plain)
         .matchedGeometryEffect(id: id, in: namespace)
-        .accessibilityLabel(Text("Isomer"))
-        .accessibilityValue(current.map { label(for: $0) } ?? "")
     }
 
     // MARK: Form row (entry forms + library detail)

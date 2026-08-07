@@ -47,36 +47,44 @@ struct SaltPicker: View {
     // MARK: Menu pill (tray)
 
     private func menuPill(namespace: Namespace.ID, id: String, height: CGFloat) -> some View {
-        Menu {
-            ForEach(forms, id: \.self) { form in
-                Button {
-                    selection = form
-                } label: {
-                    if form == selection {
-                        Label(form, systemImage: "checkmark")
-                    } else {
-                        Text(form)
+        // Decoupled + fixed-size like the tray's route pill: a `Menu` label is
+        // sized by the UIKit menu button outside the SwiftUI transaction, so the
+        // tray's expand/collapse `matchedGeometryEffect` interpolated a stale
+        // frame and clipped the label. The Menu is an invisible overlay instead.
+        HStack(spacing: 5) {
+            Image(systemName: "atom")
+                .imageScale(.small)
+            Text(selection ?? forms.first ?? "")
+            Image(systemName: "chevron.down")
+                .font(.caption2.weight(.semibold))
+        }
+        .font(.footnote.weight(.semibold))
+        .fixedSize(horizontal: true, vertical: false)
+        .padding(.horizontal, 11)
+        .frame(height: height)
+        .background(Color(.secondarySystemFill), in: Capsule())
+        .foregroundStyle(.primary)
+        .accessibilityHidden(true)
+        .overlay {
+            Menu {
+                ForEach(forms, id: \.self) { form in
+                    Button {
+                        selection = form
+                    } label: {
+                        if form == selection {
+                            Label(form, systemImage: "checkmark")
+                        } else {
+                            Text(form)
+                        }
                     }
                 }
+            } label: {
+                Color.clear.contentShape(Capsule())
             }
-        } label: {
-            HStack(spacing: 5) {
-                Image(systemName: "atom")
-                    .imageScale(.small)
-                Text(selection ?? forms.first ?? "")
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.semibold))
-            }
-            .font(.footnote.weight(.semibold))
-            .padding(.horizontal, 11)
-            .frame(height: height)
-            .background(Color(.secondarySystemFill), in: Capsule())
-            .foregroundStyle(.primary)
+            .accessibilityLabel("Salt form")
+            .accessibilityValue(selection ?? forms.first ?? "")
         }
-        .buttonStyle(.plain)
         .matchedGeometryEffect(id: id, in: namespace)
-        .accessibilityLabel("Salt form")
-        .accessibilityValue(selection ?? forms.first ?? "")
     }
 
     // MARK: Form row (entry forms + library detail)
