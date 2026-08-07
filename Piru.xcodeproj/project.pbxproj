@@ -9,13 +9,24 @@
 /* Begin PBXBuildFile section */
 		06C3E897629B462490951D1C /* PiruWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 51DE9CFA11C848FCA878214C /* PiruWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0B1576A92FEBA88900517683 /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 0B1576A82FEBA88900517683 /* AsyncAlgorithms */; };
+		0B33C3993025783600182A68 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B793F0F2F55446700FB3EE1 /* WidgetKit.framework */; };
+		0B33C39A3025783600182A68 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B793F112F55446700FB3EE1 /* SwiftUI.framework */; };
+		0B33C3A53025783800182A68 /* PiruComplicationExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0B33C3983025783600182A68 /* PiruComplicationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0B793F102F55446700FB3EE1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B793F0F2F55446700FB3EE1 /* WidgetKit.framework */; };
 		0B793F122F55446700FB3EE1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B793F112F55446700FB3EE1 /* SwiftUI.framework */; };
 		0B793F1F2F55446900FB3EE1 /* PiruLiveActivityExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0B793F0D2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0B7A7C0000000000000000A3 /* PiruWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0B3399093025398800182A68 /* PiruWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0B7CFB712FC48B84007EE957 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 0B7CFB702FC48B84007EE957 /* GRDB */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0B33C3A33025783800182A68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B793EF32F55434700FB3EE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0B33C3973025783600182A68;
+			remoteInfo = PiruComplicationExtension;
+		};
 		0B793F1D2F55446900FB3EE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0B793EF32F55434700FB3EE1 /* Project object */;
@@ -30,6 +41,13 @@
 			remoteGlobalIDString = 0B793EFA2F55434700FB3EE1;
 			remoteInfo = Piru;
 		};
+		0B7A7C0000000000000000A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B793EF32F55434700FB3EE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0B3399083025398800182A68;
+			remoteInfo = "PiruWatch Watch App";
+		};
 		CE814B69A2584184B107983E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0B793EF32F55434700FB3EE1 /* Project object */;
@@ -40,6 +58,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0B33C3A63025783800182A68 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				0B33C3A53025783800182A68 /* PiruComplicationExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+		};
 		0B793F242F55446900FB3EE1 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			dstPath = "";
@@ -50,9 +77,20 @@
 			);
 			name = "Embed Foundation Extensions";
 		};
+		0B7A7C0000000000000000A4 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolder = Product;
+			files = (
+				0B7A7C0000000000000000A3 /* PiruWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0B3399093025398800182A68 /* PiruWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PiruWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B33C3983025783600182A68 /* PiruComplicationExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PiruComplicationExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B793EFB2F55434700FB3EE1 /* Piru.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Piru.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B793F0D2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PiruLiveActivityExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B793F0F2F55446700FB3EE1 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -62,6 +100,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0B33C3AA3025783800182A68 /* Exceptions for "PiruComplication" folder in "PiruComplicationExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 0B33C3973025783600182A68 /* PiruComplicationExtension */;
+		};
 		0B793F202F55446900FB3EE1 /* Exceptions for "PiruLiveActivityExtension" folder in "PiruLiveActivityExtensionExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -76,6 +121,14 @@
 			);
 			target = 0B793EFA2F55434700FB3EE1 /* Piru */;
 		};
+		0BFA00CE00000000000000E1 /* Exceptions for "Shared" folder in "PiruWatch Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				WatchSync/QuickLogManifest.swift,
+				WatchSync/WatchDosePayload.swift,
+			);
+			target = 0B3399083025398800182A68 /* PiruWatch Watch App */;
+		};
 		8B60329FAFD54E779AA40D87 /* Exceptions for "PiruWidget" folder in "PiruWidget" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -86,6 +139,19 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		0B33990A3025398800182A68 /* PiruWatch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "PiruWatch Watch App";
+			sourceTree = "<group>";
+		};
+		0B33C39B3025783600182A68 /* PiruComplication */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0B33C3AA3025783800182A68 /* Exceptions for "PiruComplication" folder in "PiruComplicationExtension" target */,
+			);
+			path = PiruComplication;
+			sourceTree = "<group>";
+		};
 		0B793EFD2F55434700FB3EE1 /* Piru */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -109,6 +175,9 @@
 		};
 		0B793F332F55449100FB3EE1 /* Shared */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0BFA00CE00000000000000E1 /* Exceptions for "Shared" folder in "PiruWatch Watch App" target */,
+			);
 			path = Shared;
 			sourceTree = "<group>";
 		};
@@ -123,6 +192,18 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0B3399063025398800182A68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		0B33C3953025783600182A68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				0B33C39A3025783600182A68 /* SwiftUI.framework in Frameworks */,
+				0B33C3993025783600182A68 /* WidgetKit.framework in Frameworks */,
+			);
+		};
 		0B793EF82F55434700FB3EE1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
@@ -158,6 +239,8 @@
 				0B793F132F55446700FB3EE1 /* PiruLiveActivityExtension */,
 				E37779A4C7B34538AC590549 /* PiruWidget */,
 				0B793F2A2F55448700FB3EE1 /* PiruTests */,
+				0B33990A3025398800182A68 /* PiruWatch Watch App */,
+				0B33C39B3025783600182A68 /* PiruComplication */,
 				0B793F0E2F55446700FB3EE1 /* Frameworks */,
 				0B793EFC2F55434700FB3EE1 /* Products */,
 			);
@@ -170,6 +253,8 @@
 				0B793F0D2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension.appex */,
 				0B793F292F55448700FB3EE1 /* PiruTests.xctest */,
 				51DE9CFA11C848FCA878214C /* PiruWidget.appex */,
+				0B3399093025398800182A68 /* PiruWatch Watch App.app */,
+				0B33C3983025783600182A68 /* PiruComplicationExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -186,6 +271,46 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0B3399083025398800182A68 /* PiruWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B3399133025398900182A68 /* Build configuration list for PBXNativeTarget "PiruWatch Watch App" */;
+			buildPhases = (
+				0B3399053025398800182A68 /* Sources */,
+				0B3399063025398800182A68 /* Frameworks */,
+				0B3399073025398800182A68 /* Resources */,
+				0B33C3A63025783800182A68 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0B33C3A43025783800182A68 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0B33990A3025398800182A68 /* PiruWatch Watch App */,
+			);
+			name = "PiruWatch Watch App";
+			productName = "PiruWatch Watch App";
+			productReference = 0B3399093025398800182A68 /* PiruWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0B33C3973025783600182A68 /* PiruComplicationExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B33C3A93025783800182A68 /* Build configuration list for PBXNativeTarget "PiruComplicationExtension" */;
+			buildPhases = (
+				0B33C3943025783600182A68 /* Sources */,
+				0B33C3953025783600182A68 /* Frameworks */,
+				0B33C3963025783600182A68 /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				0B33C39B3025783600182A68 /* PiruComplication */,
+			);
+			name = PiruComplicationExtension;
+			productName = PiruComplicationExtension;
+			productReference = 0B33C3983025783600182A68 /* PiruComplicationExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		0B793EFA2F55434700FB3EE1 /* Piru */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0B793F062F55434900FB3EE1 /* Build configuration list for PBXNativeTarget "Piru" */;
@@ -194,12 +319,14 @@
 				0B793EF82F55434700FB3EE1 /* Frameworks */,
 				0B793EF92F55434700FB3EE1 /* Resources */,
 				0B793F242F55446900FB3EE1 /* Embed Foundation Extensions */,
+				0B7A7C0000000000000000A4 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				0B793F1E2F55446900FB3EE1 /* PBXTargetDependency */,
 				EBC3FB5B0B3342D8934D5D30 /* PBXTargetDependency */,
+				0B7A7C0000000000000000A2 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				0B793EFD2F55434700FB3EE1 /* Piru */,
@@ -280,9 +407,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2640;
+				LastSwiftUpdateCheck = 2660;
 				LastUpgradeCheck = 2660;
 				TargetAttributes = {
+					0B3399083025398800182A68 = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					0B33C3973025783600182A68 = {
+						CreatedOnToolsVersion = 26.6;
+					};
 					0B793EFA2F55434700FB3EE1 = {
 						CreatedOnToolsVersion = 26.4;
 					};
@@ -319,11 +452,23 @@
 				0B793F0C2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension */,
 				0B793F282F55448700FB3EE1 /* PiruTests */,
 				40905C6634D1463ABA5AADE3 /* PiruWidget */,
+				0B3399083025398800182A68 /* PiruWatch Watch App */,
+				0B33C3973025783600182A68 /* PiruComplicationExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0B3399073025398800182A68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		0B33C3963025783600182A68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
 		0B793EF92F55434700FB3EE1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
@@ -347,6 +492,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0B3399053025398800182A68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		0B33C3943025783600182A68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 		0B793EF72F55434700FB3EE1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
@@ -370,6 +525,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0B33C3A43025783800182A68 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0B33C3973025783600182A68 /* PiruComplicationExtension */;
+			targetProxy = 0B33C3A33025783800182A68 /* PBXContainerItemProxy */;
+		};
 		0B793F1E2F55446900FB3EE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0B793F0C2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension */;
@@ -380,6 +540,11 @@
 			target = 0B793EFA2F55434700FB3EE1 /* Piru */;
 			targetProxy = 0B793F2D2F55448700FB3EE1 /* PBXContainerItemProxy */;
 		};
+		0B7A7C0000000000000000A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0B3399083025398800182A68 /* PiruWatch Watch App */;
+			targetProxy = 0B7A7C0000000000000000A1 /* PBXContainerItemProxy */;
+		};
 		EBC3FB5B0B3342D8934D5D30 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 40905C6634D1463ABA5AADE3 /* PiruWidget */;
@@ -388,6 +553,146 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0B3399113025398900182A68 /* Debug configuration for PBXNativeTarget "PiruWatch Watch App" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 52K336H235;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Piru;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Piru reads your body weight to make dose and alcohol-strength estimates accurate for your body, and — if you enable it — your heart rate and blood pressure to show how your body responded during a session. Everything is read-only on your device and is never shared.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Piru reads your body weight, heart rate, and blood pressure from Health to personalize estimates and show your body's response during a session. It does not write any data back to Health.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Piru attaches the place where you took a dose so you can see it in your journal. Location is stored only on your device and is never shared.";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.yumeji.piru;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		0B3399123025398900182A68 /* Release configuration for PBXNativeTarget "PiruWatch Watch App" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 52K336H235;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Piru;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Piru reads your body weight to make dose and alcohol-strength estimates accurate for your body, and — if you enable it — your heart rate and blood pressure to show how your body responded during a session. Everything is read-only on your device and is never shared.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Piru reads your body weight, heart rate, and blood pressure from Health to personalize estimates and show your body's response during a session. It does not write any data back to Health.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Piru attaches the place where you took a dose so you can see it in your journal. Location is stored only on your device and is never shared.";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.yumeji.piru;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		0B33C3A73025783800182A68 /* Debug configuration for PBXNativeTarget "PiruComplicationExtension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 52K336H235;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PiruComplication/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PiruComplication;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.watchkitapp.complication;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		0B33C3A83025783800182A68 /* Release configuration for PBXNativeTarget "PiruComplicationExtension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 52K336H235;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PiruComplication/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PiruComplication;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.watchkitapp.complication;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
 		0B793F042F55434900FB3EE1 /* Debug configuration for PBXProject "Piru" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -762,6 +1067,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0B3399133025398900182A68 /* Build configuration list for PBXNativeTarget "PiruWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B3399113025398900182A68 /* Debug configuration for PBXNativeTarget "PiruWatch Watch App" */,
+				0B3399123025398900182A68 /* Release configuration for PBXNativeTarget "PiruWatch Watch App" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		0B33C3A93025783800182A68 /* Build configuration list for PBXNativeTarget "PiruComplicationExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B33C3A73025783800182A68 /* Debug configuration for PBXNativeTarget "PiruComplicationExtension" */,
+				0B33C3A83025783800182A68 /* Release configuration for PBXNativeTarget "PiruComplicationExtension" */,
+			);
+			defaultConfigurationName = Release;
+		};
 		0B793EF62F55434700FB3EE1 /* Build configuration list for PBXProject "Piru" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

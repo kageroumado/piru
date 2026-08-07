@@ -705,16 +705,7 @@ struct StagedDoseEditor: View {
     /// library knows one (LSD → 10 µg, pregabalin → 25 mg), falling back to a
     /// magnitude table for unknowns.
     private var amountStep: Double {
-        if let reference = item.referenceDose {
-            return DoseStepping.niceStep(for: reference)
-        }
-        return switch item.amount {
-        case ..<2: 0.25
-        case ..<10: 1
-        case ..<100: 5
-        case ..<1_000: 25
-        default: 100
-        }
+        DoseStepping.step(referenceDose: item.referenceDose, amount: item.amount)
     }
 
     private func setAmount(_ value: Double) {

@@ -81,6 +81,11 @@ struct PiruApp: App {
         DoseNotificationManager.registerCategories()
         DoseNotificationManager.modelContainer = container
 
+        // Activate the Apple Watch sync: push the favorites/recents manifest to the wrist
+        // and receive watch-logged doses through the canonical insert path. No-op where
+        // WatchConnectivity is unsupported (iPad, Mac). See Specs/apple-watch-companion.md.
+        PhoneSyncCoordinator.shared.configure(container: container)
+
         // BackgroundTasks is unsupported on iOS-apps-on-Mac — register raises an
         // uncatchable NSInternalInconsistencyException → SIGABRT before any window.
         if !ProcessInfo.processInfo.isiOSAppOnMac {

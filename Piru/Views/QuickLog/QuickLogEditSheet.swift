@@ -162,6 +162,7 @@ struct QuickLogEditSheet: View {
             favorite.sortOrder = index
         }
         try? modelContext.save()
+        PhoneSyncCoordinator.shared.pushManifest()
     }
 
     private func deleteFavorites(at offsets: IndexSet) {
@@ -169,6 +170,7 @@ struct QuickLogEditSheet: View {
             modelContext.delete(favorites[index])
         }
         try? modelContext.save()
+        PhoneSyncCoordinator.shared.pushManifest()
     }
 
     // MARK: Drinks
