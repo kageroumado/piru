@@ -57,7 +57,7 @@ struct LoggedOverlay: View {
 extension Color {
     /// Parse `#RRGGBB` (or bare `RRGGBB`) into a Color. Returns nil for anything else, so the
     /// caller falls back to the accent color.
-    init?(hexString: String) {
+    nonisolated init?(hexString: String) {
         var hex = hexString.trimmingCharacters(in: .whitespaces)
         if hex.hasPrefix("#") { hex.removeFirst() }
         guard hex.count == 6, let value = UInt32(hex, radix: 16) else { return nil }

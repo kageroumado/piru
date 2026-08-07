@@ -111,7 +111,6 @@ struct ToleranceRow: Identifiable {
     }
 
     var chartCaption: LocalizedStringResource {
-        let nominalMinutes = max(recoveryMinutes(toTolerance: 0.10) ?? 0, 0)
         let u = snapshot.uncertaintyFraction
         let optimisticMinutes = max(recoveryMinutes(toTolerance: 0.10, shiftScale: 1 / (1 + u)) ?? 0, 0)
         let pessimisticMinutes = max(recoveryMinutes(toTolerance: 0.10, shiftScale: 1 + u) ?? 0, 0)
