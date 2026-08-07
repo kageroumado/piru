@@ -646,6 +646,12 @@
   "title": "Going deeper into the toxicokinetics of synthetic cannabinoids: in vitro contribution of human carboxylesterases",
   "year": "2022"
  },
+ "doi:10.1007/s00204-024-03774-7": {
+  "journal": "Archives of toxicology",
+  "subjects": [],
+  "title": "In vitro structure-activity relationships and forensic case series of emerging 2-benzylbenzimidazole 'nitazene' opioids",
+  "year": "2024"
+ },
  "doi:10.1007/s00204-025-03965-w": {
   "journal": "Archives of toxicology",
   "subjects": [],
@@ -972,6 +978,12 @@
   "year": ""
  },
  "doi:10.1016/0304-3940(95)11343-7": null,
+ "doi:10.1016/0960-894x(95)00573-c": {
+  "journal": "Bioorganic &amp; Medicinal Chemistry Letters",
+  "subjects": [],
+  "title": "Structure activity relationships of tetrahydrocannabinol analogues on human cannabinoid receptors",
+  "year": 1996
+ },
  "doi:10.1016/j.aca.2014.04.015": {
   "journal": "Analytica Chimica Acta",
   "subjects": [],
@@ -983,6 +995,12 @@
   "subjects": [],
   "title": "Every woman deserves a high-volume gynecologic surgeon",
   "year": "2017"
+ },
+ "doi:10.1016/j.annemergmed.2016.03.042": {
+  "journal": "Annals of Emergency Medicine",
+  "subjects": [],
+  "title": "Acute Toxicity Associated With the Recreational Use of the Novel Psychoactive Benzofuran N -methyl-5-(2 aminopropyl)benzofuran",
+  "year": 2017
  },
  "doi:10.1016/j.bbi.2009.08.004": {
   "journal": "Brain, Behavior, and Immunity",
@@ -1019,6 +1037,12 @@
   "subjects": [],
   "title": "Effects of CYP2D6 status on harmaline metabolism, pharmacokinetics and pharmacodynamics, and a pharmacogenetics-based pharmacokinetic model",
   "year": "2009"
+ },
+ "doi:10.1016/j.bcp.2012.01.004": {
+  "journal": "Biochemical pharmacology",
+  "subjects": [],
+  "title": "Monohydroxylated metabolites of the K2 synthetic cannabinoid JWH-073 retain intermediate to high cannabinoid 1 receptor (CB1R) affinity and exhibit neutral antagonist to partial agonist activity",
+  "year": "2012"
  },
  "doi:10.1016/j.bcp.2013.03.022": {
   "journal": "Biochemical pharmacology",
@@ -1116,6 +1140,12 @@
   "subjects": [],
   "title": "Synthesis and biological evaluation of novel antipsychotic trans-4-(2-(1,2,4,5-tetrahydro-3H-benzo[d]azepin-3-yl)ethyl)cyclohexan-1-amine derivatives targeting dopamine/serotonin receptor subtypes",
   "year": 2021
+ },
+ "doi:10.1016/j.bmcl.2022.128637": {
+  "journal": "Bioorganic & medicinal chemistry letters",
+  "subjects": [],
+  "title": "Rationalizing the binding and \u03b1 subtype selectivity of synthesized imidazodiazepines and benzodiazepines at GABAA receptors by using molecular docking studies",
+  "year": "2022"
  },
  "doi:10.1016/j.brainres.2012.10.024": {
   "journal": "Brain research",
@@ -1600,6 +1630,18 @@
   "title": "R-phenibut binds to the \u03b12-\u03b4 subunit of voltage-dependent calcium channels and exerts gabapentin-like anti-nociceptive effects",
   "year": "2015"
  },
+ "doi:10.1016/j.pbb.2020.172949": {
+  "journal": "Pharmacology, biochemistry, and behavior",
+  "subjects": [],
+  "title": "Metabolism, CB1 cannabinoid receptor binding and in vivo activity of synthetic cannabinoid 5F-AKB48: Implications for toxicity",
+  "year": "2020"
+ },
+ "doi:10.1016/j.pbb.2022.173467": {
+  "journal": "Pharmacology, biochemistry, and behavior",
+  "subjects": [],
+  "title": "In vitro and in vivo pharmacology of nine novel synthetic cannabinoid receptor agonists",
+  "year": "2022"
+ },
  "doi:10.1016/j.peptides.2011.08.007": {
   "journal": "Peptides",
   "subjects": [],
@@ -1623,6 +1665,12 @@
   "subjects": [],
   "title": "Dioxin mediates downregulation of the reduced folate carrier transport activity via the arylhydrocarbon receptor signalling pathway",
   "year": 2010
+ },
+ "doi:10.1016/j.taap.2013.03.012": {
+  "journal": "Toxicology and applied pharmacology",
+  "subjects": [],
+  "title": "Human metabolites of synthetic cannabinoids JWH-018 and JWH-073 bind with high affinity and act as potent agonists at cannabinoid type-2 receptors",
+  "year": "2013"
  },
  "doi:10.1016/j.taap.2017.02.004": {
   "journal": "Toxicology and Applied Pharmacology",
@@ -1731,6 +1779,12 @@
   "title": "Norketamine, the main metabolite of ketamine, is a non-competitive NMDA receptor antagonist in the rat cortex and spinal cord",
   "year": 1997
  },
+ "doi:10.1016/s0014-2999(97)01255-7": {
+  "journal": "European journal of pharmacology",
+  "subjects": [],
+  "title": "Relative efficacies of cannabinoid CB1 receptor agonists in the mouse brain",
+  "year": "1997"
+ },
  "doi:10.1016/s0014-2999(97)01393-9": {
   "journal": "European journal of pharmacology",
   "subjects": [],
@@ -1756,6 +1810,12 @@
   "year": 1992
  },
  "doi:10.1016/s0028-3908(99)00075-2": null,
+ "doi:10.1016/s0091-3057(96)00565-5": {
+  "journal": "Pharmacology, biochemistry, and behavior",
+  "subjects": [],
+  "title": "Anticonvulsant activity of azirino[1,2-d][1,4]benzodiazepines and related 1,4-benzodiazepines in mice",
+  "year": "1997"
+ },
  "doi:10.1016/s0163-7258(02)00234-6": {
   "journal": "Pharmacology & therapeutics",
   "subjects": [],
@@ -1834,6 +1894,18 @@
   "subjects": [],
   "title": "Effect of carbamazepine on the single oral dose pharmacokinetics of alprazolam",
   "year": "1998"
+ },
+ "doi:10.1016/s0960-894x(01)00193-7": {
+  "journal": "Bioorganic &amp; Medicinal Chemistry Letters",
+  "subjects": [],
+  "title": "Neuronal nicotinic acetylcholine receptor binding affinities of boron-containing nicotine analogues",
+  "year": 2001
+ },
+ "doi:10.1016/s0960-894x(02)00512-7": {
+  "journal": "Bioorganic &amp; Medicinal Chemistry Letters",
+  "subjects": [],
+  "title": "Identification and Structure\u2013Activity Studies of Novel Ultrashort-Acting Benzodiazepine Receptor Agonists",
+  "year": 2002
  },
  "doi:10.1016/s1286-4579(01)01432-0": {
   "journal": "Microbes and infection",
@@ -2100,6 +2172,18 @@
   "title": "Quinazolines and 1,4-benzodiazepines. 90. Structure-activity relationship between substituted 2-amino-N-(2-benzoyl-4-chlorophenyl)acetamides and 1,4-benzodiazepinones",
   "year": "1982"
  },
+ "doi:10.1021/jm00372a012": {
+  "journal": "Journal of Medicinal Chemistry",
+  "subjects": [],
+  "title": "Synthesis of previously inaccessible quinazolines and 1,4-benzodiazepines as potential anticonvulsants",
+  "year": 1984
+ },
+ "doi:10.1021/jm00382a022": {
+  "journal": "Journal of Medicinal Chemistry",
+  "subjects": [],
+  "title": "Specific inhibition of benzodiazepine receptor binding by some N-(indol-3-ylglyoxylyl)amino acid derivatives",
+  "year": 1985
+ },
  "doi:10.1021/jm010532f": null,
  "doi:10.1021/jm0110789": {
   "journal": "Journal of medicinal chemistry",
@@ -2200,6 +2284,12 @@
   "year": 1998
  },
  "doi:10.1021/jm980394k": null,
+ "doi:10.1021/jm990341r": {
+  "journal": "Journal of Medicinal Chemistry",
+  "subjects": [],
+  "title": "Pharmacophore/Receptor Models for GABA<sub>A</sub>/BzR Subtypes (\u03b11\u03b23\u03b32, \u03b15\u03b23\u03b32, and \u03b16\u03b23\u03b32) via a Comprehensive Ligand-Mapping Approach",
+  "year": 1999
+ },
  "doi:10.1021/np0205699": {
   "journal": "Journal of Natural Products",
   "subjects": [],
@@ -2211,6 +2301,12 @@
   "subjects": [],
   "title": "Divinatorins A\u2212C, New Neoclerodane Diterpenoids from the Controlled Sage <i>Salvia </i><i>d</i><i>ivinorum</i>",
   "year": 2003
+ },
+ "doi:10.1021/np50094a001": {
+  "journal": "Journal of Natural Products",
+  "subjects": [],
+  "title": "The Role of Receptor Binding in Drug Discovery",
+  "year": 1993
  },
  "doi:10.1021/ol0510522": {
   "journal": "Organic letters",
@@ -2536,6 +2632,12 @@
   "subjects": [],
   "title": "Hydroxynorketamine, but not ketamine, acts via \u03b17 nicotinic acetylcholine receptor to control presynaptic function and gene expression",
   "year": 2024
+ },
+ "doi:10.1038/s41467-023-40064-9": {
+  "journal": "Nature Communications",
+  "subjects": [],
+  "title": "A preclinical secondary pharmacology resource illuminates target-adverse drug reaction associations of marketed drugs",
+  "year": 2023
  },
  "doi:10.1038/s41586-021-03769-9": {
   "journal": "Nature",
@@ -2966,6 +3068,12 @@
   "subjects": [],
   "title": "The novel anticonvulsant drug, gabapentin (Neurontin), binds to the alpha2delta subunit of a calcium channel",
   "year": "1996"
+ },
+ "doi:10.1074/jbc.273.27.16865": {
+  "journal": "The Journal of biological chemistry",
+  "subjects": [],
+  "title": "Cannabinoid receptor agonist efficacy for stimulating [35S]GTPgammaS binding to rat cerebellar membranes correlates with agonist-induced decreases in GDP affinity",
+  "year": "1998"
  },
  "doi:10.1074/jbc.m006539200": {
   "journal": "The Journal of biological chemistry",
@@ -3977,6 +4085,12 @@
   "title": "Substituted Amphetamine Derivatives. I. Effect on Uptake and Release of Biogenic Monoamines and on Monoamine Oxidase in the Mouse Brain",
   "year": 1977
  },
+ "doi:10.1111/j.1600-0773.1995.tb01041.x": {
+  "journal": "Pharmacology &amp; Toxicology",
+  "subjects": [],
+  "title": "Interaction of the Chiral Forms of Ketamine with Opioid, Phencyclidine, \u03c3 and Muscarinic Receptors",
+  "year": 1995
+ },
  "doi:10.1111/j.2042-7158.1982.tb04197.x": {
   "journal": "The Journal of pharmacy and pharmacology",
   "subjects": [],
@@ -4232,6 +4346,12 @@
   "year": "2008"
  },
  "doi:10.1124/jpet.108.143818": null,
+ "doi:10.1124/jpet.108.150151": {
+  "journal": "The Journal of pharmacology and experimental therapeutics",
+  "subjects": [],
+  "title": "Activation and desensitization of nicotinic alpha7-type acetylcholine receptors by benzylidene anabaseines and nicotine",
+  "year": "2009"
+ },
  "doi:10.1124/jpet.110.166439": {
   "journal": "The Journal of Pharmacology and Experimental Therapeutics",
   "subjects": [],
@@ -4348,6 +4468,12 @@
   "title": "Chemical Inducers of Rodent Glutathione S-Transferases Down-Regulate Human GSTA1 Transcription through a Mechanism Involving Variant Hepatic Nuclear Factor 1-C",
   "year": 2006
  },
+ "doi:10.1124/mol.106.023044": {
+  "journal": "Molecular pharmacology",
+  "subjects": [],
+  "title": "alpha4beta2 nicotinic receptors with high and low acetylcholine sensitivity: pharmacology, stoichiometry, and sensitivity to long-term exposure to nicotine",
+  "year": "2006"
+ },
  "doi:10.1124/mol.106.028258": {
   "journal": "Molecular pharmacology",
   "subjects": [],
@@ -4372,6 +4498,12 @@
   "subjects": [],
   "title": "Cocaine blocks HERG, but not KvLQT1+minK, potassium channels",
   "year": "2001"
+ },
+ "doi:10.1124/mol.63.6.1223": {
+  "journal": "Molecular pharmacology",
+  "subjects": [],
+  "title": "3,4-methylenedioxymethamphetamine (MDMA, \"Ecstasy\") induces fenfluramine-like proliferative actions on human cardiac valvular interstitial cells in vitro",
+  "year": "2003"
  },
  "doi:10.1124/pr.57.1.3": {
   "journal": "Pharmacological Reviews",
@@ -6159,6 +6291,12 @@
   "title": "Galantamine population pharmacokinetics in patients with Alzheimer's disease: modeling and simulations.",
   "year": "2003"
  },
+ "pmid:12761331": {
+  "journal": "Molecular pharmacology",
+  "subjects": [],
+  "title": "3,4-methylenedioxymethamphetamine (MDMA, \"Ecstasy\") induces fenfluramine-like proliferative actions on human cardiac valvular interstitial cells in vitro.",
+  "year": "2003"
+ },
  "pmid:12762813": {
   "journal": "Journal of natural products",
   "subjects": [],
@@ -6832,6 +6970,12 @@
   "title": "Implications of mechanism-based inhibition of CYP2D6 for the pharmacokinetics and toxicity of MDMA.",
   "year": "2006"
  },
+ "pmid:16720757": {
+  "journal": "Molecular pharmacology",
+  "subjects": [],
+  "title": "alpha4beta2 nicotinic receptors with high and low acetylcholine sensitivity: pharmacology, stoichiometry, and sensitivity to long-term exposure to nicotine.",
+  "year": "2006"
+ },
  "pmid:16723194": {
   "journal": "Drug and alcohol dependence",
   "subjects": [],
@@ -7331,6 +7475,12 @@
   "title": "Neutral antagonist activity of naltrexone and 6beta-naltrexol in na\u00efve and opioid-dependent C6 cells expressing a mu-opioid receptor.",
   "year": "2009"
  },
+ "pmid:19223664": {
+  "journal": "The Journal of pharmacology and experimental therapeutics",
+  "subjects": [],
+  "title": "Activation and desensitization of nicotinic alpha7-type acetylcholine receptors by benzylidene anabaseines and nicotine.",
+  "year": "2009"
+ },
  "pmid:1922378": {
   "journal": "Nature",
   "subjects": [],
@@ -7787,6 +7937,12 @@
   "title": "Clinical Pharmacogenetics Implementation Consortium (CPIC) guidelines for codeine therapy in the context of cytochrome P450 2D6 (CYP2D6) genotype.",
   "year": "2012"
  },
+ "pmid:22266354": {
+  "journal": "Biochemical pharmacology",
+  "subjects": [],
+  "title": "Monohydroxylated metabolites of the K2 synthetic cannabinoid JWH-073 retain intermediate to high cannabinoid 1 receptor (CB1R) affinity and exhibit neutral antagonist to partial agonist activity.",
+  "year": "2012"
+ },
  "pmid:22271821": {
   "journal": "The Journal of pharmacology and experimental therapeutics",
   "subjects": [],
@@ -7995,6 +8151,12 @@
   "journal": "PloS one",
   "subjects": [],
   "title": "The ketamine analogue methoxetamine and 3- and 4-methoxy analogues of phencyclidine are high affinity and selective ligands for the glutamate NMDA receptor.",
+  "year": "2013"
+ },
+ "pmid:23537664": {
+  "journal": "Toxicology and applied pharmacology",
+  "subjects": [],
+  "title": "Human metabolites of synthetic cannabinoids JWH-018 and JWH-073 bind with high affinity and act as potent agonists at cannabinoid type-2 receptors.",
   "year": "2013"
  },
  "pmid:23554428": {
@@ -9053,6 +9215,12 @@
   "title": "Comparison of sublingual and oral prazepam in normal subjects. II. Pharmacokinetic and pharmacodynamic data.",
   "year": "1988"
  },
+ "pmid:2857046": {
+  "journal": "Life sciences",
+  "subjects": [],
+  "title": "Benzodiazepines and their metabolites: relationship between binding affinity to the benzodiazepine receptor and pharmacological activity.",
+  "year": "1985"
+ },
  "pmid:28574245": {
   "journal": "ACS chemical neuroscience",
   "subjects": [],
@@ -9635,6 +9803,12 @@
   "title": "Integrating in vitro data and physiologically based kinetic modeling-facilitated reverse dosimetry to predict human cardiotoxicity of methadone.",
   "year": "2020"
  },
+ "pmid:32413436": {
+  "journal": "Pharmacology, biochemistry, and behavior",
+  "subjects": [],
+  "title": "Metabolism, CB1 cannabinoid receptor binding and in vivo activity of synthetic cannabinoid 5F-AKB48: Implications for toxicity.",
+  "year": "2020"
+ },
  "pmid:32415719": {
   "journal": "Drug testing and analysis",
   "subjects": [],
@@ -10013,6 +10187,12 @@
   "title": "Single and Multiple Dose PK-PD Characterization for Carisoprodol. Part I: Pharmacokinetics, Metabolites, and 2C19 Phenotype Influence. Double-Blind, Placebo-Controlled Clinical Trial in Healthy Volunteers.",
   "year": "2022"
  },
+ "pmid:35218882": {
+  "journal": "Bioorganic & medicinal chemistry letters",
+  "subjects": [],
+  "title": "Rationalizing the binding and \u03b1 subtype selectivity of synthesized imidazodiazepines and benzodiazepines at GABAA receptors by using molecular docking studies.",
+  "year": "2022"
+ },
  "pmid:35257505": {
   "journal": "CPT: pharmacometrics & systems pharmacology",
   "subjects": [],
@@ -10096,6 +10276,12 @@
   "subjects": [],
   "title": "The metabolite ratio as a function of chloral hydrate dose and intracellular redox state in the perfused rat liver.",
   "year": "1987"
+ },
+ "pmid:36154844": {
+  "journal": "Pharmacology, biochemistry, and behavior",
+  "subjects": [],
+  "title": "In vitro and in vivo pharmacology of nine novel synthetic cannabinoid receptor agonists.",
+  "year": "2022"
  },
  "pmid:36407948": {
   "journal": "ACS pharmacology & translational science",
@@ -10353,6 +10539,12 @@
   "journal": "Biomolecules & therapeutics",
   "subjects": [],
   "title": "Structure-Activity Relationship and Functional Evaluation of Cannabinoid Type-1 Receptor.",
+  "year": "2024"
+ },
+ "pmid:38877156": {
+  "journal": "Archives of toxicology",
+  "subjects": [],
+  "title": "In vitro structure-activity relationships and forensic case series of emerging 2-benzylbenzimidazole 'nitazene' opioids.",
   "year": "2024"
  },
  "pmid:38894658": {
@@ -10913,6 +11105,12 @@
   "title": "Pharmacokinetics and pharmacodynamics of smoked heroin.",
   "year": "1994"
  },
+ "pmid:7830281": {
+  "journal": "Journal of medicinal chemistry",
+  "subjects": [],
+  "title": "Cocaine and 3 beta-(4'-substituted phenyl)tropane-2 beta-carboxylic acid ester and amide analogues. New high-affinity and selective compounds for the dopamine transporter.",
+  "year": "1995"
+ },
  "pmid:7847091": {
   "journal": "Acta orthopaedica Belgica",
   "subjects": [],
@@ -11375,6 +11573,12 @@
   "title": "Subcutaneous transposition of the ovary following hysterectomy.",
   "year": "1997"
  },
+ "pmid:9264104": {
+  "journal": "Pharmacology, biochemistry, and behavior",
+  "subjects": [],
+  "title": "Anticonvulsant activity of azirino[1,2-d][1,4]benzodiazepines and related 1,4-benzodiazepines in mice.",
+  "year": "1997"
+ },
  "pmid:9272811": {
   "journal": "Pain",
   "subjects": [],
@@ -11403,6 +11607,12 @@
   "journal": "Journal of analytical toxicology",
   "subjects": [],
   "title": "Cocaine disposition in saliva following intravenous, intranasal, and smoked administration.",
+  "year": "1997"
+ },
+ "pmid:9384246": {
+  "journal": "European journal of pharmacology",
+  "subjects": [],
+  "title": "Relative efficacies of cannabinoid CB1 receptor agonists in the mouse brain.",
   "year": "1997"
  },
  "pmid:9400006": {
@@ -11463,6 +11673,12 @@
   "journal": "Drug metabolism and disposition: the biological fate of chemicals",
   "subjects": [],
   "title": "Trazodone is metabolized to m-chlorophenylpiperazine by CYP3A4 from human sources.",
+  "year": "1998"
+ },
+ "pmid:9642247": {
+  "journal": "The Journal of biological chemistry",
+  "subjects": [],
+  "title": "Cannabinoid receptor agonist efficacy for stimulating [35S]GTPgammaS binding to rat cerebellar membranes correlates with agonist-induced decreases in GDP affinity.",
   "year": "1998"
  },
  "pmid:9663813": {
