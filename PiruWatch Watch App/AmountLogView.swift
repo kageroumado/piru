@@ -8,7 +8,10 @@ struct AmountLogView: View {
 
     @Environment(WatchSyncCoordinator.self) private var sync
     @Environment(\.dismiss) private var dismiss
+    /// The value logged — always the tile amount ± a whole number of steps.
     @State private var amount: Double = 0
+    /// The raw Crown accumulator, snapped to ``amount`` on change.
+    @State private var crown: Double = 0
 
     var body: some View {
         VStack(spacing: 6) {
@@ -35,15 +38,24 @@ struct AmountLogView: View {
         }
         .focusable()
         .digitalCrownRotation(
-            $amount,
+            $crown,
             from: 0,
-            through: max(item.amount * 10, 1000),
-            by: AmountStep.forAmount(item.amount),
+            through: max(item.amount * 10, item.step * 200),
+            by: item.step,
             sensitivity: .low,
             isContinuous: false,
             isHapticFeedbackEnabled: true,
         )
-        .onAppear { amount = item.amount }
+        .onChange(of: crown) { _, raw in
+            // Snap to the dock's increment, anchored to the tile amount — so a 125 mg
+            // chip nudges 115 / 125 / 135, never an off-ladder 124.5.
+            let steps = ((raw - item.amount) / item.step).rounded()
+            amount = max(0, item.amount + steps * item.step)
+        }
+        .onAppear {
+            amount = item.amount
+            crown = item.amount
+        }
         .navigationTitle("Amount")
         .navigationBarTitleDisplayMode(.inline)
     }

@@ -38,6 +38,10 @@ nonisolated struct QuickLogManifestItem: Codable, Hashable, Sendable, Identifiab
     /// Default amount in ``unit`` — the watch's Digital Crown nudges from here.
     var amount: Double
     var unit: String
+    /// Digital-Crown increment, computed on the phone with the same `DoseStepping`
+    /// logic the quick-log dock uses, so the watch nudges in identical steps (no
+    /// off-ladder values like 124.5). Always > 0.
+    var step: Double
     /// Tile color as a hex string (the substance's palette color), or nil for default.
     var colorHex: String?
     /// Whether the user has this substance favorited (vs. a plain recent).
@@ -66,6 +70,7 @@ nonisolated struct QuickLogManifestItem: Codable, Hashable, Sendable, Identifiab
         route: String,
         amount: Double,
         unit: String,
+        step: Double = 1,
         colorHex: String? = nil,
         isFavorite: Bool = false,
         isByVolume: Bool = false,
@@ -85,6 +90,7 @@ nonisolated struct QuickLogManifestItem: Codable, Hashable, Sendable, Identifiab
         self.route = route
         self.amount = amount
         self.unit = unit
+        self.step = step
         self.colorHex = colorHex
         self.isFavorite = isFavorite
         self.isByVolume = isByVolume

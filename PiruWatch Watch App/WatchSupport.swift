@@ -18,19 +18,6 @@ enum WatchDoseFormat {
     }
 }
 
-/// Digital-Crown step sizing for a mass dose — a coarse "nice" increment scaled to the amount,
-/// so nudging a 100 mg dose moves in 10s while a 0.5 mg one moves in 0.1s.
-enum AmountStep {
-    static func forAmount(_ base: Double) -> Double {
-        switch base {
-        case 100...: 10
-        case 10...: 1
-        case 1...: 0.5
-        default: 0.1
-        }
-    }
-}
-
 /// Grams of ethanol for a drink — display-only on the watch (the phone recomputes the canonical
 /// stored value with `ByVolumeDosing`). Kept identical to that formula: volume × (ABV/100) × 0.789.
 enum WatchDrinkMath {

@@ -49,7 +49,12 @@ struct DrinkVolumeView: View {
     @Environment(WatchSyncCoordinator.self) private var sync
     @Environment(\.dismiss) private var dismiss
     @State private var volumeML: Double = 0
+    /// Raw Crown accumulator, snapped to ``volumeML`` in 10 mL steps.
+    @State private var volumeCrown: Double = 0
     @State private var abv: Double = 0
+
+    /// Volume nudge, matching the dock's 10 mL increment.
+    private static let volumeStepML = 10.0
 
     var body: some View {
         VStack(spacing: 4) {
@@ -77,17 +82,24 @@ struct DrinkVolumeView: View {
         }
         .focusable()
         .digitalCrownRotation(
-            $volumeML,
-            from: 10,
-            through: 1500,
-            by: 10,
+            $volumeCrown,
+            from: 0,
+            through: 2000,
+            by: Self.volumeStepML,
             sensitivity: .low,
             isContinuous: false,
             isHapticFeedbackEnabled: true,
         )
+        .onChange(of: volumeCrown) { _, raw in
+            // Snap to 10 mL steps anchored to the preset volume, so a 44 mL shot
+            // nudges 34 / 44 / 54 rather than a jittery 41.7.
+            let steps = ((raw - preset.volumeML) / Self.volumeStepML).rounded()
+            volumeML = max(0, preset.volumeML + steps * Self.volumeStepML)
+        }
         .onAppear {
             volumeML = preset.volumeML
             abv = preset.defaultABV
+            volumeCrown = preset.volumeML
         }
         .navigationTitle("Volume")
         .navigationBarTitleDisplayMode(.inline)

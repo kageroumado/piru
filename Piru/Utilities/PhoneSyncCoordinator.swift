@@ -59,6 +59,14 @@ final class PhoneSyncCoordinator: NSObject {
             generatedAt: Date(),
             colorHex: { SubstancePalette.hex(for: $0, hexMap: hexMap) },
             favoriteDefault: Self.favoriteDefault(for:),
+            step: { substance, route, unit, amount in
+                // Same increment the quick-log dock uses: niceStep off the library
+                // reference dose when known, else the magnitude fallback.
+                let reference = StagedDose.lookupReferenceDose(
+                    substance: SubstanceLibrary.lookup(substance), route: route, unit: unit,
+                )
+                return DoseStepping.step(referenceDose: reference, amount: amount)
+            },
         )
         guard let payload = manifest.applicationContext() else { return }
         do {

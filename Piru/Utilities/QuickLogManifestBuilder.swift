@@ -36,6 +36,7 @@ enum QuickLogManifestBuilder {
         colorHex: (String) -> String? = { _ in nil },
         displayName: (QuickLogDose) -> String? = { $0.substance },
         favoriteDefault: (FavoriteSubstance) -> FavoriteDefault? = { _ in nil },
+        step: @MainActor (String, RouteOfAdministration, String, Double) -> Double = Self.fallbackStep,
     ) -> QuickLogManifest {
         let recents = (try? context.fetch(recentsDescriptor())) ?? []
         let favorites = (try? context.fetch(FetchDescriptor<FavoriteSubstance>(
@@ -49,7 +50,14 @@ enum QuickLogManifestBuilder {
             colorHex: colorHex,
             displayName: displayName,
             favoriteDefault: favoriteDefault,
+            step: step,
         )
+    }
+
+    /// Crown step when the caller doesn't resolve a library reference dose — the
+    /// same magnitude fallback the dock uses for unknown substances.
+    static func fallbackStep(_: String, _: RouteOfAdministration, _: String, _ amount: Double) -> Double {
+        DoseStepping.step(referenceDose: nil, amount: amount)
     }
 
     /// Pure assembly over already-fetched rows — the unit-testable core.
@@ -61,6 +69,7 @@ enum QuickLogManifestBuilder {
         colorHex: (String) -> String? = { _ in nil },
         displayName: (QuickLogDose) -> String? = { $0.substance },
         favoriteDefault: (FavoriteSubstance) -> FavoriteDefault? = { _ in nil },
+        step: @MainActor (String, RouteOfAdministration, String, Double) -> Double = Self.fallbackStep,
     ) -> QuickLogManifest {
         let favoriteIdentities = Set(favorites.map(\.identityKey))
         let recentIdentities = Set(recents.map(\.identityKey))
@@ -71,6 +80,7 @@ enum QuickLogManifestBuilder {
                 isFavorite: favoriteIdentities.contains(recent.identityKey),
                 colorHex: colorHex,
                 displayName: displayName,
+                step: step(recent.substance, recent.route, recent.unit, recent.amount),
             )
         }
 
@@ -78,7 +88,8 @@ enum QuickLogManifestBuilder {
         // default dose so the watch can log it.
         for favorite in favorites where !recentIdentities.contains(favorite.identityKey) {
             guard let def = favoriteDefault(favorite) else { continue }
-            items.append(item(from: favorite, default: def, colorHex: colorHex))
+            let s = step(favorite.substance, def.route, def.unit, def.amount)
+            items.append(item(from: favorite, default: def, colorHex: colorHex, step: s))
         }
 
         // Favorites first, otherwise preserve the recents order (stable).
@@ -100,6 +111,7 @@ enum QuickLogManifestBuilder {
         isFavorite: Bool,
         colorHex: (String) -> String?,
         displayName: (QuickLogDose) -> String?,
+        step: Double,
     ) -> QuickLogManifestItem {
         QuickLogManifestItem(
             id: recent.key,
@@ -108,6 +120,7 @@ enum QuickLogManifestBuilder {
             route: recent.route.rawValue,
             amount: recent.amount,
             unit: recent.unit,
+            step: step,
             colorHex: colorHex(recent.substance),
             isFavorite: isFavorite,
             isByVolume: recent.hasDrinkDetail || isByVolume(recent.substance),
@@ -127,6 +140,7 @@ enum QuickLogManifestBuilder {
         from favorite: FavoriteSubstance,
         default def: FavoriteDefault,
         colorHex: (String) -> String?,
+        step: Double,
     ) -> QuickLogManifestItem {
         let id = QuickLogDose.makeKey(
             substance: favorite.substance,
@@ -145,6 +159,7 @@ enum QuickLogManifestBuilder {
             route: def.route.rawValue,
             amount: def.amount,
             unit: def.unit,
+            step: step,
             colorHex: colorHex(favorite.substance),
             isFavorite: true,
             isByVolume: isByVolume(favorite.substance),
