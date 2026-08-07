@@ -6838,6 +6838,42 @@
     ]
   },
   {
+    "name": "4'-DMA-7,8-DHF",
+    "display_name": "",
+    "aliases": [
+      "4'-DMA-DHF"
+    ],
+    "category": "Nootropic",
+    "display_class": "recreational",
+    "tags": [
+      "BDNF",
+      "TrkB-agonist",
+      "flavonoid",
+      "neurotrophic",
+      "nootropic",
+      "research-chemical"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "A small-molecule agonist of TrkB — the receptor for brain-derived neurotrophic factor (BDNF) — that activates TrkB signaling directly, mimicking BDNF. A synthetic 7,8-DHF derivative with higher potency and longer action than the parent.",
+    "effects": [],
+    "references": [
+      "https://doi.org/10.1021/jm101206p",
+      "https://doi.org/10.1093/hmg/ddt098",
+      "https://en.wikipedia.org/wiki/7,8-Dihydroxyflavone"
+    ],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes"
+    ]
+  },
+  {
     "name": "4'-Fluoro-4-methylaminorex",
     "display_name": "4-FPO",
     "aliases": [

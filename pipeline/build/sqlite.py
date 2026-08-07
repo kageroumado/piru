@@ -5377,7 +5377,11 @@ class Build:
                 to_float(b.get("ic50_nm")),
                 to_float(b.get("emax_pct")),
                 to_float(b.get("intrinsic_activity_pct")),
-                to_int(b.get("affinity_tier")),
+                to_int(
+                    b.get("affinity_tier")
+                    if b.get("affinity_tier") is not None
+                    else b.get("affinity")
+                ),
                 to_float(b.get("relative_tau")),
                 b.get("comparable_set"),
                 b.get("reference_agonist"),

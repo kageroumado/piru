@@ -1,0 +1,60 @@
+{
+  "name": "4'-DMA-7,8-DHF",
+  "aliases": [
+    "4'-Dimethylamino-7,8-dihydroxyflavone",
+    "4'-DMA-DHF",
+    "2-[4-(dimethylamino)phenyl]-7,8-dihydroxychromen-4-one"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg"
+    }
+  ],
+  "smiles": "CN(C)C1=CC=C(C=C1)C2=CC(=O)C3=C(O2)C(=C(C=C3)O)O",
+  "inchikey": "YPAYCZOHGRSGJS-UHFFFAOYSA-N",
+  "formula": "C17H15NO4",
+  "pubchemCID": 44610701,
+  "molarMass": 297.3,
+  "effects": [
+    "Synthetic 7,8-dihydroxyflavone (7,8-DHF) derivative",
+    "Selective small-molecule TrkB (BDNF receptor) agonist",
+    "Orally bioavailable and brain-penetrant",
+    "Preclinical antidepressant, pro-neurogenic, and neuroprotective activity",
+    "No established human dosing, pharmacokinetic, or safety data"
+  ],
+  "mechanismOfAction": {
+    "summary": "A small-molecule agonist of TrkB — the receptor for brain-derived neurotrophic factor (BDNF) — that activates TrkB signaling directly, mimicking BDNF. A synthetic 7,8-DHF derivative with higher potency and longer action than the parent.",
+    "description": "4'-DMA-7,8-DHF is a synthetic derivative of 7,8-dihydroxyflavone (7,8-DHF), the small-molecule TrkB agonist. A 4'-dimethylamino substituent gives it higher TrkB agonistic activity than the parent and a more robust, longer-lasting TrkB activation in animals, along with greater antiapoptotic activity; chronic oral dosing promotes hippocampal neurogenesis and produces marked antidepressant effects in mice. In the N171-82Q Huntington's-disease mouse model, chronic 4'-DMA-7,8-DHF (1 mg/kg) improved motor deficits, reduced brain atrophy, preserved striatal DARPP32, and extended survival. All evidence is preclinical (rodent) — no human pharmacokinetic, dose, or safety data exist.",
+    "primaryTargets": [
+      "TrkB (NTRK2)"
+    ],
+    "bindings": [
+      {
+        "target": "TrkB (NTRK2)",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://doi.org/10.1021/jm101206p",
+      "https://doi.org/10.1093/hmg/ddt098"
+    ]
+  },
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/44610701",
+    "https://doi.org/10.1021/jm101206p",
+    "https://doi.org/10.1093/hmg/ddt098",
+    "https://en.wikipedia.org/wiki/7,8-Dihydroxyflavone"
+  ],
+  "tags": [
+    "nootropic",
+    "TrkB-agonist",
+    "BDNF",
+    "neurotrophic",
+    "flavonoid",
+    "research-chemical"
+  ]
+}
