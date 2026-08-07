@@ -612,9 +612,12 @@ private struct BottomAccessoryContent: View {
             }
             .padding(.leading, 16)
             .padding(.trailing, 11)
-            .popoverTip(LogDoseTip(), arrowEdge: .bottom)
             .animation(.snappy, value: showSessionPill)
         }
+        // Outside the periodic closure: attaching it inside re-created the tip's
+        // anchor every 60 s tick, which resurrected the tip after the user
+        // dismissed it. The TimelineView's own frame is a stable anchor.
+        .popoverTip(LogDoseTip(), arrowEdge: .bottom)
     }
 
     private func bodyContent(currentTime: Date) -> some View {

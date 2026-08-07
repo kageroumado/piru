@@ -243,19 +243,20 @@ struct DoseDurationCard: View {
         .accessibilityElement(children: .combine)
     }
 
-    /// Compact duration like "~30–45m", "~1.5–2.5h", or a mixed "~90m–2.5h".
+    /// Compact duration like "~30–45m", "~1.5–2.5h", or "~1–4h". One unit for the
+    /// whole range: a range that reaches into hours renders both bounds in hours,
+    /// so a straddling total reads "~1–4h" rather than a mixed "~60m–4h".
     static func compactDuration(_ range: DurationRange) -> String {
-        func part(_ minutes: Double) -> (value: String, unit: String) {
-            if minutes >= 120 {
+        if range.max >= 120 {
+            func hours(_ minutes: Double) -> String {
                 let h = (minutes / 60 * 2).rounded() / 2
-                return (h == h.rounded() ? "\(Int(h))" : String(format: "%.1f", h), "h")
+                return h == h.rounded() ? "\(Int(h))" : String(format: "%.1f", h)
             }
-            return ("\(Int(minutes.rounded()))", "m")
+            let lo = hours(range.min), hi = hours(range.max)
+            return lo == hi ? "~\(lo)h" : "~\(lo)–\(hi)h"
         }
-        let lo = part(range.min), hi = part(range.max)
-        if lo.value == hi.value, lo.unit == hi.unit { return "~\(lo.value)\(lo.unit)" }
-        if lo.unit == hi.unit { return "~\(lo.value)–\(hi.value)\(lo.unit)" }
-        return "~\(lo.value)\(lo.unit)–\(hi.value)\(hi.unit)"
+        let lo = Int(range.min.rounded()), hi = Int(range.max.rounded())
+        return lo == hi ? "~\(lo)m" : "~\(lo)–\(hi)m"
     }
 }
 
