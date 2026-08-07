@@ -57,6 +57,8 @@ struct DrinkVolumeView: View {
     /// nothing — hence explicit focus here (the amount view needs none: Log is its
     /// only button).
     @FocusState private var volumeFocused: Bool
+    /// Shows the "Logged" confirmation, then returns to the grid.
+    @State private var confirming = false
 
     /// Volume nudge, matching the dock's 10 mL increment.
     private static let volumeStepML = 10.0
@@ -108,6 +110,13 @@ struct DrinkVolumeView: View {
             volumeCrown = preset.volumeML
             volumeFocused = true
         }
+        .overlay { if confirming { LoggedOverlay().transition(.opacity) } }
+        .animation(.snappy, value: confirming)
+        .task(id: confirming) {
+            guard confirming else { return }
+            try? await Task.sleep(for: .seconds(0.85))
+            dismiss()
+        }
         .navigationTitle("Volume")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -140,6 +149,6 @@ struct DrinkVolumeView: View {
         )
         sync.log(payload)
         WKInterfaceDevice.current().play(.success)
-        dismiss()
+        confirming = true
     }
 }

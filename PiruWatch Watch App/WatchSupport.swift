@@ -34,6 +34,26 @@ enum WatchDrinkMath {
     }
 }
 
+/// Brief full-screen confirmation shown after a dose is queued, before the log screen
+/// returns to the grid — so the tap reads as "done," with the pending sync surfaced there.
+struct LoggedOverlay: View {
+    var body: some View {
+        ZStack {
+            Rectangle().fill(.black.opacity(0.65)).ignoresSafeArea()
+            VStack(spacing: 8) {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 44))
+                    .foregroundStyle(.green)
+                Text("Logged")
+                    .font(.headline)
+                Label("Syncing to iPhone", systemImage: "arrow.triangle.2.circlepath")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+}
+
 extension Color {
     /// Parse `#RRGGBB` (or bare `RRGGBB`) into a Color. Returns nil for anything else, so the
     /// caller falls back to the accent color.

@@ -12,6 +12,8 @@ struct AmountLogView: View {
     @State private var amount: Double = 0
     /// The raw Crown accumulator, snapped to ``amount`` on change.
     @State private var crown: Double = 0
+    /// Shows the "Logged" confirmation, then returns to the grid.
+    @State private var confirming = false
 
     var body: some View {
         VStack(spacing: 6) {
@@ -56,6 +58,13 @@ struct AmountLogView: View {
             amount = item.amount
             crown = item.amount
         }
+        .overlay { if confirming { LoggedOverlay().transition(.opacity) } }
+        .animation(.snappy, value: confirming)
+        .task(id: confirming) {
+            guard confirming else { return }
+            try? await Task.sleep(for: .seconds(0.85))
+            dismiss()
+        }
         .navigationTitle("Amount")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -64,6 +73,6 @@ struct AmountLogView: View {
         let payload = item.makePayload(id: UUID(), amount: amount, timestamp: Date())
         sync.log(payload)
         WKInterfaceDevice.current().play(.success)
-        dismiss()
+        confirming = true
     }
 }
