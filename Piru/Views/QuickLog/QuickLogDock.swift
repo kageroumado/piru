@@ -260,7 +260,7 @@ struct QuickLogDock: View {
                 searchFocused: $searchFocused,
                 onCancel: cancelSearch,
             )
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 20)
             .padding(.top, 16)
             .padding(.bottom, 6)
 
@@ -287,7 +287,7 @@ struct QuickLogDock: View {
                     },
                     onDidStage: finishStagingFromSearch,
                 )
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 20)
                 .padding(.top, 8)
                 .padding(.bottom, 12)
             }

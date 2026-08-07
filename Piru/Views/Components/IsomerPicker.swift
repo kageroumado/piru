@@ -6,19 +6,22 @@ import SwiftUI
 /// Methylphenidate → Methylphenidate / Dexmethylphenidate (Focalin), Modafinil →
 /// Modafinil / Armodafinil (Nuvigil).
 ///
-/// Unlike salt, the options are **named** — each carries a recognized display
-/// name (a `code` of `nil` is the racemic parent, titled with the substance's own
-/// name), because an enantiomer is often its own INN-named drug with distinct
-/// kinetics. Selecting one swaps the visible dose ladder. Same two shared rules as
-/// the salt picker: render nothing unless the route offers more than one option
-/// (see ``body``), and reconcile the selection on a route change (see
-/// ``revalidate(_:against:)``).
+/// Unlike salt, the options are **named** — each resolved enantiomer carries a
+/// recognized display name, because an enantiomer is often its own INN-named drug
+/// with distinct kinetics. The racemic/unspecified parent (`code == nil`) renders
+/// as a generic "Regular" ("Racemic" at the Pharma Nerd tier) rather than
+/// repeating the substance's own name, which is already on screen. Selecting one
+/// swaps the visible dose ladder. Same two shared rules as the salt picker: render
+/// nothing unless the route offers more than one option (see ``body``), and
+/// reconcile the selection on a route change (see ``revalidate(_:against:)``).
 ///
-/// Isomer names are chemical proper nouns and are **not** localized; only the
-/// "Isomer" picker title is.
+/// Enantiomer names are chemical proper nouns and are **not** localized; the
+/// "Isomer" title and the racemic "Regular"/"Racemic" label are.
 struct IsomerPicker: View {
     /// A selectable form on the isomer axis. `code == nil` is the racemic /
-    /// unspecified parent; `displayName` is what titles the option ("Esketamine").
+    /// unspecified parent — the picker renders a generic label for it, not
+    /// `displayName`; a non-nil code titles the option with `displayName`
+    /// ("Esketamine").
     struct Option: Identifiable, Hashable {
         let code: String?
         let displayName: String
@@ -34,6 +37,8 @@ struct IsomerPicker: View {
     @Binding var selection: String?
     let style: Style
 
+    @State private var profileStore = UserProfileStore.shared
+
     /// Presentation surface — mirrors ``SaltPicker/Style``.
     enum Style {
         case menuPill(namespace: Namespace.ID, id: String, height: CGFloat)
@@ -42,6 +47,17 @@ struct IsomerPicker: View {
 
     private var current: Option? {
         options.first { $0.code == selection } ?? options.first
+    }
+
+    /// What to render for an option. The racemic parent's `displayName` is the
+    /// substance's own name; showing it would repeat a name already on screen, so
+    /// it renders a generic term instead — "Racemic" at the Pharma Nerd tier,
+    /// "Regular" otherwise. Every other option keeps its enantiomer name.
+    private func label(for option: Option) -> String {
+        guard option.code == nil else { return option.displayName }
+        return profileStore.disclosureTier == .pharmaNerd
+            ? String(localized: "Racemic", comment: "Isomer picker: the racemic parent form (Pharma Nerd wording)")
+            : String(localized: "Regular", comment: "Isomer picker: the racemic/unspecified parent form")
     }
 
     var body: some View {
@@ -64,9 +80,9 @@ struct IsomerPicker: View {
                     selection = option.code
                 } label: {
                     if option.code == selection {
-                        Label(option.displayName, systemImage: "checkmark")
+                        Label(label(for: option), systemImage: "checkmark")
                     } else {
-                        Text(option.displayName)
+                        Text(label(for: option))
                     }
                 }
             }
@@ -74,7 +90,7 @@ struct IsomerPicker: View {
             HStack(spacing: 5) {
                 Image(systemName: "circle.lefthalf.filled")
                     .imageScale(.small)
-                Text(current?.displayName ?? "")
+                Text(current.map { label(for: $0) } ?? "")
                 Image(systemName: "chevron.down")
                     .font(.caption2.weight(.semibold))
             }
@@ -87,7 +103,7 @@ struct IsomerPicker: View {
         .buttonStyle(.plain)
         .matchedGeometryEffect(id: id, in: namespace)
         .accessibilityLabel(Text("Isomer"))
-        .accessibilityValue(current?.displayName ?? "")
+        .accessibilityValue(current.map { label(for: $0) } ?? "")
     }
 
     // MARK: Form row (entry forms + library detail)
@@ -96,7 +112,7 @@ struct IsomerPicker: View {
     private var formRow: some View {
         let picker = Picker(String(localized: "Isomer"), selection: $selection) {
             ForEach(options) { option in
-                Text(option.displayName).tag(option.code)
+                Text(label(for: option)).tag(option.code)
             }
         }
         // Segmented reads best for a couple of options; past three the labels

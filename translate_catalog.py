@@ -10,6 +10,8 @@ from pathlib import Path
 # Translations: English -> (Simplified, Traditional)
 T = {
     # ---- Label scanner (camera → QuickLog) ----
+    "Regular": ("常规", "常規"),
+    "Racemic": ("外消旋", "外消旋"),
     "Scan a label": ("扫描标签", "掃描標籤"),
     "Close scanner": ("关闭扫描", "關閉掃描"),
     "Point at the medication name or its barcode": ("对准药品名称或条形码", "對準藥品名稱或條碼"),
@@ -6764,6 +6766,9 @@ if __name__ == "__main__":
         "Mildly slower CYP2D6 clearance — duration may be modestly longer.",
         "Faster CYP2D6 clearance — shorter duration. Be aware of re-dose timing.",
         "CYP2D6 is a major metabolic pathway for %@.",
+        # Isomer picker racemic-parent label (CLI-added).
+        "Regular",
+        "Racemic",
     }
 
     print("--- Piru main app catalog ---")

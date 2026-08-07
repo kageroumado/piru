@@ -166,7 +166,7 @@ struct DockMiddleContent: View {
     private var results: [QuickLogSearchResult] {
         let query = searchText.lowercased()
         guard !query.isEmpty else { return [] }
-        var results: [QuickLogSearchResult] = content.cachedCards
+        let recentCards = content.cachedCards
             // Match the card's names, not its id — the id is now an opaque
             // substance-identity key (a PSID uid), so filtering on it would miss
             // a resolved card by its own name. Matching the product/form title
@@ -177,8 +177,22 @@ struct DockMiddleContent: View {
                     || card.productName?.lowercased().contains(query) == true
             }
             .prefix(2)
-            .map { .recent($0) }
-        results += content.cachedLibraryResults.prefix(3).map { .library($0) }
+
+        // The same catalog substance can be both a recent and a library hit —
+        // list it once. A library match is a duplicate when it shares a recent's
+        // PSID uid or, failing that, its canonical name; a genuinely custom
+        // substance (no uid, distinct name) collides with neither.
+        let recentUIDs = Set(recentCards.compactMap(\.substanceUID).filter { !$0.isEmpty })
+        let recentNames = Set(recentCards.map { $0.substanceName.lowercased() })
+
+        var results: [QuickLogSearchResult] = recentCards.map { .recent($0) }
+        results += content.cachedLibraryResults
+            .filter { match in
+                let uidDuplicate = match.substance.substanceUID.map { !$0.isEmpty && recentUIDs.contains($0) } ?? false
+                return !(uidDuplicate || recentNames.contains(match.substance.name.lowercased()))
+            }
+            .prefix(3)
+            .map { .library($0) }
         results += filteredCustomSubstances.prefix(1).map { .custom($0) }
         return Array(results.prefix(4))
     }

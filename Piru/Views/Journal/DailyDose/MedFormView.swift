@@ -10,6 +10,17 @@ private enum FormSchedule: Hashable {
     case asNeeded
 }
 
+/// One reminder time on the med, carried with a stable identity. The times
+/// list is edited by row (add, delete, drag) while a DatePicker in each row
+/// reads its own value — an index-keyed `ForEach` crashes here, because a
+/// delete shrinks the array before SwiftUI reconciles the children and a
+/// stale index subscripts out of range. Identity keeps every row bound to
+/// its own element, never to a position.
+private struct MedReminderTime: Identifiable {
+    let id = UUID()
+    var minutes: Int
+}
+
 /// The form's edit draft — one `@Observable` model instead of a pile of
 /// `@State` fields, so the form has a single source of mutable state and
 /// each section invalidates from the draft it actually reads.
@@ -28,7 +39,7 @@ private final class MedFormDraft {
     var maxPerDay: Int?
 
     // Times & reminders
-    var times: [Int] = []
+    var times: [MedReminderTime] = []
     var remind = true
     var nextDoseReminder = false
 
@@ -212,20 +223,20 @@ struct MedFormView: View {
     private var timesSection: some View {
         @Bindable var draft = draft
         return Section {
-            ForEach(draft.times.indices, id: \.self) { index in
+            ForEach($draft.times) { $time in
                 VStack(alignment: .leading, spacing: 0) {
                     DatePicker(
-                        selection: timeBinding(at: index),
+                        selection: clockBinding(for: $time),
                         displayedComponents: .hourAndMinute,
                     ) {
-                        Text(MedTimeGroup.group(forMinutes: draft.times[index]).label)
+                        Text(MedTimeGroup.group(forMinutes: time.minutes).label)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                     // What that time actually does — onset, easing off, and (for
                     // the wake-promoting classes) how it sits against sleep.
                     // Silent when the med has no acute profile to state.
                     if let consequence {
-                        MedTimeConsequenceLine(consequence: consequence, minutesOfDay: draft.times[index])
+                        MedTimeConsequenceLine(consequence: consequence, minutesOfDay: time.minutes)
                     }
                 }
             }
@@ -234,7 +245,7 @@ struct MedFormView: View {
             }
 
             Button {
-                withAnimation(.snappy) { draft.times.append(nextSuggestedTime()) }
+                withAnimation(.snappy) { draft.times.append(MedReminderTime(minutes: nextSuggestedTime())) }
             } label: {
                 Label(draft.times.isEmpty ? "Add a Time" : "Add Another Time", systemImage: "plus.circle.fill")
             }
@@ -373,19 +384,17 @@ struct MedFormView: View {
         )
     }
 
-    private func timeBinding(at index: Int) -> Binding<Date> {
+    private func clockBinding(for time: Binding<MedReminderTime>) -> Binding<Date> {
         Binding(
             get: {
-                guard draft.times.indices.contains(index) else { return .now }
-                let minutes = draft.times[index]
+                let minutes = time.wrappedValue.minutes
                 return Calendar.current.date(
                     bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: .now,
                 ) ?? .now
             },
             set: { newValue in
-                guard draft.times.indices.contains(index) else { return }
                 let components = Calendar.current.dateComponents([.hour, .minute], from: newValue)
-                draft.times[index] = (components.hour ?? 0) * 60 + (components.minute ?? 0)
+                time.wrappedValue.minutes = (components.hour ?? 0) * 60 + (components.minute ?? 0)
             },
         )
     }
@@ -394,7 +403,7 @@ struct MedFormView: View {
     /// latest existing time (capped to late evening) — a sensible booster gap
     /// the user adjusts with one tap.
     private func nextSuggestedTime() -> Int {
-        guard let latest = draft.times.max() else { return 9 * 60 }
+        guard let latest = draft.times.map(\.minutes).max() else { return 9 * 60 }
         return min(latest + 6 * 60, 22 * 60)
     }
 
@@ -448,7 +457,7 @@ struct MedFormView: View {
             draft.selectedWeekdays = Set(item.frequencyDays)
             draft.startDate = item.startDate == .distantPast ? .now : item.startDate
             draft.maxPerDay = item.maxPerDay
-            draft.times = item.reminderTimesMinutes
+            draft.times = item.reminderTimesMinutes.map { MedReminderTime(minutes: $0) }
             draft.remind = item.remind
             draft.nextDoseReminder = item.nextDoseReminder
             draft.isQuiet = item.isQuiet
@@ -466,7 +475,7 @@ struct MedFormView: View {
     private func save() {
         guard let parsedAmount = draft.amount else { return }
 
-        let sortedTimes = Array(Set(draft.times)).sorted()
+        let sortedTimes = Array(Set(draft.times.map(\.minutes))).sorted()
         let identity = resolvedIdentity()
         let target: DailyDoseItem
         if let item {

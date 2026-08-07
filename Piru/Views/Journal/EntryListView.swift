@@ -60,7 +60,7 @@ struct EntryListView: View {
     /// searching the Library instead when a query finds no journal entries.
     var onSwitchToLibrary: (() -> Void)?
 
-    @State private var grouping: JournalGrouping = .byDay
+    @AppStorage("journalGrouping", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var grouping: JournalGrouping = .byDay
     @State private var showingCalendar = false
 
     /// Mirrors the day cards' redose-stacking preference so the timeline prewarm

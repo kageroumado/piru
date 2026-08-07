@@ -40088,6 +40088,23 @@
         }
       }
     },
+    "Racemic" : {
+      "comment" : "Isomer picker: the racemic parent form (Pharma Nerd wording)",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外消旋"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外消旋"
+          }
+        }
+      }
+    },
     "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -41405,6 +41422,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "冷藏（2–8 °C）"
+          }
+        }
+      }
+    },
+    "Regular" : {
+      "comment" : "Isomer picker: the racemic/unspecified parent form",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常规"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常規"
           }
         }
       }

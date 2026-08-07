@@ -195,11 +195,14 @@ struct StagedDose: Identifiable, Equatable {
     }
 
     /// Where the merged total lands on the substance's dose ladder — `nil`
-    /// when the library has no meaningful ladder for this route. Amounts in
-    /// a different unit are converted to the route's reference unit first.
+    /// when the library has no meaningful ladder for this route (an empty
+    /// `DoseRange` classifies everything as sub-threshold, so a substance with
+    /// no dose data must show no qualifier at all). Amounts in a different unit
+    /// are converted to the route's reference unit first.
     var doseLevel: DoseLevel? {
         guard let librarySubstance, librarySubstance.displayClass.showsDoseLadder,
-              let range = librarySubstance.doseRange(for: route, saltForm: saltForm, isomer: isomer) else { return nil }
+              let range = librarySubstance.doseRange(for: route, saltForm: saltForm, isomer: isomer),
+              range.hasAnyValue else { return nil }
         let referenceUnit = librarySubstance.unit(for: route, saltForm: saltForm, isomer: isomer)
         let normalized = unit.caseInsensitiveCompare(referenceUnit) == .orderedSame
             ? totalAmount

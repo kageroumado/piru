@@ -317,7 +317,10 @@ struct RouteDosingCard: View {
         .padding(.vertical, 6)
         .background {
             if emphasized {
-                RoundedRectangle(cornerRadius: 8)
+                // Radius nests within the ~22pt card: the wash bleeds outward
+                // (negative inset), so a tight 8pt corner read as unrelated to
+                // the card's rounding — 14 sits concentrically inside it.
+                RoundedRectangle(cornerRadius: 14)
                     .fill(Theme.accent.opacity(0.08))
                     .padding(.horizontal, -10)
             }
