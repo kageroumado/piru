@@ -393,17 +393,17 @@ nonisolated enum ReceptorClasses {
         case .gaba:
             // Benzodiazepines / alcohol: sedative tolerance is fast (near-complete in ~2 weeks,
             // VINK12) but anxiolytic and cognitive/psychomotor tolerance are absent or negligible.
-            // The primary layer represents the blended sedative+anxiolytic shift; the safety
-            // endpoint captures the cognitive impairment that does NOT tolerize — so the dose
-            // that no longer sedates still impairs memory and coordination at full strength.
+            // The primary layer represents the SEDATIVE endpoint alone (§B.cal); the safety endpoint
+            // captures the cognitive impairment that does NOT tolerize — so the dose that no longer
+            // sedates still impairs memory and coordination at full strength.
             Parameters(
                 acuteShiftMax: 0.4, tauAcuteMinutes: 6 * T.hour,
-                adaptiveShiftMax: 1.0, tauAdaptiveMinutes: 14 * T.day,
+                adaptiveShiftMax: 2.0, tauAdaptiveMinutes: 14 * T.day,
                 deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .dependenceKindling, confidence: .low,
                 classDefaultVdLPerKg: 1.1,
-                sourceNote: "§3: sedative tolerance near-complete ~2 wk (VINK12); anxiolytic/amnesic tolerance absent. Primary blended (acute 0.4 + adaptive 1.0 → ~4× worst-case). Cognitive impairment endpoint shift ≡ 1 (no tolerance). Dependence/kindling safety axis. Grade low.",
+                sourceNote: "§3/§B.cal: sedative/hypnotic tolerance near-complete ~2 wk (VINK12: triazolam sleep parameters back to baseline at 2 wk; alprazolam sedation by day 17); anxiolytic/amnesic tolerance absent. Primary layer is the SEDATIVE endpoint alone — adaptive de-blended 1.0→2.0 (the old 1.0 was ~the mean of near-complete sedative and ~0 anxiolytic, now split out as the cognitive-impairment endpoint). acute 0.4 unchanged (within-session tachyphylaxis; VINK12's days-scale data does not constrain it). Cognitive impairment endpoint shift ≡ 1 (no tolerance). Dependence/kindling safety axis. Grade low.",
                 safetyEndpoint: SafetyEndpoint(
                     kind: .cognitiveImpairment,
                     acuteShiftMax: 0, tauAcuteMinutes: 6 * T.hour,

@@ -6,6 +6,9 @@
     "Ritalin",
     "Ritalin LA"
   ],
+  "popularAliases": [
+    "Ritalin"
+  ],
   "routes": [
     {
       "route": "oral",

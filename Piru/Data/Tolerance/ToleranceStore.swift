@@ -779,6 +779,64 @@ final class ToleranceStore {
             return DoseExposure(ke: ke, ka: ka, prefactorNanomolar: prefactorNanomolar, bestTargetByClass: bestTargetByClass)
         }
 
+        /// Spawn additional ``Contributor``s for a dose's **foldable active metabolites** (K.5): each is
+        /// a delayed, formation×potency-scaled echo of the parent at the same mechanism class, decaying
+        /// on the metabolite's own (usually slower) half-life — so diazepam's nordazepam tail keeps
+        /// GABA occupied for days after the parent itself has cleared. It reuses the parent dose's
+        /// ``DoseExposure`` (its nM prefactor + per-class best target), routing each metabolite into the
+        /// parent's engaged classes: a `scaled` metabolite shares the parent's mechanism by definition,
+        /// so its occupancy adds at the same targets. `divergent`/`unknown` metabolites never reach here
+        /// (``MetaboliteContributor/canFold`` gates them out) — they are a different drug, not a tail.
+        func appendMetaboliteContributors(
+            exposure: DoseExposure, metabolites: [PharmacologyParameters.MetaboliteContributor],
+            parentOnset: Double, escalation: Double, sourceParams: PharmacologyParameters,
+        ) {
+            guard !exposure.bestTargetByClass.isEmpty else { return }
+            // The metabolite doesn't appear until the parent is absorbed and metabolized, so its onset
+            // is delayed by the parent's Tmax.
+            let parentTmax = PKModel.tmax(ke: exposure.ke, ka: exposure.ka)
+            let baseConfidence = Swift.min(
+                sourceParams.vdConfidence, sourceParams.bioavailabilityConfidence, sourceParams.doseScaleConfidence,
+            )
+            for metabolite in metabolites where metabolite.canFold {
+                let keMetabolite = PKModel.ke(fromHalfLifeMinutes: metabolite.halfLifeMinutes)
+                // Formation-rate-limited absorption (§K.5.3): the metabolite's input rate is the parent's
+                // ke (it appears as the parent is eliminated). Skip the degenerate ka≈ke case the
+                // one-compartment `ka/(ka−ke)` shape can't represent.
+                let kaMetabolite = exposure.ke
+                guard keMetabolite > 0, kaMetabolite > 0, abs(kaMetabolite - keMetabolite) > 1e-9 else { continue }
+                let prefactor = metabolite.foldPrefactor * exposure.prefactorNanomolar
+                guard prefactor > 0 else { continue }
+                let onset = parentOnset + parentTmax
+                for (cls, best) in exposure.bestTargetByClass {
+                    let peak = peakOccupancy(
+                        prefactorNanomolar: prefactor, ke: keMetabolite, ka: kaMetabolite,
+                        halfMaxNanomolar: best.halfMaxNanomolar,
+                    )
+                    guard peak >= minMeaningfulOccupancy else { continue }
+                    let expiry = onset + decayWindowMinutes(
+                        ke: keMetabolite, ka: kaMetabolite, prefactorNanomolar: prefactor,
+                        halfMaxNanomolar: best.halfMaxNanomolar,
+                    )
+                    // A non-clinical potency basis may be an affinity constant, not a clinical
+                    // equivalence, so floor the folded contributor to `.low` (§K.5.1).
+                    let confidence = metabolite.isClinicalBasis
+                        ? Swift.min(baseConfidence, best.confidence)
+                        : Swift.min(baseConfidence, best.confidence, .low)
+                    contributorsByClass[cls, default: []].append(
+                        Contributor(
+                            onset: onset, expiry: expiry, ke: keMetabolite, ka: kaMetabolite,
+                            prefactorNanomolar: prefactor, halfMaxNanomolar: best.halfMaxNanomolar,
+                            confidence: confidence, escalation: escalation,
+                            suppressesSynthesis: sourceParams.suppressesSerotoninSynthesis,
+                            intrinsicEfficacy: sourceParams.intrinsicEfficacy,
+                            isMetabolite: true,
+                        ),
+                    )
+                }
+            }
+        }
+
         for dose in relevant {
             guard let p = params[dose.substance], let doseMg = dose.amountMg else { continue }
             let onset = dose.timestamp.timeIntervalSince(start) / 60
@@ -813,6 +871,13 @@ final class ToleranceStore {
                         )
                     }
                 }
+
+                // K.5: extend this dose's occupancy tail with its foldable active metabolites
+                // (nordazepam for diazepam, …) — a delayed contributor per parent class.
+                appendMetaboliteContributors(
+                    exposure: exposure, metabolites: p.metabolites,
+                    parentOnset: onset, escalation: escalation, sourceParams: p,
+                )
             } else if let refSub = p.referenceDoseMg, refSub > 0 {
                 // Stage D missing-PK fallback — model the substance AS its class representative at an
                 // equivalent dose, so an RC benzo with only a dose ladder still accrues GABA tolerance.
@@ -868,8 +933,10 @@ final class ToleranceStore {
     /// ~0.7. Returns `1` for fewer than three distinct doses (too little to judge a schedule). A
     /// down-only weight — it never boosts drive above the un-weighted value.
     private nonisolated static func scheduleRegularityFactor(contributors: [Contributor]) -> Double {
-        // Distinct dose onsets (a dose spawns one contributor per target at the same onset).
-        let onsets = Set(contributors.map(\.onset)).sorted()
+        // Distinct dose onsets (a dose spawns one contributor per target at the same onset). Spawned
+        // metabolite contributors (K.5) sit at parent-onset + Tmax, which is not a dosing event, so
+        // they're excluded — otherwise a regular daily course reads as irregular.
+        let onsets = Set(contributors.filter { !$0.isMetabolite }.map(\.onset)).sorted()
         guard onsets.count >= 3 else { return 1 }
         var intervals: [Double] = []
         for index in 1 ..< onsets.count {
@@ -980,6 +1047,11 @@ final class ToleranceStore {
         /// tolerance *drive* this contributor produces, so a partial agonist (mitragynine) entrenches
         /// less per unit occupancy. `1` for a full agonist / unknown. Identical across a dose's targets.
         let intrinsicEfficacy: Double
+        /// Whether this contributor is a **spawned active metabolite** (K.5) rather than a real logged
+        /// dose. Its onset is the parent's onset + Tmax, which is not a dosing event — so it must be
+        /// excluded from ``scheduleRegularityFactor`` (else a regular daily course reads as irregular,
+        /// its cadence halved by the interleaved metabolite onsets).
+        var isMetabolite = false
     }
 
     /// One co-active substance's tolerance-modulation contribution at one affected class.

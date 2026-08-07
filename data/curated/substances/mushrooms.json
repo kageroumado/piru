@@ -5,6 +5,11 @@
     "Shrooms",
     "Psilocybe cubensis"
   ],
+  "popularAliases": [
+    "Shrooms",
+    "Magic Mushrooms",
+    "Boomers"
+  ],
   "category": "Psychedelic",
   "defaultRoute": "oral",
   "routes": [

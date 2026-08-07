@@ -4312,6 +4312,22 @@
         }
       }
     },
+    "1 day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 天"
+          }
+        }
+      }
+    },
     "1 dose" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4441,6 +4457,38 @@
         }
       }
     },
+    "1–2 days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1–2 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1–2 天"
+          }
+        }
+      }
+    },
+    "1–4 days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1–4 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1–4 天"
+          }
+        }
+      }
+    },
     "1,500+ substances" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4489,6 +4537,38 @@
         }
       }
     },
+    "2–4 weeks, with a protracted tail in some people." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "持续 2–4 周，部分人有迁延的尾期。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "持續 2–4 週，部分人有遷延的尾期。"
+          }
+        }
+      }
+    },
+    "2–7 days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2–7 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2–7 天"
+          }
+        }
+      }
+    },
     "3 RCTs" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4501,6 +4581,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "3項隨機對照試驗"
+          }
+        }
+      }
+    },
+    "3–7 days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3–7 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3–7 天"
           }
         }
       }
@@ -4540,6 +4636,38 @@
     },
     "5-HT₂A receptor" : {
 
+    },
+    "5–14 days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5–14 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5–14 天"
+          }
+        }
+      }
+    },
+    "6–24 hours" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6–24 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6–24 小時"
+          }
+        }
+      }
     },
     "7-aminoclonazepam has no meaningful activity at GABA-A — it's an inactive metabolite used as a urinary marker for clonazepam exposure, not a contributor to the drug's effect." : {
       "localizations" : {
@@ -10803,6 +10931,22 @@
         }
       }
     },
+    "Before the usual onset window for your slowest-clearing drug — symptoms, if any, would typically start later." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "早于你清除最慢的药物通常的起始时间窗——即使会出现症状，通常也会更晚开始。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "早於你清除最慢的藥物通常的起始時間窗——即使會出現症狀，通常也會更晚開始。"
+          }
+        }
+      }
+    },
     "Before You Deleted Everything" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16024,6 +16168,22 @@
         }
       }
     },
+    "CYP2D6 is a major metabolic pathway for %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 是 %@ 的主要代谢途径。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 是 %@ 的主要代謝途徑。"
+          }
+        }
+      }
+    },
     "CYP2D6 status" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16036,6 +16196,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "CYP2D6狀態"
+          }
+        }
+      }
+    },
+    "CYP2D6: %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6：%@"
           }
         }
       }
@@ -16983,6 +17159,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "地西泮等效劑量"
+          }
+        }
+      }
+    },
+    "diazepam, chlordiazepoxide, clonazepam" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地西泮、氯氮䓬、氯硝西泮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地西泮、氯氮䓬、氯硝西泮"
           }
         }
       }
@@ -21367,6 +21559,38 @@
         }
       }
     },
+    "Estimated from your logged doses — the window is a population range, not a prediction for you." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据你记录的用药估算——这一时间窗是群体范围，并非对你个人的预测。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根據你記錄的用藥估算——這一時間窗是群體範圍，並非對你個人的預測。"
+          }
+        }
+      }
+    },
+    "Estimated withdrawal onset window, with a marker for time since your last dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算的戒断起始时间窗，并标出距上次用药的时间。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算的戒斷起始時間窗，並標出距上次用藥的時間。"
+          }
+        }
+      }
+    },
     "Estimates based on pharmacokinetic modeling. Actual levels may vary." : {
       "localizations" : {
         "zh-Hans" : {
@@ -22463,6 +22687,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "又快又真實，但停用後恢復得相當快。"
+          }
+        }
+      }
+    },
+    "Faster conversion to active metabolite — higher active metabolite exposure. For codeine, this is an FDA contraindication due to the risk of respiratory depression." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性代谢物转化加快——活性代谢物暴露量更高。对于可待因，因呼吸抑制风险，FDA 列为禁忌。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性代謝物轉化加快——活性代謝物暴露量更高。對於可待因，因呼吸抑制風險，FDA 列為禁忌。"
+          }
+        }
+      }
+    },
+    "Faster CYP2D6 clearance — shorter duration. Be aware of re-dose timing." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 清除加快——持续时间更短。注意补服时机。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 清除加快——持續時間更短。注意補服時機。"
           }
         }
       }
@@ -24312,6 +24568,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "良好"
+          }
+        }
+      }
+    },
+    "Gradual onset, persists until treated." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐渐出现，直到得到治疗才缓解。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐漸出現，直到得到治療才緩解。"
           }
         }
       }
@@ -26361,6 +26633,38 @@
         }
       }
     },
+    "If You Stop" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你停用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你停用"
+          }
+        }
+      }
+    },
+    "If you stop: withdrawal timing" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你停用：戒断时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你停用：戒斷時間"
+          }
+        }
+      }
+    },
     "If you've been using regularly, talk to a doctor about tapering — never stop abruptly." : {
       "localizations" : {
         "zh-Hans" : {
@@ -27470,6 +27774,22 @@
         }
       }
     },
+    "intermediate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中效"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中效"
+          }
+        }
+      }
+    },
     "Intermediate metabolizer" : {
       "localizations" : {
         "zh-Hans" : {
@@ -28365,6 +28685,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "體內剩餘"
+          }
+        }
+      }
+    },
+    "Less than a day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不到一天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不到一天"
           }
         }
       }
@@ -29403,6 +29739,22 @@
         }
       }
     },
+    "long-acting" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长效"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長效"
+          }
+        }
+      }
+    },
     "Long-acting benzo switch" : {
       "localizations" : {
         "zh-Hans" : {
@@ -29432,6 +29784,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "長效阿片受體拮抗劑"
+          }
+        }
+      }
+    },
+    "Longer-acting drugs delay onset because the drug is still leaving your system. Active metabolites (diazepam, chlordiazepoxide, clonazepam) can push the window later still." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长效药物会推迟起始，因为药物仍在从体内清除。活性代谢物（地西泮、氯氮䓬、氯硝西泮）会让这一时间窗更晚出现。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長效藥物會延後起始，因為藥物仍在從體內清除。活性代謝物（地西泮、氯氮䓬、氯硝西泮）會讓這一時間窗更晚出現。"
           }
         }
       }
@@ -30773,6 +31141,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "輕微耐受"
+          }
+        }
+      }
+    },
+    "Mildly reduced conversion to active metabolite — effect may be modestly lower." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性代谢物转化略微减少——效果可能略低。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性代謝物轉化略微減少——效果可能略低。"
+          }
+        }
+      }
+    },
+    "Mildly slower CYP2D6 clearance — duration may be modestly longer." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 清除略慢——持续时间可能略长。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 清除略慢——持續時間可能略長。"
           }
         }
       }
@@ -32851,6 +33251,22 @@
         }
       }
     },
+    "New symptoms the drug wasn't treating — insomnia, tremor, and, after regular use, seizure risk." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药物原本并未治疗的新症状——失眠、震颤，规律使用后还有癫痫发作风险。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥物原本並未治療的新症狀——失眠、震顫，規律使用後還有癲癇發作風險。"
+          }
+        }
+      }
+    },
     "New time on %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -33767,6 +34183,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無半衰期資料 — 未建模消除"
+          }
+        }
+      }
+    },
+    "No half-life on file for your logged drugs, so the onset window can't be placed." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你记录的药物没有半衰期数据，因此无法定位起始时间窗。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你記錄的藥物沒有半衰期資料，因此無法定位起始時間窗。"
           }
         }
       }
@@ -34922,6 +35354,22 @@
         }
       }
     },
+    "Not medical advice. Stopping a benzodiazepine abruptly after regular use can cause seizures. These are population timings, not a taper plan." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非医疗建议。规律使用后突然停用苯二氮䓬类药物可能引发癫痫发作。这些是群体层面的时间，而非减量方案。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非醫療建議。規律使用後突然停用苯二氮䓬類藥物可能引發癲癇發作。這些是群體層面的時間，而非減量方案。"
+          }
+        }
+      }
+    },
     "Not Now" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35742,6 +36190,44 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "起效"
+          }
+        }
+      }
+    },
+    "Onset %@, peak %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Onset %1$@, peak %2$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起始 %@，高峰 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起始 %@，高峰 %@"
+          }
+        }
+      }
+    },
+    "Onset 1–2 days, time-limited (days)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1–2 天出现，持续时间有限（数天）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1–2 天出現，持續時間有限（數天）。"
           }
         }
       }
@@ -36816,6 +37302,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "越過某一閾值後，這份虧空會啟動退藥項，隨後在數小時內以逐漸加速的合成恢復。血清素活性會起到緩衝作用。這正是安非他命的崩落與卡西酮類平緩回落在這些曲線上分野如此鮮明的原因。"
+          }
+        }
+      }
+    },
+    "Past the typical peak window for your drugs — a protracted tail can still persist for weeks." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已过你的药物通常的高峰时间窗——但迁延的尾期仍可能持续数周。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已過你的藥物通常的高峰時間窗——但遷延的尾期仍可能持續數週。"
           }
         }
       }
@@ -40028,6 +40530,22 @@
         }
       }
     },
+    "Rebound" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "反跳"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "反跳"
+          }
+        }
+      }
+    },
     "Rebound anxiety is temporary. Avoid caffeine and alcohol. Breathing exercises: 4 in, 7 hold, 8 out." : {
       "localizations" : {
         "zh-Hans" : {
@@ -40678,6 +41196,22 @@
         }
       }
     },
+    "Reduced conversion to active metabolite — you may get less effect from %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性代谢物转化减少——%@ 的效果可能较弱。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活性代謝物轉化減少——%@ 的效果可能較弱。"
+          }
+        }
+      }
+    },
     "Reduced effect" : {
       "localizations" : {
         "zh-Hans" : {
@@ -40886,6 +41420,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "規律性"
+          }
+        }
+      }
+    },
+    "Relapse" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复发"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "復發"
           }
         }
       }
@@ -45400,6 +45950,22 @@
         }
       }
     },
+    "short-acting" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短效"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短效"
+          }
+        }
+      }
+    },
     "Shot" : {
       "localizations" : {
         "zh-Hans" : {
@@ -45870,6 +46436,22 @@
         }
       }
     },
+    "Since your last dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距上次用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距上次用藥"
+          }
+        }
+      }
+    },
     "Single dose" : {
       "localizations" : {
         "zh-Hans" : {
@@ -46277,6 +46859,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "緩釋植入劑"
+          }
+        }
+      }
+    },
+    "Slower CYP2D6 clearance — %@ may last longer and accumulate at repeated doses." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 清除较慢——%@ 的持续时间可能更长，多次给药时可能蓄积。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6 清除較慢——%@ 的持續時間可能更長，多次給藥時可能蓄積。"
           }
         }
       }
@@ -49331,6 +49929,22 @@
         }
       }
     },
+    "temazepam, oxazepam, bromazepam" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "替马西泮、奥沙西泮、溴西泮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "替馬西泮、奧沙西泮、溴西泮"
+          }
+        }
+      }
+    },
     "Text HOME to 741741" : {
       "localizations" : {
         "zh-Hans" : {
@@ -50000,6 +50614,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「絕不可同用」的舊說法在很大程度上是醫學迷思——大型綜述未發現真正的危害。但兩者都會增加心臟負擔，因此也並非可以隨意同用。"
+          }
+        }
+      }
+    },
+    "The original symptoms return — the thing the drug was treating comes back." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原有症状重新出现——药物本来在治疗的问题又回来了。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原有症狀重新出現——藥物本來在治療的問題又回來了。"
+          }
+        }
+      }
+    },
+    "The original symptoms return, briefly stronger than before." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原有症状重新出现，并在短期内比之前更强。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原有症狀重新出現，並在短期內比之前更強。"
           }
         }
       }
@@ -51042,6 +51688,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這將取消緩和期通知。"
+          }
+        }
+      }
+    },
+    "Three kinds of \"withdrawal\"" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三种“戒断”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三種「戒斷」"
           }
         }
       }
@@ -52292,6 +52954,22 @@
         }
       }
     },
+    "triazolam, alprazolam, lorazepam" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三唑仑、阿普唑仑、劳拉西泮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三唑侖、阿普唑侖、勞拉西泮"
+          }
+        }
+      }
+    },
     "Tricyclic antidepressant" : {
       "localizations" : {
         "zh-Hans" : {
@@ -52821,7 +53499,20 @@
       }
     },
     "Unknown" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知"
+          }
+        }
+      }
     },
     "unknown date" : {
       "localizations" : {
@@ -54194,6 +54885,22 @@
         }
       }
     },
+    "What stopping looks like, at the population level — three things people call \"withdrawal\" that behave differently, and roughly when each starts for drugs like the ones you've logged. Timing is from research populations, not a prediction for you." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从群体层面看停药会怎样——人们所说的“戒断”其实包含三种表现不同的情况，以及对于你记录过的这类药物，每种大约何时开始。这些时间来自研究人群，并非对你个人的预测。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從群體層面看停藥會怎樣——人們所說的「戒斷」其實包含三種表現不同的情況，以及對於你記錄過的這類藥物，每種大約何時開始。這些時間來自研究人群，並非對你個人的預測。"
+          }
+        }
+      }
+    },
     "What the engine uses" : {
       "localizations" : {
         "zh-Hans" : {
@@ -54501,6 +55208,22 @@
         }
       }
     },
+    "When symptoms start" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "症状何时开始"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "症狀何時開始"
+          }
+        }
+      }
+    },
     "When you stop, that push-back is briefly left unopposed — which is why withdrawal or a comedown often feels like the mirror of the drug's effects (a stimulant's flatness, an opioid's aches)." : {
       "localizations" : {
         "zh-Hans" : {
@@ -54792,6 +55515,22 @@
         }
       }
     },
+    "Withdrawal" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "戒断"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "戒斷"
+          }
+        }
+      }
+    },
     "Within a session" : {
       "localizations" : {
         "zh-Hans" : {
@@ -54820,6 +55559,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一次嗨裡，快感消退得比心臟的負擔快——再加量去追，只會疊在一個還沒緩下來的血壓高峰上。把每次劑量間隔開。"
+          }
+        }
+      }
+    },
+    "Within the window when symptoms for drugs like yours typically begin and peak." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正处于此类药物症状通常开始并达到高峰的时间窗内。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正處於此類藥物症狀通常開始並達到高峰的時間窗內。"
           }
         }
       }
@@ -55405,6 +56160,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的飲品"
+          }
+        }
+      }
+    },
+    "your drugs" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的药物"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的藥物"
           }
         }
       }

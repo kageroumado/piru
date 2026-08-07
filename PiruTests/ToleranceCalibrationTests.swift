@@ -195,7 +195,9 @@ struct ToleranceCalibrationTests {
 
     /// A PK-complete **Diazepam** representative (GABA-A PAM) — the class stand-in the GABA fallback
     /// resolves `ToleranceStore.classRepresentative[.gaba]` to.
-    static func diazepam(referenceDoseMg: Double) -> PharmacologyParameters {
+    static func diazepam(
+        referenceDoseMg: Double, metabolites: [PharmacologyParameters.MetaboliteContributor] = [],
+    ) -> PharmacologyParameters {
         PharmacologyParameters(
             substanceName: "Diazepam",
             molarMassGramsPerMole: 285,
@@ -211,6 +213,20 @@ struct ToleranceCalibrationTests {
             targets: [
                 .init(target: "GABA-A", action: .positiveAllostericModulator, halfMaxNanomolar: 50, kind: .ki, confidence: .high),
             ],
+            metabolites: metabolites,
+        )
+    }
+
+    /// The nordazepam active metabolite for the K.5 goldens — t½ ≈ 100 h, equipotent (100% at GABA-A),
+    /// fully formed. `mechanism`/`basis` are parameterized so the "divergent does not fold" and
+    /// "non-clinical basis floors confidence" cases share one factory.
+    static func nordazepamMetabolite(
+        mechanism: String = "scaled", basis: String? = "clinical",
+    ) -> PharmacologyParameters.MetaboliteContributor {
+        .init(
+            metaboliteName: "Nordazepam", metaboliteSubstanceName: "Nordazepam",
+            halfLifeMinutes: 6_000, formationFractionPct: 100, potencyVsParentPct: 100,
+            potencyBasis: basis, mechanismVsParent: mechanism,
         )
     }
 
@@ -954,21 +970,21 @@ struct ToleranceCalibrationTests {
     // MARK: - 25. Therapeutic alprazolam → gauge close to full (§H.1)
 
     @Test
-    func `Therapeutic alprazolam builds only modest GABA tolerance`() throws {
-        // 1 mg daily for 30 d against a 6 mg heavy ceiling → dose ratio 0.17, far below the deep
-        // gate. VINK12: anxiolytic tolerance does not develop. The blended gauge merges sedative
-        // (tolerizes) and anxiolytic (doesn't) into one scalar; the combined reading must stay
-        // close to full for therapeutic dosing even at fu=1 (§A will lower occupancy further).
+    func `Therapeutic alprazolam builds substantial sedative GABA tolerance`() throws {
+        // 1 mg daily for 30 d against a 6 mg heavy ceiling → dose ratio 0.17, far below the deep gate.
+        // §B.cal: the primary gauge is now the SEDATIVE endpoint alone (VINK12: sedation tolerizes
+        // near-complete), so even at a therapeutic anxiolytic dose the sedative response is roughly
+        // halved — the drowsiness fades while the anxiolytic effect (not gauged here) and the
+        // cognitive-impairment endpoint (shift ≡ 1) do not tolerize. Baseline ~0.48 response / ~3.9×
+        // shift at fu=1 (§A's occupancy correction will temper both).
         let params = ["Alprazolam": Self.alprazolam(referenceDoseMg: 6)]
         let states = ToleranceStore.simulate(
             doses: Self.dailyDoses("Alprazolam", mg: 1, days: 30),
             params: params, now: Self.now, weightKg: 70,
         )
         let gaba = try #require(states[.gaba])
-        // At fu=1 the overestimated occupancy drives the shift higher than reality (§A will
-        // correct this, pushing the reading toward 0.85+). The current baseline is ~0.69.
-        #expect(gaba.responseFraction > 0.60)
-        #expect(gaba.shiftFactor < 2.5) // modest right-shift at therapeutic doses
+        #expect(gaba.responseFraction > 0.40 && gaba.responseFraction < 0.58)
+        #expect(gaba.shiftFactor > 3 && gaba.shiftFactor < 5) // sedative-alone right-shift
         #expect(gaba.sDeep == 0) // GABA deepShiftMax is 0
     }
 
@@ -1065,5 +1081,102 @@ struct ToleranceCalibrationTests {
         )
         let directGaba = try #require(viaDiazepam[.gaba])
         #expect(abs(gaba.shiftFactor - directGaba.shiftFactor) < 1e-6)
+    }
+
+    // MARK: - K.5. Active metabolite simulation
+
+    /// Test 30 — a single diazepam dose read days later: the nordazepam tail (t½ ≈ 100 h) keeps GABA
+    /// engaged well after the parent (t½ 48 h) has largely cleared, so the metabolite-aware shift is
+    /// strictly larger than the parent-only one.
+    @Test
+    func `Metabolite simulation extends a single dose's tolerance tail (K.5, test 30)`() throws {
+        let dose = [ToleranceStore.SimDose(
+            substance: "Diazepam", amountMg: 10,
+            timestamp: Self.now.addingTimeInterval(-5 * 86_400),
+        )]
+        let without = ToleranceStore.simulate(
+            doses: dose, params: ["Diazepam": Self.diazepam(referenceDoseMg: 30)],
+            now: Self.now, weightKg: 70,
+        )
+        let with = ToleranceStore.simulate(
+            doses: dose,
+            params: ["Diazepam": Self.diazepam(referenceDoseMg: 30, metabolites: [Self.nordazepamMetabolite()])],
+            now: Self.now, weightKg: 70,
+        )
+        let gabaWithout = try #require(without[.gaba])
+        let gabaWith = try #require(with[.gaba])
+        // Five days after one dose the parent-only shift has nearly relaxed; the nordazepam tail holds
+        // it up. The metabolite adds occupancy, so it can only raise the integrated shift.
+        #expect(gabaWith.shiftFactor > gabaWithout.shiftFactor)
+        #expect(gabaWith.shiftFactor > 1)
+    }
+
+    /// Test 31 — a 14-day diazepam course: nordazepam accumulates across the fortnight, so the
+    /// metabolite-aware shift is meaningfully higher at cessation, and still higher ten days into
+    /// recovery (the tail extends the recovery timeline outward).
+    @Test
+    func `Metabolite simulation raises the shift and extends recovery over a course (K.5, test 31)`() throws {
+        let doses = Self.dailyDoses("Diazepam", mg: 10, days: 14)
+        let plainParams = ["Diazepam": Self.diazepam(referenceDoseMg: 30)]
+        let metaParams = ["Diazepam": Self.diazepam(referenceDoseMg: 30, metabolites: [Self.nordazepamMetabolite()])]
+
+        let without = try #require(ToleranceStore.simulate(doses: doses, params: plainParams, now: Self.now, weightKg: 70)[.gaba])
+        let with = try #require(ToleranceStore.simulate(doses: doses, params: metaParams, now: Self.now, weightKg: 70)[.gaba])
+        #expect(with.shiftFactor > without.shiftFactor)
+
+        // Ten days after the last dose the parent-only shift has recovered further than the
+        // metabolite-aware one — nordazepam's long tail is still holding GABA tolerance up.
+        let later = Self.now.addingTimeInterval(10 * 86_400)
+        let withoutLater = try #require(ToleranceStore.simulate(doses: doses, params: plainParams, now: later, weightKg: 70)[.gaba])
+        let withLater = try #require(ToleranceStore.simulate(doses: doses, params: metaParams, now: later, weightKg: 70)[.gaba])
+        #expect(withLater.shiftFactor > withoutLater.shiftFactor)
+        // The recovery gap widens rather than closes: the metabolite-aware shift stays a larger multiple
+        // of naïve at +10 d than the parent-only one does.
+        #expect((withLater.shiftFactor - 1) > (withoutLater.shiftFactor - 1))
+    }
+
+    /// Test 32 — a **divergent** metabolite must never fold. Codeine→morphine is `scaled` in the
+    /// catalog (morphine is codeine's active form), so the honest "must-not-fold" case is a
+    /// genuinely divergent metabolite (tramadol→M1 in the real data); modeled here by flipping the
+    /// nordazepam metabolite's mechanism to `divergent`, the shift is identical to the parent-only run.
+    @Test
+    func `A divergent metabolite is never folded into the parent's curve (K.5, test 32)`() throws {
+        let doses = Self.dailyDoses("Diazepam", mg: 10, days: 14)
+        let without = try #require(ToleranceStore.simulate(
+            doses: doses, params: ["Diazepam": Self.diazepam(referenceDoseMg: 30)],
+            now: Self.now, weightKg: 70,
+        )[.gaba])
+        let withDivergent = try #require(ToleranceStore.simulate(
+            doses: doses,
+            params: ["Diazepam": Self.diazepam(
+                referenceDoseMg: 30,
+                metabolites: [Self.nordazepamMetabolite(mechanism: "divergent", basis: "clinical")],
+            )],
+            now: Self.now, weightKg: 70,
+        )[.gaba])
+        #expect(abs(withDivergent.shiftFactor - without.shiftFactor) < 1e-9)
+    }
+
+    /// A `scaled` metabolite folds regardless of its potency **basis** — the mechanism gate (`scaled`),
+    /// not the basis, decides folding; the basis only floors the folded contributor's confidence
+    /// (§K.5.1, unobservable at the GABA class level, which its own class parameter already grades
+    /// `.low`). So a `receptor_affinity`-basis nordazepam still extends the tail exactly like the
+    /// clinical one.
+    @Test
+    func `A scaled metabolite folds regardless of potency basis (K.5)`() throws {
+        let doses = Self.dailyDoses("Diazepam", mg: 10, days: 14)
+        let plain = try #require(ToleranceStore.simulate(
+            doses: doses, params: ["Diazepam": Self.diazepam(referenceDoseMg: 30)],
+            now: Self.now, weightKg: 70,
+        )[.gaba])
+        let affinity = try #require(ToleranceStore.simulate(
+            doses: doses,
+            params: ["Diazepam": Self.diazepam(
+                referenceDoseMg: 30,
+                metabolites: [Self.nordazepamMetabolite(mechanism: "scaled", basis: "receptor_affinity")],
+            )],
+            now: Self.now, weightKg: 70,
+        )[.gaba])
+        #expect(affinity.shiftFactor > plain.shiftFactor) // still folds
     }
 }

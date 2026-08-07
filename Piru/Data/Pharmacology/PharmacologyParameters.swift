@@ -56,6 +56,56 @@ nonisolated struct PharmacologyParameters {
         }
     }
 
+    /// An active metabolite the parent produces, carried so the tolerance engine can extend a dose's
+    /// occupancy tail past the parent's own elimination (K.5). The load-bearing case is diazepam →
+    /// nordazepam (t½ ≈ 100 h, equipotent at GABA-A): without it, diazepam's integrated tolerance and
+    /// its withdrawal-onset window are both computed from the parent's ~2-day clock instead of the
+    /// metabolite's ~5-day one.
+    struct MetaboliteContributor: Identifiable, Hashable {
+        let metaboliteName: String
+        /// The metabolite's own substance name when we carry it as one (for class routing / dedup).
+        let metaboliteSubstanceName: String?
+        /// The metabolite's own elimination half-life (minutes) — required; a contributor is only built
+        /// when a half-life is known (the PK shape needs it).
+        let halfLifeMinutes: Double
+        /// Percent of a parent dose that becomes this metabolite.
+        let formationFractionPct: Double?
+        /// The metabolite's potency relative to the parent (percent).
+        let potencyVsParentPct: Double?
+        /// What ``potencyVsParentPct`` measures (`clinical` / `receptor_affinity` / …) — a non-clinical
+        /// basis floors the folded contributor's confidence.
+        let potencyBasis: String?
+        /// `scaled` / `divergent` / `unknown`. Only `scaled` may be folded into the parent's curve.
+        let mechanismVsParent: String
+
+        var id: String {
+            metaboliteName
+        }
+
+        /// Whether this metabolite may be **summed into** the parent's tolerance curve (K.5.1). Only a
+        /// `scaled` metabolite (same mechanism, different strength — nordazepam to diazepam) qualifies;
+        /// a `divergent` one (tramadol → M1) has a qualitatively different mechanism that no scalar maps
+        /// parent occupancy onto, and `unknown` is treated as divergent (conservative).
+        var canFold: Bool {
+            mechanismVsParent == "scaled"
+        }
+
+        /// Concentration prefactor relative to the parent: formation fraction × potency ratio. Each
+        /// missing factor defaults to 100% — a fully-formed, equipotent metabolite, the conservative
+        /// "counts as much as the parent" reading (nordazepam: 100% × 100% = 1.0).
+        var foldPrefactor: Double {
+            let ff = (formationFractionPct ?? 100) / 100
+            let pp = (potencyVsParentPct ?? 100) / 100
+            return ff * pp
+        }
+
+        /// Whether the potency ratio is a clinical equivalence (safe to trust) rather than an affinity
+        /// constant — a non-clinical basis floors the folded contributor's confidence to `.low`.
+        var isClinicalBasis: Bool {
+            potencyBasis == "clinical"
+        }
+    }
+
     let substanceName: String
     let molarMassGramsPerMole: Double?
     let vdLPerKg: Double?
@@ -145,6 +195,9 @@ nonisolated struct PharmacologyParameters {
     let fractionUnbound: Double
     /// Engaged targets carrying a numeric half-max, **tightest (most potent) first**.
     let targets: [TargetEngagement]
+    /// Active metabolites this substance produces that may extend its occupancy tail (K.5). Empty for
+    /// substances with no metabolite data (and for every synthetic test-built parameter set).
+    let metabolites: [MetaboliteContributor]
 
     /// Explicit memberwise-shaped initializer with the newer inputs (Tmax, intrinsic efficacy) as
     /// **trailing defaulted** parameters, so the many existing call sites (the resolver and the test
@@ -169,6 +222,7 @@ nonisolated struct PharmacologyParameters {
         categoryClasses: Set<ReceptorClasses.ReceptorClass> = [],
         pkSpecies: String? = nil,
         fractionUnbound: Double = 1,
+        metabolites: [MetaboliteContributor] = [],
     ) {
         self.substanceName = substanceName
         self.molarMassGramsPerMole = molarMassGramsPerMole
@@ -188,6 +242,7 @@ nonisolated struct PharmacologyParameters {
         self.pkSpecies = pkSpecies
         self.fractionUnbound = fractionUnbound
         self.targets = targets
+        self.metabolites = metabolites
     }
 
     /// The most potent engaged target — the occupancy driver.

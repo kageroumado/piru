@@ -52,6 +52,10 @@ final class SubstanceDetailModel {
     /// rifampicin…) — it can lower hormonal-contraception levels.
     var contraceptionCaution: MetabolicModulation.Modulator?
 
+    /// CYP2D6 metabolism classification, derived from ``metabolismRows``. Non-nil when the
+    /// substance has at least one metabolism row where CYP2D6 is a primary pathway.
+    var cyp2d6Info: CYP2D6Info?
+
     /// DA↔5-HT character / releaser-blocker card, derived from the bindings.
     var monoamineProfile: MonoamineProfile?
 
@@ -153,6 +157,7 @@ final class SubstanceDetailModel {
         // below stays harm-reduction-and-up, since that is genuinely advisory.
         let rows = policy.showsPharmacokinetics ? metabolismRows : store.metabolism(forSubstanceName: substanceName)
         activeMetabolites = Self.foldActiveMetabolites(from: rows)
+        cyp2d6Info = CYP2D6Info.from(metabolismRows: rows)
         metabolicEducation = policy.showsMechanism
             ? MetabolicModulation.educationalEffects(forSubstance: substanceName, metabolism: rows)
             : []
@@ -269,5 +274,45 @@ final class SubstanceDetailModel {
     /// measured values in SQL, so the two cards agree by construction (no per-target inheritance hack).
     static func strengthTier(for hit: SubstanceStore.BindingHit) -> Int? {
         ReceptorStrength.tier(kiNm: hit.kiNm, ec50Nm: hit.ec50Nm, ic50Nm: hit.ic50Nm)
+    }
+}
+
+// MARK: - CYP2D6 substrate classification
+
+/// Whether a substance is primarily metabolized by CYP2D6, and whether that metabolism creates
+/// a qualitatively different drug (prodrug pattern) or just clears the parent. `nonisolated` (pure
+/// value logic over ``SubstanceStore/MetabolismHit``) so the off-main tolerance resolve can reuse it
+/// for the §F.3 CYP2D6 half-life multiplier.
+nonisolated struct CYP2D6Info {
+    /// CYP2D6 is the primary (first-listed or sole) metabolic pathway.
+    let isMajorPathway: Bool
+    /// The CYP2D6 step produces a divergent metabolite — the parent is a prodrug and the
+    /// metabolite is the active species (codeine→morphine, tramadol→M1). When true, a
+    /// poor-metabolizer note emphasizes reduced activation; when false, it emphasizes
+    /// slower clearance / longer duration.
+    let hasProdrugPattern: Bool
+
+    static func from(metabolismRows rows: [SubstanceStore.MetabolismHit]) -> CYP2D6Info? {
+        let cyp2d6Rows = rows.filter { isCYP2D6Primary($0.enzyme) }
+        guard !cyp2d6Rows.isEmpty else { return nil }
+        // A CYP2D6 step is a prodrug pattern when the metabolite is active AND
+        // either divergent-mechanism OR ≥5× more potent than the parent. The
+        // potency gate catches codeine→morphine (scaled, 200×) and
+        // oxycodone→oxymorphone (scaled, 10–40×), where the parent is a weak
+        // opioid and the metabolite is the real drug.
+        let hasProdrugPattern = cyp2d6Rows.contains { row in
+            row.metaboliteActive == true
+                && (row.metaboliteMechanismVsParent == .divergent
+                    || (row.metabolitePotencyVsParentPct ?? 100) >= 500)
+        }
+        return CYP2D6Info(isMajorPathway: true, hasProdrugPattern: hasProdrugPattern)
+    }
+
+    /// CYP2D6 is a primary pathway when it appears at the leading position of the
+    /// freeform enzyme string — "CYP2D6", "CYP2D6 (major)", "CYP2D6 / CYP3A4".
+    /// A string like "CYP3A4 / CYP2D6" lists it as a minor contributor.
+    private static func isCYP2D6Primary(_ enzyme: String) -> Bool {
+        let trimmed = enzyme.trimmingCharacters(in: .whitespaces)
+        return trimmed.hasPrefix("CYP2D6")
     }
 }

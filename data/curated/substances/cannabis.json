@@ -4,6 +4,12 @@
     "大麻",
     "大麻草"
   ],
+  "popularAliases": [
+    "Weed",
+    "Marijuana",
+    "Pot",
+    "Ganja"
+  ],
   "routes": [
     {
       "route": "inhalation",
