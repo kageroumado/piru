@@ -280,8 +280,10 @@ final class SubstanceDetailModel {
 // MARK: - CYP2D6 substrate classification
 
 /// Whether a substance is primarily metabolized by CYP2D6, and whether that metabolism creates
-/// a qualitatively different drug (prodrug pattern) or just clears the parent.
-struct CYP2D6Info {
+/// a qualitatively different drug (prodrug pattern) or just clears the parent. `nonisolated` (pure
+/// value logic over ``SubstanceStore/MetabolismHit``) so the off-main tolerance resolve can reuse it
+/// for the §F.3 CYP2D6 half-life multiplier.
+nonisolated struct CYP2D6Info {
     /// CYP2D6 is the primary (first-listed or sole) metabolic pathway.
     let isMajorPathway: Bool
     /// The CYP2D6 step produces a divergent metabolite — the parent is a prodrug and the
