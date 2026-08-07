@@ -1,5 +1,5 @@
 {
-  "_comment": "Curated identifier corrections — hand-verified against PubChem for substances the automated reconciler (reconcile_identifiers_pubchem.py) flagged because neither DB field corroborated and CAS couldn't arbitrate. Applied by apply_identifier_reconciliation AFTER the auto snapshot (manual wins), and the reconciler skips these names so they don't reappear as flagged. Keyed by canonical_name. Four entries added 2026-08-01 by the structural-duplicate audit: three tryptamines (5-BR-DMT, alpha-N,N-trimethyltryptamine, 4-HO-PiPT) had the indole nitrogen written as aromatic `n` instead of `[nH]`, so the SMILES did not sanitize in RDKit at all and the row keyed off its counterion;. Berberine added 2026-08-02: the nps-datahub dump wrote the isoquinolinium nitrogen as an aliphatic `[N+]` inside an otherwise-aromatic ring system, so the whole molecule failed kekulization — replaced with PubChem CID 2353's own SMILES. The build now refuses to store any SMILES RDKit cannot parse (see reject_unparseable_smiles). Cathine added the same day: the curated file pins the (1S,2S) freebase InChIKey, but the curated schema carries no `smiles` field, so a source back-filled the racemic HCl written with the `.[H+]` bare-proton malformation — a different molecule from the one the row's own InChIKey claims. Doip: the stored InChIKey GYEHYVZVTYSXPS resolves to nothing on PubChem while the row's SMILES recomputes to SPKSLAUXKHSASF = 1-(2,5-dimethoxy-4-propan-2-ylphenyl)propan-2-amine (DOiP, CID 44265275) — here the SMILES was right and the identifier was the fabrication, so the key was replaced, not the structure.",
+  "_comment": "Curated identifier corrections — hand-verified against PubChem for substances the automated reconciler (reconcile_identifiers_pubchem.py) flagged because neither DB field corroborated and CAS couldn't arbitrate. Applied by apply_identifier_reconciliation AFTER the auto snapshot (manual wins), and the reconciler skips these names so they don't reappear as flagged. Keyed by canonical_name. Four entries added 2026-08-01 by the structural-duplicate audit: three tryptamines (5-BR-DMT, alpha-N,N-trimethyltryptamine, 4-HO-PiPT) had the indole nitrogen written as aromatic `n` instead of `[nH]`, so the SMILES did not sanitize in RDKit at all and the row keyed off its counterion;. Berberine added 2026-08-02: the nps-datahub dump wrote the isoquinolinium nitrogen as an aliphatic `[N+]` inside an otherwise-aromatic ring system, so the whole molecule failed kekulization — replaced with PubChem CID 2353's own SMILES. The build now refuses to store any SMILES RDKit cannot parse (see reject_unparseable_smiles). Cathine added the same day: the curated file pins the (1S,2S) freebase InChIKey, but the curated schema carries no `smiles` field, so a source back-filled the racemic HCl written with the `.[H+]` bare-proton malformation — a different molecule from the one the row's own InChIKey claims. Doip: the stored InChIKey GYEHYVZVTYSXPS resolves to nothing on PubChem while the row's SMILES recomputes to SPKSLAUXKHSASF = 1-(2,5-dimethoxy-4-propan-2-ylphenyl)propan-2-amine (DOiP, CID 44265275) — here the SMILES was right and the identifier was the fabrication, so the key was replaced, not the structure. Nine phenethylamine/NBOMe/benzofuran entries added 2026-08-07 (25B-NBOMe, 2C-B-FLY, 2C-IP, AM-694, DOB, DOC, DOM, TMA-2, TMA-6): each row's freebase InChIKey is PubChem-verified, but the SMILES carried a `.Cl` hydrochloride counterion (AM-694 instead used non-Kekulé `:` aromatic bonds obabel rejects), so the stored key disagreed with its own SMILES — replaced with each freebase's PubChem SMILES (CIDs 9977044/10265873/57474311/9889172/62065/542036/85875/31014/31015).",
   "Theobromine": {
     "inchikey": "YAPQBXQYLJRXSA-UHFFFAOYSA-N",
     "smiles": "CN1C=NC2=C1C(=O)NC(=O)N2C"
@@ -129,5 +129,41 @@
     "inchikey": "CLXPYTBRAZHUFD-UHFFFAOYSA-N",
     "smiles": "CC1C(OCCN1)C2=CC=C(C=C2)F",
     "formula": "C11H14FNO"
+  },
+  "25B-NBOMe": {
+    "inchikey": "SUXGNJVVBGJEFB-UHFFFAOYSA-N",
+    "smiles": "COC1=CC=CC=C1CNCCC2=CC(=C(C=C2OC)Br)OC"
+  },
+  "2C-B-FLY": {
+    "inchikey": "YZDFADGMVOSVIX-UHFFFAOYSA-N",
+    "smiles": "C1COC2=C(C3=C(C(=C21)CCN)OCC3)Br"
+  },
+  "2C-IP": {
+    "inchikey": "XUGPCRRUMVWELT-UHFFFAOYSA-N",
+    "smiles": "CC(C)C1=C(C=C(C(=C1)OC)CCN)OC"
+  },
+  "AM-694": {
+    "inchikey": "LFFIIZFINPPEMC-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C2C(=C1)C(=CN2CCCCCF)C(=O)C3=CC=CC=C3I"
+  },
+  "DOB": {
+    "inchikey": "FXMWUTGUCAKGQL-UHFFFAOYSA-N",
+    "smiles": "CC(CC1=CC(=C(C=C1OC)Br)OC)N"
+  },
+  "DOC": {
+    "inchikey": "ACRITBNCBMTINK-UHFFFAOYSA-N",
+    "smiles": "CC(CC1=CC(=C(C=C1OC)Cl)OC)N"
+  },
+  "DOM": {
+    "inchikey": "NTJQREUGJKIARY-UHFFFAOYSA-N",
+    "smiles": "CC1=CC(=C(C=C1OC)CC(C)N)OC"
+  },
+  "TMA-2": {
+    "inchikey": "TVSIMAWGATVNGK-UHFFFAOYSA-N",
+    "smiles": "CC(CC1=CC(=C(C=C1OC)OC)OC)N"
+  },
+  "TMA-6": {
+    "inchikey": "DDGNOUVDFKXADP-UHFFFAOYSA-N",
+    "smiles": "CC(CC1=C(C=C(C=C1OC)OC)OC)N"
   }
 }
