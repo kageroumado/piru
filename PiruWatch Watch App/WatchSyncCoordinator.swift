@@ -1,6 +1,9 @@
 import Foundation
 import Observation
+import os
 import WatchConnectivity
+
+private let watchLog = Logger(subsystem: "dev.yumeji.piru.watchkitapp", category: "WatchSync")
 
 /// The watch half of the sync (`Specs/apple-watch-companion.md`). Reads the favorites/recents
 /// manifest the phone pushes (OS-persisted in `receivedApplicationContext`, so it survives the
@@ -29,6 +32,7 @@ final class WatchSyncCoordinator: NSObject {
         session.activate()
         loadManifest(from: session.receivedApplicationContext)
         pendingCount = session.outstandingUserInfoTransfers.count
+        watchLog.notice("activate: manifestItems=\(self.manifest?.items.count ?? -1) reachable=\(session.isReachable)")
     }
 
     /// Queue a watch-logged dose for guaranteed delivery to the phone.
@@ -37,6 +41,8 @@ final class WatchSyncCoordinator: NSObject {
         WCSession.default.transferUserInfo(userInfo)
         pendingCount += 1
         lastLoggedAt = Date()
+        // Count only — never the substance/amount (this is a device log).
+        watchLog.notice("queued dose for phone; pending=\(self.pendingCount)")
     }
 
     private func loadManifest(from context: [String: Any]) {
@@ -45,6 +51,7 @@ final class WatchSyncCoordinator: NSObject {
     }
 
     private func apply(_ manifest: QuickLogManifest) {
+        watchLog.notice("didReceiveContext: items=\(manifest.items.count)")
         self.manifest = manifest
     }
 }

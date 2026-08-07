@@ -13,6 +13,7 @@
 		0B793F122F55446700FB3EE1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B793F112F55446700FB3EE1 /* SwiftUI.framework */; };
 		0B793F1F2F55446900FB3EE1 /* PiruLiveActivityExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0B793F0D2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0B7CFB712FC48B84007EE957 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 0B7CFB702FC48B84007EE957 /* GRDB */; };
+		0B7A7C0000000000000000A3 /* PiruWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0B3399093025398800182A68 /* PiruWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,13 @@
 			remoteGlobalIDString = 40905C6634D1463ABA5AADE3;
 			remoteInfo = PiruWidget;
 		};
+		0B7A7C0000000000000000A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B793EF32F55434700FB3EE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0B3399083025398800182A68;
+			remoteInfo = "PiruWatch Watch App";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,6 +57,17 @@
 				06C3E897629B462490951D1C /* PiruWidget.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
+		};
+		0B7A7C0000000000000000A4 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				0B7A7C0000000000000000A3 /* PiruWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -236,12 +255,14 @@
 				0B793EF82F55434700FB3EE1 /* Frameworks */,
 				0B793EF92F55434700FB3EE1 /* Resources */,
 				0B793F242F55446900FB3EE1 /* Embed Foundation Extensions */,
+				0B7A7C0000000000000000A4 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				0B793F1E2F55446900FB3EE1 /* PBXTargetDependency */,
 				EBC3FB5B0B3342D8934D5D30 /* PBXTargetDependency */,
+				0B7A7C0000000000000000A2 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				0B793EFD2F55434700FB3EE1 /* Piru */,
@@ -441,6 +462,11 @@
 			target = 40905C6634D1463ABA5AADE3 /* PiruWidget */;
 			targetProxy = CE814B69A2584184B107983E /* PBXContainerItemProxy */;
 		};
+		0B7A7C0000000000000000A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0B3399083025398800182A68 /* PiruWatch Watch App */;
+			targetProxy = 0B7A7C0000000000000000A1 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -460,7 +486,7 @@
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Piru reads your body weight, heart rate, and blood pressure from Health to personalize estimates and show your body's response during a session. It does not write any data back to Health.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Piru attaches the place where you took a dose so you can see it in your journal. Location is stored only on your device and is never shared.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.yumeji.piru;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -497,7 +523,7 @@
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Piru reads your body weight, heart rate, and blood pressure from Health to personalize estimates and show your body's response during a session. It does not write any data back to Health.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Piru attaches the place where you took a dose so you can see it in your journal. Location is stored only on your device and is never shared.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.yumeji.piru;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

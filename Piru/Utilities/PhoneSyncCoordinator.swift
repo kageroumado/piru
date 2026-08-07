@@ -1,6 +1,9 @@
 import Foundation
+import os
 import SwiftData
 import WatchConnectivity
+
+private let watchLog = Logger(subsystem: "dev.yumeji.piru", category: "WatchSync")
 
 /// The phone half of the Apple Watch sync (`Specs/apple-watch-companion.md`). Owns the
 /// `WCSession` on the iPhone: it **pushes** the favorites/recents manifest to the watch via
@@ -58,7 +61,12 @@ final class PhoneSyncCoordinator: NSObject {
             favoriteDefault: Self.favoriteDefault(for:),
         )
         guard let payload = manifest.applicationContext() else { return }
-        try? session.updateApplicationContext(payload)
+        do {
+            try session.updateApplicationContext(payload)
+            watchLog.notice("pushManifest ok: items=\(manifest.items.count) paired=\(session.isPaired) installed=\(session.isWatchAppInstalled) reachable=\(session.isReachable)")
+        } catch {
+            watchLog.error("pushManifest FAILED: \(error.localizedDescription) items=\(manifest.items.count) paired=\(session.isPaired) installed=\(session.isWatchAppInstalled)")
+        }
     }
 
     /// Resolve a favorited substance's default dose from the library, for a favorite with no
@@ -75,7 +83,9 @@ final class PhoneSyncCoordinator: NSObject {
 
     private func receive(_ payload: WatchDosePayload) {
         guard let context = container?.mainContext else { return }
-        WatchDoseReceiver.ingest(payload, in: context)
+        let outcome = WatchDoseReceiver.ingest(payload, in: context)
+        // Count/outcome only — never the substance or amount (this is a device log).
+        watchLog.notice("received watch dose → \(String(describing: outcome), privacy: .public)")
         // The received dose is a new recent; the change signal from `DoseLogService.log`
         // already re-pushes the manifest via `changeObserver`.
     }
