@@ -38725,7 +38725,24 @@
         }
       }
     },
+    "Point at a barcode or label, then tap a highlighted area" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对准条形码或标签，然后轻点高亮区域"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對準條碼或標籤，然後輕點高亮區域"
+          }
+        }
+      }
+    },
     "Point at the medication name or its barcode" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

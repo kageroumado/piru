@@ -13,6 +13,10 @@ T = {
     "Scan a label": ("扫描标签", "掃描標籤"),
     "Close scanner": ("关闭扫描", "關閉掃描"),
     "Point at the medication name or its barcode": ("对准药品名称或条形码", "對準藥品名稱或條碼"),
+    "Point at a barcode or label, then tap a highlighted area": (
+        "对准条形码或标签，然后轻点高亮区域",
+        "對準條碼或標籤，然後輕點高亮區域",
+    ),
     "Resolving…": ("识别中…", "辨識中…"),
     "Add to Log": ("添加到记录", "新增至記錄"),
     "Scan Again": ("重新扫描", "重新掃描"),
@@ -6559,6 +6563,7 @@ if __name__ == "__main__":
         "Scan a label",
         "Close scanner",
         "Point at the medication name or its barcode",
+        "Point at a barcode or label, then tap a highlighted area",
         "Resolving…",
         "Add to Log",
         "Scan Again",

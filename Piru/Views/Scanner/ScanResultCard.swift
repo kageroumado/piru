@@ -23,7 +23,7 @@ struct ScanResultCard: View {
     private var content: some View {
         switch phase {
         case .scanning:
-            Label("Point at the medication name or its barcode", systemImage: "viewfinder")
+            Label("Point at a barcode or label, then tap a highlighted area", systemImage: "viewfinder")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 

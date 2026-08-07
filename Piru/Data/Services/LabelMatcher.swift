@@ -97,9 +97,19 @@ enum LabelMatcher {
     /// Resolve a recognized OCR text region. Parses any strength it carries, then
     /// matches the drug name against the alias index. `nil` when no substance
     /// matches — the caller then offers a manual search with `bestCandidate`.
-    static func resolve(ocrText: String, source: ResolvedDrug.Source = .ocr) -> ResolvedDrug? {
+    ///
+    /// `highConfidenceOnly` restricts matching to an exact canonical/alias hit
+    /// (skipping the fuzzy cascade) — the live auto-surface path uses it so the
+    /// scanner only fills in a name without a tap when it is certain, never a
+    /// guess.
+    static func resolve(
+        ocrText: String,
+        source: ResolvedDrug.Source = .ocr,
+        highConfidenceOnly: Bool = false,
+    ) -> ResolvedDrug? {
         let strength = parseStrength(ocrText)
-        guard let (substance, brand) = matchSubstance(in: ocrText) else { return nil }
+        guard let (substance, brand) = matchSubstance(in: ocrText, highConfidenceOnly: highConfidenceOnly)
+        else { return nil }
         return ResolvedDrug(
             substance: substance,
             brandName: brand,
@@ -139,14 +149,19 @@ enum LabelMatcher {
     /// string first (an exact alias like "Concerta"), then progressively shorter
     /// candidates. Returns the substance and the brand string it matched by (`nil`
     /// when the match was the canonical name itself).
-    private static func matchSubstance(in text: String) -> (Substance, brand: String?)? {
+    private static func matchSubstance(
+        in text: String,
+        highConfidenceOnly: Bool = false,
+    ) -> (Substance, brand: String?)? {
         for candidate in candidateStrings(from: text) {
             // Exact canonical/alias hit — highest confidence, overlay-aware.
             if let substance = SubstanceLibrary.lookupByNameOrAlias(candidate) {
                 return (substance, brand(for: candidate, substance: substance))
             }
-            // Ranked fuzzy cascade for near-misses (OCR slips, casing).
-            if let match = SubstanceLibrary.searchMatches(candidate, limit: 1).first {
+            // Ranked fuzzy cascade for near-misses (OCR slips, casing). Skipped
+            // for the high-confidence path — a fuzzy near-miss is exactly what
+            // must wait for a deliberate tap, not auto-surface.
+            if !highConfidenceOnly, let match = SubstanceLibrary.searchMatches(candidate, limit: 1).first {
                 return (match.substance, match.matchedAlias)
             }
         }

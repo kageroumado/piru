@@ -51,6 +51,10 @@ final class LabelScanModel {
     /// Barcodes already attempted, so a barcode lingering in frame resolves once.
     private var seenBarcodes: Set<String> = []
 
+    /// OCR transcripts already auto-checked, so a name lingering in frame is
+    /// tried once (and a wrong auto-match isn't re-surfaced after "Scan Again").
+    private var seenTexts: Set<String> = []
+
     /// A tapped item: resolve a barcode over the network, or OCR text locally. An
     /// explicit tap always resolves — even a barcode the auto-handler already
     /// tried — so it isn't a dead spot after "Scan Again".
@@ -70,12 +74,24 @@ final class LabelScanModel {
     }
 
     /// First appearance of any barcode auto-resolves it — the "point and it fills
-    /// in" path. Text waits for a tap, since every frame surfaces many regions.
+    /// in" path. Text auto-surfaces only on a **high-confidence** (exact alias)
+    /// match, so pointing at a name the library knows fills in without a tap;
+    /// anything fuzzier waits for a deliberate tap (`handleTap` runs the full
+    /// cascade), since every frame surfaces many regions and a guess must not
+    /// present itself.
     func autoHandle(_ items: [RecognizedItem]) {
         guard case .scanning = phase else { return }
         for case let .barcode(barcode) in items {
             if let payload = barcode.payloadStringValue, seenBarcodes.insert(payload).inserted {
                 resolveBarcode(payload)
+                return
+            }
+        }
+        for case let .text(text) in items {
+            let transcript = text.transcript
+            guard seenTexts.insert(transcript).inserted else { continue }
+            if let resolved = LabelMatcher.resolve(ocrText: transcript, highConfidenceOnly: true) {
+                phase = .resolved(resolved)
                 return
             }
         }
@@ -256,6 +272,18 @@ private struct DataScannerRepresentable: UIViewControllerRepresentable {
             allItems _: [RecognizedItem],
         ) {
             model.autoHandle(addedItems)
+        }
+
+        /// A text region's transcript refines over frames; re-run auto-handling so
+        /// a name that only becomes an exact match once it sharpens still surfaces
+        /// without a tap. Cheap: `autoHandle` returns immediately once resolved and
+        /// dedupes transcripts it has already checked.
+        func dataScanner(
+            _: DataScannerViewController,
+            didUpdate updatedItems: [RecognizedItem],
+            allItems _: [RecognizedItem],
+        ) {
+            model.autoHandle(updatedItems)
         }
     }
 }
