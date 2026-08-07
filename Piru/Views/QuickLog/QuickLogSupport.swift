@@ -35,6 +35,7 @@ struct DockSheetHost: View {
     /// stack on the dock.
     @Binding var showCustomForm: Bool
     @Binding var showEditSheet: Bool
+    @Binding var showScanner: Bool
     let onCommit: () -> Void
 
     @Environment(\.appNavigator) private var navigator
@@ -71,6 +72,17 @@ struct DockSheetHost: View {
         .sheet(isPresented: $showEditSheet) {
             QuickLogEditSheet()
         }
+        // The label scanner stacks on the dock (the cover's slot is taken), like
+        // the sheets above — full-screen for the live camera.
+        .fullScreenCover(isPresented: $showScanner) {
+            LabelScannerView(
+                onResolved: stageScanned,
+                onSearch: { text in
+                    searchText = text
+                    searchActive = true
+                },
+            )
+        }
         // Navigator sheets launched from quick log (Manage Routines, Edit
         // Routine…) present here, stacked on the dock — the dock occupies
         // the cover's only presentation slot, so they can't present there.
@@ -80,6 +92,26 @@ struct DockSheetHost: View {
         .presentationContentInteraction(.resizes)
         .presentationBackground { Color.clear }
         .interactiveDismissDisabled()
+    }
+
+    /// Stage a scanned label as a complete dose — the strength read off the box
+    /// pre-fills the amount, so it lands like a tapped chip. The scanned brand
+    /// rides along as `productName` (canonical name stays the substance's own),
+    /// exactly as a search hit does.
+    private func stageScanned(_ resolved: ResolvedDrug) {
+        withAnimation(.snappy) {
+            tray.stage(
+                substance: resolved.canonicalName,
+                route: resolved.stagingRoute,
+                amount: resolved.stagingAmount,
+                unit: resolved.stagingUnit,
+                colorHex: content.cachedColorLookup[resolved.canonicalName.lowercased()],
+                librarySubstance: resolved.substance,
+                productName: resolved.brandName,
+            )
+            searchActive = false
+            searchText = ""
+        }
     }
 
     private func onCustomFormDismiss() {

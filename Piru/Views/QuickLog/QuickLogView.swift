@@ -2,6 +2,7 @@ import OSLog
 import SwiftData
 import SwiftUI
 import UIKit
+import VisionKit
 import WidgetKit
 
 private let quickLogLogger = Logger(subsystem: "dev.yumeji.piru", category: "QuickLog")
@@ -76,6 +77,7 @@ struct QuickLogView: View {
     @State private var searchText = ""
     @State private var showCustomForm = false
     @State private var showEditSheet = false
+    @State private var showScanner = false
 
     /// Staged-but-uncommitted doses. Tapping a chip stages it here; the dock
     /// (the screen's single bottom surface) is the commit surface for one dose
@@ -166,7 +168,7 @@ struct QuickLogView: View {
             // sheet is up. (Sheets presented from deep inside the dock — the
             // drink preset manager, find-a-place — are the dock's own overlay
             // problem and don't expose this layer.)
-            .accessibilityHidden(showEditSheet || showCustomForm || navigator.sheetStack.count > 1)
+            .accessibilityHidden(showEditSheet || showCustomForm || showScanner || navigator.sheetStack.count > 1)
             .scrollDismissesKeyboard(.interactively)
             .background(Theme.background)
             .navigationTitle("Log")
@@ -199,11 +201,24 @@ struct QuickLogView: View {
                 // everything editable here: routines & prescriptions and the
                 // favorites order. The "Fixed Order" toggle lives in
                 // Settings ▸ Journal ("Keep Quick-Log Order").
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItem(placement: .topBarTrailing) {
                     Button("Edit") {
                         showEditSheet = true
                     }
                     .accessibilityLabel("Edit routines and favorites")
+                }
+                // The label scanner, split into its own glass group — point the
+                // camera at a medication box to stage its substance and strength.
+                if DataScannerViewController.isSupported {
+                    ToolbarSpacer(.fixed, placement: .topBarTrailing)
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            showScanner = true
+                        } label: {
+                            Image(systemName: "camera")
+                        }
+                        .accessibilityLabel("Scan a label")
+                    }
                 }
             }
             .task {
@@ -279,6 +294,7 @@ struct QuickLogView: View {
                 searchActive: $searchActive,
                 showCustomForm: $showCustomForm,
                 showEditSheet: $showEditSheet,
+                showScanner: $showScanner,
                 onCommit: commitTray,
             )
         }

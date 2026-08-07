@@ -19,6 +19,8 @@
 	</array>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Piru uses the camera to scan a medication label or barcode and read the drug name and strength, so it can fill in a dose for you. The image is processed on your device, never saved, and never leaves it.</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>Piru reads your body weight to make dose and alcohol-strength estimates accurate for your body, and — if you enable it — your heart rate and blood pressure to show how your body responded during a session. Everything is read-only on your device and is never shared.</string>
 	<key>NSHealthUpdateUsageDescription</key>

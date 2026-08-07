@@ -9,6 +9,28 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # ---- Label scanner (camera → QuickLog) ----
+    "Scan a label": ("扫描标签", "掃描標籤"),
+    "Close scanner": ("关闭扫描", "關閉掃描"),
+    "Point at the medication name or its barcode": ("对准药品名称或条形码", "對準藥品名稱或條碼"),
+    "Resolving…": ("识别中…", "辨識中…"),
+    "Add to Log": ("添加到记录", "新增至記錄"),
+    "Scan Again": ("重新扫描", "重新掃描"),
+    "No match": ("无匹配", "無匹配"),
+    "Point the camera at the printed drug name.": (
+        "将相机对准印刷的药品名称。",
+        "將相機對準印刷的藥品名稱。",
+    ),
+    "Camera Access Needed": ("需要相机权限", "需要相機權限"),
+    "Scanning Unavailable": ("无法扫描", "無法掃描"),
+    "Enable camera access in Settings to scan medication labels.": (
+        "在“设置”中允许相机访问以扫描药品标签。",
+        "在「設定」中允許相機存取以掃描藥品標籤。",
+    ),
+    "Label scanning isn't available on this device.": (
+        "此设备不支持标签扫描。",
+        "此裝置不支援標籤掃描。",
+    ),
     # ---------------------------------------------------------------
     # Live Activity timer labels — orphaned in PiruLiveActivityExtension's own
     # catalog, so they shipped English to zh users on the Lock Screen.
@@ -6409,6 +6431,19 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        # Label scanner strings (CLI-added; Xcode hasn't extracted them yet).
+        "Scan a label",
+        "Close scanner",
+        "Point at the medication name or its barcode",
+        "Resolving…",
+        "Add to Log",
+        "Scan Again",
+        "No match",
+        "Point the camera at the printed drug name.",
+        "Camera Access Needed",
+        "Scanning Unavailable",
+        "Enable camera access in Settings to scan medication labels.",
+        "Label scanning isn't available on this device.",
         # The 2026-08-04 sweep's two strings the extractor didn't pick up.
         "Estimates from primary literature.",
         "Suppresses the enzyme that makes serotonin, so recovery takes weeks.",

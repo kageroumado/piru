@@ -7569,6 +7569,22 @@
         }
       }
     },
+    "Add to Log" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加到记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增至記錄"
+          }
+        }
+      }
+    },
     "Add Your Meds" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12198,6 +12214,22 @@
         }
       }
     },
+    "Camera Access Needed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要相机权限"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要相機權限"
+          }
+        }
+      }
+    },
     "Can't predict yet" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13590,6 +13622,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "關閉"
+          }
+        }
+      }
+    },
+    "Close scanner" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭扫描"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關閉掃描"
           }
         }
       }
@@ -15977,7 +16025,20 @@
       }
     },
     "CYP2D6 status" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6状态"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CYP2D6狀態"
+          }
+        }
+      }
     },
     "D3-Preferring Dopamine Partial Agonist" : {
       "extractionState" : "stale",
@@ -20474,6 +20535,22 @@
         }
       }
     },
+    "Enable camera access in Settings to scan medication labels." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“设置”中允许相机访问以扫描药品标签。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「設定」中允許相機存取以掃描藥品標籤。"
+          }
+        }
+      }
+    },
     "Enable Comedown Alert" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22307,7 +22384,20 @@
       }
     },
     "Extensive metabolizer" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快代谢者"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快代謝者"
+          }
+        }
+      }
     },
     "Extremely Potent Substance" : {
       "localizations" : {
@@ -27381,7 +27471,20 @@
       }
     },
     "Intermediate metabolizer" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中间代谢者"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中間代謝者"
+          }
+        }
+      }
     },
     "Intihar Onleme Hatti" : {
       "localizations" : {
@@ -28052,6 +28155,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kriisipuhelin"
+          }
+        }
+      }
+    },
+    "Label scanning isn't available on this device." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此设备不支持标签扫描。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此裝置不支援標籤掃描。"
           }
         }
       }
@@ -33732,6 +33851,22 @@
         }
       }
     },
+    "No match" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无匹配"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無匹配"
+          }
+        }
+      }
+    },
     "No Matching Items" : {
       "localizations" : {
         "zh-Hans" : {
@@ -38088,6 +38223,38 @@
         }
       }
     },
+    "Point at the medication name or its barcode" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对准药品名称或条形码"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對準藥品名稱或條碼"
+          }
+        }
+      }
+    },
+    "Point the camera at the printed drug name." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将相机对准印刷的药品名称。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將相機對準印刷的藥品名稱。"
+          }
+        }
+      }
+    },
     "Poison Centre" : {
       "localizations" : {
         "zh-Hans" : {
@@ -38169,7 +38336,20 @@
       }
     },
     "Poor metabolizer" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "慢代谢者"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "慢代謝者"
+          }
+        }
+      }
     },
     "Popularity" : {
       "localizations" : {
@@ -41551,6 +41731,22 @@
         }
       }
     },
+    "Resolving…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "识别中…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "辨識中…"
+          }
+        }
+      }
+    },
     "Respiratory" : {
       "localizations" : {
         "zh-Hans" : {
@@ -43006,6 +43202,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已儲存的副本"
+          }
+        }
+      }
+    },
+    "Scan a label" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "扫描标签"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "掃描標籤"
+          }
+        }
+      }
+    },
+    "Scan Again" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新扫描"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新掃描"
+          }
+        }
+      }
+    },
+    "Scanning Unavailable" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法扫描"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法掃描"
           }
         }
       }
@@ -52407,7 +52651,20 @@
       }
     },
     "Ultra-rapid metabolizer" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "超快代谢者"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "超快代謝者"
+          }
+        }
+      }
     },
     "Unassigned" : {
       "extractionState" : "stale",
