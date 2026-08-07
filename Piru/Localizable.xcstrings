@@ -10916,7 +10916,20 @@
       }
     },
     "Before the usual onset window for your slowest-clearing drug — symptoms, if any, would typically start later." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "早于你清除最慢的药物通常的起始时间窗——即使会出现症状，通常也会更晚开始。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "早於你清除最慢的藥物通常的起始時間窗——即使會出現症狀，通常也會更晚開始。"
+          }
+        }
+      }
     },
     "Before You Deleted Everything" : {
       "localizations" : {
@@ -21478,6 +21491,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "根據你過去 7 天的日均用量估算。僅在大多數日子都用藥時顯示，以免偶爾一次造成偏差。"
+          }
+        }
+      }
+    },
+    "Estimated from your logged doses — the window is a population range, not a prediction for you." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据你记录的用药估算——这一时间窗是群体范围，并非对你个人的预测。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根據你記錄的用藥估算——這一時間窗是群體範圍，並非對你個人的預測。"
+          }
+        }
+      }
+    },
+    "Estimated withdrawal onset window, with a marker for time since your last dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算的戒断起始时间窗，并标出距上次用药的时间。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算的戒斷起始時間窗，並標出距上次用藥的時間。"
           }
         }
       }
@@ -37166,7 +37211,20 @@
       }
     },
     "Past the typical peak window for your drugs — a protracted tail can still persist for weeks." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已过你的药物通常的高峰时间窗——但迁延的尾期仍可能持续数周。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已過你的藥物通常的高峰時間窗——但遷延的尾期仍可能持續數週。"
+          }
+        }
+      }
     },
     "Patient Name (Optional)" : {
       "localizations" : {
@@ -55314,7 +55372,20 @@
       }
     },
     "Within the window when symptoms for drugs like yours typically begin and peak." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正处于此类药物症状通常开始并达到高峰的时间窗内。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正處於此類藥物症狀通常開始並達到高峰的時間窗內。"
+          }
+        }
+      }
     },
     "Within-session redose" : {
       "extractionState" : "stale",

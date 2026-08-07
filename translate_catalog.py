@@ -30,6 +30,14 @@ T = {
         "非醫療建議。規律使用後突然停用苯二氮䓬類藥物可能引發癲癇發作。這些是群體層面的時間，而非減量方案。",
     ),
     "Since your last dose": ("距上次用药", "距上次用藥"),
+    "Estimated from your logged doses — the window is a population range, not a prediction for you.": (
+        "根据你记录的用药估算——这一时间窗是群体范围，并非对你个人的预测。",
+        "根據你記錄的用藥估算——這一時間窗是群體範圍，並非對你個人的預測。",
+    ),
+    "Estimated withdrawal onset window, with a marker for time since your last dose.": (
+        "估算的戒断起始时间窗，并标出距上次用药的时间。",
+        "估算的戒斷起始時間窗，並標出距上次用藥的時間。",
+    ),
     "Less than a day": ("不到一天", "不到一天"),
     "1 day": ("1 天", "1 天"),
     "No half-life on file for your logged drugs, so the onset window can't be placed.": (

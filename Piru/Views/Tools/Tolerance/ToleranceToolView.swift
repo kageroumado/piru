@@ -62,6 +62,7 @@ struct ToleranceToolView: View {
                                             WithdrawalReferenceView(
                                                 contributors: row.snapshot.contributors,
                                                 lastDoseDate: lastDoseDate(for: row.snapshot.contributors),
+                                                effectiveHalfLifeMinutes: effectiveHalfLives(for: row.snapshot.contributors),
                                             )
                                         } label: {
                                             Label("If you stop: withdrawal timing", systemImage: "calendar.badge.clock")
@@ -123,6 +124,23 @@ struct ToleranceToolView: View {
     private func lastDoseDate(for contributors: [String]) -> Date? {
         let names = Set(contributors)
         return entries.first { names.contains($0.substance) }?.timestamp
+    }
+
+    /// Metabolite-extended half-life (minutes) per GABA contributor — the slowest of the parent's own
+    /// half-life and its foldable active metabolites' (K.5). This is what lets the withdrawal card
+    /// classify a prodrug benzo (clorazepate, ketazolam → nordazepam) as long-acting via its
+    /// metabolite tail rather than its short parent (I.full).
+    private func effectiveHalfLives(for contributors: [String]) -> [String: Double] {
+        var out: [String: Double] = [:]
+        for name in contributors {
+            let params = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: name)
+            let parent = params.halfLifeMinutes ?? HalfLifeDatabase.halfLife(for: name)
+            let slowestMetabolite = params.metabolites.filter(\.canFold).map(\.halfLifeMinutes).max()
+            if let effective = [parent, slowestMetabolite].compactMap(\.self).max() {
+                out[name] = effective
+            }
+        }
+        return out
     }
 
     private var recomputeSignature: String {

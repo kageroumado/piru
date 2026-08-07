@@ -13,6 +13,11 @@ struct WithdrawalReferenceView: View {
     /// The most recent GABA-class dose, or `nil` if none is datable — drives the "since your last
     /// dose" marker.
     let lastDoseDate: Date?
+    /// Per-drug **metabolite-extended** half-life (minutes), keyed by contributor name (I.full): the
+    /// slowest of the parent's own half-life and its foldable active metabolites'. Absent keys fall
+    /// back to the parent-half-life classification. This is what lifts a prodrug like clorazepate into
+    /// the long-acting band via its nordazepam tail rather than its short parent.
+    var effectiveHalfLifeMinutes: [String: Double] = [:]
 
     var body: some View {
         List {
@@ -75,12 +80,22 @@ struct WithdrawalReferenceView: View {
 
     private func sinceLastDoseSection(_ days: Int) -> some View {
         Section {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(daysPhrase(days))
                     .font(.title3.weight(.semibold))
                 Text(placementPhrase(days: days))
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
+                if let band = governingBand {
+                    WithdrawalOnsetBand(
+                        onsetStartDays: band.onsetStartDays, peakEndDays: band.peakEndDays,
+                        currentDays: Double(days),
+                    )
+                    .padding(.top, 2)
+                    Text("Estimated from your logged doses — the window is a population range, not a prediction for you.")
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
+                }
             }
             .padding(.vertical, 2)
         } header: {
@@ -125,7 +140,9 @@ struct WithdrawalReferenceView: View {
     /// The distinct timing bands the user's logged drugs fall into, longest-acting first (so the
     /// governing/most-cautious band reads at the top).
     private var userBands: [TimingBand] {
-        let classes = Set(contributors.map { WithdrawalActingClass.classify($0) })
+        let classes = Set(contributors.map {
+            WithdrawalActingClass.classify(name: $0, effectiveHalfLifeMinutes: effectiveHalfLifeMinutes[$0])
+        })
         return TimingBand.all.filter { classes.contains($0.actingClass) }
     }
 
@@ -144,11 +161,12 @@ struct WithdrawalReferenceView: View {
 
 // MARK: - Acting-class classifier
 
-/// Coarse benzodiazepine duration class for the withdrawal-onset bands. Classified by the drug's own
-/// half-life, with a curated override for the classic benzos whose *effective* duration (via active
-/// metabolites) differs from their parent half-life — chlordiazepoxide's 10 h parent is clinically
-/// long-acting through nordazepam. The curated map is the NAV26 §5.4 table; the threshold fallback
-/// (12 h / 40 h) covers everything else.
+/// Coarse benzodiazepine duration class for the withdrawal-onset bands. Classified by half-life
+/// thresholds (12 h / 40 h) over the drug's **metabolite-extended** effective half-life (I.full): a
+/// prodrug or short parent whose long-acting active metabolite dominates the tail (chlordiazepoxide,
+/// clorazepate, ketazolam → nordazepam, t½ ≈ 70 h) reads as long-acting because its metabolite is.
+/// The NAV26 §5.4 curated table is kept as a floor for the drugs it names, and metabolite data can
+/// only *lengthen* the band, never shorten it.
 nonisolated enum WithdrawalActingClass: Hashable {
     case short
     case intermediate
@@ -163,8 +181,8 @@ nonisolated enum WithdrawalActingClass: Hashable {
         }
     }
 
-    /// NAV26 §5.4 clinical groupings — override the parent-half-life threshold where active
-    /// metabolites move the effective duration into a different band.
+    /// NAV26 §5.4 clinical groupings, used as a floor (a named drug is never classified *shorter* than
+    /// its table entry, even if a half-life lookup would say so).
     private static let curated: [String: WithdrawalActingClass] = [
         "triazolam": .short,
         "alprazolam": .short,
@@ -177,16 +195,31 @@ nonisolated enum WithdrawalActingClass: Hashable {
         "clonazepam": .long,
     ]
 
-    static func classify(_ substanceName: String) -> WithdrawalActingClass {
-        let key = substanceName.lowercased().trimmingCharacters(in: .whitespaces)
-        if let curated = curated[key] { return curated }
-        // Threshold fallback on the drug's own half-life: < 12 h short, 12–40 h intermediate, > 40 h long.
-        guard let minutes = HalfLifeDatabase.halfLife(for: substanceName) else { return .intermediate }
+    /// Band from a half-life in minutes: < 12 h short, 12–40 h intermediate, > 40 h long.
+    private static func band(forMinutes minutes: Double) -> WithdrawalActingClass {
         switch minutes {
-        case ..<720: return .short
-        case 720 ..< 2_400: return .intermediate
-        default: return .long
+        case ..<720: .short
+        case 720 ..< 2_400: .intermediate
+        default: .long
         }
+    }
+
+    /// The longest-acting of the NAV26 curated band and the band implied by the drug's
+    /// **metabolite-extended** half-life (K.5). `effectiveHalfLifeMinutes` is the slowest of the
+    /// parent's own half-life and its foldable active metabolites'; `nil` falls back to the parent's
+    /// half-life alone (I.ref behavior). Metabolite data only lengthens the band, so the two sources
+    /// are combined by taking the longer-acting.
+    static func classify(name: String, effectiveHalfLifeMinutes: Double?) -> WithdrawalActingClass {
+        let key = name.lowercased().trimmingCharacters(in: .whitespaces)
+        let metaboliteBand = effectiveHalfLifeMinutes.map(band(forMinutes:))
+        if let curatedBand = curated[key] {
+            // Named in the NAV26 table: that band is the floor, upgraded only by a longer-acting
+            // metabolite-extended half-life (never shortened by a parent-half-life lookup).
+            return [curatedBand, metaboliteBand].compactMap(\.self).max { $0.rank < $1.rank } ?? curatedBand
+        }
+        // Un-curated: classify by the metabolite-extended half-life, else the parent's own.
+        if let metaboliteBand { return metaboliteBand }
+        return HalfLifeDatabase.halfLife(for: name).map(band(forMinutes:)) ?? .intermediate
     }
 }
 
@@ -235,6 +268,45 @@ struct TimingBand: Identifiable {
             peakEndDays: 4,
         ),
     ]
+}
+
+// MARK: - Onset band
+
+/// A compact horizontal band placing the user's days-since-last-dose against the governing timing
+/// band's onset→peak window (I.full). The colored zone is `[onsetStart, peakEnd]`; the accent marker
+/// is "now". Scaled so the window and the marker both fit with a little headroom.
+private struct WithdrawalOnsetBand: View {
+    let onsetStartDays: Double
+    let peakEndDays: Double
+    let currentDays: Double
+
+    private var total: Double {
+        max(peakEndDays * 1.3, currentDays * 1.1, 1)
+    }
+
+    private func position(_ days: Double, width: CGFloat) -> CGFloat {
+        CGFloat(min(days, total) / total) * width
+    }
+
+    var body: some View {
+        GeometryReader { geo in
+            let width = geo.size.width
+            ZStack(alignment: .leading) {
+                Capsule().fill(Theme.secondaryLabel.opacity(0.15))
+                Capsule()
+                    .fill(Color.orange.opacity(0.35))
+                    .frame(width: max(2, position(peakEndDays, width: width) - position(onsetStartDays, width: width)))
+                    .offset(x: position(onsetStartDays, width: width))
+                Capsule()
+                    .fill(Theme.accent)
+                    .frame(width: 3)
+                    .offset(x: min(position(currentDays, width: width), width - 3))
+            }
+        }
+        .frame(height: 10)
+        .accessibilityElement()
+        .accessibilityLabel("Estimated withdrawal onset window, with a marker for time since your last dose.")
+    }
 }
 
 // MARK: - Row views
