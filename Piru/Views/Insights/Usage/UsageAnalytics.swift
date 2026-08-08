@@ -425,8 +425,9 @@ nonisolated struct UsageWeekdayBucket: Sendable, Identifiable {
     /// Weekday component, 1 = Sunday.
     let weekday: Int
     let total: Int
-    /// Category index → count.
-    let byCategory: [Int: Int]
+    /// Σ of this weekday's ``UsageEntrySnapshot/commonDoses``; `nil` when none of
+    /// its entries had a common-dose value.
+    let commonTotal: Double?
     /// How many times this weekday actually occurred inside the range — the
     /// denominator for ``average``, so a partial range doesn't make Monday look
     /// quiet just because it came around once fewer.
@@ -438,6 +439,13 @@ nonisolated struct UsageWeekdayBucket: Sendable, Identifiable {
 
     var average: Double {
         occurrences > 0 ? Double(total) / Double(occurrences) : 0
+    }
+
+    /// Common-dose units per occurrence of this weekday; `nil` when the weekday
+    /// carries no common-dose data.
+    var commonAverage: Double? {
+        guard let commonTotal, occurrences > 0 else { return nil }
+        return commonTotal / Double(occurrences)
     }
 }
 
@@ -1105,11 +1113,15 @@ nonisolated enum UsageAnalytics {
         calendar: Calendar,
     ) -> [UsageWeekdayBucket] {
         var totals: [Int: Int] = [:]
-        var byCategory: [Int: [Int: Int]] = [:]
+        var commonTotals: [Int: Double] = [:]
+        var hasCommon: Set<Int> = []
         for entry in entries {
             let weekday = calendar.component(.weekday, from: entry.timestamp)
             totals[weekday, default: 0] += 1
-            byCategory[weekday, default: [:]][entry.categoryIndex, default: 0] += 1
+            if let common = entry.commonDoses {
+                commonTotals[weekday, default: 0] += common
+                hasCommon.insert(weekday)
+            }
         }
 
         let occurrences = weekdayOccurrences(bounds: bounds, calendar: calendar)
@@ -1118,7 +1130,7 @@ nonisolated enum UsageAnalytics {
             UsageWeekdayBucket(
                 weekday: weekday,
                 total: totals[weekday] ?? 0,
-                byCategory: byCategory[weekday] ?? [:],
+                commonTotal: hasCommon.contains(weekday) ? commonTotals[weekday] : nil,
                 occurrences: occurrences[weekday] ?? 0,
             )
         }

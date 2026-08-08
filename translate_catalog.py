@@ -250,6 +250,11 @@ T = {
     "Common doses/day": ("常规剂量/天", "常規劑量/天"),
     "Common doses per day": ("每天常规剂量数", "每天常規劑量數"),
     "Which weekdays you log on most": ("你最常在星期几记录", "你最常在星期幾記錄"),
+    "Common-dose units by weekday": ("按星期统计的常规剂量单位", "按星期統計的常規劑量單位"),
+    "Common-dose units by weekday, most on %@": (
+        "按星期统计的常规剂量单位，%@ 最多",
+        "按星期統計的常規劑量單位，%@ 最多",
+    ),
     "No common dose defined for these substances": (
         "这些物质未定义常规剂量",
         "這些物質未定義常規劑量",
@@ -6819,6 +6824,8 @@ if __name__ == "__main__":
         "Common doses/day",
         "Common doses per day",
         "Which weekdays you log on most",
+        "Common-dose units by weekday",
+        "Common-dose units by weekday, most on %@",
         "%@ rising to %@ per day",
         "%@ falling to %@ per day",
         "%@ steady at %@ per day",

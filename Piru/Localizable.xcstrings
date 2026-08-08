@@ -1126,6 +1126,7 @@
       }
     },
     "%@ entries per day on average" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14716,6 +14717,38 @@
         }
       }
     },
+    "Common-dose units by weekday" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按星期统计的常规剂量单位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按星期統計的常規劑量單位"
+          }
+        }
+      }
+    },
+    "Common-dose units by weekday, most on %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按星期统计的常规剂量单位，%@ 最多"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按星期統計的常規劑量單位，%@ 最多"
+          }
+        }
+      }
+    },
     "Common-dose units count each dose as a multiple of its common dose. %lld of %lld substances have one." : {
       "localizations" : {
         "en" : {
@@ -21489,6 +21522,7 @@
       }
     },
     "Entries by weekday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

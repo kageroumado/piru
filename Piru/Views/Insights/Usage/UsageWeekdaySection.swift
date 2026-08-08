@@ -15,12 +15,15 @@ import SwiftUI
 struct UsageWeekdaySection: View {
     let buckets: [UsageWeekdayBucket]
 
+    @State private var metric: UsageRankMetric = .entries
+
     var body: some View {
-        UsageSectionCard(title: "Day of week", subtitle: "Which weekdays you log on most") {
+        UsageSectionCard(title: "Day of week", subtitle: subtitle) {
+            metricPicker
             Chart(buckets) { bucket in
                 BarMark(
                     x: .value("Day", label(for: bucket.weekday)),
-                    y: .value("Entries", bucket.total),
+                    y: .value("Amount", value(bucket)),
                 )
                 .foregroundStyle(Theme.accent)
                 .cornerRadius(3)
@@ -41,15 +44,38 @@ struct UsageWeekdaySection: View {
                         .font(.caption2)
                 }
             }
-            .chartSummaryAccessibility(label: Text("Entries by weekday"), value: Text(summary))
+            .animation(.easeInOut(duration: 0.25), value: metric)
+            .chartSummaryAccessibility(label: Text("Day of week"), value: Text(summary))
 
             averagesRow
         }
     }
 
-    /// Average entries on each weekday — divided by how many times that weekday
-    /// actually came around inside the range, so a 10-day window doesn't make
-    /// two weekdays look artificially busy.
+    private var metricPicker: some View {
+        Picker("Measure", selection: $metric) {
+            Text("Entries").tag(UsageRankMetric.entries)
+            Text("Common doses").tag(UsageRankMetric.commonDoses)
+        }
+        .pickerStyle(.segmented)
+    }
+
+    private var subtitle: LocalizedStringKey {
+        metric == .commonDoses ? "Common-dose units by weekday" : "Which weekdays you log on most"
+    }
+
+    /// The active metric's total for a weekday — its entry count, or the
+    /// common-dose units logged on it (0 when it carries none).
+    private func value(_ bucket: UsageWeekdayBucket) -> Double {
+        metric == .commonDoses ? (bucket.commonTotal ?? 0) : Double(bucket.total)
+    }
+
+    /// The per-occurrence average of the active metric — divided by how many
+    /// times that weekday actually came around inside the range, so a 10-day
+    /// window doesn't make two weekdays look artificially busy.
+    private func average(_ bucket: UsageWeekdayBucket) -> Double {
+        metric == .commonDoses ? (bucket.commonAverage ?? 0) : bucket.average
+    }
+
     private var averagesRow: some View {
         HStack(spacing: 0) {
             ForEach(buckets) { bucket in
@@ -57,24 +83,27 @@ struct UsageWeekdaySection: View {
                     Text(label(for: bucket.weekday))
                         .font(.system(size: 9))
                         .foregroundStyle(Theme.secondaryLabel)
-                    Text(bucket.average.formatted(.number.precision(.fractionLength(0 ... 1))))
+                    Text(average(bucket).formatted(.number.precision(.fractionLength(0 ... 1))))
                         .font(.caption2.weight(.medium))
                         .monospacedDigit()
                 }
                 .frame(maxWidth: .infinity)
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel(Text(fullLabel(for: bucket.weekday)))
-                .accessibilityValue(Text("\(bucket.average.formatted(.number.precision(.fractionLength(0 ... 1)))) entries per day on average"))
+                .accessibilityValue(Text(average(bucket).formatted(.number.precision(.fractionLength(0 ... 1)))))
             }
         }
         .padding(.top, 2)
     }
 
     private var summary: String {
-        let total = buckets.reduce(0) { $0 + $1.total }
-        guard total > 0, let peak = buckets.max(by: { $0.total < $1.total }) else {
+        guard let peak = buckets.max(by: { value($0) < value($1) }), value(peak) > 0 else {
             return String(localized: "No entries in this window")
         }
+        if metric == .commonDoses {
+            return String(localized: "Common-dose units by weekday, most on \(fullLabel(for: peak.weekday))")
+        }
+        let total = buckets.reduce(0) { $0 + $1.total }
         return String(localized: "\(total) entries, busiest on \(fullLabel(for: peak.weekday)) with \(peak.total)")
     }
 

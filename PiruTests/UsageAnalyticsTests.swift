@@ -799,9 +799,9 @@ struct UsageAnalyticsTests {
     func `Weekday buckets are ordered by the calendar's first weekday`() {
         let window = bounds(date(2_026, 6, 1, 0), date(2_026, 6, 14, 23))
         let entries = [
-            snapshot(at: date(2_026, 6, 1, 9)), // Monday
-            snapshot(at: date(2_026, 6, 8, 9)), // Monday
-            snapshot(category: 3, at: date(2_026, 6, 6, 9)), // Saturday
+            snapshot(at: date(2_026, 6, 1, 9)), // Monday, no common-dose value
+            snapshot(at: date(2_026, 6, 8, 9)), // Monday, no common-dose value
+            snapshot(commonDoses: 2.5, at: date(2_026, 6, 6, 9)), // Saturday
         ]
         let buckets = UsageAnalytics.weekdayBreakdown(entries, bounds: window, calendar: utc)
 
@@ -810,8 +810,11 @@ struct UsageAnalyticsTests {
         #expect(monday?.total == 2)
         #expect(monday?.occurrences == 2)
         #expect(monday?.average == 1)
+        // No common-dose value on either Monday entry — nil, not zero.
+        #expect(monday?.commonTotal == nil)
         let saturday = buckets.first { $0.weekday == 7 }
-        #expect(saturday?.byCategory[3] == 1)
+        #expect(saturday?.total == 1)
+        #expect(saturday?.commonTotal == 2.5)
     }
 
     @Test
