@@ -29,10 +29,22 @@ enum OnboardingTips {
     static func updateEngagement(hasLoggedDose: Bool) {
         LogDoseTip.hasLoggedFirstDose = hasLoggedDose
     }
+
+    /// Retire the "log a dose" tip the moment the button is tapped — the point has been made,
+    /// whether or not the log is completed. Closing the tip (its ✕) already invalidates it.
+    static func logDoseInvoked() {
+        LogDoseTip().invalidate(reason: .actionPerformed)
+    }
 }
 
-/// Points at the "Log a dose" accessory the first time the Journal is seen after onboarding, and
-/// retires itself once the user has actually logged something.
+/// Points at the "Log a dose" accessory while the user is on the Journal root and hasn't logged
+/// anything yet, and retires the moment they close it or tap the button.
+///
+/// The Journal-root gating is *not* a rule: the tip is anchored to the tab bar's bottom accessory,
+/// which is mounted on every tab and behind every pushed screen, and TipKit does not retract an
+/// already-shown popover when a rule flips false — it only gates when a tip may first appear. So
+/// the accessory attaches `.popoverTip` only while on the Journal root (see `ContentView`);
+/// leaving tears the popover down, returning re-offers it, until the user closes or acts on it.
 struct LogDoseTip: Tip {
     @Parameter static var onboardingComplete: Bool = false
     /// Shared across the ladder — also read by ``SettingsDataTip`` to sequence after this one.
@@ -67,6 +79,11 @@ struct SettingsDataTip: Tip {
         Image(systemName: "gearshape")
     }
 
+    /// Shown once, ever — once the user has seen where their data lives, we don't say it again.
+    var options: [any TipOption] {
+        Tips.MaxDisplayCount(1)
+    }
+
     var rules: [Rule] {
         #Rule(LogDoseTip.$onboardingComplete) { $0 == true }
         #Rule(LogDoseTip.$hasLoggedFirstDose) { $0 == true }
@@ -85,6 +102,11 @@ struct LiveActivityTip: Tip {
     var image: Image? {
         Image(systemName: "bolt.heart")
     }
+
+    /// Shown once, ever.
+    var options: [any TipOption] {
+        Tips.MaxDisplayCount(1)
+    }
 }
 
 /// One-time hint on a session's timeline graph, replacing the always-on gesture
@@ -100,6 +122,11 @@ struct GraphGestureTip: Tip {
     var image: Image? {
         Image(systemName: "hand.draw")
     }
+
+    /// Shown once, ever.
+    var options: [any TipOption] {
+        Tips.MaxDisplayCount(1)
+    }
 }
 
 /// One-time hint on the session's Share button, surfacing that it exports a
@@ -114,5 +141,10 @@ struct ShareSessionTip: Tip {
     }
     var image: Image? {
         Image(systemName: "square.and.arrow.up")
+    }
+
+    /// Shown once, ever.
+    var options: [any TipOption] {
+        Tips.MaxDisplayCount(1)
     }
 }

@@ -250,6 +250,12 @@ private struct MainTabView: View {
         .tabBarMinimizeBehavior(.onScrollDown)
         .withSessionAccessory(
             showSessionPill: sessionAccessoryActive,
+            // The "log a dose" tip may only appear on the Journal root — the
+            // accessory it anchors to is otherwise on every tab and every pushed
+            // screen. Attaching the popover only here (rather than gating it with
+            // a TipKit rule) is what actually dismisses it on navigate-away:
+            // TipKit doesn't retract a shown popover when a rule flips false.
+            showLogTip: onJournalRoot,
             // Plain actions, *not* sheetStack-reading bindings. The accessory only
             // ever triggers a present (its sheet dismisses itself), so a binding's
             // getter was dead weight — and reading `sheetStack` in that getter
@@ -263,6 +269,9 @@ private struct MainTabView: View {
                 )
             },
             onAdd: {
+                // Tapping the CTA retires the "log a dose" tip whether or not the
+                // log is completed — the point has been made.
+                OnboardingTips.logDoseInvoked()
                 guard navigator.sheetStack.isEmpty else { return }
                 navigator.present(.quickLog(routine: nil))
             },
@@ -315,6 +324,13 @@ private struct MainTabView: View {
         ActiveSessionManager.shared.hasActiveSession
             && !viewingActiveSessionDay
             && !journalShowingActiveHero
+    }
+
+    /// The Journal tab's root screen — nothing pushed. Gates the "log a dose"
+    /// first-run tip, which points at the always-mounted bottom accessory and so
+    /// must be told when it's actually on the screen the tip is about.
+    private var onJournalRoot: Bool {
+        navigator.selectedTab == .journal && navigator.path(for: .journal).isEmpty
     }
 
     /// True when the journal is at its root with a live session — the new hero
@@ -550,12 +566,14 @@ private extension View {
     /// anchor a sheet's zoom — the quick-log sheet presents as a normal slide-up.
     func withSessionAccessory(
         showSessionPill: Bool,
+        showLogTip: Bool,
         onShowSessionDetail: @escaping () -> Void,
         onAdd: @escaping () -> Void,
     ) -> some View {
         tabViewBottomAccessory {
             BottomAccessoryContent(
                 showSessionPill: showSessionPill,
+                showLogTip: showLogTip,
                 onShowSessionDetail: onShowSessionDetail,
                 onAdd: onAdd,
             )
@@ -581,6 +599,9 @@ private struct BottomAccessoryContent: View {
     @Environment(\.tabViewBottomAccessoryPlacement) private var placement
 
     let showSessionPill: Bool
+    /// Whether to offer the first-run "log a dose" tip — true only on the Journal
+    /// root. See ``LogTipAnchor``.
+    let showLogTip: Bool
     var onShowSessionDetail: () -> Void
     var onAdd: () -> Void
 
@@ -614,10 +635,10 @@ private struct BottomAccessoryContent: View {
             .padding(.trailing, 11)
             .animation(.snappy, value: showSessionPill)
         }
-        // Outside the periodic closure: attaching it inside re-created the tip's
-        // anchor every 60 s tick, which resurrected the tip after the user
-        // dismissed it. The TimelineView's own frame is a stable anchor.
-        .popoverTip(LogDoseTip(), arrowEdge: .bottom)
+        // Attached outside the periodic closure so the 60 s tick doesn't re-create
+        // the anchor (which used to resurrect a dismissed tip), and only while on
+        // the Journal root so leaving actually tears the popover down.
+        .modifier(LogTipAnchor(active: showLogTip))
     }
 
     private func bodyContent(currentTime: Date) -> some View {
@@ -672,6 +693,23 @@ private struct BottomAccessoryContent: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(Text("Log dose"))
+    }
+}
+
+/// Attaches the first-run "log a dose" popover only while `active` (the Journal
+/// root). Removing the `.popoverTip` modifier — rather than gating the tip with a
+/// TipKit rule — is what dismisses the popover when the user navigates away:
+/// TipKit gates when a tip may first appear, but won't retract one already on
+/// screen when a rule flips false.
+private struct LogTipAnchor: ViewModifier {
+    let active: Bool
+
+    func body(content: Content) -> some View {
+        if active {
+            content.popoverTip(LogDoseTip(), arrowEdge: .bottom)
+        } else {
+            content
+        }
     }
 }
 
