@@ -78,7 +78,33 @@ nonisolated struct UsageEntrySnapshot: Sendable {
     /// logged unit is not convertible to the ladder's unit).
     let doseLevelIndex: Int?
     let amount: Double
+    /// This dose expressed as a multiple of the substance's *common* dose —
+    /// `amount ÷ midpoint(common)`, so `1.0` is one textbook common dose and
+    /// `2.5` is two-and-a-half of them. `nil` on the same footing as
+    /// ``doseLevelIndex``: no common tier for this ladder, or a logged unit that
+    /// doesn't convert to the ladder's. It is what lets a milligram stimulant and
+    /// a gram-dosed botanical be counted in the same currency, instead of ranking
+    /// them by how *often* they were logged.
+    let commonDoses: Double?
     let timestamp: Date
+
+    init(
+        substanceIndex: Int,
+        categoryIndex: Int,
+        routeIndex: Int,
+        doseLevelIndex: Int?,
+        amount: Double,
+        commonDoses: Double? = nil,
+        timestamp: Date,
+    ) {
+        self.substanceIndex = substanceIndex
+        self.categoryIndex = categoryIndex
+        self.routeIndex = routeIndex
+        self.doseLevelIndex = doseLevelIndex
+        self.amount = amount
+        self.commonDoses = commonDoses
+        self.timestamp = timestamp
+    }
 }
 
 /// A distinct substance in the snapshot: index → names + category.
@@ -190,6 +216,10 @@ nonisolated struct UsageTrendPoint: Sendable, Hashable, Identifiable {
     let date: Date
     /// Entries per week over the trailing rolling window.
     let value: Double
+    /// Common-dose units per week over the same window — the sum of each
+    /// entry's ``UsageEntrySnapshot/commonDoses``, normalized per week. Zero when
+    /// nothing in the window had a common-dose value.
+    let commonValue: Double
 
     var id: Date {
         date
@@ -202,6 +232,10 @@ nonisolated struct UsageTrendSeries: Sendable, Identifiable {
     let substanceIndex: Int
     let entryCount: Int
     let points: [UsageTrendPoint]
+    /// Whether any of this substance's entries carried a common-dose value. A
+    /// line with none would sit flat on zero in common-dose mode and read as
+    /// "unused", so the section drops it there instead of drawing a false floor.
+    let hasCommonDoses: Bool
 
     var id: Int {
         substanceIndex
@@ -251,28 +285,56 @@ nonisolated struct UsageDoseLevelBreakdown: Sendable {
     }
 }
 
-/// One substance's route split for §5.
+/// One substance's ranked row: its entry total, its common-dose total, and the
+/// route split of each.
 nonisolated struct UsageRouteRow: Sendable, Identifiable {
     let substanceIndex: Int
     let total: Int
-    /// `RouteOfAdministration.allCases` index → count, most-used first.
-    let byRoute: [(routeIndex: Int, count: Int)]
+    /// Σ of this substance's ``UsageEntrySnapshot/commonDoses``; `nil` when none
+    /// of its entries had a common-dose value (no common band, or a
+    /// non-convertible unit). Distinct from `0`: the substance was logged, it
+    /// just can't be placed in common-dose currency.
+    let commonTotal: Double?
+    /// `RouteOfAdministration.allCases` index → (count, common-dose sum),
+    /// most-used first.
+    let byRoute: [(routeIndex: Int, count: Int, common: Double)]
 
     var id: Int {
         substanceIndex
     }
 }
 
-/// §5 — route breakdown, plus the ≥2-distinct-routes gate.
+/// The two dimensions the ranking can be measured in.
+nonisolated enum UsageRankMetric: String, CaseIterable, Sendable, Identifiable {
+    /// How *often* a substance was logged.
+    case entries
+    /// How much was taken, each dose counted as a multiple of its common dose —
+    /// comparable across substances a raw count can't compare.
+    case commonDoses
+
+    var id: String {
+        rawValue
+    }
+}
+
+/// The substance ranking, colored by route, ranked by either metric.
 nonisolated struct UsageRouteBreakdown: Sendable {
+    /// Every substance in the range, most-logged first — the view re-sorts and
+    /// truncates per the selected metric.
     let rows: [UsageRouteRow]
     /// Route indices present anywhere in the range, most-used first.
     let distinctRoutes: [Int]
 
-    /// §5 hides entirely below two distinct routes — a one-route history has
-    /// nothing to compare.
-    var isMeaningful: Bool {
+    /// Whether route color adds anything: a one-route history draws every bar the
+    /// same color, so the ranking falls back to a single substance-colored bar.
+    var routesAreMeaningful: Bool {
         distinctRoutes.count >= 2
+    }
+
+    /// How many substances carry a common-dose total — the denominator for the
+    /// "N of M" footnote when the ranking is shown in common-dose units.
+    var commonDoseSubstances: Int {
+        rows.count { $0.commonTotal != nil }
     }
 }
 
@@ -778,23 +840,37 @@ nonisolated enum UsageAnalytics {
         let bucketSpan = Double(bucketDays) * 86_400
         let perWeek = 7.0 / Double(windowDays)
 
-        var timestampsBySubstance: [Int: [Date]] = [:]
+        // Each entry carried as (timestamp, common-dose value) so a bucket's
+        // window can sum both the count and the common-dose total in one pass.
+        var eventsBySubstance: [Int: [(date: Date, common: Double?)]] = [:]
         for entry in entries {
-            timestampsBySubstance[entry.substanceIndex, default: []].append(entry.timestamp)
+            eventsBySubstance[entry.substanceIndex, default: []]
+                .append((entry.timestamp, entry.commonDoses))
         }
 
         return top.map { item in
-            let timestamps = (timestampsBySubstance[item.substanceIndex] ?? []).sorted()
+            let events = (eventsBySubstance[item.substanceIndex] ?? []).sorted { $0.date < $1.date }
+            let hasCommon = events.contains { $0.common != nil }
             let points = bucketStarts.map { start in
                 let close = min(start.addingTimeInterval(bucketSpan), rangeEnd)
                 let lower = close.addingTimeInterval(-window)
-                let count = timestamps.count { $0 > lower && $0 <= close }
-                return UsageTrendPoint(date: start, value: Double(count) * perWeek)
+                var count = 0
+                var common = 0.0
+                for event in events where event.date > lower && event.date <= close {
+                    count += 1
+                    common += event.common ?? 0
+                }
+                return UsageTrendPoint(
+                    date: start,
+                    value: Double(count) * perWeek,
+                    commonValue: common * perWeek,
+                )
             }
             return UsageTrendSeries(
                 substanceIndex: item.substanceIndex,
                 entryCount: item.count,
                 points: points,
+                hasCommonDoses: hasCommon,
             )
         }
     }
@@ -839,30 +915,53 @@ nonisolated enum UsageAnalytics {
 
     // MARK: §5 Routes
 
+    /// Every substance's row: entry total, common-dose total, and the per-route
+    /// split of each. Emits **all** substances (not a top-N slice) so the view
+    /// can rank by entries *or* common-dose units — the two orderings differ, and
+    /// truncating to the count leaders here would hide the substances that only
+    /// lead once each dose is weighed by its common dose.
     static func routeBreakdown(
         _ entries: [UsageEntrySnapshot],
         ranking: [(substanceIndex: Int, count: Int)],
     ) -> UsageRouteBreakdown {
         var routeTotals: [Int: Int] = [:]
-        var perSubstance: [Int: [Int: Int]] = [:]
+        var perSubstanceCount: [Int: [Int: Int]] = [:]
+        var perSubstanceCommon: [Int: [Int: Double]] = [:]
+        // Tracked separately from the summed common total so a substance with a
+        // real 0-sum (every dose rounds to nothing) stays distinct from one with
+        // no common-dose data at all.
+        var hasCommon: Set<Int> = []
         for entry in entries {
             routeTotals[entry.routeIndex, default: 0] += 1
-            perSubstance[entry.substanceIndex, default: [:]][entry.routeIndex, default: 0] += 1
+            perSubstanceCount[entry.substanceIndex, default: [:]][entry.routeIndex, default: 0] += 1
+            if let common = entry.commonDoses {
+                perSubstanceCommon[entry.substanceIndex, default: [:]][entry.routeIndex, default: 0] += common
+                hasCommon.insert(entry.substanceIndex)
+            }
         }
 
-        let rows = ranking.prefix(maximumRouteRows).compactMap { item -> UsageRouteRow? in
-            guard let split = perSubstance[item.substanceIndex] else { return nil }
+        let rows = ranking.compactMap { item -> UsageRouteRow? in
+            guard let split = perSubstanceCount[item.substanceIndex] else { return nil }
+            let commonByRoute = perSubstanceCommon[item.substanceIndex] ?? [:]
             let sorted = split
                 .sorted { $0.value == $1.value ? $0.key < $1.key : $0.value > $1.value }
-                .map { (routeIndex: $0.key, count: $0.value) }
-            return UsageRouteRow(substanceIndex: item.substanceIndex, total: item.count, byRoute: sorted)
+                .map { (routeIndex: $0.key, count: $0.value, common: commonByRoute[$0.key] ?? 0) }
+            let commonTotal = hasCommon.contains(item.substanceIndex)
+                ? commonByRoute.values.reduce(0, +)
+                : nil
+            return UsageRouteRow(
+                substanceIndex: item.substanceIndex,
+                total: item.count,
+                commonTotal: commonTotal,
+                byRoute: sorted,
+            )
         }
 
         let distinct = routeTotals
             .sorted { $0.value == $1.value ? $0.key < $1.key : $0.value > $1.value }
             .map(\.key)
 
-        return UsageRouteBreakdown(rows: Array(rows), distinctRoutes: distinct)
+        return UsageRouteBreakdown(rows: rows, distinctRoutes: distinct)
     }
 
     // MARK: §6 Co-use

@@ -16,13 +16,24 @@ struct UsageTrendsSection: View {
     @State private var hidden: Set<Int> = []
     @State private var showsAll = false
     @State private var selectedDate: Date?
+    @State private var metric: UsageRankMetric = .entries
+
+    /// The lines eligible in the active metric. In common-dose mode a substance
+    /// with no common-dose data would draw flat on zero and read as "unused", so
+    /// it drops out of both the chart and the legend rather than lying.
+    private var metricTrends: [UsageTrendSeries] {
+        metric == .commonDoses ? trends.filter(\.hasCommonDoses) : trends
+    }
+
+    private var legendTrends: [UsageTrendSeries] {
+        showsAll ? metricTrends : Array(metricTrends.prefix(UsageAnalytics.defaultTrendSubstances))
+    }
 
     private var visibleSeries: [UsageTrendSeries] {
-        let shown = showsAll ? trends : Array(trends.prefix(UsageAnalytics.defaultTrendSubstances))
-        let filtered = shown.filter { !hidden.contains($0.substanceIndex) }
+        let filtered = legendTrends.filter { !hidden.contains($0.substanceIndex) }
         // Hiding every line would leave an empty plot with no way back, so the
         // legend can never zero the chart out.
-        return filtered.isEmpty ? shown : filtered
+        return filtered.isEmpty ? legendTrends : filtered
     }
 
     var body: some View {
@@ -34,16 +45,26 @@ struct UsageTrendsSection: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.vertical, 16)
             } else {
-                UsageTrendsChart(
-                    series: visibleSeries,
-                    style: style,
-                    weekly: range.usesWeeklyBuckets,
-                    selectedDate: $selectedDate,
-                )
-                if let selectedDate {
-                    UsageTrendsReadout(series: visibleSeries, style: style, date: selectedDate)
+                metricPicker
+                if metricTrends.isEmpty {
+                    Text("No common dose defined for these substances")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.vertical, 16)
+                } else {
+                    UsageTrendsChart(
+                        series: visibleSeries,
+                        style: style,
+                        weekly: range.usesWeeklyBuckets,
+                        metric: metric,
+                        selectedDate: $selectedDate,
+                    )
+                    if let selectedDate {
+                        UsageTrendsReadout(series: visibleSeries, style: style, metric: metric, date: selectedDate)
+                    }
+                    legend
                 }
-                legend
             }
         }
         .onChange(of: range) {
@@ -52,24 +73,35 @@ struct UsageTrendsSection: View {
         }
     }
 
+    private var metricPicker: some View {
+        Picker("Measure", selection: $metric) {
+            Text("Entries/wk").tag(UsageRankMetric.entries)
+            Text("Common doses/wk").tag(UsageRankMetric.commonDoses)
+        }
+        .pickerStyle(.segmented)
+    }
+
     private var subtitle: LocalizedStringKey {
-        range.usesWeeklyBuckets
-            ? "Entries per week, 4-week rolling average"
-            : "Entries per week, 7-day rolling average"
+        switch (metric, range.usesWeeklyBuckets) {
+        case (.entries, true): "Entries per week, 4-week rolling average"
+        case (.entries, false): "Entries per week, 7-day rolling average"
+        case (.commonDoses, true): "Common doses per week, 4-week rolling average"
+        case (.commonDoses, false): "Common doses per week, 7-day rolling average"
+        }
     }
 
     private var legend: some View {
         VStack(alignment: .leading, spacing: 8) {
             FlowLayout(spacing: 8) {
-                ForEach(showsAll ? trends : Array(trends.prefix(UsageAnalytics.defaultTrendSubstances))) { item in
+                ForEach(legendTrends) { item in
                     legendChip(item)
                 }
             }
-            if trends.count > UsageAnalytics.defaultTrendSubstances {
+            if metricTrends.count > UsageAnalytics.defaultTrendSubstances {
                 Button {
                     withAnimation(.easeInOut(duration: 0.2)) { showsAll.toggle() }
                 } label: {
-                    Text(showsAll ? "Show fewer" : "Show all \(trends.count)")
+                    Text(showsAll ? "Show fewer" : "Show all \(metricTrends.count)")
                         .font(.caption2.weight(.medium))
                 }
                 .buttonStyle(.plain)
@@ -114,7 +146,20 @@ private struct UsageTrendsChart: View {
     let series: [UsageTrendSeries]
     let style: UsageSubstanceStyle
     let weekly: Bool
+    let metric: UsageRankMetric
     @Binding var selectedDate: Date?
+
+    private func value(_ point: UsageTrendPoint) -> Double {
+        metric == .commonDoses ? point.commonValue : point.value
+    }
+
+    /// The chart's full x-span in seconds, and the start of the most-recent
+    /// visible window, so a windowed chart opens on the newest data.
+    private var span: (length: Double, windowStart: Date?) {
+        let dates = series.flatMap { $0.points.map(\.date) }
+        guard let first = dates.min(), let last = dates.max(), last > first else { return (1, nil) }
+        return (last.timeIntervalSince(first), last.addingTimeInterval(-usageChartWindowSeconds))
+    }
 
     var body: some View {
         Chart {
@@ -122,7 +167,7 @@ private struct UsageTrendsChart: View {
                 ForEach(item.points) { point in
                     LineMark(
                         x: .value("Date", point.date),
-                        y: .value("Per week", point.value),
+                        y: .value("Per week", value(point)),
                         series: .value("Substance", item.substanceIndex),
                     )
                     .foregroundStyle(style.color(item.substanceIndex))
@@ -138,6 +183,7 @@ private struct UsageTrendsChart: View {
         }
         .frame(height: 190)
         .chartXSelection(value: $selectedDate)
+        .chartXScrollWindow(fullLength: span.length, window: usageChartWindowSeconds, initialX: span.windowStart)
         .chartLegend(.hidden)
         .chartYAxis {
             AxisMarks(position: .leading) { _ in
@@ -165,8 +211,8 @@ private struct UsageTrendsChart: View {
         guard !series.isEmpty else { return String(localized: "No data") }
         let parts = series.prefix(4).map { item -> String in
             let name = style.name(item.substanceIndex)
-            let last = item.points.last?.value ?? 0
-            let first = item.points.first?.value ?? 0
+            let last = item.points.last.map(value) ?? 0
+            let first = item.points.first.map(value) ?? 0
             let rate = last.formatted(.number.precision(.fractionLength(0 ... 1)))
             if last > first + 0.01 {
                 return String(localized: "\(name) rising to \(rate) per week")
@@ -186,12 +232,13 @@ private struct UsageTrendsChart: View {
 private struct UsageTrendsReadout: View {
     let series: [UsageTrendSeries]
     let style: UsageSubstanceStyle
+    let metric: UsageRankMetric
     let date: Date
 
     var body: some View {
         let rows = series.compactMap { item -> (index: Int, value: Double)? in
             guard let point = nearestPoint(in: item) else { return nil }
-            return (item.substanceIndex, point.value)
+            return (item.substanceIndex, metric == .commonDoses ? point.commonValue : point.value)
         }
         .filter { $0.value > 0 }
         .sorted { $0.value > $1.value }

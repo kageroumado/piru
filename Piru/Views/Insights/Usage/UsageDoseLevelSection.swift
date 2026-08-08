@@ -134,6 +134,7 @@ private struct UsageDoseLevelContent: View {
         }
         .chartForegroundStyleScale(domain: styleDomain, range: styleRange)
         .frame(height: 170)
+        .chartXScrollWindow(fullLength: span.length, window: usageChartWindowSeconds, initialX: span.windowStart)
         .chartYAxis {
             AxisMarks(position: .leading) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
@@ -159,6 +160,14 @@ private struct UsageDoseLevelContent: View {
         }
         .chartLegend(.hidden)
         .chartSummaryAccessibility(label: Text("Dose levels over time"), value: Text(summary))
+    }
+
+    /// The stacked area's full x-span in seconds, and the start of the
+    /// most-recent visible window so a windowed chart opens on the newest data.
+    private var span: (length: Double, windowStart: Date?) {
+        let dates = buckets.map(\.date)
+        guard let first = dates.min(), let last = dates.max(), last > first else { return (1, nil) }
+        return (last.timeIntervalSince(first), last.addingTimeInterval(-usageChartWindowSeconds))
     }
 
     private var slices: [Slice] {

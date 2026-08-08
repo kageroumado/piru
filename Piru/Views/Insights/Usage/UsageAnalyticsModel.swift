@@ -150,6 +150,7 @@ final class UsageAnalyticsModel {
                 routeIndex: routeIndices[entry.route] ?? 0,
                 doseLevelIndex: ladder?.levelIndex(for: entry.amount, unit: entry.unit),
                 amount: entry.amount,
+                commonDoses: ladder?.commonDoses(for: entry.amount, unit: entry.unit),
                 timestamp: entry.timestamp,
             ))
         }
@@ -185,6 +186,12 @@ final class UsageAnalyticsModel {
                 range: range, ladderUnit: unit, amount: amount, loggedUnit: loggedUnit,
             )
         }
+
+        func commonDoses(for amount: Double, unit loggedUnit: String) -> Double? {
+            UsageAnalyticsModel.commonDoses(
+                range: range, ladderUnit: unit, amount: amount, loggedUnit: loggedUnit,
+            )
+        }
     }
 
     // MARK: - Dose-level resolution
@@ -209,6 +216,29 @@ final class UsageAnalyticsModel {
         guard range.hasAnyValue,
               let converted = DoseUnit.convert(amount, from: loggedUnit, to: ladderUnit) else { return nil }
         return index(of: range.level(for: converted))
+    }
+
+    /// A dose as a multiple of the substance's common dose, or `nil` when it
+    /// can't be expressed that way.
+    ///
+    /// Two things have to hold, and both are the same honesty gate §4 already
+    /// applies: the ladder must state a `common` band (a threshold-only or
+    /// heavy-only ladder has no midpoint to divide by), and the logged unit must
+    /// convert to the ladder's — a mL drink against a mg ladder is not a fraction
+    /// of anything. When either fails the dose has no common-dose value and is
+    /// left out of the common-dose ranking rather than counted as zero, which
+    /// would read as "never taken" instead of "not measurable this way".
+    static func commonDoses(
+        range: DoseRange,
+        ladderUnit: String,
+        amount: Double,
+        loggedUnit: String,
+    ) -> Double? {
+        guard let common = range.common else { return nil }
+        let midpoint = (common.lowerBound + common.upperBound) / 2
+        guard midpoint > 0,
+              let converted = DoseUnit.convert(amount, from: loggedUnit, to: ladderUnit) else { return nil }
+        return converted / midpoint
     }
 
     /// `DoseLevel` → its position in `DoseLevel.allCases`. Written out rather

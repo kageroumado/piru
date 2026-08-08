@@ -29,11 +29,12 @@ struct UsageAnalyticsTests {
         route: Int = 0,
         level: Int? = nil,
         amount: Double = 10,
+        commonDoses: Double? = nil,
         at timestamp: Date,
     ) -> UsageEntrySnapshot {
         UsageEntrySnapshot(
             substanceIndex: substance, categoryIndex: category, routeIndex: route,
-            doseLevelIndex: level, amount: amount, timestamp: timestamp,
+            doseLevelIndex: level, amount: amount, commonDoses: commonDoses, timestamp: timestamp,
         )
     }
 
@@ -250,6 +251,42 @@ struct UsageAnalyticsTests {
     }
 
     @Test
+    func `A trend point also sums common-dose units per week`() {
+        let start = date(2_026, 6, 1, 0)
+        // One dose a day for ten days, each worth 2 common doses.
+        let entries = (0 ..< 10).map {
+            snapshot(commonDoses: 2.0, at: start.addingTimeInterval(Double($0) * 86_400 + 3_600))
+        }
+        let starts = (0 ..< 10).map { start.addingTimeInterval(Double($0) * 86_400) }
+
+        let series = UsageAnalytics.trends(
+            entries, ranking: [(substanceIndex: 0, count: 10)], bucketStarts: starts,
+            bucketDays: 1, windowDays: 7, rangeEnd: start.addingTimeInterval(10 * 86_400),
+        )
+
+        #expect(series[0].hasCommonDoses)
+        // Day 6 on: seven daily doses × 2 common each = 14 common doses per week.
+        #expect(series[0].points[6].commonValue == 14)
+        // The entry-count value is unchanged alongside it.
+        #expect(series[0].points[6].value == 7)
+    }
+
+    @Test
+    func `A series with no common-dose data reports zero and is flagged`() {
+        let start = date(2_026, 6, 1, 0)
+        let entries = (0 ..< 5).map { snapshot(at: start.addingTimeInterval(Double($0) * 86_400 + 3_600)) }
+        let starts = (0 ..< 5).map { start.addingTimeInterval(Double($0) * 86_400) }
+
+        let series = UsageAnalytics.trends(
+            entries, ranking: [(substanceIndex: 0, count: 5)], bucketStarts: starts,
+            bucketDays: 1, windowDays: 7, rangeEnd: start.addingTimeInterval(5 * 86_400),
+        )
+
+        #expect(!series[0].hasCommonDoses)
+        #expect(series[0].points.allSatisfy { $0.commonValue == 0 })
+    }
+
+    @Test
     func `A four-week window is still reported as entries per week`() {
         let start = date(2_026, 6, 1, 0)
         // 28 doses over 28 days = one per day = seven per week.
@@ -377,6 +414,29 @@ struct UsageAnalyticsTests {
     @Test
     func `An empty ladder places nothing`() {
         #expect(UsageAnalyticsModel.doseLevelIndex(range: DoseRange(), ladderUnit: "mg", amount: 90, loggedUnit: "mg") == nil)
+    }
+
+    @Test
+    func `A common dose is expressed as a multiple of the common midpoint`() {
+        /// MDMA common band is 75–110, midpoint 92.5.
+        func common(_ amount: Double, _ unit: String = "mg") -> Double? {
+            UsageAnalyticsModel.commonDoses(range: mdmaLadder, ladderUnit: "mg", amount: amount, loggedUnit: unit)
+        }
+        // A dose at the midpoint is exactly one common dose.
+        #expect(common(92.5) == 1.0)
+        // Double the midpoint is two common doses.
+        #expect(common(185) == 2.0)
+        // Converted from grams first: 0.0925 g = 92.5 mg = 1.0.
+        #expect(common(0.0925, "g") == 1.0)
+    }
+
+    @Test
+    func `Common-dose units need a common band and a convertible unit`() {
+        // No common tier: threshold/heavy only.
+        let noCommon = DoseRange(threshold: 20, heavy: 200)
+        #expect(UsageAnalyticsModel.commonDoses(range: noCommon, ladderUnit: "mg", amount: 50, loggedUnit: "mg") == nil)
+        // Incomparable unit against a mass ladder.
+        #expect(UsageAnalyticsModel.commonDoses(range: mdmaLadder, ladderUnit: "mg", amount: 5, loggedUnit: "mL") == nil)
     }
 
     @Test
@@ -604,12 +664,12 @@ struct UsageAnalyticsTests {
     // MARK: - Routes (§5)
 
     @Test
-    func `One route is not a breakdown`() {
+    func `One route is not a color breakdown`() {
         let entries = (1 ... 3).map { snapshot(route: 0, at: date(2_026, 6, $0, 9)) }
         let breakdown = UsageAnalytics.routeBreakdown(entries, ranking: [(substanceIndex: 0, count: 3)])
 
         #expect(breakdown.distinctRoutes == [0])
-        #expect(!breakdown.isMeaningful)
+        #expect(!breakdown.routesAreMeaningful)
     }
 
     @Test
@@ -621,11 +681,52 @@ struct UsageAnalyticsTests {
         ]
         let breakdown = UsageAnalytics.routeBreakdown(entries, ranking: [(substanceIndex: 0, count: 3)])
 
-        #expect(breakdown.isMeaningful)
+        #expect(breakdown.routesAreMeaningful)
         #expect(breakdown.rows.count == 1)
         #expect(breakdown.rows[0].total == 3)
         #expect(breakdown.rows[0].byRoute.map(\.routeIndex) == [0, 3])
         #expect(breakdown.rows[0].byRoute.map(\.count) == [2, 1])
+    }
+
+    @Test
+    func `Common-dose totals sum per substance and split by route`() throws {
+        // Two oral doses at 1.0 and 2.0 common each, one rectal at 0.5.
+        let entries = [
+            snapshot(route: 0, commonDoses: 1.0, at: date(2_026, 6, 1, 9)),
+            snapshot(route: 0, commonDoses: 2.0, at: date(2_026, 6, 2, 9)),
+            snapshot(route: 3, commonDoses: 0.5, at: date(2_026, 6, 3, 9)),
+        ]
+        let breakdown = UsageAnalytics.routeBreakdown(entries, ranking: [(substanceIndex: 0, count: 3)])
+        let row = try #require(breakdown.rows.first)
+
+        #expect(row.commonTotal == 3.5)
+        // Route 0 carries 3.0 of it, route 3 the remaining 0.5.
+        #expect(row.byRoute.first { $0.routeIndex == 0 }?.common == 3.0)
+        #expect(row.byRoute.first { $0.routeIndex == 3 }?.common == 0.5)
+        #expect(breakdown.commonDoseSubstances == 1)
+    }
+
+    @Test
+    func `A substance with no common-dose data has a nil total, not zero`() throws {
+        // Logged, but nothing resolved to a common-dose value.
+        let entries = (1 ... 3).map { snapshot(route: 0, at: date(2_026, 6, $0, 9)) }
+        let breakdown = UsageAnalytics.routeBreakdown(entries, ranking: [(substanceIndex: 0, count: 3)])
+        let row = try #require(breakdown.rows.first)
+
+        #expect(row.total == 3)
+        #expect(row.commonTotal == nil)
+        #expect(breakdown.commonDoseSubstances == 0)
+    }
+
+    @Test
+    func `The ranking keeps every substance, not a top-N slice`() {
+        // Twelve substances, one entry each — more than the view's row cap. The
+        // compute must return all so the view can re-rank by common-dose units.
+        let entries = (0 ..< 12).map { snapshot(substance: $0, at: date(2_026, 6, 1, 9 + $0)) }
+        let ranking = (0 ..< 12).map { (substanceIndex: $0, count: 1) }
+        let breakdown = UsageAnalytics.routeBreakdown(entries, ranking: ranking)
+
+        #expect(breakdown.rows.count == 12)
     }
 
     // MARK: - Heatmap (§2)
@@ -750,7 +851,7 @@ struct UsageAnalyticsTests {
         #expect(result.overview.sparkline.reduce(0, +) == 21)
         #expect(result.trends.count == 2)
         #expect(result.doseLevels.resolvedEntries == 14)
-        #expect(result.routes.isMeaningful)
+        #expect(result.routes.routesAreMeaningful)
         #expect(result.coUse.count == 1)
         #expect(result.coUse[0].days == 7)
         #expect(result.regularity.count == 2)
@@ -772,6 +873,6 @@ struct UsageAnalyticsTests {
         #expect(result.coUse.isEmpty)
         #expect(result.regularity.isEmpty)
         #expect(result.weekdays.count == 7)
-        #expect(!result.routes.isMeaningful)
+        #expect(!result.routes.routesAreMeaningful)
     }
 }

@@ -231,6 +231,34 @@ T = {
         "每周条目数，4 周滚动平均",
         "每週條目數，4 週滾動平均",
     ),
+    "Common doses per week, 7-day rolling average": (
+        "每周常规剂量数，7 天滚动平均",
+        "每週常規劑量數，7 天滾動平均",
+    ),
+    "Common doses per week, 4-week rolling average": (
+        "每周常规剂量数，4 周滚动平均",
+        "每週常規劑量數，4 週滾動平均",
+    ),
+    "Ranked by how often, or by total common-dose units": (
+        "按记录次数，或按常规剂量单位总量排序",
+        "按記錄次數，或按常規劑量單位總量排序",
+    ),
+    "Common doses": ("常规剂量", "常規劑量"),
+    "Entries/wk": ("条目/周", "條目/週"),
+    "Common doses/wk": ("常规剂量/周", "常規劑量/週"),
+    "No common dose defined for these substances": (
+        "这些物质未定义常规剂量",
+        "這些物質未定義常規劑量",
+    ),
+    "No common dose defined": ("未定义常规剂量", "未定義常規劑量"),
+    "Common-dose units count each dose as a multiple of its common dose. %lld of %lld substances have one.": (
+        "常规剂量单位将每次剂量按其常规剂量的倍数计。已定义：%lld / %lld 种物质。",
+        "常規劑量單位將每次劑量按其常規劑量的倍數計。已定義：%lld / %lld 種物質。",
+    ),
+    "%@ common-dose units across %lld entries": (
+        "%@ 个常规剂量单位，共 %lld 条目",
+        "%@ 個常規劑量單位，共 %lld 條目",
+    ),
     "Where your doses sit on each substance's ladder": (
         "你的剂量在各物质剂量阶梯上的位置",
         "你的劑量在各物質劑量階梯上的位置",
@@ -6769,6 +6797,17 @@ if __name__ == "__main__":
         # Isomer picker racemic-parent label (CLI-added).
         "Regular",
         "Racemic",
+        # Usage insights: common-dose ranking + trends metric (CLI-added).
+        "Ranked by how often, or by total common-dose units",
+        "Common doses",
+        "Entries/wk",
+        "Common doses/wk",
+        "No common dose defined for these substances",
+        "No common dose defined",
+        "Common-dose units count each dose as a multiple of its common dose. %lld of %lld substances have one.",
+        "%@ common-dose units across %lld entries",
+        "Common doses per week, 7-day rolling average",
+        "Common doses per week, 4-week rolling average",
     }
 
     print("--- Piru main app catalog ---")
