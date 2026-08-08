@@ -123,14 +123,17 @@ private struct UsageDoseLevelContent: View {
 
     private var chart: some View {
         Chart(slices) { slice in
-            AreaMark(
-                x: .value("Date", slice.date),
+            // Stacked columns, not a stacked area: dose counts per bucket are
+            // discrete, and a monotone area interpolated between them overshot
+            // and crossed its own bands into a tangle. One column per bucket reads
+            // cleanly.
+            BarMark(
+                x: .value("Date", slice.date, unit: weekly ? .weekOfYear : .day),
                 y: .value(showsPercentages ? "Share" : "Entries", slice.value),
                 stacking: .standard,
             )
             .foregroundStyle(by: .value("Level", slice.levelName))
             .opacity(highlightedLevel == nil || highlightedLevel == slice.levelIndex ? 1 : 0.18)
-            .interpolationMethod(.monotone)
         }
         .chartForegroundStyleScale(domain: styleDomain, range: styleRange)
         .frame(height: 170)

@@ -41,21 +41,19 @@ private struct UsageRegularityRow: View {
         let interval = row.meanIntervalDays.formatted(.number.precision(.fractionLength(1)))
         let tier = row.tier
 
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 6) {
-                Circle()
-                    .fill(style.color(row.substanceIndex))
-                    .frame(width: 8, height: 8)
-                Text(name)
-                    .font(.subheadline)
-                    .lineLimit(1)
-                Spacer(minLength: 8)
-                Text("every \(interval) days")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .monospacedDigit()
-            }
-            HStack(spacing: 8) {
+        // Two columns: name over its evenness bar on the left, the interval over
+        // its tier right-aligned on the right — so "every 2.6 days" and "Irregular"
+        // share one right edge instead of the ragged split-alignment they had.
+        HStack(alignment: .center, spacing: 12) {
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(spacing: 6) {
+                    Circle()
+                        .fill(style.color(row.substanceIndex))
+                        .frame(width: 8, height: 8)
+                    Text(name)
+                        .font(.subheadline)
+                        .lineLimit(1)
+                }
                 GeometryReader { geometry in
                     ZStack(alignment: .leading) {
                         Capsule()
@@ -68,11 +66,17 @@ private struct UsageRegularityRow: View {
                     .frame(maxHeight: .infinity, alignment: .center)
                 }
                 .frame(height: 6)
+            }
+            VStack(alignment: .trailing, spacing: 2) {
+                Text("every \(interval) days")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .monospacedDigit()
                 Text(tier.displayName)
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
-                    .frame(width: 108, alignment: .leading)
             }
+            .fixedSize()
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(name))
