@@ -382,19 +382,18 @@ struct ClassSignatureTests {
     }
 
     @Test
-    func `A compound whose transporter rows all fail the gate says so instead of plotting`() {
+    func `A compound whose transporter rows share no basis plots nothing`() {
         let legs = [
             Self.leg("1", "Ghostamine", .sert, ec50: 100, citation: 90),
             Self.leg("2", "Ghostamine", .dat, ki: 200, citation: 90),
             Self.leg("3", "Ghostamine", .net, ic50: 300, citation: 91),
         ]
-        guard case let .absent(absence)? = ClassSignature.resolve(
+        // SERT EC₅₀, DAT Kᵢ, NET IC₅₀ are three different bases: no single study
+        // measured all three the same way, so no triangle forms and the card is
+        // withheld entirely rather than plotting a point built across bases.
+        #expect(ClassSignature.resolve(
             substanceName: "Ghostamine", category: .stimulant, legs: legs,
-        ) else {
-            Issue.record("expected a stated absence")
-            return
-        }
-        #expect(absence.detail == nil)
+        ) == nil)
     }
 
     @Test
@@ -407,23 +406,21 @@ struct ClassSignatureTests {
         #expect(shares.sert < 0.03)
     }
 
-    // MARK: - Absence
+    // MARK: - No signature
 
     @Test
-    func `Dissociatives state the absence and quote their own disagreeing numbers`() {
+    func `Dissociatives resolve to no card, not an invented NMDA axis`() {
         let legs = [
             Self.leg("1", "Ketamine", .nmda, ki: 659, citation: 939, species: "rat"),
             Self.leg("2", "Ketamine", .nmda, ki: 300, citation: 940, species: "rat"),
             Self.leg("3", "Ketamine", .nmda, ic50: 600, citation: 941),
         ]
-        guard case let .absent(absence)? = ClassSignature.resolve(
+        // NMDA-block potency is contested even for ketamine and isn't the axis
+        // that separates dissociatives subjectively, so the class shows no
+        // signature card at all — its receptor data lives in its own section.
+        #expect(ClassSignature.resolve(
             substanceName: "Ketamine", category: .dissociative, legs: legs,
-        ) else {
-            Issue.record("expected a stated absence")
-            return
-        }
-        #expect(absence.detail?.contains("659") == true)
-        #expect(absence.detail?.contains("300") == true)
+        ) == nil)
     }
 
     @Test
@@ -484,15 +481,11 @@ struct ClassSignatureDatabaseTests {
 
     @Test
     @MainActor
-    func `Ketamine gets the stated absence rather than an invented axis`() {
+    func `Ketamine shows no dissociative signature card`() {
         let legs = SubstanceStore.shared.signatureLegs(family: .nmda)
-        guard case let .absent(absence)? = ClassSignature.resolve(
+        #expect(ClassSignature.resolve(
             substanceName: "Ketamine", category: .dissociative, legs: legs,
-        ) else {
-            Issue.record("Ketamine lost its dissociative absence card")
-            return
-        }
-        #expect(absence.detail != nil)
+        ) == nil)
     }
 
     @Test
