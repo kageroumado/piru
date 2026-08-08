@@ -1965,9 +1965,9 @@ final class SubstanceStore {
     /// floats above source priority, English/`und` is the language fallback (see
     /// ``ContentLanguage/clauses(column:)``). Runs a strict enabled-source +
     /// preferred-language pass first, then a relaxed pass that keeps the same
-    /// ORDER BY but drops the two hard filters, so a substance that only has
-    /// prose from a deprioritized source or another language shows it rather than
-    /// a blank section. The table is aliased `t`; the returned row also carries
+    /// ORDER BY and language filter but drops the enabled-source filter, so a
+    /// substance that only has prose from a deprioritized source shows it rather
+    /// than a blank section. The table is aliased `t`; the returned row also carries
     /// `machine_translated` + `source_slug` so callers build their typed value.
     /// `table` is a fixed internal literal (no injection surface).
     private func resolvedTextRow(
@@ -1988,20 +1988,22 @@ final class SubstanceStore {
         """, arguments: [substanceID]) {
             return row
         }
-        // Fallback: prose exists, just not from an enabled source in the
-        // preferred language — show it rather than a blank section. The same
-        // ORDER BY still floats the preferred language and the user's source
-        // priority to the top (a deprioritized or disabled source sorts last via
-        // priorityCaseSQL's ELSE), so the best available row wins; only the two
-        // hard filters that were hiding it are dropped. This also covers the
-        // empty-source-order window at launch — enabledSourceListSQL is then ''
-        // and matches nothing, which would otherwise blank every overview until
-        // the user's priority list finishes loading.
+        // Fallback: prose exists, just not from an enabled source — show it
+        // rather than a blank section. Only the enabled-source filter is dropped;
+        // the language filter stays. Dropping it too let an English reader fall
+        // through to raw zh prose whenever a compound had a Chinese row but no
+        // English one (ketamine's mechanism, 137 others) — and a Chinese blob is
+        // worse than a blank the bundled English template then fills. The ORDER BY
+        // still floats the preferred language and the user's source priority. Also
+        // covers the empty-source-order launch window (enabledSourceListSQL = ''
+        // matches nothing), which would otherwise blank every overview until the
+        // priority list finishes loading.
         return try Row.fetchOne(db, sql: """
             SELECT \(columns), t.machine_translated, src.slug AS source_slug
               FROM \(table) t
               JOIN sources src ON src.id = t.source_id
              WHERE t.substance_id = ?
+               \(lang.whereAnd)
              ORDER BY \(lang.orderPrefix)\(priorityCaseSQL) ASC
              LIMIT 1
         """, arguments: [substanceID])

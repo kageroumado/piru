@@ -9,8 +9,6 @@ struct BenzoDurationSection: View {
     let substance: Substance
     let model: SubstanceDetailModel
 
-    @State private var isExpanded = false
-
     private var rungs: [BenzoDurationLadder.Rung] {
         guard substance.category == .benzodiazepine else { return [] }
         return BenzoDurationLadder.rungs(for: substance, metabolites: model.activeMetabolites) {
@@ -22,10 +20,9 @@ struct BenzoDurationSection: View {
         let rungs = rungs
         if rungs.count > 1 {
             let longest = rungs.map(\.halfLifeMinutes).max() ?? 1
-            CollapsibleSection(
-                "How Long It Stays",
-                isExpanded: $isExpanded,
-            ) {
+            // Shown expanded, not folded: the ladder is compact and it's the
+            // benzodiazepine class differentiator a reader opens the page for.
+            Section {
                 VStack(alignment: .leading, spacing: 7) {
                     ForEach(rungs) { rung in
                         BenzoRungRow(rung: rung, longestMinutes: longest, accent: substance.category.color)
@@ -38,6 +35,9 @@ struct BenzoDurationSection: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 .padding(.vertical, 4)
+            } header: {
+                Text("How Long It Stays")
+                    .font(.subheadline.weight(.semibold))
             }
         }
     }

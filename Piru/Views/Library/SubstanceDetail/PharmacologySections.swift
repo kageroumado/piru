@@ -159,11 +159,10 @@ struct PharmacologySections: View {
                         MetabolicModulationBanner(effect: effect)
                     }
                 } header: {
-                    // Not "fork.knife" — smoking and enzyme induction aren't eating; an up/down glyph
-                    // reads as "these change the drug's levels". No ⓘ: each banner states its own
-                    // effect in a sentence, so a help sheet one header below the Metabolism card
-                    // was the sixth ⓘ on one screen and explained nothing the banner didn't.
-                    Label("Metabolism Interactions", systemImage: "arrow.up.arrow.down")
+                    // No ⓘ: each banner states its own effect in a sentence, so a help sheet one
+                    // header below the Metabolism card was the sixth ⓘ on one screen and explained
+                    // nothing the banner didn't.
+                    Text("Metabolism Interactions")
                 }
             }
 

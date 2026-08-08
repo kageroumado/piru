@@ -10,28 +10,20 @@ struct MetabolicModulationBanner: View {
     let effect: MetabolicModulation.Effect
 
     var body: some View {
-        HStack(alignment: .top, spacing: 10) {
-            Image(systemName: effect.raisesLevels ? "arrow.up.right.circle" : "arrow.down.right.circle")
-                .foregroundStyle(.secondary)
-                .font(.title3)
-                .accessibilityHidden(true)
-
-            VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
                 Text(headline)
                     .font(.subheadline.weight(.semibold))
-                Text(effect.note)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                HStack(spacing: 6) {
-                    ConfidenceBadge(tier: effect.confidence)
-                    Text("Predicted")
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
+                Spacer(minLength: 8)
+                ConfidenceBadge(tier: effect.confidence)
             }
-            .accessibilityElement(children: .combine)
-            Spacer(minLength: 0)
+            Text(effect.note)
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .accessibilityElement(children: .combine)
     }
 
     /// The enzyme is deliberately omitted from the headline — the note below already names it

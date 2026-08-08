@@ -540,12 +540,11 @@ struct MetabolismRow: View {
                 trailingAffordance(resolved: resolved)
             }
 
-            HStack(spacing: 6) {
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
                 Text("via \(hit.enzyme)")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
-                    .lineLimit(1)
-                    .truncationMode(.tail)
+                    .fixedSize(horizontal: false, vertical: true)
                 if let frac = hit.fractionOfClearancePct {
                     Text("\(SubstanceDetailView.chemNumber(frac))%")
                         .font(.caption2.monospacedDigit())

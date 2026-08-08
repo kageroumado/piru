@@ -46,7 +46,7 @@ struct AlsoActiveSection: View {
                 }
             } header: {
                 HStack(spacing: 6) {
-                    Label("Also Active", systemImage: "arrow.trianglehead.branch")
+                    Text("Also Active")
                     Button {
                         onGlossary(.metabolism)
                     } label: {

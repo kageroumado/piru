@@ -3,31 +3,26 @@ import Foundation
 /// The **class signature** for a substance: one rendering, chosen by category, that says where this
 /// compound sits among the compounds it is actually comparable to.
 ///
-/// Four renderings, each reused by ≥2 classes, each gated by ``SignatureComparability``:
+/// Three renderings, each reused by ≥2 classes, each gated by ``SignatureComparability``:
 ///
 /// | Rendering | Classes | Axis |
 /// |---|---|---|
 /// | ``EfficacyAxisModel`` | opioid, analgesic, cannabinoid | partial → full activation |
 /// | ``TargetBalanceModel`` | psychedelic | 5-HT2A ↔ 5-HT1A |
 /// | ``TransporterTernaryModel`` | stimulant, empathogen, antidepressant | SERT / DAT / NET |
-/// | ``SignatureAbsence`` | dissociative, and any degraded case | prose, not an axis |
 ///
-/// The absence case is not a gap. Dissociatives get it on purpose: NMDA-block potency is contested
-/// even for ketamine and absent for most of the class, and potency is not the axis that separates
-/// these drugs subjectively. Any other rendering degrades into it — with the reason on screen —
-/// rather than plotting rows that failed the gate.
+/// A class with no rankable signature draws nothing: `resolve` returns nil rather than plotting
+/// rows that failed the gate.
 nonisolated enum ClassSignature: Sendable {
     case efficacy(EfficacyAxisModel)
     case balance(TargetBalanceModel)
     case ternary(TransporterTernaryModel)
-    case absent(SignatureAbsence)
 
     var id: String {
         switch self {
         case .efficacy: "efficacy"
         case .balance: "balance"
         case .ternary: "ternary"
-        case .absent: "absent"
         }
     }
 
@@ -58,7 +53,11 @@ nonisolated enum ClassSignature: Sendable {
         case .cannabinoid1: efficacy(substanceName: substanceName, legs: legs, target: .cannabinoid1)
         case .serotonin: balance(substanceName: substanceName, legs: legs)
         case .transporters: ternary(substanceName: substanceName, legs: legs)
-        case .nmda: dissociativeAbsence(substanceName: substanceName, legs: legs)
+        // Dissociatives show no signature card: NMDA-block potency is contested
+        // even for ketamine and absent for most of the class, and it isn't the
+        // axis that separates them subjectively. Their receptor data lives in the
+        // Receptor Literature section — no card here asserting there's no card.
+        case .nmda: nil
         case nil: nil
         }
     }
@@ -452,18 +451,7 @@ nonisolated extension ClassSignature {
             ))
         }
 
-        guard !triples.isEmpty else {
-            return .absent(SignatureAbsence(
-                title: "Transporter triangle withheld",
-                body: """
-                No single study in our data measured SERT, DAT and NET for this compound on one \
-                basis. Mixing them is how MDMA once rendered as a 95 % noradrenaline drug — a \
-                binding Kᵢ plotted against a release EC₅₀ — so the triangle is withheld rather \
-                than drawn from rows that can't be ranked together.
-                """,
-                detail: nil,
-            ))
-        }
+        guard !triples.isEmpty else { return nil }
         triples.sort { lhs, rhs in
             let lp = lhs.peers.count + (lhs.provenance.isDeclaredPanel ? 10 : 0)
             let rp = rhs.peers.count + (rhs.provenance.isDeclaredPanel ? 10 : 0)
@@ -479,39 +467,6 @@ nonisolated extension ClassSignature {
             counts[action, default: 0] += 1
         }
         return counts.max { $0.value < $1.value }.flatMap { BindingAction(rawValue: $0.key) }
-    }
-}
-
-// MARK: - Absence (dissociatives)
-
-nonisolated extension ClassSignature {
-    /// Dissociatives get prose instead of an axis, deliberately. The obvious signature — NMDA-block
-    /// potency — is contested even for ketamine and missing for most of the class, and potency is
-    /// not what separates these drugs subjectively. The card shows the compound's *own* disagreeing
-    /// numbers rather than asserting a claim, so the statement is checkable.
-    static func dissociativeAbsence(substanceName: String, legs: [SignatureLeg]) -> ClassSignature? {
-        let mine = legs.filter { $0.substanceName == substanceName && $0.target == .nmda }
-        guard !mine.isEmpty else { return nil }
-        var readouts: [String] = []
-        var seen = Set<String>()
-        for leg in mine {
-            let basis: SignatureBasis? = leg.kiNm != nil ? .ki : (leg.ic50Nm != nil ? .ic50 : nil)
-            guard let basis, let value = basis.value(in: leg) else { continue }
-            let species = leg.species.map { " (\($0))" } ?? ""
-            let text = "\(concentrationText(value, basis: basis))\(species)"
-            if seen.insert(text).inserted { readouts.append(text) }
-        }
-        return .absent(SignatureAbsence(
-            title: "No comparison axis for dissociatives",
-            body: """
-            NMDA-block potency is the obvious signature for this class, and it is the one number the \
-            literature disagrees about most — the same site is reported decades apart, in different \
-            preparations, mostly in rat. Most dissociatives here carry no measured value at all, and \
-            potency is not what separates them subjectively. So this card says so instead of drawing \
-            an axis out of numbers that can't be ranked against each other.
-            """,
-            detail: readouts.isEmpty ? nil : readouts.joined(separator: " · "),
-        ))
     }
 }
 
@@ -684,12 +639,4 @@ nonisolated struct TransporterTernaryModel: Hashable, Sendable {
     }
 
     let triples: [Triple]
-}
-
-/// A signature that was deliberately **not** drawn, and why.
-nonisolated struct SignatureAbsence: Sendable {
-    let title: LocalizedStringResource
-    let body: LocalizedStringResource
-    /// Data-derived evidence for the claim (a compound's own disagreeing values), when there is any.
-    let detail: String?
 }

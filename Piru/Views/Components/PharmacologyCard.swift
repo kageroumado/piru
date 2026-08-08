@@ -25,12 +25,9 @@ struct PharmacologyCard: View {
         category.color
     }
 
-    /// An absence is an explanation, so it reads as a footnote below the panel. Every drawn signature
-    /// is the card's headline claim and leads.
+    /// Every signature is the card's headline claim and leads.
     private var signatureLeads: Bool {
-        guard let signature else { return false }
-        if case .absent = signature { return false }
-        return true
+        signature != nil
     }
 
     /// The efficacy axis states the agonist class itself ("Partial μ-opioid agonist"), so the hero's

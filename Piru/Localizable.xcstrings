@@ -33684,6 +33684,7 @@
       }
     },
     "NMDA-block potency is the obvious signature for this class, and it is the one number the literature disagrees about most — the same site is reported decades apart, in different preparations, mostly in rat. Most dissociatives here carry no measured value at all, and potency is not what separates them subjectively. So this card says so instead of drawing an axis out of numbers that can't be ranked against each other." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -33848,6 +33849,7 @@
       }
     },
     "No comparison axis for dissociatives" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -34657,6 +34659,7 @@
       }
     },
     "No single study in our data measured SERT, DAT and NET for this compound on one basis. Mixing them is how MDMA once rendered as a 95 % noradrenaline drug — a binding Kᵢ plotted against a release EC₅₀ — so the triangle is withheld rather than drawn from rows that can't be ranked together." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -52958,6 +52961,7 @@
       }
     },
     "Transporter triangle withheld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

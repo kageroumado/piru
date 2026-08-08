@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// The class-signature slot inside the Pharmacology card: one of four renderings, chosen by
+/// The class-signature slot inside the Pharmacology card: one of three renderings, chosen by
 /// ``ClassSignature``. A thin dispatcher — each rendering is its own `View` with narrow inputs, so a
 /// basis switch in the ternary doesn't invalidate the rest of the card.
 struct ClassSignatureView: View {
@@ -12,7 +12,6 @@ struct ClassSignatureView: View {
         case let .efficacy(model): EfficacyAxisView(model: model, accent: accent)
         case let .balance(model): TargetBalanceView(model: model, accent: accent)
         case let .ternary(model): TransporterTernaryView(model: model, accent: accent)
-        case let .absent(absence): SignatureAbsenceView(absence: absence)
         }
     }
 }
@@ -96,34 +95,5 @@ struct SignatureCaption: View {
             return String(localized: "one panel", comment: "Signature gate clause — declared comparable set")
         }
         return String(localized: "one study", comment: "Signature gate clause — shared citation")
-    }
-}
-
-/// A signature that was deliberately not drawn — dissociatives by design, and any rendering whose
-/// rows failed the gate. Prose, with the compound's own disagreeing numbers underneath when it has
-/// any, so the claim is checkable rather than asserted.
-struct SignatureAbsenceView: View {
-    let absence: SignatureAbsence
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(absence.title)
-                .font(.subheadline.weight(.semibold))
-                .accessibilityAddTraits(.isHeader)
-            Text(absence.body)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
-                .fixedSize(horizontal: false, vertical: true)
-            if let detail = absence.detail {
-                Text(detail)
-                    .font(.caption.monospacedDigit())
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.top, 2)
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(11)
-        .background(Theme.secondaryLabel.opacity(0.06), in: RoundedRectangle(cornerRadius: 10))
     }
 }

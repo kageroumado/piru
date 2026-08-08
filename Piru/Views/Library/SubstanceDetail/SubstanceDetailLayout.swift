@@ -76,6 +76,11 @@ struct SubstanceDetailLayout: View {
             showAllInventory: showAllInventory,
         )
 
+        // How Long It Stays — the benzodiazepine duration ladder, directly above
+        // the pharmacology because it's the class differentiator a benzo reader
+        // reaches for first. Self-hides outside the family.
+        BenzoDurationSection(substance: substance, model: model)
+
         // 5–6. What makes it different / In the body — mechanism · receptor · PK ·
         //      metabolism, one inline block or one deep-page target.
         pharmacologyInline
@@ -87,10 +92,8 @@ struct SubstanceDetailLayout: View {
         // whose placement actually varies.
         OffTargetSection(substance: substance, model: model)
 
-        // Two class cards, each self-hiding outside its family: the benzodiazepine
-        // duration ladder and the antidepressant class explainer. Same reasoning
-        // as above for staying out of the placement matrix.
-        BenzoDurationSection(substance: substance, model: model)
+        // The antidepressant class explainer, self-hiding outside its family —
+        // out of the placement matrix for the same reason as OffTarget above.
         DrugClassSection(substance: substance)
 
         // Metabolites doing some of the work — on the main screen at every tier.
