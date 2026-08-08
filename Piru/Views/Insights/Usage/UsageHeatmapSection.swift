@@ -54,69 +54,156 @@ struct UsageHeatmapSection: View {
 
 // MARK: - The grid
 
-/// The contribution grid itself: one column per week, seven rows per column,
-/// horizontally scrollable and anchored to the most recent week.
+/// The contribution grid itself: one column per week, seven rows per column.
+///
+/// GitHub-style: the grid **fills the card width**. A short range (a few weeks of
+/// data) is padded on the left with earlier week columns so the block spans the
+/// card instead of floating in the top-left; a long range keeps a fixed cell and
+/// scrolls, anchored to the most recent week. Every past day is a square —
+/// colored by intensity when something was logged, gray when nothing was — so an
+/// empty stretch reads as a real quiet run, not a hole. Only future days (the
+/// rest of the current week) stay blank.
 private struct UsageHeatmapGrid: View {
     let heatmap: UsageHeatmap
     let categoryFilter: Int?
     let accent: Color
     @Binding var selectedDay: Date?
 
-    /// §2's sizing: ~14 pt cells with 2 pt gutters, which lands 13 columns —
-    /// about 90 days — in a phone's width without scrolling.
-    private let cellSize: CGFloat = 14
-    private let cellSpacing: CGFloat = 2
+    @State private var containerWidth: CGFloat = 0
+
+    private let cellSpacing: CGFloat = 3
+    /// The cell edge a filled grid aims for; the actual size stretches a little
+    /// past this to divide the width evenly, and holds here when scrolling.
+    private let baseCell: CGFloat = 15
+    /// Width reserved for the leading weekday-letter column.
+    private let labelWidth: CGFloat = 18
 
     var body: some View {
+        let layout = layout(for: containerWidth)
         ScrollView(.horizontal, showsIndicators: false) {
             ScrollViewReader { proxy in
                 HStack(alignment: .top, spacing: cellSpacing) {
                     // The weekday letters ride inside the scroll content rather
                     // than sitting beside it: a fixed sidebar next to a
                     // horizontal `ScrollView` leaves the grid centered in the
-                    // leftover width, which floats a five-column 30D heatmap in
-                    // the middle of the card with a hole where it should start.
-                    weekdayLabels
-                        .padding(.trailing, 4)
-                    ForEach(Array(heatmap.weekStarts.enumerated()), id: \.offset) { column, weekStart in
+                    // leftover width.
+                    weekdayLabels(cellSize: layout.cell)
+                    ForEach(Array(layout.weekStarts.enumerated()), id: \.offset) { column, weekStart in
                         VStack(spacing: cellSpacing) {
-                            monthLabel(for: column, weekStart: weekStart)
+                            monthLabel(weekStarts: layout.weekStarts, column: column, weekStart: weekStart, cellSize: layout.cell)
                             ForEach(0 ..< 7, id: \.self) { row in
-                                cell(column: column, row: row)
+                                cell(weekStart: weekStart, row: row, layout: layout)
                             }
                         }
                         .id(column)
                     }
-                    // No `drawingGroup()` here, despite §2's implementation
-                    // note: it rasterizes the subtree into one layer, which
-                    // takes the per-cell hit-testing and the per-day VoiceOver
-                    // elements with it. A tappable, readable grid is worth more
-                    // than the composite. Cost is contained instead by the cells
-                    // being plain `RoundedRectangle`s over precomputed counts —
-                    // no work in `body` beyond a dictionary read.
                 }
                 .padding(.vertical, 1)
                 .onAppear {
                     // A year of columns opens on the most recent week; a range
-                    // that already fits doesn't move.
-                    proxy.scrollTo(heatmap.weekStarts.count - 1, anchor: .trailing)
+                    // that already fills the width doesn't move.
+                    proxy.scrollTo(layout.weekStarts.count - 1, anchor: .trailing)
                 }
             }
         }
         .scrollBounceBehavior(.basedOnSize)
+        .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { containerWidth = $0 }
         .accessibilityElement(children: .contain)
         .accessibilityLabel(Text("Activity heatmap"))
         .accessibilityHint(Text("Days with entries are listed one by one. Select a day to filter the hour chart below."))
     }
 
-    private var weekdayLabels: some View {
+    // MARK: Layout
+
+    /// The columns to draw and the cell size, resolved against the available
+    /// width. Short ranges gain leading gray weeks and a slightly larger cell to
+    /// fill the card; long ranges keep ``baseCell`` and scroll.
+    private struct GridLayout {
+        let weekStarts: [Date]
+        let cell: CGFloat
+        /// Session-day start → its cell, for an O(1) lookup from any drawn day.
+        let cellByDate: [Date: UsageHeatmapCell]
+        /// The most recent day inside the selected range — days past it are the
+        /// future and stay blank rather than gray.
+        let lastInRange: Date
+    }
+
+    private func layout(for width: CGFloat) -> GridLayout {
+        let cellByDate = Dictionary(heatmap.cells.map { ($0.date, $0) }, uniquingKeysWith: { first, _ in first })
+        let lastInRange = heatmap.cells.filter(\.inRange).map(\.date).max() ?? .distantPast
+        let actual = heatmap.weekStarts
+
+        // Before the first geometry pass, draw the range's own weeks at the base
+        // size; the measured pass immediately refines it.
+        guard width > labelWidth + baseCell, !actual.isEmpty else {
+            return GridLayout(weekStarts: actual, cell: baseCell, cellByDate: cellByDate, lastInRange: lastInRange)
+        }
+
+        let available = width - labelWidth
+        let fit = max(1, Int((available + cellSpacing) / (baseCell + cellSpacing)))
+        guard actual.count < fit, let first = actual.first else {
+            // Already fills (or overflows) the width — fixed cell, scrollable.
+            return GridLayout(weekStarts: actual, cell: baseCell, cellByDate: cellByDate, lastInRange: lastInRange)
+        }
+
+        // Pad on the left with empty earlier weeks to reach the fill count, and
+        // divide the width evenly so the block spans the card exactly.
+        let calendar = Calendar.current
+        let padded = stride(from: fit - actual.count, through: 1, by: -1)
+            .compactMap { calendar.date(byAdding: .weekOfYear, value: -$0, to: first) }
+        let weekStarts = padded + actual
+        let cell = (available - CGFloat(weekStarts.count - 1) * cellSpacing) / CGFloat(weekStarts.count)
+        return GridLayout(weekStarts: weekStarts, cell: cell, cellByDate: cellByDate, lastInRange: lastInRange)
+    }
+
+    // MARK: Cells
+
+    private func cell(weekStart: Date, row: Int, layout: GridLayout) -> some View {
+        let day = dayDate(weekStart: weekStart, row: row)
+        let cellData = layout.cellByDate[day]
+        let count = displayCount(cellData)
+        let isFuture = day > layout.lastInRange
+        let isSelected = cellData.map { selectedDay == $0.date && $0.total > 0 } ?? false
+        return RoundedRectangle(cornerRadius: 3)
+            .fill(fill(count: count, isFuture: isFuture))
+            .frame(width: layout.cell, height: layout.cell)
+            .overlay {
+                if isSelected {
+                    RoundedRectangle(cornerRadius: 3)
+                        .stroke(Color.primary, lineWidth: 1.5)
+                }
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                guard let cellData, cellData.total > 0 else { return }
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    selectedDay = selectedDay == cellData.date ? nil : cellData.date
+                }
+            }
+            .accessibilityHidden(count == 0)
+            .accessibilityLabel(cellData.map { Text($0.date.formatted(.dateTime.weekday(.wide).day().month(.abbreviated))) } ?? Text(""))
+            .accessibilityValue(Text("\(count) entries"))
+            .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
+    }
+
+    /// The session-day start a `(weekStart, row)` cell stands for. Noon before
+    /// the day-start conversion so adding days never lands on a DST-skipped hour —
+    /// the same construction the aggregation used to build the cells.
+    private func dayDate(weekStart: Date, row: Int) -> Date {
+        let calendar = Calendar.current
+        let noon = calendar.date(byAdding: .day, value: row, to: weekStart)?
+            .addingTimeInterval(12 * 3_600) ?? weekStart
+        return calendar.sessionDayStart(for: noon)
+    }
+
+    private func weekdayLabels(cellSize: CGFloat) -> some View {
         let symbols = Calendar.current.veryShortStandaloneWeekdaySymbols
         return VStack(spacing: cellSpacing) {
             Color.clear.frame(height: 11)
             ForEach(Array(heatmap.rowWeekdays.enumerated()), id: \.offset) { row, weekday in
                 Group {
                     // Every other row, so seven one-letter labels don't crowd
-                    // a 14 pt cell stack.
+                    // the cell stack.
                     if row.isMultiple(of: 2), symbols.indices.contains(weekday - 1) {
                         Text(symbols[weekday - 1])
                             .font(.system(size: 9))
@@ -128,13 +215,14 @@ private struct UsageHeatmapGrid: View {
                 .frame(width: 14, height: cellSize)
             }
         }
+        .frame(width: labelWidth - cellSpacing, alignment: .leading)
         .accessibilityHidden(true)
     }
 
     /// A month abbreviation above the first column that starts a new month.
-    private func monthLabel(for column: Int, weekStart: Date) -> some View {
+    private func monthLabel(weekStarts: [Date], column: Int, weekStart: Date, cellSize: CGFloat) -> some View {
         let calendar = Calendar.current
-        let previous = column > 0 ? heatmap.weekStarts[column - 1] : nil
+        let previous = column > 0 ? weekStarts[column - 1] : nil
         let isNewMonth = previous.map {
             calendar.component(.month, from: $0) != calendar.component(.month, from: weekStart)
         } ?? true
@@ -146,46 +234,21 @@ private struct UsageHeatmapGrid: View {
             .accessibilityHidden(true)
     }
 
-    private func cell(column: Int, row: Int) -> some View {
-        let cell = heatmap.cell(column: column, row: row)
-        let count = displayCount(cell)
-        let isSelected = cell.map { selectedDay == $0.date && $0.total > 0 } ?? false
-        return RoundedRectangle(cornerRadius: 3)
-            .fill(fill(for: cell, count: count))
-            .frame(width: cellSize, height: cellSize)
-            .overlay {
-                if isSelected {
-                    RoundedRectangle(cornerRadius: 3)
-                        .stroke(Color.primary, lineWidth: 1.5)
-                }
-            }
-            .contentShape(Rectangle())
-            .onTapGesture {
-                guard let cell, cell.total > 0 else { return }
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    selectedDay = selectedDay == cell.date ? nil : cell.date
-                }
-            }
-            .accessibilityHidden(count == 0)
-            .accessibilityLabel(cell.map { Text($0.date.formatted(.dateTime.weekday(.wide).day().month(.abbreviated))) } ?? Text(""))
-            .accessibilityValue(Text("\(count) entries"))
-            .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
-    }
-
     /// The count the cell should render — narrowed to the filtered category
-    /// when one is active.
+    /// when one is active. `nil` (a padded, out-of-range day) reads as zero.
     private func displayCount(_ cell: UsageHeatmapCell?) -> Int {
         guard let cell, cell.inRange else { return 0 }
         guard let categoryFilter else { return cell.total }
         return cell.byCategory[categoryFilter] ?? 0
     }
 
-    private func fill(for cell: UsageHeatmapCell?, count: Int) -> Color {
-        guard let cell, cell.inRange else { return .clear }
+    private func fill(count: Int, isFuture: Bool) -> Color {
+        // Future days (the rest of the current week) haven't happened — blank,
+        // not gray. Every past day is a square: gray when empty, so a quiet run
+        // reads as a real absence rather than a gap in the grid.
+        if isFuture { return .clear }
         guard count > 0 else { return Color(.tertiarySystemFill) }
         let peak = max(heatmap.maxCount, 1)
-        // Four visible steps, floored well above zero so a single entry still
-        // reads as present rather than as an empty day.
         let fraction = min(1, Double(count) / Double(peak))
         return accent.opacity(0.28 + 0.72 * fraction)
     }
