@@ -69,44 +69,56 @@ private struct UsageHeatmapGrid: View {
     let accent: Color
     @Binding var selectedDay: Date?
 
+    /// Width of the whole grid area (card content width). Measured on the outer
+    /// container — not the ScrollView, whose width feeds back through its content.
     @State private var containerWidth: CGFloat = 0
 
     private let cellSpacing: CGFloat = 3
     /// The cell edge a filled grid aims for; the actual size stretches a little
     /// past this to divide the width evenly, and holds here when scrolling.
     private let baseCell: CGFloat = 15
-    /// Width reserved for the leading weekday-letter column.
-    private let labelWidth: CGFloat = 18
+    /// Width of the leading weekday-label sidebar — wide enough for a three-letter
+    /// abbreviation ("Wed") rather than an ambiguous single letter.
+    private let labelWidth: CGFloat = 30
 
     var body: some View {
         let layout = layout(for: containerWidth)
-        ScrollView(.horizontal, showsIndicators: false) {
-            ScrollViewReader { proxy in
-                HStack(alignment: .top, spacing: cellSpacing) {
-                    // The weekday letters ride inside the scroll content rather
-                    // than sitting beside it: a fixed sidebar next to a
-                    // horizontal `ScrollView` leaves the grid centered in the
-                    // leftover width.
-                    weekdayLabels(cellSize: layout.cell)
-                    ForEach(Array(layout.weekStarts.enumerated()), id: \.offset) { column, weekStart in
-                        VStack(spacing: cellSpacing) {
-                            monthLabel(weekStarts: layout.weekStarts, column: column, weekStart: weekStart, cellSize: layout.cell)
-                            ForEach(0 ..< 7, id: \.self) { row in
-                                cell(weekStart: weekStart, row: row, layout: layout)
+        // The weekday labels are a *fixed* sidebar, outside the ScrollView: the
+        // grid opens scrolled to the most recent week, and labels that rode inside
+        // the scroll content scrolled off the leading edge with it. The grid always
+        // fills or overflows the remaining width, so the old "fixed sidebar floats
+        // a narrow grid" worry no longer applies.
+        HStack(alignment: .top, spacing: cellSpacing) {
+            weekdayLabels(cellSize: layout.cell)
+                .frame(width: labelWidth)
+            ScrollView(.horizontal, showsIndicators: false) {
+                ScrollViewReader { proxy in
+                    HStack(alignment: .top, spacing: cellSpacing) {
+                        ForEach(Array(layout.weekStarts.enumerated()), id: \.offset) { column, weekStart in
+                            VStack(spacing: cellSpacing) {
+                                monthLabel(weekStarts: layout.weekStarts, column: column, weekStart: weekStart, cellSize: layout.cell)
+                                ForEach(0 ..< 7, id: \.self) { row in
+                                    cell(weekStart: weekStart, row: row, layout: layout)
+                                }
                             }
+                            .id(column)
                         }
-                        .id(column)
+                    }
+                    .padding(.vertical, 1)
+                    .onAppear {
+                        // A year of columns opens on the most recent week; a range
+                        // that already fills the width doesn't move.
+                        proxy.scrollTo(layout.weekStarts.count - 1, anchor: .trailing)
                     }
                 }
-                .padding(.vertical, 1)
-                .onAppear {
-                    // A year of columns opens on the most recent week; a range
-                    // that already fills the width doesn't move.
-                    proxy.scrollTo(layout.weekStarts.count - 1, anchor: .trailing)
-                }
             }
+            // Pin the scroll viewport to the exact remaining width. Without it the
+            // ScrollView's width is inferred from its (wide) content, which pushed
+            // the grid past the card and floated the sidebar inward.
+            .frame(width: max(0, containerWidth - labelWidth - cellSpacing))
+            .scrollBounceBehavior(.basedOnSize)
         }
-        .scrollBounceBehavior(.basedOnSize)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { containerWidth = $0 }
         .accessibilityElement(children: .contain)
         .accessibilityLabel(Text("Activity heatmap"))
@@ -134,12 +146,13 @@ private struct UsageHeatmapGrid: View {
         let actual = heatmap.weekStarts
 
         // Before the first geometry pass, draw the range's own weeks at the base
-        // size; the measured pass immediately refines it.
+        // size; the measured pass immediately refines it. `width` is the whole
+        // grid area; the fixed sidebar and its gutter come off the top.
         guard width > labelWidth + baseCell, !actual.isEmpty else {
             return GridLayout(weekStarts: actual, cell: baseCell, cellByDate: cellByDate, lastInRange: lastInRange)
         }
 
-        let available = width - labelWidth
+        let available = width - labelWidth - cellSpacing
         let fit = max(1, Int((available + cellSpacing) / (baseCell + cellSpacing)))
         guard actual.count < fit, let first = actual.first else {
             // Already fills (or overflows) the width — fixed cell, scrollable.
@@ -197,25 +210,31 @@ private struct UsageHeatmapGrid: View {
     }
 
     private func weekdayLabels(cellSize: CGFloat) -> some View {
-        let symbols = Calendar.current.veryShortStandaloneWeekdaySymbols
+        // Short names ("Sun", "Tue") rather than single letters, which repeat —
+        // "S T T S" reads the same for Sunday/Saturday and Tuesday/Thursday.
+        let symbols = Calendar.current.shortStandaloneWeekdaySymbols
         return VStack(spacing: cellSpacing) {
+            // Matches the month-label row atop each column so the letters line up
+            // with their rows.
             Color.clear.frame(height: 11)
             ForEach(Array(heatmap.rowWeekdays.enumerated()), id: \.offset) { row, weekday in
                 Group {
-                    // Every other row, so seven one-letter labels don't crowd
-                    // the cell stack.
+                    // Every other row, so the labels don't crowd the cell stack;
+                    // the gaps between named rows are unambiguous once the names
+                    // are spelled out.
                     if row.isMultiple(of: 2), symbols.indices.contains(weekday - 1) {
                         Text(symbols[weekday - 1])
                             .font(.system(size: 9))
                             .foregroundStyle(Theme.secondaryLabel)
+                            .fixedSize()
                     } else {
                         Color.clear
                     }
                 }
-                .frame(width: 14, height: cellSize)
+                .frame(width: labelWidth, height: cellSize, alignment: .leading)
             }
         }
-        .frame(width: labelWidth - cellSpacing, alignment: .leading)
+        .padding(.vertical, 1)
         .accessibilityHidden(true)
     }
 

@@ -506,7 +506,21 @@ nonisolated enum UsageAnalytics {
         let overview = self.overview(
             all: sorted, inRange: inRange, bounds: bounds, calendar: calendar,
         )
-        let heatmap = self.heatmap(dayIndex: dayIndex, bounds: bounds, calendar: calendar)
+        // The activity heatmap is a full-history contribution graph: it colors
+        // every day the user ever logged, not just the selected range, so a 30-day
+        // range still reveals a year of rhythm. The range drives the hour
+        // histogram and every other section — but graying out real earlier data
+        // here just to match the picker hid history the user actually has.
+        let historyBounds = Bounds(
+            start: sorted.first?.timestamp ?? bounds.start,
+            end: bounds.end,
+            lengthDays: bounds.lengthDays,
+            hasPreviousPeriod: false,
+        )
+        let heatmap = self.heatmap(
+            dayIndex: groupByDay(sorted, calendar: calendar),
+            bounds: historyBounds, calendar: calendar,
+        )
         let hours = hourProfile(inRange, calendar: calendar)
         let bucketStarts = self.bucketStarts(bounds: bounds, weekly: range.usesWeeklyBuckets, calendar: calendar)
         let ranking = substanceRanking(inRange)
