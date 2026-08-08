@@ -1,32 +1,28 @@
 import Charts
 import SwiftUI
 
-/// §8 — "which days of the week am I most active, and what do I use on each?"
-/// Seven bars stacked by substance category, with the per-weekday average
-/// underneath.
+/// §8 — "which days of the week am I most active?" Seven bars, one per weekday,
+/// with the per-weekday average underneath.
+///
+/// Deliberately a single color, not stacked by class: the class split had no
+/// legend, so the stack of a dozen category colors read as noise rather than
+/// information — and the question this card asks is "which days", which the total
+/// answers directly. The per-class detail lives where it has a legend (the
+/// Activity heatmap's category pills, Most logged's route colors).
 ///
 /// This replaces the old four-bucket "Time of Day" chart. That detail is not
 /// lost: it moved to the 24-bin hour histogram in §2.
 struct UsageWeekdaySection: View {
     let buckets: [UsageWeekdayBucket]
 
-    private struct Segment: Identifiable {
-        let weekday: Int
-        let categoryIndex: Int
-        let count: Int
-        var id: String {
-            "\(weekday)-\(categoryIndex)"
-        }
-    }
-
     var body: some View {
-        UsageSectionCard(title: "Day of week", subtitle: "Entries by weekday, split by class") {
-            Chart(segments) { segment in
+        UsageSectionCard(title: "Day of week", subtitle: "Which weekdays you log on most") {
+            Chart(buckets) { bucket in
                 BarMark(
-                    x: .value("Day", label(for: segment.weekday)),
-                    y: .value("Entries", segment.count),
+                    x: .value("Day", label(for: bucket.weekday)),
+                    y: .value("Entries", bucket.total),
                 )
-                .foregroundStyle(UsageAxes.category(segment.categoryIndex).labelColor)
+                .foregroundStyle(Theme.accent)
                 .cornerRadius(3)
             }
             .frame(height: 170)
@@ -48,14 +44,6 @@ struct UsageWeekdaySection: View {
             .chartSummaryAccessibility(label: Text("Entries by weekday"), value: Text(summary))
 
             averagesRow
-        }
-    }
-
-    private var segments: [Segment] {
-        buckets.flatMap { bucket in
-            bucket.byCategory
-                .sorted { $0.key < $1.key }
-                .map { Segment(weekday: bucket.weekday, categoryIndex: $0.key, count: $0.value) }
         }
     }
 

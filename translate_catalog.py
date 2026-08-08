@@ -246,6 +246,10 @@ T = {
     "Common doses": ("常规剂量", "常規劑量"),
     "Entries/wk": ("条目/周", "條目/週"),
     "Common doses/wk": ("常规剂量/周", "常規劑量/週"),
+    "Entries/day": ("条目/天", "條目/天"),
+    "Common doses/day": ("常规剂量/天", "常規劑量/天"),
+    "Common doses per day": ("每天常规剂量数", "每天常規劑量數"),
+    "Which weekdays you log on most": ("你最常在星期几记录", "你最常在星期幾記錄"),
     "No common dose defined for these substances": (
         "这些物质未定义常规剂量",
         "這些物質未定義常規劑量",
@@ -349,6 +353,9 @@ T = {
     "%@ rising to %@ per week": ("%1$@ 上升至每周 %2$@", "%1$@ 上升至每週 %2$@"),
     "%@ falling to %@ per week": ("%1$@ 下降至每周 %2$@", "%1$@ 下降至每週 %2$@"),
     "%@ steady at %@ per week": ("%1$@ 稳定在每周 %2$@", "%1$@ 穩定在每週 %2$@"),
+    "%@ rising to %@ per day": ("%1$@ 上升至每天 %2$@", "%1$@ 上升至每天 %2$@"),
+    "%@ falling to %@ per day": ("%1$@ 下降至每天 %2$@", "%1$@ 下降至每天 %2$@"),
+    "%@ steady at %@ per day": ("%1$@ 稳定在每天 %2$@", "%1$@ 穩定在每天 %2$@"),
     "%@ with %@": ("%1$@ 与 %2$@", "%1$@ 與 %2$@"),
     "%@ %lld percent": ("%1$@ 百分之 %2$lld", "%1$@ 百分之 %2$lld"),
     "%lld %@": ("%1$lld %2$@", "%1$lld %2$@"),
@@ -6808,6 +6815,13 @@ if __name__ == "__main__":
         "%@ common-dose units across %lld entries",
         "Common doses per week, 7-day rolling average",
         "Common doses per week, 4-week rolling average",
+        "Entries/day",
+        "Common doses/day",
+        "Common doses per day",
+        "Which weekdays you log on most",
+        "%@ rising to %@ per day",
+        "%@ falling to %@ per day",
+        "%@ steady at %@ per day",
     }
 
     print("--- Piru main app catalog ---")

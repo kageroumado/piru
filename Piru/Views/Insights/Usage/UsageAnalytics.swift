@@ -49,10 +49,22 @@ nonisolated enum UsageTimeRange: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    /// Rolling window, in days, behind each trend point (§3): 7 days on the
-    /// daily-bucketed ranges, 4 weeks on the weekly-bucketed ones.
+    /// Rolling window, in days, behind each trend point (§3). 7D shows raw daily
+    /// buckets — a rolling week over a seven-day range is just the range, so its
+    /// window is a single day; 30D smooths over a week; the longer ranges over
+    /// four.
     var rollingWindowDays: Int {
-        usesWeeklyBuckets ? 28 : 7
+        switch self {
+        case .sevenDays: 1
+        case .thirtyDays: 7
+        default: 28
+        }
+    }
+
+    /// Whether the trend line reads as a per-week rate. 7D reads as raw per-day
+    /// buckets instead — a weekly rate across a single week is meaningless.
+    var trendPerWeek: Bool {
+        self != .sevenDays
     }
 }
 
@@ -529,6 +541,7 @@ nonisolated enum UsageAnalytics {
             bucketDays: range.usesWeeklyBuckets ? 7 : 1,
             windowDays: range.rollingWindowDays,
             rangeEnd: bounds.end,
+            ratePerWeek: range.trendPerWeek,
         )
         let doseLevels = self.doseLevels(inRange, ranking: ranking, bucketStarts: bucketStarts, calendar: calendar)
         let routes = routeBreakdown(inRange, ranking: ranking)
@@ -847,12 +860,15 @@ nonisolated enum UsageAnalytics {
         bucketDays: Int,
         windowDays: Int,
         rangeEnd: Date,
+        ratePerWeek: Bool = true,
     ) -> [UsageTrendSeries] {
         guard !bucketStarts.isEmpty, windowDays > 0 else { return [] }
         let top = ranking.prefix(maximumTrendSubstances)
         let window = Double(windowDays) * 86_400
         let bucketSpan = Double(bucketDays) * 86_400
-        let perWeek = 7.0 / Double(windowDays)
+        // Per-week rate normalizes the window to a week; raw (7D) leaves each
+        // bucket as its own count, which with a one-day window is a per-day bucket.
+        let perWeek = ratePerWeek ? 7.0 / Double(windowDays) : 1.0
 
         // Each entry carried as (timestamp, common-dose value) so a bucket's
         // window can sum both the count and the common-dose total in one pass.

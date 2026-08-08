@@ -16,7 +16,9 @@ struct UsageTrendsSection: View {
     @State private var hidden: Set<Int> = []
     @State private var showsAll = false
     @State private var selectedDate: Date?
-    @State private var metric: UsageRankMetric = .entries
+    // Common doses by default: it weighs each dose by its typical size, which is
+    // the more representative view of use over time than how often it was logged.
+    @State private var metric: UsageRankMetric = .commonDoses
 
     /// The lines eligible in the active metric. In common-dose mode a substance
     /// with no common-dose data would draw flat on zero and read as "unused", so
@@ -58,10 +60,11 @@ struct UsageTrendsSection: View {
                         style: style,
                         weekly: range.usesWeeklyBuckets,
                         metric: metric,
+                        perWeek: range.trendPerWeek,
                         selectedDate: $selectedDate,
                     )
                     if let selectedDate {
-                        UsageTrendsReadout(series: visibleSeries, style: style, metric: metric, date: selectedDate)
+                        UsageTrendsReadout(series: visibleSeries, style: style, metric: metric, perWeek: range.trendPerWeek, date: selectedDate)
                     }
                     legend
                 }
@@ -75,18 +78,20 @@ struct UsageTrendsSection: View {
 
     private var metricPicker: some View {
         Picker("Measure", selection: $metric) {
-            Text("Entries/wk").tag(UsageRankMetric.entries)
-            Text("Common doses/wk").tag(UsageRankMetric.commonDoses)
+            Text(range.trendPerWeek ? "Entries/wk" : "Entries/day").tag(UsageRankMetric.entries)
+            Text(range.trendPerWeek ? "Common doses/wk" : "Common doses/day").tag(UsageRankMetric.commonDoses)
         }
         .pickerStyle(.segmented)
     }
 
     private var subtitle: LocalizedStringKey {
-        switch (metric, range.usesWeeklyBuckets) {
-        case (.entries, true): "Entries per week, 4-week rolling average"
-        case (.entries, false): "Entries per week, 7-day rolling average"
-        case (.commonDoses, true): "Common doses per week, 4-week rolling average"
-        case (.commonDoses, false): "Common doses per week, 7-day rolling average"
+        switch (metric, range) {
+        case (.entries, .sevenDays): "Entries per day"
+        case (.commonDoses, .sevenDays): "Common doses per day"
+        case (.entries, .thirtyDays): "Entries per week, 7-day rolling average"
+        case (.commonDoses, .thirtyDays): "Common doses per week, 7-day rolling average"
+        case (.entries, _): "Entries per week, 4-week rolling average"
+        case (.commonDoses, _): "Common doses per week, 4-week rolling average"
         }
     }
 
@@ -147,6 +152,8 @@ private struct UsageTrendsChart: View {
     let style: UsageSubstanceStyle
     let weekly: Bool
     let metric: UsageRankMetric
+    /// Whether values read as a per-week rate (else per-day buckets on 7D).
+    let perWeek: Bool
     @Binding var selectedDate: Date?
 
     private func value(_ point: UsageTrendPoint) -> Double {
@@ -214,12 +221,20 @@ private struct UsageTrendsChart: View {
             let last = item.points.last.map(value) ?? 0
             let first = item.points.first.map(value) ?? 0
             let rate = last.formatted(.number.precision(.fractionLength(0 ... 1)))
-            if last > first + 0.01 {
-                return String(localized: "\(name) rising to \(rate) per week")
-            } else if last < first - 0.01 {
-                return String(localized: "\(name) falling to \(rate) per week")
+            if perWeek {
+                if last > first + 0.01 {
+                    return String(localized: "\(name) rising to \(rate) per week")
+                } else if last < first - 0.01 {
+                    return String(localized: "\(name) falling to \(rate) per week")
+                }
+                return String(localized: "\(name) steady at \(rate) per week")
             }
-            return String(localized: "\(name) steady at \(rate) per week")
+            if last > first + 0.01 {
+                return String(localized: "\(name) rising to \(rate) per day")
+            } else if last < first - 0.01 {
+                return String(localized: "\(name) falling to \(rate) per day")
+            }
+            return String(localized: "\(name) steady at \(rate) per day")
         }
         return parts.joined(separator: ", ")
     }
@@ -233,6 +248,7 @@ private struct UsageTrendsReadout: View {
     let series: [UsageTrendSeries]
     let style: UsageSubstanceStyle
     let metric: UsageRankMetric
+    let perWeek: Bool
     let date: Date
 
     var body: some View {
@@ -254,7 +270,9 @@ private struct UsageTrendsReadout: View {
                     Text(style.name(row.index))
                         .font(.caption2)
                     Spacer(minLength: 8)
-                    Text("\(row.value.formatted(.number.precision(.fractionLength(0 ... 1))))/wk")
+                    Text(perWeek
+                        ? "\(row.value.formatted(.number.precision(.fractionLength(0 ... 1))))/wk"
+                        : "\(row.value.formatted(.number.precision(.fractionLength(0 ... 1))))/day")
                         .font(.caption2.weight(.medium))
                         .foregroundStyle(Theme.secondaryLabel)
                 }

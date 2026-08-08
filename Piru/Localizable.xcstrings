@@ -1163,6 +1163,28 @@
         }
       }
     },
+    "%@ falling to %@ per day" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ falling to %2$@ per day"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 下降至每天 %2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 下降至每天 %2$@"
+          }
+        }
+      }
+    },
     "%@ falling to %@ per week" : {
       "localizations" : {
         "en" : {
@@ -1455,6 +1477,28 @@
         }
       }
     },
+    "%@ rising to %@ per day" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ rising to %2$@ per day"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 上升至每天 %2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 上升至每天 %2$@"
+          }
+        }
+      }
+    },
     "%@ rising to %@ per week" : {
       "localizations" : {
         "en" : {
@@ -1495,6 +1539,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在 %2$@ 本身已排出後,%1$@ 仍在體內保持活性。"
+          }
+        }
+      }
+    },
+    "%@ steady at %@ per day" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ steady at %2$@ per day"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 稳定在每天 %2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 穩定在每天 %2$@"
           }
         }
       }
@@ -14554,6 +14620,22 @@
         }
       }
     },
+    "Common doses per day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天常规剂量数"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天常規劑量數"
+          }
+        }
+      }
+    },
     "Common doses per week, 4-week rolling average" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14582,6 +14664,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每週常規劑量數，7 天滾動平均"
+          }
+        }
+      }
+    },
+    "Common doses/day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常规剂量/天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常規劑量/天"
           }
         }
       }
@@ -21407,6 +21505,7 @@
       }
     },
     "Entries by weekday, split by class" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21423,7 +21522,6 @@
       }
     },
     "Entries per day" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21467,6 +21565,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每週條目數，7 天滾動平均"
+          }
+        }
+      }
+    },
+    "Entries/day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "条目/天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "條目/天"
           }
         }
       }
@@ -55550,6 +55664,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你在哪些日子和時段記錄"
+          }
+        }
+      }
+    },
+    "Which weekdays you log on most" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你最常在星期几记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你最常在星期幾記錄"
           }
         }
       }
