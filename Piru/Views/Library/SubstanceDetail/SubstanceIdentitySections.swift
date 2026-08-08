@@ -15,7 +15,7 @@ struct InfoDisclosureSection: View {
         // tap-for-help affordance (``CollapsibleSection/onInfo``), so a *leading*
         // one on a section that has no help sheet was the same glyph meaning two
         // things one row apart. This section is category, route, names and tags.
-        CollapsibleSection("Additional Info", systemImage: "tag", isExpanded: $infoExpanded) {
+        CollapsibleSection("Additional Info", isExpanded: $infoExpanded) {
             let extras = infoExtraCells
             Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
                 GridRow {
@@ -161,7 +161,7 @@ struct ChemistrySection: View {
             || substance.molarMass != nil || hasPubChem || substance.smiles != nil
             || substance.iupacName != nil || (phys?.hasAnyValue ?? false)
         if showsMechanism, hasChem {
-            CollapsibleSection("Chemistry", systemImage: "atom", isExpanded: $chemistryExpanded) {
+            CollapsibleSection("Chemistry", isExpanded: $chemistryExpanded) {
                 // The molecule hero — omitted entirely when the substance has
                 // no generated structure (no SMILES, or obabel couldn't parse
                 // it; ~860 substances currently). Loaded lazily via a cheap
@@ -349,7 +349,6 @@ struct SourcesSection: View {
             // for the reader least likely to want it.
             CollapsibleSection(
                 "Sources",
-                systemImage: "text.book.closed",
                 count: links.count,
                 isExpanded: $isExpanded,
             ) {

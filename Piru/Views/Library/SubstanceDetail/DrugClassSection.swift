@@ -29,7 +29,6 @@ struct DrugClassSection: View {
             let own = Set(ownClasses)
             CollapsibleSection(
                 "Drug Class",
-                systemImage: "square.stack.3d.up",
                 isExpanded: $isExpanded,
             ) {
                 VStack(alignment: .leading, spacing: 10) {

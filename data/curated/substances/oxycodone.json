@@ -13,27 +13,27 @@
     {
       "severity": "danger",
       "name": "Benzodiazepines",
-      "description": "The classic fatal pairing — both suppress breathing by different mechanisms, and the combination is behind a large share of opioid deaths. Tolerance to one gives no protection against the other. Do not combine."
+      "description": "Both slow your breathing, by different routes — the pairing causes a large share of opioid deaths. Tolerance to one gives no protection against the other. Do not combine."
     },
     {
       "severity": "danger",
       "name": "Alcohol",
-      "description": "Additive respiratory depression, and alcohol impairs the arousal response that would otherwise wake you when breathing slows. A moderate amount of either becomes dangerous together. Do not combine."
+      "description": "Slowed breathing adds up, and alcohol blunts the reflex that would wake you when breathing drops. A moderate amount of either turns dangerous together. Do not combine."
     },
     {
       "severity": "danger",
       "name": "MAOIs",
-      "description": "Opioid–MAOI interactions range from serotonin toxicity to unpredictable potentiation of sedation and blood pressure effects. Do not combine."
+      "description": "Opioid–MAOI reactions range from serotonin toxicity to unpredictable sedation and blood-pressure swings. Do not combine."
     },
     {
       "severity": "caution",
       "name": "Gabapentinoids",
-      "description": "Gabapentin and pregabalin add their own respiratory depression on top of the opioid's — a pairing increasingly represented in overdose data precisely because each half seems mild alone. If both are prescribed, keep doses conservative and avoid stacking extra sedatives."
+      "description": "Gabapentin and pregabalin add their own slowed breathing — a pairing rising in overdose data because each half seems mild alone. If both are prescribed, keep doses low and add no other sedatives."
     },
     {
       "severity": "caution",
       "name": "Other opioids",
-      "description": "Different names, one receptor — doses stack directly. Adding a second opioid on top of oxycodone is a dose increase, not a different drug; count the total."
+      "description": "Same receptor, different names — doses stack directly. A second opioid is a dose increase, not a different drug. Count the total."
     }
   ]
 }

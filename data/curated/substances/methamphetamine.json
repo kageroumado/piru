@@ -15,26 +15,26 @@
     {
       "severity": "danger",
       "name": "MAOIs",
-      "description": "Phenelzine, tranylcypromine, selegiline, etc. — MAO inhibition removes the main breakdown route for released monoamines, so pressor effects stack into hypertensive crisis. With methamphetamine's potency and duration the margin is even thinner than with amphetamine. Do not combine."
+      "description": "An MAOI removes the main way your body clears released monoamines, so blood pressure can spike into a crisis. Meth's strength and long duration make the margin even thinner than amphetamine. Do not combine."
     },
     {
       "severity": "caution",
       "name": "Alcohol",
-      "description": "The stimulant masks how drunk you are, so alcohol tends to get redosed well past where it would alone — and methamphetamine's long duration means the masking outlasts most drinking sessions. Cardiovascular load adds up; judgment of it does not."
+      "description": "The stimulant hides how drunk you are, so alcohol gets redosed too far — and meth's long duration outlasts most drinking. Heart strain adds up even when you can't feel it."
     },
     {
       "severity": "caution",
       "name": "Other stimulants",
-      "description": "Cocaine, MDMA, more amphetamine — heart rate and blood pressure effects are additive, and methamphetamine already sits at the strong end. Stacking raises cardiovascular load faster than it raises the effect you wanted."
+      "description": "Cocaine, MDMA, more amphetamine — heart rate and blood pressure add together, and meth already sits near the top. Stacking raises the strain faster than the effect."
     },
     {
       "severity": "caution",
       "name": "Opioids",
-      "description": "The stimulant masks opioid sedation, the usual early warning of too much — so an opioid dose that would have felt heavy feels manageable until the stimulant wears off first. If combining, dose the opioid as if the stimulant weren't there."
+      "description": "The stimulant hides opioid drowsiness, the usual warning of too much — so a heavy opioid dose can feel manageable until the meth wears off first. If combining, dose the opioid as if the meth weren't there."
     }
   ],
   "waterHeat": {
     "headline": "Sip to thirst",
-    "body": "Stimulants suppress thirst without changing how much fluid you actually need — which isn't much more than usual unless you're moving hard or in the heat. Sip to thirst rather than forcing water, and over a long session remember to eat; hours pass faster than they feel."
+    "body": "Stimulants blunt thirst without changing how much fluid you need — not much more than usual unless you're moving hard or in the heat. Sip to thirst; don't force water. On a long session, remember to eat."
   }
 }

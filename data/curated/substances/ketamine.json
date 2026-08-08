@@ -15,12 +15,12 @@
     {
       "severity": "caution",
       "name": "Alcohol & CNS depressants",
-      "description": "Sedation and respiratory depression add up, and ketamine's dissociation makes it hard to notice either happening. Nausea and vomiting are also more likely — a real problem if you can't protect your airway. If combining at all, keep both doses low and don't dose alone."
+      "description": "Sedation and slowed breathing add up, and ketamine's dissociation hides both. Vomiting is likelier too — dangerous if you can't protect your airway. Keep both doses low, and don't dose alone."
     },
     {
       "severity": "caution",
       "name": "Stimulants",
-      "description": "The stimulant masks ketamine's sedation, so doses that would have put you down feel manageable — until the stimulant fades first and the full dissociative load lands at once. Judge the ketamine dose as if the stimulant weren't there."
+      "description": "A stimulant hides ketamine's sedation, so a heavy dose can feel manageable — until the stimulant fades first and the full dose lands at once. Judge the ketamine as if the stimulant weren't there."
     }
   ]
 }

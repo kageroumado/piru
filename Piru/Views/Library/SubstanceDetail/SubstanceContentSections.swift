@@ -23,7 +23,7 @@ struct OverviewSection: View {
             let isLong = overview.text.count > collapsedThreshold
             Section {
                 VStack(alignment: .leading, spacing: 8) {
-                    Label("Overview", systemImage: "text.justify.left")
+                    Text("Overview")
                         .font(.subheadline.weight(.semibold))
                     Text(overview.text)
                         .font(.subheadline)

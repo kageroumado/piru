@@ -7,13 +7,13 @@
     {
       "severity": "note",
       "name": "Stimulants",
-      "description": "Additive on heart rate and anxiety — caffeine on top of amphetamine or similar mostly adds jitter, not function. If a stimulant is already on board, the coffee is usually redundant.",
+      "description": "Adds heart rate and jitter, not function. If a stronger stimulant is already on board, the coffee is mostly redundant.",
       "note": "additive"
     },
     {
       "severity": "note",
       "name": "Alcohol",
-      "description": "Caffeine masks how drunk you feel without changing how drunk you are — the 'wide-awake drunk' effect behind energy-drink cocktails. Impairment is unchanged; awareness of it isn't.",
+      "description": "Caffeine makes you feel less drunk without being less drunk — the 'wide-awake drunk' effect. Impairment is unchanged; only your sense of it is.",
       "note": "masks"
     }
   ]

@@ -45,7 +45,7 @@ struct SubstanceDetailView: View {
     /// The plain-language help sheet shown from a card header's (i) button.
     @State private var glossaryTopic: PharmacologyGlossarySheet.Topic?
     /// Contraindications & cautions disclosure, owned here so it survives while
-    /// ``MedicalInfoSection`` is re-created; the section reads it as a binding.
+    /// ``SafetySection`` is re-created; the section reads it as a binding.
     @State private var cautionsExpanded = false
     /// Drives the push to the grouped "All effects" screen from the Effects
     /// header's "Show All" (a header NavigationLink isn't reliably hittable).

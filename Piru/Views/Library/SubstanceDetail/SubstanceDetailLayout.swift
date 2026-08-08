@@ -62,15 +62,19 @@ struct SubstanceDetailLayout: View {
             EffectsSection(substance: substance, policy: policy, showAllEffects: showAllEffects)
         }
 
-        // Combinations — curated notable interactions, ranked by evidence.
-        if placement(.combinations) == .inline {
-            CombinationsSection(combinations: substance.combinations)
-        }
+        // What it is, in prose — above the pharmacology so the plain-language
+        // "what is this" comes before the mechanism detail. Self-hides for the
+        // ~80% of the library with no overview.
+        OverviewSection(substance: substance)
 
-        // Water & heat — thermoregulation and hydration guidance.
-        if placement(.water) == .inline {
-            WaterHeatSection(guidance: substance.waterHeat)
-        }
+        // Inventory — directly under Overview: once you know what it is, the next
+        // practical question is whether you have any.
+        InventoryStockSection(
+            substanceName: substance.name,
+            selectedSaltForm: selectedSaltForm,
+            inventoryItems: inventoryItems,
+            showAllInventory: showAllInventory,
+        )
 
         // 5–6. What makes it different / In the body — mechanism · receptor · PK ·
         //      metabolism, one inline block or one deep-page target.
@@ -101,33 +105,23 @@ struct SubstanceDetailLayout: View {
             )
         }
 
-        // What it is, in prose — below the dose card and the mechanism, not
-        // above them. It is the least surprising thing on the screen: by the
-        // time you have read how much and how it works, the encyclopedia
-        // paragraph is reference, not headline. Self-hides for the ~80% of the
-        // library with no overview.
-        OverviewSection(substance: substance)
+        // Safety — combinations, water & heat, contraindications, and myth
+        // corrections in one card below the pharmacology, beside Prescribing.
+        // Self-hides when a compound carries none of them.
+        SafetySection(
+            substance: substance,
+            policy: policy,
+            accent: substance.category.color,
+            cautionsExpanded: cautionsExpanded,
+        )
 
-        // Medical lead — self-hides when the compound carries no medical data (so
-        // it drops out for the recreational spine, leads for the medical one).
-        MedicalInfoSection(substance: substance, cautionsExpanded: cautionsExpanded)
-
-        // 9. Common misconceptions — collapsed, one claim row apiece.
-        if placement(.misconceptions) == .inline {
-            MythBustSection(misconceptions: substance.misconceptions, accent: substance.category.color)
-        }
+        // Prescribing / medical label — self-hides when the compound carries no
+        // indication or boxed-warning data (so it drops out for the recreational
+        // spine, leads for the medical one).
+        MedicalInfoSection(substance: substance)
 
         // Peptide protocol/reconstitution (self-hides for non-peptides).
         SubstancePeptideSection(substance: substance)
-
-        // Inventory — a logistics concern, not a "what is this" one: it drops below
-        // the substance body rather than sitting between Dose and Effects.
-        InventoryStockSection(
-            substanceName: substance.name,
-            selectedSaltForm: selectedSaltForm,
-            inventoryItems: inventoryItems,
-            showAllInventory: showAllInventory,
-        )
 
         if let personalNotes, !personalNotes.trimmingCharacters(in: .whitespaces).isEmpty {
             Section("Your Notes") {

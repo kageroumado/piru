@@ -69,7 +69,6 @@ struct PharmacologySections: View {
             if policy.showsMechanism, let moa = composedMechanism {
                 CollapsibleSection(
                     "Pharmacology",
-                    systemImage: "atom",
                     onInfo: { onGlossary(.mechanism) },
                     isExpanded: binding(.mechanism, default: policy.mechanismDefaultExpanded),
                 ) {
@@ -112,7 +111,6 @@ struct PharmacologySections: View {
             if policy.showsReceptorLiterature, hero == nil, !model.visibleLiteratureBindings.isEmpty {
                 CollapsibleSection(
                     "Receptor Literature",
-                    systemImage: "function",
                     onInfo: { onGlossary(.receptor) },
                     isExpanded: binding(.receptorLit, default: policy.receptorLitDefaultExpanded),
                 ) {
@@ -131,7 +129,6 @@ struct PharmacologySections: View {
             if policy.showsPharmacokinetics, !model.pkRoutes.isEmpty {
                 CollapsibleSection(
                     "Pharmacokinetics",
-                    systemImage: "waveform.path.ecg",
                     onInfo: { onGlossary(.pharmacokinetics) },
                     isExpanded: binding(.pharmacokinetics, default: policy.pharmacokineticsDefaultExpanded),
                 ) {
@@ -148,7 +145,6 @@ struct PharmacologySections: View {
             if policy.showsPharmacokinetics, !model.metabolismRows.isEmpty {
                 CollapsibleSection(
                     "Metabolism",
-                    systemImage: "arrow.triangle.branch",
                     isExpanded: binding(.metabolism, default: policy.pharmacokineticsDefaultExpanded),
                 ) {
                     metabolismBody

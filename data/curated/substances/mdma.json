@@ -48,22 +48,22 @@
     {
       "severity": "danger",
       "name": "MAOIs",
-      "description": "Moclobemide, phenelzine, selegiline, etc. — genuinely life-threatening serotonin toxicity. The combination blocks serotonin breakdown while MDMA floods the synapse. Do not combine."
+      "description": "Life-threatening serotonin toxicity. The MAOI blocks serotonin breakdown while MDMA floods it into the synapse. Do not combine."
     },
     {
       "severity": "caution",
       "name": "Alcohol",
-      "description": "Adds dehydration and a rougher comedown. Alcohol does not make MDMA 'run hotter' but it stresses thermoregulation and masks how dehydrated you are."
+      "description": "Adds dehydration and a rougher comedown. It doesn't make MDMA run hotter, but it strains temperature control and hides how dehydrated you are."
     },
     {
       "severity": "note",
       "name": "SSRIs / SNRIs",
-      "description": "Usually just weakens MDMA — the reuptake blocker occupies SERT, so less serotonin is released. You feel less, not more. Not the danger it is rumored to be.",
+      "description": "Usually just weakens MDMA — the SSRI blocks the serotonin transporter, so less is released. You feel less, not more. Not the danger it's rumored to be.",
       "note": "blunts"
     }
   ],
   "waterHeat": {
     "headline": "≈ 1 glass / hour",
-    "body": "MDMA raises body temperature on its own, so sip water while active — about a glass (250 mL) an hour, less at rest. **More is not safer:** over-drinking plain water can cause dangerously low sodium (hyponatremia). Favor electrolytes over gulping water."
+    "body": "MDMA heats you up on its own, so sip water while active — about a glass (250 mL) an hour, less at rest. **More is not safer:** too much plain water drops your sodium dangerously low. Favor electrolytes over gulping water."
   }
 }

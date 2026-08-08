@@ -1,21 +1,20 @@
 import SwiftUI
 
-/// The "Combinations" section — hand-curated, per-substance editorial content on
+/// The combinations block — hand-curated, per-substance editorial content on
 /// notable drug interactions, ranked by evidence rather than reputation. Each row
 /// carries a severity tag, a substance/class name, and a plain-language
-/// explanation. Self-hides for the long tail (empty data). See ``Combination``.
-struct CombinationsSection: View {
+/// explanation. Rendered inside the ``SafetySection`` card under a "Combinations"
+/// sub-heading; the caller gates on empty data. See ``Combination``.
+struct CombinationsList: View {
     let combinations: [Combination]
 
     var body: some View {
-        if !combinations.isEmpty {
-            Section {
-                ForEach(sorted, id: \.offset) { _, combo in
-                    CombinationRow(combination: combo)
+        VStack(alignment: .leading, spacing: 0) {
+            ForEach(sorted, id: \.offset) { index, combo in
+                if index > 0 {
+                    Divider().padding(.vertical, 8)
                 }
-            } header: {
-                Label("Combinations", systemImage: "arrow.triangle.merge")
-                    .font(.subheadline.weight(.semibold))
+                CombinationRow(combination: combo)
             }
         }
     }
@@ -29,41 +28,34 @@ private struct CombinationRow: View {
     let combination: Combination
 
     var body: some View {
-        HStack(alignment: .top, spacing: 10) {
-            severityChip
-            VStack(alignment: .leading, spacing: 3) {
-                HStack(spacing: 4) {
-                    Text(combination.name)
-                        .font(.subheadline.weight(.semibold))
-                    if let note = combination.note {
-                        Text(note)
-                            .font(.caption2.weight(.medium))
-                            .foregroundStyle(Theme.secondaryLabel)
-                            .padding(.horizontal, 5)
-                            .padding(.vertical, 1)
-                            .background(Theme.secondaryLabel.opacity(0.1), in: Capsule())
-                    }
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 6) {
+                Text(combination.name)
+                    .font(.subheadline.weight(.semibold))
+                if let note = combination.note {
+                    Text(note)
+                        .font(.caption2.weight(.medium))
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .padding(.horizontal, 5)
+                        .padding(.vertical, 1)
+                        .background(Theme.secondaryLabel.opacity(0.1), in: Capsule())
                 }
-                Text(description)
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
+                Spacer(minLength: 8)
+                EditorialPill(
+                    label: Text(combination.severity.label),
+                    foreground: combination.severity.foreground,
+                    background: combination.severity.background,
+                )
             }
+            Text(description)
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.vertical, 4)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilityLabel)
-    }
-
-    private var severityChip: some View {
-        Text(combination.severity.label)
-            .font(.system(.caption2, design: .rounded, weight: .bold))
-            .textCase(.uppercase)
-            .foregroundStyle(combination.severity.foreground)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 3)
-            .background(combination.severity.background, in: RoundedRectangle(cornerRadius: 4))
-            .fixedSize()
     }
 
     private var description: AttributedString {

@@ -8,22 +8,22 @@
     {
       "severity": "danger",
       "name": "Alcohol",
-      "description": "The single most common ingredient in GHB emergencies. Potentiation is steep and unpredictable — a dose that was fine sober can mean unrousable unconsciousness with a drink on board, and GHB's dose-response curve is already the steepest in common use. Do not combine."
+      "description": "The most common factor in GHB emergencies. GHB's dose curve is already the steepest in common use, and a single drink can turn a fine dose into unrousable sleep. Do not combine."
     },
     {
       "severity": "danger",
       "name": "Opioids",
-      "description": "Two independent brakes on breathing, pressed at once. Respiratory depression stacks, and GHB's abrupt onset means the window between fine and unresponsive is minutes. Do not combine."
+      "description": "Two separate brakes on breathing, pressed at once. GHB comes on fast, so the gap between fine and unresponsive is minutes. Do not combine."
     },
     {
       "severity": "danger",
       "name": "Benzodiazepines",
-      "description": "Additive CNS depression on top of GHB's steep curve — profound sedation and respiratory depression with no reliable way to titrate. Do not combine."
+      "description": "Deep sedation and slowed breathing on top of GHB's steep curve, with no way to titrate. Do not combine."
     },
     {
       "severity": "caution",
       "name": "Other depressants",
-      "description": "Gabapentinoids, sedating antihistamines, sleep medications — anything sedating narrows GHB's already-narrow margin. If a combination is unavoidable, reduce the GHB dose substantially and never dose alone."
+      "description": "Gabapentinoids, sedating antihistamines, sleep aids — anything sedating narrows GHB's already-thin margin. If you can't avoid it, cut the GHB dose sharply and never dose alone."
     }
   ]
 }

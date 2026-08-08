@@ -1,16 +1,12 @@
 import SwiftUI
 
-/// Clinical section — indications + contraindications + boxed warnings. Renders
-/// only when the compound carries that data (medical/OTC compounds from
-/// pyrls/medtap). Factored out of `SubstanceDetailView` as its own invalidation
-/// boundary: it re-renders only when the substance or the cautions disclosure
-/// changes, not on every unrelated state change in the detail screen.
+/// Clinical section — indications + boxed warnings, as the Prescribing card on
+/// the recreational spine or leading "Medical Uses" / "Boxed Warning" sections on
+/// the medical one. Contraindications & cautions are a safety fact, not a
+/// clinical one, and live in ``SafetySection``. Renders only when the compound
+/// carries indication/boxed data (medical/OTC compounds from pyrls/medtap).
 struct MedicalInfoSection: View {
     let substance: Substance
-    @Binding var cautionsExpanded: Bool
-
-    /// How many cautions to list before falling back to a "+N more" row.
-    private let cautionDisplayLimit = 6
 
     /// Whether the label material *leads* the screen or is folded away.
     ///
@@ -33,17 +29,15 @@ struct MedicalInfoSection: View {
 
     var body: some View {
         let boxed = substance.contraindications.filter(\.isBoxedWarning)
-        let cautions = substance.contraindications.filter { !$0.isBoxedWarning }
 
         if labelLeads {
-            leadingLabel(boxed: boxed, cautions: cautions)
+            leadingLabel(boxed: boxed)
         } else if !substance.indications.isEmpty || !boxed.isEmpty {
             // One folded card instead of two title-only sections. Boxed warnings
             // still surface in the collapsed header's count, so nothing safety-
             // bearing is hidden behind a fold with no sign it exists.
             CollapsibleSection(
                 "Prescribing",
-                systemImage: "cross.case",
                 count: substance.indications.count + boxed.count,
                 isExpanded: $prescribingExpanded,
             ) {
@@ -56,16 +50,13 @@ struct MedicalInfoSection: View {
                     ForEach(boxed, id: \.text) { clinicalRow($0.text) }
                 }
             }
-            cautionsSection(cautions)
-        } else {
-            cautionsSection(cautions)
         }
     }
 
     /// The medical spine's layout — indications and boxed warnings inline, as
     /// their own sections, because they are what the reader came for.
     @ViewBuilder
-    private func leadingLabel(boxed: [Contraindication], cautions: [Contraindication]) -> some View {
+    private func leadingLabel(boxed: [Contraindication]) -> some View {
         if !substance.indications.isEmpty {
             Section("Medical Uses") {
                 ForEach(substance.indications, id: \.self) { ind in
@@ -81,39 +72,6 @@ struct MedicalInfoSection: View {
             Section("Boxed Warning") {
                 ForEach(boxed, id: \.text) { c in
                     clinicalRow(c.text)
-                }
-            }
-        }
-        cautionsSection(cautions)
-    }
-
-    /// Contraindications keep their own collapsible on both spines: they are the
-    /// one part of the label that is a safety fact rather than a clinical one.
-    @ViewBuilder
-    private func cautionsSection(_ cautions: [Contraindication]) -> some View {
-        if !cautions.isEmpty {
-            // Verbose DailyMed contraindication prose, capped at
-            // `cautionDisplayLimit` rows and collapsed by default. Rows are *not*
-            // line-clamped: this is a disclosure someone opened on purpose, and a
-            // contraindication cut mid-clause ("risk of hypertensive cri…") is
-            // worse than a long one. The fold and the row cap already keep the
-            // screen from turning into a drug monograph.
-            CollapsibleSection(
-                "Contraindications & Cautions",
-                systemImage: "exclamationmark.triangle",
-                count: cautions.count,
-                isExpanded: $cautionsExpanded,
-            ) {
-                // No per-row triangle: the section header carries one, and
-                // repeating it down the list marks every row as exceptional
-                // when they're all the same kind of thing.
-                ForEach(cautions.prefix(cautionDisplayLimit), id: \.text) { c in
-                    clinicalRow(c.text)
-                }
-                if cautions.count > cautionDisplayLimit {
-                    Text("+\(cautions.count - cautionDisplayLimit) more")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
                 }
             }
         }

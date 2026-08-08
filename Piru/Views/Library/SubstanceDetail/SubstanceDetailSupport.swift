@@ -28,14 +28,13 @@ struct DetailSourceLink: Identifiable {
 /// human-readable name ("TripSit factsheets") instead of the wire slug
 /// ("tripsit").
 /// The one folded-section look used across the whole substance screen — a
-/// `DisclosureGroup` with a semibold subheadline label, a leading SF Symbol, and
-/// an optional count badge. Extracted so Mechanism, Receptor Literature, Info,
-/// Chemistry and the Cautions list fold identically. Crucially, a section's
-/// source-attribution row goes *inside* `content` so it collapses with the body
-/// rather than dangling beneath a closed disclosure.
+/// `DisclosureGroup` with a semibold subheadline label and an optional count
+/// badge. Extracted so Mechanism, Receptor Literature, Info, Chemistry and the
+/// Cautions list fold identically. Crucially, a section's source-attribution row
+/// goes *inside* `content` so it collapses with the body rather than dangling
+/// beneath a closed disclosure.
 struct CollapsibleSection<Content: View>: View {
     let title: LocalizedStringResource
-    let systemImage: String
     var count: Int?
     /// When set, a trailing (i) button appears in the header that runs this action — used to open a
     /// plain-language help sheet for the denser cards. Borderless so it captures its own tap and
@@ -46,14 +45,12 @@ struct CollapsibleSection<Content: View>: View {
 
     init(
         _ title: LocalizedStringResource,
-        systemImage: String,
         count: Int? = nil,
         onInfo: (() -> Void)? = nil,
         isExpanded: Binding<Bool>,
         @ViewBuilder content: @escaping () -> Content,
     ) {
         self.title = title
-        self.systemImage = systemImage
         self.count = count
         self.onInfo = onInfo
         _isExpanded = isExpanded
@@ -78,7 +75,7 @@ struct CollapsibleSection<Content: View>: View {
             content()
         } label: {
             HStack(spacing: 6) {
-                Label(title, systemImage: systemImage)
+                Text(title)
                     .font(.subheadline.weight(.semibold))
                 if let count {
                     Text(verbatim: "\(count)")
@@ -100,6 +97,28 @@ struct CollapsibleSection<Content: View>: View {
                 }
             }
         }
+    }
+}
+
+/// The status pill in the top-right corner of an editorial card — a
+/// combination's severity (DANGER / CAUTION / NOTE) or the water/heat takeaway
+/// ("Sip to thirst", "≈ 1 glass / hour"). One Capsule style so the two cards
+/// read as a set. The caller supplies a resolved `Text` (localized key or
+/// verbatim data string) and the tint.
+struct EditorialPill: View {
+    let label: Text
+    let foreground: Color
+    let background: Color
+
+    var body: some View {
+        label
+            .font(.system(.caption2, design: .rounded, weight: .bold))
+            .textCase(.uppercase)
+            .foregroundStyle(foreground)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 3)
+            .background(background, in: Capsule())
+            .fixedSize()
     }
 }
 
@@ -163,17 +182,15 @@ struct SourceAttributionRow: View {
         }
     }
 
-    /// One seal for every row, and no trailing glyph. Two things used to be
-    /// wrong here: the seal was filled+accent when the source happened to carry
-    /// a per-substance deep link and outline+gray otherwise, which reads as a
-    /// *data-confidence tier* next to a row that has nothing to do with
-    /// confidence; and the `questionmark.circle` was a second affordance for the
-    /// action the whole row already performs — a question mark beside a
-    /// verification seal reading as "we're not sure about this." The accent
-    /// source name is the tappable cue, same as everywhere else in the app.
+    /// A book glyph marks the row as a source, and there's no trailing glyph.
+    /// Keep it neutral: a source is a reference the app *drew from*, not a fact it
+    /// vouches for — so never a `checkmark.seal` or any verification/approval mark,
+    /// which reads as "we certify this" next to data we explicitly tell people to
+    /// verify against the original. The accent source name is the tappable cue,
+    /// same as everywhere else in the app.
     private var rowContent: some View {
         HStack(spacing: 6) {
-            Image(systemName: "checkmark.seal")
+            Image(systemName: "book.closed")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
             Text(label)

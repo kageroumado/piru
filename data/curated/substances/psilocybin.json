@@ -26,17 +26,17 @@
     {
       "severity": "caution",
       "name": "Lithium",
-      "description": "Well-documented seizure trigger — case reports of seizures and blackouts when psychedelics are taken on lithium therapy are consistent enough to take seriously. If you take lithium, this combination is one to sit out."
+      "description": "A well-documented seizure trigger — reports of seizures and blackouts on lithium are consistent enough to take seriously. If you take lithium, sit this one out."
     },
     {
       "severity": "caution",
       "name": "Cannabis",
-      "description": "Intensifies unpredictably. A familiar cannabis dose during the peak or comedown can restart or sharply amplify the trip, and it is the most common ingredient in difficult-experience reports. If combining, start with a fraction of your usual amount."
+      "description": "Strengthens the trip unpredictably. A normal dose at the peak can restart or sharply amplify it, and it's the most common factor in difficult trips. If you add it, use a fraction of your usual amount."
     },
     {
       "severity": "note",
       "name": "SSRIs",
-      "description": "Chronic SSRI use tends to blunt or shorten the psilocybin experience — the receptor adaptation works against the agonist. Some people notice little change. Weaker, not dangerous.",
+      "description": "Long-term SSRI use tends to weaken or shorten the psilocybin experience. Some people notice little change. Weaker, not dangerous.",
       "note": "blunts"
     }
   ]

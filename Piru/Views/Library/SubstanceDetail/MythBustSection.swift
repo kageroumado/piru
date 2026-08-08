@@ -1,24 +1,22 @@
 import SwiftUI
 
-/// The "Common misconceptions" section — evidence-checked corrections to popular
-/// claims, each with per-claim citation chips. A refuting paper reads as an
-/// accent chip; the *retracted source* of a myth is marked and, when it links,
-/// points at the retraction notice rather than the discredited paper. Rendered
-/// inline at every tier when the substance has curated misconceptions; absent
-/// for the long tail (the overwhelming majority). See ``MythBust``.
-struct MythBustSection: View {
+/// The misconceptions block — evidence-checked corrections to popular claims,
+/// each with per-claim citation chips. A refuting paper reads as an accent chip;
+/// the *retracted source* of a myth is marked and, when it links, points at the
+/// retraction notice rather than the discredited paper. Rendered inside the
+/// ``SafetySection`` card under a "Common misconceptions" sub-heading; the caller
+/// gates on empty data. See ``MythBust``.
+struct MythBustList: View {
     let misconceptions: [MythBust]
     var accent: Color = Theme.accent
 
     var body: some View {
-        if !misconceptions.isEmpty {
-            Section {
-                ForEach(Array(misconceptions.enumerated()), id: \.offset) { _, myth in
-                    MythBustRow(myth: myth, accent: accent)
+        VStack(alignment: .leading, spacing: 0) {
+            ForEach(Array(misconceptions.enumerated()), id: \.offset) { index, myth in
+                if index > 0 {
+                    Divider().padding(.vertical, 8)
                 }
-            } header: {
-                Label("Common misconceptions", systemImage: "checkmark.seal")
-                    .font(.subheadline.weight(.semibold))
+                MythBustRow(myth: myth, accent: accent)
             }
         }
     }

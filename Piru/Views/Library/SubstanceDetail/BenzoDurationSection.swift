@@ -24,7 +24,6 @@ struct BenzoDurationSection: View {
             let longest = rungs.map(\.halfLifeMinutes).max() ?? 1
             CollapsibleSection(
                 "How Long It Stays",
-                systemImage: "hourglass",
                 isExpanded: $isExpanded,
             ) {
                 VStack(alignment: .leading, spacing: 7) {

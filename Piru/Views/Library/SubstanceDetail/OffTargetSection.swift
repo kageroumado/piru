@@ -23,7 +23,6 @@ struct OffTargetSection: View {
         if !model.offTargets.isEmpty {
             CollapsibleSection(
                 "Off-Target Effects",
-                systemImage: "scope",
                 count: model.offTargets.count,
                 isExpanded: $isExpanded,
             ) {

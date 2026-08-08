@@ -1,37 +1,33 @@
 import SwiftUI
 
-/// The "Water & heat" section — a per-substance thermoregulation and hydration
-/// guidance card. Only relevant for substances that raise body temperature or
-/// alter fluid balance (empathogens, stimulants). Self-hides when nil.
+/// The water/heat block — per-substance thermoregulation and hydration guidance.
+/// Only relevant for substances that raise body temperature or alter fluid
+/// balance (empathogens, stimulants). Rendered inside the ``SafetySection`` card
+/// under a "Water & heat" sub-heading; the caller gates on `nil`.
 /// See ``WaterHeatGuidance``.
-struct WaterHeatSection: View {
-    let guidance: WaterHeatGuidance?
+struct WaterHeatCard: View {
+    let guidance: WaterHeatGuidance
 
     var body: some View {
-        if let guidance {
-            Section {
-                HStack(alignment: .top, spacing: 14) {
-                    Text(guidance.headline)
-                        .font(.system(.title3, design: .rounded, weight: .heavy))
-                        .foregroundStyle(Theme.accent)
-                        .lineLimit(3)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .frame(minWidth: 70, alignment: .leading)
-                        .accessibilityLabel(Text("Guideline: \(guidance.headline)"))
-                    Text(body(guidance))
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                .padding(.vertical, 4)
-            } header: {
-                Label("Water & heat", systemImage: "drop.fill")
-                    .font(.subheadline.weight(.semibold))
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+                Spacer(minLength: 0)
+                EditorialPill(
+                    label: Text(guidance.headline),
+                    foreground: Theme.accent,
+                    background: Theme.accent.opacity(0.12),
+                )
+                .accessibilityLabel(Text("Guideline: \(guidance.headline)"))
             }
+            Text(bodyText)
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
-    private func body(_ guidance: WaterHeatGuidance) -> AttributedString {
+    private var bodyText: AttributedString {
         (try? AttributedString(markdown: guidance.body)) ?? AttributedString(guidance.body)
     }
 }
