@@ -334,6 +334,15 @@ T = {
         "%1$lld 条条目，%2$@前后最密集",
         "%1$lld 筆條目，%2$@前後最密集",
     ),
+    "%@ common-dose units, busiest around %@": (
+        "%1$@ 个常规剂量单位，%2$@前后最密集",
+        "%1$@ 個常規劑量單位，%2$@前後最密集",
+    ),
+    "%@ common-dose units": ("%@ 个常规剂量单位", "%@ 個常規劑量單位"),
+    "Which days and hours, by common-dose units": (
+        "按常规剂量单位统计的日期和时段",
+        "按常規劑量單位統計的日期和時段",
+    ),
     "%lld entries, busiest on %@ with %lld": (
         "%1$lld 条条目，%2$@最多，共 %3$lld 条",
         "%1$lld 筆條目，%2$@最多，共 %3$lld 筆",
@@ -6826,6 +6835,9 @@ if __name__ == "__main__":
         "Which weekdays you log on most",
         "Common-dose units by weekday",
         "Common-dose units by weekday, most on %@",
+        "Which days and hours, by common-dose units",
+        "%@ common-dose units",
+        "%@ common-dose units, busiest around %@",
         "%@ rising to %@ per day",
         "%@ falling to %@ per day",
         "%@ steady at %@ per day",

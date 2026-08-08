@@ -1039,6 +1039,22 @@
         }
       }
     },
+    "%@ common-dose units" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 个常规剂量单位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 個常規劑量單位"
+          }
+        }
+      }
+    },
     "%@ common-dose units across %lld entries" : {
       "localizations" : {
         "en" : {
@@ -1057,6 +1073,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 個常規劑量單位，共 %lld 條目"
+          }
+        }
+      }
+    },
+    "%@ common-dose units, busiest around %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ common-dose units, busiest around %2$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 个常规剂量单位，%2$@前后最密集"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 個常規劑量單位，%2$@前後最密集"
           }
         }
       }
@@ -55698,6 +55736,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你在哪些日子和時段記錄"
+          }
+        }
+      }
+    },
+    "Which days and hours, by common-dose units" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按常规剂量单位统计的日期和时段"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按常規劑量單位統計的日期和時段"
           }
         }
       }

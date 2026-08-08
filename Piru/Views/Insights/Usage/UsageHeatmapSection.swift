@@ -14,13 +14,15 @@ struct UsageHeatmapSection: View {
 
     @State private var categoryFilter: Int?
     @State private var selectedDay: Date?
+    @State private var metric: UsageRankMetric = .entries
 
     private var accent: Color {
         categoryFilter.map { UsageAxes.category($0).color } ?? Theme.accent
     }
 
     var body: some View {
-        UsageSectionCard(title: "Activity", subtitle: "Which days and hours you log on") {
+        UsageSectionCard(title: "Activity", subtitle: subtitle) {
+            metricPicker
             if categories.count > 1 {
                 UsageCategoryFilterBar(categories: categories, selection: $categoryFilter)
             }
@@ -28,12 +30,14 @@ struct UsageHeatmapSection: View {
             UsageHeatmapGrid(
                 heatmap: heatmap,
                 categoryFilter: categoryFilter,
+                metric: metric,
                 accent: accent,
                 selectedDay: $selectedDay,
             )
 
             UsageHourHistogram(
                 bins: activeBins,
+                metric: metric,
                 accent: accent,
                 selectedDay: selectedDay,
                 onClearDay: { selectedDay = nil },
@@ -42,13 +46,25 @@ struct UsageHeatmapSection: View {
         .onChange(of: heatmap.weekStarts.first) { selectedDay = nil }
     }
 
-    /// The histogram's data: the selected day's hours if a cell is tapped, else
-    /// the whole range — either way narrowed by the category filter.
-    private var activeBins: [Int] {
-        if let selectedDay, let day = hours.byDay[selectedDay] {
-            return day.bins(category: categoryFilter)
+    private var metricPicker: some View {
+        Picker("Measure", selection: $metric) {
+            Text("Entries").tag(UsageRankMetric.entries)
+            Text("Common doses").tag(UsageRankMetric.commonDoses)
         }
-        return hours.all.bins(category: categoryFilter)
+        .pickerStyle(.segmented)
+    }
+
+    private var subtitle: LocalizedStringKey {
+        metric == .commonDoses ? "Which days and hours, by common-dose units" : "Which days and hours you log on"
+    }
+
+    /// The histogram's data in the active metric: the selected day's hours if a
+    /// cell is tapped, else the whole range — either way narrowed by the filter.
+    private var activeBins: [Double] {
+        let source = selectedDay.flatMap { hours.byDay[$0] } ?? hours.all
+        return metric == .commonDoses
+            ? source.commonBins(category: categoryFilter)
+            : source.bins(category: categoryFilter).map(Double.init)
     }
 }
 
@@ -66,6 +82,7 @@ struct UsageHeatmapSection: View {
 private struct UsageHeatmapGrid: View {
     let heatmap: UsageHeatmap
     let categoryFilter: Int?
+    let metric: UsageRankMetric
     let accent: Color
     @Binding var selectedDay: Date?
 
@@ -174,11 +191,11 @@ private struct UsageHeatmapGrid: View {
     private func cell(weekStart: Date, row: Int, layout: GridLayout) -> some View {
         let day = dayDate(weekStart: weekStart, row: row)
         let cellData = layout.cellByDate[day]
-        let count = displayCount(cellData)
+        let value = displayValue(cellData)
         let isFuture = day > layout.lastInRange
-        let isSelected = cellData.map { selectedDay == $0.date && $0.total > 0 } ?? false
+        let isSelected = cellData.map { selectedDay == $0.date && value > 0 } ?? false
         return RoundedRectangle(cornerRadius: 3)
-            .fill(fill(count: count, isFuture: isFuture))
+            .fill(fill(value: value, isFuture: isFuture))
             .frame(width: layout.cell, height: layout.cell)
             .overlay {
                 if isSelected {
@@ -188,15 +205,26 @@ private struct UsageHeatmapGrid: View {
             }
             .contentShape(Rectangle())
             .onTapGesture {
-                guard let cellData, cellData.total > 0 else { return }
+                guard let cellData, value > 0 else { return }
                 withAnimation(.easeInOut(duration: 0.2)) {
                     selectedDay = selectedDay == cellData.date ? nil : cellData.date
                 }
             }
-            .accessibilityHidden(count == 0)
+            .accessibilityHidden(value == 0)
             .accessibilityLabel(cellData.map { Text($0.date.formatted(.dateTime.weekday(.wide).day().month(.abbreviated))) } ?? Text(""))
-            .accessibilityValue(Text("\(count) entries"))
+            .accessibilityValue(Text(valueLabel(cellData)))
             .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
+    }
+
+    /// The active metric's spoken value for a cell.
+    private func valueLabel(_ cell: UsageHeatmapCell?) -> String {
+        switch metric {
+        case .entries:
+            return String(localized: "\(cell?.total ?? 0) entries")
+        case .commonDoses:
+            let v = displayValue(cell).formatted(.number.precision(.fractionLength(0 ... 1)))
+            return String(localized: "\(v) common-dose units")
+        }
     }
 
     /// The session-day start a `(weekStart, row)` cell stands for. Noon before
@@ -253,22 +281,27 @@ private struct UsageHeatmapGrid: View {
             .accessibilityHidden(true)
     }
 
-    /// The count the cell should render — narrowed to the filtered category
-    /// when one is active. `nil` (a padded, out-of-range day) reads as zero.
-    private func displayCount(_ cell: UsageHeatmapCell?) -> Int {
+    /// The active metric's value for the cell — narrowed to the filtered
+    /// category when one is active. `nil` (a padded, out-of-range day) reads as
+    /// zero, as does a day with entries but no common-dose data in common mode.
+    private func displayValue(_ cell: UsageHeatmapCell?) -> Double {
         guard let cell, cell.inRange else { return 0 }
-        guard let categoryFilter else { return cell.total }
-        return cell.byCategory[categoryFilter] ?? 0
+        switch metric {
+        case .entries:
+            return Double(categoryFilter.map { cell.byCategory[$0] ?? 0 } ?? cell.total)
+        case .commonDoses:
+            return categoryFilter.map { cell.byCategoryCommon[$0] ?? 0 } ?? cell.commonTotal
+        }
     }
 
-    private func fill(count: Int, isFuture: Bool) -> Color {
+    private func fill(value: Double, isFuture: Bool) -> Color {
         // Future days (the rest of the current week) haven't happened — blank,
         // not gray. Every past day is a square: gray when empty, so a quiet run
         // reads as a real absence rather than a gap in the grid.
         if isFuture { return .clear }
-        guard count > 0 else { return Color(.tertiarySystemFill) }
-        let peak = max(heatmap.maxCount, 1)
-        let fraction = min(1, Double(count) / Double(peak))
+        guard value > 0 else { return Color(.tertiarySystemFill) }
+        let peak = max(metric == .commonDoses ? heatmap.maxCommon : Double(heatmap.maxCount), 0.0001)
+        let fraction = min(1, value / peak)
         return accent.opacity(0.28 + 0.72 * fraction)
     }
 }
@@ -277,14 +310,15 @@ private struct UsageHeatmapGrid: View {
 
 /// Twenty-four bins across the clock. Replaces the old four coarse buckets.
 private struct UsageHourHistogram: View {
-    let bins: [Int]
+    let bins: [Double]
+    let metric: UsageRankMetric
     let accent: Color
     let selectedDay: Date?
     let onClearDay: () -> Void
 
     private struct Bin: Identifiable {
         let hour: Int
-        let count: Int
+        let value: Double
         var id: Int {
             hour
         }
@@ -298,7 +332,7 @@ private struct UsageHourHistogram: View {
     }
 
     var body: some View {
-        let items = bins.enumerated().map { Bin(hour: $0.offset, count: $0.element) }
+        let items = bins.enumerated().map { Bin(hour: $0.offset, value: $0.element) }
         let total = bins.reduce(0, +)
 
         VStack(alignment: .leading, spacing: 6) {
@@ -325,7 +359,7 @@ private struct UsageHourHistogram: View {
             Chart(items) { bin in
                 BarMark(
                     x: .value("Hour", bin.x),
-                    y: .value("Entries", bin.count),
+                    y: .value("Amount", bin.value),
                     // `.fixed`, not `.ratio`: the x-axis here is continuous
                     // (hours 0–23 as numbers, so the axis can label 0/6/12/18),
                     // and a ratio width has no step to be a ratio *of* — it
@@ -368,10 +402,16 @@ private struct UsageHourHistogram: View {
         return date.formatted(.dateTime.hour())
     }
 
-    private func summary(total: Int) -> String {
+    private func summary(total: Double) -> String {
         guard total > 0, let peak = bins.indices.max(by: { bins[$0] < bins[$1] }) else {
             return String(localized: "No entries in this window")
         }
-        return String(localized: "\(total) entries, busiest around \(hourLabel(peak))")
+        switch metric {
+        case .entries:
+            return String(localized: "\(Int(total)) entries, busiest around \(hourLabel(peak))")
+        case .commonDoses:
+            let t = total.formatted(.number.precision(.fractionLength(0 ... 1)))
+            return String(localized: "\(t) common-dose units, busiest around \(hourLabel(peak))")
+        }
     }
 }

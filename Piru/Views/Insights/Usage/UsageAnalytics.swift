@@ -169,8 +169,12 @@ nonisolated struct UsageHeatmapCell: Sendable, Hashable, Identifiable {
     /// Session-day start (see `Calendar.sessionDayStart`).
     let date: Date
     let total: Int
+    /// Σ commonDoses on this day (`0` when none of its entries carried one).
+    let commonTotal: Double
     /// Category index → entry count on this day.
     let byCategory: [Int: Int]
+    /// Category index → Σ commonDoses on this day.
+    let byCategoryCommon: [Int: Double]
     /// `false` for the leading/trailing cells that pad the first and last week
     /// columns outside the selected range — drawn blank, never colored.
     let inRange: Bool
@@ -189,8 +193,10 @@ nonisolated struct UsageHeatmap: Sendable {
     /// `weekStarts.count * 7` cells in column-major order (column 0's Monday…
     /// Sunday, then column 1's…).
     let cells: [UsageHeatmapCell]
-    /// Busiest day's count, the denominator for the color ramp.
+    /// Busiest day's count, the denominator for the entry-count color ramp.
     let maxCount: Int
+    /// Busiest day's common-dose total, the denominator for the common-dose ramp.
+    let maxCommon: Double
 
     /// The cell at `(column, row)`, or `nil` if out of bounds.
     func cell(column: Int, row: Int) -> UsageHeatmapCell? {
@@ -206,13 +212,26 @@ nonisolated struct UsageHourBins: Sendable {
     let total: [Int]
     /// Category index → 24 counts.
     let byCategory: [Int: [Int]]
+    /// 24 common-dose sums, index = clock hour.
+    let totalCommon: [Double]
+    /// Category index → 24 common-dose sums.
+    let byCategoryCommon: [Int: [Double]]
 
-    static let empty = UsageHourBins(total: Array(repeating: 0, count: 24), byCategory: [:])
+    static let empty = UsageHourBins(
+        total: Array(repeating: 0, count: 24), byCategory: [:],
+        totalCommon: Array(repeating: 0, count: 24), byCategoryCommon: [:],
+    )
 
-    /// The bins for a category filter (`nil` = all categories).
+    /// The entry-count bins for a category filter (`nil` = all categories).
     func bins(category: Int?) -> [Int] {
         guard let category else { return total }
         return byCategory[category] ?? Array(repeating: 0, count: 24)
+    }
+
+    /// The common-dose bins for a category filter (`nil` = all categories).
+    func commonBins(category: Int?) -> [Double] {
+        guard let category else { return totalCommon }
+        return byCategoryCommon[category] ?? Array(repeating: 0, count: 24)
     }
 }
 
@@ -711,7 +730,7 @@ nonisolated enum UsageAnalytics {
         let rowWeekdays = (0 ..< 7).map { (calendar.firstWeekday - 1 + $0) % 7 + 1 }
         guard let firstWeek = calendar.dateInterval(of: .weekOfYear, for: bounds.start)?.start,
               let lastWeek = calendar.dateInterval(of: .weekOfYear, for: bounds.end)?.start else {
-            return UsageHeatmap(weekStarts: [], rowWeekdays: rowWeekdays, cells: [], maxCount: 0)
+            return UsageHeatmap(weekStarts: [], rowWeekdays: rowWeekdays, cells: [], maxCount: 0, maxCommon: 0)
         }
 
         var weekStarts: [Date] = []
@@ -729,6 +748,7 @@ nonisolated enum UsageAnalytics {
         var cells: [UsageHeatmapCell] = []
         cells.reserveCapacity(weekStarts.count * 7)
         var maxCount = 0
+        var maxCommon = 0.0
         for weekStart in weekStarts {
             for row in 0 ..< 7 {
                 // Noon, so adding days never lands on a DST-skipped hour.
@@ -737,20 +757,29 @@ nonisolated enum UsageAnalytics {
                 let day = calendar.sessionDayStart(for: noon)
                 let entries = dayIndex[day] ?? []
                 var byCategory: [Int: Int] = [:]
+                var byCategoryCommon: [Int: Double] = [:]
+                var commonTotal = 0.0
                 for entry in entries {
                     byCategory[entry.categoryIndex, default: 0] += 1
+                    if let common = entry.commonDoses {
+                        byCategoryCommon[entry.categoryIndex, default: 0] += common
+                        commonTotal += common
+                    }
                 }
                 maxCount = max(maxCount, entries.count)
+                maxCommon = max(maxCommon, commonTotal)
                 cells.append(UsageHeatmapCell(
                     date: day,
                     total: entries.count,
+                    commonTotal: commonTotal,
                     byCategory: byCategory,
+                    byCategoryCommon: byCategoryCommon,
                     inRange: day >= startDay && day <= endDay,
                 ))
             }
         }
 
-        return UsageHeatmap(weekStarts: weekStarts, rowWeekdays: rowWeekdays, cells: cells, maxCount: maxCount)
+        return UsageHeatmap(weekStarts: weekStarts, rowWeekdays: rowWeekdays, cells: cells, maxCount: maxCount, maxCommon: maxCommon)
     }
 
     /// 24-bin hour-of-day histograms — overall, per category, and per day.
@@ -759,6 +788,10 @@ nonisolated enum UsageAnalytics {
         var byCategory: [Int: [Int]] = [:]
         var perDayTotal: [Date: [Int]] = [:]
         var perDayCategory: [Date: [Int: [Int]]] = [:]
+        var totalCommon = Array(repeating: 0.0, count: 24)
+        var byCategoryCommon: [Int: [Double]] = [:]
+        var perDayCommon: [Date: [Double]] = [:]
+        var perDayCategoryCommon: [Date: [Int: [Double]]] = [:]
 
         for entry in entries {
             let hour = calendar.component(.hour, from: entry.timestamp)
@@ -767,14 +800,26 @@ nonisolated enum UsageAnalytics {
             byCategory[entry.categoryIndex, default: Array(repeating: 0, count: 24)][hour] += 1
             perDayTotal[day, default: Array(repeating: 0, count: 24)][hour] += 1
             perDayCategory[day, default: [:]][entry.categoryIndex, default: Array(repeating: 0, count: 24)][hour] += 1
+            guard let common = entry.commonDoses else { continue }
+            totalCommon[hour] += common
+            byCategoryCommon[entry.categoryIndex, default: Array(repeating: 0.0, count: 24)][hour] += common
+            perDayCommon[day, default: Array(repeating: 0.0, count: 24)][hour] += common
+            perDayCategoryCommon[day, default: [:]][entry.categoryIndex, default: Array(repeating: 0.0, count: 24)][hour] += common
         }
 
         var byDay: [Date: UsageHourBins] = [:]
         for (day, bins) in perDayTotal {
-            byDay[day] = UsageHourBins(total: bins, byCategory: perDayCategory[day] ?? [:])
+            byDay[day] = UsageHourBins(
+                total: bins, byCategory: perDayCategory[day] ?? [:],
+                totalCommon: perDayCommon[day] ?? Array(repeating: 0.0, count: 24),
+                byCategoryCommon: perDayCategoryCommon[day] ?? [:],
+            )
         }
         return UsageHourProfile(
-            all: UsageHourBins(total: total, byCategory: byCategory),
+            all: UsageHourBins(
+                total: total, byCategory: byCategory,
+                totalCommon: totalCommon, byCategoryCommon: byCategoryCommon,
+            ),
             byDay: byDay,
         )
     }
