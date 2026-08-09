@@ -3541,6 +3541,18 @@ T = {
     "Clear": ("清除", "清除"),
     # Common UI actions
     "Add": ("添加", "新增"),
+    "Add Preset": ("添加预设", "新增預設"),
+    "Quick Times": ("快捷时间", "快捷時間"),
+    "Reset to Defaults": ("恢复默认", "恢復預設"),
+    "That preset already exists.": ("该预设已存在。", "該預設已存在。"),
+    "Choose at least one minute.": ("请至少选择一分钟。", "請至少選擇一分鐘。"),
+    "Adds “%@”.": ("添加“%@”。", "新增「%@」。"),
+    "These appear in the “When” menu when logging a dose, alongside Now and the full date picker. Swipe to remove, drag to reorder.": (
+        "记录用药时，这些会显示在“时间”菜单中，与“现在”和完整日期选择器并列。左滑删除，拖动重新排序。",
+        "記錄用藥時，這些會顯示在「時間」選單中，與「現在」和完整日期選擇器並列。左滑刪除，拖曳重新排序。",
+    ),
+    "%lld h": ("%lld 小时", "%lld 小時"),
+    "Minutes": ("分钟", "分鐘"),
     "Cancel": ("取消", "取消"),
     "Save": ("保存", "儲存"),
     "Delete": ("删除", "刪除"),
@@ -6841,6 +6853,16 @@ if __name__ == "__main__":
         "%@ rising to %@ per day",
         "%@ falling to %@ per day",
         "%@ steady at %@ per day",
+        # Configurable dose-time presets (Settings › Journal › Quick Times).
+        "Add Preset",
+        "Quick Times",
+        "Reset to Defaults",
+        "That preset already exists.",
+        "Choose at least one minute.",
+        "Adds “%@”.",
+        "These appear in the “When” menu when logging a dose, alongside Now and the full date picker. Swipe to remove, drag to reorder.",
+        "%lld h",
+        "Minutes",
     }
 
     print("--- Piru main app catalog ---")

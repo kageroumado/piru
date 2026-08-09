@@ -132,6 +132,10 @@ struct TrayMetaChips: View {
     /// pass nor a cache rebuild re-renders the chips at all.
     let content: QuickLogContentModel
 
+    /// The user's configured "When" presets (minutes), edited in Settings › Journal.
+    @AppStorage(DoseTimeDefaults.choicesKey, store: UserDefaults(suiteName: DoseTimeDefaults.suite))
+    private var doseTimeChoicesRaw = DoseTimeDefaults.defaultRaw
+
     @State private var showLocationPicker = false
     /// Anchored presentations off the chips — Apple's idiom for quick options
     /// (menus/popovers) instead of the old inline floating panels.
@@ -249,7 +253,7 @@ struct TrayMetaChips: View {
                 Text("Now")
             }
         }
-        ForEach(TrayTime.offsetChoices, id: \.self) { minutes in
+        ForEach(DoseTimeDefaults.parse(doseTimeChoicesRaw), id: \.self) { minutes in
             Button {
                 withAnimation(.snappy) { model.time = .offset(minutes: minutes) }
             } label: {

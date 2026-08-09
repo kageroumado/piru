@@ -72,6 +72,12 @@ struct JournalSettingsView: View {
                         Label("Keep Quick-Log Order", systemImage: "pin")
                     }
                     .tint(Theme.accent)
+
+                    NavigationLink {
+                        DoseTimeSettingsView()
+                    } label: {
+                        Label("Quick Times", systemImage: "clock.arrow.circlepath")
+                    }
                 } footer: {
                     Text("Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top.")
                 }

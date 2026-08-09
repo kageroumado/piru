@@ -2691,6 +2691,22 @@
         }
       }
     },
+    "%lld h" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 小時"
+          }
+        }
+      }
+    },
     "%lld h %lld m later" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7692,6 +7708,22 @@
         }
       }
     },
+    "Add Preset" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加预设"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增預設"
+          }
+        }
+      }
+    },
     "Add Re-ask" : {
       "localizations" : {
         "zh-Hans" : {
@@ -8078,6 +8110,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "鎮靜作用和隔日昏沉相加——更明顯的睏倦、頭暈和跌倒風險。請減量並避免開車。"
+          }
+        }
+      }
+    },
+    "Adds “%@”." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加“%@”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增「%@」。"
           }
         }
       }
@@ -13474,6 +13522,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "請至少選擇 2 種物質"
+          }
+        }
+      }
+    },
+    "Choose at least one minute." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请至少选择一分钟。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請至少選擇一分鐘。"
           }
         }
       }
@@ -31619,6 +31683,22 @@
         }
       }
     },
+    "Minutes" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分钟"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分鐘"
+          }
+        }
+      }
+    },
     "Minutes for each phase. Leave a phase blank to skip it; the timeline will interpolate from what you provide." : {
       "localizations" : {
         "zh-Hans" : {
@@ -40324,6 +40404,22 @@
         }
       }
     },
+    "Quick Times" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快捷时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快捷時間"
+          }
+        }
+      }
+    },
     "Quick-Log Shortcuts" : {
       "localizations" : {
         "zh-Hans" : {
@@ -42695,6 +42791,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重設個人化"
+          }
+        }
+      }
+    },
+    "Reset to Defaults" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复默认"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢復預設"
           }
         }
       }
@@ -50380,6 +50492,22 @@
         }
       }
     },
+    "That preset already exists." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该预设已存在。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該預設已存在。"
+          }
+        }
+      }
+    },
     "That's a high cumulative dose. %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -51346,6 +51474,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "並不存在固定的毫克拐點——其上限（或沒有上限）取決於你的 CYP2D6 活性。慢代謝者獲得的鴉片效應很弱，卻仍保留曲馬多的 5-羥色胺／癲癇風險；超快代謝者則會突破通常的封頂。"
+          }
+        }
+      }
+    },
+    "These appear in the “When” menu when logging a dose, alongside Now and the full date picker. Swipe to remove, drag to reorder." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录用药时，这些会显示在“时间”菜单中，与“现在”和完整日期选择器并列。左滑删除，拖动重新排序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄用藥時，這些會顯示在「時間」選單中，與「現在」和完整日期選擇器並列。左滑刪除，拖曳重新排序。"
           }
         }
       }
