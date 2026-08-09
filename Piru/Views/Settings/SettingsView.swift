@@ -6,6 +6,7 @@ struct SettingsView: View {
     @Query(sort: \SubstanceColor.substance) private var substanceColors: [SubstanceColor]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
     @State private var customSubstanceStore = CustomSubstanceStore.shared
+    @State private var customUnitStore = CustomUnitStore.shared
     @State private var profileStore = UserProfileStore.shared
 
     @Environment(\.appNavigator) private var navigator
@@ -35,6 +36,16 @@ struct SettingsView: View {
                             "My Substances",
                             systemImage: "flask",
                             value: "\(customSubstanceStore.all.count)",
+                        )
+                    }
+
+                    NavigationLink {
+                        CustomUnitsView()
+                    } label: {
+                        countRow(
+                            "Custom Units",
+                            systemImage: "ruler",
+                            value: "\(customUnitStore.all.count)",
                         )
                     }
 

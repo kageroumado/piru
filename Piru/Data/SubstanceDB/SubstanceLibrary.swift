@@ -166,6 +166,15 @@ enum SubstanceLibrary {
     /// likely to recognize as "their" substance — and falls back to the raw
     /// query so a custom-only entry (no library row at all) still resolves.
     private static func overlayCustom(library: Substance?, query: String) -> Substance? {
+        guard var result = resolveCustomOverride(library: library, query: query) else { return nil }
+        // Fold the user's own units ("1 capsule = 30 mg") onto whichever record
+        // resolved — every substance passes through here, so this is the one place
+        // custom units reach the unit picker and the log-time unit→mass conversion.
+        result.customUnitAliases = CustomUnitStore.shared.aliases(forSubstanceNamed: result.name)
+        return result
+    }
+
+    private static func resolveCustomOverride(library: Substance?, query: String) -> Substance? {
         let customs = CustomSubstanceStore.shared
 
         if let library {

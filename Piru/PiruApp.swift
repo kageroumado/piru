@@ -59,6 +59,9 @@ struct PiruApp: App {
         // into the store, so user-authored substances are backed up and recovered
         // with the rest of the data. Before any view reads them.
         CustomSubstanceStore.shared.configure(container: container)
+        // Load user-defined per-substance units (the "1 capsule = 30 mg" table) so
+        // the library façade can fold them into every substance's unit picker.
+        CustomUnitStore.shared.configure(container: container)
         // Bind notification preferences to the store (seeding once from the
         // legacy wellness/phase flags) and refresh the UserDefaults mirror the
         // schedulers gate on — before any dose can be logged this launch.

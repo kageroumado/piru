@@ -163,7 +163,7 @@ extension Substance {
             ? sources
             : sources + [CustomSubstanceEntry.userDefinedSource]
 
-        return Substance(
+        var overridden = Substance(
             name: name,
             displayName: overriddenDisplayName,
             aliases: aliases,
@@ -209,6 +209,10 @@ extension Substance {
             popularAliases: popularAliases,
             misconceptions: misconceptions,
         )
+        // A fresh Substance, so the façade-stamped custom units would be lost on a
+        // direct `applyingOverride` (e.g. the detail screen); carry them across.
+        overridden.customUnitAliases = customUnitAliases
+        return overridden
     }
 }
 

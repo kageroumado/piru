@@ -4455,6 +4455,22 @@
         }
       }
     },
+    "1 %@ =" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 %@ ="
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 %@ ="
+          }
+        }
+      }
+    },
     "1 day" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7527,6 +7543,22 @@
         }
       }
     },
+    "Add Custom Unit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加自定义单位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增自訂單位"
+          }
+        }
+      }
+    },
     "Add Inventory Item" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9828,6 +9860,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "僅為近似——各等效換算表並不一致。請將其視為大致參考。"
+          }
+        }
+      }
+    },
+    "Approximate amount" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "近似用量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "近似用量"
+          }
+        }
+      }
+    },
+    "approximately %@ %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大约 %@ %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大約 %@ %@"
           }
         }
       }
@@ -16460,6 +16524,22 @@
         }
       }
     },
+    "Custom Units" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义单位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂單位"
+          }
+        }
+      }
+    },
     "Custom…" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -17111,6 +17191,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "預設途徑"
+          }
+        }
+      }
+    },
+    "Define a unit like \"1 capsule = 30 mg\" and it appears in the dose picker for that substance — log half a capsule, get 15 mg." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定义一个单位，例如“1 胶囊 = 30 mg”，它就会出现在该物质的剂量选择器中——记录半个胶囊，即得 15 mg。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定義一個單位，例如「1 膠囊 = 30 mg」，它就會出現在該物質的劑量選擇器中——記錄半個膠囊，即得 15 mg。"
           }
         }
       }
@@ -20141,6 +20237,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "編輯 %@"
+          }
+        }
+      }
+    },
+    "Edit Custom Unit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑自定义单位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯自訂單位"
           }
         }
       }
@@ -30098,6 +30210,22 @@
     "LogP" : {
 
     },
+    "Logs in this unit convert to the mass automatically." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以该单位记录时会自动换算为质量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以此單位記錄時會自動換算為質量。"
+          }
+        }
+      }
+    },
     "Logs this dose" : {
       "localizations" : {
         "zh-Hans" : {
@@ -34303,6 +34431,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無自訂物質"
+          }
+        }
+      }
+    },
+    "No Custom Units" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无自定义单位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚無自訂單位"
           }
         }
       }
@@ -46821,6 +46965,22 @@
         }
       }
     },
+    "Shows the dose with a ~; the estimate still drives the curves." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量会显示为 ~；这个估计值仍会用于绘制曲线。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量會顯示為 ~；這個估計值仍會用於繪製曲線。"
+          }
+        }
+      }
+    },
     "Shows the elimination curve" : {
       "localizations" : {
         "zh-Hans" : {
@@ -52191,6 +52351,22 @@
         }
       }
     },
+    "This substance already has a \"%@\" unit." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该物质已有“%@”单位。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此物質已有「%@」單位。"
+          }
+        }
+      }
+    },
     "This substance's mechanism of action may involve multiple pharmacological targets or may not be fully characterized. Consult specific pharmacological references for detailed mechanistic information." : {
       "localizations" : {
         "zh-Hans" : {
@@ -54014,6 +54190,22 @@
         }
       }
     },
+    "unit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "单位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "單位"
+          }
+        }
+      }
+    },
     "Unit" : {
       "localizations" : {
         "zh-Hans" : {
@@ -54042,6 +54234,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "單位（如 mg、ml、µg）"
+          }
+        }
+      }
+    },
+    "Unit label (e.g. capsule)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "单位名称（如 胶囊）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "單位名稱（如 膠囊）"
           }
         }
       }

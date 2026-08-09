@@ -364,6 +364,10 @@ struct EntryFormView: View {
     }
 
     private func selectSubstance(_ sub: Substance, product: String? = nil) {
+        // The search field's result comes straight from the ranked index, which
+        // skips the custom overlay — re-resolve through the façade so user edits
+        // and custom units ride along in the unit picker.
+        let sub = SubstanceLibrary.lookupByNameOrAlias(sub.name) ?? sub
         selectedSubstance = sub
         let trimmed = product?.trimmingCharacters(in: .whitespaces)
         typedProductName = (trimmed?.isEmpty == false) ? trimmed : nil
@@ -405,11 +409,12 @@ struct EntryFormView: View {
             timestamp = entry.timestamp
             notes = entry.notes ?? ""
             entryTags = entry.tags
+            isApproximate = entry.isApproximate
             if let name = entry.locationName, let lat = entry.latitude, let lng = entry.longitude {
                 location = PickedLocation(name: name, latitude: lat, longitude: lng)
             }
 
-            if let match = SubstanceLibrary.search(entry.substance).first,
+            if let match = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
                match.name.lowercased() == entry.substance.lowercased() {
                 selectedSubstance = match
                 availableRoutes = match.orderedRoutes
