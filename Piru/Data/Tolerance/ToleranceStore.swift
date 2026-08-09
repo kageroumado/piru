@@ -27,6 +27,12 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
     /// Representative peak occupancy at the user's usual dose for this class (the median of the
     /// contributors' single-dose peaks) — the gauge's reference point for ``responseFraction``.
     let representativeOccupancy: Double
+    /// Combined fractional occupancy across this class's active contributors **right now** (competitive
+    /// Gaddum summation, metabolite tails included) — how loaded the receptor actually is at this moment,
+    /// distinct from ``representativeOccupancy`` (a per-dose *peak*). `0` when nothing is on board, which
+    /// is the honest signal that a recent-but-cleared drug is no longer *present* even though it may
+    /// still carry residual tolerance. Placeholder `0` on a cache reload; recomputed on the next replay.
+    var occupancyNow: Double = 0
     /// Weakest-link confidence across the contributing substances' occupancy inputs and the class
     /// kinetics — the house "predicted (model, confidence)" tier.
     let confidence: ConfidenceTier
@@ -347,6 +353,31 @@ final class ToleranceStore {
         persist(computed, now: now)
     }
 
+    /// Forward relative-load curve for one class from `now` (∈ [0, 1], fraction of the user's recent peak
+    /// drive) — the saturation-immune clearance the withdrawal clock and the receptor-loading card read.
+    /// Resolves pharmacology + body weight exactly as ``recompute(from:now:)`` does, then evaluates the
+    /// class's active contributors off main.
+    func loadTrail(
+        for receptorClass: ReceptorClasses.ReceptorClass,
+        from entries: [DoseEntry],
+        now: Date = .now,
+        pastHorizon: TimeInterval = 0,
+        horizon: TimeInterval = 21 * 86_400,
+        step: TimeInterval = 3 * 3_600,
+    ) async -> [(date: Date, load: Double)] {
+        let weightKg = UserProfileStore.shared.effectiveWeightKg
+        let doses = entries.map {
+            SimDose(substance: $0.substance, amountMg: DoseUnit.convert($0.amount, from: $0.unit, to: "mg"), timestamp: $0.timestamp)
+        }
+        let uniqueNames = Array(Set(doses.map(\.substance) + Self.classRepresentative.values))
+        let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
+        return Self.loadTrail(
+            doses: doses, params: params, now: now, weightKg: weightKg,
+            receptorClass: receptorClass, horizonMinutes: horizon / 60, stepMinutes: step / 60,
+            pastHorizonMinutes: pastHorizon / 60,
+        )
+    }
+
     /// Replay **each logged substance independently** — its own doses only — to populate
     /// ``perSubstanceStates`` for the per-substance view. Signature-gated (same dose log + weight ⇒
     /// no-op, so flipping back to the view is free) and off-main. Called lazily by the view when the
@@ -644,6 +675,12 @@ final class ToleranceStore {
         let receptorClass: ReceptorClasses.ReceptorClass
         let subTargets: [String]
         let contributorSubstances: [String]
+        /// Most-recent dose onset (minutes since the replay `start`) per logged contributor — the input
+        /// to the residual-tolerance relevance filter in ``tolerance(for:totalMinutes:step:)``. A
+        /// substance whose freshest dose is long enough ago that its tolerance contribution has decayed
+        /// to nothing is dropped from the snapshot's ``ClassTolerance/contributors`` so the card doesn't
+        /// list a drug that hasn't touched this receptor in a year.
+        let contributorOnsets: [String: Double]
         let contributors: [Contributor]
         let modulators: [ModulatorContributor]
         /// Median single-dose peak occupancy across this class's contributors — the gauge's
@@ -916,6 +953,7 @@ final class ToleranceStore {
                 receptorClass: receptorClass,
                 subTargets: subTargetsByClass[receptorClass] ?? [],
                 contributorSubstances: names,
+                contributorOnsets: recency,
                 contributors: contributors, modulators: modulatorsByClass[receptorClass] ?? [],
                 representativeOccupancy: median(peaksByClass[receptorClass] ?? []),
                 regularityFactor: scheduleRegularityFactor(contributors: contributors),
@@ -973,11 +1011,46 @@ final class ToleranceStore {
             sSynthesis: state.sSynthesis,
             chronicExposure: state.chronicExposure,
             representativeOccupancy: work.representativeOccupancy,
+            occupancyNow: combinedOccupancy(work.contributors, atMinutes: totalMinutes),
             confidence: Swift.min(inputConfidence, params.confidence),
-            subTargets: work.subTargets, contributors: work.contributorSubstances,
+            subTargets: work.subTargets,
+            contributors: relevantContributors(work: work, params: params, totalMinutes: totalMinutes),
             safetyShiftFactor: safetyShiftFactor,
             safetyEndpointKind: params.safetyEndpoint?.kind,
         )
+    }
+
+    /// The class's **tolerance-memory time constant** — the slowest engaged ln-shift layer, so a class
+    /// with a months-scale deep layer (opioids) remembers a substance far longer than one that only
+    /// adapts over days (GABA). Layers with a zero ceiling don't run, so they don't extend the memory.
+    private nonisolated static func toleranceMemoryTauMinutes(_ p: ReceptorClasses.Parameters) -> Double {
+        var tau = p.tauAcuteMinutes
+        if p.adaptiveShiftMax > 0 { tau = Swift.max(tau, p.tauAdaptiveMinutes) }
+        if p.deepShiftMax > 0 { tau = Swift.max(tau, p.tauDeepMinutes) }
+        if p.synthesisShiftMax > 0 { tau = Swift.max(tau, p.tauSynthesisMinutes) }
+        return tau
+    }
+
+    /// Fraction of a unit adaptive shift that must survive to `now` for a substance to still count as a
+    /// contributor. At 5%, a GABA drug (adaptive τ ≈ 14 d) drops out ~6 weeks after its last dose — so a
+    /// benzo taken once a year ago never appears, while one taken last week (receptors still restoring)
+    /// does. This governs the *label list only*; the integrated shift number already decays on its own.
+    nonisolated static let contributorRelevanceFloor = 0.05
+
+    /// Drop contributors whose freshest dose is old enough that their residual tolerance has decayed
+    /// below ``contributorRelevanceFloor`` — the fix for "the card lists every substance ever logged".
+    /// Presence (drug still on board) is a separate, shorter-horizon question the occupancy surfaces
+    /// answer; this is the tolerance-memory horizon, which is why a cleared-but-recent benzo stays.
+    private nonisolated static func relevantContributors(
+        work: ClassWork, params: ReceptorClasses.Parameters, totalMinutes: Double,
+    ) -> [String] {
+        let tau = toleranceMemoryTauMinutes(params)
+        guard tau > 0 else { return work.contributorSubstances }
+        return work.contributorSubstances.filter { name in
+            guard let onset = work.contributorOnsets[name] else { return true }
+            let dt = totalMinutes - onset
+            return dt <= 0 || Foundation.exp(-dt / tau) >= contributorRelevanceFloor
+        }
     }
 
     /// Median of a peak-occupancy list (sorted middle element), `0` when empty — the gauge's
@@ -998,6 +1071,86 @@ final class ToleranceStore {
         let tmax = PKModel.tmax(ke: ke, ka: ka)
         let peakConc = prefactorNanomolar * PKModel.concentration(at: tmax, ke: ke, ka: ka)
         return peakConc / (peakConc + halfMaxNanomolar)
+    }
+
+    /// Combined **drive** `Σ Cᵢ/Kᵢ` of a class at absolute time `t` (minutes since the replay `start`) —
+    /// the competitive-summation quantity *before* the saturating `Σ/(1+Σ)` squash. Unbounded, so unlike
+    /// occupancy it keeps its dynamic range and decays cleanly with concentration; it also grows linearly
+    /// as substances stack, so it shows co-ingestion loading the same receptor. Pure PK — escalation and
+    /// intrinsic efficacy weight the tolerance drive, not the receptor load, so this reads none of them.
+    /// Metabolite contributors are ordinary members of the list, so a nordazepam tail keeps loading GABA
+    /// after its parent has cleared.
+    private nonisolated static func combinedDrive(_ contributors: [Contributor], atMinutes t: Double) -> Double {
+        var sumRatio = 0.0
+        for c in contributors where t >= c.onset && c.halfMaxNanomolar > 0 {
+            let conc = c.prefactorNanomolar * PKModel.concentration(at: t - c.onset, ke: c.ke, ka: c.ka)
+            sumRatio += conc / c.halfMaxNanomolar
+        }
+        return sumRatio
+    }
+
+    /// Combined fractional occupancy `Σ/(1+Σ)` at `t`. **Saturates** — for a tight-Kᵢ class like the real
+    /// benzodiazepines it pins near 1 across a wide concentration range, so it is a poor "how much is
+    /// still on board" signal (it reads ~100% for many half-lives after the last dose). Use ``loadTrail``
+    /// for clearance/loading; this stays for callers that genuinely want the saturating fraction.
+    private nonisolated static func combinedOccupancy(_ contributors: [Contributor], atMinutes t: Double) -> Double {
+        let d = combinedDrive(contributors, atMinutes: t)
+        return d / (1 + d)
+    }
+
+    /// Peak combined drive over the `windowMinutes` before `endMinutes` — the reference the load trail
+    /// normalizes against, so "load" reads as a fraction of the user's *own* recent peak rather than an
+    /// absolute occupancy that saturates. Samples the grid and each contributor's Tmax (so a short spike
+    /// between grid points isn't missed).
+    private nonisolated static func recentPeakDrive(
+        _ contributors: [Contributor], endMinutes: Double, windowMinutes: Double, stepMinutes: Double,
+    ) -> Double {
+        let lo = Swift.max(0, endMinutes - windowMinutes)
+        var peak = 0.0
+        var t = lo
+        while t <= endMinutes {
+            peak = Swift.max(peak, combinedDrive(contributors, atMinutes: t))
+            t += stepMinutes
+        }
+        for c in contributors {
+            let tp = c.onset + PKModel.tmax(ke: c.ke, ka: c.ka)
+            if tp >= lo, tp <= endMinutes {
+                peak = Swift.max(peak, combinedDrive(contributors, atMinutes: tp))
+            }
+        }
+        return peak
+    }
+
+    /// Sampled **relative GABA-A load** for one class over `[now − pastHorizonMinutes, now + horizonMinutes]`
+    /// at `stepMinutes` spacing: combined drive at each sample as a fraction of the user's recent peak
+    /// drive (∈ [0, 1]). This is saturation-immune — it clears to ~0 once the drug is really gone, unlike
+    /// absolute occupancy — which is what the withdrawal clock needs (forward only, to place the user on
+    /// their own clearance) and what the loading card plots (with a short past window, so the recent doses
+    /// loading the receptor are visible). Load is `0` when nothing has been dosed in the reference window.
+    /// Empty only when the class isn't driven by any in-window dose. Metabolite tails are included.
+    nonisolated static func loadTrail(
+        doses: [SimDose], params: [String: PharmacologyParameters], now: Date, weightKg: Double,
+        receptorClass: ReceptorClasses.ReceptorClass,
+        horizonMinutes: Double, stepMinutes: Double, pastHorizonMinutes: Double = 0,
+        lookbackDays: Double = defaultLookbackDays,
+    ) -> [(date: Date, load: Double)] {
+        guard stepMinutes > 0, horizonMinutes >= 0, pastHorizonMinutes >= 0,
+              let prepared = buildClassWork(doses: doses, params: params, now: now, weightKg: weightKg, lookbackDays: lookbackDays),
+              let work = prepared.work.first(where: { $0.receptorClass == receptorClass })
+        else { return [] }
+        let start = now.addingTimeInterval(-prepared.totalMinutes * 60)
+        // Reference peak over the recent past (3 weeks) — long enough to catch the last real dosing spike,
+        // short enough that a months-old course doesn't anchor "recent" load.
+        let peakDrive = recentPeakDrive(work.contributors, endMinutes: prepared.totalMinutes, windowMinutes: 21 * 24 * 60, stepMinutes: stepMinutes)
+        var points: [(date: Date, load: Double)] = []
+        var t = Swift.max(0, prepared.totalMinutes - pastHorizonMinutes)
+        let end = prepared.totalMinutes + horizonMinutes
+        while t <= end {
+            let load = peakDrive > 1e-9 ? Swift.min(1, combinedDrive(work.contributors, atMinutes: t) / peakDrive) : 0
+            points.append((start.addingTimeInterval(t * 60), load))
+            t += stepMinutes
+        }
+        return points
     }
 
     // MARK: - Private

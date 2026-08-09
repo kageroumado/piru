@@ -1,23 +1,35 @@
 import Foundation
+import SwiftData
 import SwiftUI
 
-/// Population-level reference for what benzodiazepine (GABA-class) discontinuation looks like — the
-/// relapse / rebound / withdrawal taxonomy and the onset/peak timing bands, with the user's own
-/// logged drugs sorted into those bands and a "days since your last dose" marker placed on the
-/// window. Pure reference + day arithmetic: no per-user occupancy model (that is I.full, after the
-/// metabolite simulation lands). Source: NAV26 §5.4 (Navarrete et al. 2026, Int J Mol Sci 27:1430).
+/// Benzodiazepine (GABA-class) discontinuation reference: the relapse / rebound / withdrawal taxonomy
+/// and the population onset/peak timing bands, framed around the user's **own modeled clearance**. The
+/// "since your last dose" reading is driven by ``ToleranceStore``'s combined GABA-A occupancy curve
+/// (metabolite tails included) — so it says whether the drug is still on board (withdrawal not yet
+/// begun) rather than dropping a calendar day-count onto a fixed band. Source: NAV26 §5.4 (Navarrete
+/// et al. 2026, Int J Mol Sci 27:1430).
 struct WithdrawalReferenceView: View {
     /// The GABA-class substances the user actually logged (the card's `contributors`), used to pick
     /// which timing band(s) apply.
     let contributors: [String]
     /// The most recent GABA-class dose, or `nil` if none is datable — drives the "since your last
-    /// dose" marker.
+    /// dose" day count.
     let lastDoseDate: Date?
-    /// Per-drug **metabolite-extended** half-life (minutes), keyed by contributor name (I.full): the
-    /// slowest of the parent's own half-life and its foldable active metabolites'. Absent keys fall
-    /// back to the parent-half-life classification. This is what lifts a prodrug like clorazepate into
-    /// the long-acting band via its nordazepam tail rather than its short parent.
+    /// Per-drug **metabolite-extended** half-life (minutes), keyed by contributor name: the slowest of
+    /// the parent's own half-life and its foldable active metabolites'. Absent keys fall back to the
+    /// parent-half-life classification for the population bands below.
     var effectiveHalfLifeMinutes: [String: Double] = [:]
+
+    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
+
+    /// Forward GABA-A load relative to the user's recent peak (metabolite-aware), loaded off main. `nil`
+    /// while the first sample is still computing. Relative, not absolute occupancy — benzodiazepine
+    /// occupancy saturates, so an absolute reading pins near 100% for many half-lives after the last dose.
+    @State private var loadTrail: [(date: Date, load: Double)]?
+
+    /// Below this fraction of the recent peak the drug is treated as essentially cleared — the point the
+    /// withdrawal onset actually keys off (symptoms follow clearance, not the calendar).
+    private static let presenceFloor = 0.10
 
     var body: some View {
         List {
@@ -74,28 +86,28 @@ struct WithdrawalReferenceView: View {
         .background(Theme.background)
         .navigationTitle("If You Stop")
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+            loadTrail = await ToleranceStore.shared.loadTrail(for: .gaba, from: allEntries)
+        }
     }
 
     // MARK: - Since last dose
 
+    /// The user's own clearance readout: whether the drug is still on board (so withdrawal hasn't
+    /// begun) or has cleared (so any symptoms now are the course, not the drug leaving) — driven by the
+    /// modeled occupancy curve, not a calendar day-count against a fixed population band.
     private func sinceLastDoseSection(_ days: Int) -> some View {
         Section {
             VStack(alignment: .leading, spacing: 8) {
-                Text(daysPhrase(days))
-                    .font(.title3.weight(.semibold))
-                Text(placementPhrase(days: days))
+                HStack(alignment: .firstTextBaseline) {
+                    Text(daysPhrase(days))
+                        .font(.title3.weight(.semibold))
+                    Spacer()
+                    PredictionCapsule()
+                }
+                Text(occupancyStatePhrase)
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
-                if let band = governingBand {
-                    WithdrawalOnsetBand(
-                        onsetStartDays: band.onsetStartDays, peakEndDays: band.peakEndDays,
-                        currentDays: Double(days),
-                    )
-                    .padding(.top, 2)
-                    Text("Estimated from your logged doses — the window is a population range, not a prediction for you.")
-                        .font(.caption2)
-                        .foregroundStyle(.tertiary)
-                }
             }
             .padding(.vertical, 2)
         } header: {
@@ -118,21 +130,36 @@ struct WithdrawalReferenceView: View {
         }
     }
 
-    /// Where the days-since count sits relative to the *longest-acting* logged drug's onset window —
-    /// the conservative read, since the slowest drug sets when symptoms can still begin. The specific
-    /// band and window are shown in "When symptoms start" below, so this stays a plain full sentence.
-    private func placementPhrase(days: Int) -> LocalizedStringResource {
-        guard let band = governingBand else {
-            return "No half-life on file for your logged drugs, so the onset window can't be placed."
+    /// Modeled GABA-A load right now as a fraction of the user's recent peak (first sample of the
+    /// forward trail), or `nil` while it is still loading.
+    private var loadNow: Double? {
+        loadTrail?.first?.load
+    }
+
+    /// The first future moment the modeled load falls below ``presenceFloor`` — when the drug itself
+    /// has essentially left and the withdrawal onset window actually opens. `nil` if already cleared.
+    private var windowOpensDate: Date? {
+        guard let now = loadNow, now >= Self.presenceFloor else { return nil }
+        return loadTrail?.first { $0.load < Self.presenceFloor }?.date
+    }
+
+    /// Load-driven placement sentence — the replacement for the old calendar-vs-band phrase that could
+    /// read "typically begin and peak" while the drug was still clearing. Load is relative to the user's
+    /// recent peak, so it clears honestly (benzodiazepine occupancy itself saturates and would not).
+    private var occupancyStatePhrase: String {
+        guard let now = loadNow else {
+            return String(localized: "Estimating how much is still in your system…")
         }
-        let d = Double(days)
-        if d < band.onsetStartDays {
-            return "Before the usual onset window for your slowest-clearing drug — symptoms, if any, would typically start later."
+        if now >= Self.presenceFloor {
+            let percent = Int((now * 100).rounded())
+            if let opens = windowOpensDate {
+                let d = max(0, Calendar.current.dateComponents([.day], from: .now, to: opens).day ?? 0)
+                let inPhrase = d == 0 ? String(localized: "under a day") : String(localized: "\(d) days")
+                return String(localized: "Your modeled GABA-A load is still about \(percent)% of your recent peak — the drug is still clearing, so withdrawal hasn't started. On your current clearance it drops into the onset range in about \(inPhrase).")
+            }
+            return String(localized: "Your modeled GABA-A load is still about \(percent)% of your recent peak — the drug is still clearing, so withdrawal hasn't started yet.")
         }
-        if d <= band.peakEndDays {
-            return "Within the window when symptoms for drugs like yours typically begin and peak."
-        }
-        return "Past the typical peak window for your drugs — a protracted tail can still persist for weeks."
+        return String(localized: "Your modeled GABA-A load has essentially cleared — past the point where the drug itself is still leaving your system. The bands below say when symptoms tend to follow.")
     }
 
     // MARK: - Bands
@@ -150,12 +177,6 @@ struct WithdrawalReferenceView: View {
     private var otherBands: [TimingBand] {
         let shown = Set(userBands.map(\.actingClass))
         return TimingBand.all.filter { !shown.contains($0.actingClass) }
-    }
-
-    /// The single band that governs the "since last dose" placement — the longest-acting among the
-    /// user's drugs (latest onset), since that is the one whose window is still open longest.
-    private var governingBand: TimingBand? {
-        userBands.max { $0.actingClass.rank < $1.actingClass.rank }
     }
 }
 
@@ -270,42 +291,20 @@ struct TimingBand: Identifiable {
     ]
 }
 
-// MARK: - Onset band
+// MARK: - Prediction capsule
 
-/// A compact horizontal band placing the user's days-since-last-dose against the governing timing
-/// band's onset→peak window (I.full). The colored zone is `[onsetStart, peakEnd]`; the accent marker
-/// is "now". Scaled so the window and the marker both fit with a little headroom.
-private struct WithdrawalOnsetBand: View {
-    let onsetStartDays: Double
-    let peakEndDays: Double
-    let currentDays: Double
-
-    private var total: Double {
-        max(peakEndDays * 1.3, currentDays * 1.1, 1)
-    }
-
-    private func position(_ days: Double, width: CGFloat) -> CGFloat {
-        CGFloat(min(days, total) / total) * width
-    }
-
+/// The small "Prediction" pill marking a modeled (not measured) readout — the house provenance mark
+/// the tolerance surfaces carry.
+struct PredictionCapsule: View {
     var body: some View {
-        GeometryReader { geo in
-            let width = geo.size.width
-            ZStack(alignment: .leading) {
-                Capsule().fill(Theme.secondaryLabel.opacity(0.15))
-                Capsule()
-                    .fill(Color.orange.opacity(0.35))
-                    .frame(width: max(2, position(peakEndDays, width: width) - position(onsetStartDays, width: width)))
-                    .offset(x: position(onsetStartDays, width: width))
-                Capsule()
-                    .fill(Theme.accent)
-                    .frame(width: 3)
-                    .offset(x: min(position(currentDays, width: width), width - 3))
-            }
-        }
-        .frame(height: 10)
-        .accessibilityElement()
-        .accessibilityLabel("Estimated withdrawal onset window, with a marker for time since your last dose.")
+        Text("Prediction")
+            .font(.caption2.weight(.semibold))
+            .textCase(.uppercase)
+            .foregroundStyle(Theme.secondaryLabel)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 3)
+            .background(Theme.secondaryLabel.opacity(0.14), in: Capsule())
+            .accessibilityLabel("Prediction from a model")
     }
 }
 

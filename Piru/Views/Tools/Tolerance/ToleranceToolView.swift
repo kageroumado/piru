@@ -57,6 +57,11 @@ struct ToleranceToolView: View {
                             Section {
                                 ToleranceCard(row: row, tier: tier)
                                 if row.snapshot.receptorClass == .gaba {
+                                    GABALoadingCard(
+                                        entries: entries,
+                                        contributors: row.snapshot.contributors,
+                                        color: row.familyColor,
+                                    )
                                     if row.snapshot.chronicExposure > 0.10 {
                                         NavigationLink {
                                             WithdrawalReferenceView(
