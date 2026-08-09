@@ -52,10 +52,11 @@ struct DrinkVolumeView: View {
     /// Raw Crown accumulator, snapped to ``volumeML`` in 10 mL steps.
     @State private var volumeCrown: Double = 0
     @State private var abv: Double = 0
-    /// The Crown drives whichever element has focus. With the ABV ± and Log buttons
-    /// also focusable, focus has to be pinned to the volume control or the Crown does
-    /// nothing — hence explicit focus here (the amount view needs none: Log is its
-    /// only button).
+    /// The Crown drives whichever element has focus. The ABV ± and Log buttons are
+    /// focusable siblings, so focus must be pinned to the volume control or the Crown
+    /// has no focused view to drive — `.defaultFocus` claims it on appear (mutating
+    /// this in `onAppear` loses the race to the buttons when pushed from a List), and
+    /// the button actions hand it back after a tap.
     @FocusState private var volumeFocused: Bool
     /// Shows the "Logged" confirmation, then returns to the grid.
     @State private var confirming = false
@@ -89,6 +90,7 @@ struct DrinkVolumeView: View {
         }
         .focusable()
         .focused($volumeFocused)
+        .defaultFocus($volumeFocused, true)
         .digitalCrownRotation(
             $volumeCrown,
             from: 0,
@@ -108,7 +110,6 @@ struct DrinkVolumeView: View {
             volumeML = preset.volumeML
             abv = preset.defaultABV
             volumeCrown = preset.volumeML
-            volumeFocused = true
         }
         .overlay { if confirming { LoggedOverlay().transition(.opacity) } }
         .animation(.snappy, value: confirming)
