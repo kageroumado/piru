@@ -1,0 +1,43 @@
+{
+  "name": "Tadalafil",
+  "aliases": [
+    "Cialis",
+    "Adcirca"
+  ],
+  "category": "Other",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 45
+        },
+        "comeup": {
+          "min": 75,
+          "max": 135
+        },
+        "peak": {
+          "min": 120,
+          "max": 360
+        },
+        "offset": {
+          "min": 1200,
+          "max": 1920
+        },
+        "total": {
+          "min": 1440,
+          "max": 2160
+        }
+      }
+    }
+  ],
+  "halfLifeMinutes": 1050,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/021368s20s21lbl.pdf",
+    "https://doi.org/10.1111/j.1365-2125.2005.02553.x",
+    "https://en.wikipedia.org/wiki/Tadalafil"
+  ]
+}

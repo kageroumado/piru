@@ -13654,20 +13654,20 @@
     "tags": [],
     "default_route": "oral",
     "all_routes": [
+      "inhalation",
       "oral"
     ],
     "routes_with_dose": [
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": false,
+    "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
-      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -30706,6 +30706,7 @@
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
+      "intravenous",
       "oral"
     ],
     "routes_with_dose": [],
@@ -35461,15 +35462,18 @@
       "N-methyl-PEA"
     ],
     "category": "",
-    "display_class": "medical_rx",
+    "display_class": "recreational",
     "tags": [
       "class:Phenethylamine"
     ],
-    "default_route": "",
-    "all_routes": [],
+    "default_route": "insufflation",
+    "all_routes": [
+      "insufflation",
+      "oral"
+    ],
     "routes_with_dose": [],
     "has_dose_data": false,
-    "has_duration_data": false,
+    "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
@@ -35477,7 +35481,6 @@
     "references": [],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -36284,14 +36287,13 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": false,
+    "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
-      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -58187,14 +58189,13 @@
       "sublingual"
     ],
     "has_dose_data": true,
-    "has_duration_data": false,
+    "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
-      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -58809,14 +58810,15 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 1050.0,
     "mechanism_summary": "Phosphodiesterase Type 5 (PDE5) Inhibitor",
     "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
+    "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/021368s20s21lbl.pdf",
+      "https://doi.org/10.1111/j.1365-2125.2005.02553.x",
+      "https://en.wikipedia.org/wiki/Tadalafil"
+    ],
+    "data_gaps": []
   },
   {
     "name": "Tamsulosin",

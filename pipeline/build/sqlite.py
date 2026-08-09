@@ -6297,11 +6297,15 @@ class Build:
                 # window measured from ingestion (onset/peak/offset/after_effects
                 # use start/end; only total_duration uses min/max). Piru's
                 # DurationProfile instead stores per-phase *durations* that it
-                # accumulates by midpoint to recover the curve boundaries. So we
-                # convert by differencing consecutive absolute ends — this
-                # reproduces the source's absolute boundaries exactly. The source
-                # supplies windows, not duration uncertainty, so per-phase ranges
-                # are degenerate (min == max); `total` keeps its real min/max.
+                # accumulates by midpoint to recover the curve boundaries. The
+                # come-up/peak/offset durations are recovered by differencing
+                # consecutive absolute ends. Onset is special: its window is the
+                # time-to-first-effects *range* (it mirrors the TripSit onset
+                # range these curves are sourced from — e.g. mephedrone oral
+                # 15–45 min), so it is emitted verbatim as min/max rather than
+                # collapsed to its end, which would report when the come-up
+                # completes as though effects only then began. `total` likewise
+                # keeps its real min/max.
                 onset_b = self._dc_phase_bounds(curve.get("onset"))
                 peak_b = self._dc_phase_bounds(curve.get("peak"))
                 offset_b = self._dc_phase_bounds(curve.get("offset"))
@@ -6309,8 +6313,10 @@ class Build:
 
                 profile = {}
                 if onset_b:
-                    onset_end = onset_b[1] * to_minutes
-                    profile["onset"] = {"min": onset_end, "max": onset_end}
+                    profile["onset"] = {
+                        "min": onset_b[0] * to_minutes,
+                        "max": onset_b[1] * to_minutes,
+                    }
                 if onset_b and peak_b:
                     comeup = max(0.0, (peak_b[0] - onset_b[1]) * to_minutes)
                     if comeup > 0:
