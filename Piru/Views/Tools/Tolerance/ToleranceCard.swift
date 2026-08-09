@@ -19,12 +19,18 @@ struct ToleranceCard: View {
                 ToleranceContributorChips(contributors: row.snapshot.contributors, color: row.familyColor)
             }
 
-            ToleranceBar(
-                bands: row.bands,
-                word: ToleranceBucket(responseFraction: row.snapshot.responseFraction).word,
-                color: row.familyColor,
-                showsLegend: tier != .casual,
-            )
+            // Effect-selective classes (GABA, α2δ) split into the effect ladder instead of one gauge:
+            // sedation fades while memory and coordination do not, which one bar cannot say.
+            if row.snapshot.effectShifts.isEmpty {
+                ToleranceBar(
+                    bands: row.bands,
+                    word: ToleranceBucket(responseFraction: row.snapshot.responseFraction).word,
+                    color: row.familyColor,
+                    showsLegend: tier != .casual,
+                )
+            } else {
+                EffectLadderView(snapshot: row.snapshot, tier: tier)
+            }
 
             if let lede = row.lede {
                 Text(lede)

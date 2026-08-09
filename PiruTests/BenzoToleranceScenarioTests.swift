@@ -141,6 +141,44 @@ struct BenzoToleranceScenarioTests {
         #expect(loadNow < 0.10) // relative load has cleared, whatever the absolute occupancy reads
     }
 
+    // MARK: - Effect ladder (differential tolerance)
+
+    @Test
+    func `The effect ladder fades sedation but not anxiolysis or the impairments`() throws {
+        // Heavy daily use for 60 days → sedation (the primary layer) tolerizes; anxiolysis, memory and
+        // coordination are modeled flat (do not tolerize); anticonvulsant fades slowly and partially.
+        // This is the escalation trap made legible: the sedation you notice fades, the impairments don't.
+        let state = try #require(gaba(
+            Cal.dailyDoses("Alprazolam", mg: 2, days: 60, relativeTo: Self.now),
+            ["Alprazolam": Cal.alprazolam(referenceDoseMg: 1)],
+        ))
+        let sedation = try #require(state.responseFraction(forEffect: .sedation))
+        let anxiolysis = try #require(state.responseFraction(forEffect: .anxiolysis))
+        let memory = try #require(state.responseFraction(forEffect: .memory))
+        let coordination = try #require(state.responseFraction(forEffect: .coordination))
+        let anticonvulsant = try #require(state.responseFraction(forEffect: .anticonvulsant))
+
+        #expect(sedation < 0.8) // sedation has faded past the "unchanged" line
+        #expect(anxiolysis > 0.95) // no anxiolytic tolerance
+        #expect(abs(memory - anxiolysis) < 1e-9) // impairments modeled identically flat…
+        #expect(abs(coordination - anxiolysis) < 1e-9) // …and unchanged
+        #expect(sedation < anticonvulsant) // anticonvulsant fades less than sedation…
+        #expect(anticonvulsant < anxiolysis) // …but more than the flat anxiolysis (partial)
+        #expect(state.responseFraction(forEffect: .hypnotic) == nil) // sleep is not a GABA ladder effect
+    }
+
+    @Test
+    func `Non-ladder classes expose no per-effect breakdown`() throws {
+        // A stimulant has one undifferentiated gauge — effectShifts is empty and per-effect queries nil.
+        let states = ToleranceStore.simulate(
+            doses: Cal.dailyDoses("TestStimulant", mg: 20, days: 14, relativeTo: Self.now),
+            params: ["TestStimulant": Cal.stimulant(referenceDoseMg: 60)], now: Self.now, weightKg: Self.weightKg,
+        )
+        let stim = try #require(states[.catecholamineStimulant])
+        #expect(stim.effectShifts.isEmpty)
+        #expect(stim.responseFraction(forEffect: .sedation) == nil)
+    }
+
     // MARK: - Reasonableness of typical patterns
 
     @Test

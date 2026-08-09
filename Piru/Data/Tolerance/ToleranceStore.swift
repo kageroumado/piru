@@ -51,6 +51,11 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
     let safetyShiftFactor: Double?
     /// Which harm axis ``safetyShiftFactor`` measures, or `nil` when the class has no endpoint.
     let safetyEndpointKind: ReceptorClasses.SafetyEndpoint.Kind?
+    /// Per-effect right-shift `S = exp(...) ≥ 1` for the classes whose tolerance is effect-selective
+    /// (GABA, α2δ) — the ladder's non-primary rows (sedation/sleep is the primary ``shiftFactor``). `1`
+    /// means that effect has not tolerized. Empty for classes with one undifferentiated gauge and on a
+    /// cache reload (recomputed on the next replay).
+    var effectShifts: [ReceptorClasses.EffectAxis: Double] = [:]
 
     var id: ReceptorClasses.ReceptorClass {
         receptorClass
@@ -87,6 +92,25 @@ nonisolated struct ClassTolerance: Hashable, Identifiable {
     var safetyGap: Double? {
         guard let safetyShiftFactor else { return nil }
         return shiftFactor / max(1, safetyShiftFactor)
+    }
+
+    /// Fraction of naïve effect left at the usual dose for one **ladder effect** — the primary axis
+    /// (sedation / sleep) reads the class ``shiftFactor``; every other effect reads ``effectShifts``.
+    /// `nil` when the effect isn't modeled for this class. `1` = untouched (the flat endpoints), small =
+    /// mostly faded (sedation under heavy use). This is the per-row gauge the effect ladder renders.
+    func responseFraction(forEffect axis: ReceptorClasses.EffectAxis) -> Double? {
+        let shift: Double
+        if ReceptorClasses.parameters(for: receptorClass).primaryEffectAxis == axis {
+            shift = shiftFactor
+        } else if let modeled = effectShifts[axis] {
+            shift = modeled
+        } else {
+            return nil
+        }
+        return PDModel.responseFraction(
+            shiftFactor: shift, representativeOccupancy: representativeOccupancy,
+            occupancyCap: receptorClass.gaugeOccupancyCap,
+        )
     }
 
     /// Confidence-derived half-width of the shift uncertainty band ∈ [0, 1). The band is
@@ -1017,6 +1041,7 @@ final class ToleranceStore {
             contributors: relevantContributors(work: work, params: params, totalMinutes: totalMinutes),
             safetyShiftFactor: safetyShiftFactor,
             safetyEndpointKind: params.safetyEndpoint?.kind,
+            effectShifts: state.effectShifts,
         )
     }
 
@@ -1249,7 +1274,7 @@ final class ToleranceStore {
         totalMinutes: Double,
         step: Double,
         regularityFactor: Double = 1,
-    ) -> (sAcute: Double, sAdaptive: Double, sDeep: Double, sSynthesis: Double, sAcuteSafety: Double, sAdaptiveSafety: Double, chronicExposure: Double) {
+    ) -> (sAcute: Double, sAdaptive: Double, sDeep: Double, sSynthesis: Double, sAcuteSafety: Double, sAdaptiveSafety: Double, chronicExposure: Double, effectShifts: [ReceptorClasses.EffectAxis: Double]) {
         var sAcute = 0.0
         var sAdaptive = 0.0
         var sDeep = 0.0
@@ -1266,8 +1291,16 @@ final class ToleranceStore {
         var sAcuteSafety = 0.0
         var sAdaptiveSafety = 0.0
         let safetyEndpoint = params.safetyEndpoint
+        // The effect-ladder endpoints (§5): one adaptive-only ln-shift per effect, same occupancy, its
+        // own kinetics. Parallel to `sEffect` by index. Empty for non-ladder classes.
+        let effectEndpoints = params.effectEndpoints
+        var sEffect = [Double](repeating: 0, count: effectEndpoints.count)
+        func effectShifts() -> [ReceptorClasses.EffectAxis: Double] {
+            guard !effectEndpoints.isEmpty else { return [:] }
+            return Dictionary(uniqueKeysWithValues: effectEndpoints.indices.map { (effectEndpoints[$0].axis, exp(sEffect[$0])) })
+        }
         guard totalMinutes > 0, step > 0, !rawContributors.isEmpty else {
-            return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety, chronicExposure)
+            return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety, chronicExposure, effectShifts())
         }
 
         let contributors = rawContributors.sorted { $0.onset < $1.onset }
@@ -1287,7 +1320,7 @@ final class ToleranceStore {
         }
 
         let lastCell = Int((totalMinutes / step).rounded(.up)) - 1
-        guard lastCell >= 0 else { return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety, chronicExposure) }
+        guard lastCell >= 0 else { return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety, chronicExposure, effectShifts()) }
 
         /// Closed-form recovery over an idle span of `minutes` (occupancy ≡ 0): each ln-shift layer
         /// decays toward 0 (with no active contributor the escalation gate is closed anyway, so deep
@@ -1304,6 +1337,9 @@ final class ToleranceStore {
             if let safetyEndpoint {
                 sAcuteSafety *= exp(-minutes / safetyEndpoint.tauAcuteMinutes)
                 sAdaptiveSafety *= exp(-minutes / safetyEndpoint.tauAdaptiveMinutes)
+            }
+            for i in effectEndpoints.indices {
+                sEffect[i] *= exp(-minutes / effectEndpoints[i].tauAdaptiveMinutes)
             }
         }
 
@@ -1460,13 +1496,23 @@ final class ToleranceStore {
                         drive: modulation, dtMinutes: cellLength, tauMinutes: safetyEndpoint.tauAdaptiveMinutes,
                     )
                 }
+
+                // The effect-ladder endpoints (§5) — adaptive-only, same occupancy and the primary's
+                // tolerance-modulation μ, each on its own kinetics. A `shiftMax 0` endpoint (anxiolysis,
+                // memory, coordination) never accrues, so its shift stays exp(0) = 1: no tolerance.
+                for i in effectEndpoints.indices {
+                    sEffect[i] = PDModel.stepShift(
+                        current: sEffect[i], shiftMax: effectEndpoints[i].adaptiveShiftMax, occupancy: occupancy,
+                        drive: modulation, dtMinutes: cellLength, tauMinutes: effectEndpoints[i].tauAdaptiveMinutes,
+                    )
+                }
             }
             lastSteppedCell = lastCellInRun
         }
 
         // Final idle tail from the last fine-stepped cell to `now` (covers a partial last cell exactly).
         recover(totalMinutes - Double(lastSteppedCell + 1) * step)
-        return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety, chronicExposure)
+        return (sAcute, sAdaptive, sDeep, sSynthesis, sAcuteSafety, sAdaptiveSafety, chronicExposure, effectShifts())
     }
 
     // MARK: - Persistence (cache)

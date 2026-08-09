@@ -251,6 +251,80 @@ nonisolated enum ReceptorClasses {
         let tauAdaptiveMinutes: Double
     }
 
+    // MARK: - Differential effect ladder
+
+    /// A distinguishable **effect** a class's tolerance breaks out into — the axis of the effect ladder.
+    /// Benzodiazepine effects tolerize at very different rates (sedation near-completely, anxiolysis and
+    /// amnesia probably not at all), and the split is mechanistic: which α-subtype mediates the effect
+    /// and how that subtype adapts. α1 mediates sedation and adapts (uncoupling → internalization →
+    /// spine loss), α5 is *required* for sedative tolerance to develop, while α2/α3-mediated anxiolysis
+    /// does not tolerize (VINK12, PIOT26). Classic benzodiazepines are non-selective, so this is not a
+    /// per-drug affinity story — the differential lives in the adaptation, not the binding.
+    nonisolated enum EffectAxis: String, Hashable, CaseIterable {
+        case sedation
+        case anxiolysis
+        case anticonvulsant
+        case myorelaxation
+        case memory
+        case coordination
+        /// Gabapentinoid hypnotic/sleep effect — the well-attested α2δ tolerance endpoint (§8.6).
+        case hypnotic
+
+        /// An effect you *notice* (felt) vs an *impairment* that does not announce itself. Drives the
+        /// ladder's color, never its rank.
+        enum Kind {
+            case felt
+            case impairment
+        }
+
+        var kind: Kind {
+            switch self {
+            case .memory, .coordination: .impairment
+            default: .felt
+            }
+        }
+
+        var displayName: LocalizedStringResource {
+            switch self {
+            case .sedation: "Sedation"
+            case .anxiolysis: "Anxiolysis"
+            case .anticonvulsant: "Anticonvulsant"
+            case .myorelaxation: "Muscle relaxation"
+            case .memory: "Memory"
+            case .coordination: "Coordination"
+            case .hypnotic: "Sleep"
+            }
+        }
+
+        /// One-line course of this effect's tolerance — the row's caption in the ladder. Directions from
+        /// VINK12; "no tolerance detected" (measured, flat) reads differently from "not measured".
+        var courseNote: LocalizedStringResource {
+            switch self {
+            case .sedation: "Fades near-completely in ~2 weeks"
+            case .hypnotic: "The sleep effect tolerizes"
+            case .anxiolysis: "No decline detected"
+            case .anticonvulsant: "Fades slowly and partially, over months"
+            case .myorelaxation: "Develops; rate not quantified"
+            case .memory: "No tolerance detected"
+            case .coordination: "No tolerance detected"
+            }
+        }
+    }
+
+    /// One effect's tolerance kinetics — an adaptive-only ln-shift endpoint driven by the same occupancy
+    /// as the primary layer (no deep layer, no escalation gate), on the effect's own time-constant.
+    /// `adaptiveShiftMax == 0` ⇒ the effect does not tolerize (its shift factor stays ≡ 1). The kinetics
+    /// are literature *directions*, graded by ``evidenceTier`` — a large gap at low confidence, never a
+    /// fitted "recovers in X". Sedation is not an endpoint: it is the class's primary layer.
+    struct EffectEndpoint {
+        let axis: EffectAxis
+        let adaptiveShiftMax: Double
+        let tauAdaptiveMinutes: Double
+        /// Confidence in *this effect's* tolerance direction — distinguishes "no tolerance detected"
+        /// (measured, flat) from "not measured".
+        let evidenceTier: ConfidenceTier
+    }
+
     // MARK: - Per-class parameters
 
     /// Right-shift parameters for one tolerance class: the three log-space layers that sum into
@@ -297,6 +371,15 @@ nonisolated enum ReceptorClasses {
         /// A parallel **differential safety endpoint** (opioid respiratory, stimulant cardiovascular)
         /// that tolerizes on its own kinetics — `nil` for the eight classes without one (Stage C).
         let safetyEndpoint: SafetyEndpoint?
+        /// The **effect ladder** endpoints for a class whose tolerance is effect-selective (GABA, α2δ) —
+        /// each an adaptive-only endpoint on its own kinetics, driven by the same occupancy. Empty for
+        /// the classes whose effects all tolerize together (one gauge suffices). Sedation is *not* here;
+        /// it is the primary layer, and the ladder reads it from the class ``shiftFactor``. Defaulted so
+        /// only the effect-selective classes name it.
+        var effectEndpoints: [EffectEndpoint] = []
+        /// Which effect the **primary layer** represents for a ladder class (GABA → sedation, α2δ →
+        /// sleep) — the ladder's top row, read from ``shiftFactor``. `nil` for non-ladder classes.
+        var primaryEffectAxis: EffectAxis?
 
         /// Whether the class has a meaningful within-session acute (redose) pool.
         var hasAcutePool: Bool {
@@ -409,6 +492,17 @@ nonisolated enum ReceptorClasses {
                     acuteShiftMax: 0, tauAcuteMinutes: 6 * T.hour,
                     adaptiveShiftMax: 0, tauAdaptiveMinutes: 14 * T.day,
                 ),
+                // The effect ladder (VINK12). Sedation is the primary layer. Anxiolysis and the two
+                // impairments do NOT tolerize (adaptive 0) — the escalation trap. Anticonvulsant fades
+                // slowly and partially (months, 30–50%); myorelaxation develops at an unquantified rate.
+                effectEndpoints: [
+                    EffectEndpoint(axis: .anxiolysis, adaptiveShiftMax: 0, tauAdaptiveMinutes: 14 * T.day, evidenceTier: .low),
+                    EffectEndpoint(axis: .anticonvulsant, adaptiveShiftMax: 0.4, tauAdaptiveMinutes: 2 * T.month, evidenceTier: .low),
+                    EffectEndpoint(axis: .myorelaxation, adaptiveShiftMax: 0.5, tauAdaptiveMinutes: 14 * T.day, evidenceTier: .unverified),
+                    EffectEndpoint(axis: .memory, adaptiveShiftMax: 0, tauAdaptiveMinutes: 14 * T.day, evidenceTier: .low),
+                    EffectEndpoint(axis: .coordination, adaptiveShiftMax: 0, tauAdaptiveMinutes: 14 * T.day, evidenceTier: .low),
+                ],
+                primaryEffectAxis: .sedation,
             )
         case .alpha2Delta:
             // Gabapentinoids (gabapentin, pregabalin, phenibut, F-phenibut): hypnotic tolerance
@@ -428,6 +522,14 @@ nonisolated enum ReceptorClasses {
                     acuteShiftMax: 0, tauAcuteMinutes: 6 * T.hour,
                     adaptiveShiftMax: 0, tauAdaptiveMinutes: 10 * T.day,
                 ),
+                // Sleep is the primary layer (well-attested hypnotic tolerance). Anxiolytic tolerance is
+                // unclear → modeled flat at unverified; the impairments do not tolerize.
+                effectEndpoints: [
+                    EffectEndpoint(axis: .anxiolysis, adaptiveShiftMax: 0, tauAdaptiveMinutes: 10 * T.day, evidenceTier: .unverified),
+                    EffectEndpoint(axis: .memory, adaptiveShiftMax: 0, tauAdaptiveMinutes: 10 * T.day, evidenceTier: .low),
+                    EffectEndpoint(axis: .coordination, adaptiveShiftMax: 0, tauAdaptiveMinutes: 10 * T.day, evidenceTier: .low),
+                ],
+                primaryEffectAxis: .hypnotic,
             )
         case .nmdaAntagonist:
             // Ketamine / DXM / MXE: days-scale adaptive shift + a redose pool; cumulative toxicity.
