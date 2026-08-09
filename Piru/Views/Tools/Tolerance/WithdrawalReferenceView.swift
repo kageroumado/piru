@@ -33,59 +33,61 @@ struct WithdrawalReferenceView: View {
 
     var body: some View {
         List {
-            Section {
-                Text("What stopping looks like, at the population level — three things people call \"withdrawal\" that behave differently, and roughly when each starts for drugs like the ones you've logged. Timing is from research populations, not a prediction for you.")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-
-            if let sinceLastDose {
-                sinceLastDoseSection(sinceLastDose)
-            }
-
-            Section("Three kinds of \"withdrawal\"") {
-                ForEach(Self.taxonomy) { entry in
-                    TaxonomyRow(entry: entry)
+            Group {
+                Section {
+                    Text("What stopping looks like, at the population level — three things people call \"withdrawal\" that behave differently, and roughly when each starts for drugs like the ones you've logged. Timing is from research populations, not a prediction for you.")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
-            }
 
-            Section {
-                ForEach(userBands) { band in
-                    TimingRow(band: band, isYours: true)
+                if let sinceLastDose {
+                    sinceLastDoseSection(sinceLastDose)
                 }
-                ForEach(otherBands) { band in
-                    TimingRow(band: band, isYours: false)
+
+                Section("Three kinds of \"withdrawal\"") {
+                    ForEach(Self.taxonomy) { entry in
+                        TaxonomyRow(entry: entry)
+                    }
                 }
-            } header: {
-                Text("When symptoms start")
-            } footer: {
-                Text("Longer-acting drugs delay onset because the drug is still leaving your system. Active metabolites (diazepam, chlordiazepoxide, clonazepam) can push the window later still.")
-            }
 
-            Section {
-                Text("Not medical advice. Stopping a benzodiazepine abruptly after regular use can cause seizures. These are population timings, not a taper plan.")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
+                Section {
+                    ForEach(userBands) { band in
+                        TimingRow(band: band, isYours: true)
+                    }
+                    ForEach(otherBands) { band in
+                        TimingRow(band: band, isYours: false)
+                    }
+                } header: {
+                    Text("When symptoms start")
+                } footer: {
+                    Text("Longer-acting drugs delay onset because the drug is still leaving your system. Active metabolites (diazepam, chlordiazepoxide, clonazepam) can push the window later still.")
+                }
 
-            Section {
-                Link(destination: URL(string: "https://doi.org/10.3390/ijms27031430")!) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Navarrete F, et al. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430.")
-                            .font(.caption2)
-                            .foregroundStyle(Theme.secondaryLabel)
-                        Text("doi:10.3390/ijms27031430")
-                            .font(.caption2)
-                            .foregroundStyle(.tint)
+                Section {
+                    Text("Not medical advice. Stopping a benzodiazepine abruptly after regular use can cause seizures. These are population timings, not a taper plan.")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+
+                Section {
+                    Link(destination: URL(string: "https://doi.org/10.3390/ijms27031430")!) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Navarrete F, et al. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430.")
+                                .font(.caption2)
+                                .foregroundStyle(Theme.secondaryLabel)
+                            Text("doi:10.3390/ijms27031430")
+                                .font(.caption2)
+                                .foregroundStyle(.tint)
+                        }
                     }
                 }
             }
+            .listRowBackground(CardBackground())
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle("If You Stop")
-        .navigationBarTitleDisplayMode(.inline)
+        .appNavigationBar("If You Stop")
         .task {
             loadTrail = await ToleranceStore.shared.loadTrail(for: .gaba, from: allEntries)
         }

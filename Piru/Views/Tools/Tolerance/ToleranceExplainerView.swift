@@ -14,6 +14,7 @@ struct ToleranceExplainerView: View {
                 frameSection
                 timescalesSection
                 crossToleranceSection
+                effectSelectiveSection
                 conditionedSection
                 mechanismSection
                 sourcesSection
@@ -88,6 +89,29 @@ struct ToleranceExplainerView: View {
             )
         } header: {
             Text("Cross-tolerance")
+        }
+    }
+
+    // MARK: - Effect-selective tolerance (the ladder's "why")
+
+    private var effectSelectiveSection: some View {
+        Section {
+            concept(
+                icon: "slider.horizontal.below.square.filled.and.square",
+                tint: .blue,
+                title: "Some effects fade, others don't",
+                body: "For most drugs every effect tolerizes together. Benzodiazepines are the exception: sedation fades almost completely in about two weeks, while the anxiety relief, memory impairment and loss of coordination barely change. That's why the benzodiazepine and gabapentinoid cards show an effect ladder instead of one bar.",
+            )
+            concept(
+                icon: "circle.hexagongrid",
+                tint: .purple,
+                title: "Why — the receptor comes in subtypes",
+                body: "GABA-A is built from several \u{03B1}-subtypes that adapt at different rates. \u{03B1}1 carries sedation and desensitizes (it uncouples, then the receptors are pulled from the synapse); \u{03B1}5 is required for that sedative tolerance to develop at all; \u{03B1}2 and \u{03B1}3, which carry the anxiety relief, don't adapt. So the dose that no longer makes you sleepy impairs your memory and coordination exactly as much as it did on day one — which is how tolerance quietly drives the dose up.",
+            )
+        } header: {
+            Text("Effect-selective tolerance")
+        } footer: {
+            Text("Benzodiazepine effect kinetics: Vinkers & Olivier 2012; Piot & Jovanovic 2026. These are directions from the literature, graded low — not fitted numbers.")
         }
     }
 

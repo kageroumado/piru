@@ -7,52 +7,54 @@ import SwiftUI
 struct InterventionLedgerView: View {
     var body: some View {
         List {
-            Section {
-                Text("Clinical trial evidence for interventions during benzodiazepine discontinuation. Each row is what the study found — not a recommendation.")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-
-            Section("Supported by evidence") {
-                ForEach(Self.supported) { entry in
-                    InterventionRow(entry: entry)
+            Group {
+                Section {
+                    Text("Clinical trial evidence for interventions during benzodiazepine discontinuation. Each row is what the study found — not a recommendation.")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
-            }
 
-            Section("Not supported by evidence") {
-                Text("This half is the more useful half.")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-
-                ForEach(Self.notSupported) { entry in
-                    InterventionRow(entry: entry)
+                Section("Supported by evidence") {
+                    ForEach(Self.supported) { entry in
+                        InterventionRow(entry: entry)
+                    }
                 }
-            }
 
-            Section {
-                Text("Not medical advice. Benzodiazepine discontinuation can be medically dangerous — these are research findings, not a plan.")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
+                Section("Not supported by evidence") {
+                    Text("This half is the more useful half.")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
 
-            Section {
-                Link(destination: URL(string: "https://doi.org/10.3390/ijms27031430")!) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Navarrete F, et al. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430.")
-                            .font(.caption2)
-                            .foregroundStyle(Theme.secondaryLabel)
-                        Text("doi:10.3390/ijms27031430")
-                            .font(.caption2)
-                            .foregroundStyle(.tint)
+                    ForEach(Self.notSupported) { entry in
+                        InterventionRow(entry: entry)
+                    }
+                }
+
+                Section {
+                    Text("Not medical advice. Benzodiazepine discontinuation can be medically dangerous — these are research findings, not a plan.")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+
+                Section {
+                    Link(destination: URL(string: "https://doi.org/10.3390/ijms27031430")!) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Navarrete F, et al. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430.")
+                                .font(.caption2)
+                                .foregroundStyle(Theme.secondaryLabel)
+                            Text("doi:10.3390/ijms27031430")
+                                .font(.caption2)
+                                .foregroundStyle(.tint)
+                        }
                     }
                 }
             }
+            .listRowBackground(CardBackground())
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle("Discontinuation Evidence")
-        .navigationBarTitleDisplayMode(.inline)
+        .appNavigationBar("Discontinuation Evidence")
     }
 }
 

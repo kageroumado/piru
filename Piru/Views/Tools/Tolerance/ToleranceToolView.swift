@@ -56,6 +56,16 @@ struct ToleranceToolView: View {
                         ForEach(rows) { row in
                             Section {
                                 ToleranceCard(row: row, tier: tier)
+                                // Effect-selective classes (GABA, α2δ) link out to the receptor/subtype
+                                // explanation rather than carrying the education on the card itself.
+                                if !row.snapshot.effectShifts.isEmpty {
+                                    NavigationLink {
+                                        ToleranceExplainerView()
+                                    } label: {
+                                        Label("Why these effects differ", systemImage: "questionmark.circle")
+                                            .font(.subheadline)
+                                    }
+                                }
                                 if row.snapshot.receptorClass == .gaba {
                                     GABALoadingCard(
                                         entries: entries,
