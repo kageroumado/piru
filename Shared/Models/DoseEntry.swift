@@ -146,6 +146,14 @@ final class DoseEntry {
     /// every other dose, which keeps the migration additive and lightweight.
     var hadGrapefruit: Bool?
 
+    /// Whether the ``amount`` is the user's *estimate* rather than a measured
+    /// figure — "about half a tab", "a bump", a split capsule eyeballed. Renders
+    /// the amount with a leading `~` so a guess never reads as a precise
+    /// measurement, and nothing else changes: the same curves are drawn off the
+    /// same number, because an approximate amount is still the best number we
+    /// have. Defaults `false`, keeping the field-add a lightweight migration.
+    var isApproximate: Bool = false
+
     /// By-volume input metadata for drinks logged by concentration × volume
     /// (alcohol). ``amount`` remains the canonical grams the PK/ladder run on;
     /// these record *how it was measured* so the dose round-trips as a drink on
@@ -212,6 +220,7 @@ final class DoseEntry {
         latitude: Double? = nil,
         longitude: Double? = nil,
         hadGrapefruit: Bool? = nil,
+        isApproximate: Bool = false,
         volumeML: Double? = nil,
         abv: Double? = nil,
         drinkName: String? = nil,
@@ -234,6 +243,7 @@ final class DoseEntry {
         self.latitude = latitude
         self.longitude = longitude
         self.hadGrapefruit = hadGrapefruit
+        self.isApproximate = isApproximate
         self.volumeML = volumeML
         self.abv = abv
         self.drinkName = drinkName

@@ -178,6 +178,7 @@ struct EntryReadHero: View {
                         MeasurementLabel(
                             amount: entry.amount,
                             unit: entry.unit,
+                            isApproximate: entry.isApproximate,
                             numberStyle: .largeTitle,
                             numberWeight: .bold,
                             unitStyle: .title3,

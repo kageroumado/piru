@@ -26,6 +26,7 @@ struct EntryFormView: View {
     @State private var entryTags: [String] = []
     @State private var location: PickedLocation?
     @State private var showLocationPicker = false
+    @State private var isApproximate = false
 
     // By-volume input (alcohol %ABV → grams). When `byVolumeMode`, the panel owns
     // these and syncs the computed grams into `amount`/`unit` so the dose badge,
@@ -231,6 +232,14 @@ struct EntryFormView: View {
                                     ForEach(currentUnits, id: \.self) { Text($0) }
                                 }
                                 .labelsHidden()
+                            }
+                        }
+                        Toggle(isOn: $isApproximate) {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Approximate amount")
+                                Text("Shows the dose with a ~; the estimate still drives the curves.")
+                                    .font(.caption)
+                                    .foregroundStyle(Theme.secondaryLabel)
                             }
                         }
                         Picker("Route", selection: $route) {
@@ -478,6 +487,7 @@ struct EntryFormView: View {
             entry.substanceUID = selectedSubstance?.substanceUID
             entry.displayNameSnapshot = formDisplayNameSnapshot(release: form.release)
             entry.timestamp = timestamp
+            entry.isApproximate = isApproximate
             entry.notes = finalNotes
             entry.volumeML = byVolume.0
             entry.abv = byVolume.1
@@ -532,6 +542,7 @@ struct EntryFormView: View {
                 locationName: location?.name,
                 latitude: location?.latitude,
                 longitude: location?.longitude,
+                isApproximate: isApproximate,
                 volumeML: byVolume.0,
                 abv: byVolume.1,
                 drinkName: byVolume.2,

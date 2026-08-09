@@ -16,6 +16,9 @@ final class EntryDraft {
     var notes = ""
     var tags: [String] = []
     var location: PickedLocation?
+    /// The amount is an estimate, not a measured figure — carried onto the entry
+    /// and shown as a `~` prefix.
+    var isApproximate = false
 
     // By-volume editing (alcohol %ABV → grams) — mirror of EntryFormView's state.
     var byVolumeMode = false
@@ -79,6 +82,7 @@ final class EntryDraft {
         timestamp = entry.timestamp
         notes = entry.notes ?? ""
         tags = entry.tags
+        isApproximate = entry.isApproximate
         if let name = entry.locationName, let lat = entry.latitude, let lng = entry.longitude {
             location = PickedLocation(name: name, latitude: lat, longitude: lng)
         } else {
