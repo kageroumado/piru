@@ -23093,6 +23093,23 @@
         }
       }
     },
+    "Extended-release" : {
+      "comment" : "Brand picker: the extended-release brand group",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "缓释"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "緩釋"
+          }
+        }
+      }
+    },
     "Extensive metabolizer" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23830,6 +23847,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分子式"
+          }
+        }
+      }
+    },
+    "Formulation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂型"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑型"
           }
         }
       }
@@ -32652,6 +32685,23 @@
         }
       }
     },
+    "More…" : {
+      "comment" : "Brand picker: submenu of niche extended-release brands",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多…"
+          }
+        }
+      }
+    },
     "morning" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -40678,6 +40728,7 @@
     },
     "Racemic" : {
       "comment" : "Isomer picker: the racemic parent form (Pharma Nerd wording)",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -42034,7 +42085,7 @@
       }
     },
     "Regular" : {
-      "comment" : "Isomer picker: the racemic/unspecified parent form",
+      "comment" : "Brand picker: the base immediate-release form\nIsomer picker: the standard/unspecified parent form",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

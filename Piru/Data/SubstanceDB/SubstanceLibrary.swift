@@ -137,6 +137,13 @@ enum SubstanceLibrary {
         SubstanceStore.shared.formTitle(forNameOrAlias: nameOrAlias, isomer: isomer, release: release)
     }
 
+    /// The branded products a substance ships under ("Concerta", "Ritalin LA"),
+    /// keyed by PSID FAMILY `uid`, for the QuickLog brand picker. Raw library value.
+    /// See ``SubstanceStore/brandProducts(forUID:)``.
+    static func brandProducts(forUID uid: String) -> [SubstanceStore.BrandProduct] {
+        SubstanceStore.shared.brandProducts(forUID: uid)
+    }
+
     /// The substances sharing a PSID FAMILY `uid` (a fold family — a racemate and
     /// its enantiomers, or IR and XR), each overlaid with any custom edit. Empty
     /// when the uid is unknown.

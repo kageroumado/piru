@@ -39,6 +39,11 @@ T = {
     # ---- Label scanner (camera → QuickLog) ----
     "Regular": ("常规", "常規"),
     "Racemic": ("外消旋", "外消旋"),
+    # QuickLog "Form" pill accessibility label — the isomer × release form selector.
+    "Formulation": ("剂型", "劑型"),
+    # QuickLog brand picker — release group + niche-brand submenu.
+    "Extended-release": ("缓释", "緩釋"),
+    "More…": ("更多…", "更多…"),
     "Scan a label": ("扫描标签", "掃描標籤"),
     "Close scanner": ("关闭扫描", "關閉掃描"),
     "Point at the medication name or its barcode": ("对准药品名称或条形码", "對準藥品名稱或條碼"),
@@ -6872,6 +6877,11 @@ if __name__ == "__main__":
         # Isomer picker racemic-parent label (CLI-added).
         "Regular",
         "Racemic",
+        # QuickLog "Form" pill accessibility label (CLI-added).
+        "Formulation",
+        # QuickLog brand picker (CLI-added).
+        "Extended-release",
+        "More…",
         # Usage insights: common-dose ranking + trends metric (CLI-added).
         "Ranked by how often, or by total common-dose units",
         "Common doses",

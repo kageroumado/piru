@@ -113,6 +113,16 @@ struct StagedDose: Identifiable, Equatable {
     /// Selected stereoisomer form (D/S/L/R). `nil` = racemic/unspecified — the
     /// common case; set for the handful of isomer families (Focalin, Esketamine…).
     var isomer: String?
+    /// The release form this dose records — "Concerta" is Methylphenidate, but the
+    /// XR product, so it records `"XR"`. `nil` = standard/unspecified.
+    ///
+    /// Seeded at staging from the name (see the `init`), so a searched brand keeps
+    /// its form with no picker interaction; settable by the "Form" pill for the
+    /// bare-molecule path. It must be resolved by log time: a committed dose gets
+    /// its uid at commit, so the (`substanceUID == nil`)-gated backfill never
+    /// revisits it, and by then the typed string is gone — a Concerta dose that
+    /// commits without its form is byte-identical to a Ritalin one, forever.
+    var releaseForm: String?
     /// The name the user named this dose by — the alias their search matched
     /// ("Concerta"), or the literal string a daily item was saved under. `nil`
     /// when they named the canonical substance.
@@ -161,6 +171,11 @@ struct StagedDose: Identifiable, Equatable {
         self.route = route
         self.saltForm = saltForm
         self.isomer = isomer
+        // Seed the release form from the name the dose was staged by ("Concerta" →
+        // "XR"), matching what the alias table records; the "Form" pill overrides it
+        // on the bare-molecule path. `productName` leads: `substanceName` is
+        // canonicalized at staging, so it names no form and would always answer nil.
+        self.releaseForm = SubstanceLibrary.releaseForm(for: productName ?? substanceName)
         self.productName = productName
         self.colorHex = colorHex
         self.librarySubstance = librarySubstance
@@ -221,25 +236,6 @@ struct StagedDose: Identifiable, Equatable {
     /// dose so it carries a stable identity from log time (not only via backfill).
     var substanceUID: String? {
         librarySubstance?.substanceUID
-    }
-
-    /// The release form the staged dose names — "Concerta" is Methylphenidate, but
-    /// it is the XR product, so the committed dose records `"XR"`. Derived, not
-    /// stored: with no release picker there is nothing for a user to choose, so the
-    /// name is the only source.
-    ///
-    /// Resolves `productName` **first**. `substanceName` is canonicalized the moment
-    /// a search hit is staged (`QuickLogSearchResults.payload(for:)`), so asking it
-    /// about a release form asks the wrong string: "Concerta" has already become
-    /// "Methylphenidate", which names no form, and the answer is always `nil`. Only
-    /// the daily-item path — which stages the user's literal string — ever worked.
-    ///
-    /// This has to happen at log time. A committed dose gets its uid here, so the
-    /// (`substanceUID == nil`)-gated backfill will never revisit it, and by then the
-    /// typed string is gone: a Concerta dose that commits without its form is
-    /// byte-identical to a Ritalin one, forever.
-    var releaseForm: String? {
-        SubstanceLibrary.releaseForm(for: productName ?? substanceName)
     }
 
     /// The locale-stable identity anchor to snapshot onto the committed dose —
