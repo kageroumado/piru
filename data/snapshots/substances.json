@@ -6863,8 +6863,8 @@
     "mechanism_summary": "A small-molecule agonist of TrkB — the receptor for brain-derived neurotrophic factor (BDNF) — that activates TrkB signaling directly, mimicking BDNF. A synthetic 7,8-DHF derivative with higher potency and longer action than the parent.",
     "effects": [],
     "references": [
-      "https://doi.org/10.1021/jm101206p",
-      "https://doi.org/10.1093/hmg/ddt098",
+      "A Synthetic 7,8-Dihydroxyflavone Derivative Promotes Neurogenesis and Exhibits Potent Antidepressant Effect",
+      "Small-molecule TrkB receptor agonists improve motor function and extend survival in a mouse model of Huntington's disease",
       "https://en.wikipedia.org/wiki/7,8-Dihydroxyflavone"
     ],
     "data_gaps": [
@@ -58815,7 +58815,7 @@
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/021368s20s21lbl.pdf",
-      "https://doi.org/10.1111/j.1365-2125.2005.02553.x",
+      "Tadalafil pharmacokinetics in healthy subjects",
       "https://en.wikipedia.org/wiki/Tadalafil"
     ],
     "data_gaps": []
