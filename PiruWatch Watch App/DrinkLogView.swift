@@ -49,14 +49,8 @@ struct DrinkVolumeView: View {
     @Environment(WatchSyncCoordinator.self) private var sync
     @Environment(\.dismiss) private var dismiss
     @State private var volumeML: Double = 0
-    /// Raw Crown accumulator, snapped to ``volumeML`` in 10 mL steps.
     @State private var volumeCrown: Double = 0
     @State private var abv: Double = 0
-    /// The Crown drives whichever element has focus. The ABV ± and Log buttons are
-    /// focusable siblings, so focus must be pinned to the volume control or the Crown
-    /// has no focused view to drive — `.defaultFocus` claims it on appear (mutating
-    /// this in `onAppear` loses the race to the buttons when pushed from a List), and
-    /// the button actions hand it back after a tap.
     @FocusState private var volumeFocused: Bool
     /// Shows the "Logged" confirmation, then returns to the grid.
     @State private var confirming = false
@@ -89,20 +83,23 @@ struct DrinkVolumeView: View {
             .padding(.top, 2)
         }
         .focusable()
-        .focused($volumeFocused)
-        .defaultFocus($volumeFocused, true)
         .digitalCrownRotation(
             $volumeCrown,
-            from: 0,
+            // Anchor the detent grid to the preset's residue so its haptic clicks
+            // land exactly on the 10 mL snap steps (355 / 365 / 345, not offset
+            // 350 / 360). `.high` sensitivity keeps a normal turn moving through
+            // steps — over this wide range `.low` barely moved and stuck at 355.
+            from: preset.volumeML.truncatingRemainder(dividingBy: Self.volumeStepML),
             through: 2_000,
             by: Self.volumeStepML,
-            sensitivity: .low,
+            sensitivity: .high,
             isContinuous: false,
             isHapticFeedbackEnabled: true,
         )
+        .focused($volumeFocused)
+        .defaultFocus($volumeFocused, true)
         .onChange(of: volumeCrown) { _, raw in
-            // Snap to 10 mL steps anchored to the preset volume, so a 44 mL shot
-            // nudges 34 / 44 / 54 rather than a jittery 41.7.
+            // Snap to 10 mL steps anchored to the preset volume.
             let steps = ((raw - preset.volumeML) / Self.volumeStepML).rounded()
             volumeML = max(0, preset.volumeML + steps * Self.volumeStepML)
         }
@@ -124,7 +121,8 @@ struct DrinkVolumeView: View {
 
     private var abvStepper: some View {
         HStack(spacing: 8) {
-            // Return focus to the volume Crown after a tap, so it stays adjustable.
+            // Tapping a stepper moves focus to it; hand focus back so the Crown keeps
+            // driving the volume.
             Button { abv = max(0.5, abv - 0.5); volumeFocused = true } label: { Image(systemName: "minus") }
             Text("\(WatchDoseFormat.amount(abv))% ABV")
                 .font(.caption)

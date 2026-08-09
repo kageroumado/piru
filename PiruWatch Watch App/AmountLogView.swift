@@ -12,10 +12,6 @@ struct AmountLogView: View {
     @State private var amount: Double = 0
     /// The raw Crown accumulator, snapped to ``amount`` on change.
     @State private var crown: Double = 0
-    /// Pins Crown focus to this view rather than the sibling Log button, so the Crown
-    /// always has a focused view to drive. `.defaultFocus` claims it deterministically
-    /// on appear.
-    @FocusState private var amountFocused: Bool
     /// Shows the "Logged" confirmation, then returns to the grid.
     @State private var confirming = false
 
@@ -43,8 +39,6 @@ struct AmountLogView: View {
             .padding(.top, 4)
         }
         .focusable()
-        .focused($amountFocused)
-        .defaultFocus($amountFocused, true)
         .digitalCrownRotation(
             $crown,
             from: 0,
