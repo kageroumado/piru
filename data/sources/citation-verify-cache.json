@@ -2228,6 +2228,12 @@
   "title": "Structure-activity relationships for a novel series of citalopram (1-(3-(dimethylamino)propyl)-1-(4-fluorophenyl)-1,3-dihydroisobenzofuran-5-carbonitrile) analogues at monoamine transporters",
   "year": "2010"
  },
+ "doi:10.1021/jm101206p": {
+  "journal": "Journal of Medicinal Chemistry",
+  "subjects": [],
+  "title": "A Synthetic 7,8-Dihydroxyflavone Derivative Promotes Neurogenesis and Exhibits Potent Antidepressant Effect",
+  "year": 2010
+ },
  "doi:10.1021/jm2003238": {
   "journal": "Journal of medicinal chemistry",
   "subjects": [],
@@ -2542,6 +2548,12 @@
   "subjects": [],
   "title": "Dasotraline for the Treatment of Attention-Deficit/Hyperactivity Disorder: A Randomized, Double-Blind, Placebo-Controlled, Proof-of-Concept Trial in Adults",
   "year": "2015"
+ },
+ "doi:10.1038/npp.2016.75": {
+  "journal": "Neuropsychopharmacology : official publication of the American College of Neuropsychopharmacology",
+  "subjects": [],
+  "title": "Human Pharmacology of Mephedrone in Comparison with MDMA",
+  "year": "2016"
  },
  "doi:10.1038/npp.2017.98": {
   "journal": "Neuropsychopharmacology",
@@ -3235,6 +3247,12 @@
   "title": "The Effects of Graded Levels of Calorie Restriction: XX. Impact of Long-Term Graded Calorie Restriction on Survival and Body Mass Dynamics in Male C57BL/6J Mice",
   "year": "2023"
  },
+ "doi:10.1093/hmg/ddt098": {
+  "journal": "Human Molecular Genetics",
+  "subjects": [],
+  "title": "Small-molecule TrkB receptor agonists improve motor function and extend survival in a mouse model of Huntington's disease",
+  "year": 2013
+ },
  "doi:10.1093/ijnp/pyv072": {
   "journal": "International Journal of Neuropsychopharmacology",
   "subjects": [],
@@ -3899,6 +3917,12 @@
   "journal": "British journal of clinical pharmacology",
   "subjects": [],
   "title": "Effects of cytochrome P450 3A modulators ketoconazole and carbamazepine on quetiapine pharmacokinetics",
+  "year": "2006"
+ },
+ "doi:10.1111/j.1365-2125.2005.02553.x": {
+  "journal": "British journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Tadalafil pharmacokinetics in healthy subjects",
   "year": "2006"
  },
  "doi:10.1111/j.1365-2125.2009.03398.x": {
@@ -6940,6 +6964,12 @@
   "title": "New cannabidiol derivatives: synthesis, binding to cannabinoid receptor, and evaluation of their antiinflammatory activity.",
   "year": "2006"
  },
+ "pmid:16487221": {
+  "journal": "British journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Tadalafil pharmacokinetics in healthy subjects.",
+  "year": "2006"
+ },
  "pmid:16510126": {
   "journal": "Biochemical pharmacology",
   "subjects": [],
@@ -8956,6 +8986,12 @@
   "subjects": [],
   "title": "NMDAR inhibition-independent antidepressant actions of ketamine metabolites.",
   "year": "2016"
+ },
+ "pmid:27156124": {
+  "journal": "Annals of emergency medicine",
+  "subjects": [],
+  "title": "Acute Toxicity Associated With the Recreational Use of the Novel Psychoactive Benzofuran N-methyl-5-(2 aminopropyl)benzofuran.",
+  "year": "2017"
  },
  "pmid:27192616": {
   "journal": "Journal of the American Chemical Society",
