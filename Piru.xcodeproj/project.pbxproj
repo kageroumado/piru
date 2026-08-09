@@ -645,7 +645,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.watchkitapp.complication;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.watchkitapp.complications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -677,7 +677,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.watchkitapp.complication;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.watchkitapp.complications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
