@@ -123,6 +123,14 @@ enum SubstanceLibrary {
         SubstanceStore.shared.productStrengths(forProduct: name)
     }
 
+    /// The duration-of-effect envelope for a logged product name ("Concerta" →
+    /// ~12 h), or `nil` for a name that isn't an authored extended-release
+    /// formulation. Lets the timeline draw an ER brand's own curve rather than the
+    /// parent's immediate-release one — see ``SubstanceStore/productDuration(forProduct:)``.
+    static func productDuration(for name: String) -> DurationProfile? {
+        SubstanceStore.shared.productDuration(forProduct: name)
+    }
+
     /// ``formTitle(for:)`` with the facets a logged dose recorded, rather than the
     /// ones its name implies — see ``SubstanceStore/formTitle(forNameOrAlias:isomer:release:)``.
     static func formTitle(for nameOrAlias: String, isomer: String?, release: String?) -> String? {

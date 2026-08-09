@@ -4,12 +4,16 @@ import Testing
 
 /// D.4 — a dose that names a form we don't model draws a marker, not a curve.
 ///
-/// See `Specs/psid-identity-consumption.md` LB-5/LB-6. The rule is uniform: any
-/// release form other than the standard one is denied curve resolution in
+/// See `Specs/psid-identity-consumption.md` LB-5/LB-6. The rule: a release form
+/// other than the standard one is denied the base curve in
 /// `ActiveSubstanceCalculator.from(entry:)`, because it would answer with the
-/// base form's kinetics. (That resolution was two tiers when these tests were
-/// written; the half-life tier has since been removed outright, so several of
-/// the nets below now hold for two independent reasons.)
+/// base form's kinetics. **The exception (adhd-audience-fit):** a named ER
+/// *product* with an authored `product_durations` envelope (Concerta, Adderall
+/// XR) is modeled per-product and draws its own curve — see `ProductDurationTests`.
+/// So the unmodeled exemplar here is a bare `XR` naming no known product, which we
+/// genuinely can't place. (Curve resolution was two tiers when these tests were
+/// written; the half-life tier has since been removed, so several nets below now
+/// hold for two independent reasons.)
 @Suite("Unmodeled release forms")
 @MainActor
 struct UnmodeledReleaseFormTests {
@@ -45,11 +49,13 @@ struct UnmodeledReleaseFormTests {
     // MARK: - Tier 1: a substance that HAS durations
 
     @Test
-    func `Concerta draws no curve`() {
-        // Methylphenidate has 38 duration rows — all of them Ritalin's 150–240 min
-        // immediate-release profile. Drawing it under an XR dose says the Concerta
-        // is finished in three hours.
-        let state = ActiveSubstanceState.from(entry: entry("Methylphenidate", releaseForm: "XR", productName: "Concerta"), colorHex: "#FF0000")
+    func `An XR naming no known product draws no curve`() {
+        // Methylphenidate's duration rows are all the ~150–240 min immediate-release
+        // profile. A dose tagged XR but naming no product we've authored could be any
+        // of several formulations (Concerta 12 h, Ritalin LA 8 h…), so we draw
+        // nothing rather than the IR curve. (A *named* Concerta draws — see
+        // `ProductDurationTests`.)
+        let state = ActiveSubstanceState.from(entry: entry("Methylphenidate", releaseForm: "XR"), colorHex: "#FF0000")
         #expect(state == nil)
     }
 
@@ -122,7 +128,7 @@ struct UnmodeledReleaseFormTests {
         // Supplements drop off the graph entirely; a release form must not. The
         // user took a real psychoactive dose and the timestamp is the whole point
         // of what's left.
-        let doses = [entry("Methylphenidate", releaseForm: "XR", productName: "Concerta")]
+        let doses = [entry("Methylphenidate", releaseForm: "XR")]
         let timeline = ActiveSubstanceState.timeline(for: doses, colors: [])
         #expect(timeline.states.isEmpty)
         #expect(timeline.markers.count == 1)
@@ -131,7 +137,7 @@ struct UnmodeledReleaseFormTests {
     @Test
     func `A mixed day keeps the modeled curve and marks the rest`() {
         let doses = [
-            entry("Methylphenidate", releaseForm: "XR", productName: "Concerta"),
+            entry("Methylphenidate", releaseForm: "XR"),
             entry("Caffeine", amount: 100),
         ]
         let timeline = ActiveSubstanceState.timeline(for: doses, colors: [])
@@ -148,7 +154,7 @@ struct UnmodeledReleaseFormTests {
         // comes from the route's immediate-release profile, so a dose released
         // over ~10 h would be modelled as landing at once, and the "clear ~X" time
         // it prints has no basis. Better nothing than misleading.
-        let doses = [entry("Methylphenidate", releaseForm: "XR", productName: "Concerta")]
+        let doses = [entry("Methylphenidate", releaseForm: "XR")]
         #expect(ActiveSubstanceCalculator.compute(from: doses, colorMap: [:]).isEmpty)
     }
 
@@ -161,7 +167,7 @@ struct UnmodeledReleaseFormTests {
     @Test
     func `An unmodeled dose does not suppress its neighbors' body load`() {
         let doses = [
-            entry("Methylphenidate", releaseForm: "XR", productName: "Concerta"),
+            entry("Methylphenidate", releaseForm: "XR"),
             entry("Caffeine", amount: 100),
         ]
         let active = ActiveSubstanceCalculator.compute(from: doses, colorMap: [:])
@@ -177,7 +183,7 @@ struct UnmodeledReleaseFormTests {
         // deliberately decoupled from the graph gate (and falling back to a 24 h
         // safety window). Suppressing the curve must never suppress a warning —
         // this is exactly the kind of decoupling a later "cleanup" would collapse.
-        let concerta = entry("Methylphenidate", releaseForm: "XR", productName: "Concerta")
+        let concerta = entry("Methylphenidate", releaseForm: "XR")
         #expect(InteractionChecker.activeEntries(from: [concerta]).count == 1)
     }
 

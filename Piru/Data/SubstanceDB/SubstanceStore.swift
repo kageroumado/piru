@@ -219,6 +219,13 @@ final class SubstanceStore {
     /// small separate read so its absence in an older bundled DB degrades to "no
     /// chips" rather than failing the whole index build.
     private(set) var productStrengthIndex: [String: ProductStrengths] = [:]
+    /// Lowercased product name → its duration-of-effect envelope
+    /// (`product_durations`). Lets an extended-release brand ("concerta",
+    /// "adderall xr") draw a curve of the labeled length instead of its parent's
+    /// immediate-release curve. Keyed by the specific product, not the release-form
+    /// umbrella. Built at load by a small separate read so its absence in an older
+    /// bundled DB degrades to "base curve / marker" rather than failing the build.
+    private(set) var productDurationIndex: [String: DurationProfile] = [:]
     /// Composed form titles from `substance_forms` — "Methylphenidate",
     /// "Methylphenidate XR", "Dexmethylphenidate XR" (the cross-axis Focalin XR
     /// form), "Naltrexone Depot". The build composes these once, so the app never
@@ -770,6 +777,37 @@ final class SubstanceStore {
             self.productStrengthIndex = index
         } catch {
             logger.warning("buildIndexes: product_strengths unavailable (\(error.localizedDescription, privacy: .public)) — pill chips disabled")
+        }
+
+        // Per-product duration envelopes (`product_durations`), read separately for
+        // the same reason: an older bundled DB predating the table degrades to the
+        // base curve / timestamp marker rather than failing the whole index build.
+        do {
+            let rows = try substancesDB.read { db in
+                try Row.fetchAll(db, sql: """
+                SELECT product_normalized, route,
+                       onset_min, onset_max, comeup_min, comeup_max,
+                       peak_min, peak_max, offset_min, offset_max,
+                       afterglow_min, afterglow_max, total_min, total_max
+                  FROM product_durations
+                """)
+            }
+            func range(_ row: Row, _ phase: String) -> DurationRange? {
+                guard let lo = row["\(phase)_min"] as Double?,
+                      let hi = row["\(phase)_max"] as Double? else { return nil }
+                return DurationRange(min: lo, max: hi)
+            }
+            var index: [String: DurationProfile] = [:]
+            for row in rows {
+                index[row["product_normalized"] as String] = DurationProfile(
+                    onset: range(row, "onset"), comeup: range(row, "comeup"),
+                    peak: range(row, "peak"), offset: range(row, "offset"),
+                    afterglow: range(row, "afterglow"), total: range(row, "total"),
+                )
+            }
+            self.productDurationIndex = index
+        } catch {
+            logger.warning("buildIndexes: product_durations unavailable (\(error.localizedDescription, privacy: .public)) — extended-release curves fall back")
         }
     }
 

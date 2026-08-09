@@ -42,4 +42,23 @@ extension DoseEntry {
     /// release. Everything else — `XR`, `DEP`, and any future extended/delayed
     /// system — stays unmodeled and renders as a timestamp marker.
     nonisolated static let modeledReleaseForms: Set<String> = ["0", "IR"]
+
+    /// The authored duration-of-effect envelope this dose draws when it names an
+    /// extended-release *product* we model per-product ("Concerta" → ~12 h,
+    /// "Adderall XR" → ~11 h) — the `product_durations` table. `nil` for a plain
+    /// dose, or an unmodeled form with no authored envelope. Keyed by the product
+    /// name, so it resolves the umbrella `XR` code to the specific formulation.
+    /// Main-actor: it reads the ``SubstanceLibrary`` product index.
+    @MainActor var productDuration: DurationProfile? {
+        guard let productName, !productName.isEmpty else { return nil }
+        return SubstanceLibrary.productDuration(for: productName)
+    }
+
+    /// Whether this dose draws no acute curve at all: it names a form the base
+    /// ladder doesn't describe (``namesUnmodeledForm``) *and* has no per-product
+    /// envelope to draw instead. A named ER product with an authored duration is
+    /// modeled after all, so it draws its own curve rather than a bare marker.
+    @MainActor var drawsNoAcuteCurve: Bool {
+        namesUnmodeledForm && productDuration == nil
+    }
 }

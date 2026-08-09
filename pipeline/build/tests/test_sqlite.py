@@ -1062,6 +1062,25 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         v = self.db.execute("select value from manifest where key='schema_version'").fetchone()
         self.assertEqual(v["value"], "6")
 
+    def test_product_durations_seeded(self):
+        """Extended-release brands carry a per-product duration-of-effect envelope
+        (product-durations.json), keyed by the specific product so 'XR' resolves to
+        the right formulation, with the parent resolved for the coverage gate."""
+        rows = {
+            r["product_normalized"]: r
+            for r in self.db.execute(
+                "select product_normalized, substance_id, total_min, total_max "
+                "from product_durations"
+            )
+        }
+        self.assertIn("concerta", rows)
+        self.assertIn("adderall xr", rows)
+        # Concerta's ~11–12 h envelope, far past methylphenidate IR's ~3–5 h.
+        self.assertGreaterEqual(rows["concerta"]["total_max"], 660)
+        # Every seeded product resolved its parent (else it's dead data).
+        for r in rows.values():
+            self.assertIsNotNone(r["substance_id"])
+
     def test_physicochemical_columns_present(self):
         """Stage 0 adds the forensic chem columns (NULL until Stage 1 fills them)."""
         cols = {c["name"] for c in self.db.execute("PRAGMA table_info(substances)")}

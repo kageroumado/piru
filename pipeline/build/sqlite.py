@@ -732,6 +732,29 @@ CREATE TABLE product_strengths (
     strengths_mg       TEXT NOT NULL
 );
 
+-- Per-product duration-of-EFFECT envelopes (product-durations.json) — so an
+-- extended-release brand ("Concerta", "Adderall XR") draws a curve of the labeled
+-- LENGTH instead of its parent's immediate-release curve (or nothing, when the
+-- release form is otherwise unmodeled). Keyed by the specific product name, NOT the
+-- release-form umbrella (Concerta ~12 h ≠ Ritalin LA ~8 h ≠ Adderall XR ~11 h, all
+-- 'XR'). Phases in minutes; a NULL phase means "not authored" (the app omits it).
+-- These are duration-of-action envelopes (labeled efficacy hours / clinical
+-- convention), NOT the plasma trace — for stimulants effect is dissociated from
+-- plasma. Read by SubstanceStore.productDuration(forProduct:) keyed on
+-- `product_normalized`; `substance_id` ties it to the parent for the coverage gate.
+CREATE TABLE product_durations (
+    product_normalized TEXT PRIMARY KEY,
+    product            TEXT NOT NULL,
+    substance_id       INTEGER REFERENCES substances(id),
+    route              TEXT NOT NULL,
+    onset_min          REAL, onset_max          REAL,
+    comeup_min         REAL, comeup_max         REAL,
+    peak_min           REAL, peak_max           REAL,
+    offset_min         REAL, offset_max         REAL,
+    afterglow_min      REAL, afterglow_max      REAL,
+    total_min          REAL, total_max          REAL
+);
+
 CREATE TABLE categories (
     substance_id INTEGER NOT NULL REFERENCES substances(id),
     source_id    INTEGER NOT NULL REFERENCES sources(id),
@@ -8636,6 +8659,54 @@ class Build:
             "product_strengths_missing_parent": len(missing_parent),
         }
 
+    def build_product_durations(self) -> dict[str, int]:
+        """Load per-product duration-of-effect envelopes (product-durations.json)
+        into `product_durations`, so an extended-release brand draws a curve of the
+        labeled length rather than its parent's IR curve.
+
+        Same keying discipline as build_product_strengths(): a plain lowercased
+        product name, deliberately NOT normalise() (so 'Ritalin LA' stays distinct
+        from 'Ritalin'), with `substance_id` tying the product to its parent for the
+        coverage gate (a product whose parent is absent is dead data — skipped and
+        reported, not failed). Phases are read in minutes; an omitted phase is
+        stored NULL and the app leaves it out of the profile."""
+        phases = ["onset", "comeup", "peak", "offset", "afterglow", "total"]
+        inserted, missing_parent = 0, []
+        for row in collision_registry.product_durations_registry():
+            parent, product = row["parent"], row["product"]
+            route = row.get("route", "oral")
+            prow = self.cur.execute(
+                "SELECT id FROM substances WHERE canonical_name=?", (parent,)
+            ).fetchone()
+            if prow is None:
+                missing_parent.append(f"{product} ({parent})")
+                continue
+            dur = row.get("duration", {})
+            values = [product.lower().strip(), product, prow[0], route]
+            for phase in phases:
+                p = dur.get(phase) or {}
+                values.append(p.get("min"))
+                values.append(p.get("max"))
+            cols = "product_normalized, product, substance_id, route, " + ", ".join(
+                f"{phase}_min, {phase}_max" for phase in phases
+            )
+            placeholders = ",".join(["?"] * len(values))
+            self.cur.execute(
+                f"INSERT OR REPLACE INTO product_durations ({cols}) VALUES ({placeholders})",
+                values,
+            )
+            inserted += 1
+        if missing_parent:
+            print(
+                f"  product durations: {len(missing_parent)} product(s) whose parent "
+                f"substance is absent, skipped: {', '.join(missing_parent)}",
+                file=sys.stderr,
+            )
+        return {
+            "product_durations": inserted,
+            "product_durations_missing_parent": len(missing_parent),
+        }
+
     def build_substance_forms(self) -> dict[str, int]:
         """Enumerate `substance_forms` — one row per distinct (uid, stereo, salt,
         release) the catalog knows, each with a composed check-valid PSID and a
@@ -10651,6 +10722,8 @@ def main() -> int:
     print(f"Substance forms enumerated: {forms}", file=sys.stderr)
     strengths = build.build_product_strengths()
     print(f"Product strengths: {strengths}", file=sys.stderr)
+    product_durations = build.build_product_durations()
+    print(f"Product durations: {product_durations}", file=sys.stderr)
     alias_collisions = build.audit_alias_collisions()
     print(f"Alias-collision audit: {alias_collisions}", file=sys.stderr)
 

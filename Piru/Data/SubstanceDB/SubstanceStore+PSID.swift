@@ -29,6 +29,15 @@ extension SubstanceStore {
     func productStrengths(forProduct name: String) -> ProductStrengths? {
         productStrengthIndex[name.lowercased().trimmingCharacters(in: .whitespaces)]
     }
+
+    /// The duration-of-effect envelope for a named product ("Concerta" → ~12 h),
+    /// or `nil` when the product isn't an authored extended-release formulation.
+    /// Keyed by the plain lowercased product name (Concerta ≠ Ritalin LA ≠ Adderall
+    /// XR, even though all are "XR"). Lets an ER brand draw a real curve instead of
+    /// the parent's IR curve — see `product_durations`.
+    func productDuration(forProduct name: String) -> DurationProfile? {
+        productDurationIndex[name.lowercased().trimmingCharacters(in: .whitespaces)]
+    }
     /// The PSID FAMILY (`substance_uid`) for a substance named or aliased
     /// `nameOrAlias`, or `nil` when the name doesn't resolve or the row has no uid.
     ///

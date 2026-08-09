@@ -341,7 +341,10 @@ final class ActiveSessionManager {
     // MARK: - Private
 
     static func resolveDuration(substance: Substance?, entry: DoseEntry) -> DurationProfile? {
-        resolveDuration(substance: substance, route: entry.route, namesUnmodeledForm: entry.namesUnmodeledForm)
+        // A named ER product (Concerta, Adderall XR) opens its active-session window
+        // from its own authored envelope rather than getting no window at all.
+        if let productDuration = entry.productDuration { return productDuration }
+        return resolveDuration(substance: substance, route: entry.route, namesUnmodeledForm: entry.namesUnmodeledForm)
     }
 
     static func resolveDuration(

@@ -159,9 +159,19 @@ struct DoseTitleTests {
     @Test
     func `An unmodeled dose gets no rail`() {
         // `totalMinutes` nil ⇒ EntryRowView omits the elimination rail and its
-        // countdown, matching the graph, which marks rather than draws it.
-        let cores = DayEntryCore.make(from: [entry("Methylphenidate", releaseForm: "XR", productName: "Concerta")])
+        // countdown, matching the graph, which marks rather than draws it. A bare XR
+        // naming no known product is the unmodeled case (a *named* Concerta now
+        // carries its authored envelope — see below).
+        let cores = DayEntryCore.make(from: [entry("Methylphenidate", releaseForm: "XR")])
         #expect(cores.first?.totalMinutes == nil)
+    }
+
+    @Test
+    func `A named ER product gets a rail of its own length`() {
+        // Concerta resolves its ~12 h product-duration envelope, so the row draws a
+        // rail — far longer than methylphenidate IR's ~3–5 h (adhd-audience-fit).
+        let cores = DayEntryCore.make(from: [entry("Methylphenidate", releaseForm: "XR", productName: "Concerta")])
+        #expect((cores.first?.totalMinutes ?? 0) >= 600)
     }
 
     @Test
