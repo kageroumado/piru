@@ -88,7 +88,6 @@ struct JournalOptionsMenu: View {
                 // only way in from the Journal.
                 actionRow(.myMeds, title: Text("My Meds"), systemImage: "pills")
             }
-            .padding(.vertical, 4)
 
             Divider()
 
@@ -96,7 +95,7 @@ struct JournalOptionsMenu: View {
                 actionRow(.settings, title: Text("Settings"), systemImage: "gearshape")
                 actionRow(.help, title: Text("Help"), systemImage: "lifepreserver")
             }
-            .padding(.vertical, 4)
+            .padding(.bottom, 8)
         }
         .frame(width: 296)
     }
@@ -141,16 +140,20 @@ struct JournalOptionsMenu: View {
         Button {
             onAction(action)
         } label: {
-            HStack(spacing: 10) {
+            HStack(spacing: 12) {
                 Image(systemName: systemImage)
+                    .font(.body)
                     .foregroundStyle(Theme.accent)
                     .frame(width: 24)
                 title
+                    .font(.body)
                     .foregroundStyle(.primary)
                 Spacer(minLength: 0)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 9)
+            .padding(.leading, 28)
+            .padding(.trailing, 16)
+            .frame(maxWidth: .infinity)
+            .frame(height: 42)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
