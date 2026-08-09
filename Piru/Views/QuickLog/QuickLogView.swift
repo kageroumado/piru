@@ -313,7 +313,7 @@ struct QuickLogView: View {
     }
 
     private func stagedQuantity(_ item: DailyDoseItem) -> Int {
-        tray.quantity(substance: item.substance, route: item.route, amount: item.amount, unit: item.unit)
+        tray.quantity(substance: item.substance, productName: item.productName, route: item.route, amount: item.amount, unit: item.unit)
     }
 
     /// Stage every item of the named routine, exactly as if its pill were
