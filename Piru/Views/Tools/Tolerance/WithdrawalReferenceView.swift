@@ -35,7 +35,7 @@ struct WithdrawalReferenceView: View {
         List {
             Group {
                 Section {
-                    Text("What stopping looks like, at the population level — three things people call \"withdrawal\" that behave differently, and roughly when each starts for drugs like the ones you've logged. Timing is from research populations, not a prediction for you.")
+                    Text("Three things people call \"withdrawal\" that behave differently, and roughly when each starts for drugs like the ones you've logged.")
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
@@ -64,9 +64,14 @@ struct WithdrawalReferenceView: View {
                 }
 
                 Section {
-                    Text("Not medical advice. Stopping a benzodiazepine abruptly after regular use can cause seizures. These are population timings, not a taper plan.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                    Label {
+                        Text("A model of your dose log, not medical advice. Stopping a benzodiazepine abruptly after regular use can cause seizures.")
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    } icon: {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundStyle(.orange)
+                    }
                 }
 
                 Section {

@@ -31,9 +31,14 @@ struct InterventionLedgerView: View {
                 }
 
                 Section {
-                    Text("Not medical advice. Benzodiazepine discontinuation can be medically dangerous — these are research findings, not a plan.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                    Label {
+                        Text("Research findings, not medical advice. Benzodiazepine discontinuation can be medically dangerous.")
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    } icon: {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundStyle(.orange)
+                    }
                 }
 
                 Section {
