@@ -33,6 +33,7 @@ _ISOMER_FAMILIES = _REGISTRY.parent / "isomer-families.json"
 _RELEASE_FAMILIES = _REGISTRY.parent / "release-families.json"
 _BRANDS = _REGISTRY.parent / "brands.json"
 _PRODUCT_STRENGTHS = _REGISTRY.parent / "product-strengths.json"
+_PRODUCT_DURATIONS = _REGISTRY.parent / "product-durations.json"
 
 
 def load() -> dict:
@@ -80,6 +81,21 @@ def product_strengths_registry() -> list[dict]:
     if not _PRODUCT_STRENGTHS.exists():
         return []
     return json.loads(_PRODUCT_STRENGTHS.read_text()).get("products", [])
+
+
+def product_durations_registry() -> list[dict]:
+    """Curated per-product duration-of-effect envelopes (from product-durations.json):
+    ``[{parent, product, route, duration:{onset,comeup,peak,offset,afterglow,total}}, ...]``,
+    phases in minutes.
+
+    So an extended-release brand (Concerta, Adderall XR…) draws a curve of the
+    labeled LENGTH rather than its parent's immediate-release curve. Keyed by the
+    specific product name, not the release-form umbrella (Concerta ≠ Ritalin LA ≠
+    Adderall XR all being 'XR'). Consumed by sqlite.py build_product_durations().
+    Empty list if the file is absent."""
+    if not _PRODUCT_DURATIONS.exists():
+        return []
+    return json.loads(_PRODUCT_DURATIONS.read_text()).get("products", [])
 
 
 def distinct_clusters() -> list[list[str]]:

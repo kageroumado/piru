@@ -9,9 +9,41 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # ---- Custom units (Settings) ----
+    "Custom Units": ("自定义单位", "自訂單位"),
+    "No Custom Units": ("暂无自定义单位", "尚無自訂單位"),
+    "Add Custom Unit": ("添加自定义单位", "新增自訂單位"),
+    "Edit Custom Unit": ("编辑自定义单位", "編輯自訂單位"),
+    "unit": ("单位", "單位"),
+    "1 %@ =": ("1 %@ =", "1 %@ ="),
+    "Unit label (e.g. capsule)": ("单位名称（如 胶囊）", "單位名稱（如 膠囊）"),
+    'This substance already has a "%@" unit.': (
+        "该物质已有“%@”单位。",
+        "此物質已有「%@」單位。",
+    ),
+    "Logs in this unit convert to the mass automatically.": (
+        "以该单位记录时会自动换算为质量。",
+        "以此單位記錄時會自動換算為質量。",
+    ),
+    'Define a unit like "1 capsule = 30 mg" and it appears in the dose picker for that substance — log half a capsule, get 15 mg.': (
+        "定义一个单位，例如“1 胶囊 = 30 mg”，它就会出现在该物质的剂量选择器中——记录半个胶囊，即得 15 mg。",
+        "定義一個單位，例如「1 膠囊 = 30 mg」，它就會出現在該物質的劑量選擇器中——記錄半個膠囊，即得 15 mg。",
+    ),
+    # ---- Approximate dose flag ----
+    "Approximate amount": ("近似用量", "近似用量"),
+    "Shows the dose with a ~; the estimate still drives the curves.": (
+        "剂量会显示为 ~；这个估计值仍会用于绘制曲线。",
+        "劑量會顯示為 ~；這個估計值仍會用於繪製曲線。",
+    ),
+    "approximately %@ %@": ("大约 %@ %@", "大約 %@ %@"),
     # ---- Label scanner (camera → QuickLog) ----
     "Regular": ("常规", "常規"),
     "Racemic": ("外消旋", "外消旋"),
+    # QuickLog "Form" pill accessibility label — the isomer × release form selector.
+    "Formulation": ("剂型", "劑型"),
+    # QuickLog brand picker — release group + niche-brand submenu.
+    "Extended-release": ("缓释", "緩釋"),
+    "More…": ("更多…", "更多…"),
     "Scan a label": ("扫描标签", "掃描標籤"),
     "Close scanner": ("关闭扫描", "關閉掃描"),
     "Point at the medication name or its barcode": ("对准药品名称或条形码", "對準藥品名稱或條碼"),
@@ -6622,6 +6654,21 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        # Custom units (CLI-added; Xcode hasn't extracted them yet).
+        "Custom Units",
+        "No Custom Units",
+        "Add Custom Unit",
+        "Edit Custom Unit",
+        "unit",
+        "1 %@ =",
+        "Unit label (e.g. capsule)",
+        'This substance already has a "%@" unit.',
+        "Logs in this unit convert to the mass automatically.",
+        'Define a unit like "1 capsule = 30 mg" and it appears in the dose picker for that substance — log half a capsule, get 15 mg.',
+        # Approximate-dose flag (CLI-added; Xcode hasn't extracted them yet).
+        "Approximate amount",
+        "Shows the dose with a ~; the estimate still drives the curves.",
+        "approximately %@ %@",
         # Label scanner strings (CLI-added; Xcode hasn't extracted them yet).
         "Scan a label",
         "Close scanner",
@@ -6830,6 +6877,11 @@ if __name__ == "__main__":
         # Isomer picker racemic-parent label (CLI-added).
         "Regular",
         "Racemic",
+        # QuickLog "Form" pill accessibility label (CLI-added).
+        "Formulation",
+        # QuickLog brand picker (CLI-added).
+        "Extended-release",
+        "More…",
         # Usage insights: common-dose ranking + trends metric (CLI-added).
         "Ranked by how often, or by total common-dose units",
         "Common doses",

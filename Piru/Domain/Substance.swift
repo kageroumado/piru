@@ -266,11 +266,13 @@ extension Substance {
         ],
     ]
 
-    /// Unit aliases applicable to this substance, looked up by canonical name
-    /// or any alias. Empty for substances without colloquial conventions.
+    /// Unit aliases applicable to this substance — the user's own
+    /// (``customUnitAliases``) ahead of the curated conventions, looked up by
+    /// canonical name or any alias. Empty for substances with neither.
     var unitAliases: [UnitAlias] {
         let candidates = [name.lowercased()] + aliases.map { $0.lowercased() }
-        return candidates.lazy.compactMap { Self.unitAliasTable[$0] }.first ?? []
+        let curated = candidates.lazy.compactMap { Self.unitAliasTable[$0] }.first ?? []
+        return customUnitAliases + curated
     }
 
     /// By-volume dose-input capability (concentration × measured volume → canonical
@@ -1329,6 +1331,12 @@ struct Substance: Identifiable {
     /// `name` stays canonical for search/dedup/logging. See `displayTitle`/`displaySubtitle`.
     let displayName: String?
     let aliases: [String]
+    /// User-defined per-substance units ("1 capsule = 30 mg"), stamped on by the
+    /// ``SubstanceLibrary`` façade from ``CustomUnitStore`` at resolution time and
+    /// merged ahead of the curated table in ``unitAliases``. A `var` amid the
+    /// surrounding `let`s precisely because it's applied after construction, at the
+    /// single overlay choke point; empty for any `Substance` built outside the façade.
+    var customUnitAliases: [UnitAlias] = []
     let category: SubstanceCategory
     /// Additional browse homes beyond `category` (the resolved primary). Lets an
     /// intentionally cross-class compound surface under more than one family

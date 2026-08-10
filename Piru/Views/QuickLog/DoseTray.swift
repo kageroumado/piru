@@ -113,6 +113,16 @@ struct StagedDose: Identifiable, Equatable {
     /// Selected stereoisomer form (D/S/L/R). `nil` = racemic/unspecified — the
     /// common case; set for the handful of isomer families (Focalin, Esketamine…).
     var isomer: String?
+    /// The release form this dose records — "Concerta" is Methylphenidate, but the
+    /// XR product, so it records `"XR"`. `nil` = standard/unspecified.
+    ///
+    /// Seeded at staging from the name (see the `init`), so a searched brand keeps
+    /// its form with no picker interaction; settable by the "Form" pill for the
+    /// bare-molecule path. It must be resolved by log time: a committed dose gets
+    /// its uid at commit, so the (`substanceUID == nil`)-gated backfill never
+    /// revisits it, and by then the typed string is gone — a Concerta dose that
+    /// commits without its form is byte-identical to a Ritalin one, forever.
+    var releaseForm: String?
     /// The name the user named this dose by — the alias their search matched
     /// ("Concerta"), or the literal string a daily item was saved under. `nil`
     /// when they named the canonical substance.
@@ -161,6 +171,11 @@ struct StagedDose: Identifiable, Equatable {
         self.route = route
         self.saltForm = saltForm
         self.isomer = isomer
+        // Seed the release form from the name the dose was staged by ("Concerta" →
+        // "XR"), matching what the alias table records; the "Form" pill overrides it
+        // on the bare-molecule path. `productName` leads: `substanceName` is
+        // canonicalized at staging, so it names no form and would always answer nil.
+        self.releaseForm = SubstanceLibrary.releaseForm(for: productName ?? substanceName)
         self.productName = productName
         self.colorHex = colorHex
         self.librarySubstance = librarySubstance
@@ -221,25 +236,6 @@ struct StagedDose: Identifiable, Equatable {
     /// dose so it carries a stable identity from log time (not only via backfill).
     var substanceUID: String? {
         librarySubstance?.substanceUID
-    }
-
-    /// The release form the staged dose names — "Concerta" is Methylphenidate, but
-    /// it is the XR product, so the committed dose records `"XR"`. Derived, not
-    /// stored: with no release picker there is nothing for a user to choose, so the
-    /// name is the only source.
-    ///
-    /// Resolves `productName` **first**. `substanceName` is canonicalized the moment
-    /// a search hit is staged (`QuickLogSearchResults.payload(for:)`), so asking it
-    /// about a release form asks the wrong string: "Concerta" has already become
-    /// "Methylphenidate", which names no form, and the answer is always `nil`. Only
-    /// the daily-item path — which stages the user's literal string — ever worked.
-    ///
-    /// This has to happen at log time. A committed dose gets its uid here, so the
-    /// (`substanceUID == nil`)-gated backfill will never revisit it, and by then the
-    /// typed string is gone: a Concerta dose that commits without its form is
-    /// byte-identical to a Ritalin one, forever.
-    var releaseForm: String? {
-        SubstanceLibrary.releaseForm(for: productName ?? substanceName)
     }
 
     /// The locale-stable identity anchor to snapshot onto the committed dose —
@@ -438,8 +434,17 @@ final class DoseTrayModel {
     }
 
     /// How many of a given chip are staged (drives the chip's count badge).
-    func quantity(substance: String, route: RouteOfAdministration, amount: Double, unit: String) -> Int {
-        guard let index = stagedIndex(substance: substance, route: route, unit: unit) else { return 0 }
+    func quantity(substance: String, productName: String? = nil, route: RouteOfAdministration, amount: Double, unit: String) -> Int {
+        // Resolve the library record the same way the daily-item staging does, so a
+        // faceted med (Concerta) counts on its own row. A dose staged *without* a
+        // library record — a custom substance the catalog can't resolve — keys by
+        // bare name instead, so match that identity too. The two are disjoint (a
+        // uid-bearing key is never a lowercased name), so this can't false-match.
+        let resolved = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: SubstanceLibrary.timelineLookup(substance.lowercased()), route: route)
+        let nameOnly = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: nil, route: route)
+        guard let index = staged.firstIndex(where: {
+            ($0.identityKey == resolved || $0.identityKey == nameOnly) && $0.route == route && $0.unit == unit
+        }) else { return 0 }
         return staged[index].components.first { Self.sameAmount($0.amount, amount) }?.count ?? 0
     }
 
@@ -502,7 +507,8 @@ final class DoseTrayModel {
         drinkName: String? = nil,
         emoji: String? = nil,
     ) {
-        if let index = stagedIndex(substance: substance, route: route, unit: unit) {
+        let identity = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: librarySubstance, route: route)
+        if let index = stagedIndex(identity: identity, route: route, unit: unit) {
             if let componentIndex = staged[index].components.firstIndex(where: { Self.sameAmount($0.amount, amount) }) {
                 staged[index].components[componentIndex].count += 1
             } else {
@@ -552,6 +558,27 @@ final class DoseTrayModel {
         return named
     }
 
+    /// The substance-identity a freshly-staged dose will carry, from the same
+    /// facet sources ``StagedDose/identityKey`` derives — so merge dedup keys on
+    /// *form* identity, not the canonical name alone. Without this a Concerta
+    /// (canonical Methylphenidate + `XR`) staged onto a plain Methylphenidate row
+    /// matched by name and summed into it, doubling the dose (they are different
+    /// forms and must stay separate rows).
+    static func stagedIdentity(
+        substance: String,
+        productName: String?,
+        librarySubstance: Substance?,
+        route: RouteOfAdministration,
+    ) -> String {
+        QuickLogDose.identityKey(
+            substanceUID: librarySubstance?.substanceUID,
+            substance: substance,
+            isomer: seedIsomer(productName: productName, librarySubstance: librarySubstance, route: route),
+            releaseForm: SubstanceLibrary.releaseForm(for: productName ?? substance),
+            saltForm: librarySubstance?.saltForms(for: route).first,
+        )
+    }
+
     /// Stage a draft (from search / the ⋯ chip) and open it for editing.
     /// Prefilled with the library's common dose when one is known — the
     /// editor focuses the amount field only when it opens empty. A draft for
@@ -569,7 +596,8 @@ final class DoseTrayModel {
         // arriving as "units" (a recent's chip unit) would silently lose the
         // whole volumetric logger.
         let unit = librarySubstance?.byVolumeDosing?.canonicalUnit ?? unit
-        if let index = stagedIndex(substance: substance, route: route, unit: unit) {
+        let identity = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: librarySubstance, route: route)
+        if let index = stagedIndex(identity: identity, route: route, unit: unit) {
             expandedItemIDs.insert(staged[index].id)
             return
         }
@@ -603,13 +631,17 @@ final class DoseTrayModel {
         syncEmptiness()
     }
 
-    /// Staged rows merge on substance + route + unit; the distinct amounts
+    /// Staged rows merge on form *identity* + route + unit; the distinct amounts
     /// inside match on their *display* form — the user-perceived identity of
     /// a chip. Exact-double matching breaks when the editor round-trips an
     /// amount through its text field (31.700000000000003 → "31.7" → 31.7).
-    private func stagedIndex(substance: String, route: RouteOfAdministration, unit: String) -> Int? {
+    ///
+    /// Keying on ``StagedDose/identityKey`` — not the bare name — is what keeps a
+    /// Concerta (Methylphenidate·XR) and a plain Methylphenidate row from merging
+    /// and summing into one doubled dose.
+    private func stagedIndex(identity: String, route: RouteOfAdministration, unit: String) -> Int? {
         staged.firstIndex {
-            $0.substanceName.lowercased() == substance.lowercased()
+            $0.identityKey == identity
                 && $0.route == route
                 && $0.unit == unit
         }

@@ -8,15 +8,15 @@ import SwiftUI
 ///
 /// Unlike salt, the options are **named** — each resolved enantiomer carries a
 /// recognized display name, because an enantiomer is often its own INN-named drug
-/// with distinct kinetics. The racemic/unspecified parent (`code == nil`) renders
-/// as a generic "Regular" ("Racemic" at the Pharma Nerd tier) rather than
-/// repeating the substance's own name, which is already on screen. Selecting one
-/// swaps the visible dose ladder. Same two shared rules as the salt picker: render
-/// nothing unless the route offers more than one option (see ``body``), and
-/// reconcile the selection on a route change (see ``revalidate(_:against:)``).
+/// with distinct kinetics. The standard/unspecified parent (`code == nil`) renders
+/// as a generic "Regular" rather than repeating the substance's own name, which is
+/// already on screen. Selecting one swaps the visible dose ladder. Same two shared
+/// rules as the salt picker: render nothing unless the route offers more than one
+/// option (see ``body``), and reconcile the selection on a route change (see
+/// ``revalidate(_:against:)``).
 ///
 /// Enantiomer names are chemical proper nouns and are **not** localized; the
-/// "Isomer" title and the racemic "Regular"/"Racemic" label are.
+/// "Isomer" title and the "Regular" parent label are.
 struct IsomerPicker: View {
     /// A selectable form on the isomer axis. `code == nil` is the racemic /
     /// unspecified parent — the picker renders a generic label for it, not
@@ -37,8 +37,6 @@ struct IsomerPicker: View {
     @Binding var selection: String?
     let style: Style
 
-    @State private var profileStore = UserProfileStore.shared
-
     /// Presentation surface — mirrors ``SaltPicker/Style``.
     enum Style {
         case menuPill(namespace: Namespace.ID, id: String, height: CGFloat)
@@ -49,15 +47,13 @@ struct IsomerPicker: View {
         options.first { $0.code == selection } ?? options.first
     }
 
-    /// What to render for an option. The racemic parent's `displayName` is the
+    /// What to render for an option. The parent form's `displayName` is the
     /// substance's own name; showing it would repeat a name already on screen, so
-    /// it renders a generic term instead — "Racemic" at the Pharma Nerd tier,
-    /// "Regular" otherwise. Every other option keeps its enantiomer name.
+    /// it renders a generic "Regular" instead. Every other option keeps its
+    /// enantiomer name.
     private func label(for option: Option) -> String {
         guard option.code == nil else { return option.displayName }
-        return profileStore.disclosureTier == .pharmaNerd
-            ? String(localized: "Racemic", comment: "Isomer picker: the racemic parent form (Pharma Nerd wording)")
-            : String(localized: "Regular", comment: "Isomer picker: the racemic/unspecified parent form")
+        return String(localized: "Regular", comment: "Isomer picker: the standard/unspecified parent form")
     }
 
     var body: some View {

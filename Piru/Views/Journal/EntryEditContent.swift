@@ -54,6 +54,14 @@ struct EntryEditContent: View {
                     .labelsHidden()
                 }
             }
+            Toggle(isOn: $draft.isApproximate) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Approximate amount")
+                    Text("Shows the dose with a ~; the estimate still drives the curves.")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            }
             Picker("Route", selection: $draft.route) {
                 ForEach(availableRoutes) { route in
                     Text(route.localizedName).tag(route)

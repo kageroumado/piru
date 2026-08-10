@@ -16,6 +16,11 @@ import SwiftUI
 struct MeasurementLabel: View {
     let amount: Double
     let unit: String
+    /// Whether the amount is an estimate — renders a leading `~` on the numeral
+    /// and reads "approximately …" to VoiceOver, so a logged guess never looks
+    /// like a measured figure. Off for the cumulative "In Your Body" totals,
+    /// which are computed, not guessed.
+    var isApproximate: Bool = false
     /// The numeral's text style — the tunable "size" of the readout.
     var numberStyle: Font.TextStyle = .title3
     var numberWeight: Font.Weight = .semibold
@@ -25,7 +30,7 @@ struct MeasurementLabel: View {
 
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 2) {
-            Text(amount.doseFormatted)
+            Text(verbatim: "\(isApproximate ? "~" : "")\(amount.doseFormatted)")
                 .font(.system(numberStyle, design: .rounded).weight(numberWeight))
                 .foregroundStyle(.primary)
             Text(displayUnit)
@@ -34,7 +39,13 @@ struct MeasurementLabel: View {
         }
         .lineLimit(1)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(Text("\(amount.doseFormatted) \(displayUnit)"))
+        .accessibilityLabel(accessibilityText)
+    }
+
+    private var accessibilityText: Text {
+        isApproximate
+            ? Text("approximately \(amount.doseFormatted) \(displayUnit)")
+            : Text(verbatim: "\(amount.doseFormatted) \(displayUnit)")
     }
 
     /// "1 units" → "1 unit" and any other singular/plural fixups the shared helper

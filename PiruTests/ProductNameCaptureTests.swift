@@ -93,6 +93,24 @@ struct ProductNameCaptureTests {
     }
 
     @Test
+    func `Picking a brand sets the product, form, title and a real curve`() {
+        // Pass B: the brand picker sets `productName` (+ release), which is the key
+        // every brand surface reads. Someone who typed "methylphenidate" picks
+        // Concerta; the dose gets the brand title, the molecule-form snapshot, a
+        // distinct identity, and — the whole point — a real duration curve where a
+        // bare release form would draw nothing.
+        var dose = StagedDose(substanceName: "Methylphenidate", amount: 36, unit: "mg", route: .oral)
+        let bareKey = dose.identityKey
+        #expect(SubstanceLibrary.productDuration(for: "Concerta") != nil, "the brand resolves a curve")
+
+        dose.productName = "Concerta"
+        dose.releaseForm = "XR"
+        #expect(dose.displayTitle == "Concerta", "title is the brand")
+        #expect(dose.displayNameSnapshot == "Methylphenidate XR", "snapshot is the molecule form")
+        #expect(dose.identityKey != bareKey, "a Concerta dose is a distinct identity from bare Methylphenidate")
+    }
+
+    @Test
     func `Brand naming an isomer seeds the picker`() {
         let substance = SubstanceLibrary.timelineLookup("Methylphenidate")
         #expect(substance != nil)

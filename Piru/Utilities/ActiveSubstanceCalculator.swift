@@ -84,7 +84,11 @@ enum ActiveSubstanceCalculator {
             // would be modelled as if it landed at once, and "clear ~12:33 PM"
             // states a time we have no basis for. Better to show nothing than
             // something misleading.
-            if entry.namesUnmodeledForm { continue }
+            // A per-product envelope (Concerta, Adderall XR) models the extended
+            // release, so its dose contributes a body-load estimate with the right
+            // absorption limb — unlike a bare unmodeled form, which we still skip.
+            let productDuration = entry.productDuration
+            if productDuration == nil, entry.namesUnmodeledForm { continue }
             guard let halfLife = resolveHalfLife(substance: substance, entryName: entry.substance) else { continue }
 
             let elapsed = now.timeIntervalSince(entry.timestamp) / 60
@@ -92,10 +96,9 @@ enum ActiveSubstanceCalculator {
 
             let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
             let ka: Double
-            if let sub = substance,
-               let duration = sub.resolveDuration(
-                   for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer,
-               ) {
+            if let duration = productDuration ?? substance?.resolveDuration(
+                for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer,
+            ) {
                 let ttp = (duration.onset?.midpoint ?? 0) + (duration.comeup?.midpoint ?? 0)
                 ka = ttp > 0 ? PKModel.estimateKa(timeToPeak: ttp, ke: ke) : PKModel.defaultKa(ke: ke)
             } else {
@@ -229,19 +232,23 @@ extension ActiveSubstanceState {
         // heavy per-substance chem/mechanism SQL. Falls back to the full lookup
         // when the batch cache is cold or the substance is custom-only.
         guard let substance = SubstanceLibrary.timelineLookup(entry.substance) else { return nil }
-        // A dose that names a form we don't model draws no curve at all. Both
-        // fallbacks below would answer with the *base* form's kinetics: a Concerta
-        // dose would take Ritalin's 150–240 min profile, and an OxyContin dose
-        // oxycodone's ~4 h — the exact number that invites a redose. We know the
-        // form and we know we can't model it, so we say when it was taken and stop
-        // there. This must precede both tiers; see `namesUnmodeledForm`.
-        if entry.namesUnmodeledForm { return nil }
+        // An extended-release product we model per-product ("Concerta", "Adderall
+        // XR") draws ITS authored envelope — the whole point of the product-duration
+        // table — even though its release form is otherwise unmodeled.
+        let productDuration = entry.productDuration
+        // Otherwise a dose that names a form we don't model draws no curve at all.
+        // Both fallbacks below would answer with the *base* form's kinetics: a
+        // Concerta dose would take Ritalin's 150–240 min profile, and an OxyContin
+        // dose oxycodone's ~4 h — the exact number that invites a redose. We know
+        // the form and we know we can't model it, so we say when it was taken and
+        // stop there. This must precede both tiers; see `namesUnmodeledForm`.
+        if productDuration == nil, entry.namesUnmodeledForm { return nil }
         let doseRange = Self.resolveDoseRange(substance: substance, route: entry.route)
         let intensity = Self.computeDoseIntensity(amount: entry.amount, doseRange: doseRange)
         let magnitude = Self.computeDoseMagnitude(amount: entry.amount, doseRange: doseRange)
-        // Narrowed to the form actually logged — a D-isomer dose must not be drawn
-        // with the racemic curve the detail card would never have shown it.
-        if let duration = substance.timelineDuration(
+        // Prefer the product envelope; else the form actually logged — a D-isomer
+        // dose must not be drawn with the racemic curve the detail card wouldn't show.
+        if let duration = productDuration ?? substance.timelineDuration(
             for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer,
         ) {
             return ActiveSubstanceState(

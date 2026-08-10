@@ -178,7 +178,9 @@ struct SessionDetailView: View {
     /// depot injection. `nil` when nothing here needs explaining. Runs only over
     /// the (rare, few) unmodeled doses, so it costs nothing on an ordinary session.
     private var unmodeledFormNote: UnmodeledFormNote.Content? {
-        let unmodeled = entries.filter(\.namesUnmodeledForm)
+        // Only doses that truly draw nothing — a named ER product with an authored
+        // envelope (Concerta) now draws a real curve, so it isn't "unmodeled" here.
+        let unmodeled = entries.filter(\.drawsNoAcuteCurve)
         guard !unmodeled.isEmpty else { return nil }
         var seen = Set<String>()
         var pairs: [(product: String, base: String)] = []

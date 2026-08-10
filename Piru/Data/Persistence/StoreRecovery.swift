@@ -74,6 +74,7 @@ nonisolated enum StoreRecovery {
             ToleranceState.self,
             CustomSubstanceRecord.self,
             CustomDrinkPreset.self,
+            CustomUnitPreset.self,
             NotificationPreferences.self,
             RoutineOccurrence.self,
         ]

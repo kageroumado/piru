@@ -25,6 +25,8 @@ struct DayEntryCore: Equatable {
     /// the same substance would render in two colors depending on what it was
     /// called.
     let substanceKey: String
+    /// Whether the logged amount is the user's estimate — draws a leading `~`.
+    let isApproximate: Bool
 
     /// Resolve each dose row's substance facts once: title, dose level, and the
     /// rail's window.
@@ -66,6 +68,7 @@ struct DayEntryCore: Equatable {
                 // rail matches the graph — not the long elimination tail.
                 totalMinutes: ActiveSubstanceState.from(entry: entry, colorHex: "000000")?.totalMinutes,
                 substanceKey: entry.substance.lowercased(),
+                isApproximate: entry.isApproximate,
             )
         }
     }
@@ -197,7 +200,7 @@ struct EntryRowView: View {
     /// row's hero, and the strength tier is carried separately by the ``strengthChip``
     /// below, so the dose itself needn't double as a tier color.
     private var doseText: some View {
-        MeasurementLabel(amount: display.core.amount, unit: display.core.unit)
+        MeasurementLabel(amount: display.core.amount, unit: display.core.unit, isApproximate: display.core.isApproximate)
             .accessibilityLabel(doseAccessibilityLabel)
     }
 
@@ -316,7 +319,10 @@ struct EntryRowView: View {
     /// VoiceOver spells out the dose *and* its level, since the level is conveyed
     /// only by color on screen.
     private var doseAccessibilityLabel: Text {
-        let dose = "\(display.core.amount.doseFormatted) \(display.core.unit)"
+        let formatted = display.core.amount.doseFormatted
+        let dose = display.core.isApproximate
+            ? String(localized: "approximately \(formatted) \(display.core.unit)")
+            : "\(formatted) \(display.core.unit)"
         guard let level = display.core.doseLevel else { return Text(dose) }
         return Text("\(dose), \(String(localized: level.displayName))")
     }

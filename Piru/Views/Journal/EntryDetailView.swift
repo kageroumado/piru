@@ -228,6 +228,7 @@ struct EntryDetailView: View {
         // both, so a Focalin XR dose stays "Dexmethylphenidate XR" after an edit.
         entry.displayNameSnapshot = DoseTitle.snapshot(canonicalName: entry.substance, isomer: draft.isomer, releaseForm: entry.releaseForm)
         entry.timestamp = draft.timestamp
+        entry.isApproximate = draft.isApproximate
         entry.notes = draft.notes.isEmpty ? nil : draft.notes
         // By-volume metadata, set when logged as a drink, cleared otherwise.
         entry.volumeML = draft.byVolumeMode ? draft.enteredVolumeML : nil

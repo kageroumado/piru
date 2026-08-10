@@ -140,13 +140,20 @@ struct StagedDoseEditor: View {
                     selection: $item.saltForm,
                     style: .menuPill(namespace: namespace, id: "salt-\(item.id)", height: pillHeight),
                 )
-                IsomerPicker(
-                    options: (item.librarySubstance?.isomerOptions(for: item.route) ?? []).map {
-                        IsomerPicker.Option(code: $0.code, displayName: $0.displayName)
-                    },
-                    selection: $item.isomer,
-                    style: .menuPill(namespace: namespace, id: "isomer-\(item.id)", height: pillHeight),
+                BrandPicker(
+                    brands: brandProducts,
+                    productName: $item.productName,
+                    releaseForm: $item.releaseForm,
+                    isomer: $item.isomer,
+                    style: .menuPill(namespace: namespace, id: "brand-\(item.id)", height: pillHeight),
                 )
+                if showsIsomerPill {
+                    IsomerPicker(
+                        options: isomerPickerOptions,
+                        selection: $item.isomer,
+                        style: .menuPill(namespace: namespace, id: "isomer-\(item.id)", height: pillHeight),
+                    )
+                }
                 notePill
                 if profileStore.grapefruitLoggingEnabled, isGrapefruitSubstrate {
                     grapefruitPill
@@ -790,6 +797,30 @@ struct StagedDoseEditor: View {
         guard item.unit == "mg", byVolumeCapability == nil,
               let product = item.productName, !product.isEmpty else { return nil }
         return SubstanceLibrary.productStrengths(for: product)
+    }
+
+    /// The substance's branded products, for the brand picker. Empty (pill hidden)
+    /// for substances with no brands.
+    private var brandProducts: [SubstanceStore.BrandProduct] {
+        guard let uid = item.librarySubstance?.substanceUID else { return [] }
+        return SubstanceLibrary.brandProducts(forUID: uid)
+    }
+
+    /// The route's isomer options, for the isomer picker.
+    private var isomerPickerOptions: [IsomerPicker.Option] {
+        (item.librarySubstance?.isomerOptions(for: item.route) ?? []).map {
+            IsomerPicker.Option(code: $0.code, displayName: $0.displayName)
+        }
+    }
+
+    /// Whether to surface the isomer pill alongside the brand pill. The enantiomer
+    /// axis is its own control: shown for a substance with no branded release form
+    /// (Ketamine → Esketamine, Modafinil → Armodafinil) always, but on a *branded*
+    /// substance only once a distinct enantiomer is active (Focalin searched into a
+    /// D dose) — so a plain Methylphenidate log shows just the brand pill, not two.
+    private var showsIsomerPill: Bool {
+        guard isomerPickerOptions.count > 1 else { return false }
+        return !brandProducts.contains(where: \.isExtendedRelease) || item.isomer != nil
     }
 
     /// "Methylphenidate · extended-release" — the recognition beat shown under a

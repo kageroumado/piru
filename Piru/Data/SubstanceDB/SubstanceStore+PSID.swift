@@ -29,6 +29,15 @@ extension SubstanceStore {
     func productStrengths(forProduct name: String) -> ProductStrengths? {
         productStrengthIndex[name.lowercased().trimmingCharacters(in: .whitespaces)]
     }
+
+    /// The duration-of-effect envelope for a named product ("Concerta" → ~12 h),
+    /// or `nil` when the product isn't an authored extended-release formulation.
+    /// Keyed by the plain lowercased product name (Concerta ≠ Ritalin LA ≠ Adderall
+    /// XR, even though all are "XR"). Lets an ER brand draw a real curve instead of
+    /// the parent's IR curve — see `product_durations`.
+    func productDuration(forProduct name: String) -> DurationProfile? {
+        productDurationIndex[name.lowercased().trimmingCharacters(in: .whitespaces)]
+    }
     /// The PSID FAMILY (`substance_uid`) for a substance named or aliased
     /// `nameOrAlias`, or `nil` when the name doesn't resolve or the row has no uid.
     ///
@@ -68,6 +77,41 @@ extension SubstanceStore {
         let substanceID: Int64
         let stereo: String
         let release: String
+    }
+
+    /// A branded product of a substance for the QuickLog brand picker — "Concerta",
+    /// "Ritalin LA", "Adderall XR". Sourced from `aliases` (kind='brand'), carrying
+    /// the release the brand names (`"XR"`/nil) and whether the build has a duration
+    /// curve or tablet strengths for it, so the menu can lead with the brands that
+    /// draw a real curve. Brands never carry an isomer — the enantiomer axis is
+    /// modeled as `distinct_substance` aliases (Focalin) reached by search — so
+    /// selecting one sets `productName` + `releaseForm` only.
+    struct BrandProduct: Hashable {
+        let name: String
+        let releaseForm: String?
+        let brandRank: Int?
+        let hasCurve: Bool
+        let hasStrengths: Bool
+
+        /// A brand leads the menu (rather than hiding under "More…") when it draws a
+        /// real curve or is a curated flagship — the ones a person is likely to take.
+        var isFlagship: Bool {
+            hasCurve || brandRank != nil
+        }
+        /// Extended-release when the brand names the XR facet; immediate/unspecified
+        /// otherwise (the "Regular" path, which draws the base curve).
+        var isExtendedRelease: Bool {
+            releaseForm != nil && releaseForm != PSID.unspecifiedFacet
+        }
+    }
+
+    /// The branded products a substance ships under, keyed by its PSID FAMILY `uid`,
+    /// flagships (curve/curated) first then niche, each group alphabetical. Empty for
+    /// substances with no brands; the brand picker is shown only when this is
+    /// non-empty. Powers the pill that sets `productName` (→ the product-duration
+    /// curve, tablet-strength chips, and brand title) from a real product name.
+    func brandProducts(forUID uid: String) -> [BrandProduct] {
+        brandProductsByUID[uid] ?? []
     }
 
     /// The composed display title for the form a logged name/alias names —

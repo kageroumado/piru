@@ -86,6 +86,45 @@ struct PSIDResolutionTests {
     }
 
     @Test
+    func `Branded products enumerate a substance's brands, flagships first`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
+
+        let mphUID = try #require(store.substanceUID(forNameOrAlias: "Methylphenidate"))
+        let brands = store.brandProducts(forUID: mphUID)
+        let byName = Dictionary(uniqueKeysWithValues: brands.map { ($0.name, $0) })
+
+        // Concerta is an extended-release brand with a real curve — selecting it
+        // (→ productName) is what fixes the "bare XR draws nothing" gap.
+        let concerta = try #require(byName["Concerta"])
+        #expect(concerta.isExtendedRelease)
+        #expect(concerta.hasCurve)
+        #expect(concerta.isFlagship)
+        #expect(byName["Ritalin LA"]?.isExtendedRelease == true)
+        // The enantiomer axis is NOT a brand — Focalin is a distinct_substance alias,
+        // so it never appears in the brand pill.
+        #expect(byName["Focalin"] == nil)
+
+        // Flagship/curve brands lead; niche ones (no curve, no rank) trail.
+        let concertaIdx = try #require(brands.firstIndex { $0.name == "Concerta" })
+        if let nicheIdx = brands.firstIndex(where: { !$0.isFlagship && $0.isExtendedRelease }) {
+            #expect(concertaIdx < nicheIdx, "flagship/curve brands sort ahead of niche")
+        }
+    }
+
+    @Test
+    func `A brandless substance offers no brand pill`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
+
+        // Caffeine has no extended-release brand, so the brand pill (gated on an ER
+        // brand existing) never shows.
+        let caffeineUID = try #require(store.substanceUID(forNameOrAlias: "Caffeine"))
+        let hasExtendedReleaseBrand = store.brandProducts(forUID: caffeineUID).contains { $0.isExtendedRelease }
+        #expect(!hasExtendedReleaseBrand)
+    }
+
+    @Test
     func `An unknown name or uid resolves to nothing`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }

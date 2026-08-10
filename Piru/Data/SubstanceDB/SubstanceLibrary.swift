@@ -123,10 +123,25 @@ enum SubstanceLibrary {
         SubstanceStore.shared.productStrengths(forProduct: name)
     }
 
+    /// The duration-of-effect envelope for a logged product name ("Concerta" →
+    /// ~12 h), or `nil` for a name that isn't an authored extended-release
+    /// formulation. Lets the timeline draw an ER brand's own curve rather than the
+    /// parent's immediate-release one — see ``SubstanceStore/productDuration(forProduct:)``.
+    static func productDuration(for name: String) -> DurationProfile? {
+        SubstanceStore.shared.productDuration(forProduct: name)
+    }
+
     /// ``formTitle(for:)`` with the facets a logged dose recorded, rather than the
     /// ones its name implies — see ``SubstanceStore/formTitle(forNameOrAlias:isomer:release:)``.
     static func formTitle(for nameOrAlias: String, isomer: String?, release: String?) -> String? {
         SubstanceStore.shared.formTitle(forNameOrAlias: nameOrAlias, isomer: isomer, release: release)
+    }
+
+    /// The branded products a substance ships under ("Concerta", "Ritalin LA"),
+    /// keyed by PSID FAMILY `uid`, for the QuickLog brand picker. Raw library value.
+    /// See ``SubstanceStore/brandProducts(forUID:)``.
+    static func brandProducts(forUID uid: String) -> [SubstanceStore.BrandProduct] {
+        SubstanceStore.shared.brandProducts(forUID: uid)
     }
 
     /// The substances sharing a PSID FAMILY `uid` (a fold family — a racemate and
@@ -166,6 +181,15 @@ enum SubstanceLibrary {
     /// likely to recognize as "their" substance — and falls back to the raw
     /// query so a custom-only entry (no library row at all) still resolves.
     private static func overlayCustom(library: Substance?, query: String) -> Substance? {
+        guard var result = resolveCustomOverride(library: library, query: query) else { return nil }
+        // Fold the user's own units ("1 capsule = 30 mg") onto whichever record
+        // resolved — every substance passes through here, so this is the one place
+        // custom units reach the unit picker and the log-time unit→mass conversion.
+        result.customUnitAliases = CustomUnitStore.shared.aliases(forSubstanceNamed: result.name)
+        return result
+    }
+
+    private static func resolveCustomOverride(library: Substance?, query: String) -> Substance? {
         let customs = CustomSubstanceStore.shared
 
         if let library {

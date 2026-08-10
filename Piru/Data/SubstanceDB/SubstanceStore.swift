@@ -219,6 +219,13 @@ final class SubstanceStore {
     /// small separate read so its absence in an older bundled DB degrades to "no
     /// chips" rather than failing the whole index build.
     private(set) var productStrengthIndex: [String: ProductStrengths] = [:]
+    /// Lowercased product name → its duration-of-effect envelope
+    /// (`product_durations`). Lets an extended-release brand ("concerta",
+    /// "adderall xr") draw a curve of the labeled length instead of its parent's
+    /// immediate-release curve. Keyed by the specific product, not the release-form
+    /// umbrella. Built at load by a small separate read so its absence in an older
+    /// bundled DB degrades to "base curve / marker" rather than failing the build.
+    private(set) var productDurationIndex: [String: DurationProfile] = [:]
     /// Composed form titles from `substance_forms` — "Methylphenidate",
     /// "Methylphenidate XR", "Dexmethylphenidate XR" (the cross-axis Focalin XR
     /// form), "Naltrexone Depot". The build composes these once, so the app never
@@ -231,6 +238,10 @@ final class SubstanceStore {
     /// index covers only `salt='0'` rows, which is exhaustive for name resolution
     /// since salt is deliberately never alias-annotated (see `aliases.salt_form`).
     private(set) var formTitleIndex: [FormKey: String] = [:]
+    /// PSID FAMILY (`substance_uid`) → its branded products, flagships first. Feeds
+    /// the QuickLog brand picker, whose selection sets `productName` (the key every
+    /// downstream brand surface — curve, tablet chips, title — already reads).
+    private(set) var brandProductsByUID: [String: [BrandProduct]] = [:]
     /// PSID FAMILY (`substances.substance_uid`) → member row ids. One-to-many:
     /// fold-family siblings (racemate + enantiomers, IR + XR) share a uid, so a
     /// FAMILY can map to several substance rows. Built once at init alongside
@@ -770,6 +781,81 @@ final class SubstanceStore {
             self.productStrengthIndex = index
         } catch {
             logger.warning("buildIndexes: product_strengths unavailable (\(error.localizedDescription, privacy: .public)) — pill chips disabled")
+        }
+
+        // Per-product duration envelopes (`product_durations`), read separately for
+        // the same reason: an older bundled DB predating the table degrades to the
+        // base curve / timestamp marker rather than failing the whole index build.
+        do {
+            let rows = try substancesDB.read { db in
+                try Row.fetchAll(db, sql: """
+                SELECT product_normalized, route,
+                       onset_min, onset_max, comeup_min, comeup_max,
+                       peak_min, peak_max, offset_min, offset_max,
+                       afterglow_min, afterglow_max, total_min, total_max
+                  FROM product_durations
+                """)
+            }
+            func range(_ row: Row, _ phase: String) -> DurationRange? {
+                guard let lo = row["\(phase)_min"] as Double?,
+                      let hi = row["\(phase)_max"] as Double? else { return nil }
+                return DurationRange(min: lo, max: hi)
+            }
+            var index: [String: DurationProfile] = [:]
+            for row in rows {
+                index[row["product_normalized"] as String] = DurationProfile(
+                    onset: range(row, "onset"), comeup: range(row, "comeup"),
+                    peak: range(row, "peak"), offset: range(row, "offset"),
+                    afterglow: range(row, "afterglow"), total: range(row, "total"),
+                )
+            }
+            self.productDurationIndex = index
+        } catch {
+            logger.warning("buildIndexes: product_durations unavailable (\(error.localizedDescription, privacy: .public)) — extended-release curves fall back")
+        }
+
+        // Branded products (`aliases` kind='brand') grouped by FAMILY uid for the
+        // QuickLog brand picker, tagged with whether the build carries a curve /
+        // tablet strengths so the menu can lead with the ones that draw a real
+        // curve. Read separately for the same degrade-gracefully reason: a failure
+        // drops to "no brand pill" rather than failing the whole index build.
+        do {
+            let rows = try substancesDB.read { db in
+                try Row.fetchAll(db, sql: """
+                SELECT s.substance_uid AS uid, a.alias, a.release_form AS rel, a.brand_rank AS rank,
+                       (pd.product_normalized IS NOT NULL) AS has_curve,
+                       (ps.product_normalized IS NOT NULL) AS has_strengths
+                  FROM aliases a
+                  JOIN substances s ON s.id = a.substance_id
+                  LEFT JOIN product_durations pd ON pd.product_normalized = a.alias_normalized
+                  LEFT JOIN product_strengths ps ON ps.product_normalized = a.alias_normalized
+                 WHERE a.kind = 'brand' AND s.substance_uid IS NOT NULL
+                """)
+            }
+            var index: [String: [BrandProduct]] = [:]
+            for row in rows {
+                let rel = row["rel"] as String?
+                index[row["uid"] as String, default: []].append(BrandProduct(
+                    name: row["alias"] as String,
+                    releaseForm: (rel?.isEmpty == true) ? nil : rel,
+                    brandRank: (row["rank"] as Int64?).map(Int.init),
+                    hasCurve: (row["has_curve"] as Int64? ?? 0) != 0,
+                    hasStrengths: (row["has_strengths"] as Int64? ?? 0) != 0,
+                ))
+            }
+            // Flagships (curve/curated) first, then niche; each group alphabetical —
+            // the order the picker menu renders top-to-bottom.
+            for uid in index.keys {
+                index[uid]?.sort { a, b in
+                    if a.isFlagship != b.isFlagship { return a.isFlagship }
+                    if a.hasCurve != b.hasCurve { return a.hasCurve }
+                    if (a.brandRank ?? .max) != (b.brandRank ?? .max) { return (a.brandRank ?? .max) < (b.brandRank ?? .max) }
+                    return a.name.localizedCaseInsensitiveCompare(b.name) == .orderedAscending
+                }
+            }
+            self.brandProductsByUID = index
+        } catch {
+            logger.warning("buildIndexes: brand aliases unavailable (\(error.localizedDescription, privacy: .public)) — brand pill disabled")
         }
     }
 

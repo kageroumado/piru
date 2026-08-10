@@ -1,0 +1,95 @@
+{
+  "_comment": "Curated per-product duration-of-EFFECT envelopes for extended-release stimulant formulations, so a logged brand (Concerta, Adderall XR…) draws a curve of the right LENGTH instead of the base immediate-release curve or nothing at all. The release-form code (XR) is an umbrella — Concerta (~12 h), Ritalin LA (~8 h) and Adderall XR (~11 h) are all 'XR' but last very differently — so duration cannot key on the release code; it keys on the specific PRODUCT NAME, exactly like product-strengths.json. Only EXTENDED/special forms belong here: immediate-release products already draw their parent's base curve, and a prodrug (Vyvanse) draws its parent substance's own duration (edit the parent JSON, not this file). Phases are in MINUTES (onset/comeup/peak/offset/afterglow/total), each {min,max}. These are duration-of-ACTION envelopes from FDA labels (Clinical Studies efficacy hours) or clinical convention where the label states no hour-count — NOT the plasma PK trace (for stimulants effect is dissociated from plasma; see Specs/evidence/pharmacology/adhd-formulation-kinetics.md). A single-hump envelope of the labeled length answers the user's 'how long does it work' honestly; it does not claim to reproduce the OROS-ascending or bimodal-bead plasma shape. `basis` records whether the total is a label-stated efficacy duration or clinical convention; `source` is the SPL set_id. Deferred: Jornay PM (delayed ~10 h onset — needs an onset offset, not a simple envelope) and Dexedrine Spansule (niche) stay as timestamp markers for now. Consumed by sqlite.py build_product_durations() → the `product_durations` table, read by SubstanceStore.productDuration(forProduct:). Every `product` ties to its parent for the coverage gate; a missing parent is reported, not failed.",
+  "products": [
+    {
+      "parent": "Methylphenidate",
+      "product": "Concerta",
+      "route": "oral",
+      "basis": "label",
+      "source": "1a88218c-5b18-4220-8f56-526de1a276cd",
+      "note": "OROS osmotic, ascending zero-order; label: effect 'maintained through 12 hours after dosing' (Clinical Studies 14.2). Envelope, not the ascending plasma shape.",
+      "duration": {
+        "onset": { "min": 30, "max": 60 },
+        "comeup": { "min": 120, "max": 180 },
+        "peak": { "min": 240, "max": 300 },
+        "offset": { "min": 240, "max": 300 },
+        "total": { "min": 660, "max": 720 }
+      }
+    },
+    {
+      "parent": "Methylphenidate",
+      "product": "Ritalin LA",
+      "route": "oral",
+      "basis": "convention",
+      "source": "effd952d-ac94-47bb-b107-589a4934dcca",
+      "note": "Bimodal beads (½ IR + ½ enteric), two peaks ~4 h apart; once-daily, clinical convention ~8 h. Envelope only.",
+      "duration": {
+        "onset": { "min": 20, "max": 45 },
+        "comeup": { "min": 60, "max": 120 },
+        "peak": { "min": 150, "max": 210 },
+        "offset": { "min": 150, "max": 210 },
+        "total": { "min": 420, "max": 540 }
+      }
+    },
+    {
+      "parent": "Methylphenidate",
+      "product": "Metadate CD",
+      "route": "oral",
+      "basis": "convention",
+      "source": "be59f8b4-7842-42cc-9559-bfa747f0baa5",
+      "note": "30% IR / 70% ER beads, bimodal; once-daily, convention ~8 h. Terminal t½ 6.8 h is absorption-limited, not slower clearance.",
+      "duration": {
+        "onset": { "min": 20, "max": 45 },
+        "comeup": { "min": 60, "max": 120 },
+        "peak": { "min": 150, "max": 210 },
+        "offset": { "min": 150, "max": 210 },
+        "total": { "min": 420, "max": 540 }
+      }
+    },
+    {
+      "parent": "Methylphenidate",
+      "product": "Focalin XR",
+      "route": "oral",
+      "basis": "convention",
+      "source": "1a1da905-42a0-4748-9c39-67eca45deccc",
+      "note": "Dexmethylphenidate (d-isomer) bimodal beads, two peaks ~4 h apart; classroom convention ~10–12 h. Envelope only.",
+      "duration": {
+        "onset": { "min": 30, "max": 60 },
+        "comeup": { "min": 90, "max": 150 },
+        "peak": { "min": 210, "max": 300 },
+        "offset": { "min": 210, "max": 300 },
+        "total": { "min": 540, "max": 720 }
+      }
+    },
+    {
+      "parent": "Amphetamine",
+      "product": "Adderall XR",
+      "route": "oral",
+      "basis": "convention",
+      "source": "aff45863-ffe1-4d4f-8acf-c7081512a6c0",
+      "note": "3.1:1 d:l mixed salts, IR + delayed-release beads (~one broad peak, Tmax ~7 h). Clinical Studies show morning+afternoon efficacy (no explicit hour-count); convention ~10–12 h.",
+      "duration": {
+        "onset": { "min": 30, "max": 60 },
+        "comeup": { "min": 90, "max": 150 },
+        "peak": { "min": 210, "max": 300 },
+        "offset": { "min": 240, "max": 300 },
+        "total": { "min": 600, "max": 720 }
+      }
+    },
+    {
+      "parent": "Amphetamine",
+      "product": "Mydayis",
+      "route": "oral",
+      "basis": "label",
+      "source": "141a7970-3f06-44ea-9ab7-aeece2c085fc",
+      "note": "3:1 d:l triple-bead (pH-triggered pulses); label PERMP efficacy significant through 16 h post-dose. Multi-phasic; envelope of labeled length.",
+      "duration": {
+        "onset": { "min": 30, "max": 60 },
+        "comeup": { "min": 120, "max": 180 },
+        "peak": { "min": 300, "max": 420 },
+        "offset": { "min": 300, "max": 420 },
+        "total": { "min": 900, "max": 960 }
+      }
+    }
+  ]
+}

@@ -77,4 +77,32 @@ struct DoseTrayModelTests {
         // An unstaged substance has no slice.
         #expect((snapshot["aspirin"] ?? .empty) == .empty)
     }
+
+    /// The doubling bug: staging a Concerta (canonical Methylphenidate, release
+    /// `XR`) onto an already-staged plain Methylphenidate matched by name alone and
+    /// summed the two into one row — you couldn't log IR + Concerta together, and
+    /// the merged dose read as double. They are different forms and must stay
+    /// separate staged rows, each with its own amount.
+    @Test
+    func `Concerta does not merge into plain methylphenidate`() {
+        let tray = DoseTrayModel()
+        let mph = SubstanceLibrary.timelineLookup("methylphenidate")
+        #expect(mph != nil)
+        tray.stage(substance: "Methylphenidate", route: .oral, amount: 10, unit: "mg", colorHex: nil, librarySubstance: mph)
+        tray.stage(substance: "Methylphenidate", route: .oral, amount: 10, unit: "mg", colorHex: nil, librarySubstance: mph, productName: "Concerta")
+        #expect(tray.staged.count == 2, "IR-unspecified and XR are different forms — two rows")
+        #expect(tray.staged.allSatisfy { $0.totalAmount == 10 }, "neither row is doubled")
+    }
+
+    /// The other side of the same key: two logs of the *same* product still merge,
+    /// so re-tapping Concerta bumps its count rather than spawning a second row.
+    @Test
+    func `Same product re-stages into one row`() {
+        let tray = DoseTrayModel()
+        let mph = SubstanceLibrary.timelineLookup("methylphenidate")
+        tray.stage(substance: "Methylphenidate", route: .oral, amount: 18, unit: "mg", colorHex: nil, librarySubstance: mph, productName: "Concerta")
+        tray.stage(substance: "Methylphenidate", route: .oral, amount: 18, unit: "mg", colorHex: nil, librarySubstance: mph, productName: "Concerta")
+        #expect(tray.staged.count == 1)
+        #expect(tray.staged[0].components.first?.count == 2)
+    }
 }

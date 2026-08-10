@@ -26,6 +26,7 @@ struct EntryFormView: View {
     @State private var entryTags: [String] = []
     @State private var location: PickedLocation?
     @State private var showLocationPicker = false
+    @State private var isApproximate = false
 
     // By-volume input (alcohol %ABV → grams). When `byVolumeMode`, the panel owns
     // these and syncs the computed grams into `amount`/`unit` so the dose badge,
@@ -233,6 +234,14 @@ struct EntryFormView: View {
                                 .labelsHidden()
                             }
                         }
+                        Toggle(isOn: $isApproximate) {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Approximate amount")
+                                Text("Shows the dose with a ~; the estimate still drives the curves.")
+                                    .font(.caption)
+                                    .foregroundStyle(Theme.secondaryLabel)
+                            }
+                        }
                         Picker("Route", selection: $route) {
                             ForEach(availableRoutes) { r in
                                 Text(r.localizedName).tag(r)
@@ -355,6 +364,10 @@ struct EntryFormView: View {
     }
 
     private func selectSubstance(_ sub: Substance, product: String? = nil) {
+        // The search field's result comes straight from the ranked index, which
+        // skips the custom overlay — re-resolve through the façade so user edits
+        // and custom units ride along in the unit picker.
+        let sub = SubstanceLibrary.lookupByNameOrAlias(sub.name) ?? sub
         selectedSubstance = sub
         let trimmed = product?.trimmingCharacters(in: .whitespaces)
         typedProductName = (trimmed?.isEmpty == false) ? trimmed : nil
@@ -396,11 +409,12 @@ struct EntryFormView: View {
             timestamp = entry.timestamp
             notes = entry.notes ?? ""
             entryTags = entry.tags
+            isApproximate = entry.isApproximate
             if let name = entry.locationName, let lat = entry.latitude, let lng = entry.longitude {
                 location = PickedLocation(name: name, latitude: lat, longitude: lng)
             }
 
-            if let match = SubstanceLibrary.search(entry.substance).first,
+            if let match = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
                match.name.lowercased() == entry.substance.lowercased() {
                 selectedSubstance = match
                 availableRoutes = match.orderedRoutes
@@ -478,6 +492,7 @@ struct EntryFormView: View {
             entry.substanceUID = selectedSubstance?.substanceUID
             entry.displayNameSnapshot = formDisplayNameSnapshot(release: form.release)
             entry.timestamp = timestamp
+            entry.isApproximate = isApproximate
             entry.notes = finalNotes
             entry.volumeML = byVolume.0
             entry.abv = byVolume.1
@@ -532,6 +547,7 @@ struct EntryFormView: View {
                 locationName: location?.name,
                 latitude: location?.latitude,
                 longitude: location?.longitude,
+                isApproximate: isApproximate,
                 volumeML: byVolume.0,
                 abv: byVolume.1,
                 drinkName: byVolume.2,
