@@ -100,7 +100,7 @@ struct ToleranceExplainerView: View {
                 icon: "slider.horizontal.below.square.filled.and.square",
                 tint: .blue,
                 title: "Some effects fade, others don't",
-                body: "For most drugs every effect tolerizes together. Benzodiazepines are the exception: sedation fades almost completely in about two weeks, while the anxiety relief, memory impairment and loss of coordination barely change. That's why the benzodiazepine and gabapentinoid cards show an effect ladder instead of one bar.",
+                body: "For most drugs every effect tolerizes together. Benzodiazepines are the exception: sedation fades almost completely in about two weeks, while the anxiety relief, memory impairment and loss of coordination barely change. That's why the benzodiazepine card shows an effect ladder instead of one bar.",
             )
             concept(
                 icon: "circle.hexagongrid",

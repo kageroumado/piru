@@ -179,6 +179,36 @@ struct BenzoToleranceScenarioTests {
         #expect(stim.responseFraction(forEffect: .sedation) == nil)
     }
 
+    // MARK: - Gabapentinoids: single gauge, not a ladder (evidence-bounded)
+
+    /// Pregabalin: α2δ-1 Kᵢ 32 nM, t½ 6 h — occupancy saturates at ordinary doses, which is why the
+    /// gauge needs the half-sat cap to show tolerance.
+    private func pregabalin() -> PharmacologyParameters {
+        PharmacologyParameters(
+            substanceName: "Pregabalin", molarMassGramsPerMole: 159, vdLPerKg: 0.5,
+            bioavailabilityFraction: 0.9, bioavailabilityConfidence: .high, doseScale: 1,
+            doseScaleConfidence: .high, halfLifeMinutes: 360, vdConfidence: .high,
+            referenceDoseMg: 600, suppressesSerotoninSynthesis: false,
+            targets: [.init(target: "α2δ-1", action: .modulator, halfMaxNanomolar: 32, kind: .ki, confidence: .high)],
+        )
+    }
+
+    @Test
+    func `Gabapentinoids show a single gauge, and heavy use reads as toleranced despite saturation`() throws {
+        // Owen 2007: somnolence habituates in ~weeks; Feltner 2008: anxiolytic maintained. No evidence
+        // for a graded ladder, so α2δ carries no effect endpoints. The gauge must still SHOW the real
+        // sedative tolerance — occupancy saturates (rep occ ≈ 1), so without the half-sat cap a 3× shift
+        // read as ~100% (the "Sleep 100%" bug).
+        let a2d = try #require(ToleranceStore.simulate(
+            doses: Cal.dailyDoses("Pregabalin", mg: 300, days: 90, relativeTo: Self.now),
+            params: ["Pregabalin": pregabalin()], now: Self.now, weightKg: Self.weightKg,
+        )[.alpha2Delta])
+        #expect(a2d.effectShifts.isEmpty) // no per-effect ladder for gabapentinoids
+        #expect(a2d.responseFraction(forEffect: .sedation) == nil) // …and no per-effect gauge
+        #expect(a2d.shiftFactor > 1.5) // heavy daily use builds real tolerance
+        #expect(a2d.responseFraction < 0.85) // and the capped gauge shows it, not ~100%
+    }
+
     // MARK: - Reasonableness of typical patterns
 
     @Test

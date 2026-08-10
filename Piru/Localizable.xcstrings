@@ -23981,6 +23981,7 @@
       }
     },
     "For most drugs every effect tolerizes together. Benzodiazepines are the exception: sedation fades almost completely in about two weeks, while the anxiety relief, memory impairment and loss of coordination barely change. That's why the benzodiazepine and gabapentinoid cards show an effect ladder instead of one bar." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23992,6 +23993,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "對大多數藥物來說，所有效應會一起產生耐受。苯二氮平是個例外：鎮靜作用大約在兩週內幾乎完全減弱，而抗焦慮、記憶損害和協調能力下降卻幾乎不變。這就是為什麼苯二氮平和加巴噴丁類的卡片顯示的是效應階梯，而不是單一條形。"
+          }
+        }
+      }
+    },
+    "For most drugs every effect tolerizes together. Benzodiazepines are the exception: sedation fades almost completely in about two weeks, while the anxiety relief, memory impairment and loss of coordination barely change. That's why the benzodiazepine card shows an effect ladder instead of one bar." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对大多数药物来说，所有效应会一起产生耐受。苯二氮䓬是个例外：镇静作用大约在两周内几乎完全减弱，而抗焦虑、记忆损害和协调能力下降却几乎不变。这就是为什么苯二氮䓬卡片显示的是效应阶梯，而不是单一条形。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對大多數藥物來說，所有效應會一起產生耐受。苯二氮平是個例外：鎮靜作用大約在兩週內幾乎完全減弱，而抗焦慮、記憶損害和協調能力下降卻幾乎不變。這就是為什麼苯二氮平卡片顯示的是效應階梯，而不是單一條形。"
           }
         }
       }

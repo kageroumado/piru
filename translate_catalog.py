@@ -79,9 +79,9 @@ T = {
     ),
     "Effect-selective tolerance": ("效应选择性耐受", "效應選擇性耐受"),
     "Some effects fade, others don't": ("有些效应会减弱，有些不会", "有些效應會減弱，有些不會"),
-    "For most drugs every effect tolerizes together. Benzodiazepines are the exception: sedation fades almost completely in about two weeks, while the anxiety relief, memory impairment and loss of coordination barely change. That's why the benzodiazepine and gabapentinoid cards show an effect ladder instead of one bar.": (
-        "对大多数药物来说，所有效应会一起产生耐受。苯二氮䓬是个例外：镇静作用大约在两周内几乎完全减弱，而抗焦虑、记忆损害和协调能力下降却几乎不变。这就是为什么苯二氮䓬和加巴喷丁类的卡片显示的是效应阶梯，而不是单一条形。",
-        "對大多數藥物來說，所有效應會一起產生耐受。苯二氮平是個例外：鎮靜作用大約在兩週內幾乎完全減弱，而抗焦慮、記憶損害和協調能力下降卻幾乎不變。這就是為什麼苯二氮平和加巴噴丁類的卡片顯示的是效應階梯，而不是單一條形。",
+    "For most drugs every effect tolerizes together. Benzodiazepines are the exception: sedation fades almost completely in about two weeks, while the anxiety relief, memory impairment and loss of coordination barely change. That's why the benzodiazepine card shows an effect ladder instead of one bar.": (
+        "对大多数药物来说，所有效应会一起产生耐受。苯二氮䓬是个例外：镇静作用大约在两周内几乎完全减弱，而抗焦虑、记忆损害和协调能力下降却几乎不变。这就是为什么苯二氮䓬卡片显示的是效应阶梯，而不是单一条形。",
+        "對大多數藥物來說，所有效應會一起產生耐受。苯二氮平是個例外：鎮靜作用大約在兩週內幾乎完全減弱，而抗焦慮、記憶損害和協調能力下降卻幾乎不變。這就是為什麼苯二氮平卡片顯示的是效應階梯，而不是單一條形。",
     ),
     "Why — the receptor comes in subtypes": ("原因——受体分为多种亚型", "原因——受體分為多種亞型"),
     "GABA-A is built from several α-subtypes that adapt at different rates. α1 carries sedation and desensitizes (it uncouples, then the receptors are pulled from the synapse); α5 is required for that sedative tolerance to develop at all; α2 and α3, which carry the anxiety relief, don't adapt. So the dose that no longer makes you sleepy impairs your memory and coordination exactly as much as it did on day one — which is how tolerance quietly drives the dose up.": (
@@ -7035,7 +7035,7 @@ if __name__ == "__main__":
         "Research findings, not medical advice. Benzodiazepine discontinuation can be medically dangerous.",
         "Effect-selective tolerance",
         "Some effects fade, others don't",
-        "For most drugs every effect tolerizes together. Benzodiazepines are the exception: sedation fades almost completely in about two weeks, while the anxiety relief, memory impairment and loss of coordination barely change. That's why the benzodiazepine and gabapentinoid cards show an effect ladder instead of one bar.",
+        "For most drugs every effect tolerizes together. Benzodiazepines are the exception: sedation fades almost completely in about two weeks, while the anxiety relief, memory impairment and loss of coordination barely change. That's why the benzodiazepine card shows an effect ladder instead of one bar.",
         "Why — the receptor comes in subtypes",
         "GABA-A is built from several α-subtypes that adapt at different rates. α1 carries sedation and desensitizes (it uncouples, then the receptors are pulled from the synapse); α5 is required for that sedative tolerance to develop at all; α2 and α3, which carry the anxiety relief, don't adapt. So the dose that no longer makes you sleepy impairs your memory and coordination exactly as much as it did on day one — which is how tolerance quietly drives the dose up.",
         "Benzodiazepine effect kinetics: Vinkers & Olivier 2012; Piot & Jovanovic 2026. These are directions from the literature, graded low — not fitted numbers.",

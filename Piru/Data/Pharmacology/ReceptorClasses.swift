@@ -127,6 +127,10 @@ nonisolated enum ReceptorClasses {
         var gaugeOccupancyCap: Double? {
             switch self {
             case .catecholamineStimulant, .serotonergicReleaser: 0.5
+            // Gabapentinoids saturate α2δ at ordinary doses (pregabalin peak occupancy ≈ 1 at 300 mg),
+            // so an uncapped gauge reads ~100% even at a 3× right-shift — it can't show the real,
+            // well-attested sedative tolerance. Evaluate the response at the sensitive part of the curve.
+            case .alpha2Delta: 0.5
             default: nil
             }
         }
@@ -505,10 +509,14 @@ nonisolated enum ReceptorClasses {
                 primaryEffectAxis: .sedation,
             )
         case .alpha2Delta:
-            // Gabapentinoids (gabapentin, pregabalin, phenibut, F-phenibut): hypnotic tolerance
-            // develops; anxiolytic tolerance unclear. Dependence can be severe, especially
-            // phenibut (protracted withdrawal within weeks of daily use). Same per-effect
-            // differential as GABA: the cognitive impairment endpoint does not tolerize.
+            // Gabapentinoids (gabapentin, pregabalin, phenibut, F-phenibut). Single gauge, NOT an effect
+            // ladder: the only evidenced dissociation is binary — sedation/somnolence habituates within
+            // ~weeks (Owen 2007) while anxiolytic efficacy is maintained long-term (Feltner 2008,
+            // relapse-prevention RCT) — and a benzo-style graded per-effect ladder has no direct evidence
+            // for this class. The mechanism is α2δ-1 (voltage-gated Ca²⁺ channel), NOT GABA-A, so the
+            // subtype "why" that drives the GABA ladder does not apply here. The single gauge represents
+            // the sedative tolerance the user actually feels; the occupancy cap (gaugeOccupancyCap) is
+            // required because α2δ saturates.
             Parameters(
                 acuteShiftMax: 0.3, tauAcuteMinutes: 6 * T.hour,
                 adaptiveShiftMax: 0.8, tauAdaptiveMinutes: 10 * T.day,
@@ -516,20 +524,8 @@ nonisolated enum ReceptorClasses {
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .dependenceKindling, confidence: .low,
                 classDefaultVdLPerKg: 0.8,
-                sourceNote: "Gabapentinoid tolerance: hypnotic well-attested, anxiolytic unclear. Phenibut dependence within weeks. Cognitive impairment endpoint shift ≡ 1. Thinner literature than GABA; grade low.",
-                safetyEndpoint: SafetyEndpoint(
-                    kind: .cognitiveImpairment,
-                    acuteShiftMax: 0, tauAcuteMinutes: 6 * T.hour,
-                    adaptiveShiftMax: 0, tauAdaptiveMinutes: 10 * T.day,
-                ),
-                // Sleep is the primary layer (well-attested hypnotic tolerance). Anxiolytic tolerance is
-                // unclear → modeled flat at unverified; the impairments do not tolerize.
-                effectEndpoints: [
-                    EffectEndpoint(axis: .anxiolysis, adaptiveShiftMax: 0, tauAdaptiveMinutes: 10 * T.day, evidenceTier: .unverified),
-                    EffectEndpoint(axis: .memory, adaptiveShiftMax: 0, tauAdaptiveMinutes: 10 * T.day, evidenceTier: .low),
-                    EffectEndpoint(axis: .coordination, adaptiveShiftMax: 0, tauAdaptiveMinutes: 10 * T.day, evidenceTier: .low),
-                ],
-                primaryEffectAxis: .hypnotic,
+                sourceNote: "Gabapentinoid tolerance, single gauge (α2δ-1 VGCC mechanism, not GABA-A). Sedation/somnolence habituates in ~weeks (Owen 2007); anxiolytic efficacy maintained long-term (Feltner 2008). No evidence for a graded per-effect ladder — not modeled. Phenibut (GABA-B agonist) dependence within weeks. Gauge capped at half-sat occupancy because α2δ saturates. Grade low.",
+                safetyEndpoint: nil,
             )
         case .nmdaAntagonist:
             // Ketamine / DXM / MXE: days-scale adaptive shift + a redose pool; cumulative toxicity.
