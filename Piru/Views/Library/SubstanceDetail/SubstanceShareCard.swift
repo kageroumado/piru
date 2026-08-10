@@ -678,8 +678,6 @@ struct SubstanceShareCard: View {
             Image("AppIconArtwork")
                 .resizable().interpolation(.high)
                 .frame(width: 22, height: 22)
-                .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
-                .overlay(RoundedRectangle(cornerRadius: 5, style: .continuous).stroke(.white.opacity(0.25), lineWidth: 0.5))
             Text(verbatim: "Piru")
                 .font(.system(.subheadline, design: .rounded).weight(.semibold))
                 .foregroundStyle(.white.opacity(0.72))

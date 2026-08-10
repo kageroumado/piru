@@ -22,45 +22,17 @@ struct OnboardingIconHero: View {
 }
 
 /// The app icon as the welcome-screen hero, so the first thing a user sees is the app's face
-/// rather than a generic SF Symbol. `AppIconArtwork` is the *flat* icon composite (the same layers
-/// the OS icon pipeline consumes); we recreate the Liquid Glass look the way the system does — clip
-/// to the icon squircle, then layer a specular sheen, a top rim light, and a drop shadow. Keeping
-/// the source flat means it stays crisp at any size and matches the on-device icon's color.
+/// rather than a generic SF Symbol. `AppIconArtwork` is the system-rendered Liquid Glass icon —
+/// squircle, specular sheen, and rim light baked in by the OS icon pipeline — so we draw it as-is
+/// and add only a drop shadow to lift it off the page.
 struct OnboardingAppIconHero: View {
     var size: CGFloat = 108
-
-    private var shape: RoundedRectangle {
-        RoundedRectangle(cornerRadius: size * 0.2237, style: .continuous)
-    }
 
     var body: some View {
         Image("AppIconArtwork")
             .resizable()
             .interpolation(.high)
             .frame(width: size, height: size)
-            .clipShape(shape)
-            .overlay {
-                // Specular sheen — brightest along the top, gone by the middle.
-                shape.fill(
-                    LinearGradient(
-                        colors: [.white.opacity(0.38), .white.opacity(0.06), .clear],
-                        startPoint: .top,
-                        endPoint: .center,
-                    ),
-                )
-                .blendMode(.softLight)
-            }
-            .overlay {
-                // A crisp rim light along the top edge that fades toward the bottom.
-                shape.strokeBorder(
-                    LinearGradient(
-                        colors: [.white.opacity(0.6), .white.opacity(0.08)],
-                        startPoint: .top,
-                        endPoint: .bottom,
-                    ),
-                    lineWidth: max(0.75, size * 0.006),
-                )
-            }
             .shadow(color: .black.opacity(0.22), radius: size * 0.08, y: size * 0.045)
             .accessibilityHidden(true)
     }
