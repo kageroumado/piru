@@ -123,8 +123,8 @@ private struct EffectLadderRowView: View {
 
     private var tierLabel: LocalizedStringResource {
         switch row.evidenceTier {
-        case .high: "strong"
-        case .medium: "moderate"
+        case .high: "strong evidence"
+        case .medium: "moderate evidence"
         case .low: "low evidence"
         case .unverified: "not measured"
         }
