@@ -71,6 +71,12 @@ struct HalfLifeCalculatorView: View {
                 .foregroundStyle(Theme.secondaryLabel)
                 .padding(.leading, 4)
 
+            GlanceCard(icon: "chart.line.flattrend.xyaxis", title: Text("Steady State"), route: .tool(.steadyState)) {
+                Text("Taking this daily? See where the level settles")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+
             GlanceCard(icon: "hourglass", title: Text("In Your System"), route: .insight(.inSystem)) {
                 Text("See what's active in your body right now")
                     .font(.subheadline)

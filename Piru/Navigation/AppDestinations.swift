@@ -150,6 +150,7 @@ private struct PushRouteView: View {
         case .toleranceInfo: ToleranceExplainerView()
         case .inventory: InventoryListView()
         case .effectSandbox: EffectSandboxView()
+        case .steadyState: SteadyStateView()
         }
     }
 

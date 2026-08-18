@@ -186,6 +186,12 @@ struct InYourSystemView: View {
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             }
+
+            GlanceCard(icon: "chart.line.flattrend.xyaxis", title: Text("Steady State"), route: .tool(.steadyState)) {
+                Text("Where a med taken on a schedule settles")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
         }
     }
 

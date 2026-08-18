@@ -15,6 +15,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
     case toleranceInfo
     case inventory
     case effectSandbox
+    case steadyState
 
     var id: String {
         rawValue
@@ -34,6 +35,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .toleranceInfo: "How Tolerance Works"
         case .inventory: "Inventory"
         case .effectSandbox: "Effect Estimator"
+        case .steadyState: "Steady State"
         }
     }
 
@@ -51,6 +53,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .toleranceInfo: "Why effects fade and how receptors recover"
         case .inventory: "Track how much you have on hand"
         case .effectSandbox: "Compare substances and preview how they may feel"
+        case .steadyState: "Where a repeated dose settles, and when"
         }
     }
 
@@ -67,6 +70,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .toleranceInfo: "chart.line.downtrend.xyaxis"
         case .inventory: "shippingbox"
         case .effectSandbox: "slider.horizontal.2.square"
+        case .steadyState: "chart.line.flattrend.xyaxis"
         }
     }
 }
@@ -80,7 +84,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
 /// tolerance, recovery) are grouped under an expandable ``EducationCard``.
 struct ToolsView: View {
     /// Plain tools rendered as `NavCardLabel` rows, in order.
-    private let rowTools: [Tool] = [.effectSandbox, .calculator, .volumetric, .benzoEquivalence, .opioidEquivalence, .pharma]
+    private let rowTools: [Tool] = [.effectSandbox, .calculator, .steadyState, .volumetric, .benzoEquivalence, .opioidEquivalence, .pharma]
 
     var body: some View {
         ScrollView {

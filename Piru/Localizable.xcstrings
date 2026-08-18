@@ -536,6 +536,22 @@
         }
       }
     },
+    "%@ · trough to peak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · 谷值到峰值"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · 谷值到峰值"
+          }
+        }
+      }
+    },
     "%@ (%lld)" : {
       "localizations" : {
         "en" : {
@@ -1500,6 +1516,23 @@
         }
       }
     },
+    "%@ peak" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 峰值"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 峰值"
+          }
+        }
+      }
+    },
     "%@ range, %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1772,6 +1805,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "共 %1$@ · 已消除 %2$lld%% · 約 %3$@ 清除"
+          }
+        }
+      }
+    },
+    "%@ trough" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 谷值"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 谷值"
           }
         }
       }
@@ -6634,6 +6684,56 @@
         }
       }
     },
+    "Accumulates modestly" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "适度蓄积"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "適度蓄積"
+          }
+        }
+      }
+    },
+    "Accumulates substantially" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "明显蓄积"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "明顯蓄積"
+          }
+        }
+      }
+    },
+    "Accumulation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "蓄积"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "蓄積"
+          }
+        }
+      }
+    },
     "Acetaldehyde" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10285,6 +10385,39 @@
         }
       }
     },
+    "At steady state" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稳态时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "穩態時"
+          }
+        }
+      }
+    },
+    "at the peak, vs. one dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "峰值时，相对于单次剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "峰值時，相對於單次劑量"
+          }
+        }
+      }
+    },
     "At this timing, the substances are not simultaneously active above threshold." : {
       "localizations" : {
         "zh-Hans" : {
@@ -10948,6 +11081,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "巴比妥類、鎮靜催眠藥與 Z 類藥物。"
+          }
+        }
+      }
+    },
+    "Barely accumulates" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "几乎不蓄积"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "幾乎不蓄積"
           }
         }
       }
@@ -14022,6 +14172,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "清除速度被限制在約每小時 1 杯，因此每多喝一杯都會疊加在上一杯之上並滯留更久——總暴露量的增長遠快於杯數。"
+          }
+        }
+      }
+    },
+    "Climbs from one dose to a steady-state range of %@ to %@ %@, reached in about %lld days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从单次剂量上升到 %@ 到 %@ %@ 的稳态范围，约 %lld 天达到"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從單次劑量上升到 %@ 到 %@ %@ 的穩態範圍，約 %lld 天達到"
           }
         }
       }
@@ -17180,6 +17346,22 @@
         }
       }
     },
+    "days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天"
+          }
+        }
+      }
+    },
     "Days" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18855,6 +19037,22 @@
         }
       }
     },
+    "Dose each time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每次剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每次劑量"
+          }
+        }
+      }
+    },
     "Dose intensity" : {
       "comment" : "Dial accessibility label"
     },
@@ -19262,6 +19460,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "過去兩週每天記錄的劑量數"
+          }
+        }
+      }
+    },
+    "Doses stack faster than they clear — the level climbs to roughly %@ a single dose and takes about %@ to get there." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用药速度快于清除速度——体内水平升至单次剂量的约 %@，约需 %@ 才能达到。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用藥速度快於清除速度——體內水平升至單次劑量的約 %@，約需 %@ 才能達到。"
           }
         }
       }
@@ -20041,6 +20256,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每張卡片是該物質自身的貢獻。機制是共享的，所以你的整體水平（上方圖表或「按機制」）可能更高。"
+          }
+        }
+      }
+    },
+    "Each dose has mostly cleared before the next, so the level tracks a single dose." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在下一剂之前，每一剂大多已被清除，因此体内水平与单次剂量相当。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在下一劑之前，每一劑大多已被清除，因此體內水平與單次劑量相當。"
           }
         }
       }
@@ -22190,6 +22422,23 @@
         }
       }
     },
+    "Estimated amount in your body, in %@. The shaded band is the steady-state range once the level stops climbing; the dashed line is a single dose." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体内估计量，单位为 %@。阴影带是水平不再上升后的稳态范围；虚线表示单次剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體內估計量，單位為 %@。陰影帶是水平不再上升後的穩態範圍；虛線表示單次劑量。"
+          }
+        }
+      }
+    },
     "Estimated from effect curves · %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -22500,6 +22749,70 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每兩週"
+          }
+        }
+      }
+    },
+    "Every 4 hours" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每 4 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每 4 小時"
+          }
+        }
+      }
+    },
+    "Every 6 hours" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每 6 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每 6 小時"
+          }
+        }
+      }
+    },
+    "Every 8 hours" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每 8 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每 8 小時"
+          }
+        }
+      }
+    },
+    "Every 12 hours" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每 12 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每 12 小時"
           }
         }
       }
@@ -23883,6 +24196,22 @@
         }
       }
     },
+    "Fluctuation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "波动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "波動"
+          }
+        }
+      }
+    },
     "Flumazenil" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24567,6 +24896,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已完全消除"
+          }
+        }
+      }
+    },
+    "fully settled in %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 完全稳定"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 完全穩定"
           }
         }
       }
@@ -29566,6 +29911,26 @@
         }
       }
     },
+    "Level over time" : {
+
+    },
+    "Level over time — climbing to plateau" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随时间变化的水平——逐渐升至平台"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨時間變化的水平——逐漸升至平台"
+          }
+        }
+      }
+    },
     "Library" : {
       "localizations" : {
         "zh-Hans" : {
@@ -32512,6 +32877,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "證據中等"
+          }
+        }
+      }
+    },
+    "moderate swing" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中等波动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中等波動"
           }
         }
       }
@@ -37044,6 +37425,22 @@
         }
       }
     },
+    "On a fixed schedule, each dose lands on the tail of the last and the level climbs until intake and clearance balance — steady state." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按固定间隔用药时，每一剂都叠加在上一剂的尾部，体内水平不断上升，直到摄入与清除达到平衡——即稳态。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按固定間隔用藥時，每一劑都疊加在上一劑的尾部，體內水平不斷上升，直到攝入與清除達到平衡——即穩態。"
+          }
+        }
+      }
+    },
     "On a U-100 syringe" : {
       "localizations" : {
         "zh-Hans" : {
@@ -37104,6 +37501,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在此裝置上"
+          }
+        }
+      }
+    },
+    "Once daily" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天一次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天一次"
           }
         }
       }
@@ -39701,6 +40114,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "方案 B"
+          }
+        }
+      }
+    },
+    "Plateau range" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平台范围"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平台範圍"
           }
         }
       }
@@ -48113,6 +48542,22 @@
     "SMILES" : {
 
     },
+    "smooth" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平稳"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平穩"
+          }
+        }
+      }
+    },
     "SNRIs blunt MDMA — it may feel weaker. On their own they don't cause serotonin syndrome (the real risk there is MAOIs)." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -48647,6 +49092,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "指定日期"
+          }
+        }
+      }
+    },
+    "spiky" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起伏大"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起伏大"
           }
         }
       }
@@ -49489,6 +49950,55 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "只留在你的裝置上"
+          }
+        }
+      }
+    },
+    "steady state" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稳态"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "穩態"
+          }
+        }
+      }
+    },
+    "Steady State" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稳态"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "穩態"
+          }
+        }
+      }
+    },
+    "Steady state by" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "达到稳态"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "達到穩態"
           }
         }
       }
@@ -50880,6 +51390,38 @@
         }
       }
     },
+    "Taken every" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用药间隔"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用藥間隔"
+          }
+        }
+      }
+    },
+    "Taking this daily? See where the level settles" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天服用？看看会稳定在何处"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天服用？看看會穩定在何處"
+          }
+        }
+      }
+    },
     "Talk to someone you trust — connection helps more than isolation." : {
       "localizations" : {
         "zh-Hans" : {
@@ -51632,6 +52174,23 @@
         }
       }
     },
+    "The Half-Life Calculator models one dose fading out. A dose repeated on a schedule instead lands on the tail of the last, and the level climbs until intake and clearance balance — steady state." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "半衰期计算器模拟单次剂量的消退。而按固定间隔重复用药时，每一剂都叠加在上一剂的尾部，体内水平不断上升，直到摄入与清除达到平衡——这就是稳态。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "半衰期計算器模擬單次劑量的消退。而按固定間隔重複用藥時，每一劑都疊加在上一劑的尾部，體內水平不斷上升，直到攝入與清除達到平衡——這就是穩態。"
+          }
+        }
+      }
+    },
     "The high fades with tolerance, but the load on your heart and blood pressure doesn't." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -51710,6 +52269,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血清素 (5-HT) 的直接生物合成前體。穿過血腦屏障,由芳香族 L-胺基酸脫羧酶 (AADC) 轉化為血清素。與色胺酸不同,繞過限速的色胺酸羥化酶步驟。增加中樞血清素合成。由於血清素綜合徵風險,不應與血清素能藥物合用。"
+          }
+        }
+      }
+    },
+    "The level settles around %@ a single dose, reaching steady state in about %@." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体内水平稳定在单次剂量的约 %@，约 %@ 达到稳态。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體內水平穩定在單次劑量的約 %@，約 %@ 達到穩態。"
           }
         }
       }
@@ -52858,6 +53434,23 @@
         }
       }
     },
+    "This projects a perfectly regular schedule onto the same one-compartment oral model the Half-Life Calculator uses, assuming dose-proportional (linear) kinetics. Amounts are body content in the dose's units — not a plasma concentration, which would need an individual volume of distribution. Real accumulation varies with metabolism, missed or extra doses, active metabolites, and saturable elimination. A model of the pharmacology, not a dosing plan — it says what a level does, never what a dose should be. Not medical advice." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本工具在半衰期计算器所用的同一单室口服模型上，假设一个完全规律的用药方案，并假定动力学与剂量成正比（线性）。所示数值为以剂量单位表示的体内含量，而非血浆浓度——后者需要个体的分布容积。实际蓄积会因代谢、漏服或加服、活性代谢物以及可饱和消除而异。这是对药理学的建模，而非用药方案——它说明水平如何变化，绝不建议剂量。非医疗建议。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本工具在半衰期計算器所用的同一單室口服模型上，假設一個完全規律的用藥方案，並假定動力學與劑量成正比（線性）。所示數值為以劑量單位表示的體內含量，而非血漿濃度——後者需要個體的分布容積。實際蓄積會因代謝、漏服或加服、活性代謝物以及可飽和消除而異。這是對藥理學的建模，而非用藥方案——它說明水平如何變化，絕不建議劑量。非醫療建議。"
+          }
+        }
+      }
+    },
     "This replaces your current data with the %@ in this copy. A snapshot of your current data is taken first, so it's reversible. Restart Piru afterwards to load it." : {
       "localizations" : {
         "zh-Hans" : {
@@ -53347,6 +53940,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "該休息了"
+          }
+        }
+      }
+    },
+    "Time to steady state depends only on the half-life — not the dose or how often you take it. A bigger dose or shorter gap raises the plateau; it doesn't arrive sooner." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "达到稳态的时间只取决于半衰期——与剂量或用药频率无关。更大的剂量或更短的间隔会抬高平台，但不会更快达到。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "達到穩態的時間只取決於半衰期——與劑量或用藥頻率無關。更大的劑量或更短的間隔會抬高平台，但不會更快達到。"
           }
         }
       }
@@ -54558,6 +55168,22 @@
         }
       }
     },
+    "Twice daily" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天两次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天兩次"
+          }
+        }
+      }
+    },
     "Two different drugs that hit the same receptor share tolerance. Recent LSD blunts a mushroom trip because both work at 5-HT2A; one benzodiazepine carries to another; one opioid to the next. That's why tolerance is tracked per receptor here, and why a “new” drug in the same family can still feel weak." : {
       "localizations" : {
         "zh-Hans" : {
@@ -55472,6 +56098,23 @@
         }
       }
     },
+    "Uses the same one-compartment oral model, assuming a regular schedule and linear kinetics. Values are body content in the dose's units, not a plasma concentration. Real accumulation varies with metabolism, dosing gaps, and active metabolites." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用相同的单室口服模型，假设规律用药且动力学为线性。数值为以剂量单位表示的体内含量，而非血浆浓度。实际蓄积会因代谢、用药间隔和活性代谢物而异。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用相同的單室口服模型，假設規律用藥且動力學為線性。數值為以劑量單位表示的體內含量，而非血漿濃度。實際蓄積會因代謝、用藥間隔和活性代謝物而異。"
+          }
+        }
+      }
+    },
     "Using the average 60 kg. Set yours above so estimates fit your body — the same dose hits harder the less you weigh." : {
       "localizations" : {
         "zh-Hans" : {
@@ -55500,6 +56143,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "丙戊酸鹽"
+          }
+        }
+      }
+    },
+    "Values are body content in the dose's units, not a plasma concentration. Real accumulation varies with metabolism, dosing gaps, and metabolites." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数值为以剂量单位表示的体内含量，而非血浆浓度。实际蓄积会因代谢、用药间隔和代谢物而异。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "數值為以劑量單位表示的體內含量，而非血漿濃度。實際蓄積會因代謝、用藥間隔和代謝物而異。"
           }
         }
       }
@@ -56628,6 +57287,55 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你一停，這股反向的推力會有一陣子沒了對手——所以戒斷或者落差感往往像藥效的鏡像（興奮劑之後的提不起勁、鴉片之後的渾身痠痛）。"
+          }
+        }
+      }
+    },
+    "Where a med taken every day settles" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天服用的药物会稳定在何处"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天服用的藥物會穩定在何處"
+          }
+        }
+      }
+    },
+    "Where a med taken on a schedule settles" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按固定间隔服用的药物会稳定在何处"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按固定間隔服用的藥物會穩定在何處"
+          }
+        }
+      }
+    },
+    "Where a repeated dose settles, and when" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重复用药最终稳定在何处，以及需要多久"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重複用藥最終穩定在何處，以及需要多久"
           }
         }
       }
