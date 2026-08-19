@@ -57698,24 +57698,26 @@
       "Revatio",
       "Viagra"
     ],
-    "category": "",
-    "display_class": "medical_rx",
+    "category": "Other",
+    "display_class": "recreational",
     "tags": [
       "phosphodiesterase-5 inhibitor"
     ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "Phosphodiesterase Type 5 (PDE5) Inhibitor",
     "effects": [],
     "references": [],
     "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
       "half_life_minutes",
       "references"
     ]
@@ -62452,33 +62454,6 @@
     ]
   },
   {
-    "name": "Viagra",
-    "display_name": "",
-    "aliases": [],
-    "category": "Other",
-    "display_class": "recreational",
-    "tags": [],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Vilazodone",
     "display_name": "",
     "aliases": [
@@ -63159,6 +63134,39 @@
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
+    ]
+  },
+  {
+    "name": "Xanomeline",
+    "display_name": "",
+    "aliases": [
+      "Cobenfy",
+      "KarXT",
+      "Xanomeline and trospium chloride",
+      "Xanomeline/trospium"
+    ],
+    "category": "Antipsychotic",
+    "display_class": "medical_rx",
+    "tags": [],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": 300.0,
+    "mechanism_summary": "Muscarinic acetylcholine receptor agonist functionally selective for the M1 and M4 subtypes — the CNS-active component of Cobenfy, paired with trospium, a peripheral antimuscarinic that blunts cholinergic side effects without entering the brain. The first antipsychotic that works without blocking dopamine D2 receptors.",
+    "effects": [],
+    "references": [
+      "FDA/DailyMed Cobenfy prescribing information §12.3 — xanomeline t½ ≈ 5 h",
+      "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8f0e73bf-6025-44f6-ab64-0983322de0df",
+      "https://doi.org/10.1056/NEJMoa2017015",
+      "https://en.wikipedia.org/wiki/Xanomeline/trospium_chloride"
+    ],
+    "data_gaps": [
+      "dose_ranges_by_route"
     ]
   },
   {

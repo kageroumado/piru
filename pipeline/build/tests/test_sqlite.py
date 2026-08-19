@@ -1304,28 +1304,34 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             self.assertEqual((row["common_lower"], row["common_upper"]), (lo, hi))
 
     def test_dose_less_stubs_flagged_consistently(self):
-        """is_stub == 1 exactly when a substance has zero dose/duration/protocol
-        rows, and there is at least one (medtap catalog stubs exist)."""
+        """is_stub == 1 exactly when a substance has zero dose, duration,
+        protocol, half-life, AND binding rows — a genuinely bare catalog entry.
+        Half-life and receptor pharmacology keep a prescription drug (whose
+        therapeutic dose was correctly stripped) out of the stub set, so it does
+        not read as 'Limited data'. There is at least one true stub."""
+        # The five tables whose presence makes a substance NOT a stub — must match
+        # flag_dose_less_stubs() in sqlite.py.
+        has_data = (
+            " exists(select 1 from dose_ranges where substance_id=s.id)"
+            " or exists(select 1 from durations where substance_id=s.id)"
+            " or exists(select 1 from protocol_dosing where substance_id=s.id)"
+            " or exists(select 1 from half_lives where substance_id=s.id)"
+            " or exists(select 1 from bindings where substance_id=s.id)"
+        )
         flagged = self.db.execute("select count(*) c from substances where is_stub=1").fetchone()[
             "c"
         ]
-        self.assertGreater(flagged, 0, "expected some dose-less catalog stubs")
-        # Every flagged row genuinely has no dose/duration/protocol data.
+        self.assertGreater(flagged, 0, "expected some bare catalog stubs")
+        # Every flagged row genuinely has none of that data.
         leaks = self.db.execute(
-            "select count(*) c from substances s where s.is_stub=1 and ("
-            " exists(select 1 from dose_ranges where substance_id=s.id)"
-            " or exists(select 1 from durations where substance_id=s.id)"
-            " or exists(select 1 from protocol_dosing where substance_id=s.id))"
+            f"select count(*) c from substances s where s.is_stub=1 and ({has_data})"
         ).fetchone()["c"]
-        self.assertEqual(leaks, 0, "is_stub set on a substance that has dose data")
-        # And no unflagged row is genuinely dose-less.
+        self.assertEqual(leaks, 0, "is_stub set on a substance that carries real data")
+        # And no unflagged row is genuinely bare.
         missed = self.db.execute(
-            "select count(*) c from substances s where s.is_stub=0 and not ("
-            " exists(select 1 from dose_ranges where substance_id=s.id)"
-            " or exists(select 1 from durations where substance_id=s.id)"
-            " or exists(select 1 from protocol_dosing where substance_id=s.id))"
+            f"select count(*) c from substances s where s.is_stub=0 and not ({has_data})"
         ).fetchone()["c"]
-        self.assertEqual(missed, 0, "dose-less substance not flagged is_stub")
+        self.assertEqual(missed, 0, "bare substance not flagged is_stub")
 
     def test_inchikey_false_merges_stay_split(self):
         """The four known InChIKey-collision pairs (#8) must remain DISTINCT rows

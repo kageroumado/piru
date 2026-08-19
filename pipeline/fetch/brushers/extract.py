@@ -13,7 +13,7 @@ preserved under `x_*` keys so nothing is discarded before review.
 Reuses `_common.py` (category/route mapping, HTML stripping, range parsing).
 
 Paths (override with env vars):
-  PIRU_DATASOURCES — raw input dir   (default ~/Developer/piru-data)
+  PIRU_DATASOURCES — raw input dir   (default ../piru-data, beside the repo)
   PIRU_EXTERNAL_DIR — JSON output dir (default /tmp/piru-extract; must match sqlite.py)
 """
 
@@ -35,12 +35,19 @@ from _common import (  # noqa: E402
     strip_html,
 )
 
-# The default used to be ~/Developer/piru-datasources, which no longer exists.
-# A wrong default here is not a harmless miss: every ingest_* reader does
+# Repo-relative by default: this file is pipeline/fetch/brushers/extract.py, so
+# the repo root is parents[3] and the raw datasets live in its sibling
+# `../piru-data` (kept out of the public repo). Resolving relative to the
+# checkout rather than a hardcoded home path keeps a user folder out of public
+# code and finds the data wherever the repo is cloned, as long as piru-data sits
+# beside it. Override with PIRU_DATASOURCES if it lives elsewhere.
+#
+# A wrong path here is not a harmless miss: every ingest_* reader does
 # `if not path.exists(): return`, so a silent no-op extract costs ~1150
 # indications, ~1658 contraindications, 33 diazepam equivalents and the NPS
 # identifier set — and the build still succeeds, just thinner.
-DS = Path(os.environ.get("PIRU_DATASOURCES", Path.home() / "Developer" / "piru-data"))
+_REPO_ROOT = Path(__file__).resolve().parents[3]
+DS = Path(os.environ.get("PIRU_DATASOURCES", _REPO_ROOT.parent / "piru-data"))
 OUT = Path(os.environ.get("PIRU_EXTERNAL_DIR", "/tmp/piru-extract"))
 OUT.mkdir(parents=True, exist_ok=True)
 

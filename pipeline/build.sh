@@ -18,7 +18,7 @@ MODE="${1:-fast}"
 step() { printf '\n\033[1;36m▸ %s\033[0m\n' "$*"; }
 
 if [ "$MODE" = "full" ]; then
-  # ── Upstream source passes (network / external; refresh committed inputs) ──
+  # ── Upstream source passes (network; refresh committed inputs) ──
   step "1/8  Fetch PsychonautWiki  → data/sources/psychonautwiki.json"
   python3 pipeline/fetch/psychonautwiki.py
   # drug.community is a manual snapshot → data/sources/drug-community.json (no script)
@@ -33,14 +33,19 @@ if [ "$MODE" = "full" ]; then
   # The CLI now also declares a defaultSubcommand, so both spellings work.
   ( cd pipeline/fetch/collector && swift run SubstanceCollector build )
 
-  step "3/8  Extract out-of-repo datasets (Pyrls/MedTAP/NPS/benzos) → /tmp/piru-extract/*.json"
-  # Needs ~/Developer/piru-data present (export PIRU_DATASOURCES if it moved).
-  python3 pipeline/fetch/brushers/extract.py
-
   step "4/8  (manual) Enrichment swarm → data/enrichment/raw/*.json  — see pipeline/enrichment/"
 else
-  step "1-4/8  skipped (fast mode) — using committed upstream inputs"
+  step "1-2,4/8  skipped (fast mode) — using committed upstream inputs"
 fi
+
+# Runs in BOTH modes: extracting the private datasets is **offline** — it only
+# brushes the local ../piru-data files into external JSON, no network — so
+# gating it behind `full` was the bug that left a `fast` build reading an empty
+# extract dir and shipping a silently-thin DB (~400 substances short). No-ops
+# gracefully when ../piru-data is absent (a fresh clone / CI): every reader
+# skips its missing file and sqlite.py warns loudly about the gap.
+step "3/8  Extract out-of-repo datasets (Pyrls/MedTAP/NPS/benzos) → external extract dir"
+python3 pipeline/fetch/brushers/extract.py
 
 # ── Build passes (offline, reproducible from committed inputs) ──
 step "5/8  Validate the curated layer (one file per substance)"

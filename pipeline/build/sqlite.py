@@ -3709,11 +3709,6 @@ _NAME_REMAP: dict[str, str] = {
     # match handles all structurally-confirmed duplicates automatically.)
     "vyvanse": "Lisdexamfetamine",
     "elvanse": "Lisdexamfetamine",
-    # Viagra is Sildenafil's brand. Both rows lack an InChIKey (the generic is a
-    # stub, the brand a scraped recreational entry with its own dose ladder), so
-    # the structural auto-dedup can't fold them — leaving two parallel entries.
-    # Canonicalise to the INN; Viagra survives as an alias (already on Sildenafil).
-    "viagra": "Sildenafil",
     # Demerol is a BRAND, and it was sitting in the catalog as a canonical name —
     # carrying pethidine's own InChIKey (XADCESSVHJOZHK) and CID 4058, with
     # Morpheridine filed separately as though they were peers. Canonicalise to the
@@ -3841,6 +3836,12 @@ _FORCE_MERGE: list[tuple[str, str, bool]] = [
     # Greek/Latin spelling variant the capital-Greek normalise() fold can't
     # reach (βH spelled out as "BOH"). Keep the curated β-hydroxy canonical.
     ("BOH-2C-B", "βH-2C-B", True),
+    # Viagra is Sildenafil's brand. The pyrls extract supplies a bare "Viagra"
+    # row (mechanism only, no InChIKey), which survives ingest+dedup as its own
+    # entry beside the generic — _NAME_REMAP fires at ingest and can't reach the
+    # extract path. Fold it into the INN; "Viagra" survives as an alias (already
+    # on Sildenafil).
+    ("Viagra", "Sildenafil", True),
     # Same-drug rows that collide on an EXACT InChIKey (a dronabinol brand, split
     # RC dupes). Sourced from the unified collision registry so the disposition
     # lives in one place — see data/curated/inchikey-collisions.json.
@@ -8840,15 +8841,20 @@ class Build:
         catalog. Distinct from drop_orphan_stubs(), which deletes truly
         content-less wikidata rows. Runs after all ingest + the therapeutic-dose
         strip, so a drug that lost its ladder is re-evaluated on what remains."""
-        cur = self.cur.execute(
-            "UPDATE substances SET is_stub = 1 WHERE id NOT IN ("
+        # CASE (not a one-way SET=1): this runs twice — once before and once after
+        # the therapeutic-dose strip — and enrichment can ADD a half-life or binding
+        # between the two calls. A one-way flag would leave a row that was bare at
+        # the first call stuck at is_stub=1 after it gained pharmacology. Recompute
+        # both directions so the flag always reflects the row's current data.
+        self.cur.execute(
+            "UPDATE substances SET is_stub = CASE WHEN id NOT IN ("
             "  SELECT substance_id FROM dose_ranges "
             "  UNION SELECT substance_id FROM durations "
             "  UNION SELECT substance_id FROM protocol_dosing "
             "  UNION SELECT substance_id FROM half_lives "
-            "  UNION SELECT substance_id FROM bindings)"
+            "  UNION SELECT substance_id FROM bindings) THEN 1 ELSE 0 END"
         )
-        return cur.rowcount
+        return self.cur.execute("SELECT COUNT(*) FROM substances WHERE is_stub = 1").fetchone()[0]
 
     def apply_structural_duplicate_merges(self, path: Path) -> dict[str, int]:
         """Merge the adjudicated same-molecule pairs in
@@ -10755,6 +10761,14 @@ def main() -> int:
             + ", ".join(f"{t!r}×{n}" for t, n in build.effect_vocab_unmatched.most_common(20)),
             file=sys.stderr,
         )
+
+    # Final is_stub recompute — the LAST data-touching pass. Steps above
+    # (derive_half_lives_from_pk, build_product_durations, forms/strengths) add
+    # half-life and duration rows after the mid-build flag, so a row that was bare
+    # then can carry data now. Recompute so the flag — and the "Limited data"
+    # badge it drives — reflects the finished database.
+    final_stubs = build.flag_dose_less_stubs()
+    print(f"Final dose-less stub flag: {final_stubs}", file=sys.stderr)
 
     substance_count = db.execute("SELECT COUNT(*) FROM substances").fetchone()[0]
     content_version = datetime.now(UTC).strftime("%Y-%m-%d.0")
