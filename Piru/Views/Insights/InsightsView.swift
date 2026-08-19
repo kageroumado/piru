@@ -26,8 +26,7 @@ struct InsightsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 usageCard
-                inSystemCard
-                bodyLoadCard
+                inYourBodyCard
                 adherenceCard
                 toleranceCard
             }
@@ -95,10 +94,13 @@ struct InsightsView: View {
         .accessibilityValue(Text("\(dailyCounts.reduce(0) { $0 + $1.count }) in the last 14 days"))
     }
 
-    // MARK: - In Your System
+    // MARK: - In Your Body
 
-    private var inSystemCard: some View {
-        largeCard(icon: "hourglass", tint: .teal, title: "In your system", route: .insight(.inSystem)) {
+    /// The entry point to the "In Your Body" group (what's active now + how
+    /// body-load has moved over time). Previews the live in-system readout — the
+    /// most glanceable of the two — and pushes the group's list screen.
+    private var inYourBodyCard: some View {
+        largeCard(icon: "waveform.path.ecg", tint: .teal, title: "In your body", route: .insightGroup(.inYourBody)) {
             if active.isEmpty {
                 emptyContent("Nothing active right now")
             } else {
@@ -119,23 +121,6 @@ struct InsightsView: View {
                     if active.count > 3 {
                         GlanceMoreRow(count: active.count - 3)
                     }
-                }
-            }
-        }
-    }
-
-    // MARK: - In Your Body (over time)
-
-    private var bodyLoadCard: some View {
-        largeCard(icon: "waveform.path.ecg", tint: .indigo, title: "In your body over time", route: .insight(.bodyLoad)) {
-            if active.isEmpty {
-                emptyContent("Log doses to trace your body-load history")
-            } else {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("How much of each substance has been circulating, day by day")
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }

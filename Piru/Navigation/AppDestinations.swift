@@ -111,6 +111,11 @@ private struct PushRouteView: View {
             insightView(for: insight)
                 .navigationBarTitleDisplayMode(.inline)
 
+        case let .insightGroup(group):
+            InsightGroupView(group: group)
+                .navigationTitle(group.title)
+                .navigationBarTitleDisplayMode(.inline)
+
         case .myMeds:
             MyMedsHubView()
 

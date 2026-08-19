@@ -37,6 +37,10 @@ nonisolated enum PushRoute: Hashable, Codable {
     case libraryFavorites
     case tool(Tool)
     case insight(Insight)
+    /// A group of related insight graphs — the middle level of the Insights
+    /// two-level push (`Specs/insights-stats-architecture.md`). Only groups with
+    /// more than one graph route here; a lone graph is pushed directly.
+    case insightGroup(InsightGroup)
     /// The My Meds hub — a *place*, so it pushes (Specs/meds-ux-review.md §2);
     /// `SheetRoute.dailyDoseSettings` remains for deep links and contexts
     /// without a bound stack.
@@ -98,6 +102,26 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
 
     var id: String {
         rawValue
+    }
+}
+
+/// A named cluster of related insight graphs — the middle tier of the Insights
+/// two-level push. The landing shows one card per group; tapping a group with
+/// several graphs pushes its list screen, while a single-graph group is pushed
+/// straight to the graph (no pointless one-row list).
+nonisolated enum InsightGroup: String, Hashable, Codable, CaseIterable, Identifiable {
+    /// What's circulating now + how it has moved over time.
+    case inYourBody
+
+    var id: String {
+        rawValue
+    }
+
+    /// The graphs in the group, in display order.
+    var insights: [Insight] {
+        switch self {
+        case .inYourBody: [.inSystem, .bodyLoad]
+        }
     }
 }
 
