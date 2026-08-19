@@ -23,8 +23,9 @@ struct UsageStatsView: View {
     @State private var metric: UsageRankMetric = .commonDoses
     /// Canonical names to include; empty means every substance. Lets the user
     /// mute a substance that dominates the stats (the "2-MMC swamps everything"
-    /// report) and read the rest.
+    /// report) and read the rest. Edited in ``SubstanceFilterSheet``.
     @State private var selectedSubstances: Set<String> = []
+    @State private var showingSubstanceSheet = false
 
     var body: some View {
         ScrollView {
@@ -55,6 +56,9 @@ struct UsageStatsView: View {
             if !allEntries.isEmpty {
                 ToolbarItem(placement: .topBarTrailing) { filterMenu }
             }
+        }
+        .sheet(isPresented: $showingSubstanceSheet) {
+            SubstanceFilterSheet(substances: model.allSubstances, selection: $selectedSubstances)
         }
         .task(id: refreshToken) {
             await model.refresh(
@@ -93,43 +97,23 @@ struct UsageStatsView: View {
                 Text("Common doses").tag(UsageRankMetric.commonDoses)
                 Text("Entries").tag(UsageRankMetric.entries)
             }
-            let substances = model.allSubstances
-            if substances.count > 1 {
-                Menu("Substances") {
-                    Button {
-                        selectedSubstances.removeAll()
-                    } label: {
-                        Label("All Substances", systemImage: filterActive ? "" : "checkmark")
-                    }
-                    Divider()
-                    ForEach(substances, id: \.name) { substance in
-                        Button {
-                            toggle(substance.name)
-                        } label: {
-                            Label(
-                                substance.displayName,
-                                systemImage: selectedSubstances.contains(substance.name) ? "checkmark" : "",
-                            )
-                        }
-                    }
+            if model.allSubstances.count > 1 {
+                Button {
+                    showingSubstanceSheet = true
+                } label: {
+                    Label(substancesMenuLabel, systemImage: "pills")
                 }
             }
         } label: {
-            Label(
-                "Filter",
-                systemImage: filterActive
-                    ? "line.3.horizontal.decrease.circle.fill"
-                    : "line.3.horizontal.decrease.circle",
-            )
+            Label("Filter", systemImage: filterActive ? "line.3.horizontal.decrease.fill" : "line.3.horizontal.decrease")
         }
     }
 
-    private func toggle(_ name: String) {
-        if selectedSubstances.contains(name) {
-            selectedSubstances.remove(name)
-        } else {
-            selectedSubstances.insert(name)
-        }
+    /// The substance-picker menu row: the count when a subset is active, else "all".
+    private var substancesMenuLabel: String {
+        filterActive
+            ? String(localized: "Substances (\(selectedSubstances.count))")
+            : String(localized: "All Substances")
     }
 
     private var emptyRange: some View {

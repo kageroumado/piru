@@ -4965,6 +4965,9 @@ T = {
     "Entries": ("条目", "條目"),
     "Substances": ("物质", "物質"),
     "All Substances": ("所有物质", "所有物質"),
+    "Substances (%lld)": ("物质 (%lld)", "物質 (%lld)"),
+    "Select All": ("全选", "全選"),
+    "Deselect All": ("取消全选", "取消全選"),
     "Per day": ("每日", "每日"),
     "Most logged": ("记录最多", "記錄最多"),
     # Time of day chart
@@ -6833,8 +6836,11 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
-        # Usage toolbar filter (CLI-added; Xcode hasn't extracted it yet).
+        # Usage toolbar filter + substance sheet (CLI-added; not yet extracted).
         "All Substances",
+        "Substances (%lld)",
+        "Select All",
+        "Deselect All",
         # Custom units (CLI-added; Xcode hasn't extracted them yet).
         "Custom Units",
         "No Custom Units",
