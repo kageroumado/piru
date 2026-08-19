@@ -3709,6 +3709,11 @@ _NAME_REMAP: dict[str, str] = {
     # match handles all structurally-confirmed duplicates automatically.)
     "vyvanse": "Lisdexamfetamine",
     "elvanse": "Lisdexamfetamine",
+    # Viagra is Sildenafil's brand. Both rows lack an InChIKey (the generic is a
+    # stub, the brand a scraped recreational entry with its own dose ladder), so
+    # the structural auto-dedup can't fold them — leaving two parallel entries.
+    # Canonicalise to the INN; Viagra survives as an alias (already on Sildenafil).
+    "viagra": "Sildenafil",
     # Demerol is a BRAND, and it was sitting in the catalog as a canonical name —
     # carrying pethidine's own InChIKey (XADCESSVHJOZHK) and CID 4058, with
     # Morpheridine filed separately as though they were peers. Canonicalise to the
@@ -8823,19 +8828,25 @@ class Build:
 
     def flag_dose_less_stubs(self) -> int:
         """Set `substances.is_stub = 1` for every substance with ZERO dose_ranges,
-        ZERO durations, and ZERO protocol_dosing rows.
+        ZERO durations, ZERO protocol_dosing, ZERO half_lives, AND ZERO bindings.
 
-        These are bare catalog entries — overwhelmingly medtap regulatory rows
-        that carry a name/indication but nothing dose-trackable. Flagging (rather
-        than dropping) lets the app demote/badge them without losing the catalog.
-        Distinct from drop_orphan_stubs(), which deletes truly content-less
-        wikidata rows; a stub here may still carry indications/mechanism/effects.
-        Runs after all dose/duration ingest + folding + the duration audit."""
+        These are bare catalog entries — a name/indication and nothing else. The
+        "Limited data" badge and detail banner both key on this, so a prescription
+        drug whose therapeutic dose was (correctly) stripped must NOT read as
+        "limited": it still carries a half-life and receptor pharmacology, which is
+        real, trackable data. Half-life and bindings therefore keep a substance out
+        of the stub set even with no dose/duration. Flagging (rather than dropping)
+        lets the app demote/badge the genuinely thin ones without losing the
+        catalog. Distinct from drop_orphan_stubs(), which deletes truly
+        content-less wikidata rows. Runs after all ingest + the therapeutic-dose
+        strip, so a drug that lost its ladder is re-evaluated on what remains."""
         cur = self.cur.execute(
             "UPDATE substances SET is_stub = 1 WHERE id NOT IN ("
             "  SELECT substance_id FROM dose_ranges "
             "  UNION SELECT substance_id FROM durations "
-            "  UNION SELECT substance_id FROM protocol_dosing)"
+            "  UNION SELECT substance_id FROM protocol_dosing "
+            "  UNION SELECT substance_id FROM half_lives "
+            "  UNION SELECT substance_id FROM bindings)"
         )
         return cur.rowcount
 
