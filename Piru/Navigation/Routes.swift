@@ -102,6 +102,9 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
     /// The historic counterpart to `tolerance`: per-mechanism receptor load
     /// traced across a time range, off `ToleranceStore.loadTrail`.
     case receptorLoad
+    /// Where a regularly-dosed substance settles: steady-state plateau projected
+    /// from the log's own inferred median dose + interval, off `SteadyStateModel`.
+    case steadyStateProjection
 
     var id: String {
         rawValue
@@ -125,7 +128,7 @@ nonisolated enum InsightGroup: String, Hashable, Codable, CaseIterable, Identifi
     /// The graphs in the group, in display order.
     var insights: [Insight] {
         switch self {
-        case .inYourBody: [.inSystem, .bodyLoad]
+        case .inYourBody: [.inSystem, .bodyLoad, .steadyStateProjection]
         case .toleranceReceptors: [.tolerance, .receptorLoad]
         }
     }

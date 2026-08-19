@@ -140,6 +140,7 @@ private struct PushRouteView: View {
         case .inSystem: InYourSystemView().navigationTitle("In Your System")
         case .bodyLoad: BodyLoadView().navigationTitle("In Your Body")
         case .receptorLoad: ReceptorLoadView().navigationTitle("Receptor Load")
+        case .steadyStateProjection: SteadyStateProjectionView().navigationTitle("Steady State")
         }
     }
 
