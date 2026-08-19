@@ -1,75 +1,135 @@
 import SwiftData
 import SwiftUI
 
-/// Insights → Usage. A thin coordinator: it owns the time range and the
-/// analytics model, and hands each section of `Specs/usage-graphs-v2.md` its
-/// own slice of the result.
+/// Insights → Usage. A thin coordinator: it owns the time range, the metric
+/// lens, the substance filter, and the analytics model, and hands each section
+/// of `Specs/usage-graphs-v2.md` its own slice of the result.
 ///
-/// Deliberately holds almost no state. Every section that has churning UI state
-/// (the heatmap's day/category selection, the trend legend, the dose-level
-/// substance picker) owns that state itself, so a tap in one section doesn't
-/// re-evaluate the others — this screen renders eight charts, and one shared
-/// invalidation boundary across all of them was the old design's problem.
+/// The controls live in one toolbar filter menu rather than inline above the
+/// charts, so the screen leads with data. Each section that has churning UI
+/// state (the heatmap's day/category selection, the trend legend, the dose-level
+/// substance picker) still owns that state itself, so a tap in one section
+/// doesn't re-evaluate the others — this screen renders eight charts, and one
+/// shared invalidation boundary across all of them was the old design's problem.
 struct UsageStatsView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
 
     @State private var model = UsageAnalyticsModel()
     @State private var range: UsageTimeRange = .thirtyDays
+    /// Entries vs common-dose units — one global lens for every card that has
+    /// one (they each used to carry their own copy). Common doses by default: it
+    /// weighs each dose by its typical size, the more representative view.
+    @State private var metric: UsageRankMetric = .commonDoses
+    /// Canonical names to include; empty means every substance. Lets the user
+    /// mute a substance that dominates the stats (the "2-MMC swamps everything"
+    /// report) and read the rest.
+    @State private var selectedSubstances: Set<String> = []
 
     var body: some View {
-        VStack(spacing: 0) {
-            if !allEntries.isEmpty {
-                rangePicker
-                    .padding(.horizontal)
-                    .padding(.vertical, 8)
-            }
-            ScrollView {
-                LazyVStack(spacing: 16) {
-                    if allEntries.isEmpty {
-                        ContentUnavailableView(
-                            "No Logged Entries",
-                            systemImage: "chart.bar",
-                            description: Text("Log some entries to see usage stats."),
-                        )
-                        .padding(.top, 40)
-                    } else if let result = model.result {
-                        if result.isEmpty {
-                            emptyRange
-                        } else {
-                            sections(result)
-                        }
+        ScrollView {
+            LazyVStack(spacing: 16) {
+                if allEntries.isEmpty {
+                    ContentUnavailableView(
+                        "No Logged Entries",
+                        systemImage: "chart.bar",
+                        description: Text("Log some entries to see usage stats."),
+                    )
+                    .padding(.top, 40)
+                } else if let result = model.result {
+                    if result.isEmpty {
+                        emptyRange
                     } else {
-                        ProgressView()
-                            .padding(.top, 60)
+                        sections(result)
                     }
+                } else {
+                    ProgressView()
+                        .padding(.top, 60)
                 }
-                .padding(.horizontal)
-                .padding(.bottom, 40)
             }
+            .padding(.horizontal)
+            .padding(.bottom, 40)
         }
         .background(Theme.background)
+        .toolbar {
+            if !allEntries.isEmpty {
+                ToolbarItem(placement: .topBarTrailing) { filterMenu }
+            }
+        }
         .task(id: refreshToken) {
-            await model.refresh(entries: allEntries, colors: substanceColors, range: range)
+            await model.refresh(
+                entries: allEntries, colors: substanceColors,
+                range: range, substanceFilter: selectedSubstances,
+            )
         }
     }
 
-    /// One token covering both inputs, so a range change and an edit to the
-    /// underlying entries both re-run the (internally memoized) refresh.
+    /// One token covering every input that changes the aggregation — entries,
+    /// range, and the substance filter — so any of them re-runs the (internally
+    /// memoized) refresh. The metric lens is deliberately absent: it only
+    /// re-labels already-computed numbers, so it never triggers a recompute.
     private var refreshToken: Int {
         var hasher = Hasher()
         hasher.combine(EntriesFingerprint.make(allEntries, colors: substanceColors))
         hasher.combine(range)
+        hasher.combine(selectedSubstances.sorted().joined(separator: "\u{1}"))
         return hasher.finalize()
     }
 
-    private var rangePicker: some View {
-        Picker("Time Range", selection: $range) {
-            ForEach(UsageTimeRange.allCases) { option in
-                Text(option.displayName).tag(option)
+    // MARK: - Toolbar filter
+
+    private var filterActive: Bool {
+        !selectedSubstances.isEmpty
+    }
+
+    private var filterMenu: some View {
+        Menu {
+            Picker("Time Range", selection: $range) {
+                ForEach(UsageTimeRange.allCases) { option in
+                    Text(option.displayName).tag(option)
+                }
             }
+            Picker("Measure", selection: $metric) {
+                Text("Common doses").tag(UsageRankMetric.commonDoses)
+                Text("Entries").tag(UsageRankMetric.entries)
+            }
+            let substances = model.allSubstances
+            if substances.count > 1 {
+                Menu("Substances") {
+                    Button {
+                        selectedSubstances.removeAll()
+                    } label: {
+                        Label("All Substances", systemImage: filterActive ? "" : "checkmark")
+                    }
+                    Divider()
+                    ForEach(substances, id: \.name) { substance in
+                        Button {
+                            toggle(substance.name)
+                        } label: {
+                            Label(
+                                substance.displayName,
+                                systemImage: selectedSubstances.contains(substance.name) ? "checkmark" : "",
+                            )
+                        }
+                    }
+                }
+            }
+        } label: {
+            Label(
+                "Filter",
+                systemImage: filterActive
+                    ? "line.3.horizontal.decrease.circle.fill"
+                    : "line.3.horizontal.decrease.circle",
+            )
         }
-        .pickerStyle(.segmented)
+    }
+
+    private func toggle(_ name: String) {
+        if selectedSubstances.contains(name) {
+            selectedSubstances.remove(name)
+        } else {
+            selectedSubstances.insert(name)
+        }
     }
 
     private var emptyRange: some View {
@@ -91,11 +151,12 @@ struct UsageStatsView: View {
             heatmap: result.heatmap,
             hours: result.hours,
             categories: result.categories,
+            metric: metric,
         )
 
-        UsageTrendsSection(trends: result.trends, style: style, range: result.range)
+        UsageTrendsSection(trends: result.trends, style: style, range: result.range, metric: metric)
 
-        UsageWeekdaySection(buckets: result.weekdays)
+        UsageWeekdaySection(buckets: result.weekdays, metric: metric)
 
         UsageDoseLevelSection(
             breakdown: result.doseLevels,
@@ -107,6 +168,6 @@ struct UsageStatsView: View {
 
         UsageRegularitySection(rows: result.regularity, style: style)
 
-        UsageRouteSection(breakdown: result.routes, style: style)
+        UsageRouteSection(breakdown: result.routes, style: style, metric: metric)
     }
 }

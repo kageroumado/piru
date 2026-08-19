@@ -29,6 +29,13 @@ final class UsageAnalyticsModel {
     /// Lowercased substance name → assigned color.
     private(set) var colorMap: [String: Color] = [:]
 
+    /// Every substance seen across all logged entries — the full list, unaffected
+    /// by the active substance filter — so the toolbar filter menu can always
+    /// offer every substance to re-add.
+    var allSubstances: [UsageSubstanceRef] {
+        substances
+    }
+
     /// Stage-1 output, kept so a range change doesn't re-walk SwiftData.
     private var snapshots: [UsageEntrySnapshot] = []
     private var substances: [UsageSubstanceRef] = []
@@ -43,6 +50,7 @@ final class UsageAnalyticsModel {
         entries: [DoseEntry],
         colors: [SubstanceColor],
         range: UsageTimeRange,
+        substanceFilter: Set<String> = [],
         now: Date = .now,
     ) async {
         let fingerprint = EntriesFingerprint.make(entries, colors: colors)
@@ -57,11 +65,22 @@ final class UsageAnalyticsModel {
         var hasher = Hasher()
         hasher.combine(fingerprint)
         hasher.combine(range)
+        hasher.combine(substanceFilter.sorted().joined(separator: "\u{1}"))
         let key = hasher.finalize()
         guard resultKey != key else { return }
 
         isLoading = result == nil
-        let payload = snapshots
+        // Narrow the stage-1 snapshots to the chosen substances (empty = all),
+        // but always hand `compute` the FULL substance list: `result.substances`
+        // is what populates the filter menu, so it must keep every substance even
+        // when the charts are showing a subset.
+        let allowed: Set<Int>? = substanceFilter.isEmpty ? nil
+            : Set(substances.enumerated().compactMap {
+                substanceFilter.contains($0.element.name) ? $0.offset : nil
+            })
+        let payload = allowed.map { indices in
+            snapshots.filter { indices.contains($0.substanceIndex) }
+        } ?? snapshots
         let refs = substances
         let calendar = Calendar.current
         let computed = await Task.detached(priority: .userInitiated) {

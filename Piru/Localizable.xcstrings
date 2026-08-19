@@ -9008,6 +9008,22 @@
         }
       }
     },
+    "All Substances" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有物質"
+          }
+        }
+      }
+    },
     "All taken" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15131,6 +15147,7 @@
       }
     },
     "Common doses/day" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15147,6 +15164,7 @@
       }
     },
     "Common doses/wk" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22227,6 +22245,7 @@
       }
     },
     "Entries/day" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22243,6 +22262,7 @@
       }
     },
     "Entries/wk" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -41760,9 +41780,6 @@
           }
         }
       }
-    },
-    "Rank by" : {
-
     },
     "Ranked by how often, or by total common-dose units" : {
       "localizations" : {

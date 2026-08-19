@@ -18,6 +18,8 @@ import SwiftUI
 struct UsageRouteSection: View {
     let breakdown: UsageRouteBreakdown
     let style: UsageSubstanceStyle
+    /// The Entries/Common-doses lens, owned globally by the Usage toolbar filter.
+    let metric: UsageRankMetric
 
     var body: some View {
         if !breakdown.rows.isEmpty {
@@ -26,7 +28,7 @@ struct UsageRouteSection: View {
                 subtitle: "Ranked by how often, or by total common-dose units",
                 storageKey: "routes",
             ) {
-                UsageRankingContent(breakdown: breakdown, style: style)
+                UsageRankingContent(breakdown: breakdown, style: style, metric: metric)
             }
         }
     }
@@ -34,13 +36,12 @@ struct UsageRouteSection: View {
 
 // MARK: - Content
 
-/// Split out so the metric toggle's state re-evaluates only the ranking, not the
-/// whole Usage screen.
+/// Split out so the ranking's re-sort computation stays contained in its own
+/// view rather than bloating the card.
 private struct UsageRankingContent: View {
     let breakdown: UsageRouteBreakdown
     let style: UsageSubstanceStyle
-
-    @State private var metric: UsageRankMetric = .entries
+    let metric: UsageRankMetric
 
     /// Rows in the active metric's order, truncated to the list length. In
     /// common-dose mode substances with no common-dose value sink below every
@@ -78,8 +79,6 @@ private struct UsageRankingContent: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            metricPicker
-
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(rankedRows) { row in
                     UsageRankRowView(
@@ -103,14 +102,6 @@ private struct UsageRankingContent: View {
                 footnote
             }
         }
-    }
-
-    private var metricPicker: some View {
-        Picker("Rank by", selection: $metric) {
-            Text("Entries").tag(UsageRankMetric.entries)
-            Text("Common doses").tag(UsageRankMetric.commonDoses)
-        }
-        .pickerStyle(.segmented)
     }
 
     private var legend: some View {

@@ -11,14 +11,16 @@ struct UsageTrendsSection: View {
     let trends: [UsageTrendSeries]
     let style: UsageSubstanceStyle
     let range: UsageTimeRange
+    /// The Entries/Common-doses lens, owned globally by the Usage toolbar filter.
+    /// Common doses weighs each dose by its typical size — the more representative
+    /// view of use over time than how often it was logged — which is why the
+    /// filter defaults to it.
+    let metric: UsageRankMetric
 
     /// Substance indices the user has hidden by tapping the legend.
     @State private var hidden: Set<Int> = []
     @State private var showsAll = false
     @State private var selectedDate: Date?
-    // Common doses by default: it weighs each dose by its typical size, which is
-    // the more representative view of use over time than how often it was logged.
-    @State private var metric: UsageRankMetric = .commonDoses
 
     /// The lines eligible in the active metric. In common-dose mode a substance
     /// with no common-dose data would draw flat on zero and read as "unused", so
@@ -47,7 +49,6 @@ struct UsageTrendsSection: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.vertical, 16)
             } else {
-                metricPicker
                 if metricTrends.isEmpty {
                     Text("No common dose defined for these substances")
                         .font(.caption)
@@ -74,14 +75,6 @@ struct UsageTrendsSection: View {
             selectedDate = nil
             hidden = []
         }
-    }
-
-    private var metricPicker: some View {
-        Picker("Measure", selection: $metric) {
-            Text(range.trendPerWeek ? "Entries/wk" : "Entries/day").tag(UsageRankMetric.entries)
-            Text(range.trendPerWeek ? "Common doses/wk" : "Common doses/day").tag(UsageRankMetric.commonDoses)
-        }
-        .pickerStyle(.segmented)
     }
 
     private var subtitle: LocalizedStringKey {

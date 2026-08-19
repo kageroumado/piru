@@ -14,12 +14,11 @@ import SwiftUI
 /// lost: it moved to the 24-bin hour histogram in §2.
 struct UsageWeekdaySection: View {
     let buckets: [UsageWeekdayBucket]
-
-    @State private var metric: UsageRankMetric = .entries
+    /// The Entries/Common-doses lens, owned globally by the Usage toolbar filter.
+    let metric: UsageRankMetric
 
     var body: some View {
         UsageSectionCard(title: "Day of week", subtitle: subtitle) {
-            metricPicker
             Chart(buckets) { bucket in
                 BarMark(
                     x: .value("Day", label(for: bucket.weekday)),
@@ -49,14 +48,6 @@ struct UsageWeekdaySection: View {
 
             averagesRow
         }
-    }
-
-    private var metricPicker: some View {
-        Picker("Measure", selection: $metric) {
-            Text("Entries").tag(UsageRankMetric.entries)
-            Text("Common doses").tag(UsageRankMetric.commonDoses)
-        }
-        .pickerStyle(.segmented)
     }
 
     private var subtitle: LocalizedStringKey {

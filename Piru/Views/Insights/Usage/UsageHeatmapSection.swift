@@ -11,10 +11,11 @@ struct UsageHeatmapSection: View {
     let heatmap: UsageHeatmap
     let hours: UsageHourProfile
     let categories: [(categoryIndex: Int, count: Int)]
+    /// The Entries/Common-doses lens, owned globally by the Usage toolbar filter.
+    let metric: UsageRankMetric
 
     @State private var categoryFilter: Int?
     @State private var selectedDay: Date?
-    @State private var metric: UsageRankMetric = .entries
 
     private var accent: Color {
         categoryFilter.map { UsageAxes.category($0).color } ?? Theme.accent
@@ -22,7 +23,6 @@ struct UsageHeatmapSection: View {
 
     var body: some View {
         UsageSectionCard(title: "Activity", subtitle: subtitle) {
-            metricPicker
             if categories.count > 1 {
                 UsageCategoryFilterBar(categories: categories, selection: $categoryFilter)
             }
@@ -44,14 +44,6 @@ struct UsageHeatmapSection: View {
             )
         }
         .onChange(of: heatmap.weekStarts.first) { selectedDay = nil }
-    }
-
-    private var metricPicker: some View {
-        Picker("Measure", selection: $metric) {
-            Text("Entries").tag(UsageRankMetric.entries)
-            Text("Common doses").tag(UsageRankMetric.commonDoses)
-        }
-        .pickerStyle(.segmented)
     }
 
     private var subtitle: LocalizedStringKey {

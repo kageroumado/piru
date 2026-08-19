@@ -4964,6 +4964,7 @@ T = {
     # Insights stat cards
     "Entries": ("条目", "條目"),
     "Substances": ("物质", "物質"),
+    "All Substances": ("所有物质", "所有物質"),
     "Per day": ("每日", "每日"),
     "Most logged": ("记录最多", "記錄最多"),
     # Time of day chart
@@ -6832,6 +6833,8 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        # Usage toolbar filter (CLI-added; Xcode hasn't extracted it yet).
+        "All Substances",
         # Custom units (CLI-added; Xcode hasn't extracted them yet).
         "Custom Units",
         "No Custom Units",
