@@ -139,6 +139,7 @@ private struct PushRouteView: View {
         case .tolerance: ToleranceToolView().navigationTitle("Tolerance")
         case .inSystem: InYourSystemView().navigationTitle("In Your System")
         case .bodyLoad: BodyLoadView().navigationTitle("In Your Body")
+        case .receptorLoad: ReceptorLoadView().navigationTitle("Receptor Load")
         }
     }
 

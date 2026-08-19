@@ -99,6 +99,9 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
     /// across a time range (`Specs/insights-stats-architecture.md`), fed by
     /// `BodyLevelsManager`.
     case bodyLoad
+    /// The historic counterpart to `tolerance`: per-mechanism receptor load
+    /// traced across a time range, off `ToleranceStore.loadTrail`.
+    case receptorLoad
 
     var id: String {
         rawValue
@@ -112,6 +115,8 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
 nonisolated enum InsightGroup: String, Hashable, Codable, CaseIterable, Identifiable {
     /// What's circulating now + how it has moved over time.
     case inYourBody
+    /// Predicted tolerance now + receptor load over time.
+    case toleranceReceptors
 
     var id: String {
         rawValue
@@ -121,6 +126,7 @@ nonisolated enum InsightGroup: String, Hashable, Codable, CaseIterable, Identifi
     var insights: [Insight] {
         switch self {
         case .inYourBody: [.inSystem, .bodyLoad]
+        case .toleranceReceptors: [.tolerance, .receptorLoad]
         }
     }
 }

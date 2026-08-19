@@ -203,7 +203,7 @@ struct InsightsView: View {
         let notable = ToleranceStore.shared.states.values
             .filter { $0.severity > 0.10 }
             .sorted { $0.severity > $1.severity }
-        return largeCard(icon: "chart.line.downtrend.xyaxis", tint: .purple, title: "Tolerance", route: .insight(.tolerance)) {
+        return largeCard(icon: "chart.line.downtrend.xyaxis", tint: .purple, title: "Tolerance", route: .insightGroup(.toleranceReceptors)) {
             if notable.isEmpty {
                 HStack(alignment: .center, spacing: 14) {
                     Image(systemName: "checkmark.seal.fill")

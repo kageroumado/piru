@@ -7,18 +7,21 @@ extension InsightGroup {
     var title: LocalizedStringKey {
         switch self {
         case .inYourBody: "In Your Body"
+        case .toleranceReceptors: "Tolerance & Receptors"
         }
     }
 
     var icon: String {
         switch self {
         case .inYourBody: "waveform.path.ecg"
+        case .toleranceReceptors: "chart.line.downtrend.xyaxis"
         }
     }
 
     var tint: Color {
         switch self {
         case .inYourBody: .teal
+        case .toleranceReceptors: .purple
         }
     }
 }
@@ -32,6 +35,7 @@ extension Insight {
         case .tolerance: "Tolerance"
         case .inSystem: "In your system"
         case .bodyLoad: "In your body over time"
+        case .receptorLoad: "Receptor load over time"
         }
     }
 
@@ -42,6 +46,7 @@ extension Insight {
         case .tolerance: "chart.line.downtrend.xyaxis"
         case .inSystem: "hourglass"
         case .bodyLoad: "waveform.path.ecg"
+        case .receptorLoad: "chart.xyaxis.line"
         }
     }
 
@@ -52,6 +57,7 @@ extension Insight {
         case .tolerance: .purple
         case .inSystem: .teal
         case .bodyLoad: .indigo
+        case .receptorLoad: .pink
         }
     }
 
@@ -63,6 +69,7 @@ extension Insight {
         case .tolerance: "Predicted per-mechanism tolerance"
         case .inSystem: "What's still active in your body right now"
         case .bodyLoad: "How body-load has moved over time"
+        case .receptorLoad: "How hard each mechanism has been driven over time"
         }
     }
 }
