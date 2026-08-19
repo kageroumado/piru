@@ -16,22 +16,15 @@ struct HalfLifeCalculatorView: View {
             guard let hours = customHalfLifeHours, hours > 0 else { return nil }
             return hours * 60
         }
-        if let hl = selectedSubstance?.halfLifeMinutes { return hl }
-        return HalfLifeDatabase.halfLife(for: substanceName)
+        return PKResolver.halfLifeMinutes(substance: selectedSubstance, entryName: substanceName)
     }
 
     private var pkParameters: (ke: Double, ka: Double)? {
         guard let halfLife = effectiveHalfLife, halfLife > 0 else { return nil }
-        let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
-        if let substance = selectedSubstance,
-           let duration = substance.resolveDuration(for: selectedRoute) {
-            let timeToPeak = (duration.onset?.midpoint ?? 0) + (duration.comeup?.midpoint ?? 0)
-            if timeToPeak > 0 {
-                let ka = PKModel.estimateKa(timeToPeak: timeToPeak, ke: ke)
-                return (ke, ka)
-            }
-        }
-        return (ke, PKModel.defaultKa(ke: ke))
+        return PKResolver.rateConstants(
+            halfLifeMinutes: halfLife,
+            duration: selectedSubstance?.resolveDuration(for: selectedRoute),
+        )
     }
 
     private var dose: Double {

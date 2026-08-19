@@ -51,19 +51,16 @@ enum ActiveSubstanceCalculator {
             return result
         }
 
-        // Resolve half-life with fallback: substance model -> HalfLifeDatabase by name -> HalfLifeDatabase by aliases
+        // Half-life resolution goes through the shared `PKResolver` (substance
+        // model → HalfLifeDatabase by name → by alias); the local cache just
+        // avoids re-resolving the same name across a long dose log.
         var halfLifeCache: [String: Double] = [:]
         func resolveHalfLife(substance: Substance?, entryName: String) -> Double? {
             let key = entryName.lowercased()
             if let cached = halfLifeCache[key] { return cached }
-            if let hl = substance?.halfLifeMinutes, hl > 0 { halfLifeCache[key] = hl; return hl }
-            if let hl = HalfLifeDatabase.halfLife(for: entryName), hl > 0 { halfLifeCache[key] = hl; return hl }
-            if let substance {
-                for alias in substance.aliases {
-                    if let hl = HalfLifeDatabase.halfLife(for: alias), hl > 0 { halfLifeCache[key] = hl; return hl }
-                }
-            }
-            return nil
+            guard let hl = PKResolver.halfLifeMinutes(substance: substance, entryName: entryName) else { return nil }
+            halfLifeCache[key] = hl
+            return hl
         }
 
         var grouped: [String: (name: String, unit: String, halfLife: Double, doses: [ActiveSubstance.DoseInfo], totalDosed: Double, totalRemaining: Double)] = [:]
@@ -100,16 +97,14 @@ enum ActiveSubstanceCalculator {
             let elapsed = now.timeIntervalSince(entry.timestamp) / 60
             guard elapsed >= 0 else { continue }
 
-            let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
-            let ka: Double
-            if let duration = productDuration ?? substance?.resolveDuration(
-                for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer,
-            ) {
-                let ttp = (duration.onset?.midpoint ?? 0) + (duration.comeup?.midpoint ?? 0)
-                ka = ttp > 0 ? PKModel.estimateKa(timeToPeak: ttp, ke: ke) : PKModel.defaultKa(ke: ke)
-            } else {
-                ka = PKModel.defaultKa(ke: ke)
-            }
+            // The product envelope wins the absorption limb; otherwise the
+            // route/salt/isomer-specific profile. See `PKResolver.rateConstants`.
+            let (ke, ka) = PKResolver.rateConstants(
+                halfLifeMinutes: halfLife,
+                duration: productDuration ?? substance?.resolveDuration(
+                    for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer,
+                ),
+            )
             let remaining = entry.amount * PKModel.fractionRemainingInBody(at: elapsed, ke: ke, ka: ka)
             let fraction = remaining / entry.amount
 
@@ -278,16 +273,10 @@ extension ActiveSubstanceState {
         return nil
     }
 
-    /// Resolve a half-life (minutes) for a duration-less dose, mirroring
-    /// ``compute(from:colorMap:)``'s fallback: substance model → HalfLifeDatabase
-    /// by name → by alias.
+    /// Resolve a half-life (minutes) for a duration-less dose — the shared
+    /// ``PKResolver`` fallback: substance model → HalfLifeDatabase by name → by alias.
     static func resolveHalfLifeMinutes(substance: Substance, name: String) -> Double? {
-        if let hl = substance.halfLifeMinutes, hl > 0 { return hl }
-        if let hl = HalfLifeDatabase.halfLife(for: name), hl > 0 { return hl }
-        for alias in substance.aliases {
-            if let hl = HalfLifeDatabase.halfLife(for: alias), hl > 0 { return hl }
-        }
-        return nil
+        PKResolver.halfLifeMinutes(substance: substance, entryName: name)
     }
 
     /// Convert dose entries into the two inputs ``TimelineGraphView`` consumes:
