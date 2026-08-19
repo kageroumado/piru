@@ -101,11 +101,31 @@ struct UsageStatsView: View {
                 Button {
                     showingSubstanceSheet = true
                 } label: {
-                    Label(substancesMenuLabel, systemImage: "pills")
+                    // No leading icon (the pickers above carry none) and a
+                    // trailing ellipsis — the HIG signal for a row that opens
+                    // further UI (here, the substance-filter sheet) before it
+                    // takes effect, rather than toggling a value inline.
+                    Text(verbatim: substancesMenuLabel + "\u{2026}")
                 }
             }
         } label: {
-            Label("Filter", systemImage: filterActive ? "line.3.horizontal.decrease.fill" : "line.3.horizontal.decrease")
+            filterLabel
+        }
+    }
+
+    /// The toolbar glyph. `line.3.horizontal.decrease` has no `.fill` variant and
+    /// a Menu button can't be tinted, so the active state is carried by a
+    /// selected-count badge beside the glyph rather than a color or fill swap.
+    @ViewBuilder
+    private var filterLabel: some View {
+        if filterActive {
+            HStack(spacing: 4) {
+                Image(systemName: "line.3.horizontal.decrease")
+                Text(verbatim: "\(selectedSubstances.count)")
+            }
+            .accessibilityLabel(Text("Filter"))
+        } else {
+            Label("Filter", systemImage: "line.3.horizontal.decrease")
         }
     }
 
