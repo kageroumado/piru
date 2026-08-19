@@ -29,6 +29,7 @@ struct InsightsView: View {
                 inYourBodyCard
                 adherenceCard
                 toleranceCard
+                patternsCard
             }
             .padding(.horizontal)
             .padding(.top, 4)
@@ -256,6 +257,21 @@ struct InsightsView: View {
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(state.receptorClass.casualName))
         .accessibilityValue(Text("\(Int(state.severity * 100))% tolerance"))
+    }
+
+    // MARK: - Patterns
+
+    private var patternsCard: some View {
+        largeCard(icon: "list.clipboard", tint: .brown, title: "Patterns", route: .insight(.patterns)) {
+            if allEntries.isEmpty {
+                emptyContent("Log doses to see your patterns")
+            } else {
+                Text("Days used, cumulative exposure, dose trend, and overlap — for you or your doctor")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
     }
 
     // MARK: - Card chrome

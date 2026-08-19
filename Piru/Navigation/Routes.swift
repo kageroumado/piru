@@ -105,6 +105,10 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
     /// Where a regularly-dosed substance settles: steady-state plateau projected
     /// from the log's own inferred median dose + interval, off `SteadyStateModel`.
     case steadyStateProjection
+    /// Record-and-model patterns for self or a clinician: days used, cumulative
+    /// exposure (clinical equivalents where they exist), dose trend, and
+    /// co-exposure. Off the shared `ClinicalStats` layer the PDF report also uses.
+    case patterns
 
     var id: String {
         rawValue
