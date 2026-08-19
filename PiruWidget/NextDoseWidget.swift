@@ -173,6 +173,16 @@ private struct NextDoseView: View {
     let entry: NextDoseEntry
     @Environment(\.widgetFamily) var family
 
+    /// Whether to lead with "Due now" instead of a live countdown. The countdown
+    /// range `entry.date ... slot.dueDate` traps when `dueDate` has already
+    /// passed — a clock/timezone edge the provider's minute-granular `isDueNow`
+    /// can miss — so an elapsed `dueDate` also reads as due, and the range the
+    /// views build is never reversed.
+    private var slotIsDue: Bool {
+        guard let slot = entry.nextSlot else { return false }
+        return slot.isDueNow || slot.dueDate <= entry.date
+    }
+
     var body: some View {
         switch family {
         case .accessoryCircular:
@@ -201,7 +211,7 @@ private struct NextDoseView: View {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 Spacer()
-                if slot.isDueNow {
+                if slotIsDue {
                     Text("Due now")
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(WidgetColors.accent)
@@ -232,7 +242,7 @@ private struct NextDoseView: View {
     @ViewBuilder
     private var circularView: some View {
         if let slot = entry.nextSlot {
-            if slot.isDueNow {
+            if slotIsDue {
                 VStack(spacing: 2) {
                     Image(systemName: "pill")
                     Text("Due")
@@ -270,7 +280,7 @@ private struct NextDoseView: View {
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
-                if slot.isDueNow {
+                if slotIsDue {
                     Text("Due now")
                         .font(.caption.weight(.bold))
                 } else {

@@ -20,20 +20,36 @@ enum InventoryMath {
         let daysLeft: Double
     }
 
-    /// All doses that count against this item: matching substance (case-
-    /// insensitive) and salt (strict, `nil == nil`), on or after `trackingStart`.
+    /// A stable identity for matching an item against doses and other items: the
+    /// PSID family the library resolves the name — or an alias like "IC-26" — to,
+    /// so an item and a dose stored under different names for the same substance
+    /// collapse to one. Falls back to the lowercased name when the library doesn't
+    /// know it (a pure custom substance), preserving the old behavior for those.
+    static func matchKey(for name: String) -> String {
+        SubstanceLibrary.substanceUID(for: name) ?? name.lowercased()
+    }
+
+    /// The match key for a logged dose, preferring the PSID captured at log time
+    /// (already alias-resolved, and cheaper than a fresh lookup) over the name.
+    static func matchKey(for entry: DoseEntry) -> String {
+        entry.substanceUID ?? matchKey(for: entry.substance)
+    }
+
+    /// All doses that count against this item: same resolved substance identity
+    /// (so an alias like "IC-26" matches its canonical "Methiodone") and salt
+    /// (strict, `nil == nil`), on or after `trackingStart`.
     ///
-    /// We fetch by the `timestamp` predicate, then filter substance/salt in
-    /// memory — a case-insensitive compare and a nil-safe `saltForm` match aren't
-    /// expressible cleanly in `#Predicate`, and the per-item volume is small.
+    /// We fetch by the `timestamp` predicate, then filter identity/salt in memory
+    /// — the PSID resolution and a nil-safe `saltForm` match aren't expressible
+    /// cleanly in `#Predicate`, and the per-item volume is small.
     static func doses(for item: InventoryItem, in ctx: ModelContext) -> [DoseEntry] {
         let start = item.trackingStart
-        let lowered = item.substance.lowercased()
+        let key = matchKey(for: item.substance)
         let all = (try? ctx.fetch(FetchDescriptor<DoseEntry>(
             predicate: #Predicate { $0.timestamp >= start },
         ))) ?? []
         return all.filter {
-            $0.substance.lowercased() == lowered && $0.saltForm == item.saltForm
+            matchKey(for: $0) == key && $0.saltForm == item.saltForm
         }
     }
 
@@ -113,7 +129,7 @@ enum InventoryMath {
     /// substance's native dosing unit (no false conversion).
     @MainActor
     static func referenceDose(substance: String, saltForm: String?, unit: String) -> Double? {
-        guard let match = SubstanceLibrary.lookup(substance) else { return nil }
+        guard let match = SubstanceLibrary.lookupByNameOrAlias(substance) else { return nil }
         let route = match.defaultRoute
         guard let range = match.doseRange(for: route, saltForm: saltForm),
               match.unit(for: route, saltForm: saltForm) == unit
@@ -129,7 +145,7 @@ enum InventoryMath {
     /// seed for a fresh item's amount (`10×` this). `nil` off-library.
     @MainActor
     static func representativeStrongDose(substance: String, saltForm: String?, unit: String) -> Double? {
-        guard let match = SubstanceLibrary.lookup(substance) else { return nil }
+        guard let match = SubstanceLibrary.lookupByNameOrAlias(substance) else { return nil }
         let route = match.defaultRoute
         guard let range = match.doseRange(for: route, saltForm: saltForm),
               match.unit(for: route, saltForm: saltForm) == unit
@@ -174,9 +190,9 @@ enum InventoryMath {
 enum InventoryService {
     /// Existing tracked item for a `(substance, salt)` pair, if any.
     static func find(substance: String, saltForm: String?, in ctx: ModelContext) -> InventoryItem? {
-        let lowered = substance.lowercased()
+        let key = InventoryMath.matchKey(for: substance)
         let all = (try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? []
-        return all.first { $0.substance.lowercased() == lowered && $0.saltForm == saltForm }
+        return all.first { InventoryMath.matchKey(for: $0.substance) == key && $0.saltForm == saltForm }
     }
 
     /// Start tracking a substance with an optional initial amount. With
@@ -329,9 +345,9 @@ enum InventoryService {
     /// (both call ``recompute(_:in:notify:)``).
     static func recompute(forSubstances names: Set<String>, in ctx: ModelContext, notify: Bool = true) {
         guard !names.isEmpty else { return }
-        let lowered = Set(names.map { $0.lowercased() })
+        let keys = Set(names.map { InventoryMath.matchKey(for: $0) })
         let items = (try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? []
-        for item in items where lowered.contains(item.substance.lowercased()) {
+        for item in items where keys.contains(InventoryMath.matchKey(for: item.substance)) {
             recompute(item, in: ctx, notify: notify)
         }
     }
@@ -344,9 +360,9 @@ enum InventoryService {
     /// arithmetic moved off the actor that's driving the dismissal animation.
     static func recompute(forSubstances names: Set<String>, offMainIn ctx: ModelContext, notify: Bool = true) async {
         guard !names.isEmpty else { return }
-        let lowered = Set(names.map { $0.lowercased() })
+        let keys = Set(names.map { InventoryMath.matchKey(for: $0) })
         let affected = ((try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? [])
-            .filter { lowered.contains($0.substance.lowercased()) }
+            .filter { keys.contains(InventoryMath.matchKey(for: $0.substance)) }
         guard !affected.isEmpty else { return }
 
         // Snapshot each affected item's unit/events + its matching doses on the actor.

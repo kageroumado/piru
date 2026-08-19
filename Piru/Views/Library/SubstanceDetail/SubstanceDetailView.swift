@@ -193,6 +193,7 @@ struct SubstanceDetailView: View {
         List {
             SubstanceDetailLayout(
                 substance: substance,
+                overview: substance.overview,
                 model: model,
                 policy: policy,
                 profile: profile,

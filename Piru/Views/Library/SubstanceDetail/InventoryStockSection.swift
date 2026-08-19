@@ -15,10 +15,12 @@ struct InventoryStockSection: View {
     @Environment(\.appNavigator) private var navigator
 
     /// The tracked item for this substance, preferring the currently-selected
-    /// salt, then the base form. Matched by canonical name (how stock is stored).
+    /// salt, then the base form. Matched by resolved substance identity, so an
+    /// item stocked under an alias (e.g. "IC-26") still shows on its canonical
+    /// substance's page ("Methiodone").
     private var trackedItem: InventoryItem? {
-        let name = substanceName.lowercased()
-        let matches = inventoryItems.filter { $0.substance.lowercased() == name }
+        let key = InventoryMath.matchKey(for: substanceName)
+        let matches = inventoryItems.filter { InventoryMath.matchKey(for: $0.substance) == key }
         return matches.first { $0.saltForm == selectedSaltForm }
             ?? matches.first { $0.saltForm == nil }
             ?? matches.first

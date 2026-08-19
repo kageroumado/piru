@@ -5,6 +5,10 @@ import SwiftUI
 /// native Chinese when the app runs in Chinese, machine-translated English as a
 /// fallback. Hidden when no source supplies an overview.
 struct OverviewSection: View {
+    /// Passed in (not read off `substance`) so its arrival survives the shell→
+    /// full-record swap — see the note on ``SubstanceDetailLayout/overview``.
+    let overview: SubstanceOverview?
+    /// Only for the source deep link; the name it needs is already in the shell.
     let substance: Substance
 
     @State private var overviewExpanded = false
@@ -16,7 +20,7 @@ struct OverviewSection: View {
     private let collapsedThreshold = 320
 
     var body: some View {
-        if let overview = substance.overview, !overview.text.isEmpty {
+        if let overview, !overview.text.isEmpty {
             // Unlike the other folded blocks, the Overview reads better as a few
             // lines of prose with an inline "Read more" than as a closed
             // disclosure — you see what the substance *is* without a tap.
@@ -169,7 +173,12 @@ struct SubstanceStatusMarker: View {
                 if substance.primaryProtocolDosing != nil { return .researchCompound }
                 return substance.displayClass == .medicalRx ? .prescription : .medicalReference
             }
-            if substance.hasNoDoseData { return .limitedHumanData }
+            // Only a genuinely thin entry (no dose, duration, *or* protocol data)
+            // earns the "limited human data" framing. A pharma drug carries
+            // mechanism, duration, and pharmacology but no *recreational* dose
+            // ladder — that is not "limited data", so it gets no banner. `isStub`
+            // is the same signal the library list badge uses, so the two agree.
+            if substance.isStub { return .limitedHumanData }
             return nil
         }
 

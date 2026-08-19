@@ -12,6 +12,12 @@ import SwiftUI
 /// route/salt state (owned by ``SubstanceDetailView``) — just the arrangement.
 struct SubstanceDetailLayout: View {
     let substance: Substance
+    /// Threaded separately from `substance` so it survives the shell→full-record
+    /// swap: `Substance` is `Equatable` on `id` alone, so diffing `substance`
+    /// can't see the overview appear and SwiftUI would skip this whole layout —
+    /// an `Equatable` `SubstanceOverview?` field the diff *can* see forces the
+    /// re-render when the resolved record lands.
+    let overview: SubstanceOverview?
     let model: SubstanceDetailModel
     let policy: DisclosurePolicy
     let profile: UserProfile
@@ -65,7 +71,7 @@ struct SubstanceDetailLayout: View {
         // What it is, in prose — above the pharmacology so the plain-language
         // "what is this" comes before the mechanism detail. Self-hides for the
         // ~80% of the library with no overview.
-        OverviewSection(substance: substance)
+        OverviewSection(overview: overview, substance: substance)
 
         // Inventory — directly under Overview: once you know what it is, the next
         // practical question is whether you have any.

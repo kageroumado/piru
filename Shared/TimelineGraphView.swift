@@ -2137,16 +2137,20 @@ struct TimelineGraphView: View, Equatable {
             plotTop + (1 - CGFloat((min(hi, max(lo, bpm)) - lo) / (hi - lo))) * plotH
         }
 
-        // Faint bpm guide lines every 20 bpm (no number labels — the row chip and
-        // summary carry exact values; in the lane, shape is what matters).
+        // bpm guide lines every 20 bpm, each labeled at the left inset so the lane
+        // reads as a real bpm axis at a glance — the exact values used to live only
+        // behind a long-press scrub, which is what the "no legend" report was about.
         var guideBpm = (lo / 20).rounded(.down) * 20
         if guideBpm <= lo { guideBpm += 20 }
+        let guideFont = Font.system(size: 7, weight: .medium, design: .rounded).monospacedDigit()
         while guideBpm < hi {
             let gy = yH(guideBpm)
             var line = Path()
             line.move(to: CGPoint(x: graphInset, y: gy))
             line.addLine(to: CGPoint(x: graphInset + graphWidth, y: gy))
             context.stroke(line, with: .color(.secondary.opacity(0.18)), style: StrokeStyle(lineWidth: 0.5, dash: [1, 4]))
+            let tick = Text(verbatim: "\(Int(guideBpm))").font(guideFont).foregroundStyle(Self.hrColor.opacity(0.75))
+            context.draw(context.resolve(tick), at: CGPoint(x: graphInset + 2, y: gy - 4), anchor: .bottomLeading)
             guideBpm += 20
         }
 
