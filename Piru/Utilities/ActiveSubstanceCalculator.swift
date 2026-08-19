@@ -31,10 +31,16 @@ struct ActiveSubstance: Identifiable {
 // MARK: - Calculator
 
 enum ActiveSubstanceCalculator {
-    /// Computes currently active substances from dose history using one-compartment PK model.
-    static func compute(from entries: [DoseEntry], colorMap: [String: Color]) -> [ActiveSubstance] {
-        let now = Date.now
-
+    /// Computes the active substances at `now` (default: the present) from dose
+    /// history using a one-compartment PK model. Parameterizing `now` is what
+    /// lets a body-load readout be produced for any past — or projected future —
+    /// date, which the Insights "in your body over time" graph samples across a
+    /// day grid. Only doses at or before `now` contribute (causality).
+    static func compute(
+        from entries: [DoseEntry],
+        colorMap: [String: Color],
+        now: Date = .now,
+    ) -> [ActiveSubstance] {
         // Batch lookups: cache substance resolution so each unique name is looked up once
         var substanceCache: [String: Substance?] = [:]
         func cachedLookup(_ name: String) -> Substance? {
