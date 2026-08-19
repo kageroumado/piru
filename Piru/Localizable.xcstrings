@@ -1500,6 +1500,38 @@
         }
       }
     },
+    "%@ now at %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 现为 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 現為 %@"
+          }
+        }
+      }
+    },
+    "%@ now at %@ %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 现为 %@ %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 現為 %@ %@"
+          }
+        }
+      }
+    },
     "%@ of %@ %@ remaining" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4054,6 +4086,22 @@
         }
       }
     },
+    "<1 day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不到1天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不到1天"
+          }
+        }
+      }
+    },
     "~%@" : {
 
     },
@@ -5851,6 +5899,22 @@
         }
       }
     },
+    "A predicted relative load from your logged doses, not a measurement. It's a model of receptor drive, not of how you feel." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是根据记录剂量预测的相对负荷，并非实测。它建模的是受体驱动，而非你的主观感受。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是根據記錄劑量預測的相對負荷，並非實測。它建模的是受體驅動，而非你的主觀感受。"
+          }
+        }
+      }
+    },
     "A prodrug converted to GHB via alcohol dehydrogenase and aldehyde dehydrogenase. Once converted, acts on GHB and GABA-B receptors. Onset and duration depend on hepatic enzyme activity. Co-administration with ethanol competitively inhibits conversion, unpredictably altering pharmacokinetics." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5932,6 +5996,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "由外周內酯酶迅速轉化為 GHB(γ-羥基丁酸)的前藥。轉化後作為 GHB 受體和 GABA-B 受體的激動劑。由於吸收和轉化快速,起效比 GHB 更快。具有與 GHB 相同的陡峭劑量-反應曲線和過量風險。"
+          }
+        }
+      }
+    },
+    "A projection from your median dose and spacing, assuming you keep that cadence and linear kinetics. Body content in the dose's units, not a plasma level." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是根据你的中位剂量与间隔做出的推算，假设你保持该节奏且动力学为线性。数值为以该剂量单位计的体内含量，而非血药浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是根據你的中位劑量與間隔做出的推算，假設你保持該節奏且動力學為線性。數值為以該劑量單位計的體內含量，而非血藥濃度。"
           }
         }
       }
@@ -6600,6 +6680,38 @@
         }
       }
     },
+    "about daily" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "约每天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "約每天"
+          }
+        }
+      }
+    },
+    "about every 2 days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "约每2天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "約每2天"
+          }
+        }
+      }
+    },
     "About metabolites" : {
       "comment" : "Glossary button",
       "localizations" : {
@@ -6730,6 +6842,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "蓄積"
+          }
+        }
+      }
+    },
+    "Accumulation curve for %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 的累积曲线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 的累積曲線"
           }
         }
       }
@@ -9511,6 +9639,22 @@
         }
       }
     },
+    "An estimate from a one-compartment model, not a measurement. How much is in your body doesn't always match how strong the effects feel, or how long a substance stays detectable." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是单室模型的估算，并非实测。体内留存量与主观感受强度或可检出时长不一定一致。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是單室模型的估算，並非實測。體內留存量與主觀感受強度或可檢出時長不一定一致。"
+          }
+        }
+      }
+    },
     "An estimate of how much of each substance is still in your body. This doesn't always correspond to how strong the effects feel, or to how long it stays detectable." : {
       "localizations" : {
         "zh-Hans" : {
@@ -11552,6 +11696,22 @@
     "Beta-blockers (propranolol)" : {
 
     },
+    "Between doses" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两次用药之间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兩次用藥之間"
+          }
+        }
+      }
+    },
     "Biliary excretion" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12224,6 +12384,12 @@
         }
       }
     },
+    "Body content" : {
+
+    },
+    "Body load" : {
+
+    },
     "Body Weight" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -12542,6 +12708,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "自己會形成耐受，和鴉片一起用時，還能減慢鴉片耐受的形成。"
+          }
+        }
+      }
+    },
+    "Buildup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累积"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累積"
           }
         }
       }
@@ -14188,6 +14370,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "清除速度被限制在約每小時 1 杯，因此每多喝一杯都會疊加在上一杯之上並滯留更久——總暴露量的增長遠快於杯數。"
+          }
+        }
+      }
+    },
+    "Clears between doses; each peaks around %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两次用药之间清除；每次峰值约 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兩次用藥之間清除；每次峰值約 %@"
+          }
+        }
+      }
+    },
+    "clears, no buildup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除，无累积"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除，無累積"
           }
         }
       }
@@ -22475,6 +22689,22 @@
         }
       }
     },
+    "Estimated amount still circulating, each line a share of its own peak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算仍在循环的量，每条线为各自峰值的占比"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算仍在循環的量，每條線為各自峰值的占比"
+          }
+        }
+      }
+    },
     "Estimated from effect curves · %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -22753,6 +22983,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每 %@ 天一次"
+          }
+        }
+      }
+    },
+    "every ~%@ days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "约每 %@ 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "約每 %@ 天"
+          }
+        }
+      }
+    },
+    "every ~%lld h" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "约每 %lld 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "約每 %lld 小時"
           }
         }
       }
@@ -26904,6 +27166,22 @@
         }
       }
     },
+    "How body-load has moved over time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体内留存随时间的变化"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體內留存隨時間的變化"
+          }
+        }
+      }
+    },
     "How dosing, tolerance, and recovery work" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26998,6 +27276,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "葡萄柚、吸菸以及該藥自身的代謝如何改變其血藥濃度。僅供參考——根據典型藥物動力學預測，並非針對你的實測。"
+          }
+        }
+      }
+    },
+    "How hard each mechanism has been driven over time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "各机制随时间被驱动的程度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "各機制隨時間被驅動的程度"
+          }
+        }
+      }
+    },
+    "How hard each mechanism has been driven, relative to your recent baseline" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相对于近期基线，各机制被驱动的程度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相對於近期基線，各機制被驅動的程度"
           }
         }
       }
@@ -27100,6 +27410,23 @@
     },
     "How much of a dose becomes its active form is partly genetic — the same dose can produce noticeably more effect in some people than in others." : {
 
+    },
+    "How much of each substance has been circulating, day by day" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐日显示每种物质在体内循环的量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐日顯示每種物質在體內循環的量"
+          }
+        }
+      }
     },
     "How much of this you make is partly genetic — the same dose produces noticeably more in some people than others." : {
       "localizations" : {
@@ -28286,6 +28613,9 @@
         }
       }
     },
+    "In your body" : {
+
+    },
     "In Your Body" : {
       "localizations" : {
         "zh-Hans" : {
@@ -28298,6 +28628,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "體內殘留"
+          }
+        }
+      }
+    },
+    "In your body over time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体内留存变化"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體內留存變化"
           }
         }
       }
@@ -30877,6 +31223,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "記錄處方"
+          }
+        }
+      }
+    },
+    "Log some doses to see how your receptors have been driven." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录一些剂量，查看受体被驱动的情况。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄一些劑量，查看受體被驅動的情況。"
+          }
+        }
+      }
+    },
+    "Log some doses to see what's been in your body over time." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录一些剂量，查看体内留存随时间的变化。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄一些劑量，查看體內留存隨時間的變化。"
           }
         }
       }
@@ -36084,6 +36462,22 @@
         }
       }
     },
+    "No Steady Cadence Yet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚无规律的用药节奏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚無規律的用藥節奏"
+          }
+        }
+      }
+    },
     "No Substance Colors" : {
       "localizations" : {
         "zh-Hans" : {
@@ -36456,6 +36850,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無"
+          }
+        }
+      }
+    },
+    "None of your logged substances in this range drive a modeled mechanism." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此范围内记录的物质都不驱动任何可建模的机制。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此範圍內記錄的物質都不驅動任何可建模的機制。"
+          }
+        }
+      }
+    },
+    "None of your logged substances in this range have a modeled elimination curve." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此范围内记录的物质都没有可建模的消除曲线。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此範圍內記錄的物質都沒有可建模的消除曲線。"
           }
         }
       }
@@ -37011,6 +37437,22 @@
         }
       }
     },
+    "Nothing driven at this time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此刻没有被驱动的机制"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此刻沒有被驅動的機制"
+          }
+        }
+      }
+    },
     "Nothing due" : {
       "localizations" : {
         "zh-Hans" : {
@@ -37059,6 +37501,22 @@
         }
       }
     },
+    "Nothing in your body at this time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此刻体内没有留存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此刻體內沒有留存"
+          }
+        }
+      }
+    },
     "Nothing is deleted by surprise" : {
       "localizations" : {
         "zh-Hans" : {
@@ -37087,6 +37545,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此時間範圍內沒有記錄"
+          }
+        }
+      }
+    },
+    "Nothing to Model" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无可建模数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無可建模資料"
           }
         }
       }
@@ -40154,6 +40628,22 @@
         }
       }
     },
+    "Plateau" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平台"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平台"
+          }
+        }
+      }
+    },
     "Plateau range" : {
       "localizations" : {
         "zh-Hans" : {
@@ -40166,6 +40656,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "平台範圍"
+          }
+        }
+      }
+    },
+    "Plateaus around %@, %@× one dose, reached in %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稳定在约 %@，为单次剂量的 %@ 倍，在 %@ 内达到"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "穩定在約 %@，為單次劑量的 %@ 倍，在 %@ 內達到"
           }
         }
       }
@@ -40525,6 +41031,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "依據你的記錄使用情況預測（模型，%@）。"
+          }
+        }
+      }
+    },
+    "Predicted per-mechanism tolerance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按机制预测的耐受"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按機制預測的耐受"
           }
         }
       }
@@ -41975,6 +42497,22 @@
         }
       }
     },
+    "Reaches" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "达到"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "達到"
+          }
+        }
+      }
+    },
     "Read experience reports on FreeODWiki" : {
       "comment" : "Reports link, Chinese source"
     },
@@ -42280,6 +42818,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "受體負荷"
+          }
+        }
+      }
+    },
+    "Receptor Load" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受体负荷"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受體負荷"
+          }
+        }
+      }
+    },
+    "Receptor load over time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受体负荷变化"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受體負荷變化"
           }
         }
       }
@@ -50020,6 +50590,22 @@
         }
       }
     },
+    "Steady state" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稳态"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "穩態"
+          }
+        }
+      }
+    },
     "Steady State" : {
       "localizations" : {
         "zh-Hans" : {
@@ -50048,6 +50634,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "達到穩態"
+          }
+        }
+      }
+    },
+    "Steady state needs a regular schedule. Log a substance on a consistent cadence and its plateau appears here." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稳态需要规律的用药安排。按固定节奏记录某种物质，其平台值就会显示在这里。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "穩態需要規律的用藥安排。按固定節奏記錄某種物質，其平台值就會顯示在這裡。"
           }
         }
       }
@@ -54288,6 +54890,22 @@
         }
       }
     },
+    "Toggles this mechanism's line" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切换该机制的曲线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切換該機制的曲線"
+          }
+        }
+      }
+    },
     "Toggles this substance's line" : {
       "localizations" : {
         "zh-Hans" : {
@@ -54333,6 +54951,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "耐受性"
+          }
+        }
+      }
+    },
+    "Tolerance & Receptors" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受与受体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受與受體"
           }
         }
       }
@@ -57179,6 +57813,22 @@
         }
       }
     },
+    "What's still active in your body right now" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此刻体内仍在起作用的物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此刻體內仍在起作用的物質"
+          }
+        }
+      }
+    },
     "Whatever you're experiencing right now, help is available and you don't have to face it alone." : {
       "localizations" : {
         "zh-Hans" : {
@@ -57223,6 +57873,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "當某次記錄達到這麼多種不同物質時，時間線會將重疊的曲線拆分為獨立的堆疊泳道——每種物質一條——讓繁忙的記錄依然清晰可讀。關閉後，所有曲線始終疊加在同一張圖上。"
+          }
+        }
+      }
+    },
+    "When and how much you log" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你在何时、记录了多少"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你在何時、記錄了多少"
           }
         }
       }
@@ -57385,6 +58051,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按固定間隔服用的藥物會穩定在何處"
+          }
+        }
+      }
+    },
+    "Where a regular dose settles, from your own cadence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按你自己的节奏，规律剂量最终稳定在何处"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按你自己的節奏，規律劑量最終穩定在何處"
           }
         }
       }
@@ -58662,6 +59344,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您的血清素系統正承受壓力。請休息並照顧好自己。"
+          }
+        }
+      }
+    },
+    "Your streak and this month's rate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的连续天数与本月比例"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的連續天數與本月比例"
           }
         }
       }
