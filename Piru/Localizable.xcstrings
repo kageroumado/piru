@@ -482,6 +482,16 @@
         }
       }
     },
+    "%@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@"
+          }
+        }
+      }
+    },
     "%@ · %lld sources" : {
       "localizations" : {
         "en" : {
@@ -948,6 +958,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 與 %@：%@"
+          }
+        }
+      }
+    },
+    "%@ and %@: %@ active together" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 与 %@：同时活跃 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 與 %@：同時活躍 %@"
           }
         }
       }
@@ -2118,6 +2144,22 @@
         }
       }
     },
+    "%@: %@ %@ total" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@：共 %@ %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@：共 %@ %@"
+          }
+        }
+      }
+    },
     "%@: %@ + %@" : {
       "localizations" : {
         "en" : {
@@ -2136,6 +2178,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@:%@ + %@"
+          }
+        }
+      }
+    },
+    "%@: dose %@, %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@：剂量%@，%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@：劑量%@，%@"
           }
         }
       }
@@ -6048,6 +6106,22 @@
         }
       }
     },
+    "A record and a model, not medical advice. Exposure uses clinical equivalents where they're established, and the substance's typical dose otherwise." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是记录与模型，并非医疗建议。暴露在有公认临床当量时采用当量，否则采用该物质的常见剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是記錄與模型，並非醫療建議。暴露在有公認臨床當量時採用當量，否則採用該物質的常見劑量。"
+          }
+        }
+      }
+    },
     "A redose right now would land ~%lld%% as strong — within-session tachyphylaxis, recovers overnight." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -7103,6 +7177,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "目前活躍"
+          }
+        }
+      }
+    },
+    "Active together" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同时活跃"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同時活躍"
           }
         }
       }
@@ -10512,6 +10602,38 @@
         }
       }
     },
+    "at or above the CDC 50 MME/day reference" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "达到或超过 CDC 50 MME/天 参考线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "達到或超過 CDC 50 MME/天 參考線"
+          }
+        }
+      }
+    },
+    "at or above the CDC 90 MME/day reference" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "达到或超过 CDC 90 MME/天 参考线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "達到或超過 CDC 90 MME/天 參考線"
+          }
+        }
+      }
+    },
     "at start" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -10738,6 +10860,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "可用度——真正的耐受"
+          }
+        }
+      }
+    },
+    "Average %@ MME/day over the range" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此范围内平均 %@ MME/天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此範圍內平均 %@ MME/天"
           }
         }
       }
@@ -11609,6 +11747,22 @@
         }
       }
     },
+    "below the CDC 50 MME/day reference" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低于 CDC 50 MME/天 参考线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低於 CDC 50 MME/天 參考線"
+          }
+        }
+      }
+    },
     "Below the CDC daily caution band." : {
       "localizations" : {
         "zh-Hans" : {
@@ -11669,6 +11823,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "苯二氮平效應動力學：Vinkers & Olivier 2012；Piot & Jovanovic 2026。這些是來自文獻的方向性判斷，評級為低——並非擬合數值。"
+          }
+        }
+      }
+    },
+    "Benzodiazepines ≈ %@ mg diazepam-eq/day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "苯二氮䓬类 ≈ %@ mg 地西泮当量/天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "苯二氮平類 ≈ %@ mg 地西泮當量/天"
           }
         }
       }
@@ -15296,6 +15466,22 @@
         }
       }
     },
+    "common doses" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常见剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常見劑量"
+          }
+        }
+      }
+    },
     "Common doses" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16745,6 +16931,22 @@
         }
       }
     },
+    "Cumulative exposure" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累积暴露"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累積暴露"
+          }
+        }
+      }
+    },
     "Curious" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17622,6 +17824,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "天連續"
+          }
+        }
+      }
+    },
+    "Days used" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用药天数"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用藥天數"
+          }
+        }
+      }
+    },
+    "Days used, cumulative exposure, dose trend, and overlap — for you or your doctor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用药天数、累积暴露、剂量趋势与重叠——供你或你的医生参考"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用藥天數、累積暴露、劑量趨勢與重疊——供你或你的醫生參考"
+          }
+        }
+      }
+    },
+    "Days used, exposure, dose trend, and overlap" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用药天数、暴露、剂量趋势与重叠"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用藥天數、暴露、劑量趨勢與重疊"
           }
         }
       }
@@ -19512,6 +19762,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "劑量時間線"
+          }
+        }
+      }
+    },
+    "Dose trend" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量趋势"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量趨勢"
           }
         }
       }
@@ -24016,6 +24282,22 @@
         }
       }
     },
+    "falling" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下降"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下降"
+          }
+        }
+      }
+    },
     "Familiar songs can ground you and bring comfort. Pick something you know well." : {
       "localizations" : {
         "zh-Hans" : {
@@ -27166,6 +27448,22 @@
         }
       }
     },
+    "Hours two substances were both in your body at once" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两种物质同时在体内的小时数"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兩種物質同時在體內的小時數"
+          }
+        }
+      }
+    },
     "How body-load has moved over time" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27440,6 +27738,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "生成量部分取決於基因——同樣的劑量,有些人生成的明顯更多。"
+          }
+        }
+      }
+    },
+    "How often, across this range" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此范围内的用药频率"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此範圍內的用藥頻率"
           }
         }
       }
@@ -31161,6 +31475,22 @@
         }
       }
     },
+    "Log doses to see your patterns" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录剂量以查看你的规律"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄劑量以查看你的規律"
+          }
+        }
+      }
+    },
     "Log it in seconds" : {
       "localizations" : {
         "zh-Hans" : {
@@ -31255,6 +31585,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "記錄一些劑量，查看體內留存隨時間的變化。"
+          }
+        }
+      }
+    },
+    "Log some doses to see your patterns." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录一些剂量以查看你的规律。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄一些劑量以查看你的規律。"
           }
         }
       }
@@ -31423,6 +31769,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "長效藥物會延後起始，因為藥物仍在從體內清除。活性代謝物（地西泮、氯氮䓬、氯硝西泮）會讓這一時間窗更晚出現。"
+          }
+        }
+      }
+    },
+    "longest break" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最长间断"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最長間斷"
           }
         }
       }
@@ -32768,6 +33130,22 @@
         }
       }
     },
+    "mg diazepam-eq" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mg 地西泮当量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mg 地西泮當量"
+          }
+        }
+      }
+    },
     "Mild" : {
 
     },
@@ -33036,6 +33414,22 @@
     },
     "mL" : {
 
+    },
+    "MME" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MME"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MME"
+          }
+        }
+      }
     },
     "MME is a population risk metric, not a precision dosing tool. CDC states the calculated MME should not be used to determine the dose when switching opioids." : {
       "extractionState" : "stale",
@@ -37533,6 +37927,22 @@
         }
       }
     },
+    "Nothing logged in this range." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此范围内没有记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此範圍內沒有記錄。"
+          }
+        }
+      }
+    },
     "Nothing logged in this window" : {
       "localizations" : {
         "zh-Hans" : {
@@ -37577,6 +37987,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "暫無可顯示內容"
+          }
+        }
+      }
+    },
+    "Nothing to Summarize" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无可汇总内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無可彙總內容"
           }
         }
       }
@@ -37834,6 +38260,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Numer alarmowy"
+          }
+        }
+      }
+    },
+    "of %lld days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共 %lld 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共 %lld 天"
+          }
+        }
+      }
+    },
+    "of days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天数占比"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天數占比"
           }
         }
       }
@@ -38506,6 +38964,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "阿片與苯二氮䓬、酒精或其他抑制劑合用會大幅提高過量風險。而且中斷一段時間後耐受會迅速下降——你以前能承受的劑量也可能致命。"
+          }
+        }
+      }
+    },
+    "Opioids: peak day ≈ %@ MME" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阿片类：单日峰值 ≈ %@ MME"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鴉片類：單日峰值 ≈ %@ MME"
           }
         }
       }
@@ -39287,6 +39761,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "患者姓名(可選)"
+          }
+        }
+      }
+    },
+    "Patterns" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "规律"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "規律"
           }
         }
       }
@@ -45236,6 +45726,22 @@
         }
       }
     },
+    "rising" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上升"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上升"
+          }
+        }
+      }
+    },
     "Risk of fatal serotonin syndrome — do not combine." : {
       "localizations" : {
         "zh-Hans" : {
@@ -48698,6 +49204,22 @@
         }
       }
     },
+    "since last" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距上次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距上次"
+          }
+        }
+      }
+    },
     "Since your last dose" : {
       "localizations" : {
         "zh-Hans" : {
@@ -50569,6 +51091,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "只留在你的裝置上"
+          }
+        }
+      }
+    },
+    "steady" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平稳"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平穩"
           }
         }
       }
@@ -55148,6 +55686,22 @@
         }
       }
     },
+    "Total taken this range, in each substance's clinical or common-dose unit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此范围内的总量，以各物质的临床当量或常见剂量为单位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此範圍內的總量，以各物質的臨床當量或常見劑量為單位"
+          }
+        }
+      }
+    },
     "Totals include scheduled meds, as-needed doses, and everything else — the safety net doesn't care why you took it." : {
       "localizations" : {
         "zh-Hans" : {
@@ -58147,6 +58701,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的劑量在各物質劑量階梯上的位置"
+          }
+        }
+      }
+    },
+    "Whether your typical dose has moved over this range" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的常用剂量在此范围内是否有变化"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的常用劑量在此範圍內是否有變化"
           }
         }
       }
