@@ -27,6 +27,7 @@ struct InsightsView: View {
             VStack(alignment: .leading, spacing: 16) {
                 usageCard
                 inSystemCard
+                bodyLoadCard
                 adherenceCard
                 toleranceCard
             }
@@ -118,6 +119,23 @@ struct InsightsView: View {
                     if active.count > 3 {
                         GlanceMoreRow(count: active.count - 3)
                     }
+                }
+            }
+        }
+    }
+
+    // MARK: - In Your Body (over time)
+
+    private var bodyLoadCard: some View {
+        largeCard(icon: "waveform.path.ecg", tint: .indigo, title: "In your body over time", route: .insight(.bodyLoad)) {
+            if active.isEmpty {
+                emptyContent("Log doses to trace your body-load history")
+            } else {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("How much of each substance has been circulating, day by day")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }

@@ -91,6 +91,10 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
     /// Split out from the Half-Life Calculator (`Tool.calculator`) so each screen
     /// has a single responsibility; the two cross-link to each other.
     case inSystem
+    /// The historic counterpart to `inSystem`: per-substance body-load traced
+    /// across a time range (`Specs/insights-stats-architecture.md`), fed by
+    /// `BodyLevelsManager`.
+    case bodyLoad
 
     var id: String {
         rawValue

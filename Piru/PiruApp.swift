@@ -54,6 +54,9 @@ struct PiruApp: App {
         // is driven by the dose log when a Stage-2 surface consumes it; configuring here exercises the
         // additive `ToleranceState` schema and makes the cache available.
         ToleranceStore.shared.configure(container: container)
+        // Bind the body-load engine and start its debounced background warm, so the
+        // Insights "in your body over time" graph opens on a filled cache.
+        BodyLevelsManager.shared.configure(container: container)
         // Bind the custom-substance store to the container and run the one-time,
         // verify-before-delete migration of the legacy App-Group UserDefaults blob
         // into the store, so user-authored substances are backed up and recovered
