@@ -4,5 +4,9 @@
   "aliases": [
     "褪黑素",
     "褪黑激素"
+  ],
+  "description": "Melatonin is a hormone the pineal gland releases in darkness, and its job is timekeeping rather than sedation. It binds MT1 and MT2 receptors in the suprachiasmatic nucleus — the hypothalamic clock — where MT1 damps the wake-promoting drive and MT2 shifts the clock's phase. That is why when it is taken changes what it does: the same amount advances the clock taken in the evening and delays it taken in the morning, following a phase-response curve. Its effect on sleep timing is larger and better established than its effect on sleep depth.\n\nThe supplement is a separate question from the hormone. In an analysis of 31 commercial products, melatonin content ran from 83% below the label to 478% above it; more than 71% missed their own claim by more than 10%, and one product varied by 465% between lots of itself. Eight of the thirty also contained serotonin — a controlled substance that cannot be sold as a supplement — mostly, though not only, those carrying herbal extracts such as passionflower or valerian. A number on a melatonin label is a weaker guide to what is in the bottle than the same number on a pharmaceutical.",
+  "sources": [
+    "doi:10.5664/jcsm.6462"
   ]
 }

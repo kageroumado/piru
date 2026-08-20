@@ -50,5 +50,55 @@
   ],
   "tags": [
     "psilocybin-containing"
+  ],
+  "subjectiveEffects": [
+    {
+      "name": "nausea",
+      "description": "Common on the rising limb, and usually attributed to the fungal material rather than to psilocybin — chitin is indigestible, and the same amount taken as a tea or an extract tends to produce less of it. Generally fades once the effects establish."
+    },
+    {
+      "name": "body load",
+      "description": "A physical heaviness, restlessness or shivering through the comeup, distinct from nausea and typically easing at the peak."
+    },
+    {
+      "name": "yawning",
+      "description": "Frequent and persistent during the comeup, without any matching sleepiness. Reported across the serotonergic psychedelics."
+    },
+    {
+      "name": "pupil dilation",
+      "description": "Pronounced, and among the most reliable outward signs. Persists through most of the experience and outlasts the subjective peak."
+    },
+    {
+      "name": "visual distortion",
+      "description": "Surfaces breathe, drift and reorganize; edges pick up color; patterns surface in textures like bark, carpet or a stippled ceiling. Distinct from hallucination in that the object is still there and still recognized as itself."
+    },
+    {
+      "name": "closed-eye visuals",
+      "description": "Geometry and imagery behind closed lids, generally more elaborate than the open-eye distortions and markedly more responsive to music."
+    },
+    {
+      "name": "time distortion",
+      "description": "Duration stops tracking the clock. Minutes read as far longer, and any sense of how long the experience has been running is unreliable throughout."
+    },
+    {
+      "name": "emotional amplification",
+      "description": "Whatever is already present gets louder rather than replaced. Surroundings and prior state shape this more than amount does, which is why the same amount produces very different experiences for the same person on different days."
+    },
+    {
+      "name": "laughter",
+      "description": "Often prolonged and self-sustaining, sometimes with no identifiable object."
+    },
+    {
+      "name": "thought loops",
+      "description": "A thought, phrase or motion repeating on a short cycle. More common at higher amounts, and usually resolving as the peak passes."
+    },
+    {
+      "name": "ego dissolution",
+      "description": "The boundary between self and surroundings thinning, or dropping out entirely. Strongly dose-dependent and not reliably present; it is the effect people most often single out as significant afterwards."
+    },
+    {
+      "name": "afterglow",
+      "description": "A settled, open mood in the day or days following, separate from the acute effects and reported more often than not."
+    }
   ]
 }
