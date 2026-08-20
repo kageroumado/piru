@@ -10066,12 +10066,16 @@ class Build:
         upstream aggregator. PDSP as a separate source is reserved for direct PDSP-DB pulls."""
         if not path.exists():
             return
+        # Loud, not lenient. These files are committed repo data, so a parse error is
+        # a build error — swallowing one drops every substance in the file with no
+        # output, and `serotonergic-phenethylamine-psychedelics.json` sat unparseable
+        # for 107 commits before anyone noticed 92 records were missing.
         try:
             data = json.loads(path.read_text())
-        except json.JSONDecodeError:
-            return
+        except json.JSONDecodeError as error:
+            raise SystemExit(f"{path}: malformed JSON — {error}") from error
         if not isinstance(data, list):
-            return
+            raise SystemExit(f"{path}: expected a list of records, got {type(data).__name__}")
         class_ids: dict[str, int] = {}
         slug = "peer-review-primary"
         for rec in data:

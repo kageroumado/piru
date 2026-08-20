@@ -171,8 +171,6 @@
     "human_pk": {
       "routes": [
         {
-          "route": "sublingual",
-        {
           "route": "insufflation",
           "bioavailability_pct": null,
           "cmax_ng_per_ml": null,

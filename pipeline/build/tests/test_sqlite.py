@@ -673,6 +673,22 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         if hasattr(cls, "db"):
             cls.db.close()
 
+    def test_every_enrichment_file_parses(self):
+        """A malformed enrichment file drops every substance in it. The build now
+        refuses to continue past one, and this catches it before the build does —
+        with the offending file named."""
+        raw = Path(__file__).resolve().parents[3] / "data/enrichment/raw"
+        broken = []
+        for path in sorted(raw.glob("*.json")):
+            try:
+                records = json.loads(path.read_text())
+            except json.JSONDecodeError as error:
+                broken.append(f"{path.name}: {error}")
+                continue
+            if not isinstance(records, list):
+                broken.append(f"{path.name}: not a list")
+        self.assertEqual([], broken)
+
     def test_substance_forms_are_written_in_a_stable_order(self):
         """Insertion order within a substance must not depend on PYTHONHASHSEED — an
         unsorted `set` here made two builds of identical inputs differ in row order,
