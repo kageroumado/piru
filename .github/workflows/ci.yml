@@ -72,6 +72,11 @@ jobs:
       # 7.18", and must NOT be "confirmed" by a coincidental "50%".
       - name: Citation-sourcing tests (units, match strength, MeSH domain)
         run: python3 pipeline/audit/tests/test_citation_sourcing.py
+      # The DrugBank cross-check itself needs the private piru-data checkout,
+      # but its half-life parser decides which statements are comparable at
+      # all — that accept/reject line is pinned here, data-free.
+      - name: DrugBank cross-check parser tests (half-life statements, identity)
+        run: python3 pipeline/audit/tests/test_compare_to_drugbank.py
       - name: Dedupe tests (exact rows, prose echoes, value duplicates)
         run: python3 pipeline/build/tests/test_dedupe.py
       - name: No duplicated values in the shipped DB

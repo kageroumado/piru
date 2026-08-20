@@ -155,6 +155,16 @@ LLM-assisted research used to fill gaps external sources don't cover
 - **`compare_to_pw.py`** — compares resolved DB values to PsychonautWiki
   (our high-trust reference) and flags divergences. Output:
   `data/snapshots/pw-divergence.md`.
+- **`compare_to_drugbank.py`** — cross-checks the resolved DB against the
+  DrugBank XML release in `~/Developer/piru-data` (verification only — no
+  DrugBank data ships; its license restricts redistribution, so the output
+  stays in the gitignored `data/snapshots/verification-dump/`). Flags
+  half-life divergences, InChIKey/CAS identity conflicts, and emits a
+  research work-list of half-life gaps with the PubMed ids DrugBank cites —
+  seeds for the [Researching a claim](#researching-a-claim) ladder, never
+  values to copy. First run builds a compact cache
+  (`~/Developer/piru-data/drugbank-extract.json`) from the 1.6 GB XML;
+  `--re-extract` rebuilds it after a new DrugBank drop.
 - **`dump_substance_library.py`** — emits the by-category text dumps
   that live in `data/snapshots/by-category/`.
 - **`dump_for_verification.py`** — emits richer per-substance dumps
