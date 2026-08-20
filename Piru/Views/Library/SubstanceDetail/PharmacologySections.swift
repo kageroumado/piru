@@ -166,6 +166,24 @@ struct PharmacologySections: View {
                 }
             }
 
+            // Measured PK interactions from the literature, below the predicted
+            // modulation banners above. The order is the claim strength: those are
+            // modeled and badged as predictions, these are what a study measured.
+            // Two thirds of these rows name a drug *class* rather than a drug, which
+            // is why they live here on the substance's own page — the pair matcher in
+            // `InteractionChecker` can only ever fire on the third that names
+            // something the catalog carries.
+            if policy.showsPharmacokinetics, !model.pkInteractions.isEmpty {
+                Section {
+                    ForEach(model.pkInteractions) { hit in
+                        PKInteractionRow(hit: hit)
+                        if hit.id != model.pkInteractions.last?.id { Divider() }
+                    }
+                } header: {
+                    Text("Measured Interactions")
+                }
+            }
+
             // Enzyme-induction contraceptive caution — a CYP3A4 inducer (modafinil, rifampicin, …)
             // can lower hormonal-contraception levels. Ungated (a safety fact), kept to one compact
             // note since it only applies to people on hormonal birth control.

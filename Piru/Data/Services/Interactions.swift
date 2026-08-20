@@ -62,18 +62,48 @@ nonisolated enum InteractionSeverity: Int, Comparable, Codable, CaseIterable {
 
 // MARK: - Interaction Source
 
-/// Origin of an interaction warning. Currently only ``classRule`` is wired up
-/// — TripSit combo data and FDA-label parsing were removed when their
-/// runtime fetch paths went away with the SQLite migration. Kept as an enum
-/// so the surface can expand again once those sources land in the bundled
-/// DB's `interaction_rules` table.
+/// Origin of an interaction warning.
+///
+/// ``pharmacokinetic`` is a different *kind* of claim from ``classRule``, not a
+/// second opinion about the same one. A class rule says two mechanisms stack; a
+/// PK row says a measured exposure changed, by a named enzyme, in a cited study.
+/// They are surfaced together but never merged, and a PK row never sets a
+/// severity — see ``PKInteractionFinding``.
 enum InteractionSource {
     case classRule
+    case pharmacokinetic
 
     var label: LocalizedStringResource {
         switch self {
         case .classRule: "Pharmacological"
+        case .pharmacokinetic: "Measured exposure"
         }
+    }
+}
+
+// MARK: - Pharmacokinetic Interaction Finding
+
+/// A `drug_interactions_pk` row matched against something the person actually
+/// logged: one drug measurably changing another's exposure, with the enzyme
+/// mechanism and the study behind it.
+///
+/// **Deliberately carries no ``InteractionSeverity``.** The table has no severity
+/// column because its sources assign none, and the app's three-step ladder is a
+/// judgment about danger that "AUC increased ~2.6×" does not make. Rendering one
+/// here would manufacture the single thing a reader leans on hardest. Views show
+/// these as a measurement beside the severity-ranked warnings, never inside them.
+struct PKInteractionFinding: Identifiable, Hashable {
+    var id: Int64 {
+        hit.id
+    }
+    let hit: SubstanceStore.PKInteractionHit
+    /// The substance whose record carries the row.
+    let substance: String
+    /// The logged substance the row's counterpart resolved to.
+    let counterpart: String
+
+    var source: InteractionSource {
+        .pharmacokinetic
     }
 }
 
@@ -399,6 +429,67 @@ enum InteractionChecker {
 
     private static func pairKey(_ a: String, _ b: String) -> String {
         [a.lowercased(), b.lowercased()].sorted().joined(separator: "|")
+    }
+
+    // MARK: - Pharmacokinetic Interactions
+
+    /// The `drug_interactions_pk` rows that name something in `activeEntries`.
+    ///
+    /// Read in both directions: a row lives on one substance's record and names
+    /// the other in free text, and which side got the row is an artifact of which
+    /// paper was read, not of which drug is affected. Ketamine's record carries
+    /// "clarithromycin"; clarithromycin's record carries nothing.
+    ///
+    /// Matching resolves each counterpart name through ``SubstanceLibrary`` and
+    /// compares canonical names, so an alias on either side still connects. About
+    /// a third of the table names a real drug this way; the rest names a *class*
+    /// ("CYP3A4 inhibitors", "MAOIs") and matches nothing here by design — an
+    /// unresolved name is skipped rather than string-matched, because "SSRIs"
+    /// substring-matching a logged SSRI would be the checker inferring a claim the
+    /// row does not make. Those rows still render in full on the substance's own
+    /// Metabolism Interactions card, which is where a class-named row belongs.
+    static func pharmacokineticInteractions(
+        _ substanceName: String,
+        against activeEntries: [DoseEntry],
+    ) -> [PKInteractionFinding] {
+        let logged = Dictionary(
+            activeEntries.compactMap { entry -> (String, String)? in
+                guard let canonical = canonicalName(for: entry.substance) else { return nil }
+                return (canonical, entry.substance)
+            },
+            uniquingKeysWith: { first, _ in first },
+        )
+        guard !logged.isEmpty, let subject = canonicalName(for: substanceName) else { return [] }
+
+        var findings: [PKInteractionFinding] = []
+        var seen: Set<Int64> = []
+
+        func collect(rowsFor owner: String, matching candidates: [String: String]) {
+            for hit in SubstanceStore.shared.pkInteractions(forSubstanceName: owner) {
+                guard !seen.contains(hit.id) else { continue }
+                for name in hit.counterpartNames {
+                    guard let resolved = canonicalName(for: name), let match = candidates[resolved] else { continue }
+                    seen.insert(hit.id)
+                    findings.append(PKInteractionFinding(hit: hit, substance: owner, counterpart: match))
+                    break
+                }
+            }
+        }
+
+        // The prospective substance's own rows, against everything logged…
+        collect(rowsFor: substanceName, matching: logged)
+        // …then each logged substance's rows, against the prospective one.
+        for entry in activeEntries where entry.substance.lowercased() != substanceName.lowercased() {
+            collect(rowsFor: entry.substance, matching: [subject: substanceName])
+        }
+        return findings
+    }
+
+    /// A name resolved to the catalog's canonical spelling, lowercased for
+    /// comparison. Nil when the catalog does not carry it — which is the signal to
+    /// skip, never to fall back to raw string comparison.
+    private static func canonicalName(for name: String) -> String? {
+        SubstanceLibrary.lookupByNameOrAlias(name)?.name.lowercased()
     }
 
     // MARK: - Drug Class Mapping

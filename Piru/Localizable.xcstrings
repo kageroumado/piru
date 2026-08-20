@@ -30323,6 +30323,22 @@
         }
       }
     },
+    "Kᵢ %@ µM" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kᵢ %@ µM"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kᵢ %@ µM"
+          }
+        }
+      }
+    },
     "Ki ≤ %lld nM" : {
       "localizations" : {
         "zh-Hans" : {
@@ -32666,6 +32682,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在%4$@上測定值為 %2$@ %3$@的 %1$@ 倍——這是實驗室測定值,並非臨床效價。"
+          }
+        }
+      }
+    },
+    "Measured exposure" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "实测暴露量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實測暴露量"
+          }
+        }
+      }
+    },
+    "Measured Interactions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "实测相互作用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實測交互作用"
           }
         }
       }

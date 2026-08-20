@@ -31,6 +31,10 @@ final class SubstanceDetailModel {
     /// Grapefruit / smoking / self-edge metabolic-modulation education.
     var metabolicEducation: [MetabolicModulation.Effect] = []
 
+    /// Measured PK interactions from the literature: what a named drug or drug
+    /// class does to this substance's exposure. Sourced facts, not warnings.
+    var pkInteractions: [SubstanceStore.PKInteractionHit] = []
+
     /// Things the compound acts on that are not why anyone takes it — the hERG
     /// / bladder / taste-receptor rows. One per target, most-consequential first.
     var offTargets: [SubstanceStore.OffTargetHit] = []
@@ -141,9 +145,11 @@ final class SubstanceDetailModel {
         if policy.showsPharmacokinetics {
             pkRoutes = SubstanceStore.displayRows(store.pharmacokinetics(forSubstanceName: substanceName))
             metabolismRows = store.metabolism(forSubstanceName: substanceName)
+            pkInteractions = store.pkInteractions(forSubstanceName: substanceName)
         } else {
             pkRoutes = []
             metabolismRows = []
+            pkInteractions = []
         }
 
         // Grapefruit/smoking/self-edge education is harm-reduction-relevant, so

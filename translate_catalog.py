@@ -4994,6 +4994,18 @@ T = {
         "叠加的嗜睡和协调受损。",
         "疊加的嗜睡和協調受損。",
     ),
+    "Measured Interactions": (
+        "实测相互作用",
+        "實測交互作用",
+    ),
+    "Measured exposure": (
+        "实测暴露量",
+        "實測暴露量",
+    ),
+    "Kᵢ %@ µM": (
+        "Kᵢ %@ µM",
+        "Kᵢ %@ µM",
+    ),
     "Additive CNS depression — increased sedation and impairment.": (
         "中枢抑制相加 — 镇静和损害加剧。",
         "中樞抑制相加 — 鎮靜和損害加劇。",
