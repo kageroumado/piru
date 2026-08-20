@@ -673,6 +673,22 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         if hasattr(cls, "db"):
             cls.db.close()
 
+    def test_substance_forms_are_written_in_a_stable_order(self):
+        """Insertion order within a substance must not depend on PYTHONHASHSEED — an
+        unsorted `set` here made two builds of identical inputs differ in row order,
+        and the database is published under the checksum of the committed manifest."""
+        rows = self.db.execute(
+            "select rowid, substance_id, isomer_label, salt_label, release_label"
+            " from substance_forms order by rowid"
+        ).fetchall()
+        by_substance = {}
+        for r in rows:
+            by_substance.setdefault(r["substance_id"], []).append(
+                tuple(r[c] or "" for c in ("isomer_label", "salt_label", "release_label"))
+            )
+        unstable = [sid for sid, keys in by_substance.items() if keys != sorted(keys)]
+        self.assertEqual([], unstable)
+
     def test_no_mechanism_summary_is_a_document(self):
         """The mechanism summary is a headline slot, and a source that dumps a whole
         FDA label section into it renders as a wall of PK tables on the detail page.

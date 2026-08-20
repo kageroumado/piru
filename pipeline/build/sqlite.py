@@ -8773,7 +8773,13 @@ class Build:
                 if iso or salt or rel:
                     combos.add((iso, salt, rel))
 
-            for iso_label, salt_label, rel_label in combos:
+            # Sorted, not set order: these tuples hold strings, so unsorted iteration
+            # varies with PYTHONHASHSEED and two builds of identical inputs differ in
+            # row order alone. The database is published under the checksum of the
+            # committed manifest, so a build has to be byte-stable to be verifiable.
+            for iso_label, salt_label, rel_label in sorted(
+                combos, key=lambda combo: tuple(part or "" for part in combo)
+            ):
                 stereo = self._isomer_code(iso_label)
                 salt_code = self._salt_code(salt_label)
                 release_code = self._release_code(rel_label)
