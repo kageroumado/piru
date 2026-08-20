@@ -3547,7 +3547,36 @@
           "action": "modulator"
         }
       ]
-    }
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2C19",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "7-OH-CBD",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:21704641",
+        "notes": "\"The correlation and inhibition studies also showed that CBD 6α-hydroxylation was mainly catalyzed by CYP3A4 and CYP2C19, whereas CBD 7-hydroxylation was predominantly catalyzed by CYP2C19.\" (Jiang 2011, Life Sci 89:165-70 — abstract; full text closed). The metabolite's activity is stated by the Epidiolex FDA label: \"Based on two mouse models of acute seizure, the 7-OH-CBD metabolite is anticonvulsant in both models and 7-COOH-CBD is anticonvulsant in one model.\" (setid 8bf27097-4870-43fb-94f0-f3d0871d1eec, Clinical Pharmacology)"
+      },
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "6β-hydroxy-CBD and 4″-hydroxy-CBD",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8bf27097-4870-43fb-94f0-f3d0871d1eec",
+        "notes": "\"Cannabidiol is metabolized in the liver and the gut (primarily in the liver) by CYP2C19 and CYP3A4 enzymes, and UGT1A7, UGT1A9, and UGT2B7 isoforms.\" (Epidiolex FDA label, Clinical Pharmacology). The metabolites CYP3A4 forms are named by Jiang 2011: \"The correlations between CYP isoform-specific activities and CBD oxidative activities in 16 individual HLMs indicated that 6β-OH- and 4″-OH-CBDs were mainly formed by CYP3A4, which was supported by inhibition studies using ketoconazole and an anti-CYP3A4 antibody.\" (pmid:21704641, abstract)"
+      },
+      {
+        "enzyme": "UGT1A7/UGT1A9/UGT2B7",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8bf27097-4870-43fb-94f0-f3d0871d1eec",
+        "notes": "\"Cannabidiol is metabolized in the liver and the gut (primarily in the liver) by CYP2C19 and CYP3A4 enzymes, and UGT1A7, UGT1A9, and UGT2B7 isoforms.\" (Epidiolex FDA label, Clinical Pharmacology)"
+      }
+    ]
   },
   {
     "name": "CBG",

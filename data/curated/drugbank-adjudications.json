@@ -146,7 +146,24 @@
       "reason": "Retinol has no single meaningful elimination half-life: plasma retinol is homeostatically clamped by large hepatic stores, whole-body turnover is measured in months, and the hours-scale figure describes post-dose retinyl-ester clearance instead. The compartments differ by orders of magnitude, so any one number would misrepresent how a dose behaves."
     }
   ],
-  "enzyme_coverage": [],
+  "enzyme_coverage": [
+    {
+      "substance": "Hydroxyzine",
+      "reason": "Not a CYP3A4 substrate. Hydroxyzine is an aliphatic alcohol oxidized to cetirizine by NAD-dependent alcohol dehydrogenase — \"the initial aldehyde formation is considered the rate-limiting step in cetirizine production and is suggested to be catalyzed by NAD-dependent alcohol dehydrogenase (ADH)\". The ADH row is present; no grapefruit card should render, because grapefruit does not act on ADH."
+    },
+    {
+      "substance": "Rupatadine",
+      "reason": "The measured enzyme is CYP3A5, not CYP3A4: rupatadine \"is shown as the substrate of CYP3A5 and P-gp\", and plasma concentrations differ by CYP3A5 genotype in 36 healthy volunteers (pmid:26319517). The CYP3A5 row is present. Grapefruit's inhibition is CYP3A4-selective in the gut wall, so the card would overstate an effect that has not been shown for this substrate."
+    },
+    {
+      "substance": "Busulfan",
+      "reason": "Conjugative, not oxidative: \"Busulfan is predominantly metabolized by conjugation with glutathione, both spontaneously and by glutathione S-transferase (GST) catalysis\" (FDA label, Clinical Pharmacology 12.3). The GST row is present; a CYP3A4 grapefruit card would describe a pathway busulfan does not use."
+    },
+    {
+      "substance": "Tianeptine",
+      "reason": "Cleared by beta-oxidation of the C5 side chain rather than by CYP oxidation — the pharmacokinetic study that characterized its metabolite MC5 describes clearance \"mainly via extrarenal route\" with no CYP attribution (Salvadori 1990). The beta-oxidation row is present. This one matters more than the other three: tianeptine is taken recreationally, so a grapefruit warning here would be read and acted on."
+    }
+  ],
   "metabolite_coverage": [
     {
       "substance": "Caffeine",

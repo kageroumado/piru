@@ -2906,5 +2906,599 @@
       "doi:10.2165/00003088-199937030-00001",
       "doi:10.2165/00003088-200038060-00001"
     ]
+  },
+  {
+    "name": "Buspirone",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "1-pyrimidinylpiperazine (1-PP)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=02628a0c-bfdb-4a58-8e48-bcd8ca12d53b",
+        "notes": "\"Buspirone is metabolized primarily by oxidation, which in vitro has been shown to be mediated by cytochrome P450 3A4 (CYP3A4) (see PRECAUTIONS, Drug Interactions ). Several hydroxylated derivatives and a pharmacologically active metabolite, 1-pyrimidinylpiperazine (1-PP), are produced.\" (FDA label, Clinical Pharmacology)"
+      }
+    ]
+  },
+  {
+    "name": "Hydroxyzine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "alcohol dehydrogenase",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "cetirizine (via a hydroxyzine aldehyde intermediate)",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:42218107",
+        "notes": "\"Hydroxyzine, an aliphatic alcohol, is metabolized to the carboxylic acid cetirizine via 2 sequential oxidation steps involving the formation of an aldehyde intermediate. The initial aldehyde formation is considered the rate-limiting step in cetirizine production and is suggested to be catalyzed by NAD-dependent alcohol dehydrogenase (ADH), which oxidizes aliphatic alcohols. […] Among the recombinant hepatic human ADH isoforms (ADH1A, ADH1B, ADH1C, ADH4, and ADH5), all except ADH1A catalyzed hydroxyzine aldehyde formation. Furthermore, hydroxyzine aldehyde formation in human liver cytosol was significantly inhibited by 4-methylpyrazole, a specific inhibitor of ADH1, consistent with a predominant role for ADH1B and ADH1C.\" (Tonami et al., Drug Metab Dispos 2026;54(6):100318, abstract)"
+      }
+    ]
+  },
+  {
+    "name": "Lurasidone",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "ID-14283 and ID-14326",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0115b2fa-4c11-4f91-abe7-8293903e066c",
+        "notes": "\"Lurasidone hydrochloride is metabolized mainly via CYP3A4. The major biotransformation pathways are oxidative N -dealkylation, hydroxylation of norbornane ring, and S -oxidation. Lurasidone hydrochloride is metabolized into two active metabolites (ID-14283 and ID-14326) and two major non-active metabolites (ID-20219 and ID-20220).\" (FDA label, Clinical Pharmacology 12.3)"
+      }
+    ]
+  },
+  {
+    "name": "Cariprazine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "desmethylcariprazine (DCAR) and didesmethylcariprazine (DDCAR)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 100,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4b5f7c65-aa2d-452a-b3db-bc85c06ff12f",
+        "notes": "\"Cariprazine is extensively metabolized by CYP3A4 and, to a lesser extent, by CYP2D6 to DCAR and DDCAR. DCAR is further metabolized into DDCAR by CYP3A4 and CYP2D6. DDCAR is then metabolized by CYP3A4 to a hydroxylated metabolite.\" The same label states the metabolites' potency: \"VRAYLAR activity is thought to be mediated by cariprazine and its two major active metabolites, desmethylcariprazine (DCAR) and didesmethylcariprazine (DDCAR), which are pharmacologically equipotent to cariprazine.\" (FDA label, Clinical Pharmacology 12.3)"
+      },
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "desmethylcariprazine (DCAR) and didesmethylcariprazine (DDCAR)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 100,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4b5f7c65-aa2d-452a-b3db-bc85c06ff12f",
+        "notes": "\"Cariprazine is extensively metabolized by CYP3A4 and, to a lesser extent, by CYP2D6 to DCAR and DDCAR. DCAR is further metabolized into DDCAR by CYP3A4 and CYP2D6.\" The label bounds the clinical weight of this route: \"CYP2D6 poor metabolizer status does not have clinically relevant effect on pharmacokinetics of cariprazine, DCAR, or DDCAR.\" and \"CYP2D6 inhibitors are not expected to influence pharmacokinetics of cariprazine, DCAR, or DDCAR based on the observations in CYP2D6 poor metabolizers.\" (FDA label, Clinical Pharmacology 12.3)"
+      }
+    ]
+  },
+  {
+    "name": "Pimavanserin",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "AC-279 (N-desmethylated metabolite)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1e6bea44-57d6-4bac-9328-46e1ee59f83b",
+        "notes": "\"Pimavanserin is predominantly metabolized by CYP3A4 and CYP3A5 and to a lesser extent by CYP2J2, CYP2D6, and various other CYP and FMO enzymes. CYP3A4 is the major enzyme responsible for the formation of its major active metabolite (AC-279).\" (FDA label, Clinical Pharmacology 12.3)"
+      }
+    ]
+  },
+  {
+    "name": "Pimozide",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "1-(4-piperidyl)-2-benzimidazolinone and 4,4-bis(4-fluorophenyl) butyric acid",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4e954fc2-fdff-486c-beb6-2b8ace717081",
+        "notes": "\"Pimozide is extensively metabolized, primarily by N-dealkylation in the liver. This metabolism is catalyzed mainly by the cytochrome P450 3A4 (CYP 3A4) enzymatic system and to a lesser extent, by cytochrome P450 1A2 (CYP 1A2) and cytochrome P450 2D6 (CYP 2D6). Two major metabolites have been identified, 1-(4-piperidyl)-2-benzimidazolinone and 4,4-bis(4-fluorophenyl) butyric acid. The antipsychotic activity of these metabolites is undetermined.\" (FDA label, Clinical Pharmacology — Metabolism and Pharmacokinetics)"
+      },
+      {
+        "enzyme": "CYP1A2",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "1-(4-piperidyl)-2-benzimidazolinone and 4,4-bis(4-fluorophenyl) butyric acid",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4e954fc2-fdff-486c-beb6-2b8ace717081",
+        "notes": "\"This metabolism is catalyzed mainly by the cytochrome P450 3A4 (CYP 3A4) enzymatic system and to a lesser extent, by cytochrome P450 1A2 (CYP 1A2) and cytochrome P450 2D6 (CYP 2D6).\" (FDA label, Clinical Pharmacology — Metabolism and Pharmacokinetics)"
+      },
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "1-(4-piperidyl)-2-benzimidazolinone and 4,4-bis(4-fluorophenyl) butyric acid",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4e954fc2-fdff-486c-beb6-2b8ace717081",
+        "notes": "\"This metabolism is catalyzed mainly by the cytochrome P450 3A4 (CYP 3A4) enzymatic system and to a lesser extent, by cytochrome P450 1A2 (CYP 1A2) and cytochrome P450 2D6 (CYP 2D6).\" (FDA label, Clinical Pharmacology — Metabolism and Pharmacokinetics)"
+      }
+    ]
+  },
+  {
+    "name": "Suvorexant",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "hydroxy-suvorexant",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e5b72731-1acb-45b7-9c13-290ad12d3951",
+        "notes": "\"Suvorexant is mainly eliminated by metabolism, primarily by CYP3A with a minor contribution from CYP2C19. The major circulating entities are suvorexant and a hydroxy-suvorexant metabolite. This metabolite is not expected to be pharmacologically active.\" The same label attributes the interaction to CYP3A inhibitors: \"Strong (e.g., ketoconazole or itraconazole) and moderate (e.g., diltiazem) CYP3A inhibitors significantly increased suvorexant exposure. Strong CYP3A inducers (e.g., rifampin) substantially decreased suvorexant exposure.\" (FDA label, Clinical Pharmacology 12.3)"
+      },
+      {
+        "enzyme": "CYP2C19",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "hydroxy-suvorexant",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e5b72731-1acb-45b7-9c13-290ad12d3951",
+        "notes": "\"Suvorexant is mainly eliminated by metabolism, primarily by CYP3A with a minor contribution from CYP2C19.\" (FDA label, Clinical Pharmacology 12.3)"
+      }
+    ]
+  },
+  {
+    "name": "Flibanserin",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "6,21-dihydroxy-flibanserin-6,21-disulfate and 6-hydroxy-flibanserin-6-sulfate",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3819daf3-e935-2c53-c527-e1d57922f394",
+        "notes": "\"Flibanserin is primarily metabolized by CYP3A4 and, to a lesser extent, by CYP2C19. Based on in vitro and/or in vivo data, CYP1A2, CYP2B6, CYP2C8, CYP2C9, and CYP2D6 contribute minimally to the metabolism of flibanserin. […] Two metabolites could be characterized that showed plasma concentrations similar to that achieved with flibanserin: 6,21-dihydroxy-flibanserin-6,21-disulfate and 6-hydroxy-flibanserin-6-sulfate. These two metabolites are inactive.\" (FDA label, Clinical Pharmacology 12.3)"
+      },
+      {
+        "enzyme": "CYP2C19",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3819daf3-e935-2c53-c527-e1d57922f394",
+        "notes": "\"Flibanserin is primarily metabolized by CYP3A4 and, to a lesser extent, by CYP2C19.\" The label quantifies the route in poor metabolizers: \"In 9 women who were poor metabolizers of CYP2C19, Cmax and AUC 0-inf of flibanserin 100 mg once daily increased 1.5-fold (1.1-2.1) and 1.3-fold (0.9-2.1), compared to exposures among 8 extensive metabolizers of CYP2C19.\" (FDA label, Clinical Pharmacology 12.3 / 12.5)"
+      }
+    ]
+  },
+  {
+    "name": "Carbamazepine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "carbamazepine-10,11-epoxide",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0526a054-3eda-49b4-b390-7d5d16e30af8",
+        "notes": "\"Cytochrome P450 3A4 was identified as the major isoform responsible for the formation of carbamazepine-10,11-epoxide from carbamazepine.\" (FDA label, Clinical Pharmacology → Pharmacokinetics). Metabolite activity from the same label: \"The principal metabolite of carbamazepine, carbamazepine-10,11-epoxide, has anticonvulsant activity as demonstrated in several in vivo animal models of seizures.\" and \"Carbamazepine is more rapidly metabolized to carbamazepine-10,11-epoxide (a metabolite shown to be equipotent to carbamazepine as an anticonvulsant in animal screens) in the younger age groups than in adults.\""
+      },
+      {
+        "enzyme": "microsomal epoxide hydrolase",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "carbamazepine-10,11-trans-diol",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0526a054-3eda-49b4-b390-7d5d16e30af8",
+        "notes": "\"Human microsomal epoxide hydrolase has been identified as the enzyme responsible for the formation of the 10,11-transdiol derivative from carbamazepine-10,11 epoxide.\" (FDA label, Clinical Pharmacology → Pharmacokinetics)"
+      }
+    ]
+  },
+  {
+    "name": "Tianeptine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "beta-oxidation",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "MC5",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:2341111",
+        "notes": "\"Kinetic parameters of metabolite MC5, the C5 side chain beta-oxidation product of tianeptine, were simultaneously determined.\" and \"Plasma levels of metabolite MC5 were lower than those of the parent drug but decreased with a longer half-life (7.2 +/- 5.7 h).\" (Salvadori 1990, Fundam Clin Pharmacol 4:115-25 — abstract; the cached PDF is page images, not text). The same study puts tianeptine's own plasma half-life at 2.5 +/- 1.1 h with clearance \"mainly via extrarenal route since its renal clearance averaged 0.38 +/- 0.47 ml.min-1\"."
+      }
+    ]
   }
 ]

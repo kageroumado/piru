@@ -1,58 +1,58 @@
 # Piru SQLite build report
 
-Built 2026-08-20.0 → `Piru/Data/piru-substances.sqlite` (18,878,464 bytes, sha256 `d7502d3eda67f558ded2bf4dd12388a47b1fecac6caaa70cb02cc319fb8ded56`)
+Built 2026-08-20.0 → `Piru/Data/piru-substances.sqlite` (19,013,632 bytes, sha256 `3bea60dbba75f7da15d7f4e63238840d360b887522a2c3367e53c12e687642d9`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,740 |
-| aliases | 5,381 |
+| substances | 1,738 |
+| aliases | 5,396 |
 | sources | 17 |
-| citations | 2,028 |
-| categories | 1,585 |
-| tags | 7,013 |
+| citations | 2,103 |
+| categories | 1,592 |
+| tags | 7,100 |
 | dose_ranges | 2,498 |
 | durations | 9,131 |
 | half_lives | 538 |
 | mechanisms_summary | 980 |
 | effects | 2,952 |
 | subjective_effects | 24,611 |
-| tolerance | 309 |
+| tolerance | 323 |
 | indications | 1,136 |
 | contraindications | 1,656 |
 | diazepam_equivalents | 33 |
-| bindings | 1,203 |
-| functional_assays | 166 |
-| biased_agonism | 20 |
-| receptor_oligomers | 7 |
-| downstream_signalling | 624 |
-| neuroimaging | 49 |
-| pk_routes | 288 |
-| concentration_effects | 22 |
-| metabolism | 466 |
-| drug_interactions_pk | 197 |
-| pharmacogenetics | 248 |
-| off_targets | 201 |
-| class_contexts | 57 |
-| substance_classes | 116 |
-| molecule_shapes | 954 |
+| bindings | 1,291 |
+| functional_assays | 179 |
+| biased_agonism | 23 |
+| receptor_oligomers | 8 |
+| downstream_signalling | 690 |
+| neuroimaging | 52 |
+| pk_routes | 308 |
+| concentration_effects | 23 |
+| metabolism | 559 |
+| drug_interactions_pk | 205 |
+| pharmacogenetics | 269 |
+| off_targets | 209 |
+| class_contexts | 58 |
+| substance_classes | 185 |
+| molecule_shapes | 963 |
 
 ## Per-source coverage
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 237 | 285 | 648 | 2,278 |
-| peer-review-primary | 0 | 918 | 0 | 1,530 |
+| piru-curated | 237 | 285 | 653 | 2,278 |
+| peer-review-primary | 0 | 1,006 | 0 | 1,606 |
 | drug.community | 844 | 0 | 0 | 126 |
 | psychonautwiki | 374 | 0 | 75 | 321 |
-| tripsit | 585 | 0 | 421 | 1,268 |
+| tripsit | 585 | 0 | 420 | 1,268 |
 | dailymed | 0 | 0 | 0 | 0 |
 | erowid-pihkal | 103 | 0 | 168 | 430 |
 | erowid-tihkal | 35 | 0 | 48 | 121 |
 | pdsp | 0 | 0 | 0 | 0 |
 | pubchem | 0 | 0 | 0 | 0 |
-| wikidata | 0 | 0 | 91 | 327 |
+| wikidata | 0 | 0 | 94 | 338 |
 | dea-orange-book | 0 | 0 | 0 | 0 |
 | pyrls | 0 | 0 | 101 | 612 |
 | medtap | 0 | 0 | 0 | 0 |

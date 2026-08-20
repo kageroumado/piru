@@ -2075,6 +2075,7 @@
       "2C-B-NBOMe",
       "BOM 2-CB",
       "Cimbi-36",
+      "NBOMe-2C-B",
       "New Nexus",
       "Nova"
     ],
@@ -2082,7 +2083,9 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
+      "CYP2D6-substrate",
       "NBOMe",
+      "PET-tracer-Cimbi-36",
       "class:substituted phenethylamines",
       "phenethylamine",
       "research-chemical"
@@ -2161,7 +2164,10 @@
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
-    "tags": [],
+    "tags": [
+      "NBOMe-regioisomer",
+      "likely-weaker-than-25C-NBOMe"
+    ],
     "default_route": "buccal",
     "all_routes": [
       "buccal",
@@ -2190,7 +2196,8 @@
     "name": "25C-NBOH",
     "display_name": "",
     "aliases": [
-      "2C-C-NBOH"
+      "2C-C-NBOH",
+      "NBOH-2C-C"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -2235,8 +2242,11 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
+      "CYP2D6-substrate",
+      "CYP3A4-substrate",
       "NBOMe",
       "class:substituted phenethylamines",
+      "fatality-documented",
       "phenethylamine",
       "research-chemical"
     ],
@@ -2353,12 +2363,14 @@
     "display_name": "",
     "aliases": [
       "25d",
-      "2C-D-NBOMe"
+      "2C-D-NBOMe",
+      "NBOMe-2C-D"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
+      "CYP2D6-substrate",
       "NBOMe",
       "class:substituted phenethylamines",
       "phenethylamine",
@@ -2416,12 +2428,14 @@
     "name": "25E-NBOMe",
     "display_name": "",
     "aliases": [
-      "25e"
+      "25e",
+      "NBOMe-2C-E"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
+      "CYP2D6-substrate",
       "NBOMe",
       "phenethylamine",
       "research-chemical"
@@ -2451,13 +2465,15 @@
     "display_name": "",
     "aliases": [
       "25g",
-      "25gnbome"
+      "25gnbome",
+      "NBOMe-2C-G"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
       "NBOMe",
+      "likely-inactive",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -2527,7 +2543,8 @@
     "name": "25I-NBF",
     "display_name": "",
     "aliases": [
-      "2C-I-NBF"
+      "2C-I-NBF",
+      "NBF-2C-I"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -2569,7 +2586,8 @@
       "25I-NB34MD",
       "2C-I-NBMD",
       "Cimbi-29",
-      "INBMDO"
+      "INBMDO",
+      "NBMD-2C-I"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -2616,9 +2634,11 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
+      "CYP2D6-substrate",
       "NBOH",
       "class:substituted phenethylamines",
       "phenethylamine",
+      "phenolic-glucuronidation",
       "research-chemical",
       "tentative"
     ],
@@ -2662,8 +2682,12 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
+      "CYP2D6-substrate",
+      "CYP3A4-substrate",
       "NBOMe",
       "class:substituted phenethylamines",
+      "fatality-documented",
+      "hERG-data-lacking",
       "phenethylamine",
       "research-chemical"
     ],
@@ -2788,7 +2812,8 @@
     "display_name": "",
     "aliases": [
       "2-C-N-NBOMe",
-      "25n"
+      "25n",
+      "NBOMe-2C-N"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -2823,22 +2848,35 @@
   {
     "name": "25P-NBOMe",
     "display_name": "",
-    "aliases": [],
+    "aliases": [
+      "25P",
+      "2C-P-NBOMe",
+      "NBOMe",
+      "NBOMe-2C-P",
+      "P-NBOMe"
+    ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
       "NBOMe",
+      "duplicate-of-25P-NBOMe",
       "phenethylamine",
       "research-chemical",
       "tentative"
     ],
-    "default_route": "oral",
+    "default_route": "inhalation",
     "all_routes": [
-      "oral"
+      "inhalation",
+      "insufflation",
+      "oral",
+      "sublingual"
     ],
     "routes_with_dose": [
-      "oral"
+      "inhalation",
+      "insufflation",
+      "oral",
+      "sublingual"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
@@ -2880,41 +2918,6 @@
     "routes_with_dose": [
       "buccal",
       "insufflation",
-      "sublingual"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "25T-4-NBOMe",
-    "display_name": "",
-    "aliases": [
-      "25t4-NBOMe"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "5-HT2A-agonist",
-      "NBOMe",
-      "phenethylamine",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "sublingual",
-    "all_routes": [
-      "sublingual"
-    ],
-    "routes_with_dose": [
       "sublingual"
     ],
     "has_dose_data": true,
@@ -3119,10 +3122,12 @@
     "tags": [
       "2C-x",
       "5-HT2A-agonist",
+      "5-HT2B-strong",
       "class:substituted benzofurans",
       "class:substituted phenethylamines",
       "phenethylamine",
-      "research-chemical"
+      "research-chemical",
+      "valvulopathy-concern"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -3288,6 +3293,7 @@
     "tags": [
       "2C-x",
       "5-HT2A-agonist",
+      "MAO-substrate",
       "PIHKAL",
       "class:Phenethylamine",
       "class:substituted phenethylamines",
@@ -3781,6 +3787,7 @@
     "tags": [
       "2C-x",
       "5-HT2A-agonist",
+      "MAO-substrate",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -3970,43 +3977,6 @@
     ],
     "data_gaps": [
       "half_life_minutes"
-    ]
-  },
-  {
-    "name": "2C-P-NBOMe",
-    "display_name": "",
-    "aliases": [
-      "25P",
-      "25P-NBOMe",
-      "NBOMe",
-      "NBOMe-2C-P",
-      "P-NBOMe"
-    ],
-    "category": "",
-    "display_class": "recreational",
-    "tags": [],
-    "default_route": "inhalation",
-    "all_routes": [
-      "inhalation",
-      "insufflation",
-      "sublingual"
-    ],
-    "routes_with_dose": [
-      "inhalation",
-      "insufflation",
-      "sublingual"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
     ]
   },
   {
@@ -4364,12 +4334,19 @@
     "name": "2C-T-4-NBOMe",
     "display_name": "",
     "aliases": [
+      "25T-4-NBOMe",
       "25T4-NBOMe",
       "NBOMe-2C-T-4"
     ],
-    "category": "",
+    "category": "Psychedelic",
     "display_class": "recreational",
-    "tags": [],
+    "tags": [
+      "5-HT2A-agonist",
+      "NBOMe",
+      "phenethylamine",
+      "research-chemical",
+      "tentative"
+    ],
     "default_route": "buccal",
     "all_routes": [
       "buccal",
@@ -14879,10 +14856,12 @@
       "CAS 444912-75-8",
       "R(+)-AM-2233"
     ],
-    "category": "",
+    "category": "Cannabinoid",
     "display_class": "recreational",
     "tags": [
-      "class:benzoylindole synthetic cannabinoid"
+      "CB1-agonist",
+      "class:benzoylindole synthetic cannabinoid",
+      "synthetic-cannabinoid"
     ],
     "default_route": "inhalation",
     "all_routes": [
@@ -14910,9 +14889,12 @@
     "name": "AM-694",
     "display_name": "",
     "aliases": [],
-    "category": "",
+    "category": "Cannabinoid",
     "display_class": "recreational",
-    "tags": [],
+    "tags": [
+      "CB1-agonist",
+      "synthetic-cannabinoid"
+    ],
     "default_route": "inhalation",
     "all_routes": [
       "inhalation",
@@ -18243,6 +18225,7 @@
       "bk-2-CB",
       "bk-2cb",
       "bk2cb",
+      "Β-keto-2C-B",
       "Β-酮-2C-B",
       "ΒK-2C-B"
     ],
@@ -18277,7 +18260,9 @@
   {
     "name": "bk-2C-I",
     "display_name": "",
-    "aliases": [],
+    "aliases": [
+      "Β-keto-2C-I"
+    ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
@@ -19103,18 +19088,23 @@
     "display_name": "",
     "aliases": [
       "B-DFLY",
+      "BDFLY",
       "DOB-DragonFLY",
       "Dragonfly",
-      "bdfly",
       "bromo-d-fly",
       "bromo-dragon-fly"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
+      "5-HT2B-strong",
       "class:substituted amphetamines",
       "class:substituted benzofurans",
-      "research-chemical"
+      "fatality-documented",
+      "research-chemical",
+      "ultra-potent",
+      "vasospasm-risk",
+      "α1-strong"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -20113,6 +20103,7 @@
       "GABAA-PAM",
       "benzodiazepine",
       "habit-forming",
+      "prodrug",
       "tentative"
     ],
     "default_route": "oral",
@@ -27610,6 +27601,7 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
+      "likely-inactive",
       "phenethylamine"
     ],
     "default_route": "",
@@ -27647,8 +27639,10 @@
       "DOx",
       "PIHKAL",
       "class:substituted amphetamines",
+      "long-duration",
       "phenethylamine",
-      "research-chemical"
+      "research-chemical",
+      "research-radioligand"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -27679,7 +27673,10 @@
     "tags": [
       "5-HT2A-agonist",
       "DOx",
+      "DRI",
+      "NDRI",
       "PIHKAL",
+      "TAAR1",
       "no-human-data",
       "phenethylamine"
     ],
@@ -27715,6 +27712,7 @@
       "DOx",
       "PIHKAL",
       "class:substituted amphetamines",
+      "long-duration",
       "phenethylamine",
       "research-chemical"
     ],
@@ -27847,6 +27845,7 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
+      "long-duration",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -27883,11 +27882,14 @@
     "tags": [
       "5-HT2A-agonist",
       "DOx",
+      "Gq-biased",
       "PIHKAL",
       "class:substituted amphetamines",
+      "head-twitch-standard",
       "phenethylamine",
       "radioligand-origin",
-      "research-chemical"
+      "research-chemical",
+      "research-radioligand"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -27956,6 +27958,7 @@
       "DOx",
       "PIHKAL",
       "class:substituted amphetamines",
+      "long-duration",
       "phenethylamine",
       "research-chemical"
     ],
@@ -28019,7 +28022,11 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
+      "DRI",
+      "NDRI",
       "PIHKAL",
+      "TAAR1",
+      "no-human-data",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -28184,6 +28191,7 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
+      "CYP2D6-substrate",
       "DOx",
       "H1-antagonist",
       "OTC",
@@ -28193,6 +28201,7 @@
       "antihistamine, 1st generation",
       "deliriant",
       "first-gen-antihistamine",
+      "muscarinic-antagonist",
       "phenethylamine",
       "sedating",
       "sleep-aid"
@@ -28662,37 +28671,6 @@
       "half_life_minutes",
       "mechanism_of_action",
       "references"
-    ]
-  },
-  {
-    "name": "E; ESCALINE",
-    "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "PIHKAL",
-      "phenethylamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal072.shtml"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
     ]
   },
   {
@@ -29317,6 +29295,35 @@
     "data_gaps": []
   },
   {
+    "name": "Endomorphin-1",
+    "display_name": "",
+    "aliases": [],
+    "category": "Peptide",
+    "display_class": "medical_rx",
+    "tags": [
+      "MOR-agonist",
+      "no-human-data",
+      "opioid-peptide"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
+    ]
+  },
+  {
     "name": "Ephedrine",
     "display_name": "",
     "aliases": [
@@ -29736,13 +29743,17 @@
     "name": "Escaline",
     "display_name": "",
     "aliases": [
+      "E; ESCALINE",
       "艾斯卡林",
       "艾斯卡林d"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
+      "PIHKAL",
       "class:substituted phenethylamines",
+      "duplicate-of-Escaline",
+      "phenethylamine",
       "research-chemical"
     ],
     "default_route": "oral",
@@ -29800,10 +29811,11 @@
       "Transformations",
       "Wakefulness"
     ],
-    "references": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal072.shtml"
+    ],
     "data_gaps": [
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -31528,6 +31540,7 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
+      "entactogen-like",
       "phenethylamine"
     ],
     "default_route": "oral",
@@ -36814,6 +36827,7 @@
     "tags": [
       "habit-forming",
       "research-chemical",
+      "stimulant",
       "tentative"
     ],
     "default_route": "inhalation",
@@ -42967,6 +42981,7 @@
       "5-HT2A-agonist",
       "DOx",
       "PIHKAL",
+      "likely-weaker-than-DOB",
       "phenethylamine"
     ],
     "default_route": "oral",
@@ -43180,6 +43195,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
+      "5-HT2C-selective",
       "PIHKAL",
       "class:substituted phenethylamines",
       "phenethylamine",
@@ -43604,7 +43620,8 @@
     "tags": [
       "MOR-agonist",
       "habit-forming",
-      "methadone-analog"
+      "methadone-analog",
+      "opioid"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -44006,7 +44023,10 @@
   {
     "name": "METHYL-DOB",
     "display_name": "",
-    "aliases": [],
+    "aliases": [
+      "TMA-Br",
+      "α,α-dimethyl-DOB"
+    ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
@@ -47157,9 +47177,12 @@
       "NMC",
       "NMCY"
     ],
-    "category": "",
+    "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [],
+    "tags": [
+      "DAT-NET-inhibitor",
+      "stimulant"
+    ],
     "default_route": "oral",
     "all_routes": [
       "oral",
@@ -52077,6 +52100,7 @@
     "category": "Nootropic",
     "display_class": "recreational",
     "tags": [
+      "DAT-inhibitor",
       "WADA-banned",
       "class:racetams",
       "nootropic",
@@ -52409,7 +52433,8 @@
     "tags": [
       "GABAA-PAM",
       "benzodiazepine",
-      "habit-forming"
+      "habit-forming",
+      "prodrug"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -54351,10 +54376,12 @@
       "5HT2A-agonist",
       "natural-product",
       "no-human-data",
+      "prodrug",
       "prodrug-to-psilocin",
       "psilocybe-mushroom",
       "psychedelic",
-      "tryptamine"
+      "tryptamine",
+      "tryptamine-not-phenethylamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -54839,6 +54866,7 @@
     "tags": [
       "habit-forming",
       "research-chemical",
+      "stimulant",
       "tentative"
     ],
     "default_route": "inhalation",
@@ -60734,6 +60762,7 @@
     "name": "TMA-6",
     "display_name": "",
     "aliases": [
+      "2,4,6-trimethoxyamphetamine",
       "2,4,6-三甲氧基苯丙胺"
     ],
     "category": "Psychedelic",
@@ -61289,7 +61318,10 @@
     "category": "Antidepressant",
     "display_class": "dual_use",
     "tags": [
+      "5-HT2A-antagonist",
+      "CYP3A4-substrate",
       "SARI",
+      "SERT-inhibitor",
       "antidepressant",
       "class:Triazolopyridine derivative",
       "prescription-only",
@@ -62430,6 +62462,8 @@
     "display_class": "medical_rx",
     "tags": [
       "5-HT1A-partial-agonist",
+      "CYP3A4-substrate",
+      "SPARI",
       "SSRI",
       "antidepressant",
       "prescription-only",
@@ -63484,12 +63518,15 @@
     "display_class": "medical_rx",
     "tags": [
       "2nd generation antipsychotic",
+      "5-HT2A-antagonist",
       "5HT2A-antagonist",
       "D2-antagonist",
+      "QT-prolongation",
       "QTc-risk",
       "antipsychotic",
       "atypical-antipsychotic",
       "benzisothiazole",
+      "hERG-strong",
       "prescription-only"
     ],
     "default_route": "intramuscular",
@@ -63874,6 +63911,7 @@
       "BOH-2cb",
       "BOH2CB",
       "BOHB",
+      "Β-hydroxy-2C-B",
       "βOH-2C-B"
     ],
     "category": "Psychedelic",

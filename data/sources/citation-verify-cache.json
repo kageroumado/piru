@@ -904,6 +904,12 @@
   "title": "Four Synthetic Cathinones: 3-Chloromethcathinone, 4-Chloromethcathinone, 4-Fluoro-\u03b1-Pyrrolidinopentiophenone, and 4-Methoxy-\u03b1-Pyrrolidinopentiophenone Produce Changes in the Spontaneous Locomotor Activity and Motor Performance in Mice with Varied Profiles",
   "year": 2020
  },
+ "doi:10.1007/s13318-014-0236-3": {
+  "journal": "European journal of drug metabolism and pharmacokinetics",
+  "subjects": [],
+  "title": "CYP3A5*3 and MDR1 C3435T are influencing factors of inter-subject variability in rupatadine pharmacokinetics in healthy Chinese volunteers",
+  "year": "2016"
+ },
  "doi:10.1007/s40120-021-00251-6": {
   "journal": "Neurology and therapy",
   "subjects": [],
@@ -1270,6 +1276,12 @@
  },
  "doi:10.1016/j.dmd.2025.09.079": null,
  "doi:10.1016/j.dmd.2025.09.113": null,
+ "doi:10.1016/j.dmd.2026.100318": {
+  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
+  "subjects": [],
+  "title": "Identification of alcohol dehydrogenase (ADH) isoforms catalyzing hydroxyzine oxidation using recombinant human ADH: Serendipitous finding of potent ADH inhibition by organic solvents",
+  "year": "2026"
+ },
  "doi:10.1016/j.dmpk.2014.01.001": null,
  "doi:10.1016/j.drugalcdep.2006.03.015": {
   "journal": "Drug and alcohol dependence",
@@ -1536,6 +1548,12 @@
   "subjects": [],
   "title": "Cytochrome P450 enzymes involved in the metabolism of tetrahydrocannabinols and cannabinol by human hepatic microsomes",
   "year": "2007"
+ },
+ "doi:10.1016/j.lfs.2011.05.018": {
+  "journal": "Life sciences",
+  "subjects": [],
+  "title": "Identification of cytochrome P450 enzymes responsible for metabolism of cannabidiol by human liver microsomes",
+  "year": "2011"
  },
  "doi:10.1016/j.maturitas.2004.01.001": {
   "journal": "Maturitas",
@@ -2275,6 +2293,12 @@
   "title": "Structure-activity relationships of pregabalin and analogues that target the alpha(2)-delta protein",
   "year": "2005"
  },
+ "doi:10.1021/jm050135l": {
+  "journal": "Journal of Medicinal Chemistry",
+  "subjects": [],
+  "title": "Potent Cannabinergic Indole Analogues as Radioiodinatable Brain Imaging Agents for the CB1 Cannabinoid Receptor",
+  "year": 2005
+ },
  "doi:10.1021/jm050531m": null,
  "doi:10.1021/jm050709m": {
   "journal": "Journal of medicinal chemistry",
@@ -2336,6 +2360,12 @@
   "subjects": [],
   "title": "Synthesis and biological evaluation of bupropion analogues as potential pharmacotherapies for smoking cessation",
   "year": "2010"
+ },
+ "doi:10.1021/jm950625l": {
+  "journal": "Journal of Medicinal Chemistry",
+  "subjects": [],
+  "title": "3-Benzisothiazolylpiperazine Derivatives as Potential Atypical Antipsychotic Agents",
+  "year": 1996
  },
  "doi:10.1021/jm970078z": {
   "journal": "Journal of Medicinal Chemistry",
@@ -3140,6 +3170,12 @@
   "subjects": [],
   "title": "Specific benzodiazepine receptors in rat brain characterized by high-affinity (3H)diazepam binding.",
   "year": 1977
+ },
+ "doi:10.1073/pnas.90.24.11748": {
+  "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+  "subjects": [],
+  "title": "Human cytochrome P450 3A4: enzymatic properties of a purified recombinant fusion protein containing NADPH-P450 reductase",
+  "year": "1993"
  },
  "doi:10.1073/pnas.93.16.8455": {
   "journal": "Proceedings of the National Academy of Sciences",
@@ -4319,6 +4355,12 @@
   "title": "The metabolism and disposition of the oral dipeptidyl peptidase-4 inhibitor, linagliptin, in humans",
   "year": "2010"
  },
+ "doi:10.1124/dmd.110.035493": {
+  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
+  "subjects": [],
+  "title": "Identification of human liver cytochrome P450 enzymes involved in the metabolism of SCH 530348 (Vorapaxar), a potent oral thrombin protease-activated receptor 1 antagonist",
+  "year": "2011"
+ },
  "doi:10.1124/dmd.110.037523": {
   "journal": "Drug Metabolism and Disposition",
   "subjects": [],
@@ -4348,6 +4390,12 @@
   "subjects": [],
   "title": "Formation of threohydrobupropion from bupropion is dependent on 11\u03b2-hydroxysteroid dehydrogenase 1",
   "year": "2013"
+ },
+ "doi:10.1124/dmd.113.055400": {
+  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
+  "subjects": [],
+  "title": "Amlodipine metabolism in human liver microsomes and roles of CYP3A4/5 in the dihydropyridine dehydrogenation",
+  "year": "2014"
  },
  "doi:10.1124/dmd.115.064550": {
   "journal": "Drug Metabolism and Disposition",
@@ -7985,6 +8033,12 @@
   "title": "Dopamine transporter-dependent and -independent striatal binding of the benztropine analog JHW 007, a cocaine antagonist with low abuse liability.",
   "year": "2010"
  },
+ "pmid:20926621": {
+  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
+  "subjects": [],
+  "title": "Identification of human liver cytochrome P450 enzymes involved in the metabolism of SCH 530348 (Vorapaxar), a potent oral thrombin protease-activated receptor 1 antagonist.",
+  "year": "2011"
+ },
  "pmid:20942780": {
   "journal": "Current drug metabolism",
   "subjects": [],
@@ -8085,6 +8139,12 @@
   "journal": "Contemporary nurse",
   "subjects": [],
   "title": "Behind the scales: child and family health nurses taking care of women's emotional wellbeing.",
+  "year": "2011"
+ },
+ "pmid:21704641": {
+  "journal": "Life sciences",
+  "subjects": [],
+  "title": "Identification of cytochrome P450 enzymes responsible for metabolism of cannabidiol by human liver microsomes.",
   "year": "2011"
  },
  "pmid:21747398": {
@@ -8531,6 +8591,12 @@
   "title": "Monoamine transporter and receptor interaction profiles of a new series of designer cathinones.",
   "year": "2014"
  },
+ "pmid:24301608": {
+  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
+  "subjects": [],
+  "title": "Amlodipine metabolism in human liver microsomes and roles of CYP3A4/5 in the dihydropyridine dehydrogenation.",
+  "year": "2014"
+ },
  "pmid:24316736": {
   "journal": "Nature chemical biology",
   "subjects": [],
@@ -8776,6 +8842,12 @@
   "subjects": [],
   "title": "Distinct modes of perimembrane TRP channel turnover revealed by TIR-FRAP.",
   "year": "2014"
+ },
+ "pmid:25427746": {
+  "journal": "European journal of drug metabolism and pharmacokinetics",
+  "subjects": [],
+  "title": "CYP3A5*3 and MDR1 C3435T are influencing factors of inter-subject variability in rupatadine pharmacokinetics in healthy Chinese volunteers.",
+  "year": "2016"
  },
  "pmid:25502630": {
   "journal": "Neuropsychopharmacology : official publication of the American College of Neuropsychopharmacology",
@@ -11093,6 +11165,12 @@
   "title": "The role of cytochrome P450 polymorphisms in the pharmacokinetics of oral esketamine.",
   "year": "2026"
  },
+ "pmid:42218107": {
+  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
+  "subjects": [],
+  "title": "Identification of alcohol dehydrogenase (ADH) isoforms catalyzing hydroxyzine oxidation using recombinant human ADH: Serendipitous finding of potent ADH inhibition by organic solvents.",
+  "year": "2026"
+ },
  "pmid:42257400": {
   "journal": "ACS chemical neuroscience",
   "subjects": [],
@@ -11601,6 +11679,12 @@
   "journal": "Journal of neurochemistry",
   "subjects": [],
   "title": "[125I]RTI-55 binding to cocaine-sensitive dopaminergic and serotonergic uptake sites in the human brain.",
+  "year": "1993"
+ },
+ "pmid:8265621": {
+  "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+  "subjects": [],
+  "title": "Human cytochrome P450 3A4: enzymatic properties of a purified recombinant fusion protein containing NADPH-P450 reductase.",
   "year": "1993"
  },
  "pmid:8307658": {

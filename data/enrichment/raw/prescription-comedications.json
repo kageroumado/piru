@@ -1,0 +1,1595 @@
+[
+  {
+    "name": "Amlodipine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "M9 (dehydrogenated pyridine derivative)",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:24301608",
+        "notes": "\"The drug is slowly cleared in humans primarily via dehydrogenation of its dihydropyridine moiety to a pyridine derivative (M9).\" and \"The results from this study suggest that CYP3A4, rather than CYP3A5, plays a key role in metabolic clearance of amlodipine in humans.\" (Zhu et al., Drug Metab Dispos 2014;42:245-9, abstract; full text closed)"
+      }
+    ]
+  },
+  {
+    "name": "Atorvastatin",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "ortho- and parahydroxylated derivatives",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00afce9b-48c9-487a-a738-e359c005c707",
+        "notes": "\"In vitro studies suggest the importance of atorvastatin metabolism by cytochrome P450 3A4, consistent with increased plasma concentrations of atorvastatin in humans following co-administration with erythromycin, a known inhibitor of this isozyme.\" The same section states \"Atorvastatin is extensively metabolized to ortho- and parahydroxylated derivatives and various beta-oxidation products\" and \"In vitro inhibition of HMG-CoA reductase by ortho- and parahydroxylated metabolites is equivalent to that of atorvastatin. Approximately 70% of circulating inhibitory activity for HMG-CoA reductase is attributed to active metabolites.\" (FDA label, Clinical Pharmacology 12.3)"
+      }
+    ]
+  },
+  {
+    "name": "Simvastatin",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "simvastatin acid and its 6′-hydroxy, 6′-hydroxymethyl, and 6′-exomethylene derivatives",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00896fff-081d-4553-be8c-1999a8a73dda",
+        "notes": "\"Simvastatin is metabolized by CYP3A4. The major active metabolites of simvastatin present in human plasma are simvastatin acid and its 6′-hydroxy, 6′-hydroxymethyl, and 6′-exomethylene derivatives.\" (FDA label, Clinical Pharmacology 12.3, Elimination — Metabolism)"
+      }
+    ]
+  },
+  {
+    "name": "Lovastatin",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "β-hydroxyacid of lovastatin (lovastatin acid) and its 6′-hydroxy derivative",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=027bd594-6a0a-4e6d-bd3c-4f33fdb4166a",
+        "notes": "\"Lovastatin is a substrate for cytochrome P450 isoform 3A4 (CYP3A4).\" The same section states \"The major active metabolites present in human plasma are the β-hydroxyacid of lovastatin, its 6′-hydroxy derivative, and two additional metabolites\" and \"Grapefruit juice contains one or more components that inhibit CYP3A4 and can increase the plasma concentrations of drugs metabolized by CYP3A4.\" (FDA label, Clinical Pharmacology — Pharmacokinetics)"
+      }
+    ]
+  },
+  {
+    "name": "Felodipine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=05feb0a1-8a0c-4d8a-9b86-5e700ea6fd64",
+        "notes": "\"Felodipine is metabolized by CYP3A4.\" (FDA label, Drug Interactions — CYP3A4 Inhibitors). Clinical Pharmacology on the same label: \"Six metabolites, which account for 23% of the oral dose, have been identified; none has significant vasodilating activity.\""
+      }
+    ]
+  },
+  {
+    "name": "Nifedipine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0cabe053-3b7e-4dcb-8441-ef7821bb6f68",
+        "notes": "\"Nifedipine is metabolized by CYP3A4. Co-administration of nifedipine with phenytoin, an inducer of CYP3A4, lowers the systemic exposure to nifedipine by approximately 70%.\" (FDA label, Drug Interactions)"
+      }
+    ]
+  },
+  {
+    "name": "Verapamil",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "norverapamil",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 20,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=006cf920-04ae-0b53-cb91-85481972abc2",
+        "notes": "\"In vitro metabolic studies indicate that verapamil is metabolized by cytochrome P450 CYP3A4, CYP1A2, CYP2C8, CYP2C9, and CYP2C18. Clinically significant interactions have been reported with inhibitors of CYP3A4 (e.g., erythromycin, ritonavir) causing elevation of plasma levels of verapamil while inducers of CYP3A4 (e.g., rifampin) have caused a lowering of plasma levels of verapamil.\" (FDA label, Drug Interactions — Cytochrome inducers/inhibitors). Clinical Pharmacology on the same label: \"Twelve metabolites have been identified in plasma; all except norverapamil are present in trace amounts only. Norverapamil can reach steady-state plasma concentrations approximately equal to those of verapamil itself. The cardiovascular activity of norverapamil appears to be approximately 20% that of verapamil.\""
+      }
+    ]
+  },
+  {
+    "name": "Amiodarone",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "desethylamiodarone",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=993b2557-6774-bb7a-e053-2995a90a0503",
+        "notes": "\"Amiodarone is metabolized to desethylamiodarone by the cytochrome P450 (CYP450) enzyme group, specifically cytochrome P450 3A4 (CYP3A4) and CYP2C8. The CYP3A4 isoenzyme is present in both the liver and intestines. The highly variable systemic availability of oral amiodarone may be attributed potentially to large interindividual variability in CYP3A4 activity.\" The same section states \"N-desethylamiodarone (DEA) is the major active metabolite of amiodarone in humans.\" (FDA label, Clinical Pharmacology — Pharmacokinetics and Metabolism)"
+      },
+      {
+        "enzyme": "CYP2C8",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "desethylamiodarone",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=993b2557-6774-bb7a-e053-2995a90a0503",
+        "notes": "\"Amiodarone is metabolized to desethylamiodarone by the cytochrome P450 (CYP450) enzyme group, specifically cytochrome P450 3A4 (CYP3A4) and CYP2C8.\" (FDA label, Clinical Pharmacology — Pharmacokinetics and Metabolism)"
+      }
+    ]
+  },
+  {
+    "name": "Warfarin",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP2C9",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "7-hydroxywarfarin",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0cbce382-9c88-4f58-ae0f-532a841e8f95",
+        "notes": "The S-enantiomer pathway. \"The S-enantiomer of warfarin is mainly metabolized to 7-hydroxywarfarin by CYP2C9, a polymorphic enzyme.\" (FDA label, Clinical Pharmacology → Pharmacogenomics) and \"CYP2C9, a polymorphic enzyme, is likely to be the principal form of human liver CYP450 that modulates the in vivo anticoagulant activity of warfarin. Patients with one or more variant CYP2C9 alleles have decreased S-warfarin clearance\" (Pharmacokinetics → Metabolism). The metabolites are called inactive in the same paragraph: \"Warfarin is stereoselectively metabolized by hepatic cytochrome P-450 (CYP450) microsomal enzymes to inactive hydroxylated metabolites (predominant route) and by reductases to reduced metabolites (warfarin alcohols) with minimal anticoagulant activity.\""
+      },
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0cbce382-9c88-4f58-ae0f-532a841e8f95",
+        "notes": "One of the isozymes the label lists, without an enantiomer or metabolite assignment: \"The CYP450 isozymes involved in the metabolism of warfarin include CYP2C9, 2C19, 2C8, 2C18, 1A2, and 3A4.\" (FDA label, Clinical Pharmacology → Pharmacokinetics → Metabolism). What the label says of the R-enantiomer is kinetic only: \"The clearance of R-warfarin is generally half that of S-warfarin, thus as the volumes of distribution are similar, the half-life of R-warfarin is longer than that of S-warfarin.\""
+      }
+    ]
+  },
+  {
+    "name": "Erythromycin",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:8265621",
+        "notes": "N-demethylation by CYP3A4, shown with purified recombinant human enzyme: \"Human cytochrome P450 3A4 is recognized as the catalyst for the oxygen-dependent metabolism of a diverse group of medically important chemicals, including the immunosuppressive agent cyclosporin; macrolide antibiotics, such as erythromycin; drugs such as benzphetamine, nifedipine, and cocaine; and steroids; such as cortisol and testosterone to name but a few.\" and \"In contrast, these additions are not required for the N-demethylation of erythromycin or benzphetamine.\" (Shet 1993, PNAS 90:11748-52 — abstract; full text closed). Corroborated in patients by the erythromycin breath test: \"Because P450IIIA uniquely catalyzes the N-demethylation of erythromycin, we have proposed that the P450IIIA activity of a patient may be determined from the rate of 14CO2 production in the breath after an intravenous infusion of a test dose of [14C-N-methyl]erythromycin.\" with \"a significant correlation between patients' erythromycin breath test results and their liver P450IIIA levels (r2 = 0.56, p = 0.02). In contrast, there was no correlation at all between the erythromycin breath test result and the microsomal levels of any of the other four P450s assayed.\" (Lown 1992, Clin Pharmacol Ther 51:229-38, pmid:1544283 — abstract; full text closed)"
+      }
+    ]
+  },
+  {
+    "name": "Quinidine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "3-hydroxyquinidine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=4db375a3-0cff-4fa7-af7a-2a49e0b922d0",
+        "notes": "\"Most quinidine is eliminated hepatically via the action of cytochrome P450 IIIA4; there are several different hydroxylated metabolites, and some of these have antiarrhythmic activity. The most important of quinidine's metabolites is 3-hydroxy-quinidine (3HQ), serum levels of which can approach those of quinidine in patients receiving conventional doses of quinidine gluconate.\" (FDA label, Clinical Pharmacology → Pharmacokinetics and Metabolism). Potency is given as a lower bound, so the percent field is left null: \"As measured by antiarrhythmic effects on animals, by QTc prolongation in human volunteers, or by various in vitro techniques, 3HQ has at least half the antiarrhythmic activity of the parent compound, so it may be responsible for a substantial fraction of the effect of quinidine gluconate in chronic use.\" The metabolite outlasts the parent: \"the elimination half-life of 3HQ is about 12 hours\" against 6 to 8 hours for quinidine in adults."
+      }
+    ]
+  },
+  {
+    "name": "Rupatadine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A5",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:25427746",
+        "notes": "\"Rupatadine (RUP) is an oral antihistamine and platelet-activating factor antagonist and is shown as the substrate of CYP3A5 and P-gp.\" The genotype effect measured in 36 healthy volunteers: \"Plasma RUP concentrations were lower for CYP3A5*1/*1 carriers than for CYP3A5*3/*3 and CYP3A5*1/*3 carriers. Mean C(max), AUC(0-t) and AUC(0-∞) were significantly lower, and the CLz and Vd were significantly higher in the CYP3A5 wild-type group, than in the CYP3A5 mutated group.\" (Xiong 2014, Eur J Drug Metab Pharmacokinet 41:117-24 — abstract; full text closed). Rupatadine also yields an active metabolite that is a marketed antihistamine in its own right, though no source read here assigns its formation to an enzyme: \"plasma concentrations of rupatadine and its active metabolites desloratadine and 3-hydroxydesloratadine were determined by liquid chromatography tandem mass spectrometry\" (Solans 2007, Clin Ther 29:900-908, pmid:17697908)."
+      }
+    ]
+  },
+  {
+    "name": "Dihydroergotamine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0982a44a-dc0c-75c0-e063-6394a90a6d6c",
+        "notes": "\"Because CYP3A4 inhibition elevates the serum levels of dihydroergotamine, the risk for vasospasm leading to cerebral ischemia and/or ischemia of the extremities is increased.\" (ATZUMI FDA label, Warnings and Precautions 5.1). Measured with a strong CYP3A4 inhibitor: \"In a drug interaction study, administration of ATZUMI with itraconazole increased dihydroergotamine plasma exposure by 14% for C max and 19% for AUC while the plasma exposures (C max and AUC 0-inf ) of 8'-β-hydroxy dihydroergotamine (8'-OH-DHE, active metabolite) were increased by approximately 4-fold and 3-fold, respectively.\" (Clinical Pharmacology 12.3, Drug Interaction Studies). The metabolite field is left null because the label's major metabolite is not assigned to an enzyme: \"The major metabolite, 8'-β-hydroxydihydroergotamine, exhibits affinity equivalent to its parent for adrenergic and 5-HT 1 receptors and demonstrates equivalent potency in several venoconstrictor activity models, in vivo and in vitro.\""
+      }
+    ]
+  },
+  {
+    "name": "Tadalafil",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "catechol metabolite (methylcatechol glucuronide is the major circulating form)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00cbc656-768d-4995-bb6d-a0d4b32a248c",
+        "notes": "\"Metabolism — Tadalafil is predominantly metabolized by CYP3A4 to a catechol metabolite.\" The same section adds: \"The catechol metabolite undergoes extensive methylation and glucuronidation to form the methylcatechol and methylcatechol glucuronide conjugate, respectively. The major circulating metabolite is the methylcatechol glucuronide.\" and \"In vitro data suggests that metabolites are not expected to be pharmacologically active at observed metabolite concentrations.\" (FDA label, Clinical Pharmacology)"
+      }
+    ]
+  },
+  {
+    "name": "Vardenafil",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "M1 (desethyl-vardenafil)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 28,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=083a3282-254f-4042-b0eb-70f76a279f10",
+        "notes": "\"Vardenafil is metabolized predominantly by the hepatic enzyme CYP3A4, with contribution from the CYP3A5 and CYP2C isoforms.\" The same section adds: \"The major circulating metabolite, M1, results from desethylation at the piperazine moiety of vardenafil.\" and \"This metabolite shows a phosphodiesterase selectivity profile similar to that of vardenafil and an in vitro inhibitory potency for PDE5 28% of that of vardenafil. Therefore, M1 accounts for approximately 7% of total pharmacologic activity.\" (FDA label, Clinical Pharmacology)"
+      },
+      {
+        "enzyme": "CYP3A5",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=083a3282-254f-4042-b0eb-70f76a279f10",
+        "notes": "\"Vardenafil is metabolized predominantly by the hepatic enzyme CYP3A4, with contribution from the CYP3A5 and CYP2C isoforms.\" (FDA label, Clinical Pharmacology) — CYP3A5 is the label's named secondary contributor; the CYP2C contribution is stated only at the isoform-family level."
+      }
+    ]
+  },
+  {
+    "name": "Apixaban",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=095a08ac-cf0e-497e-a682-ddef38d6b29c",
+        "notes": "\"Apixaban is metabolized mainly via CYP3A4 with minor contributions from CYP1A2, 2C8, 2C9, 2C19, and 2J2.\" The same section adds: \"O-demethylation and hydroxylation at the 3-oxopiperidinyl moiety are the major sites of biotransformation. Unchanged apixaban is the major drug-related component in human plasma; there are no active circulating metabolites.\" (FDA label, Clinical Pharmacology)"
+      }
+    ]
+  },
+  {
+    "name": "Ticagrelor",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "AR-C124910XX",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 100,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1225fd45-9b56-1671-ee77-cd0c9f2174a5",
+        "notes": "\"CYP3A4 is the major enzyme responsible for ticagrelor metabolism and the formation of its major active metabolite.\" The same label states: \"Ticagrelor and its active metabolite are approximately equipotent.\" and \"The systemic exposure to the active metabolite is approximately 30 to 40% of the exposure of ticagrelor.\" (FDA label, Clinical Pharmacology)"
+      }
+    ]
+  },
+  {
+    "name": "Vorapaxar",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "M20 (monohydroxy-vorapaxar)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 100,
+        "reference": "pmid:20926621",
+        "notes": "\"The results of screening, inhibition, and correlation studies confirmed that CYP3A4 is the major P450 enzyme responsible for M19 formation from SCH 530348. In contrast, formation of M20, a major circulating human metabolite at steady state, was primarily catalyzed by CYP3A4 and CYP2J2.\" and \"M20 is pharmacologically equipotent to SCH 530348, whereas M19 is an inactive metabolite.\" (Ghosal et al., Drug Metab Dispos; abstract — full text is paywalled)"
+      },
+      {
+        "enzyme": "CYP2J2",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "M20 (monohydroxy-vorapaxar)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 100,
+        "reference": "pmid:20926621",
+        "notes": "\"Formation of M20 by human liver microsomes was inhibited 89% by ketoconazole, 75% by astemizole (a CYP2J2 inhibitor), and 43% by CYP3A4 monoclonal antibody. These results suggest that CYP3A4 and CYP2J2 are both involved in the formation of M20 metabolite.\" (Ghosal et al., Drug Metab Dispos; abstract — full text is paywalled)"
+      }
+    ]
+  },
+  {
+    "name": "Eplerenone",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1a52bedc-8e2c-4116-a296-a87770676b4a",
+        "notes": "\"Eplerenone metabolism is primarily mediated via CYP3A4. No active metabolites of eplerenone have been identified in human plasma. Less than 5% of an eplerenone dose is recovered as unchanged drug in the urine and feces.\" (FDA label, Clinical Pharmacology)"
+      }
+    ]
+  },
+  {
+    "name": "Everolimus",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "three monohydroxylated metabolites, two hydrolytic ring-opened products, and a phosphatidylcholine conjugate",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=01f7b5fb-be0d-4adf-acd2-6899018de966",
+        "notes": "\"Metabolism: Everolimus is a substrate of CYP3A4. Following oral administration, everolimus is the main circulating component in human blood. Six main metabolites of everolimus have been detected in human blood, including three monohydroxylated metabolites, two hydrolytic ring-opened products, and a phosphatidylcholine conjugate of everolimus. These metabolites were also identified in animal species used in toxicity studies, and showed approximately 100-times less activity than everolimus itself.\" (FDA label, Clinical Pharmacology)"
+      }
+    ]
+  },
+  {
+    "name": "Acalabrutinib",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "ACP-5862",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 50,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b1409184-3267-4d8c-8f17-4e01f69828b1",
+        "notes": "\"Acalabrutinib is predominantly metabolized by CYP3A enzymes, and to a minor extent, by glutathione conjugation and amide hydrolysis, based on in vitro studies. ACP-5862 was identified as the major active metabolite in plasma with a geometric mean exposure (AUC) that was approximately 2- to 3-fold higher than the exposure of acalabrutinib. ACP-5862 is approximately 50% less potent than acalabrutinib with regard to BTK inhibition.\" (FDA label, Clinical Pharmacology). The label names the family (\"CYP3A\"); the specific isoform is named in Pepin et al., Eur J Pharm Biopharm 2019: \"Acalabrutinib is a substrate of PgP and CYP3A4, with a significant fraction of drug metabolized by first pass gut extraction and 25% absolute bioavailability.\" (pmid:31306750)"
+      }
+    ]
+  },
+  {
+    "name": "Etoposide",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "catechol (O-demethylated metabolite)",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0dddbe44-b4f4-431f-9011-8a54abbd4cbf",
+        "notes": "\"In addition, O-demethylation of the dimethoxyphenol ring occurs through the CYP450 3A4 isoenzyme pathway to produce the corresponding catechol.\" (FDA label, Clinical Pharmacology — Pharmacokinetics)"
+      }
+    ]
+  },
+  {
+    "name": "Ifosfamide",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "4-hydroxyifosfamide",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a311a947-7b78-4226-bfe0-f4aa0be20e27",
+        "notes": "Bioactivation rather than clearance — CYP3A4 turnover generates the cytotoxic species, so CYP3A4 inhibition reduces rather than increases active drug. \"Ifosfamide is a substrate for both CYP3A4 and CYP2B6.\" and \"CYP3A4 inhibitors (e.g., ketoconazole, fluconazole, itraconazole, sorafenib, aprepitant, fosaprepitant, grapefruit, grapefruit juice) may decrease the metabolism of ifosfamide to its active alkylating metabolites, perhaps decreasing the effectiveness of ifosfamide treatment.\" (FDA label, Drug Interactions 7.2); \"Ifosfamide is extensively metabolized in humans through two metabolic pathways: ring oxidation (“activation”) to form the active metabolite, 4-hydroxy-ifosfamide and side-chain oxidation to form the inactive metabolites, 3-dechloro-ethylifosfamide or 2-dechloroethylifosfamide with liberation of the toxic metabolite, chloroacetaldehyde.\" (FDA label, Clinical Pharmacology 12.3 — Metabolism)"
+      },
+      {
+        "enzyme": "CYP2B6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a311a947-7b78-4226-bfe0-f4aa0be20e27",
+        "notes": "\"Ifosfamide is a substrate for both CYP3A4 and CYP2B6.\" (FDA label, Drug Interactions 7)"
+      }
+    ]
+  },
+  {
+    "name": "Busulfan",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "glutathione S-transferase",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=06883ac0-4b2a-4f26-89bf-512d37b9ba7f",
+        "notes": "\"Busulfan is predominantly metabolized by conjugation with glutathione, both spontaneously and by glutathione S-transferase (GST) catalysis.\" (FDA label, Clinical Pharmacology 12.3 — Metabolism)"
+      }
+    ]
+  },
+  {
+    "name": "Thiotepa",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "TEPA (N,N',N''-triethylenephosphoramide)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=559e353c-2dc0-16ba-e054-00144ff8d46c",
+        "notes": "\"In vitro studies suggest that thiotepa is metabolized by CYP3A4 and CYP2B6 to its active metabolite TEPA.\" (FDA label, Drug Interactions 7.1); \"In vitro data suggests that CYP3A4 and CYP2B6 may be responsible for the metabolism of thiotepa to TEPA, a major active metabolite.\" (FDA label, Clinical Pharmacology 12.3 — Metabolism)"
+      },
+      {
+        "enzyme": "CYP2B6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "TEPA (N,N',N''-triethylenephosphoramide)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=559e353c-2dc0-16ba-e054-00144ff8d46c",
+        "notes": "\"In vitro data suggests that CYP3A4 and CYP2B6 may be responsible for the metabolism of thiotepa to TEPA, a major active metabolite.\" (FDA label, Clinical Pharmacology 12.3 — Metabolism)"
+      }
+    ]
+  },
+  {
+    "name": "Paricalcitol",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1b27c026-2d60-47b4-2a9c-ded1818f21b5",
+        "notes": "\"In vitro data suggest that paricalcitol is metabolized by multiple hepatic and non-hepatic enzymes, including mitochondrial CYP24, as well as CYP3A4 and UGT1A4.\" (FDA label, Clinical Pharmacology 12.3 — Metabolism). Corroborated clinically: \"The C max of paricalcitol was minimally affected, but AUC 0-∞ approximately doubled in the presence of ketoconazole.\" (same label, Drug Interaction Studies — Ketoconazole)"
+      },
+      {
+        "enzyme": "CYP24",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1b27c026-2d60-47b4-2a9c-ded1818f21b5",
+        "notes": "\"In vitro data suggest that paricalcitol is metabolized by multiple hepatic and non-hepatic enzymes, including mitochondrial CYP24, as well as CYP3A4 and UGT1A4.\" (FDA label, Clinical Pharmacology 12.3 — Metabolism)"
+      },
+      {
+        "enzyme": "UGT1A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1b27c026-2d60-47b4-2a9c-ded1818f21b5",
+        "notes": "\"In vitro data suggest that paricalcitol is metabolized by multiple hepatic and non-hepatic enzymes, including mitochondrial CYP24, as well as CYP3A4 and UGT1A4.\" (FDA label, Clinical Pharmacology 12.3 — Metabolism). The label lists the products collectively: \"The identified metabolites include the product of 24(R)-hydroxylation, 24,26- and 24,28-dihydroxylation and direct glucuronidation.\""
+      }
+    ]
+  },
+  {
+    "name": "Lumefantrine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "desbutyl-lumefantrine",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=7866ec19-dfac-47d4-a53f-511a12643cbf",
+        "notes": "\"In human liver microsomes and in recombinant CYP450 enzymes, lumefantrine was metabolized mainly by CYP3A4 to desbutyl-lumefantrine.\" (FDA label for artemether/lumefantrine, Clinical Pharmacology 12.3 — Biotransformation). Systemic exposure to the metabolite is under 1% of the parent: \"The systemic exposure to the metabolite desbutyl-lumefantrine was less than 1% of the exposure to the parent compound.\""
+      }
+    ]
+  },
+  {
+    "name": "Eliglustat",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=819f828a-b888-4e46-83fc-94d774a28a83",
+        "notes": "\"CERDELGA is primarily metabolized by CYP2D6 and to a lesser extent by CYP3A4.\" (FDA label, Clinical Pharmacology 12.3 — Metabolism). Phenotype dominates exposure: \"Compared to EMs, the systemic exposure following 84 mg twice daily at steady state is 7-fold to 9-fold higher in PMs.\""
+      },
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=819f828a-b888-4e46-83fc-94d774a28a83",
+        "notes": "\"CERDELGA is primarily metabolized by CYP2D6 and to a lesser extent by CYP3A4.\" (FDA label, Clinical Pharmacology 12.3 — Metabolism). The secondary pathway still carries large clinical exposure changes — ketoconazole raised eliglustat AUC 4.4-fold in CYP2D6 extensive metabolizers (same label, Table 9)."
+      }
+    ]
+  }
+]
