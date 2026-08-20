@@ -5938,6 +5938,12 @@ class Build:
         for ref in refs:
             if isinstance(ref, str) and ref.strip():
                 self.add_substance_citation(sid, ref.strip())
+        # Prose description. No scraped source carries this key — PsychonautWiki's
+        # descriptions arrive through their own ingester — so it exists to give the
+        # curated layer a way to supply one, for substances where the scrapers left
+        # the slot empty (codeine, melatonin).
+        if s.get("description"):
+            self.add_description(sid, slug, s["description"])
         for e in s.get("effects") or []:
             self.add_effect(sid, slug, e)
         for se in s.get("subjectiveEffects") or []:

@@ -7,5 +7,92 @@
     "Lean",
     "Purple Drank",
     "Syrup"
+  ],
+  "description": "Codeine (3-methylmorphine) is an opium alkaloid, present alongside morphine in the latex of Papaver somniferum and made commercially by methylating morphine. It is an agonist at the mu-opioid receptor in its own right, though the FDA label describes its affinity as much weaker than morphine's, and most of what a person feels is usually attributed to the fraction that CYP2D6 O-demethylates into morphine — 5 to 10% of a dose. The remainder goes elsewhere: UGT2B7 and UGT2B4 conjugate 70 to 80% to codeine-6-glucuronide, and CYP3A4 N-demethylates roughly 10% to norcodeine. Calling codeine a morphine prodrug is the usual shorthand, and it undersells the molecule: when Lötsch and colleagues measured pupil constriction after oral codeine and then reproduced the same plasma morphine concentrations by computer-controlled morphine infusion, the miotic effect after codeine was about twice as large. Morphine alone cannot account for it. Adding codeine-6-glucuronide as a second active species improved the model fit most, with codeine itself and norcodeine close behind.\n\nThat activation step is what makes codeine unusual to record. CYP2D6 is one of the most variable enzymes in the genome, so the same amount produces genuinely different exposures in different people. Poor metabolizers form almost no morphine and correspondingly little opioid effect. Carriers of a CYP2D6 gene duplication form more: in a controlled comparison, median morphine AUC was 16 µg·h/L in ultrarapid metabolizers against 11 in normal metabolizers and 0.5 in poor metabolizers, and the duplication is carried by around 3% of northern Europeans, 5 to 10% of southern Europeans, and 10 to 30% of people in Arabian and northeast African populations. Two people can take the same amount, log it identically, and be describing two different pharmacologies — both accurately. The half-life Piru models, roughly 3 hours, is codeine's own plasma clearance; the timeline peaks later than that curve because the active moieties take time to equilibrate with the brain (effect-site half-life about 1.4 hours for morphine in the same pupillometric model). Codeine's plasma half-life is unchanged by CYP2D6 status — it is the morphine arm, not the parent drug, that the genotype moves.",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "duration": {
+        "comeup": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 90,
+          "max": 150
+        },
+        "total": {
+          "min": 240,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "subjectiveEffects": [
+    {
+      "name": "pain relief",
+      "description": "The effect codeine is prescribed for, and the one that varies most between people. In pooled single-dose surgical trials it separated from placebo but by a narrow margin — around a quarter of participants reached at least half their maximum possible relief, against a sixth on placebo — and part of that flat average is a population in which some people convert enough to morphine and some convert almost none."
+    },
+    {
+      "name": "sedation",
+      "description": "A settling, heavy quality rather than sleep itself: attention gets easier to let go of and harder to hold. Milder than an equivalent impression of morphine for most people, and one of the effects that shows up even in poor metabolizers, which is part of the evidence that codeine and codeine-6-glucuronide act at mu receptors themselves."
+    },
+    {
+      "name": "drowsiness",
+      "description": "Sleepiness that arrives on the rising limb and often outlasts the analgesia. Compounds sharply with alcohol, benzodiazepines, gabapentinoids, and sedating antihistamines, all of which add respiratory depression to the same picture."
+    },
+    {
+      "name": "euphoria",
+      "description": "Present for some people, absent for others, and the difference is substantially pharmacogenetic rather than psychological. Where it occurs it is the familiar opioid warmth — contentment and a lowering of urgency — but muted and slower to arrive than with morphine, because the active species have to be formed before they equilibrate with the brain."
+    },
+    {
+      "name": "anxiety relief",
+      "description": "Worry loses its grip rather than its content: the same concerns remain but stop demanding attention. A mu-opioid effect that tracks the analgesia closely in time, and fades with it."
+    },
+    {
+      "name": "physical comfort",
+      "description": "A warm, weighted ease in the body, most noticeable while the effect is climbing. It is the subjective face of the peripheral vasodilation the FDA label describes — the same mechanism that produces flushing and, on standing, occasional lightheadedness."
+    },
+    {
+      "name": "itching",
+      "description": "Usually on the face, nose, and upper chest, and often without a rash. It comes from histamine release and direct mu-receptor action rather than from an allergy, so it can accompany an otherwise ordinary experience. Hives, swelling, or breathing difficulty are a different event and not this one."
+    },
+    {
+      "name": "nausea",
+      "description": "One of the most common effects, driven by the chemoreceptor trigger zone rather than by the stomach, and reported more often with codeine than with placebo in controlled trials. It tends to be worst around the peak and to lessen with repeat exposure."
+    },
+    {
+      "name": "constipation",
+      "description": "Reduced propulsive peristalsis in the colon with increased smooth-muscle tone — the FDA label describes tone rising to the point of spasm. Unlike most opioid effects, this one does not reliably fade with continued exposure; it is present at doses well below those producing noticeable euphoria, which is why codeine has a long history as an antidiarrheal."
+    },
+    {
+      "name": "cough suppression",
+      "description": "Direct action on the brainstem cough center, and the reason codeine appears in cough preparations. It is a separate effect from analgesia and shows up at lower exposures."
+    },
+    {
+      "name": "miosis (pupil constriction)",
+      "description": "Pupils narrow, and continue to do so in total darkness — which is what makes pupil diameter a reliable objective read on opioid effect, and why the studies that mapped codeine's time course used pupillometry rather than self-report. In overdose, hypoxia can widen the pupils instead, so small pupils are a sign of opioid action and large ones do not rule it out."
+    },
+    {
+      "name": "respiratory depression",
+      "description": "Breathing slows because the brainstem becomes less responsive to rising carbon dioxide. This is the effect that determines the ceiling of an opioid experience, and codeine's version of it is unpredictable in a specific way: CYP2D6 ultrarapid metabolizers reach substantially higher morphine exposures from the same amount, which is the basis of the FDA contraindication in that group and in children after tonsillectomy."
+    },
+    {
+      "name": "lightheadedness",
+      "description": "Most noticeable on standing up, and a consequence of the peripheral vasodilation that also produces the warmth — the FDA label lists orthostatic hypotension and syncope among codeine's cardiovascular effects."
+    },
+    {
+      "name": "urinary hesitancy",
+      "description": "Bladder emptying becomes harder to initiate through increased sphincter tone. Common, benign at the scale most people encounter it, and it resolves as the drug clears."
+    },
+    {
+      "name": "variable response",
+      "description": "Not an effect so much as the shape of every other one. Because CYP2D6 does the activating step, the same amount produces morphine exposures that differ roughly thirtyfold between poor and ultrarapid metabolizers. A person whose experience of codeine is nothing at all and a person for whom it is strongly opioid are both reporting their own pharmacology correctly, and comparing logs across people tells you less here than it does for almost any other substance."
+    }
   ]
 }
