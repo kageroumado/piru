@@ -4998,6 +4998,50 @@ T = {
         "中枢抑制相加 — 镇静和损害加剧。",
         "中樞抑制相加 — 鎮靜和損害加劇。",
     ),
+    "Combined respiratory depression with no ceiling — barbiturates deepen an opioid's suppression of breathing until it stops.": (
+        "呼吸抑制相加且没有封顶——巴比妥类会不断加深阿片类对呼吸的抑制，直到呼吸停止。",
+        "呼吸抑制相加且沒有封頂——巴比妥類會不斷加深鴉片類對呼吸的抑制，直到呼吸停止。",
+    ),
+    "Life-threatening respiratory depression. A barbiturate opens the GABA-A channel directly rather than modulating it, so this stacks past the point where benzodiazepines alone level off.": (
+        "危及生命的呼吸抑制。巴比妥类直接打开 GABA-A 通道，而不只是调节它，因此这一组合会越过苯二氮䓬类单用时趋于平缓的那个点继续叠加。",
+        "危及生命的呼吸抑制。巴比妥類直接打開 GABA-A 通道，而不只是調節它，因此這一組合會越過苯二氮平類單用時趨於平緩的那個點繼續疊加。",
+    ),
+    "Life-threatening respiratory depression and loss of consciousness — the classic fatal combination.": (
+        "危及生命的呼吸抑制与意识丧失——典型的致命组合。",
+        "危及生命的呼吸抑制與意識喪失——典型的致命組合。",
+    ),
+    "Severe respiratory depression — two direct-acting depressants with no shared ceiling.": (
+        "严重呼吸抑制——两种直接作用的抑制剂，都没有封顶效应。",
+        "嚴重呼吸抑制——兩種直接作用的抑制劑，都沒有封頂效應。",
+    ),
+    "Doses add with no plateau, and the gap between a sedating dose and a fatal one is narrow to begin with.": (
+        "剂量相加且不会趋于平缓，而镇静剂量与致死剂量之间的差距本就很窄。",
+        "劑量相加且不會趨於平緩，而鎮靜劑量與致死劑量之間的差距本就很窄。",
+    ),
+    "Additive sedation and respiratory depression.": (
+        "镇静与呼吸抑制相加。",
+        "鎮靜與呼吸抑制相加。",
+    ),
+    "Heavy additive sedation — profound drowsiness and impaired breathing.": (
+        "镇静作用强烈相加——严重嗜睡与呼吸受损。",
+        "鎮靜作用強烈相加——嚴重嗜睡與呼吸受損。",
+    ),
+    "Additive CNS and respiratory depression, with a raised risk of vomiting while unresponsive.": (
+        "中枢与呼吸抑制相加，并且在失去反应时呕吐的风险升高。",
+        "中樞與呼吸抑制相加，並且在失去反應時嘔吐的風險升高。",
+    ),
+    "Additive sedation, low blood pressure, and slow heart rate.": (
+        "镇静、低血压与心率减慢相加。",
+        "鎮靜、低血壓與心率減慢相加。",
+    ),
+    "Additive sedation and next-day impairment.": (
+        "镇静相加，次日仍有功能损害。",
+        "鎮靜相加，次日仍有功能損害。",
+    ),
+    "Additive sedation, dizziness, and slowed reaction time.": (
+        "镇静、头晕与反应变慢相加。",
+        "鎮靜、頭暈與反應變慢相加。",
+    ),
     "Enhanced CNS depression — risk of respiratory depression and death.": (
         "加重的中枢抑制 — 有呼吸抑制和死亡的风险。",
         "加重的中樞抑制 — 有呼吸抑制和死亡的風險。",

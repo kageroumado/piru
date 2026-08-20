@@ -56,7 +56,11 @@ nonisolated enum DepressantMechanism: String, CaseIterable {
     static func from(drugClass: DrugClass) -> DepressantMechanism? {
         switch drugClass {
         case .opioid: .muOpioid
-        case .benzodiazepine, .alcohol, .ghb: .gabaergic
+        // Barbiturates open the GABA-A chloride channel directly where a benzodiazepine only
+        // modulates it. Same mechanism family, so the same weight — the missing ceiling is
+        // carried by the class rules, which put barbiturate pairings a severity tier above
+        // the benzodiazepine ones.
+        case .benzodiazepine, .barbiturate, .alcohol, .ghb: .gabaergic
         case .gabapentinoid: .gabapentinoid
         case .dissociative: .dissociative
         // Alpha-2 agonists add sedation/hypotension but only modest intrinsic respiratory depression

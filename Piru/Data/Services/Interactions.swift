@@ -82,6 +82,15 @@ enum InteractionSource {
 nonisolated enum DrugClass: String, Codable {
     case opioid
     case benzodiazepine
+    /// Barbiturates (phenobarbital, pentobarbital, secobarbital, thiopental, …) and
+    /// primidone, which is metabolized to phenobarbital. Separate from
+    /// ``benzodiazepine`` because the mechanism differs where it matters most: a
+    /// benzodiazepine only *modulates* GABA-A and its depression therefore plateaus,
+    /// while a barbiturate opens the chloride channel directly and keeps going. That
+    /// missing ceiling is why barbiturate + benzodiazepine is `dangerous` here where
+    /// benzodiazepine × benzodiazepine is `unsafe`, and why the therapeutic-to-fatal
+    /// margin is narrow enough that these were displaced clinically.
+    case barbiturate
     case stimulant
     case psychedelic
     case dissociative
@@ -270,11 +279,10 @@ private struct InteractionRule {
 /// ``DrugClass/other`` participates in **zero** rules. Any substance that
 /// `categoryToDrugClass` maps to `.other` (analgesics, cardiovascular,
 /// antimicrobials, GI, respiratory, endocrine, immunological, depressants not
-/// otherwise classified, etc.) is effectively interaction-invisible at the
-/// class layer and will only surface warnings if its specific name appears in
-/// a TripSit combo or FDA label record. Add an entry to
-/// ``substanceClassOverrides`` to lift a substance into a real class when a
-/// missing interaction is discovered.
+/// otherwise classified, etc.) is interaction-invisible: with class rules as
+/// the only active layer, it returns nothing for every pairing. The fix is an
+/// entry in ``substanceClassOverrides`` lifting the substance into a real
+/// class — that is how barbiturates and methylene blue were recovered.
 enum InteractionChecker {
     // MARK: - Public API
 
@@ -633,6 +641,25 @@ enum InteractionChecker {
             map[name.lowercased()] = [.benzodiazepine]
         }
 
+        // Barbiturates. Category `Depressant` routes to `.other`, so without this every
+        // barbiturate pairing — including with opioids and benzodiazepines — returned
+        // nothing at all. Primidone belongs here because it is metabolized to
+        // phenobarbital; its own anticonvulsant category says nothing about that.
+        for name in [
+            "Phenobarbital", "Pentobarbital", "Secobarbital", "Amobarbital", "Butalbital",
+            "Barbital", "Allobarbital", "Hexobarbital", "Thiopental", "Butabarbital",
+            "Methohexital", "Aprobarbital", "Talbutal", "Primidone",
+        ] {
+            map[name.lowercased()] = [.barbiturate]
+        }
+
+        // Methylene blue is a potent reversible MAO-A inhibitor at doses used clinically,
+        // and serotonin toxicity with serotonergic drugs is the documented consequence —
+        // an FDA drug-safety communication exists for exactly this pair. Its `Nootropic`
+        // category routed it to `.other`, so every MAOI rule missed it.
+        map["methylene blue"] = [.maoi]
+        map["methylthioninium chloride"] = [.maoi]
+
         return map
     }()
 
@@ -664,7 +691,12 @@ enum InteractionChecker {
         guard let substance = SubstanceLibrary.lookupByNameOrAlias(substanceName) else {
             return []
         }
-        let resolved = [categoryToDrugClass(substance.category)]
+        // Re-check the overrides under the canonical name: the table is keyed by one
+        // spelling, and a logged dose may carry any alias ("Nembutal", "Luminal",
+        // "Blue Heavens"). Without this an override silently loses to the category
+        // fallback for every name but the one it was written under.
+        let resolved = substanceClassOverrides[substance.name.lowercased()]
+            ?? [categoryToDrugClass(substance.category)]
         drugClassCache.withLock { $0[lower] = resolved }
         return resolved
     }
@@ -1047,6 +1079,84 @@ enum InteractionChecker {
             classB: .dissociative,
             severity: .unsafe,
             description: "Serotonin syndrome risk — especially with DXM and other serotonergic dissociatives.",
+        ),
+
+        // === BARBITURATES ===
+        // Kept as one block across all three severities because the ordering is the point:
+        // a barbiturate sits ABOVE a benzodiazepine on every depressant pairing, not level
+        // with it. Direct chloride-channel opening has no modulator ceiling, so the
+        // respiratory depression keeps deepening with dose instead of plateauing.
+        InteractionRule(
+            classA: .barbiturate,
+            classB: .opioid,
+            severity: .dangerous,
+            description: "Combined respiratory depression with no ceiling — barbiturates deepen an opioid's suppression of breathing until it stops.",
+        ),
+        InteractionRule(
+            classA: .barbiturate,
+            classB: .benzodiazepine,
+            severity: .dangerous,
+            description: "Life-threatening respiratory depression. A barbiturate opens the GABA-A channel directly rather than modulating it, so this stacks past the point where benzodiazepines alone level off.",
+        ),
+        InteractionRule(
+            classA: .barbiturate,
+            classB: .alcohol,
+            severity: .dangerous,
+            description: "Life-threatening respiratory depression and loss of consciousness — the classic fatal combination.",
+        ),
+        InteractionRule(
+            classA: .barbiturate,
+            classB: .ghb,
+            severity: .dangerous,
+            description: "Severe respiratory depression — two direct-acting depressants with no shared ceiling.",
+        ),
+        InteractionRule(
+            classA: .barbiturate,
+            classB: .barbiturate,
+            severity: .dangerous,
+            description: "Doses add with no plateau, and the gap between a sedating dose and a fatal one is narrow to begin with.",
+        ),
+        InteractionRule(
+            classA: .barbiturate,
+            classB: .gabapentinoid,
+            severity: .unsafe,
+            description: "Additive sedation and respiratory depression.",
+        ),
+        InteractionRule(
+            classA: .barbiturate,
+            classB: .antihistamine,
+            severity: .unsafe,
+            description: "Heavy additive sedation — profound drowsiness and impaired breathing.",
+        ),
+        InteractionRule(
+            classA: .barbiturate,
+            classB: .dissociative,
+            severity: .unsafe,
+            description: "Additive CNS and respiratory depression, with a raised risk of vomiting while unresponsive.",
+        ),
+        InteractionRule(
+            classA: .barbiturate,
+            classB: .alpha2Agonist,
+            severity: .caution,
+            description: "Additive sedation, low blood pressure, and slow heart rate.",
+        ),
+        InteractionRule(
+            classA: .barbiturate,
+            classB: .orexinAntagonist,
+            severity: .caution,
+            description: "Additive sedation and next-day impairment.",
+        ),
+        InteractionRule(
+            classA: .barbiturate,
+            classB: .cannabinoid,
+            severity: .caution,
+            description: "Additive sedation, dizziness, and slowed reaction time.",
+        ),
+        InteractionRule(
+            classA: .barbiturate,
+            classB: .antipsychotic,
+            severity: .caution,
+            description: "Additive CNS depression — increased sedation and impairment.",
         ),
 
         // === CAUTION ===

@@ -8400,6 +8400,22 @@
         }
       }
     },
+    "Additive CNS and respiratory depression, with a raised risk of vomiting while unresponsive." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中枢与呼吸抑制相加，并且在失去反应时呕吐的风险升高。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中樞與呼吸抑制相加，並且在失去反應時嘔吐的風險升高。"
+          }
+        }
+      }
+    },
     "Additive CNS and respiratory depression." : {
       "localizations" : {
         "zh-Hans" : {
@@ -8524,6 +8540,70 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "鎮靜作用和隔日昏沉相加——更明顯的睏倦、頭暈和跌倒風險。請減量並避免開車。"
+          }
+        }
+      }
+    },
+    "Additive sedation and next-day impairment." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镇静相加，次日仍有功能损害。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎮靜相加，次日仍有功能損害。"
+          }
+        }
+      }
+    },
+    "Additive sedation and respiratory depression." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镇静与呼吸抑制相加。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎮靜與呼吸抑制相加。"
+          }
+        }
+      }
+    },
+    "Additive sedation, dizziness, and slowed reaction time." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镇静、头晕与反应变慢相加。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎮靜、頭暈與反應變慢相加。"
+          }
+        }
+      }
+    },
+    "Additive sedation, low blood pressure, and slow heart rate." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镇静、低血压与心率减慢相加。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎮靜、低血壓與心率減慢相加。"
           }
         }
       }
@@ -15221,6 +15301,22 @@
         }
       }
     },
+    "Combined respiratory depression with no ceiling — barbiturates deepen an opioid's suppression of breathing until it stops." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "呼吸抑制相加且没有封顶——巴比妥类会不断加深阿片类对呼吸的抑制，直到呼吸停止。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "呼吸抑制相加且沒有封頂——巴比妥類會不斷加深鴉片類對呼吸的抑制，直到呼吸停止。"
+          }
+        }
+      }
+    },
     "Combines serotonin 5-HT2A receptor antagonism with serotonin reuptake inhibition (SERT blockade). The 5-HT2A antagonism occurs at lower doses, producing anxiolytic and sleep-promoting effects. At higher antidepressant doses, SERT inhibition enhances serotonergic neurotransmission. Also blocks α1-adrenergic receptors and histamine H1 receptors, contributing to sedation." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -19876,6 +19972,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "劑量"
+          }
+        }
+      }
+    },
+    "Doses add with no plateau, and the gap between a sedating dose and a fatal one is narrow to begin with." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量相加且不会趋于平缓，而镇静剂量与致死剂量之间的差距本就很窄。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量相加且不會趨於平緩，而鎮靜劑量與致死劑量之間的差距本就很窄。"
           }
         }
       }
@@ -26944,6 +27056,22 @@
         }
       }
     },
+    "Heavy additive sedation — profound drowsiness and impaired breathing." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镇静作用强烈相加——严重嗜睡与呼吸受损。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎮靜作用強烈相加——嚴重嗜睡與呼吸受損。"
+          }
+        }
+      }
+    },
     "Heavy chronic use has shifted your baseline; the deepest part recovers over months." : {
       "localizations" : {
         "zh-Hans" : {
@@ -30671,6 +30799,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "危及生命的呼吸抑制 — 此組合是過量致死的主要原因。"
+          }
+        }
+      }
+    },
+    "Life-threatening respiratory depression and loss of consciousness — the classic fatal combination." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "危及生命的呼吸抑制与意识丧失——典型的致命组合。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "危及生命的呼吸抑制與意識喪失——典型的致命組合。"
+          }
+        }
+      }
+    },
+    "Life-threatening respiratory depression. A barbiturate opens the GABA-A channel directly rather than modulating it, so this stacks past the point where benzodiazepines alone level off." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "危及生命的呼吸抑制。巴比妥类直接打开 GABA-A 通道，而不只是调节它，因此这一组合会越过苯二氮䓬类单用时趋于平缓的那个点继续叠加。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "危及生命的呼吸抑制。巴比妥類直接打開 GABA-A 通道，而不只是調節它，因此這一組合會越過苯二氮平類單用時趨於平緩的那個點繼續疊加。"
           }
         }
       }
@@ -48495,6 +48655,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "嚴重呼吸抑制 — 兩種物質都會抑制呼吸。"
+          }
+        }
+      }
+    },
+    "Severe respiratory depression — two direct-acting depressants with no shared ceiling." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "严重呼吸抑制——两种直接作用的抑制剂，都没有封顶效应。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "嚴重呼吸抑制——兩種直接作用的抑制劑，都沒有封頂效應。"
           }
         }
       }
