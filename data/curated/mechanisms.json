@@ -1702,7 +1702,7 @@
     "bindings": [
       {
         "target": "NMDA",
-        "action": "channelBlocker",
+        "action": "antagonist",
         "affinity_tier": 3
       },
       {
