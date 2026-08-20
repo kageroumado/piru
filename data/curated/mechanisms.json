@@ -1677,5 +1677,137 @@
     "bindings": [
       {"target": "GABA-A", "action": "positiveAllostericModulator", "affinity_tier": 3}
     ]
+  },
+  {
+    "name": "Cannabis",
+    "summary": "Cannabinoid Mixture — Partial CB1 Agonism (THC)",
+    "description": "A plant, not a molecule. THC is the partial agonist at CB1 receptors responsible for intoxication; CB1 sits presynaptically throughout the cortex, hippocampus and basal ganglia, where its activation dampens neurotransmitter release. CBD is not intoxicating and behaves as a negative allosteric modulator at CB1, blunting some THC effects. Cultivars differ severalfold in THC:CBD ratio and in the minor cannabinoids and terpenes alongside them, so the same weight of two flowers is not the same exposure.",
+    "bindings": [
+      {
+        "target": "CB1",
+        "action": "partialAgonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "CB2",
+        "action": "partialAgonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "Ketamine",
+    "summary": "NMDA Receptor Antagonist (Open-Channel Blocker)",
+    "description": "Binds inside the NMDA receptor's open pore, so it blocks channels that are already active — preferentially those on tonically firing inhibitory interneurons. Removing that inhibition disinhibits cortical pyramidal cells and produces a glutamate surge, which is a different account of the effect than simple receptor blockade. Downstream AMPA activation and mTOR signaling are the leading explanation for the antidepressant response, which outlasts the drug itself by days. The S-enantiomer is several times more potent at NMDA than the R.",
+    "bindings": [
+      {
+        "target": "NMDA",
+        "action": "channelBlocker",
+        "affinity_tier": 3
+      },
+      {
+        "target": "HCN1",
+        "action": "modulator",
+        "affinity_tier": 1
+      },
+      {
+        "target": "μ-opioid",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "LSD",
+    "summary": "5-HT2A Partial Agonist (Long Receptor Residence)",
+    "description": "A partial agonist at 5-HT2A, the receptor whose activation on cortical pyramidal neurons accounts for the psychedelic effect, with additional activity across the serotonin family and at dopamine D2. Its crystal structure explains the duration that dose alone cannot: an extracellular loop folds shut over the bound molecule, so it leaves the receptor slowly and signaling continues long after plasma levels fall. Active at microgram amounts.",
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "partialAgonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT1A",
+        "action": "partialAgonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT2C",
+        "action": "partialAgonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "D2",
+        "action": "partialAgonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Morphine",
+    "summary": "Mu-Opioid Receptor Agonist",
+    "description": "A full agonist at the mu-opioid receptor and the reference compound the class is measured against, with weaker activity at kappa and delta. Mu activation in the periaqueductal gray and spinal dorsal horn produces analgesia; the same receptor in the brainstem suppresses the drive to breathe, which is the mechanism behind fatal overdose. UGT2B7 conjugates it to morphine-6-glucuronide, which is itself an active agonist, and morphine-3-glucuronide, which is not — and because both are cleared renally, impaired kidneys let the active one accumulate.",
+    "bindings": [
+      {
+        "target": "μ-opioid",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "κ-opioid",
+        "action": "agonist",
+        "affinity_tier": 1
+      },
+      {
+        "target": "δ-opioid",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Mushrooms",
+    "summary": "Psilocybin-Bearing Fungi → Psilocin (5-HT2A)",
+    "description": "Fruiting bodies of Psilocybe and related genera, carrying psilocybin as the main constituent. Alkaline phosphatase dephosphorylates it to psilocin, the molecule that acts at 5-HT2A. Alkaloid content varies severalfold between species, between flushes of one culture, and between the cap and the stem of a single mushroom, so weight is a weak proxy for what a given amount contains. Baeocystin, norbaeocystin and aeruginascin occur alongside it in variable amounts, with unsettled contributions of their own.",
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT2C",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT1A",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Oxycodone",
+    "summary": "Mu-Opioid Receptor Agonist (Parent-Active)",
+    "description": "An agonist at the mu-opioid receptor with weaker kappa and delta activity. The molecule swallowed does most of the work itself, which is what separates it from codeine: CYP2D6 converts a few percent into the more potent oxymorphone, while CYP3A4 converts a much larger share into noroxycodone, which barely crosses into the brain. So CYP2D6 phenotype shifts what oxycodone does far less than it shifts codeine, and CYP3A4 inhibitors move its levels more.",
+    "bindings": [
+      {
+        "target": "μ-opioid",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "κ-opioid",
+        "action": "agonist",
+        "affinity_tier": 1
+      },
+      {
+        "target": "δ-opioid",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
   }
 ]

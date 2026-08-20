@@ -20308,7 +20308,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1500.0,
-    "mechanism_summary": "在大麻植物中发现的最具精神活性的 大麻素 是四氢大麻酚（或 delta-9-四氢大麻酚），俗称 THC。[[23]](#cite_note-Ben2006-23) 其他大麻素包括 delta-8-四氢大麻酚、大麻二酚 (CBD)、大麻酚 (CBN)、大麻环醇 (CBL)、大麻色烯 (CBC) 和大麻吉罗 (CBG)；它们的精神作用比 THC 小，但可能在大麻的整体效果中发挥作用。[[23]](#cite_note-Ben2006-23) 研究最多的是 THC、CBD 和 CBN。[[34]](#cite_note-Gordon2013-34)\n\nCYP2C9 基因型显著影响 THC 的敏感性：\n\n具有 3/3 基因型的受试者血液中的 THC 水平是具有 1/1 基因型的受试者的 3 倍。那些每个基因有一个拷贝 (1/3) 的受试者的 THC 水平处于中间水平，约为 1/1 受试者的 2 倍。[[35]](#cite_note-35)\n\n随行效应 是一种提出的机制，即大麻中存在的本身基本上没有精神活性的化合物会调节植物的整体精神活性效应（这些效应主要来自大麻的主要精神活性成分四氢大麻酚 (THC) 的作用）。\n\nTHC 似乎通过其对 CB1 受体的激动作用来改变情绪和认知，CB1 受体以剂量依赖的方式抑制第二信使系统（腺苷酸环化酶）。通过 CB1 激活，THC 间接增加多巴胺释放并产生精神作用。\n\n大麻二酚充当 μ 和 δ 阿片受体的变构调节剂。[[36]](#cite_note-36) THC 还增强甘氨酸受体的作用。[[37]](#cite_note-37) 然而，这些相互作用的作用以及它们如何导致大麻的“药效”仍然是正在进行的科学研究的主题。",
+    "mechanism_summary": "Cannabinoid Mixture — Partial CB1 Agonism (THC)",
     "effects": [
       "Acuity enhancement",
       "Acuity suppression",
@@ -38312,7 +38312,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 150.0,
-    "mechanism_summary": "更多信息：NMDA受体拮抗剂类药物\n\n氯胺酮被归类为非竞争性NMDA受体拮抗剂。\n\nNMDA 受体是一种离子型谷氨酸受体，允许电信号在大脑和脊柱的神经元之间传递；要让信号通过，受体必须是开放的。解离剂通过阻断这些受体来关闭它们。这种神经元的断连会导致感觉丧失、行动困难，最终导致被称为“K-hole（K洞）”的状态。\n\n它是最容易识别的解离剂之一，这个大家族还包括 苯环利定 (PCP)、MXE、右美沙芬 (DXM) 和 氧化亚氮。\n\n在高剂量、完全麻醉水平下，氯胺酮还被发现能与培养的人类神经母细胞瘤细胞中的 μ-阿片受体 2 型结合，但不具有激动剂活性，并在大鼠中与 sigma 受体结合。此外，氯胺酮还与毒蕈碱受体、下行单胺能疼痛通路和电压门控钙通道相互作用。\n\n在亚麻醉和完全麻醉剂量下，氯胺酮被发现通过抑制 5-HT 受体而不是通过单胺氧化酶抑制作用来阻止大脑中的血清素耗竭。",
+    "mechanism_summary": "NMDA Receptor Antagonist (Open-Channel Blocker)",
     "effects": [
       "Acuity suppression",
       "Amnesia",
@@ -40320,7 +40320,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 240.0,
-    "mechanism_summary": "![Lsd_brain_scan.jpg](/文件/Lsd_brain_scan.jpg)\n\n这张图显示了在 LSD 作用下（右图），与安慰剂相比（左图），大脑的更多部分如何在闭眼时参与视觉体验。\n\n这种效应的幅度与参与者报告的复杂、梦幻般的视觉相关。\n\n![LSDaffinities.GIF](/文件/LSDaffinities.GIF)\n\nLSD 对各种受体的结合亲和力。\n\n解离常数 (Ki) 越低，LSD 与该受体的结合越强（即亲和力越高）。水平线代表人类血浆中 LSD 浓度的近似值，因此，高于该线的受体亲和力不太可能参与 LSD 的效应。",
+    "mechanism_summary": "5-HT2A Partial Agonist (Long Receptor Residence)",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -46296,7 +46296,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 174.0,
-    "mechanism_summary": "Morphine is a natural full opioid agonist that binds to opioid receptors (primarily mu-opioid receptors) blocking transmission of nociceptive signals and inhibiting other pain pathways. The primary therapeutic action is analgesia, however, this agent also exhibits dose-related degrees of anxiolysis, euphoria, sedation, respiratory depression, and gastrointestinal system smooth muscle contraction.",
+    "mechanism_summary": "Mu-Opioid Receptor Agonist",
     "effects": [
       "Anxiety suppression",
       "Cognitive euphoria",
@@ -46657,7 +46657,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 150.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Psilocybin-Bearing Fungi → Psilocin (5-HT2A)",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -46711,7 +46711,6 @@
     ],
     "references": [],
     "data_gaps": [
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -50069,7 +50068,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 210.0,
-    "mechanism_summary": "Oxycodone is a semisynthetic full opioid agonist that binds to opioid receptors (primarily mu-opioid receptors) blocking transmission of nociceptive signals and inhibiting other pain pathways. The primary therapeutic action is analgesia, however, this agent also exhibits dose-related degrees of anxiolysis, euphoria, sedation, respiratory depression, and gastrointestinal system smooth muscle contraction.",
+    "mechanism_summary": "Mu-Opioid Receptor Agonist (Parent-Active)",
     "effects": [
       "Anxiety suppression",
       "Cognitive euphoria",

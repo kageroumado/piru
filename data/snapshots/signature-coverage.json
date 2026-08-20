@@ -4,7 +4,7 @@
     "plottable": 32
   },
   "serotonin": {
-    "substances": 98,
+    "substances": 99,
     "plottable": 44
   },
   "muOpioid": {
@@ -12,7 +12,7 @@
     "plottable": 41
   },
   "cannabinoid1": {
-    "substances": 38,
+    "substances": 39,
     "plottable": 21
   },
   "nmda": {
