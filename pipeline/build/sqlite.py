@@ -2840,6 +2840,14 @@ NON_RECREATIONAL_OTC = {
     "melatonin",
 }
 
+# The mechanism *summary* is a headline slot — the curated 150 run to 320 characters
+# at most, and pyrls to 856. Anything above this bound got there by concatenating a
+# document: medtap's Pharmacology section carried the whole FDA label table (Tenofovir
+# at 26,395 characters, "Figure 1" and all) into a field the detail page renders as one
+# paragraph. The bound is checked at the single insertion point so no source can
+# reintroduce the shape, and `test_sqlite.py` asserts it against the built database.
+MAX_MECHANISM_SUMMARY_CHARS = 1200
+
 # The Library's "Common" card is a curated entry point — "everyday substances,
 # by the names most people know" — NOT a dump of every compound an aggregator
 # happened to flag `common`. Upstream "common" tags (TripSit et al.) bled ~70
@@ -5225,6 +5233,13 @@ class Build:
         machine_translated: bool = False,
     ) -> None:
         if not summary:
+            return
+        # A summary this long is not a summary. Rejecting rather than truncating is the
+        # point: the slot then falls through to the next source, or to the Swift class
+        # template, either of which reads better than the opening 1,200 characters of
+        # something that was never written as a headline.
+        if len(summary) > MAX_MECHANISM_SUMMARY_CHARS:
+            self.stats["mechanism_summary_too_long"] += 1
             return
         src = self.source_ids[source_slug]
         try:

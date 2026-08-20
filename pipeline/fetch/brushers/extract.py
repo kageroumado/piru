@@ -370,17 +370,93 @@ def _section(sections, names):
     for sec in sections or []:
         if sec.get("section_name") not in names:
             continue
-        parts = []
-        c = sec.get("content")
-        if isinstance(c, dict) and c.get("text"):
-            parts.append(c["text"])
-        for piece in sec.get("content_full") or []:
-            if isinstance(piece, dict) and piece.get("text"):
-                parts.append(piece["text"])
-        txt = strip_html(" ".join(parts))
+        txt = strip_html(" ".join(_leaf_texts(sec)))
         if txt:
             return txt
     return ""
+
+
+def _leaf_texts(sec):
+    """Every `text` leaf under `content` / `content_full`, in document order.
+
+    The two keys hold the same label markup in inconsistent shapes across the
+    corpus — `content` is a list in most records and a dict in others,
+    `content_full` the reverse — so both are walked structurally instead of
+    being indexed by an assumed type.
+    """
+    out = []
+
+    def walk(v):
+        if isinstance(v, dict):
+            if isinstance(v.get("text"), str):
+                out.append(v["text"])
+            else:
+                for x in v.values():
+                    walk(x)
+        elif isinstance(v, list):
+            for x in v:
+                walk(x)
+
+    walk(sec.get("content"))
+    walk(sec.get("content_full"))
+    return out
+
+
+_LABEL_HEADER = re.compile(r"<text class='druglabel_header'>(.*?)</text>", re.S)
+
+# The build rejects a mechanism summary over 1200 characters
+# (`MAX_MECHANISM_SUMMARY_CHARS` in pipeline/build/sqlite.py). Trim below that here
+# so a label whose Mechanism Of Action field runs long — some carry unmarked
+# sub-sections like "Antiviral Activity" after the mechanism itself — still
+# contributes its opening mechanism rather than being dropped whole.
+_MECHANISM_CHAR_BUDGET = 1000
+
+
+# Some label bodies repeat their own header as the first words ("Mechanism of Action
+# Tenofovir DF is an acyclic nucleoside phosphonate…"), which the header/value split
+# cannot see because it is prose, not markup.
+_ECHOED_HEADER = re.compile(r"^\s*mechanisms?\s+of\s+action[:\s-]*", re.I)
+
+
+def _strip_echoed_header(text):
+    return _ECHOED_HEADER.sub("", text).strip()
+
+
+def _leading_sentences(text, budget=_MECHANISM_CHAR_BUDGET):
+    """`text` cut at the last sentence end that fits in `budget`."""
+    if len(text) <= budget:
+        return text
+    cut = max(text.rfind(end, 0, budget + 1) for end in (". ", "? ", "! "))
+    return text[: cut + 1].strip() if cut > 0 else text[:budget].rsplit(" ", 1)[0].strip()
+
+
+def _label_fields(sections, section_name):
+    """A label section's `header -> body` pairs.
+
+    Medtap's Pharmacology section is a *table*, not prose: alternating
+    `<text class='druglabel_header'>Half-life</text>` / `<content>1-4
+    hours</content>` leaves. Flattening it (which `_section` does, because
+    every other section really is prose) concatenates the headers into the
+    body, which is how a mechanism summary came to open with the literal
+    words "Mechanism Of Action" and run on through the PK table behind it.
+    """
+    for sec in sections or []:
+        if sec.get("section_name") != section_name:
+            continue
+        fields, header, body = {}, None, []
+        for raw in _leaf_texts(sec):
+            match = _LABEL_HEADER.search(raw)
+            if match:
+                if header and body:
+                    fields.setdefault(header, strip_html(" ".join(body)))
+                header, body = match.group(1).strip(), []
+            elif header:
+                body.append(raw)
+        if header and body:
+            fields.setdefault(header, strip_html(" ".join(body)))
+        if fields:
+            return fields
+    return {}
 
 
 def extract_medtap():
@@ -426,7 +502,15 @@ def extract_medtap():
                 routes_mapped.append(r)
         default_route = routes_mapped[0] if routes_mapped else "oral"
         sections = e.get("sections") or []
-        pharm = _section(sections, {"Pharmacology"})
+        # ONLY the Mechanism Of Action field. The rest of the Pharmacology table is
+        # absorption, protein binding, clearance and half-life — real data, but not a
+        # mechanism, and a substance whose label carries no mechanism field gets no
+        # medtap mechanism rather than its PK table under a mechanism heading.
+        pharm = _leading_sentences(
+            _strip_echoed_header(
+                _label_fields(sections, "Pharmacology").get("Mechanism Of Action", "")
+            )
+        )
         mechanism = {"summary": pharm, "description": None, "references": []} if pharm else None
         indications = _section(sections, {"Indications"})
         contras = _section(sections, {"Contraindications/Cautions", "Contraindications"})

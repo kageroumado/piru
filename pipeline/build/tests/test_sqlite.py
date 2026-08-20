@@ -673,6 +673,47 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         if hasattr(cls, "db"):
             cls.db.close()
 
+    def test_no_mechanism_summary_is_a_document(self):
+        """The mechanism summary is a headline slot, and a source that dumps a whole
+        FDA label section into it renders as a wall of PK tables on the detail page.
+        The bound is enforced at the single insertion point in `sqlite.py`; this
+        asserts it survived the round trip, in every language."""
+        over = self.db.execute(
+            """
+            select s.canonical_name, src.slug, m.language, length(m.summary) as n
+            from mechanisms_summary m
+            join substances s on s.id = m.substance_id
+            join sources src on src.id = m.source_id
+            where length(m.summary) > ?
+            order by n desc
+            """,
+            (_mod.MAX_MECHANISM_SUMMARY_CHARS,),
+        ).fetchall()
+        self.assertEqual(
+            [],
+            [(r["canonical_name"], r["slug"], r["language"], r["n"]) for r in over],
+        )
+
+    def test_no_mechanism_summary_opens_with_a_label_header(self):
+        """Medtap's Pharmacology section is a header/value table, and flattening it
+        left the header inline — every summary began "Mechanism Of Action …" and ran
+        on through absorption, protein binding and half-life."""
+        headers = (
+            "Mechanism Of Action",
+            "Mechanism of Action",
+            "Pharmacokinetics",
+            "Pharmacodynamics",
+            "Absorption",
+            "Protein Binding",
+            "Volume Of Distribution",
+        )
+        rows = self.db.execute(
+            "select s.canonical_name, m.summary from mechanisms_summary m"
+            " join substances s on s.id = m.substance_id"
+        ).fetchall()
+        offenders = [r["canonical_name"] for r in rows if r["summary"].startswith(headers)]
+        self.assertEqual([], offenders)
+
     def _resolve_sid(self, name: str):
         """Find a substance id the way the build's upsert merges: canonical name,
         then alias, then the salt-stripped normalized name (so a curated
