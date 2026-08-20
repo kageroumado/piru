@@ -147,5 +147,11 @@
     }
   ],
   "enzyme_coverage": [],
-  "metabolite_coverage": []
+  "metabolite_coverage": [
+    {
+      "substance": "Caffeine",
+      "metabolite": "1,3,7-Trimethyluric acid",
+      "reason": "The C-8 oxidation product: inactive, and a minor fate beside the three N-demethylations that carry ~94% of the dose (79.6% paraxanthine, 10.8% theobromine, 3.7% theophylline; pmid:3756066). Nothing in the app reads it — it is not a substance we carry, it drives no modulator or metabolizer card, and the enzyme rows that do are already present."
+    }
+  ]
 }

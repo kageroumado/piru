@@ -3412,5 +3412,102 @@
       "pmid:17157884",
       "doi:10.1038/mp.2015.178"
     ]
+  },
+  {
+    "name": "Caffeine",
+    "aliases_added": [],
+    "iupac_name": "1,3,7-trimethyl-3,7-dihydro-1H-purine-2,6-dione",
+    "smiles": "Cn1cnc2c1c(=O)n(C)c(=O)n2C",
+    "inchikey": "RYYVLZVUVIJVGH-UHFFFAOYSA-N",
+    "cas": "58-08-2",
+    "pubchem_cid": 2519,
+    "class_context_id": "nootropics-mixed",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP1A2",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "paraxanthine (1,7-dimethylxanthine)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "metabolite_half_life_min": 186,
+        "formation_fraction_pct": 79.6,
+        "reference": "pmid:3756066",
+        "notes": "N3-demethylation, the dominant primary pathway. Lelo 1986 measured the fractional conversion of caffeine to paraxanthine at 79.6 +/- 21.0% of dose, and 83.9% of the demethylations alone; the partial clearance to paraxanthine ran ~8x that to theobromine and ~23x that to theophylline. Jeppesen 1996 (pmid:8807660) attributes the N3-demethylation to CYP1A2: inhibiting it with fluvoxamine cut caffeine's total clearance from 107 to 21 mL/min and stretched its half-life from 5 to 31 h. Half-life 3.1 h from pmid:3756065."
+      },
+      {
+        "enzyme": "CYP1A2",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "Theobromine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "metabolite_half_life_min": 432,
+        "formation_fraction_pct": 10.8,
+        "reference": "pmid:3756066",
+        "notes": "N1-demethylation. 10.8 +/- 2.4% of dose, 12.1% of the demethylations. Half-life 7.2 h from pmid:3756065 — longer than caffeine's own 4.1 h."
+      },
+      {
+        "enzyme": "CYP1A2",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "theophylline (1,3-dimethylxanthine)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "metabolite_half_life_min": 372,
+        "formation_fraction_pct": 3.7,
+        "reference": "pmid:3756066",
+        "notes": "N7-demethylation, the smallest of the three primary pathways: 3.7 +/- 1.3% of dose, 4.0% of the demethylations. Half-life 6.2 h from pmid:3756065."
+      },
+      {
+        "enzyme": "NAT2",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "5-acetylamino-6-formylamino-3-methyluracil (AFMU)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:8919637",
+        "notes": "Secondary pathway, downstream of paraxanthine. Its urinary excretion tracks the polymorphic N-acetyltransferase, which is why caffeine is used to phenotype NAT2."
+      },
+      {
+        "enzyme": "xanthine oxidase",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "1-methyluric acid (from 1-methylxanthine)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:8919637",
+        "notes": "Secondary pathway. The urinary 1-methyluric acid to 1-methylxanthine ratio is the standard xanthine-oxidase activity readout."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high"
   }
 ]

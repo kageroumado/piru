@@ -1020,6 +1020,12 @@
   "year": ""
  },
  "doi:10.1016/0304-3940(95)11343-7": null,
+ "doi:10.1016/0306-3623(95)02014-4": {
+  "journal": "General pharmacology",
+  "subjects": [],
+  "title": "The use of caffeine as a metabolic probe for human drug metabolizing enzymes",
+  "year": "1996"
+ },
  "doi:10.1016/0960-894x(95)00573-c": {
   "journal": "Bioorganic &amp; Medicinal Chemistry Letters",
   "subjects": [],
@@ -3960,6 +3966,12 @@
   "subjects": [],
   "title": "Caffeine disposition in obesity.",
   "year": 1985
+ },
+ "doi:10.1111/j.1365-2125.1986.tb05247.x": {
+  "journal": "British journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Quantitative assessment of caffeine partial clearances in man",
+  "year": "1986"
  },
  "doi:10.1111/j.1365-2125.1989.tb03527.x": {
   "journal": "British journal of clinical pharmacology",
@@ -10703,6 +10715,12 @@
   "title": "Structure-Activity Assessment and In-Depth Analysis of Biased Agonism in a Set of Phenylalkylamine 5-HT(2A) Receptor Agonists.",
   "year": "2023"
  },
+ "pmid:3756066": {
+  "journal": "British journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Quantitative assessment of caffeine partial clearances in man.",
+  "year": "1986"
+ },
  "pmid:3760245": {
   "journal": "Journal of clinical pharmacology",
   "subjects": [],
@@ -11800,6 +11818,12 @@
   "subjects": [],
   "title": "Effects of delta-9-tetrahydrocannabinol on drug distribution and metabolism. Antipyrine, pentobarbital, and ethanol.",
   "year": "1977"
+ },
+ "pmid:8919637": {
+  "journal": "General pharmacology",
+  "subjects": [],
+  "title": "The use of caffeine as a metabolic probe for human drug metabolizing enzymes.",
+  "year": "1996"
  },
  "pmid:8925872": {
   "journal": "European journal of pharmacology",
