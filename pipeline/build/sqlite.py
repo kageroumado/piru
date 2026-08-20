@@ -3765,6 +3765,14 @@ _NAME_REMAP: dict[str, str] = {
 # (loser canonical, winner canonical, fold loser's aliases?). Verified synonyms
 # only — never enantiomers or merely-related drugs.
 _FORCE_MERGE: list[tuple[str, str, bool]] = [
+    # "MEM" (PiHKAL #90) IS 2,5-dimethoxy-4-ethoxyamphetamine — the survivor
+    # already displays as MEM and carries the alias. The erowid-pihkal and
+    # tripsit records are named just "MEM", so they minted a bare stub (no
+    # InChIKey → invisible to structural dedup) holding the PiHKAL/TripSit
+    # dose ladders while the identified row held the durations. Surfaced by
+    # audit/compare_to_drugbank.py when the stub name-matched methylergometrine
+    # (which also answers to "MEM").
+    ("MEM", "2,5-Dimethoxy-4-ethoxyamphetamine", True),
     # "PMA" and "Para-Methoxyamphetamine" are one molecule under two names, and
     # BOTH displayed as "PMA" — two different dose ladders under one shown name.
     # The short-name row is a bare stub (no InChIKey, no formula, no CID), which

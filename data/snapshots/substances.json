@@ -711,9 +711,14 @@
     "aliases": [
       "MEM"
     ],
-    "category": "",
+    "category": "Psychedelic",
     "display_class": "recreational",
-    "tags": [],
+    "tags": [
+      "PIHKAL",
+      "phenethylamine",
+      "research-chemical",
+      "tentative"
+    ],
     "default_route": "oral",
     "all_routes": [
       "oral"
@@ -727,11 +732,12 @@
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal122.shtml"
+    ],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -16926,33 +16932,6 @@
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "B-lymphocyte antigen CD20",
-    "display_name": "",
-    "aliases": [
-      "Gazyva",
-      "obinutuzumab"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "Mechanism Of Action Obinutuzumab is a monoclonal antibody that targets the CD20 antigen expressed on the surface of pre-B and mature B lymphocytes. Upon binding to CD20, obinutuzumab mediates B-cell lysis through (1) engagement of immune effector cells, (2) by directly activating intracellular death signaling pathways (direct cell death), and/or (3) activation of the complement cascade. The immune effector cell mechanisms include antibody-dependent cellular cytotoxicity (ADCC) and antibody-dependent cellular phagocytosis. As an antibody with reduced fucose content, obinutuzumab induces greater ADCC activity than rituximab in vitro using human cancer cell lines. Obinutuzumab also demonstrated an increased ability to induce direct cell death when compared to rituximab. Obinutuzumab binds to FcγRIII using purified proteins with a higher affinity than rituximab. Obinutuzumab and rituximab bind with similar affinity to overlapping epitopes on CD20. Pharmacodynamics In patients with CLL, Gazyva caused CD19 B-cell depletion (defined as CD19 B cell counts < 0.07 × 10 9 /L). Initial CD19 B cell recovery was observed in some patients approximately 9 months after the last Gazyva dose. At 18 months of follow-up, some patients remain B cell depleted. Although the depletion of B cells in the peripheral blood is a measurable pharmacodynamic effect, it is not directly correlated with the depletion of B-cells in solid organs or in malignant deposits. B cell depletion has not been shown to be directly correlated to clinical response. Cardiac Electrophysiology The potential effects of Gazyva on the QTc interval have not been studied. Pharmacokinetics The pharmacokinetic parameters of obinutuzumab after 100 mg on day 1 and 900 mg on day 2 of Cycle 1, 1000 mg on day 8 and 15 of Cycle 1, and 1000 mg on day 1 of Cycles 2–6 for CLL and after 1000 mg on day 1, 8 and 15 of Cycle 1, 1000 mg on day 1 of Cycles 2-6 or Cycles 2-8, and then 1000 mg every 2 months for up to 2 years for NHL are provided in Table 10 . The dosing regimen is within the linear pharmacokinetic behavior of obinutuzumab. Table 10 Obinutuzumab Measures of Exposure PK Measure CLL Induction Cycle 6 of a 28-day cycle; Relapsed or refractory FL First line FL in combination with chemotherapy Gazyva + Bendamustine Gazyva + CHOP or CVP Induction Cycle 8 of a 21-day cycle. Results are presented as geometric mean (% Coefficient of Variation). Cmax, µg/mL 466.3 (35) 553.5 (32) 513.4 (28) 676.4 (30) Ctrough, µg/mL 192.5 (78) 295 (56) 255 (46) 395 (44) AUC, µg/mL*day 8701 (51) 11362 (41) 10088 (35) 10723 (37) Elimination The elimination of obinutuzumab is comprised of a linear clearance pathway and a time-dependent non-linear clearance pathway. As Gazyva treatment progresses, the impact of the time-dependent pathway diminishes in a manner suggesting target-mediated drug disposition (TMDD) and saturation of the TMDD at the end of the treatment cycle at the proposed clinical dose regimen. The pharmacokinetic properties of obinutuzumab in patients with CLL and NHL are provided in Table 11 . Table 11 Pharmacokinetic Parameters of Obinutuzumab CLL NHL Parameters are presented as geometric mean (% Coefficient of Variation). Distribution Volume of Distribution At steady state. , L (20) (21) Elimination Terminal Half-life, days (48) (35) Clearance, L/day (53) (41) Specific Populations Age (median : 63 years) and baseline creatinine clearance (CrCL) (median 84 mL/min) did not affect the pharmacokinetics of Gazyva. In patients with CrCL ≤ 30 mL/min, the pharmacokinetics of Gazyva was unaffected. Gazyva has not been studied in patients with hepatic impairment. The volume of distribution and steady-state clearance increased with body weight; however, the expected change in exposure does not warrant a dose modification.",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
     ]
   },
   {
@@ -42434,39 +42413,6 @@
       "half_life_minutes",
       "mechanism_of_action",
       "references"
-    ]
-  },
-  {
-    "name": "MEM",
-    "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "PIHKAL",
-      "phenethylamine",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal122.shtml"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
     ]
   },
   {

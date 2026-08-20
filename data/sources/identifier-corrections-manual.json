@@ -1,5 +1,5 @@
 {
-  "_comment": "Curated identifier corrections — hand-verified against PubChem for substances the automated reconciler (reconcile_identifiers_pubchem.py) flagged because neither DB field corroborated and CAS couldn't arbitrate. Applied by apply_identifier_reconciliation AFTER the auto snapshot (manual wins), and the reconciler skips these names so they don't reappear as flagged. Keyed by canonical_name. Four entries added 2026-08-01 by the structural-duplicate audit: three tryptamines (5-BR-DMT, alpha-N,N-trimethyltryptamine, 4-HO-PiPT) had the indole nitrogen written as aromatic `n` instead of `[nH]`, so the SMILES did not sanitize in RDKit at all and the row keyed off its counterion;. Berberine added 2026-08-02: the nps-datahub dump wrote the isoquinolinium nitrogen as an aliphatic `[N+]` inside an otherwise-aromatic ring system, so the whole molecule failed kekulization — replaced with PubChem CID 2353's own SMILES. The build now refuses to store any SMILES RDKit cannot parse (see reject_unparseable_smiles). Cathine added the same day: the curated file pins the (1S,2S) freebase InChIKey, but the curated schema carries no `smiles` field, so a source back-filled the racemic HCl written with the `.[H+]` bare-proton malformation — a different molecule from the one the row's own InChIKey claims. Doip: the stored InChIKey GYEHYVZVTYSXPS resolves to nothing on PubChem while the row's SMILES recomputes to SPKSLAUXKHSASF = 1-(2,5-dimethoxy-4-propan-2-ylphenyl)propan-2-amine (DOiP, CID 44265275) — here the SMILES was right and the identifier was the fabrication, so the key was replaced, not the structure. Nine phenethylamine/NBOMe/benzofuran entries added 2026-08-07 (25B-NBOMe, 2C-B-FLY, 2C-IP, AM-694, DOB, DOC, DOM, TMA-2, TMA-6): each row's freebase InChIKey is PubChem-verified, but the SMILES carried a `.Cl` hydrochloride counterion (AM-694 instead used non-Kekulé `:` aromatic bonds obabel rejects), so the stored key disagreed with its own SMILES — replaced with each freebase's PubChem SMILES (CIDs 9977044/10265873/57474311/9889172/62065/542036/85875/31014/31015).",
+  "_comment": "Curated identifier corrections — hand-verified against PubChem for substances the automated reconciler (reconcile_identifiers_pubchem.py) flagged because neither DB field corroborated and CAS couldn't arbitrate. Applied by apply_identifier_reconciliation AFTER the auto snapshot (manual wins), and the reconciler skips these names so they don't reappear as flagged. Keyed by canonical_name. Four entries added 2026-08-01 by the structural-duplicate audit: three tryptamines (5-BR-DMT, alpha-N,N-trimethyltryptamine, 4-HO-PiPT) had the indole nitrogen written as aromatic `n` instead of `[nH]`, so the SMILES did not sanitize in RDKit at all and the row keyed off its counterion;. Berberine added 2026-08-02: the nps-datahub dump wrote the isoquinolinium nitrogen as an aliphatic `[N+]` inside an otherwise-aromatic ring system, so the whole molecule failed kekulization — replaced with PubChem CID 2353's own SMILES. The build now refuses to store any SMILES RDKit cannot parse (see reject_unparseable_smiles). Cathine added the same day: the curated file pins the (1S,2S) freebase InChIKey, but the curated schema carries no `smiles` field, so a source back-filled the racemic HCl written with the `.[H+]` bare-proton malformation — a different molecule from the one the row's own InChIKey claims. Doip: the stored InChIKey GYEHYVZVTYSXPS resolves to nothing on PubChem while the row's SMILES recomputes to SPKSLAUXKHSASF = 1-(2,5-dimethoxy-4-propan-2-ylphenyl)propan-2-amine (DOiP, CID 44265275) — here the SMILES was right and the identifier was the fabrication, so the key was replaced, not the structure. Nine phenethylamine/NBOMe/benzofuran entries added 2026-08-07 (25B-NBOMe, 2C-B-FLY, 2C-IP, AM-694, DOB, DOC, DOM, TMA-2, TMA-6): each row's freebase InChIKey is PubChem-verified, but the SMILES carried a `.Cl` hydrochloride counterion (AM-694 instead used non-Kekulé `:` aromatic bonds obabel rejects), so the stored key disagreed with its own SMILES — replaced with each freebase's PubChem SMILES (CIDs 9977044/10265873/57474311/9889172/62065/542036/85875/31014/31015). Four entries added 2026-08-19 by the DrugBank cross-check audit (audit/compare_to_drugbank.py): Sildenafil, Haloperidol, and Arecoline stored their marketed salt/ester's identity (citrate CID 62853, decanoate CID 52919, hydrobromide CID 9301) under the parent drug's name, and Naloxone's stored key RGPDIGOSVORSAK-XLHCXOCISA-N resolves to nothing on PubChem while its CAS was the hydrochloride's - all four replaced with the parent compound's PubChem identity (CIDs 135398744, 3559, 2230, 5284596), formula included per the theobromine lesson in apply_identifier_reconciliation.",
   "Theobromine": {
     "inchikey": "YAPQBXQYLJRXSA-UHFFFAOYSA-N",
     "smiles": "CN1C=NC2=C1C(=O)NC(=O)N2C"
@@ -165,5 +165,29 @@
   "TMA-6": {
     "inchikey": "DDGNOUVDFKXADP-UHFFFAOYSA-N",
     "smiles": "CC(CC1=C(C=C(C=C1OC)OC)OC)N"
+  },
+  "Sildenafil": {
+    "inchikey": "BNRNXUUZRGQAQC-UHFFFAOYSA-N",
+    "smiles": "CCCC1=NN(C2=C1N=C(NC2=O)C3=C(C=CC(=C3)S(=O)(=O)N4CCN(CC4)C)OCC)C",
+    "cas": "139755-83-2",
+    "formula": "C22H30N6O4S"
+  },
+  "Naloxone": {
+    "inchikey": "UZHSEJADLWPNLE-GRGSLBFTSA-N",
+    "smiles": "C=CCN1CC[C@]23[C@@H]4C(=O)CC[C@]2([C@H]1CC5=C3C(=C(C=C5)O)O4)O",
+    "cas": "465-65-6",
+    "formula": "C19H21NO4"
+  },
+  "Haloperidol": {
+    "inchikey": "LNEPOXFFQSENCJ-UHFFFAOYSA-N",
+    "smiles": "C1CN(CCC1(C2=CC=C(C=C2)Cl)O)CCCC(=O)C3=CC=C(C=C3)F",
+    "cas": "52-86-8",
+    "formula": "C21H23ClFNO2"
+  },
+  "Arecoline": {
+    "inchikey": "HJJPJSXJAXAIPN-UHFFFAOYSA-N",
+    "smiles": "CN1CCC=C(C1)C(=O)OC",
+    "cas": "63-75-2",
+    "formula": "C8H13NO2"
   }
 }

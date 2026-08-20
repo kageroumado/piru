@@ -1155,6 +1155,13 @@
       "reason": "AEZS-108 / AN-152, a GnRH-agonist–doxorubicin cytotoxic conjugate (IV oncology, discontinued after a failed Phase 3). Catalogued as 'Psychedelic' with 5-HT2A-agonist tags.",
       "evidence": "PubChem CID 16134409; CAS 139570-93-7",
       "contentRowsAtRemoval": 0
+    },
+    {
+      "name": "B-lymphocyte antigen CD20",
+      "verdict": "not_a_substance",
+      "reason": "The row names a human antigen — the TARGET of anti-CD20 antibodies — not a drug. Its aliases (obinutuzumab, Gazyva) show it is the MedTAP label record for obinutuzumab filed under the target's name; the antibody itself is an IV oncology infusion dosed by clinic protocol, nothing a self-dose tracker models. Surfaced by audit/compare_to_drugbank.py when the row name-matched DrugBank's Obinutuzumab via the alias.",
+      "evidence": "Provenance: medtap. No InChIKey, no structure, is_stub=1; only content was two brand/INN aliases.",
+      "contentRowsAtRemoval": 0
     }
   ]
 }
