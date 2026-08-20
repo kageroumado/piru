@@ -1,0 +1,6 @@
+{
+  "name": "Cefuroxime",
+  "halfLifeMinutes": 72,
+  "halfLifeSource": "FDA label for Cefuroxime Axetil tablets, Clinical Pharmacology 12.3 (Table 8) — mean elimination t½ 1.2 h",
+  "halfLifeNotes": "Mean elimination half-life 1.2 h in 12 healthy adults after postprandial oral cefuroxime axetil tablets (125–1,000 mg); prolonged with renal impairment (3.5 h in elderly with CrCl ~35 mL/min)."
+}

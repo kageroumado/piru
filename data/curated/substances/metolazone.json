@@ -1,0 +1,6 @@
+{
+  "name": "Metolazone",
+  "halfLifeMinutes": 438,
+  "halfLifeSource": "pmid:29145890",
+  "halfLifeNotes": "Mean plasma half-life across single oral 0.5–2 mg doses in healthy Chinese volunteers (dose-independent, 7.61 h after multiple dosing); this full PK study reads well below DrugBank's 14 h hint, and diuretic effect persists ≥24 h."
+}

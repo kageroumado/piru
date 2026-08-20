@@ -1,0 +1,6 @@
+{
+  "name": "Prazepam",
+  "halfLifeMinutes": 4200,
+  "halfLifeSource": "pmid:6790396",
+  "halfLifeNotes": "Prazepam is a prodrug converted almost entirely presystemically, so the value is the mean elimination half-life (70 h) of the active metabolite norprazepam (desmethyldiazepam), which represents 80–90% of circulating metabolites and carries the activity; the wide 36–200 h ranges in tertiary sources reflect this metabolite's interindividual variability. Paper status closed — value is stated in the abstract."
+}

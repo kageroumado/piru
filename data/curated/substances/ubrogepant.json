@@ -1,0 +1,6 @@
+{
+  "name": "Ubrogepant",
+  "halfLifeMinutes": 360,
+  "halfLifeSource": "FDA label for Ubrelvy (ubrogepant), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 5-7 h",
+  "halfLifeNotes": "Elimination half-life approximately 5-7 h (oral, CYP3A4-metabolized); midpoint 6 h used."
+}

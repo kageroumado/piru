@@ -1,0 +1,6 @@
+{
+  "name": "Eptifibatide",
+  "halfLifeMinutes": 150,
+  "halfLifeSource": "FDA label for eptifibatide injection, Clinical Pharmacology 12.3 — t½ ≈ 2.5 h",
+  "halfLifeNotes": "Intravenous administration; clearance falls ~50% in moderate-severe renal impairment."
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Sildenafil",
+  "halfLifeMinutes": 240,
+  "halfLifeSource": "FDA label for Viagra (sildenafil citrate), Clinical Pharmacology 12.3 Pharmacokinetics - terminal t½ ≈ 4 h",
+  "halfLifeNotes": "Healthy adults; the active N-desmethyl metabolite shares the same terminal half-life, which lengthens with age over 65, hepatic impairment, severe renal impairment, or strong CYP3A4 inhibitors."
+}

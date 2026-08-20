@@ -1,0 +1,6 @@
+{
+  "name": "Pramipexole",
+  "halfLifeMinutes": 480,
+  "halfLifeSource": "FDA label for Pramipexole Dihydrochloride tablets (pramipexole dihydrochloride), Clinical Pharmacology 12.3 Pharmacokinetics - t½ ≈ 8 h",
+  "halfLifeNotes": "Young healthy volunteers; about 12 h in elderly volunteers, and longer still with renal impairment or coadministered cimetidine."
+}

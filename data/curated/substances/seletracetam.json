@@ -18,5 +18,8 @@
     "research-chemical",
     "investigational",
     "SV2A-ligand"
-  ]
+  ],
+  "halfLifeMinutes": 480,
+  "halfLifeSource": "pmid:17199025",
+  "halfLifeNotes": "Terminal half-life in young healthy male subjects, dose-independent over 2–600 mg oral; investigational drug (development discontinued), so no FDA label exists."
 }

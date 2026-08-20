@@ -1,0 +1,6 @@
+{
+  "name": "Febuxostat",
+  "halfLifeMinutes": 390,
+  "halfLifeSource": "FDA label for Febuxostat (febuxostat), Clinical Pharmacology/Pharmacokinetics — t1/2 ≈ 5-8 h",
+  "halfLifeNotes": "Stated range 5 to 8 hours in healthy subjects (midpoint used); no accumulation with once-daily therapeutic dosing."
+}

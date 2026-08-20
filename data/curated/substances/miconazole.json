@@ -1,0 +1,6 @@
+{
+  "name": "Miconazole",
+  "halfLifeMinutes": 1440,
+  "halfLifeSource": "FDA label for Oravig (miconazole), Clinical Pharmacology/Pharmacokinetics — terminal half-life 24 hours following systemic administration",
+  "halfLifeNotes": "Applies to systemically absorbed drug; topical/buccal/vaginal use yields plasma levels that are mostly below quantification."
+}

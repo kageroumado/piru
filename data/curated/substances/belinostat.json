@@ -1,0 +1,6 @@
+{
+  "name": "Belinostat",
+  "halfLifeMinutes": 66,
+  "halfLifeSource": "FDA label for Beleodaq (belinostat), Clinical Pharmacology/Pharmacokinetics — t½ = 1.1 h",
+  "halfLifeNotes": "IV administration; from pooled phase 1/2 data in cancer patients rather than healthy volunteers."
+}

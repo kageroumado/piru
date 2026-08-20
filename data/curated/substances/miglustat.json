@@ -1,0 +1,6 @@
+{
+  "name": "Miglustat",
+  "halfLifeMinutes": 390,
+  "halfLifeSource": "FDA label for Yargesa (miglustat), Clinical Pharmacology/Pharmacokinetics — effective t½ ≈ 6–7 hours",
+  "halfLifeNotes": "Midpoint of the label's 6-to-7-hour effective half-life after 100 mg oral dosing (Gaucher patients; PK similar in healthy subjects); a 150-hour terminal radioactivity half-life reflects an unidentified metabolite, not miglustat."
+}

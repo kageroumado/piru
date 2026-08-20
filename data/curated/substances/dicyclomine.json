@@ -1,0 +1,6 @@
+{
+  "name": "Dicyclomine",
+  "halfLifeMinutes": 108,
+  "halfLifeSource": "FDA label for Dicyclomine hydrochloride, Clinical Pharmacology/Pharmacokinetics — t1/2 approximately 1.8 hours",
+  "halfLifeNotes": "Single oral dose with 9-hour sampling; longer sampling reveals a slower secondary elimination phase."
+}

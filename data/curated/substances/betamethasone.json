@@ -1,0 +1,6 @@
+{
+  "name": "Betamethasone",
+  "halfLifeMinutes": 660,
+  "halfLifeSource": "pmid:31808984",
+  "halfLifeNotes": "Terminal half-life of betamethasone after single 6 mg IM or oral doses in healthy reproductive-age women; the 1:1 phosphate/acetate IM depot mixture releases drug far longer (measurable to 14 days)."
+}

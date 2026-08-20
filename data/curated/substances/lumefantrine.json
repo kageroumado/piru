@@ -1,0 +1,6 @@
+{
+  "name": "Lumefantrine",
+  "halfLifeMinutes": 6480,
+  "halfLifeSource": "FDA label for Coartem (artemether and lumefantrine), Clinical Pharmacology/Pharmacokinetics — t½ = 3–6 days",
+  "halfLifeNotes": "Stated range 3–6 days in healthy volunteers and malaria patients (midpoint 4.5 days used), consistent with the label's single-dose values of 101–119 h."
+}

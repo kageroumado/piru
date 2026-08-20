@@ -1,0 +1,6 @@
+{
+  "name": "Efavirenz",
+  "halfLifeMinutes": 2850,
+  "halfLifeSource": "FDA label for efavirenz tablets (efavirenz; Sustiva), Clinical Pharmacology/Pharmacokinetics — t½ 40–55 h after multiple doses",
+  "halfLifeNotes": "Midpoint of the multiple-dose range 40–55 hours (chronic dosing autoinduces CYP-mediated metabolism); after single doses the terminal half-life is 52–76 hours."
+}

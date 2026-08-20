@@ -1,0 +1,6 @@
+{
+  "name": "Amoxapine",
+  "halfLifeMinutes": 480,
+  "halfLifeSource": "FDA label for Amoxapine (amoxapine), Clinical Pharmacology - t½ ≈ 8 h",
+  "halfLifeNotes": "Parent compound in humans; the major metabolite 8-hydroxy-amoxapine has a much longer biologic half-life of 30 hours."
+}

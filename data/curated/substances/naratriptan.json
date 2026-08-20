@@ -1,0 +1,6 @@
+{
+  "name": "Naratriptan",
+  "halfLifeMinutes": 360,
+  "halfLifeSource": "FDA label for naratriptan tablets, Clinical Pharmacology 12.3 — mean t½ 6 h",
+  "halfLifeNotes": "Healthy adults, oral; rises to ~11 h with moderate renal impairment."
+}

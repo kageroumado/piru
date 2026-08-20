@@ -1,0 +1,6 @@
+{
+  "name": "Liothyronine",
+  "halfLifeMinutes": 3600,
+  "halfLifeSource": "FDA label for Liothyronine Sodium (liothyronine), Clinical Pharmacology/Pharmacokinetics — biological t½ ≈ 2.5 days",
+  "halfLifeNotes": "The label states a biological half-life of about 2.5 days for T3; T3 is also produced endogenously from T4 deiodination, which complicates single-value kinetics."
+}

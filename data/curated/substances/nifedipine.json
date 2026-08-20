@@ -1,0 +1,6 @@
+{
+  "name": "Nifedipine",
+  "halfLifeMinutes": 120,
+  "halfLifeSource": "FDA label for Procardia XL (nifedipine), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 2 h",
+  "halfLifeNotes": "Intrinsic elimination half-life; extended-release formulations prolong absorption, not elimination, and half-life is longer in hepatic impairment."
+}

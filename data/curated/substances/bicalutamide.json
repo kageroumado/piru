@@ -1,0 +1,6 @@
+{
+  "name": "Bicalutamide",
+  "halfLifeMinutes": 8352,
+  "halfLifeSource": "FDA label for bicalutamide tablets, Clinical Pharmacology 12.3, Table 3 — t½ = 5.8 days",
+  "halfLifeNotes": "Mean ± SD 5.8 ± 2.29 days for the active R-enantiomer after a single oral dose in normal males (Table 3); the R-enantiomer accounts for ~99% of steady-state plasma levels."
+}

@@ -39,7 +39,7 @@
     "Take with fat-containing meal — highly lipophilic",
     "Very safe; mild GI symptoms occasionally reported"
   ],
-  "halfLifeMinutes": 5760,
+  "halfLifeMinutes": 1991,
   "sources": [
     "https://ods.od.nih.gov/factsheets/Coenzyme-Q10-HealthProfessional/",
     "https://pubchem.ncbi.nlm.nih.gov/compound/5281915",
@@ -52,5 +52,7 @@
     "mitochondrial-support",
     "energy-metabolism",
     "cardiovascular"
-  ]
+  ],
+  "halfLifeSource": "pmid:3781673",
+  "halfLifeNotes": "Terminal t½ 33.19 ± 5.32 h after a single 100 mg oral dose of deuterium-labeled d5-CoQ10 in 16 healthy males; the stable label is what separates exogenous dose from the large endogenous pool, and unlabeled-supplement estimates range ~22-92 h depending on formulation and baseline handling."
 }

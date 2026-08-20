@@ -1,0 +1,6 @@
+{
+  "name": "Desogestrel",
+  "halfLifeMinutes": 1668,
+  "halfLifeSource": "FDA label for Volnea (desogestrel and ethinyl estradiol), Clinical Pharmacology/Pharmacokinetics — etonogestrel t½ 27.8±7.2 hours",
+  "halfLifeNotes": "Desogestrel is a prodrug rapidly and completely converted to etonogestrel, so the value is etonogestrel's steady-state (Day 21) elimination half-life in women on the combination oral contraceptive; the parent itself has no clinically meaningful half-life."
+}

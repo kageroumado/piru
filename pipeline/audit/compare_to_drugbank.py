@@ -44,6 +44,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 DB = REPO / "Piru/Data/piru-substances.sqlite"
+ADJUDICATIONS = REPO / "data/curated/drugbank-adjudications.json"
 PIRU_DATA = Path.home() / "Developer/piru-data"
 XML_DEFAULT = PIRU_DATA / "external_database.xml"
 CACHE_DEFAULT = PIRU_DATA / "drugbank-extract.json"
@@ -288,6 +289,16 @@ def main() -> int:
     data = json.loads(args.cache.read_text(encoding="utf-8"))
     by_ik, by_name = build_indices(data["drugs"])
 
+    # Settled questions stay settled: a divergence we already checked against a
+    # primary source, and a substance that honestly has no single half-life, are
+    # not new work. Delete an entry to put its substance back on the list.
+    adjudicated_div: set[str] = set()
+    adjudicated_gap: set[str] = set()
+    if ADJUDICATIONS.exists():
+        adj = json.loads(ADJUDICATIONS.read_text(encoding="utf-8"))
+        adjudicated_div = {normalise(e["substance"]) for e in adj.get("half_life_divergences", [])}
+        adjudicated_gap = {normalise(e["substance"]) for e in adj.get("half_life_unresolvable", [])}
+
     db = sqlite3.connect(str(args.db))
     db.row_factory = sqlite3.Row
     priority = {
@@ -330,6 +341,7 @@ def main() -> int:
     hl_divergent, hl_gaps, hl_prose_gaps = [], [], []
     ik_conflicts, cas_conflicts, ik_backfill, cas_backfill = [], [], [], []
     hl_compared = 0
+    n_adjudicated_div = n_adjudicated_gap = 0
 
     for s, d, how, via in matched:
         # A name match whose InChIKeys fully mismatch is either a false match
@@ -357,9 +369,15 @@ def main() -> int:
                 v = resolved["half_life_minutes"]
                 ratio = (lo / v) if v < lo else (v / hi) if v > hi else 1.0
                 if ratio >= RATIO_HI:
-                    hl_divergent.append((s, d, how, via, resolved, parsed, ratio))
+                    if normalise(s["name"]) in adjudicated_div:
+                        n_adjudicated_div += 1
+                    else:
+                        hl_divergent.append((s, d, how, via, resolved, parsed, ratio))
         elif parsed:
-            hl_gaps.append((s, d, how, via, parsed))
+            if normalise(s["name"]) in adjudicated_gap:
+                n_adjudicated_gap += 1
+            else:
+                hl_gaps.append((s, d, how, via, parsed))
         elif d["half_life"]:
             hl_prose_gaps.append((s, d))
 
@@ -396,6 +414,11 @@ def main() -> int:
 
     print(f"## Half-life divergences ({len(hl_divergent)} of {hl_compared} comparable)\n")
     print("Resolved value ≥2× outside DrugBank's stated value/range.\n")
+    if n_adjudicated_div:
+        print(
+            f"{n_adjudicated_div} further divergence(s) are adjudicated in "
+            "`data/curated/drugbank-adjudications.json` and not listed.\n"
+        )
     print("| Pop. | Substance | Piru (source) | DrugBank | Off by | Match | DrugBank id | PMIDs |")
     print("|---:|---|---|---|---|---|---|---|")
     for s, d, how, via, resolved, parsed, ratio in sorted(
@@ -435,6 +458,11 @@ def main() -> int:
             print(f"| {s['name']} | {s['cas']} | {d['cas']} | {d['id']} ({d['name']}) |")
 
     print(f"\n## Half-life research work-list ({len(hl_gaps)} seeds)\n")
+    if n_adjudicated_gap:
+        print(
+            f"{n_adjudicated_gap} further gap(s) are adjudicated as having no honest "
+            "single value in `data/curated/drugbank-adjudications.json` and not listed.\n"
+        )
     print(
         "Matched substances with **no** half_life row anywhere, where DrugBank "
         "states a clean value. Verify against the cited primary source "

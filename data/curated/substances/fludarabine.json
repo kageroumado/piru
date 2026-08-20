@@ -1,0 +1,6 @@
+{
+  "name": "Fludarabine",
+  "halfLifeMinutes": 1200,
+  "halfLifeSource": "FDA label for Fludarabine Phosphate (fludarabine phosphate), Clinical Pharmacology 12.3 Pharmacokinetics — t½ ≈ 20 h",
+  "halfLifeNotes": "Terminal half-life of 2-fluoro-ara-A (fludarabine itself) in cancer patients; the administered phosphate prodrug is dephosphorylated within minutes of infusion, so this is the measurable circulating species."
+}

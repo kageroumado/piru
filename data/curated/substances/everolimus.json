@@ -1,0 +1,6 @@
+{
+  "name": "Everolimus",
+  "halfLifeMinutes": 1800,
+  "halfLifeSource": "FDA label for Afinitor (everolimus), Clinical Pharmacology/Pharmacokinetics — mean elimination half-life approximately 30 hours",
+  "halfLifeNotes": "Oral dosing in patients with advanced solid tumors; AUC rises up to 3.6-fold in hepatic impairment."
+}

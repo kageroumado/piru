@@ -1,0 +1,6 @@
+{
+  "name": "Topotecan",
+  "halfLifeMinutes": 150,
+  "halfLifeSource": "FDA label for Topotecan Injection, Clinical Pharmacology 12.3 — terminal t½ 2 to 3 hours",
+  "halfLifeNotes": "Stated range 2–3 h after IV administration in cancer patients; midpoint used."
+}

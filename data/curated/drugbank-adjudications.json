@@ -1,0 +1,149 @@
+{
+  "_comment": "Adjudicated outcomes from pipeline/audit/compare_to_drugbank.py, so a settled question stops resurfacing as new work on every run. DrugBank is a verification source only -- nothing here is a DrugBank value. `half_life_divergences` are rows where our value disagrees with DrugBank and OURS was verified against a primary source; the reason states why DrugBank's number differs (usually it describes a metabolite, an effect duration, or an intracellular species rather than parent-drug plasma elimination). `half_life_unresolvable` are substances with no half-life row where no honest single value exists -- non-absorbed agents, botanical mixtures, ester-dependent depots, endogenous compounds, or drugs whose only source could not be read. Removing an entry puts the substance back on the work-list, which is the correct move when new evidence appears.",
+  "half_life_divergences": [
+    {
+      "substance": "Clotiazepam",
+      "verdict": "piru_correct",
+      "reason": "10.2 h in healthy matched controls after a single 5 mg oral dose (pmid:2872061).",
+      "source": "pmid:2872061"
+    },
+    {
+      "substance": "Famciclovir",
+      "verdict": "piru_correct",
+      "reason": "2.3 h is plasma penciclovir, the active moiety, after oral famciclovir (FDA label); DrugBank's 10 h is the INTRACELLULAR penciclovir triphosphate, a different quantity.",
+      "source": "FDA label for famciclovir tablets, Clinical Pharmacology/Pharmacokinetics"
+    },
+    {
+      "substance": "Hyaluronidase",
+      "verdict": "piru_correct",
+      "reason": "2.1 min is serum clearance after IV administration (pmid:24197934); DrugBank's 24-48 h is the DERMAL EFFECT duration, not elimination.",
+      "source": "pmid:24197934"
+    },
+    {
+      "substance": "Librium",
+      "verdict": "piru_correct",
+      "reason": "10 h is the PARENT chlordiazepoxide half-life (pmid:700911); DrugBank's 24-48 h describes the active metabolites desmethylchlordiazepoxide and demoxepam.",
+      "source": "pmid:700911"
+    },
+    {
+      "substance": "Methamphetamine",
+      "verdict": "piru_correct",
+      "reason": "peer-review-primary value ~10 h is what the human PK literature reports; DrugBank's own amphetamine record says 9-11 h for d-amphetamine, so its 4-5 h methamphetamine figure contradicts its own data.",
+      "source": ""
+    },
+    {
+      "substance": "Methylene blue",
+      "verdict": "piru_correct",
+      "reason": "FDA PROVAYBLUE label states ~24 h; DrugBank's 5-6.5 h traces to older secondary sources.",
+      "source": "FDA label for PROVAYBLUE (methylene blue), Clinical Pharmacology"
+    },
+    {
+      "substance": "Phendimetrazine",
+      "verdict": "piru_correct",
+      "reason": "The label states 3.7 h for both formulations, so the existing 4 h is right within rounding; DrugBank's 19-24 h is off roughly six-fold and is directly contradicted by the label.",
+      "source": "FDA label for phendimetrazine tartrate, Clinical Pharmacology"
+    },
+    {
+      "substance": "Phenmetrazine",
+      "verdict": "piru_correct",
+      "reason": "The nearest primary human data is the same authors' controlled self-experiment with the close analogue 3-fluorophenmetrazine, which gave 8.8 h and which they explicitly describe as similar to phenmetrazine; DrugBank's 16-31 h has no traceable support.",
+      "source": "pmid:30784204"
+    },
+    {
+      "substance": "Thioridazine",
+      "verdict": "piru_correct",
+      "reason": "6.8-9.3 h measured across single oral doses in 11 healthy males (pmid:3271648); elimination is non-linear so higher-dose figures run longer.",
+      "source": "pmid:3271648"
+    }
+  ],
+  "half_life_unresolvable": [
+    {
+      "substance": "Azathioprine",
+      "reason": "The DrugBank hint (5 h) traces to the FDA label's decay of total 35S radioactivity, which the label itself disclaims: 'This is not an estimate of the half-life of azathioprine itself, but is the decay rate for all 35S-containing metabolites of the drug.' Azathioprine is a prodrug rapidly cleaved to 6-mercaptopurine, and no human PK study stating a parent-compound terminal half-life could be verified (the only quantitative parent study found was in rhesus monkeys, PMID 43222)."
+    },
+    {
+      "substance": "Benzphetamine",
+      "reason": "The FDA label for benzphetamine hydrochloride states outright under Clinical Pharmacology that \"Pharmacokinetic data in humans are not available\", and a PubMed search for human benzphetamine pharmacokinetics returns only an unrelated famotidine drug-interaction review. No human half-life exists in a readable source."
+    },
+    {
+      "substance": "Clomiphene",
+      "reason": "Isomer-dependent kinetics make a single value misleading: the FDA label and the single-dose PK study in normal volunteers (pmid:3091405, closed access) state no numeric half-life, only that the active zuclomiphene (Z) isomer is eliminated much more slowly than enclomiphene and remains detectable in plasma up to 1 month post-dose."
+    },
+    {
+      "substance": "Cloxazolam",
+      "reason": "No readable source. The only human PK study (Lavene et al., Therapie 1980, pmid:6110252) is in French, has no abstract in PubMed, and papers get returns status closed with no free copy anywhere; cloxazolam has no FDA label (openFDA returns zero records) and no other human PK paper exists in PubMed."
+    },
+    {
+      "substance": "Cyclizine",
+      "reason": "No US FDA label exists (openFDA has zero cyclizine records), and the only verifiable human PK study (PMID 22209223, closed-access) reports in its abstract a median half-life of 13 h with IQR 7-48 h in palliative-care patients on subcutaneous infusion — not healthy adults, and a ~7x spread that would be misleading as a single value."
+    },
+    {
+      "substance": "Estrogens, Conjugated",
+      "reason": "Mixture, not a single parent compound: the Premarin FDA label reports only per-component half-lives (total estrone 26.7 h, total equilin 11.4 h, baseline-adjusted total estrone 14.8-17.5 h depending on dose), so any single number would be misleading; DrugBank's cited PMID 28798519 is paywalled (papers status closed) and its abstract states no value."
+    },
+    {
+      "substance": "Fluocinolone Acetonide",
+      "reason": "No verifiable source states a numeric plasma half-life: the DrugBank-cited paper (PMID 1874579) is closed-access and its abstract reports no numeric value ('no significant difference... with regard to... half-life'); PubMed 'fluocinolone acetonide' PK hits are actually flunisolide studies (MeSH indexing lumps them together); topical/intravitreal products give no quantifiable systemic PK."
+    },
+    {
+      "substance": "Glutethimide",
+      "reason": "No verifiable source. Glutethimide was withdrawn and has no FDA label (openFDA returns zero records); the human PK study (Crow et al., Clin Pharmacol Ther 1977, pmid:902458) is status closed and its abstract states no half-life value, and no other PubMed human study with an accessible half-life exists — PubMed's MeSH mapping mostly returns aminoglutethimide papers, a different drug."
+    },
+    {
+      "substance": "Halobetasol",
+      "reason": "Topical-only corticosteroid marketed as the propionate ester (INN ulobetasol — same compound, so the alias match is correct): FDA labels for the ointment, cream, foam, and Bryhali lotion state no elimination half-life; systemic exposure is barely quantifiable (<6% absorbed, pg/mL plasma levels), so no verifiable parent-compound t½ exists."
+    },
+    {
+      "substance": "Ibandronate",
+      "reason": "A single value would mislead: the FDA label (ibandronate sodium tablets, 12.3) states plasma elimination is multiphasic with redistribution from bone, that 'the observed apparent terminal half-life for ibandronate is generally dependent on the dose studied and on assay sensitivity,' and gives 37 to 157 hours for the 150 mg oral tablet in healthy postmenopausal women — a >4x spread."
+    },
+    {
+      "substance": "Ketazolam",
+      "reason": "No verifiable human PK source: the only PubMed hit on ketazolam pharmacokinetics is a tolerance study with no parent half-life, and it is not FDA-approved so there is no label. The DrugBank hint (26-200 h) spans nearly 8-fold, reflecting that ketazolam acts largely as a prodrug of diazepam/nordazepam whose accumulating active metabolites dominate its kinetics — a single parent value would be misleading."
+    },
+    {
+      "substance": "Methylcellulose",
+      "reason": "Methylcellulose is a non-absorbed bulk-forming agent — it passes through the gut essentially unabsorbed, so there is no systemic terminal elimination half-life to state. Any single number (including the 4-minute hint) would describe something other than elimination of an absorbed parent compound."
+    },
+    {
+      "substance": "Opium",
+      "reason": "Opium is a botanical mixture of alkaloids (morphine, codeine, thebaine, papaverine, noscapine) with individually distinct kinetics, not a single parent compound; a single elimination half-life cannot be assigned to the preparation."
+    },
+    {
+      "substance": "Sebelipase Alfa",
+      "reason": "No source states a value. Sebelipase alfa is a BLA biologic absent from openFDA's drug-label endpoint (zero records for substance, generic name, and brand Kanuma), and the only PubMed PK-tagged trial (Balwani et al., Hepatology 2013, doi 10.1002/hep.26289, read in full) explicitly defers the numbers — \"The pharmacokinetic profile will be reported separately\" — describing only \"the rapid clearance of sebelipase alfa from the circulation following administration (data not shown)\"."
+    },
+    {
+      "substance": "Sennosides",
+      "reason": "DrugBank's cited PMID 25330022 is off-topic (a radioiodinated necrosis-avid tracer study in rats, not sennosides). Sennosides are non-absorbed prodrugs converted by colonic bacteria to rhein-anthrone; systemic species are metabolites, so no verifiable parent-compound plasma half-life exists, and OTC senna labels carry no PK section."
+    },
+    {
+      "substance": "Sibutramine",
+      "reason": "Parent-compound half-life is inconsistently reported and misleading as a single value: the full text of pmid:21209232 measured a control-phase sibutramine t1/2 of 7.8 +/- 5.0 h in 13 healthy subjects while its own introduction cites the conventional 1.1 h figure; sibutramine has no openFDA label (withdrawn 2010) to arbitrate. It is also a prodrug — the pharmacological effect follows the active metabolites M1/M2 (t1/2 roughly 15-19 h in the same study), not the parent."
+    },
+    {
+      "substance": "Sodium",
+      "reason": "The app's substance is the bare electrolyte sodium, but the DrugBank match (DB09154) is sodium citrate — a different substance — and its 18–54 min hint describes citrate disposition. Sodium itself is homeostatically regulated (renal/hormonal), so a single elimination half-life would be misleading."
+    },
+    {
+      "substance": "Sulfacetamide",
+      "reason": "No verifiable human PK source: sulfacetamide is used topically/ophthalmically, its FDA labels state systemic absorption is uncharacterized and carry no half-life, and the only PubMed PK hit is an Italian mini-pig study (PMID 756268). DrugBank's 7.0-12.8 h hint could not be traced to a readable human source."
+    },
+    {
+      "substance": "Testosterone",
+      "reason": "Formulation/ester-dependent: native testosterone clears in minutes to ~1.7 h, while the injectable esters that dominate actual use (cypionate, enanthate, undecanoate) have apparent half-lives of days to weeks driven by depot absorption, and testosterone is also endogenous — no single terminal half-life honestly represents the app's generic 'Testosterone' entry."
+    },
+    {
+      "substance": "Tetracosactide",
+      "reason": "No verifiable source states a parent-compound half-life: both current FDA cosyntropin labels' Clinical Pharmacology sections contain no pharmacokinetic half-life at all, and no PubMed abstract found states a human plasma half-life for ACTH(1-24), so DrugBank's 15-min hint could not be confirmed against anything actually read."
+    },
+    {
+      "substance": "Thiopental",
+      "reason": "No current US FDA label exists, and the authoritative PK review (Russo & Bressolle, Clin Pharmacokinet 1998, pmid:9739479) states the adult first-order elimination half-life 'ranged from 5 to 22 hours' — a >4x spread that further varies with sex (5.45 h men vs 8.92 h women), age, obesity, and dose (9.7–49.4 h with Michaelis-Menten kinetics at high doses), so any single number would be misleading."
+    },
+    {
+      "substance": "Vitamin A",
+      "reason": "Retinol has no single meaningful elimination half-life: plasma retinol is homeostatically clamped by large hepatic stores, whole-body turnover is measured in months, and the hours-scale figure describes post-dose retinyl-ester clearance instead. The compartments differ by orders of magnitude, so any one number would misrepresent how a dose behaves."
+    }
+  ]
+}

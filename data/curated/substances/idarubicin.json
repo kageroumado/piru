@@ -1,0 +1,6 @@
+{
+  "name": "Idarubicin",
+  "halfLifeMinutes": 1320,
+  "halfLifeSource": "FDA label for Idamycin PFS (idarubicin hydrochloride), Clinical Pharmacology 12.3 — mean terminal t½ 22 h",
+  "halfLifeNotes": "Mean as single agent in adult leukemia patients (IV), wide individual range 4–48 h; the active metabolite idarubicinol exceeds 45 h."
+}

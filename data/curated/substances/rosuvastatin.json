@@ -1,0 +1,6 @@
+{
+  "name": "Rosuvastatin",
+  "halfLifeMinutes": 1140,
+  "halfLifeSource": "FDA label for Crestor (rosuvastatin), Clinical Pharmacology/Pharmacokinetics — elimination t½ ≈ 19 hours",
+  "halfLifeNotes": "Oral dosing; exposure is roughly 2-fold higher in Asian subjects and 3-fold higher in severe renal impairment, without a stated change in half-life."
+}

@@ -42,5 +42,8 @@
     "MAOI-A",
     "mitochondrial",
     "prescription-OTC-mixed"
-  ]
+  ],
+  "halfLifeMinutes": 1440,
+  "halfLifeSource": "FDA label for PROVAYBLUE (methylene blue), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 24 hours",
+  "halfLifeNotes": "Intravenous administration; the label's 24-hour value supersedes the shorter 5–6.5 h figure in secondary sources, and half-life is unchanged in mild-to-moderate renal impairment."
 }

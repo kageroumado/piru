@@ -1,0 +1,6 @@
+{
+  "name": "Pantoprazole",
+  "halfLifeMinutes": 60,
+  "halfLifeSource": "FDA label for Pantoprazole Sodium for Injection (pantoprazole), Clinical Pharmacology/Pharmacokinetics — terminal t½ ≈ 1 hour",
+  "halfLifeNotes": "Applies to CYP2C19 extensive metabolizers regardless of route; poor metabolizers have half-life values of 3.5 to 10 hours."
+}

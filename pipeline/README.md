@@ -164,7 +164,12 @@ LLM-assisted research used to fill gaps external sources don't cover
   seeds for the [Researching a claim](#researching-a-claim) ladder, never
   values to copy. First run builds a compact cache
   (`~/Developer/piru-data/drugbank-extract.json`) from the 1.6 GB XML;
-  `--re-extract` rebuilds it after a new DrugBank drop.
+  `--re-extract` rebuilds it after a new DrugBank drop. Settled questions are
+  recorded in `data/curated/drugbank-adjudications.json` — a divergence where
+  ours was verified against a primary source, or a substance with no honest
+  single half-life — so each run reports only NEW work; the counts it suppresses
+  are always printed, and `build/tests/test_drugbank_adjudications.py` fails if
+  an entry goes stale.
 - **`dump_substance_library.py`** — emits the by-category text dumps
   that live in `data/snapshots/by-category/`.
 - **`dump_for_verification.py`** — emits richer per-substance dumps

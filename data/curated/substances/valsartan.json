@@ -1,0 +1,6 @@
+{
+  "name": "Valsartan",
+  "halfLifeMinutes": 360,
+  "halfLifeSource": "FDA label for Diovan (valsartan), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 6 h",
+  "halfLifeNotes": "Average after IV administration in healthy volunteers (bi-exponential decay); about 35% longer in the elderly."
+}

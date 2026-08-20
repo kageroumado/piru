@@ -1,0 +1,6 @@
+{
+  "name": "Trimipramine",
+  "halfLifeMinutes": 600,
+  "halfLifeSource": "pmid:2591418",
+  "halfLifeNotes": "Twelve healthy volunteers, single oral doses (tablet and solution, morning and evening) with high interindividual variability; CYP2D6-poor-metabolizer status can roughly double the half-life. Paper status closed — value is stated in the abstract; it supersedes the DrugBank 11–18 h hint."
+}

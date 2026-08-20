@@ -1,0 +1,6 @@
+{
+  "name": "Meprobamate",
+  "halfLifeMinutes": 600,
+  "halfLifeSource": "FDA label for Carisoprodol tablets, Clinical Pharmacology/Pharmacokinetics — meprobamate half-life approximately 10 hours",
+  "halfLifeNotes": "Measured as carisoprodol's metabolite in 24 healthy subjects (9.7 +/- 1.7 h and 9.6 +/- 1.5 h at the two doses); the meprobamate product label itself carries no PK section."
+}

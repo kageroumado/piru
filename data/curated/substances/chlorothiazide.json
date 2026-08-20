@@ -1,0 +1,6 @@
+{
+  "name": "Chlorothiazide",
+  "halfLifeMinutes": 83,
+  "halfLifeSource": "FDA label for Diuril (chlorothiazide), Clinical Pharmacology — t½ = 45–120 min",
+  "halfLifeNotes": "Stated range 45–120 minutes (midpoint used); not metabolized, eliminated renally; diuretic effect lasts 6–12 h."
+}

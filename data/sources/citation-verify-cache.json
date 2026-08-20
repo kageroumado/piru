@@ -79,6 +79,12 @@
   "title": "Effect of Sustained Elevated Gastric pH Levels on Gefitinib Exposure",
   "year": 2017
  },
+ "doi:10.1002/cpdd.777": {
+  "journal": "Clinical pharmacology in drug development",
+  "subjects": [],
+  "title": "Bioavailability of Triprolidine as a Single Agent or in Combination With Pseudoephedrine: A Randomized, Open-Label Crossover Study in Healthy Volunteers",
+  "year": "2020"
+ },
  "doi:10.1002/cpdd.928": {
   "journal": "Clinical Pharmacology in Drug Development",
   "subjects": [],
@@ -135,6 +141,18 @@
   "year": 2024
  },
  "doi:10.1002/cpt1976194_part1532": null,
+ "doi:10.1002/cpt1977223259": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Effects of delta-9-tetrahydrocannabinol on drug distribution and metabolism. Antipyrine, pentobarbital, and ethanol",
+  "year": "1977"
+ },
+ "doi:10.1002/cpt1979262232": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Rectal and oral absorption of methylprednisolone acetate",
+  "year": "1979"
+ },
  "doi:10.1002/ddr.430090302": {
   "journal": "Drug Development Research",
   "subjects": [],
@@ -580,6 +598,12 @@
   "title": "Pharmacokinetics of fenfluramine and norfenfluramine in volunteers given d- and dl-fenfluramine for 15 days",
   "year": 1985
  },
+ "doi:10.1007/bf00556902": {
+  "journal": "European journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Pharmacokinetics of the oral narcotic analgesic bezitramide and preliminary observations on its effect on experimentally induced pain",
+  "year": "1984"
+ },
  "doi:10.1007/bf01252511": {
   "journal": "Journal of Neural Transmission",
   "subjects": [],
@@ -604,6 +628,12 @@
   "title": "Interactions of selective serotonin reuptake inhibitors with the serotonin 5-HT2C receptor",
   "year": 1996
  },
+ "doi:10.1007/bf02455991": {
+  "journal": "European journal of clinical pharmacology",
+  "subjects": [],
+  "title": "The pharmacokinetics of yohimbine in man",
+  "year": "1987"
+ },
  "doi:10.1007/bf03189650": {
   "journal": "European Journal of Drug Metabolism and Pharmacokinetics",
   "subjects": [],
@@ -615,6 +645,12 @@
   "subjects": [],
   "title": "Absorption, metabolism, and excretion of14C-labeled Tapentadol HCl in healthy male subjects",
   "year": 2007
+ },
+ "doi:10.1007/bf03190854": {
+  "journal": "European journal of drug metabolism and pharmacokinetics",
+  "subjects": [],
+  "title": "Chronopharmacokinetic and bioequivalence studies of two formulations of trimipramine after oral administration in man",
+  "year": "1989"
  },
  "doi:10.1007/pl00005315": {
   "journal": "Naunyn-Schmiedeberg's Archives of Pharmacology",
@@ -873,6 +909,12 @@
   "subjects": [],
   "title": "Pharmacokinetics and Comparative Bioavailability of Apomorphine Sublingual Film and Subcutaneous Apomorphine Formulations in Patients with Parkinson's Disease and \"OFF\" Episodes: Results of a Randomized, Three-Way Crossover, Open-Label Study",
   "year": "2021"
+ },
+ "doi:10.1007/s40261-017-0549-5": {
+  "journal": "Clinical drug investigation",
+  "subjects": [],
+  "title": "Pharmacokinetics of Cromolyn and Ibuprofen in Healthy Elderly Volunteers",
+  "year": "2017"
  },
  "doi:10.1007/s40261-024-01356-0": {
   "journal": "Clinical Drug Investigation",
@@ -1440,6 +1482,12 @@
   "title": "Impact of early ventricular tachycardia ablation in patients with an implantable cardioverter-defibrillator: An updated systematic review and meta-analysis of randomized controlled trials",
   "year": 2022
  },
+ "doi:10.1016/j.jcte.2017.01.004": {
+  "journal": "Journal of clinical & translational endocrinology",
+  "subjects": [],
+  "title": "Evidence-based review of statin use in patients with HIV on antiretroviral therapy",
+  "year": "2017"
+ },
  "doi:10.1016/j.jemermed.2016.05.066": {
   "journal": "The Journal of emergency medicine",
   "subjects": [],
@@ -1482,6 +1530,12 @@
   "subjects": [],
   "title": "Cytochrome P450 enzymes involved in the metabolism of tetrahydrocannabinols and cannabinol by human hepatic microsomes",
   "year": "2007"
+ },
+ "doi:10.1016/j.maturitas.2004.01.001": {
+  "journal": "Maturitas",
+  "subjects": [],
+  "title": "Pharmacological profile of progestins",
+  "year": "2004"
  },
  "doi:10.1016/j.mayocp.2013.07.011": {
   "journal": "Mayo Clinic proceedings",
@@ -2753,6 +2807,12 @@
   "title": "An Assessment of Direct-to-Consumer Advertising of Prescription Drugs",
   "year": 2007
  },
+ "doi:10.1038/sj.jhh.1001391": {
+  "journal": "Journal of human hypertension",
+  "subjects": [],
+  "title": "The new oral angiotensin II antagonist olmesartan medoxomil: a concise overview",
+  "year": "2002"
+ },
  "doi:10.1038/sj.npp.1300242": {
   "journal": "Neuropsychopharmacology",
   "subjects": [],
@@ -2953,6 +3013,12 @@
   "subjects": [],
   "title": "\u201cZombie\u201d Outbreak Caused by the Synthetic Cannabinoid AMB-FUBINACA in New York",
   "year": 2017
+ },
+ "doi:10.1056/nejmoa2017015": {
+  "journal": "New England Journal of Medicine",
+  "subjects": [],
+  "title": "Muscarinic Cholinergic Receptor Agonist and Peripheral Antagonist for Schizophrenia",
+  "year": 2021
  },
  "doi:10.1056/nejmoa2301972": {
   "journal": "New England Journal of Medicine",
@@ -3234,6 +3300,12 @@
   "subjects": [],
   "title": "Table of Contents",
   "year": 2010
+ },
+ "doi:10.1093/eurheartj/ehm575": {
+  "journal": "European heart journal",
+  "subjects": [],
+  "title": "New oral anticoagulants in atrial fibrillation",
+  "year": "2008"
  },
  "doi:10.1093/eurpub/cku071": {
   "journal": "European journal of public health",
@@ -3829,6 +3901,12 @@
   "title": "Evidence that 5\u2010HT\n                    <sub>2A</sub>\n                    receptor signalling efficacy and not biased agonism differentiates serotonergic psychedelic from non\u2010psychedelic drugs",
   "year": 2025
  },
+ "doi:10.1111/cts.12724": {
+  "journal": "Clinical and translational science",
+  "subjects": [],
+  "title": "Pharmacokinetics and Pharmacodynamics of Intramuscular and Oral Betamethasone and Dexamethasone in Reproductive Age Women in India",
+  "year": "2020"
+ },
  "doi:10.1111/cts.13311": {
   "journal": "Clinical and translational science",
   "subjects": [],
@@ -4223,6 +4301,12 @@
   "title": "Glucuronidation of psilocin and 4-hydroxyindole by the human UDP-glucuronosyltransferases",
   "year": "2010"
  },
+ "doi:10.1124/dmd.109.031476": {
+  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
+  "subjects": [],
+  "title": "The metabolism and disposition of the oral dipeptidyl peptidase-4 inhibitor, linagliptin, in humans",
+  "year": "2010"
+ },
  "doi:10.1124/dmd.110.037523": {
   "journal": "Drug Metabolism and Disposition",
   "subjects": [],
@@ -4560,6 +4644,12 @@
   "year": 2010
  },
  "doi:10.1126/scitranslmed.aam7747": null,
+ "doi:10.1128/aac.39.4.882": {
+  "journal": "Antimicrobial agents and chemotherapy",
+  "subjects": [],
+  "title": "Anticytomegaloviral activity and safety of cidofovir in patients with human immunodeficiency virus infection and cytomegalovirus viruria",
+  "year": "1995"
+ },
  "doi:10.1128/jcm.18.1.18-22.1983": {
   "journal": "Journal of clinical microbiology",
   "subjects": [],
@@ -4602,6 +4692,12 @@
   "subjects": [],
   "title": "Comparison of sublingual and oral prazepam in normal subjects. II. Pharmacokinetic and pharmacodynamic data",
   "year": "1988"
+ },
+ "doi:10.1159/000237839": {
+  "journal": "Chemotherapy",
+  "subjects": [],
+  "title": "Pharmacokinetics of cefadroxil in normal subjects and in patients with renal insufficiency",
+  "year": "1979"
  },
  "doi:10.1159/000370338": {
   "journal": "Psychotherapy and psychosomatics",
@@ -4712,6 +4808,12 @@
   "subjects": [],
   "title": "Clinical pharmacokinetics of chlorpheniramine",
   "year": "1984"
+ },
+ "doi:10.1177/1090820x13511970": {
+  "journal": "Aesthetic surgery journal",
+  "subjects": [],
+  "title": "The role of hyaluronidase in the treatment of complications from hyaluronic acid dermal fillers",
+  "year": "2013"
  },
  "doi:10.1186/1471-2210-6-6": {
   "journal": "BMC Pharmacology",
@@ -5156,6 +5258,12 @@
   "subjects": [],
   "title": "Clinical Pharmacokinetics of Mirtazapine",
   "year": 2000
+ },
+ "doi:10.2165/00003088-200039040-00001": {
+  "journal": "Clinical pharmacokinetics",
+  "subjects": [],
+  "title": "Clinical pharmacokinetics of ropinirole",
+  "year": "2000"
  },
  "doi:10.2165/00003088-200039040-00003": {
   "journal": "Clinical Pharmacokinetics",
@@ -5887,6 +5995,12 @@
   "title": "From a home-made laboratory to the Nobel Prize: an interview with Rita Levi Montalcini.",
   "year": "2000"
  },
+ "pmid:11069211": {
+  "journal": "Clinical pharmacokinetics",
+  "subjects": [],
+  "title": "Clinical pharmacokinetics of ropinirole.",
+  "year": "2000"
+ },
  "pmid:11071027": {
   "journal": "European journal of ophthalmology",
   "subjects": [],
@@ -5999,6 +6113,12 @@
   "journal": "Neuroscience letters",
   "subjects": [],
   "title": "The N-methyl-D-aspartate receptor channel blockers memantine, MRZ 2/579 and other amino-alkyl-cyclohexanes antagonise 5-HT(3) receptor currents in cultured HEK-293 and N1E-115 cell systems in a non-competitive manner.",
+  "year": "2001"
+ },
+ "pmid:11417440": {
+  "journal": "European journal of clinical pharmacology",
+  "subjects": [],
+  "title": "The effect of acarbose on the pharmacokinetics of rosiglitazone.",
   "year": "2001"
  },
  "pmid:11434319": {
@@ -6165,6 +6285,12 @@
   "title": "Comparison of 4-chloro-, 4-bromo- and 4-fluoroamphetamine in rats: drug levels in brain and effects on brain serotonin metabolism.",
   "year": "1975"
  },
+ "pmid:11967728": {
+  "journal": "Journal of human hypertension",
+  "subjects": [],
+  "title": "The new oral angiotensin II antagonist olmesartan medoxomil: a concise overview.",
+  "year": "2002"
+ },
  "pmid:11994058": {
   "journal": "British journal of clinical pharmacology",
   "subjects": [],
@@ -6273,6 +6399,12 @@
   "title": "Biosynthesis of the lipophilic side chain in the cyclic hexadepsipeptide antibiotic IC101.",
   "year": "2002"
  },
+ "pmid:12520625": {
+  "journal": "Journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Single- and multiple-dose pharmacokinetics of oral creatine.",
+  "year": "2003"
+ },
  "pmid:12584155": {
   "journal": "Drug metabolism and disposition: the biological fate of chemicals",
   "subjects": [],
@@ -6379,6 +6511,12 @@
   "journal": "Biochemistry",
   "subjects": [],
   "title": "Characterization of the human calmodulin-like protein expressed in Escherichia coli.",
+  "year": "1992"
+ },
+ "pmid:1350205": {
+  "journal": "Chirality",
+  "subjects": [],
+  "title": "Enantioselective pharmacokinetics of ethotoin in humans following single oral doses of the racemate.",
   "year": "1992"
  },
  "pmid:13572116": {
@@ -6579,6 +6717,12 @@
   "title": "Fluvoxamine drastically increases concentrations and effects of tizanidine: a potentially hazardous interaction.",
   "year": "2004"
  },
+ "pmid:15063480": {
+  "journal": "Maturitas",
+  "subjects": [],
+  "title": "Pharmacological profile of progestins.",
+  "year": "2004"
+ },
  "pmid:15082749": {
   "journal": "The Journal of pharmacology and experimental therapeutics",
   "subjects": [],
@@ -6625,6 +6769,12 @@
   "journal": "European journal of clinical pharmacology",
   "subjects": [],
   "title": "Inhibition of the metabolism of etizolam by itraconazole in humans: evidence for the involvement of CYP3A4 in etizolam metabolism.",
+  "year": "2004"
+ },
+ "pmid:15244501": {
+  "journal": "BioDrugs : clinical immunotherapeutics, biopharmaceuticals and gene therapy",
+  "subjects": [],
+  "title": "The role of recombinant hirudins in the management of thrombotic disorders.",
   "year": "2004"
  },
  "pmid:15266022": {
@@ -6710,6 +6860,12 @@
   "subjects": [],
   "title": "Urinary pharmacokinetics of methamphetamine and its metabolite, amphetamine following controlled oral administration to humans.",
   "year": "2004"
+ },
+ "pmid:1559217": {
+  "journal": "Cancer research",
+  "subjects": [],
+  "title": "Clinical pharmacology of oral all-trans retinoic acid in patients with acute promyelocytic leukemia.",
+  "year": "1992"
  },
  "pmid:15592331": {
   "journal": "Clinical pharmacology and therapeutics",
@@ -7181,6 +7337,12 @@
   "title": "(-)-(1R,2R)-3-(3-dimethylamino-1-ethyl-2-methyl-propyl)-phenol hydrochloride (tapentadol HCl): a novel mu-opioid receptor agonist/norepinephrine reuptake inhibitor with broad-spectrum analgesic properties.",
   "year": "2007"
  },
+ "pmid:1768559": {
+  "journal": "British journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Clinical pharmacology of prochlorperazine in healthy young males.",
+  "year": "1991"
+ },
  "pmid:17712521": {
   "journal": "The European physical journal. E, Soft matter",
   "subjects": [],
@@ -7263,6 +7425,12 @@
   "journal": "FEMS microbiology ecology",
   "subjects": [],
   "title": "Identification of dominant bacterial phylotypes in a cadmium-treated forest soil.",
+  "year": "2008"
+ },
+ "pmid:18096568": {
+  "journal": "European heart journal",
+  "subjects": [],
+  "title": "New oral anticoagulants in atrial fibrillation.",
   "year": "2008"
  },
  "pmid:1813896": {
@@ -7683,6 +7851,12 @@
   "journal": "Food and chemical toxicology : an international journal published for the British Industrial Biological Research Association",
   "subjects": [],
   "title": "beta-Carboline alkaloids in Peganum harmala and inhibition of human monoamine oxidase (MAO).",
+  "year": "2010"
+ },
+ "pmid:20086031": {
+  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
+  "subjects": [],
+  "title": "The metabolism and disposition of the oral dipeptidyl peptidase-4 inhibitor, linagliptin, in humans.",
   "year": "2010"
  },
  "pmid:20126400": {
@@ -8171,6 +8345,12 @@
   "title": "Letters to the editor.",
   "year": "2013"
  },
+ "pmid:23469684": {
+  "journal": "Die Pharmazie",
+  "subjects": [],
+  "title": "Simvastatin pharmacokinetics in healthy Chinese subjects and its relations with CYP2C9, CYP3A5, ABCB1, ABCG2 and SLCO1B1 polymorphisms.",
+  "year": "2013"
+ },
  "pmid:23492908": {
   "journal": "Pharmacogenetics and genomics",
   "subjects": [],
@@ -8301,6 +8481,12 @@
   "journal": "Nitric oxide : biology and chemistry",
   "subjects": [],
   "title": "Enzymatic generation of the NO/HNO-releasing IPA/NO anion at controlled rates in physiological media using \u03b2-galactosidase.",
+  "year": "2013"
+ },
+ "pmid:24197934": {
+  "journal": "Aesthetic surgery journal",
+  "subjects": [],
+  "title": "The role of hyaluronidase in the treatment of complications from hyaluronic acid dermal fillers.",
   "year": "2013"
  },
  "pmid:24199712": {
@@ -8663,6 +8849,12 @@
   "title": "Withdrawal Symptoms after Selective Serotonin Reuptake Inhibitor Discontinuation: A Systematic Review.",
   "year": "2015"
  },
+ "pmid:25728721": {
+  "journal": "American heart journal",
+  "subjects": [],
+  "title": "A reappraisal of loop diuretic choice in heart failure patients.",
+  "year": "2015"
+ },
  "pmid:25738459": {
   "journal": "Cell metabolism",
   "subjects": [],
@@ -8703,6 +8895,12 @@
   "journal": "British journal of clinical pharmacology",
   "subjects": [],
   "title": "Pharmacokinetics of dextropropoxyphene and nordextropropoxyphene in young and elderly volunteers after single and multiple dextropropoxyphene dosage.",
+  "year": "1989"
+ },
+ "pmid:2591418": {
+  "journal": "European journal of drug metabolism and pharmacokinetics",
+  "subjects": [],
+  "title": "Chronopharmacokinetic and bioequivalence studies of two formulations of trimipramine after oral administration in man.",
   "year": "1989"
  },
  "pmid:25921407": {
@@ -9287,6 +9485,12 @@
   "title": "European guidelines for workplace drug testing in oral fluid.",
   "year": "2018"
  },
+ "pmid:2866242": {
+  "journal": "Journal of pharmaceutical sciences",
+  "subjects": [],
+  "title": "Pharmacokinetics of methyprylon following a single oral dose.",
+  "year": "1985"
+ },
  "pmid:28677876": {
   "journal": "Drug testing and analysis",
   "subjects": [],
@@ -9311,6 +9515,12 @@
   "title": "Monoamine receptor interaction profiles of 4-thio-substituted phenethylamines (2C-T drugs).",
   "year": "2018"
  },
+ "pmid:2872061": {
+  "journal": "European journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Effect of cirrhosis and renal failure on the kinetics of clotiazepam.",
+  "year": "1986"
+ },
  "pmid:2873494": {
   "journal": "Life sciences",
   "subjects": [],
@@ -9321,6 +9531,18 @@
   "journal": "Japanese journal of pharmacology",
   "subjects": [],
   "title": "Antimuscarinic effects of antihistamines: quantitative evaluation by receptor-binding assay.",
+  "year": "1987"
+ },
+ "pmid:28856569": {
+  "journal": "Clinical drug investigation",
+  "subjects": [],
+  "title": "Pharmacokinetics of Cromolyn and Ibuprofen in Healthy Elderly Volunteers.",
+  "year": "2017"
+ },
+ "pmid:2889679": {
+  "journal": "International journal of clinical pharmacology research",
+  "subjects": [],
+  "title": "Short-term sleep laboratory studies with cinolazepam in situational insomnia induced by traffic noise.",
   "year": "1987"
  },
  "pmid:28910145": {
@@ -9353,11 +9575,23 @@
   "title": "Desmethyldiazepam pharmacokinetics: studies following intravenous and oral desmethyldiazepam, oral clorazepate, and intravenous diazepam.",
   "year": "1988"
  },
+ "pmid:29067253": {
+  "journal": "Journal of clinical & translational endocrinology",
+  "subjects": [],
+  "title": "Evidence-based review of statin use in patients with HIV on antiretroviral therapy.",
+  "year": "2017"
+ },
  "pmid:2907279": {
   "journal": "Archives internationales de pharmacodynamie et de therapie",
   "subjects": [],
   "title": "Neuroleptic-like, anticonvulsant and antinociceptive effects of aporphine alkaloids: bulbocapnine, corytuberine, boldine and glaucine.",
   "year": "1988"
+ },
+ "pmid:29145890": {
+  "journal": "BMC pharmacology & toxicology",
+  "subjects": [],
+  "title": "Pharmacokinetic study of single- and multiple-dosing with metolazone tablets in healthy Chinese population.",
+  "year": "2017"
  },
  "pmid:29181593": {
   "journal": "The AAPS journal",
@@ -9369,6 +9603,12 @@
   "journal": "JCI insight",
   "subjects": [],
   "title": "Fentanyl-related designer drugs W-18 and W-15 lack appreciable opioid activity in vitro and in vivo.",
+  "year": "2017"
+ },
+ "pmid:29271734": {
+  "journal": "Journal of chemotherapy (Florence, Italy)",
+  "subjects": [],
+  "title": "Pharmacological properties of oral antibiotics for the treatment of uncomplicated urinary tract infections.",
   "year": "2017"
  },
  "pmid:29316249": {
@@ -9532,6 +9772,12 @@
   "subjects": [],
   "title": "Butanediol Conversion to Gamma-Hydroxybutyrate Markedly Reduced by the Alcohol Dehydrogenase Blocker Fomepizole.",
   "year": "2019"
+ },
+ "pmid:30460547": {
+  "journal": "Drugs",
+  "subjects": [],
+  "title": "Bictegravir/Emtricitabine/Tenofovir Alafenamide: A Review in HIV-1 Infection.",
+  "year": "2018"
  },
  "pmid:30553124": {
   "journal": "Forensic science international",
@@ -9743,6 +9989,12 @@
   "title": "Pharmacogenetics of amfepramone in healthy Mexican subjects reveals potential markers for tailoring pharmacotherapy of obesity: results of a randomised trial.",
   "year": "2019"
  },
+ "pmid:31808984": {
+  "journal": "Clinical and translational science",
+  "subjects": [],
+  "title": "Pharmacokinetics and Pharmacodynamics of Intramuscular and Oral Betamethasone and Dexamethasone in Reproductive Age Women in India.",
+  "year": "2020"
+ },
  "pmid:31849671": {
   "journal": "Frontiers in pharmacology",
   "subjects": [],
@@ -9801,6 +10053,12 @@
   "journal": "Journal of analytical toxicology",
   "subjects": [],
   "title": "Toxicokinetics and Analytical Toxicology of Flualprazolam: Metabolic Fate, Isozyme Mapping, Human Plasma Concentration and Main Urinary Excretion Products.",
+  "year": "2020"
+ },
+ "pmid:32133778": {
+  "journal": "Clinical pharmacology in drug development",
+  "subjects": [],
+  "title": "Bioavailability of Triprolidine as a Single Agent or in Combination With Pseudoephedrine: A Randomized, Open-Label Crossover Study in Healthy Volunteers.",
   "year": "2020"
  },
  "pmid:32180350": {
@@ -9879,6 +10137,12 @@
   "journal": "AJR. American journal of roentgenology",
   "subjects": [],
   "title": "Extracorporeal shock-wave lithotripsy: prevalence of renal stones 3-21 months after treatment.",
+  "year": "1988"
+ },
+ "pmid:3271648": {
+  "journal": "Drug metabolism and drug interactions",
+  "subjects": [],
+  "title": "S-oxidation of thioridazine to psychoactive metabolites: an oral dose-proportionality study in healthy volunteers.",
   "year": "1988"
  },
  "pmid:32869039": {
@@ -10343,6 +10607,12 @@
   "title": "Mechanisms Involved in the Neurotoxicity and Abuse Liability of Nitrous Oxide: A Narrative Review.",
   "year": "2022"
  },
+ "pmid:3653227": {
+  "journal": "European journal of clinical pharmacology",
+  "subjects": [],
+  "title": "The pharmacokinetics of yohimbine in man.",
+  "year": "1987"
+ },
  "pmid:36555217": {
   "journal": "International journal of molecular sciences",
   "subjects": [],
@@ -10450,6 +10720,12 @@
   "subjects": [],
   "title": "Metabolism of dipentylone in zebrafish and human liver microsomes determined by liquid chromatography-high resolution mass spectrometry.",
   "year": "2023"
+ },
+ "pmid:3781673": {
+  "journal": "International journal of clinical pharmacology, therapy, and toxicology",
+  "subjects": [],
+  "title": "Pharmacokinetic study of deuterium-labelled coenzyme Q10 in man.",
+  "year": "1986"
  },
  "pmid:37847546": {
   "journal": "ACS chemical neuroscience",
@@ -10673,6 +10949,12 @@
   "title": "Proton nuclear magnetic resonance spectra of excised rat brain. Assignment of resonances.",
   "year": "1985"
  },
+ "pmid:4037749": {
+  "journal": "Annals of neurology",
+  "subjects": [],
+  "title": "Pharmacokinetics of trihexyphenidyl after short-term and long-term administration to dystonic patients.",
+  "year": "1985"
+ },
  "pmid:40381809": {
   "journal": "Neurotoxicology",
   "subjects": [],
@@ -10799,6 +11081,18 @@
   "title": "Short- and Long-Acting Psychedelics: Structure-Activity Relationships, Pharmacology, and Implications for Neuropsychiatric Therapeutics.",
   "year": "2026"
  },
+ "pmid:455892": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Rectal and oral absorption of methylprednisolone acetate.",
+  "year": "1979"
+ },
+ "pmid:456077": {
+  "journal": "Chemotherapy",
+  "subjects": [],
+  "title": "Pharmacokinetics of cefadroxil in normal subjects and in patients with renal insufficiency.",
+  "year": "1979"
+ },
  "pmid:4758074": {
   "journal": "Journal of pharmaceutical sciences",
   "subjects": [],
@@ -10840,6 +11134,12 @@
   "subjects": [],
   "title": "Synthesis and pharmacological activity of befuraline (N-benzo[b]furan-2-ylcarbonyl-N'-benzylpiperazine), a new antidepressant compound.",
   "year": "1979"
+ },
+ "pmid:6108174": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Kinetics and biotransformation of lormetazepam. II. Radioimmunologic determinations in plasma and urine of young and elderly subjects: first-pass effect.",
+  "year": "1980"
  },
  "pmid:6109586": {
   "journal": "Clinical pharmacology and therapeutics",
@@ -10955,11 +11255,29 @@
   "title": "Inhibition of histidine decarboxylase and tumour promoter-induced arachidonic acid release by lecanoric acid analogues.",
   "year": "1983"
  },
+ "pmid:6519169": {
+  "journal": "European journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Pharmacokinetics of the oral narcotic analgesic bezitramide and preliminary observations on its effect on experimentally induced pain.",
+  "year": "1984"
+ },
+ "pmid:6661374": {
+  "journal": "British journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Pharmacokinetics of brotizolam in healthy subjects following intravenous and oral administration.",
+  "year": "1983"
+ },
  "pmid:6684463": {
   "journal": "Arzneimittel-Forschung",
   "subjects": [],
   "title": "Bioavailability of methyl-14C CDP-choline by oral route.",
   "year": "1983"
+ },
+ "pmid:6790396": {
+  "journal": "Fortschritte der Medizin",
+  "subjects": [],
+  "title": "[Pharmacokinetics of oral prazepam].",
+  "year": "1981"
  },
  "pmid:6834256": {
   "journal": "Journal of pharmaceutical sciences",
@@ -11115,6 +11433,12 @@
   "journal": "Clinical pharmacology and therapeutics",
   "subjects": [],
   "title": "Moclobemide, a substrate of CYP2C19 and an inhibitor of CYP2C19, CYP2D6, and CYP1A2: a panel study.",
+  "year": "1995"
+ },
+ "pmid:7785989": {
+  "journal": "Antimicrobial agents and chemotherapy",
+  "subjects": [],
+  "title": "Anticytomegaloviral activity and safety of cidofovir in patients with human immunodeficiency virus infection and cytomegalovirus viruria.",
   "year": "1995"
  },
  "pmid:7791087": {
@@ -11470,6 +11794,12 @@
   "subjects": [],
   "title": "Metabolism of fentanyl, a synthetic opioid analgesic, by human liver microsomes. Role of CYP3A4.",
   "year": "1996"
+ },
+ "pmid:891094": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Effects of delta-9-tetrahydrocannabinol on drug distribution and metabolism. Antipyrine, pentobarbital, and ethanol.",
+  "year": "1977"
  },
  "pmid:8925872": {
   "journal": "European journal of pharmacology",

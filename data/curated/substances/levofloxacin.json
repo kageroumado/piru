@@ -1,0 +1,6 @@
+{
+  "name": "Levofloxacin",
+  "halfLifeMinutes": 420,
+  "halfLifeSource": "FDA label for levofloxacin tablets (levofloxacin), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 6–8 h",
+  "halfLifeNotes": "Stated range 6–8 h (midpoint used) after single or multiple oral/IV doses in healthy adults; substantially prolonged in renal impairment."
+}

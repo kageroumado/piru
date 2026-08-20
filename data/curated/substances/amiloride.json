@@ -1,0 +1,6 @@
+{
+  "name": "Amiloride",
+  "halfLifeMinutes": 450,
+  "halfLifeSource": "FDA label for amiloride hydrochloride, Clinical Pharmacology — plasma half-life 6 to 9 hours",
+  "halfLifeNotes": "Midpoint of the label's 6-9 hour range; excreted unchanged by the kidneys, so accumulates in renal impairment."
+}

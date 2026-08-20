@@ -167,6 +167,8 @@ class Claim:
 
     citation_id: int
     terms: set[str] = field(default_factory=set)
+    #: The substance's other names, scored as one unit -- see ``overlap_score``.
+    alias_terms: set[str] = field(default_factory=set)
     where: set[str] = field(default_factory=set)
 
     def describe(self) -> str:
@@ -209,11 +211,22 @@ def fuzzy_contains(needle: str, haystack: set[str], threshold: float = 0.86) -> 
     return False
 
 
-def overlap_score(claim_terms: set[str], paper_terms: set[str]) -> float:
-    """Fraction of claim terms the paper mentions, fuzzily. 0 = different subject."""
+def overlap_score(
+    claim_terms: set[str], paper_terms: set[str], alias_terms: set[str] = frozenset()
+) -> float:
+    """Fraction of claim terms the paper mentions, fuzzily. 0 = different subject.
+
+    A substance's aliases are alternative names for ONE thing, so they score as
+    a single unit rather than as separate terms: a paper titled "coenzyme Q10"
+    names the row we call CoQ10, while a drug's dozen brand names are one fact
+    about it, not a dozen things its source is obliged to mention. Counting them
+    individually would dilute every score by the length of the alias list.
+    """
     if not claim_terms:
         return 1.0
     hits = sum(1 for t in claim_terms if fuzzy_contains(t, paper_terms))
+    if alias_terms and any(fuzzy_contains(t, paper_terms) for t in alias_terms):
+        return (hits + 1) / (len(claim_terms) + 1)
     return hits / len(claim_terms)
 
 
@@ -229,6 +242,16 @@ def load_claims(conn: sqlite3.Connection) -> dict[int, Claim]:
             "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
         ).fetchall()
     ]
+    # A row's substance is named by its aliases as well as its canonical name:
+    # the paper for the row we call CoQ10 is titled "coenzyme Q10", and the one
+    # for MDMA says "methylenedioxymethamphetamine". Without these a correct
+    # citation reads as having nothing in common with the claim. Only aliases
+    # long enough to be distinctive count -- the tail of short ones matches
+    # ordinary prose and would let any paper look on-topic.
+    alias_terms: dict[int, set[str]] = defaultdict(set)
+    for sid, alias in conn.execute("SELECT substance_id, alias FROM aliases").fetchall():
+        alias_terms[sid] |= {t for t in tokenize(alias) if len(t) >= 5}
+
     for table in tables:
         cols = [r[1] for r in conn.execute(f'PRAGMA table_info("{table}")').fetchall()]
         if "citation_id" not in cols:
@@ -255,7 +278,7 @@ def load_claims(conn: sqlite3.Connection) -> dict[int, Claim]:
         ]
         joins = "substance_id" in cols
         select = ", ".join(f't."{c}"' for c in ["citation_id", *term_cols])
-        sql = f'SELECT {select}{", s.canonical_name" if joins else ""} FROM "{table}" t'
+        sql = f'SELECT {select}{", s.canonical_name, t.substance_id" if joins else ""} FROM "{table}" t'
         if joins:
             sql += " LEFT JOIN substances s ON s.id = t.substance_id"
         sql += " WHERE t.citation_id IS NOT NULL"
@@ -267,6 +290,8 @@ def load_claims(conn: sqlite3.Connection) -> dict[int, Claim]:
             for value in row[1:]:
                 if isinstance(value, str):
                     claim.terms |= tokenize(value)
+            if joins:
+                claim.alias_terms |= alias_terms.get(row[-1], set())
     return dict(claims)
 
 
@@ -346,7 +371,11 @@ def verdict_for(citation: dict, meta: dict | None, claim: Claim | None) -> tuple
         claim_terms = expand(claim.terms) if claim else set()
         # Long claim texts (notes) swamp the score; weight the score on the terms
         # most likely to appear in a title.
-        score = overlap_score({t for t in claim_terms if len(t) > 3}, paper_terms)
+        score = overlap_score(
+            {t for t in claim_terms if len(t) > 3},
+            paper_terms,
+            claim.alias_terms if claim else set(),
+        )
         title = (meta.get("title") or "")[:70]
         if not claim_terms:
             return "OK", f"{title} (no claim terms to compare)"

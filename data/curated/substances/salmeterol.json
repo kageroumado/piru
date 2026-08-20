@@ -1,0 +1,6 @@
+{
+  "name": "Salmeterol",
+  "halfLifeMinutes": 330,
+  "halfLifeSource": "FDA label for Serevent Diskus (salmeterol xinafoate), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 5.5 hours",
+  "halfLifeNotes": "From a 1 mg oral radiolabeled dose in healthy adults, measurable in one volunteer only; plasma levels after inhaled therapeutic doses are very low or undetectable, and the xinafoate counter-ion has its own ~11-day half-life."
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Azithromycin",
+  "halfLifeMinutes": 4080,
+  "halfLifeSource": "FDA label for Zithromax (azithromycin), Clinical Pharmacology 12.3 — terminal t½ ≈ 68 h",
+  "halfLifeNotes": "Terminal elimination half-life after single 500 mg oral and IV doses; the prolonged terminal phase reflects extensive tissue uptake and release."
+}

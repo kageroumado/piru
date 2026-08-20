@@ -1,0 +1,6 @@
+{
+  "name": "Alogliptin",
+  "halfLifeMinutes": 1260,
+  "halfLifeSource": "FDA label for alogliptin and metformin hydrochloride tablets (alogliptin), Clinical Pharmacology 12.3 — t½ ≈ 21 hours",
+  "halfLifeNotes": "Mean terminal half-life in healthy subjects after oral dosing; renal excretion predominates, so renal impairment prolongs exposure."
+}

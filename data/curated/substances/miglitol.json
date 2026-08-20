@@ -1,0 +1,6 @@
+{
+  "name": "Miglitol",
+  "halfLifeMinutes": 120,
+  "halfLifeSource": "FDA label for Miglitol (miglitol), Clinical Pharmacology/Pharmacokinetics/Excretion - t½ ≈ 2 h",
+  "halfLifeNotes": "Unmetabolized drug cleared renally; plasma levels more than double with creatinine clearance below 25 mL/min, and systemic absorption does not drive the drug's local intestinal effect."
+}

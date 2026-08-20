@@ -1,0 +1,6 @@
+{
+  "name": "Levalbuterol",
+  "halfLifeMinutes": 198,
+  "halfLifeSource": "FDA label for levalbuterol inhalation solution (levalbuterol; Xopenex generic), Clinical Pharmacology/Pharmacokinetics Table 6 — (R)-albuterol t½ 3.3 h after a single 1.25 mg nebulized dose",
+  "halfLifeNotes": "Healthy adults, nebulized single 1.25 mg dose (mean 3.3 h, SD 2.48); after cumulative dosing (5 mg over 2 h) the mean t½ was 4.0 h, consistent with the DrugBank 3.3–4.0 h hint."
+}

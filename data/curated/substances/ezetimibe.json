@@ -1,0 +1,6 @@
+{
+  "name": "Ezetimibe",
+  "halfLifeMinutes": 1320,
+  "halfLifeSource": "FDA label for Ezetimibe and Simvastatin (ezetimibe), Clinical Pharmacology 12.3 Metabolism and Excretion - t½ ≈ 22 h",
+  "halfLifeNotes": "Applies equally to parent ezetimibe and its active glucuronide; plasma profiles show multiple peaks from enterohepatic recycling, and exposure is higher in hepatic impairment."
+}

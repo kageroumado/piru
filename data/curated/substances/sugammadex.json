@@ -1,0 +1,6 @@
+{
+  "name": "Sugammadex",
+  "halfLifeMinutes": 120,
+  "halfLifeSource": "FDA label for sugammadex sodium injection (sugammadex; Bridion generic), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 2 hours",
+  "halfLifeNotes": "Adult anesthetized patients with normal renal function, IV dosing; renally excreted unchanged, so half-life extends to 4, 6, and 19 hours in mild, moderate, and severe renal impairment."
+}

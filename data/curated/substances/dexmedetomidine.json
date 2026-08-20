@@ -1,0 +1,6 @@
+{
+  "name": "Dexmedetomidine",
+  "halfLifeMinutes": 120,
+  "halfLifeSource": "FDA label for Dexmedetomidine injection, Clinical Pharmacology 12.3 — terminal t½ ≈ 2 hours",
+  "halfLifeNotes": "Terminal elimination half-life after intravenous administration in adults; distribution half-life is ~6 minutes."
+}

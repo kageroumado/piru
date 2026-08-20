@@ -1,0 +1,6 @@
+{
+  "name": "Mometasone",
+  "halfLifeMinutes": 300,
+  "halfLifeSource": "FDA label for Asmanex HFA (mometasone furoate), Clinical Pharmacology/Pharmacokinetics — IV terminal t1/2 ≈ 5 h",
+  "halfLifeNotes": "True elimination half-life after intravenous dosing; the effective half-life after inhalation is ~25 h because slow absorption from the lung rate-limits elimination, and oral bioavailability is negligible (<1%)."
+}

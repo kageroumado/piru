@@ -36,7 +36,7 @@
     "Requires 14-day washout before/after serotonergic drugs",
     "Hepatotoxic (rare but serious)"
   ],
-  "halfLifeMinutes": 90,
+  "halfLifeMinutes": 696,
   "sources": [
     "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/009768s055lbl.pdf",
     "https://en.wikipedia.org/wiki/Phenelzine",
@@ -50,5 +50,7 @@
     "serotonin-syndrome-risk",
     "dietary-restriction",
     "hypertensive-crisis-risk"
-  ]
+  ],
+  "halfLifeSource": "FDA label for Nardil (phenelzine sulfate), Clinical Pharmacology - Pharmacokinetics, Elimination",
+  "halfLifeNotes": "Single 30 mg dose; multiple-dose kinetics have never been studied in humans, and because phenelzine irreversibly inactivates MAO the 11.6 h plasma t½ is unrelated to the roughly two-week duration of enzyme inhibition."
 }

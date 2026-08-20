@@ -1,0 +1,6 @@
+{
+  "name": "Edoxaban",
+  "halfLifeMinutes": 720,
+  "halfLifeSource": "FDA label for SAVAYSA (edoxaban tosylate), Clinical Pharmacology 12.3 Pharmacokinetics/Elimination - t½ = 10 to 14 h",
+  "halfLifeNotes": "Terminal half-life after oral administration in healthy subjects, stated range 10-14 h (midpoint 12 h); exposure rises substantially with renal impairment."
+}

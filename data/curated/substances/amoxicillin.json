@@ -1,0 +1,6 @@
+{
+  "name": "Amoxicillin",
+  "halfLifeMinutes": 61,
+  "halfLifeSource": "FDA label for Amoxicillin (amoxicillin), Clinical Pharmacology/Pharmacokinetics — t½ = 61.3 minutes",
+  "halfLifeNotes": "Oral administration in healthy adults; the same 61.3 (±5.6) min value is reported in the abstract of pmid:4680813 (eight fasting volunteers, 500 mg oral)."
+}

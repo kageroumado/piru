@@ -1,0 +1,6 @@
+{
+  "name": "Cidofovir",
+  "halfLifeMinutes": 150,
+  "halfLifeSource": "pmid:7785989",
+  "halfLifeNotes": "Terminal plasma half-life of the parent in HIV-infected adults given intravenous cidofovir, dose-independent; the intracellular diphosphate metabolite persists far longer (>48 h), which is what allows weekly dosing."
+}

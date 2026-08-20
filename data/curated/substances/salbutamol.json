@@ -1,0 +1,6 @@
+{
+  "name": "Salbutamol",
+  "halfLifeMinutes": 360,
+  "halfLifeSource": "FDA label for Albuterol Sulfate Inhalation Aerosol (albuterol sulfate), Clinical Pharmacology 12.2 — terminal t½ ≈ 6 hours",
+  "halfLifeNotes": "Terminal plasma half-life ~6 h in healthy adults after oral inhalation of racemic albuterol (= salbutamol); the DrugBank hint of 3.3–4 h traces to levalbuterol, a different product, so the racemic-albuterol label wins."
+}

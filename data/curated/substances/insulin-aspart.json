@@ -1,0 +1,6 @@
+{
+  "name": "Insulin aspart",
+  "halfLifeMinutes": 81,
+  "halfLifeSource": "FDA label for NOVOLOG (insulin aspart), Clinical Pharmacology 12.3 Pharmacokinetics — t½ ≈ 81 min",
+  "halfLifeNotes": "Apparent half-life after subcutaneous dosing in healthy male volunteers; absorption-limited, so it reflects the injection depot rather than intrinsic clearance, and duration of glucose-lowering action is 3–5 h."
+}

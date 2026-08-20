@@ -1,0 +1,6 @@
+{
+  "name": "Fluorouracil",
+  "halfLifeMinutes": 14,
+  "halfLifeSource": "FDA label for Fluorouracil injection, Clinical Pharmacology 12.3 — t½ = 8–20 minutes (dose-dependent)",
+  "halfLifeNotes": "After bolus IV injection as a single agent the half-life increases with dose from 8 to 20 minutes; 14 min is the midpoint."
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Almotriptan",
+  "halfLifeMinutes": 210,
+  "halfLifeSource": "FDA label for Almotriptan Malate (almotriptan) tablets, Clinical Pharmacology 12.3 — t½ = 3–4 hours",
+  "halfLifeNotes": "Mean 3–4 h in adults after oral dosing; slightly longer in the elderly (3.7 vs 3.2 h)."
+}

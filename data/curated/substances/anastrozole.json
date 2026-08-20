@@ -1,0 +1,6 @@
+{
+  "name": "Anastrozole",
+  "halfLifeMinutes": 3000,
+  "halfLifeSource": "FDA label for Anastrozole (anastrozole) tablets, Clinical Pharmacology 12.3 — t½ = 50 hours",
+  "halfLifeNotes": "Mean elimination half-life in postmenopausal women (the studied population); ~85% hepatic elimination, steady state in ~7 days."
+}

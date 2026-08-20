@@ -1,0 +1,6 @@
+{
+  "name": "Insulin glulisine",
+  "halfLifeMinutes": 42,
+  "halfLifeSource": "FDA label for Apidra (insulin glulisine), Clinical Pharmacology/Pharmacokinetics — apparent t½ 42 minutes subcutaneous",
+  "halfLifeNotes": "Apparent half-life after subcutaneous injection (absorption-limited); the true elimination half-life after intravenous administration is 13 minutes."
+}

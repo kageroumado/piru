@@ -1,0 +1,6 @@
+{
+  "name": "Eplerenone",
+  "halfLifeMinutes": 270,
+  "halfLifeSource": "FDA label for Inspra (eplerenone), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 3-6 h",
+  "halfLifeNotes": "Elimination half-life approximately 3-6 h (oral; CYP3A4-cleared, steady state within 2 days); midpoint 4.5 h used."
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Esomeprazole",
+  "halfLifeMinutes": 75,
+  "halfLifeSource": "FDA label for esomeprazole magnesium delayed-release capsules (esomeprazole), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 1–1.5 h",
+  "halfLifeNotes": "Stated range 1–1.5 h (midpoint used); acid suppression far outlasts plasma exposure because proton-pump binding is covalent."
+}

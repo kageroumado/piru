@@ -1,0 +1,6 @@
+{
+  "name": "Repaglinide",
+  "halfLifeMinutes": 60,
+  "halfLifeSource": "FDA label for repaglinide tablets, Clinical Pharmacology 12.3 — t½ ≈ 1 h",
+  "halfLifeNotes": "Oral dosing in healthy subjects and type 2 diabetes patients; no accumulation with preprandial dosing."
+}

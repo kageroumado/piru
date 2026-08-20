@@ -1,0 +1,6 @@
+{
+  "name": "Cilastatin",
+  "halfLifeMinutes": 60,
+  "halfLifeSource": "FDA label for Imipenem and Cilastatin for Injection (imipenem/cilastatin), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 1 hour",
+  "halfLifeNotes": "After IV infusion in adults with normal renal function; in healthy elderly (65–75 y) the mean cilastatin half-life is 69 ± 15 minutes."
+}

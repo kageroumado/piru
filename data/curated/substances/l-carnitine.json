@@ -55,7 +55,7 @@
     "Fishy body odor possible via gut microbiome TMAO production",
     "GI upset at doses above 2g"
   ],
-  "halfLifeMinutes": 240,
+  "halfLifeMinutes": 1044,
   "sources": [
     "https://ods.od.nih.gov/factsheets/Carnitine-HealthProfessional/",
     "https://pubchem.ncbi.nlm.nih.gov/compound/10917",
@@ -67,5 +67,7 @@
     "amino-acid-derivative",
     "mitochondrial-support",
     "cardiovascular"
-  ]
+  ],
+  "halfLifeSource": "FDA label for Carnitor (levocarnitine), Pharmacokinetics - 20 mg/kg IV bolus, plasma concentrations uncorrected for endogenous levocarnitine",
+  "halfLifeNotes": "17.4 h is the apparent terminal t½ after IV dosing with no subtraction of the endogenous carnitine baseline; a 0.585 h distribution phase precedes it, and oral bioavailability is only ~15%."
 }

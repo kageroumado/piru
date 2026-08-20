@@ -1,0 +1,6 @@
+{
+  "name": "Etoposide",
+  "halfLifeMinutes": 450,
+  "halfLifeSource": "FDA label for Etoposide Injection, Clinical Pharmacology/Pharmacokinetics — terminal t½ 4 to 11 hours",
+  "halfLifeNotes": "Stated range 4–11 h after IV administration in cancer patients, dose-independent over 100–600 mg/m2; midpoint used."
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Piroxicam",
+  "halfLifeMinutes": 3000,
+  "halfLifeSource": "FDA label for Piroxicam capsules, Clinical Pharmacology/Pharmacokinetics — plasma half-life approximately 50 hours",
+  "halfLifeNotes": "Steady state takes 7-12 days; substantially longer in CYP2C9 poor metabolizers (up to 8.8-fold in *3/*3)."
+}

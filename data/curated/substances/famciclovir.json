@@ -1,0 +1,6 @@
+{
+  "name": "Famciclovir",
+  "halfLifeMinutes": 138,
+  "halfLifeSource": "FDA label for famciclovir tablets (famciclovir; Famvir generic), Clinical Pharmacology/Pharmacokinetics — penciclovir t½ 2.3 ± 0.4 h after oral famciclovir",
+  "halfLifeNotes": "Famciclovir is a prodrug with little or no parent detectable in plasma, so the value is the plasma half-life of the active moiety penciclovir after 500 mg oral famciclovir in 124 healthy male volunteers; the DrugBank 10 h hint corresponds to intracellular penciclovir triphosphate, not plasma elimination."
+}

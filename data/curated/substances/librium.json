@@ -1,0 +1,6 @@
+{
+  "name": "Librium",
+  "halfLifeMinutes": 600,
+  "halfLifeSource": "pmid:700911",
+  "halfLifeNotes": "Parent chlordiazepoxide after single 50 mg oral doses in 3 healthy volunteers (7.6-12.6 h, mean ~10 h; value from abstract); DrugBank's 24-48 h hint reflects the persistence of active metabolites (desmethylchlordiazepoxide, demoxepam), not the parent."
+}

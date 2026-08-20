@@ -1,0 +1,6 @@
+{
+  "name": "Ivermectin",
+  "halfLifeMinutes": 1080,
+  "halfLifeSource": "FDA label for STROMECTOL (ivermectin), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 18 hours",
+  "halfLifeNotes": "Plasma half-life of the parent after oral dosing in healthy volunteers; metabolites are excreted in feces over ~12 days."
+}

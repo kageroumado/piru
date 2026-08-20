@@ -1,0 +1,6 @@
+{
+  "name": "Bumetanide",
+  "halfLifeMinutes": 75,
+  "halfLifeSource": "FDA label for Bumetanide (bumetanide), Clinical Pharmacology - t½ ≈ 1 to 1½ h",
+  "halfLifeNotes": "Adults, oral or parenteral, stated range 1 to 1.5 h (midpoint 1.25 h); elimination is considerably slower in neonates (~6 h at birth)."
+}

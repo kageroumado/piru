@@ -1,0 +1,6 @@
+{
+  "name": "Umeclidinium",
+  "halfLifeMinutes": 660,
+  "halfLifeSource": "FDA label for Anoro Ellipta (umeclidinium and vilanterol), Clinical Pharmacology 12.3 — effective t½ 11 h",
+  "halfLifeNotes": "Effective (not terminal) half-life at steady state with once-daily dosing; the label sentence sits in the umeclidinium Excretion paragraph and says 'oral dosing' though the product is inhaled."
+}

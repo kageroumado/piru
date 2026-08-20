@@ -53,7 +53,7 @@
     "Dizziness, nausea, insomnia; slow onset of therapeutic effect",
     "Azapirone related to buspirone — delayed anxiolytic benefit"
   ],
-  "halfLifeMinutes": 150,
+  "halfLifeMinutes": 300,
   "sources": [
     "https://en.wikipedia.org/wiki/Gepirone",
     "https://pubchem.ncbi.nlm.nih.gov/compound/65829"
@@ -64,5 +64,7 @@
     "5HT1A-agonist",
     "azapirone",
     "prescription-only"
-  ]
+  ],
+  "halfLifeSource": "FDA label for Exxua (gepirone) extended-release tablets, Section 12.3 Pharmacokinetics - Elimination",
+  "halfLifeNotes": "Value is for the marketed ER tablet, whose Tmax is ~6 h; absolute bioavailability is 14-17%, and both major metabolites circulate at higher concentrations than the parent."
 }

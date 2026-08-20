@@ -1,0 +1,6 @@
+{
+  "name": "Linagliptin",
+  "halfLifeMinutes": 9300,
+  "halfLifeSource": "pmid:20086031",
+  "halfLifeNotes": "Terminal half-life in healthy male volunteers after a single oral [14C]linagliptin dose (155 h oral, 142 h intravenous); the long terminal phase reflects tight DPP-4 binding, so accumulation on repeat dosing is far smaller than this value implies."
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Busulfan",
+  "halfLifeMinutes": 156,
+  "halfLifeSource": "FDA label for Myleran (busulfan), Clinical Pharmacology — t½ ≈ 2.6 hours",
+  "halfLifeNotes": "Oral dosing (2–6 mg) in adult patients with linear kinetics; a second single-dose study in the same label reports 2.69 ± 0.49 hours."
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Paricalcitol",
+  "halfLifeMinutes": 300,
+  "halfLifeSource": "FDA label for Paricalcitol capsules, Clinical Pharmacology 12.3 — t½ = 4–6 hours (healthy adults)",
+  "halfLifeNotes": "Mean 4–6 h in healthy adult volunteers (oral); rises to 14–20 h in CKD stage 3–5 patients, the population actually treated."
+}

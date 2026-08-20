@@ -77,6 +77,17 @@ jobs:
       # all — that accept/reject line is pinned here, data-free.
       - name: DrugBank cross-check parser tests (half-life statements, identity)
         run: python3 pipeline/audit/tests/test_compare_to_drugbank.py
+      # Aliases are alternative names for ONE substance. Scoring each as its own
+      # claim term would divide every score by the length of the alias list and
+      # quietly demote correct citations on well-branded drugs.
+      - name: Citation topicality scoring (aliases help, never dilute)
+        run: python3 pipeline/audit/tests/test_verify_citations.py
+      # The DrugBank cross-check suppresses settled questions so they stop
+      # resurfacing as new work. A stale suppression hides real work instead,
+      # so each one must still name a substance that exists and, for a gap,
+      # one that still has no half-life.
+      - name: DrugBank adjudications stay true (no stale suppressions)
+        run: python3 pipeline/build/tests/test_drugbank_adjudications.py
       - name: Dedupe tests (exact rows, prose echoes, value duplicates)
         run: python3 pipeline/build/tests/test_dedupe.py
       - name: No duplicated values in the shipped DB

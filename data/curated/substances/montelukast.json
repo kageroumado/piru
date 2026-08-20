@@ -1,0 +1,6 @@
+{
+  "name": "Montelukast",
+  "halfLifeMinutes": 246,
+  "halfLifeSource": "FDA label for montelukast sodium (montelukast), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 2.7-5.5 h",
+  "halfLifeNotes": "Mean plasma half-life 2.7-5.5 h across several studies in healthy young adults (oral); slightly prolonged (7.4 h) in hepatic insufficiency; midpoint 4.1 h used."
+}

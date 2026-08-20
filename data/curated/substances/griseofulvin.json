@@ -1,0 +1,6 @@
+{
+  "name": "Griseofulvin",
+  "halfLifeMinutes": 990,
+  "halfLifeSource": "FDA label for Griseofulvin Microsize oral suspension (griseofulvin), Clinical Pharmacology — t½ 9 to 24 hours",
+  "halfLifeNotes": "Midpoint of the label's stated range \"9 to 24 hours\"; elimination is notably variable between individuals and absorption depends strongly on formulation and fat intake."
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Bleomycin",
+  "halfLifeMinutes": 120,
+  "halfLifeSource": "FDA label for Bleomycin (bleomycin sulfate), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 2 hours",
+  "halfLifeNotes": "Mean terminal half-life after IV bolus in patients with normal renal function; increases exponentially as creatinine clearance falls."
+}

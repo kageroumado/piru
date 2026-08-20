@@ -39,7 +39,7 @@
     "QT prolongation; orthostatic hypotension",
     "Anticholinergic side effects at higher doses"
   ],
-  "halfLifeMinutes": 1080,
+  "halfLifeMinutes": 510,
   "sources": [
     "https://en.wikipedia.org/wiki/Prochlorperazine",
     "https://pubchem.ncbi.nlm.nih.gov/compound/4917"
@@ -52,5 +52,7 @@
     "EPS-risk",
     "QT-prolonging",
     "prescription-only"
-  ]
+  ],
+  "halfLifeSource": "pmid:1768559",
+  "halfLifeNotes": "Single-dose terminal t½ in healthy young males: 9 ± 1 h IV and 8 ± 2 h oral; the same study measured 18 ± 4 h after 14 days of 25 mg twice-daily dosing, so the previous 18 h value was the steady-state accumulation figure."
 }

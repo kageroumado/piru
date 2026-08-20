@@ -68,6 +68,7 @@ python3 pipeline/build/tests/test_sqlite.py
 python3 pipeline/build/tests/test_overlay_integrity.py
 python3 pipeline/build/tests/test_psid.py
 python3 pipeline/fetch/brushers/test_freeodwiki_extract.py
+python3 pipeline/build/tests/test_drugbank_adjudications.py
 
 step "10/10  Citation link gate (offline — no network)"
 python3 pipeline/audit/validate_links.py --gate

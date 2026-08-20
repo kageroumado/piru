@@ -1,0 +1,6 @@
+{
+  "name": "Zanamivir",
+  "halfLifeMinutes": 228,
+  "halfLifeSource": "FDA label for RELENZA (zanamivir), Clinical Pharmacology 12.3 — serum t½ = 2.5–5.1 hours (oral inhalation)",
+  "halfLifeNotes": "Serum half-life 2.5–5.1 h after oral inhalation (midpoint 3.8 h); only 4–17% of the inhaled dose is systemically absorbed and elimination is renal, unchanged."
+}

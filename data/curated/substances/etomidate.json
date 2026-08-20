@@ -1,0 +1,6 @@
+{
+  "name": "Etomidate",
+  "halfLifeMinutes": 75,
+  "halfLifeSource": "FDA label for Etomidate injection, Clinical Pharmacology — t½ ≈ 75 minutes",
+  "halfLifeNotes": "Terminal phase after IV induction dosing; approximately doubled in cirrhosis with esophageal varices."
+}

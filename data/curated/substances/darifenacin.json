@@ -1,0 +1,6 @@
+{
+  "name": "Darifenacin",
+  "halfLifeMinutes": 960,
+  "halfLifeSource": "FDA label for darifenacin extended-release tablets, Clinical Pharmacology 12.3 — t½ ≈ 13–19 h",
+  "halfLifeNotes": "Midpoint of the label's 13 to 19 hours at steady state with extended-release tablets; longer in CYP2D6 poor metabolizers."
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Ifosfamide",
+  "halfLifeMinutes": 420,
+  "halfLifeSource": "FDA label for ifosfamide injection (ifosfamide), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 7 h at conventional doses",
+  "halfLifeNotes": "Dose-dependent: about 7 h at conventional fractionated doses (1.6–2.4 g/m²/day, the value used) and about 15 h after single high doses (3.8–5 g/m²); IV, cancer patients."
+}

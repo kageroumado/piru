@@ -1,0 +1,6 @@
+{
+  "name": "Leucovorin",
+  "halfLifeMinutes": 372,
+  "halfLifeSource": "FDA label for Leucovorin Calcium (leucovorin calcium), Clinical Pharmacology - terminal t½ = 6.2 h",
+  "halfLifeNotes": "25 mg IV/IM dose in male volunteers, measured as total reduced folates (parent 5-formyl-THF converts rapidly to circulating 5-methyl-THF, so the label states no parent-only value); oral gives 5.7 h."
+}

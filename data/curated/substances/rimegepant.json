@@ -1,0 +1,6 @@
+{
+  "name": "Rimegepant",
+  "halfLifeMinutes": 660,
+  "halfLifeSource": "FDA label for Nurtec ODT (rimegepant), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 11 h",
+  "halfLifeNotes": "Healthy subjects, oral disintegrating tablet; exposure rises up to 4-fold with strong CYP3A4 inhibitors."
+}

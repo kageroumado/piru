@@ -1,0 +1,6 @@
+{
+  "name": "Fenoprofen",
+  "halfLifeMinutes": 180,
+  "halfLifeSource": "FDA label for fenoprofen calcium, Clinical Pharmacology 12.3 — t½ ≈ 3 h",
+  "halfLifeNotes": "Oral dosing; half-life unchanged in the elderly despite lower plasma clearance."
+}

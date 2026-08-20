@@ -1,0 +1,6 @@
+{
+  "name": "Ipratropium",
+  "halfLifeMinutes": 120,
+  "halfLifeSource": "FDA label for Atrovent HFA (ipratropium bromide), Clinical Pharmacology 12.3 — t½ ≈ 2 h",
+  "halfLifeNotes": "Same value after inhalation or intravenous administration; quaternary amine with minimal systemic absorption from lung or gut."
+}

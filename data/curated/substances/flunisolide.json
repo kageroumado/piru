@@ -1,0 +1,6 @@
+{
+  "name": "Flunisolide",
+  "halfLifeMinutes": 90,
+  "halfLifeSource": "FDA label for Flunisolide Nasal Solution (flunisolide), Clinical Pharmacology — plasma t½ 1 to 2 hours",
+  "halfLifeNotes": "Stated range 1–2 hours (midpoint used); extensive first-pass hepatic conversion to a much less active metabolite."
+}

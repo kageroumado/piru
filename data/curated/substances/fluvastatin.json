@@ -1,0 +1,6 @@
+{
+  "name": "Fluvastatin",
+  "halfLifeMinutes": 180,
+  "halfLifeSource": "FDA label for Fluvastatin capsules, Clinical Pharmacology 12.3 — t½ ≈ 3 hours",
+  "halfLifeNotes": "Immediate-release capsule after oral dosing; the extended-release 80 mg tablet has a longer apparent half-life."
+}

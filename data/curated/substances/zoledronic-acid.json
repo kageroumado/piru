@@ -1,0 +1,6 @@
+{
+  "name": "Zoledronic acid",
+  "halfLifeMinutes": 8760,
+  "halfLifeSource": "FDA label for Zoledronic acid (zoledronic acid injection), Clinical Pharmacology/Pharmacokinetics — terminal t1/2 = 146 h",
+  "halfLifeNotes": "IV infusion in cancer patients with bone metastases; disposition is triphasic (t1/2-alpha 0.24 h, t1/2-beta 1.87 h) and the 146 h terminal phase reflects slow release of bone-bound drug at very low plasma concentrations."
+}

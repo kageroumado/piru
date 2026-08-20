@@ -1,0 +1,6 @@
+{
+  "name": "Clarithromycin",
+  "halfLifeMinutes": 210,
+  "halfLifeSource": "FDA label for Clarithromycin tablets, Clinical Pharmacology 12.3 — t½ ≈ 3–4 hours (250 mg q12h)",
+  "halfLifeNotes": "Dose-dependent (nonlinear): about 3–4 h at 250 mg every 12 h, rising to 5–7 h at 500 mg every 8–12 h; 210 min is the 250 mg midpoint."
+}

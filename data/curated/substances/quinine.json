@@ -1,0 +1,6 @@
+{
+  "name": "Quinine",
+  "halfLifeMinutes": 666,
+  "halfLifeSource": "FDA label for Quinine Sulfate (quinine sulfate), Clinical Pharmacology/Pharmacokinetics — t1/2 ≈ 9.7-12.5 h in healthy subjects",
+  "halfLifeNotes": "Healthy subjects after a single oral 600 mg dose (midpoint of 9.7-12.5 h used); prolonged in the elderly (~18-24 h), malaria, and hepatic/renal impairment."
+}
