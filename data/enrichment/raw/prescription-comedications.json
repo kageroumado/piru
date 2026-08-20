@@ -129,9 +129,11 @@
     },
     "drug_interactions_pk": [],
     "pharmacogenetics": {
-      "relevant_genes": [],
-      "phenotype_effects": null,
-      "reference": null
+      "relevant_genes": [
+        "SLCO1B1"
+      ],
+      "phenotype_effects": "The gene that changes simvastatin for a person is SLCO1B1, which encodes OATP1B1, the liver transporter that pulls simvastatin out of the blood and into liver cells. Reduced-function variants leave more drug circulating and raise the risk of statin muscle injury, and the risk climbs with the number of variant copies. The association was found at 80 mg daily and replicated in a separate trial at 40 mg daily. SEARCH genome-wide study, 85 myopathy cases versus 90 controls: \"The odds ratio for myopathy was 4.5 (95% confidence interval [CI], 2.6 to 7.7) per copy of the C allele, and 16.9 (95% CI, 4.7 to 61.1) in CC as compared with TT homozygotes.\"",
+      "reference": "pmid:18650507"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,
@@ -1591,5 +1593,927 @@
         "notes": "\"CERDELGA is primarily metabolized by CYP2D6 and to a lesser extent by CYP3A4.\" (FDA label, Clinical Pharmacology 12.3 — Metabolism). The secondary pathway still carries large clinical exposure changes — ketoconazole raised eliglustat AUC 4.4-fold in CYP2D6 extensive metabolizers (same label, Table 9)."
       }
     ]
+  },
+  {
+    "name": "Nortriptyline",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "Nortriptyline is already a secondary amine, so CYP2D6 hydroxylation to a less active metabolite is its one polymorphic clearance route and CYP2D6 phenotype moves its blood level directly. Poor metabolizers reach higher concentrations at the same dose and are correspondingly more exposed to the anticholinergic, central-nervous-system and cardiac effects of tricyclics; ultrarapid metabolizers may sit below the concentrations at which the drug works, while intermediate metabolizers land closer to normal than the label of the phenotype suggests. CPIC's tricyclic guideline states that \"Adverse effects are more likely in CYP2D6 poor metabolizers due to elevated tricyclic plasma concentrations\" and that \"CYP2D6 ultrarapid metabolizers have a higher probability of failing amitriptyline or nortriptyline pharmacotherapy due to subtherapeutic plasma concentrations\", and adds that \"Patients with one functional and one nonfunctional CYP2D6 allele do not have significantly different nortriptyline plasma concentrations as compared with patients with two functional CYP2D6 alleles, although another study reported conflicting data\" (Hicks et al., CPIC guideline for CYP2D6 and CYP2C19 genotypes and dosing of tricyclic antidepressants, Clin Pharmacol Ther 2013).",
+      "reference": "pmid:23486447"
+    }
+  },
+  {
+    "name": "Doxepin",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6",
+        "CYP2C19"
+      ],
+      "phenotype_effects": "Doxepin follows the tertiary-amine pattern — CYP2C19 demethylation to a secondary amine, CYP2D6 hydroxylation of both to less active compounds — so CYP2D6 phenotype scales how much drug is present and CYP2C19 phenotype shifts the parent-to-metabolite balance. Doxepin also has the heaviest first-pass metabolism of the group, which is where a phenotype difference gets amplified. This is predicted from the class rather than measured for doxepin: CPIC states that \"Adverse effects are more likely in CYP2D6 poor metabolizers due to elevated tricyclic plasma concentrations\", that \"the average first-pass metabolism of doxepin may be closer to 70%\", and that \"the results of these studies may apply to other tricyclics because these drugs have comparable pharmacokinetic properties\" (Hicks et al., CPIC guideline for CYP2D6 and CYP2C19 genotypes and dosing of tricyclic antidepressants, Clin Pharmacol Ther 2013).",
+      "reference": "pmid:23486447"
+    }
+  },
+  {
+    "name": "Vortioxetine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "Vortioxetine's activity comes from the parent molecule, and CYP2D6 is the main enzyme that retires it into an inactive acid — so a slow CYP2D6 means straightforwardly more active drug, with a roughly two-fold difference in plasma concentration between poor and normal metabolizers. The FDA label for Trintellix states: \"Vortioxetine pharmacological activity is due to the parent drug\" and \"CYP2D6 is the primary enzyme catalyzing the metabolism of vortioxetine to its major, pharmacologically inactive, carboxylic acid metabolite, and poor metabolizers of CYP2D6 have approximately twice the vortioxetine plasma concentration of extensive metabolizers\".",
+      "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1a5b68e2-14d0-419d-9ec6-1ca97145e838"
+    }
+  },
+  {
+    "name": "Duloxetine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "Duloxetine is cleared by CYP1A2 and CYP2D6 together, and that redundancy limits how much CYP2D6 phenotype alone can do: poor metabolizers do carry more duloxetine, but the shift is smaller than the one CYP1A2 produces, which is why smoking (a CYP1A2 inducer) moves duloxetine levels about as much as genotype does. A review of the drug's clinical pharmacokinetics reports that \"Patient demographic characteristics found to influence the pharmacokinetics of duloxetine include sex, smoking status, age, ethnicity, cytochrome P450 (CYP) 2D6 genotype, hepatic function and renal function\" and that \"The exposure of duloxetine with CYP2D6 inhibitors or in CYP2D6 poor metabolizers is increased to a lesser extent than that observed with CYP1A2 inhibition\" (Knadler et al., Duloxetine: clinical pharmacokinetics and drug interactions, Clin Pharmacokinet 2011).",
+      "reference": "pmid:21366359"
+    }
+  },
+  {
+    "name": "Brexpiprazole",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "CYP2D6 and CYP3A4 together carry brexpiprazole's metabolism, so CYP2D6 poor metabolizers run higher blood levels on the same dose. Evidence for intermediate and ultrarapid metabolizers is thin: the Dutch Pharmacogenetics Working Group's 2024 review (PMID 37002327) found a single published pharmacokinetic study, showing a non-significant rise in dose-corrected exposure across six intermediate metabolizers with no adverse effects. The FDA label states that known CYP2D6 poor metabolizers \"have higher brexpiprazole concentrations than normal metabolizers of CYP2D6.\"",
+      "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2d301358-6291-4ec1-bd87-37b4ad9bd850"
+    }
+  },
+  {
+    "name": "Paliperidone",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "Paliperidone is already risperidone's CYP2D6 metabolite, and it leaves the body largely intact — about 59% of a dose is excreted unchanged in urine — so CYP2D6 phenotype has little to work on. Laboratory studies implicate CYP2D6 and CYP3A4, but in people those enzymes account for only a small share of its clearance; renal function, not metabolizer status, is what moves paliperidone exposure. The FDA label states: \"Population pharmacokinetic analyses found no difference in exposure or clearance of paliperidone between extensive metabolizers and poor metabolizers of CYP2D6 substrates.\"",
+      "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=018cf3ca-bee9-23a6-e063-6394a90ad905"
+    }
+  },
+  {
+    "name": "Haloperidol",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "Glucuronidation carries most of haloperidol's clearance, with CYP2D6 and CYP3A4 as secondary routes, yet CYP2D6 phenotype still moves blood levels in both directions — poor and intermediate metabolizers higher, ultrarapid metabolizers lower. The Dutch Pharmacogenetics Working Group's 2024 systematic review states: \"Haloperidol plasma concentrations were increased for CYP2D6 PMs and IMs in multiple studies. One study with five PMs reported a higher score for extrapyramidal symptoms and one PM case with serious adverse effects is described. No clinically significant effects were found for IM. For CYP2D6 UMs, haloperidol concentration was decreased.\" The clinical evidence at each end rests on very small numbers of people.",
+      "reference": "pmid:37002327"
+    }
+  },
+  {
+    "name": "Clozapine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "Clozapine's clearance runs mainly through CYP1A2, with CYP2D6 and CYP3A4 as side routes, so CYP2D6 phenotype has limited leverage on its blood levels; smoking status and inflammation move them more. The US label cautions that poor metabolizers \"may develop higher than expected plasma concentrations of clozapine when given usual doses,\" while the Dutch Pharmacogenetics Working Group's 2024 systematic review found the effect small and without clinical consequence: \"A small effect of predicted CYP2D6 activity on the plasma concentration of clozapine was observed in one study, while multiple studies reported no differences in plasma concentrations between CYP2D6 phenotypes. Multiple studies showed no increase in adverse effects, including the development of agranulocytosis, for PM, IM and UM patients.\"",
+      "reference": "pmid:37002327"
+    }
+  },
+  {
+    "name": "Metoprolol",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "This is the one beta-blocker where CYP2D6 phenotype has a measured, replicated effect. Poor metabolizers clear metoprolol far more slowly, so the same amount of drug stays in the blood much longer and the beta-blockade is correspondingly stronger — roughly 3-8 more beats per minute of heart-rate reduction and about 3-6 mmHg more systolic drop than in normal metabolizers. Intermediate metabolizers sit between the two with a smaller shift whose effect on response is unclear, and there is not enough evidence to say whether ultrarapid metabolizers differ at all; because beta-blocker response is sigmoid, exposure past a certain point stops adding effect. The CPIC beta-blocker guideline states: \"Compared with CYP2D6 normal metabolizers, poor metabolizers given the same dose of metoprolol experience more than a two-fold longer elimination half-life, with a nearly five-fold increase in area under the plasma concentration-time curve (AUC).\"",
+      "reference": "pmid:38951961"
+    }
+  },
+  {
+    "name": "Carvedilol",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "CYP2D6 intermediate and poor metabolizers do reach higher carvedilol blood levels, but that exposure difference has not reliably shown up as a different heart-rate or blood-pressure response — CYP2D6 turns carvedilol into both active and inactive metabolites, so slower metabolism does not simply mean more beta-blockade. CPIC reviewed carvedilol alongside metoprolol and graded it level C, no recommendation. From the CPIC beta-blocker guideline: \"CYP2D6 metabolizes carvedilol to both pharmacologically inactive and active metabolites, which may explain why significant differences in carvedilol exposure by CYP2D6 phenotype do not seem to consistently translate into significant differences in clinical response.\"",
+      "reference": "pmid:38951961"
+    }
+  },
+  {
+    "name": "Nebivolol",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "CYP2D6 poor metabolizers hold onto the active d-nebivolol isomer much longer (effective half-life about 19 hours versus about 12 hours) and reach far higher levels of it, and at higher exposure nebivolol stops being beta-1 selective and blocks beta-2 receptors as well. The exposure gap matters less than the numbers suggest, because nebivolol's own metabolites are themselves beta-blockers and make up most of what is circulating. The FDA label (Bystolic, Clinical Pharmacology 12.3) states: \"For the same dose, PMs attain a 5-fold higher Cmax and 10-fold higher AUC of d-nebivolol than do EMs\" and \"This has less importance than usual, however, because the metabolites, including the hydroxyl metabolite and glucuronides (the predominant circulating metabolites), contribute to beta-blocking activity.\"",
+      "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8b8ad213-1dc8-454e-a524-075685c0e1a8"
+    }
+  },
+  {
+    "name": "Diltiazem",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "CYP2D6 phenotype leaves diltiazem itself alone but changes what builds up behind it: poor metabolizers accumulate the active metabolites desacetyl diltiazem and N-demethyldesacetyl diltiazem, which carry calcium-channel activity of their own. The finding comes from a small single-dose study (five people per genotype group) and a larger Chinese cohort saw a smaller 2-fold rise in desacetyl diltiazem for CYP2D6*10/*10 carriers, so the size of the effect is uncertain and no clinical consequence has been established. Molden et al. 2002: \"The pharmacokinetics of diltiazem was not significantly different between the subgroups. However, the systemic exposure of the pharmacologically active metabolites desacetyl diltiazem and N-demethyldesacetyl diltiazem was >= 5 times higher in poor CYP2D6 metabolizers than in extensive CYP2D6 metabolizers (P < .01).\"",
+      "reference": "pmid:12235455"
+    }
+  },
+  {
+    "name": "Ondansetron",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "CYP2D6 ultrarapid metabolizers break ondansetron down faster and reach lower plasma levels, and the consequence that has actually been measured is loss of antiemetic effect — they vomit more. Poor and intermediate metabolizers behave like normal metabolizers: exposure and vomiting rates line up, so slower metabolism buys nothing here. The CPIC guideline reports that in 250 patients given ondansetron before extubation, \"CYP2D6 ultrarapid metabolizers had the highest incidence of vomiting (45%) as compared to normal metabolizers (15%)\", that \"Gene duplication has been shown to be associated with higher metabolism and clearance of ondansetron resulting in lower area under the plasma concentration-time curve\", and that \"the pharmacokinetics of intravenous ondansetron did not differ between CYP2D6 poor metabolizers and CYP2D6 normal metabolizers\" (Bell et al., CPIC guideline for CYP2D6 genotype and use of ondansetron and tropisetron, Clin Pharmacol Ther 2017).",
+      "reference": "pmid:28002639"
+    }
+  },
+  {
+    "name": "Metoclopramide",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "CYP2D6 forms metoclopramide's major oxidative metabolite, so poor metabolizers eliminate it more slowly and carry higher plasma levels at a given dose — and because metoclopramide's adverse effects are dopamine-blocking motor effects, the documented consequence is a higher risk of dystonic reactions. Intermediate metabolizers sit partway along the same gradient. The FDA label states: \"Metoclopramide is a substrate of CYP2D6. The elimination of metoclopramide may be slowed in patients who are CYP2D6 poor metabolizers (compared to patients who are CYP2D6 intermediate, extensive, or ultra-rapid metabolizers); possibly increasing the risk of dystonic and other adverse reactions to metoclopramide.\" A genotyped single-dose study puts numbers on the exposure shift: relative to CYP2D6 *wt/*wt, AUC rose 1.5-, 2.3- and 2.5-fold in *wt/*10, *10/*10 and *5/*10 subjects, with apparent clearance falling 37%, 56% and 61% (Bae et al., Arch Pharm Res 2020, pmid:33247397).",
+      "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=15d616d7-2f4c-4882-a03c-fcc86c18f5f8"
+    }
+  },
+  {
+    "name": "Tamsulosin",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "CYP2D6 and CYP3A4 together carry about 90% of tamsulosin's metabolism, and CYP2D6 phenotype moves exposure by roughly a factor of two: poor and intermediate metabolizers reach about double the plasma exposure of normal and ultrarapid metabolizers, with a longer half-life and lower apparent clearance. In 79 healthy volunteers, \"CYP2D6 phenotype severely affected tamsulosin pharmacokinetics. PMs and IMs presented twice higher exposure to tamsulosin than UMs and NMs.\" (Villapalos-García et al., Front Pharmacol 2021). That study found no difference in adverse-reaction rates between phenotype groups, but it was small and not designed to detect one. The FDA label reaches the same expectation from the other direction: a strong CYP2D6 inhibitor (paroxetine) raised tamsulosin Cmax 1.3-fold and AUC 1.6-fold, and \"A similar increase in exposure is expected in CYP2D6 poor metabolizers (PM) as compared to extensive metabolizers (EM).\"",
+      "reference": "pmid:34690761"
+    }
+  },
+  {
+    "name": "Mirabegron",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "CYP3A carries most of mirabegron's oxidative metabolism and CYP2D6 only a minor share, so phenotype barely moves exposure. Ultrarapid metabolizers run somewhat lower; poor, intermediate and normal metabolizers are indistinguishable from one another at steady state. The phenotype study found: \"Steady-state mirabegron pharmacokinetic parameters (50 and 100 mg mirabegron OCAS) were similar in 13 CYP2D6 poor, 40 intermediate, and 99 extensive metabolizers, whereas Cmax and AUC under the dosing interval τ of 24 h (AUCτ) were 30-47 % lower in 10 ultrarapid metabolizers\", with the authors concluding \"The effect of CYP2D6 phenotype on mirabegron exposure is small and likely of limited clinical importance.\" (Lee et al., Clin Drug Investig 2013). After an immediate-release dose, poor metabolizers ran only 14% higher Cmax and 19% higher AUC than extensive metabolizers.",
+      "reference": "pmid:23625188"
+    }
+  },
+  {
+    "name": "Celecoxib",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2C9"
+      ],
+      "phenotype_effects": "Celecoxib's phenotype story runs through CYP2C9, and the effect is large at the low end: poor metabolizers clear it far more slowly, hold a much longer half-life, and reach several-fold higher plasma levels at the same dose. Intermediate metabolizers split by how much function is left — those with an activity score of 1 are moderately higher, those with the milder *1/*2 pattern are indistinguishable from normal metabolizers. CYP2C9 has no known increased-function alleles, so there is no ultrarapid phenotype at the other end. The CPIC NSAID guideline's meta-analyses report \"a ~400% increase of celecoxib exposure (ratio of means 4.17, 95% CI 1.85 – 9.37 *3/*3 vs. *1/*1, p=0.005)\" in poor metabolizers, \"a ~60% increase of celecoxib AUC (ratio of means 1.62, 95% CI 1.25 – 2.10 *1/*3 vs. *1/*1, p=0.004)\" in intermediate metabolizers with an activity score of 1, and that the CYP2C9*1/*2 genotype \"had no effect on celecoxib exposure (ratio of means 0.98, 95% confidence interval (CI) 0.8 – 1.2 vs. *1/*1)\" (Theken et al., CPIC guideline for CYP2C9 and nonsteroidal anti-inflammatory drugs, Clin Pharmacol Ther 2020).",
+      "reference": "pmid:32189324"
+    }
+  },
+  {
+    "name": "Phenytoin",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2C9",
+        "HLA-B"
+      ],
+      "phenotype_effects": "Phenytoin's genetics split across two genes doing two different things: CYP2C9 governs how fast it is cleared, and HLA-B governs the risk of a severe skin reaction. CYP2C9 poor metabolizers eliminate phenytoin slowly and reach higher plasma levels for the same dose, which matters more than usual because the gap between the effective and the toxic concentration is narrow and phenytoin's kinetics saturate; intermediate metabolizers with an activity score of 1 sit partway there, and CYP2C9 has no ultrarapid phenotype. The CPIC guideline states: \"Phenytoin is an antiepileptic drug with a narrow therapeutic index and large inter-patient pharmacokinetic variability, partly due to genetic variation in CYP2C9. Furthermore, the variant allele HLA-B*15:02 is associated with an increased risk of Stevens-Johnson syndrome and toxic epidermal necrolysis in response to phenytoin treatment.\" It adds that \"multiple case studies have observed that CYP2C9 PMs are at increased risk for exposure-related phenytoin toxicities, and multiple studies have observed an association between the CYP2C9*3 allele and SJS/TEN\" (Karnes et al., 2020 update, Clin Pharmacol Ther).",
+      "reference": "pmid:32779747"
+    }
+  },
+  {
+    "name": "Meclizine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "CYP2D6 is the dominant enzyme clearing meclizine, so poor metabolizers are predicted to hold higher plasma levels for longer — more sedation and anticholinergic effect from the same dose — with intermediate metabolizers partway along and ultrarapid metabolizers lower. This is an inference from the clearance pathway rather than a measurement: the enzyme assignment comes from liver microsomes and recombinant enzymes, and no study has compared meclizine exposure or effect between CYP2D6 phenotype groups in people. The FDA label reports the in-vitro basis and nothing beyond it: \"In an in vitro metabolic study using human hepatic microsome and recombinant CYP enzyme, CYP2D6 was found to be the dominant enzyme for metabolism of meclizine.\" The study behind that line adds that CYP2D6's \"genetic polymorphism could contribute to the large interindividual variability\" (Wang et al., J Clin Pharmacol 2011, pmid:21903894).",
+      "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1079db3f-d8ad-4c25-aa91-8ac8054ee4f2"
+    }
+  },
+  {
+    "name": "Benzocaine",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "G6PD"
+      ],
+      "phenotype_effects": "Benzocaine's genetic story is about susceptibility to its known adverse effect — methemoglobinemia, in which the blood carries less oxygen — rather than about how fast it is cleared. People with glucose-6-phosphate dehydrogenase (G6PD) deficiency or with congenital methemoglobinemia are more likely to show the condition after benzocaine exposure, as are infants under six months. The FDA label for a benzocaine-containing topical anesthetic states: \"Although all patients are at risk for methemoglobinemia, patients with glucose-6-phosphate dehydrogenase deficiency, congenital or idiopathic methemoglobinemia, cardiac or pulmonary compromise, infants under 6 months of age, and concurrent exposure to oxidizing agents or their metabolites are more susceptible to developing clinical manifestations of the condition.\"",
+      "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9777acbb-8166-4734-9932-dc66b05bfcb5"
+    }
   }
 ]

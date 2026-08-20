@@ -170,5 +170,153 @@
       "metabolite": "1,3,7-Trimethyluric acid",
       "reason": "The C-8 oxidation product: inactive, and a minor fate beside the three N-demethylations that carry ~94% of the dose (79.6% paraxanthine, 10.8% theobromine, 3.7% theophylline; pmid:3756066). Nothing in the app reads it — it is not a substance we carry, it drives no modulator or metabolizer card, and the enzyme rows that do are already present."
     }
+  ],
+  "metabolizer_coverage": [
+    {
+      "substance": "Vilazodone",
+      "reason": "CYP2D6 is a minor pathway with no reported phenotype effect. The FDA label (dailymed setid 0374fbb1-b0fb-4150-b1e7-92e2b0d32ecf) states that vilazodone is metabolized through CYP and non-CYP pathways and that \"CYP3A4 is primarily responsible for its metabolism among CYP pathways, with minor contributions from CYP2C19 and CYP2D6\"; the label reports no exposure difference by CYP2D6 phenotype, and I found no primary study comparing phenotype groups."
+    },
+    {
+      "substance": "Selegiline",
+      "reason": "CYP2D6 has no established role in selegiline metabolism, so there is no CYP2D6 phenotype effect to describe. The FDA label's clinical pharmacology section names no CYP enzyme at all, and a recombinant-enzyme study concluded that \"In contrast to previous reports, we could not find any role for CYP2D6 in the metabolism of selegiline. The data strongly indicate that the high extent of interindividual variation seen in vivo for selegiline clearance is caused by the metabolism of the compound by the highly polymorphic CYP2B6 and CYP2C19\" (Hidestrand et al., Drug Metab Dispos 2001, pmid:11602525). If Piru later wants a non-CYP2D6 pharmacogenetics row, selegiline is a CYP2B6/CYP2C19 candidate — but the evidence there is in vitro, not a human phenotype-group comparison."
+    },
+    {
+      "substance": "Cariprazine",
+      "reason": "CYP3A4 dominates; the Vraylar label states outright that \"CYP2D6 poor metabolizer status does not have clinically relevant effect on pharmacokinetics of cariprazine, DCAR, or DDCAR\" and that CYP2D6 inhibitors are not expected to influence it either. Nothing changes with phenotype, so there is no row to write. (dailymed setid 4b5f7c65-aa2d-452a-b3db-bc85c06ff12f)"
+    },
+    {
+      "substance": "Olanzapine",
+      "reason": "Primarily UGT and CYP1A2, with CYP2D6 far behind. The DPWG 2024 systematic review (pmid:37002327) concluded there is no CYP2D6 gene-drug interaction: the majority of included studies found no pharmacokinetic differences between CYP2D6 phenotypes, and it names olanzapine as an alternative for patients with CYP2D6 variants."
+    },
+    {
+      "substance": "Quetiapine",
+      "reason": "CYP2D6 contributes only a limited 7-hydroxylation step; the DPWG 2024 review (pmid:37002327) concluded there is no CYP2D6 gene-drug interaction for quetiapine. Note for the lead: the same review does establish a large CYP3A4 effect — dose-corrected serum concentration a factor 3.2 higher in CYP3A4 PMs (*22/*22) and 1.2 in IMs, from one study of 207 NMs / 29 IMs / 2 PMs. That would make a well-sourced row keyed on CYP3A4 rather than CYP2D6; left out here because it is outside the CYP2D6 work-list."
+    },
+    {
+      "substance": "Chlorpromazine",
+      "reason": "CYP2D6 handles part of chlorpromazine's oxidation, but no phenotype-stratified exposure study specific to chlorpromazine supports a stated effect. The nearest source, a review of antipsychotic pharmacogenetics (pmid:10688273), reports only that steady-state concentrations of \"some classical neuroleptics\" track CYP2D6 activity and that the usefulness of phenotype for predicting clinical effects \"must be further explored.\" Writing a row would mean inventing the size and direction of the effect."
+    },
+    {
+      "substance": "Prochlorperazine",
+      "reason": "Directly measured and negative: in 48 cancer patients on oral prochlorperazine, \"The CYP genotypes did not affect the plasma concentrations of prochlorperazine and its metabolites\" (pmid:28853295, CYP2C19/CYP2D6/CYP3A5 genotyped). A CYP2D6*41 family case report of acute dystonia exists (pmid:34407866) but is a single pedigree with no exposure data."
+    },
+    {
+      "substance": "Quinine",
+      "reason": "Quinine's CYP2D6 relevance is on the inhibitor side, not the substrate side — its own clearance runs through CYP3A4 to 3-hydroxyquinine. No phenotype-stratified exposure study establishes that a person's CYP2D6 status changes quinine exposure, so per the batch instruction only the substrate side was considered and there is nothing to record."
+    },
+    {
+      "substance": "Buprenorphine",
+      "reason": "CYP3A4 runs buprenorphine's primary N-dealkylation to norbuprenorphine; in recombinant-enzyme work, of eight CYPs tested (including CYP2D6) only CYP3A4 catalyzed the reaction (pmid:9698298). No published comparison of buprenorphine exposure or effect between CYP2D6 phenotype groups. Piru already carries a buprenorphine pharmacogenetics row naming CYP3A4/5, CYP2C8, OPRM1 and UGT2B7, which are the genes that actually move its exposure."
+    },
+    {
+      "substance": "Loperamide",
+      "reason": "The FDA label puts loperamide N-demethylation on CYP2C8 and CYP3A4, adding that \"CYP2B6 and CYP2D6 appear to play a minor role in loperamide N-demethylation\" (setid 03c907d5-87f8-47a6-9544-5a24f5272739). What governs how much loperamide reaches the brain is P-glycoprotein, not CYP2D6; no PM/UM exposure or response comparison exists to report."
+    },
+    {
+      "substance": "Labetalol",
+      "reason": "Cleared by conjugation, not oxidation — the FDA label states \"The metabolism of labetalol is mainly through conjugation to glucuronide metabolites\" (setid 04f9dcdf-4023-48ee-9e7d-ca9366d9db72). CPIC's 2024 beta-blocker guideline included labetalol in its systematic review and found insufficient evidence for any CYP2D6 recommendation (pmid:38951961)."
+    },
+    {
+      "substance": "Atenolol",
+      "reason": "Atenolol is not meaningfully metabolized at all — the FDA label states \"Unlike propranolol or metoprolol, but like nadolol, atenolol undergoes little or no metabolism by the liver, and the absorbed portion is eliminated primarily by renal excretion\" (setid 09b21985-1818-449d-9b29-98f733cf7b9f). CPIC reviewed atenolol and made no CYP2D6 recommendation; kidney function, not CYP2D6 phenotype, is what changes atenolol exposure."
+    },
+    {
+      "substance": "Loratadine",
+      "reason": "Conversion of loratadine to desloratadine is shared between CYP3A4 and CYP2D6, and no CYP2D6 phenotype group has been shown to differ in loratadine exposure or effect. The one genuine metabolizer phenotype in this drug's story belongs to desloratadine and has no gene attached to it: the FDA desloratadine label reports that ~6% of 3,748 subjects were 'poor metabolizers of desloratadine' with median AUC ~6-fold higher and no safety difference across 94 PMs vs 123 normal metabolizers, while stating 'The enzyme(s) responsible for the formation of 3-hydroxydesloratadine have not been identified.' A pharmacogenetics row needs a gene to key on, and there isn't one."
+    },
+    {
+      "substance": "Azelastine",
+      "reason": "Azelastine N-demethylation is split three ways across CYP1A2, CYP2D6 and CYP3A4 (Nakajima et al., J Pharm Sci 2002, pmid:11948533), which is the classic pattern for a substrate whose phenotype effect is buffered by redundant pathways. No study compares azelastine exposure or effect across CYP2D6 phenotype groups, and the FDA labels for the nasal and ophthalmic products carry no metabolizer-phenotype statement — consistent with their low systemic exposure. Nothing measurable to describe."
+    },
+    {
+      "substance": "Cyclobenzaprine",
+      "reason": "Cyclobenzaprine's characterized oxidative metabolism is CYP3A4 and CYP1A2 — CYP1A2 is the pathway its documented clinical interactions run through — and its FDA labels carry no metabolizer-phenotype statement. There is no published comparison of cyclobenzaprine pharmacokinetics or effect between CYP2D6 phenotype groups, so any row would be an inference about an enzyme that is not even the main route."
+    },
+    {
+      "substance": "Sildenafil",
+      "reason": "Sildenafil's clearance runs through CYP3A4 and CYP2C9, not CYP2D6: the FDA label states 'Sildenafil is cleared predominantly by the CYP3A4 (major route) and CYP2C9 (minor route) hepatic microsomal isoenzymes.' No phenotype-stratified difference in sildenafil exposure or response is established for CYP2D6, CYP2C9 or CYP3A5."
+    },
+    {
+      "substance": "Enclomiphene",
+      "reason": "Enclomiphene has no approved FDA label (openFDA returns no record for it) and no published pharmacokinetic or response comparison across metabolizer phenotype groups for any gene. There is no phenotype effect on record to state."
+    },
+    {
+      "substance": "Acetaminophen",
+      "reason": "Cleared overwhelmingly by glucuronidation and sulfation, with the reactive NAPQI fraction formed mainly by CYP2E1 (with CYP1A2 and CYP3A4). CYP2D6 turnover has been seen in vitro but no study establishes that CYP2D6 phenotype changes acetaminophen exposure or effect in people, so there is no phenotype claim to make."
+    },
+    {
+      "substance": "Cannabis",
+      "reason": "A botanical mixture rather than a single molecule, so a CYP2D6 phenotype claim about 'Cannabis' would be a category error whatever an assay shows about one constituent. The constituent with the clearest oxidative route, THC, is handled by CYP2C9 and CYP3A4, and CYP2C9 phenotype work on THC does not transfer to the plant material as dosed."
+    },
+    {
+      "substance": "CBD",
+      "reason": "The Epidiolex label puts cannabidiol's metabolism on CYP2C19, CYP3A4 and UGT1A7/1A9/2B7, with no CYP2D6 role. Even the CYP2C19 pathway fails to support a phenotype row: strong CYP2C19 inhibition by fluconazole raised CBD AUC by only 22%, which the label calls not clinically meaningful."
+    },
+    {
+      "substance": "Opium",
+      "reason": "A botanical mixture of alkaloids, so a single CYP2D6 phenotype statement about 'Opium' would be a category error. Its dominant active constituent, morphine, is cleared by UGT2B7 glucuronidation rather than CYP2D6; the CYP2D6 activation story belongs to codeine as an isolated drug, and the codeine fraction of opium is small relative to its morphine content."
+    },
+    {
+      "substance": "Ivermectin",
+      "reason": "Cleared by CYP3A4 with no CYP2D6 contribution of consequence. The genetic story cited for ivermectin is ABCB1/P-glycoprotein at the blood-brain barrier, and that is established in MDR1-mutant dogs rather than as a measured human phenotype effect, so there is no human phenotype claim to record."
+    },
+    {
+      "substance": "Dapagliflozin",
+      "reason": "The FDA label states that dapagliflozin's metabolism is primarily mediated by UGT1A9 and that CYP-mediated metabolism is a minor clearance pathway in humans, so no CYP2D6 phenotype effect on exposure exists to describe."
+    },
+    {
+      "substance": "Progesterone",
+      "reason": "Oxidized mainly by CYP3A4 and reduced by 5-alpha- and 5-beta-reductases; CYP2D6 is not an established route. No study reports a progesterone exposure or effect difference across CYP2D6 phenotypes."
+    },
+    {
+      "substance": "Clonidine",
+      "reason": "The FDA label reports that 40–60% of an absorbed oral dose appears unchanged in urine within 24 hours and about 50% is metabolized hepatically, and carries no pharmacogenomics section. CYP2D6 forms 4-hydroxyclonidine in vitro, but with renal excretion carrying half the dose there is no measured phenotype effect on clonidine exposure."
+    },
+    {
+      "substance": "Buspirone",
+      "reason": "The FDA label states buspirone is metabolized primarily by oxidation mediated by CYP3A4, which is also why its exposure moves so sharply with CYP3A4 inhibitors. CYP3A4 is not a phenotype-tested pharmacogene, and no CYP2D6 phenotype effect on buspirone exposure has been measured."
+    },
+    {
+      "substance": "Methadone",
+      "reason": "Already carries the pharmacogenetics that matter for it (CYP2B6 on its existing record); CYP2D6 is not its story. Methadone's phenotype story is CYP2B6, so the CYP2D6 poor/ultrarapid split that governs codeine and tramadol does not carry over here. CYP2B6 slow metabolizers (*6/*6, about 6% of the patients studied) carry roughly 1.8-fold higher trough levels of (S)-methadone — the enantiomer that contributes little of the opioid effect but blocks the cardiac hERG channel about 3."
+    },
+    {
+      "substance": "Tapentadol",
+      "reason": "Already carries the pharmacogenetics that matter for it (CYP2D6 on its existing record); CYP2D6 is not its story. Tapentadol's opioid effect comes from the molecule that was swallowed, so a CYP2D6 phenotype has nothing to switch on or off — unlike codeine and tramadol, which are prodrugs that CYP2D6 has to activate. Only about 2% of a tapentadol dose passes through CYP2D6 at all, and the product is inactive; almost all of the drug is cleared by glucuronidation instead."
+    },
+    {
+      "substance": "Dextropropoxyphene",
+      "reason": "Already carries the pharmacogenetics that matter for it (CYP3A4, CYP2D6 on its existing record); CYP2D6 is not its story. Dextropropoxyphene is cleared by CYP3A4, and a study that dosed CYP2D6 poor and extensive metabolizers directly found the same exposure in both — though with only three people per group, it can only rule out a large effect."
+    },
+    {
+      "substance": "Simvastatin",
+      "reason": "Carries a pharmacogenetics row, for SLCO1B1 — the gene that actually changes this drug for a person. CYP2D6 is a minor in-vitro pathway here, and a CYP2D6 row would displace the real story with a weaker one. The gene that changes simvastatin for a person is SLCO1B1, which encodes OATP1B1, the liver transporter that pulls simvastatin out of the blood and into liver cells.",
+      "source": "pmid:18650507"
+    },
+    {
+      "substance": "Celecoxib",
+      "reason": "Carries a pharmacogenetics row, for CYP2C9 — the gene that actually changes this drug for a person. CYP2D6 is a minor in-vitro pathway here, and a CYP2D6 row would displace the real story with a weaker one. Celecoxib's phenotype story runs through CYP2C9, and the effect is large at the low end: poor metabolizers clear it far more slowly, hold a much longer half-life, and reach several-fold higher plasma levels at the same dose.",
+      "source": "pmid:32189324"
+    },
+    {
+      "substance": "Phenytoin",
+      "reason": "Carries a pharmacogenetics row, for CYP2C9, HLA-B — the gene that actually changes this drug for a person. CYP2D6 is a minor in-vitro pathway here, and a CYP2D6 row would displace the real story with a weaker one. Phenytoin's genetics split across two genes doing two different things: CYP2C9 governs how fast it is cleared, and HLA-B governs the risk of a severe skin reaction.",
+      "source": "pmid:32779747"
+    },
+    {
+      "substance": "Nicotine",
+      "reason": "Carries a pharmacogenetics row, for CYP2A6 — the gene that actually changes this drug for a person. CYP2D6 is a minor in-vitro pathway here, and a CYP2D6 row would displace the real story with a weaker one. Nicotine's clearance is set by the highly polymorphic CYP2A6 enzyme.",
+      "source": "pmid:29194389"
+    },
+    {
+      "substance": "Caffeine",
+      "reason": "Carries a pharmacogenetics row, for CYP1A2 — the gene that actually changes this drug for a person. CYP2D6 is a minor in-vitro pathway here, and a CYP2D6 row would displace the real story with a weaker one. Caffeine is cleared almost entirely by CYP1A2, whose common intron-1 variant rs762551 (CYP1A2*1F) behaves as an inducibility genotype rather than a fixed fast/slow switch — it separates metabolic rates only where CYP1A2 is being induced.",
+      "source": "pmid:10233211"
+    },
+    {
+      "substance": "Benzocaine",
+      "reason": "Carries a pharmacogenetics row, for G6PD — the gene that actually changes this drug for a person. CYP2D6 is a minor in-vitro pathway here, and a CYP2D6 row would displace the real story with a weaker one. Benzocaine's genetic story is about susceptibility to its known adverse effect — methemoglobinemia, in which the blood carries less oxygen — rather than about how fast it is cleared.",
+      "source": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9777acbb-8166-4734-9932-dc66b05bfcb5"
+    }
   ]
 }

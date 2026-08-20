@@ -429,11 +429,15 @@ def main() -> int:
     adjudicated_gap: set[str] = set()
     adjudicated_enzyme: set[str] = set()
     adjudicated_metabolite: set[str] = set()
+    adjudicated_metabolizer: set[str] = set()
     if ADJUDICATIONS.exists():
         adj = json.loads(ADJUDICATIONS.read_text(encoding="utf-8"))
         adjudicated_div = {normalise(e["substance"]) for e in adj.get("half_life_divergences", [])}
         adjudicated_gap = {normalise(e["substance"]) for e in adj.get("half_life_unresolvable", [])}
         adjudicated_enzyme = {normalise(e["substance"]) for e in adj.get("enzyme_coverage", [])}
+        adjudicated_metabolizer = {
+            normalise(e["substance"]) for e in adj.get("metabolizer_coverage", [])
+        }
         adjudicated_metabolite = {
             normalise(e["substance"]) for e in adj.get("metabolite_coverage", [])
         }
@@ -579,8 +583,16 @@ def main() -> int:
 
         # ── Pharmacogenetics the enzyme data implies ──────────────────────
         # CYP2D6 is the gene the app has a metabolizer readout for, so a 2D6
-        # substrate with no pharmacogenetics row is a missing toggle.
-        if "CYP2D6" in db_substrate_cyps and "CYP2D6" not in pgx_genes.get(s["id"], set()):
+        # substrate with no pharmacogenetics row is a missing toggle. Adjudicate
+        # under `metabolizer_coverage` where the substance is a 2D6 substrate only
+        # in the in-vitro sense: many are, and for them the honest row is the one
+        # naming the gene that does move the drug (nicotine's CYP2A6, simvastatin's
+        # SLCO1B1) or none at all.
+        if (
+            "CYP2D6" in db_substrate_cyps
+            and "CYP2D6" not in pgx_genes.get(s["id"], set())
+            and normalise(s["name"]) not in adjudicated_metabolizer
+        ):
             pgx_gaps.append((s, d))
 
         if s["cas"] and d["cas"] and s["cas"] != d["cas"]:

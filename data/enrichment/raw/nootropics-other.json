@@ -3489,9 +3489,11 @@
     ],
     "drug_interactions_pk": [],
     "pharmacogenetics": {
-      "relevant_genes": [],
-      "phenotype_effects": null,
-      "reference": null
+      "relevant_genes": [
+        "CYP1A2"
+      ],
+      "phenotype_effects": "Caffeine is cleared almost entirely by CYP1A2, whose common intron-1 variant rs762551 (CYP1A2*1F) behaves as an inducibility genotype rather than a fixed fast/slow switch — it separates metabolic rates only where CYP1A2 is being induced. Sachse and colleagues phenotyped 185 non-smokers and 51 smokers with a 100 mg caffeine dose and report that \"The ratio of 1,7-dimethylxanthine (17X) plus 1,7-dimethyluric acid divided by caffeine in 0-5 h urine samples from 185 non-smokers did not differ significantly between the three CYP1A2 genotypes\", while in the smokers the 5 h plasma ratio was 1.37 in A/A carriers versus 0.82 in C/C. Their reading is that \"The A/A genotype, which may represent a CYP1A2 high inducibility genotype, may either be a direct cause of increased CYP1A2 activity, or be genetically linked to polymorphisms conferring high inducibility.\" So in a non-smoker, genotype alone predicts little about how long a coffee lasts; smoking and other CYP1A2 inducers dominate.",
+      "reference": "pmid:10233211"
     },
     "tolerance_and_dependence": {
       "receptor_downregulation_half_time": null,

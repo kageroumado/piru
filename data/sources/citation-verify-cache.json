@@ -109,7 +109,19 @@
   "title": "Clinical Pharmacogenetics Implementation Consortium (CPIC) Guideline for <i>CYP2D6</i> and <i>CYP2C19</i> Genotypes and Dosing of Selective Serotonin Reuptake Inhibitors",
   "year": 2015
  },
+ "doi:10.1002/cpt.1830": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Clinical Pharmacogenetics Implementation Consortium Guideline (CPIC) for CYP2C9 and Nonsteroidal Anti-Inflammatory Drugs",
+  "year": "2020"
+ },
  "doi:10.1002/cpt.2000.68.1.1": null,
+ "doi:10.1002/cpt.2008": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Clinical Pharmacogenetics Implementation Consortium (CPIC) Guideline for CYP2C9 and HLA-B Genotypes and Phenytoin Dosing: 2020 Update",
+  "year": "2021"
+ },
  "doi:10.1002/cpt.2057": {
   "journal": "Clinical Pharmacology &amp; Therapeutics",
   "subjects": [],
@@ -139,6 +151,12 @@
   "subjects": [],
   "title": "A Phase 1 Assessment of the Safety, Tolerability, Pharmacokinetics and Pharmacodynamics of (2<i>R</i>,6<i>R</i>)\u2010Hydroxynorketamine in Healthy Volunteers",
   "year": 2024
+ },
+ "doi:10.1002/cpt.598": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Clinical Pharmacogenetics Implementation Consortium (CPIC) guideline for CYP2D6 genotype and use of ondansetron and tropisetron",
+  "year": "2017"
  },
  "doi:10.1002/cpt1976194_part1532": null,
  "doi:10.1002/cpt1977223259": {
@@ -2554,6 +2572,12 @@
   "title": "Clinical Pharmacogenetics Implementation Consortium (CPIC) Guidelines for Codeine Therapy in the Context of Cytochrome P450 2D6 (CYP2D6) Genotype",
   "year": 2011
  },
+ "doi:10.1038/clpt.2013.2": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Clinical Pharmacogenetics Implementation Consortium guideline for CYP2D6 and CYP2C19 genotypes and dosing of tricyclic antidepressants",
+  "year": "2013"
+ },
  "doi:10.1038/clpt.2014.137": {
   "journal": "Clinical Pharmacology &amp; Therapeutics",
   "subjects": [],
@@ -2989,6 +3013,12 @@
   "title": "The visceral and somatic antinociceptive effects of dihydrocodeine and its metabolite, dihydromorphine. A cross\u2010over study with extensive and quinidine\u2010induced poor metabolizers",
   "year": 1998
  },
+ "doi:10.1046/j.1365-2125.1999.00898.x": {
+  "journal": "British journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Functional significance of a C-->A polymorphism in intron 1 of the cytochrome P450 CYP1A2 gene tested with caffeine",
+  "year": "1999"
+ },
  "doi:10.1046/j.1365-2125.2000.00121.x": {
   "journal": "British Journal of Clinical Pharmacology",
   "subjects": [],
@@ -3042,6 +3072,12 @@
   "subjects": [],
   "title": "Congenital Hyperthyroidism Caused by a Mutation in the Thyrotropin-Receptor Gene",
   "year": 1995
+ },
+ "doi:10.1056/nejmoa0801936": {
+  "journal": "The New England journal of medicine",
+  "subjects": [],
+  "title": "SLCO1B1 variants and statin-induced myopathy--a genomewide study",
+  "year": "2008"
  },
  "doi:10.1056/nejmoa1310858": null,
  "doi:10.1056/nejmoa1610300": {
@@ -3589,6 +3625,12 @@
   "subjects": [],
   "title": "Halothane Prevents Postischemic Production of Hydroxyl Radicals in the Canine Heart",
   "year": 1997
+ },
+ "doi:10.1097/00000542-199901000-00023": {
+  "journal": "Anesthesiology",
+  "subjects": [],
+  "title": "Stereoselective interaction of ketamine with recombinant mu, kappa, and delta opioid receptors expressed in Chinese hamster ovary cells",
+  "year": "1999"
  },
  "doi:10.1097/00000542-200304000-00033": {
   "journal": "Anesthesiology",
@@ -5525,6 +5567,12 @@
   "title": "Effects of Hydroxylated Mephedrone Metabolites on Monoamine Transporter Activity in vitro",
   "year": 2021
  },
+ "doi:10.3389/fphar.2021.718281": {
+  "journal": "Frontiers in pharmacology",
+  "subjects": [],
+  "title": "Effects of Cytochrome P450 and Transporter Polymorphisms on the Bioavailability and Safety of Dutasteride and Tamsulosin",
+  "year": "2021"
+ },
  "doi:10.3389/fphar.2021.760671": {
   "journal": "Frontiers in Pharmacology",
   "subjects": [],
@@ -5687,6 +5735,12 @@
   "subjects": [],
   "title": "Single and Multiple Dose PK\u2013PD Characterization for Carisoprodol. Part I: Pharmacokinetics, Metabolites, and 2C19 Phenotype Influence. Double-Blind, Placebo-Controlled Clinical Trial in Healthy Volunteers",
   "year": 2022
+ },
+ "doi:10.3390/jpm7040018": {
+  "journal": "Journal of personalized medicine",
+  "subjects": [],
+  "title": "Variation in CYP2A6 Activity and Personalized Medicine",
+  "year": "2017"
  },
  "doi:10.3390/life14040429": {
   "journal": "Life",
@@ -5861,6 +5915,12 @@
   "journal": "The Journal of pharmacology and experimental therapeutics",
   "subjects": [],
   "title": "Characteristics of drug interactions with recombinant biogenic amine transporters expressed in the same cell type.",
+  "year": "1999"
+ },
+ "pmid:10233211": {
+  "journal": "British journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Functional significance of a C-->A polymorphism in intron 1 of the cytochrome P450 CYP1A2 gene tested with caffeine.",
   "year": "1999"
  },
  "pmid:10333982": {
@@ -6403,6 +6463,12 @@
   "journal": "European journal of pharmacology",
   "subjects": [],
   "title": "Comparison of the effects of zaleplon, zolpidem, and triazolam at various GABA(A) receptor subtypes.",
+  "year": "2002"
+ },
+ "pmid:12235455": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Pharmacokinetics of diltiazem and its metabolites in relation to CYP2D6 genotype.",
   "year": "2002"
  },
  "pmid:12386133": {
@@ -7625,6 +7691,12 @@
   "title": "Microbleeds in moyamoya disease: susceptibility-weighted imaging versus T2*-weighted imaging at 3 Tesla.",
   "year": "2008"
  },
+ "pmid:18650507": {
+  "journal": "The New England journal of medicine",
+  "subjects": [],
+  "title": "SLCO1B1 variants and statin-induced myopathy--a genomewide study.",
+  "year": "2008"
+ },
  "pmid:18717508": {
   "journal": "Journal of opioid management",
   "subjects": [],
@@ -7708,6 +7780,12 @@
   "subjects": [],
   "title": "Absorption of lactose from colon of newborn piglet.",
   "year": "1991"
+ },
+ "pmid:19158287": {
+  "journal": "The Journal of neuroscience : the official journal of the Society for Neuroscience",
+  "subjects": [],
+  "title": "HCN1 channel subunits are a molecular substrate for hypnotic actions of ketamine.",
+  "year": "2009"
  },
  "pmid:19171772": {
   "journal": "The Journal of general physiology",
@@ -8105,6 +8183,12 @@
   "title": "Pharmacokinetic-pharmacodynamic relationships of central nervous system effects of scopolamine in healthy subjects.",
   "year": "2011"
  },
+ "pmid:21366359": {
+  "journal": "Clinical pharmacokinetics",
+  "subjects": [],
+  "title": "Duloxetine: clinical pharmacokinetics and drug interactions.",
+  "year": "2011"
+ },
  "pmid:21474568": {
   "journal": "The Journal of pharmacology and experimental therapeutics",
   "subjects": [],
@@ -8423,6 +8507,12 @@
   "title": "Simvastatin pharmacokinetics in healthy Chinese subjects and its relations with CYP2C9, CYP3A5, ABCB1, ABCG2 and SLCO1B1 polymorphisms.",
   "year": "2013"
  },
+ "pmid:23486447": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Clinical Pharmacogenetics Implementation Consortium guideline for CYP2D6 and CYP2C19 genotypes and dosing of tricyclic antidepressants.",
+  "year": "2013"
+ },
  "pmid:23492908": {
   "journal": "Pharmacogenetics and genomics",
   "subjects": [],
@@ -8451,6 +8541,12 @@
   "journal": "Biochemical pharmacology",
   "subjects": [],
   "title": "Transport of gabapentin by LAT1 (SLC7A5).",
+  "year": "2013"
+ },
+ "pmid:23625188": {
+  "journal": "Clinical drug investigation",
+  "subjects": [],
+  "title": "Role of cytochrome p450 isoenzymes 3A and 2D6 in the in vivo metabolism of mirabegron, a \u03b23-adrenoceptor agonist.",
   "year": "2013"
  },
  "pmid:23646826": {
@@ -9437,6 +9533,12 @@
   "title": "\"Zombie\" Outbreak Caused by the Synthetic Cannabinoid AMB-FUBINACA in New York.",
   "year": "2017"
  },
+ "pmid:28002639": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Clinical Pharmacogenetics Implementation Consortium (CPIC) guideline for CYP2D6 genotype and use of ondansetron and tropisetron.",
+  "year": "2017"
+ },
  "pmid:28074670": {
   "journal": "Drug metabolism reviews",
   "subjects": [],
@@ -9453,6 +9555,12 @@
   "journal": "Drug testing and analysis",
   "subjects": [],
   "title": "Analytical characterization and pharmacological evaluation of the new psychoactive substance 4-fluoromethylphenidate (4F-MPH) and differentiation between the (\u00b1)-threo and (\u00b1)-erythro diastereomers.",
+  "year": "2017"
+ },
+ "pmid:28129538": {
+  "journal": "Cell",
+  "subjects": [],
+  "title": "Crystal Structure of an LSD-Bound Human Serotonin Receptor.",
   "year": "2017"
  },
  "pmid:28220701": {
@@ -9681,6 +9789,12 @@
   "journal": "The AAPS journal",
   "subjects": [],
   "title": "Real Patient and its Virtual Twin: Application of Quantitative Systems Toxicology Modelling in the Cardiac Safety Assessment of Citalopram.",
+  "year": "2017"
+ },
+ "pmid:29194389": {
+  "journal": "Journal of personalized medicine",
+  "subjects": [],
+  "title": "Variation in CYP2A6 Activity and Personalized Medicine.",
   "year": "2017"
  },
  "pmid:29202454": {
@@ -10151,6 +10265,12 @@
   "title": "Return of the lysergamides. Part VI: Analytical and behavioural characterization of 1-cyclopropanoyl-d-lysergic acid diethylamide (1CP-LSD).",
   "year": "2020"
  },
+ "pmid:32189324": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Clinical Pharmacogenetics Implementation Consortium Guideline (CPIC) for CYP2C9 and Nonsteroidal Anti-Inflammatory Drugs.",
+  "year": "2020"
+ },
  "pmid:32246840": {
   "journal": "British journal of pharmacology",
   "subjects": [],
@@ -10228,6 +10348,12 @@
   "subjects": [],
   "title": "S-oxidation of thioridazine to psychoactive metabolites: an oral dose-proportionality study in healthy volunteers.",
   "year": "1988"
+ },
+ "pmid:32779747": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Clinical Pharmacogenetics Implementation Consortium (CPIC) Guideline for CYP2C9 and HLA-B Genotypes and Phenytoin Dosing: 2020 Update.",
+  "year": "2021"
  },
  "pmid:32869039": {
   "journal": "medRxiv : the preprint server for health sciences",
@@ -10479,6 +10605,12 @@
   "journal": "Molecules (Basel, Switzerland)",
   "subjects": [],
   "title": "Pharmacological and Therapeutic Potential of Myristicin: A Literature Review.",
+  "year": "2021"
+ },
+ "pmid:34690761": {
+  "journal": "Frontiers in pharmacology",
+  "subjects": [],
+  "title": "Effects of Cytochrome P450 and Transporter Polymorphisms on the Bioavailability and Safety of Dutasteride and Tamsulosin.",
   "year": "2021"
  },
  "pmid:34786239": {
@@ -10745,6 +10877,12 @@
   "title": "Metabolic Evaluation of Synthetic Opioids on the Example of U-47700 with the Use of In Vitro and In Vivo Methods for Forensic Toxicology Application.",
   "year": "2023"
  },
+ "pmid:37002327": {
+  "journal": "European journal of human genetics : EJHG",
+  "subjects": [],
+  "title": "Dutch Pharmacogenetics Working Group (DPWG) guideline for the gene-drug interaction between CYP2D6, CYP3A4 and CYP1A2 and antipsychotics.",
+  "year": "2024"
+ },
  "pmid:37005796": {
   "journal": "British journal of pharmacology",
   "subjects": [],
@@ -10959,6 +11097,12 @@
   "journal": "ACS pharmacology & translational science",
   "subjects": [],
   "title": "1-(2,5-Dimethoxy-4-iodophenyl)-2-aminopropane (DOI): From an Obscure to Pivotal Member of the DOX Family of Serotonergic Psychedelic Agents - A Review.",
+  "year": "2024"
+ },
+ "pmid:38951961": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Clinical Pharmacogenetics Implementation Consortium Guideline (CPIC)\u00a0for CYP2D6, ADRB1, ADRB2, ADRA2C, GRK4, and GRK5 Genotypes and Beta-Blocker Therapy.",
   "year": "2024"
  },
  "pmid:39050746": {

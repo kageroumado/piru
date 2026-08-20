@@ -57,6 +57,7 @@ class TestDrugBankAdjudications(unittest.TestCase):
         cls.other = [
             *cls.data.get("enzyme_coverage", []),
             *cls.data.get("metabolite_coverage", []),
+            *cls.data.get("metabolizer_coverage", []),
         ]
         if not _DB.is_file():
             raise unittest.SkipTest(f"{_DB} not present — run pipeline/fetch-db.sh")
@@ -91,6 +92,7 @@ class TestDrugBankAdjudications(unittest.TestCase):
             ("unresolvable", self.unresolvable),
             ("enzyme_coverage", self.data.get("enzyme_coverage", [])),
             ("metabolite_coverage", self.data.get("metabolite_coverage", [])),
+            ("metabolizer_coverage", self.data.get("metabolizer_coverage", [])),
         ):
             seen = [normalise(e["substance"]) for e in entries]
             self.assertEqual(len(seen), len(set(seen)), f"duplicate substance in {label}")

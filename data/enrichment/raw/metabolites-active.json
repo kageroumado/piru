@@ -1358,7 +1358,15 @@
         "metabolite_mechanism_vs_parent": "scaled",
         "metabolite_potency_target": "SERT"
       }
-    ]
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2C19",
+        "CYP2D6"
+      ],
+      "phenotype_effects": "CYP2D6 takes part in sertraline metabolism, but it is CYP2C19 that carries the load and CYP2C19 phenotype that changes what a person is exposed to: poor metabolizers clear sertraline more slowly and reach higher levels, and side effects have been reported more often in them, while ultrarapid metabolizers gain only slightly. CPIC's SSRI guideline makes both points: \"Sertraline is metabolized by CYP2D6, CYP2C19 and other polymorphic cytochrome P450 enzymes, with pharmacokinetic data suggesting that CYP2C19 is the major metabolic pathway\", and \"Pharmacokinetic data show reduced oral clearance of sertraline in CYP2C19 poor metabolizers but only slightly increased metabolism in ultrarapid metabolizers. Side effects in CYP2C19 poor metabolizers have also been reported to be more frequent than in normal metabolizers\" (Hicks et al., CPIC guideline for CYP2D6 and CYP2C19 genotypes and dosing of selective serotonin reuptake inhibitors, Clin Pharmacol Ther 2015).",
+      "reference": "pmid:25974703"
+    }
   },
   {
     "name": "Citalopram",
@@ -1438,7 +1446,14 @@
         "metabolite_mechanism_vs_parent": "scaled",
         "metabolite_potency_target": "SERT"
       }
-    ]
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "CYP2D6 converts venlafaxine into O-desmethylvenlafaxine (ODV), and both the parent and the metabolite are potent serotonin and norepinephrine reuptake inhibitors — so CYP2D6 phenotype changes which of the two a person is mostly carrying rather than switching the drug on or off. Poor metabolizers accumulate venlafaxine itself and make less ODV; ultrarapid metabolizers sit at the other end of that same axis. The FDA label for Effexor XR states: \"In vitro studies indicate that the formation of ODV is catalyzed by CYP2D6; this has been confirmed in a clinical study showing that patients with low CYP2D6 levels (poor metabolizers) had increased levels of venlafaxine and reduced levels of ODV compared to people with normal CYP2D6 levels (extensive metabolizers)\".",
+      "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=c848a5d8-ba94-4c84-80e3-0bf35fb8e32e"
+    }
   },
   {
     "name": "Desvenlafaxine",
@@ -1597,7 +1612,14 @@
         "metabolite_mechanism_vs_parent": "scaled",
         "metabolite_potency_target": "D2"
       }
-    ]
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "CYP2D6 converts risperidone into 9-hydroxyrisperidone — which is paliperidone, and about as active as risperidone itself — so phenotype mainly shifts the balance between parent and metabolite rather than the total active drug. Poor metabolizers hold far more of the parent (apparent half-life about 20 hours versus about 3 hours) and less metabolite, while the combined level stays similar. The FDA label states: \"Although extensive metabolizers have lower risperidone and higher 9-hydroxyrisperidone concentrations than poor metabolizers, the pharmacokinetics of risperidone and 9-hydroxyrisperidone combined, after single and multiple doses, are similar in extensive and poor metabolizers.\" The Dutch Pharmacogenetics Working Group's 2024 systematic review (PMID 37002327) nonetheless found a higher rate of treatment failure among poor and ultrarapid metabolizers, but not intermediate metabolizers, than among normal metabolizers.",
+      "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=7e117c7e-02fc-4343-92a1-230061dfc5e0"
+    }
   },
   {
     "name": "Aripiprazole",
@@ -1622,7 +1644,14 @@
         "metabolite_mechanism_vs_parent": "scaled",
         "metabolite_potency_target": "D2"
       }
-    ]
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "CYP2D6 poor metabolizers clear aripiprazole about twice as slowly, so the same daily dose accumulates to higher steady-state levels of aripiprazole and its active metabolite dehydro-aripiprazole, and the Dutch Pharmacogenetics Working Group's 2024 systematic review (PMID 37002327) reported indications of a higher risk of adverse effects at that exposure. Intermediate and ultrarapid metabolizers shift exposure only to a limited degree, with insufficient evidence that this changes effect or side effects. The FDA label states: \"Elimination of aripiprazole is mainly through hepatic metabolism involving two P450 isozymes, CYP2D6 and CYP3A4. For CYP2D6 poor metabolizers, the mean elimination half-life for aripiprazole is about 146 hours\" — against about 75 hours otherwise.",
+      "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=02a4af27-c83c-4166-950c-7a1cb12d198d"
+    }
   },
   {
     "name": "Amitriptyline",
@@ -1647,7 +1676,15 @@
         "metabolite_mechanism_vs_parent": "divergent",
         "mechanism_note": "Nortriptyline shifts the SERT:NET balance toward norepinephrine selectivity relative to amitriptyline's more balanced serotonin/norepinephrine profile, rather than being a simple stronger or weaker copy."
       }
-    ]
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6",
+        "CYP2C19"
+      ],
+      "phenotype_effects": "Amitriptyline is a tertiary amine that CYP2C19 demethylates into nortriptyline — an antidepressant in its own right, more noradrenergic than its parent — while CYP2D6 hydroxylates both molecules to less active compounds. The two enzymes therefore do different jobs: CYP2D6 phenotype sets how much drug is present overall, with poor metabolizers running high and ultrarapid metabolizers running low, and CYP2C19 phenotype sets how much of that total is amitriptyline versus nortriptyline, which shifts the serotonergic-to-noradrenergic character of the effect. CPIC's tricyclic guideline states that \"The tertiary amines (e.g., amitriptyline) are mainly metabolized by CYP2C19 to desmethyl metabolites … also referred to as secondary amines (e.g., nortriptyline)\", that \"Both the tertiary and secondary amines are metabolized by CYP2D6 to less active hydroxy metabolites\", and that \"CYP2C19 impacts the ratio of tertiary to secondary amine plasma concentrations but may have less influence on overall drug clearance than CYP2D6\"; on the clinical consequence it states that \"Adverse effects are more likely in CYP2D6 poor metabolizers due to elevated tricyclic plasma concentrations\" (Hicks et al., CPIC guideline for CYP2D6 and CYP2C19 genotypes and dosing of tricyclic antidepressants, Clin Pharmacol Ther 2013).",
+      "reference": "pmid:23486447"
+    }
   },
   {
     "name": "Imipramine",
@@ -1672,7 +1709,15 @@
         "metabolite_mechanism_vs_parent": "divergent",
         "mechanism_note": "Desipramine is a highly selective norepinephrine reuptake inhibitor, a qualitatively more noradrenergic-selective mechanism than imipramine's balanced serotonin/norepinephrine reuptake inhibition."
       }
-    ]
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6",
+        "CYP2C19"
+      ],
+      "phenotype_effects": "Imipramine is a tertiary amine demethylated by CYP2C19 to desipramine, which is itself an antidepressant with a different clinical profile, and both molecules are then hydroxylated by CYP2D6 to less active compounds. So CYP2D6 phenotype scales total tricyclic exposure — high in poor metabolizers, low in ultrarapid metabolizers — while CYP2C19 phenotype changes the imipramine-to-desipramine balance rather than the total. The direct pharmacogenomic studies were done on amitriptyline and nortriptyline, and CPIC extends them to imipramine by pharmacokinetic analogy rather than by direct measurement: \"the desmethyl metabolites, nortriptyline as well as desipramine, are antidepressant drugs themselves with distinct clinical features that differ from the parent drugs amitriptyline and imipramine\", and \"the results of these studies may apply to other tricyclics because these drugs have comparable pharmacokinetic properties\" (Hicks et al., CPIC guideline for CYP2D6 and CYP2C19 genotypes and dosing of tricyclic antidepressants, Clin Pharmacol Ther 2013).",
+      "reference": "pmid:23486447"
+    }
   },
   {
     "name": "Clomipramine",
@@ -1697,7 +1742,15 @@
         "metabolite_mechanism_vs_parent": "divergent",
         "mechanism_note": "N-desmethylclomipramine is predominantly noradrenergic (strong NET inhibition, weaker SERT activity) whereas clomipramine itself is fairly serotonin-selective, a qualitative shift rather than a scaled potency difference."
       }
-    ]
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6",
+        "CYP2C19"
+      ],
+      "phenotype_effects": "Clomipramine is a tertiary amine handled the way the class is handled: CYP2C19 demethylates it to its secondary-amine metabolite and CYP2D6 hydroxylates both to less active compounds, so CYP2D6 phenotype sets total exposure while CYP2C19 phenotype sets the parent-to-metabolite ratio. Predicted from the class rather than measured for clomipramine specifically — CPIC notes that \"Adverse effects are more likely in CYP2D6 poor metabolizers due to elevated tricyclic plasma concentrations\" and that \"CYP2D6 ultrarapid metabolizers have a higher probability of failing amitriptyline or nortriptyline pharmacotherapy due to subtherapeutic plasma concentrations\", then extends the finding on the grounds that \"the results of these studies may apply to other tricyclics because these drugs have comparable pharmacokinetic properties\" (Hicks et al., CPIC guideline for CYP2D6 and CYP2C19 genotypes and dosing of tricyclic antidepressants, Clin Pharmacol Ther 2013).",
+      "reference": "pmid:23486447"
+    }
   },
   {
     "name": "Methamphetamine",
@@ -2016,7 +2069,14 @@
         "metabolite_potency_target": "nAChR",
         "mechanism_note": "Cotinine is a far weaker direct nAChR agonist than nicotine but also acts as a positive allosteric modulator at some nAChR subtypes -- a qualitatively different mode of action from nicotine's straightforward agonism -- contributing a persistent low-magnitude background effect between doses."
       }
-    ]
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2A6"
+      ],
+      "phenotype_effects": "Nicotine's clearance is set by the highly polymorphic CYP2A6 enzyme. Slow metabolizers (reduced- or loss-of-function CYP2A6, including the whole-gene deletion CYP2A6*4) clear nicotine more slowly, so each intake holds a higher and longer-lasting nicotine level; in smokers this tracks with fewer cigarettes per day and with a greater likelihood of quitting, while normal metabolizers turn nicotine over quickly and re-dose more often. Tanner and Tyndale's review states that \"Nicotine, the principle psychoactive component in cigarette smoke, is primarily metabolized by hepatic CYP2A6 (70–80%)\" and that \"slow nicotine metabolizers are more likely to quit smoking compared to normal metabolizers\".",
+      "reference": "pmid:29194389"
+    }
   },
   {
     "name": "Ephedrine",
