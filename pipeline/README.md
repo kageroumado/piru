@@ -169,7 +169,13 @@ LLM-assisted research used to fill gaps external sources don't cover
   ours was verified against a primary source, or a substance with no honest
   single half-life — so each run reports only NEW work; the counts it suppresses
   are always printed, and `build/tests/test_drugbank_adjudications.py` fails if
-  an entry goes stale.
+  an entry goes stale. Beyond half-lives it checks **coverage the app depends
+  on**: an enzyme DrugBank calls the substance a substrate of that no
+  `metabolism` row names (the modulator catalog — grapefruit/CYP3A4,
+  smoking/CYP1A2 — is joined against that table, so a missing row silently
+  removes the card with no empty state to notice), a CYP2D6 substrate with no
+  `pharmacogenetics` row (no metabolizer readout), and metabolites named by a
+  DrugBank reaction that no row carries.
 - **`dump_substance_library.py`** — emits the by-category text dumps
   that live in `data/snapshots/by-category/`.
 - **`dump_for_verification.py`** — emits richer per-substance dumps

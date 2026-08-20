@@ -1,9 +1,10 @@
 """Integrity gate for `data/curated/drugbank-adjudications.json`.
 
 The file is how the catalog says "we already checked this DrugBank disagreement
-and ours is right" or "this substance honestly has no single half-life". Both
-suppress rows from `pipeline/audit/compare_to_drugbank.py`, so a stale or
-sloppy entry hides real work instead of recording a decision.
+and ours is right", "this substance honestly has no single half-life", or "this
+missing enzyme/metabolite does not apply here". Every list suppresses rows from
+`pipeline/audit/compare_to_drugbank.py`, so a stale or sloppy entry hides real
+work instead of recording a decision.
 
 The checks:
 
@@ -50,6 +51,13 @@ class TestDrugBankAdjudications(unittest.TestCase):
         cls.data = json.loads(_FILE.read_text(encoding="utf-8"))
         cls.divergences = cls.data.get("half_life_divergences", [])
         cls.unresolvable = cls.data.get("half_life_unresolvable", [])
+        #: The coverage lists carry no verdict vocabulary of their own — a
+        #: substance is either applicable or it is not — so they are checked
+        #: only for reviewability, uniqueness, and still existing.
+        cls.other = [
+            *cls.data.get("enzyme_coverage", []),
+            *cls.data.get("metabolite_coverage", []),
+        ]
         if not _DB.is_file():
             raise unittest.SkipTest(f"{_DB} not present — run pipeline/fetch-db.sh")
         con = sqlite3.connect(f"file:{_DB}?mode=ro", uri=True)
@@ -68,7 +76,7 @@ class TestDrugBankAdjudications(unittest.TestCase):
         con.close()
 
     def test_every_entry_is_reviewable(self):
-        for entry in [*self.divergences, *self.unresolvable]:
+        for entry in [*self.divergences, *self.unresolvable, *self.other]:
             self.assertTrue(
                 entry.get("substance", "").strip(), f"entry without a substance: {entry}"
             )
@@ -81,12 +89,14 @@ class TestDrugBankAdjudications(unittest.TestCase):
         for label, entries in (
             ("divergences", self.divergences),
             ("unresolvable", self.unresolvable),
+            ("enzyme_coverage", self.data.get("enzyme_coverage", [])),
+            ("metabolite_coverage", self.data.get("metabolite_coverage", [])),
         ):
             seen = [normalise(e["substance"]) for e in entries]
             self.assertEqual(len(seen), len(set(seen)), f"duplicate substance in {label}")
 
     def test_every_substance_still_exists(self):
-        for entry in [*self.divergences, *self.unresolvable]:
+        for entry in [*self.divergences, *self.unresolvable, *self.other]:
             self.assertIn(
                 normalise(entry["substance"]),
                 self.names,

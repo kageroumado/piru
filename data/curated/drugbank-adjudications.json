@@ -1,5 +1,5 @@
 {
-  "_comment": "Adjudicated outcomes from pipeline/audit/compare_to_drugbank.py, so a settled question stops resurfacing as new work on every run. DrugBank is a verification source only -- nothing here is a DrugBank value. `half_life_divergences` are rows where our value disagrees with DrugBank and OURS was verified against a primary source; the reason states why DrugBank's number differs (usually it describes a metabolite, an effect duration, or an intracellular species rather than parent-drug plasma elimination). `half_life_unresolvable` are substances with no half-life row where no honest single value exists -- non-absorbed agents, botanical mixtures, ester-dependent depots, endogenous compounds, or drugs whose only source could not be read. Removing an entry puts the substance back on the work-list, which is the correct move when new evidence appears.",
+  "_comment": "Adjudicated outcomes from pipeline/audit/compare_to_drugbank.py, so a settled question stops resurfacing as new work on every run. DrugBank is a verification source only -- nothing here is a DrugBank value. `half_life_divergences` are rows where our value disagrees with DrugBank and OURS was verified against a primary source; the reason states why DrugBank's number differs (usually it describes a metabolite, an effect duration, or an intracellular species rather than parent-drug plasma elimination). `half_life_unresolvable` are substances with no half-life row where no honest single value exists -- non-absorbed agents, botanical mixtures, ester-dependent depots, endogenous compounds, or drugs whose only source could not be read. `enzyme_coverage` and `metabolite_coverage` do the same for the enzyme and metabolite checks — a substance whose missing enzyme or metabolite is genuinely not applicable. Removing an entry puts the substance back on the work-list, which is the correct move when new evidence appears.",
   "half_life_divergences": [
     {
       "substance": "Clotiazepam",
@@ -145,5 +145,7 @@
       "substance": "Vitamin A",
       "reason": "Retinol has no single meaningful elimination half-life: plasma retinol is homeostatically clamped by large hepatic stores, whole-body turnover is measured in months, and the hours-scale figure describes post-dose retinyl-ester clearance instead. The compartments differ by orders of magnitude, so any one number would misrepresent how a dose behaves."
     }
-  ]
+  ],
+  "enzyme_coverage": [],
+  "metabolite_coverage": []
 }

@@ -23,6 +23,17 @@ Checks:
   - CAS number conflicts
   - gaps: matched substances with no half_life row where DrugBank has a
     parseable value + the PubMed ids it cites (a research work-list)
+  - enzyme coverage: DrugBank calls the substance a substrate of an enzyme no
+    `metabolism` row names. This one reports an ABSENCE with a user-visible
+    consequence: the app joins its modulator catalog (grapefruit/CYP3A4,
+    smoking/CYP1A2, ...) against that table on the substrate side, so a
+    substance with no row shows no modulator card at all — silently, with no
+    empty state anyone could notice.
+  - metabolizer status: a CYP2D6 substrate with no `pharmacogenetics` row, so
+    the poor/rapid readout codeine has cannot fire for it
+  - metabolite coverage: products of a DrugBank reaction FROM the substance
+    that no `metabolism` row names (conjugates excluded — excretion products,
+    not pharmacology)
   - identifier backfill candidates (Piru missing InChIKey/CAS)
 
 Run from the repo root (output is regenerable working output, kept out of
@@ -45,6 +56,10 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]
 DB = REPO / "Piru/Data/piru-substances.sqlite"
 ADJUDICATIONS = REPO / "data/curated/drugbank-adjudications.json"
+#: Bumped whenever `extract` starts capturing a new field. A cache written by an
+#: older version is re-extracted rather than read: the checks below report
+#: ABSENCE, so a cache silently missing a field would report "nothing to fix".
+CACHE_VERSION = 2
 PIRU_DATA = Path.home() / "Developer/piru-data"
 XML_DEFAULT = PIRU_DATA / "external_database.xml"
 CACHE_DEFAULT = PIRU_DATA / "drugbank-extract.json"
@@ -53,6 +68,70 @@ sys.path.insert(0, str(REPO / "pipeline/build"))  # canonical name normalization
 from sqlite import normalise  # noqa: E402
 
 NS = "{http://www.drugbank.ca}"
+
+#: The enzymes Piru's readouts key on, mapped to the token that must appear in a
+#: `metabolism.enzyme` cell and to what the user loses when no row names it.
+#: These mirror `MetabolicModulation.Enzyme` in the app: the modulator catalog
+#: (grapefruit/3A4, smoking/1A2, ...) is joined against the metabolism table on
+#: the SUBSTRATE side, so a substance with no row for an enzyme silently shows
+#: no modulator card at all -- an absence no in-app check can see.
+UI_ENZYMES = {
+    "CYP3A4": "grapefruit / ritonavir / carbamazepine modulators",
+    "CYP1A2": "smoking modulator",
+    "CYP2D6": "metabolizer-status readout",
+    "CYP2C19": "modulator readout",
+    "CYP2C9": "modulator readout",
+    "CYP2B6": "modulator readout",
+}
+
+#: DrugBank writes enzymes out in full ("Cytochrome P450 3A4"); the metabolism
+#: table and the app both key on the short gene token.
+_CYP_NAME = re.compile(r"cytochrome\s+p450\s+([0-9]+[a-z]+[0-9]+)", re.IGNORECASE)
+
+
+#: Stereo/positional descriptors that are pure spelling: DrugBank writes
+#: "Dextroamphetamine" where the catalog writes "d-amphetamine", and
+#: "m-chlorophenylpiperazine" where it writes "meta-chlorophenylpiperazine".
+#: Only forms that are unambiguously the SAME compound belong here. N- and O-
+#: are deliberately absent: N-desmethyltramadol and O-desmethyltramadol are
+#: different metabolites (one is the active opioid, one is not), and collapsing
+#: them would report a metabolite as covered when a different one is.
+_METABOLITE_PREFIX = [
+    ("dextro", "d"),
+    ("levo", "l"),
+    ("meta-", "m"),
+    ("para-", "p"),
+]
+
+
+def metabolite_key(name: str) -> set[str]:
+    """Comparable keys for a metabolite name, spelling folded out.
+
+    Returns more than one key when the name carries a parenthetical short form —
+    "m-chlorophenylpiperazine (m-CPP)" is filed under both the long name and
+    "mcpp", because either side may use either.
+    """
+    raw = (name or "").strip().lower()
+    if not raw:
+        return set()
+    parts = [re.sub(r"\([^)]*\)", " ", raw)] + re.findall(r"\(([^)]*)\)", raw)
+    keys = set()
+    for part in parts:
+        text = part.strip()
+        for long_form, short in _METABOLITE_PREFIX:
+            if text.startswith(long_form):
+                text = short + text[len(long_form) :]
+        text = re.sub(r"[^a-z0-9]+", "", text)
+        if len(text) >= 3:
+            keys.add(text)
+    return keys
+
+
+def cyp_token(drugbank_enzyme_name: str) -> str | None:
+    """'Cytochrome P450 3A4' -> 'CYP3A4'. None when it is not a CYP."""
+    m = _CYP_NAME.search(drugbank_enzyme_name or "")
+    return f"CYP{m.group(1).upper()}" if m else None
+
 
 # ── Half-life statement parsing ──────────────────────────────────────────
 # Only statements that pin down one point estimate or one range with an
@@ -199,6 +278,28 @@ def extract(xml_path: Path, cache_path: Path) -> None:
                         if pmid:
                             hl_pmids.append(pmid)
 
+        enzymes = []
+        for enz in el.findall(f"{NS}enzymes/{NS}enzyme"):
+            actions = [a.text.strip() for a in enz.findall(f"{NS}actions/{NS}action") if a.text]
+            enzymes.append({"name": txt(enz, "name"), "actions": sorted(set(actions))})
+
+        reactions = []
+        for rx in el.findall(f"{NS}reactions/{NS}reaction"):
+            left, right = rx.find(f"{NS}left-element"), rx.find(f"{NS}right-element")
+            reactions.append(
+                {
+                    "from": txt(left, "name") if left is not None else "",
+                    "to": txt(right, "name") if right is not None else "",
+                    "enzymes": sorted(
+                        {
+                            txt(x, "name")
+                            for x in rx.findall(f"{NS}enzymes/{NS}enzyme")
+                            if txt(x, "name")
+                        }
+                    ),
+                }
+            )
+
         drugs.append(
             {
                 "id": txt(el, "drugbank-id"),
@@ -221,6 +322,20 @@ def extract(xml_path: Path, cache_path: Path) -> None:
                 ),
                 "half_life": half_life,
                 "hl_pmids": sorted(set(hl_pmids)),
+                "enzymes": enzymes,
+                "reactions": reactions,
+                "food": [
+                    f.text.strip()
+                    for f in el.findall(f"{NS}food-interactions/{NS}food-interaction")
+                    if f.text
+                ],
+                "snp_genes": sorted(
+                    {
+                        txt(s, "gene-symbol")
+                        for s in el.findall(f"{NS}snp-effects/{NS}effect")
+                        if txt(s, "gene-symbol")
+                    }
+                ),
             }
         )
         el.clear()
@@ -228,7 +343,12 @@ def extract(xml_path: Path, cache_path: Path) -> None:
     drugs.sort(key=lambda d: d["id"])
     cache_path.write_text(
         json.dumps(
-            {"exported_on": exported_on, "drug_count": len(drugs), "drugs": drugs},
+            {
+                "cache_version": CACHE_VERSION,
+                "exported_on": exported_on,
+                "drug_count": len(drugs),
+                "drugs": drugs,
+            },
             ensure_ascii=False,
             sort_keys=True,
             separators=(",", ":"),
@@ -275,7 +395,20 @@ def main() -> int:
     ap.add_argument("--re-extract", action="store_true")
     args = ap.parse_args()
 
-    if args.re_extract or not args.cache.exists():
+    stale = False
+    if args.cache.exists() and not args.re_extract:
+        try:
+            cached = json.loads(args.cache.read_text(encoding="utf-8"))
+            stale = cached.get("cache_version", 1) < CACHE_VERSION
+        except (json.JSONDecodeError, OSError):
+            stale = True
+        if stale:
+            print(
+                f"cache predates CACHE_VERSION {CACHE_VERSION} — re-extracting so the "
+                "absence checks read real data",
+                file=sys.stderr,
+            )
+    if args.re_extract or stale or not args.cache.exists():
         if not args.xml.exists():
             print(
                 f"neither cache ({args.cache}) nor DrugBank XML ({args.xml}) present — "
@@ -294,10 +427,16 @@ def main() -> int:
     # not new work. Delete an entry to put its substance back on the list.
     adjudicated_div: set[str] = set()
     adjudicated_gap: set[str] = set()
+    adjudicated_enzyme: set[str] = set()
+    adjudicated_metabolite: set[str] = set()
     if ADJUDICATIONS.exists():
         adj = json.loads(ADJUDICATIONS.read_text(encoding="utf-8"))
         adjudicated_div = {normalise(e["substance"]) for e in adj.get("half_life_divergences", [])}
         adjudicated_gap = {normalise(e["substance"]) for e in adj.get("half_life_unresolvable", [])}
+        adjudicated_enzyme = {normalise(e["substance"]) for e in adj.get("enzyme_coverage", [])}
+        adjudicated_metabolite = {
+            normalise(e["substance"]) for e in adj.get("metabolite_coverage", [])
+        }
 
     db = sqlite3.connect(str(args.db))
     db.row_factory = sqlite3.Row
@@ -316,6 +455,13 @@ def main() -> int:
              FROM half_lives h JOIN sources src ON src.id = h.source_id"""
     ):
         half_lives[r["substance_id"]].append(r)
+
+    metabolism = defaultdict(list)
+    for r in db.execute("SELECT substance_id, enzyme, metabolite_name FROM metabolism"):
+        metabolism[r["substance_id"]].append((r["enzyme"] or "", r["metabolite_name"] or ""))
+    pgx_genes = defaultdict(set)
+    for r in db.execute("SELECT substance_id, gene FROM pharmacogenetics"):
+        pgx_genes[r["substance_id"]].add((r["gene"] or "").upper())
 
     substances = db.execute(
         """SELECT id, canonical_name, COALESCE(display_name, canonical_name) AS name,
@@ -339,6 +485,7 @@ def main() -> int:
                 break
 
     hl_divergent, hl_gaps, hl_prose_gaps = [], [], []
+    enzyme_gaps, metabolite_gaps, pgx_gaps = [], [], []
     ik_conflicts, cas_conflicts, ik_backfill, cas_backfill = [], [], [], []
     hl_compared = 0
     n_adjudicated_div = n_adjudicated_gap = 0
@@ -380,6 +527,61 @@ def main() -> int:
                 hl_gaps.append((s, d, how, via, parsed))
         elif d["half_life"]:
             hl_prose_gaps.append((s, d))
+
+        # ── Enzyme coverage: what the app can no longer say ──────────────
+        # Only a DrugBank *substrate* role means this enzyme clears the drug;
+        # inhibitor/inducer rows describe what it does to OTHER drugs and would
+        # point the modulator readout the wrong way round.
+        db_substrate_cyps = {
+            tok
+            for e in d.get("enzymes", ())
+            if "substrate" in e.get("actions", ())
+            for tok in [cyp_token(e.get("name", ""))]
+            if tok in UI_ENZYMES
+        }
+        ours = " ".join(enz for enz, _ in metabolism.get(s["id"], ())).upper()
+        missing = sorted(tok for tok in db_substrate_cyps if tok not in ours)
+        if missing and normalise(s["name"]) not in adjudicated_enzyme:
+            grapefruit = any("grapefruit" in f.lower() for f in d.get("food", ()))
+            # Two different findings wear the same shape. A substance naming NO
+            # UI enzyme has every modulator readout silently switched off, and
+            # that is a defect. One that names some, where DrugBank lists more,
+            # is usually DrugBank cataloguing a minor pathway -- alprazolam is
+            # 3A4-cleared and already shows its grapefruit card, so a "2C9
+            # substrate" row changes nothing a reader would see. Keep the two
+            # apart or the real ones drown.
+            covered = {tok for tok in UI_ENZYMES if tok in ours}
+            tier = "none" if not covered else "partial"
+            # Grapefruit is CYP3A4's card specifically, so it can only be
+            # missing when 3A4 itself is unnamed.
+            blocks_grapefruit = grapefruit and "CYP3A4" not in ours
+            enzyme_gaps.append((s, d, missing, blocks_grapefruit, tier))
+
+        # ── Metabolites DrugBank names and we do not carry ────────────────
+        parent = normalise(d["name"])
+        ours_metab: set[str] = set()
+        for _, metabolite in metabolism.get(s["id"], ()):
+            ours_metab |= metabolite_key(metabolite)
+        fresh = sorted(
+            {
+                rx["to"]
+                for rx in d.get("reactions", ())
+                if rx.get("to")
+                and normalise(rx.get("from", "")) == parent
+                and not (metabolite_key(rx["to"]) & ours_metab)
+                # A glucuronide/sulfate conjugate is an excretion product, not a
+                # metabolite with pharmacology worth showing.
+                and not re.search(r"glucuronide|sulfate|conjugate", rx["to"], re.IGNORECASE)
+            }
+        )
+        if fresh and normalise(s["name"]) not in adjudicated_metabolite:
+            metabolite_gaps.append((s, d, fresh))
+
+        # ── Pharmacogenetics the enzyme data implies ──────────────────────
+        # CYP2D6 is the gene the app has a metabolizer readout for, so a 2D6
+        # substrate with no pharmacogenetics row is a missing toggle.
+        if "CYP2D6" in db_substrate_cyps and "CYP2D6" not in pgx_genes.get(s["id"], set()):
+            pgx_gaps.append((s, d))
 
         if s["cas"] and d["cas"] and s["cas"] != d["cas"]:
             cas_conflicts.append((s, d))
@@ -483,6 +685,58 @@ def main() -> int:
         "and a DrugBank statement too prose-y to parse — read those by hand "
         "from the cache (grep the substance name in drugbank-extract.json)."
     )
+
+    uncovered = [g for g in enzyme_gaps if g[4] == "none"]
+    partial = [g for g in enzyme_gaps if g[4] == "partial"]
+    blocked = [g for g in enzyme_gaps if g[3]]
+    print(f"\n## Enzyme coverage gaps ({len(uncovered)} with no coverage at all)\n")
+    print(
+        "DrugBank lists the substance as a **substrate**, and no `metabolism` row "
+        "names any enzyme the app keys on. The modulator catalog is joined against "
+        "that table on the substrate side, so every readout is silently switched "
+        "off — no warning, no empty state, nothing to notice. "
+        f"⚠ marks the {len(blocked)} where DrugBank's food-interaction text names "
+        "grapefruit outright and no CYP3A4 row exists to hang the card on.\n"
+    )
+    print(
+        "| Pop. | Substance | DrugBank says substrate of | What the app cannot show | DrugBank id |"
+    )
+    print("|---:|---|---|---|---|")
+    for s, d, missing, grapefruit, _tier in sorted(
+        uncovered, key=lambda x: (not x[3], -pop(x[0]), x[0]["name"])
+    ):
+        loses = " · ".join(sorted({UI_ENZYMES[t] for t in missing}))
+        flag = " ⚠ grapefruit" if grapefruit else ""
+        print(f"| {pop(s):.0f} | {s['name']} | {', '.join(missing)}{flag} | {loses} | {d['id']} |")
+    print(
+        f"\nA further {len(partial)} substance(s) already name a UI enzyme where "
+        "DrugBank lists additional ones. Advisory only: DrugBank catalogs minor "
+        "pathways, and a drug already showing its modulator card gains nothing a "
+        "reader would see.\n"
+    )
+
+    print(f"\n## Metabolizer-status gaps ({len(pgx_gaps)})\n")
+    print(
+        "A CYP2D6 substrate with no `pharmacogenetics` row: the poor/rapid "
+        "metabolizer readout has nothing to key on, though the enzyme that makes "
+        "it matter is the same one codeine's toggle uses.\n"
+    )
+    print("| Pop. | Substance | DrugBank id |")
+    print("|---:|---|---|")
+    for s, d in sorted(pgx_gaps, key=lambda x: (-pop(x[0]), x[0]["name"]))[:60]:
+        print(f"| {pop(s):.0f} | {s['name']} | {d['id']} |")
+
+    print(f"\n## Metabolite coverage gaps ({len(metabolite_gaps)})\n")
+    print(
+        "Products of a DrugBank metabolic reaction FROM this substance that no "
+        "`metabolism` row names. Conjugates are excluded — they are excretion "
+        "products, not pharmacology. A metabolite that is itself a substance we "
+        "carry should be LINKED (`metabolite_substance_id`), not copied.\n"
+    )
+    print("| Pop. | Substance | Metabolites DrugBank names | DrugBank id |")
+    print("|---:|---|---|---|")
+    for s, d, fresh in sorted(metabolite_gaps, key=lambda x: (-pop(x[0]), x[0]["name"]))[:60]:
+        print(f"| {pop(s):.0f} | {s['name']} | {', '.join(fresh[:4])} | {d['id']} |")
 
     print(
         f"\n## Identifier backfill candidates "

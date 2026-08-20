@@ -21,6 +21,9 @@ parse_half_life = _mod.parse_half_life
 strip_citation_tokens = _mod.strip_citation_tokens
 inchikey_relation = _mod.inchikey_relation
 classify_ik_conflict = _mod.classify_ik_conflict
+cyp_token = _mod.cyp_token
+UI_ENZYMES = _mod.UI_ENZYMES
+metabolite_key = _mod.metabolite_key
 
 
 class TestParseAccepts(unittest.TestCase):
@@ -128,6 +131,78 @@ class TestClassifyIkConflict(unittest.TestCase):
         # "Mitragynine" reached DrugBank's "Magnesium" through a shared short
         # alias — the pair is two different drugs, not a data error on either.
         self.assertEqual(classify_ik_conflict("Mitragynine", "Magnesium"), "alias-collision")
+
+
+class TestCypToken(unittest.TestCase):
+    """DrugBank writes enzymes long-form; the metabolism table and the app both
+    key on the short gene token, and the join is what decides whether a
+    modulator readout appears at all."""
+
+    def test_cyp_names_become_gene_tokens(self):
+        self.assertEqual(cyp_token("Cytochrome P450 3A4"), "CYP3A4")
+        self.assertEqual(cyp_token("Cytochrome P450 2C19"), "CYP2C19")
+        self.assertEqual(cyp_token("Cytochrome P450 1A2"), "CYP1A2")
+
+    def test_case_and_spacing_do_not_matter(self):
+        self.assertEqual(cyp_token("cytochrome  p450  2d6"), "CYP2D6")
+
+    def test_non_cyp_enzymes_are_not_tokens(self):
+        # A UGT clears plenty of drugs but has no modulator catalog behind it,
+        # so calling it a CYP would invent a readout that does not exist.
+        self.assertIsNone(cyp_token("UDP-glucuronosyltransferase 1-1"))
+        self.assertIsNone(cyp_token("Monoamine oxidase A"))
+        self.assertIsNone(cyp_token(""))
+
+    def test_2c19_is_never_read_as_2c9(self):
+        # The tokens must not overlap: CYP2C19 contains "CYP2C1", and a
+        # substring-based match would silently give 2C9's modulators to a 2C19
+        # substrate.
+        self.assertEqual(cyp_token("Cytochrome P450 2C9"), "CYP2C9")
+        self.assertNotEqual(cyp_token("Cytochrome P450 2C19"), "CYP2C9")
+
+    def test_every_ui_enzyme_round_trips(self):
+        # Each key must be producible from DrugBank's own spelling, or the gap
+        # check silently never fires for it.
+        for token in UI_ENZYMES:
+            long_form = f"Cytochrome P450 {token.removeprefix('CYP')}"
+            self.assertEqual(cyp_token(long_form), token)
+
+
+class TestMetaboliteKey(unittest.TestCase):
+    """Spelling differences must fold; chemistry must not."""
+
+    def test_stereo_spelling_folds(self):
+        # DrugBank writes "Dextroamphetamine"; the catalog writes "d-amphetamine".
+        self.assertTrue(metabolite_key("Dextroamphetamine") & metabolite_key("d-amphetamine"))
+        self.assertTrue(metabolite_key("Levomethadone") & metabolite_key("l-methadone"))
+
+    def test_positional_prefix_spelling_folds(self):
+        self.assertTrue(
+            metabolite_key("m-chlorophenylpiperazine (m-CPP)")
+            & metabolite_key("meta-chlorophenylpiperazine (mCPP)")
+        )
+
+    def test_a_parenthetical_short_form_is_its_own_key(self):
+        self.assertIn("mcpp", metabolite_key("meta-chlorophenylpiperazine (mCPP)"))
+
+    def test_n_and_o_desmethyl_never_collapse(self):
+        # The whole point of tramadol's CYP2D6 story: O-desmethyltramadol is the
+        # active opioid, N-desmethyltramadol is not. Folding these would report
+        # one as covered when the catalog names the other.
+        self.assertFalse(
+            metabolite_key("N-Desmethyltramadol") & metabolite_key("O-Desmethyltramadol")
+        )
+
+    def test_distinct_compounds_stay_distinct(self):
+        self.assertFalse(metabolite_key("Norketamine") & metabolite_key("Ketamine"))
+        self.assertFalse(metabolite_key("Theophylline") & metabolite_key("Theobromine"))
+
+    def test_punctuation_and_case_are_irrelevant(self):
+        self.assertTrue(metabolite_key("4-Hydroxy-Ketamine") & metabolite_key("4 hydroxyketamine"))
+
+    def test_empty_and_tiny_names_yield_nothing(self):
+        self.assertEqual(metabolite_key(""), set())
+        self.assertEqual(metabolite_key("  "), set())
 
 
 if __name__ == "__main__":
