@@ -3,11 +3,12 @@ import SwiftUI
 /// The session's interaction warnings plus the heart-rate summary when vitals
 /// are on.
 ///
-/// Findings that have earned an interruption are inline; the `.background` ones
-/// fold behind a count. This is where the quiet ones live — the QuickLog dock
-/// dropped interactions entirely, because a dock is for recording what has
-/// already been taken and a warning there arrives after the decision it would
-/// inform. Rows echo the dose/cumulative rows: a leading glyph (the
+/// Findings that have earned an interruption are inline; the quiet ones fold
+/// behind a count — but only once there are enough of them for folding to buy
+/// anything. See ``partitionedForReview``. This is where the quiet ones live:
+/// the QuickLog dock dropped interactions entirely, because a dock is for
+/// recording what has already been taken and a warning there arrives after the
+/// decision it would inform. Rows echo the dose/cumulative rows: a leading glyph (the
 /// severity triangle in place of the color dot) + the involved substances in
 /// normal text, with the severity level as a tinted chip on the right — the only
 /// colored element. Warnings that share the exact same explanation are grouped
@@ -23,11 +24,8 @@ struct SessionSafetySection: View {
 
     @State private var showsQuiet = false
 
-    private var loud: [InteractionResult] {
-        interactions.admitted(.notable)
-    }
-    private var quiet: [InteractionResult] {
-        interactions.filter { $0.prominence < .notable }
+    private var split: (shown: [InteractionResult], folded: [InteractionResult]) {
+        interactions.partitionedForReview()
     }
 
     private var hasContent: Bool {
@@ -37,16 +35,17 @@ struct SessionSafetySection: View {
     var body: some View {
         if hasContent {
             Section {
-                ForEach(grouped(loud)) { group in
+                let partition = split
+                ForEach(grouped(partition.shown)) { group in
                     interactionRow(group)
                 }
-                if !quiet.isEmpty {
+                if !partition.folded.isEmpty {
                     DisclosureGroup(isExpanded: $showsQuiet) {
-                        ForEach(grouped(quiet)) { group in
+                        ForEach(grouped(partition.folded)) { group in
                             interactionRow(group)
                         }
                     } label: {
-                        Text("^[\(quiet.count) more combination](inflect: true)")
+                        Text("^[\(partition.folded.count) more combination](inflect: true)")
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
                     }

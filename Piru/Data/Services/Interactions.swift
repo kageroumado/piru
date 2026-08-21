@@ -14,6 +14,16 @@ nonisolated enum InteractionSeverity: Int, Comparable, Codable, CaseIterable {
     case unsafe = 1
     case dangerous = 2
 
+    /// The bundled DB stores severity as a lowercase name.
+    init?(bundledName: String) {
+        switch bundledName.lowercased() {
+        case "dangerous": self = .dangerous
+        case "unsafe": self = .unsafe
+        case "caution": self = .caution
+        default: return nil
+        }
+    }
+
     static func < (lhs: InteractionSeverity, rhs: InteractionSeverity) -> Bool {
         lhs.rawValue < rhs.rawValue
     }
@@ -293,6 +303,19 @@ extension [InteractionResult] {
     func belowFloor(_ floor: InteractionProminence) -> Int {
         count { $0.prominence < floor }
     }
+
+    /// The split between what a review surface shows and what it folds.
+    ///
+    /// Folding buys nothing when there is almost nothing to fold: one or two
+    /// findings fit, whatever they are, and hiding one behind a disclosure that
+    /// says "1 more" costs a tap and reads as an error. Past that, the quiet
+    /// ones move out of the way so the loud ones are visible — and when *all* of
+    /// them are quiet the whole set folds, because then the count is the honest
+    /// summary and no single row deserves the space.
+    func partitionedForReview() -> (shown: [InteractionResult], folded: [InteractionResult]) {
+        guard count > 2 else { return (self, []) }
+        return (admitted(.notable), filter { $0.prominence < .notable })
+    }
 }
 
 // MARK: - Interaction Policy
@@ -325,6 +348,16 @@ private struct InteractionRule {
         self.classB = classB
         self.severity = severity
         self.description = String(localized: description)
+    }
+
+    /// For a rule read from the bundled database. Its note is source prose, not
+    /// a catalog key, so it ships in English regardless of locale — the same
+    /// treatment every other DB-authored string gets.
+    init(classA: DrugClass, classB: DrugClass, severity: InteractionSeverity, note: String) {
+        self.classA = classA
+        self.classB = classB
+        self.severity = severity
+        description = note
     }
 
     /// A hard pharmacological edge whose danger **outlasts the subjective
@@ -1498,6 +1531,21 @@ enum InteractionChecker {
 
     private static let ruleLookup: [String: InteractionRule] = {
         var dict: [String: InteractionRule] = [:]
+        // Bundled rules FIRST, so a hand-written one overwrites them. TripSit's
+        // matrix is community consensus; the table below carries adjudications
+        // that deliberately contradict folk ordering — MDMA + SSRI is blockade,
+        // not danger, and the real danger there is MAOI. Where the two disagree
+        // the curated verdict is the one that has been checked.
+        for bundled in SubstanceStore.shared.classInteractionRules() {
+            guard let classA = DrugClass(rawValue: bundled.classA),
+                  let classB = DrugClass(rawValue: bundled.classB),
+                  let severity = InteractionSeverity(bundledName: bundled.severity)
+            else { continue }
+            let key = [classA.rawValue, classB.rawValue].sorted().joined(separator: "|")
+            dict[key] = InteractionRule(
+                classA: classA, classB: classB, severity: severity, note: bundled.note,
+            )
+        }
         for rule in rules {
             let key = [rule.classA.rawValue, rule.classB.rawValue].sorted().joined(separator: "|")
             dict[key] = rule

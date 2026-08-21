@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "what": "Which terms on TripSit's combination axis may be read as one of Piru's DrugClass values.",
+    "why": "TripSit's matrix mixes classes with substances. 'benzodiazepines' is a class; 'ketamine', 'lsd' and 'mephedrone' are not, and reading a ketamine-specific note as a claim about every dissociative invents one — TripSit's lithium warning names MXE, its pregabalin seizure warning names NBOMe, and its MAOI warning names αMT. Only a term that IS the class it maps to, or is TripSit's own class term, is listed. Everything else is dropped rather than generalised; the loss is real and it is the honest side to err on.",
+    "severity": "TripSit's six statuses collapse onto Piru's three. The distinction between 'Low Risk & Synergy' and 'Low Risk & Decrease' — opposite advice at the same severity — survives in `interaction_rules.status`, which is stored verbatim.",
+    "curated_wins": "Where a pair already has a hand-written Swift rule, that rule wins. TripSit is community consensus; the Swift rules carry adjudications that deliberately contradict folk ordering (MDMA + SSRI is blockade, not danger)."
+  },
+  "classes": {
+    "alcohol": "alcohol",
+    "benzodiazepines": "benzodiazepine",
+    "opioids": "opioid",
+    "ssris": "ssri",
+    "maois": "maoi",
+    "lithium": "lithium",
+    "ghb/gbl": "ghb",
+    "cannabis": "cannabinoid",
+    "amphetamines": "stimulant",
+    "pregabalin": "gabapentinoid",
+    "tramadol": "serotonergic"
+  },
+  "severity": {
+    "Dangerous": "dangerous",
+    "Unsafe": "unsafe",
+    "Caution": "caution",
+    "Low Risk & Synergy": "caution",
+    "Low Risk & No Synergy": "caution",
+    "Low Risk & Decrease": "caution"
+  }
+}

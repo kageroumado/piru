@@ -117,6 +117,7 @@ DOSE_SOURCE_EXCEPTIONS = REPO / "data/curated/dose-source-exceptions.json"
 # is equally likely to be a wrong SMILES as a duplicate.
 STRUCTURAL_DUPLICATES = REPO / "data/curated/structural-duplicates.json"
 FREEODWIKI = REPO / "data/sources/freeodwiki.json"
+TRIPSIT = REPO / "data/sources/tripsit.json"
 # Citation link-health cache produced by pipeline/audit/validate_links.py.
 # The build drops citations this proved dead (HTTP 404/410) so no broken link ships.
 LINK_CACHE = REPO / "data/sources/link-cache.json"
@@ -1358,12 +1359,22 @@ CREATE TABLE class_citations (
     PRIMARY KEY (class_context_id, citation_id)
 );
 
+-- Class-pair interaction rules, from TripSit's combination matrix. The app
+-- merges these UNDER its own hand-written rules: a pair with a curated Swift
+-- rule keeps it, because those carry adjudications that deliberately contradict
+-- folk ordering (MDMA + SSRI is blockade, not danger).
 CREATE TABLE interaction_rules (
     id           INTEGER PRIMARY KEY,
     class_a      TEXT NOT NULL,
     class_b      TEXT NOT NULL,
     severity     TEXT NOT NULL,
     note         TEXT NOT NULL,
+    -- TripSit's own six-level status, verbatim. Piru has three severities, so
+    -- "Low Risk & Synergy" and "Low Risk & Decrease" both land on `caution` —
+    -- and they are opposite advice (one means less is needed, the other that
+    -- people redose into trouble). Keeping the label means the distinction is
+    -- recoverable without re-deriving it.
+    status       TEXT,
     source_id    INTEGER REFERENCES sources(id),
     citation_id  INTEGER REFERENCES citations(id),
     UNIQUE (class_a, class_b)
@@ -2470,6 +2481,69 @@ def assert_effects_are_readable_in_english(con) -> dict:
     cur.execute("SELECT COUNT(*), SUM(vocab_id IS NOT NULL) FROM subjective_effects")
     total, bridged = cur.fetchone()
     return {"rows": total or 0, "bridged": bridged or 0}
+
+
+def ingest_tripsit_combos(build, path: Path) -> dict:
+    """TripSit's combination matrix into `interaction_rules`, class pairs only.
+
+    The matrix's axis mixes classes with substances. Only a term that IS the
+    class it maps to, or is TripSit's own class term, is read — the map lives in
+    data/curated/tripsit-combo-classes.json with the reasoning. Reading a
+    ketamine-specific note as a claim about every dissociative would invent one,
+    and TripSit's own lithium warning names MXE, its pregabalin seizure warning
+    names NBOMe, and its MAOI warning names αMT.
+
+    A pair claimed at several severities (three stimulant rows all map to
+    `stimulant`) keeps the worst. A pair with no note is skipped: a severity
+    word with no explanation is the thing the glance card was fixed to stop
+    showing.
+    """
+    policy = json.loads((REPO / "data/curated/tripsit-combo-classes.json").read_text())
+    classes, severities = policy["classes"], policy["severity"]
+    rank = {"caution": 0, "unsafe": 1, "dangerous": 2}
+
+    records = json.loads(path.read_text())
+    records = records if isinstance(records, list) else list(records.values())
+    best: dict[tuple[str, str], tuple[str, str, str, dict | None]] = {}
+    for record in records:
+        if not isinstance(record, dict):
+            continue
+        left = classes.get((record.get("name") or "").lower())
+        if not left or not record.get("combos"):
+            continue
+        for other, combo in record["combos"].items():
+            right = classes.get(other.lower())
+            severity = severities.get(combo.get("status"))
+            note = (combo.get("note") or "").strip()
+            if not right or right == left or not severity or not note:
+                continue
+            key = tuple(sorted((left, right)))
+            existing = best.get(key)
+            if existing is None or rank[severity] > rank[existing[0]]:
+                best[key] = (
+                    severity,
+                    combo.get("status"),
+                    note,
+                    (combo.get("sources") or [None])[0],
+                )
+
+    src = build.source_ids.get("tripsit")
+    written = 0
+    for (class_a, class_b), (severity, status, note, reference) in sorted(best.items()):
+        citation_id = None
+        if isinstance(reference, dict):
+            citation_id = build.cite(reference.get("url") or reference.get("title"))
+        try:
+            build.cur.execute(
+                "INSERT INTO interaction_rules(class_a, class_b, severity, note, status, "
+                "source_id, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (class_a, class_b, severity, note, status, src, citation_id),
+            )
+            written += 1
+        except sqlite3.IntegrityError:
+            pass
+    build.stats["interaction_rules"] = written
+    return {"written": written, "pairs": len(best)}
 
 
 def prune_class_memberships(con) -> dict:
@@ -10958,6 +11032,12 @@ def main() -> int:
     # A membership whose substance's own category contradicts the class is a
     # false claim; the enrichment files tag comparison compounds with the class
     # of the file they appear in. Runs after all merges.
+    combos = ingest_tripsit_combos(build, TRIPSIT)
+    print(
+        f"TripSit class-pair rules: {combos['written']} of {combos['pairs']}",
+        file=sys.stderr,
+    )
+
     pruned = prune_class_memberships(build.cur.connection)
     print(f"Class memberships pruned: {pruned['dropped']}", file=sys.stderr)
     for name in pruned["names"][:12]:

@@ -29,7 +29,7 @@ graph LR
     aliases["aliases<br/>5,396 rows"]
     effects["effects<br/>2,952 rows"]
     dose_ranges["dose_ranges<br/>2,498 rows"]
-    citations["citations<br/>2,124 rows"]
+    citations["citations<br/>2,130 rows"]
     substance_forms["substance_forms<br/>1,800 rows"]
     substances["substances<br/>1,738 rows"]
     contraindications["contraindications<br/>1,656 rows"]
@@ -63,6 +63,7 @@ graph LR
     biased_agonism["biased_agonism<br/>23 rows"]
     concentration_effects["concentration_effects<br/>23 rows"]
     durations_of_action["durations_of_action<br/>21 rows"]
+    interaction_rules["interaction_rules<br/>19 rows"]
     sources["sources<br/>17 rows"]
     receptor_oligomers["receptor_oligomers<br/>8 rows"]
     product_durations["product_durations<br/>6 rows"]
@@ -205,6 +206,8 @@ graph LR
     concentration_effects --> ui_pharmacokinetics
     src_piru_curated --> durations_of_action
     durations_of_action --> ui_doseDuration
+    src_tripsit --> interaction_rules
+    interaction_rules --> ui_combinations
     sources --> ui_sources
     src_peer_review_primary --> receptor_oligomers
     receptor_oligomers --> ui_receptorLiterature
@@ -212,7 +215,7 @@ graph LR
     classDef dead fill:#5b1a1a,stroke:#d06666,color:#fff;
     classDef partial fill:#5b451a,stroke:#d0a566,color:#fff;
     classDef live fill:#1a3d2b,stroke:#5fbf8f,color:#fff;
-    class aliases,dose_ranges,citations,substance_forms,substances,bindings,mechanisms_summary,spectrum_levels,substance_citations,metabolism,half_lives,tolerance,pk_routes,pharmacogenetics,class_citations,off_targets,drug_interactions_pk,functional_assays,protocol_dosing,neuroimaging,class_contexts,peptide_profiles,diazepam_equivalents,product_strengths,biased_agonism,concentration_effects,durations_of_action,sources,receptor_oligomers,product_durations partial;
+    class aliases,dose_ranges,citations,substance_forms,substances,bindings,mechanisms_summary,spectrum_levels,substance_citations,metabolism,half_lives,tolerance,pk_routes,pharmacogenetics,class_citations,off_targets,drug_interactions_pk,functional_assays,protocol_dosing,neuroimaging,class_contexts,peptide_profiles,diazepam_equivalents,product_strengths,biased_agonism,concentration_effects,durations_of_action,interaction_rules,sources,receptor_oligomers,product_durations partial;
     class subjective_effects,durations,reported_effects,tags,effects,contraindications,categories,indications,molecule_shapes,effect_vocab_labels,descriptions,downstream_signalling,substance_classes,class_reference_compounds live;
 ```
 

@@ -275,6 +275,79 @@ struct InteractionCheckerTests {
         #expect(admitted.count + results.belowFloor(.notable) == results.count)
     }
 
+    // MARK: - Bundled class-pair rules
+
+    @Test
+    func `TripSit fills pairs the hand-written table does not cover`() throws {
+        // Tramadol is `serotonergic` here, and the Swift table carries no rule
+        // for it with alcohol, benzodiazepines, GHB or stimulants — every one
+        // of which TripSit calls dangerous, on seizure and respiratory grounds.
+        let results = InteractionChecker.checkBatch(["Tramadol", "Alcohol"], against: [])
+        let finding = try #require(results.first)
+        #expect(finding.severity == .dangerous)
+        #expect(!finding.description.isEmpty)
+    }
+
+    @Test
+    func `A hand-written rule wins over the bundled one`() throws {
+        // TripSit calls tramadol + SSRI dangerous; the curated rule calls it
+        // unsafe, and the curated verdict is the one that has been checked.
+        let results = InteractionChecker.checkBatch(["Tramadol", "Sertraline"], against: [])
+        let finding = try #require(results.first)
+        #expect(finding.severity == .unsafe)
+    }
+
+    @Test
+    func `The curated MDMA and SSRI adjudication survives the merge`() throws {
+        // The folk ordering says danger; the replicated human finding is 30-80%
+        // effect blockade. A bundled rule must not overturn that.
+        let results = InteractionChecker.checkBatch(["MDMA", "Sertraline"], against: [])
+        let finding = try #require(results.first)
+        #expect(finding.severity == .caution)
+        #expect(finding.description.localizedCaseInsensitiveContains("blunt"))
+    }
+
+    @Test
+    func `One or two findings are never folded`() {
+        // Folding buys nothing here, and a disclosure reading "1 more" over an
+        // empty list reads as an error.
+        for names in [["Caffeine", "Amphetamine"], ["Morphine", "Alprazolam"]] {
+            let results = InteractionChecker.checkBatch(names, against: [])
+            #expect(results.count <= 2)
+            let split = results.partitionedForReview()
+            #expect(split.shown.count == results.count)
+            #expect(split.folded.isEmpty)
+        }
+    }
+
+    @Test
+    func `Past two, the quiet ones move out of the way`() {
+        let results = InteractionChecker.checkBatch(
+            ["Morphine", "Alprazolam", "Caffeine", "Amphetamine", "Cannabis"],
+            against: [],
+        )
+        #expect(results.count > 2)
+        let split = results.partitionedForReview()
+        #expect(split.shown.allSatisfy { $0.prominence >= .notable })
+        #expect(split.folded.allSatisfy { $0.prominence < .notable })
+        #expect(split.shown.count + split.folded.count == results.count)
+    }
+
+    @Test
+    func `A set that is entirely quiet folds whole`() {
+        // Three stimulants: every pairing is a caution, so the count is the
+        // honest summary and no single row deserves the space.
+        let results = InteractionChecker.checkBatch(
+            ["Caffeine", "Amphetamine", "Methylphenidate", "Cocaine"],
+            against: [],
+        )
+        #expect(results.count > 2)
+        #expect(results.allSatisfy { $0.prominence < .notable })
+        let split = results.partitionedForReview()
+        #expect(split.shown.isEmpty)
+        #expect(split.folded.count == results.count)
+    }
+
     @Test
     func `The lead clause is the mechanism, without the elaboration`() throws {
         let danger = try #require(

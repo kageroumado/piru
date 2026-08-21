@@ -146,6 +146,46 @@ extension SubstanceStore {
         }
     }
 
+    // MARK: - Class-pair interaction rules
+
+    /// One `interaction_rules` row: a class pair, how bad, and why.
+    struct ClassInteractionRule: Hashable {
+        let classA: String
+        let classB: String
+        let severity: String
+        let note: String
+        /// TripSit's own six-level status, verbatim — "Low Risk & Synergy" and
+        /// "Low Risk & Decrease" both collapse onto `caution` and are opposite
+        /// advice, so the label is what keeps them apart.
+        let status: String?
+    }
+
+    /// Every class-pair rule in the bundled database.
+    ///
+    /// Read once and merged UNDER the app's own table — see
+    /// `InteractionChecker.rules`. A pair with a hand-written rule keeps it.
+    func classInteractionRules() -> [ClassInteractionRule] {
+        do {
+            return try substancesDB.read { db in
+                try Row.fetchAll(db, sql: """
+                    SELECT class_a, class_b, severity, note, status
+                      FROM interaction_rules
+                """).map {
+                    ClassInteractionRule(
+                        classA: $0["class_a"],
+                        classB: $0["class_b"],
+                        severity: $0["severity"],
+                        note: $0["note"],
+                        status: $0["status"],
+                    )
+                }
+            }
+        } catch {
+            logger.error("classInteractionRules() failed: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
+
     // MARK: - Class context
 
     /// The pharmacological class a substance belongs to, and what its members

@@ -259,15 +259,15 @@
         "verdict": "empty"
       },
       "doi": {
-        "filled": 790,
+        "filled": 794,
         "verdict": "shown"
       },
       "id": {
-        "filled": 2124,
+        "filled": 2130,
         "verdict": "plumbing"
       },
       "is_review": {
-        "filled": 2124,
+        "filled": 2130,
         "verdict": "unused"
       },
       "pmid": {
@@ -279,7 +279,7 @@
         "verdict": "shown"
       },
       "url": {
-        "filled": 1109,
+        "filled": 1115,
         "verdict": "shown"
       },
       "year": {
@@ -288,7 +288,7 @@
       }
     },
     "read_in_swift": true,
-    "rows": 2124,
+    "rows": 2130,
     "surface": "sources"
   },
   "class_citations": {
@@ -963,36 +963,40 @@
     "attributed_only": false,
     "columns": {
       "citation_id": {
-        "filled": 0,
-        "verdict": "empty"
+        "filled": 6,
+        "verdict": "read"
       },
       "class_a": {
-        "filled": 0,
-        "verdict": "empty"
+        "filled": 19,
+        "verdict": "read"
       },
       "class_b": {
-        "filled": 0,
-        "verdict": "empty"
+        "filled": 19,
+        "verdict": "read"
       },
       "id": {
-        "filled": 0,
+        "filled": 19,
         "verdict": "plumbing"
       },
       "note": {
-        "filled": 0,
-        "verdict": "empty"
+        "filled": 19,
+        "verdict": "shown"
       },
       "severity": {
-        "filled": 0,
-        "verdict": "empty"
+        "filled": 19,
+        "verdict": "shown"
       },
       "source_id": {
-        "filled": 0,
+        "filled": 19,
         "verdict": "plumbing"
+      },
+      "status": {
+        "filled": 19,
+        "verdict": "shown"
       }
     },
-    "read_in_swift": false,
-    "rows": 0,
+    "read_in_swift": true,
+    "rows": 19,
     "surface": "combinations"
   },
   "manifest": {
