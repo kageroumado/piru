@@ -12666,14 +12666,13 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 150.0,
     "mechanism_summary": "Centrally-Acting Analgesic and Antipyretic",
     "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=53145-052"
+    ],
+    "data_gaps": []
   },
   {
     "name": "Acetaminophen-Codeine",
@@ -14277,15 +14276,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 120.0,
     "mechanism_summary": "Inhibits xanthine oxidase, thus reducing uric acid production. Xanthine oxidase is the enzyme responsible for the conversion of hypoxanthine to xanthine and of xanthine to uric acid.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=61786-801"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -14379,7 +14378,8 @@
     "mechanism_summary": "Selectively agonizes 5-HT1B/1D receptors causing vasoconstriction of cranial blood vessels, inhibition of pro-inflammatory neuropeptide release, and decreased pain transmission.",
     "effects": [],
     "references": [
-      "FDA label for Almotriptan Malate (almotriptan) tablets, Clinical Pharmacology 12.3 — t½ = 3–4 hours"
+      "FDA label for Almotriptan Malate (almotriptan) tablets, Clinical Pharmacology 12.3 — t½ = 3–4 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=27241-041"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -15237,7 +15237,8 @@
     "mechanism_summary": "Inhibits potassium excretion and sodium resorption by blocking epithelial cell sodium channels in the collecting duct of nephrons. The primary action of epithelial sodium channel blockers is potassium retention. They have weak diuretic and antihypertensive properties, and alone have minimal effect on the excretion and retention of other electrolytes.",
     "effects": [],
     "references": [
-      "FDA label for amiloride hydrochloride, Clinical Pharmacology — plasma half-life 6 to 9 hours"
+      "FDA label for amiloride hydrochloride, Clinical Pharmacology — plasma half-life 6 to 9 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=42291-122"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -15464,15 +15465,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 2400.0,
     "mechanism_summary": "Inhibits calcium ion influx into vascular smooth muscle and cardiac muscle causing peripheral vasodilation and coronary artery vasodilation.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=33342-015"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -15745,7 +15746,8 @@
       "Wakefulness"
     ],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021303s026lbl.pdf"
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021303s026lbl.pdf",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=24338-850"
     ],
     "data_gaps": []
   },
@@ -15819,7 +15821,8 @@
     "mechanism_summary": "The growth of many cancers of the breast is stimulated or maintained by estrogens. In postmenopausal women, estrogens are mainly derived from the action of the aromatase enzyme, which converts adrenal androgens (primarily androstenedione and testosterone) to estrone and estradiol. The suppression of estrogen biosynthesis in peripheral tissues and in the cancer tissue itself can therefore be achieved by specifically inhibiting the aromatase enzyme. Anastrozole is a selective non-steroidal aromatase inhibitor. It significantly lowers serum estradiol concentrations and has no detectable effect on formation of adrenal corticosteroids or aldosterone.",
     "effects": [],
     "references": [
-      "FDA label for Anastrozole (anastrozole) tablets, Clinical Pharmacology 12.3 — t½ = 50 hours"
+      "FDA label for Anastrozole (anastrozole) tablets, Clinical Pharmacology 12.3 — t½ = 50 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0054-0164"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -16060,7 +16063,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "FDA label for Apraclonidine Ophthalmic Solution 0.5% (apraclonidine), Clinical Pharmacology — systemic t½ = 8 hours"
+      "FDA label for Apraclonidine Ophthalmic Solution 0.5% (apraclonidine), Clinical Pharmacology — systemic t½ = 8 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=17478-716"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -16373,15 +16377,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 1140.0,
     "mechanism_summary": "Asparaginase Erwinia chrysanthemi catalyzes the deamidation of asparagine to aspartic acid and ammonia, resulting in a reduction in circulating levels of asparagine. The mechanism of action of Erwinaze is thought to be based on the inability of leukemic cells to synthesize asparagine due to lack of asparagine synthetase activity, resulting in cytotoxicity specific for leukemic cells that depend on an exogenous source of amino acid asparagine for their protein metabolism and survival.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=57902-249"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -16496,7 +16500,8 @@
     "mechanism_summary": "Selective Norepinephrine Reuptake Inhibitor (NRI)",
     "effects": [],
     "references": [
-      "Disposition and metabolic fate of atomoxetine hydrochloride: the role of CYP2D6 in human disposition and metabolism"
+      "Disposition and metabolic fate of atomoxetine hydrochloride: the role of CYP2D6 in human disposition and metabolism",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0002-3227"
     ],
     "data_gaps": []
   },
@@ -17332,7 +17337,8 @@
     "mechanism_summary": "Beleodaq is a histone deacetylase (HDAC) inhibitor. HDACs catalyze the removal of acetyl groups from the lysine residues of histones and some non-histone proteins. In vitro, belinostat caused the accumulation of acetylated histones and other proteins, inducing cell cycle arrest and/or apoptosis of some transformed cells. Belinostat shows preferential cytotoxicity towards tumor cells compared to normal cells. Belinostat inhibited the enzymatic activity of histone deacetylases at nanomolar concentrations (<250 nM).",
     "effects": [],
     "references": [
-      "FDA label for Beleodaq (belinostat), Clinical Pharmacology/Pharmacokinetics — t½ = 1.1 h"
+      "FDA label for Beleodaq (belinostat), Clinical Pharmacology/Pharmacokinetics — t½ = 1.1 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=68152-108"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -17542,15 +17548,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 330.0,
     "mechanism_summary": "Acts by anesthetizing stretch receptors in the respiratory passages, lungs, and pleura by dampening their activity and thereby reducing the cough reflex at its source.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0179-0066"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -17853,7 +17859,8 @@
     "mechanism_summary": "Betamethasone is a synthetic glucocorticoid with potent anti-inflammatory and immunomodulating properties. After cell entry, it binds to corticosteroid receptors on the nucleus and produces anti-inflammatory, antiproliferative, immunosuppressive, and vasoconstrictive effects that can be beneficial for psoriatic, pruritic, and other corticosteroid responsive dermatoses.",
     "effects": [],
     "references": [
-      "Pharmacokinetics and Pharmacodynamics of Intramuscular and Oral Betamethasone and Dexamethasone in Reproductive Age Women in India"
+      "Pharmacokinetics and Pharmacodynamics of Intramuscular and Oral Betamethasone and Dexamethasone in Reproductive Age Women in India",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=54879-004"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -17906,7 +17913,8 @@
     "mechanism_summary": "Bexarotene selectively binds and activates retinoid X receptor subtypes (RXRα, RXRβ, RXRγ). RXRs can form heterodimers with various receptor partners such as retinoic acid receptors (RARs), vitamin D receptor, thyroid receptor, and peroxisome proliferator activator receptors (PPARs). Once activated, these receptors function as transcription factors that regulate the expression of genes that control cellular differentiation and proliferation. Bexarotene inhibits the growth in vitro of some tumor cell lines of hematopoietic and squamous cell origin. It also induces tumor regression in vivo in some animal models. The exact mechanism of action of Bexarotene in the treatment of cutaneous T-cell lymphoma (CTCL) is unknown.",
     "effects": [],
     "references": [
-      "FDA label for Targretin (bexarotene), Clinical Pharmacology/Pharmacokinetics — terminal t½ ≈ 7 hours"
+      "FDA label for Targretin (bexarotene), Clinical Pharmacology/Pharmacokinetics — terminal t½ ≈ 7 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0378-6955"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -17966,7 +17974,8 @@
     "mechanism_summary": "Casodex is a non-steroidal androgen receptor inhibitor. It competitively inhibits the action of androgens by binding to cytosol androgen receptors in the target tissue. Prostatic carcinoma is known to be androgen sensitive and responds to treatment that counteracts the effect of androgen and/or removes the source of androgen. When Casodex is combined with LHRH analog therapy, the suppression of serum testosterone induced by the LHRH analog is not affected. However, in clinical trials with Casodex as a single agent for prostate cancer, rises in serum testosterone and estradiol have been noted. In a subset of patients who have been treated with Casodex and an LHRH agonist, and who discontinue Casodex therapy due to progressive advanced prostate cancer, a reduction in Prostate Specific Antigen (PSA) and/or clinical improvement (antiandrogen withdrawal phenomenon) may be observed.",
     "effects": [],
     "references": [
-      "FDA label for bicalutamide tablets, Clinical Pharmacology 12.3, Table 3 — t½ = 5.8 days"
+      "FDA label for bicalutamide tablets, Clinical Pharmacology 12.3, Table 3 — t½ = 5.8 days",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0310-0705"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -18086,15 +18095,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 960.0,
     "mechanism_summary": "Stimulates constriction and relaxation of smooth muscle in the colon and increases fecal water content to increase motility of feces through the large intestine.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=10237-906"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -18374,7 +18383,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "FDA label for Bleomycin (bleomycin sulfate), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 2 hours"
+      "FDA label for Bleomycin (bleomycin sulfate), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 2 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=70121-1567"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -19474,7 +19484,8 @@
     "mechanism_summary": "Inhibits sodium-potassium-chloride cotransporters at the ascending Loop of Henle of nephrons, producing a potent diuretic effect that causes increased excretion of sodium, chloride, potassium, magnesium, calcium, and water. Loop diuretics cause retention of bicarbonate and uric acid.",
     "effects": [],
     "references": [
-      "FDA label for Bumetanide (bumetanide), Clinical Pharmacology - t½ ≈ 1 to 1½ h"
+      "FDA label for Bumetanide (bumetanide), Clinical Pharmacology - t½ ≈ 1 to 1½ h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0093-4232"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -19643,7 +19654,8 @@
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018644s059lbl.pdf",
       "https://en.wikipedia.org/wiki/Bupropion",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2001/20358s19lbl.pdf"
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2001/20358s19lbl.pdf",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0173-0556"
     ],
     "data_gaps": []
   },
@@ -19674,7 +19686,8 @@
     "mechanism_summary": "Buspirone has an unknown mechanism of action, however, it has high affinity for serotonin 5-HT-1A and 5-HT-2 receptors in addition to moderate affinity for dopamine D2 receptors. It does not have affinity for benzodiazepine receptors and does not affect GABA binding.",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Buspirone"
+      "https://en.wikipedia.org/wiki/Buspirone",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0093-0053"
     ],
     "data_gaps": [
       "dose_ranges_by_route"
@@ -19699,7 +19712,8 @@
     "mechanism_summary": "Busulfan is a bifunctional alkylating agent in which two labile methanesulfonate groups are attached to opposite ends of a four-carbon alkyl chain. In aqueous media, busulfan hydrolyzes to release the methanesulfonate groups. This produces reactive carbonium ions that can alkylate DNA. DNA damage is thought to be responsible for much of the cytotoxicity of busulfan.",
     "effects": [],
     "references": [
-      "FDA label for Myleran (busulfan), Clinical Pharmacology — t½ ≈ 2.6 hours"
+      "FDA label for Myleran (busulfan), Clinical Pharmacology — t½ ≈ 2.6 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0517-0920"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -20651,7 +20665,8 @@
     "mechanism_summary": "Non-Selective β-Blocker with α1 Antagonism and Antioxidant Properties",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Carvedilol"
+      "https://en.wikipedia.org/wiki/Carvedilol",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0007-3370"
     ],
     "data_gaps": [
       "dose_ranges_by_route"
@@ -21326,7 +21341,8 @@
     "mechanism_summary": "Inhibits bacterial cell wall synthesis by binding to and inactivating penicillin-binding proteins (PBPs) present in the bacterial cell wall.",
     "effects": [],
     "references": [
-      "FDA label for Cefuroxime Axetil tablets, Clinical Pharmacology 12.3 (Table 8) — mean elimination t½ 1.2 h"
+      "FDA label for Cefuroxime Axetil tablets, Clinical Pharmacology 12.3 (Table 8) — mean elimination t½ 1.2 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0143-9567"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -21424,15 +21440,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 60.0,
     "mechanism_summary": "Inhibits bacterial cell wall synthesis by binding to and inactivating penicillin-binding proteins (PBPs) present in the bacterial cell wall.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0316-0333"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -21513,7 +21529,8 @@
     ],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/20784slr013_zyrtec_lbl.pdf",
-      "https://en.wikipedia.org/wiki/Cetirizine"
+      "https://en.wikipedia.org/wiki/Cetirizine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=30142-211"
     ],
     "data_gaps": []
   },
@@ -21852,7 +21869,8 @@
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/012140s027lbl.pdf",
       "https://en.wikipedia.org/wiki/Chlorphenamine",
-      "Clinical pharmacokinetics of chlorpheniramine"
+      "Clinical pharmacokinetics of chlorpheniramine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=49035-940"
     ],
     "data_gaps": []
   },
@@ -22038,7 +22056,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Anticytomegaloviral activity and safety of cidofovir in patients with human immunodeficiency virus infection and cytomegalovirus viruria"
+      "Anticytomegaloviral activity and safety of cidofovir in patients with human immunodeficiency virus infection and cytomegalovirus viruria",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=61958-0101"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -22160,15 +22179,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 240.0,
     "mechanism_summary": "Inhibits the bacterial enzymes, DNA topoisomerase IV and DNA gyrase, required for DNA replication, transcription, repair and recombination.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=50419-773"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -22241,7 +22260,8 @@
       "https://en.wikipedia.org/wiki/Citalopram",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021323s047lbl.pdf",
       "https://en.wikipedia.org/wiki/Escitalopram",
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s043lbl.pdf"
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s043lbl.pdf",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0378-3855"
     ],
     "data_gaps": [
       "duration_by_route"
@@ -22365,7 +22385,8 @@
     "mechanism_summary": "Inhibits protein synthesis by binding to the 23S rRNA of the 50S ribosomal subunit of susceptible microorganisms.",
     "effects": [],
     "references": [
-      "FDA label for Clarithromycin tablets, Clinical Pharmacology 12.3 — t½ ≈ 3–4 hours (250 mg q12h)"
+      "FDA label for Clarithromycin tablets, Clinical Pharmacology 12.3 — t½ ≈ 3–4 hours (250 mg q12h)",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0054-0036"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -22423,15 +22444,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 144.0,
     "mechanism_summary": "Reversibly binds to the 50S subunit of bacterial ribosomes inhibiting protein synthesis.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0187-5190"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -23788,7 +23809,8 @@
     "mechanism_summary": "Cromolyn is a synthetic mast cell stabilizer with anti-inflammatory activity. The likely mechanism is interference with the antigen-mediated calcium ion influx into mast cells. This prevents degranulation, resulting in mast cell stabilization and inhibits the release of inflammatory mediators, such as histamine and leukotrienes, which are involved in IgE-mediated allergic reactions. Cromolyn also prevents eosinophils from releasing inflammatory mediators.",
     "effects": [],
     "references": [
-      "Pharmacokinetics of Cromolyn and Ibuprofen in Healthy Elderly Volunteers"
+      "Pharmacokinetics of Cromolyn and Ibuprofen in Healthy Elderly Volunteers",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=17478-291"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -24537,7 +24559,8 @@
     "mechanism_summary": "Darifenacin is a competitive muscarinic receptor antagonist. Muscarinic receptors play an important role in several major cholinergically mediated functions, including contractions of the urinary bladder smooth muscle and stimulation of salivary secretion. In vitro studies using human recombinant muscarinic receptor subtypes show that darifenacin has greater affinity for the M 3 receptor than for the other known muscarinic receptors (9- and 12-fold greater affinity for M 3 compared to M 1 and M 5, respectively, and 59-fold greater affinity for M 3 compared to both M 2 and M 4 ). M 3 receptors are involved in contraction of human bladder and gastrointestinal smooth muscle, saliva production, and iris sphincter function. Adverse drug effects such as dry mouth, constipation and abnormal vision may be mediated through effects on M 3 receptors in these organs.",
     "effects": [],
     "references": [
-      "FDA label for darifenacin extended-release tablets, Clinical Pharmacology 12.3 — t½ ≈ 13–19 h"
+      "FDA label for darifenacin extended-release tablets, Clinical Pharmacology 12.3 — t½ ≈ 13–19 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0430-0170"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -24731,7 +24754,8 @@
     "mechanism_summary": "Deferiprone is a chelating agent with an affinity for ferric ion (iron III). Deferiprone binds with ferric ions to form neutral 3:1 (deferiprone:iron) complexes that are stable over a wide range of pH values. Deferiprone has a lower binding affinity for other metals such as copper, aluminum and zinc than for iron.",
     "effects": [],
     "references": [
-      "FDA label for Ferriprox (deferiprone), Clinical Pharmacology/Pharmacokinetics — t½ = 1.8 ± 0.3 h"
+      "FDA label for Ferriprox (deferiprone), Clinical Pharmacology/Pharmacokinetics — t½ = 1.8 ± 0.3 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=52609-0006"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -25181,7 +25205,8 @@
     "mechanism_summary": "Desirudin is a direct inhibitor of free circulating and clot-bound thrombin. The anticoagulant properties of desirudin are demonstrated by its ability to prolong the clotting time of human plasma. One molecule of desirudin binds to one molecule of thrombin and thereby blocks the thrombogenic activity of thrombin. As a result, all thrombin-dependent coagulation assays are affected. Activated partial thromboplastin time (aPTT) is a measure of the anticoagulant activity of desirudin and increases in a dose-dependent fashion.",
     "effects": [],
     "references": [
-      "The role of recombinant hirudins in the management of thrombotic disorders."
+      "The role of recombinant hirudins in the management of thrombotic disorders.",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0187-0011"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -25569,15 +25594,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 2700.0,
     "mechanism_summary": "Dexamethasone is a synthetic glucocorticoid with potent anti-inflammatory and immunomodulating properties. After cell surface receptor attachment and cell entry, it enters the nucleus where it binds to and activates specific nuclear receptors, resulting in an altered gene expression and inhibition of proinflammatory cytokine production. This agent also decreases the number of circulating lymphocytes, induces cell differentiation, and stimulates apoptosis in sensitive tumor cell populations. Dexamethasone has no mineralocorticoid properties.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=51655-012"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -25625,7 +25650,8 @@
     "mechanism_summary": "Dexmedetomidine hydrochloride injection is a relatively selective alpha 2 -adrenergic agonist with sedative properties. Alpha 2 selectivity is observed in animals following slow intravenous infusion of low and medium doses (10 to 300 mcg/kg). Both alpha 1 and alpha 2 activity is observed following slow intravenous infusion of high doses (≥ 1000 mcg/kg) or with rapid intravenous administration.",
     "effects": [],
     "references": [
-      "FDA label for Dexmedetomidine injection, Clinical Pharmacology 12.3 — terminal t½ ≈ 2 hours"
+      "FDA label for Dexmedetomidine injection, Clinical Pharmacology 12.3 — terminal t½ ≈ 2 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=17478-055"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -25771,7 +25797,8 @@
       "Visual sliding"
     ],
     "references": [
-      "Pharmacokinetics of Dextromethorphan and Metabolites in Humans"
+      "Pharmacokinetics of Dextromethorphan and Metabolites in Humans",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=36800-494"
     ],
     "data_gaps": []
   },
@@ -26066,15 +26093,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 120.0,
     "mechanism_summary": "Reversibly inhibits cyclooxygenase-1 and 2 (COX-1 and 2) enzymes (with increased COX-2 selectivity compared to non-selective NSAIDs) causing decreased prostaglandin precursor formation. This results in anti-inflammatory, analgesic, and antipyretic effects.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=50090-0543"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -26129,7 +26156,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "FDA label for Dicloxacillin Sodium, Clinical Pharmacology/Pharmacokinetics — t½ ≈ 0.7 hour"
+      "FDA label for Dicloxacillin Sodium, Clinical Pharmacology/Pharmacokinetics — t½ ≈ 0.7 hour",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0093-3123"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -26415,15 +26443,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 225.0,
     "mechanism_summary": "Diltiazem blocks L-type voltage-sensitive calcium channels in the blood vessels and myocardium leading to dilatation of the main coronary and systemic arteries and decreasing myocardial contractility, decreased peripheral arterial resistance, improved oxygen delivery to the myocardial tissue, and decreased cardiac output.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0093-0318"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -26504,7 +26532,8 @@
       "Sedation"
     ],
     "references": [
-      "https://en.wikipedia.org/wiki/Dimenhydrinate"
+      "https://en.wikipedia.org/wiki/Dimenhydrinate",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=37205-111"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -26771,7 +26800,8 @@
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/08495s041lbl.pdf",
       "https://en.wikipedia.org/wiki/Diphenhydramine",
-      "Pharmacokinetics of diphenhydramine and a demethylated metabolite following intravenous and oral administration"
+      "Pharmacokinetics of diphenhydramine and a demethylated metabolite following intravenous and oral administration",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=55910-205"
     ],
     "data_gaps": []
   },
@@ -28165,15 +28195,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 1200.0,
     "mechanism_summary": "Inhibits protein synthesis by binding to the 30S ribosomal subunit of susceptible microorganisms.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0143-3141"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -28222,7 +28252,8 @@
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021876s004lbl.pdf",
       "https://en.wikipedia.org/wiki/Doxylamine",
-      "The pharmacokinetics of doxylamine: use of automated gas chromatography with nitrogen-phosphorus detection"
+      "The pharmacokinetics of doxylamine: use of automated gas chromatography with nitrogen-phosphorus detection",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=41190-441"
     ],
     "data_gaps": []
   },
@@ -28568,15 +28599,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 50400.0,
     "mechanism_summary": "Inhibits the Type II 5 alpha-reductase enzyme blocking conversion of testosterone to dihydrotestosterone (DHT). Over time this results in the shrinking of the prostate and improvement in urinary flow.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0054-0395"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -29151,7 +29182,8 @@
     "mechanism_summary": "Inhibits sodium-glucose co-transporter 2 (SGLT2) in the proximal renal tubules, reducing reabsorption of filtered glucose and thus increasing urinary glucose excretion.",
     "effects": [],
     "references": [
-      "FDA label for Synjardy (empagliflozin and metformin), Clinical Pharmacology/Pharmacokinetics — t1/2 ≈ 12.4 h"
+      "FDA label for Synjardy (empagliflozin and metformin), Clinical Pharmacology/Pharmacokinetics — t1/2 ≈ 12.4 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0597-0152"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -29357,7 +29389,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://www.ncbi.nlm.nih.gov/books/NBK547661/"
+      "https://www.ncbi.nlm.nih.gov/books/NBK547661/",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0143-3145"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -29525,16 +29558,16 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 2.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0404-6620"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -29647,7 +29680,8 @@
     "mechanism_summary": "Eptifibatide reversibly inhibits platelet aggregation by preventing the binding of fibrinogen, von Willebrand factor, and other adhesive ligands to GP IIb/IIIa. When administered intravenously, eptifibatide inhibits ex vivo platelet aggregation in a dose- and concentration-dependent manner. Platelet aggregation inhibition is reversible following cessation of the eptifibatide infusion; this is thought to result from dissociation of eptifibatide from the platelet.",
     "effects": [],
     "references": [
-      "FDA label for eptifibatide injection, Clinical Pharmacology 12.3 — t½ ≈ 2.5 h"
+      "FDA label for eptifibatide injection, Clinical Pharmacology 12.3 — t½ ≈ 2.5 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0085-1136"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -29727,16 +29761,16 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 114.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0409-6476"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -29842,7 +29876,8 @@
     "mechanism_summary": "Binds to and irreversibly inhibits H+/K+ ATPase pumps (proton pumps) on gastric parietal cells resulting in decreased gastric acid secretion.",
     "effects": [],
     "references": [
-      "FDA label for esomeprazole magnesium delayed-release capsules (esomeprazole), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 1–1.5 h"
+      "FDA label for esomeprazole magnesium delayed-release capsules (esomeprazole), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 1–1.5 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=41520-727"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -29923,14 +29958,14 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 2160.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0179-0073"
+    ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -30182,7 +30217,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Enantioselective pharmacokinetics of ethotoin in humans following single oral doses of the racemate."
+      "Enantioselective pharmacokinetics of ethotoin in humans following single oral doses of the racemate.",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=55292-601"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -30674,7 +30710,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "FDA label for Etomidate injection, Clinical Pharmacology — t½ ≈ 75 minutes"
+      "FDA label for Etomidate injection, Clinical Pharmacology — t½ ≈ 75 minutes",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0409-6695"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -30744,7 +30781,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "FDA label for Etoposide Injection, Clinical Pharmacology/Pharmacokinetics — terminal t½ 4 to 11 hours"
+      "FDA label for Etoposide Injection, Clinical Pharmacology/Pharmacokinetics — terminal t½ 4 to 11 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0378-3266"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -30845,7 +30883,8 @@
     "mechanism_summary": "Everolimus inhibits antigenic and interleukin (IL-2 and IL-15) stimulated activation and proliferation of T and B lymphocytes. In cells, everolimus binds to a cytoplasmic protein, the FK506 Binding Protein-12 (FKBP-12), to form an immunosuppressive complex (everolimus: FKBP-12) that binds to and inhibits the mammalian Target Of Rapamycin (mTOR), a key regulatory kinase. In the presence of everolimus phosphorylation of p70 S6 ribosomal protein kinase (p70S6K), a substrate of mTOR, is inhibited. Consequently, phosphorylation of the ribosomal S6 protein and subsequent protein synthesis and cell proliferation are inhibited. The everolimus: FKBP-12 complex has no effect on calcineurin activity. In rats and nonhuman primate models, everolimus effectively reduces kidney allograft rejection resulting in prolonged graft survival.",
     "effects": [],
     "references": [
-      "FDA label for Afinitor (everolimus), Clinical Pharmacology/Pharmacokinetics — mean elimination half-life approximately 30 hours"
+      "FDA label for Afinitor (everolimus), Clinical Pharmacology/Pharmacokinetics — mean elimination half-life approximately 30 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0078-0414"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -30912,7 +30951,8 @@
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/022200lbl.pdf",
-      "https://en.wikipedia.org/wiki/Exenatide"
+      "https://en.wikipedia.org/wiki/Exenatide",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0310-6530"
     ],
     "data_gaps": [
       "dose_ranges_by_route"
@@ -31107,7 +31147,8 @@
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/019462s039lbl.pdf",
-      "https://en.wikipedia.org/wiki/Famotidine"
+      "https://en.wikipedia.org/wiki/Famotidine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=24385-255"
     ],
     "data_gaps": []
   },
@@ -31196,7 +31237,8 @@
     "mechanism_summary": "The mechanism by which felbamate exerts its anticonvulsant activity is unknown, but in animal test systems designed to detect anticonvulsant activity, felbamate has properties in common with other marketed anticonvulsants. Felbamate is effective in mice and rats in the maximal electroshock test, the subcutaneous pentylenetetrazol seizure test, and the subcutaneous picrotoxin seizure test. Felbamate also exhibits anticonvulsant activity against seizures induced by intracerebroventricular administration of glutamate in rats and N-methyl-D,L-aspartic acid in mice. Protection against maximal electroshock-induced seizures suggests that felbamate may reduce seizure spread, an effect possibly predictive of efficacy in generalized tonic-clonic or partial seizures. Protection against pentylenetetrazol-induced seizures suggests that felbamate may increase seizure threshold, an effect considered to be predictive of potential efficacy in absence seizures.",
     "effects": [],
     "references": [
-      "FDA label for Felbamate (felbamate), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 20-23 h"
+      "FDA label for Felbamate (felbamate), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 20-23 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0037-0430"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -31984,7 +32026,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "FDA label for Fludarabine Phosphate (fludarabine phosphate), Clinical Pharmacology 12.3 Pharmacokinetics — t½ ≈ 20 h"
+      "FDA label for Fludarabine Phosphate (fludarabine phosphate), Clinical Pharmacology 12.3 Pharmacokinetics — t½ ≈ 20 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0069-9321"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -32269,15 +32312,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 90.0,
     "mechanism_summary": "Fluocinolone is a synthetic glucocorticoid with potent anti-inflammatory and immunomodulating properties. After cell entry, it binds to corticosteroid receptors on the nucleus and produces anti-inflammatory, antiproliferative, immunosuppressive, and vasoconstrictive effects that can be beneficial for psoriatic, pruritic, and other corticosteroid responsive dermatoses.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=24208-416"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -32536,7 +32579,8 @@
     "mechanism_summary": "Fluorouracil is a nucleoside metabolic inhibitor that interferes with the synthesis of deoxyribonucleic acid (DNA) and to a lesser extent inhibits the formation of ribonucleic acid (RNA); these affect rapidly growing cells and may lead to cell death. Fluorouracil is converted to three main active metabolites: 5-fluoro-2′-deoxyuridine-5′-monophosphate (FdUMP), 5-fluorouridine-5′- triphosphate (FUTP) and 5-fluoro-2′-deoxyuridine-5′-triphosphate (FdUTP). These metabolites have several effects including the inhibition of thymidylate synthase by FdUMP, incorporation of FUTP into RNA and incorporation of FdUTP into DNA.",
     "effects": [],
     "references": [
-      "FDA label for Fluorouracil injection, Clinical Pharmacology 12.3 — t½ = 8–20 minutes (dose-dependent)"
+      "FDA label for Fluorouracil injection, Clinical Pharmacology 12.3 — t½ = 8–20 minutes (dose-dependent)",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0069-0169"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -32983,7 +33027,8 @@
     "mechanism_summary": "Inhibits HMG-CoA reductase, the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
     "effects": [],
     "references": [
-      "FDA label for Fluvastatin capsules, Clinical Pharmacology 12.3 — t½ ≈ 3 hours"
+      "FDA label for Fluvastatin capsules, Clinical Pharmacology 12.3 — t½ ≈ 3 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0093-7442"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -33023,7 +33068,8 @@
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019842s034lbl.pdf",
-      "https://en.wikipedia.org/wiki/Fluvoxamine"
+      "https://en.wikipedia.org/wiki/Fluvoxamine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0185-0017"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -33340,15 +33386,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 120.0,
     "mechanism_summary": "Inhibits sodium-potassium-chloride cotransporters at the ascending Loop of Henle of nephrons, producing a potent diuretic effect that causes increased excretion of sodium, chloride, potassium, magnesium, calcium, and water. Loop diuretics cause retention of bicarbonate and uric acid.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=23155-473"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -34504,7 +34550,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "FDA label for Griseofulvin Microsize oral suspension (griseofulvin), Clinical Pharmacology — t½ 9 to 24 hours"
+      "FDA label for Griseofulvin Microsize oral suspension (griseofulvin), Clinical Pharmacology — t½ 9 to 24 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0472-0013"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -34541,7 +34588,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Guaifenesin"
+      "https://en.wikipedia.org/wiki/Guaifenesin",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=37205-628"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -36191,7 +36239,8 @@
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/011459s060lbl.pdf",
       "https://en.wikipedia.org/wiki/Hydroxyzine",
-      "The pharmacokinetics and antihistaminic of the H1 receptor antagonist hydroxyzine."
+      "The pharmacokinetics and antihistaminic of the H1 receptor antagonist hydroxyzine.",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0517-4201"
     ],
     "data_gaps": []
   },
@@ -36345,14 +36394,13 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 180.0,
     "mechanism_summary": "Reversibly inhibits cyclooxygenase-1 and 2 (COX-1 and 2) enzymes causing decreased prostaglandin precursor formation. This results in anti-inflammatory, analgesic, and antipyretic effects.",
     "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=36800-074"
+    ],
+    "data_gaps": []
   },
   {
     "name": "Idarubicin",
@@ -36373,7 +36421,8 @@
     "mechanism_summary": "Idarubicin hydrochloride is a DNA-intercalating analog of daunorubicin which has an inhibitory effect on nucleic acid synthesis and interacts with the enzyme topoisomerase II. The absence of a methoxy group at position 4 of the anthracycline structure gives the compound a high lipophilicity which results in an increased rate of cellular uptake compared with other anthracyclines.",
     "effects": [],
     "references": [
-      "FDA label for Idamycin PFS (idarubicin hydrochloride), Clinical Pharmacology 12.3 — mean terminal t½ 22 h"
+      "FDA label for Idamycin PFS (idarubicin hydrochloride), Clinical Pharmacology 12.3 — mean terminal t½ 22 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0013-2576"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -36503,7 +36552,8 @@
     "mechanism_summary": "Ifosfamide is a prodrug that requires metabolic activation by hepatic cytochrome P450 isoenzymes to exert its cytotoxic activity. Activation occurs by hydroxylation at the ring carbon atom forming the unstable intermediate 4-hydroxyifosfamide and its ring-opened aldo tautomer, which decomposes to yield the cytotoxic and urotoxic compound acrolein and an alkylating isophosphoramide mustard as well as multiple other nontoxic products. The exact mechanism of action of ifosfamide has not been determined, but its cytotoxic action is primarily through DNA crosslinks caused by alkylation by the isophosphoramide mustard at guanine N-7 positions. The formation of inter- and intra-strand cross-links in the DNA results in cell death.",
     "effects": [],
     "references": [
-      "FDA label for ifosfamide injection (ifosfamide), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 7 h at conventional doses"
+      "FDA label for ifosfamide injection (ifosfamide), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 7 h at conventional doses",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0338-3991"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -36775,15 +36825,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 840.0,
     "mechanism_summary": "Inhibits sodium reabsorption by inhibiting the sodium-chloride cotransporters in the distal convoluted tubule of nephrons, causing increased excretion of sodium, chloride, potassium, magnesium, and water. Thiazide diuretics cause retention of calcium, bicarbonate, and uric acid.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0228-2571"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -37009,7 +37059,8 @@
     "mechanism_summary": "The primary activity of insulin is regulation of glucose metabolism. Insulin and its analogs lower blood glucose by stimulating peripheral glucose uptake, especially by skeletal muscle and fat, and by inhibiting hepatic glucose production. Insulin inhibits lipolysis and proteolysis, and enhances protein synthesis.",
     "effects": [],
     "references": [
-      "FDA label for NOVOLOG (insulin aspart), Clinical Pharmacology 12.3 Pharmacokinetics — t½ ≈ 81 min"
+      "FDA label for NOVOLOG (insulin aspart), Clinical Pharmacology 12.3 Pharmacokinetics — t½ ≈ 81 min",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0169-3201"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -37374,7 +37425,8 @@
     "mechanism_summary": "Blocks angiotensin II from binding to the angiotensin II receptor, which prevents subsequent vasoconstriction.",
     "effects": [],
     "references": [
-      "FDA label for Irbesartan tablets, Clinical Pharmacology 12.3 — terminal t½ = 11–15 hours"
+      "FDA label for Irbesartan tablets, Clinical Pharmacology 12.3 — terminal t½ = 11–15 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0024-5850"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -37844,15 +37896,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 720.0,
     "mechanism_summary": "Ivacaftor is a potentiator of the CFTR protein. The CFTR protein is a chloride channel present at the surface of epithelial cells in multiple organs. Ivacaftor facilitates increased chloride transport by potentiating the channel open probability (or gating) of CFTR protein located at the cell surface. The overall level of ivacaftor-mediated CFTR chloride transport is dependent on the amount of CFTR protein at the cell surface and how responsive a particular mutant CFTR protein is to ivacaftor potentiation. CFTR Chloride Transport Assay in Fisher Rat Thyroid (FRT) cells expressing mutant CFTR In order to evaluate the response of mutant CFTR protein to ivacaftor, total chloride transport was determined in Ussing chamber electrophysiology studies using a panel of FRT cell lines transfected with individual CFTR mutations. Ivacaftor increased chloride transport in FRT cells expressing CFTR mutations that result in CFTR protein being delivered to the cell surface.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=51167-200"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -38501,7 +38553,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Ketotifen"
+      "https://en.wikipedia.org/wiki/Ketotifen",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=24208-901"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -39127,7 +39180,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "FDA label for Leucovorin Calcium (leucovorin calcium), Clinical Pharmacology - terminal t½ = 6.2 h"
+      "FDA label for Leucovorin Calcium (leucovorin calcium), Clinical Pharmacology - terminal t½ = 6.2 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0143-9552"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -39156,7 +39210,8 @@
     "mechanism_summary": "Rapidly agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [
-      "FDA label for levalbuterol inhalation solution (levalbuterol; Xopenex generic), Clinical Pharmacology/Pharmacokinetics Table 6 — (R)-albuterol t½ 3.3 h after a single 1.25 mg nebulized dose"
+      "FDA label for levalbuterol inhalation solution (levalbuterol; Xopenex generic), Clinical Pharmacology/Pharmacokinetics Table 6 — (R)-albuterol t½ 3.3 h after a single 1.25 mg nebulized dose",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=43598-409"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -39198,7 +39253,8 @@
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/021035s078s080,021505s021s024lbl.pdf",
-      "https://en.wikipedia.org/wiki/Levetiracetam"
+      "https://en.wikipedia.org/wiki/Levetiracetam",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=29033-042"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -39494,7 +39550,8 @@
     "mechanism_summary": "Liothyronine is a synthetic form of T3 (L-triiodothyronine), a thyroid hormone that is the active metabolite of T4 (L-thyroxine) which is secreted by the thyroid gland. Thyroid hormones bind to thyroid hormone receptors on DNA, activating gene transcription and protein synthesis necessary in metabolic processes.",
     "effects": [],
     "references": [
-      "FDA label for Liothyronine Sodium (liothyronine), Clinical Pharmacology/Pharmacokinetics — biological t½ ≈ 2.5 days"
+      "FDA label for Liothyronine Sodium (liothyronine), Clinical Pharmacology/Pharmacokinetics — biological t½ ≈ 2.5 days",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=42023-120"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -39948,7 +40005,8 @@
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/19657s070lbl.pdf",
-      "https://en.wikipedia.org/wiki/Loratadine"
+      "https://en.wikipedia.org/wiki/Loratadine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0904-6632"
     ],
     "data_gaps": []
   },
@@ -42092,7 +42150,8 @@
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/012771s027lbl.pdf",
-      "https://en.wikipedia.org/wiki/Meclizine"
+      "https://en.wikipedia.org/wiki/Meclizine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=15579-826"
     ],
     "data_gaps": []
   },
@@ -42409,15 +42468,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 1050.0,
     "mechanism_summary": "Reversibly inhibits cyclooxygenase-1 and 2 (COX-1 and 2) enzymes (with increased COX-2 selectivity compared to non-selective NSAIDs) causing decreased prostaglandin precursor formation. This results in anti-inflammatory, analgesic, and antipyretic effects.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=42211-205"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -42493,7 +42552,8 @@
     "references": [
       "https://en.wikipedia.org/wiki/Memantine",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2018/021487s023s024lbl.pdf",
-      "Pharmacokinetic study of memantine in healthy and renally impaired subjects"
+      "Pharmacokinetic study of memantine in healthy and renally impaired subjects",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0615-8100"
     ],
     "data_gaps": []
   },
@@ -43182,7 +43242,8 @@
     "mechanism_summary": "Full μ-Opioid Agonist and NMDA Receptor Antagonist",
     "effects": [],
     "references": [
-      "Current Concepts in Methadone Metabolism and Transport"
+      "Current Concepts in Methadone Metabolism and Transport",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0406-0540"
     ],
     "data_gaps": []
   },
@@ -43710,7 +43771,8 @@
     "mechanism_summary": "The muscle relaxant mechanism of methocarbamol is not well understood but is thought to be related to its sedative effects caused by general central CNS depression. Its effects are possibly mediated through inhibition of acetylcholinesterase. It does not directly act on muscle, motor end plates or nerve fibers.",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Methocarbamol"
+      "https://en.wikipedia.org/wiki/Methocarbamol",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=52584-073"
     ],
     "data_gaps": []
   },
@@ -44649,7 +44711,8 @@
     ],
     "references": [
       "https://en.wikipedia.org/wiki/Dexmethylphenidate",
-      "Pharmacokinetics of methylphenidate in hyperkinetic children."
+      "Pharmacokinetics of methylphenidate in hyperkinetic children.",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=68084-933"
     ],
     "data_gaps": []
   },
@@ -44675,7 +44738,8 @@
     "mechanism_summary": "Methylprednisolone is a synthetic glucocorticoid with anti-inflammatory and immunomodulating properties, and minimal mineralocorticoid properties. After cell surface receptor attachment and cell entry, methylprednisolone enters the nucleus where it binds to and activates specific nuclear receptors, resulting in an altered gene expression and inhibition of proinflammatory cytokine production. This agent also decreases the number of circulating lymphocytes, induces cell differentiation, and stimulates apoptosis in sensitive tumor cell populations.",
     "effects": [],
     "references": [
-      "Rectal and oral absorption of methylprednisolone acetate"
+      "Rectal and oral absorption of methylprednisolone acetate",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0703-0031"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -44802,7 +44866,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Metoclopramide"
+      "https://en.wikipedia.org/wiki/Metoclopramide",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0409-3414"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -44945,7 +45010,8 @@
     "mechanism_summary": "Blocks beta-1 adrenergic receptors (cardioselective) causing decreased heart rate and myocardial contractility.",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Metoprolol"
+      "https://en.wikipedia.org/wiki/Metoprolol",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=30698-458"
     ],
     "data_gaps": [
       "dose_ranges_by_route"
@@ -45246,7 +45312,8 @@
     "mechanism_summary": "In contrast to sulfonylureas, Glyset does not enhance insulin secretion. The antihyperglycemic action of miglitol results from a reversible inhibition of membrane-bound intestinal α-glucoside hydrolase enzymes. Membrane-bound intestinal α-glucosidases hydrolyze oligosaccharides and disaccharides to glucose and other monosaccharides in the brush border of the small intestine. In diabetic patients, this enzyme inhibition results in delayed glucose absorption and lowering of postprandial hyperglycemia. Because its mechanism of action is different, the effect of Glyset to enhance glycemic control is additive to that of sulfonylureas when used in combination. In addition, Glyset diminishes the insulinotropic and weight-increasing effects of sulfonylureas. Miglitol has minor inhibitory activity against lactase and consequently, at the recommended doses, would not be expected to induce lactose intolerance.",
     "effects": [],
     "references": [
-      "FDA label for Miglitol (miglitol), Clinical Pharmacology/Pharmacokinetics/Excretion - t½ ≈ 2 h"
+      "FDA label for Miglitol (miglitol), Clinical Pharmacology/Pharmacokinetics/Excretion - t½ ≈ 2 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0009-5012"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -45270,7 +45337,8 @@
     "mechanism_summary": "Type 1 Gaucher disease is caused by a functional deficiency of glucocerebrosidase, the enzyme that mediates the degradation of the glycosphingolipid glucosylceramide. Miglustat functions as a competitive and reversible inhibitor of the enzyme glucosylceramide synthase, the initial enzyme in a series of reactions which results in the synthesis of most glycosphingolipids. Miglustat helps reduce the rate of glycosphingolipid biosynthesis so that the amount of glycosphingolipid substrate is reduced to a level which allows the residual activity of the deficient glucocerebrosidase enzyme to be more effective (substrate reduction therapy). In vitro and in vivo studies have shown that Miglustat can reduce the synthesis of glucosylceramide-based glycosphingolipids.",
     "effects": [],
     "references": [
-      "FDA label for Yargesa (miglustat), Clinical Pharmacology/Pharmacokinetics — effective t½ ≈ 6–7 hours"
+      "FDA label for Yargesa (miglustat), Clinical Pharmacology/Pharmacokinetics — effective t½ ≈ 6–7 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=10148-201"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -45418,16 +45486,16 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 252.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=69968-0089"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -45622,15 +45690,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 127440.0,
     "mechanism_summary": "Mitotane is an adrenal cytotoxic agent with an unknown mechanism of action. Mitotane modifies the peripheral metabolism of steroids and directly suppresses the adrenal cortex. A reduction in 17-hydroxycorticosteroids in the absence of decreased corticosteroid concentrations and increased formation of 6-β-hydroxycortisol have been reported.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0015-3080"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -46315,7 +46383,8 @@
       "Sedation"
     ],
     "references": [
-      "Morphine and metabolite behavior after different routes of morphine administration: Demonstration of the importance of the active metabolite morphine-6-glucuronide"
+      "Morphine and metabolite behavior after different routes of morphine administration: Demonstration of the importance of the active metabolite morphine-6-glucuronide",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=57664-190"
     ],
     "data_gaps": []
   },
@@ -46619,15 +46688,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 30.0,
     "mechanism_summary": "Mupirocin is an antibacterial drug.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=43538-300"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -47693,7 +47762,8 @@
     "mechanism_summary": "Reversibly inhibits cyclooxygenase-1 and 2 (COX-1 and 2) enzymes causing decreased prostaglandin precursor formation. This results in anti-inflammatory, analgesic, and antipyretic effects.",
     "effects": [],
     "references": [
-      "FDA label for Naproxen (naproxen), Clinical Pharmacology/Pharmacokinetics — t½ 12 to 17 hours"
+      "FDA label for Naproxen (naproxen), Clinical Pharmacology/Pharmacokinetics — t½ 12 to 17 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=46122-101"
     ],
     "data_gaps": []
   },
@@ -47719,7 +47789,8 @@
     "mechanism_summary": "Selectively agonizes 5-HT1B/1D receptors causing vasoconstriction of cranial blood vessels, inhibition of pro-inflammatory neuropeptide release, and decreased pain transmission.",
     "effects": [],
     "references": [
-      "FDA label for naratriptan tablets, Clinical Pharmacology 12.3 — mean t½ 6 h"
+      "FDA label for naratriptan tablets, Clinical Pharmacology 12.3 — mean t½ 6 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0574-0214"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -47951,7 +48022,8 @@
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/020152s018lbl.pdf",
-      "https://en.wikipedia.org/wiki/Nefazodone"
+      "https://en.wikipedia.org/wiki/Nefazodone",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0093-1024"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -48157,7 +48229,8 @@
     "mechanism_summary": "Inhibits calcium ion influx into vascular smooth muscle and cardiac muscle causing peripheral vasodilation and coronary artery vasodilation.",
     "effects": [],
     "references": [
-      "FDA label for Procardia XL (nifedipine), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 2 h"
+      "FDA label for Procardia XL (nifedipine), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 2 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0093-0819"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -48465,7 +48538,8 @@
     "mechanism_summary": "Nitrofurantoin is reduced by bacterial flavoproteins to reactive intermediates which inactivate or alter bacterial ribosomal proteins and other macromolecules. As a result of such inactivations, the vital biochemical processes of protein synthesis, aerobic energy metabolism, DNA synthesis, RNA synthesis, and cell wall synthesis are inhibited.",
     "effects": [],
     "references": [
-      "Pharmacological properties of oral antibiotics for the treatment of uncomplicated urinary tract infections."
+      "Pharmacological properties of oral antibiotics for the treatment of uncomplicated urinary tract infections.",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0378-3422"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -48487,16 +48561,16 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 3.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0338-1047"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -49485,7 +49559,8 @@
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/020592s074lbl.pdf",
-      "https://en.wikipedia.org/wiki/Olanzapine"
+      "https://en.wikipedia.org/wiki/Olanzapine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0002-4112"
     ],
     "data_gaps": []
   },
@@ -49578,7 +49653,8 @@
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/021521s004lbl.pdf",
-      "https://en.wikipedia.org/wiki/Olopatadine"
+      "https://en.wikipedia.org/wiki/Olopatadine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0065-4273"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -49723,14 +49799,13 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 342.0,
     "mechanism_summary": "Serotonin 5-HT3 Receptor Antagonist (Antiemetic)",
     "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0069-1441"
+    ],
+    "data_gaps": []
   },
   {
     "name": "Opium",
@@ -49801,7 +49876,8 @@
     "mechanism_summary": "Orphenadrine is a centrally acting skeletal muscle relaxant with anticholinergic activity. It is derived from diphenhydramine. Orphenadrine appears to act primarily for muscle relaxation by blocking muscarinic acetylcholine receptors as well as N-methyl-D-aspartate (NMDA) receptors in the central nervous system. This may interfere with the transmission of nerve impulses from the spinal cord to the muscles and may help relax muscles. It exerts antagonistic effects on histamine H1 receptors.",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Orphenadrine"
+      "https://en.wikipedia.org/wiki/Orphenadrine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0115-2011"
     ],
     "data_gaps": []
   },
@@ -50086,7 +50162,8 @@
       "Stomach cramps"
     ],
     "references": [
-      "Pharmacokinetics and pharmacodynamics of oral oxycodone in healthy human subjects: Role of circulating active metabolites"
+      "Pharmacokinetics and pharmacodynamics of oral oxycodone in healthy human subjects: Role of circulating active metabolites",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0054-0390"
     ],
     "data_gaps": []
   },
@@ -50352,7 +50429,8 @@
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021999s026lbl.pdf",
-      "https://en.wikipedia.org/wiki/Paliperidone"
+      "https://en.wikipedia.org/wiki/Paliperidone",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=50458-560"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -50477,7 +50555,8 @@
     "mechanism_summary": "Binds to and irreversibly inhibits H+/K+ ATPase pumps (proton pumps) on gastric parietal cells resulting in decreased gastric acid secretion.",
     "effects": [],
     "references": [
-      "FDA label for Pantoprazole Sodium for Injection (pantoprazole), Clinical Pharmacology/Pharmacokinetics — terminal t½ ≈ 1 hour"
+      "FDA label for Pantoprazole Sodium for Injection (pantoprazole), Clinical Pharmacology/Pharmacokinetics — terminal t½ ≈ 1 hour",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0904-6235"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -50653,7 +50732,8 @@
     "mechanism_summary": "Paricalcitol is a synthetic, biologically active vitamin D analog of calcitriol with modifications to the side chain (D 2 ) and the A (19-nor) ring. Preclinical and in vitro studies have demonstrated that Paricalcitol's biological actions are mediated through binding of the VDR, which results in the selective activation of vitamin D responsive pathways. Vitamin D and Paricalcitol have been shown to reduce parathyroid hormone levels by inhibiting PTH synthesis and secretion.",
     "effects": [],
     "references": [
-      "FDA label for Paricalcitol capsules, Clinical Pharmacology 12.3 — t½ = 4–6 hours (healthy adults)"
+      "FDA label for Paricalcitol capsules, Clinical Pharmacology 12.3 — t½ = 4–6 hours (healthy adults)",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0143-9596"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -50697,7 +50777,8 @@
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020031s071lbl.pdf",
-      "https://en.wikipedia.org/wiki/Paroxetine"
+      "https://en.wikipedia.org/wiki/Paroxetine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=54766-201"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -51280,7 +51361,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Perampanel"
+      "https://en.wikipedia.org/wiki/Perampanel",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=62856-272"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -51666,7 +51748,8 @@
     "references": [
       "FDA label for Nardil (phenelzine sulfate), Clinical Pharmacology - Pharmacokinetics, Elimination",
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/009768s055lbl.pdf",
-      "https://en.wikipedia.org/wiki/Phenelzine"
+      "https://en.wikipedia.org/wiki/Phenelzine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=40032-360"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -51956,14 +52039,13 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 1410.0,
     "mechanism_summary": "Phentermine is a sympathomimetic amine with pharmacologic activity similar to the prototype drugs of this class used in obesity, amphetamine (d- and dll-amphetamine). Drugs of this class used in obesity are commonly known as 'anorectics' or 'anorexigenics.' It has not been established that the primary action of such drugs in treating obesity is one of appetite suppression since other central nervous system actions, or metabolic effects, may also be involved.",
     "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0093-2109"
+    ],
+    "data_gaps": []
   },
   {
     "name": "Phentermine+Fenfluramine",
@@ -52022,15 +52104,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 19.0,
     "mechanism_summary": "The mechanism by which Oraverse accelerates reversal of soft-tissue anesthesia and the associated functional deficits is not fully understood. Phentolamine mesylate, the active ingredient in Oraverse, produces an alpha-adrenergic block of relatively short duration resulting in vasodilatation when applied to vascular smooth muscle. In an animal model, Oraverse increased local blood flow in submucosal tissue of the dog when given after an intraoral injection of lidocaine 2% with 1:100,000 epinephrine.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0362-0101"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -52084,7 +52166,8 @@
     "mechanism_summary": "Phenylephrine is an alpha adrenergic-agonist, direct acting sympathomimetic agent used nasally as a vasoconstrictor that shrinks swollen nasal membranes to relieve nasal congestion.",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Phenylephrine"
+      "https://en.wikipedia.org/wiki/Phenylephrine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=63940-453"
     ],
     "data_gaps": []
   },
@@ -53444,7 +53527,8 @@
     ],
     "references": [
       "https://en.wikipedia.org/wiki/Pregabalin",
-      "Clinical pharmacokinetics of pregabalin in healthy volunteers"
+      "Clinical pharmacokinetics of pregabalin in healthy volunteers",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0071-1012"
     ],
     "data_gaps": []
   },
@@ -53586,7 +53670,8 @@
     "effects": [],
     "references": [
       "Clinical pharmacology of prochlorperazine in healthy young males.",
-      "https://en.wikipedia.org/wiki/Prochlorperazine"
+      "https://en.wikipedia.org/wiki/Prochlorperazine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0093-9643"
     ],
     "data_gaps": []
   },
@@ -53926,7 +54011,8 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Propranolol",
-      "Clinical pharmacokinetics of propranolol"
+      "Clinical pharmacokinetics of propranolol",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=52584-872"
     ],
     "data_gaps": []
   },
@@ -54170,7 +54256,8 @@
     "mechanism_summary": "Agonizes alpha-adrenergic receptors in the respiratory mucosa causing vasoconstriction which reduces sinus and nasal congestion. Agonizes beta-adrenergic receptors in the lungs and heart causing bronchial relaxation, and increased heart rate and contractility.",
     "effects": [],
     "references": [
-      "https://www.ncbi.nlm.nih.gov/books/NBK547661/"
+      "https://www.ncbi.nlm.nih.gov/books/NBK547661/",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=53240-220"
     ],
     "data_gaps": []
   },
@@ -55147,15 +55234,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 420.0,
     "mechanism_summary": "In patients with malaria, quinidine acts primarily as an intra-erythrocytic schizonticide, with little effect upon sporozites or upon pre-erythrocytic parasites. Quinidine is gametocidal to Plasmodium vivax and malariae, but not to falciparum. In cardiac muscle and in Purkinje fibers, quinidine depresses the rapid inward depolarizing sodium current, thereby slowing phase-0 depolarization and reducing the amplitude of the action potential without affecting the resting potential. In normal Purkinje fibers, it reduces the slope of phase-4 depolarization, shifting the threshold voltage upward toward zero. The result is slowed conduction and reduced automaticity in all parts of the heart, with increase of the effective refractory period relative to the duration of the action potential in the atria, ventricles, and Purkinje tissues. Quinidine also raises the fibrillation thresholds of the atria and ventricles, and it raises the ventricular de fibrillation threshold as well.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=53489-141"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -55177,7 +55264,8 @@
     "mechanism_summary": "Quinine is an antimalarial agent.",
     "effects": [],
     "references": [
-      "FDA label for Quinine Sulfate (quinine sulfate), Clinical Pharmacology/Pharmacokinetics — t1/2 ≈ 9.7-12.5 h in healthy subjects"
+      "FDA label for Quinine Sulfate (quinine sulfate), Clinical Pharmacology/Pharmacokinetics — t1/2 ≈ 9.7-12.5 h in healthy subjects",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=13310-153"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -55353,7 +55441,8 @@
     "mechanism_summary": "Reversibly inhibits histamine-2 receptors (H2 receptors) on gastric parietal cells resulting in decreased gastric acid secretion.",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Ranitidine"
+      "https://en.wikipedia.org/wiki/Ranitidine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=21130-404"
     ],
     "data_gaps": []
   },
@@ -55376,7 +55465,8 @@
     "mechanism_summary": "In humans, uric acid is the final step in the catabolic pathway of purines. Rasburicase catalyzes enzymatic oxidation of poorly soluble uric acid into an inactive and more soluble metabolite (allantoin).",
     "effects": [],
     "references": [
-      "FDA label for Elitek (rasburicase), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 15.7-22.5 h"
+      "FDA label for Elitek (rasburicase), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 15.7-22.5 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0024-5150"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -55450,11 +55540,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 10.0,
+    "half_life_minutes": 10.5,
     "mechanism_summary": "Ultiva is a µ-opioid agonist with rapid onset and peak effect, and short duration of action. The µ-opioid activity of Ultiva is antagonized by opioid antagonists such as naloxone. Unlike other opioids, Ultiva is rapidly metabolized by hydrolysis of the propanoic acid-methyl ester linkage by nonspecific blood and tissue esterases. Ultiva is not a substrate for plasma cholinesterase (pseudocholinesterase) and, therefore, patients with atypical cholinesterase are expected to have a normal duration of action.",
     "effects": [],
     "references": [
-      "A review of the pharmacokinetics and pharmacodynamics of remifentanil."
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=67457-198"
     ],
     "data_gaps": []
   },
@@ -55674,15 +55764,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 570.0,
     "mechanism_summary": "In cell cultures the inhibitory activity of ribavirin for respiratory syncytial virus (RSV) is selective. The mechanism of action is unknown. Reversal of the in vitro antiviral activity by guanosine or xanthosine suggests ribavirin may act as an analogue of these cellular metabolites. Microbiology Ribavirin has demonstrated antiviral activity against RSV in vitro 1 and in experimentally infected cotton rats. 2 Several clinical isolates of RSV were evaluated for ribavirin susceptibility by plaque reduction in tissue culture. Plaques were reduced 85-98% by 16 mcg/mL; however, results may vary with the test system. The development of resistance has not been evaluated in vitro or in clinical trials. In addition to the above, ribavirin has been shown to have in vitro activity against influenza A and B viruses and herpes simplex virus, but the clinical significance of these data is unknown.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0187-0007"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -56455,7 +56545,8 @@
     "mechanism_summary": "β2-Adrenergic Receptor Agonist (Short-Acting Bronchodilator)",
     "effects": [],
     "references": [
-      "FDA label for Albuterol Sulfate Inhalation Aerosol (albuterol sulfate), Clinical Pharmacology 12.2 — terminal t½ ≈ 6 hours"
+      "FDA label for Albuterol Sulfate Inhalation Aerosol (albuterol sulfate), Clinical Pharmacology 12.2 — terminal t½ ≈ 6 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=21695-423"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -57119,7 +57210,7 @@
       "Visual haze"
     ],
     "references": [
-      "Putcha L et al. — Pharmacokinetics and oral bioavailability of scopolamine in normal subjects; Pharm Res 1989"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0067-4345"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -58150,16 +58241,16 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 2160.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=61715-158"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -58377,7 +58468,8 @@
     "mechanism_summary": "Bridion is a modified gamma cyclodextrin. It forms a complex with the neuromuscular blocking agents rocuronium and vecuronium, and it reduces the amount of neuromuscular blocking agent available to bind to nicotinic cholinergic receptors in the neuromuscular junction. This results in the reversal of neuromuscular blockade induced by rocuronium and vecuronium.",
     "effects": [],
     "references": [
-      "FDA label for sugammadex sodium injection (sugammadex; Bridion generic), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 2 hours"
+      "FDA label for sugammadex sodium injection (sugammadex; Bridion generic), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 2 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0006-5423"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -58498,16 +58590,16 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 450.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0179-0174"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -58611,7 +58703,8 @@
     "mechanism_summary": "Selectively agonizes 5-HT1B/1D receptors causing vasoconstriction of cranial blood vessels, inhibition of pro-inflammatory neuropeptide release, and decreased pain transmission.",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Sumatriptan"
+      "https://en.wikipedia.org/wiki/Sumatriptan",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=69176-150"
     ],
     "data_gaps": [
       "dose_ranges_by_route"
@@ -59157,11 +59250,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 540.0,
+    "half_life_minutes": 900.0,
     "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA, by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/018163s065lbl.pdf"
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0406-9914"
     ],
     "data_gaps": []
   },
@@ -59184,7 +59277,8 @@
     "mechanism_summary": "Tenofovir DF is an acyclic nucleoside phosphonate diester analog of adenosine monophosphate. Tenofovir DF requires initial diester hydrolysis for conversion to tenofovir and subsequent phosphorylations by cellular enzymes to form tenofovir diphosphate, an obligate chain terminator. Tenofovir diphosphate inhibits the activity of HIV-1 reverse transcriptase and HBV reverse transcriptase by competing with the natural substrate deoxyadenosine 5'-triphosphate and, after incorporation into DNA, by DNA chain termination. Tenofovir diphosphate is a weak inhibitor of mammalian DNA polymerases α, β, and mitochondrial DNA polymerase γ. Activity against HIV Antiviral Activity The antiviral activity of tenofovir against laboratory and clinical isolates of HIV-1 was assessed in lymphoblastoid cell lines, primary monocyte/macrophage cells and peripheral blood lymphocytes. The EC 50 (50% effective concentration) values for tenofovir were in the range of 0.04 µM to 8.5 µM.",
     "effects": [],
     "references": [
-      "Bictegravir/Emtricitabine/Tenofovir Alafenamide: A Review in HIV-1 Infection."
+      "Bictegravir/Emtricitabine/Tenofovir Alafenamide: A Review in HIV-1 Infection.",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=50090-0754"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -59209,15 +59303,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 720.0,
     "mechanism_summary": "Systemically blocks alpha-1 adrenergic receptors resulting in effects including relaxation of smooth muscle around the bladder neck (improving urinary flow), and reduction in vascular resistance (may reduce blood pressure).",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=51079-936"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -59358,16 +59452,16 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 540.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=49884-732"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -59957,7 +60051,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "FDA label for Thiotepa for Injection (thiotepa), Clinical Pharmacology — parent t½ 2.4±0.3 h (60 mg) and 2.3±0.3 h (80 mg) IV"
+      "FDA label for Thiotepa for Injection (thiotepa), Clinical Pharmacology — parent t½ 2.4±0.3 h (60 mg) and 2.3±0.3 h (80 mg) IV",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0143-9565"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -59994,7 +60089,8 @@
     "mechanism_summary": "Competitively blocks postsynaptic dopamine receptors (notably D2) in the brain. Increased dopamine activity in the brain is thought to be associated with the \"positive\" symptoms of schizophrenia/psychosis such as hallucinations, hearing voices, aggression/hostility, disorganized speech, and psychomotor agitation. Also blocks, to varying degrees, several other subtypes of dopamine receptors (D1, D3, D4, D5), serotonin (5HT-1A, 5HT-2A, and 5HT-7) receptors, histamine-1 receptors, and alpha-1 adrenergic receptors.",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Thiothixene"
+      "https://en.wikipedia.org/wiki/Thiothixene",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0378-1001"
     ],
     "data_gaps": [
       "dose_ranges_by_route"
@@ -60863,16 +60959,16 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 120.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0093-4085"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -60942,7 +61038,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "FDA label for Tasmar (tolcapone), Clinical Pharmacology, Pharmacokinetics of Tolcapone — t½ = 2–3 hours"
+      "FDA label for Tasmar (tolcapone), Clinical Pharmacology, Pharmacokinetics of Tolcapone — t½ = 2–3 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=49884-254"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -61099,7 +61196,8 @@
     "mechanism_summary": "Topoisomerase I relieves torsional strain in DNA by inducing reversible single-strand breaks. Topotecan binds to the topoisomerase I-DNA complex and prevents re-ligation of these single-strand breaks. The cytotoxicity of topotecan is thought to be due to double-strand DNA damage produced during DNA synthesis, when replication enzymes interact with the ternary complex formed by topotecan, topoisomerase I, and DNA. Mammalian cells cannot efficiently repair these double-strand breaks.",
     "effects": [],
     "references": [
-      "FDA label for Topotecan Injection, Clinical Pharmacology 12.3 — terminal t½ 2 to 3 hours"
+      "FDA label for Topotecan Injection, Clinical Pharmacology 12.3 — terminal t½ 2 to 3 hours",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0007-4205"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -61291,15 +61389,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 45.0,
     "mechanism_summary": "Travoprost free acid, a prostaglandin analog is a selective FP prostanoid receptor agonist which is believed to reduce intraocular pressure by increasing uveoscleral outflow. The exact mechanism of action is unknown at this time.",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0065-0260"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -61367,7 +61465,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Clinical pharmacology of oral all-trans retinoic acid in patients with acute promyelocytic leukemia."
+      "Clinical pharmacology of oral all-trans retinoic acid in patients with acute promyelocytic leukemia.",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0187-5150"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -61536,7 +61635,8 @@
     "mechanism_summary": "Competitively blocks postsynaptic dopamine receptors (notably D2) in the brain. Increased dopamine activity in the brain is thought to be associated with the \"positive\" symptoms of schizophrenia/psychosis such as hallucinations, hearing voices, aggression/hostility, disorganized speech, and psychomotor agitation. Also blocks, to varying degrees, several other subtypes of dopamine receptors (D1, D3, D4), serotonin (5HT-1A, 5HT-2A, 5HT-2C, and 5HT-7) receptors, histamine-1 receptors, muscarinic (M1) receptors, and alpha-1 adrenergic receptors.",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Trifluoperazine"
+      "https://en.wikipedia.org/wiki/Trifluoperazine",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0378-2401"
     ],
     "data_gaps": [
       "dose_ranges_by_route"
@@ -61588,7 +61688,8 @@
     "mechanism_summary": "The mechanism of action of Tigan ® as determined in animals is obscure, but may involve the chemoreceptor trigger zone (CTZ), an area in the medulla oblongata through which emetic impulses are conveyed to the vomiting center; direct impulses to the vomiting center apparently are not similarly inhibited. In dogs pretreated with trimethobenzamide HCl, the emetic response to apomorphine is inhibited, while little or no protection is afforded against emesis induced by intragastric copper sulfate.",
     "effects": [],
     "references": [
-      "FDA label for Trimethobenzamide Hydrochloride (trimethobenzamide hydrochloride), Clinical Pharmacology 12.3 Pharmacokinetics/Elimination - t½ = 7 to 9 h"
+      "FDA label for Trimethobenzamide Hydrochloride (trimethobenzamide hydrochloride), Clinical Pharmacology 12.3 Pharmacokinetics/Elimination - t½ = 7 to 9 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=21695-853"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -61617,7 +61718,8 @@
     "mechanism_summary": "Primarily inhibits norepinephrine and serotonin reuptake at the presynaptic neurons leading to higher concentrations of these neurotransmitters in the neuronal synapse. As a tertiary amine (TCAs are either tertiary or secondary amines), this drug displays more selectivity towards serotonin reuptake inhibition. Additionally, blocks histamine-H1, alpha-1 adrenergic, and muscarinic receptors accounting for sedative, hypotensive and anticholinergic effects, respectively.",
     "effects": [],
     "references": [
-      "Chronopharmacokinetic and bioequivalence studies of two formulations of trimipramine after oral administration in man"
+      "Chronopharmacokinetic and bioequivalence studies of two formulations of trimipramine after oral administration in man",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=51285-538"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -61643,7 +61745,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Bioavailability of Triprolidine as a Single Agent or in Combination With Pseudoephedrine: A Randomized, Open-Label Crossover Study in Healthy Volunteers"
+      "Bioavailability of Triprolidine as a Single Agent or in Combination With Pseudoephedrine: A Randomized, Open-Label Crossover Study in Healthy Volunteers",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=58809-501"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -63379,7 +63482,8 @@
     "mechanism_summary": "Selectively binds to the benzodiazepine site of α1 subunits of GABA-A receptors that contain them. This increases the frequency of chloride channel opening and results in the inhibition of neuronal excitation. This action causes sedative and other inhibitory effects.",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Zaleplon"
+      "https://en.wikipedia.org/wiki/Zaleplon",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0054-0084"
     ],
     "data_gaps": []
   },
@@ -63606,7 +63710,8 @@
     "mechanism_summary": "Reclast is a bisphosphonate and acts primarily on bone. It is an inhibitor of osteoclast-mediated bone resorption. The selective action of bisphosphonates on bone is based on their high affinity for mineralized bone. Intravenously administered zoledronic acid rapidly partitions to bone and localizes preferentially at sites of high bone turnover. The main molecular target of zoledronic acid in the osteoclast is the enzyme farnesyl pyrophosphate synthase. The relatively long duration of action of zoledronic acid is attributable to its high binding affinity to bone mineral.",
     "effects": [],
     "references": [
-      "FDA label for Zoledronic acid (zoledronic acid injection), Clinical Pharmacology/Pharmacokinetics — terminal t1/2 = 146 h"
+      "FDA label for Zoledronic acid (zoledronic acid injection), Clinical Pharmacology/Pharmacokinetics — terminal t1/2 = 146 h",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0078-0435"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -63717,7 +63822,8 @@
       "Visual disconnection"
     ],
     "references": [
-      "Clinical Pharmacokinetics and Pharmacodynamics of Zolpidem"
+      "Clinical Pharmacokinetics and Pharmacodynamics of Zolpidem",
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=49884-898"
     ],
     "data_gaps": []
   },
@@ -63803,7 +63909,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 360.0,
     "mechanism_summary": "Selectively binds to the benzodiazepine site of α1 subunits of GABA-A receptors that contain them. This increases the frequency of chloride channel opening and results in the inhibition of neuronal excitation. This action causes sedative and other inhibitory effects.",
     "effects": [
       "Amnesia",
@@ -63817,11 +63923,10 @@
       "Sedation",
       "Thought deceleration"
     ],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
+    "references": [
+      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=21695-225"
+    ],
+    "data_gaps": []
   },
   {
     "name": "α-PCYP",

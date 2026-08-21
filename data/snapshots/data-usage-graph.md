@@ -29,7 +29,7 @@ graph LR
     aliases["aliases<br/>5,396 rows"]
     effects["effects<br/>2,952 rows"]
     dose_ranges["dose_ranges<br/>2,498 rows"]
-    citations["citations<br/>2,130 rows"]
+    citations["citations<br/>2,426 rows"]
     substance_forms["substance_forms<br/>1,800 rows"]
     substances["substances<br/>1,738 rows"]
     contraindications["contraindications<br/>1,656 rows"]
@@ -44,10 +44,10 @@ graph LR
     descriptions["descriptions<br/>749 rows"]
     downstream_signalling["downstream_signalling<br/>690 rows"]
     substance_classes["substance_classes<br/>688 rows"]
+    half_lives["half_lives<br/>687 rows"]
     metabolism["metabolism<br/>559 rows"]
-    half_lives["half_lives<br/>538 rows"]
+    pk_routes["pk_routes<br/>435 rows"]
     tolerance["tolerance<br/>323 rows"]
-    pk_routes["pk_routes<br/>308 rows"]
     pharmacogenetics["pharmacogenetics<br/>305 rows"]
     class_citations["class_citations<br/>267 rows"]
     off_targets["off_targets<br/>209 rows"]
@@ -167,18 +167,20 @@ graph LR
     src_peer_review_primary --> downstream_signalling
     downstream_signalling --> ui_mechanism
     substance_classes --> ui_drugClass
-    src_peer_review_primary --> metabolism
-    metabolism --> ui_pharmacokinetics
+    src_medtap --> half_lives
     src_peer_review_primary --> half_lives
     src_piru_curated --> half_lives
     src_tripsit --> half_lives
     half_lives --> ui_pharmacokinetics
+    src_peer_review_primary --> metabolism
+    metabolism --> ui_pharmacokinetics
+    src_benzos_cited --> pk_routes
+    src_medtap --> pk_routes
+    src_peer_review_primary --> pk_routes
+    pk_routes --> ui_pharmacokinetics
     src_benzos_cited --> tolerance
     src_peer_review_primary --> tolerance
     tolerance --> ui_pharmacokinetics
-    src_benzos_cited --> pk_routes
-    src_peer_review_primary --> pk_routes
-    pk_routes --> ui_pharmacokinetics
     src_peer_review_primary --> pharmacogenetics
     pharmacogenetics --> ui_pharmacokinetics
     class_citations --> ui_sources
@@ -215,7 +217,7 @@ graph LR
     classDef dead fill:#5b1a1a,stroke:#d06666,color:#fff;
     classDef partial fill:#5b451a,stroke:#d0a566,color:#fff;
     classDef live fill:#1a3d2b,stroke:#5fbf8f,color:#fff;
-    class aliases,dose_ranges,citations,substance_forms,substances,bindings,mechanisms_summary,spectrum_levels,substance_citations,metabolism,half_lives,tolerance,pk_routes,pharmacogenetics,class_citations,off_targets,drug_interactions_pk,functional_assays,protocol_dosing,neuroimaging,class_contexts,peptide_profiles,diazepam_equivalents,product_strengths,biased_agonism,concentration_effects,durations_of_action,interaction_rules,sources,receptor_oligomers,product_durations partial;
+    class aliases,dose_ranges,citations,substance_forms,substances,bindings,mechanisms_summary,spectrum_levels,substance_citations,half_lives,metabolism,pk_routes,tolerance,pharmacogenetics,class_citations,off_targets,drug_interactions_pk,functional_assays,protocol_dosing,neuroimaging,class_contexts,peptide_profiles,diazepam_equivalents,product_strengths,biased_agonism,concentration_effects,durations_of_action,interaction_rules,sources,receptor_oligomers,product_durations partial;
     class subjective_effects,durations,reported_effects,tags,effects,contraindications,categories,indications,molecule_shapes,effect_vocab_labels,descriptions,downstream_signalling,substance_classes,class_reference_compounds live;
 ```
 

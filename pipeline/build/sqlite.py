@@ -118,6 +118,7 @@ DOSE_SOURCE_EXCEPTIONS = REPO / "data/curated/dose-source-exceptions.json"
 STRUCTURAL_DUPLICATES = REPO / "data/curated/structural-duplicates.json"
 FREEODWIKI = REPO / "data/sources/freeodwiki.json"
 TRIPSIT = REPO / "data/sources/tripsit.json"
+MEDTAP_PK = REPO / "data/sources/medtap-pk.json"
 # Citation link-health cache produced by pipeline/audit/validate_links.py.
 # The build drops citations this proved dead (HTTP 404/410) so no broken link ships.
 LINK_CACHE = REPO / "data/sources/link-cache.json"
@@ -2481,6 +2482,89 @@ def assert_effects_are_readable_in_english(con) -> dict:
     cur.execute("SELECT COUNT(*), SUM(vocab_id IS NOT NULL) FROM subjective_effects")
     total, bridged = cur.fetchone()
     return {"rows": total or 0, "bridged": bridged or 0}
+
+
+def ingest_medtap_pk(build, path: Path) -> dict:
+    """The reviewed FDA-label PK sidecar into `half_lives` and `pk_routes`.
+
+    Written once by pipeline/fetch/brushers/medtap_pk.py and committed, so the
+    build reads numbers a reviewer has seen rather than parsing label prose. The
+    generator already refused combination products, values attributed to another
+    ingredient, anything its strict parser could not read cleanly, and every
+    half-life a second source disagrees with — see its docstring for why each of
+    those is a refusal and not a merge.
+
+    Half-life is per-source, so a `medtap` value does not displace a curated or
+    peer-reviewed one: it fills a gap, and loses the moment a better source has
+    a row. Protein binding and Vd attach to the oral route, which is what a
+    label describes unless it says otherwise.
+    """
+    if not path.exists():
+        return {"half_lives": 0, "pk_routes": 0, "unresolved": 0, "adjudicated_out": 0}
+    payload = json.loads(path.read_text())
+    # Substances adjudicated as having no honest single half-life — a prodrug
+    # whose label reports its metabolites' decay, an ester depot, a botanical
+    # mixture. The label's number for those is precisely the one the
+    # adjudication examined and rejected, so it must not come back in through
+    # a different door.
+    adjudications = json.loads((REPO / "data/curated/drugbank-adjudications.json").read_text())
+    unresolvable = {
+        normalise(entry["substance"]) for entry in adjudications.get("half_life_unresolvable", [])
+    }
+    written = {"half_lives": 0, "pk_routes": 0, "unresolved": 0, "adjudicated_out": 0}
+    for entry in payload.get("entries") or []:
+        sid = build.substance_ids.get(normalise(entry["substance"]))
+        if sid is None:
+            written["unresolved"] += 1
+            continue
+        # The label is the citation; its NDC is what identifies the product
+        # whose label the number came from. The build's uncited-numeric gate
+        # requires one for every PK value, and it is right to.
+        citation_id = None
+        if entry.get("ndc"):
+            citation_id = build.cite(
+                "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query="
+                + str(entry["ndc"])
+            )
+        minutes = entry.get("half_life_minutes")
+        if minutes and normalise(entry["substance"]) in unresolvable:
+            written["adjudicated_out"] += 1
+            minutes = None
+        if minutes:
+            try:
+                build.cur.execute(
+                    "INSERT INTO half_lives(substance_id, source_id, half_life_minutes, notes, "
+                    "citation_id) VALUES (?, ?, ?, ?, ?)",
+                    (
+                        sid,
+                        build.source_ids["medtap"],
+                        minutes,
+                        entry.get("half_life_label"),
+                        citation_id,
+                    ),
+                )
+                written["half_lives"] += 1
+            except sqlite3.IntegrityError:
+                pass
+        protein_binding = entry.get("protein_binding_pct")
+        vd = entry.get("vd_l_per_kg")
+        if protein_binding is None and vd is None:
+            continue
+        build.cur.execute(
+            "INSERT INTO pk_routes(substance_id, route, source_id, protein_binding_pct, "
+            "vd_l_per_kg, species, citation_id, notes) "
+            "VALUES (?, 'oral', ?, ?, ?, 'human', ?, ?)",
+            (
+                sid,
+                build.source_ids["medtap"],
+                protein_binding,
+                vd,
+                citation_id,
+                entry.get("protein_binding_label") or entry.get("vd_label"),
+            ),
+        )
+        written["pk_routes"] += 1
+    return written
 
 
 def ingest_tripsit_combos(build, path: Path) -> dict:
@@ -11032,6 +11116,15 @@ def main() -> int:
     # A membership whose substance's own category contradicts the class is a
     # false claim; the enrichment files tag comparison compounds with the class
     # of the file they appear in. Runs after all merges.
+    medtap_pk = ingest_medtap_pk(build, MEDTAP_PK)
+    print(
+        f"MedTAP label PK: {medtap_pk['half_lives']} half-lives, "
+        f"{medtap_pk['pk_routes']} pk_routes "
+        f"({medtap_pk['unresolved']} unresolved, "
+        f"{medtap_pk['adjudicated_out']} adjudicated out)",
+        file=sys.stderr,
+    )
+
     combos = ingest_tripsit_combos(build, TRIPSIT)
     print(
         f"TripSit class-pair rules: {combos['written']} of {combos['pairs']}",

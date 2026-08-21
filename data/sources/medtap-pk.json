@@ -1,0 +1,2501 @@
+{
+  "_meta": {
+    "source": "MedTAP FDA structured product labels",
+    "generator": "pipeline/fetch/brushers/medtap_pk.py",
+    "what": "Reviewed PK values parsed from label Pharmacology tables. Each value keeps the label string it came from so a reviewer can check it without the corpus."
+  },
+  "entries": [
+    {
+      "substance": "Acalabrutinib",
+      "ndc": "0310-0512",
+      "brand": "Calquence"
+    },
+    {
+      "substance": "Acetaminophen",
+      "ndc": "53145-052",
+      "brand": "Gesteira",
+      "half_life_minutes": 150.0,
+      "half_life_low_minutes": 60.0,
+      "half_life_high_minutes": 240.0,
+      "half_life_label": "1 to 4 hours",
+      "protein_binding_pct": 25.0,
+      "protein_binding_label": "25%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Allopurinol",
+      "ndc": "61786-801",
+      "brand": "Zyloprim",
+      "half_life_minutes": 120.0,
+      "half_life_low_minutes": 60.0,
+      "half_life_high_minutes": 180.0,
+      "half_life_label": "1-3 hours"
+    },
+    {
+      "substance": "Almotriptan",
+      "ndc": "27241-041",
+      "brand": "",
+      "half_life_minutes": 210.0,
+      "half_life_low_minutes": 180.0,
+      "half_life_high_minutes": 240.0,
+      "half_life_label": "3-4 hours",
+      "protein_binding_pct": 35.0,
+      "protein_binding_label": "35%"
+    },
+    {
+      "substance": "Aluminum hydroxide",
+      "ndc": "57896-629",
+      "brand": "Geri-lanta Antacid Antigas"
+    },
+    {
+      "substance": "Amiloride",
+      "ndc": "42291-122",
+      "brand": "Amiloride Hydrochloride",
+      "half_life_minutes": 450.0,
+      "half_life_low_minutes": 360.0,
+      "half_life_high_minutes": 540.0,
+      "half_life_label": "Plasma half-life varies from 6 to 9 hours."
+    },
+    {
+      "substance": "Amlodipine",
+      "ndc": "33342-015",
+      "brand": "",
+      "half_life_minutes": 2400.0,
+      "half_life_low_minutes": 1800.0,
+      "half_life_high_minutes": 3000.0,
+      "half_life_label": "30-50 hours",
+      "protein_binding_pct": 97.5,
+      "protein_binding_label": "97.5%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Amphetamine",
+      "ndc": "24338-850",
+      "brand": "Zenzedi",
+      "half_life_minutes": 675.0,
+      "half_life_low_minutes": 675.0,
+      "half_life_high_minutes": 675.0,
+      "half_life_label": "The half life for adults in the fasted state was found to be 11.25 hr.",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Anastrozole",
+      "ndc": "0054-0164",
+      "brand": "",
+      "half_life_minutes": 3000.0,
+      "half_life_low_minutes": 3000.0,
+      "half_life_high_minutes": 3000.0,
+      "half_life_label": "50 hours",
+      "protein_binding_pct": 40.0,
+      "protein_binding_label": "40%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Apraclonidine",
+      "ndc": "17478-716",
+      "brand": "Apraclonidine Ophthalmic",
+      "half_life_minutes": 480.0,
+      "half_life_low_minutes": 480.0,
+      "half_life_high_minutes": 480.0,
+      "half_life_label": "8 hours",
+      "protein_binding_pct": 98.7,
+      "protein_binding_label": "98.7%"
+    },
+    {
+      "substance": "Arformoterol",
+      "ndc": "63402-911",
+      "brand": "Brovana"
+    },
+    {
+      "substance": "Asenapine",
+      "ndc": "0052-0118",
+      "brand": "Saphris",
+      "protein_binding_pct": 95.0,
+      "protein_binding_label": "95% protein bound"
+    },
+    {
+      "substance": "Asparaginase",
+      "ndc": "57902-249",
+      "brand": "Erwinaze",
+      "half_life_minutes": 1140.0,
+      "half_life_low_minutes": 480.0,
+      "half_life_high_minutes": 1800.0,
+      "half_life_label": "8-30 hrs"
+    },
+    {
+      "substance": "Aspirin",
+      "ndc": "0924-0104",
+      "brand": "Physicians Care Aspirin",
+      "protein_binding_pct": 99.5,
+      "protein_binding_label": "High (99.5%) to albumin. Decreases as plasma salicylate concentration increases, with reduced plasma albumin concentration or renal dysfunction, and during pregnancy."
+    },
+    {
+      "substance": "Atomoxetine",
+      "ndc": "0002-3227",
+      "brand": "Strattera",
+      "half_life_minutes": 300.0,
+      "half_life_low_minutes": 300.0,
+      "half_life_high_minutes": 300.0,
+      "half_life_label": "5 hours",
+      "protein_binding_pct": 98.0,
+      "protein_binding_label": "At therapeutic concentrations, 98% of atomoxetine in plasma is bound to protein, primarily albumin.",
+      "vd_l_per_kg": 0.85,
+      "vd_label": "* 0.85 L/kg",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Atropine",
+      "ndc": "13985-606",
+      "brand": ""
+    },
+    {
+      "substance": "Auranofin",
+      "ndc": "54766-093",
+      "brand": "Ridaura"
+    },
+    {
+      "substance": "Azathioprine",
+      "ndc": "65649-231",
+      "brand": "Azasan"
+    },
+    {
+      "substance": "Balsalazide",
+      "ndc": "65649-102",
+      "brand": "Giazo"
+    },
+    {
+      "substance": "Becaplermin",
+      "ndc": "50484-810",
+      "brand": "Regranex"
+    },
+    {
+      "substance": "Belinostat",
+      "ndc": "68152-108",
+      "brand": "Beleodaq",
+      "half_life_minutes": 66.0,
+      "half_life_low_minutes": 66.0,
+      "half_life_high_minutes": 66.0,
+      "half_life_label": "1.1 hours",
+      "protein_binding_pct": 92.9,
+      "protein_binding_label": "92.9% and 95.8% of belinostat is bound to protein"
+    },
+    {
+      "substance": "Benazepril",
+      "ndc": "30698-448",
+      "brand": "Lotensin"
+    },
+    {
+      "substance": "Benzonatate",
+      "ndc": "0179-0066",
+      "brand": "",
+      "half_life_minutes": 330.0,
+      "half_life_low_minutes": 180.0,
+      "half_life_high_minutes": 480.0,
+      "half_life_label": "3-8 hours"
+    },
+    {
+      "substance": "Benzylpenicillin",
+      "ndc": "0781-6153",
+      "brand": ""
+    },
+    {
+      "substance": "Betamethasone",
+      "ndc": "54879-004",
+      "brand": "Betamethasone Valerate",
+      "half_life_minutes": 336.0,
+      "half_life_low_minutes": 336.0,
+      "half_life_high_minutes": 336.0,
+      "half_life_label": "5.6 hours",
+      "protein_binding_pct": 64.0,
+      "protein_binding_label": "64%"
+    },
+    {
+      "substance": "Bexarotene",
+      "ndc": "0378-6955",
+      "brand": "",
+      "half_life_minutes": 420.0,
+      "half_life_low_minutes": 420.0,
+      "half_life_high_minutes": 420.0,
+      "half_life_label": "7 hours"
+    },
+    {
+      "substance": "Bicalutamide",
+      "ndc": "0310-0705",
+      "brand": "Casodex",
+      "half_life_minutes": 8496.0,
+      "half_life_low_minutes": 8496.0,
+      "half_life_high_minutes": 8496.0,
+      "half_life_label": "5.9 days",
+      "protein_binding_pct": 96.0,
+      "protein_binding_label": "96%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Bisacodyl",
+      "ndc": "10237-906",
+      "brand": "Carters Little Pills",
+      "half_life_minutes": 960.0,
+      "half_life_low_minutes": 960.0,
+      "half_life_high_minutes": 960.0,
+      "half_life_label": "16 hours"
+    },
+    {
+      "substance": "Bismuth",
+      "ndc": "14505-400",
+      "brand": "Desempacho"
+    },
+    {
+      "substance": "Bivalirudin",
+      "ndc": "55111-652",
+      "brand": "",
+      "vd_l_per_kg": 0.2,
+      "vd_label": "0.2L/kg"
+    },
+    {
+      "substance": "Bleomycin",
+      "ndc": "70121-1567",
+      "brand": "",
+      "half_life_minutes": 115.0,
+      "half_life_low_minutes": 115.0,
+      "half_life_high_minutes": 115.0,
+      "half_life_label": "115 minutes",
+      "protein_binding_pct": 1.0,
+      "protein_binding_label": "1%"
+    },
+    {
+      "substance": "Botulinum Toxin Type A",
+      "ndc": "0299-5962",
+      "brand": "Dysport"
+    },
+    {
+      "substance": "Budesonide",
+      "ndc": "0186-1988",
+      "brand": "Pulmicort Respules"
+    },
+    {
+      "substance": "Bumetanide",
+      "ndc": "0093-4232",
+      "brand": "",
+      "half_life_minutes": 75.0,
+      "half_life_low_minutes": 60.0,
+      "half_life_high_minutes": 90.0,
+      "half_life_label": "60-90 minutes",
+      "protein_binding_pct": 97.0,
+      "protein_binding_label": "97%"
+    },
+    {
+      "substance": "Bupivacaine",
+      "ndc": "0409-1559",
+      "brand": "Marcaine",
+      "protein_binding_pct": 95.0,
+      "protein_binding_label": "bupivacaine:   95%   epinephrine:"
+    },
+    {
+      "substance": "Buprenorphine",
+      "ndc": "0093-3600",
+      "brand": "",
+      "protein_binding_pct": 96.0,
+      "protein_binding_label": "96% protein bound to alpha- and beta-globulin."
+    },
+    {
+      "substance": "Bupropion",
+      "ndc": "0173-0556",
+      "brand": "Zyban",
+      "half_life_minutes": 1440.0,
+      "half_life_low_minutes": 1440.0,
+      "half_life_high_minutes": 1440.0,
+      "half_life_label": "24 hours",
+      "protein_binding_pct": 84.0,
+      "protein_binding_label": "84 %",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Buspirone",
+      "ndc": "0093-0053",
+      "brand": "Buspirone Hydrochloride",
+      "half_life_minutes": 150.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 180.0,
+      "half_life_label": "2-3 hours (although the action of a single dose is much longer than the short halflife indicates).",
+      "protein_binding_pct": 95.0,
+      "protein_binding_label": "95% (approximately 70% bound to albumin, 30% bound to alpha 1 -acid glycoprotein)",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Busulfan",
+      "ndc": "0517-0920",
+      "brand": "N/a",
+      "half_life_minutes": 156.0,
+      "half_life_low_minutes": 156.0,
+      "half_life_high_minutes": 156.0,
+      "half_life_label": "2.6 hours",
+      "protein_binding_pct": 32.0,
+      "protein_binding_label": "32% bound to plasma proteins and 47% bound to red blood cells."
+    },
+    {
+      "substance": "Caffeine",
+      "ndc": "68737-229",
+      "brand": "Conrx Alert"
+    },
+    {
+      "substance": "Calcium",
+      "ndc": "56062-047",
+      "brand": "Maximum Strength"
+    },
+    {
+      "substance": "Capreomycin",
+      "ndc": "17478-080",
+      "brand": "Capastat Sulfate"
+    },
+    {
+      "substance": "Carbamazepine",
+      "ndc": "54092-171",
+      "brand": "Carbatrol",
+      "protein_binding_pct": 76.0,
+      "protein_binding_label": "76% bound to plasma proteins."
+    },
+    {
+      "substance": "Carbonic anhydrase 6",
+      "ndc": "49884-902",
+      "brand": "Mafenide Acetate"
+    },
+    {
+      "substance": "Carisoprodol",
+      "ndc": "0143-1176",
+      "brand": "",
+      "protein_binding_pct": 60.0,
+      "protein_binding_label": "60%"
+    },
+    {
+      "substance": "Carvedilol",
+      "ndc": "0007-3370",
+      "brand": "Coreg",
+      "half_life_minutes": 510.0,
+      "half_life_low_minutes": 420.0,
+      "half_life_high_minutes": 600.0,
+      "half_life_label": "7-10 hours",
+      "protein_binding_pct": 98.0,
+      "protein_binding_label": "98%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Cefazolin",
+      "ndc": "0143-9262",
+      "brand": ""
+    },
+    {
+      "substance": "Cefditoren",
+      "ndc": "44004-801",
+      "brand": "Spectracef"
+    },
+    {
+      "substance": "Cefuroxime",
+      "ndc": "0143-9567",
+      "brand": "",
+      "half_life_minutes": 80.0,
+      "half_life_low_minutes": 80.0,
+      "half_life_high_minutes": 80.0,
+      "half_life_label": "Approximately 80 minutes following intramuscular or intravenous injection.",
+      "protein_binding_pct": 50.0,
+      "protein_binding_label": "50% to serum protein"
+    },
+    {
+      "substance": "Celecoxib",
+      "ndc": "69399-185",
+      "brand": "Celecoxib 400 Mg",
+      "protein_binding_pct": 97.0,
+      "protein_binding_label": "97%, primarily to albumin and, to a lesser extent, a"
+    },
+    {
+      "substance": "Cephalexin",
+      "ndc": "0316-0333",
+      "brand": "Daxbia",
+      "half_life_minutes": 60.0,
+      "half_life_low_minutes": 60.0,
+      "half_life_high_minutes": 60.0,
+      "half_life_label": "1 hour",
+      "protein_binding_pct": 14.0,
+      "protein_binding_label": "14%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Cetirizine",
+      "ndc": "30142-211",
+      "brand": "All Day Allergy",
+      "half_life_minutes": 498.0,
+      "half_life_low_minutes": 498.0,
+      "half_life_high_minutes": 498.0,
+      "half_life_label": "8.3 hours",
+      "protein_binding_pct": 93.0,
+      "protein_binding_label": "Very high (93%) plasma protein binding",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Chloramphenicol",
+      "ndc": "63323-011",
+      "brand": "Chloramphenicol Sodium Succinate"
+    },
+    {
+      "substance": "Chlordiazepoxide",
+      "ndc": "61919-711",
+      "brand": ""
+    },
+    {
+      "substance": "Chlorhexidine",
+      "ndc": "0126-0271",
+      "brand": "Periogard",
+      "protein_binding_pct": 87.0,
+      "protein_binding_label": "87%"
+    },
+    {
+      "substance": "Chloroprocaine",
+      "ndc": "52584-475",
+      "brand": "Nesacaine"
+    },
+    {
+      "substance": "Chlorpheniramine",
+      "ndc": "49035-940",
+      "brand": "Chlortabs",
+      "half_life_minutes": 1440.0,
+      "half_life_low_minutes": 1260.0,
+      "half_life_high_minutes": 1620.0,
+      "half_life_label": "21-27 hours",
+      "protein_binding_pct": 72.0,
+      "protein_binding_label": "72%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Chlorzoxazone",
+      "ndc": "66336-663",
+      "brand": ""
+    },
+    {
+      "substance": "Cidofovir",
+      "ndc": "61958-0101",
+      "brand": "Vistide",
+      "half_life_minutes": 168.0,
+      "half_life_low_minutes": 144.0,
+      "half_life_high_minutes": 192.0,
+      "half_life_label": "2.4 to 3.2 hours",
+      "protein_binding_pct": 6.0,
+      "protein_binding_label": "6%"
+    },
+    {
+      "substance": "Cilastatin",
+      "ndc": "0409-3507",
+      "brand": "Imipenem And Cilastatin"
+    },
+    {
+      "substance": "Ciprofloxacin",
+      "ndc": "50419-773",
+      "brand": "Cipro",
+      "half_life_minutes": 240.0,
+      "half_life_low_minutes": 240.0,
+      "half_life_high_minutes": 240.0,
+      "half_life_label": "4 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Citalopram",
+      "ndc": "0378-3855",
+      "brand": "Escitalopram Oxalate",
+      "half_life_minutes": 1770.0,
+      "half_life_low_minutes": 1620.0,
+      "half_life_high_minutes": 1920.0,
+      "half_life_label": "27-32 hours",
+      "protein_binding_pct": 56.0,
+      "protein_binding_label": "~56%",
+      "vd_l_per_kg": 12.0,
+      "vd_label": "* 12 L/kg",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Clarithromycin",
+      "ndc": "0054-0036",
+      "brand": "",
+      "half_life_minutes": 210.0,
+      "half_life_low_minutes": 180.0,
+      "half_life_high_minutes": 240.0,
+      "half_life_label": "3-4 hours",
+      "protein_binding_pct": 70.0,
+      "protein_binding_label": "~ 70% protein bound"
+    },
+    {
+      "substance": "Clemastine",
+      "ndc": "0067-1190",
+      "brand": "Tavist"
+    },
+    {
+      "substance": "Clindamycin",
+      "ndc": "0187-5190",
+      "brand": "Benzaclin",
+      "half_life_minutes": 144.0,
+      "half_life_low_minutes": 144.0,
+      "half_life_high_minutes": 144.0,
+      "half_life_label": "clindamycin:   2.4 hours   null:",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Clomiphene",
+      "ndc": "0093-0041",
+      "brand": "Clomiphene Citrate"
+    },
+    {
+      "substance": "Clonidine",
+      "ndc": "67457-218",
+      "brand": "Duraclon"
+    },
+    {
+      "substance": "Clorazepate",
+      "ndc": "0378-0030",
+      "brand": ""
+    },
+    {
+      "substance": "Colistimethate",
+      "ndc": "23155-193",
+      "brand": "Colistimethate Sodium"
+    },
+    {
+      "substance": "Cromolyn",
+      "ndc": "17478-291",
+      "brand": "Cromolyn Sodium",
+      "half_life_minutes": 78.0,
+      "half_life_low_minutes": 78.0,
+      "half_life_high_minutes": 78.0,
+      "half_life_label": "1.3 hours"
+    },
+    {
+      "substance": "Cyclopentolate",
+      "ndc": "17478-096",
+      "brand": ""
+    },
+    {
+      "substance": "Cyproheptadine",
+      "ndc": "0121-0788",
+      "brand": ""
+    },
+    {
+      "substance": "Dalbavancin",
+      "ndc": "57970-100",
+      "brand": "Dalvance"
+    },
+    {
+      "substance": "Darifenacin",
+      "ndc": "0430-0170",
+      "brand": "Enablex",
+      "half_life_minutes": 960.0,
+      "half_life_low_minutes": 780.0,
+      "half_life_high_minutes": 1140.0,
+      "half_life_label": "The elimination half-life of darifenacin following chronic dosing is approximately 13-19 hours.",
+      "protein_binding_pct": 98.0,
+      "protein_binding_label": "Darifenacin is approximately 98% bound to plasma proteins (primarily to alpha-1-acid-glycoprotein)."
+    },
+    {
+      "substance": "Decitabine",
+      "ndc": "47335-361",
+      "brand": ""
+    },
+    {
+      "substance": "Deferiprone",
+      "ndc": "52609-0006",
+      "brand": "Ferriprox",
+      "half_life_minutes": 114.0,
+      "half_life_low_minutes": 114.0,
+      "half_life_high_minutes": 114.0,
+      "half_life_label": "The half-life is 1.9 hours.",
+      "protein_binding_pct": 10.0,
+      "protein_binding_label": "Plasma protein binding is less than 10%."
+    },
+    {
+      "substance": "Deferoxamine",
+      "ndc": "0078-0467",
+      "brand": "Desferal",
+      "protein_binding_pct": 10.0,
+      "protein_binding_label": "Less than 10% bound to serum proteins"
+    },
+    {
+      "substance": "Defibrotide Sodium",
+      "ndc": "68727-800",
+      "brand": "Defitelio"
+    },
+    {
+      "substance": "Desipramine",
+      "ndc": "0179-0120",
+      "brand": "Desipramine Hydrochloride"
+    },
+    {
+      "substance": "Desirudin",
+      "ndc": "0187-0011",
+      "brand": "Iprivask",
+      "half_life_minutes": 120.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 120.0,
+      "half_life_label": "~2 hours.",
+      "vd_l_per_kg": 0.25,
+      "vd_label": "0.25 L/kg."
+    },
+    {
+      "substance": "Desmopressin",
+      "ndc": "0075-0016",
+      "brand": "Ddavp",
+      "protein_binding_pct": 50.0,
+      "protein_binding_label": "50%"
+    },
+    {
+      "substance": "Desogestrel",
+      "ndc": "0052-0283",
+      "brand": "Cyclessa"
+    },
+    {
+      "substance": "Dexamethasone",
+      "ndc": "51655-012",
+      "brand": "Dexamethsone",
+      "half_life_minutes": 2700.0,
+      "half_life_low_minutes": 2160.0,
+      "half_life_high_minutes": 3240.0,
+      "half_life_label": "36-54 hours",
+      "protein_binding_pct": 70.0,
+      "protein_binding_label": "70%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Dexmedetomidine",
+      "ndc": "17478-055",
+      "brand": "",
+      "half_life_minutes": 120.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 120.0,
+      "half_life_label": "2 hours",
+      "protein_binding_pct": 94.0,
+      "protein_binding_label": "94%"
+    },
+    {
+      "substance": "Dextromethorphan",
+      "ndc": "36800-494",
+      "brand": "Topcare Cough Dm",
+      "half_life_minutes": 270.0,
+      "half_life_low_minutes": 180.0,
+      "half_life_high_minutes": 360.0,
+      "half_life_label": "3-6 hours"
+    },
+    {
+      "substance": "Diatrizoate",
+      "ndc": "0270-0149",
+      "brand": "Cystografin"
+    },
+    {
+      "substance": "Diazepam",
+      "ndc": "0409-1273",
+      "brand": "",
+      "protein_binding_pct": 98.5,
+      "protein_binding_label": "98.5%"
+    },
+    {
+      "substance": "Diclofenac",
+      "ndc": "50090-0543",
+      "brand": "Diclofenac Sodium Delayed Release",
+      "half_life_minutes": 120.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 120.0,
+      "half_life_label": "2 hours",
+      "protein_binding_pct": 99.0,
+      "protein_binding_label": "More than 99%",
+      "vd_l_per_kg": 1.3,
+      "vd_label": "* 1.3 L/kg",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Dicloxacillin",
+      "ndc": "0093-3123",
+      "brand": "Dicloxacillin Sodium",
+      "half_life_minutes": 42.0,
+      "half_life_low_minutes": 42.0,
+      "half_life_high_minutes": 42.0,
+      "half_life_label": "The elimination half-life for dicloxacillin is about 0.7 hour."
+    },
+    {
+      "substance": "Diflorasone",
+      "ndc": "0168-0242",
+      "brand": "Diflorasone Diacetate"
+    },
+    {
+      "substance": "Diltiazem",
+      "ndc": "0093-0318",
+      "brand": "Diltiazem Hydrochloride",
+      "half_life_minutes": 225.0,
+      "half_life_low_minutes": 180.0,
+      "half_life_high_minutes": 270.0,
+      "half_life_label": "3.0 - 4.5 hours",
+      "protein_binding_pct": 70.0,
+      "protein_binding_label": "70%-80%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Dimenhydrinate",
+      "ndc": "37205-111",
+      "brand": "Original Formula Motion Sickness Relief",
+      "half_life_minutes": 150.0,
+      "half_life_low_minutes": 60.0,
+      "half_life_high_minutes": 240.0,
+      "half_life_label": "1-4 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Dimercaprol",
+      "ndc": "17478-526",
+      "brand": "Bal"
+    },
+    {
+      "substance": "Diphenhydramine",
+      "ndc": "55910-205",
+      "brand": "Nite Time Sleep Aid Liquidgels",
+      "half_life_minutes": 150.0,
+      "half_life_low_minutes": 60.0,
+      "half_life_high_minutes": 240.0,
+      "half_life_label": "1-4 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Disulfiram",
+      "ndc": "0054-0356",
+      "brand": ""
+    },
+    {
+      "substance": "Doripenem",
+      "ndc": "59630-309",
+      "brand": "Doribax",
+      "protein_binding_pct": 8.1,
+      "protein_binding_label": "8.1%"
+    },
+    {
+      "substance": "Doxepin",
+      "ndc": "42847-103",
+      "brand": "Silenor"
+    },
+    {
+      "substance": "Doxycycline",
+      "ndc": "0143-3141",
+      "brand": "Doxycycline Hyclate",
+      "half_life_minutes": 1200.0,
+      "half_life_low_minutes": 1080.0,
+      "half_life_high_minutes": 1320.0,
+      "half_life_label": "18-22 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Doxylamine",
+      "ndc": "41190-441",
+      "brand": "Shoprite Sleep-aid",
+      "half_life_minutes": 600.0,
+      "half_life_low_minutes": 600.0,
+      "half_life_high_minutes": 600.0,
+      "half_life_label": "10 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Droperidol",
+      "ndc": "0409-1187",
+      "brand": ""
+    },
+    {
+      "substance": "Drospirenone",
+      "ndc": "52544-981",
+      "brand": "Zarah"
+    },
+    {
+      "substance": "Duloxetine",
+      "ndc": "0615-7894",
+      "brand": "Duloxetine Hydrochloride",
+      "protein_binding_pct": 90.0,
+      "protein_binding_label": "Protein binding is greater than 90%."
+    },
+    {
+      "substance": "Dutasteride",
+      "ndc": "0054-0395",
+      "brand": "",
+      "half_life_minutes": 50400.0,
+      "half_life_low_minutes": 50400.0,
+      "half_life_high_minutes": 50400.0,
+      "half_life_label": "5 weeks",
+      "protein_binding_pct": 99.0,
+      "protein_binding_label": "Highly bound to albumin (99%) and α-1 acid glycoprotein (96.6%).",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Econazole",
+      "ndc": "47781-543",
+      "brand": "Econazole Nitrate Cream"
+    },
+    {
+      "substance": "Eliglustat",
+      "ndc": "58468-0220",
+      "brand": "Cerdelga"
+    },
+    {
+      "substance": "Empagliflozin",
+      "ndc": "0597-0152",
+      "brand": "Jardiance",
+      "half_life_minutes": 744.0,
+      "half_life_low_minutes": 744.0,
+      "half_life_high_minutes": 744.0,
+      "half_life_label": "Terminal elimination half life was found to be 12.4 h based on population pharmacokinetic analysis.",
+      "protein_binding_pct": 86.2,
+      "protein_binding_label": "Plasma protein binding was found to be 86.2%"
+    },
+    {
+      "substance": "Enalapril",
+      "ndc": "0093-0026",
+      "brand": "Enalapril Maleate"
+    },
+    {
+      "substance": "Ephedrine",
+      "ndc": "0143-3145",
+      "brand": "Ephedrine Sulfate",
+      "half_life_minutes": 270.0,
+      "half_life_low_minutes": 180.0,
+      "half_life_high_minutes": 360.0,
+      "half_life_label": "3-6 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Epinephrine",
+      "ndc": "0404-6620",
+      "brand": "Articaine Hydrochloride And Epinephrine",
+      "half_life_minutes": 2.0,
+      "half_life_low_minutes": 2.0,
+      "half_life_high_minutes": 2.0,
+      "half_life_label": "2 minutes"
+    },
+    {
+      "substance": "Epoprostenol",
+      "ndc": "0173-0517",
+      "brand": "Flolan"
+    },
+    {
+      "substance": "Eptifibatide",
+      "ndc": "0085-1136",
+      "brand": "Integrilin",
+      "half_life_minutes": 150.0,
+      "half_life_low_minutes": 150.0,
+      "half_life_high_minutes": 150.0,
+      "half_life_label": "Approximately 2.5 hours",
+      "protein_binding_pct": 25.0,
+      "protein_binding_label": "Approximately 25%"
+    },
+    {
+      "substance": "Erythromycin",
+      "ndc": "0409-6476",
+      "brand": "Erythrocin Lactobionate",
+      "half_life_minutes": 114.0,
+      "half_life_low_minutes": 48.0,
+      "half_life_high_minutes": 180.0,
+      "half_life_label": "0.8 - 3 hours"
+    },
+    {
+      "substance": "Esomeprazole",
+      "ndc": "41520-727",
+      "brand": "Careone Esomeprazole Magnesium",
+      "half_life_minutes": 75.0,
+      "half_life_low_minutes": 60.0,
+      "half_life_high_minutes": 90.0,
+      "half_life_label": "1-1.5 hours",
+      "protein_binding_pct": 97.0,
+      "protein_binding_label": "97%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Estradiol",
+      "ndc": "0179-0073",
+      "brand": "",
+      "half_life_minutes": 2160.0,
+      "half_life_low_minutes": 2160.0,
+      "half_life_high_minutes": 2160.0,
+      "half_life_label": "36 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Estrogens, Conjugated",
+      "ndc": "0046-1100",
+      "brand": "Premarin"
+    },
+    {
+      "substance": "Ethambutol",
+      "ndc": "50090-0417",
+      "brand": "Myambutol"
+    },
+    {
+      "substance": "Ethotoin",
+      "ndc": "55292-601",
+      "brand": "Peganone",
+      "half_life_minutes": 360.0,
+      "half_life_low_minutes": 180.0,
+      "half_life_high_minutes": 540.0,
+      "half_life_label": "3 to 9 hours"
+    },
+    {
+      "substance": "Ethynodiol",
+      "ndc": "54868-4240",
+      "brand": "Zovia 1/35e-28"
+    },
+    {
+      "substance": "Etomidate",
+      "ndc": "0409-6695",
+      "brand": "Amidate",
+      "half_life_minutes": 75.0,
+      "half_life_low_minutes": 75.0,
+      "half_life_high_minutes": 75.0,
+      "half_life_label": "75 minutes.",
+      "protein_binding_pct": 76.0,
+      "protein_binding_label": "76%, primarily to serum albumin."
+    },
+    {
+      "substance": "Etoposide",
+      "ndc": "0378-3266",
+      "brand": "",
+      "half_life_minutes": 450.0,
+      "half_life_low_minutes": 240.0,
+      "half_life_high_minutes": 660.0,
+      "half_life_label": "4-11 hours",
+      "protein_binding_pct": 97.0,
+      "protein_binding_label": "97% protein bound."
+    },
+    {
+      "substance": "Everolimus",
+      "ndc": "0078-0414",
+      "brand": "Zortress",
+      "half_life_minutes": 1800.0,
+      "half_life_low_minutes": 1800.0,
+      "half_life_high_minutes": 1800.0,
+      "half_life_label": "~30 hours.",
+      "protein_binding_pct": 74.0,
+      "protein_binding_label": "~ 74% in both healthy patients and those with moderate hepatic impairment."
+    },
+    {
+      "substance": "Evolocumab",
+      "ndc": "55513-750",
+      "brand": "Repatha"
+    },
+    {
+      "substance": "Exenatide",
+      "ndc": "0310-6530",
+      "brand": "Bydureon",
+      "half_life_minutes": 144.0,
+      "half_life_low_minutes": 144.0,
+      "half_life_high_minutes": 144.0,
+      "half_life_label": "Mean terminal half-life is 2.4 hours."
+    },
+    {
+      "substance": "Famotidine",
+      "ndc": "24385-255",
+      "brand": "Good Neighbor Pharmacy Acid Reducer",
+      "half_life_minutes": 180.0,
+      "half_life_low_minutes": 150.0,
+      "half_life_high_minutes": 210.0,
+      "half_life_label": "2.5-3.5 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Felbamate",
+      "ndc": "0037-0430",
+      "brand": "Felbatol",
+      "half_life_minutes": 1290.0,
+      "half_life_low_minutes": 1200.0,
+      "half_life_high_minutes": 1380.0,
+      "half_life_label": "20-23 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Fexofenadine",
+      "ndc": "49738-031",
+      "brand": "Smart Sense Allergy Relief",
+      "protein_binding_pct": 60.0,
+      "protein_binding_label": "60%-70%"
+    },
+    {
+      "substance": "Fluconazole",
+      "ndc": "0143-9666",
+      "brand": ""
+    },
+    {
+      "substance": "Fludarabine",
+      "ndc": "0069-9321",
+      "brand": "Fludarabine Phosphate",
+      "half_life_minutes": 1200.0,
+      "half_life_low_minutes": 1200.0,
+      "half_life_high_minutes": 1200.0,
+      "half_life_label": "20 hours"
+    },
+    {
+      "substance": "Fluocinolone",
+      "ndc": "24208-416",
+      "brand": "Retisert",
+      "half_life_minutes": 90.0,
+      "half_life_low_minutes": 78.0,
+      "half_life_high_minutes": 102.0,
+      "half_life_label": "1.3-1.7 hours"
+    },
+    {
+      "substance": "Fluocinonide",
+      "ndc": "47781-532",
+      "brand": "Fluocinonide Cream (emulsified Base)"
+    },
+    {
+      "substance": "Fluorouracil",
+      "ndc": "0069-0169",
+      "brand": "",
+      "half_life_minutes": 15.0,
+      "half_life_low_minutes": 10.0,
+      "half_life_high_minutes": 20.0,
+      "half_life_label": "10-20 minutes"
+    },
+    {
+      "substance": "Fluvastatin",
+      "ndc": "0093-7442",
+      "brand": "",
+      "half_life_minutes": 180.0,
+      "half_life_low_minutes": 180.0,
+      "half_life_high_minutes": 180.0,
+      "half_life_label": "3 hours",
+      "protein_binding_pct": 98.0,
+      "protein_binding_label": "98% bound to plasma proteins. At therapeutic concentrations, the protein binding of fluvastatin is not affected by warfarin, salicylic acid and glyburide.",
+      "vd_l_per_kg": 0.35,
+      "vd_label": "* 0.35 L/kg"
+    },
+    {
+      "substance": "Fluvoxamine",
+      "ndc": "0185-0017",
+      "brand": "Fluvoxamine Maleate",
+      "half_life_minutes": 936.0,
+      "half_life_low_minutes": 936.0,
+      "half_life_high_minutes": 936.0,
+      "half_life_label": "15.6 hours",
+      "vd_l_per_kg": 25.0,
+      "vd_label": "* 25 L/kg",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Folic Acid",
+      "ndc": "0143-9717",
+      "brand": ""
+    },
+    {
+      "substance": "Furosemide",
+      "ndc": "23155-473",
+      "brand": "",
+      "half_life_minutes": 120.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 120.0,
+      "half_life_label": "2 hours",
+      "protein_binding_pct": 95.0,
+      "protein_binding_label": "95% bound to plasma proteins",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Galsulfase",
+      "ndc": "68135-020",
+      "brand": "Naglazyme"
+    },
+    {
+      "substance": "Ganciclovir",
+      "ndc": "63739-357",
+      "brand": "Valganciclovir Hydrochloride"
+    },
+    {
+      "substance": "Gemcitabine",
+      "ndc": "0069-3857",
+      "brand": "Gemcitabine Hydrochloride"
+    },
+    {
+      "substance": "Gentamicin",
+      "ndc": "13985-603",
+      "brand": "Gentamicin Sulfate"
+    },
+    {
+      "substance": "Glyburide",
+      "ndc": "0039-0051",
+      "brand": "Diabeta",
+      "protein_binding_pct": 99.0,
+      "protein_binding_label": "Unchanged drug is ~99% bound to serum proteins; 4-trans-hydroxyglyburide is greater than 97% bound to serum proteins. Protein binding is primarily nonionic making glyburide and is less likely to displ"
+    },
+    {
+      "substance": "Granisetron",
+      "ndc": "63323-317",
+      "brand": "",
+      "protein_binding_pct": 65.0,
+      "protein_binding_label": "65%"
+    },
+    {
+      "substance": "Griseofulvin",
+      "ndc": "0472-0013",
+      "brand": "",
+      "half_life_minutes": 900.0,
+      "half_life_low_minutes": 540.0,
+      "half_life_high_minutes": 1260.0,
+      "half_life_label": "9-21 hours"
+    },
+    {
+      "substance": "Guaifenesin",
+      "ndc": "37205-628",
+      "brand": "Leader Mucus Er",
+      "half_life_minutes": 60.0,
+      "half_life_low_minutes": 60.0,
+      "half_life_high_minutes": 60.0,
+      "half_life_label": "1 hour"
+    },
+    {
+      "substance": "Heparin",
+      "ndc": "0264-9567",
+      "brand": "Heparin Sodium In Dextrose"
+    },
+    {
+      "substance": "Hyaluronidase",
+      "ndc": "17478-560",
+      "brand": "Hydase"
+    },
+    {
+      "substance": "Hydrocortisone",
+      "ndc": "10631-105",
+      "brand": "Westcort",
+      "protein_binding_pct": 95.0,
+      "protein_binding_label": "95%"
+    },
+    {
+      "substance": "Hydromorphone",
+      "ndc": "17478-540",
+      "brand": "Hydromorphone Hydrochloride",
+      "protein_binding_pct": 20.0,
+      "protein_binding_label": "20%"
+    },
+    {
+      "substance": "Hydroxyzine",
+      "ndc": "0517-4201",
+      "brand": "Hydroxyzine Hydrochloride",
+      "half_life_minutes": 1350.0,
+      "half_life_low_minutes": 1200.0,
+      "half_life_high_minutes": 1500.0,
+      "half_life_label": "20 to 25 hours",
+      "protein_binding_pct": 93.0,
+      "protein_binding_label": "93%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Ibuprofen",
+      "ndc": "36800-074",
+      "brand": "Topcare Ibuprofen",
+      "half_life_minutes": 180.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 240.0,
+      "half_life_label": "2-4 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Idarubicin",
+      "ndc": "0013-2576",
+      "brand": "Idamycin Pfs",
+      "half_life_minutes": 1320.0,
+      "half_life_low_minutes": 1320.0,
+      "half_life_high_minutes": 1320.0,
+      "half_life_label": "22 hours",
+      "protein_binding_pct": 97.0,
+      "protein_binding_label": "97%"
+    },
+    {
+      "substance": "Ifosfamide",
+      "ndc": "0338-3991",
+      "brand": "Ifex",
+      "half_life_minutes": 660.0,
+      "half_life_low_minutes": 420.0,
+      "half_life_high_minutes": 900.0,
+      "half_life_label": "7-15 hours. The elimination half-life increase appeared to be related to the increase in ifosfamide volume of distribution with age."
+    },
+    {
+      "substance": "Indapamide",
+      "ndc": "0228-2571",
+      "brand": "",
+      "half_life_minutes": 840.0,
+      "half_life_low_minutes": 840.0,
+      "half_life_high_minutes": 840.0,
+      "half_life_label": "14 hours (biphasic)"
+    },
+    {
+      "substance": "Insulin Human",
+      "ndc": "0024-5874",
+      "brand": "Afrezza",
+      "protein_binding_pct": 5.0,
+      "protein_binding_label": "5% protein bound",
+      "vd_l_per_kg": 0.15,
+      "vd_label": "0.15 L/kg"
+    },
+    {
+      "substance": "Insulin aspart",
+      "ndc": "0169-3201",
+      "brand": "Fiasp",
+      "half_life_minutes": 81.0,
+      "half_life_low_minutes": 81.0,
+      "half_life_high_minutes": 81.0,
+      "half_life_label": "81 minutes (following subcutaneous administration in healthy subjects)."
+    },
+    {
+      "substance": "Irbesartan",
+      "ndc": "0024-5850",
+      "brand": "Avapro",
+      "half_life_minutes": 780.0,
+      "half_life_low_minutes": 660.0,
+      "half_life_high_minutes": 900.0,
+      "half_life_label": "11-15 hours",
+      "protein_binding_pct": 90.0,
+      "protein_binding_label": "90% bound to serum proteins (primarily albumin and a1-acid glycoprotein) with negligible binding to cellular components of blood.",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Irinotecan",
+      "ndc": "0143-9583",
+      "brand": "Irinotecan Hydrochloride",
+      "protein_binding_pct": 30.0,
+      "protein_binding_label": "30%-68% protein bound, mainly to albumin."
+    },
+    {
+      "substance": "Ivacaftor",
+      "ndc": "51167-200",
+      "brand": "Kalydeco",
+      "half_life_minutes": 720.0,
+      "half_life_low_minutes": 720.0,
+      "half_life_high_minutes": 720.0,
+      "half_life_label": "12 hours following a single dose",
+      "protein_binding_pct": 99.0,
+      "protein_binding_label": "Ivacaftor is approximately 99% bound to plasma proteins, primarily to alpha 1-acid glycoprotein and albumin. Ivacaftor does not bind to human red blood cells."
+    },
+    {
+      "substance": "Ivermectin",
+      "ndc": "42799-806",
+      "brand": "",
+      "protein_binding_pct": 93.0,
+      "protein_binding_label": "93%"
+    },
+    {
+      "substance": "Ketorolac",
+      "ndc": "0409-3796",
+      "brand": "Ketorolac Tromethamine",
+      "protein_binding_pct": 99.0,
+      "protein_binding_label": "99%"
+    },
+    {
+      "substance": "Ketotifen",
+      "ndc": "24208-901",
+      "brand": "Alaway",
+      "half_life_minutes": 1260.0,
+      "half_life_low_minutes": 1260.0,
+      "half_life_high_minutes": 1260.0,
+      "half_life_label": "21 hours (for elimination)",
+      "protein_binding_pct": 75.0,
+      "protein_binding_label": "75%"
+    },
+    {
+      "substance": "Lamotrigine",
+      "ndc": "0093-0039",
+      "brand": "",
+      "protein_binding_pct": 55.0,
+      "protein_binding_label": "55%"
+    },
+    {
+      "substance": "Lansoprazole",
+      "ndc": "55316-117",
+      "brand": "Healthy Accents Lansoprazole",
+      "protein_binding_pct": 97.0,
+      "protein_binding_label": "97%"
+    },
+    {
+      "substance": "Lenalidomide",
+      "ndc": "59572-402",
+      "brand": "Revlimid",
+      "protein_binding_pct": 30.0,
+      "protein_binding_label": "30% protein bound."
+    },
+    {
+      "substance": "Leucovorin",
+      "ndc": "0143-9552",
+      "brand": "Leucovorin Calcium",
+      "half_life_minutes": 372.0,
+      "half_life_low_minutes": 372.0,
+      "half_life_high_minutes": 372.0,
+      "half_life_label": "6.2 hours",
+      "protein_binding_pct": 15.0,
+      "protein_binding_label": "~15%"
+    },
+    {
+      "substance": "Levalbuterol",
+      "ndc": "43598-409",
+      "brand": "Levalbuterol Inhalation",
+      "half_life_minutes": 219.0,
+      "half_life_low_minutes": 198.0,
+      "half_life_high_minutes": 240.0,
+      "half_life_label": "3.3 - 4 hours"
+    },
+    {
+      "substance": "Levetiracetam",
+      "ndc": "29033-042",
+      "brand": "Levetiracetam Extended-release",
+      "half_life_minutes": 420.0,
+      "half_life_low_minutes": 360.0,
+      "half_life_high_minutes": 480.0,
+      "half_life_label": "6-8 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Levonorgestrel",
+      "ndc": "51862-047",
+      "brand": "Amethia",
+      "protein_binding_pct": 55.0,
+      "protein_binding_label": "55%"
+    },
+    {
+      "substance": "Liothyronine",
+      "ndc": "42023-120",
+      "brand": "Triostat",
+      "half_life_minutes": 3600.0,
+      "half_life_low_minutes": 3600.0,
+      "half_life_high_minutes": 3600.0,
+      "half_life_label": "2.5 days",
+      "protein_binding_pct": 99.7,
+      "protein_binding_label": "99.7%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Lisinopril",
+      "ndc": "52652-3001",
+      "brand": "Qbrelis"
+    },
+    {
+      "substance": "Loperamide",
+      "ndc": "0093-0311",
+      "brand": "Loperamide Hydrochloride",
+      "protein_binding_pct": 97.0,
+      "protein_binding_label": "97%"
+    },
+    {
+      "substance": "Loratadine",
+      "ndc": "0904-6632",
+      "brand": "Childrens Loratadine",
+      "half_life_minutes": 504.0,
+      "half_life_low_minutes": 504.0,
+      "half_life_high_minutes": 504.0,
+      "half_life_label": "8.4 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Losartan",
+      "ndc": "0615-7958",
+      "brand": "Losortan Potassium",
+      "protein_binding_pct": 99.7,
+      "protein_binding_label": "99.7% protein bound, primarily to albumin"
+    },
+    {
+      "substance": "Lumefantrine",
+      "ndc": "0078-0568",
+      "brand": "Coartem"
+    },
+    {
+      "substance": "Mecamylamine",
+      "ndc": "45043-558",
+      "brand": "Vecamyl",
+      "protein_binding_pct": 40.0,
+      "protein_binding_label": "40%"
+    },
+    {
+      "substance": "Meclizine",
+      "ndc": "15579-826",
+      "brand": "Trav-l-tabs",
+      "half_life_minutes": 360.0,
+      "half_life_low_minutes": 360.0,
+      "half_life_high_minutes": 360.0,
+      "half_life_label": "6 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Meloxicam",
+      "ndc": "42211-205",
+      "brand": "Vivlodex",
+      "half_life_minutes": 1050.0,
+      "half_life_low_minutes": 900.0,
+      "half_life_high_minutes": 1200.0,
+      "half_life_label": "15-20 hours",
+      "protein_binding_pct": 99.4,
+      "protein_binding_label": "99.4% bound, primarily to albumin",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Melphalan",
+      "ndc": "47781-200",
+      "brand": "",
+      "vd_l_per_kg": 0.5,
+      "vd_label": "* 0.5 L/kg"
+    },
+    {
+      "substance": "Memantine",
+      "ndc": "0615-8100",
+      "brand": "",
+      "half_life_minutes": 4800.0,
+      "half_life_low_minutes": 3600.0,
+      "half_life_high_minutes": 6000.0,
+      "half_life_label": "60-100 hours",
+      "protein_binding_pct": 45.0,
+      "protein_binding_label": "45%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Mesalazine",
+      "ndc": "54868-6150",
+      "brand": "Apriso",
+      "protein_binding_pct": 80.0,
+      "protein_binding_label": "About 80% of N-Ac-5-ASA is bound to plasma proteins, whereas 40% of mesalamine is protein bound."
+    },
+    {
+      "substance": "Metformin",
+      "ndc": "54868-2894",
+      "brand": "Fortamet"
+    },
+    {
+      "substance": "Methadone",
+      "ndc": "0406-0540",
+      "brand": "Methadose Dispersible",
+      "half_life_minutes": 1800.0,
+      "half_life_low_minutes": 1440.0,
+      "half_life_high_minutes": 2160.0,
+      "half_life_label": "24-36 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Methocarbamol",
+      "ndc": "52584-073",
+      "brand": "",
+      "half_life_minutes": 71.4,
+      "half_life_low_minutes": 68.4,
+      "half_life_high_minutes": 74.4,
+      "half_life_label": "1.14-1.24 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Methylphenidate",
+      "ndc": "68084-933",
+      "brand": "Dexmethylphenidate Hydrochloride Extended-release",
+      "half_life_minutes": 180.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 240.0,
+      "half_life_label": "2-4 hours",
+      "protein_binding_pct": 30.0,
+      "protein_binding_label": "30%",
+      "vd_l_per_kg": 2.65,
+      "vd_label": "d-methylphenidate = 2.65 L/kg;",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Methylprednisolone",
+      "ndc": "0703-0031",
+      "brand": "Methylprednisolone Acetate",
+      "half_life_minutes": 120.0,
+      "half_life_low_minutes": 60.0,
+      "half_life_high_minutes": 180.0,
+      "half_life_label": "1-3 hours",
+      "protein_binding_pct": 78.0,
+      "protein_binding_label": "78%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Metoclopramide",
+      "ndc": "0409-3414",
+      "brand": "",
+      "half_life_minutes": 330.0,
+      "half_life_low_minutes": 300.0,
+      "half_life_high_minutes": 360.0,
+      "half_life_label": "5-6 hr",
+      "protein_binding_pct": 30.0,
+      "protein_binding_label": "30%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Metoprolol",
+      "ndc": "30698-458",
+      "brand": "Lopressor",
+      "half_life_minutes": 300.0,
+      "half_life_low_minutes": 180.0,
+      "half_life_high_minutes": 420.0,
+      "half_life_label": "3-7 hours",
+      "protein_binding_pct": 12.0,
+      "protein_binding_label": "12%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Miglitol",
+      "ndc": "0009-5012",
+      "brand": "Glyset",
+      "half_life_minutes": 120.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 120.0,
+      "half_life_label": "The elimination half-life of miglitol from plasma is approximately 2 hours.",
+      "vd_l_per_kg": 0.18,
+      "vd_label": "* 0.18 L/kg"
+    },
+    {
+      "substance": "Miglustat",
+      "ndc": "10148-201",
+      "brand": "",
+      "half_life_minutes": 390.0,
+      "half_life_low_minutes": 360.0,
+      "half_life_high_minutes": 420.0,
+      "half_life_label": "The effective half-life of miglustat is approximately 6 to 7 hours."
+    },
+    {
+      "substance": "Minoxidil",
+      "ndc": "69968-0089",
+      "brand": "Mens Rogaine Extra Strength Unscented",
+      "half_life_minutes": 252.0,
+      "half_life_low_minutes": 252.0,
+      "half_life_high_minutes": 252.0,
+      "half_life_label": "4.2 hours"
+    },
+    {
+      "substance": "Mitotane",
+      "ndc": "0015-3080",
+      "brand": "Lysodren",
+      "half_life_minutes": 127440.0,
+      "half_life_low_minutes": 25920.0,
+      "half_life_high_minutes": 228960.0,
+      "half_life_label": "18-159 days",
+      "protein_binding_pct": 6.0,
+      "protein_binding_label": "6%"
+    },
+    {
+      "substance": "Mivacurium",
+      "ndc": "0074-4365",
+      "brand": "Mivacron"
+    },
+    {
+      "substance": "Morphine",
+      "ndc": "57664-190",
+      "brand": "Morphine Sulfate Extended-release",
+      "half_life_minutes": 180.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 240.0,
+      "half_life_label": "2-4 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Mupirocin",
+      "ndc": "43538-300",
+      "brand": "Centany",
+      "half_life_minutes": 30.0,
+      "half_life_low_minutes": 20.0,
+      "half_life_high_minutes": 40.0,
+      "half_life_label": "20 to 40 minutes",
+      "protein_binding_pct": 97.0,
+      "protein_binding_label": "97%"
+    },
+    {
+      "substance": "Mycophenolic acid",
+      "ndc": "0378-4201",
+      "brand": "Mycophenolic Acid"
+    },
+    {
+      "substance": "N-Acetylcysteine",
+      "ndc": "0574-0805",
+      "brand": ""
+    },
+    {
+      "substance": "Naproxen",
+      "ndc": "46122-101",
+      "brand": "All Day",
+      "half_life_minutes": 900.0,
+      "half_life_low_minutes": 900.0,
+      "half_life_high_minutes": 900.0,
+      "half_life_label": "The observed terminal elimination half-life is approximately 15 hours.",
+      "protein_binding_pct": 25.0,
+      "protein_binding_label": "25%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Naratriptan",
+      "ndc": "0574-0214",
+      "brand": "Naratriptan Hydrochloride",
+      "half_life_minutes": 390.0,
+      "half_life_low_minutes": 300.0,
+      "half_life_high_minutes": 480.0,
+      "half_life_label": "5-8 hours",
+      "protein_binding_pct": 28.0,
+      "protein_binding_label": "28%-31% (over the concentration range of 50 to 1000 ng/mL)"
+    },
+    {
+      "substance": "Nefazodone",
+      "ndc": "0093-1024",
+      "brand": "Nefazodone Hydrochloride",
+      "half_life_minutes": 180.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 240.0,
+      "half_life_label": "2-4 hours",
+      "protein_binding_pct": 99.0,
+      "protein_binding_label": "Greater than 99% (in vitro, human plasma proteins).",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Nelarabine",
+      "ndc": "0007-4401",
+      "brand": "Arranon"
+    },
+    {
+      "substance": "Nicotine",
+      "ndc": "41163-012",
+      "brand": "Equaline Nicotine",
+      "protein_binding_pct": 5.0,
+      "protein_binding_label": "Less than 5%"
+    },
+    {
+      "substance": "Nifedipine",
+      "ndc": "0093-0819",
+      "brand": "",
+      "half_life_minutes": 120.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 120.0,
+      "half_life_label": "2 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Niraparib",
+      "ndc": "69656-103",
+      "brand": "Zejula"
+    },
+    {
+      "substance": "Nitrofurantoin",
+      "ndc": "0378-3422",
+      "brand": "Nitrofurantoin Monohydrate/macrocrystals",
+      "half_life_minutes": 39.0,
+      "half_life_low_minutes": 18.0,
+      "half_life_high_minutes": 60.0,
+      "half_life_label": "0.3-1 hour",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Nitroglycerin",
+      "ndc": "0338-1047",
+      "brand": "Nitroglycerin In Dextrose",
+      "half_life_minutes": 3.0,
+      "half_life_low_minutes": 3.0,
+      "half_life_high_minutes": 3.0,
+      "half_life_label": "3 minutes",
+      "vd_l_per_kg": 3.0,
+      "vd_label": "* 3 L/kg"
+    },
+    {
+      "substance": "Norethisterone",
+      "ndc": "50458-194",
+      "brand": "Ortho Micronor",
+      "protein_binding_pct": 36.0,
+      "protein_binding_label": "Norethindrone is 36% bound to sex hormone-binding globulin and 61% bound to albumin.",
+      "vd_l_per_kg": 4.0,
+      "vd_label": "* 4 L/kg"
+    },
+    {
+      "substance": "Norgestimate",
+      "ndc": "50458-251",
+      "brand": "Ortho Tri Cyclen Lo"
+    },
+    {
+      "substance": "Nystatin",
+      "ndc": "0168-0007",
+      "brand": ""
+    },
+    {
+      "substance": "Octreotide",
+      "ndc": "0641-6174",
+      "brand": "Octreotide Acetate"
+    },
+    {
+      "substance": "Olanzapine",
+      "ndc": "0002-4112",
+      "brand": "Zyprexa",
+      "half_life_minutes": 2250.0,
+      "half_life_low_minutes": 1260.0,
+      "half_life_high_minutes": 3240.0,
+      "half_life_label": "21 to 54 hours",
+      "protein_binding_pct": 93.0,
+      "protein_binding_label": "93%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Olopatadine",
+      "ndc": "0065-4273",
+      "brand": "Pazeo",
+      "half_life_minutes": 180.0,
+      "half_life_low_minutes": 180.0,
+      "half_life_high_minutes": 180.0,
+      "half_life_label": "3 hours"
+    },
+    {
+      "substance": "Omeprazole",
+      "ndc": "70925-915",
+      "brand": "Humana Pharmacy Omeprazole",
+      "protein_binding_pct": 95.0,
+      "protein_binding_label": "95% bound to human plasma protein."
+    },
+    {
+      "substance": "Ondansetron",
+      "ndc": "0069-1441",
+      "brand": "",
+      "half_life_minutes": 342.0,
+      "half_life_low_minutes": 342.0,
+      "half_life_high_minutes": 342.0,
+      "half_life_label": "5.7 hours",
+      "protein_binding_pct": 70.0,
+      "protein_binding_label": "70%-76% (Plasma protein binding)",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Orphenadrine",
+      "ndc": "0115-2011",
+      "brand": "Orphenadrine Citrate",
+      "half_life_minutes": 990.0,
+      "half_life_low_minutes": 780.0,
+      "half_life_high_minutes": 1200.0,
+      "half_life_label": "13-20 hours",
+      "protein_binding_pct": 95.0,
+      "protein_binding_label": "95%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Oseltamivir",
+      "ndc": "33342-256",
+      "brand": "Oseltamavir Phosphate"
+    },
+    {
+      "substance": "Oxycodone",
+      "ndc": "0054-0390",
+      "brand": "Oxycodone Hydrochloride",
+      "half_life_minutes": 270.0,
+      "half_life_low_minutes": 270.0,
+      "half_life_high_minutes": 270.0,
+      "half_life_label": "4.5 hours",
+      "protein_binding_pct": 45.0,
+      "protein_binding_label": "45%",
+      "vd_l_per_kg": 2.6,
+      "vd_label": "* 2.6 L/kg",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Paliperidone",
+      "ndc": "50458-560",
+      "brand": "Invega Sustenna",
+      "half_life_minutes": 1380.0,
+      "half_life_low_minutes": 1380.0,
+      "half_life_high_minutes": 1380.0,
+      "half_life_label": "The terminal elimination half-life of paliperidone is approximately 23 hours.",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Pancrelipase/Pancrelipase/Pancrelipase",
+      "ndc": "0023-6111",
+      "brand": "Zenpep"
+    },
+    {
+      "substance": "Panitumumab",
+      "ndc": "55513-954",
+      "brand": "Vectibix"
+    },
+    {
+      "substance": "Pantoprazole",
+      "ndc": "0904-6235",
+      "brand": "",
+      "half_life_minutes": 60.0,
+      "half_life_low_minutes": 60.0,
+      "half_life_high_minutes": 60.0,
+      "half_life_label": "1 hour",
+      "protein_binding_pct": 98.0,
+      "protein_binding_label": "98%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Paricalcitol",
+      "ndc": "0143-9596",
+      "brand": "",
+      "half_life_minutes": 300.0,
+      "half_life_low_minutes": 240.0,
+      "half_life_high_minutes": 360.0,
+      "half_life_label": "4 to 6 hours",
+      "protein_binding_pct": 99.8,
+      "protein_binding_label": "99.8% (bound to plasma proteins)"
+    },
+    {
+      "substance": "Paroxetine",
+      "ndc": "54766-201",
+      "brand": "Pexeva",
+      "half_life_minutes": 1350.0,
+      "half_life_low_minutes": 1260.0,
+      "half_life_high_minutes": 1440.0,
+      "half_life_label": "21-24 hours",
+      "protein_binding_pct": 95.0,
+      "protein_binding_label": "~ 95% bound to plasma proteins.",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Peginterferon alfa-2b",
+      "ndc": "0085-1287",
+      "brand": "Sylatron"
+    },
+    {
+      "substance": "Perampanel",
+      "ndc": "62856-272",
+      "brand": "Fycompa",
+      "half_life_minutes": 6300.0,
+      "half_life_low_minutes": 6300.0,
+      "half_life_high_minutes": 6300.0,
+      "half_life_label": "Perampanel has a long elmination half-life of about 105 hours.",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Phenelzine",
+      "ndc": "40032-360",
+      "brand": "Phenelzine Sulfate",
+      "half_life_minutes": 384.0,
+      "half_life_low_minutes": 72.0,
+      "half_life_high_minutes": 696.0,
+      "half_life_label": "1.2-11.6 hours following single dose administration. Multiple-dose pharmacokinetics have not been studied.",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Phenol",
+      "ndc": "54061-101",
+      "brand": "Phylorinol"
+    },
+    {
+      "substance": "Phentermine",
+      "ndc": "0093-2109",
+      "brand": "Phentermine Hydrochloride",
+      "half_life_minutes": 1410.0,
+      "half_life_low_minutes": 960.0,
+      "half_life_high_minutes": 1860.0,
+      "half_life_label": "16 to 31 hours",
+      "protein_binding_pct": 96.3,
+      "protein_binding_label": "Approximately 96.3%"
+    },
+    {
+      "substance": "Phentolamine",
+      "ndc": "0362-0101",
+      "brand": "Oraverse",
+      "half_life_minutes": 19.0,
+      "half_life_low_minutes": 19.0,
+      "half_life_high_minutes": 19.0,
+      "half_life_label": "19 minutes"
+    },
+    {
+      "substance": "Phenylephrine",
+      "ndc": "63940-453",
+      "brand": "Decongestant Pe",
+      "half_life_minutes": 165.0,
+      "half_life_low_minutes": 126.0,
+      "half_life_high_minutes": 204.0,
+      "half_life_label": "2.1 to 3.4 hours",
+      "protein_binding_pct": 95.0,
+      "protein_binding_label": "95% binding-plasma proteins"
+    },
+    {
+      "substance": "Phenytoin",
+      "ndc": "0378-3850",
+      "brand": "",
+      "protein_binding_pct": 90.0,
+      "protein_binding_label": "Highly protein bound, 90%"
+    },
+    {
+      "substance": "Potassium",
+      "ndc": "14537-408",
+      "brand": "Isoplate"
+    },
+    {
+      "substance": "Pravastatin",
+      "ndc": "0093-0771",
+      "brand": "Pravastatin Sodium",
+      "protein_binding_pct": 50.0,
+      "protein_binding_label": "50% bound to human plasma proteins."
+    },
+    {
+      "substance": "Pregabalin",
+      "ndc": "0071-1012",
+      "brand": "Lyrica",
+      "half_life_minutes": 378.0,
+      "half_life_low_minutes": 378.0,
+      "half_life_high_minutes": 378.0,
+      "half_life_label": "6.3 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Prochlorperazine",
+      "ndc": "0093-9643",
+      "brand": "Prochlorperazine Maleate",
+      "half_life_minutes": 420.0,
+      "half_life_low_minutes": 360.0,
+      "half_life_high_minutes": 480.0,
+      "half_life_label": "6 to 8 hours"
+    },
+    {
+      "substance": "Progesterone",
+      "ndc": "55566-6500",
+      "brand": "Endometrin",
+      "protein_binding_pct": 96.0,
+      "protein_binding_label": "96%-99%"
+    },
+    {
+      "substance": "Propranolol",
+      "ndc": "52584-872",
+      "brand": "",
+      "half_life_minutes": 240.0,
+      "half_life_low_minutes": 240.0,
+      "half_life_high_minutes": 240.0,
+      "half_life_label": "4 hours",
+      "protein_binding_pct": 90.0,
+      "protein_binding_label": "More than 90%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Pseudoephedrine",
+      "ndc": "53240-220",
+      "brand": "Cvs Health Non-drowsy Nasal Decongestant",
+      "half_life_minutes": 750.0,
+      "half_life_low_minutes": 540.0,
+      "half_life_high_minutes": 960.0,
+      "half_life_label": "9-16 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Quinidine",
+      "ndc": "53489-141",
+      "brand": "Quinidine Gluconate",
+      "half_life_minutes": 420.0,
+      "half_life_low_minutes": 360.0,
+      "half_life_high_minutes": 480.0,
+      "half_life_label": "6-8 hours"
+    },
+    {
+      "substance": "Quinine",
+      "ndc": "13310-153",
+      "brand": "Qualaquin",
+      "half_life_minutes": 1080.0,
+      "half_life_low_minutes": 1080.0,
+      "half_life_high_minutes": 1080.0,
+      "half_life_label": "Approximately 18 hours",
+      "protein_binding_pct": 70.0,
+      "protein_binding_label": "Approximately 70%"
+    },
+    {
+      "substance": "Ranitidine",
+      "ndc": "21130-404",
+      "brand": "Acid Reducer 150",
+      "half_life_minutes": 177.0,
+      "half_life_low_minutes": 168.0,
+      "half_life_high_minutes": 186.0,
+      "half_life_label": "2.8-3.1 hours",
+      "protein_binding_pct": 15.0,
+      "protein_binding_label": "15%",
+      "vd_l_per_kg": 1.4,
+      "vd_label": "* 1.4 L/kg",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Rasburicase",
+      "ndc": "0024-5150",
+      "brand": "Elitek",
+      "half_life_minutes": 1080.0,
+      "half_life_low_minutes": 1080.0,
+      "half_life_high_minutes": 1080.0,
+      "half_life_label": "18 hours"
+    },
+    {
+      "substance": "Remifentanil",
+      "ndc": "67457-198",
+      "brand": "Ultiva",
+      "half_life_minutes": 10.5,
+      "half_life_low_minutes": 1.0,
+      "half_life_high_minutes": 20.0,
+      "half_life_label": "1-20 minutes",
+      "protein_binding_pct": 70.0,
+      "protein_binding_label": "70% (bound to plasma proteins)",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Retapamulin",
+      "ndc": "16110-518",
+      "brand": "Altabax",
+      "protein_binding_pct": 94.0,
+      "protein_binding_label": "Retapamulin is approximately 94% bound to human plasma proteins, and the protein binding is independent of concentration."
+    },
+    {
+      "substance": "Ribavirin",
+      "ndc": "0187-0007",
+      "brand": "Virazole",
+      "half_life_minutes": 570.0,
+      "half_life_low_minutes": 570.0,
+      "half_life_high_minutes": 570.0,
+      "half_life_label": "9.5 hours"
+    },
+    {
+      "substance": "Rifabutin",
+      "ndc": "0013-5301",
+      "brand": "Mycobutin",
+      "protein_binding_pct": 85.0,
+      "protein_binding_label": "85%"
+    },
+    {
+      "substance": "Rotigotine",
+      "ndc": "50474-801",
+      "brand": "Neupro",
+      "protein_binding_pct": 92.0,
+      "protein_binding_label": "92% in vitro and 89.5% in vivo."
+    },
+    {
+      "substance": "Salbutamol",
+      "ndc": "21695-423",
+      "brand": "Ventolinhfa",
+      "half_life_minutes": 96.0,
+      "half_life_low_minutes": 96.0,
+      "half_life_high_minutes": 96.0,
+      "half_life_label": "1.6 hours"
+    },
+    {
+      "substance": "Sargramostim",
+      "ndc": "0024-5843",
+      "brand": "Leukine"
+    },
+    {
+      "substance": "Scopolamine",
+      "ndc": "0067-4345",
+      "brand": "Transderm Scop",
+      "half_life_minutes": 270.0,
+      "half_life_low_minutes": 270.0,
+      "half_life_high_minutes": 270.0,
+      "half_life_label": "4.5 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Sebelipase Alfa",
+      "ndc": "25682-007",
+      "brand": "Kanuma"
+    },
+    {
+      "substance": "Sertraline",
+      "ndc": "0904-6087",
+      "brand": "Sertraline Hydrochloride Tablets",
+      "protein_binding_pct": 98.0,
+      "protein_binding_label": "98% bound to serum proteins, principally to albumin and"
+    },
+    {
+      "substance": "Sinecatechins",
+      "ndc": "10337-450",
+      "brand": "Veregen"
+    },
+    {
+      "substance": "Sodium",
+      "ndc": "0264-3183",
+      "brand": "Meropenem And Sodium Chloride"
+    },
+    {
+      "substance": "Somatropin recombinant",
+      "ndc": "44087-3388",
+      "brand": "Zorbtive"
+    },
+    {
+      "substance": "Spironolactone",
+      "ndc": "46287-020",
+      "brand": "Carospir"
+    },
+    {
+      "substance": "Squalene monooxygenase",
+      "ndc": "61715-158",
+      "brand": "Preferred Plus",
+      "half_life_minutes": 2160.0,
+      "half_life_low_minutes": 2160.0,
+      "half_life_high_minutes": 2160.0,
+      "half_life_label": "36 hours"
+    },
+    {
+      "substance": "Sugammadex",
+      "ndc": "0006-5423",
+      "brand": "Bridion",
+      "half_life_minutes": 120.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 120.0,
+      "half_life_label": "About 2 hours"
+    },
+    {
+      "substance": "Sulfacetamide",
+      "ndc": "21695-186",
+      "brand": "Sulfacetamide Sodium And Prednisolone Sodium Phosphate"
+    },
+    {
+      "substance": "Sulfasalazine",
+      "ndc": "0179-0174",
+      "brand": "",
+      "half_life_minutes": 450.0,
+      "half_life_low_minutes": 300.0,
+      "half_life_high_minutes": 600.0,
+      "half_life_label": "5-10 hours"
+    },
+    {
+      "substance": "Sumatriptan",
+      "ndc": "69176-150",
+      "brand": "Migraine Pack",
+      "half_life_minutes": 150.0,
+      "half_life_low_minutes": 150.0,
+      "half_life_high_minutes": 150.0,
+      "half_life_label": "sumatriptan:   2.5 hours",
+      "protein_binding_pct": 14.0,
+      "protein_binding_label": "sumatriptan:   14%-21%",
+      "vd_l_per_kg": 2.7,
+      "vd_label": "sumatriptan:   * 2.7 L/kg [subcutaneous dosing]"
+    },
+    {
+      "substance": "Technetium Tc-99M Sestamibi",
+      "ndc": "45548-141",
+      "brand": "Kit For The Preparation Of Technetium Tc 99m Sestamibi",
+      "protein_binding_pct": 1.0,
+      "protein_binding_label": "There is less than 1% protein binding of Technetium Tc 99m Sestamibi in plasma."
+    },
+    {
+      "substance": "Telithromycin",
+      "ndc": "54868-5171",
+      "brand": "Ketek",
+      "vd_l_per_kg": 2.9,
+      "vd_label": "* 2.9 L/kg"
+    },
+    {
+      "substance": "Temazepam",
+      "ndc": "0406-9914",
+      "brand": "Restoril",
+      "half_life_minutes": 900.0,
+      "half_life_low_minutes": 600.0,
+      "half_life_high_minutes": 1200.0,
+      "half_life_label": "10-20 hours",
+      "protein_binding_pct": 96.0,
+      "protein_binding_label": "96%",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Tenofovir",
+      "ndc": "50090-0754",
+      "brand": "Viread",
+      "half_life_minutes": 1020.0,
+      "half_life_low_minutes": 1020.0,
+      "half_life_high_minutes": 1020.0,
+      "half_life_label": "When a single oral dose is given, the terminal elimination half-life is approximately 17 hours."
+    },
+    {
+      "substance": "Terazosin",
+      "ndc": "51079-936",
+      "brand": "Tarazosin",
+      "half_life_minutes": 720.0,
+      "half_life_low_minutes": 720.0,
+      "half_life_high_minutes": 720.0,
+      "half_life_label": "12 hours"
+    },
+    {
+      "substance": "Testosterone",
+      "ndc": "0143-9750",
+      "brand": "Testosterone Enanthate",
+      "protein_binding_pct": 40.0,
+      "protein_binding_label": "40% of testosterone in plasma is bound to sex hormone-binding globulin and 2% remains unbound and the rest is bound to albumin and other proteins."
+    },
+    {
+      "substance": "Tetracosactide",
+      "ndc": "0781-3440",
+      "brand": "",
+      "half_life_minutes": 15.0,
+      "half_life_low_minutes": 15.0,
+      "half_life_high_minutes": 15.0,
+      "half_life_label": "About 15 minutes following intravenous administration."
+    },
+    {
+      "substance": "Tetracycline",
+      "ndc": "49884-732",
+      "brand": "Sumycin",
+      "half_life_minutes": 540.0,
+      "half_life_low_minutes": 360.0,
+      "half_life_high_minutes": 720.0,
+      "half_life_label": "6-12 hours"
+    },
+    {
+      "substance": "Tetrofosmin",
+      "ndc": "17156-026",
+      "brand": "Myoview"
+    },
+    {
+      "substance": "Thiotepa",
+      "ndc": "0143-9565",
+      "brand": "",
+      "half_life_minutes": 168.0,
+      "half_life_low_minutes": 90.0,
+      "half_life_high_minutes": 246.0,
+      "half_life_label": "1.5 to 4.1 hours"
+    },
+    {
+      "substance": "Thiothixene",
+      "ndc": "0378-1001",
+      "brand": "",
+      "half_life_minutes": 900.0,
+      "half_life_low_minutes": 600.0,
+      "half_life_high_minutes": 1200.0,
+      "half_life_label": "10-20 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Tobramycin",
+      "ndc": "0093-4085",
+      "brand": "",
+      "half_life_minutes": 120.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 120.0,
+      "half_life_label": "The elimination half-life of tobramycin from serum is approximately 2 hours after intravenous (IV) administration."
+    },
+    {
+      "substance": "Tocilizumab",
+      "ndc": "50242-135",
+      "brand": "Actemra"
+    },
+    {
+      "substance": "Tolbutamide",
+      "ndc": "0378-0215",
+      "brand": "",
+      "protein_binding_pct": 95.0,
+      "protein_binding_label": "Approximately 95% bound to plasma proteins."
+    },
+    {
+      "substance": "Tolcapone",
+      "ndc": "49884-254",
+      "brand": "",
+      "half_life_minutes": 165.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 210.0,
+      "half_life_label": "2-3.5 hours"
+    },
+    {
+      "substance": "Tolmetin",
+      "ndc": "0378-0313",
+      "brand": "Tolmetin Sodium"
+    },
+    {
+      "substance": "Topiramate",
+      "ndc": "21695-128",
+      "brand": "Topamax"
+    },
+    {
+      "substance": "Topotecan",
+      "ndc": "0007-4205",
+      "brand": "Hycamtin",
+      "half_life_minutes": 150.0,
+      "half_life_low_minutes": 120.0,
+      "half_life_high_minutes": 180.0,
+      "half_life_label": "2-3 hours",
+      "protein_binding_pct": 35.0,
+      "protein_binding_label": "35%"
+    },
+    {
+      "substance": "Tramadol",
+      "ndc": "68025-071",
+      "brand": "Conzip",
+      "protein_binding_pct": 20.0,
+      "protein_binding_label": "20% bound to plasma proteins.",
+      "vd_l_per_kg": 2.6,
+      "vd_label": "* 2.6 L/kg [male, 100 mg intravenous dose]"
+    },
+    {
+      "substance": "Travoprost",
+      "ndc": "0065-0260",
+      "brand": "Travatan Z",
+      "half_life_minutes": 45.0,
+      "half_life_low_minutes": 45.0,
+      "half_life_high_minutes": 45.0,
+      "half_life_label": "Terminal elimination half-life of travoprost free acid is 45 minutes."
+    },
+    {
+      "substance": "Trazodone",
+      "ndc": "51655-634",
+      "brand": ""
+    },
+    {
+      "substance": "Tretinoin",
+      "ndc": "0187-5150",
+      "brand": "Renova",
+      "half_life_minutes": 75.0,
+      "half_life_low_minutes": 30.0,
+      "half_life_high_minutes": 120.0,
+      "half_life_label": "0.5-2 hours"
+    },
+    {
+      "substance": "Trifluoperazine",
+      "ndc": "0378-2401",
+      "brand": "Trifluoperazine Hydrochloride",
+      "half_life_minutes": 900.0,
+      "half_life_low_minutes": 600.0,
+      "half_life_high_minutes": 1200.0,
+      "half_life_label": "10-20 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Trimethobenzamide",
+      "ndc": "21695-853",
+      "brand": "Tigan",
+      "half_life_minutes": 480.0,
+      "half_life_low_minutes": 420.0,
+      "half_life_high_minutes": 540.0,
+      "half_life_label": "The mean elimination half-life of trimethobenzamide is 7 to 9 hours."
+    },
+    {
+      "substance": "Trimipramine",
+      "ndc": "51285-538",
+      "brand": "Surmontil",
+      "half_life_minutes": 870.0,
+      "half_life_low_minutes": 660.0,
+      "half_life_high_minutes": 1080.0,
+      "half_life_label": "11-18 hrs",
+      "protein_binding_pct": 93.0,
+      "protein_binding_label": "93%-96% (to plasma proteins)",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Triprolidine",
+      "ndc": "58809-501",
+      "brand": "Vanahist Pd",
+      "half_life_minutes": 300.0,
+      "half_life_low_minutes": 240.0,
+      "half_life_high_minutes": 360.0,
+      "half_life_label": "4 to 6 hours."
+    },
+    {
+      "substance": "Urofollitropin",
+      "ndc": "55566-8505",
+      "brand": "Bravelle"
+    },
+    {
+      "substance": "Valproate",
+      "ndc": "0074-3826",
+      "brand": "Depakote",
+      "protein_binding_pct": 90.0,
+      "protein_binding_label": "Concentration-dependent, from 90% at 40 µg/mL to 81.5% at 130 µg/mL. Higher than expected free fractions occur in the elderly, in hyperlipidemic patients, and in patients with hepatic and renal diseas"
+    },
+    {
+      "substance": "Verteporfin",
+      "ndc": "0187-5600",
+      "brand": "Visudyne"
+    },
+    {
+      "substance": "Vitamin B12",
+      "ndc": "69263-816",
+      "brand": "B12 Inject Kit"
+    },
+    {
+      "substance": "Vorapaxar",
+      "ndc": "0006-0351",
+      "brand": "Zontivity"
+    },
+    {
+      "substance": "Zaleplon",
+      "ndc": "0054-0084",
+      "brand": "",
+      "half_life_minutes": 60.0,
+      "half_life_low_minutes": 60.0,
+      "half_life_high_minutes": 60.0,
+      "half_life_label": "Approximately 1 hour",
+      "protein_binding_pct": 60.0,
+      "protein_binding_label": "Approximately 60% (in vitro plasma protein binding).",
+      "vd_l_per_kg": 1.4,
+      "vd_label": "* 1.4 L/kg",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Zidovudine",
+      "ndc": "49702-211",
+      "brand": "Retrovir"
+    },
+    {
+      "substance": "Zoledronic acid",
+      "ndc": "0078-0435",
+      "brand": "Reclast",
+      "half_life_minutes": 8760.0,
+      "half_life_low_minutes": 8760.0,
+      "half_life_high_minutes": 8760.0,
+      "half_life_label": "146 hours",
+      "protein_binding_pct": 22.0,
+      "protein_binding_label": "Approximately 22% bound in human plasma, independent of the concentration. However, Canadian product information states binding to human plasma protein is approximately 56%."
+    },
+    {
+      "substance": "Zolmitriptan",
+      "ndc": "0115-0671",
+      "brand": "",
+      "protein_binding_pct": 25.0,
+      "protein_binding_label": "25%"
+    },
+    {
+      "substance": "Zolpidem",
+      "ndc": "49884-898",
+      "brand": "Zolpidem Tartrate Sublingual",
+      "half_life_minutes": 156.0,
+      "half_life_low_minutes": 156.0,
+      "half_life_high_minutes": 156.0,
+      "half_life_label": "2.6 hours",
+      "half_life_corroborated": true
+    },
+    {
+      "substance": "Zopiclone",
+      "ndc": "21695-225",
+      "brand": "Lunesta",
+      "half_life_minutes": 360.0,
+      "half_life_low_minutes": 360.0,
+      "half_life_high_minutes": 360.0,
+      "half_life_label": "6 hours",
+      "half_life_corroborated": true
+    }
+  ],
+  "refused_half_lives": [
+    {
+      "substance": "Spironolactone",
+      "label_minutes": 10.0,
+      "independent_minutes": 90.0,
+      "label": "10 minutes"
+    },
+    {
+      "substance": "Chlordiazepoxide",
+      "label_minutes": 2160.0,
+      "independent_minutes": 600.0,
+      "label": "24-48 hours"
+    },
+    {
+      "substance": "Hydrocortisone",
+      "label_minutes": 420.0,
+      "independent_minutes": 90.0,
+      "label": "6-8 hours"
+    },
+    {
+      "substance": "Fexofenadine",
+      "label_minutes": 150.0,
+      "independent_minutes": 870.0,
+      "label": "1-4 hours"
+    },
+    {
+      "substance": "Testosterone",
+      "label_minutes": 55.0,
+      "independent_minutes": 600.0,
+      "label": "10-100 minutes"
+    },
+    {
+      "substance": "Pravastatin",
+      "label_minutes": 4620.0,
+      "independent_minutes": 120.0,
+      "label": "77 hours"
+    },
+    {
+      "substance": "Progesterone",
+      "label_minutes": 2697.9,
+      "independent_minutes": 300.0,
+      "label": "34.8-55.13 hours"
+    },
+    {
+      "substance": "Carisoprodol",
+      "label_minutes": 480.0,
+      "independent_minutes": 120.0,
+      "label": "8 hours"
+    }
+  ]
+}

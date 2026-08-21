@@ -263,11 +263,11 @@
         "verdict": "shown"
       },
       "id": {
-        "filled": 2130,
+        "filled": 2426,
         "verdict": "plumbing"
       },
       "is_review": {
-        "filled": 2130,
+        "filled": 2426,
         "verdict": "unused"
       },
       "pmid": {
@@ -279,7 +279,7 @@
         "verdict": "shown"
       },
       "url": {
-        "filled": 1115,
+        "filled": 1411,
         "verdict": "shown"
       },
       "year": {
@@ -288,7 +288,7 @@
       }
     },
     "read_in_swift": true,
-    "rows": 2130,
+    "rows": 2426,
     "surface": "sources"
   },
   "class_citations": {
@@ -911,28 +911,28 @@
     "attributed_only": false,
     "columns": {
       "citation_id": {
-        "filled": 271,
+        "filled": 420,
         "verdict": "read"
       },
       "half_life_minutes": {
-        "filled": 538,
+        "filled": 687,
         "verdict": "shown"
       },
       "notes": {
-        "filled": 0,
-        "verdict": "empty"
+        "filled": 152,
+        "verdict": "shown"
       },
       "source_id": {
-        "filled": 538,
+        "filled": 687,
         "verdict": "plumbing"
       },
       "substance_id": {
-        "filled": 538,
+        "filled": 687,
         "verdict": "plumbing"
       }
     },
     "read_in_swift": true,
-    "rows": 538,
+    "rows": 687,
     "surface": "pharmacokinetics"
   },
   "indications": {
@@ -1327,7 +1327,7 @@
         "verdict": "shown"
       },
       "citation_id": {
-        "filled": 248,
+        "filled": 375,
         "verdict": "read"
       },
       "clearance_ml_per_min_per_kg": {
@@ -1355,27 +1355,27 @@
         "verdict": "shown"
       },
       "id": {
-        "filled": 308,
+        "filled": 435,
         "verdict": "plumbing"
       },
       "notes": {
-        "filled": 20,
+        "filled": 147,
         "verdict": "shown"
       },
       "protein_binding_pct": {
-        "filled": 99,
+        "filled": 219,
         "verdict": "shown"
       },
       "route": {
-        "filled": 308,
+        "filled": 435,
         "verdict": "shown"
       },
       "source_id": {
-        "filled": 308,
+        "filled": 435,
         "verdict": "plumbing"
       },
       "species": {
-        "filled": 3,
+        "filled": 130,
         "verdict": "shown"
       },
       "subject_n": {
@@ -1383,7 +1383,7 @@
         "verdict": "read"
       },
       "substance_id": {
-        "filled": 308,
+        "filled": 435,
         "verdict": "plumbing"
       },
       "tmax_min": {
@@ -1391,12 +1391,12 @@
         "verdict": "shown"
       },
       "vd_l_per_kg": {
-        "filled": 94,
+        "filled": 113,
         "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 308,
+    "rows": 435,
     "surface": "pharmacokinetics"
   },
   "product_durations": {
