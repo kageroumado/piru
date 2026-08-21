@@ -3945,6 +3945,9 @@
         }
       }
     },
+    "^[%lld more reference](inflect: true)" : {
+
+    },
     "^[%lld more](inflect: true)" : {
 
     },
@@ -9463,6 +9466,9 @@
           }
         }
       }
+    },
+    "Also in this class" : {
+
     },
     "Also known as" : {
       "localizations" : {
@@ -48936,6 +48942,15 @@
         }
       }
     },
+    "Shared kinetics" : {
+
+    },
+    "Shared mechanism" : {
+
+    },
+    "Shared safety profile" : {
+
+    },
     "Shared time" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -51914,6 +51929,9 @@
           }
         }
       }
+    },
+    "Structure and activity" : {
+
     },
     "Sub-threshold" : {
       "localizations" : {

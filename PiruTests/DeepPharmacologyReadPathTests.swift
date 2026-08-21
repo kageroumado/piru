@@ -101,6 +101,68 @@ struct DeepPharmacologyReadPathTests {
         }
     }
 
+    // MARK: - Class context
+
+    @Test
+    func `A substance reads its class, its siblings and the class's references`() throws {
+        let context = try #require(SubstanceStore.shared.classContext(forSubstanceName: "Alprazolam"))
+        #expect(context.slug == "benzos-z-drugs")
+        #expect(context.sharedMechanism?.isEmpty == false)
+        #expect(context.hasBody)
+        #expect(!context.siblings.isEmpty)
+        #expect(!context.siblings.contains("Alprazolam"), "a substance is not its own sibling")
+        #expect(!context.references.isEmpty)
+    }
+
+    @Test
+    func `A membership contradicting the substance's own category is not shown`() {
+        // The enrichment files tag comparison compounds with the class of the
+        // file they appear in, so 2C-B shipped as an amphetamine-type monoamine
+        // releaser, nitrazepam as a serotonergic phenethylamine psychedelic and
+        // THC as a GABAergic depressant. No class is the honest answer; a wrong
+        // one is a claim the reference must not make.
+        for name in ["2C-B", "Nitrazepam", "THC", "Mescaline", "Propranolol"] {
+            #expect(
+                SubstanceStore.shared.classContext(forSubstanceName: name) == nil,
+                "\(name) still carries a contradicting class",
+            )
+        }
+    }
+
+    @Test
+    func `A verified member survives the category check`() {
+        // Levetiracetam is an Anticonvulsant in a class whose members are mostly
+        // Nootropics, and the class's own write-up names it — the curated keep
+        // list is what stops the rule dropping it.
+        #expect(SubstanceStore.shared.classContext(forSubstanceName: "Levetiracetam")?.slug
+            == "racetams-and-ampakines")
+    }
+
+    @Test
+    func `Class membership survives an enrichment file that declares its context last`() {
+        // The ingest built its slug table as it walked the file, so in the
+        // fifteen files whose context record sits at the END every membership
+        // was silently dropped. These four classes are all from such files.
+        for name in ["Alprazolam", "Morphine", "Piracetam", "Fentanyl"] {
+            #expect(
+                SubstanceStore.shared.classContext(forSubstanceName: name) != nil,
+                "\(name) has no class context",
+            )
+        }
+    }
+
+    @Test
+    func `Class contexts that are notes about the source data never ship`() {
+        // "Data integrity issues in source list" is a finding about the input,
+        // not a class anybody belongs to.
+        let excluded = ["data-error", "synthetic-cannabinoids", "tryptamine-related"]
+        for name in ["2C-B", "Alprazolam", "Morphine", "JWH-018", "MDMA", "LSD"] {
+            if let slug = SubstanceStore.shared.classContext(forSubstanceName: name)?.slug {
+                #expect(!excluded.contains(slug))
+            }
+        }
+    }
+
     // MARK: - Concentration thresholds
 
     @Test

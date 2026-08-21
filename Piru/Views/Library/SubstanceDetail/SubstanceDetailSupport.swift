@@ -34,7 +34,10 @@ struct DetailSourceLink: Identifiable {
 /// goes *inside* `content` so it collapses with the body rather than dangling
 /// beneath a closed disclosure.
 struct CollapsibleSection<Content: View>: View {
-    let title: LocalizedStringResource
+    /// A resolved `Text` rather than a key, so a section whose title is *data*
+    /// — a pharmacological class read from the database — can use the same
+    /// chrome without minting a catalog key per class.
+    let title: Text
     var count: Int?
     /// When set, a trailing (i) button appears in the header that runs this action — used to open a
     /// plain-language help sheet for the denser cards. Borderless so it captures its own tap and
@@ -45,6 +48,20 @@ struct CollapsibleSection<Content: View>: View {
 
     init(
         _ title: LocalizedStringResource,
+        count: Int? = nil,
+        onInfo: (() -> Void)? = nil,
+        isExpanded: Binding<Bool>,
+        @ViewBuilder content: @escaping () -> Content,
+    ) {
+        self.init(
+            title: Text(title), count: count, onInfo: onInfo,
+            isExpanded: isExpanded, content: content,
+        )
+    }
+
+    /// For a title that is data. Pass `Text(verbatim:)`.
+    init(
+        title: Text,
         count: Int? = nil,
         onInfo: (() -> Void)? = nil,
         isExpanded: Binding<Bool>,
@@ -75,7 +92,7 @@ struct CollapsibleSection<Content: View>: View {
             content()
         } label: {
             HStack(spacing: 6) {
-                Text(title)
+                title
                     .font(.subheadline.weight(.semibold))
                 if let count {
                     Text(verbatim: "\(count)")

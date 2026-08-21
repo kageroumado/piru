@@ -275,8 +275,17 @@ def print_db_report(report: dict) -> None:
     print("=" * 78)
     if not dead:
         print("  (none)")
+    declared = surfaces().get("tables", {})
     for table in sorted(dead, key=lambda t: -report[t]["rows"]):
-        tag = "  (attribution ledger only)" if report[table]["attributed_only"] else ""
+        entry = declared.get(table)
+        if entry is not None and entry.get("surface") is None:
+            # Declared as not user-facing: build plumbing, or a lookup another
+            # table renders through.
+            tag = f"  (by design — {entry.get('note', 'not user-facing')})"
+        elif report[table]["attributed_only"]:
+            tag = "  (attribution ledger only)"
+        else:
+            tag = ""
         print(f"  {report[table]['rows']:>7}  {table}{tag}")
 
     print()

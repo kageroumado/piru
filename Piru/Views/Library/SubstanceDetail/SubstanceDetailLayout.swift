@@ -122,6 +122,10 @@ struct SubstanceDetailLayout: View {
         // present for about 80 compounds.
         TargetEvidenceSection(substance: substance, model: model)
 
+        // What the family shares. Above Safety because for a research chemical
+        // with no data of its own this is most of what there is to read.
+        ClassContextSection(substance: substance, model: model)
+
         // Safety — combinations, water & heat, contraindications, and myth
         // corrections in one card below the pharmacology, beside Prescribing.
         // Self-hides when a compound carries none of them.

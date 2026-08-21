@@ -1314,10 +1314,26 @@ CREATE TABLE off_targets (
 );
 CREATE INDEX idx_offtargets_target ON off_targets(target);
 
+-- A pharmacological class the deep-pharma research pass wrote up: what its
+-- members share mechanistically, kinetically and in their safety profile, plus
+-- the SAR that distinguishes them.
+--
+-- `display_name` is the short title and `subtitle` the qualifying enumeration
+-- the authored name carried in parentheses ("Serotonergic phenethylamine
+-- psychedelics" / "2C-x, DOx, mescaline analogues, NBOMe / NBOH / NBF / NBMD").
+-- Split at build so a card has a title that fits one line.
+--
+-- Contexts whose authored name is a note to the next curator rather than a
+-- class ("Data integrity issues in source list", anything ending "miscategorized
+-- in this group") never reach this table — see data/curated/class-contexts.json.
 CREATE TABLE class_contexts (
     id                INTEGER PRIMARY KEY,
     slug              TEXT NOT NULL UNIQUE,
     display_name      TEXT NOT NULL,
+    -- The qualifying enumeration the authored name carried in parentheses
+    -- ("2C-x, DOx, mescaline analogues, NBOMe / NBOH / NBF / NBMD"), split off
+    -- at build so a card has a title that fits one line.
+    subtitle          TEXT,
     shared_mechanism  TEXT,
     shared_pk         TEXT,
     shared_safety     TEXT,
@@ -2451,6 +2467,59 @@ def assert_effects_are_readable_in_english(con) -> dict:
     return {"rows": total or 0, "bridged": bridged or 0}
 
 
+def prune_class_memberships(con) -> dict:
+    """Drop a class membership whose substance's own category contradicts the
+    class's dominant one.
+
+    The enrichment files tag comparison compounds with the class of the file
+    they appear in, so 2C-B ships as an amphetamine-type monoamine releaser and
+    nitrazepam as a serotonergic phenethylamine psychedelic. Both are false
+    claims of exactly the kind a reference must not make, and neither is
+    distinguishable from a real membership at the record level — the substance's
+    resolved category is the independent check.
+
+    A substance whose category is absent or 'Other' cannot disagree and is kept:
+    that is the long tail, where the class is most of what is known.
+    """
+    cur = con.cursor()
+    rows = cur.execute(
+        """
+        SELECT sc.class_context_id, cc.slug, sc.substance_id, s.canonical_name,
+               (SELECT c.category FROM categories c
+                  JOIN sources src ON src.id = c.source_id
+                 WHERE c.substance_id = s.id
+                 ORDER BY src.default_priority LIMIT 1)
+          FROM substance_classes sc
+          JOIN class_contexts cc ON cc.id = sc.class_context_id
+          JOIN substances s ON s.id = sc.substance_id
+        """
+    ).fetchall()
+
+    members: dict[int, list] = {}
+    for class_id, slug, sid, name, category in rows:
+        members.setdefault(class_id, []).append((slug, sid, name, category))
+
+    dropped: list[str] = []
+    for class_id, entries in members.items():
+        tally = Counter(c for _, _, _, c in entries if c and c not in CLASS_UNJUDGEABLE_CATEGORIES)
+        if not tally:
+            continue
+        dominant = tally.most_common(1)[0][0]
+        for slug, sid, name, category in entries:
+            if not category or category in CLASS_UNJUDGEABLE_CATEGORIES:
+                continue
+            if category == dominant or (dominant, category) in CLASS_COMPATIBLE_CATEGORIES:
+                continue
+            if (slug, normalise(name)) in CLASS_MEMBERSHIP_KEEP:
+                continue
+            cur.execute(
+                "DELETE FROM substance_classes WHERE substance_id=? AND class_context_id=?",
+                (sid, class_id),
+            )
+            dropped.append(f"{name} ({category}) out of {slug} [{dominant}]")
+    return {"dropped": len(dropped), "names": dropped}
+
+
 def reject_transitive_pk_references(con) -> dict:
     """Enforce the derivation layer's SINGLE-HOP rule: a substance's
     ``pk_reference`` may point at a surrogate, but that surrogate must carry
@@ -2996,6 +3065,47 @@ NON_RECREATIONAL_OTC = {
 # at 26,395 characters, "Figure 1" and all) into a field the detail page renders as one
 # paragraph. The bound is checked at the single insertion point so no source can
 # reintroduce the shape, and `test_sqlite.py` asserts it against the built database.
+#: Class contexts that are research notes rather than classes, and short titles
+#: for the ones whose authored name is a bucket label. See the file's `_meta`.
+_CLASS_CONTEXT_POLICY = json.loads(
+    (REPO / "data/curated/class-contexts.json").read_text(encoding="utf-8")
+)
+CLASS_CONTEXT_EXCLUDE: set[str] = set(_CLASS_CONTEXT_POLICY.get("exclude") or ())
+CLASS_CONTEXT_NAMES: dict[str, str] = _CLASS_CONTEXT_POLICY.get("name") or {}
+#: Category pairs that legitimately share one class, both directions.
+CLASS_COMPATIBLE_CATEGORIES: set[tuple[str, str]] = {
+    tuple(pair) for pair in _CLASS_CONTEXT_POLICY.get("compatible_categories") or []
+} | {tuple(reversed(pair)) for pair in _CLASS_CONTEXT_POLICY.get("compatible_categories") or []}
+#: `[slug, substance]` memberships kept despite disagreeing — verified by hand.
+CLASS_MEMBERSHIP_KEEP: set[tuple[str, str]] = {
+    (slug, normalise(name)) for slug, name in _CLASS_CONTEXT_POLICY.get("keep") or []
+}
+#: A category that cannot contradict anything, so it cannot be used to drop.
+CLASS_UNJUDGEABLE_CATEGORIES = {"", "Other"}
+
+
+def split_class_name(name: str) -> tuple[str, str | None]:
+    """`name` split into a one-line title and the qualifier it carried.
+
+    The authored names put the class first and its membership in parentheses or
+    after a dash — "Arylcyclohexylamines (NMDA antagonists at the PCP binding
+    site)". Both halves are worth keeping; only the first belongs in a title.
+    """
+    name = name.strip()
+    # A trailing parenthetical is the qualifier. Only a TRAILING one: "Benzo
+    # diazepines (classical and designer) + Z-drugs" closes mid-string, and the
+    # part after the bracket belongs in the title.
+    match = re.match(r"^(.+?)\s*\(([^()]+)\)$", name, re.DOTALL)
+    if match and len(match.group(1).strip()) >= 6:
+        return match.group(1).strip(), match.group(2).strip()
+    # Otherwise a spaced dash. Spaced, because the hyphen in "Fentanyl-family"
+    # and "Non-recreational" is part of a word, not a separator.
+    match = re.match(r"^(.+?)\s+[\u2014\u2013-]\s+(.+)$", name, re.DOTALL)
+    if match and len(match.group(1).strip()) >= 6:
+        return match.group(1).strip(), match.group(2).strip()
+    return name, None
+
+
 MAX_MECHANISM_SUMMARY_CHARS = 1200
 
 # The Library's "Common" card is a curated entry point — "everyday substances,
@@ -5874,13 +5984,23 @@ class Build:
         name = ctx.get("class_name") or ctx.get("display_name") or slug
         if not slug or not name:
             return None
+        # Some of these records are findings about the source data, not classes:
+        # "Data integrity issues in source list", "…— miscategorized in this
+        # group". They are excluded here rather than filtered in the app, so
+        # nothing downstream has to know which is which.
+        if slug in CLASS_CONTEXT_EXCLUDE:
+            self.stats["class_contexts_excluded"] += 1
+            return None
+        name = CLASS_CONTEXT_NAMES.get(slug, name)
+        name, subtitle = split_class_name(name)
         src = self.source_ids.get(source_slug)
         try:
             self.cur.execute(
-                "INSERT INTO class_contexts(slug, display_name, shared_mechanism, shared_pk, shared_safety, sar_summary, source_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO class_contexts(slug, display_name, subtitle, shared_mechanism, shared_pk, shared_safety, sar_summary, source_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     slug,
                     name,
+                    subtitle,
                     ctx.get("shared_mechanism"),
                     ctx.get("shared_pk_summary") or ctx.get("shared_pk"),
                     ctx.get("shared_safety"),
@@ -9525,7 +9645,18 @@ class Build:
         # / contraindication / tolerance etc. is NOT a stub even with no dose
         # curve — that's real, showable information (Serotonin, Dopamine,
         # Chloramphenicol, the meth enantiomers all land here).
-        metadata_tables = {"aliases", "categories", "tags", "substance_citations"}
+        # `substance_classes` belongs here for the same reason `categories` does:
+        # it says what a compound IS, not what is known about it. Counting it as
+        # content kept ~265 wikidata biochemistry stubs alive — enough
+        # tryptophan derivatives to break the PSID family assignment on
+        # same-block-1 collisions.
+        metadata_tables = {
+            "aliases",
+            "categories",
+            "tags",
+            "substance_citations",
+            "substance_classes",
+        }
         all_tnames = [
             r[0]
             for r in self.cur.execute(
@@ -10242,6 +10373,14 @@ class Build:
         if not isinstance(data, list):
             raise SystemExit(f"{path}: expected a list of records, got {type(data).__name__}")
         class_ids: dict[str, int] = {}
+        # Resolved after the loop, not inside it. Fifteen of the eighteen
+        # enrichment files declare their class context in the LAST record, so a
+        # link made while walking the file finds an empty `class_ids` and is
+        # silently dropped — which is why only the three files that happen to
+        # declare it first had any members at all. Deferring the resolution
+        # rather than pre-scanning keeps insertion order byte-identical, which
+        # the PSID family assignment depends on.
+        pending_class_links: list[tuple[int, str]] = []
         slug = "peer-review-primary"
         for rec in data:
             if not isinstance(rec, dict):
@@ -10337,8 +10476,13 @@ class Build:
                     except sqlite3.IntegrityError:
                         pass
             cid_slug = rec.get("class_context_id")
-            if cid_slug and cid_slug in class_ids:
-                self.link_substance_class(sid, class_ids[cid_slug])
+            if cid_slug:
+                pending_class_links.append((sid, cid_slug))
+
+        for sid, cid_slug in pending_class_links:
+            class_id = class_ids.get(cid_slug)
+            if class_id is not None:
+                self.link_substance_class(sid, class_id)
 
     # ---- manifest ----
 
@@ -10796,6 +10940,14 @@ def main() -> int:
         print(f"Transitive/unresolved pk_references dropped: {ptx['dropped']}", file=sys.stderr)
         for n in ptx["names"]:
             print(f"  {n}", file=sys.stderr)
+
+    # A membership whose substance's own category contradicts the class is a
+    # false claim; the enrichment files tag comparison compounds with the class
+    # of the file they appear in. Runs after all merges.
+    pruned = prune_class_memberships(build.cur.connection)
+    print(f"Class memberships pruned: {pruned['dropped']}", file=sys.stderr)
+    for name in pruned["names"][:12]:
+        print(f"  {name}", file=sys.stderr)
 
     voice = enforce_voice_rule(build.cur.connection)
     print(f"Voice-rule rewrites: {voice['rewritten']}", file=sys.stderr)

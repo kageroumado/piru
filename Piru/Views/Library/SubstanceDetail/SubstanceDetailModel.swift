@@ -55,6 +55,10 @@ final class SubstanceDetailModel {
     /// PK curve readable rather than merely shaped.
     var concentrationThresholds: [SubstanceStore.ConcentrationThreshold] = []
 
+    /// The pharmacological family this substance belongs to, and what its
+    /// members share. Carries most of what is known about the long tail.
+    var classContext: SubstanceStore.ClassContext?
+
     /// Which source supplied which field, for the Sources ledger. Loaded here
     /// rather than by the section itself: the ledger folds now, and a `.task`
     /// inside a collapsed disclosure doesn't run until the user opens it — so
@@ -124,6 +128,7 @@ final class SubstanceDetailModel {
         targetEvidence = store.targetEvidence(forSubstanceName: substanceName)
         signallingCascade = store.signallingCascade(forSubstanceName: substanceName)
         concentrationThresholds = store.concentrationThresholds(forSubstanceName: substanceName)
+        classContext = store.classContext(forSubstanceName: substanceName)
         sourceContributions = store.sourceContributions(forSubstanceName: substanceName)
 
         // Contraceptive-efficacy caution — a CYP3A4 inducer (modafinil,

@@ -146,6 +146,97 @@ extension SubstanceStore {
         }
     }
 
+    // MARK: - Class context
+
+    /// The pharmacological class a substance belongs to, and what its members
+    /// share: mechanism, kinetics, safety profile, and the SAR that tells them
+    /// apart.
+    ///
+    /// Answers a question a single substance's page cannot — *is this one like
+    /// the others?* — for the long tail especially, where a research chemical
+    /// has almost no data of its own and everything worth knowing is a property
+    /// of the family.
+    struct ClassContext: Hashable {
+        let slug: String
+        let title: String
+        /// The membership the authored name carried in parentheses, when it had
+        /// one: "2C-x, DOx, mescaline analogues, NBOMe / NBOH / NBF / NBMD".
+        let subtitle: String?
+        let sharedMechanism: String?
+        let sharedPharmacokinetics: String?
+        let sharedSafety: String?
+        let sarSummary: String?
+        /// Other substances in the class, by canonical name, most recognizable
+        /// first. Excludes the substance being viewed.
+        let siblings: [String]
+        let references: [Reference]
+
+        struct Reference: Identifiable, Hashable {
+            let id: Int64
+            let title: String?
+            let doi: String?
+            let pmid: Int?
+        }
+    }
+
+    func classContext(forSubstanceName name: String) -> ClassContext? {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return nil }
+        do {
+            return try substancesDB.read { db in
+                guard let row = try Row.fetchOne(db, sql: """
+                    SELECT c.id, c.slug, c.display_name, c.subtitle, c.shared_mechanism,
+                           c.shared_pk, c.shared_safety, c.sar_summary
+                      FROM class_contexts c
+                      JOIN substance_classes sc ON sc.class_context_id = c.id
+                     WHERE sc.substance_id = ?
+                     LIMIT 1
+                """, arguments: [substanceID]) else { return nil }
+                let classID: Int64 = row["id"]
+
+                // Popularity first: a class card is only useful if the peers it
+                // names are ones the reader recognizes.
+                let siblings = try String.fetchAll(db, sql: """
+                    SELECT s.canonical_name
+                      FROM substance_classes sc
+                      JOIN substances s ON s.id = sc.substance_id
+                     WHERE sc.class_context_id = ? AND sc.substance_id != ?
+                     ORDER BY s.popularity DESC, s.canonical_name
+                     LIMIT 12
+                """, arguments: [classID, substanceID])
+
+                let references = try Row.fetchAll(db, sql: """
+                    SELECT ci.id, ci.title, ci.doi, ci.pmid
+                      FROM class_citations cc
+                      JOIN citations ci ON ci.id = cc.citation_id
+                     WHERE cc.class_context_id = ?
+                     ORDER BY ci.year DESC NULLS LAST
+                """, arguments: [classID]).map {
+                    ClassContext.Reference(
+                        id: $0["id"],
+                        title: $0["title"],
+                        doi: $0["doi"],
+                        pmid: ($0["pmid"] as Int64?).map(Int.init),
+                    )
+                }
+
+                return ClassContext(
+                    slug: row["slug"],
+                    title: row["display_name"],
+                    subtitle: row["subtitle"],
+                    sharedMechanism: row["shared_mechanism"],
+                    sharedPharmacokinetics: row["shared_pk"],
+                    sharedSafety: row["shared_safety"],
+                    sarSummary: row["sar_summary"],
+                    siblings: siblings,
+                    references: references,
+                )
+            }
+        } catch {
+            logger.error("classContext(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
+            return nil
+        }
+    }
+
     // MARK: - Concentration thresholds
 
     /// The plasma concentration at which a named effect appears, and the one at

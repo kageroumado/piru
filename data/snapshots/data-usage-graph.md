@@ -29,7 +29,7 @@ graph LR
     aliases["aliases<br/>5,396 rows"]
     effects["effects<br/>2,952 rows"]
     dose_ranges["dose_ranges<br/>2,498 rows"]
-    citations["citations<br/>2,126 rows"]
+    citations["citations<br/>2,124 rows"]
     substance_forms["substance_forms<br/>1,800 rows"]
     substances["substances<br/>1,738 rows"]
     contraindications["contraindications<br/>1,656 rows"]
@@ -42,20 +42,20 @@ graph LR
     substance_citations["substance_citations<br/>888 rows"]
     effect_vocab_labels["effect_vocab_labels<br/>789 rows"]
     descriptions["descriptions<br/>749 rows"]
+    substance_classes["substance_classes<br/>693 rows"]
     downstream_signalling["downstream_signalling<br/>690 rows"]
     metabolism["metabolism<br/>559 rows"]
     half_lives["half_lives<br/>538 rows"]
     tolerance["tolerance<br/>323 rows"]
     pk_routes["pk_routes<br/>308 rows"]
     pharmacogenetics["pharmacogenetics<br/>305 rows"]
-    class_citations["class_citations<br/>271 rows"]
+    class_citations["class_citations<br/>267 rows"]
     off_targets["off_targets<br/>209 rows"]
     drug_interactions_pk["drug_interactions_pk<br/>205 rows"]
-    substance_classes["substance_classes<br/>185 rows"]
     functional_assays["functional_assays<br/>179 rows"]
-    class_contexts["class_contexts<br/>58 rows"]
     protocol_dosing["protocol_dosing<br/>53 rows"]
     neuroimaging["neuroimaging<br/>52 rows"]
+    class_contexts["class_contexts<br/>51 rows"]
     peptide_profiles["peptide_profiles<br/>44 rows"]
     class_reference_compounds["class_reference_compounds<br/>34 rows"]
     diazepam_equivalents["diazepam_equivalents<br/>33 rows"]
@@ -163,6 +163,7 @@ graph LR
     src_piru_curated --> descriptions
     src_psychonautwiki --> descriptions
     descriptions --> ui_overview
+    substance_classes --> ui_drugClass
     src_peer_review_primary --> downstream_signalling
     downstream_signalling --> ui_mechanism
     src_peer_review_primary --> metabolism
@@ -184,15 +185,14 @@ graph LR
     off_targets --> ui_receptorLiterature
     src_peer_review_primary --> drug_interactions_pk
     drug_interactions_pk --> ui_combinations
-    substance_classes --> ui_drugClass
     src_peer_review_primary --> functional_assays
     functional_assays --> ui_receptorLiterature
-    src_peer_review_primary --> class_contexts
-    class_contexts --> ui_drugClass
     src_piru_curated --> protocol_dosing
     protocol_dosing --> ui_doseDuration
     src_peer_review_primary --> neuroimaging
     neuroimaging --> ui_receptorLiterature
+    src_peer_review_primary --> class_contexts
+    class_contexts --> ui_drugClass
     src_piru_curated --> peptide_profiles
     peptide_profiles --> ui_medicalUses
     class_reference_compounds --> ui_receptorLiterature
@@ -212,15 +212,11 @@ graph LR
     classDef dead fill:#5b1a1a,stroke:#d06666,color:#fff;
     classDef partial fill:#5b451a,stroke:#d0a566,color:#fff;
     classDef live fill:#1a3d2b,stroke:#5fbf8f,color:#fff;
-    class class_citations,substance_classes,class_contexts dead;
-    class aliases,dose_ranges,citations,substance_forms,substances,bindings,mechanisms_summary,spectrum_levels,substance_citations,metabolism,half_lives,tolerance,pk_routes,pharmacogenetics,off_targets,drug_interactions_pk,functional_assays,protocol_dosing,neuroimaging,peptide_profiles,diazepam_equivalents,product_strengths,biased_agonism,concentration_effects,durations_of_action,sources,receptor_oligomers,product_durations partial;
-    class subjective_effects,durations,reported_effects,tags,effects,contraindications,categories,indications,molecule_shapes,effect_vocab_labels,descriptions,downstream_signalling,class_reference_compounds live;
+    class aliases,dose_ranges,citations,substance_forms,substances,bindings,mechanisms_summary,spectrum_levels,substance_citations,metabolism,half_lives,tolerance,pk_routes,pharmacogenetics,class_citations,off_targets,drug_interactions_pk,functional_assays,protocol_dosing,neuroimaging,class_contexts,peptide_profiles,diazepam_equivalents,product_strengths,biased_agonism,concentration_effects,durations_of_action,sources,receptor_oligomers,product_durations partial;
+    class subjective_effects,durations,reported_effects,tags,effects,contraindications,categories,indications,molecule_shapes,effect_vocab_labels,descriptions,substance_classes,downstream_signalling,class_reference_compounds live;
 ```
 
 ## Declared a home, not yet rendered
 
 | rows | table | belongs on | why it matters |
 |---:|---|---|---|
-| 271 | `class_citations` | sources | the citations behind a class-level claim |
-| 185 | `substance_classes` | drugClass | which substances belong to a class context |
-| 58 | `class_contexts` | drugClass | shared mechanism / shared PK / shared safety / SAR per class; a class screen's entire content |

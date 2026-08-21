@@ -1,0 +1,104 @@
+{
+  "_meta": {
+    "what": "Which class contexts are user-facing, and under what name.",
+    "why": "The class-context records are research output. Some of them are notes the researching agent wrote to whoever curates next — a class whose display name is 'Data integrity issues in source list' or ends 'miscategorized in this group' is a finding about the source data, not a class a reader belongs to. Those are excluded from the build rather than filtered in the app, so nothing downstream has to know.",
+    "name": "An override for a slug whose authored display name is a bucket label rather than a class. Omit to keep the authored one.",
+    "membership": "A compound written up in one class's research file sometimes carries another class's id — 2C-B is tagged 'amphetamine-monoamine-releasers' with high confidence in the amphetamine file, and carries no class at all in the phenethylamine-psychedelics file where it belongs. So a membership is kept only when the substance's own resolved category agrees with the class's dominant one, or the pair is listed in `compatible_categories`. A category of 'Other' or none cannot disagree, so those are kept — which is the long tail, and the case the class card is most useful for. `keep` overrides a drop for a verified member."
+  },
+  "exclude": [
+    "data-error",
+    "synthetic-cannabinoids",
+    "tryptamine-psychedelics",
+    "phenethylamine-psychedelics",
+    "pyrovalerone-cathinones",
+    "tryptamine-related",
+    "anticholinergic_deliriants_misc_hoax"
+  ],
+  "name": {
+    "non-recreational-pharma-or-peptide": "Peptides and non-recreational pharmaceuticals",
+    "generic-tryptamine-NPS-no-human-data": "Tryptamines with no published human pharmacology",
+    "halogenated-or-substituted-tryptamine-no-human-data": "Halogenated and multiply-substituted tryptamines",
+    "nootropics-mixed": "Nootropics of mixed mechanism",
+    "gaba-depressants-other": "GABAergic depressants",
+    "dat-inhibitors-mixed": "Dopamine reuptake inhibitors",
+    "cannabinoids-mixed": "Phytocannabinoids",
+    "tryptophan-derivative": "Tryptophan derivatives and metabolic intermediates",
+    "prescription-psychiatrics": "Prescription psychiatric drugs"
+  },
+  "compatible_categories": [
+    [
+      "Benzodiazepine",
+      "Depressant"
+    ],
+    [
+      "Benzodiazepine",
+      "GABAergic"
+    ],
+    [
+      "Depressant",
+      "GABAergic"
+    ],
+    [
+      "Stimulant",
+      "Empathogen"
+    ],
+    [
+      "Stimulant",
+      "Eugeroic"
+    ],
+    [
+      "Stimulant",
+      "Nootropic"
+    ],
+    [
+      "Psychedelic",
+      "Empathogen"
+    ],
+    [
+      "Psychedelic",
+      "Dysdelic"
+    ],
+    [
+      "Opioid",
+      "Dysdelic"
+    ],
+    [
+      "Dissociative",
+      "Stimulant"
+    ],
+    [
+      "Nootropic",
+      "AMPAkine"
+    ],
+    [
+      "Nootropic",
+      "Supplement"
+    ],
+    [
+      "Deliriant",
+      "Antihistamine"
+    ],
+    [
+      "Cannabinoid",
+      "Anticonvulsant"
+    ]
+  ],
+  "keep": [
+    [
+      "racetams-and-ampakines",
+      "Levetiracetam"
+    ],
+    [
+      "racetams-and-ampakines",
+      "Brivaracetam"
+    ],
+    [
+      "racetams-and-ampakines",
+      "Seletracetam"
+    ],
+    [
+      "dat-inhibitors-mixed",
+      "Bupropion"
+    ]
+  ]
+}
