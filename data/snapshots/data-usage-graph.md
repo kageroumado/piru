@@ -212,21 +212,15 @@ graph LR
     classDef dead fill:#5b1a1a,stroke:#d06666,color:#fff;
     classDef partial fill:#5b451a,stroke:#d0a566,color:#fff;
     classDef live fill:#1a3d2b,stroke:#5fbf8f,color:#fff;
-    class downstream_signalling,pharmacogenetics,class_citations,substance_classes,class_contexts,neuroimaging,biased_agonism,concentration_effects,receptor_oligomers dead;
-    class aliases,dose_ranges,citations,substance_forms,substances,bindings,mechanisms_summary,spectrum_levels,substance_citations,metabolism,half_lives,tolerance,pk_routes,off_targets,drug_interactions_pk,functional_assays,protocol_dosing,peptide_profiles,diazepam_equivalents,product_strengths,durations_of_action,sources,product_durations partial;
-    class subjective_effects,durations,reported_effects,tags,effects,contraindications,categories,indications,molecule_shapes,effect_vocab_labels,descriptions,class_reference_compounds live;
+    class class_citations,substance_classes,class_contexts dead;
+    class aliases,dose_ranges,citations,substance_forms,substances,bindings,mechanisms_summary,spectrum_levels,substance_citations,metabolism,half_lives,tolerance,pk_routes,pharmacogenetics,off_targets,drug_interactions_pk,functional_assays,protocol_dosing,neuroimaging,peptide_profiles,diazepam_equivalents,product_strengths,biased_agonism,concentration_effects,durations_of_action,sources,receptor_oligomers,product_durations partial;
+    class subjective_effects,durations,reported_effects,tags,effects,contraindications,categories,indications,molecule_shapes,effect_vocab_labels,descriptions,downstream_signalling,class_reference_compounds live;
 ```
 
 ## Declared a home, not yet rendered
 
 | rows | table | belongs on | why it matters |
 |---:|---|---|---|
-| 690 | `downstream_signalling` | mechanism | 690 rows of what happens after the receptor binds, which is the half of a mechanism a target list cannot state |
-| 305 | `pharmacogenetics` | pharmacokinetics | CYP2D6NoteSection already asks the user for their metabolizer status and answers with hardcoded generic prose; these are the substance-specific cited answers, for CYP2C19/2B6/3A4 too |
 | 271 | `class_citations` | sources | the citations behind a class-level claim |
 | 185 | `substance_classes` | drugClass | which substances belong to a class context |
 | 58 | `class_contexts` | drugClass | shared mechanism / shared PK / shared safety / SAR per class; a class screen's entire content |
-| 52 | `neuroimaging` | receptorLiterature | human occupancy/imaging evidence for a target claim |
-| 23 | `biased_agonism` | receptorLiterature | a binding row says a drug hits the receptor; this says which pathway it favours, which is the whole reason two agonists at one target feel different |
-| 23 | `concentration_effects` | pharmacokinetics | the plasma-concentration thresholds that would give the PK curve a labelled y-axis |
-| 8 | `receptor_oligomers` | receptorLiterature | 8 rows |

@@ -114,6 +114,14 @@ struct SubstanceDetailLayout: View {
             )
         }
 
+        // The genes behind that note and the ones it does not cover — CYP3A4,
+        // OPRM1, COMT — each with the study. Self-hiding, folded at every tier.
+        PharmacogeneticsSection(substance: substance, model: model)
+
+        // Pathway bias, receptor complexes, in-vivo imaging — self-hiding, and
+        // present for about 80 compounds.
+        TargetEvidenceSection(substance: substance, model: model)
+
         // Safety — combinations, water & heat, contraindications, and myth
         // corrections in one card below the pharmacology, beside Prescribing.
         // Self-hides when a compound carries none of them.

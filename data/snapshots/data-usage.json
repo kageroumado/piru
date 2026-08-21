@@ -68,7 +68,7 @@
       },
       "citation_id": {
         "filled": 21,
-        "verdict": "unused"
+        "verdict": "read"
       },
       "id": {
         "filled": 23,
@@ -76,11 +76,11 @@
       },
       "interpretation": {
         "filled": 23,
-        "verdict": "unused"
+        "verdict": "read"
       },
       "pathways_compared": {
         "filled": 23,
-        "verdict": "unused"
+        "verdict": "read"
       },
       "source_id": {
         "filled": 23,
@@ -92,10 +92,10 @@
       },
       "target": {
         "filled": 23,
-        "verdict": "unused"
+        "verdict": "read"
       }
     },
-    "read_in_swift": false,
+    "read_in_swift": true,
     "rows": 23,
     "surface": "receptorLiterature"
   },
@@ -372,11 +372,11 @@
     "columns": {
       "citation_id": {
         "filled": 23,
-        "verdict": "unused"
+        "verdict": "read"
       },
       "concentration_unit": {
         "filled": 23,
-        "verdict": "unused"
+        "verdict": "read"
       },
       "effect": {
         "filled": 23,
@@ -388,7 +388,7 @@
       },
       "peak_effect": {
         "filled": 20,
-        "verdict": "unused"
+        "verdict": "read"
       },
       "source_id": {
         "filled": 23,
@@ -403,7 +403,7 @@
         "verdict": "shown"
       }
     },
-    "read_in_swift": false,
+    "read_in_swift": true,
     "rows": 23,
     "surface": "pharmacokinetics"
   },
@@ -608,10 +608,10 @@
       },
       "summary": {
         "filled": 690,
-        "verdict": "unused"
+        "verdict": "shown"
       }
     },
-    "read_in_swift": false,
+    "read_in_swift": true,
     "rows": 690,
     "surface": "mechanism"
   },
@@ -1156,7 +1156,7 @@
     "columns": {
       "citation_id": {
         "filled": 43,
-        "verdict": "unused"
+        "verdict": "read"
       },
       "finding": {
         "filled": 52,
@@ -1168,7 +1168,7 @@
       },
       "modality": {
         "filled": 52,
-        "verdict": "unused"
+        "verdict": "shown"
       },
       "source_id": {
         "filled": 52,
@@ -1179,7 +1179,7 @@
         "verdict": "plumbing"
       }
     },
-    "read_in_swift": false,
+    "read_in_swift": true,
     "rows": 52,
     "surface": "receptorLiterature"
   },
@@ -1272,15 +1272,15 @@
     "surface": "medicalUses"
   },
   "pharmacogenetics": {
-    "attributed_only": true,
+    "attributed_only": false,
     "columns": {
       "citation_id": {
         "filled": 170,
-        "verdict": "unused"
+        "verdict": "read"
       },
       "gene": {
         "filled": 305,
-        "verdict": "unused"
+        "verdict": "shown"
       },
       "id": {
         "filled": 305,
@@ -1288,7 +1288,7 @@
       },
       "phenotype_effects": {
         "filled": 305,
-        "verdict": "unused"
+        "verdict": "shown"
       },
       "source_id": {
         "filled": 305,
@@ -1299,7 +1299,7 @@
         "verdict": "plumbing"
       }
     },
-    "read_in_swift": false,
+    "read_in_swift": true,
     "rows": 305,
     "surface": "pharmacokinetics"
   },
@@ -1556,19 +1556,19 @@
     "columns": {
       "citation_id": {
         "filled": 8,
-        "verdict": "unused"
+        "verdict": "read"
       },
       "complex_description": {
         "filled": 8,
-        "verdict": "unused"
+        "verdict": "read"
       },
       "evidence_type": {
         "filled": 8,
-        "verdict": "unused"
+        "verdict": "read"
       },
       "functional_consequence": {
         "filled": 8,
-        "verdict": "unused"
+        "verdict": "read"
       },
       "id": {
         "filled": 8,
@@ -1583,7 +1583,7 @@
         "verdict": "plumbing"
       }
     },
-    "read_in_swift": false,
+    "read_in_swift": true,
     "rows": 8,
     "surface": "receptorLiterature"
   },

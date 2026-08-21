@@ -39,6 +39,22 @@ final class SubstanceDetailModel {
     /// / bladder / taste-receptor rows. One per target, most-consequential first.
     var offTargets: [SubstanceStore.OffTargetHit] = []
 
+    /// Genes whose variants change what this substance does — the enzymes that
+    /// clear it, and the receptors and transporters it acts on. One row per
+    /// gene.
+    var pharmacogenetics: [SubstanceStore.PharmacogeneticHit] = []
+
+    /// Pathway bias, receptor complexes and in-vivo imaging — the evidence about
+    /// a target that is not an affinity number.
+    var targetEvidence: [SubstanceStore.TargetEvidence] = []
+
+    /// What happens after the receptor binds.
+    var signallingCascade: SubstanceStore.SignallingCascade?
+
+    /// The plasma concentrations at which named effects appear — what makes the
+    /// PK curve readable rather than merely shaped.
+    var concentrationThresholds: [SubstanceStore.ConcentrationThreshold] = []
+
     /// Which source supplied which field, for the Sources ledger. Loaded here
     /// rather than by the section itself: the ledger folds now, and a `.task`
     /// inside a collapsed disclosure doesn't run until the user opens it — so
@@ -104,6 +120,10 @@ final class SubstanceDetailModel {
         // app governs density rather than access — the card ships folded at
         // every tier instead.
         offTargets = store.offTargets(forSubstanceName: substanceName)
+        pharmacogenetics = store.pharmacogenetics(forSubstanceName: substanceName)
+        targetEvidence = store.targetEvidence(forSubstanceName: substanceName)
+        signallingCascade = store.signallingCascade(forSubstanceName: substanceName)
+        concentrationThresholds = store.concentrationThresholds(forSubstanceName: substanceName)
         sourceContributions = store.sourceContributions(forSubstanceName: substanceName)
 
         // Contraceptive-efficacy caution — a CYP3A4 inducer (modafinil,

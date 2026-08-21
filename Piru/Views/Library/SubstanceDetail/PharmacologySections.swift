@@ -94,6 +94,9 @@ struct PharmacologySections: View {
                             signature: model.classSignature,
                             onMonoamineInfo: { onGlossary(.monoamine) },
                         )
+                        if let cascade = model.signallingCascade {
+                            SignallingCascadeRow(cascade: cascade, accent: substance.category.color)
+                        }
                         if let slug = model.provenance?.mechanismSource {
                             SourceAttributionRow(
                                 slug: slug,
@@ -230,6 +233,16 @@ struct PharmacologySections: View {
             ForEach(model.pkRoutes) { row in
                 PKRouteRow(hit: row.hit, studyCount: row.studyCount, accent: substance.category.color)
                 if row.id != model.pkRoutes.last?.id { Divider() }
+            }
+            // What the numbers above mean at a given plasma level. Under the
+            // routes rather than beside them: a threshold is about the drug, not
+            // about how it got in.
+            if !model.concentrationThresholds.isEmpty {
+                Divider()
+                ForEach(model.concentrationThresholds) { hit in
+                    ConcentrationThresholdRow(hit: hit, accent: substance.category.color)
+                    if hit.id != model.concentrationThresholds.last?.id { Divider() }
+                }
             }
         }
         .padding(.vertical, 4)
