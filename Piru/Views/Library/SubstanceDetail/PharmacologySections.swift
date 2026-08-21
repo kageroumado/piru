@@ -178,9 +178,16 @@ struct PharmacologySections: View {
             // something the catalog carries.
             if policy.showsPharmacokinetics, !model.pkInteractions.isEmpty {
                 Section {
-                    ForEach(model.pkInteractions) { hit in
-                        PKInteractionRow(hit: hit)
-                        if hit.id != model.pkInteractions.last?.id { Divider() }
+                    // One List row holding a stack, not a row per element: a
+                    // `Divider()` emitted as a sibling of the row inside a
+                    // `ForEach` lands in that row's implicit horizontal layout
+                    // and draws as a short VERTICAL rule with blank space
+                    // around it.
+                    VStack(alignment: .leading, spacing: 8) {
+                        ForEach(model.pkInteractions) { hit in
+                            PKInteractionRow(hit: hit)
+                            if hit.id != model.pkInteractions.last?.id { Divider() }
+                        }
                     }
                 } header: {
                     Text("Measured Interactions")

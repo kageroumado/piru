@@ -12,6 +12,7 @@ struct ClassContextSection: View {
     let model: SubstanceDetailModel
 
     @State private var isExpanded = false
+    @Environment(\.appNavigator) private var navigator
 
     private var accent: Color {
         substance.category.color
@@ -70,6 +71,10 @@ struct ClassContextSection: View {
 
     /// The other members, as chips that open them. The point of naming a class
     /// is being able to walk to its neighbours.
+    ///
+    /// A `Button` that pushes rather than a `NavigationLink`: inside a List row
+    /// each link draws its own disclosure chevron, and twelve chips came with
+    /// twelve chevrons wedged between them.
     private func siblings(_ names: [String]) -> some View {
         VStack(alignment: .leading, spacing: 5) {
             Text("Also in this class")
@@ -77,7 +82,9 @@ struct ClassContextSection: View {
                 .foregroundStyle(accent)
             FlowLayout(spacing: 6) {
                 ForEach(names, id: \.self) { name in
-                    NavigationLink(value: PushRoute.substance(name: name)) {
+                    Button {
+                        navigator.push(.substance(name: name))
+                    } label: {
                         Text(verbatim: name)
                             .font(.caption)
                             .padding(.horizontal, 9)
