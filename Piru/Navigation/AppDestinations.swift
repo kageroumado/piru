@@ -110,6 +110,9 @@ private struct PushRouteView: View {
         case let .drugClass(slug):
             DrugClassDetailView(slug: slug)
 
+        case let .drugClassGroup(category):
+            DrugClassGroupView(category: category)
+
         case let .insight(insight):
             insightView(for: insight)
                 .navigationBarTitleDisplayMode(.inline)
@@ -163,7 +166,6 @@ private struct PushRouteView: View {
         case .inventory: InventoryListView()
         case .effectSandbox: EffectSandboxView()
         case .steadyState: SteadyStateView()
-        case .drugClasses: DrugClassListView()
         }
     }
 

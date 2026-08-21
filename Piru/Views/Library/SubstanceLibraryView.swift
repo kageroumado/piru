@@ -310,6 +310,7 @@ struct SubstanceCategoryListView: View {
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
     @Environment(\.modelContext) private var modelContext
     @State private var customStore = CustomSubstanceStore.shared
+    @Environment(\.appNavigator) private var navigator
 
     enum SortMode: String, CaseIterable { case popularity, name }
     @State private var sortMode: SortMode = .popularity
@@ -378,10 +379,51 @@ struct SubstanceCategoryListView: View {
 
         sortedSubstances = sorted
         favoriteNames = favNames
+        hasClasses = category.map { !SubstanceStore.shared.classContexts(in: $0).isEmpty } ?? false
     }
+
+    /// Whether this family has class write-ups behind it. Resolved once in the
+    /// rebuild rather than per body — it is a DB read.
+    @State private var hasClasses = false
 
     var body: some View {
         List {
+            // What this family IS, above the list of names — the question a
+            // reader arriving at "Stimulant" actually has, and the one the list
+            // cannot answer. Self-hiding for the categories that are a filing
+            // convenience rather than a pharmacological family.
+            if let category, let summary = category.classSummary {
+                Section {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(summary)
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.secondaryLabel)
+                            .fixedSize(horizontal: false, vertical: true)
+                        if hasClasses {
+                            // A Button that pushes, not a NavigationLink: inside
+                            // a List row a link draws its own disclosure chevron
+                            // at the row's trailing edge, so the card ended up
+                            // with two arrows pointing at one destination.
+                            Button {
+                                navigator.push(.drugClassGroup(category))
+                            } label: {
+                                HStack(spacing: 4) {
+                                    Text("The groups within it")
+                                    Image(systemName: "chevron.right")
+                                        .font(.caption2.weight(.semibold))
+                                }
+                                .font(.subheadline.weight(.medium))
+                                .foregroundStyle(category.color)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    .padding(.vertical, 2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .listRowBackground(CardBackground())
+            }
+
             ForEach(sortedSubstances) { substance in
                 NavigationLink(value: PushRoute.substance(name: substance.name)) {
                     // Pass the list's category so a mixed compound from another

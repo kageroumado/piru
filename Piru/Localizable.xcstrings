@@ -3913,6 +3913,22 @@
         }
       }
     },
+    "^[%lld group](inflect: true)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 个分类"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 個分類"
+          }
+        }
+      }
+    },
     "^[%lld item](inflect: true)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -20646,6 +20662,7 @@
       }
     },
     "Drug Classes" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36258,6 +36275,7 @@
       }
     },
     "No Classes" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -43050,6 +43068,9 @@
           }
         }
       }
+    },
+    "Raise dopamine and noradrenaline signalling, which raises drive, attention and wakefulness — and heart rate and temperature with them. They differ mostly in how they do it: releasing the neurotransmitter, or blocking its reuptake." : {
+
     },
     "Raise strength" : {
       "localizations" : {
@@ -53831,6 +53852,22 @@
         }
       }
     },
+    "The groups within it" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中的分类"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中的分類"
+          }
+        }
+      }
+    },
     "The Half-Life Calculator models one dose fading out. A dose repeated on a schedule instead lands on the tail of the last, and the level climbs until intake and clearance balance — steady state." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -58674,6 +58711,7 @@
       }
     },
     "What the members of a family share" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

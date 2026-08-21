@@ -159,6 +159,7 @@ extension SubstanceStore {
     struct ClassContext: Hashable {
         let slug: String
         let title: String
+        let category: SubstanceCategory?
         /// The membership the authored name carried in parentheses, when it had
         /// one: "2C-x, DOx, mescaline analogues, NBOMe / NBOH / NBF / NBMD".
         let subtitle: String?
@@ -179,12 +180,21 @@ extension SubstanceStore {
         }
     }
 
+    /// The classes under one Library family, most-populated first.
+    ///
+    /// Order is member count, which stands in for both specificity and how
+    /// likely a reader is to have heard of it — Cathinones and Amphetamines
+    /// lead the stimulants, Benztropine analogues sit at the bottom.
+    func classContexts(in category: SubstanceCategory) -> [ClassContextSummary] {
+        classContexts().filter { $0.category == category }
+    }
+
     /// Every class that has something to read, for the browse list.
     func classContexts() -> [ClassContextSummary] {
         do {
             return try substancesDB.read { db in
                 try Row.fetchAll(db, sql: """
-                    SELECT c.slug, c.display_name, c.subtitle,
+                    SELECT c.slug, c.display_name, c.subtitle, c.category,
                            (SELECT COUNT(*) FROM substance_classes sc
                              WHERE sc.class_context_id = c.id) AS member_count
                       FROM class_contexts c
@@ -196,6 +206,8 @@ extension SubstanceStore {
                         slug: $0["slug"],
                         title: $0["display_name"],
                         subtitle: $0["subtitle"],
+                        category: ($0["category"] as String?)
+                            .flatMap { SubstanceCategory(rawValue: $0) },
                         memberCount: Int($0["member_count"] as Int64),
                     )
                 }
@@ -213,6 +225,9 @@ extension SubstanceStore {
         let slug: String
         let title: String
         let subtitle: String?
+        /// The Library family this class sits under, derived at build from what
+        /// its members are. `nil` when no member carries a category.
+        let category: SubstanceCategory?
         let memberCount: Int
     }
 
@@ -238,8 +253,8 @@ extension SubstanceStore {
         do {
             return try substancesDB.read { db in
                 guard let row = try Row.fetchOne(db, sql: """
-                    SELECT c.id, c.slug, c.display_name, c.subtitle, c.shared_mechanism,
-                           c.shared_pk, c.shared_safety, c.sar_summary
+                    SELECT c.id, c.slug, c.display_name, c.subtitle, c.category,
+                           c.shared_mechanism, c.shared_pk, c.shared_safety, c.sar_summary
                       FROM class_contexts c
                      WHERE \(predicate)
                      LIMIT 1
@@ -277,6 +292,8 @@ extension SubstanceStore {
                 return ClassContext(
                     slug: row["slug"],
                     title: row["display_name"],
+                    category: (row["category"] as String?)
+                        .flatMap { SubstanceCategory(rawValue: $0) },
                     subtitle: row["subtitle"],
                     sharedMechanism: row["shared_mechanism"],
                     sharedPharmacokinetics: row["shared_pk"],

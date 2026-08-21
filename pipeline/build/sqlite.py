@@ -1334,6 +1334,11 @@ CREATE TABLE class_contexts (
     -- ("2C-x, DOx, mescaline analogues, NBOMe / NBOH / NBF / NBMD"), split off
     -- at build so a card has a title that fits one line.
     subtitle          TEXT,
+    -- The Library category this class belongs under, so the browse taxonomy can
+    -- group its classes. Derived from the members' own dominant category by
+    -- `prune_class_memberships`, which already computes it to decide which
+    -- memberships to keep — a class IS what most of its members are.
+    category          TEXT,
     shared_mechanism  TEXT,
     shared_pk         TEXT,
     shared_safety     TEXT,
@@ -2517,6 +2522,9 @@ def prune_class_memberships(con) -> dict:
                 (sid, class_id),
             )
             dropped.append(f"{name} ({category}) out of {slug} [{dominant}]")
+        # The dominant category is also what the class IS, which is what lets the
+        # Library group its classes under the family a reader already browses.
+        cur.execute("UPDATE class_contexts SET category=? WHERE id=?", (dominant, class_id))
     return {"dropped": len(dropped), "names": dropped}
 
 

@@ -310,45 +310,49 @@
   "class_contexts": {
     "attributed_only": false,
     "columns": {
+      "category": {
+        "filled": 49,
+        "verdict": "shown"
+      },
       "display_name": {
-        "filled": 51,
+        "filled": 50,
         "verdict": "shown"
       },
       "id": {
-        "filled": 51,
+        "filled": 50,
         "verdict": "plumbing"
       },
       "sar_summary": {
-        "filled": 50,
+        "filled": 49,
         "verdict": "shown"
       },
       "shared_mechanism": {
-        "filled": 51,
+        "filled": 50,
         "verdict": "shown"
       },
       "shared_pk": {
-        "filled": 50,
+        "filled": 49,
         "verdict": "read"
       },
       "shared_safety": {
-        "filled": 51,
+        "filled": 50,
         "verdict": "shown"
       },
       "slug": {
-        "filled": 51,
+        "filled": 50,
         "verdict": "shown"
       },
       "source_id": {
-        "filled": 51,
+        "filled": 50,
         "verdict": "plumbing"
       },
       "subtitle": {
-        "filled": 37,
+        "filled": 34,
         "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 51,
+    "rows": 50,
     "surface": "drugClass"
   },
   "class_reference_compounds": {
@@ -1767,16 +1771,16 @@
     "attributed_only": false,
     "columns": {
       "class_context_id": {
-        "filled": 693,
+        "filled": 688,
         "verdict": "plumbing"
       },
       "substance_id": {
-        "filled": 693,
+        "filled": 688,
         "verdict": "plumbing"
       }
     },
     "read_in_swift": true,
-    "rows": 693,
+    "rows": 688,
     "surface": "drugClass"
   },
   "substance_forms": {

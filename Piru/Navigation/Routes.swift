@@ -40,6 +40,8 @@ nonisolated enum PushRoute: Hashable, Codable {
     /// from Tools ▸ Education ▸ Drug Classes and from a substance's own class
     /// row.
     case drugClass(slug: String)
+    /// The classes under one Library family — pushed from that family's list.
+    case drugClassGroup(SubstanceCategory)
     case insight(Insight)
     /// A group of related insight graphs — the middle level of the Insights
     /// two-level push (`Specs/insights-stats-architecture.md`). Only groups with

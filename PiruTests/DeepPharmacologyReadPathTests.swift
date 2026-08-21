@@ -141,6 +141,28 @@ struct DeepPharmacologyReadPathTests {
     }
 
     @Test
+    func `Classes group under the Library family their members belong to`() {
+        let stimulants = SubstanceStore.shared.classContexts(in: .stimulant)
+        #expect(stimulants.count >= 5)
+        #expect(stimulants.allSatisfy { $0.category == .stimulant })
+        // Ordered by member count, so the recognizable groups lead and the rare
+        // ones fall to the bottom on their own.
+        let counts = stimulants.map(\.memberCount)
+        #expect(counts == counts.sorted(by: >))
+        #expect(stimulants.first?.slug == "cathinones-beta-keto-stimulants")
+    }
+
+    @Test
+    func `Class titles are short enough to be a browse row`() {
+        // The authored names run to "First-generation H1 antihistamines with
+        // anticholinergic deliriant activity"; the qualifier belongs in the
+        // subtitle, not the row.
+        for item in SubstanceStore.shared.classContexts() {
+            #expect(item.title.count <= 46, "too long for a row: \(item.title)")
+        }
+    }
+
+    @Test
     func `A class opened by slug lists all its members`() throws {
         // Opened from Tools rather than from a substance, so nobody is excluded.
         let context = try #require(SubstanceStore.shared.classContext(slug: "benzos-z-drugs"))

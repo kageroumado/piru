@@ -42,8 +42,8 @@ graph LR
     substance_citations["substance_citations<br/>888 rows"]
     effect_vocab_labels["effect_vocab_labels<br/>789 rows"]
     descriptions["descriptions<br/>749 rows"]
-    substance_classes["substance_classes<br/>693 rows"]
     downstream_signalling["downstream_signalling<br/>690 rows"]
+    substance_classes["substance_classes<br/>688 rows"]
     metabolism["metabolism<br/>559 rows"]
     half_lives["half_lives<br/>538 rows"]
     tolerance["tolerance<br/>323 rows"]
@@ -55,7 +55,7 @@ graph LR
     functional_assays["functional_assays<br/>179 rows"]
     protocol_dosing["protocol_dosing<br/>53 rows"]
     neuroimaging["neuroimaging<br/>52 rows"]
-    class_contexts["class_contexts<br/>51 rows"]
+    class_contexts["class_contexts<br/>50 rows"]
     peptide_profiles["peptide_profiles<br/>44 rows"]
     class_reference_compounds["class_reference_compounds<br/>34 rows"]
     diazepam_equivalents["diazepam_equivalents<br/>33 rows"]
@@ -163,9 +163,9 @@ graph LR
     src_piru_curated --> descriptions
     src_psychonautwiki --> descriptions
     descriptions --> ui_overview
-    substance_classes --> ui_drugClass
     src_peer_review_primary --> downstream_signalling
     downstream_signalling --> ui_mechanism
+    substance_classes --> ui_drugClass
     src_peer_review_primary --> metabolism
     metabolism --> ui_pharmacokinetics
     src_peer_review_primary --> half_lives
@@ -213,7 +213,7 @@ graph LR
     classDef partial fill:#5b451a,stroke:#d0a566,color:#fff;
     classDef live fill:#1a3d2b,stroke:#5fbf8f,color:#fff;
     class aliases,dose_ranges,citations,substance_forms,substances,bindings,mechanisms_summary,spectrum_levels,substance_citations,metabolism,half_lives,tolerance,pk_routes,pharmacogenetics,class_citations,off_targets,drug_interactions_pk,functional_assays,protocol_dosing,neuroimaging,class_contexts,peptide_profiles,diazepam_equivalents,product_strengths,biased_agonism,concentration_effects,durations_of_action,sources,receptor_oligomers,product_durations partial;
-    class subjective_effects,durations,reported_effects,tags,effects,contraindications,categories,indications,molecule_shapes,effect_vocab_labels,descriptions,substance_classes,downstream_signalling,class_reference_compounds live;
+    class subjective_effects,durations,reported_effects,tags,effects,contraindications,categories,indications,molecule_shapes,effect_vocab_labels,descriptions,downstream_signalling,substance_classes,class_reference_compounds live;
 ```
 
 ## Declared a home, not yet rendered

@@ -5994,6 +5994,8 @@ T = {
     # 2026-08 — the deep-pharmacology sections (Genetics, Target Evidence,
     # concentration thresholds) and the drug-class write-ups moved to
     # Tools > Education.
+    "The groups within it": ("其中的分类", "其中的分類"),
+    "^[%lld group](inflect: true)": ("%lld 个分类", "%lld 個分類"),
     "Genetics": ("基因", "基因"),
     "Target Evidence": ("靶点证据", "靶點證據"),
     "Pathway bias": ("通路偏向", "通路偏向"),
@@ -7069,6 +7071,8 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "The groups within it",
+        "^[%lld group](inflect: true)",
         "Drug Classes",
         "What the members of a family share",
         "No Classes",
