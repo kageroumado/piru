@@ -1015,7 +1015,14 @@ private struct TrayDerivedObserver: View {
         Color.clear
             .frame(width: 0, height: 0)
             .onChange(of: stagedNameSet, initial: true) { _, names in
-                onInteractions(names.count >= 2 ? InteractionChecker.checkBatch(Array(names), against: []) : [])
+                // The dock sits above the commit bar mid-log. Only findings
+                // that have earned an interruption get a row here; the rest are
+                // a count that opens the explorer.
+                onInteractions(
+                    names.count >= 2
+                        ? InteractionChecker.checkBatch(Array(names), against: [])
+                        : [],
+                )
             }
             .onChange(of: Self.estimatedStagedCardHeight(count: tray.staged.count), initial: true) { _, estimate in
                 onStagedEstimate(estimate)

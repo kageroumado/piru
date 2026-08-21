@@ -18,6 +18,8 @@ struct InteractionsSummaryCard: View {
         let a: String
         let b: String
         let severity: InteractionSeverity
+        /// The mechanism, in the fewest words that still say what happens.
+        let lead: String
     }
 
     private static let maxShown = 3
@@ -48,14 +50,31 @@ struct InteractionsSummaryCard: View {
         }
     }
 
+    /// Dot + pair + what actually happens.
+    ///
+    /// The severity word used to sit where the mechanism now does — a coloured
+    /// dot with the word "Dangerous" beside it says the same thing twice and
+    /// leaves the reader no better informed than the colour already did. The
+    /// dot keeps the severity; the line says why.
     private func row(_ interaction: ActiveInteraction) -> some View {
-        GlanceRow(dotColor: interaction.severity.color, title: Text("\(interaction.a) + \(interaction.b)")) {
-            Text(interaction.severity.label)
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(interaction.severity.labelColor)
+        HStack(alignment: .firstTextBaseline, spacing: 10) {
+            Circle()
+                .fill(interaction.severity.color)
+                .frame(width: 9, height: 9)
+                .alignmentGuide(.firstTextBaseline) { $0[.bottom] - 1 }
+            VStack(alignment: .leading, spacing: 1) {
+                Text("\(interaction.a) + \(interaction.b)")
+                    .font(.subheadline.weight(.medium))
+                    .lineLimit(1)
+                Text(interaction.lead)
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .lineLimit(2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(Text("\(interaction.a) and \(interaction.b): \(String(localized: interaction.severity.label))"))
+        .accessibilityLabel(Text("\(interaction.a) and \(interaction.b), \(String(localized: interaction.severity.label)): \(interaction.lead)"))
     }
 
     /// Currently-active substances → their worst pairwise interactions,
@@ -68,10 +87,20 @@ struct InteractionsSummaryCard: View {
             moreCount = 0
             return
         }
+        // `.background` findings are true but do not belong on a glance card
+        // beside opioid + benzodiazepine; they stay in the count and open the
+        // explorer.
         let results = InteractionChecker.checkBatch(names, against: [])
-        top = results.prefix(Self.maxShown).map {
-            ActiveInteraction(id: "\($0.substanceA)|\($0.substanceB)", a: $0.substanceA, b: $0.substanceB, severity: $0.severity)
+        let admitted = results.admitted(.notable)
+        top = admitted.prefix(Self.maxShown).map {
+            ActiveInteraction(
+                id: "\($0.substanceA)|\($0.substanceB)",
+                a: $0.substanceA,
+                b: $0.substanceB,
+                severity: $0.severity,
+                lead: $0.leadClause,
+            )
         }
-        moreCount = max(0, results.count - Self.maxShown)
+        moreCount = max(0, results.count - top.count)
     }
 }

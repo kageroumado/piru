@@ -946,7 +946,18 @@
         }
       }
     },
+    "%@ and %@, %@: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ and %2$@, %3$@: %4$@"
+          }
+        }
+      }
+    },
     "%@ and %@: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3933,6 +3944,9 @@
           }
         }
       }
+    },
+    "^[%lld more](inflect: true)" : {
+
     },
     "^[%lld saved substance](inflect: true)." : {
       "extractionState" : "stale",
@@ -23785,6 +23799,7 @@
       }
     },
     "Exercise caution when combining these substances." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

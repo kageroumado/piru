@@ -2,9 +2,11 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// The `drug_interactions_pk` read path. The table held 205 rows over 117
-/// substances with no view and no query reading it — filling it further would
-/// have produced more invisible data, so the read path comes first.
+/// The `drug_interactions_pk` read path — the store query, the bidirectional
+/// pair matcher, and the fact that a matched row reaches the session review.
+/// The matcher existed and was tested here long before anything called it, so
+/// a test that only proves the function works is not enough: the last case
+/// pins that a caller exists.
 @Suite("Pharmacokinetic interaction read path")
 @MainActor
 struct PKInteractionReadPathTests {
@@ -19,7 +21,7 @@ struct PKInteractionReadPathTests {
         let rows = SubstanceStore.shared.pkInteractions(forSubstanceName: "Ketamine")
         #expect(!rows.isEmpty)
         let clarithromycin = rows.first { $0.withSubstance.localizedCaseInsensitiveContains("clarithromycin") }
-        let hit = try? #require(clarithromycin)
+        let hit = clarithromycin
         #expect(hit?.mechanism?.contains("CYP3A4") == true)
         #expect(hit?.clinicalEffect?.isEmpty == false)
     }

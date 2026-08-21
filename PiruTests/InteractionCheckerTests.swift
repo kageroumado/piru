@@ -244,17 +244,84 @@ struct InteractionCheckerTests {
         #expect(active.isEmpty)
     }
 
-    // MARK: - InteractionSource
+    // MARK: - Prominence
 
     @Test
-    func `Class rule results have classRule source`() {
-        let results = InteractionChecker.checkBatch(["Morphine", "Alprazolam"], against: [])
-        #expect(!results.isEmpty)
-        #expect(results[0].source == .classRule)
+    func `A dangerous pair may block; a caution pair may not`() throws {
+        let danger = try #require(
+            InteractionChecker.checkBatch(["Morphine", "Alprazolam"], against: []).first,
+        )
+        #expect(danger.severity == .dangerous)
+        #expect(danger.prominence == .blocking)
+
+        // Two stimulants is real cardiovascular strain and a real `caution` —
+        // and the reason the commit gate stopped firing for a coffee.
+        let caution = try #require(
+            InteractionChecker.checkBatch(["Caffeine", "Amphetamine"], against: []).first,
+        )
+        #expect(caution.severity == .caution)
+        #expect(caution.prominence == .background)
     }
 
     @Test
-    func `InteractionSource label is correct`() {
-        #expect(InteractionSource.classRule.label == "Pharmacological")
+    func `A surface floor admits what clears it and counts the rest`() {
+        let results = InteractionChecker.checkBatch(
+            ["Morphine", "Alprazolam", "Caffeine", "Amphetamine"],
+            against: [],
+        )
+        let admitted = results.admitted(.notable)
+        #expect(!admitted.isEmpty)
+        #expect(admitted.allSatisfy { $0.severity != .caution })
+        #expect(admitted.count + results.belowFloor(.notable) == results.count)
+    }
+
+    @Test
+    func `The lead clause is the mechanism, without the elaboration`() throws {
+        let danger = try #require(
+            InteractionChecker.checkBatch(["Morphine", "Alprazolam"], against: []).first,
+        )
+        #expect(!danger.leadClause.contains("—"))
+        #expect(danger.leadClause.count < danger.description.count)
+        #expect(!danger.leadClause.isEmpty)
+    }
+}
+
+/// Structural guards on the rule table itself — the ones a data edit can break
+/// without breaking a behavior test.
+@Suite("Interaction rule table")
+@MainActor
+struct InteractionRuleTableTests {
+    /// Every class that appears in at least one rule, derived by asking the
+    /// checker rather than by reading the table (which is private).
+    private var ruled: Set<DrugClass> {
+        var found: Set<DrugClass> = []
+        let all: [DrugClass] = [
+            .opioid, .benzodiazepine, .barbiturate, .stimulant, .psychedelic, .dissociative,
+            .empathogen, .cannabinoid, .gabapentinoid, .alcohol, .ghb, .orexinAntagonist,
+            .antihistamine, .maoi, .ssri, .snri, .tca, .serotonergic, .lithium,
+            .antipsychotic, .alpha2Agonist, .betaBlocker, .supplement, .other,
+        ]
+        for a in all where InteractionChecker.hasAnyRule(a) {
+            found.insert(a)
+        }
+        return found
+    }
+
+    @Test
+    func `The set of classes no rule mentions is exactly the documented one`() {
+        let all: Set<DrugClass> = [
+            .opioid, .benzodiazepine, .barbiturate, .stimulant, .psychedelic, .dissociative,
+            .empathogen, .cannabinoid, .gabapentinoid, .alcohol, .ghb, .orexinAntagonist,
+            .antihistamine, .maoi, .ssri, .snri, .tca, .serotonergic, .lithium,
+            .antipsychotic, .alpha2Agonist, .betaBlocker, .supplement, .other,
+        ]
+        #expect(all.subtracting(ruled) == DrugClass.unruled)
+    }
+
+    @Test
+    func `No class pair is declared twice`() {
+        // The lookup is a dictionary keyed on the sorted pair, so a second
+        // declaration silently replaces the first — including a divergent one.
+        #expect(InteractionChecker.duplicateRuleKeys.isEmpty)
     }
 }

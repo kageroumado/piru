@@ -157,8 +157,19 @@ nonisolated enum DrugClass: String, Codable {
     /// "unopposed alpha" edge is alpha-2-agonist *withdrawal* while beta-blocked, NOT routine
     /// beta-blocker + stimulant (that contraindication is contested dogma — see the evidence run).
     case betaBlocker
+    /// Vitamins, minerals, amino acids, herbal preparations. Like ``other`` it
+    /// currently appears in **no rule**, so every substance routed here is
+    /// interaction-invisible. Kept as its own case rather than folded into
+    /// `other` because the rules it is missing are real and specific (5-HTP with
+    /// a serotonergic; St John's Wort inducing CYP3A4; grapefruit inhibiting it)
+    /// — this is where they go when they are sourced.
     case supplement
     case other
+
+    /// The classes no rule mentions. Everything routed to one of these returns
+    /// nothing for every pairing; `InteractionRuleTests` pins the set so a new
+    /// class cannot join it unnoticed.
+    static let unruled: Set<DrugClass> = [.other, .supplement]
 }
 
 // MARK: - Interaction Result
@@ -168,7 +179,6 @@ struct InteractionResult: Equatable {
     let substanceA: String
     let substanceB: String
     let description: String
-    let source: InteractionSource
 
     /// Temporal effect-curve overlap of the two doses, `[0, 1]`. The peak of
     /// the product of both doses' subjective-effect curves over wall-clock
@@ -187,7 +197,6 @@ struct InteractionResult: Equatable {
         substanceA: String,
         substanceB: String,
         description: String,
-        source: InteractionSource = .classRule,
         overlapFactor: Double = 1,
         doseFactor: Double = 1,
     ) {
@@ -195,7 +204,6 @@ struct InteractionResult: Equatable {
         self.substanceA = substanceA
         self.substanceB = substanceB
         self.description = description
-        self.source = source
         self.overlapFactor = overlapFactor
         self.doseFactor = doseFactor
     }
@@ -216,11 +224,74 @@ struct InteractionResult: Equatable {
     }
 
     /// `true` when good data shows the pair is unlikely to matter at these
-    /// doses/timing. The Tools ▸ Interactions explorer marks these rather than
-    /// hiding them; warn surfaces suppress them upstream (see
-    /// ``InteractionChecker``).
+    /// doses/timing. Demotes the finding one prominence step; the explorer
+    /// still lists it.
     var isLowRelevance: Bool {
         relevance < InteractionChecker.lowRelevanceThreshold
+    }
+
+    /// The mechanism in the fewest words that still say what happens —
+    /// everything before the em dash, or the first sentence.
+    ///
+    /// Every rule's description is written the same way: the effect, an em
+    /// dash, then the elaboration ("Combined respiratory depression — the
+    /// leading cause of overdose death."). Compact surfaces show the first
+    /// half, which is the part that is not already implied by a red dot.
+    var leadClause: String {
+        if let dash = description.range(of: " — ") {
+            return String(description[description.startIndex ..< dash.lowerBound])
+        }
+        if let stop = description.firstIndex(of: ".") {
+            return String(description[description.startIndex ... stop])
+        }
+        return description
+    }
+
+    /// How loudly this finding has earned the right to arrive.
+    ///
+    /// Severity says how bad a pairing is. Prominence says whether it may
+    /// interrupt. Two stimulants is a real `caution` — combined cardiovascular
+    /// strain, worth knowing — but arriving in the same red, at the same size,
+    /// at the moment someone logs a coffee is how a person learns to dismiss
+    /// the row that says opioid + benzodiazepine. Every surface takes a floor;
+    /// what falls below it becomes a count, not a sentence.
+    var prominence: InteractionProminence {
+        let base: InteractionProminence = switch severity {
+        case .dangerous: .blocking
+        case .unsafe: .notable
+        case .caution: .background
+        }
+        return isLowRelevance ? base.demoted : base
+    }
+}
+
+/// Where a finding is allowed to appear. Ordered, so a surface can take a floor.
+enum InteractionProminence: Int, Comparable, CaseIterable {
+    /// True, and low-stakes here. Belongs in the explorer and in a count.
+    case background = 0
+    /// Worth reading before continuing.
+    case notable = 1
+    /// Worth stopping for.
+    case blocking = 2
+
+    var demoted: InteractionProminence {
+        InteractionProminence(rawValue: rawValue - 1) ?? .background
+    }
+
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+}
+
+extension [InteractionResult] {
+    /// The findings this surface admits, most prominent first.
+    func admitted(_ floor: InteractionProminence) -> [InteractionResult] {
+        filter { $0.prominence >= floor }
+    }
+
+    /// How many fall below the floor — the number behind "N more".
+    func belowFloor(_ floor: InteractionProminence) -> Int {
+        count { $0.prominence < floor }
     }
 }
 
@@ -239,19 +310,6 @@ enum InteractionPolicy {
     /// every possible interaction unconditionally, marking low-relevance ones
     /// via ``InteractionResult/isLowRelevance`` instead of suppressing them.
     case explore
-}
-
-// MARK: - FDA Label-Sourced Interaction
-
-/// A drug interaction extracted from an FDA Structured Product Label.
-/// Supplements the class-based interaction rules with substance-specific data parsed from
-/// the `drug_interactions` section of a drug's prescribing information.
-struct SubstanceInteraction: Codable, Equatable {
-    let sourceDrug: String // Lowercased name of the drug whose label was parsed
-    let targetClass: DrugClass // Drug class it interacts with
-    let targetKeyword: String // Label keyword that triggered detection
-    let severity: InteractionSeverity
-    let snippet: String // Excerpt from the FDA label describing the interaction
 }
 
 // MARK: - Interaction Rule
@@ -1416,15 +1474,28 @@ enum InteractionChecker {
             severity: .caution,
             description: "Additive impairment — increased dizziness, drowsiness, and slowed reaction time.",
         ),
-        InteractionRule(
-            classA: .antipsychotic,
-            classB: .alcohol,
-            severity: .caution,
-            description: "Additive CNS depression — increased sedation and impairment.",
-        ),
     ]
 
     /// Precomputed rule lookup keyed by sorted class pairs for O(1) access.
+    /// Whether any rule mentions `drugClass`. A class no rule mentions makes
+    /// every substance routed to it interaction-invisible.
+    static func hasAnyRule(_ drugClass: DrugClass) -> Bool {
+        rules.contains { $0.classA == drugClass || $0.classB == drugClass }
+    }
+
+    /// Class pairs declared more than once. `ruleLookup` is keyed on the sorted
+    /// pair and last-wins, so a duplicate silently discards the earlier rule —
+    /// harmless while both say the same thing, and invisible when they stop.
+    static var duplicateRuleKeys: [String] {
+        var seen: Set<String> = []
+        var duplicates: [String] = []
+        for rule in rules {
+            let key = [rule.classA.rawValue, rule.classB.rawValue].sorted().joined(separator: "|")
+            if !seen.insert(key).inserted { duplicates.append(key) }
+        }
+        return duplicates
+    }
+
     private static let ruleLookup: [String: InteractionRule] = {
         var dict: [String: InteractionRule] = [:]
         for rule in rules {

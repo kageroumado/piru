@@ -179,6 +179,7 @@ struct InteractionCheckerView: View {
                                 substanceA: warning.substanceA,
                                 substanceB: warning.substanceB,
                                 severity: warning.severity,
+                                mechanism: warning.description,
                             )
                         } label: {
                             HStack {

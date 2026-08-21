@@ -90,6 +90,19 @@ struct SessionDetailView: View {
             let t = ActiveSubstanceState.timeline(for: entries, colors: Array(substanceColors))
             let names = Array(Set(entries.map(\.substance)))
             let interactions = names.count >= 2 ? InteractionChecker.checkBatch(names, against: []) : []
+            // The measured layer. Every row here cites a study; matching is
+            // canonical-name only, so a row naming a class ("CYP3A4 inhibitors")
+            // stays on its own substance page rather than being inferred onto a
+            // logged drug.
+            let active = InteractionChecker.activeEntries(from: entries)
+            var pkFindings: [PKInteractionFinding] = []
+            var seenPK: Set<Int64> = []
+            for name in names {
+                for finding in InteractionChecker.pharmacokineticInteractions(name, against: active)
+                    where seenPK.insert(finding.id).inserted {
+                    pkFindings.append(finding)
+                }
+            }
             // Mirrors the renderer's own split: a marker lane exists only for a
             // substance with no curve lane (``markerOnlyLanes(excluding:)``).
             let curveNames = Set(t.states.map { $0.substanceName.lowercased() })
@@ -101,6 +114,7 @@ struct SessionDetailView: View {
                 states: t.states,
                 markers: t.markers,
                 interactions: interactions,
+                pkFindings: pkFindings,
                 curveLaneCount: curveNames.count,
                 markerLaneCount: markerNames.count,
                 entryCores: Self.computeEntryCores(entries),
@@ -466,7 +480,11 @@ struct SessionDetailView: View {
                     // Safety — interaction warnings shown in full plus a heart-rate
                     // summary. Headerless; the severity-tinted interaction rows
                     // already name it.
-                    SessionSafetySection(interactions: dayInteractions, hrSummary: model.hrSummary)
+                    SessionSafetySection(
+                        interactions: dayInteractions,
+                        pkFindings: resolvedDay.pkFindings,
+                        hrSummary: model.hrSummary,
+                    )
 
                     // Recovery — per-category comedown guidance for what this
                     // session actually contained, plus a link into the full guide.
@@ -646,6 +664,10 @@ private struct ResolvedDay {
     var states: [ActiveSubstanceState] = []
     var markers: [DoseMarker] = []
     var interactions: [InteractionResult] = []
+    /// Measured exposure changes between two things actually logged here —
+    /// `drug_interactions_pk` rows resolved against the day's entries. Kept
+    /// apart from `interactions`: those rank danger, these report a number.
+    var pkFindings: [PKInteractionFinding] = []
     /// Distinct timeline lanes by kind, precomputed so `graphHeight` doesn't
     /// rebuild two name Sets on every height-animation frame.
     var curveLaneCount: Int = 0

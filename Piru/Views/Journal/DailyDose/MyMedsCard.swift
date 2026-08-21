@@ -370,7 +370,8 @@ struct MyMedsCard: View {
     private func attemptLog(slots: [MedSlot]) {
         let names = slots.map(\.item.substance)
         let active = InteractionChecker.activeEntries(from: recentEntries)
-        let warnings = InteractionChecker.checkBatch(names, against: active)
+        // See LogDailyDoseView.attemptLog: only `.notable` and above may block.
+        let warnings = InteractionChecker.checkBatch(names, against: active).admitted(.notable)
 
         if warnings.isEmpty {
             log(slots: slots)

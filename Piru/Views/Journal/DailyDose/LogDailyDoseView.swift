@@ -130,7 +130,12 @@ struct LogMedicationsView: View {
 
     private func attemptLog() {
         let active = InteractionChecker.activeEntries(from: recentEntries)
+        // Only a finding that has earned an interruption stops the log. A
+        // `caution` pair — two stimulants, cannabis with a benzo — is true and
+        // belongs in the session review, not in front of the button; a sheet
+        // that appears for those is a sheet people learn to dismiss unread.
         let warnings = InteractionChecker.checkBatch(selectedSubstanceNames, against: active)
+            .admitted(.notable)
 
         if warnings.isEmpty {
             logSelected()

@@ -10,6 +10,7 @@ import SwiftUI
 /// elsewhere and are a different kind of claim.
 struct PKInteractionRow: View {
     let hit: SubstanceStore.PKInteractionHit
+    var accent: Color = Theme.secondaryLabel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -40,6 +41,11 @@ struct PKInteractionRow: View {
                     .font(.caption2.monospacedDigit())
                     .foregroundStyle(Theme.secondaryLabel)
             }
+            // "AUC increased ~2.6×" is a number somebody measured; the row was
+            // fetched with its DOI/PMID and printed without them, which reads as
+            // the app's own claim.
+            sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
+                .font(.caption2)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .combine)

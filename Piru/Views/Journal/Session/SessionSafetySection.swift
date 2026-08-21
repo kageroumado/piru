@@ -9,21 +9,31 @@ import SwiftUI
 /// so a stimulant-stack session doesn't repeat one sentence five times.
 struct SessionSafetySection: View {
     let interactions: [InteractionResult]
+    /// Measured exposure changes between two things logged here. Rendered under
+    /// the class warnings and visually apart from them: these carry a number and
+    /// a citation and no severity, and dressing them in the severity ladder
+    /// would manufacture the one thing a reader leans on hardest.
+    var pkFindings: [PKInteractionFinding] = []
     let hrSummary: HRSummary?
 
+    private var hasContent: Bool {
+        !interactions.isEmpty || !pkFindings.isEmpty || hrSummary != nil
+    }
+
     var body: some View {
-        if !interactions.isEmpty || hrSummary != nil {
+        if hasContent {
             Section {
                 ForEach(groupedInteractions) { group in
                     interactionRow(group)
+                }
+                ForEach(pkFindings) { finding in
+                    PKInteractionRow(hit: finding.hit)
                 }
                 if let hrSummary {
                     hrSummaryRow(hrSummary)
                 }
             } header: {
-                // The section doubles as the heart-rate summary's home when
-                // vitals are on; "Interactions" only fits when there are some.
-                if !interactions.isEmpty {
+                if !interactions.isEmpty || !pkFindings.isEmpty {
                     Text("Interactions")
                 }
             }

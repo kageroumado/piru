@@ -437,7 +437,7 @@ nonisolated enum PDFReportGenerator {
         }.sorted { $0.severity > $1.severity }
 
         for interaction in unique {
-            let descText = cleanInteractionDescription(interaction.description)
+            let descText = interaction.description
 
             // Measure description height to know total card height
             let descWidth = Layout.contentWidth - 10
@@ -513,47 +513,6 @@ nonisolated enum PDFReportGenerator {
             )
             cursor.y += descHeight + 10
         }
-    }
-
-    /// Clean up FDA label text that gets cut off or has raw clinical data
-    private static func cleanInteractionDescription(_ text: String) -> String {
-        var cleaned = text
-
-        // If the text starts with stray fragments (no capital letter start, or starts with drug names/enzymes), it's raw FDA data
-        let rawPrefixes = ["dextromethorphan", "quinidine", "fluoxetine", "paroxetine", "venlafaxine", "CYP", "The concomitant"]
-        for prefix in rawPrefixes {
-            if cleaned.lowercased().hasPrefix(prefix.lowercased()) {
-                return "Potential interaction detected via FDA label data. Consult a healthcare provider."
-            }
-        }
-
-        // Truncate at common FDA label fragments
-        let cutoffPatterns = [
-            "), CYP", "CYP2D6", "CYP3A4", "CYP2C9",
-            "[see Clinical Pharmacology", "[see Dosage",
-            "The concomitant use of", ") The concomitant",
-            "strong CYP", "inhibitors increased",
-        ]
-        for pattern in cutoffPatterns {
-            if let range = cleaned.range(of: pattern) {
-                let prefix = String(cleaned[cleaned.startIndex ..< range.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
-                if prefix.count > 15 {
-                    cleaned = prefix
-                    // Clean trailing punctuation
-                    while cleaned.hasSuffix(",") || cleaned.hasSuffix(";") || cleaned.hasSuffix(" or") || cleaned.hasSuffix(" ") {
-                        if cleaned.hasSuffix(" or") { cleaned = String(cleaned.dropLast(3)) } else { cleaned = String(cleaned.dropLast()) }
-                    }
-                    if !cleaned.hasSuffix(".") { cleaned += "." }
-                    break
-                }
-            }
-        }
-
-        cleaned = cleaned.trimmingCharacters(in: CharacterSet(charactersIn: " ,;"))
-        if cleaned.isEmpty {
-            return "Potential interaction detected. Consult a healthcare provider."
-        }
-        return cleaned
     }
 
     // MARK: - Duplicate Detection

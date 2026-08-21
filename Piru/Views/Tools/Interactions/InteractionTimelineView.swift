@@ -6,6 +6,12 @@ struct InteractionTimelineView: View {
     let substanceA: String
     let substanceB: String
     let severity: InteractionSeverity
+    /// What the caller already computed. Carried across the push rather than
+    /// re-derived: the explorer runs the checker under `.explore`, and asking
+    /// again here under the default `.warn` returns nothing for any pair that
+    /// policy suppresses — which is how this screen came to print a generic
+    /// "exercise caution" line beneath a chip reading "Dangerous".
+    let mechanism: String
 
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
 
@@ -35,10 +41,11 @@ struct InteractionTimelineView: View {
         let route: RouteOfAdministration
     }
 
-    init(substanceA: String, substanceB: String, severity: InteractionSeverity) {
+    init(substanceA: String, substanceB: String, severity: InteractionSeverity, mechanism: String) {
         self.substanceA = substanceA
         self.substanceB = substanceB
         self.severity = severity
+        self.mechanism = mechanism
         // Seed synchronously so the first frame already renders the chart,
         // exactly as when everything was computed inline in `body`.
         let now = Date.now
@@ -693,7 +700,7 @@ struct InteractionTimelineView: View {
                 Text("\(severity.label): \(substanceA) + \(substanceB)")
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(severity.labelColor)
-                Text(warningDescription)
+                Text(mechanism)
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
             }
@@ -701,11 +708,6 @@ struct InteractionTimelineView: View {
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
         .themeCard()
-    }
-
-    private var warningDescription: String {
-        let results = InteractionChecker.checkBatch([substanceA, substanceB], against: [])
-        return results.first?.description ?? String(localized: "Exercise caution when combining these substances.")
     }
 
     // MARK: - Substance Info
