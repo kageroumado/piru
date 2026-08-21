@@ -1,0 +1,1998 @@
+{
+  "aliases": {
+    "attributed_only": false,
+    "columns": {
+      "alias": {
+        "filled": 5396,
+        "verdict": "shown"
+      },
+      "alias_normalized": {
+        "filled": 5396,
+        "verdict": "read"
+      },
+      "authority": {
+        "filled": 6,
+        "verdict": "read"
+      },
+      "brand_family": {
+        "filled": 21,
+        "verdict": "unused"
+      },
+      "brand_rank": {
+        "filled": 80,
+        "verdict": "read"
+      },
+      "isomer": {
+        "filled": 35,
+        "verdict": "shown"
+      },
+      "kind": {
+        "filled": 637,
+        "verdict": "read"
+      },
+      "locale": {
+        "filled": 229,
+        "verdict": "shown"
+      },
+      "release_form": {
+        "filled": 85,
+        "verdict": "shown"
+      },
+      "salt_form": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "source_id": {
+        "filled": 5138,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 5396,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 5396
+  },
+  "biased_agonism": {
+    "attributed_only": false,
+    "columns": {
+      "bias_factor_log": {
+        "filled": 13,
+        "verdict": "unused"
+      },
+      "bias_reference_compound": {
+        "filled": 23,
+        "verdict": "unused"
+      },
+      "citation_id": {
+        "filled": 21,
+        "verdict": "unused"
+      },
+      "id": {
+        "filled": 23,
+        "verdict": "plumbing"
+      },
+      "interpretation": {
+        "filled": 23,
+        "verdict": "unused"
+      },
+      "pathways_compared": {
+        "filled": 23,
+        "verdict": "unused"
+      },
+      "source_id": {
+        "filled": 23,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 23,
+        "verdict": "plumbing"
+      },
+      "target": {
+        "filled": 23,
+        "verdict": "unused"
+      }
+    },
+    "read_in_swift": false,
+    "rows": 23
+  },
+  "bindings": {
+    "attributed_only": false,
+    "columns": {
+      "action": {
+        "filled": 1309,
+        "verdict": "read"
+      },
+      "affinity_tier": {
+        "filled": 303,
+        "verdict": "shown"
+      },
+      "assay_notes": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "assay_system": {
+        "filled": 739,
+        "verdict": "read"
+      },
+      "citation_id": {
+        "filled": 927,
+        "verdict": "read"
+      },
+      "comparable_set": {
+        "filled": 129,
+        "verdict": "read"
+      },
+      "confidence": {
+        "filled": 209,
+        "verdict": "shown"
+      },
+      "ec50_nm": {
+        "filled": 204,
+        "verdict": "shown"
+      },
+      "emax_pct": {
+        "filled": 9,
+        "verdict": "read"
+      },
+      "ic50_nm": {
+        "filled": 151,
+        "verdict": "shown"
+      },
+      "id": {
+        "filled": 1309,
+        "verdict": "plumbing"
+      },
+      "intrinsic_activity_pct": {
+        "filled": 165,
+        "verdict": "read"
+      },
+      "is_review": {
+        "filled": 1309,
+        "verdict": "unused"
+      },
+      "kd_nm": {
+        "filled": 18,
+        "verdict": "unused"
+      },
+      "ki_ci_lower_nm": {
+        "filled": 81,
+        "verdict": "unused"
+      },
+      "ki_ci_upper_nm": {
+        "filled": 81,
+        "verdict": "unused"
+      },
+      "ki_nm": {
+        "filled": 544,
+        "verdict": "read"
+      },
+      "notes": {
+        "filled": 16,
+        "verdict": "read"
+      },
+      "radioligand": {
+        "filled": 557,
+        "verdict": "read"
+      },
+      "reference_agonist": {
+        "filled": 228,
+        "verdict": "shown"
+      },
+      "relative_tau": {
+        "filled": 11,
+        "verdict": "read"
+      },
+      "source_id": {
+        "filled": 1309,
+        "verdict": "plumbing"
+      },
+      "species": {
+        "filled": 918,
+        "verdict": "read"
+      },
+      "substance_id": {
+        "filled": 1309,
+        "verdict": "plumbing"
+      },
+      "target": {
+        "filled": 1309,
+        "verdict": "read"
+      },
+      "tissue_or_cell": {
+        "filled": 759,
+        "verdict": "unused"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 1309
+  },
+  "browse_extra_categories": {
+    "attributed_only": false,
+    "columns": {
+      "category": {
+        "filled": 6,
+        "verdict": "shown"
+      },
+      "substance_id": {
+        "filled": 6,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 6
+  },
+  "categories": {
+    "attributed_only": false,
+    "columns": {
+      "category": {
+        "filled": 1592,
+        "verdict": "shown"
+      },
+      "confidence": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "source_id": {
+        "filled": 1592,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 1592,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 1592
+  },
+  "citations": {
+    "attributed_only": false,
+    "columns": {
+      "authors": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "doi": {
+        "filled": 791,
+        "verdict": "read"
+      },
+      "id": {
+        "filled": 2126,
+        "verdict": "plumbing"
+      },
+      "is_review": {
+        "filled": 2126,
+        "verdict": "unused"
+      },
+      "pmid": {
+        "filled": 920,
+        "verdict": "read"
+      },
+      "title": {
+        "filled": 1041,
+        "verdict": "read"
+      },
+      "url": {
+        "filled": 1110,
+        "verdict": "read"
+      },
+      "year": {
+        "filled": 1036,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 2126
+  },
+  "class_citations": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 271,
+        "verdict": "unused"
+      },
+      "class_context_id": {
+        "filled": 271,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": false,
+    "rows": 271
+  },
+  "class_contexts": {
+    "attributed_only": false,
+    "columns": {
+      "display_name": {
+        "filled": 58,
+        "verdict": "shown"
+      },
+      "id": {
+        "filled": 58,
+        "verdict": "plumbing"
+      },
+      "sar_summary": {
+        "filled": 53,
+        "verdict": "unused"
+      },
+      "shared_mechanism": {
+        "filled": 58,
+        "verdict": "unused"
+      },
+      "shared_pk": {
+        "filled": 53,
+        "verdict": "unused"
+      },
+      "shared_safety": {
+        "filled": 56,
+        "verdict": "unused"
+      },
+      "slug": {
+        "filled": 58,
+        "verdict": "unused"
+      },
+      "source_id": {
+        "filled": 58,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": false,
+    "rows": 58
+  },
+  "class_reference_compounds": {
+    "attributed_only": false,
+    "columns": {
+      "family": {
+        "filled": 34,
+        "verdict": "shown"
+      },
+      "rank": {
+        "filled": 34,
+        "verdict": "read"
+      },
+      "substance_id": {
+        "filled": 34,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 34
+  },
+  "concentration_effects": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 23,
+        "verdict": "unused"
+      },
+      "concentration_unit": {
+        "filled": 23,
+        "verdict": "unused"
+      },
+      "effect": {
+        "filled": 23,
+        "verdict": "unused"
+      },
+      "id": {
+        "filled": 23,
+        "verdict": "plumbing"
+      },
+      "peak_effect": {
+        "filled": 20,
+        "verdict": "unused"
+      },
+      "source_id": {
+        "filled": 23,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 23,
+        "verdict": "plumbing"
+      },
+      "threshold": {
+        "filled": 22,
+        "verdict": "shown"
+      }
+    },
+    "read_in_swift": false,
+    "rows": 23
+  },
+  "contraindications": {
+    "attributed_only": false,
+    "columns": {
+      "id": {
+        "filled": 1656,
+        "verdict": "plumbing"
+      },
+      "is_boxed_warning": {
+        "filled": 1656,
+        "verdict": "shown"
+      },
+      "source_id": {
+        "filled": 1656,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 1656,
+        "verdict": "plumbing"
+      },
+      "text": {
+        "filled": 1656,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 1656
+  },
+  "descriptions": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "id": {
+        "filled": 749,
+        "verdict": "plumbing"
+      },
+      "language": {
+        "filled": 749,
+        "verdict": "read"
+      },
+      "machine_translated": {
+        "filled": 749,
+        "verdict": "shown"
+      },
+      "source_id": {
+        "filled": 749,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 749,
+        "verdict": "plumbing"
+      },
+      "text": {
+        "filled": 749,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 749
+  },
+  "diazepam_equivalents": {
+    "attributed_only": false,
+    "columns": {
+      "display_text": {
+        "filled": 33,
+        "verdict": "shown"
+      },
+      "dose_mg": {
+        "filled": 29,
+        "verdict": "shown"
+      },
+      "equivalent_diazepam_mg": {
+        "filled": 29,
+        "verdict": "read"
+      },
+      "source_id": {
+        "filled": 33,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 33,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 33
+  },
+  "dose_ranges": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "common_lower": {
+        "filled": 2474,
+        "verdict": "read"
+      },
+      "common_upper": {
+        "filled": 2474,
+        "verdict": "read"
+      },
+      "dose_context": {
+        "filled": 2498,
+        "verdict": "shown"
+      },
+      "elemental_fraction": {
+        "filled": 3,
+        "verdict": "shown"
+      },
+      "heavy": {
+        "filled": 1893,
+        "verdict": "shown"
+      },
+      "id": {
+        "filled": 2498,
+        "verdict": "plumbing"
+      },
+      "isomer": {
+        "filled": 20,
+        "verdict": "shown"
+      },
+      "isomer_display_name": {
+        "filled": 20,
+        "verdict": "read"
+      },
+      "light_lower": {
+        "filled": 2271,
+        "verdict": "shown"
+      },
+      "light_upper": {
+        "filled": 2271,
+        "verdict": "read"
+      },
+      "notes": {
+        "filled": 848,
+        "verdict": "unused"
+      },
+      "route": {
+        "filled": 2498,
+        "verdict": "read"
+      },
+      "salt_form": {
+        "filled": 9,
+        "verdict": "shown"
+      },
+      "salt_rank": {
+        "filled": 9,
+        "verdict": "read"
+      },
+      "source_id": {
+        "filled": 2498,
+        "verdict": "plumbing"
+      },
+      "strong_lower": {
+        "filled": 2172,
+        "verdict": "read"
+      },
+      "strong_upper": {
+        "filled": 2172,
+        "verdict": "read"
+      },
+      "substance_id": {
+        "filled": 2498,
+        "verdict": "plumbing"
+      },
+      "threshold": {
+        "filled": 1852,
+        "verdict": "shown"
+      },
+      "unit": {
+        "filled": 2498,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 2498
+  },
+  "downstream_signalling": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "source_id": {
+        "filled": 690,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 690,
+        "verdict": "plumbing"
+      },
+      "summary": {
+        "filled": 690,
+        "verdict": "unused"
+      }
+    },
+    "read_in_swift": false,
+    "rows": 690
+  },
+  "drug_interactions_pk": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 128,
+        "verdict": "read"
+      },
+      "clinical_effect": {
+        "filled": 205,
+        "verdict": "shown"
+      },
+      "id": {
+        "filled": 205,
+        "verdict": "plumbing"
+      },
+      "ki_um": {
+        "filled": 13,
+        "verdict": "read"
+      },
+      "mechanism": {
+        "filled": 205,
+        "verdict": "shown"
+      },
+      "source_id": {
+        "filled": 205,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 205,
+        "verdict": "plumbing"
+      },
+      "with_substance": {
+        "filled": 205,
+        "verdict": "shown"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 205
+  },
+  "durations": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "id": {
+        "filled": 9135,
+        "verdict": "plumbing"
+      },
+      "isomer": {
+        "filled": 90,
+        "verdict": "shown"
+      },
+      "max_minutes": {
+        "filled": 9135,
+        "verdict": "shown"
+      },
+      "min_minutes": {
+        "filled": 9135,
+        "verdict": "read"
+      },
+      "phase": {
+        "filled": 9135,
+        "verdict": "shown"
+      },
+      "route": {
+        "filled": 9135,
+        "verdict": "read"
+      },
+      "salt_form": {
+        "filled": 17,
+        "verdict": "shown"
+      },
+      "source_id": {
+        "filled": 9135,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 9135,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 9135
+  },
+  "durations_of_action": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "id": {
+        "filled": 21,
+        "verdict": "plumbing"
+      },
+      "isomer": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "max_minutes": {
+        "filled": 21,
+        "verdict": "shown"
+      },
+      "min_minutes": {
+        "filled": 21,
+        "verdict": "read"
+      },
+      "route": {
+        "filled": 21,
+        "verdict": "read"
+      },
+      "salt_form": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "source_id": {
+        "filled": 21,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 21,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 21
+  },
+  "effect_vocab": {
+    "attributed_only": false,
+    "columns": {
+      "category": {
+        "filled": 263,
+        "verdict": "shown"
+      },
+      "vocab_id": {
+        "filled": 263,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": false,
+    "rows": 263
+  },
+  "effect_vocab_labels": {
+    "attributed_only": false,
+    "columns": {
+      "label": {
+        "filled": 789,
+        "verdict": "read"
+      },
+      "language": {
+        "filled": 789,
+        "verdict": "read"
+      },
+      "machine_translated": {
+        "filled": 789,
+        "verdict": "shown"
+      },
+      "vocab_id": {
+        "filled": 789,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 789
+  },
+  "effects": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "effect_category": {
+        "filled": 2952,
+        "verdict": "read"
+      },
+      "id": {
+        "filled": 2952,
+        "verdict": "plumbing"
+      },
+      "kind": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "language": {
+        "filled": 2952,
+        "verdict": "read"
+      },
+      "machine_translated": {
+        "filled": 2952,
+        "verdict": "shown"
+      },
+      "source_id": {
+        "filled": 2952,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 2952,
+        "verdict": "plumbing"
+      },
+      "text": {
+        "filled": 2952,
+        "verdict": "read"
+      },
+      "vocab_id": {
+        "filled": 2949,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 2952
+  },
+  "functional_assays": {
+    "attributed_only": false,
+    "columns": {
+      "assay_system": {
+        "filled": 111,
+        "verdict": "read"
+      },
+      "cell_system": {
+        "filled": 139,
+        "verdict": "unused"
+      },
+      "citation_id": {
+        "filled": 157,
+        "verdict": "read"
+      },
+      "ec50_nm": {
+        "filled": 105,
+        "verdict": "shown"
+      },
+      "emax_pct": {
+        "filled": 70,
+        "verdict": "read"
+      },
+      "ic50_nm": {
+        "filled": 9,
+        "verdict": "shown"
+      },
+      "id": {
+        "filled": 179,
+        "verdict": "plumbing"
+      },
+      "notes": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "readout": {
+        "filled": 179,
+        "verdict": "shown"
+      },
+      "reference_agonist": {
+        "filled": 91,
+        "verdict": "shown"
+      },
+      "source_id": {
+        "filled": 179,
+        "verdict": "plumbing"
+      },
+      "species": {
+        "filled": 179,
+        "verdict": "read"
+      },
+      "substance_id": {
+        "filled": 179,
+        "verdict": "plumbing"
+      },
+      "target": {
+        "filled": 179,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 179
+  },
+  "half_lives": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 271,
+        "verdict": "read"
+      },
+      "half_life_minutes": {
+        "filled": 538,
+        "verdict": "shown"
+      },
+      "notes": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "source_id": {
+        "filled": 538,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 538,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 538
+  },
+  "indications": {
+    "attributed_only": false,
+    "columns": {
+      "id": {
+        "filled": 1136,
+        "verdict": "plumbing"
+      },
+      "source_id": {
+        "filled": 1136,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 1136,
+        "verdict": "plumbing"
+      },
+      "text": {
+        "filled": 1136,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 1136
+  },
+  "interaction_rules": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "class_a": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "class_b": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "id": {
+        "filled": 0,
+        "verdict": "plumbing"
+      },
+      "note": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "severity": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "source_id": {
+        "filled": 0,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": false,
+    "rows": 0
+  },
+  "manifest": {
+    "attributed_only": false,
+    "columns": {
+      "key": {
+        "filled": 6,
+        "verdict": "read"
+      },
+      "value": {
+        "filled": 6,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 6
+  },
+  "mechanisms_summary": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 48,
+        "verdict": "read"
+      },
+      "description": {
+        "filled": 156,
+        "verdict": "shown"
+      },
+      "language": {
+        "filled": 986,
+        "verdict": "read"
+      },
+      "machine_translated": {
+        "filled": 986,
+        "verdict": "shown"
+      },
+      "source_id": {
+        "filled": 986,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 986,
+        "verdict": "plumbing"
+      },
+      "summary": {
+        "filled": 986,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 986
+  },
+  "metabolism": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 450,
+        "verdict": "read"
+      },
+      "enzyme": {
+        "filled": 559,
+        "verdict": "shown"
+      },
+      "formation_fraction_pct": {
+        "filled": 18,
+        "verdict": "shown"
+      },
+      "fraction_of_clearance_pct": {
+        "filled": 119,
+        "verdict": "shown"
+      },
+      "id": {
+        "filled": 559,
+        "verdict": "plumbing"
+      },
+      "metabolite_active": {
+        "filled": 470,
+        "verdict": "shown"
+      },
+      "metabolite_half_life_high_min": {
+        "filled": 40,
+        "verdict": "unused"
+      },
+      "metabolite_half_life_low_min": {
+        "filled": 40,
+        "verdict": "unused"
+      },
+      "metabolite_half_life_min": {
+        "filled": 50,
+        "verdict": "read"
+      },
+      "metabolite_mechanism_vs_parent": {
+        "filled": 559,
+        "verdict": "shown"
+      },
+      "metabolite_name": {
+        "filled": 510,
+        "verdict": "shown"
+      },
+      "metabolite_potency_basis": {
+        "filled": 132,
+        "verdict": "shown"
+      },
+      "metabolite_potency_target": {
+        "filled": 108,
+        "verdict": "shown"
+      },
+      "metabolite_potency_vs_parent_pct": {
+        "filled": 132,
+        "verdict": "shown"
+      },
+      "metabolite_substance_id": {
+        "filled": 103,
+        "verdict": "read"
+      },
+      "metabolite_tmax_min": {
+        "filled": 8,
+        "verdict": "unused"
+      },
+      "notes": {
+        "filled": 78,
+        "verdict": "read"
+      },
+      "route": {
+        "filled": 4,
+        "verdict": "read"
+      },
+      "source_id": {
+        "filled": 559,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 559,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 559
+  },
+  "molecule_shapes": {
+    "attributed_only": false,
+    "columns": {
+      "atoms_json": {
+        "filled": 963,
+        "verdict": "read"
+      },
+      "bonds_json": {
+        "filled": 963,
+        "verdict": "read"
+      },
+      "id": {
+        "filled": 963,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 963,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 963
+  },
+  "neuroimaging": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 43,
+        "verdict": "unused"
+      },
+      "finding": {
+        "filled": 52,
+        "verdict": "shown"
+      },
+      "id": {
+        "filled": 52,
+        "verdict": "plumbing"
+      },
+      "modality": {
+        "filled": 52,
+        "verdict": "unused"
+      },
+      "source_id": {
+        "filled": 52,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 52,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": false,
+    "rows": 52
+  },
+  "off_targets": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 130,
+        "verdict": "read"
+      },
+      "clinical_consequence": {
+        "filled": 204,
+        "verdict": "shown"
+      },
+      "concern_level": {
+        "filled": 206,
+        "verdict": "read"
+      },
+      "id": {
+        "filled": 209,
+        "verdict": "plumbing"
+      },
+      "ki_or_ic50_nm": {
+        "filled": 51,
+        "verdict": "read"
+      },
+      "source_id": {
+        "filled": 209,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 209,
+        "verdict": "plumbing"
+      },
+      "target": {
+        "filled": 209,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 209
+  },
+  "peptide_profiles": {
+    "attributed_only": false,
+    "columns": {
+      "iu_per_mg": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "reconstituted_stability_days": {
+        "filled": 3,
+        "verdict": "shown"
+      },
+      "reconstitution_solvent": {
+        "filled": 32,
+        "verdict": "shown"
+      },
+      "sequence": {
+        "filled": 34,
+        "verdict": "shown"
+      },
+      "source_id": {
+        "filled": 44,
+        "verdict": "plumbing"
+      },
+      "storage_light_sensitive": {
+        "filled": 44,
+        "verdict": "read"
+      },
+      "storage_temperature": {
+        "filled": 44,
+        "verdict": "read"
+      },
+      "substance_id": {
+        "filled": 44,
+        "verdict": "plumbing"
+      },
+      "supplied_form": {
+        "filled": 44,
+        "verdict": "shown"
+      },
+      "typical_vial_mg": {
+        "filled": 12,
+        "verdict": "shown"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 44
+  },
+  "pharmacogenetics": {
+    "attributed_only": true,
+    "columns": {
+      "citation_id": {
+        "filled": 170,
+        "verdict": "unused"
+      },
+      "gene": {
+        "filled": 305,
+        "verdict": "unused"
+      },
+      "id": {
+        "filled": 305,
+        "verdict": "plumbing"
+      },
+      "phenotype_effects": {
+        "filled": 305,
+        "verdict": "unused"
+      },
+      "source_id": {
+        "filled": 305,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 305,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": false,
+    "rows": 305
+  },
+  "pk_routes": {
+    "attributed_only": false,
+    "columns": {
+      "auc_0_inf_ng_h_per_ml": {
+        "filled": 6,
+        "verdict": "unused"
+      },
+      "bioavailability_pct": {
+        "filled": 167,
+        "verdict": "shown"
+      },
+      "citation_id": {
+        "filled": 248,
+        "verdict": "read"
+      },
+      "clearance_ml_per_min_per_kg": {
+        "filled": 51,
+        "verdict": "shown"
+      },
+      "cmax_ng_per_ml": {
+        "filled": 66,
+        "verdict": "shown"
+      },
+      "confidence": {
+        "filled": 22,
+        "verdict": "shown"
+      },
+      "demographics": {
+        "filled": 153,
+        "verdict": "shown"
+      },
+      "dose_in_study_mg": {
+        "filled": 149,
+        "verdict": "read"
+      },
+      "half_life_min": {
+        "filled": 204,
+        "verdict": "shown"
+      },
+      "id": {
+        "filled": 308,
+        "verdict": "plumbing"
+      },
+      "notes": {
+        "filled": 20,
+        "verdict": "read"
+      },
+      "protein_binding_pct": {
+        "filled": 99,
+        "verdict": "shown"
+      },
+      "route": {
+        "filled": 308,
+        "verdict": "read"
+      },
+      "source_id": {
+        "filled": 308,
+        "verdict": "plumbing"
+      },
+      "species": {
+        "filled": 3,
+        "verdict": "read"
+      },
+      "subject_n": {
+        "filled": 60,
+        "verdict": "read"
+      },
+      "substance_id": {
+        "filled": 308,
+        "verdict": "plumbing"
+      },
+      "tmax_min": {
+        "filled": 177,
+        "verdict": "shown"
+      },
+      "vd_l_per_kg": {
+        "filled": 94,
+        "verdict": "shown"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 308
+  },
+  "product_durations": {
+    "attributed_only": false,
+    "columns": {
+      "afterglow_max": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "afterglow_min": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "comeup_max": {
+        "filled": 6,
+        "verdict": "shown"
+      },
+      "comeup_min": {
+        "filled": 6,
+        "verdict": "shown"
+      },
+      "offset_max": {
+        "filled": 6,
+        "verdict": "shown"
+      },
+      "offset_min": {
+        "filled": 6,
+        "verdict": "shown"
+      },
+      "onset_max": {
+        "filled": 6,
+        "verdict": "shown"
+      },
+      "onset_min": {
+        "filled": 6,
+        "verdict": "shown"
+      },
+      "peak_max": {
+        "filled": 6,
+        "verdict": "shown"
+      },
+      "peak_min": {
+        "filled": 6,
+        "verdict": "shown"
+      },
+      "product": {
+        "filled": 6,
+        "verdict": "shown"
+      },
+      "product_normalized": {
+        "filled": 6,
+        "verdict": "read"
+      },
+      "route": {
+        "filled": 6,
+        "verdict": "read"
+      },
+      "substance_id": {
+        "filled": 6,
+        "verdict": "plumbing"
+      },
+      "total_max": {
+        "filled": 6,
+        "verdict": "read"
+      },
+      "total_min": {
+        "filled": 6,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 6
+  },
+  "product_strengths": {
+    "attributed_only": false,
+    "columns": {
+      "form": {
+        "filled": 26,
+        "verdict": "read"
+      },
+      "product": {
+        "filled": 26,
+        "verdict": "shown"
+      },
+      "product_normalized": {
+        "filled": 26,
+        "verdict": "read"
+      },
+      "strengths_mg": {
+        "filled": 26,
+        "verdict": "read"
+      },
+      "substance_id": {
+        "filled": 26,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 26
+  },
+  "protocol_dosing": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "course_duration": {
+        "filled": 11,
+        "verdict": "shown"
+      },
+      "frequency": {
+        "filled": 53,
+        "verdict": "shown"
+      },
+      "high_amount": {
+        "filled": 37,
+        "verdict": "shown"
+      },
+      "id": {
+        "filled": 53,
+        "verdict": "plumbing"
+      },
+      "isomer": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "low_amount": {
+        "filled": 43,
+        "verdict": "shown"
+      },
+      "notes": {
+        "filled": 53,
+        "verdict": "read"
+      },
+      "route": {
+        "filled": 53,
+        "verdict": "read"
+      },
+      "salt_form": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "source_id": {
+        "filled": 53,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 53,
+        "verdict": "plumbing"
+      },
+      "titration_json": {
+        "filled": 1,
+        "verdict": "read"
+      },
+      "unit": {
+        "filled": 53,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 53
+  },
+  "receptor_oligomers": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 8,
+        "verdict": "unused"
+      },
+      "complex_description": {
+        "filled": 8,
+        "verdict": "unused"
+      },
+      "evidence_type": {
+        "filled": 8,
+        "verdict": "unused"
+      },
+      "functional_consequence": {
+        "filled": 8,
+        "verdict": "unused"
+      },
+      "id": {
+        "filled": 8,
+        "verdict": "plumbing"
+      },
+      "source_id": {
+        "filled": 8,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 8,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": false,
+    "rows": 8
+  },
+  "reported_effects": {
+    "attributed_only": false,
+    "columns": {
+      "domain": {
+        "filled": 8321,
+        "verdict": "shown"
+      },
+      "emerges_band": {
+        "filled": 3207,
+        "verdict": "shown"
+      },
+      "id": {
+        "filled": 8321,
+        "verdict": "plumbing"
+      },
+      "name": {
+        "filled": 8321,
+        "verdict": "read"
+      },
+      "report_count": {
+        "filled": 8321,
+        "verdict": "shown"
+      },
+      "source_id": {
+        "filled": 8321,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 8321,
+        "verdict": "plumbing"
+      },
+      "vocab_id": {
+        "filled": 2729,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 8321
+  },
+  "sources": {
+    "attributed_only": false,
+    "columns": {
+      "default_enabled": {
+        "filled": 17,
+        "verdict": "read"
+      },
+      "default_priority": {
+        "filled": 17,
+        "verdict": "read"
+      },
+      "description": {
+        "filled": 17,
+        "verdict": "shown"
+      },
+      "display_name": {
+        "filled": 17,
+        "verdict": "shown"
+      },
+      "id": {
+        "filled": 17,
+        "verdict": "plumbing"
+      },
+      "slug": {
+        "filled": 17,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 17
+  },
+  "spectrum_levels": {
+    "attributed_only": false,
+    "columns": {
+      "band_index": {
+        "filled": 954,
+        "verdict": "shown"
+      },
+      "band_name": {
+        "filled": 954,
+        "verdict": "read"
+      },
+      "description": {
+        "filled": 954,
+        "verdict": "shown"
+      },
+      "id": {
+        "filled": 954,
+        "verdict": "plumbing"
+      },
+      "source_id": {
+        "filled": 954,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 954,
+        "verdict": "plumbing"
+      },
+      "top_effects_json": {
+        "filled": 954,
+        "verdict": "read"
+      },
+      "warnings_json": {
+        "filled": 340,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 954
+  },
+  "subjective_effects": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "description": {
+        "filled": 27,
+        "verdict": "shown"
+      },
+      "id": {
+        "filled": 24638,
+        "verdict": "plumbing"
+      },
+      "language": {
+        "filled": 24638,
+        "verdict": "read"
+      },
+      "machine_translated": {
+        "filled": 24638,
+        "verdict": "shown"
+      },
+      "name": {
+        "filled": 24638,
+        "verdict": "read"
+      },
+      "source_id": {
+        "filled": 24638,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 24638,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 24638
+  },
+  "substance_citations": {
+    "attributed_only": false,
+    "columns": {
+      "citation_id": {
+        "filled": 888,
+        "verdict": "read"
+      },
+      "substance_id": {
+        "filled": 888,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 888
+  },
+  "substance_classes": {
+    "attributed_only": false,
+    "columns": {
+      "class_context_id": {
+        "filled": 185,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 185,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": false,
+    "rows": 185
+  },
+  "substance_forms": {
+    "attributed_only": false,
+    "columns": {
+      "display_name": {
+        "filled": 1800,
+        "verdict": "shown"
+      },
+      "is_default": {
+        "filled": 1800,
+        "verdict": "shown"
+      },
+      "isomer_label": {
+        "filled": 13,
+        "verdict": "unused"
+      },
+      "psid": {
+        "filled": 1800,
+        "verdict": "unused"
+      },
+      "release": {
+        "filled": 1800,
+        "verdict": "shown"
+      },
+      "release_label": {
+        "filled": 45,
+        "verdict": "unused"
+      },
+      "salt": {
+        "filled": 1800,
+        "verdict": "read"
+      },
+      "salt_label": {
+        "filled": 5,
+        "verdict": "unused"
+      },
+      "stereo": {
+        "filled": 1800,
+        "verdict": "read"
+      },
+      "substance_id": {
+        "filled": 1800,
+        "verdict": "plumbing"
+      },
+      "substance_uid": {
+        "filled": 1800,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 1800
+  },
+  "substances": {
+    "attributed_only": false,
+    "columns": {
+      "boiling_point_c": {
+        "filled": 49,
+        "verdict": "shown"
+      },
+      "canonical_name": {
+        "filled": 1738,
+        "verdict": "shown"
+      },
+      "cas": {
+        "filled": 904,
+        "verdict": "read"
+      },
+      "combinations": {
+        "filled": 12,
+        "verdict": "shown"
+      },
+      "display_class": {
+        "filled": 1738,
+        "verdict": "shown"
+      },
+      "display_name": {
+        "filled": 42,
+        "verdict": "shown"
+      },
+      "drug_class": {
+        "filled": 34,
+        "verdict": "shown"
+      },
+      "drug_class_ambiguous": {
+        "filled": 1738,
+        "verdict": "unused"
+      },
+      "drug_community_slug": {
+        "filled": 409,
+        "verdict": "shown"
+      },
+      "duration_implausible": {
+        "filled": 1738,
+        "verdict": "shown"
+      },
+      "formula": {
+        "filled": 976,
+        "verdict": "shown"
+      },
+      "freeodwiki_slug": {
+        "filled": 342,
+        "verdict": "shown"
+      },
+      "hba": {
+        "filled": 901,
+        "verdict": "read"
+      },
+      "hbd": {
+        "filled": 901,
+        "verdict": "read"
+      },
+      "id": {
+        "filled": 1738,
+        "verdict": "plumbing"
+      },
+      "inchikey": {
+        "filled": 958,
+        "verdict": "shown"
+      },
+      "is_stub": {
+        "filled": 1738,
+        "verdict": "shown"
+      },
+      "iupac_name": {
+        "filled": 990,
+        "verdict": "shown"
+      },
+      "ld50_dermal_mg_per_kg": {
+        "filled": 4,
+        "verdict": "shown"
+      },
+      "ld50_oral_mg_per_kg": {
+        "filled": 10,
+        "verdict": "shown"
+      },
+      "logd": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "logp": {
+        "filled": 870,
+        "verdict": "read"
+      },
+      "melting_point_c": {
+        "filled": 207,
+        "verdict": "shown"
+      },
+      "misconceptions": {
+        "filled": 1,
+        "verdict": "shown"
+      },
+      "molecular_weight": {
+        "filled": 994,
+        "verdict": "read"
+      },
+      "normalized_name": {
+        "filled": 1738,
+        "verdict": "unused"
+      },
+      "pk_reference_confidence": {
+        "filled": 1,
+        "verdict": "read"
+      },
+      "pk_reference_fields": {
+        "filled": 1,
+        "verdict": "read"
+      },
+      "pk_reference_name": {
+        "filled": 1,
+        "verdict": "read"
+      },
+      "pka": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "popular_aliases": {
+        "filled": 18,
+        "verdict": "shown"
+      },
+      "popularity": {
+        "filled": 1738,
+        "verdict": "shown"
+      },
+      "pubchem_cid": {
+        "filled": 805,
+        "verdict": "read"
+      },
+      "regulatory_status": {
+        "filled": 569,
+        "verdict": "shown"
+      },
+      "smiles": {
+        "filled": 963,
+        "verdict": "shown"
+      },
+      "substance_uid": {
+        "filled": 1738,
+        "verdict": "read"
+      },
+      "tpsa": {
+        "filled": 901,
+        "verdict": "read"
+      },
+      "water_heat": {
+        "filled": 3,
+        "verdict": "shown"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 1738
+  },
+  "tags": {
+    "attributed_only": false,
+    "columns": {
+      "confidence": {
+        "filled": 1606,
+        "verdict": "shown"
+      },
+      "source_id": {
+        "filled": 7100,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 7100,
+        "verdict": "plumbing"
+      },
+      "tag": {
+        "filled": 7100,
+        "verdict": "read"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 7100
+  },
+  "tolerance": {
+    "attributed_only": false,
+    "columns": {
+      "build_rate": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "citation_id": {
+        "filled": 71,
+        "verdict": "read"
+      },
+      "full_reset_days": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "half_life_days": {
+        "filled": 0,
+        "verdict": "empty"
+      },
+      "notes": {
+        "filled": 323,
+        "verdict": "read"
+      },
+      "source_id": {
+        "filled": 323,
+        "verdict": "plumbing"
+      },
+      "substance_id": {
+        "filled": 323,
+        "verdict": "plumbing"
+      }
+    },
+    "read_in_swift": true,
+    "rows": 323
+  }
+}
