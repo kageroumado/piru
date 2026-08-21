@@ -93,6 +93,40 @@ struct FreeODLocaleResolutionTests {
 
     @Test
     @MainActor
+    func `A substance whose only effect source is Chinese still reads in English`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
+
+        store.languageOverride = .en
+        // LSD and Psilocybin carry ~100 FreeOD effects each and no English ones.
+        // Asserting only "no Han" passed vacuously on an empty list, which is how
+        // 77 substances came to show an empty Effects section; the vocabulary
+        // bridge is what makes them readable, so assert both halves.
+        for name in ["LSD", "Psilocybin"] {
+            let effects = store.lookup(name)?.subjectiveEffects ?? []
+            #expect(!effects.isEmpty, "\(name) has no English subjective effects")
+            #expect(effects.allSatisfy { !hasHan($0.name) })
+        }
+    }
+
+    @Test
+    @MainActor
+    func `Section headings are not ingested as effects`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }
+
+        store.languageOverride = .zhHans
+        // FreeOD files its headings inside the effect list; "认知效应" is
+        // "Cognitive effects", the heading above them, not an effect.
+        let headings: Set = ["认知效应", "视觉效应", "躯体效应", "听觉效应", "药效达峰"]
+        for name in ["LSD", "MDMA", "Ketamine"] {
+            let effects = store.lookup(name)?.subjectiveEffects ?? []
+            #expect(effects.allSatisfy { !headings.contains($0.name) })
+        }
+    }
+
+    @Test
+    @MainActor
     func `English overview for a FreeOD-only substance is flagged machine-translated`() throws {
         let (store, tempDir) = try makeIsolatedSubstanceStore()
         defer { tearDownIsolatedSubstanceStore(store, tempDir: tempDir) }

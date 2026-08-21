@@ -101,11 +101,11 @@
     "attributed_only": false,
     "columns": {
       "action": {
-        "filled": 1309,
+        "filled": 1307,
         "verdict": "read"
       },
       "affinity_tier": {
-        "filled": 303,
+        "filled": 301,
         "verdict": "shown"
       },
       "assay_notes": {
@@ -141,7 +141,7 @@
         "verdict": "shown"
       },
       "id": {
-        "filled": 1309,
+        "filled": 1307,
         "verdict": "plumbing"
       },
       "intrinsic_activity_pct": {
@@ -149,7 +149,7 @@
         "verdict": "read"
       },
       "is_review": {
-        "filled": 1309,
+        "filled": 1307,
         "verdict": "unused"
       },
       "kd_nm": {
@@ -185,7 +185,7 @@
         "verdict": "read"
       },
       "source_id": {
-        "filled": 1309,
+        "filled": 1307,
         "verdict": "plumbing"
       },
       "species": {
@@ -193,11 +193,11 @@
         "verdict": "read"
       },
       "substance_id": {
-        "filled": 1309,
+        "filled": 1307,
         "verdict": "plumbing"
       },
       "target": {
-        "filled": 1309,
+        "filled": 1307,
         "verdict": "read"
       },
       "tissue_or_cell": {
@@ -206,7 +206,7 @@
       }
     },
     "read_in_swift": true,
-    "rows": 1309
+    "rows": 1307
   },
   "browse_extra_categories": {
     "attributed_only": false,
@@ -1670,32 +1670,36 @@
         "verdict": "shown"
       },
       "id": {
-        "filled": 24638,
+        "filled": 23511,
         "verdict": "plumbing"
       },
       "language": {
-        "filled": 24638,
+        "filled": 23511,
         "verdict": "read"
       },
       "machine_translated": {
-        "filled": 24638,
+        "filled": 23511,
         "verdict": "shown"
       },
       "name": {
-        "filled": 24638,
+        "filled": 23511,
         "verdict": "read"
       },
       "source_id": {
-        "filled": 24638,
+        "filled": 23511,
         "verdict": "plumbing"
       },
       "substance_id": {
-        "filled": 24638,
+        "filled": 23511,
+        "verdict": "plumbing"
+      },
+      "vocab_id": {
+        "filled": 17403,
         "verdict": "plumbing"
       }
     },
     "read_in_swift": true,
-    "rows": 24638
+    "rows": 23511
   },
   "substance_citations": {
     "attributed_only": false,

@@ -35,6 +35,8 @@ __all__ = [
     "slugify",
     "vocab_id_for",
     "dc_alias_for",
+    "zh_vocab_id_for",
+    "is_non_effect",
     "vocab_labels",
     "LANGUAGES",
 ]
@@ -167,6 +169,42 @@ def _load_zh() -> tuple[dict[str, dict[str, str]], dict[str, int]]:
 
 
 _ZH_LABELS, _ZH_MT = _load_zh()
+
+# The reverse index: a Chinese label -> the vocab_id it names. Built from the
+# same curated labels the app renders, so a zh row and an en row of the same
+# effect land on one id and each renders in whichever language is asked for.
+# Without this every effect has to be stored once per language, which is why
+# 77 substances carried a hundred Chinese effects and no English ones.
+_ZH_TO_VOCAB: dict[str, str] = {}
+for _vid, _labels in _ZH_LABELS.items():
+    for _lang in ("zh-Hans", "zh-Hant"):
+        _label = (_labels or {}).get(_lang)
+        if _label:
+            _ZH_TO_VOCAB.setdefault(_label.strip(), _vid)
+
+_raw_zh = json.loads(_ZH_PATH.read_text(encoding="utf-8")) if _ZH_PATH.exists() else {}
+for _variant, _vid in (_raw_zh.get("aliases") or {}).items():
+    if _vid in EFFECT_VOCAB:
+        _ZH_TO_VOCAB[_variant.strip()] = _vid
+
+#: Strings FreeOD files under a substance's effects that name no effect —
+#: section headings, geometry level markers, duration phases. Dropped at ingest.
+ZH_NON_EFFECTS: frozenset[str] = frozenset(_raw_zh.get("non_effects") or ())
+
+
+def zh_vocab_id_for(text: str) -> str | None:
+    """Resolve a Chinese effect name to a canonical ``vocab_id``, or ``None``.
+
+    Exact match only — against the curated labels first, then the hand-checked
+    wording variants. Nothing fuzzy: an English reader shown the wrong effect is
+    worse off than one shown no effect, and the raw name stays as the zh
+    fallback either way.
+    """
+    return _ZH_TO_VOCAB.get(text.strip()) if text else None
+
+
+def is_non_effect(text: str) -> bool:
+    return bool(text) and text.strip() in ZH_NON_EFFECTS
 
 
 def vocab_labels() -> list[tuple[str, str, str, int]]:

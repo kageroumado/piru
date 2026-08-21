@@ -1723,25 +1723,6 @@ final class SubstanceStore {
         .current
     }
 
-    /// SQL scalar resolving a row of `effects` (table aliased `e`) to its
-    /// localized label via the controlled vocabulary (Track 1). For Chinese it
-    /// returns the `effect_vocab_labels` label for the exact variant, then any
-    /// broader zh label, then the raw English `e.text` fallback — so a zh user
-    /// sees translated effects on *every* substance, even ones whose source data
-    /// was English-only, because the label was translated once at the vocabulary
-    /// level. For English it is simply `e.text` (already the canonical PW name).
-    private nonisolated static func localizedEffectLabelSQL(_ language: ContentLanguage) -> String {
-        guard language.isChinese else { return "e.text" }
-        return """
-        COALESCE(
-            (SELECT lbl.label FROM effect_vocab_labels lbl
-              WHERE lbl.vocab_id = e.vocab_id AND lbl.language = '\(language.rawValue)'),
-            (SELECT lbl.label FROM effect_vocab_labels lbl
-              WHERE lbl.vocab_id = e.vocab_id AND lbl.language LIKE 'zh%' LIMIT 1),
-            e.text)
-        """
-    }
-
     private func resolvedCategory(db: Database, substanceID: Int64) throws -> SubstanceCategory? {
         let row = try Row.fetchOne(db, sql: """
             SELECT c.category
@@ -2234,40 +2215,6 @@ final class SubstanceStore {
             primaryTargets: bindings.map(\.target),
             bindings: bindings,
         )
-    }
-
-    private func resolvedEffects(db: Database, substanceID: Int64, language: ContentLanguage) throws -> [String] {
-        try String.fetchAll(db, sql: """
-            SELECT DISTINCT \(Self.localizedEffectLabelSQL(language)) AS text
-              FROM effects e
-              JOIN sources src ON src.id = e.source_id
-             WHERE e.substance_id = ?
-               AND src.slug IN (\(enabledSourceListSQL))
-             ORDER BY text
-        """, arguments: [substanceID])
-    }
-
-    private func resolvedSubjectiveEffects(db: Database, substanceID: Int64, language: ContentLanguage) throws -> [SubjectiveEffect] {
-        func fetch(_ langFilter: String) throws -> [SubjectiveEffect] {
-            let rows = try Row.fetchAll(db, sql: """
-                SELECT DISTINCT se.name AS effect_name,
-                                COALESCE(se.description, '') AS effect_description
-                  FROM subjective_effects se
-                  JOIN sources src ON src.id = se.source_id
-                 WHERE se.substance_id = ?
-                   AND src.slug IN (\(enabledSourceListSQL))
-                   \(langFilter)
-                 ORDER BY se.name
-            """, arguments: [substanceID])
-            return rows.map { SubjectiveEffect(name: $0["effect_name"], description: $0["effect_description"]) }
-        }
-        // Chinese: show the zh set if the substance has one, else fall back to
-        // English (don't blank the section). English: never show raw zh.
-        if language.isChinese {
-            let zh = try fetch("AND se.language LIKE 'zh%'")
-            return zh.isEmpty ? try fetch("AND se.language IN ('en', 'und')") : zh
-        }
-        return try fetch("AND se.language IN ('en', 'und')")
     }
 
     private func resolvedTolerance(db: Database, substanceID: Int64) throws -> ToleranceInfo? {

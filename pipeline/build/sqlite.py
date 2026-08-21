@@ -49,7 +49,14 @@ from drug_community_effects import (  # noqa: E402
 from drug_community_effects import (  # noqa: E402
     spectrum_levels as dc_spectrum_levels,
 )
-from effect_vocab import EFFECT_VOCAB, dc_alias_for, vocab_id_for, vocab_labels  # noqa: E402
+from effect_vocab import (  # noqa: E402
+    EFFECT_VOCAB,
+    dc_alias_for,
+    is_non_effect,
+    vocab_id_for,
+    vocab_labels,
+    zh_vocab_id_for,
+)
 from molecule_shapes import generate_molecule_shapes  # noqa: E402
 from pw_effect_categories import PW_EFFECT_CATEGORY, normalize_effect  # noqa: E402
 
@@ -959,9 +966,17 @@ CREATE TABLE subjective_effects (
     description  TEXT,
     language     TEXT NOT NULL DEFAULT 'en',
     machine_translated INTEGER NOT NULL DEFAULT 0,
+    -- Controlled-vocabulary reference, same role as `effects.vocab_id`: the app
+    -- renders the vocab label for the CURRENT ui language and falls back to the
+    -- raw `name`. Rows are stored per language, so without this a substance
+    -- whose only source is Chinese has nothing to show an English reader — which
+    -- is exactly what happened to LSD, Psilocybin and 75 others. NULL = the name
+    -- resolved to no canonical effect; it then renders only in its own language.
+    vocab_id     TEXT REFERENCES effect_vocab(vocab_id),
     citation_id  INTEGER REFERENCES citations(id)
 );
 CREATE INDEX idx_subjective_substance ON subjective_effects(substance_id);
+CREATE INDEX idx_subjective_vocab     ON subjective_effects(vocab_id) WHERE vocab_id IS NOT NULL;
 
 -- drug.community intensity spectrum: one row per dose band (dc's 6 fixed levels
 -- mapped onto Piru's dose-band vocabulary). Powers the circular dose-intensity
@@ -2299,6 +2314,75 @@ def dedup_pk_routes(con) -> dict:
     """)
     con.commit()
     return {"dropped": before - cur.execute("SELECT COUNT(*) FROM pk_routes").fetchone()[0]}
+
+
+#: Preparations whose pharmacology is measured on a molecule the library carries
+#: separately — mirrors `ActiveIngredient.map` on the Swift side. A binding row
+#: filed under the preparation is a false attribution (every "cannabis" Kᵢ was
+#: assayed on Δ9-THC) and draws the same molecule twice on every comparison, so
+#: the build rejects one rather than letting a curated mechanism reintroduce it.
+ACTIVE_INGREDIENT_PROXIES = {"cannabis": "THC"}
+
+
+def assert_preparations_borrow_their_pharmacology(con) -> None:
+    cur = con.cursor()
+    for preparation, molecule in ACTIVE_INGREDIENT_PROXIES.items():
+        rows = cur.execute(
+            """
+            SELECT b.target, src.slug
+              FROM bindings b
+              JOIN substances s ON s.id = b.substance_id
+              JOIN sources src ON src.id = b.source_id
+             WHERE LOWER(s.canonical_name) = ?
+            """,
+            (preparation,),
+        ).fetchall()
+        if rows:
+            listing = ", ".join(f"{t} ({slug})" for t, slug in rows)
+            raise SystemExit(
+                f"{preparation} carries binding rows of its own: {listing}. Its "
+                f"pharmacology belongs to {molecule} and is read through "
+                f"ActiveIngredient — remove the `bindings` from its curated entry."
+            )
+
+
+def assert_effects_are_readable_in_english(con) -> dict:
+    """Every substance with Chinese subjective effects must have some that an
+    English reader can be shown.
+
+    Rows are stored per language, so a Chinese-only source leaves the English
+    Effects section empty — silently, because the resolver correctly refuses to
+    print Han and there is simply nothing else. That shipped for 77 substances,
+    LSD and Psilocybin among them. The `vocab_id` bridge is what closes it, so
+    this is the assertion that keeps it closed: an unbridgeable name is fine, a
+    substance with *no* bridgeable name is not.
+    """
+    cur = con.cursor()
+    stranded = cur.execute(
+        """
+        SELECT s.canonical_name,
+               (SELECT COUNT(*) FROM subjective_effects e
+                 WHERE e.substance_id = s.id AND e.language LIKE 'zh%')
+          FROM substances s
+         WHERE EXISTS (SELECT 1 FROM subjective_effects e
+                        WHERE e.substance_id = s.id AND e.language LIKE 'zh%')
+           AND NOT EXISTS (SELECT 1 FROM subjective_effects e2
+                            WHERE e2.substance_id = s.id
+                              AND (e2.language IN ('en', 'und') OR e2.vocab_id IS NOT NULL))
+         ORDER BY 2 DESC
+        """
+    ).fetchall()
+    if stranded:
+        listing = ", ".join(f"{name} ({n})" for name, n in stranded[:10])
+        raise SystemExit(
+            f"{len(stranded)} substance(s) have Chinese subjective effects and none an "
+            f"English reader can see: {listing}. Add the missing names to "
+            f"`aliases` in pipeline/build/effect_vocab_zh.json, or to `non_effects` "
+            f"if they are headings rather than effects."
+        )
+    cur.execute("SELECT COUNT(*), SUM(vocab_id IS NOT NULL) FROM subjective_effects")
+    total, bridged = cur.fetchone()
+    return {"rows": total or 0, "bridged": bridged or 0}
 
 
 def reject_transitive_pk_references(con) -> dict:
@@ -5381,10 +5465,14 @@ class Build:
     ) -> None:
         if not name:
             return
+        if is_non_effect(name):
+            self.stats["subjective_effects_rejected"] += 1
+            return
+        vocab_id = zh_vocab_id_for(name) if language.startswith("zh") else vocab_id_for(name)
         src = self.source_ids[source_slug]
         self.cur.execute(
-            "INSERT INTO subjective_effects(substance_id, source_id, name, description, language, machine_translated) VALUES (?, ?, ?, ?, ?, ?)",
-            (sid, src, name, description, language, 1 if machine_translated else 0),
+            "INSERT INTO subjective_effects(substance_id, source_id, name, description, language, machine_translated, vocab_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (sid, src, name, description, language, 1 if machine_translated else 0, vocab_id),
         )
         self.stats["subjective_effects"] += 1
 
@@ -10637,6 +10725,16 @@ def main() -> int:
         print(f"Transitive/unresolved pk_references dropped: {ptx['dropped']}", file=sys.stderr)
         for n in ptx["names"]:
             print(f"  {n}", file=sys.stderr)
+
+    assert_preparations_borrow_their_pharmacology(build.cur.connection)
+
+    # No substance may carry Chinese subjective effects with nothing an English
+    # reader can be shown. Runs after every effect ingest.
+    eff = assert_effects_are_readable_in_english(build.cur.connection)
+    print(
+        f"Subjective effects bridged to the vocabulary: {eff['bridged']}/{eff['rows']}",
+        file=sys.stderr,
+    )
 
     # Drop any boiling point below its melting point (a sublimation temperature
     # mislabelled as a BP — caffeine 178 < 234).

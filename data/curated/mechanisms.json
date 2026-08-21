@@ -1681,19 +1681,7 @@
   {
     "name": "Cannabis",
     "summary": "Cannabinoid Mixture — Partial CB1 Agonism (THC)",
-    "description": "A plant, not a molecule. THC is the partial agonist at CB1 receptors responsible for intoxication; CB1 sits presynaptically throughout the cortex, hippocampus and basal ganglia, where its activation dampens neurotransmitter release. CBD is not intoxicating and behaves as a negative allosteric modulator at CB1, blunting some THC effects. Cultivars differ severalfold in THC:CBD ratio and in the minor cannabinoids and terpenes alongside them, so the same weight of two flowers is not the same exposure.",
-    "bindings": [
-      {
-        "target": "CB1",
-        "action": "partialAgonist",
-        "affinity_tier": 3
-      },
-      {
-        "target": "CB2",
-        "action": "partialAgonist",
-        "affinity_tier": 2
-      }
-    ]
+    "description": "A plant, not a molecule. THC is the partial agonist at CB1 receptors responsible for intoxication; CB1 sits presynaptically throughout the cortex, hippocampus and basal ganglia, where its activation dampens neurotransmitter release. CBD is not intoxicating and behaves as a negative allosteric modulator at CB1, blunting some THC effects. Cultivars differ severalfold in THC:CBD ratio and in the minor cannabinoids and terpenes alongside them, so the same weight of two flowers is not the same exposure."
   },
   {
     "name": "Ketamine",
