@@ -92,5 +92,28 @@ class LabelHeaders(unittest.TestCase):
         self.assertEqual(_mod._label_headers(section), ["Half-life", "Protein Binding"])
 
 
+class SurfaceMap(unittest.TestCase):
+    def test_every_mapped_surface_is_a_real_detail_section(self):
+        """A typo'd surface name would silently mean "nowhere"."""
+        import json
+        import re
+
+        repo = Path(__file__).resolve().parents[3]
+        declared = json.loads((repo / "pipeline/audit/data_surfaces.json").read_text())
+        profile = (repo / "Piru/Data/Services/UserProfile.swift").read_text()
+        block = profile[profile.index("enum DetailSection") :]
+        block = block[: block.index("\n}")]
+        cases = set(re.findall(r"case (\w+)", block))
+        self.assertTrue(cases, "could not read DetailSection cases")
+        # Sections that render without a DisclosurePolicy row: the identity
+        # header, the overview prose, and the class screen.
+        extra = {"identity", "overview", "drugClass"}
+        for table, entry in declared["tables"].items():
+            surface = entry.get("surface")
+            if surface is None:
+                continue
+            self.assertIn(surface, cases | extra, f"{table} -> unknown surface {surface!r}")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

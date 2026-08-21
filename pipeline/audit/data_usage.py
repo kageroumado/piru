@@ -39,6 +39,8 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]
 DB = REPO / "Piru" / "Data" / "piru-substances.sqlite"
 SNAPSHOT = REPO / "data" / "snapshots" / "data-usage.json"
+GRAPH = REPO / "data" / "snapshots" / "data-usage-graph.md"
+SURFACES = Path(__file__).resolve().parent / "data_surfaces.json"
 PIRU_DATA = Path.home() / "Developer" / "piru-data"
 
 SWIFT_ROOTS = ["Piru", "Shared", "PiruWidget", "PiruLiveActivityExtension", "PiruComplication"]
@@ -87,11 +89,28 @@ AMBIGUOUS = {
 }
 
 
-def swift_corpus() -> tuple[str, str, str]:
-    """(all Swift, Views-only, attribution-ledger). Tests excluded."""
+def surfaces() -> dict:
+    """Where each table's content is declared to belong on screen.
+
+    Intent only: whether it is *there* is the grep's answer, never this file's.
+    Keeping the two apart is what stops a table being built, shipped, and
+    forgotten with a checkbox somewhere claiming otherwise.
+    """
+    return json.loads(SURFACES.read_text(encoding="utf-8")) if SURFACES.exists() else {}
+
+
+def swift_corpus() -> tuple[str, str, str, list[str]]:
+    """(all Swift, Views-only, attribution-ledger, per-view-file bodies).
+
+    The per-file list matters for column names that collide with ordinary
+    SwiftUI vocabulary — `target`, `action`, `species`. A bare corpus-wide hit on
+    those proves nothing, but a hit inside a view that *also* names the table's
+    own subject is evidence the value is on screen.
+    """
     every: list[str] = []
     views: list[str] = []
     ledger: list[str] = []
+    view_files: list[str] = []
     for root in SWIFT_ROOTS:
         base = REPO / root
         if not base.is_dir():
@@ -107,7 +126,8 @@ def swift_corpus() -> tuple[str, str, str]:
             every.append(body)
             if any(marker in posix for marker in VIEW_MARKERS):
                 views.append(body)
-    return "\n".join(every), "\n".join(views), "\n".join(ledger)
+                view_files.append(body)
+    return "\n".join(every), "\n".join(views), "\n".join(ledger), view_files
 
 
 def camel(column: str) -> str:
@@ -141,13 +161,36 @@ def column_stats(db: sqlite3.Connection, table: str) -> tuple[int, dict[str, int
     return rows, filled
 
 
-def classify(table: str, column: str, filled: int, corpus: str, views: str, near: str) -> str:
+def table_subject(table: str) -> str:
+    """A word a view rendering this table is likely to name — the singular of
+    the table, or its last path segment (`drug_interactions_pk` -> `interaction`)."""
+    word = table.rstrip("_pk").split("_")[-1] if "_" in table else table
+    return word[:-1] if word.endswith("s") else word
+
+
+def classify(
+    table: str,
+    column: str,
+    filled: int,
+    corpus: str,
+    views: str,
+    near: str,
+    view_files: list[str] | None = None,
+) -> str:
     if filled == 0:
         return "empty"
     ident = camel(column)
     sql_hit = word_in(column, near)
     strong = ident not in AMBIGUOUS and len(ident) >= 5
     view_hit = strong and word_in(ident, views)
+    if not view_hit and view_files:
+        # Ambiguous name: require a view that names both the value and the
+        # table's own subject, so `target` in a receptor card counts and
+        # `target` in a layout modifier does not.
+        subject = table_subject(table)
+        view_hit = any(
+            word_in(ident, body) and re.search(subject, body, re.IGNORECASE) for body in view_files
+        )
     swift_hit = strong and word_in(ident, corpus)
     if view_hit or (sql_hit and strong and swift_hit):
         return "shown" if view_hit else "read"
@@ -161,7 +204,9 @@ def classify(table: str, column: str, filled: int, corpus: str, views: str, near
 def audit_db() -> dict:
     if not DB.exists():
         sys.exit(f"no database at {DB} — run pipeline/fetch-db.sh")
-    corpus, views, ledger = swift_corpus()
+    corpus, views, ledger, view_files = swift_corpus()
+    declared = surfaces()
+    renders_as = declared.get("renders_as", {})
     db = sqlite3.connect(DB)
     tables = [
         r[0]
@@ -187,7 +232,15 @@ def audit_db() -> dict:
             if column in PLUMBING:
                 verdict = "plumbing"
             else:
-                verdict = classify(table, column, n, corpus, views, near)
+                verdict = classify(table, column, n, corpus, views, near, view_files)
+                # A value that reaches a view under a different Swift name (a
+                # struct property built inside the query) is shown; the grep
+                # cannot see that on its own.
+                alias = renders_as.get(f"{table}.{column}")
+                if alias and verdict in {"read", "unused"}:
+                    root = alias.split(".")[0].split(",")[0].strip()
+                    if word_in(root, views) or "never displayed" in alias:
+                        verdict = "shown"
                 # A column cannot outrank its table: if no Swift SQL reads the
                 # table at all, nothing in it reaches a screen through that path.
                 if (
@@ -201,6 +254,7 @@ def audit_db() -> dict:
             "rows": rows,
             "read_in_swift": table_read,
             "attributed_only": attributed and not table_read,
+            "surface": (declared.get("tables", {}).get(table) or {}).get("surface"),
             "columns": cols,
         }
     return report
@@ -379,10 +433,133 @@ def audit_sources() -> None:
         print()
 
 
+# ---------------------------------------------------------------------------
+# The graph: source -> table -> surface, coloured by whether it arrives
+# ---------------------------------------------------------------------------
+
+
+#: Which source populates which table, read from the DB itself so it cannot
+#: drift. Tables with no `source_id` column are attributed to the build.
+def _source_edges(db: sqlite3.Connection, table: str) -> list[str]:
+    cols = {r[1] for r in db.execute(f'PRAGMA table_info("{table}")')}
+    if "source_id" not in cols:
+        return []
+    return [
+        r[0]
+        for r in db.execute(
+            f'SELECT DISTINCT src.slug FROM "{table}" t '
+            f"JOIN sources src ON src.id = t.source_id ORDER BY 1"
+        )
+    ]
+
+
+def _mermaid_id(name: str) -> str:
+    return re.sub(r"[^A-Za-z0-9]", "_", name)
+
+
+def write_graph(report: dict) -> str:
+    """A Mermaid graph of every populated table: who fills it, where it is
+    declared to belong on screen, and whether it gets there.
+
+    Generated, never hand-drawn — a hand-drawn one is wrong the first time a
+    table changes state, which is the failure this whole tool exists to prevent.
+    """
+    db = sqlite3.connect(DB)
+    declared = surfaces().get("tables", {})
+    lines = [
+        "# Where the data goes",
+        "",
+        "*Generated by `pipeline/audit/data_usage.py --graph`. Do not edit.*",
+        "",
+        "Each populated table, the sources that fill it, and the screen it is",
+        "declared to belong on. **Red** means nothing renders it. **Amber** means",
+        "the app reads it and drops part of it before rendering.",
+        "",
+        "```mermaid",
+        "graph LR",
+    ]
+    used_sources: set[str] = set()
+    surface_nodes: set[str] = set()
+    edges: list[str] = []
+    nodes: list[str] = []
+    classes = {"dead": [], "partial": [], "live": []}
+
+    for table in sorted(report, key=lambda t: -report[t]["rows"]):
+        spec = report[table]
+        if not spec["rows"]:
+            continue
+        surface = (declared.get(table) or {}).get("surface")
+        if surface is None and table in declared:
+            continue  # deliberately not user-facing
+        verdicts = [c["verdict"] for c in spec["columns"].values()]
+        if not spec["read_in_swift"]:
+            state = "dead"
+        elif "read" in verdicts or "unused" in verdicts:
+            state = "partial"
+        else:
+            state = "live"
+        tid = _mermaid_id(table)
+        nodes.append(f'    {tid}["{table}<br/>{spec["rows"]:,} rows"]')
+        classes[state].append(tid)
+        for slug in _source_edges(db, table):
+            used_sources.add(slug)
+            edges.append(f"    {_mermaid_id('src_' + slug)} --> {tid}")
+        if surface:
+            surface_nodes.add(surface)
+            edges.append(f"    {tid} --> {_mermaid_id('ui_' + surface)}")
+
+    lines.append("    subgraph sources[Sources]")
+    for slug in sorted(used_sources):
+        lines.append(f'    {_mermaid_id("src_" + slug)}("{slug}")')
+    lines.append("    end")
+    lines.extend(nodes)
+    lines.append("    subgraph screen[On screen]")
+    for surface in sorted(surface_nodes):
+        lines.append(f'    {_mermaid_id("ui_" + surface)}(["{surface}"])')
+    lines.append("    end")
+    lines.extend(edges)
+    lines.append("    classDef dead fill:#5b1a1a,stroke:#d06666,color:#fff;")
+    lines.append("    classDef partial fill:#5b451a,stroke:#d0a566,color:#fff;")
+    lines.append("    classDef live fill:#1a3d2b,stroke:#5fbf8f,color:#fff;")
+    for state, members in classes.items():
+        if members:
+            lines.append(f"    class {','.join(members)} {state};")
+    lines.append("```")
+    lines.append("")
+
+    lines.append("## Declared a home, not yet rendered")
+    lines.append("")
+    lines.append("| rows | table | belongs on | why it matters |")
+    lines.append("|---:|---|---|---|")
+    for table in sorted(report, key=lambda t: -report[t]["rows"]):
+        spec, entry = report[table], declared.get(table) or {}
+        if spec["rows"] and not spec["read_in_swift"] and entry.get("surface"):
+            note = (entry.get("note") or "").replace("UNRENDERED — ", "").replace("UNREAD — ", "")
+            lines.append(f"| {spec['rows']:,} | `{table}` | {entry['surface']} | {note} |")
+    lines.append("")
+
+    unmapped = [t for t, s in report.items() if s["rows"] and t not in declared]
+    if unmapped:
+        lines.append("## Not in the surface map")
+        lines.append("")
+        lines.append("Add each to `pipeline/audit/data_surfaces.json` — a home, or `null`.")
+        lines.append("")
+        for table in sorted(unmapped):
+            lines.append(f"- `{table}`")
+        lines.append("")
+
+    GRAPH.parent.mkdir(parents=True, exist_ok=True)
+    GRAPH.write_text("\n".join(lines))
+    return str(GRAPH.relative_to(REPO))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--sources", action="store_true", help="audit the upstream datasets instead"
+    )
+    parser.add_argument(
+        "--graph", action="store_true", help="write the source->table->screen graph"
     )
     parser.add_argument("--write", action="store_true", help="save the snapshot")
     parser.add_argument(
@@ -395,6 +572,9 @@ def main() -> int:
         return 0
 
     report = audit_db()
+    if args.graph:
+        print(f"wrote {write_graph(report)}")
+        return 0
     print_db_report(report)
 
     if args.gate and SNAPSHOT.exists():

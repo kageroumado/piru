@@ -1,0 +1,89 @@
+{
+  "_meta": {
+    "what": "Where each table's content belongs on screen. The audit derives whether it is THERE; this file only declares where it should be, so a table can never be quietly built, shipped and forgotten.",
+    "surface": "A `DetailSection` case from Piru/Data/Services/UserProfile.swift, or a named screen. The DisclosurePolicy matrix already decides how much of it a Casual reader sees, so density is not a reason to leave a table unrendered.",
+    "none": "surface: null means the table is deliberately not user-facing — build plumbing, identifiers, or a lookup another table renders through.",
+    "renders_as": "Columns whose value reaches a view under a different Swift name (a struct property built in the query). Without these the grep reports a rendered value as dropped."
+  },
+
+  "tables": {
+    "substances":                {"surface": "identity",             "note": "name, identifiers, physicochemical"},
+    "aliases":                   {"surface": "identity"},
+    "categories":                {"surface": "identity"},
+    "tags":                      {"surface": "identity"},
+    "substance_forms":           {"surface": "identity",             "note": "salt / isomer / release facets"},
+    "descriptions":              {"surface": "overview"},
+    "molecule_shapes":           {"surface": "chemistry"},
+
+    "dose_ranges":               {"surface": "doseDuration"},
+    "durations":                 {"surface": "doseDuration"},
+    "durations_of_action":       {"surface": "doseDuration"},
+    "protocol_dosing":           {"surface": "doseDuration"},
+    "product_strengths":         {"surface": "doseDuration"},
+    "product_durations":         {"surface": "doseDuration"},
+    "diazepam_equivalents":      {"surface": "doseDuration",         "note": "also Tools ▸ Equivalence"},
+
+    "effects":                   {"surface": "effects"},
+    "subjective_effects":        {"surface": "effects"},
+    "reported_effects":          {"surface": "effects"},
+    "spectrum_levels":           {"surface": "effects"},
+    "effect_vocab":              {"surface": null,                   "note": "lookup — effects render through effect_vocab_labels"},
+    "effect_vocab_labels":       {"surface": "effects"},
+
+    "mechanisms_summary":        {"surface": "mechanism"},
+    "bindings":                  {"surface": "receptorLiterature"},
+    "functional_assays":         {"surface": "receptorLiterature"},
+    "off_targets":               {"surface": "receptorLiterature"},
+    "class_reference_compounds": {"surface": "receptorLiterature",   "note": "comparability peers for a signature"},
+    "biased_agonism":            {"surface": "receptorLiterature",   "note": "UNRENDERED — a binding row says a drug hits the receptor; this says which pathway it favours, which is the whole reason two agonists at one target feel different"},
+    "downstream_signalling":     {"surface": "mechanism",            "note": "UNRENDERED — 690 rows of what happens after the receptor binds, which is the half of a mechanism a target list cannot state"},
+    "receptor_oligomers":        {"surface": "receptorLiterature",   "note": "UNRENDERED — 8 rows"},
+    "neuroimaging":              {"surface": "receptorLiterature",   "note": "UNRENDERED — human occupancy/imaging evidence for a target claim"},
+
+    "half_lives":                {"surface": "pharmacokinetics"},
+    "pk_routes":                 {"surface": "pharmacokinetics"},
+    "metabolism":                {"surface": "pharmacokinetics"},
+    "pharmacogenetics":          {"surface": "pharmacokinetics",     "note": "UNRENDERED — CYP2D6NoteSection already asks the user for their metabolizer status and answers with hardcoded generic prose; these are the substance-specific cited answers, for CYP2C19/2B6/3A4 too"},
+    "concentration_effects":     {"surface": "pharmacokinetics",     "note": "UNRENDERED — the plasma-concentration thresholds that would give the PK curve a labelled y-axis"},
+    "tolerance":                 {"surface": "pharmacokinetics",     "note": "also Tools ▸ Tolerance"},
+
+    "indications":               {"surface": "medicalUses"},
+    "contraindications":         {"surface": "contraindications",    "note": "boxed warnings split to `boxedWarning`"},
+    "peptide_profiles":          {"surface": "medicalUses"},
+
+    "drug_interactions_pk":      {"surface": "combinations",         "note": "measured pair PK; rendered on the substance page but never against what the user logged"},
+    "interaction_rules":         {"surface": "combinations",         "note": "EMPTY — the class matrix the Swift table should be reading"},
+
+    "citations":                 {"surface": "sources"},
+    "substance_citations":       {"surface": "sources"},
+    "class_citations":           {"surface": "sources",              "note": "UNREAD — the citations behind a class-level claim"},
+    "sources":                   {"surface": "sources"},
+
+    "class_contexts":            {"surface": "drugClass",            "note": "UNREAD — shared mechanism / shared PK / shared safety / SAR per class; a class screen's entire content"},
+    "substance_classes":         {"surface": "drugClass",            "note": "UNREAD — which substances belong to a class context"},
+
+    "browse_extra_categories":   {"surface": null, "note": "browse plumbing"},
+    "manifest":                  {"surface": null, "note": "build metadata"}
+  },
+
+  "renders_as": {
+    "dose_ranges.threshold": "DoseRange.threshold",
+    "dose_ranges.light_lower": "DoseRange.light",
+    "dose_ranges.light_upper": "DoseRange.light",
+    "dose_ranges.common_lower": "DoseRange.common",
+    "dose_ranges.common_upper": "DoseRange.common",
+    "dose_ranges.strong_lower": "DoseRange.strong",
+    "dose_ranges.strong_upper": "DoseRange.strong",
+    "durations.min_minutes": "DurationRange.min",
+    "durations.max_minutes": "DurationRange.max",
+    "citations.doi": "Reference.doi",
+    "citations.pmid": "Reference.pmid",
+    "citations.title": "Reference.title",
+    "citations.year": "Reference.year",
+    "citations.url": "Reference.url",
+    "aliases.alias_normalized": "search index, never displayed",
+    "effects.effect_category": "EffectGroup.category",
+    "molecule_shapes.atoms_json": "MoleculeStructure.atoms",
+    "molecule_shapes.bonds_json": "MoleculeStructure.bonds"
+  }
+}

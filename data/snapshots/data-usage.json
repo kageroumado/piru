@@ -8,7 +8,7 @@
       },
       "alias_normalized": {
         "filled": 5396,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "authority": {
         "filled": 6,
@@ -28,7 +28,7 @@
       },
       "kind": {
         "filled": 637,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "locale": {
         "filled": 229,
@@ -52,7 +52,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 5396
+    "rows": 5396,
+    "surface": "identity"
   },
   "biased_agonism": {
     "attributed_only": false,
@@ -95,14 +96,15 @@
       }
     },
     "read_in_swift": false,
-    "rows": 23
+    "rows": 23,
+    "surface": "receptorLiterature"
   },
   "bindings": {
     "attributed_only": false,
     "columns": {
       "action": {
         "filled": 1307,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "affinity_tier": {
         "filled": 301,
@@ -166,11 +168,11 @@
       },
       "ki_nm": {
         "filled": 544,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "notes": {
         "filled": 16,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "radioligand": {
         "filled": 557,
@@ -190,7 +192,7 @@
       },
       "species": {
         "filled": 918,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "substance_id": {
         "filled": 1307,
@@ -198,7 +200,7 @@
       },
       "target": {
         "filled": 1307,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "tissue_or_cell": {
         "filled": 759,
@@ -206,7 +208,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 1307
+    "rows": 1307,
+    "surface": "receptorLiterature"
   },
   "browse_extra_categories": {
     "attributed_only": false,
@@ -221,7 +224,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 6
+    "rows": 6,
+    "surface": null
   },
   "categories": {
     "attributed_only": false,
@@ -244,7 +248,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 1592
+    "rows": 1592,
+    "surface": "identity"
   },
   "citations": {
     "attributed_only": false,
@@ -255,7 +260,7 @@
       },
       "doi": {
         "filled": 791,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "id": {
         "filled": 2126,
@@ -267,23 +272,24 @@
       },
       "pmid": {
         "filled": 920,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "title": {
         "filled": 1041,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "url": {
         "filled": 1110,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "year": {
         "filled": 1036,
-        "verdict": "read"
+        "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 2126
+    "rows": 2126,
+    "surface": "sources"
   },
   "class_citations": {
     "attributed_only": false,
@@ -298,7 +304,8 @@
       }
     },
     "read_in_swift": false,
-    "rows": 271
+    "rows": 271,
+    "surface": "sources"
   },
   "class_contexts": {
     "attributed_only": false,
@@ -329,7 +336,7 @@
       },
       "slug": {
         "filled": 58,
-        "verdict": "unused"
+        "verdict": "shown"
       },
       "source_id": {
         "filled": 58,
@@ -337,7 +344,8 @@
       }
     },
     "read_in_swift": false,
-    "rows": 58
+    "rows": 58,
+    "surface": "drugClass"
   },
   "class_reference_compounds": {
     "attributed_only": false,
@@ -348,7 +356,7 @@
       },
       "rank": {
         "filled": 34,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "substance_id": {
         "filled": 34,
@@ -356,7 +364,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 34
+    "rows": 34,
+    "surface": "receptorLiterature"
   },
   "concentration_effects": {
     "attributed_only": false,
@@ -371,7 +380,7 @@
       },
       "effect": {
         "filled": 23,
-        "verdict": "unused"
+        "verdict": "shown"
       },
       "id": {
         "filled": 23,
@@ -395,7 +404,8 @@
       }
     },
     "read_in_swift": false,
-    "rows": 23
+    "rows": 23,
+    "surface": "pharmacokinetics"
   },
   "contraindications": {
     "attributed_only": false,
@@ -418,11 +428,12 @@
       },
       "text": {
         "filled": 1656,
-        "verdict": "read"
+        "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 1656
+    "rows": 1656,
+    "surface": "contraindications"
   },
   "descriptions": {
     "attributed_only": false,
@@ -437,7 +448,7 @@
       },
       "language": {
         "filled": 749,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "machine_translated": {
         "filled": 749,
@@ -453,11 +464,12 @@
       },
       "text": {
         "filled": 749,
-        "verdict": "read"
+        "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 749
+    "rows": 749,
+    "surface": "overview"
   },
   "diazepam_equivalents": {
     "attributed_only": false,
@@ -484,7 +496,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 33
+    "rows": 33,
+    "surface": "doseDuration"
   },
   "dose_ranges": {
     "attributed_only": false,
@@ -495,11 +508,11 @@
       },
       "common_lower": {
         "filled": 2474,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "common_upper": {
         "filled": 2474,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "dose_context": {
         "filled": 2498,
@@ -531,15 +544,15 @@
       },
       "light_upper": {
         "filled": 2271,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "notes": {
         "filled": 848,
-        "verdict": "unused"
+        "verdict": "shown"
       },
       "route": {
         "filled": 2498,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "salt_form": {
         "filled": 9,
@@ -555,11 +568,11 @@
       },
       "strong_lower": {
         "filled": 2172,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "strong_upper": {
         "filled": 2172,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "substance_id": {
         "filled": 2498,
@@ -571,11 +584,12 @@
       },
       "unit": {
         "filled": 2498,
-        "verdict": "read"
+        "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 2498
+    "rows": 2498,
+    "surface": "doseDuration"
   },
   "downstream_signalling": {
     "attributed_only": false,
@@ -598,7 +612,8 @@
       }
     },
     "read_in_swift": false,
-    "rows": 690
+    "rows": 690,
+    "surface": "mechanism"
   },
   "drug_interactions_pk": {
     "attributed_only": false,
@@ -637,7 +652,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 205
+    "rows": 205,
+    "surface": "combinations"
   },
   "durations": {
     "attributed_only": false,
@@ -660,7 +676,7 @@
       },
       "min_minutes": {
         "filled": 9135,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "phase": {
         "filled": 9135,
@@ -668,7 +684,7 @@
       },
       "route": {
         "filled": 9135,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "salt_form": {
         "filled": 17,
@@ -684,7 +700,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 9135
+    "rows": 9135,
+    "surface": "doseDuration"
   },
   "durations_of_action": {
     "attributed_only": false,
@@ -711,7 +728,7 @@
       },
       "route": {
         "filled": 21,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "salt_form": {
         "filled": 0,
@@ -727,7 +744,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 21
+    "rows": 21,
+    "surface": "doseDuration"
   },
   "effect_vocab": {
     "attributed_only": false,
@@ -742,18 +760,19 @@
       }
     },
     "read_in_swift": false,
-    "rows": 263
+    "rows": 263,
+    "surface": null
   },
   "effect_vocab_labels": {
     "attributed_only": false,
     "columns": {
       "label": {
         "filled": 789,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "language": {
         "filled": 789,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "machine_translated": {
         "filled": 789,
@@ -765,7 +784,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 789
+    "rows": 789,
+    "surface": "effects"
   },
   "effects": {
     "attributed_only": false,
@@ -776,7 +796,7 @@
       },
       "effect_category": {
         "filled": 2952,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "id": {
         "filled": 2952,
@@ -788,7 +808,7 @@
       },
       "language": {
         "filled": 2952,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "machine_translated": {
         "filled": 2952,
@@ -804,7 +824,7 @@
       },
       "text": {
         "filled": 2952,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "vocab_id": {
         "filled": 2949,
@@ -812,7 +832,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 2952
+    "rows": 2952,
+    "surface": "effects"
   },
   "functional_assays": {
     "attributed_only": false,
@@ -863,7 +884,7 @@
       },
       "species": {
         "filled": 179,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "substance_id": {
         "filled": 179,
@@ -871,11 +892,12 @@
       },
       "target": {
         "filled": 179,
-        "verdict": "read"
+        "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 179
+    "rows": 179,
+    "surface": "receptorLiterature"
   },
   "half_lives": {
     "attributed_only": false,
@@ -902,7 +924,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 538
+    "rows": 538,
+    "surface": "pharmacokinetics"
   },
   "indications": {
     "attributed_only": false,
@@ -921,11 +944,12 @@
       },
       "text": {
         "filled": 1136,
-        "verdict": "read"
+        "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 1136
+    "rows": 1136,
+    "surface": "medicalUses"
   },
   "interaction_rules": {
     "attributed_only": false,
@@ -960,7 +984,8 @@
       }
     },
     "read_in_swift": false,
-    "rows": 0
+    "rows": 0,
+    "surface": "combinations"
   },
   "manifest": {
     "attributed_only": false,
@@ -971,11 +996,12 @@
       },
       "value": {
         "filled": 6,
-        "verdict": "read"
+        "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 6
+    "rows": 6,
+    "surface": null
   },
   "mechanisms_summary": {
     "attributed_only": false,
@@ -990,7 +1016,7 @@
       },
       "language": {
         "filled": 986,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "machine_translated": {
         "filled": 986,
@@ -1006,11 +1032,12 @@
       },
       "summary": {
         "filled": 986,
-        "verdict": "read"
+        "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 986
+    "rows": 986,
+    "surface": "mechanism"
   },
   "metabolism": {
     "attributed_only": false,
@@ -1081,11 +1108,11 @@
       },
       "notes": {
         "filled": 78,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "route": {
         "filled": 4,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "source_id": {
         "filled": 559,
@@ -1097,18 +1124,19 @@
       }
     },
     "read_in_swift": true,
-    "rows": 559
+    "rows": 559,
+    "surface": "pharmacokinetics"
   },
   "molecule_shapes": {
     "attributed_only": false,
     "columns": {
       "atoms_json": {
         "filled": 963,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "bonds_json": {
         "filled": 963,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "id": {
         "filled": 963,
@@ -1120,7 +1148,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 963
+    "rows": 963,
+    "surface": "chemistry"
   },
   "neuroimaging": {
     "attributed_only": false,
@@ -1151,7 +1180,8 @@
       }
     },
     "read_in_swift": false,
-    "rows": 52
+    "rows": 52,
+    "surface": "receptorLiterature"
   },
   "off_targets": {
     "attributed_only": false,
@@ -1186,11 +1216,12 @@
       },
       "target": {
         "filled": 209,
-        "verdict": "read"
+        "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 209
+    "rows": 209,
+    "surface": "receptorLiterature"
   },
   "peptide_profiles": {
     "attributed_only": false,
@@ -1237,7 +1268,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 44
+    "rows": 44,
+    "surface": "medicalUses"
   },
   "pharmacogenetics": {
     "attributed_only": true,
@@ -1268,7 +1300,8 @@
       }
     },
     "read_in_swift": false,
-    "rows": 305
+    "rows": 305,
+    "surface": "pharmacokinetics"
   },
   "pk_routes": {
     "attributed_only": false,
@@ -1315,7 +1348,7 @@
       },
       "notes": {
         "filled": 20,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "protein_binding_pct": {
         "filled": 99,
@@ -1323,7 +1356,7 @@
       },
       "route": {
         "filled": 308,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "source_id": {
         "filled": 308,
@@ -1331,7 +1364,7 @@
       },
       "species": {
         "filled": 3,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "subject_n": {
         "filled": 60,
@@ -1351,7 +1384,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 308
+    "rows": 308,
+    "surface": "pharmacokinetics"
   },
   "product_durations": {
     "attributed_only": false,
@@ -1406,7 +1440,7 @@
       },
       "route": {
         "filled": 6,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "substance_id": {
         "filled": 6,
@@ -1422,14 +1456,15 @@
       }
     },
     "read_in_swift": true,
-    "rows": 6
+    "rows": 6,
+    "surface": "doseDuration"
   },
   "product_strengths": {
     "attributed_only": false,
     "columns": {
       "form": {
         "filled": 26,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "product": {
         "filled": 26,
@@ -1449,7 +1484,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 26
+    "rows": 26,
+    "surface": "doseDuration"
   },
   "protocol_dosing": {
     "attributed_only": false,
@@ -1484,11 +1520,11 @@
       },
       "notes": {
         "filled": 53,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "route": {
         "filled": 53,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "salt_form": {
         "filled": 0,
@@ -1508,11 +1544,12 @@
       },
       "unit": {
         "filled": 53,
-        "verdict": "read"
+        "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 53
+    "rows": 53,
+    "surface": "doseDuration"
   },
   "receptor_oligomers": {
     "attributed_only": false,
@@ -1547,7 +1584,8 @@
       }
     },
     "read_in_swift": false,
-    "rows": 8
+    "rows": 8,
+    "surface": "receptorLiterature"
   },
   "reported_effects": {
     "attributed_only": false,
@@ -1566,7 +1604,7 @@
       },
       "name": {
         "filled": 8321,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "report_count": {
         "filled": 8321,
@@ -1586,7 +1624,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 8321
+    "rows": 8321,
+    "surface": "effects"
   },
   "sources": {
     "attributed_only": false,
@@ -1613,11 +1652,12 @@
       },
       "slug": {
         "filled": 17,
-        "verdict": "read"
+        "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 17
+    "rows": 17,
+    "surface": "sources"
   },
   "spectrum_levels": {
     "attributed_only": false,
@@ -1656,7 +1696,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 954
+    "rows": 954,
+    "surface": "effects"
   },
   "subjective_effects": {
     "attributed_only": false,
@@ -1675,7 +1716,7 @@
       },
       "language": {
         "filled": 23511,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "machine_translated": {
         "filled": 23511,
@@ -1683,7 +1724,7 @@
       },
       "name": {
         "filled": 23511,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "source_id": {
         "filled": 23511,
@@ -1699,7 +1740,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 23511
+    "rows": 23511,
+    "surface": "effects"
   },
   "substance_citations": {
     "attributed_only": false,
@@ -1714,7 +1756,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 888
+    "rows": 888,
+    "surface": "sources"
   },
   "substance_classes": {
     "attributed_only": false,
@@ -1729,7 +1772,8 @@
       }
     },
     "read_in_swift": false,
-    "rows": 185
+    "rows": 185,
+    "surface": "drugClass"
   },
   "substance_forms": {
     "attributed_only": false,
@@ -1748,7 +1792,7 @@
       },
       "psid": {
         "filled": 1800,
-        "verdict": "unused"
+        "verdict": "shown"
       },
       "release": {
         "filled": 1800,
@@ -1760,7 +1804,7 @@
       },
       "salt": {
         "filled": 1800,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "salt_label": {
         "filled": 5,
@@ -1780,7 +1824,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 1800
+    "rows": 1800,
+    "surface": "identity"
   },
   "substances": {
     "attributed_only": false,
@@ -1795,7 +1840,7 @@
       },
       "cas": {
         "filled": 904,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "combinations": {
         "filled": 12,
@@ -1835,11 +1880,11 @@
       },
       "hba": {
         "filled": 901,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "hbd": {
         "filled": 901,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "id": {
         "filled": 1738,
@@ -1931,7 +1976,7 @@
       },
       "tpsa": {
         "filled": 901,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "water_heat": {
         "filled": 3,
@@ -1939,7 +1984,8 @@
       }
     },
     "read_in_swift": true,
-    "rows": 1738
+    "rows": 1738,
+    "surface": "identity"
   },
   "tags": {
     "attributed_only": false,
@@ -1958,11 +2004,12 @@
       },
       "tag": {
         "filled": 7100,
-        "verdict": "read"
+        "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 7100
+    "rows": 7100,
+    "surface": "identity"
   },
   "tolerance": {
     "attributed_only": false,
@@ -1985,7 +2032,7 @@
       },
       "notes": {
         "filled": 323,
-        "verdict": "read"
+        "verdict": "shown"
       },
       "source_id": {
         "filled": 323,
@@ -1997,6 +2044,7 @@
       }
     },
     "read_in_swift": true,
-    "rows": 323
+    "rows": 323,
+    "surface": "pharmacokinetics"
   }
 }
