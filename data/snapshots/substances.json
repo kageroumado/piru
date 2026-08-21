@@ -555,7 +555,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 240.0,
-    "mechanism_summary": "另见：血清素能迷幻剂\n\n基于它和LSD的结构相似性，1P-LSD很可能作为5-HT2A受体的部分激动剂起作用。它的迷幻效果被认为主要来自于它对分布在大脑各处的5-HT2A受体的作用呢。\n\n1P-LSD也很可能对各种单胺受体显示出结合活性，比如多巴胺和去甲肾上腺素受体。不过，目前还没有实验数据支持这些说法哦。\n\n理论上，1P-LSD可能是LSD的前药。虽然1P-LSD在小鼠体内的效力只有LSD的38%，但当1P-LSD在人血清中孵育时，通过LC-MS可以检测到LSD。目前正在进行后续研究，比较LSD和1P-LSD在5-HT受体上的亲和力和选择性，并确定1P-LSD是否在体内水解为LSD。除此之外，1P-LSD也有可能本身就具有活性呢。\n\n在上述研究发表之前，药物化学家和迷幻剂研究员David E. Nichols据报道在私人通信中评论了1P-LSD潜在的血清素受体结合动力学：\n\n“我确信1-丙酰基也会从吲哚上水解下来，但我不知道体内条件是否允许。在化学实验室里，你可以去掉N-苯甲酰基，所以N-丙酰基可能也会掉下来。但在体内呢？我不知道答案。不过，作为N-丙酰基化合物，它本身是没有活性的。LSD停靠在5-HT2A受体的方式是吲哚NH与丝氨酸5.46形成氢键。有了丙酰基，它就塞不进受体了。”",
+    "mechanism_summary": "基于它和LSD的结构相似性，1P-LSD很可能作为5-HT2A受体的部分激动剂起作用。它的迷幻效果被认为主要来自于它对分布在大脑各处的5-HT2A受体的作用呢。\n\n1P-LSD也很可能对各种单胺受体显示出结合活性，比如多巴胺和去甲肾上腺素受体。不过，目前还没有实验数据支持这些说法哦。\n\n理论上，1P-LSD可能是LSD的前药。虽然1P-LSD在小鼠体内的效力只有LSD的38%，但当1P-LSD在人血清中孵育时，通过LC-MS可以检测到LSD。目前正在进行后续研究，比较LSD和1P-LSD在5-HT受体上的亲和力和选择性，并确定1P-LSD是否在体内水解为LSD。除此之外，1P-LSD也有可能本身就具有活性呢。\n\n在上述研究发表之前，药物化学家和迷幻剂研究员David E. Nichols据报道在私人通信中评论了1P-LSD潜在的血清素受体结合动力学：\n\n“我确信1-丙酰基也会从吲哚上水解下来，但我不知道体内条件是否允许。在化学实验室里，你可以去掉N-苯甲酰基，所以N-丙酰基可能也会掉下来。但在体内呢？我不知道答案。不过，作为N-丙酰基化合物，它本身是没有活性的。LSD停靠在5-HT2A受体的方式是吲哚NH与丝氨酸5.46形成氢键。有了丙酰基，它就塞不进受体了。”",
     "effects": [
       "Acuity enhancement",
       "Analysis enhancement",
@@ -1169,7 +1169,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：NMDA受体拮抗剂类药物\n\n由于缺乏关于该物质的研究，所有关于其药理学的讨论都纯粹基于它的结构，以及它与其他芳基环己胺类物质解离剂，例如DCK和氯胺酮之间的主观效应相似性。考虑到这一点，2-氟去氯氯胺酮被认为可作为NMDA受体拮抗剂类药物发挥作用。\n\nNMDA受体允许电信号在脑和脊髓中的神经元之间传递；要让信号通过，受体必须处于开放状态。解离剂会通过阻断NMDA受体来关闭它们。神经元之间的这种断连会导致感觉丧失、运动困难，并最终导致这种物质相当于“K洞”的状态。",
+    "mechanism_summary": "由于缺乏关于该物质的研究，所有关于其药理学的讨论都纯粹基于它的结构，以及它与其他芳基环己胺类物质解离剂，例如DCK和氯胺酮之间的主观效应相似性。考虑到这一点，2-氟去氯氯胺酮被认为可作为NMDA受体拮抗剂类药物发挥作用。\n\nNMDA受体允许电信号在脑和脊髓中的神经元之间传递；要让信号通过，受体必须处于开放状态。解离剂会通过阻断NMDA受体来关闭它们。神经元之间的这种断连会导致感觉丧失、运动困难，并最终导致这种物质相当于“K洞”的状态。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -1599,7 +1599,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "2-甲基-2-丁醇会抑制 GABA 受体 上一个促惊厥位点的结合，[[10]](#cite_note-10) 这会导致带负电荷的氯离子进入神经元，从而增加神经元放电所需的兴奋量。由于它是一种叔醇，它不能像乙醇那样被乙醇脱氢酶代谢成醛（醛是导致大量摄入 乙醇 后宿醉的原因）。这使得 2M2B 比伯醇安全得多呢。[[11]](#cite_note-11) 但是嘛，这也导致了一个后果，就是 2-甲基-2-丁醇的作用时间延长了，摄入后效果可持续长达 12 小时哦。",
+    "mechanism_summary": "2-甲基-2-丁醇会抑制 GABA 受体 上一个促惊厥位点的结合， 这会导致带负电荷的氯离子进入神经元，从而增加神经元放电所需的兴奋量。由于它是一种叔醇，它不能像乙醇那样被乙醇脱氢酶代谢成醛（醛是导致大量摄入 乙醇 后宿醉的原因）。这使得 2M2B 比伯醇安全得多呢。 但是嘛，这也导致了一个后果，就是 2-甲基-2-丁醇的作用时间延长了，摄入后效果可持续长达 12 小时哦。",
     "effects": [
       "Amnesia",
       "Anxiety suppression",
@@ -3142,7 +3142,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能致幻剂\n\n2C-B-FLY 是一种致幻苯乙胺，是 2C-B 的二氢二呋喃类似物。\n\n关于其全部效应是如何产生的知之甚少，一般认为 2C-B-FLY 的致幻效应来自于它作为部分激动剂对5-HT2A 受体的功效。然而，这些相互作用的作用以及它们如何导致致幻体验，仍然是正在进行的科学研究的主题呢。",
+    "mechanism_summary": "2C-B-FLY 是一种致幻苯乙胺，是 2C-B 的二氢二呋喃类似物。\n\n关于其全部效应是如何产生的知之甚少，一般认为 2C-B-FLY 的致幻效应来自于它作为部分激动剂对5-HT2A 受体的功效。然而，这些相互作用的作用以及它们如何导致致幻体验，仍然是正在进行的科学研究的主题呢。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -3313,7 +3313,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能迷幻剂\n\n2C-D 的迷幻作用被认为来自于它作为部分激动剂在 5-HT2A 受体上的功效。然而，这些相互作用的作用以及它们如何导致迷幻体验仍然难以捉摸。",
+    "mechanism_summary": "2C-D 的迷幻作用被认为来自于它作为部分激动剂在 5-HT2A 受体上的功效。然而，这些相互作用的作用以及它们如何导致迷幻体验仍然难以捉摸。",
     "effects": [
       "Acuity enhancement",
       "Analysis enhancement",
@@ -3391,7 +3391,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能迷幻剂\n\n人们认为 2C-E 的迷幻效果来自其作为部分激动剂在 5-HT2A 受体上的功效。然而，这些相互作用的作用以及它们如何导致迷幻体验仍然是正在进行的科学研究的主题嘛。",
+    "mechanism_summary": "人们认为 2C-E 的迷幻效果来自其作为部分激动剂在 5-HT2A 受体上的功效。然而，这些相互作用的作用以及它们如何导致迷幻体验仍然是正在进行的科学研究的主题嘛。",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -3466,7 +3466,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "See also: Serotonergic psychedelics\n\nThe psychedelic effects of 2C-EF are believed to stem from its activity as a partial agonist at 5-HT receptors. The precise role of these interactions, and how they give rise to the psychedelic experience, remains an active area of scientific investigation.",
+    "mechanism_summary": "The psychedelic effects of 2C-EF are believed to stem from its activity as a partial agonist at 5-HT receptors. The precise role of these interactions, and how they give rise to the psychedelic experience, remains an active area of scientific investigation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -3729,7 +3729,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能致幻剂\n\n2C-I 是 2C-x 家族的一种迷幻苯乙胺。2C-I 通常以片剂或胶囊形式口服，或以粉末形式鼻吸。也有发现它被浸泡在小方块吸墨纸上用于口服，这是一种常见于分发和滥用 LSD 的技术。2C-I 主要引起刺激和致幻效果，包括增强的视觉、听觉和触觉感受。中等剂量可能会引起完全的幻觉，也能产生欣快感。\n\n人们认为 2C-I 的迷幻效果来自于它作为部分激动剂在 5-HT2A 受体上的功效。然而，这些相互作用的作用机制以及它们如何导致迷幻体验，仍然是正在进行的科学研究的主题呢。",
+    "mechanism_summary": "2C-I 是 2C-x 家族的一种迷幻苯乙胺。2C-I 通常以片剂或胶囊形式口服，或以粉末形式鼻吸。也有发现它被浸泡在小方块吸墨纸上用于口服，这是一种常见于分发和滥用 LSD 的技术。2C-I 主要引起刺激和致幻效果，包括增强的视觉、听觉和触觉感受。中等剂量可能会引起完全的幻觉，也能产生欣快感。\n\n人们认为 2C-I 的迷幻效果来自于它作为部分激动剂在 5-HT2A 受体上的功效。然而，这些相互作用的作用机制以及它们如何导致迷幻体验，仍然是正在进行的科学研究的主题呢。",
     "effects": [
       "Acuity enhancement",
       "Analysis enhancement",
@@ -3920,7 +3920,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素致幻剂\n\n2C-P 是 2C 家族中一种相对强效且长效的致幻苯乙胺，同时也具有兴奋剂类型的效果。它最早由亚历山大·舒尔金在他的书 PiHKAL 中描述。\n\n2C-P 已被证明能产生各种强烈的 致幻 效果，从意识和感知的剧烈变化，到睁眼和闭眼视觉效果。按同等剂量计算，2C-P 被认为是 2C-x 化合物中最强的一种，只有 2C-TFM 能与之匹敌呢。\n\n2C-P 的 致幻 效果被认为来自于它作为 部分激动剂 对 5-HT2A 受体 的功效。然而，这些相互作用的作用以及它们如何导致 致幻 体验仍然是个谜哦。",
+    "mechanism_summary": "2C-P 是 2C 家族中一种相对强效且长效的致幻苯乙胺，同时也具有兴奋剂类型的效果。它最早由亚历山大·舒尔金在他的书 PiHKAL 中描述。\n\n2C-P 已被证明能产生各种强烈的 致幻 效果，从意识和感知的剧烈变化，到睁眼和闭眼视觉效果。按同等剂量计算，2C-P 被认为是 2C-x 化合物中最强的一种，只有 2C-TFM 能与之匹敌呢。\n\n2C-P 的 致幻 效果被认为来自于它作为 部分激动剂 对 5-HT2A 受体 的功效。然而，这些相互作用的作用以及它们如何导致 致幻 体验仍然是个谜哦。",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -4192,7 +4192,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能致幻剂\n\n2C-T-2 产生致幻和神圣致幻效果的作用机制尚未在科学文献中确立；然而，它主要的迷幻效果很可能是作为5-HT2A受体的部分激动剂的结果。这个作用机制也是许多其他迷幻苯乙胺类物质和色胺类物质所共有的呢。\n\n虽然目前还没有确定的科学实验来证实 2C-T-2 的 MAO-A 抑制作用，但在 4 位被烷硫基取代的苯乙胺衍生物（如 4-MTA，以及 2C-T-7 的 2,5-去甲氧基衍生物）已知是选择性单胺氧化酶A抑制剂。[需要引用] 此外，许多 2C-T-x 的苯丙胺类似物已被发现具有高度选择性的 MAO-A 抑制作用[[5]](#cite_note-Gallardo-Godoy2005-5)。因此，这种物质可能同样具有 MAOI 效应哦。[[6]](#cite_note-6)\n\n不过，这些相互作用的作用以及它们如何导致迷幻体验，目前还是个谜呢。",
+    "mechanism_summary": "2C-T-2 产生致幻和神圣致幻效果的作用机制尚未在科学文献中确立；然而，它主要的迷幻效果很可能是作为5-HT2A受体的部分激动剂的结果。这个作用机制也是许多其他迷幻苯乙胺类物质和色胺类物质所共有的呢。\n\n虽然目前还没有确定的科学实验来证实 2C-T-2 的 MAO-A 抑制作用，但在 4 位被烷硫基取代的苯乙胺衍生物（如 4-MTA，以及 2C-T-7 的 2,5-去甲氧基衍生物）已知是选择性单胺氧化酶A抑制剂。 此外，许多 2C-T-x 的苯丙胺类似物已被发现具有高度选择性的 MAO-A 抑制作用。因此，这种物质可能同样具有 MAOI 效应哦。\n\n不过，这些相互作用的作用以及它们如何导致迷幻体验，目前还是个谜呢。",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -4412,7 +4412,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "另见：血清素能致幻剂\n\n2C-T-7 的迷幻作用已被证明来自于其作为部分激动剂在 5-HT2A 受体上的功效。然而，这些相互作用的作用机制以及它们如何导致迷幻体验仍然难以捉摸呢。\n\n由于该化合物过量服用会出现严重的副作用（可能是血清素综合征），并且 2C-T-7 的 2,5-去甲氧基衍生物已被证明是中等强度的单胺氧化酶 A 抑制剂，而且 2,5-二甲氧基苯乙胺类物质 系列的许多苯丙胺类似物是高选择性的 MAO-A 抑制剂（其中 ALEPH-7 是最有效的之一），因此人们普遍认为该物质也具有 单胺氧化酶抑制剂（MAOI） 效应。",
+    "mechanism_summary": "2C-T-7 的迷幻作用已被证明来自于其作为部分激动剂在 5-HT2A 受体上的功效。然而，这些相互作用的作用机制以及它们如何导致迷幻体验仍然难以捉摸呢。\n\n由于该化合物过量服用会出现严重的副作用（可能是血清素综合征），并且 2C-T-7 的 2,5-去甲氧基衍生物已被证明是中等强度的单胺氧化酶 A 抑制剂，而且 2,5-二甲氧基苯乙胺类物质 系列的许多苯丙胺类似物是高选择性的 MAO-A 抑制剂（其中 ALEPH-7 是最有效的之一），因此人们普遍认为该物质也具有 单胺氧化酶抑制剂（MAOI） 效应。",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -5896,7 +5896,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：NMDA受体拮抗剂\n\n3-MeO-PCE 主要作为NMDA受体拮抗剂起作用。NMDA 受体允许电信号在通过大脑和脊柱的神经元之间传递；为了传递信号，受体必须是开放的。解离剂通过阻断 NMDA 受体来关闭它们。这种神经元的断连导致感觉丧失、运动困难，最终导致与著名的“K洞”几乎相同的状态。\n\n3-MeO-PCE 对 NMDA 受体的 Ki 值为 61 nM，对多巴胺转运体为 743 nM，对组胺 H2 受体为 2097 nM，对 Alpha-2A 肾上腺素受体为 964 nM，对血清素转运体为 115 nM，对 σ1 受体为 4519 nM，对 σ2 受体为 525 nM。",
+    "mechanism_summary": "3-MeO-PCE 主要作为NMDA受体拮抗剂起作用。NMDA 受体允许电信号在通过大脑和脊柱的神经元之间传递；为了传递信号，受体必须是开放的。解离剂通过阻断 NMDA 受体来关闭它们。这种神经元的断连导致感觉丧失、运动困难，最终导致与著名的“K洞”几乎相同的状态。\n\n3-MeO-PCE 对 NMDA 受体的 Ki 值为 61 nM，对多巴胺转运体为 743 nM，对组胺 H2 受体为 2097 nM，对 Alpha-2A 肾上腺素受体为 964 nM，对血清素转运体为 115 nM，对 σ1 受体为 4519 nM，对 σ2 受体为 525 nM。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -5931,7 +5931,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：NMDA受体拮抗剂\n\n由于缺乏对该物质的研究，关于其药理学的所有讨论都纯粹基于其结构以及与3-MeO-PCP、PCP和MXE等其他芳基环己胺类解离剂的主观效应相似性哦。考虑到这一点，3-MeO-PCMo被认为是一种NMDA受体拮抗剂。NMDA受体允许电信号在大脑和脊柱的神经元之间传递；为了让信号通过，受体必须是开放的。解离剂通过阻断NMDA受体来关闭它们。这种神经元的断连会导致感觉丧失、运动困难，并最终导致该物质特有的“K-hole”状态呢。",
+    "mechanism_summary": "由于缺乏对该物质的研究，关于其药理学的所有讨论都纯粹基于其结构以及与3-MeO-PCP、PCP和MXE等其他芳基环己胺类解离剂的主观效应相似性哦。考虑到这一点，3-MeO-PCMo被认为是一种NMDA受体拮抗剂。NMDA受体允许电信号在大脑和脊柱的神经元之间传递；为了让信号通过，受体必须是开放的。解离剂通过阻断NMDA受体来关闭它们。这种神经元的断连会导致感觉丧失、运动困难，并最终导致该物质特有的“K-hole”状态呢。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -5983,7 +5983,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 660.0,
-    "mechanism_summary": "更多信息：NMDA 受体拮抗剂\n\n3-MeO-PCP 充当 NMDA 受体拮抗剂。NMDA（N-甲基-D-天冬氨酸）受体是谷氨酸受体的一种特定亚型，调节大脑和脊髓神经元之间的电信号传递；为了传递信号，受体必须处于开放状态。\n\n解离剂通过结合并阻断 NMDA 受体来抑制其正常功能。这种对神经网络活动的破坏会导致正常的认知和情感处理能力丧失、精神运动功能丧失、麻醉，最终导致相当于“k-hole”的状态。\n\n3-MeO-PCP 对 NMDA 受体的 Ki 值为 20 nM，对 sigma-1 受体为 42 nM，对血清素转运体 (SERT) 为 216 nM，对 H1 受体为 2960 nM。[[6]](#cite_note-6) [[7]](#cite_note-.22AMCD.22-7) 它与 NMDA 受体的结合亲和力高于 PCP，并且在三种同分异构的茴香基取代物中亲和力最高，其次是 2-MeO-PCP 和 4-MeO-PCP。[[8]](#cite_note-8) 像它的姊妹化合物 PCP 一样，与氯胺酮不同，3-MeO-PCP 显示出抑制相对未被研究的 PCP2 谷氨酸受体的高亲和力。[来源请求]\n\n尽管曾有人声称 3-MeO-PCP 具有阿片类或多巴胺能活性，[[9]](#cite_note-chemist-9) 但这一假设与数据相矛盾，数据显示 3-MeO-PCP 是 NMDA 受体的强效选择性配体，而对 µ-阿片受体或多巴胺转运体没有明显的亲和力。[[10]](#cite_note-AMCD2-10) 3-MeO-PCP 之前是效力较低的解离剂 4-MeO-PCP，并于 2011 年首次作为研究用化学品上市。[[5]](#cite_note-Morris2014-5)",
+    "mechanism_summary": "3-MeO-PCP 充当 NMDA 受体拮抗剂。NMDA（N-甲基-D-天冬氨酸）受体是谷氨酸受体的一种特定亚型，调节大脑和脊髓神经元之间的电信号传递；为了传递信号，受体必须处于开放状态。\n\n解离剂通过结合并阻断 NMDA 受体来抑制其正常功能。这种对神经网络活动的破坏会导致正常的认知和情感处理能力丧失、精神运动功能丧失、麻醉，最终导致相当于“k-hole”的状态。\n\n3-MeO-PCP 对 NMDA 受体的 Ki 值为 20 nM，对 sigma-1 受体为 42 nM，对血清素转运体 (SERT) 为 216 nM，对 H1 受体为 2960 nM。 它与 NMDA 受体的结合亲和力高于 PCP，并且在三种同分异构的茴香基取代物中亲和力最高，其次是 2-MeO-PCP 和 4-MeO-PCP。 像它的姊妹化合物 PCP 一样，与氯胺酮不同，3-MeO-PCP 显示出抑制相对未被研究的 PCP2 谷氨酸受体的高亲和力。\n\n尽管曾有人声称 3-MeO-PCP 具有阿片类或多巴胺能活性， 但这一假设与数据相矛盾，数据显示 3-MeO-PCP 是 NMDA 受体的强效选择性配体，而对 µ-阿片受体或多巴胺转运体没有明显的亲和力。 3-MeO-PCP 之前是效力较低的解离剂 4-MeO-PCP，并于 2011 年首次作为研究用化学品上市。",
     "effects": [
       "Acuity enhancement",
       "Acuity suppression",
@@ -6694,7 +6694,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能迷幻剂\n\n虽然它的名称看起来像是与 2C-x 家族有关，但其实并不是这样。3C-E 实际上是艾斯卡林的 3-碳类似物，因此才会有这个名字。\n\n它的药理作用可能会与 5-HT2A 受体产生较强相互作用，这在理论上或许有助于预防丛集性头痛，或赋予该化合物缓解终末期癌症相关心理痛苦的可能性。\n\n一般认为，3C-E 的迷幻剂效应来源于它在5-HT 受体上作为部分激动剂的活性。不过，这些相互作用具体扮演了什么角色，以及它们是如何最终产生迷幻体验的，目前仍然不清楚呢。",
+    "mechanism_summary": "虽然它的名称看起来像是与 2C-x 家族有关，但其实并不是这样。3C-E 实际上是艾斯卡林的 3-碳类似物，因此才会有这个名字。\n\n它的药理作用可能会与 5-HT2A 受体产生较强相互作用，这在理论上或许有助于预防丛集性头痛，或赋予该化合物缓解终末期癌症相关心理痛苦的可能性。\n\n一般认为，3C-E 的迷幻剂效应来源于它在5-HT 受体上作为部分激动剂的活性。不过，这些相互作用具体扮演了什么角色，以及它们是如何最终产生迷幻体验的，目前仍然不清楚呢。",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/pihkal/pihkal025.shtml"
@@ -7145,7 +7145,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "另见：血清素能致幻剂\n\n当 O-乙酰赛洛辛（也就是 4-AcO-DMT）进入身体后，它会在首过代谢期间以及随后经过肝脏时，被脱乙酰酶/乙酰转移酶脱去乙酰基，变成赛洛辛（因为通过非肠道途径摄入时它也有效，所以这点很明显喵）。\n\n4-AcO-DMT 的迷幻效果被认为来自于它作为5-HT2A受体的部分激动剂的作用。不过，这些相互作用具体是如何产生迷幻体验的，科学家们还在努力研究中呢。\n\n关于乙酰化形式（4-AcO-DMT）和非乙酰化形式（赛洛辛）在主观感受上的区别，说法不一喵：有的用户说 O-乙酰赛洛辛持续时间稍微长一点，有的却说短得多。许多用户报告说，和赛洛辛相比，它的身体负荷（Body load）和恶心感更轻。还有些用户觉得 O-乙酰赛洛辛产生的视觉效果更像 DMT，而不是赛洛辛或赛洛西宾。如果 psilacetin 本身就有精神活性，而不仅仅是作为前药的话，这些差异是有可能的。尽管如此，目前还没有对照临床研究来区分 psilacetin、psilocin 和 psilocybin 之间的现象学差异哦。",
+    "mechanism_summary": "当 O-乙酰赛洛辛（也就是 4-AcO-DMT）进入身体后，它会在首过代谢期间以及随后经过肝脏时，被脱乙酰酶/乙酰转移酶脱去乙酰基，变成赛洛辛（因为通过非肠道途径摄入时它也有效，所以这点很明显喵）。\n\n4-AcO-DMT 的迷幻效果被认为来自于它作为5-HT2A受体的部分激动剂的作用。不过，这些相互作用具体是如何产生迷幻体验的，科学家们还在努力研究中呢。\n\n关于乙酰化形式（4-AcO-DMT）和非乙酰化形式（赛洛辛）在主观感受上的区别，说法不一喵：有的用户说 O-乙酰赛洛辛持续时间稍微长一点，有的却说短得多。许多用户报告说，和赛洛辛相比，它的身体负荷（Body load）和恶心感更轻。还有些用户觉得 O-乙酰赛洛辛产生的视觉效果更像 DMT，而不是赛洛辛或赛洛西宾。如果 psilacetin 本身就有精神活性，而不仅仅是作为前药的话，这些差异是有可能的。尽管如此，目前还没有对照临床研究来区分 psilacetin、psilocin 和 psilocybin 之间的现象学差异哦。",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -7346,7 +7346,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能迷幻剂\n\n与大多数迷幻色胺类物质一样，4-AcO-MiPT被认为主要作为5-HT2A部分激动剂起作用。迷幻效应被认为来自于4-AcO-MiPT在5-HT2A受体上的结合功效。\n\n然而，这些相互作用的作用以及它们如何导致迷幻体验仍然难以捉摸。",
+    "mechanism_summary": "与大多数迷幻色胺类物质一样，4-AcO-MiPT被认为主要作为5-HT2A部分激动剂起作用。迷幻效应被认为来自于4-AcO-MiPT在5-HT2A受体上的结合功效。\n\n然而，这些相互作用的作用以及它们如何导致迷幻体验仍然难以捉摸。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -8532,7 +8532,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能迷幻剂\n\n4-HO-MET 的迷幻作用被认为来自于它作为部分激动剂在 5-HT2A 受体上的活性。然而，这些相互作用的作用以及它们如何导致迷幻体验仍然是正在进行的科学研究的主题呢。",
+    "mechanism_summary": "4-HO-MET 的迷幻作用被认为来自于它作为部分激动剂在 5-HT2A 受体上的活性。然而，这些相互作用的作用以及它们如何导致迷幻体验仍然是正在进行的科学研究的主题呢。",
     "effects": [
       "Acuity enhancement",
       "Analysis enhancement",
@@ -8611,7 +8611,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能迷幻剂\n\n4-HO-MiPT的迷幻效应被认为来自于它作为部分激动剂对5-HT2A受体的功效。然而，这些相互作用的作用以及它们如何导致迷幻体验仍然难以捉摸。4-HO-MiPT被认为是一种血清素能迷幻剂。与其他血清素能迷幻剂一样，其作用机制被认为源于其对5-HT2A和5-HT1A血清素受体的部分激动作用。",
+    "mechanism_summary": "4-HO-MiPT的迷幻效应被认为来自于它作为部分激动剂对5-HT2A受体的功效。然而，这些相互作用的作用以及它们如何导致迷幻体验仍然难以捉摸。4-HO-MiPT被认为是一种血清素能迷幻剂。与其他血清素能迷幻剂一样，其作用机制被认为源于其对5-HT2A和5-HT1A血清素受体的部分激动作用。",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -9005,7 +9005,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "另见：NMDA受体拮抗剂类药物\n\n4-MeO-PCP 作为 NMDA 受体拮抗剂发挥作用。NMDA 受体允许电信号在大脑和脊柱的神经元之间传递；为了让信号传递，受体必须是开放的。解离剂通过阻断 NMDA 受体来关闭它们。这种神经元的断连导致感觉丧失、运动困难，最终导致几乎等同于著名的“K洞”的状态。\n\n4-MeO-PCP 对 NMDA 受体的亲和力低于 PCP，但高于氯胺酮。它具有口服活性，剂量范围与氯胺酮相似，一些用户需要超过 100mg 的剂量才能达到预期的效果。 用户报告称有效剂量存在巨大差异；这些差异部分可以用灰色市场上销售的样品中存在未反应的 PCC 和其他杂质来解释。 尽管有人认为 4-MeO-PCP 具有多巴胺能活性，但它是 NMDA 受体的相对选择性配体，对多巴胺转运蛋白没有明显的亲和力。",
+    "mechanism_summary": "4-MeO-PCP 作为 NMDA 受体拮抗剂发挥作用。NMDA 受体允许电信号在大脑和脊柱的神经元之间传递；为了让信号传递，受体必须是开放的。解离剂通过阻断 NMDA 受体来关闭它们。这种神经元的断连导致感觉丧失、运动困难，最终导致几乎等同于著名的“K洞”的状态。\n\n4-MeO-PCP 对 NMDA 受体的亲和力低于 PCP，但高于氯胺酮。它具有口服活性，剂量范围与氯胺酮相似，一些用户需要超过 100mg 的剂量才能达到预期的效果。 用户报告称有效剂量存在巨大差异；这些差异部分可以用灰色市场上销售的样品中存在未反应的 PCC 和其他杂质来解释。 尽管有人认为 4-MeO-PCP 具有多巴胺能活性，但它是 NMDA 受体的相对选择性配体，对多巴胺转运蛋白没有明显的亲和力。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -10699,7 +10699,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "See also: Serotonergic psychedelics\n\nThe psychedelic effects of 5-MeO-αMT are believed to arise from its activity as a partial agonist at 5-HT receptors. The precise role of these interactions and how they produce the psychedelic experience remain poorly understood.\n\n5-MeO-αMT also inhibits the reuptake of monoamines (dopamine, serotonin, and norepinephrine) and stimulates their release.",
+    "mechanism_summary": "The psychedelic effects of 5-MeO-αMT are believed to arise from its activity as a partial agonist at 5-HT receptors. The precise role of these interactions and how they produce the psychedelic experience remain poorly understood.\n\n5-MeO-αMT also inhibits the reuptake of monoamines (dopamine, serotonin, and norepinephrine) and stimulates their release.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -10875,7 +10875,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能迷幻剂\n\n5-MeO-DiPT 产生的所谓致幻和致神效应的机制被认为主要源于 5-HT2A 受体激动作用，尽管其他作用机制如单胺氧化酶抑制 (MAOI) 也可能参与其中。[[4]](#cite_note-pmid17223101-4) 5-MeO-DiPT 最强的受体结合亲和力是在 5-HT1A 受体上。[[5]](#cite_note-5) 然而，这些相互作用的作用以及它们如何导致迷幻体验仍然难以捉摸。\n\n5-MeO-DiPT 在大鼠中具有神经毒性。[[6]](#cite_note-Noworyta-Sokolowska2016-6)",
+    "mechanism_summary": "5-MeO-DiPT 产生的所谓致幻和致神效应的机制被认为主要源于 5-HT2A 受体激动作用，尽管其他作用机制如单胺氧化酶抑制 (MAOI) 也可能参与其中。 5-MeO-DiPT 最强的受体结合亲和力是在 5-HT1A 受体上。 然而，这些相互作用的作用以及它们如何导致迷幻体验仍然难以捉摸。\n\n5-MeO-DiPT 在大鼠中具有神经毒性。",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/tihkal/tihkal37.shtml"
@@ -11142,7 +11142,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素类迷幻剂\n\n5-MeO-MiPT 的迷幻效应被认为源于其作为部分激动剂在 5-HT2A 受体上的功效，也有推测认为它具有抑制MAO（即胃中的消化酶）等其他作用机制，但这尚未得到科学证实。虽然 5-MeO-MiPT 与 5-HT1A 受体的结合最强，但它可能作为一种中等效力的血清素-去甲肾上腺素再摄取抑制剂（SNRI），不过其他研究未发现其在单胺转运体上有显著作用。这些机制可能有助于解释为什么有许多轶事报告称该化合物在适度剂量下具有抗抑郁和抗焦虑作用。例如，SNRI 类药物如文拉法辛常用于治疗抑郁症，而 5-HT1A 激动剂丁螺环酮主要用于治疗焦虑症。",
+    "mechanism_summary": "5-MeO-MiPT 的迷幻效应被认为源于其作为部分激动剂在 5-HT2A 受体上的功效，也有推测认为它具有抑制MAO（即胃中的消化酶）等其他作用机制，但这尚未得到科学证实。虽然 5-MeO-MiPT 与 5-HT1A 受体的结合最强，但它可能作为一种中等效力的血清素-去甲肾上腺素再摄取抑制剂（SNRI），不过其他研究未发现其在单胺转运体上有显著作用。这些机制可能有助于解释为什么有许多轶事报告称该化合物在适度剂量下具有抗抑郁和抗焦虑作用。例如，SNRI 类药物如文拉法辛常用于治疗抑郁症，而 5-HT1A 激动剂丁螺环酮主要用于治疗焦虑症。",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -12696,7 +12696,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Codeine: is an opioid agonist with preferential selectivity for mu-opioid receptors . Codeine has relatively weak analgesic activity; however, its active metabolites morphine (5-15%, via CYP2D6 metabolism ) and codeine-6-glucuronide (50-70% via UGT2B7 metabolism ) have notable analgesic properties ( especially morphine , a potent opioid agonist). The therapeutic effects of codeine include analgesic, antidiarrheal and antitussive actions. Acetaminophen: The mechanism of action of acetaminophen is not well-defined. Its antipyretic and analgesic activity are thought to result from inhibition of prostaglandin synthesis and release in the central nervous system. Inhibition of the nitric oxide (NO) pathway via action on neurotransmitter receptors, such as N-methyl-D-aspartate (NMDA) and substance P, also may result in elevation of the pain threshold.",
+    "mechanism_summary": "Codeine: is an opioid agonist with preferential selectivity for mu-opioid receptors. Codeine has relatively weak analgesic activity; however, its active metabolites morphine (5-15%, via CYP2D6 metabolism ) and codeine-6-glucuronide (50-70% via UGT2B7 metabolism ) have notable analgesic properties ( especially morphine, a potent opioid agonist). The therapeutic effects of codeine include analgesic, antidiarrheal and antitussive actions. Acetaminophen: The mechanism of action of acetaminophen is not well-defined. Its antipyretic and analgesic activity are thought to result from inhibition of prostaglandin synthesis and release in the central nervous system. Inhibition of the nitric oxide (NO) pathway via action on neurotransmitter receptors, such as N-methyl-D-aspartate (NMDA) and substance P, also may result in elevation of the pain threshold.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -12919,7 +12919,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -13949,7 +13949,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Binds to bone hydroxyapatite and inhibits osteoclast activity , thus reducing bone resorption (breakdown).",
+    "mechanism_summary": "Binds to bone hydroxyapatite and inhibits osteoclast activity, thus reducing bone resorption (breakdown).",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -14278,7 +14278,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits xanthine oxidase , thus reducing uric acid production. Xanthine oxidase is the enzyme responsible for the conversion of hypoxanthine to xanthine and of xanthine to uric acid.",
+    "mechanism_summary": "Inhibits xanthine oxidase, thus reducing uric acid production. Xanthine oxidase is the enzyme responsible for the conversion of hypoxanthine to xanthine and of xanthine to uric acid.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -14405,7 +14405,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1260.0,
-    "mechanism_summary": "Inhibits dipeptidyl peptidase 4 (DPP-4) enzymes from inactivating incretin hormones, including glucagon-like peptide-1 (GLP-1) and glucose-dependent insulinotropic polypeptide (GIP). Incretin hormones help regulate blood glucose levels by increasing insulin synthesis and release , and lowering glucagon secretion , which reduces hepatic glucose production .",
+    "mechanism_summary": "Inhibits dipeptidyl peptidase 4 (DPP-4) enzymes from inactivating incretin hormones, including glucagon-like peptide-1 (GLP-1) and glucose-dependent insulinotropic polypeptide (GIP). Incretin hormones help regulate blood glucose levels by increasing insulin synthesis and release, and lowering glucagon secretion, which reduces hepatic glucose production.",
     "effects": [],
     "references": [
       "FDA label for alogliptin and metformin hydrochloride tablets (alogliptin), Clinical Pharmacology 12.3 — t½ ≈ 21 hours"
@@ -15234,7 +15234,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 450.0,
-    "mechanism_summary": "Inhibits potassium excretion and sodium resorption by blocking epithelial cell sodium channels in the collecting duct of nephrons. The primary action of epithelial sodium channel blockers is potassium retention . They have weak diuretic and antihypertensive properties, and alone have minimal effect on the excretion and retention of other electrolytes.",
+    "mechanism_summary": "Inhibits potassium excretion and sodium resorption by blocking epithelial cell sodium channels in the collecting duct of nephrons. The primary action of epithelial sodium channel blockers is potassium retention. They have weak diuretic and antihypertensive properties, and alone have minimal effect on the excretion and retention of other electrolytes.",
     "effects": [],
     "references": [
       "FDA label for amiloride hydrochloride, Clinical Pharmacology — plasma half-life 6 to 9 hours"
@@ -15265,7 +15265,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Amiloride: Inhibits potassium excretion and sodium resorption by blocking epithelial cell sodium channels in the collecting duct of nephrons. The primary action of epithelial sodium channel blockers is potassium retention . They have weak diuretic and antihypertensive properties, and alone have minimal effect on the excretion and retention of other electrolytes. Hydrochlorothiazide: Inhibits sodium reabsorption by inhibiting the sodium-chloride cotransporters in the distal convoluted tubule of nephrons, causing increased excretion of sodium, chloride, potassium, magnesium, and water. Thiazide diuretics cause retention of calcium, bicarbonate, and uric acid.",
+    "mechanism_summary": "Amiloride: Inhibits potassium excretion and sodium resorption by blocking epithelial cell sodium channels in the collecting duct of nephrons. The primary action of epithelial sodium channel blockers is potassium retention. They have weak diuretic and antihypertensive properties, and alone have minimal effect on the excretion and retention of other electrolytes. Hydrochlorothiazide: Inhibits sodium reabsorption by inhibiting the sodium-chloride cotransporters in the distal convoluted tubule of nephrons, causing increased excretion of sodium, chloride, potassium, magnesium, and water. Thiazide diuretics cause retention of calcium, bicarbonate, and uric acid.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -15358,7 +15358,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Amiodarone primarily blocks myocardial potassium channels , in addition to blocking calcium and sodium channels in cardiac tissue, resulting in prolongation of the cardiac action potential and refractory period. Amiodarone also inhibits alpha- and beta-adrenergic receptors, resulting in a reduction in sympathetic stimulation of the heart, a negative chronotropic effect, and a decrease in myocardial oxygen demands. Amiodarone may cause vasodilation by stimulation of the release of nitric oxide and cyclooxygenase-dependent relaxing endothelial factors.",
+    "mechanism_summary": "Amiodarone primarily blocks myocardial potassium channels, in addition to blocking calcium and sodium channels in cardiac tissue, resulting in prolongation of the cardiac action potential and refractory period. Amiodarone also inhibits alpha- and beta-adrenergic receptors, resulting in a reduction in sympathetic stimulation of the heart, a negative chronotropic effect, and a decrease in myocardial oxygen demands. Amiodarone may cause vasodilation by stimulation of the release of nitric oxide and cyclooxygenase-dependent relaxing endothelial factors.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -15465,7 +15465,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits calcium ion influx into vascular smooth muscle and cardiac muscle causing peripheral vasodilation and coronary artery vasodilation .",
+    "mechanism_summary": "Inhibits calcium ion influx into vascular smooth muscle and cardiac muscle causing peripheral vasodilation and coronary artery vasodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -15590,7 +15590,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Amoxicillin : inhibits bacterial cell wall synthesis by binding to and inactivating penicillin-binding proteins (PBPs) present in the bacterial cell wall. Clavulanate : protects amoxicillin from degradation by some beta-lactamase enzymes thus extending the activity to include bacteria normally resistant to amoxicillin.",
+    "mechanism_summary": "Amoxicillin: inhibits bacterial cell wall synthesis by binding to and inactivating penicillin-binding proteins (PBPs) present in the bacterial cell wall. Clavulanate: protects amoxicillin from degradation by some beta-lactamase enzymes thus extending the activity to include bacteria normally resistant to amoxicillin.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -15794,7 +15794,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "另见：血清素能致幻剂\n\nαMT 是一种相对平衡的再摄取抑制剂，也是三种主要单胺类神经递质（血清素、去甲肾上腺素和多巴胺）的释放剂，并且是非选择性的血清素受体激动剂。\n\n人们认为 αMT 的迷幻效果来自于它在 5-HT2A 受体上作为部分激动剂的功效。\n\nαMT 还作为血清素、去甲肾上腺素和多巴胺的释放剂起作用。它在体外和体内也表现出非常微弱的非选择性 可逆性MAOA抑制剂（RIMA）活性，但在常规剂量下，这一点似乎不太重要（甚至可能完全不重要）。",
+    "mechanism_summary": "αMT 是一种相对平衡的再摄取抑制剂，也是三种主要单胺类神经递质（血清素、去甲肾上腺素和多巴胺）的释放剂，并且是非选择性的血清素受体激动剂。\n\n人们认为 αMT 的迷幻效果来自于它在 5-HT2A 受体上作为部分激动剂的功效。\n\nαMT 还作为血清素、去甲肾上腺素和多巴胺的释放剂起作用。它在体外和体内也表现出非常微弱的非选择性 可逆性MAOA抑制剂（RIMA）活性，但在常规剂量下，这一点似乎不太重要（甚至可能完全不重要）。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -15986,7 +15986,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Directly inhibits coagulation factor Xa , disrupting platelet activation and fibrin clot formation.",
+    "mechanism_summary": "Directly inhibits coagulation factor Xa, disrupting platelet activation and fibrin clot formation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -16160,7 +16160,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "See also: Serotonergic psychedelics\n\nThe psychedelic effects of 4C-D are believed to arise from its activity as a partial agonist at 5-HT receptors. The precise role of these interactions, and the exact mechanism by which they produce a psychedelic experience, has not yet been fully elucidated.\n\nIn a forum discussion, users have proposed that 4C-D may function as a monoamine oxidase inhibitor (MAOI), based on its structural resemblance to 5-MeO-7-Me-AET or 7-Me-AET, the latter of which has been demonstrated to be a potent MAOI and serotonin releasing agent. No evidence supports this property for 4C-D, though it should be taken into consideration when deciding to combine this substance with other monoaminergic drugs.",
+    "mechanism_summary": "The psychedelic effects of 4C-D are believed to arise from its activity as a partial agonist at 5-HT receptors. The precise role of these interactions, and the exact mechanism by which they produce a psychedelic experience, has not yet been fully elucidated.\n\nIn a forum discussion, users have proposed that 4C-D may function as a monoamine oxidase inhibitor (MAOI), based on its structural resemblance to 5-MeO-7-Me-AET or 7-Me-AET, the latter of which has been demonstrated to be a potent MAOI and serotonin releasing agent. No evidence supports this property for 4C-D, though it should be taken into consideration when deciding to combine this substance with other monoaminergic drugs.",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/pihkal/pihkal008.shtml"
@@ -16519,7 +16519,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits HMG-CoA reductase , the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
+    "mechanism_summary": "Inhibits HMG-CoA reductase, the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -16614,7 +16614,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 300.0,
-    "mechanism_summary": "Inhibits cGMP specific phosphodiesterase type-5 (PDE-5) enzymes from degrading cyclic guanosine monophosphate (cGMP) . Sexual stimulation creates a release of nitric oxide, which increases cGMP that causes smooth muscle relaxation allowing blood flow into the penis to produce an erection.",
+    "mechanism_summary": "Inhibits cGMP specific phosphodiesterase type-5 (PDE-5) enzymes from degrading cyclic guanosine monophosphate (cGMP). Sexual stimulation creates a release of nitric oxide, which increases cGMP that causes smooth muscle relaxation allowing blood flow into the penis to produce an erection.",
     "effects": [],
     "references": [
       "FDA label for Avanafil (avanafil), Clinical Pharmacology/Pharmacokinetics — t1/2 ≈ 5 h"
@@ -16703,7 +16703,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能致幻剂\n\n死藤水的迷幻效果已被证实源于其作为部分激动剂在5-HT2A受体上的功效。[[9]](#cite_note-9) 然而，这些相互作用的作用及其如何导致迷幻体验仍然是科学阐释的对象。\n\n骆驼蓬碱类生物碱被归类为MAO抑制性β-咔啉。在B. caapi（卡皮木）藤中研究最多的三种骆驼蓬碱类生物碱是哈尔明碱、哈尔马林和四氢哈尔明碱。哈尔明碱和哈尔马林是单胺氧化酶A（MAO-A）的选择性和可逆性抑制剂，而四氢哈尔明碱是一种弱血清素再摄取抑制剂（SRI）。[[10]](#cite_note-10)\n\n这种对MAO-A的抑制作用使DMT能够未代谢地扩散过胃和小肠的膜，最终穿过血脑屏障（其本身不需要MAO-A抑制）以激活大脑中的受体位点。如果没有RIMA或MAO-A的MAOI，DMT将被消化道中的单胺氧化酶氧化（从而在生物学上变得无效）。[[11]](#cite_note-11)",
+    "mechanism_summary": "死藤水的迷幻效果已被证实源于其作为部分激动剂在5-HT2A受体上的功效。 然而，这些相互作用的作用及其如何导致迷幻体验仍然是科学阐释的对象。\n\n骆驼蓬碱类生物碱被归类为MAO抑制性β-咔啉。在B. caapi（卡皮木）藤中研究最多的三种骆驼蓬碱类生物碱是哈尔明碱、哈尔马林和四氢哈尔明碱。哈尔明碱和哈尔马林是单胺氧化酶A（MAO-A）的选择性和可逆性抑制剂，而四氢哈尔明碱是一种弱血清素再摄取抑制剂（SRI）。\n\n这种对MAO-A的抑制作用使DMT能够未代谢地扩散过胃和小肠的膜，最终穿过血脑屏障（其本身不需要MAO-A抑制）以激活大脑中的受体位点。如果没有RIMA或MAO-A的MAOI，DMT将被消化道中的单胺氧化酶氧化（从而在生物学上变得无效）。",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -17023,7 +17023,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits the endonuclease activity of the polymerase acidic (PA) protein , an influenza virus-specific enzyme in the viral RNA polymerase complex required for viral gene transcription, resulting in inhibition of influenza virus replication .",
+    "mechanism_summary": "Inhibits the endonuclease activity of the polymerase acidic (PA) protein, an influenza virus-specific enzyme in the viral RNA polymerase complex required for viral gene transcription, resulting in inhibition of influenza virus replication.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -17329,7 +17329,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 66.0,
-    "mechanism_summary": "Beleodaq is a histone deacetylase (HDAC) inhibitor. HDACs catalyze the removal of acetyl groups from the lysine residues of histones and some non-histone proteins. In vitro , belinostat caused the accumulation of acetylated histones and other proteins, inducing cell cycle arrest and/or apoptosis of some transformed cells. Belinostat shows preferential cytotoxicity towards tumor cells compared to normal cells. Belinostat inhibited the enzymatic activity of histone deacetylases at nanomolar concentrations (<250 nM).",
+    "mechanism_summary": "Beleodaq is a histone deacetylase (HDAC) inhibitor. HDACs catalyze the removal of acetyl groups from the lysine residues of histones and some non-histone proteins. In vitro, belinostat caused the accumulation of acetylated histones and other proteins, inducing cell cycle arrest and/or apoptosis of some transformed cells. Belinostat shows preferential cytotoxicity towards tumor cells compared to normal cells. Belinostat inhibited the enzymatic activity of histone deacetylases at nanomolar concentrations (<250 nM).",
     "effects": [],
     "references": [
       "FDA label for Beleodaq (belinostat), Clinical Pharmacology/Pharmacokinetics — t½ = 1.1 h"
@@ -17879,7 +17879,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1140.0,
-    "mechanism_summary": "Directly inhibits coagulation factor Xa , disrupting platelet activation and fibrin clot formation.",
+    "mechanism_summary": "Directly inhibits coagulation factor Xa, disrupting platelet activation and fibrin clot formation.",
     "effects": [],
     "references": [
       "New oral anticoagulants in atrial fibrillation"
@@ -18249,7 +18249,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：5-羟色胺能迷幻剂\n\nβk-2C-B很可能作为一种5-HT受体部分激动剂发挥作用。其迷幻剂效应一般被认为来自它在5-HT受体上的活性。然而，这些相互作用具体扮演怎样的角色，以及它们如何导致迷幻体验，目前仍不明确。",
+    "mechanism_summary": "βk-2C-B很可能作为一种5-HT受体部分激动剂发挥作用。其迷幻剂效应一般被认为来自它在5-HT受体上的活性。然而，这些相互作用具体扮演怎样的角色，以及它们如何导致迷幻体验，目前仍不明确。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -18963,7 +18963,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 720.0,
-    "mechanism_summary": "布罗曼坦在兴奋剂中是非典型的，因为它除了抑制多巴胺再摄取外，还抑制血清素再摄取。它还会增加去甲肾上腺素的水平，但其作用方式尚不清楚。[[6]](#cite_note-6) 布罗曼坦的抗焦虑特性归因于其增强 GABA 能介导的作用。[[5]](#cite_note-Oliynyk2012-5)\n\n与典型的兴奋剂如苯丙胺不同，布罗曼坦的作用主要通过上调酪氨酸羟化酶和芳香族 L-氨基酸脱羧酶（L-DOPA 脱羧酶）来实现。[[7]](#cite_note-7) 啮齿动物研究表明，在服用布罗曼坦后，这些酶增加了 2-2.5 倍，它们的上调导致多巴胺、血清素和肾上腺素水平的下游增加。\n\n虽然在临床剂量下不相关，但已发现布罗曼坦在动物体内极高剂量下会产生抗胆碱能作用，包括抗毒蕈碱和抗烟碱作用。[[8]](#cite_note-8)[[9]](#cite_note-9)",
+    "mechanism_summary": "布罗曼坦在兴奋剂中是非典型的，因为它除了抑制多巴胺再摄取外，还抑制血清素再摄取。它还会增加去甲肾上腺素的水平，但其作用方式尚不清楚。 布罗曼坦的抗焦虑特性归因于其增强 GABA 能介导的作用。\n\n与典型的兴奋剂如苯丙胺不同，布罗曼坦的作用主要通过上调酪氨酸羟化酶和芳香族 L-氨基酸脱羧酶（L-DOPA 脱羧酶）来实现。 啮齿动物研究表明，在服用布罗曼坦后，这些酶增加了 2-2.5 倍，它们的上调导致多巴胺、血清素和肾上腺素水平的下游增加。\n\n虽然在临床剂量下不相关，但已发现布罗曼坦在动物体内极高剂量下会产生抗胆碱能作用，包括抗毒蕈碱和抗烟碱作用。",
     "effects": [
       "Analysis enhancement",
       "Anxiety suppression",
@@ -19117,7 +19117,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "另见：血清素类致幻剂\n\nBromo-DragonFLY 的 致幻 作用是由其在 5-HT2A 血清素受体上的 激动剂 活性介导的。Bromo-DragonFLY 对 5-HT2B 和 5-HT2C 血清素受体也具有很高的结合亲和力，并且最准确地被描述为非亚型选择性 5-HT2 激动剂，因为它实际上作为 5-HT2C 受体的激动剂效力是 5-HT2A 的两倍，并且对 5-HT2A 的选择性不到 5-HT2B 的 5 倍呢。[[2]](#cite_note-2)[[3]](#cite_note-3)\n\n进一步的研究表明，Bromo-DragonFLY 几乎完全抑制 MAO-A 的活性，这使得它自身无法被代谢。这可能就是导致它作用时间异常长的原因啦。[[4]](#cite_note-Noble2018-4)\n\n然而，这些相互作用的作用机制以及它们如何导致 迷幻 体验，仍然是一个谜团呢。",
+    "mechanism_summary": "Bromo-DragonFLY 的 致幻 作用是由其在 5-HT2A 血清素受体上的 激动剂 活性介导的。Bromo-DragonFLY 对 5-HT2B 和 5-HT2C 血清素受体也具有很高的结合亲和力，并且最准确地被描述为非亚型选择性 5-HT2 激动剂，因为它实际上作为 5-HT2C 受体的激动剂效力是 5-HT2A 的两倍，并且对 5-HT2A 的选择性不到 5-HT2B 的 5 倍呢。\n\n进一步的研究表明，Bromo-DragonFLY 几乎完全抑制 MAO-A 的活性，这使得它自身无法被代谢。这可能就是导致它作用时间异常长的原因啦。\n\n然而，这些相互作用的作用机制以及它们如何导致 迷幻 体验，仍然是一个谜团呢。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -19394,7 +19394,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Budesonide : Inhaled corticosteroids reduce inflammation in the airways, an important component in the pathogenesis of inflammatory lung disease, through a wide range of actions on several cell types (e.g., mast cells, eosinophils, neutrophils, macrophages, lymphocytes) and mediators (e.g., histamine, eicosanoids, leukotrienes, cytokines) involved in inflammation. Formoterol : Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Budesonide: Inhaled corticosteroids reduce inflammation in the airways, an important component in the pathogenesis of inflammatory lung disease, through a wide range of actions on several cell types (e.g., mast cells, eosinophils, neutrophils, macrophages, lymphocytes) and mediators (e.g., histamine, eicosanoids, leukotrienes, cytokines) involved in inflammation. Formoterol: Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -19445,7 +19445,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 12.0,
-    "mechanism_summary": "更多信息： 血清素能迷幻剂\n\n在大鼠中，皮下注射给予蟾毒色胺（1–100 μg/kg）后，药物主要分布于肺、心脏和血液中，而在脑部（下丘脑、脑干、纹状体和大脑皮层）以及肝脏中的分布则少得多。其浓度在一小时达到峰值，并会在8小时内几乎被完全清除。在人体中，静脉注射蟾毒色胺后，注入药物中有70%以5-HIAA（血清素的一种内源性代谢产物）的形式排出，而大约4%会以未代谢形式经尿液排出。口服给予的蟾毒色胺会经由单胺氧化酶发生广泛的首过代谢。\n\n蟾毒色胺的迷幻剂效应，通常被认为主要来自它作为部分激动剂作用于5-HT受体的效能。更具体地说，这种分子对5-HT2A和5-HT1A亚型显示出较高的结合亲和力。不过，这些相互作用究竟如何导致迷幻体验，其具体机制仍然尚未完全明了。\n\n其他作用机制也被认为在一定程度上参与其中，例如对血清素、去甲肾上腺素和多巴胺等神经递质的再摄取抑制。这也意味着，当蟾毒色胺与单胺氧化酶抑制剂、可逆性MAOA抑制剂、SSRI、兴奋剂，或任何作为单胺类神经递质释放剂或再摄取抑制剂发挥作用的物质联用时，可能会产生危险毒性。",
+    "mechanism_summary": "在大鼠中，皮下注射给予蟾毒色胺（1–100 μg/kg）后，药物主要分布于肺、心脏和血液中，而在脑部（下丘脑、脑干、纹状体和大脑皮层）以及肝脏中的分布则少得多。其浓度在一小时达到峰值，并会在8小时内几乎被完全清除。在人体中，静脉注射蟾毒色胺后，注入药物中有70%以5-HIAA（血清素的一种内源性代谢产物）的形式排出，而大约4%会以未代谢形式经尿液排出。口服给予的蟾毒色胺会经由单胺氧化酶发生广泛的首过代谢。\n\n蟾毒色胺的迷幻剂效应，通常被认为主要来自它作为部分激动剂作用于5-HT受体的效能。更具体地说，这种分子对5-HT2A和5-HT1A亚型显示出较高的结合亲和力。不过，这些相互作用究竟如何导致迷幻体验，其具体机制仍然尚未完全明了。\n\n其他作用机制也被认为在一定程度上参与其中，例如对血清素、去甲肾上腺素和多巴胺等神经递质的再摄取抑制。这也意味着，当蟾毒色胺与单胺氧化酶抑制剂、可逆性MAOA抑制剂、SSRI、兴奋剂，或任何作为单胺类神经递质释放剂或再摄取抑制剂发挥作用的物质联用时，可能会产生危险毒性。",
     "effects": [],
     "references": [
       "[Use of corticosteroid preparations in therapy of tuberculous meningitis]."
@@ -19671,7 +19671,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 150.0,
-    "mechanism_summary": "Buspirone has an unknown mechanism of action, however, it has high affinity for serotonin 5-HT-1A and 5-HT-2 receptors in addition to moderate affinity for dopamine D2 receptors . It does not have affinity for benzodiazepine receptors and does not affect GABA binding.",
+    "mechanism_summary": "Buspirone has an unknown mechanism of action, however, it has high affinity for serotonin 5-HT-1A and 5-HT-2 receptors in addition to moderate affinity for dopamine D2 receptors. It does not have affinity for benzodiazepine receptors and does not affect GABA binding.",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Buspirone"
@@ -20145,7 +20145,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits sodium-glucose co-transporter 2 (SGLT2) in the proximal renal tubules, reducing reabsorption of filtered glucose and thus increasing urinary glucose excretion .",
+    "mechanism_summary": "Inhibits sodium-glucose co-transporter 2 (SGLT2) in the proximal renal tubules, reducing reabsorption of filtered glucose and thus increasing urinary glucose excretion.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -20436,7 +20436,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Levodopa : is a metabolic precursor of dopamine. Once crossing the blood brain barrier it is converted into dopamine. Symptoms of Parkinson's disease are thought to be related to a lack of dopamine in the corpus striatum. Carbidopa : inhibits decarboxylation of peripheral levodopa keeping more levodopa available for transport to the brain.",
+    "mechanism_summary": "Levodopa: is a metabolic precursor of dopamine. Once crossing the blood brain barrier it is converted into dopamine. Symptoms of Parkinson's disease are thought to be related to a lack of dopamine in the corpus striatum. Carbidopa: inhibits decarboxylation of peripheral levodopa keeping more levodopa available for transport to the brain.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -21209,7 +21209,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Cefazolin is an antibacterial drug .",
+    "mechanism_summary": "Cefazolin is an antibacterial drug.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -21674,7 +21674,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 600.0,
-    "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA , by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
+    "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA, by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
     "effects": [],
     "references": [
       "Pharmacokinetics of chlordiazepoxide and metabolites following single and multiple oral doses."
@@ -21978,7 +21978,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Choline and its metabolites serve three primary physiological functions:\n\nPhospholipid synthesis. Choline is necessary for the production of various phospholipids, which form cell membranes and signaling lipid rafts. Neural lipid rafts are receiving increasing attention in the field of psychiatry. Cholinergic neurotransmission, as a precursor to acetylcholine synthesis. Choline supplementation may allow acetylcholine to accumulate to higher levels than would otherwise occur. Since acetylcholine is involved in memory function, this may explain the nootropic effects. [citation needed] Production of trimethylamine (betaine). Trimethylamine is necessary for osmoregulation and is also involved in the synthesis of SAM-e.",
+    "mechanism_summary": "Choline and its metabolites serve three primary physiological functions:\n\nPhospholipid synthesis. Choline is necessary for the production of various phospholipids, which form cell membranes and signaling lipid rafts. Neural lipid rafts are receiving increasing attention in the field of psychiatry. Cholinergic neurotransmission, as a precursor to acetylcholine synthesis. Choline supplementation may allow acetylcholine to accumulate to higher levels than would otherwise occur. Since acetylcholine is involved in memory function, this may explain the nootropic effects. Production of trimethylamine (betaine). Trimethylamine is necessary for osmoregulation and is also involved in the synthesis of SAM-e.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -22063,7 +22063,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 60.0,
-    "mechanism_summary": "Imipenem And Cilastatin for Injection (I.V.) is a combination of Imipenem And Cilastatin. Imipenem is a penem antibacterial drug . Cilastatin sodium is a renal dehydropeptidase inhibitor that limits the renal metabolism of imipenem.",
+    "mechanism_summary": "Imipenem And Cilastatin for Injection (I.V.) is a combination of Imipenem And Cilastatin. Imipenem is a penem antibacterial drug. Cilastatin sodium is a renal dehydropeptidase inhibitor that limits the renal metabolism of imipenem.",
     "effects": [],
     "references": [
       "FDA label for Imipenem and Cilastatin for Injection (imipenem/cilastatin), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 1 hour"
@@ -22099,7 +22099,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 120.0,
-    "mechanism_summary": "Reversibly inhibits histamine-2 receptors (H2 receptors) on gastric parietal cells resulting in decreased gastric acid secretion .",
+    "mechanism_summary": "Reversibly inhibits histamine-2 receptors (H2 receptors) on gastric parietal cells resulting in decreased gastric acid secretion.",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/017683s094lbl.pdf",
@@ -22161,7 +22161,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits the bacterial enzymes, DNA topoisomerase IV and DNA gyrase , required for DNA replication, transcription, repair and recombination.",
+    "mechanism_summary": "Inhibits the bacterial enzymes, DNA topoisomerase IV and DNA gyrase, required for DNA replication, transcription, repair and recombination.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -22424,7 +22424,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Reversibly binds to the 50S subunit of bacterial ribosomes inhibiting protein synthesis .",
+    "mechanism_summary": "Reversibly binds to the 50S subunit of bacterial ribosomes inhibiting protein synthesis.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -22730,7 +22730,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 2400.0,
-    "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA , by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
+    "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA, by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
     "effects": [
       "Amnesia",
       "Analysis suppression",
@@ -22984,7 +22984,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA , by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
+    "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA, by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -23313,7 +23313,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Codeine: is an opioid agonist with preferential selectivity for mu-opioid receptors . Codeine has relatively weak analgesic activity; however, its active metabolites morphine (5-15%, via CYP2D6 metabolism ) and codeine-6-glucuronide (50-70% via UGT2B7 metabolism ) have notable analgesic properties ( especially morphine , a potent opioid agonist). The therapeutic effects of codeine include analgesic, antidiarrheal and antitussive actions. Guaifenesin: is an expectorant that acts by enhancing the output of phlegm (sputum) and bronchial secretions via decreasing the adhesiveness and surface tension of such material.",
+    "mechanism_summary": "Codeine: is an opioid agonist with preferential selectivity for mu-opioid receptors. Codeine has relatively weak analgesic activity; however, its active metabolites morphine (5-15%, via CYP2D6 metabolism ) and codeine-6-glucuronide (50-70% via UGT2B7 metabolism ) have notable analgesic properties ( especially morphine, a potent opioid agonist). The therapeutic effects of codeine include analgesic, antidiarrheal and antitussive actions. Guaifenesin: is an expectorant that acts by enhancing the output of phlegm (sputum) and bronchial secretions via decreasing the adhesiveness and surface tension of such material.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -23341,7 +23341,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits β-tubulin polymerization into microtubules, preventing activation, degranulation, and migration of neutrophils associated with mediating some gout symptoms .",
+    "mechanism_summary": "Inhibits β-tubulin polymerization into microtubules, preventing activation, degranulation, and migration of neutrophils associated with mediating some gout symptoms.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -23455,7 +23455,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Combined oral contraceptives (COCs) prevent pregnancy by inhibiting ovulation , interfering with sperm travel through the cervix, and disrupting implantation of fertilized eggs in the uterus. The progestin component prevents the pre-ovulation surge of luteinizing hormone (LH), which decreases the likelihood that ovulation will occur. The progestin also thickens cervical mucus, inhibiting the ability of sperm to travel into the uterus, and thins the endometrium (lining of the uterus), making implantation of a fertilized egg more difficult. Estrogen additionally prevents ovulation by inhibiting LH further and inhibiting the release of follicle-stimulating hormone (FSH), which disrupts the maturation of ovarian follicles that release eggs.",
+    "mechanism_summary": "Combined oral contraceptives (COCs) prevent pregnancy by inhibiting ovulation, interfering with sperm travel through the cervix, and disrupting implantation of fertilized eggs in the uterus. The progestin component prevents the pre-ovulation surge of luteinizing hormone (LH), which decreases the likelihood that ovulation will occur. The progestin also thickens cervical mucus, inhibiting the ability of sperm to travel into the uterus, and thins the endometrium (lining of the uterus), making implantation of a fertilized egg more difficult. Estrogen additionally prevents ovulation by inhibiting LH further and inhibiting the release of follicle-stimulating hormone (FSH), which disrupts the maturation of ovarian follicles that release eggs.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -23485,7 +23485,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Combined patch contraceptives (CPCs) prevent pregnancy by inhibiting ovulation , interfering with sperm travel through the cervix, and disrupting implantation of fertilized eggs in the uterus. The progestin component prevents the pre-ovulation surge of luteinizing hormone (LH), which decreases the likelihood that ovulation will occur. The progestin also thickens cervical mucus, inhibiting the ability of sperm to travel into the uterus, and thins the endometrium (lining of the uterus), making implantation of a fertilized egg more difficult. Estrogen additionally prevents ovulation by inhibiting LH further and inhibiting the release of follicle-stimulating hormone (FSH), which disrupts the maturation of ovarian follicles that release eggs.",
+    "mechanism_summary": "Combined patch contraceptives (CPCs) prevent pregnancy by inhibiting ovulation, interfering with sperm travel through the cervix, and disrupting implantation of fertilized eggs in the uterus. The progestin component prevents the pre-ovulation surge of luteinizing hormone (LH), which decreases the likelihood that ovulation will occur. The progestin also thickens cervical mucus, inhibiting the ability of sperm to travel into the uterus, and thins the endometrium (lining of the uterus), making implantation of a fertilized egg more difficult. Estrogen additionally prevents ovulation by inhibiting LH further and inhibiting the release of follicle-stimulating hormone (FSH), which disrupts the maturation of ovarian follicles that release eggs.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -23516,7 +23516,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Combined ring contraceptives (CRCs) prevent pregnancy by inhibiting ovulation , interfering with sperm travel through the cervix, and disrupting implantation of fertilized eggs in the uterus. The progestin component prevents the pre-ovulation surge of luteinizing hormone (LH), which decreases the likelihood that ovulation will occur. The progestin also thickens cervical mucus, inhibiting the ability of sperm to travel into the uterus, and thins the endometrium (lining of the uterus), making implantation of a fertilized egg more difficult. Estrogen additionally prevents ovulation by inhibiting LH further and inhibiting the release of follicle-stimulating hormone (FSH), which disrupts the maturation of ovarian follicles that release eggs.",
+    "mechanism_summary": "Combined ring contraceptives (CRCs) prevent pregnancy by inhibiting ovulation, interfering with sperm travel through the cervix, and disrupting implantation of fertilized eggs in the uterus. The progestin component prevents the pre-ovulation surge of luteinizing hormone (LH), which decreases the likelihood that ovulation will occur. The progestin also thickens cervical mucus, inhibiting the ability of sperm to travel into the uterus, and thins the endometrium (lining of the uterus), making implantation of a fertilized egg more difficult. Estrogen additionally prevents ovulation by inhibiting LH further and inhibiting the release of follicle-stimulating hormone (FSH), which disrupts the maturation of ovarian follicles that release eggs.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -24294,7 +24294,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Heparin inhibits reactions that lead to the clotting of blood and the formation of fibrin clots both in vitro and in vivo . Heparin acts at multiple sites in the normal coagulation system. Small amounts of heparin in combination with antithrombin III (heparin cofactor) can inhibit thrombosis by inactivating activated Factor X and inhibiting the conversion of prothrombin to thrombin. Once active thrombosis has developed, larger amounts of heparin can inhibit further coagulation by inactivating thrombin and preventing the conversion of fibrinogen to fibrin. Heparin also prevents the formation of a stable fibrin clot by inhibiting the activation of the fibrin stabilizing factor. Heparin does not have fibrinolytic activity; therefore, it will not lyse existing clots.",
+    "mechanism_summary": "Heparin inhibits reactions that lead to the clotting of blood and the formation of fibrin clots both in vitro and in vivo. Heparin acts at multiple sites in the normal coagulation system. Small amounts of heparin in combination with antithrombin III (heparin cofactor) can inhibit thrombosis by inactivating activated Factor X and inhibiting the conversion of prothrombin to thrombin. Once active thrombosis has developed, larger amounts of heparin can inhibit further coagulation by inactivating thrombin and preventing the conversion of fibrinogen to fibrin. Heparin also prevents the formation of a stable fibrin clot by inhibiting the activation of the fibrin stabilizing factor. Heparin does not have fibrinolytic activity; therefore, it will not lyse existing clots.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -24381,7 +24381,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Dalbavancin is an antibacterial drug .",
+    "mechanism_summary": "Dalbavancin is an antibacterial drug.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -24473,7 +24473,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits sodium-glucose co-transporter 2 (SGLT2) in the proximal renal tubules, reducing reabsorption of filtered glucose and thus increasing urinary glucose excretion .",
+    "mechanism_summary": "Inhibits sodium-glucose co-transporter 2 (SGLT2) in the proximal renal tubules, reducing reabsorption of filtered glucose and thus increasing urinary glucose excretion.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -24534,7 +24534,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 960.0,
-    "mechanism_summary": "Darifenacin is a competitive muscarinic receptor antagonist. Muscarinic receptors play an important role in several major cholinergically mediated functions, including contractions of the urinary bladder smooth muscle and stimulation of salivary secretion. In vitro studies using human recombinant muscarinic receptor subtypes show that darifenacin has greater affinity for the M 3 receptor than for the other known muscarinic receptors (9- and 12-fold greater affinity for M 3 compared to M 1 and M 5 , respectively, and 59-fold greater affinity for M 3 compared to both M 2 and M 4 ). M 3 receptors are involved in contraction of human bladder and gastrointestinal smooth muscle, saliva production, and iris sphincter function. Adverse drug effects such as dry mouth, constipation and abnormal vision may be mediated through effects on M 3 receptors in these organs.",
+    "mechanism_summary": "Darifenacin is a competitive muscarinic receptor antagonist. Muscarinic receptors play an important role in several major cholinergically mediated functions, including contractions of the urinary bladder smooth muscle and stimulation of salivary secretion. In vitro studies using human recombinant muscarinic receptor subtypes show that darifenacin has greater affinity for the M 3 receptor than for the other known muscarinic receptors (9- and 12-fold greater affinity for M 3 compared to M 1 and M 5, respectively, and 59-fold greater affinity for M 3 compared to both M 2 and M 4 ). M 3 receptors are involved in contraction of human bladder and gastrointestinal smooth muscle, saliva production, and iris sphincter function. Adverse drug effects such as dry mouth, constipation and abnormal vision may be mediated through effects on M 3 receptors in these organs.",
     "effects": [],
     "references": [
       "FDA label for darifenacin extended-release tablets, Clinical Pharmacology 12.3 — t½ ≈ 13–19 h"
@@ -24781,7 +24781,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "The mechanism of action of defibrotide sodium has not been fully elucidated. In vitro , defibrotide sodium enhances the enzymatic activity of plasmin to hydrolyze fibrin clots. Studies evaluating the pharmacological effects of defibrotide sodium on endothelial cells (ECs) were conducted primarily in the human microvascular endothelial cell line. In vitro , defibrotide sodium increased tissue plasminogen activator (t-PA) and thrombomodulin expression, and decreased von Willebrand factor (vWF) and plasminogen activator inhibitor‑1 (PAI-1) expression, thereby reducing EC activation and increasing EC‑mediated fibrinolysis. Defibrotide sodium protected ECs from damage caused by chemotherapy, tumor necrosis factor-α (TNF-α), serum starvation, and perfusion.",
+    "mechanism_summary": "The mechanism of action of defibrotide sodium has not been fully elucidated. In vitro, defibrotide sodium enhances the enzymatic activity of plasmin to hydrolyze fibrin clots. Studies evaluating the pharmacological effects of defibrotide sodium on endothelial cells (ECs) were conducted primarily in the human microvascular endothelial cell line. In vitro, defibrotide sodium increased tissue plasminogen activator (t-PA) and thrombomodulin expression, and decreased von Willebrand factor (vWF) and plasminogen activator inhibitor‑1 (PAI-1) expression, thereby reducing EC activation and increasing EC‑mediated fibrinolysis. Defibrotide sodium protected ECs from damage caused by chemotherapy, tumor necrosis factor-α (TNF-α), serum starvation, and perfusion.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -25070,7 +25070,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：NMDA受体拮抗剂\n\n由于缺乏关于该物质的研究，所有关于其药理学的讨论都纯粹基于其结构以及与其他芳基环己胺类解离剂（如 3-MeO-PCP、PCP 和 MXE）在主观效应上的相似性。考虑到这一点，DCK 被认为是一种 NMDA受体拮抗剂哦。NMDA 受体是一种 谷氨酸 受体，允许兴奋性电信号在大脑和脊柱的神经元之间传递；为了让信号通过，受体必须是开放的。解离剂通过阻断 NMDA 受体来使它们失活。这种神经元的断连会导致身体感觉、运动协调、记忆回忆的普遍丧失，最终导致这种物质特有的“K-hole（K洞）”体验呢。",
+    "mechanism_summary": "由于缺乏关于该物质的研究，所有关于其药理学的讨论都纯粹基于其结构以及与其他芳基环己胺类解离剂（如 3-MeO-PCP、PCP 和 MXE）在主观效应上的相似性。考虑到这一点，DCK 被认为是一种 NMDA受体拮抗剂哦。NMDA 受体是一种 谷氨酸 受体，允许兴奋性电信号在大脑和脊柱的神经元之间传递；为了让信号通过，受体必须是开放的。解离剂通过阻断 NMDA 受体来使它们失活。这种神经元的断连会导致身体感觉、运动协调、记忆回忆的普遍丧失，最终导致这种物质特有的“K-hole（K洞）”体验呢。",
     "effects": [
       "Acuity suppression",
       "Amnesia",
@@ -25536,7 +25536,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素致幻剂\n\n由于缺乏关于该物质的研究，关于其药理学的所有讨论都纯粹基于其结构以及与色胺致幻剂（如赛洛西宾和DMT）的主观效应相似性。考虑到这一点，DET 被认为起着 5-HT2A 部分激动剂的作用。与 DMT 不同，乙基增加了对单胺氧化酶系统的保护，使 DET 具有口服活性，而 DMT 则没有哦。\n\nDET 有时比 DMT 更受青睐，因为它可以口服，而 DMT 不能。这是因为单胺氧化酶在 DMT 被吸收之前就将其降解为无活性化合物了。为了克服这个问题，必须以不同的方式给药，即静脉注射、肌肉注射、吸入、鼻吸、直肠给药，或与单胺氧化酶抑制剂一起摄入。因为 DET 的氮原子上连接有乙基，单胺氧化酶无法降解它。对于许多其他具有较大氮取代基的色胺也是如此呢。",
+    "mechanism_summary": "由于缺乏关于该物质的研究，关于其药理学的所有讨论都纯粹基于其结构以及与色胺致幻剂（如赛洛西宾和DMT）的主观效应相似性。考虑到这一点，DET 被认为起着 5-HT2A 部分激动剂的作用。与 DMT 不同，乙基增加了对单胺氧化酶系统的保护，使 DET 具有口服活性，而 DMT 则没有哦。\n\nDET 有时比 DMT 更受青睐，因为它可以口服，而 DMT 不能。这是因为单胺氧化酶在 DMT 被吸收之前就将其降解为无活性化合物了。为了克服这个问题，必须以不同的方式给药，即静脉注射、肌肉注射、吸入、鼻吸、直肠给药，或与单胺氧化酶抑制剂一起摄入。因为 DET 的氮原子上连接有乙基，单胺氧化酶无法降解它。对于许多其他具有较大氮取代基的色胺也是如此呢。",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/tihkal/tihkal03.shtml"
@@ -25598,7 +25598,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Binds to and irreversibly inhibits H+/K+ ATPase pumps (proton pumps) on gastric parietal cells resulting in decreased gastric acid secretion .",
+    "mechanism_summary": "Binds to and irreversibly inhibits H+/K+ ATPase pumps (proton pumps) on gastric parietal cells resulting in decreased gastric acid secretion.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -25652,7 +25652,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Amphetamines both induce the release and inhibit reuptake of catecholamine neurotransmitters including dopamine , norepinephrine , and serotonin . Amphetamines also exhibit weak monoamine oxidase inhibitor properties.",
+    "mechanism_summary": "Amphetamines both induce the release and inhibit reuptake of catecholamine neurotransmitters including dopamine, norepinephrine, and serotonin. Amphetamines also exhibit weak monoamine oxidase inhibitor properties.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -26251,7 +26251,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Digoxin inhibits the sodium potassium adenosine triphosphatase (Na/K-ATPase) pump , thereby increasing intracellular calcium and enhancing cardiac contractility. It also acts directly on the atrioventricular node (AV node), suppressing conduction velocity. Likely due to its effects on intracellular calcium concentrations, digoxin induces apoptosis of tumor cells via a pathway involving mitochondrial cytochrome c and caspases 8 and 3.",
+    "mechanism_summary": "Digoxin inhibits the sodium potassium adenosine triphosphatase (Na/K-ATPase) pump, thereby increasing intracellular calcium and enhancing cardiac contractility. It also acts directly on the atrioventricular node (AV node), suppressing conduction velocity. Likely due to its effects on intracellular calcium concentrations, digoxin induces apoptosis of tumor cells via a pathway involving mitochondrial cytochrome c and caspases 8 and 3.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -26817,7 +26817,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "另见：NMDA受体拮抗剂\n\n二苯尼定作为一种NMDA受体拮抗剂起作用。NMDA受体允许电信号在大脑和脊柱的神经元之间传递；为了传递信号，受体必须处于开放状态。解离剂通过阻断NMDA受体来关闭它们。这种神经元的断连导致感觉丧失、运动困难，并最终导致著名的“K洞”。\n\n尽管二苯尼定的供应商声称该化合物充当多巴胺-再摄取抑制剂和血清素再摄取抑制剂，并具有μ-阿片受体亲和力和典型的解离效应，但迄今为止，二苯尼定尚未针对多巴胺转运体亲和力进行筛查。然而，如果情况确实如此，这就解释了其欣快和经常出现的刺激作用。\n\n二苯尼定及相关二芳基乙胺类物质已在体外研究中作为神经毒性损伤的治疗方法。对于神经发生、神经修复和神经保护，二苯尼定可能比其他更常见的NMDA受体拮抗解离剂（如氯胺酮、右美沙芬、PCP类似物、伊波加因和MXE）是更强的NMDA受体拮抗剂。",
+    "mechanism_summary": "二苯尼定作为一种NMDA受体拮抗剂起作用。NMDA受体允许电信号在大脑和脊柱的神经元之间传递；为了传递信号，受体必须处于开放状态。解离剂通过阻断NMDA受体来关闭它们。这种神经元的断连导致感觉丧失、运动困难，并最终导致著名的“K洞”。\n\n尽管二苯尼定的供应商声称该化合物充当多巴胺-再摄取抑制剂和血清素再摄取抑制剂，并具有μ-阿片受体亲和力和典型的解离效应，但迄今为止，二苯尼定尚未针对多巴胺转运体亲和力进行筛查。然而，如果情况确实如此，这就解释了其欣快和经常出现的刺激作用。\n\n二苯尼定及相关二芳基乙胺类物质已在体外研究中作为神经毒性损伤的治疗方法。对于神经发生、神经修复和神经保护，二苯尼定可能比其他更常见的NMDA受体拮抗解离剂（如氯胺酮、右美沙芬、PCP类似物、伊波加因和MXE）是更强的NMDA受体拮抗剂。",
     "effects": [
       "Acuity suppression",
       "Amnesia",
@@ -27761,7 +27761,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Reduces surface tension of the stool resulting in enhanced incorporation of water and fat resulting in softer fecal mass .",
+    "mechanism_summary": "Reduces surface tension of the stool resulting in enhanced incorporation of water and fat resulting in softer fecal mass.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -27902,7 +27902,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能迷幻剂\n\nDOI 的迷幻效应被认为源于它对 5-HT2A、5-HT2B 和 5-HT2C受体的激动剂效能喵。然而，这些相互作用的具体角色以及它们如何导致迷幻体验，仍然是目前科学研究的主题呢。\n\n除了作为迷幻剂的作用外，细胞研究显示 DOI 在皮摩尔浓度下是肿瘤坏死因子-α（TNF-α）炎症的极强抑制剂。TNF-α 是研究类风湿性关节炎和阿尔茨海默病等退行性疾病的重要靶点，这些疾病的病理过程涉及慢性炎症导致的组织损伤。这可能使 DOI 和其他 5-HT2A 激动剂成为开发这些疾病新型治疗方法的一个全新领域喵。\n\nDOI 还被证明能诱导树突状棘和与其他神经元的突触连接快速生长和重组，这些过程被认为是神经塑料性的基础哦。\n\n一项研究表明，DOI、DMT、LSD 和去甲伊博格碱（伊博格碱的代谢产物）在体内和体外都能促进神经突触生成喵。",
+    "mechanism_summary": "DOI 的迷幻效应被认为源于它对 5-HT2A、5-HT2B 和 5-HT2C受体的激动剂效能喵。然而，这些相互作用的具体角色以及它们如何导致迷幻体验，仍然是目前科学研究的主题呢。\n\n除了作为迷幻剂的作用外，细胞研究显示 DOI 在皮摩尔浓度下是肿瘤坏死因子-α（TNF-α）炎症的极强抑制剂。TNF-α 是研究类风湿性关节炎和阿尔茨海默病等退行性疾病的重要靶点，这些疾病的病理过程涉及慢性炎症导致的组织损伤。这可能使 DOI 和其他 5-HT2A 激动剂成为开发这些疾病新型治疗方法的一个全新领域喵。\n\nDOI 还被证明能诱导树突状棘和与其他神经元的突触连接快速生长和重组，这些过程被认为是神经塑料性的基础哦。\n\n一项研究表明，DOI、DMT、LSD 和去甲伊博格碱（伊博格碱的代谢产物）在体内和体外都能促进神经突触生成喵。",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/pihkal/pihkal067.shtml"
@@ -27973,7 +27973,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能迷幻剂\n\nDOM 是 5-HT2 受体家族的选择性部分激动剂。其迷幻效应由其在 5-HT2A 和 5-HT2B 受体上的激动特性介导，但在 5-HT2C 受体上较少。由于其选择性，DOM 经常在科学研究中用于研究 5-HT2 受体亚家族。DOM 是一个手性分子，R-(-)-DOM 是更活跃的对映异构体，作为血清素受体家族（主要是 5-HT2 亚型）的强效激动剂发挥作用。[[6]](#cite_note-6) 然而，这些相互作用的作用以及它们如何导致迷幻体验仍然难以捉摸。\n\nDOM 的 2,6-二甲氧基位置异构体，称为 Ψ-DOM，在 PiHKAL 中也被提及为具有活性，其 α-乙基同系物 Ariadne 也是如此。作为识别 DOM 在 5-HT2A 受体上的结合模式的努力的一部分，芳香环 2,5- 位上的甲氧基被改变的类似物也已被合成和测试。2- 和 5- O-去甲基衍生物 2-DM-DOM 和 5-DM-DOM，以及 2- 和 5- 乙基类似物 2-Et-DOM 和 5-Et-DOM 都已被测试，但在所有情况下，其效力都明显低于相应的甲氧基化合物，表明氧孤对电子在 5-HT2A 结合中的重要性。[[7]](#cite_note-7)\n\n有强烈的暗示表明肺部发生了一些代谢转化，只有在此之后，真正的活性代谢物才能用于中枢作用。这与相对缓慢的起效和非常长的作用持续时间相一致。[[4]](#cite_note-:0-4)",
+    "mechanism_summary": "DOM 是 5-HT2 受体家族的选择性部分激动剂。其迷幻效应由其在 5-HT2A 和 5-HT2B 受体上的激动特性介导，但在 5-HT2C 受体上较少。由于其选择性，DOM 经常在科学研究中用于研究 5-HT2 受体亚家族。DOM 是一个手性分子，R-(-)-DOM 是更活跃的对映异构体，作为血清素受体家族（主要是 5-HT2 亚型）的强效激动剂发挥作用。 然而，这些相互作用的作用以及它们如何导致迷幻体验仍然难以捉摸。\n\nDOM 的 2,6-二甲氧基位置异构体，称为 Ψ-DOM，在 PiHKAL 中也被提及为具有活性，其 α-乙基同系物 Ariadne 也是如此。作为识别 DOM 在 5-HT2A 受体上的结合模式的努力的一部分，芳香环 2,5- 位上的甲氧基被改变的类似物也已被合成和测试。2- 和 5- O-去甲基衍生物 2-DM-DOM 和 5-DM-DOM，以及 2- 和 5- 乙基类似物 2-Et-DOM 和 5-Et-DOM 都已被测试，但在所有情况下，其效力都明显低于相应的甲氧基化合物，表明氧孤对电子在 5-HT2A 结合中的重要性。\n\n有强烈的暗示表明肺部发生了一些代谢转化，只有在此之后，真正的活性代谢物才能用于中枢作用。这与相对缓慢的起效和非常长的作用持续时间相一致。",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/pihkal/pihkal068.shtml"
@@ -28297,7 +28297,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能致幻剂\n\n对啮齿动物的研究发现，选择性 5-HT2A 受体拮抗剂能有效阻断该化合物的行为作用，这强烈暗示 5-HT2A 受体是 DPT 的重要作用位点，但 5-HT1A 受体拮抗剂的调节作用也意味着 DPT 的作用中有 5-HT1A 介导的成分。[[5]](#参考文献) 这些相互作用的角色以及它们如何导致致幻体验，仍然是正在进行的科学研究的主题呢。",
+    "mechanism_summary": "对啮齿动物的研究发现，选择性 5-HT2A 受体拮抗剂能有效阻断该化合物的行为作用，这强烈暗示 5-HT2A 受体是 DPT 的重要作用位点，但 5-HT1A 受体拮抗剂的调节作用也意味着 DPT 的作用中有 5-HT1A 介导的成分。[](#参考文献) 这些相互作用的角色以及它们如何导致致幻体验，仍然是正在进行的科学研究的主题呢。",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -28505,7 +28505,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 7200.0,
-    "mechanism_summary": "Glucagon-like peptide 1 (GLP-1) agonists are analogs of GLP-1 , an incretin hormone, that improve glycemic control by increasing glucose-dependent insulin secretion, decrease glucagon secretion, slow gastric emptying and increase satiety.",
+    "mechanism_summary": "Glucagon-like peptide 1 (GLP-1) agonists are analogs of GLP-1, an incretin hormone, that improve glycemic control by increasing glucose-dependent insulin secretion, decrease glucagon secretion, slow gastric emptying and increase satiety.",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/125469s030lbl.pdf",
@@ -28597,7 +28597,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Dutasteride : Inhibits the Type II 5 alpha-reductase enzyme blocking conversion of testosterone to dihydrotestosterone (DHT). Over time this results in the shrinking of the prostate and improvement in urinary flow. Tamsulosin : Selectively blocks alpha-1 adrenergic receptors in the prostate resulting in effects including relaxation of smooth muscle around the bladder neck (improving urinary flow).",
+    "mechanism_summary": "Dutasteride: Inhibits the Type II 5 alpha-reductase enzyme blocking conversion of testosterone to dihydrotestosterone (DHT). Over time this results in the shrinking of the prostate and improvement in urinary flow. Tamsulosin: Selectively blocks alpha-1 adrenergic receptors in the prostate resulting in effects including relaxation of smooth muscle around the bladder neck (improving urinary flow).",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -28843,7 +28843,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 720.0,
-    "mechanism_summary": "Directly inhibits coagulation factor Xa , disrupting platelet activation and fibrin clot formation.",
+    "mechanism_summary": "Directly inhibits coagulation factor Xa, disrupting platelet activation and fibrin clot formation.",
     "effects": [],
     "references": [
       "FDA label for SAVAYSA (edoxaban tosylate), Clinical Pharmacology 12.3 Pharmacokinetics/Elimination - t½ = 10 to 14 h"
@@ -29060,7 +29060,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Levonorgestrel, a progestin, prevents the pre-ovulation surge of luteinizing hormone (LH), which decreases the likelihood that ovulation will occur. Progestins also thicken cervical mucus , inhibiting the ability of sperm to travel into the uterus, and thin the endometrium (lining of the uterus), making implantation of a fertilized egg more difficult. If implantation has already occurred, levonorgestrel will have no effect on stopping pregnancy.",
+    "mechanism_summary": "Levonorgestrel, a progestin, prevents the pre-ovulation surge of luteinizing hormone (LH), which decreases the likelihood that ovulation will occur. Progestins also thicken cervical mucus, inhibiting the ability of sperm to travel into the uterus, and thin the endometrium (lining of the uterus), making implantation of a fertilized egg more difficult. If implantation has already occurred, levonorgestrel will have no effect on stopping pregnancy.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -29148,7 +29148,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 744.0,
-    "mechanism_summary": "Inhibits sodium-glucose co-transporter 2 (SGLT2) in the proximal renal tubules, reducing reabsorption of filtered glucose and thus increasing urinary glucose excretion .",
+    "mechanism_summary": "Inhibits sodium-glucose co-transporter 2 (SGLT2) in the proximal renal tubules, reducing reabsorption of filtered glucose and thus increasing urinary glucose excretion.",
     "effects": [],
     "references": [
       "FDA label for Synjardy (empagliflozin and metformin), Clinical Pharmacology/Pharmacokinetics — t1/2 ≈ 12.4 h"
@@ -29404,7 +29404,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息请参见：NMDA 受体拮抗剂\n\n依芬尼定作为 NMDA 受体 的拮抗剂起作用（Ki = 66.4 nM）。     NMDA（N-甲基-D-天冬氨酸）受体是谷氨酸的主要受体亚型之一，而谷氨酸是中枢神经系统（CNS）中主要的兴奋性神经递质。当 NMDA 通道被阻断时，会导致感觉丧失（麻醉）、移动困难（固定），在较高剂量下，会产生相当于「K-hole」的效果。\n\n依芬尼定对多巴胺和去甲肾上腺素转运蛋白也具有较弱的亲和力（分别为 379 nM 和 841 nM），并能结合 σ1 受体（629 nM）和 σ2 受体（722 nM）位点。",
+    "mechanism_summary": "更多信息请参见：NMDA 受体拮抗剂\n\n依芬尼定作为 NMDA 受体 的拮抗剂起作用（Ki = 66.4 nM）。 NMDA（N-甲基-D-天冬氨酸）受体是谷氨酸的主要受体亚型之一，而谷氨酸是中枢神经系统（CNS）中主要的兴奋性神经递质。当 NMDA 通道被阻断时，会导致感觉丧失（麻醉）、移动困难（固定），在较高剂量下，会产生相当于「K-hole」的效果。\n\n依芬尼定对多巴胺和去甲肾上腺素转运蛋白也具有较弱的亲和力（分别为 379 nM 和 841 nM），并能结合 σ1 受体（629 nM）和 σ2 受体（722 nM）位点。",
     "effects": [
       "Acuity suppression",
       "Amnesia",
@@ -29592,7 +29592,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 270.0,
-    "mechanism_summary": "Eplerenone is a synthetic steroid that, along with its active metabolites, antagonizes aldosterone receptors . Its diuretic/antihypertensive action is caused by competitive binding of receptors at the aldosterone-dependent sodium-potassium exchange site in the distal convoluted renal tubule, which results in increased sodium and water excretion and potassium retention . It also prevents androgen-mediated cardiac remodeling , which is useful in certain heart failure patients.",
+    "mechanism_summary": "Eplerenone is a synthetic steroid that, along with its active metabolites, antagonizes aldosterone receptors. Its diuretic/antihypertensive action is caused by competitive binding of receptors at the aldosterone-dependent sodium-potassium exchange site in the distal convoluted renal tubule, which results in increased sodium and water excretion and potassium retention. It also prevents androgen-mediated cardiac remodeling, which is useful in certain heart failure patients.",
     "effects": [],
     "references": [
       "FDA label for Inspra (eplerenone), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 3-6 h"
@@ -29672,7 +29672,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Binds to the calcitonin gene-related peptide (CGRP) receptor , thus blocking the CGRP ligand . When the CGRP ligand binds to its receptor, it activates a cascade of events associated with migraine pain.",
+    "mechanism_summary": "Binds to the calcitonin gene-related peptide (CGRP) receptor, thus blocking the CGRP ligand. When the CGRP ligand binds to its receptor, it activates a cascade of events associated with migraine pain.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -29701,7 +29701,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits sodium-glucose co-transporter 2 (SGLT2) in the proximal renal tubules, reducing reabsorption of filtered glucose and thus increasing urinary glucose excretion .",
+    "mechanism_summary": "Inhibits sodium-glucose co-transporter 2 (SGLT2) in the proximal renal tubules, reducing reabsorption of filtered glucose and thus increasing urinary glucose excretion.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -29839,7 +29839,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 75.0,
-    "mechanism_summary": "Binds to and irreversibly inhibits H+/K+ ATPase pumps (proton pumps) on gastric parietal cells resulting in decreased gastric acid secretion .",
+    "mechanism_summary": "Binds to and irreversibly inhibits H+/K+ ATPase pumps (proton pumps) on gastric parietal cells resulting in decreased gastric acid secretion.",
     "effects": [],
     "references": [
       "FDA label for esomeprazole magnesium delayed-release capsules (esomeprazole), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 1–1.5 h"
@@ -30253,7 +30253,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "虽然 ETH-CAT 的效应还没有像传统的苯丙胺类或其他取代卡西酮（如甲卡西酮）那样得到正式的研究，但我们可以推测，像其他简单的取代卡西酮一样，它最可能主要作为一种多巴胺和去甲肾上腺素再摄取抑制剂起作用。[[4]](#cite_note-4) 然而，已经表明 ETH-CAT 是去甲肾上腺素转运体（NET）的选择性底物。[[5]](#cite_note-5)\n\n这导致的结果是，通过结合并部分阻断通常从突触间隙清除这些神经递质的转运蛋白，大脑中儿茶酚胺类神经递质（如多巴胺和去甲肾上腺素）的水平有效增加。这使得多巴胺和去甲肾上腺素在大脑中与奖励、动力、满足和快乐相关的关键区域的突触间隙之间积累到超过内源性的水平。这种机制被认为是产生该物质的兴奋、动机增强和欣快效应的原因呢。",
+    "mechanism_summary": "虽然 ETH-CAT 的效应还没有像传统的苯丙胺类或其他取代卡西酮（如甲卡西酮）那样得到正式的研究，但我们可以推测，像其他简单的取代卡西酮一样，它最可能主要作为一种多巴胺和去甲肾上腺素再摄取抑制剂起作用。 然而，已经表明 ETH-CAT 是去甲肾上腺素转运体（NET）的选择性底物。\n\n这导致的结果是，通过结合并部分阻断通常从突触间隙清除这些神经递质的转运蛋白，大脑中儿茶酚胺类神经递质（如多巴胺和去甲肾上腺素）的水平有效增加。这使得多巴胺和去甲肾上腺素在大脑中与奖励、动力、满足和快乐相关的关键区域的突触间隙之间积累到超过内源性的水平。这种机制被认为是产生该物质的兴奋、动机增强和欣快效应的原因呢。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -30380,7 +30380,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "乙基哌醋甲酯既作为多巴胺再摄取抑制剂，也作为去甲肾上腺素再摄取抑制剂发挥作用，这意味着它通过结合并部分阻断通常从突触间隙移除这些单胺的转运蛋白，有效地提高大脑中去甲肾上腺素和多巴胺神经递质的水平。这使得多巴胺和去甲肾上腺素在大脑内积聚，从而产生兴奋和欣快的效果。\n\n所有关于乙基哌醋甲酯药代动力学的可用数据都来自对啮齿动物的研究。研究发现，乙基哌醋甲酯对多巴胺转运体 (DAT) 的选择性高于哌甲酯，其功效与母体化合物大致相同，[[1]](#cite_note-1) 但对去甲肾上腺素转运体 (NET) 的活性明显较低。[[2]](#cite_note-Williard2007-2) 其多巴胺能药效学特征与哌甲酯几乎相同，这主要是导致其欣快和强化效应的原因。[[2]](#cite_note-Williard2007-2)\n\n以下是乙基哌醋甲酯在小鼠中的结合特征，以及哌甲酯的结合特征。给出了外消旋和右旋对映异构体的数据：[[3]](#cite_note-3)\n\n当酒精和哌甲酯共同摄入时，体内（在肝脏中）会形成乙基哌醋甲酯。[[4]](#cite_note-Markowitz2000-4) 这种情况最常见于同时摄入大量哌甲酯和酒精时，例如在非医疗用途或过量使用的情况下。[[5]](#cite_note-5) 已知当可卡因和酒精一起摄入时也会发生类似的过程，形成可卡乙烯。[[6]](#cite_note-6) 然而，只有百分之几的摄入哌甲酯会转化为乙基哌醋甲酯，所以永远不会产生具有可测量生理效应的药理学显著剂量哦。[[4]](#cite_note-Markowitz2000-4)[[2]](#cite_note-Williard2007-2)",
+    "mechanism_summary": "乙基哌醋甲酯既作为多巴胺再摄取抑制剂，也作为去甲肾上腺素再摄取抑制剂发挥作用，这意味着它通过结合并部分阻断通常从突触间隙移除这些单胺的转运蛋白，有效地提高大脑中去甲肾上腺素和多巴胺神经递质的水平。这使得多巴胺和去甲肾上腺素在大脑内积聚，从而产生兴奋和欣快的效果。\n\n所有关于乙基哌醋甲酯药代动力学的可用数据都来自对啮齿动物的研究。研究发现，乙基哌醋甲酯对多巴胺转运体 (DAT) 的选择性高于哌甲酯，其功效与母体化合物大致相同， 但对去甲肾上腺素转运体 (NET) 的活性明显较低。 其多巴胺能药效学特征与哌甲酯几乎相同，这主要是导致其欣快和强化效应的原因。\n\n以下是乙基哌醋甲酯在小鼠中的结合特征，以及哌甲酯的结合特征。给出了外消旋和右旋对映异构体的数据：\n\n当酒精和哌甲酯共同摄入时，体内（在肝脏中）会形成乙基哌醋甲酯。 这种情况最常见于同时摄入大量哌甲酯和酒精时，例如在非医疗用途或过量使用的情况下。 已知当可卡因和酒精一起摄入时也会发生类似的过程，形成可卡乙烯。 然而，只有百分之几的摄入哌甲酯会转化为乙基哌醋甲酯，所以永远不会产生具有可测量生理效应的药理学显著剂量哦。",
     "effects": [
       "Analysis enhancement",
       "Anxiety",
@@ -30436,7 +30436,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素致幻剂\n\n与大多数致幻色胺一样，EPT 被认为主要起着 5-HT2A 部分激动剂的作用。致幻效果被认为来自 EPT 在 5-HT2A 受体上的结合功效。大多数血清素致幻色胺与血清素本身具有非常强的结构相似性，这部分解释了对某些 5-HT 位点的亲和力。几乎一致认为，大多数血清素致幻剂——如 EPT——通过作为 5-HT2A 受体的强部分激动剂产生其效果。",
+    "mechanism_summary": "与大多数致幻色胺一样，EPT 被认为主要起着 5-HT2A 部分激动剂的作用。致幻效果被认为来自 EPT 在 5-HT2A 受体上的结合功效。大多数血清素致幻色胺与血清素本身具有非常强的结构相似性，这部分解释了对某些 5-HT 位点的亲和力。几乎一致认为，大多数血清素致幻剂——如 EPT——通过作为 5-HT2A 受体的强部分激动剂产生其效果。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -30908,7 +30908,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 144.0,
-    "mechanism_summary": "Glucagon-like peptide 1 (GLP-1) agonists are analogs of GLP-1 , an incretin hormone, that improve glycemic control by increasing glucose-dependent insulin secretion, decrease glucagon secretion, slow gastric emptying and increase satiety.",
+    "mechanism_summary": "Glucagon-like peptide 1 (GLP-1) agonists are analogs of GLP-1, an incretin hormone, that improve glycemic control by increasing glucose-dependent insulin secretion, decrease glucagon secretion, slow gastric emptying and increase satiety.",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/022200lbl.pdf",
@@ -31103,7 +31103,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 165.0,
-    "mechanism_summary": "Reversibly inhibits histamine-2 receptors (H2 receptors) on gastric parietal cells resulting in decreased gastric acid secretion .",
+    "mechanism_summary": "Reversibly inhibits histamine-2 receptors (H2 receptors) on gastric parietal cells resulting in decreased gastric acid secretion.",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/019462s039lbl.pdf",
@@ -31167,7 +31167,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 390.0,
-    "mechanism_summary": "Inhibits xanthine oxidase , thus reducing uric acid production. Xanthine oxidase is the enzyme responsible for the conversion of hypoxanthine to xanthine and of xanthine to uric acid.",
+    "mechanism_summary": "Inhibits xanthine oxidase, thus reducing uric acid production. Xanthine oxidase is the enzyme responsible for the conversion of hypoxanthine to xanthine and of xanthine to uric acid.",
     "effects": [],
     "references": [
       "FDA label for Febuxostat (febuxostat), Clinical Pharmacology/Pharmacokinetics — t1/2 ≈ 5-8 h"
@@ -31222,7 +31222,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits calcium ion influx into vascular smooth muscle and cardiac muscle causing peripheral vasodilation and coronary artery vasodilation .",
+    "mechanism_summary": "Inhibits calcium ion influx into vascular smooth muscle and cardiac muscle causing peripheral vasodilation and coronary artery vasodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -31958,7 +31958,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Highly selective inhibitor of the fungal cytochrome P450 14-α-demethylase enzyme responsible for the conversion of lanosterol to ergosterol, which is an important component of fungal cell membrane formation .",
+    "mechanism_summary": "Highly selective inhibitor of the fungal cytochrome P450 14-α-demethylase enzyme responsible for the conversion of lanosterol to ergosterol, which is an important component of fungal cell membrane formation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -32299,7 +32299,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Corticosteroids inhibit the inflammatory response to a variety of inciting agents and probably delay or slow healing. They inhibit the edema, fibrin deposition, capillary dilation, leukocyte migration, capillary proliferation, fibroblast proliferation, deposition of collagen, and scar formation associated with inflammation. There is no generally accepted explanation for the mechanism of action of ocular corticosteroids. However, corticosteroids are thought to act by the induction of phospholipase A 2 inhibitory proteins, collectively called lipocortins. It is postulated that these proteins control the biosynthesis of potent mediators of inflammation such as prostaglandins and leukotrienes by inhibiting the release of their common precursor arachidonic acid. Arachidonic acid is released from membrane phospholipids by phospholipase A 2 . Corticosteroids are capable of producing a rise in intraocular pressure.",
+    "mechanism_summary": "Corticosteroids inhibit the inflammatory response to a variety of inciting agents and probably delay or slow healing. They inhibit the edema, fibrin deposition, capillary dilation, leukocyte migration, capillary proliferation, fibroblast proliferation, deposition of collagen, and scar formation associated with inflammation. There is no generally accepted explanation for the mechanism of action of ocular corticosteroids. However, corticosteroids are thought to act by the induction of phospholipase A 2 inhibitory proteins, collectively called lipocortins. It is postulated that these proteins control the biosynthesis of potent mediators of inflammation such as prostaglandins and leukotrienes by inhibiting the release of their common precursor arachidonic acid. Arachidonic acid is released from membrane phospholipids by phospholipase A 2. Corticosteroids are capable of producing a rise in intraocular pressure.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -32854,7 +32854,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Fluticasone : Inhaled corticosteroids reduce inflammation in the airways, an important component in the pathogenesis of inflammatory lung disease, through a wide range of actions on several cell types (e.g., mast cells, eosinophils, neutrophils, macrophages, lymphocytes) and mediators (e.g., histamine, eicosanoids, leukotrienes, cytokines) involved in inflammation. Salmeterol : Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Fluticasone: Inhaled corticosteroids reduce inflammation in the airways, an important component in the pathogenesis of inflammatory lung disease, through a wide range of actions on several cell types (e.g., mast cells, eosinophils, neutrophils, macrophages, lymphocytes) and mediators (e.g., histamine, eicosanoids, leukotrienes, cytokines) involved in inflammation. Salmeterol: Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -32884,7 +32884,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Fluticasone : Inhaled corticosteroids reduce inflammation in the airways, an important component in the pathogenesis of inflammatory lung disease, through a wide range of actions on several cell types (e.g., mast cells, eosinophils, neutrophils, macrophages, lymphocytes) and mediators (e.g., histamine, eicosanoids, leukotrienes, cytokines) involved in inflammation. Umeclidinium : Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation Vilanterol : Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Fluticasone: Inhaled corticosteroids reduce inflammation in the airways, an important component in the pathogenesis of inflammatory lung disease, through a wide range of actions on several cell types (e.g., mast cells, eosinophils, neutrophils, macrophages, lymphocytes) and mediators (e.g., histamine, eicosanoids, leukotrienes, cytokines) involved in inflammation. Umeclidinium: Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation Vilanterol: Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -32913,7 +32913,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Fluticasone : Inhaled corticosteroids reduce inflammation in the airways, an important component in the pathogenesis of inflammatory lung disease, through a wide range of actions on several cell types (e.g., mast cells, eosinophils, neutrophils, macrophages, lymphocytes) and mediators (e.g., histamine, eicosanoids, leukotrienes, cytokines) involved in inflammation. Vilanterol : Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Fluticasone: Inhaled corticosteroids reduce inflammation in the airways, an important component in the pathogenesis of inflammatory lung disease, through a wide range of actions on several cell types (e.g., mast cells, eosinophils, neutrophils, macrophages, lymphocytes) and mediators (e.g., histamine, eicosanoids, leukotrienes, cytokines) involved in inflammation. Vilanterol: Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -32980,7 +32980,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 180.0,
-    "mechanism_summary": "Inhibits HMG-CoA reductase , the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
+    "mechanism_summary": "Inhibits HMG-CoA reductase, the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
     "effects": [],
     "references": [
       "FDA label for Fluvastatin capsules, Clinical Pharmacology 12.3 — t½ ≈ 3 hours"
@@ -33241,7 +33241,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Binds to the calcitonin gene-related peptide (CGRP) ligand , thus preventing binding to the CGRP receptor . When the CGRP ligand binds to its receptor, it activates a cascade of events associated with migraine pain.",
+    "mechanism_summary": "Binds to the calcitonin gene-related peptide (CGRP) ligand, thus preventing binding to the CGRP receptor. When the CGRP ligand binds to its receptor, it activates a cascade of events associated with migraine pain.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -33526,7 +33526,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 420.0,
-    "mechanism_summary": "Gabapentin is a synthetic analogue of the neurotransmitter gamma-aminobutyric acid (GABA), however, has no effect on GABA binding, uptake, or degradation. It binds with high-affinity to the α2δ subunit of voltage-activated calcium channels ; however, the relationship of this binding to the therapeutic effects of gabapentin is unknown. Gabapentin has anticonvulsant and neuropathic analgesic activity.",
+    "mechanism_summary": "Gabapentin is a synthetic analogue of the neurotransmitter gamma-aminobutyric acid (GABA), however, has no effect on GABA binding, uptake, or degradation. It binds with high-affinity to the α2δ subunit of voltage-activated calcium channels; however, the relationship of this binding to the therapeutic effects of gabapentin is unknown. Gabapentin has anticonvulsant and neuropathic analgesic activity.",
     "effects": [
       "Amnesia",
       "Anxiety suppression",
@@ -33640,7 +33640,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Binds to the calcitonin gene-related peptide (CGRP) ligand , thus preventing binding to the CGRP receptor . When the CGRP ligand binds to its receptor, it activates a cascade of events associated with migraine pain.",
+    "mechanism_summary": "Binds to the calcitonin gene-related peptide (CGRP) ligand, thus preventing binding to the CGRP receptor. When the CGRP ligand binds to its receptor, it activates a cascade of events associated with migraine pain.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -33692,7 +33692,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Valganciclovir is an antiviral drug with activity against CMV .",
+    "mechanism_summary": "Valganciclovir is an antiviral drug with activity against CMV.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -34177,7 +34177,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Stimulates insulin secretion from pancreatic beta cells, decreasing postprandial blood glucose .",
+    "mechanism_summary": "Stimulates insulin secretion from pancreatic beta cells, decreasing postprandial blood glucose.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -34207,7 +34207,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Stimulates insulin secretion from pancreatic beta cells, decreasing postprandial blood glucose .",
+    "mechanism_summary": "Stimulates insulin secretion from pancreatic beta cells, decreasing postprandial blood glucose.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -34313,7 +34313,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Stimulates insulin secretion from pancreatic beta cells, decreasing postprandial blood glucose .",
+    "mechanism_summary": "Stimulates insulin secretion from pancreatic beta cells, decreasing postprandial blood glucose.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -34381,7 +34381,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -34410,7 +34410,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Glycopyrrolate : Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation . Formoterol : Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Glycopyrrolate: Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation. Formoterol: Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -34473,7 +34473,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Granisetron is a selective 5-hydroxytryptamine 3 (5-HT 3 ) receptor antagonist with little or no affinity for other serotonin receptors, including 5-HT 1 ; 5-HT 1A ; 5-HT 1B/C ; 5-HT 2 ; for alpha 1 -, alpha 2 - or beta-adrenoreceptors; for dopamine-D 2 ; or for histamine-H 1 ; benzodiazepine; picrotoxin or opioid receptors. Serotonin receptors of the 5-HT 3 type are located peripherally on vagal nerve terminals and centrally in the chemoreceptor trigger zone of the area postrema. During chemotherapy-induced vomiting, mucosal enterochromaffin cells release serotonin, which stimulates 5-HT 3 receptors. This evokes vagal afferent discharge and may induce vomiting. Animal studies demonstrate that, in binding to 5-HT 3 receptors, Granisetron blocks serotonin stimulation and subsequent vomiting after emetogenic stimuli such as cisplatin. In the ferret animal model, a single Granisetron injection prevented vomiting due to high-dose cisplatin or arrested vomiting within 5 to 30 seconds.",
+    "mechanism_summary": "Granisetron is a selective 5-hydroxytryptamine 3 (5-HT 3 ) receptor antagonist with little or no affinity for other serotonin receptors, including 5-HT 1; 5-HT 1A; 5-HT 1B/C; 5-HT 2; for alpha 1 -, alpha 2 - or beta-adrenoreceptors; for dopamine-D 2; or for histamine-H 1; benzodiazepine; picrotoxin or opioid receptors. Serotonin receptors of the 5-HT 3 type are located peripherally on vagal nerve terminals and centrally in the chemoreceptor trigger zone of the area postrema. During chemotherapy-induced vomiting, mucosal enterochromaffin cells release serotonin, which stimulates 5-HT 3 receptors. This evokes vagal afferent discharge and may induce vomiting. Animal studies demonstrate that, in binding to 5-HT 3 receptors, Granisetron blocks serotonin stimulation and subsequent vomiting after emetogenic stimuli such as cisplatin. In the ferret animal model, a single Granisetron injection prevented vomiting due to high-dose cisplatin or arrested vomiting within 5 to 30 seconds.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -34573,7 +34573,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1020.0,
-    "mechanism_summary": "Guanfacine is a central alpha 2A-adrenergic receptor agonist . Stimulation of alpha-adrenoceptors in the brain stem results in reduced sympathetic outflow from the central nervous system and decreases in peripheral resistance, renal vascular resistance, heart rate, and blood pressure. The mechanism of action of guanfacine in ADHD is not known.",
+    "mechanism_summary": "Guanfacine is a central alpha 2A-adrenergic receptor agonist. Stimulation of alpha-adrenoceptors in the brain stem results in reduced sympathetic outflow from the central nervous system and decreases in peripheral resistance, renal vascular resistance, heart rate, and blood pressure. The mechanism of action of guanfacine in ADHD is not known.",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Guanfacine"
@@ -36213,7 +36213,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Binds to bone hydroxyapatite and inhibits osteoclast activity , thus reducing bone resorption (breakdown).",
+    "mechanism_summary": "Binds to bone hydroxyapatite and inhibits osteoclast activity, thus reducing bone resorption (breakdown).",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -36718,7 +36718,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -36747,7 +36747,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Indacaterol : Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation . Glycopyrrolate : Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Indacaterol: Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation. Glycopyrrolate: Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -37313,7 +37313,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 120.0,
-    "mechanism_summary": "Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [
       "FDA label for Atrovent HFA (ipratropium bromide), Clinical Pharmacology 12.3 — t½ ≈ 2 h"
@@ -37342,7 +37342,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Ipratropium : Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation . Albuterol : Rapidly agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Ipratropium: Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation. Albuterol: Rapidly agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -37371,7 +37371,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 780.0,
-    "mechanism_summary": "Blocks angiotensin II from binding to the angiotensin II receptor , which prevents subsequent vasoconstriction.",
+    "mechanism_summary": "Blocks angiotensin II from binding to the angiotensin II receptor, which prevents subsequent vasoconstriction.",
     "effects": [],
     "references": [
       "FDA label for Irbesartan tablets, Clinical Pharmacology 12.3 — terminal t½ = 11–15 hours"
@@ -37676,7 +37676,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "目前还没有对异丙基哌醋甲酯进行正式的体内人体研究。然而，大鼠体内研究发现了兴奋作用；体外研究分别评估了单胺转运体结合亲和力和各种水解酶的亲和力。[[2]](#cite_note-IPPH-2)[[4]](#cite_note-PhenidateHydrolysis-4) 这些研究结果表明，异丙基哌醋甲酯的药理作用与其母体化合物哌甲酯非常相似。这两种物质之间的显著区别在于：异丙基哌醋甲酯作为去甲肾上腺素再摄取抑制剂的活性明显较低；且 CES1 水解酶（专门负责将这两种物质水解为利他林酸）对异丙基哌醋甲酯的亲和力比对哌甲酯低 8 倍。\n\n这些差异导致该物质在等效有效剂量下，与哌甲酯相比，具有更显著的多巴胺能活性，而肾上腺素能活性相对较低。此外，该物质比哌甲酯持续时间更长，在给定剂量下的效力也比哌甲酯更强。异丙基哌醋甲酯与哌甲酯相比更高的效力在口服给药时最为显著，这是因为 CES1 亲和力较低，提高了异丙基哌醋甲酯的生物利用度，而哌甲酯口服时由于肝脏中 CES1 的首过代谢，生物利用度明显较低。[[5]](#cite_note-MPHBioavailability-5)\n\n尽管这两种物质之间存在显著差异，但异丙基哌醋甲酯仍被认为主要作为多巴胺再摄取抑制剂和去甲肾上腺素再摄取抑制剂发挥作用。这意味着它通过结合并部分阻断通常从突触间隙移除这些单胺的转运蛋白，有效地提高大脑中去甲肾上腺素和多巴胺神经递质的水平。这使得多巴胺和去甲肾上腺素在大脑内积聚，从而产生兴奋作用。",
+    "mechanism_summary": "目前还没有对异丙基哌醋甲酯进行正式的体内人体研究。然而，大鼠体内研究发现了兴奋作用；体外研究分别评估了单胺转运体结合亲和力和各种水解酶的亲和力。 这些研究结果表明，异丙基哌醋甲酯的药理作用与其母体化合物哌甲酯非常相似。这两种物质之间的显著区别在于：异丙基哌醋甲酯作为去甲肾上腺素再摄取抑制剂的活性明显较低；且 CES1 水解酶（专门负责将这两种物质水解为利他林酸）对异丙基哌醋甲酯的亲和力比对哌甲酯低 8 倍。\n\n这些差异导致该物质在等效有效剂量下，与哌甲酯相比，具有更显著的多巴胺能活性，而肾上腺素能活性相对较低。此外，该物质比哌甲酯持续时间更长，在给定剂量下的效力也比哌甲酯更强。异丙基哌醋甲酯与哌甲酯相比更高的效力在口服给药时最为显著，这是因为 CES1 亲和力较低，提高了异丙基哌醋甲酯的生物利用度，而哌甲酯口服时由于肝脏中 CES1 的首过代谢，生物利用度明显较低。\n\n尽管这两种物质之间存在显著差异，但异丙基哌醋甲酯仍被认为主要作为多巴胺再摄取抑制剂和去甲肾上腺素再摄取抑制剂发挥作用。这意味着它通过结合并部分阻断通常从突触间隙移除这些单胺的转运蛋白，有效地提高大脑中去甲肾上腺素和多巴胺神经递质的水平。这使得多巴胺和去甲肾上腺素在大脑内积聚，从而产生兴奋作用。",
     "effects": [
       "Analysis enhancement",
       "Anxiety",
@@ -38898,7 +38898,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "See also: Serotonergic psychedelics\n\nLAE-32 most likely produces its effects by binding to serotonin receptors in the brain. Like LSD, it may also bind to dopamine receptors.",
+    "mechanism_summary": "LAE-32 most likely produces its effects by binding to serotonin receptors in the brain. Like LSD, it may also bind to dopamine receptors.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -38968,7 +38968,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Binds to and irreversibly inhibits H+/K+ ATPase pumps (proton pumps) on gastric parietal cells resulting in decreased gastric acid secretion .",
+    "mechanism_summary": "Binds to and irreversibly inhibits H+/K+ ATPase pumps (proton pumps) on gastric parietal cells resulting in decreased gastric acid secretion.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -39069,7 +39069,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Lenalidomide is an analogue of thalidomide with immunomodulatory, antiangiogenic, and antineoplastic properties. Cellular activities of lenalidomide are mediated through its target cereblon, a component of a cullin ring E3 ubiquitin ligase enzyme complex. In vitro, in the presence of drug, substrate proteins (including Aiolos, Ikaros, and CK1α) are targeted for ubiquitination and subsequent degradation leading to direct cytotoxic and immunomodulatory effects. Lenalidomide inhibits proliferation and induces apoptosis of certain hematopoietic tumor cells including MM, mantle cell lymphoma, and del (5q) myelodysplastic syndromes in vitro . Lenalidomide causes a delay in tumor growth in some in vivo nonclinical hematopoietic tumor models including MM.",
+    "mechanism_summary": "Lenalidomide is an analogue of thalidomide with immunomodulatory, antiangiogenic, and antineoplastic properties. Cellular activities of lenalidomide are mediated through its target cereblon, a component of a cullin ring E3 ubiquitin ligase enzyme complex. In vitro, in the presence of drug, substrate proteins (including Aiolos, Ikaros, and CK1α) are targeted for ubiquitination and subsequent degradation leading to direct cytotoxic and immunomodulatory effects. Lenalidomide inhibits proliferation and induces apoptosis of certain hematopoietic tumor cells including MM, mantle cell lymphoma, and del (5q) myelodysplastic syndromes in vitro. Lenalidomide causes a delay in tumor growth in some in vivo nonclinical hematopoietic tumor models including MM.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -39153,7 +39153,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 198.0,
-    "mechanism_summary": "Rapidly agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Rapidly agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [
       "FDA label for levalbuterol inhalation solution (levalbuterol; Xopenex generic), Clinical Pharmacology/Pharmacokinetics Table 6 — (R)-albuterol t½ 3.3 h after a single 1.25 mg nebulized dose"
@@ -39194,7 +39194,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 420.0,
-    "mechanism_summary": "The primary mechanism of action of levetiracetam is thought to be its binding to the synaptic vesicle protein SV2A , causing modulation of neurotransmission in a way that decreases seizure occurrence. Other possible contributing mechanisms include the inhibition of presynaptic calcium channels and indirect enhancement of the inhibitory neurotransmitter, gamma-aminobutyric acid (GABA).",
+    "mechanism_summary": "The primary mechanism of action of levetiracetam is thought to be its binding to the synaptic vesicle protein SV2A, causing modulation of neurotransmission in a way that decreases seizure occurrence. Other possible contributing mechanisms include the inhibition of presynaptic calcium channels and indirect enhancement of the inhibitory neurotransmitter, gamma-aminobutyric acid (GABA).",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/021035s078s080,021505s021s024lbl.pdf",
@@ -39259,7 +39259,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 420.0,
-    "mechanism_summary": "Inhibits the bacterial enzymes, DNA topoisomerase IV and DNA gyrase , required for DNA replication, transcription, repair and recombination.",
+    "mechanism_summary": "Inhibits the bacterial enzymes, DNA topoisomerase IV and DNA gyrase, required for DNA replication, transcription, repair and recombination.",
     "effects": [],
     "references": [
       "FDA label for levofloxacin tablets (levofloxacin), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 6–8 h"
@@ -39420,7 +39420,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 9300.0,
-    "mechanism_summary": "Inhibits dipeptidyl peptidase 4 (DPP-4) enzymes from inactivating incretin hormones, including glucagon-like peptide-1 (GLP-1) and glucose-dependent insulinotropic polypeptide (GIP). Incretin hormones help regulate blood glucose levels by increasing insulin synthesis and release , and lowering glucagon secretion , which reduces hepatic glucose production .",
+    "mechanism_summary": "Inhibits dipeptidyl peptidase 4 (DPP-4) enzymes from inactivating incretin hormones, including glucagon-like peptide-1 (GLP-1) and glucose-dependent insulinotropic polypeptide (GIP). Incretin hormones help regulate blood glucose levels by increasing insulin synthesis and release, and lowering glucagon secretion, which reduces hepatic glucose production.",
     "effects": [],
     "references": [
       "The metabolism and disposition of the oral dipeptidyl peptidase-4 inhibitor, linagliptin, in humans"
@@ -39491,7 +39491,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 3600.0,
-    "mechanism_summary": "Liothyronine is a synthetic form of T3 (L-triiodothyronine) , a thyroid hormone that is the active metabolite of T4 (L-thyroxine) which is secreted by the thyroid gland. Thyroid hormones bind to thyroid hormone receptors on DNA, activating gene transcription and protein synthesis necessary in metabolic processes.",
+    "mechanism_summary": "Liothyronine is a synthetic form of T3 (L-triiodothyronine), a thyroid hormone that is the active metabolite of T4 (L-thyroxine) which is secreted by the thyroid gland. Thyroid hormones bind to thyroid hormone receptors on DNA, activating gene transcription and protein synthesis necessary in metabolic processes.",
     "effects": [],
     "references": [
       "FDA label for Liothyronine Sodium (liothyronine), Clinical Pharmacology/Pharmacokinetics — biological t½ ≈ 2.5 days"
@@ -39555,7 +39555,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 780.0,
-    "mechanism_summary": "Glucagon-like peptide 1 (GLP-1) agonists are analogs of GLP-1 , an incretin hormone, that improve glycemic control by increasing glucose-dependent insulin secretion, decrease glucagon secretion, slow gastric emptying and increase satiety.",
+    "mechanism_summary": "Glucagon-like peptide 1 (GLP-1) agonists are analogs of GLP-1, an incretin hormone, that improve glycemic control by increasing glucose-dependent insulin secretion, decrease glucagon secretion, slow gastric emptying and increase satiety.",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/022341s031lbl.pdf",
@@ -39700,7 +39700,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Glucagon-like peptide 1 (GLP-1) agonists are analogs of GLP-1 , an incretin hormone, that improve glycemic control by increasing glucose-dependent insulin secretion, decrease glucagon secretion, slow gastric emptying and increase satiety.",
+    "mechanism_summary": "Glucagon-like peptide 1 (GLP-1) agonists are analogs of GLP-1, an incretin hormone, that improve glycemic control by increasing glucose-dependent insulin secretion, decrease glucagon secretion, slow gastric emptying and increase satiety.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -39991,7 +39991,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 840.0,
-    "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA , by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
+    "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA, by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
     "effects": [
       "Amnesia",
       "Analysis suppression",
@@ -40070,7 +40070,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Blocks angiotensin II from binding to the angiotensin II receptor , which prevents subsequent vasoconstriction.",
+    "mechanism_summary": "Blocks angiotensin II from binding to the angiotensin II receptor, which prevents subsequent vasoconstriction.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -40100,7 +40100,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits HMG-CoA reductase , the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
+    "mechanism_summary": "Inhibits HMG-CoA reductase, the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -40463,7 +40463,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 6480.0,
-    "mechanism_summary": "Coartem Tablets, a fixed dose combination of artemether and lumefantrine in the ratio of 1:6, is an antimalarial agent .",
+    "mechanism_summary": "Coartem Tablets, a fixed dose combination of artemether and lumefantrine in the ratio of 1:6, is an antimalarial agent.",
     "effects": [],
     "references": [
       "FDA label for Coartem (artemether and lumefantrine), Clinical Pharmacology/Pharmacokinetics — t½ = 3–6 days"
@@ -43760,7 +43760,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 300.0,
-    "mechanism_summary": "更多信息：NMDA受体拮抗剂类药物\n\nMXE 是一种非竞争性 NMDA 受体拮抗剂和血清素再摄取抑制剂。[[1]](#cite_note-ACMDMXE2012-1) NMDA 受体允许电信号在大脑和脊柱中的神经元之间传递；要传递信号，受体必须是开放的。解离剂通过阻断 NMDA 受体来关闭它们。这种神经元的断连导致感觉丧失、运动困难，最终导致几乎等同于著名的“K洞 (k-hole)”的状态。据报道，MXE 与氯胺酮相似 [[4]](#cite_note-4)，尽管药效更强且持续时间更长。[[5]](#cite_note-5)\n\n由于其结构与 3-HO-PCP 相似，它曾被错误地认为具有阿片类药物特性。[[6]](#cite_note-6) 这一说法没有实际数据支持，相反，数据表明该物质本身对 µ-阿片受体的亲和力微不足道，尽管体内代谢物可能会产生不同的效果。[[1]](#cite_note-ACMDMXE2012-1)",
+    "mechanism_summary": "MXE 是一种非竞争性 NMDA 受体拮抗剂和血清素再摄取抑制剂。 NMDA 受体允许电信号在大脑和脊柱中的神经元之间传递；要传递信号，受体必须是开放的。解离剂通过阻断 NMDA 受体来关闭它们。这种神经元的断连导致感觉丧失、运动困难，最终导致几乎等同于著名的“K洞 (k-hole)”的状态。据报道，MXE 与氯胺酮相似，尽管药效更强且持续时间更长。\n\n由于其结构与 3-HO-PCP 相似，它曾被错误地认为具有阿片类药物特性。 这一说法没有实际数据支持，相反，数据表明该物质本身对 µ-阿片受体的亲和力微不足道，尽管体内代谢物可能会产生不同的效果。",
     "effects": [
       "Acuity suppression",
       "Amnesia",
@@ -44969,7 +44969,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Gets reduced intracellularly in susceptible organisms forming free radicals that, along with the reduced form of metronidazole, cause DNA helical structure damage resulting in inhibition of protein synthesis .",
+    "mechanism_summary": "Gets reduced intracellularly in susceptible organisms forming free radicals that, along with the reduced form of metronidazole, cause DNA helical structure damage resulting in inhibition of protein synthesis.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -45490,7 +45490,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素致幻剂\n\n与大多数致幻色胺一样，MiPT 被认为主要起着 5-HT2A 部分激动剂的作用。致幻效果被认为来自 MiPT 在 5-HT2A 受体上的结合功效。\n\n然而，这些相互作用的作用以及它是如何导致致幻体验的，仍然难以捉摸呢。",
+    "mechanism_summary": "与大多数致幻色胺一样，MiPT 被认为主要起着 5-HT2A 部分激动剂的作用。致幻效果被认为来自 MiPT 在 5-HT2A 受体上的结合功效。\n\n然而，这些相互作用的作用以及它是如何导致致幻体验的，仍然难以捉摸呢。",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/tihkal/tihkal47.shtml"
@@ -46100,7 +46100,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Budesonide : Inhaled corticosteroids reduce inflammation in the airways, an important component in the pathogenesis of inflammatory lung disease, through a wide range of actions on several cell types (e.g., mast cells, eosinophils, neutrophils, macrophages, lymphocytes) and mediators (e.g., histamine, eicosanoids, leukotrienes, cytokines) involved in inflammation. Formoterol : Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Budesonide: Inhaled corticosteroids reduce inflammation in the airways, an important component in the pathogenesis of inflammatory lung disease, through a wide range of actions on several cell types (e.g., mast cells, eosinophils, neutrophils, macrophages, lymphocytes) and mediators (e.g., histamine, eicosanoids, leukotrienes, cytokines) involved in inflammation. Formoterol: Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -46620,7 +46620,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Mupirocin is an antibacterial drug .",
+    "mechanism_summary": "Mupirocin is an antibacterial drug.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -46916,7 +46916,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "1963年，亚历山大·舒尔金推测肉豆蔻醚可能在肝脏中代谢为 MMDA，这是一种与 MDA 相关的精神活性药物。 然而，这不太可能，因为在摄入肉豆蔻醚后的尿液中没有发现苯丙胺代谢物。人们认为肉豆蔻醚是一种抗胆碱能药物，因为在过量服用时，它会产生类似于抗胆碱能药物的效果 ，但确切的作用机制尚未确定。肉豆蔻醚也被发现是血清素受体拮抗剂，同时也是一种弱的单胺氧化酶抑制剂哦。[来源请求]\n\n榄香素与肉豆蔻醚一起存在于肉豆蔻中，并有助于其致幻效果。榄香素可能具有与肉豆蔻醚相似的效果。它也是合成生物碱麦斯卡林的传统前体呢。[来源请求]\n\n摄入榄香油（一种含有榄香素但不含大量肉豆蔻醚的来源）的人声称，该油产生的视觉效果似乎比肉豆蔻油的视觉效果更类似于经典致幻剂（肉豆蔻油的效果本质上似乎更偏向谵妄和镇静）。\n\n这种区别似乎将肉豆蔻醚描绘成一种更具镇静和精神迟钝作用的药物，而榄香素似乎更具视觉活性和刺激性。这一假设得到了进一步的支持，即虽然榄香素与麦斯卡林有直接的结构联系，但肉豆蔻醚与 MDxx 化合物（如 MDMA）有联系。\n\n榄香素的化学结构似乎是麦斯卡林的碳基类似物，而肉豆蔻醚本身似乎是 Lophophine 的碳基类似物，这些结构差异可能是榄香素和肉豆蔻醚具有略微不同的精神活性效果的指标哦。\n\n在肉豆蔻中没有发现任何化合物直接结合 CB1 或 CB2 受体。肉豆蔻中的三种化合物（Malabaricone C、Licarin A、5-Methoxylicarin A）已被证明通过抑制 FAAH 和 MAGL 酶来充当内源性大麻素调节剂。",
+    "mechanism_summary": "1963年，亚历山大·舒尔金推测肉豆蔻醚可能在肝脏中代谢为 MMDA，这是一种与 MDA 相关的精神活性药物。 然而，这不太可能，因为在摄入肉豆蔻醚后的尿液中没有发现苯丙胺代谢物。人们认为肉豆蔻醚是一种抗胆碱能药物，因为在过量服用时，它会产生类似于抗胆碱能药物的效果，但确切的作用机制尚未确定。肉豆蔻醚也被发现是血清素受体拮抗剂，同时也是一种弱的单胺氧化酶抑制剂哦。\n\n榄香素与肉豆蔻醚一起存在于肉豆蔻中，并有助于其致幻效果。榄香素可能具有与肉豆蔻醚相似的效果。它也是合成生物碱麦斯卡林的传统前体呢。\n\n摄入榄香油（一种含有榄香素但不含大量肉豆蔻醚的来源）的人声称，该油产生的视觉效果似乎比肉豆蔻油的视觉效果更类似于经典致幻剂（肉豆蔻油的效果本质上似乎更偏向谵妄和镇静）。\n\n这种区别似乎将肉豆蔻醚描绘成一种更具镇静和精神迟钝作用的药物，而榄香素似乎更具视觉活性和刺激性。这一假设得到了进一步的支持，即虽然榄香素与麦斯卡林有直接的结构联系，但肉豆蔻醚与 MDxx 化合物（如 MDMA）有联系。\n\n榄香素的化学结构似乎是麦斯卡林的碳基类似物，而肉豆蔻醚本身似乎是 Lophophine 的碳基类似物，这些结构差异可能是榄香素和肉豆蔻醚具有略微不同的精神活性效果的指标哦。\n\n在肉豆蔻中没有发现任何化合物直接结合 CB1 或 CB2 受体。肉豆蔻中的三种化合物（Malabaricone C、Licarin A、5-Methoxylicarin A）已被证明通过抑制 FAAH 和 MAGL 酶来充当内源性大麻素调节剂。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -47558,7 +47558,6 @@
       "OTC-available",
       "antidote",
       "class:substituted morphinans",
-      "harm-reduction",
       "opioid antagonist",
       "opioid-precipitated-withdrawal",
       "opioid-receptor-antagonist",
@@ -47746,7 +47745,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 90.0,
-    "mechanism_summary": "Stimulates insulin secretion from pancreatic beta cells, decreasing postprandial blood glucose .",
+    "mechanism_summary": "Stimulates insulin secretion from pancreatic beta cells, decreasing postprandial blood glucose.",
     "effects": [],
     "references": [
       "FDA label for nateglinide tablets (nateglinide), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 1.5 h"
@@ -48155,7 +48154,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 120.0,
-    "mechanism_summary": "Inhibits calcium ion influx into vascular smooth muscle and cardiac muscle causing peripheral vasodilation and coronary artery vasodilation .",
+    "mechanism_summary": "Inhibits calcium ion influx into vascular smooth muscle and cardiac muscle causing peripheral vasodilation and coronary artery vasodilation.",
     "effects": [],
     "references": [
       "FDA label for Procardia XL (nifedipine), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 2 h"
@@ -48274,7 +48273,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Niraparib is an inhibitor of poly(ADP-ribose) polymerase (PARP) enzymes, PARP-1 and PARP-2, which play a role in DNA repair. In vitro studies have shown that niraparib-induced cytotoxicity may involve inhibition of PARP enzymatic activity and increased formation of PARP-DNA complexes resulting in DNA damage, apoptosis and cell death. Increased niraparib-induced cytotoxicity was observed in tumor cell lines with or without deficiencies in BRCA1/2 . Niraparib decreased tumor growth in mouse xenograft models of human cancer cell lines with deficiencies in BRCA1/2 and in human patient-derived xenograft tumor models with homologous recombination deficiency that had either mutated or wild type BRCA1/2 .",
+    "mechanism_summary": "Niraparib is an inhibitor of poly(ADP-ribose) polymerase (PARP) enzymes, PARP-1 and PARP-2, which play a role in DNA repair. In vitro studies have shown that niraparib-induced cytotoxicity may involve inhibition of PARP enzymatic activity and increased formation of PARP-DNA complexes resulting in DNA damage, apoptosis and cell death. Increased niraparib-induced cytotoxicity was observed in tumor cell lines with or without deficiencies in BRCA1/2. Niraparib decreased tumor growth in mouse xenograft models of human cancer cell lines with deficiencies in BRCA1/2 and in human patient-derived xenograft tumor models with homologous recombination deficiency that had either mutated or wild type BRCA1/2.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -49509,7 +49508,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 750.0,
-    "mechanism_summary": "Blocks angiotensin II from binding to the angiotensin II receptor , which prevents subsequent vasoconstriction.",
+    "mechanism_summary": "Blocks angiotensin II from binding to the angiotensin II receptor, which prevents subsequent vasoconstriction.",
     "effects": [],
     "references": [
       "The new oral angiotensin II antagonist olmesartan medoxomil: a concise overview"
@@ -49537,7 +49536,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -49612,7 +49611,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Omberacetam 调节乙酰胆碱系统以及 AMPA 受体哦[[5]](#cite_note-5)。这种调节本质上允许乙酰胆碱积累到比原本更高的水平。由于乙酰胆碱参与记忆功能，这可能就是它产生益智效果的原因呢。一些研究还表明，NMDA 受体也参与了 Omberacetam 的作用机制[[6]](#cite_note-6)[[7]](#cite_note-7)。",
+    "mechanism_summary": "Omberacetam 调节乙酰胆碱系统以及 AMPA 受体哦。这种调节本质上允许乙酰胆碱积累到比原本更高的水平。由于乙酰胆碱参与记忆功能，这可能就是它产生益智效果的原因呢。一些研究还表明，NMDA 受体也参与了 Omberacetam 的作用机制。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -49688,7 +49687,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Binds to and irreversibly inhibits H+/K+ ATPase pumps (proton pumps) on gastric parietal cells resulting in decreased gastric acid secretion .",
+    "mechanism_summary": "Binds to and irreversibly inhibits H+/K+ ATPase pumps (proton pumps) on gastric parietal cells resulting in decreased gastric acid secretion.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -49854,7 +49853,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits influenza virus neuraminidase , an enzyme that releases viral particles from the plasma membrane of infected cells and promotes virus spread in the respiratory tract.",
+    "mechanism_summary": "Inhibits influenza virus neuraminidase, an enzyme that releases viral particles from the plasma membrane of infected cells and promotes virus spread in the respiratory tract.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -49898,7 +49897,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 480.0,
-    "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA , by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
+    "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA, by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
     "effects": [],
     "references": [
       "Clinical Pharmacokinetics of Oxazepam and Lorazepam"
@@ -50349,7 +50348,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1380.0,
-    "mechanism_summary": "Competitively blocks of D2 dopamine and 5HT-2A serotonin receptors. These mechanisms are notably thought to be related to its efficacy for indicated conditions. Also blocks, to varying degrees, other subtypes of dopamine receptors (D1, D3, D4, D5), serotonin (5HT-1A, 5HT-2C and 5HT-7) receptors, histamine-1 receptors, and alpha-1 and alpha-2 adrenergic receptors. .",
+    "mechanism_summary": "Competitively blocks of D2 dopamine and 5HT-2A serotonin receptors. These mechanisms are notably thought to be related to its efficacy for indicated conditions. Also blocks, to varying degrees, other subtypes of dopamine receptors (D1, D3, D4, D5), serotonin (5HT-1A, 5HT-2C and 5HT-7) receptors, histamine-1 receptors, and alpha-1 and alpha-2 adrenergic receptors..",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021999s026lbl.pdf",
@@ -50475,7 +50474,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 60.0,
-    "mechanism_summary": "Binds to and irreversibly inhibits H+/K+ ATPase pumps (proton pumps) on gastric parietal cells resulting in decreased gastric acid secretion .",
+    "mechanism_summary": "Binds to and irreversibly inhibits H+/K+ ATPase pumps (proton pumps) on gastric parietal cells resulting in decreased gastric acid secretion.",
     "effects": [],
     "references": [
       "FDA label for Pantoprazole Sodium for Injection (pantoprazole), Clinical Pharmacology/Pharmacokinetics — terminal t½ ≈ 1 hour"
@@ -50733,7 +50732,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：NMDA 受体拮抗剂\n\nNMDA 受体（谷氨酸受体的一种亚型，谷氨酸是神经系统中主要的兴奋性神经递质）允许电信号在大脑和脊柱的神经细胞之间传递；为了传递信号，受体必须是开放的。NMDA 受体拮抗剂已被证明可以通过阻断这些受体来破坏这种信号传递。神经系统中信息流的这种断开导致感觉丧失（麻醉）、运动困难（运动不协调），最终导致这种物质相当于“'孔洞'”的状态，这主要与氯胺酮的体验相关，尽管性质上有所不同。\n\n除了其独特的 NMDA 受体阻断能力外，PCE 还作为多巴胺-去甲肾上腺素 再摄取抑制剂以及血清素 再摄取抑制剂，具有可疑的 μ-阿片亲和力和典型的解离效应。这为其欣快和经常出现的刺激特性提供了解释。\n\nPCE 比 PCP 稍微强效一点，效果相似，但其令人不快的味道和引起恶心的倾向使其不太被使用者接受。",
+    "mechanism_summary": "NMDA 受体（谷氨酸受体的一种亚型，谷氨酸是神经系统中主要的兴奋性神经递质）允许电信号在大脑和脊柱的神经细胞之间传递；为了传递信号，受体必须是开放的。NMDA 受体拮抗剂已被证明可以通过阻断这些受体来破坏这种信号传递。神经系统中信息流的这种断开导致感觉丧失（麻醉）、运动困难（运动不协调），最终导致这种物质相当于“'孔洞'”的状态，这主要与氯胺酮的体验相关，尽管性质上有所不同。\n\n除了其独特的 NMDA 受体阻断能力外，PCE 还作为多巴胺-去甲肾上腺素 再摄取抑制剂以及血清素 再摄取抑制剂，具有可疑的 μ-阿片亲和力和典型的解离效应。这为其欣快和经常出现的刺激特性提供了解释。\n\nPCE 比 PCP 稍微强效一点，效果相似，但其令人不快的味道和引起恶心的倾向使其不太被使用者接受。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -51578,7 +51577,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Phenazopyridine is excreted in the urine where it exerts a topical analgesic effect on the mucosa of the urinary tract . This action helps to relieve pain, burning, urgency and frequency.",
+    "mechanism_summary": "Phenazopyridine is excreted in the urine where it exerts a topical analgesic effect on the mucosa of the urinary tract. This action helps to relieve pain, burning, urgency and frequency.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -52504,7 +52503,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Agonizes peroxisome proliferator-activated receptor-gamma ( PPAR receptors ) causing increased peripheral insulin sensitivity . PPAR receptors are found in tissues important for insulin action such as adipose tissue, skeletal muscle, and the liver.",
+    "mechanism_summary": "Agonizes peroxisome proliferator-activated receptor-gamma ( PPAR receptors ) causing increased peripheral insulin sensitivity. PPAR receptors are found in tissues important for insulin action such as adipose tissue, skeletal muscle, and the liver.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -52708,7 +52707,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits HMG-CoA reductase , the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
+    "mechanism_summary": "Inhibits HMG-CoA reductase, the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -53162,7 +53161,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 108.0,
-    "mechanism_summary": "Inhibits HMG-CoA reductase , the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
+    "mechanism_summary": "Inhibits HMG-CoA reductase, the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
     "effects": [],
     "references": [
       "Evidence-based review of statin use in patients with HIV on antiretroviral therapy"
@@ -53421,7 +53420,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 378.0,
-    "mechanism_summary": "Pregabalin is a 3-isobutyl derivative of the neurotransmitter gamma-aminobutyric acid (GABA), however, has no effect on GABA binding, uptake, or degradation. It binds with high-affinity to the α2δ subunit of voltage-activated calcium channels ; however, the relationship of this binding to the therapeutic effects of pregabalin is unknown. Pregabalin has anticonvulsant, anti-epileptic, anxiolytic, and analgesic activity.",
+    "mechanism_summary": "Pregabalin is a 3-isobutyl derivative of the neurotransmitter gamma-aminobutyric acid (GABA), however, has no effect on GABA binding, uptake, or degradation. It binds with high-affinity to the α2δ subunit of voltage-activated calcium channels; however, the relationship of this binding to the therapeutic effects of pregabalin is unknown. Pregabalin has anticonvulsant, anti-epileptic, anxiolytic, and analgesic activity.",
     "effects": [
       "Acuity enhancement",
       "Amnesia",
@@ -53642,7 +53641,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Drospirenone, a progestin, prevents the pre-ovulation surge of luteinizing hormone (LH), which decreases the likelihood that ovulation will occur. Progestins also thicken cervical mucus , inhibiting the ability of sperm to travel into the uterus, and thin the endometrium (lining of the uterus), making implantation of a fertilized egg more difficult.",
+    "mechanism_summary": "Drospirenone, a progestin, prevents the pre-ovulation surge of luteinizing hormone (LH), which decreases the likelihood that ovulation will occur. Progestins also thicken cervical mucus, inhibiting the ability of sperm to travel into the uterus, and thin the endometrium (lining of the uterus), making implantation of a fertilized egg more difficult.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -53671,7 +53670,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Norethindrone, a progestin, prevents the pre-ovulation surge of luteinizing hormone (LH), which decreases the likelihood that ovulation will occur. Progestins also thicken cervical mucus , inhibiting the ability of sperm to travel into the uterus, and thin the endometrium (lining of the uterus), making implantation of a fertilized egg more difficult.",
+    "mechanism_summary": "Norethindrone, a progestin, prevents the pre-ovulation surge of luteinizing hormone (LH), which decreases the likelihood that ovulation will occur. Progestins also thicken cervical mucus, inhibiting the ability of sperm to travel into the uterus, and thin the endometrium (lining of the uterus), making implantation of a fertilized egg more difficult.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -53804,7 +53803,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Codeine: is an opioid agonist with preferential selectivity for mu-opioid receptors . Codeine has relatively weak analgesic activity; however, its active metabolites morphine (5-15%, via CYP2D6 metabolism ) and codeine-6-glucuronide (50-70% via UGT2B7 metabolism ) have notable analgesic properties ( especially morphine , a potent opioid agonist). The therapeutic effects of codeine include analgesic, antidiarrheal and antitussive actions. Promethazine: is a phenothiazine derivative, which differs structurally from the antipsychotic phenothiazines by the presence of a branched side chain and no ring substitution. Promethazine possesses antihistamine (H1 receptor antagonist), antiemetic, sedative, and anticholinergic effects. It prevents released histamine from dilating capillaries and causing edema of the respiratory mucosa.",
+    "mechanism_summary": "Codeine: is an opioid agonist with preferential selectivity for mu-opioid receptors. Codeine has relatively weak analgesic activity; however, its active metabolites morphine (5-15%, via CYP2D6 metabolism ) and codeine-6-glucuronide (50-70% via UGT2B7 metabolism ) have notable analgesic properties ( especially morphine, a potent opioid agonist). The therapeutic effects of codeine include analgesic, antidiarrheal and antitussive actions. Promethazine: is a phenothiazine derivative, which differs structurally from the antipsychotic phenothiazines by the presence of a branched side chain and no ring substitution. Promethazine possesses antihistamine (H1 receptor antagonist), antiemetic, sedative, and anticholinergic effects. It prevents released histamine from dilating capillaries and causing edema of the respiratory mucosa.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -54168,7 +54167,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 300.0,
-    "mechanism_summary": "Agonizes alpha-adrenergic receptors in the respiratory mucosa causing vasoconstriction which reduces sinus and nasal congestion. Agonizes beta-adrenergic receptors in the lungs and heart causing bronchial relaxation , and increased heart rate and contractility.",
+    "mechanism_summary": "Agonizes alpha-adrenergic receptors in the respiratory mucosa causing vasoconstriction which reduces sinus and nasal congestion. Agonizes beta-adrenergic receptors in the lungs and heart causing bronchial relaxation, and increased heart rate and contractility.",
     "effects": [],
     "references": [
       "https://www.ncbi.nlm.nih.gov/books/NBK547661/"
@@ -55149,7 +55148,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "In patients with malaria, quinidine acts primarily as an intra-erythrocytic schizonticide, with little effect upon sporozites or upon pre-erythrocytic parasites. Quinidine is gametocidal to Plasmodium vivax and malariae , but not to falciparum . In cardiac muscle and in Purkinje fibers, quinidine depresses the rapid inward depolarizing sodium current, thereby slowing phase-0 depolarization and reducing the amplitude of the action potential without affecting the resting potential. In normal Purkinje fibers, it reduces the slope of phase-4 depolarization, shifting the threshold voltage upward toward zero. The result is slowed conduction and reduced automaticity in all parts of the heart, with increase of the effective refractory period relative to the duration of the action potential in the atria, ventricles, and Purkinje tissues. Quinidine also raises the fibrillation thresholds of the atria and ventricles, and it raises the ventricular de fibrillation threshold as well.",
+    "mechanism_summary": "In patients with malaria, quinidine acts primarily as an intra-erythrocytic schizonticide, with little effect upon sporozites or upon pre-erythrocytic parasites. Quinidine is gametocidal to Plasmodium vivax and malariae, but not to falciparum. In cardiac muscle and in Purkinje fibers, quinidine depresses the rapid inward depolarizing sodium current, thereby slowing phase-0 depolarization and reducing the amplitude of the action potential without affecting the resting potential. In normal Purkinje fibers, it reduces the slope of phase-4 depolarization, shifting the threshold voltage upward toward zero. The result is slowed conduction and reduced automaticity in all parts of the heart, with increase of the effective refractory period relative to the duration of the action potential in the atria, ventricles, and Purkinje tissues. Quinidine also raises the fibrillation thresholds of the atria and ventricles, and it raises the ventricular de fibrillation threshold as well.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -55175,7 +55174,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 666.0,
-    "mechanism_summary": "Quinine is an antimalarial agent .",
+    "mechanism_summary": "Quinine is an antimalarial agent.",
     "effects": [],
     "references": [
       "FDA label for Quinine Sulfate (quinine sulfate), Clinical Pharmacology/Pharmacokinetics — t1/2 ≈ 9.7-12.5 h in healthy subjects"
@@ -55351,7 +55350,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 150.0,
-    "mechanism_summary": "Reversibly inhibits histamine-2 receptors (H2 receptors) on gastric parietal cells resulting in decreased gastric acid secretion .",
+    "mechanism_summary": "Reversibly inhibits histamine-2 receptors (H2 receptors) on gastric parietal cells resulting in decreased gastric acid secretion.",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Ranitidine"
@@ -55478,7 +55477,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 60.0,
-    "mechanism_summary": "Stimulates insulin secretion from pancreatic beta cells, decreasing postprandial blood glucose .",
+    "mechanism_summary": "Stimulates insulin secretion from pancreatic beta cells, decreasing postprandial blood glucose.",
     "effects": [],
     "references": [
       "FDA label for repaglinide tablets, Clinical Pharmacology 12.3 — t½ ≈ 1 h"
@@ -55543,7 +55542,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Altabax is an antibacterial agent .",
+    "mechanism_summary": "Altabax is an antibacterial agent.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -55702,7 +55701,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Rifabutin inhibits DNA-dependent RNA polymerase in susceptible strains of Escherichia coli and Bacillus subtilis but not in mammalian cells. In resistant strains of E. coli , rifabutin, like rifampin, did not inhibit this enzyme. It is not known whether rifabutin inhibits DNA-dependent RNA polymerase in Mycobacterium avium or in M. intracellulare which comprise M. avium complex (MAC).",
+    "mechanism_summary": "Rifabutin inhibits DNA-dependent RNA polymerase in susceptible strains of Escherichia coli and Bacillus subtilis but not in mammalian cells. In resistant strains of E. coli, rifabutin, like rifampin, did not inhibit this enzyme. It is not known whether rifabutin inhibits DNA-dependent RNA polymerase in Mycobacterium avium or in M. intracellulare which comprise M. avium complex (MAC).",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -55800,7 +55799,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 660.0,
-    "mechanism_summary": "Binds to the calcitonin gene-related peptide (CGRP) receptor , thus blocking the CGRP ligand . When the CGRP ligand binds to its receptor, it activates a cascade of events associated with migraine pain.",
+    "mechanism_summary": "Binds to the calcitonin gene-related peptide (CGRP) receptor, thus blocking the CGRP ligand. When the CGRP ligand binds to its receptor, it activates a cascade of events associated with migraine pain.",
     "effects": [],
     "references": [
       "FDA label for Nurtec ODT (rimegepant), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 11 h"
@@ -55829,7 +55828,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Binds to bone hydroxyapatite and inhibits osteoclast activity , thus reducing bone resorption (breakdown).",
+    "mechanism_summary": "Binds to bone hydroxyapatite and inhibits osteoclast activity, thus reducing bone resorption (breakdown).",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -55898,7 +55897,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Directly inhibits coagulation factor Xa , disrupting platelet activation and fibrin clot formation.",
+    "mechanism_summary": "Directly inhibits coagulation factor Xa, disrupting platelet activation and fibrin clot formation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -56093,7 +56092,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 294.0,
-    "mechanism_summary": "Agonizes peroxisome proliferator-activated receptor-gamma ( PPAR receptors ) causing increased peripheral insulin sensitivity . PPAR receptors are found in tissues important for insulin action such as adipose tissue, skeletal muscle, and the liver.",
+    "mechanism_summary": "Agonizes peroxisome proliferator-activated receptor-gamma ( PPAR receptors ) causing increased peripheral insulin sensitivity. PPAR receptors are found in tissues important for insulin action such as adipose tissue, skeletal muscle, and the liver.",
     "effects": [],
     "references": [
       "The effect of acarbose on the pharmacokinetics of rosiglitazone."
@@ -56123,7 +56122,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1140.0,
-    "mechanism_summary": "Inhibits HMG-CoA reductase , the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
+    "mechanism_summary": "Inhibits HMG-CoA reductase, the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
     "effects": [],
     "references": [
       "FDA label for Crestor (rosuvastatin), Clinical Pharmacology/Pharmacokinetics — elimination t½ ≈ 19 hours"
@@ -56516,7 +56515,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 330.0,
-    "mechanism_summary": "Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [
       "FDA label for Serevent Diskus (salmeterol xinafoate), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 5.5 hours"
@@ -57006,7 +57005,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits dipeptidyl peptidase 4 (DPP-4) enzymes from inactivating incretin hormones, including glucagon-like peptide-1 (GLP-1) and glucose-dependent insulinotropic polypeptide (GIP). Incretin hormones help regulate blood glucose levels by increasing insulin synthesis and release , and lowering glucagon secretion , which reduces hepatic glucose production .",
+    "mechanism_summary": "Inhibits dipeptidyl peptidase 4 (DPP-4) enzymes from inactivating incretin hormones, including glucagon-like peptide-1 (GLP-1) and glucose-dependent insulinotropic polypeptide (GIP). Incretin hormones help regulate blood glucose levels by increasing insulin synthesis and release, and lowering glucagon secretion, which reduces hepatic glucose production.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -57376,7 +57375,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 9900.0,
-    "mechanism_summary": "Glucagon-like peptide 1 (GLP-1) agonists are analogs of GLP-1 , an incretin hormone, that improve glycemic control by increasing glucose-dependent insulin secretion, decrease glucagon secretion, slow gastric emptying and increase satiety.",
+    "mechanism_summary": "Glucagon-like peptide 1 (GLP-1) agonists are analogs of GLP-1, an incretin hormone, that improve glycemic control by increasing glucose-dependent insulin secretion, decrease glucagon secretion, slow gastric emptying and increase satiety.",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/213051s006lbl.pdf",
@@ -57500,7 +57499,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Senna : Stimulates constriction and relaxation of smooth muscle in the colon and increases fecal water content to increase motility of feces through the large intestine. Docusate : Reduces surface tension of the stool resulting in enhanced incorporation of water and fat resulting in softer fecal mass.",
+    "mechanism_summary": "Senna: Stimulates constriction and relaxation of smooth muscle in the colon and increases fecal water content to increase motility of feces through the large intestine. Docusate: Reduces surface tension of the stool resulting in enhanced incorporation of water and fat resulting in softer fecal mass.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -57762,7 +57761,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 291.0,
-    "mechanism_summary": "Inhibits HMG-CoA reductase , the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
+    "mechanism_summary": "Inhibits HMG-CoA reductase, the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
     "effects": [],
     "references": [
       "Simvastatin pharmacokinetics in healthy Chinese subjects and its relations with CYP2C9, CYP3A5, ABCB1, ABCG2 and SLCO1B1 polymorphisms."
@@ -57850,7 +57849,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits dipeptidyl peptidase 4 (DPP-4) enzymes from inactivating incretin hormones, including glucagon-like peptide-1 (GLP-1) and glucose-dependent insulinotropic polypeptide (GIP). Incretin hormones help regulate blood glucose levels by increasing insulin synthesis and release , and lowering glucagon secretion , which reduces hepatic glucose production .",
+    "mechanism_summary": "Inhibits dipeptidyl peptidase 4 (DPP-4) enzymes from inactivating incretin hormones, including glucagon-like peptide-1 (GLP-1) and glucose-dependent insulinotropic polypeptide (GIP). Incretin hormones help regulate blood glucose levels by increasing insulin synthesis and release, and lowering glucagon secretion, which reduces hepatic glucose production.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -58124,7 +58123,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Spironolactone is a synthetic steroid that, along with its active metabolites, antagonizes aldosterone receptors . Its diuretic/antihypertensive action is caused by competitive binding of receptors at the aldosterone-dependent sodium-potassium exchange site in the distal convoluted renal tubule, which results in increased sodium and water excretion and potassium retention . It also prevents androgen-mediated cardiac remodeling , which is useful in certain heart failure patients. Additionally, spironolactone antagonizes androgen receptors and has mild affinity for progesterone receptors , which results in endocrine side effects.",
+    "mechanism_summary": "Spironolactone is a synthetic steroid that, along with its active metabolites, antagonizes aldosterone receptors. Its diuretic/antihypertensive action is caused by competitive binding of receptors at the aldosterone-dependent sodium-potassium exchange site in the distal convoluted renal tubule, which results in increased sodium and water excretion and potassium retention. It also prevents androgen-mediated cardiac remodeling, which is useful in certain heart failure patients. Additionally, spironolactone antagonizes androgen receptors and has mild affinity for progesterone receptors, which results in endocrine side effects.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -58474,7 +58473,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Sulfamethoxazole : inhibits bacterial synthesis of dihydrofolic acid by competing with para aminobenzoic acid (PABA). Trimethoprim : blocks the production of tetrahydrofolic acid from dihydrofolic acid by binding to and reversibly inhibiting the required enzyme, dihydrofolate reductase. These actions result in inhibition of bacterial folic acid synthesis .",
+    "mechanism_summary": "Sulfamethoxazole: inhibits bacterial synthesis of dihydrofolic acid by competing with para aminobenzoic acid (PABA). Trimethoprim: blocks the production of tetrahydrofolic acid from dihydrofolic acid by binding to and reversibly inhibiting the required enzyme, dihydrofolate reductase. These actions result in inhibition of bacterial folic acid synthesis.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -59159,7 +59158,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 540.0,
-    "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA , by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
+    "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA, by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/018163s065lbl.pdf"
@@ -60412,7 +60411,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Gets reduced intracellularly in susceptible organisms forming free radicals that cause DNA helical structure damage resulting in inhibition of protein synthesis .",
+    "mechanism_summary": "Gets reduced intracellularly in susceptible organisms forming free radicals that cause DNA helical structure damage resulting in inhibition of protein synthesis.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -60441,7 +60440,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -60470,7 +60469,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Tiotropium : Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation . Olodaterol : Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Tiotropium: Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation. Olodaterol: Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -60659,7 +60658,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能迷幻剂\n\n一般认为，TMA-2的迷幻剂效应来自它作为部分激动剂对5-HT受体的作用。然而，这些相互作用究竟扮演怎样的角色，以及它们是如何进一步形成迷幻剂体验的，目前仍然没有被完全阐明呢。",
+    "mechanism_summary": "一般认为，TMA-2的迷幻剂效应来自它作为部分激动剂对5-HT受体的作用。然而，这些相互作用究竟扮演怎样的角色，以及它们是如何进一步形成迷幻剂体验的，目前仍然没有被完全阐明呢。",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/pihkal/pihkal158.shtml"
@@ -60786,7 +60785,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "更多信息：血清素能迷幻剂\n\nTMA-6 的迷幻剂效应被认为来自它对5-HT 受体的作用，也就是作为一种部分激动剂发挥效力。不过，这些相互作用究竟扮演了怎样的角色，以及它们如何最终形成迷幻剂体验，目前仍然没有被完全弄清楚呢。",
+    "mechanism_summary": "TMA-6 的迷幻剂效应被认为来自它对5-HT 受体的作用，也就是作为一种部分激动剂发挥效力。不过，这些相互作用究竟扮演了怎样的角色，以及它们如何最终形成迷幻剂体验，目前仍然没有被完全弄清楚呢。",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/pihkal/pihkal162.shtml"
@@ -61431,7 +61430,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits potassium excretion and sodium resorption by blocking epithelial cell sodium channels in the collecting duct of nephrons. The primary action of epithelial sodium channel blockers is potassium retention . They have weak diuretic and antihypertensive properties, and alone have minimal effect on the excretion and retention of other electrolytes.",
+    "mechanism_summary": "Inhibits potassium excretion and sodium resorption by blocking epithelial cell sodium channels in the collecting duct of nephrons. The primary action of epithelial sodium channel blockers is potassium retention. They have weak diuretic and antihypertensive properties, and alone have minimal effect on the excretion and retention of other electrolytes.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -61462,7 +61461,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Triamterene: Inhibits potassium excretion and sodium resorption by blocking epithelial cell sodium channels in the collecting duct of nephrons. The primary action of epithelial sodium channel blockers is potassium retention . They have weak diuretic and antihypertensive properties, and alone have minimal effect on the excretion and retention of other electrolytes. Hydrochlorothiazide: Inhibits sodium reabsorption by inhibiting the sodium-chloride cotransporters in the distal convoluted tubule of nephrons, causing increased excretion of sodium, chloride, potassium, magnesium, and water. Thiazide diuretics cause retention of calcium, bicarbonate, and uric acid.",
+    "mechanism_summary": "Triamterene: Inhibits potassium excretion and sodium resorption by blocking epithelial cell sodium channels in the collecting duct of nephrons. The primary action of epithelial sodium channel blockers is potassium retention. They have weak diuretic and antihypertensive properties, and alone have minimal effect on the excretion and retention of other electrolytes. Hydrochlorothiazide: Inhibits sodium reabsorption by inhibiting the sodium-chloride cotransporters in the distal convoluted tubule of nephrons, causing increased excretion of sodium, chloride, potassium, magnesium, and water. Thiazide diuretics cause retention of calcium, bicarbonate, and uric acid.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -61501,7 +61500,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 138.0,
-    "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA , by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
+    "mechanism_summary": "Potentiates the inhibitory effects of the neurotransmitter, GABA, by binding to GABA-A receptors at stereospecific benzodiazepine (BZD) sites. This action makes neurons less excitable and results in sedative, anti-anxiety, anticonvulsive, and other inhibitory effects.",
     "effects": [],
     "references": [
       "Triazolam disposition"
@@ -62021,7 +62020,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 360.0,
-    "mechanism_summary": "Binds to the calcitonin gene-related peptide (CGRP) receptor , thus blocking the CGRP ligand . When the CGRP ligand binds to its receptor, it activates a cascade of events associated with migraine pain.",
+    "mechanism_summary": "Binds to the calcitonin gene-related peptide (CGRP) receptor, thus blocking the CGRP ligand. When the CGRP ligand binds to its receptor, it activates a cascade of events associated with migraine pain.",
     "effects": [],
     "references": [
       "FDA label for Ubrelvy (ubrogepant), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 5-7 h"
@@ -62049,7 +62048,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 660.0,
-    "mechanism_summary": "Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [
       "FDA label for Anoro Ellipta (umeclidinium and vilanterol), Clinical Pharmacology 12.3 — effective t½ 11 h"
@@ -62078,7 +62077,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Umeclidinium : Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation . Vilanterol : Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation .",
+    "mechanism_summary": "Umeclidinium: Reversibly competes and antagonizes muscarinic receptors in the airways causing smooth muscle relaxation and bronchodilation. Vilanterol: Selectively agonizes beta-2 adrenergic receptors in the airways causing smooth muscle relaxation and bronchodilation.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -62276,7 +62275,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 360.0,
-    "mechanism_summary": "Blocks angiotensin II from binding to the angiotensin II receptor , which prevents subsequent vasoconstriction.",
+    "mechanism_summary": "Blocks angiotensin II from binding to the angiotensin II receptor, which prevents subsequent vasoconstriction.",
     "effects": [],
     "references": [
       "FDA label for Diovan (valsartan), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 6 h"
@@ -62305,7 +62304,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Inhibits cGMP specific phosphodiesterase type-5 (PDE-5) enzymes from degrading cyclic guanosine monophosphate (cGMP) . Sexual stimulation creates a release of nitric oxide, which increases cGMP that causes smooth muscle relaxation allowing blood flow into the penis to produce an erection.",
+    "mechanism_summary": "Inhibits cGMP specific phosphodiesterase type-5 (PDE-5) enzymes from degrading cyclic guanosine monophosphate (cGMP). Sexual stimulation creates a release of nitric oxide, which increases cGMP that causes smooth muscle relaxation allowing blood flow into the penis to produce an erection.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -62346,7 +62345,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1440.0,
-    "mechanism_summary": "Selectively binds to and acts as a partial agonist of α4β2 nicotinic receptors . The efficacy in smoking cessation is believed to be the result of the partial agonist activity while simultaneously preventing nicotine binding to these receptors.",
+    "mechanism_summary": "Selectively binds to and acts as a partial agonist of α4β2 nicotinic receptors. The efficacy in smoking cessation is believed to be the result of the partial agonist activity while simultaneously preventing nicotine binding to these receptors.",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Varenicline",
@@ -62990,7 +62989,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Vorapaxar is a reversible antagonist of the protease-activated receptor-1 (PAR-1) expressed on platelets, but its long half-life makes it effectively irreversible. Vorapaxar inhibits thrombin-induced and thrombin receptor agonist peptide (TRAP)-induced platelet aggregation in in vitro studies. Vorapaxar does not inhibit platelet aggregation induced by adenosine diphosphate (ADP), collagen or a thromboxane mimetic and does not affect coagulation parameters ex vivo . PAR-1 receptors are also expressed in a wide variety of cell types, including endothelial cells, neurons, and smooth muscle cells, but the pharmacodynamic effects of vorapaxar in these cell types have not been assessed.",
+    "mechanism_summary": "Vorapaxar is a reversible antagonist of the protease-activated receptor-1 (PAR-1) expressed on platelets, but its long half-life makes it effectively irreversible. Vorapaxar inhibits thrombin-induced and thrombin receptor agonist peptide (TRAP)-induced platelet aggregation in in vitro studies. Vorapaxar does not inhibit platelet aggregation induced by adenosine diphosphate (ADP), collagen or a thromboxane mimetic and does not affect coagulation parameters ex vivo. PAR-1 receptors are also expressed in a wide variety of cell types, including endothelial cells, neurons, and smooth muscle cells, but the pharmacodynamic effects of vorapaxar in these cell types have not been assessed.",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -63403,7 +63402,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 228.0,
-    "mechanism_summary": "Inhibits influenza virus neuraminidase , an enzyme that releases viral particles from the plasma membrane of infected cells and promotes virus spread in the respiratory tract.",
+    "mechanism_summary": "Inhibits influenza virus neuraminidase, an enzyme that releases viral particles from the plasma membrane of infected cells and promotes virus spread in the respiratory tract.",
     "effects": [],
     "references": [
       "FDA label for RELENZA (zanamivir), Clinical Pharmacology 12.3 — serum t½ = 2.5–5.1 hours (oral inhalation)"
@@ -63429,7 +63428,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "Zidovudine is an antiRetroviral agent .",
+    "mechanism_summary": "Zidovudine is an antiRetroviral agent.",
     "effects": [],
     "references": [],
     "data_gaps": [

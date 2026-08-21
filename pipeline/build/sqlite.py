@@ -58,6 +58,12 @@ from effect_vocab import (  # noqa: E402
     zh_vocab_id_for,
 )
 from molecule_shapes import generate_molecule_shapes  # noqa: E402
+from prose import (  # noqa: E402
+    BANNED_PHRASE,
+    clean_label_prose,
+    clean_wiki_prose,
+    enforce_voice,
+)
 from pw_effect_categories import PW_EFFECT_CATEGORY, normalize_effect  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[2]
@@ -254,7 +260,7 @@ SOURCES = [
     (
         "piru-curated",
         "Piru hand-curated overlay",
-        "Curated by the Piru maintainers, prioritised for accuracy on harm-reduction-critical compounds.",
+        "Curated by the Piru maintainers, prioritized for accuracy on the compounds where being wrong costs most.",
     ),
     (
         "peer-review-primary",
@@ -267,8 +273,8 @@ SOURCES = [
     # TripSit backfill any gaps. Genuine dc dose bugs are corrected in the
     # piru-curated layer (which outranks everything).
     ("drug.community", "drug.community", "Curated dose/duration & effects dataset (preferred)."),
-    ("psychonautwiki", "PsychonautWiki", "Community harm-reduction wiki."),
-    ("tripsit", "TripSit factsheets", "Community harm-reduction factsheets and combo matrix."),
+    ("psychonautwiki", "PsychonautWiki", "Community-written drug information wiki."),
+    ("tripsit", "TripSit factsheets", "Community-written factsheets and combo matrix."),
     ("dailymed", "FDA DailyMed", "FDA-approved prescribing labels."),
     (
         "erowid-pihkal",
@@ -311,7 +317,7 @@ SOURCES = [
     (
         "freeodwiki",
         "FreeOD Wiki",
-        "Chinese harm-reduction wiki (CC BY-SA 4.0): native zh descriptions, pharmacology, effects, dose/duration.",
+        "Chinese community drug wiki (CC BY-SA 4.0): native zh descriptions, pharmacology, effects, dose/duration.",
     ),
 ]
 
@@ -2322,6 +2328,66 @@ def dedup_pk_routes(con) -> dict:
 #: assayed on Δ9-THC) and draws the same molecule twice on every comparison, so
 #: the build rejects one rather than letting a curated mechanism reintroduce it.
 ACTIVE_INGREDIENT_PROXIES = {"cannabis": "THC"}
+
+
+def enforce_voice_rule(con) -> dict:
+    """Repair the banned phrase in every shipped text column, then assert none
+    survived.
+
+    A sweep over the built DB rather than a filter at each of the two dozen
+    ingest sites: the phrase arrives from four sources through paths that keep
+    being added, and a filter has to be remembered on every new one. The sweep
+    cannot be forgotten, and the assertion after it means a form the rewrite
+    table does not cover fails the build instead of shipping.
+    """
+    cur = con.cursor()
+    tables = [
+        r[0]
+        for r in cur.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
+        )
+    ]
+    rewritten = 0
+    for table in tables:
+        columns = [
+            r[1]
+            for r in cur.execute(f'PRAGMA table_info("{table}")')
+            if "TEXT" in (r[2] or "").upper() or "CHAR" in (r[2] or "").upper()
+        ]
+        for column in columns:
+            rows = cur.execute(
+                f'SELECT rowid, "{column}" FROM "{table}" '
+                f"WHERE \"{column}\" LIKE '%harm%reduction%' COLLATE NOCASE"
+            ).fetchall()
+            for rowid, value in rows:
+                fixed = enforce_voice(value)
+                if fixed != value:
+                    cur.execute(
+                        f'UPDATE "{table}" SET "{column}" = ? WHERE rowid = ?', (fixed, rowid)
+                    )
+                    rewritten += 1
+
+    survivors: list[str] = []
+    for table in tables:
+        columns = [
+            r[1]
+            for r in cur.execute(f'PRAGMA table_info("{table}")')
+            if "TEXT" in (r[2] or "").upper() or "CHAR" in (r[2] or "").upper()
+        ]
+        for column in columns:
+            for (value,) in cur.execute(
+                f'SELECT "{column}" FROM "{table}" '
+                f"WHERE \"{column}\" LIKE '%harm%reduction%' COLLATE NOCASE"
+            ):
+                if value and BANNED_PHRASE.search(value):
+                    survivors.append(f"{table}.{column}: {value[:110]}")
+    if survivors:
+        raise SystemExit(
+            "The voice rule's banned phrase survived in "
+            f"{len(survivors)} string(s) — add a form to _VOICE_REWRITES in "
+            "pipeline/build/prose.py:\n  " + "\n  ".join(survivors[:8])
+        )
+    return {"rewritten": rewritten}
 
 
 def assert_preparations_borrow_their_pharmacology(con) -> None:
@@ -5316,6 +5382,8 @@ class Build:
         language: str = "en",
         machine_translated: bool = False,
     ) -> None:
+        summary = clean_wiki_prose(summary)
+        description = clean_wiki_prose(description) or None
         if not summary:
             return
         # A summary this long is not a summary. Rejecting rather than truncating is the
@@ -5352,10 +5420,10 @@ class Build:
         machine_translated: bool = False,
         citation: str | None = None,
     ) -> None:
-        text = (text or "").strip()
-        # Strip wiki citation markers ("[2]", "[12]") that leak from FreeOD's
-        # markdown into the prose (diazepam's overview opened with a bare "[2]").
-        text = re.sub(r"\s*\[\d+\]", "", text).strip()
+        # Wiki scaffolding (reference markers, "[citation needed]", the
+        # "Main article:" line) and the closing harm-reduction exhortation are
+        # not description; see pipeline/build/prose.py.
+        text = clean_wiki_prose(text)
         if not text:
             return
         src = self.source_ids[source_slug]
@@ -5369,7 +5437,10 @@ class Build:
             pass
 
     def add_indication(self, sid: int, source_slug: str, text: str) -> None:
-        text = (text or "").strip()
+        # A label that repeats its own heading inside the body yields the word
+        # "indications" as an indication; a pointer to "see below" points at a
+        # section Piru does not ship.
+        text = clean_label_prose(text)
         if not text:
             return
         src = self.source_ids[source_slug]
@@ -5385,7 +5456,7 @@ class Build:
     def add_contraindication(
         self, sid: int, source_slug: str, text: str, *, boxed: bool = False
     ) -> None:
-        text = (text or "").strip()
+        text = clean_label_prose(text)
         if not text:
             return
         src = self.source_ids[source_slug]
@@ -10725,6 +10796,9 @@ def main() -> int:
         print(f"Transitive/unresolved pk_references dropped: {ptx['dropped']}", file=sys.stderr)
         for n in ptx["names"]:
             print(f"  {n}", file=sys.stderr)
+
+    voice = enforce_voice_rule(build.cur.connection)
+    print(f"Voice-rule rewrites: {voice['rewritten']}", file=sys.stderr)
 
     assert_preparations_borrow_their_pharmacology(build.cur.connection)
 

@@ -931,24 +931,24 @@
     "attributed_only": false,
     "columns": {
       "id": {
-        "filled": 1136,
+        "filled": 1134,
         "verdict": "plumbing"
       },
       "source_id": {
-        "filled": 1136,
+        "filled": 1134,
         "verdict": "plumbing"
       },
       "substance_id": {
-        "filled": 1136,
+        "filled": 1134,
         "verdict": "plumbing"
       },
       "text": {
-        "filled": 1136,
+        "filled": 1134,
         "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 1136,
+    "rows": 1134,
     "surface": "medicalUses"
   },
   "interaction_rules": {
@@ -1995,20 +1995,20 @@
         "verdict": "shown"
       },
       "source_id": {
-        "filled": 7100,
+        "filled": 7099,
         "verdict": "plumbing"
       },
       "substance_id": {
-        "filled": 7100,
+        "filled": 7099,
         "verdict": "plumbing"
       },
       "tag": {
-        "filled": 7100,
+        "filled": 7099,
         "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 7100,
+    "rows": 7099,
     "surface": "identity"
   },
   "tolerance": {
