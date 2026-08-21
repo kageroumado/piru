@@ -31,13 +31,19 @@ extension SubstanceStore {
         let pmid: Int?
     }
 
-    /// Pharmacogenetic rows for a substance, deduplicated by gene.
+    /// Pharmacogenetic rows for a substance, one per distinct finding.
     ///
-    /// Several substances carry the same gene twice from different papers —
-    /// ketamine has four CYP2B6 rows. Printing all four asks the reader to
-    /// reconcile four statements about one gene; keeping the longest keeps the
-    /// one that actually says something, since the short duplicates are almost
-    /// always a restatement of the same finding.
+    /// Two collapses, and both were visible on ketamine's screen:
+    ///
+    /// - **Same gene, several papers.** Ketamine carries four CYP2B6 rows.
+    ///   Printing all four asks the reader to reconcile four statements about
+    ///   one gene; the longest is kept, since the short ones are almost always a
+    ///   restatement of the same finding.
+    /// - **Same finding, several genes.** One study that reports a CYP2B6
+    ///   effect *and* a null result for CYP3A4 and CYP3A5 is filed as three rows
+    ///   carrying one identical sentence, which rendered as the same paragraph
+    ///   three times under three headings. Those become one row naming all three
+    ///   genes — which is what the sentence itself says.
     func pharmacogenetics(forSubstanceName name: String) -> [PharmacogeneticHit] {
         guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
         do {
@@ -52,20 +58,36 @@ extension SubstanceStore {
                      ORDER BY LENGTH(p.phenotype_effects) DESC
                 """, arguments: [substanceID])
                 var seenGenes = Set<String>()
-                return rows.compactMap { row -> PharmacogeneticHit? in
+                var byFinding: [String: PharmacogeneticHit] = [:]
+                var order: [String] = []
+                for row in rows {
                     let gene: String = row["gene"]
                     // The ORDER BY already put the row to keep first.
-                    guard seenGenes.insert(geneKey(gene)).inserted else { return nil }
-                    return PharmacogeneticHit(
+                    guard seenGenes.insert(geneKey(gene)).inserted else { continue }
+                    let finding: String = row["phenotype_effects"]
+                    let key = finding.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if let existing = byFinding[key] {
+                        byFinding[key] = PharmacogeneticHit(
+                            id: existing.id,
+                            gene: "\(existing.gene) · \(gene)",
+                            phenotypeEffects: existing.phenotypeEffects,
+                            sourceSlug: existing.sourceSlug,
+                            doi: existing.doi,
+                            pmid: existing.pmid,
+                        )
+                        continue
+                    }
+                    order.append(key)
+                    byFinding[key] = PharmacogeneticHit(
                         id: row["id"],
                         gene: gene,
-                        phenotypeEffects: row["phenotype_effects"],
+                        phenotypeEffects: finding,
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),
                     )
                 }
-                .sorted { $0.gene < $1.gene }
+                return order.compactMap { byFinding[$0] }.sorted { $0.gene < $1.gene }
             }
         } catch {
             logger.error("pharmacogenetics(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")

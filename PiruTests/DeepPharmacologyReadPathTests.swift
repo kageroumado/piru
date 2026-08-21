@@ -41,6 +41,18 @@ struct DeepPharmacologyReadPathTests {
     }
 
     @Test
+    func `Genes sharing one finding collapse into a single row`() {
+        // Ketamine's CYP2B6 study reports a null result for CYP3A4 and CYP3A5
+        // in the same sentence, and it is filed as three rows carrying that
+        // sentence — which rendered as the same paragraph three times under
+        // three headings.
+        let rows = SubstanceStore.shared.pharmacogenetics(forSubstanceName: "Ketamine")
+        let findings = rows.map(\.phenotypeEffects)
+        #expect(findings.count == Set(findings).count, "the same finding is shown more than once")
+        #expect(rows.contains { $0.gene.contains("·") })
+    }
+
+    @Test
     func `An unknown substance yields no rows rather than failing`() {
         #expect(SubstanceStore.shared.pharmacogenetics(forSubstanceName: "Notarealsubstance").isEmpty)
     }
