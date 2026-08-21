@@ -107,6 +107,9 @@ private struct PushRouteView: View {
                 .navigationTitle(Text(tool.name))
                 .navigationBarTitleDisplayMode(.inline)
 
+        case let .drugClass(slug):
+            DrugClassDetailView(slug: slug)
+
         case let .insight(insight):
             insightView(for: insight)
                 .navigationBarTitleDisplayMode(.inline)
@@ -160,6 +163,7 @@ private struct PushRouteView: View {
         case .inventory: InventoryListView()
         case .effectSandbox: EffectSandboxView()
         case .steadyState: SteadyStateView()
+        case .drugClasses: DrugClassListView()
         }
     }
 

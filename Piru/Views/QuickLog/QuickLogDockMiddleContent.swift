@@ -21,8 +21,6 @@ struct DockMiddleContent: View {
     let families: [LibraryFamily]
     @Binding var selectedFamilyID: String?
     @Binding var browseResults: [Substance]
-    let interactions: [InteractionResult]
-    @Binding var interactionsHeight: CGFloat
     let unrevealedItemIDs: Set<UUID>
     let awaitingBareCollapse: Bool
     /// Present the custom-substance editor. ``QuickLogDock`` releases search
@@ -76,14 +74,6 @@ struct DockMiddleContent: View {
                     // (see ``TrayCommitBar``).
                     if dynamicTypeSize.isAccessibilitySize {
                         TrayMetaChips(model: tray, content: content)
-                    }
-
-                    if !interactions.isEmpty {
-                        DockInteractionsCard(interactions: interactions)
-                            .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
-                                guard abs(newValue - interactionsHeight) > 0.5 else { return }
-                                interactionsHeight = newValue
-                            }
                     }
                 }
             }

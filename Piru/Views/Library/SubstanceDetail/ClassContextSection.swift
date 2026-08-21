@@ -1,128 +1,43 @@
 import SwiftUI
 
-/// **The class** — what this substance shares with the rest of its family.
+/// The pharmacological family this substance belongs to, as **one row** that
+/// opens it.
 ///
-/// Earns its place on the long tail, where a research chemical has almost no
-/// data of its own and everything worth knowing is a property of the family: a
-/// 2C-x nobody has studied still inherits the class's kinetics, its safety
-/// profile and the SAR that says where in the series it sits. The four bodies
-/// are folded and self-hiding, so a class with only a mechanism shows one.
+/// The write-up itself — four paragraphs of shared mechanism, kinetics, safety
+/// and SAR — lives in Tools ▸ Education ▸ Drug Classes. It is a good read and a
+/// bad interruption: unfolded between a dose ladder and a safety card it buries
+/// both. Here it is a name and a chevron for whoever wants it.
 struct ClassContextSection: View {
     let substance: Substance
     let model: SubstanceDetailModel
 
-    @State private var isExpanded = false
-    @Environment(\.appNavigator) private var navigator
-
-    private var accent: Color {
-        substance.category.color
-    }
-
     var body: some View {
         if let context = model.classContext, context.hasBody {
-            CollapsibleSection(title: Text(verbatim: context.title), isExpanded: $isExpanded) {
-                VStack(alignment: .leading, spacing: 12) {
-                    if let subtitle = context.subtitle {
-                        Text(verbatim: subtitle)
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+            Section {
+                NavigationLink(value: PushRoute.drugClass(slug: context.slug)) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        // `verbatim`: the class name is data, read from the
+                        // research write-up, not a catalog key.
+                        Text(verbatim: context.title)
+                            .font(.body)
+                        if context.siblings.count > 1 {
+                            Text("^[\(context.siblings.count) other substance](inflect: true)")
+                                .font(.caption)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
                     }
-                    body(context)
-                    if !context.siblings.isEmpty {
-                        siblings(context.siblings)
-                    }
-                    if !context.references.isEmpty {
-                        references(context.references)
-                    }
+                    .padding(.vertical, 2)
                 }
-                .padding(.vertical, 4)
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func body(_ context: SubstanceStore.ClassContext) -> some View {
-        paragraph("Shared mechanism", context.sharedMechanism)
-        paragraph("Shared kinetics", context.sharedPharmacokinetics)
-        paragraph("Shared safety profile", context.sharedSafety)
-        paragraph("Structure and activity", context.sarSummary)
-    }
-
-    @ViewBuilder
-    private func paragraph(_ title: LocalizedStringResource, _ text: String?) -> some View {
-        if let text, !text.isEmpty {
-            VStack(alignment: .leading, spacing: 3) {
-                Text(title)
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(accent)
-                // Authored per class in the curated research data, so it ships
-                // in English regardless of locale — `verbatim` keeps it out of
-                // the catalog rather than minting untranslatable keys.
-                Text(verbatim: text)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-    }
-
-    /// The other members, as chips that open them. The point of naming a class
-    /// is being able to walk to its neighbours.
-    ///
-    /// A `Button` that pushes rather than a `NavigationLink`: inside a List row
-    /// each link draws its own disclosure chevron, and twelve chips came with
-    /// twelve chevrons wedged between them.
-    private func siblings(_ names: [String]) -> some View {
-        VStack(alignment: .leading, spacing: 5) {
-            Text("Also in this class")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(accent)
-            FlowLayout(spacing: 6) {
-                ForEach(names, id: \.self) { name in
-                    Button {
-                        navigator.push(.substance(name: name))
-                    } label: {
-                        Text(verbatim: name)
-                            .font(.caption)
-                            .padding(.horizontal, 9)
-                            .padding(.vertical, 4)
-                            .background(accent.opacity(0.10), in: Capsule())
-                            .foregroundStyle(.primary)
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    private func references(_ refs: [SubstanceStore.ClassContext.Reference]) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            ForEach(refs.prefix(4)) { ref in
-                sourceLine(
-                    slug: "peer-review-primary",
-                    detail: ref.title,
-                    doi: ref.doi,
-                    pmid: ref.pmid,
-                    accent: accent,
-                )
-                .font(.caption2)
-            }
-            if refs.count > 4 {
-                Text("^[\(refs.count - 4) more reference](inflect: true)")
-                    .font(.caption2)
-                    .foregroundStyle(Theme.secondaryLabel)
+            } header: {
+                Text("Class")
             }
         }
     }
 }
 
 extension SubstanceStore.ClassContext {
-    /// Whether there is anything to show. A membership row with no research
-    /// bodies behind it is a label, not a section.
+    /// Whether there is anything to open. A membership row with no research
+    /// bodies behind it is a label, not a destination.
     var hasBody: Bool {
         [sharedMechanism, sharedPharmacokinetics, sharedSafety, sarSummary]
             .contains { $0?.isEmpty == false }

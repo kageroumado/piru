@@ -1,8 +1,13 @@
 import SwiftUI
 
-/// The session's interaction warnings, shown in full (they used to hide behind a
-/// collapsed disclosure at the bottom of the screen), plus the heart-rate summary
-/// when vitals are on. Rows echo the dose/cumulative rows: a leading glyph (the
+/// The session's interaction warnings plus the heart-rate summary when vitals
+/// are on.
+///
+/// Findings that have earned an interruption are inline; the `.background` ones
+/// fold behind a count. This is where the quiet ones live — the QuickLog dock
+/// dropped interactions entirely, because a dock is for recording what has
+/// already been taken and a warning there arrives after the decision it would
+/// inform. Rows echo the dose/cumulative rows: a leading glyph (the
 /// severity triangle in place of the color dot) + the involved substances in
 /// normal text, with the severity level as a tinted chip on the right — the only
 /// colored element. Warnings that share the exact same explanation are grouped
@@ -16,6 +21,15 @@ struct SessionSafetySection: View {
     var pkFindings: [PKInteractionFinding] = []
     let hrSummary: HRSummary?
 
+    @State private var showsQuiet = false
+
+    private var loud: [InteractionResult] {
+        interactions.admitted(.notable)
+    }
+    private var quiet: [InteractionResult] {
+        interactions.filter { $0.prominence < .notable }
+    }
+
     private var hasContent: Bool {
         !interactions.isEmpty || !pkFindings.isEmpty || hrSummary != nil
     }
@@ -23,8 +37,19 @@ struct SessionSafetySection: View {
     var body: some View {
         if hasContent {
             Section {
-                ForEach(groupedInteractions) { group in
+                ForEach(grouped(loud)) { group in
                     interactionRow(group)
+                }
+                if !quiet.isEmpty {
+                    DisclosureGroup(isExpanded: $showsQuiet) {
+                        ForEach(grouped(quiet)) { group in
+                            interactionRow(group)
+                        }
+                    } label: {
+                        Text("^[\(quiet.count) more combination](inflect: true)")
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
                 }
                 ForEach(pkFindings) { finding in
                     PKInteractionRow(hit: finding.hit)
@@ -114,7 +139,7 @@ struct SessionSafetySection: View {
     // MARK: - Grouping
 
     private struct InteractionGroup: Identifiable {
-        let id: Int
+        let id: String
         let severity: InteractionSeverity
         let description: String
         let pairs: [String]
@@ -123,11 +148,11 @@ struct SessionSafetySection: View {
     /// Collapse warnings that share an identical explanation into one row that
     /// lists every involved pair. Ordered most-severe first; within a severity,
     /// first-seen order is preserved.
-    private var groupedInteractions: [InteractionGroup] {
+    private func grouped(_ warnings: [InteractionResult]) -> [InteractionGroup] {
         var order: [String] = []
         var pairs: [String: [String]] = [:]
         var severities: [String: InteractionSeverity] = [:]
-        for warning in interactions {
+        for warning in warnings {
             let key = warning.description
             if pairs[key] == nil {
                 order.append(key)
@@ -139,9 +164,12 @@ struct SessionSafetySection: View {
                 severities[key] = warning.severity
             }
         }
-        return order.enumerated()
-            .map { index, key in
-                InteractionGroup(id: index, severity: severities[key] ?? .caution, description: key, pairs: pairs[key] ?? [])
+        return order
+            .map { key in
+                // Keyed on the explanation, not an index: the loud and quiet
+                // lists are grouped separately and rendered in one Section, so
+                // positional ids would collide across them.
+                InteractionGroup(id: key, severity: severities[key] ?? .caution, description: key, pairs: pairs[key] ?? [])
             }
             .sorted { $0.severity.rawValue > $1.severity.rawValue }
     }

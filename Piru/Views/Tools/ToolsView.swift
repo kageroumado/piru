@@ -16,6 +16,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
     case inventory
     case effectSandbox
     case steadyState
+    case drugClasses
 
     var id: String {
         rawValue
@@ -36,6 +37,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .inventory: "Inventory"
         case .effectSandbox: "Effect Estimator"
         case .steadyState: "Steady State"
+        case .drugClasses: "Drug Classes"
         }
     }
 
@@ -54,6 +56,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .inventory: "Track how much you have on hand"
         case .effectSandbox: "Compare substances and preview how they may feel"
         case .steadyState: "Where a repeated dose settles, and when"
+        case .drugClasses: "What the members of a family share"
         }
     }
 
@@ -71,6 +74,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .inventory: "shippingbox"
         case .effectSandbox: "slider.horizontal.2.square"
         case .steadyState: "chart.line.flattrend.xyaxis"
+        case .drugClasses: "square.stack.3d.up"
         }
     }
 }

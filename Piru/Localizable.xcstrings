@@ -3945,11 +3945,37 @@
         }
       }
     },
-    "^[%lld more reference](inflect: true)" : {
-
+    "^[%lld more combination](inflect: true)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有 %lld 种组合"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有 %lld 種組合"
+          }
+        }
+      }
     },
-    "^[%lld more](inflect: true)" : {
-
+    "^[%lld other substance](inflect: true)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有 %lld 种物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有 %lld 種物質"
+          }
+        }
+      }
     },
     "^[%lld saved substance](inflect: true)." : {
       "extractionState" : "stale",
@@ -3969,7 +3995,6 @@
       }
     },
     "^[%lld substance](inflect: true)" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -9466,9 +9491,6 @@
           }
         }
       }
-    },
-    "Also in this class" : {
-
     },
     "Also known as" : {
       "localizations" : {
@@ -20613,6 +20635,22 @@
         }
       }
     },
+    "Drug Classes" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药物类别"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥物類別"
+          }
+        }
+      }
+    },
     "Dual Orexin Receptor Antagonist (DORA)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26166,7 +26204,20 @@
       }
     },
     "Genetics" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基因"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基因"
+          }
+        }
+      }
     },
     "Gentle reminders" : {
       "extractionState" : "stale",
@@ -29080,7 +29131,20 @@
       }
     },
     "In vivo" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体内"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體內"
+          }
+        }
+      }
     },
     "In your body" : {
 
@@ -36183,6 +36247,22 @@
         }
       }
     },
+    "No Classes" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无类别"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無類別"
+          }
+        }
+      }
+    },
     "No cloud unless you ask" : {
       "localizations" : {
         "zh-Hans" : {
@@ -39985,7 +40065,20 @@
       }
     },
     "Pathway bias" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通路偏向"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通路偏向"
+          }
+        }
+      }
     },
     "Patient Name (Optional)" : {
       "localizations" : {
@@ -43503,7 +43596,20 @@
       }
     },
     "Receptor complex" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受体复合物"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受體複合物"
+          }
+        }
+      }
     },
     "Receptor data" : {
       "localizations" : {
@@ -44254,7 +44360,6 @@
       }
     },
     "References" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -48943,13 +49048,52 @@
       }
     },
     "Shared kinetics" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共同药代动力学"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共同藥物動力學"
+          }
+        }
+      }
     },
     "Shared mechanism" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共同机制"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共同機制"
+          }
+        }
+      }
     },
     "Shared safety profile" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共同安全性特征"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共同安全性特徵"
+          }
+        }
+      }
     },
     "Shared time" : {
       "extractionState" : "stale",
@@ -51931,7 +52075,20 @@
       }
     },
     "Structure and activity" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "构效关系"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "構效關係"
+          }
+        }
+      }
     },
     "Sub-threshold" : {
       "localizations" : {
@@ -53062,7 +53219,20 @@
       }
     },
     "Target Evidence" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "靶点证据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "靶點證據"
+          }
+        }
+      }
     },
     "Targets" : {
       "localizations" : {
@@ -58489,6 +58659,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "引擎實際使用的數值"
+          }
+        }
+      }
+    },
+    "What the members of a family share" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同类药物的共同之处"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同類藥物的共同之處"
           }
         }
       }

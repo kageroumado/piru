@@ -5991,6 +5991,24 @@ T = {
     ),
     # 2026-06 review fixes — inflected plurals (replace hand-rolled "s"/"ies" suffixes)
     "^[%lld substance](inflect: true)": ("%lld 种物质", "%lld 種物質"),
+    # 2026-08 — the deep-pharmacology sections (Genetics, Target Evidence,
+    # concentration thresholds) and the drug-class write-ups moved to
+    # Tools > Education.
+    "Genetics": ("基因", "基因"),
+    "Target Evidence": ("靶点证据", "靶點證據"),
+    "Pathway bias": ("通路偏向", "通路偏向"),
+    "Receptor complex": ("受体复合物", "受體複合物"),
+    "In vivo": ("体内", "體內"),
+    "Drug Classes": ("药物类别", "藥物類別"),
+    "What the members of a family share": ("同类药物的共同之处", "同類藥物的共同之處"),
+    "No Classes": ("暂无类别", "暫無類別"),
+    "Shared mechanism": ("共同机制", "共同機制"),
+    "Shared kinetics": ("共同药代动力学", "共同藥物動力學"),
+    "Shared safety profile": ("共同安全性特征", "共同安全性特徵"),
+    "Structure and activity": ("构效关系", "構效關係"),
+    "References": ("参考文献", "參考文獻"),
+    "^[%lld other substance](inflect: true)": ("另有 %lld 种物质", "另有 %lld 種物質"),
+    "^[%lld more combination](inflect: true)": ("另有 %lld 种组合", "另有 %lld 種組合"),
     "^[%lld entry](inflect: true)": ("%lld 条记录", "%lld 條記錄"),
     "^[%lld item](inflect: true)": ("%lld 项", "%lld 項"),
     # 2026-06 Library browse redesign — family blurbs, favorites card, not-found
@@ -7051,6 +7069,11 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Drug Classes",
+        "What the members of a family share",
+        "No Classes",
+        "^[%lld other substance](inflect: true)",
+        "^[%lld more combination](inflect: true)",
         "Patterns",
         "Log doses to see your patterns",
         "Days used, cumulative exposure, dose trend, and overlap — for you or your doctor",

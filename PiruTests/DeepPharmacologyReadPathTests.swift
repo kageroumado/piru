@@ -130,6 +130,28 @@ struct DeepPharmacologyReadPathTests {
     }
 
     @Test
+    func `The class browse list carries only classes with something to read`() {
+        let all = SubstanceStore.shared.classContexts()
+        #expect(!all.isEmpty)
+        for summary in all {
+            let context = SubstanceStore.shared.classContext(slug: summary.slug)
+            #expect(context?.hasBody == true, "\(summary.slug) has nothing to show")
+        }
+        #expect(Set(all.map(\.slug)).count == all.count)
+    }
+
+    @Test
+    func `A class opened by slug lists all its members`() throws {
+        // Opened from Tools rather than from a substance, so nobody is excluded.
+        let context = try #require(SubstanceStore.shared.classContext(slug: "benzos-z-drugs"))
+        let fromSubstance = try #require(
+            SubstanceStore.shared.classContext(forSubstanceName: "Alprazolam"),
+        )
+        #expect(context.siblings.count == fromSubstance.siblings.count + 1)
+        #expect(context.siblings.contains("Alprazolam"))
+    }
+
+    @Test
     func `A verified member survives the category check`() {
         // Levetiracetam is an Anticonvulsant in a class whose members are mostly
         // Nootropics, and the class's own write-up names it — the curated keep

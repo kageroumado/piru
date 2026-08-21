@@ -36,6 +36,10 @@ nonisolated enum PushRoute: Hashable, Codable {
     case libraryTag(String)
     case libraryFavorites
     case tool(Tool)
+    /// One pharmacological class's write-up, by `class_contexts.slug`. Reached
+    /// from Tools ▸ Education ▸ Drug Classes and from a substance's own class
+    /// row.
+    case drugClass(slug: String)
     case insight(Insight)
     /// A group of related insight graphs — the middle level of the Insights
     /// two-level push (`Specs/insights-stats-architecture.md`). Only groups with

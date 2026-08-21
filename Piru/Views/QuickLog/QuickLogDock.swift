@@ -173,14 +173,12 @@ struct QuickLogDock: View {
     /// Top-by-popularity substances of the selected family.
     @State private var browseResults: [Substance] = []
 
-    /// Memoized interaction check — the result depends only on the set of
-    /// staged substance names, so it's recomputed in `onChange` rather than on
-    /// every body evaluation (which fires per keystroke in the amount field).
-    @State private var interactions: [InteractionResult] = []
-    /// Measured height of the warnings card — it lives in the scroll content
-    /// below the staged rows, and the fit-to-content detent must include it
-    /// so warnings stay visible at compact.
-    @State private var interactionsHeight: CGFloat = 0
+    // Memoized interaction check — the result depends only on the set of
+    // staged substance names, so it's recomputed in `onChange` rather than on
+    // every body evaluation (which fires per keystroke in the amount field).
+    // Measured height of the warnings card — it lives in the scroll content
+    // below the staged rows, and the fit-to-content detent must include it
+    // so warnings stay visible at compact.
 
     var body: some View {
         // The probe hangs off `dockContent` as a **background**, not as a sibling
@@ -274,8 +272,6 @@ struct QuickLogDock: View {
                     families: families,
                     selectedFamilyID: $selectedFamilyID,
                     browseResults: $browseResults,
-                    interactions: interactions,
-                    interactionsHeight: $interactionsHeight,
                     unrevealedItemIDs: unrevealedItemIDs,
                     awaitingBareCollapse: awaitingBareCollapse,
                     onCreateCustom: {
@@ -364,9 +360,6 @@ struct QuickLogDock: View {
         .background {
             TrayDerivedObserver(
                 tray: tray,
-                onInteractions: { newValue in
-                    if newValue != interactions { interactions = newValue }
-                },
                 onStagedEstimate: { newValue in
                     if newValue != stagedCardEstimate { stagedCardEstimate = newValue }
                 },
@@ -476,13 +469,6 @@ struct QuickLogDock: View {
         let bar = commitBarHeight > 0 ? commitBarHeight : barEstimate
         var raw = QuickLogDockMetrics.searchBlockHeight + contentPadding
         raw += stagedCard
-        if !interactions.isEmpty {
-            // Card spacing (14) + measured height, estimated until laid out
-            // (~66pt per two-line warning row at the default size) so the
-            // detent mints once.
-            let rowEstimate = UIFontMetrics(forTextStyle: .subheadline).scaledValue(for: 66)
-            raw += 14 + (interactionsHeight > 0 ? interactionsHeight : CGFloat(interactions.count) * rowEstimate + 24)
-        }
         raw += bar
         let cap: CGFloat = containerHeight > 0 ? containerHeight * 0.5 - 40 : 420
         return min(raw, cap).rounded()
@@ -983,12 +969,7 @@ private struct KeyboardDismissTap: UIViewRepresentable {
 /// when a folded value actually changes, via the callbacks.
 private struct TrayDerivedObserver: View {
     var tray: DoseTrayModel
-    let onInteractions: ([InteractionResult]) -> Void
     let onStagedEstimate: (CGFloat) -> Void
-
-    private var stagedNameSet: Set<String> {
-        Set(tray.staged.map(\.substanceName))
-    }
 
     /// One collapsed row's height, derived from the type metrics `TrayRow`
     /// renders with (body title + subheadline detail + 2pt spacing + 12pt
@@ -1014,16 +995,6 @@ private struct TrayDerivedObserver: View {
     var body: some View {
         Color.clear
             .frame(width: 0, height: 0)
-            .onChange(of: stagedNameSet, initial: true) { _, names in
-                // The dock sits above the commit bar mid-log. Only findings
-                // that have earned an interruption get a row here; the rest are
-                // a count that opens the explorer.
-                onInteractions(
-                    names.count >= 2
-                        ? InteractionChecker.checkBatch(Array(names), against: [])
-                        : [],
-                )
-            }
             .onChange(of: Self.estimatedStagedCardHeight(count: tray.staged.count), initial: true) { _, estimate in
                 onStagedEstimate(estimate)
             }

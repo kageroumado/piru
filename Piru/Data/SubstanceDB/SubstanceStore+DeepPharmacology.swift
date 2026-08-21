@@ -179,30 +179,85 @@ extension SubstanceStore {
         }
     }
 
+    /// Every class that has something to read, for the browse list.
+    func classContexts() -> [ClassContextSummary] {
+        do {
+            return try substancesDB.read { db in
+                try Row.fetchAll(db, sql: """
+                    SELECT c.slug, c.display_name, c.subtitle,
+                           (SELECT COUNT(*) FROM substance_classes sc
+                             WHERE sc.class_context_id = c.id) AS member_count
+                      FROM class_contexts c
+                     WHERE COALESCE(c.shared_mechanism, c.shared_pk,
+                                    c.shared_safety, c.sar_summary) IS NOT NULL
+                     ORDER BY member_count DESC, c.display_name
+                """).map {
+                    ClassContextSummary(
+                        slug: $0["slug"],
+                        title: $0["display_name"],
+                        subtitle: $0["subtitle"],
+                        memberCount: Int($0["member_count"] as Int64),
+                    )
+                }
+            }
+        } catch {
+            logger.error("classContexts() failed: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
+
+    struct ClassContextSummary: Identifiable, Hashable {
+        var id: String {
+            slug
+        }
+        let slug: String
+        let title: String
+        let subtitle: String?
+        let memberCount: Int
+    }
+
+    func classContext(slug: String) -> ClassContext? {
+        loadClassContext(matching: "c.slug = ?", argument: slug)
+    }
+
     func classContext(forSubstanceName name: String) -> ClassContext? {
         guard let substanceID = substanceID(forNameOrAlias: name) else { return nil }
+        return loadClassContext(
+            matching: "c.id = (SELECT sc.class_context_id FROM substance_classes sc "
+                + "WHERE sc.substance_id = ? LIMIT 1)",
+            argument: substanceID,
+            excluding: substanceID,
+        )
+    }
+
+    private func loadClassContext(
+        matching predicate: String,
+        argument: DatabaseValueConvertible,
+        excluding substanceID: Int64? = nil,
+    ) -> ClassContext? {
         do {
             return try substancesDB.read { db in
                 guard let row = try Row.fetchOne(db, sql: """
                     SELECT c.id, c.slug, c.display_name, c.subtitle, c.shared_mechanism,
                            c.shared_pk, c.shared_safety, c.sar_summary
                       FROM class_contexts c
-                      JOIN substance_classes sc ON sc.class_context_id = c.id
-                     WHERE sc.substance_id = ?
+                     WHERE \(predicate)
                      LIMIT 1
-                """, arguments: [substanceID]) else { return nil }
+                """, arguments: [argument]) else { return nil }
                 let classID: Int64 = row["id"]
 
-                // Popularity first: a class card is only useful if the peers it
-                // names are ones the reader recognizes.
+                // Popularity first, so the recognizable members lead. Not
+                // capped: the screen is a list, and a cap here would silently
+                // shorten a class — benzodiazepines has 70 members and a
+                // `LIMIT 60` made the count on the substance row wrong as well
+                // as hiding ten of them.
                 let siblings = try String.fetchAll(db, sql: """
                     SELECT s.canonical_name
                       FROM substance_classes sc
                       JOIN substances s ON s.id = sc.substance_id
-                     WHERE sc.class_context_id = ? AND sc.substance_id != ?
+                     WHERE sc.class_context_id = :class AND s.id IS NOT :exclude
                      ORDER BY s.popularity DESC, s.canonical_name
-                     LIMIT 12
-                """, arguments: [classID, substanceID])
+                """, arguments: ["class": classID, "exclude": substanceID])
 
                 let references = try Row.fetchAll(db, sql: """
                     SELECT ci.id, ci.title, ci.doi, ci.pmid
@@ -232,7 +287,7 @@ extension SubstanceStore {
                 )
             }
         } catch {
-            logger.error("classContext(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
+            logger.error("loadClassContext failed: \(error.localizedDescription, privacy: .public)")
             return nil
         }
     }
