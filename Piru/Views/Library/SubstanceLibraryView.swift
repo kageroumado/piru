@@ -379,12 +379,12 @@ struct SubstanceCategoryListView: View {
 
         sortedSubstances = sorted
         favoriteNames = favNames
-        hasClasses = category.map { !SubstanceStore.shared.classContexts(in: $0).isEmpty } ?? false
+        classCount = category.map { SubstanceStore.shared.classContexts(in: $0).count } ?? 0
     }
 
-    /// Whether this family has class write-ups behind it. Resolved once in the
+    /// How many class write-ups sit behind this family. Resolved once in the
     /// rebuild rather than per body — it is a DB read.
-    @State private var hasClasses = false
+    @State private var classCount = 0
 
     var body: some View {
         List {
@@ -399,7 +399,7 @@ struct SubstanceCategoryListView: View {
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
                             .fixedSize(horizontal: false, vertical: true)
-                        if hasClasses {
+                        if classCount > 0 {
                             // A Button that pushes, not a NavigationLink: inside
                             // a List row a link draws its own disclosure chevron
                             // at the row's trailing edge, so the card ended up
@@ -408,7 +408,10 @@ struct SubstanceCategoryListView: View {
                                 navigator.push(.drugClassGroup(category))
                             } label: {
                                 HStack(spacing: 4) {
-                                    Text("The groups within it")
+                                    // The count IS the label: it says what is
+                                    // behind the tap and how much of it, in two
+                                    // words. "The groups within it" said neither.
+                                    Text("^[\(classCount) group](inflect: true)")
                                     Image(systemName: "chevron.right")
                                         .font(.caption2.weight(.semibold))
                                 }

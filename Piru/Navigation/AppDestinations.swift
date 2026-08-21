@@ -166,6 +166,7 @@ private struct PushRouteView: View {
         case .inventory: InventoryListView()
         case .effectSandbox: EffectSandboxView()
         case .steadyState: SteadyStateView()
+        case .drugClasses: DrugClassListView()
         }
     }
 

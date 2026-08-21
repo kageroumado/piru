@@ -14,24 +14,16 @@ struct DrugClassGroupView: View {
 
     var body: some View {
         List {
-            if let summary = category.classSummary {
-                Section {
-                    Text(summary)
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .padding(.vertical, 2)
-                }
-                .listRowBackground(CardBackground())
-            }
+            // No summary card and no large title: the reader arrived by tapping
+            // a card that said both, one screen ago. Repeating them puts two
+            // identical paragraphs a swipe apart and pushes the list — the
+            // reason for the screen — below the fold.
             Section {
                 ForEach(classes) { item in
                     NavigationLink(value: PushRoute.drugClass(slug: item.slug)) {
                         ClassRow(item: item, accent: category.color)
                     }
                 }
-            } header: {
-                Text("^[\(classes.count) group](inflect: true)")
             }
             .listRowBackground(CardBackground())
         }
@@ -39,7 +31,7 @@ struct DrugClassGroupView: View {
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .navigationTitle(Text(category.browseTitle))
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .task {
             if classes.isEmpty { classes = SubstanceStore.shared.classContexts(in: category) }
         }
@@ -48,7 +40,7 @@ struct DrugClassGroupView: View {
 
 /// One class in the group list: the name, what it covers, and how many
 /// substances are in it.
-private struct ClassRow: View {
+struct ClassRow: View {
     let item: SubstanceStore.ClassContextSummary
     let accent: Color
 
@@ -194,6 +186,51 @@ struct DrugClassDetailView: View {
                 Text("References")
             }
             .listRowBackground(CardBackground())
+        }
+    }
+}
+
+/// **Tools ▸ Education ▸ Drug Classes** — every class, grouped by family.
+///
+/// The same screens the Library reaches, from the other direction: this is the
+/// entrance for someone reading *about* drug classes rather than looking one up
+/// from a substance they already have in mind. Each family's classes sit under
+/// its own header, so the list reads as a taxonomy instead of an A–Z.
+struct DrugClassListView: View {
+    @State private var groups: [(category: SubstanceCategory, classes: [SubstanceStore.ClassContextSummary])] = []
+
+    var body: some View {
+        List {
+            ForEach(groups, id: \.category) { group in
+                Section {
+                    ForEach(group.classes) { item in
+                        NavigationLink(value: PushRoute.drugClass(slug: item.slug)) {
+                            ClassRow(item: item, accent: group.category.color)
+                        }
+                    }
+                } header: {
+                    Text(group.category.browseTitle)
+                }
+                .listRowBackground(CardBackground())
+            }
+        }
+        .listStyle(.insetGrouped)
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
+        .task {
+            guard groups.isEmpty else { return }
+            // Families ordered by how many classes they hold, so the ones with
+            // something to browse lead.
+            groups = Dictionary(grouping: SubstanceStore.shared.classContexts()) { $0.category }
+                .compactMap { category, classes in
+                    category.map { (category: $0, classes: classes) }
+                }
+                .sorted { $0.classes.count > $1.classes.count }
+        }
+        .overlay {
+            if groups.isEmpty {
+                ContentUnavailableView("No Classes", systemImage: "square.stack.3d.up")
+            }
         }
     }
 }

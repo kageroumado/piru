@@ -20662,7 +20662,6 @@
       }
     },
     "Drug Classes" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36275,7 +36274,6 @@
       }
     },
     "No Classes" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -53853,6 +53851,7 @@
       }
     },
     "The groups within it" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -58711,7 +58710,6 @@
       }
     },
     "What the members of a family share" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
