@@ -168,6 +168,14 @@ struct ConcentrationThresholdRow: View {
                     .foregroundStyle(Theme.secondaryLabel)
                     .layoutPriority(1)
             }
+            // A plasma concentration means nothing to most readers until it is
+            // a dose. Estimated, and marked as one — see ``DoseEquivalent``.
+            if let anchor = hit.doseEquivalent {
+                let amount = anchor.displayAmount
+                Text("≈ \(amount.value.doseFormatted) \(amount.unit) \(anchor.route.displayName.lowercased()) at \(anchor.weightKg.doseFormatted) kg")
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
             sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
                 .font(.caption2)
         }

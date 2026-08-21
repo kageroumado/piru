@@ -4488,6 +4488,16 @@
         }
       }
     },
+    "≈ %@ %@ %@ at %@ kg" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "≈ %1$@ %2$@ %3$@ at %4$@ kg"
+          }
+        }
+      }
+    },
     "≈ %@ %@ elemental" : {
       "comment" : "Elemental content of a salt dose",
       "localizations" : {

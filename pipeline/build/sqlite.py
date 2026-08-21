@@ -5843,12 +5843,18 @@ class Build:
             return
         src = self.source_ids[source_slug]
         self.cur.execute(
+            # U+00B5 MICRO SIGN and U+03BC GREEK SMALL LETTER MU are
+            # indistinguishable on screen and sort apart everywhere else; the
+            # research pass used both. SI says micro is U+00B5.
             "INSERT INTO concentration_effects(substance_id, source_id, effect, concentration_unit, threshold, peak_effect, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
             (
                 sid,
                 src,
                 c.get("effect"),
-                c.get("concentration_unit") or "ng/mL",
+                # U+00B5 MICRO SIGN and U+03BC GREEK SMALL LETTER MU look
+                # identical and sort apart; the research pass used both.
+                # SI says micro is U+00B5.
+                (c.get("concentration_unit") or "ng/mL").replace("\u03bc", "\u00b5"),
                 to_float(c.get("threshold")),
                 to_float(c.get("peak_effect")),
                 self.cite(c.get("reference")),

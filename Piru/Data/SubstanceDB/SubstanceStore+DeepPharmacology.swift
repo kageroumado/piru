@@ -315,13 +315,91 @@ extension SubstanceStore {
         let sourceSlug: String
         let doi: String?
         let pmid: Int?
+        /// The dose that reaches `threshold`, when the conversion applies.
+        /// See ``DoseEquivalent`` for when it does not.
+        let doseEquivalent: DoseAnchor?
+
+        struct DoseAnchor: Hashable {
+            let milligrams: Double
+            let route: RouteOfAdministration
+            let weightKg: Double
+
+            /// The amount in the unit a reader would use for it. LSD's anchor is
+            /// 0.023 mg, which nobody says — 23 µg is the same number in the
+            /// units the substance is dosed in.
+            var displayAmount: (value: Double, unit: String) {
+                milligrams < 1 ? (milligrams * 1_000, "µg") : (milligrams, "mg")
+            }
+        }
     }
 
     func concentrationThresholds(forSubstanceName name: String) -> [ConcentrationThreshold] {
         guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+        let weightKg = UserProfileStore.shared.effectiveWeightKg
         do {
             return try substancesDB.read { db in
-                try Row.fetchAll(db, sql: """
+                // Vd is a property of the drug, not of how it got in, so it is
+                // taken from whichever route recorded one — commonly the
+                // intravenous row, which is also the one route the conversion
+                // must not use for bioavailability.
+                let vd = try Double.fetchOne(db, sql: """
+                    SELECT vd_l_per_kg FROM pk_routes
+                     WHERE substance_id = ? AND vd_l_per_kg IS NOT NULL
+                     ORDER BY (species IS NULL OR species = 'human') DESC
+                     LIMIT 1
+                """, arguments: [substanceID])
+
+                // The most bioavailable ABSORPTION-LIMITED route.
+                //
+                // Intravenous and intramuscular are excluded because their peak
+                // precedes distribution, which is the one thing the relation
+                // assumes is finished — it understates an IV induction dose
+                // three- to fivefold. Transdermal is excluded because a patch
+                // delivers a *rate*: "0.5 mg transdermal" is not a dose anyone
+                // takes.
+                let absorbed = try Row.fetchOne(db, sql: """
+                    SELECT route, bioavailability_pct FROM pk_routes
+                     WHERE substance_id = ? AND bioavailability_pct IS NOT NULL
+                       AND LOWER(route) NOT IN ('intravenous', 'iv',
+                                                'intramuscular', 'transdermal')
+                     ORDER BY bioavailability_pct DESC
+                     LIMIT 1
+                """, arguments: [substanceID])
+                let route = (absorbed?["route"] as String?)
+                    .flatMap { RouteOfAdministration(rawValue: $0) }
+                let bioavailability: Double? = absorbed?["bioavailability_pct"]
+
+                // The substance's own dose ladder on that route, as the check.
+                //
+                // Two things at once. An anchor that lands nowhere near the
+                // ladder means the model disagrees with the curated data, and
+                // the model is the thing that is wrong — fentanyl's Vd puts
+                // respiratory depression at six times the dose that causes it.
+                // And where a substance has NO visible ladder, it is a
+                // prescription drug whose therapeutic doses are deliberately
+                // stripped (see the dose-context rule); printing a derived one
+                // would put them straight back.
+                var ladder: (low: Double, high: Double)?
+                if let routeName = absorbed?["route"] as String?,
+                   let row = try Row.fetchOne(db, sql: """
+                       SELECT MIN(COALESCE(threshold, light_lower, common_lower)) AS low,
+                              MAX(COALESCE(heavy, strong_upper, common_upper)) AS high,
+                              MIN(unit) AS unit
+                         FROM dose_ranges
+                        WHERE substance_id = ? AND route = ?
+                          AND (unit LIKE 'mg%' OR unit LIKE '\u{00b5}g%' OR unit LIKE 'ug%'
+                               OR unit LIKE 'mcg%')
+                   """, arguments: [substanceID, routeName]),
+                   let low: Double = row["low"], let high: Double = row["high"],
+                   // LSD's ladder is in micrograms; comparing 0.023 mg against a
+                   // bound of 15 suppressed the one substance where the estimate
+                   // is most obviously right.
+                   let scale = DoseEquivalent.milligramScale(ofDoseUnit: row["unit"] ?? "mg"),
+                   low > 0, high > 0 {
+                    ladder = (low * scale, high * scale)
+                }
+
+                let rows = try Row.fetchAll(db, sql: """
                     SELECT e.id, e.effect, e.concentration_unit, e.threshold, e.peak_effect,
                            src.slug AS source_slug, c.doi, c.pmid
                       FROM concentration_effects e
@@ -329,9 +407,43 @@ extension SubstanceStore {
                       LEFT JOIN citations c ON c.id = e.citation_id
                      WHERE e.substance_id = ?
                      ORDER BY e.threshold ASC NULLS LAST
-                """, arguments: [substanceID]).map { row in
-                    ConcentrationThreshold(
-                        id: row["id"],
+                """, arguments: [substanceID])
+
+                // Every anchor the relation can produce, and whether any of them
+                // disagreed with the ladder.
+                var candidates: [Int64: Double] = [:]
+                var modelDisagreed = false
+                for row in rows {
+                    let effect: String = row["effect"]
+                    guard let threshold: Double = row["threshold"], let vd, let bioavailability,
+                          route != nil, let ladder,
+                          DoseEquivalent.isConvertible(effect: effect),
+                          let mgPerL = DoseEquivalent.milligramsPerLitre(threshold, unit: row["concentration_unit"]),
+                          let mg = DoseEquivalent.milligrams(
+                              concentrationMgPerL: mgPerL,
+                              vdLitresPerKg: vd,
+                              bioavailabilityPct: bioavailability,
+                              weightKg: weightKg,
+                          )
+                    else { continue }
+                    if DoseEquivalent.agreesWithLadder(mg, low: ladder.low, high: ladder.high) {
+                        candidates[row["id"]] = mg
+                    } else {
+                        modelDisagreed = true
+                    }
+                }
+                // All or nothing. Fentanyl's respiratory-depression threshold
+                // lands at six times the dose that causes it and is dropped,
+                // which would leave its analgesia anchor standing alone — a
+                // benefit dose shown while the harm dose beside it is hidden
+                // reads as the safer claim, and it is the more dangerous one.
+                // One threshold the model gets wrong disqualifies the drug.
+                if modelDisagreed { candidates.removeAll() }
+
+                return rows.map { row in
+                    let id: Int64 = row["id"]
+                    return ConcentrationThreshold(
+                        id: id,
                         effect: row["effect"],
                         unit: row["concentration_unit"],
                         threshold: row["threshold"],
@@ -339,6 +451,15 @@ extension SubstanceStore {
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),
+                        doseEquivalent: candidates[id].flatMap { mg in
+                            route.map {
+                                .init(
+                                    milligrams: DoseEquivalent.rounded(mg),
+                                    route: $0,
+                                    weightKg: weightKg,
+                                )
+                            }
+                        },
                     )
                 }
             }
