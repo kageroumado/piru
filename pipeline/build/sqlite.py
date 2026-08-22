@@ -67,6 +67,11 @@ from prose import (  # noqa: E402
 )
 from pw_effect_categories import PW_EFFECT_CATEGORY, normalize_effect  # noqa: E402
 
+#: Where to write the rejected-input log, or empty to keep it off. Every strict
+#: parser refuses inputs; a bare count cannot tell a genuinely bad row from one
+#: whose only fault is a character the rule did not expect.
+REJECT_LOG_PATH = os.environ.get("PIRU_REJECTS", "")
+
 REPO = Path(__file__).resolve().parents[2]
 OUT_SQLITE = REPO / "Piru/Data/piru-substances.sqlite"
 OUT_MANIFEST = REPO / "Piru/Data/manifest.json"
@@ -2370,6 +2375,33 @@ def dedup_pk_routes(con) -> dict:
 #: assayed on Δ9-THC) and draws the same molecule twice on every comparison, so
 #: the build rejects one rather than letting a curated mechanism reintroduce it.
 ACTIVE_INGREDIENT_PROXIES = {"cannabis": "THC"}
+
+
+def grade_ordinal_only_bindings(con) -> dict:
+    """Grade a binding that carries no absolute affinity number as LOW.
+
+    ``ConfidenceTier.low`` is defined as "sparse binding data — ordinal
+    affinity only, no reliable absolute number", which a row either satisfies
+    or does not; reading it off the row restates the definition rather than
+    judging the evidence.
+
+    HIGH and MEDIUM are deliberately **not** derived. Tried against the 209
+    hand-graded rows, the obvious rule (absolute number + primary citation =
+    HIGH) called 63 curator-graded MEDIUM rows and 2 LOW ones HIGH: the curator
+    weighs assay quality, species and replication, none of which the row
+    encodes. An over-grade is worse than a blank, so those stay NULL until
+    someone reads the evidence.
+    """
+    cur = con.execute(
+        "UPDATE bindings SET confidence='LOW' WHERE confidence IS NULL"
+        " AND affinity_tier IS NOT NULL"
+        " AND ki_nm IS NULL AND kd_nm IS NULL AND ec50_nm IS NULL AND ic50_nm IS NULL"
+    )
+    graded = cur.rowcount
+    pct = con.execute(
+        "SELECT ROUND(100.0 * SUM(confidence IS NOT NULL) / COUNT(*)) FROM bindings"
+    ).fetchone()[0]
+    return {"graded_low": graded, "coverage_pct": pct}
 
 
 def enforce_us_english(con) -> dict:
@@ -4841,6 +4873,12 @@ class Build:
         # no-silent-caps: they still ship (raw `text` is the fallback).
         self.effect_vocab_unmatched: Counter[str] = Counter()
         self.stats: dict[str, int] = defaultdict(int)
+        # Rejected inputs, kept alongside the counter that drops them. A count
+        # says how much was refused; only the values say *why*, and the answer
+        # is often a wrong character (µ U+00B5 vs μ U+03BC, an en dash for a
+        # hyphen) rather than data the rule was written to catch. Set
+        # PIRU_REJECTS=<path> to write them; off by default.
+        self.rejects: dict[str, list[dict]] = defaultdict(list)
 
     # ---- seeds ----
 
@@ -5267,6 +5305,7 @@ class Build:
         # single choke point rather than at each call site.
         if all(v is None for v in (threshold, light, common, strong, heavy)):
             self.stats["dropped_empty_dose"] = self.stats.get("dropped_empty_dose", 0) + 1
+            self.note_reject("dropped_empty_dose", unit, sid=sid, route=route, source=source_slug)
             return
 
         # Reject ambiguous unit strings. Sources occasionally store dose-row
@@ -5278,6 +5317,9 @@ class Build:
         if unit and (" or " in unit.lower() or "(or " in unit.lower()):
             self.stats.setdefault("dropped_ambiguous_unit", 0)
             self.stats["dropped_ambiguous_unit"] += 1
+            self.note_reject(
+                "dropped_ambiguous_unit", unit, sid=sid, route=route, source=source_slug
+            )
             return
 
         unit = canonical_mass_unit(unit)
@@ -5951,6 +5993,9 @@ class Build:
         category = PW_EFFECT_CATEGORY.get(normalize_effect(text))
         if category is None:
             self.stats["effects_dropped"] = self.stats.get("effects_dropped", 0) + 1
+            self.note_reject(
+                "effects_dropped", text, sid=sid, source=source_slug, language=language
+            )
             return
         # Controlled-vocabulary reference (Track 1). Deterministic — `text` is
         # already a whitelisted PW name, so this resolves by normalized lookup
@@ -5966,6 +6011,12 @@ class Build:
         )
         self.stats["effects"] += 1
 
+    def note_reject(self, bucket: str, value, **context) -> None:
+        """Record one refused input under the counter that refused it."""
+        if not REJECT_LOG_PATH:
+            return
+        self.rejects[bucket].append({"value": value, **context})
+
     def add_subjective_effect(
         self,
         sid: int,
@@ -5979,6 +6030,9 @@ class Build:
             return
         if is_non_effect(name):
             self.stats["subjective_effects_rejected"] += 1
+            self.note_reject(
+                "subjective_effects_rejected", name, sid=sid, source=source_slug, language=language
+            )
             return
         vocab_id = zh_vocab_id_for(name) if language.startswith("zh") else vocab_id_for(name)
         src = self.source_ids[source_slug]
@@ -8520,6 +8574,32 @@ class Build:
             )
         return code
 
+    def fold_curated_brands(self) -> dict:
+        """A curated brand that also exists as its own substance, folded in.
+
+        `brands.json` says Librium IS chlordiazepoxide, and the brand seeding
+        below uses that to mark an alias — but a source that lists the brand as
+        a compound gives it a substance row of its own, and the two then compete
+        in search, split their data, and both turn up in the benzodiazepine
+        class list. Merging is what the declaration already means.
+
+        `_merge_into` reassigns every substance-keyed row and folds the loser's
+        aliases in, so the brand name stays searchable and its dose rows survive
+        on the parent.
+        """
+        merged: list[str] = []
+        for entry in collision_registry.brand_registry():
+            brand, parent = entry.get("brand"), entry.get("parent")
+            if not brand or not parent:
+                continue
+            loser = self.substance_ids.get(normalise(brand))
+            winner = self.substance_ids.get(normalise(parent))
+            if loser is None or winner is None or loser == winner:
+                continue
+            self._merge_into(winner, loser)
+            merged.append(f"{brand} -> {parent}")
+        return {"merged": len(merged), "names": merged}
+
     def fold_salt_families(self) -> dict[str, int]:
         """Fold curated salt variants into a shared parent, tagging each variant's
         dose/duration rows with its `salt_form` label.
@@ -10994,6 +11074,12 @@ def main() -> int:
     # Carbonate/orotate) into a shared parent, tagging each variant's dose ladder
     # with its `salt_form`. Same placement rationale as route collapse: after
     # dedup (operate on survivors), before classify (parent classified once).
+    brands = build.fold_curated_brands()
+    if brands["merged"]:
+        print(f"Curated brands folded into their parent: {brands['merged']}", file=sys.stderr)
+        for name in brands["names"]:
+            print(f"  {name}", file=sys.stderr)
+
     salts = build.fold_salt_families()
     print(f"Salt-family folding: {salts}", file=sys.stderr)
 
@@ -11316,6 +11402,13 @@ def main() -> int:
     spelling = enforce_us_english(build.cur.connection)
     print(f"US-English rewrites: {spelling['rewritten']}", file=sys.stderr)
 
+    grades = grade_ordinal_only_bindings(build.cur.connection)
+    print(
+        f"Binding confidence: {grades['graded_low']} ordinal-only rows graded LOW "
+        f"({grades['coverage_pct']}% of rows now carry a grade)",
+        file=sys.stderr,
+    )
+
     assert_preparations_borrow_their_pharmacology(build.cur.connection)
 
     # No substance may carry Chinese subjective effects with nothing an English
@@ -11470,6 +11563,14 @@ def main() -> int:
     print(f"Product durations: {product_durations}", file=sys.stderr)
     alias_collisions = build.audit_alias_collisions()
     print(f"Alias-collision audit: {alias_collisions}", file=sys.stderr)
+
+    if REJECT_LOG_PATH and build.rejects:
+        with open(REJECT_LOG_PATH, "w") as fh:
+            for bucket, rows in sorted(build.rejects.items()):
+                for row in rows:
+                    fh.write(json.dumps({"bucket": bucket, **row}, ensure_ascii=False) + "\n")
+        total = sum(len(v) for v in build.rejects.values())
+        print(f"Rejected inputs logged: {total} -> {REJECT_LOG_PATH}", file=sys.stderr)
 
     # Effect controlled-vocabulary coverage + curation candidates (no-silent-caps:
     # whitelisted effects with no vocab_id still ship via raw `text`, but surface

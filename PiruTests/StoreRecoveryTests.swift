@@ -20,18 +20,20 @@ struct StoreRecoveryTests {
         return dir.appendingPathComponent("default.store")
     }
 
-    /// Create a store at `url` with the current schema and seed `n` dose
-    /// entries, then let the container deallocate (flushing).
+    /// Seeds a store and lets go of it before returning — see the note on
+    /// `StoreHealthTests.seedStore` for why the pool is load-bearing.
     private func seedStore(at url: URL, entries n: Int) throws {
-        let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
-            configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
-        )
-        let ctx = ModelContext(container)
-        for i in 0 ..< n {
-            ctx.insert(DoseEntry(substance: "Caffeine", amount: Double(50 + i)))
+        try autoreleasepool {
+            let container = try ModelContainer(
+                for: Schema(StoreRecovery.models),
+                configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
+            )
+            let ctx = ModelContext(container)
+            for i in 0 ..< n {
+                ctx.insert(DoseEntry(substance: "Caffeine", amount: Double(50 + i)))
+            }
+            try ctx.save()
         }
-        try ctx.save()
     }
 
     @Test
@@ -98,15 +100,17 @@ struct StoreRecoveryTests {
     }
 
     private func seedIntermediateStore(at url: URL, entries n: Int) throws {
-        let container = try ModelContainer(
-            for: Schema(intermediateModels),
-            configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
-        )
-        let ctx = ModelContext(container)
-        for i in 0 ..< n {
-            ctx.insert(DoseEntry(substance: "Caffeine", amount: Double(50 + i)))
+        try autoreleasepool {
+            let container = try ModelContainer(
+                for: Schema(intermediateModels),
+                configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
+            )
+            let ctx = ModelContext(container)
+            for i in 0 ..< n {
+                ctx.insert(DoseEntry(substance: "Caffeine", amount: Double(50 + i)))
+            }
+            try ctx.save()
         }
-        try ctx.save()
     }
 
     @Test

@@ -16,16 +16,24 @@ struct StoreHealthTests {
         return dir.appendingPathComponent("default.store")
     }
 
+    /// Seeds a store and lets go of it before returning.
+    ///
+    /// The `autoreleasepool` is load-bearing: `ModelContainer` sits on a
+    /// CoreData stack whose objects are ObjC-autoreleased, so without the pool
+    /// the coordinator can outlive this call and still hold the `-wal` when the
+    /// caller probes the same URL — which `userDataCount` reports as `-1`.
     private func seedStore(at url: URL, entries n: Int) throws {
-        let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
-            configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
-        )
-        let ctx = ModelContext(container)
-        for i in 0 ..< n {
-            ctx.insert(DoseEntry(substance: "Caffeine", amount: Double(50 + i)))
+        try autoreleasepool {
+            let container = try ModelContainer(
+                for: Schema(StoreRecovery.models),
+                configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
+            )
+            let ctx = ModelContext(container)
+            for i in 0 ..< n {
+                ctx.insert(DoseEntry(substance: "Caffeine", amount: Double(50 + i)))
+            }
+            try ctx.save()
         }
-        try ctx.save()
     }
 
     @Test

@@ -251,6 +251,37 @@ def join_unique(items: Iterable[str], sep: str = "; ") -> str:
     return sep.join(seen)
 
 
+#: Characters that mean the same thing as an ASCII one the quantity patterns
+#: expect. Sources write a range separator six ways and a micro prefix two, and
+#: a pattern that misses one does not refuse the value — it matches the leading
+#: number alone and drops the unit with the upper bound, which ships `10` where
+#: the source said `10—20 mg`. Normalizing first is what keeps a miss loud.
+_QUANTITY_CHARS = {
+    "\u2013": "-",  # en dash
+    "\u2014": "-",  # em dash
+    "\u2212": "-",  # minus sign
+    "\u2010": "-",  # hyphen
+    "\u2011": "-",  # non-breaking hyphen
+    "\u2012": "-",  # figure dash
+    "\u2015": "-",  # horizontal bar
+    "\uff0d": "-",  # fullwidth hyphen-minus
+    "\u03bc": "\u00b5",  # GREEK SMALL LETTER MU -> MICRO SIGN
+    "\u00a0": " ",  # no-break space
+    "\u2009": " ",  # thin space
+    "\u202f": " ",  # narrow no-break space
+}
+_QUANTITY_TABLE = str.maketrans(_QUANTITY_CHARS)
+
+
+def normalize_quantity_text(text: str | None) -> str:
+    """Fold the confusable characters in a quantity string onto one spelling.
+
+    Call this before matching any numeric/unit pattern. Every substitution here
+    was found in a real source string.
+    """
+    return (text or "").translate(_QUANTITY_TABLE).replace("+/-", "\u00b1").replace("+-", "\u00b1")
+
+
 _RANGE_RE = re.compile(
     r"""
     (?P<lo>\d+(?:[.,]\d+)?)        # lower number
@@ -270,14 +301,14 @@ def parse_range(text: str | None) -> tuple[str, str, str]:
     preserves the original precision."""
     if not text:
         return "", "", ""
-    m = _RANGE_RE.search(text.replace(",", "."))
+    m = _RANGE_RE.search(normalize_quantity_text(text).replace(",", "."))
     if not m:
         return "", "", ""
     lo = (m.group("lo") or "").strip()
     hi = (m.group("hi") or "").strip()
     unit = (m.group("unit") or "").strip().lower()
     # Normalise mcg/ug → µg to match Piru's preferred unit string.
-    if unit in ("ug", "mcg"):
+    if unit in ("ug", "mcg", "\u03bcg"):
         unit = "µg"
     return lo, hi, unit
 

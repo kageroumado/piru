@@ -65,6 +65,9 @@ XML_DEFAULT = PIRU_DATA / "external_database.xml"
 CACHE_DEFAULT = PIRU_DATA / "drugbank-extract.json"
 
 sys.path.insert(0, str(REPO / "pipeline/build"))  # canonical name normalization
+sys.path.insert(0, str(REPO / "pipeline/fetch/brushers"))  # shared quantity normalizer
+
+from _common import normalize_quantity_text  # noqa: E402
 from sqlite import normalise  # noqa: E402
 
 NS = "{http://www.drugbank.ca}"
@@ -189,26 +192,6 @@ _RANGE_THEN_MEAN = re.compile(
     r"(?:seconds?|minutes?|mins?|min|hours?|hrs?|hr|h|days?|weeks?)?\s*\)\s*\.?\s*$",
     re.IGNORECASE,
 )
-
-
-def normalize_quantity_text(text: str) -> str:
-    """Spellings of the same character that the patterns below would otherwise
-    miss.
-
-    Sources write plus-or-minus three ways and dashes four. Every one of these
-    was found in a real statement the parser refused.
-    """
-    return (
-        (text or "")
-        .replace("+/-", "\u00b1")
-        .replace("+-", "\u00b1")
-        .replace("\u2013", "-")  # en dash
-        .replace("\u2014", "-")  # em dash
-        .replace("\u2212", "-")  # minus sign
-        .replace("\u00a0", " ")  # non-breaking space
-        .replace("\u2009", " ")  # thin space
-        .replace("\u202f", " ")  # narrow no-break space
-    )
 
 
 def strip_citation_tokens(text: str) -> str:

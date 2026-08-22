@@ -11,8 +11,8 @@ import SwiftUI
 /// decision it would inform. Rows echo the dose/cumulative rows: a leading glyph (the
 /// severity triangle in place of the color dot) + the involved substances in
 /// normal text, with the severity level as a tinted chip on the right — the only
-/// colored element. Warnings that share the exact same explanation are grouped
-/// so a stimulant-stack session doesn't repeat one sentence five times.
+/// colored element. Warnings produced by the same rule are grouped so a
+/// stimulant-stack session doesn't repeat one sentence five times.
 struct SessionSafetySection: View {
     let interactions: [InteractionResult]
     /// Measured exposure changes between two things logged here. Rendered under
@@ -144,31 +144,44 @@ struct SessionSafetySection: View {
         let pairs: [String]
     }
 
-    /// Collapse warnings that share an identical explanation into one row that
-    /// lists every involved pair. Ordered most-severe first; within a severity,
+    /// Collapse warnings produced by the same rule into one row that lists
+    /// every involved pair. Ordered most-severe first; within a severity,
     /// first-seen order is preserved.
+    ///
+    /// Keyed on the rule's class pair, not its prose: several distinct rules
+    /// share boilerplate ("Additive CNS depression — increased sedation and
+    /// impairment."), and folding those together asserts one cause where there
+    /// are two. A hand-made result carries no rule key and falls back to its
+    /// text, which for those is the only identity there is.
     private func grouped(_ warnings: [InteractionResult]) -> [InteractionGroup] {
         var order: [String] = []
         var pairs: [String: [String]] = [:]
         var severities: [String: InteractionSeverity] = [:]
+        var descriptions: [String: String] = [:]
         for warning in warnings {
-            let key = warning.description
+            let key = warning.ruleKey.isEmpty ? warning.description : warning.ruleKey
+            descriptions[key] = descriptions[key] ?? warning.description
             if pairs[key] == nil {
                 order.append(key)
                 severities[key] = warning.severity
             }
             pairs[key, default: []].append("\(warning.substanceA) + \(warning.substanceB)")
-            // A shared explanation keeps its strongest severity.
+            // A shared rule keeps its strongest severity.
             if let existing = severities[key], warning.severity.rawValue > existing.rawValue {
                 severities[key] = warning.severity
             }
         }
         return order
             .map { key in
-                // Keyed on the explanation, not an index: the loud and quiet
-                // lists are grouped separately and rendered in one Section, so
+                // Keyed on the rule, not an index: the loud and quiet lists
+                // are grouped separately and rendered in one Section, so
                 // positional ids would collide across them.
-                InteractionGroup(id: key, severity: severities[key] ?? .caution, description: key, pairs: pairs[key] ?? [])
+                InteractionGroup(
+                    id: key,
+                    severity: severities[key] ?? .caution,
+                    description: descriptions[key] ?? "",
+                    pairs: pairs[key] ?? [],
+                )
             }
             .sorted { $0.severity.rawValue > $1.severity.rawValue }
     }

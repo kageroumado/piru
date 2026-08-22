@@ -29,6 +29,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _common import (  # noqa: E402
+    normalize_quantity_text,
     parse_range,
     piru_category,
     piru_route,
@@ -56,7 +57,7 @@ OUT.mkdir(parents=True, exist_ok=True)
 # ---------------------------------------------------------------------------
 
 _DOSE_RE = re.compile(
-    r"(?P<lo>\d+(?:\.\d+)?)(?:\s*[-–]\s*(?P<hi>\d+(?:\.\d+)?))?\s*(?P<unit>µg|ug|mcg|mg|g|ml|iu)?",
+    r"(?P<lo>\d+(?:\.\d+)?)(?:\s*(?:-|to)\s*(?P<hi>\d+(?:\.\d+)?))?\s*(?P<unit>µg|ug|mcg|mg|g|ml|iu)?",
     re.IGNORECASE,
 )
 
@@ -65,7 +66,7 @@ def parse_dose_cell(text):
     """'0.5-1.5mg' -> (lo, hi, unit). hi is None for single values."""
     if not text:
         return None, None, ""
-    m = _DOSE_RE.search(text.replace(",", ".").strip())
+    m = _DOSE_RE.search(normalize_quantity_text(text).replace(",", ".").strip())
     if not m:
         return None, None, ""
     lo = float(m.group("lo"))

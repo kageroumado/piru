@@ -21670,16 +21670,20 @@
       "Chloradiazepoxide",
       "Chlordiazepoxidum",
       "Clopoxide",
-      "Librium"
+      "Librium",
+      "氯氮䓬"
     ],
     "category": "Benzodiazepine",
     "display_class": "recreational",
     "tags": [
       "CYP-cascade-active-metabolites",
+      "GABAA-PAM",
       "alcohol-withdrawal-first-line",
       "anxiolytic",
       "benzodiazepine",
-      "class:Benzodiazepine"
+      "brand-name-of-chlordiazepoxide",
+      "class:Benzodiazepine",
+      "habit-forming"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -39425,39 +39429,6 @@
       "half_life_minutes",
       "references"
     ]
-  },
-  {
-    "name": "Librium",
-    "display_name": "",
-    "aliases": [
-      "chlordiazepoxide",
-      "氯氮䓬"
-    ],
-    "category": "Benzodiazepine",
-    "display_class": "recreational",
-    "tags": [
-      "GABAA-PAM",
-      "benzodiazepine",
-      "brand-name-of-chlordiazepoxide",
-      "habit-forming"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": 600.0,
-    "mechanism_summary": "Chlordiazepoxide is a prodrug of nordiazepam. Nordiazepam acts as a partial agonist at ω1 and ω2 benzodiazepine receptors, which are allosteric sites on GABA-A receptors. Van der Waals force-induced conformational changes increase GABA-A receptor activation by approximately 300%. Nordiazepam, a metabolite of many benzodiazepines, is slowly metabolized to oxazepam (which has full agonist activity), followed by conjugation.",
-    "effects": [],
-    "references": [
-      "Pharmacokinetics of chlordiazepoxide and metabolites following single and multiple oral doses."
-    ],
-    "data_gaps": []
   },
   {
     "name": "Linagliptin",

@@ -1,16 +1,16 @@
 # Piru SQLite build report
 
-Built 2026-08-22.0 → `Piru/Data/piru-substances.sqlite` (19,918,848 bytes, sha256 `a35577199c009233c17950912f5003a90d64246394b7664276954c27c6cd3d8c`)
+Built 2026-08-22.0 → `Piru/Data/piru-substances.sqlite` (19,918,848 bytes, sha256 `19cb7db001d62a5b79a48e639c7690630bdb78ddbd52b014caef791c9790583b`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,738 |
-| aliases | 5,396 |
+| substances | 1,737 |
+| aliases | 5,395 |
 | sources | 17 |
 | citations | 2,856 |
-| categories | 1,592 |
+| categories | 1,591 |
 | tags | 7,099 |
 | dose_ranges | 2,498 |
 | durations | 9,135 |
@@ -20,22 +20,22 @@ Built 2026-08-22.0 → `Piru/Data/piru-substances.sqlite` (19,918,848 bytes, sha
 | subjective_effects | 23,511 |
 | tolerance | 323 |
 | indications | 1,134 |
-| contraindications | 1,656 |
-| diazepam_equivalents | 33 |
+| contraindications | 1,655 |
+| diazepam_equivalents | 32 |
 | bindings | 1,307 |
 | functional_assays | 179 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
-| downstream_signalling | 690 |
+| downstream_signalling | 689 |
 | neuroimaging | 52 |
-| pk_routes | 435 |
+| pk_routes | 433 |
 | concentration_effects | 23 |
 | metabolism | 559 |
 | drug_interactions_pk | 205 |
 | pharmacogenetics | 305 |
 | off_targets | 209 |
 | class_contexts | 50 |
-| substance_classes | 688 |
+| substance_classes | 687 |
 | molecule_shapes | 963 |
 
 ## Per-source coverage
@@ -54,7 +54,7 @@ Built 2026-08-22.0 → `Piru/Data/piru-substances.sqlite` (19,918,848 bytes, sha
 | pubchem | 0 | 0 | 0 | 0 |
 | wikidata | 0 | 0 | 94 | 338 |
 | dea-orange-book | 0 | 0 | 0 | 0 |
-| pyrls | 0 | 0 | 101 | 612 |
+| pyrls | 0 | 0 | 100 | 612 |
 | medtap | 0 | 0 | 0 | 0 |
 | benzos-cited | 0 | 0 | 0 | 0 |
 | nps-datahub | 0 | 0 | 0 | 0 |

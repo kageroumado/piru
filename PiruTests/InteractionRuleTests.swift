@@ -349,4 +349,23 @@ struct InteractionRuleTests {
         let active = InteractionChecker.activeEntries(from: [recent, old])
         #expect(active.count == 1)
     }
+
+    // MARK: - Rule identity
+
+    @Test
+    func `Two rules sharing boilerplate prose stay distinguishable`() {
+        // `barbiturate + antipsychotic` and `alcohol + antipsychotic` are
+        // written against the same sentence. A display surface that groups on
+        // prose folds them into one finding and asserts a cause they do not
+        // share; grouping on `ruleKey` keeps them apart.
+        let results = InteractionChecker.checkBatch(
+            ["Phenobarbital", "Alcohol", "Aripiprazole"],
+            against: [],
+            policy: .explore,
+        )
+        let shared = results.filter { $0.description.contains("Additive CNS depression") }
+        #expect(shared.count == 2)
+        #expect(Set(shared.map(\.ruleKey)).count == 2)
+        #expect(shared.allSatisfy { !$0.ruleKey.isEmpty })
+    }
 }

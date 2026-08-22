@@ -190,6 +190,11 @@ struct InteractionResult: Equatable {
     let substanceB: String
     let description: String
 
+    /// The class pair whose rule produced this warning — the identity a
+    /// display surface groups on. Empty when the result was made by hand
+    /// (tests, previews) rather than by a rule firing.
+    let ruleKey: String
+
     /// Temporal effect-curve overlap of the two doses, `[0, 1]`. The peak of
     /// the product of both doses' subjective-effect curves over wall-clock
     /// time. `1` when no timestamps were available (the manual picker / report)
@@ -207,6 +212,7 @@ struct InteractionResult: Equatable {
         substanceA: String,
         substanceB: String,
         description: String,
+        ruleKey: String = "",
         overlapFactor: Double = 1,
         doseFactor: Double = 1,
     ) {
@@ -214,6 +220,7 @@ struct InteractionResult: Equatable {
         self.substanceA = substanceA
         self.substanceB = substanceB
         self.description = description
+        self.ruleKey = ruleKey
         self.overlapFactor = overlapFactor
         self.doseFactor = doseFactor
     }
@@ -360,6 +367,13 @@ private struct InteractionRule {
         description = note
     }
 
+    /// The class pair this rule is written against, order-independent. This is
+    /// the rule's identity: two pairs firing the same rule share a cause, which
+    /// two pairs merely sharing boilerplate prose do not.
+    var key: String {
+        [classA.rawValue, classB.rawValue].sorted().joined(separator: "|")
+    }
+
     /// A hard pharmacological edge whose danger **outlasts the subjective
     /// effect curve** — irreversible MAO inhibition (lethal days after the
     /// felt effects fade), lithium, or a chronic serotonergic at steady state
@@ -453,6 +467,7 @@ enum InteractionChecker {
                 substanceA: substanceName,
                 substanceB: entry.substance,
                 description: rule.description,
+                ruleKey: rule.key,
                 overlapFactor: overlapFactor,
                 doseFactor: doseFactor,
             )
@@ -490,6 +505,7 @@ enum InteractionChecker {
                     substanceA: substances[i],
                     substanceB: substances[j],
                     description: rule.description,
+                    ruleKey: rule.key,
                 ), into: &byPair)
             }
         }
@@ -1523,8 +1539,7 @@ enum InteractionChecker {
         var seen: Set<String> = []
         var duplicates: [String] = []
         for rule in rules {
-            let key = [rule.classA.rawValue, rule.classB.rawValue].sorted().joined(separator: "|")
-            if !seen.insert(key).inserted { duplicates.append(key) }
+            if !seen.insert(rule.key).inserted { duplicates.append(rule.key) }
         }
         return duplicates
     }
