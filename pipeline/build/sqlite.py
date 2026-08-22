@@ -60,6 +60,7 @@ from effect_vocab import (  # noqa: E402
 from molecule_shapes import generate_molecule_shapes  # noqa: E402
 from prose import (  # noqa: E402
     BANNED_PHRASE,
+    americanize,
     clean_label_prose,
     clean_wiki_prose,
     enforce_voice,
@@ -1386,6 +1387,12 @@ CREATE TABLE indications (
     substance_id INTEGER NOT NULL REFERENCES substances(id),
     source_id    INTEGER NOT NULL REFERENCES sources(id),
     text         TEXT NOT NULL,
+    -- The label or guideline the block came from. Pyrls carries a reference id
+    -- per block and a resolvable title+URL for it; MedTAP rows cite their own
+    -- label by NDC. These were the only substantive text tables that
+    -- structurally could not name a source, which made them the only claims in
+    -- the app a reader had no way to check.
+    citation_id  INTEGER REFERENCES citations(id),
     UNIQUE (substance_id, source_id, text)
 );
 CREATE INDEX idx_indications_substance ON indications(substance_id);
@@ -1396,6 +1403,8 @@ CREATE TABLE contraindications (
     source_id        INTEGER NOT NULL REFERENCES sources(id),
     text             TEXT NOT NULL,
     is_boxed_warning INTEGER NOT NULL DEFAULT 0,
+    -- See `indications.citation_id`.
+    citation_id      INTEGER REFERENCES citations(id),
     UNIQUE (substance_id, source_id, text)
 );
 CREATE INDEX idx_contraindications_substance ON contraindications(substance_id);
@@ -2363,6 +2372,60 @@ def dedup_pk_routes(con) -> dict:
 ACTIVE_INGREDIENT_PROXIES = {"cannabis": "THC"}
 
 
+def enforce_us_english(con) -> dict:
+    """British spellings in every shipped text column, replaced.
+
+    A sweep over the built DB rather than a filter at each ingest site, for the
+    same reason `enforce_voice_rule` is one: the prose arrives from four sources
+    through paths that keep being added, and a filter has to be remembered on
+    every new one. Most of these are PsychonautWiki's; two were ours.
+    """
+    cur = con.cursor()
+    tables = [
+        r[0]
+        for r in cur.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
+        )
+    ]
+    # Identifier columns are names, not prose: a compound really is called
+    # "Aluminium hydroxide" in some registries, and rewriting an InChIKey or a
+    # SMILES would corrupt it.
+    skip = {
+        ("substances", "iupac_name"),
+        ("substances", "smiles"),
+        ("substances", "inchikey"),
+        ("substances", "formula"),
+        ("substances", "canonical_name"),
+        ("substances", "normalized_name"),
+        ("aliases", "alias"),
+        ("aliases", "alias_normalized"),
+        ("citations", "url"),
+        ("citations", "doi"),
+        ("molecule_shapes", "atoms_json"),
+        ("molecule_shapes", "bonds_json"),
+    }
+    rewritten = 0
+    for table in tables:
+        columns = [
+            r[1]
+            for r in cur.execute(f'PRAGMA table_info("{table}")')
+            if ("TEXT" in (r[2] or "").upper() or "CHAR" in (r[2] or "").upper())
+            and (table, r[1]) not in skip
+        ]
+        for column in columns:
+            rows = cur.execute(
+                f'SELECT rowid, "{column}" FROM "{table}" WHERE "{column}" IS NOT NULL'
+            ).fetchall()
+            for rowid, value in rows:
+                fixed = americanize(value)
+                if fixed != value:
+                    cur.execute(
+                        f'UPDATE "{table}" SET "{column}" = ? WHERE rowid = ?', (fixed, rowid)
+                    )
+                    rewritten += 1
+    return {"rewritten": rewritten}
+
+
 def enforce_voice_rule(con) -> dict:
     """Repair the banned phrase in every shipped text column, then assert none
     survived.
@@ -2628,6 +2691,98 @@ def ingest_tripsit_combos(build, path: Path) -> dict:
             pass
     build.stats["interaction_rules"] = written
     return {"written": written, "pairs": len(best)}
+
+
+#: `BindingAction` in Piru/Domain/Substance.swift. A value outside this set is
+#: not decoded by the app: `BindingAction(rawValue:)` returns nil and the row
+#: renders as an unlabelled affinity, which is how "weak agonist / partial
+#: agonist" came to say nothing at all on screen.
+BINDING_ACTIONS = {
+    "agonist",
+    "partialAgonist",
+    "antagonist",
+    "inverseAgonist",
+    "positiveAllostericModulator",
+    "negativeAllostericModulator",
+    "reuptakeInhibitor",
+    "releasingAgent",
+    "enzymeInhibitor",
+    "channelBlocker",
+    "modulator",
+}
+
+#: Prose forms the research passes wrote, and the enum each is. The qualifier
+#: they carry is not lost — it moves to `notes`, which the app renders.
+_BINDING_ACTION_ALIASES = {
+    "weak agonist": "agonist",
+    "weak agonist / partial agonist": "partialAgonist",
+    "partial agonist": "partialAgonist",
+    "full agonist": "agonist",
+    "inverse agonist": "inverseAgonist",
+    "reuptake inhibitor": "reuptakeInhibitor",
+    "releasing agent": "releasingAgent",
+    "enzyme inhibitor": "enzymeInhibitor",
+    "channel blocker": "channelBlocker",
+    "blocker": "channelBlocker",
+    # Acts through endogenous release rather than binding the receptor itself.
+    # `agonist` would claim a binding nothing measured; `modulator` is the
+    # honest weakest reading and the note carries the mechanism.
+    "indirect agonist": "modulator",
+}
+
+
+def normalise_binding_action(raw: str | None) -> tuple[str, str | None]:
+    """`(enum value, qualifier)` for an authored action.
+
+    A trailing parenthetical is a qualifier, not part of the action:
+    "reuptakeInhibitor (non-competitive)" is a reuptake inhibitor and a note.
+    Returns the raw string unchanged when nothing matches, so the build gate
+    below catches it rather than this quietly guessing.
+    """
+    text = (raw or "").strip()
+    if not text:
+        return "modulator", None
+    if text in BINDING_ACTIONS:
+        return text, None
+    qualifier = None
+    match = re.match(r"^(.*?)\s*\(([^()]+)\)\s*$", text)
+    if match:
+        text, qualifier = match.group(1).strip(), match.group(2).strip()
+    if text in BINDING_ACTIONS:
+        return text, qualifier
+    lowered = text.lower()
+    mapped = _BINDING_ACTION_ALIASES.get(lowered)
+    if mapped is None:
+        # A sentence that OPENS with a known action — "indirect agonist via
+        # endogenous enkephalin release in the periaqueductal gray". The rest is
+        # the mechanism, which the note keeps in full.
+        for alias, target in sorted(_BINDING_ACTION_ALIASES.items(), key=lambda kv: -len(kv[0])):
+            if lowered.startswith(alias + " "):
+                mapped = target
+                break
+    if mapped:
+        # The prose said more than the enum can, so the note keeps the WHOLE of
+        # it — not the trailing parenthetical the split above happened to take,
+        # which turned nitrous's mechanism into the single word "PAG".
+        return mapped, (raw or "").strip()
+    return (raw or "").strip(), None
+
+
+def assert_binding_actions_are_decodable(con) -> None:
+    """No `bindings.action` outside the app's enum."""
+    rows = con.execute(
+        "SELECT DISTINCT action FROM bindings WHERE action NOT IN ({})".format(
+            ",".join("?" * len(BINDING_ACTIONS))
+        ),
+        sorted(BINDING_ACTIONS),
+    ).fetchall()
+    if rows:
+        raise SystemExit(
+            "bindings.action values the app cannot decode: "
+            + ", ".join(repr(r[0]) for r in rows)
+            + "\nAdd a form to _BINDING_ACTION_ALIASES in pipeline/build/sqlite.py, "
+            "or correct the source row."
+        )
 
 
 def prune_class_memberships(con) -> dict:
@@ -5712,7 +5867,9 @@ class Build:
         except sqlite3.IntegrityError:
             pass
 
-    def add_indication(self, sid: int, source_slug: str, text: str) -> None:
+    def add_indication(
+        self, sid: int, source_slug: str, text: str, reference: str | None = None
+    ) -> None:
         # A label that repeats its own heading inside the body yields the word
         # "indications" as an indication; a pointer to "see below" points at a
         # section Piru does not ship.
@@ -5722,15 +5879,22 @@ class Build:
         src = self.source_ids[source_slug]
         try:
             self.cur.execute(
-                "INSERT INTO indications(substance_id, source_id, text) VALUES (?, ?, ?)",
-                (sid, src, text),
+                "INSERT INTO indications(substance_id, source_id, text, citation_id) "
+                "VALUES (?, ?, ?, ?)",
+                (sid, src, text, self.cite(reference)),
             )
             self.stats["indications"] += 1
         except sqlite3.IntegrityError:
             pass
 
     def add_contraindication(
-        self, sid: int, source_slug: str, text: str, *, boxed: bool = False
+        self,
+        sid: int,
+        source_slug: str,
+        text: str,
+        *,
+        boxed: bool = False,
+        reference: str | None = None,
     ) -> None:
         text = clean_label_prose(text)
         if not text:
@@ -5738,8 +5902,9 @@ class Build:
         src = self.source_ids[source_slug]
         try:
             self.cur.execute(
-                "INSERT INTO contraindications(substance_id, source_id, text, is_boxed_warning) VALUES (?, ?, ?, ?)",
-                (sid, src, text, 1 if boxed else 0),
+                "INSERT INTO contraindications(substance_id, source_id, text, is_boxed_warning, "
+                "citation_id) VALUES (?, ?, ?, ?, ?)",
+                (sid, src, text, 1 if boxed else 0, self.cite(reference)),
             )
             self.stats["contraindications"] += 1
         except sqlite3.IntegrityError:
@@ -5849,13 +6014,17 @@ class Build:
         if not isinstance(b, dict) or not b.get("target"):
             return
         src = self.source_ids[source_slug]
+        action, qualifier = normalise_binding_action(b.get("action"))
+        notes = b.get("notes")
+        if qualifier:
+            notes = f"{notes} ({qualifier})" if notes else qualifier
         ki_ci = b.get("ki_ci_nm") or [None, None]
         self.cur.execute(
             "INSERT INTO bindings(substance_id, target, action, ki_nm, ki_ci_lower_nm, ki_ci_upper_nm, kd_nm, ec50_nm, ic50_nm, emax_pct, intrinsic_activity_pct, affinity_tier, relative_tau, comparable_set, reference_agonist, species, tissue_or_cell, assay_system, radioligand, assay_notes, source_id, citation_id, is_review, confidence, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 sid,
                 b.get("target"),
-                b.get("action") or "modulator",
+                action,
                 to_float(b.get("ki_nm")),
                 to_float(ki_ci[0]) if isinstance(ki_ci, list) and len(ki_ci) > 0 else None,
                 to_float(ki_ci[1]) if isinstance(ki_ci, list) and len(ki_ci) > 1 else None,
@@ -5881,7 +6050,7 @@ class Build:
                 self.cite(b.get("reference")),
                 1 if b.get("is_review") else 0,
                 normalise_confidence(b.get("confidence")),
-                b.get("notes"),
+                notes,
             ),
         )
         self.stats["bindings"] += 1
@@ -7459,12 +7628,14 @@ class Build:
             moa = rec.get("mechanismOfAction") or {}
             if moa.get("summary"):
                 self.add_mechanism_summary(sid, slug, moa["summary"], moa.get("description"))
+            indication_ref = rec.get("x_indications_reference")
+            contra_ref = rec.get("x_contraindications_reference")
             for ind in self._as_text_list(rec.get("x_indications")):
-                self.add_indication(sid, slug, ind)
+                self.add_indication(sid, slug, ind, reference=indication_ref)
             for c in self._as_text_list(rec.get("x_contraindications")):
-                self.add_contraindication(sid, slug, c)
+                self.add_contraindication(sid, slug, c, reference=contra_ref)
             for b in self._as_text_list(rec.get("x_boxed_warning")):
-                self.add_contraindication(sid, slug, b, boxed=True)
+                self.add_contraindication(sid, slug, b, boxed=True, reference=contra_ref)
 
     # Protein-target / non-drug junk rows in medtap (e.g. "Mu-type opioid
     # receptor", "5-hydroxytryptamine receptor 2A", "30S ribosomal protein S12",
@@ -7501,10 +7672,11 @@ class Build:
             moa = rec.get("mechanismOfAction") or {}
             if moa.get("summary"):
                 self.add_mechanism_summary(sid, slug, moa["summary"], moa.get("description"))
+            label_ref = rec.get("x_label_reference")
             for ind in self._as_text_list(rec.get("x_indications")):
-                self.add_indication(sid, slug, ind)
+                self.add_indication(sid, slug, ind, reference=label_ref)
             for c in self._as_text_list(rec.get("x_contraindications")):
-                self.add_contraindication(sid, slug, c)
+                self.add_contraindication(sid, slug, c, reference=label_ref)
 
     # "Alprazolam - 0.5mg ~=10mg Diazepam." → (0.5, 10.0)
     _DIAZ_RE = re.compile(r"(\d+(?:\.\d+)?)\s*mg\b.*?(\d+(?:\.\d+)?)\s*mg", re.IGNORECASE)
@@ -11131,6 +11303,8 @@ def main() -> int:
         file=sys.stderr,
     )
 
+    assert_binding_actions_are_decodable(build.cur.connection)
+
     pruned = prune_class_memberships(build.cur.connection)
     print(f"Class memberships pruned: {pruned['dropped']}", file=sys.stderr)
     for name in pruned["names"][:12]:
@@ -11138,6 +11312,9 @@ def main() -> int:
 
     voice = enforce_voice_rule(build.cur.connection)
     print(f"Voice-rule rewrites: {voice['rewritten']}", file=sys.stderr)
+
+    spelling = enforce_us_english(build.cur.connection)
+    print(f"US-English rewrites: {spelling['rewritten']}", file=sys.stderr)
 
     assert_preparations_borrow_their_pharmacology(build.cur.connection)
 

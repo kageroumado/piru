@@ -166,6 +166,51 @@ _REJECT_WORDS = re.compile(
 )
 
 
+#: A mean followed by its own explicit range — "12 hours (range 8-17 hours)",
+#: "22 hours (range of 7 to 42 hours)". The number-counting rule below refuses
+#: these for having three numbers, but they are the *clearest* statement a label
+#: makes: a point estimate and the spread it came from. The range is what is
+#: kept, since it is what the mean summarises.
+_MEAN_THEN_RANGE = re.compile(
+    r"^\s*(?P<mean>\d+(?:\.\d+)?)\s*(?P<unit>seconds?|minutes?|mins?|min|hours?|hrs?|hr|h|days?|weeks?)\b"
+    r"[^()]{0,20}\(\s*range[:\s]*(?:of\s+)?"
+    r"(?P<lo>\d+(?:\.\d+)?)\s*(?:-|to)\s*(?P<hi>\d+(?:\.\d+)?)\s*"
+    r"(?P<unit2>seconds?|minutes?|mins?|min|hours?|hrs?|hr|h|days?|weeks?)?\s*\)\s*\.?\s*$",
+    re.IGNORECASE,
+)
+
+#: The same statement the other way round — "9.1 to 14.4 hours (average 10.8
+#: hours)".
+_RANGE_THEN_MEAN = re.compile(
+    r"^\s*(?P<lo>\d+(?:\.\d+)?)\s*(?:-|to)\s*(?P<hi>\d+(?:\.\d+)?)\s*"
+    r"(?P<unit>seconds?|minutes?|mins?|min|hours?|hrs?|hr|h|days?|weeks?)\b"
+    r"[^()]{0,20}\(\s*(?:average|mean)[:\s]*"
+    r"(?P<mean>\d+(?:\.\d+)?)\s*"
+    r"(?:seconds?|minutes?|mins?|min|hours?|hrs?|hr|h|days?|weeks?)?\s*\)\s*\.?\s*$",
+    re.IGNORECASE,
+)
+
+
+def normalize_quantity_text(text: str) -> str:
+    """Spellings of the same character that the patterns below would otherwise
+    miss.
+
+    Sources write plus-or-minus three ways and dashes four. Every one of these
+    was found in a real statement the parser refused.
+    """
+    return (
+        (text or "")
+        .replace("+/-", "\u00b1")
+        .replace("+-", "\u00b1")
+        .replace("\u2013", "-")  # en dash
+        .replace("\u2014", "-")  # em dash
+        .replace("\u2212", "-")  # minus sign
+        .replace("\u00a0", " ")  # non-breaking space
+        .replace("\u2009", " ")  # thin space
+        .replace("\u202f", " ")  # narrow no-break space
+    )
+
+
 def strip_citation_tokens(text: str) -> str:
     """Remove DrugBank inline citation tokens like [A174292] or [L41539, A3]."""
     return _CITATION_TOKEN.sub("", text)
@@ -184,11 +229,21 @@ def parse_half_life(text: str) -> tuple[float, float] | None:
     Rejects anything with extra numbers, bounds ("less than"), semicolons, or
     population/metabolite qualifiers.
     """
-    t = strip_citation_tokens(text or "").strip()
+    t = normalize_quantity_text(strip_citation_tokens(text or "")).strip()
     if not t or len(t) > 160 or ";" in t or "\n" in t:
         return None
     if _REJECT_WORDS.search(t):
         return None
+    # A mean with its own explicit range, either way round. Taken before the
+    # number-counting rule, which refuses them for having three numbers — but
+    # three numbers arranged like this say one thing, not several.
+    for pattern in (_MEAN_THEN_RANGE, _RANGE_THEN_MEAN):
+        match = pattern.match(t)
+        if match:
+            factor = unit_factor(match.group("unit"))
+            lo, hi = sorted((float(match.group("lo")), float(match.group("hi"))))
+            if lo > 0 and hi > 0:
+                return (lo * factor, hi * factor)
     m = _QTY.search(t)
     if not m:
         return None

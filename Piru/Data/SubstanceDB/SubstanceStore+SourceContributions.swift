@@ -145,6 +145,12 @@ extension SubstanceStore {
         ("durations", .duration),
         ("half_lives", .pharmacokinetics),
         ("mechanisms_summary", .pharmacology),
+        // Added once these tables could carry a citation at all. They ship
+        // 2,700 rows of label and guideline prose, and until the column existed
+        // they were the only substantive claims in the app whose source a
+        // reader could not reach.
+        ("indications", .prescribing),
+        ("contraindications", .prescribing),
     ]
 
     /// Builds the contribution ledger for one substance. A cheap local read (a

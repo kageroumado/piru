@@ -1158,6 +1158,9 @@ enum CompoundDisplayClass: String, Codable {
 struct Contraindication: Codable, Hashable {
     let text: String
     let isBoxedWarning: Bool
+    /// The label or guideline the block came from. These were the only
+    /// substantive claims in the app a reader had no way to check.
+    var sourceURL: String?
 }
 
 /// Cross-benzodiazepine dose equivalency (relative to 10 mg diazepam). Sourced

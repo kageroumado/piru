@@ -171,7 +171,7 @@
         "verdict": "shown"
       },
       "notes": {
-        "filled": 16,
+        "filled": 24,
         "verdict": "shown"
       },
       "radioligand": {
@@ -263,11 +263,11 @@
         "verdict": "shown"
       },
       "id": {
-        "filled": 2426,
+        "filled": 2856,
         "verdict": "plumbing"
       },
       "is_review": {
-        "filled": 2426,
+        "filled": 2856,
         "verdict": "unused"
       },
       "pmid": {
@@ -279,7 +279,7 @@
         "verdict": "shown"
       },
       "url": {
-        "filled": 1411,
+        "filled": 1841,
         "verdict": "shown"
       },
       "year": {
@@ -288,7 +288,7 @@
       }
     },
     "read_in_swift": true,
-    "rows": 2426,
+    "rows": 2856,
     "surface": "sources"
   },
   "class_citations": {
@@ -418,6 +418,10 @@
   "contraindications": {
     "attributed_only": false,
     "columns": {
+      "citation_id": {
+        "filled": 1628,
+        "verdict": "read"
+      },
       "id": {
         "filled": 1656,
         "verdict": "plumbing"
@@ -911,33 +915,37 @@
     "attributed_only": false,
     "columns": {
       "citation_id": {
-        "filled": 420,
+        "filled": 427,
         "verdict": "read"
       },
       "half_life_minutes": {
-        "filled": 687,
+        "filled": 694,
         "verdict": "shown"
       },
       "notes": {
-        "filled": 152,
+        "filled": 159,
         "verdict": "shown"
       },
       "source_id": {
-        "filled": 687,
+        "filled": 694,
         "verdict": "plumbing"
       },
       "substance_id": {
-        "filled": 687,
+        "filled": 694,
         "verdict": "plumbing"
       }
     },
     "read_in_swift": true,
-    "rows": 687,
+    "rows": 694,
     "surface": "pharmacokinetics"
   },
   "indications": {
     "attributed_only": false,
     "columns": {
+      "citation_id": {
+        "filled": 1133,
+        "verdict": "read"
+      },
       "id": {
         "filled": 1134,
         "verdict": "plumbing"

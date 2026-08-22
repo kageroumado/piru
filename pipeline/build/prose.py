@@ -22,6 +22,7 @@ from __future__ import annotations
 import re
 
 __all__ = [
+    "americanize",
     "clean_wiki_prose",
     "strip_advice",
     "enforce_voice",
@@ -253,3 +254,143 @@ def clean_label_prose(text: str | None) -> str:
     out = _MULTISPACE.sub(" ", out)
     out = re.sub(r"\s+([.,;:!?])", r"\1", out)
     return out.strip()
+
+
+# ---------------------------------------------------------------------------
+# US English
+# ---------------------------------------------------------------------------
+
+#: British spellings that turn up in pharmacology and label prose, and the US
+#: form each becomes. The repo is US English everywhere including strings, and
+#: most of these arrive in PsychonautWiki prose rather than being authored here.
+#:
+#: A word list rather than a morphological rule, because the endings are shared
+#: with words that are already correct: `hours` ends in -ours, `dialogue` and
+#: `analogue` in -ogue, and `analyses` is the US plural of `analysis`. Every
+#: attempt at a general rule mangled one of those.
+_US_SPELLINGS: dict[str, str] = {
+    "behaviour": "behavior",
+    "colour": "color",
+    "flavour": "flavor",
+    "favour": "favor",
+    "favourite": "favorite",
+    "favourable": "favorable",
+    "favourably": "favorably",
+    "disfavour": "disfavor",
+    "disfavours": "disfavors",
+    "hydrolysed": "hydrolyzed",
+    "hydrolyse": "hydrolyze",
+    "hydrolysing": "hydrolyzing",
+    "polarised": "polarized",
+    "polarise": "polarize",
+    "labour": "labor",
+    "honour": "honor",
+    "humour": "humor",
+    "odour": "odor",
+    "vapour": "vapor",
+    "tumour": "tumor",
+    "grey": "gray",
+    "centre": "center",
+    "litre": "liter",
+    "fibre": "fiber",
+    "defence": "defense",
+    "aluminium": "aluminum",
+    "whilst": "while",
+    "amongst": "among",
+    "ageing": "aging",
+    "oedema": "edema",
+    "anaemia": "anemia",
+    "anaemic": "anemic",
+    "paediatric": "pediatric",
+    "paediatrics": "pediatrics",
+    "foetal": "fetal",
+    "foetus": "fetus",
+    "aetiology": "etiology",
+    "oesophagus": "esophagus",
+    "oesophageal": "esophageal",
+    "diarrhoea": "diarrhea",
+    "diarrhoeal": "diarrheal",
+    "leukaemia": "leukemia",
+    "haemoglobin": "hemoglobin",
+    "haemolysis": "hemolysis",
+    "haemorrhage": "hemorrhage",
+    "haemorrhagic": "hemorrhagic",
+    "haemodynamic": "hemodynamic",
+    "sulphur": "sulfur",
+    "sulphate": "sulfate",
+    "sulphide": "sulfide",
+    "sulphonate": "sulfonate",
+    "prioritise": "prioritize",
+    "organise": "organize",
+    "organisation": "organization",
+    "recognise": "recognize",
+    "characterise": "characterize",
+    "characterisation": "characterization",
+    "minimise": "minimize",
+    "maximise": "maximize",
+    "utilise": "utilize",
+    "normalise": "normalize",
+    "standardise": "standardize",
+    "categorise": "categorize",
+    "miscategorise": "miscategorize",
+    "metabolise": "metabolize",
+    "summarise": "summarize",
+    "emphasise": "emphasize",
+    "specialise": "specialize",
+    "stabilise": "stabilize",
+    # `analyses` is the US plural of `analysis` and dominates this corpus
+    # ("Pooled analyses of 199 trials"), so only the verb forms are listed.
+    "analyse": "analyze",
+    "analysed": "analyzed",
+    "analysing": "analyzing",
+    "practise": "practice",
+    "practised": "practiced",
+}
+
+
+#: `-ise` verbs inflect, and listing every form quadruples the table. The stems
+#: above ending in `ise`/`isation` are expanded here instead.
+def _expand(table: dict[str, str]) -> dict[str, str]:
+    out = dict(table)
+    for british, american in table.items():
+        if british.endswith("ise"):
+            for suffix in ("d", "s", "rs"):
+                out[british + suffix] = american.replace("ize", "iz") + "e" + suffix
+            out[british[:-1] + "ing"] = american[:-1] + "ing"
+            out[british[:-3] + "isation"] = american[:-3] + "ization"
+            out[british[:-3] + "isations"] = american[:-3] + "izations"
+        elif british.endswith(("our", "re", "ry")):
+            for suffix in ("s", "ed", "ing", "al", "ally", "less"):
+                out[british + suffix] = american + suffix
+    return out
+
+
+_US_SPELLINGS = _expand(_US_SPELLINGS)
+
+_BRITISH_WORD = re.compile(
+    r"\b(" + "|".join(sorted(_US_SPELLINGS, key=len, reverse=True)) + r")\b",
+    re.IGNORECASE,
+)
+
+
+def _match_case(replacement: str, original: str) -> str:
+    if original.isupper():
+        return replacement.upper()
+    if original[:1].isupper():
+        return replacement[:1].upper() + replacement[1:]
+    return replacement
+
+
+def americanize(text: str | None) -> str:
+    """`text` with British spellings replaced, preserving capitalisation.
+
+    Applied as a sweep over the built database rather than at each ingest site,
+    for the same reason the voice rule is: the prose arrives from four sources
+    through paths that keep being added, and a filter has to be remembered on
+    every new one.
+    """
+    if not text:
+        return text or ""
+    return _BRITISH_WORD.sub(
+        lambda m: _match_case(_US_SPELLINGS[m.group(1).lower()], m.group(1)), text
+    )

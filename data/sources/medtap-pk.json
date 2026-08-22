@@ -110,8 +110,13 @@
       "substance": "Asenapine",
       "ndc": "0052-0118",
       "brand": "Saphris",
+      "half_life_minutes": 1578.0,
+      "half_life_low_minutes": 804.0,
+      "half_life_high_minutes": 2352.0,
+      "half_life_label": "24 hours (range of 13.4 - 39.2 hours)",
       "protein_binding_pct": 95.0,
-      "protein_binding_label": "95% protein bound"
+      "protein_binding_label": "95% protein bound",
+      "half_life_corroborated": true
     },
     {
       "substance": "Asparaginase",
@@ -450,7 +455,11 @@
     {
       "substance": "Chloroprocaine",
       "ndc": "52584-475",
-      "brand": "Nesacaine"
+      "brand": "Nesacaine",
+      "half_life_minutes": 0.3,
+      "half_life_low_minutes": 0.3,
+      "half_life_high_minutes": 0.4,
+      "half_life_label": "21 +/- 2 seconds"
     },
     {
       "substance": "Chlorpheniramine",
@@ -806,8 +815,13 @@
       "substance": "Duloxetine",
       "ndc": "0615-7894",
       "brand": "Duloxetine Hydrochloride",
+      "half_life_minutes": 750.0,
+      "half_life_low_minutes": 480.0,
+      "half_life_high_minutes": 1020.0,
+      "half_life_label": "12 hours (range 8-17 hours)",
       "protein_binding_pct": 90.0,
-      "protein_binding_label": "Protein binding is greater than 90%."
+      "protein_binding_label": "Protein binding is greater than 90%.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Dutasteride",
@@ -1014,7 +1028,12 @@
     {
       "substance": "Fluconazole",
       "ndc": "0143-9666",
-      "brand": ""
+      "brand": "",
+      "half_life_minutes": 2100.0,
+      "half_life_low_minutes": 1200.0,
+      "half_life_high_minutes": 3000.0,
+      "half_life_label": "30 hours (range 20-50 hours)",
+      "half_life_corroborated": true
     },
     {
       "substance": "Fludarabine",
@@ -1369,8 +1388,13 @@
       "substance": "Loperamide",
       "ndc": "0093-0311",
       "brand": "Loperamide Hydrochloride",
+      "half_life_minutes": 705.0,
+      "half_life_low_minutes": 546.0,
+      "half_life_high_minutes": 864.0,
+      "half_life_label": "9.1 to 14.4 hours (average 10.8 hours)",
       "protein_binding_pct": 97.0,
-      "protein_binding_label": "97%"
+      "protein_binding_label": "97%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Loratadine",
@@ -1796,7 +1820,11 @@
     {
       "substance": "Panitumumab",
       "ndc": "55513-954",
-      "brand": "Vectibix"
+      "brand": "Vectibix",
+      "half_life_minutes": 10800.0,
+      "half_life_low_minutes": 5760.0,
+      "half_life_high_minutes": 15840.0,
+      "half_life_label": "7.5 days (range: 4-11 days)"
     },
     {
       "substance": "Pantoprazole",
@@ -1898,8 +1926,13 @@
       "substance": "Phenytoin",
       "ndc": "0378-3850",
       "brand": "",
+      "half_life_minutes": 1470.0,
+      "half_life_low_minutes": 420.0,
+      "half_life_high_minutes": 2520.0,
+      "half_life_label": "22 hours (range of 7 to 42 hours)",
       "protein_binding_pct": 90.0,
-      "protein_binding_label": "Highly protein bound, 90%"
+      "protein_binding_label": "Highly protein bound, 90%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Potassium",

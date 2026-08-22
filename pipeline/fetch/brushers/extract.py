@@ -321,6 +321,19 @@ def extract_pyrls():
         contras = [
             strip_html(_txt(x)) for x in ((di.get("contraindications") or {}).get("labeled") or [])
         ]
+        # Pyrls numbers its references and points each block at one. Resolving
+        # them is what lets a contraindication name the label it came from —
+        # these were the only substantive claims in the app with no way to check.
+        refs = {r.get("id"): r.get("url") for r in (e.get("references") or []) if r.get("url")}
+
+        def _first_ref(block, refs=refs):
+            for rid in (block or {}).get("references") or []:
+                if refs.get(rid):
+                    return refs[rid]
+            return None
+
+        indications_ref = _first_ref(di.get("indications"))
+        contras_ref = _first_ref(di.get("contraindications"))
         boxed = [strip_html(_txt(x)) for x in (di.get("boxedWarning") or [])]
         reg = e.get("regulatoryStatus") or {}
         reg_str = "; ".join(
@@ -345,7 +358,9 @@ def extract_pyrls():
                 raw_classes=labels,
                 brand_names=brands,
                 indications=indications,
+                indications_reference=indications_ref,
                 contraindications=contras,
+                contraindications_reference=contras_ref,
                 boxed_warning=boxed,
                 regulatory_status=reg_str,
                 dosage_form=e.get("dosageForm"),
@@ -539,6 +554,13 @@ def extract_medtap():
                 brand_names=sorted(set(aliases_by[key])),
                 indications=indications,
                 contraindications=contras,
+                # The label IS the source for these; its NDC identifies which.
+                label_reference=(
+                    "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query="
+                    + _first(e.get("ndc"))
+                    if _first(e.get("ndc"))
+                    else None
+                ),
                 regulatory_status=reg,
                 is_combination=bool(combo and len(combo) > 1),
                 ingredients=combo if (combo and len(combo) > 1) else None,

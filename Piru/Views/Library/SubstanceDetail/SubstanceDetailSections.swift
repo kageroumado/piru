@@ -48,6 +48,7 @@ struct MedicalInfoSection: View {
                 if !boxed.isEmpty {
                     clinicalGroupTitle("Boxed warning")
                     ForEach(boxed, id: \.text) { clinicalRow($0.text) }
+                    labelSource(boxed)
                 }
             }
         }
@@ -73,6 +74,7 @@ struct MedicalInfoSection: View {
                 ForEach(boxed, id: \.text) { c in
                     clinicalRow(c.text)
                 }
+                labelSource(boxed)
             }
         }
     }
@@ -85,6 +87,27 @@ struct MedicalInfoSection: View {
             .textCase(.uppercase)
             .tracking(0.5)
             .foregroundStyle(Theme.secondaryLabel)
+    }
+
+    /// The label these rows came from, once for the group.
+    ///
+    /// Per group and not per row, for the same reason the rows carry no glyph:
+    /// a link repeated under every row of a list says nothing about any one of
+    /// them. The whole block comes from one label, so it is cited once.
+    @ViewBuilder
+    private func labelSource(_ rows: [Contraindication]) -> some View {
+        if let url = rows.compactMap(\.sourceURL).first, let link = URL(string: url) {
+            Link(destination: link) {
+                HStack(spacing: 5) {
+                    Image(systemName: "doc.text.magnifyingglass")
+                        .font(.caption2)
+                        .accessibilityHidden(true)
+                    Text("Prescribing label")
+                        .font(.caption2)
+                }
+                .foregroundStyle(Theme.secondaryLabel)
+            }
+        }
     }
 
     /// One clinical list row: wrapping text, in full.

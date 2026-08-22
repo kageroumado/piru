@@ -18,6 +18,7 @@ _spec = importlib.util.spec_from_file_location(
 _mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)
 parse_half_life = _mod.parse_half_life
+normalize_quantity_text = _mod.normalize_quantity_text
 strip_citation_tokens = _mod.strip_citation_tokens
 inchikey_relation = _mod.inchikey_relation
 classify_ik_conflict = _mod.classify_ik_conflict
@@ -203,6 +204,46 @@ class TestMetaboliteKey(unittest.TestCase):
     def test_empty_and_tiny_names_yield_nothing(self):
         self.assertEqual(metabolite_key(""), set())
         self.assertEqual(metabolite_key("  "), set())
+
+
+class MeanWithRange(unittest.TestCase):
+    """A mean and its own explicit range. The number-counting rule refuses
+    these for having three numbers, but three numbers arranged this way say one
+    thing — and it is the clearest statement a label makes."""
+
+    def test_mean_then_range(self):
+        self.assertEqual(parse_half_life("12 hours (range 8-17 hours)"), (480.0, 1020.0))
+        self.assertEqual(parse_half_life("22 hours (range of 7 to 42 hours)"), (420.0, 2520.0))
+        self.assertEqual(parse_half_life("7.5 days (range: 4-11 days)"), (5760.0, 15840.0))
+
+    def test_range_then_mean(self):
+        self.assertEqual(parse_half_life("9.1 to 14.4 hours (average 10.8 hours)"), (546.0, 864.0))
+        self.assertEqual(parse_half_life("2.5 to 3.6 hours (mean 2.9 hours)"), (150.0, 216.0))
+
+    def test_the_range_is_kept_not_the_mean(self):
+        # The mean summarises the range; the range is the claim.
+        low, high = parse_half_life("24 hours (range of 13.4 - 39.2 hours)")
+        self.assertAlmostEqual(low / 60, 13.4)
+        self.assertAlmostEqual(high / 60, 39.2)
+
+    def test_a_third_number_that_is_not_a_range_is_still_refused(self):
+        self.assertIsNone(parse_half_life("Healthy subjects = 3 hours; others 5 hours"))
+        self.assertIsNone(parse_half_life("d-methylphenidate = 3-4 hours; l- 2 hours"))
+
+
+class QuantityNormalisation(unittest.TestCase):
+    """Spellings of the same character. Every one was found in a real statement
+    the parser refused."""
+
+    def test_ascii_plus_minus(self):
+        self.assertEqual(parse_half_life("3 +/- 1 hours"), (120.0, 240.0))
+
+    def test_en_and_em_dash_ranges(self):
+        self.assertEqual(parse_half_life("9\u201311 hours"), (540.0, 660.0))
+        self.assertEqual(parse_half_life("9\u201411 hours"), (540.0, 660.0))
+
+    def test_non_breaking_space(self):
+        self.assertEqual(parse_half_life("10\u00a0hours"), (600.0, 600.0))
 
 
 if __name__ == "__main__":
