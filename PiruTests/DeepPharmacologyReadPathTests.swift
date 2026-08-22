@@ -220,3 +220,32 @@ struct DeepPharmacologyReadPathTests {
         #expect((anesthesia.threshold ?? 0) > 0)
     }
 }
+
+/// The Library category screen shows a one-card summary of the family with a
+/// link into its class groups. The card and the link are independent: the link
+/// appears when the category has class contexts, the card when the category has
+/// a `classSummary`. A category that gains the first without the second renders
+/// an empty card above a working link.
+@Suite("Class summaries cover every category that has classes")
+@MainActor
+struct ClassSummaryCoverageTests {
+    @Test
+    func `Every category with class contexts has a summary to show`() {
+        let withClasses = Set(SubstanceStore.shared.classContexts().compactMap(\.category))
+        #expect(!withClasses.isEmpty, "no class contexts in the bundled database")
+        let missing = withClasses.filter { $0.classSummary == nil }.map(\.rawValue).sorted()
+        #expect(missing.isEmpty, "category has class groups but no summary card: \(missing)")
+    }
+
+    @Test
+    func `A summary is prose, not a stub`() {
+        // Guards the failure where a case is added to satisfy the test above
+        // and left as a placeholder.
+        for category in SubstanceCategory.allCases {
+            guard let summary = category.classSummary else { continue }
+            let text = String(localized: summary)
+            #expect(text.count > 40, "\(category.rawValue) summary is too short to be real: \(text)")
+            #expect(!text.localizedCaseInsensitiveContains("TODO"))
+        }
+    }
+}
