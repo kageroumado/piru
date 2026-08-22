@@ -248,4 +248,19 @@ struct ClassSummaryCoverageTests {
             #expect(!text.localizedCaseInsensitiveContains("TODO"))
         }
     }
+
+    @Test
+    func `A family with one group links straight to it, not to a list of one`() {
+        // Seven categories have exactly one class write-up. For those, the
+        // group list is a single row standing between the reader and the only
+        // thing behind it.
+        let single = SubstanceCategory.allCases.filter {
+            SubstanceStore.shared.classContexts(in: $0).count == 1
+        }
+        #expect(!single.isEmpty, "no single-group category in the bundled database")
+        for category in single {
+            let only = try? #require(SubstanceStore.shared.classContexts(in: category).first)
+            #expect(only?.title.isEmpty == false, "\(category.rawValue)'s only group has no name to show")
+        }
+    }
 }

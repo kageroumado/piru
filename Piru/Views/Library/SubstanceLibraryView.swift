@@ -379,12 +379,29 @@ struct SubstanceCategoryListView: View {
 
         sortedSubstances = sorted
         favoriteNames = favNames
-        classCount = category.map { SubstanceStore.shared.classContexts(in: $0).count } ?? 0
+        classes = category.map { SubstanceStore.shared.classContexts(in: $0) } ?? []
     }
 
-    /// How many class write-ups sit behind this family. Resolved once in the
-    /// rebuild rather than per body — it is a DB read.
-    @State private var classCount = 0
+    /// The class write-ups behind this family. Resolved once in the rebuild
+    /// rather than per body — it is a DB read.
+    @State private var classes: [SubstanceStore.ClassContextSummary] = []
+
+    /// Where the card's link goes, and what it says it will do.
+    ///
+    /// A family with one group has no grouping to show — the list screen would
+    /// be a single row standing between the reader and the only thing behind
+    /// it. So the link skips it and names the group instead: "Afinils" and
+    /// "Tropane alkaloids" tell you more than "1 group" does, in fewer words.
+    private var classLink: (route: PushRoute, label: Text) {
+        if classes.count == 1, let only = classes.first {
+            // `verbatim`: the name is data, read from the research write-up.
+            return (.drugClass(slug: only.slug), Text(verbatim: only.title))
+        }
+        return (
+            .drugClassGroup(category ?? .other),
+            Text("^[\(classes.count) group](inflect: true)"),
+        )
+    }
 
     var body: some View {
         List {
@@ -399,19 +416,19 @@ struct SubstanceCategoryListView: View {
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
                             .fixedSize(horizontal: false, vertical: true)
-                        if classCount > 0 {
+                        if !classes.isEmpty {
                             // A Button that pushes, not a NavigationLink: inside
                             // a List row a link draws its own disclosure chevron
                             // at the row's trailing edge, so the card ended up
                             // with two arrows pointing at one destination.
                             Button {
-                                navigator.push(.drugClassGroup(category))
+                                navigator.push(classLink.route)
                             } label: {
                                 HStack(spacing: 4) {
-                                    // The count IS the label: it says what is
-                                    // behind the tap and how much of it, in two
-                                    // words. "The groups within it" said neither.
-                                    Text("^[\(classCount) group](inflect: true)")
+                                    // The label says what is behind the tap and
+                                    // how much of it. "The groups within it"
+                                    // said neither.
+                                    classLink.label
                                     Image(systemName: "chevron.right")
                                         .font(.caption2.weight(.semibold))
                                 }
