@@ -2894,6 +2894,124 @@ _SIGNATURE_TARGET_SQL = (
 )
 
 
+class TestCuratedBrandsAreFolded(unittest.TestCase):
+    """A brand declared in brands.json is its parent, in one row.
+
+    Librium shipped as a substance of its own alongside Chlordiazepoxide: the
+    brand declaration only marked an alias, so a source that listed the brand
+    as a compound still minted a row. The two then split their dose and
+    duration data and both appeared in the benzodiazepine class list.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        path = Path(__file__).resolve().parents[3] / "Piru/Data/piru-substances.sqlite"
+        if not path.exists():
+            raise unittest.SkipTest("piru-substances.sqlite not built")
+        cls.db = sqlite3.connect(path)
+        registry = Path(__file__).resolve().parents[3] / "data/curated/brands.json"
+        raw = json.loads(registry.read_text())
+        cls.brands = raw if isinstance(raw, list) else raw.get("brands", [])
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.db.close()
+
+    def test_no_declared_brand_also_exists_as_its_own_substance(self):
+        names = {
+            normalise(r[0]): r[0] for r in self.db.execute("SELECT canonical_name FROM substances")
+        }
+        offenders = [
+            f"{b['brand']} (parent {b['parent']})"
+            for b in self.brands
+            if normalise(b["brand"]) in names
+            and normalise(b["parent"]) in names
+            and names[normalise(b["brand"])] != b["parent"]
+        ]
+        self.assertEqual(offenders, [], "a curated brand kept a substance row of its own")
+
+    def test_a_folded_brand_is_still_findable_by_its_brand_name(self):
+        # Merging must not cost searchability — the whole point of the brand
+        # registry is that people look the product up by the name on the box.
+        row = self.db.execute(
+            "SELECT s.canonical_name FROM aliases a JOIN substances s ON s.id = a.substance_id "
+            "WHERE a.alias_normalized = ?",
+            (normalise("Librium"),),
+        ).fetchone()
+        self.assertEqual(row and row[0], "Chlordiazepoxide")
+
+
+class TestGradeOrdinalOnlyBindings(unittest.TestCase):
+    """LOW is read off the row; HIGH and MEDIUM are never invented."""
+
+    def _db(self, rows):
+        con = sqlite3.connect(":memory:")
+        con.execute(
+            "CREATE TABLE bindings(id INTEGER PRIMARY KEY, affinity_tier TEXT, "
+            "ki_nm REAL, kd_nm REAL, ec50_nm REAL, ic50_nm REAL, confidence TEXT)"
+        )
+        con.executemany(
+            "INSERT INTO bindings(affinity_tier, ki_nm, kd_nm, ec50_nm, ic50_nm, confidence) "
+            "VALUES (?,?,?,?,?,?)",
+            rows,
+        )
+        return con
+
+    def _grades(self, con):
+        return [r[0] for r in con.execute("SELECT confidence FROM bindings ORDER BY id")]
+
+    def test_an_ordinal_only_row_is_graded_low(self):
+        con = self._db([("high", None, None, None, None, None)])
+        _mod.grade_ordinal_only_bindings(con)
+        self.assertEqual(self._grades(con), ["LOW"])
+
+    def test_any_absolute_number_leaves_the_row_ungraded(self):
+        # One row per affinity column: a measured value means the grade turns on
+        # evidence the row does not carry, so it stays NULL rather than being
+        # guessed at.
+        con = self._db(
+            [
+                ("high", 4.2, None, None, None, None),
+                ("high", None, 4.2, None, None, None),
+                ("high", None, None, 4.2, None, None),
+                ("high", None, None, None, 4.2, None),
+            ]
+        )
+        _mod.grade_ordinal_only_bindings(con)
+        self.assertEqual(self._grades(con), [None, None, None, None])
+
+    def test_a_row_with_neither_stays_ungraded(self):
+        con = self._db([(None, None, None, None, None, None)])
+        _mod.grade_ordinal_only_bindings(con)
+        self.assertEqual(self._grades(con), [None])
+
+    def test_a_hand_authored_grade_is_never_overwritten(self):
+        con = self._db([("high", None, None, None, None, "MEDIUM")])
+        _mod.grade_ordinal_only_bindings(con)
+        self.assertEqual(self._grades(con), ["MEDIUM"])
+
+    def test_the_shipped_database_leaves_no_ordinal_only_row_ungraded(self):
+        # The derivation's own postcondition. Asserted this way round on
+        # purpose: the converse ("a LOW row has no number") is false, because
+        # the curator also writes LOW for a measured value from weak evidence —
+        # a single rat-tissue AC50, say — which is a looser reading than
+        # `ConfidenceTier.low`'s "ordinal affinity only". Those rows carry no
+        # `affinity_tier`, so the derivation never sees them.
+        path = Path(__file__).resolve().parents[3] / "Piru/Data/piru-substances.sqlite"
+        if not path.exists():
+            raise unittest.SkipTest("piru-substances.sqlite not built")
+        db = sqlite3.connect(path)
+        try:
+            (ungraded,) = db.execute(
+                "SELECT COUNT(*) FROM bindings WHERE confidence IS NULL "
+                "AND affinity_tier IS NOT NULL "
+                "AND COALESCE(ki_nm, kd_nm, ec50_nm, ic50_nm) IS NULL"
+            ).fetchone()
+        finally:
+            db.close()
+        self.assertEqual(ungraded, 0, "grade_ordinal_only_bindings did not run")
+
+
 class TestSignatureGates(unittest.TestCase):
     """Build-time invariants for the class-signature pipeline.
 

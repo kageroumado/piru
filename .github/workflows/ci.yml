@@ -119,6 +119,31 @@ jobs:
       # archaeology news piece in Science.
       - name: Citation labels match the record they point at
         run: python3 pipeline/audit/citation_labels.py --gate
+      # Prose that reaches a screen. The voice rule and the markup/curator-note
+      # checks are cheap to satisfy while writing and expensive to retrofit —
+      # 310 hard violations had accumulated before this gate existed.
+      - name: Shipped strings obey the voice rule
+        run: python3 pipeline/audit/ui_text.py --gate
+      - name: Prose cleaners (advice stripping, voice, US spelling)
+        run: python3 pipeline/build/tests/test_prose.py
+      # A column that stops reaching a view is invisible: the data still ships
+      # in the 19 MB bundle and no screen shows it, which is the exact debt
+      # `trailing-data-debt.md` was written about. The snapshot is the ratchet.
+      - name: No shipped column stopped reaching a view
+        run: python3 pipeline/audit/data_usage.py --gate
+      - name: Data-usage classifier
+        run: python3 pipeline/audit/tests/test_data_usage.py
+      # One dash spelling out of six, or the wrong micro sign, makes a quantity
+      # parser match the leading number and drop the unit — a wrong value that
+      # reads as a parsed one.
+      - name: Quantity parsers read every character a source uses
+        run: python3 pipeline/build/tests/test_quantity_parsers.py
+      - name: Binding action vocabulary is closed
+        run: python3 pipeline/build/tests/test_binding_action.py
+      - name: MedTAP label PK guards (combination products, cross-source disagreement)
+        run: python3 pipeline/build/tests/test_medtap_pk.py
+      - name: PSID assignment and stability
+        run: python3 pipeline/build/tests/test_psid.py
 
   swift-lint:
     name: Swift (format + lint)
