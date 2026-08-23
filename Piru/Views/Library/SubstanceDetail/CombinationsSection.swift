@@ -63,12 +63,17 @@ private struct CombinationRow: View {
     }
 
     private var accessibilityLabel: String {
-        "\(combination.severity.label): \(combination.name). \(combination.description)"
+        let severity = String(localized: combination.severity.label)
+        return "\(severity): \(combination.name). \(combination.description)"
     }
 }
 
 extension Combination.Severity {
-    var label: LocalizedStringKey {
+    /// `LocalizedStringResource`, not `LocalizedStringKey`: the accessibility
+    /// label needs a real `String`, and interpolating a key into one yields its
+    /// debug description — VoiceOver was reading out
+    /// `LocalizedStringKey(key: "Danger", hasFormatting: false, …)`.
+    var label: LocalizedStringResource {
         switch self {
         case .danger: "Danger"
         case .caution: "Caution"

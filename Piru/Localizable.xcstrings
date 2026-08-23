@@ -20415,6 +20415,22 @@
         }
       }
     },
+    "Downstream" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下游"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下游"
+          }
+        }
+      }
+    },
     "Drag to explore doses" : {
       "comment" : "Intensity dial interaction hint",
       "extractionState" : "stale",

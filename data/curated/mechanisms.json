@@ -1653,7 +1653,7 @@
   {
     "name": "Amphetamine",
     "summary": "Catecholamine-Releasing Agent",
-    "description": "A substrate-type releasing agent rather than a reuptake blocker: it enters catecholaminergic neurons through NET and DAT and triggers reverse transport, dumping norepinephrine and dopamine into the synapse. In rat synaptosomes norepinephrine release is most potent, dopamine close behind, and serotonin release is very weak \u2014 present but near-SERT-sparing, making amphetamine more catecholamine-selective than methamphetamine. It additionally agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol.",
+    "description": "A substrate-type releasing agent: it enters catecholaminergic neurons through NET and DAT and triggers reverse transport, dumping norepinephrine and dopamine into the synapse. In rat synaptosomes norepinephrine release is most potent, dopamine close behind, and serotonin release is very weak \u2014 present but near-SERT-sparing, making amphetamine more catecholamine-selective than methamphetamine. It additionally agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol.",
     "bindings": [
       {"target": "NET", "action": "releasingAgent", "affinity_tier": 3},
       {"target": "DAT", "action": "releasingAgent", "affinity_tier": 3},

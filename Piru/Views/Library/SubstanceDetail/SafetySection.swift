@@ -78,11 +78,18 @@ struct SafetySection: View {
     }
 }
 
-/// Contraindications & cautions, folded like the other reference cards. Verbose
-/// DailyMed prose, capped at `displayLimit` rows and collapsed by default — rows
-/// are *not* line-clamped, since a contraindication cut mid-clause ("risk of
-/// hypertensive cri…") is worse than a long one, and the fold plus the cap
-/// already keep the card from turning into a drug monograph.
+/// Contraindications & cautions.
+///
+/// The list folds **only when folding hides something** — that is, only past
+/// `displayLimit`, which is also the point where a "+N more" appears. Since
+/// label prose became a normalized flag each row is one short line, and 98% of
+/// substances fit; folding those put a tap in front of six words and cost more
+/// header than it saved body. Same rule the session-review interactions use:
+/// below the threshold there is nothing to gain by folding.
+///
+/// Rows are *not* line-clamped. A contraindication cut mid-clause ("risk of
+/// hypertensive cri…") is worse than a long one, and `displayLimit` already
+/// keeps the card from turning into a drug monograph.
 private struct ContraindicationsDisclosure: View {
     let cautions: [Contraindication]
     @Binding var isExpanded: Bool
@@ -90,36 +97,51 @@ private struct ContraindicationsDisclosure: View {
     private let displayLimit = 6
 
     var body: some View {
-        DisclosureGroup(isExpanded: $isExpanded) {
+        if cautions.count <= displayLimit {
             VStack(alignment: .leading, spacing: 8) {
-                ForEach(cautions.prefix(displayLimit), id: \.self) { caution in
-                    Text(caution.display)
-                        .font(.subheadline)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                if cautions.count > displayLimit {
-                    Text("+\(cautions.count - displayLimit) more")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
+                header
+                rows
             }
-            .padding(.top, 6)
-        } label: {
-            HStack(spacing: 6) {
-                Text("Contraindications & Cautions")
-                    .font(.footnote.weight(.semibold))
-                    .textCase(.uppercase)
-                    .tracking(0.5)
+        } else {
+            DisclosureGroup(isExpanded: $isExpanded) {
+                rows.padding(.top, 6)
+            } label: {
+                header
+            }
+            .tint(Theme.secondaryLabel)
+        }
+    }
+
+    private var rows: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            ForEach(cautions.prefix(displayLimit), id: \.self) { caution in
+                Text(caution.display)
+                    .font(.subheadline)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            if cautions.count > displayLimit {
+                Text("+\(cautions.count - displayLimit) more")
+                    .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
-                Text(verbatim: "\(cautions.count)")
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 1)
-                    .background(Theme.secondaryLabel.opacity(0.12), in: Capsule())
             }
         }
-        .tint(Theme.secondaryLabel)
+    }
+
+    private var header: some View {
+        HStack(spacing: 6) {
+            Text("Contraindications & Cautions")
+                .font(.footnote.weight(.semibold))
+                .textCase(.uppercase)
+                .tracking(0.5)
+                .foregroundStyle(Theme.secondaryLabel)
+            Text(verbatim: "\(cautions.count)")
+                .font(.caption2.weight(.semibold))
+                .foregroundStyle(Theme.secondaryLabel)
+                .padding(.horizontal, 6)
+                .padding(.vertical, 1)
+                .background(Theme.secondaryLabel.opacity(0.12), in: Capsule())
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

@@ -218,5 +218,41 @@ class Safety(unittest.TestCase):
         self.assertEqual(clean(""), "")
 
 
+class CuratorNotes(unittest.TestCase):
+    strip_notes = staticmethod(_mod.strip_curator_notes)
+
+    def test_a_note_among_pharmacology_goes_and_the_pharmacology_stays(self):
+        text = (
+            "Diphenylmethylpiperidine NDRI \u2014 STIMULANT, miscategorized here. "
+            "See stimulants-DAT-inhibitors enrichment file. "
+            "Pharmacology similar to methylphenidate skeleton (but without ester)."
+        )
+        self.assertEqual(
+            self.strip_notes(text),
+            "Pharmacology similar to methylphenidate skeleton (but without ester).",
+        )
+
+    def test_british_spelling_is_matched_too(self):
+        # The enrichment files are British and `americanize` runs LATER in the
+        # build, so a matcher that only knows -ize never sees these strings.
+        # "miscategorised" survived a pass written to remove exactly it.
+        self.assertEqual(self.strip_notes("Not a GABAergic depressant \u2014 miscategorised."), "")
+        self.assertEqual(self.strip_notes("Recategorise as Psychedelic."), "")
+
+    def test_a_row_that_is_only_notes_becomes_empty(self):
+        self.assertEqual(
+            self.strip_notes(
+                "MISCATEGORIZED FOR THIS GROUP. Recommend reassigning for proper enrichment."
+            ),
+            "",
+        )
+
+    def test_real_pharmacology_is_untouched(self):
+        text = (
+            "Ketamine blocks NMDA receptors, causing a glutamate surge that drives AMPA throughput."
+        )
+        self.assertEqual(self.strip_notes(text), text)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

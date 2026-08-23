@@ -948,7 +948,7 @@
     "columns": {
       "citation_id": {
         "filled": 1133,
-        "verdict": "read"
+        "verdict": "unused"
       },
       "id": {
         "filled": 1134,

@@ -9,6 +9,9 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # The signalling cascade's own label in the pharmacology card, so it does
+    # not read as a second mechanism description.
+    "Downstream": ("下游", "下游"),
     # Contraindication flag labels — Piru's own wording for a normalized
     # label contraindication (see Piru/Domain/ContraindicationFlag.swift).
     "Known allergy to it": ("已知对它过敏", "已知對它過敏"),
@@ -7122,6 +7125,7 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Downstream",
         "Known allergy to it",
         "With an MAOI, or within 14 days of one",
         "With other CNS depressants",

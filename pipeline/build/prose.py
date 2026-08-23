@@ -74,6 +74,36 @@ _MULTISPACE = re.compile(r"[ \t]{2,}")
 _MULTINEWLINE = re.compile(r"\n{3,}")
 
 
+#: A sentence addressed to whoever is curating the data rather than to whoever
+#: is reading the app. The enrichment passes that produced the deep-pharmacology
+#: tables left these inline — "MISCATEGORIZED: …", "See deliriants enrichment
+#: file.", "Recategorize as Psychedelic." — and they shipped to the screen.
+#: `[sz]` throughout: the enrichment files are written in British English and
+#: `americanize` runs later in the build, so a matcher that only knows -ize
+#: never sees these strings — which is how "miscategorised" survived a pass
+#: written to remove exactly it.
+_CURATOR_NOTE = re.compile(
+    r"\b(?:miscategori[sz]|misclassif|recategori[sz]|reassign(?:ing|ed)?\b|"
+    r"enrichment file|for proper enrichment|recommend reassigning|"
+    r"\bTODO\b|\bFIXME\b|this group\b|\bhere\b\s*[.,;]|needs? review)",
+    re.IGNORECASE,
+)
+
+
+def strip_curator_notes(text: str) -> str:
+    """`text` with the sentences aimed at the curator removed.
+
+    Sentence-level, like ``strip_advice``: a note is usually one sentence among
+    real pharmacology ("… STIMULANT, miscategorized here. See stimulants-DAT
+    -inhibitors enrichment file. Pharmacology similar to methylphenidate …"),
+    and cutting the whole string would throw away the third sentence with the
+    first two. Returns "" when every sentence was a note, which the caller reads
+    as "drop the row".
+    """
+    kept = [x for x in _SENTENCE.findall(text or "") if not _CURATOR_NOTE.search(x)]
+    return "".join(kept).strip()
+
+
 def strip_advice(text: str) -> str:
     """`text` with the closing harm-reduction exhortation removed.
 

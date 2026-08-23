@@ -129,6 +129,17 @@ struct SignallingCascadeRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
+            // Titled, because it sits directly under the mechanism paragraph in
+            // the same card and above the same attribution row. Untitled, the
+            // two read as one description written twice, slightly differently.
+            // Matches the card's own "Acts on" label.
+            Text("Downstream")
+                .font(.caption2.weight(.semibold))
+                .textCase(.uppercase)
+                .tracking(0.4)
+                .foregroundStyle(Theme.secondaryLabel)
+                .accessibilityAddTraits(.isHeader)
+                .padding(.bottom, 1)
             // Authored as an arrow chain ("NMDA block -> glutamate surge -> AMPA
             // -> BDNF/TrkB -> mTORC1"), which is the notation the field uses and
             // reads far denser than the same claim as prose.

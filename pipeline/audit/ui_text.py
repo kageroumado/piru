@@ -85,6 +85,21 @@ RULES: list[tuple[str, str, str, bool]] = [
         True,
     ),
     (
+        "voice: defined by what it is not",
+        r"\b(?:rather than|and not|not)\s+an?\s+[a-z][a-z\- ]{0,24}"
+        r"(?:blocker|inhibitor|agonist|antagonist|reuptake|substrate|releaser|"
+        r"stimulant|depressant|cache|preference)\b",
+        "Say what it is, never what it isn't (repo CLAUDE.md). The positive "
+        "statement already excluded every alternative, so the negation costs a "
+        "clause and returns nothing — and falsely signals the distinction is "
+        "contested. It earns its place only when it corrects a specific wrong "
+        "belief the reader actively holds, and then it must name that belief — "
+        'which is why this reports rather than gates: "NOT a classical '
+        "benzodiazepine despite the name\" on 4'-chlorodiazepam is the licensed "
+        "exception, and only a reader can tell it from a violation.",
+        False,
+    ),
+    (
         "voice: told to consult someone",
         r"\b(consult|talk to|speak (to|with)|ask) (your |a )?(doctor|physician|"
         r"healthcare provider|pharmacist|medical professional)",

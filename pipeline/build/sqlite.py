@@ -66,6 +66,7 @@ from prose import (  # noqa: E402
     clean_label_prose,
     clean_wiki_prose,
     enforce_voice,
+    strip_curator_notes,
 )
 from pw_effect_categories import PW_EFFECT_CATEGORY, normalize_effect  # noqa: E402
 
@@ -6207,6 +6208,17 @@ class Build:
     def add_downstream(self, sid: int, source_slug: str, summary: str) -> None:
         if not summary:
             return
+        # The enrichment passes that filled this table left notes to the curator
+        # inline — "MISCATEGORIZED: …", "See deliriants enrichment file." — and
+        # those shipped to the screen. A row that is nothing but notes goes.
+        cleaned = strip_curator_notes(summary)
+        if cleaned != summary:
+            self.stats["curator_notes_stripped"] += 1
+        if not cleaned:
+            self.stats["downstream_all_curator_note"] += 1
+            self.note_reject("downstream_all_curator_note", summary, sid=sid, source=source_slug)
+            return
+        summary = cleaned
         src = self.source_ids[source_slug]
         try:
             self.cur.execute(
