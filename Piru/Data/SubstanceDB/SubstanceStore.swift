@@ -1763,15 +1763,22 @@ final class SubstanceStore {
     }
 
     /// Contraindications + boxed warnings — boxed warnings sorted first.
+    ///
+    /// Grouped by content, not by row. A compound with several manufacturers has
+    /// a DailyMed label per manufacturer, and each repeats the same
+    /// contraindication under its own citation — so methylphenidate listed
+    /// "Glaucoma" twice and "Known allergy to it" twice. One citation of the
+    /// several is kept; they say the same thing.
     private func resolvedContraindications(db: Database, substanceID: Int64) throws -> [Contraindication] {
         let rows = try Row.fetchAll(db, sql: """
-            SELECT DISTINCT c.text, c.flag, c.is_boxed_warning, ci.url
+            SELECT c.text, c.flag, c.is_boxed_warning, MIN(ci.url) AS url
               FROM contraindications c
               JOIN sources src ON src.id = c.source_id
               LEFT JOIN citations ci ON ci.id = c.citation_id
              WHERE c.substance_id = ?
                AND src.slug IN (\(enabledSourceListSQL))
-             ORDER BY is_boxed_warning DESC, COALESCE(text, flag)
+             GROUP BY COALESCE(c.flag, c.text), c.is_boxed_warning
+             ORDER BY c.is_boxed_warning DESC, COALESCE(c.text, c.flag)
         """, arguments: [substanceID])
         return rows.map {
             Contraindication(

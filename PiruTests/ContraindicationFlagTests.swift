@@ -58,4 +58,20 @@ struct ContraindicationFlagTests {
         let both = allContraindications.filter { $0.flag != nil && $0.text != nil }
         #expect(both.isEmpty, "\(both.count) rows carry a flag AND the original prose")
     }
+
+    @Test
+    func `A substance never lists the same contraindication twice`() {
+        // A compound with several manufacturers carries one DailyMed label per
+        // manufacturer, each repeating the same contraindication under its own
+        // citation. Methylphenidate showed "Glaucoma" twice.
+        for substance in SubstanceLibrary.all {
+            guard let rows = SubstanceLibrary.lookup(substance.name)?.contraindications,
+                  rows.count > 1 else { continue }
+            let keys = rows.map { "\($0.isBoxedWarning)|\($0.flag?.rawValue ?? $0.text ?? "")" }
+            #expect(
+                Set(keys).count == keys.count,
+                "\(substance.name) repeats a contraindication",
+            )
+        }
+    }
 }
