@@ -42,6 +42,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pipeline/ — sh
 
 import collision_registry  # noqa: E402
 import psid  # noqa: E402
+from contraindication_flags import FLAG_LABELS as CONTRAINDICATION_FLAGS  # noqa: E402
+from contraindication_flags import normalize as normalize_contraindication  # noqa: E402
 from dedupe import dedupe_database  # noqa: E402
 from drug_community_effects import (  # noqa: E402
     reported_effects as dc_reported_effects,
@@ -1406,11 +1408,18 @@ CREATE TABLE contraindications (
     id               INTEGER PRIMARY KEY,
     substance_id     INTEGER NOT NULL REFERENCES substances(id),
     source_id        INTEGER NOT NULL REFERENCES sources(id),
-    text             TEXT NOT NULL,
+    -- Exactly one of `text` and `flag` is set. `text` survives only when the
+    -- row already arrived as a name — a condition ("Anuria"), or a boxed
+    -- warning's FDA section title. Everything else is a prescriber-facing
+    -- sentence that resolves to a `flag`, and the app supplies its own
+    -- localized wording for it; see pipeline/build/contraindication_flags.py.
+    text             TEXT,
+    flag             TEXT,
     is_boxed_warning INTEGER NOT NULL DEFAULT 0,
     -- See `indications.citation_id`.
     citation_id      INTEGER REFERENCES citations(id),
-    UNIQUE (substance_id, source_id, text)
+    CHECK ((text IS NULL) != (flag IS NULL)),
+    UNIQUE (substance_id, source_id, text, flag)
 );
 CREATE INDEX idx_contraindications_substance ON contraindications(substance_id);
 
@@ -2375,6 +2384,21 @@ def dedup_pk_routes(con) -> dict:
 #: assayed on Δ9-THC) and draws the same molecule twice on every comparison, so
 #: the build rejects one rather than letting a curated mechanism reintroduce it.
 ACTIVE_INGREDIENT_PROXIES = {"cannabis": "THC"}
+
+
+def assert_contraindication_flags_are_known(con) -> None:
+    """Every `flag` in the table is one the app has a string for.
+
+    The app renders a flag by looking it up; an id it does not know renders as
+    nothing, so a typo in a pattern would silently empty a row rather than
+    failing loudly here.
+    """
+    unknown = [
+        row[0]
+        for row in con.execute("SELECT DISTINCT flag FROM contraindications WHERE flag IS NOT NULL")
+        if row[0] not in CONTRAINDICATION_FLAGS
+    ]
+    assert not unknown, f"contraindication flags with no label: {sorted(unknown)}"
 
 
 def grade_ordinal_only_bindings(con) -> dict:
@@ -5941,14 +5965,22 @@ class Build:
         text = clean_label_prose(text)
         if not text:
             return
+        flag, kept = normalize_contraindication(text, boxed=boxed)
+        if flag is None and kept is None:
+            self.stats["contraindication_unmatched"] += 1
+            self.note_reject(
+                "contraindication_unmatched", text, sid=sid, source=source_slug, boxed=boxed
+            )
+            return
         src = self.source_ids[source_slug]
         try:
             self.cur.execute(
-                "INSERT INTO contraindications(substance_id, source_id, text, is_boxed_warning, "
-                "citation_id) VALUES (?, ?, ?, ?, ?)",
-                (sid, src, text, 1 if boxed else 0, self.cite(reference)),
+                "INSERT INTO contraindications(substance_id, source_id, text, flag, is_boxed_warning, "
+                "citation_id) VALUES (?, ?, ?, ?, ?, ?)",
+                (sid, src, kept, flag, 1 if boxed else 0, self.cite(reference)),
             )
             self.stats["contraindications"] += 1
+            self.stats["contraindication_flagged" if flag else "contraindication_named"] += 1
         except sqlite3.IntegrityError:
             pass
 
@@ -11401,6 +11433,16 @@ def main() -> int:
 
     spelling = enforce_us_english(build.cur.connection)
     print(f"US-English rewrites: {spelling['rewritten']}", file=sys.stderr)
+
+    assert_contraindication_flags_are_known(build.cur.connection)
+    flagged = build.stats.get("contraindication_flagged", 0)
+    named = build.stats.get("contraindication_named", 0)
+    unmatched = build.stats.get("contraindication_unmatched", 0)
+    print(
+        f"Contraindications: {flagged} normalized to a flag, {named} kept as a name, "
+        f"{unmatched} dropped as unmatched prose",
+        file=sys.stderr,
+    )
 
     grades = grade_ordinal_only_bindings(build.cur.connection)
     print(

@@ -92,8 +92,8 @@ private struct ContraindicationsDisclosure: View {
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
             VStack(alignment: .leading, spacing: 8) {
-                ForEach(cautions.prefix(displayLimit), id: \.text) { caution in
-                    Text(caution.text)
+                ForEach(cautions.prefix(displayLimit), id: \.self) { caution in
+                    Text(caution.display)
                         .font(.subheadline)
                         .fixedSize(horizontal: false, vertical: true)
                         .frame(maxWidth: .infinity, alignment: .leading)

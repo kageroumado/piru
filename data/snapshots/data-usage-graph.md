@@ -32,8 +32,8 @@ graph LR
     dose_ranges["dose_ranges<br/>2,498 rows"]
     substance_forms["substance_forms<br/>1,799 rows"]
     substances["substances<br/>1,737 rows"]
-    contraindications["contraindications<br/>1,655 rows"]
     categories["categories<br/>1,591 rows"]
+    contraindications["contraindications<br/>1,416 rows"]
     bindings["bindings<br/>1,307 rows"]
     indications["indications<br/>1,134 rows"]
     mechanisms_summary["mechanisms_summary<br/>986 rows"]
@@ -130,10 +130,6 @@ graph LR
     dose_ranges --> ui_doseDuration
     substance_forms --> ui_identity
     substances --> ui_identity
-    src_benzos_cited --> contraindications
-    src_medtap --> contraindications
-    src_pyrls --> contraindications
-    contraindications --> ui_contraindications
     src_erowid_pihkal --> categories
     src_erowid_tihkal --> categories
     src_freeodwiki --> categories
@@ -143,6 +139,10 @@ graph LR
     src_tripsit --> categories
     src_wikidata --> categories
     categories --> ui_identity
+    src_benzos_cited --> contraindications
+    src_medtap --> contraindications
+    src_pyrls --> contraindications
+    contraindications --> ui_contraindications
     src_peer_review_primary --> bindings
     src_piru_curated --> bindings
     bindings --> ui_receptorLiterature

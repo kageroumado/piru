@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-08-22.0 → `Piru/Data/piru-substances.sqlite` (19,918,848 bytes, sha256 `19cb7db001d62a5b79a48e639c7690630bdb78ddbd52b014caef791c9790583b`)
+Built 2026-08-23.0 → `Piru/Data/piru-substances.sqlite` (13,668,352 bytes, sha256 `2fdca686b85a2715d36cd40638288a8b53201d754e6d9d2db9e41f515fd0b998`)
 
 ## Row counts
 
@@ -20,7 +20,7 @@ Built 2026-08-22.0 → `Piru/Data/piru-substances.sqlite` (19,918,848 bytes, sha
 | subjective_effects | 23,511 |
 | tolerance | 323 |
 | indications | 1,134 |
-| contraindications | 1,655 |
+| contraindications | 1,416 |
 | diazepam_equivalents | 32 |
 | bindings | 1,307 |
 | functional_assays | 179 |

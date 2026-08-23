@@ -1765,16 +1765,17 @@ final class SubstanceStore {
     /// Contraindications + boxed warnings — boxed warnings sorted first.
     private func resolvedContraindications(db: Database, substanceID: Int64) throws -> [Contraindication] {
         let rows = try Row.fetchAll(db, sql: """
-            SELECT DISTINCT c.text, c.is_boxed_warning, ci.url
+            SELECT DISTINCT c.text, c.flag, c.is_boxed_warning, ci.url
               FROM contraindications c
               JOIN sources src ON src.id = c.source_id
               LEFT JOIN citations ci ON ci.id = c.citation_id
              WHERE c.substance_id = ?
                AND src.slug IN (\(enabledSourceListSQL))
-             ORDER BY is_boxed_warning DESC, text
+             ORDER BY is_boxed_warning DESC, COALESCE(text, flag)
         """, arguments: [substanceID])
         return rows.map {
             Contraindication(
+                flag: ($0["flag"] as String?).flatMap(ContraindicationFlag.init(rawValue:)),
                 text: $0["text"],
                 isBoxedWarning: ($0["is_boxed_warning"] as Int64? ?? 0) != 0,
                 sourceURL: $0["url"],

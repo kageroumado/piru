@@ -43,11 +43,11 @@ struct MedicalInfoSection: View {
             ) {
                 if !substance.indications.isEmpty {
                     clinicalGroupTitle("Approved uses")
-                    ForEach(substance.indications, id: \.self) { clinicalRow($0) }
+                    ForEach(substance.indications, id: \.self) { clinicalRow(indicationText($0)) }
                 }
                 if !boxed.isEmpty {
                     clinicalGroupTitle("Boxed warning")
-                    ForEach(boxed, id: \.text) { clinicalRow($0.text) }
+                    ForEach(boxed, id: \.self) { clinicalRow($0.display) }
                     labelSource(boxed)
                 }
             }
@@ -61,7 +61,7 @@ struct MedicalInfoSection: View {
         if !substance.indications.isEmpty {
             Section("Medical Uses") {
                 ForEach(substance.indications, id: \.self) { ind in
-                    clinicalRow(ind)
+                    clinicalRow(indicationText(ind))
                 }
             }
         }
@@ -71,8 +71,8 @@ struct MedicalInfoSection: View {
             // than it does as a glyph on a control — especially on macOS, where
             // the same symbol renders larger against a lighter window chrome.
             Section("Boxed Warning") {
-                ForEach(boxed, id: \.text) { c in
-                    clinicalRow(c.text)
+                ForEach(boxed, id: \.self) { c in
+                    clinicalRow(c.display)
                 }
                 labelSource(boxed)
             }
@@ -118,7 +118,12 @@ struct MedicalInfoSection: View {
     /// just restates the section heading once per row, and the two warning
     /// glyphs additionally read as severity that isn't being claimed. The
     /// heading carries the meaning, so the rows carry the text.
-    private func clinicalRow(_ text: String) -> some View {
+    /// An indication is a disease name read from the label, not a catalog key.
+    private func indicationText(_ raw: String) -> LocalizedStringResource {
+        LocalizedStringResource(stringLiteral: raw)
+    }
+
+    private func clinicalRow(_ text: LocalizedStringResource) -> some View {
         Text(text)
             .font(.subheadline)
             .fixedSize(horizontal: false, vertical: true)

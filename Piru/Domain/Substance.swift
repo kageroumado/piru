@@ -1155,9 +1155,23 @@ enum CompoundDisplayClass: String, Codable {
 }
 
 /// A single contraindication or boxed warning sourced from a clinical label.
+///
+/// Exactly one of ``flag`` and ``text`` carries the content. A ``flag`` means
+/// the label's sentence was matched to Piru's vocabulary and Piru supplies the
+/// wording; ``text`` survives only where the source already gave a name rather
+/// than a sentence — a condition ("Anuria") or a boxed warning's own title.
 struct Contraindication: Codable, Hashable {
-    let text: String
+    let flag: ContraindicationFlag?
+    let text: String?
     let isBoxedWarning: Bool
+
+    /// What to put on screen.
+    var display: LocalizedStringResource {
+        if let flag { return flag.label }
+        // `verbatim`-equivalent: a surviving `text` is a condition name read
+        // from the source, not a catalog key.
+        return LocalizedStringResource(stringLiteral: text ?? "")
+    }
     /// The label or guideline the block came from. These were the only
     /// substantive claims in the app a reader had no way to check.
     var sourceURL: String?

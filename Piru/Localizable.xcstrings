@@ -7184,6 +7184,22 @@
         }
       }
     },
+    "Active bleeding" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活动性出血"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活動性出血"
+          }
+        }
+      }
+    },
     "Active dose" : {
       "localizations" : {
         "zh-Hans" : {
@@ -8823,6 +8839,22 @@
         }
       }
     },
+    "Adrenal insufficiency" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肾上腺功能不全"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "腎上腺功能不全"
+          }
+        }
+      }
+    },
     "after 21:00" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10248,6 +10280,22 @@
         }
       }
     },
+    "Anuria" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无尿"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無尿"
+          }
+        }
+      }
+    },
     "Anxiolysis" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10502,6 +10550,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "阿莫達非尼可誘導 CYP3A4，降低經其清除的藥物的血藥濃度——包括全身性激素避孕藥中的激素。"
+          }
+        }
+      }
+    },
+    "Around surgery" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手术前后"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手術前後"
           }
         }
       }
@@ -12805,6 +12869,22 @@
         }
       }
     },
+    "Bowel obstruction" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肠梗阻"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "腸阻塞"
+          }
+        }
+      }
+    },
     "Boxed warning" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12849,6 +12929,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "次/分"
+          }
+        }
+      }
+    },
+    "Breastfeeding" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "哺乳"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "哺乳"
           }
         }
       }
@@ -14267,6 +14363,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "化學資訊"
+          }
+        }
+      }
+    },
+    "Children" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儿童"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兒童"
           }
         }
       }
@@ -20888,6 +21000,38 @@
         }
       }
     },
+    "During an acute asthma attack" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "哮喘急性发作期间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "氣喘急性發作期間"
+          }
+        }
+      }
+    },
+    "During low blood sugar" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低血糖期间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低血糖期間"
+          }
+        }
+      }
+    },
     "Dysdelic" : {
       "localizations" : {
         "zh-Hans" : {
@@ -21259,6 +21403,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "吃些含鹽、蛋白質和碳水的食物。您的身體需要燃料恢復。"
+          }
+        }
+      }
+    },
+    "Eating disorder" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "进食障碍"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "飲食障礙"
           }
         }
       }
@@ -23898,6 +24058,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "請謹慎使用此組合。"
+          }
+        }
+      }
+    },
+    "Existing respiratory depression" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已有呼吸抑制"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已有呼吸抑制"
           }
         }
       }
@@ -27059,6 +27235,22 @@
         }
       }
     },
+    "Heart failure" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心力衰竭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心臟衰竭"
+          }
+        }
+      }
+    },
     "Heart rate" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27104,6 +27296,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "心率 %lld，升至每分鐘 %lld 次"
+          }
+        }
+      }
+    },
+    "Heart rhythm disorder" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心律失常"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心律不整"
           }
         }
       }
@@ -27330,6 +27538,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "苯二氮䓬累積劑量較高會損害記憶和協調能力。留在安全的地方。"
+          }
+        }
+      }
+    },
+    "High potassium" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高血钾"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高血鉀"
           }
         }
       }
@@ -30560,6 +30784,22 @@
         }
       }
     },
+    "Kidney disease" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肾病"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "腎病"
+          }
+        }
+      }
+    },
     "Klimaka Crisis Line" : {
       "localizations" : {
         "zh-Hans" : {
@@ -30589,6 +30829,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "掌握各個階段"
+          }
+        }
+      }
+    },
+    "Known allergy to it" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已知对它过敏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已知對它過敏"
           }
         }
       }
@@ -31317,6 +31573,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "需要時，隨手開啟即時動態"
+          }
+        }
+      }
+    },
+    "Liver disease" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肝病"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肝病"
           }
         }
       }
@@ -32146,6 +32418,22 @@
         }
       }
     },
+    "Low potassium" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低血钾"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低血鉀"
+          }
+        }
+      }
+    },
     "Low Stock" : {
 
     },
@@ -32590,6 +32878,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Markdown（供 AI 使用）"
+          }
+        }
+      }
+    },
+    "Marked anxiety or agitation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "明显焦虑或激越"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "明顯焦慮或激動"
           }
         }
       }
@@ -35203,6 +35507,22 @@
         }
       }
     },
+    "Myasthenia gravis" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重症肌无力"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重症肌無力"
+          }
+        }
+      }
+    },
     "Myth: %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35395,6 +35715,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "名稱與標籤"
+          }
+        }
+      }
+    },
+    "Narrow-angle glaucoma" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "闭角型青光眼"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "閉角型青光眼"
           }
         }
       }
@@ -40461,6 +40797,22 @@
         }
       }
     },
+    "Personal or family history of thyroid cancer" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本人或家族有甲状腺癌病史"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本人或家族有甲狀腺癌病史"
+          }
+        }
+      }
+    },
     "Personalize" : {
       "localizations" : {
         "zh-Hans" : {
@@ -40816,6 +41168,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "苯妥英由一套可飽和的肝酶系統（CYP2C9/CYP2C19）羥基化代謝。由於其 Km 低於治療範圍，劑量與血藥水平並不成正比：應小幅調整劑量並透過血藥濃度確認。CYP2C9/2C19 慢代謝者、年齡以及相互作用的藥物都會使拐點提前。此處僅顯示相對形狀——苯妥英需透過治療藥物監測進行個體化調整。"
+          }
+        }
+      }
+    },
+    "Pheochromocytoma" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "嗜铬细胞瘤"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "嗜鉻細胞瘤"
           }
         }
       }
@@ -41751,6 +42119,22 @@
         }
       }
     },
+    "Porphyria" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卟啉症"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "紫質症"
+          }
+        }
+      }
+    },
     "Potency" : {
       "localizations" : {
         "zh-Hans" : {
@@ -42029,6 +42413,22 @@
         }
       }
     },
+    "Pregnancy" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "妊娠"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "懷孕"
+          }
+        }
+      }
+    },
     "prescribing" : {
       "comment" : "Sources list — what a source supplies",
       "localizations" : {
@@ -42061,6 +42461,9 @@
           }
         }
       }
+    },
+    "Prescribing label" : {
+
     },
     "Prescription medication" : {
       "localizations" : {
@@ -43572,6 +43975,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "近 24 小時劑量"
+          }
+        }
+      }
+    },
+    "Recent heart attack or heart surgery" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "近期心肌梗死或心脏手术"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "近期心肌梗塞或心臟手術"
           }
         }
       }
@@ -47423,6 +47842,22 @@
         }
       }
     },
+    "Seizure disorder" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "癫痫"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "癲癇"
+          }
+        }
+      }
+    },
     "Select" : {
       "localizations" : {
         "zh-Hans" : {
@@ -49905,6 +50340,22 @@
         }
       }
     },
+    "Sleep apnea" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡眠呼吸暂停"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡眠呼吸中止"
+          }
+        }
+      }
+    },
     "Sleep if you can. Your body does its best recovery work unconscious." : {
       "localizations" : {
         "zh-Hans" : {
@@ -50121,6 +50572,22 @@
     },
     "SMILES" : {
 
+    },
+    "Smoking over the age of 35" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "35 岁以上且吸烟"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "35 歲以上且吸菸"
+          }
+        }
+      }
     },
     "smooth" : {
       "localizations" : {
@@ -52803,6 +53270,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "合成甲狀腺素 (T4),在外周組織中由脫碘酶轉化為活性三碘甲狀腺原氨酸 (T3)。T3 結合於核甲狀腺激素受體,調節基因轉錄以增加基礎代謝率、心輸出量、耗氧量和蛋白質合成。在甲狀腺功能減退症中替代缺乏的內源性甲狀腺激素。"
+          }
+        }
+      }
+    },
+    "Systemic fungal infection" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全身性真菌感染"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全身性真菌感染"
           }
         }
       }
@@ -57111,6 +57594,22 @@
         }
       }
     },
+    "Uncontrolled high blood pressure" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血压控制不佳"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血壓控制不佳"
+          }
+        }
+      }
+    },
     "under a day" : {
       "localizations" : {
         "zh-Hans" : {
@@ -57369,6 +57868,22 @@
         }
       }
     },
+    "Untreated thyroid disease" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未经治疗的甲状腺疾病"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未經治療的甲狀腺疾病"
+          }
+        }
+      }
+    },
     "Unverified" : {
       "localizations" : {
         "zh-Hans" : {
@@ -57559,6 +58074,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Urgences"
+          }
+        }
+      }
+    },
+    "Urinary retention" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尿潴留"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尿滯留"
           }
         }
       }
@@ -59451,6 +59982,118 @@
         }
       }
     },
+    "With a live vaccine" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与活疫苗同用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與活疫苗同用"
+          }
+        }
+      }
+    },
+    "With a nitrate or a guanylate cyclase stimulator" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与硝酸酯类或鸟苷酸环化酶激动剂同用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與硝酸酯類或鳥苷酸環化酶激動劑同用"
+          }
+        }
+      }
+    },
+    "With a QT-prolonging drug" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与延长 QT 间期的药物同用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與延長 QT 間期的藥物同用"
+          }
+        }
+      }
+    },
+    "With a strong CYP3A4 inhibitor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与强效 CYP3A4 抑制剂同用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與強效 CYP3A4 抑制劑同用"
+          }
+        }
+      }
+    },
+    "With alcohol" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与酒精同用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與酒精同用"
+          }
+        }
+      }
+    },
+    "With an anticoagulant" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与抗凝药同用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與抗凝藥同用"
+          }
+        }
+      }
+    },
+    "With an MAOI, or within 14 days of one" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与单胺氧化酶抑制剂同用，或停药 14 天内"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與單胺氧化酶抑制劑同用，或停藥 14 天內"
+          }
+        }
+      }
+    },
     "With heavy, prolonged use" : {
       "localizations" : {
         "zh-Hans" : {
@@ -59463,6 +60106,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "長期大量使用之後"
+          }
+        }
+      }
+    },
+    "With other CNS depressants" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与其他中枢神经抑制剂同用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與其他中樞神經抑制劑同用"
           }
         }
       }

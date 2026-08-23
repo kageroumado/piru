@@ -419,32 +419,36 @@
     "attributed_only": false,
     "columns": {
       "citation_id": {
-        "filled": 1628,
+        "filled": 1390,
         "verdict": "read"
       },
+      "flag": {
+        "filled": 922,
+        "verdict": "shown"
+      },
       "id": {
-        "filled": 1655,
+        "filled": 1416,
         "verdict": "plumbing"
       },
       "is_boxed_warning": {
-        "filled": 1655,
+        "filled": 1416,
         "verdict": "shown"
       },
       "source_id": {
-        "filled": 1655,
+        "filled": 1416,
         "verdict": "plumbing"
       },
       "substance_id": {
-        "filled": 1655,
+        "filled": 1416,
         "verdict": "plumbing"
       },
       "text": {
-        "filled": 1655,
+        "filled": 494,
         "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 1655,
+    "rows": 1416,
     "surface": "contraindications"
   },
   "descriptions": {
