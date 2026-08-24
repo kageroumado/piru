@@ -225,6 +225,7 @@ private struct HelpCard: View {
 private struct ClassBrowseGroup: View {
     @Environment(\.appNavigator) private var navigator
     @State private var expandedID: String?
+    @State private var families: [LibraryFamily] = []
 
     private let columns = [
         GridItem(.flexible(), spacing: 12),
@@ -235,7 +236,7 @@ private struct ClassBrowseGroup: View {
         VStack(alignment: .leading, spacing: 8) {
             SectionLabel("Browse by class").padding(.horizontal, 4)
             LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(LibraryFamily.browsable) { family in
+                ForEach(families) { family in
                     if family.id == expandedID {
                         // Fold-back card sits where the umbrella was, then its
                         // sub-classes follow.
@@ -260,6 +261,13 @@ private struct ClassBrowseGroup: View {
                     }
                 }
             }
+        }
+        .task {
+            // Resolve the family grid against the warmed batch cache — this
+            // group can be on screen at first frame, before the store's
+            // prewarm finishes, and `browsable` reads `SubstanceStore.all`.
+            await SubstanceStore.shared.ensureAllLoaded()
+            families = LibraryFamily.browsable
         }
     }
 

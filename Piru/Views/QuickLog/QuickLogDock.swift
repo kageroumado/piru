@@ -445,7 +445,12 @@ struct QuickLogDock: View {
     }
 
     private func handleAppear() {
-        families = LibraryFamily.browsable
+        Task {
+            // `browsable` reads `SubstanceStore.all`; the dock can appear
+            // before the store's prewarm finishes on a cold launch.
+            await SubstanceStore.shared.ensureAllLoaded()
+            families = LibraryFamily.browsable
+        }
         guard !tray.isEmpty else { return }
         refreshDetents()
         if tray.expandedItemIDs.isEmpty, let compactDetent = bookkeeping.compactDetent {
