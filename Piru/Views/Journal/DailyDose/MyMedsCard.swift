@@ -406,8 +406,8 @@ struct MyMedsCard: View {
             modelContext.insert(entry)
             SessionService.assignSession(for: entry, in: modelContext)
 
-            let matched = SubstanceLibrary.search(item.substance).first {
-                $0.name.lowercased() == item.substance.lowercased()
+            let matched = SubstanceLibrary.timelineLookup(item.substance).flatMap {
+                $0.name.lowercased() == item.substance.lowercased() ? $0 : nil
             }
             logged.append((entry, matched))
 

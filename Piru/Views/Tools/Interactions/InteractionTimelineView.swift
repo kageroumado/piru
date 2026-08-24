@@ -13,7 +13,9 @@ struct InteractionTimelineView: View {
     /// "exercise caution" line beneath a chip reading "Dangerous".
     let mechanism: String
 
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
+    /// Windowed to the 48 h the auto-detect and the "recent entry" checks read
+    /// — unbounded, this materialized the whole dose log per body pass.
+    @Query private var allEntries: [DoseEntry]
 
     @State private var ingestTimeA: Date
     @State private var ingestTimeB: Date
@@ -46,6 +48,12 @@ struct InteractionTimelineView: View {
         self.substanceB = substanceB
         self.severity = severity
         self.mechanism = mechanism
+        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
+        _allEntries = Query(
+            filter: #Predicate<DoseEntry> { $0.timestamp > cutoff },
+            sort: \DoseEntry.timestamp,
+            order: .reverse,
+        )
         // Seed synchronously so the first frame already renders the chart,
         // exactly as when everything was computed inline in `body`.
         let now = Date.now
@@ -132,7 +140,7 @@ struct InteractionTimelineView: View {
     }
 
     private static func resolveParams(for name: String) -> PKParams? {
-        let substance = SubstanceLibrary.lookup(name)
+        let substance = SubstanceLibrary.timelineLookup(name)
         let halfLife = substance?.halfLifeMinutes ?? HalfLifeDatabase.halfLife(for: name)
         guard let halfLife, halfLife > 0 else { return nil }
 

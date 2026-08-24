@@ -399,11 +399,13 @@ struct MedDetailView: View {
     }
 
     /// The substance's catalog entry, when its name resolves — supplies the
-    /// route + unit options. `nil` for a hand-typed custom med.
+    /// route + unit options. `nil` for a hand-typed custom med. Batch-projection
+    /// dict hit, guarded to the same canonical-exact-name semantics the old
+    /// ranked-search-then-filter form had (an alias match stays `nil`).
     private var resolvedSubstance: Substance? {
-        SubstanceLibrary.search(item.substance).first {
-            $0.name.lowercased() == item.substance.lowercased()
-        }
+        guard let substance = SubstanceLibrary.timelineLookup(item.substance),
+              substance.name.lowercased() == item.substance.lowercased() else { return nil }
+        return substance
     }
 
     private var availableRoutes: [RouteOfAdministration] {

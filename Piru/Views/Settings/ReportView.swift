@@ -4,7 +4,9 @@ import SwiftUI
 struct ReportView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    @Query private var allEntries: [DoseEntry]
+    // Sorted oldest-first so `dateRange`'s all-time arm reads `.first` instead
+    // of an O(history) `map.min()` per body pass.
+    @Query(sort: \DoseEntry.timestamp) private var allEntries: [DoseEntry]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
 
     @State private var selectedRange: DateRange = .last30
@@ -57,7 +59,7 @@ struct ReportView: View {
             let start = Calendar.current.date(byAdding: .day, value: -days, to: end) ?? end
             return (start, end)
         }
-        let earliest = allEntries.map(\.timestamp).min() ?? end
+        let earliest = allEntries.first?.timestamp ?? end
         return (earliest, end)
     }
 

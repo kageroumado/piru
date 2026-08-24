@@ -21,14 +21,22 @@ struct SubstanceDataPageView: View {
     @State private var model = SubstanceDetailModel()
     @State private var glossaryTopic: PharmacologyGlossarySheet.Topic?
 
+    /// The full per-field record, upgraded in the `.task` — the first frame
+    /// renders off the shell (mirrors `SubstanceDetailView`'s shell-first +
+    /// upgrade pattern; the full resolve on the push's first frame was ~21 SQL).
+    @State private var resolved: Substance?
+
     var body: some View {
         Group {
-            if let substance = SubstanceLibrary.lookup(name) {
+            if let substance = resolved ?? SubstanceLibrary.shell(name) ?? SubstanceLibrary.timelineLookup(name) {
                 List {
                     sections(for: substance)
                 }
                 .listStyle(.insetGrouped)
                 .task(id: name) {
+                    if let full = SubstanceLibrary.lookup(name) {
+                        resolved = full
+                    }
                     model.load(substanceName: substance.name, category: substance.category, policy: Self.policy)
                 }
                 .sheet(item: $glossaryTopic) { topic in

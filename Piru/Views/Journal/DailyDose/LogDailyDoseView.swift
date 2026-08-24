@@ -165,8 +165,8 @@ struct LogMedicationsView: View {
             modelContext.insert(entry)
             SessionService.assignSession(for: entry, in: modelContext)
 
-            let matchedSubstance = SubstanceLibrary.search(item.substance).first {
-                $0.name.lowercased() == item.substance.lowercased()
+            let matchedSubstance = SubstanceLibrary.timelineLookup(item.substance).flatMap {
+                $0.name.lowercased() == item.substance.lowercased() ? $0 : nil
             }
             loggedDoseEntries.append(entry)
             loggedSubstances.append(matchedSubstance)

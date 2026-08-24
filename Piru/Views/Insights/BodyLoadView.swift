@@ -51,6 +51,7 @@ struct BodyLoadView: View {
             }
         }
         .task(id: refreshToken) {
+            await SubstanceStore.shared.ensureAllLoaded()
             await manager.refresh(entries: allEntries, colors: substanceColors, range: range)
         }
     }

@@ -44,6 +44,7 @@ struct InYourSystemView: View {
         .task(id: refreshToken) {
             try? await Task.sleep(for: .milliseconds(200))
             guard !Task.isCancelled else { return }
+            await SubstanceStore.shared.ensureAllLoaded()
             cachedActiveSubstances = ActiveSubstanceCalculator.compute(from: allEntries, colorMap: substanceColors.colorMap)
         }
     }

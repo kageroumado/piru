@@ -464,7 +464,7 @@ struct MedFormView: View {
             draft.userTouchedQuiet = true
             draft.productName = item.productName
 
-            if let match = SubstanceLibrary.search(item.substance).first,
+            if let match = SubstanceLibrary.timelineLookup(item.substance),
                match.name.lowercased() == item.substance.lowercased() {
                 draft.selectedSubstance = match
                 draft.availableRoutes = match.orderedRoutes

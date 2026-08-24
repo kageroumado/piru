@@ -51,7 +51,10 @@ struct PatternsView: View {
                 ToolbarItem(placement: .topBarTrailing) { rangeMenu }
             }
         }
-        .task(id: token) { await load() }
+        .task(id: token) {
+            await SubstanceStore.shared.ensureAllLoaded()
+            await load()
+        }
     }
 
     private var token: Int {

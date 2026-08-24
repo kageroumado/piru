@@ -53,6 +53,10 @@ struct HalfLifeCalculatorView: View {
             .padding()
         }
         .background(Theme.background)
+        .task {
+            await SubstanceStore.shared.ensureAllLoaded()
+            halfLifeCount = SubstanceLibrary.all.count(where: { $0.halfLifeMinutes != nil })
+        }
     }
 
     // MARK: - Cross-link
@@ -80,9 +84,10 @@ struct HalfLifeCalculatorView: View {
 
     // MARK: - Calculator Header
 
-    private var halfLifeCount: Int {
-        SubstanceLibrary.all.count(where: { $0.halfLifeMinutes != nil })
-    }
+    /// Filled in the `.task` — as a computed property this scanned the whole
+    /// catalog per body pass, and a cold cache paid the synchronous main-actor
+    /// batch build.
+    @State private var halfLifeCount = 0
 
     private var calculatorHeader: some View {
         HStack {

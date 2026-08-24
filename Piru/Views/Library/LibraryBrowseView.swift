@@ -249,7 +249,7 @@ private struct LibraryFamilyCard: View {
     private var groupCount: Int? {
         switch family.source {
         case let .category(category): SubstanceLibrary.categorySummary()[category] ?? 0
-        case let .tag(tag): SubstanceLibrary.substances(taggedWith: tag).count
+        case let .tag(tag): SubstanceLibrary.tagSummary()[tag] ?? 0
         case nil: nil
         }
     }

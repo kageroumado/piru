@@ -68,6 +68,10 @@ struct PharmaTableView: View {
         }
         .task {
             guard allRows.isEmpty else { return }
+            // Warm the batch cache first — the tag filter and the row seeding
+            // below both read `all`, and a cold cache builds it synchronously
+            // on the main actor.
+            await SubstanceStore.shared.ensureAllLoaded()
             commonNames = Set(SubstanceLibrary.substances(taggedWith: "common").map { $0.name.lowercased() })
             let resolved = await SubstanceStore.shared.pharmaTableRowsOffMain()
             allRows = resolved

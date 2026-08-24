@@ -61,6 +61,7 @@ struct UsageStatsView: View {
             SubstanceFilterSheet(substances: model.allSubstances, selection: $selectedSubstances)
         }
         .task(id: refreshToken) {
+            await SubstanceStore.shared.ensureAllLoaded()
             await model.refresh(
                 entries: allEntries, colors: substanceColors,
                 range: range, substanceFilter: selectedSubstances,

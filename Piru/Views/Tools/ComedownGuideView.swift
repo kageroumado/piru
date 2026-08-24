@@ -2,19 +2,32 @@ import SwiftData
 import SwiftUI
 
 struct ComedownGuideView: View {
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
+    @Query private var recentEntries: [DoseEntry]
 
     static let guidedCategories: [SubstanceCategory] = [
         .stimulant, .empathogen, .psychedelic, .dissociative,
         .opioid, .benzodiazepine, .depressant, .cannabinoid,
     ]
 
-    private var recentCategories: [SubstanceCategory] {
+    /// Resolved in the `.task`, not per body pass — the old computed property
+    /// ran a per-substance resolve over the *entire* (unbounded) dose log on
+    /// every body evaluation.
+    @State private var recentCategories: [SubstanceCategory] = []
+
+    init() {
         let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
+        _recentEntries = Query(
+            filter: #Predicate<DoseEntry> { $0.timestamp >= cutoff },
+            sort: \DoseEntry.timestamp,
+            order: .reverse,
+        )
+    }
+
+    private func resolveRecentCategories() -> [SubstanceCategory] {
         var seen = Set<SubstanceCategory>()
         var result: [SubstanceCategory] = []
-        for entry in recentEntries where entry.timestamp >= cutoff {
-            if let sub = SubstanceLibrary.lookup(entry.substance),
+        for entry in recentEntries {
+            if let sub = SubstanceLibrary.timelineLookup(entry.substance),
                Self.guidedCategories.contains(sub.category),
                !seen.contains(sub.category) {
                 seen.insert(sub.category)
@@ -50,6 +63,10 @@ struct ComedownGuideView: View {
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
+        .task(id: DoseLogService.shared.revision) {
+            await SubstanceStore.shared.ensureAllLoaded()
+            recentCategories = resolveRecentCategories()
+        }
     }
 
     // MARK: - About

@@ -96,14 +96,16 @@ struct DockMiddleContent: View {
     private static let recentSuggestionLimit = 8
 
     /// The recents the dock covers when it goes full-height, resolved back to
-    /// library substances so they stage exactly like a search hit. Reads the
-    /// already-built card list, so this is a dictionary hit per row, not a query.
+    /// library substances so they stage exactly like a search hit — search
+    /// results resolve from the same batch projection, so `timelineLookup` is a
+    /// true dictionary hit per row (the heavy `lookup` here was ~21 SQL per
+    /// uncached name, in a computed property read from `body`).
     private var recentSubstances: [Substance] {
         var seen: Set<String> = []
         var out: [Substance] = []
         for card in content.cachedCards {
             guard out.count < Self.recentSuggestionLimit else { break }
-            guard let substance = SubstanceLibrary.lookup(card.substanceName) else { continue }
+            guard let substance = SubstanceLibrary.timelineLookup(card.substanceName) else { continue }
             guard seen.insert(substance.name.lowercased()).inserted else { continue }
             out.append(substance)
         }

@@ -100,7 +100,10 @@ extension InventoryItem {
     /// "2-Br-DCK") — falling back to the stored name for custom substances.
     @MainActor
     var displayTitle: String {
-        let resolved = SubstanceLibrary.lookup(substance)?.displayTitle ?? substance
+        // Batch projection — this property is hit per row in body, per keystroke
+        // in the inventory search filter, and inside sort comparators; the heavy
+        // per-substance resolve here cost ~21 SQL per uncached name.
+        let resolved = SubstanceLibrary.timelineLookup(substance)?.displayTitle ?? substance
         if let salt = saltForm, !salt.isEmpty {
             return "\(resolved) · \(salt)"
         }

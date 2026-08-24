@@ -60,6 +60,12 @@ enum SubstanceLibrary {
         SubstanceStore.shared.categorySummary()
     }
 
+    /// Browse-surfacing substance count per metadata tag — the tag cards'
+    /// counterpart to ``categorySummary()``.
+    static func tagSummary() -> [String: Int] {
+        SubstanceStore.shared.tagSummary()
+    }
+
     /// Exact-canonical lightweight detail shell from the warm batch cache, or
     /// `nil` (cache cold, or not a canonical substance). See
     /// ``SubstanceStore/shellRow(_:)``. Overlay-aware so a personalized display

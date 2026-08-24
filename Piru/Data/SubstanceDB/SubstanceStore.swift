@@ -160,6 +160,9 @@ final class SubstanceStore {
     /// `browsable` gating without per-category `.filter` passes over `all`.
     /// Built in one bucketing sweep; invalidated in lockstep with `allCache`.
     @ObservationIgnored private var categorySummaryCache: [SubstanceCategory: Int]?
+    /// Browse-surfacing substance count per metadata tag — the tag cards'
+    /// counterpart to `categorySummaryCache`, invalidated in lockstep.
+    @ObservationIgnored private var tagSummaryCache: [String: Int]?
     /// Benzodiazepine diazepam-equivalences for the converter tool — one batched
     /// query, cached after first load. Cleared with the other source-derived caches.
     @ObservationIgnored private var benzoEquivalenceCache: [BenzoEquivalence]?
@@ -541,6 +544,7 @@ final class SubstanceStore {
         substancesByCategoryCache.removeAll(keepingCapacity: true)
         nonEmptyCategoriesCache = nil
         categorySummaryCache = nil
+        tagSummaryCache = nil
         benzoEquivalenceCache = nil
     }
 
@@ -1329,6 +1333,23 @@ final class SubstanceStore {
             }
         }
         categorySummaryCache = counts
+        return counts
+    }
+
+    /// Browse-surfacing substance count per metadata tag (`"common"`,
+    /// `"research-chemical"`, …) — one bucketing sweep, so a tag card's count
+    /// is a dict hit instead of an O(catalog) filter per body pass. Same
+    /// warm-cache discipline as ``categorySummary()``.
+    func tagSummary() -> [String: Int] {
+        _ = enabledSourceOrder // observation dependency; see `categorySummary()`
+        if let cached = tagSummaryCache { return cached }
+        var counts: [String: Int] = [:]
+        for substance in all where substance.displayClass.surfacesInBrowse {
+            for tag in substance.tags {
+                counts[tag, default: 0] += 1
+            }
+        }
+        tagSummaryCache = counts
         return counts
     }
 

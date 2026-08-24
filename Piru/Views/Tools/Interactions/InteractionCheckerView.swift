@@ -19,8 +19,23 @@ struct InteractionCheckerView: View {
         substanceColors.colorMap
     }
 
-    /// Top 6 most-used substance names (by entry count), excluding already-selected ones
+    /// Per-substance use counts, sorted most-used first — bucketed once per
+    /// dose-log revision in the `.task`, not per body pass (the old computed
+    /// property walked the whole history on every body evaluation).
+    @State private var usedCounts: [(name: String, count: Int)] = []
+
+    /// Top 6 most-used substances, excluding already-selected ones — a cheap
+    /// filter over the precomputed unique-substance counts.
     private var mostUsed: [(name: String, count: Int)] {
+        let selectedLower = Set(selected.map { $0.lowercased() })
+        return Array(
+            usedCounts
+                .filter { !selectedLower.contains($0.name.lowercased()) }
+                .prefix(6),
+        )
+    }
+
+    private func rebuildUsedCounts() {
         var counts: [String: (displayName: String, count: Int)] = [:]
         for entry in allEntries {
             let key = entry.substance.lowercased()
@@ -31,11 +46,8 @@ struct InteractionCheckerView: View {
                 counts[key] = (displayName: entry.substance, count: 1)
             }
         }
-        let selectedLower = Set(selected.map { $0.lowercased() })
-        return counts.values
+        usedCounts = counts.values
             .sorted { $0.count > $1.count }
-            .filter { !selectedLower.contains($0.displayName.lowercased()) }
-            .prefix(6)
             .map { (name: $0.displayName, count: $0.count) }
     }
 
@@ -59,6 +71,9 @@ struct InteractionCheckerView: View {
         }
         .scrollDismissesKeyboard(.interactively)
         .background(Theme.background)
+        .task(id: DoseLogService.shared.revision) {
+            rebuildUsedCounts()
+        }
     }
 
     // MARK: - Search

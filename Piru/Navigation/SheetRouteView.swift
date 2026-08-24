@@ -252,7 +252,10 @@ private struct PersonalizeSubstanceHost: View {
     @Environment(\.appNavigator) private var navigator
 
     var body: some View {
-        if let base = SubstanceLibrary.all.first(where: { $0.name == name }) {
+        // Shell resolve — an index hit by exact canonical name. `all.first(where:)`
+        // was an O(catalog) scan in body, with the cold-cache synchronous batch
+        // build behind it.
+        if let base = SubstanceLibrary.shell(name) {
             CustomSubstanceFormView(existing: customStore.first(whereName: name), personalizing: base)
         } else {
             UnmigratedRoutePlaceholder(route: .personalizeSubstance(name: name))

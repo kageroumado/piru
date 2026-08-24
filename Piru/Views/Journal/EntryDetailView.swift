@@ -144,6 +144,7 @@ struct EntryDetailView: View {
             // Resolve the full substance record once — it feeds the dose ladder,
             // unit/route/salt lists, and live preview. Re-running it per body (and
             // per keystroke while editing) was a heavy blocking lookup.
+            await SubstanceStore.shared.ensureAllLoaded()
             if substanceInfo == nil {
                 substanceInfo = SubstanceLibrary.lookup(entry.substance)
             }

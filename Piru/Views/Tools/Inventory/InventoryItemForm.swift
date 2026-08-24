@@ -106,7 +106,7 @@ struct InventoryItemForm: View {
 
     /// Resolved substance name (no salt) for the nav title.
     private var titleName: String {
-        SubstanceLibrary.lookup(substanceName)?.displayTitle ?? substanceName
+        SubstanceLibrary.timelineLookup(substanceName)?.displayTitle ?? substanceName
     }
 
     /// "Restock · Caffeine" / "Track · Caffeine" / "Track Substance".

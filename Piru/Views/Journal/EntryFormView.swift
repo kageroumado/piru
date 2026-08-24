@@ -414,7 +414,7 @@ struct EntryFormView: View {
                 location = PickedLocation(name: name, latitude: lat, longitude: lng)
             }
 
-            if let match = SubstanceLibrary.lookup(entry.substance),
+            if let match = SubstanceLibrary.timelineLookup(entry.substance),
                match.name.lowercased() == entry.substance.lowercased() {
                 selectedSubstance = match
                 availableRoutes = match.orderedRoutes

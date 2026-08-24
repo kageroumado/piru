@@ -135,7 +135,7 @@ struct SessionDetailView: View {
         func inLibrary(_ name: String) -> Bool {
             let key = name.lowercased()
             if let cached = inLibraryCache[key] { return cached }
-            let resolved = SubstanceLibrary.lookup(name) != nil
+            let resolved = SubstanceLibrary.timelineLookup(name) != nil
             inLibraryCache[key] = resolved
             return resolved
         }
@@ -302,7 +302,7 @@ struct SessionDetailView: View {
         var seen = Set<SubstanceCategory>()
         var result: [SubstanceCategory] = []
         for entry in entries {
-            guard let category = SubstanceLibrary.lookup(entry.substance)?.category,
+            guard let category = SubstanceLibrary.timelineLookup(entry.substance)?.category,
                   ComedownGuideView.guidedCategories.contains(category),
                   seen.insert(category).inserted else { continue }
             result.append(category)
@@ -509,6 +509,7 @@ struct SessionDetailView: View {
             await model.loadVitals(session: session, entries: entries, windowEnd: vitalsWindowEnd, showSessionVitals: showSessionVitals)
         }
         .task(id: mechanisticSignature) {
+            await SubstanceStore.shared.ensureAllLoaded()
             await model.computeMechanistic(
                 supported: mechanisticSupported,
                 doses: resolvedDay.mechanisticDoses,
