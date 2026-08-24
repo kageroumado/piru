@@ -332,6 +332,11 @@ struct InsightsView: View {
     }
 
     private func recompute() async {
+        // The active-substances readout resolves each unique substance from
+        // the batch cache; warm it first so a cold launch straight into this
+        // tab awaits the off-main prefill instead of paying the synchronous
+        // main-actor batch build.
+        await SubstanceStore.shared.ensureAllLoaded()
         let cal = calendar
         var entriesByDay: [Date: [DoseEntry]] = [:]
         for entry in allEntries {

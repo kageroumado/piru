@@ -22,13 +22,18 @@ struct InventorySummaryCard: View {
     private var colorMap: [String: Color] {
         Array(substanceColors).colorMap
     }
-    /// The first three in whatever order the manager is set to, so the card and
-    /// the screen it opens agree on what comes first.
-    private var topItems: [InventoryItem] {
-        Array(model.ordered(items).prefix(3))
-    }
+
+    /// Rows render only once the substance batch cache is warm: the manager's
+    /// ordering resolves a category per item, and on a cold cache that falls
+    /// through to a synchronous main-actor batch build — the Tools tab's
+    /// cold-launch stall. Until then the card shows its subtitle, one frame in
+    /// the warm case.
+    @State private var warmed = false
 
     var body: some View {
+        // Ordered once per body pass — as three separate computed-property
+        // reads (emptiness, rows, count) this sorted the inventory three times.
+        let topItems = warmed ? Array(model.ordered(items).prefix(3)) : []
         GlanceCard(icon: Tool.inventory.icon, title: Text(Tool.inventory.name), route: .tool(.inventory)) {
             if topItems.isEmpty {
                 Text("Track how much you have on hand")
@@ -44,6 +49,10 @@ struct InventorySummaryCard: View {
                     }
                 }
             }
+        }
+        .task {
+            await SubstanceStore.shared.ensureAllLoaded()
+            warmed = true
         }
     }
 }

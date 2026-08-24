@@ -1709,7 +1709,10 @@ enum InteractionChecker {
     static func activeEntries(from entries: [DoseEntry]) -> [DoseEntry] {
         let now = Date.now
         return entries.filter { entry in
-            guard let substance = SubstanceLibrary.lookup(entry.substance) else {
+            // The lightweight batch projection — it carries the durations and
+            // half-life this filter reads. The full `lookup` runs ~21 SQL per
+            // uncached substance, and several callers pass the whole dose log.
+            guard let substance = SubstanceLibrary.timelineLookup(entry.substance) else {
                 // Unknown substance — assume active for 24h as safety fallback
                 return entry.timestamp.addingTimeInterval(86_400) > now
             }

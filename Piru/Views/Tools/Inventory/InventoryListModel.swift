@@ -204,7 +204,9 @@ final class InventoryListModel {
     func category(for item: InventoryItem) -> SubstanceCategory {
         let key = item.substance.lowercased()
         if let cached = categoryCache[key] { return cached }
-        let resolved = SubstanceLibrary.lookup(item.substance)?.category ?? .other
+        // Batch projection, not the heavy per-substance `lookup` — only the
+        // category is read, and this runs per item on the sort/group path.
+        let resolved = SubstanceLibrary.timelineLookup(item.substance)?.category ?? .other
         categoryCache[key] = resolved
         return resolved
     }

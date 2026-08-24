@@ -6,7 +6,22 @@ import SwiftUI
 /// between them, ranked worst-first; otherwise it's a plain hub row. Tapping
 /// opens the full ``InteractionCheckerView``.
 struct InteractionsSummaryCard: View {
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var entries: [DoseEntry]
+    @Query private var entries: [DoseEntry]
+
+    /// Bound to the still-plausibly-active horizon (the quick-log window's
+    /// 120 days clears even fluoxetine's ~5-half-life tail) and to the three
+    /// fields the active filter reads — the unbounded query materialized the
+    /// entire dose log on the main actor every time the Tools tab appeared.
+    /// Captured once at init; a few hours of drift across 120 days is nothing.
+    init() {
+        let cutoff = Date.now.addingTimeInterval(-120 * 86_400)
+        var descriptor = FetchDescriptor<DoseEntry>(
+            predicate: #Predicate { $0.timestamp >= cutoff },
+            sortBy: [SortDescriptor(\.timestamp, order: .reverse)],
+        )
+        descriptor.propertiesToFetch = [\.timestamp, \.substance, \.route]
+        _entries = Query(descriptor)
+    }
 
     @State private var top: [ActiveInteraction] = []
     /// How many ranked interactions beyond the shown ones exist.
@@ -49,7 +64,7 @@ struct InteractionsSummaryCard: View {
         // pay an O(history) scan per body pass and subscribe this body to
         // every field of every dose.
         .task(id: DoseLogService.shared.revision) {
-            recompute()
+            await recompute()
         }
     }
 
@@ -81,8 +96,11 @@ struct InteractionsSummaryCard: View {
     }
 
     /// Currently-active substances → their worst pairwise interactions,
-    /// ranked. Runs on the main actor (the drug-class lookups are MainActor).
-    private func recompute() {
+    /// ranked. Runs on the main actor (the drug-class lookups are MainActor),
+    /// but only after the batch cache is warm — the active filter resolves a
+    /// substance per entry, and a cold cache pays a synchronous batch build.
+    private func recompute() async {
+        await SubstanceStore.shared.ensureAllLoaded()
         let active = InteractionChecker.activeEntries(from: entries)
         let names = Array(Set(active.map(\.substance)))
         guard names.count >= 2 else {
