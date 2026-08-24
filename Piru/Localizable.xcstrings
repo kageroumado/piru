@@ -16462,6 +16462,7 @@
       }
     },
     "Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16473,6 +16474,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "連接一次即可從「健康」讀取你的體重、心率和血壓——全部僅供讀取，存於你的裝置。"
+          }
+        }
+      }
+    },
+    "Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device. Workouts come too, only so a run isn't read as a dose's effect." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连接一次即可从“健康”读取你的体重、心率和血压——全部仅供读取，存于你的设备。锻炼记录也会一并读取，只为避免把一次跑步当成某次用药的效果。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連接一次即可從「健康」讀取你的體重、心率和血壓——全部僅供讀取，存於你的裝置。運動記錄也會一併讀取，只為避免把一次跑步當成某次用藥的效果。"
           }
         }
       }
@@ -29577,6 +29594,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "InChIKey"
+          }
+        }
+      }
+    },
+    "Includes %lld min of workout — the dose rows leave it out" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中含 %lld 分钟锻炼——单次用药行已排除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中含 %lld 分鐘運動——單次用藥列已排除"
           }
         }
       }

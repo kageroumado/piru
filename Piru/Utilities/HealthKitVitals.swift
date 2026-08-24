@@ -2,7 +2,8 @@ import Foundation
 import HealthKit
 import os
 
-/// Reads heart rate and blood pressure from HealthKit (read-only) for a session's time window.
+/// Reads heart rate, blood pressure, and workouts from HealthKit (read-only) for a session's
+/// time window.
 ///
 /// Mirrors ``HealthKitBodyMass`` and the same read-permission gotcha: iOS never reports whether an
 /// app's *read* access to a type is granted (that would leak whether the data exists), so we never
@@ -31,6 +32,9 @@ final class HealthKitVitals {
     private var bloodPressureType: HKCorrelationType {
         HKCorrelationType(.bloodPressure)
     }
+    private var workoutType: HKSampleType {
+        HKObjectType.workoutType()
+    }
 
     /// Whether HealthKit exists on this device at all (false on iPad, etc.).
     var isAvailable: Bool {
@@ -46,15 +50,18 @@ final class HealthKitVitals {
     /// if a correlation type is put in a read-authorization request. The
     /// permission sheet still groups the two components under one "Blood Pressure"
     /// row, and the correlation type is only used to build the query.
+    /// Workouts are read for exactly one purpose: to know which heart-rate samples to set
+    /// aside. A run raises heart rate past anything in the substance library, so without them
+    /// a workout inside a dose's window reads as that dose's response.
     private var readTypes: Set<HKObjectType> {
-        [heartRateType, restingHeartRateType, systolicType, diastolicType]
+        [heartRateType, restingHeartRateType, systolicType, diastolicType, workoutType]
     }
 
     /// Request read access to the whole Health integration — body weight, heart
-    /// rate, and blood pressure — in a **single** system prompt. This is the only
-    /// authorization entry point: every opt-in surface (onboarding, the Apple
+    /// rate, blood pressure, and workouts — in a **single** system prompt. This is
+    /// the only authorization entry point: every opt-in surface (onboarding, the Apple
     /// Health settings screen, the session discovery banner) calls it, so the user
-    /// only ever sees one combined Health sheet listing all three, never a
+    /// only ever sees one combined Health sheet listing them all, never a
     /// weight-only or vitals-only prompt. Prompts only for still-undetermined types;
     /// a thrown error is a request failure (not a denial), so already-granted access
     /// keeps working. No-op when HealthKit is unavailable.
@@ -86,10 +93,14 @@ final class HealthKitVitals {
         }
     }
 
-    /// Whether tapping "Connect" would actually surface a prompt — i.e. weight,
-    /// heart rate, or resting heart rate is still undetermined. Once the user has
+    /// Whether tapping "Connect" would actually surface a prompt — i.e. weight, heart
+    /// rate, resting heart rate, or workouts is still undetermined. Once the user has
     /// answered them all, requesting only flashes an empty sheet that immediately
     /// dismisses, so callers hide the Connect affordance when this returns false.
+    ///
+    /// Workouts are in this set precisely so someone who granted the earlier types is
+    /// offered Connect once more — there is genuinely something new to grant, and without
+    /// it their workouts would stay undetermined and never be set aside.
     ///
     /// **Blood pressure is deliberately excluded from this check.** On iOS 26.5 its
     /// read status is stuck at `.shouldRequest` forever (FB22735935), which would
@@ -99,7 +110,7 @@ final class HealthKitVitals {
         guard isAvailable else { return false }
         let store = store
         let logger = logger
-        let promptable: Set<HKObjectType> = [heartRateType, restingHeartRateType, HKQuantityType(.bodyMass)]
+        let promptable: Set<HKObjectType> = [heartRateType, restingHeartRateType, workoutType, HKQuantityType(.bodyMass)]
         // Same synchronous-`NSException` hazard as `requestFullAccess()` — this is
         // what crashed on merely opening Settings ▸ Apple Health. Treat a raised
         // exception as "nothing to prompt for" so the Connect affordance just hides.
@@ -118,13 +129,30 @@ final class HealthKitVitals {
     }
 
     /// All vitals for a session window. Returns ``SessionVitals/empty`` when nothing is readable;
-    /// the three reads run concurrently.
+    /// the four reads run concurrently.
     func vitals(from start: Date, to end: Date) async -> SessionVitals {
         guard isAvailable, end > start else { return .empty }
         async let hr = heartRateSamples(from: start, to: end)
         async let bp = bloodPressureReadings(from: start, to: end)
         async let resting = latestRestingHeartRate()
-        return await SessionVitals(heartRate: hr, bloodPressure: bp, restingHeartRate: resting)
+        async let workouts = workoutIntervals(from: start, to: end)
+        return await SessionVitals(
+            heartRate: Self.marking(hr, asWorkout: workouts),
+            bloodPressure: bp,
+            restingHeartRate: resting,
+        )
+    }
+
+    /// Flag every heart-rate sample recorded inside a workout. Unreadable workouts (denied, or
+    /// simply none recorded) leave the series untouched, which is the pre-workout behavior —
+    /// the same soft-failure every read here degrades to.
+    private static func marking(_ samples: [HeartRateSample], asWorkout workouts: [DateInterval]) -> [HeartRateSample] {
+        guard !workouts.isEmpty else { return samples }
+        return samples.map { sample in
+            var marked = sample
+            marked.isWorkout = workouts.contains { $0.contains(sample.date) }
+            return marked
+        }
     }
 
     // MARK: - Queries
@@ -181,6 +209,29 @@ final class HealthKitVitals {
                     return BloodPressureReading(date: correlation.startDate, systolic: sys, diastolic: dia)
                 }
                 .sorted { $0.date < $1.date }
+                continuation.resume(returning: out)
+            }
+            store.execute(query)
+        }
+    }
+
+    /// Every workout overlapping the window. The predicate deliberately carries no strict
+    /// option: a run that started before the session still covers the samples inside it.
+    private func workoutIntervals(from start: Date, to end: Date) async -> [DateInterval] {
+        let type = workoutType
+        let logger = logger
+        return await withCheckedContinuation { continuation in
+            let predicate = HKQuery.predicateForSamples(withStart: start, end: end)
+            let query = HKSampleQuery(
+                sampleType: type, predicate: predicate,
+                limit: HKObjectQueryNoLimit, sortDescriptors: nil,
+            ) { _, samples, error in
+                if let error {
+                    logger.error("Workout query failed: \(error.localizedDescription, privacy: .public)")
+                }
+                let out = (samples ?? [])
+                    .filter { $0.endDate > $0.startDate }
+                    .map { DateInterval(start: $0.startDate, end: $0.endDate) }
                 continuation.resume(returning: out)
             }
             store.execute(query)

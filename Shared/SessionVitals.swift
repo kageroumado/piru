@@ -12,6 +12,10 @@ enum VitalsPalette {
 nonisolated struct HeartRateSample: Hashable {
     let date: Date
     let bpm: Double
+    /// Whether the sample falls inside a recorded workout. A run raises heart rate by more
+    /// than any dose in the library, so a workout inside a dose's window would otherwise be
+    /// read as that dose's response — the single largest confound in the whole overlay.
+    var isWorkout = false
 }
 
 /// A single blood-pressure reading (systolic/diastolic) read from HealthKit. BP is sparse —
@@ -99,6 +103,10 @@ nonisolated struct HRSummary: Hashable {
     let peak: Int
     /// Resting HR baseline, if known (for "elevated vs your resting N bpm").
     let resting: Int?
+    /// Minutes of the window spent in a recorded workout. Both figures above include it —
+    /// they describe the session as it happened — so this is what stops a post-run peak
+    /// from reading as something a dose did.
+    var workoutMinutes = 0
 }
 
 /// Pure heart-rate analysis over sample arrays — no HealthKit, no view state, so it's unit-testable.
@@ -131,6 +139,7 @@ nonisolated enum VitalsAnalysis {
     /// ``DoseHRResponse/confounders`` rather than quietly taking credit for it.
     static func doseResponses(for doses: [HRDoseWindow], in samples: [HeartRateSample]) -> [UUID: DoseHRResponse] {
         guard !samples.isEmpty, !doses.isEmpty else { return [:] }
+        let readable = samples.filter { !$0.isWorkout }
         let ordered = doses.sorted { $0.at < $1.at }
         var out: [UUID: DoseHRResponse] = [:]
         for (index, dose) in ordered.enumerated() {
@@ -147,7 +156,7 @@ nonisolated enum VitalsAnalysis {
                         && (earlier.comeUpEndMinutes.map { earlier.at.addingTimeInterval($0 * 60) > dose.at } ?? false)
                 }
                 .map(\.substance)
-            if let response = response(doseAt: dose.at, until: end, in: samples, confounders: uniqued(confounders)) {
+            if let response = response(doseAt: dose.at, until: end, in: readable, confounders: uniqued(confounders)) {
                 out[dose.id] = response
             }
         }
@@ -161,7 +170,10 @@ nonisolated enum VitalsAnalysis {
         in samples: [HeartRateSample],
         window: TimeInterval = responseWindow,
     ) -> DoseHRResponse? {
-        response(doseAt: doseAt, until: doseAt.addingTimeInterval(window), in: samples, confounders: [])
+        response(
+            doseAt: doseAt, until: doseAt.addingTimeInterval(window),
+            in: samples.filter { !$0.isWorkout }, confounders: [],
+        )
     }
 
     private static func response(
@@ -200,6 +212,15 @@ nonisolated enum VitalsAnalysis {
         )
     }
 
+    /// Time covered by workout samples, measured the same gap-capped way the average is
+    /// weighted: only a stretch *between two* workout samples counts, so one stray flagged
+    /// sample contributes nothing.
+    private static func workoutSpan(of samples: [HeartRateSample]) -> TimeInterval {
+        zip(samples, samples.dropFirst())
+            .filter { $0.isWorkout && $1.isWorkout }
+            .reduce(0) { $0 + min($1.1.date.timeIntervalSince($1.0.date), maximumSampleGap) }
+    }
+
     /// Order-preserving dedup, so "overlaps Caffeine, Caffeine" can't happen.
     private static func uniqued(_ names: [String]) -> [String] {
         var seen: Set<String> = []
@@ -218,6 +239,10 @@ nonisolated enum VitalsAnalysis {
     /// reports the average of whatever the user was doing most actively rather than the average
     /// of the session. The peak is the plain maximum: a real beat the watch recorded is worth
     /// reporting even when a staircase, not the dose, caused it.
+    ///
+    /// Workout samples stay in both figures — this describes the session, not the doses — and
+    /// are reported separately as ``HRSummary/workoutMinutes``. The per-dose chips are the
+    /// place a workout must not appear, and ``doseResponses(for:in:)`` drops it there.
     static func summary(
         from start: Date,
         to end: Date,
@@ -239,6 +264,9 @@ nonisolated enum VitalsAnalysis {
             weight += span
         }
         let average = weight > 0 ? weighted / weight : firstSample.bpm
-        return HRSummary(average: Int(average.rounded()), peak: peak, resting: resting)
+        return HRSummary(
+            average: Int(average.rounded()), peak: peak, resting: resting,
+            workoutMinutes: Int((workoutSpan(of: inWindow) / 60).rounded()),
+        )
     }
 }

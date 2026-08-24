@@ -95,7 +95,7 @@ struct HealthSettingsView: View {
         } header: {
             Text("Apple Health")
         } footer: {
-            Text("Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device.")
+            Text("Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device. Workouts come too, only so a run isn't read as a dose's effect.")
         }
         .listRowBackground(CardBackground())
     }

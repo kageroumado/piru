@@ -133,6 +133,12 @@ final class SessionDetailModel {
             }
 
             let doseMinutes = doses.map { $0.timeIntervalSince(start) / 60 }
+            // A workout landing inside the first dose's response window — where it would be
+            // read as that dose's response if it weren't set aside, which is the thing to look at.
+            let workout = doses.first.map { first -> (start: Double, end: Double) in
+                let at = first.timeIntervalSince(start) / 60 + 25
+                return (start: at, end: at + 35)
+            }
             var heartRate: [HeartRateSample] = []
             var minute = -VitalsAnalysis.baselineLookback / 60
             var index = 0
@@ -142,7 +148,11 @@ final class SessionDetailModel {
                     bpm += Double(9 + position * 4) * bump(minute, at: dose, rise: 30, fall: 160)
                 }
                 bpm += 2.4 * sin(Double(index) * 1.7) + 1.6 * sin(Double(index) * 0.9)
-                heartRate.append(HeartRateSample(date: start.addingTimeInterval(minute * 60), bpm: bpm))
+                let running = workout.map { minute >= $0.start && minute <= $0.end } ?? false
+                if running { bpm += 52 }
+                heartRate.append(HeartRateSample(
+                    date: start.addingTimeInterval(minute * 60), bpm: bpm, isWorkout: running,
+                ))
                 minute += 5
                 index += 1
             }

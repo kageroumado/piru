@@ -9,6 +9,13 @@ struct VitalsAnalysisTests {
         pairs.map { HeartRateSample(date: base.addingTimeInterval($0.minutes * 60), bpm: $0.bpm) }
     }
 
+    /// Build samples with a workout flag on each.
+    private func samples(_ triples: [(minutes: Double, bpm: Double, workout: Bool)], from base: Date) -> [HeartRateSample] {
+        triples.map {
+            HeartRateSample(date: base.addingTimeInterval($0.minutes * 60), bpm: $0.bpm, isWorkout: $0.workout)
+        }
+    }
+
     // MARK: - doseResponse
 
     @Test
@@ -86,6 +93,28 @@ struct VitalsAnalysisTests {
         let dose = Date(timeIntervalSinceReferenceDate: 0)
         // Two samples 4 minutes apart describe those 4 minutes, not the dose.
         #expect(VitalsAnalysis.doseResponse(doseAt: dose, in: samples([(-2, 66), (5, 100), (9, 104)], from: dose)) == nil)
+    }
+
+    /// A run raises heart rate past anything in the library, so leaving it in would hand the
+    /// dose that happens to own the window a response it had nothing to do with.
+    @Test
+    func `workout samples are excluded from a dose's response`() {
+        let dose = Date(timeIntervalSinceReferenceDate: 0)
+        let hr = samples(
+            [(-2, 66, false), (10, 70, false), (20, 148, true), (25, 152, true), (35, 71, false)],
+            from: dose,
+        )
+        let response = VitalsAnalysis.doseResponse(doseAt: dose, in: hr)
+        #expect(response?.extreme == 71)
+        #expect(response?.direction == .unchanged)
+        #expect(response?.sparkline == [70, 71])
+    }
+
+    @Test
+    func `a window that is all workout leaves no response at all`() {
+        let dose = Date(timeIntervalSinceReferenceDate: 0)
+        let hr = samples([(-2, 66, false), (10, 150, true), (25, 158, true), (40, 145, true)], from: dose)
+        #expect(VitalsAnalysis.doseResponse(doseAt: dose, in: hr) == nil)
     }
 
     // MARK: - doseResponses (session-wide)
@@ -213,6 +242,27 @@ struct VitalsAnalysisTests {
         // Sample-weighted would be 100; time-weighted lands near the 60 bpm the hour was spent at.
         #expect(try #require(summary?.average) < 80)
         #expect(summary?.peak == 120) // a real recorded beat is still reported
+    }
+
+    @Test
+    func `the summary keeps workout samples and reports how long the workout ran`() {
+        let start = Date(timeIntervalSinceReferenceDate: 0)
+        let end = start.addingTimeInterval(3_600)
+        let hr = samples(
+            [(0, 60, false), (10, 62, false), (20, 150, true), (30, 155, true), (40, 64, false)],
+            from: start,
+        )
+        let summary = VitalsAnalysis.summary(from: start, to: end, heartRate: hr, restingHeartRate: nil)
+        #expect(summary?.peak == 155) // the session's real maximum, workout and all
+        #expect(summary?.workoutMinutes == 10) // only the stretch *between* two workout samples
+    }
+
+    @Test
+    func `no workout means no workout minutes`() {
+        let start = Date(timeIntervalSinceReferenceDate: 0)
+        let hr = samples([(0, 60), (20, 80), (40, 100)], from: start)
+        let summary = VitalsAnalysis.summary(from: start, to: start.addingTimeInterval(3_600), heartRate: hr, restingHeartRate: nil)
+        #expect(summary?.workoutMinutes == 0)
     }
 
     // MARK: - SessionVitals

@@ -22,9 +22,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Piru uses the camera to scan a medication label or barcode and read the drug name and strength, so it can fill in a dose for you. The image is processed on your device, never saved, and never leaves it.</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>Piru reads your body weight to make dose and alcohol-strength estimates accurate for your body, and — if you enable it — your heart rate and blood pressure to show how your body responded during a session. Everything is read-only on your device and is never shared.</string>
+	<string>Piru reads your body weight to make dose and alcohol-strength estimates accurate for your body, and — if you enable it — your heart rate and blood pressure to show how your body responded during a session. It reads your workouts only to set that heart rate aside, so a run isn't read as a dose's effect. Everything is read-only on your device and is never shared.</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>Piru reads your body weight, heart rate, and blood pressure from Health to personalize estimates and show your body's response during a session. It does not write any data back to Health.</string>
+	<string>Piru reads your body weight, heart rate, blood pressure, and workouts from Health to personalize estimates and show your body's response during a session. It does not write any data back to Health.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Piru attaches the place where you took a dose so you can see it in your journal. Location is stored only on your device and is never shared.</string>
 	<key>UIBackgroundModes</key>

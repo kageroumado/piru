@@ -1471,9 +1471,9 @@ T = {
     "Use the average (60 kg)": ("使用平均值（60 kg）", "使用平均值（60 kg）"),
     "Show heart data on sessions": ("在记录中显示心脏数据", "在記錄中顯示心臟數據"),
     "Heart data": ("心脏数据", "心臟數據"),
-    "Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device.": (
-        "连接一次即可从“健康”读取你的体重、心率和血压——全部仅供读取，存于你的设备。",
-        "連接一次即可從「健康」讀取你的體重、心率和血壓——全部僅供讀取，存於你的裝置。",
+    "Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device. Workouts come too, only so a run isn't read as a dose's effect.": (
+        "连接一次即可从“健康”读取你的体重、心率和血压——全部仅供读取，存于你的设备。锻炼记录也会一并读取，只为避免把一次跑步当成某次用药的效果。",
+        "連接一次即可從「健康」讀取你的體重、心率和血壓——全部僅供讀取，存於你的裝置。運動記錄也會一併讀取，只為避免把一次跑步當成某次用藥的效果。",
     ),
     "Overlays your heart rate and blood pressure on each session's timeline — read-only. If something didn't connect — blood pressure especially, which iOS doesn't always prompt for — open **Settings ▸ Privacy & Security ▸ Health ▸ Piru** and turn it on there.": (
         "在每次记录的时间线上叠加显示你的心率和血压——仅供读取。若有项目未能连接（尤其是血压，iOS 不一定会弹出请求），请前往 **设置 ▸ 隐私与安全性 ▸ 健康 ▸ Piru** 手动开启。",
@@ -1488,6 +1488,10 @@ T = {
     "avg %lld · peak %lld bpm": ("平均 %lld · 峰值 %lld bpm", "平均 %lld · 峰值 %lld bpm"),
     "%lld bpm": ("%lld bpm", "%lld bpm"),
     "Elevated vs your resting %lld bpm": ("高于静息心率 %lld bpm", "高於靜息心率 %lld bpm"),
+    "Includes %lld min of workout — the dose rows leave it out": (
+        "其中含 %lld 分钟锻炼——单次用药行已排除",
+        "其中含 %lld 分鐘運動——單次用藥列已排除",
+    ),
     "In line with your resting %lld bpm": ("与静息心率 %lld bpm 相当", "與靜息心率 %lld bpm 相當"),
     "Heart rate %lld rising to %lld beats per minute": (
         "心率 %lld，升至每分钟 %lld 次",
@@ -7137,6 +7141,8 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Includes %lld min of workout — the dose rows leave it out",
+        "Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device. Workouts come too, only so a run isn't read as a dose's effect.",
         "Heart rate %lld falling to %lld beats per minute",
         "Heart rate %lld beats per minute, no clear change",
         "overlaps %@",
