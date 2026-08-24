@@ -15,9 +15,8 @@ struct ProductStrengths: Equatable {
 }
 
 /// PSID (Piru Substance ID) resolution — the forward name/alias → FAMILY + form
-/// maps the Stage 0.3 dose backfill and identity-keyed features read. Split out
-/// of ``SubstanceStore`` for file size; the reverse `uid → substances` lookups
-/// live on the main type.
+/// maps the Stage 0.3 dose backfill and identity-keyed features read. The
+/// reverse `uid → substances` lookups live on the main type.
 extension SubstanceStore {
     /// The tablet/capsule strengths a logged product name ships in ("Concerta" →
     /// 18/27/36/54 mg tablets), or `nil` when the name isn't a known branded

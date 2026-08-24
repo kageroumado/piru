@@ -10,9 +10,6 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 /// The tables involved are small (≈360 transporter rows, ≈160 serotonin rows, ≈180 opioid/cannabinoid
 /// rows), so each family is a single unfiltered read rather than a per-substance query — and the
 /// comparability gate ``SignatureComparability`` then runs in memory where it is testable.
-///
-/// Lives beside ``SubstanceStore`` rather than inside it: `SubstanceStore.swift` sits at its
-/// 2,500-line lint ceiling.
 extension SubstanceStore {
     /// Every leg of one signature family, across the whole library, normalized for the gate.
     func signatureLegs(family: SignatureFamily) -> [SignatureLeg] {

@@ -220,9 +220,7 @@ extension SubstanceStore {
 
     /// One route's PK for display: the best-evidenced study row, plus how many
     /// distinct studies the table holds for that route (1 when it's the only
-    /// one). Built by ``SubstanceStore/displayRows(_:)``. Declared here rather
-    /// than beside its sibling hits in `SubstanceStore.swift`, which is at its
-    /// 2500-line lint ceiling.
+    /// one). Built by ``SubstanceStore/displayRows(_:)``.
     struct PKDisplayRow: Identifiable, Hashable {
         let hit: PKRouteHit
         let studyCount: Int
