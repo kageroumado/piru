@@ -479,10 +479,16 @@ struct MyMedsCard: View {
 
     private func recentEntriesForStreak() -> [DoseEntry] {
         let cutoff = Calendar.current.date(byAdding: .day, value: -366, to: .now) ?? .distantPast
-        let descriptor = FetchDescriptor<DoseEntry>(
+        var descriptor = FetchDescriptor<DoseEntry>(
             predicate: #Predicate { $0.timestamp >= cutoff },
             sortBy: [SortDescriptor(\.timestamp)],
         )
+        // The snapshot mapping reads only these fields (identityKey derives
+        // from the four identity facets) — a year of full-row faults on the
+        // main actor was ~60 ms of every return to the Journal.
+        descriptor.propertiesToFetch = [
+            \.timestamp, \.substance, \.substanceUID, \.isomer, \.releaseForm, \.saltForm, \.route,
+        ]
         return (try? modelContext.fetch(descriptor)) ?? []
     }
 

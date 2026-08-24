@@ -93,10 +93,8 @@ struct EntryListView: View {
     /// session even when an older long-acting dose in a separate, overlapping
     /// session is still pharmacologically active.) The day list badges this
     /// card's row as "Active".
-    private var activeSessionCard: SessionCard? {
-        guard showActiveHero,
-              let anchor = ActiveSessionManager.shared.activeSubstanceStates.map(\.doseTimestamp).max()
-        else { return nil }
+    private func activeSessionCard(states: [ActiveSubstanceState]) -> SessionCard? {
+        guard showActiveHero, let anchor = states.map(\.doseTimestamp).max() else { return nil }
         for day in model.sessionDays {
             for card in day.sessions
                 where card.entries.contains(where: { abs($0.timestamp.timeIntervalSince(anchor)) < 1 }) {
@@ -215,10 +213,12 @@ struct EntryListView: View {
     }
 
     private func list(proxy: ScrollViewProxy) -> some View {
-        // Resolve the active session's card id *once* per body pass — the
-        // lookup scans sessionDays × sessions × entries; the day list uses it
-        // to badge the live session's row.
-        let activeID = activeSessionCard?.id
+        // Resolve the active states and the active session's card id *once*
+        // per body pass — building the states runs a substance resolve per
+        // active dose, and the card lookup scans sessionDays × sessions ×
+        // entries; the hero card and the day list's "Active" badge share them.
+        let activeStates = isSearchSurface ? [] : ActiveSessionManager.shared.activeSubstanceStates
+        let activeID = activeSessionCard(states: activeStates)?.id
         return List {
             // Active-filter summary — the funnel's accent fill alone says *that*
             // something is filtered; this strip says *what*, chip-per-value, each
@@ -248,7 +248,7 @@ struct EntryListView: View {
             // feed reads plan (My Meds) → state (Active Now) → log (History).
             if showActiveHero {
                 ActiveNowCard(
-                    states: ActiveSessionManager.shared.activeSubstanceStates,
+                    states: activeStates,
                     entries: entries,
                     colors: substanceColors,
                     colorMap: model.colorMap,
@@ -377,7 +377,7 @@ struct EntryListView: View {
         }
         // Only days that actually put rows on screen are valid scroll targets —
         // a day holding just the (excluded) live session renders nothing.
-        let activeID = activeSessionCard?.id
+        let activeID = activeSessionCard(states: ActiveSessionManager.shared.activeSubstanceStates)?.id
         let rendered = model.sessionDays.filter { day in day.sessions.contains { $0.id != activeID } }
         guard let day = rendered.first(where: { $0.date <= target }) ?? rendered.last else { return }
         // Let the sheet dismissal (and a possible grouping switch, which
