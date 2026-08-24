@@ -138,13 +138,43 @@ final class MutableSheetDetent {
 /// the box must not keep a dismissed sheet's controller alive.
 @MainActor
 final class SheetHostBox {
-    weak var viewController: UIViewController?
+    /// The probe that resolves the handle, kept so it can resolve it *again*.
+    weak var probeView: UIView?
+    private weak var cached: UIViewController?
+
+    /// The controller presenting the dock, re-resolved whenever the cached one
+    /// has stopped presenting it.
+    ///
+    /// This used to be captured once and kept forever. When iOS replaced the
+    /// sheet's hosting controller — which it does after the app has sat in the
+    /// background a while — the box held a stale but non-`nil` reference, and
+    /// the capture was guarded on the reference being `nil`, so it never
+    /// re-resolved. Every `applyDetents` then wrote to a controller that was no
+    /// longer presenting anything and silently did nothing: the sheet kept
+    /// whatever height it had, leaving the Log button below the visible area.
+    /// Dragging it fixed the display because UIKit's own gesture drives the
+    /// *live* controller, which is exactly the reported symptom.
+    var viewController: UIViewController? {
+        if let cached, cached.viewIfLoaded?.window != nil { return cached }
+        cached = Self.resolve(from: probeView)
+        return cached
+    }
 
     /// The dock sheet's presentation controller — `sheetPresentationController`
     /// resolves through the nearest presented ancestor, which for a view
     /// inside the dock's content is the dock sheet itself.
     var sheetController: UISheetPresentationController? {
         viewController?.sheetPresentationController
+    }
+
+    /// Walk the responder chain for the nearest view controller.
+    private static func resolve(from view: UIView?) -> UIViewController? {
+        var responder: UIResponder? = view?.next
+        while let current = responder {
+            if let viewController = current as? UIViewController { return viewController }
+            responder = current.next
+        }
+        return nil
     }
 }
 
@@ -174,15 +204,10 @@ struct SheetHostProbe: UIViewRepresentable {
 
         override func didMoveToWindow() {
             super.didMoveToWindow()
-            guard window != nil, box.viewController == nil else { return }
-            var responder: UIResponder? = next
-            while let current = responder {
-                if let viewController = current as? UIViewController {
-                    box.viewController = viewController
-                    return
-                }
-                responder = current.next
-            }
+            // Hand the box the probe rather than a resolved controller, so it
+            // can re-resolve later. The controller is read lazily and revalidated
+            // on every access — see ``SheetHostBox/viewController``.
+            box.probeView = window == nil ? nil : self
         }
     }
 }

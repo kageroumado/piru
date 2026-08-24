@@ -130,6 +130,8 @@ struct QuickLogDock: View {
     /// don't re-evaluate this whole body (see ``DockSheetGeometry``).
     @State private var geometry = DockSheetGeometry()
 
+    @Environment(\.scenePhase) private var scenePhase
+
     // MARK: Compact-detent measurements
 
     /// Rendered height of the pinned commit bar (chips + Log button + any
@@ -235,6 +237,18 @@ struct QuickLogDock: View {
             // the commit bar (panels opening), and staging changes all funnel
             // into this one value.
             .onChange(of: compactHeightValue) { handleCompactHeightChanged() }
+            // Re-apply the detent set on return to the foreground.
+            //
+            // Belt to ``SheetHostBox``'s braces: that fix makes the controller
+            // handle re-resolve itself, and this makes the sheet act on it. The
+            // reported symptom — dock backgrounded a while, Log button below the
+            // visible area until dragged — is a sheet resting at a height its
+            // detents no longer describe, and re-applying them is how it is told
+            // to settle again. A no-op when nothing drifted.
+            .onChange(of: scenePhase) {
+                guard scenePhase == .active else { return }
+                refreshDetents()
+            }
             // A routine prestaged before the sheet mounted (notification deep
             // link) should land already showing the tray.
             .onAppear(perform: handleAppear)

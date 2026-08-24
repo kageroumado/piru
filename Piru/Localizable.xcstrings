@@ -32235,9 +32235,6 @@
         }
       }
     },
-    "LogD" : {
-
-    },
     "Logged, but missing the pharmacokinetics the model needs — so it's blind here, which is not the same as no tolerance. %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -37025,6 +37022,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不含遺傳因素、代謝表型，也不含藥物間代謝交互作用。交互作用僅限藥效學層面：共用轉運體、共用存量、共用受體。"
+          }
+        }
+      }
+    },
+    "No half-life data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无半衰期数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無半衰期數據"
           }
         }
       }
@@ -41823,9 +41836,6 @@
           }
         }
       }
-    },
-    "pKa" : {
-
     },
     "Plan A" : {
       "localizations" : {
