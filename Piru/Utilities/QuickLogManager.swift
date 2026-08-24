@@ -201,13 +201,19 @@ enum QuickLogManager {
     /// *once*, no matter how many doses commit together — the old per-call form
     /// did two full-table fetches and a save *per dose*, which showed up as
     /// ~160 ms of the Log-button hang when a multi-chip tray committed.
-    static func record(_ doses: [LoggedDose], fixedOrder: Bool, context: ModelContext) {
+    ///
+    /// `save: false` for a caller that owns the commit (the quick-log tray):
+    /// every `save()` synchronously re-runs each live `@Query`, so a commit
+    /// that saves twice pays the whole invalidation storm twice.
+    static func record(_ doses: [LoggedDose], fixedOrder: Bool, context: ModelContext, save: Bool = true) {
         guard !doses.isEmpty else { return }
         var all = (try? context.fetch(FetchDescriptor<QuickLogDose>())) ?? []
         for dose in doses {
             apply(dose, fixedOrder: fixedOrder, all: &all, context: context)
         }
-        try? context.save()
+        if save {
+            try? context.save()
+        }
     }
 
     /// Fold one dose into the in-memory `all` snapshot (mutating it so later

@@ -43,43 +43,58 @@ enum SessionService {
     @discardableResult
     static func assignSession(for entry: DoseEntry, in context: ModelContext) -> Session {
         let target = entry.timestamp
-        let sessions = (try? context.fetch(
-            FetchDescriptor<Session>(sortBy: [SortDescriptor(\.startDate, order: .reverse)]),
-        )) ?? []
+        // One batched fetch that also realizes every session's doses up front.
+        // Without the prefetch, each span check below is a lazy per-relationship
+        // fault — an N+1 round-trip storm on the main thread for every logged
+        // dose (the dominant cost of the quick-log commit in the 2026-08-24
+        // trace).
+        var descriptor = FetchDescriptor<Session>(sortBy: [SortDescriptor(\.startDate, order: .reverse)])
+        descriptor.relationshipKeyPathsForPrefetching = [\.doses]
+        let sessions = (try? context.fetch(descriptor)) ?? []
+
+        // Each session's doses (minus the entry being (re)assigned) and time
+        // span, computed once in a single unsorted pass — min/max need no sort —
+        // and shared by all three placement rules below. Order mirrors
+        // `sessions` (newest `startDate` first), which rule 1 relies on.
+        let spans: [(session: Session, doses: [DoseEntry], firstDose: DoseEntry, last: Date)] = sessions.compactMap { session in
+            let doses = (session.doses ?? []).filter { $0 !== entry }
+            guard var firstDose = doses.first else { return nil }
+            var last = firstDose.timestamp
+            for dose in doses.dropFirst() {
+                if dose.timestamp < firstDose.timestamp { firstDose = dose }
+                if dose.timestamp > last { last = dose.timestamp }
+            }
+            return (session, doses, firstDose, last)
+        }
 
         // 1. In-span join — a dose inside a session's active window is part of
         //    it, no gap to weigh. Keeps sessions from overlapping.
-        for session in sessions {
-            let stamps = session.orderedDoses.filter { $0 !== entry }.map(\.timestamp)
-            guard let first = stamps.min(), let last = stamps.max() else { continue }
-            if target >= first, target <= last {
-                entry.session = session
-                session.refreshStartDate()
-                return session
-            }
+        for span in spans where target >= span.firstDose.timestamp && target <= span.last {
+            entry.session = span.session
+            span.session.refreshStartDate()
+            return span.session
         }
 
         // 2. Extend the session this dose follows.
-        var candidate: Session?
-        var candidateLast = Date.distantPast
-        for session in sessions {
-            let priorDoses = session.orderedDoses.filter { $0 !== entry }
-            guard let last = priorDoses.map(\.timestamp).max(), last <= target else { continue }
-            if last > candidateLast {
-                candidate = session
-                candidateLast = last
+        var candidate: (session: Session, doses: [DoseEntry], firstDose: DoseEntry, last: Date)?
+        for span in spans where span.last <= target {
+            if candidate == nil || span.last > candidate!.last {
+                candidate = span
             }
         }
 
-        let openState = candidate.flatMap { session in
-            SessionClustering.OpenSession(doses: session.orderedDoses.filter { $0 !== entry }.map(clusterDose))
+        // `OpenSession(doses:)` anchors its start on the first element, so the
+        // one candidate's doses get sorted here — no other session pays for a
+        // sort.
+        let openState = candidate.flatMap { span in
+            SessionClustering.OpenSession(doses: span.doses.sorted { $0.timestamp < $1.timestamp }.map(clusterDose))
         }
 
         if case .join = SessionClustering.placement(of: clusterDose(for: entry), into: openState),
            let candidate {
-            entry.session = candidate
-            candidate.refreshStartDate()
-            return candidate
+            entry.session = candidate.session
+            candidate.session.refreshStartDate()
+            return candidate.session
         }
 
         // 3. Prepend — a back-dated dose may immediately precede an existing
@@ -88,13 +103,10 @@ enum SessionService {
         //    session's first dose join a session that ends with this one?
         var nextSession: Session?
         var nextFirstDose: DoseEntry?
-        for session in sessions {
-            let laterDoses = session.orderedDoses.filter { $0 !== entry }
-            guard let first = laterDoses.min(by: { $0.timestamp < $1.timestamp }),
-                  first.timestamp >= target else { continue }
-            if nextFirstDose == nil || first.timestamp < nextFirstDose!.timestamp {
-                nextSession = session
-                nextFirstDose = first
+        for span in spans where span.firstDose.timestamp >= target {
+            if nextFirstDose == nil || span.firstDose.timestamp < nextFirstDose!.timestamp {
+                nextSession = span.session
+                nextFirstDose = span.firstDose
             }
         }
         if let nextSession, let nextFirstDose {

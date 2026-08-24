@@ -96,6 +96,11 @@ struct QuickLogView: View {
     /// transition rather than popping in afterwards.
     @State private var dockPresented = true
 
+    /// Set the instant the tray commits: the sheet is dismissing, so the
+    /// revision-keyed derived-cache rebuild — which the commit itself triggers —
+    /// would be pure wasted main-thread time during the slide-down.
+    @State private var isCommitted = false
+
     /// Measured height of the cover — bounds the dock's compact detent.
     @State private var containerHeight: CGFloat = 0
 
@@ -254,7 +259,7 @@ struct QuickLogView: View {
             // subscribe this body to every field of every entry). The initial
             // `.task` above owns the first rebuild, so skip until it has run.
             .task(id: DoseLogService.shared.revision) {
-                guard content.hasLoaded else { return }
+                guard content.hasLoaded, !isCommitted else { return }
                 content.rebuildEntryDerived(allEntries: allEntries, dailyDoseItems: dailyDoseItems, routines: routines)
             }
             .onChange(of: substanceColors.count) {
@@ -380,6 +385,7 @@ struct QuickLogView: View {
     /// under linear superposition.
     private func commitTray() {
         guard tray.isCommittable else { return }
+        isCommitted = true
 
         // Snapshot everything the writes need *before* dismissing. The view's
         // `@State` tray and `@Query` results start tearing down the instant we
@@ -469,21 +475,23 @@ struct QuickLogView: View {
                     allColors: colors,
                 )
             }
+            // Curated-list maintenance is a site-specific immediate bit (it
+            // records the chips the user actually tapped), kept prompt so a
+            // reopened tray reflects them right away. Mutations only — the
+            // single save below commits doses and chips together, so the
+            // per-save `@Query` invalidation storm fires once, not twice.
+            QuickLogManager.record(curation, fixedOrder: fixedOrder, context: context, save: false)
             do {
                 try context.save()
             } catch {
                 // The success haptic + dismissal already fired (deliberately —
                 // the sheet must slide immediately), so a failure here leaves
                 // the live session showing doses the store doesn't have. The
-                // inserts stay pending on the context, so the next save — the
-                // curation write below or SwiftData's autosave — retries them;
+                // inserts stay pending on the context, so the next save —
+                // SwiftData's autosave or the next commit — retries them;
                 // record it loudly instead of vanishing the evidence.
                 quickLogLogger.fault("Quick-log commit save failed for \(stagedItems.count) dose(s): \(error)")
             }
-            // Curated-list maintenance is a site-specific immediate bit (it
-            // records the chips the user actually tapped), kept prompt so a
-            // reopened tray reflects them right away.
-            QuickLogManager.record(curation, fixedOrder: fixedOrder, context: context)
             DoseLogService.shared.changed()
 
             // Tier 2 — after the dismissal animation: the bookkeeping that isn't
