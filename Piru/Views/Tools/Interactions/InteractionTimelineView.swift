@@ -140,7 +140,7 @@ struct InteractionTimelineView: View {
     }
 
     private static func resolveParams(for name: String) -> PKParams? {
-        let substance = SubstanceLibrary.timelineLookup(name)
+        let substance = SubstanceLibrary.lookup(name)
         let halfLife = substance?.halfLifeMinutes ?? HalfLifeDatabase.halfLife(for: name)
         guard let halfLife, halfLife > 0 else { return nil }
 

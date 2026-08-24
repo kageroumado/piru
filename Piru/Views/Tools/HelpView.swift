@@ -40,7 +40,7 @@ struct HelpView: View {
         var seen = Set<SubstanceCategory>()
         var result: [SubstanceCategory] = []
         for entry in recentEntries where entry.timestamp >= cutoff {
-            if let sub = SubstanceLibrary.timelineLookup(entry.substance),
+            if let sub = SubstanceLibrary.lookup(entry.substance),
                guided.contains(sub.category),
                !seen.contains(sub.category) {
                 seen.insert(sub.category)
@@ -708,7 +708,7 @@ struct HelpView: View {
                 // differs, so they can still recognize their own log. Raw
                 // `entry.substance` was neither: it's whatever string was typed,
                 // which may be an alias the catalog has since renamed.
-                let canonical = SubstanceLibrary.timelineLookup(entry.substance)?.displayTitle ?? entry.substance
+                let canonical = SubstanceLibrary.lookup(entry.substance)?.displayTitle ?? entry.substance
                 let logged = DoseTitle.resolve(for: entry)
                 let name = logged.caseInsensitiveCompare(canonical) == .orderedSame
                     ? canonical

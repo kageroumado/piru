@@ -13,7 +13,7 @@ struct OverviewResolutionTests {
     func `Every substance with a description resolves one, in any order`() {
         // The reported sequence, in one process.
         for name in ["Pregabalin", "Tramadol", "Pregabalin", "Amphetamine", "Tramadol"] {
-            let substance = SubstanceLibrary.lookup(name)
+            let substance = SubstanceLibrary.resolveFull(name)
             #expect(substance != nil, "\(name) missing from the library")
             #expect(
                 substance?.overview?.text.isEmpty == false,
@@ -24,10 +24,10 @@ struct OverviewResolutionTests {
 
     @Test
     func `A repeated lookup returns the same overview it did the first time`() {
-        let first = SubstanceLibrary.lookup("Tramadol")?.overview?.text
-        _ = SubstanceLibrary.lookup("Pregabalin")
-        _ = SubstanceLibrary.lookup("Amphetamine")
-        let second = SubstanceLibrary.lookup("Tramadol")?.overview?.text
+        let first = SubstanceLibrary.resolveFull("Tramadol")?.overview?.text
+        _ = SubstanceLibrary.resolveFull("Pregabalin")
+        _ = SubstanceLibrary.resolveFull("Amphetamine")
+        let second = SubstanceLibrary.resolveFull("Tramadol")?.overview?.text
         #expect(first == second, "an intervening lookup changed Tramadol's overview")
         #expect(first?.isEmpty == false)
     }

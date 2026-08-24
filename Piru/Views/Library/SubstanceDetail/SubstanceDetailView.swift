@@ -173,7 +173,7 @@ struct SubstanceDetailView: View {
     /// routes, and category, so only the heavy sections pop in. No-op when the
     /// canonical row can't be resolved (keeps the shell).
     private func upgradeToFullRecord() {
-        if let full = SubstanceLibrary.lookup(baseSubstance.name) {
+        if let full = SubstanceLibrary.resolveFull(baseSubstance.name) {
             baseSubstance = full
         }
     }

@@ -340,7 +340,13 @@ final class SubstanceStore {
     ///     prefills `allCache`. Defaults to `true` (production behavior); tests
     ///     pass `false` so short-lived instances don't pay a ~600 ms batch
     ///     resolve they never read.
+    /// Whether `init` fired the off-main batch prefill — the production
+    /// configuration. Gates the cold-`all` tripwire below: a store built
+    /// without the prewarm (tests) reaches the cold arm by design.
+    private let prewarmsAllCache: Bool
+
     init(substancesDBURL: URL, userPrefsDBURL: URL, prewarmsAllCache: Bool = true) {
+        self.prewarmsAllCache = prewarmsAllCache
         // The substances DB is opened read-only — both the bundled copy
         // (immutable resource bundle) and any opt-in update applied to
         // Documents/ (we never modify it after sha256-verified install).
@@ -961,6 +967,15 @@ final class SubstanceStore {
         // so a body reading `all` would otherwise not re-render on a source reorder.
         let order = enabledSourceOrder
         if let cached = allCache { return cached }
+        // Every production path must `await ensureAllLoaded()` before anything
+        // that reads `all` — the cold arm below builds the whole batch
+        // synchronously on the main actor (~500 ms) on the FOREGROUND
+        // connection, blocking every other read behind it. The assertion turns
+        // a missed await from a silent hang in the field into a caught bug in
+        // development; release builds keep the fallback.
+        if prewarmsAllCache {
+            assertionFailure("Cold SubstanceStore.all on the main actor — await ensureAllLoaded() on this path first.")
+        }
         let resolved = Self.loadAllSubstancesBatch(db: substancesDB, order: order)
         allCache = resolved
         batchByName = nil

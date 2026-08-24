@@ -85,33 +85,30 @@ enum SubstanceLibrary {
         })
     }
 
-    /// Resolve a substance by canonical name **or any alias**, with the user's
-    /// overrides applied.
-    ///
-    /// There used to be two of these — an exact-canonical `lookup` and an
-    /// alias-aware `lookupByNameOrAlias` — and 19 call sites picked the exact
-    /// one. That is why `piru://substance/4-MMC` said "Substance Not Found"
-    /// while the detail screen resolved it, and why the inventory and
-    /// consumption rows disagreed with the detail page about IC-26.
+    /// The FULL per-field record — mechanism, bindings, chemistry identifiers,
+    /// subjective effects — by canonical name **or any alias**, with the user's
+    /// overrides applied. **Detail screens only**: uncached, this runs ~21 SQL
+    /// on the main actor per substance, and ``SubstanceStore/ensureAllLoaded()``
+    /// never warms its cache. Everything that reads name/category/routes/dose
+    /// ladders/durations/half-life belongs on ``lookup(_:)`` — the name is heavy
+    /// on purpose, so reaching for it is a deliberate act.
     ///
     /// Canonical-then-alias precedence, so a name that *is* canonical resolves
     /// exactly as before; the alias arm only runs when the canonical one misses.
-    /// There is no cheaper exact-only variant to reach for: both arms are dict
-    /// hits over the same index.
-    static func lookup(_ nameOrAlias: String) -> Substance? {
+    static func resolveFull(_ nameOrAlias: String) -> Substance? {
         overlayCustom(library: SubstanceStore.shared.lookupByNameOrAlias(nameOrAlias), query: nameOrAlias)
     }
 
-    /// Overlay-aware lookup for the **journal / timeline** path. Resolves the
-    /// library row from the lightweight batch cache (``SubstanceStore/timelineRow(_:)``)
-    /// — category, routes, dose-ranges, durations, half-life — which is all the
-    /// timeline derive needs, then applies any custom override. Falls back to the
-    /// full heavy lookup when the batch cache hasn't matched (cold cache, or a
-    /// custom-only substance with no library row), so it never silently drops an
-    /// override or a custom. Use this from per-entry resolution where the heavy
-    /// chem/mechanism fields are irrelevant; use ``lookupByNameOrAlias(_:)`` when
-    /// the full detail record is required.
-    static func timelineLookup(_ nameOrAlias: String) -> Substance? {
+    /// The default overlay-aware resolve. A dict hit over the lightweight batch
+    /// cache (``SubstanceStore/timelineRow(_:)``) — name, category, routes,
+    /// dose ranges (per-salt ladders included), durations, half-life — then any
+    /// custom override. Falls back to the full heavy resolve when the batch
+    /// cache hasn't matched (cold cache, or a custom-only substance with no
+    /// library row), so it never silently drops an override or a custom. Await
+    /// ``SubstanceStore/ensureAllLoaded()`` on the path first so the fallback
+    /// never fires cold; reach for ``resolveFull(_:)`` only when a detail
+    /// screen needs mechanism/bindings/chemistry.
+    static func lookup(_ nameOrAlias: String) -> Substance? {
         if let row = SubstanceStore.shared.timelineRow(nameOrAlias) {
             return overlayCustom(library: row, query: nameOrAlias)
         }

@@ -636,7 +636,7 @@ enum RampDownScheduler {
         // Batch-cache resolve — `doseRange` is carried by the lightweight timeline
         // projection, so skip the heavy (~18-query + chem/mechanism decode) full
         // lookup. Runs once per logged dose in the deferred notification path.
-        guard let substance = SubstanceLibrary.timelineLookup(substanceName),
+        guard let substance = SubstanceLibrary.lookup(substanceName),
               let doseRange = substance.doseRange(for: route) else {
             // No dose data — can't make a judgment
             return (total, false)
@@ -659,11 +659,11 @@ enum RampDownScheduler {
     static func stimulantSessionHours(from entries: [DoseEntry]) -> Double? {
         let today = Calendar.current.startOfDay(for: .now)
         // `&&` short-circuits so the lookup runs only for today's entries, and
-        // `category` is on the lightweight batch projection — use `timelineLookup`
+        // `category` is on the lightweight batch projection — use `lookup`
         // rather than the heavy full resolve per today-entry (same fix as 3532a1a).
         let stimEntries = entries.filter { entry in
             entry.timestamp >= today &&
-                SubstanceLibrary.timelineLookup(entry.substance)?.category == .stimulant
+                SubstanceLibrary.lookup(entry.substance)?.category == .stimulant
         }
         guard let earliest = stimEntries.map(\.timestamp).min() else { return nil }
         return Date.now.timeIntervalSince(earliest) / 3_600

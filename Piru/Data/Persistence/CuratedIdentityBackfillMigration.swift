@@ -68,7 +68,7 @@ enum CuratedIdentityBackfillMigration {
         setRelease: (String?) -> Void,
         setProduct: (String) -> Void,
     ) -> Bool {
-        guard let match = SubstanceLibrary.timelineLookup(substance),
+        guard let match = SubstanceLibrary.lookup(substance),
               let uid = match.substanceUID
         else { return false } // never drop — stays name-only via the retained string
         setUID(uid)

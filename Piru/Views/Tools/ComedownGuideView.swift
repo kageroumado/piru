@@ -27,7 +27,7 @@ struct ComedownGuideView: View {
         var seen = Set<SubstanceCategory>()
         var result: [SubstanceCategory] = []
         for entry in recentEntries {
-            if let sub = SubstanceLibrary.timelineLookup(entry.substance),
+            if let sub = SubstanceLibrary.lookup(entry.substance),
                Self.guidedCategories.contains(sub.category),
                !seen.contains(sub.category) {
                 seen.insert(sub.category)

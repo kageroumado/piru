@@ -84,7 +84,7 @@ struct LibraryBrowseView: View {
         // aliases are polluted in the data — "magnesium" is also an alias of
         // Salicylic acid — so it mis-resolves. Paired with `total =
         // favoriteSubstances.count` this keeps the card's count honest instead.
-        favoriteSubstances = favorites.compactMap { SubstanceLibrary.lookup($0.substance) }
+        favoriteSubstances = favorites.compactMap { SubstanceLibrary.resolveFull($0.substance) }
     }
 
     private func toggle(_ id: String) {

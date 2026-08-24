@@ -193,7 +193,7 @@ struct SessionBodyLoadModel {
         }
         var groups: [String: Group] = [:]
         for entry in entries {
-            let canonical = SubstanceLibrary.timelineLookup(entry.substance)?.name ?? entry.substance
+            let canonical = SubstanceLibrary.lookup(entry.substance)?.name ?? entry.substance
             let key = canonical.lowercased()
             let product = entry.productName?.trimmingCharacters(in: .whitespaces) ?? ""
             if var group = groups[key] {
@@ -234,7 +234,7 @@ struct SessionBodyLoadModel {
         /// calculator skips a dose it cannot model, so without this check the
         /// two reasons for being skipped are indistinguishable downstream.
         func hasHalfLife(_ name: String) -> Bool {
-            guard let substance = SubstanceLibrary.timelineLookup(name) else { return false }
+            guard let substance = SubstanceLibrary.lookup(name) else { return false }
             return PKResolver.halfLifeMinutes(substance: substance, entryName: name) != nil
         }
 

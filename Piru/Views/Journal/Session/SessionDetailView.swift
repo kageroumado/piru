@@ -135,7 +135,7 @@ struct SessionDetailView: View {
         func inLibrary(_ name: String) -> Bool {
             let key = name.lowercased()
             if let cached = inLibraryCache[key] { return cached }
-            let resolved = SubstanceLibrary.timelineLookup(name) != nil
+            let resolved = SubstanceLibrary.lookup(name) != nil
             inLibraryCache[key] = resolved
             return resolved
         }
@@ -199,7 +199,7 @@ struct SessionDetailView: View {
         var seen = Set<String>()
         var pairs: [(product: String, base: String)] = []
         for entry in unmodeled {
-            let base = SubstanceLibrary.timelineLookup(entry.substance)?.name ?? entry.substance
+            let base = SubstanceLibrary.lookup(entry.substance)?.name ?? entry.substance
             let product = DoseTitle.resolve(for: entry)
             if seen.insert(product.lowercased() + "\u{1}" + base.lowercased()).inserted {
                 pairs.append((product, base))
@@ -302,7 +302,7 @@ struct SessionDetailView: View {
         var seen = Set<SubstanceCategory>()
         var result: [SubstanceCategory] = []
         for entry in entries {
-            guard let category = SubstanceLibrary.timelineLookup(entry.substance)?.category,
+            guard let category = SubstanceLibrary.lookup(entry.substance)?.category,
                   ComedownGuideView.guidedCategories.contains(category),
                   seen.insert(category).inserted else { continue }
             result.append(category)

@@ -204,7 +204,7 @@ nonisolated enum EffectAttenuation {
     /// Resolved half-life (minutes) for a substance — the library value, else the hardcoded database.
     @MainActor
     private static func halfLifeMinutes(for name: String) -> Double? {
-        SubstanceLibrary.timelineLookup(name)?.halfLifeMinutes ?? HalfLifeDatabase.halfLife(for: name)
+        SubstanceLibrary.lookup(name)?.halfLifeMinutes ?? HalfLifeDatabase.halfLife(for: name)
     }
 
     // MARK: - Role detection

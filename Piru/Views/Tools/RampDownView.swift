@@ -15,7 +15,7 @@ struct RampDownView: View {
     }
 
     private var category: SubstanceCategory? {
-        SubstanceLibrary.timelineLookup(entry.substance)?.category
+        SubstanceLibrary.lookup(entry.substance)?.category
     }
 
     private var isRedoseTimePast: Bool {

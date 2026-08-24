@@ -165,7 +165,7 @@ extension SessionStateExport {
         var order: [String] = []
         var groups: [String: (name: String, entries: [DoseEntry], products: Set<String>)] = [:]
         for entry in working {
-            let name = SubstanceLibrary.timelineLookup(entry.substance)?.displayTitle ?? entry.substance
+            let name = SubstanceLibrary.lookup(entry.substance)?.displayTitle ?? entry.substance
             let key = name.lowercased()
             if groups[key] == nil { order.append(key); groups[key] = (name, [], []) }
             groups[key]?.entries.append(entry)
@@ -274,7 +274,7 @@ extension SessionStateExport {
     @MainActor
     private static func makeEliminationGroup(name: String, entries: [DoseEntry], now: Date) -> EliminationGroup? {
         guard let earliest = entries.map(\.timestamp).min() else { return nil }
-        let substance = SubstanceLibrary.timelineLookup(entries.first?.substance ?? name)
+        let substance = SubstanceLibrary.lookup(entries.first?.substance ?? name)
         let isAlcohol = ["alcohol", "ethanol"].contains(name.lowercased())
 
         // A group containing a dose whose form we don't model can't be totalled:

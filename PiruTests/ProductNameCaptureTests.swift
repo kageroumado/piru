@@ -112,7 +112,7 @@ struct ProductNameCaptureTests {
 
     @Test
     func `Brand naming an isomer seeds the picker`() {
-        let substance = SubstanceLibrary.timelineLookup("Methylphenidate")
+        let substance = SubstanceLibrary.lookup("Methylphenidate")
         #expect(substance != nil)
         let seeded = DoseTrayModel.seedIsomer(productName: "Focalin", librarySubstance: substance, route: .oral)
         #expect(seeded == "D", "the user named the enantiomer by typing it; don't make them re-answer")
@@ -122,7 +122,7 @@ struct ProductNameCaptureTests {
     func `Isomer seed falls back when the route has no such ladder`() {
         // Methylphenidate has a D ladder on oral but not insufflation. The alias
         // names a substance-wide fact; the ladder is per-route.
-        let substance = SubstanceLibrary.timelineLookup("Methylphenidate")
+        let substance = SubstanceLibrary.lookup("Methylphenidate")
         let seeded = DoseTrayModel.seedIsomer(productName: "Focalin", librarySubstance: substance, route: .insufflation)
         #expect(seeded == substance?.defaultIsomer(for: .insufflation))
     }
@@ -154,7 +154,7 @@ struct ProductNameCaptureTests {
             productName: "Concerta",
         )
         #expect(dose.substanceName == "Methylphenidate")
-        #expect(SubstanceLibrary.timelineLookup(dose.substanceName) != nil)
+        #expect(SubstanceLibrary.lookup(dose.substanceName) != nil)
     }
 
     @Test
@@ -183,13 +183,13 @@ struct ProductNameCaptureTests {
         // Alphabetical ordering buried Vyvanse behind Elvanse/LDX; `aliases.kind`
         // now floats the brand first, so the "Also known as" subtitle shows the
         // name people actually know. Findability is untouched (normalized index).
-        let ldx = SubstanceLibrary.lookup("Lisdexamfetamine")
+        let ldx = SubstanceLibrary.resolveFull("Lisdexamfetamine")
         #expect(ldx?.displayAliases.first == "Vyvanse")
 
         // A substance with many brands leads with the curated flagship (Ritalin,
         // brand_rank 0) ahead of the auto-derived form brands (Concerta, rank 1) —
         // not the alphabetically-first "Adhansia XR".
-        let mph = SubstanceLibrary.lookup("Methylphenidate")
+        let mph = SubstanceLibrary.resolveFull("Methylphenidate")
         #expect(mph?.displayAliases.first == "Ritalin")
         #expect(mph?.displayAliases.prefix(2).contains("Concerta") == true)
     }

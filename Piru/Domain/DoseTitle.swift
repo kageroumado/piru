@@ -24,14 +24,14 @@ import Foundation
 enum DoseTitle {
     /// The dose's title, resolved live.
     ///
-    /// Resolves through ``SubstanceLibrary/timelineLookup(_:)`` — a dict hit over
+    /// Resolves through ``SubstanceLibrary/lookup(_:)`` — a dict hit over
     /// the warm batch cache — never `lookupByNameOrAlias`, which is ~21 SQL per
     /// substance on a cold cache. Cheap enough for a memoized derive layer;
     /// **not** cheap enough for a row `body`. Call it from `JournalModel.derived`
     /// or a `DayEntryCore` builder, not from a view.
     @MainActor
     static func resolve(for entry: DoseEntry) -> String {
-        let substance = SubstanceLibrary.timelineLookup(entry.substance)
+        let substance = SubstanceLibrary.lookup(entry.substance)
         // Resolve to the canonical name *first*, then ask about a relabel. The
         // relabel table is canonical-name-keyed while the catalog resolves names
         // or aliases, so looking up the raw string would miss the relabel on any
@@ -93,7 +93,7 @@ enum DoseTitle {
     @MainActor
     static func snapshot(canonicalName: String, isomer: String?, releaseForm: String?) -> String? {
         SubstanceLibrary.formTitle(for: canonicalName, isomer: isomer, release: releaseForm)
-            ?? SubstanceLibrary.timelineLookup(canonicalName)?.name
+            ?? SubstanceLibrary.lookup(canonicalName)?.name
     }
 }
 

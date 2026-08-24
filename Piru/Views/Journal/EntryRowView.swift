@@ -42,7 +42,7 @@ struct DayEntryCore: Equatable {
         func substance(_ name: String) -> Substance? {
             let key = name.lowercased()
             if let cached = cache[key] { return cached }
-            let resolved = SubstanceLibrary.timelineLookup(name)
+            let resolved = SubstanceLibrary.lookup(name)
             cache[key] = resolved
             return resolved
         }

@@ -8,21 +8,21 @@ struct SubstanceLibraryExtendedTests {
     @Test
     @MainActor
     func `lookupByNameOrAlias finds by exact name`() {
-        let result = SubstanceLibrary.lookup("Caffeine")
+        let result = SubstanceLibrary.resolveFull("Caffeine")
         #expect(result?.name == "Caffeine")
     }
 
     @Test
     @MainActor
     func `lookupByNameOrAlias is case-insensitive`() {
-        let result = SubstanceLibrary.lookup("caffeine")
+        let result = SubstanceLibrary.resolveFull("caffeine")
         #expect(result != nil)
     }
 
     @Test
     @MainActor
     func `lookupByNameOrAlias returns nil for unknown`() {
-        #expect(SubstanceLibrary.lookup("zzzNotRealzzz") == nil)
+        #expect(SubstanceLibrary.resolveFull("zzzNotRealzzz") == nil)
     }
 
     // MARK: - lookup (name only)
@@ -30,7 +30,7 @@ struct SubstanceLibraryExtendedTests {
     @Test
     @MainActor
     func `lookup finds by name`() {
-        let result = SubstanceLibrary.lookup("Caffeine")
+        let result = SubstanceLibrary.resolveFull("Caffeine")
         #expect(result?.name == "Caffeine")
     }
 
@@ -40,8 +40,8 @@ struct SubstanceLibraryExtendedTests {
         // lookup only checks name, not aliases
         // (lookupByNameOrAlias checks both)
         // This test verifies the distinction
-        let byName = SubstanceLibrary.lookup("Molly")
-        let byAlias = SubstanceLibrary.lookup("Molly")
+        let byName = SubstanceLibrary.resolveFull("Molly")
+        let byAlias = SubstanceLibrary.resolveFull("Molly")
         // "Molly" is an alias for MDMA, not a direct name
         // lookup should return nil, lookupByNameOrAlias should find it
         if byAlias != nil {

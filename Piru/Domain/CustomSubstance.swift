@@ -363,7 +363,7 @@ final class CustomSubstanceStore {
     ///
     /// Reads the **raw** store, not the `SubstanceLibrary` façade. The façade
     /// applies this store's overrides, so going through it would recurse:
-    /// `canonicalKey` → `timelineLookup` → overlay → `first(whereName:)` →
+    /// `canonicalKey` → `lookup` → overlay → `first(whereName:)` →
     /// `byCanonicalKey` → `canonicalKey`. `timelineRow` is a dict hit over the
     /// warm batch cache, keyed on name *and* alias, and applies nothing.
     static func canonicalKey(_ name: String) -> String {
@@ -448,12 +448,12 @@ final class CustomSubstanceStore {
         // "Lysergic Acid Diethylamide" entry after LSD's canonical was shortened)
         // still maps to the "LSD" row.
         //
-        // `timelineLookup` — a dict hit over the warm batch cache, keyed on name
+        // `lookup` — a dict hit over the warm batch cache, keyed on name
         // *and* alias — rather than `lookupByNameOrAlias`, which is ~21 SQL per
         // substance whenever `resolvedCache` is cold (launch, or any source
         // reorder) and runs on the main actor. This is a name lookup; it has no
         // business touching the chem/mechanism tables to answer it.
-        if let library = SubstanceLibrary.timelineLookup(canonicalName) {
+        if let library = SubstanceLibrary.lookup(canonicalName) {
             return library.displayTitle
         }
         return canonicalName

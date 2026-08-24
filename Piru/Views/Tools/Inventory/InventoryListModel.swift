@@ -206,7 +206,7 @@ final class InventoryListModel {
         if let cached = categoryCache[key] { return cached }
         // Batch projection, not the heavy per-substance `lookup` — only the
         // category is read, and this runs per item on the sort/group path.
-        let resolved = SubstanceLibrary.timelineLookup(item.substance)?.category ?? .other
+        let resolved = SubstanceLibrary.lookup(item.substance)?.category ?? .other
         categoryCache[key] = resolved
         return resolved
     }

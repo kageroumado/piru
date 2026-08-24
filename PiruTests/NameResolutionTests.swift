@@ -67,7 +67,7 @@ struct NameResolutionTests {
             return
         }
         let searched = SubstanceLibrary.search("Caffeine", limit: 5).first { $0.name == "Caffeine" }
-        let looked = SubstanceLibrary.lookup("Caffeine")
+        let looked = SubstanceLibrary.resolveFull("Caffeine")
         #expect(browsed.displayTitle == searched?.displayTitle)
         #expect(browsed.displayTitle == looked?.displayTitle)
     }
@@ -79,7 +79,7 @@ struct NameResolutionTests {
         // that no longer exists.
         for alias in ["4-MMC", "4mmc", "Mephedrone"] {
             #expect(
-                SubstanceLibrary.lookup(alias)?.name == "Mephedrone",
+                SubstanceLibrary.resolveFull(alias)?.name == "Mephedrone",
                 "\(alias) did not resolve to Mephedrone",
             )
         }
@@ -90,7 +90,7 @@ struct NameResolutionTests {
         // Precedence, not just reachability: the alias arm must only run when
         // the canonical one misses, or a substance whose name is another's
         // alias would resolve to the wrong row.
-        #expect(SubstanceLibrary.lookup("Caffeine")?.name == "Caffeine")
-        #expect(SubstanceLibrary.lookup("LSD")?.name == "LSD")
+        #expect(SubstanceLibrary.resolveFull("Caffeine")?.name == "Caffeine")
+        #expect(SubstanceLibrary.resolveFull("LSD")?.name == "LSD")
     }
 }

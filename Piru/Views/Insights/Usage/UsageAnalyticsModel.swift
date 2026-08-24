@@ -136,7 +136,7 @@ final class UsageAnalyticsModel {
             if let cached = resolvedSubstances[key] {
                 substance = cached
             } else {
-                substance = SubstanceLibrary.timelineLookup(entry.substance)
+                substance = SubstanceLibrary.lookup(entry.substance)
                 resolvedSubstances[key] = substance
             }
 

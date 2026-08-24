@@ -53,7 +53,7 @@ struct PSIDBackfillMigrationTests {
         // A bare name resolves to the unspecified form and snapshots the
         // locale-stable CANONICAL name — not a region-resolved display title.
         let plain = try #require(byName["Methylphenidate"])
-        let mph = try #require(SubstanceLibrary.timelineLookup("Methylphenidate"))
+        let mph = try #require(SubstanceLibrary.lookup("Methylphenidate"))
         #expect(plain.substanceUID == mph.substanceUID, "should carry its FAMILY uid")
         #expect(try PSID.isWellformedFamily(#require(plain.substanceUID)))
         #expect(plain.displayNameSnapshot == mph.name, "bare name snapshots its canonical name")
@@ -63,7 +63,7 @@ struct PSIDBackfillMigrationTests {
         // form, while still resolving to the parent's FAMILY (there is no separate
         // XR row — the facet is what distinguishes it).
         for (name, title) in [("Concerta", "Methylphenidate XR"), ("Adderall XR", "Amphetamine XR")] {
-            let match = try #require(SubstanceLibrary.timelineLookup(name))
+            let match = try #require(SubstanceLibrary.lookup(name))
             let row = try #require(byName[name])
             #expect(row.substanceUID == match.substanceUID, "\(name) should carry its FAMILY uid")
             #expect(try PSID.isWellformedFamily(#require(row.substanceUID)))
@@ -74,7 +74,7 @@ struct PSIDBackfillMigrationTests {
         // An isomer form-string (Esketamine) resolves its facet + form title (Stage
         // A), sharing the parent FAMILY but titled by its own recognized name.
         let esk = try #require(byName["Esketamine"])
-        let ketamine = try #require(SubstanceLibrary.timelineLookup("Esketamine"))
+        let ketamine = try #require(SubstanceLibrary.lookup("Esketamine"))
         #expect(esk.substanceUID == ketamine.substanceUID, "Esketamine carries the Ketamine FAMILY")
         #expect(esk.isomer == "S", "Esketamine recovers the S-enantiomer form")
         #expect(esk.displayNameSnapshot == "Esketamine", "titled by its form")

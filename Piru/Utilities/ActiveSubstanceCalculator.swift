@@ -46,7 +46,7 @@ enum ActiveSubstanceCalculator {
         func cachedLookup(_ name: String) -> Substance? {
             let key = name.lowercased()
             if let cached = substanceCache[key] { return cached }
-            let result = SubstanceLibrary.timelineLookup(name)
+            let result = SubstanceLibrary.lookup(name)
             substanceCache[key] = result
             return result
         }
@@ -232,7 +232,7 @@ extension ActiveSubstanceState {
         // (category, dose-ranges, durations, half-life, aliases) without the
         // heavy per-substance chem/mechanism SQL. Falls back to the full lookup
         // when the batch cache is cold or the substance is custom-only.
-        guard let substance = SubstanceLibrary.timelineLookup(entry.substance) else { return nil }
+        guard let substance = SubstanceLibrary.lookup(entry.substance) else { return nil }
         // An extended-release product we model per-product ("Concerta", "Adderall
         // XR") draws ITS authored envelope — the whole point of the product-duration
         // table — even though its release form is otherwise unmodeled.
@@ -301,7 +301,7 @@ extension ActiveSubstanceState {
             // duration *or* effect to honestly plot, so it stays off the effect
             // graph entirely (it remains in the entries list and the info card). A
             // non-supplement with no data still gets its marker.
-            let substance = SubstanceLibrary.timelineLookup(entry.substance)
+            let substance = SubstanceLibrary.lookup(entry.substance)
             if substance?.category == .supplement { continue }
             markers.append(DoseMarker(
                 // Canonical name so the marker's label and its lane matching agree with the curves.

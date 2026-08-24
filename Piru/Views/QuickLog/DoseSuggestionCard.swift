@@ -8,7 +8,7 @@ enum DosePK {
         // cache — resolve **once** through it rather than two full overlay-aware
         // `lookupByNameOrAlias` calls (≈18 SQL + chem/mechanism decode each). This runs
         // per unique recent substance when the quick-log card list rebuilds.
-        let substance = SubstanceLibrary.timelineLookup(substanceName)
+        let substance = SubstanceLibrary.lookup(substanceName)
         let halfLife: Double
         if let hl = substance?.halfLifeMinutes, hl > 0 {
             halfLife = hl

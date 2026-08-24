@@ -63,7 +63,7 @@ struct SessionCard: Identifiable, Equatable {
         var display: [String] = []
         for name in entries.map(\.substance) {
             if seen.insert(name).inserted { unique.append(name) }
-            let shown = SubstanceLibrary.timelineLookup(name)?.displayTitle ?? name
+            let shown = SubstanceLibrary.lookup(name)?.displayTitle ?? name
             if seenDisplay.insert(shown.lowercased()).inserted { display.append(shown) }
         }
         uniqueSubstances = unique

@@ -61,7 +61,7 @@ struct InventoryItemDetailView: View {
     /// offered no way to read about it — the same dead end the dose screen had
     /// until it grew this row, so it uses the same row.
     @ViewBuilder private var substanceInfoSection: some View {
-        if let info = SubstanceLibrary.timelineLookup(item.substance) {
+        if let info = SubstanceLibrary.lookup(item.substance) {
             Section {
                 NavigationLink(value: PushRoute.substance(name: info.name)) {
                     Label("Substance Info", systemImage: "info.circle")

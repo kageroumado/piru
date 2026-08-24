@@ -28,13 +28,13 @@ struct SubstanceDataPageView: View {
 
     var body: some View {
         Group {
-            if let substance = resolved ?? SubstanceLibrary.shell(name) ?? SubstanceLibrary.timelineLookup(name) {
+            if let substance = resolved ?? SubstanceLibrary.shell(name) ?? SubstanceLibrary.lookup(name) {
                 List {
                     sections(for: substance)
                 }
                 .listStyle(.insetGrouped)
                 .task(id: name) {
-                    if let full = SubstanceLibrary.lookup(name) {
+                    if let full = SubstanceLibrary.resolveFull(name) {
                         resolved = full
                     }
                     model.load(substanceName: substance.name, category: substance.category, policy: Self.policy)

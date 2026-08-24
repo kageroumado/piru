@@ -76,7 +76,7 @@ struct SheetRouteView: View {
             DoseSourceComparisonView(
                 substanceName: substance,
                 route: route,
-                accent: SubstanceLibrary.lookup(substance)?.category.color ?? Theme.accent,
+                accent: SubstanceLibrary.resolveFull(substance)?.category.color ?? Theme.accent,
             )
 
         case .sourcePriority:

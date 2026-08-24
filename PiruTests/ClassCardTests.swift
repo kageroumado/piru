@@ -31,7 +31,7 @@ struct ClassCardTests {
 
     @Test
     func `Sertraline resolves as an SSRI from the shipped tags`() throws {
-        let sertraline = try #require(SubstanceLibrary.lookup("Sertraline"))
+        let sertraline = try #require(SubstanceLibrary.resolveFull("Sertraline"))
         #expect(AntidepressantClass.resolve(tags: sertraline.tags) == [.ssri])
     }
 
@@ -39,7 +39,7 @@ struct ClassCardTests {
     func `Methamphetamine carries the NDRI tag, which is why the card gates on category`() throws {
         // The tag is mechanistically right and the card must still not appear:
         // an antidepressant-class card frames the compound as something it isn't.
-        let meth = try #require(SubstanceLibrary.lookup("Methamphetamine"))
+        let meth = try #require(SubstanceLibrary.resolveFull("Methamphetamine"))
         #expect(AntidepressantClass.resolve(tags: meth.tags) == [.ndri])
         #expect(meth.category != .antidepressant)
         #expect(!meth.extraBrowseCategories.contains(.antidepressant))
@@ -49,8 +49,8 @@ struct ClassCardTests {
 
     @Test
     func `The ladder ascends and marks exactly the drug whose page it is`() throws {
-        let clonazepam = try #require(SubstanceLibrary.lookup("Clonazepam"))
-        let rungs = BenzoDurationLadder.rungs(for: clonazepam) { SubstanceLibrary.lookup($0) }
+        let clonazepam = try #require(SubstanceLibrary.resolveFull("Clonazepam"))
+        let rungs = BenzoDurationLadder.rungs(for: clonazepam) { SubstanceLibrary.resolveFull($0) }
         #expect(rungs.count > 1)
         #expect(rungs.filter { $0.role == .subject }.count == 1)
         #expect(rungs.first { $0.role == .subject }?.name == clonazepam.displayTitle)
@@ -61,15 +61,15 @@ struct ClassCardTests {
 
     @Test
     func `A reference compound appears once on its own page, not twice`() throws {
-        let diazepam = try #require(SubstanceLibrary.lookup("Diazepam"))
-        let rungs = BenzoDurationLadder.rungs(for: diazepam) { SubstanceLibrary.lookup($0) }
+        let diazepam = try #require(SubstanceLibrary.resolveFull("Diazepam"))
+        let rungs = BenzoDurationLadder.rungs(for: diazepam) { SubstanceLibrary.resolveFull($0) }
         #expect(rungs.filter { $0.name == diazepam.displayTitle }.count == 1)
         #expect(rungs.last?.role == .subject)
     }
 
     @Test
     func `A substance with no half-life gets no ladder, rather than one it isn't on`() throws {
-        let subject = try #require(SubstanceLibrary.lookup("Diazepam"))
+        let subject = try #require(SubstanceLibrary.resolveFull("Diazepam"))
         let noHalfLife = Substance(
             name: subject.name,
             aliases: [],
@@ -79,12 +79,12 @@ struct ClassCardTests {
             effects: [],
         )
         #expect(noHalfLife.halfLifeMinutes == nil)
-        #expect(BenzoDurationLadder.rungs(for: noHalfLife) { SubstanceLibrary.lookup($0) }.isEmpty)
+        #expect(BenzoDurationLadder.rungs(for: noHalfLife) { SubstanceLibrary.resolveFull($0) }.isEmpty)
     }
 
     @Test
     func `Diazepam's nordazepam rung lands above it, which is the whole point`() throws {
-        let diazepam = try #require(SubstanceLibrary.lookup("Diazepam"))
+        let diazepam = try #require(SubstanceLibrary.resolveFull("Diazepam"))
         let parent = try #require(diazepam.halfLifeMinutes)
         let model = SubstanceDetailModel()
         model.load(
@@ -93,7 +93,7 @@ struct ClassCardTests {
             policy: DisclosurePolicy(profile: .pharmaNerd),
         )
         let rungs = BenzoDurationLadder.rungs(for: diazepam, metabolites: model.activeMetabolites) {
-            SubstanceLibrary.lookup($0)
+            SubstanceLibrary.resolveFull($0)
         }
         let metabolites = rungs.filter { $0.role == .metabolite }
         #expect(!metabolites.isEmpty)

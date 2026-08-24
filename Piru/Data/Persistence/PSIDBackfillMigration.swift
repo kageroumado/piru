@@ -92,13 +92,13 @@ enum PSIDBackfillMigration {
             return
         }
 
-        // Additive remap. `timelineLookup` is the overlay-aware, EXACT (batch-
+        // Additive remap. `lookup` is the overlay-aware, EXACT (batch-
         // cache canonical/alias) resolver — never fuzzy — so a user relabel maps
         // to the underlying library identity and a typo stays name-only.
         var snapshotted = defaults.bool(forKey: snapshotDoneKey)
         var resolved = 0
         for entry in pending {
-            guard let match = SubstanceLibrary.timelineLookup(entry.substance),
+            guard let match = SubstanceLibrary.lookup(entry.substance),
                   let uid = match.substanceUID
             else { continue } // never drop — stays name-only via `substance`
 

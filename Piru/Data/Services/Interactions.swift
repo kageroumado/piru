@@ -596,7 +596,7 @@ enum InteractionChecker {
     /// comparison. Nil when the catalog does not carry it — which is the signal to
     /// skip, never to fall back to raw string comparison.
     private static func canonicalName(for name: String) -> String? {
-        SubstanceLibrary.timelineLookup(name)?.name.lowercased()
+        SubstanceLibrary.lookup(name)?.name.lowercased()
     }
 
     // MARK: - Drug Class Mapping
@@ -886,7 +886,7 @@ enum InteractionChecker {
             return cached
         }
 
-        guard let substance = SubstanceLibrary.timelineLookup(substanceName) else {
+        guard let substance = SubstanceLibrary.lookup(substanceName) else {
             return []
         }
         // Re-check the overrides under the canonical name: the table is keyed by one
@@ -1697,7 +1697,7 @@ enum InteractionChecker {
     /// starts "now" on its default route, and its amount is treated as unknown
     /// (only the *shape* of the curve, which is dose-independent, is used).
     private static func prospectiveTrack(for substanceName: String) -> EffectTrack? {
-        guard let substance = SubstanceLibrary.timelineLookup(substanceName) else { return nil }
+        guard let substance = SubstanceLibrary.lookup(substanceName) else { return nil }
         let entry = DoseEntry(substance: substanceName, amount: 1, route: substance.defaultRoute)
         guard let state = ActiveSubstanceState.from(entry: entry, colorHex: "") else { return nil }
         return EffectTrack(state: state, start: entry.timestamp, amountKnown: false)
@@ -1709,10 +1709,10 @@ enum InteractionChecker {
     static func activeEntries(from entries: [DoseEntry]) -> [DoseEntry] {
         let now = Date.now
         return entries.filter { entry in
-            // The lightweight batch projection — it carries the durations and
-            // half-life this filter reads. The full `lookup` runs ~21 SQL per
-            // uncached substance, and several callers pass the whole dose log.
-            guard let substance = SubstanceLibrary.timelineLookup(entry.substance) else {
+            // The batch projection carries the durations and half-life this
+            // filter reads — several callers pass the whole dose log, so the
+            // full `resolveFull` here would be ~21 SQL per uncached substance.
+            guard let substance = SubstanceLibrary.lookup(entry.substance) else {
                 // Unknown substance — assume active for 24h as safety fallback
                 return entry.timestamp.addingTimeInterval(86_400) > now
             }

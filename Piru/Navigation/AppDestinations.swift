@@ -58,7 +58,7 @@ private struct PushRouteView: View {
             // profile the same way EntryDetailView gates its link — if either
             // is gone, render nothing.
             if let entry = lookupEntry(id: id, near: timestamp),
-               let substance = SubstanceLibrary.lookup(entry.substance),
+               let substance = SubstanceLibrary.resolveFull(entry.substance),
                let duration = substance.resolveDuration(for: entry.route) {
                 RampDownView(entry: entry, duration: duration)
             }
@@ -83,7 +83,7 @@ private struct PushRouteView: View {
             // ("magnesium" → Salicylic acid), so it would mis-resolve.
             if let shell = SubstanceLibrary.shell(name) {
                 SubstanceDetailView(substance: shell)
-            } else if let substance = SubstanceLibrary.lookup(name) {
+            } else if let substance = SubstanceLibrary.resolveFull(name) {
                 SubstanceDetailView(substance: substance)
             } else {
                 ContentUnavailableView(

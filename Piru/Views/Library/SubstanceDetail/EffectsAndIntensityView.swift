@@ -213,7 +213,7 @@ final class EffectsIntensityModel {
         if reported.isEmpty {
             fallbackGroups = store.effectsByCategory(forSubstanceName: substanceName)
         }
-        let substance = SubstanceLibrary.lookup(substanceName)
+        let substance = SubstanceLibrary.resolveFull(substanceName)
         freeodwikiSlug = substance?.freeodwikiSlug
         if let substance {
             drugCommunityDeepLink = SubstanceSourceLinks.deepLink("drug.community", substance: substance)

@@ -529,7 +529,7 @@ final class QuickLogContentModel {
                     // all a card needs — instead of the heavy per-substance SQL
                     // resolve, which cold-stalled the first open. Same path the
                     // journal uses; pre-warmed via `ensureAllLoaded()` on open.
-                    librarySubstance: SubstanceLibrary.timelineLookup(dose.substance.lowercased()),
+                    librarySubstance: SubstanceLibrary.lookup(dose.substance.lowercased()),
                     latestTimestamp: dose.lastUsedAt,
                     substanceUID: dose.substanceUID,
                     isomer: dose.isomer,
@@ -604,7 +604,7 @@ final class QuickLogContentModel {
         // identity, since `cachedHistoryNames` holds card identity keys.
         cachedFavoriteLibrarySubstances = favorites
             .filter { !cachedHistoryNames.contains($0.identityKey) }
-            .compactMap { SubstanceLibrary.timelineLookup($0.substance.lowercased()) }
+            .compactMap { SubstanceLibrary.lookup($0.substance.lowercased()) }
     }
 
     /// Rebuild only the routine-pill groups (the settings sheet edited a routine

@@ -123,7 +123,7 @@ struct DockSheetHost: View {
                 route: prefill.route,
                 unit: prefill.unit,
                 colorHex: content.cachedColorLookup[prefill.substance.lowercased()],
-                librarySubstance: SubstanceLibrary.timelineLookup(prefill.substance.lowercased()),
+                librarySubstance: SubstanceLibrary.lookup(prefill.substance.lowercased()),
             )
             searchActive = false
             searchText = ""
@@ -535,7 +535,7 @@ struct QuickLogCardList: View {
             amount: item.amount,
             unit: item.unit,
             colorHex: content.cachedColorLookup[item.substance.lowercased()],
-            librarySubstance: SubstanceLibrary.timelineLookup(item.substance.lowercased()),
+            librarySubstance: SubstanceLibrary.lookup(item.substance.lowercased()),
             // Carry the daily item's product so a Concerta med logs as Concerta —
             // the tray derives the release form/isomer from it, same as search.
             productName: item.productName,

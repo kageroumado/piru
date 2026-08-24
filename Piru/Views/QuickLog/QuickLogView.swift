@@ -351,7 +351,7 @@ struct QuickLogView: View {
     /// route and opens the editor, so the sheet lands on the dose the user came
     /// to enter rather than on the card list. No-op for an unknown name.
     private func stagePrefill(named name: String) {
-        guard let substance = SubstanceLibrary.lookup(name) else { return }
+        guard let substance = SubstanceLibrary.resolveFull(name) else { return }
         let route = substance.defaultRoute
         withAnimation(.snappy) {
             tray.stageDraft(
@@ -371,7 +371,7 @@ struct QuickLogView: View {
             amount: item.amount,
             unit: item.unit,
             colorHex: content.cachedColorLookup[item.substance.lowercased()],
-            librarySubstance: SubstanceLibrary.timelineLookup(item.substance.lowercased()),
+            librarySubstance: SubstanceLibrary.lookup(item.substance.lowercased()),
             // Carry the daily item's product so a Concerta med logs as Concerta —
             // the tray derives the release form/isomer from it, same as search.
             productName: item.productName,

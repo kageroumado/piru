@@ -146,7 +146,7 @@ struct EntryDetailView: View {
             // per keystroke while editing) was a heavy blocking lookup.
             await SubstanceStore.shared.ensureAllLoaded()
             if substanceInfo == nil {
-                substanceInfo = SubstanceLibrary.lookup(entry.substance)
+                substanceInfo = SubstanceLibrary.resolveFull(entry.substance)
             }
             // The session's worst interaction, for the "Part of Session" echo.
             // One batch check per screen — not per body pass.

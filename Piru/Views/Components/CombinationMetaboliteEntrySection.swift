@@ -51,7 +51,7 @@ final class CombinationMetaboliteEntryModel {
     /// methylphenidate is still onboard).
     static func onboardWindow(for entry: DoseEntry) -> DateInterval {
         let fallback: TimeInterval = 24 * 3_600
-        guard let substance = SubstanceLibrary.timelineLookup(entry.substance) else {
+        guard let substance = SubstanceLibrary.lookup(entry.substance) else {
             return DateInterval(start: entry.timestamp, duration: fallback)
         }
         if let duration = substance.duration(for: entry.route), duration.estimatedTotalMinutes > 0 {

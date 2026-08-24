@@ -24,7 +24,7 @@ final class JournalModel {
         let state: ActiveSubstanceState?
         let marker: DoseMarker?
         /// The dose's resolved title (``DoseTitle``), amortized here with
-        /// `category` rather than re-derived per row. Cheap — a `timelineLookup`
+        /// `category` rather than re-derived per row. Cheap — a `lookup`
         /// dict hit — but not free, and a row `body` re-runs on every scroll tick.
         let title: String
     }
@@ -145,7 +145,7 @@ final class JournalModel {
     /// Resolve a single entry's category + timeline inputs (the expensive part:
     /// the `SubstanceLibrary` lookup and PK-state synthesis).
     private func resolveEntry(_ entry: DoseEntry, hexMap: [String: String]) -> EntryDerived {
-        let category = SubstanceLibrary.timelineLookup(entry.substance)?.category ?? .other
+        let category = SubstanceLibrary.lookup(entry.substance)?.category ?? .other
         let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
         let state = ActiveSubstanceState.from(entry: entry, colorHex: hex)
         let title = DoseTitle.resolve(for: entry)

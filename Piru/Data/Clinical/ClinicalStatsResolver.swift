@@ -20,7 +20,7 @@ enum ClinicalStatsResolver {
         func lookup(_ name: String) -> Substance? {
             let key = name.lowercased()
             if let hit = substanceCache[key] { return hit }
-            let result = SubstanceLibrary.timelineLookup(name)
+            let result = SubstanceLibrary.lookup(name)
             substanceCache[key] = result
             return result
         }

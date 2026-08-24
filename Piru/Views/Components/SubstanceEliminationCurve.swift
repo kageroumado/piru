@@ -155,7 +155,7 @@ struct SubstanceEliminationCurve: View {
     static func estimateKa(for substanceName: String, ke: Double) -> Double {
         // Batch projection — durations are on it, and this runs in `body` per
         // rendered active-substance row.
-        if let substance = SubstanceLibrary.timelineLookup(substanceName.lowercased()),
+        if let substance = SubstanceLibrary.lookup(substanceName.lowercased()),
            let duration = substance.resolveDuration(for: .oral) {
             let timeToPeak = (duration.onset?.midpoint ?? 0) + (duration.comeup?.midpoint ?? 0)
             if timeToPeak > 0 {

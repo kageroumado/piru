@@ -112,8 +112,14 @@ struct PiruApp: App {
                 .task {
                     WidgetCenter.shared.reloadAllTimelines()
                     // Touch the store so its singleton init runs (opens the
-                    // SQLite, seeds preferences) before the first view query.
+                    // SQLite, seeds preferences) before the first view query —
+                    // then await the batch prefill it kicked off. Everything
+                    // below (session backfill's per-dose duration resolve, the
+                    // PSID backfill, demo seeding) resolves substances; without
+                    // this await they raced the prewarm and, on a loss, built
+                    // the whole batch synchronously on the main actor.
                     _ = SubstanceStore.shared.count
+                    await SubstanceStore.shared.ensureAllLoaded()
                     // Set up first-run contextual tips (gated on onboarding completion).
                     OnboardingTips.configure()
                     // First-run nudge sequencing: bump the launch counter and record whether a dose
@@ -137,7 +143,7 @@ struct PiruApp: App {
                     // (substanceUID + displayNameSnapshot). Backup-first, additive,
                     // never-drop, guarded once — see PSIDBackfillMigration. Runs here
                     // (post-launch, off the critical path) because nothing reads the
-                    // new fields yet; SubstanceStore is already warm above.
+                    // new fields yet; the batch cache was awaited warm above.
                     PSIDBackfillMigration.runIfNeeded(container: container)
                     // Same identity onto the curated rows (recents, favorites,
                     // daily meds), so they key on substance identity instead of a

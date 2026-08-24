@@ -56,7 +56,7 @@ private struct RecentlySearchedGroup: View {
 
     /// Resolved in the `.task`, not per body pass: the old computed property
     /// ran its lookups twice per pass (the emptiness guard and the card), and
-    /// on a cold cache `timelineLookup` fell through to a synchronous main-actor
+    /// on a cold cache `lookup` fell through to a synchronous main-actor
     /// batch build — the task awaits the warm cache first.
     @State private var substances: [Substance] = []
 
@@ -83,7 +83,7 @@ private struct RecentlySearchedGroup: View {
             await SubstanceStore.shared.ensureAllLoaded()
             // Warm batch cache, not the heavy ~21-query resolve — the row only
             // renders name/category/subtitle/isStub, all on the projection.
-            substances = history.recent.compactMap { SubstanceLibrary.timelineLookup($0) }
+            substances = history.recent.compactMap { SubstanceLibrary.lookup($0) }
         }
     }
 }
@@ -125,7 +125,7 @@ private struct RecentDosesGroup: View {
             for entry in recentEntries {
                 let key = entry.substance.lowercased()
                 // Warm batch cache, not the heavy ~21-query resolve.
-                if seen.insert(key).inserted, let substance = SubstanceLibrary.timelineLookup(key) {
+                if seen.insert(key).inserted, let substance = SubstanceLibrary.lookup(key) {
                     result.append(substance)
                     if result.count >= limit { break }
                 }

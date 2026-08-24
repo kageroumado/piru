@@ -240,7 +240,7 @@ private struct RecentSubstancesSection: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
 
     /// Resolved once per dose-history change instead of per body — each rebuild
-    /// is up to 10 synchronous `SubstanceLibrary.lookup` calls.
+    /// is up to 10 synchronous `SubstanceLibrary.resolveFull` calls.
     @State private var recentSubstances: [Substance] = []
 
     private var recentSignature: Int {
@@ -258,7 +258,7 @@ private struct RecentSubstancesSection: View {
         var result: [Substance] = []
         for entry in recentEntries {
             let key = entry.substance.lowercased()
-            if seen.insert(key).inserted, let substance = SubstanceLibrary.lookup(key) {
+            if seen.insert(key).inserted, let substance = SubstanceLibrary.resolveFull(key) {
                 result.append(substance)
                 if result.count >= 10 { break }
             }
@@ -350,7 +350,7 @@ struct SubstanceCategoryListView: View {
         } else {
             // Exact canonical lookup — alias fallback mis-resolves on polluted
             // aliases (e.g. "magnesium" is also an alias of Salicylic acid).
-            favorites.compactMap { SubstanceLibrary.lookup($0.substance) }
+            favorites.compactMap { SubstanceLibrary.resolveFull($0.substance) }
         }
         let favNames = Set(favorites.map { $0.substance.lowercased() })
         let mode = sortMode

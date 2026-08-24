@@ -81,7 +81,7 @@ struct PKInteractionReadPathTests {
         )
         for finding in findings {
             #expect(
-                finding.hit.counterpartNames.contains { SubstanceLibrary.lookup($0) != nil },
+                finding.hit.counterpartNames.contains { SubstanceLibrary.resolveFull($0) != nil },
                 "matched \(finding.hit.withSubstance) with no resolvable counterpart",
             )
         }

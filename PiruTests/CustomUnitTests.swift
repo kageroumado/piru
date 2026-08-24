@@ -59,7 +59,7 @@ struct CustomUnitTests {
 
     @Test
     func `A custom unit converts to mass, before the curated aliases`() throws {
-        var sub = try #require(SubstanceLibrary.lookup("Caffeine"))
+        var sub = try #require(SubstanceLibrary.resolveFull("Caffeine"))
         sub.customUnitAliases = [UnitAlias(label: "capsule", amountPerUnit: 100, unit: "mg")]
 
         #expect(sub.unitAliases.contains { $0.label == "capsule" })
@@ -71,7 +71,7 @@ struct CustomUnitTests {
     func `Custom aliases lead the curated ones`() throws {
         // Alcohol has a curated "drink" alias; a user alias must sit ahead of it so
         // a colliding label resolves to the user's definition.
-        var sub = try #require(SubstanceLibrary.lookup("Alcohol"))
+        var sub = try #require(SubstanceLibrary.resolveFull("Alcohol"))
         let curatedCount = sub.unitAliases.count
         sub.customUnitAliases = [UnitAlias(label: "can", amountPerUnit: 20, unit: "g")]
         #expect(sub.unitAliases.first?.label == "can")

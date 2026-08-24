@@ -440,7 +440,7 @@ final class DoseTrayModel {
         // library record — a custom substance the catalog can't resolve — keys by
         // bare name instead, so match that identity too. The two are disjoint (a
         // uid-bearing key is never a lowercased name), so this can't false-match.
-        let resolved = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: SubstanceLibrary.timelineLookup(substance.lowercased()), route: route)
+        let resolved = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: SubstanceLibrary.lookup(substance.lowercased()), route: route)
         let nameOnly = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: nil, route: route)
         guard let index = staged.firstIndex(where: {
             ($0.identityKey == resolved || $0.identityKey == nameOnly) && $0.route == route && $0.unit == unit

@@ -403,7 +403,7 @@ struct MedDetailView: View {
     /// dict hit, guarded to the same canonical-exact-name semantics the old
     /// ranked-search-then-filter form had (an alias match stays `nil`).
     private var resolvedSubstance: Substance? {
-        guard let substance = SubstanceLibrary.timelineLookup(item.substance),
+        guard let substance = SubstanceLibrary.lookup(item.substance),
               substance.name.lowercased() == item.substance.lowercased() else { return nil }
         return substance
     }

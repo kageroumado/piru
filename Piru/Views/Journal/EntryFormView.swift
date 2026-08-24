@@ -367,7 +367,7 @@ struct EntryFormView: View {
         // The search field's result comes straight from the ranked index, which
         // skips the custom overlay — re-resolve through the façade so user edits
         // and custom units ride along in the unit picker.
-        let sub = SubstanceLibrary.lookup(sub.name) ?? sub
+        let sub = SubstanceLibrary.resolveFull(sub.name) ?? sub
         selectedSubstance = sub
         let trimmed = product?.trimmingCharacters(in: .whitespaces)
         typedProductName = (trimmed?.isEmpty == false) ? trimmed : nil
@@ -414,7 +414,7 @@ struct EntryFormView: View {
                 location = PickedLocation(name: name, latitude: lat, longitude: lng)
             }
 
-            if let match = SubstanceLibrary.timelineLookup(entry.substance),
+            if let match = SubstanceLibrary.lookup(entry.substance),
                match.name.lowercased() == entry.substance.lowercased() {
                 selectedSubstance = match
                 availableRoutes = match.orderedRoutes

@@ -86,7 +86,7 @@ struct DoseTrayModelTests {
     @Test
     func `Concerta does not merge into plain methylphenidate`() {
         let tray = DoseTrayModel()
-        let mph = SubstanceLibrary.timelineLookup("methylphenidate")
+        let mph = SubstanceLibrary.lookup("methylphenidate")
         #expect(mph != nil)
         tray.stage(substance: "Methylphenidate", route: .oral, amount: 10, unit: "mg", colorHex: nil, librarySubstance: mph)
         tray.stage(substance: "Methylphenidate", route: .oral, amount: 10, unit: "mg", colorHex: nil, librarySubstance: mph, productName: "Concerta")
@@ -99,7 +99,7 @@ struct DoseTrayModelTests {
     @Test
     func `Same product re-stages into one row`() {
         let tray = DoseTrayModel()
-        let mph = SubstanceLibrary.timelineLookup("methylphenidate")
+        let mph = SubstanceLibrary.lookup("methylphenidate")
         tray.stage(substance: "Methylphenidate", route: .oral, amount: 18, unit: "mg", colorHex: nil, librarySubstance: mph, productName: "Concerta")
         tray.stage(substance: "Methylphenidate", route: .oral, amount: 18, unit: "mg", colorHex: nil, librarySubstance: mph, productName: "Concerta")
         #expect(tray.staged.count == 1)
