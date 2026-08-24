@@ -1625,9 +1625,22 @@ struct Substance: Identifiable {
         return latin + han
     }
 
-    /// Casing/spacing-insensitive identity key for an alias.
+    /// Casing/spacing-insensitive identity key for an alias. Built in one
+    /// pass into a single string — the `.map(String.init).joined()` form
+    /// allocated a `String` per scalar, on the per-row render path — with an
+    /// inline test for the ASCII range so the bridged `CharacterSet` call is
+    /// paid only for non-ASCII scalars (CJK, Greek).
     static func aliasKey(_ s: String) -> String {
-        s.lowercased().unicodeScalars.filter { CharacterSet.alphanumerics.contains($0) }.map(String.init).joined()
+        var key = ""
+        key.reserveCapacity(s.count)
+        for scalar in s.lowercased().unicodeScalars {
+            let isASCIIAlnum = (scalar.value >= 0x30 && scalar.value <= 0x39)
+                || (scalar.value >= 0x61 && scalar.value <= 0x7A)
+            if isASCIIAlnum || (scalar.value > 0x7F && CharacterSet.alphanumerics.contains(scalar)) {
+                key.unicodeScalars.append(scalar)
+            }
+        }
+        return key
     }
 
     /// Prefer the better-cased variant: more capitals (proper "2C-B" over "2cb"),

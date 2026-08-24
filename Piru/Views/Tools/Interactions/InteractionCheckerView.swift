@@ -84,7 +84,9 @@ struct InteractionCheckerView: View {
                         guard searchTrigger > 0 else { return }
                         try? await Task.sleep(for: .milliseconds(150))
                         guard !Task.isCancelled, !searchText.isEmpty else { return }
-                        searchResults = SubstanceLibrary.search(searchText, limit: 8)
+                        let results = await SubstanceLibrary.searchAsync(searchText, limit: 8)
+                        guard !Task.isCancelled else { return }
+                        searchResults = results
                         showSearchResults = true
                     }
                     .onSubmit {

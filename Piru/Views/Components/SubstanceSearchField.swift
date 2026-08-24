@@ -71,7 +71,8 @@ struct SubstanceSearchField: View {
                     guard searchTrigger > 0 else { return }
                     try? await Task.sleep(for: .milliseconds(150))
                     guard !Task.isCancelled, !text.isEmpty, isFocused else { return }
-                    let raw = SubstanceLibrary.search(text, limit: 12)
+                    let raw = await SubstanceLibrary.searchAsync(text, limit: 12)
+                    guard !Task.isCancelled else { return }
                     if favoriteNames.isEmpty {
                         results = raw
                     } else {

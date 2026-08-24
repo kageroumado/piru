@@ -47,9 +47,6 @@ private struct SubstanceSearchResultsList: View {
     @State private var searchResults: [Substance] = []
     /// Cached so each search-result row's swipe action doesn't rebuild the set.
     @State private var favoriteNames: Set<String> = []
-    /// Held here so the row's personal-name override is resolved once per row
-    /// in this body (one subscription) rather than each row subscribing itself.
-    @State private var customStore = CustomSubstanceStore.shared
 
     var body: some View {
         Group {
@@ -67,7 +64,7 @@ private struct SubstanceSearchResultsList: View {
                 Section("\(searchResults.count) results") {
                     ForEach(searchResults) { substance in
                         NavigationLink(value: PushRoute.substance(name: substance.name)) {
-                            SubstanceRowView(substance: substance)
+                            SubstanceRowView(substance: substance, isPersonalized: CustomSubstanceStore.shared.isPersonalized(substance.name))
                         }
                         .swipeActions(edge: .trailing) {
                             let isFav = favoriteNames.contains(substance.name.lowercased())
@@ -241,7 +238,6 @@ private struct SubstanceSearchResultsList: View {
 /// tab to every dose mutation for the sake of these ten rows.
 private struct RecentSubstancesSection: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
-    @State private var customStore = CustomSubstanceStore.shared
 
     /// Resolved once per dose-history change instead of per body — each rebuild
     /// is up to 10 synchronous `SubstanceLibrary.lookup` calls.
@@ -290,7 +286,7 @@ private struct RecentSubstancesSection: View {
             Section("Recent") {
                 ForEach(recentSubstances) { substance in
                     NavigationLink(value: PushRoute.substance(name: substance.name)) {
-                        SubstanceRowView(substance: substance)
+                        SubstanceRowView(substance: substance, isPersonalized: CustomSubstanceStore.shared.isPersonalized(substance.name))
                     }
                     .listRowBackground(CardBackground())
                 }
@@ -309,7 +305,6 @@ struct SubstanceCategoryListView: View {
     var tag: String?
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
     @Environment(\.modelContext) private var modelContext
-    @State private var customStore = CustomSubstanceStore.shared
     @Environment(\.appNavigator) private var navigator
 
     enum SortMode: String, CaseIterable { case popularity, name }
@@ -449,7 +444,7 @@ struct SubstanceCategoryListView: View {
                     // Pass the list's category so a mixed compound from another
                     // family (e.g. a balanced stimulant in Empathogens) shows a
                     // disambiguating class chip; pure members stay chip-free.
-                    SubstanceRowView(substance: substance, contextCategory: category)
+                    SubstanceRowView(substance: substance, contextCategory: category, isPersonalized: CustomSubstanceStore.shared.isPersonalized(substance.name))
                 }
                 .swipeActions(edge: .trailing) {
                     let isFav = favoriteNames.contains(substance.name.lowercased())
@@ -501,10 +496,13 @@ struct SubstanceRowView: View {
     /// stimulant like 3-MMC in Empathogens reads "Stimulant") — the color dot +
     /// label disambiguate why it's here.
     var contextCategory: SubstanceCategory?
-    // Personal display-name override (resolved by the parent list, which holds
-    // the `CustomSubstanceStore`), or `nil` for the library title. Injected as a
-    // plain value so the row holds no store reference — it stays value-comparable
-    // and SwiftUI skips it on an unrelated re-render.
+
+    /// Whether the user has renamed this substance (resolved by the parent
+    /// list, which holds the `CustomSubstanceStore`). Injected as a plain value
+    /// so the row holds no store reference — it stays value-comparable, SwiftUI
+    /// skips it on an unrelated re-render, and fifty rows don't each subscribe
+    /// to every custom-substance mutation.
+    var isPersonalized = false
 
     /// Show the class chip in a cross-category list, or when this row's primary
     /// class differs from the list it's appearing in (a cross-listed mixed case).
@@ -527,8 +525,7 @@ struct SubstanceRowView: View {
                 // When personalized, show the canonical name as the subtitle so
                 // the user can tell what "joint" actually maps to. One line —
                 // long alias lists shouldn't blow a row up to three lines.
-                let personalized = CustomSubstanceStore.shared.isPersonalized(substance.name)
-                if let subtitle = personalized ? substance.name : substance.displaySubtitle {
+                if let subtitle = isPersonalized ? substance.name : substance.displaySubtitle {
                     Text(subtitle)
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)

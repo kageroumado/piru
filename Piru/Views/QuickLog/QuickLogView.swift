@@ -278,9 +278,12 @@ struct QuickLogView: View {
                 }
                 try? await Task.sleep(for: .milliseconds(150))
                 guard !Task.isCancelled else { return }
+                // Ranked off-main: the sync form runs the whole ranking pass —
+                // fuzzy tail included — on the main actor, per keystroke.
+                let matches = await SubstanceLibrary.searchMatchesAsync(searchText)
+                guard !Task.isCancelled else { return }
                 content.setLibraryResults(
-                    SubstanceLibrary.searchMatches(searchText)
-                        .filter { !content.cachedHistoryNames.contains($0.substance.name.lowercased()) },
+                    matches.filter { !content.cachedHistoryNames.contains($0.substance.name.lowercased()) },
                 )
             }
         }

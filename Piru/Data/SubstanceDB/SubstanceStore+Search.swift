@@ -155,28 +155,38 @@ extension SubstanceStore {
 
     private nonisolated static func fuzzyMatch(_ query: String, nameIndex: [String: Int64], excluding seen: Set<Int64>, limit: Int) -> [Int64] {
         let maxDist = max(1, Int(Double(query.count) * 0.3))
+        let queryChars = Array(query)
         var matches: [(Int64, Int)] = []
         for (key, id) in nameIndex where !seen.contains(id) {
-            let d = levenshtein(query, key)
-            if d <= maxDist { matches.append((id, d)) }
+            // Distance is at least the length difference — skip most of the
+            // catalog without touching the DP table (or allocating for it).
+            guard abs(key.count - queryChars.count) <= maxDist else { continue }
+            if let d = levenshtein(queryChars, Array(key), cap: maxDist) {
+                matches.append((id, d))
+            }
         }
         return matches.sorted { $0.1 < $1.1 }.prefix(limit).map(\.0)
     }
 
-    private nonisolated static func levenshtein(_ a: String, _ b: String) -> Int {
-        let a = Array(a), b = Array(b)
-        if a.isEmpty { return b.count }
-        if b.isEmpty { return a.count }
+    /// Capped Levenshtein: `nil` as soon as every cell of a DP row exceeds
+    /// `cap`, since the distance can only grow from there — the common case
+    /// for the ~1,700 non-matching names each fuzzy pass scans.
+    private nonisolated static func levenshtein(_ a: [Character], _ b: [Character], cap: Int) -> Int? {
+        if a.isEmpty { return b.count <= cap ? b.count : nil }
+        if b.isEmpty { return a.count <= cap ? a.count : nil }
         var prev = Array(0 ... b.count)
         var curr = [Int](repeating: 0, count: b.count + 1)
         for i in 1 ... a.count {
             curr[0] = i
+            var rowMin = curr[0]
             for j in 1 ... b.count {
                 let cost = a[i - 1] == b[j - 1] ? 0 : 1
                 curr[j] = min(prev[j] + 1, curr[j - 1] + 1, prev[j - 1] + cost)
+                rowMin = min(rowMin, curr[j])
             }
+            if rowMin > cap { return nil }
             swap(&prev, &curr)
         }
-        return prev[b.count]
+        return prev[b.count] <= cap ? prev[b.count] : nil
     }
 }

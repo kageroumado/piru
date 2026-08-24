@@ -19,15 +19,18 @@ nonisolated enum ContentLanguage: String {
     }
 
     /// Derive from the app's preferred localization (follows a per-app language
-    /// override, not just the device language).
-    static var current: ContentLanguage {
+    /// override, not just the device language). Computed once per process —
+    /// `preferredLocalizations` allocates on every call, this sat on the
+    /// per-row render path, and iOS relaunches the app when its language
+    /// changes, so the value cannot go stale.
+    static let current: ContentLanguage = {
         let pref = (Bundle.main.preferredLocalizations.first ?? "en").lowercased()
         guard pref.hasPrefix("zh") else { return .en }
         if pref.contains("hant") || pref.contains("tw") || pref.contains("hk") || pref.contains("mo") {
             return .zhHant
         }
         return .zhHans
-    }
+    }()
 
     /// Language-aware `WHERE`/`ORDER BY` fragments for a text table's `language`
     /// column. In Chinese, matching-language text floats above source priority

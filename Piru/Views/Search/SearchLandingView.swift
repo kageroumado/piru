@@ -54,27 +54,36 @@ struct SearchActivityList: View {
 private struct RecentlySearchedGroup: View {
     @State private var history = SearchHistoryStore.shared
 
-    private var substances: [Substance] {
-        // Resolve from the warm batch cache, not the heavy per-substance SQL
-        // path (`lookup` runs ~21 queries each). The row view only renders
-        // name/category/subtitle/isStub — all present on the lightweight
-        // projection — so this avoids blocking the main thread when the recent
-        // groups rebuild during the keyboard/focus transition.
-        history.recent.compactMap { SubstanceLibrary.timelineLookup($0) }
-    }
+    /// Resolved in the `.task`, not per body pass: the old computed property
+    /// ran its lookups twice per pass (the emptiness guard and the card), and
+    /// on a cold cache `timelineLookup` fell through to a synchronous main-actor
+    /// batch build — the task awaits the warm cache first.
+    @State private var substances: [Substance] = []
 
     var body: some View {
-        if !substances.isEmpty {
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    SectionLabel("Recently Searched")
-                    Spacer()
-                    Button("Clear") { history.clear() }
-                        .font(.subheadline.weight(.semibold))
+        Group {
+            if !substances.isEmpty {
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        SectionLabel("Recently Searched")
+                        Spacer()
+                        Button("Clear") { history.clear() }
+                            .font(.subheadline.weight(.semibold))
+                    }
+                    .padding(.horizontal, 4)
+                    SubstanceRowsCard(substances: substances)
                 }
-                .padding(.horizontal, 4)
-                SubstanceRowsCard(substances: substances)
             }
+        }
+        .task(id: history.recent) {
+            guard !history.recent.isEmpty else {
+                substances = []
+                return
+            }
+            await SubstanceStore.shared.ensureAllLoaded()
+            // Warm batch cache, not the heavy ~21-query resolve — the row only
+            // renders name/category/subtitle/isStub, all on the projection.
+            substances = history.recent.compactMap { SubstanceLibrary.timelineLookup($0) }
         }
     }
 }
@@ -96,26 +105,32 @@ private struct RecentDosesGroup: View {
         _recentEntries = Query(descriptor)
     }
 
-    private var substances: [Substance] {
-        var seen = Set<String>()
-        var result: [Substance] = []
-        for entry in recentEntries {
-            let key = entry.substance.lowercased()
-            // Warm batch cache, not the heavy ~21-query resolve (see RecentlySearchedGroup).
-            if seen.insert(key).inserted, let substance = SubstanceLibrary.timelineLookup(key) {
-                result.append(substance)
-                if result.count >= limit { break }
-            }
-        }
-        return result
-    }
+    /// Resolved in the `.task` on the dose-log revision — see
+    /// ``RecentlySearchedGroup`` for why this isn't a computed property.
+    @State private var substances: [Substance] = []
 
     var body: some View {
-        if !substances.isEmpty {
-            VStack(alignment: .leading, spacing: 8) {
-                SectionLabel("Recent").padding(.horizontal, 4)
-                SubstanceRowsCard(substances: substances)
+        Group {
+            if !substances.isEmpty {
+                VStack(alignment: .leading, spacing: 8) {
+                    SectionLabel("Recent").padding(.horizontal, 4)
+                    SubstanceRowsCard(substances: substances)
+                }
             }
+        }
+        .task(id: DoseLogService.shared.revision) {
+            await SubstanceStore.shared.ensureAllLoaded()
+            var seen = Set<String>()
+            var result: [Substance] = []
+            for entry in recentEntries {
+                let key = entry.substance.lowercased()
+                // Warm batch cache, not the heavy ~21-query resolve.
+                if seen.insert(key).inserted, let substance = SubstanceLibrary.timelineLookup(key) {
+                    result.append(substance)
+                    if result.count >= limit { break }
+                }
+            }
+            substances = result
         }
     }
 }
@@ -125,7 +140,6 @@ private struct RecentDosesGroup: View {
 /// section would over-inset it). Each row pushes the substance detail.
 private struct SubstanceRowsCard: View {
     let substances: [Substance]
-    @State private var customStore = CustomSubstanceStore.shared
 
     var body: some View {
         VStack(spacing: 0) {
@@ -135,7 +149,7 @@ private struct SubstanceRowsCard: View {
                 }
                 NavigationLink(value: PushRoute.substance(name: substance.name)) {
                     HStack(spacing: 8) {
-                        SubstanceRowView(substance: substance)
+                        SubstanceRowView(substance: substance, isPersonalized: CustomSubstanceStore.shared.isPersonalized(substance.name))
                         Image(systemName: "chevron.right")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(Theme.secondaryLabel)
