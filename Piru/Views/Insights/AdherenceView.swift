@@ -5,6 +5,7 @@ struct AdherenceView: View {
     @Environment(\.appNavigator) private var navigator
     @Query(sort: \DoseEntry.timestamp) private var allEntries: [DoseEntry]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyItems: [DailyDoseItem]
+    @Environment(\.modelContext) private var modelContext
 
     @State private var displayedMonth: Date = .now
     @State private var monthAdherence: [DayAdherence] = []
@@ -293,30 +294,14 @@ struct AdherenceView: View {
         monthAdherenceByDay = byDay
     }
 
-    /// The 365-day streak scan, run off the main actor over `Sendable`
-    /// snapshots — it used to block the first paint and every month-nav.
+    /// The 365-day streak scan — fetch, snapshot, and calendar walk all on
+    /// ``DatabaseActor``, so the main actor pays nothing for it.
     private func refreshStreak() async {
         guard !dailyItems.isEmpty else {
             streak = 0
             return
         }
-        let entrySnaps = allEntries.map {
-            AdherenceCalculator.EntrySnapshot(
-                substance: $0.substance, identityKey: $0.identityKey,
-                route: $0.route, timestamp: $0.timestamp,
-            )
-        }
-        let itemSnaps = dailyItems.map {
-            AdherenceCalculator.DailyItemSnapshot(
-                substance: $0.substance, identityKey: $0.identityKey, route: $0.route,
-                expectedPerDay: max(1, $0.reminderTimesMinutes.count), isAsNeeded: $0.isAsNeeded,
-                startDate: $0.startDate, frequency: $0.frequency, frequencyDays: $0.frequencyDays,
-            )
-        }
-        let now = Date.now
-        streak = await Task.detached(priority: .utility) {
-            AdherenceCalculator.currentStreak(spanningDays: 365, endingAt: now, entries: entrySnaps, items: itemSnaps)
-        }.value
+        streak = await AdherenceStreakFetcher.currentStreak(container: modelContext.container)
     }
 
     private func daysInMonth() -> [Date?] {

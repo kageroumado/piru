@@ -474,42 +474,11 @@ struct MyMedsCard: View {
         item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance)
     }
 
-    /// The past-year streak, computed off the main actor over `Sendable`
-    /// snapshots (same pattern as the Insights adherence card).
+    /// The past-year streak — fetch, snapshot, and calendar walk all on
+    /// ``DatabaseActor``, so the main actor never materializes a year of rows.
     private func refreshStreak() async {
         guard !items.isEmpty else { return }
-        let entrySnaps = recentEntriesForStreak().map {
-            AdherenceCalculator.EntrySnapshot(
-                substance: $0.substance, identityKey: $0.identityKey,
-                route: $0.route, timestamp: $0.timestamp,
-            )
-        }
-        let itemSnaps = items.map {
-            AdherenceCalculator.DailyItemSnapshot(
-                substance: $0.substance, identityKey: $0.identityKey, route: $0.route,
-                expectedPerDay: max(1, $0.reminderTimesMinutes.count), isAsNeeded: $0.isAsNeeded,
-                startDate: $0.startDate, frequency: $0.frequency, frequencyDays: $0.frequencyDays,
-            )
-        }
-        let now = Date.now
-        streak = await Task.detached(priority: .utility) {
-            AdherenceCalculator.currentStreak(spanningDays: 365, endingAt: now, entries: entrySnaps, items: itemSnaps)
-        }.value
-    }
-
-    private func recentEntriesForStreak() -> [DoseEntry] {
-        let cutoff = Calendar.current.date(byAdding: .day, value: -366, to: .now) ?? .distantPast
-        var descriptor = FetchDescriptor<DoseEntry>(
-            predicate: #Predicate { $0.timestamp >= cutoff },
-            sortBy: [SortDescriptor(\.timestamp)],
-        )
-        // The snapshot mapping reads only these fields (identityKey derives
-        // from the four identity facets) — a year of full-row faults on the
-        // main actor was ~60 ms of every return to the Journal.
-        descriptor.propertiesToFetch = [
-            \.timestamp, \.substance, \.substanceUID, \.isomer, \.releaseForm, \.saltForm, \.route,
-        ]
-        return (try? modelContext.fetch(descriptor)) ?? []
+        streak = await AdherenceStreakFetcher.currentStreak(container: modelContext.container)
     }
 
     private static func timeText(_ minutes: Int) -> String {

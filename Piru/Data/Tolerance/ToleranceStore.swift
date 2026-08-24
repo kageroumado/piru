@@ -1545,18 +1545,19 @@ final class ToleranceStore {
         states = loaded
     }
 
-    /// Write the durable ``ToleranceState`` cache **off the main actor**.
+    /// Write the durable ``ToleranceState`` cache **off the main actor**, on
+    /// ``DatabaseActor``.
     ///
     /// The save flushes to the SQLite store and, at launch, showed up as a ~190 ms main-thread block
-    /// (SwiftData store flush) right after the off-main replay. Because these rows are a *cache* —
-    /// written only here and re-read only at launch via ``loadCachedSnapshot()``, with the in-memory
-    /// ``states`` being the live source of truth the UI observes — the write can run on a throwaway
-    /// background ``ModelContext`` created from the (Sendable) container, so it never touches the main
-    /// thread. Overlapping writes self-heal (last-writer-wins on a cache); the 2 s debounce + signature
-    /// gate already make concurrent persists rare.
+    /// (SwiftData store flush) right after the off-main replay. These rows are a *cache* — written
+    /// only here and re-read only at launch via ``loadCachedSnapshot()``, with the in-memory
+    /// ``states`` being the live source of truth the UI observes. Running the write on the shared
+    /// database actor (instead of the old unstructured `Task.detached` + throwaway context) keeps
+    /// concurrent persists ordered — last writer wins *deterministically* — alongside every other
+    /// background database operation; the 2 s debounce + signature gate already make overlap rare.
     private func persist(_ computed: [ReceptorClasses.ReceptorClass: ClassTolerance], now: Date) {
         guard let container else { return }
-        Task.detached(priority: .utility) {
+        Task { @DatabaseActor in
             let context = ModelContext(container)
             let existing = (try? context.fetch(FetchDescriptor<ToleranceState>())) ?? []
             var byKey = Dictionary(existing.map { ($0.target, $0) }, uniquingKeysWith: { a, _ in a })

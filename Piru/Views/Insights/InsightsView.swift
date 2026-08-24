@@ -9,6 +9,7 @@ struct InsightsView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyItems: [DailyDoseItem]
     @Query private var substanceColors: [SubstanceColor]
+    @Environment(\.modelContext) private var modelContext
 
     @State private var adherence: AdherenceSummary?
     @State private var usage: UsageSummary?
@@ -409,23 +410,7 @@ struct InsightsView: View {
     /// and merge it into the current month summary.
     private func refreshStreak() async {
         guard !dailyItems.isEmpty else { return }
-        let entrySnaps = allEntries.map {
-            AdherenceCalculator.EntrySnapshot(
-                substance: $0.substance, identityKey: $0.identityKey,
-                route: $0.route, timestamp: $0.timestamp,
-            )
-        }
-        let itemSnaps = dailyItems.map {
-            AdherenceCalculator.DailyItemSnapshot(
-                substance: $0.substance, identityKey: $0.identityKey, route: $0.route,
-                expectedPerDay: max(1, $0.reminderTimesMinutes.count), isAsNeeded: $0.isAsNeeded,
-                startDate: $0.startDate, frequency: $0.frequency, frequencyDays: $0.frequencyDays,
-            )
-        }
-        let now = Date.now
-        let streak = await Task.detached(priority: .utility) {
-            AdherenceCalculator.currentStreak(spanningDays: 365, endingAt: now, entries: entrySnaps, items: itemSnaps)
-        }.value
+        let streak = await AdherenceStreakFetcher.currentStreak(container: modelContext.container)
         guard let current = adherence else { return }
         adherence = AdherenceSummary(streak: streak, monthPct: current.monthPct, hasData: current.hasData || streak > 0)
     }
