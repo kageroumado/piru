@@ -23,7 +23,26 @@ import Foundation
 @MainActor
 enum SubstanceLibrary {
     static var all: [Substance] {
-        SubstanceStore.shared.all
+        overlayAll(SubstanceStore.shared.all)
+    }
+
+    /// Apply personal overrides across a browse list.
+    ///
+    /// The contract this establishes, and the point of it: **a `Substance` that
+    /// came from `SubstanceLibrary` already carries the user's name for it.** No
+    /// call site needs to re-resolve a personal name, and none can forget to —
+    /// which is what left the Library list and Search showing "Mephedrone" while
+    /// the detail screen showed "4-MMC".
+    ///
+    /// Free when the user has no customs, which is the overwhelming case: the
+    /// early return skips the whole map rather than doing 1,736 dictionary hits
+    /// to change nothing.
+    static func overlayAll(_ substances: [Substance]) -> [Substance] {
+        let customs = CustomSubstanceStore.shared
+        guard !customs.all.isEmpty else { return substances }
+        return substances.map { substance in
+            customs.first(whereName: substance.name).map { substance.applyingOverride(from: $0) } ?? substance
+        }
     }
     static var count: Int {
         SubstanceStore.shared.count
@@ -32,7 +51,7 @@ enum SubstanceLibrary {
         SubstanceStore.shared.nonEmptyCategories
     }
     static func substances(in category: SubstanceCategory) -> [Substance] {
-        SubstanceStore.shared.substances(in: category)
+        overlayAll(SubstanceStore.shared.substances(in: category))
     }
 
     /// Browse-category histogram (count per browse category) — the cheap path
@@ -55,16 +74,25 @@ enum SubstanceLibrary {
     /// categories — the Library's Common card surfaces alcohol, caffeine, and
     /// cannabis side by side regardless of their resolved class.
     static func substances(taggedWith tag: String) -> [Substance] {
-        SubstanceStore.shared.all.filter {
+        overlayAll(SubstanceStore.shared.all.filter {
             $0.displayClass.surfacesInBrowse && $0.tags.contains(tag)
-        }
+        })
     }
 
-    static func lookup(_ name: String) -> Substance? {
-        overlayCustom(library: SubstanceStore.shared.lookup(name), query: name)
-    }
-
-    static func lookupByNameOrAlias(_ nameOrAlias: String) -> Substance? {
+    /// Resolve a substance by canonical name **or any alias**, with the user's
+    /// overrides applied.
+    ///
+    /// There used to be two of these — an exact-canonical `lookup` and an
+    /// alias-aware `lookupByNameOrAlias` — and 19 call sites picked the exact
+    /// one. That is why `piru://substance/4-MMC` said "Substance Not Found"
+    /// while the detail screen resolved it, and why the inventory and
+    /// consumption rows disagreed with the detail page about IC-26.
+    ///
+    /// Canonical-then-alias precedence, so a name that *is* canonical resolves
+    /// exactly as before; the alias arm only runs when the canonical one misses.
+    /// There is no cheaper exact-only variant to reach for: both arms are dict
+    /// hits over the same index.
+    static func lookup(_ nameOrAlias: String) -> Substance? {
         overlayCustom(library: SubstanceStore.shared.lookupByNameOrAlias(nameOrAlias), query: nameOrAlias)
     }
 
@@ -154,25 +182,59 @@ enum SubstanceLibrary {
     }
 
     static func search(_ query: String, limit: Int = 50) -> [Substance] {
-        SubstanceStore.shared.search(query, limit: limit)
+        overlaySearch(SubstanceStore.shared.searchMatches(query, limit: limit), query: query).map(\.substance)
+    }
+
+    /// The one place search results meet the personal overlay.
+    ///
+    /// Two things the raw store search cannot do, and every surface needs both:
+    ///
+    /// 1. **Carry the personal name.** A row for a relabelled substance was
+    ///    titled with the catalog name, so the Library list and Search showed
+    ///    "Mephedrone" while the detail screen showed "4-MMC".
+    /// 2. **Match on the personal name.** The store's `nameIndex`/`aliasIndex`
+    ///    are built from the database, which has never heard of a name the user
+    ///    invented — so `lookup("joint")` found the THC override and
+    ///    `search("joint")` found nothing.
+    ///
+    /// Applied here rather than at each call site because there are four search
+    /// entry points and every one of them was missing it.
+    static func overlaySearch(_ matches: [SubstanceMatch], query: String) -> [SubstanceMatch] {
+        let customs = CustomSubstanceStore.shared
+        var out = matches.map { match in
+            guard let custom = customs.first(whereName: match.substance.name) else { return match }
+            return SubstanceMatch(
+                substance: match.substance.applyingOverride(from: custom),
+                matchedAlias: match.matchedAlias,
+            )
+        }
+        // A personal name the database cannot know. Only worth the scan when the
+        // store found nothing under it — a hit means the catalog already answered.
+        let trimmed = query.trimmingCharacters(in: .whitespaces)
+        if !trimmed.isEmpty, !out.contains(where: { $0.substance.displayTitle.localizedCaseInsensitiveContains(trimmed) }),
+           let byPersonalName = lookup(trimmed),
+           !out.contains(where: { $0.substance.name == byPersonalName.name }) {
+            out.insert(SubstanceMatch(substance: byPersonalName, matchedAlias: nil), at: 0)
+        }
+        return out
     }
 
     /// ``search(_:limit:)``, keeping the alias each hit matched so the caller can
     /// title a row with the name the user typed ("Concerta") rather than the one
     /// the catalog resolved to ("Methylphenidate").
     static func searchMatches(_ query: String, limit: Int = 50) -> [SubstanceMatch] {
-        SubstanceStore.shared.searchMatches(query, limit: limit)
+        overlaySearch(SubstanceStore.shared.searchMatches(query, limit: limit), query: query)
     }
 
     /// Off-main ranked search for the interactive search field — ranks + resolves
     /// on a background task so typing never stalls the keyboard.
     static func searchAsync(_ query: String, limit: Int = 50) async -> [Substance] {
-        await SubstanceStore.shared.searchAsync(query, limit: limit)
+        await searchMatchesAsync(query, limit: limit).map(\.substance)
     }
 
     /// ``searchAsync(_:limit:)``, keeping the matched alias on each hit.
     static func searchMatchesAsync(_ query: String, limit: Int = 50) async -> [SubstanceMatch] {
-        await SubstanceStore.shared.searchMatchesAsync(query, limit: limit)
+        await overlaySearch(SubstanceStore.shared.searchMatchesAsync(query, limit: limit), query: query)
     }
 
     /// Resolve the user-defined entry that should overlay (or replace) the

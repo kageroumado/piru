@@ -53,7 +53,7 @@ struct SubstanceAuditExportTests {
         var names = Set(commonNames)
         names.formUnion(flagshipNames())
         // Resolve each through the store so we audit names the DB actually carries (and de-dup by canon).
-        let resolved = names.compactMap { SubstanceLibrary.lookupByNameOrAlias($0)?.name }
+        let resolved = names.compactMap { SubstanceLibrary.lookup($0)?.name }
         return Set(resolved).sorted { $0.localizedCaseInsensitiveCompare($1) == .orderedAscending }
     }
 
@@ -92,7 +92,7 @@ struct SubstanceAuditExportTests {
 
         var missing: [String] = []
         for name in names {
-            guard let substance = SubstanceLibrary.lookupByNameOrAlias(name) else {
+            guard let substance = SubstanceLibrary.lookup(name) else {
                 missing.append(name)
                 continue
             }

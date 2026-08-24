@@ -348,9 +348,59 @@ final class CustomSubstanceStore {
         return all.contains { $0.name.lowercased() == needle }
     }
 
+    /// The one key every name-based lookup in the app agrees on.
+    ///
+    /// Two surfaces can name the same substance differently — a dose logged as
+    /// "4-MMC", a library row canonically called "Mephedrone" — and a personal
+    /// relabel stored under one of those spellings used to be invisible to the
+    /// other. Folding both through the library's alias index first is what makes
+    /// the override reach every surface instead of the ones that happen to spell
+    /// it the way the user did.
+    ///
+    /// Falls back to the lowercased input when nothing in the library matches,
+    /// which is the right answer for a custom-only substance: it *is* its own
+    /// canonical name.
+    ///
+    /// Reads the **raw** store, not the `SubstanceLibrary` façade. The façade
+    /// applies this store's overrides, so going through it would recurse:
+    /// `canonicalKey` → `timelineLookup` → overlay → `first(whereName:)` →
+    /// `byCanonicalKey` → `canonicalKey`. `timelineRow` is a dict hit over the
+    /// warm batch cache, keyed on name *and* alias, and applies nothing.
+    static func canonicalKey(_ name: String) -> String {
+        let trimmed = name.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty else { return "" }
+        if let row = SubstanceStore.shared.timelineRow(trimmed) {
+            return row.name.lowercased()
+        }
+        return trimmed.lowercased()
+    }
+
+    /// Canonical key → the entry overriding it.
+    ///
+    /// Built on first use, not in ``reload()``. Resolving a canonical key reads
+    /// the substance library, and this store is constructed during app start-up
+    /// — doing it eagerly made `CustomSubstanceStore.init` depend on
+    /// `SubstanceStore` being ready, which crashed the test runner before it
+    /// finished bootstrapping. Cleared on reload, which is the only mutation
+    /// point, so it cannot drift from `all`.
+    private var canonicalIndex: [String: CustomSubstanceEntry]?
+
+    private var byCanonicalKey: [String: CustomSubstanceEntry] {
+        if let canonicalIndex { return canonicalIndex }
+        let built = Dictionary(
+            all.map { (Self.canonicalKey($0.name), $0) },
+            uniquingKeysWith: { first, _ in first },
+        )
+        canonicalIndex = built
+        return built
+    }
+
     func first(whereName name: String) -> CustomSubstanceEntry? {
+        // Exact match first: it is the common case and costs nothing. The
+        // canonical index is the fallback that makes an alias spelling resolve.
         let needle = name.lowercased()
-        return all.first { $0.name.lowercased() == needle }
+        if let exact = all.first(where: { $0.name.lowercased() == needle }) { return exact }
+        return byCanonicalKey[Self.canonicalKey(name)]
     }
 
     /// Find an entry by its personal display name (case-insensitive). Lets a
@@ -409,6 +459,22 @@ final class CustomSubstanceStore {
         return canonicalName
     }
 
+    /// Whether the user has renamed this substance.
+    ///
+    /// A different question from *what* it is called — the name now rides on the
+    /// `Substance` itself (see ``SubstanceLibrary/overlayAll(_:)``). This answers
+    /// only "should the row show the catalog name underneath", which is the one
+    /// thing a display title cannot tell you: plenty of substances have a
+    /// `displayName` differing from their canonical name without any user
+    /// involvement.
+    func isPersonalized(_ canonicalName: String) -> Bool {
+        guard let entry = first(whereName: canonicalName),
+              let dn = entry.displayName?.trimmingCharacters(in: .whitespaces), !dn.isEmpty
+        else { return false }
+        // Raw store, for the same reason `canonicalKey` uses it.
+        return dn != (SubstanceStore.shared.timelineRow(canonicalName)?.displayTitle ?? canonicalName)
+    }
+
     /// The personal display-name override for `substance`, or `nil` when none
     /// differs from the library title. Resolve this in the parent list (which
     /// holds the store) and pass the value into `SubstanceRowView` so each row
@@ -436,6 +502,7 @@ final class CustomSubstanceStore {
         all = fetchRecords()
             .map(\.asEntry)
             .sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        canonicalIndex = nil
         writeMirror()
     }
 

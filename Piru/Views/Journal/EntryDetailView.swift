@@ -145,7 +145,7 @@ struct EntryDetailView: View {
             // unit/route/salt lists, and live preview. Re-running it per body (and
             // per keystroke while editing) was a heavy blocking lookup.
             if substanceInfo == nil {
-                substanceInfo = SubstanceLibrary.lookupByNameOrAlias(entry.substance)
+                substanceInfo = SubstanceLibrary.lookup(entry.substance)
             }
             // The session's worst interaction, for the "Part of Session" echo.
             // One batch check per screen — not per body pass.

@@ -41,7 +41,7 @@ enum SandboxModelability {
     /// test, and de-duplicate (several names alias onto one substance).
     private static func resolve(_ names: [String], keeping isIncluded: (Substance) -> Bool) -> [Substance] {
         var seen = Set<String>()
-        return names.compactMap { SubstanceLibrary.lookupByNameOrAlias($0) }
+        return names.compactMap { SubstanceLibrary.lookup($0) }
             .filter { seen.insert($0.name).inserted }
             .filter(isIncluded)
             .sorted { $0.displayTitle.localizedCaseInsensitiveCompare($1.displayTitle) == .orderedAscending }
@@ -289,10 +289,10 @@ final class EffectSandboxModel {
     /// together, while reading as "A vs B" to anyone who opens the screen.
     func seedDefaultDoses() {
         rows.removeAll()
-        if let amp = SubstanceLibrary.lookupByNameOrAlias("Amphetamine") {
+        if let amp = SubstanceLibrary.lookup("Amphetamine") {
             addRow(substance: amp, amount: 20, route: .oral, hours: 0, plan: .a)
         }
-        if let mph = SubstanceLibrary.lookupByNameOrAlias("Methylphenidate") {
+        if let mph = SubstanceLibrary.lookup("Methylphenidate") {
             addRow(substance: mph, amount: 20, route: .oral, hours: 0, plan: .b)
         }
         if rows.isEmpty { addRow() }

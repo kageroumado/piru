@@ -58,7 +58,7 @@ private struct PushRouteView: View {
             // profile the same way EntryDetailView gates its link — if either
             // is gone, render nothing.
             if let entry = lookupEntry(id: id, near: timestamp),
-               let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
+               let substance = SubstanceLibrary.lookup(entry.substance),
                let duration = substance.resolveDuration(for: entry.route) {
                 RampDownView(entry: entry, duration: duration)
             }

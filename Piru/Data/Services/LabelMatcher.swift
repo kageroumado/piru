@@ -155,7 +155,7 @@ enum LabelMatcher {
     ) -> (Substance, brand: String?)? {
         for candidate in candidateStrings(from: text) {
             // Exact canonical/alias hit — highest confidence, overlay-aware.
-            if let substance = SubstanceLibrary.lookupByNameOrAlias(candidate) {
+            if let substance = SubstanceLibrary.lookup(candidate) {
                 return (substance, brand(for: candidate, substance: substance))
             }
             // Ranked fuzzy cascade for near-misses (OCR slips, casing). Skipped

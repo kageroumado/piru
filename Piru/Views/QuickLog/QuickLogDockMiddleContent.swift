@@ -103,7 +103,7 @@ struct DockMiddleContent: View {
         var out: [Substance] = []
         for card in content.cachedCards {
             guard out.count < Self.recentSuggestionLimit else { break }
-            guard let substance = SubstanceLibrary.lookupByNameOrAlias(card.substanceName) else { continue }
+            guard let substance = SubstanceLibrary.lookup(card.substanceName) else { continue }
             guard seen.insert(substance.name.lowercased()).inserted else { continue }
             out.append(substance)
         }

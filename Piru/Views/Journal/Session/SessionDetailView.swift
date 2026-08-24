@@ -135,7 +135,7 @@ struct SessionDetailView: View {
         func inLibrary(_ name: String) -> Bool {
             let key = name.lowercased()
             if let cached = inLibraryCache[key] { return cached }
-            let resolved = SubstanceLibrary.lookupByNameOrAlias(name) != nil
+            let resolved = SubstanceLibrary.lookup(name) != nil
             inLibraryCache[key] = resolved
             return resolved
         }
@@ -302,7 +302,7 @@ struct SessionDetailView: View {
         var seen = Set<SubstanceCategory>()
         var result: [SubstanceCategory] = []
         for entry in entries {
-            guard let category = SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category,
+            guard let category = SubstanceLibrary.lookup(entry.substance)?.category,
                   ComedownGuideView.guidedCategories.contains(category),
                   seen.insert(category).inserted else { continue }
             result.append(category)

@@ -129,7 +129,7 @@ enum InventoryMath {
     /// substance's native dosing unit (no false conversion).
     @MainActor
     static func referenceDose(substance: String, saltForm: String?, unit: String) -> Double? {
-        guard let match = SubstanceLibrary.lookupByNameOrAlias(substance) else { return nil }
+        guard let match = SubstanceLibrary.lookup(substance) else { return nil }
         let route = match.defaultRoute
         guard let range = match.doseRange(for: route, saltForm: saltForm),
               match.unit(for: route, saltForm: saltForm) == unit
@@ -145,7 +145,7 @@ enum InventoryMath {
     /// seed for a fresh item's amount (`10×` this). `nil` off-library.
     @MainActor
     static func representativeStrongDose(substance: String, saltForm: String?, unit: String) -> Double? {
-        guard let match = SubstanceLibrary.lookupByNameOrAlias(substance) else { return nil }
+        guard let match = SubstanceLibrary.lookup(substance) else { return nil }
         let route = match.defaultRoute
         guard let range = match.doseRange(for: route, saltForm: saltForm),
               match.unit(for: route, saltForm: saltForm) == unit

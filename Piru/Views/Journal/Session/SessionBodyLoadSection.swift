@@ -8,6 +8,11 @@ enum BodyLoadStatus {
     case eliminating(percent: Int, clear: String, remaining: Double)
     /// Fully cleared, shown for visual consistency when other rows are still active.
     case cleared
+    /// No half-life is known for this substance, so nothing about its clearance
+    /// can be stated. Distinct from ``cleared``: the calculator drops a dose for
+    /// two different reasons — worn off, and unmodelable — and calling the second
+    /// one "fully eliminated" told a tester their 20-minute-old dose was gone.
+    case unmodeled
 }
 
 /// The two-line content of one "in your body" row — dot · name · intake count on
@@ -62,7 +67,7 @@ struct BodyLoadRowLabel: View {
         switch status {
         case let .eliminating(_, _, remaining):
             cumulativeReadout(remaining: remaining)
-        case .cleared, nil:
+        case .cleared, .unmodeled, nil:
             MeasurementLabel(amount: total, unit: unit, numberStyle: .body, unitStyle: .caption)
         }
     }
@@ -111,6 +116,10 @@ struct BodyLoadRowLabel: View {
             Text("Fully eliminated")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
+        case .unmodeled:
+            Text("No half-life data")
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
         case nil:
             EmptyView()
         }
@@ -150,6 +159,9 @@ struct SessionBodyLoadModel {
         let total: Double
         let unit: String
         let count: Int
+        /// `true` when the row is here because no half-life is known, not
+        /// because the dose wore off.
+        var unmodeled: Bool = false
 
         var id: String {
             displayName
@@ -218,6 +230,14 @@ struct SessionBodyLoadModel {
             return CustomSubstanceStore.shared.displayName(for: canonical, fallback: product)
         }
 
+        /// Whether anything can be said about this substance's clearance. The
+        /// calculator skips a dose it cannot model, so without this check the
+        /// two reasons for being skipped are indistinguishable downstream.
+        func hasHalfLife(_ name: String) -> Bool {
+            guard let substance = SubstanceLibrary.timelineLookup(name) else { return false }
+            return PKResolver.halfLifeMinutes(substance: substance, entryName: name) != nil
+        }
+
         var model = SessionBodyLoadModel()
         var covered = Set<String>()
         for active in ActiveSubstanceCalculator.compute(from: entries, colorMap: colorMap) {
@@ -254,17 +274,23 @@ struct SessionBodyLoadModel {
                 ))
             }
         }
-        // Substances the calculator dropped entirely (fully worn off), re-dosed at
-        // least twice — single doses that have cleared show nothing.
+        // Substances the calculator dropped. Two different reasons, and they must
+        // not read alike: a dose that wore off, and a substance with no half-life
+        // to model at all. A single dose that has cleared shows nothing, but an
+        // unmodelable one always does — otherwise a substance you just took
+        // silently vanishes from the section.
         let dropped = groups
-            .filter { key, group in group.count > 1 && !covered.contains(key) }
-            .map { _, group in
-                Cleared(
+            .filter { key, _ in !covered.contains(key) }
+            .compactMap { _, group -> Cleared? in
+                let unmodeled = !hasHalfLife(group.name)
+                guard unmodeled || group.count > 1 else { return nil }
+                return Cleared(
                     displayName: title(canonical: group.name, products: group.products),
                     color: colorMap[group.name.lowercased()] ?? Theme.accent,
                     total: group.total,
                     unit: group.unit,
                     count: group.count,
+                    unmodeled: unmodeled,
                 )
             }
         model.cleared = (model.cleared + dropped).sorted { $0.displayName < $1.displayName }
@@ -368,7 +394,7 @@ struct SessionBodyLoadSection: View {
                         count: row.count,
                         total: row.total,
                         unit: row.unit,
-                        status: model.active.isEmpty ? nil : .cleared,
+                        status: row.unmodeled ? .unmodeled : (model.active.isEmpty ? nil : .cleared),
                     )
                     .padding(.vertical, 2)
                     .accessibilityElement(children: .combine)

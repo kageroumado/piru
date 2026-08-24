@@ -67,7 +67,7 @@ private struct SubstanceSearchResultsList: View {
                 Section("\(searchResults.count) results") {
                     ForEach(searchResults) { substance in
                         NavigationLink(value: PushRoute.substance(name: substance.name)) {
-                            SubstanceRowView(substance: substance, personalName: customStore.personalName(for: substance))
+                            SubstanceRowView(substance: substance)
                         }
                         .swipeActions(edge: .trailing) {
                             let isFav = favoriteNames.contains(substance.name.lowercased())
@@ -290,7 +290,7 @@ private struct RecentSubstancesSection: View {
             Section("Recent") {
                 ForEach(recentSubstances) { substance in
                     NavigationLink(value: PushRoute.substance(name: substance.name)) {
-                        SubstanceRowView(substance: substance, personalName: customStore.personalName(for: substance))
+                        SubstanceRowView(substance: substance)
                     }
                     .listRowBackground(CardBackground())
                 }
@@ -449,7 +449,7 @@ struct SubstanceCategoryListView: View {
                     // Pass the list's category so a mixed compound from another
                     // family (e.g. a balanced stimulant in Empathogens) shows a
                     // disambiguating class chip; pure members stay chip-free.
-                    SubstanceRowView(substance: substance, contextCategory: category, personalName: customStore.personalName(for: substance))
+                    SubstanceRowView(substance: substance, contextCategory: category)
                 }
                 .swipeActions(edge: .trailing) {
                     let isFav = favoriteNames.contains(substance.name.lowercased())
@@ -501,11 +501,10 @@ struct SubstanceRowView: View {
     /// stimulant like 3-MMC in Empathogens reads "Stimulant") — the color dot +
     /// label disambiguate why it's here.
     var contextCategory: SubstanceCategory?
-    /// Personal display-name override (resolved by the parent list, which holds
-    /// the `CustomSubstanceStore`), or `nil` for the library title. Injected as a
-    /// plain value so the row holds no store reference — it stays value-comparable
-    /// and SwiftUI skips it on an unrelated re-render.
-    var personalName: String?
+    // Personal display-name override (resolved by the parent list, which holds
+    // the `CustomSubstanceStore`), or `nil` for the library title. Injected as a
+    // plain value so the row holds no store reference — it stays value-comparable
+    // and SwiftUI skips it on an unrelated re-render.
 
     /// Show the class chip in a cross-category list, or when this row's primary
     /// class differs from the list it's appearing in (a cross-listed mixed case).
@@ -522,13 +521,14 @@ struct SubstanceRowView: View {
                 .frame(width: 10, height: 10)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
-                Text(personalName ?? substance.displayTitle)
+                Text(substance.displayTitle)
                     .font(.body.weight(.medium))
                     .foregroundStyle(.primary)
                 // When personalized, show the canonical name as the subtitle so
                 // the user can tell what "joint" actually maps to. One line —
                 // long alias lists shouldn't blow a row up to three lines.
-                if let subtitle = personalName != nil ? substance.name : substance.displaySubtitle {
+                let personalized = CustomSubstanceStore.shared.isPersonalized(substance.name)
+                if let subtitle = personalized ? substance.name : substance.displaySubtitle {
                     Text(subtitle)
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)

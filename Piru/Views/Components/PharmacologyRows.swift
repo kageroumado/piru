@@ -480,7 +480,7 @@ struct MetabolismRow: View {
     private var resolvedMetabolite: Substance? {
         guard let raw = hit.metaboliteName, !raw.isEmpty else { return nil }
         let base = raw.components(separatedBy: " (").first.map { $0.trimmingCharacters(in: .whitespaces) } ?? raw
-        return SubstanceLibrary.lookupByNameOrAlias(base) ?? SubstanceLibrary.lookupByNameOrAlias(raw)
+        return SubstanceLibrary.lookup(base) ?? SubstanceLibrary.lookup(raw)
     }
 
     /// The clean headline name for the metabolite — the library's own title when

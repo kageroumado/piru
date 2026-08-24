@@ -93,7 +93,7 @@ final class ActiveSessionManager {
 
         activeEntries = entries.map { entry in
             let snapshot = DoseSnapshot(entry: entry)
-            let matchedSubstance = SubstanceLibrary.lookupByNameOrAlias(snapshot.substance)
+            let matchedSubstance = SubstanceLibrary.lookup(snapshot.substance)
             let duration = Self.resolveDuration(substance: matchedSubstance, entry: entry)
             let hex = colorMap[snapshot.substance.lowercased()] ?? PresetColor.defaultHex
             return (snapshot: snapshot, duration: duration, colorHex: hex)
@@ -246,7 +246,7 @@ final class ActiveSessionManager {
             previousSubstanceName: entry.substance,
             previousTimestamp: previousTimestamp,
             entry: entry,
-            substance: SubstanceLibrary.lookupByNameOrAlias(entry.substance),
+            substance: SubstanceLibrary.lookup(entry.substance),
             colorHex: colorHex,
             allColors: allColors,
         )
@@ -262,7 +262,7 @@ final class ActiveSessionManager {
 
         activeEntries = doseEntries.map { entry in
             let snapshot = DoseSnapshot(entry: entry)
-            let matchedSubstance = SubstanceLibrary.lookupByNameOrAlias(snapshot.substance)
+            let matchedSubstance = SubstanceLibrary.lookup(snapshot.substance)
             let duration = Self.resolveDuration(substance: matchedSubstance, entry: entry)
             let hex = colorMap[snapshot.substance.lowercased()] ?? PresetColor.defaultHex
             return (snapshot: snapshot, duration: duration, colorHex: hex)
@@ -305,7 +305,7 @@ final class ActiveSessionManager {
     func buildSubstanceStates(colorMap: [String: String]) -> [ActiveSubstanceState] {
         activeEntries.compactMap { item in
             let hex = colorMap[item.snapshot.substance.lowercased()] ?? item.colorHex
-            let substance = SubstanceLibrary.lookupByNameOrAlias(item.snapshot.substance)
+            let substance = SubstanceLibrary.lookup(item.snapshot.substance)
             let doseRange = substance.flatMap {
                 ActiveSubstanceState.resolveDoseRange(substance: $0, route: item.snapshot.route)
             }

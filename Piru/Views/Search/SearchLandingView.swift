@@ -135,7 +135,7 @@ private struct SubstanceRowsCard: View {
                 }
                 NavigationLink(value: PushRoute.substance(name: substance.name)) {
                     HStack(spacing: 8) {
-                        SubstanceRowView(substance: substance, personalName: customStore.personalName(for: substance))
+                        SubstanceRowView(substance: substance)
                         Image(systemName: "chevron.right")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(Theme.secondaryLabel)

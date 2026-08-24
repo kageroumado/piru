@@ -264,7 +264,7 @@ enum DoseNotificationManager {
             doseTime: entry.timestamp,
             duration: duration,
             entryKey: entryKey,
-            category: SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category,
+            category: SubstanceLibrary.lookup(entry.substance)?.category,
             displayName: DoseTitle.resolve(for: entry),
         )
         RampDownScheduler.saveActiveEntry(entryKey)
@@ -278,7 +278,7 @@ enum DoseNotificationManager {
     }
 
     private static func library(for entry: DoseEntry) -> Substance? {
-        SubstanceLibrary.lookupByNameOrAlias(entry.substance.lowercased())
+        SubstanceLibrary.lookup(entry.substance.lowercased())
     }
 
     // MARK: - Med reminders

@@ -159,7 +159,7 @@ struct ActiveSessionRecoveryTests {
     @Test
     func `A dose with no modeled curve never joins the live session`() throws {
         ActiveSessionManager.shared.clearSession()
-        let durationless = try #require(SubstanceLibrary.lookupByNameOrAlias("Omega-3 Fatty Acids"))
+        let durationless = try #require(SubstanceLibrary.lookup("Omega-3 Fatty Acids"))
         #expect(durationless.timelineDuration(for: .oral) == nil)
 
         let container = try makeContainer()
@@ -220,7 +220,7 @@ struct ActiveSessionRecoveryTests {
         try insert([entry], into: container)
         ActiveSessionManager.shared.addDose(
             entry: entry,
-            substance: SubstanceLibrary.lookupByNameOrAlias("Caffeine"),
+            substance: SubstanceLibrary.lookup("Caffeine"),
             colorHex: PresetColor.defaultHex,
             allColors: [],
         )
