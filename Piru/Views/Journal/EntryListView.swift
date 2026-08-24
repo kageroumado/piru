@@ -133,8 +133,14 @@ struct EntryListView: View {
     @State private var collapsedCategories: Set<SubstanceCategory> = []
 
     /// First-appear gate: the initial derive paints without animation; later
-    /// signature-driven re-runs animate the diff in.
+    /// revision-driven re-runs animate the diff in.
     @State private var hasLoadedOnce = false
+
+    /// Set once the first derive has actually completed (`hasLoadedOnce` flips
+    /// at the *start* of that task). Until then, the search task's regroup
+    /// would bucket against an empty `derived` and paint every day card
+    /// graph-less — the cold-launch no-graphs flash.
+    @State private var hasDerivedOnce = false
 
     /// Content fingerprint of the color assignments. Drives the recolor derive
     /// on *edits*, not just adds/removes: recoloring an existing substance
@@ -321,12 +327,17 @@ struct EntryListView: View {
                 guard !Task.isCancelled else { return }
             }
             await rebuildAll(animated: !isFirst)
+            hasDerivedOnce = true
         }
         // Debounce the search filter: re-filtering the whole history runs on the
         // main actor, so doing it on every keystroke stalled typing. An empty
         // query (clearing search) regroups immediately. The `.task(id:)` cancels
         // the prior pending filter when the text changes again.
         .task(id: searchText) {
+            // First appear: the derive task owns the initial regroup, and it
+            // regroups with the live `searchText` when it lands — bucketing
+            // now would run against an empty `derived`.
+            guard hasDerivedOnce else { return }
             if !searchText.isEmpty {
                 try? await Task.sleep(for: .milliseconds(150))
                 guard !Task.isCancelled else { return }

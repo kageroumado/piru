@@ -251,6 +251,16 @@ struct TimelineGraphView: View, Equatable {
             loadedKey = key
             return
         }
+        // Another path (the journal's batch prewarm, or this card's superseded
+        // predecessor) is already computing this key — adopt its result rather
+        // than computing the same model twice.
+        if !TimelineModelCache.shared.claim(key) {
+            guard let model = await TimelineModelCache.shared.computed(key),
+                  !Task.isCancelled else { return }
+            derivedBox = model
+            loadedKey = key
+            return
+        }
         let subs = substances
         let mks = markers
         let sr = stackRedoses
@@ -344,8 +354,11 @@ struct TimelineGraphView: View, Equatable {
         stackRedoses: Bool,
         dayBounded: Bool,
     ) {
-        // Resolve misses up front on the main actor (the cache is main-isolated),
-        // then do the expensive curve math off-main and insert the results back.
+        // Claim misses up front on the main actor (the cache is main-isolated) —
+        // a claim makes this batch the sole computer of each key, so a visible
+        // card whose own `loadModel` arrives meanwhile awaits the result instead
+        // of computing the same model in parallel — then do the expensive curve
+        // math off-main and insert the results back.
         let pending: [(key: DerivedKey, substances: [ActiveSubstanceState], markers: [DoseMarker])] =
             inputs.compactMap { input in
                 guard !input.substances.isEmpty || !input.markers.isEmpty else { return nil }
@@ -353,24 +366,22 @@ struct TimelineGraphView: View, Equatable {
                     substances: input.substances, markers: input.markers,
                     stackRedoses: stackRedoses, dayBounded: dayBounded,
                 )
-                guard TimelineModelCache.shared.cached(key) == nil else { return nil }
+                guard TimelineModelCache.shared.claim(key) else { return nil }
                 return (key, input.substances, input.markers)
             }
         guard !pending.isEmpty else { return }
         let now = Date.now
         Task.detached(priority: .utility) {
-            var results: [(DerivedKey, TimelineCurveModel.Derived)] = []
-            results.reserveCapacity(pending.count)
+            // Insert per item, not batched at the end: `inputs` arrive in
+            // display order, so the visible cards' waiters resolve first,
+            // while later days are still computing.
             for item in pending {
                 let model = TimelineCurveModel.computeDerived(
                     substances: item.substances, markers: item.markers,
                     stackRedoses: stackRedoses, dayBounded: dayBounded, currentTime: now,
                 )
-                results.append((item.key, model))
-            }
-            await MainActor.run {
-                for (key, model) in results {
-                    TimelineModelCache.shared.insert(model, for: key)
+                await MainActor.run {
+                    TimelineModelCache.shared.insert(model, for: item.key)
                 }
             }
         }

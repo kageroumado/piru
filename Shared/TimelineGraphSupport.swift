@@ -125,16 +125,49 @@ final class TimelineModelCache {
     private var order: [TimelineGraphView.DerivedKey] = []
     private let limit = 120
 
+    /// Keys some path has claimed and is computing right now. The journal's
+    /// batch prewarm and each visible card's own load used to race here and
+    /// compute the same models twice; a claim makes the first taker the only
+    /// computer, and everyone else awaits its ``insert(_:for:)``.
+    private var inFlight: Set<TimelineGraphView.DerivedKey> = []
+    private var waiters: [TimelineGraphView.DerivedKey: [CheckedContinuation<TimelineCurveModel.Derived, Never>]] = [:]
+
     func cached(_ key: TimelineGraphView.DerivedKey) -> TimelineCurveModel.Derived? {
         store[key]
     }
 
+    /// Claim `key` for computation. `false` when it's already cached or another
+    /// path holds the claim — then adopt the cache hit or await ``computed(_:)``
+    /// instead of duplicating the work. A successful claim MUST end in
+    /// ``insert(_:for:)`` (the compute can't fail and detached children run to
+    /// completion even when their `.task` is superseded), or waiters hang.
+    func claim(_ key: TimelineGraphView.DerivedKey) -> Bool {
+        guard store[key] == nil, !inFlight.contains(key) else { return false }
+        inFlight.insert(key)
+        return true
+    }
+
+    /// The model for a key someone else claimed: resolves when their
+    /// ``insert(_:for:)`` lands, immediately on a cache hit, or `nil` when the
+    /// key is neither cached nor in flight (the caller should claim + compute).
+    func computed(_ key: TimelineGraphView.DerivedKey) async -> TimelineCurveModel.Derived? {
+        if let hit = store[key] { return hit }
+        guard inFlight.contains(key) else { return nil }
+        return await withCheckedContinuation { continuation in
+            waiters[key, default: []].append(continuation)
+        }
+    }
+
     func insert(_ value: TimelineCurveModel.Derived, for key: TimelineGraphView.DerivedKey) {
+        inFlight.remove(key)
         if store[key] == nil { order.append(key) }
         store[key] = value
         while order.count > limit {
             let evicted = order.removeFirst()
             store[evicted] = nil
+        }
+        for waiter in waiters.removeValue(forKey: key) ?? [] {
+            waiter.resume(returning: value)
         }
     }
 }
