@@ -987,6 +987,13 @@ final class SubstanceStore {
         return resolved
     }
 
+    /// Whether the batch cache is already published — the cheap check for a
+    /// synchronous caller that must not reach the cold arm of `all` (defer and
+    /// retry after ``ensureAllLoaded()`` instead).
+    var isBatchCacheWarm: Bool {
+        allCache != nil
+    }
+
     /// Await the off-main `allCache` prefill started in `init` (or, if the
     /// prewarm was disabled or already nilled, resolve it synchronously now).
     /// The journal calls this before deriving so its per-entry resolution lands

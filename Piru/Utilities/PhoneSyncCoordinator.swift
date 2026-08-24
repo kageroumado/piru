@@ -46,6 +46,16 @@ final class PhoneSyncCoordinator: NSObject {
     /// a newer context silently replaces an undelivered one, which is exactly right for a
     /// snapshot of "your current favorites/recents."
     func pushManifest() {
+        // The manifest resolves reference doses and favorite defaults from the
+        // batch cache; the watch session can activate before the launch prewarm
+        // lands, and a cold build here stalled the main actor. Defer once.
+        guard SubstanceStore.shared.isBatchCacheWarm else {
+            Task { @MainActor in
+                await SubstanceStore.shared.ensureAllLoaded()
+                self.pushManifest()
+            }
+            return
+        }
         guard let context = container?.mainContext else { return }
         let session = WCSession.default
         guard session.activationState == .activated else { return }
@@ -65,7 +75,7 @@ final class PhoneSyncCoordinator: NSObject {
                 // Same increment the quick-log dock uses: niceStep off the library
                 // reference dose when known, else the magnitude fallback.
                 let reference = StagedDose.lookupReferenceDose(
-                    substance: SubstanceLibrary.resolveFull(substance), route: route, unit: unit,
+                    substance: SubstanceLibrary.lookup(substance), route: route, unit: unit,
                 )
                 return DoseStepping.step(referenceDose: reference, amount: amount)
             },
@@ -82,7 +92,7 @@ final class PhoneSyncCoordinator: NSObject {
     /// Resolve a favorited substance's default dose from the library, for a favorite with no
     /// recent chip. nil (skip the tile) when the substance or its common range is unknown.
     private static func favoriteDefault(for favorite: FavoriteSubstance) -> QuickLogManifestBuilder.FavoriteDefault? {
-        guard let substance = SubstanceLibrary.resolveFull(favorite.substance) else { return nil }
+        guard let substance = SubstanceLibrary.lookup(favorite.substance) else { return nil }
         let route = substance.defaultRoute
         guard let common = substance.doseRange(for: route)?.common else { return nil }
         let amount = (common.lowerBound + common.upperBound) / 2

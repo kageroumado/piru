@@ -133,7 +133,27 @@ struct MyMedsCard: View {
 
     // MARK: Body
 
+    /// Rows render only once the substance batch cache is warm: each row
+    /// resolves its display name through `CustomSubstanceStore` → the batch
+    /// index, and on the Journal's cold first frame that built the whole batch
+    /// synchronously on the main actor (caught by the DEBUG tripwire in
+    /// `SubstanceStore.all`). One empty frame in the warm case.
+    @State private var warmed = false
+
     var body: some View {
+        Group {
+            if warmed {
+                card
+            }
+        }
+        .task {
+            await SubstanceStore.shared.ensureAllLoaded()
+            warmed = true
+        }
+    }
+
+    @ViewBuilder
+    private var card: some View {
         if !allSlots.isEmpty {
             VStack(alignment: .leading, spacing: 10) {
                 header
