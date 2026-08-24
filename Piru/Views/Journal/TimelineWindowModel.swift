@@ -37,6 +37,12 @@ final class TimelineWindowModel {
     /// Shared y-scale input: the highest sample across every loaded window.
     private(set) var peakValue = 0.0
 
+    /// The most recently published plot — the graph's stale fallback. When a
+    /// dose add/edit re-keys the current window, the memo lookup misses until
+    /// the async rebuild lands; drawing this (time-remapped) in the meantime
+    /// keeps the curves on screen instead of blanking to bare chrome.
+    private(set) var lastPlot: TimelineWindowEvaluator.WindowPlot?
+
     struct WindowKey: Hashable {
         let start: Date
         let end: Date
@@ -104,6 +110,7 @@ final class TimelineWindowModel {
             insertionOrder.append(key)
         }
         plots[key] = plot
+        lastPlot = plot
         var evictedPeak = false
         while insertionOrder.count > Self.cacheLimit {
             let evicted = insertionOrder.removeFirst()

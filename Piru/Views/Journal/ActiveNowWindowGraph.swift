@@ -60,11 +60,15 @@ struct ActiveNowWindowGraph: View {
 
     var body: some View {
         let (start, end) = window
-        let plot = model.plot(for: model.key(start: start, end: end))
+        // A dose add/edit re-keys the window, so the memo misses until the
+        // async rebuild + re-evaluation land. Fall back to the last published
+        // plot — drawn time-remapped under the new chrome — so the graph never
+        // blanks to bare axes while regenerating.
+        let plot = model.plot(for: model.key(start: start, end: end)) ?? model.lastPlot
         Canvas { context, size in
             drawChrome(context: context, size: size, start: start, end: end)
             if let plot {
-                drawCurves(plot: plot, context: context, size: size)
+                drawCurves(plot: plot, context: context, size: size, start: start, end: end)
             }
             drawNowMarker(context: context, size: size, start: start, end: end)
         }
@@ -185,14 +189,35 @@ struct ActiveNowWindowGraph: View {
 
     // MARK: - Curves
 
-    private func drawCurves(plot: TimelineWindowEvaluator.WindowPlot, context: GraphicsContext, size: CGSize) {
+    /// Draws `plot` mapped into the *drawn* window's time coordinates, not the
+    /// plot's own: samples are evenly spaced across `plot.start…plot.end`, so
+    /// each maps to `x = width × (sampleTime − start) / (end − start)`. For a
+    /// fresh plot the two windows coincide and this is the identity mapping;
+    /// for the stale fallback the curves land at their true wall-clock
+    /// positions under the new chrome (clipped to the canvas, since `Canvas`
+    /// itself doesn't clip drawing to its bounds).
+    private func drawCurves(
+        plot: TimelineWindowEvaluator.WindowPlot,
+        context: GraphicsContext,
+        size: CGSize,
+        start: Date,
+        end: Date,
+    ) {
+        var context = context
+        context.clip(to: Path(CGRect(origin: .zero, size: size)))
         let baselineY = size.height - Self.labelBand
         let graphHeight = (baselineY - 4) * 0.92
         // Self-normalized: fill the height with the window's own tallest curve
         // (the session graphs' policy), never amplifying silence more than 20×.
         let yNorm = plot.peakValue > 0 ? min(1 / plot.peakValue, 20) : 1
         let sampleCount = plot.sampleCount
-        guard sampleCount > 1, graphHeight > 0 else { return }
+        let span = end.timeIntervalSince(start)
+        let plotSpan = plot.end.timeIntervalSince(plot.start)
+        guard sampleCount > 1, graphHeight > 0, span > 0, plotSpan > 0 else { return }
+
+        func x(at time: Date) -> CGFloat {
+            size.width * CGFloat(time.timeIntervalSince(start) / span)
+        }
 
         for series in plot.series {
             let color = Color(hex: series.colorHex)
@@ -200,17 +225,17 @@ struct ActiveNowWindowGraph: View {
             var points: [CGPoint] = []
             points.reserveCapacity(sampleCount)
             for (index, value) in series.values.enumerated() {
-                let x = size.width * CGFloat(index) / CGFloat(sampleCount - 1)
+                let sampleTime = plot.start.addingTimeInterval(plotSpan * Double(index) / Double(sampleCount - 1))
                 let y = baselineY - CGFloat(min(1, max(0, value * yNorm))) * graphHeight
-                points.append(CGPoint(x: x, y: y))
+                points.append(CGPoint(x: x(at: sampleTime), y: y))
             }
 
             var fill = Path()
-            fill.move(to: CGPoint(x: 0, y: baselineY))
+            fill.move(to: CGPoint(x: points[0].x, y: baselineY))
             for point in points {
                 fill.addLine(to: point)
             }
-            fill.addLine(to: CGPoint(x: size.width, y: baselineY))
+            fill.addLine(to: CGPoint(x: points[points.count - 1].x, y: baselineY))
             fill.closeSubpath()
             context.fill(fill, with: .color(color.opacity(0.16)))
 
@@ -223,11 +248,10 @@ struct ActiveNowWindowGraph: View {
 
             // Baseline ticks at each dose time — where the curve was fed.
             for doseTime in series.doseTimes {
-                let fraction = doseTime.timeIntervalSince(plot.start) / plot.end.timeIntervalSince(plot.start)
-                let x = size.width * CGFloat(fraction)
+                let tickX = x(at: doseTime)
                 var tick = Path()
-                tick.move(to: CGPoint(x: x, y: baselineY))
-                tick.addLine(to: CGPoint(x: x, y: baselineY - 5))
+                tick.move(to: CGPoint(x: tickX, y: baselineY))
+                tick.addLine(to: CGPoint(x: tickX, y: baselineY - 5))
                 context.stroke(tick, with: .color(color.opacity(0.75)), lineWidth: 1.5)
             }
         }
