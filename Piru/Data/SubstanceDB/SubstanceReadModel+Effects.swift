@@ -1,5 +1,18 @@
 import Foundation
 import GRDB
+import os
+
+private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
+
+/// A group of effects sharing one PsychonautWiki category, for the
+/// "All effects" screen.
+nonisolated struct EffectGroup: Identifiable, Hashable {
+    let category: String
+    let effects: [String]
+    var id: String {
+        category
+    }
+}
 
 /// Effect resolution: the two effect tables and how each one is rendered in the
 /// language being read.
@@ -8,7 +21,7 @@ import GRDB
 /// `subjective_effects` is one row per language, richer and messier. Both
 /// resolve their label through `effect_vocab_labels`, which is what lets a row
 /// written in one language be read in another.
-extension SubstanceStore {
+extension SubstanceReadModel {
     /// SQL scalar resolving a row of `effects` (table aliased `e`) to its
     /// localized label via the controlled vocabulary (Track 1). For Chinese it
     /// returns the `effect_vocab_labels` label for the exact variant, then any
@@ -28,7 +41,7 @@ extension SubstanceStore {
         """
     }
 
-    func resolvedEffects(db: Database, substanceID: Int64, language: ContentLanguage) throws -> [String] {
+    func resolvedEffects(db: Database, substanceID: Int64) throws -> [String] {
         try String.fetchAll(db, sql: """
             SELECT DISTINCT \(Self.localizedEffectLabelSQL(language)) AS text
               FROM effects e
@@ -81,7 +94,7 @@ extension SubstanceStore {
         """
     }
 
-    func resolvedSubjectiveEffects(db: Database, substanceID: Int64, language: ContentLanguage) throws -> [SubjectiveEffect] {
+    func resolvedSubjectiveEffects(db: Database, substanceID: Int64) throws -> [SubjectiveEffect] {
         let label = Self.subjectiveLabelSQL(language)
         let ownLanguage = language.isChinese ? "se.language LIKE 'zh%'" : "se.language IN ('en', 'und')"
 
@@ -103,5 +116,60 @@ extension SubstanceStore {
         // being rendered — a bridged row's prose is still in its own language,
         // and a Han paragraph under an English effect name is worse than none.
         return try fetch(Self.subjectiveLanguageFilterSQL(language))
+    }
+
+    /// Canonical display order for PW effect categories. Mirrors
+    /// `CATEGORY_ORDER` in `pipeline/build/pw_effect_categories.py`. Unknown
+    /// categories (including the `Other` bucket for uncategorized survivors)
+    /// sort last, alphabetically.
+    private static let effectCategoryOrder = [
+        "Physical", "Cognitive", "Visual", "Auditory", "Tactile",
+        "Multisensory", "Sensory", "Smell and taste", "Transpersonal", "Disconnective",
+    ]
+
+    /// The substance's effects grouped by PsychonautWiki category, ordered for
+    /// display. Lazily resolved on the "All effects" screen — the flat
+    /// `Substance.effects` union drives the browse/search paths; this is the
+    /// grouped view used only when a user drills into the full taxonomy.
+    func effectGroups(substanceID: Int64) -> [EffectGroup] {
+        do {
+            let rows = try db.read { db in
+                try Row.fetchAll(db, sql: """
+                    SELECT DISTINCT \(Self.localizedEffectLabelSQL(language)) AS text,
+                                    COALESCE(e.effect_category, '') AS category
+                      FROM effects e
+                      JOIN sources src ON src.id = e.source_id
+                     WHERE e.substance_id = ?
+                       AND src.slug IN (\(enabledSourceListSQL))
+                     ORDER BY text COLLATE NOCASE
+                """, arguments: [substanceID])
+            }
+            var byCategory: [String: [String]] = [:]
+            for row in rows {
+                let raw = (row["category"] as String?) ?? ""
+                let category = raw.isEmpty ? "Other" : raw
+                byCategory[category, default: []].append(row["text"])
+            }
+            let order = Self.effectCategoryOrder
+            return byCategory.keys
+                .sorted { a, b in
+                    let ia = order.firstIndex(of: a) ?? order.count
+                    let ib = order.firstIndex(of: b) ?? order.count
+                    return ia != ib ? ia < ib : a < b
+                }
+                .map { EffectGroup(category: $0, effects: byCategory[$0] ?? []) }
+        } catch {
+            logger.error("effectGroups(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
+}
+
+extension SubstanceStore {
+    /// Name-keyed entry to ``SubstanceReadModel/effectGroups(substanceID:)`` —
+    /// the store contributes only the alias resolution.
+    func effectsByCategory(forSubstanceName name: String) -> [EffectGroup] {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+        return reader.effectGroups(substanceID: substanceID)
     }
 }

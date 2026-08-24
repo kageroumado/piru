@@ -304,7 +304,7 @@ enum AuditSerializer {
     /// legitimately tens of µM yet is the primary mechanism). The audit flags what the cap would hide.
     static let kiCapNanomolar: Double = 10_000
 
-    private static func receptorLiteratureSection(_ hits: [SubstanceStore.BindingHit]) -> String {
+    private static func receptorLiteratureSection(_ hits: [BindingHit]) -> String {
         var m = "### Receptor literature (Ki/EC50)\n\n| Target | Action | Ki (nM) | EC50 (nM) | IC50 (nM) | Species | Source | Ref | 10µM cap |\n|---|---|---|---|---|---|---|---|---|\n"
         for h in hits {
             let ref = h.pmid.map { "PMID:\($0)" } ?? (h.doi.map { "doi:\($0)" } ?? "")
@@ -317,7 +317,7 @@ enum AuditSerializer {
     /// The computed ``MonoamineProfile`` — exactly what the detail view's Monoamine Profile card derives
     /// from these same binding rows (mechanism, DAT:SERT lean, 5-HT2B / mis-sold flags). Surfacing it in
     /// the audit makes the card's classification reviewable without a screenshot.
-    private static func monoamineProfileSection(_ hits: [SubstanceStore.BindingHit], name: String) -> String {
+    private static func monoamineProfileSection(_ hits: [BindingHit], name: String) -> String {
         guard let p = MonoamineProfile.from(bindings: hits, substanceName: name) else { return "" }
         var m = "### Monoamine profile (computed card)\n\n"
         m += "- **Mechanism:** \(String(localized: p.mechanismLabel))\n"
@@ -332,7 +332,7 @@ enum AuditSerializer {
         return m + "\n"
     }
 
-    private static func pharmacokineticsSection(pk: [SubstanceStore.PKRouteHit], metab: [SubstanceStore.MetabolismHit]) -> String {
+    private static func pharmacokineticsSection(pk: [PKRouteHit], metab: [SubstanceStore.MetabolismHit]) -> String {
         var m = "### Pharmacokinetics\n\n"
         if !pk.isEmpty {
             m += "| Route | F% | Tmax(min) | t½(min) | Vd(L/kg) | CL | PPB% | Cmax(ng/mL) | Source | Ref |\n|---|---|---|---|---|---|---|---|---|---|\n"

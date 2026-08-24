@@ -70,8 +70,8 @@ extension SubstanceStore {
                       JOIN sources src ON src.id = d.source_id
                       LEFT JOIN citations c ON c.id = d.citation_id
                      WHERE d.substance_id = ?
-                       AND src.slug IN (\(enabledSourceListSQL(order)))
-                     ORDER BY \(priorityCaseSQL(order)) ASC, d.with_substance ASC
+                       AND src.slug IN (\(SubstanceReadModel.enabledSourceListSQL(order)))
+                     ORDER BY \(SubstanceReadModel.priorityCaseSQL(order)) ASC, d.with_substance ASC
                 """, arguments: [substanceID])
                 return rows.map { row in
                     PKInteractionHit(

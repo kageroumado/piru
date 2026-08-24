@@ -61,11 +61,11 @@ enum MechanismOfActionDatabase {
         // not the template's "primary"). Targets the DB doesn't measure (downstream AMPA/mTOR) keep the
         // template tier. `dbMechanism.bindings` already encodes measured-wins in `SubstanceStore`.
         let dbTierByTarget = Dictionary(
-            (dbMechanism?.bindings ?? []).map { (SubstanceStore.normalizedBindingTarget($0.target), $0.affinity) },
+            (dbMechanism?.bindings ?? []).map { (SubstanceReadModel.normalizedBindingTarget($0.target), $0.affinity) },
             uniquingKeysWith: { max($0, $1) },
         )
         let bindings = baseBindings.map { binding -> ReceptorBinding in
-            guard let dbTier = dbTierByTarget[SubstanceStore.normalizedBindingTarget(binding.target)],
+            guard let dbTier = dbTierByTarget[SubstanceReadModel.normalizedBindingTarget(binding.target)],
                   dbTier != binding.affinity else { return binding }
             return ReceptorBinding(target: binding.target, action: binding.action, affinity: dbTier)
         }

@@ -158,7 +158,7 @@ extension SubstanceStore {
     /// from a `.task`, not from a view `body`.
     func sourceContributions(forSubstanceName name: String) -> SourceContributions {
         guard let substanceID = substanceID(forNameOrAlias: name) else { return .empty }
-        let enabledList = enabledSourceListSQL
+        let enabledList = reader.enabledSourceListSQL
         let sourceLegs = Self.facetTables
             .map { "SELECT source_id AS sid, '\($0.facet.rawValue)' AS facet FROM \($0.table) WHERE substance_id = :id" }
             .joined(separator: " UNION ALL ")

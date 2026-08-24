@@ -1614,7 +1614,7 @@ struct Substance: Identifiable {
         // the end so an English title isn't immediately followed by Han — Latin
         // names a reader recognizes lead. A stable partition keeps source order
         // within each group. In a Chinese UI the source order already reads well.
-        guard !SubstanceStore.contentLanguage.isChinese else { return resolved }
+        guard !SubstanceReadModel.contentLanguage.isChinese else { return resolved }
         // Single pass: computing `containsHan` once per alias rather than twice
         // (the old `filter(!han) + filter(han)` evaluated it for every alias twice).
         var latin: [String] = []

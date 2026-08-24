@@ -2,7 +2,7 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// Pins the unified set-based route resolver (`SubstanceStore.resolveRoutes` +
+/// Pins the unified set-based route resolver (`SubstanceReadModel.resolveRoutes` +
 /// the detail path's auxiliary fold) that collapsed the former batch-vs-detail
 /// code paths into one. These assert against the **current bundled DB**
 /// (schema v3) via `SubstanceStore.shared.lookup` — the detail/`lookup` path,

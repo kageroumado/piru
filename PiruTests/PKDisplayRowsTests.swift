@@ -20,8 +20,8 @@ struct PKDisplayRowsTests {
         demographics: String? = nil,
         species: String? = nil,
         notes: String? = nil,
-    ) -> SubstanceStore.PKRouteHit {
-        SubstanceStore.PKRouteHit(
+    ) -> PKRouteHit {
+        PKRouteHit(
             id: id,
             route: route,
             bioavailabilityPct: bioavailability,

@@ -1,15 +1,11 @@
 import Foundation
 import GRDB
 
-/// Route/salt/isomer resolution for the substance store: turning the per-source
-/// `dose_ranges` and `durations` rows into the folded ``SubstanceRoute`` values
-/// the app consumes.
-///
-/// Split out of `SubstanceStore.swift` because that file is at its 2500-line
-/// budget and this is a self-contained concern — everything here is
-/// `nonisolated static`, which is what lets the resolve run off the main actor
-/// during the library prewarm.
-extension SubstanceStore {
+/// Route/salt/isomer resolution: turning the per-source `dose_ranges` and
+/// `durations` rows into the folded ``SubstanceRoute`` values the app
+/// consumes. Everything here is `nonisolated static`, which is what lets the
+/// resolve run off the main actor during the library prewarm.
+extension SubstanceReadModel {
     /// One resolved (salt-tagged or unspecified) dose/duration row for a route,
     /// before it's folded into a ``SubstanceRoute``. `salt == nil` is the
     /// unspecified/base form that the vast majority of substances use.

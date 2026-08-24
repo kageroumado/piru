@@ -13,18 +13,18 @@ import SwiftUI
 /// trailing-cluster `HStack` would otherwise shove the dots right on those rows.
 /// Receptor-panel classes (opioid/benzo/dissociative) never reach here — their class hero already carries this.
 struct GroupedReceptorLiterature: View {
-    let rows: [SubstanceStore.BindingHit]
+    let rows: [BindingHit]
     let accent: Color
 
     private struct Group: Identifiable {
         let id: String
-        let rows: [SubstanceStore.BindingHit]
+        let rows: [BindingHit]
     }
 
     /// Group by base receptor name, preserving the parent's strength-sorted order (first appearance wins).
     private var groups: [Group] {
         var order: [String] = []
-        var byName: [String: [SubstanceStore.BindingHit]] = [:]
+        var byName: [String: [BindingHit]] = [:]
         for hit in rows {
             let name = splitTarget(hit.target).name
             if byName[name] == nil { order.append(name) }
@@ -75,7 +75,7 @@ struct GroupedReceptorLiterature: View {
 
     /// Column 1 for a single-measurement receptor: name + its action concatenated into one `Text` so the
     /// dots/value/species/link columns start at the same place as the multi-row sub-rows.
-    private func inlineTitle(name: String, hit: SubstanceStore.BindingHit) -> Text {
+    private func inlineTitle(name: String, hit: BindingHit) -> Text {
         // Build one styled `AttributedString` rather than interpolating `Text` segments: the
         // interpolation form extracts a bogus `"%@  %@"` key into the string catalog, and `Text + Text`
         // is deprecated in iOS 26 — the attributed run preserves each segment's font/color with neither.
@@ -92,12 +92,12 @@ struct GroupedReceptorLiterature: View {
 
     // MARK: column cells (shared by inline + sub-rows so every column lines up)
 
-    private func dotsCell(_ hit: SubstanceStore.BindingHit) -> some View {
+    private func dotsCell(_ hit: BindingHit) -> some View {
         let tier = ReceptorStrength.tier(kiNm: hit.kiNm, ec50Nm: hit.ec50Nm, ic50Nm: hit.ic50Nm) ?? 1
         return AffinityDots(filled: tier, tint: accent)
     }
 
-    private func valueCell(_ hit: SubstanceStore.BindingHit) -> some View {
+    private func valueCell(_ hit: BindingHit) -> some View {
         Text(concLabel(kiNm: hit.kiNm, ec50Nm: hit.ec50Nm, ic50Nm: hit.ic50Nm))
             .font(.caption.weight(.semibold).monospacedDigit())
             .foregroundStyle(accent)
@@ -107,7 +107,7 @@ struct GroupedReceptorLiterature: View {
     /// The species badge (green for human, gray otherwise). An empty cell when the row carries no species —
     /// the Grid still reserves the column so the citation arrow stays aligned across rows.
     @ViewBuilder
-    private func speciesCell(_ hit: SubstanceStore.BindingHit) -> some View {
+    private func speciesCell(_ hit: BindingHit) -> some View {
         if let species = hit.species, !species.isEmpty, species != "—" {
             let isHuman = species.lowercased() == "human"
             Text(species.prefix(1).uppercased() + species.dropFirst())
@@ -122,7 +122,7 @@ struct GroupedReceptorLiterature: View {
     }
 
     @ViewBuilder
-    private func linkCell(_ hit: SubstanceStore.BindingHit) -> some View {
+    private func linkCell(_ hit: BindingHit) -> some View {
         if let url = citationURL(doi: hit.doi, pmid: hit.pmid) {
             CitationLink(url: url)
         } else {
@@ -135,14 +135,14 @@ struct GroupedReceptorLiterature: View {
     /// pair that actually co-occurs on one transporter), full display name otherwise. The binding-vs-
     /// functional distinction is dropped from the row (it lives in the help sheet) — the Kᵢ/EC₅₀/IC₅₀
     /// symbol in the value already carries it.
-    private func label(_ hit: SubstanceStore.BindingHit) -> Text {
+    private func label(_ hit: BindingHit) -> Text {
         Text(verbatim: labelString(hit))
     }
 
     /// The resolved row label as a plain `String` — shared by ``label(_:)`` and the attributed
     /// ``inlineTitle(name:hit:)`` so both render identically. "Release"/"Reuptake" and the action
     /// display name resolve through the catalog; qualifiers and raw actions pass through verbatim.
-    private func labelString(_ hit: SubstanceStore.BindingHit) -> String {
+    private func labelString(_ hit: BindingHit) -> String {
         if let qualifier = splitTarget(hit.target).qualifier {
             return qualifier
         }
@@ -311,7 +311,7 @@ func sourceNameLink(_ name: String, doi: String?, pmid: Int?, accent: Color) -> 
 /// One per-route pharmacokinetic row: the route, a chip line of populated
 /// metrics (bioavailability/tmax/half-life/…), and the source + citation.
 struct PKRouteRow: View {
-    let hit: SubstanceStore.PKRouteHit
+    let hit: PKRouteHit
     /// How many distinct studies the table holds for this route. Shown beside
     /// the route name when it's more than one, so a route backed by four
     /// separate studies says so instead of showing only the winner's numbers as

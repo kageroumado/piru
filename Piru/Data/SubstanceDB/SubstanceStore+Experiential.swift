@@ -26,7 +26,7 @@ extension SubstanceStore {
                       FROM spectrum_levels sl
                       JOIN sources src ON src.id = sl.source_id
                      WHERE sl.substance_id = ?
-                       AND src.slug IN (\(enabledSourceListSQL))
+                       AND src.slug IN (\(reader.enabledSourceListSQL))
                      ORDER BY sl.band_index
                 """, arguments: [substanceID])
             }
@@ -65,7 +65,7 @@ extension SubstanceStore {
     /// disabled. Drives the grouped, frequency-barred effects list.
     func reportedEffects(forSubstanceName name: String) -> [ReportedEffect] {
         guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
-        let language = languageOverride ?? Self.contentLanguage
+        let language = reader.language
         do {
             let rows = try substancesDB.read { db in
                 try Row.fetchAll(db, sql: """
@@ -77,7 +77,7 @@ extension SubstanceStore {
                       FROM reported_effects re
                       JOIN sources src ON src.id = re.source_id
                      WHERE re.substance_id = ?
-                       AND src.slug IN (\(enabledSourceListSQL))
+                       AND src.slug IN (\(reader.enabledSourceListSQL))
                      ORDER BY re.report_count DESC, re.name COLLATE NOCASE
                 """, arguments: [language.rawValue, substanceID])
             }

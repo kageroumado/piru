@@ -47,10 +47,58 @@ nonisolated struct PharmaTableRow: Identifiable {
     }
 }
 
-/// The pharmacology / pharmacokinetics read layer extracted from `SubstanceStore`: the per-substance
-/// binding, PK, molar-mass, metabolism, and resolved `PharmacologyParameters` reads. Split out so the
-/// core store stays under the file-length budget; the off-main batch resolve (`pharmacologyParametersBatchOffMain`)
-/// lives here alongside the cached interactive accessors it shares assembly logic with.
+/// One per-route pharmacokinetic row joined to its source + citation.
+/// Surfaced in the detail view's Pharmacokinetics disclosure (pharma-nerd
+/// tier). Every numeric is from primary literature with explicit attribution;
+/// fields are optional because most rows populate only a subset.
+nonisolated struct PKRouteHit: Identifiable, Hashable {
+    let id: Int64
+    let route: String
+    let bioavailabilityPct: Double?
+    let cmaxNgPerMl: Double?
+    let tmaxMin: Double?
+    let halfLifeMin: Double?
+    let vdLPerKg: Double?
+    let clearanceMlPerMinPerKg: Double?
+    let proteinBindingPct: Double?
+    let doseInStudyMg: Double?
+    let subjectN: Int?
+    let demographics: String?
+    /// Study species (`human`, `rat`, `pig`, …), lowercased, or `nil` when unstated. Drives the
+    /// resolver's interspecies allometric scaling (``SubstanceStore/scaledToHuman(_:)``): a
+    /// non-human row keeps its species-invariant Vd/kg but has its confidence floored and its
+    /// clearance/half-life allometrically scaled to a 70 kg human when no human value exists.
+    let species: String?
+    let sourceSlug: String
+    let doi: String?
+    let pmid: Int?
+    let notes: String?
+    /// Citation-verification grade for this route's values (`.unverified` when un-graded).
+    var confidence: ConfidenceTier = .unverified
+}
+
+/// One row from the bindings table joined to its substance + source +
+/// citation. Used by advanced-search results.
+nonisolated struct BindingHit: Identifiable, Hashable {
+    let id: Int64
+    let substanceName: String
+    let target: String
+    let action: String
+    let kiNm: Double?
+    let ec50Nm: Double?
+    let ic50Nm: Double?
+    let species: String?
+    let sourceSlug: String
+    let doi: String?
+    let pmid: Int?
+    /// Citation-verification grade for this binding (`.unverified` when un-graded).
+    var confidence: ConfidenceTier = .unverified
+}
+
+/// The pharmacology / pharmacokinetics read layer: the per-substance binding,
+/// PK, molar-mass, metabolism, and resolved `PharmacologyParameters` reads.
+/// The off-main batch resolve (`pharmacologyParametersBatchOffMain`) lives here
+/// alongside the cached interactive accessors it shares assembly logic with.
 extension SubstanceStore {
     /// Every binding row associated with a specific substance, resolved by
     /// canonical name. Used by the detail view's "Receptor Literature"
@@ -65,6 +113,69 @@ extension SubstanceStore {
         let resolved = ActiveIngredient.pharmacologyName(for: name)
         guard let substanceID = substanceID(forNameOrAlias: resolved) else { return [] }
         return Self.bindingRows(substanceID: substanceID, db: substancesDB)
+    }
+
+    /// Returns every binding row matching the predicate, *across all sources*
+    /// (including disabled) so pharma-nerd users can see the literature even
+    /// for sources they've deprioritised. UI labels which source supplied each
+    /// row so users can apply their own trust filter.
+    func bindings(
+        target: String? = nil,
+        kiNmAtMost: Double? = nil,
+        substanceContains: String? = nil,
+        limit: Int = 200,
+    ) -> [BindingHit] {
+        do {
+            return try substancesDB.read { db in
+                var sql = """
+                    SELECT b.id, b.target, b.action, b.ki_nm, b.ec50_nm, b.ic50_nm, b.species, b.confidence,
+                           s.canonical_name AS substance_name,
+                           src.slug AS source_slug,
+                           c.doi, c.pmid
+                      FROM bindings b
+                      JOIN substances s ON s.id = b.substance_id
+                      JOIN sources    src ON src.id = b.source_id
+                      LEFT JOIN citations c ON c.id = b.citation_id
+                     WHERE 1=1
+                """
+                var args: [DatabaseValueConvertible?] = []
+                if let target {
+                    sql += " AND b.target = ?"
+                    args.append(target)
+                }
+                if let kiNmAtMost {
+                    sql += " AND b.ki_nm IS NOT NULL AND b.ki_nm <= ?"
+                    args.append(kiNmAtMost)
+                }
+                if let substanceContains, !substanceContains.isEmpty {
+                    sql += " AND s.canonical_name LIKE ?"
+                    args.append("%\(substanceContains)%")
+                }
+                sql += " ORDER BY b.ki_nm ASC NULLS LAST LIMIT ?"
+                args.append(limit)
+
+                let rows = try Row.fetchAll(db, sql: sql, arguments: StatementArguments(args))
+                return rows.map { row in
+                    BindingHit(
+                        id: row["id"],
+                        substanceName: row["substance_name"],
+                        target: row["target"],
+                        action: row["action"],
+                        kiNm: row["ki_nm"],
+                        ec50Nm: row["ec50_nm"],
+                        ic50Nm: row["ic50_nm"],
+                        species: row["species"],
+                        sourceSlug: row["source_slug"],
+                        doi: row["doi"],
+                        pmid: row["pmid"],
+                        confidence: ConfidenceTier(grade: row["confidence"]),
+                    )
+                }
+            }
+        } catch {
+            logger.error("bindings query failed: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
     }
 
     /// The raw `bindings` read for one substance id. `nonisolated static` so the off-main tolerance
@@ -235,7 +346,7 @@ extension SubstanceStore {
                         confidence: ConfidenceTier(grade: row["confidence"]),
                     )
                 }
-                .sorted { Self.routeRank(RouteOfAdministration.from(string: $0.route)) < Self.routeRank(RouteOfAdministration.from(string: $1.route)) }
+                .sorted { SubstanceReadModel.routeRank(RouteOfAdministration.from(string: $0.route)) < SubstanceReadModel.routeRank(RouteOfAdministration.from(string: $1.route)) }
             }
         } catch {
             logger.error("pharmacokineticsRows failed: \(error.localizedDescription, privacy: .public)")
@@ -341,7 +452,7 @@ extension SubstanceStore {
         // row (Kratom's category, not mitragynine's), so a preparation keeps its own tolerance identity.
         let loggedID = substanceID(forNameOrAlias: name)
         let referenceDoseMg = loggedID.flatMap {
-            Self.referenceDoseMg(substanceID: $0, db: substancesDB, order: enabledSourceOrder)
+            SubstanceReadModel.referenceDoseMg(substanceID: $0, db: substancesDB, order: enabledSourceOrder)
         }
         let categoryClasses = loggedID.map {
             Self.toleranceCategoryClasses(substanceID: $0, db: substancesDB)
@@ -422,7 +533,7 @@ extension SubstanceStore {
             let routed = routePreparation(name)
             let loggedID = referenceDoseIDs[name.lowercased()]
             let referenceDoseMg = loggedID.flatMap {
-                Self.referenceDoseMg(substanceID: $0, db: queue, order: order)
+                SubstanceReadModel.referenceDoseMg(substanceID: $0, db: queue, order: order)
             }
             let categoryClasses = loggedID.map { Self.toleranceCategoryClasses(substanceID: $0, db: queue) } ?? []
             // Reference-substance borrow (the derivation layer), off-main: same single-hop borrow as the
@@ -801,8 +912,8 @@ extension SubstanceStore {
     nonisolated static func metabolismRows(
         substanceID: Int64, db queue: DatabaseQueue, order: [String],
     ) -> [MetabolismHit] {
-        let enabledSourceListSQL = enabledSourceListSQL(order)
-        let priorityCaseSQL = priorityCaseSQL(order)
+        let enabledSourceListSQL = SubstanceReadModel.enabledSourceListSQL(order)
+        let priorityCaseSQL = SubstanceReadModel.priorityCaseSQL(order)
         do {
             return try queue.read { db in
                 let rows = try Row.fetchAll(db, sql: """

@@ -21,7 +21,7 @@ struct PharmacologyHero {
 
     /// Build the hero for a substance's category from its (deduped, relevance-capped) binding rows.
     /// Returns nil when the class has no usable receptor rows — the card then falls back to the grid.
-    static func resolve(category: SubstanceCategory, bindings: [SubstanceStore.BindingHit]) -> PharmacologyHero? {
+    static func resolve(category: SubstanceCategory, bindings: [BindingHit]) -> PharmacologyHero? {
         switch category {
         case .opioid, .analgesic: opioid(bindings)
         case .benzodiazepine: benzo(bindings)
@@ -32,7 +32,7 @@ struct PharmacologyHero {
 
     // MARK: opioid
 
-    private static func opioid(_ bindings: [SubstanceStore.BindingHit]) -> PharmacologyHero? {
+    private static func opioid(_ bindings: [BindingHit]) -> PharmacologyHero? {
         let receptors: [(key: String, label: String, match: (String) -> Bool)] = [
             ("mu", "μ", { $0.contains("mor") || $0.contains("μ-opioid") || $0.contains("mu-opioid") }),
             ("kappa", "κ", { $0.contains("kor") || $0.contains("κ-opioid") || $0.contains("kappa") }),
@@ -70,7 +70,7 @@ struct PharmacologyHero {
 
     // MARK: benzodiazepine (GABA-A α-subunit selectivity)
 
-    private static func benzo(_ bindings: [SubstanceStore.BindingHit]) -> PharmacologyHero? {
+    private static func benzo(_ bindings: [BindingHit]) -> PharmacologyHero? {
         let subunits: [(token: String, label: String, effect: LocalizedStringResource)] = [
             ("α1", "α1", "Sedation"), ("α2", "α2", "Anxiolysis"),
             ("α3", "α3", "Muscle"), ("α5", "α5", "Memory"),
@@ -100,7 +100,7 @@ struct PharmacologyHero {
 
     // MARK: dissociative (NMDA enantiomer potency)
 
-    private static func dissociative(_ bindings: [SubstanceStore.BindingHit]) -> PharmacologyHero? {
+    private static func dissociative(_ bindings: [BindingHit]) -> PharmacologyHero? {
         let nmda = bindings.filter { $0.target.uppercased().contains("NMDA") }
         guard !nmda.isEmpty else { return nil }
         func enantiomer(_ target: String) -> (label: String, order: Int) {
@@ -109,7 +109,7 @@ struct PharmacologyHero {
             if t.contains("r-enantiomer") || t.contains("r-ket") || t.contains("arket") { return ("R-enantiomer", 2) }
             return ("racemate", 1)
         }
-        var byEnantiomer: [String: SubstanceStore.BindingHit] = [:]
+        var byEnantiomer: [String: BindingHit] = [:]
         var order: [String: Int] = [:]
         for hit in nmda {
             let e = enantiomer(hit.target)
@@ -141,7 +141,7 @@ struct PharmacologyHero {
     // MARK: helpers
 
     /// Best row for a receptor: prefer a measured value, then human data, then highest potency.
-    private static func bestRow(_ rows: [SubstanceStore.BindingHit]) -> SubstanceStore.BindingHit? {
+    private static func bestRow(_ rows: [BindingHit]) -> BindingHit? {
         rows.min { a, b in
             let am = hasMeasure(a), bm = hasMeasure(b)
             if am != bm { return am }
@@ -151,27 +151,27 @@ struct PharmacologyHero {
         }
     }
 
-    private static func hasMeasure(_ h: SubstanceStore.BindingHit) -> Bool {
+    private static func hasMeasure(_ h: BindingHit) -> Bool {
         h.kiNm != nil || h.ec50Nm != nil || h.ic50Nm != nil
     }
 
-    private static func conc(_ h: SubstanceStore.BindingHit) -> Double? {
+    private static func conc(_ h: BindingHit) -> Double? {
         h.kiNm ?? h.ec50Nm ?? h.ic50Nm
     }
 
     /// Sort rank for picking the best of duplicate enantiomer rows (lower is better).
-    private static func rank(_ h: SubstanceStore.BindingHit) -> Int {
+    private static func rank(_ h: BindingHit) -> Int {
         (hasMeasure(h) ? 0 : 2) + (h.species?.lowercased() == "human" ? 0 : 1)
     }
 
     /// "Kᵢ 0.21 nM" / "EC₅₀ 1.7 µM" — symbol from which field is populated; nM under 1000, else µM.
     /// Shares one formatter (`concLabel`) with the grouped receptor-literature rows so values read identically.
-    private static func concText(_ h: SubstanceStore.BindingHit) -> String {
+    private static func concText(_ h: BindingHit) -> String {
         concLabel(kiNm: h.kiNm, ec50Nm: h.ec50Nm, ic50Nm: h.ic50Nm)
     }
 
     /// Leftover (non-hero) bindings as a compact footnote — the weak σ / opioid off-targets, etc.
-    private static func minorFootnote(_ bindings: [SubstanceStore.BindingHit], consumed: Set<Int64>) -> String? {
+    private static func minorFootnote(_ bindings: [BindingHit], consumed: Set<Int64>) -> String? {
         let leftover = bindings.filter { !consumed.contains($0.id) && hasMeasure($0) }
         // collapse to one row per target, weakest-relevant first, cap to keep it a footnote
         var seen = Set<String>()

@@ -190,7 +190,7 @@ private struct EffectRow: View {
 final class EffectsIntensityModel {
     var bands: [SpectrumBand] = []
     var reported: [ReportedEffect] = []
-    var fallbackGroups: [SubstanceStore.EffectGroup] = []
+    var fallbackGroups: [EffectGroup] = []
     var bandDoseText: [Int: String] = [:]
     var freeodwikiSlug: String?
     var drugCommunityDeepLink: URL?

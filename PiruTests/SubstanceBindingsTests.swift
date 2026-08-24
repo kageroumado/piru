@@ -78,14 +78,14 @@ struct SubstanceBindingsTests {
         ]
         for (input, expected) in cases {
             #expect(
-                SubstanceStore.normalizedBindingTarget(input) == expected,
-                "normalizedBindingTarget(\(input)) → \(SubstanceStore.normalizedBindingTarget(input)), expected \(expected)",
+                SubstanceReadModel.normalizedBindingTarget(input) == expected,
+                "normalizedBindingTarget(\(input)) → \(SubstanceReadModel.normalizedBindingTarget(input)), expected \(expected)",
             )
         }
         // The two DAT spellings must normalize identically (the collapse guarantee).
         #expect(
-            SubstanceStore.normalizedBindingTarget("DAT")
-                == SubstanceStore.normalizedBindingTarget("DAT (release, [3H]-DA from rat synaptosomes)"),
+            SubstanceReadModel.normalizedBindingTarget("DAT")
+                == SubstanceReadModel.normalizedBindingTarget("DAT (release, [3H]-DA from rat synaptosomes)"),
         )
     }
 }

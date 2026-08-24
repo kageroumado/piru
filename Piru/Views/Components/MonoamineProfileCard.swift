@@ -35,7 +35,7 @@ struct MonoamineProfile {
 
     /// Build the profile from a substance's binding rows. Returns `nil` unless the substance has at least
     /// one DAT/NET/SERT release or uptake-inhibition row to characterize.
-    static func from(bindings: [SubstanceStore.BindingHit], substanceName: String) -> MonoamineProfile? {
+    static func from(bindings: [BindingHit], substanceName: String) -> MonoamineProfile? {
         func best(_ target: String, _ action: String) -> Double? {
             bindings
                 .filter { $0.target.uppercased().hasPrefix(target) && $0.action == action }

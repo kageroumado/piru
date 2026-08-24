@@ -559,8 +559,8 @@ struct PKModelSaturableTests {
 /// species-invariant, while clearance (∝ BW^0.75) and half-life (∝ BW^0.25) scale to a 70 kg human.
 @Suite("Allometric interspecies scaling")
 struct AllometricScalingTests {
-    private static func row(species: String?, vd: Double?, halfLife: Double?, clearance: Double?, confidence: ConfidenceTier = .high) -> SubstanceStore.PKRouteHit {
-        SubstanceStore.PKRouteHit(
+    private static func row(species: String?, vd: Double?, halfLife: Double?, clearance: Double?, confidence: ConfidenceTier = .high) -> PKRouteHit {
+        PKRouteHit(
             id: 0, route: "oral", bioavailabilityPct: nil, cmaxNgPerMl: nil, tmaxMin: nil,
             halfLifeMin: halfLife, vdLPerKg: vd, clearanceMlPerMinPerKg: clearance,
             proteinBindingPct: nil, doseInStudyMg: nil, subjectN: nil, demographics: nil,

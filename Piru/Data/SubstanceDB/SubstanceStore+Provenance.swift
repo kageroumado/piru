@@ -4,10 +4,10 @@ import os
 
 private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
 
-/// Per-field source attribution — which source actually won each displayed field
-/// after priority resolution. Split out of ``SubstanceStore`` for file size (the
-/// main type sits against the 2500-line lint cap); the resolvers whose ordering
-/// this mirrors stay there.
+/// Per-field source attribution — which source actually won each displayed
+/// field after priority resolution. Queries build on the same
+/// ``SubstanceReadModel`` SQL fragments as the resolvers themselves, so the
+/// attributed slug cannot disagree with the value shown.
 extension SubstanceStore {
     /// Source attribution for the fields displayed in a substance detail
     /// view. Distinct from the substance-level `sources` list (which is just
@@ -33,6 +33,7 @@ extension SubstanceStore {
     /// in the UI matches the source that actually won the field.
     func provenance(forSubstanceName name: String) -> SubstanceProvenance? {
         guard let substanceID = substanceID(forNameOrAlias: name) else { return nil }
+        let reader = self.reader
         do {
             return try substancesDB.read { db in
                 let categorySource = try fieldSource(
@@ -41,8 +42,8 @@ extension SubstanceStore {
                         SELECT src.slug FROM categories c
                           JOIN sources src ON src.id = c.source_id
                          WHERE c.substance_id = ?
-                           AND src.slug IN (\(enabledSourceListSQL))
-                         ORDER BY \(priorityCaseSQL) ASC LIMIT 1
+                           AND src.slug IN (\(reader.enabledSourceListSQL))
+                         ORDER BY \(reader.priorityCaseSQL) ASC LIMIT 1
                     """,
                     substanceID: substanceID,
                 )
@@ -52,8 +53,8 @@ extension SubstanceStore {
                         SELECT src.slug FROM half_lives h
                           JOIN sources src ON src.id = h.source_id
                          WHERE h.substance_id = ?
-                           AND src.slug IN (\(enabledSourceListSQL))
-                         ORDER BY \(priorityCaseSQL) ASC LIMIT 1
+                           AND src.slug IN (\(reader.enabledSourceListSQL))
+                         ORDER BY \(reader.priorityCaseSQL) ASC LIMIT 1
                     """,
                     substanceID: substanceID,
                 )
@@ -63,13 +64,13 @@ extension SubstanceStore {
                         SELECT src.slug FROM mechanisms_summary m
                           JOIN sources src ON src.id = m.source_id
                          WHERE m.substance_id = ?
-                           AND src.slug IN (\(enabledSourceListSQL))
-                         ORDER BY \(priorityCaseSQL) ASC LIMIT 1
+                           AND src.slug IN (\(reader.enabledSourceListSQL))
+                         ORDER BY \(reader.priorityCaseSQL) ASC LIMIT 1
                     """,
                     substanceID: substanceID,
                 )
 
-                let routes = try resolvedRoutes(db: db, substanceID: substanceID).map(\.route)
+                let routes = try reader.resolvedRoutes(db: db, substanceID: substanceID).map(\.route)
                 var routesBySource: [RouteOfAdministration: RouteProvenance] = [:]
                 routesBySource.reserveCapacity(routes.count)
                 for route in routes {
@@ -79,8 +80,8 @@ extension SubstanceStore {
                             SELECT src.slug FROM dose_ranges d
                               JOIN sources src ON src.id = d.source_id
                              WHERE d.substance_id = ? AND d.route = ?
-                               AND src.slug IN (\(enabledSourceListSQL))
-                             ORDER BY \(priorityCaseSQL) ASC LIMIT 1
+                               AND src.slug IN (\(reader.enabledSourceListSQL))
+                             ORDER BY \(reader.priorityCaseSQL) ASC LIMIT 1
                         """,
                         substanceID: substanceID,
                         extra: [route.rawValue],
@@ -91,8 +92,8 @@ extension SubstanceStore {
                             SELECT src.slug FROM durations du
                               JOIN sources src ON src.id = du.source_id
                              WHERE du.substance_id = ? AND du.route = ?
-                               AND src.slug IN (\(enabledSourceListSQL))
-                             ORDER BY \(priorityCaseSQL) ASC LIMIT 1
+                               AND src.slug IN (\(reader.enabledSourceListSQL))
+                             ORDER BY \(reader.priorityCaseSQL) ASC LIMIT 1
                         """,
                         substanceID: substanceID,
                         extra: [route.rawValue],
@@ -152,14 +153,15 @@ extension SubstanceStore {
     func sourcesProviding(_ field: AttributableField, forSubstanceName name: String) -> [String] {
         guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
         let (table, whereClause, args) = field.query
+        let reader = self.reader
         do {
             return try substancesDB.read { db in
                 try String.fetchAll(db, sql: """
                     SELECT DISTINCT src.slug FROM \(table) t
                       JOIN sources src ON src.id = t.source_id
                      WHERE t.substance_id = ? \(whereClause)
-                       AND src.slug IN (\(enabledSourceListSQL))
-                     ORDER BY \(priorityCaseSQL) ASC
+                       AND src.slug IN (\(reader.enabledSourceListSQL))
+                     ORDER BY \(reader.priorityCaseSQL) ASC
                 """, arguments: StatementArguments([substanceID] + args))
             }
         } catch {

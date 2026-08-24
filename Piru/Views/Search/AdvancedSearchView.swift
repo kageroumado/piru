@@ -13,7 +13,7 @@ struct AdvancedSearchView: View {
     @State private var kiCeilingNm: Double = 1_000
     @State private var kiCeilingEnabled = false
     @State private var substanceQuery = ""
-    @State private var results: [SubstanceStore.BindingHit] = []
+    @State private var results: [BindingHit] = []
 
     private let kiSliderRange: ClosedRange<Double> = 1 ... 10_000
 
@@ -117,7 +117,7 @@ struct AdvancedSearchView: View {
 }
 
 private struct BindingHitRow: View {
-    let hit: SubstanceStore.BindingHit
+    let hit: BindingHit
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {

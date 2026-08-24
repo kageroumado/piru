@@ -230,8 +230,8 @@ struct PharmacologyParametersTests {
     /// A `PKRouteHit` factory for the pure `scaledToHuman` tests.
     private static func makePKRow(
         species: String?, vd: Double?, halfLife: Double?, clearance: Double?, confidence: ConfidenceTier,
-    ) -> SubstanceStore.PKRouteHit {
-        SubstanceStore.PKRouteHit(
+    ) -> PKRouteHit {
+        PKRouteHit(
             id: 0, route: "oral", bioavailabilityPct: nil, cmaxNgPerMl: nil, tmaxMin: nil,
             halfLifeMin: halfLife, vdLPerKg: vd, clearanceMlPerMinPerKg: clearance,
             proteinBindingPct: nil, doseInStudyMg: nil, subjectN: nil, demographics: nil,

@@ -18,7 +18,7 @@ final class SubstanceDetailModel {
 
     /// Measured receptor binding rows — feed both the pharma-nerd "Receptor
     /// Literature" list and the unified Pharmacology card's class hero.
-    var literatureBindings: [SubstanceStore.BindingHit] = []
+    var literatureBindings: [BindingHit] = []
 
     /// Per-route pharmacokinetics (bioavailability / tmax / half-life), one row
     /// per route: the table holds a row per *study*, which rendered as the same
@@ -249,7 +249,7 @@ final class SubstanceDetailModel {
     /// substance whose primary targets are all weak (caffeine's matched A1/A2A adenosine pair) keeps them.
     /// EC₅₀/IC₅₀ functional transporter rows are never capped: a releaser's DAT EC₅₀ is legitimately tens
     /// of µM yet is the primary mechanism.
-    var visibleLiteratureBindings: [SubstanceStore.BindingHit] {
+    var visibleLiteratureBindings: [BindingHit] {
         let floor = literatureBindings
             .compactMap { [$0.kiNm, $0.ec50Nm, $0.ic50Nm].compactMap(\.self).min() }
             .min()
@@ -277,7 +277,7 @@ final class SubstanceDetailModel {
     /// duplicate measurements (same target+action+value across sources), so MDMA's 5-HT2A 7800 ×2 and
     /// DAT 22000 ×2 collapse to one. Order is preserved (the store already sorts Kᵢ-tightest first, then
     /// functional EC₅₀/IC₅₀), so binding affinities still lead the functional transporter rows.
-    static func dedupedLiterature(_ rows: [SubstanceStore.BindingHit]) -> [SubstanceStore.BindingHit] {
+    static func dedupedLiterature(_ rows: [BindingHit]) -> [BindingHit] {
         func isHuman(_ s: String?) -> Bool {
             (s ?? "").lowercased().contains("human")
         }
@@ -303,7 +303,7 @@ final class SubstanceDetailModel {
     /// Strength tier (1–3) for a literature row's dots — the single, systematic `ReceptorStrength`
     /// model (measurement-aware bands). The Mechanism card computes the *same* bands from the *same*
     /// measured values in SQL, so the two cards agree by construction (no per-target inheritance hack).
-    static func strengthTier(for hit: SubstanceStore.BindingHit) -> Int? {
+    static func strengthTier(for hit: BindingHit) -> Int? {
         ReceptorStrength.tier(kiNm: hit.kiNm, ec50Nm: hit.ec50Nm, ic50Nm: hit.ic50Nm)
     }
 }

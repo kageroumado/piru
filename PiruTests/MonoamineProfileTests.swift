@@ -9,8 +9,8 @@ struct MonoamineProfileTests {
         _ action: String,
         ec50: Double? = nil,
         ic50: Double? = nil,
-    ) -> SubstanceStore.BindingHit {
-        SubstanceStore.BindingHit(
+    ) -> BindingHit {
+        BindingHit(
             id: 0,
             substanceName: "x",
             target: target,
