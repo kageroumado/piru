@@ -129,6 +129,7 @@ enum PSIDBackfillMigration {
         guard resolved > 0 else { return } // pure-straggler pass — nothing to save
         do {
             try context.save()
+            DoseLogService.shared.changed()
             logger.notice("PSID backfill: resolved \(resolved, privacy: .public)/\(pending.count, privacy: .public) dose(s); \(pending.count - resolved, privacy: .public) kept name-only.")
         } catch {
             // The snapshot already protects the data; the unsaved changes roll

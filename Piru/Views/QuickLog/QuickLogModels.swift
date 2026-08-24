@@ -392,25 +392,6 @@ final class QuickLogContentModel {
         hasLoaded = true
     }
 
-    // MARK: Signatures
-
-    /// Cheap content fingerprint of the dose history, used as the rebuild
-    /// trigger. `allEntries.count` alone misses an in-place edit (re-dating a
-    /// dose, renaming its substance, retagging): the count is unchanged, so
-    /// the caches would go stale. Hashing the fields the derived caches
-    /// depend on closes that gap.
-    static func entriesSignature(_ entries: [DoseEntry]) -> Int {
-        var hasher = Hasher()
-        for entry in entries {
-            hasher.combine(entry.persistentModelID)
-            hasher.combine(entry.timestamp)
-            hasher.combine(entry.substance)
-            hasher.combine(entry.tags)
-            hasher.combine(entry.locationName)
-        }
-        return hasher.finalize()
-    }
-
     // MARK: Rebuilds
 
     func rebuildColorLookup(substanceColors: [SubstanceColor]) {

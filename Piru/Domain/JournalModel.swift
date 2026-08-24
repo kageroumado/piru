@@ -342,7 +342,7 @@ final class JournalModel {
         filterCategories: Set<SubstanceCategory>,
         filterRoutes: Set<RouteOfAdministration>,
         stackRedoses: Bool,
-        entriesSignature: Int,
+        revision: Int,
     ) {
         var sigHasher = Hasher()
         sigHasher.combine(grouping)
@@ -350,11 +350,11 @@ final class JournalModel {
         sigHasher.combine(filterTags)
         sigHasher.combine(filterCategories)
         sigHasher.combine(filterRoutes)
-        // Fold the entries fingerprint in so a change that affects *grouping*
+        // Fold the dose-log revision in so a change that affects *grouping*
         // but not per-entry resolution — a session split/merge, a moved
         // timestamp — still re-buckets. (The derive step may legitimately no-op
         // on such a change, since `EntryDerived` doesn't depend on session.)
-        sigHasher.combine(entriesSignature)
+        sigHasher.combine(revision)
         // The Day window is part of the signature so `growSessionWindow()` /
         // `resetSessionWindow()` re-bucket, while an unrelated re-entry no-ops.
         sigHasher.combine(sessionWindow)

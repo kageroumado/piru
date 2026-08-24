@@ -53,7 +53,10 @@ final class UsageAnalyticsModel {
         substanceFilter: Set<String> = [],
         now: Date = .now,
     ) async {
-        let fingerprint = EntriesFingerprint.make(entries, colors: colors)
+        var fpHasher = Hasher()
+        fpHasher.combine(DoseLogService.shared.revision)
+        fpHasher.combine(ColorsFingerprint.make(colors))
+        let fingerprint = fpHasher.finalize()
         if snapshotFingerprint != fingerprint {
             colorMap = colors.colorMap
             let resolved = Self.resolve(entries: entries)

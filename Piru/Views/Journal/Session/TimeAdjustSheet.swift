@@ -35,6 +35,7 @@ struct TimeAdjustSheet: View {
             // Pending reminders are keyed to the old timestamp — a moved dose
             // must drop them and reschedule from its new time.
             DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: original, in: modelContext)
+            DoseLogService.shared.changed()
         }
     }
 }

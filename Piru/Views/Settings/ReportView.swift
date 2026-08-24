@@ -61,13 +61,13 @@ struct ReportView: View {
         return (earliest, end)
     }
 
-    /// Recompute token: the selected range plus the entries' content.
+    /// Recompute token: the selected range plus the dose-log revision.
     private var filterToken: Int {
         var hasher = Hasher()
         hasher.combine(selectedRange)
         hasher.combine(customStart)
         hasher.combine(customEnd)
-        hasher.combine(EntriesFingerprint.make(allEntries))
+        hasher.combine(DoseLogService.shared.revision)
         return hasher.finalize()
     }
 

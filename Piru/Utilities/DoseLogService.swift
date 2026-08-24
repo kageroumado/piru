@@ -20,25 +20,30 @@ import WidgetKit
 /// receiver). Paths that batch many inserts behind one `save()` for frame-budget reasons (the quick-log
 /// tray, import) keep their own commit and just call ``changed()`` afterward — funneling each row through
 /// `log()` would break that intentional batching and double the per-row side effects they already run.
-@MainActor
+@Observable @MainActor
 final class DoseLogService {
     static let shared = DoseLogService()
 
+    /// Monotonic commit counter, bumped once per committed dose-log change. Views key `.task(id:)`
+    /// off this instead of hashing model arrays in `body` — one observed `Int`, one invalidation
+    /// per commit, and no per-field Observation subscriptions on the models themselves.
+    private(set) var revision = 0
+
     /// Emits once per committed dose-log change. `bufferingNewest(1)`: a burst coalesces to a single
     /// pending tick (the consumer debounces regardless) and the most recent signal is never dropped.
-    let changes: AsyncStream<Void>
-    private let continuation: AsyncStream<Void>.Continuation
+    @ObservationIgnored let changes: AsyncStream<Void>
+    @ObservationIgnored private let continuation: AsyncStream<Void>.Continuation
 
     /// The in-flight deferred-bookkeeping task. Superseded (not abandoned) by a
     /// fresh ``scheduleDeferredBookkeeping(forSubstances:in:bookkeeping:)`` — see
     /// that method's note on why pending work accumulates rather than dropping.
-    private var deferralTask: Task<Void, Never>?
+    @ObservationIgnored private var deferralTask: Task<Void, Never>?
     /// Substances whose inventory still needs a scoped recompute, unioned across
     /// every schedule since the last flush.
-    private var pendingSubstances: Set<String> = []
+    @ObservationIgnored private var pendingSubstances: Set<String> = []
     /// Per-site notification work (one closure per commit) still owed, run in
     /// order on the next flush. `@MainActor` — they touch `@Model` entries.
-    private var pendingBookkeeping: [@MainActor () -> Void] = []
+    @ObservationIgnored private var pendingBookkeeping: [@MainActor () -> Void] = []
 
     init() {
         (changes, continuation) = AsyncStream.makeStream(bufferingPolicy: .bufferingNewest(1))
@@ -72,6 +77,7 @@ final class DoseLogService {
     /// the quick-log tray's batched multi-insert, or an import. The caller owns insert/edit + `save()`;
     /// this only emits the change tick that wakes the derived caches.
     func changed() {
+        revision += 1
         continuation.yield(())
     }
 

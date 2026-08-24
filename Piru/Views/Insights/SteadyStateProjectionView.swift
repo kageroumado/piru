@@ -18,6 +18,14 @@ struct SteadyStateProjectionView: View {
     @State private var projections: [SteadyStateProjection] = []
     @State private var loaded = false
 
+    /// Recompute token: the dose-log revision plus the color assignments.
+    private var refreshToken: Int {
+        var hasher = Hasher()
+        hasher.combine(DoseLogService.shared.revision)
+        hasher.combine(ColorsFingerprint.make(substanceColors))
+        return hasher.finalize()
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
@@ -41,7 +49,7 @@ struct SteadyStateProjectionView: View {
             .padding(.bottom, 40)
         }
         .background(Theme.background)
-        .task(id: EntriesFingerprint.make(allEntries, colors: substanceColors)) {
+        .task(id: refreshToken) {
             projections = SteadyStateProjectionBuilder.compute(entries: allEntries, colorMap: substanceColors.colorMap)
             loaded = true
         }

@@ -136,26 +136,6 @@ struct EntryListView: View {
     /// signature-driven re-runs animate the diff in.
     @State private var hasLoadedOnce = false
 
-    /// Cheap content fingerprint of the fetched entries. Used as the rebuild
-    /// task's identity so the derived data refreshes on *edits*, not just
-    /// adds/removes. `entries.count` alone misses an in-place edit (moving a dose
-    /// to another day, changing its amount): the count is unchanged, so the cache
-    /// would go stale. Hashing the fields `derived` depends on closes that gap.
-    private var entriesSignature: Int {
-        var hasher = Hasher()
-        for entry in entries {
-            hasher.combine(entry.persistentModelID)
-            hasher.combine(entry.timestamp)
-            hasher.combine(entry.amount)
-            hasher.combine(entry.substance)
-            hasher.combine(entry.route)
-            // Session membership feeds the grouping; a split / merge / reassign
-            // changes only this, so it must invalidate the cached buckets.
-            hasher.combine(entry.session?.id)
-        }
-        return hasher.finalize()
-    }
-
     /// Content fingerprint of the color assignments. Drives the recolor derive
     /// on *edits*, not just adds/removes: recoloring an existing substance
     /// mutates `hexColor` in place (`SettingsView` / `EntryDetailView` /
@@ -216,7 +196,7 @@ struct EntryListView: View {
             filterCategories: filterCategories,
             filterRoutes: filterRoutes,
             stackRedoses: stackRedoses,
-            entriesSignature: entriesSignature,
+            revision: DoseLogService.shared.revision,
         )
     }
 
@@ -324,12 +304,14 @@ struct EntryListView: View {
             }
         }
         // Single derive driver: runs once on appear (paints fast, no animation)
-        // and re-runs whenever the entries fingerprint changes (an edit / add /
-        // delete), debouncing briefly and animating the diff in. The model's
-        // generation guard makes a newer run supersede an in-flight one, so the
-        // overlap on first appear (when the signature also "changes" from its
-        // initial value) can't corrupt state.
-        .task(id: entriesSignature) {
+        // and re-runs whenever the dose log commits a change (an edit / add /
+        // delete — every mutation path bumps `DoseLogService.revision`),
+        // debouncing briefly and animating the diff in. Keying off the one
+        // observed Int — instead of hashing every entry's fields in `body` —
+        // keeps this view from subscribing to every property of every dose.
+        // The model's generation guard makes a newer run supersede an in-flight
+        // one, so the overlap on first appear can't corrupt state.
+        .task(id: DoseLogService.shared.revision) {
             let isFirst = !hasLoadedOnce
             hasLoadedOnce = true
             if !isFirst {

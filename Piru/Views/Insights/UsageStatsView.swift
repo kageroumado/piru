@@ -68,13 +68,15 @@ struct UsageStatsView: View {
         }
     }
 
-    /// One token covering every input that changes the aggregation — entries,
-    /// range, and the substance filter — so any of them re-runs the (internally
-    /// memoized) refresh. The metric lens is deliberately absent: it only
-    /// re-labels already-computed numbers, so it never triggers a recompute.
+    /// One token covering every input that changes the aggregation — the
+    /// dose-log revision, colors, range, and the substance filter — so any of
+    /// them re-runs the (internally memoized) refresh. The metric lens is
+    /// deliberately absent: it only re-labels already-computed numbers, so it
+    /// never triggers a recompute.
     private var refreshToken: Int {
         var hasher = Hasher()
-        hasher.combine(EntriesFingerprint.make(allEntries, colors: substanceColors))
+        hasher.combine(DoseLogService.shared.revision)
+        hasher.combine(ColorsFingerprint.make(substanceColors))
         hasher.combine(range)
         hasher.combine(selectedSubstances.sorted().joined(separator: "\u{1}"))
         return hasher.finalize()

@@ -48,7 +48,7 @@ struct JournalModelTests {
             filterCategories: [],
             filterRoutes: [],
             stackRedoses: true,
-            entriesSignature: signature,
+            revision: signature,
         )
     }
 

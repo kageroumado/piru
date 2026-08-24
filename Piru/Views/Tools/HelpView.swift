@@ -26,6 +26,14 @@ struct HelpView: View {
         return recentEntries.filter { $0.timestamp > cutoff }
     }
 
+    /// Recompute token: the dose-log revision plus the color assignments.
+    private var refreshToken: Int {
+        var hasher = Hasher()
+        hasher.combine(DoseLogService.shared.revision)
+        hasher.combine(ColorsFingerprint.make(substanceColors))
+        return hasher.finalize()
+    }
+
     private func makeActiveCategories() -> [SubstanceCategory] {
         let guided = Set(ComedownGuideView.guidedCategories)
         let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
@@ -75,7 +83,7 @@ struct HelpView: View {
                 )
             }
             .navigationTitle("Get Help")
-            .task(id: EntriesFingerprint.make(recentEntries, colors: substanceColors)) {
+            .task(id: refreshToken) {
                 activeSubstances = ActiveSubstanceCalculator.compute(
                     from: recentEntries,
                     colorMap: substanceColors.colorMap,

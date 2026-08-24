@@ -40,12 +40,18 @@ struct InsightsView: View {
         .task(id: changeToken) { await recompute() }
     }
 
-    /// Re-derive summaries when the underlying data changes. Keyed on a content
-    /// fingerprint (not counts) so in-place edits refresh the cards too, while
-    /// the streak scan still doesn't recompute on every redraw.
+    /// Re-derive summaries when the underlying data changes. Keyed on the
+    /// dose-log revision (one observed Int — in-place edits bump it too via
+    /// `DoseLogService.changed()`) plus the small color/daily-item inputs, so
+    /// the streak scan doesn't recompute on every redraw and this body never
+    /// touches per-entry fields (which would subscribe it to every dose).
     private var changeToken: Int {
         var hasher = Hasher()
-        hasher.combine(EntriesFingerprint.make(allEntries, colors: substanceColors))
+        hasher.combine(DoseLogService.shared.revision)
+        for color in substanceColors {
+            hasher.combine(color.substance)
+            hasher.combine(color.hexColor)
+        }
         hasher.combine(dailyItems.count)
         return hasher.finalize()
     }

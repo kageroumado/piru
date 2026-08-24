@@ -45,7 +45,10 @@ struct InteractionsSummaryCard: View {
                 }
             }
         }
-        .task(id: EntriesFingerprint.make(entries)) {
+        // Keyed on the dose-log revision — hashing `entries` here would both
+        // pay an O(history) scan per body pass and subscribe this body to
+        // every field of every dose.
+        .task(id: DoseLogService.shared.revision) {
             recompute()
         }
     }

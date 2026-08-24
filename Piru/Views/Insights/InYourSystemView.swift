@@ -17,6 +17,14 @@ struct InYourSystemView: View {
     /// recent few and summarize the rest.
     private static let maxDosesShown = 10
 
+    /// Recompute token: the dose-log revision plus the color assignments.
+    private var refreshToken: Int {
+        var hasher = Hasher()
+        hasher.combine(DoseLogService.shared.revision)
+        hasher.combine(ColorsFingerprint.make(substanceColors))
+        return hasher.finalize()
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
@@ -33,7 +41,7 @@ struct InYourSystemView: View {
             .padding()
         }
         .background(Theme.background)
-        .task(id: EntriesFingerprint.make(allEntries, colors: substanceColors)) {
+        .task(id: refreshToken) {
             try? await Task.sleep(for: .milliseconds(200))
             guard !Task.isCancelled else { return }
             cachedActiveSubstances = ActiveSubstanceCalculator.compute(from: allEntries, colorMap: substanceColors.colorMap)

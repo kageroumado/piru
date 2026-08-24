@@ -189,6 +189,7 @@ final class BackupManager {
             try DataExportImport.importJSON(data: plaintext, context: context)
         }
         try context.save()
+        DoseLogService.shared.changed()
         backupLogger.notice("Restore (\(String(describing: strategy), privacy: .public)) completed.")
     }
 

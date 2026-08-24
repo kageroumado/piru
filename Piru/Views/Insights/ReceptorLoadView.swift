@@ -53,7 +53,7 @@ struct ReceptorLoadView: View {
 
     private var token: Int {
         var hasher = Hasher()
-        hasher.combine(EntriesFingerprint.make(allEntries, colors: []))
+        hasher.combine(DoseLogService.shared.revision)
         hasher.combine(range)
         return hasher.finalize()
     }

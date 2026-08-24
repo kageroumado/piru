@@ -18,16 +18,6 @@ struct JournalCalendarView: View {
         Calendar.current
     }
 
-    /// Content fingerprint of the fields the day buckets depend on — the
-    /// rebuild task's identity, mirroring `EntryListView.entriesSignature`.
-    private var entriesSignature: Int {
-        var hasher = Hasher()
-        for entry in entries {
-            hasher.combine(entry.timestamp)
-        }
-        return hasher.finalize()
-    }
-
     private func rebuildDayCounts() {
         dayCounts = entries.reduce(into: [:]) { counts, entry in
             counts[calendar.startOfDay(for: entry.timestamp), default: 0] += 1
@@ -108,7 +98,7 @@ struct JournalCalendarView: View {
             Spacer()
         }
         .padding(.top)
-        .task(id: entriesSignature) {
+        .task(id: DoseLogService.shared.revision) {
             rebuildDayCounts()
         }
     }

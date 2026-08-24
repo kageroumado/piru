@@ -249,9 +249,12 @@ struct QuickLogView: View {
                 content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites)
             }
             // A logged dose (here or elsewhere) changes the history-derived
-            // caches — refresh them off the body, keyed on a content signature
-            // so in-place edits invalidate too.
-            .onChange(of: QuickLogContentModel.entriesSignature(allEntries)) {
+            // caches — refresh them off the body, keyed on the dose-log
+            // revision (one observed Int; hashing `allEntries` here would
+            // subscribe this body to every field of every entry). The initial
+            // `.task` above owns the first rebuild, so skip until it has run.
+            .task(id: DoseLogService.shared.revision) {
+                guard content.hasLoaded else { return }
                 content.rebuildEntryDerived(allEntries: allEntries, dailyDoseItems: dailyDoseItems, routines: routines)
             }
             .onChange(of: substanceColors.count) {

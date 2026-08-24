@@ -56,7 +56,8 @@ struct PatternsView: View {
 
     private var token: Int {
         var hasher = Hasher()
-        hasher.combine(EntriesFingerprint.make(allEntries, colors: substanceColors))
+        hasher.combine(DoseLogService.shared.revision)
+        hasher.combine(ColorsFingerprint.make(substanceColors))
         hasher.combine(range)
         return hasher.finalize()
     }

@@ -64,6 +64,7 @@ final class SessionEditingService {
             timestamp: timestamp,
             allColors: colors,
         )
+        DoseLogService.shared.changed()
     }
 
     /// Split the owning session so `entry` and every later dose become a new

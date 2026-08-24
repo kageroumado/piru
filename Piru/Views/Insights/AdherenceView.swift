@@ -54,7 +54,7 @@ struct AdherenceView: View {
                 .padding()
             }
             .background(Theme.background)
-            .task(id: EntriesFingerprint.make(allEntries)) { await recompute() }
+            .task(id: DoseLogService.shared.revision) { await recompute() }
             .onChange(of: displayedMonth) { recomputeMonth() }
             .sheet(item: $selectedDay) { day in
                 AdherenceDayDetailSheet(day: day)

@@ -136,6 +136,7 @@ enum SessionService {
             }
         }
         try? context.save()
+        DoseLogService.shared.changed()
     }
 
     // MARK: - Manual overrides (the user owns the grouping)
@@ -150,6 +151,7 @@ enum SessionService {
         }
         context.delete(source)
         target.refreshStartDate()
+        DoseLogService.shared.changed()
     }
 
     /// Split `session` so that `pivot` and every later dose move into a new
@@ -167,6 +169,7 @@ enum SessionService {
         }
         session.refreshStartDate()
         newSession.refreshStartDate()
+        DoseLogService.shared.changed()
         return newSession
     }
 
@@ -184,18 +187,27 @@ enum SessionService {
                 source.refreshStartDate()
             }
         }
+        DoseLogService.shared.changed()
     }
 
-    /// Set (or clear) a session's user title; blank trims to `nil`.
+    /// Set (or clear) a session's user title; blank trims to `nil`. Signals the
+    /// dose-log change so the Journal's day cards — which bake the title in at
+    /// build time — re-bucket and pick it up.
     static func setTitle(_ title: String, for session: Session) {
         let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
-        session.title = trimmed.isEmpty ? nil : trimmed
+        let value = trimmed.isEmpty ? nil : trimmed
+        guard session.title != value else { return }
+        session.title = value
+        DoseLogService.shared.changed()
     }
 
     /// Set (or clear) a session's note; blank trims to `nil`.
     static func setNote(_ note: String, for session: Session) {
         let trimmed = note.trimmingCharacters(in: .whitespacesAndNewlines)
-        session.note = trimmed.isEmpty ? nil : trimmed
+        let value = trimmed.isEmpty ? nil : trimmed
+        guard session.note != value else { return }
+        session.note = value
+        DoseLogService.shared.changed()
     }
 
     /// Sweep every session-less dose into a session. Safe and cheap to call on
@@ -261,5 +273,6 @@ enum SessionService {
             session.refreshStartDate()
         }
         try? context.save()
+        DoseLogService.shared.changed()
     }
 }
