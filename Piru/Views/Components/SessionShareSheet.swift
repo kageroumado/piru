@@ -260,7 +260,7 @@ struct SessionShareSheet: View {
     private func flashCopied(_ target: CopyTarget) {
         justCopied = target
         Task {
-            try? await Task.sleep(for: .seconds(1.6))
+            try? await Task.sleep(for: UITiming.copiedFlash)
             if justCopied == target { justCopied = nil }
         }
     }

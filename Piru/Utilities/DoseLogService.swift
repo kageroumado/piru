@@ -127,7 +127,7 @@ final class DoseLogService {
             let bookkeeping = self.pendingBookkeeping
             self.pendingSubstances = []
             self.pendingBookkeeping = []
-            await InventoryService.recompute(forSubstances: substances, offMainIn: context)
+            await InventoryService.recompute(forSubstances: substances, replayingOffMainIn: context)
             for work in bookkeeping {
                 work()
             }

@@ -352,13 +352,14 @@ enum InventoryService {
         }
     }
 
-    /// The off-main scoped recompute used by the deferred log-path bookkeeping.
-    /// The `@Model` fetch + dose snapshot + cache write all stay on the main
-    /// actor (SwiftData is main-actor bound); only the pure stock replay runs in
-    /// a detached task. Equivalent to ``recompute(forSubstances:in:notify:)`` —
-    /// same affected items, same per-item ``replayQuantity`` math — just with the
-    /// arithmetic moved off the actor that's driving the dismissal animation.
-    static func recompute(forSubstances names: Set<String>, offMainIn ctx: ModelContext, notify: Bool = true) async {
+    /// The scoped recompute used by the deferred log-path bookkeeping. The
+    /// `@Model` fetch + dose snapshot + cache write all stay on the main actor
+    /// (the passed context is main-bound); only the pure stock replay runs in a
+    /// detached task — which is what the label says, no more. Equivalent to
+    /// ``recompute(forSubstances:in:notify:)`` — same affected items, same
+    /// per-item ``replayQuantity`` math — just with the arithmetic moved off
+    /// the actor that's driving the dismissal animation.
+    static func recompute(forSubstances names: Set<String>, replayingOffMainIn ctx: ModelContext, notify: Bool = true) async {
         guard !names.isEmpty else { return }
         let keys = Set(names.map { InventoryMath.matchKey(for: $0) })
         let affected = ((try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? [])

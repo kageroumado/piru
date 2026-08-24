@@ -198,7 +198,7 @@ struct SubstanceShareSheet: View {
         UIPasteboard.general.image = currentImage
         justCopied = true
         Task {
-            try? await Task.sleep(for: .seconds(1.6))
+            try? await Task.sleep(for: UITiming.copiedFlash)
             justCopied = false
         }
     }

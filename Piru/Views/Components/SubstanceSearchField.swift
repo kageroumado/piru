@@ -82,12 +82,13 @@ struct SubstanceSearchField: View {
                     }
                     showResults = true
                 }
-                .onChange(of: isFocused) {
-                    if !isFocused {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            showResults = false
-                        }
-                    }
+                // Hide a beat after focus loss (cancellable, unlike the old
+                // `asyncAfter`) — refocusing within the beat keeps the results.
+                .task(id: isFocused) {
+                    guard !isFocused else { return }
+                    try? await Task.sleep(for: .milliseconds(200))
+                    guard !Task.isCancelled else { return }
+                    showResults = false
                 }
 
             if showResults {

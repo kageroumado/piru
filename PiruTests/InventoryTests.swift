@@ -378,7 +378,7 @@ struct InventoryTests {
         let expected = item.currentQuantity // 4.8
 
         item.currentQuantity = -1
-        await InventoryService.recompute(forSubstances: [drug], offMainIn: ctx)
+        await InventoryService.recompute(forSubstances: [drug], replayingOffMainIn: ctx)
         #expect(item.currentQuantity == expected)
     }
 }

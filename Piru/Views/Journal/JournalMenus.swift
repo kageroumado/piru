@@ -42,7 +42,7 @@ struct JournalOptionsButton: View {
             // immediate present races the teardown (the root is still
             // "presenting" the popover) and gets dropped by UIKit.
             Task {
-                try? await Task.sleep(for: .milliseconds(300))
+                try? await Task.sleep(for: UITiming.presentationTeardown)
                 switch action {
                 case .jumpToDate: onJumpToDate()
                 case .myMeds: navigator.push(.myMeds)

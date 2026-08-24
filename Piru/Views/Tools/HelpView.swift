@@ -637,7 +637,8 @@ struct HelpView: View {
             Button {
                 UIPasteboard.general.string = generateSummaryText()
                 copiedSummary = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                Task {
+                    try? await Task.sleep(for: UITiming.copiedFlash)
                     copiedSummary = false
                 }
             } label: {

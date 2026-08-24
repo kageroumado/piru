@@ -328,7 +328,7 @@ struct DataStorageView: View {
         showingExportOptions = false
         showingImportOptions = false
         Task { @MainActor in
-            try? await Task.sleep(for: .milliseconds(450))
+            try? await Task.sleep(for: UITiming.presentationTeardown)
             action()
         }
     }
