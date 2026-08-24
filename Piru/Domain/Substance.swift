@@ -94,7 +94,14 @@ struct DoseRange {
         threshold != nil || light != nil || common != nil || strong != nil || heavy != nil
     }
 
-    func level(for dose: Double) -> DoseLevel {
+    /// Where `dose` sits on this ladder, or `nil` when there is no ladder.
+    ///
+    /// A range with every tier empty cannot place a dose. It used to answer
+    /// `.sub` — so a custom substance logged with no dose data was labeled
+    /// "sub-threshold", which is a claim about the dose rather than an absence
+    /// of one, and the reader has no way to tell the two apart.
+    func level(for dose: Double) -> DoseLevel? {
+        guard hasAnyValue else { return nil }
         if let heavy, dose >= heavy { return .heavy }
         if let strong, strong.contains(dose) || dose > strong.upperBound { return .strong }
         if let common, common.contains(dose) || dose > common.upperBound { return .common }

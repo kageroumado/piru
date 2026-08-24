@@ -83,9 +83,13 @@ struct DoseRangeTests {
     // MARK: - Edge cases
 
     @Test
-    func `All nil ranges returns sub`() {
+    func `All nil ranges place nothing`() {
+        // A ladder with no tiers cannot say where a dose sits. This used to
+        // answer `.sub`, which labeled a custom substance logged with no dose
+        // data "sub-threshold" — a claim about the dose, made from the absence
+        // of one, and indistinguishable from a real sub-threshold reading.
         let empty = DoseRange(threshold: nil, light: nil, common: nil, strong: nil, heavy: nil)
-        #expect(empty.level(for: 1_000) == .sub)
+        #expect(empty.level(for: 1_000) == nil)
     }
 
     @Test

@@ -232,9 +232,9 @@ final class UsageAnalyticsModel {
         amount: Double,
         loggedUnit: String,
     ) -> Int? {
-        guard range.hasAnyValue,
-              let converted = DoseUnit.convert(amount, from: loggedUnit, to: ladderUnit) else { return nil }
-        return index(of: range.level(for: converted))
+        guard let converted = DoseUnit.convert(amount, from: loggedUnit, to: ladderUnit),
+              let level = range.level(for: converted) else { return nil }
+        return index(of: level)
     }
 
     /// A dose as a multiple of the substance's common dose, or `nil` when it
