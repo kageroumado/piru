@@ -34,7 +34,7 @@ final class PhoneSyncCoordinator: NSObject {
         // (or just received from the watch) keeps the wrist's recents current.
         changeObserver?.cancel()
         changeObserver = Task { [weak self] in
-            for await _ in DoseLogService.shared.changes {
+            for await _ in DoseLogService.shared.changeStream() {
                 self?.pushManifest()
             }
         }

@@ -307,8 +307,8 @@ final class ToleranceStore {
         self.container = container
         context = ModelContext(container)
         loadCachedSnapshot()
-        // Only the production singleton runs the background loop: `DoseLogService.changes` is a
-        // single-consumer `AsyncStream`, so a test-seam instance must not also subscribe and compete.
+        // Only the production singleton runs the background loop — a test-seam instance must not
+        // race the production recompute over the same persisted snapshot.
         if self === Self.shared { startBackgroundRefresh() }
     }
 
@@ -327,7 +327,7 @@ final class ToleranceStore {
             try? await Task.sleep(for: .seconds(1.5))
             if Task.isCancelled { return }
             await self?.recomputeFromStore()
-            let ticks = DoseLogService.shared.changes.debounce(for: .seconds(2))
+            let ticks = DoseLogService.shared.changeStream().debounce(for: .seconds(2))
             for await _ in ticks {
                 if Task.isCancelled { return }
                 await self?.recomputeFromStore()

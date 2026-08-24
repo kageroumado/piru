@@ -751,19 +751,13 @@ private struct MedsDueGlyph: View {
             }
         }
         .task(id: recomputeKey) { recompute() }
-        // A committed dose changes "due" immediately — don't wait out the
-        // minute tick.
-        .task {
-            for await _ in DoseLogService.shared.changes {
-                recompute()
-            }
-        }
     }
 
     /// Once per accessory minute-tick, plus whenever the meds list itself
-    /// changes — not on every body evaluation.
+    /// changes or a dose commits (the revision — "due" must update immediately,
+    /// not on the next minute tick) — not on every body evaluation.
     private var recomputeKey: String {
-        "\(Int(currentTime.timeIntervalSinceReferenceDate / 60))|\(items.count)"
+        "\(Int(currentTime.timeIntervalSinceReferenceDate / 60))|\(items.count)|\(DoseLogService.shared.revision)"
     }
 
     private func recompute() {

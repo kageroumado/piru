@@ -3,8 +3,8 @@ import SwiftData
 import WidgetKit
 
 /// The single choke point for **mutating the dose log**, and the one place a "the dose log changed"
-/// signal is emitted. Derived caches (the tolerance engine) subscribe to ``changes`` and refresh in the
-/// background, so no user-interactive path ever triggers a heavy recompute.
+/// signal is emitted. Derived caches (the tolerance engine) subscribe via ``changeStream()`` and refresh
+/// in the background, so no user-interactive path ever triggers a heavy recompute.
 ///
 /// ## Why a service, not a notification
 /// SwiftData exposes no public save notification, and the dose-write paths are scattered (quick-log
@@ -29,10 +29,8 @@ final class DoseLogService {
     /// per commit, and no per-field Observation subscriptions on the models themselves.
     private(set) var revision = 0
 
-    /// Emits once per committed dose-log change. `bufferingNewest(1)`: a burst coalesces to a single
-    /// pending tick (the consumer debounces regardless) and the most recent signal is never dropped.
-    @ObservationIgnored let changes: AsyncStream<Void>
-    @ObservationIgnored private let continuation: AsyncStream<Void>.Continuation
+    /// One continuation per live subscriber — ``changed()`` broadcasts to all of them.
+    @ObservationIgnored private var changeContinuations: [UUID: AsyncStream<Void>.Continuation] = [:]
 
     /// The in-flight deferred-bookkeeping task. Superseded (not abandoned) by a
     /// fresh ``scheduleDeferredBookkeeping(forSubstances:in:bookkeeping:)`` — see
@@ -45,8 +43,21 @@ final class DoseLogService {
     /// order on the next flush. `@MainActor` — they touch `@Model` entries.
     @ObservationIgnored private var pendingBookkeeping: [@MainActor () -> Void] = []
 
-    init() {
-        (changes, continuation) = AsyncStream.makeStream(bufferingPolicy: .bufferingNewest(1))
+    /// A fresh stream of dose-log change ticks for one subscriber. Every caller MUST mint its
+    /// own stream: `AsyncStream` is single-consumer, and several loops iterating a shared one
+    /// compete — each tick resumes exactly one of them, so the others silently go stale.
+    /// `bufferingNewest(1)`: a burst coalesces to a single pending tick (consumers debounce
+    /// regardless) and the most recent signal is never dropped.
+    func changeStream() -> AsyncStream<Void> {
+        let id = UUID()
+        let (stream, continuation) = AsyncStream.makeStream(of: Void.self, bufferingPolicy: .bufferingNewest(1))
+        changeContinuations[id] = continuation
+        continuation.onTermination = { _ in
+            Task { @MainActor in
+                DoseLogService.shared.changeContinuations[id] = nil
+            }
+        }
+        return stream
     }
 
     /// Delay before the deferred bookkeeping runs — long enough to clear a
@@ -78,7 +89,9 @@ final class DoseLogService {
     /// this only emits the change tick that wakes the derived caches.
     func changed() {
         revision += 1
-        continuation.yield(())
+        for continuation in changeContinuations.values {
+            continuation.yield(())
+        }
     }
 
     /// Schedule the post-commit bookkeeping that **isn't on screen** — the scoped

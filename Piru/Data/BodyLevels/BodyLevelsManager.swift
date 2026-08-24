@@ -126,7 +126,7 @@ final class BodyLevelsManager {
             try? await Task.sleep(for: .seconds(1.5)) // let first paint settle
             if Task.isCancelled { return }
             await self?.warm()
-            let ticks = DoseLogService.shared.changes.debounce(for: .seconds(2))
+            let ticks = DoseLogService.shared.changeStream().debounce(for: .seconds(2))
             for await _ in ticks {
                 if Task.isCancelled { return }
                 await self?.warm()
