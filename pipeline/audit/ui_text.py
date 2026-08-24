@@ -142,8 +142,11 @@ RULES: list[tuple[str, str, str, bool]] = [
     ),
     (
         "meta: first person / the project talking",
-        # `us` needs a space in front or "en-US" and "thus" match it.
-        r"(\bwe |\bour |(?<![-\w])us\b|\bPiru\b|\bthis app\b|\bthe app\b"
+        # `us` is lowercase-only and needs a space in front: IGNORECASE below
+        # would otherwise match the country in "US market", "US Schedule II" and
+        # "US/EU", which is 47 of the 50 hits this rule used to report — enough
+        # noise to hide the three real ones.
+        r"(\bwe |\bour |(?<![-\w])(?-i:us)\b|\bPiru\b|\bthis app\b|\bthe app\b"
         r"|\bthe database\b|\bthe pipeline\b)",
         "The screen is about the substance. A sentence about what the project "
         "knows or did is the wrong subject.",
@@ -176,7 +179,16 @@ RULES: list[tuple[str, str, str, bool]] = [
 ]
 
 #: Columns whose content is a name/identifier, where these patterns mean nothing.
+#: Build metadata, not prose anyone reads on a screen. `manifest.value` is the
+#: build report as JSON and `sources.*` name the sources themselves — "Piru
+#: hand-curated overlay" is a source's name, so the first-person rule flagging
+#: it is correct about the words and wrong about the subject.
 SKIP_COLUMNS = {
+    ("manifest", "key"),
+    ("manifest", "value"),
+    ("sources", "slug"),
+    ("sources", "display_name"),
+    ("sources", "description"),
     ("substances", "iupac_name"),
     ("substances", "smiles"),
     ("substances", "formula"),

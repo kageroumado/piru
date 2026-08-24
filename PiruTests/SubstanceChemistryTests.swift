@@ -44,21 +44,21 @@ struct SubstanceChemistryTests {
     @Test
     func `hasAnyValue and hasLD50 reflect populated fields`() {
         let empty = Physicochemical(
-            logP: nil, logD: nil, pKa: nil, tpsa: nil, hba: nil, hbd: nil,
+            logP: nil, tpsa: nil, hba: nil, hbd: nil,
             ld50OralMgPerKg: nil, ld50DermalMgPerKg: nil, meltingPointC: nil, boilingPointC: nil,
         )
         #expect(!empty.hasAnyValue)
         #expect(!empty.hasLD50)
 
         let logpOnly = Physicochemical(
-            logP: 2.2, logD: nil, pKa: nil, tpsa: nil, hba: nil, hbd: nil,
+            logP: 2.2, tpsa: nil, hba: nil, hbd: nil,
             ld50OralMgPerKg: nil, ld50DermalMgPerKg: nil, meltingPointC: nil, boilingPointC: nil,
         )
         #expect(logpOnly.hasAnyValue)
         #expect(!logpOnly.hasLD50, "logP alone must not trigger the LD50 footnote")
 
         let ld50Only = Physicochemical(
-            logP: nil, logD: nil, pKa: nil, tpsa: nil, hba: nil, hbd: nil,
+            logP: nil, tpsa: nil, hba: nil, hbd: nil,
             ld50OralMgPerKg: 367.7, ld50DermalMgPerKg: nil, meltingPointC: nil, boilingPointC: nil,
         )
         #expect(ld50Only.hasAnyValue)

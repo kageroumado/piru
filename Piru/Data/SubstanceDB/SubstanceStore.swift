@@ -1455,7 +1455,7 @@ final class SubstanceStore {
 
         do {
             let resolved = try substancesDB.read { db -> Substance? in
-                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, substance_uid, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, is_stub, drug_community_slug, freeodwiki_slug, smiles, iupac_name, logp, logd, pka, tpsa, hba, hbd, ld50_oral_mg_per_kg, ld50_dermal_mg_per_kg, melting_point_c, boiling_point_c\(editorialColumns) FROM substances WHERE id = ?", arguments: [id]) else {
+                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, substance_uid, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, is_stub, drug_community_slug, freeodwiki_slug, smiles, iupac_name, logp, tpsa, hba, hbd, ld50_oral_mg_per_kg, ld50_dermal_mg_per_kg, melting_point_c, boiling_point_c\(editorialColumns) FROM substances WHERE id = ?", arguments: [id]) else {
                     return nil
                 }
                 let name: String = coreRow["canonical_name"]
@@ -1492,8 +1492,6 @@ final class SubstanceStore {
                 let waterHeat = ec.contains("water_heat") ? Self.decodeJSONBlob(WaterHeatGuidance.self, coreRow["water_heat"]) : nil
                 let physicochemical = Physicochemical(
                     logP: coreRow["logp"] as Double?,
-                    logD: coreRow["logd"] as Double?,
-                    pKa: coreRow["pka"] as Double?,
                     tpsa: coreRow["tpsa"] as Double?,
                     hba: (coreRow["hba"] as Int64?).map(Int.init),
                     hbd: (coreRow["hbd"] as Int64?).map(Int.init),

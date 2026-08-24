@@ -574,8 +574,6 @@ CREATE TABLE substances (
     -- Columns are added here (Stage 0); the extractors that fill them land in
     -- Stage 1 (extend extract_nps() + widen fetch_pubchem_properties.py).
     logp                  REAL,    -- octanol/water partition coefficient (lipophilicity)
-    logd                  REAL,    -- distribution coefficient at physiological pH
-    pka                   REAL,    -- acid dissociation constant (primary/most relevant)
     tpsa                  REAL,    -- topological polar surface area (Å²)
     hba                   INTEGER, -- hydrogen-bond acceptor count
     hbd                   INTEGER, -- hydrogen-bond donor count
@@ -2993,7 +2991,7 @@ def apply_pubchem_computed(con, props: dict, ik_props: dict | None = None) -> di
        CID (codeine, many NPS analogues). The InChIKey *is* the structure, so
        descriptors fetched by it are unambiguously the right molecule.
 
-    NPS retains the columns PubChem doesn't supply (``logd``/``pka``/LD50/melting/
+    NPS retains the columns PubChem doesn't supply (LD50/melting/
     boiling point). All values are predicted/computed, never measured — forensic."""
     cur = con.cursor()
     # (column, prop-key) — only descriptors PubChem computes consistently.
@@ -7923,7 +7921,7 @@ class Build:
                 "UPDATE substances SET inchikey = COALESCE(inchikey, ?), cas = COALESCE(cas, ?), "
                 "smiles = COALESCE(smiles, ?), iupac_name = COALESCE(iupac_name, ?), "
                 "formula = COALESCE(formula, ?), molecular_weight = COALESCE(molecular_weight, ?), "
-                "logp = COALESCE(logp, ?), logd = COALESCE(logd, ?), pka = COALESCE(pka, ?), "
+                "logp = COALESCE(logp, ?), "
                 "tpsa = COALESCE(tpsa, ?), hba = COALESCE(hba, ?), hbd = COALESCE(hbd, ?), "
                 "ld50_oral_mg_per_kg = COALESCE(ld50_oral_mg_per_kg, ?), "
                 "ld50_dermal_mg_per_kg = COALESCE(ld50_dermal_mg_per_kg, ?), "
@@ -7937,8 +7935,6 @@ class Build:
                     rec.get("x_chemical_formula") or None,
                     to_float(rec.get("x_mw")),
                     to_float(rec.get("x_logp")),
-                    to_float(rec.get("x_logd")),
-                    to_float(rec.get("x_pka")),
                     to_float(rec.get("x_tpsa")),
                     to_int(rec.get("x_hba")),
                     to_int(rec.get("x_hbd")),

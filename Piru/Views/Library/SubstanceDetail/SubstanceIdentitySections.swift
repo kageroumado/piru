@@ -233,8 +233,8 @@ struct ChemistrySection: View {
     }
 
     /// The Stage-1 physicochemical descriptors, laid into the Chemistry grid as
-    /// two-column rows. logD/pKa are unsourced today (always nil) but the
-    /// `if let` guards keep them future-proof — a populated column just appears.
+    /// two-column rows. The `if let` guards keep them future-proof — a populated
+    /// column just appears.
     @ViewBuilder
     private func physicochemicalRows(_ phys: Physicochemical?) -> some View {
         if let phys {
@@ -248,12 +248,6 @@ struct ChemistrySection: View {
                 GridRow {
                     if let v = phys.hba { GridCell("H-bond acceptors", "\(v)") } else { Color.clear }
                     if let v = phys.hbd { GridCell("H-bond donors", "\(v)") } else { Color.clear }
-                }
-            }
-            if phys.logD != nil || phys.pKa != nil {
-                GridRow {
-                    if let v = phys.logD { GridCell("LogD", chem(v)) } else { Color.clear }
-                    if let v = phys.pKa { GridCell("pKa", chem(v)) } else { Color.clear }
                 }
             }
             if phys.meltingPointC != nil || phys.boilingPointC != nil {

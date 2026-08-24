@@ -36,7 +36,7 @@
         "common": { "lower": 15, "upper": 20 },
         "strong": { "lower": 20, "upper": 30 }
       },
-      "notes": "Transdermal patch (Daytrana). A delivery route of methylphenidate, not a separate compound. Tiers are the FDA-approved patch strengths (10/15/20/30 mg, titrated over ~9 h wear), not a recreational ladder. Deliberately no duration: patch kinetics are a prolonged-delivery system Piru declines to model, so a transdermal dose marks its time rather than drawing a curve (unmodeled-release-form policy)."
+      "notes": "Transdermal patch (Daytrana). A delivery route of methylphenidate, not a separate compound. Tiers are the FDA-approved patch strengths (10/15/20/30 mg, titrated over ~9 h wear), not a recreational ladder. Deliberately no duration: patch kinetics are a prolonged-delivery system the curve does not model, so a transdermal dose marks its time rather than drawing a curve (unmodeled-release-form policy)."
     }
   ]
 }

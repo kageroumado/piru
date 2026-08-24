@@ -241,8 +241,6 @@ enum AuditSerializer {
         if let smiles = s.smiles { lines.append("- **SMILES:** `\(smiles)`") }
         if let p = s.physicochemical {
             if let v = p.logP { lines.append("- **LogP:** \(fmt(v))") }
-            if let v = p.logD { lines.append("- **LogD:** \(fmt(v))") }
-            if let v = p.pKa { lines.append("- **pKa:** \(fmt(v))") }
             if let v = p.tpsa { lines.append("- **TPSA:** \(fmt(v)) Å²") }
             if let v = p.hba { lines.append("- **H-bond acceptors:** \(v)") }
             if let v = p.hbd { lines.append("- **H-bond donors:** \(v)") }

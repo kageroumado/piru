@@ -254,5 +254,32 @@ class CuratorNotes(unittest.TestCase):
         self.assertEqual(self.strip_notes(text), text)
 
 
+class LeadingSectionHeading(unittest.TestCase):
+    clean = staticmethod(_mod.clean_label_prose)
+
+    def test_the_scraped_heading_is_stripped_from_its_own_body(self):
+        # 323 indication rows arrive as "Indications & Usage <the indication>".
+        # The heading names the field the row is already stored in.
+        self.assertEqual(
+            self.clean("Indications & Usage treats frequent heartburn"),
+            "treats frequent heartburn",
+        )
+        self.assertEqual(
+            self.clean("Warnings and Precautions Serious infections have occurred"),
+            "Serious infections have occurred",
+        )
+
+    def test_the_word_as_a_sentence_subject_survives(self):
+        # `[A-Z]` cannot tell these apart — IGNORECASE makes it match lowercase
+        # too, which stripped "Description" off "Description of the induction
+        # phase". A heading is never followed by a preposition binding back to it.
+        for text in (
+            "Description of the induction phase follows",
+            "Overview of the dosing schedule",
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(self.clean(text), text)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

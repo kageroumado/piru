@@ -3,11 +3,11 @@
     "attributed_only": false,
     "columns": {
       "alias": {
-        "filled": 5395,
+        "filled": 5394,
         "verdict": "shown"
       },
       "alias_normalized": {
-        "filled": 5395,
+        "filled": 5394,
         "verdict": "shown"
       },
       "authority": {
@@ -43,16 +43,16 @@
         "verdict": "empty"
       },
       "source_id": {
-        "filled": 5136,
+        "filled": 5135,
         "verdict": "plumbing"
       },
       "substance_id": {
-        "filled": 5395,
+        "filled": 5394,
         "verdict": "plumbing"
       }
     },
     "read_in_swift": true,
-    "rows": 5395,
+    "rows": 5394,
     "surface": "identity"
   },
   "biased_agonism": {
@@ -263,11 +263,11 @@
         "verdict": "shown"
       },
       "id": {
-        "filled": 2856,
+        "filled": 2855,
         "verdict": "plumbing"
       },
       "is_review": {
-        "filled": 2856,
+        "filled": 2855,
         "verdict": "unused"
       },
       "pmid": {
@@ -279,7 +279,7 @@
         "verdict": "shown"
       },
       "url": {
-        "filled": 1841,
+        "filled": 1840,
         "verdict": "shown"
       },
       "year": {
@@ -288,7 +288,7 @@
       }
     },
     "read_in_swift": true,
-    "rows": 2856,
+    "rows": 2855,
     "surface": "sources"
   },
   "class_citations": {
@@ -419,36 +419,36 @@
     "attributed_only": false,
     "columns": {
       "citation_id": {
-        "filled": 1390,
+        "filled": 1386,
         "verdict": "read"
       },
       "flag": {
-        "filled": 922,
+        "filled": 919,
         "verdict": "shown"
       },
       "id": {
-        "filled": 1416,
+        "filled": 1412,
         "verdict": "plumbing"
       },
       "is_boxed_warning": {
-        "filled": 1416,
+        "filled": 1412,
         "verdict": "shown"
       },
       "source_id": {
-        "filled": 1416,
+        "filled": 1412,
         "verdict": "plumbing"
       },
       "substance_id": {
-        "filled": 1416,
+        "filled": 1412,
         "verdict": "plumbing"
       },
       "text": {
-        "filled": 494,
+        "filled": 493,
         "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 1416,
+    "rows": 1412,
     "surface": "contraindications"
   },
   "descriptions": {
@@ -947,28 +947,28 @@
     "attributed_only": false,
     "columns": {
       "citation_id": {
-        "filled": 1133,
+        "filled": 1132,
         "verdict": "unused"
       },
       "id": {
-        "filled": 1134,
+        "filled": 1133,
         "verdict": "plumbing"
       },
       "source_id": {
-        "filled": 1134,
+        "filled": 1133,
         "verdict": "plumbing"
       },
       "substance_id": {
-        "filled": 1134,
+        "filled": 1133,
         "verdict": "plumbing"
       },
       "text": {
-        "filled": 1134,
+        "filled": 1133,
         "verdict": "shown"
       }
     },
     "read_in_swift": true,
-    "rows": 1134,
+    "rows": 1133,
     "surface": "medicalUses"
   },
   "interaction_rules": {
@@ -1803,11 +1803,11 @@
     "attributed_only": false,
     "columns": {
       "display_name": {
-        "filled": 1799,
+        "filled": 1798,
         "verdict": "shown"
       },
       "is_default": {
-        "filled": 1799,
+        "filled": 1798,
         "verdict": "shown"
       },
       "isomer_label": {
@@ -1815,11 +1815,11 @@
         "verdict": "unused"
       },
       "psid": {
-        "filled": 1799,
+        "filled": 1798,
         "verdict": "shown"
       },
       "release": {
-        "filled": 1799,
+        "filled": 1798,
         "verdict": "shown"
       },
       "release_label": {
@@ -1827,7 +1827,7 @@
         "verdict": "unused"
       },
       "salt": {
-        "filled": 1799,
+        "filled": 1798,
         "verdict": "shown"
       },
       "salt_label": {
@@ -1835,20 +1835,20 @@
         "verdict": "unused"
       },
       "stereo": {
-        "filled": 1799,
+        "filled": 1798,
         "verdict": "read"
       },
       "substance_id": {
-        "filled": 1799,
+        "filled": 1798,
         "verdict": "plumbing"
       },
       "substance_uid": {
-        "filled": 1799,
+        "filled": 1798,
         "verdict": "read"
       }
     },
     "read_in_swift": true,
-    "rows": 1799,
+    "rows": 1798,
     "surface": "identity"
   },
   "substances": {
@@ -1859,7 +1859,7 @@
         "verdict": "shown"
       },
       "canonical_name": {
-        "filled": 1737,
+        "filled": 1736,
         "verdict": "shown"
       },
       "cas": {
@@ -1871,7 +1871,7 @@
         "verdict": "shown"
       },
       "display_class": {
-        "filled": 1737,
+        "filled": 1736,
         "verdict": "shown"
       },
       "display_name": {
@@ -1883,7 +1883,7 @@
         "verdict": "shown"
       },
       "drug_class_ambiguous": {
-        "filled": 1737,
+        "filled": 1736,
         "verdict": "unused"
       },
       "drug_community_slug": {
@@ -1891,7 +1891,7 @@
         "verdict": "shown"
       },
       "duration_implausible": {
-        "filled": 1737,
+        "filled": 1736,
         "verdict": "shown"
       },
       "formula": {
@@ -1911,7 +1911,7 @@
         "verdict": "shown"
       },
       "id": {
-        "filled": 1737,
+        "filled": 1736,
         "verdict": "plumbing"
       },
       "inchikey": {
@@ -1919,7 +1919,7 @@
         "verdict": "shown"
       },
       "is_stub": {
-        "filled": 1737,
+        "filled": 1736,
         "verdict": "shown"
       },
       "iupac_name": {
@@ -1933,10 +1933,6 @@
       "ld50_oral_mg_per_kg": {
         "filled": 10,
         "verdict": "shown"
-      },
-      "logd": {
-        "filled": 0,
-        "verdict": "empty"
       },
       "logp": {
         "filled": 870,
@@ -1955,7 +1951,7 @@
         "verdict": "read"
       },
       "normalized_name": {
-        "filled": 1737,
+        "filled": 1736,
         "verdict": "unused"
       },
       "pk_reference_confidence": {
@@ -1970,16 +1966,12 @@
         "filled": 1,
         "verdict": "read"
       },
-      "pka": {
-        "filled": 0,
-        "verdict": "empty"
-      },
       "popular_aliases": {
         "filled": 18,
         "verdict": "shown"
       },
       "popularity": {
-        "filled": 1737,
+        "filled": 1736,
         "verdict": "shown"
       },
       "pubchem_cid": {
@@ -1987,7 +1979,7 @@
         "verdict": "read"
       },
       "regulatory_status": {
-        "filled": 569,
+        "filled": 568,
         "verdict": "shown"
       },
       "smiles": {
@@ -1995,7 +1987,7 @@
         "verdict": "shown"
       },
       "substance_uid": {
-        "filled": 1737,
+        "filled": 1736,
         "verdict": "read"
       },
       "tpsa": {
@@ -2008,7 +2000,7 @@
       }
     },
     "read_in_swift": true,
-    "rows": 1737,
+    "rows": 1736,
     "surface": "identity"
   },
   "tags": {

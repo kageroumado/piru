@@ -23,17 +23,12 @@ struct CodableRange: Codable {
 
 /// Predicted / forensic physicochemical descriptors, decoded from the
 /// `substances` table's Stage-1 columns. **Not clinical values** — logP/TPSA/
-/// HBA/HBD are computed (PubChem XLogP3 / NPS-DataHub), logD/pKa are not yet
-/// sourced (always nil today), and the LD50 figures are *rodent*
+/// HBA/HBD are computed (PubChem XLogP3 / NPS-DataHub) and the LD50 figures are *rodent*
 /// order-of-magnitude toxicity, never a human "safe dose". The detail card
 /// surfaces them behind an explicit honesty footnote (see ``SubstanceDetailView``).
 struct Physicochemical: Codable, Hashable {
     /// Octanol/water partition coefficient (lipophilicity), computed.
     let logP: Double?
-    /// Distribution coefficient at physiological pH. No source populates this yet.
-    let logD: Double?
-    /// Acid dissociation constant. No source populates this yet.
-    let pKa: Double?
     /// Topological polar surface area, Å².
     let tpsa: Double?
     /// Hydrogen-bond acceptor count.
@@ -52,7 +47,7 @@ struct Physicochemical: Codable, Hashable {
     /// `true` when at least one descriptor is populated — the card only renders
     /// when there's something to show.
     var hasAnyValue: Bool {
-        logP != nil || logD != nil || pKa != nil || tpsa != nil || hba != nil
+        logP != nil || tpsa != nil || hba != nil
             || hbd != nil || ld50OralMgPerKg != nil || ld50DermalMgPerKg != nil
             || meltingPointC != nil || boilingPointC != nil
     }

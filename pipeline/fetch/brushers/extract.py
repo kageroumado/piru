@@ -62,16 +62,31 @@ _DOSE_RE = re.compile(
 )
 
 
+#: A unit token anywhere in the string. Used to tell "this cell names no unit"
+#: from "the pattern stopped before the unit it names".
+_ANY_UNIT = re.compile(r"\b(?:µg|ug|mcg|mg|g|ml|iu)\b", re.IGNORECASE)
+
+
 def parse_dose_cell(text):
-    """'0.5-1.5mg' -> (lo, hi, unit). hi is None for single values."""
+    """'0.5-1.5mg' -> (lo, hi, unit). hi is None for single values.
+
+    Returns `(None, None, "")` when the cell names a unit the match did not
+    reach — "20 ± 5 mg" matches `20`, then wants the unit where `± 5` sits, and
+    would otherwise return `20` with no unit at all. A number stripped of its
+    unit is a *wrong* value dressed as a parsed one, and it is worse than no
+    value: the caller cannot tell it from a cell that genuinely had no unit.
+    """
     if not text:
         return None, None, ""
-    m = _DOSE_RE.search(normalize_quantity_text(text).replace(",", ".").strip())
+    cleaned = normalize_quantity_text(text).replace(",", ".").strip()
+    m = _DOSE_RE.search(cleaned)
     if not m:
         return None, None, ""
     lo = float(m.group("lo"))
     hi = float(m.group("hi")) if m.group("hi") else None
     unit = (m.group("unit") or "").lower()
+    if not unit and _ANY_UNIT.search(cleaned):
+        return None, None, ""
     if unit in ("ug", "mcg"):
         unit = "µg"
     return lo, hi, unit
@@ -612,8 +627,6 @@ def _resolve_nps_cols(header):
         # present-but-empty in the current CSV (PubChem fills those) — wired here
         # so a future CSV that populates them flows through with no code change.
         ("logP", "logp"),
-        ("logD", "logd"),
-        ("pKa", "pka"),
         ("Topological polar surface area", "tpsa"),
         ("No. of hydrogen bond acceptors", "hba"),
         ("No. of hydrogen bond donors", "hbd"),
@@ -753,8 +766,6 @@ def extract_nps():
                     hierarchy=hierarchy,
                     raw_classes=tags_raw,
                     logp=_nps_num(_nps_cell(row, C.get("logp")), allow_negative=True),
-                    logd=_nps_num(_nps_cell(row, C.get("logd")), allow_negative=True),
-                    pka=_nps_num(_nps_cell(row, C.get("pka"))),
                     tpsa=_nps_num(_nps_cell(row, C.get("tpsa"))),
                     hba=_nps_int(_nps_cell(row, C.get("hba"))),
                     hbd=_nps_int(_nps_cell(row, C.get("hbd"))),

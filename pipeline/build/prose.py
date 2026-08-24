@@ -266,6 +266,38 @@ _BARE_HEADING = re.compile(
 )
 
 
+#: The same section label, but glued to the front of the section's own body —
+#: "Indications & Usage Sumatriptan tablets are indicated for…". 323 indication
+#: rows arrive this way. Stripping it is lossless: the heading names the field
+#: the row is already stored in.
+_LEADING_HEADING = re.compile(
+    r"^\s*(?:indications?|contraindications?|warnings?|precautions?|"
+    r"adverse reactions?|description|usage|overview)"
+    r"(?:\s*(?:&|and)\s*(?:usage|cautions?|precautions?|administration|dosage))?"
+    r"\s*[:.\u2014-]?\s+"
+    # Not when the word is the subject of a sentence rather than a heading:
+    # "Description **of** the induction phase", "Overview **of** dosing". A
+    # heading is followed by the section's content, never by a preposition
+    # binding back to it. (`[A-Z]` cannot do this job — IGNORECASE below makes
+    # it match lowercase too, which is how "Description of" got stripped.)
+    r"(?!(?:of|for|in|on|to|and|or|with|is|are|was|were)\b)",
+    re.IGNORECASE,
+)
+
+
+#: An OTC label selling the product rather than stating what it treats — "Let
+#: Whatta-Melon® help soothe your child's sore throat. We have specially
+#: formulated these great tasting …". Second person and a sales verb together;
+#: either alone appears in legitimate label prose.
+_MARKETING_VOICE = re.compile(
+    r"\b(?:your|you)\b[^.]{0,60}\b(?:child|family|loved one)\b"
+    r"|\blet\s+\S+\s+help\b"
+    r"|\b(?:great|delicious|refreshing|pleasant)[- ]tasting\b"
+    r"|\bspecially formulated\b",
+    re.IGNORECASE,
+)
+
+
 def clean_label_prose(text: str | None) -> str:
     """A prescribing-label paragraph reduced to what stands on its own.
 
@@ -275,6 +307,9 @@ def clean_label_prose(text: str | None) -> str:
     if not text:
         return ""
     if _BARE_HEADING.match(text.strip()):
+        return ""
+    text = _LEADING_HEADING.sub("", text.strip(), count=1)
+    if _MARKETING_VOICE.search(text):
         return ""
     # A sentence that is only a pointer goes whole; an inline one is cut out of
     # the sentence carrying it. Whole first, or the inline rule eats the "See

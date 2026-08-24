@@ -51024,33 +51024,6 @@
     ]
   },
   {
-    "name": "Pectin/Echinacea Purpurea",
-    "display_name": "",
-    "aliases": [
-      "Herbon Berry Buddies/watermelon Goodypops"
-    ],
-    "category": "",
-    "display_class": "otc",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Peginterferon alfa-2b",
     "display_name": "",
     "aliases": [

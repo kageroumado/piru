@@ -1159,8 +1159,6 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         cols = {c["name"] for c in self.db.execute("PRAGMA table_info(substances)")}
         for col in (
             "logp",
-            "logd",
-            "pka",
             "tpsa",
             "hba",
             "hbd",

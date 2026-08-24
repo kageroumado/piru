@@ -56,7 +56,7 @@ class CodeOnly(unittest.TestCase):
 
 class Classification(unittest.TestCase):
     def test_empty_column_is_never_a_loss(self):
-        self.assertEqual(_mod.classify("t", "pka", 0, "", "", ""), "empty")
+        self.assertEqual(_mod.classify("t", "logd", 0, "", "", ""), "empty")
 
     def test_column_only_in_sql_is_read_not_shown(self):
         near = "SELECT protein_binding_pct FROM pk_routes"

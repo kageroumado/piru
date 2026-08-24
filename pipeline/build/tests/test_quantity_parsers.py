@@ -48,6 +48,20 @@ class DoseCell(unittest.TestCase):
                 self.assertEqual(parse_dose_cell(text), (100.0, None, "µg"))
 
 
+class UnitSkipped(unittest.TestCase):
+    def test_a_cell_whose_unit_the_match_missed_is_refused(self):
+        # "20 ± 5 mg" matches `20`, then wants the unit where `± 5` sits. A bare
+        # `20` with the unit dropped is a wrong value dressed as a parsed one.
+        self.assertEqual(parse_dose_cell("20\u00b15 mg"), (None, None, ""))
+        self.assertEqual(parse_dose_cell("20 \u00b1 5 mg"), (None, None, ""))
+
+    def test_a_genuinely_unitless_cell_still_parses(self):
+        # The refusal keys on a unit token being *present and unreached*, not on
+        # the unit being empty — so counts and non-mass amounts still come back.
+        self.assertEqual(parse_dose_cell("5 seeds"), (5.0, None, ""))
+        self.assertEqual(parse_dose_cell("20 \u00b1 5"), (20.0, None, ""))
+
+
 class Range(unittest.TestCase):
     def test_every_separator_yields_the_same_range_and_unit(self):
         for text in SEPARATORS:
