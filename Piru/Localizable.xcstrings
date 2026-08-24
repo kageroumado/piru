@@ -27300,6 +27300,44 @@
         }
       }
     },
+    "Heart rate %lld beats per minute, no clear change" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心率每分钟 %lld 次，无明显变化"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心率每分鐘 %lld 次，無明顯變化"
+          }
+        }
+      }
+    },
+    "Heart rate %lld falling to %lld beats per minute" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Heart rate %1$lld falling to %2$lld beats per minute"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心率 %lld，降至每分钟 %lld 次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心率 %lld，降至每分鐘 %lld 次"
+          }
+        }
+      }
+    },
     "Heart rate %lld rising to %lld beats per minute" : {
       "localizations" : {
         "zh-Hans" : {
@@ -40045,6 +40083,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血清素再攝取抑制重疊 — 血清素綜合徵的風險增加。"
+          }
+        }
+      }
+    },
+    "overlaps %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与 %@ 重叠"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與 %@ 重疊"
           }
         }
       }

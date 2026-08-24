@@ -16,6 +16,10 @@ struct SessionShareSheet: View {
     let entries: [DoseEntry]
     let colors: [SubstanceColor]
     let stackRedoses: Bool
+    /// Per-dose heart-rate responses, so the image carries the same HR chips the rows
+    /// on screen do. Handed in rather than read here: HealthKit access belongs to the
+    /// session screen, and an empty map simply renders rows without chips.
+    var doseHR: [UUID: DoseHRResponse] = [:]
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
@@ -86,7 +90,7 @@ struct SessionShareSheet: View {
     private func prepare() async {
         let rendered = SessionShareImage.render(
             title: title, dateText: dateText, entries: entries,
-            colors: colors, stackRedoses: stackRedoses, scheme: colorScheme,
+            colors: colors, stackRedoses: stackRedoses, scheme: colorScheme, doseHR: doseHR,
         )
         image = rendered
         // Pre-encode the image to a file off the main actor so tapping the

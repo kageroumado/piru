@@ -42,16 +42,27 @@ final class SessionDetailModel {
         guard !Task.isCancelled else { return }
 
         sessionVitals = fetched.isEmpty ? nil : fetched
-        var responses: [UUID: DoseHRResponse] = [:]
-        for entry in entries {
-            if let response = VitalsAnalysis.doseResponse(doseAt: entry.timestamp, in: fetched.heartRate) {
-                responses[entry.id] = response
-            }
-        }
-        doseHR = responses
+        doseHR = VitalsAnalysis.doseResponses(for: entries.map { Self.hrWindow(for: $0) }, in: fetched.heartRate)
         hrSummary = VitalsAnalysis.summary(
             from: session.startDate, to: end,
             heartRate: fetched.heartRate, restingHeartRate: fetched.restingHeartRate,
+        )
+    }
+
+    /// One dose described for the heart-rate analysis. The window comes from the same
+    /// duration profile the timeline curve draws, so a dose's response is read over the
+    /// stretch the app already says its effects arrive in — an insufflated line over
+    /// minutes, an oral tablet over hours — rather than one fixed 45 minutes for both.
+    /// A substance with no modeled duration (or a form we decline to model) carries nils
+    /// and falls back to the default window.
+    private static func hrWindow(for entry: DoseEntry) -> HRDoseWindow {
+        let state = ActiveSubstanceState.from(entry: entry, colorHex: "000000")
+        return HRDoseWindow(
+            id: entry.id,
+            at: entry.timestamp,
+            substance: entry.substance,
+            peakEndMinutes: state?.peakEndMinutes,
+            comeUpEndMinutes: state?.comeupEndMinutes,
         )
     }
 

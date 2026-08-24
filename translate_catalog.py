@@ -1493,6 +1493,15 @@ T = {
         "心率 %lld，升至每分钟 %lld 次",
         "心率 %lld，升至每分鐘 %lld 次",
     ),
+    "Heart rate %lld falling to %lld beats per minute": (
+        "心率 %lld，降至每分钟 %lld 次",
+        "心率 %lld，降至每分鐘 %lld 次",
+    ),
+    "Heart rate %lld beats per minute, no clear change": (
+        "心率每分钟 %lld 次，无明显变化",
+        "心率每分鐘 %lld 次，無明顯變化",
+    ),
+    "overlaps %@": ("与 %@ 重叠", "與 %@ 重疊"),
     "Overlays your Apple Watch heart rate — and any blood-pressure readings — on each session's timeline, and shows how your heart responded to each dose. Read-only; you can turn Piru's access off anytime in Settings ▸ Health ▸ Data Access. With no data for a session, nothing is shown.": (
         "将你的 Apple Watch 心率（以及任何血压读数）叠加到每次记录的时间线上，并显示你的心脏对每次用药的反应。仅供读取；你可以随时在“设置 ▸ 健康 ▸ 数据访问”中关闭 Piru 的访问权限。某次记录没有数据时，不会显示任何相关内容。",
         "將你的 Apple Watch 心率（以及任何血壓讀數）疊加到每次記錄的時間軸上，並顯示你的心臟對每次用藥的反應。僅供讀取；你可以隨時在「設定 ▸ 健康 ▸ 資料取用」中關閉 Piru 的存取權限。某次記錄沒有資料時，不會顯示任何相關內容。",
@@ -7128,6 +7137,9 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Heart rate %lld falling to %lld beats per minute",
+        "Heart rate %lld beats per minute, no clear change",
+        "overlaps %@",
         "Downstream",
         "No half-life data",
         "Known allergy to it",

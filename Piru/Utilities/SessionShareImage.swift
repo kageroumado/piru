@@ -18,10 +18,11 @@ enum SessionShareImage {
         colors: [SubstanceColor],
         stackRedoses: Bool,
         scheme: ColorScheme,
+        doseHR: [UUID: DoseHRResponse] = [:],
         capturedAt: Date = .now,
     ) -> UIImage? {
         guard !entries.isEmpty else { return nil }
-        let displays = DayEntryDisplay.make(from: entries, colors: colors)
+        let displays = DayEntryDisplay.make(from: entries, colors: colors, doseHR: doseHR)
         let (states, markers) = ActiveSubstanceState.timeline(for: entries, colors: colors)
         let card = SessionShareCard(
             title: title,

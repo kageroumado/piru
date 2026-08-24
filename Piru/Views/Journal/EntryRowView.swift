@@ -80,20 +80,35 @@ struct DayEntryCore: Equatable {
 struct DayEntryDisplay: Equatable {
     let core: DayEntryCore
     let color: Color
-    /// This dose's Apple Health heart-rate response (HR at dose → peak), when the
-    /// session has vitals and the overlay is enabled. Applied at the row-build site
-    /// like `color`, so it updates when HealthKit data arrives without re-running
+    /// This dose's Apple Health heart-rate response (HR at dose → the extreme reached),
+    /// when the session has vitals and the overlay is enabled. Applied at the row-build
+    /// site like `color`, so it updates when HealthKit data arrives without re-running
     /// the heavy substance resolve. Nil — the default — renders no chip.
     var hr: DoseHRResponse?
+    /// Substance colors for ``DoseHRResponse/confounders`` — what the chip's overlap
+    /// mark is drawn in. Resolved here rather than carried on the response so the
+    /// analysis stays free of SwiftUI, and empty when nothing overlapped.
+    var confounderColors: [Color] = []
 
     /// Build render-ready displays for a set of doses. Hoisted so off-screen
     /// consumers (e.g. the share-image renderer) reproduce the on-screen rows
-    /// exactly.
+    /// exactly — heart-rate chips included, which is why `doseHR` is threaded in
+    /// rather than recomputed: HealthKit is the session screen's to read.
     @MainActor
-    static func make(from entries: [DoseEntry], colors: [SubstanceColor]) -> [DayEntryDisplay] {
+    static func make(
+        from entries: [DoseEntry],
+        colors: [SubstanceColor],
+        doseHR: [UUID: DoseHRResponse] = [:],
+    ) -> [DayEntryDisplay] {
         let colorMap = colors.colorMap
-        return DayEntryCore.make(from: entries).map { core in
-            DayEntryDisplay(core: core, color: colorMap[core.substanceKey] ?? Theme.accent)
+        return DayEntryCore.make(from: entries).map { core -> DayEntryDisplay in
+            let hr = doseHR[core.entryID]
+            return DayEntryDisplay(
+                core: core,
+                color: colorMap[core.substanceKey] ?? Theme.accent,
+                hr: hr,
+                confounderColors: (hr?.confounders ?? []).map { colorMap[$0.lowercased()] ?? Theme.accent },
+            )
         }
     }
 }
@@ -327,12 +342,12 @@ struct EntryRowView: View {
         return Text("\(dose), \(String(localized: level.displayName))")
     }
 
-    /// This dose's heart-rate response: HR at dose → peak within the response
-    /// window, the delta, and a mini sparkline of the window. Data-only — the
-    /// analysis happens upstream in `SessionDetailView.loadVitals`.
+    /// This dose's heart-rate response: HR at dose → the extreme reached within the
+    /// response window, the delta, and a mini sparkline of the window. Data-only — the
+    /// analysis happens upstream in `SessionDetailModel.loadVitals`.
     private func hrChip(_ hr: DoseHRResponse) -> some View {
-        // Quiet inline metric (Option A): a heart glyph in the vitals hue with the
-        // numbers in the label color — reads as data, not a colored pill.
+        // Quiet inline metric: a heart glyph in the vitals hue with the numbers in the
+        // label color — reads as data, not a colored pill.
         HStack(spacing: 5) {
             Image(systemName: "heart.fill")
                 .font(.system(size: 9))
@@ -343,22 +358,63 @@ struct EntryRowView: View {
             Image(systemName: "arrow.right")
                 .font(.system(size: 7, weight: .semibold))
                 .foregroundStyle(.tertiary)
-            Text(verbatim: "\(hr.peak)")
+            Text(verbatim: "\(hr.extreme)")
                 .fontWeight(.semibold)
                 .foregroundStyle(.primary)
             Text("bpm")
                 .foregroundStyle(.secondary)
             Text(verbatim: "\(hr.delta >= 0 ? "+" : "")\(hr.delta)")
-                .foregroundStyle(VitalsPalette.heart)
+                .foregroundStyle(deltaColor(hr))
             if hr.sparkline.count >= 2 {
                 HRSparkline(values: hr.sparkline)
                     .frame(width: 34, height: 12)
                     .padding(.leading, 2)
             }
+            if !display.confounderColors.isEmpty {
+                overlapMark
+            }
         }
         .font(.caption)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text("Heart rate \(hr.atDose) rising to \(hr.peak) beats per minute"))
+        .accessibilityLabel(Text(hrAccessibilityLabel(hr)))
+    }
+
+    /// The reading is shared with whatever was still coming up — drawn as that
+    /// substance's own dot, overlapping this row's, in the color language the timeline
+    /// already taught. Marked, not hidden: the numbers happened, they just aren\'t this
+    /// dose's alone. It trails the whole chip so it qualifies the reading rather than
+    /// reading as part of one of the numbers.
+    private var overlapMark: some View {
+        HStack(spacing: -3) {
+            ForEach(Array(([display.color] + display.confounderColors).enumerated()), id: \.offset) { _, color in
+                Circle()
+                    .fill(color)
+                    .frame(width: 7, height: 7)
+                    .overlay(Circle().strokeBorder(Theme.background, lineWidth: 1))
+            }
+        }
+        .padding(.leading, 3)
+    }
+
+    /// A move that cleared the noise floor wears the vitals hue in **either** direction —
+    /// heart rate is one measurement, and coloring a fall differently from a rise would
+    /// score the dose rather than report it. A move inside the noise floor goes gray: the
+    /// numbers are still shown, the response claim is not.
+    private func deltaColor(_ hr: DoseHRResponse) -> Color {
+        hr.direction == .unchanged ? Theme.secondaryLabel : VitalsPalette.heart
+    }
+
+    /// VoiceOver gets the direction, the noise verdict, and any overlapping substance —
+    /// all of which the chip carries as color or a glyph.
+    private func hrAccessibilityLabel(_ hr: DoseHRResponse) -> String {
+        let reading = switch hr.direction {
+        case .rose: String(localized: "Heart rate \(hr.atDose) rising to \(hr.extreme) beats per minute")
+        case .fell: String(localized: "Heart rate \(hr.atDose) falling to \(hr.extreme) beats per minute")
+        case .unchanged: String(localized: "Heart rate \(hr.atDose) beats per minute, no clear change")
+        }
+        guard hr.isConfounded else { return reading }
+        let overlap = String(localized: "overlaps \(hr.confounders.formatted(.list(type: .and)))")
+        return "\(reading), \(overlap)"
     }
 }
 

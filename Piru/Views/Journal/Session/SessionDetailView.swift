@@ -466,8 +466,12 @@ struct SessionDetailView: View {
                     }
 
                     let cores = resolvedDay.entryCores
-                    let displays = entries.enumerated().map { index, entry in
-                        DayEntryDisplay(core: cores[index], color: colorFor(entry), hr: model.doseHR[entry.id])
+                    let displays = entries.enumerated().map { index, entry -> DayEntryDisplay in
+                        let hr = model.doseHR[entry.id]
+                        return DayEntryDisplay(
+                            core: cores[index], color: colorFor(entry), hr: hr,
+                            confounderColors: (hr?.confounders ?? []).map { resolvedColor($0) },
+                        )
                     }
                     SessionEntryListSection(entries: entries, displays: displays, isRecentDay: isRecentDay)
 
@@ -570,6 +574,7 @@ struct SessionDetailView: View {
                 entries: entries,
                 colors: Array(substanceColors),
                 stackRedoses: stackRedoses,
+                doseHR: model.doseHR,
             )
         }
         .sheet(item: $editing.recolorRequest) { request in
