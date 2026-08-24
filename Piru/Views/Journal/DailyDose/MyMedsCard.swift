@@ -144,6 +144,11 @@ struct MyMedsCard: View {
         Group {
             if warmed {
                 card
+            } else {
+                // A real (zero-height) view, not `EmptyView` — `.task` on a
+                // view that never appears never fires, and the gate would
+                // deadlock closed.
+                Color.clear.frame(height: 0)
             }
         }
         .task {
