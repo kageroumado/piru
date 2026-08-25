@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 /// Pure curve-synthesis math behind ``TimelineGraphView``, extracted into a
 /// namespace of static functions so it can run anywhere (the off-main
@@ -6,9 +7,10 @@ import Foundation
 ///
 /// Everything here is a pure function of its inputs: the Bateman/phase-shaped
 /// effect curves, the `Hill(Σ magnitude·bell)` redose merge, amplitude
-/// γ-compression, tail scanning, and the lane/tick layout math. No view state,
-/// no caching — ``TimelineModelCache`` and the `Derived` memoization wiring
-/// stay with the view.
+/// γ-compression, tail scanning, and the lane/tick layout math. No view state —
+/// ``TimelineModelCache`` and the `Derived` memoization wiring stay with the
+/// view. The one cache here (``pkParams(for:)``'s memo) is a transparent
+/// memoization of a pure function, not state.
 nonisolated enum TimelineCurveModel {
     /// All input-derived geometry that does **not** depend on zoom/pan/scrub —
     /// computed exactly once in `init` so the `Canvas` closure and the span
@@ -321,6 +323,30 @@ nonisolated enum TimelineCurveModel {
     ///   `ka → ke` and naturally yielding the broad, rounded `ke·t·e^(−ke·t)`
     ///   top — a sustained peak without the artificial flat trapezoid lid.
     nonisolated static func pkParams(for s: ActiveSubstanceState) -> PKCurveParams {
+        // Memoized: the `estimateKa` Newton solve is far too costly to re-run
+        // per Canvas draw call and per scrub-drag frame, and the result depends
+        // only on these three stored durations.
+        let key = PKParamsKey(total: s.totalMinutes, comeupEnd: s.comeupEndMinutes, peakEnd: s.peakEndMinutes)
+        if let cached = pkParamsCache.withLock({ $0[key] }) { return cached }
+        let params = computePKParams(for: s)
+        pkParamsCache.withLock { cache in
+            // A runaway key population (continuous durations) resets rather than
+            // grows without bound; 512 covers every substance on any real screen.
+            if cache.count >= 512 { cache.removeAll(keepingCapacity: true) }
+            cache[key] = params
+        }
+        return params
+    }
+
+    private struct PKParamsKey: Hashable {
+        let total: Double
+        let comeupEnd: Double
+        let peakEnd: Double
+    }
+
+    private static let pkParamsCache = OSAllocatedUnfairLock(initialState: [PKParamsKey: PKCurveParams]())
+
+    private nonisolated static func computePKParams(for s: ActiveSubstanceState) -> PKCurveParams {
         let total = max(s.totalMinutes, 1)
         let peakCenter = (s.comeupEndMinutes + s.peakEndMinutes) / 2
         // Decay to 5% of peak by `total`; anchor the window on the peak center
@@ -463,13 +489,12 @@ nonisolated enum TimelineCurveModel {
         let leftEdge = comeupEnd + min((center - comeupEnd) * Self.peakDome, comeupEnd - onsetEnd)
         let rightEdge = peakEnd - min((peakEnd - center) * Self.peakDome, offsetEnd - peakEnd)
 
-        // The crest is a shallow dome, not a lid. Returning a literal `1` across
-        // the whole peak band drew a trapezoid — a near-vertical rise into an
-        // exactly flat top — which is not a shape any pharmacokinetics produces.
-        // It was most visible exactly where the cap above binds hardest: a
-        // profile with a short come-up and a long peak (methamphetamine IV: a
-        // ~2-minute rise into 91 minutes of dead-flat 1.0). The dome keeps the
-        // plateau's *timing* untouched — leftEdge/rightEdge are unchanged, so
+        // The crest is a shallow dome, not a lid: a literal `1` across the whole
+        // peak band draws a trapezoid — a near-vertical rise into an exactly flat
+        // top — which is not a shape any pharmacokinetics produces, and is most
+        // visible exactly where the cap above binds hardest (a short come-up into
+        // a long peak, e.g. methamphetamine IV). The dome keeps the plateau's
+        // *timing* untouched — leftEdge/rightEdge are unchanged, so
         // zolpidem's time-to-peak stays anchored where the comment above put it
         // — and only lets the level drift across it, peaking at the crest's
         // midpoint. The shoulders anchor to the dome's edge value so the curve
@@ -496,23 +521,22 @@ nonisolated enum TimelineCurveModel {
     /// plausible climb when the source data carries **no come-up phase**.
     ///
     /// Many profiles list only onset → peak (kratom oral: onset, peak, offset,
-    /// no come-up), so `comeupEndMinutes` collapses onto `onsetEnd`. The old
-    /// `max(comeupEnd, onsetEnd + 1)` left a 1-minute window → the curve shot up
-    /// as a near-vertical wall, which is wrong for an absorbed (oral) dose. When
-    /// the explicit window is essentially empty we instead borrow a come-up from
-    /// the dose's own timing: as long as the onset itself, floored at 12 min, but
-    /// capped at 60 % of the onset→peak gap so a flat peak still remains. Because
-    /// it scales off `onsetEnd`, a 30-min oral onset yields a broad ~30-min climb
-    /// while a 2-min insufflated onset stays quick — route falls out of the data.
-    /// A genuine come-up in the data is kept exactly as given.
+    /// no come-up), so `comeupEndMinutes` collapses onto `onsetEnd`. When the
+    /// explicit window is essentially empty we instead borrow a come-up from the
+    /// dose's own timing: as long as the onset itself, floored at 12 min, but
+    /// capped at 60 % of the onset→peak gap so a flat peak still remains. Never
+    /// floor this at a bare `onsetEnd + 1`: a 1-minute window makes the curve
+    /// shoot up as a near-vertical wall, wrong for an absorbed (oral) dose.
+    /// Because it scales off `onsetEnd`, a 30-min oral onset yields a broad
+    /// ~30-min climb while a 2-min insufflated onset stays quick — route falls
+    /// out of the data. A genuine come-up in the data is kept exactly as given.
     ///
-    /// The floor is itself capped by the onset. A flat `max(onsetEnd * 0.6, 8)`
-    /// gave *every* route at least an 8-minute climb, so an insufflated or IV
-    /// dose with a 2-minute onset was drawn with a 10-minute absorption shoulder
-    /// it does not have — the "rising shoulders on non-oral routes" report, and
-    /// the exact opposite of what the paragraph above promises. Flooring at
-    /// `min(comeupFloorMinutes, onsetEnd)` keeps the slow climb for anything
-    /// genuinely absorbed while letting a fast route stay as fast as its data.
+    /// The floor is itself capped by the onset — `min(comeupFloorMinutes,
+    /// onsetEnd)`. Never use a flat floor like `onsetEnd * 0.6`: that gives
+    /// every route at least an 8-minute climb, drawing an insufflated or IV dose
+    /// with a 2-minute onset an absorption shoulder it does not have. This keeps
+    /// the slow climb for anything genuinely absorbed while letting a fast route
+    /// stay as fast as its data.
     nonisolated static func effectiveComeupEnd(for s: ActiveSubstanceState, onsetEnd: Double, peakEnd: Double) -> Double {
         let explicit = s.comeupEndMinutes - onsetEnd
         let gap = peakEnd - onsetEnd

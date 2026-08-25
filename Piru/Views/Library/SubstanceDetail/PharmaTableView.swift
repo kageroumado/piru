@@ -41,7 +41,11 @@ struct PharmaTableView: View {
     @State private var sortAscending = true
 
     /// Header horizontal shift, driven by the body's horizontal scroll offset.
-    @State private var headerOffset: CGFloat = 0
+    /// An `@Observable` box rather than plain `@State`: only ``HeaderPan`` reads
+    /// it, so a scroll tick re-positions the header without re-running this
+    /// view's whole body (which would re-filter and re-sort every visible row
+    /// per frame).
+    @State private var headerOffset = PharmaHeaderOffset()
 
     private let nameColumnWidth: CGFloat = 148
     private let rowHeight: CGFloat = 52
@@ -176,10 +180,9 @@ struct PharmaTableView: View {
     private func headerRow(dataViewportWidth: CGFloat) -> some View {
         HStack(spacing: 0) {
             substanceHeaderCell
-            dataHeaderCells
-                .offset(x: -headerOffset)
-                .frame(width: dataViewportWidth, alignment: .leading)
-                .clipped()
+            HeaderPan(model: headerOffset, width: dataViewportWidth) {
+                dataHeaderCells
+            }
         }
         .frame(height: 44)
         .background(Theme.background)
@@ -262,8 +265,8 @@ struct PharmaTableView: View {
                 .frame(width: dataViewportWidth)
                 .onScrollGeometryChange(for: CGFloat.self) { geometry in
                     geometry.contentOffset.x
-                } action: { _, newValue in
-                    headerOffset = max(0, newValue)
+                } action: { [headerOffset] _, newValue in
+                    headerOffset.value = max(0, newValue)
                 }
             }
         }
@@ -663,6 +666,29 @@ private enum PharmaColumn: String, CaseIterable, Identifiable {
         default:
             return nil
         }
+    }
+}
+
+/// The header's horizontal scroll offset — see the `headerOffset` property.
+@Observable @MainActor
+final class PharmaHeaderOffset {
+    var value: CGFloat = 0
+}
+
+/// Shifts the data header cells by the body scroll's offset. The only view that
+/// reads ``PharmaHeaderOffset``, so per-frame scroll updates re-evaluate just
+/// this wrapper — the `content` it positions was built by the parent and is
+/// reused as-is.
+private struct HeaderPan<Content: View>: View {
+    let model: PharmaHeaderOffset
+    let width: CGFloat
+    @ViewBuilder let content: Content
+
+    var body: some View {
+        content
+            .offset(x: -model.value)
+            .frame(width: width, alignment: .leading)
+            .clipped()
     }
 }
 

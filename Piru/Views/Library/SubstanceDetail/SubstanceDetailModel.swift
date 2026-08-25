@@ -20,6 +20,11 @@ final class SubstanceDetailModel {
     /// Literature" list and the unified Pharmacology card's class hero.
     var literatureBindings: [BindingHit] = []
 
+    /// The receptor rows worth showing, derived once per `literatureBindings`
+    /// assignment (the filter/dedup/sort pipeline is too heavy to re-run per
+    /// body pass). See ``visibleBindings(from:)`` for the relevance rules.
+    var visibleLiteratureBindings: [BindingHit] = []
+
     /// Per-route pharmacokinetics (bioavailability / tmax / half-life), one row
     /// per route: the table holds a row per *study*, which rendered as the same
     /// card several times over. See ``SubstanceStore/displayRows(_:)``.
@@ -143,9 +148,11 @@ final class SubstanceDetailModel {
             let binds = store.bindings(forSubstanceName: substanceName)
             monoamineProfile = MonoamineProfile.from(bindings: binds, substanceName: substanceName)
             literatureBindings = binds
+            visibleLiteratureBindings = Self.visibleBindings(from: binds)
         } else {
             monoamineProfile = nil
             literatureBindings = []
+            visibleLiteratureBindings = []
         }
 
         // The class signature is a *comparison*, so unlike everything else here it reads the whole
@@ -240,7 +247,7 @@ final class SubstanceDetailModel {
     /// / dissociative receptor panel). `nil` for monoamine and other classes,
     /// which fall back to the slider/target grid.
     func pharmacologyHero(category: SubstanceCategory) -> PharmacologyHero? {
-        PharmacologyHero.resolve(category: category, bindings: Self.dedupedLiterature(visibleLiteratureBindings))
+        PharmacologyHero.resolve(category: category, bindings: visibleLiteratureBindings)
     }
 
     /// The receptor rows worth showing: the 10 µM relevance cap. Drops a **Kᵢ-based** off-target binding
@@ -249,7 +256,7 @@ final class SubstanceDetailModel {
     /// substance whose primary targets are all weak (caffeine's matched A1/A2A adenosine pair) keeps them.
     /// EC₅₀/IC₅₀ functional transporter rows are never capped: a releaser's DAT EC₅₀ is legitimately tens
     /// of µM yet is the primary mechanism.
-    var visibleLiteratureBindings: [BindingHit] {
+    private static func visibleBindings(from literatureBindings: [BindingHit]) -> [BindingHit] {
         let floor = literatureBindings
             .compactMap { [$0.kiNm, $0.ec50Nm, $0.ic50Nm].compactMap(\.self).min() }
             .min()

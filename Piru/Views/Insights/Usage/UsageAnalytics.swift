@@ -197,6 +197,22 @@ nonisolated struct UsageHeatmap: Sendable {
     let maxCount: Int
     /// Busiest day's common-dose total, the denominator for the common-dose ramp.
     let maxCommon: Double
+    /// Session-day start → its cell, for an O(1) lookup from any drawn day —
+    /// built once here rather than per layout pass in the grid view.
+    let cellByDate: [Date: UsageHeatmapCell]
+    /// The most recent day inside the selected range — days past it are the
+    /// future and stay blank rather than gray.
+    let lastInRange: Date
+
+    init(weekStarts: [Date], rowWeekdays: [Int], cells: [UsageHeatmapCell], maxCount: Int, maxCommon: Double) {
+        self.weekStarts = weekStarts
+        self.rowWeekdays = rowWeekdays
+        self.cells = cells
+        self.maxCount = maxCount
+        self.maxCommon = maxCommon
+        cellByDate = Dictionary(cells.map { ($0.date, $0) }, uniquingKeysWith: { first, _ in first })
+        lastInRange = cells.filter(\.inRange).map(\.date).max() ?? .distantPast
+    }
 
     /// The cell at `(column, row)`, or `nil` if out of bounds.
     func cell(column: Int, row: Int) -> UsageHeatmapCell? {

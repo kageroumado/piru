@@ -9,20 +9,34 @@ import SwiftUI
 /// unmodelable substance.
 @MainActor
 enum SandboxModelability {
-    /// Substances that can anchor a plan by themselves.
-    static var anchors: [Substance] {
-        resolve(SubstanceModelDatabase.calibratedTriggerSet.sorted()) {
+    /// Both lists cost a `resolveFull` + pharmacology resolve per candidate and
+    /// are read per keystroke by the picker's `searchable` filter, so they are
+    /// cached, keyed on the source order every resolved value derives from.
+    private static var cache: (order: [String], anchors: [Substance], adjuncts: [Substance])?
+
+    private static func lists() -> (anchors: [Substance], adjuncts: [Substance]) {
+        let order = SubstanceStore.shared.enabledSourceOrder
+        if let cache, cache.order == order { return (cache.anchors, cache.adjuncts) }
+        let anchors = resolve(SubstanceModelDatabase.calibratedTriggerSet.sorted()) {
             SubstanceModelDatabase.canAnchor(name: $0.name, pharmacology: pharmacology(for: $0))
         }
+        let adjuncts = resolve(SubstanceModelDatabase.modelableCandidateNames) {
+            !SubstanceModelDatabase.canAnchor(name: $0.name, pharmacology: pharmacology(for: $0))
+                && SubstanceModelDatabase.canParticipate(name: $0.name, pharmacology: pharmacology(for: $0))
+        }
+        cache = (order, anchors, adjuncts)
+        return (anchors, adjuncts)
+    }
+
+    /// Substances that can anchor a plan by themselves.
+    static var anchors: [Substance] {
+        lists().anchors
     }
 
     /// Substances the engine can simulate only alongside an anchor — they shape
     /// the curves but can't produce one on their own.
     static var adjuncts: [Substance] {
-        resolve(SubstanceModelDatabase.modelableCandidateNames) {
-            !SubstanceModelDatabase.canAnchor(name: $0.name, pharmacology: pharmacology(for: $0))
-                && SubstanceModelDatabase.canParticipate(name: $0.name, pharmacology: pharmacology(for: $0))
-        }
+        lists().adjuncts
     }
 
     static func isAnchor(_ substance: Substance) -> Bool {
@@ -479,9 +493,9 @@ struct EffectSandboxView: View {
         }
         .background(Theme.background)
         .background { BackSwipeSuspender(isSuspended: isAdjustingDose) }
-        // The charts are pinned and the doses scroll under them — the inverse of
-        // the old layout. You are always editing against a visible curve, and the
-        // doses get the full width of a standard list instead of a cramped strip.
+        // The charts are pinned and the doses scroll under them: you are always
+        // editing against a visible curve, and the doses get the full width of
+        // a standard list.
         .safeAreaInset(edge: .top, spacing: 0) {
             // Shown as soon as there are rows, not once the first result lands:
             // the simulation runs off-main, so gating on it made the whole list
@@ -513,9 +527,9 @@ struct EffectSandboxView: View {
 
     // MARK: Toolbar
 
-    /// One button, always relevant. Everything else that used to live in an
-    /// overflow menu is now a row in the list where it applies — a menu that
-    /// degrades to a single "Clear" item is not worth the tap.
+    /// One button, always relevant. Every other action lives as a row in the
+    /// list where it applies — a menu that degrades to a single "Clear" item
+    /// is not worth the tap.
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {

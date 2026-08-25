@@ -190,8 +190,9 @@ struct HalfLifeCalculatorView: View {
                 let totalMinutes = PKModel.timeToFraction(0.03, ke: ke, ka: ka, maxMinutes: halfLife * 8)
                 guard totalMinutes > 0, graphHeight > 0, peakConc > 0 else { return }
 
-                // Fill path
+                // Fill and stroke share one sampling pass over the curve.
                 var fillPath = Path()
+                var strokePath = Path()
                 let steps = 120
                 let baseline = inset + graphHeight
                 fillPath.move(to: CGPoint(x: inset, y: baseline))
@@ -202,20 +203,11 @@ struct HalfLifeCalculatorView: View {
                     let x = inset + CGFloat(t / totalMinutes) * graphWidth
                     let y = inset + graphHeight - CGFloat(c) * graphHeight * 0.9
                     fillPath.addLine(to: CGPoint(x: x, y: y))
+                    if i == 0 { strokePath.move(to: CGPoint(x: x, y: y)) } else { strokePath.addLine(to: CGPoint(x: x, y: y)) }
                 }
                 fillPath.addLine(to: CGPoint(x: inset + graphWidth, y: baseline))
                 fillPath.closeSubpath()
                 context.fill(fillPath, with: .color(Theme.accent.opacity(0.25)))
-
-                // Stroke path
-                var strokePath = Path()
-                for i in 0 ... steps {
-                    let t = Double(i) / Double(steps) * totalMinutes
-                    let c = PKModel.concentration(at: t, ke: ke, ka: ka) / peakConc
-                    let x = inset + CGFloat(t / totalMinutes) * graphWidth
-                    let y = inset + graphHeight - CGFloat(c) * graphHeight * 0.9
-                    if i == 0 { strokePath.move(to: CGPoint(x: x, y: y)) } else { strokePath.addLine(to: CGPoint(x: x, y: y)) }
-                }
                 context.stroke(strokePath, with: .color(Theme.accent), lineWidth: 2)
 
                 // Peak line (Tmax)

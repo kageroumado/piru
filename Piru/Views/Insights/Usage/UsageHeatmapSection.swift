@@ -5,8 +5,7 @@ import SwiftUI
 /// weeks, rows are weekdays) over an hour-of-day histogram.
 ///
 /// The grid is a grid, not a chart, so it is drawn with rectangles rather than
-/// Swift Charts; the histogram underneath is a real chart with 24 bins, which
-/// is where the old four-bucket "Time of Day" detail moved.
+/// Swift Charts; the histogram underneath is a real chart with 24 bins.
 struct UsageHeatmapSection: View {
     let heatmap: UsageHeatmap
     let hours: UsageHourProfile
@@ -93,10 +92,10 @@ private struct UsageHeatmapGrid: View {
     var body: some View {
         let layout = layout(for: containerWidth)
         // The weekday labels are a *fixed* sidebar, outside the ScrollView: the
-        // grid opens scrolled to the most recent week, and labels that rode inside
-        // the scroll content scrolled off the leading edge with it. The grid always
-        // fills or overflows the remaining width, so the old "fixed sidebar floats
-        // a narrow grid" worry no longer applies.
+        // grid opens scrolled to the most recent week, and labels riding inside
+        // the scroll content would scroll off the leading edge with it. The grid
+        // always fills or overflows the remaining width, so the sidebar never
+        // floats next to a narrower grid.
         HStack(alignment: .top, spacing: cellSpacing) {
             weekdayLabels(cellSize: layout.cell)
                 .frame(width: labelWidth)
@@ -150,8 +149,8 @@ private struct UsageHeatmapGrid: View {
     }
 
     private func layout(for width: CGFloat) -> GridLayout {
-        let cellByDate = Dictionary(heatmap.cells.map { ($0.date, $0) }, uniquingKeysWith: { first, _ in first })
-        let lastInRange = heatmap.cells.filter(\.inRange).map(\.date).max() ?? .distantPast
+        let cellByDate = heatmap.cellByDate
+        let lastInRange = heatmap.lastInRange
         let actual = heatmap.weekStarts
 
         // Before the first geometry pass, draw the range's own weeks at the base

@@ -109,28 +109,6 @@ struct MyMedsCard: View {
         return slots.sorted { ($0.time ?? .max) < ($1.time ?? .max) }
     }
 
-    /// The Supplements fold only pays for itself with 2+ quiet slots — a
-    /// single quiet med renders as a plain row rather than a one-item group.
-    private var collapseQuiet: Bool {
-        allSlots.count(where: \.item.isQuiet) >= 2
-    }
-
-    private var loudSlots: [MedSlot] {
-        collapseQuiet ? allSlots.filter { !$0.item.isQuiet } : allSlots
-    }
-
-    private var quietSlots: [MedSlot] {
-        collapseQuiet ? allSlots.filter(\.item.isQuiet) : []
-    }
-
-    private var takenCount: Int {
-        allSlots.count(where: \.taken)
-    }
-
-    private var nextUpcoming: MedSlot? {
-        allSlots.first { !$0.taken && $0.time != nil && $0.time! > MedSlot.nowMinutes }
-    }
-
     // MARK: Body
 
     /// Rows render only once the substance batch cache is warm: each row
@@ -159,16 +137,24 @@ struct MyMedsCard: View {
 
     @ViewBuilder
     private var card: some View {
-        if !allSlots.isEmpty {
+        // `allSlots` rebuilds the occurrence index and walks every item, so
+        // derive it once per body pass and hand slices down.
+        let slots = allSlots
+        if !slots.isEmpty {
+            // The Supplements fold only pays for itself with 2+ quiet slots — a
+            // single quiet med renders as a plain row rather than a one-item group.
+            let collapseQuiet = slots.count(where: \.item.isQuiet) >= 2
+            let loudSlots = collapseQuiet ? slots.filter { !$0.item.isQuiet } : slots
+            let quietSlots = collapseQuiet ? slots.filter(\.item.isQuiet) : []
             VStack(alignment: .leading, spacing: 10) {
-                header
+                header(slots: slots)
 
                 VStack(spacing: 0) {
                     ForEach(loudSlots) { slot in
                         slotRow(slot, indented: false)
                     }
                     if !quietSlots.isEmpty {
-                        supplementsRow
+                        supplementsRow(quietSlots: quietSlots)
                         if supplementsExpanded {
                             ForEach(quietSlots) { slot in
                                 slotRow(slot, indented: true)
@@ -197,20 +183,24 @@ struct MyMedsCard: View {
         }
     }
 
-    private var header: some View {
-        Button {
+    private func header(slots: [MedSlot]) -> some View {
+        let takenCount = slots.count(where: \.taken)
+        // Every scheduled slot logged for today — drives the ring's completion
+        // state and the transient celebration line.
+        let isComplete = !slots.isEmpty && takenCount == slots.count
+        return Button {
             navigator.push(.myMeds)
         } label: {
             HStack(spacing: 10) {
-                progressRing
+                progressRing(takenCount: takenCount, total: slots.count, isComplete: isComplete)
                 VStack(alignment: .leading, spacing: 1) {
                     Text("My Meds")
                         .font(.headline)
                     // Status as a subtitle rather than a footer line — it
                     // swaps text (next dose → count left → "everything today")
-                    // without ever changing the card's height, which is what
-                    // made the old collapsing footer read as visually heavy.
-                    statusSubtitle
+                    // without ever changing the card's height, keeping the
+                    // card visually light.
+                    statusSubtitle(slots: slots, takenCount: takenCount, isComplete: isComplete)
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
@@ -221,7 +211,7 @@ struct MyMedsCard: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel("My Meds")
-        .accessibilityValue("\(takenCount) of \(allSlots.count) taken")
+        .accessibilityValue("\(takenCount) of \(slots.count) taken")
         .accessibilityHint("Opens your meds")
     }
 
@@ -229,33 +219,28 @@ struct MyMedsCard: View {
     /// while done, otherwise the next timed dose, otherwise how many remain.
     /// One line in every state, so the card height never moves.
     @ViewBuilder
-    private var statusSubtitle: some View {
+    private func statusSubtitle(slots: [MedSlot], takenCount: Int, isComplete: Bool) -> some View {
         if isComplete {
             Text(completionText)
                 .font(.caption)
                 .foregroundStyle(.green)
                 .lineLimit(1)
-        } else if let next = nextUpcoming, let time = next.time {
+        } else if let next = slots.first(where: { !$0.taken && $0.time != nil && $0.time! > MedSlot.nowMinutes }),
+                  let time = next.time {
             Text("Next: \(displayName(for: next.item)) at \(Self.timeText(time)) · \(Self.relativeText(time))")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
                 .lineLimit(1)
         } else {
-            Text("\(allSlots.count - takenCount) left")
+            Text("\(slots.count - takenCount) left")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
                 .lineLimit(1)
         }
     }
 
-    /// Every scheduled slot logged for today — drives the ring's completion
-    /// state and the transient celebration line.
-    private var isComplete: Bool {
-        !allSlots.isEmpty && takenCount == allSlots.count
-    }
-
-    private var progressRing: some View {
-        let fraction = allSlots.isEmpty ? 0 : CGFloat(takenCount) / CGFloat(allSlots.count)
+    private func progressRing(takenCount: Int, total: Int, isComplete: Bool) -> some View {
+        let fraction = total == 0 ? 0 : CGFloat(takenCount) / CGFloat(total)
         return ZStack {
             Circle()
                 .stroke(Color(.tertiarySystemFill), lineWidth: 4)
@@ -276,7 +261,7 @@ struct MyMedsCard: View {
                     .symbolEffect(.bounce, value: isComplete)
                     .transition(.scale.combined(with: .opacity))
             } else {
-                Text("\(takenCount)/\(allSlots.count)")
+                Text("\(takenCount)/\(total)")
                     .font(.system(size: 10, weight: .bold, design: .monospaced))
                     .transition(.scale.combined(with: .opacity))
             }
@@ -320,13 +305,13 @@ struct MyMedsCard: View {
         )
     }
 
-    private var supplementsRow: some View {
+    private func supplementsRow(quietSlots: [MedSlot]) -> some View {
         HStack(spacing: 10) {
             Button {
                 withAnimation(.snappy) { supplementsExpanded.toggle() }
             } label: {
                 HStack(spacing: 10) {
-                    supplementsCircle
+                    supplementsCircle(quietSlots: quietSlots)
                     VStack(alignment: .leading, spacing: 1) {
                         Text("Supplements")
                             .font(.subheadline.weight(.medium))
@@ -371,7 +356,7 @@ struct MyMedsCard: View {
         .padding(.vertical, 7)
     }
 
-    private var supplementsCircle: some View {
+    private func supplementsCircle(quietSlots: [MedSlot]) -> some View {
         let done = quietSlots.count(where: \.taken)
         let allDone = done == quietSlots.count
         return ZStack {
