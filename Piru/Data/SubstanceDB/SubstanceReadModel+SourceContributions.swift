@@ -4,6 +4,85 @@ import os
 
 private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
 
+/// One kind of content a source can supply for a substance.
+///
+/// Deliberately coarse. It labels a caption in a two-column list, not a
+/// schema dump, so ~24 per-substance tables collapse into eleven words the
+/// reader already recognises from the screen they just scrolled through.
+nonisolated enum SourceFacet: String, Hashable, Identifiable {
+    case dose
+    case duration
+    case effects
+    case overview
+    case pharmacology
+    case pharmacokinetics
+    case tolerance
+    case prescribing
+    case interactions
+    case chemistry
+    case identity
+
+    var id: String {
+        rawValue
+    }
+
+    /// Most substantive first — the order facets are listed in, so a row
+    /// reads "dose · duration · effects" rather than alphabetical noise.
+    static let displayOrder: [SourceFacet] = [
+        .dose, .duration, .effects, .overview, .pharmacology, .pharmacokinetics,
+        .tolerance, .prescribing, .interactions, .chemistry, .identity,
+    ]
+
+    /// Lowercase on purpose: these are fragments of a phrase ("dose ·
+    /// duration · overview"), not titles.
+    var label: LocalizedStringResource {
+        switch self {
+        case .dose: LocalizedStringResource("dose", comment: "Sources list — what a source supplies")
+        case .duration: LocalizedStringResource("duration", comment: "Sources list — what a source supplies")
+        case .effects: LocalizedStringResource("effects", comment: "Sources list — what a source supplies")
+        case .overview: LocalizedStringResource("overview", comment: "Sources list — what a source supplies")
+        case .pharmacology: LocalizedStringResource("pharmacology", comment: "Sources list — what a source supplies")
+        case .pharmacokinetics: LocalizedStringResource("pharmacokinetics", comment: "Sources list — what a source supplies")
+        case .tolerance: LocalizedStringResource("tolerance", comment: "Sources list — what a source supplies")
+        case .prescribing: LocalizedStringResource("prescribing", comment: "Sources list — what a source supplies")
+        case .interactions: LocalizedStringResource("interactions", comment: "Sources list — what a source supplies")
+        case .chemistry: LocalizedStringResource("chemistry", comment: "Sources list — what a source supplies")
+        case .identity: LocalizedStringResource("names & tags", comment: "Sources list — what a source supplies")
+        }
+    }
+}
+
+/// The per-substance contribution ledger: which source, and which cited work,
+/// supplied which parts of the page.
+nonisolated struct SourceContributions: Hashable {
+    /// Source slug (`tripsit`, `freeodwiki`) → facets, ``SourceFacet/displayOrder`` order.
+    let bySourceSlug: [String: [SourceFacet]]
+    /// Citation key (see ``citationKey(doi:pmid:url:)``) → facets, same order.
+    let byCitationKey: [String: [SourceFacet]]
+
+    static let empty = SourceContributions(bySourceSlug: [:], byCitationKey: [:])
+
+    /// A stable key for a cited work. Mirrors ``Citation/resolvedURL``'s
+    /// precedence (DOI, then PMID, then URL) so a `Citation` decoded by the
+    /// resolver and a row read here agree on identity without carrying the
+    /// citations table's primary key into the domain model.
+    static func citationKey(doi: String?, pmid: Int?, url: String?) -> String? {
+        if let doi, !doi.isEmpty { return "doi:\(doi.lowercased())" }
+        if let pmid { return "pmid:\(pmid)" }
+        if let url, !url.isEmpty { return "url:\(url.lowercased())" }
+        return nil
+    }
+
+    /// Facets this cited work supports, or empty when it is attached to the
+    /// substance generally rather than to a specific fact.
+    func facets(for citation: Citation) -> [SourceFacet] {
+        guard let key = Self.citationKey(doi: citation.doi, pmid: citation.pmid, url: citation.url) else {
+            return []
+        }
+        return byCitationKey[key] ?? []
+    }
+}
+
 /// "What did this source actually give me for *this* compound?" — the inverse of
 /// ``SubstanceStore/provenance(forSubstanceName:)``.
 ///
@@ -20,86 +99,7 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 /// for the next), so a static map would be wrong far more often than it was
 /// right — and wrong attribution on copyleft content is a licensing problem, not
 /// a cosmetic one.
-extension SubstanceStore {
-    /// One kind of content a source can supply for a substance.
-    ///
-    /// Deliberately coarse. It labels a caption in a two-column list, not a
-    /// schema dump, so ~24 per-substance tables collapse into eleven words the
-    /// reader already recognises from the screen they just scrolled through.
-    enum SourceFacet: String, Hashable, Identifiable {
-        case dose
-        case duration
-        case effects
-        case overview
-        case pharmacology
-        case pharmacokinetics
-        case tolerance
-        case prescribing
-        case interactions
-        case chemistry
-        case identity
-
-        var id: String {
-            rawValue
-        }
-
-        /// Most substantive first — the order facets are listed in, so a row
-        /// reads "dose · duration · effects" rather than alphabetical noise.
-        static let displayOrder: [SourceFacet] = [
-            .dose, .duration, .effects, .overview, .pharmacology, .pharmacokinetics,
-            .tolerance, .prescribing, .interactions, .chemistry, .identity,
-        ]
-
-        /// Lowercase on purpose: these are fragments of a phrase ("dose ·
-        /// duration · overview"), not titles.
-        var label: LocalizedStringResource {
-            switch self {
-            case .dose: LocalizedStringResource("dose", comment: "Sources list — what a source supplies")
-            case .duration: LocalizedStringResource("duration", comment: "Sources list — what a source supplies")
-            case .effects: LocalizedStringResource("effects", comment: "Sources list — what a source supplies")
-            case .overview: LocalizedStringResource("overview", comment: "Sources list — what a source supplies")
-            case .pharmacology: LocalizedStringResource("pharmacology", comment: "Sources list — what a source supplies")
-            case .pharmacokinetics: LocalizedStringResource("pharmacokinetics", comment: "Sources list — what a source supplies")
-            case .tolerance: LocalizedStringResource("tolerance", comment: "Sources list — what a source supplies")
-            case .prescribing: LocalizedStringResource("prescribing", comment: "Sources list — what a source supplies")
-            case .interactions: LocalizedStringResource("interactions", comment: "Sources list — what a source supplies")
-            case .chemistry: LocalizedStringResource("chemistry", comment: "Sources list — what a source supplies")
-            case .identity: LocalizedStringResource("names & tags", comment: "Sources list — what a source supplies")
-            }
-        }
-    }
-
-    /// The per-substance contribution ledger: which source, and which cited work,
-    /// supplied which parts of the page.
-    struct SourceContributions: Hashable {
-        /// Source slug (`tripsit`, `freeodwiki`) → facets, ``SourceFacet/displayOrder`` order.
-        let bySourceSlug: [String: [SourceFacet]]
-        /// Citation key (see ``citationKey(doi:pmid:url:)``) → facets, same order.
-        let byCitationKey: [String: [SourceFacet]]
-
-        static let empty = SourceContributions(bySourceSlug: [:], byCitationKey: [:])
-
-        /// A stable key for a cited work. Mirrors ``Citation/resolvedURL``'s
-        /// precedence (DOI, then PMID, then URL) so a `Citation` decoded by the
-        /// resolver and a row read here agree on identity without carrying the
-        /// citations table's primary key into the domain model.
-        static func citationKey(doi: String?, pmid: Int?, url: String?) -> String? {
-            if let doi, !doi.isEmpty { return "doi:\(doi.lowercased())" }
-            if let pmid { return "pmid:\(pmid)" }
-            if let url, !url.isEmpty { return "url:\(url.lowercased())" }
-            return nil
-        }
-
-        /// Facets this cited work supports, or empty when it is attached to the
-        /// substance generally rather than to a specific fact.
-        func facets(for citation: Citation) -> [SourceFacet] {
-            guard let key = Self.citationKey(doi: citation.doi, pmid: citation.pmid, url: citation.url) else {
-                return []
-            }
-            return byCitationKey[key] ?? []
-        }
-    }
-
+extension SubstanceReadModel {
     /// Which per-substance table proves which facet. Table names are compile-time
     /// constants interpolated into SQL — never user input.
     ///
@@ -156,9 +156,8 @@ extension SubstanceStore {
     /// Builds the contribution ledger for one substance. A cheap local read (a
     /// few dozen indexed lookups over tables of a few thousand rows); call it
     /// from a `.task`, not from a view `body`.
-    func sourceContributions(forSubstanceName name: String) -> SourceContributions {
-        guard let substanceID = substanceID(forNameOrAlias: name) else { return .empty }
-        let enabledList = reader.enabledSourceListSQL
+    func sourceContributions(substanceID: Int64) -> SourceContributions {
+        let enabledList = enabledSourceListSQL
         let sourceLegs = Self.facetTables
             .map { "SELECT source_id AS sid, '\($0.facet.rawValue)' AS facet FROM \($0.table) WHERE substance_id = :id" }
             .joined(separator: " UNION ALL ")
@@ -172,7 +171,7 @@ extension SubstanceStore {
             .joined(separator: " UNION ALL ")
 
         do {
-            return try substancesDB.read { db in
+            return try db.read { db in
                 var bySlug: [String: Set<SourceFacet>] = [:]
                 let sourceRows = try Row.fetchAll(db, sql: """
                     SELECT DISTINCT src.slug AS slug, u.facet AS facet
@@ -211,12 +210,24 @@ extension SubstanceStore {
                 )
             }
         } catch {
-            logger.error("sourceContributions(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
+            logger.error("sourceContributions(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return .empty
         }
     }
 
     private static func inDisplayOrder(_ facets: Set<SourceFacet>) -> [SourceFacet] {
         SourceFacet.displayOrder.filter(facets.contains)
+    }
+}
+
+extension SubstanceStore {
+    typealias SourceFacet = Piru.SourceFacet
+    typealias SourceContributions = Piru.SourceContributions
+
+    /// Name-keyed entry to ``SubstanceReadModel/sourceContributions(substanceID:)``
+    /// — the store contributes only the alias resolution.
+    func sourceContributions(forSubstanceName name: String) -> SourceContributions {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return .empty }
+        return reader.sourceContributions(substanceID: substanceID)
     }
 }

@@ -3,14 +3,14 @@ import os
 
 private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
 
-/// Library-wide reads for the class signatures. A signature is a *comparison*, so unlike every other
-/// pharmacology query on this store it cannot be scoped to one substance: the ladder, the arc and the
+/// Library-wide reads for the class signatures. A signature is a *comparison*, so unlike most
+/// pharmacology queries it cannot be scoped to one substance: the ladder, the arc and the
 /// triangle all need the peers that were measured beside it.
 ///
 /// The tables involved are small (≈360 transporter rows, ≈160 serotonin rows, ≈180 opioid/cannabinoid
 /// rows), so each family is a single unfiltered read rather than a per-substance query — and the
 /// comparability gate ``SignatureComparability`` then runs in memory where it is testable.
-extension SubstanceStore {
+extension SubstanceReadModel {
     /// Every leg of one signature family, across the whole library, normalized for the gate.
     func signatureLegs(family: SignatureFamily) -> [SignatureLeg] {
         var legs = bindingLegs(family: family)
@@ -25,7 +25,7 @@ extension SubstanceStore {
 
     private func bindingLegs(family: SignatureFamily) -> [SignatureLeg] {
         do {
-            return try substancesDB.read { db in
+            return try db.read { db in
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT b.id, b.target, b.action, b.ki_nm, b.ec50_nm, b.ic50_nm,
                            b.relative_tau, b.intrinsic_activity_pct, b.emax_pct,
@@ -77,7 +77,7 @@ extension SubstanceStore {
 
     private func functionalAssayLegs() -> [SignatureLeg] {
         do {
-            return try substancesDB.read { db in
+            return try db.read { db in
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT f.id, f.target, f.ec50_nm, f.ic50_nm, f.emax_pct, f.reference_agonist,
                            f.species, f.assay_system, f.citation_id,
@@ -131,5 +131,13 @@ extension SubstanceStore {
         case .cannabinoid1: "b.target LIKE 'CB1%'"
         case .nmda: "b.target LIKE 'NMDA%'"
         }
+    }
+}
+
+extension SubstanceStore {
+    /// Pure delegation — the signature reads need nothing from the store's
+    /// indexes or caches, but the API stays here for its callers.
+    func signatureLegs(family: SignatureFamily) -> [SignatureLeg] {
+        reader.signatureLegs(family: family)
     }
 }

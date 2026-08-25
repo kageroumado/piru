@@ -5,9 +5,8 @@ import os
 private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
 
 /// drug.community experiential reads (the intensity spectrum and the reported
-/// effects) plus the offline-generated 2D molecular structure. Split out of
-/// `SubstanceStore.swift` to keep that file under its length cap.
-extension SubstanceStore {
+/// effects) plus the offline-generated 2D molecular structure.
+extension SubstanceReadModel {
     private struct RawBandEffect: Decodable {
         let name: String
         let freq: Int
@@ -16,17 +15,16 @@ extension SubstanceStore {
     /// The drug.community intensity spectrum for a substance, ordered
     /// Threshold → Overdose. Empty when the substance has no spectrum or the
     /// drug.community source is disabled. Drives the dose-intensity dial.
-    func spectrumBands(forSubstanceName name: String) -> [SpectrumBand] {
-        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+    func spectrumBands(substanceID: Int64) -> [SpectrumBand] {
         do {
-            let rows = try substancesDB.read { db in
+            let rows = try db.read { db in
                 try Row.fetchAll(db, sql: """
                     SELECT sl.band_index, sl.band_name, sl.description,
                            sl.top_effects_json
                       FROM spectrum_levels sl
                       JOIN sources src ON src.id = sl.source_id
                      WHERE sl.substance_id = ?
-                       AND src.slug IN (\(reader.enabledSourceListSQL))
+                       AND src.slug IN (\(enabledSourceListSQL))
                      ORDER BY sl.band_index
                 """, arguments: [substanceID])
             }
@@ -47,7 +45,7 @@ extension SubstanceStore {
                 )
             }
         } catch {
-            logger.error("spectrumBands(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
+            logger.error("spectrumBands(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -55,11 +53,9 @@ extension SubstanceStore {
     /// The drug.community reported effects for a substance, frequency-descending.
     /// Empty when the substance has no reported effects or the source is
     /// disabled. Drives the grouped, frequency-barred effects list.
-    func reportedEffects(forSubstanceName name: String) -> [ReportedEffect] {
-        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
-        let language = reader.language
+    func reportedEffects(substanceID: Int64) -> [ReportedEffect] {
         do {
-            let rows = try substancesDB.read { db in
+            let rows = try db.read { db in
                 try Row.fetchAll(db, sql: """
                     SELECT re.name, re.domain, re.report_count, re.emerges_band,
                            (SELECT lbl.label FROM effect_vocab_labels lbl
@@ -69,7 +65,7 @@ extension SubstanceStore {
                       FROM reported_effects re
                       JOIN sources src ON src.id = re.source_id
                      WHERE re.substance_id = ?
-                       AND src.slug IN (\(reader.enabledSourceListSQL))
+                       AND src.slug IN (\(enabledSourceListSQL))
                      ORDER BY re.report_count DESC, re.name COLLATE NOCASE
                 """, arguments: [language.rawValue, substanceID])
             }
@@ -95,7 +91,7 @@ extension SubstanceStore {
                 )
             }
         } catch {
-            logger.error("reportedEffects(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
+            logger.error("reportedEffects(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
@@ -116,11 +112,10 @@ extension SubstanceStore {
     /// build time (offline, from `smiles` — see `molecule_shapes.py`). `nil`
     /// when the substance has no SMILES or the structure failed to parse
     /// (~860 substances currently have neither). Purely derived data — no
-    /// source-priority gating, unlike most `SubstanceStore` queries.
-    func moleculeStructure(forSubstanceName name: String) -> MoleculeStructure? {
-        guard let substanceID = substanceID(forNameOrAlias: name) else { return nil }
+    /// source-priority gating, unlike most substance queries.
+    func moleculeStructure(substanceID: Int64) -> MoleculeStructure? {
         do {
-            let row = try substancesDB.read { db in
+            let row = try db.read { db in
                 try Row.fetchOne(db, sql: """
                     SELECT atoms_json, bonds_json
                       FROM molecule_shapes
@@ -140,8 +135,27 @@ extension SubstanceStore {
                 bonds: rawBonds.map { MoleculeBond(a: $0.a, b: $0.b, order: $0.order) },
             )
         } catch {
-            logger.error("moleculeStructure(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
+            logger.error("moleculeStructure(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return nil
         }
+    }
+}
+
+extension SubstanceStore {
+    /// Name-keyed entries to the experiential resolvers — the store contributes
+    /// only the alias resolution.
+    func spectrumBands(forSubstanceName name: String) -> [SpectrumBand] {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+        return reader.spectrumBands(substanceID: substanceID)
+    }
+
+    func reportedEffects(forSubstanceName name: String) -> [ReportedEffect] {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+        return reader.reportedEffects(substanceID: substanceID)
+    }
+
+    func moleculeStructure(forSubstanceName name: String) -> MoleculeStructure? {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return nil }
+        return reader.moleculeStructure(substanceID: substanceID)
     }
 }
