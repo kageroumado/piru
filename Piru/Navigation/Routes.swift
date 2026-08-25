@@ -174,10 +174,6 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// as the resolution fallback (see `PushRoute` — same compatibility
     /// contract for pre-V4 payloads and id-less `piru://entry/<ts>` URLs).
     case entryDetail(timestamp: Date, id: UUID?)
-    /// Edit an existing entry. Carries the entry's stable `id` so a batch of
-    /// doses sharing one timestamp resolves to the exact row the user acted on;
-    /// `timestamp` stays as the fallback for id-less/legacy payloads.
-    case entryEdit(timestamp: Date, id: UUID?)
 
     // Daily dose tracking
     case dailyDoseLog(category: String)
@@ -208,7 +204,7 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// `dismissAllOnComplete`: when `true`, finishing the queue calls
     /// `navigator.dismissAll()` instead of `navigator.dismiss()`. Set this for
     /// save handlers that are completing a multi-sheet logging flow (e.g.
-    /// QuickLog → EntryForm → ColorPicker) so the user lands back at root.
+    /// QuickLog → ColorPicker) so the user lands back at root.
     /// Leave `false` for edit-from-detail flows where the user expects to
     /// return to the originating sheet.
     case colorPicker(substance: String, remaining: [String] = [], dismissAllOnComplete: Bool = false)

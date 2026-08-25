@@ -20,7 +20,7 @@ final class EntryDraft {
     /// and shown as a `~` prefix.
     var isApproximate = false
 
-    // By-volume editing (alcohol %ABV → grams) — mirror of EntryFormView's state.
+    // By-volume editing (alcohol %ABV → grams).
     var byVolumeMode = false
     var volumeText = ""
     var abvText = ""

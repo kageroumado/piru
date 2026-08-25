@@ -31,10 +31,20 @@ final class SessionEditingService {
     var entryToMove: DoseEntry?
     var recolorRequest: RecolorRequest?
 
+    /// One-shot intent set by a row's Edit action just before it pushes the
+    /// entry detail; `EntryDetailView` consumes it on appear and opens in edit
+    /// mode. Transient by design — never persisted, so a restored navigation
+    /// stack always opens the detail in read mode.
+    var pendingEditEntryID: UUID?
+
     private init() {}
 
     func requestAdjustTime(_ entry: DoseEntry) {
         entryToAdjustTime = entry
+    }
+
+    func requestEdit(_ entry: DoseEntry) {
+        pendingEditEntryID = entry.id
     }
     func requestMove(_ entry: DoseEntry) {
         entryToMove = entry

@@ -7,13 +7,16 @@ import SwiftUI
 /// curve, then body load, session context, journaling context, and — last — the
 /// substance's reference card with a "Show All" hop to its full page.
 ///
-/// Editing is **in place**: the toolbar's *Edit* flips the hero's facts into
-/// editable controls (the graph stays visible and live-previews the ``EntryDraft``)
-/// and *Done* commits through the same session/notification sync path the edit
-/// sheet used. This keeps the heavy re-sync at a single deliberate commit point.
+/// Editing is **in place**, and this is the app's only dose-edit surface: the
+/// toolbar's *Edit* (or a day row's Edit action, via
+/// ``SessionEditingService/requestEdit(_:)``) flips the hero's facts into
+/// editable controls — the graph stays visible and live-previews the
+/// ``EntryDraft`` — and *Done* commits the session/notification re-sync at a
+/// single deliberate point.
 struct EntryDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.sessionEditingService) private var editing
     @Query private var substanceColors: [SubstanceColor]
 
     let entry: DoseEntry
@@ -149,6 +152,13 @@ struct EntryDetailView: View {
             if substanceInfo == nil {
                 substanceInfo = SubstanceLibrary.resolveFull(entry.substance)
             }
+            // A row's Edit action opens this screen straight into edit mode.
+            // Consumed only after `substanceInfo` resolves — the draft's
+            // by-volume seeding reads it.
+            if editing.pendingEditEntryID == entry.id {
+                editing.pendingEditEntryID = nil
+                beginEditing()
+            }
             // The session's worst interaction, for the "Part of Session" echo.
             // One batch check per screen — not per body pass.
             if sessionInteraction == nil, let doses = entry.session?.doses, doses.count >= 2 {
@@ -202,7 +212,7 @@ struct EntryDetailView: View {
     }
 
     /// Commit drafts to the entry and re-sync the active session / Live Activity
-    /// + widgets, mirroring the edit branch of the former edit sheet's `save()`.
+    /// + widgets.
     private func commitEdits() {
         guard let parsed = draft.parsedAmount else { return }
         let sub = substanceInfo

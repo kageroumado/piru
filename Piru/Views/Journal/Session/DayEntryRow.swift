@@ -51,7 +51,8 @@ struct DayEntryRow: View, Equatable {
         }
         .swipeActions(edge: .leading) {
             Button {
-                navigator.present(.entryEdit(timestamp: entry.timestamp, id: entry.id))
+                editing.requestEdit(entry)
+                navigator.push(.entry(timestamp: entry.timestamp, id: entry.id))
             } label: {
                 Label("Edit", systemImage: "pencil")
             }
@@ -65,7 +66,8 @@ struct DayEntryRow: View, Equatable {
                 Label("Change Color", systemImage: "paintbrush")
             }
             Button {
-                navigator.present(.entryEdit(timestamp: entry.timestamp, id: entry.id))
+                editing.requestEdit(entry)
+                navigator.push(.entry(timestamp: entry.timestamp, id: entry.id))
             } label: {
                 Label("Edit", systemImage: "pencil")
             }

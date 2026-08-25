@@ -208,7 +208,7 @@ enum RampDownScheduler {
 
     /// Schedule hydration and sleep reminders after logging a dose.
     ///
-    /// Called automatically from QuickLogView / EntryFormView. The schedule
+    /// Called automatically on every dose-log path. The schedule
     /// rules are:
     ///
     /// - **Hydration #1**: fires at `min(peakStart, peakStartCap)` —

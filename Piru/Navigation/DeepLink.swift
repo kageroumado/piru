@@ -344,7 +344,6 @@ nonisolated enum DeepLink {
             }
 
         case .onboarding,
-             .entryEdit,
              .dailyDoseSettings,
              .personalizeSubstance,
              .colorPicker,

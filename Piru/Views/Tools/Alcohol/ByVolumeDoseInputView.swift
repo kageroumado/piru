@@ -153,7 +153,7 @@ private extension UnitVolume {
 // MARK: - Shared defaults / formatting
 
 /// Preferred-unit persistence + numeric formatting shared by the by-volume input
-/// and the forms that host it (EntryFormView, EntryDetailView, DoseTray).
+/// and the forms that host it (EntryDetailView, DoseTray).
 enum ByVolumeDefaults {
     private static let unitKey = "byVolumePreferredVolumeUnit"
 

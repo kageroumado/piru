@@ -1,0 +1,9 @@
+# Dead-code detection: `periphery scan` (builds with the index store, then
+# cross-references every declaration against real usage). Run after any
+# feature removal; treat results as candidates — SwiftUI/@Model/registry
+# indirection produces some false positives, so verify before deleting.
+project: Piru.xcodeproj
+schemes:
+  - Piru
+retain_public: false
+retain_objc_accessible: true

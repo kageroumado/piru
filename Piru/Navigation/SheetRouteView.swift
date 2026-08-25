@@ -47,11 +47,6 @@ struct SheetRouteView: View {
                 }
             }
 
-        case let .entryEdit(timestamp, id):
-            EntryLookupView(id: id, timestamp: timestamp) { entry in
-                EntryFormView(entry: entry)
-            }
-
         case let .colorPicker(substance, remaining, dismissAllOnComplete):
             ColorPickerHost(
                 substance: substance,
