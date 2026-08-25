@@ -92,8 +92,7 @@ final class DoseLogService {
     /// harm-reduction notifications, and one `WidgetCenter` timeline reload — to
     /// run *after* the UI transition settles. This is the work that, run
     /// synchronously before `dismiss()`, dropped frames on the dismissal: the
-    /// blanket `InventoryService.recomputeAll` (O(items × doses) on main) and the
-    /// `reloadAllTimelines()` IPC.
+    /// on-main inventory recompute and the `reloadAllTimelines()` IPC.
     ///
     /// Uses the utility-`Task` + `Task.sleep` deferral idiom (not
     /// `DispatchQueue.main.asyncAfter`): cancellable, and the scheduler can stall

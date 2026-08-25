@@ -205,6 +205,34 @@ struct InventoryTests {
         #expect(b.currentQuantity == 45)
     }
 
+    @Test
+    func `Batch recompute respects each item's own trackingStart`() throws {
+        // Two items on the same substance, started a week apart; the shared
+        // batch fetch is bounded by the OLDER start, so the per-item re-filter
+        // is what keeps the pre-tracking dose off the newer item.
+        let ctx = try makeContext()
+        let older = makeItem(ctx, trackingStart: now, initial: 100)
+        let newer = makeItem(ctx, trackingStart: now.addingTimeInterval(7 * 86_400), initial: 100)
+        logDose(ctx, amount: 10, at: 24) // day 1: after older's start, before newer's
+        InventoryService.recomputeAll(in: ctx)
+        #expect(older.currentQuantity == 90)
+        #expect(newer.currentQuantity == 100)
+    }
+
+    @Test
+    func `Batch recompute keeps salt buckets strict`() throws {
+        // Two items differing only in saltForm share one identity bucket;
+        // each must see only its own salt's doses (nil == nil stays strict).
+        let ctx = try makeContext()
+        let freebase = makeItem(ctx, initial: 100)
+        let salted = makeItem(ctx, saltForm: "HCl", initial: 100)
+        logDose(ctx, amount: 10, at: 1)
+        logDose(ctx, amount: 25, saltForm: "HCl", at: 1)
+        InventoryService.recomputeAll(in: ctx)
+        #expect(freebase.currentQuantity == 90)
+        #expect(salted.currentQuantity == 75)
+    }
+
     // MARK: - find / create
 
     @Test

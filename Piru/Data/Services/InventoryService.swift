@@ -35,22 +35,39 @@ enum InventoryMath {
         entry.substanceUID ?? matchKey(for: entry.substance)
     }
 
+    /// Every dose on or after `earliestStart`, bucketed by resolved substance
+    /// identity, in ONE fetch. The batch recomputes share this so N tracked
+    /// items cost one dose scan instead of N full scans (`#Predicate` can't
+    /// express the PSID resolution or a nil-safe salt match, so identity is
+    /// grouped in memory — keyed by the *entry* overload of `matchKey(for:)`,
+    /// which prefers the PSID captured at log time). Buckets are
+    /// unsorted; ``replayQuantity(unit:events:doses:)`` sorts its own ticks,
+    /// so sort before any display use.
+    static func dosesByMatchKey(since earliestStart: Date, in ctx: ModelContext) -> [String: [DoseEntry]] {
+        let all = (try? ctx.fetch(FetchDescriptor<DoseEntry>(
+            predicate: #Predicate { $0.timestamp >= earliestStart },
+        ))) ?? []
+        return Dictionary(grouping: all) { matchKey(for: $0) }
+    }
+
+    /// All doses in `buckets` that count against this item: its identity
+    /// bucket narrowed to salt (strict, `nil == nil`) and the item's **own**
+    /// `trackingStart` — the shared fetch is bounded by the *earliest* start
+    /// across the batch, so this re-filter is what keeps a later-started item
+    /// from counting pre-tracking doses.
+    static func doses(for item: InventoryItem, in buckets: [String: [DoseEntry]]) -> [DoseEntry] {
+        (buckets[matchKey(for: item.substance)] ?? []).filter {
+            $0.timestamp >= item.trackingStart && $0.saltForm == item.saltForm
+        }
+    }
+
     /// All doses that count against this item: same resolved substance identity
     /// (so an alias like "IC-26" matches its canonical "Methiodone") and salt
-    /// (strict, `nil == nil`), on or after `trackingStart`.
-    ///
-    /// We fetch by the `timestamp` predicate, then filter identity/salt in memory
-    /// — the PSID resolution and a nil-safe `saltForm` match aren't expressible
-    /// cleanly in `#Predicate`, and the per-item volume is small.
+    /// (strict, `nil == nil`), on or after `trackingStart`. Single-item
+    /// composition of the two batch helpers above, so the filter semantics
+    /// cannot drift between the per-item and batch paths.
     static func doses(for item: InventoryItem, in ctx: ModelContext) -> [DoseEntry] {
-        let start = item.trackingStart
-        let key = matchKey(for: item.substance)
-        let all = (try? ctx.fetch(FetchDescriptor<DoseEntry>(
-            predicate: #Predicate { $0.timestamp >= start },
-        ))) ?? []
-        return all.filter {
-            matchKey(for: $0) == key && $0.saltForm == item.saltForm
-        }
+        doses(for: item, in: dosesByMatchKey(since: item.trackingStart, in: ctx))
     }
 
     /// Convert a dose amount into the item's unit. Delegates to the existing
@@ -328,27 +345,46 @@ enum InventoryService {
     }
 
     /// Refresh every tracked item's cache — used after a bulk insert (import /
-    /// restore) and alongside the existing post-log widget reload.
+    /// restore) and alongside the existing post-log widget reload. One shared
+    /// dose fetch for the whole list (``recomputeBatch(_:in:notify:)``), not a
+    /// full scan per item.
     static func recomputeAll(in ctx: ModelContext, notify: Bool = true) {
-        let items = (try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? []
-        for item in items {
-            recompute(item, in: ctx, notify: notify)
-        }
+        recomputeBatch((try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? [], in: ctx, notify: notify)
     }
 
     /// Refresh only the items whose substance matches one of `names`
     /// (case-insensitive) — the log path's scoped replacement for the blanket
     /// ``recomputeAll(in:notify:)``. A logged dose can only change the stock of
     /// the items tracking *that* substance, so recomputing the rest is wasted
-    /// O(all-items × all-doses) work on the commit path. For the affected items
-    /// the result is identical to ``recomputeAll(in:notify:)`` by construction
-    /// (both call ``recompute(_:in:notify:)``).
+    /// work on the commit path. The shared dose fetch is bounded over the
+    /// affected subset only, and for the affected items the result is identical
+    /// to ``recomputeAll(in:notify:)`` by construction (same batch core).
     static func recompute(forSubstances names: Set<String>, in ctx: ModelContext, notify: Bool = true) {
         guard !names.isEmpty else { return }
         let keys = Set(names.map { InventoryMath.matchKey(for: $0) })
-        let items = (try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? []
-        for item in items where keys.contains(InventoryMath.matchKey(for: item.substance)) {
-            recompute(item, in: ctx, notify: notify)
+        let items = ((try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? [])
+            .filter { keys.contains(InventoryMath.matchKey(for: $0.substance)) }
+        recomputeBatch(items, in: ctx, notify: notify)
+    }
+
+    /// The batch core the two synchronous recompute entry points share: ONE
+    /// `DoseEntry` fetch bounded by the batch's earliest `trackingStart`,
+    /// bucketed by substance identity, then each item replayed over its own
+    /// bucket (re-filtered to its own start and salt). An empty batch fetches
+    /// nothing. Per-item results match ``recompute(_:in:notify:)`` exactly —
+    /// the bucket filter and the single-item path share one implementation.
+    private static func recomputeBatch(_ items: [InventoryItem], in ctx: ModelContext, notify: Bool) {
+        guard let earliest = items.map(\.trackingStart).min() else { return }
+        let buckets = InventoryMath.dosesByMatchKey(since: earliest, in: ctx)
+        for item in items {
+            item.currentQuantity = InventoryMath.replayQuantity(
+                unit: item.unit,
+                events: item.manualEvents,
+                doses: InventoryMath.doses(for: item, in: buckets).map {
+                    InventoryMath.DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp)
+                },
+            )
+            evaluateLowStock(item, notify: notify)
         }
     }
 
@@ -366,9 +402,12 @@ enum InventoryService {
             .filter { keys.contains(InventoryMath.matchKey(for: $0.substance)) }
         guard !affected.isEmpty else { return }
 
-        // Snapshot each affected item's unit/events + its matching doses on the actor.
+        // Snapshot each affected item's unit/events + its matching doses on the
+        // actor — one shared bucketed fetch, same as the synchronous batch core.
+        guard let earliest = affected.map(\.trackingStart).min() else { return }
+        let buckets = InventoryMath.dosesByMatchKey(since: earliest, in: ctx)
         let snapshots: [(unit: String, events: [ManualEvent], doses: [InventoryMath.DoseSnapshot])] = affected.map { item in
-            let doses = InventoryMath.doses(for: item, in: ctx).map {
+            let doses = InventoryMath.doses(for: item, in: buckets).map {
                 InventoryMath.DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp)
             }
             return (item.unit, item.manualEvents, doses)
