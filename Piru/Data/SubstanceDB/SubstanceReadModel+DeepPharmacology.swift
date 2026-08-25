@@ -4,33 +4,174 @@ import os
 
 private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
 
+/// One gene whose variants change what a substance does to the person
+/// carrying them.
+///
+/// Distinct from the `metabolism` table, which says *which* enzyme clears a
+/// drug: this says what happens when that enzyme is the slow or the fast
+/// variant, and it covers genes that are not enzymes at all — `OPRM1`
+/// (the µ-opioid receptor), `COMT`, `5-HTTLPR`, `HTR2A`.
+nonisolated struct PharmacogeneticHit: Identifiable, Hashable {
+    let id: Int64
+    /// The gene as authored, allele included where the row is about one:
+    /// `CYP2D6`, `OPRM1 (A118G / rs1799971)`, `CYP1A2*1F (rs762551)`.
+    let gene: String
+    let phenotypeEffects: String
+    let sourceSlug: String
+    let doi: String?
+    let pmid: Int?
+}
+
+/// What happens after the receptor binds, as the chain it is.
+///
+/// A target list says a drug blocks NMDA; this says the block disinhibits
+/// pyramidal cells, which surges glutamate, which recruits AMPA, BDNF/TrkB
+/// and mTORC1. That chain is the half of a mechanism a list of receptors
+/// cannot state, and it is the half that explains why the effect outlasts
+/// the drug.
+nonisolated struct SignallingCascade: Hashable {
+    let summary: String
+    let sourceSlug: String
+    let doi: String?
+    let pmid: Int?
+}
+
+/// One `interaction_rules` row: a class pair, how bad, and why.
+nonisolated struct ClassInteractionRule: Hashable {
+    let classA: String
+    let classB: String
+    let severity: String
+    let note: String
+}
+
+/// The pharmacological class a substance belongs to, and what its members
+/// share: mechanism, kinetics, safety profile, and the SAR that tells them
+/// apart.
+///
+/// Answers a question a single substance's page cannot — *is this one like
+/// the others?* — for the long tail especially, where a research chemical
+/// has almost no data of its own and everything worth knowing is a property
+/// of the family.
+nonisolated struct ClassContext: Hashable {
+    let slug: String
+    let title: String
+    let category: SubstanceCategory?
+    /// The membership the authored name carried in parentheses, when it had
+    /// one: "2C-x, DOx, mescaline analogues, NBOMe / NBOH / NBF / NBMD".
+    let subtitle: String?
+    let sharedMechanism: String?
+    let sharedPharmacokinetics: String?
+    let sharedSafety: String?
+    let sarSummary: String?
+    /// Other substances in the class, by canonical name, most recognizable
+    /// first. Excludes the substance being viewed.
+    let siblings: [String]
+    let references: [Reference]
+
+    struct Reference: Identifiable, Hashable {
+        let id: Int64
+        let title: String?
+        let doi: String?
+        let pmid: Int?
+    }
+}
+
+nonisolated struct ClassContextSummary: Identifiable, Hashable {
+    var id: String {
+        slug
+    }
+    let slug: String
+    let title: String
+    let subtitle: String?
+    /// The Library family this class sits under, derived at build from what
+    /// its members are. `nil` when no member carries a category.
+    let category: SubstanceCategory?
+    let memberCount: Int
+}
+
+/// The plasma concentration at which a named effect appears, and the one at
+/// which it is full.
+///
+/// This is what turns the PK curve from a shape into a reading: the same
+/// axis that says "ketamine, 200 ng/mL" can say that 70 is where analgesia
+/// starts and 640 is where consciousness goes.
+nonisolated struct ConcentrationThreshold: Identifiable, Hashable {
+    let id: Int64
+    /// The effect, as authored — "general anesthesia (loss of
+    /// consciousness)", "respiratory depression (clinically significant)".
+    let effect: String
+    let unit: String
+    /// Where the effect starts. Nil when the row only recorded a peak.
+    let threshold: Double?
+    /// Where it is full. **Not always a concentration** — Citalomram's QTc
+    /// row records 18.5 ms of prolongation here, so this is rendered with
+    /// the unit only when it is plausibly one, never assumed to be.
+    let peak: Double?
+    let sourceSlug: String
+    let doi: String?
+    let pmid: Int?
+    /// The dose that reaches `threshold`, when the conversion applies.
+    /// See ``DoseEquivalent`` for when it does not.
+    let doseEquivalent: DoseAnchor?
+
+    struct DoseAnchor: Hashable {
+        let milligrams: Double
+        let route: RouteOfAdministration
+        let weightKg: Double
+
+        /// The amount in the unit a reader would use for it. LSD's anchor is
+        /// 0.023 mg, which nobody says — 23 µg is the same number in the
+        /// units the substance is dosed in.
+        var displayAmount: (value: Double, unit: String) {
+            milligrams < 1 ? (milligrams * 1_000, "µg") : (milligrams, "mg")
+        }
+    }
+}
+
+/// One piece of evidence about how a substance engages a target that is not
+/// an affinity number: which signalling pathway it favours, what complex the
+/// receptor is in, or what a scan of a living brain showed.
+///
+/// Three tables, one row type, because they answer one question — *and what
+/// does that binding actually do?* — and because three separate sections for
+/// 83 rows would cost more screen than the rows are worth.
+nonisolated struct TargetEvidence: Identifiable, Hashable {
+    enum Kind: String, Hashable, Sendable {
+        /// Which pathway the agonist favours at one receptor.
+        case bias
+        /// The receptor complex the action happens in.
+        case complex
+        /// Measured in a living brain or animal, not a dish.
+        case imaging
+
+        var label: LocalizedStringResource {
+            switch self {
+            case .bias: "Pathway bias"
+            case .complex: "Receptor complex"
+            case .imaging: "In vivo"
+            }
+        }
+    }
+
+    let id: String
+    let kind: Kind
+    /// What the row is about: a target, a complex, or a scan modality.
+    let subject: String
+    let finding: String
+    let sourceSlug: String
+    let doi: String?
+    let pmid: Int?
+}
+
 /// The deep-pharmacology read models and their queries: the genes that change
 /// what a substance does, the cascade it sets off after binding, and the
 /// evidence about its targets that is not an affinity number.
 ///
 /// These four tables shipped in the bundled database for months with no query
 /// reading them — 1,076 curated, cited rows that no screen could show. They are
-/// grouped here rather than spread across the existing extensions because they
-/// share a shape: one authored sentence plus the study behind it.
-extension SubstanceStore {
-    /// One gene whose variants change what a substance does to the person
-    /// carrying them.
-    ///
-    /// Distinct from the `metabolism` table, which says *which* enzyme clears a
-    /// drug: this says what happens when that enzyme is the slow or the fast
-    /// variant, and it covers genes that are not enzymes at all — `OPRM1`
-    /// (the µ-opioid receptor), `COMT`, `5-HTTLPR`, `HTR2A`.
-    struct PharmacogeneticHit: Identifiable, Hashable {
-        let id: Int64
-        /// The gene as authored, allele included where the row is about one:
-        /// `CYP2D6`, `OPRM1 (A118G / rs1799971)`, `CYP1A2*1F (rs762551)`.
-        let gene: String
-        let phenotypeEffects: String
-        let sourceSlug: String
-        let doi: String?
-        let pmid: Int?
-    }
-
+/// grouped here because they share a shape: one authored sentence plus the
+/// study behind it.
+extension SubstanceReadModel {
     /// Pharmacogenetic rows for a substance, one per distinct finding.
     ///
     /// Two collapses, and both were visible on ketamine's screen:
@@ -44,10 +185,9 @@ extension SubstanceStore {
     ///   carrying one identical sentence, which rendered as the same paragraph
     ///   three times under three headings. Those become one row naming all three
     ///   genes — which is what the sentence itself says.
-    func pharmacogenetics(forSubstanceName name: String) -> [PharmacogeneticHit] {
-        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+    func pharmacogenetics(substanceID: Int64) -> [PharmacogeneticHit] {
         do {
-            return try substancesDB.read { db in
+            return try db.read { db in
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT p.id, p.gene, p.phenotype_effects,
                            src.slug AS source_slug, c.doi, c.pmid
@@ -63,7 +203,7 @@ extension SubstanceStore {
                 for row in rows {
                     let gene: String = row["gene"]
                     // The ORDER BY already put the row to keep first.
-                    guard seenGenes.insert(geneKey(gene)).inserted else { continue }
+                    guard seenGenes.insert(Self.geneKey(gene)).inserted else { continue }
                     let finding: String = row["phenotype_effects"]
                     let key = finding.trimmingCharacters(in: .whitespacesAndNewlines)
                     if let existing = byFinding[key] {
@@ -90,14 +230,14 @@ extension SubstanceStore {
                 return order.compactMap { byFinding[$0] }.sorted { $0.gene < $1.gene }
             }
         } catch {
-            logger.error("pharmacogenetics(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
+            logger.error("pharmacogenetics(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
 
     /// The gene name without the allele the row happens to name, so
     /// `CYP1A2*1F (rs762551)` and `CYP1A2` collapse to one row.
-    private nonisolated func geneKey(_ gene: String) -> String {
+    private nonisolated static func geneKey(_ gene: String) -> String {
         gene.lowercased()
             .split(whereSeparator: { $0 == "*" || $0 == "(" || $0 == " " })
             .first
@@ -106,24 +246,9 @@ extension SubstanceStore {
 
     // MARK: - Signalling cascade
 
-    /// What happens after the receptor binds, as the chain it is.
-    ///
-    /// A target list says a drug blocks NMDA; this says the block disinhibits
-    /// pyramidal cells, which surges glutamate, which recruits AMPA, BDNF/TrkB
-    /// and mTORC1. That chain is the half of a mechanism a list of receptors
-    /// cannot state, and it is the half that explains why the effect outlasts
-    /// the drug.
-    struct SignallingCascade: Hashable {
-        let summary: String
-        let sourceSlug: String
-        let doi: String?
-        let pmid: Int?
-    }
-
-    func signallingCascade(forSubstanceName name: String) -> SignallingCascade? {
-        guard let substanceID = substanceID(forNameOrAlias: name) else { return nil }
+    func signallingCascade(substanceID: Int64) -> SignallingCascade? {
         do {
-            return try substancesDB.read { db in
+            return try db.read { db in
                 guard let row = try Row.fetchOne(db, sql: """
                     SELECT d.summary, src.slug AS source_slug, c.doi, c.pmid
                       FROM downstream_signalling d
@@ -141,20 +266,12 @@ extension SubstanceStore {
                 )
             }
         } catch {
-            logger.error("signallingCascade(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
+            logger.error("signallingCascade(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return nil
         }
     }
 
     // MARK: - Class-pair interaction rules
-
-    /// One `interaction_rules` row: a class pair, how bad, and why.
-    struct ClassInteractionRule: Hashable {
-        let classA: String
-        let classB: String
-        let severity: String
-        let note: String
-    }
 
     /// Every class-pair rule in the bundled database.
     ///
@@ -162,7 +279,7 @@ extension SubstanceStore {
     /// `InteractionChecker.rules`. A pair with a hand-written rule keeps it.
     func classInteractionRules() -> [ClassInteractionRule] {
         do {
-            return try substancesDB.read { db in
+            return try db.read { db in
                 try Row.fetchAll(db, sql: """
                     SELECT class_a, class_b, severity, note
                       FROM interaction_rules
@@ -183,51 +300,13 @@ extension SubstanceStore {
 
     // MARK: - Class context
 
-    /// The pharmacological class a substance belongs to, and what its members
-    /// share: mechanism, kinetics, safety profile, and the SAR that tells them
-    /// apart.
-    ///
-    /// Answers a question a single substance's page cannot — *is this one like
-    /// the others?* — for the long tail especially, where a research chemical
-    /// has almost no data of its own and everything worth knowing is a property
-    /// of the family.
-    struct ClassContext: Hashable {
-        let slug: String
-        let title: String
-        let category: SubstanceCategory?
-        /// The membership the authored name carried in parentheses, when it had
-        /// one: "2C-x, DOx, mescaline analogues, NBOMe / NBOH / NBF / NBMD".
-        let subtitle: String?
-        let sharedMechanism: String?
-        let sharedPharmacokinetics: String?
-        let sharedSafety: String?
-        let sarSummary: String?
-        /// Other substances in the class, by canonical name, most recognizable
-        /// first. Excludes the substance being viewed.
-        let siblings: [String]
-        let references: [Reference]
-
-        struct Reference: Identifiable, Hashable {
-            let id: Int64
-            let title: String?
-            let doi: String?
-            let pmid: Int?
-        }
-    }
-
-    /// The classes under one Library family, most-populated first.
-    ///
+    /// Every class that has something to read, for the browse list.
     /// Order is member count, which stands in for both specificity and how
     /// likely a reader is to have heard of it — Cathinones and Amphetamines
     /// lead the stimulants, Benztropine analogues sit at the bottom.
-    func classContexts(in category: SubstanceCategory) -> [ClassContextSummary] {
-        classContexts().filter { $0.category == category }
-    }
-
-    /// Every class that has something to read, for the browse list.
     func classContexts() -> [ClassContextSummary] {
         do {
-            return try substancesDB.read { db in
+            return try db.read { db in
                 try Row.fetchAll(db, sql: """
                     SELECT c.slug, c.display_name, c.subtitle, c.category,
                            (SELECT COUNT(*) FROM substance_classes sc
@@ -253,26 +332,12 @@ extension SubstanceStore {
         }
     }
 
-    struct ClassContextSummary: Identifiable, Hashable {
-        var id: String {
-            slug
-        }
-        let slug: String
-        let title: String
-        let subtitle: String?
-        /// The Library family this class sits under, derived at build from what
-        /// its members are. `nil` when no member carries a category.
-        let category: SubstanceCategory?
-        let memberCount: Int
-    }
-
     func classContext(slug: String) -> ClassContext? {
         loadClassContext(matching: "c.slug = ?", argument: slug)
     }
 
-    func classContext(forSubstanceName name: String) -> ClassContext? {
-        guard let substanceID = substanceID(forNameOrAlias: name) else { return nil }
-        return loadClassContext(
+    func classContext(substanceID: Int64) -> ClassContext? {
+        loadClassContext(
             matching: "c.id = (SELECT sc.class_context_id FROM substance_classes sc "
                 + "WHERE sc.substance_id = ? LIMIT 1)",
             argument: substanceID,
@@ -286,7 +351,7 @@ extension SubstanceStore {
         excluding substanceID: Int64? = nil,
     ) -> ClassContext? {
         do {
-            return try substancesDB.read { db in
+            return try db.read { db in
                 guard let row = try Row.fetchOne(db, sql: """
                     SELECT c.id, c.slug, c.display_name, c.subtitle, c.category,
                            c.shared_mechanism, c.shared_pk, c.shared_safety, c.sar_summary
@@ -346,50 +411,13 @@ extension SubstanceStore {
 
     // MARK: - Concentration thresholds
 
-    /// The plasma concentration at which a named effect appears, and the one at
-    /// which it is full.
-    ///
-    /// This is what turns the PK curve from a shape into a reading: the same
-    /// axis that says "ketamine, 200 ng/mL" can say that 70 is where analgesia
-    /// starts and 640 is where consciousness goes.
-    struct ConcentrationThreshold: Identifiable, Hashable {
-        let id: Int64
-        /// The effect, as authored — "general anesthesia (loss of
-        /// consciousness)", "respiratory depression (clinically significant)".
-        let effect: String
-        let unit: String
-        /// Where the effect starts. Nil when the row only recorded a peak.
-        let threshold: Double?
-        /// Where it is full. **Not always a concentration** — Citalomram's QTc
-        /// row records 18.5 ms of prolongation here, so this is rendered with
-        /// the unit only when it is plausibly one, never assumed to be.
-        let peak: Double?
-        let sourceSlug: String
-        let doi: String?
-        let pmid: Int?
-        /// The dose that reaches `threshold`, when the conversion applies.
-        /// See ``DoseEquivalent`` for when it does not.
-        let doseEquivalent: DoseAnchor?
-
-        struct DoseAnchor: Hashable {
-            let milligrams: Double
-            let route: RouteOfAdministration
-            let weightKg: Double
-
-            /// The amount in the unit a reader would use for it. LSD's anchor is
-            /// 0.023 mg, which nobody says — 23 µg is the same number in the
-            /// units the substance is dosed in.
-            var displayAmount: (value: Double, unit: String) {
-                milligrams < 1 ? (milligrams * 1_000, "µg") : (milligrams, "mg")
-            }
-        }
-    }
-
-    func concentrationThresholds(forSubstanceName name: String) -> [ConcentrationThreshold] {
-        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
-        let weightKg = UserProfileStore.shared.effectiveWeightKg
+    /// Concentration-effect rows plus, where the model earns it, the dose that
+    /// reaches each threshold. `weightKg` is a parameter so this stays a pure
+    /// function of its snapshot — the store wrapper supplies the profile's
+    /// effective weight from the main actor.
+    func concentrationThresholds(substanceID: Int64, weightKg: Double) -> [ConcentrationThreshold] {
         do {
-            return try substancesDB.read { db in
+            return try db.read { db in
                 // Vd is a property of the drug, not of how it got in, so it is
                 // taken from whichever route recorded one — commonly the
                 // intravenous row, which is also the one route the conversion
@@ -516,52 +544,16 @@ extension SubstanceStore {
                 }
             }
         } catch {
-            logger.error("concentrationThresholds(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
+            logger.error("concentrationThresholds(substanceID:weightKg:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
 
     // MARK: - Target evidence
 
-    /// One piece of evidence about how a substance engages a target that is not
-    /// an affinity number: which signalling pathway it favours, what complex the
-    /// receptor is in, or what a scan of a living brain showed.
-    ///
-    /// Three tables, one row type, because they answer one question — *and what
-    /// does that binding actually do?* — and because three separate sections for
-    /// 83 rows would cost more screen than the rows are worth.
-    struct TargetEvidence: Identifiable, Hashable {
-        enum Kind: String, Hashable, Sendable {
-            /// Which pathway the agonist favours at one receptor.
-            case bias
-            /// The receptor complex the action happens in.
-            case complex
-            /// Measured in a living brain or animal, not a dish.
-            case imaging
-
-            var label: LocalizedStringResource {
-                switch self {
-                case .bias: "Pathway bias"
-                case .complex: "Receptor complex"
-                case .imaging: "In vivo"
-                }
-            }
-        }
-
-        let id: String
-        let kind: Kind
-        /// What the row is about: a target, a complex, or a scan modality.
-        let subject: String
-        let finding: String
-        let sourceSlug: String
-        let doi: String?
-        let pmid: Int?
-    }
-
-    func targetEvidence(forSubstanceName name: String) -> [TargetEvidence] {
-        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+    func targetEvidence(substanceID: Int64) -> [TargetEvidence] {
         do {
-            return try substancesDB.read { db in
+            return try db.read { db in
                 // One UNION rather than three round trips; `kind` keeps the rows
                 // distinguishable and `sort_rank` orders them so the human
                 // evidence leads. The rank is a column and not an ORDER BY
@@ -610,8 +602,66 @@ extension SubstanceStore {
                 }
             }
         } catch {
-            logger.error("targetEvidence(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
+            logger.error("targetEvidence(substanceID:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
+    }
+}
+
+extension SubstanceStore {
+    typealias PharmacogeneticHit = Piru.PharmacogeneticHit
+    typealias SignallingCascade = Piru.SignallingCascade
+    typealias ClassInteractionRule = Piru.ClassInteractionRule
+    typealias ClassContext = Piru.ClassContext
+    typealias ClassContextSummary = Piru.ClassContextSummary
+    typealias ConcentrationThreshold = Piru.ConcentrationThreshold
+    typealias TargetEvidence = Piru.TargetEvidence
+
+    /// Name-keyed entries to the deep-pharmacology resolvers — the store
+    /// contributes alias resolution (and, for the concentration thresholds,
+    /// the profile's effective weight).
+    func pharmacogenetics(forSubstanceName name: String) -> [PharmacogeneticHit] {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+        return reader.pharmacogenetics(substanceID: substanceID)
+    }
+
+    func signallingCascade(forSubstanceName name: String) -> SignallingCascade? {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return nil }
+        return reader.signallingCascade(substanceID: substanceID)
+    }
+
+    func classInteractionRules() -> [ClassInteractionRule] {
+        reader.classInteractionRules()
+    }
+
+    /// The classes under one Library family, most-populated first.
+    func classContexts(in category: SubstanceCategory) -> [ClassContextSummary] {
+        classContexts().filter { $0.category == category }
+    }
+
+    func classContexts() -> [ClassContextSummary] {
+        reader.classContexts()
+    }
+
+    func classContext(slug: String) -> ClassContext? {
+        reader.classContext(slug: slug)
+    }
+
+    func classContext(forSubstanceName name: String) -> ClassContext? {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return nil }
+        return reader.classContext(substanceID: substanceID)
+    }
+
+    func concentrationThresholds(forSubstanceName name: String) -> [ConcentrationThreshold] {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+        return reader.concentrationThresholds(
+            substanceID: substanceID,
+            weightKg: UserProfileStore.shared.effectiveWeightKg,
+        )
+    }
+
+    func targetEvidence(forSubstanceName name: String) -> [TargetEvidence] {
+        guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
+        return reader.targetEvidence(substanceID: substanceID)
     }
 }
