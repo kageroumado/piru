@@ -25,15 +25,15 @@ nonisolated enum MedSchedule {
 
         case .everyOtherDay:
             let days = calendar.dateComponents([.day], from: start, to: day).day ?? 0
-            return days % 2 == 0
+            return days.isMultiple(of: 2)
 
         case .weekly:
-            let weeks = calendar.dateComponents([.day], from: start, to: day).day ?? 0
-            return weeks % 7 == 0
+            let days = calendar.dateComponents([.day], from: start, to: day).day ?? 0
+            return days.isMultiple(of: 7)
 
         case .biweekly:
             let days = calendar.dateComponents([.day], from: start, to: day).day ?? 0
-            return days % 14 == 0
+            return days.isMultiple(of: 14)
 
         case .monthly:
             let startDay = calendar.component(.day, from: start)
@@ -41,7 +41,7 @@ nonisolated enum MedSchedule {
             // Match same day-of-month, accounting for shorter months
             if checkDay == startDay { return true }
             // Handle months shorter than the start day (e.g., start=31, Feb=28)
-            let daysInMonth = calendar.range(of: .day, in: .month, for: day)!.count
+            guard let daysInMonth = calendar.range(of: .day, in: .month, for: day)?.count else { return false }
             return startDay > daysInMonth && checkDay == daysInMonth
 
         case .specificDays:

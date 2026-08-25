@@ -102,7 +102,7 @@ enum DoseNotificationManager {
     static func doseLogged(entry: DoseEntry, recentEntries: [DoseEntry], in context: ModelContext? = nil) {
         let resolved = scheduleTimingReminders(for: entry, recentEntries: recentEntries, in: context)
 
-        let (total, shouldAlert) = RampDownScheduler.checkCumulativeDose(
+        let (total, totalUnit, shouldAlert) = RampDownScheduler.checkCumulativeDose(
             substanceName: entry.substance,
             newAmount: entry.amount,
             unit: entry.unit,
@@ -114,7 +114,7 @@ enum DoseNotificationManager {
             entryID: entry.id,
             substanceName: entry.substance,
             totalAmount: total,
-            unit: entry.unit,
+            unit: totalUnit,
             category: resolved.substance?.category,
             displayName: resolved.displayName,
         )

@@ -142,7 +142,7 @@ enum AdherenceCalculator {
             // Verify no missed days exist between cursor and this day
             let dayStart = calendar.startOfDay(for: day.date)
             // Check all calendar days between this day and cursor for missed items
-            var check = calendar.date(byAdding: .day, value: -1, to: cursor)!
+            guard var check = calendar.date(byAdding: .day, value: -1, to: cursor) else { break }
             var gapOk = true
             while check > dayStart {
                 if let gapDay = days.first(where: { calendar.isDate($0.date, inSameDayAs: check) }),
@@ -150,7 +150,11 @@ enum AdherenceCalculator {
                     gapOk = false
                     break
                 }
-                check = calendar.date(byAdding: .day, value: -1, to: check)!
+                guard let previous = calendar.date(byAdding: .day, value: -1, to: check) else {
+                    gapOk = false
+                    break
+                }
+                check = previous
             }
             guard gapOk else { break }
 

@@ -138,11 +138,11 @@ nonisolated enum SubstanceModelDatabase {
     /// The DA-normalized DAT/NET/SERT weight backbone plus releaser/blocker classification, resolved from
     /// a **single coherent assay** wherever one covers the transporters. A transporter ratio is only
     /// physically meaningful within one experiment (same lab, species, tissue, radioligand), so taking a
-    /// per-transporter `.min()` across labs — the old behavior — could straddle assays and distort the
-    /// felt DA:NE:5-HT mix (e.g. methylphenidate's DAT IC₅₀ from one lab against a rat NET Kᵢ from
-    /// another). We instead pick the assay with the best transporter coverage (then confidence, then
-    /// potency) and read the triple from it, filling any transporter that assay lacks from the global
-    /// tightest so a real target measured only elsewhere is never dropped.
+    /// per-transporter `.min()` across labs could straddle assays and distort the felt DA:NE:5-HT mix
+    /// (e.g. methylphenidate's DAT IC₅₀ from one lab against a rat NET Kᵢ from another). Pick the assay
+    /// with the best transporter coverage (then confidence, then potency) and read the triple from it,
+    /// filling any transporter that assay lacks from the global tightest so a real target measured only
+    /// elsewhere is never dropped.
     private static func transporterProfile(_ p: PharmacologyParameters)
         -> (wDAT: Double, wNET: Double, wSERT: Double, releaser: Bool)? {
         let hits = transporterHits(p)
@@ -178,11 +178,18 @@ nonisolated enum SubstanceModelDatabase {
         }
         // Pick the assay with the best coverage score, breaking ties toward the more potent (smaller
         // half-max) tightest site; scoring each assay once. Then read its DAT/NET/SERT triple.
-        let ranked = Dictionary(grouping: pool, by: \.assayKey).values
-            .map { group -> (group: [TransporterHit], score: Double, potency: Double) in
-                (group, score(group), group.map(\.halfMax).min() ?? .infinity)
+        // The final assay-key tie-break keeps the pick deterministic: Dictionary iteration order is
+        // hash-seeded per launch, so a full score+potency tie would otherwise flip the winning triple
+        // (and the Effect Estimates curve) between app runs.
+        let ranked = Dictionary(grouping: pool, by: \.assayKey)
+            .map { key, group -> (key: String, group: [TransporterHit], score: Double, potency: Double) in
+                (key, group, score(group), group.map(\.halfMax).min() ?? .infinity)
             }
-        let best = ranked.max { $0.score != $1.score ? $0.score < $1.score : $0.potency > $1.potency }?.group
+        let best = ranked.max { lhs, rhs in
+            if lhs.score != rhs.score { return lhs.score < rhs.score }
+            if lhs.potency != rhs.potency { return lhs.potency > rhs.potency }
+            return lhs.key < rhs.key
+        }?.group
         func kd(_ symbol: String) -> Double? {
             best.flatMap { tightest($0, symbol) } ?? tightest(pool, symbol)
         }

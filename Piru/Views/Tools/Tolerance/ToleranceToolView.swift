@@ -159,7 +159,9 @@ struct ToleranceToolView: View {
     }
 
     private var recomputeSignature: String {
-        "\(entries.count)|\(entries.first?.timestamp.timeIntervalSince1970 ?? 0)|\(profile.effectiveWeightKg)"
+        // The log revision catches edits to existing doses, which count + newest
+        // timestamp alone would miss.
+        "\(DoseLogService.shared.revision)|\(entries.count)|\(profile.effectiveWeightKg)"
     }
 
     // MARK: - Toolbar

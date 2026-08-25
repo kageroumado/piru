@@ -29,7 +29,9 @@ struct JournalCalendarView: View {
             // Month navigation
             HStack {
                 Button {
-                    selectedMonth = calendar.date(byAdding: .month, value: -1, to: selectedMonth)!
+                    if let previous = calendar.date(byAdding: .month, value: -1, to: selectedMonth) {
+                        selectedMonth = previous
+                    }
                 } label: {
                     Image(systemName: "chevron.left")
                 }
@@ -39,7 +41,9 @@ struct JournalCalendarView: View {
                     .font(.headline)
                 Spacer()
                 Button {
-                    selectedMonth = calendar.date(byAdding: .month, value: 1, to: selectedMonth)!
+                    if let next = calendar.date(byAdding: .month, value: 1, to: selectedMonth) {
+                        selectedMonth = next
+                    }
                 } label: {
                     Image(systemName: "chevron.right")
                 }
@@ -61,8 +65,7 @@ struct JournalCalendarView: View {
                 ForEach(daysInMonth()) { item in
                     if item.day == 0 {
                         Color.clear.frame(height: 40)
-                    } else {
-                        let date = calendar.date(from: DateComponents(year: item.year, month: item.month, day: item.day))!
+                    } else if let date = item.date {
                         let count = dayCounts[date, default: 0]
                         Button {
                             onSelectDate(date)
@@ -111,9 +114,8 @@ struct JournalCalendarView: View {
 
     private struct CalendarDay: Identifiable, Hashable {
         let id: Int // unique within the grid (slot index); negative for leading placeholders
-        let year: Int
-        let month: Int
         let day: Int // 0 = placeholder
+        let date: Date? // nil for placeholders
     }
 
     private func daysInMonth() -> [CalendarDay] {
@@ -126,10 +128,10 @@ struct JournalCalendarView: View {
 
         var days: [CalendarDay] = []
         for blank in 0 ..< leadingBlanks {
-            days.append(CalendarDay(id: -(blank + 1), year: comps.year!, month: comps.month!, day: 0))
+            days.append(CalendarDay(id: -(blank + 1), day: 0, date: nil))
         }
         for day in range {
-            days.append(CalendarDay(id: day, year: comps.year!, month: comps.month!, day: day))
+            days.append(CalendarDay(id: day, day: day, date: calendar.date(byAdding: .day, value: day - 1, to: monthStart)))
         }
         return days
     }

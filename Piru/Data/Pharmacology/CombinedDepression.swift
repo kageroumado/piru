@@ -311,22 +311,20 @@ nonisolated enum CombinedDepression {
         if let doseMg, doseMg > 0, params.canComputeOccupancy,
            let vdPerKg = params.vdLPerKg, let mw = params.molarMassGramsPerMole,
            let f = params.bioavailabilityFraction, let halfLife = params.halfLifeMinutes,
-           let depressantTarget = params.targets.first(where: {
-               DepressantMechanism.from(receptorClass: ReceptorClasses.classify(target: $0.target, action: $0.action)) != nil
-           }) {
+           let depressant = params.targets.lazy.compactMap({ target in
+               DepressantMechanism.from(receptorClass: ReceptorClasses.classify(target: target.target, action: target.action))
+                   .map { (target: target, mechanism: $0) }
+           }).first {
             let vd = vdPerKg * weightKg
             if vd > 0, mw > 0, halfLife > 0 {
-                let mechanism = DepressantMechanism.from(
-                    receptorClass: ReceptorClasses.classify(target: depressantTarget.target, action: depressantTarget.action),
-                )!
                 let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
                 let ka = PKModel.defaultKa(ke: ke)
                 let prefactorNanomolar = (f * doseMg * params.doseScale / vd) / 1_000 / mw * 1e9
-                let halfMax = depressantTarget.halfMaxNanomolar
+                let halfMax = depressant.target.halfMaxNanomolar
                 let tail = PKModel.timeToFraction(0.03, ke: ke, ka: ka, maxMinutes: halfLife * 8)
                 return ResolvedContributor(
-                    substance: entry.substance, mechanism: mechanism, doseWeight: 1,
-                    confidence: Swift.min(params.vdConfidence, params.bioavailabilityConfidence, params.doseScaleConfidence, depressantTarget.confidence),
+                    substance: entry.substance, mechanism: depressant.mechanism, doseWeight: 1,
+                    confidence: Swift.min(params.vdConfidence, params.bioavailabilityConfidence, params.doseScaleConfidence, depressant.target.confidence),
                     isModeled: true,
                     start: entry.timestamp,
                     end: entry.timestamp.addingTimeInterval(tail * 60),

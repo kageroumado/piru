@@ -401,7 +401,10 @@ struct EntryFormView: View {
     private func loadEntry() {
         if let entry {
             substance = entry.substance
-            amount = String(entry.amount)
+            // Match EntryDraft.begin(from:): a whole-number amount renders "50", not "50.0".
+            amount = entry.amount == entry.amount.rounded()
+                ? String(Int(entry.amount))
+                : String(entry.amount)
             unit = entry.unit
             route = entry.route
             saltForm = entry.saltForm

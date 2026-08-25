@@ -522,28 +522,30 @@ struct HelpView: View {
     private var emergencySection: some View {
         Section {
             ForEach(services) { service in
-                Link(destination: URL(string: service.url)!) {
-                    HStack {
-                        Image(systemName: service.systemImage)
-                            .font(.body.weight(.semibold))
-                            .foregroundStyle(service.tint)
-                            .frame(width: 28)
-                            .accessibilityHidden(true)
+                if let destination = URL(string: service.url) {
+                    Link(destination: destination) {
+                        HStack {
+                            Image(systemName: service.systemImage)
+                                .font(.body.weight(.semibold))
+                                .foregroundStyle(service.tint)
+                                .frame(width: 28)
+                                .accessibilityHidden(true)
 
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(service.title)
-                                .font(.subheadline.weight(.medium))
-                            Text(service.detail)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(service.title)
+                                    .font(.subheadline.weight(.medium))
+                                Text(service.detail)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "arrow.up.right")
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(.tertiary)
+                                .accessibilityHidden(true)
                         }
-
-                        Spacer()
-
-                        Image(systemName: "arrow.up.right")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.tertiary)
-                            .accessibilityHidden(true)
                     }
                 }
             }

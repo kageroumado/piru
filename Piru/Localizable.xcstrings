@@ -17112,6 +17112,7 @@
       }
     },
     "Crisis resources, harm-reduction basics, and how Piru works." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17123,6 +17124,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "危機求助資源、減害基礎知識，以及 Piru 的使用方法。"
+          }
+        }
+      }
+    },
+    "Crisis resources, safety basics, and how Piru works." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "危机求助资源、安全基础知识，以及 Piru 的使用方法。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "危機求助資源、安全基礎知識，以及 Piru 的使用方法。"
           }
         }
       }
@@ -18591,6 +18608,7 @@
       }
     },
     "Derived from this substance's graded DAT/NET/SERT bindings. Transporter potencies are mostly within-assay ratios." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21864,6 +21882,7 @@
       }
     },
     "Effect over time · %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -41158,7 +41177,24 @@
         }
       }
     },
+    "Pharmacological data is compiled from the sources above — community databases, FDA labeling, and peer-reviewed literature. Provided for reference and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药理数据汇编自上述来源——社区数据库、FDA 药品标签以及同行评审文献。仅供参考与教育用途。在做出任何有关物质使用的决定前，请务必咨询合格的医疗专业人员。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥理資料彙編自上述來源——社群資料庫、FDA 藥品標籤以及同行評審文獻。僅供參考與教育用途。在做出任何有關物質使用的決定前，請務必諮詢合格的醫療專業人員。"
+          }
+        }
+      }
+    },
     "Pharmacological data is compiled from the sources above — community harm-reduction databases, FDA labeling, and peer-reviewed literature. Provided for harm-reduction and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

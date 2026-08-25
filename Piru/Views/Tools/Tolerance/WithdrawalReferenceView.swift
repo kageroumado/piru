@@ -93,7 +93,7 @@ struct WithdrawalReferenceView: View {
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .appNavigationBar("If You Stop")
-        .task {
+        .task(id: DoseLogService.shared.revision) {
             loadTrail = await ToleranceStore.shared.loadTrail(for: .gaba, from: allEntries)
         }
     }
@@ -150,9 +150,8 @@ struct WithdrawalReferenceView: View {
         return loadTrail?.first { $0.load < Self.presenceFloor }?.date
     }
 
-    /// Load-driven placement sentence — the replacement for the old calendar-vs-band phrase that could
-    /// read "typically begin and peak" while the drug was still clearing. Load is relative to the user's
-    /// recent peak, so it clears honestly (benzodiazepine occupancy itself saturates and would not).
+    /// Load-driven placement sentence. Load is relative to the user's recent peak, not absolute
+    /// occupancy, so it clears honestly — benzodiazepine occupancy itself saturates and would not.
     private var occupancyStatePhrase: String {
         guard let now = loadNow else {
             return String(localized: "Estimating how much is still in your system…")

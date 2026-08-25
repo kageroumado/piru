@@ -54,10 +54,10 @@ struct SearchActivityList: View {
 private struct RecentlySearchedGroup: View {
     @State private var history = SearchHistoryStore.shared
 
-    /// Resolved in the `.task`, not per body pass: the old computed property
-    /// ran its lookups twice per pass (the emptiness guard and the card), and
-    /// on a cold cache `lookup` fell through to a synchronous main-actor
-    /// batch build — the task awaits the warm cache first.
+    /// Resolved in the `.task`, not a computed property: a computed property
+    /// would run its lookups twice per pass (the emptiness guard and the
+    /// card), and on a cold cache `lookup` falls through to a synchronous
+    /// main-actor batch build — the task awaits the warm cache first.
     @State private var substances: [Substance] = []
 
     var body: some View {
@@ -97,8 +97,9 @@ private struct RecentDosesGroup: View {
     init(limit: Int) {
         self.limit = limit
         // Bound the fetch: enough rows to surface `limit` distinct substances
-        // even with repeats, without faulting the entire dose log (the unbounded
-        // query faulted hundreds of `DoseEntry.substance` on the focus transition).
+        // even with repeats, without faulting the entire dose log — an
+        // unbounded query would fault every `DoseEntry.substance` relationship
+        // on the focus transition.
         var descriptor = FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.timestamp, order: .reverse)])
         descriptor.fetchLimit = max(limit * 15, 90)
         descriptor.propertiesToFetch = [\.substance]
@@ -203,7 +204,7 @@ private struct HelpCard: View {
                     Text("Help & Safety")
                         .font(.system(size: 20, weight: .bold))
                         .foregroundStyle(.white)
-                    Text("Crisis resources, harm-reduction basics, and how Piru works.")
+                    Text("Crisis resources, safety basics, and how Piru works.")
                         .font(.footnote)
                         .foregroundStyle(.white.opacity(0.93))
                         .fixedSize(horizontal: false, vertical: true)

@@ -42,15 +42,14 @@ final class ActiveSessionManager {
 
     /// Recover an active session on app launch.
     ///
-    /// **SwiftData is authoritative.** The Live Activity is only a fallback for
-    /// the case where the store yields nothing, and it is a lossy one: its
-    /// snapshots carry no `DoseEntry.id` (so `removeDose`/`updateDose` degrade to
-    /// substance + timestamp matching) and no resolved ``DoseTitle``. It used to
-    /// be consulted *first*, and returned unconditionally — so a stale or
-    /// partial activity replaced the real session wholesale and the store was
-    /// never read. An `.ended` activity's state is frozen at the moment it
-    /// ended, which made every subsequent cold launch resurrect the same
-    /// long-dead dose list. See ``LiveActivityManager/recoverEntriesFromActivity()``.
+    /// **SwiftData is authoritative.** The store is checked first; the Live
+    /// Activity is only a fallback for when the store yields nothing, and it is
+    /// a lossy one: its snapshots carry no `DoseEntry.id` (so
+    /// `removeDose`/`updateDose` degrade to substance + timestamp matching) and
+    /// no resolved ``DoseTitle``. An `.ended` activity's state is frozen at the
+    /// moment it ended, so consulting it unconditionally would resurrect the
+    /// same long-dead dose list on every cold launch. See
+    /// ``LiveActivityManager/recoverEntriesFromActivity()``.
     func recoverSession(container: ModelContainer) {
         guard activeEntries.isEmpty else { return }
 
@@ -70,12 +69,14 @@ final class ActiveSessionManager {
         // ``Substance/maxAcuteTimelineMinutes`` is the hard ceiling on any
         // timeline duration, so this window provably contains every dose that
         // could still be active — which is what lets the store be authoritative
-        // over the Live Activity rather than merely a fallback. (It was 12 h,
-        // which could miss a still-active dose logged the previous evening.)
+        // over the Live Activity rather than merely a fallback.
         // The forward bound keeps today's deliberately future-dated doses;
         // `pruneCompleted()` drops whatever has already run out.
         let lookbackStart = Date.now.addingTimeInterval(-Substance.maxAcuteTimelineMinutes * 60)
-        let endOfDay = Calendar.current.sessionDayStart(for: .now).addingTimeInterval(86_400)
+        // Calendar day math, not +86_400 s: a DST transition makes the day 23 or
+        // 25 hours long, and a fixed-seconds bound would clip or leak an hour.
+        let dayStart = Calendar.current.sessionDayStart(for: .now)
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart.addingTimeInterval(86_400)
 
         let descriptor = FetchDescriptor<DoseEntry>(
             predicate: #Predicate { entry in

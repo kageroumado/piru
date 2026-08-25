@@ -82,9 +82,8 @@ struct ToleranceRow: Identifiable {
     /// the layers relax, matching the bar's orientation (full = strong tolerance). Uses the same
     /// saturating ``PDModel/responseFraction`` with the class's mechanism-aware cap (§5 — ½ for
     /// release/reuptake proxies, uncapped for agonists) as the gauge, so the graph and the bar can never
-    /// disagree — the old inline `0.999_999` clamp pinned high-occupancy stimulants at a flat 100%
-    /// "sensitivity", reading as *no* tolerance while the bar showed moderate. Shared by the per-card
-    /// chart and the combined chart, so the sampling math lives in exactly one place.
+    /// disagree. Shared by the per-card chart and the combined chart, so the sampling math lives in
+    /// exactly one place.
     func recoveryCurve(overMinutes window: Double, sampleCount: Int = 24) -> [ToleranceChartPoint] {
         let span = max(window, 1)
         return (0 ..< sampleCount).map { index in
@@ -136,7 +135,9 @@ struct ToleranceRow: Identifiable {
     /// shift `S` at which that response is reached, then all four layers decay on their own time-constants
     /// to it. The cap must match the curve/bar or the axis span and the plotted line would disagree.
     func recoveryMinutes(toTolerance target: Double, shiftScale: Double = 1) -> Double? {
-        let cap = snapshot.receptorClass.gaugeOccupancyCap ?? 0.999_999
+        // The cap must stay strictly below 1: occupancy == 1 makes the ratio
+        // divide by zero and floods the axis math with infinity.
+        let cap = min(snapshot.receptorClass.gaugeOccupancyCap ?? 0.999_999, 0.999_999)
         let occupancy = min(cap, max(0, snapshot.representativeOccupancy))
         let ratio = occupancy / (1 - occupancy)
         let responseTarget = max(0.000_001, 1 - target)

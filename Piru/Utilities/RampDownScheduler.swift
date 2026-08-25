@@ -125,7 +125,8 @@ enum RampDownScheduler {
         }
     }
 
-    /// Schedule the main comedown notification — now with harm-reduction messaging
+    /// Schedule the main comedown notification, with category-tailored aftercare
+    /// guidance (rest, hydration, nutrition)
     static func scheduleNotification(
         substanceName: String,
         doseTime: Date,
@@ -617,42 +618,53 @@ enum RampDownScheduler {
     // MARK: - Cumulative Dose Check
 
     /// Check if cumulative dose in the last 12 hours is in the heavy range.
-    /// Returns (totalAmount, shouldAlert) — call scheduleCumulativeDoseNotification if shouldAlert.
+    /// Returns (totalAmount, unit, shouldAlert) — call
+    /// scheduleCumulativeDoseNotification if shouldAlert. The total is summed in
+    /// the route's native unit so mixed-unit logs of the same substance
+    /// (200 mg + 0.3 g) compare truthfully against the dose ladder; an entry
+    /// with no conversion path (mL, sprays, IU) contributes nothing rather than
+    /// summing as a raw number in the wrong unit.
     static func checkCumulativeDose(
         substanceName: String,
         newAmount: Double,
-        unit _: String,
+        unit: String,
         route: RouteOfAdministration,
         existingEntries: [DoseEntry],
-    ) -> (total: Double, shouldAlert: Bool) {
+    ) -> (total: Double, unit: String, shouldAlert: Bool) {
         let windowStart = Date.now.addingTimeInterval(-Timing.cumulativeDoseWindow)
         let recentSame = existingEntries.filter {
             $0.substance.lowercased() == substanceName.lowercased() &&
                 $0.timestamp >= windowStart
         }
-        let priorTotal = recentSame.reduce(0.0) { $0 + $1.amount }
-        let total = priorTotal + newAmount
 
         // Batch-cache resolve — `doseRange` is carried by the lightweight timeline
         // projection, so skip the heavy (~18-query + chem/mechanism decode) full
         // lookup. Runs once per logged dose in the deferred notification path.
         guard let substance = SubstanceLibrary.lookup(substanceName),
               let doseRange = substance.doseRange(for: route) else {
-            // No dose data — can't make a judgment
-            return (total, false)
+            // No dose data — can't make a judgment, so report the plain sum in
+            // the caller's unit.
+            let raw = recentSame.reduce(0.0) { $0 + $1.amount } + newAmount
+            return (raw, unit, false)
         }
+
+        let routeUnit = substance.unit(for: route)
+        let priorTotal = recentSame.reduce(0.0) { sum, entry in
+            sum + (substance.convert(amount: entry.amount, from: entry.unit, toRoute: route) ?? 0)
+        }
+        let total = priorTotal + (substance.convert(amount: newAmount, from: unit, toRoute: route) ?? newAmount)
 
         // Alert if cumulative is at or above the heavy threshold
         if let heavy = doseRange.heavy, total >= heavy {
-            return (total, true)
+            return (total, routeUnit, true)
         }
 
         // Or if cumulative is well above the strong range
         if let strong = doseRange.strong, total >= strong.upperBound * 1.5 {
-            return (total, true)
+            return (total, routeUnit, true)
         }
 
-        return (total, false)
+        return (total, routeUnit, false)
     }
 
     /// Compute how many hours the user has been using stimulants today.

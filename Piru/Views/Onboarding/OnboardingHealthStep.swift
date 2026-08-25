@@ -101,11 +101,13 @@ struct OnboardingHealthStep: View {
     }
 
     private func save() {
-        let kg = min(
-            UserProfileStore.weightRangeKg.upperBound,
-            max(UserProfileStore.weightRangeKg.lowerBound, weightKg),
-        )
-        if let healthValue, abs(healthValue - kg) < 0.05 {
+        let range = UserProfileStore.weightRangeKg
+        let kg = min(range.upperBound, max(range.lowerBound, weightKg))
+        // Compare against the clamped Health value: an out-of-range Health read
+        // clamps to the same bound the user's value did, and still counts as
+        // HealthKit provenance rather than a manual entry.
+        let clampedHealth = healthValue.map { min(range.upperBound, max(range.lowerBound, $0)) }
+        if let clampedHealth, abs(clampedHealth - kg) < 0.05 {
             UserProfileStore.shared.setHealthKitWeight(kg)
         } else {
             UserProfileStore.shared.setManualWeight(kg)

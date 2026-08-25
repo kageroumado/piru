@@ -1,5 +1,8 @@
 import Foundation
+import OSLog
 import SwiftData
+
+private let logger = Logger(subsystem: "dev.yumeji.piru", category: "MedsMigrator")
 
 /// One-time fold of the routine layer into per-med fields for the Meds
 /// redesign (Specs/meds-reminders-redesign.md): each item inherits its
@@ -17,11 +20,10 @@ enum MedsMigrator {
 
     static func foldRoutinesIfNeeded(context: ModelContext, defaults: UserDefaults = .standard) {
         guard !defaults.bool(forKey: doneKey) else { return }
-        defer { defaults.set(true, forKey: doneKey) }
 
         let routines = (try? context.fetch(FetchDescriptor<DoseRoutine>())) ?? []
         let items = (try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []
-        let routinesByName = Dictionary(uniqueKeysWithValues: routines.map { ($0.name, $0) })
+        let routinesByName = Dictionary(routines.map { ($0.name, $0) }, uniquingKeysWith: { first, _ in first })
 
         for item in items {
             if let routine = routinesByName[item.category] {
@@ -50,11 +52,19 @@ enum MedsMigrator {
            .max(by: { $0.value.count < $1.value.count })?.key {
             record.askAgainDefaultMinutes = common
         }
+
+        // Mark done only after the folded state is on disk — the fold is
+        // idempotent, so an unsaved run must retry on the next launch rather
+        // than burn its one shot.
+        do {
+            try context.save()
+            defaults.set(true, forKey: doneKey)
+        } catch {
+            logger.error("Routine fold save failed, will retry next launch: \(error)")
+        }
     }
 
     private static func isSupplement(_ item: DailyDoseItem) -> Bool {
-        SubstanceLibrary.search(item.substance)
-            .first { $0.name.lowercased() == item.substance.lowercased() }?
-            .category == .supplement
+        SubstanceLibrary.lookup(item.substance)?.category == .supplement
     }
 }

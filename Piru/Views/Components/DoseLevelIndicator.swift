@@ -64,7 +64,7 @@ struct DoseLevelIndicator: View {
 
     private var segments: [Segment] {
         var segs: [Segment] = []
-        if let threshold = doseRange.threshold, let lightLow = doseRange.light?.lowerBound {
+        if let threshold = doseRange.threshold, let lightLow = doseRange.light?.lowerBound, threshold <= lightLow {
             segs.append(Segment(label: "\(threshold.doseFormatted)", level: .threshold, range: threshold ... lightLow))
         }
         if let light = doseRange.light {
@@ -89,7 +89,8 @@ struct DoseLevelIndicator: View {
         Rectangle()
             .fill(segment.level.swiftUIColor.opacity(isActive ? 1.0 : 0.3))
             .overlay {
-                if isActive, segment.level != .heavy, let currentDose, let range = segment.range {
+                if isActive, segment.level != .heavy, let currentDose, let range = segment.range,
+                   range.upperBound > range.lowerBound {
                     GeometryReader { geo in
                         let pct = min(max((currentDose - range.lowerBound) / (range.upperBound - range.lowerBound), 0), 1)
                         Circle()
@@ -144,13 +145,10 @@ enum ExperiencePhase: CaseIterable {
     /// The mark colour — dots, bar fills, chart bands. Use ``labelColor`` for
     /// text; an accent glyph on an accent-derived fill is the self-tint trap.
     ///
-    /// This used to be a second, unrelated ramp (`.blue`/`.teal`/`.orange`/
-    /// `.purple`) competing with the hex ramp in `TimelineGraphView` /
-    /// `SessionReportPDF` / `DosePhaseProgressBar`. Both described the same five
-    /// phases, so editing a dose and then reading it flipped "peak" from orange
-    /// to green. The hex ramp won — three consumers to one — and its hues are
-    /// preserved here to within a degree; only lightness and chroma moved, to
-    /// clear the contrast gates.
+    /// Matches the hex ramp in `TimelineGraphView` / `SessionReportPDF` /
+    /// `DosePhaseProgressBar`, which also encode these five phases — hues
+    /// agree to within a degree; only lightness and chroma differ, to clear
+    /// the contrast gates.
     var color: Color {
         switch self {
         case .onset: .Phase.Onset.accent
@@ -207,13 +205,6 @@ extension DoseLevel {
     /// text on a light surface, so `.common` darkens to amber in light mode
     /// while keeping its yellow identity in dark mode; the other hues read
     /// fine in both schemes.
-    /// Legible text variant, gated at WCAG AA against the card *and* against
-    /// this tier's own tinted fill.
-    ///
-    /// Was `self == .common ? Theme.legibleYellow : swiftUIColor` — a one-tier
-    /// patch over a fill value, which left `strong` and `heavy` failing as text
-    /// (2.04:1 and 3.23:1). Every tier now has a real text variant, which is
-    /// what makes the patch unnecessary.
     var labelColor: Color {
         switch self {
         case .sub: .Dose.Sub.text

@@ -148,10 +148,12 @@ enum RoutineOccurrenceService {
     private static func match(
         occurrences: [RoutineOccurrence],
         today: Date,
-        now: Date,
+        now _: Date,
         in context: ModelContext,
     ) {
-        let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: today) ?? now
+        // The fallback keeps the upper bound past `now` rather than silently
+        // narrowing the window to [today, now) if the calendar math ever fails.
+        let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: today) ?? today.addingTimeInterval(86_400)
         let predicate = #Predicate<DoseEntry> { $0.timestamp >= today && $0.timestamp < dayEnd }
         let entries = ((try? context.fetch(FetchDescriptor(predicate: predicate))) ?? [])
             .sorted { $0.timestamp < $1.timestamp }

@@ -131,7 +131,9 @@ nonisolated struct EffectAgent {
         nAbs: Double? = nil,
     ) {
         self.params = params
-        self.doses = times.map { (t: $0, amt: doseMg / params.refUnit) }
+        // A non-positive refUnit is a data error; an empty dose list keeps the
+        // timeline flat instead of letting doseMg/0 spread NaN through every array.
+        self.doses = params.refUnit > 0 ? times.map { (t: $0, amt: doseMg / params.refUnit) } : []
         self.ka = ka; self.kR = kR; self.nAbs = nAbs
     }
 }

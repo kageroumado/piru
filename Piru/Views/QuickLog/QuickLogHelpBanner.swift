@@ -39,15 +39,18 @@ struct QuickLogHelpBanner: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
+    @ViewBuilder
     private func helpBannerLink(title: LocalizedStringKey, url: String) -> some View {
-        Link(destination: URL(string: url)!) {
-            HStack(spacing: 6) {
-                Image(systemName: "phone.fill")
-                    .font(.caption)
-                    .foregroundStyle(.blue)
-                Text(title)
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.primary)
+        if let destination = URL(string: url) {
+            Link(destination: destination) {
+                HStack(spacing: 6) {
+                    Image(systemName: "phone.fill")
+                        .font(.caption)
+                        .foregroundStyle(.blue)
+                    Text(title)
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(.primary)
+                }
             }
         }
     }

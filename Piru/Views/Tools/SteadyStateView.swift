@@ -55,7 +55,10 @@ nonisolated enum SteadyStateModel {
         let time97 = 5.0 * halfLifeMinutes
 
         let totalMinutes = max(time97 * 1.2, intervalMinutes * 6, intervalMinutes + 1)
-        let doseCount = Int(totalMinutes / intervalMinutes) + 1
+        // The cap bounds the O(samples × doses) accumulation: a near-zero typed
+        // interval against a long half-life otherwise yields hundreds of
+        // thousands of doses and a multi-second hang per keystroke.
+        let doseCount = min(Int(totalMinutes / intervalMinutes) + 1, 5_000)
 
         /// Body content = Σ over already-taken doses of dose · fractionRemaining.
         func bodyContent(at t: Double) -> Double {

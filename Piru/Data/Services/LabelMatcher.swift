@@ -44,12 +44,17 @@ struct ResolvedDrug {
 enum LabelMatcher {
     // MARK: Strength
 
+    /// Digit, optional decimal, optional space, then a mass/volume unit —
+    /// compiled once; scan paths call `parseStrength` per OCR line.
+    private static let strengthRegex = try? NSRegularExpression(
+        pattern: #"(?<![\w.])(\d+(?:\.\d+)?)\s*(µg|mcg|ug|mg|g|ml|iu)(?![\w])"#,
+        options: [.caseInsensitive],
+    )
+
     /// A strength `(amount, normalized unit)` parsed from label text, e.g.
     /// `"36 mg"` → `(36, "mg")`, `"500 mcg"` → `(500, "µg")`, `"36 mg/1"` → `(36, "mg")`.
     static func parseStrength(_ text: String) -> (amount: Double, unit: String)? {
-        // Digit, optional decimal, optional space, then a mass/volume unit.
-        let pattern = #"(?<![\w.])(\d+(?:\.\d+)?)\s*(µg|mcg|ug|mg|g|ml|iu)(?![\w])"#
-        guard let regex = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]) else { return nil }
+        guard let regex = strengthRegex else { return nil }
         let range = NSRange(text.startIndex..., in: text)
         guard let match = regex.firstMatch(in: text, range: range),
               let amountRange = Range(match.range(at: 1), in: text),

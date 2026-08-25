@@ -72,7 +72,9 @@ struct GABALoadingCard: View {
                 .padding(.vertical, 6)
             }
         }
-        .task(id: entries.count) {
+        // Keyed on the log revision so editing an existing dose (same count)
+        // also refreshes the trail.
+        .task(id: "\(DoseLogService.shared.revision)|\(entries.count)") {
             let raw = await ToleranceStore.shared.loadTrail(
                 for: .gaba, from: entries, pastHorizon: Self.pastHorizon, horizon: Self.horizon, step: Self.step,
             )

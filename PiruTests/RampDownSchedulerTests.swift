@@ -157,7 +157,7 @@ struct RampDownSchedulerTests {
 
     @Test
     func `No entries returns total equal to new amount, no alert`() {
-        let (total, shouldAlert) = RampDownScheduler.checkCumulativeDose(
+        let (total, unit, shouldAlert) = RampDownScheduler.checkCumulativeDose(
             substanceName: "zzzNotReal",
             newAmount: 50,
             unit: "mg",
@@ -165,6 +165,7 @@ struct RampDownSchedulerTests {
             existingEntries: [],
         )
         #expect(total == 50)
+        #expect(unit == "mg")
         #expect(!shouldAlert)
     }
 
@@ -176,7 +177,7 @@ struct RampDownSchedulerTests {
             route: .oral,
             timestamp: Date.now.addingTimeInterval(-13 * 3_600), // 13 hours ago
         )
-        let (total, _) = RampDownScheduler.checkCumulativeDose(
+        let (total, _, _) = RampDownScheduler.checkCumulativeDose(
             substanceName: "TestDrug",
             newAmount: 10,
             unit: "mg",
@@ -194,7 +195,7 @@ struct RampDownSchedulerTests {
             route: .oral,
             timestamp: Date.now.addingTimeInterval(-3_600), // 1 hour ago
         )
-        let (total, _) = RampDownScheduler.checkCumulativeDose(
+        let (total, _, _) = RampDownScheduler.checkCumulativeDose(
             substanceName: "TestDrug",
             newAmount: 20,
             unit: "mg",
@@ -212,7 +213,7 @@ struct RampDownSchedulerTests {
             route: .oral,
             timestamp: Date.now.addingTimeInterval(-3_600),
         )
-        let (total, _) = RampDownScheduler.checkCumulativeDose(
+        let (total, _, _) = RampDownScheduler.checkCumulativeDose(
             substanceName: "TestDrug",
             newAmount: 10,
             unit: "mg",
@@ -230,7 +231,7 @@ struct RampDownSchedulerTests {
             route: .oral,
             timestamp: Date.now.addingTimeInterval(-1_800),
         )
-        let (total, _) = RampDownScheduler.checkCumulativeDose(
+        let (total, _, _) = RampDownScheduler.checkCumulativeDose(
             substanceName: "caffeine",
             newAmount: 100,
             unit: "mg",
@@ -238,5 +239,26 @@ struct RampDownSchedulerTests {
             existingEntries: [entry],
         )
         #expect(total == 300)
+    }
+
+    @Test
+    func `Mixed-unit entries are converted before summing`() {
+        // 0.2 g logged earlier + 100 mg now = 300 mg, not 100.2 of anything.
+        let entry = DoseEntry(
+            substance: "Caffeine",
+            amount: 0.2,
+            unit: "g",
+            route: .oral,
+            timestamp: Date.now.addingTimeInterval(-1_800),
+        )
+        let (total, unit, _) = RampDownScheduler.checkCumulativeDose(
+            substanceName: "caffeine",
+            newAmount: 100,
+            unit: "mg",
+            route: .oral,
+            existingEntries: [entry],
+        )
+        #expect(total == 300)
+        #expect(unit == "mg")
     }
 }

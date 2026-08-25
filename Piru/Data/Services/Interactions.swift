@@ -397,11 +397,9 @@ private struct InteractionRule {
 /// ## Source layers
 ///
 /// **Class-pair rules** (``rules``) keyed by ``DrugClass`` pairs are the only
-/// active source. The earlier design included TripSit combo data and parsed
-/// FDA-label warnings as fallback layers; those were removed when the runtime
-/// API fetches went away with the SQLite migration. Restoring them means
-/// populating the bundled SQLite's `interaction_rules` table and adding a
-/// SQL-backed source layer here — tracked separately.
+/// active source. Adding TripSit combo data or FDA-label warnings as a
+/// fallback layer means populating the bundled SQLite's `interaction_rules`
+/// table and adding a SQL-backed source layer here — tracked separately.
 ///
 /// ## Severity ordering
 ///
@@ -519,7 +517,7 @@ enum InteractionChecker {
         var best: InteractionRule?
         for a in classesA {
             for b in classesB {
-                if let rule = findRule(a, b), best == nil || rule.severity > best!.severity {
+                if let rule = findRule(a, b), best.map({ rule.severity > $0.severity }) ?? true {
                     best = rule
                 }
             }
@@ -1104,6 +1102,42 @@ enum InteractionChecker {
             severity: .caution,
             description: "TCAs usually blunt MDMA rather than boosting it, so people may redose; the bigger concern is added strain on heart rate and blood pressure.",
         ),
+        InteractionRule(
+            classA: .dissociative,
+            classB: .alcohol,
+            severity: .unsafe,
+            description: "Risk of respiratory depression, aspiration, and loss of consciousness.",
+        ),
+        InteractionRule(
+            classA: .dissociative,
+            classB: .benzodiazepine,
+            severity: .unsafe,
+            description: "Significant respiratory depression risk and profound loss of consciousness.",
+        ),
+        InteractionRule(
+            classA: .benzodiazepine,
+            classB: .benzodiazepine,
+            severity: .unsafe,
+            description: "Stacking benzodiazepines dramatically increases sedation and respiratory depression risk.",
+        ),
+        InteractionRule(
+            classA: .ssri,
+            classB: .snri,
+            severity: .unsafe,
+            description: "Overlapping serotonin reuptake inhibition — increased serotonin syndrome risk.",
+        ),
+        InteractionRule(
+            classA: .ssri,
+            classB: .tca,
+            severity: .unsafe,
+            description: "SSRIs inhibit TCA metabolism — risk of TCA toxicity and serotonin syndrome.",
+        ),
+        InteractionRule(
+            classA: .gabapentinoid,
+            classB: .alcohol,
+            severity: .unsafe,
+            description: "Enhanced CNS depression — risk of respiratory depression and death.",
+        ),
 
         // === SEROTONIN-ADDING AGENTS (tramadol, meperidine, DXM) ===
         // Genuine additive serotonin-toxicity risk — these RAISE serotonin (unlike antidepressant SERT
@@ -1378,24 +1412,6 @@ enum InteractionChecker {
             description: "Unpredictable intensification — cannabis can trigger anxiety or thought loops.",
         ),
         InteractionRule(
-            classA: .dissociative,
-            classB: .alcohol,
-            severity: .unsafe,
-            description: "Risk of respiratory depression, aspiration, and loss of consciousness.",
-        ),
-        InteractionRule(
-            classA: .dissociative,
-            classB: .benzodiazepine,
-            severity: .unsafe,
-            description: "Significant respiratory depression risk and profound loss of consciousness.",
-        ),
-        InteractionRule(
-            classA: .benzodiazepine,
-            classB: .benzodiazepine,
-            severity: .unsafe,
-            description: "Stacking benzodiazepines dramatically increases sedation and respiratory depression risk.",
-        ),
-        InteractionRule(
             classA: .ssri,
             classB: .psychedelic,
             severity: .caution,
@@ -1406,18 +1422,6 @@ enum InteractionChecker {
             classB: .ssri,
             severity: .caution,
             description: "Serotonin accumulation risk — combining serotonergic agents increases toxicity chance.",
-        ),
-        InteractionRule(
-            classA: .ssri,
-            classB: .snri,
-            severity: .unsafe,
-            description: "Overlapping serotonin reuptake inhibition — increased serotonin syndrome risk.",
-        ),
-        InteractionRule(
-            classA: .ssri,
-            classB: .tca,
-            severity: .unsafe,
-            description: "SSRIs inhibit TCA metabolism — risk of TCA toxicity and serotonin syndrome.",
         ),
         InteractionRule(
             classA: .stimulant,
@@ -1442,12 +1446,6 @@ enum InteractionChecker {
             classB: .antipsychotic,
             severity: .caution,
             description: "Additive CNS depression — increased sedation and impairment.",
-        ),
-        InteractionRule(
-            classA: .gabapentinoid,
-            classB: .alcohol,
-            severity: .unsafe,
-            description: "Enhanced CNS depression — risk of respiratory depression and death.",
         ),
         InteractionRule(
             classA: .gabapentinoid,
@@ -1480,7 +1478,6 @@ enum InteractionChecker {
             description: "Risk of serotonin syndrome and lithium toxicity.",
         ),
 
-        // Additional rules from audit
         InteractionRule(
             classA: .stimulant,
             classB: .ssri,
@@ -1639,10 +1636,11 @@ enum InteractionChecker {
         let presenceActive = active.map { $0.amountKnown ? presence($0.magnitude) : 1.0 } ?? 1.0
         let doseFactor = presenceProspective * presenceActive
 
-        let doseConfidentLow = !persistent && (
-            (active?.amountKnown == true && active!.magnitude <= trivialMagnitude)
-                || (prospective?.amountKnown == true && prospective!.magnitude <= trivialMagnitude)
-        )
+        func confidentlyTrivial(_ track: EffectTrack?) -> Bool {
+            guard let track, track.amountKnown else { return false }
+            return track.magnitude <= trivialMagnitude
+        }
+        let doseConfidentLow = !persistent && (confidentlyTrivial(active) || confidentlyTrivial(prospective))
 
         var overlapFactor = 1.0
         var overlapConfidentLow = false

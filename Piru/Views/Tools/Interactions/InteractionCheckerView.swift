@@ -20,8 +20,7 @@ struct InteractionCheckerView: View {
     }
 
     /// Per-substance use counts, sorted most-used first — bucketed once per
-    /// dose-log revision in the `.task`, not per body pass (the old computed
-    /// property walked the whole history on every body evaluation).
+    /// dose-log revision in the `.task`, not per body pass.
     @State private var usedCounts: [(name: String, count: Int)] = []
 
     /// Top 6 most-used substances, excluding already-selected ones — a cheap
@@ -180,7 +179,9 @@ struct InteractionCheckerView: View {
                         }
                     }
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle((results.first?.severity ?? .caution).labelColor)
+                    // Max severity, not the first row's: results are ordered by
+                    // relevance score, which can rank a caution above a danger.
+                    .foregroundStyle((results.map(\.severity).max() ?? .caution).labelColor)
                     .textCase(.uppercase)
                     .accessibilityAddTraits(.isHeader)
                     .padding(.horizontal, 16)

@@ -3562,9 +3562,9 @@ T = {
         "在此时刻之前记录的剂量将归入前一天——因此凌晨 2 点的剂量会留在前一晚，而不是在午夜开启新的一天。设为午夜 12 点即按标准日历日分组。",
         "在此時刻之前記錄的劑量將歸入前一天——因此凌晨 2 點的劑量會留在前一晚，而不是在午夜開啟新的一天。設為午夜 12 點即按標準日曆日分組。",
     ),
-    "Pharmacological data is compiled from the sources above — community harm-reduction databases, FDA labeling, and peer-reviewed literature. Provided for harm-reduction and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use.": (
-        "药理数据汇编自上述来源——社区减害数据库、FDA 药品标签以及同行评审文献。仅供减害与教育用途。在做出任何有关物质使用的决定前，请务必咨询合格的医疗专业人员。",
-        "藥理資料彙編自上述來源——社群減害資料庫、FDA 藥品標籤以及同行評審文獻。僅供減害與教育用途。在做出任何有關物質使用的決定前，請務必諮詢合格的醫療專業人員。",
+    "Pharmacological data is compiled from the sources above — community databases, FDA labeling, and peer-reviewed literature. Provided for reference and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use.": (
+        "药理数据汇编自上述来源——社区数据库、FDA 药品标签以及同行评审文献。仅供参考与教育用途。在做出任何有关物质使用的决定前，请务必咨询合格的医疗专业人员。",
+        "藥理資料彙編自上述來源——社群資料庫、FDA 藥品標籤以及同行評審文獻。僅供參考與教育用途。在做出任何有關物質使用的決定前，請務必諮詢合格的醫療專業人員。",
     ),
     "Colors appear here after you log your first entry. Tap one to change it.": (
         "记录第一条条目后，配色会显示在这里。点按即可更改。",
@@ -3969,9 +3969,9 @@ T = {
     "Browse by class": ("按类别浏览", "按類別瀏覽"),
     "Search Library instead": ("改为搜索物质库", "改為搜尋物質庫"),
     "Help & Safety": ("帮助与安全", "幫助與安全"),
-    "Crisis resources, harm-reduction basics, and how Piru works.": (
-        "危机求助资源、减害基础知识，以及 Piru 的使用方法。",
-        "危機求助資源、減害基礎知識，以及 Piru 的使用方法。",
+    "Crisis resources, safety basics, and how Piru works.": (
+        "危机求助资源、安全基础知识，以及 Piru 的使用方法。",
+        "危機求助資源、安全基礎知識，以及 Piru 的使用方法。",
     ),
     "Class Not Found": ("未找到类别", "未找到類別"),
     "This class isn’t in the library anymore.": (
@@ -7141,6 +7141,8 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Crisis resources, safety basics, and how Piru works.",
+        "Pharmacological data is compiled from the sources above — community databases, FDA labeling, and peer-reviewed literature. Provided for reference and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use.",
         "Includes %lld min of workout — the dose rows leave it out",
         "Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device. Workouts come too, only so a run isn't read as a dose's effect.",
         "Heart rate %lld falling to %lld beats per minute",

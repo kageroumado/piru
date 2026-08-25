@@ -146,7 +146,7 @@ struct InsightsView: View {
                         if let a = adherence {
                             Text("\(a.streak)")
                                 .font(.system(.title2, design: .rounded, weight: .bold))
-                            Text(a.streak == 1 ? "day streak" : "day streak")
+                            Text(a.streak == 1 ? "day streak" : "days streak")
                                 .font(.subheadline)
                                 .foregroundStyle(Theme.secondaryLabel)
                             Spacer()

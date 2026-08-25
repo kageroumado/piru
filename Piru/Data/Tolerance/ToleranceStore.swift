@@ -179,18 +179,17 @@ final class ToleranceStore {
 
     /// How far back the replay reaches — **1 year** (`Specs/tolerance-faithful-model-improvements.md`
     /// §1, the deep carry-forward). The acute (τ ≈ hours) and adaptive (τ ≈ days–2 wk) layers self-forget
-    /// far inside this window — a dose 90 days old contributes < 2 % to adaptive and ~0 to acute — so a
-    /// longer window leaves them unchanged. The **deep** (τ ≈ 6–9 mo) and **synthesis** (τ ≈ 2 wk) layers,
-    /// however, need months of history to reflect real entrenchment; the previous 90-day window
-    /// structurally understated deep for exactly the long-term users it exists to represent.
+    /// far inside this window — a dose 90 days old contributes < 2 % to adaptive and ~0 to acute — so the
+    /// full year leaves them unchanged. The **deep** (τ ≈ 6–9 mo) and **synthesis** (τ ≈ 2 wk) layers need
+    /// months of history to reflect real entrenchment, which is what sizes the window to a year: anything
+    /// shorter would understate deep for exactly the long-term users it exists to represent.
     ///
-    /// This restores a long window (the original design used 18 mo) *instead of* a persisted per-class
-    /// checkpoint: the event-driven integrator already closed-form-skips idle gaps and fine-steps only
-    /// inside each dose's active window, so extending the window to a year adds only the cost of the
-    /// extra active windows (milliseconds, off-main) — a single exact replay, rather than an incremental
-    /// checkpoint whose deep drive couples nonlinearly through the chronicity gate (§2) and is far harder
-    /// to make provably equal to a full replay. If profiling ever shows the yearly replay matters, a
-    /// suffix-resume checkpoint is the follow-up optimization.
+    /// A single exact replay over a persisted per-class checkpoint: the event-driven integrator already
+    /// closed-form-skips idle gaps and fine-steps only inside each dose's active window, so extending the
+    /// window to a year adds only the cost of the extra active windows (milliseconds, off-main) — far
+    /// simpler than an incremental checkpoint whose deep drive couples nonlinearly through the chronicity
+    /// gate (§2) and is hard to make provably equal to a full replay. If profiling ever shows the yearly
+    /// replay matters, a suffix-resume checkpoint is the follow-up optimization.
     nonisolated static let defaultLookbackDays = 365.0
 
     /// The canonical PK-complete **class representative** for each class whose PK-less members should
@@ -218,7 +217,7 @@ final class ToleranceStore {
     /// nonlinearity are intentionally omitted from this simple linear table.
     nonisolated static let opioidMMEPerMg: [String: Double] = [
         "morphine": 1, "codeine": 0.15, "hydrocodone": 1, "oxycodone": 1.5,
-        "oxymorphone": 3, "hydromorphone": 4, "tramadol": 0.2,
+        "oxymorphone": 3, "hydromorphone": 5, "tramadol": 0.2,
     ]
 
     /// **Diazepam-milligram-equivalent** factors — diazepam-mg per 1 mg of the named benzodiazepine.

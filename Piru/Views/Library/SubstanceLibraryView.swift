@@ -202,26 +202,29 @@ private struct SubstanceSearchResultsList: View {
         }
     }
 
+    @ViewBuilder
     private func helpLink(icon: String, color: Color, title: LocalizedStringKey, detail: LocalizedStringKey, url: String) -> some View {
-        Link(destination: URL(string: url)!) {
-            HStack(spacing: 10) {
-                Image(systemName: icon)
-                    .foregroundStyle(color)
-                    .frame(width: 24)
-                    .accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: 1) {
-                    Text(title)
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(.primary)
-                    Text(detail)
-                        .font(.caption)
+        if let destination = URL(string: url) {
+            Link(destination: destination) {
+                HStack(spacing: 10) {
+                    Image(systemName: icon)
+                        .foregroundStyle(color)
+                        .frame(width: 24)
+                        .accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(title)
+                            .font(.subheadline.weight(.medium))
+                            .foregroundStyle(.primary)
+                        Text(detail)
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                    Spacer()
+                    Image(systemName: "arrow.up.right")
+                        .font(.caption2)
                         .foregroundStyle(Theme.secondaryLabel)
+                        .accessibilityHidden(true)
                 }
-                Spacer()
-                Image(systemName: "arrow.up.right")
-                    .font(.caption2)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .accessibilityHidden(true)
             }
         }
     }

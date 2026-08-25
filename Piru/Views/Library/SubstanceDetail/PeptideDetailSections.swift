@@ -178,9 +178,8 @@ struct ReconstitutionCalculatorView: View {
 
     init(defaultVialMg: Double?) {
         self.defaultVialMg = defaultVialMg
-        _vialMg = State(initialValue: defaultVialMg ?? 5)
         // A 5 mg vial in 2 mL with a 250 mcg target is a sensible peptide default.
-        _doseAmount = State(initialValue: defaultVialMg != nil ? 250 : 250)
+        _vialMg = State(initialValue: defaultVialMg ?? 5)
     }
 
     /// Concentration in mg/mL. nil when inputs are non-positive.

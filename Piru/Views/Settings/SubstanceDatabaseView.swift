@@ -25,7 +25,7 @@ struct SubstanceDatabaseView: View {
                 Section {
                     EmptyView()
                 } footer: {
-                    Text("Pharmacological data is compiled from the sources above — community harm-reduction databases, FDA labeling, and peer-reviewed literature. Provided for harm-reduction and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use.")
+                    Text("Pharmacological data is compiled from the sources above — community databases, FDA labeling, and peer-reviewed literature. Provided for reference and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use.")
                 }
             }
             .listRowBackground(CardBackground())
@@ -36,5 +36,3 @@ struct SubstanceDatabaseView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
-
-// MARK: - Substance Colors List
