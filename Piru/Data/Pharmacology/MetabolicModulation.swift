@@ -298,10 +298,12 @@ nonisolated enum MetabolicModulation {
     /// catalog rather than hard-coded per drug. Weak inducers are excluded (the threshold is `.moderate`).
     /// Returns `nil` for everything that is not such an inducer.
     static func contraceptiveEfficacyCaution(forSubstance name: String) -> Modulator? {
-        let lower = name.lowercased()
+        // Canonicalize through the shared alias table so a brand name
+        // ("Equetro") matches its compound's catalog entry.
+        let key = PharmacologyNameKey.canonical(name, aliases: HalfLifeDatabase.sharedAliases)
         return catalog.first {
             $0.origin == .substance && $0.enzyme == .cyp3a4 && $0.direction == .induces
-                && $0.strength >= .moderate && $0.matchers.contains(lower)
+                && $0.strength >= .moderate && $0.matchers.contains(key)
         }
     }
 
@@ -327,11 +329,11 @@ nonisolated enum MetabolicModulation {
     static func educationalEffects(forSubstance name: String, metabolism: [SubstanceStore.MetabolismHit]) -> [Effect] {
         let enzymes = majorEnzymes(metabolism: metabolism)
         guard !enzymes.isEmpty else { return [] }
-        let lower = name.lowercased()
+        let key = PharmacologyNameKey.canonical(name, aliases: HalfLifeDatabase.sharedAliases)
         let mods = catalog.filter { m in
             switch m.origin {
             case .context: true
-            case .selfEdge: m.matchers.contains(lower)
+            case .selfEdge: m.matchers.contains(key)
             case .substance: false
             }
         }
@@ -350,7 +352,8 @@ nonisolated enum MetabolicModulation {
             let substrateLower = substrate.lowercased()
             for m in catalog where m.origin == .substance && enzymes.contains(m.enzyme) {
                 let modPresent = substances.contains { other in
-                    other.lowercased() != substrateLower && m.matchers.contains(other.lowercased())
+                    other.lowercased() != substrateLower
+                        && m.matchers.contains(PharmacologyNameKey.canonical(other, aliases: HalfLifeDatabase.sharedAliases))
                 }
                 if modPresent { results.append(makeEffect(m, substrate: substrate)) }
             }

@@ -349,15 +349,11 @@ nonisolated enum SignatureTarget: String, Hashable, Sendable, CaseIterable {
         rawValue
     }
 
-    /// Normalize one raw `target` string. A trailing parenthetical qualifier (`"(human)"`,
-    /// `"(MK-801 site, racemate)"`) is stripped; anything else must match exactly, so a multi-target
-    /// row never masquerades as a single leg.
+    /// Normalize one raw `target` string via ``ReceptorTargetKey/fold(_:)``
+    /// (qualifier parenthetical and " receptor" suffix stripped), then match
+    /// exactly — so a multi-target row never masquerades as a single leg.
     static func normalized(_ raw: String) -> SignatureTarget? {
-        var base = raw.trimmingCharacters(in: .whitespaces)
-        if let paren = base.firstIndex(of: "(") {
-            base = String(base[base.startIndex ..< paren]).trimmingCharacters(in: .whitespaces)
-        }
-        let folded = base.lowercased()
+        let folded = ReceptorTargetKey.fold(raw)
         switch folded {
         case "sert", "5-htt": return .sert
         case "dat": return .dat

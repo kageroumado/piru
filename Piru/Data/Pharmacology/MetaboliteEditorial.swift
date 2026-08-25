@@ -41,7 +41,9 @@ nonisolated enum MetaboliteEditorial {
     }
 
     /// Lowercase, strip everything but a–z/0–9 — so "O-desmethyltramadol (M1)"
-    /// and "odesmethyltramadol" compare equal.
+    /// and "odesmethyltramadol" compare equal. Not `PharmacologyNameKey`: this
+    /// is a (parent, metabolite) pair matcher with deliberate strip-everything
+    /// semantics, not a keyed substance lookup.
     private static func normalize(_ text: String) -> String {
         String(text.lowercased().unicodeScalars.filter { CharacterSet.alphanumerics.contains($0) })
     }

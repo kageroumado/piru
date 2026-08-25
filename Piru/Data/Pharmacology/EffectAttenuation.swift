@@ -12,7 +12,8 @@ nonisolated enum CompetingTransporter: String {
     case sert
 
     /// Classify a binding `target` string to a competing transporter, or `nil`. Case-insensitive and
-    /// substring-based to absorb the DB's qualifying suffixes (`"SERT (uptake, human)"`).
+    /// substring-based to absorb the DB's qualifying suffixes (`"SERT (uptake, human)"`) — a loose
+    /// substring relation like `ReceptorClasses.matchTarget`, not a `ReceptorTargetKey` fold.
     static func from(target: String) -> CompetingTransporter? {
         let t = target.lowercased()
         if t.contains("sert") || t.contains("serotonin transporter") { return .sert }

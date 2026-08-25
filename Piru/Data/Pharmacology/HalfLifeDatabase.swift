@@ -33,11 +33,7 @@ nonisolated enum HalfLifeDatabase {
 
     /// Case-insensitive lookup of half-life in minutes for a substance name or alias.
     static func halfLife(for substanceName: String) -> Double? {
-        let key = substanceName.lowercased()
-            .trimmingCharacters(in: .whitespaces)
-        if let direct = data[key] { return direct }
-        if let canonical = aliases[key] { return data[canonical] }
-        return nil
+        PharmacologyNameKey.resolve(substanceName, in: data, aliases: sharedAliases)
     }
 
     // MARK: - Data
@@ -646,7 +642,14 @@ nonisolated enum HalfLifeDatabase {
 
     // MARK: - Aliases
 
-    private static let aliases: [String: String] = [
+    /// Brand names, street names, and alternate spellings → the `data` key
+    /// they resolve to. This is the *"same substance for pharmacology-display
+    /// purposes"* relation — shared with `MechanismOfActionDatabase` and
+    /// `MetabolicModulation`, which key on the same kind of name. It is NOT
+    /// the *"same PD calibration"* relation: `SubstanceModelDatabase` keeps
+    /// its own alias table because there `lisdexamfetamine` must inherit
+    /// amphetamine's model scalars, while here it carries its own half-life.
+    static let sharedAliases: [String: String] = [
         // --- Stimulants ---
         "adderall": "amphetamine",
         "speed": "amphetamine",

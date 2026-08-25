@@ -646,6 +646,11 @@ nonisolated enum ReceptorClasses {
     /// Classify a target string into a tolerance class by name only — case-insensitive prefix/substring
     /// matching to absorb the DB's qualifying suffixes (`"GABA-A α1β2γ2"`, `"nAChR α4β2"`,
     /// `"Adenosine A2A"`). Falls back to ``ReceptorClass/unknown``.
+    ///
+    /// Deliberately matches over the **raw, un-stripped** string — never route this through
+    /// `ReceptorTargetKey`: stripping the parenthetical reclassifies L-Theanine's
+    /// `"Glutamate receptors (NMDA/AMPA/kainate, low-affinity)"` from `.nmdaAntagonist` to
+    /// `.unknown`, which changes which tolerance cards exist.
     private static func matchTarget(_ target: String) -> ReceptorClass {
         let t = target.lowercased()
 
@@ -714,21 +719,12 @@ nonisolated enum ReceptorClasses {
         }
     }
 
-    /// A display-canonical receptor name for the card breakdown: strips parenthetical qualifiers
-    /// (`"(recombinant human)"`, `"(MK-801 site, S-enantiomer)"`, `"(PCP site)"`), enantiomer prefixes
-    /// (`"(+)-"`, `"(−)-"`), and a trailing `" receptor"`, so `"5-HT3 receptor"`, `"NMDA receptor (PCP
-    /// site)"`, and `"MOR (+)-tramadol"` collapse to `"5-HT3"`, `"NMDA"`, `"MOR"`. Best-effort
-    /// normalization for the sub-target list — the pipeline owns the authoritative cleanup (Phase 2).
+    /// A display-canonical receptor name for the card breakdown — see
+    /// ``ReceptorTargetKey/display(_:)``, which this forwards to: `"5-HT3
+    /// receptor"`, `"NMDA receptor (PCP site)"`, and `"MOR (+)-tramadol"`
+    /// collapse to `"5-HT3"`, `"NMDA"`, `"MOR"`. Best-effort normalization for
+    /// the sub-target list — the pipeline owns the authoritative cleanup.
     static func canonicalTarget(_ raw: String) -> String {
-        var s = raw
-        // Drop a parenthetical qualifier *and everything after it* first — this also removes the
-        // " (−)-tramadol" / " (MK-801 site, …)" enantiomer/site suffixes, so `"NET (−)-tramadol"` and
-        // `"NMDA (MK-801 site, S-enantiomer)"` collapse to `"NET"` / `"NMDA"`.
-        if let open = s.range(of: " (") { s = String(s[..<open.lowerBound]) }
-        for prefix in ["(+)-", "(−)-", "(-)-", "(±)-"] {
-            s = s.replacingOccurrences(of: prefix, with: "")
-        }
-        if s.hasSuffix(" receptor") { s = String(s.dropLast(" receptor".count)) }
-        return s.trimmingCharacters(in: .whitespaces)
+        ReceptorTargetKey.display(raw)
     }
 }

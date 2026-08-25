@@ -21,7 +21,7 @@ import Foundation
 /// classic duration timeline (Tier 0). No fabricated curves.
 nonisolated enum SubstanceModelDatabase {
     static func normalize(_ name: String) -> String {
-        name.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        PharmacologyNameKey.fold(name)
     }
 
     // MARK: - Curated override layer (the irreducible PD scalars + felt-effect PK patches)
@@ -105,8 +105,7 @@ nonisolated enum SubstanceModelDatabase {
     ]
 
     private static func overrides(for name: String) -> Overrides? {
-        let key = normalize(name)
-        return overrides[key] ?? aliases[key].flatMap { overrides[$0] }
+        PharmacologyNameKey.resolve(name, in: overrides, aliases: aliases)
     }
 
     // MARK: - DB → params
@@ -278,8 +277,7 @@ nonisolated enum SubstanceModelDatabase {
     /// Whether `name` — after normalization and alias resolution — is one of the calibrated trigger
     /// substances (``calibratedTriggerSet``). e.g. "Ritalin" → `methylphenidate`, "4-MMC" → `mephedrone`.
     static func isCalibratedTrigger(_ name: String) -> Bool {
-        let key = normalize(name)
-        return calibratedTriggerSet.contains(aliases[key] ?? key)
+        calibratedTriggerSet.contains(PharmacologyNameKey.canonical(name, aliases: aliases))
     }
 
     /// Whether this substance can **anchor** a simulation on its own: calibrated *and* actually

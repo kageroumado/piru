@@ -87,5 +87,11 @@ struct SubstanceBindingsTests {
             SubstanceReadModel.normalizedBindingTarget("DAT")
                 == SubstanceReadModel.normalizedBindingTarget("DAT (release, [3H]-DA from rat synaptosomes)"),
         )
+        // A target that opens with a parenthetical is the whole name — it must
+        // keep a non-empty dedup key, not collapse onto "".
+        #expect(
+            SubstanceReadModel.normalizedBindingTarget("(prodrug — no direct affinity)")
+                == "(prodrug — no direct affinity)",
+        )
     }
 }

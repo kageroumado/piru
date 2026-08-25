@@ -3,8 +3,12 @@ import Foundation
 enum MechanismOfActionDatabase {
     // MARK: - Lookup
 
+    /// Class-template lookup by substance name or pharmacology alias — a brand
+    /// name or synonym (`"xanax"`, `"4-mmc"`) resolves through
+    /// `HalfLifeDatabase.sharedAliases` to the same template as its canonical
+    /// spelling. Direct keys win over an alias claiming the same spelling.
     static func mechanism(for name: String) -> MechanismOfAction? {
-        substanceData[name.lowercased()]
+        PharmacologyNameKey.resolve(name, in: substanceData, aliases: HalfLifeDatabase.sharedAliases)
     }
 
     static func categoryFallback(for category: SubstanceCategory) -> MechanismOfAction? {
@@ -519,6 +523,7 @@ enum MechanismOfActionDatabase {
             "4-mec",
             "4-cmc",
             "3-cmc",
+            "3-chloromethcathinone",
             "4-cec",
             "3-mmc",
             "n-ethylpentylone",
@@ -533,7 +538,9 @@ enum MechanismOfActionDatabase {
             "α-php",
             "a-php",
             "α-pvt",
+            "alpha-pyrrolidinohexiophenone",
             "mdphp",
+            "md-php",
             "mdpep",
             "naphyrone",
             "pyrovalerone",
@@ -744,7 +751,7 @@ enum MechanismOfActionDatabase {
         for n in ["oxiracetam", "pramiracetam"] {
             d[n] = racetam
         }
-        for n in ["phenylpiracetam", "coluracetam"] {
+        for n in ["phenylpiracetam", "carphedon", "coluracetam"] {
             d[n] = racetam
         }
         d["fasoracetam"] = racetam

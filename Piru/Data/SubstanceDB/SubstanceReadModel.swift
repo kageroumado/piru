@@ -194,20 +194,15 @@ struct SubstanceReadModel {
     /// lowercases, and collapses whitespace. Subunit-specific names
     /// ("GABA-A α4β3δ (extrasynaptic)") stay distinct from the coarse target.
     static func normalizedBindingTarget(_ target: String) -> String {
-        var t = target.lowercased().trimmingCharacters(in: .whitespaces)
-        // Drop a trailing assay/qualifier parenthetical so a measured row stated
+        // ReceptorTargetKey.fold drops a non-leading assay/qualifier
+        // parenthetical and a trailing " receptor(s)", so a measured row stated
         // under a wordier name ("DAT (release, [3H]-DA …)", "α2δ-1 (porcine
-        // cortex)", "NMDA receptor (PCP site)") collapses onto its clean canonical
-        // target ("dat", "α2δ-1", "nmda") — the graded flagship rows use the bare
-        // target name, the enrichment layer often appends the assay in parens.
-        if let paren = t.firstIndex(of: "(") {
-            t = String(t[..<paren]).trimmingCharacters(in: .whitespaces)
-        }
-        for suffix in [" receptors", " receptor"] where t.hasSuffix(suffix) {
-            t = String(t.dropLast(suffix.count)).trimmingCharacters(in: .whitespaces)
-            break
-        }
-        return t.split(whereSeparator: \.isWhitespace).joined(separator: " ")
+        // cortex)", "NMDA receptor (PCP site)") collapses onto its clean
+        // canonical target ("dat", "α2δ-1", "nmda") — the graded flagship rows
+        // use the bare target name, the enrichment layer often appends the
+        // assay in parens. A target that opens with a parenthetical keeps it:
+        // it is the whole name, and stripping it made an empty dedup key.
+        ReceptorTargetKey.fold(target)
     }
 
     // MARK: - The full per-substance record
