@@ -39,14 +39,6 @@ enum SandboxModelability {
         lists().adjuncts
     }
 
-    static func isAnchor(_ substance: Substance) -> Bool {
-        SubstanceModelDatabase.canAnchor(name: substance.name, pharmacology: pharmacology(for: substance))
-    }
-
-    static func canParticipate(_ substance: Substance) -> Bool {
-        SubstanceModelDatabase.canParticipate(name: substance.name, pharmacology: pharmacology(for: substance))
-    }
-
     private static func pharmacology(for substance: Substance) -> PharmacologyParameters? {
         SubstanceStore.shared.pharmacologyParameters(forSubstanceName: substance.name)
     }

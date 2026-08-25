@@ -2,6 +2,10 @@
 # cross-references every declaration against real usage). Run after any
 # feature removal; treat results as candidates — SwiftUI/@Model/registry
 # indirection produces some false positives, so verify before deleting.
+# Fast path when a recent build exists (reuses Xcode's index store; keep Xcode
+# closed for exact results):
+#   periphery scan --skip-build --index-store-path \
+#     ~/Library/Developer/Xcode/DerivedData/Piru-*/Index.noindex/DataStore
 project: Piru.xcodeproj
 schemes:
   - Piru

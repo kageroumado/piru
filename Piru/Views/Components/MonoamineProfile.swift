@@ -104,14 +104,6 @@ struct MonoamineProfile {
         }
     }
 
-    var mechanismDetail: LocalizedStringResource {
-        switch mechanism {
-        case .releaser: "Reverses the transporters to pump monoamines out (substrate efflux) — the MDMA/amphetamine-type mechanism."
-        case .blocker: "Blocks reuptake without triggering release (cocaine/methylphenidate-type) — a different tolerance and redose profile from a releaser."
-        case .hybrid: "Releases at one transporter while blocking another — an intermediate profile; a single α-alkyl or N-ethyl group flips DAT from substrate to blocker."
-        }
-    }
-
     var leanLabel: LocalizedStringResource {
         guard let r = datSertRatio else { return "Balance not characterized (DAT or SERT data missing)" }
         switch r {

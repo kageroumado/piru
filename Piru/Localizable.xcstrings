@@ -17499,6 +17499,7 @@
       }
     },
     "Custom substance - enter dose details manually" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21604,6 +21605,7 @@
       }
     },
     "Edit Entry" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36066,6 +36068,7 @@
       }
     },
     "New Entry" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

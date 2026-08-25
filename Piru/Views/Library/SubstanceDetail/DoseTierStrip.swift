@@ -34,10 +34,6 @@ struct DoseTierStripModel {
         selectedID = present.contains(2) ? 2 : (present.min(by: { abs($0 - 2) < abs($1 - 2) }) ?? 2)
     }
 
-    var selected: (name: LocalizedStringKey, fullValue: String)? {
-        tier(selectedID)
-    }
-
     /// The named tier, if it carries a value — a tier the source didn't supply
     /// has nothing to headline, so the caller keeps whatever it was showing.
     func tier(_ id: Int) -> (name: LocalizedStringKey, fullValue: String)? {

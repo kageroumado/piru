@@ -77,13 +77,6 @@ final class DoseLogService {
         changed()
     }
 
-    /// Delete a dose, save, and signal.
-    func delete(_ entry: DoseEntry, in context: ModelContext) {
-        context.delete(entry)
-        try? context.save()
-        changed()
-    }
-
     /// Announce that the dose log changed after a commit the caller performed itself — an in-place edit,
     /// the quick-log tray's batched multi-insert, or an import. The caller owns insert/edit + `save()`;
     /// this only emits the change tick that wakes the derived caches.
