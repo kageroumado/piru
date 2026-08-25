@@ -296,8 +296,16 @@ struct EntryListView: View {
             }
         }
         .overlay {
+            // Gate the empty state on the first derive having finished: on a
+            // cold launch the initial rebuild awaits the substance-store
+            // warm-up, and flashing "No Entries" at a user who has entries
+            // reads as a blink of data loss. Until then, a spinner.
             if model.filtered.isEmpty {
-                emptyState
+                if hasDerivedOnce {
+                    emptyState
+                } else {
+                    ProgressView()
+                }
             }
         }
         // Single derive driver: runs once on appear (paints fast, no animation)
