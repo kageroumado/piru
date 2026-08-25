@@ -1,11 +1,8 @@
-import OSLog
 import SwiftData
 import SwiftUI
 import UIKit
 import VisionKit
 import WidgetKit
-
-private let quickLogLogger = Logger(subsystem: "dev.yumeji.piru", category: "QuickLog")
 
 /// Thin wrapper that pins the recent-history window before building the screen.
 ///
@@ -385,7 +382,7 @@ struct QuickLogView: View {
         let fixedOrder = quickLogFixedOrder
         let context = modelContext
         let recentEntries = Array(allEntries)
-        var colors = Array(substanceColors)
+        let colors = Array(substanceColors)
 
         // The success haptic + dismiss fire *first*, on this runloop, so the
         // sheet starts sliding away immediately. (Haptic played directly
@@ -400,7 +397,7 @@ struct QuickLogView: View {
         // dismissal's first frame, but kept prompt so the journal behind the
         // sheet shows the dose as the sheet slides away — no pop-in.
         DispatchQueue.main.async {
-            var createdEntries: [DoseEntry] = []
+            var batch: [(entry: DoseEntry, substance: Substance?)] = []
             var curation: [QuickLogManager.LoggedDose] = []
 
             for item in stagedItems {
@@ -427,9 +424,7 @@ struct QuickLogView: View {
                     abv: item.abv,
                     drinkName: item.drinkName,
                 )
-                context.insert(entry)
-                SessionService.assignSession(for: entry, in: context)
-                createdEntries.append(entry)
+                batch.append((entry, item.librarySubstance))
 
                 // Record each component's chip amount (not the merged total) so
                 // the curated list floats the chips the user actually tapped,
@@ -445,55 +440,32 @@ struct QuickLogView: View {
                         ))
                     }
                 }
-
-                // Auto-assign a stable palette color for a brand-new substance
-                // up front (deterministic hash, the same color the graph uses),
-                // tracking it in the local `colors` snapshot so the session
-                // picks it up immediately without a store round-trip.
-                if !colors.hasColor(for: item.substanceName) {
-                    let newColor = SubstanceColor(substance: item.substanceName, hexColor: PresetColor.deterministic(for: item.substanceName).hex)
-                    context.insert(newColor)
-                    colors.append(newColor)
-                }
-
-                ActiveSessionManager.shared.addDose(
-                    entry: entry,
-                    substance: item.librarySubstance,
-                    colorHex: SubstancePalette.hex(for: item.substanceName, hexMap: colors.hexColorMap),
-                    allColors: colors,
-                )
             }
-            // Curated-list maintenance is a site-specific immediate bit (it
-            // records the chips the user actually tapped), kept prompt so a
-            // reopened tray reflects them right away. Mutations only — the
-            // single save below commits doses and chips together, so the
-            // per-save `@Query` invalidation storm fires once, not twice.
-            QuickLogManager.record(curation, fixedOrder: fixedOrder, context: context, save: false)
-            do {
-                try context.save()
-            } catch {
-                // The success haptic + dismissal already fired (deliberately —
-                // the sheet must slide immediately), so a failure here leaves
-                // the live session showing doses the store doesn't have. The
-                // inserts stay pending on the context, so the next save —
-                // SwiftData's autosave or the next commit — retries them;
-                // record it loudly instead of vanishing the evidence.
-                quickLogLogger.fault("Quick-log commit save failed for \(stagedItems.count) dose(s): \(error)")
-            }
-            DoseLogService.shared.changed()
 
-            // Tier 2 — after the dismissal animation: the bookkeeping that isn't
-            // on screen (wellness notifications, scoped inventory recompute, one
-            // widget reload). Routed through the same deferred funnel the entry
-            // form uses; running it now would drop frames *during* the slide-down,
-            // and none of it is visible until the next quick-log open or a widget
-            // refresh.
-            let affected = Set(stagedItems.map(\.substanceName))
-            DoseLogService.shared.scheduleDeferredBookkeeping(forSubstances: affected, in: context) {
-                for entry in createdEntries {
-                    DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries, in: modelContext)
-                }
-            }
+            let createdEntries = batch.map(\.entry)
+            DoseLogService.shared.logBatch(
+                batch,
+                colors: colors,
+                in: context,
+                beforeSave: {
+                    // Curated-list maintenance is a site-specific immediate bit
+                    // (it records the chips the user actually tapped), kept
+                    // prompt so a reopened tray reflects them right away.
+                    // Mutations only — the batch's single save commits doses
+                    // and chips together, so the per-save `@Query` invalidation
+                    // storm fires once, not twice.
+                    QuickLogManager.record(curation, fixedOrder: fixedOrder, context: context, save: false)
+                },
+                // Tier 2 — after the dismissal animation: the wellness
+                // notifications; running them now would drop frames during the
+                // slide-down, and none of it is visible until the next
+                // quick-log open or a widget refresh.
+                deferredBookkeeping: {
+                    for entry in createdEntries {
+                        DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries, in: context)
+                    }
+                },
+            )
         }
     }
 }

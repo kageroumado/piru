@@ -1,6 +1,9 @@
 import Foundation
+import os
 import SwiftData
 import WidgetKit
+
+private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "DoseLog")
 
 /// The single choke point for **mutating the dose log**, and the one place a "the dose log changed"
 /// signal is emitted. Derived caches (the tolerance engine) subscribe via ``changeStream()`` and refresh
@@ -16,10 +19,12 @@ import WidgetKit
 ///
 /// ## Canonical vs. batch
 /// ``log(_:in:recentEntries:)`` is the canonical single-dose pipeline (insert → session assignment →
-/// save → harm-reduction notifications → signal) for new callers (the entry form path, the Watch
-/// receiver). Paths that batch many inserts behind one `save()` for frame-budget reasons (the quick-log
-/// tray, import) keep their own commit and just call ``changed()`` afterward — funneling each row through
-/// `log()` would break that intentional batching and double the per-row side effects they already run.
+/// save → harm-reduction notifications → signal) for callers that log exactly one dose (the entry
+/// form path, the Watch receiver). ``logBatch(_:colors:in:beforeSave:deferredBookkeeping:)`` is the
+/// batch entry point: many inserts behind one `save()` for frame-budget reasons (the quick-log tray,
+/// both daily-med surfaces), with site-specific mutations riding the same commit via `beforeSave` and
+/// per-entry notification work deferred past the dismissal via `deferredBookkeeping`. Import keeps its
+/// own commit shape and just calls ``changed()`` afterward.
 @Observable @MainActor
 final class DoseLogService {
     static let shared = DoseLogService()
@@ -75,6 +80,60 @@ final class DoseLogService {
         // follow-up re-asks for today are cancelled.
         DoseNotificationManager.syncMedReminders(in: context)
         changed()
+    }
+
+    /// Batch log: insert every dose, assign sessions, commit once, then run the shared post-commit
+    /// pipeline (live-session update → change signal → deferred bookkeeping). `colors` is the caller's
+    /// current `SubstanceColor` snapshot; a first-time substance gets a deterministic palette color
+    /// inserted in the same commit and visible to the Live Activity immediately. `beforeSave` runs
+    /// extra mutations inside the same commit (e.g. quick-log chip curation), so the per-save `@Query`
+    /// invalidation storm fires once. `deferredBookkeeping` carries per-entry notification work into
+    /// ``scheduleDeferredBookkeeping(forSubstances:in:bookkeeping:)``'s post-dismissal flush. An empty
+    /// batch is a complete no-op — no save, no signal.
+    func logBatch(
+        _ doses: [(entry: DoseEntry, substance: Substance?)],
+        colors: [SubstanceColor],
+        in context: ModelContext,
+        beforeSave: () -> Void = {},
+        deferredBookkeeping: @escaping @MainActor () -> Void = {},
+    ) {
+        guard !doses.isEmpty else { return }
+        var colors = colors
+        for (entry, _) in doses {
+            context.insert(entry)
+            SessionService.assignSession(for: entry, in: context)
+            // Auto-assign a stable palette color for a brand-new substance up
+            // front (deterministic hash, the same color the graph uses),
+            // tracking it in the local snapshot so the live session picks it up
+            // immediately without a store round-trip.
+            if !colors.hasColor(for: entry.substance) {
+                let newColor = SubstanceColor(
+                    substance: entry.substance,
+                    hexColor: PresetColor.deterministic(for: entry.substance).hex,
+                )
+                context.insert(newColor)
+                colors.append(newColor)
+            }
+        }
+        beforeSave()
+        do {
+            try context.save()
+        } catch {
+            // Callers fire their success feedback and dismissal before this
+            // commit (deliberately — the sheet must slide immediately), so a
+            // failure here leaves the live session showing doses the store
+            // doesn't have. The inserts stay pending on the context, so the
+            // next save — SwiftData's autosave or the next commit — retries
+            // them; record it loudly instead of vanishing the evidence.
+            logger.fault("Batch dose commit save failed for \(doses.count) dose(s): \(error)")
+        }
+        ActiveSessionManager.shared.addDoses(entries: doses, allColors: colors)
+        changed()
+        scheduleDeferredBookkeeping(
+            forSubstances: Set(doses.map(\.entry.substance)),
+            in: context,
+            bookkeeping: deferredBookkeeping,
+        )
     }
 
     /// Announce that the dose log changed after a commit the caller performed itself — an in-place edit,

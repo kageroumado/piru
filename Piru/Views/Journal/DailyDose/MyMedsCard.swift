@@ -392,19 +392,16 @@ struct MyMedsCard: View {
         }
     }
 
-    /// Mirrors `LogMedicationsView.logSelected` for the tapped slot(s): entry +
-    /// session assignment + deterministic color + Live Activity + the deferred
-    /// bookkeeping funnel.
+    /// Build the tapped slot(s)' entries and exact-name library matches; the
+    /// shared batch pipeline owns the rest (sessions, colors, Live Activity,
+    /// commit, deferred bookkeeping).
     private func log(slots: [MedSlot]) {
         guard !slots.isEmpty else { return }
         let now = Date.now
-        var affected: Set<String> = []
-        var logged: [(entry: DoseEntry, substance: Substance?)] = []
+        var batch: [(entry: DoseEntry, substance: Substance?)] = []
 
         for slot in slots {
             let item = slot.item
-            affected.insert(item.substance)
-
             let entry = DoseEntry(
                 substance: item.substance,
                 amount: item.amount,
@@ -413,25 +410,15 @@ struct MyMedsCard: View {
                 timestamp: now,
                 isBackgroundMed: item.isBackgroundMed,
             )
-            modelContext.insert(entry)
-            SessionService.assignSession(for: entry, in: modelContext)
-
             let matched = SubstanceLibrary.lookup(item.substance).flatMap {
                 $0.name.lowercased() == item.substance.lowercased() ? $0 : nil
             }
-            logged.append((entry, matched))
-
-            if !Array(substanceColors).hasColor(for: item.substance) {
-                modelContext.insert(SubstanceColor(
-                    substance: item.substance,
-                    hexColor: PresetColor.deterministic(for: item.substance).hex,
-                ))
-            }
+            batch.append((entry, matched))
         }
 
-        ActiveSessionManager.shared.addDoses(entries: logged, allColors: Array(substanceColors))
-        DoseLogService.shared.changed()
-        DoseLogService.shared.scheduleDeferredBookkeeping(forSubstances: affected, in: modelContext)
+        // Meds pass no deferredBookkeeping: routine medications skip the
+        // ramp-down notifications on purpose.
+        DoseLogService.shared.logBatch(batch, colors: Array(substanceColors), in: modelContext)
         pendingSlots = []
     }
 

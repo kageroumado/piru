@@ -13,8 +13,6 @@ struct LogMedicationsView: View {
     let category: String
 
     @State private var toggleStates: [String: Bool] = [:]
-    @State private var loggedDoseEntries: [DoseEntry] = []
-    @State private var loggedSubstances: [Substance?] = []
     @State private var interactionWarnings: [InteractionResult] = []
     @State private var showInteractionSheet = false
 
@@ -115,18 +113,6 @@ struct LogMedicationsView: View {
         )
     }
 
-    private func hasColor(for name: String) -> Bool {
-        Array(substanceColors).hasColor(for: name)
-    }
-
-    /// Persist the substance's stable deterministic color if it has none yet,
-    /// so a first-time medication is colored the moment it's logged — no extra
-    /// picker step. Editable later from the entry detail's color picker.
-    private func ensureColor(for name: String) {
-        guard !hasColor(for: name) else { return }
-        modelContext.insert(SubstanceColor(substance: name, hexColor: PresetColor.deterministic(for: name).hex))
-    }
-
     private func attemptLog() {
         let active = InteractionChecker.activeEntries(from: recentEntries)
         // Only a finding that has earned an interruption stops the log. A
@@ -146,12 +132,11 @@ struct LogMedicationsView: View {
 
     private func logSelected() {
         let now = Date.now
-        var affected: Set<String> = []
+        var batch: [(entry: DoseEntry, substance: Substance?)] = []
 
         for item in items {
             let isOn = toggleStates[itemKey(for: item)] ?? true
             guard isOn else { continue }
-            affected.insert(item.substance)
 
             let entry = DoseEntry(
                 substance: item.substance,
@@ -161,40 +146,19 @@ struct LogMedicationsView: View {
                 timestamp: now,
                 isBackgroundMed: item.isBackgroundMed,
             )
-            modelContext.insert(entry)
-            SessionService.assignSession(for: entry, in: modelContext)
-
             let matchedSubstance = SubstanceLibrary.lookup(item.substance).flatMap {
                 $0.name.lowercased() == item.substance.lowercased() ? $0 : nil
             }
-            loggedDoseEntries.append(entry)
-            loggedSubstances.append(matchedSubstance)
-
-            // Auto-assign a stable palette color for a first-time medication so
-            // it's colored immediately — no follow-up color-picker queue.
-            ensureColor(for: item.substance)
+            batch.append((entry, matchedSubstance))
         }
 
-        startLiveActivityForBatch()
-        DoseLogService.shared.changed()
-
-        // Refresh the affected items' stock cache + the widget off the commit
-        // path, through the shared deferred funnel — a tracked daily med's
-        // consumption should reflect in inventory without blocking the dismissal.
-        DoseLogService.shared.scheduleDeferredBookkeeping(forSubstances: affected, in: modelContext)
+        // Meds pass no deferredBookkeeping: routine medications skip the
+        // ramp-down notifications on purpose.
+        DoseLogService.shared.logBatch(batch, colors: Array(substanceColors), in: modelContext)
 
         // Medication log completes a logging flow; clear the entire chain back
         // to root.
         navigator.dismissAll()
-    }
-
-    private func startLiveActivityForBatch() {
-        guard !loggedDoseEntries.isEmpty else { return }
-        let entries = zip(loggedDoseEntries, loggedSubstances).map { (entry: $0, substance: $1) }
-        ActiveSessionManager.shared.addDoses(
-            entries: entries,
-            allColors: Array(substanceColors),
-        )
     }
 }
 
