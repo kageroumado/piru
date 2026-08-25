@@ -27,6 +27,7 @@ struct TimeAdjustSheet: View {
             // Keep the session accessory + Live Activity in sync with the edited
             // time (they read ActiveSessionManager's snapshot, not SwiftData).
             guard let original = originalTimestamp, original != entry.timestamp else { return }
+            entry.session?.refreshDoseBounds()
             ActiveSessionManager.shared.refreshEditedEntry(
                 previousTimestamp: original,
                 entry: entry,

@@ -28,18 +28,30 @@ import SwiftData
 @Model
 final class Session {
     // `startDate` drives every chronological session list and the journal's day-grouping/windowed
-    // load, so it's indexed. `id` is already `@Attribute(.unique)` (an implicit index), so it needs no
-    // explicit one.
-    #Index<Session>([\.startDate])
+    // load, and `lastDoseDate` bounds `SessionService.assignSession`'s candidate fetch, so both are
+    // indexed. `id` is already `@Attribute(.unique)` (an implicit index), so it needs no explicit one.
+    #Index<Session>([\.startDate], [\.lastDoseDate])
 
     /// Stable identifier for routing and deep links (`PersistentIdentifier`
     /// isn't URL-stable). Unique; safe because CloudKit mirroring is disabled.
     @Attribute(.unique) var id: UUID
 
     /// Denormalized first-dose timestamp, cached for cheap sorting and
-    /// day-header grouping. Keep in sync via ``refreshStartDate()`` whenever the
+    /// day-header grouping. Keep in sync via ``refreshDoseBounds()`` whenever the
     /// earliest dose changes (insert / delete / time-edit / reassign).
     var startDate: Date
+
+    /// Denormalized last-dose timestamp. Together with ``startDate`` it bounds
+    /// `SessionService.assignSession`'s candidate fetch, so week-spanning merged
+    /// sessions stay visible to in-span placement without fetching every session.
+    /// It only ever *bounds the fetch* — placement re-derives the true span from
+    /// the doses — so a stale value can over-fetch but never misplace, and `nil`
+    /// (a row predating the field) is always fetched and self-heals via
+    /// `SessionService.ensureSessionsPopulated`. Keep in sync via
+    /// ``refreshDoseBounds()`` on every mutation class that can change the latest
+    /// dose: dose insert, dose delete, timestamp edit, and merge / split /
+    /// move / reassign.
+    var lastDoseDate: Date?
 
     /// Optional user-authored session title (e.g. "Festival Saturday").
     var title: String?
@@ -55,6 +67,7 @@ final class Session {
     init(id: UUID = UUID(), startDate: Date, title: String? = nil, note: String? = nil) {
         self.id = id
         self.startDate = startDate
+        lastDoseDate = startDate
         self.title = title
         self.note = note
     }
@@ -72,13 +85,21 @@ final class Session {
         return !doses.isEmpty && doses.allSatisfy(\.isBackgroundMed)
     }
 
-    /// Recompute ``startDate`` from the current earliest dose. Call after any
-    /// membership or timestamp change. Leaves ``startDate`` untouched if the
-    /// session is (transiently) empty so a soon-to-be-deleted session doesn't
-    /// jump to `distantPast`.
-    func refreshStartDate() {
-        if let earliest = (doses ?? []).map(\.timestamp).min() {
-            startDate = earliest
+    /// Recompute ``startDate`` and ``lastDoseDate`` from the current doses in
+    /// one pass. Call after any membership or timestamp change. Leaves both
+    /// untouched if the session is (transiently) empty so a soon-to-be-deleted
+    /// session doesn't jump to `distantPast`. Skips doses already marked
+    /// deleted — the relationship still contains them until the context
+    /// processes the deletion, and the delete sites refresh before that.
+    func refreshDoseBounds() {
+        let live = (doses ?? []).filter { !$0.isDeleted }
+        guard var earliest = live.first?.timestamp else { return }
+        var latest = earliest
+        for dose in live.dropFirst() {
+            if dose.timestamp < earliest { earliest = dose.timestamp }
+            if dose.timestamp > latest { latest = dose.timestamp }
         }
+        startDate = earliest
+        lastDoseDate = latest
     }
 }

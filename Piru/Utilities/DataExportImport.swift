@@ -985,7 +985,7 @@ enum DataExportImport {
             for dose in sessionDoses {
                 dose.session = session
             }
-            session.refreshStartDate()
+            session.refreshDoseBounds()
         }
 
         // Track imported colors to avoid duplicates — seeded with existing
@@ -1096,7 +1096,7 @@ enum DataExportImport {
             for dose in doses {
                 dose.session = session
             }
-            session.refreshStartDate()
+            session.refreshDoseBounds()
         }
 
         // Session-less doses (defensive) are left unassigned; importJSON's

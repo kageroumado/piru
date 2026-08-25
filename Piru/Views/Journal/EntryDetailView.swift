@@ -240,6 +240,7 @@ struct EntryDetailView: View {
         // both, so a Focalin XR dose stays "Dexmethylphenidate XR" after an edit.
         entry.displayNameSnapshot = DoseTitle.snapshot(canonicalName: entry.substance, isomer: draft.isomer, releaseForm: entry.releaseForm)
         entry.timestamp = draft.timestamp
+        entry.session?.refreshDoseBounds()
         entry.isApproximate = draft.isApproximate
         entry.notes = draft.notes.isEmpty ? nil : draft.notes
         // By-volume metadata, set when logged as a drink, cleared otherwise.
@@ -281,8 +282,10 @@ struct EntryDetailView: View {
         let id = entry.id
         let name = entry.substance
         let timestamp = entry.timestamp
+        let session = entry.session
         DoseNotificationManager.doseDeleted(entryID: id, timestamp: timestamp)
         modelContext.delete(entry)
+        session?.refreshDoseBounds()
         // Tear the dose out of the active session / Live Activity too; otherwise a
         // deleted "taking now" dose leaves the Live Activity and progress accessory
         // stuck on screen, uncancellable even after the app is quit.

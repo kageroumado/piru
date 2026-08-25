@@ -448,7 +448,9 @@ struct MyMedsCard: View {
 
         let id = entry.id
         let timestamp = entry.timestamp
+        let session = entry.session
         modelContext.delete(entry)
+        session?.refreshDoseBounds()
         ActiveSessionManager.shared.removeDose(
             id: id,
             substanceName: item.substance,

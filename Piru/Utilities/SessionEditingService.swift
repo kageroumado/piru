@@ -61,11 +61,13 @@ final class SessionEditingService {
         let id = entry.id
         let name = entry.substance
         let timestamp = entry.timestamp
+        let session = entry.session
 
         DoseNotificationManager.doseDeleted(entryID: id, timestamp: timestamp)
         withAnimation {
             context.delete(entry)
         }
+        session?.refreshDoseBounds()
 
         let colors = (try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []
         ActiveSessionManager.shared.removeDose(

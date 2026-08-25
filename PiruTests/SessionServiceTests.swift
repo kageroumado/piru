@@ -76,7 +76,7 @@ struct SessionServiceTests {
             let dose = insert(context, hoursFromNow: hours)
             dose.session = session
         }
-        session.refreshStartDate()
+        session.refreshDoseBounds()
         try context.save()
         #expect(try sessions(context).count == 1)
 
@@ -114,7 +114,7 @@ struct SessionServiceTests {
         for hours in stride(from: 0.0, through: 30.0, by: 2.0) {
             insert(context, hoursFromNow: hours).session = session
         }
-        session.refreshStartDate()
+        session.refreshDoseBounds()
         try context.save()
 
         // The gate is spent, so the deliberate overlong session survives.
@@ -322,5 +322,97 @@ struct SessionServiceTests {
         #expect(session.title == "Festival")
         SessionService.setTitle("   ", for: session)
         #expect(session.title == nil)
+    }
+
+    // MARK: - Candidate windowing (persisted dose bounds)
+
+    @Test
+    func `A dose inside a user-merged weeks-spanning session joins it instead of spawning an overlap`() throws {
+        // The reason assignSession cannot use a naive recency window: a merged
+        // session legally spans weeks, and rule 1 (in-span join) must still see
+        // it for a mid-span dose.
+        let context = try makeContext()
+        let early = insert(context, hoursFromNow: 0)
+        SessionService.assignSession(for: early, in: context)
+        let late = insert(context, hoursFromNow: 480) // day 20
+        SessionService.assignSession(for: late, in: context)
+        let target = try #require(early.session)
+        let source = try #require(late.session)
+        SessionService.merge(source, into: target, in: context)
+        try context.save()
+        #expect(try sessions(context).count == 1)
+
+        let midSpan = insert(context, hoursFromNow: 240) // day 10, in-span
+        let assigned = SessionService.assignSession(for: midSpan, in: context)
+
+        #expect(assigned === target)
+        #expect(midSpan.session === target)
+        #expect(try sessions(context).count == 1) // no overlapping session spawned
+    }
+
+    @Test
+    func `A dose beyond the horizon of every session starts its own`() throws {
+        let context = try makeContext()
+        let a = insert(context, hoursFromNow: 0)
+        SessionService.assignSession(for: a, in: context)
+        try context.save()
+
+        let distant = insert(context, hoursFromNow: 30) // > 24 h horizon
+        let assigned = SessionService.assignSession(for: distant, in: context)
+
+        #expect(assigned !== a.session)
+        #expect(try sessions(context).count == 2)
+    }
+
+    @Test
+    func `lastDoseDate tracks the latest dose through assign, merge, split, move, and delete`() throws {
+        let context = try makeContext()
+        let a = insert(context, hoursFromNow: 0)
+        SessionService.assignSession(for: a, in: context)
+        let b = insert(context, hoursFromNow: 1)
+        SessionService.assignSession(for: b, in: context)
+        let session = try #require(a.session)
+        #expect(session.lastDoseDate == b.timestamp) // assign-join refreshed it
+
+        let far = insert(context, hoursFromNow: 480)
+        SessionService.assignSession(for: far, in: context)
+        let farSession = try #require(far.session)
+        SessionService.merge(farSession, into: session, in: context)
+        #expect(session.lastDoseDate == far.timestamp) // merge refreshed it
+
+        let split = try #require(SessionService.split(session, at: far, in: context))
+        #expect(session.lastDoseDate == b.timestamp) // split refreshed the remainder
+        #expect(split.lastDoseDate == far.timestamp)
+
+        SessionService.move(b, to: split, in: context)
+        #expect(session.lastDoseDate == a.timestamp) // move refreshed the source
+        #expect(split.lastDoseDate == far.timestamp)
+
+        // Mirror the dose-delete sites: capture, delete, refresh.
+        context.delete(far)
+        split.refreshDoseBounds()
+        #expect(split.lastDoseDate == b.timestamp)
+    }
+
+    @Test
+    func `A nil-bound session (pre-migration row) still receives in-span doses and gets backfilled`() throws {
+        let context = try makeContext()
+        let session = Session(startDate: Date(timeIntervalSince1970: 1_700_000_000))
+        context.insert(session)
+        insert(context, hoursFromNow: 0).session = session
+        insert(context, hoursFromNow: 480).session = session // day 20
+        session.startDate = Date(timeIntervalSince1970: 1_700_000_000)
+        session.lastDoseDate = nil // simulate a row written before the field existed
+        try context.save()
+
+        let midSpan = insert(context, hoursFromNow: 240)
+        let assigned = SessionService.assignSession(for: midSpan, in: context)
+        #expect(assigned === session) // nil arm keeps the row visible
+
+        session.lastDoseDate = nil
+        try context.save()
+        SessionService.ensureSessionsPopulated(in: context)
+        #expect(session.lastDoseDate != nil) // launch sweep backfills
+        #expect(session.lastDoseDate == session.orderedDoses.last?.timestamp)
     }
 }

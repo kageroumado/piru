@@ -43,11 +43,30 @@ enum SessionService {
     @discardableResult
     static func assignSession(for entry: DoseEntry, in context: ModelContext) -> Session {
         let target = entry.timestamp
-        // One batched fetch that also realizes every session's doses up front.
-        // Without the prefetch, each span check below is a lazy per-relationship
-        // fault — an N+1 round-trip storm on the main thread for every logged
-        // dose.
-        var descriptor = FetchDescriptor<Session>(sortBy: [SortDescriptor(\.startDate, order: .reverse)])
+        // Candidate window: every placement rule requires the joined span to fit
+        // inside `SessionClustering.Constants.horizon` (24 h), so only sessions
+        // whose persisted dose bounds come within one horizon of the target can
+        // matter — rule 1's in-span sessions satisfy both bounds trivially
+        // (merged sessions are bounded on both ends, not by span length), rule 2
+        // needs `lastDoseDate` within a gap ≤ horizon behind the target, rule 3
+        // needs `startDate` within a horizon ahead. The persisted bounds only
+        // bound this fetch; placement below re-derives the true span from the
+        // doses. `lastDoseDate == nil` rows (predating the field) are always
+        // fetched and self-heal. The prefetch then realizes only the candidates'
+        // doses — without it each span check is a lazy per-relationship fault,
+        // and without the window it realized every dose in the store on every
+        // logged dose.
+        let lower = target.addingTimeInterval(-SessionClustering.Constants.horizon)
+        let upper = target.addingTimeInterval(SessionClustering.Constants.horizon)
+        // `?? lower` only gives the nil case a value that the first arm already
+        // admitted; SwiftData's translator rejects forced unwrap here.
+        var descriptor = FetchDescriptor<Session>(
+            predicate: #Predicate<Session> { session in
+                session.lastDoseDate == nil
+                    || ((session.lastDoseDate ?? lower) >= lower && session.startDate <= upper)
+            },
+            sortBy: [SortDescriptor(\.startDate, order: .reverse)],
+        )
         descriptor.relationshipKeyPathsForPrefetching = [\.doses]
         let sessions = (try? context.fetch(descriptor)) ?? []
 
@@ -70,7 +89,7 @@ enum SessionService {
         //    it, no gap to weigh. Keeps sessions from overlapping.
         for span in spans where target >= span.firstDose.timestamp && target <= span.last {
             entry.session = span.session
-            span.session.refreshStartDate()
+            span.session.refreshDoseBounds()
             return span.session
         }
 
@@ -92,7 +111,7 @@ enum SessionService {
         if case .join = SessionClustering.placement(of: clusterDose(for: entry), into: openState),
            let candidate {
             entry.session = candidate.session
-            candidate.session.refreshStartDate()
+            candidate.session.refreshDoseBounds()
             return candidate.session
         }
 
@@ -112,7 +131,7 @@ enum SessionService {
             let endingWithEntry = SessionClustering.OpenSession(doses: [clusterDose(for: entry)])
             if case .join = SessionClustering.placement(of: clusterDose(for: nextFirstDose), into: endingWithEntry) {
                 entry.session = nextSession
-                nextSession.refreshStartDate()
+                nextSession.refreshDoseBounds()
                 return nextSession
             }
         }
@@ -145,6 +164,7 @@ enum SessionService {
             for dose in doses {
                 dose.session = session
             }
+            session.refreshDoseBounds()
         }
         try? context.save()
         DoseLogService.shared.changed()
@@ -161,7 +181,7 @@ enum SessionService {
             dose.session = target
         }
         context.delete(source)
-        target.refreshStartDate()
+        target.refreshDoseBounds()
         DoseLogService.shared.changed()
     }
 
@@ -178,8 +198,8 @@ enum SessionService {
         for dose in moving {
             dose.session = newSession
         }
-        session.refreshStartDate()
-        newSession.refreshStartDate()
+        session.refreshDoseBounds()
+        newSession.refreshDoseBounds()
         DoseLogService.shared.changed()
         return newSession
     }
@@ -190,12 +210,12 @@ enum SessionService {
         let source = dose.session
         guard source?.persistentModelID != target.persistentModelID else { return }
         dose.session = target
-        target.refreshStartDate()
+        target.refreshDoseBounds()
         if let source {
             if (source.doses ?? []).isEmpty {
                 context.delete(source)
             } else {
-                source.refreshStartDate()
+                source.refreshDoseBounds()
             }
         }
         DoseLogService.shared.changed()
@@ -235,6 +255,28 @@ enum SessionService {
     /// history, without ever re-clustering doses that already have a session.
     static func ensureSessionsPopulated(in context: ModelContext) {
         assignUnassignedDoses(in: context)
+        backfillDoseBounds(in: context)
+    }
+
+    /// Fill ``Session/lastDoseDate`` on rows that predate the field. Candidate
+    /// iff `nil`, so the sweep is idempotent and data-driven (the
+    /// `PSIDBackfillMigration` pattern — no flag). Correctness never depends on
+    /// this having run: ``assignSession(for:in:)`` always fetches `nil`-bound
+    /// rows; this pass just lets them graduate into the windowed predicate.
+    private static func backfillDoseBounds(in context: ModelContext) {
+        let stale = (try? context.fetch(FetchDescriptor<Session>(
+            predicate: #Predicate<Session> { $0.lastDoseDate == nil },
+        ))) ?? []
+        guard !stale.isEmpty else { return }
+        for session in stale {
+            session.refreshDoseBounds()
+            // An empty session has no bounds to derive; pin the fetch bound to
+            // its startDate so it leaves the nil (always-fetched) bucket.
+            if session.lastDoseDate == nil {
+                session.lastDoseDate = session.startDate
+            }
+        }
+        try? context.save()
     }
 
     // MARK: - One-time re-split of pre-cap overlong sessions
@@ -279,9 +321,9 @@ enum SessionService {
                 for dose in moving {
                     dose.session = newSession
                 }
-                newSession.refreshStartDate()
+                newSession.refreshDoseBounds()
             }
-            session.refreshStartDate()
+            session.refreshDoseBounds()
         }
         try? context.save()
         DoseLogService.shared.changed()
