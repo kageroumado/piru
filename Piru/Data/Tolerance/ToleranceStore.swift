@@ -210,15 +210,18 @@ final class ToleranceStore {
         .alpha2Delta: "Pregabalin",
     ]
 
-    /// Oral **morphine-milligram-equivalent** factors (CDC 2022, §3.1) — morphine-mg per 1 mg of the
-    /// named opioid. The principled equivalent dose when a PK-less opioid is one of these named drugs
-    /// (the fallback then models it as Morphine at `dose × factor` mg); a novel/unlisted opioid falls
-    /// back to the generic dose-fraction proxy instead. Fentanyl (mcg) and methadone's tiered
-    /// nonlinearity are intentionally omitted from this simple linear table.
-    nonisolated static let opioidMMEPerMg: [String: Double] = [
-        "morphine": 1, "codeine": 0.15, "hydrocodone": 1, "oxycodone": 1.5,
-        "oxymorphone": 3, "hydromorphone": 5, "tramadol": 0.2,
-    ]
+    /// Oral **morphine-milligram-equivalent** factors — morphine-mg per 1 mg of the named opioid,
+    /// derived from ``OpioidEquivalence/table`` (CDC 2022) so the tolerance fallback and the
+    /// converter tool can never disagree. Only the linear full agonists carry a factor; the
+    /// un-convertible cases (methadone's nonlinearity, transdermal fentanyl's mcg dosing,
+    /// buprenorphine's ceiling) drop out via `mmePerMg == nil` and fall through to the generic
+    /// dose-fraction proxy. The equivalent dose when a PK-less opioid is one of these named drugs
+    /// models it as Morphine at `dose × factor` mg.
+    nonisolated static let opioidMMEPerMg: [String: Double] = Dictionary(
+        uniqueKeysWithValues: OpioidEquivalence.table.compactMap { equivalence in
+            equivalence.mmePerMg.map { (equivalence.name, $0) }
+        },
+    )
 
     /// **Diazepam-milligram-equivalent** factors — diazepam-mg per 1 mg of the named benzodiazepine.
     /// The structural analogue of ``opioidMMEPerMg`` for the GABA fallback: a named benzo with no PK

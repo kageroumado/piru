@@ -11,7 +11,7 @@ import Foundation
 /// buprenorphine (partial agonist with a respiratory-depression ceiling — CDC
 /// deliberately omits it) are modeled as *un-convertible* cases so the tool
 /// can never back-calculate a dangerous dose for them.
-struct OpioidEquivalence: Identifiable {
+nonisolated struct OpioidEquivalence: Identifiable {
     let name: String
     let displayName: String
     let convertibility: Convertibility
@@ -62,7 +62,7 @@ struct OpioidEquivalence: Identifiable {
     }
 }
 
-extension OpioidEquivalence {
+nonisolated extension OpioidEquivalence {
     /// CDC 2022 oral MME factors + the structurally un-convertible opioids.
     /// Morphine is the reference standard (factor 1.0) and leads the list.
     static let table: [OpioidEquivalence] = [

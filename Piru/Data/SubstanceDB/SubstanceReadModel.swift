@@ -60,6 +60,23 @@ nonisolated enum ContentLanguage: String {
 /// or caches, and then it delegates the SQL to this type. The store grew to
 /// its lint ceiling precisely by hosting resolvers directly; the split-brain
 /// rule above is what keeps that from recurring.
+///
+/// **Enabled-source policy** — the two kinds of content fail differently, on
+/// purpose:
+/// - **Prose fails open.** Text resolvers (``resolvedTextRow(db:from:selecting:substanceID:)``
+///   and callers) run a strict enabled-source pass, then retry without the
+///   enabled-source filter. Prose is inert reference content whose provenance
+///   badge names the source; a blank overview is strictly worse, and the
+///   relaxed pass also covers the empty-order launch window before source
+///   prefs load.
+/// - **Structured values fail closed.** Dose ladders, routes, category,
+///   half-life, and equivalence tables resolve only from enabled sources —
+///   they feed calculations and safety-relevant displays, so a value from a
+///   source the user explicitly disabled must never leak in. Disabling every
+///   source therefore legitimately blanks doses/durations while descriptions
+///   remain.
+/// A new resolver picks its side by that test (does the value drive behavior,
+/// or is it read as text?), not by copying the nearest query.
 struct SubstanceReadModel {
     /// Foreground (UI-interactive) connection — the queries a tap is waiting on.
     let db: DatabaseQueue
