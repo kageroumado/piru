@@ -36,6 +36,12 @@ nonisolated enum HalfLifeDatabase {
         PharmacologyNameKey.resolve(substanceName, in: data, aliases: sharedAliases)
     }
 
+    /// The full fallback table (minutes, keyed by folded name), read-only —
+    /// for the elimination-consistency gate and the shadowing audit.
+    static var allEntries: [String: Double] {
+        data
+    }
+
     // MARK: - Data
 
     private static let data: [String: Double] = [

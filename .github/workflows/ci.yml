@@ -133,6 +133,11 @@ jobs:
         run: python3 pipeline/audit/data_usage.py --gate
       - name: Data-usage classifier
         run: python3 pipeline/audit/tests/test_data_usage.py
+      # The DB carries elimination twice (half_lives vs pk_routes); nothing
+      # else compares them, so a contradiction ships as two "correct" numbers
+      # on two screens. Route-spread cases are pharmacology; the rest are gated.
+      - name: half_lives and pk_routes tell one story
+        run: python3 pipeline/audit/pk_sanity.py --gate
       # One dash spelling out of six, or the wrong micro sign, makes a quantity
       # parser match the leading number and drop the unit — a wrong value that
       # reads as a parsed one.

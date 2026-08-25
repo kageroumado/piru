@@ -1,0 +1,163 @@
+import Foundation
+import GRDB
+import Testing
+@testable import Piru
+
+/// Measures how much of the two hand-curated pharmacology tables the bundled
+/// DB has shadowed — `HalfLifeDatabase` entries the resolver never reaches
+/// because the DB carries its own t½, and `MechanismOfActionDatabase` keys
+/// whose prose the DB's `mechanisms_summary` outranks. The aggregate counts
+/// gate against `data/snapshots/pharmacology-shadow.json` so shadowing can
+/// only change deliberately (regenerate with `PIRU_SHADOW_REBASELINE=1` and
+/// commit the diff alongside the change that moved it).
+///
+/// The MoA columns are reported separately on purpose: the table is *not*
+/// mostly dead. `resolvedMechanism` deliberately prefers the curated class
+/// templates' binding sets over a noisier measured panel, so only the summary
+/// prose is shadowed where the DB has its own; the receptor dots stay
+/// template-driven for every resolving key.
+@Suite("Pharmacology shadow audit")
+struct PharmacologyShadowAuditTests {
+    struct Counts: Codable, Equatable {
+        /// The enabled-source order the counts were measured under. Shadowing
+        /// depends on it, so the gate refuses to compare across a different
+        /// order instead of reporting drifted numbers.
+        var sourceOrder: [String]
+        var halfLifeKeys: Int
+        var halfLifeShadowed: Int
+        var halfLifeLiveNoDBValue: Int
+        var halfLifeUnresolved: Int
+        var moaKeys: Int
+        var moaResolving: Int
+        var moaUnresolved: Int
+        var moaProseShadowed: Int
+        var moaNoDBBindings: Int
+    }
+
+    @MainActor
+    static func measure() async throws -> Counts {
+        await SubstanceStore.shared.ensureAllLoaded()
+        let store = SubstanceStore.shared
+
+        var counts = Counts(
+            sourceOrder: store.enabledSourceOrder,
+            halfLifeKeys: 0, halfLifeShadowed: 0, halfLifeLiveNoDBValue: 0, halfLifeUnresolved: 0,
+            moaKeys: 0, moaResolving: 0, moaUnresolved: 0, moaProseShadowed: 0, moaNoDBBindings: 0,
+        )
+
+        for key in HalfLifeDatabase.allEntries.keys {
+            counts.halfLifeKeys += 1
+            guard let substance = SubstanceLibrary.lookup(key) else {
+                counts.halfLifeUnresolved += 1
+                continue
+            }
+            if substance.halfLifeMinutes != nil {
+                counts.halfLifeShadowed += 1
+            } else {
+                counts.halfLifeLiveNoDBValue += 1
+            }
+        }
+
+        var moaIDs: [Int64] = []
+        for key in MechanismOfActionDatabase.substanceKeys {
+            counts.moaKeys += 1
+            if let id = store.substanceID(forNameOrAlias: key) {
+                counts.moaResolving += 1
+                moaIDs.append(id)
+            } else {
+                counts.moaUnresolved += 1
+            }
+        }
+
+        guard !moaIDs.isEmpty else { return counts }
+        let resolvedIDs = moaIDs
+        let (proseIDs, bindingIDs) = try await store.substancesDB.read { db in
+            let list = resolvedIDs.map(String.init).joined(separator: ", ")
+            let prose = try Int64.fetchSet(db, sql: "SELECT DISTINCT substance_id FROM mechanisms_summary WHERE substance_id IN (\(list))")
+            let bindings = try Int64.fetchSet(db, sql: "SELECT DISTINCT substance_id FROM bindings WHERE substance_id IN (\(list))")
+            return (prose, bindings)
+        }
+        counts.moaProseShadowed = moaIDs.filter { proseIDs.contains($0) }.count
+        counts.moaNoDBBindings = moaIDs.filter { !bindingIDs.contains($0) }.count
+
+        return counts
+    }
+
+    @Test
+    @MainActor
+    func `Shadow counts match the checked-in baseline`() async throws {
+        let counts = try await Self.measure()
+        let url = Self.repoRoot().appendingPathComponent("data/snapshots/pharmacology-shadow.json")
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+
+        // Bootstrap or deliberate rebaseline: a missing snapshot (delete it to
+        // regenerate after an intended shadowing change) or the env override
+        // writes the measured counts instead of asserting.
+        if !FileManager.default.fileExists(atPath: url.path)
+            || ProcessInfo.processInfo.environment["PIRU_SHADOW_REBASELINE"] != nil {
+            try (encoder.encode(counts) + Data("\n".utf8)).write(to: url)
+            print("SHADOW REBASELINE → \(url.path)")
+            return
+        }
+
+        let baseline = try JSONDecoder().decode(Counts.self, from: Data(contentsOf: url))
+        #expect(
+            counts.sourceOrder == baseline.sourceOrder,
+            "enabled-source order differs from the baseline's — the audit is defined against the default order",
+        )
+        #expect(
+            counts == baseline,
+            "shadow counts moved — if deliberate, rerun with PIRU_SHADOW_REBASELINE=1 and commit the snapshot. measured: \(counts)",
+        )
+    }
+
+    /// Opt-in per-key report: `PIRU_AUDIT_EXPORT=1` writes
+    /// `Audits/pharmacology-shadow-audit.md` with one row per curated key.
+    @Test(.enabled(if: ProcessInfo.processInfo.environment["PIRU_AUDIT_EXPORT"] != nil))
+    @MainActor
+    func `Export shadow audit markdown`() async throws {
+        await SubstanceStore.shared.ensureAllLoaded()
+        let store = SubstanceStore.shared
+
+        var out = "# Pharmacology Shadow Audit\n\n"
+        out += "_Which hand-curated fallback entries the bundled DB has shadowed. Generated by `PharmacologyShadowAuditTests` under source order \(store.enabledSourceOrder)._\n\n"
+
+        out += "## HalfLifeDatabase (\(HalfLifeDatabase.allEntries.count) keys)\n\n"
+        out += "| key | resolves | fallback min | DB min | state |\n|---|---|---|---|---|\n"
+        for (key, fallback) in HalfLifeDatabase.allEntries.sorted(by: { $0.key < $1.key }) {
+            let substance = SubstanceLibrary.lookup(key)
+            let dbValue = substance?.halfLifeMinutes
+            let state = substance == nil ? "live (unresolved name)" : (dbValue != nil ? "shadowed" : "live (no DB t1/2)")
+            out += "| \(key) | \(substance != nil) | \(fallback) | \(dbValue.map { "\($0)" } ?? "—") | \(state) |\n"
+        }
+
+        out += "\n## MechanismOfActionDatabase (\(MechanismOfActionDatabase.substanceKeys.count) keys)\n\n"
+        out += "| key | resolves | DB prose | DB bindings |\n|---|---|---|---|\n"
+        for key in MechanismOfActionDatabase.substanceKeys.sorted() {
+            guard let id = store.substanceID(forNameOrAlias: key) else {
+                out += "| \(key) | false | — | — |\n"
+                continue
+            }
+            let (hasProse, bindingCount) = try await store.substancesDB.read { db in
+                let prose = try Bool.fetchOne(db, sql: "SELECT EXISTS(SELECT 1 FROM mechanisms_summary WHERE substance_id = ?)", arguments: [id]) ?? false
+                let bindings = try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM bindings WHERE substance_id = ?", arguments: [id]) ?? 0
+                return (prose, bindings)
+            }
+            out += "| \(key) | true | \(hasProse ? "shadowed" : "template-only") | \(bindingCount) |\n"
+        }
+
+        let dir = Self.repoRoot().appendingPathComponent("Audits", isDirectory: true)
+        try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        let url = dir.appendingPathComponent("pharmacology-shadow-audit.md")
+        try out.write(to: url, atomically: true, encoding: .utf8)
+        print("SHADOW AUDIT → \(url.path)")
+    }
+
+    /// `<repo>/PiruTests/PharmacologyShadowAuditTests.swift` → `<repo>`.
+    private static func repoRoot(file: StaticString = #filePath) -> URL {
+        URL(fileURLWithPath: "\(file)")
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+    }
+}

@@ -1,0 +1,30 @@
+{
+  "halfLifeKeys" : 534,
+  "halfLifeLiveNoDBValue" : 222,
+  "halfLifeShadowed" : 275,
+  "halfLifeUnresolved" : 37,
+  "moaKeys" : 242,
+  "moaNoDBBindings" : 120,
+  "moaProseShadowed" : 179,
+  "moaResolving" : 226,
+  "moaUnresolved" : 16,
+  "sourceOrder" : [
+    "piru-curated",
+    "peer-review-primary",
+    "drug.community",
+    "psychonautwiki",
+    "tripsit",
+    "dailymed",
+    "erowid-pihkal",
+    "erowid-tihkal",
+    "pdsp",
+    "pubchem",
+    "wikidata",
+    "dea-orange-book",
+    "pyrls",
+    "medtap",
+    "benzos-cited",
+    "nps-datahub",
+    "freeodwiki"
+  ]
+}

@@ -108,6 +108,20 @@ nonisolated enum SubstanceModelDatabase {
         PharmacologyNameKey.resolve(name, in: overrides, aliases: aliases)
     }
 
+    /// Names carrying a curated override, for the elimination-consistency gate.
+    static var curatedOverrideNames: [String] {
+        Array(overrides.keys)
+    }
+
+    /// The felt-effect half-life a curated `ke` patch encodes, in **minutes**.
+    /// `Overrides.ke` is per-HOUR while every sibling table is per-minute;
+    /// putting the unit in this API name is what keeps that trap at the
+    /// boundary — never expose the raw `ke`. `nil` when the override trusts
+    /// the DB's PK.
+    static func curatedHalfLifeMinutes(for name: String) -> Double? {
+        overrides(for: name)?.ke.map { 60 * ln2 / $0 }
+    }
+
     // MARK: - DB → params
 
     private static let transporterSymbols = ["DAT", "NET", "SERT"]

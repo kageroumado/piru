@@ -15,6 +15,11 @@ enum MechanismOfActionDatabase {
         categoryData[category]
     }
 
+    /// The curated per-substance keys, read-only — for the shadowing audit.
+    static var substanceKeys: [String] {
+        Array(substanceData.keys)
+    }
+
     /// Composes the mechanism shown in the substance detail card by precedence,
     /// so real receptor data is never hidden behind a generic template.
     ///
