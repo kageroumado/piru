@@ -365,19 +365,7 @@ struct QuickLogView: View {
     }
 
     private func stageDailyItem(_ item: DailyDoseItem) {
-        tray.stage(
-            substance: item.substance,
-            route: item.route,
-            amount: item.amount,
-            unit: item.unit,
-            colorHex: content.cachedColorLookup[item.substance.lowercased()],
-            librarySubstance: SubstanceLibrary.lookup(item.substance.lowercased()),
-            // Carry the daily item's product so a Concerta med logs as Concerta —
-            // the tray derives the release form/isomer from it, same as search.
-            productName: item.productName,
-            isFromDailySet: true,
-            isBackgroundMed: item.isBackgroundMed,
-        )
+        tray.stage(dailyItem: item, colorLookup: content.cachedColorLookup)
     }
 
     // MARK: - Actions

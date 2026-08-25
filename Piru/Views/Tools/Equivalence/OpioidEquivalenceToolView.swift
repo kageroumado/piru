@@ -147,12 +147,12 @@ struct OpioidEquivalenceToolView: View {
             if let from, let to, let dose,
                let result = from.equivalentDose(forDoseMg: dose, in: to),
                let mme = from.mme(forDoseMg: dose) {
-                Text("≈ \(Self.formatMg(result)) mg")
+                Text("≈ \(EquivalenceFormat.mg(result)) mg")
                     .font(.title.weight(.bold))
                     .foregroundStyle(Theme.accent)
                     .contentTransition(.numericText())
                     .animation(.default, value: result)
-                Text("\(Self.formatMg(dose)) mg \(from.displayName) ≈ \(Self.formatMg(result)) mg \(to.displayName)")
+                Text("\(EquivalenceFormat.mg(dose)) mg \(from.displayName) ≈ \(EquivalenceFormat.mg(result)) mg \(to.displayName)")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
                     .multilineTextAlignment(.center)
@@ -177,7 +177,7 @@ struct OpioidEquivalenceToolView: View {
     private func mmeBadge(_ mme: Double) -> some View {
         let band = riskBand(mme)
         return VStack(spacing: 4) {
-            Text("≈ \(Self.formatMg(mme)) mg oral morphine equivalent")
+            Text("≈ \(EquivalenceFormat.mg(mme)) mg oral morphine equivalent")
                 .font(.caption.weight(.medium))
                 .foregroundStyle(.primary)
             Text(band.label)
@@ -280,13 +280,4 @@ struct OpioidEquivalenceToolView: View {
     }
 
     // MARK: - Formatting
-
-    /// Two significant figures below 10, integer at or above — an opioid-dose-scale
-    /// readout without implying false precision.
-    static func formatMg(_ value: Double) -> String {
-        if value <= 0 { return "0" }
-        if value >= 10 { return String(Int(value.rounded())) }
-        if value >= 1 { return String(format: "%.1f", value) }
-        return String(format: "%.2g", value)
-    }
 }

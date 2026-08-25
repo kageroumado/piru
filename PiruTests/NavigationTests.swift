@@ -548,17 +548,9 @@ struct RoutesCodableTests {
         ),
         .dailyDoseLog(category: "Antidepressants"),
         .dailyDoseSettings,
-        .dailyDoseItemForm(itemID: nil),
-        .dailyDoseItemForm(itemID: UUID(uuidString: "00000000-0000-0000-0000-000000000001")),
-        .customSubstancesList,
-        .customSubstanceForm(id: nil),
-        .customSubstanceForm(id: UUID(uuidString: "00000000-0000-0000-0000-000000000002")),
         .colorPicker(substance: "Caffeine", remaining: []),
         .colorPicker(substance: "A", remaining: ["B", "C"]),
-        .journalFilters,
-        .journalCalendar,
         .timeAdjust(entryTimestamp: Date(timeIntervalSince1970: 300)),
-        .dayShare(date: Date(timeIntervalSince1970: 400)),
     ])
     func `Each SheetRoute case round-trips`(route: SheetRoute) throws {
         #expect(try roundTrip(route) == route)

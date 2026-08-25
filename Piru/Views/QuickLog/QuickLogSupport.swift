@@ -212,9 +212,8 @@ struct CoverAccessibilityUnmasker: UIViewRepresentable {
 /// because closures can't be compared — a view holding them is always treated as
 /// changed, forcing its body to re-run whenever the parent does. `QuickLogView`'s
 /// body re-runs on every search keystroke (it reads `searchText`/`dockResults`),
-/// which used to cascade into every `SubstanceCardView`/`OneRowChips` body (a
-/// phone SwiftUI trace of the search/dock flow showed ~28k view-body updates
-/// dominated by that chain). With only stable references here, SwiftUI's
+/// and a parent closure here would cascade that into every
+/// `SubstanceCardView`/`OneRowChips` body. With only stable references here, SwiftUI's
 /// view-value comparison finds this subtree unchanged and skips it when the
 /// parent re-renders for state the list doesn't depend on. The cards still update
 /// through their own observation (the `content` caches, `tray` staging) — which
@@ -529,19 +528,7 @@ struct QuickLogCardList: View {
     }
 
     private func stageDailyItem(_ item: DailyDoseItem) {
-        tray.stage(
-            substance: item.substance,
-            route: item.route,
-            amount: item.amount,
-            unit: item.unit,
-            colorHex: content.cachedColorLookup[item.substance.lowercased()],
-            librarySubstance: SubstanceLibrary.lookup(item.substance.lowercased()),
-            // Carry the daily item's product so a Concerta med logs as Concerta —
-            // the tray derives the release form/isomer from it, same as search.
-            productName: item.productName,
-            isFromDailySet: true,
-            isBackgroundMed: item.isBackgroundMed,
-        )
+        tray.stage(dailyItem: item, colorLookup: content.cachedColorLookup)
     }
 
     // MARK: - Substance Card

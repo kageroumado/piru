@@ -101,59 +101,16 @@ struct DoseInfoView: View {
 
 // MARK: - Volumetric Dosing Disclaimer
 
-/// The labeled threshold/light/common/strong/heavy rows that accompany a
-/// ``DoseLevelIndicator``. Shared between the substance detail screen and the
-/// logged-entry detail screen so both render the dose ladder identically.
-struct DoseRangeRows: View {
-    let doseRange: DoseRange
-    let unit: String
-
-    var body: some View {
-        if let threshold = doseRange.threshold {
-            row("Threshold", value: "\(threshold.doseFormatted) \(unit)", level: .threshold)
-        }
-        if let light = doseRange.light {
-            row("Light", value: "\(light.lowerBound.doseFormatted) – \(light.upperBound.doseFormatted) \(unit)", level: .light)
-        }
-        if let common = doseRange.common {
-            row("Common", value: "\(common.lowerBound.doseFormatted) – \(common.upperBound.doseFormatted) \(unit)", level: .common)
-        }
-        if let strong = doseRange.strong {
-            row("Strong", value: "\(strong.lowerBound.doseFormatted) – \(strong.upperBound.doseFormatted) \(unit)", level: .strong)
-        }
-        if let heavy = doseRange.heavy {
-            row("Heavy", value: "\(heavy.doseFormatted)+ \(unit)", level: .heavy)
-        }
-    }
-
-    private func row(_ label: LocalizedStringResource, value: String, level: DoseLevel) -> some View {
-        HStack {
-            HStack(spacing: 6) {
-                Circle()
-                    .fill(level.swiftUIColor)
-                    .frame(width: 8, height: 8)
-                Text(label)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            Spacer()
-            Text(value)
-                .monospacedDigit()
-                .foregroundStyle(.primary)
-        }
-        .font(.subheadline)
-    }
-}
-
 // MARK: - Duration Info View
 
 /// One route's dosage ladder and duration timeline presented together as a
 /// single card — the unit the substance detail screen switches between with
 /// its route picker, and the body of the shareable drug-info image.
 ///
-/// Unlike ``DoseRangeRows`` / ``DurationPhaseRows`` (which emit bare rows that
-/// only lay out correctly when a `List` flattens them), this card builds its
-/// rows with explicit stacks so it renders identically on-List *and* off-List
-/// through `ImageRenderer`.
+/// Unlike ``DurationPhaseRows`` (which emits bare rows that only lay out
+/// correctly when a `List` flattens them), this card builds its rows with
+/// explicit stacks so it renders identically on-List *and* off-List through
+/// `ImageRenderer`.
 struct RouteDosingCard: View {
     let route: RouteOfAdministration
     let unit: String

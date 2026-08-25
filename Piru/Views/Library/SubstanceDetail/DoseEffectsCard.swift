@@ -2,16 +2,14 @@ import SwiftUI
 
 /// **Dose & duration** — the ladder, the curve, and the phase table.
 ///
-/// Dose and effects were briefly merged into one dial-driven card. That solved
-/// the duplicate-scale problem and created two worse ones: the Effects section
-/// was left holding nothing but a source line, and the per-band **frequency**
-/// data ("most reported at this dose") had nowhere to live.
-///
-/// So they are separate again, but not as they were — each now does the job it
-/// is shaped for. **Here: the grid**, five tiers side by side, which is how you
-/// read a reference and compare tiers against each other. **In Effects: the
-/// dial**, which is how you ask "what does *this* dose feel like" and get an
-/// answer that changes as you drag. One scale, two questions, two instruments.
+/// Keep this card and the Effects section separate: merging them into one
+/// dial-driven card strands the Effects section with nothing but a source line
+/// and leaves the per-band **frequency** data ("most reported at this dose")
+/// nowhere to live. Each does the job it is shaped for. **Here: the grid**,
+/// five tiers side by side, which is how you read a reference and compare tiers
+/// against each other. **In Effects: the dial**, which is how you ask "what
+/// does *this* dose feel like" and get an answer that changes as you drag. One
+/// scale, two questions, two instruments.
 struct DoseEffectsCard: View {
     let route: RouteOfAdministration
     let unit: String
@@ -23,7 +21,17 @@ struct DoseEffectsCard: View {
     var showsDuration = true
     var regimeLabel: DoseContext = .unknown
     var accent: Color = Theme.accent
-    /// Shapes the drawn curve — see ``DoseDurationCard/curveCategory``.
+    /// Category used to shape the drawn curve, via
+    /// ``DurationProfile/fillingMissingPhases(for:)``. `nil` draws the raw phases.
+    ///
+    /// The curve and the numeric trio deliberately read from *different*
+    /// profiles. The trio is a reference table and must stay verbatim source
+    /// data. The curve is a shape, and a source that publishes only `onset` and
+    /// `total` gives it no shape at all — `phaseBoundaries` then sums the
+    /// present phases and collapses a 12 h profile into a ~1 h spike that
+    /// contradicts the "12 h" printed directly beneath it. Measured against the
+    /// bundled DB, 453 of 1,397 resolved route-profiles diverged. So the curve
+    /// fills, and only the trio stays raw.
     var curveCategory: SubstanceCategory?
     /// The dose text for the tier the user is looking at, published upward so the
     /// card's own Log button can name it ("Log 50–100 mg") — the action belongs to
@@ -234,7 +242,7 @@ struct DoseEffectsCard: View {
 
     private func trioCell(_ name: LocalizedStringKey, _ range: DurationRange?) -> some View {
         VStack(spacing: 3) {
-            Text(range.map { DoseDurationCard.compactDuration($0) } ?? "—")
+            Text(range.map { Self.compactDuration($0) } ?? "—")
                 .font(.system(.headline, design: .rounded).weight(.heavy).monospacedDigit())
             Text(name)
                 .font(.system(size: 9, weight: .bold))
@@ -244,6 +252,22 @@ struct DoseEffectsCard: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 12)
         .accessibilityElement(children: .combine)
+    }
+
+    /// Compact duration like "~30–45m", "~1.5–2.5h", or "~1–4h". One unit for the
+    /// whole range: a range that reaches into hours renders both bounds in hours,
+    /// so a straddling total reads "~1–4h" rather than a mixed "~60m–4h".
+    static func compactDuration(_ range: DurationRange) -> String {
+        if range.max >= 120 {
+            func hours(_ minutes: Double) -> String {
+                let h = (minutes / 60 * 2).rounded() / 2
+                return h == h.rounded() ? "\(Int(h))" : String(format: "%.1f", h)
+            }
+            let lo = hours(range.min), hi = hours(range.max)
+            return lo == hi ? "~\(lo)h" : "~\(lo)–\(hi)h"
+        }
+        let lo = Int(range.min.rounded()), hi = Int(range.max.rounded())
+        return lo == hi ? "~\(lo)m" : "~\(lo)–\(hi)m"
     }
 
     // MARK: - Release window (extended-release)

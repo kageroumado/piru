@@ -1,8 +1,7 @@
 import Foundation
 
-// Metabolism read models, kept beside the query that builds them
-// (`SubstanceStore+Pharmacology.metabolism(forSubstanceName:)`) rather than in
-// the main store file, which is at its line-count ceiling.
+// Metabolism read models. The query that builds them is
+// `SubstanceStore+Pharmacology.metabolism(forSubstanceName:)`.
 extension SubstanceStore {
     /// One metabolism row — an enzyme/pathway and (optionally) the metabolite it
     /// produces — joined to its source + citation. Surfaced alongside

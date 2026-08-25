@@ -123,100 +123,10 @@ struct MonoamineProfile {
     }
 }
 
-/// The card surfacing a ``MonoamineProfile`` — mechanism, the dopamine↔serotonin spectrum marker, and
-/// the valvulopathy / mis-sold-as-MDMA flags. Shown in substance detail for any monoamine
-/// releaser/blocker.
-struct MonoamineProfileCard: View {
-    let profile: MonoamineProfile
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            mechanismChip
-            Text(profile.mechanismDetail)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
-                .fixedSize(horizontal: false, vertical: true)
-
-            if profile.leanPosition != nil {
-                spectrum
-            }
-
-            if profile.engages5HT2B {
-                flag(
-                    icon: "heart.text.square",
-                    tint: .orange,
-                    text: "Activates 5-HT2B, which is linked to heart-valve damage (valvulopathy) with chronic or heavy use.",
-                )
-            }
-            if profile.misSoldAsMDMA {
-                flag(
-                    icon: "exclamationmark.triangle.fill",
-                    tint: .red,
-                    text: "Often mis-sold as MDMA / \u{201C}molly,\u{201D} but it is pharmacologically a reuptake blocker — longer, more stimulant and anxiogenic, and more dangerous on an empathogen-style redose.",
-                )
-            }
-
-            Text("Derived from this substance's graded DAT/NET/SERT bindings. Transporter potencies are mostly within-assay ratios.")
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-        }
-    }
-
-    /// The releaser ⇄ blocker character as a tinted capsule — the single most useful axis for a
-    /// stimulant/empathogen, so it leads the card. Neutral tint (no red "releaser" icon).
-    private var mechanismChip: some View {
-        Text(profile.mechanismLabel)
-            .font(.subheadline.weight(.semibold))
-            .padding(.horizontal, 10)
-            .padding(.vertical, 4)
-            .background(
-                Capsule().fill(Theme.secondaryLabel.opacity(0.12)),
-            )
-            .overlay(
-                Capsule().strokeBorder(Theme.secondaryLabel.opacity(0.18), lineWidth: 0.5),
-            )
-    }
-
-    // MARK: - Dopamine ↔ serotonin spectrum
-
-    private var spectrum: some View {
-        DopamineSerotoninLeanBar(
-            leanPosition: profile.leanPosition,
-            leanLabel: profile.leanLabel,
-            ratioText: profile.datSertRatio.map { ratioText($0) },
-        )
-    }
-
-    private func flag(icon: String, tint: Color, text: LocalizedStringResource) -> some View {
-        HStack(alignment: .top, spacing: 8) {
-            Image(systemName: icon)
-                .font(.caption)
-                .foregroundStyle(tint)
-            Text(text)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .padding(10)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(tint.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
-    }
-
-    /// A DAT:SERT ratio reads meaningfully only within a band — past ~100:1 the lean label ("Strongly
-    /// dopaminergic") carries the signal and a raw "21797" is just noise. Clamp the extremes.
-    private func ratioText(_ r: Double) -> String {
-        if r >= 100 { return ">100" }
-        if r >= 10 { return String(format: "%.0f", r) }
-        if r >= 1 { return String(format: "%.1f", r) }
-        if r >= 0.01 { return String(format: "%.2f", r) }
-        return "<0.01"
-    }
-}
-
 /// The dopamine ↔ serotonin lean spectrum — a gradient bar with a marker at `leanPosition`, the two
-/// endpoint labels, and the lean label with its optional DAT:SERT ratio beneath. Shared by the unified
-/// Pharmacology card and the standalone Monoamine Profile card so the axis reads identically on both,
-/// and collapsed into a single VoiceOver element (the marker/gradient are decorative on their own).
+/// endpoint labels, and the lean label with its optional DAT:SERT ratio beneath. Rendered by the
+/// unified Pharmacology card, and collapsed into a single VoiceOver element (the marker/gradient are
+/// decorative on their own).
 struct DopamineSerotoninLeanBar: View {
     let leanPosition: Double?
     let leanLabel: LocalizedStringResource

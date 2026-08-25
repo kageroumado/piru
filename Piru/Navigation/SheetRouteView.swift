@@ -3,14 +3,9 @@ import SwiftUI
 
 /// Renders a `SheetRoute` by dispatching to its corresponding existing view.
 ///
-/// Each case mirrors the wrapping (e.g. embedding in a `NavigationStack`) that
-/// the call site previously did inline. As views are migrated to consume the
-/// navigator directly, this dispatcher is the single place that knows how to
+/// Each case owns the wrapping its view needs (e.g. embedding in a
+/// `NavigationStack`) — this dispatcher is the single place that knows how to
 /// present a route.
-///
-/// Some cases are stubs in Phase 1 — they'll be wired up as their owning
-/// flows migrate. Presenting an unmigrated route shows a clearly-labeled
-/// placeholder rather than crashing.
 struct SheetRouteView: View {
     let route: SheetRoute
     /// This sheet's depth in the navigator's stack. Keys the sheet's own push
@@ -110,14 +105,6 @@ struct SheetRouteView: View {
 
         case let .inventoryItemEdit(id):
             InventoryItemEditHost(itemID: id)
-
-        case .dailyDoseItemForm,
-             .customSubstancesList,
-             .customSubstanceForm,
-             .journalFilters,
-             .journalCalendar,
-             .dayShare:
-            UnmigratedRoutePlaceholder(route: route)
         }
     }
 }
@@ -168,20 +155,7 @@ private struct EntryLookupView<Content: View>: View {
     }
 
     private func lookup() -> DoseEntry? {
-        if let id {
-            var descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.id == id })
-            descriptor.fetchLimit = 1
-            if let entry = try? modelContext.fetch(descriptor).first {
-                return entry
-            }
-        }
-        let lower = timestamp.addingTimeInterval(-2)
-        let upper = timestamp.addingTimeInterval(2)
-        var descriptor = FetchDescriptor<DoseEntry>(
-            predicate: #Predicate { $0.timestamp >= lower && $0.timestamp <= upper },
-        )
-        descriptor.sortBy = [SortDescriptor(\.timestamp)]
-        return try? modelContext.fetch(descriptor).first
+        DoseEntry.resolveForRoute(id: id, near: timestamp, in: modelContext)
     }
 }
 
@@ -206,10 +180,10 @@ private struct ColorPickerHost: View {
     var body: some View {
         SubstanceColorPickerView(
             substanceName: substance,
-            // `takenColorMap` uses `uniquingKeysWith:` so two substances
-            // sharing a hex don't crash here (build 11 TestFlight crash —
-            // user had a duplicate-hex assignment and tapped "add new
-            // substance", which hit `Dictionary(uniqueKeysWithValues:)`).
+            // `takenColorMap` uses `uniquingKeysWith:`: two substances may
+            // legitimately share a hex, and building this dictionary with
+            // `Dictionary(uniqueKeysWithValues:)` instead traps on any
+            // duplicate-hex assignment.
             takenColors: Array(substanceColors).takenColorMap,
         ) { hex in
             let color = SubstanceColor(substance: substance, hexColor: hex)

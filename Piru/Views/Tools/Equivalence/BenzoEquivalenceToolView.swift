@@ -162,17 +162,17 @@ struct BenzoEquivalenceToolView: View {
                 .foregroundStyle(Theme.secondaryLabel)
 
             if let from, let to, let dose, let result = from.equivalentDose(forDoseMg: dose, in: to) {
-                Text("≈ \(Self.formatMg(result)) mg")
+                Text("≈ \(EquivalenceFormat.mg(result)) mg")
                     .font(.title.weight(.bold))
                     .foregroundStyle(Theme.accent)
                     .contentTransition(.numericText())
                     .animation(.default, value: result)
-                Text("\(Self.formatMg(dose)) mg \(from.displayName) ≈ \(Self.formatMg(result)) mg \(to.displayName)")
+                Text("\(EquivalenceFormat.mg(dose)) mg \(from.displayName) ≈ \(EquivalenceFormat.mg(result)) mg \(to.displayName)")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
                     .multilineTextAlignment(.center)
                 if to.name.lowercased() != "diazepam", let diazepam = from.diazepamEquivalent(forDoseMg: dose) {
-                    Text("(≈ \(Self.formatMg(diazepam)) mg diazepam)")
+                    Text("(≈ \(EquivalenceFormat.mg(diazepam)) mg diazepam)")
                         .font(.caption2)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
@@ -308,15 +308,6 @@ struct BenzoEquivalenceToolView: View {
     }
 
     // MARK: - Formatting
-
-    /// Two significant figures below 10, integer at or above — a benzo-dose-scale
-    /// readout (0.25 mg … 30 mg) without implying false precision.
-    static func formatMg(_ value: Double) -> String {
-        if value <= 0 { return "0" }
-        if value >= 10 { return String(Int(value.rounded())) }
-        if value >= 1 { return String(format: "%.1f", value) }
-        return String(format: "%.2g", value)
-    }
 
     static func formatHalfLife(_ minutes: Double) -> String {
         let hours = minutes / 60

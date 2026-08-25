@@ -196,9 +196,12 @@ nonisolated enum DeepLink {
             // still resolve.
             var nameSegments = pathSegments
             var dataSection: DataSection?
-            if nameSegments.count >= 3, nameSegments[nameSegments.count - 2] == "data",
-               let section = DataSection(rawValue: nameSegments[nameSegments.count - 1]) {
-                dataSection = section
+            if nameSegments.count >= 3, nameSegments[nameSegments.count - 2] == "data" {
+                // A recognized section routes to the deep-data page. A `data`
+                // marker with an unknown section (a typo, or a link from a
+                // newer app version) still opens the substance itself rather
+                // than folding "data/<typo>" into the substance name.
+                dataSection = DataSection(rawValue: nameSegments[nameSegments.count - 1])
                 nameSegments.removeLast(2)
             }
             let name = nameSegments.joined(separator: "/")
@@ -274,7 +277,20 @@ nonisolated enum DeepLink {
             if tab != .library {
                 components.queryItems = [URLQueryItem(name: "tab", value: tab.rawValue)]
             }
-        default:
+        // Explicit non-encodable list (matching the sheet encoder below), so
+        // adding a PushRoute case forces a deliberate decision here instead of
+        // silently falling out of deep-link coverage.
+        case .entry,
+             .rampDown,
+             .comedownGuide,
+             .libraryCategory,
+             .libraryTag,
+             .libraryFavorites,
+             .drugClass,
+             .drugClassGroup,
+             .insightGroup,
+             .myMeds,
+             .medDetail:
             return nil
         }
         return components.url
@@ -330,15 +346,9 @@ nonisolated enum DeepLink {
         case .onboarding,
              .entryEdit,
              .dailyDoseSettings,
-             .dailyDoseItemForm,
-             .customSubstancesList,
-             .customSubstanceForm,
              .personalizeSubstance,
              .colorPicker,
-             .journalFilters,
-             .journalCalendar,
              .timeAdjust,
-             .dayShare,
              .sourcePriority,
              .doseSources,
              .advancedSearch,

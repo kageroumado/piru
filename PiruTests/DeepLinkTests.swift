@@ -290,9 +290,10 @@ struct DeepLinkTests {
 
     @Test
     func `An unknown data section falls back to the plain substance detail`() {
-        // A bogus section shouldn't 404 the whole link — it opens the detail.
+        // A bogus section shouldn't 404 the whole link — it opens the detail,
+        // and never folds "data/<typo>" into the substance name.
         let outcome = decode("piru://substance/MDMA/data/nonsense")
-        #expect(outcome?.path == [.substance(name: "MDMA/data/nonsense")])
+        #expect(outcome?.path == [.substance(name: "MDMA")])
     }
 
     @Test

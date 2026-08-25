@@ -6,10 +6,11 @@ import SwiftUI
 /// One recent/favorite substance card: header (color dot, name, glanceable PK
 /// badge, favorite star) plus a chip row per route. Extracted from
 /// `QuickLogView` so each card is a structural identity in the `LazyVStack`
-/// and — crucially — owns its **ephemeral expansion state** locally. Tapping a
-/// card's PK badge or "+N" chip-fold used to mutate a parent `@State` set and
-/// re-run the *entire* `QuickLogView.body` (dock, toolbar, every other card,
-/// re-measuring every `ViewThatFits`); now it re-renders just this card.
+/// and — crucially — owns its **ephemeral expansion state** locally, so
+/// tapping a card's PK badge or "+N" chip-fold re-renders just this card
+/// instead of mutating a parent `@State` set and re-running the *entire*
+/// `QuickLogView.body` (dock, toolbar, every other card, re-measuring every
+/// `ViewThatFits`).
 struct SubstanceCardView: View, Equatable {
     let card: SubstanceCard
     let isFavorite: Bool
@@ -19,13 +20,14 @@ struct SubstanceCardView: View, Equatable {
     /// and the live-`DoseEntry` reads no longer run inside `body` on every
     /// render.
     let badge: CardPKBadge?
-    /// This card's staged chip counts, as a *value* snapshot. The card used to
-    /// read `tray.quantity(...)` per chip in `body`, which subscribed it to the
-    /// whole `DoseTrayModel` — so any staging change anywhere re-ran every card's
-    /// body and re-diffed thousands of chip buttons + context menus. Taking a
-    /// comparable slice instead lets `.equatable()` skip every card but the one
-    /// whose own staged state changed. The `tray` is kept for *actions* only
-    /// (staging on tap), which don't subscribe the body.
+    /// This card's staged chip counts, as a *value* snapshot — not read via
+    /// `tray.quantity(...)` per chip in `body`, which would subscribe the card
+    /// to the whole `DoseTrayModel` and re-run every card's body (re-diffing
+    /// thousands of chip buttons + context menus) on any staging change
+    /// anywhere. Taking a comparable slice instead lets `.equatable()` skip
+    /// every card but the one whose own staged state changed. The `tray` is
+    /// kept for *actions* only (staging on tap), which don't subscribe the
+    /// body.
     let stagedCounts: StagedChipCounts
     let tray: DoseTrayModel
     let onToggleFavorite: () -> Void

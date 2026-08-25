@@ -182,11 +182,8 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     // Daily dose tracking
     case dailyDoseLog(category: String)
     case dailyDoseSettings
-    case dailyDoseItemForm(itemID: UUID?)
 
-    // Substances
-    case customSubstancesList
-    case customSubstanceForm(id: UUID?)
+    /// Substances
     /// Personalize a shipped substance (override its display name, dose ladder,
     /// duration, half-life, notes). Carries the canonical name; the dispatcher
     /// resolves the library substance + any existing override.
@@ -225,11 +222,8 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// Edit screen reached from the detail-view pencil.
     case inventoryItemEdit(id: UUID)
 
-    // Day utilities
-    case journalFilters
-    case journalCalendar
+    /// Day utilities
     case timeAdjust(entryTimestamp: Date)
-    case dayShare(date: Date)
 
     var id: Self {
         self

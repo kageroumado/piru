@@ -488,6 +488,23 @@ final class DoseTrayModel {
         return Int((value * scale).rounded())
     }
 
+    /// Stage a daily-set med as a chip, carrying its product so a Concerta med
+    /// logs as Concerta — the tray derives the release form/isomer from it,
+    /// same as search.
+    func stage(dailyItem item: DailyDoseItem, colorLookup: [String: String]) {
+        stage(
+            substance: item.substance,
+            route: item.route,
+            amount: item.amount,
+            unit: item.unit,
+            colorHex: colorLookup[item.substance.lowercased()],
+            librarySubstance: SubstanceLibrary.lookup(item.substance.lowercased()),
+            productName: item.productName,
+            isFromDailySet: true,
+            isBackgroundMed: item.isBackgroundMed,
+        )
+    }
+
     /// Stage a chip. Same substance + route + unit merges into the existing
     /// row: re-staging the same amount increments its count ("took two
     /// pills"), a different amount joins as a new component ("a 150 and a

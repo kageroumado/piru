@@ -186,11 +186,18 @@ private struct PushRouteView: View {
         return try? modelContext.fetch(descriptor).first
     }
 
-    /// Resolve an entry by its stable `id` first; for id-less routes (pre-V4
-    /// payloads, the Live Activity's timestamp-only deep links) — or if the id
-    /// no longer matches (store replaced by a restore) — fall back to the
-    /// legacy ±2 s timestamp window.
     private func lookupEntry(id: UUID?, near timestamp: Date) -> DoseEntry? {
+        DoseEntry.resolveForRoute(id: id, near: timestamp, in: modelContext)
+    }
+}
+
+extension DoseEntry {
+    /// Resolve an entry for a navigation route by its stable `id` first; for
+    /// id-less routes (pre-V4 payloads, the Live Activity's timestamp-only deep
+    /// links) — or if the id no longer matches (store replaced by a restore) —
+    /// fall back to the legacy ±2 s timestamp window. The one resolver behind
+    /// both push destinations and sheet routes, so the two cannot drift.
+    static func resolveForRoute(id: UUID?, near timestamp: Date, in modelContext: ModelContext) -> DoseEntry? {
         if let id {
             var descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.id == id })
             descriptor.fetchLimit = 1
