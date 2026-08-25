@@ -266,11 +266,11 @@ final class UserProfileStore {
     /// `user_profile` table into a fresh SwiftData record. Runs only when no record exists yet and the
     /// legacy file/table is present, so existing users keep their chosen tier across the storage move.
     ///
-    /// LEGACY — plan to remove. The GRDB-stored tier shipped through `v2.2-b21` (c3b79c4); this bridges
-    /// those installs to the SwiftData store exactly once on first launch of the new build. Once ASC
-    /// confirms all installs have launched a SwiftData-tier build, delete this method and stop reading
-    /// the GRDB prefs DB (the `legacyPrefsDBURL` plumbing in ``configure(container:)`` goes with it).
-    /// See the legacy-removal tracking note.
+    /// LEGACY — plan to remove. Bridges installs still carrying a GRDB-stored disclosure tier to the
+    /// SwiftData store exactly once on first launch. Once ASC confirms all installs have launched a
+    /// SwiftData-tier build, delete this method and stop reading the GRDB prefs DB (the
+    /// `legacyPrefsDBURL` plumbing in ``configure(container:)`` goes with it). See the legacy-removal
+    /// tracking note.
     private func migrateLegacyTier(into ctx: ModelContext, from legacyURL: URL?) {
         guard let legacyURL, FileManager.default.fileExists(atPath: legacyURL.path) else { return }
         do {

@@ -14,11 +14,11 @@ enum MechanismOfActionDatabase {
     /// Composes the mechanism shown in the substance detail card by precedence,
     /// so real receptor data is never hidden behind a generic template.
     ///
-    /// Per-substance curated prose + bindings now live in the bundled DB
+    /// Per-substance curated prose + bindings live in the bundled DB
     /// (`piru-curated`, the highest-priority source), so `dbMechanism` already
     /// carries them — union-merged with any measured rows by
     /// ``SubstanceStore``. The Swift `substanceData` that this reads via
-    /// ``mechanism(for:)`` is now only the generic, xcstrings-localized **class
+    /// ``mechanism(for:)`` holds the generic, xcstrings-localized **class
     /// templates** (SSRI, benzodiazepine, …) mapped per substance; it serves as
     /// the fallback when the DB has nothing.
     ///

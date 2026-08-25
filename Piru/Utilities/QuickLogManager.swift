@@ -20,16 +20,15 @@ enum QuickLogManager {
     /// by frequency (recency as tiebreak) and keeps the top ``perGroupLimit``.
     ///
     /// Idempotent and self-healing: it seeds **only when the curated table is
-    /// empty**, and keys off nothing but that emptiness. There is deliberately no
-    /// persistent "already seeded" flag. The previous `quickLogSeeded` flag lived
-    /// in App-Group `UserDefaults`, which outlives the SwiftData store it
-    /// described — so any store reset that empties the table but leaves the flag
-    /// (a mid-cycle schema change that recreates a fresh store, "Delete All Data",
-    /// or a backup restore) permanently suppressed re-seeding and the quick-log
-    /// list came back empty after every restore. Tying seeding to the store's own
-    /// lifecycle fixes that. The one state this re-seeds is a list the user
-    /// emptied by hand — an acceptable trade, since the list is "seeded from your
-    /// history" by definition and a removed chip re-floats on its next log anyway.
+    /// empty**, and keys off nothing but that emptiness. Deliberately no
+    /// persistent "already seeded" flag: App-Group `UserDefaults` outlives the
+    /// SwiftData store, so a flag stored there would survive a store reset (a
+    /// mid-cycle schema change that recreates a fresh store, "Delete All Data",
+    /// or a backup restore) and permanently suppress re-seeding. Tying seeding
+    /// to the store's own emptiness avoids that. The one state this re-seeds is
+    /// a list the user emptied by hand — an acceptable trade, since the list is
+    /// "seeded from your history" by definition and a removed chip re-floats on
+    /// its next log anyway.
     ///
     /// Seeds from the screen's already-loaded recent window (`history`) rather
     /// than its own full-table fetch — 120 days is plenty to surface a user's
@@ -164,9 +163,7 @@ enum QuickLogManager {
     }
 
     /// Remove a whole substance from the quick-log list — every chip, every
-    /// route. Previously only single chips could be removed, so clearing one
-    /// substance meant a long-press → menu → Delete cycle per chip, up to
-    /// ``QuickLogDose/perGroupLimit`` times per route.
+    /// route — in one call.
     static func removeFromRecents(identityKey: String, context: ModelContext) {
         let all = (try? context.fetch(FetchDescriptor<QuickLogDose>())) ?? []
         for dose in all where dose.identityKey == identityKey {
@@ -198,9 +195,8 @@ enum QuickLogManager {
     /// the least-recently-used chip past the cap.
     ///
     /// The whole `QuickLogDose` table is fetched *once* and the context saved
-    /// *once*, no matter how many doses commit together — the old per-call form
-    /// did two full-table fetches and a save *per dose*, which showed up as
-    /// ~160 ms of the Log-button hang when a multi-chip tray committed.
+    /// *once*, no matter how many doses commit together — a fetch and save per
+    /// dose would turn a multi-chip tray commit into a visible Log-button hang.
     ///
     /// `save: false` for a caller that owns the commit (the quick-log tray):
     /// every `save()` synchronously re-runs each live `@Query`, so a commit

@@ -147,19 +147,16 @@ struct DoseIntensityCard: View {
 
     private var centerReadout: some View {
         let dose = bandDoseText[current.bandIndex]
-        // The second line is ALWAYS built, and merely invisible when the band has
-        // no dose range — the same reserve-the-space rule the band summary below
-        // follows, for a stronger reason than tidiness.
-        //
-        // Overdose is the only band without a dose range, so it was the only band
-        // whose readout dropped from two lines to one. Wrapping that in `if` makes
-        // it a structural insert/remove, and it lands in the *same* animated
-        // transaction as a drag between bands. A structural change there can have
-        // SwiftUI rebuild part of the subtree, and a re-created `Shape` loses its
-        // in-flight `animatableData` and snaps to its target while its sibling
-        // keeps interpolating — which is how the dial's pill and its grabber
-        // ridges arrived completely detached, on the Heavy↔Overdose pass and
-        // nowhere else. Keep this unconditional.
+        // Never wrap the second line in `if` to hide it when the band has no
+        // dose range (Overdose is the only such band): that makes it a
+        // structural insert/remove landing in the *same* animated transaction
+        // as a drag between bands, which can make SwiftUI rebuild part of the
+        // subtree — and a re-created `Shape` loses its in-flight
+        // `animatableData` and snaps to its target while its sibling keeps
+        // interpolating, visibly detaching the dial's pill from its grabber
+        // ridges. Keep this unconditional: the second line is ALWAYS built,
+        // and merely invisible when the band has no dose range — the same
+        // reserve-the-space rule the band summary below follows.
         return VStack(spacing: 2) {
             Text(dose ?? current.localizedBandName)
                 .font(.system(size: 27, weight: .heavy, design: .rounded))
@@ -519,16 +516,13 @@ private struct ArcPlacement: ViewModifier, Animatable {
 /// The grip on the floating pill — a few short ridges that say "drag me,"
 /// echoing the sheet grabber.
 ///
-/// **A `Shape`, sharing `ArcSegment`'s exact animatable data — not a view placed
-/// by a transform.** A `Shape` path is recomputed on the main thread every frame,
-/// while `rotationEffect`/`position` can be promoted to the render server and keep
-/// interpolating without it. Any main-thread hitch inside the animation window
-/// therefore froze the pill and let the ridges sail on, and they arrived visibly
-/// detached — worst on the longest throw (Heavy → Overdose), only when the drag
-/// was fast enough to still be animating, and only the first time, when the
-/// band's color asset and its glass material were being resolved for the first
-/// time. Drawn from the same interpolated angle in the same pass, the two cannot
-/// come apart: a hitch stalls both.
+/// **A `Shape`, sharing `ArcSegment`'s exact animatable data — never a view
+/// placed by a transform.** A `Shape` path is recomputed on the main thread
+/// every frame, while `rotationEffect`/`position` can be promoted to the
+/// render server and keep interpolating without it. A main-thread hitch
+/// inside the animation window would freeze one but not the other, visibly
+/// detaching the ridges from the pill. Drawn from the same interpolated angle
+/// in the same pass, the two cannot come apart: a hitch stalls both.
 private struct GrabberRidges: Shape {
     var startDeg: Double
     var sweepDeg: Double

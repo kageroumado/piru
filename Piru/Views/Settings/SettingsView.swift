@@ -256,5 +256,3 @@ struct SettingsView: View {
         }
     }
 }
-
-// MARK: - Notifications

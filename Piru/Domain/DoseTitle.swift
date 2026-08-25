@@ -84,12 +84,10 @@ enum DoseTitle {
     /// it would also be impossible to undo later — `RegionalSubstanceName` keys on
     /// a canonical substance name, and "Methylphenidate XR" is not one.
     ///
-    /// Every write site must call this. They previously each composed their own
-    /// answer — the live log paths snapshotting only the *isomer's* name and `nil`
-    /// for the racemic case, the backfill the full composed title — so the same
-    /// Concerta dose got "Methylphenidate XR" or `nil` depending on how it
-    /// arrived. Nothing read the field, so nothing broke; it had to be fixed
-    /// before anything did.
+    /// Every write site must call this: composing the answer independently per
+    /// call site risks inconsistent snapshots for the same substance — e.g. one
+    /// path capturing only the isomer's name while another captures the full
+    /// composed title for the same Concerta dose.
     @MainActor
     static func snapshot(canonicalName: String, isomer: String?, releaseForm: String?) -> String? {
         SubstanceLibrary.formTitle(for: canonicalName, isomer: isomer, release: releaseForm)

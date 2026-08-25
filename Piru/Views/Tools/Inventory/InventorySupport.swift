@@ -56,12 +56,9 @@ enum StockStatus: String, CaseIterable, Identifiable {
     /// Supply-bar fill. Healthy stays neutral so colour is reserved for the
     /// states that need attention.
     ///
-    /// **This is the only tint the supply bar takes.** It used to compete with
-    /// `InventoryItem.supplyBarTint`, which filled the same bar with the
-    /// *substance's own colour* — so the identical component meant "how much is
-    /// left" on two screens and "which substance this is" on two others. The
-    /// bar's job is remaining supply; identity already has the row's colour dot,
-    /// which is where an L3 colour belongs.
+    /// **This is the only tint the supply bar takes.** Never tint it with the
+    /// substance's own color: the bar's job is remaining supply, and identity
+    /// already has the row's color dot, which is where an L3 color belongs.
     @MainActor var barTint: Color {
         switch self {
         case .ok: Color.primary.opacity(0.35)

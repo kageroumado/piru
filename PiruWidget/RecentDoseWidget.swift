@@ -70,23 +70,23 @@ struct RecentDoseProvider: TimelineProvider {
         let colors = (try? context.fetch(colorDescriptor)) ?? []
         let hex = colors.first { $0.substance.lowercased() == entry.substance.lowercased() }?.hexColor ?? "F56297"
 
-        // Title this dose the way the app would, minus the catalog — a widget can't
-        // reach it. In precedence order (`Specs/psid-identity-consumption.md` LB-3):
-        //
-        // 1. the personal display-name override (THC → "joint"), from the
-        //    lightweight app-group map the main app maintains;
-        // 2. the product the user logged it as ("Concerta") — verbatim, needs
-        //    nothing resolved;
-        // 3. `displayNameSnapshot`, the locale-stable anchor written at log time.
-        //    This is exactly what it exists for. It is canonical and
-        //    un-regionalized, so a widget can read "Acetaminophen" where the app
-        //    says "Paracetamol" — an accepted asymmetry, and still better than the
-        //    raw string this used to fall back to;
-        // 4. the raw logged string, never dropped.
         let displayNames = (
             UserDefaults(suiteName: WidgetStoreAccess.appGroupID)?
                 .dictionary(forKey: "piru.substanceDisplayNames.v1") as? [String: String],
         ) ?? [:]
+        // Titles this dose the way the app would, minus the catalog — a
+        // widget can't reach it. In precedence order
+        // (`Specs/psid-identity-consumption.md` LB-3):
+        //
+        // 1. the personal display-name override (THC → "joint"), from the
+        //    lightweight app-group map the main app maintains;
+        // 2. the product the user logged it as ("Concerta") — verbatim,
+        //    needs nothing resolved;
+        // 3. `displayNameSnapshot`, the locale-stable anchor written at log
+        //    time. This is exactly what it exists for. It is canonical and
+        //    un-regionalized, so a widget can read "Acetaminophen" where the
+        //    app says "Paracetamol" — an accepted asymmetry;
+        // 4. the raw logged string, never dropped.
         let shownSubstance = displayNames[entry.substance.lowercased()]
             ?? entry.productName
             ?? entry.displayNameSnapshot

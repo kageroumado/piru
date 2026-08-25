@@ -391,9 +391,9 @@ private nonisolated struct PiruCustomSubstanceData: Codable {
     var createdAt: Int64
     // Personalization fields (v1.4). Optional, so synthesized `Codable` decodes
     // them as `nil` when absent — older files and cross-app PsyLog files that
-    // never carried them still import. Previously these were *omitted entirely*
-    // from the wire shape, so a user's personal label, dose ladder, and half-life
-    // were silently dropped on every Piru→Piru round-trip and weren't backed up.
+    // never carried them still import. Keep them on the wire shape: a user's
+    // personal label, dose ladder, and half-life must round-trip through every
+    // Piru→Piru export/import and backup, not just live in memory.
     var displayName: String?
     var doses: DoseRange?
     var halfLifeMinutes: Double?

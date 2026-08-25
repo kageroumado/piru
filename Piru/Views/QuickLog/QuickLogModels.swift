@@ -255,10 +255,10 @@ struct DueNowSlot: Identifiable {
     /// outranks the anytime vitamin.
     ///
     /// "Taken" is counted with ``AdherenceCalculator/entryMatches(entry:item:)``
-    /// — the SAME matcher MyMedsCard uses (identity *or* name, same route). A
-    /// prior strict `identityKey` dict lookup missed a dose whose PSID resolved
-    /// differently than its schedule item, so the accessory read "1 due" while
-    /// My Meds showed everything taken. `todayEntries` is today's doses.
+    /// — the SAME matcher MyMedsCard uses (identity *or* name, same route), so
+    /// the accessory and My Meds never disagree about what counts as taken: a
+    /// dose's PSID can resolve differently than its schedule item, so a
+    /// strict identity-only match would miss it. `todayEntries` is today's doses.
     static func derive(items: [DailyDoseItem], todayEntries: [DoseEntry], now: Date = .now) -> [DueNowSlot] {
         guard !items.isEmpty else { return [] }
         let calendar = Calendar.current
@@ -350,8 +350,9 @@ final class QuickLogContentModel {
     /// Today's logged doses — the "done today" source for the daily groups and
     /// the due-now strip. Kept as entries (not a pre-aggregated identity dict)
     /// so the done-check runs through ``AdherenceCalculator/entryMatches(entry:item:)``,
-    /// the same identity-or-name join MyMedsCard uses; a strict-key dict
-    /// disagreed with My Meds when a dose's PSID resolved differently.
+    /// the same identity-or-name join MyMedsCard uses — a dose's PSID can
+    /// resolve differently than its schedule item, so only matching through
+    /// entries, never a strict identity key, keeps the two screens agreeing.
     private(set) var cachedTodayEntries: [DoseEntry] = []
 
     /// Doses logged today that satisfy `item`, by the shared adherence matcher.

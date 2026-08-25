@@ -3,12 +3,11 @@ import Foundation
 /// **How long a benzodiazepine stays** — this one's elimination half-life placed
 /// against the clinical compounds people already have a feel for.
 ///
-/// This is the card that replaced the dropped diazepam-equivalence idea, and the
-/// reason for the swap is the whole point of the surface: equivalence is
-/// *potency*, and potency is not strength. Two milligrams of alprazolam and ten
-/// of diazepam are the same nominal dose and behave nothing alike, because what
-/// separates them is how long each is still there. A ladder from triazolam at
-/// ~2 h to diazepam at ~46 h says that; an equivalence table hides it.
+/// Equivalence is *potency*, and potency is not strength: two milligrams of
+/// alprazolam and ten of diazepam are the same nominal dose and behave nothing
+/// alike, because what separates them is how long each is still there. A ladder
+/// from triazolam at ~2 h to diazepam at ~46 h says that; an equivalence table
+/// hides it.
 ///
 /// Subtype selectivity (α1/α2/α3/α5) would be the *better* signature and the DB
 /// cannot feed it — 2 of 66 benzodiazepines carry a full set. Don't reintroduce

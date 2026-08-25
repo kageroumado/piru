@@ -4,11 +4,10 @@ import Foundation
 /// actually matched.
 ///
 /// `matchedAlias` is the load-bearing half. A user searching "Concerta" gets
-/// substance 459 (Methylphenidate) — correct, and historically the end of the
-/// story: the typed string was discarded at the match and every downstream
-/// surface saw only the canonical name. Carrying the alias out lets the search
-/// row echo what it matched and lets a staged dose record the *product* the
-/// user actually named (`Specs/psid-identity-consumption.md` D.1).
+/// substance 459 (Methylphenidate) — correct, but the typed string matters
+/// too: carrying the alias out lets the search row echo what it matched and
+/// lets a staged dose record the *product* the user actually named
+/// (`Specs/psid-identity-consumption.md` D.1).
 struct SubstanceMatch: Identifiable {
     let substance: Substance
     /// The catalog alias the query named, in its display casing ("Concerta",

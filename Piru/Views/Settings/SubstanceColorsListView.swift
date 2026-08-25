@@ -8,10 +8,10 @@ struct SubstanceColorsListView: View {
     @State private var editingSubstance: SubstanceColor?
 
     private func takenColorMap(excluding substance: String) -> [String: String] {
-        // Use uniquingKeysWith — two substances may legitimately share a hex
-        // (we have ~1700 substances and ~30 preset colors). Without it, this
-        // crashed in build 11 when the user opened the color picker with
-        // any duplicate-hex assignment present.
+        // Two substances may legitimately share a hex (~1700 substances,
+        // ~30 preset colors), so this dictionary must use uniquingKeysWith —
+        // Dictionary(uniqueKeysWithValues:) traps on any duplicate-hex
+        // assignment.
         Dictionary(
             substanceColors
                 .filter { $0.substance != substance }

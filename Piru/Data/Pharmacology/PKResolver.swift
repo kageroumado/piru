@@ -4,11 +4,10 @@ import Foundation
 /// half-life and the `(ke, ka)` rate constants — from a substance model, its
 /// aliases, the ``HalfLifeDatabase``, and an acute duration profile.
 ///
-/// This is the single home for a resolution that had drifted across four sites:
-/// ``ActiveSubstanceCalculator`` (body-load), ``HalfLifeCalculatorView`` and
-/// ``SteadyStateView`` (the two PK tools), and ``ActiveSubstanceState``. Each had
-/// re-derived the same half-life fallback and the same `ka`-from-time-to-peak
-/// step, and they had begun to disagree. Consolidating here removes that drift.
+/// This is the single home for half-life fallback and `ka`-from-time-to-peak
+/// resolution. Never re-derive either at a call site — ``ActiveSubstanceCalculator``
+/// (body-load), ``HalfLifeCalculatorView`` and ``SteadyStateView`` (the two PK
+/// tools), and ``ActiveSubstanceState`` all read through here so they can't disagree.
 ///
 /// Runs on the main actor, like the substance/duration model it reads (`midpoint`
 /// and `resolveDuration` are `@MainActor`). The output is plain scalars, so the

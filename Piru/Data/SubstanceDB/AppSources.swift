@@ -157,12 +157,11 @@ enum AppSources {
                 .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? substance
             return URL(string: "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=\(query)")
         default:
-            // No per-substance page for this source. Previously this returned
-            // the source's homepage, which turned every unhandled source into a
-            // link that looked substance-specific and wasn't — the FreeOD Wiki
-            // case. A source with no per-compound URL gets no link; callers that
-            // do know how to build one (see ``SubstanceSourceLinks.deepLink``)
-            // handle it before reaching here.
+            // No per-substance page for this source. Never fall back to the
+            // source homepage: it renders as a substance-specific link that
+            // isn't (the FreeOD Wiki case). Callers that do know how to build
+            // one (see ``SubstanceSourceLinks.deepLink``) handle it before
+            // reaching here.
             return nil
         }
     }

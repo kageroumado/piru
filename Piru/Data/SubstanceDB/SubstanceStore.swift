@@ -362,14 +362,13 @@ final class SubstanceStore {
         reloadSourceOrder()
         buildIndexes()
         logger.info("SubstanceStore opened: \(self.allNames.count) substances, \(self.enabledSourceOrder.count) enabled sources")
-        // Eager-prefill the `all` cache *off the main thread*. The first
-        // Library-tab tap — and, more visibly, the first quick-log open — was
-        // paying a ~660 ms synchronous resolve of all 1700+ substances on the
-        // main actor (the old prefill hopped to `MainActor.run` to build the
-        // batch, so it blocked the main thread whenever it happened to run).
-        // The batch loader is now a `nonisolated static` that does its SQL +
-        // struct building on this background task; we only hop back to main to
-        // publish the finished array into the cache.
+        // Eager-prefill the `all` cache *off the main thread*: a synchronous
+        // resolve of all 1700+ substances on the main actor costs ~660 ms,
+        // which the first Library-tab tap — and, more visibly, the first
+        // quick-log open — would otherwise pay. The batch loader is a
+        // `nonisolated static` that does its SQL + struct building on this
+        // background task; we only hop back to main to publish the finished
+        // array into the cache.
         if prewarmsAllCache {
             // Read on the dedicated batch connection so this ~500 ms resolve
             // never blocks a foreground per-field read on `substancesDB`.

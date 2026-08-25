@@ -9,9 +9,6 @@ import SwiftUI
 /// information — and the question this card asks is "which days", which the total
 /// answers directly. The per-class detail lives where it has a legend (the
 /// Activity heatmap's category pills, Most logged's route colors).
-///
-/// This replaces the old four-bucket "Time of Day" chart. That detail is not
-/// lost: it moved to the 24-bin hour histogram in §2.
 struct UsageWeekdaySection: View {
     let buckets: [UsageWeekdayBucket]
     /// The Entries/Common-doses lens, owned globally by the Usage toolbar filter.

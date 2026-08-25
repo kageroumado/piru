@@ -215,10 +215,10 @@ struct SessionBodyLoadModel {
             }
         }
 
-        /// Title a group the way the dose rows above it do. Those resolve through
-        /// ``DoseTitle``, which honors the user's own word for the substance;
-        /// this section used to re-derive from the canonical name alone, so a
-        /// dose logged as 美金刚 (or Concerta) reappeared here as "Memantine".
+        /// Title a group the way the dose rows above it do. Those resolve
+        /// through `DoseTitle`, which honors the user's own word for the
+        /// substance, so a dose logged as 美金刚 (or Concerta) titles this
+        /// group by that name rather than the canonical one.
         ///
         /// A group mixing products (Concerta + Ritalin) keeps the canonical
         /// name — one brand can't title a total that isn't all that brand. A

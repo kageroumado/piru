@@ -175,13 +175,6 @@ struct QuickLogDock: View {
     /// Top-by-popularity substances of the selected family.
     @State private var browseResults: [Substance] = []
 
-    // Memoized interaction check — the result depends only on the set of
-    // staged substance names, so it's recomputed in `onChange` rather than on
-    // every body evaluation (which fires per keystroke in the amount field).
-    // Measured height of the warnings card — it lives in the scroll content
-    // below the staged rows, and the fit-to-content detent must include it
-    // so warnings stay visible at compact.
-
     var body: some View {
         // The probe hangs off `dockContent` as a **background**, not as a sibling
         // in a `ZStack`.
@@ -368,9 +361,9 @@ struct QuickLogDock: View {
         // empty area, not just within the laid-out content (see
         // ``KeyboardDismissTap``). Drag/scroll dismissal still applies too.
         .background { KeyboardDismissTap() }
-        // The staged-array reads (interaction names, collapsed-card estimate)
-        // live in this zero-size leaf, not in this body — otherwise every
-        // amount keystroke in a staged editor would re-run the whole dock.
+        // The staged-array read (collapsed-card estimate) lives in this
+        // zero-size leaf, not in this body — otherwise every amount keystroke
+        // in a staged editor would re-run the whole dock.
         .background {
             TrayDerivedObserver(
                 tray: tray,
@@ -980,12 +973,12 @@ private struct KeyboardDismissTap: UIViewRepresentable {
 
 // MARK: - Geometry & tray leaves
 
-/// Zero-size leaf owning the dock's derived reads of the staged array — the
-/// interaction-check names and the collapsed-card height estimate. Both fold
-/// per-dose mutations down to values that only change on structural edits, so
-/// an amount keystroke (which mutates `tray.staged` and would re-run any body
-/// observing it) invalidates just this leaf; the dock body hears about it only
-/// when a folded value actually changes, via the callbacks.
+/// Zero-size leaf owning the dock's derived read of the staged array — the
+/// collapsed-card height estimate. Folds per-dose mutations down to a value
+/// that only changes on structural edits, so an amount keystroke (which
+/// mutates `tray.staged` and would re-run any body observing it) invalidates
+/// just this leaf; the dock body hears about it only when the folded value
+/// actually changes, via `onStagedEstimate`.
 private struct TrayDerivedObserver: View {
     var tray: DoseTrayModel
     let onStagedEstimate: (CGFloat) -> Void

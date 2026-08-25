@@ -34,10 +34,8 @@ struct InfoDisclosureSection: View {
             if !substance.displayAliases.isEmpty {
                 aliasChips
             }
-            // Tags and the source footers share one row. As separate rows the
-            // footer sat 39pt below the tags — the tag row's bottom inset and
-            // the footer's own top inset, stacked — against the 20pt it has
-            // below it. Nesting them lets the gap be stated once.
+            // One row per tags+footer — see the layout rationale on
+            // `SourceAttributionRow` in SubstanceDetailSupport.swift.
             VStack(alignment: .leading, spacing: 0) {
                 if !substance.tags.isEmpty {
                     SubstanceTagFlow(tags: substance.tags, accent: substance.category.color)

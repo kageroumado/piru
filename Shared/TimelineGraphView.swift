@@ -1315,8 +1315,8 @@ struct TimelineGraphView: View, Equatable {
                     size: size,
                     visibleStart: vStart,
                     visibleSpan: vSpan,
-                    // The horizontal inset must match the curves' (it used to get
-                    // graphTop, quietly shifting every clock label off its tick).
+                    // The horizontal inset must match the curves' inset, or the
+                    // clock labels drift off their ticks.
                     inset: graphInset,
                     top: graphTop,
                     // Inflate the height passed to the label placer so the clock
@@ -1735,12 +1735,11 @@ struct TimelineGraphView: View, Equatable {
     /// Append a smooth curve through `pts` using a **monotone** cubic Hermite
     /// spline (Fritsch–Carlson tangents) converted to cubic Bézier segments.
     ///
-    /// The earlier uniform Catmull-Rom rendered the sampled PK points smoothly
-    /// but overshot at sharp transitions: a fast-onset dose (kratom) sits flat at
-    /// baseline through the onset, then rises near-vertically — Catmull-Rom's
-    /// averaged tangent at that corner dipped the spline *below the baseline*
-    /// before the rise (the "broken curve" artifact) and could bulge *above* the
-    /// flat peak plateau. Fritsch–Carlson clamps each tangent so the interpolant
+    /// Never interpolate with a tangent scheme that isn't monotone-clamped: a
+    /// fast-onset dose (kratom) sits flat at baseline through the onset, then
+    /// rises near-vertically, and an averaged tangent at that corner dips the
+    /// spline *below the baseline* before the rise or bulges *above* the flat
+    /// peak plateau. Fritsch–Carlson clamps each tangent so the interpolant
     /// stays monotone within every monotone data run: zero slope at extrema (a
     /// rounded peak, a clean baseline touchdown) and no excursion past the data.
     /// Because x is strictly increasing for a sampled curve we interpolate y as a

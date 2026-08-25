@@ -83,12 +83,11 @@ extension RouteOfAdministration {
 
     /// Legible text variant for the ~11pt pill label.
     ///
-    /// The hand-tuned hex pair this replaces was the app's only deliberately
-    /// contrast-corrected scale, and still missed its own documented ≥4.5:1 on
-    /// 5 of 11 routes in light mode and on **all 11** in dark. The dark failure
-    /// was not a tuning miss: at the 0.16 fill alpha the pill used, a colour on
-    /// a tint of itself asymptotes around 4.5:1 whatever its lightness. The fill
-    /// is now 0.10, which is what makes dark mode reachable at all.
+    /// Guarantees ≥4.5:1 contrast against the pill's 0.10-alpha fill in both
+    /// light and dark mode. Never raise that fill alpha without re-checking dark
+    /// mode: a color on a tint of itself asymptotes toward roughly 4.5:1
+    /// regardless of lightness, so the fill alpha itself is load-bearing for
+    /// reaching that ratio in dark mode.
     var tintTextColor: Color {
         switch self {
         case .oral: .Route.Oral.text

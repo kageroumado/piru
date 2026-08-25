@@ -31,8 +31,9 @@ struct InventorySummaryCard: View {
     @State private var warmed = false
 
     var body: some View {
-        // Ordered once per body pass — as three separate computed-property
-        // reads (emptiness, rows, count) this sorted the inventory three times.
+        // Ordered once per body pass, not as three separate computed-property
+        // reads (emptiness, rows, count) — each of those would re-sort the
+        // inventory.
         let topItems = warmed ? Array(model.ordered(items).prefix(3)) : []
         GlanceCard(icon: Tool.inventory.icon, title: Text(Tool.inventory.name), route: .tool(.inventory)) {
             if topItems.isEmpty {

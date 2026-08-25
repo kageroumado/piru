@@ -124,9 +124,8 @@ private struct UsageDoseLevelContent: View {
     private var chart: some View {
         Chart(slices) { slice in
             // Stacked columns, not a stacked area: dose counts per bucket are
-            // discrete, and a monotone area interpolated between them overshot
-            // and crossed its own bands into a tangle. One column per bucket reads
-            // cleanly.
+            // discrete, so a smooth interpolation between them would cross its
+            // own bands into a tangle. One column per bucket reads cleanly.
             BarMark(
                 x: .value("Date", slice.date, unit: weekly ? .weekOfYear : .day),
                 y: .value(showsPercentages ? "Share" : "Entries", slice.value),

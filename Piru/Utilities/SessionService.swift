@@ -46,8 +46,7 @@ enum SessionService {
         // One batched fetch that also realizes every session's doses up front.
         // Without the prefetch, each span check below is a lazy per-relationship
         // fault — an N+1 round-trip storm on the main thread for every logged
-        // dose (the dominant cost of the quick-log commit in the 2026-08-24
-        // trace).
+        // dose.
         var descriptor = FetchDescriptor<Session>(sortBy: [SortDescriptor(\.startDate, order: .reverse)])
         descriptor.relationshipKeyPathsForPrefetching = [\.doses]
         let sessions = (try? context.fetch(descriptor)) ?? []

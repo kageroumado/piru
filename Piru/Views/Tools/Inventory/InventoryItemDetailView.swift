@@ -56,10 +56,9 @@ struct InventoryItemDetailView: View {
 
     // MARK: - Substance info
 
-    /// The way out of the stockroom and into the reference. Inventory knew the
-    /// substance all along (`item.substance` resolves its display title), but
-    /// offered no way to read about it — the same dead end the dose screen had
-    /// until it grew this row, so it uses the same row.
+    /// The way out of the stockroom and into the reference. Inventory knows the
+    /// substance already (`item.substance` resolves its display title); this
+    /// row is the link into `SubstanceLibrary`, matching the dose screen's row.
     @ViewBuilder private var substanceInfoSection: some View {
         if let info = SubstanceLibrary.lookup(item.substance) {
             Section {

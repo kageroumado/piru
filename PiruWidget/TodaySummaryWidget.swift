@@ -96,9 +96,8 @@ struct TodaySummaryProvider: TimelineProvider {
             groupProducts[key, default: []].insert(product?.isEmpty == false ? product! : "")
         }
 
-        // The personal display-name override (THC → "joint") the app mirrors into
-        // the app group. This widget had none, so a relabel reached every surface
-        // except this one.
+        // The personal display-name override (THC → "joint") the app mirrors
+        // into the app group.
         let displayNames = (
             UserDefaults(suiteName: WidgetStoreAccess.appGroupID)?
                 .dictionary(forKey: "piru.substanceDisplayNames.v1") as? [String: String],

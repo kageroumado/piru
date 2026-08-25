@@ -18,6 +18,8 @@ private extension SessionStateExport.Phase {
 
 // MARK: - PDF renderer
 
+/// A snapshot render of one live or historical session, triggered from the
+/// session share sheet (see ``PDFReportGenerator`` for the full medical report).
 @MainActor
 enum SessionReportPDF {
     /// US-Letter width; height grows with content (single tall page — the active

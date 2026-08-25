@@ -513,13 +513,13 @@ struct MetabolismRow: View {
     private func metaboliteHeadlineBody(_ headline: String) -> some View {
         let resolved = resolvedMetabolite
         return VStack(alignment: .leading, spacing: 4) {
-            // The trailing affordance is deliberately OUTSIDE the push button.
-            // It used to sit inside, and that button is disabled when the
-            // metabolite has no library entry — which is exactly when the
-            // affordance is a citation link. A disabled button disables
-            // everything nested in it, so the ↗ rendered but could never be
-            // tapped: the only rows whose citation you need were the rows whose
-            // citation you couldn't reach.
+            // Never nest the trailing affordance inside the push button: that
+            // button is disabled when the metabolite has no library entry —
+            // which is exactly when the affordance is a citation link. A
+            // disabled button disables everything nested in it, so the ↗
+            // would render but could never be tapped: the only rows whose
+            // citation you need would be the rows whose citation you
+            // couldn't reach.
             HStack(alignment: .firstTextBaseline, spacing: 8) {
                 Group {
                     if let resolved {

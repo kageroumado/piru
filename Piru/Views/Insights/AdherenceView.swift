@@ -10,8 +10,8 @@ struct AdherenceView: View {
     @State private var displayedMonth: Date = .now
     @State private var monthAdherence: [DayAdherence] = []
     /// Same data keyed by `startOfDay` so each calendar cell is an O(1) lookup
-    /// instead of a linear `first { isDate(...) }` scan — the grid did O(days²)
-    /// per body pass.
+    /// instead of a linear `first { isDate(...) }` scan, keeping the whole grid
+    /// O(days) per body pass.
     @State private var monthAdherenceByDay: [Date: DayAdherence] = [:]
     /// Today's adherence, computed independently of the displayed month so
     /// the Today strip survives browsing back through the calendar.

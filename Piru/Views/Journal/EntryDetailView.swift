@@ -142,8 +142,9 @@ struct EntryDetailView: View {
         }
         .task {
             // Resolve the full substance record once — it feeds the dose ladder,
-            // unit/route/salt lists, and live preview. Re-running it per body (and
-            // per keystroke while editing) was a heavy blocking lookup.
+            // unit/route/salt lists, and live preview. The `substanceInfo == nil`
+            // guard below keeps this from re-running on every body pass and every
+            // keystroke while editing — `resolveFull` is a blocking lookup.
             await SubstanceStore.shared.ensureAllLoaded()
             if substanceInfo == nil {
                 substanceInfo = SubstanceLibrary.resolveFull(entry.substance)

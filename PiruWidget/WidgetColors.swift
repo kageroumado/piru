@@ -1,15 +1,8 @@
 import SwiftUI
 
 enum WidgetColors {
-    /// The app's asset-catalog `AccentColor`, resolved from the real colorset.
-    ///
-    /// This used to be a hand-transcribed `UIColor { traits }` copy, because the
-    /// widget target could not see `Assets.xcassets` while it lived under
-    /// `Piru/`. The catalog now lives in `Shared/`, which is a synchronized
-    /// group of all three targets, so the duplicate is gone. The transcription
-    /// was colorimetrically correct — this removes the drift risk, not a bug —
-    /// and reading the colorset also picks up its Display-P3 components, which
-    /// the sRGB literals could not represent.
+    /// The app's asset-catalog `AccentColor`, resolved from the shared asset
+    /// catalog in `Shared/`, which also carries the Display P3 components.
     static let accent = Color("AccentColor")
 
     static let backgroundGradientTop = Color(red: 0.06, green: 0.04, blue: 0.08)

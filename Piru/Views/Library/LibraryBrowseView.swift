@@ -57,8 +57,9 @@ struct LibraryBrowseView: View {
             visibleFamilies = LibraryFamily.browsable
             // Warm each card's exemplar line here (in the task) rather than on
             // first render: resolving it materializes the source's whole
-            // substance list, and doing it per card inside `body` was part of the
-            // browse first-render hang. After this the cards read the memo.
+            // substance list, so doing it per card inside `body` would repeat
+            // that for every card on every render. After this the cards just
+            // read the memo.
             for family in visibleFamilies {
                 _ = LibraryFamily.exemplars(for: family.source)
             }

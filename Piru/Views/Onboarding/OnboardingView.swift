@@ -10,8 +10,7 @@ import SwiftUI
 /// unlocks, rather than batched into a wall of toggles.
 ///
 /// The type name stays `OnboardingView` so the launch gate (`OnboardingGateModifier`) and the
-/// `.onboarding` sheet route resolve unchanged; the single-screen toggle list it used to be is
-/// replaced by this multi-step machine.
+/// `.onboarding` sheet route resolve unchanged.
 struct OnboardingView: View {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @Environment(\.dismiss) private var dismiss

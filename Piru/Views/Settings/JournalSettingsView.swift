@@ -97,5 +97,3 @@ struct JournalSettingsView: View {
         return date.formatted(.dateTime.hour())
     }
 }
-
-// MARK: - Substance Database

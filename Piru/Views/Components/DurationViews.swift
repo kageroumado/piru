@@ -39,10 +39,9 @@ struct DurationTimelineBar: View {
 
 // MARK: - Duration Phase Rows
 
-/// The labeled per-phase rows that accompany a ``DurationTimelineBar``,
-/// styled to match ``DoseRangeRows`` so the Dosage and Duration cards read as
-/// siblings. Each row flattens into its own list cell (gaining the standard
-/// hairline separators); ``total`` is emphasised as the summary line.
+/// The labeled per-phase rows that accompany a ``DurationTimelineBar``. Each
+/// row flattens into its own list cell (gaining the standard hairline
+/// separators); ``total`` is emphasized as the summary line.
 struct DurationPhaseRows: View {
     let duration: DurationProfile
 

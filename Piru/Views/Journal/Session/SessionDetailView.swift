@@ -80,11 +80,10 @@ struct SessionDetailView: View {
     /// The day's resolved timeline + interaction warnings, derived **synchronously
     /// and memoized** (see ``DayResolveCache``) per change to the day's
     /// entries/colors. Resolving a single day is cheap — a handful of
-    /// `SubstanceLibrary` lookups plus one batch interaction check — so the prior
-    /// async `.task` resolve bought nothing but a structural cost: `substanceStates`
-    /// and `dayInteractions` started empty, so the `if !…isEmpty` Sections *flipped
-    /// in* after the first frame, rebuilding the List content on every open.
-    /// Computing up front keeps the view tree's shape fixed from frame 1 — no flip.
+    /// `SubstanceLibrary` lookups plus one batch interaction check — so computing
+    /// up front keeps the view tree's shape fixed from frame 1: `substanceStates`
+    /// and `dayInteractions` are never empty on the first render, so the
+    /// `if !…isEmpty` Sections never flip in and rebuild the List content.
     private var resolvedDay: ResolvedDay {
         DayResolveCache.shared.resolve(signature: timelineSignature) {
             let t = ActiveSubstanceState.timeline(for: entries, colors: Array(substanceColors))

@@ -101,15 +101,16 @@ final class LiveActivityManager {
         // Resume reference to any existing activity on app launch. We deliberately
         // do NOT end it when auto-start is disabled: a manually-started activity
         // must survive relaunch, and the auto-start preference governs *creation*,
-        // not teardown — tearing down here is what used to wipe the live session.
+        // not teardown. Never tear down the activity here: it wipes the live
+        // session out from under the user.
         //
         // Only a *running* activity counts. ActivityKit keeps `.ended` and
         // `.dismissed` activities in `activities` until the user clears them (up
         // to 4 h), and an ended activity's `content.state` is frozen at the moment
         // it ended — `update()` on it is a no-op, so it can never catch up.
-        // Adopting one made `recoverSession` resurrect that frozen dose list on
-        // every cold launch, silently replacing the real session. `.stale` is kept:
-        // it's still on screen and still updatable, just past its `staleDate`.
+        // Adopting one would make `recoverSession` resurrect that frozen dose list
+        // on every cold launch, silently replacing the real session. `.stale` is
+        // kept: it's still on screen and still updatable, just past its `staleDate`.
         currentActivity = Activity<PiruActivityAttributes>.activities.first {
             $0.activityState == .active || $0.activityState == .stale
         }

@@ -192,10 +192,9 @@ struct SessionShareCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    /// Distinct substances drawn, split the way the renderer splits them. This
-    /// used to count curve substances only while the graph also draws a lane per
-    /// duration-less one, so any session with a pin-only substance was sized for
-    /// fewer lanes than it drew and the strips came out squeezed.
+    /// Distinct substances drawn, split the way the renderer splits them: the
+    /// graph draws a lane per duration-less (pin-only) substance too, so this
+    /// counts across both, not curve substances alone.
     private var curveLaneCount: Int {
         Set(states.map { $0.substanceName.lowercased() }).count
     }

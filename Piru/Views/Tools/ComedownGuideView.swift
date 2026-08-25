@@ -9,9 +9,8 @@ struct ComedownGuideView: View {
         .opioid, .benzodiazepine, .depressant, .cannabinoid,
     ]
 
-    /// Resolved in the `.task`, not per body pass — the old computed property
-    /// ran a per-substance resolve over the *entire* (unbounded) dose log on
-    /// every body evaluation.
+    /// Resolved in the `.task`, not per body pass: a per-substance resolve
+    /// over the dose log is too expensive to run on every body evaluation.
     @State private var recentCategories: [SubstanceCategory] = []
 
     init() {

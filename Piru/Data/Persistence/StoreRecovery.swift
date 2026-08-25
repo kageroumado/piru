@@ -140,10 +140,9 @@ nonisolated enum StoreRecovery {
     /// Ensure every ``DoseEntry`` carries its own unique `id`, reassigning
     /// duplicates in place. Call once right after the container opens.
     ///
-    /// LEGACY — plan to remove. This only does work for a store upgraded from the **pre-`id`** shape,
-    /// which predates the last shipped release (`v2.2-b21` / c3b79c4); current TestFlight installs have
-    /// long since migrated, after which this is a no-op full fetch every launch. Remove it (and the
-    /// disabled `LegacyStoreMigrationTests`) once ASC telemetry confirms no pre-`id` install remains.
+    /// LEGACY — plan to remove. This only does work for a store upgraded from the **pre-`id`** shape;
+    /// for every store that has already migrated it is a no-op full fetch every launch. Remove it (and
+    /// the disabled `LegacyStoreMigrationTests`) once ASC telemetry confirms no pre-`id` install remains.
     /// See the legacy-removal tracking note. Until then it stays as a cheap, idempotent safety net.
     ///
     /// This is the sole guarantor of per-row `id` uniqueness now that the store

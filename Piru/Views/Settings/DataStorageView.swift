@@ -7,10 +7,9 @@ import UniformTypeIdentifiers
 /// works, and — at the bottom — recoverable copies and the destructive "delete
 /// everything" action.
 ///
-/// This merges what used to be a separate Backup screen so import/export is no
-/// longer hidden, and adds local-storage transparency plus on-device recovery for
-/// stores that were set aside automatically (an upgrade hiccup) or before a
-/// deliberate delete/restore.
+/// Import/export lives here rather than a separate Backup screen, alongside
+/// local-storage transparency and on-device recovery for stores set aside
+/// automatically (an upgrade hiccup) or before a deliberate delete/restore.
 struct DataStorageView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var manager = BackupManager.shared
@@ -322,8 +321,7 @@ struct DataStorageView: View {
     /// Presenting a file importer/exporter (or confirmation dialog) in the *same*
     /// update cycle that dismisses the popover makes SwiftUI swallow the new
     /// presentation — both target the same anchor, and the popover dismissal
-    /// wins. Waiting one dismissal out lets the follow-up present reliably. This
-    /// was the cause of "Import from File" doing nothing when tapped.
+    /// wins. Waiting one dismissal out lets the follow-up present reliably.
     private func afterPopoverDismiss(_ action: @escaping () -> Void) {
         showingExportOptions = false
         showingImportOptions = false

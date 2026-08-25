@@ -121,9 +121,8 @@ nonisolated enum ReceptorClasses {
         ///   half-sat point is honest (§5).
         /// - **Agonists / antagonists / PAMs** (opioid, psychedelic, GABA) are uncapped: usual-dose
         ///   occupancy *is* the effect proxy, and capping would over-read a heavy user's escalation.
-        ///   GABA was previously capped at 0.9 as a stopgap for the `fu = 1` overestimate; the
-        ///   protein-binding correction (`PharmacologyParameters.fractionUnbound`) resolved the root
-        ///   cause, so the cap is gone.
+        ///   Never cap GABA as a stopgap for the `fu = 1` overestimate — the protein-binding correction
+        ///   (`PharmacologyParameters.fractionUnbound`) is what corrects it; a cap only masks the symptom.
         var gaugeOccupancyCap: Double? {
             switch self {
             case .catecholamineStimulant, .serotonergicReleaser: 0.5

@@ -224,9 +224,7 @@ nonisolated extension ClassSignature {
         _ marks: [EfficacyAxisModel.Mark],
         keeping limit: Int,
     ) -> [EfficacyAxisModel.Mark] {
-        // A budget of 0 or 1 has to mean 0 or 1. The old `limit > 1` guard fell through to
-        // "return everything", which is the opposite of a limit and only stayed invisible
-        // because nothing passed a small budget until the gated marks got their own reservation.
+        // A budget of 0 or 1 must mean exactly 0 or 1 marks, never the full list.
         guard limit > 0 else { return [] }
         let sorted = marks.sorted { $0.percent < $1.percent }
         guard sorted.count > limit else { return sorted }

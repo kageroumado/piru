@@ -142,18 +142,9 @@ final class SheetHostBox {
     weak var probeView: UIView?
     private weak var cached: UIViewController?
 
-    /// The controller presenting the dock, re-resolved whenever the cached one
-    /// has stopped presenting it.
-    ///
-    /// This used to be captured once and kept forever. When iOS replaced the
-    /// sheet's hosting controller — which it does after the app has sat in the
-    /// background a while — the box held a stale but non-`nil` reference, and
-    /// the capture was guarded on the reference being `nil`, so it never
-    /// re-resolved. Every `applyDetents` then wrote to a controller that was no
-    /// longer presenting anything and silently did nothing: the sheet kept
-    /// whatever height it had, leaving the Log button below the visible area.
-    /// Dragging it fixed the display because UIKit's own gesture drives the
-    /// *live* controller, which is exactly the reported symptom.
+    /// Re-resolved on every access because iOS can replace the sheet's hosting
+    /// controller after backgrounding; a stale cached reference makes
+    /// `applyDetents` silently no-op.
     var viewController: UIViewController? {
         if let cached, cached.viewIfLoaded?.window != nil { return cached }
         cached = Self.resolve(from: probeView)

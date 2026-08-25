@@ -3,8 +3,8 @@ import SwiftUI
 // MARK: - Scrolling middle content
 
 /// The dock's scrolling middle: search results, browse suggestions, the staged
-/// basket, meta chips (at accessibility sizes), and interaction warnings. The
-/// section spacing (`VStack(spacing: 14)`) lives here — it wraps the multiple
+/// basket, and meta chips (at accessibility sizes). The section spacing
+/// (`VStack(spacing: 14)`) lives here — it wraps the multiple
 /// children this view produces, which ``QuickLogDock`` would otherwise collapse
 /// by hosting this as a single subview.
 ///

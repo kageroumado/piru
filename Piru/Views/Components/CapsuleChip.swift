@@ -12,7 +12,9 @@ extension Text {
     /// this call.
     ///
     /// The tint is 0.10 — the alpha every `text` variant is derived against.
-    /// It was 0.16, and the extra 6% was enough on its own to fail the gate.
+    /// Never raise it: a colour on a tint of itself asymptotes around 4.5:1 in
+    /// dark mode regardless of lightness, so a heavier tint fails the WCAG AA
+    /// gate.
     func capsuleChip(text: Color, fill: Color) -> some View {
         font(.caption2.weight(.semibold))
             .lineLimit(1)

@@ -66,10 +66,10 @@ final class SubstanceDBUpdater {
     /// Derived from the shipped `manifest.json` rather than hardcoded: the app
     /// ships its reader code and its bundled DB together, so the bundled
     /// manifest's schema version *is* the schema this binary supports, and it
-    /// tracks the schema automatically on every rebuild. A hardcoded `1` here
-    /// previously rejected every OTA update once the schema advanced to 6
-    /// (`remote.schemaVersion <= 1` is false for a schema-6 manifest), so
-    /// "Check for Updates" always errored with "requires a newer version."
+    /// tracks the schema automatically on every rebuild. Never hardcode this —
+    /// a fixed value below the bundled schema version silently rejects every
+    /// future OTA update ("Check for Updates" errors with "requires a newer
+    /// version" once the real schema advances past it).
     private static let supportedSchemaVersion: Int = {
         guard let url = Bundle.main.url(forResource: "manifest", withExtension: "json"),
               let data = try? Data(contentsOf: url),

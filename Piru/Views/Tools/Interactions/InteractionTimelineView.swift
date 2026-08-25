@@ -9,12 +9,13 @@ struct InteractionTimelineView: View {
     /// What the caller already computed. Carried across the push rather than
     /// re-derived: the explorer runs the checker under `.explore`, and asking
     /// again here under the default `.warn` returns nothing for any pair that
-    /// policy suppresses — which is how this screen came to print a generic
-    /// "exercise caution" line beneath a chip reading "Dangerous".
+    /// policy suppresses, which would leave only a generic "exercise caution"
+    /// line beneath a chip reading "Dangerous".
     let mechanism: String
 
-    /// Windowed to the 48 h the auto-detect and the "recent entry" checks read
-    /// — unbounded, this materialized the whole dose log per body pass.
+    /// Windowed to the 48 h the auto-detect and the "recent entry" checks
+    /// read. Never widen or drop this filter: unbounded, it materializes the
+    /// whole dose log on every body pass.
     @Query private var allEntries: [DoseEntry]
 
     @State private var ingestTimeA: Date
@@ -23,7 +24,7 @@ struct InteractionTimelineView: View {
 
     // Resolved PK params + generated curves are cached in @State and refreshed
     // by `.task(id: curveInputs)` — one library lookup, Newton ka solve, and
-    // 200-sample generation per input change instead of several per body eval.
+    // 200-sample generation per input change, not per body eval.
     @State private var paramsA: PKParams?
     @State private var paramsB: PKParams?
     @State private var chartData: ChartData?
@@ -54,8 +55,7 @@ struct InteractionTimelineView: View {
             sort: \DoseEntry.timestamp,
             order: .reverse,
         )
-        // Seed synchronously so the first frame already renders the chart,
-        // exactly as when everything was computed inline in `body`.
+        // Seed synchronously so the first frame already renders the chart.
         let now = Date.now
         let pA = Self.resolveParams(for: substanceA)
         let pB = Self.resolveParams(for: substanceB)

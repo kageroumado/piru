@@ -93,12 +93,11 @@ extension LibraryFamily {
     ///
     /// Memoized per source: resolving it materializes the source's *entire*
     /// `[Substance]` list (each a ~40-field value) just to take the top three
-    /// names, and it was called from the card's `body` — so on the Library /
-    /// Search browse grids it re-materialized every category on every render and
-    /// dominated those first-render hangs. The top-three-by-popularity is
-    /// effectively static (curated popularity over the curated catalog), so
-    /// caching the resolved names is safe; a source reorder that reshuffled them
-    /// is cosmetic and refreshes on relaunch.
+    /// names, and this is called from the card's `body` on every Library /
+    /// Search browse-grid render. The top-three-by-popularity is effectively
+    /// static (curated popularity over the curated catalog), so caching the
+    /// resolved names is safe; a source reorder that reshuffles them is
+    /// cosmetic and refreshes on relaunch.
     @MainActor private static var exemplarsCache: [Source: [String]] = [:]
 
     static func exemplars(for source: Source?, limit: Int = 3) -> [String] {

@@ -102,11 +102,8 @@ enum SessionClustering {
         /// The per-dose effect tail used for clustering is clamped to this, so a
         /// long-acting compound can't hold a session open across a day.
         ///
-        /// Was 6 h, which silently disabled the duration-awareness ``k`` promises:
-        /// `6 h / 1.2 = 5 h`, so the "redosed into the comedown" clause could never
-        /// reach past five hours for *any* substance. Matched to
-        /// ``ceilingDurationMax`` so the two bounds agree — the 24 h ``horizon``
-        /// remains the guarantee that a session cannot chain days.
+        /// Matched to ``ceilingDurationMax`` so the two bounds agree — the 24 h
+        /// ``horizon`` remains the guarantee that a session cannot chain days.
         static let effectTailCap: TimeInterval = 9 * 60 * 60
         /// Effect duration assumed for a dose with no modeled curve, in minutes.
         static let fallbackEffectMinutes: Double = 240
@@ -120,15 +117,13 @@ enum SessionClustering {
         /// The ceiling a *fresh* session tolerates, given the longest modeled
         /// effect tail among its doses so far.
         ///
-        /// A flat ``ceilingMax`` made the ceiling the binding constraint for every
-        /// substance past about five hours: an 8 h dose at 19:00 redosed at 01:30
-        /// had a 6.5 h gap against a 6 h ceiling and split, while the 19:00 curve
-        /// was still being drawn to 03:00 on screen. Scaling the fresh ceiling with
-        /// the modeled tail is what ``k`` always promised — "people redose into the
-        /// comedown and still call it one session" — and it is bounded on both
-        /// sides: never tighter than ``ceilingMax``, never wider than
-        /// ``ceilingDurationMax``. The age decay below is unchanged, so a session
-        /// that has already run long still splits on the next real break.
+        /// The fresh ceiling must scale with the modeled effect tail — what ``k``
+        /// always promises, "people redose into the comedown and still call it
+        /// one session" — because a flat ceiling would split a session while its
+        /// own curve is still being drawn on screen. Bounded on both sides: never
+        /// tighter than ``ceilingMax``, never wider than ``ceilingDurationMax``.
+        /// The age decay below is unchanged, so a session that has already run
+        /// long still splits on the next real break.
         static func freshCeiling(peakTail: TimeInterval?) -> TimeInterval {
             guard let peakTail else { return ceilingMax }
             return min(max(ceilingMax, peakTail), ceilingDurationMax)

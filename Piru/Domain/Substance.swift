@@ -91,10 +91,9 @@ struct DoseRange {
 
     /// Where `dose` sits on this ladder, or `nil` when there is no ladder.
     ///
-    /// A range with every tier empty cannot place a dose. It used to answer
-    /// `.sub` — so a custom substance logged with no dose data was labeled
-    /// "sub-threshold", which is a claim about the dose rather than an absence
-    /// of one, and the reader has no way to tell the two apart.
+    /// Never return `.sub` for a range with every tier empty: that labels the
+    /// dose as sub-threshold, a claim about the dose, rather than signaling the
+    /// absence of dose data.
     func level(for dose: Double) -> DoseLevel? {
         guard hasAnyValue else { return nil }
         if let heavy, dose >= heavy { return .heavy }
@@ -411,10 +410,9 @@ struct DurationProfile: Codable, Hashable {
     /// (the latter keep the half-life synthesis fallback).
     ///
     /// Applied wherever a **curve is drawn** — the journal timeline and the detail
-    /// card alike. (It used to be journal-only, which is why the same dose drew two
-    /// different shapes depending on the screen.) The detail card's numeric trio
-    /// and phase disclosure still read the *raw* profile: those are a reference
-    /// table and must stay verbatim source data.
+    /// card alike. The detail card's numeric trio and phase disclosure still read
+    /// the *raw* profile: those are a reference table and must stay verbatim
+    /// source data.
     func fillingMissingPhases(for category: SubstanceCategory) -> DurationProfile {
         guard let total, total.midpoint > 0 else { return self }
         let shape = category.synthesizedPhaseShape
@@ -1893,10 +1891,9 @@ struct Substance: Identifiable {
     /// Only falls back when a single route has duration data (implying it's generic).
     /// When multiple routes have distinct durations, returns nil rather than guessing.
     ///
-    /// The salt/isomer overload exists because the timeline used to ignore both:
-    /// the detail card picked the variant profile while the journal graph took the
-    /// route's top-level one, so a D-isomer dose was drawn with the racemic curve —
-    /// a visibly different length from the one the card had just shown for it.
+    /// Every curve draw must use this salt/isomer overload — the detail card and
+    /// the journal graph included — so a D-isomer dose renders with its own
+    /// profile, not the route's top-level (racemic) one, on both screens alike.
     func resolveDuration(
         for route: RouteOfAdministration, saltForm: String?, isomer: String?,
     ) -> DurationProfile? {

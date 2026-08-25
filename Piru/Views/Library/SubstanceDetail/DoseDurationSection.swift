@@ -134,11 +134,8 @@ struct DoseDurationSection: View {
                     .listRowSeparator(.hidden)
                 }
 
-                // Card and footer share one row. As peers they sat across a row
-                // boundary whose position depends on the card's height, and at
-                // some heights — expanding "All phases" was the reliable one —
-                // it lands mid-pixel and the page background shows through as a
-                // hairline white line under the card.
+                // One row per card+footer — see the layout rationale on
+                // `SourceAttributionRow` in SubstanceDetailSupport.swift.
                 VStack(alignment: .leading, spacing: 0) {
                     DoseEffectsCard(
                         route: route.route,
