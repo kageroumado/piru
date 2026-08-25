@@ -7,9 +7,9 @@ import Foundation
 /// *model-evaluated* (a phase-shaped bell per dose, Hill-merged per substance —
 /// see ``TimelineCurveModel``), a window's plot is simply the same sum evaluated
 /// over `[start, end]` for every dose whose activity window intersects it. This
-/// namespace reuses the session math verbatim (``TimelineCurveModel/pkParams(for:)``,
-/// ``TimelineCurveModel/intensity(at:for:params:)``, ``TimelineCurveModel/hill(_:)``,
-/// ``TimelineCurveModel/curveExtent(for:params:)``) — no pharmacology is re-derived.
+/// namespace reuses the session math verbatim (``TimelineCurveModel/intensity(at:for:)``,
+/// ``TimelineCurveModel/hill(_:)``, ``TimelineCurveModel/curveExtent(for:)``) — no
+/// pharmacology is re-derived.
 ///
 /// Two deliberate deviations from the session *display* pipeline, both in favor
 /// of cross-window consistency:
@@ -65,25 +65,23 @@ nonisolated enum TimelineWindowEvaluator {
     }
 
     /// The absolute interval a dose's curve occupies: from the dose to the point
-    /// the drawn curve returns to baseline (``TimelineCurveModel/curveExtent(for:params:)``).
+    /// the drawn curve returns to baseline (``TimelineCurveModel/curveExtent(for:)``).
     static func activityInterval(of dose: ActiveSubstanceState) -> DateInterval {
-        let params = TimelineCurveModel.pkParams(for: dose)
-        let extentMinutes = TimelineCurveModel.curveExtent(for: dose, params: params)
+        let extentMinutes = TimelineCurveModel.curveExtent(for: dose)
         return DateInterval(start: dose.doseTimestamp, duration: extentMinutes * 60)
     }
 
     /// The interval a dose's curve is actually *visible* over when drawn beside
     /// `peers` — ``activityInterval`` trimmed by
-    /// ``TimelineCurveModel/visibleExtent(for:params:peerMagnitude:threshold:)``.
+    /// ``TimelineCurveModel/visibleExtent(for:peerMagnitude:threshold:)``.
     ///
     /// Use this to size a window; use ``activityInterval`` to decide which doses
     /// a window must evaluate. They are deliberately different questions: culling
     /// with the trimmed interval would drop a dose that still contributes a
     /// sliver, whereas sizing with the untrimmed one leaves dead axis.
     static func visibleInterval(of dose: ActiveSubstanceState, among peers: [ActiveSubstanceState]) -> DateInterval {
-        let params = TimelineCurveModel.pkParams(for: dose)
         let peerMagnitude = peers.map(\.doseMagnitude).max() ?? dose.doseMagnitude
-        let minutes = TimelineCurveModel.visibleExtent(for: dose, params: params, peerMagnitude: peerMagnitude)
+        let minutes = TimelineCurveModel.visibleExtent(for: dose, peerMagnitude: peerMagnitude)
         return DateInterval(start: dose.doseTimestamp, duration: minutes * 60)
     }
 
@@ -121,13 +119,12 @@ nonisolated enum TimelineWindowEvaluator {
 
         for group in groups {
             guard let first = group.first else { continue }
-            let params = group.map { TimelineCurveModel.pkParams(for: $0) }
-            let extents = zip(group, params).map { TimelineCurveModel.curveExtent(for: $0, params: $1) }
+            let extents = group.map { TimelineCurveModel.curveExtent(for: $0) }
 
             var values = [Double](repeating: 0, count: count)
             for i in 0 ..< count {
                 let t = start.addingTimeInterval(spanSeconds * Double(i) / Double(count - 1))
-                let v = intensity(of: group, params: params, extents: extents, at: t)
+                let v = intensity(of: group, extents: extents, at: t)
                 values[i] = v
                 peak = max(peak, v)
             }
@@ -150,13 +147,12 @@ nonisolated enum TimelineWindowEvaluator {
 
     /// The group's merged intensity at an absolute instant: linear dose
     /// superposition through one saturating Hill link
-    /// (``TimelineCurveModel/stackedIntensity(atGlobalMinutes:group:params:earliestDose:)``'s
+    /// (``TimelineCurveModel/stackedIntensity(atGlobalMinutes:group:earliestDose:)``'s
     /// math, keyed by absolute time), with each dose clipped to its own curve
     /// extent so the value matches what the session actually draws and is
     /// window-independent.
     static func intensity(
         of group: [ActiveSubstanceState],
-        params: [TimelineCurveModel.PKCurveParams],
         extents: [Double],
         at date: Date,
     ) -> Double {
@@ -164,7 +160,7 @@ nonisolated enum TimelineWindowEvaluator {
         for (index, dose) in group.enumerated() {
             let localMinutes = date.timeIntervalSince(dose.doseTimestamp) / 60
             guard localMinutes >= 0, localMinutes <= extents[index] else { continue }
-            sum += dose.doseMagnitude * TimelineCurveModel.intensity(at: localMinutes, for: dose, params: params[index])
+            sum += dose.doseMagnitude * TimelineCurveModel.intensity(at: localMinutes, for: dose)
         }
         return TimelineCurveModel.hill(sum)
     }

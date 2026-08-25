@@ -31,7 +31,11 @@ extension SubstanceStore {
         /// → M1 is 20000% at MOR, quetiapine → norquetiapine 10000% at NET.
         let metabolitePotencyTarget: String?
         /// Whether the metabolite is the same drug at a different strength.
-        /// Outranks the potency number; see ``canScaleParentEffect``.
+        /// Outranks the potency number: only a ``MetaboliteMechanism/scaled``
+        /// mechanism with a ``MetabolitePotencyBasis/clinical`` basis may scale
+        /// the parent's effect, and a rendered potency that fails that gate
+        /// must carry its basis and target inline (tramadol → M1 reads 20000%
+        /// at MOR with no clinical ratio existing at all).
         let metaboliteMechanismVsParent: MetaboliteMechanism
         /// The metabolite's own elimination half-life (minutes) — the field a
         /// two-compartment parent → metabolite model needs.
@@ -44,46 +48,6 @@ extension SubstanceStore {
         let sourceSlug: String
         let doi: String?
         let pmid: Int?
-        let notes: String?
-
-        /// Whether this metabolite's potency may be used to scale the parent's
-        /// effect — the single gate any modelling must pass, and equally the
-        /// gate on **displaying a bare "N× parent"**. A reader assumes a potency
-        /// figure means clinical strength; only a row passing this actually
-        /// does.
-        ///
-        /// Three rules follow for any view that renders
-        /// ``metabolitePotencyVsParentPct``, because a large number reads as
-        /// authoritative regardless of what produced it:
-        ///
-        /// 1. A row failing this gate must carry its basis and target inline —
-        ///    "200× µ-opioid *binding affinity*, not clinical potency" — or show
-        ///    no figure. Tramadol → M1 is the worst case in the catalog: 20000%
-        ///    at MOR, with no clinical ratio existing at all to sit beside it.
-        /// 2. Never mix or average bases for the same metabolite. Oxycodone →
-        ///    oxymorphone is 4000% by affinity and 1000% clinically; a mean of
-        ///    those answers neither question. Group by basis, or show only the
-        ///    clinical row.
-        /// 3. A large potency whose basis is ``MetabolitePotencyBasis/unknown``
-        ///    gets no number at all — five rows sit at ≥1000% with nobody having
-        ///    recorded what was measured. Describe the metabolite instead.
-        ///
-        /// A ``MetaboliteMechanism/divergent`` metabolite is generally better
-        /// described than quantified: its number, whatever the basis, does not
-        /// summarize what actually changes.
-        ///
-        /// Both conditions are load-bearing. ``MetaboliteMechanism/scaled``
-        /// establishes that one number *can* relate the two molecules at all,
-        /// and ``MetabolitePotencyBasis/clinical`` that this particular number
-        /// is the one that does. Tramadol → M1 fails the first (M1 is a strong
-        /// opioid; tramadol is an SNRI plus a weak one, so no scalar maps
-        /// between them — which is why no clinical ratio for M1 exists to look
-        /// up). Oxycodone → oxymorphone's 4000% row fails the second: real, but
-        /// a receptor-affinity ratio, and using it in place of the 1000%
-        /// clinical figure overstates the metabolite fourfold.
-        var canScaleParentEffect: Bool {
-            metaboliteMechanismVsParent == .scaled && metabolitePotencyBasis == .clinical
-        }
     }
 
     /// What a ``MetabolismHit/metabolitePotencyVsParentPct`` value actually
@@ -101,7 +65,7 @@ extension SubstanceStore {
     ///
     /// `unknown` is the default rather than `nil` on purpose: "not yet
     /// classified" and "known not to be a scaled copy" must not be
-    /// indistinguishable to a caller, and both must fail ``canScaleParentEffect``.
+    /// indistinguishable to a caller, and neither may scale the parent's effect.
     enum MetaboliteMechanism: String, Hashable, Sendable {
         /// Same mechanism, different strength — nordazepam to diazepam. A
         /// potency ratio converts cleanly. Prodrugs count: the metabolite *is*

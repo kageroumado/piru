@@ -2,7 +2,6 @@ import SwiftData
 import SwiftUI
 
 struct ReportView: View {
-    @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     // Sorted oldest-first so `dateRange`'s all-time arm reads `.first` instead
     // of an O(history) `map.min()` per body pass.
@@ -209,7 +208,6 @@ struct ReportView: View {
                 route: entry.route.displayName,
                 timestamp: entry.timestamp,
                 notes: entry.notes,
-                tags: entry.tags,
                 identityKey: entry.identityKey,
                 routeRaw: entry.route.rawValue,
             )

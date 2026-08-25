@@ -685,7 +685,6 @@ extension SpectrumBand {
                 BandEffect(name: "sociability", frequency: 800),
                 BandEffect(name: "sensory enhancement", frequency: 300),
             ],
-            warnings: [],
         )
     }
     // Wrapped in fillers so the segment seams and the scroll-past behavior are

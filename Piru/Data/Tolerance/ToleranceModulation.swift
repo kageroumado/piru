@@ -27,27 +27,17 @@ nonisolated enum ToleranceModulation {
         /// Tolerance-development factor at *full* modulator engagement. `< 1` attenuates; the engine
         /// blends it toward 1 by the modulator's time-resolved presence.
         let muFactor: Double
-        let confidence: ConfidenceTier
-        let note: String
     }
 
     /// The edges for which `modulatorClass` is the modulator. Empty for classes with no curated edge.
     static func edges(forModulatorClass modulatorClass: ReceptorClasses.ReceptorClass) -> [Edge] {
         switch modulatorClass {
         case .nmdaAntagonist:
-            [Edge(
-                affectedClass: .muOpioid,
-                muFactor: 0.5,
-                confidence: .low,
-                note: "NMDA antagonism attenuates opioid tolerance development (preclinically robust, human magnitude variable).",
-            )]
+            // NMDA antagonism attenuates opioid tolerance development
+            // (preclinically robust, human magnitude variable) — LOW confidence.
+            [Edge(affectedClass: .muOpioid, muFactor: 0.5)]
         default:
             []
         }
-    }
-
-    /// Whether any curated edge exists with `modulatorClass` as the modulator — a cheap pre-check.
-    static func hasEdges(forModulatorClass modulatorClass: ReceptorClasses.ReceptorClass) -> Bool {
-        !edges(forModulatorClass: modulatorClass).isEmpty
     }
 }

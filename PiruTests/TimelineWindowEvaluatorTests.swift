@@ -52,8 +52,7 @@ struct TimelineWindowEvaluatorTests {
     @Test
     func `Single dose window evaluation matches the session curve at the same instants`() throws {
         let s = dose()
-        let params = TimelineCurveModel.pkParams(for: s)
-        let extent = TimelineCurveModel.curveExtent(for: s, params: params)
+        let extent = TimelineCurveModel.curveExtent(for: s)
 
         // Window fully inside the dose's activity (extent > 360 min here), so
         // per-dose extent clipping never bites and the values must equal the
@@ -73,7 +72,6 @@ struct TimelineWindowEvaluatorTests {
             let expected = TimelineCurveModel.stackedIntensity(
                 atGlobalMinutes: globalMinutes,
                 group: [s],
-                params: [params],
                 earliestDose: t0,
             )
             #expect(abs(value - expected) < 1e-12)
@@ -88,7 +86,6 @@ struct TimelineWindowEvaluatorTests {
         let first = dose()
         let redose = dose(timestamp: t0.addingTimeInterval(minutes(90)))
         let group = [first, redose]
-        let params = group.map { TimelineCurveModel.pkParams(for: $0) }
 
         let start = t0
         let end = t0.addingTimeInterval(minutes(300))
@@ -102,7 +99,6 @@ struct TimelineWindowEvaluatorTests {
             let expected = TimelineCurveModel.stackedIntensity(
                 atGlobalMinutes: globalMinutes,
                 group: group,
-                params: params,
                 earliestDose: t0,
             )
             // Both doses are within extent across this window, so the clipped
@@ -144,8 +140,7 @@ struct TimelineWindowEvaluatorTests {
     @Test
     func `A dose ending before the boundary reads zero on both sides of it`() throws {
         let s = dose()
-        let params = TimelineCurveModel.pkParams(for: s)
-        let extent = TimelineCurveModel.curveExtent(for: s, params: params)
+        let extent = TimelineCurveModel.curveExtent(for: s)
         // Boundary safely past the curve's draw end.
         let boundary = t0.addingTimeInterval(minutes(extent + 60))
 
@@ -174,8 +169,7 @@ struct TimelineWindowEvaluatorTests {
 
     @Test
     func `Doses contribute iff their activity window intersects the window`() throws {
-        let params = TimelineCurveModel.pkParams(for: dose())
-        let extent = TimelineCurveModel.curveExtent(for: dose(), params: params)
+        let extent = TimelineCurveModel.curveExtent(for: dose())
 
         // A: long over before the window. B: inside it. C: after it.
         let a = dose(name: "Beforezine", timestamp: t0)
@@ -205,8 +199,7 @@ struct TimelineWindowEvaluatorTests {
     @Test
     func `Relevant-dose culling matches the intersection rule`() {
         let s = dose()
-        let params = TimelineCurveModel.pkParams(for: s)
-        let extent = TimelineCurveModel.curveExtent(for: s, params: params)
+        let extent = TimelineCurveModel.curveExtent(for: s)
 
         let interval = TimelineWindowEvaluator.activityInterval(of: s)
         #expect(interval.start == t0)

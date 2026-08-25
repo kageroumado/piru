@@ -173,22 +173,6 @@ enum QuickLogManager {
         try? context.save()
     }
 
-    /// Record a freshly-logged dose. Convenience wrapper around the batch form.
-    static func record(
-        substance: String,
-        route: RouteOfAdministration,
-        amount: Double,
-        unit: String,
-        fixedOrder: Bool,
-        context: ModelContext,
-    ) {
-        record(
-            [LoggedDose(substance: substance, route: route, amount: amount, unit: unit)],
-            fixedOrder: fixedOrder,
-            context: context,
-        )
-    }
-
     /// Record several freshly-logged doses in one pass. Each refreshes recency
     /// and floats to the front of its (substance, route) group unless
     /// `fixedOrder` (then it stays put / new doses append at the back), evicting

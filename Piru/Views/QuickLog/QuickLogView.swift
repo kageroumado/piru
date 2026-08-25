@@ -53,10 +53,6 @@ struct QuickLogView: View {
     /// (`piru://quicklog?substance=`).
     var prefillSubstance: String?
 
-    /// Lower bound for ``allEntries`` — see ``QuickLogSheet``. Stored so the
-    /// explicit `init` can build the windowed `@Query` from it.
-    let historyCutoff: Date
-
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
 
@@ -114,7 +110,8 @@ struct QuickLogView: View {
     init(prestagedRoutine: String? = nil, prefillSubstance: String? = nil, historyCutoff: Date) {
         self.prestagedRoutine = prestagedRoutine
         self.prefillSubstance = prefillSubstance
-        self.historyCutoff = historyCutoff
+        // The windowed @Query closes over the init parameter — see QuickLogSheet
+        // for the cutoff's meaning.
         _allEntries = Query(
             FetchDescriptor(
                 predicate: #Predicate<DoseEntry> { $0.timestamp >= historyCutoff },

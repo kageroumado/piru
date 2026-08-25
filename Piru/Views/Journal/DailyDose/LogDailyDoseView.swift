@@ -17,7 +17,6 @@ struct LogMedicationsView: View {
     @State private var loggedSubstances: [Substance?] = []
     @State private var interactionWarnings: [InteractionResult] = []
     @State private var showInteractionSheet = false
-    @State private var proceedAfterWarning = false
 
     init(category: String) {
         self.category = category
@@ -205,10 +204,6 @@ struct InteractionWarningSheet: View {
     let warnings: [InteractionResult]
     let onProceed: () -> Void
     let onCancel: () -> Void
-
-    private var worstSeverity: InteractionSeverity {
-        warnings.first?.severity ?? .caution
-    }
 
     var body: some View {
         NavigationStack {

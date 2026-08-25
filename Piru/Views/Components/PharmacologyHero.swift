@@ -124,7 +124,6 @@ struct PharmacologyHero {
             consumed.insert(hit.id)
             return PotencyBar(
                 id: label, label: label, value: concText(hit), species: hit.species,
-                tier: ReceptorStrength.tier(kiNm: hit.kiNm, ec50Nm: hit.ec50Nm, ic50Nm: hit.ic50Nm) ?? 1,
                 fraction: max(0.14, (conc(hit) ?? maxConc) / maxConc),
                 citation: citationURL(doi: hit.doi, pmid: hit.pmid),
             )
@@ -202,7 +201,6 @@ struct PharmacologyHero {
         let label: String
         let value: String
         let species: String?
-        let tier: Int
         let fraction: Double
         let citation: URL?
     }

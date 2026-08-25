@@ -27,7 +27,6 @@ struct RecentDoseEntry: TimelineEntry {
     let substance: String?
     let amount: Double
     let unit: String
-    let route: String
     let doseTime: Date?
     let colorHex: String
 }
@@ -36,7 +35,7 @@ struct RecentDoseEntry: TimelineEntry {
 
 struct RecentDoseProvider: TimelineProvider {
     func placeholder(in _: Context) -> RecentDoseEntry {
-        RecentDoseEntry(date: .now, substance: "Caffeine", amount: 200, unit: "mg", route: "Oral", doseTime: .now.addingTimeInterval(-3_600), colorHex: "F57878")
+        RecentDoseEntry(date: .now, substance: "Caffeine", amount: 200, unit: "mg", doseTime: .now.addingTimeInterval(-3_600), colorHex: "F57878")
     }
 
     func getSnapshot(in _: Context, completion: @escaping (RecentDoseEntry) -> Void) {
@@ -52,7 +51,7 @@ struct RecentDoseProvider: TimelineProvider {
 
     private func fetchEntry() -> RecentDoseEntry {
         guard let container = WidgetStoreAccess.makeContainer() else {
-            return RecentDoseEntry(date: .now, substance: nil, amount: 0, unit: "mg", route: "Oral", doseTime: nil, colorHex: "F56297")
+            return RecentDoseEntry(date: .now, substance: nil, amount: 0, unit: "mg", doseTime: nil, colorHex: "F56297")
         }
         let context = ModelContext(container)
 
@@ -64,7 +63,7 @@ struct RecentDoseProvider: TimelineProvider {
         let colorDescriptor = FetchDescriptor<SubstanceColor>()
 
         guard let entries = try? context.fetch(descriptor), let entry = entries.first else {
-            return RecentDoseEntry(date: .now, substance: nil, amount: 0, unit: "mg", route: "Oral", doseTime: nil, colorHex: "F56297")
+            return RecentDoseEntry(date: .now, substance: nil, amount: 0, unit: "mg", doseTime: nil, colorHex: "F56297")
         }
 
         let colors = (try? context.fetch(colorDescriptor)) ?? []
@@ -97,7 +96,6 @@ struct RecentDoseProvider: TimelineProvider {
             substance: shownSubstance,
             amount: entry.amount,
             unit: entry.unit,
-            route: entry.route.displayName,
             doseTime: entry.timestamp,
             colorHex: hex,
         )

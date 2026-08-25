@@ -233,11 +233,6 @@ nonisolated enum BackupCrypto {
 
     // MARK: - Device key (iCloud Keychain)
 
-    /// Whether a device backup key exists on (or has synced to) this device.
-    static func deviceKeyExists() -> Bool {
-        (try? loadDeviceKey()) != nil
-    }
-
     private static func loadOrCreateDeviceKey() throws -> SymmetricKey {
         if let existing = try? loadDeviceKey() { return existing }
 

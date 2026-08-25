@@ -61,15 +61,6 @@ public extension ShapeStyle where Self == Color {
         .Semantic.Caution.accent
     }
 
-    /// Confirmations and healthy states. Small copy.
-    static var successText: Color {
-        .Semantic.Success.text
-    }
-    /// Confirmations and healthy states. Standalone marks.
-    static var successAccent: Color {
-        .Semantic.Success.accent
-    }
-
     /// Neutral information carrying no valence. Small copy.
     static var infoText: Color {
         .Semantic.Info.text

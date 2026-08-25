@@ -89,7 +89,6 @@ nonisolated struct UsageEntrySnapshot: Sendable {
     /// placed on a ladder (substance unknown, no ladder for that route, or the
     /// logged unit is not convertible to the ladder's unit).
     let doseLevelIndex: Int?
-    let amount: Double
     /// This dose expressed as a multiple of the substance's *common* dose —
     /// `amount ÷ midpoint(common)`, so `1.0` is one textbook common dose and
     /// `2.5` is two-and-a-half of them. `nil` on the same footing as
@@ -105,7 +104,6 @@ nonisolated struct UsageEntrySnapshot: Sendable {
         categoryIndex: Int,
         routeIndex: Int,
         doseLevelIndex: Int?,
-        amount: Double,
         commonDoses: Double? = nil,
         timestamp: Date,
     ) {
@@ -113,7 +111,6 @@ nonisolated struct UsageEntrySnapshot: Sendable {
         self.categoryIndex = categoryIndex
         self.routeIndex = routeIndex
         self.doseLevelIndex = doseLevelIndex
-        self.amount = amount
         self.commonDoses = commonDoses
         self.timestamp = timestamp
     }
@@ -233,11 +230,6 @@ nonisolated struct UsageHourBins: Sendable {
     /// Category index → 24 common-dose sums.
     let byCategoryCommon: [Int: [Double]]
 
-    static let empty = UsageHourBins(
-        total: Array(repeating: 0, count: 24), byCategory: [:],
-        totalCommon: Array(repeating: 0, count: 24), byCategoryCommon: [:],
-    )
-
     /// The entry-count bins for a category filter (`nil` = all categories).
     func bins(category: Int?) -> [Int] {
         guard let category else { return total }
@@ -277,7 +269,6 @@ nonisolated struct UsageTrendPoint: Sendable, Hashable, Identifiable {
 /// draws the line at zero instead of breaking it.
 nonisolated struct UsageTrendSeries: Sendable, Identifiable {
     let substanceIndex: Int
-    let entryCount: Int
     let points: [UsageTrendPoint]
     /// Whether any of this substance's entries carried a common-dose value. A
     /// line with none would sit flat on zero in common-dose mode and read as
@@ -487,9 +478,6 @@ nonisolated struct UsageWeekdayBucket: Sendable, Identifiable {
 /// Everything the Usage screen renders, computed in one detached pass.
 nonisolated struct UsageAnalyticsResult: Sendable {
     let range: UsageTimeRange
-    /// Start of the selected window (earliest entry for "All").
-    let rangeStart: Date
-    let rangeEnd: Date
     let substances: [UsageSubstanceRef]
     let entryCount: Int
     let overview: UsageOverview
@@ -595,8 +583,6 @@ nonisolated enum UsageAnalytics {
 
         return UsageAnalyticsResult(
             range: range,
-            rangeStart: bounds.start,
-            rangeEnd: bounds.end,
             substances: substances,
             entryCount: inRange.count,
             overview: overview,
@@ -967,7 +953,6 @@ nonisolated enum UsageAnalytics {
             }
             return UsageTrendSeries(
                 substanceIndex: item.substanceIndex,
-                entryCount: item.count,
                 points: points,
                 hasCommonDoses: hasCommon,
             )

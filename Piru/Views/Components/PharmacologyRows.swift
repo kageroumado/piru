@@ -196,15 +196,6 @@ func concLabel(kiNm: Double?, ec50Nm: Double?, ic50Nm: Double?) -> String {
     return "\(symbol) \(umText) µM"
 }
 
-/// Map a half-max concentration (nM) to a 1–3 strength tier for the dot scale. Absolute potency
-/// bands so the Receptor card's dots rhyme with the Mechanism card: < 100 nM strong (3), 100–1000 nM
-/// moderate (2), ≥ 1000 nM weak (1). Lower concentration = more potent = more filled dots.
-func affinityTier(forNm value: Double) -> Int {
-    if value < 100 { return 3 }
-    if value < 1_000 { return 2 }
-    return 1
-}
-
 /// The shared 3-dot strength glyph used by both the Mechanism and Receptor cards, so "stronger vs
 /// weaker" reads identically across them.
 struct AffinityDots: View {

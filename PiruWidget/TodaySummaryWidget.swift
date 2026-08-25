@@ -33,7 +33,6 @@ struct DoseSummary: Identifiable {
     let substance: String
     let totalAmount: Double
     let unit: String
-    let count: Int
     let colorHex: String
     let lastTime: Date
 }
@@ -43,8 +42,8 @@ struct DoseSummary: Identifiable {
 struct TodaySummaryProvider: TimelineProvider {
     func placeholder(in _: Context) -> TodaySummaryEntry {
         TodaySummaryEntry(date: .now, doses: [
-            DoseSummary(substance: "Caffeine", totalAmount: 200, unit: "mg", count: 2, colorHex: "F57878", lastTime: .now),
-            DoseSummary(substance: "Vyvanse", totalAmount: 40, unit: "mg", count: 1, colorHex: "F57896", lastTime: .now),
+            DoseSummary(substance: "Caffeine", totalAmount: 200, unit: "mg", colorHex: "F57878", lastTime: .now),
+            DoseSummary(substance: "Vyvanse", totalAmount: 40, unit: "mg", colorHex: "F57896", lastTime: .now),
         ], totalCount: 3)
     }
 
@@ -116,7 +115,6 @@ struct TodaySummaryProvider: TimelineProvider {
                 substance: displayNames[name.lowercased()] ?? brand ?? name,
                 totalAmount: data.total,
                 unit: data.unit,
-                count: data.count,
                 colorHex: colorMap[name.lowercased()] ?? "F56297",
                 lastTime: data.lastTime,
             )

@@ -8,7 +8,6 @@ import SwiftUI
 /// bad interruption: unfolded between a dose ladder and a safety card it buries
 /// both. Here it is a name and a chevron for whoever wants it.
 struct ClassContextSection: View {
-    let substance: Substance
     let model: SubstanceDetailModel
 
     var body: some View {

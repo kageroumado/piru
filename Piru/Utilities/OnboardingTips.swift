@@ -90,25 +90,6 @@ struct SettingsDataTip: Tip {
     }
 }
 
-/// Appears on a session's detail screen, where a Live Activity can actually be started — so the
-/// feature is introduced exactly when it's usable, not as onboarding friction.
-struct LiveActivityTip: Tip {
-    var title: Text {
-        Text("Track it on your Lock Screen")
-    }
-    var message: Text? {
-        Text("Start a Live Activity to follow this session on your Lock Screen and Dynamic Island.")
-    }
-    var image: Image? {
-        Image(systemName: "bolt.heart")
-    }
-
-    /// Shown once, ever.
-    var options: [any TipOption] {
-        Tips.MaxDisplayCount(1)
-    }
-}
-
 /// One-time hint on a session's timeline graph, replacing the always-on gesture
 /// caption. Points out the pan/zoom/inspect gestures the first time a graph is
 /// on screen, then retires itself once dismissed.

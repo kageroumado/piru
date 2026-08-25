@@ -169,15 +169,12 @@ struct ReconstitutionCalculatorView: View {
         }
     }
 
-    let defaultVialMg: Double?
-
     @State private var vialMg: Double
     @State private var waterML: Double = 2
     @State private var doseAmount: Double = 250
     @State private var doseUnit: DoseUnitChoice = .mcg
 
     init(defaultVialMg: Double?) {
-        self.defaultVialMg = defaultVialMg
         // A 5 mg vial in 2 mL with a 250 mcg target is a sensible peptide default.
         _vialMg = State(initialValue: defaultVialMg ?? 5)
     }

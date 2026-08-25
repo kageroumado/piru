@@ -121,23 +121,6 @@ extension SubstanceStore {
         }
     }
 
-    func classReferenceCompounds(family: SignatureFamily) -> Set<String> {
-        do {
-            return try substancesDB.read { db in
-                let rows = try Row.fetchAll(db, sql: """
-                    SELECT s.canonical_name
-                      FROM class_reference_compounds r
-                      JOIN substances s ON s.id = r.substance_id
-                     WHERE r.family = ?
-                     ORDER BY r.rank
-                """, arguments: [family.rawValue])
-                return Set(rows.map { $0["canonical_name"] as String })
-            }
-        } catch {
-            return []
-        }
-    }
-
     /// A coarse SQL prefilter; ``SignatureTarget/normalized(_:)`` does the real matching in Swift so
     /// a multi-target row like `"MOR / DOR / KOR / NOP"` can never masquerade as a single leg.
     private nonisolated static func targetPredicate(_ family: SignatureFamily) -> String {

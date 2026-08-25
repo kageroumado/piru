@@ -49,16 +49,6 @@ final class TimelineWindowModel {
         let dosesHash: Int
     }
 
-    var earliestDose: Date? {
-        snapshots.first?.doseTimestamp
-    }
-
-    /// Normalization matching the session graph's policy: fill the height with
-    /// the tallest loaded curve, but never amplify silence more than 20×.
-    var yNormalization: Double {
-        peakValue > 0 ? min(1 / peakValue, 20) : 1
-    }
-
     /// Rebuild the snapshots from the live entries. Cheap when nothing changed
     /// (content-compared); the plot memo survives because its keys are
     /// content-addressed — only windows whose visible doses changed re-key.

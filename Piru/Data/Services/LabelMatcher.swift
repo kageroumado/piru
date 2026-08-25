@@ -4,8 +4,6 @@ import Foundation
 /// barcode path (GTIN → openFDA → name) and the OCR path (text → alias match)
 /// produce, and the input to QuickLog staging.
 struct ResolvedDrug {
-    enum Source { case barcode, ocr }
-
     /// The resolved canonical substance.
     let substance: Substance
     /// The scanned brand/alias the substance was recognized by ("Concerta"),
@@ -17,7 +15,6 @@ struct ResolvedDrug {
     var strength: Double?
     var unit: String?
     var route: RouteOfAdministration?
-    let source: Source
 
     var canonicalName: String {
         substance.name
@@ -109,7 +106,6 @@ enum LabelMatcher {
     /// guess.
     static func resolve(
         ocrText: String,
-        source: ResolvedDrug.Source = .ocr,
         highConfidenceOnly: Bool = false,
     ) -> ResolvedDrug? {
         let strength = parseStrength(ocrText)
@@ -121,7 +117,6 @@ enum LabelMatcher {
             strength: strength?.amount,
             unit: strength?.unit,
             route: nil,
-            source: source,
         )
     }
 
@@ -138,7 +133,6 @@ enum LabelMatcher {
             strength: strength?.amount,
             unit: strength?.unit,
             route: route(fromOpenFDA: product.routes),
-            source: .barcode,
         )
     }
 

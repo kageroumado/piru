@@ -13,13 +13,9 @@ struct InventoryItemDetailView: View {
 
     @Environment(\.appNavigator) private var navigator
     @Environment(\.modelContext) private var modelContext
-    @Query private var substanceColors: [SubstanceColor]
 
     @State private var showBasisInfo = false
 
-    private var colorMap: [String: Color] {
-        Array(substanceColors).colorMap
-    }
     private var runOut: InventoryMath.RunOut? {
         InventoryMath.runOut(for: item, in: modelContext)
     }

@@ -93,8 +93,9 @@ struct MechanisticChartView: View {
         axisOverride ?? result.ranges[lens.rawValue] ?? .init(hi: 1, lo: 0)
     }
 
-    /// Scrollable extent — the real content span, not the padded `tMax`. So a
-    /// short session's window shows everything and no scroller appears.
+    /// Scrollable extent — the real content span, not the padded simulation
+    /// extent. So a short session's window shows everything and no scroller
+    /// appears.
     private var span: Double {
         result.contentSpan
     }

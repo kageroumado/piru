@@ -154,7 +154,3 @@ struct BundledDatabaseTests {
         #expect(order.first == "piru-curated")
     }
 }
-
-/// Marker class used only to obtain the test bundle handle in
-/// ``BundledDatabaseTests/bundledResourcePresent``.
-private final class BundleAnchor {}

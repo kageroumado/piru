@@ -11,15 +11,6 @@ enum JournalGrouping: String, CaseIterable {
     case bySubstance = "Substance"
     case byCategory = "Category"
 
-    var icon: String {
-        switch self {
-        case .recent: "clock"
-        case .byDay: "calendar.day.timeline.left"
-        case .bySubstance: "pill"
-        case .byCategory: "square.grid.2x2"
-        }
-    }
-
     var displayName: LocalizedStringResource {
         switch self {
         case .recent: "Recent"
@@ -668,7 +659,6 @@ struct EntryListView: View {
         NavigationStack {
             JournalCalendarView(
                 entries: entries,
-                colorMap: model.colorMap,
                 onSelectDate: { date in
                     showingCalendar = false
                     jump(to: date, proxy: proxy)

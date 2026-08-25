@@ -1,20 +1,5 @@
 import SwiftUI
 
-/// Identifiers for the sheet zoom transition. The journal's floating add button
-/// and the day-detail's add button each tag themselves with their *own* id
-/// (distinct ids avoid the undefined behavior of two `matchedTransitionSource`s
-/// sharing one id in the same namespace — the journal tab stays alive behind
-/// other tabs, so both would otherwise register at once). The launching button
-/// records which id it is via ``AppNavigator/sheetZoomSourceID`` so the depth-0
-/// sheet zooms out of the button that was actually tapped.
-///
-/// The session accessory deliberately has no id here: iOS hosts it in a separate
-/// context where a zoom can't anchor, so its sheets present as a normal slide-up.
-enum QuickLogTransition {
-    static let floatingID = "quickLog.zoom.floating"
-    static let dayDetailID = "quickLog.zoom.dayDetail"
-}
-
 extension EnvironmentValues {
     /// The quick-log zoom namespace, published by `ContentView` so add buttons
     /// living outside it (e.g. the day/session detail's floating button) can tag

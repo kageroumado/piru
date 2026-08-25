@@ -8,7 +8,6 @@ struct NDCProduct: Equatable {
     var brandName: String?
     /// The first active ingredient's strength as printed, e.g. `"36 mg/1"`.
     var strengthText: String?
-    var dosageForm: String?
     /// openFDA route names, e.g. `["ORAL"]`.
     var routes: [String]
 
@@ -86,7 +85,6 @@ struct NDCResolver {
             genericName: result.generic_name?.trimmed,
             brandName: result.brand_name?.trimmed,
             strengthText: result.active_ingredients?.first?.strength?.trimmed,
-            dosageForm: result.dosage_form?.trimmed,
             routes: result.route ?? [],
         )
     }
@@ -109,7 +107,6 @@ struct NDCResolver {
             genericName: openfda.generic_name?.first?.trimmed,
             brandName: openfda.brand_name?.first?.trimmed,
             strengthText: nil,
-            dosageForm: openfda.dosage_form?.first?.trimmed,
             routes: openfda.route ?? [],
         )
     }
@@ -142,11 +139,9 @@ private struct OpenFDANDCResponse: Decodable {
     struct Result: Decodable {
         let generic_name: String?
         let brand_name: String?
-        let dosage_form: String?
         let route: [String]?
         let active_ingredients: [Ingredient]?
         struct Ingredient: Decodable {
-            let name: String?
             let strength: String?
         }
     }
@@ -159,7 +154,6 @@ private struct OpenFDALabelResponse: Decodable {
         struct OpenFDA: Decodable {
             let generic_name: [String]?
             let brand_name: [String]?
-            let dosage_form: [String]?
             let route: [String]?
         }
     }

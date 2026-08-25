@@ -74,38 +74,3 @@ extension View {
         }
     }
 }
-
-/// Reusable content for a tappable overview card — leading icon, title, one or
-/// more detail lines, trailing chevron. Wrap in a `NavigationLink`.
-struct NavCardLabel<Detail: View>: View {
-    let icon: String
-    let title: Text
-    @ViewBuilder var detail: () -> Detail
-
-    var body: some View {
-        HStack(spacing: 14) {
-            Image(systemName: icon)
-                .font(.title2)
-                .foregroundStyle(Theme.accent)
-                .frame(width: 32)
-                .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 3) {
-                title
-                    .font(.headline)
-                    .foregroundStyle(.primary)
-                detail()
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            Spacer(minLength: 8)
-            Image(systemName: "chevron.right")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(Theme.secondaryLabel)
-                .accessibilityHidden(true)
-        }
-        .padding(16)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .themeCard()
-        .contentShape(Rectangle())
-    }
-}

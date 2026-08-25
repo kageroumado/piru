@@ -15,7 +15,6 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 nonisolated struct PharmaTableRow: Identifiable {
     let name: String
     let category: SubstanceCategory?
-    let route: String?
     /// The substance's mechanism/class one-liner (e.g. "Selective Serotonin Reuptake Inhibitor (SSRI)"),
     /// resolved cheaply from ``MechanismOfActionDatabase`` (per-substance class template, else category
     /// fallback) on the main actor while seeding — the Pharma table's default **Mechanism** column. The
@@ -834,7 +833,6 @@ extension SubstanceStore {
         }
 
         return PharmacologyParameters(
-            substanceName: name,
             molarMassGramsPerMole: molarMass,
             vdLPerKg: resolvedVd,
             bioavailabilityFraction: f,
@@ -920,7 +918,7 @@ extension SubstanceStore {
                            m.metabolite_active, m.metabolite_potency_vs_parent_pct,
                            m.metabolite_potency_basis, m.metabolite_potency_target,
                            m.metabolite_mechanism_vs_parent, m.metabolite_half_life_min,
-                           m.formation_fraction_pct, m.route, m.notes,
+                           m.formation_fraction_pct, m.route,
                            src.slug AS source_slug, c.doi, c.pmid,
                            -- The metabolite's OWN sourced half-life, when we carry it as a
                            -- substance. Linking beats copying (see the `metabolite_substance_id`
@@ -962,7 +960,7 @@ extension SubstanceStore {
                             .flatMap(MetabolitePotencyBasis.init(rawValue:)),
                         metabolitePotencyTarget: row["metabolite_potency_target"],
                         // Unrecognized or absent both mean "not established to be
-                        // a scaled copy", which must fail `canScaleParentEffect`.
+                        // a scaled copy", which must never scale the parent's effect.
                         metaboliteMechanismVsParent: (row["metabolite_mechanism_vs_parent"] as String?)
                             .flatMap(MetaboliteMechanism.init(rawValue:)) ?? .unknown,
                         // Own record first, scalar column only when we don't carry the
@@ -974,7 +972,6 @@ extension SubstanceStore {
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),
-                        notes: row["notes"],
                     )
                 }
             }
@@ -1004,7 +1001,6 @@ extension SubstanceStore {
             else { continue }
             let candidate = PharmacologyParameters.MetaboliteContributor(
                 metaboliteName: name,
-                metaboliteSubstanceName: hit.metaboliteSubstanceName,
                 halfLifeMinutes: halfLife,
                 formationFractionPct: hit.formationFractionPct,
                 potencyVsParentPct: hit.metabolitePotencyVsParentPct,
@@ -1119,7 +1115,6 @@ extension SubstanceStore {
             let row = PharmaTableRow(
                 name: substance.name,
                 category: substance.category,
-                route: pk.flatMap { $0["route"] },
                 mechanismLabel: substance.mechanismLabel,
                 halfLifeMin: halfLife,
                 tmaxMin: pk.flatMap { $0["tmax_min"] },

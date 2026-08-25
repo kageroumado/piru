@@ -466,11 +466,6 @@ struct TimelineGraphView: View, Equatable {
         return full - activity > 150 ? activity : full
     }
 
-    /// Max dose amount per substance name, used to scale curve heights proportionally.
-    private var maxDoseBySubstance: [String: Double] {
-        derived.maxDoseBySubstance
-    }
-
     /// Single-dose (non-stacked) height: the same saturating Hill link applied
     /// to this dose's magnitude, so a lone dose and a stacked group of the same
     /// total agree on height. The *unclamped* magnitude already encodes relative
@@ -607,7 +602,6 @@ struct TimelineGraphView: View, Equatable {
         let name: String
         let color: Color
         let value: Double
-        let elapsed: Double
         let phase: LocalizedStringResource?
     }
 
@@ -634,20 +628,18 @@ struct TimelineGraphView: View, Equatable {
                 guard let first = group.first else { continue }
                 let (gStart, gEnd) = stackedGroupRange(group)
                 guard global >= gStart, global <= gEnd else { continue }
-                let params = group.map { TimelineCurveModel.pkParams(for: $0) }
-                let v = min(1, max(0, stackedIntensity(atGlobalMinutes: global, group: group, params: params) * yNorm))
+                let v = min(1, max(0, stackedIntensity(atGlobalMinutes: global, group: group) * yNorm))
                 guard v > 0.01 else { continue }
-                out.append(ScrubSample(id: gi, name: first.substanceName, color: Color(hex: first.colorHex), value: v, elapsed: global - gStart, phase: scrubPhaseName(elapsed: global - gStart, for: first)))
+                out.append(ScrubSample(id: gi, name: first.substanceName, color: Color(hex: first.colorHex), value: v, phase: scrubPhaseName(elapsed: global - gStart, for: first)))
             }
         } else {
             for (i, s) in substances.enumerated() {
                 let offset = s.doseTimestamp.timeIntervalSince(earliestDose) / 60
                 let local = global - offset
-                let params = TimelineCurveModel.pkParams(for: s)
-                guard local >= 0, local <= TimelineCurveModel.curveExtent(for: s, params: params) else { continue }
-                let v = min(1, max(0, TimelineCurveModel.intensity(at: local, for: s, params: params) * heightScale(for: s) * yNorm))
+                guard local >= 0, local <= TimelineCurveModel.curveExtent(for: s) else { continue }
+                let v = min(1, max(0, TimelineCurveModel.intensity(at: local, for: s) * heightScale(for: s) * yNorm))
                 guard v > 0.01 else { continue }
-                out.append(ScrubSample(id: i, name: s.substanceName, color: Color(hex: s.colorHex), value: v, elapsed: local, phase: scrubPhaseName(elapsed: local, for: s)))
+                out.append(ScrubSample(id: i, name: s.substanceName, color: Color(hex: s.colorHex), value: v, phase: scrubPhaseName(elapsed: local, for: s)))
             }
         }
         return out.sorted { $0.value > $1.value }
@@ -1224,7 +1216,7 @@ struct TimelineGraphView: View, Equatable {
                     if showNowIndicator, scrubX == nil, elapsed >= 0, elapsed <= substance.totalMinutes {
                         let minutePos = substanceOffset + elapsed
                         let x = graphInset + CGFloat((minutePos - vStart) / vSpan) * graphWidth
-                        let y = graphTop + graphHeight - CGFloat(TimelineCurveModel.intensity(at: elapsed, for: substance, params: TimelineCurveModel.pkParams(for: substance)) * scale) * graphHeight * 0.93
+                        let y = graphTop + graphHeight - CGFloat(TimelineCurveModel.intensity(at: elapsed, for: substance) * scale) * graphHeight * 0.93
                         if x >= -5, x <= graphWidth + 5 {
                             let dotSize: CGFloat = compact ? 5 : 7
                             let dot = Path(ellipseIn: CGRect(
@@ -1409,11 +1401,10 @@ struct TimelineGraphView: View, Equatable {
                 for group in groups {
                     let (gs, ge) = stackedGroupRange(group)
                     guard ge > gs else { continue }
-                    let params = group.map { TimelineCurveModel.pkParams(for: $0) }
                     let steps = 40
                     for j in 0 ... steps {
                         let t = gs + Double(j) / Double(steps) * (ge - gs)
-                        peak = max(peak, stackedIntensity(atGlobalMinutes: t, group: group, params: params))
+                        peak = max(peak, stackedIntensity(atGlobalMinutes: t, group: group))
                     }
                 }
                 let norm = 1.0 / peak
@@ -1425,13 +1416,12 @@ struct TimelineGraphView: View, Equatable {
                 // regardless of how it compares to other substances.
                 var peak = 1e-6
                 for dose in lane.doses {
-                    let params = TimelineCurveModel.pkParams(for: dose)
                     let hs = heightScale(for: dose)
-                    let end = TimelineCurveModel.curveExtent(for: dose, params: params)
+                    let end = TimelineCurveModel.curveExtent(for: dose)
                     let steps = 40
                     for j in 0 ... steps {
                         let t = Double(j) / Double(steps) * end
-                        peak = max(peak, TimelineCurveModel.intensity(at: t, for: dose, params: params) * hs)
+                        peak = max(peak, TimelineCurveModel.intensity(at: t, for: dose) * hs)
                     }
                 }
                 let norm = 1.0 / peak
@@ -1477,7 +1467,7 @@ struct TimelineGraphView: View, Equatable {
                             let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
                             let elapsed = nowGlobal - offset
                             guard elapsed >= 0, elapsed <= dose.totalMinutes else { continue }
-                            let v = TimelineCurveModel.intensity(at: elapsed, for: dose, params: TimelineCurveModel.pkParams(for: dose)) * heightScale(for: dose) * norm
+                            let v = TimelineCurveModel.intensity(at: elapsed, for: dose) * heightScale(for: dose) * norm
                             bestV = max(bestV, v)
                         }
                         if bestV >= 0 {
@@ -1549,14 +1539,13 @@ struct TimelineGraphView: View, Equatable {
         let (gStart, gEnd) = stackedGroupRange(group)
         let gSpan = gEnd - gStart
         guard gSpan > 0 else { return }
-        let params = group.map { TimelineCurveModel.pkParams(for: $0) }
         let steps = compact ? 48 : 140
 
         var vs: [Double] = []
         vs.reserveCapacity(steps + 1)
         for i in 0 ... steps {
             let t = gStart + Double(i) / Double(steps) * gSpan
-            vs.append(stackedIntensity(atGlobalMinutes: t, group: group, params: params) * norm)
+            vs.append(stackedIntensity(atGlobalMinutes: t, group: group) * norm)
         }
 
         var pts: [CGPoint] = []
@@ -1682,14 +1671,13 @@ struct TimelineGraphView: View, Equatable {
     ) -> Path {
         Path { path in
             let steps = compact ? 48 : 140
-            let params = TimelineCurveModel.pkParams(for: substance)
-            let drawEnd = TimelineCurveModel.curveExtent(for: substance, params: params)
+            let drawEnd = TimelineCurveModel.curveExtent(for: substance)
             var pts: [CGPoint] = []
             pts.reserveCapacity(steps + 1)
             for i in 0 ... steps {
                 let t = Double(i) / Double(steps) * drawEnd
                 let x = graphInset + CGFloat((substanceOffset + t - visibleStart) / visibleSpan) * graphWidth
-                let y = graphTop + graphHeight - CGFloat(TimelineCurveModel.intensity(at: t, for: substance, params: params) * scale) * graphHeight * 0.93
+                let y = graphTop + graphHeight - CGFloat(TimelineCurveModel.intensity(at: t, for: substance) * scale) * graphHeight * 0.93
                 pts.append(CGPoint(x: x, y: y))
             }
             addSmoothCurve(pts, to: &path, startNew: true)
@@ -1710,8 +1698,7 @@ struct TimelineGraphView: View, Equatable {
         Path { path in
             let steps = compact ? 48 : 140
             let baseline = graphTop + graphHeight
-            let params = TimelineCurveModel.pkParams(for: substance)
-            let drawEnd = TimelineCurveModel.curveExtent(for: substance, params: params)
+            let drawEnd = TimelineCurveModel.curveExtent(for: substance)
 
             let startX = graphInset + CGFloat((substanceOffset - visibleStart) / visibleSpan) * graphWidth
             path.move(to: CGPoint(x: startX, y: baseline))
@@ -1721,7 +1708,7 @@ struct TimelineGraphView: View, Equatable {
             for i in 0 ... steps {
                 let t = Double(i) / Double(steps) * drawEnd
                 let x = graphInset + CGFloat((substanceOffset + t - visibleStart) / visibleSpan) * graphWidth
-                let y = graphTop + graphHeight - CGFloat(TimelineCurveModel.intensity(at: t, for: substance, params: params) * scale) * graphHeight * 0.93
+                let y = graphTop + graphHeight - CGFloat(TimelineCurveModel.intensity(at: t, for: substance) * scale) * graphHeight * 0.93
                 pts.append(CGPoint(x: x, y: y))
             }
             addSmoothCurve(pts, to: &path, startNew: false)
@@ -1814,9 +1801,8 @@ struct TimelineGraphView: View, Equatable {
     /// dominates, and well-separated doses keep their distinct humps. The caller
     /// normalizes by the combined peak (`peakCurveValue`); the effect-site
     /// low-pass then rounds the hand-off where one dose overtakes another.
-    /// `params` holds the precomputed Bateman fit per dose, aligned to `group`.
-    private func stackedIntensity(atGlobalMinutes global: Double, group: [ActiveSubstanceState], params: [TimelineCurveModel.PKCurveParams]) -> Double {
-        TimelineCurveModel.stackedIntensity(atGlobalMinutes: global, group: group, params: params, earliestDose: derived.earliestDose)
+    private func stackedIntensity(atGlobalMinutes global: Double, group: [ActiveSubstanceState]) -> Double {
+        TimelineCurveModel.stackedIntensity(atGlobalMinutes: global, group: group, earliestDose: derived.earliestDose)
     }
 
     private func stackedGroupRange(_ group: [ActiveSubstanceState]) -> (start: Double, end: Double) {
@@ -1843,7 +1829,6 @@ struct TimelineGraphView: View, Equatable {
             let (gStart, gEnd) = stackedGroupRange(group)
             let gSpan = gEnd - gStart
             guard gSpan > 0 else { continue }
-            let params = group.map { TimelineCurveModel.pkParams(for: $0) }
             let activeEnd = group.map { $0.doseTimestamp.timeIntervalSince(earliestDose) / 60 + $0.totalMinutes }.max() ?? gEnd
             let emph = emphasis(name: first.substanceName, isActive: nowGlobal >= gStart && nowGlobal <= activeEnd)
 
@@ -1856,7 +1841,7 @@ struct TimelineGraphView: View, Equatable {
             vs.reserveCapacity(steps + 1)
             for i in 0 ... steps {
                 let t = gStart + Double(i) / Double(steps) * gSpan
-                vs.append(stackedIntensity(atGlobalMinutes: t, group: group, params: params) * yNorm)
+                vs.append(stackedIntensity(atGlobalMinutes: t, group: group) * yNorm)
             }
             // Compress this group's amplitude (its peak) the same way the
             // non-stacked path does, scaling the whole sampled envelope by a

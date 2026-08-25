@@ -44,11 +44,10 @@ nonisolated enum MechanisticSessionModel {
         let timeline: EffectTimeline
         /// Keyed by ``EffectLens/rawValue`` (mechanistic lenses only).
         let ranges: [String: AxisRange]
-        let tMax: Double
         /// Last hour any mechanistic channel is still meaningfully active. Unlike
-        /// ``tMax`` (padded to ≥12h so the curve has room), this is the *real*
-        /// content extent — the window and scroller frame it, so a short session
-        /// fits fully and shows no scroller.
+        /// the padded simulation extent (≥12h so the curve has room), this is
+        /// the *real* content extent — the window and scroller frame it, so a
+        /// short session fits fully and shows no scroller.
         let contentSpan: Double
         /// The mechanistic lenses active for this session — includes wanting
         /// and liking only when their signals are meaningful.
@@ -202,7 +201,7 @@ nonisolated enum MechanisticSessionModel {
         }
         contentSpan = min(max(contentSpan + 0.5, 1), tMax)
 
-        return Result(timeline: timeline, ranges: ranges, tMax: tMax, contentSpan: contentSpan, activeLenses: activeLenses)
+        return Result(timeline: timeline, ranges: ranges, contentSpan: contentSpan, activeLenses: activeLenses)
     }
 }
 

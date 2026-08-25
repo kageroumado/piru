@@ -150,15 +150,6 @@ enum SectionPlacement: Hashable {
     var isInline: Bool {
         self == .inline || self == .inlineCollapsed
     }
-    /// True when the section contributes nothing to the main scroll — used to
-    /// decide whether a page is legitimately short vs. hiding reachable depth.
-    var isHidden: Bool {
-        self == .hidden
-    }
-    /// True when the section's real content lives on a pushed deep-data page.
-    var leadsToDeepData: Bool {
-        self == .showAll
-    }
 }
 
 /// The two presentational spines the detail page chooses between up front. A

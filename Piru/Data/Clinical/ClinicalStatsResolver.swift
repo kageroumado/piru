@@ -57,7 +57,6 @@ enum ClinicalStatsResolver {
                 meta = Meta(index: index, substance: substance, currency: currency)
                 metaByName[canonicalKey] = meta
                 substances.append(ClinicalSubstance(
-                    name: canonical,
                     displayName: CustomSubstanceStore.shared.displayName(for: canonical, fallback: substance?.displayTitle),
                     colorHex: SubstancePalette.hex(for: canonical, hexMap: hexMap),
                     unit: unitLabel(currency: currency, loggedUnit: entry.unit),
@@ -78,13 +77,6 @@ enum ClinicalStatsResolver {
         }
 
         return (substances, doses)
-    }
-
-    /// Resolve + aggregate in one call — the shape both consumers use.
-    @MainActor
-    static func report(entries: [DoseEntry], hexMap: [String: String], start: Date, end: Date) -> ClinicalReport {
-        let (substances, doses) = resolve(entries: entries, hexMap: hexMap, start: start, end: end)
-        return ClinicalStats.report(substances: substances, doses: doses, start: start, end: end, calendar: .current)
     }
 
     // MARK: - Currency

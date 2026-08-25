@@ -87,7 +87,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
 /// (``InventorySummaryCard``). The learn-oriented screens (ceiling effect,
 /// tolerance, recovery) are grouped under an expandable ``EducationCard``.
 struct ToolsView: View {
-    /// Plain tools rendered as `NavCardLabel` rows, in order.
+    /// Plain tools rendered as rows, in order.
     private let rowTools: [Tool] = [.effectSandbox, .calculator, .steadyState, .volumetric, .benzoEquivalence, .opioidEquivalence, .pharma]
 
     var body: some View {

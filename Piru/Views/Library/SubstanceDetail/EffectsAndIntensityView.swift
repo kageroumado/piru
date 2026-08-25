@@ -245,7 +245,7 @@ extension ReportedEffect {
         guard let band = emergesBand else { return nil }
         let keys = ["Threshold", "Light", "Common", "Strong", "Heavy", "Overdose"]
         guard band >= 0, band < keys.count else { return nil }
-        let dummy = SpectrumBand(bandIndex: band, bandKey: keys[band], summary: "", topEffects: [], warnings: [])
+        let dummy = SpectrumBand(bandIndex: band, bandKey: keys[band], summary: "", topEffects: [])
         return dummy.localizedBandName
     }
 }

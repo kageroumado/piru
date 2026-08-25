@@ -1077,6 +1077,7 @@
       }
     },
     "%@ combined depression · predicted (model, %@)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5700,6 +5701,7 @@
       }
     },
     "A fictional drug from a 1997 TV satire on media drug panics — “Cake” isn’t real, and nothing below is either. It supposedly overstimulates “Shatner’s Bassoon,” the part of the brain that governs time. Made in Prague." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12587,6 +12589,7 @@
       }
     },
     "Blocks reuptake without triggering release (cocaine/methylphenidate-type) — a different tolerance and redose profile from a releaser." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -27683,9 +27686,6 @@
         }
       }
     },
-    "Higher is better" : {
-
-    },
     "Higher is better. Pleasure and warmth rise above the line; the comedown dips below." : {
       "localizations" : {
         "zh-Hans" : {
@@ -27701,9 +27701,6 @@
           }
         }
       }
-    },
-    "Higher is livelier" : {
-
     },
     "Higher is livelier. Drive rises above the line, sedation sits below." : {
       "localizations" : {
@@ -27722,6 +27719,7 @@
       }
     },
     "Higher is more pleasure" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -27770,6 +27768,7 @@
       }
     },
     "Higher is more pull" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -32608,9 +32607,6 @@
         }
       }
     },
-    "Lower is better" : {
-
-    },
     "Lower is better. Load on the body, shown with your heart rate when it's available." : {
       "localizations" : {
         "zh-Hans" : {
@@ -32776,6 +32772,7 @@
       }
     },
     "Made-up drug" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -33213,6 +33210,7 @@
       }
     },
     "Measured exposure" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -41132,6 +41130,7 @@
       }
     },
     "Pharmacological" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -42370,6 +42369,7 @@
       }
     },
     "Predicted combined depression · %@." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -45253,6 +45253,7 @@
       }
     },
     "Releases at one transporter while blocking another — an intermediate profile; a single α-alkyl or N-ethyl group flips DAT from substrate to blocker." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -46496,6 +46497,7 @@
       }
     },
     "Reverses the transporters to pump monoamines out (substrate efflux) — the MDMA/amphetamine-type mechanism." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -51766,6 +51768,7 @@
       }
     },
     "Start a Live Activity to follow this session on your Lock Screen and Dynamic Island." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -56958,6 +56961,7 @@
       }
     },
     "Track it on your Lock Screen" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

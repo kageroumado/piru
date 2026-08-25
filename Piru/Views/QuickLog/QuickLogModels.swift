@@ -150,13 +150,6 @@ struct SubstanceGroup: Identifiable, Equatable {
             latestTimestamp = lastUsedAt
         }
     }
-
-    /// Whether any chip in this group carries by-volume detail — the card then
-    /// renders the whole row as detailed drink chips (larger); otherwise plain
-    /// same-size gram/mass chips like every other card.
-    var usesDrinkChips: Bool {
-        chipEntries.contains { $0.drinkName != nil || $0.volumeML != nil || $0.abv != nil }
-    }
 }
 
 /// A single tappable dose amount within a `SubstanceGroup`. For a by-volume

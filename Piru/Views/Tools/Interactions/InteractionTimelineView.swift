@@ -265,7 +265,6 @@ struct InteractionTimelineView: View {
     private struct CurvePoint {
         let hours: Double
         let concentration: Double
-        let substance: String
     }
 
     private struct OverlapPoint {
@@ -287,7 +286,7 @@ struct InteractionTimelineView: View {
 
     private static func generateCurveData(
         pA: PKParams, pB: PKParams,
-        substanceA: String, substanceB: String,
+        substanceA _: String, substanceB _: String,
         ingestTimeA: Date, ingestTimeB: Date,
     ) -> ChartData {
         let referenceTime = min(ingestTimeA, ingestTimeB)
@@ -325,8 +324,8 @@ struct InteractionTimelineView: View {
                 0
             }
 
-            pointsA.append(CurvePoint(hours: hours, concentration: concA, substance: substanceA))
-            pointsB.append(CurvePoint(hours: hours, concentration: concB, substance: substanceB))
+            pointsA.append(CurvePoint(hours: hours, concentration: concA))
+            pointsB.append(CurvePoint(hours: hours, concentration: concB))
 
             let minConc = min(concA, concB)
             if concA > 3, concB > 3 {

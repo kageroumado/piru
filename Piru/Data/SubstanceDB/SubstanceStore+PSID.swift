@@ -90,7 +90,6 @@ extension SubstanceStore {
         let releaseForm: String?
         let brandRank: Int?
         let hasCurve: Bool
-        let hasStrengths: Bool
 
         /// A brand leads the menu (rather than hiding under "More…") when it draws a
         /// real curve or is a curated flagship — the ones a person is likely to take.

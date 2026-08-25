@@ -37,8 +37,6 @@ struct BodyLoadTrail {
 
     struct Series: Identifiable {
         let id: Int
-        /// Canonical name (the color key, lowercased).
-        let name: String
         /// The name to show the user (relabels applied).
         let displayName: String
         let color: Color
@@ -48,7 +46,6 @@ struct BodyLoadTrail {
         let points: [Point]
     }
 
-    let range: UsageTimeRange
     /// Sample grid, oldest → newest.
     let dates: [Date]
     /// Series ordered by peak body-load, largest first.
@@ -58,9 +55,7 @@ struct BodyLoadTrail {
         series.isEmpty || dates.isEmpty
     }
 
-    static func empty(range: UsageTimeRange) -> BodyLoadTrail {
-        BodyLoadTrail(range: range, dates: [], series: [])
-    }
+    static let empty = BodyLoadTrail(dates: [], series: [])
 }
 
 // MARK: - Manager
@@ -154,7 +149,7 @@ final class BodyLevelsManager {
         range: UsageTimeRange, key: String, now: Date,
     ) async -> BodyLoadTrail {
         guard let plan = Plan.build(entries: entries, colors: colors, range: range, now: now) else {
-            let empty = BodyLoadTrail.empty(range: range)
+            let empty = BodyLoadTrail.empty
             cache[key] = empty
             return empty
         }

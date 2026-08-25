@@ -23,10 +23,6 @@ final class JournalModel {
         let category: SubstanceCategory
         let state: ActiveSubstanceState?
         let marker: DoseMarker?
-        /// The dose's resolved title (``DoseTitle``), amortized here with
-        /// `category` rather than re-derived per row. Cheap — a `lookup`
-        /// dict hit — but not free, and a row `body` re-runs on every scroll tick.
-        let title: String
     }
 
     private(set) var derived: [PersistentIdentifier: EntryDerived] = [:]
@@ -161,7 +157,7 @@ final class JournalModel {
                 unit: entry.unit,
             )
             : nil
-        return EntryDerived(category: category, state: state, marker: marker, title: title)
+        return EntryDerived(category: category, state: state, marker: marker)
     }
 
     /// Incrementally resolve each entry's category, timeline inputs, and color.

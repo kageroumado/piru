@@ -50,13 +50,12 @@ struct TimelineCurveModelTests {
     @Test
     func `Single-dose curve rises then falls with its peak after the onset`() {
         let s = dose()
-        let params = TimelineCurveModel.pkParams(for: s)
-        let extent = TimelineCurveModel.curveExtent(for: s, params: params)
+        let extent = TimelineCurveModel.curveExtent(for: s)
 
         var peakValue = -1.0
         var peakTime = 0.0
         for t in stride(from: 0.0, through: extent, by: 1) {
-            let v = TimelineCurveModel.intensity(at: t, for: s, params: params)
+            let v = TimelineCurveModel.intensity(at: t, for: s)
             if v > peakValue {
                 peakValue = v
                 peakTime = t
@@ -67,12 +66,12 @@ struct TimelineCurveModelTests {
         #expect(peakValue > 0.99)
         #expect(peakTime > s.onsetEndMinutes)
         #expect(peakTime < s.offsetEndMinutes)
-        #expect(TimelineCurveModel.intensity(at: extent, for: s, params: params) < peakValue * 0.1)
+        #expect(TimelineCurveModel.intensity(at: extent, for: s) < peakValue * 0.1)
 
         // Rising shoulder is monotone non-decreasing up to the crest.
         var previous = -1.0
         for t in stride(from: 0.0, through: 80, by: 10) {
-            let v = TimelineCurveModel.intensity(at: t, for: s, params: params)
+            let v = TimelineCurveModel.intensity(at: t, for: s)
             #expect(v >= previous)
             previous = v
         }
@@ -81,54 +80,50 @@ struct TimelineCurveModelTests {
     @Test
     func `Intensity is non-negative and bounded and zero before the dose`() {
         let s = dose()
-        let params = TimelineCurveModel.pkParams(for: s)
-        let extent = TimelineCurveModel.curveExtent(for: s, params: params)
+        let extent = TimelineCurveModel.curveExtent(for: s)
         for t in stride(from: 0.0, through: extent, by: 2) {
-            let v = TimelineCurveModel.intensity(at: t, for: s, params: params)
+            let v = TimelineCurveModel.intensity(at: t, for: s)
             #expect(v >= 0)
             #expect(v <= 1)
         }
-        #expect(TimelineCurveModel.intensity(at: -5, for: s, params: params) == 0)
+        #expect(TimelineCurveModel.intensity(at: -5, for: s) == 0)
     }
 
     @Test
     func `Descending limb tapers monotonically to near zero at the curve extent`() {
         let s = dose()
-        let params = TimelineCurveModel.pkParams(for: s)
-        let extent = TimelineCurveModel.curveExtent(for: s, params: params)
+        let extent = TimelineCurveModel.curveExtent(for: s)
         // The extent reaches past the stated offset so the tail eases onto the
         // axis instead of being clipped.
         #expect(extent >= s.offsetEndMinutes)
 
         var previous = Double.greatestFiniteMagnitude
         for t in stride(from: s.peakEndMinutes, through: extent, by: 5) {
-            let v = TimelineCurveModel.intensity(at: t, for: s, params: params)
+            let v = TimelineCurveModel.intensity(at: t, for: s)
             #expect(v <= previous + 1e-12)
             previous = v
         }
-        #expect(TimelineCurveModel.intensity(at: extent, for: s, params: params) < 0.05)
+        #expect(TimelineCurveModel.intensity(at: extent, for: s) < 0.05)
     }
 
     @Test
     func `Tachyphylaxis crashes the descending limb but leaves onset and peak untouched`() {
         let plain = dose()
         let releaser = dose(tachyphylaxis: 0.8)
-        let pPlain = TimelineCurveModel.pkParams(for: plain)
-        let pReleaser = TimelineCurveModel.pkParams(for: releaser)
 
         // Identical through onset, come-up, and peak.
         for t in stride(from: 0.0, through: plain.peakEndMinutes, by: 10) {
-            let a = TimelineCurveModel.intensity(at: t, for: plain, params: pPlain)
-            let b = TimelineCurveModel.intensity(at: t, for: releaser, params: pReleaser)
+            let a = TimelineCurveModel.intensity(at: t, for: plain)
+            let b = TimelineCurveModel.intensity(at: t, for: releaser)
             #expect(a == b)
         }
         // Strictly weaker mid-offset, and faded by the full gate at `total`.
         let mid = (plain.peakEndMinutes + plain.totalMinutes) / 2
-        let plainMid = TimelineCurveModel.intensity(at: mid, for: plain, params: pPlain)
-        let releaserMid = TimelineCurveModel.intensity(at: mid, for: releaser, params: pReleaser)
+        let plainMid = TimelineCurveModel.intensity(at: mid, for: plain)
+        let releaserMid = TimelineCurveModel.intensity(at: mid, for: releaser)
         #expect(releaserMid < plainMid)
-        let plainEnd = TimelineCurveModel.intensity(at: plain.totalMinutes, for: plain, params: pPlain)
-        let releaserEnd = TimelineCurveModel.intensity(at: releaser.totalMinutes, for: releaser, params: pReleaser)
+        let plainEnd = TimelineCurveModel.intensity(at: plain.totalMinutes, for: plain)
+        let releaserEnd = TimelineCurveModel.intensity(at: releaser.totalMinutes, for: releaser)
         #expect(abs(releaserEnd - plainEnd * 0.2) < 1e-12)
     }
 
@@ -144,7 +139,7 @@ struct TimelineCurveModelTests {
         #expect(comeup == explicit.comeupEndMinutes)
         #expect(explicit.onsetEndMinutes <= comeup)
         #expect(comeup <= explicit.peakEndMinutes)
-        let extent = TimelineCurveModel.curveExtent(for: explicit, params: TimelineCurveModel.pkParams(for: explicit))
+        let extent = TimelineCurveModel.curveExtent(for: explicit)
         #expect(explicit.peakEndMinutes <= extent)
     }
 
@@ -196,15 +191,14 @@ struct TimelineCurveModelTests {
     @Test
     func `Visible extent trims a curve dwarfed by a taller peer`() {
         let s = dose(onsetEnd: 30, comeupEnd: 45, peakEnd: 120, offsetEnd: 300)
-        let params = TimelineCurveModel.pkParams(for: s)
-        let full = TimelineCurveModel.curveExtent(for: s, params: params)
+        let full = TimelineCurveModel.curveExtent(for: s)
 
         // Beside an equal peer the trim is a no-op-ish bound: never longer.
-        let alone = TimelineCurveModel.visibleExtent(for: s, params: params, peerMagnitude: s.doseMagnitude)
+        let alone = TimelineCurveModel.visibleExtent(for: s, peerMagnitude: s.doseMagnitude)
         #expect(alone <= full)
 
         // Beside a peer 50× taller it stops much earlier — the dead-axis case.
-        let dwarfed = TimelineCurveModel.visibleExtent(for: s, params: params, peerMagnitude: s.doseMagnitude * 50)
+        let dwarfed = TimelineCurveModel.visibleExtent(for: s, peerMagnitude: s.doseMagnitude * 50)
         #expect(dwarfed < alone)
         #expect(dwarfed >= 1)
     }
@@ -231,15 +225,13 @@ struct TimelineCurveModelTests {
         // saturating link.
         let quad = (0 ..< 4).map { _ in dose(amount: 20, magnitude: 0.7) }
         let single = [dose(amount: 80, magnitude: 2.8)]
-        let quadParams = quad.map { TimelineCurveModel.pkParams(for: $0) }
-        let singleParams = single.map { TimelineCurveModel.pkParams(for: $0) }
 
         for t in stride(from: 0.0, through: 400, by: 5) {
             let stacked = TimelineCurveModel.stackedIntensity(
-                atGlobalMinutes: t, group: quad, params: quadParams, earliestDose: t0,
+                atGlobalMinutes: t, group: quad, earliestDose: t0,
             )
             let combined = TimelineCurveModel.stackedIntensity(
-                atGlobalMinutes: t, group: single, params: singleParams, earliestDose: t0,
+                atGlobalMinutes: t, group: single, earliestDose: t0,
             )
             #expect(abs(stacked - combined) < 1e-9)
         }
@@ -250,9 +242,8 @@ struct TimelineCurveModelTests {
         // Two doses 12 h apart: between them the merged curve dips well below
         // the crests — they are separate experiences, not one dome.
         let group = [dose(), dose(timestamp: t0.addingTimeInterval(12 * 3_600))]
-        let params = group.map { TimelineCurveModel.pkParams(for: $0) }
         func merged(_ t: Double) -> Double {
-            TimelineCurveModel.stackedIntensity(atGlobalMinutes: t, group: group, params: params, earliestDose: t0)
+            TimelineCurveModel.stackedIntensity(atGlobalMinutes: t, group: group, earliestDose: t0)
         }
         let firstCrest = merged(120)
         let valley = merged(550)

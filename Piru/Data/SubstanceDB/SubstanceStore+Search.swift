@@ -30,16 +30,13 @@ struct SubstanceMatch: Identifiable {
 extension SubstanceStore {
     // MARK: - Search
 
-    /// Ranked search: exact name → alias → prefix → contains → fuzzy.
+    /// Ranked search: exact name → alias → prefix → contains → fuzzy, keeping
+    /// the matched alias on each hit.
     ///
     /// Resolves from the warm batch cache (no per-result SQL). Synchronous entry
     /// kept for tests and non-interactive callers; the interactive search field
-    /// uses ``searchAsync(_:limit:)`` so the ranking never runs on the main thread.
-    func search(_ query: String, limit: Int = 50) -> [Substance] {
-        searchMatches(query, limit: limit).map(\.substance)
-    }
-
-    /// ``search(_:limit:)``, keeping the matched alias on each hit.
+    /// uses ``searchMatchesAsync(_:limit:)`` so the ranking never runs on the
+    /// main thread.
     func searchMatches(_ query: String, limit: Int = 50) -> [SubstanceMatch] {
         Self.rankedSearch(
             query, nameIndex: nameIndex, aliasIndex: aliasIndex,
@@ -50,14 +47,9 @@ extension SubstanceStore {
 
     /// Off-main ranked search: snapshot the (Sendable) indexes on the main actor,
     /// then rank + resolve on a background task. The keystroke handler awaits this
-    /// instead of calling `search` directly, so neither the index scan / fuzzy
-    /// pass nor result resolution stalls the keyboard. The snapshots are
+    /// instead of calling `searchMatches` directly, so neither the index scan /
+    /// fuzzy pass nor result resolution stalls the keyboard. The snapshots are
     /// copy-on-write dictionaries, so handing them to the detached task is cheap.
-    func searchAsync(_ query: String, limit: Int = 50) async -> [Substance] {
-        await searchMatchesAsync(query, limit: limit).map(\.substance)
-    }
-
-    /// ``searchAsync(_:limit:)``, keeping the matched alias on each hit.
     func searchMatchesAsync(_ query: String, limit: Int = 50) async -> [SubstanceMatch] {
         await ensureAllLoaded()
         let names = nameIndex

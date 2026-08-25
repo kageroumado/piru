@@ -75,7 +75,6 @@ nonisolated enum DepressantMechanism: String, CaseIterable {
 /// produced by ``CombinedDepression/analyze(entries:now:weightKg:timestepMinutes:)`` and consumed by
 /// the pure reducer ``CombinedDepression/reduce(curves:dtMinutes:gridStart:)``.
 nonisolated struct DepressantContributor {
-    let substance: String
     let mechanism: DepressantMechanism
     /// Dose-presence weight `[0, 1]`: `1` on the occupancy path (dose is already folded into the
     /// occupancy curve) and on an unknown-amount surrogate; `presence(magnitude)` for a known-amount
@@ -96,7 +95,6 @@ nonisolated struct CombinedDepressionResult {
     /// Combined load `L = Σ wClass·doseWeight·e(t)` at each grid step (index `i` → `gridStart + i·dt`).
     let sampleLoads: [Double]
     let dtMinutes: Double
-    let gridStart: Date
     /// Peak combined load.
     let peakLoad: Double
     /// Minutes from `gridStart` to the peak.
@@ -233,7 +231,6 @@ nonisolated enum CombinedDepression {
         return CombinedDepressionResult(
             sampleLoads: loads,
             dtMinutes: dtMinutes,
-            gridStart: gridStart,
             peakLoad: peak,
             peakMinute: peakMinute,
             peakDate: gridStart.addingTimeInterval(peakMinute * 60),
@@ -278,7 +275,7 @@ nonisolated enum CombinedDepression {
                 engagement[i] = sinceDose >= 0 ? r.engagement(sinceDose) : 0
             }
             return DepressantContributor(
-                substance: r.substance, mechanism: r.mechanism, doseWeight: r.doseWeight,
+                mechanism: r.mechanism, doseWeight: r.doseWeight,
                 confidence: r.confidence, isModeled: r.isModeled, engagement: engagement,
             )
         }

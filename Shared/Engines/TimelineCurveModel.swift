@@ -9,8 +9,7 @@ import os
 /// effect curves, the `Hill(Σ magnitude·bell)` redose merge, amplitude
 /// γ-compression, tail scanning, and the lane/tick layout math. No view state —
 /// ``TimelineModelCache`` and the `Derived` memoization wiring stay with the
-/// view. The one cache here (``pkParams(for:)``'s memo) is a transparent
-/// memoization of a pure function, not state.
+/// view.
 nonisolated enum TimelineCurveModel {
     /// All input-derived geometry that does **not** depend on zoom/pan/scrub —
     /// computed exactly once in `init` so the `Canvas` closure and the span
@@ -29,15 +28,6 @@ nonisolated enum TimelineCurveModel {
         let rawDataTail: Double
         /// `renderedTail(threshold: 0.20, framing: true)` — labeled-active window.
         let rawActivityTail: Double
-    }
-
-    /// Absorption / elimination rate constants for a one-compartment Bateman
-    /// curve, fit to a dose's subjective duration profile. Precomputed once per
-    /// curve — the `estimateKa` Newton solve is far too costly to run per pixel.
-    struct PKCurveParams {
-        let ka: Double
-        let ke: Double
-        let cmax: Double
     }
 
     /// One lane per distinct substance, in first-dose order, carrying every dose
@@ -136,22 +126,20 @@ nonisolated enum TimelineCurveModel {
 
         if stackRedoses {
             for group in stackedGroups {
-                let params = group.map { Self.pkParams(for: $0) }
-                for (di, dose) in group.enumerated() {
+                for dose in group {
                     let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
-                    upper = max(upper, offset + Self.curveExtent(for: dose, params: params[di]))
+                    upper = max(upper, offset + Self.curveExtent(for: dose))
                 }
-                curves.append { t in Self.stackedIntensity(atGlobalMinutes: t, group: group, params: params, earliestDose: earliestDose) * yNorm }
+                curves.append { t in Self.stackedIntensity(atGlobalMinutes: t, group: group, earliestDose: earliestDose) * yNorm }
             }
         } else {
             for s in substances {
-                let params = Self.pkParams(for: s)
                 let offset = s.doseTimestamp.timeIntervalSince(earliestDose) / 60
                 let scale = Self.heightScale(for: s, substances: substances, maxDose: maxDose)
-                upper = max(upper, offset + Self.curveExtent(for: s, params: params))
+                upper = max(upper, offset + Self.curveExtent(for: s))
                 curves.append { t in
                     let local = t - offset
-                    return local >= 0 ? Self.intensity(at: local, for: s, params: params) * scale * yNorm : 0
+                    return local >= 0 ? Self.intensity(at: local, for: s) * scale * yNorm : 0
                 }
             }
         }
@@ -207,11 +195,10 @@ nonisolated enum TimelineCurveModel {
             for group in stackedGroups {
                 let (s, e) = Self.stackedGroupRange(group, earliestDose: earliestDose)
                 guard e > s else { continue }
-                let params = group.map { Self.pkParams(for: $0) }
                 let steps = 48
                 for i in 0 ... steps {
                     let t = s + Double(i) / Double(steps) * (e - s)
-                    maxV = max(maxV, Self.stackedIntensity(atGlobalMinutes: t, group: group, params: params, earliestDose: earliestDose))
+                    maxV = max(maxV, Self.stackedIntensity(atGlobalMinutes: t, group: group, earliestDose: earliestDose))
                 }
             }
             return max(maxV, 0.0001)
@@ -305,73 +292,12 @@ nonisolated enum TimelineCurveModel {
 
     // MARK: - Intensity (mechanistic Bateman PK curve)
 
-    /// Fit a Bateman curve to a dose's subjective phase timing.
-    ///
-    /// The duration phases describe *subjective effect*, not plasma
-    /// concentration, so they are not literally Bateman-shaped (a Bateman peak
-    /// always satisfies `tmax < 1/ke`, which a long "peak" plateau violates). We
-    /// therefore map the phases onto the closest well-formed one-compartment
-    /// curve rather than reproduce them:
-    ///
-    /// - **Elimination (`ke`)** is chosen so the curve decays to ~5 % of its
-    ///   peak by `totalMinutes` — the curve fades out exactly when the listed
-    ///   effects end, keeping it consistent with the axis (also built from
-    ///   `totalMinutes`).
-    /// - **Absorption (`ka`)** is chosen so the peak lands at the center of the
-    ///   subjective peak plateau, clamped just inside `1/ke` so the curve stays
-    ///   well-formed. A long plateau pushes the target peak late, driving
-    ///   `ka → ke` and naturally yielding the broad, rounded `ke·t·e^(−ke·t)`
-    ///   top — a sustained peak without the artificial flat trapezoid lid.
-    nonisolated static func pkParams(for s: ActiveSubstanceState) -> PKCurveParams {
-        // Memoized: the `estimateKa` Newton solve is far too costly to re-run
-        // per Canvas draw call and per scrub-drag frame, and the result depends
-        // only on these three stored durations.
-        let key = PKParamsKey(total: s.totalMinutes, comeupEnd: s.comeupEndMinutes, peakEnd: s.peakEndMinutes)
-        if let cached = pkParamsCache.withLock({ $0[key] }) { return cached }
-        let params = computePKParams(for: s)
-        pkParamsCache.withLock { cache in
-            // A runaway key population (continuous durations) resets rather than
-            // grows without bound; 512 covers every substance on any real screen.
-            if cache.count >= 512 { cache.removeAll(keepingCapacity: true) }
-            cache[key] = params
-        }
-        return params
-    }
-
-    private struct PKParamsKey: Hashable {
-        let total: Double
-        let comeupEnd: Double
-        let peakEnd: Double
-    }
-
-    private static let pkParamsCache = OSAllocatedUnfairLock(initialState: [PKParamsKey: PKCurveParams]())
-
-    private nonisolated static func computePKParams(for s: ActiveSubstanceState) -> PKCurveParams {
-        let total = max(s.totalMinutes, 1)
-        let peakCenter = (s.comeupEndMinutes + s.peakEndMinutes) / 2
-        // Decay to 5% of peak by `total`; anchor the window on the peak center
-        // but never let it collapse to nothing.
-        let decayWindow = max(total - min(peakCenter, total * 0.5), total * 0.25)
-        let ke = log(20) / decayWindow
-        // Floor the peak time at a few minutes so a very short-duration
-        // substance still shows a visible up-slope rather than a vertical wall.
-        // A feasible Bateman peak must also satisfy tmax < 1/ke — clamp inside.
-        // Critically, do NOT cap absorption *relative to* elimination: a
-        // long-half-life compound has fast absorption and a slow tail
-        // (ka ≫ ke), and a ratio cap would wrongly push its peak out by hours.
-        let tmaxTarget = min(max(peakCenter, 8), 0.85 / ke)
-        let ka = PKModel.estimateKa(timeToPeak: tmaxTarget, ke: ke)
-        let cmax = max(PKModel.cmax(ke: ke, ka: ka), 1e-9)
-        return PKCurveParams(ka: ka, ke: ke, cmax: cmax)
-    }
-
     /// Normalized `[0, 1]` effect intensity at `minutes` past the dose. Delegates
     /// the shape to ``effectShape(at:for:)`` (a phase-based subjective-effect
     /// curve) and, for releasers, crashes the descending limb faster than the
-    /// listed offset via ``toleranceGate``. `params` is retained for call-site
-    /// stability but no longer drives the shape — the curve is built from the
-    /// duration phases, not a plasma-concentration fit.
-    nonisolated static func intensity(at minutes: Double, for s: ActiveSubstanceState, params _: PKCurveParams) -> Double {
+    /// listed offset via ``toleranceGate``. The curve is built from the duration
+    /// phases, not a plasma-concentration fit.
+    nonisolated static func intensity(at minutes: Double, for s: ActiveSubstanceState) -> Double {
         let shape = effectShape(at: minutes, for: s)
         guard shape > 0 else { return 0 }
         return shape * toleranceGate(at: minutes, for: s)
@@ -593,7 +519,7 @@ nonisolated enum TimelineCurveModel {
     /// elimination tail to chase, and no flat near-zero skirt stretching the axis
     /// (an explicit `total` or an afterglow phase can sit beyond it). Capped at
     /// the display window.
-    nonisolated static func curveExtent(for s: ActiveSubstanceState, params _: PKCurveParams) -> Double {
+    nonisolated static func curveExtent(for s: ActiveSubstanceState) -> Double {
         // Zero-order substances clear in a dose-scaled time (≈ F·Dose/Vmax), not at a fixed offset.
         if let (kinetics, doseMg) = zeroOrderKinetics(for: s) {
             let clear = PKModel.zeroOrderClearMinutes(doseMg: doseMg, kinetics: kinetics)
@@ -628,11 +554,10 @@ nonisolated enum TimelineCurveModel {
     /// further, so skipping it errs toward keeping pixels that might be visible.
     nonisolated static func visibleExtent(
         for s: ActiveSubstanceState,
-        params: PKCurveParams,
         peerMagnitude: Double,
         threshold: Double = 0.02,
     ) -> Double {
-        let full = curveExtent(for: s, params: params)
+        let full = curveExtent(for: s)
         // Zero-order (alcohol) isn't a Gaussian tail — leave its extent alone.
         if zeroOrderKinetics(for: s) != nil { return full }
         let magnitude = max(s.doseMagnitude, 0)
@@ -680,10 +605,9 @@ nonisolated enum TimelineCurveModel {
 
     /// Combined intensity of a group at a given global time (minutes since
     /// `earliestDose`) — linear dose superposition passed through one saturating
-    /// Hill link. `params` holds the precomputed Bateman fit per dose, aligned
-    /// to `group`. The caller normalizes by the combined peak
+    /// Hill link. The caller normalizes by the combined peak
     /// (``peakCurveValue(substances:stackedGroups:earliestDose:maxDose:stackRedoses:)``).
-    nonisolated static func stackedIntensity(atGlobalMinutes global: Double, group: [ActiveSubstanceState], params: [PKCurveParams], earliestDose: Date) -> Double {
+    nonisolated static func stackedIntensity(atGlobalMinutes global: Double, group: [ActiveSubstanceState], earliestDose: Date) -> Double {
         // Linear dose superposition, then ONE saturating Hill link. Each dose
         // contributes `magnitude × bell`; summing the *unclamped* magnitudes
         // means a genuine 4× stack reaches 4× the input, and a single combined
@@ -691,11 +615,11 @@ nonisolated enum TimelineCurveModel {
         // out for free. Hill then saturates the sum so overlapping crests flatten
         // (no dome) while doses spaced wider than their bells stay distinct humps.
         var sum = 0.0
-        for (i, dose) in group.enumerated() {
+        for dose in group {
             let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
             let local = global - offset
             guard local >= 0 else { continue }
-            sum += dose.doseMagnitude * Self.intensity(at: local, for: dose, params: params[i])
+            sum += dose.doseMagnitude * Self.intensity(at: local, for: dose)
         }
         return Self.hill(sum)
     }
@@ -727,7 +651,7 @@ nonisolated enum TimelineCurveModel {
         for dose in group {
             let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
             start = min(start, offset)
-            end = max(end, offset + Self.curveExtent(for: dose, params: Self.pkParams(for: dose)))
+            end = max(end, offset + Self.curveExtent(for: dose))
         }
         return (start, end)
     }

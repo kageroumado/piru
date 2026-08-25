@@ -794,12 +794,10 @@ final class SubstanceStore {
             let rows = try substancesDB.read { db in
                 try Row.fetchAll(db, sql: """
                 SELECT s.substance_uid AS uid, a.alias, a.release_form AS rel, a.brand_rank AS rank,
-                       (pd.product_normalized IS NOT NULL) AS has_curve,
-                       (ps.product_normalized IS NOT NULL) AS has_strengths
+                       (pd.product_normalized IS NOT NULL) AS has_curve
                   FROM aliases a
                   JOIN substances s ON s.id = a.substance_id
                   LEFT JOIN product_durations pd ON pd.product_normalized = a.alias_normalized
-                  LEFT JOIN product_strengths ps ON ps.product_normalized = a.alias_normalized
                  WHERE a.kind = 'brand' AND s.substance_uid IS NOT NULL
                 """)
             }
@@ -811,7 +809,6 @@ final class SubstanceStore {
                     releaseForm: (rel?.isEmpty == true) ? nil : rel,
                     brandRank: (row["rank"] as Int64?).map(Int.init),
                     hasCurve: (row["has_curve"] as Int64? ?? 0) != 0,
-                    hasStrengths: (row["has_strengths"] as Int64? ?? 0) != 0,
                 ))
             }
             // Flagships (curve/curated) first, then niche; each group alphabetical —

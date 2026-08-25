@@ -38,7 +38,6 @@ private struct NextDoseBackground: View {
 struct NextDoseEntry: TimelineEntry {
     let date: Date
     let nextSlot: NextSlotSnapshot?
-    let takenCount: Int
     let totalCount: Int
 }
 
@@ -57,7 +56,6 @@ struct NextDoseProvider: TimelineProvider {
         return NextDoseEntry(
             date: .now,
             nextSlot: NextSlotSnapshot(name: "Sertraline", doseText: "50 mg", dueDate: due, isDueNow: false),
-            takenCount: 1,
             totalCount: 3,
         )
     }
@@ -86,7 +84,7 @@ struct NextDoseProvider: TimelineProvider {
     private func makeEntry(at date: Date) -> NextDoseEntry {
         let calendar = Calendar.current
         guard let container = WidgetStoreAccess.makeContainer() else {
-            return NextDoseEntry(date: date, nextSlot: nil, takenCount: 0, totalCount: 0)
+            return NextDoseEntry(date: date, nextSlot: nil, totalCount: 0)
         }
         let context = ModelContext(container)
 
@@ -135,7 +133,6 @@ struct NextDoseProvider: TimelineProvider {
             }
         }
 
-        let taken = slots.count(where: \.taken)
         let nowMinutes = TodayMedsEntry.minutesOfDay(date)
 
         let nextUntaken = slots
@@ -161,7 +158,6 @@ struct NextDoseProvider: TimelineProvider {
         return NextDoseEntry(
             date: date,
             nextSlot: snapshot,
-            takenCount: taken,
             totalCount: slots.count,
         )
     }

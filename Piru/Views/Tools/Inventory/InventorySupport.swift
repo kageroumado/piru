@@ -324,18 +324,3 @@ struct InventoryStepperRow: View {
         value = (newValue / step).rounded() * step
     }
 }
-
-// MARK: - Substance dot
-
-/// The small colored dot identifying a substance, matching the journal's dots.
-struct SubstanceDot: View {
-    let name: String
-    let colorMap: [String: Color]
-    var size: CGFloat = 10
-
-    var body: some View {
-        Circle()
-            .fill(SubstancePalette.color(for: name, colorMap: colorMap))
-            .frame(width: size, height: size)
-    }
-}

@@ -22,7 +22,7 @@ extension SubstanceStore {
             let rows = try substancesDB.read { db in
                 try Row.fetchAll(db, sql: """
                     SELECT sl.band_index, sl.band_name, sl.description,
-                           sl.top_effects_json, sl.warnings_json
+                           sl.top_effects_json
                       FROM spectrum_levels sl
                       JOIN sources src ON src.id = sl.source_id
                      WHERE sl.substance_id = ?
@@ -39,19 +39,11 @@ extension SubstanceStore {
                 } else {
                     []
                 }
-                let warnings: [String] = if let json = row["warnings_json"] as String?,
-                                            let data = json.data(using: .utf8),
-                                            let raw = try? decoder.decode([String].self, from: data) {
-                    raw
-                } else {
-                    []
-                }
                 return SpectrumBand(
                     bandIndex: row["band_index"],
                     bandKey: row["band_name"],
                     summary: (row["description"] as String?) ?? "",
                     topEffects: topEffects,
-                    warnings: warnings,
                 )
             }
         } catch {

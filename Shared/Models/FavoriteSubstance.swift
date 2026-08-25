@@ -55,11 +55,6 @@ final class FavoriteSubstance {
 }
 
 extension [FavoriteSubstance] {
-    /// Set of lowercased favorite substance names for O(1) lookup.
-    var favoriteSet: Set<String> {
-        Set(map { $0.substance.lowercased() })
-    }
-
     func isFavorite(_ name: String) -> Bool {
         contains { $0.substance.lowercased() == name.lowercased() }
     }

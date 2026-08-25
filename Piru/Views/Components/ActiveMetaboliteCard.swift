@@ -23,7 +23,6 @@ struct ActiveMetabolite: Identifiable {
     let enzymes: [String]
     let halfLifeMinutes: Double?
     let formationFractionPct: Double?
-    let formationFractionByRoute: [String: Double]
     let mechanism: SubstanceStore.MetaboliteMechanism
     /// Every potency measurement recorded for this metabolite, at most one per
     /// basis. Kept as a list because bases answer different questions and must
@@ -51,13 +50,6 @@ struct ActiveMetabolite: Identifiable {
     /// and overflows a chip. `Nordazepam` is the same molecule, better said.
     var displayName: String {
         substanceName ?? name
-    }
-
-    func formationFraction(forRoute route: RouteOfAdministration?) -> Double? {
-        if let route, let pct = formationFractionByRoute[route.rawValue] {
-            return pct
-        }
-        return formationFractionPct
     }
 
     struct Potency {
@@ -110,13 +102,6 @@ struct ActiveMetabolite: Identifiable {
             halfLifeMinutes: rows.compactMap(\.metaboliteHalfLifeMinutes).first,
             formationFractionPct: rows.first(where: { $0.route == nil })?.formationFractionPct
                 ?? rows.compactMap(\.formationFractionPct).first,
-            formationFractionByRoute: Dictionary(
-                rows.compactMap { row -> (String, Double)? in
-                    guard let route = row.route, let pct = row.formationFractionPct else { return nil }
-                    return (route, pct)
-                },
-                uniquingKeysWith: { first, _ in first },
-            ),
             mechanism: mechanism,
             // Clinical first: it is the only basis that may lead a card, and the
             // resolver reads `potencies.first` when nothing better applies.

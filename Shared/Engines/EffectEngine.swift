@@ -98,7 +98,7 @@ nonisolated struct EffectParams {
     var dangerMax = 4.0, cvKd = 1.2, kCV = 0.9, tauCVrec = 6.0
     var tauDrive = 1.1, adaptDrive = 0.75
     var cReward = 1.0, cDrive = 0.6, cCrash = 1.0
-    var gR = 1.0, gE = 0.6, gJ = 0.25
+    var gR = 1.0, gE = 0.6
     var thetaW = 0.05, thetaC = 0.05
 }
 
@@ -163,7 +163,6 @@ nonisolated struct EffectTimeline {
     var phasic: [Double] = []
     var disinhib: [Double] = []
     var htSed: [Double] = []
-    var jerk: [Double] = []
     var fda: [Double] = []
     var fne: [Double] = []
     var f5: [Double] = []
@@ -259,7 +258,6 @@ nonisolated enum EffectEngine {
         var Cf = 0.0, Cs = 0.0, Dep = 0.0, Acc = 0.0, mood = 0.0, Cd = 0.0, sTrace = 0.0, Csert = 0.0
         var Apool = 1.0, Ph = 0.0, elevPrev = 0.0, Eru = 0.0, Liab = 0.0, Dyn = 0.0, LkPred = 0.0
         var out = EffectTimeline()
-        var rushSrc: [Double] = []
 
         for i in 0 ... n {
             let tt = Double(i) * dt
@@ -357,19 +355,13 @@ nonisolated enum EffectEngine {
                 out.rush.append(P.gR * rushV); out.reward.append(P.gE * rewardPos); out.eu.append(P.gE * euV)
                 out.drive.append(driveV); out.content.append(P.gE * P.kEuCont * contentV); out.danger.append(dangerV); out.anx.append(P.gE * crashMag)
                 out.composite.append(comp); out.wanting.append(relu(P.gR * rushV - P.thetaW))
-                out.compul.append(P.wWant * incentive + P.wEscape * P.gR * relu(Eru - rushV)); rushSrc.append(P.gR * rushV)
+                out.compul.append(P.wWant * incentive + P.wEscape * P.gR * relu(Eru - rushV))
                 out.incent.append(P.wWant * incentive)
                 out.tonic.append(1 + tonicDA); out.phasic.append(phasicDA); out.htSed.append(P.gE * htSedV); out.disinhib.append(Gdis - 1)
                 out.recH1.append(OH1); out.rec2C.append(O2C); out.reca2.append(Oa2)
                 out.liking.append(P.gE * P.kLike * Lk); out.hedPE.append(P.gE * P.kLike * hPE); out.dyn.append(Dyn)
                 out.dangerCV.append(dangerCV); out.dangerResp.append(dangerResp)
             }
-        }
-        // jerk = centered derivative of rushSrc
-        let N = out.t.count, dh = N > 1 ? out.t[1] - out.t[0] : dt
-        out.jerk = (0 ..< N).map { k in
-            let km = max(0, k - 1), kp = min(N - 1, k + 1)
-            return P.gJ * (rushSrc[kp] - rushSrc[km]) / (Double(kp - km) * dh)
         }
         return out
     }

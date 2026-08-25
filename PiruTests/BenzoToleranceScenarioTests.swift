@@ -118,7 +118,7 @@ struct BenzoToleranceScenarioTests {
     /// ~100% for many half-lives after the last dose, so it can't say "the drug has cleared".
     private func saturatingBenzo() -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: "TightBenzo", molarMassGramsPerMole: 309, vdLPerKg: 1.0,
+            molarMassGramsPerMole: 309, vdLPerKg: 1.0,
             bioavailabilityFraction: 0.9, bioavailabilityConfidence: .high, doseScale: 1,
             doseScaleConfidence: .high, halfLifeMinutes: 690, vdConfidence: .high,
             referenceDoseMg: 1, suppressesSerotoninSynthesis: false,
@@ -185,7 +185,7 @@ struct BenzoToleranceScenarioTests {
     /// gauge needs the half-sat cap to show tolerance.
     private func pregabalin() -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: "Pregabalin", molarMassGramsPerMole: 159, vdLPerKg: 0.5,
+            molarMassGramsPerMole: 159, vdLPerKg: 0.5,
             bioavailabilityFraction: 0.9, bioavailabilityConfidence: .high, doseScale: 1,
             doseScaleConfidence: .high, halfLifeMinutes: 360, vdConfidence: .high,
             referenceDoseMg: 600, suppressesSerotoninSynthesis: false,

@@ -70,8 +70,8 @@ dose detail read view, the exported PDF, the main timeline graph.
 **Definition B**, `experience_phase_system_ramp` (5 steps, system colors):
 `onset .blue → comeup .teal → peak .orange → offset .purple → afterglow .systemGray3` —
 `DoseLevelIndicator.swift:127-163`. Screens: the substance-detail "Duration" card and
-`DurationTimelineBar`/`DurationPhaseRows` (`DurationViews.swift`), both reached from the Edit-dose
-flow (`EntryFormView.swift`, `EntryEditContent.swift`).
+`DurationPhaseRows` (`DurationViews.swift`), reached from the Edit-dose flow
+(`EntryFormView.swift`, `EntryEditContent.swift`).
 
 **These conflict directly**: `peak` is green in A, orange in B; `comeup` is blue in A, teal in B.
 They don't render on literally the same screen at the same instant, but they trace back to the

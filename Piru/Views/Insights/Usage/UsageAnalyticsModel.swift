@@ -171,7 +171,6 @@ final class UsageAnalyticsModel {
                 categoryIndex: categoryIndex,
                 routeIndex: routeIndices[entry.route] ?? 0,
                 doseLevelIndex: ladder?.levelIndex(for: entry.amount, unit: entry.unit),
-                amount: entry.amount,
                 commonDoses: ladder?.commonDoses(for: entry.amount, unit: entry.unit),
                 timestamp: entry.timestamp,
             ))

@@ -32,7 +32,6 @@ private final class BackgroundTaskAssertion {
 
 @main
 struct PiruApp: App {
-    static let appGroupID = "group.dev.yumeji.piru"
     let container: ModelContainer
     @Environment(\.scenePhase) private var scenePhase
 

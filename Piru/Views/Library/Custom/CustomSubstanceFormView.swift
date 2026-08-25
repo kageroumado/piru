@@ -16,7 +16,6 @@ struct CustomSubstanceFormView: View {
     @State private var store = CustomSubstanceStore.shared
 
     var existing: CustomSubstanceEntry?
-    var initialName: String?
     /// The shipped substance being personalized. Nil for net-new customs.
     var personalizing: Substance?
     var onSaved: ((CustomSubstanceEntry) -> Void)?
@@ -65,7 +64,6 @@ struct CustomSubstanceFormView: View {
         onSaved: ((CustomSubstanceEntry) -> Void)? = nil,
     ) {
         self.existing = existing
-        self.initialName = initialName
         self.personalizing = personalizing
         self.onSaved = onSaved
 

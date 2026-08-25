@@ -45,12 +45,3 @@ extension Color {
         self.init(red: c.r, green: c.g, blue: c.b)
     }
 }
-
-#if canImport(UIKit)
-    extension UIColor {
-        convenience nonisolated init(hex: String) {
-            let c = parseHex(hex)
-            self.init(red: CGFloat(c.r), green: CGFloat(c.g), blue: CGFloat(c.b), alpha: CGFloat(c.a))
-        }
-    }
-#endif

@@ -30,7 +30,6 @@ struct ToleranceCalibrationTests {
         tmaxMinutes: Double? = nil, tmaxConfidence: ConfidenceTier = .unverified,
     ) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: "TestStimulant",
             molarMassGramsPerMole: 135,
             vdLPerKg: 4,
             bioavailabilityFraction: 1,
@@ -53,7 +52,6 @@ struct ToleranceCalibrationTests {
     /// the opioid adaptive layer carries the months-scale τ≈20 d (recovery t½ ≈ 14 d).
     static func opioid(referenceDoseMg: Double?, intrinsicEfficacy: Double = 1, halfMaxNanomolar: Double = 50) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: "TestOpioid",
             molarMassGramsPerMole: 285,
             vdLPerKg: 3,
             bioavailabilityFraction: 1,
@@ -77,7 +75,6 @@ struct ToleranceCalibrationTests {
         referenceDoseMg: Double?, tmaxMinutes: Double? = nil, tmaxConfidence: ConfidenceTier = .unverified,
     ) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: "TestPsychedelic",
             molarMassGramsPerMole: 300,
             vdLPerKg: 4,
             bioavailabilityFraction: 1,
@@ -101,10 +98,9 @@ struct ToleranceCalibrationTests {
     /// action; differs only in ``PharmacologyParameters/suppressesSerotoninSynthesis`` so the two test
     /// substances exercise the same class on two recovery clocks (MDMA-type weeks vs 4-MMC-type days).
     static func serotoninReleaser(
-        name: String, referenceDoseMg: Double?, suppressesSynthesis: Bool, halfMaxNanomolar: Double = 200,
+        name _: String, referenceDoseMg: Double?, suppressesSynthesis: Bool, halfMaxNanomolar: Double = 200,
     ) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: name,
             molarMassGramsPerMole: 193,
             vdLPerKg: 5,
             bioavailabilityFraction: 1,
@@ -126,10 +122,9 @@ struct ToleranceCalibrationTests {
     /// pick the class: `"α2A adrenergic"`/`.agonist` → α₂-agonist, `"β1 / β2 adrenergic"`/`.antagonist`
     /// → β-blocker.
     static func adrenergic(
-        name: String, target: String, action: BindingAction, referenceDoseMg: Double?,
+        name _: String, target: String, action: BindingAction, referenceDoseMg: Double?,
     ) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: name,
             molarMassGramsPerMole: 230,
             vdLPerKg: 2.5,
             bioavailabilityFraction: 1,
@@ -151,9 +146,8 @@ struct ToleranceCalibrationTests {
     /// A **PK-less** benzodiazepine surrogate: a GABA-A PAM target but no Vd / F / half-life / molar
     /// mass, so ``PharmacologyParameters/canComputeOccupancy`` is false. The Stage D fallback must
     /// model it as the Diazepam representative at a dose-fraction-equivalent dose.
-    static func pkLessBenzo(name: String = "RC-Benzo", referenceDoseMg: Double?) -> PharmacologyParameters {
+    static func pkLessBenzo(name _: String = "RC-Benzo", referenceDoseMg: Double?) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: name,
             molarMassGramsPerMole: nil,
             vdLPerKg: nil,
             bioavailabilityFraction: nil,
@@ -176,7 +170,6 @@ struct ToleranceCalibrationTests {
     /// the shift's dynamic range at therapeutic doses (1 mg) without saturating.
     static func alprazolam(referenceDoseMg: Double) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: "Alprazolam",
             molarMassGramsPerMole: 309,
             vdLPerKg: 1.0,
             bioavailabilityFraction: 0.9,
@@ -199,7 +192,6 @@ struct ToleranceCalibrationTests {
         referenceDoseMg: Double, metabolites: [PharmacologyParameters.MetaboliteContributor] = [],
     ) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: "Diazepam",
             molarMassGramsPerMole: 285,
             vdLPerKg: 1.1,
             bioavailabilityFraction: 1,
@@ -224,7 +216,7 @@ struct ToleranceCalibrationTests {
         mechanism: String = "scaled", basis: String? = "clinical",
     ) -> PharmacologyParameters.MetaboliteContributor {
         .init(
-            metaboliteName: "Nordazepam", metaboliteSubstanceName: "Nordazepam",
+            metaboliteName: "Nordazepam",
             halfLifeMinutes: 6_000, formationFractionPct: 100, potencyVsParentPct: 100,
             potencyBasis: basis, mechanismVsParent: mechanism,
         )
@@ -232,9 +224,8 @@ struct ToleranceCalibrationTests {
 
     /// A **PK-less** opioid surrogate named so the CDC MME table (``ToleranceStore/opioidMMEPerMg``)
     /// can recognise it — a MOR agonist with no PK. The Stage D fallback models it as Morphine.
-    static func pkLessOpioid(name: String, referenceDoseMg: Double?) -> PharmacologyParameters {
+    static func pkLessOpioid(name _: String, referenceDoseMg: Double?) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: name,
             molarMassGramsPerMole: nil,
             vdLPerKg: nil,
             bioavailabilityFraction: nil,
@@ -254,7 +245,6 @@ struct ToleranceCalibrationTests {
     /// A PK-complete **Morphine** representative (MOR agonist) — `classRepresentative[.muOpioid]`.
     static func morphine(referenceDoseMg: Double) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: "Morphine",
             molarMassGramsPerMole: 285,
             vdLPerKg: 3,
             bioavailabilityFraction: 1,
@@ -273,9 +263,8 @@ struct ToleranceCalibrationTests {
 
     /// A **PK-less** cannabinoid surrogate (CB1 agonist) whose class has **no** representative —
     /// the unmodelable case that must stay listed as incomplete data.
-    static func pkLessCannabinoid(name: String = "RC-Cannabinoid", referenceDoseMg: Double?) -> PharmacologyParameters {
+    static func pkLessCannabinoid(name _: String = "RC-Cannabinoid", referenceDoseMg: Double?) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: name,
             molarMassGramsPerMole: nil,
             vdLPerKg: nil,
             bioavailabilityFraction: nil,
@@ -294,9 +283,8 @@ struct ToleranceCalibrationTests {
 
     /// A **PK-less** psychedelic surrogate (5-HT2A agonist, dose ladder only) — e.g. 4-AcO-DMT. The
     /// Stage D fallback models it as the Psilocin representative.
-    static func pkLessPsychedelic(name: String = "RC-Psychedelic", referenceDoseMg: Double?) -> PharmacologyParameters {
+    static func pkLessPsychedelic(name _: String = "RC-Psychedelic", referenceDoseMg: Double?) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: name,
             molarMassGramsPerMole: nil, vdLPerKg: nil, bioavailabilityFraction: nil,
             bioavailabilityConfidence: .unverified, doseScale: 1, doseScaleConfidence: .high,
             halfLifeMinutes: nil, vdConfidence: .unverified, referenceDoseMg: referenceDoseMg,
@@ -310,7 +298,6 @@ struct ToleranceCalibrationTests {
     /// PK-complete **Psilocin** representative (5-HT2A agonist) — `classRepresentative[.psychedelic5HT2A]`.
     static func psilocin(referenceDoseMg: Double) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: "Psilocin",
             molarMassGramsPerMole: 204, vdLPerKg: 4, bioavailabilityFraction: 0.5,
             bioavailabilityConfidence: .high, doseScale: 1, doseScaleConfidence: .high,
             halfLifeMinutes: 120, vdConfidence: .high, referenceDoseMg: referenceDoseMg,
@@ -322,9 +309,8 @@ struct ToleranceCalibrationTests {
     }
 
     /// A **PK-less** dissociative surrogate (NMDA channel blocker, dose ladder only). Fallback → Ketamine.
-    static func pkLessDissociative(name: String = "RC-Dissociative", referenceDoseMg: Double?) -> PharmacologyParameters {
+    static func pkLessDissociative(name _: String = "RC-Dissociative", referenceDoseMg: Double?) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: name,
             molarMassGramsPerMole: nil, vdLPerKg: nil, bioavailabilityFraction: nil,
             bioavailabilityConfidence: .unverified, doseScale: 1, doseScaleConfidence: .high,
             halfLifeMinutes: nil, vdConfidence: .unverified, referenceDoseMg: referenceDoseMg,
@@ -338,7 +324,6 @@ struct ToleranceCalibrationTests {
     /// PK-complete **Ketamine** representative (NMDA channel blocker) — `classRepresentative[.nmdaAntagonist]`.
     static func ketamine(referenceDoseMg: Double) -> PharmacologyParameters {
         PharmacologyParameters(
-            substanceName: "Ketamine",
             molarMassGramsPerMole: 238, vdLPerKg: 2.5, bioavailabilityFraction: 0.2,
             bioavailabilityConfidence: .high, doseScale: 1, doseScaleConfidence: .high,
             halfLifeMinutes: 180, vdConfidence: .high, referenceDoseMg: referenceDoseMg,
@@ -821,7 +806,6 @@ struct ToleranceCalibrationTests {
         // benzo/opioid (which the fallback models) or a PK-less cannabinoid (honestly "can't predict
         // yet"), the rebound-hosting adrenergics must produce *nothing* — no card, no incomplete flag.
         let params = ["TestClonidine": PharmacologyParameters(
-            substanceName: "TestClonidine",
             molarMassGramsPerMole: nil, vdLPerKg: nil, bioavailabilityFraction: nil,
             bioavailabilityConfidence: .unverified, doseScale: 1, doseScaleConfidence: .high,
             halfLifeMinutes: nil, vdConfidence: .unverified, referenceDoseMg: 0.3,
@@ -854,7 +838,6 @@ struct ToleranceCalibrationTests {
         // Mirrors Bromazepam in the real DB: full dose ladder, but NO targets at all — so the target
         // path can't classify it. Its Benzodiazepine category alone routes it to GABA → Diazepam.
         let noTargetBenzo = PharmacologyParameters(
-            substanceName: "RC-CategoryBenzo",
             molarMassGramsPerMole: 316, vdLPerKg: 1.2, bioavailabilityFraction: 0.84,
             bioavailabilityConfidence: .high, doseScale: 1, doseScaleConfidence: .high,
             halfLifeMinutes: 1_020, vdConfidence: .high, referenceDoseMg: 12,
@@ -878,7 +861,6 @@ struct ToleranceCalibrationTests {
         // Category maps to a class (cannabinoid) that has NO representative → can't be modeled → honestly
         // surfaced as "can't predict yet" rather than silently dropped.
         let noTargetCannabinoid = PharmacologyParameters(
-            substanceName: "RC-CategoryCannabinoid",
             molarMassGramsPerMole: nil, vdLPerKg: nil, bioavailabilityFraction: nil,
             bioavailabilityConfidence: .unverified, doseScale: 1, doseScaleConfidence: .high,
             halfLifeMinutes: nil, vdConfidence: .unverified, referenceDoseMg: 10,
@@ -924,7 +906,7 @@ struct ToleranceCalibrationTests {
         // Rename the second so it routes as its own contributor set.
         var partialParams = params
         partialParams["PartialOpioid"] = PharmacologyParameters(
-            substanceName: "PartialOpioid", molarMassGramsPerMole: 285, vdLPerKg: 3,
+            molarMassGramsPerMole: 285, vdLPerKg: 3,
             bioavailabilityFraction: 1, bioavailabilityConfidence: .high, doseScale: 1,
             doseScaleConfidence: .high, halfLifeMinutes: 180, vdConfidence: .high, referenceDoseMg: 30,
             suppressesSerotoninSynthesis: false,

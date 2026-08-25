@@ -16,7 +16,7 @@ struct CombinedDepressionReducerTests {
         modeled: Bool = true,
     ) -> DepressantContributor {
         DepressantContributor(
-            substance: mechanism.rawValue, mechanism: mechanism, doseWeight: doseWeight,
+            mechanism: mechanism, doseWeight: doseWeight,
             confidence: confidence, isModeled: modeled, engagement: engagement,
         )
     }

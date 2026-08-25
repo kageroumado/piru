@@ -28,7 +28,6 @@ struct ActiveMetaboliteStatementTests {
             enzymes: enzymes,
             halfLifeMinutes: halfLifeMinutes,
             formationFractionPct: formationFractionPct,
-            formationFractionByRoute: [:],
             mechanism: mechanism,
             potencies: potencies,
             sourceSlug: "peer-review-primary",

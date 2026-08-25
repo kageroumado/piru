@@ -11,7 +11,6 @@ import SwiftUI
 /// does *this* dose feel like" and get an answer that changes as you drag. One
 /// scale, two questions, two instruments.
 struct DoseEffectsCard: View {
-    let route: RouteOfAdministration
     let unit: String
     let doses: DoseRange?
     let duration: DurationProfile?

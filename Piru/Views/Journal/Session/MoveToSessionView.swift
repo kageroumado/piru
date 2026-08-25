@@ -251,7 +251,6 @@ private struct RetimeMoveView: View {
     let dose: DoseEntry
     let session: Session
     let onConfirm: (Date) -> Void
-    @Environment(\.dismiss) private var dismiss
     @State private var draft: Date
 
     init(dose: DoseEntry, session: Session, onConfirm: @escaping (Date) -> Void) {

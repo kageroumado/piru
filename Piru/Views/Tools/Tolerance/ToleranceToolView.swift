@@ -277,7 +277,6 @@ struct ToleranceToolView: View {
                 color: row.familyColor,
                 points: row.recoveryCurve(overMinutes: window, sampleCount: 28),
                 recoveryPhrase: durationPhrase(minutes: recoveryMinutesTo90),
-                severity: row.snapshot.severity,
             )
         }
     }

@@ -995,22 +995,6 @@ enum BindingAction: String, Codable {
         case .modulator: "Modulator"
         }
     }
-
-    /// A small glyph that visually splits the *kind* of action — releasers (efflux, the
-    /// MDMA/amphetamine mechanism) read differently at a glance from agonists (activate) and
-    /// blockers/antagonists (shut down). Distinct shapes, no color, so it stays calm.
-    var symbolName: String {
-        switch self {
-        case .agonist, .partialAgonist: "bolt.fill" // activates the target
-        case .inverseAgonist: "bolt.slash.fill"
-        case .releasingAgent: "arrow.up.forward.circle.fill" // pumps the neurotransmitter out
-        case .reuptakeInhibitor: "arrow.uturn.up.circle" // blocks the re-uptake pump
-        case .antagonist, .channelBlocker, .enzymeInhibitor: "hand.raised.fill" // blocks
-        case .positiveAllostericModulator: "plus.circle"
-        case .negativeAllostericModulator: "minus.circle"
-        case .modulator: "slider.horizontal.3"
-        }
-    }
 }
 
 enum BindingAffinity: Int, Codable, Comparable {
@@ -1242,12 +1226,6 @@ struct MythCitation: Codable, Hashable {
     let role: Role
     /// Optional one-line gloss shown beside the chip ("null in abstinent users").
     let note: String?
-
-    init(citation: Citation, role: Role = .refutes, note: String? = nil) {
-        self.citation = citation
-        self.role = role
-        self.note = note
-    }
 }
 
 /// A short attributed quotation surfaced beneath a ``MythBust``. Rare —
@@ -1274,13 +1252,6 @@ struct MythBust: Codable, Hashable {
     let citations: [MythCitation]
     /// A rare flagship-only pull-quote; nil for the overwhelming majority.
     let pullQuote: PullQuote?
-
-    init(claim: String, correction: String, citations: [MythCitation], pullQuote: PullQuote? = nil) {
-        self.claim = claim
-        self.correction = correction
-        self.citations = citations
-        self.pullQuote = pullQuote
-    }
 }
 
 /// One hand-curated notable combination — a row in the detail page's
@@ -1563,14 +1534,6 @@ struct Substance: Identifiable {
     nonisolated var displayTitle: String {
         let base = RegionalSubstanceName.resolve(canonicalName: name) ?? displayName ?? name
         return Substance.strippingLeadingPictograph(base).text
-    }
-
-    /// A leading pictograph in the curated display name — e.g. PsychonautWiki's
-    /// "🍰 Cake" April-Fools entry — telegraphs the in-joke wherever the title
-    /// shows (search, browse lists). It's stripped from ``displayTitle`` and
-    /// surfaced here so the *detail* screen can play along instead of spoiling it.
-    var titlePictograph: String? {
-        Substance.strippingLeadingPictograph(displayName ?? name).pictograph
     }
 
     /// Splits a leading emoji (a default-emoji-presentation scalar) off a title:

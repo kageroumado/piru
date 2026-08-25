@@ -2,8 +2,6 @@ import Foundation
 import os
 import SwiftUI
 
-private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "Interactions")
-
 // MARK: - Interaction Severity
 
 /// `CaseIterable` so the contrast gate in `ColorContrastTests` covers every
@@ -80,15 +78,7 @@ nonisolated enum InteractionSeverity: Int, Comparable, Codable, CaseIterable {
 /// They are surfaced together but never merged, and a PK row never sets a
 /// severity — see ``PKInteractionFinding``.
 enum InteractionSource {
-    case classRule
     case pharmacokinetic
-
-    var label: LocalizedStringResource {
-        switch self {
-        case .classRule: "Pharmacological"
-        case .pharmacokinetic: "Measured exposure"
-        }
-    }
 }
 
 // MARK: - Pharmacokinetic Interaction Finding
@@ -107,10 +97,6 @@ struct PKInteractionFinding: Identifiable, Hashable {
         hit.id
     }
     let hit: SubstanceStore.PKInteractionHit
-    /// The substance whose record carries the row.
-    let substance: String
-    /// The logged substance the row's counterpart resolved to.
-    let counterpart: String
 
     var source: InteractionSource {
         .pharmacokinetic
@@ -573,9 +559,9 @@ enum InteractionChecker {
             for hit in SubstanceStore.shared.pkInteractions(forSubstanceName: owner) {
                 guard !seen.contains(hit.id) else { continue }
                 for name in hit.counterpartNames {
-                    guard let resolved = canonicalName(for: name), let match = candidates[resolved] else { continue }
+                    guard let resolved = canonicalName(for: name), candidates[resolved] != nil else { continue }
                     seen.insert(hit.id)
-                    findings.append(PKInteractionFinding(hit: hit, substance: owner, counterpart: match))
+                    findings.append(PKInteractionFinding(hit: hit))
                     break
                 }
             }

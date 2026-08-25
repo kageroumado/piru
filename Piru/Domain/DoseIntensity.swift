@@ -16,19 +16,12 @@ struct SpectrumBand: Identifiable, Hashable {
     let summary: String
     /// The effects most often reported at this band, frequency-descending.
     let topEffects: [BandEffect]
-    /// Generic safety lines for the high bands (dc's specific unverified prose
-    /// is deliberately not ingested). Empty for the lower bands.
-    let warnings: [String]
 
     var id: Int {
         bandIndex
     }
     var isOverdose: Bool {
         bandIndex >= 5
-    }
-    /// The two highest bands carry escalating caution/emergency framing.
-    var isHighIntensity: Bool {
-        bandIndex >= 4
     }
 }
 

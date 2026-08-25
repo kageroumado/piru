@@ -1,6 +1,5 @@
 import Foundation
 import SwiftData
-import SwiftUI
 
 @Model
 final class UserColor {
@@ -12,9 +11,5 @@ final class UserColor {
         self.hex = hex
         self.name = name
         self.createdAt = .now
-    }
-
-    var color: Color {
-        Color(hex: hex)
     }
 }

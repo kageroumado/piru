@@ -565,11 +565,6 @@ final class ToleranceStore {
         return "\(count)|\(combined)|\(Int(now.timeIntervalSince1970 / 3_600))|\(weightKg)"
     }
 
-    /// Current tolerance at a mechanism class, or `nil` if untracked (treated as naïve by callers).
-    func tolerance(for receptorClass: ReceptorClasses.ReceptorClass) -> ClassTolerance? {
-        states[receptorClass]
-    }
-
     // MARK: - Pure replay (the testable core)
 
     /// Replay a dose log into per-target tolerance state. Pure aside from the injected `resolve`
@@ -1289,7 +1284,7 @@ final class ToleranceStore {
         var chronicExposure = 0.0
         // The differential safety endpoint's two parallel ln-shift layers (Stage C) — acute + adaptive
         // only, no deep, no escalation gate; driven by the same occupancy. Left at 0 when the class has
-        // no endpoint (the result then `exp`s to a neutral `1`, but `tolerance(for:)` reports `nil`).
+        // no endpoint (the result then `exp`s to a neutral `1`).
         var sAcuteSafety = 0.0
         var sAdaptiveSafety = 0.0
         let safetyEndpoint = params.safetyEndpoint

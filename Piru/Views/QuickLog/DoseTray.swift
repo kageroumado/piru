@@ -205,10 +205,6 @@ struct StagedDose: Identifiable, Equatable {
             .joined(separator: " + ")
     }
 
-    var color: Color {
-        colorHex.map { Color(hex: $0) } ?? .gray
-    }
-
     /// Where the merged total lands on the substance's dose ladder — `nil`
     /// when the library has no meaningful ladder for this route (an empty
     /// `DoseRange` classifies everything as sub-threshold, so a substance with

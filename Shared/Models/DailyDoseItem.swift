@@ -267,26 +267,4 @@ final class DoseRoutine {
         self.timeMinutes = timeMinutes
         self.remind = remind
     }
-
-    /// `timeMinutes` as a `Date` today, for `DatePicker` round-trips and
-    /// time-style formatting.
-    var timeAsDate: Date? {
-        get {
-            guard let timeMinutes else { return nil }
-            return Calendar.current.date(
-                bySettingHour: timeMinutes / 60,
-                minute: timeMinutes % 60,
-                second: 0,
-                of: .now,
-            )
-        }
-        set {
-            guard let newValue else {
-                timeMinutes = nil
-                return
-            }
-            let components = Calendar.current.dateComponents([.hour, .minute], from: newValue)
-            timeMinutes = (components.hour ?? 0) * 60 + (components.minute ?? 0)
-        }
-    }
 }

@@ -10,20 +10,6 @@ extension InsightGroup {
         case .toleranceReceptors: "Tolerance & Receptors"
         }
     }
-
-    var icon: String {
-        switch self {
-        case .inYourBody: "waveform.path.ecg"
-        case .toleranceReceptors: "chart.line.downtrend.xyaxis"
-        }
-    }
-
-    var tint: Color {
-        switch self {
-        case .inYourBody: .teal
-        case .toleranceReceptors: .purple
-        }
-    }
 }
 
 extension Insight {

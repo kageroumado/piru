@@ -126,53 +126,6 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         self == .strain
     }
 
-    /// A short, glanceable cue for which direction is desirable — the fix for
-    /// four similar-looking curves whose "up" means opposite things. `nil` for
-    /// ``timeline`` (not a felt-effect axis).
-    var valenceHint: LocalizedStringKey? {
-        switch self {
-        case .timeline: nil
-        case .feeling: "Higher is better"
-        case .wanting: "Higher is more pull"
-        case .liking: "Higher is more pleasure"
-        case .energy: "Higher is livelier"
-        case .compulsion: "Lower is better"
-        case .strain: "Lower is better"
-        }
-    }
-
-    /// A state-reflecting icon from a sampled now-value (happy vs flat face, full
-    /// vs slashed bolt, …) and whether it reads as a "cost". `nil` value → the
-    /// lens's default ``symbol``.
-    func state(value: Double?) -> (symbol: String, isNegative: Bool) {
-        guard let value else { return (symbol, false) }
-        switch self {
-        case .timeline:
-            return (symbol, false)
-        case .feeling:
-            if value > 0.4 { return ("face.smiling", false) }
-            if value > -0.2 { return ("face.dashed", false) }
-            return ("face.dashed", true)
-        case .wanting:
-            if value > 0.6 { return ("arrow.up.heart.fill", false) }
-            return ("arrow.up.heart", false)
-        case .liking:
-            if value > 0.4 { return ("sparkles", false) }
-            if value > -0.1 { return ("sparkle", false) }
-            return ("sparkle", true)
-        case .energy:
-            if value > 1.5 { return ("bolt.fill", false) }
-            if value > -0.4 { return ("bolt", false) }
-            return ("bolt.slash", true)
-        case .compulsion:
-            if value > 0.5 { return ("flame.fill", false) }
-            return ("flame", false)
-        case .strain:
-            if value > 1.6 { return ("exclamationmark.triangle.fill", true) }
-            return (symbol, false)
-        }
-    }
-
     /// A qualitative word for a sampled value — the glanceable "now" readout.
     /// One consistent vocabulary per lens; ``strain`` reads as a magnitude
     /// (High/Moderate/Low) so the word matches the "higher = more load" curve.
@@ -214,7 +167,4 @@ nonisolated enum EffectLens: String, CaseIterable, Identifiable {
         lenses.append(contentsOf: [.energy, .compulsion, .strain])
         return lenses
     }
-
-    /// Backward-compatible accessor for contexts that don't have a timeline.
-    static let mechanistic: [EffectLens] = mechanisticBase
 }

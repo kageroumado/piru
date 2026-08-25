@@ -142,8 +142,7 @@ enum ExperiencePhase: CaseIterable {
         }
     }
 
-    /// The mark colour — dots, bar fills, chart bands. Use ``labelColor`` for
-    /// text; an accent glyph on an accent-derived fill is the self-tint trap.
+    /// The mark colour — dots, bar fills, chart bands.
     ///
     /// Matches the hex ramp in `TimelineGraphView` / `SessionReportPDF` /
     /// `DosePhaseProgressBar`, which also encode these five phases — hues
@@ -156,18 +155,6 @@ enum ExperiencePhase: CaseIterable {
         case .peak: .Phase.Peak.accent
         case .offset: .Phase.Offset.accent
         case .afterglow: .Phase.Afterglow.accent
-        }
-    }
-
-    /// Legible text variant, gated at WCAG AA against the card *and* against
-    /// this phase's own tinted fill.
-    var labelColor: Color {
-        switch self {
-        case .onset: .Phase.Onset.text
-        case .comeup: .Phase.Comeup.text
-        case .peak: .Phase.Peak.text
-        case .offset: .Phase.Offset.text
-        case .afterglow: .Phase.Afterglow.text
         }
     }
 

@@ -93,7 +93,6 @@ struct DoseDurationSection: View {
 
     /// The dialed dose, published up from the card so the Log button can name it.
     @State private var loggableDose: String?
-    @Environment(\.appNavigator) private var navigator
 
     private var substance: Substance {
         routes.substance
@@ -138,7 +137,6 @@ struct DoseDurationSection: View {
                 // `SourceAttributionRow` in SubstanceDetailSupport.swift.
                 VStack(alignment: .leading, spacing: 0) {
                     DoseEffectsCard(
-                        route: route.route,
                         unit: salt?.unit ?? route.unit,
                         doses: salt?.doses ?? route.doses,
                         duration: routes.durationVisible ? (salt?.duration ?? route.duration) : nil,

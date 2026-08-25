@@ -154,10 +154,6 @@ extension SubstanceStore {
         let classB: String
         let severity: String
         let note: String
-        /// TripSit's own six-level status, verbatim — "Low Risk & Synergy" and
-        /// "Low Risk & Decrease" both collapse onto `caution` and are opposite
-        /// advice, so the label is what keeps them apart.
-        let status: String?
     }
 
     /// Every class-pair rule in the bundled database.
@@ -168,7 +164,7 @@ extension SubstanceStore {
         do {
             return try substancesDB.read { db in
                 try Row.fetchAll(db, sql: """
-                    SELECT class_a, class_b, severity, note, status
+                    SELECT class_a, class_b, severity, note
                       FROM interaction_rules
                 """).map {
                     ClassInteractionRule(
@@ -176,7 +172,6 @@ extension SubstanceStore {
                         classB: $0["class_b"],
                         severity: $0["severity"],
                         note: $0["note"],
-                        status: $0["status"],
                     )
                 }
             }

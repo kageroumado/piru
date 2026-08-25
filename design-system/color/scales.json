@@ -77,7 +77,7 @@
       "cardinality": "ordered (temporal/narrative arc, NOT a magnitude ramp)",
       "count": 5,
       "source": "Piru/Views/Components/DoseLevelIndicator.swift:127-163",
-      "screens": ["Substance detail 'Duration' card (DoseInfoView.swift:261-277, via DoseInfoView call sites EntryFormView.swift:264 / EntryEditContent.swift:136)", "DurationTimelineBar / DurationPhaseRows (Piru/Views/Components/DurationViews.swift), consumed by the same Edit-flow files"],
+      "screens": ["Substance detail 'Duration' card (DoseInfoView.swift:261-277, via DoseInfoView call sites EntryFormView.swift:264 / EntryEditContent.swift:136)", "DurationPhaseRows (Piru/Views/Components/DurationViews.swift), consumed by the same Edit-flow files"],
       "note": "CONFIRMED CONFLICT with experience_phase_hex_ramp: same 5 phase names, completely different hue assignment (peak is green in one, orange in the other; comeup is blue in one, teal in the other). Both scales' consumers trace back to the SAME dose entry going through Edit (this scale) vs Read (the hex ramp) -- a user editing a dose then viewing it sees 'peak' flip from orange to green. Not literally simultaneous on one screen, but back-to-back in one user flow, which is arguably more noticeable than a static duplicate.",
       "steps": [
         {"pos": 0, "case": "onset", "value": {"system": ".blue"}},

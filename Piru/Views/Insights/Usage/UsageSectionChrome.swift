@@ -106,11 +106,6 @@ struct UsageSubstanceStyle {
         guard substances.indices.contains(index) else { return Theme.accent }
         return SubstancePalette.color(for: substances[index].name, colorMap: colorMap)
     }
-
-    func category(_ index: Int) -> SubstanceCategory {
-        guard substances.indices.contains(index) else { return .other }
-        return UsageAxes.category(substances[index].categoryIndex)
-    }
 }
 
 // MARK: - Cards
@@ -149,8 +144,6 @@ struct UsageSectionCard<Content: View>: View {
 struct UsageCollapsibleCard<Content: View>: View {
     let title: LocalizedStringKey
     var subtitle: LocalizedStringKey?
-    /// `@AppStorage` key suffix — one per section.
-    let storageKey: String
     @ViewBuilder var content: () -> Content
 
     @AppStorage private var isExpanded: Bool
@@ -164,7 +157,6 @@ struct UsageCollapsibleCard<Content: View>: View {
     ) {
         self.title = title
         self.subtitle = subtitle
-        self.storageKey = storageKey
         self.content = content
         _isExpanded = AppStorage(wrappedValue: defaultExpanded, "usageSection.\(storageKey)")
     }

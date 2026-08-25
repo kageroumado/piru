@@ -4,7 +4,6 @@ import TipKit
 
 struct JournalCalendarView: View {
     let entries: [DoseEntry]
-    let colorMap: [String: Color]
     let onSelectDate: (Date) -> Void
 
     @State private var selectedMonth: Date = .now

@@ -27,8 +27,6 @@ struct PharmacologySections: View {
     /// take effect (otherwise the user would be permanently stuck on whatever
     /// defaults applied the first time the section was rendered).
     @State private var expanded: [Disclosure: Bool] = [:]
-    /// Pushes a metabolite's own detail from an "Also Active" card.
-    @Environment(\.appNavigator) private var navigator
 
     /// The metabolites worth a section — the ones that outlive the dose. See
     /// ``ActiveMetabolite/earnsOwnSection(parentHalfLifeMinutes:parentDurationMinutes:)``;

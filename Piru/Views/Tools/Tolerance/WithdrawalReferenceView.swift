@@ -259,8 +259,6 @@ struct TimingBand: Identifiable {
     let examples: LocalizedStringResource
     let onsetPhrase: LocalizedStringResource
     let peakPhrase: LocalizedStringResource
-    let onsetStartDays: Double
-    let peakEndDays: Double
 
     var id: Int {
         actingClass.rank
@@ -273,8 +271,6 @@ struct TimingBand: Identifiable {
             examples: "diazepam, chlordiazepoxide, clonazepam",
             onsetPhrase: "2–7 days",
             peakPhrase: "5–14 days",
-            onsetStartDays: 2,
-            peakEndDays: 14,
         ),
         TimingBand(
             actingClass: .intermediate,
@@ -282,8 +278,6 @@ struct TimingBand: Identifiable {
             examples: "temazepam, oxazepam, bromazepam",
             onsetPhrase: "1–2 days",
             peakPhrase: "3–7 days",
-            onsetStartDays: 1,
-            peakEndDays: 7,
         ),
         TimingBand(
             actingClass: .short,
@@ -291,8 +285,6 @@ struct TimingBand: Identifiable {
             examples: "triazolam, alprazolam, lorazepam",
             onsetPhrase: "6–24 hours",
             peakPhrase: "1–4 days",
-            onsetStartDays: 0.25,
-            peakEndDays: 4,
         ),
     ]
 }

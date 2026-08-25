@@ -64,7 +64,6 @@ nonisolated enum PDFReportGenerator {
         let route: String
         let timestamp: Date
         let notes: String?
-        let tags: [String]
         /// Adherence-join fields mirroring ``AdherenceCalculator/matches`` —
         /// the PSID identity key plus the raw route, so the PDF's adherence
         /// table credits exactly what the in-app screen credits.

@@ -61,7 +61,6 @@ private struct UsageDoseLevelContent: View {
         /// styled by, so the band identity has to be this string.
         let levelName: String
         let value: Double
-        let count: Int
         var id: String {
             "\(date.timeIntervalSince1970)-\(levelIndex)"
         }
@@ -182,7 +181,6 @@ private struct UsageDoseLevelContent: View {
                     levelIndex: level,
                     levelName: levelName(level),
                     value: showsPercentages ? Double(count) / Double(total) : Double(count),
-                    count: count,
                 )
             }
         }

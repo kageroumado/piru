@@ -261,7 +261,7 @@ struct SessionReportView: View {
                 }
             }
             if !group.curve.isEmpty {
-                EliminationCurveView(samples: group.curve, nowFraction: export.isLive ? nowFraction(group) : nil, accent: Theme.accent, hair: hair, ink2: ink2)
+                EliminationCurveView(samples: group.curve, nowFraction: export.isLive ? nowFraction(group) : nil, accent: Theme.accent, ink2: ink2)
                     .frame(width: 210, height: 96)
             }
         }
@@ -412,7 +412,6 @@ private struct EliminationCurveView: View {
     /// `nil` for a historical session — no "now" marker/dot is drawn.
     let nowFraction: Double?
     let accent: Color
-    let hair: Color
     let ink2: Color
 
     var body: some View {

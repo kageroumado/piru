@@ -15,7 +15,6 @@ extension BodyLevelsManager {
             let unit: String
         }
 
-        let range: UsageTimeRange
         let dates: [Date]
         let doses: [BodyLoadDose]
         let meta: [SeriesMeta]
@@ -83,7 +82,7 @@ extension BodyLevelsManager {
             }
 
             guard !doses.isEmpty else { return nil }
-            return Plan(range: range, dates: dates, doses: doses, meta: meta)
+            return Plan(dates: dates, doses: doses, meta: meta)
         }
 
         /// Fold the sampler's per-series amounts back into a trail: normalize each
@@ -101,12 +100,12 @@ extension BodyLevelsManager {
                     BodyLoadTrail.Point(id: i, date: dates[i], amount: amount, fraction: amount / peak)
                 }
                 series.append(BodyLoadTrail.Series(
-                    id: index, name: meta.name, displayName: meta.displayName,
+                    id: index, displayName: meta.displayName,
                     color: meta.color, unit: meta.unit, peak: peak, points: points,
                 ))
             }
             series.sort { $0.peak > $1.peak }
-            return BodyLoadTrail(range: range, dates: dates, series: series)
+            return BodyLoadTrail(dates: dates, series: series)
         }
 
         /// Group key must carry the unit family, not just the name — a substance

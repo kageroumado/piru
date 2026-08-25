@@ -9,7 +9,6 @@ struct ToleranceRecoverySeries: Identifiable {
     let color: Color
     let points: [ToleranceChartPoint]
     let recoveryPhrase: String
-    let severity: Double
 }
 
 /// The always-on hero: every meaningfully-toleranced mechanism's recovery trajectory on one shared axis,

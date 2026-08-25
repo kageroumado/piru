@@ -27,9 +27,6 @@ struct SessionCard: Identifiable, Equatable {
     /// Clock label — a single start time, or "start – end" for a span.
     let timeLabel: String
     let uniqueSubstances: [String]
-    /// Canonical common names for display (raw `uniqueSubstances` stays keyed for color lookups). A
-    /// dose logged under an alias reads by its canonical name — "LSD", not "Lysergic Acid Diethylamide".
-    let substanceDisplayList: [String]
     let substanceSummary: String
     let doseCountText: String
 
@@ -67,7 +64,6 @@ struct SessionCard: Identifiable, Equatable {
             if seenDisplay.insert(shown.lowercased()).inserted { display.append(shown) }
         }
         uniqueSubstances = unique
-        substanceDisplayList = display
         if display.count <= 3 {
             substanceSummary = display.joined(separator: ", ")
         } else {

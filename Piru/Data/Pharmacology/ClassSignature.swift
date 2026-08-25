@@ -18,14 +18,6 @@ nonisolated enum ClassSignature: Sendable {
     case balance(TargetBalanceModel)
     case ternary(TransporterTernaryModel)
 
-    var id: String {
-        switch self {
-        case .efficacy: "efficacy"
-        case .balance: "balance"
-        case .ternary: "ternary"
-        }
-    }
-
     /// Which target family a category's signature reads from — also what the store needs to fetch.
     /// `nil` for classes with no signature at all.
     static func family(for category: SubstanceCategory) -> SignatureFamily? {
@@ -172,7 +164,6 @@ nonisolated extension ClassSignature {
         let gatedPeers = peers.filter(\.isGated)
         let hollowPeers = peers.filter { !$0.isGated }
         let model = EfficacyAxisModel(
-            target: target,
             focus: focusMark,
             marks: ([focusMark] + gatedPeers + spread(hollowPeers, keeping: 7 - gatedPeers.count))
                 .sorted { $0.percent < $1.percent },
@@ -250,9 +241,7 @@ nonisolated extension ClassSignature {
                 isDeclaredPanel: group.key.isDeclaredPanel,
                 species: group.species,
                 referenceAgonist: group.referenceAgonist,
-                year: group.year,
                 citationURL: group.citationURL,
-                comparedCount: max(0, group.substanceNames.count - 1),
             )
         }
         return SignatureProvenance(
@@ -260,10 +249,8 @@ nonisolated extension ClassSignature {
             isDeclaredPanel: false,
             species: fallback.species,
             referenceAgonist: fallback.referenceAgonist,
-            year: fallback.year,
             citationURL: fallback.pmid.map { URL(string: "https://pubmed.ncbi.nlm.nih.gov/\($0)/") }
                 ?? fallback.doi.flatMap { $0.isEmpty ? nil : URL(string: "https://doi.org/\($0)") },
-            comparedCount: 0,
         )
     }
 }
@@ -512,14 +499,7 @@ nonisolated struct SignatureProvenance: Hashable, Sendable {
     /// `nil` when the group mixes species.
     let species: String?
     let referenceAgonist: String?
-    let year: Int?
     let citationURL: URL?
-    /// How many other compounds were measured beside this one in the same experiment.
-    let comparedCount: Int
-
-    var isHuman: Bool {
-        species?.lowercased().contains("human") ?? false
-    }
 }
 
 /// The partial→full efficacy axis.
@@ -536,7 +516,6 @@ nonisolated struct EfficacyAxisModel: Sendable {
         let isGated: Bool
     }
 
-    let target: SignatureTarget
     let focus: Mark
     let marks: [Mark]
     let headline: LocalizedStringResource?

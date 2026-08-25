@@ -213,12 +213,10 @@ private struct ColorPickerHost: View {
 }
 
 /// Resolves a canonical substance name to its library substance + any existing
-/// personal override, then hosts the personalize form. Lives here so the form
-/// is presented as a navigator sheet (its `navigator.dismiss()` then works).
+/// personal override, then hosts the personalize form.
 private struct PersonalizeSubstanceHost: View {
     let name: String
     @State private var customStore = CustomSubstanceStore.shared
-    @Environment(\.appNavigator) private var navigator
 
     var body: some View {
         // Shell resolve — an index hit by exact canonical name. `all.first(where:)`

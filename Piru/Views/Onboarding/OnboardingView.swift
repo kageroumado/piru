@@ -119,9 +119,6 @@ enum OnboardingStep: Int, CaseIterable {
     var next: OnboardingStep? {
         OnboardingStep(rawValue: rawValue + 1)
     }
-    var previous: OnboardingStep? {
-        OnboardingStep(rawValue: rawValue - 1)
-    }
 
     /// Steps that show the progress bar + back affordance. The bookend welcome/done screens are
     /// deliberately chromeless for a cleaner first and last impression.

@@ -28,13 +28,12 @@ struct UsageAnalyticsTests {
         category: Int = 0,
         route: Int = 0,
         level: Int? = nil,
-        amount: Double = 10,
         commonDoses: Double? = nil,
         at timestamp: Date,
     ) -> UsageEntrySnapshot {
         UsageEntrySnapshot(
             substanceIndex: substance, categoryIndex: category, routeIndex: route,
-            doseLevelIndex: level, amount: amount, commonDoses: commonDoses, timestamp: timestamp,
+            doseLevelIndex: level, commonDoses: commonDoses, timestamp: timestamp,
         )
     }
 

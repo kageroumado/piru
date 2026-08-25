@@ -113,9 +113,8 @@ struct ZeroOrderPKTests {
     func `effectShape uses the zero-order curve for alcohol, scaling extent with dose`() {
         let one = alcohol(grams: 14)
         let four = alcohol(grams: 56)
-        let params = TimelineCurveModel.PKCurveParams(ka: 0, ke: 0, cmax: 1)
-        let extentOne = TimelineCurveModel.curveExtent(for: one, params: params)
-        let extentFour = TimelineCurveModel.curveExtent(for: four, params: params)
+        let extentOne = TimelineCurveModel.curveExtent(for: one)
+        let extentFour = TimelineCurveModel.curveExtent(for: four)
         // Phase windows are identical for both states; only the zero-order dose differs.
         #expect(extentFour > extentOne * 3)
         // Both peak at full strength (normalized), and the larger dose still has effect where the

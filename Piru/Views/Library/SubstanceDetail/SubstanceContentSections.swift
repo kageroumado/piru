@@ -241,33 +241,6 @@ struct SubstanceStatusMarker: View {
     }
 }
 
-/// Plays along with an in-joke entry (PsychonautWiki's "🍰 Cake"). The emoji is
-/// off the title now — so the gag lives here, deadpan, while making plain the
-/// thing is fictional (this is a harm-reduction app; nobody should go sourcing
-/// "Cake").
-struct JokeBanner: View {
-    let pictograph: String?
-
-    var body: some View {
-        if let emoji = pictograph {
-            Section {
-                VStack(alignment: .leading, spacing: 8) {
-                    HStack(spacing: 8) {
-                        Text(emoji)
-                        Text("Made-up drug")
-                            .font(.subheadline.weight(.semibold))
-                    }
-                    Text("A fictional drug from a 1997 TV satire on media drug panics — “Cake” isn’t real, and nothing below is either. It supposedly overstimulates “Shatner’s Bassoon,” the part of the brain that governs time. Made in Prague.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                .padding(.vertical, 4)
-            }
-        }
-    }
-}
-
 // `DetailBanner` — the shared full-width framing `Section` — lived here. It had
 // exactly one client, `StatusBanner`, and both are gone: the framing is now
 // ``SubstanceStatusMarker``, a chip in the header. Nothing else on the screen

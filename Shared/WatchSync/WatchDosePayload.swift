@@ -91,11 +91,6 @@ nonisolated struct WatchDosePayload: Codable, Hashable, Sendable, Identifiable {
         self.productName = productName
         self.displayName = displayName
     }
-
-    /// Whether this payload carries a measured drink rather than a bare mass.
-    var hasDrinkDetail: Bool {
-        drinkName != nil || volumeML != nil || abv != nil
-    }
 }
 
 // MARK: - WatchConnectivity dictionary bridge

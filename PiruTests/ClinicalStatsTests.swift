@@ -15,7 +15,7 @@ struct ClinicalStatsTests {
     private let base = Date(timeIntervalSince1970: 1_699_920_000) // 2023-11-14 00:00:00 UTC
 
     private func substance(_ name: String, _ currency: ExposureCurrency) -> ClinicalSubstance {
-        ClinicalSubstance(name: name, displayName: name, colorHex: "#FF0000", unit: "mg", currency: currency)
+        ClinicalSubstance(displayName: name, colorHex: "#FF0000", unit: "mg", currency: currency)
     }
 
     private func day(_ n: Int) -> Date {

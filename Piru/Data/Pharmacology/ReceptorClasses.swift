@@ -28,7 +28,6 @@ nonisolated enum ReceptorClasses {
     private enum T {
         static let hour = 60.0
         static let day = 1_440.0
-        static let week = 7 * day
         static let month = 30 * day
     }
 
@@ -383,11 +382,6 @@ nonisolated enum ReceptorClasses {
         /// Which effect the **primary layer** represents for a ladder class (GABA → sedation, α2δ →
         /// sleep) — the ladder's top row, read from ``shiftFactor``. `nil` for non-ladder classes.
         var primaryEffectAxis: EffectAxis?
-
-        /// Whether the class has a meaningful within-session acute (redose) pool.
-        var hasAcutePool: Bool {
-            acuteShiftMax > 0
-        }
     }
 
     /// The curated right-shift parameters for a class — the **Stage B** literature-anchored table

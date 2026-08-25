@@ -10,11 +10,7 @@ import SwiftUI
 /// depends only on the half-life and the interval.
 nonisolated enum SteadyStateModel {
     struct Result: Equatable {
-        let ke: Double
-        let ka: Double
         let dose: Double
-        let intervalMinutes: Double
-        let halfLifeMinutes: Double
 
         /// Body-content curve while climbing to plateau, as `(minutes, amount)`.
         let curve: [CurvePoint]
@@ -97,8 +93,7 @@ nonisolated enum SteadyStateModel {
         let accumulation = 1 / (1 - exp(-ke * intervalMinutes))
 
         return Result(
-            ke: ke, ka: ka, dose: dose,
-            intervalMinutes: intervalMinutes, halfLifeMinutes: halfLifeMinutes,
+            dose: dose,
             curve: curve, totalMinutes: totalMinutes,
             peakAmount: peak, troughAmount: trough, averageAmount: average,
             accumulationRatio: accumulation, fluctuationPercent: fluctuation,

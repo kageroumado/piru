@@ -74,7 +74,6 @@ struct SessionStateExport {
     struct SubstanceState: Identifiable {
         let id: UUID
         let name: String
-        let colorHex: String
         let amount: Double
         let unit: String
         let route: String
@@ -211,14 +210,13 @@ extension SessionStateExport {
         guard let curve = ActiveSubstanceState.from(entry: entry, colorHex: hex) else { return nil }
 
         let elapsed = max(0, now.timeIntervalSince(curve.doseTimestamp) / 60)
-        let params = TimelineCurveModel.pkParams(for: curve)
         let total = max(curve.totalMinutes, 1)
 
         var effect: [Double] = []
         effect.reserveCapacity(effectSamples + 1)
         for i in 0 ... effectSamples {
             let m = Double(i) / Double(effectSamples) * total
-            effect.append(TimelineCurveModel.intensity(at: m, for: curve, params: params))
+            effect.append(TimelineCurveModel.intensity(at: m, for: curve))
         }
 
         return SubstanceState(
@@ -226,13 +224,12 @@ extension SessionStateExport {
             // Per-dose, so it can show the brand the dose was logged as ("Concerta"),
             // not the canonical "Methylphenidate" — same resolver the journal uses.
             name: DoseTitle.resolve(for: entry),
-            colorHex: hex,
             amount: entry.amount,
             unit: entry.unit,
             route: curve.route,
             doseTimestamp: curve.doseTimestamp,
             phase: mapPhase(DosePhaseProgressBar.phase(curve, elapsedMinutes: elapsed)),
-            intensity: min(1, max(0, TimelineCurveModel.intensity(at: elapsed, for: curve, params: params))),
+            intensity: min(1, max(0, TimelineCurveModel.intensity(at: elapsed, for: curve))),
             progress: min(1, max(0, elapsed / total)),
             totalMinutes: total,
             phaseBoundaries: [curve.onsetEndMinutes, curve.comeupEndMinutes, curve.peakEndMinutes, curve.offsetEndMinutes].map { min(1, max(0, $0 / total)) },

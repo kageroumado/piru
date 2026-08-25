@@ -63,8 +63,6 @@ nonisolated struct PharmacologyParameters {
     /// metabolite's ~5-day one.
     struct MetaboliteContributor: Identifiable, Hashable {
         let metaboliteName: String
-        /// The metabolite's own substance name when we carry it as one (for class routing / dedup).
-        let metaboliteSubstanceName: String?
         /// The metabolite's own elimination half-life (minutes) — required; a contributor is only built
         /// when a half-life is known (the PK shape needs it).
         let halfLifeMinutes: Double
@@ -106,7 +104,6 @@ nonisolated struct PharmacologyParameters {
         }
     }
 
-    let substanceName: String
     let molarMassGramsPerMole: Double?
     let vdLPerKg: Double?
     /// Oral bioavailability as a fraction in `(0, 1]`.
@@ -204,7 +201,6 @@ nonisolated struct PharmacologyParameters {
     /// factories) that end at `targets:` keep compiling unchanged while the resolver can supply the new
     /// values. Everything else mirrors the stored-property order.
     init(
-        substanceName: String,
         molarMassGramsPerMole: Double?,
         vdLPerKg: Double?,
         bioavailabilityFraction: Double?,
@@ -224,7 +220,6 @@ nonisolated struct PharmacologyParameters {
         fractionUnbound: Double = 1,
         metabolites: [MetaboliteContributor] = [],
     ) {
-        self.substanceName = substanceName
         self.molarMassGramsPerMole = molarMassGramsPerMole
         self.vdLPerKg = vdLPerKg
         self.bioavailabilityFraction = bioavailabilityFraction

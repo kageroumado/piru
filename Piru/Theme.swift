@@ -51,9 +51,6 @@ enum Theme {
     /// Card / raised surface fill.
     static let cardBackground = Color.Surface.card
 
-    /// Grouped-list backdrop, a step below ``background`` in dark mode.
-    static let groupedBackground = Color.Surface.grouped
-
     /// Text-field and other input fills.
     static let inputBackground = Color.Surface.input
 }

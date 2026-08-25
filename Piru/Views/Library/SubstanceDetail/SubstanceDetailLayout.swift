@@ -124,7 +124,7 @@ struct SubstanceDetailLayout: View {
 
         // What the family shares. Above Safety because for a research chemical
         // with no data of its own this is most of what there is to read.
-        ClassContextSection(substance: substance, model: model)
+        ClassContextSection(model: model)
 
         // Safety — combinations, water & heat, contraindications, and myth
         // corrections in one card below the pharmacology, beside Prescribing.

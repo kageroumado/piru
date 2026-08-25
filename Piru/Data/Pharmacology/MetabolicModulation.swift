@@ -262,7 +262,6 @@ nonisolated enum MetabolicModulation {
         let substrate: String
         let enzyme: Enzyme
         let direction: Direction
-        let strength: Strength
         let confidence: ConfidenceTier
         let note: LocalizedStringResource
 
@@ -284,7 +283,6 @@ nonisolated enum MetabolicModulation {
             substrate: substrate,
             enzyme: m.enzyme,
             direction: m.direction,
-            strength: m.strength,
             confidence: m.confidence,
             note: m.note,
         )

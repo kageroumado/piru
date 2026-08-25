@@ -323,7 +323,6 @@ struct InsightsView: View {
     private struct UsageSummary {
         let total: Int
         let perDay: Double
-        let mostLogged: String?
         var hasData: Bool {
             total > 0
         }
@@ -419,14 +418,9 @@ struct InsightsView: View {
         guard !allEntries.isEmpty,
               let newest = allEntries.first?.timestamp,
               let oldest = allEntries.last?.timestamp else {
-            return UsageSummary(total: 0, perDay: 0, mostLogged: nil)
+            return UsageSummary(total: 0, perDay: 0)
         }
         let days = max(1, newest.timeIntervalSince(oldest) / 86_400 + 1)
-        var counts: [String: Int] = [:]
-        for entry in allEntries {
-            counts[entry.substance, default: 0] += 1
-        }
-        let most = counts.max { $0.value < $1.value }?.key
-        return UsageSummary(total: allEntries.count, perDay: Double(allEntries.count) / days, mostLogged: most)
+        return UsageSummary(total: allEntries.count, perDay: Double(allEntries.count) / days)
     }
 }
