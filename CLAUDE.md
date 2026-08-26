@@ -133,7 +133,7 @@ pipeline/            # Python data pipeline that builds the bundled substance SQ
 | `Data/SubstanceDB/SubstanceDBUpdater.swift` | Opt-in over-the-air updates for the bundled substance DB (manifest + checksum) |
 | `Data/Persistence/StoreRecovery.swift` | Never-delete SwiftData store recovery: versioned migration plan + data-aware fallback |
 | `Data/Pharmacology/HalfLifeDatabase.swift` | 530+ hardcoded half-life values (minutes) |
-| `Data/Services/Interactions.swift` | Drug class mapping + 76 interaction severity rules |
+| `Data/Services/Interactions.swift` | The interaction engine. Classes, rules and severities all resolve from the bundled DB (`interaction_rules`, `substance_interaction_classes`, `category_interaction_classes`); the localized sentence per class pair is `InteractionRuleCopy.swift` |
 | `Shared/Engines/PKModel.swift` | One-compartment oral PK model (concentration, Tmax, Cmax, ka estimation) |
 | `Utilities/RampDownScheduler.swift` | Harm-reduction notifications with session-based grouping |
 | `Views/InteractionTimelineView.swift` | PK curve overlay with interaction danger window visualization |

@@ -55,7 +55,7 @@
     {
       "category": "Antidepressant",
       "drugClass": "ssri",
-      "why": "Default fallback for the `.antidepressant` category. SSRI is the most common subtype, so this is the safest serotonergic proxy when we have no better information. **Failure mode:** any imported MAOI, SNRI, or TCA that lacks a name/alias hit in `substanceClassOverrides` will silently land here and be matched against SSRI rules — missing MAOI×stimulant or SNRI×empathogen warnings, for instance. When such a gap is discovered, add the substance to `substanceClassOverrides` with the correct subtype."
+      "why": "Default fallback for the `.antidepressant` category. SSRI is the most common subtype, so this is the safest serotonergic proxy when we have no better information. **Failure mode:** any imported MAOI, SNRI, or TCA with no row in `substance_interaction_classes` silently lands here and be matched against SSRI rules — missing MAOI×stimulant or SNRI×empathogen warnings, for instance. When such a gap is discovered, add the substance to `substance-interaction-classes.json` with the correct subtype."
     },
     {
       "category": "Antipsychotic",
@@ -121,7 +121,7 @@
     {
       "category": "Anticonvulsant",
       "drugClass": "other",
-      "why": "Anticonvulsants are pharmacologically heterogeneous (sodium-channel blockers, SV2A ligands, gabapentinoids, GABAergics) — no single safe class proxy. Route to `.other` and let `substanceClassOverrides` map specific drugs (gabapentin, pregabalin → `.gabapentinoid`; benzo-class anticonvulsants → `.benzodiazepine`) where the subtype is known."
+      "why": "Anticonvulsants are pharmacologically heterogeneous (sodium-channel blockers, SV2A ligands, gabapentinoids, GABAergics) — no single safe class proxy. Route to `.other` and let `substance-interaction-classes.json` map specific drugs (gabapentin, pregabalin → `.gabapentinoid`; benzo-class anticonvulsants → `.benzodiazepine`) where the subtype is known."
     },
     {
       "category": "Other",
