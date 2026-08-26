@@ -9,7 +9,7 @@ struct ByVolumeDosingTests {
     @Test
     func `330 mL can at 5% ABV is ~13 g ethanol`() {
         let g = ByVolumeDosing.grams(volumeML: 330, abv: 5)
-        #expect(abs(g - 330 * 0.05 * 0.789) < 1e-9)
+        #expect(abs(g - 330 * 0.05 * ByVolumeDosing.ethanolDensityGramsPerML) < 1e-9)
         #expect(abs(g - 13.02) < 0.01)
     }
 
@@ -88,62 +88,6 @@ struct ByVolumeDosingTests {
         #expect(abs(ByVolumeDosing.standardDrinks(grams: 19.7) - 1.407) < 0.001)
         #expect(ByVolumeDosing.standardDrinks(grams: 0) == 0)
         #expect(ByVolumeDosing.standardDrinks(grams: -5) == 0)
-    }
-
-    // MARK: - Capability instance method
-
-    @Test
-    func `percentByVolume capability computes grams via its own density`() {
-        let cap = ByVolumeDosing.alcohol
-        let g = cap.canonicalAmount(volumeML: 500, strength: 5)
-        #expect(abs(g - ByVolumeDosing.grams(volumeML: 500, abv: 5)) < 1e-9)
-        #expect(cap.canonicalUnit == "g")
-    }
-
-    // MARK: - Curated catalog
-
-    @Test
-    func `alcohol and ethanol resolve to the same curated capability`() {
-        #expect(ByVolumeDosing.catalog["alcohol"] == ByVolumeDosing.alcohol)
-        #expect(ByVolumeDosing.catalog["ethanol"] == ByVolumeDosing.alcohol)
-        #expect(ByVolumeDosing.catalog["caffeine"] == nil)
-    }
-
-    @Test
-    func `alcohol presets cover beer wine shot pint with expected volumes`() {
-        let presets = ByVolumeDosing.alcohol.drinkPresets
-        #expect(presets.map(\.kind) == [.beer, .wine, .shot, .pint])
-        let beer = presets.first { $0.kind == .beer }
-        #expect(beer?.volume == Measurement(value: 330, unit: .milliliters))
-        #expect(beer?.defaultABV == 5)
-        let shot = presets.first { $0.kind == .shot }
-        #expect(shot?.defaultABV == 40)
-    }
-
-    // MARK: - Substance lookup
-
-    @Test
-    func `Substance exposes the by-volume capability for alcohol only`() {
-        let alcohol = Substance(
-            name: "Alcohol", aliases: [], category: .depressant,
-            defaultRoute: .oral, routes: [], effects: [],
-        )
-        #expect(alcohol.byVolumeDosing == ByVolumeDosing.alcohol)
-
-        let caffeine = Substance(
-            name: "Caffeine", aliases: [], category: .stimulant,
-            defaultRoute: .oral, routes: [], effects: [],
-        )
-        #expect(caffeine.byVolumeDosing == nil)
-    }
-
-    @Test
-    func `by-volume capability resolves through a substance alias`() {
-        let ethanol = Substance(
-            name: "Ethyl alcohol", aliases: ["ethanol"], category: .depressant,
-            defaultRoute: .oral, routes: [], effects: [],
-        )
-        #expect(ethanol.byVolumeDosing == ByVolumeDosing.alcohol)
     }
 
     // MARK: - Breadcrumb codec (Stage 1 storage / Stage 2 round-trip)

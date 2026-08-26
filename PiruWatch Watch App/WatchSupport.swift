@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Small watch-local helpers. The watch deliberately shares only the pure wire types with the
-/// phone, so display formatting, hex-color parsing, and Crown step sizing live here rather than
+/// Small watch-local helpers. The watch takes only the pure wire types and `ByVolumeDosing` from
+/// `Shared/`, so display formatting, hex-color parsing, and Crown step sizing live here rather than
 /// pulling `Shared/` files that import UIKit (unavailable on watchOS).
 enum WatchDoseFormat {
     /// Trim a numeric amount for display: integer when whole, else up to one decimal.
@@ -15,22 +15,6 @@ enum WatchDoseFormat {
     /// capitalized rawValue, so the watch reproduces it without importing the (UIKit-bound) enum.
     static func route(_ rawValue: String) -> String {
         rawValue.prefix(1).uppercased() + rawValue.dropFirst()
-    }
-}
-
-/// Grams of ethanol for a drink — display-only on the watch (the phone recomputes the canonical
-/// stored value with `ByVolumeDosing`). Kept identical to that formula: volume × (ABV/100) × 0.789.
-enum WatchDrinkMath {
-    static let ethanolDensity = 0.789
-    static let standardDrinkGrams = 14.0
-
-    static func grams(volumeML: Double, abv: Double) -> Double {
-        guard volumeML > 0, abv > 0 else { return 0 }
-        return volumeML * (abv / 100) * ethanolDensity
-    }
-
-    static func standardDrinks(volumeML: Double, abv: Double) -> Double {
-        grams(volumeML: volumeML, abv: abv) / standardDrinkGrams
     }
 }
 

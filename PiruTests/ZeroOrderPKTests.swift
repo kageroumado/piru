@@ -6,9 +6,22 @@ import Testing
 /// **duration scales with dose** and the decline is roughly **linear**, neither of which the generic
 /// fixed-width phase bell can express.
 @Suite("ZeroOrderPK")
+@MainActor
 struct ZeroOrderPKTests {
-    private let ethanol = PKModel.ethanolZeroOrder
-    private let oneDrinkMg = 14_000.0 // one US standard drink ≈ 14 g ethanol
+    /// Alcohol's kinetics at the reference weight, resolved from `zero_order_kinetics` — the same
+    /// values the app draws with, so these shape properties are gated against what ships rather
+    /// than against a fixture.
+    private let ethanol: PKModel.ZeroOrderKinetics
+    private let oneDrinkMg = ByVolumeDosing.usStandardDrinkGrams * 1_000
+
+    init() throws {
+        ethanol = try #require(
+            SubstanceStore.shared.zeroOrderKinetics(
+                forSubstanceName: "Alcohol", weightKg: PKModel.referenceBodyWeightKg,
+            ),
+            "no zero_order_kinetics row for Alcohol in the bundled DB",
+        )
+    }
 
     private func alcohol(grams: Double, name: String = "Alcohol") -> ActiveSubstanceState {
         ActiveSubstanceState(
@@ -27,6 +40,7 @@ struct ZeroOrderPKTests {
             doseIntensity: 0.6,
             doseMagnitude: 0.6,
             tachyphylaxis: 0,
+            zeroOrder: ethanol,
         )
     }
 
@@ -65,21 +79,41 @@ struct ZeroOrderPKTests {
     @Test
     func `Duration scales inversely with body weight — a heavier body clears the same dose faster`() {
         let dose = 8 * oneDrinkMg // a heavy night, absorption long complete before clearance
-        let at60 = PKModel.zeroOrderClearMinutes(doseMg: dose, kinetics: PKModel.ethanolZeroOrder(weightKg: 60))
-        let at120 = PKModel.zeroOrderClearMinutes(doseMg: dose, kinetics: PKModel.ethanolZeroOrder(weightKg: 120))
+        let store = SubstanceStore.shared
+        guard let at60kg = store.zeroOrderKinetics(forSubstanceName: "Alcohol", weightKg: 60),
+              let at120kg = store.zeroOrderKinetics(forSubstanceName: "Alcohol", weightKg: 120) else {
+            Issue.record("no zero-order kinetics for Alcohol")
+            return
+        }
+        let at60 = PKModel.zeroOrderClearMinutes(doseMg: dose, kinetics: at60kg)
+        let at120 = PKModel.zeroOrderClearMinutes(doseMg: dose, kinetics: at120kg)
         #expect(at120 < at60)
         // Vmax ∝ weight ⇒ clear time ≈ F·D/Vmax ∝ 1/weight; doubling weight ≈ halves it.
         let ratio = at60 / at120
         #expect(ratio > 1.8 && ratio < 2.15)
     }
 
+    /// The weight scaling itself, as a pure function of the stored parameters: linear inside the
+    /// modeled band, held at the edges rather than extrapolated, and reproducing the stored figure
+    /// exactly at its own reference weight. The band is model calibration, so it is pinned here.
     @Test
-    func `Reference weight reproduces the canonical 95 mg per min kinetics`() {
-        #expect(PKModel.ethanolZeroOrder(weightKg: 60) == PKModel.ethanolZeroOrder)
-        #expect(abs(PKModel.ethanolZeroOrder(weightKg: 60).vmaxMgPerMin - 95) < 1e-9)
-        // Out-of-range weights clamp to the 20–300 kg band rather than producing a degenerate curve.
-        #expect(PKModel.ethanolZeroOrder(weightKg: 5).vmaxMgPerMin == PKModel.ethanolZeroOrder(weightKg: 20).vmaxMgPerMin)
-        #expect(PKModel.ethanolZeroOrder(weightKg: 999).vmaxMgPerMin == PKModel.ethanolZeroOrder(weightKg: 300).vmaxMgPerMin)
+    func `Weight scaling is linear in band, exact at the reference, and clamped outside`() {
+        func kinetics(at weightKg: Double) -> PKModel.ZeroOrderKinetics {
+            PKModel.zeroOrderKinetics(
+                vmaxMgPerMin: 95, referenceWeightKg: 60, kaPerMin: 0.05,
+                bioavailability: 0.88, weightKg: weightKg,
+            )
+        }
+        #expect(abs(kinetics(at: 60).vmaxMgPerMin - 95) < 1e-9)
+        #expect(abs(kinetics(at: 120).vmaxMgPerMin - 190) < 1e-9)
+        #expect(kinetics(at: 5) == kinetics(at: PKModel.minimumModeledWeightKg))
+        #expect(kinetics(at: 999) == kinetics(at: PKModel.maximumModeledWeightKg))
+        #expect(kinetics(at: .nan) == kinetics(at: PKModel.referenceBodyWeightKg))
+        // A degenerate stored reference weight falls back rather than dividing by zero.
+        #expect(PKModel.zeroOrderKinetics(
+            vmaxMgPerMin: 95, referenceWeightKg: 0, kaPerMin: 0.05,
+            bioavailability: 0.88, weightKg: 60,
+        ).vmaxMgPerMin == 95)
     }
 
     @Test
@@ -134,8 +168,14 @@ struct ZeroOrderPKTests {
         #expect(TimelineCurveModel.zeroOrderDoseMilligrams(amount: 14_000, unit: "mg") == 14_000)
     }
 
+    /// The timeline curve and the ceiling tool draw the same drug from two engines, and the two must
+    /// agree about its kinetics or the app tells a reader two different stories about one night.
+    /// The timeline's numbers now come from `zero_order_kinetics` + the resolved `pk_routes`
+    /// bioavailability; ``SaturablePharmacology``'s ethanol profile is still a Swift literal awaiting
+    /// its own move to `saturable_kinetics`, so this is what keeps it honest in the meantime — when
+    /// it fires, the fix is to bring the Swift profile to the database's value, never the reverse.
     @Test
-    func `ethanol kinetics stay in lockstep with the ceiling tool's SaturablePharmacology profile`() throws {
+    func `The ceiling tool's ethanol profile agrees with the resolved kinetics`() throws {
         let profile = try #require(SaturablePharmacology.profile(forSubstanceName: "Alcohol")?.kinetics)
         #expect(profile.bioavailability == ethanol.bioavailability)
         #expect(profile.ka == ethanol.ka)

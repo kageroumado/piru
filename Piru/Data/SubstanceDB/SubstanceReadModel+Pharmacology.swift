@@ -4,6 +4,35 @@ import os
 
 private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
 
+/// One `zero_order_kinetics` row: the parameters that put a substance on the dose-scaled
+/// linear-decline curve instead of the fixed phase bell. Weight scaling happens at the point of use
+/// (``PKModel/zeroOrderKinetics(vmaxMgPerMin:referenceWeightKg:kaPerMin:bioavailability:weightKg:)``),
+/// so this stays the substance's stored answer rather than one person's.
+nonisolated struct ZeroOrderRow: Equatable, Sendable {
+    /// Maximal elimination rate, mg/min, at ``referenceWeightKg``.
+    let vmaxMgPerMin: Double
+    /// Body weight (kg) ``vmaxMgPerMin`` is anchored to.
+    let referenceWeightKg: Double
+    /// First-order absorption rate constant, per minute.
+    let kaPerMin: Double
+}
+
+/// One zero-order substance as read from the database: its row, plus every name a logged dose could
+/// carry it under (canonical name and aliases, lowercased).
+nonisolated struct ZeroOrderEntry: Equatable, Sendable {
+    let canonicalName: String
+    let lookupKeys: [String]
+    let row: ZeroOrderRow
+}
+
+/// A ``ZeroOrderRow`` paired with the substance's resolved oral bioavailability, which lives in
+/// `pk_routes` rather than in the zero-order table — see ``SubstanceStore/zeroOrderProfiles()``.
+nonisolated struct ZeroOrderProfile: Equatable, Sendable {
+    let row: ZeroOrderRow
+    /// Fraction in `(0, 1]`, from ``PharmacologyParameters/bioavailabilityFraction``.
+    let bioavailability: Double
+}
+
 /// One representative-per-substance pharmacokinetic projection, built for the Pharma table tool
 /// (`PharmaTableView`). Each substance contributes exactly one row — the preferred route (oral first,
 /// otherwise the row carrying the most PK fields / best confidence) — so the tool renders a flat,
@@ -390,6 +419,135 @@ extension SubstanceReadModel {
             )
         }
         return out
+    }
+
+    /// The whole `by_volume_dosing` + `drink_presets` pair as capabilities keyed by lowercased
+    /// canonical name **and** by every alias, so a substance logged as "Ethanol" finds the row
+    /// written against "Alcohol". Read once at index build; see ``ByVolumeCatalog`` for why it is
+    /// held rather than queried per call.
+    ///
+    /// Resolved by the sources' own `default_priority` rather than the user's enabled order: this is
+    /// the dose *input* the app offers, not a pharmacological claim a reader would want to attribute,
+    /// and it is read during index build before the user's source preferences are loaded.
+    nonisolated static func byVolumeCapabilities(db queue: DatabaseQueue) -> [String: ByVolumeDosing] {
+        let (rows, presetRows): ([Row], [Row]) = (try? queue.read { db in
+            let rows = try Row.fetchAll(db, sql: """
+                SELECT b.substance_id AS sid, s.canonical_name AS name, b.concentration_kind,
+                       b.canonical_unit, b.density_g_per_ml, b.standard_unit_mass, b.standard_unit_label
+                  FROM (
+                    SELECT bv.*, ROW_NUMBER() OVER (
+                        PARTITION BY bv.substance_id
+                        ORDER BY src.default_priority ASC) AS rn
+                      FROM by_volume_dosing bv
+                      JOIN sources src ON src.id = bv.source_id
+                  ) b
+                  JOIN substances s ON s.id = b.substance_id
+                 WHERE b.rn = 1
+            """)
+            let presetRows = try Row.fetchAll(db, sql: """
+                SELECT p.substance_id AS sid, p.kind, p.volume_ml, p.default_strength
+                  FROM drink_presets p
+                  JOIN sources src ON src.id = p.source_id
+                 ORDER BY src.default_priority ASC, p.rank ASC
+            """)
+            return (rows, presetRows)
+        }) ?? ([], [])
+
+        var presets: [Int64: [DrinkPreset]] = [:]
+        for row in presetRows {
+            guard let sid: Int64 = row["sid"],
+                  let raw: String = row["kind"],
+                  // A kind this build has no label or symbol for is dropped: the presets are
+                  // emoji-and-label chips, and a raw "kind" string is not one.
+                  let kind = DrinkPreset.Kind(rawValue: raw),
+                  let volume: Double = row["volume_ml"],
+                  let strength: Double = row["default_strength"] else { continue }
+            presets[sid, default: []].append(DrinkPreset(
+                kind: kind,
+                volume: Measurement(value: volume, unit: .milliliters),
+                defaultABV: strength,
+            ))
+        }
+
+        var byID: [Int64: ByVolumeDosing] = [:]
+        var out: [String: ByVolumeDosing] = [:]
+        for row in rows {
+            guard let sid: Int64 = row["sid"], let name: String = row["name"],
+                  row["concentration_kind"] == "percent_by_volume",
+                  let density: Double = row["density_g_per_ml"], density > 0,
+                  let unit: String = row["canonical_unit"] else { continue }
+            let capability = ByVolumeDosing(
+                concentration: .percentByVolume(densityGramsPerML: density),
+                canonicalUnit: unit,
+                standardUnitMass: row["standard_unit_mass"] ?? 0,
+                standardUnitLabel: row["standard_unit_label"] ?? "",
+                drinkPresets: presets[sid] ?? [],
+            )
+            byID[sid] = capability
+            out[name.lowercased()] = capability
+        }
+        guard !byID.isEmpty else { return out }
+        let aliasRows = (try? queue.read { db in
+            try Row.fetchAll(db, sql: """
+                SELECT substance_id AS sid, alias FROM aliases
+                 WHERE substance_id IN (\(byID.keys.map(String.init).joined(separator: ",")))
+            """)
+        }) ?? []
+        for row in aliasRows {
+            guard let sid: Int64 = row["sid"], let alias: String = row["alias"],
+                  let capability = byID[sid] else { continue }
+            out[alias.lowercased()] = capability
+        }
+        return out
+    }
+
+    /// The whole `zero_order_kinetics` table, as canonical name → the substance's saturable
+    /// elimination parameters. Carries no bioavailability: F is the same quantity `pk_routes`
+    /// already holds, and the caller pairs each row with the one
+    /// ``PharmacologyParameters/bioavailabilityFraction`` resolved, so the timeline and the
+    /// occupancy math can never read two different answers to it.
+    nonisolated static func zeroOrderKinetics(db queue: DatabaseQueue, order: [String]) -> [ZeroOrderEntry] {
+        let enabled = enabledSourceListSQL(order)
+        let priority = priorityCaseSQL(order)
+        let (rows, aliasRows): ([Row], [Row]) = (try? queue.read { db in
+            let rows = try Row.fetchAll(db, sql: """
+                SELECT z.substance_id AS sid, s.canonical_name AS name, z.vmax_mg_per_min,
+                       z.vmax_reference_weight_kg, z.ka_per_min
+                  FROM (
+                    SELECT zo.*, ROW_NUMBER() OVER (
+                        PARTITION BY zo.substance_id
+                        ORDER BY \(priority) ASC) AS rn
+                      FROM zero_order_kinetics zo
+                      JOIN sources src ON src.id = zo.source_id
+                     WHERE src.slug IN (\(enabled))
+                  ) z
+                  JOIN substances s ON s.id = z.substance_id
+                 WHERE z.rn = 1
+            """)
+            let aliasRows = try Row.fetchAll(db, sql: """
+                SELECT a.substance_id AS sid, a.alias
+                  FROM aliases a
+                 WHERE a.substance_id IN (SELECT substance_id FROM zero_order_kinetics)
+            """)
+            return (rows, aliasRows)
+        }) ?? ([], [])
+
+        var aliases: [Int64: [String]] = [:]
+        for row in aliasRows {
+            guard let sid: Int64 = row["sid"], let alias: String = row["alias"] else { continue }
+            aliases[sid, default: []].append(alias)
+        }
+        return rows.compactMap { row in
+            guard let sid: Int64 = row["sid"], let name: String = row["name"],
+                  let vmax: Double = row["vmax_mg_per_min"], vmax > 0,
+                  let referenceWeight: Double = row["vmax_reference_weight_kg"], referenceWeight > 0,
+                  let ka: Double = row["ka_per_min"], ka > 0 else { return nil }
+            return ZeroOrderEntry(
+                canonicalName: name,
+                lookupKeys: ([name] + (aliases[sid] ?? [])).map { $0.lowercased() },
+                row: ZeroOrderRow(vmaxMgPerMin: vmax, referenceWeightKg: referenceWeight, kaPerMin: ka),
+            )
+        }
     }
 
     /// The single-column name→id lookup on a given connection. `nonisolated static` so the off-main

@@ -133,6 +133,12 @@ final class SubstanceStore {
     /// source-derived (a representative's identity does not depend on the user's source order), so it
     /// is never invalidated.
     @ObservationIgnored private var classRepresentativeCache: [Int64: Set<ReceptorClasses.ReceptorClass>]?
+    /// `zero_order_kinetics` in full, keyed by canonical name: which substances clear at a fixed
+    /// mass-per-time, and the parameters their dose-scaled curve is drawn from. A handful of rows the
+    /// timeline consults for every logged dose, so it is read once and held. Source-derived (both the
+    /// row and the bioavailability it is paired with resolve by source priority), so it is cleared
+    /// with the equivalence caches.
+    @ObservationIgnored private var zeroOrderKineticsCache: [String: ZeroOrderProfile]?
 
     /// Name/alias (lowercased) → lightweight batch row, derived from `allCache`.
     /// This is the journal/timeline resolution path: it carries everything
@@ -525,6 +531,7 @@ final class SubstanceStore {
         tagSummaryCache = nil
         benzoEquivalenceCache = nil
         opioidEquivalenceCache = nil
+        zeroOrderKineticsCache = nil
     }
 
     /// Set the user's source priority order (highest priority first). Cleared
@@ -693,6 +700,9 @@ final class SubstanceStore {
             // Which spelling to display per region. Installed here because `displayTitle` reads it from
             // `nonisolated` code with no store reference — see `RegionalSubstanceName`.
             RegionalSubstanceName.load(SubstanceReadModel.regionalNames(db: substancesDB))
+            // Which substances take a by-volume dose input. Installed here for the same reason:
+            // `Substance.byVolumeDosing` is a computed property with no store reference.
+            ByVolumeCatalog.load(SubstanceReadModel.byVolumeCapabilities(db: substancesDB))
             self.allNames = names.map(\.0)
             // `uniquingKeysWith` (not `uniqueKeysWithValues:`) so a duplicate
             // lowercased canonical name (`MDMA`/`mdma` from an imported DB, or an
@@ -1219,6 +1229,46 @@ final class SubstanceStore {
         }) ?? []
         opioidEquivalenceCache = result
         return result
+    }
+
+    /// The substances whose clearing enzyme saturates across their dose range, keyed by lowercased
+    /// canonical name and by every alias — the answer to "does this substance get the dose-scaled
+    /// linear-decline curve, and with what parameters". Read once and held (see
+    /// ``zeroOrderKineticsCache``).
+    ///
+    /// Each row is paired here with the substance's own resolved
+    /// ``PharmacologyParameters/bioavailabilityFraction``: F is a `pk_routes` fact the resolver
+    /// already picks a coherent row for, so the curve reads the same number the occupancy math does.
+    func zeroOrderProfiles() -> [String: ZeroOrderProfile] {
+        if let cached = zeroOrderKineticsCache { return cached }
+        var out: [String: ZeroOrderProfile] = [:]
+        for entry in SubstanceReadModel.zeroOrderKinetics(db: substancesDB, order: enabledSourceOrder) {
+            let profile = ZeroOrderProfile(
+                row: entry.row,
+                bioavailability: pharmacologyParameters(forSubstanceName: entry.canonicalName)
+                    .bioavailabilityFraction ?? 1,
+            )
+            for key in entry.lookupKeys {
+                out[key] = profile
+            }
+        }
+        zeroOrderKineticsCache = out
+        return out
+    }
+
+    /// The weight-scaled zero-order kinetics for a substance, or `nil` when it eliminates
+    /// first-order like everything else — the switch the timeline, the phase bar and the elimination
+    /// readout all consult, replacing what used to be a name comparison in the curve engine.
+    func zeroOrderKinetics(forSubstanceName name: String, weightKg: Double) -> PKModel.ZeroOrderKinetics? {
+        guard let profile = zeroOrderProfiles()[name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()]
+        else { return nil }
+        return PKModel.zeroOrderKinetics(
+            vmaxMgPerMin: profile.row.vmaxMgPerMin,
+            referenceWeightKg: profile.row.referenceWeightKg,
+            kaPerMin: profile.row.kaPerMin,
+            bioavailability: profile.bioavailability,
+            weightKg: weightKg,
+        )
     }
 
     /// `class_representatives` as substance id → the tolerance classes that substance stands in for.
