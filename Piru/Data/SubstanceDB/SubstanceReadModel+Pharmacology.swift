@@ -453,7 +453,7 @@ extension SubstanceReadModel {
                            m.metabolite_active, m.metabolite_potency_vs_parent_pct,
                            m.metabolite_potency_basis, m.metabolite_potency_target,
                            m.metabolite_mechanism_vs_parent, m.metabolite_half_life_min,
-                           m.formation_fraction_pct, m.route,
+                           m.formation_fraction_pct, m.route, m.conditional_combination_id,
                            src.slug AS source_slug, c.doi, c.pmid,
                            -- The metabolite's OWN sourced half-life, when we carry it as a
                            -- substance. Linking beats copying (see the `metabolite_substance_id`
@@ -504,6 +504,8 @@ extension SubstanceReadModel {
                             ?? (row["metabolite_half_life_min"] as Double?),
                         formationFractionPct: row["formation_fraction_pct"],
                         route: row["route"],
+                        conditionalCombinationID: (row["conditional_combination_id"] as String?)
+                            .flatMap(CombinationMetabolite.CombinationID.init(rawValue:)),
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
                         pmid: (row["pmid"] as Int64?).map(Int.init),

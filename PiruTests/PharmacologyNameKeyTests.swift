@@ -68,14 +68,18 @@ struct PharmacologyNameKeyTests {
         #expect(SubstanceModelDatabase.isCalibratedTrigger("lisdexamfetamine"))
     }
 
-    /// A brand name reaches the metabolic-modulation catalog through the
-    /// shared aliases (Equetro → carbamazepine, a moderate 3A4 inducer).
+    /// A brand name reaches the `enzyme_modulators` rules through the shared
+    /// aliases (Equetro → carbamazepine, a moderate 3A4 inducer). The rules' own
+    /// matcher rows are a *third* relation again, so this gates that the hop from
+    /// a brand to a rule still runs through the half-life table's aliases.
     @Test
+    @MainActor
     func `Metabolic modulation matches brand names via the shared aliases`() {
-        #expect(MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: "Equetro") != nil)
-        #expect(MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: "Tegretol") != nil)
-        #expect(MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: "carbamazepine") != nil)
-        #expect(MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: "sertraline") == nil)
+        let catalog = SubstanceStore.shared.enzymeModulators()
+        #expect(MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: "Equetro", in: catalog) != nil)
+        #expect(MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: "Tegretol", in: catalog) != nil)
+        #expect(MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: "carbamazepine", in: catalog) != nil)
+        #expect(MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: "sertraline", in: catalog) == nil)
     }
 }
 

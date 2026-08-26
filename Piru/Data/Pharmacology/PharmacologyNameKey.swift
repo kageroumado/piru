@@ -1,15 +1,16 @@
 import Foundation
 
-/// The one substance-name folding + lookup mechanism for the hardcoded
-/// pharmacology tables (`HalfLifeDatabase`, `SubstanceModelDatabase`,
+/// The one substance-name folding + lookup mechanism for the pharmacology
+/// tables (`HalfLifeDatabase`, `SubstanceModelDatabase`,
 /// `MechanismOfActionDatabase`, `MetabolicModulation`).
 ///
-/// Each table keeps its **own** alias map — only the mechanism is shared.
-/// Never merge the alias tables: they encode different relations. To
-/// `HalfLifeDatabase`, `lisdexamfetamine` is its own compound (its own
-/// half-life); to `SubstanceModelDatabase`, it aliases to `amphetamine`
-/// (it must inherit amphetamine's PD scalars). One shared table would force
-/// one table's relation onto the other.
+/// Each table keeps its **own** alias relation — only the mechanism is shared.
+/// Never merge them: they encode different questions. To `HalfLifeDatabase`,
+/// `lisdexamfetamine` is its own compound (its own half-life); to
+/// `SubstanceModelDatabase`, it aliases to `amphetamine` (it must inherit
+/// amphetamine's PD scalars). One shared table would force one relation onto
+/// the other. `MetabolicModulation`'s lives in the database, in
+/// `pharmacology_matchers` under its own `relation` value, for the same reason.
 nonisolated enum PharmacologyNameKey {
     /// The one fold: lowercased, whitespace/newline-trimmed.
     static func fold(_ name: String) -> String {

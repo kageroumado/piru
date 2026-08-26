@@ -46,6 +46,11 @@ extension SubstanceStore {
         /// The route of administration this row applies to, when route-specific
         /// (e.g. oral vs inhaled THC → 11-OH-THC). Nil = route-agnostic.
         let route: String?
+        /// Non-nil when this metabolite forms only alongside a second drug, naming
+        /// the ``CombinationMetabolite`` combination that says which. Such a row
+        /// must stay out of the parent's unconditional "Also Active" fold: the body
+        /// makes cocaethylene while ethanol is present, not whenever cocaine is.
+        let conditionalCombinationID: CombinationMetabolite.CombinationID?
         let sourceSlug: String
         let doi: String?
         let pmid: Int?

@@ -139,7 +139,9 @@ final class SubstanceDetailModel {
         // Contraceptive-efficacy caution — a CYP3A4 inducer (modafinil,
         // rifampicin…) can lower hormonal-contraception levels. Ungated like a
         // boxed warning: a safety fact for every tier.
-        contraceptionCaution = MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: substanceName)
+        contraceptionCaution = MetabolicModulation.contraceptiveEfficacyCaution(
+            forSubstance: substanceName, in: store.enzymeModulators(),
+        )
 
         // Binding rows feed two surfaces: the pharma-nerd "Receptor Literature"
         // list AND the broader "Monoamine Profile" card. The card loads for the
@@ -200,7 +202,9 @@ final class SubstanceDetailModel {
         activeMetabolites = Self.foldActiveMetabolites(from: rows)
         cyp2d6Info = CYP2D6Info.from(metabolismRows: rows)
         metabolicEducation = policy.showsMechanism
-            ? MetabolicModulation.educationalEffects(forSubstance: substanceName, metabolism: rows)
+            ? MetabolicModulation.educationalEffects(
+                forSubstance: substanceName, metabolism: rows, catalog: store.enzymeModulators(),
+            )
             : []
     }
 
@@ -220,8 +224,8 @@ final class SubstanceDetailModel {
             // Combination-only species (cocaethylene, ethylphenidate) form solely
             // while a second drug is onboard, so they must not read as an
             // unconditional metabolite of the parent — they surface through
-            // `CombinationMetabolite.formed(among:)`, gated on co-occurrence.
-            guard !CombinationMetabolite.isConditional(name) else { continue }
+            // `CombinationMetabolite.formed(among:catalog:)`, gated on co-occurrence.
+            guard row.conditionalCombinationID == nil else { continue }
             let key = name.lowercased()
             if byName[key] == nil { order.append(key) }
             byName[key, default: []].append(row)

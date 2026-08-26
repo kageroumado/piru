@@ -133,6 +133,11 @@ final class SubstanceStore {
     /// source-derived (a representative's identity does not depend on the user's source order), so it
     /// is never invalidated.
     @ObservationIgnored private var classRepresentativeCache: [Int64: Set<ReceptorClasses.ReceptorClass>]?
+    /// `enzyme_modulators` in full — a dozen rules every substance page and the interaction checker
+    /// join against. Not source-derived (a rule's identity is a curated id, not a substance), so it is
+    /// read once and never invalidated. ``combinationMetaboliteCache`` is the same shape.
+    @ObservationIgnored private var enzymeModulatorCache: [MetabolicModulation.Modulator]?
+    @ObservationIgnored private var combinationMetaboliteCache: [CombinationMetabolite.Definition]?
 
     /// Name/alias (lowercased) → lightweight batch row, derived from `allCache`.
     /// This is the journal/timeline resolution path: it carries everything
@@ -1219,6 +1224,25 @@ final class SubstanceStore {
         }) ?? []
         opioidEquivalenceCache = result
         return result
+    }
+
+    /// The curated metabolic-modulation rules — which drug or lifestyle context inhibits or induces
+    /// which clearing enzyme. The substrate side is not stored: ``MetabolicModulation`` joins these
+    /// against a substance's own `metabolism` rows, so one rule reaches every drug that enzyme clears.
+    func enzymeModulators() -> [MetabolicModulation.Modulator] {
+        if let cached = enzymeModulatorCache { return cached }
+        let loaded = SubstanceReadModel.enzymeModulators(db: substancesDB)
+        enzymeModulatorCache = loaded
+        return loaded
+    }
+
+    /// The curated pair-generated active species (cocaethylene, ethylphenidate) with their precursor
+    /// slots. Read once and held; ``CombinationMetabolite`` matches against them.
+    func combinationMetabolites() -> [CombinationMetabolite.Definition] {
+        if let cached = combinationMetaboliteCache { return cached }
+        let loaded = SubstanceReadModel.combinationMetabolites(db: substancesDB)
+        combinationMetaboliteCache = loaded
+        return loaded
     }
 
     /// `class_representatives` as substance id → the tolerance classes that substance stands in for.
