@@ -3354,6 +3354,22 @@
         }
       }
     },
+    "%lld RCTs" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld项随机对照试验"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld項隨機對照試驗"
+          }
+        }
+      }
+    },
     "%lld records" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3462,6 +3478,22 @@
         }
       }
     },
+    "%lld trials" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld项试验"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld項試驗"
+          }
+        }
+      }
+    },
     "%lld with half-life data" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3514,6 +3546,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "連續 %1$lld 天 · 本月 %2$@"
+          }
+        }
+      }
+    },
+    "%lld–%lld days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld–%lld 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld–%lld 天"
+          }
+        }
+      }
+    },
+    "%lld–%lld hours" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld–%lld 小时"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld–%lld 小時"
           }
         }
       }
@@ -4858,7 +4922,24 @@
         }
       }
     },
+    "1 RCT (n = %lld) + open study (n = 282)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1项随机对照试验 (n = %lld) + 开放研究 (n = 282)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1項隨機對照試驗 (n = %lld) + 開放研究 (n = 282)"
+          }
+        }
+      }
+    },
     "1 RCT (n = 106) + open study (n = 282)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4907,6 +4988,7 @@
       }
     },
     "1–2 days" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4923,6 +5005,7 @@
       }
     },
     "1–4 days" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4971,6 +5054,7 @@
       }
     },
     "2 trials" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5003,6 +5087,7 @@
       }
     },
     "2–7 days" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5019,6 +5104,7 @@
       }
     },
     "3 RCTs" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5035,6 +5121,7 @@
       }
     },
     "3–7 days" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5087,6 +5174,7 @@
 
     },
     "5–14 days" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5103,6 +5191,7 @@
       }
     },
     "6–24 hours" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14913,6 +15002,7 @@
       }
     },
     "Clinical consensus" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35756,7 +35846,40 @@
         }
       }
     },
+    "n = %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n = %lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n = %lld"
+          }
+        }
+      }
+    },
+    "n = %lld, underpowered" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n = %lld，统计效力不足"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "n = %lld，統計效力不足"
+          }
+        }
+      }
+    },
     "n = 19, underpowered" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35773,6 +35896,7 @@
       }
     },
     "n = 40" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35789,6 +35913,7 @@
       }
     },
     "n = 108" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35805,6 +35930,7 @@
       }
     },
     "n = 144" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35821,6 +35947,7 @@
       }
     },
     "n = 244" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -43921,7 +44048,24 @@
         }
       }
     },
+    "RCT, n = %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随机对照试验，n = %lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨機對照試驗，n = %lld"
+          }
+        }
+      }
+    },
     "RCT, n = 78" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -43938,6 +44082,7 @@
       }
     },
     "RCT, n = 107" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

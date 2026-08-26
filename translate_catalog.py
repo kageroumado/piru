@@ -6824,6 +6824,17 @@ T = {
         "減量成功率82.6% vs 安慰劑37.5%。",
     ),
     "RCT, n = 107": ("随机对照试验，n = 107", "隨機對照試驗，n = 107"),
+    "%lld–%lld days": ("%lld–%lld 天", "%lld–%lld 天"),
+    "%lld–%lld hours": ("%lld–%lld 小时", "%lld–%lld 小時"),
+    "RCT, n = %lld": ("随机对照试验，n = %lld", "隨機對照試驗，n = %lld"),
+    "n = %lld": ("n = %lld", "n = %lld"),
+    "n = %lld, underpowered": ("n = %lld，统计效力不足", "n = %lld，統計效力不足"),
+    "%lld RCTs": ("%lld项随机对照试验", "%lld項隨機對照試驗"),
+    "%lld trials": ("%lld项试验", "%lld項試驗"),
+    "1 RCT (n = %lld) + open study (n = 282)": (
+        "1项随机对照试验 (n = %lld) + 开放研究 (n = 282)",
+        "1項隨機對照試驗 (n = %lld) + 開放研究 (n = 282)",
+    ),
     "More patients BZD-free at week 5; lower withdrawal incidence and anxiety in elderly.": (
         "第5周时更多患者已停用苯二氮卓；老年患者戒断发生率和焦虑均降低。",
         "第5週時更多患者已停用苯二氮卓；老年患者戒斷發生率和焦慮均降低。",
@@ -7164,6 +7175,14 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "%lld–%lld days",
+        "%lld–%lld hours",
+        "RCT, n = %lld",
+        "n = %lld",
+        "n = %lld, underpowered",
+        "%lld RCTs",
+        "%lld trials",
+        "1 RCT (n = %lld) + open study (n = 282)",
         "%@ (transdermal)",
         "Methadone's half-life is long and variable, and its peak effect on breathing arrives later and lasts longer than its peak pain relief — so a converted dose can look adequate while the risk is still building. CDC publishes a single factor for population-level accounting; Piru will not use it to convert a dose. This one belongs to a clinician.",
         "Transdermal fentanyl is dosed in micrograms per hour — a rate, not a mass, so it shares no unit space with the mg-based table (CDC gives 2.4 MME per mcg/hr). Absorption also changes with heat and other factors.",
