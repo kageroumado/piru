@@ -9,6 +9,26 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # The opioid converter's picker label for transdermal fentanyl: fentanyl shares
+    # one substance row across every route, so the route is what disambiguates it.
+    "%@ (transdermal)": ("%@（透皮贴）", "%@（穿皮貼片）"),
+    # Why the converter will not convert methadone. CDC 2022 does publish a single
+    # factor (4.7) for population-level accounting; Piru declines to use it, so the
+    # copy states Piru's choice rather than a claim about CDC.
+    "Methadone's half-life is long and variable, and its peak effect on breathing arrives later and lasts longer than its peak pain relief — so a converted dose can look adequate while the risk is still building. CDC publishes a single factor for population-level accounting; Piru will not use it to convert a dose. This one belongs to a clinician.": (
+        "美沙酮的半衰期长且个体差异大，对呼吸的最强抑制出现得比镇痛高峰更晚、持续更久——因此换算出的剂量看起来足够时，风险可能仍在累积。CDC 确实公布了一个用于人群统计的换算系数，但 Piru 不会用它来换算剂量。这一项应交由临床医生处理。",
+        "美沙酮的半衰期長且個體差異大，對呼吸的最強抑制出現得比鎮痛高峰更晚、持續更久——因此換算出的劑量看起來足夠時，風險可能仍在累積。CDC 確實公布了一個用於人群統計的換算係數，但 Piru 不會用它來換算劑量。這一項應交由臨床醫師處理。",
+    ),
+    # Why transdermal fentanyl cannot share the mg-based table.
+    "Transdermal fentanyl is dosed in micrograms per hour — a rate, not a mass, so it shares no unit space with the mg-based table (CDC gives 2.4 MME per mcg/hr). Absorption also changes with heat and other factors.": (
+        "透皮芬太尼以每小时微克数给药——那是速率而非质量，与以毫克为单位的换算表不在同一单位体系（CDC 给出每 mcg/hr 折合 2.4 MME）。其吸收还会随体温和其他因素变化。",
+        "穿皮吩坦尼以每小時微克數給藥——那是速率而非質量，與以毫克為單位的換算表不在同一單位體系（CDC 給出每 mcg/hr 折合 2.4 MME）。其吸收還會隨體溫和其他因素變化。",
+    ),
+    # Why buprenorphine is excluded from MME entirely.
+    "Buprenorphine is a partial agonist with a ceiling on its effect on breathing, so risk doesn't scale the way a full agonist's does. CDC excludes it from MME entirely and says it should not be counted toward a daily total.": (
+        "丁丙诺啡是部分激动剂，对呼吸的抑制存在封顶效应，因此风险不会像完全激动剂那样随剂量线性上升。CDC 将其完全排除在 MME 之外，并指出不应计入每日总量。",
+        "丁丙諾啡是部分激動劑，對呼吸的抑制存在封頂效應，因此風險不會像完全激動劑那樣隨劑量線性上升。CDC 將其完全排除在 MME 之外，並指出不應計入每日總量。",
+    ),
     # The signalling cascade's own label in the pharmacology card, so it does
     # not read as a second mechanism description.
     "Downstream": ("下游", "下游"),
@@ -7144,6 +7164,10 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "%@ (transdermal)",
+        "Methadone's half-life is long and variable, and its peak effect on breathing arrives later and lasts longer than its peak pain relief — so a converted dose can look adequate while the risk is still building. CDC publishes a single factor for population-level accounting; Piru will not use it to convert a dose. This one belongs to a clinician.",
+        "Transdermal fentanyl is dosed in micrograms per hour — a rate, not a mass, so it shares no unit space with the mg-based table (CDC gives 2.4 MME per mcg/hr). Absorption also changes with heat and other factors.",
+        "Buprenorphine is a partial agonist with a ceiling on its effect on breathing, so risk doesn't scale the way a full agonist's does. CDC excludes it from MME entirely and says it should not be counted toward a daily total.",
         "<1% elemental",
         "Curated",
         "curated entry",

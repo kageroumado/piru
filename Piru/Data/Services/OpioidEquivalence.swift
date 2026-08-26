@@ -15,6 +15,13 @@ import Foundation
 /// un-convertible case is UI copy and stays here, keyed by
 /// ``Convertibility`` — so it is localized like every other string the reader
 /// sees, and a row can never ship an untranslated reason.
+///
+/// No daily-MME risk band belongs here. CDC 2022 removed the 90 MME/day
+/// threshold its 2016 guideline carried, and reframed 50 as a point to "pause
+/// and carefully reassess" while stating the dosage recommendations "are not
+/// intended to be used as an inflexible, rigid standard of care." A band that
+/// sorts a day's total into caution/high-risk asserts the rigidity the source
+/// withdrew — and reads as a verdict on the reader besides.
 nonisolated struct OpioidEquivalence: Identifiable {
     let name: String
     let displayName: String
@@ -77,10 +84,4 @@ nonisolated struct OpioidEquivalence: Identifiable {
               let targetFactor = target.mmePerMg, targetFactor > 0 else { return nil }
         return mme / targetFactor
     }
-}
-
-nonisolated extension OpioidEquivalence {
-    /// CDC daily-MME risk reference bands (per day, oral morphine equivalents).
-    static let cautionMMEPerDay: Double = 50
-    static let highRiskMMEPerDay: Double = 90
 }

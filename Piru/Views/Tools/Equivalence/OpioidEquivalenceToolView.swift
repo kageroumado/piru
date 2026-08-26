@@ -1,9 +1,9 @@
 import SwiftUI
 
-/// The **Opioid Equivalence** converter. Piru already carries oral MME factors
-/// internally (for tolerance PK); this surfaces them as a harm-reduction tool —
-/// convert a dose of one opioid to another via oral morphine equivalents (MME),
-/// with the CDC daily-risk bands and the mandatory cross-tolerance warning.
+/// The **Opioid Equivalence** converter. The oral MME factors the tolerance model
+/// already reads (`opioid_mme`) surfaced as a tool: a dose of one opioid expressed
+/// as another, routed through oral morphine equivalents, with the cross-tolerance
+/// warning that makes the number usable.
 ///
 /// Pure full-agonist opioids convert linearly. Methadone, transdermal fentanyl,
 /// and buprenorphine are structurally un-convertible (see ``OpioidEquivalence``)
@@ -177,32 +177,17 @@ struct OpioidEquivalenceToolView: View {
         .themeCard()
     }
 
-    /// The oral-MME readout with the CDC daily-risk band (if this were a daily dose).
+    /// The oral-MME readout.
+    ///
+    /// No daily caution/high-risk band: CDC 2022 dropped its 90 MME/day threshold and
+    /// reframed 50 as a point to pause and reassess rather than a line, so grading one
+    /// converted dose against either would claim more than the source does. What the
+    /// reader needs about MME as a metric is in ``safetyCard``.
     private func mmeBadge(_ mme: Double) -> some View {
-        let band = riskBand(mme)
-        return VStack(spacing: 4) {
-            Text("≈ \(EquivalenceFormat.mg(mme)) mg oral morphine equivalent")
-                .font(.caption.weight(.medium))
-                .foregroundStyle(.primary)
-            Text(band.label)
-                .font(.caption2.weight(.semibold))
-                .foregroundStyle(band.color)
-            Text("CDC daily-risk bands: ≥ \(Int(OpioidEquivalence.cautionMMEPerDay)) MME caution, ≥ \(Int(OpioidEquivalence.highRiskMMEPerDay)) MME high-risk (per day).")
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-                .multilineTextAlignment(.center)
-        }
-        .padding(.top, 4)
-    }
-
-    private func riskBand(_ mme: Double) -> (label: LocalizedStringResource, color: Color) {
-        if mme >= OpioidEquivalence.highRiskMMEPerDay {
-            return ("If taken over a day, this is a high-risk daily MME.", .red)
-        }
-        if mme >= OpioidEquivalence.cautionMMEPerDay {
-            return ("If taken over a day, this reaches the CDC caution band.", .orange)
-        }
-        return ("Below the CDC daily caution band.", .green)
+        Text("≈ \(EquivalenceFormat.mg(mme)) mg oral morphine equivalent")
+            .font(.caption.weight(.medium))
+            .foregroundStyle(.primary)
+            .padding(.top, 4)
     }
 
     private var fallbackReason: LocalizedStringResource {

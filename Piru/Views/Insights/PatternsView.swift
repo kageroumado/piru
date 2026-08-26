@@ -174,28 +174,27 @@ private struct ExposureCard: View {
     }
 }
 
-/// The CDC daily-MME risk band, plainly stated. The colored band is a reference,
-/// not a verdict — the copy says so.
+/// The opioid total in morphine-milligram equivalents — the reader's own numbers,
+/// converted.
+///
+/// No caution/high-risk band and no traffic-light color. CDC 2022 removed the 90
+/// MME/day threshold and reframed 50 as a point to "pause and carefully reassess",
+/// stating its dosage recommendations "are not intended to be used as an
+/// inflexible, rigid standard of care" — so sorting a day into red/orange/green
+/// would assert a rigidity the source withdrew, and hand the reader a verdict
+/// where the number was the point. The substantive warnings live in the opioid
+/// converter's safety card, where they are advice rather than a grade.
 private struct MMEBand: View {
     let peakDayMME: Double
     let dailyMean: Double
 
-    private var band: (color: Color, label: LocalizedStringKey) {
-        if peakDayMME >= OpioidEquivalence.highRiskMMEPerDay { (.red, "at or above the CDC 90 MME/day reference") }
-        else if peakDayMME >= OpioidEquivalence.cautionMMEPerDay { (.orange, "at or above the CDC 50 MME/day reference") }
-        else { (.green, "below the CDC 50 MME/day reference") }
-    }
-
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
-            Image(systemName: "cross.case.fill")
-                .foregroundStyle(band.color)
+            Image(systemName: "cross.case")
+                .foregroundStyle(.blue)
             VStack(alignment: .leading, spacing: 2) {
                 Text("Opioids: peak day ≈ \(peakDayMME.formatted(.number.precision(.fractionLength(0)))) MME")
                     .font(.subheadline.weight(.semibold))
-                Text(band.label)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
                 Text("Average \(dailyMean.formatted(.number.precision(.fractionLength(0 ... 1)))) MME/day over the range")
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -203,7 +202,6 @@ private struct MMEBand: View {
             Spacer()
         }
         .padding(10)
-        .background(band.color.opacity(0.12), in: .rect(cornerRadius: 10))
     }
 }
 
