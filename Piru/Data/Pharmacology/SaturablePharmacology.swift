@@ -256,9 +256,8 @@ enum SaturablePharmacology {
     ///
     /// The resolver's fallback when a substance has no measured F is `1.0`, badged `.unverified` —
     /// which is the consistent reading where the stored Vd is an apparent V/F, but not where this
-    /// table supplies a true Vd. Phenytoin is that case today: no `pk_routes` row carries its F, so its
-    /// curve is drawn at F = 1 and reads ~11% higher than a measured ~0.9 would give. The fix is a
-    /// sourced `pk_routes` row, not a column here.
+    /// table supplies a true Vd. A profile in that position wants a sourced `pk_routes` row, never a
+    /// column here: a second copy is what lets the two disagree.
     private static func resolvedBioavailability(_ substanceName: String) -> Double {
         SubstanceStore.shared.pharmacologyParameters(forSubstanceName: substanceName)
             .bioavailabilityFraction ?? 1

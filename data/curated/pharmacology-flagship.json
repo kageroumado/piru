@@ -16,11 +16,11 @@
     "pk_routes": [
       {
         "route": "oral",
-        "vd_l_per_kg": 3.4,
         "bioavailability_pct": 6,
-        "half_life_min": 180,
+        "half_life_min": 1320,
         "confidence": "HIGH",
-        "reference": "PMID 30001569"
+        "reference": "PMID 30001569",
+        "notes": "Terminal t½ 22 h, from the population model the cited review describes; its fast initial phase is ~6 min. The Vd 3.4 L/kg the same review reports is Vdss measured after INHALED dosing, so it does not belong on an oral row."
       }
     ]
   },
@@ -1218,6 +1218,18 @@
         "confidence": "MEDIUM",
         "reference": "10.1016/j.bmcl.2022.128637",
         "notes": "Real measured Ki despite being a designer benzo (8-bromo-alprazolam analog, Cook lab). Single med-chem source, no independent replication. NOT bromazepam."
+      }
+    ]
+  },
+  {
+    "name": "Phenytoin",
+    "pk_routes": [
+      {
+        "route": "oral",
+        "bioavailability_pct": 90,
+        "confidence": "MEDIUM",
+        "reference": "pmid:21233690",
+        "notes": "Absolute F by simultaneous oral dose plus stable-labelled parenteral phenytoin in steady-state epilepsy patients — the method that sidesteps the nonlinear kinetics an AUC ratio cannot handle here. 86.4 ± 19.4% in patients 21–49 and 92.5 ± 25.2% in patients 65–93; the spread between patients is wider than the difference between the strata. One value serves every oral form: formulation changes absorption RATE, not extent (Doak 1998, acid suspension 0.88 ± 0.15 vs sodium solution 0.91 ± 0.7), and no FDA label states an absolute F at all."
       }
     ]
   }

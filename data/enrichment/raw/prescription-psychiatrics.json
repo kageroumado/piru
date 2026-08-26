@@ -2115,14 +2115,14 @@
           "cmax_ng_per_ml": null,
           "tmax_min": 60,
           "auc_0_inf_ng_h_per_ml": null,
-          "half_life_min": 90,
+          "half_life_min": 696,
           "vd_l_per_kg": null,
           "clearance_ml_per_min_per_kg": null,
           "protein_binding_pct": null,
-          "dose_in_study_mg": 45,
+          "dose_in_study_mg": 30,
           "subject_n": null,
-          "subject_demographics": "Healthy adults; phenelzine PK poorly characterised in humans because of its rapid clearance and the dominance of the irreversible PD effect.",
-          "reference": "pmid:1813896"
+          "subject_demographics": "Healthy adults, single 30 mg dose. The plasma half-life says nothing about how long the drug acts: MAO inhibition is irreversible and outlasts it by about two weeks.",
+          "reference": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=513a41d0-37d4-4355-8a6d-a2c643bce6fa"
         }
       ],
       "concentration_effect": []

@@ -11,7 +11,7 @@
     "mg_per_kg_per_day": "Weight-scaled rate in mg/kg/day; scaled by weight and converted per-day → per-minute, then divided by Vd (the weight cancels)."
   },
   "_uncited": "kaPerMin is a relocated Swift literal with no source in the ceiling-kinetics evidence run. Each value is consistent with the substance's own cited Tmax in pk_routes (alcohol 45 min, gabapentin 180 min) but was not measured; treat them as model inputs awaiting a source rather than reported constants.",
-  "_noBioavailability": "Oral F is deliberately absent: it is resolved from pk_routes like every other consumer's, so a correction reaches this tool without a second copy to remember. Phenytoin carries no F in pk_routes at all and therefore falls to the resolver's unverified F = 1.0 default — a real gap in pk_routes, not something to patch back in here.",
+  "_noBioavailability": "Oral F is deliberately absent: it is resolved from pk_routes like every other consumer's, so a correction reaches this tool without a second copy to remember.",
   "profiles": [
     {
       "substance": "Alcohol",

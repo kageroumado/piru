@@ -47,11 +47,7 @@ DEFAULT_DB = REPO / "Piru/Data/piru-substances.sqlite"
 #: Substances whose unexplained contradiction is known, logged, and awaiting a
 #: sourced fix (Specs/found-defects.md). A waiver only suppresses the gate; the
 #: report still prints the row. Remove the entry when the data is corrected.
-WAIVERS: dict[str, str] = {
-    "Methylone": "half_lives 90 vs pk_routes ~384 — genuine contradiction, needs a sourced fix",
-    "Phenelzine": "half_lives 384/696 vs pk_routes ~90 — genuine contradiction, needs a sourced fix",
-    "THC": "half_lives ~1800 vs a human oral pk_routes row of 180 — the 180 reads like a distribution-phase t1/2 recorded as terminal; unverified, needs a sourced fix",
-}
+WAIVERS: dict[str, str] = {}
 
 
 def load(db_path: Path):

@@ -44554,7 +44554,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 90.0,
+    "half_life_minutes": 384.0,
     "mechanism_summary": "MDMC是一种对血清素、去甲肾上腺素与多巴胺都起作用的混合型神经递质再摄取抑制剂/神经递质释放剂。这些神经递质被认为负责调节愉悦感、动机、专注以及幸福感。其作用机制是抑制这些神经递质在完成神经冲动传递之后的再摄取与再吸收，使它们能够积累并被再次利用，从而产生刺激性与欣快性效应。\n\n与 MDMA 相比，MDMC对血清素转运体的亲和力大约低 3 倍（MDMC Ki=242.1 nM，而 MDMA 的 Ki=72 nM），而它对去甲肾上腺素与多巴胺转运体的亲和力则较为接近。值得注意的是，MDMC对囊泡单胺转运体 2（VMAT2）的亲和力大约比 MDMA 低 13 倍。\n\n由于与 MDMA 在药理学上存在这些差异，MDMC在剂量层面上的效力较低，相比血清素能效应，它的儿茶酚胺能效应更为平衡，而且它的行为方式更接近于像哌甲酯这样的神经递质再摄取抑制剂，而不是像苯丙胺那样的释放剂；不过，MDMC依然具有相当明显的释放能力。",
     "effects": [
       "Analysis enhancement",
@@ -44583,6 +44583,7 @@
       "Wakefulness"
     ],
     "references": [
+      "Methylone and MDMA Pharmacokinetics Following Controlled Administration in Humans",
       "https://en.wikipedia.org/wiki/Methylone"
     ],
     "data_gaps": []
@@ -59659,6 +59660,7 @@
       "Increased appetite"
     ],
     "references": [
+      "Human cannabinoid pharmacokinetics",
       "https://en.wikipedia.org/wiki/Tetrahydrocannabinol"
     ],
     "data_gaps": []

@@ -73,7 +73,7 @@
     "Cardiovascular strain at high doses",
     "Linked to serotonin syndrome with MAOIs"
   ],
-  "halfLifeMinutes": 90,
+  "halfLifeMinutes": 384,
   "sources": [
     "https://en.wikipedia.org/wiki/Methylone",
     "https://psychonautwiki.org/wiki/Methylone"
@@ -83,5 +83,6 @@
     "MDMA-analog",
     "empathogen-adjacent",
     "research-chemical"
-  ]
+  ],
+  "halfLifeSource": "pmid:36498963"
 }

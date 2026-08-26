@@ -63,7 +63,6 @@ nonisolated enum HalfLifeDatabase {
         "4-fa": 300,
         "2-fma": 360,
         "3-fpm": 360,
-        "nep": 180,
         "hexen": 180,
         "phenylpiracetam": 180,
         "ephedrine": 360,
@@ -72,7 +71,6 @@ nonisolated enum HalfLifeDatabase {
         "propylhexedrine": 240,
         "isopropylphenidate": 180,
         "mda": 360,
-        "methylone": 120,
         "ethylphenidate": 180,
         "3-mmc": 180,
         // No human PK study for 2-MMC (orthophedrone); matched to its positional
@@ -111,7 +109,6 @@ nonisolated enum HalfLifeDatabase {
         "theacrine": 540,
         "rti-111": 180,
         "bromantane": 660,
-        "n-ethylpentedrone": 120,
 
         // --- Opioids ---
         "morphine": 180,
@@ -684,7 +681,6 @@ nonisolated enum HalfLifeDatabase {
         "4-fluoroamphetamine": "4-fa",
         "2-fluoromethamphetamine": "2-fma",
         "3-fluorophenmetrazine": "3-fpm",
-        "n-ethylpentedrone": "nep",
         "n-ethylhexedrone": "hexen",
         "ethyl-hexedrone": "hexen",
         "fonturacetam": "phenylpiracetam",
@@ -696,8 +692,6 @@ nonisolated enum HalfLifeDatabase {
         "tenamfetamine": "mda",
         "sass": "mda",
         "sally": "mda",
-        "methylene": "methylone",
-        "bk-mdma": "methylone",
         "3-methylmethcathinone": "3-mmc",
         "2-methylmethcathinone": "2-mmc",
         "orthophedrone": "2-mmc",
