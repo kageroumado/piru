@@ -11,7 +11,11 @@ struct BenzoDurationSection: View {
 
     private var rungs: [BenzoDurationLadder.Rung] {
         guard substance.category == .benzodiazepine else { return [] }
-        return BenzoDurationLadder.rungs(for: substance, metabolites: model.activeMetabolites) {
+        return BenzoDurationLadder.rungs(
+            for: substance,
+            metabolites: model.activeMetabolites,
+            references: SubstanceStore.shared.benzoLadderReferenceNames(),
+        ) {
             SubstanceLibrary.lookup($0)
         }
     }

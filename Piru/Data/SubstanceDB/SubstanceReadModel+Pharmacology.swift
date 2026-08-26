@@ -422,6 +422,19 @@ extension SubstanceReadModel {
         return out
     }
 
+    /// The recognisable names one comparison family is drawn against, most prominent first.
+    nonisolated static func referenceCompounds(db queue: DatabaseQueue, family: String) -> [String] {
+        (try? queue.read { db in
+            try String.fetchAll(db, sql: """
+                SELECT s.canonical_name
+                  FROM class_reference_compounds r
+                  JOIN substances s ON s.id = r.substance_id
+                 WHERE r.family = ?
+                 ORDER BY r.rank
+            """, arguments: [family])
+        }) ?? []
+    }
+
     /// The whole `saturable_kinetics` table in curated display order — every substance whose
     /// dose→exposure relationship is not proportional, with the Michaelis-Menten constants for the
     /// ones that have clean human values and nothing but a mechanism for the ones that do not.

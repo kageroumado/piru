@@ -13,14 +13,6 @@ import Foundation
 /// cannot feed it — 2 of 66 benzodiazepines carry a full set. Don't reintroduce
 /// it as an axis until that changes.
 enum BenzoDurationLadder {
-    /// The compounds the ladder is drawn against: prescribed benzodiazepines
-    /// spanning the range, chosen for recognition rather than coverage. A reader
-    /// placing an unfamiliar compound needs rungs they already know, so a
-    /// research chemical never anchors the scale even when it would widen it.
-    static let referenceNames = [
-        "Triazolam", "Midazolam", "Alprazolam", "Lorazepam", "Clonazepam", "Diazepam",
-    ]
-
     /// One rung: a compound and its elimination half-life.
     struct Rung: Identifiable, Hashable {
         let name: String
@@ -60,11 +52,12 @@ enum BenzoDurationLadder {
     static func rungs(
         for substance: Substance,
         metabolites: [ActiveMetabolite] = [],
+        references: [String],
         lookup: (String) -> Substance?,
     ) -> [Rung] {
         guard let own = substance.halfLifeMinutes, own > 0 else { return [] }
         var byName: [String: Rung] = [:]
-        for name in referenceNames {
+        for name in references {
             guard let reference = lookup(name), let halfLife = reference.halfLifeMinutes, halfLife > 0
             else { continue }
             byName[reference.displayTitle] = Rung(

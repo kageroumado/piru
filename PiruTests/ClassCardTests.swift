@@ -8,6 +8,27 @@ import Testing
 @Suite("Class cards")
 @MainActor
 struct ClassCardTests {
+    /// The ladder's rungs are `class_reference_compounds` rows now, so every ladder test needs the
+    /// store up. A rung list that came back empty would make each of them pass vacuously, which is
+    /// why the count is gated once here rather than asserted per test.
+    private let references: [String]
+
+    init() {
+        references = SubstanceStore.shared.benzoLadderReferenceNames()
+    }
+
+    @Test
+    func `The ladder has its reference compounds`() {
+        #expect(references.count == 6, "expected 6 ladder rungs, found \(references.count)")
+        // Ordered shortest-acting first: the ladder is drawn in that order and a
+        // curated rank that inverted would draw it upside down.
+        let halfLives = references.compactMap { SubstanceLibrary.lookup($0)?.halfLifeMinutes }
+        #expect(halfLives.count == references.count)
+        for (earlier, later) in zip(halfLives, halfLives.dropFirst()) {
+            #expect(earlier <= later)
+        }
+    }
+
     // MARK: - Antidepressant class
 
     @Test
@@ -50,7 +71,7 @@ struct ClassCardTests {
     @Test
     func `The ladder ascends and marks exactly the drug whose page it is`() throws {
         let clonazepam = try #require(SubstanceLibrary.resolveFull("Clonazepam"))
-        let rungs = BenzoDurationLadder.rungs(for: clonazepam) { SubstanceLibrary.resolveFull($0) }
+        let rungs = BenzoDurationLadder.rungs(for: clonazepam, references: references) { SubstanceLibrary.resolveFull($0) }
         #expect(rungs.count > 1)
         #expect(rungs.filter { $0.role == .subject }.count == 1)
         #expect(rungs.first { $0.role == .subject }?.name == clonazepam.displayTitle)
@@ -62,7 +83,7 @@ struct ClassCardTests {
     @Test
     func `A reference compound appears once on its own page, not twice`() throws {
         let diazepam = try #require(SubstanceLibrary.resolveFull("Diazepam"))
-        let rungs = BenzoDurationLadder.rungs(for: diazepam) { SubstanceLibrary.resolveFull($0) }
+        let rungs = BenzoDurationLadder.rungs(for: diazepam, references: references) { SubstanceLibrary.resolveFull($0) }
         #expect(rungs.filter { $0.name == diazepam.displayTitle }.count == 1)
         #expect(rungs.last?.role == .subject)
     }
@@ -79,7 +100,7 @@ struct ClassCardTests {
             effects: [],
         )
         #expect(noHalfLife.halfLifeMinutes == nil)
-        #expect(BenzoDurationLadder.rungs(for: noHalfLife) { SubstanceLibrary.resolveFull($0) }.isEmpty)
+        #expect(BenzoDurationLadder.rungs(for: noHalfLife, references: references) { SubstanceLibrary.resolveFull($0) }.isEmpty)
     }
 
     @Test
@@ -92,7 +113,11 @@ struct ClassCardTests {
             category: diazepam.category,
             policy: DisclosurePolicy(profile: .pharmaNerd),
         )
-        let rungs = BenzoDurationLadder.rungs(for: diazepam, metabolites: model.activeMetabolites) {
+        let rungs = BenzoDurationLadder.rungs(
+            for: diazepam,
+            metabolites: model.activeMetabolites,
+            references: references,
+        ) {
             SubstanceLibrary.resolveFull($0)
         }
         let metabolites = rungs.filter { $0.role == .metabolite }

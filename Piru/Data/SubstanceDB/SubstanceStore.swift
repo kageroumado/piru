@@ -133,6 +133,10 @@ final class SubstanceStore {
     /// source-derived (a representative's identity does not depend on the user's source order), so it
     /// is never invalidated.
     @ObservationIgnored private var classRepresentativeCache: [Int64: Set<ReceptorClasses.ReceptorClass>]?
+    /// The benzodiazepine duration ladder's rungs, in curated order. Six names read on every
+    /// benzodiazepine detail page. Not source-derived, so never invalidated; an empty result is not
+    /// held, since a ladder with no reference compounds is six facts missing rather than a ladder.
+    @ObservationIgnored private var benzoLadderReferenceCache: [String]?
     /// `substance_interaction_classes` expanded across every alias, and the per-category fallbacks:
     /// what ``InteractionChecker`` resolves a logged name into. Whole-table lookups consulted on every
     /// pairing, so they are read once and held. Not source-derived, so never invalidated.
@@ -1422,6 +1426,15 @@ final class SubstanceStore {
             bioavailability: profile.bioavailability,
             weightKg: weightKg,
         )
+    }
+
+    /// The `class_reference_compounds` rungs of the benzodiazepine duration ladder, shortest-acting
+    /// first. Read once and held (see ``benzoLadderReferenceCache``).
+    func benzoLadderReferenceNames() -> [String] {
+        if let cached = benzoLadderReferenceCache { return cached }
+        let loaded = SubstanceReadModel.referenceCompounds(db: substancesDB, family: "benzodiazepine")
+        if !loaded.isEmpty { benzoLadderReferenceCache = loaded }
+        return loaded
     }
 
     /// `class_representatives` as substance id → the tolerance classes that substance stands in for.

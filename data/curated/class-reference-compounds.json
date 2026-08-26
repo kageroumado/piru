@@ -1,5 +1,5 @@
 {
-  "_comment": "Curated reference compounds for each class-signature family. These are the recognisable names that should always be labelled on the signature axis, replacing the Wikipedia-popularity sort. Each entry is a substance name (must match canonical_name) with an optional rank (lower = more prominent). Ranks don't need to be contiguous.",
+  "_comment": "The recognisable names each comparison is drawn against. Every consumer filters by family, so a family answers to one screen: the signature families label a binding axis (replacing the Wikipedia-popularity sort), and benzodiazepine is the duration ladder's rungs. Each entry is a substance name (must match canonical_name) with an optional rank (lower = more prominent). Ranks don't need to be contiguous.",
   "families": {
     "muOpioid": [
       {"name": "Morphine", "rank": 0},
@@ -45,6 +45,14 @@
       {"name": "Memantine", "rank": 3},
       {"name": "Nitrous", "rank": 4},
       {"name": "MXE", "rank": 5}
+    ],
+    "benzodiazepine": [
+      {"name": "Triazolam", "rank": 0},
+      {"name": "Midazolam", "rank": 1},
+      {"name": "Alprazolam", "rank": 2},
+      {"name": "Lorazepam", "rank": 3},
+      {"name": "Clonazepam", "rank": 4},
+      {"name": "Diazepam", "rank": 5}
     ]
   }
 }
