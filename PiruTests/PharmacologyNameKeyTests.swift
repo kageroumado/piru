@@ -4,7 +4,14 @@ import Testing
 /// The shared name-key mechanism the hardcoded pharmacology tables funnel
 /// through, and the cross-table guarantees the unification rests on.
 @Suite("PharmacologyNameKey")
+@MainActor
 struct PharmacologyNameKeyTests {
+    /// `isCalibratedTrigger` resolves against the `model-calibrated` flag installed at index build, so
+    /// this suite needs the store up rather than relying on another suite having warmed it.
+    init() {
+        _ = SubstanceStore.shared
+    }
+
     @Test
     func `fold lowercases and trims whitespace and newlines`() {
         #expect(PharmacologyNameKey.fold("  Caffeine\n") == "caffeine")

@@ -366,6 +366,120 @@ extension SubstanceReadModel {
         return out
     }
 
+    /// The whole `saturable_kinetics` table in curated display order — every substance whose
+    /// dose→exposure relationship is not proportional, with the Michaelis-Menten constants for the
+    /// ones that have clean human values and nothing but a mechanism for the ones that do not.
+    nonisolated static func saturableKinetics(db queue: DatabaseQueue) -> [SaturableKineticsRow] {
+        let rows = (try? queue.read { db in
+            try Row.fetchAll(db, sql: """
+                SELECT s.canonical_name AS name, k.mechanism, k.confidence, k.km_mg_per_l,
+                       k.vmax, k.vmax_basis, k.vd_l_per_kg, k.bioavailability, k.ka_per_min,
+                       k.half_life_min, k.citation_text
+                  FROM saturable_kinetics k
+                  JOIN substances s ON s.id = k.substance_id
+                 ORDER BY k.rank ASC
+            """)
+        }) ?? []
+        return rows.compactMap { row in
+            guard let name: String = row["name"], let mechanism: String = row["mechanism"],
+                  let confidence: String = row["confidence"], let citation: String = row["citation_text"]
+            else { return nil }
+            return SaturableKineticsRow(
+                substanceName: name,
+                mechanism: mechanism,
+                confidence: confidence,
+                kmMgPerL: row["km_mg_per_l"],
+                vmax: row["vmax"],
+                vmaxBasis: row["vmax_basis"],
+                vdLPerKg: row["vd_l_per_kg"],
+                bioavailability: row["bioavailability"],
+                kaPerMin: row["ka_per_min"],
+                halfLifeMinutes: row["half_life_min"],
+                citation: citation,
+            )
+        }
+    }
+
+    /// Every `bioavailability_by_dose` series, keyed by lowercased canonical name, each ascending by
+    /// dose — the ingester refuses a series that is not, so a consumer may interpolate between
+    /// neighbouring points without re-sorting.
+    nonisolated static func bioavailabilityByDose(db queue: DatabaseQueue) -> [String: [BioavailabilityPoint]] {
+        let rows = (try? queue.read { db in
+            try Row.fetchAll(db, sql: """
+                SELECT s.canonical_name AS name, b.dose_mg, b.dose_basis, b.bioavailability_pct,
+                       b.citation_text
+                  FROM bioavailability_by_dose b
+                  JOIN substances s ON s.id = b.substance_id
+                 ORDER BY s.canonical_name COLLATE NOCASE, b.dose_mg ASC
+            """)
+        }) ?? []
+        var out: [String: [BioavailabilityPoint]] = [:]
+        for row in rows {
+            guard let name: String = row["name"], let dose: Double = row["dose_mg"],
+                  let basis: String = row["dose_basis"], let pct: Double = row["bioavailability_pct"],
+                  let citation: String = row["citation_text"] else { continue }
+            out[name.lowercased(), default: []].append(
+                BioavailabilityPoint(
+                    doseMg: dose, basis: basis, bioavailabilityPct: pct, citation: citation,
+                ),
+            )
+        }
+        return out
+    }
+
+    /// The whole `attenuation_bands` table, keyed by transporter — how far a releaser's effect is
+    /// blunted by a blocker competing for the same transporter. Read once at index build; see
+    /// ``CompetingTransporter`` for why it is held rather than queried per call.
+    nonisolated static func attenuationBands(db queue: DatabaseQueue) -> [String: CompetingTransporter.Band] {
+        let rows = (try? queue.read { db in
+            try Row.fetchAll(
+                db,
+                sql: "SELECT transporter, reduction_low, reduction_high FROM attenuation_bands",
+            )
+        }) ?? []
+        var out: [String: CompetingTransporter.Band] = [:]
+        for row in rows {
+            guard let key: String = row["transporter"], let low: Double = row["reduction_low"],
+                  let high: Double = row["reduction_high"] else { continue }
+            out[key] = CompetingTransporter.Band(low: low, high: high)
+        }
+        return out
+    }
+
+    /// Preparation → the molecule its pharmacology is measured on, both lowercased canonical names.
+    /// Read once at index build; see ``ActiveIngredient`` for why it is held rather than queried.
+    nonisolated static func activeIngredients(db queue: DatabaseQueue) -> [String: String] {
+        let rows = (try? queue.read { db in
+            try Row.fetchAll(db, sql: """
+                SELECT s.canonical_name AS preparation, i.canonical_name AS ingredient
+                  FROM substances s
+                  JOIN substances i ON i.id = s.active_ingredient_substance_id
+            """)
+        }) ?? []
+        var out: [String: String] = [:]
+        for row in rows {
+            guard let preparation: String = row["preparation"],
+                  let ingredient: String = row["ingredient"] else { continue }
+            out[preparation.lowercased()] = ingredient
+        }
+        return out
+    }
+
+    /// The lowercased canonical names carrying one `substance_flags` flag — the whole-table read a
+    /// gate needs when it asks "is this substance in the set", rather than "does this id have the
+    /// flag". `nonisolated static` so it can run at index build off the main actor.
+    nonisolated static func flaggedNames(_ flag: String, db queue: DatabaseQueue) -> Set<String> {
+        let names = (try? queue.read { db in
+            try String.fetchAll(db, sql: """
+                SELECT s.canonical_name
+                  FROM substance_flags f
+                  JOIN substances s ON s.id = f.substance_id
+                 WHERE f.flag = ?
+            """, arguments: [flag])
+        }) ?? []
+        return Set(names.map { $0.lowercased() })
+    }
+
     /// The whole `regional_names` table, keyed by lowercased canonical name — which spelling of a
     /// substance to display in which regions. Read once at index build; see ``RegionalSubstanceName``
     /// for why it is held rather than queried per call.

@@ -1,6 +1,43 @@
 import Foundation
 
-/// Curated saturable-kinetics seed for the **Ceiling-Effect** tool (pharmacology axis, Stage 6).
+/// One `saturable_kinetics` row as the database holds it — which step runs out of capacity, and the
+/// Michaelis-Menten constants for the substances that have clean human values. Every numeric field is
+/// `nil` together on a qualitative row.
+nonisolated struct SaturableKineticsRow {
+    let substanceName: String
+    /// `elimination` | `activation` | `absorption`.
+    let mechanism: String
+    /// `high` | `medium` | `low`.
+    let confidence: String
+    /// Michaelis constant, mg/L.
+    let kmMgPerL: Double?
+    /// Maximum metabolic rate in whichever convention ``vmaxBasis`` names.
+    let vmax: Double?
+    /// `whole_body_mg_per_min` | `mg_per_kg_per_day`.
+    let vmaxBasis: String?
+    let vdLPerKg: Double?
+    /// Oral bioavailability `F ∈ (0, 1]`.
+    let bioavailability: Double?
+    /// First-order absorption rate constant, per minute.
+    let kaPerMin: Double?
+    /// Terminal elimination half-life, minutes — present on an `absorption` row, whose clearance is
+    /// ordinary first-order.
+    let halfLifeMinutes: Double?
+    /// The source line shown verbatim beneath the profile.
+    let citation: String
+}
+
+/// One `bioavailability_by_dose` point: absolute oral bioavailability measured at a stated dose.
+nonisolated struct BioavailabilityPoint {
+    let doseMg: Double
+    /// `per_day` (a divided daily dose, as the label reports it) | `single`.
+    let basis: String
+    let bioavailabilityPct: Double
+    /// The series' source line, shown verbatim beneath the chart.
+    let citation: String
+}
+
+/// Saturable-kinetics profiles for the **Ceiling-Effect** tool (pharmacology axis, Stage 6).
 ///
 /// Most substances clear by first-order kinetics — double the dose, double the exposure — which the
 /// closed-form ``PKModel/concentration(at:ke:ka:)`` Bateman path already models. A handful break that
@@ -15,20 +52,23 @@ import Foundation
 ///   species stops scaling with dose past the knee. The (relatively) safer ceiling — extra dose buys
 ///   duration and side-effects, not peak effect.
 ///
-/// ## Faithful over comprehensive
-/// Every numeric `Kinetics` row traces to resolvable human literature (see `ceiling-kinetics-evidence.json`,
-/// Foundation-C gate-clean 2026-06-22). Only **ethanol** and **phenytoin** have clean human Km/Vmax and
-/// ship a drawable quantitative curve. **Codeine** and **GHB** ship *qualitative* (`kinetics == nil`) —
-/// a knee + direction in words, never a fabricated curve:
-/// - codeine's morphine ceiling is CYP2D6 *phenotype/enzyme-quantity*-limited, **not** substrate-saturable
-///   at clinical doses, so drawing a saturating activation curve would be wrong;
-/// - GHB has only rat/in-vitro Km values (grade D) — the human nonlinearity is real but unquantified.
+/// ## Where the numbers live
+/// The constants a curve is *integrated from* — Km, Vmax, Vd, F, kₐ, and the F-vs-dose table — are data
+/// and come from the bundled DB's `saturable_kinetics` and `bioavailability_by_dose`, each row carrying
+/// the citation it is shown with. What a curve is *drawn on* — which dose to call one unit, which
+/// multiples to overlay, how wide a window to plot — is a rendering choice with no source and stays in
+/// ``ProfileCopy``, together with the substance's localized copy. A DB row whose substance has no
+/// ``ProfileCopy`` case ships nothing: a profile with no explanation is not shippable.
 ///
-/// Lisdexamfetamine was **dropped** from the spec's proposed seed: its activation is rate-limited, not
-/// capacity-saturated (linear through ≥250 mg), so it is not a ceiling substance.
+/// ## Faithful over comprehensive
+/// A profile ships numbers only where clean *human* Km/Vmax exist; the rest carry a direction and a knee
+/// in words, never a fabricated curve. Codeine's morphine ceiling is CYP2D6 phenotype/enzyme-quantity
+/// limited rather than substrate-saturable at clinical doses, and GHB's only published constants are rat
+/// and in-vitro (grade D) — so both are qualitative even though their nonlinearity is real.
 enum SaturablePharmacology {
-    /// Which step saturates — the attachment points of the same capacity-limited (Michaelis-Menten) term.
-    enum Mechanism {
+    /// Which step saturates — the attachment points of the same capacity-limited (Michaelis-Menten)
+    /// term. Raw values match the `saturable_kinetics.mechanism` vocabulary.
+    enum Mechanism: String {
         /// The *clearing* enzyme saturates → supralinear accumulation (the warning).
         case elimination
         /// The *activating* enzyme (prodrug → active species) saturates → a ceiling on effect.
@@ -83,6 +123,17 @@ enum SaturablePharmacology {
             /// Weight-scaled rate, **mg/kg/day** (phenytoin: 7). Scaled by weight, per-day → per-min,
             /// then divided by Vd — the weight cancels, leaving a weight-independent mg/L/min.
             case mgPerKgPerDay(Double)
+
+            /// Attach a `saturable_kinetics` Vmax to the convention its `vmax_basis` column names.
+            /// `nil` for an unknown basis: a rate whose units are unclear must not reach the integrator,
+            /// where mg/min and mg/kg/day differ by three orders of magnitude.
+            init?(rawBasis: String?, value: Double) {
+                switch rawBasis {
+                case "whole_body_mg_per_min": self = .wholeBodyMgPerMin(value)
+                case "mg_per_kg_per_day": self = .mgPerKgPerDay(value)
+                default: return nil
+                }
+            }
 
             func mgPerLPerMin(weightKg: Double, vdPerKg: Double) -> Double {
                 let vd = max(vdPerKg * weightKg, .leastNonzeroMagnitude)
@@ -170,9 +221,32 @@ enum SaturablePharmacology {
         }
     }
 
-    // MARK: - The seed
+    // MARK: - Assembly from the bundled DB
 
-    static let profiles: [Profile] = [ethanol, phenytoin, gabapentin, codeine, tramadol, ghb]
+    /// The substances with a shipped ceiling profile, in the curated display order the DB row carries.
+    ///
+    /// A DB row becomes a ``Profile`` only when a ``ProfileCopy`` case names its substance: the numbers
+    /// are data, but the sentences and the chart geometry are not, and a curve with neither would be a
+    /// shape with no meaning attached.
+    static var profiles: [Profile] {
+        let fByDose = SubstanceStore.shared.bioavailabilityByDose()
+        return SubstanceStore.shared.saturableKinetics().compactMap { row in
+            guard let copy = ProfileCopy(rawValue: row.substanceName.lowercased()),
+                  let mechanism = Mechanism(rawValue: row.mechanism) else { return nil }
+            return Profile(
+                substanceName: row.substanceName,
+                displayName: copy.displayName,
+                mechanism: mechanism,
+                confidence: ConfidenceTier(grade: row.confidence),
+                kinetics: copy.kinetics(from: row),
+                absorption: copy.absorption(from: row, fByDose: fByDose[row.substanceName.lowercased()] ?? []),
+                headline: copy.headline,
+                knee: copy.knee,
+                detail: copy.detail,
+                citation: row.citation,
+            )
+        }
+    }
 
     /// Case-insensitive lookup by substance name (canonical or display alias handled by the caller).
     static func profile(forSubstanceName name: String) -> Profile? {
@@ -187,6 +261,10 @@ enum SaturablePharmacology {
     /// (system-L / LAT1) so oral bioavailability FALLS with dose; pregabalin uses the carrier in a
     /// non-saturating regime and stays dose-LINEAR (~90% at any dose). Pregabalin has no knee, so it is
     /// NOT a ceiling ``Profile`` (never in ``profiles``) — it exists only as this comparison.
+    ///
+    /// Both lines are the same `bioavailability_by_dose` rows the gabapentin ceiling curves are drawn
+    /// from, read on their reported per-day basis. One table, two charts: a second copy of the F-vs-dose
+    /// points on a different dose axis is how the two would silently drift apart.
     enum GabapentinoidComparison {
         /// One (daily-dose, bioavailability) sample on a drug's F-vs-dose line.
         struct Point: Identifiable {
@@ -199,168 +277,254 @@ enum SaturablePharmacology {
             }
         }
 
-        /// Gabapentin — saturable: F falls from ~60% to ~27% across the label dose range
-        /// (FDA NEURONTIN, Clinical Pharmacology/Absorption).
-        static let gabapentin: [Point] = [
-            Point(doseMgPerDay: 900, bioavailabilityPct: 60),
-            Point(doseMgPerDay: 1_200, bioavailabilityPct: 47),
-            Point(doseMgPerDay: 2_400, bioavailabilityPct: 34),
-            Point(doseMgPerDay: 3_600, bioavailabilityPct: 33),
-            Point(doseMgPerDay: 4_800, bioavailabilityPct: 27),
-        ]
+        /// Gabapentin — saturable: F falls across the label dose range.
+        static var gabapentin: [Point] {
+            points(for: "gabapentin")
+        }
 
-        /// Pregabalin — dose-linear: F ≥ ~90% independent of dose (Bockbrader 2010). Drawn flat across
-        /// its therapeutic range; the same value would hold at any dose.
-        static let pregabalin: [Point] = [
-            Point(doseMgPerDay: 150, bioavailabilityPct: 90),
-            Point(doseMgPerDay: 300, bioavailabilityPct: 90),
-            Point(doseMgPerDay: 450, bioavailabilityPct: 90),
-            Point(doseMgPerDay: 600, bioavailabilityPct: 90),
-        ]
+        /// Pregabalin — dose-linear: F stays put across its therapeutic range.
+        static var pregabalin: [Point] {
+            points(for: "pregabalin")
+        }
+
+        private static func points(for name: String) -> [Point] {
+            SubstanceStore.shared.bioavailabilityByDose()[name, default: []]
+                .filter { $0.basis == BioavailabilityBasis.perDay }
+                .map { Point(doseMgPerDay: $0.doseMg, bioavailabilityPct: $0.bioavailabilityPct) }
+        }
 
         static let headline: LocalizedStringResource = "Two drugs that hit the same target behave oppositely as you scale the dose: gabapentin's absorbed fraction falls, pregabalin's stays put."
         static let detail: LocalizedStringResource = "Both bind the α2δ-1 calcium-channel subunit — but gabapentin rides a saturable intestinal carrier (system-L / LAT1), so the fraction absorbed drops as the dose climbs (~60% → ~27%) and exposure flattens out. That's why gabapentin is dosed several times a day and why very large single doses buy little extra. Pregabalin uses the carrier without saturating it, so it stays ~90% absorbed at any dose — predictable, dose-proportional, simpler to titrate. (Pregabalin is also effective at far fewer milligrams, so its line sits at the low end of the dose axis.)"
-        static let citation = "FDA NEURONTIN label (NDA 020235); Gidal et al. 1998 (PMID 9714500); Bockbrader et al. 2010 (PMID 20818832)."
+
+        /// Both drugs' source lines, joined — the comparison cites whatever each line was measured in.
+        static var citation: String {
+            let table = SubstanceStore.shared.bioavailabilityByDose()
+            var seen = Set<String>()
+            let sources = ["gabapentin", "pregabalin"]
+                .compactMap { table[$0]?.first?.citation }
+                .filter { seen.insert($0).inserted }
+            return sources.joined(separator: "; ") + "."
+        }
     }
 
-    // MARK: - Quantitative profiles (drawable)
+    // MARK: - Per-substance copy and chart geometry
 
-    /// **Ethanol** — the textbook capacity-limited (zero-order) elimination drug. Km is so far below
-    /// intoxicating BACs that clearance is effectively a fixed ~1 standard drink/hour regardless of
-    /// load, so total exposure scales roughly with the *square* of the dose.
-    /// Norberg et al. 2000 (PMID 10792196): Vmax 95 ± 25 mg/min, Km 27 ± 19 mg/L (IV primary).
-    private static let ethanol = Profile(
-        substanceName: "Alcohol",
-        displayName: "Alcohol (ethanol)",
-        mechanism: .elimination,
-        confidence: .high,
-        kinetics: Kinetics(
-            kmMgPerL: 27,
-            vmax: .wholeBodyMgPerMin(95),
-            vdPerKg: 0.55,
-            bioavailability: 0.9,
-            ka: 0.05,
-            referenceDoseMg: 14_000,
-            exampleDoseMultiples: [1, 2, 3, 4],
-            doseLabel: .drinks,
-            displayWindowMinutes: 780,
-            integrationMinutes: 1_440,
-            stepMinutes: 2,
-        ),
-        headline: "Clearance is capped at ~1 drink/hour, so each extra drink stacks on top of the last and lingers — total exposure climbs far faster than the number of drinks.",
-        knee: "Elimination is already maxed out after about one drink, so there is no \u{201C}safe extra\u{201D} that clears as fast as the first.",
-        detail: "Alcohol is the classic zero-order drug: above a very low blood level the enzyme that clears it (alcohol dehydrogenase) is fully saturated and works at a fixed rate. Doubling the drinks more than doubles how long alcohol stays in your system and the area under the curve. Chronic heavy drinking speeds clearance somewhat (CYP2E1 induction); the ALDH2 \u{201C}flush\u{201D} variant does the opposite for acetaldehyde.",
-        citation: "Norberg, Gabrielsson, Jones & Hahn 2000, Br J Clin Pharmacol (PMID 10792196); Holford 1987 (PMID 3319346).",
-    )
+    /// The `dose_basis` values `bioavailability_by_dose` uses. Spelled once so a filter and a pipeline
+    /// row can never drift apart on a string literal.
+    enum BioavailabilityBasis {
+        /// A total daily dose, divided across the day as the label directs.
+        static let perDay = "per_day"
+        /// One administration.
+        static let single = "single"
+    }
 
-    /// **Phenytoin** — the second textbook Michaelis-Menten elimination drug. Its Km (~4–7 mg/L) sits
-    /// *below* the therapeutic range, so the system is already partly saturated within the normal dose
-    /// range and a small dose increase near the top can roughly double serum levels into toxicity.
-    private static let phenytoin = Profile(
-        substanceName: "Phenytoin",
-        displayName: "Phenytoin",
-        mechanism: .elimination,
-        confidence: .high,
-        kinetics: Kinetics(
-            kmMgPerL: 5.7,
-            vmax: .mgPerKgPerDay(7),
-            vdPerKg: 0.65,
-            bioavailability: 0.9,
-            ka: 0.005,
-            referenceDoseMg: 300,
-            exampleDoseMultiples: [1, 1.5, 2],
-            doseLabel: .milligrams(perUnit: 300),
-            displayWindowMinutes: 4_320,
-            integrationMinutes: 7_200,
-            stepMinutes: 12,
-        ),
-        headline: "The clearing enzyme is already half-saturated inside the normal dose range, so a small dose increase near the top can roughly double the level into toxicity.",
-        knee: "Saturation begins within the therapeutic window itself — the curve bends up where most other drugs would still be a straight line.",
-        detail: "Phenytoin is hydroxylated by a saturable liver enzyme system (CYP2C9/CYP2C19). Because its Km lies below the therapeutic range, dose and level are not proportional: titrate in small steps and confirm with blood levels. CYP2C9/2C19 poor metabolizers, age, and interacting drugs shift the knee lower. Shown as relative shape — phenytoin is individualized by therapeutic drug monitoring.",
-        citation: "FDA Dilantin label (NDA 084349); Ludden et al. 1977 (PMID 837647); Ismail et al. 1990 (PMID 2089048).",
-    )
+    /// Everything about a ceiling profile that is *not* a measured quantity: the substance's localized
+    /// copy, and the geometry its curves are drawn on. Keyed by the lowercased canonical name of the
+    /// `saturable_kinetics` row it belongs to.
+    ///
+    /// Chart geometry is a rendering choice, not evidence — no source states that ethanol should be
+    /// plotted as one to four drinks over thirteen hours. Keeping it here rather than in the database
+    /// is what stops an unsourced number from sitting in a table beside cited ones.
+    enum ProfileCopy: String {
+        case alcohol
+        case phenytoin
+        case gabapentin
+        case codeine
+        case tramadol
+        case ghb
 
-    /// **Gabapentin** — the first clean *absorption*-side ceiling (the elimination seeds ethanol/phenytoin
-    /// bend the other way). Its intestinal uptake rides the saturable system-L / LAT1 amino-acid carrier,
-    /// so fractional bioavailability falls with dose (~60% at 900 mg/day → ~27% at 4800 mg/day) and total
-    /// exposure climbs markedly *sub*-proportionally — the benign ceiling. Pregabalin, same class, is the
-    /// teaching counterpoint: a different transporter mode gives it dose-LINEAR ~90% F (no knee).
-    /// FDA NEURONTIN label F-vs-dose; Stewart 1993 / Gidal 1998 carrier mechanism (gate-clean, HIGH).
-    private static let gabapentin = Profile(
-        substanceName: "Gabapentin",
-        displayName: "Gabapentin",
-        mechanism: .absorption,
-        confidence: .high,
-        kinetics: nil,
-        absorption: Absorption(
-            // Single-dose mg ≈ one of three divided daily doses; F from the FDA label's daily-dose table.
-            fByDose: [(300, 0.60), (400, 0.47), (800, 0.34), (1_200, 0.33), (1_600, 0.27)],
-            vdPerKg: 0.8,
-            halfLifeMin: 360,
-            ka: 0.01,
-            referenceDoseMg: 300,
-            exampleDoseMultiples: [1, 2, 3, 4],
-            doseLabel: .milligrams(perUnit: 300),
-            displayWindowMinutes: 1_440,
-            integrationMinutes: 2_880,
-            stepMinutes: 5,
-        ),
-        headline: "Gabapentin is absorbed by a carrier that runs out of capacity, so the fraction that reaches your blood DROPS as the dose climbs — taking twice as much delivers much less than twice the exposure.",
-        knee: "The carrier is already saturating across the normal dose range: bioavailability falls from ~60% at 900 mg/day to ~27% at 4800 mg/day, so each step up buys progressively less.",
-        detail: "This is the opposite of the alcohol/phenytoin ceiling: there the clearing enzyme saturates and exposure runs away upward; here the absorbing transporter (system-L / LAT1) saturates and exposure flattens out — a built-in brake, though it also caps the benefit of very large single doses and is why gabapentin is dosed several times a day. Pregabalin, the same drug class, uses the transporter differently and stays ~90% absorbed at any dose (dose-linear) — a clean contrast in the same family. Shown as relative shape.",
-        citation: "FDA NEURONTIN label (NDA 020235); Stewart et al. 1993 (PMID 8456077); Gidal et al. 1998 (PMID 9714500); Gee et al. 1996 (PMID 8621444).",
-    )
+        /// Display name shown in the tool (may differ from the canonical name).
+        var displayName: LocalizedStringResource {
+            switch self {
+            case .alcohol: "Alcohol (ethanol)"
+            case .phenytoin: "Phenytoin"
+            case .gabapentin: "Gabapentin"
+            case .codeine: "Codeine → morphine"
+            case .tramadol: "Tramadol → O-DSMT (M1)"
+            case .ghb: "GHB / GBL"
+            }
+        }
 
-    // MARK: - Qualitative profiles (no curve)
+        /// One-line takeaway — the headline message.
+        var headline: LocalizedStringResource {
+            switch self {
+            case .alcohol:
+                "Clearance is capped at ~1 drink/hour, so each extra drink stacks on top of the last and lingers — total exposure climbs far faster than the number of drinks."
+            case .phenytoin:
+                "The clearing enzyme is already half-saturated inside the normal dose range, so a small dose increase near the top can roughly double the level into toxicity."
+            case .gabapentin:
+                "Gabapentin is absorbed by a carrier that runs out of capacity, so the fraction that reaches your blood DROPS as the dose climbs — taking twice as much delivers much less than twice the exposure."
+            case .codeine:
+                "Codeine only works by being converted to morphine, and most people's CYP2D6 enzyme caps how much morphine they can make — so past a point, more codeine adds side-effects and duration while the pain relief plateaus."
+            case .tramadol:
+                "Tramadol only becomes a strong opioid after CYP2D6 converts it to M1 — and how much you make depends on your genes. Most people plateau; \u{201C}ultra-rapid metabolizers\u{201D} have no such cap and can reach dangerous levels at ordinary doses."
+            case .ghb:
+                "Exposure rises steeply and faster than dose — a small step up can disproportionately increase how much your body sees. The gap between a recreational and a dangerous dose is small."
+            }
+        }
 
-    /// **Codeine → morphine** — an *activation* ceiling, but a phenotype-limited one. The CYP2D6 step is
-    /// low-affinity (high Km ~100 µM), so it does **not** substrate-saturate at clinical codeine levels;
-    /// the morphine ceiling is set by enzyme *quantity* (CYP2D6 activity), not a dose knee. Drawing a
-    /// saturating curve would be wrong, so this ships qualitative.
-    private static let codeine = Profile(
-        substanceName: "Codeine",
-        displayName: "Codeine → morphine",
-        mechanism: .activation,
-        confidence: .medium,
-        kinetics: nil,
-        headline: "Codeine only works by being converted to morphine, and most people's CYP2D6 enzyme caps how much morphine they can make — so past a point, more codeine adds side-effects and duration while the pain relief plateaus.",
-        knee: "The limit is set by how much CYP2D6 enzyme you have. The analgesic plateau around ~60 mg is a clinical observation.",
-        detail: "This ceiling is on the opioid effect only — not on codeine's other risks. Two big caveats: \u{201C}ultra-rapid metabolizers\u{201D} convert far more codeine to morphine and can reach dangerous levels at ordinary doses (the FDA contraindicates codeine in them), while \u{201C}poor metabolizers\u{201D} get little relief. So this is not a green light to take more.",
-        citation: "Frontiers Pharmacol 2024 (PMC11096448); CPIC 2021 (PMC8249478); Kirchheiner et al. 2007 (PMID 16819548).",
-    )
+        /// Where the curve bends and why (the "knee").
+        var knee: LocalizedStringResource {
+            switch self {
+            case .alcohol:
+                "Elimination is already maxed out after about one drink, so there is no \u{201C}safe extra\u{201D} that clears as fast as the first."
+            case .phenytoin:
+                "Saturation begins within the therapeutic window itself — the curve bends up where most other drugs would still be a straight line."
+            case .gabapentin:
+                "The carrier is already saturating across the normal dose range: bioavailability falls from ~60% at 900 mg/day to ~27% at 4800 mg/day, so each step up buys progressively less."
+            case .codeine:
+                "The limit is set by how much CYP2D6 enzyme you have. The analgesic plateau around ~60 mg is a clinical observation."
+            case .tramadol:
+                "There is no fixed milligram knee — the limit (or its absence) is set by your CYP2D6 activity. Poor metabolizers get little opioid effect but keep tramadol's serotonin/seizure risk; ultra-rapid metabolizers blow past the usual ceiling."
+            case .ghb:
+                "Nonlinearity appears already at moderate recreational doses: a controlled study saw ~40% more exposure going from 25 to 35 mg/kg, and the regulated product's exposure rises ~3.8× when the dose doubles."
+            }
+        }
 
-    /// **Tramadol** — the *inverse* of the codeine activation ceiling. Both rely on CYP2D6 to make their
-    /// active opioid (codeine→morphine, tramadol→M1/O-DSMT), but the safety valence flips with phenotype:
-    /// in poor/normal metabolizers the opioid effect plateaus (a ceiling), while CYP2D6 *ultra-rapid*
-    /// metabolizers over-convert with NO receptor ceiling — an uncapped activation tail that has caused
-    /// fatal respiratory depression at ordinary doses (FDA-contraindicated in children). Ships qualitative:
-    /// the phenotype categories (PM/IM/EM/UM) don't interpolate to a drawable dose knee.
-    private static let tramadol = Profile(
-        substanceName: "Tramadol",
-        displayName: "Tramadol → O-DSMT (M1)",
-        mechanism: .activation,
-        confidence: .high,
-        kinetics: nil,
-        headline: "Tramadol only becomes a strong opioid after CYP2D6 converts it to M1 — and how much you make depends on your genes. Most people plateau; \u{201C}ultra-rapid metabolizers\u{201D} have no such cap and can reach dangerous levels at ordinary doses.",
-        knee: "There is no fixed milligram knee — the limit (or its absence) is set by your CYP2D6 activity. Poor metabolizers get little opioid effect but keep tramadol's serotonin/seizure risk; ultra-rapid metabolizers blow past the usual ceiling.",
-        detail: "This is the mirror image of codeine: same CYP2D6 activation step, opposite danger. Two cautions. (1) Repeated dosing raises tramadol's own absorption (first-pass saturates, F climbs ~75%→90–100%), so steady-state levels run higher than a single dose predicts. (2) The opioid limb is carried almost entirely by the metabolite M1/O-DSMT (a potent 3.4 nM µ-agonist), so strong CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine) mute the painkilling effect while leaving — or raising — the serotonergic and seizure risk of the parent. \u{201C}Cleaner\u{201D} is not \u{201C}safer.\u{201D} Described in words.",
-        citation: "Gillen et al. 2000 (PMID 10961373); Stamer et al. 2003 (PMID 14499440); FDA ULTRAM label (NDA 020281); CPIC CYP2D6/tramadol (PMID 33387367).",
-    )
+        /// Longer explanation / caveats.
+        var detail: LocalizedStringResource {
+            switch self {
+            case .alcohol:
+                "Alcohol is the classic zero-order drug: above a very low blood level the enzyme that clears it (alcohol dehydrogenase) is fully saturated and works at a fixed rate. Doubling the drinks more than doubles how long alcohol stays in your system and the area under the curve. Chronic heavy drinking speeds clearance somewhat (CYP2E1 induction); the ALDH2 \u{201C}flush\u{201D} variant does the opposite for acetaldehyde."
+            case .phenytoin:
+                "Phenytoin is hydroxylated by a saturable liver enzyme system (CYP2C9/CYP2C19). Because its Km lies below the therapeutic range, dose and level are not proportional: titrate in small steps and confirm with blood levels. CYP2C9/2C19 poor metabolizers, age, and interacting drugs shift the knee lower. Shown as relative shape — phenytoin is individualized by therapeutic drug monitoring."
+            case .gabapentin:
+                "This is the opposite of the alcohol/phenytoin ceiling: there the clearing enzyme saturates and exposure runs away upward; here the absorbing transporter (system-L / LAT1) saturates and exposure flattens out — a built-in brake, though it also caps the benefit of very large single doses and is why gabapentin is dosed several times a day. Pregabalin, the same drug class, uses the transporter differently and stays ~90% absorbed at any dose (dose-linear) — a clean contrast in the same family. Shown as relative shape."
+            case .codeine:
+                "This ceiling is on the opioid effect only — not on codeine's other risks. Two big caveats: \u{201C}ultra-rapid metabolizers\u{201D} convert far more codeine to morphine and can reach dangerous levels at ordinary doses (the FDA contraindicates codeine in them), while \u{201C}poor metabolizers\u{201D} get little relief. So this is not a green light to take more."
+            case .tramadol:
+                "This is the mirror image of codeine: same CYP2D6 activation step, opposite danger. Two cautions. (1) Repeated dosing raises tramadol's own absorption (first-pass saturates, F climbs ~75%→90–100%), so steady-state levels run higher than a single dose predicts. (2) The opioid limb is carried almost entirely by the metabolite M1/O-DSMT (a potent 3.4 nM µ-agonist), so strong CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine) mute the painkilling effect while leaving — or raising — the serotonergic and seizure risk of the parent. \u{201C}Cleaner\u{201D} is not \u{201C}safer.\u{201D} Described in words."
+            case .ghb:
+                "GHB's clearing pathway saturates, so dose and effect are not proportional and the margin for error is thin. Measure precisely, wait fully between doses (never re-dose because \u{201C}it hasn't hit yet\u{201D}), and treat any other depressant — especially alcohol — as compounding the danger. Liver impairment lowers the threshold further. No reliable human Km/Vmax exists, so the direction is shown without a drawn curve."
+            }
+        }
 
-    /// **GHB / GBL** — saturable elimination with a genuinely steep human dose-exposure curve, but no
-    /// clean human Km/Vmax exists (only rat/in-vitro numbers, grade D). Ships qualitative: the direction
-    /// and the harm-reduction crux (thin recreational-to-dangerous margin) are well-evidenced.
-    private static let ghb = Profile(
-        substanceName: "GHB",
-        displayName: "GHB / GBL",
-        mechanism: .elimination,
-        confidence: .medium,
-        kinetics: nil,
-        headline: "Exposure rises steeply and faster than dose — a small step up can disproportionately increase how much your body sees. The gap between a recreational and a dangerous dose is small.",
-        knee: "Nonlinearity appears already at moderate recreational doses: a controlled study saw ~40% more exposure going from 25 to 35 mg/kg, and the regulated product's exposure rises ~3.8× when the dose doubles.",
-        detail: "GHB's clearing pathway saturates, so dose and effect are not proportional and the margin for error is thin. Measure precisely, wait fully between doses (never re-dose because \u{201C}it hasn't hit yet\u{201D}), and treat any other depressant — especially alcohol — as compounding the danger. Liver impairment lowers the threshold further. No reliable human Km/Vmax exists, so the direction is shown without a drawn curve.",
-        citation: "Liechti et al. 2016, Br J Clin Pharmacol (PMID 26659543); FDA/EMA sodium oxybate (Xyrem) label.",
-    )
+        /// The geometry this substance's overlaid curves are drawn on, or `nil` for a substance that
+        /// ships words only.
+        var geometry: Geometry? {
+            switch self {
+            case .alcohol:
+                Geometry(
+                    referenceDoseMg: 14_000,
+                    exampleDoseMultiples: [1, 2, 3, 4],
+                    doseLabel: .drinks,
+                    displayWindowMinutes: 780,
+                    integrationMinutes: 1_440,
+                    stepMinutes: 2,
+                )
+            case .phenytoin:
+                Geometry(
+                    referenceDoseMg: 300,
+                    exampleDoseMultiples: [1, 1.5, 2],
+                    doseLabel: .milligrams(perUnit: 300),
+                    displayWindowMinutes: 4_320,
+                    integrationMinutes: 7_200,
+                    stepMinutes: 12,
+                )
+            case .gabapentin:
+                Geometry(
+                    referenceDoseMg: 300,
+                    exampleDoseMultiples: [1, 2, 3, 4],
+                    doseLabel: .milligrams(perUnit: 300),
+                    displayWindowMinutes: 1_440,
+                    integrationMinutes: 2_880,
+                    stepMinutes: 5,
+                    dosesPerDay: 3,
+                )
+            case .codeine, .tramadol, .ghb:
+                nil
+            }
+        }
+
+        /// Quantitative saturable-*elimination* kinetics for this substance, or `nil` when the DB row
+        /// carries no Km/Vmax (a qualitative profile) or the mechanism is not elimination.
+        func kinetics(from row: SaturableKineticsRow) -> Kinetics? {
+            guard let geometry, let km = row.kmMgPerL, let vmax = row.vmax,
+                  let basis = Kinetics.VmaxBasis(rawBasis: row.vmaxBasis, value: vmax),
+                  let vdPerKg = row.vdLPerKg, let bioavailability = row.bioavailability,
+                  let ka = row.kaPerMin else { return nil }
+            return Kinetics(
+                kmMgPerL: km,
+                vmax: basis,
+                vdPerKg: vdPerKg,
+                bioavailability: bioavailability,
+                ka: ka,
+                referenceDoseMg: geometry.referenceDoseMg,
+                exampleDoseMultiples: geometry.exampleDoseMultiples,
+                doseLabel: geometry.doseLabel,
+                displayWindowMinutes: geometry.displayWindowMinutes,
+                integrationMinutes: geometry.integrationMinutes,
+                stepMinutes: geometry.stepMinutes,
+            )
+        }
+
+        /// Quantitative saturable-*absorption* kinetics for this substance, or `nil` when the DB carries
+        /// no F-vs-dose series or the row lacks the first-order clearance the curves are cleared with.
+        ///
+        /// The DB reports F against the **daily** dose, because that is what the label measured. One
+        /// administration is that dose divided by ``Geometry/dosesPerDay`` — a modeling assumption about
+        /// the dosing regimen, which is why the divisor lives beside the geometry and not in the table.
+        func absorption(from row: SaturableKineticsRow, fByDose points: [BioavailabilityPoint]) -> Absorption? {
+            guard let geometry, let dosesPerDay = geometry.dosesPerDay, dosesPerDay > 0,
+                  let vdPerKg = row.vdLPerKg, let halfLife = row.halfLifeMinutes,
+                  let ka = row.kaPerMin, !points.isEmpty else { return nil }
+            let perDose = points.map { point -> (doseMg: Double, f: Double) in
+                let divisor = point.basis == BioavailabilityBasis.perDay ? dosesPerDay : 1
+                return (doseMg: point.doseMg / divisor, f: point.bioavailabilityPct / 100)
+            }
+            return Absorption(
+                fByDose: perDose,
+                vdPerKg: vdPerKg,
+                halfLifeMin: halfLife,
+                ka: ka,
+                referenceDoseMg: geometry.referenceDoseMg,
+                exampleDoseMultiples: geometry.exampleDoseMultiples,
+                doseLabel: geometry.doseLabel,
+                displayWindowMinutes: geometry.displayWindowMinutes,
+                integrationMinutes: geometry.integrationMinutes,
+                stepMinutes: geometry.stepMinutes,
+            )
+        }
+
+        /// How one substance's curves are laid out. Every field is a rendering choice.
+        struct Geometry {
+            /// The dose treated as "1 unit" — the smallest example dose (milligrams).
+            let referenceDoseMg: Double
+            /// The example doses (as multiples of the reference dose) drawn as overlaid curves.
+            let exampleDoseMultiples: [Double]
+            /// How the per-curve dose labels read ("2 drinks" vs "600 mg").
+            let doseLabel: Kinetics.DoseLabel
+            /// The plotted time window (minutes) — wide enough for the largest example dose to fall back
+            /// toward baseline.
+            let displayWindowMinutes: Double
+            /// How long to integrate when measuring total exposure (AUC) — sized to capture the slowest
+            /// (highest-dose) clearance fully, so the exposure ratio isn't truncated.
+            let integrationMinutes: Double
+            /// Integration step (minutes); coarser for long-clearance drugs to keep the render cheap.
+            let stepMinutes: Double
+            /// Administrations per day assumed when turning a per-day bioavailability point into a
+            /// single-dose one. `nil` for a substance with no F-vs-dose series.
+            var dosesPerDay: Double?
+
+            init(
+                referenceDoseMg: Double,
+                exampleDoseMultiples: [Double],
+                doseLabel: Kinetics.DoseLabel,
+                displayWindowMinutes: Double,
+                integrationMinutes: Double,
+                stepMinutes: Double,
+                dosesPerDay: Double? = nil,
+            ) {
+                self.referenceDoseMg = referenceDoseMg
+                self.exampleDoseMultiples = exampleDoseMultiples
+                self.doseLabel = doseLabel
+                self.displayWindowMinutes = displayWindowMinutes
+                self.integrationMinutes = integrationMinutes
+                self.stepMinutes = stepMinutes
+                self.dosesPerDay = dosesPerDay
+            }
+        }
+    }
 
     // MARK: - Concentration-time curves (intensity over time, one per example dose)
 

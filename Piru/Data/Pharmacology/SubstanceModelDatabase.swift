@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 /// Builds the mechanistic effect engine's per-substance ``SubstanceModelParams`` from **hard data**
 /// (the bundled pharmacology DB) plus a slim curated override layer.
@@ -282,11 +283,25 @@ nonisolated enum SubstanceModelDatabase {
     /// *trigger* Effect Estimates. The engine can still read every other modelable substance
     /// (methamphetamine, cocaine, kratom, MDMA, …) as an interacting agent that shapes the aggregate
     /// curves, but their solo precision is too low to anchor the model, so a session must contain at
-    /// least one of these to surface the view. Normalized canonical names; aliases (`4-mmc`, `ritalin`,
-    /// `adderall`, …) resolve through ``aliases`` first. The cathinones rest on a human 3-MMC study.
-    static let calibratedTriggerSet: Set<String> = [
-        "amphetamine", "methylphenidate", "2-mmc", "3-mmc", "mephedrone",
-    ]
+    /// least one of these to surface the view.
+    ///
+    /// Lowercased canonical names carrying the bundled DB's `model-calibrated` flag; aliases (`4-mmc`,
+    /// `ritalin`, `adderall`, …) resolve through ``aliases`` first, which is why the membership test is
+    /// ``isCalibratedTrigger(_:)`` and not a bare `contains`. Held in a lock-guarded static because the
+    /// gate runs from `nonisolated` code with no store reference; installed once by ``SubstanceStore``
+    /// at index build, and empty before that, which surfaces the classic timeline rather than a
+    /// mechanistic view built on a substance nobody calibrated.
+    private static let calibrated = OSAllocatedUnfairLock<Set<String>>(initialState: [])
+
+    /// Install the calibrated set read from `substance_flags`. Called once per store init.
+    static func loadCalibrated(_ names: Set<String>) {
+        calibrated.withLock { $0 = names }
+    }
+
+    /// The calibrated substances as canonical names — the anchor list the sandbox picker offers.
+    static var calibratedTriggerSet: Set<String> {
+        calibrated.withLock { $0 }
+    }
 
     /// Whether `name` — after normalization and alias resolution — is one of the calibrated trigger
     /// substances (``calibratedTriggerSet``). e.g. "Ritalin" → `methylphenidate`, "4-MMC" → `mephedrone`.

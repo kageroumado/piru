@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 /// Preparations whose pharmacology belongs to a molecule the library carries
 /// separately.
@@ -22,22 +23,29 @@ import Foundation
 /// So the preparation keeps its own entry for dose, duration, effects and
 /// logging, and **borrows** its pharmacology. One molecule, one set of numbers,
 /// named as what it is.
-enum ActiveIngredient {
-    /// Preparation → the molecule its pharmacology is actually measured on.
-    /// Keyed lowercase; resolve through ``resolve(_:)`` rather than reading this.
+nonisolated enum ActiveIngredient {
+    /// Preparation → the molecule its pharmacology is actually measured on, from the bundled DB's
+    /// `substances.active_ingredient_substance_id`. Keyed by the lowercased canonical name.
     ///
-    /// Deliberately short. An entry belongs here only when the preparation's
-    /// psychoactivity is carried by **one** molecule that the library holds as
-    /// its own substance. Ayahuasca does not qualify — its effect is the
-    /// DMT × β-carboline MAOI interaction, so no single row could stand for it.
-    private static let map: [String: String] = [
-        "cannabis": "THC",
-    ]
+    /// Deliberately short. A preparation earns an entry only when its psychoactivity is carried by
+    /// **one** molecule that the library holds as its own substance. Ayahuasca does not qualify — its
+    /// effect is the DMT × β-carboline MAOI interaction, so no single row could stand for it.
+    ///
+    /// Held in a lock-guarded static rather than queried per call because ``pharmacologyName(for:)``
+    /// sits in front of every pharmacology read, and installed once by ``SubstanceStore`` at index
+    /// build. Before the load lands, every substance speaks for itself.
+    private static let map = OSAllocatedUnfairLock<[String: String]>(initialState: [:])
+
+    /// Install the mapping read from `substances.active_ingredient_substance_id`. Called once per
+    /// store init.
+    static func load(_ loaded: [String: String]) {
+        map.withLock { $0 = loaded }
+    }
 
     /// The molecule to read pharmacology from, or `nil` when the substance
     /// speaks for itself (which is almost everything).
     static func resolve(_ substanceName: String) -> String? {
-        map[substanceName.lowercased()]
+        map.withLock { $0[substanceName.lowercased()] }
     }
 
     /// The name to query pharmacology under — the active ingredient when there
