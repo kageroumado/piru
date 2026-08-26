@@ -1,5 +1,168 @@
 import SwiftUI
 
+/// The form's edit state: one draft object instead of two dozen `@State`
+/// fields, so the view is a thin renderer and the seeding / validation /
+/// build logic is testable in one place. Mirrors `MedFormDraft` /
+/// `EntryDraft`. Seeded once in `init` (held via `State(initialValue:)`,
+/// so it resets with the sheet's identity, matching form semantics).
+@Observable @MainActor
+private final class CustomSubstanceDraft {
+    /// Dose tiers — nil means "leave blank / keep library value".
+    struct DoseTierFields {
+        var threshold: Double?
+        var lightMin: Double?
+        var lightMax: Double?
+        var commonMin: Double?
+        var commonMax: Double?
+        var strongMin: Double?
+        var strongMax: Double?
+        var heavy: Double?
+    }
+
+    struct DurationFields {
+        var hasDuration = false
+        var onsetMin: Double?
+        var onsetMax: Double?
+        var comeupMin: Double?
+        var comeupMax: Double?
+        var peakMin: Double?
+        var peakMax: Double?
+        var offsetMin: Double?
+        var offsetMax: Double?
+    }
+
+    var name: String
+    var displayName: String
+    var category: SubstanceCategory
+    var defaultRoute: RouteOfAdministration
+    var unit: String
+    var notes: String
+    var doses = DoseTierFields()
+    var halfLifeMinutes: Double?
+    var duration = DurationFields()
+
+    init(existing: CustomSubstanceEntry?, initialName: String?, personalizing: Substance?) {
+        // Shipped route to seed personalize defaults from.
+        let baseRoute = personalizing.flatMap { sub in
+            sub.routes.first { $0.route == sub.defaultRoute } ?? sub.routes.first
+        }
+
+        name = personalizing?.name ?? existing?.name ?? initialName ?? ""
+        displayName = existing?.displayName ?? ""
+        category = existing?.category ?? personalizing?.category ?? .other
+        defaultRoute = existing?.defaultRoute ?? personalizing?.defaultRoute ?? .oral
+        unit = existing?.unit ?? baseRoute?.unit ?? "mg"
+        notes = existing?.notes ?? ""
+
+        let seedDoses = existing?.doses ?? (existing == nil ? baseRoute?.doses : nil)
+        doses.threshold = Self.positive(seedDoses?.threshold)
+        doses.lightMin = Self.positive(seedDoses?.light?.lowerBound)
+        doses.lightMax = Self.positive(seedDoses?.light?.upperBound)
+        doses.commonMin = Self.positive(seedDoses?.common?.lowerBound)
+        doses.commonMax = Self.positive(seedDoses?.common?.upperBound)
+        doses.strongMin = Self.positive(seedDoses?.strong?.lowerBound)
+        doses.strongMax = Self.positive(seedDoses?.strong?.upperBound)
+        doses.heavy = Self.positive(seedDoses?.heavy)
+
+        let halfLife = existing?.halfLifeMinutes ?? (existing == nil ? personalizing?.halfLifeMinutes : nil)
+        halfLifeMinutes = Self.positive(halfLife)
+
+        let seedDuration = existing?.duration ?? (existing == nil ? baseRoute?.duration : nil)
+        duration.hasDuration = seedDuration != nil
+        duration.onsetMin = Self.positive(seedDuration?.onset?.min)
+        duration.onsetMax = Self.positive(seedDuration?.onset?.max)
+        duration.comeupMin = Self.positive(seedDuration?.comeup?.min)
+        duration.comeupMax = Self.positive(seedDuration?.comeup?.max)
+        duration.peakMin = Self.positive(seedDuration?.peak?.min)
+        duration.peakMax = Self.positive(seedDuration?.peak?.max)
+        duration.offsetMin = Self.positive(seedDuration?.offset?.min)
+        duration.offsetMax = Self.positive(seedDuration?.offset?.max)
+    }
+
+    /// Non-positive shipped values render as an empty field, matching the
+    /// old "blank means unset" semantics.
+    private static func positive(_ value: Double?) -> Double? {
+        guard let value, value > 0 else { return nil }
+        return value
+    }
+
+    // MARK: - Derived
+
+    var unitLabel: String {
+        unit.trimmingCharacters(in: .whitespaces).isEmpty ? "mg" : unit
+    }
+
+    var trimmedName: String {
+        name.trimmingCharacters(in: .whitespaces)
+    }
+
+    var trimmedDisplayName: String {
+        displayName.trimmingCharacters(in: .whitespaces)
+    }
+
+    var canSave: Bool {
+        !trimmedName.isEmpty
+    }
+
+    // MARK: - Builders
+
+    func buildDoses() -> DoseRange? {
+        func val(_ v: Double?) -> Double? {
+            guard let v, v > 0 else { return nil }
+            return v
+        }
+        func range(_ lo: Double?, _ hi: Double?) -> ClosedRange<Double>? {
+            guard let l = val(lo) else { return nil }
+            let h = val(hi) ?? l
+            guard h >= l else { return nil }
+            return l ... h
+        }
+        let dr = DoseRange(
+            threshold: val(doses.threshold),
+            light: range(doses.lightMin, doses.lightMax),
+            common: range(doses.commonMin, doses.commonMax),
+            strong: range(doses.strongMin, doses.strongMax),
+            heavy: val(doses.heavy),
+        )
+        return dr.hasAnyValue ? dr : nil
+    }
+
+    func buildDuration() -> DurationProfile? {
+        guard duration.hasDuration else { return nil }
+        func range(_ min: Double?, _ max: Double?) -> DurationRange? {
+            guard let lo = min, lo > 0 else { return nil }
+            let hi = max ?? lo
+            guard hi >= lo else { return nil }
+            return DurationRange(min: lo, max: hi)
+        }
+        let onset = range(duration.onsetMin, duration.onsetMax)
+        let comeup = range(duration.comeupMin, duration.comeupMax)
+        let peak = range(duration.peakMin, duration.peakMax)
+        let offset = range(duration.offsetMin, duration.offsetMax)
+        guard onset != nil || comeup != nil || peak != nil || offset != nil else { return nil }
+        return DurationProfile(onset: onset, comeup: comeup, peak: peak, offset: offset, afterglow: nil, total: nil)
+    }
+
+    func buildHalfLife() -> Double? {
+        guard let v = halfLifeMinutes, v > 0 else { return nil }
+        return v
+    }
+
+    /// Write every draft field onto an entry — the one assignment block all
+    /// three save modes share.
+    func apply(to entry: inout CustomSubstanceEntry) {
+        entry.name = trimmedName
+        entry.displayName = trimmedDisplayName.isEmpty ? nil : trimmedDisplayName
+        entry.category = category
+        entry.defaultRoute = defaultRoute
+        entry.unit = unit
+        entry.notes = notes
+        entry.doses = buildDoses()
+        entry.duration = buildDuration()
+        entry.halfLifeMinutes = buildHalfLife()
+    }
+}
+
 /// Create/edit a net-new custom substance, or *personalize* a shipped one.
 ///
 /// When `personalizing` is set, the form edits a personal override of that
@@ -20,34 +183,7 @@ struct CustomSubstanceFormView: View {
     var personalizing: Substance?
     var onSaved: ((CustomSubstanceEntry) -> Void)?
 
-    @State private var name: String
-    @State private var displayName: String
-    @State private var category: SubstanceCategory
-    @State private var defaultRoute: RouteOfAdministration
-    @State private var unit: String
-    @State private var notes: String
-
-    // Dose tiers — nil means "leave blank / keep library value"
-    @State private var threshold: Double?
-    @State private var lightMin: Double?
-    @State private var lightMax: Double?
-    @State private var commonMin: Double?
-    @State private var commonMax: Double?
-    @State private var strongMin: Double?
-    @State private var strongMax: Double?
-    @State private var heavy: Double?
-
-    @State private var halfLifeMinutes: Double?
-
-    @State private var hasDuration: Bool
-    @State private var onsetMin: Double?
-    @State private var onsetMax: Double?
-    @State private var comeupMin: Double?
-    @State private var comeupMax: Double?
-    @State private var peakMin: Double?
-    @State private var peakMax: Double?
-    @State private var offsetMin: Double?
-    @State private var offsetMax: Double?
+    @State private var draft: CustomSubstanceDraft
     @State private var showDuplicateAlert = false
 
     private var isEditing: Bool {
@@ -66,53 +202,9 @@ struct CustomSubstanceFormView: View {
         self.existing = existing
         self.personalizing = personalizing
         self.onSaved = onSaved
-
-        // Shipped route to seed personalize defaults from.
-        let baseRoute = personalizing.flatMap { sub in
-            sub.routes.first { $0.route == sub.defaultRoute } ?? sub.routes.first
-        }
-
-        _name = State(initialValue: personalizing?.name ?? existing?.name ?? initialName ?? "")
-        _displayName = State(initialValue: existing?.displayName ?? "")
-        _category = State(initialValue: existing?.category ?? personalizing?.category ?? .other)
-        _defaultRoute = State(initialValue: existing?.defaultRoute ?? personalizing?.defaultRoute ?? .oral)
-        _unit = State(initialValue: existing?.unit ?? baseRoute?.unit ?? "mg")
-        _notes = State(initialValue: existing?.notes ?? "")
-
-        let doses = existing?.doses ?? (existing == nil ? baseRoute?.doses : nil)
-        _threshold = State(initialValue: Self.positive(doses?.threshold))
-        _lightMin = State(initialValue: Self.positive(doses?.light?.lowerBound))
-        _lightMax = State(initialValue: Self.positive(doses?.light?.upperBound))
-        _commonMin = State(initialValue: Self.positive(doses?.common?.lowerBound))
-        _commonMax = State(initialValue: Self.positive(doses?.common?.upperBound))
-        _strongMin = State(initialValue: Self.positive(doses?.strong?.lowerBound))
-        _strongMax = State(initialValue: Self.positive(doses?.strong?.upperBound))
-        _heavy = State(initialValue: Self.positive(doses?.heavy))
-
-        let halfLife = existing?.halfLifeMinutes ?? (existing == nil ? personalizing?.halfLifeMinutes : nil)
-        _halfLifeMinutes = State(initialValue: Self.positive(halfLife))
-
-        let duration = existing?.duration ?? (existing == nil ? baseRoute?.duration : nil)
-        _hasDuration = State(initialValue: duration != nil)
-        _onsetMin = State(initialValue: Self.positive(duration?.onset?.min))
-        _onsetMax = State(initialValue: Self.positive(duration?.onset?.max))
-        _comeupMin = State(initialValue: Self.positive(duration?.comeup?.min))
-        _comeupMax = State(initialValue: Self.positive(duration?.comeup?.max))
-        _peakMin = State(initialValue: Self.positive(duration?.peak?.min))
-        _peakMax = State(initialValue: Self.positive(duration?.peak?.max))
-        _offsetMin = State(initialValue: Self.positive(duration?.offset?.min))
-        _offsetMax = State(initialValue: Self.positive(duration?.offset?.max))
-    }
-
-    /// Non-positive shipped values render as an empty field, matching the
-    /// old "blank means unset" semantics.
-    private static func positive(_ value: Double?) -> Double? {
-        guard let value, value > 0 else { return nil }
-        return value
-    }
-
-    private var unitLabel: String {
-        unit.trimmingCharacters(in: .whitespaces).isEmpty ? "mg" : unit
+        _draft = State(initialValue: CustomSubstanceDraft(
+            existing: existing, initialName: initialName, personalizing: personalizing,
+        ))
     }
 
     // MARK: - Rows
@@ -141,54 +233,6 @@ struct CustomSubstanceFormView: View {
         }
     }
 
-    // MARK: - Builders
-
-    private func buildDoses() -> DoseRange? {
-        func val(_ v: Double?) -> Double? {
-            guard let v, v > 0 else { return nil }
-            return v
-        }
-        func range(_ lo: Double?, _ hi: Double?) -> ClosedRange<Double>? {
-            guard let l = val(lo) else { return nil }
-            let h = val(hi) ?? l
-            guard h >= l else { return nil }
-            return l ... h
-        }
-        let dr = DoseRange(
-            threshold: val(threshold),
-            light: range(lightMin, lightMax),
-            common: range(commonMin, commonMax),
-            strong: range(strongMin, strongMax),
-            heavy: val(heavy),
-        )
-        return dr.hasAnyValue ? dr : nil
-    }
-
-    private func buildDuration() -> DurationProfile? {
-        guard hasDuration else { return nil }
-        func range(_ min: Double?, _ max: Double?) -> DurationRange? {
-            guard let lo = min, lo > 0 else { return nil }
-            let hi = max ?? lo
-            guard hi >= lo else { return nil }
-            return DurationRange(min: lo, max: hi)
-        }
-        let onset = range(onsetMin, onsetMax)
-        let comeup = range(comeupMin, comeupMax)
-        let peak = range(peakMin, peakMax)
-        let offset = range(offsetMin, offsetMax)
-        guard onset != nil || comeup != nil || peak != nil || offset != nil else { return nil }
-        return DurationProfile(onset: onset, comeup: comeup, peak: peak, offset: offset, afterglow: nil, total: nil)
-    }
-
-    private func buildHalfLife() -> Double? {
-        guard let v = halfLifeMinutes, v > 0 else { return nil }
-        return v
-    }
-
-    private var canSave: Bool {
-        !name.trimmingCharacters(in: .whitespaces).isEmpty
-    }
-
     // MARK: - Body
 
     var body: some View {
@@ -196,23 +240,23 @@ struct CustomSubstanceFormView: View {
             Form {
                 if isPersonalizing {
                     Section {
-                        LabeledContent("Substance", value: name)
-                        TextField("Display as (e.g. joint)", text: $displayName)
+                        LabeledContent("Substance", value: draft.name)
+                        TextField("Display as (e.g. joint)", text: $draft.displayName)
                             .autocorrectionDisabled()
                     } header: {
                         Text("Display name")
                     } footer: {
-                        Text("Shown everywhere in place of \"\(name)\". Leave blank to keep the original name. Your dose history is unaffected.")
+                        Text("Shown everywhere in place of \"\(draft.name)\". Leave blank to keep the original name. Your dose history is unaffected.")
                     }
                 } else {
                     Section("Name") {
-                        TextField("Substance name", text: $name)
+                        TextField("Substance name", text: $draft.name)
                             .autocorrectionDisabled()
                     }
                 }
 
                 Section("Classification") {
-                    Picker("Category", selection: $category) {
+                    Picker("Category", selection: $draft.category) {
                         ForEach(SubstanceCategory.allCases) { cat in
                             Label(cat.displayName, systemImage: cat.icon).tag(cat)
                         }
@@ -220,21 +264,21 @@ struct CustomSubstanceFormView: View {
                 }
 
                 Section("Dosing Defaults") {
-                    Picker("Default Route", selection: $defaultRoute) {
+                    Picker("Default Route", selection: $draft.defaultRoute) {
                         ForEach(RouteOfAdministration.allCases) { route in
                             Text(route.localizedName).tag(route)
                         }
                     }
-                    TextField("Unit (e.g. mg, ml, µg)", text: $unit)
+                    TextField("Unit (e.g. mg, ml, µg)", text: $draft.unit)
                         .autocorrectionDisabled()
                 }
 
                 Section {
-                    singleRow("Threshold", value: $threshold, suffix: unitLabel)
-                    rangeRow("Light", min: $lightMin, max: $lightMax, suffix: "\(unitLabel)")
-                    rangeRow("Common", min: $commonMin, max: $commonMax, suffix: "\(unitLabel)")
-                    rangeRow("Strong", min: $strongMin, max: $strongMax, suffix: "\(unitLabel)")
-                    singleRow("Heavy", value: $heavy, suffix: unitLabel)
+                    singleRow("Threshold", value: $draft.doses.threshold, suffix: draft.unitLabel)
+                    rangeRow("Light", min: $draft.doses.lightMin, max: $draft.doses.lightMax, suffix: "\(draft.unitLabel)")
+                    rangeRow("Common", min: $draft.doses.commonMin, max: $draft.doses.commonMax, suffix: "\(draft.unitLabel)")
+                    rangeRow("Strong", min: $draft.doses.strongMin, max: $draft.doses.strongMax, suffix: "\(draft.unitLabel)")
+                    singleRow("Heavy", value: $draft.doses.heavy, suffix: draft.unitLabel)
                 } header: {
                     Text("Dose Ranges")
                 } footer: {
@@ -245,7 +289,7 @@ struct CustomSubstanceFormView: View {
                     HStack {
                         Text("Half-life")
                         Spacer()
-                        TextField("minutes", value: $halfLifeMinutes, format: .number)
+                        TextField("minutes", value: $draft.halfLifeMinutes, format: .number)
                             .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 80)
                         Text("minutes").foregroundStyle(Theme.secondaryLabel)
                     }
@@ -256,25 +300,25 @@ struct CustomSubstanceFormView: View {
                 }
 
                 Section {
-                    Toggle("Custom duration", isOn: $hasDuration.animation())
-                    if hasDuration {
-                        rangeRow("Onset", min: $onsetMin, max: $onsetMax, suffix: "minutes")
-                        rangeRow("Come-up", min: $comeupMin, max: $comeupMax, suffix: "minutes")
-                        rangeRow("Peak", min: $peakMin, max: $peakMax, suffix: "minutes")
-                        rangeRow("Offset", min: $offsetMin, max: $offsetMax, suffix: "minutes")
+                    Toggle("Custom duration", isOn: $draft.duration.hasDuration.animation())
+                    if draft.duration.hasDuration {
+                        rangeRow("Onset", min: $draft.duration.onsetMin, max: $draft.duration.onsetMax, suffix: "minutes")
+                        rangeRow("Come-up", min: $draft.duration.comeupMin, max: $draft.duration.comeupMax, suffix: "minutes")
+                        rangeRow("Peak", min: $draft.duration.peakMin, max: $draft.duration.peakMax, suffix: "minutes")
+                        rangeRow("Offset", min: $draft.duration.offsetMin, max: $draft.duration.offsetMax, suffix: "minutes")
                     }
                 } header: {
                     Text("Duration")
                 } footer: {
                     Text(
-                        hasDuration
+                        draft.duration.hasDuration
                             ? "Minutes for each phase. Leave a phase blank to skip it; the timeline will interpolate from what you provide."
                             : "Add per-phase timing so this substance gets a Live-Activity timeline like library substances.",
                     )
                 }
 
                 Section {
-                    TextField("Notes", text: $notes, axis: .vertical)
+                    TextField("Notes", text: $draft.notes, axis: .vertical)
                         .lineLimit(3 ... 6)
                 } header: {
                     Text("Notes")
@@ -302,14 +346,14 @@ struct CustomSubstanceFormView: View {
                         Image(systemName: "checkmark")
                     }
                     .fontWeight(.semibold)
-                    .disabled(!canSave)
+                    .disabled(!draft.canSave)
                     .accessibilityLabel(isEditing || isPersonalizing ? "Save" : "Add")
                 }
             }
             .alert("Duplicate Name", isPresented: $showDuplicateAlert) {
                 Button("OK") {}
             } message: {
-                Text("A custom substance named \"\(name.trimmingCharacters(in: .whitespaces))\" already exists.")
+                Text("A custom substance named \"\(draft.trimmedName)\" already exists.")
             }
         }
     }
@@ -322,61 +366,34 @@ struct CustomSubstanceFormView: View {
     // MARK: - Save
 
     private func save() {
-        let trimmedName = name.trimmingCharacters(in: .whitespaces)
-        guard !trimmedName.isEmpty else { return }
-        let trimmedDisplay = displayName.trimmingCharacters(in: .whitespaces)
+        guard draft.canSave else { return }
 
         let saved: CustomSubstanceEntry
 
         if isPersonalizing {
             // Personalize mode: the entry is keyed by the canonical name. Update
             // an existing override or create one; never a rename, so no collision.
-            var entry = existing ?? CustomSubstanceEntry(name: trimmedName)
-            entry.name = trimmedName
-            entry.displayName = trimmedDisplay.isEmpty ? nil : trimmedDisplay
-            entry.category = category
-            entry.defaultRoute = defaultRoute
-            entry.unit = unit
-            entry.notes = notes
-            entry.doses = buildDoses()
-            entry.duration = buildDuration()
-            entry.halfLifeMinutes = buildHalfLife()
+            var entry = existing ?? CustomSubstanceEntry(name: draft.trimmedName)
+            draft.apply(to: &entry)
             if existing != nil { store.update(entry) } else { store.add(entry) }
             saved = entry
         } else if let existing {
             // Editing a net-new custom: allow rename unless it collides.
-            if let collision = store.first(whereName: trimmedName), collision.id != existing.id {
+            if let collision = store.first(whereName: draft.trimmedName), collision.id != existing.id {
                 showDuplicateAlert = true
                 return
             }
             var updated = existing
-            updated.name = trimmedName
-            updated.displayName = trimmedDisplay.isEmpty ? nil : trimmedDisplay
-            updated.category = category
-            updated.defaultRoute = defaultRoute
-            updated.unit = unit
-            updated.notes = notes
-            updated.doses = buildDoses()
-            updated.duration = buildDuration()
-            updated.halfLifeMinutes = buildHalfLife()
+            draft.apply(to: &updated)
             store.update(updated)
             saved = updated
         } else {
-            if store.contains(name: trimmedName) {
+            if store.contains(name: draft.trimmedName) {
                 showDuplicateAlert = true
                 return
             }
-            let entry = CustomSubstanceEntry(
-                name: trimmedName,
-                displayName: trimmedDisplay.isEmpty ? nil : trimmedDisplay,
-                category: category,
-                defaultRoute: defaultRoute,
-                unit: unit,
-                notes: notes,
-                doses: buildDoses(),
-                duration: buildDuration(),
-                halfLifeMinutes: buildHalfLife(),
-            )
+            var entry = CustomSubstanceEntry(name: draft.trimmedName)
+            draft.apply(to: &entry)
             store.add(entry)
             saved = entry
         }
