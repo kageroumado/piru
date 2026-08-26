@@ -62,6 +62,8 @@ fix, not noise to tolerate.
 | `substance-flags.json` | `substance_flags` | booleans an engine reads and nothing renders |
 | `regional-names.json` | `regional_names` | which spelling of a name to display in which regions |
 | `opioid-mme.json` | `opioid_mme` | oral morphine-milligram-equivalent factors, and which opioids must never be converted |
+| `by-volume-dosing.json` | `by_volume_dosing`, `drink_presets` | which substances are dosed as concentration × measured volume, the density that converts it, and the tappable presets |
+| `zero-order-kinetics.json` | `zero_order_kinetics` | which substances clear at a fixed mass-per-time, and the Vmax/ka the dose-scaled curve is drawn from |
 | `alias-kinds.json`, `brands.json` | `aliases` | alias provenance, brand flagships |
 | `drug-classes.json` | `substances.drug_class` | interaction-checker class per substance |
 

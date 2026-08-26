@@ -1,0 +1,22 @@
+{
+  "_comment": "Substances whose natural dose input is a concentration applied to a measured volume rather than a mass typed directly. Alcohol is the only adopter: the user measures a 330 mL can at 5% ABV and Piru stores the canonical grams of ethanol the dose ladder and PK model run on. The arithmetic is exact and uncontested — grams = volume x (strength/100) x density — so what belongs here is the density, the colloquial standard-unit mass, and the tappable presets, never a model or a threshold.",
+  "source": "piru-curated",
+  "substances": [
+    {
+      "substance": "Alcohol",
+      "concentrationKind": "percent_by_volume",
+      "canonicalUnit": "g",
+      "densityGramsPerML": 0.789,
+      "standardUnitMass": 14,
+      "standardUnitLabel": "drink",
+      "standardUnitSource": "NIAAA, What Is A Standard Drink?; https://www.niaaa.nih.gov/alcohols-effects-health/overview-alcohol-consumption/what-standard-drink",
+      "notes": "Density is the reference-table value for anhydrous ethanol at 20 C (CRC Handbook of Chemistry and Physics, Physical Constants of Organic Compounds; the OIML R 22 international alcoholometric tables the %ABV convention itself rests on agree). It carries no citation id because a physical constant from a reference table has no paper behind it, and temperature variance across drinking temperatures is far below the precision of a poured volume. The US standard drink is a comparison gloss for reading a logged amount, not a threshold — the same pour is 1.75 units in the UK (8 g) and 1.4 in Australia (10 g).",
+      "presets": [
+        {"kind": "beer", "volumeML": 330, "defaultStrength": 5},
+        {"kind": "wine", "volumeML": 150, "defaultStrength": 13},
+        {"kind": "shot", "volumeML": 44, "defaultStrength": 40},
+        {"kind": "pint", "volumeML": 568, "defaultStrength": 5}
+      ]
+    }
+  ]
+}

@@ -3157,6 +3157,126 @@ class TestSignatureGates(unittest.TestCase):
         ).fetchall()
         self.assertEqual(uncited, [], f"uncited opioid_mme rows: {[r[0] for r in uncited]}")
 
+    def test_by_volume_dosing_ships_alcohol_with_a_usable_conversion(self):
+        """The by-volume panel presents `grams = volume x (ABV/100) x density` as exact
+        arithmetic, so a missing or non-positive density is not a degraded reading — it
+        turns every measured drink into 0 g with nothing on screen to notice.
+
+        Density: 0.789 g/mL is the reference-table value for anhydrous ethanol at 20 C
+        (CRC Handbook, Physical Constants of Organic Compounds), which is also what the
+        OIML R 22 alcoholometric tables the %ABV convention rests on assume.
+        """
+        rows = self.db.execute(
+            "SELECT s.canonical_name, b.concentration_kind, b.canonical_unit,"
+            "       b.density_g_per_ml, b.standard_unit_mass, b.standard_unit_label"
+            "  FROM by_volume_dosing b JOIN substances s ON s.id = b.substance_id"
+        ).fetchall()
+        self.assertTrue(rows, "by_volume_dosing is empty — the By-Drink panel has no adopter")
+        names = {r[0] for r in rows}
+        self.assertIn("Alcohol", names, f"no by-volume row for Alcohol: {sorted(names)}")
+        for name, kind, unit, density, mass, label in rows:
+            self.assertEqual(kind, "percent_by_volume", f"{name}: unrenderable concentration kind")
+            self.assertTrue(unit, f"{name}: no canonical unit to store the converted mass in")
+            self.assertIsNotNone(density, f"{name}: percent-by-volume with no density")
+            self.assertGreater(density, 0, f"{name}: non-positive density")
+            if name == "Alcohol":
+                self.assertAlmostEqual(density, 0.789, places=3)
+                self.assertEqual(mass, 14, "a US standard drink is 14 g of ethanol (NIAAA)")
+                self.assertEqual(label, "drink")
+
+    def test_by_volume_standard_unit_is_cited(self):
+        """The standard-drink mass is a convention a reader may compare their own
+        country's unit against (UK 8 g, Australia 10 g), so it names its source. The
+        density deliberately carries none — a reference-table physical constant has no
+        paper behind it, and its provenance is stated in the row's notes instead."""
+        rows = self.db.execute(
+            "SELECT s.canonical_name, b.standard_unit_mass, b.standard_unit_citation_id, b.notes"
+            "  FROM by_volume_dosing b JOIN substances s ON s.id = b.substance_id"
+        ).fetchall()
+        for name, mass, citation_id, notes in rows:
+            if mass is not None:
+                self.assertIsNotNone(citation_id, f"{name}: uncited standard-unit mass")
+            self.assertTrue(notes, f"{name}: no notes stating where the density comes from")
+
+    def test_drink_presets_are_orderable_and_positive(self):
+        """Presets are the chips the By-Drink panel and the watch both log from. A
+        non-positive volume or strength would log a zero-gram drink from a normal tap."""
+        rows = self.db.execute(
+            "SELECT s.canonical_name, p.kind, p.volume_ml, p.default_strength, p.rank"
+            "  FROM drink_presets p JOIN substances s ON s.id = p.substance_id"
+            " ORDER BY p.substance_id, p.rank"
+        ).fetchall()
+        self.assertTrue(rows, "drink_presets is empty — the By-Drink panel has no chips")
+        for name, kind, volume, strength, _rank in rows:
+            self.assertGreater(volume, 0, f"{name}/{kind}: non-positive volume")
+            self.assertGreater(strength, 0, f"{name}/{kind}: non-positive strength")
+        parents = {
+            r[0]
+            for r in self.db.execute(
+                "SELECT s.canonical_name FROM by_volume_dosing b"
+                "  JOIN substances s ON s.id = b.substance_id"
+            ).fetchall()
+        }
+        orphans = {name for name, *_ in rows} - parents
+        self.assertEqual(orphans, set(), f"drink presets with no by-volume parent: {orphans}")
+
+    def test_zero_order_kinetics_are_positive_and_cited(self):
+        """A row here is what switches a substance onto the dose-scaled linear-decline
+        curve, so every parameter must be able to draw one. A zero or negative Vmax, ka
+        or reference weight leaves the substance declared zero-order with a body content
+        that never peaks and never clears — a flat line where the app has already
+        committed to a curve.
+
+        Ethanol: Vmax 95 +/- 25 mg/min (Norberg, Gabrielsson, Jones & Hahn 2000,
+        Br J Clin Pharmacol 49(5):399-408, PMID 10792196 — a population mean over 16
+        subjects, quoted whole-body). The 60 kg anchor is the app's default profile
+        weight, not the paper's; the paper dosed intravenously and reports no oral ka.
+        """
+        rows = self.db.execute(
+            "SELECT s.canonical_name, z.vmax_mg_per_min, z.vmax_reference_weight_kg,"
+            "       z.ka_per_min, z.citation_id, z.notes"
+            "  FROM zero_order_kinetics z JOIN substances s ON s.id = z.substance_id"
+        ).fetchall()
+        self.assertTrue(rows, "zero_order_kinetics is empty — no substance draws the alcohol curve")
+        names = {r[0] for r in rows}
+        self.assertIn("Alcohol", names, f"no zero-order row for Alcohol: {sorted(names)}")
+        for name, vmax, reference_weight, ka, citation_id, notes in rows:
+            self.assertGreater(vmax, 0, f"{name}: non-positive Vmax")
+            self.assertGreater(reference_weight, 0, f"{name}: non-positive reference weight")
+            self.assertGreater(ka, 0, f"{name}: non-positive ka")
+            self.assertIsNotNone(citation_id, f"{name}: uncited zero-order kinetics")
+            self.assertTrue(
+                notes, f"{name}: no notes saying what the paper does and does not cover"
+            )
+            if name == "Alcohol":
+                self.assertEqual(vmax, 95)
+                self.assertEqual(reference_weight, 60)
+
+    def test_zero_order_bioavailability_is_not_duplicated(self):
+        """F lives in `pk_routes` like every other PK field, and the app pairs it with
+        these rows at read time. A bioavailability column here would be a second answer
+        to a question the database already answers, which is the fork this table was
+        added to end."""
+        columns = {
+            r[1] for r in self.db.execute("PRAGMA table_info(zero_order_kinetics)").fetchall()
+        }
+        self.assertNotIn("bioavailability", columns)
+        self.assertNotIn("bioavailability_pct", columns)
+        rows = self.db.execute(
+            "SELECT s.canonical_name FROM zero_order_kinetics z"
+            "  JOIN substances s ON s.id = z.substance_id"
+            " WHERE NOT EXISTS ("
+            "   SELECT 1 FROM pk_routes p"
+            "    WHERE p.substance_id = z.substance_id AND p.route = 'oral'"
+            "      AND p.bioavailability_pct IS NOT NULL)"
+        ).fetchall()
+        self.assertEqual(
+            rows,
+            [],
+            "zero-order substances with no oral bioavailability to pair with "
+            f"(their curves fall back to F = 1): {[r[0] for r in rows]}",
+        )
+
     def test_class_reference_compounds_populated(self):
         families = self.db.execute(
             "SELECT family, COUNT(*) FROM class_reference_compounds GROUP BY family"
