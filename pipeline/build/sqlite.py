@@ -1729,6 +1729,81 @@ CREATE TABLE pharmacology_matchers (
     PRIMARY KEY (relation, owner_id, slot, matcher)
 );
 CREATE INDEX idx_pharmacology_matchers_owner ON pharmacology_matchers(relation, owner_id);
+
+-- The population onset/peak windows the benzodiazepine discontinuation screen
+-- shows, and the half-life interval that decides which band a drug falls into.
+--
+-- The intervals must TILE the half-life line: sorted by `min_half_life_minutes`
+-- the first starts at 0, each one's max is the next one's min, and the last is
+-- unbounded. That is what makes "which band is this drug in" a total function
+-- with no drug falling through, and it is gated rather than assumed.
+--
+-- Onset and peak are hours for every band, so the six windows stay comparable
+-- and orderable. The phrase a reader sees picks days or hours for itself and is
+-- localized copy keyed by `band`, never a string stored here.
+--
+-- `citation_id` is nullable and a NULL is not an oversight: a band whose windows
+-- the cited review does not state must say so in `notes` instead of borrowing a
+-- citation from the review's neighbouring claims.
+CREATE TABLE withdrawal_timing_bands (
+    -- short | intermediate | long
+    band                  TEXT PRIMARY KEY,
+    -- Inclusive lower bound of the band's effective-half-life interval.
+    min_half_life_minutes REAL NOT NULL,
+    -- Exclusive upper bound; NULL is unbounded (the longest-acting band).
+    max_half_life_minutes REAL,
+    onset_min_hours       REAL NOT NULL,
+    onset_max_hours       REAL NOT NULL,
+    peak_min_hours        REAL NOT NULL,
+    peak_max_hours        REAL NOT NULL,
+    source_id             INTEGER NOT NULL REFERENCES sources(id),
+    citation_id           INTEGER REFERENCES citations(id),
+    notes                 TEXT
+);
+
+-- The clinical acting-class FLOOR for a named benzodiazepine: the band it is
+-- placed in regardless of what its half-life alone would say. Chlordiazepoxide is
+-- the case that needs it — a ~10 h parent half-life that the boundaries read as
+-- short, while its nordazepam tail makes the withdrawal behave long.
+--
+-- A floor only ever lengthens: a metabolite-extended half-life may move a drug to
+-- a longer-acting band, never to a shorter one.
+CREATE TABLE withdrawal_acting_class (
+    substance_id INTEGER NOT NULL REFERENCES substances(id),
+    source_id    INTEGER NOT NULL REFERENCES sources(id),
+    band         TEXT NOT NULL REFERENCES withdrawal_timing_bands(band),
+    citation_id  INTEGER REFERENCES citations(id),
+    notes        TEXT,
+    PRIMARY KEY (substance_id, source_id)
+);
+
+-- What the clinical-trial literature found for each intervention tried alongside
+-- a benzodiazepine taper. Keyed by an intervention slug rather than a substance:
+-- three of the rows (a taper, a therapy, a switch) are not compounds at all.
+--
+-- `verdict` is the whole point of the table and the reason it is a column rather
+-- than prose — the screen's more useful half is the one where the answer is "no
+-- difference", and a row that loses its verdict silently changes sides.
+--
+-- No outcome-size column: the three rows carrying an effect size state it as
+-- '82.6% vs 37.5%', '79% at week 5' and 'more than 60%', and a REAL would have to
+-- store the third as 60 and drop the bound.
+CREATE TABLE taper_interventions (
+    -- Slug; the raw value of the app's intervention enum.
+    intervention TEXT PRIMARY KEY,
+    -- supported | not-supported
+    verdict      TEXT NOT NULL,
+    -- Display order within the verdict's section.
+    rank         INTEGER NOT NULL,
+    -- n of the single controlled trial this row rests on; NULL when it rests on
+    -- several trials with different ns, or on synthesis rather than one study.
+    sample_size  INTEGER,
+    -- How many trials the row summarizes, when the row is a count of them.
+    trial_count  INTEGER,
+    source_id    INTEGER NOT NULL REFERENCES sources(id),
+    citation_id  INTEGER REFERENCES citations(id),
+    notes        TEXT
+);
 """
 
 
@@ -9836,6 +9911,134 @@ class Build:
             written += 1
         return written
 
+    def ingest_withdrawal_bands(self) -> dict[str, int]:
+        """Fill `withdrawal_timing_bands` and `withdrawal_acting_class` from one
+        curated file, because they are one fact split in half: an acting class names
+        a band, and a band the other half does not define is a broken screen.
+
+        Two rules are enforced here rather than left to a reviewer. The bands must
+        tile the half-life line — sorted by lower bound, the first starts at 0, each
+        max meets the next min, and the last is unbounded — so no drug can fall
+        between two bands. And a row is refused the file's citation unless it opts
+        in: `citation: false` means the cited review does not support the row, and
+        then `notes` must say what the review states instead. A band that quietly
+        borrowed the citation would read as sourced on screen."""
+        path = CURATED_DIR.parent / "withdrawal-bands.json"
+        stats = {"bands": 0, "classes": 0, "unmatched": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        source_id = self.source_ids[payload.get("source", "piru-curated")]
+        citation_id = self.cite(payload.get("citation"))
+
+        def row_citation(entry: dict) -> int | None:
+            if entry.get("citation", True):
+                return citation_id
+            if not entry.get("notes"):
+                raise ValueError(
+                    f"withdrawal-bands.json: {entry!r} declines the citation without notes"
+                )
+            return None
+
+        bands = sorted(payload.get("bands", []), key=lambda b: b["minHalfLifeMinutes"])
+        lower = 0.0
+        for index, band in enumerate(bands):
+            upper = band.get("maxHalfLifeMinutes")
+            is_last = index == len(bands) - 1
+            if band["minHalfLifeMinutes"] != lower or (upper is None) != is_last:
+                print(
+                    f"  withdrawal_timing_bands: refusing {band['band']!r} — intervals "
+                    f"must tile from 0 with only the last unbounded",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            onset_min, onset_max = band["onsetHours"]
+            peak_min, peak_max = band["peakHours"]
+            self.cur.execute(
+                "INSERT OR REPLACE INTO withdrawal_timing_bands"
+                "(band, min_half_life_minutes, max_half_life_minutes,"
+                " onset_min_hours, onset_max_hours, peak_min_hours, peak_max_hours,"
+                " source_id, citation_id, notes)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    band["band"],
+                    lower,
+                    upper,
+                    onset_min,
+                    onset_max,
+                    peak_min,
+                    peak_max,
+                    source_id,
+                    row_citation(band),
+                    band.get("notes"),
+                ),
+            )
+            stats["bands"] += 1
+            lower = upper if upper is not None else lower
+
+        known = {band["band"] for band in bands}
+        index = self._alias_index()
+        for entry in payload.get("actingClasses", []):
+            sid = index.get(normalise(entry["substance"]))
+            if sid is None:
+                stats["unmatched"] += 1
+                continue
+            if entry["band"] not in known:
+                print(
+                    f"  withdrawal_acting_class: refusing {entry['substance']!r} — "
+                    f"no band named {entry['band']!r}",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            self.cur.execute(
+                "INSERT OR REPLACE INTO withdrawal_acting_class"
+                "(substance_id, source_id, band, citation_id, notes)"
+                " VALUES (?, ?, ?, ?, ?)",
+                (sid, source_id, entry["band"], row_citation(entry), entry.get("notes")),
+            )
+            stats["classes"] += 1
+        return stats
+
+    def ingest_taper_interventions(self) -> dict[str, int]:
+        """Fill `taper_interventions` from curated JSON, in file order — the file's
+        order is the screen's order, and the two verdict sections read as one
+        ranking so a row moved between them keeps its place."""
+        path = CURATED_DIR.parent / "taper-interventions.json"
+        stats = {"inserted": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        source_id = self.source_ids[payload.get("source", "piru-curated")]
+        citation_id = self.cite(payload.get("citation"))
+        for rank, entry in enumerate(payload.get("interventions", [])):
+            if entry["verdict"] not in {"supported", "not-supported"}:
+                print(
+                    f"  taper_interventions: refusing {entry['intervention']!r} — "
+                    f"verdict {entry['verdict']!r}",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            self.cur.execute(
+                "INSERT OR REPLACE INTO taper_interventions"
+                "(intervention, verdict, rank, sample_size, trial_count,"
+                " source_id, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    entry["intervention"],
+                    entry["verdict"],
+                    rank,
+                    entry.get("sampleSize"),
+                    entry.get("trialCount"),
+                    source_id,
+                    citation_id,
+                    entry.get("notes"),
+                ),
+            )
+            stats["inserted"] += 1
+        return stats
+
     def derive_half_lives_from_pk(self) -> dict[str, int]:
         """Give a substance a `half_lives` row when its only half-life is sitting in
         `pk_routes`.
@@ -12271,6 +12474,12 @@ def main() -> int:
     combination_metabolites = build.ingest_combination_metabolites()
     print(f"Combination metabolites: {combination_metabolites}", file=sys.stderr)
 
+    withdrawal_bands = build.ingest_withdrawal_bands()
+    print(f"Withdrawal bands: {withdrawal_bands}", file=sys.stderr)
+
+    taper_interventions = build.ingest_taper_interventions()
+    print(f"Taper interventions: {taper_interventions}", file=sys.stderr)
+
     derived_half_lives = build.derive_half_lives_from_pk()
     print(f"Half-lives derived from PK: {derived_half_lives}", file=sys.stderr)
 
@@ -12481,6 +12690,9 @@ def main() -> int:
         "enzyme_modulators",
         "combination_metabolites",
         "pharmacology_matchers",
+        "withdrawal_timing_bands",
+        "withdrawal_acting_class",
+        "taper_interventions",
     ]
     db = sqlite3.connect(str(OUT_SQLITE))
     for t in tables:

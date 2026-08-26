@@ -3488,6 +3488,187 @@ class TestSignatureGates(unittest.TestCase):
         ).fetchall()
         self.assertEqual(orphans, [], f"matchers with no owner: {orphans}")
 
+    # ---- withdrawal_timing_bands / withdrawal_acting_class ----------------
+    #
+    # Source throughout: Navarrete F, Garcia-Gutierrez MS, Gasparyan A, Manzanares J.
+    # Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies
+    # and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430 (doi:10.3390/ijms27031430),
+    # read in full. Table 2 is the half-life classification of BZDs; Sec. 5.4 is the
+    # withdrawal syndrome.
+
+    def test_withdrawal_bands_tile_the_half_life_line(self):
+        """Sorted by lower bound the intervals must start at zero, meet edge to edge,
+        and end unbounded. A gap leaves a half-life that belongs to no band and a drug
+        that renders under nothing; an overlap makes the answer depend on row order."""
+        rows = self.db.execute(
+            "SELECT band, min_half_life_minutes, max_half_life_minutes"
+            "  FROM withdrawal_timing_bands ORDER BY min_half_life_minutes"
+        ).fetchall()
+        self.assertTrue(rows, "withdrawal_timing_bands is empty")
+        self.assertEqual(rows[0][1], 0.0, "the shortest band must start at zero")
+        self.assertIsNone(rows[-1][2], "the longest-acting band must be unbounded")
+        for (lower_band, _, lower_max), (upper_band, upper_min, _) in zip(
+            rows, rows[1:], strict=False
+        ):
+            self.assertEqual(lower_max, upper_min, f"{lower_band} does not meet {upper_band}")
+
+    def test_withdrawal_bands_onset_precedes_peak_and_lengthens(self):
+        """Within a band the onset window must open before the peak window, and across
+        bands a longer half-life must mean a later onset and a later peak. The screen's
+        own footer states that claim ('longer-acting drugs delay onset because the drug
+        is still leaving your system'), so a row order that broke it would put the table
+        and the sentence beneath it in contradiction."""
+        rows = self.db.execute(
+            "SELECT band, onset_min_hours, onset_max_hours, peak_min_hours, peak_max_hours"
+            "  FROM withdrawal_timing_bands ORDER BY min_half_life_minutes"
+        ).fetchall()
+        for band, onset_lo, onset_hi, peak_lo, peak_hi in rows:
+            self.assertLessEqual(onset_lo, onset_hi, f"{band} onset window runs backwards")
+            self.assertLessEqual(peak_lo, peak_hi, f"{band} peak window runs backwards")
+            self.assertLessEqual(onset_lo, peak_lo, f"{band} peaks before it starts")
+        for shorter, longer in zip(rows, rows[1:], strict=False):
+            self.assertLess(shorter[1], longer[1], f"{longer[0]} starts no later than {shorter[0]}")
+            self.assertLess(shorter[3], longer[3], f"{longer[0]} peaks no later than {shorter[0]}")
+
+    def test_withdrawal_rows_are_cited_or_say_why_not(self):
+        """A row may decline the citation, and several here do — the review states no
+        onset/peak windows at all, and its Table 2 places oxazepam in a different band
+        than the app shows. What it may not do is decline silently: an uncited row with
+        no note reads on screen exactly like a sourced one."""
+        for table in ("withdrawal_timing_bands", "withdrawal_acting_class"):
+            silent = self.db.execute(
+                f"SELECT band FROM {table}"
+                "  WHERE citation_id IS NULL AND (notes IS NULL OR notes = '')"
+            ).fetchall()
+            self.assertEqual(silent, [], f"{table} rows uncited with no note: {silent}")
+
+    def test_withdrawal_acting_class_names_a_defined_band(self):
+        """A floor pointing at a band the other table does not define renders as a drug
+        classified into nothing."""
+        orphans = self.db.execute(
+            "SELECT s.canonical_name, w.band"
+            "  FROM withdrawal_acting_class w JOIN substances s ON s.id = w.substance_id"
+            " WHERE w.band NOT IN (SELECT band FROM withdrawal_timing_bands)"
+        ).fetchall()
+        self.assertEqual(orphans, [], f"acting classes naming no band: {orphans}")
+
+    def test_withdrawal_acting_class_matches_table_2(self):
+        """The floors the review's Table 2 does support, checked against it by name.
+        Table 2 groups: Ultra-Short (triazolam, t-half 1.5-5.5 h), Short (alprazolam
+        12-15 h, lorazepam 10-20 h), Intermediate (bromazepam 11-22 h), Long
+        (chlordiazepoxide 40-100 h, diazepam 40-200 h, clonazepam 18-50 h).
+
+        Temazepam and oxazepam are deliberately absent from this check: the review does
+        not list temazepam at all, and it lists oxazepam under Short Acting while the app
+        shows intermediate. Both rows decline the citation and record the gap in `notes`
+        — see test_withdrawal_rows_are_cited_or_say_why_not."""
+        expected = {
+            "triazolam": "short",
+            "alprazolam": "short",
+            "lorazepam": "short",
+            "bromazepam": "intermediate",
+            "diazepam": "long",
+            "chlordiazepoxide": "long",
+            "clonazepam": "long",
+        }
+        rows = dict(
+            self.db.execute(
+                "SELECT lower(s.canonical_name), w.band"
+                "  FROM withdrawal_acting_class w JOIN substances s ON s.id = w.substance_id"
+            ).fetchall()
+        )
+        for name, band in expected.items():
+            self.assertEqual(rows.get(name), band, f"{name} is not in the {band} band")
+
+    def test_withdrawal_floor_carries_chlordiazepoxide(self):
+        """The row the whole floor mechanism exists for. Chlordiazepoxide's own half-life
+        in this database is ~10 h, which the band boundaries read as short; the review's
+        Table 2 puts it at 40-100 h with active metabolites, and the nordazepam tail is
+        why its withdrawal behaves long. Lose this row and the misclassification is
+        invisible on screen."""
+        band, parent = self.db.execute(
+            "SELECT w.band, ("
+            "  SELECT MIN(h.half_life_minutes) FROM half_lives h"
+            "   WHERE h.substance_id = w.substance_id)"
+            "  FROM withdrawal_acting_class w JOIN substances s ON s.id = w.substance_id"
+            " WHERE lower(s.canonical_name) = 'chlordiazepoxide'"
+        ).fetchone()
+        self.assertEqual(band, "long")
+        boundary = self.db.execute(
+            "SELECT min_half_life_minutes FROM withdrawal_timing_bands WHERE band = 'long'"
+        ).fetchone()[0]
+        self.assertLess(
+            parent, boundary, "chlordiazepoxide no longer needs a floor — re-derive this test"
+        )
+
+    # ---- taper_interventions ----------------------------------------------
+
+    def test_taper_interventions_have_a_known_verdict(self):
+        """The verdict decides which half of the screen a row lands in, and the ledger's
+        point is that the half where nothing worked is listed as prominently as the half
+        where something did. An unknown verdict drops the row off both."""
+        bad = self.db.execute(
+            "SELECT intervention, verdict FROM taper_interventions"
+            " WHERE verdict NOT IN ('supported', 'not-supported')"
+        ).fetchall()
+        self.assertEqual(bad, [], f"taper_interventions with an unknown verdict: {bad}")
+        for verdict in ("supported", "not-supported"):
+            count = self.db.execute(
+                "SELECT COUNT(*) FROM taper_interventions WHERE verdict = ?", (verdict,)
+            ).fetchone()[0]
+            self.assertGreater(count, 0, f"no {verdict} interventions")
+
+    def test_taper_interventions_are_cited(self):
+        """Every row is a claim about what a clinical trial found. An uncited one cannot
+        be checked, and the reader has no way to tell it apart from a sourced row."""
+        uncited = self.db.execute(
+            "SELECT intervention FROM taper_interventions WHERE citation_id IS NULL"
+        ).fetchall()
+        self.assertEqual(uncited, [], f"uncited taper_interventions: {[r[0] for r in uncited]}")
+
+    def test_taper_intervention_trial_arithmetic(self):
+        """Values read out of the review, section by section. Sec. 8.3.2 imipramine
+        n = 107; Sec. 8.3.1 valproate n = 78, pregabalin n = 106 (the one controlled
+        trial) and carbamazepine three trials, gabapentin n = 19; Sec. 8.3.3 melatonin
+        three trials; Sec. 8.3.4 buspirone four trials, propranolol n = 40; Sec. 8.3.5
+        flumazenil two trials, lithium n = 244, progesterone n = 40, magnesium aspartate
+        n = 144, ondansetron n = 108."""
+        expected = {
+            "imipramine": (107, None),
+            "valproate": (78, None),
+            "pregabalin": (106, 1),
+            "carbamazepine": (None, 3),
+            "gabapentin": (19, None),
+            "melatonin": (None, 3),
+            "buspirone": (None, 4),
+            "propranolol": (40, 1),
+            "flumazenil": (None, 2),
+            "lithium": (244, None),
+            "progesterone": (40, None),
+            "magnesium-aspartate": (144, None),
+            "ondansetron": (108, None),
+        }
+        rows = {
+            name: (n, k)
+            for name, n, k in self.db.execute(
+                "SELECT intervention, sample_size, trial_count FROM taper_interventions"
+            )
+        }
+        for name, values in expected.items():
+            self.assertEqual(rows.get(name), values, f"{name} trial arithmetic")
+
+    def test_taper_interventions_that_rest_on_synthesis_carry_no_n(self):
+        """CBT and the taper itself are the review's syntheses, not single studies, and
+        the long-acting switch is the one strategy it reports NO trial of. An n on any of
+        them would present a synthesis as a trial."""
+        for name in ("cbt-plus-taper", "gradual-taper", "long-acting-switch"):
+            row = self.db.execute(
+                "SELECT sample_size, trial_count FROM taper_interventions WHERE intervention = ?",
+                (name,),
+            ).fetchone()
+            self.assertIsNotNone(row, f"{name} is missing")
+            self.assertEqual(row, (None, None), f"{name} claims trial arithmetic it has none of")
+
     def test_class_reference_compounds_populated(self):
         families = self.db.execute(
             "SELECT family, COUNT(*) FROM class_reference_compounds GROUP BY family"

@@ -68,6 +68,8 @@ fix, not noise to tolerate.
 | `tolerance-modulation.json` | `tolerance_modulation` | which receptor class, while onboard, slows another's tolerance development |
 | `enzyme-modulators.json` | `enzyme_modulators`, `pharmacology_matchers` | which drugs and lifestyle contexts inhibit or induce a clearing enzyme |
 | `combination-metabolites.json` | `combination_metabolites`, `pharmacology_matchers`, `metabolism.conditional_combination_id` | which drug pairs react to form a third active species |
+| `withdrawal-bands.json` | `withdrawal_timing_bands`, `withdrawal_acting_class` | the discontinuation onset/peak windows, and which band a named benzodiazepine belongs to |
+| `taper-interventions.json` | `taper_interventions` | what the trial literature found for each intervention tried alongside a taper |
 | `alias-kinds.json`, `brands.json` | `aliases` | alias provenance, brand flagships |
 | `drug-classes.json` | `substances.drug_class` | normalized antidepressant subclass (SSRI/SNRI/NRI/…), not the interaction class |
 

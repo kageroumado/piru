@@ -6,8 +6,10 @@ import SwiftUI
 /// and the population onset/peak timing bands, framed around the user's **own modeled clearance**. The
 /// "since your last dose" reading is driven by ``ToleranceStore``'s combined GABA-A occupancy curve
 /// (metabolite tails included) — so it says whether the drug is still on board (withdrawal not yet
-/// begun) rather than dropping a calendar day-count onto a fixed band. Source: NAV26 §5.4 (Navarrete
-/// et al. 2026, Int J Mol Sci 27:1430).
+/// begun) rather than dropping a calendar day-count onto a fixed band. The taxonomy is NAV26 §5.3
+/// and Table 3 (Navarrete et al. 2026, Int J Mol Sci 27:1430); the timing bands come from
+/// `withdrawal_timing_bands`, whose rows carry their own provenance and record that NAV26 does not
+/// state those windows.
 struct WithdrawalReferenceView: View {
     /// The GABA-class substances the user actually logged (the card's `contributors`), used to pick
     /// which timing band(s) apply.
@@ -170,123 +172,26 @@ struct WithdrawalReferenceView: View {
 
     // MARK: - Bands
 
+    /// The population bands and acting-class floors, read once and held by the store.
+    private var reference: WithdrawalReference {
+        SubstanceStore.shared.withdrawalReference()
+    }
+
     /// The distinct timing bands the user's logged drugs fall into, longest-acting first (so the
     /// governing/most-cautious band reads at the top).
     private var userBands: [TimingBand] {
+        let reference = reference
         let classes = Set(contributors.map {
-            WithdrawalActingClass.classify(name: $0, effectiveHalfLifeMinutes: effectiveHalfLifeMinutes[$0])
+            reference.classify(name: $0, effectiveHalfLifeMinutes: effectiveHalfLifeMinutes[$0])
         })
-        return TimingBand.all.filter { classes.contains($0.actingClass) }
+        return reference.bands.filter { classes.contains($0.actingClass) }
     }
 
     /// The bands none of the user's drugs fall into — shown dimmed for completeness/context.
     private var otherBands: [TimingBand] {
         let shown = Set(userBands.map(\.actingClass))
-        return TimingBand.all.filter { !shown.contains($0.actingClass) }
+        return reference.bands.filter { !shown.contains($0.actingClass) }
     }
-}
-
-// MARK: - Acting-class classifier
-
-/// Coarse benzodiazepine duration class for the withdrawal-onset bands. Classified by half-life
-/// thresholds (12 h / 40 h) over the drug's **metabolite-extended** effective half-life (I.full): a
-/// prodrug or short parent whose long-acting active metabolite dominates the tail (chlordiazepoxide,
-/// clorazepate, ketazolam → nordazepam, t½ ≈ 70 h) reads as long-acting because its metabolite is.
-/// The NAV26 §5.4 curated table is kept as a floor for the drugs it names, and metabolite data can
-/// only *lengthen* the band, never shorten it.
-nonisolated enum WithdrawalActingClass: Hashable {
-    case short
-    case intermediate
-    case long
-
-    /// Sort key: longer-acting ranks higher (governs the conservative onset placement).
-    var rank: Int {
-        switch self {
-        case .short: 0
-        case .intermediate: 1
-        case .long: 2
-        }
-    }
-
-    /// NAV26 §5.4 clinical groupings, used as a floor (a named drug is never classified *shorter* than
-    /// its table entry, even if a half-life lookup would say so).
-    private static let curated: [String: WithdrawalActingClass] = [
-        "triazolam": .short,
-        "alprazolam": .short,
-        "lorazepam": .short,
-        "temazepam": .intermediate,
-        "oxazepam": .intermediate,
-        "bromazepam": .intermediate,
-        "diazepam": .long,
-        "chlordiazepoxide": .long,
-        "clonazepam": .long,
-    ]
-
-    /// Band from a half-life in minutes: < 12 h short, 12–40 h intermediate, > 40 h long.
-    private static func band(forMinutes minutes: Double) -> WithdrawalActingClass {
-        switch minutes {
-        case ..<720: .short
-        case 720 ..< 2_400: .intermediate
-        default: .long
-        }
-    }
-
-    /// The longest-acting of the NAV26 curated band and the band implied by the drug's
-    /// **metabolite-extended** half-life (K.5). `effectiveHalfLifeMinutes` is the slowest of the
-    /// parent's own half-life and its foldable active metabolites'; `nil` falls back to the parent's
-    /// half-life alone (I.ref behavior). Metabolite data only lengthens the band, so the two sources
-    /// are combined by taking the longer-acting.
-    static func classify(name: String, effectiveHalfLifeMinutes: Double?) -> WithdrawalActingClass {
-        let key = name.lowercased().trimmingCharacters(in: .whitespaces)
-        let metaboliteBand = effectiveHalfLifeMinutes.map(band(forMinutes:))
-        if let curatedBand = curated[key] {
-            // Named in the NAV26 table: that band is the floor, upgraded only by a longer-acting
-            // metabolite-extended half-life (never shortened by a parent-half-life lookup).
-            return [curatedBand, metaboliteBand].compactMap(\.self).max { $0.rank < $1.rank } ?? curatedBand
-        }
-        // Un-curated: classify by the metabolite-extended half-life, else the parent's own.
-        if let metaboliteBand { return metaboliteBand }
-        return HalfLifeDatabase.halfLife(for: name).map(band(forMinutes:)) ?? .intermediate
-    }
-}
-
-// MARK: - Timing band data
-
-/// One onset/peak timing band with its display copy. Windows are in days, from NAV26 §5.4.
-struct TimingBand: Identifiable {
-    let actingClass: WithdrawalActingClass
-    let title: LocalizedStringResource
-    let examples: LocalizedStringResource
-    let onsetPhrase: LocalizedStringResource
-    let peakPhrase: LocalizedStringResource
-
-    var id: Int {
-        actingClass.rank
-    }
-
-    static let all: [TimingBand] = [
-        TimingBand(
-            actingClass: .long,
-            title: "long-acting",
-            examples: "diazepam, chlordiazepoxide, clonazepam",
-            onsetPhrase: "2–7 days",
-            peakPhrase: "5–14 days",
-        ),
-        TimingBand(
-            actingClass: .intermediate,
-            title: "intermediate",
-            examples: "temazepam, oxazepam, bromazepam",
-            onsetPhrase: "1–2 days",
-            peakPhrase: "3–7 days",
-        ),
-        TimingBand(
-            actingClass: .short,
-            title: "short-acting",
-            examples: "triazolam, alprazolam, lorazepam",
-            onsetPhrase: "6–24 hours",
-            peakPhrase: "1–4 days",
-        ),
-    ]
 }
 
 // MARK: - Prediction capsule
@@ -315,7 +220,7 @@ private struct TimingRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
-                Text(band.title)
+                Text(band.actingClass.title)
                     .font(.subheadline.weight(.semibold))
                 if isYours {
                     Text("your drugs")
@@ -326,10 +231,10 @@ private struct TimingRow: View {
                         .foregroundStyle(Theme.accent)
                 }
             }
-            Text("Onset \(String(localized: band.onsetPhrase)), peak \(String(localized: band.peakPhrase))")
+            Text("Onset \(band.onsetPhrase), peak \(band.peakPhrase)")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
-            Text(band.examples)
+            Text(band.actingClass.examples)
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
         }

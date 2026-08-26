@@ -143,6 +143,12 @@ final class SubstanceStore {
     /// read once and never invalidated. ``combinationMetaboliteCache`` is the same shape.
     @ObservationIgnored private var enzymeModulatorCache: [MetabolicModulation.Modulator]?
     @ObservationIgnored private var combinationMetaboliteCache: [CombinationMetabolite.Definition]?
+    /// The discontinuation screen's timing bands and acting-class floors — a dozen rows read once
+    /// and held. Source-derived (the floors carry a source), so invalidated with the converters.
+    @ObservationIgnored private var withdrawalReferenceCache: WithdrawalReference?
+    /// The taper-intervention ledger, read once and held. Not source-derived: the table has one row
+    /// per intervention regardless of source, so it is never invalidated.
+    @ObservationIgnored private var taperInterventionCache: [TaperIntervention]?
 
     /// Name/alias (lowercased) → lightweight batch row, derived from `allCache`.
     /// This is the journal/timeline resolution path: it carries everything
@@ -535,6 +541,7 @@ final class SubstanceStore {
         tagSummaryCache = nil
         benzoEquivalenceCache = nil
         opioidEquivalenceCache = nil
+        withdrawalReferenceCache = nil
     }
 
     /// Set the user's source priority order (highest priority first). Cleared
@@ -1251,6 +1258,99 @@ final class SubstanceStore {
         let loaded = SubstanceReadModel.combinationMetabolites(db: substancesDB)
         combinationMetaboliteCache = loaded
         return loaded
+    }
+
+    /// The benzodiazepine discontinuation screen's population tables: the timing bands and the
+    /// clinical acting-class floors. Read once and held.
+    ///
+    /// The bands are read without a source filter, unlike the converters: `withdrawal_timing_bands`
+    /// is keyed by band alone, so no second source can offer a competing window, and filtering would
+    /// only give a user who reordered their sources a screen with no bands on it at all. The floors
+    /// are keyed per source and resolve by priority like every other per-substance fact.
+    func withdrawalReference() -> WithdrawalReference {
+        if let cached = withdrawalReferenceCache { return cached }
+        let order = enabledSourceOrder
+        guard !order.isEmpty else { return .empty }
+        let priorityCaseSQL = SubstanceReadModel.priorityCaseSQL(order)
+        let enabledSourceListSQL = SubstanceReadModel.enabledSourceListSQL(order)
+        let result: WithdrawalReference = (try? substancesDB.read { db in
+            let bandRows = try Row.fetchAll(db, sql: """
+                SELECT band, min_half_life_minutes AS lo, max_half_life_minutes AS hi,
+                       onset_min_hours AS onset_lo, onset_max_hours AS onset_hi,
+                       peak_min_hours AS peak_lo, peak_max_hours AS peak_hi
+                  FROM withdrawal_timing_bands
+                 ORDER BY min_half_life_minutes DESC
+            """)
+            let bands = bandRows.compactMap { row -> TimingBand? in
+                guard let raw: String = row["band"],
+                      let actingClass = WithdrawalActingClass(rawValue: raw) else { return nil }
+                let onsetLo: Double = row["onset_lo"], onsetHi: Double = row["onset_hi"]
+                let peakLo: Double = row["peak_lo"], peakHi: Double = row["peak_hi"]
+                guard onsetLo <= onsetHi, peakLo <= peakHi else { return nil }
+                return TimingBand(
+                    actingClass: actingClass,
+                    minHalfLifeMinutes: row["lo"],
+                    maxHalfLifeMinutes: row["hi"],
+                    onsetHours: onsetLo ... onsetHi,
+                    peakHours: peakLo ... peakHi,
+                )
+            }
+            let floorRows = try Row.fetchAll(db, sql: """
+                SELECT s.canonical_name AS name, w.band AS band
+                  FROM (
+                    SELECT wac.*, ROW_NUMBER() OVER (
+                        PARTITION BY wac.substance_id
+                        ORDER BY \(priorityCaseSQL) ASC) AS rn
+                      FROM withdrawal_acting_class wac
+                      JOIN sources src ON src.id = wac.source_id
+                     WHERE src.slug IN (\(enabledSourceListSQL))
+                  ) w
+                  JOIN substances s ON s.id = w.substance_id
+                 WHERE w.rn = 1
+            """)
+            var floors: [String: WithdrawalActingClass] = [:]
+            for row in floorRows {
+                guard let raw: String = row["band"],
+                      let actingClass = WithdrawalActingClass(rawValue: raw) else { continue }
+                let name: String = row["name"]
+                floors[name.lowercased()] = actingClass
+            }
+            return WithdrawalReference(bands: bands, floors: floors)
+        }) ?? .empty
+        withdrawalReferenceCache = result
+        return result
+    }
+
+    /// Every taper intervention the trial literature has a verdict on, in the ledger's order — the
+    /// two verdict sections read as one ranking, so a row that changes sides keeps its place. Read
+    /// once and held.
+    ///
+    /// A row whose `intervention` slug names no ``TaperIntervention/Kind`` is dropped rather than
+    /// rendered blank; `TaperInterventionTests` gates that the two sides stay in step.
+    func taperInterventions() -> [TaperIntervention] {
+        if let cached = taperInterventionCache { return cached }
+        let result: [TaperIntervention] = (try? substancesDB.read { db in
+            let rows = try Row.fetchAll(db, sql: """
+                SELECT intervention, verdict, sample_size, trial_count
+                  FROM taper_interventions
+                 ORDER BY rank ASC
+            """)
+            return rows.compactMap { row -> TaperIntervention? in
+                guard let slug: String = row["intervention"],
+                      let kind = TaperIntervention.Kind(rawValue: slug),
+                      let rawVerdict: String = row["verdict"],
+                      let verdict = TaperIntervention.Verdict(rawValue: rawVerdict)
+                else { return nil }
+                return TaperIntervention(
+                    kind: kind,
+                    verdict: verdict,
+                    sampleSize: row["sample_size"],
+                    trialCount: row["trial_count"],
+                )
+            }
+        }) ?? []
+        taperInterventionCache = result
+        return result
     }
 
     /// `class_representatives` as substance id → the tolerance classes that substance stands in for.
