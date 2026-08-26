@@ -91,14 +91,23 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
     /// leaves the pure Bateman offset unchanged.
     let tachyphylaxis: Double
 
-    /// The user's body weight (kg) captured when this state was built. Only ethanol's zero-order
-    /// elimination reads it — a heavier body clears a fixed gram dose faster (`Vmax ∝ weight`), so the
-    /// alcohol curve narrows with weight. Riding inside the (immutable, `Hashable`) state keeps the
-    /// off-main curve math weight-aware without a shared global, and folds weight into the model cache
-    /// key for free. Defaults to ``PKModel/referenceBodyWeightKg`` for non-alcohol doses, which ignore it.
+    /// The user's body weight (kg) captured when this state was built. Only zero-order elimination
+    /// reads it — a heavier body clears a fixed gram dose faster (`Vmax ∝ weight`), so the alcohol
+    /// curve narrows with weight. Riding inside the (immutable, `Hashable`) state keeps the off-main
+    /// curve math weight-aware without a shared global, and folds weight into the model cache key for
+    /// free. Defaults to ``PKModel/referenceBodyWeightKg`` for first-order doses, which ignore it.
     let bodyWeightKg: Double
 
-    init(substanceName: String, colorHex: String, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, tachyphylaxis: Double = 0, bodyWeightKg: Double = PKModel.referenceBodyWeightKg) {
+    /// Saturable (zero-order) elimination parameters, already scaled to ``bodyWeightKg`` — non-nil
+    /// **exactly** for the substances the bundled DB's `zero_order_kinetics` carries a row for, and
+    /// therefore the switch onto the dose-scaled linear-decline curve.
+    ///
+    /// It rides on the state because the curve engine is shared with the widget and the Live Activity,
+    /// which link no GRDB and cannot resolve it themselves: the phone answers "is this substance
+    /// zero-order, and with what Vmax" once, at build time, and every renderer reads that answer.
+    let zeroOrder: PKModel.ZeroOrderKinetics?
+
+    init(substanceName: String, colorHex: String, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, tachyphylaxis: Double = 0, bodyWeightKg: Double = PKModel.referenceBodyWeightKg, zeroOrder: PKModel.ZeroOrderKinetics? = nil) {
         self.substanceName = substanceName
         self.colorHex = colorHex
         self.doseTimestamp = doseTimestamp
@@ -116,6 +125,7 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
         self.heavyThresholdMagnitude = heavyThresholdMagnitude
         self.tachyphylaxis = tachyphylaxis
         self.bodyWeightKg = bodyWeightKg
+        self.zeroOrder = zeroOrder
     }
 
     init(from decoder: Decoder) throws {
@@ -139,5 +149,8 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
         heavyThresholdMagnitude = try c.decodeIfPresent(Double.self, forKey: .heavyThresholdMagnitude)
         tachyphylaxis = try c.decodeIfPresent(Double.self, forKey: .tachyphylaxis) ?? 0
         bodyWeightKg = try c.decodeIfPresent(Double.self, forKey: .bodyWeightKg) ?? PKModel.referenceBodyWeightKg
+        // Absent on an activity started by an older build: the dose draws the fixed phase bell, which
+        // is what every first-order substance gets and what alcohol got before this field existed.
+        zeroOrder = try c.decodeIfPresent(PKModel.ZeroOrderKinetics.self, forKey: .zeroOrder)
     }
 }

@@ -1804,6 +1804,87 @@ CREATE TABLE taper_interventions (
     citation_id  INTEGER REFERENCES citations(id),
     notes        TEXT
 );
+
+-- Substances dosed as a CONCENTRATION APPLIED TO A MEASURED VOLUME rather than a
+-- mass typed in directly: the user measures a 330 mL can at 5% ABV and the app
+-- stores the canonical mass. The conversion is exact arithmetic, not a model —
+-- `grams = volume_ml x (strength / 100) x density_g_per_ml` — so this table
+-- carries only its constants, and a substance without a row simply has no
+-- by-volume input panel.
+CREATE TABLE by_volume_dosing (
+    substance_id       INTEGER NOT NULL REFERENCES substances(id),
+    source_id          INTEGER NOT NULL REFERENCES sources(id),
+    -- How the strength figure maps onto the volume. 'percent_by_volume' (the
+    -- strength field is % ABV) is the only kind the app renders today.
+    concentration_kind TEXT NOT NULL,
+    -- Unit the converted mass is stored in on the logged dose ("g" for alcohol),
+    -- and therefore the unit the dose ladder and PK pipeline consume.
+    canonical_unit     TEXT NOT NULL,
+    -- Liquid density in GRAMS PER MILLILITRE at 20 C. Required for
+    -- 'percent_by_volume'; the conversion is undefined without it. It carries no
+    -- citation_id because a reference-table physical constant has no paper behind
+    -- it — its provenance is stated in `notes`, and a database landing page is
+    -- not a citation (is_identifier_citation drops one).
+    density_g_per_ml   REAL,
+    -- Mass of one colloquial "standard" unit, in `canonical_unit` (a US standard
+    -- drink is 14 g of ethanol). A reading gloss for an amount already logged,
+    -- never a threshold.
+    standard_unit_mass REAL,
+    -- What that colloquial unit is called ("drink"), matched case-insensitively
+    -- when a dose is logged in it.
+    standard_unit_label TEXT,
+    standard_unit_citation_id INTEGER REFERENCES citations(id),
+    notes              TEXT,
+    PRIMARY KEY (substance_id, source_id)
+);
+
+-- Tappable presets for a by-volume substance: a fixed measured volume plus a
+-- pre-filled strength the user nudges. `kind` is a closed vocabulary the app maps
+-- to a localized label and a symbol, so a kind the app does not know is dropped
+-- rather than rendered as a raw string.
+CREATE TABLE drink_presets (
+    substance_id     INTEGER NOT NULL REFERENCES substances(id),
+    source_id        INTEGER NOT NULL REFERENCES sources(id),
+    kind             TEXT NOT NULL,
+    volume_ml        REAL NOT NULL,
+    -- Pre-filled strength in the units of the parent row's concentration_kind
+    -- (% ABV for 'percent_by_volume').
+    default_strength REAL NOT NULL,
+    rank             INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (substance_id, source_id, kind)
+);
+
+-- Substances whose clearing enzyme is SATURATED across the normal dose range, so
+-- elimination runs at a fixed mass-per-time instead of halving each half-life.
+-- The presence of a row is itself the switch: it is what puts a substance on the
+-- dose-scaled linear-decline curve whose duration grows with dose, and a
+-- substance with no row keeps the first-order phase bell. Kept as one table
+-- rather than a flag plus parameters elsewhere, because a substance declared
+-- zero-order with no Vmax has no curve to draw — the two cannot be allowed to
+-- disagree.
+--
+-- Bioavailability is deliberately absent: it is the same quantity
+-- `pk_routes.bioavailability_pct` already carries, resolved by source priority
+-- with every other PK field.
+CREATE TABLE zero_order_kinetics (
+    substance_id             INTEGER NOT NULL REFERENCES substances(id),
+    source_id                INTEGER NOT NULL REFERENCES sources(id),
+    -- Maximal elimination rate in MILLIGRAMS PER MINUTE, whole body, at
+    -- `vmax_reference_weight_kg`. (Note the unit: everything else PK-shaped in
+    -- this database is per-minute too, but `pk_routes.clearance` is per-kg and
+    -- this is not.)
+    vmax_mg_per_min          REAL NOT NULL,
+    -- Body weight (kg) `vmax_mg_per_min` is anchored to, so the app can scale it
+    -- with the user's weight. Elimination throughput tracks lean/liver mass, so a
+    -- heavier body clears a fixed mass proportionally faster. This is an app-side
+    -- anchor, not necessarily a figure the cited study reports.
+    vmax_reference_weight_kg REAL NOT NULL,
+    -- First-order absorption rate constant, PER MINUTE.
+    ka_per_min               REAL NOT NULL,
+    citation_id              INTEGER REFERENCES citations(id),
+    notes                    TEXT,
+    PRIMARY KEY (substance_id, source_id)
+);
 """
 
 
@@ -9553,6 +9634,132 @@ class Build:
             stats["inserted"] += 1
         return stats
 
+    def ingest_by_volume_dosing(self) -> dict[str, int]:
+        """Fill `by_volume_dosing` + `drink_presets` from curated JSON. Resolved by
+        name OR alias.
+
+        A non-positive density or standard-unit mass is refused rather than
+        written: both are divisors or multipliers in a conversion the app presents
+        as exact, so a zero would silently turn every measured drink into 0 g (or
+        into an infinity of standard drinks) with nothing on screen to notice."""
+        path = CURATED_DIR.parent / "by-volume-dosing.json"
+        stats = {"inserted": 0, "presets": 0, "unmatched": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        source_id = self.source_ids[payload.get("source", "piru-curated")]
+        for entry in payload.get("substances", []):
+            sid = index.get(normalise(entry["substance"]))
+            if sid is None:
+                stats["unmatched"] += 1
+                continue
+            density = entry.get("densityGramsPerML")
+            standard_mass = entry.get("standardUnitMass")
+            bad = [
+                label
+                for label, value in (("density", density), ("standardUnitMass", standard_mass))
+                if value is not None and not value > 0
+            ]
+            if entry["concentrationKind"] == "percent_by_volume" and density is None:
+                bad.append("density (required for percent_by_volume)")
+            if bad:
+                print(
+                    f"  by_volume_dosing: refusing {entry['substance']!r} — {', '.join(bad)}",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            self.cur.execute(
+                "INSERT OR REPLACE INTO by_volume_dosing"
+                "(substance_id, source_id, concentration_kind, canonical_unit, density_g_per_ml,"
+                " standard_unit_mass, standard_unit_label, standard_unit_citation_id, notes)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    sid,
+                    source_id,
+                    entry["concentrationKind"],
+                    entry["canonicalUnit"],
+                    density,
+                    standard_mass,
+                    entry.get("standardUnitLabel"),
+                    self.cite(entry.get("standardUnitSource")),
+                    entry.get("notes"),
+                ),
+            )
+            stats["inserted"] += 1
+            for rank, preset in enumerate(entry.get("presets", [])):
+                if not (preset["volumeML"] > 0 and preset["defaultStrength"] > 0):
+                    print(
+                        f"  drink_presets: refusing {entry['substance']!r}/{preset['kind']!r}"
+                        " — non-positive volume or strength",
+                        file=sys.stderr,
+                    )
+                    stats["rejected"] += 1
+                    continue
+                self.cur.execute(
+                    "INSERT OR REPLACE INTO drink_presets"
+                    "(substance_id, source_id, kind, volume_ml, default_strength, rank)"
+                    " VALUES (?, ?, ?, ?, ?, ?)",
+                    (
+                        sid,
+                        source_id,
+                        preset["kind"],
+                        preset["volumeML"],
+                        preset["defaultStrength"],
+                        rank,
+                    ),
+                )
+                stats["presets"] += 1
+        return stats
+
+    def ingest_zero_order_kinetics(self) -> dict[str, int]:
+        """Fill `zero_order_kinetics` from curated JSON. Resolved by name OR alias.
+
+        Every parameter must be strictly positive. A zero or negative Vmax, ka or
+        reference weight would leave the substance declared zero-order with a body
+        content that never peaks and never clears — a flat line where the app has
+        already committed to drawing a dose-scaled curve, which is worse than
+        having no row at all."""
+        path = CURATED_DIR.parent / "zero-order-kinetics.json"
+        stats = {"inserted": 0, "unmatched": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        source_id = self.source_ids[payload.get("source", "piru-curated")]
+        for entry in payload.get("substances", []):
+            sid = index.get(normalise(entry["substance"]))
+            if sid is None:
+                stats["unmatched"] += 1
+                continue
+            fields = ("vmaxMgPerMin", "vmaxReferenceWeightKg", "kaPerMin")
+            bad = [f for f in fields if not entry.get(f, 0) > 0]
+            if bad:
+                print(
+                    f"  zero_order_kinetics: refusing {entry['substance']!r} — "
+                    f"non-positive {', '.join(bad)}",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            self.cur.execute(
+                "INSERT OR REPLACE INTO zero_order_kinetics"
+                "(substance_id, source_id, vmax_mg_per_min, vmax_reference_weight_kg,"
+                " ka_per_min, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (
+                    sid,
+                    source_id,
+                    entry["vmaxMgPerMin"],
+                    entry["vmaxReferenceWeightKg"],
+                    entry["kaPerMin"],
+                    self.cite(entry.get("citation")),
+                    entry.get("notes"),
+                ),
+            )
+            stats["inserted"] += 1
+        return stats
+
     def populate_regional_names(self) -> dict[str, int]:
         """Fill `regional_names` from curated JSON. `alternateRegions` is either a
         literal list of ISO region codes or the name of a group declared in
@@ -12480,6 +12687,12 @@ def main() -> int:
     taper_interventions = build.ingest_taper_interventions()
     print(f"Taper interventions: {taper_interventions}", file=sys.stderr)
 
+    by_volume = build.ingest_by_volume_dosing()
+    print(f"By-volume dosing: {by_volume}", file=sys.stderr)
+
+    zero_order = build.ingest_zero_order_kinetics()
+    print(f"Zero-order kinetics: {zero_order}", file=sys.stderr)
+
     derived_half_lives = build.derive_half_lives_from_pk()
     print(f"Half-lives derived from PK: {derived_half_lives}", file=sys.stderr)
 
@@ -12693,6 +12906,9 @@ def main() -> int:
         "withdrawal_timing_bands",
         "withdrawal_acting_class",
         "taper_interventions",
+        "by_volume_dosing",
+        "drink_presets",
+        "zero_order_kinetics",
     ]
     db = sqlite3.connect(str(OUT_SQLITE))
     for t in tables:

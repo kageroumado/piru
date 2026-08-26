@@ -251,37 +251,26 @@ struct UnitAlias: Hashable {
 }
 
 extension Substance {
-    /// Colloquial unit aliases for this substance. Keys are the canonical
-    /// (lowercased) substance name or any alias; the lookup matches whichever
-    /// is canonical at runtime.
-    ///
-    /// References:
-    /// - **drink**: US standard drink = 14 g of pure ethanol per
-    ///   [NIAAA](https://www.niaaa.nih.gov/alcohols-effects-health/overview-alcohol-consumption/what-standard-drink).
-    private static let unitAliasTable: [String: [UnitAlias]] = [
-        "alcohol": [
-            UnitAlias(label: "drink", amountPerUnit: 14, unit: "g"),
-        ],
-        "ethanol": [
-            UnitAlias(label: "drink", amountPerUnit: 14, unit: "g"),
-        ],
-    ]
-
     /// Unit aliases applicable to this substance — the user's own
-    /// (``customUnitAliases``) ahead of the curated conventions, looked up by
-    /// canonical name or any alias. Empty for substances with neither.
+    /// (``customUnitAliases``) ahead of the standard unit its by-volume capability
+    /// declares ("drink" = 14 g of ethanol). Empty for substances with neither.
     var unitAliases: [UnitAlias] {
-        let candidates = [name.lowercased()] + aliases.map { $0.lowercased() }
-        let curated = candidates.lazy.compactMap { Self.unitAliasTable[$0] }.first ?? []
-        return customUnitAliases + curated
+        guard let capability = byVolumeDosing, capability.standardUnitMass > 0,
+              !capability.standardUnitLabel.isEmpty
+        else { return customUnitAliases }
+        return customUnitAliases + [UnitAlias(
+            label: capability.standardUnitLabel,
+            amountPerUnit: capability.standardUnitMass,
+            unit: capability.canonicalUnit,
+        )]
     }
 
     /// By-volume dose-input capability (concentration × measured volume → canonical
-    /// mass), looked up by canonical name or alias. Non-nil only for the curated
-    /// adopters (alcohol in v1); the dose form renders the by-volume panel when set.
+    /// mass) from the bundled DB's `by_volume_dosing`, looked up by canonical name or
+    /// alias. Non-nil only for the substances that carry a row (alcohol in v1); the
+    /// dose form renders the by-volume panel when set.
     var byVolumeDosing: ByVolumeDosing? {
-        let candidates = [name.lowercased()] + aliases.map { $0.lowercased() }
-        return candidates.lazy.compactMap { ByVolumeDosing.catalog[$0] }.first
+        ByVolumeCatalog.capability(forAnyOf: [name] + aliases)
     }
 
     /// Convert an amount-in-some-unit to this substance's native unit for the

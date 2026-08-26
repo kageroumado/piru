@@ -377,39 +377,53 @@ extension PKModel {
     /// This is the lightweight analytic sibling of the ``Saturation/elimination`` RK4 integrator used by
     /// the ceiling tool. It works in **body content (mg)**, `M(t) = F·D·(1 − e^{−ka·t}) − Vmax·t`, and the
     /// timeline draws its normalized `M(t)/peak` shape. The clearing enzyme's throughput scales with
-    /// lean/liver mass, so `Vmax` scales with **body weight** (``ethanolZeroOrder(weightKg:)``): a heavier
-    /// person clears a fixed gram dose faster (clear time ≈ `F·D/Vmax`), so the *same* two-bottle whiskey
-    /// draws a visibly narrower curve at 100 kg than at 60 kg. Weight therefore does **not** cancel out of
-    /// the shape — it sets how fast the linear decline falls.
-    nonisolated struct ZeroOrderKinetics: Equatable {
+    /// lean/liver mass, so `Vmax` scales with **body weight**: a heavier person clears a fixed gram dose
+    /// faster (clear time ≈ `F·D/Vmax`), so the *same* two-bottle whiskey draws a visibly narrower curve
+    /// at 100 kg than at 60 kg. Weight therefore does **not** cancel out of the shape — it sets how fast
+    /// the linear decline falls.
+    ///
+    /// The values are per-substance data, resolved from the bundled DB's `zero_order_kinetics` (plus
+    /// the substance's own `pk_routes` bioavailability) by ``SubstanceStore/zeroOrderKinetics(forSubstanceName:weightKg:)``
+    /// and carried on ``ActiveSubstanceState/zeroOrder``, so the widget and Live Activity draw the same
+    /// curve without a database of their own.
+    nonisolated struct ZeroOrderKinetics: Equatable, Hashable, Codable, Sendable {
         /// Bioavailability `F ∈ (0, 1]`.
         let bioavailability: Double
-        /// Maximal elimination rate at the user's body weight, **mg/min** (ethanol: 95 mg/min at the
-        /// 60 kg reference, Norberg 2000; scaled per-kg by ``ethanolZeroOrder(weightKg:)``).
+        /// Maximal elimination rate **at this person's body weight**, mg/min.
         let vmaxMgPerMin: Double
         /// First-order absorption rate constant, per minute.
         let ka: Double
     }
 
-    /// Reference body weight (kg) at which the literature ethanol `Vmax` (95 mg/min) is quoted. Matches
-    /// `UserProfileStore.defaultWeightKg` so an unset weight reproduces the canonical numbers.
+    /// Default body weight (kg) for a profile that has not set one. Matches
+    /// `UserProfileStore.defaultWeightKg`.
     nonisolated static let referenceBodyWeightKg = 60.0
 
-    /// Per-kg ethanol elimination: 95 mg/min at 60 kg ⇒ ~1.583 mg/min/kg. Elimination throughput tracks
-    /// lean/liver mass, so a heavier body metabolizes a fixed ethanol mass proportionally faster.
-    nonisolated static let ethanolVmaxMgPerMinPerKg = 95.0 / referenceBodyWeightKg
+    /// The weight band the zero-order model will scale `Vmax` across. Outside it the rate is held at
+    /// the bound rather than extrapolated: a clearance projected linearly from a 5 kg or a 999 kg body
+    /// is arithmetic, not physiology.
+    nonisolated static let minimumModeledWeightKg = 20.0
+    nonisolated static let maximumModeledWeightKg = 300.0
 
-    /// Ethanol zero-order kinetics at a given body weight — `Vmax` scales with weight; `F`/`ka` are fixed.
-    /// Kept numerically in lockstep with the ceiling tool's `SaturablePharmacology` ethanol profile
-    /// (Norberg, Gabrielsson, Jones & Hahn 2000, PMID 10792196).
-    nonisolated static func ethanolZeroOrder(weightKg: Double) -> ZeroOrderKinetics {
-        let w = weightKg.isFinite ? min(max(weightKg, 20), 300) : referenceBodyWeightKg
-        return ZeroOrderKinetics(bioavailability: 0.9, vmaxMgPerMin: ethanolVmaxMgPerMinPerKg * w, ka: 0.05)
+    /// A substance's stored zero-order parameters, scaled to one person. `Vmax` is stored against a
+    /// reference weight and scaled per-kg from there; `F` and `ka` are weight-independent.
+    nonisolated static func zeroOrderKinetics(
+        vmaxMgPerMin: Double,
+        referenceWeightKg: Double,
+        kaPerMin: Double,
+        bioavailability: Double,
+        weightKg: Double,
+    ) -> ZeroOrderKinetics {
+        let clamped = weightKg.isFinite
+            ? min(max(weightKg, minimumModeledWeightKg), maximumModeledWeightKg)
+            : referenceBodyWeightKg
+        let reference = referenceWeightKg > 0 ? referenceWeightKg : referenceBodyWeightKg
+        return ZeroOrderKinetics(
+            bioavailability: bioavailability,
+            vmaxMgPerMin: vmaxMgPerMin / reference * clamped,
+            ka: kaPerMin,
+        )
     }
-
-    /// Canonical ethanol kinetics at the 60 kg reference weight — the fixed baseline used by tests and the
-    /// lockstep check; live curves use ``ethanolZeroOrder(weightKg:)`` with the user's weight.
-    nonisolated static let ethanolZeroOrder = ethanolZeroOrder(weightKg: referenceBodyWeightKg)
 
     /// Body content (mg still in the body) at `minutes`: first-order absorption from a gut depot, minus
     /// constant zero-order elimination. `M(t) = F·D·(1 − e^{−ka·t}) − Vmax·t`, floored at 0 once cleared.

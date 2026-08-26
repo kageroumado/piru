@@ -272,7 +272,13 @@ extension SessionStateExport {
     private static func makeEliminationGroup(name: String, entries: [DoseEntry], now: Date) -> EliminationGroup? {
         guard let earliest = entries.map(\.timestamp).min() else { return nil }
         let substance = SubstanceLibrary.lookup(entries.first?.substance ?? name)
-        let isAlcohol = ["alcohol", "ethanol"].contains(name.lowercased())
+        // Whether this substance clears at a fixed mass-per-time is a database fact
+        // (`zero_order_kinetics`), the same one the timeline curve switches on — so the
+        // elimination readout and the curve can never disagree about which model a dose is under.
+        let zeroOrder = SubstanceStore.shared.zeroOrderKinetics(
+            forSubstanceName: substance?.name ?? name,
+            weightKg: UserProfileStore.shared.effectiveWeightKg,
+        )
 
         // A group containing a dose whose form we don't model can't be totalled:
         // this curve is the *combined* body load for the substance, so one
@@ -292,13 +298,13 @@ extension SessionStateExport {
         }
 
         // Zero-order (alcohol) path.
-        if isAlcohol {
+        if let zeroOrder {
             let doses = entries.compactMap { entry -> ZeroOrderDose? in
                 guard let mg = TimelineCurveModel.zeroOrderDoseMilligrams(amount: entry.amount, unit: entry.unit) else { return nil }
                 return ZeroOrderDose(offsetMinutes: offset(entry), doseMg: mg)
             }
             if !doses.isEmpty {
-                return zeroOrderGroup(name: name, doses: doses, groupStart: earliest, doseCount: entries.count, now: now)
+                return zeroOrderGroup(name: name, kinetics: zeroOrder, doses: doses, groupStart: earliest, doseCount: entries.count, now: now)
             }
         }
 
@@ -347,8 +353,7 @@ extension SessionStateExport {
         )
     }
 
-    private static func zeroOrderGroup(name: String, doses: [ZeroOrderDose], groupStart: Date, doseCount: Int, now: Date) -> EliminationGroup {
-        let kinetics = PKModel.ethanolZeroOrder(weightKg: UserProfileStore.shared.effectiveWeightKg)
+    private static func zeroOrderGroup(name: String, kinetics: PKModel.ZeroOrderKinetics, doses: [ZeroOrderDose], groupStart: Date, doseCount: Int, now: Date) -> EliminationGroup {
         let totalGrams = doses.reduce(0.0) { $0 + $1.doseMg } / 1_000
         func body(_ global: Double) -> Double { // grams
             doses.reduce(0.0) { acc, dose in

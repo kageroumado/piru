@@ -100,7 +100,9 @@ enum QuickLogManifestBuilder {
             }
             .map(\.element)
 
-        let presets = ordered.contains(where: \.isByVolume) ? ManifestDrinkPreset.curatedAlcohol() : []
+        let presets = ordered.first { $0.isByVolume }
+            .flatMap { ByVolumeCatalog.capability(forAnyOf: [$0.substance]) }
+            .map(ManifestDrinkPreset.wireForm(of:)) ?? []
         return QuickLogManifest(generatedAt: generatedAt, items: ordered, drinkPresets: presets)
     }
 
@@ -172,7 +174,7 @@ enum QuickLogManifestBuilder {
 
     /// Whether a substance logs by volume (alcohol today) — drives the watch drink flow.
     private static func isByVolume(_ substance: String) -> Bool {
-        ByVolumeDosing.catalog[substance.lowercased()] != nil
+        ByVolumeCatalog.capability(forAnyOf: [substance]) != nil
     }
 
     private static func recentsDescriptor() -> FetchDescriptor<QuickLogDose> {
@@ -183,14 +185,14 @@ enum QuickLogManifestBuilder {
     }
 }
 
-// MARK: - Curated drink presets → wire form
+// MARK: - Drink presets → wire form
 
 extension ManifestDrinkPreset {
-    /// The curated alcohol drink presets (Beer/Wine/Shot/Pint), with names and canonical
+    /// A by-volume capability's drink presets (Beer/Wine/Shot/Pint), with names and canonical
     /// millilitres resolved on the phone so the watch renders them with no `Measurement` or
     /// localization work. The name localizes to the phone's locale at build time.
-    static func curatedAlcohol() -> [ManifestDrinkPreset] {
-        ByVolumeDosing.alcohol.drinkPresets.map { preset in
+    static func wireForm(of capability: ByVolumeDosing) -> [ManifestDrinkPreset] {
+        capability.drinkPresets.map { preset in
             ManifestDrinkPreset(
                 id: preset.kind.rawValue,
                 name: String(localized: preset.name),

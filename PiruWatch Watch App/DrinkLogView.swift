@@ -134,10 +134,10 @@ struct DrinkVolumeView: View {
     }
 
     private var grams: Double {
-        WatchDrinkMath.grams(volumeML: volumeML, abv: abv)
+        ByVolumeDosing.grams(volumeML: volumeML, abv: abv)
     }
     private var drinks: Double {
-        WatchDrinkMath.standardDrinks(volumeML: volumeML, abv: abv)
+        ByVolumeDosing.standardDrinks(grams: grams)
     }
 
     private func log() {

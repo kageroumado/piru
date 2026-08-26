@@ -12,6 +12,18 @@ import Testing
 @Suite("CustomDrinkPreset")
 @MainActor
 struct CustomDrinkPresetTests {
+    /// Alcohol's by-volume capability as the app resolves it, so the seeded rows are gated against
+    /// what `by_volume_dosing` + `drink_presets` actually ship rather than a fixture.
+    private let alcoholCapability: ByVolumeDosing
+
+    init() throws {
+        _ = SubstanceStore.shared
+        alcoholCapability = try #require(
+            ByVolumeCatalog.capability(forAnyOf: ["Alcohol"]),
+            "no by_volume_dosing row for Alcohol in the bundled DB",
+        )
+    }
+
     private func makeContext() throws -> ModelContext {
         let container = try ModelContainer(
             for: Schema(StoreRecovery.models),
@@ -23,10 +35,10 @@ struct CustomDrinkPresetTests {
     @Test
     func `seeds the curated drink presets on first use`() throws {
         let ctx = try makeContext()
-        CustomDrinkPreset.seedIfNeeded(for: "alcohol", capability: .alcohol, context: ctx)
+        CustomDrinkPreset.seedIfNeeded(for: "alcohol", capability: alcoholCapability, context: ctx)
 
         let seeded = try ctx.fetch(FetchDescriptor<CustomDrinkPreset>(sortBy: [SortDescriptor(\.sortOrder)]))
-        #expect(seeded.count == ByVolumeDosing.alcohol.drinkPresets.count)
+        #expect(seeded.count == alcoholCapability.drinkPresets.count)
         #expect(seeded.map(\.name) == ["Beer", "Wine", "Shot", "Pint"])
         let beer = seeded.first
         #expect(beer?.emoji == "🍺")
@@ -38,10 +50,10 @@ struct CustomDrinkPresetTests {
     @Test
     func `seeding is idempotent — a second call adds nothing`() throws {
         let ctx = try makeContext()
-        CustomDrinkPreset.seedIfNeeded(for: "alcohol", capability: .alcohol, context: ctx)
-        CustomDrinkPreset.seedIfNeeded(for: "alcohol", capability: .alcohol, context: ctx)
+        CustomDrinkPreset.seedIfNeeded(for: "alcohol", capability: alcoholCapability, context: ctx)
+        CustomDrinkPreset.seedIfNeeded(for: "alcohol", capability: alcoholCapability, context: ctx)
         let count = try ctx.fetchCount(FetchDescriptor<CustomDrinkPreset>())
-        #expect(count == ByVolumeDosing.alcohol.drinkPresets.count)
+        #expect(count == alcoholCapability.drinkPresets.count)
     }
 
     @Test
@@ -50,7 +62,7 @@ struct CustomDrinkPresetTests {
         // User already has one custom preset — seeding must leave it alone.
         ctx.insert(CustomDrinkPreset(name: "House IPA", strengthABV: 6, substanceName: "alcohol"))
         try ctx.save()
-        CustomDrinkPreset.seedIfNeeded(for: "alcohol", capability: .alcohol, context: ctx)
+        CustomDrinkPreset.seedIfNeeded(for: "alcohol", capability: alcoholCapability, context: ctx)
         let all = try ctx.fetch(FetchDescriptor<CustomDrinkPreset>())
         #expect(all.count == 1)
         #expect(all.first?.name == "House IPA")

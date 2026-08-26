@@ -330,20 +330,19 @@ nonisolated enum TimelineCurveModel {
     /// Zero-order elimination kinetics + the logged dose in **milligrams** for a substance whose
     /// clearing enzyme saturates across its dose range (alcohol). `nil` for every first-order
     /// substance, or when the dose can't be read as a mass — both fall back to the phase bell.
+    ///
+    /// Which substances those are is a database fact, resolved on the phone and carried on the state
+    /// (``ActiveSubstanceState/zeroOrder``), so the widget and Live Activity — which link no GRDB —
+    /// reach the same answer as the app.
     nonisolated static func zeroOrderKinetics(for s: ActiveSubstanceState) -> (PKModel.ZeroOrderKinetics, doseMg: Double)? {
-        zeroOrderKinetics(substanceName: s.substanceName, amount: s.amount, unit: s.unit, weightKg: s.bodyWeightKg)
+        zeroOrderKinetics(s.zeroOrder, amount: s.amount, unit: s.unit)
     }
 
-    /// The zero-order kinetics + dose (mg) for a substance identified by raw fields, so the
-    /// state *builder* can consult the same model the curve uses before an `ActiveSubstanceState`
-    /// exists. `nil` for every first-order substance or an unreadable dose.
-    nonisolated static func zeroOrderKinetics(substanceName: String, amount: Double, unit: String, weightKg: Double = PKModel.referenceBodyWeightKg) -> (PKModel.ZeroOrderKinetics, doseMg: Double)? {
-        let kinetics: PKModel.ZeroOrderKinetics
-        switch substanceName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
-        case "alcohol", "ethanol": kinetics = PKModel.ethanolZeroOrder(weightKg: weightKg)
-        default: return nil
-        }
-        guard let mg = zeroOrderDoseMilligrams(amount: amount, unit: unit) else { return nil }
+    /// The kinetics paired with the dose (mg), so the state *builder* can consult the same model the
+    /// curve uses before an `ActiveSubstanceState` exists. `nil` for a first-order substance
+    /// (`kinetics == nil`) or an unreadable dose.
+    nonisolated static func zeroOrderKinetics(_ kinetics: PKModel.ZeroOrderKinetics?, amount: Double, unit: String) -> (PKModel.ZeroOrderKinetics, doseMg: Double)? {
+        guard let kinetics, let mg = zeroOrderDoseMilligrams(amount: amount, unit: unit) else { return nil }
         return (kinetics, mg)
     }
 
@@ -356,9 +355,9 @@ nonisolated enum TimelineCurveModel {
     /// The curve is an absorption rise to a BAC peak (`zeroOrderPeakMinutes`) followed by a long
     /// linear decline to clearance (`zeroOrderClearMinutes`), so the whole descending limb maps to a
     /// single wide "offset" and there is no afterglow.
-    nonisolated static func zeroOrderBoundaries(substanceName: String, amount: Double, unit: String, weightKg: Double = PKModel.referenceBodyWeightKg)
+    nonisolated static func zeroOrderBoundaries(_ kinetics: PKModel.ZeroOrderKinetics?, amount: Double, unit: String)
         -> (onsetEnd: Double, comeupEnd: Double, peakEnd: Double, offsetEnd: Double, total: Double)? {
-        guard let (kinetics, doseMg) = zeroOrderKinetics(substanceName: substanceName, amount: amount, unit: unit, weightKg: weightKg) else { return nil }
+        guard let (kinetics, doseMg) = zeroOrderKinetics(kinetics, amount: amount, unit: unit) else { return nil }
         let peak = PKModel.zeroOrderPeakMinutes(doseMg: doseMg, kinetics: kinetics)
         let clear = PKModel.zeroOrderClearMinutes(doseMg: doseMg, kinetics: kinetics)
         guard peak > 0, clear > peak else { return nil }
@@ -368,10 +367,9 @@ nonisolated enum TimelineCurveModel {
     }
 
     /// The logged amount in milligrams of ethanol. Mass units convert directly;
-    /// colloquial **drink/unit** counts convert at the NIAAA standard-drink mass
-    /// (`ByVolumeDosing.usStandardDrinkGrams`, 14 g) so alcohol logged "2 drinks"
-    /// still drives the zero-order ceiling model instead of falling back to the
-    /// generic phase bell. A volume unit (mL of a *drink*) isn't a mass and
+    /// colloquial **drink/unit** counts convert at the standard-drink mass so alcohol
+    /// logged "2 drinks" still drives the zero-order ceiling model instead of falling
+    /// back to the generic phase bell. A volume unit (mL of a *drink*) isn't a mass and
     /// returns `nil` so the caller falls back rather than mistaking mL for mg.
     nonisolated static func zeroOrderDoseMilligrams(amount: Double, unit: String) -> Double? {
         guard amount.isFinite, amount > 0 else { return nil }
@@ -379,9 +377,7 @@ nonisolated enum TimelineCurveModel {
         case "g", "gram", "grams": return amount * 1_000
         case "mg", "milligram", "milligrams": return amount
         case "drink", "drinks", "unit", "units", "standard drink", "standard drinks":
-            // NIAAA US standard drink = 14 g ethanol (matches
-            // `ByVolumeDosing.usStandardDrinkGrams`, inlined as this is nonisolated).
-            return amount * 14 * 1_000
+            return amount * ByVolumeDosing.usStandardDrinkGrams * 1_000
         default: return nil
         }
     }

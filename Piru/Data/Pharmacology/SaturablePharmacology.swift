@@ -229,6 +229,11 @@ enum SaturablePharmacology {
     /// intoxicating BACs that clearance is effectively a fixed ~1 standard drink/hour regardless of
     /// load, so total exposure scales roughly with the *square* of the dose.
     /// Norberg et al. 2000 (PMID 10792196): Vmax 95 ± 25 mg/min, Km 27 ± 19 mg/L (IV primary).
+    ///
+    /// `bioavailability` tracks the substance's resolved `pk_routes` row, which is where the
+    /// timeline's zero-order curve reads it — the ceiling tool and the timeline draw the same drug
+    /// and must not disagree about it. `ZeroOrderPKTests` gates that; when it fires, bring this
+    /// profile to the database's value rather than the reverse.
     private static let ethanol = Profile(
         substanceName: "Alcohol",
         displayName: "Alcohol (ethanol)",
@@ -238,7 +243,7 @@ enum SaturablePharmacology {
             kmMgPerL: 27,
             vmax: .wholeBodyMgPerMin(95),
             vdPerKg: 0.55,
-            bioavailability: 0.9,
+            bioavailability: 0.88,
             ka: 0.05,
             referenceDoseMg: 14_000,
             exampleDoseMultiples: [1, 2, 3, 4],

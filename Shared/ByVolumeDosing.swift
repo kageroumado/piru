@@ -12,7 +12,7 @@ import Foundation
 /// canonical mass (grams of ethanol) the dose ladder and PK model run on. This type
 /// is the exact, uncontested arithmetic between the two — not a model, no confidence
 /// hedge: `grams = volume × (ABV/100) × density`.
-struct ByVolumeDosing: Hashable {
+nonisolated struct ByVolumeDosing: Hashable {
     /// How a strength figure maps onto a volume.
     enum Concentration: Hashable {
         /// Percent volume-by-volume of a liquid with the given density (g/mL).
@@ -27,6 +27,11 @@ struct ByVolumeDosing: Hashable {
     /// The unit stored on the resulting `DoseEntry` — "g" for alcohol — and what
     /// the dose ladder / PK pipeline consume. The whole point of canonicalising.
     let canonicalUnit: String
+    /// Mass of one colloquial "standard" unit in ``canonicalUnit`` — 14 g for a US
+    /// standard drink. A gloss for reading an amount already logged, never a threshold.
+    let standardUnitMass: Double
+    /// What that colloquial unit is called on the dose form ("drink").
+    let standardUnitLabel: String
     /// Tappable presets that pre-fill a volume + a default strength (Beer/Wine/…).
     /// First-class, not optional: the watch flow logs primarily from these.
     let drinkPresets: [DrinkPreset]
@@ -42,19 +47,23 @@ struct ByVolumeDosing: Hashable {
 
     // MARK: Pure conversion
 
-    /// Ethanol density at 20 °C (g/mL). Temperature variance is negligible for
-    /// dose tracking — don't over-precision the readout.
-    static let ethanolDensityGramsPerML: Double = 0.789
+    /// Ethanol density at 20 °C (g/mL) and the US standard-drink mass (g), for the
+    /// targets that cannot read `by_volume_dosing`: the watch (no database on the
+    /// wrist) and the pure `Shared/Engines` conversions the widget and Live Activity
+    /// run in their own processes, which link no GRDB. Everything inside the Piru
+    /// target takes these off the resolved ``ByVolumeDosing`` capability instead.
+    ///
+    /// `ByVolumeDosingDBTests` asserts each equals its `by_volume_dosing` column, so
+    /// the two can be one edit apart but never silently disagree. Never add a third
+    /// declaration — that fork is what this pair exists to end.
+    nonisolated static let ethanolDensityGramsPerML: Double = 0.789
 
-    /// US standard drink — 14 g of pure ethanol per
-    /// [NIAAA](https://www.niaaa.nih.gov/alcohols-effects-health/overview-alcohol-consumption/what-standard-drink).
-    /// A comparison gloss, not a safety threshold.
-    static let usStandardDrinkGrams: Double = 14
+    nonisolated static let usStandardDrinkGrams: Double = 14
 
     /// Grams of ethanol in `volumeML` of a drink at `abv` percent.
     /// `grams = volumeML × (abv / 100) × density`. Non-finite or non-positive
     /// inputs yield 0 (blank/garbled field → no dose, never a crash or NaN).
-    static func grams(
+    nonisolated static func grams(
         volumeML: Double,
         abv: Double,
         densityGramsPerML: Double = ByVolumeDosing.ethanolDensityGramsPerML,
@@ -69,7 +78,7 @@ struct ByVolumeDosing: Hashable {
     /// that yields `grams` of ethanol at the given `abv`. Used to keep the
     /// By-Drink volume consistent when the dose is edited by grams (By Weight).
     /// Non-finite / non-positive inputs yield 0.
-    static func volumeML(
+    nonisolated static func volumeML(
         grams: Double,
         abv: Double,
         densityGramsPerML: Double = ByVolumeDosing.ethanolDensityGramsPerML,
@@ -83,7 +92,7 @@ struct ByVolumeDosing: Hashable {
     /// Approximate US standard-drink equivalent of a grams-of-ethanol amount —
     /// the intuitive gloss shown alongside the canonical grams. Convention-dependent
     /// (US 14 g); label it as such, never a safety line.
-    static func standardDrinks(grams: Double) -> Double {
+    nonisolated static func standardDrinks(grams: Double) -> Double {
         guard grams.isFinite, grams > 0 else { return 0 }
         return grams / usStandardDrinkGrams
     }
@@ -94,7 +103,11 @@ struct ByVolumeDosing: Hashable {
 /// A tappable drink preset: a fixed measured volume + a default strength the user
 /// can nudge. Stored as `Measurement<UnitVolume>` so a "pint" is 568 mL whether the
 /// user's locale shows it as mL or fl oz — Foundation converts for display.
-struct DrinkPreset: Hashable, Identifiable {
+nonisolated struct DrinkPreset: Hashable, Identifiable {
+    /// The closed vocabulary `drink_presets.kind` is written in. The volume and
+    /// strength are data; the label and symbol below are app copy keyed by the
+    /// case, so a row naming a kind this build doesn't know is dropped rather than
+    /// rendered as a raw string.
     enum Kind: String, Hashable, CaseIterable {
         case beer
         case wine
@@ -144,29 +157,7 @@ extension DrinkPreset.Kind {
     }
 }
 
-// MARK: - Curated Catalog
-
 extension ByVolumeDosing {
-    /// Curated by-volume capability for alcohol — the only adopter in v1. Mirrors
-    /// the hardcoded `drink` unit alias (a curated Swift constant, not pipeline
-    /// data); promote to the data layer when a second substance adopts it.
-    static let alcohol = ByVolumeDosing(
-        concentration: .percentByVolume(densityGramsPerML: ethanolDensityGramsPerML),
-        canonicalUnit: "g",
-        drinkPresets: [
-            DrinkPreset(kind: .beer, volume: Measurement(value: 330, unit: .milliliters), defaultABV: 5),
-            DrinkPreset(kind: .wine, volume: Measurement(value: 150, unit: .milliliters), defaultABV: 13),
-            DrinkPreset(kind: .shot, volume: Measurement(value: 44, unit: .milliliters), defaultABV: 40),
-            DrinkPreset(kind: .pint, volume: Measurement(value: 568, unit: .milliliters), defaultABV: 5),
-        ],
-    )
-
-    /// Lookup by canonical substance name / alias (lowercased).
-    static let catalog: [String: ByVolumeDosing] = [
-        "alcohol": alcohol,
-        "ethanol": alcohol,
-    ]
-
     /// Trim a numeric value for display/storage: integer when whole, else one
     /// decimal. Shared by the input field, the presets, and the breadcrumb.
     nonisolated static func formatTrimmed(_ value: Double) -> String {

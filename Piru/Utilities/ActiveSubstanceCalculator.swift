@@ -166,7 +166,7 @@ enum ActiveSubstanceCalculator {
 
 extension ActiveSubstanceState {
     /// Build from a pre-resolved duration profile and basic dose info.
-    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, tachyphylaxis: Double = 0, weightKg: Double = PKModel.referenceBodyWeightKg) {
+    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, tachyphylaxis: Double = 0, weightKg: Double = PKModel.referenceBodyWeightKg, zeroOrderKinetics: PKModel.ZeroOrderKinetics? = nil) {
         guard let rawDuration = duration else { return nil }
         // Endpoint-only data (a `total` with no come-up/peak/offset) would
         // otherwise collapse the curve to the onset length; synthesize the
@@ -178,7 +178,7 @@ extension ActiveSubstanceState {
         // bar, phase-band coloring, now-line active window, "{elapsed} in · {remaining} left" — must
         // track the same kinetics the curve draws, not the fixed `DurationProfile`. Falls back to the
         // profile below when the dose can't be read as a mass or is too small to form a BAC peak.
-        let zeroOrder = TimelineCurveModel.zeroOrderBoundaries(substanceName: name, amount: amount, unit: unit, weightKg: weightKg)
+        let zeroOrder = TimelineCurveModel.zeroOrderBoundaries(zeroOrderKinetics, amount: amount, unit: unit)
         self.init(
             substanceName: name,
             colorHex: colorHex,
@@ -197,6 +197,7 @@ extension ActiveSubstanceState {
             heavyThresholdMagnitude: heavyThresholdMagnitude,
             tachyphylaxis: tachyphylaxis,
             bodyWeightKg: weightKg,
+            zeroOrder: zeroOrderKinetics,
         )
     }
 
@@ -247,6 +248,7 @@ extension ActiveSubstanceState {
         let doseRange = Self.resolveDoseRange(substance: substance, route: entry.route)
         let intensity = Self.computeDoseIntensity(amount: entry.amount, doseRange: doseRange)
         let magnitude = Self.computeDoseMagnitude(amount: entry.amount, doseRange: doseRange)
+        let weightKg = UserProfileStore.shared.effectiveWeightKg
         // Prefer the product envelope; else the form actually logged — a D-isomer
         // dose must not be drawn with the racemic curve the detail card wouldn't show.
         if let duration = productDuration ?? substance.timelineDuration(
@@ -267,7 +269,10 @@ extension ActiveSubstanceState {
                 doseMagnitude: magnitude,
                 heavyThresholdMagnitude: Self.heavyThresholdMagnitude(for: doseRange),
                 tachyphylaxis: substance.category.acuteToleranceFactor,
-                weightKg: UserProfileStore.shared.effectiveWeightKg,
+                weightKg: weightKg,
+                zeroOrderKinetics: SubstanceStore.shared.zeroOrderKinetics(
+                    forSubstanceName: substance.name, weightKg: weightKg,
+                ),
             )
         }
         return nil

@@ -1,0 +1,15 @@
+{
+  "_comment": "Substances whose clearing enzyme is saturated across the normal dose range, so elimination runs at a fixed mass-per-time (zero-order) instead of halving each half-life. The defining consequence is that duration scales with DOSE, which no fixed-width duration profile can express — a row here is what switches the timeline onto the dose-scaled linear-decline shape, and a substance with no row keeps the first-order phase bell. Ethanol is the only member.",
+  "_bioavailability": "Deliberately absent: F is the same quantity `pk_routes.bioavailability_pct` already carries for these substances, resolved by source priority like every other PK field. A copy here would be a second answer to a question the database already answers.",
+  "source": "piru-curated",
+  "substances": [
+    {
+      "substance": "Alcohol",
+      "vmaxMgPerMin": 95,
+      "vmaxReferenceWeightKg": 60,
+      "kaPerMin": 0.05,
+      "citation": "Norberg A, Gabrielsson J, Jones AW, Hahn RG. Within- and between-subject variations in pharmacokinetic parameters of ethanol by analysis of breath, venous blood and urine. Br J Clin Pharmacol 2000;49(5):399-408; doi:10.1046/j.1365-2125.2000.00194.x",
+      "notes": "Vmax 95 +/- 25 mg/min is Norberg's population mean over 16 subjects, quoted whole-body with no per-kg normalisation (Km 27 +/- 19 mg/L sits far below any intoxicating BAC, which is why the elimination reads as flat-rate). The 60 kg anchor is Piru's, not the paper's: it is the default profile weight, picked so an unset weight reproduces the published figure exactly. kaPerMin is a fitted absorption constant with no source of its own — Norberg dosed intravenously (0.4 g/kg infusion) and reports no oral absorption rate."
+    }
+  ]
+}

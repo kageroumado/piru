@@ -304,7 +304,8 @@ final class ActiveSessionManager {
     // MARK: - State Building
 
     func buildSubstanceStates(colorMap: [String: String]) -> [ActiveSubstanceState] {
-        activeEntries.compactMap { item in
+        let weightKg = UserProfileStore.shared.effectiveWeightKg
+        return activeEntries.compactMap { item in
             let hex = colorMap[item.snapshot.substance.lowercased()] ?? item.colorHex
             let substance = SubstanceLibrary.lookup(item.snapshot.substance)
             let doseRange = substance.flatMap {
@@ -327,7 +328,10 @@ final class ActiveSessionManager {
                 duration: item.duration,
                 category: substance?.category,
                 doseIntensity: intensity,
-                weightKg: UserProfileStore.shared.effectiveWeightKg,
+                weightKg: weightKg,
+                zeroOrderKinetics: substance.flatMap {
+                    SubstanceStore.shared.zeroOrderKinetics(forSubstanceName: $0.name, weightKg: weightKg)
+                },
             )
         }
     }

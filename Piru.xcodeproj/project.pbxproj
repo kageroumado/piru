@@ -124,6 +124,7 @@
 		0BFA00CE00000000000000E1 /* Exceptions for "Shared" folder in "PiruWatch Watch App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				ByVolumeDosing.swift,
 				WatchSync/QuickLogManifest.swift,
 				WatchSync/WatchDosePayload.swift,
 			);

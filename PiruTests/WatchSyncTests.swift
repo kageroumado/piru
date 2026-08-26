@@ -21,6 +21,21 @@ struct WatchSyncTests {
             configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
         )
 
+    /// Alcohol's by-volume capability as the app resolves it. The store's index build is what
+    /// installs the catalog, so touching it here is what makes the presets available.
+    static func alcoholCapability() -> ByVolumeDosing {
+        _ = SubstanceStore.shared
+        guard let capability = ByVolumeCatalog.capability(forAnyOf: ["Alcohol"]) else {
+            Issue.record("no by_volume_dosing row for Alcohol in the bundled DB")
+            return ByVolumeDosing(
+                concentration: .percentByVolume(densityGramsPerML: ByVolumeDosing.ethanolDensityGramsPerML),
+                canonicalUnit: "g", standardUnitMass: ByVolumeDosing.usStandardDrinkGrams,
+                standardUnitLabel: "drink", drinkPresets: [],
+            )
+        }
+        return capability
+    }
+
     /// The shared main context with user data cleared, for a test that asserts on counts.
     private func freshContext() throws -> ModelContext {
         let context = Self.container.mainContext
@@ -76,7 +91,7 @@ struct WatchSyncTests {
         let manifest = QuickLogManifest(
             generatedAt: Date(timeIntervalSince1970: 1_700_000_000),
             items: [QuickLogManifestItem(id: "k", substance: "Alcohol", route: "oral", amount: 14, unit: "g", isByVolume: true)],
-            drinkPresets: ManifestDrinkPreset.curatedAlcohol(),
+            drinkPresets: ManifestDrinkPreset.wireForm(of: Self.alcoholCapability()),
         )
         let context = try #require(manifest.applicationContext())
         let decoded = try #require(QuickLogManifest(applicationContext: context))
@@ -206,7 +221,7 @@ struct WatchSyncTests {
             recents: [drink], favorites: [], generatedAt: Date(timeIntervalSince1970: 0),
         )
         #expect(manifest.items.first?.isByVolume == true)
-        #expect(manifest.drinkPresets.count == ByVolumeDosing.alcohol.drinkPresets.count)
+        #expect(manifest.drinkPresets.count == Self.alcoholCapability().drinkPresets.count)
         #expect(manifest.drinkPresets.contains { $0.emoji == "🍺" && $0.volumeML == 330 })
     }
 

@@ -70,6 +70,8 @@ fix, not noise to tolerate.
 | `combination-metabolites.json` | `combination_metabolites`, `pharmacology_matchers`, `metabolism.conditional_combination_id` | which drug pairs react to form a third active species |
 | `withdrawal-bands.json` | `withdrawal_timing_bands`, `withdrawal_acting_class` | the discontinuation onset/peak windows, and which band a named benzodiazepine belongs to |
 | `taper-interventions.json` | `taper_interventions` | what the trial literature found for each intervention tried alongside a taper |
+| `by-volume-dosing.json` | `by_volume_dosing`, `drink_presets` | which substances are dosed as concentration × measured volume, the density that converts it, and the tappable presets |
+| `zero-order-kinetics.json` | `zero_order_kinetics` | which substances clear at a fixed mass-per-time, and the Vmax/ka the dose-scaled curve is drawn from |
 | `alias-kinds.json`, `brands.json` | `aliases` | alias provenance, brand flagships |
 | `drug-classes.json` | `substances.drug_class` | normalized antidepressant subclass (SSRI/SNRI/NRI/…), not the interaction class |
 
