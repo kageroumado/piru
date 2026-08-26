@@ -150,6 +150,23 @@ struct InteractionDataGatingTests {
         #expect(drifted.isEmpty, "copy and row disagree:\n\(drifted.joined(separator: "\n"))")
     }
 
+    @Test
+    func `The copy actually reaches a Chinese reader`() {
+        // This is the entire reason the sentences stayed in Swift rather than
+        // moving into the row beside their severity. If the string extractor ever
+        // stops seeing them where they are written, every one of these resolves to
+        // English and only a reader in zh would ever find out.
+        var missing: [String] = []
+        for (key, resource) in InteractionRuleCopy.table {
+            var english = resource
+            english.locale = Locale(identifier: "en")
+            var simplified = resource
+            simplified.locale = Locale(identifier: "zh-Hans")
+            if String(localized: english) == String(localized: simplified) { missing.append(key) }
+        }
+        #expect(missing.isEmpty, "rule copy with no zh-Hans translation: \(missing.sorted())")
+    }
+
     // MARK: - The rows reach the reader
 
     @Test
