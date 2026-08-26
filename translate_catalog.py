@@ -2245,12 +2245,14 @@ T = {
     "Animal": ("动物", "動物"),
     "In-vitro": ("体外", "體外"),
     "Aggregated": ("综合来源", "綜合來源"),
+    "Curated": ("人工整理", "人工整理"),
     "human assay": ("人体实验", "人體實驗"),
     "rat assay": ("大鼠实验", "大鼠實驗"),
     "mouse assay": ("小鼠实验", "小鼠實驗"),
     "animal assay": ("动物实验", "動物實驗"),
     "in-vitro assay": ("体外实验", "體外實驗"),
     "aggregator source": ("综合来源", "綜合來源"),
+    "curated entry": ("人工整理条目", "人工整理條目"),
     "Evidence source: %@, %@": ("数据来源：%@，%@", "數據來源：%@，%@"),
     # ContraceptionCautionBanner
     "May reduce hormonal birth-control efficacy": (
@@ -7143,6 +7145,8 @@ if __name__ == "__main__":
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
         "<1% elemental",
+        "Curated",
+        "curated entry",
         "Crisis resources, safety basics, and how Piru works.",
         "Pharmacological data is compiled from the sources above — community databases, FDA labeling, and peer-reviewed literature. Provided for reference and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use.",
         "Includes %lld min of workout — the dose rows leave it out",

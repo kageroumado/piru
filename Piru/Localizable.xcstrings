@@ -17277,6 +17277,38 @@
         }
       }
     },
+    "Curated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "人工整理"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "人工整理"
+          }
+        }
+      }
+    },
+    "curated entry" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "人工整理条目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "人工整理條目"
+          }
+        }
+      }
+    },
     "Curious" : {
       "localizations" : {
         "zh-Hans" : {

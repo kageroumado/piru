@@ -2,98 +2,114 @@ import Charts
 import SwiftData
 import SwiftUI
 
-struct InteractionTimelineView: View {
+private struct PKParams {
+    let ke: Double
+    let ka: Double
+    let halfLifeMinutes: Double
+    let timeToPeakMinutes: Double
+}
+
+private struct CurveInputs: Equatable {
     let substanceA: String
     let substanceB: String
-    let severity: InteractionSeverity
-    /// What the caller already computed. Carried across the push rather than
-    /// re-derived: the explorer runs the checker under `.explore`, and asking
-    /// again here under the default `.warn` returns nothing for any pair that
-    /// policy suppresses, which would leave only a generic "exercise caution"
-    /// line beneath a chip reading "Dangerous".
-    let mechanism: String
+    let timeA: Date
+    let timeB: Date
+}
 
-    /// Windowed to the 48 h the auto-detect and the "recent entry" checks
-    /// read. Never widen or drop this filter: unbounded, it materializes the
-    /// whole dose log on every body pass.
-    @Query private var allEntries: [DoseEntry]
+private struct MatchedDose {
+    let amount: Double
+    let unit: String
+    let route: RouteOfAdministration
+}
 
-    @State private var ingestTimeA: Date
-    @State private var ingestTimeB: Date
-    @State private var didAutoDetect = false
+private struct CurvePoint {
+    let hours: Double
+    let concentration: Double
+}
 
-    // Resolved PK params + generated curves are cached in @State and refreshed
-    // by `.task(id: curveInputs)` — one library lookup, Newton ka solve, and
-    // 200-sample generation per input change, not per body eval.
-    @State private var paramsA: PKParams?
-    @State private var paramsB: PKParams?
-    @State private var chartData: ChartData?
-    @State private var computedFor: CurveInputs?
+private struct OverlapPoint {
+    let hours: Double
+    let minConcentration: Double
+}
 
-    // Real logged doses for the two substances (within 48 h), captured on auto-detect. The
-    // combined-depression index is a dose-resolved readout, so it is only computed when both
-    // depressants have an actual logged dose — never fabricated from names alone.
-    @State private var matchedA: MatchedDose?
-    @State private var matchedB: MatchedDose?
-    @State private var depression: CombinedDepressionResult?
-    @State private var attenuations: [EffectAttenuationResult] = []
+private struct ChartData {
+    let pointsA: [CurvePoint]
+    let pointsB: [CurvePoint]
+    let overlap: [OverlapPoint]
+    let totalHours: Double
+}
 
-    private struct MatchedDose {
-        let amount: Double
-        let unit: String
-        let route: RouteOfAdministration
-    }
+/// All derived interaction-timeline state: resolved PK params, the generated
+/// curves, the journal-matched doses, and the depression/attenuation readouts.
+/// The init seeds everything derivable without the dose log — params, curves,
+/// and the attenuation readout (which defaults unmatched doses) — so the first
+/// frame renders complete. The one journal scan (``autoDetect(entries:)``) and
+/// later time edits flow through ``recompute()``, which runs one library
+/// lookup, Newton ka solve, and 200-sample generation per input change, never
+/// per body eval.
+@Observable @MainActor
+private final class InteractionTimelineModel {
+    let substanceA: String
+    let substanceB: String
+    var ingestTimeA: Date
+    var ingestTimeB: Date
 
-    init(substanceA: String, substanceB: String, severity: InteractionSeverity, mechanism: String) {
+    private(set) var paramsA: PKParams?
+    private(set) var paramsB: PKParams?
+    private(set) var chartData: ChartData?
+    // Real logged doses for the two substances (within 48 h), captured on
+    // auto-detect. The combined-depression index is a dose-resolved readout,
+    // so it is only computed when both depressants have an actual logged dose
+    // — never fabricated from names alone.
+    private(set) var matchedA: MatchedDose?
+    private(set) var matchedB: MatchedDose?
+    private(set) var depression: CombinedDepressionResult?
+    private(set) var attenuations: [EffectAttenuationResult] = []
+    /// Guards ``autoDetect(entries:)`` to one shot — a returning appearance
+    /// must not clobber times the user has since adjusted.
+    private var didAutoDetect = false
+    private var computedFor: CurveInputs?
+
+    init(substanceA: String, substanceB: String) {
         self.substanceA = substanceA
         self.substanceB = substanceB
-        self.severity = severity
-        self.mechanism = mechanism
-        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
-        _allEntries = Query(
-            filter: #Predicate<DoseEntry> { $0.timestamp > cutoff },
-            sort: \DoseEntry.timestamp,
-            order: .reverse,
-        )
-        // Seed synchronously so the first frame already renders the chart.
         let now = Date.now
+        ingestTimeA = now
+        ingestTimeB = now
         let pA = Self.resolveParams(for: substanceA)
         let pB = Self.resolveParams(for: substanceB)
-        _ingestTimeA = State(initialValue: now)
-        _ingestTimeB = State(initialValue: now)
-        _paramsA = State(initialValue: pA)
-        _paramsB = State(initialValue: pB)
+        paramsA = pA
+        paramsB = pB
         if let pA, let pB {
-            _chartData = State(initialValue: Self.generateCurveData(
-                pA: pA, pB: pB,
-                substanceA: substanceA, substanceB: substanceB,
-                ingestTimeA: now, ingestTimeB: now,
-            ))
+            chartData = Self.generateCurveData(pA: pA, pB: pB, ingestTimeA: now, ingestTimeB: now)
         }
-        _computedFor = State(initialValue: CurveInputs(
-            substanceA: substanceA, substanceB: substanceB, timeA: now, timeB: now,
-        ))
+        let inputs = CurveInputs(substanceA: substanceA, substanceB: substanceB, timeA: now, timeB: now)
+        // Attenuation is part of the synchronous seed: it needs no journal
+        // data (persistent blockers gate on co-presence, and unmatched doses
+        // default), and seeding `computedFor` without it left the readout
+        // permanently blank whenever no logged dose ever changed the inputs.
+        attenuations = computeAttenuations(for: inputs)
+        computedFor = inputs
     }
 
-    private struct PKParams {
-        let ke: Double
-        let ka: Double
-        let halfLifeMinutes: Double
-        let timeToPeakMinutes: Double
-    }
-
-    private struct CurveInputs: Equatable {
-        let substanceA: String
-        let substanceB: String
-        let timeA: Date
-        let timeB: Date
-    }
-
-    private var curveInputs: CurveInputs {
+    var curveInputs: CurveInputs {
         CurveInputs(substanceA: substanceA, substanceB: substanceB, timeA: ingestTimeA, timeB: ingestTimeB)
     }
 
-    private func recompute(for inputs: CurveInputs) {
+    /// Reference time for the chart x-axis (the earlier of the two ingestion times).
+    var referenceTime: Date {
+        min(ingestTimeA, ingestTimeB)
+    }
+
+    var missingData: [String] {
+        var missing: [String] = []
+        if paramsA == nil { missing.append(substanceA) }
+        if paramsB == nil { missing.append(substanceB) }
+        return missing
+    }
+
+    func recompute() {
+        let inputs = curveInputs
         guard inputs != computedFor else { return }
         let pA = Self.resolveParams(for: inputs.substanceA)
         let pB = Self.resolveParams(for: inputs.substanceB)
@@ -102,7 +118,6 @@ struct InteractionTimelineView: View {
         if let pA, let pB {
             chartData = Self.generateCurveData(
                 pA: pA, pB: pB,
-                substanceA: inputs.substanceA, substanceB: inputs.substanceB,
                 ingestTimeA: inputs.timeA, ingestTimeB: inputs.timeB,
             )
         } else {
@@ -111,6 +126,27 @@ struct InteractionTimelineView: View {
         depression = computeDepression(for: inputs)
         attenuations = computeAttenuations(for: inputs)
         computedFor = inputs
+    }
+
+    /// One-shot scan of the recent dose log: adopt each substance's most
+    /// recent logged time and dose, then refresh the dose-resolved readouts.
+    func autoDetect(entries: [DoseEntry]) {
+        guard !didAutoDetect else { return }
+        didAutoDetect = true
+        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
+        if let entry = entries.first(where: {
+            $0.substance.lowercased() == substanceA.lowercased() && $0.timestamp > cutoff
+        }) {
+            ingestTimeA = entry.timestamp
+            matchedA = MatchedDose(amount: entry.amount, unit: entry.unit, route: entry.route)
+        }
+        if let entry = entries.first(where: {
+            $0.substance.lowercased() == substanceB.lowercased() && $0.timestamp > cutoff
+        }) {
+            ingestTimeB = entry.timestamp
+            matchedB = MatchedDose(amount: entry.amount, unit: entry.unit, route: entry.route)
+        }
+        depression = computeDepression(for: curveInputs)
     }
 
     /// Sign-flipped readout: if one substance is a transporter releaser and the other blocks reuptake
@@ -162,131 +198,8 @@ struct InteractionTimelineView: View {
         return PKParams(ke: ke, ka: ka, halfLifeMinutes: halfLife, timeToPeakMinutes: tmax)
     }
 
-    private var missingData: [String] {
-        var missing: [String] = []
-        if paramsA == nil { missing.append(substanceA) }
-        if paramsB == nil { missing.append(substanceB) }
-        return missing
-    }
-
-    var body: some View {
-        ScrollView {
-            VStack(spacing: 16) {
-                if !missingData.isEmpty {
-                    missingDataSection
-                }
-
-                if let data = chartData {
-                    chartSection(data: data)
-                    timeControlsSection
-                    overlapCard(data: data)
-                }
-
-                if let depression, depression.hasMeaningfulLoad {
-                    depressionCard(depression)
-                }
-
-                ForEach(attenuations) { attenuation in
-                    attenuationCard(attenuation)
-                }
-
-                warningCard
-                if let pA = paramsA, let pB = paramsB {
-                    substanceInfoCards(pA: pA, pB: pB)
-                }
-
-                disclaimerCard
-            }
-            .padding()
-        }
-        .background(Theme.background)
-        .navigationTitle("Interaction Timeline")
-        .navigationBarTitleDisplayMode(.inline)
-        .task(id: curveInputs) { recompute(for: curveInputs) }
-        .onAppear { autoDetectTimes() }
-    }
-
-    // MARK: - Auto-Detection
-
-    private func autoDetectTimes() {
-        guard !didAutoDetect else { return }
-        didAutoDetect = true
-        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
-        if let entry = allEntries.first(where: {
-            $0.substance.lowercased() == substanceA.lowercased() && $0.timestamp > cutoff
-        }) {
-            ingestTimeA = entry.timestamp
-            matchedA = MatchedDose(amount: entry.amount, unit: entry.unit, route: entry.route)
-        }
-        if let entry = allEntries.first(where: {
-            $0.substance.lowercased() == substanceB.lowercased() && $0.timestamp > cutoff
-        }) {
-            ingestTimeB = entry.timestamp
-            matchedB = MatchedDose(amount: entry.amount, unit: entry.unit, route: entry.route)
-        }
-        depression = computeDepression(for: curveInputs)
-    }
-
-    private var hasRecentEntryA: Bool {
-        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
-        return allEntries.contains {
-            $0.substance.lowercased() == substanceA.lowercased() && $0.timestamp > cutoff
-        }
-    }
-
-    private var hasRecentEntryB: Bool {
-        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
-        return allEntries.contains {
-            $0.substance.lowercased() == substanceB.lowercased() && $0.timestamp > cutoff
-        }
-    }
-
-    // MARK: - Missing Data
-
-    private var missingDataSection: some View {
-        VStack(spacing: 10) {
-            Image(systemName: "clock.badge.questionmark")
-                .font(.title2)
-                .foregroundStyle(Theme.secondaryLabel)
-            ForEach(missingData, id: \.self) { name in
-                Text("Half-life data unavailable for \(name)")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .multilineTextAlignment(.center)
-            }
-        }
-        .padding()
-        .frame(maxWidth: .infinity)
-        .themeCard()
-    }
-
-    // MARK: - Chart
-
-    private struct CurvePoint {
-        let hours: Double
-        let concentration: Double
-    }
-
-    private struct OverlapPoint {
-        let hours: Double
-        let minConcentration: Double
-    }
-
-    private struct ChartData {
-        let pointsA: [CurvePoint]
-        let pointsB: [CurvePoint]
-        let overlap: [OverlapPoint]
-        let totalHours: Double
-    }
-
-    /// Reference time for the chart x-axis (the earlier of the two ingestion times).
-    private var referenceTime: Date {
-        min(ingestTimeA, ingestTimeB)
-    }
-
     private static func generateCurveData(
         pA: PKParams, pB: PKParams,
-        substanceA _: String, substanceB _: String,
         ingestTimeA: Date, ingestTimeB: Date,
     ) -> ChartData {
         let referenceTime = min(ingestTimeA, ingestTimeB)
@@ -335,12 +248,117 @@ struct InteractionTimelineView: View {
 
         return ChartData(pointsA: pointsA, pointsB: pointsB, overlap: overlap, totalHours: totalHours)
     }
+}
+
+struct InteractionTimelineView: View {
+    let substanceA: String
+    let substanceB: String
+    let severity: InteractionSeverity
+    /// What the caller already computed. Carried across the push rather than
+    /// re-derived: the explorer runs the checker under `.explore`, and asking
+    /// again here under the default `.warn` returns nothing for any pair that
+    /// policy suppresses, which would leave only a generic "exercise caution"
+    /// line beneath a chip reading "Dangerous".
+    let mechanism: String
+
+    /// Windowed to the 48 h the auto-detect and the "recent entry" checks
+    /// read. Never widen or drop this filter: unbounded, it materializes the
+    /// whole dose log on every body pass.
+    @Query private var allEntries: [DoseEntry]
+
+    @State private var model: InteractionTimelineModel
+
+    init(substanceA: String, substanceB: String, severity: InteractionSeverity, mechanism: String) {
+        self.substanceA = substanceA
+        self.substanceB = substanceB
+        self.severity = severity
+        self.mechanism = mechanism
+        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
+        _allEntries = Query(
+            filter: #Predicate<DoseEntry> { $0.timestamp > cutoff },
+            sort: \DoseEntry.timestamp,
+            order: .reverse,
+        )
+        _model = State(initialValue: InteractionTimelineModel(substanceA: substanceA, substanceB: substanceB))
+    }
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 16) {
+                if !model.missingData.isEmpty {
+                    missingDataSection
+                }
+
+                if let data = model.chartData {
+                    chartSection(data: data)
+                    timeControlsSection
+                    overlapCard(data: data)
+                }
+
+                if let depression = model.depression, depression.hasMeaningfulLoad {
+                    depressionCard(depression)
+                }
+
+                ForEach(model.attenuations) { attenuation in
+                    attenuationCard(attenuation)
+                }
+
+                warningCard
+                if let pA = model.paramsA, let pB = model.paramsB {
+                    substanceInfoCards(pA: pA, pB: pB)
+                }
+
+                disclaimerCard
+            }
+            .padding()
+        }
+        .background(Theme.background)
+        .navigationTitle("Interaction Timeline")
+        .navigationBarTitleDisplayMode(.inline)
+        .task(id: model.curveInputs) { model.recompute() }
+        .onAppear { model.autoDetect(entries: allEntries) }
+    }
+
+    private var hasRecentEntryA: Bool {
+        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
+        return allEntries.contains {
+            $0.substance.lowercased() == substanceA.lowercased() && $0.timestamp > cutoff
+        }
+    }
+
+    private var hasRecentEntryB: Bool {
+        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
+        return allEntries.contains {
+            $0.substance.lowercased() == substanceB.lowercased() && $0.timestamp > cutoff
+        }
+    }
+
+    // MARK: - Missing Data
+
+    private var missingDataSection: some View {
+        VStack(spacing: 10) {
+            Image(systemName: "clock.badge.questionmark")
+                .font(.title2)
+                .foregroundStyle(Theme.secondaryLabel)
+            ForEach(model.missingData, id: \.self) { name in
+                Text("Half-life data unavailable for \(name)")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity)
+        .themeCard()
+    }
+
+    // MARK: - Chart
 
     private let colorA = Color.blue
     private let colorB = Color.orange
 
     private func chartSection(data: ChartData) -> some View {
-        let nowHours = Date.now.timeIntervalSince(referenceTime) / 3_600
+        let nowHours = Date.now.timeIntervalSince(model.referenceTime) / 3_600
         let showNowMarker = nowHours > 0.05 && nowHours < data.totalHours
         let window = overlapWindow(in: data)
 
@@ -458,8 +476,8 @@ struct InteractionTimelineView: View {
 
     private var timeControlsSection: some View {
         VStack(spacing: 12) {
-            substanceTimeRow(name: substanceA, color: colorA, time: $ingestTimeA, hasRecentEntry: hasRecentEntryA)
-            substanceTimeRow(name: substanceB, color: colorB, time: $ingestTimeB, hasRecentEntry: hasRecentEntryB)
+            substanceTimeRow(name: substanceA, color: colorA, time: $model.ingestTimeA, hasRecentEntry: hasRecentEntryA)
+            substanceTimeRow(name: substanceB, color: colorB, time: $model.ingestTimeB, hasRecentEntry: hasRecentEntryB)
         }
     }
 
@@ -563,7 +581,7 @@ struct InteractionTimelineView: View {
     /// combined respiratory depression peaks at ~02:30," not "two depressant tags co-exist."
     private func depressionCard(_ d: CombinedDepressionResult) -> some View {
         let bandColor = d.band?.labelColor ?? Theme.secondaryLabel
-        let peakHours = max(0, d.peakDate.timeIntervalSince(referenceTime) / 3_600)
+        let peakHours = max(0, d.peakDate.timeIntervalSince(model.referenceTime) / 3_600)
         let yMax = max(CombinedDepression.dangerousThreshold * 1.1, d.peakLoad * 1.1)
 
         return VStack(alignment: .leading, spacing: 10) {

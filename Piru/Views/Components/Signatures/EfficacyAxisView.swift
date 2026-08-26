@@ -44,6 +44,29 @@ struct EfficacyAxisView: View {
     }
 }
 
+/// Greedy two-above / two-below label packing for the efficacy axis, as a pure function of the
+/// mapped x-centers (already ordered focus-first, then left-to-right) so tests can pin it. τ crowds
+/// every clinical opioid into the leftmost fifth of the axis (buprenorphine 0.02 → morphine 0.18 of
+/// DAMGO), which is the *point* of plotting τ — so the labels have to stagger rather than the axis
+/// rescale away the finding.
+nonisolated enum EfficacyLabelPacking {
+    /// Row index for each center, in input order: rows 0–1 sit above the track, 2–3 below,
+    /// innermost first. A center is clamped so its label never overhangs the track; it goes to the
+    /// first row whose rightmost occupied edge leaves a 3 pt gap, or the least-crowded row when all
+    /// four are blocked.
+    static func rows(orderedCenters: [CGFloat], width: CGFloat, labelWidth: CGFloat) -> [Int] {
+        var rowRight: [CGFloat] = Array(repeating: -.greatestFiniteMagnitude, count: 4)
+        return orderedCenters.map { rawCenter in
+            let center = min(max(rawCenter, labelWidth / 2), width - labelWidth / 2)
+            let left = center - labelWidth / 2
+            let row = (0 ..< rowRight.count).first { rowRight[$0] < left - 3 }
+                ?? rowRight.indices.min { rowRight[$0] < rowRight[$1] } ?? 0
+            rowRight[row] = center + labelWidth / 2
+            return row
+        }
+    }
+}
+
 // MARK: - The drawn axis
 
 private struct EfficacyAxisTrack: View {
@@ -152,31 +175,17 @@ private struct EfficacyAxisTrack: View {
             .offset(x: px - Self.labelWidth / 2, y: y)
     }
 
-    /// Greedy two-above / two-below packing. τ crowds every clinical opioid into the leftmost fifth
-    /// of the axis (buprenorphine 0.02 → morphine 0.18 of DAMGO), which is the *point* of plotting τ
-    /// — so the labels have to stagger rather than the axis rescale away the finding.
     private func placedLabels(width: CGFloat) -> [(cluster: Cluster, row: Int)] {
-        var rowRight: [CGFloat] = [
-            -.greatestFiniteMagnitude,
-            -.greatestFiniteMagnitude,
-            -.greatestFiniteMagnitude,
-            -.greatestFiniteMagnitude,
-        ]
-        var placed: [(cluster: Cluster, row: Int)] = []
         // Focus first so it always lands on an inner row, then left-to-right.
         let ordered = clusters.sorted { lhs, rhs in
             if lhs.isFocus != rhs.isFocus { return lhs.isFocus }
             return x(lhs.percent, width: width) < x(rhs.percent, width: width)
         }
-        for cluster in ordered {
-            let center = min(max(x(cluster.percent, width: width), Self.labelWidth / 2), width - Self.labelWidth / 2)
-            let left = center - Self.labelWidth / 2
-            let row = (0 ..< rowRight.count).first { rowRight[$0] < left - 3 }
-                ?? rowRight.indices.min { rowRight[$0] < rowRight[$1] } ?? 0
-            rowRight[row] = center + Self.labelWidth / 2
-            placed.append((cluster, row))
-        }
-        return placed
+        let rows = EfficacyLabelPacking.rows(
+            orderedCenters: ordered.map { x($0.percent, width: width) },
+            width: width, labelWidth: Self.labelWidth,
+        )
+        return Array(zip(ordered, rows))
     }
 
     /// The plot is pinned to LTR, so the two end caps are ordered explicitly rather than by an
