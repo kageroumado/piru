@@ -1367,15 +1367,19 @@ CREATE TABLE class_citations (
     PRIMARY KEY (class_context_id, citation_id)
 );
 
--- Class-pair interaction rules, from TripSit's combination matrix. The app
--- merges these UNDER its own hand-written rules: a pair with a curated Swift
--- rule keeps it, because those carry adjudications that deliberately contradict
--- folk ordering (MDMA + SSRI is blockade, not danger).
+-- Class-pair interaction rules: which two DrugClass values interact and how
+-- badly. Two layers land here, curated FIRST so it wins the UNIQUE pair —
+-- data/curated/interaction-rules.json carries adjudications that deliberately
+-- contradict folk ordering (MDMA + SSRI is blockade, not danger), and TripSit's
+-- combination matrix fills the pairs curation does not cover.
 CREATE TABLE interaction_rules (
     id           INTEGER PRIMARY KEY,
     class_a      TEXT NOT NULL,
     class_b      TEXT NOT NULL,
     severity     TEXT NOT NULL,
+    -- English. The app renders a LOCALIZED sentence keyed by the same class pair
+    -- and falls back to this when it has none, so a curated pair's note is
+    -- pinned against the Swift copy by InteractionRuleCopyTests.
     note         TEXT NOT NULL,
     -- TripSit's own six-level status, verbatim. Piru has three severities, so
     -- "Low Risk & Synergy" and "Low Risk & Decrease" both land on `caution` —
@@ -1386,6 +1390,60 @@ CREATE TABLE interaction_rules (
     source_id    INTEGER REFERENCES sources(id),
     citation_id  INTEGER REFERENCES citations(id),
     UNIQUE (class_a, class_b)
+);
+
+-- Substance name → interaction DrugClass, overriding what the substance's
+-- category would give. A category is a browsing taxonomy; an interaction class
+-- is a mechanism claim, and where they disagree the substance is either
+-- mis-matched or invisible (Phenobarbital's `Depressant` routes to `other`,
+-- which participates in no rule at all).
+CREATE TABLE substance_interaction_classes (
+    -- NULL when the catalog carries no substance under this name. Those rows are
+    -- still live: a person can log a name the library does not have, and the
+    -- safety-relevant ones (xylazine, the rarer barbiturates and beta-blockers)
+    -- are exactly those. A linked row additionally applies to every alias of its
+    -- substance, so a dose logged under a brand name resolves too.
+    substance_id INTEGER REFERENCES substances(id),
+    name         TEXT NOT NULL,   -- normalized spelling the override is written under
+    drug_class   TEXT NOT NULL,
+    -- Position within the substance's own class list; the first is its dominant
+    -- class. Presentation only — the checker takes the worst rule across all of
+    -- them.
+    rank         INTEGER NOT NULL DEFAULT 0,
+    note         TEXT,
+    source_id    INTEGER NOT NULL REFERENCES sources(id),
+    PRIMARY KEY (name, drug_class)
+);
+CREATE INDEX idx_substance_interaction_classes_sid
+    ON substance_interaction_classes(substance_id);
+
+-- The interaction DrugClass a category falls back to when no name override
+-- names the substance. A category absent here resolves to `other`, which
+-- participates in no rule — that default is what an unmapped category MEANS and
+-- so stays in code rather than being written as a row.
+CREATE TABLE category_interaction_classes (
+    category   TEXT PRIMARY KEY,   -- SubstanceCategory raw value ("Depressant")
+    drug_class TEXT NOT NULL,
+    note       TEXT
+);
+
+-- Tolerance-modulation edges: while the modulator is onboard, scale the
+-- affected class's tolerance DEVELOPMENT by mu_factor (< 1 attenuates).
+--
+-- Its two class columns are `ReceptorClasses.ReceptorClass` values, NOT the
+-- `DrugClass` values in interaction_rules. Do not fold this into that table: the
+-- two vocabularies answer different questions at different resolutions, and one
+-- column holding both with no discriminator is how a mechanism family comes to
+-- be read as an interaction bucket.
+CREATE TABLE tolerance_modulation (
+    modulator_class TEXT NOT NULL,
+    affected_class  TEXT NOT NULL,
+    mu_factor       REAL NOT NULL,
+    confidence      TEXT NOT NULL,
+    note            TEXT,
+    source_id       INTEGER NOT NULL REFERENCES sources(id),
+    citation_id     INTEGER REFERENCES citations(id),
+    PRIMARY KEY (modulator_class, affected_class)
 );
 
 CREATE TABLE indications (
@@ -9359,6 +9417,158 @@ class Build:
             stats["inserted"] += 1
         return stats
 
+    def ingest_interaction_rules(self) -> dict[str, int]:
+        """Fill `interaction_rules` from curated JSON.
+
+        Runs BEFORE the TripSit matrix so the UNIQUE class pair makes curation
+        win: TripSit is community consensus, and these rules carry adjudications
+        checked against the evidence that deliberately contradict folk ordering.
+
+        A rule whose two classes are the same pair written twice is refused
+        rather than silently overwriting — the read side is a dict keyed on the
+        sorted pair, so a duplicate would discard one verdict invisibly.
+        """
+        path = CURATED_DIR.parent / "interaction-rules.json"
+        stats = {"inserted": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        source_id = self.source_ids[payload.get("source", "piru-curated")]
+        seen: set[tuple[str, str]] = set()
+        for rule in payload.get("rules", []):
+            key = tuple(sorted((rule["classA"], rule["classB"])))
+            if key in seen:
+                print(
+                    f"  interaction_rules: refusing duplicate pair {key[0]}|{key[1]}",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            if rule["severity"] not in ("caution", "unsafe", "dangerous"):
+                print(
+                    f"  interaction_rules: refusing {key[0]}|{key[1]} — "
+                    f"severity {rule['severity']!r}",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            seen.add(key)
+            # Written in sorted order: UNIQUE(class_a, class_b) is on the ordered
+            # tuple, so writing the pair as authored would let TripSit insert the
+            # same pair back-to-front and both rows would resolve.
+            self.cur.execute(
+                "INSERT INTO interaction_rules"
+                "(class_a, class_b, severity, note, status, source_id, citation_id)"
+                " VALUES (?, ?, ?, ?, NULL, ?, ?)",
+                (
+                    key[0],
+                    key[1],
+                    rule["severity"],
+                    rule["note"],
+                    source_id,
+                    self.cite(rule.get("citation")),
+                ),
+            )
+            stats["inserted"] += 1
+        return stats
+
+    def ingest_substance_interaction_classes(self) -> dict[str, int]:
+        """Fill `substance_interaction_classes` from curated JSON.
+
+        Names resolve to a substance by canonical name OR alias; `unlinked`
+        counts the ones the catalog carries no substance for. Those still write a
+        row keyed by their literal spelling, because a person can log a name the
+        library does not have and the safety-relevant overrides are exactly
+        those — but the count is reported so the list stays a work item rather
+        than a silence.
+        """
+        path = CURATED_DIR.parent / "substance-interaction-classes.json"
+        stats = {"inserted": 0, "unlinked": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        source_id = self.source_ids[payload.get("source", "piru-curated")]
+        unlinked_names: list[str] = []
+        for group in payload.get("groups", []):
+            note = group.get("why")
+            for name in group["names"]:
+                key = normalise(name)
+                sid = index.get(key)
+                if sid is None:
+                    stats["unlinked"] += 1
+                    unlinked_names.append(name)
+                for rank, drug_class in enumerate(group["classes"]):
+                    self.cur.execute(
+                        "INSERT OR REPLACE INTO substance_interaction_classes"
+                        "(substance_id, name, drug_class, rank, note, source_id)"
+                        " VALUES (?, ?, ?, ?, ?, ?)",
+                        (sid, key, drug_class, rank, note, source_id),
+                    )
+                    stats["inserted"] += 1
+        if unlinked_names:
+            print(
+                "  substance_interaction_classes: no catalog substance for "
+                + ", ".join(sorted(unlinked_names)),
+                file=sys.stderr,
+            )
+        return stats
+
+    def ingest_category_interaction_classes(self) -> dict[str, int]:
+        """Fill `category_interaction_classes` from curated JSON."""
+        path = CURATED_DIR.parent / "category-interaction-classes.json"
+        stats = {"inserted": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        for entry in payload.get("categories", []):
+            self.cur.execute(
+                "INSERT OR REPLACE INTO category_interaction_classes"
+                "(category, drug_class, note) VALUES (?, ?, ?)",
+                (entry["category"], entry["drugClass"], entry.get("why")),
+            )
+            stats["inserted"] += 1
+        return stats
+
+    def ingest_tolerance_modulation(self) -> dict[str, int]:
+        """Fill `tolerance_modulation` from curated JSON.
+
+        An edge with `muFactor` of exactly 1 is refused: it claims a modulation
+        that does nothing, which reads on every later inspection as a real edge
+        whose magnitude someone forgot to fill in.
+        """
+        path = CURATED_DIR.parent / "tolerance-modulation.json"
+        stats = {"inserted": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        source_id = self.source_ids[payload.get("source", "piru-curated")]
+        for edge in payload.get("edges", []):
+            if edge["muFactor"] <= 0 or edge["muFactor"] == 1:
+                print(
+                    f"  tolerance_modulation: refusing {edge['modulatorClass']}→"
+                    f"{edge['affectedClass']} — muFactor {edge['muFactor']}",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            self.cur.execute(
+                "INSERT OR REPLACE INTO tolerance_modulation"
+                "(modulator_class, affected_class, mu_factor, confidence, note,"
+                " source_id, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (
+                    edge["modulatorClass"],
+                    edge["affectedClass"],
+                    edge["muFactor"],
+                    edge["confidence"],
+                    edge.get("note"),
+                    source_id,
+                    self.cite(edge.get("citation")),
+                ),
+            )
+            stats["inserted"] += 1
+        return stats
+
     def ingest_substance_flags(self) -> dict[str, int]:
         """Fill `substance_flags` from curated JSON. Resolved by name OR alias."""
         path = CURATED_DIR.parent / "substance-flags.json"
@@ -11612,9 +11822,14 @@ def main() -> int:
         file=sys.stderr,
     )
 
+    # Curated first: the UNIQUE class pair is what makes it win over TripSit.
+    curated_rules = build.ingest_interaction_rules()
+    print(f"Curated class-pair rules: {curated_rules}", file=sys.stderr)
+
     combos = ingest_tripsit_combos(build, TRIPSIT)
     print(
-        f"TripSit class-pair rules: {combos['written']} of {combos['pairs']}",
+        f"TripSit class-pair rules: {combos['written']} of {combos['pairs']} "
+        f"({combos['pairs'] - combos['written']} already curated)",
         file=sys.stderr,
     )
 
@@ -11795,6 +12010,15 @@ def main() -> int:
 
     opioid_mme = build.ingest_opioid_mme()
     print(f"Opioid MME: {opioid_mme}", file=sys.stderr)
+
+    interaction_classes = build.ingest_substance_interaction_classes()
+    print(f"Substance interaction classes: {interaction_classes}", file=sys.stderr)
+
+    category_classes = build.ingest_category_interaction_classes()
+    print(f"Category interaction classes: {category_classes}", file=sys.stderr)
+
+    tolerance_edges = build.ingest_tolerance_modulation()
+    print(f"Tolerance modulation edges: {tolerance_edges}", file=sys.stderr)
 
     derived_half_lives = build.derive_half_lives_from_pk()
     print(f"Half-lives derived from PK: {derived_half_lives}", file=sys.stderr)
@@ -11999,6 +12223,10 @@ def main() -> int:
         "substance_flags",
         "regional_names",
         "opioid_mme",
+        "interaction_rules",
+        "substance_interaction_classes",
+        "category_interaction_classes",
+        "tolerance_modulation",
     ]
     db = sqlite3.connect(str(OUT_SQLITE))
     for t in tables:

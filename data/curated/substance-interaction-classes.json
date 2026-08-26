@@ -1,0 +1,550 @@
+{
+  "_meta": {
+    "what": "Substance name → interaction DrugClass, overriding the substance's own category.",
+    "why": "A category is a browsing taxonomy; an interaction class is a mechanism claim. Alprazolam's category (Benzodiazepine) happens to answer both, but Phenobarbital's (Depressant) routes to `other`, which participates in no rule and makes every barbiturate pairing — opioids included — return nothing at all. Each group below states the mechanism reason it overrides.",
+    "resolution": "Names resolve to a substance by canonical name OR alias, and the classes then apply to EVERY spelling of that substance, so a dose logged under a brand name gets them too. A name the catalog carries no substance for is still written by its literal spelling (`substance_id` NULL) — a person can log a name the library does not have, and the safety-relevant ones (xylazine, the rarer barbiturates and beta-blockers) are exactly those.",
+    "ordering": "`classes` is ordered; the first is the substance's dominant class. The checker takes the worst rule across all of them, so order is presentation, not precedence."
+  },
+  "source": "piru-curated",
+  "groups": [
+    {
+      "classes": [
+        "maoi"
+      ],
+      "why": "MAOIs",
+      "names": [
+        "Phenelzine",
+        "Tranylcypromine",
+        "Isocarboxazid",
+        "Selegiline",
+        "Moclobemide",
+        "Syrian Rue"
+      ]
+    },
+    {
+      "classes": [
+        "ssri"
+      ],
+      "why": "SSRIs",
+      "names": [
+        "Sertraline",
+        "Fluoxetine",
+        "Paroxetine",
+        "Citalopram",
+        "Escitalopram",
+        "Fluvoxamine"
+      ]
+    },
+    {
+      "classes": [
+        "snri"
+      ],
+      "why": "SNRIs",
+      "names": [
+        "Venlafaxine",
+        "Duloxetine",
+        "Desvenlafaxine",
+        "Levomilnacipran",
+        "Milnacipran"
+      ]
+    },
+    {
+      "classes": [
+        "tca"
+      ],
+      "why": "TCAs",
+      "names": [
+        "Amitriptyline",
+        "Nortriptyline",
+        "Imipramine",
+        "Desipramine",
+        "Clomipramine",
+        "Doxepin",
+        "Trimipramine",
+        "Protriptyline"
+      ]
+    },
+    {
+      "classes": [
+        "opioid",
+        "serotonergic"
+      ],
+      "why": "Dual-class substances. Tramadol, meperidine, and DXM are serotonin *adders* (releaser / reuptake inhibitor), NOT antidepressant SERT blockers — so they ride `.serotonergic` (genuine serotonin-toxicity danger) rather than `.ssri/.snri` (which now read as empathogen *blunting*). Evidence: Foundation-C serotonergic run, 2026-06-22 (tramadol SS grade B/HIGH + seizure A/HIGH).",
+      "names": [
+        "tramadol"
+      ]
+    },
+    {
+      "classes": [
+        "opioid"
+      ],
+      "why": "Tapentadol is NRI-dominant with minimal SERT activity (low SS risk) — plain opioid, so it neither blunts an empathogen nor carries the serotonergic danger.",
+      "names": [
+        "tapentadol"
+      ]
+    },
+    {
+      "classes": [
+        "opioid",
+        "serotonergic"
+      ],
+      "why": null,
+      "names": [
+        "meperidine",
+        "pethidine"
+      ]
+    },
+    {
+      "classes": [
+        "dissociative",
+        "serotonergic"
+      ],
+      "why": null,
+      "names": [
+        "dxm",
+        "dextromethorphan"
+      ]
+    },
+    {
+      "classes": [
+        "empathogen",
+        "stimulant"
+      ],
+      "why": null,
+      "names": [
+        "mdma",
+        "mda",
+        "mdea"
+      ]
+    },
+    {
+      "classes": [
+        "lithium"
+      ],
+      "why": "Lithium",
+      "names": [
+        "lithium",
+        "lithium carbonate",
+        "lithium orotate"
+      ]
+    },
+    {
+      "classes": [
+        "ghb"
+      ],
+      "why": "GHB/GBL",
+      "names": [
+        "ghb",
+        "gbl",
+        "ghb/gbl",
+        "1,4-butanediol"
+      ]
+    },
+    {
+      "classes": [
+        "alcohol"
+      ],
+      "why": "Alcohol",
+      "names": [
+        "alcohol",
+        "ethanol"
+      ]
+    },
+    {
+      "classes": [
+        "gabapentinoid"
+      ],
+      "why": "Gabapentinoids",
+      "names": [
+        "phenibut",
+        "gabapentin",
+        "pregabalin"
+      ]
+    },
+    {
+      "classes": [
+        "ghb"
+      ],
+      "why": null,
+      "names": [
+        "baclofen"
+      ]
+    },
+    {
+      "classes": [
+        "stimulant"
+      ],
+      "why": "Stimulants (common names)",
+      "names": [
+        "Caffeine",
+        "Nicotine",
+        "Methamphetamine",
+        "Cocaine",
+        "Amphetamine",
+        "Dextroamphetamine",
+        "Lisdexamfetamine",
+        "Methylphenidate",
+        "Modafinil",
+        "Armodafinil",
+        "DMAA"
+      ]
+    },
+    {
+      "classes": [
+        "opioid"
+      ],
+      "why": "Opioids (common names/variants)",
+      "names": [
+        "kratom",
+        "heroin",
+        "fentanyl"
+      ]
+    },
+    {
+      "classes": [
+        "stimulant"
+      ],
+      "why": "Atypical antidepressants NDRI — stimulant-like, lowers seizure threshold",
+      "names": [
+        "bupropion"
+      ]
+    },
+    {
+      "classes": [
+        "ssri"
+      ],
+      "why": "SARI — serotonergic, reasonable SSRI proxy",
+      "names": [
+        "trazodone"
+      ]
+    },
+    {
+      "classes": [
+        "ssri"
+      ],
+      "why": "Multimodal serotonergic",
+      "names": [
+        "vortioxetine"
+      ]
+    },
+    {
+      "classes": [
+        "ssri"
+      ],
+      "why": "SSRI + 5-HT1A partial agonist",
+      "names": [
+        "vilazodone"
+      ]
+    },
+    {
+      "classes": [
+        "other"
+      ],
+      "why": "Melatonin agonist — minimal serotonin interactions",
+      "names": [
+        "agomelatine"
+      ]
+    },
+    {
+      "classes": [
+        "snri"
+      ],
+      "why": "NRI — norepinephrine-selective",
+      "names": [
+        "reboxetine"
+      ]
+    },
+    {
+      "classes": [
+        "antihistamine"
+      ],
+      "why": "Antihistamines",
+      "names": [
+        "Diphenhydramine",
+        "DPH",
+        "Hydroxyzine",
+        "Promethazine",
+        "Doxylamine",
+        "Chlorpheniramine",
+        "Cetirizine",
+        "Meclizine",
+        "Dimenhydrinate"
+      ]
+    },
+    {
+      "classes": [
+        "benzodiazepine"
+      ],
+      "why": "Z-drugs (GABA-A agonists — interact like benzos)",
+      "names": [
+        "Zolpidem",
+        "Zopiclone",
+        "Eszopiclone",
+        "Zaleplon"
+      ]
+    },
+    {
+      "classes": [
+        "ssri"
+      ],
+      "why": "Buspirone (5-HT1A partial agonist — serotonin syndrome risk) Serotonergic proxy for interaction matching",
+      "names": [
+        "buspirone"
+      ]
+    },
+    {
+      "classes": [
+        "antipsychotic",
+        "antihistamine"
+      ],
+      "why": "Quetiapine (sedating antipsychotic — also acts as antihistamine at low doses)",
+      "names": [
+        "quetiapine"
+      ]
+    },
+    {
+      "classes": [
+        "alpha2Agonist"
+      ],
+      "why": "Alpha-2 adrenergic agonists (clonidine/guanfacine for ADHD/BP; tizanidine muscle relaxant; dexmedetomidine/lofexidine). Additive sedation/bradycardia/hypotension; naloxone-irreversible.",
+      "names": [
+        "Clonidine",
+        "Guanfacine",
+        "Tizanidine",
+        "Dexmedetomidine",
+        "Lofexidine",
+        "Xylazine",
+        "Medetomidine"
+      ]
+    },
+    {
+      "classes": [
+        "betaBlocker"
+      ],
+      "why": "Beta-blockers. NOT split selective vs non-selective: the actionable interaction rules (alpha-2-withdrawal hypertensive crisis, additive hypotension) don't turn on selectivity, and the beta-blocker + stimulant \"unopposed alpha\" contraindication is contested dogma (evidence run).",
+      "names": [
+        "Propranolol",
+        "Metoprolol",
+        "Atenolol",
+        "Bisoprolol",
+        "Carvedilol",
+        "Labetalol",
+        "Nebivolol",
+        "Nadolol",
+        "Sotalol",
+        "Pindolol",
+        "Timolol",
+        "Esmolol",
+        "Acebutolol"
+      ]
+    },
+    {
+      "classes": [
+        "antihistamine"
+      ],
+      "why": "Mirtazapine (NaSSA): a strong H1 antagonist that raises 5-HT/NE *release* via presynaptic α2 blockade while antagonising postsynaptic 5-HT2/5-HT3 — it does NOT inhibit serotonin reuptake, so it is neither a SERT blocker (`.ssri`, which would predict false MDMA blunting) nor a dangerous serotonin adder (`.serotonergic`). Modeled by its faithful acute property: antihistaminergic sedation.",
+      "names": [
+        "mirtazapine"
+      ]
+    },
+    {
+      "classes": [
+        "empathogen",
+        "stimulant"
+      ],
+      "why": "── RC-expansion (2026-06-23): cathinones, designer benzos, eugeroics ── Grounded in the Foundation-C RC evidence runs. The cathinone class is NOT a uniform \"releaser\" family: membership is set per the substance's measured mechanism flag (releaser vs hybrid vs pure blocker) and DAT:SERT lean, so the engine applies the right interaction rules (empathogen blunting/serotonin danger vs plain stimulant) instead of a class-wide assumption. Substrate RELEASERS — balanced DAT:SERT (~1.8–2.4) reads empathogen-like (mephedrone/methylone/4-CMC), so they ride the MDMA-style [.empathogen, .stimulant] bucket (SSRI blunting + MAOI serotonin-toxicity rules apply).",
+      "names": [
+        "Mephedrone",
+        "4-MMC",
+        "Methylone",
+        "bk-MDMA",
+        "4-CMC",
+        "Clephedrone",
+        "Ethylone",
+        "bk-MDEA"
+      ]
+    },
+    {
+      "classes": [
+        "stimulant"
+      ],
+      "why": "Catecholamine-leaning releasers (DAT:SERT ≥4) and the uncharacterised CMC/MMC isomers → stimulant-leaning. Kept SEPARATE from their para-isomers (no aliasing).",
+      "names": [
+        "3-MMC",
+        "Metaphedrone",
+        "2-MMC",
+        "3-CMC",
+        "Clophedrone",
+        "2-CMC"
+      ]
+    },
+    {
+      "classes": [
+        "stimulant",
+        "empathogen"
+      ],
+      "why": "HYBRIDS — a single α-alkyl/N-ethyl substituent flips DAT substrate→blocker. SERT-substrate hybrids keep a mild empathogenic lean; DAT/NET-blocker hybrids and the pure blocker NEP are stimulant-only (NOT empathogens, despite mis-sale).",
+      "names": [
+        "Butylone",
+        "bk-MBDB",
+        "4-MEC",
+        "Mexedrone"
+      ]
+    },
+    {
+      "classes": [
+        "stimulant"
+      ],
+      "why": null,
+      "names": [
+        "Pentylone",
+        "Eutylone",
+        "bk-EBDB",
+        "N-Ethylpentylone",
+        "NEP",
+        "Ephylone"
+      ]
+    },
+    {
+      "classes": [
+        "stimulant"
+      ],
+      "why": "Pure pyrrolidinophenone reuptake BLOCKERS — stimulant ONLY (must NOT ride the empathogen/releaser bucket). SERT-sparing → no serotonergic edge.",
+      "names": [
+        "MDPV",
+        "Alpha-PVP",
+        "α-PVP",
+        "a-PVP",
+        "Flakka",
+        "Alpha-PHP",
+        "α-PHP",
+        "Alpha-PiHP",
+        "α-PiHP",
+        "MDPBP",
+        "MDPPP"
+      ]
+    },
+    {
+      "classes": [
+        "stimulant",
+        "serotonergic"
+      ],
+      "why": "…EXCEPT naphyrone — the family outlier that potently blocks SERT (~46 nM), a genuine serotonin adder. Data-driven edge; the rest of the family does NOT inherit it.",
+      "names": [
+        "Naphyrone",
+        "NRG-1",
+        "Naphthylpyrovalerone"
+      ]
+    },
+    {
+      "classes": [
+        "stimulant",
+        "serotonergic"
+      ],
+      "why": "4-MA: balanced serotonin releaser + MAO-A inhibitor (PMA-class) — serotonin-toxicity / hyperthermia danger. RING-POSITION-SPECIFIC: do NOT propagate to the fluoro isomers.",
+      "names": [
+        "4-MA",
+        "4-methylamphetamine",
+        "PAL-313"
+      ]
+    },
+    {
+      "classes": [
+        "stimulant"
+      ],
+      "why": "Fluoro/methyl amphetamine analogues — plain stimulant releasers (catecholamine- selective; 4-FA's para serotonergic lean is character, not a danger-class flag).",
+      "names": [
+        "2-FA",
+        "3-FA",
+        "4-FA",
+        "2-FMA",
+        "3-FMA",
+        "4-FMA"
+      ]
+    },
+    {
+      "classes": [
+        "dissociative"
+      ],
+      "why": "Memantine — moderate-affinity, FAST-off NMDA open-channel blocker. Routed to .dissociative (no dedicated NMDA bucket), but it is NOT ketamine/PCP-strength.",
+      "names": [
+        "memantine"
+      ]
+    },
+    {
+      "classes": [
+        "stimulant"
+      ],
+      "why": "Adrafinil — hepatic prodrug of modafinil; bromantane — weak indirect dopaminergic (TH/AAAD upregulation). Both stimulant-like. (Modafinil/armodafinil already .stimulant.)",
+      "names": [
+        "adrafinil",
+        "bromantane"
+      ]
+    },
+    {
+      "classes": [
+        "opioid"
+      ],
+      "why": "O-DSMT (M1) — potent pure µ-agonist (the opioid limb of tramadol). Plain opioid: the serotonergic/seizure liability lives with the PARENT, not the metabolite.",
+      "names": [
+        "o-dsmt",
+        "o-desmethyltramadol"
+      ]
+    },
+    {
+      "classes": [
+        "benzodiazepine"
+      ],
+      "why": "Designer benzodiazepines — interact like classical benzos (additive CNS/respiratory depression with opioids/alcohol/Z-drugs). Diazepam-equivalence is a separate honesty problem (see BenzoEquivalence) — class membership here only drives interaction rules.",
+      "names": [
+        "Clonazolam",
+        "Flualprazolam",
+        "Flubromazolam",
+        "Bromazolam",
+        "Diclazepam",
+        "Flubromazepam",
+        "Etizolam",
+        "Deschloroetizolam",
+        "Metizolam",
+        "Flunitrazolam",
+        "Adinazolam",
+        "Nifoxipam",
+        "Norflurazepam",
+        "Pyrazolam",
+        "Meclonazepam"
+      ]
+    },
+    {
+      "classes": [
+        "barbiturate"
+      ],
+      "why": "Barbiturates. Category `Depressant` routes to `.other`, so without this every barbiturate pairing — including with opioids and benzodiazepines — returned nothing at all. Primidone belongs here because it is metabolized to phenobarbital; its own anticonvulsant category says nothing about that.",
+      "names": [
+        "Phenobarbital",
+        "Pentobarbital",
+        "Secobarbital",
+        "Amobarbital",
+        "Butalbital",
+        "Barbital",
+        "Allobarbital",
+        "Hexobarbital",
+        "Thiopental",
+        "Butabarbital",
+        "Methohexital",
+        "Aprobarbital",
+        "Talbutal",
+        "Primidone"
+      ]
+    },
+    {
+      "classes": [
+        "maoi"
+      ],
+      "why": "Methylene blue is a potent reversible MAO-A inhibitor at doses used clinically, and serotonin toxicity with serotonergic drugs is the documented consequence — an FDA drug-safety communication exists for exactly this pair. Its `Nootropic` category routed it to `.other`, so every MAOI rule missed it.",
+      "names": [
+        "methylene blue",
+        "methylthioninium chloride"
+      ]
+    }
+  ]
+}

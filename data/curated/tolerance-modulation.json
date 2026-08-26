@@ -1,0 +1,18 @@
+{
+  "_meta": {
+    "what": "Curated edges where one substance, while onboard, changes how fast another mechanism builds tolerance — the μ_R(t) factor in the availability ODE (Specs/pharmacology-axis-meta-plan.md, Stage 4b).",
+    "why": "μ < 1 attenuates tolerance development, μ > 1 would accelerate it. Edges are keyed by the modulator's RECEPTOR class, and the engine applies one only while the modulator is actually present, so the edge is concentration-gated for free.",
+    "taxonomy": "`modulatorClass` and `affectedClass` are `ReceptorClasses.ReceptorClass` values (psychedelic5HT2A, muOpioid, gaba, nmdaAntagonist, …), NOT the `DrugClass` values in interaction_rules. The two vocabularies are different resolutions of different questions — one is mechanism families for the tolerance engine, the other is interaction-matching buckets — and this table has its own so neither has to pretend to be the other.",
+    "magnitude": "muFactor ships as a SHAPE, never a precise percentage: the effect is robust preclinically and used clinically, but the human magnitude is variable, which is what the low confidence tier records."
+  },
+  "source": "piru-curated",
+  "edges": [
+    {
+      "modulatorClass": "nmdaAntagonist",
+      "affectedClass": "muOpioid",
+      "muFactor": 0.5,
+      "confidence": "low",
+      "note": "Blocking NMDA receptors attenuates the development of opioid analgesic tolerance — the best-known clinical use is ketamine or memantine alongside opioids. Keyed by the receptor class, so it covers memantine, ketamine, DXM and MXE."
+    }
+  ]
+}

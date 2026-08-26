@@ -1,0 +1,131 @@
+{
+  "_meta": {
+    "what": "The interaction DrugClass a substance's category falls back to when no name override in substance-interaction-classes.json names it.",
+    "why": "A category is a browsing taxonomy and an interaction class is a mechanism claim, so most of these are judgments rather than translations — routing Dysdelic to `dissociative`, Eugeroic to `stimulant`, Deliriant to `antihistamine`. Each such call is stated below.",
+    "default": "A category absent from this file resolves to `other`, which participates in no rule. That default stays in code: it is what an unmapped category means, not a value."
+  },
+  "source": "piru-curated",
+  "categories": [
+    {
+      "category": "Opioid",
+      "drugClass": "opioid"
+    },
+    {
+      "category": "Benzodiazepine",
+      "drugClass": "benzodiazepine"
+    },
+    {
+      "category": "Stimulant",
+      "drugClass": "stimulant"
+    },
+    {
+      "category": "Psychedelic",
+      "drugClass": "psychedelic"
+    },
+    {
+      "category": "Dissociative",
+      "drugClass": "dissociative"
+    },
+    {
+      "category": "Dysdelic",
+      "drugClass": "dissociative",
+      "why": "KOR agonists are pharmacologically closer to dissociatives than to classical psychedelics — they don't engage 5-HT2A, but the kappa mechanism shares acute dissociation/derealisation phenomenology and (more importantly for interaction modeling) compounds with dissociatives or sedatives. Route to `.dissociative` until we add a dedicated `.kappaAgonist` class with its own rule set."
+    },
+    {
+      "category": "Empathogen",
+      "drugClass": "empathogen"
+    },
+    {
+      "category": "Cannabinoid",
+      "drugClass": "cannabinoid"
+    },
+    {
+      "category": "GABAergic",
+      "drugClass": "gabapentinoid"
+    },
+    {
+      "category": "AMPAkine",
+      "drugClass": "other"
+    },
+    {
+      "category": "Eugeroic",
+      "drugClass": "stimulant",
+      "why": "Eugeroics block DAT/NET like stimulants and stack badly with serotonergics and MAOIs — treat as `.stimulant` for interaction purposes."
+    },
+    {
+      "category": "Antidepressant",
+      "drugClass": "ssri",
+      "why": "Default fallback for the `.antidepressant` category. SSRI is the most common subtype, so this is the safest serotonergic proxy when we have no better information. **Failure mode:** any imported MAOI, SNRI, or TCA that lacks a name/alias hit in `substanceClassOverrides` will silently land here and be matched against SSRI rules — missing MAOI×stimulant or SNRI×empathogen warnings, for instance. When such a gap is discovered, add the substance to `substanceClassOverrides` with the correct subtype."
+    },
+    {
+      "category": "Antipsychotic",
+      "drugClass": "antipsychotic"
+    },
+    {
+      "category": "Supplement",
+      "drugClass": "supplement"
+    },
+    {
+      "category": "Nootropic",
+      "drugClass": "other"
+    },
+    {
+      "category": "Depressant",
+      "drugClass": "other"
+    },
+    {
+      "category": "OrexinAntagonist",
+      "drugClass": "orexinAntagonist"
+    },
+    {
+      "category": "Analgesic",
+      "drugClass": "other"
+    },
+    {
+      "category": "Antihistamine",
+      "drugClass": "antihistamine"
+    },
+    {
+      "category": "Deliriant",
+      "drugClass": "antihistamine",
+      "why": "Deliriants are anticholinergic/antimuscarinic; their dominant interaction concern is additive anticholinergic toxicity, the same profile as the first-gen antihistamines they were split out of. Route to `.antihistamine` so those rules (and the sedative/anticholinergic stacking warnings) apply."
+    },
+    {
+      "category": "Cardiovascular",
+      "drugClass": "other"
+    },
+    {
+      "category": "Antimicrobial",
+      "drugClass": "other"
+    },
+    {
+      "category": "Gastrointestinal",
+      "drugClass": "other"
+    },
+    {
+      "category": "Respiratory",
+      "drugClass": "other"
+    },
+    {
+      "category": "Endocrine",
+      "drugClass": "other"
+    },
+    {
+      "category": "Immunological",
+      "drugClass": "other"
+    },
+    {
+      "category": "Peptide",
+      "drugClass": "other"
+    },
+    {
+      "category": "Anticonvulsant",
+      "drugClass": "other",
+      "why": "Anticonvulsants are pharmacologically heterogeneous (sodium-channel blockers, SV2A ligands, gabapentinoids, GABAergics) — no single safe class proxy. Route to `.other` and let `substanceClassOverrides` map specific drugs (gabapentin, pregabalin → `.gabapentinoid`; benzo-class anticonvulsants → `.benzodiazepine`) where the subtype is known."
+    },
+    {
+      "category": "Other",
+      "drugClass": "other"
+    }
+  ]
+}

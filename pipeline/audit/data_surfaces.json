@@ -55,7 +55,10 @@
     "peptide_profiles":          {"surface": "medicalUses"},
 
     "drug_interactions_pk":      {"surface": "combinations",         "note": "measured pair PK; rendered on the substance page but never against what the user logged"},
-    "interaction_rules":         {"surface": "combinations",         "note": "EMPTY — the class matrix the Swift table should be reading"},
+    "interaction_rules":              {"surface": "combinations",    "note": "the class matrix InteractionChecker resolves every pairing through"},
+    "substance_interaction_classes":  {"surface": "combinations",    "note": "name → interaction class, overriding the substance's category"},
+    "category_interaction_classes":   {"surface": "combinations",    "note": "the per-category fallback when no name override matches"},
+    "tolerance_modulation":           {"surface": "tolerance",       "note": "mu edges scaling one class's tolerance development while a modulator is onboard"},
 
     "citations":                 {"surface": "sources"},
     "substance_citations":       {"surface": "sources"},
