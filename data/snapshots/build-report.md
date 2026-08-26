@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-08-26.0 → `Piru/Data/piru-substances.sqlite` (13,729,792 bytes, sha256 `4d162f94ee116a088d61157b20cc087e72266fb8bb24dce2cacd6254e0895d5d`)
+Built 2026-08-26.0 → `Piru/Data/piru-substances.sqlite` (13,918,208 bytes, sha256 `723780783b2514c0fc48a3252ac4bd36cbe302b869b634c709ddb1a4e1396ff9`)
 
 ## Row counts
 
@@ -9,7 +9,7 @@ Built 2026-08-26.0 → `Piru/Data/piru-substances.sqlite` (13,729,792 bytes, sha
 | substances | 1,736 |
 | aliases | 5,394 |
 | sources | 17 |
-| citations | 2,861 |
+| citations | 2,863 |
 | categories | 1,591 |
 | tags | 7,099 |
 | dose_ranges | 2,498 |
@@ -42,6 +42,19 @@ Built 2026-08-26.0 → `Piru/Data/piru-substances.sqlite` (13,729,792 bytes, sha
 | substance_flags | 13 |
 | regional_names | 5 |
 | opioid_mme | 11 |
+| interaction_rules | 99 |
+| substance_interaction_classes | 213 |
+| category_interaction_classes | 29 |
+| tolerance_modulation | 1 |
+| enzyme_modulators | 10 |
+| combination_metabolites | 2 |
+| pharmacology_matchers | 39 |
+| withdrawal_timing_bands | 3 |
+| withdrawal_acting_class | 9 |
+| taper_interventions | 16 |
+| by_volume_dosing | 1 |
+| drink_presets | 4 |
+| zero_order_kinetics | 1 |
 | saturable_kinetics | 6 |
 | bioavailability_by_dose | 9 |
 | attenuation_bands | 1 |
