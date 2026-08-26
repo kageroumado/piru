@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 /// A monoamine transporter at which a *releaser* (a transporter substrate) can be **blunted** by a
 /// co-present *reuptake blocker* that competes for the same transporter.
@@ -27,14 +28,28 @@ nonisolated enum CompetingTransporter: String {
         }
     }
 
+    /// A transporter's evidence-anchored fractional-reduction range.
+    struct Band: Sendable {
+        let low: Double
+        let high: Double
+    }
+
+    /// The bands read from `attenuation_bands`, keyed by ``rawValue``. Held in a lock-guarded static
+    /// rather than queried per call because the readers are `nonisolated` and run inside the
+    /// interaction analysis, and installed once by ``SubstanceStore`` at index build. Before the load
+    /// lands, ``reductionBand`` is `nil` and no attenuation result is produced.
+    private static let bands = OSAllocatedUnfairLock<[String: Band]>(initialState: [:])
+
+    /// Install the bands read from `attenuation_bands`. Called once per store init.
+    static func load(_ loaded: [String: Band]) {
+        bands.withLock { $0 = loaded }
+    }
+
     /// Evidence-anchored fractional-reduction band for a releaser at this transporter when a blocker
-    /// occupies it. The SERT band — chronic SSRI blunts MDMA's effect ~30–80% — is controlled-human,
-    /// HIGH-confidence (the MDMA evidence run). It is a *range*, never a single fabricated %, because
-    /// the relationship between transporter occupancy and subjective blunting is not 1:1.
-    var reductionBand: (low: Double, high: Double) {
-        switch self {
-        case .sert: (0.30, 0.80)
-        }
+    /// occupies it, or `nil` when the database ships none. It is a *range*, never a single fabricated
+    /// %, because the relationship between transporter occupancy and subjective blunting is not 1:1.
+    var reductionBand: Band? {
+        Self.bands.withLock { $0[rawValue] }
     }
 }
 
@@ -152,13 +167,12 @@ nonisolated enum EffectAttenuation {
                             releaserStart: releaser.entry.timestamp, releaserEnd: releaserEnd,
                         ) >= onboardThreshold
                 }
-                guard !blockers.isEmpty else { continue }
+                guard !blockers.isEmpty, let band = transporter.reductionBand else { continue }
 
                 // De-dup blocker names, preserving order.
                 var seen = Set<String>()
                 let blockerNames = blockers.map(\.substance).filter { seen.insert($0.lowercased()).inserted }
 
-                let band = transporter.reductionBand
                 results.append(EffectAttenuationResult(
                     attenuated: releaser.substance,
                     blockers: blockerNames,

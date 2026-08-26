@@ -1,5 +1,6 @@
 {
   "name": "Cannabis",
+  "activeIngredient": "THC",
   "aliases": [
     "大麻",
     "大麻草"

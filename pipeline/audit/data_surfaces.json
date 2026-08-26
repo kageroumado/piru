@@ -51,6 +51,9 @@
 
     "half_lives":                {"surface": "pharmacokinetics"},
     "pk_routes":                 {"surface": "pharmacokinetics"},
+    "saturable_kinetics":        {"surface": "pharmacokinetics",     "note": "Tools ▸ Ceiling Effect — which step runs out of capacity, and the Km/Vmax the overlaid dose curves are integrated from; a row with no kinetics renders the direction in words instead"},
+    "bioavailability_by_dose":   {"surface": "pharmacokinetics",     "note": "Tools ▸ Ceiling Effect — gabapentin's falling F-vs-dose line, which both its absorption curves and the gabapentinoid comparison chart are drawn from"},
+    "attenuation_bands":         {"surface": "combinations",         "note": "the effect-attenuation readout's 30–80% band — how far a releaser is blunted by a blocker competing for the same transporter"},
     "metabolism":                {"surface": "pharmacokinetics"},
     "enzyme_modulators":         {"surface": "pharmacokinetics",     "note": "the grapefruit/smoking/co-active-drug modulation banners, the contraceptive-efficacy caution, and the checker's metabolic section; the substrate side is derived by joining metabolism.enzyme, so no substance is named in the table"},
     "combination_metabolites":   {"surface": "pharmacokinetics",     "note": "the 'Formed With' section on a dose entry and the checker's combination banner; also derives metabolism.conditional_combination_id, which keeps these species out of the parent's Also Active fold"},

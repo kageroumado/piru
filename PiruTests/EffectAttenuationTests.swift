@@ -12,6 +12,12 @@ import Testing
 struct EffectAttenuationTests {
     static let now = Date(timeIntervalSince1970: 1_700_000_000)
 
+    /// `analyze` reads the reduction band out of `attenuation_bands`, so this suite needs the store up
+    /// rather than relying on another suite having warmed it.
+    init() {
+        _ = SubstanceStore.shared
+    }
+
     static func dose(_ substance: String, mg: Double = 10, hoursAgo: Double = 0) -> DoseEntry {
         DoseEntry(
             substance: substance, amount: mg, unit: "mg", route: .oral,
@@ -31,15 +37,27 @@ struct EffectAttenuationTests {
         #expect(result.blockers.contains("Fluoxetine"))
         #expect(result.transporter == .sert)
         #expect(result.confidence == .high) // empathogen × antidepressant SERT blocker
-        #expect(abs(result.reductionLow - 0.30) < 1e-9)
-        #expect(abs(result.reductionHigh - 0.80) < 1e-9)
+        // The readout carries the transporter's own band rather than a second copy of it — the value
+        // itself is gated against its citation in the pipeline's test_sqlite.py.
+        let band = try #require(CompetingTransporter.sert.reductionBand)
+        #expect(result.reductionLow == band.low)
+        #expect(result.reductionHigh == band.high)
     }
 
     @Test
-    func `Reduction range renders as a percentage band`() throws {
-        let result = try #require(EffectAttenuation.analyze(entries: [
-            Self.dose("MDMA", mg: 100), Self.dose("Sertraline", mg: 50),
-        ]).first)
+    func `The SERT band is an ordered fraction, so it can never render as a backwards range`() throws {
+        let band = try #require(CompetingTransporter.sert.reductionBand)
+        #expect(band.low > 0)
+        #expect(band.low < band.high)
+        #expect(band.high <= 1)
+    }
+
+    @Test
+    func `Reduction range renders as a percentage band`() {
+        let result = EffectAttenuationResult(
+            attenuated: "MDMA", blockers: ["Sertraline"], transporter: .sert,
+            reductionLow: 0.30, reductionHigh: 0.80, confidence: .high,
+        )
         #expect(result.reductionRangeText == "30\u{2013}80%")
     }
 

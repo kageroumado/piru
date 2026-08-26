@@ -1,0 +1,14 @@
+{
+  "_comment": "How much a transporter substrate's (releaser's) effect is blunted when a reuptake blocker occupies the same transporter. A fractional RANGE, never a point: the relation between transporter occupancy and subjective blunting is not 1:1, and a computed Hill occupancy against a sub-nanomolar Kᵢ saturates to ~100% and over-predicts. Keyed by transporter, because the band is a property of the competition rather than of either drug.",
+  "source": "piru-curated",
+  "bands": [
+    {
+      "transporter": "sert",
+      "reductionLow": 0.30,
+      "reductionHigh": 0.80,
+      "confidence": "high",
+      "citation": "doi:10.1007/s00213-022-06083-y",
+      "notes": "Pooled across controlled human studies of SSRI pretreatment before MDMA (citalopram, paroxetine, fluoxetine) by the Sarparast 2022 systematic review: subjective effects attenuated ~30–80%, physiological effects only ~6–14%, and body temperature not attenuated at all. Read as effect blockade, not danger — acute SSRI co-dosing lowers rather than raises serotonin-syndrome odds, and no reported case has MDMA as sole agent. That hyperthermia is the one effect SSRIs do NOT blunt is why the blunting must never be presented as a safety margin."
+    }
+  ]
+}

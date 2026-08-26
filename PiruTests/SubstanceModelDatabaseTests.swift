@@ -145,6 +145,21 @@ struct SubstanceModelDatabaseTests {
     }
 
     @Test
+    func `The calibrated set is exactly the substances flagged in the database, and no others`() {
+        let flagged = SubstanceStore.shared.namesWithFlag(PharmacologyParameters.Flag.modelCalibrated)
+        #expect(!flagged.isEmpty, "the model-calibrated flag resolved to nothing — the DB row is missing")
+        #expect(SubstanceModelDatabase.calibratedTriggerSet == flagged)
+
+        // The two read paths must agree: the name-keyed gate the session check runs, and the set the
+        // sandbox picker offers as anchors. A substance in one and not the other means a session can
+        // trigger a view whose picker will not list the substance that triggered it.
+        for name in flagged {
+            #expect(SubstanceModelDatabase.isCalibratedTrigger(name), "\(name) is flagged but does not gate")
+            #expect(SubstanceStore.shared.hasFlag(PharmacologyParameters.Flag.modelCalibrated, forSubstanceName: name))
+        }
+    }
+
+    @Test
     func `The view gates on a calibrated substance, not any modelable stimulant`() {
         func supports(_ names: [String]) -> Bool {
             let doses = names.map { MechanisticSessionModel.DoseInput(name: $0, amount: 50, route: .oral, hours: 0) }

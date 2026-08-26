@@ -18,6 +18,9 @@ nonisolated struct PharmacologyParameters {
         /// ``MonoamineProfile``, not by the tolerance engine — it lives here so every
         /// `substance_flags` value is spelled in one place.
         static let missoldAsMDMA = "missold-as-mdma"
+        /// The effect model was calibrated against human data for this substance, so it may *anchor*
+        /// a simulation. See ``SubstanceModelDatabase/isCalibratedTrigger(_:)``.
+        static let modelCalibrated = "model-calibrated"
     }
 
     /// Which constant a target's ``TargetEngagement/halfMaxNanomolar`` is, by mechanism.

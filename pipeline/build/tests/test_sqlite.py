@@ -3789,6 +3789,175 @@ class TestSignatureGates(unittest.TestCase):
             f"(their curves fall back to F = 1): {[r[0] for r in rows]}",
         )
 
+    def test_saturable_kinetics_is_quantitative_or_qualitative_but_never_half(self):
+        """Km, Vmax and its basis arrive together or not at all.
+
+        The app decides whether to *draw a curve* off exactly that trio. A row with a
+        Km and no Vmax would either drop silently out of the tool or, worse, reach the
+        integrator with a rate nobody supplied.
+        """
+        bad = self.db.execute(
+            "SELECT s.canonical_name, k.km_mg_per_l, k.vmax, k.vmax_basis"
+            "  FROM saturable_kinetics k JOIN substances s ON s.id = k.substance_id"
+            " WHERE (k.km_mg_per_l IS NULL) != (k.vmax IS NULL)"
+            "    OR (k.vmax IS NULL) != (k.vmax_basis IS NULL)"
+        ).fetchall()
+        self.assertEqual(bad, [], f"half-filled saturable_kinetics rows: {bad}")
+
+    def test_saturable_kinetics_values_match_their_sources(self):
+        """The shipped constants, each against the paper the row cites.
+
+        Ethanol Vmax 95 mg/min and Km 27 mg/L are Norberg 2000's IV-primary values
+        (PMID 10792196). The 90 mg/L Km that circulates in teaching material is stated
+        by none of the primaries and must never appear here. Phenytoin's Km ~5.7 mg/L
+        and Vmax ~7 mg/kg/day are the adult population means (Ludden 1977, PMID 837647;
+        Ismail 1990, PMID 2089048), and the clinical hallmark is that Km sits BELOW the
+        10-20 mg/L therapeutic range.
+        """
+        rows = {
+            name.lower(): (km, vmax, basis)
+            for name, km, vmax, basis in self.db.execute(
+                "SELECT s.canonical_name, k.km_mg_per_l, k.vmax, k.vmax_basis"
+                "  FROM saturable_kinetics k JOIN substances s ON s.id = k.substance_id"
+            )
+        }
+        self.assertEqual(rows["alcohol"], (27.0, 95.0, "whole_body_mg_per_min"))
+        self.assertEqual(rows["phenytoin"], (5.7, 7.0, "mg_per_kg_per_day"))
+        self.assertLess(
+            rows["phenytoin"][0], 10, "phenytoin Km must sit below the therapeutic range"
+        )
+        # GHB's only published constants are rat and in-vitro (grade D). Shipping one
+        # would draw a human curve from an animal number.
+        self.assertEqual(rows["ghb"], (None, None, None))
+
+    def test_saturable_kinetics_never_grows_a_bioavailability_column(self):
+        """Oral F has one home, `pk_routes`, and this table must not fork it.
+
+        Vd is carried here because it is genuinely a different quantity under the same
+        name (total body water against the forensic Widmark volume). F is not: a copy
+        here would go stale the moment someone corrects a substance's bioavailability
+        where it actually lives.
+        """
+        columns = {row[1] for row in self.db.execute("PRAGMA table_info(saturable_kinetics)")}
+        self.assertNotIn("bioavailability", columns)
+        self.assertNotIn("bioavailability_pct", columns)
+        self.assertIn("vd_l_per_kg", columns)
+
+    def test_saturable_kinetics_rows_are_cited(self):
+        """Every profile names its source, quantitative or not — the qualitative rows
+        make a mechanism claim ("this saturates, in this direction") that a reader has
+        the same right to check as a number."""
+        uncited = self.db.execute(
+            "SELECT s.canonical_name"
+            "  FROM saturable_kinetics k JOIN substances s ON s.id = k.substance_id"
+            " WHERE k.citation_id IS NULL OR TRIM(k.citation_text) = ''"
+        ).fetchall()
+        self.assertEqual(uncited, [], f"uncited saturable_kinetics rows: {[r[0] for r in uncited]}")
+
+    def test_gabapentin_bioavailability_falls_with_dose(self):
+        """The FDA NEURONTIN label's F-vs-dose table (PMID 9714500 for the carrier
+        mechanism): ~60% at 900 mg/day down to ~27% at 4800 mg/day.
+
+        The direction is the whole claim. An inversion would turn the benign
+        sub-proportional ceiling into a supralinear one and reverse what the tool says
+        about taking more.
+        """
+        points = self.db.execute(
+            "SELECT b.dose_mg, b.bioavailability_pct"
+            "  FROM bioavailability_by_dose b JOIN substances s ON s.id = b.substance_id"
+            " WHERE lower(s.canonical_name) = 'gabapentin' AND b.dose_basis = 'per_day'"
+            " ORDER BY b.dose_mg ASC"
+        ).fetchall()
+        self.assertEqual(
+            points,
+            [(900.0, 60.0), (1200.0, 47.0), (2400.0, 34.0), (3600.0, 33.0), (4800.0, 27.0)],
+        )
+        f_values = [f for _, f in points]
+        self.assertEqual(
+            f_values, sorted(f_values, reverse=True), "gabapentin F must not rise with dose"
+        )
+
+    def test_pregabalin_bioavailability_is_flat(self):
+        """The teaching counterpoint (Bockbrader 2010, PMID 20818832): the same drug
+        class stays ~90% absorbed at any dose. A sloped pregabalin line would erase the
+        contrast the chart exists to make."""
+        f_values = [
+            f
+            for (f,) in self.db.execute(
+                "SELECT b.bioavailability_pct"
+                "  FROM bioavailability_by_dose b JOIN substances s ON s.id = b.substance_id"
+                " WHERE lower(s.canonical_name) = 'pregabalin'"
+            )
+        ]
+        self.assertTrue(f_values, "pregabalin carries no bioavailability_by_dose rows")
+        self.assertEqual(set(f_values), {90.0})
+
+    def test_bioavailability_by_dose_is_bounded_and_cited(self):
+        bad = self.db.execute(
+            "SELECT s.canonical_name, b.dose_mg, b.bioavailability_pct"
+            "  FROM bioavailability_by_dose b JOIN substances s ON s.id = b.substance_id"
+            " WHERE b.bioavailability_pct <= 0 OR b.bioavailability_pct > 100"
+            "    OR b.dose_mg <= 0 OR b.citation_id IS NULL OR TRIM(b.citation_text) = ''"
+        ).fetchall()
+        self.assertEqual(bad, [], f"out-of-range or uncited bioavailability rows: {bad}")
+
+    def test_sert_attenuation_band_matches_the_systematic_review(self):
+        """SSRI pretreatment attenuates MDMA's subjective effects ~30-80%, pooled across
+        the controlled human studies by Sarparast 2022 (doi:10.1007/s00213-022-06083-y).
+
+        A range and not a point: the relation between transporter occupancy and
+        subjective blunting is not 1:1. Widening or collapsing it would claim a
+        precision the evidence does not have, and inverting it would render backwards.
+        """
+        row = self.db.execute(
+            "SELECT a.reduction_low, a.reduction_high, a.confidence, c.doi"
+            "  FROM attenuation_bands a LEFT JOIN citations c ON c.id = a.citation_id"
+            " WHERE a.transporter = 'sert'"
+        ).fetchone()
+        self.assertIsNotNone(row, "attenuation_bands carries no SERT row")
+        low, high, confidence, doi = row
+        self.assertEqual((low, high), (0.30, 0.80))
+        self.assertEqual(confidence, "high")
+        self.assertEqual(doi, "10.1007/s00213-022-06083-y")
+
+    def test_attenuation_bands_are_ordered_fractions(self):
+        bad = self.db.execute(
+            "SELECT transporter, reduction_low, reduction_high FROM attenuation_bands"
+            " WHERE NOT (reduction_low > 0 AND reduction_low < reduction_high"
+            "            AND reduction_high <= 1)"
+        ).fetchall()
+        self.assertEqual(bad, [], f"malformed attenuation bands: {bad}")
+
+    def test_model_calibrated_flag_names_the_five_calibrated_stimulants(self):
+        """The engine's anchor set. It gates whether Effect Estimates surfaces at all,
+        so a substance appearing here that nobody calibrated would let the app present
+        a modeled curve as if it had been validated."""
+        names = {
+            name.lower()
+            for (name,) in self.db.execute(
+                "SELECT s.canonical_name FROM substance_flags f"
+                "  JOIN substances s ON s.id = f.substance_id"
+                " WHERE f.flag = 'model-calibrated'"
+            )
+        }
+        self.assertEqual(names, {"amphetamine", "methylphenidate", "2-mmc", "3-mmc", "mephedrone"})
+
+    def test_active_ingredient_points_at_a_real_substance_and_never_at_itself(self):
+        """A preparation borrows its molecule's pharmacology. A self-reference would
+        loop the resolve, and a dangling id would send every pharmacology read to
+        nothing at all — worse than the preparation speaking for itself."""
+        rows = self.db.execute(
+            "SELECT s.canonical_name, i.canonical_name"
+            "  FROM substances s LEFT JOIN substances i"
+            "    ON i.id = s.active_ingredient_substance_id"
+            " WHERE s.active_ingredient_substance_id IS NOT NULL"
+        ).fetchall()
+        self.assertTrue(rows, "no substance carries an active ingredient")
+        for preparation, ingredient in rows:
+            self.assertIsNotNone(ingredient, f"{preparation} points at a missing substance")
+            self.assertNotEqual(preparation, ingredient, f"{preparation} points at itself")
+        self.assertIn(("Cannabis", "THC"), rows)
+
     def test_class_reference_compounds_populated(self):
         families = self.db.execute(
             "SELECT family, COUNT(*) FROM class_reference_compounds GROUP BY family"

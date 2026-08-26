@@ -2,9 +2,25 @@
   "_comment": "Boolean pharmacological facts read by an engine, never rendered as a UI chip (that is what `tags` is for). Keys are substances.canonical_name; each entry lists the flags that substance carries.",
   "_flags": {
     "suppresses-serotonin-synthesis": "Metabolites suppress tryptophan hydroxylase, so the SERT class's slow synthesis pool recovers on a weeks-scale clock instead of the days-scale reset of the synthesis-sparing releasers (Specs/tolerance-faithful-model-improvements.md §3.4). Methylenedioxy entactogens only — the cathinone releasers (mephedrone and relatives) spare synthesis and must NOT carry this flag.",
-    "missold-as-mdma": "Frequently pressed and sold as MDMA or \"molly\" while being a pharmacologically DAT-dominant reuptake blocker: longer, more stimulant and anxiogenic, and more dangerous on an empathogen-style redose. A market fact about what the pill contains, so it is carried per substance rather than inferred from the binding profile — the profile is what makes the substitution dangerous, not what identifies it."
+    "missold-as-mdma": "Frequently pressed and sold as MDMA or \"molly\" while being a pharmacologically DAT-dominant reuptake blocker: longer, more stimulant and anxiogenic, and more dangerous on an empathogen-style redose. A market fact about what the pill contains, so it is carried per substance rather than inferred from the binding profile — the profile is what makes the substitution dangerous, not what identifies it.",
+    "model-calibrated": "The effect model was actually calibrated against human data for this substance, so a session containing it may surface Effect Estimates. Every other modelable substance (methamphetamine, cocaine, kratom, MDMA, …) is still read as an interacting agent that shapes the aggregate curves — the flag gates whether a substance can ANCHOR a simulation on its own, not whether the engine can simulate it. A substance earns this only when human dose-response data anchored its parameters; the cathinones rest on a human 3-MMC study."
   },
   "substances": {
+    "Amphetamine": [
+      "model-calibrated"
+    ],
+    "Methylphenidate": [
+      "model-calibrated"
+    ],
+    "2-MMC": [
+      "model-calibrated"
+    ],
+    "3-MMC": [
+      "model-calibrated"
+    ],
+    "Mephedrone": [
+      "model-calibrated"
+    ],
     "MDMA": [
       "suppresses-serotonin-synthesis"
     ],

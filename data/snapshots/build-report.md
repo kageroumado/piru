@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-08-26.0 → `Piru/Data/piru-substances.sqlite` (13,725,696 bytes, sha256 `e5fe1038b7e0250a63fa455e9e55918e4f6e16903f66d2e05b5b358172859789`)
+Built 2026-08-26.0 → `Piru/Data/piru-substances.sqlite` (13,729,792 bytes, sha256 `4d162f94ee116a088d61157b20cc087e72266fb8bb24dce2cacd6254e0895d5d`)
 
 ## Row counts
 
@@ -9,7 +9,7 @@ Built 2026-08-26.0 → `Piru/Data/piru-substances.sqlite` (13,725,696 bytes, sha
 | substances | 1,736 |
 | aliases | 5,394 |
 | sources | 17 |
-| citations | 2,858 |
+| citations | 2,861 |
 | categories | 1,591 |
 | tags | 7,099 |
 | dose_ranges | 2,498 |
@@ -39,12 +39,12 @@ Built 2026-08-26.0 → `Piru/Data/piru-substances.sqlite` (13,725,696 bytes, sha
 | molecule_shapes | 963 |
 | class_reference_compounds | 34 |
 | class_representatives | 7 |
-| substance_flags | 8 |
+| substance_flags | 13 |
 | regional_names | 5 |
 | opioid_mme | 11 |
-| by_volume_dosing | 1 |
-| drink_presets | 4 |
-| zero_order_kinetics | 1 |
+| saturable_kinetics | 6 |
+| bioavailability_by_dose | 9 |
+| attenuation_bands | 1 |
 
 ## Per-source coverage
 

@@ -653,7 +653,16 @@ CREATE TABLE substances (
     popular_aliases         TEXT,
     misconceptions          TEXT,
     combinations            TEXT,
-    water_heat              TEXT
+    water_heat              TEXT,
+    -- The molecule this preparation's pharmacology is actually measured on, when
+    -- the preparation has none of its own. A plant has no Kᵢ: every receptor
+    -- number ever recorded "for cannabis" was measured on Δ9-THC, and filing them
+    -- under the preparation both misattributes the assay and draws one molecule
+    -- twice on any comparison ladder. So the preparation keeps its own dose,
+    -- duration and logging identity and BORROWS its pharmacology from this row.
+    -- Set only where ONE molecule carries the psychoactivity; ayahuasca does not
+    -- qualify, its effect being the DMT × β-carboline MAOI interaction.
+    active_ingredient_substance_id INTEGER REFERENCES substances(id)
 );
 CREATE INDEX idx_substances_normalized  ON substances(normalized_name);
 CREATE INDEX idx_substances_inchikey    ON substances(inchikey)    WHERE inchikey    IS NOT NULL;
@@ -1884,6 +1893,109 @@ CREATE TABLE zero_order_kinetics (
     citation_id              INTEGER REFERENCES citations(id),
     notes                    TEXT,
     PRIMARY KEY (substance_id, source_id)
+);
+
+-- Capacity-limited (Michaelis-Menten) kinetics: the substances whose dose does
+-- NOT map proportionally onto exposure, and which step runs out of capacity.
+-- `mechanism` is elimination (the clearing enzyme saturates, exposure runs away
+-- supralinearly), activation (the prodrug-converting enzyme saturates, the
+-- active species plateaus) or absorption (the intestinal carrier saturates,
+-- exposure lags sub-proportionally — its F-vs-dose table is in
+-- bioavailability_by_dose).
+--
+-- Every kinetic column is NULL together on a qualitative row. A substance whose
+-- nonlinearity is real but has no clean HUMAN Km/Vmax ships direction and words
+-- only: GHB's published constants are rat and in-vitro, and drawing a curve from
+-- them would put a fabricated number on a screen. The ingester refuses a row
+-- carrying one of Km/Vmax without the other, so a half-filled row can never
+-- reach a chart.
+--
+-- vd_l_per_kg lives here rather than being joined from pk_routes because the two
+-- carry different conventions of the same name: this is the total-body-water
+-- volume the Michaelis-Menten Vmax was fitted against, while pk_routes may hold
+-- the forensic whole-body (Widmark) volume — 0.55 vs 0.7 L/kg for ethanol.
+-- Pairing a Vmax with the other convention's Vd moves where the curve crosses
+-- Km, so do not replace this column with a join.
+--
+-- There is deliberately NO bioavailability column, and adding one would fork a
+-- fact that already has a home: oral F is resolved from pk_routes like every
+-- other consumer's, so a correction to a substance's F reaches this tool without
+-- anyone remembering that it also had a copy here. Vd is the exception above
+-- precisely because it is NOT the same quantity under the same name; F is.
+CREATE TABLE saturable_kinetics (
+    substance_id    INTEGER NOT NULL REFERENCES substances(id),
+    source_id       INTEGER NOT NULL REFERENCES sources(id),
+    -- elimination | activation | absorption
+    mechanism       TEXT NOT NULL,
+    -- Evidence grade for the profile as a whole: high | medium | low.
+    confidence      TEXT NOT NULL,
+    -- Michaelis constant, mg/L.
+    km_mg_per_l     REAL,
+    -- Maximum metabolic rate, in whichever convention vmax_basis names.
+    vmax            REAL,
+    -- whole_body_mg_per_min | mg_per_kg_per_day
+    vmax_basis      TEXT,
+    -- The TOTAL-BODY-WATER volume of distribution the Vmax above was fitted
+    -- against (ethanol 0.55 L/kg, Holford's ~37 L / 70 kg). NOT the same
+    -- quantity as pk_routes.vd_l_per_kg, which for ethanol holds the forensic
+    -- whole-body (Widmark) volume of 0.7 L/kg. Never replace this column with a
+    -- join to pk_routes: pairing a Michaelis-Menten Vmax with the other
+    -- convention's Vd moves where the curve crosses Km.
+    vd_l_per_kg     REAL,
+    -- First-order absorption rate constant, per MINUTE (not per hour).
+    ka_per_min      REAL,
+    -- Terminal elimination half-life, minutes. Carried only on an `absorption`
+    -- row, whose clearance is ordinary first-order.
+    half_life_min   REAL,
+    -- Display order in the ceiling tool.
+    rank            INTEGER NOT NULL DEFAULT 0,
+    citation_id     INTEGER REFERENCES citations(id),
+    -- The full source line shown verbatim beneath the profile.
+    citation_text   TEXT NOT NULL,
+    notes           TEXT,
+    PRIMARY KEY (substance_id, source_id)
+);
+
+-- Absolute oral bioavailability measured at more than one dose: the empirical
+-- F-vs-dose line of a drug whose absorption saturates, and the flat line of the
+-- drug it is taught against.
+--
+-- `dose_mg` is stated on the basis the source reports, named by `dose_basis`.
+-- The FDA gabapentin table is per-day; turning it into a single dose means
+-- assuming a dosing frequency, which is a modeling step and stays in code.
+CREATE TABLE bioavailability_by_dose (
+    substance_id        INTEGER NOT NULL REFERENCES substances(id),
+    source_id           INTEGER NOT NULL REFERENCES sources(id),
+    route               TEXT NOT NULL,
+    dose_mg             REAL NOT NULL,
+    -- per_day | single
+    dose_basis          TEXT NOT NULL,
+    bioavailability_pct REAL NOT NULL,
+    citation_id         INTEGER REFERENCES citations(id),
+    -- The series' source line, shown verbatim beneath the chart. Repeated on
+    -- every point of a series so a consumer reading one series reads one string.
+    citation_text       TEXT NOT NULL,
+    notes               TEXT,
+    PRIMARY KEY (substance_id, source_id, dose_basis, dose_mg)
+);
+
+-- How far a transporter substrate's (releaser's) effect is blunted when a
+-- reuptake blocker occupies the same transporter.
+--
+-- A fractional RANGE, never a point: the relation between transporter occupancy
+-- and subjective blunting is not 1:1, and a Hill occupancy computed against a
+-- sub-nanomolar Kᵢ saturates to ~100% and over-predicts. Keyed by transporter
+-- rather than by substance because the band is a property of the competition;
+-- the drug pair the human studies used is named in `notes`.
+CREATE TABLE attenuation_bands (
+    transporter    TEXT PRIMARY KEY,
+    source_id      INTEGER NOT NULL REFERENCES sources(id),
+    reduction_low  REAL NOT NULL,
+    reduction_high REAL NOT NULL,
+    -- Evidence grade: high | medium | low.
+    confidence     TEXT NOT NULL,
+    citation_id    INTEGER REFERENCES citations(id),
+    notes          TEXT
 );
 """
 
@@ -5259,6 +5371,10 @@ class Build:
         # _drop_variant_half_lives.
         self.isomer_pk_rowids: set[int] = set()
         self.substance_ids: dict[str, int] = {}  # normalised_name -> id
+        # normalised preparation name -> the ingredient name its curated file
+        # gives, resolved to an id by populate_active_ingredients() once every
+        # substance exists.
+        self._active_ingredients: dict[str, str] = {}
         self.citation_cache: dict[tuple[str | None, int | None, str | None], int] = {}
         self._doi_to_pmid, self._pmid_to_doi = _load_identifier_xref()
         # Per-substance union of tags seen across every source so far. The
@@ -7070,6 +7186,8 @@ class Build:
                 )
                 continue
             names.append(normalise(entry["name"]))
+            if entry.get("activeIngredient"):
+                self._active_ingredients[normalise(entry["name"])] = entry["activeIngredient"]
             self._ingest_substance_record(
                 entry,
                 "piru-curated",
@@ -10246,6 +10364,172 @@ class Build:
             stats["inserted"] += 1
         return stats
 
+    def ingest_saturable_kinetics(self) -> dict[str, int]:
+        """Fill `saturable_kinetics` from curated JSON. Resolved by name OR alias.
+
+        A profile is either fully quantitative or fully qualitative: Km and Vmax
+        must arrive together, and a Vmax must name its basis. A row carrying one
+        without the other is refused rather than written, because the app decides
+        whether to *draw a curve* off exactly that pair — a half-filled row would
+        put a curve on screen with a constant nobody supplied."""
+        path = CURATED_DIR.parent / "saturable-kinetics.json"
+        stats = {"inserted": 0, "unmatched": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        source_id = self.source_ids[payload.get("source", "piru-curated")]
+        for rank, entry in enumerate(payload.get("profiles", [])):
+            sid = index.get(normalise(entry["substance"]))
+            if sid is None:
+                stats["unmatched"] += 1
+                continue
+            km, vmax, basis = entry.get("kmMgPerL"), entry.get("vmax"), entry.get("vmaxBasis")
+            if (km is None) != (vmax is None) or (vmax is None) != (basis is None):
+                print(
+                    f"  saturable_kinetics: refusing {entry['substance']!r} — "
+                    f"km {km!r} / vmax {vmax!r} / basis {basis!r} must be present or absent together",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            self.cur.execute(
+                "INSERT OR REPLACE INTO saturable_kinetics"
+                "(substance_id, source_id, mechanism, confidence, km_mg_per_l, vmax, vmax_basis,"
+                " vd_l_per_kg, ka_per_min, half_life_min, rank, citation_id,"
+                " citation_text, notes)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    sid,
+                    source_id,
+                    entry["mechanism"],
+                    entry["confidence"],
+                    km,
+                    vmax,
+                    basis,
+                    entry.get("vdLPerKg"),
+                    entry.get("kaPerMin"),
+                    entry.get("halfLifeMin"),
+                    rank,
+                    self.cite(entry.get("citation")),
+                    entry["citationText"],
+                    entry.get("notes"),
+                ),
+            )
+            stats["inserted"] += 1
+        return stats
+
+    def ingest_bioavailability_by_dose(self) -> dict[str, int]:
+        """Fill `bioavailability_by_dose` from curated JSON. Resolved by name OR
+        alias. Points are written in the order given and must ascend by dose —
+        the app interpolates between neighbours, so an out-of-order series would
+        silently return a bioavailability from the wrong segment."""
+        path = CURATED_DIR.parent / "bioavailability-by-dose.json"
+        stats = {"inserted": 0, "unmatched": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        source_id = self.source_ids[payload.get("source", "piru-curated")]
+        for series in payload.get("series", []):
+            sid = index.get(normalise(series["substance"]))
+            if sid is None:
+                stats["unmatched"] += 1
+                continue
+            points = series.get("points", [])
+            doses = [p["doseMg"] for p in points]
+            if doses != sorted(doses):
+                print(
+                    f"  bioavailability_by_dose: refusing {series['substance']!r} — "
+                    f"doses {doses} are not ascending",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            citation_id = self.cite(series.get("citation"))
+            for point in points:
+                self.cur.execute(
+                    "INSERT OR REPLACE INTO bioavailability_by_dose"
+                    "(substance_id, source_id, route, dose_mg, dose_basis,"
+                    " bioavailability_pct, citation_id, citation_text, notes)"
+                    " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (
+                        sid,
+                        source_id,
+                        series["route"],
+                        point["doseMg"],
+                        series["doseBasis"],
+                        point["bioavailabilityPct"],
+                        citation_id,
+                        series["citationText"],
+                        series.get("notes"),
+                    ),
+                )
+                stats["inserted"] += 1
+        return stats
+
+    def ingest_attenuation_bands(self) -> dict[str, int]:
+        """Fill `attenuation_bands` from curated JSON. Keyed by transporter, so
+        there is no substance to resolve. A band whose low bound is not below its
+        high bound is refused: the app renders it as "30–80%", and an inverted or
+        collapsed pair would read as a precision the evidence does not have."""
+        path = CURATED_DIR.parent / "attenuation-bands.json"
+        stats = {"inserted": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        source_id = self.source_ids[payload.get("source", "piru-curated")]
+        for band in payload.get("bands", []):
+            low, high = band["reductionLow"], band["reductionHigh"]
+            if not 0 < low < high <= 1:
+                print(
+                    f"  attenuation_bands: refusing {band['transporter']!r} — "
+                    f"band {low}–{high} is not an ordered fraction in (0, 1]",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            self.cur.execute(
+                "INSERT OR REPLACE INTO attenuation_bands"
+                "(transporter, source_id, reduction_low, reduction_high, confidence,"
+                " citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (
+                    band["transporter"],
+                    source_id,
+                    low,
+                    high,
+                    band["confidence"],
+                    self.cite(band.get("citation")),
+                    band.get("notes"),
+                ),
+            )
+            stats["inserted"] += 1
+        return stats
+
+    def populate_active_ingredients(self) -> dict[str, int]:
+        """Point each preparation at the molecule its pharmacology is measured on,
+        from the `activeIngredient` field of its curated file.
+
+        A post-pass because both sides must already be rows: the ingredient is
+        resolved by name OR alias against everything in the DB. A preparation that
+        names an ingredient the library does not carry is counted, never written —
+        a dangling id would send every pharmacology read to nothing at all, which
+        is worse than the preparation speaking for itself."""
+        stats = {"inserted": 0, "unmatched": 0}
+        index = self._alias_index()
+        for name, ingredient in self._active_ingredients.items():
+            sid = self.substance_ids.get(name)
+            target = index.get(normalise(ingredient))
+            if sid is None or target is None or sid == target:
+                stats["unmatched"] += 1
+                continue
+            self.cur.execute(
+                "UPDATE substances SET active_ingredient_substance_id = ? WHERE id = ?",
+                (target, sid),
+            )
+            stats["inserted"] += 1
+        return stats
+
     def derive_half_lives_from_pk(self) -> dict[str, int]:
         """Give a substance a `half_lives` row when its only half-life is sitting in
         `pk_routes`.
@@ -12693,6 +12977,18 @@ def main() -> int:
     zero_order = build.ingest_zero_order_kinetics()
     print(f"Zero-order kinetics: {zero_order}", file=sys.stderr)
 
+    saturable = build.ingest_saturable_kinetics()
+    print(f"Saturable kinetics: {saturable}", file=sys.stderr)
+
+    f_by_dose = build.ingest_bioavailability_by_dose()
+    print(f"Bioavailability by dose: {f_by_dose}", file=sys.stderr)
+
+    attenuation = build.ingest_attenuation_bands()
+    print(f"Attenuation bands: {attenuation}", file=sys.stderr)
+
+    active_ingredients = build.populate_active_ingredients()
+    print(f"Active ingredients: {active_ingredients}", file=sys.stderr)
+
     derived_half_lives = build.derive_half_lives_from_pk()
     print(f"Half-lives derived from PK: {derived_half_lives}", file=sys.stderr)
 
@@ -12909,6 +13205,9 @@ def main() -> int:
         "by_volume_dosing",
         "drink_presets",
         "zero_order_kinetics",
+        "saturable_kinetics",
+        "bioavailability_by_dose",
+        "attenuation_bands",
     ]
     db = sqlite3.connect(str(OUT_SQLITE))
     for t in tables:

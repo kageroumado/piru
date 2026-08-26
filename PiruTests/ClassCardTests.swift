@@ -117,6 +117,12 @@ struct ClassCardTests {
 @Suite("Active ingredient")
 @MainActor
 struct ActiveIngredientTests {
+    /// The mapping is installed from `substances.active_ingredient_substance_id` at index build, so
+    /// this suite needs the store up rather than relying on another suite having warmed it.
+    init() {
+        _ = SubstanceStore.shared
+    }
+
     @Test
     func `Cannabis resolves to THC, and almost nothing else resolves at all`() {
         #expect(ActiveIngredient.resolve("Cannabis") == "THC")

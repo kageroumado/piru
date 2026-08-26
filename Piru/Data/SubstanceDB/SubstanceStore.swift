@@ -155,6 +155,12 @@ final class SubstanceStore {
     /// row and the bioavailability it is paired with resolve by source priority), so it is cleared
     /// with the equivalence caches.
     @ObservationIgnored private var zeroOrderKineticsCache: [String: ZeroOrderProfile]?
+    /// `saturable_kinetics` in full — six rows the Ceiling-Effect tool reads on every appearance. Not
+    /// source-derived, so it is never invalidated.
+    @ObservationIgnored private var saturableKineticsCache: [SaturableKineticsRow]?
+    /// `bioavailability_by_dose` in full, keyed by lowercased canonical name. Read by both the ceiling
+    /// curves and the gabapentinoid comparison, which is why it is one table and one cache.
+    @ObservationIgnored private var bioavailabilityByDoseCache: [String: [BioavailabilityPoint]]?
 
     /// Name/alias (lowercased) → lightweight batch row, derived from `allCache`.
     /// This is the journal/timeline resolution path: it carries everything
@@ -723,6 +729,15 @@ final class SubstanceStore {
             // The tolerance replay reads these from `nonisolated` off-main code with no store
             // reference, so they are installed once here — see `ToleranceModulation`.
             ToleranceModulation.load(SubstanceReadModel.toleranceModulationEdges(db: substancesDB))
+            // Three more tables whose readers are `nonisolated` types with no store reference, installed
+            // for the same reason and on the same connection.
+            CompetingTransporter.load(SubstanceReadModel.attenuationBands(db: substancesDB))
+            ActiveIngredient.load(SubstanceReadModel.activeIngredients(db: substancesDB))
+            SubstanceModelDatabase.loadCalibrated(
+                SubstanceReadModel.flaggedNames(
+                    PharmacologyParameters.Flag.modelCalibrated, db: substancesDB,
+                ),
+            )
             self.allNames = names.map(\.0)
             // `uniquingKeysWith` (not `uniqueKeysWithValues:`) so a duplicate
             // lowercased canonical name (`MDMA`/`mdma` from an imported DB, or an
@@ -1200,6 +1215,12 @@ final class SubstanceStore {
         return SubstanceReadModel.hasFlag(flag, substanceID: id, db: substancesDB)
     }
 
+    /// The lowercased canonical names carrying one `substance_flags` flag — the whole-table read for a
+    /// gate that asks "which substances are in this set" rather than "does this one qualify".
+    func namesWithFlag(_ flag: String) -> Set<String> {
+        SubstanceReadModel.flaggedNames(flag, db: substancesDB)
+    }
+
     /// Every opioid carrying an MME row, in curated converter order (morphine, the reference
     /// standard, leads). The opioid counterpart of ``benzoEquivalences()`` and resolved the same way:
     /// one batched window query picking the highest-priority enabled source per substance. Cached
@@ -1432,6 +1453,24 @@ final class SubstanceStore {
         if let cached = categoryInteractionClassCache { return cached }
         let loaded = reader.categoryInteractionClasses()
         if !loaded.isEmpty { categoryInteractionClassCache = loaded }
+        return loaded
+    }
+
+    /// `saturable_kinetics` in full, in curated display order — the substances whose dose does not map
+    /// proportionally onto exposure. Read once and held (see ``saturableKineticsCache``).
+    func saturableKinetics() -> [SaturableKineticsRow] {
+        if let cached = saturableKineticsCache { return cached }
+        let loaded = SubstanceReadModel.saturableKinetics(db: substancesDB)
+        saturableKineticsCache = loaded
+        return loaded
+    }
+
+    /// `bioavailability_by_dose` in full, keyed by lowercased canonical name and ascending by dose.
+    /// Read once and held (see ``bioavailabilityByDoseCache``).
+    func bioavailabilityByDose() -> [String: [BioavailabilityPoint]] {
+        if let cached = bioavailabilityByDoseCache { return cached }
+        let loaded = SubstanceReadModel.bioavailabilityByDose(db: substancesDB)
+        bioavailabilityByDoseCache = loaded
         return loaded
     }
 
