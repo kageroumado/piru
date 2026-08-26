@@ -34,15 +34,38 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Newest by mtime, never `ls | head -1` on a glob — there are 6+ Piru-* DerivedData
-# dirs and the lexically-first one is routinely stale (sim-install-newest-derived-data).
-xctestrun="$(find ~/Library/Developer/Xcode/DerivedData/Piru-*/Build/Products \
-  -maxdepth 1 -name '*.xctestrun' -print0 2>/dev/null \
-  | xargs -0 stat -f '%m %N' 2>/dev/null | sort -rn | head -1 | cut -d' ' -f2-)"
+# Which DerivedData belongs to THIS checkout. Every `Piru-<hash>` directory that
+# has ever been built carries an `info.plist` naming the project it was built
+# from, so the answer is exact and costs a plist read — no `xcodebuild
+# -showBuildSettings` round trip.
+#
+# The filter is the whole point. Worktrees and second clones all produce
+# `Piru-*` directories, so an unfiltered newest-by-mtime glob happily hands one
+# checkout another's binary: the run goes green, none of the caller's tests were
+# in it, and nothing says so. Set DERIVED_DATA to point at an explicit
+# `-derivedDataPath` build instead.
+if [[ -n "${DERIVED_DATA:-}" ]]; then
+  roots=("$DERIVED_DATA")
+else
+  roots=()
+  for candidate in ~/Library/Developer/Xcode/DerivedData/Piru-*/; do
+    workspace="$(/usr/libexec/PlistBuddy -c 'Print :WorkspacePath' \
+      "$candidate/info.plist" 2>/dev/null)" || continue
+    [[ "$workspace" == "$REPO/"* ]] && roots+=("$candidate")
+  done
+fi
+
+xctestrun=""
+if [[ ${#roots[@]} -gt 0 ]]; then
+  xctestrun="$(find "${roots[@]/%//Build/Products}" \
+    -maxdepth 1 -name '*.xctestrun' -print0 2>/dev/null \
+    | xargs -0 stat -f '%m %N' 2>/dev/null | sort -rn | head -1 | cut -d' ' -f2-)"
+fi
 
 if [[ -z "$xctestrun" ]]; then
-  echo "No .xctestrun found — run: xcodebuild build-for-testing -scheme Piru \\"
+  echo "No .xctestrun built from $REPO — run: xcodebuild build-for-testing -scheme Piru \\"
   echo "  -destination 'platform=iOS Simulator,name=$SIM_NAME,OS=$SIM_OS'"
+  echo "(or set DERIVED_DATA=<path> if you built with an explicit -derivedDataPath)"
   exit 2
 fi
 
