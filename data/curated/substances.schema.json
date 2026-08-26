@@ -81,6 +81,10 @@
       "type": "string",
       "description": "Citation for halfLifeMinutes specifically — a DOI, PMID, or URL. The `sources` array is substance-level provenance and does NOT cite this number."
     },
+    "activeIngredient": {
+      "type": "string",
+      "description": "Canonical name of the molecule this preparation's pharmacology is actually measured on, when the preparation itself has none of its own (Cannabis → THC). Set it only when ONE molecule carries the psychoactivity and the library holds that molecule as its own substance; a preparation whose effect is an interaction between constituents has no single row that can stand for it."
+    },
     "sources": {
       "type": "array",
       "items": {

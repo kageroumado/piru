@@ -1,0 +1,39 @@
+{
+  "_comment": "Absolute oral bioavailability measured at more than one dose — the empirical F-vs-dose line for a drug whose intestinal absorption saturates, and the flat line of the drug it is taught against. Doses are stated on the basis the source reports them (`doseBasis`); converting a divided daily dose to a single dose means assuming a dosing frequency, which is a modeling step and stays in code.",
+  "source": "piru-curated",
+  "_doseBasis": {
+    "per_day": "Total daily dose, divided across the day as the label directs.",
+    "single": "One administration."
+  },
+  "series": [
+    {
+      "substance": "Gabapentin",
+      "route": "oral",
+      "doseBasis": "per_day",
+      "citation": "pmid:9714500",
+      "citationText": "FDA NEURONTIN label (NDA 020235); Gidal et al. 1998 (PMID 9714500)",
+      "notes": "Saturable: intestinal uptake rides the system-L / LAT1 amino-acid carrier, so the absorbed fraction falls as the dose climbs and total exposure flattens out. Divided three times daily on the label regimen these points came from.",
+      "points": [
+        {"doseMg": 900, "bioavailabilityPct": 60},
+        {"doseMg": 1200, "bioavailabilityPct": 47},
+        {"doseMg": 2400, "bioavailabilityPct": 34},
+        {"doseMg": 3600, "bioavailabilityPct": 33},
+        {"doseMg": 4800, "bioavailabilityPct": 27}
+      ]
+    },
+    {
+      "substance": "Pregabalin",
+      "route": "oral",
+      "doseBasis": "per_day",
+      "citation": "pmid:20818832",
+      "citationText": "Bockbrader et al. 2010 (PMID 20818832)",
+      "notes": "Dose-linear: the same α2δ-1 drug uses the carrier in a non-saturating regime and stays ≥ ~90% absorbed at any dose. The four points span its therapeutic range; the same value would hold outside it, so this is a flat line rather than a measured decline.",
+      "points": [
+        {"doseMg": 150, "bioavailabilityPct": 90},
+        {"doseMg": 300, "bioavailabilityPct": 90},
+        {"doseMg": 450, "bioavailabilityPct": 90},
+        {"doseMg": 600, "bioavailabilityPct": 90}
+      ]
+    }
+  ]
+}

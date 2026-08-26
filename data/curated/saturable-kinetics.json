@@ -1,0 +1,79 @@
+{
+  "_comment": "Capacity-limited (Michaelis-Menten) kinetics for the substances whose dose→exposure relationship is not proportional. `mechanism` says which step runs out of capacity. A row ships numbers only when clean HUMAN Km/Vmax exist; where they do not, the row carries mechanism + confidence + citation and every numeric field is null, so the app states the direction in words instead of drawing a curve from an animal or in-vitro constant. Chart geometry (reference dose, example multiples, plotted window, integration step) is model/UI choice and stays in Swift.",
+  "source": "piru-curated",
+  "_mechanisms": {
+    "elimination": "The clearing enzyme saturates, so above its Km elimination goes zero-order and total exposure climbs supralinearly — the dangerous ceiling.",
+    "activation": "The activating enzyme (prodrug → active species) saturates, so the active species stops scaling with dose past the knee.",
+    "absorption": "The absorbing carrier saturates, so fractional bioavailability falls with dose and exposure climbs sub-proportionally — the benign ceiling. Its F-vs-dose table is in bioavailability-by-dose.json."
+  },
+  "_vmaxBasis": {
+    "whole_body_mg_per_min": "Whole-body elimination rate in mg/min; divided by the volume of distribution to reach mg/L/min.",
+    "mg_per_kg_per_day": "Weight-scaled rate in mg/kg/day; scaled by weight and converted per-day → per-minute, then divided by Vd (the weight cancels)."
+  },
+  "_uncited": "kaPerMin and bioavailability are relocated Swift literals with no source in the ceiling-kinetics evidence run. Each ka is consistent with the substance's own cited Tmax in pk_routes (alcohol 45 min, gabapentin 180 min) but was not measured; treat them as model inputs awaiting a source rather than reported constants.",
+  "profiles": [
+    {
+      "substance": "Alcohol",
+      "mechanism": "elimination",
+      "confidence": "high",
+      "kmMgPerL": 27,
+      "vmax": 95,
+      "vmaxBasis": "whole_body_mg_per_min",
+      "vdLPerKg": 0.55,
+      "bioavailability": 0.9,
+      "kaPerMin": 0.05,
+      "citation": "pmid:10792196",
+      "citationText": "Norberg, Gabrielsson, Jones & Hahn 2000, Br J Clin Pharmacol (PMID 10792196); Holford 1987 (PMID 3319346).",
+      "notes": "Km is a literature range (IV-primary 27 ± 19 mg/L per Norberg 2000; ~80 mg/L in Holford's review; ~20 mg/L in a 2023 modeling paper) led here by the IV-primary value. The 90 mg/L figure that circulates is a clinical-teaching round number stated by none of the primaries and must not be shipped. Vd 0.55 L/kg is the total-body-water convention Vmax 95 mg/min was fitted against (Holford: ~37 L / 70 kg), NOT the forensic whole-body (Widmark) volume that pk_routes carries at 0.7 L/kg."
+    },
+    {
+      "substance": "Phenytoin",
+      "mechanism": "elimination",
+      "confidence": "high",
+      "kmMgPerL": 5.7,
+      "vmax": 7,
+      "vmaxBasis": "mg_per_kg_per_day",
+      "vdLPerKg": 0.65,
+      "bioavailability": 0.9,
+      "kaPerMin": 0.005,
+      "citation": "pmid:837647",
+      "citationText": "FDA Dilantin label (NDA 084349); Ludden et al. 1977 (PMID 837647); Ismail et al. 1990 (PMID 2089048).",
+      "notes": "Km 4–7 mg/L and Vmax ~7 mg/kg/day are adult population means with large inter-individual variability, individualized in practice by therapeutic drug monitoring. Km sits BELOW the 10–20 mg/L therapeutic range, so saturation begins within the window itself. CYP2C9/CYP2C19 poor metabolizers lower Vmax and move the knee down."
+    },
+    {
+      "substance": "Gabapentin",
+      "mechanism": "absorption",
+      "confidence": "high",
+      "vdLPerKg": 0.8,
+      "halfLifeMin": 360,
+      "kaPerMin": 0.01,
+      "citation": "pmid:9714500",
+      "citationText": "FDA NEURONTIN label (NDA 020235); Stewart et al. 1993 (PMID 8456077); Gidal et al. 1998 (PMID 9714500); Gee et al. 1996 (PMID 8621444).",
+      "notes": "Clearance is ordinary first-order — absorption, not elimination, is what saturates — so this row carries a half-life and no Km/Vmax. The dose-dependent bioavailability lives in bioavailability-by-dose.json. Vd 0.8 L/kg and t½ 360 min agree with the substance's own cited pk_routes row."
+    },
+    {
+      "substance": "Codeine",
+      "mechanism": "activation",
+      "confidence": "medium",
+      "citation": "pmid:16819548",
+      "citationText": "Frontiers Pharmacol 2024 (PMC11096448); CPIC 2021 (PMC8249478); Kirchheiner et al. 2007 (PMID 16819548).",
+      "notes": "Qualitative on purpose. The CYP2D6 O-demethylation step is low-affinity (Km ~100 µM ≈ 30 mg/L) and plasma codeine after a therapeutic 30–60 mg dose stays far below it, so the step does not substrate-saturate at clinical doses: the morphine ceiling is set by CYP2D6 enzyme quantity/phenotype, and drawing a saturating activation curve would misstate the mechanism. No shippable human Vmax exists (capacity is a Kcat scaling with activity score)."
+    },
+    {
+      "substance": "Tramadol",
+      "mechanism": "activation",
+      "confidence": "high",
+      "citation": "pmid:33387367",
+      "citationText": "Gillen et al. 2000 (PMID 10961373); Stamer et al. 2003 (PMID 14499440); FDA ULTRAM label (NDA 020281); CPIC CYP2D6/tramadol (PMID 33387367).",
+      "notes": "Qualitative on purpose: the CYP2D6 phenotype categories (PM/IM/EM/UM) do not interpolate to a drawable dose knee. Same activation step as codeine with the opposite safety valence — ultra-rapid metabolizers over-convert with no receptor ceiling."
+    },
+    {
+      "substance": "GHB",
+      "mechanism": "elimination",
+      "confidence": "medium",
+      "citation": "pmid:26659543",
+      "citationText": "Liechti et al. 2016, Br J Clin Pharmacol (PMID 26659543); FDA/EMA sodium oxybate (Xyrem) label.",
+      "notes": "Qualitative on purpose: no clean human in-vivo Km or Vmax exists. The in-vitro/animal estimates (metabolic Km 0.0095–0.338 mg/mL; rat renal-reabsorption Km,R ~0.46 mg/mL) are grade D and must never be presented as human constants. The nonlinearity itself is human-documented — AUC rises ~40% going 25 → 35 mg/kg (Liechti 2016) and ~3.8× when the label dose doubles 4.5 → 9 g — and the saturation is multi-pronged (metabolism, absorption, renal reabsorption), so a single Michaelis-Menten Km would oversimplify it even if one existed."
+    }
+  ]
+}
