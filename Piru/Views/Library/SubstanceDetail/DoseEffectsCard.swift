@@ -123,7 +123,7 @@ struct DoseEffectsCard: View {
 
             if let elementalFraction {
                 Label {
-                    Text("\(Int((elementalFraction * 100).rounded()))% elemental", comment: "Elemental fraction of a salt")
+                    elementalPercentCaption(elementalFraction)
                 } icon: {
                     Image(systemName: "atom").imageScale(.small)
                 }

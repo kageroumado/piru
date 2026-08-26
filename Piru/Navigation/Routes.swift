@@ -198,8 +198,7 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// Pick a color for `substance`. `remaining` carries any substances that
     /// still need a color after this one — when the user picks (or skips),
     /// the picker can re-present itself with `replacingTop: true` for the
-    /// next substance in the queue. Replaces the chained `onDismiss` color
-    /// loop in `LogDailyDoseView`.
+    /// next substance in the queue.
     ///
     /// `dismissAllOnComplete`: when `true`, finishing the queue calls
     /// `navigator.dismissAll()` instead of `navigator.dismiss()`. Set this for

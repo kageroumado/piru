@@ -545,6 +545,10 @@ nonisolated struct TargetBalanceModel: Sendable {
         /// 5-HT2A Kᵢ ÷ 5-HT1A Kᵢ. Above 1 = 5-HT1A-selective.
         let ratio: Double
         let isFocus: Bool
+        /// Solid when this tick's pair of Kᵢ values comes from the focus's own
+        /// comparable group (same study or declared panel); hollow when it is
+        /// cross-study context. The focus tick itself only exists when gated —
+        /// an ungated focus renders as a withheld card, never a tick.
         let isGated: Bool
 
         /// 0 (fully 5-HT2A) … 1 (fully 5-HT1A) — two decades either side of parity.

@@ -22,12 +22,17 @@ struct ComedownGuideView: View {
         )
     }
 
-    private func resolveRecentCategories() -> [SubstanceCategory] {
+    /// First-seen guided category per dose, newest-first — the "what's
+    /// relevant to this user right now" list this guide and Get Help share.
+    static func recentGuidedCategories(
+        in entries: some Sequence<DoseEntry>, cutoff: Date,
+    ) -> [SubstanceCategory] {
+        let guided = Set(guidedCategories)
         var seen = Set<SubstanceCategory>()
         var result: [SubstanceCategory] = []
-        for entry in recentEntries {
+        for entry in entries where entry.timestamp >= cutoff {
             if let sub = SubstanceLibrary.lookup(entry.substance),
-               Self.guidedCategories.contains(sub.category),
+               guided.contains(sub.category),
                !seen.contains(sub.category) {
                 seen.insert(sub.category)
                 result.append(sub.category)
@@ -64,7 +69,8 @@ struct ComedownGuideView: View {
         .background(Theme.background)
         .task(id: DoseLogService.shared.revision) {
             await SubstanceStore.shared.ensureAllLoaded()
-            recentCategories = resolveRecentCategories()
+            // The query already bounds entries to the 48 h window.
+            recentCategories = Self.recentGuidedCategories(in: recentEntries, cutoff: .distantPast)
         }
     }
 

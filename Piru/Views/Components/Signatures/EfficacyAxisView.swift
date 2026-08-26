@@ -77,10 +77,7 @@ private struct EfficacyAxisTrack: View {
                     .offset(y: Self.endLabelY)
             }
             .frame(width: width, height: Self.height, alignment: .topLeading)
-            // Pin the plot to LTR and mirror by hand. Otherwise the auto-flip applies to
-            // `.offset`-placed marks but is compounded by the manual mirroring the axis needs, and
-            // the end caps end up labeling the wrong ends — verified on device in an RTL locale.
-            .environment(\.layoutDirection, .leftToRight)
+            .signaturePlotPinnedToLTR()
         }
         .frame(height: Self.height)
         .accessibilityElement(children: .ignore)

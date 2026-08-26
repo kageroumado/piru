@@ -61,13 +61,13 @@ enum NDC {
 
 /// Minimal, single-purpose openFDA client. One endpoint per barcode shape, no API
 /// key (unauthenticated is rate-limited to 240/min/IP — ample for single scans).
-struct NDCResolver {
+enum NDCResolver {
     private static let logger = Logger(subsystem: "dev.yumeji.piru", category: "NDCResolver")
 
     /// Resolve a GTIN (from a GS1 DataMatrix `01` AI) to a product via the NDC
     /// directory endpoint. Returns `nil` on any failure — the caller falls through
     /// to OCR.
-    func lookup(gtin: String) async -> NDCProduct? {
+    static func lookup(gtin: String) async -> NDCProduct? {
         guard let ndc10 = NDC.ndc10(from: gtin) else { return nil }
         let candidates = NDC.productNDCCandidates(fromNDC10: ndc10)
         guard !candidates.isEmpty else { return nil }
@@ -92,7 +92,7 @@ struct NDCResolver {
     /// Resolve a raw 12-digit UPC-A via the label endpoint's `openfda.upc` field —
     /// no NDC surgery needed. Strength isn't reliably structured here, so it is
     /// left to the OCR strength parse.
-    func lookup(upc: String) async -> NDCProduct? {
+    static func lookup(upc: String) async -> NDCProduct? {
         let digits = upc.filter(\.isNumber)
         guard digits.count == 12 else { return nil }
         var components = URLComponents(string: "https://api.fda.gov/drug/label.json")
@@ -111,7 +111,7 @@ struct NDCResolver {
         )
     }
 
-    private func fetch<T: Decodable>(_: T.Type, from url: URL) async -> T? {
+    private static func fetch<T: Decodable>(_: T.Type, from url: URL) async -> T? {
         do {
             var request = URLRequest(url: url)
             request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -126,7 +126,7 @@ struct NDCResolver {
             }
             return try JSONDecoder().decode(T.self, from: data)
         } catch {
-            Self.logger.debug("openFDA request failed: \(error.localizedDescription, privacy: .public)")
+            logger.debug("openFDA request failed: \(error.localizedDescription, privacy: .public)")
             return nil
         }
     }

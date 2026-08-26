@@ -115,9 +115,7 @@ private struct BalanceArc: View {
                 .frame(width: max(60, radius * 1.5))
                 .offset(x: center.x - max(60, radius * 1.5) / 2, y: center.y - 62)
             }
-            // Pin to LTR and mirror by hand (see ``EfficacyAxisTrack``) so the arc, its ticks and
-            // their labels all flip together with the pole labels outside it.
-            .environment(\.layoutDirection, .leftToRight)
+            .signaturePlotPinnedToLTR()
         }
         .frame(height: Self.height)
         .accessibilityElement(children: .ignore)

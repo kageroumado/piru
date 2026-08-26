@@ -151,12 +151,12 @@ enum RampDownScheduler {
 
         let message = comedownMessage(for: category)
 
-        let content = UNMutableNotificationContent()
-        content.title = message.title.replacingOccurrences(of: "{name}", with: displayName ?? substanceName)
-        content.body = message.body
-        content.sound = UNNotificationSound.default
-        content.categoryIdentifier = rampDownCategoryID
-        content.threadIdentifier = sessionIdentifier(for: doseTime)
+        let content = UNMutableNotificationContent(
+            title: message.title.replacingOccurrences(of: "{name}", with: displayName ?? substanceName),
+            body: message.body,
+            category: rampDownCategoryID,
+            threadIdentifier: sessionIdentifier(for: doseTime),
+        )
         // Body tap / View Timeline land on the dose's detail (entryKey is the
         // dose's stable id; the timestamp keeps id-less legacy resolution).
         content.userInfo = [
@@ -499,13 +499,10 @@ enum RampDownScheduler {
             logger.debug("\(category) notification skipped — inside quiet hours")
             return
         }
-        let content = UNMutableNotificationContent()
-        content.title = title
-        content.body = body
-        content.sound = UNNotificationSound.default
-        content.categoryIdentifier = category
-        content.interruptionLevel = interruptionLevel
-        if let threadId { content.threadIdentifier = threadId }
+        let content = UNMutableNotificationContent(
+            title: title, body: body, category: category,
+            threadIdentifier: threadId, interruptionLevel: interruptionLevel,
+        )
 
         // A non-positive interval means the fire time is already in the past
         // (most commonly a retroactively-logged dose). Skip it outright — the

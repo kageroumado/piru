@@ -4219,6 +4219,23 @@
         }
       }
     },
+    "<1% elemental" : {
+      "comment" : "Elemental fraction of a salt too small to round to a whole percent",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "<1% 元素含量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "<1% 元素含量"
+          }
+        }
+      }
+    },
     "~%@" : {
 
     },

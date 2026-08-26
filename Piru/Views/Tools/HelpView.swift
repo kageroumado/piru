@@ -34,22 +34,6 @@ struct HelpView: View {
         return hasher.finalize()
     }
 
-    private func makeActiveCategories() -> [SubstanceCategory] {
-        let guided = Set(ComedownGuideView.guidedCategories)
-        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
-        var seen = Set<SubstanceCategory>()
-        var result: [SubstanceCategory] = []
-        for entry in recentEntries where entry.timestamp >= cutoff {
-            if let sub = SubstanceLibrary.lookup(entry.substance),
-               guided.contains(sub.category),
-               !seen.contains(sub.category) {
-                seen.insert(sub.category)
-                result.append(sub.category)
-            }
-        }
-        return result
-    }
-
     var body: some View {
         NavigationStack {
             List {
@@ -89,7 +73,10 @@ struct HelpView: View {
                     from: recentEntries,
                     colorMap: substanceColors.colorMap,
                 )
-                activeCategories = makeActiveCategories()
+                activeCategories = ComedownGuideView.recentGuidedCategories(
+                    in: recentEntries,
+                    cutoff: Date.now.addingTimeInterval(-48 * 3_600),
+                )
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

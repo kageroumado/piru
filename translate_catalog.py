@@ -4049,6 +4049,7 @@ T = {
     "Form": ("盐型", "鹽型"),
     "≈ %@ %@ elemental": ("≈ %@ %@ 元素含量", "≈ %@ %@ 元素含量"),
     "%lld%% elemental": ("%lld%% 元素含量", "%lld%% 元素含量"),
+    "<1% elemental": ("<1% 元素含量", "<1% 元素含量"),
     "Default Route": ("默认途径", "預設途徑"),
     "Category": ("类别", "類別"),
     "Category name": ("类别名称", "類別名稱"),
@@ -7141,6 +7142,7 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "<1% elemental",
         "Crisis resources, safety basics, and how Piru works.",
         "Pharmacological data is compiled from the sources above — community databases, FDA labeling, and peer-reviewed literature. Provided for reference and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use.",
         "Includes %lld min of workout — the dose rows leave it out",

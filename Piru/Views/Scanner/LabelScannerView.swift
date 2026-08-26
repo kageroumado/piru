@@ -8,11 +8,9 @@ import VisionKit
 /// ``LabelMatcher``; this covers the network-backed barcode path only.
 enum ScanResolver {
     static func resolveBarcode(_ payload: String) async -> ResolvedDrug? {
-        let resolver = NDCResolver()
-
         // GS1 DataMatrix / GS1-128 with a GTIN Application Identifier.
         if let gtin = GS1Parser.parse(payload).gtin,
-           let product = await resolver.lookup(gtin: gtin),
+           let product = await NDCResolver.lookup(gtin: gtin),
            let resolved = LabelMatcher.resolve(product: product) {
             return resolved
         }
@@ -25,7 +23,7 @@ enum ScanResolver {
         case 13 where digits.first == "0": String(digits.dropFirst())
         default: nil
         }
-        if let upc, let product = await resolver.lookup(upc: upc),
+        if let upc, let product = await NDCResolver.lookup(upc: upc),
            let resolved = LabelMatcher.resolve(product: product) {
             return resolved
         }

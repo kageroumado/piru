@@ -83,34 +83,17 @@ struct BrandPicker: View {
     // MARK: Menu pill (tray)
 
     private func menuPill(namespace: Namespace.ID, id: String, height: CGFloat) -> some View {
-        // Decoupled + fixed-size like the tray's other pills: a `Menu` label is
-        // sized by the UIKit menu button outside the SwiftUI transaction, so the
-        // tray's expand/collapse `matchedGeometryEffect` interpolated a stale frame
-        // and clipped the label. The Menu is an invisible overlay instead.
-        HStack(spacing: 5) {
-            Image(systemName: "pills")
-                .imageScale(.small)
-            Text(label)
-            Image(systemName: "chevron.down")
-                .font(.caption2.weight(.semibold))
+        MenuPillLabel(
+            systemImage: "pills",
+            text: label,
+            namespace: namespace,
+            geometryID: id,
+            height: height,
+            accessibilityLabel: Text("Formulation"),
+            accessibilityValue: label,
+        ) {
+            menuContent
         }
-        .font(.footnote.weight(.semibold))
-        .fixedSize(horizontal: true, vertical: false)
-        .padding(.horizontal, 11)
-        .frame(height: height)
-        .background(Color(.secondarySystemFill), in: Capsule())
-        .foregroundStyle(.primary)
-        .accessibilityHidden(true)
-        .overlay {
-            Menu {
-                menuContent
-            } label: {
-                Color.clear.contentShape(Capsule())
-            }
-            .accessibilityLabel(Text("Formulation"))
-            .accessibilityValue(label)
-        }
-        .matchedGeometryEffect(id: id, in: namespace)
     }
 
     @ViewBuilder

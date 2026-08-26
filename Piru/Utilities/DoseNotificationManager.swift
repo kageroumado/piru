@@ -185,14 +185,14 @@ enum DoseNotificationManager {
         guard !NotificationPreferencesStore.isInQuietHours(windowOpens) else { return }
 
         let shownName = displayName ?? entry.substance
-        let content = UNMutableNotificationContent()
-        content.title = String(localized: "Next-dose window — \(shownName)")
-        // Honesty: a prompt and an estimate, never a directive (spec §Honesty).
-        content.body = String(localized: "Enough time has passed since your last dose. This is a model estimate — follow your prescriber's schedule.")
-        content.sound = .default
-        content.categoryIdentifier = nextDoseCategoryID
-        content.threadIdentifier = RampDownScheduler.sessionIdentifier(for: entry.timestamp)
-        content.interruptionLevel = NotificationPreferencesStore.interruptionLevel(for: .nextDose)
+        let content = UNMutableNotificationContent(
+            title: String(localized: "Next-dose window — \(shownName)"),
+            // Honesty: a prompt and an estimate, never a directive (spec §Honesty).
+            body: String(localized: "Enough time has passed since your last dose. This is a model estimate — follow your prescriber's schedule."),
+            category: nextDoseCategoryID,
+            threadIdentifier: RampDownScheduler.sessionIdentifier(for: entry.timestamp),
+            interruptionLevel: NotificationPreferencesStore.interruptionLevel(for: .nextDose),
+        )
         let linkTimestamp = Int(entry.timestamp.timeIntervalSince1970)
         content.userInfo = [
             deepLinkUserInfoKey: "\(DeepLink.scheme)://entry/\(linkTimestamp)?id=\(entry.id.uuidString)",
@@ -745,20 +745,13 @@ enum DoseNotificationManager {
         deepLink: String?,
         quiet: Bool,
     ) -> UNMutableNotificationContent {
-        let content = UNMutableNotificationContent()
-        content.title = title
-        content.body = body
-        content.categoryIdentifier = category
-        content.threadIdentifier = threadID
-        if quiet {
-            content.sound = nil
-            content.interruptionLevel = .passive
-            content.relevanceScore = 0.3
-        } else {
-            content.sound = .default
-            content.interruptionLevel = NotificationPreferencesStore.interruptionLevel(for: type)
-            content.relevanceScore = type == .routine ? 1.0 : 0.6
-        }
+        let content = UNMutableNotificationContent(
+            title: title, body: body, category: category,
+            threadIdentifier: threadID,
+            sound: quiet ? nil : .default,
+            interruptionLevel: quiet ? .passive : NotificationPreferencesStore.interruptionLevel(for: type),
+        )
+        content.relevanceScore = quiet ? 0.3 : (type == .routine ? 1.0 : 0.6)
         var userInfo: [String: Any] = [skipTargetUserInfoKey: skipTarget]
         if let deepLink { userInfo[deepLinkUserInfoKey] = deepLink }
         content.userInfo = userInfo
@@ -823,17 +816,16 @@ enum DoseNotificationManager {
         itemID: UUID,
     ) {
         guard NotificationPreferencesStore.allows(.inventory) else { return }
-        let content = UNMutableNotificationContent()
-        if isOut {
-            content.title = String(localized: "Out of \(substance)")
-            content.body = String(localized: "You're out of \(substance). Restock when you can.")
-        } else {
-            content.title = String(localized: "Running low on \(substance)")
-            content.body = String(localized: "\(remaining.doseFormatted) \(unit) of \(substance) left.")
-        }
-        content.sound = .default
-        content.categoryIdentifier = inventoryCategoryID
-        content.threadIdentifier = inventoryThreadIdentifier
+        let content = UNMutableNotificationContent(
+            title: isOut
+                ? String(localized: "Out of \(substance)")
+                : String(localized: "Running low on \(substance)"),
+            body: isOut
+                ? String(localized: "You're out of \(substance). Restock when you can.")
+                : String(localized: "\(remaining.doseFormatted) \(unit) of \(substance) left."),
+            category: inventoryCategoryID,
+            threadIdentifier: inventoryThreadIdentifier,
+        )
         content.userInfo = [deepLinkUserInfoKey: "\(DeepLink.scheme)://inventory/\(itemID.uuidString)"]
         UNUserNotificationCenter.current().add(UNNotificationRequest(
             identifier: inventoryNotificationIdentifier(itemID),

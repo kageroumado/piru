@@ -161,10 +161,7 @@ private struct TernaryPlot: View {
                 vertexLabel(SignatureTarget.sert.label, at: vertices(box).trailing, box: box, anchor: .trailing, dy: 11)
             }
             .frame(width: box.width, height: box.height)
-            // Pin to LTR and mirror by hand (see ``EfficacyAxisTrack``): `Path`-drawn geometry and
-            // `.offset`-placed labels do not flip alike, and a vertex label that drifts off its
-            // vertex is worse than not mirroring at all.
-            .environment(\.layoutDirection, .leftToRight)
+            .signaturePlotPinnedToLTR()
         }
         .frame(height: Self.height)
         .accessibilityElement(children: .ignore)

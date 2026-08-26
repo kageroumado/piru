@@ -79,7 +79,7 @@ struct DoseInfoView: View {
                 if let currentDose, let elemental = substance.elementalAmount(of: currentDose, for: route, saltForm: saltForm, isomer: isomer) {
                     Text("≈ \(elemental.doseFormatted) \(unit) elemental", comment: "Elemental content of a salt dose")
                 } else {
-                    Text("\(Int((fraction * 100).rounded()))% elemental", comment: "Elemental fraction of a salt")
+                    elementalPercentCaption(fraction)
                 }
             }
             .font(.caption)
@@ -185,7 +185,7 @@ struct RouteDosingCard: View {
             if let elementalFraction {
                 HStack(spacing: 5) {
                     Image(systemName: "atom").imageScale(.small)
-                    Text("\(Int((elementalFraction * 100).rounded()))% elemental", comment: "Elemental fraction of a salt")
+                    elementalPercentCaption(elementalFraction)
                 }
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -283,6 +283,17 @@ struct RouteDosingCard: View {
             }
         }
     }
+}
+
+/// The "N% elemental" caption every salt dose surface shares, with a "<1%"
+/// reading for trace fractions — rounding those to "0% elemental" told the
+/// user the salt contains none of the element.
+func elementalPercentCaption(_ fraction: Double) -> Text {
+    let percent = Int((fraction * 100).rounded())
+    guard percent >= 1 else {
+        return Text("<1% elemental", comment: "Elemental fraction of a salt too small to round to a whole percent")
+    }
+    return Text("\(percent)% elemental", comment: "Elemental fraction of a salt")
 }
 
 // MARK: - Dose Level Color
