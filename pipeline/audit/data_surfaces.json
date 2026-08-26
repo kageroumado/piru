@@ -36,6 +36,7 @@
     "off_targets":               {"surface": "receptorLiterature"},
     "class_reference_compounds": {"surface": "receptorLiterature",   "note": "comparability peers for a signature"},
     "class_representatives":     {"surface": null,                   "note": "the tolerance engine's per-class PK stand-in; what reaches the screen is the representative substance's own pharmacology, resolved through this pointer"},
+    "opioid_mme":                {"surface": "doseDuration",         "note": "the opioid converter tool, and the tolerance engine's missing-PK fallback; counterpart of diazepam_equivalents"},
     "substance_flags":           {"surface": "mechanism",            "note": "missold-as-mdma drives the Monoamine Profile card's mis-sold callout; suppresses-serotonin-synthesis is engine-only (it splits the SERT recovery clock) and renders through the tolerance readout, not as a row"},
     "biased_agonism":            {"surface": "receptorLiterature",   "note": "UNRENDERED — a binding row says a drug hits the receptor; this says which pathway it favours, which is the whole reason two agonists at one target feel different"},
     "downstream_signalling":     {"surface": "mechanism",            "note": "UNRENDERED — 690 rows of what happens after the receptor binds, which is the half of a mechanism a target list cannot state"},

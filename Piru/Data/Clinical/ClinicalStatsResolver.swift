@@ -13,7 +13,7 @@ enum ClinicalStatsResolver {
     static func resolve(
         entries: [DoseEntry], hexMap: [String: String], start _: Date, end: Date,
     ) -> (substances: [ClinicalSubstance], doses: [ClinicalDose]) {
-        let opioids = OpioidEquivalence.table
+        let opioids = SubstanceStore.shared.opioidEquivalences()
         let benzos = SubstanceStore.shared.benzoEquivalences()
 
         var substanceCache: [String: Substance?] = [:]

@@ -227,9 +227,12 @@ struct ToleranceCalibrationTests {
         )
     }
 
-    /// A **PK-less** opioid surrogate named so the CDC MME table (``ToleranceStore/opioidMMEPerMg``)
-    /// can recognise it — a MOR agonist with no PK. The Stage D fallback models it as Morphine.
-    static func pkLessOpioid(name _: String, referenceDoseMg: Double?) -> PharmacologyParameters {
+    /// A **PK-less** opioid surrogate — a MOR agonist with no PK. The Stage D fallback models it as
+    /// Morphine, at `dose × opioidMMEPerMg` when the substance carries an MME factor.
+    /// `opioidMMEPerMg` stands in for the substance's `opioid_mme` row.
+    static func pkLessOpioid(
+        name _: String, referenceDoseMg: Double?, opioidMMEPerMg: Double? = nil,
+    ) -> PharmacologyParameters {
         PharmacologyParameters(
             molarMassGramsPerMole: nil,
             vdLPerKg: nil,
@@ -244,6 +247,7 @@ struct ToleranceCalibrationTests {
             targets: [
                 .init(target: "MOR", action: .agonist, halfMaxNanomolar: 50, kind: .ki, confidence: .low),
             ],
+            opioidMMEPerMg: opioidMMEPerMg,
         )
     }
 
@@ -633,7 +637,7 @@ struct ToleranceCalibrationTests {
     @Test
     func `A named PK-less opioid is modeled at its CDC morphine-milligram-equivalent`() throws {
         let params = [
-            "oxycodone": Self.pkLessOpioid(name: "oxycodone", referenceDoseMg: 20),
+            "oxycodone": Self.pkLessOpioid(name: "oxycodone", referenceDoseMg: 20, opioidMMEPerMg: 1.5),
             "Morphine": Self.morphine(referenceDoseMg: 60),
         ]
         // oxycodone MME = 1.5 ⇒ a 30 mg dose is modeled as Morphine at 45 mg. The named-opioid path

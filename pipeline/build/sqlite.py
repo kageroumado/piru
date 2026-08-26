@@ -1548,6 +1548,32 @@ CREATE INDEX idx_substance_flags_flag ON substance_flags(flag);
 -- Commonwealth say "oestradiol", and "albuterol" is US-only. It also cannot live
 -- in `aliases`: that table is keyed (substance_id, alias) with a single `locale`,
 -- so it cannot say that one spelling belongs to three regions at once.
+-- Oral morphine-milligram-equivalent (MME) conversion factors: morphine-mg per
+-- 1 mg of the named opioid. The opioid counterpart of diazepam_equivalents, and
+-- read the same way — by the converter tool and by the tolerance engine's
+-- missing-PK fallback, which must never disagree about a factor.
+--
+-- `mme_per_mg` is NULL for every opioid that is NOT linearly convertible, and
+-- `convertibility` says which kind of un-convertible it is. That distinction is
+-- the safety property of the table: a NULL here means the app refuses to
+-- back-calculate a dose, and a factor invented to fill the gap would produce a
+-- confident number for exactly the drugs where being wrong is most dangerous.
+-- The per-case explanation shown to the reader is localized UI copy keyed by
+-- `convertibility`, not a string stored here.
+CREATE TABLE opioid_mme (
+    substance_id   INTEGER NOT NULL REFERENCES substances(id),
+    source_id      INTEGER NOT NULL REFERENCES sources(id),
+    -- Morphine-mg per 1 mg of this opioid. NULL unless convertibility = 'linear'.
+    mme_per_mg     REAL,
+    -- linear | nonlinear | transdermal | excluded
+    convertibility TEXT NOT NULL,
+    -- Display order in the converter; morphine (the reference standard) leads.
+    rank           INTEGER NOT NULL DEFAULT 0,
+    citation_id    INTEGER REFERENCES citations(id),
+    notes          TEXT,
+    PRIMARY KEY (substance_id, source_id)
+);
+
 CREATE TABLE regional_names (
     substance_id      INTEGER PRIMARY KEY REFERENCES substances(id),
     -- Shown by default, everywhere outside `alternate_regions`.
@@ -9266,6 +9292,45 @@ class Build:
             stats["inserted"] += 1
         return stats
 
+    def ingest_opioid_mme(self) -> dict[str, int]:
+        """Fill `opioid_mme` from curated JSON. Resolved by name OR alias.
+
+        A row whose `convertibility` is not 'linear' must carry no factor, and a
+        'linear' one must carry a factor: the whole point of the table is that the
+        un-convertible opioids stay un-convertible, so a malformed row is refused
+        rather than written with a NULL that reads as merely missing."""
+        path = CURATED_DIR.parent / "opioid-mme.json"
+        stats = {"inserted": 0, "unmatched": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        source_id = self.source_ids[payload.get("source", "piru-curated")]
+        citation_id = self.cite(payload.get("citation"))
+        for rank, entry in enumerate(payload.get("opioids", [])):
+            sid = index.get(normalise(entry["substance"]))
+            if sid is None:
+                stats["unmatched"] += 1
+                continue
+            convertibility = entry["convertibility"]
+            factor = entry.get("mmePerMg")
+            if (convertibility == "linear") != (factor is not None):
+                print(
+                    f"  opioid_mme: refusing {entry['substance']!r} — convertibility "
+                    f"{convertibility!r} with mmePerMg {factor!r}",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            self.cur.execute(
+                "INSERT OR REPLACE INTO opioid_mme"
+                "(substance_id, source_id, mme_per_mg, convertibility, rank, citation_id, notes)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (sid, source_id, factor, convertibility, rank, citation_id, entry.get("notes")),
+            )
+            stats["inserted"] += 1
+        return stats
+
     def populate_regional_names(self) -> dict[str, int]:
         """Fill `regional_names` from curated JSON. `alternateRegions` is either a
         literal list of ISO region codes or the name of a group declared in
@@ -11728,6 +11793,9 @@ def main() -> int:
     regional_names = build.populate_regional_names()
     print(f"Regional names: {regional_names}", file=sys.stderr)
 
+    opioid_mme = build.ingest_opioid_mme()
+    print(f"Opioid MME: {opioid_mme}", file=sys.stderr)
+
     derived_half_lives = build.derive_half_lives_from_pk()
     print(f"Half-lives derived from PK: {derived_half_lives}", file=sys.stderr)
 
@@ -11930,6 +11998,7 @@ def main() -> int:
         "class_representatives",
         "substance_flags",
         "regional_names",
+        "opioid_mme",
     ]
     db = sqlite3.connect(str(OUT_SQLITE))
     for t in tables:

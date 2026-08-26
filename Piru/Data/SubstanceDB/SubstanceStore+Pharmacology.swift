@@ -223,6 +223,9 @@ extension SubstanceStore {
         let diazepamPerMg = pkID.flatMap {
             SubstanceReadModel.diazepamPerMg(substanceID: $0, db: substancesDB, order: enabledSourceOrder)
         }
+        let opioidMMEPerMg = pkID.flatMap {
+            SubstanceReadModel.opioidMMEPerMg(substanceID: $0, db: substancesDB, order: enabledSourceOrder)
+        }
         let representsClasses = pkID.map { classRepresentativeClasses()[$0] ?? [] } ?? []
         return Self.assemblePharmacologyParameters(
             molarMass: molarMass(forSubstanceName: routed.name),
@@ -238,6 +241,7 @@ extension SubstanceStore {
             metabolites: Self.metaboliteContributors(from: metabolism(forSubstanceName: routed.name)),
             suppressesSerotoninSynthesis: suppressesSynthesis,
             diazepamPerMg: diazepamPerMg,
+            opioidMMEPerMg: opioidMMEPerMg,
             representsClasses: representsClasses,
         )
     }
@@ -331,6 +335,9 @@ extension SubstanceStore {
                 } ?? false,
                 diazepamPerMg: id.flatMap {
                     SubstanceReadModel.diazepamPerMg(substanceID: $0, db: queue, order: order)
+                },
+                opioidMMEPerMg: id.flatMap {
+                    SubstanceReadModel.opioidMMEPerMg(substanceID: $0, db: queue, order: order)
                 },
                 representsClasses: id.map { representatives[$0] ?? [] } ?? [],
             )
@@ -462,6 +469,7 @@ extension SubstanceStore {
         cyp2d6HalfLifeMultiplier: Double = 1,
         suppressesSerotoninSynthesis: Bool = false,
         diazepamPerMg: Double? = nil,
+        opioidMMEPerMg: Double? = nil,
         representsClasses: Set<ReceptorClasses.ReceptorClass> = [],
     ) -> PharmacologyParameters {
         // Read Vd, F, and half-life from a SINGLE coherent pk row — never pair a Vd from one study
@@ -590,6 +598,7 @@ extension SubstanceStore {
             fractionUnbound: Self.resolveFractionUnbound(pk: pk),
             metabolites: metabolites,
             diazepamPerMg: diazepamPerMg,
+            opioidMMEPerMg: opioidMMEPerMg,
             representsClasses: representsClasses,
         )
     }

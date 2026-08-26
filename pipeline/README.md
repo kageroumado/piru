@@ -45,6 +45,31 @@ in-code curation dict: one file fully describes one substance.
   category beats a later tag-promotion. (The Swift collector also reads the dir,
   but any `piru-curated` rows it leaves in `sourced-substances.json` are ignored.)
 
+### Curated files beside `substances/`
+
+Facts that are not *about one compound* live in their own file at the root of
+`data/curated/`, one per concern, each read by a single ingester in `sqlite.py`.
+Names resolve by canonical name **or alias**, so a file can use the name a reader
+would recognise (`MDA`) rather than the canonical row
+(`3,4-Methylenedioxyamphetamine`); an unresolved name is counted as `unmatched` in
+the build's line for that step, so a permanently-unmatched entry is a signal to
+fix, not noise to tolerate.
+
+| file | table | what it decides |
+|---|---|---|
+| `class-reference-compounds.json` | `class_reference_compounds` | the recognisable peers labelled on a signature axis |
+| `class-representatives.json` | `class_representatives` | the per-class PK stand-in the tolerance fallback models a PK-less substance as |
+| `substance-flags.json` | `substance_flags` | booleans an engine reads and nothing renders |
+| `regional-names.json` | `regional_names` | which spelling of a name to display in which regions |
+| `opioid-mme.json` | `opioid_mme` | oral morphine-milligram-equivalent factors, and which opioids must never be converted |
+| `alias-kinds.json`, `brands.json` | `aliases` | alias provenance, brand flagships |
+| `drug-classes.json` | `substances.drug_class` | interaction-checker class per substance |
+
+Adding one is: a path read in the ingester, DDL in `SCHEMA_SQL`, a method on
+`Build`, a call + `print` in `main()`, the table in the build-report row-count
+list, and a declaration in `audit/data_surfaces.json` so it cannot be built and
+silently never rendered.
+
 ## End-to-end flow
 
 ```

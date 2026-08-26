@@ -327,6 +327,28 @@ extension SubstanceReadModel {
         }) ?? nil
     }
 
+    /// Morphine-mg per 1 mg of this opioid, from the highest-priority enabled `opioid_mme` row.
+    /// `nil` when the substance has no row **or** its row is not `linear` — methadone, transdermal
+    /// fentanyl and buprenorphine must fall through to the generic dose-fraction proxy rather than
+    /// borrow a factor that does not exist for them.
+    nonisolated static func opioidMMEPerMg(substanceID id: Int64, db queue: DatabaseQueue, order: [String]) -> Double? {
+        let enabled = enabledSourceListSQL(order)
+        let priority = priorityCaseSQL(order)
+        return (try? queue.read { db -> Double? in
+            guard let row = try Row.fetchOne(db, sql: """
+                SELECT mme_per_mg, convertibility
+                  FROM opioid_mme o
+                  JOIN sources src ON src.id = o.source_id
+                 WHERE o.substance_id = ?
+                   AND src.slug IN (\(enabled))
+                 ORDER BY \(priority) ASC
+                 LIMIT 1
+            """, arguments: [id]) else { return nil }
+            guard row["convertibility"] == OpioidEquivalence.Convertibility.linear.rawValue else { return nil }
+            return row["mme_per_mg"]
+        }) ?? nil
+    }
+
     /// The tolerance mechanism classes each representative substance stands in for, keyed by substance
     /// id — the whole `class_representatives` table in one read. `nonisolated static` so the off-main
     /// batch resolve can run it once per recompute on the batch connection.

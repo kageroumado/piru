@@ -3121,6 +3121,42 @@ class TestSignatureGates(unittest.TestCase):
         ).fetchall()
         self.assertEqual(rows, [], f"uncited numeric rows: {[r[0] for r in rows]}")
 
+    def test_opioid_mme_convertibility_matches_the_factor(self):
+        """A factor and a non-linear convertibility must never coexist.
+
+        This is the table's safety property rather than a schema nicety: a factor on
+        methadone or transdermal fentanyl would let the converter produce a confident
+        number for exactly the opioids where being wrong is most dangerous, and a
+        missing factor on a linear opioid silently drops it out of the tool.
+        """
+        bad = self.db.execute(
+            "SELECT s.canonical_name, o.convertibility, o.mme_per_mg"
+            "  FROM opioid_mme o JOIN substances s ON s.id = o.substance_id"
+            " WHERE (o.convertibility = 'linear') != (o.mme_per_mg IS NOT NULL)"
+        ).fetchall()
+        self.assertEqual(bad, [], f"opioid_mme rows disagree with their factor: {bad}")
+
+    def test_opioid_mme_is_anchored_on_morphine(self):
+        """Morphine is the reference standard, so its factor is 1.0 by definition —
+        the one row whose correct value needs no source, and the anchor every other
+        factor is expressed against."""
+        rows = self.db.execute(
+            "SELECT o.mme_per_mg FROM opioid_mme o JOIN substances s ON s.id = o.substance_id"
+            " WHERE lower(s.canonical_name) = 'morphine'"
+        ).fetchall()
+        self.assertTrue(rows, "opioid_mme carries no morphine row")
+        for (factor,) in rows:
+            self.assertEqual(factor, 1.0, "morphine must be 1.0 MME per mg")
+
+    def test_opioid_mme_rows_are_cited(self):
+        """Every row states which guideline it came from. These are conversion factors
+        a reader may act on, and an uncited one cannot be checked against the source."""
+        uncited = self.db.execute(
+            "SELECT s.canonical_name FROM opioid_mme o JOIN substances s ON s.id = o.substance_id"
+            " WHERE o.citation_id IS NULL"
+        ).fetchall()
+        self.assertEqual(uncited, [], f"uncited opioid_mme rows: {[r[0] for r in uncited]}")
+
     def test_class_reference_compounds_populated(self):
         families = self.db.execute(
             "SELECT family, COUNT(*) FROM class_reference_compounds GROUP BY family"

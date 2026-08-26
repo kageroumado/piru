@@ -125,6 +125,9 @@ final class SubstanceStore {
     /// Benzodiazepine diazepam-equivalences for the converter tool — one batched
     /// query, cached after first load. Cleared with the other source-derived caches.
     @ObservationIgnored private var benzoEquivalenceCache: [BenzoEquivalence]?
+    /// Opioid MME rows for the converter tool — the opioid counterpart of
+    /// ``benzoEquivalenceCache``, invalidated with it.
+    @ObservationIgnored private var opioidEquivalenceCache: [OpioidEquivalence]?
     /// `class_representatives` in full: substance id → the tolerance classes it stands in for. A
     /// handful of rows that every pharmacology resolve consults, so it is read once and held. Not
     /// source-derived (a representative's identity does not depend on the user's source order), so it
@@ -521,6 +524,7 @@ final class SubstanceStore {
         categorySummaryCache = nil
         tagSummaryCache = nil
         benzoEquivalenceCache = nil
+        opioidEquivalenceCache = nil
     }
 
     /// Set the user's source priority order (highest priority first). Cleared
@@ -1164,6 +1168,57 @@ final class SubstanceStore {
     func hasFlag(_ flag: String, forSubstanceName name: String) -> Bool {
         guard let id = substanceID(forNameOrAlias: name) else { return false }
         return SubstanceReadModel.hasFlag(flag, substanceID: id, db: substancesDB)
+    }
+
+    /// Every opioid carrying an MME row, in curated converter order (morphine, the reference
+    /// standard, leads). The opioid counterpart of ``benzoEquivalences()`` and resolved the same way:
+    /// one batched window query picking the highest-priority enabled source per substance. Cached
+    /// after first load.
+    ///
+    /// A row that is not `linear` yields `mmePerMg == nil` — the un-convertible opioids stay in the
+    /// list so the converter can *explain* why it will not convert them, which is the whole reason
+    /// they are carried rather than omitted.
+    func opioidEquivalences() -> [OpioidEquivalence] {
+        if let cached = opioidEquivalenceCache { return cached }
+        let order = enabledSourceOrder
+        guard !order.isEmpty else { return [] }
+        let priorityCaseSQL = SubstanceReadModel.priorityCaseSQL(order)
+        let enabledSourceListSQL = SubstanceReadModel.enabledSourceListSQL(order)
+        let result: [OpioidEquivalence] = (try? substancesDB.read { db in
+            let rows = try Row.fetchAll(db, sql: """
+                SELECT s.canonical_name AS name, s.display_name AS display_name,
+                       o.mme_per_mg AS mme_per_mg, o.convertibility AS convertibility
+                  FROM (
+                    SELECT om.*, ROW_NUMBER() OVER (
+                        PARTITION BY om.substance_id
+                        ORDER BY \(priorityCaseSQL) ASC) AS rn
+                      FROM opioid_mme om
+                      JOIN sources src ON src.id = om.source_id
+                     WHERE src.slug IN (\(enabledSourceListSQL))
+                  ) o
+                  JOIN substances s ON s.id = o.substance_id
+                 WHERE o.rn = 1
+                 ORDER BY o.rank ASC
+            """)
+            return rows.compactMap { row -> OpioidEquivalence? in
+                guard let raw: String = row["convertibility"],
+                      let convertibility = OpioidEquivalence.Convertibility(rawValue: raw)
+                else { return nil }
+                let name: String = row["name"]
+                return OpioidEquivalence(
+                    // Lowercased so the identity the converter's picker persists is stable
+                    // against a canonical-name recapitalization in the data.
+                    name: name.lowercased(),
+                    displayName: (row["display_name"] as String?) ?? name,
+                    convertibility: convertibility,
+                    // Read the factor only for a linear row, so a stray number on an
+                    // un-convertible one can never reach the converter's arithmetic.
+                    mmePerMg: convertibility == .linear ? row["mme_per_mg"] : nil,
+                )
+            }
+        }) ?? []
+        opioidEquivalenceCache = result
+        return result
     }
 
     /// `class_representatives` as substance id → the tolerance classes that substance stands in for.

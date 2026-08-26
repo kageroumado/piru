@@ -215,6 +215,12 @@ nonisolated struct PharmacologyParameters {
     /// benzos whose circulating multipliers are back-derived folklore — they fall through to the
     /// dose-fraction proxy rather than borrowing a number nobody measured.
     let diazepamPerMg: Double?
+    /// **Morphine-milligram-equivalent** factor — morphine-mg per 1 mg of this substance, from the
+    /// bundled DB's `opioid_mme`. The μ-opioid counterpart of ``diazepamPerMg``, and the same
+    /// contract: present only for the linearly convertible full agonists, so methadone, transdermal
+    /// fentanyl and buprenorphine fall through to the dose-fraction proxy instead of being converted
+    /// by a factor that does not exist for them.
+    let opioidMMEPerMg: Double?
     /// The tolerance mechanism classes this substance is the **class representative** for — the
     /// PK-complete stand-in a PK-less member of the class is modeled as (Stage D missing-PK fallback).
     /// From the bundled DB's `class_representatives`. Empty for every substance that is not a
@@ -245,6 +251,7 @@ nonisolated struct PharmacologyParameters {
         fractionUnbound: Double = 1,
         metabolites: [MetaboliteContributor] = [],
         diazepamPerMg: Double? = nil,
+        opioidMMEPerMg: Double? = nil,
         representsClasses: Set<ReceptorClasses.ReceptorClass> = [],
     ) {
         self.molarMassGramsPerMole = molarMassGramsPerMole
@@ -266,6 +273,7 @@ nonisolated struct PharmacologyParameters {
         self.targets = targets
         self.metabolites = metabolites
         self.diazepamPerMg = diazepamPerMg
+        self.opioidMMEPerMg = opioidMMEPerMg
         self.representsClasses = representsClasses
     }
 

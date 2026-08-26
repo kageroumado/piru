@@ -211,19 +211,6 @@ final class ToleranceStore {
         return out
     }
 
-    /// Oral **morphine-milligram-equivalent** factors — morphine-mg per 1 mg of the named opioid,
-    /// derived from ``OpioidEquivalence/table`` (CDC 2022) so the tolerance fallback and the
-    /// converter tool can never disagree. Only the linear full agonists carry a factor; the
-    /// un-convertible cases (methadone's nonlinearity, transdermal fentanyl's mcg dosing,
-    /// buprenorphine's ceiling) drop out via `mmePerMg == nil` and fall through to the generic
-    /// dose-fraction proxy. The equivalent dose when a PK-less opioid is one of these named drugs
-    /// models it as Morphine at `dose × factor` mg.
-    nonisolated static let opioidMMEPerMg: [String: Double] = Dictionary(
-        uniqueKeysWithValues: OpioidEquivalence.table.compactMap { equivalence in
-            equivalence.mmePerMg.map { (equivalence.name, $0) }
-        },
-    )
-
     /// Curated **intrinsic efficacy** ∈ (0, 1] relative to a full agonist, keyed by canonical name
     /// (lowercased) — the partials that entrench *less* tolerance per unit occupancy (§5c). Only the
     /// well-established low-efficacy agonists are listed; everything absent defaults to a full-agonist
@@ -738,7 +725,7 @@ final class ToleranceStore {
                           let refRep = rep.referenceDoseMg, refRep > 0 else { continue }
                     let equivalentDoseMg: Double
                     let confidenceFloor: ConfidenceTier
-                    if cls == .muOpioid, let mme = Self.opioidMMEPerMg[dose.substance.lowercased()] {
+                    if cls == .muOpioid, let mme = p.opioidMMEPerMg {
                         equivalentDoseMg = doseMg * mme
                         confidenceFloor = .low
                     } else if cls == .gaba, let deq = p.diazepamPerMg {

@@ -9,7 +9,11 @@ import SwiftUI
 /// and buprenorphine are structurally un-convertible (see ``OpioidEquivalence``)
 /// and show an explanation instead of a number — a deliberate safety choice.
 struct OpioidEquivalenceToolView: View {
-    private let opioids = OpioidEquivalence.table
+    /// The converter's rows, resolved from the bundled DB's `opioid_mme` (cached in the store, so
+    /// re-reading it per `body` evaluation is an array return).
+    private var opioids: [OpioidEquivalence] {
+        SubstanceStore.shared.opioidEquivalences()
+    }
 
     @State private var fromName = "oxycodone"
     @State private var toName = "morphine"
@@ -76,7 +80,7 @@ struct OpioidEquivalenceToolView: View {
                 HStack(spacing: 10) {
                     opioidMenu(selection: $fromName)
                         .accessibilityLabel(Text("Convert from"))
-                        .accessibilityValue(Text(from?.displayName ?? String(localized: "Select")))
+                        .accessibilityValue(Text(from?.pickerLabel ?? String(localized: "Select")))
                     HStack(spacing: 0) {
                         TextField("0", text: $doseText)
                             .keyboardType(.decimalPad)
@@ -99,7 +103,7 @@ struct OpioidEquivalenceToolView: View {
                     .foregroundStyle(Theme.secondaryLabel)
                 opioidMenu(selection: $toName)
                     .accessibilityLabel(Text("Convert to"))
-                    .accessibilityValue(Text(to?.displayName ?? String(localized: "Select")))
+                    .accessibilityValue(Text(to?.pickerLabel ?? String(localized: "Select")))
             }
         }
         .padding()
@@ -113,15 +117,15 @@ struct OpioidEquivalenceToolView: View {
                     selection.wrappedValue = opioid.name
                 } label: {
                     if opioid.name == selection.wrappedValue {
-                        Label(opioid.displayName, systemImage: "checkmark")
+                        Label(opioid.pickerLabel, systemImage: "checkmark")
                     } else {
-                        Text(opioid.displayName)
+                        Text(opioid.pickerLabel)
                     }
                 }
             }
         } label: {
             HStack {
-                Text(opioids.first { $0.name == selection.wrappedValue }?.displayName ?? String(localized: "Select"))
+                Text(opioids.first { $0.name == selection.wrappedValue }?.pickerLabel ?? String(localized: "Select"))
                     .foregroundStyle(.primary)
                 Spacer()
                 Image(systemName: "chevron.up.chevron.down")

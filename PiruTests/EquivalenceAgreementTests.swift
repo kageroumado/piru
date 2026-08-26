@@ -2,32 +2,65 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// The clinical-equivalence factors exist in two places each: the converter
-/// tools' tables and the tolerance engine's Stage D fallback. The opioid side
-/// is now derived (one table); these tests pin the shared values so drift like
-/// the hydromorphone 4-vs-5 slip cannot recur silently.
+/// Clinical-equivalence factors have exactly one home each: the bundled DB's `opioid_mme` and
+/// `diazepam_equivalents`. Both are read by two consumers — a converter tool and the tolerance
+/// engine's missing-PK fallback — and these tests gate that the consumers agree with each other and
+/// that the rows keep the properties that make converting safe.
+///
+/// Individual factors are not restated here. The DB row is the cited value, and a test repeating it
+/// is a second copy of the data wearing a test's clothes — which is exactly what these tests
+/// replaced. The pipeline's `test_opioid_mme_*` gates the rows against their source at build time.
 @Suite("EquivalenceAgreement")
 struct EquivalenceAgreementTests {
-    /// CDC 2022 (MMWR RR-71 No. 3) oral MME factors, pinned literally. The
-    /// tolerance fallback derives its table from ``OpioidEquivalence/table``,
-    /// so this single assertion covers both consumers.
+    /// Morphine is the reference standard, so its factor is 1.0 by definition — the one value whose
+    /// correctness needs no source, and the anchor every other factor is expressed against. An
+    /// inverted or rescaled table breaks here first.
     @Test
-    func `Opioid MME factors match CDC 2022`() {
-        let expected: [String: Double] = [
-            "morphine": 1, "codeine": 0.15, "hydrocodone": 1, "oxycodone": 1.5,
-            "oxymorphone": 3, "hydromorphone": 5, "tramadol": 0.2, "tapentadol": 0.4,
-        ]
-        #expect(ToleranceStore.opioidMMEPerMg == expected)
+    @MainActor
+    func `Morphine anchors the MME table at 1.0`() {
+        let opioids = SubstanceStore.shared.opioidEquivalences()
+        #expect(!opioids.isEmpty, "no opioid_mme rows in the bundled DB")
+        #expect(opioids.first { $0.name == "morphine" }?.mmePerMg == 1.0)
     }
 
-    /// The un-convertible opioids (nonlinear methadone, transdermal fentanyl,
-    /// ceiling-limited buprenorphine) must never gain a linear factor — the
-    /// tolerance fallback would silently start converting them.
+    /// The un-convertible opioids must never gain a linear factor. Methadone's potency rises with
+    /// dose, transdermal fentanyl is dosed in mcg/hr with no oral-mg analogue, and buprenorphine's
+    /// ceiling means overdose risk does not scale — so a factor for any of them would let the
+    /// converter produce a confident number for exactly the drugs where being wrong is most
+    /// dangerous. Both the converter and the tolerance resolver must read nil.
     @Test
-    func `Un-convertible opioids carry no linear factor`() {
+    @MainActor
+    func `Un-convertible opioids carry no linear factor`() async {
+        await SubstanceStore.shared.ensureAllLoaded()
+        let opioids = SubstanceStore.shared.opioidEquivalences()
         for name in ["methadone", "fentanyl", "buprenorphine"] {
-            #expect(ToleranceStore.opioidMMEPerMg[name] == nil, "\(name) must stay un-convertible")
+            let row = opioids.first { $0.name == name }
+            #expect(row != nil, "\(name) must stay in the converter so it can explain itself")
+            #expect(row?.mmePerMg == nil, "\(name) must stay un-convertible")
+            #expect(row?.convertibility != .linear)
+            #expect(row?.unconvertibleReason != nil, "\(name) must say why it will not convert")
+            let params = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: name)
+            #expect(params.opioidMMEPerMg == nil, "\(name) reached the tolerance fallback as convertible")
         }
+    }
+
+    /// The converter's batched read and the tolerance resolver's per-substance read must agree.
+    /// They resolve the same row through different SQL, so a divergence means one of them picked a
+    /// different source — the drift this suite exists to catch.
+    @Test
+    @MainActor
+    func `Both MME read paths agree`() async {
+        await SubstanceStore.shared.ensureAllLoaded()
+        var compared = 0
+        for opioid in SubstanceStore.shared.opioidEquivalences() where opioid.convertibility == .linear {
+            let resolved = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: opioid.name).opioidMMEPerMg
+            #expect(
+                resolved == opioid.mmePerMg,
+                "\(opioid.name): converter \(String(describing: opioid.mmePerMg))× vs resolver \(String(describing: resolved))×",
+            )
+            compared += 1
+        }
+        #expect(compared >= 6, "only \(compared) linear opioids compared across the two read paths")
     }
 
     /// Benzodiazepine diazepam-equivalence now has exactly one home: the bundled DB's

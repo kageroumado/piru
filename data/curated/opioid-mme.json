@@ -1,0 +1,25 @@
+{
+  "_comment": "Oral morphine-milligram-equivalent conversion factors: morphine-mg per 1 mg of the named opioid. From the CDC 2022 guideline's TABLE 'Morphine milligram equivalent doses for commonly prescribed opioids for pain management' (in Recommendation 4), which CDC states is its sole resource for MME conversion factors — the standalone Opioid NDC and Oral MME Conversion File was discontinued alongside the 2022 guideline. Do not take factors from that retired file: it is a claims-analysis artifact on different conventions (fentanyl patch 7.2, folding in a 3-day days-supply assumption; tramadol 0.1) and its numbers are not these.",
+  "citation": "Dowell D, Ragan KR, Jones CM, Baldwin GT, Chou R. CDC Clinical Practice Guideline for Prescribing Opioids for Pain — United States, 2022. MMWR Recomm Rep 2022;71(RR-3):1-95; doi:10.15585/mmwr.rr7103a1",
+  "source": "piru-curated",
+  "_convertibility": {
+    "linear": "A stable oral MME factor applies.",
+    "nonlinear": "Potency or risk does not scale with dose in a way one factor can carry.",
+    "transdermal": "Dosed in mcg/hr, not mg — a different unit space from the rest of the table.",
+    "excluded": "CDC excludes it from MME entirely."
+  },
+  "_changed_from_2016": "Hydromorphone 4 -> 5. Tramadol is a NEW row at 0.2 (the 2016 MMWR table had none). Methadone's dose-banded ladder (4/8/10/12) was replaced by a single factor of 4.7. Codeine, hydrocodone, morphine, oxycodone, oxymorphone, tapentadol and transdermal fentanyl are unchanged.",
+  "opioids": [
+    {"substance": "Morphine", "convertibility": "linear", "mmePerMg": 1.0, "notes": "The reference standard: 1.0 by definition."},
+    {"substance": "Codeine", "convertibility": "linear", "mmePerMg": 0.15},
+    {"substance": "Hydrocodone", "convertibility": "linear", "mmePerMg": 1.0},
+    {"substance": "Oxycodone", "convertibility": "linear", "mmePerMg": 1.5},
+    {"substance": "Oxymorphone", "convertibility": "linear", "mmePerMg": 3.0},
+    {"substance": "Hydromorphone", "convertibility": "linear", "mmePerMg": 5.0, "notes": "Raised from the 2016 table's 4."},
+    {"substance": "Tramadol", "convertibility": "linear", "mmePerMg": 0.2, "notes": "New in the 2022 table. CDC footnote: the MME is based on degree of mu-receptor agonist activity, and it is unknown whether tramadol is associated with overdose in the same dose-dependent manner as drugs that are solely mu-receptor agonists."},
+    {"substance": "Tapentadol", "convertibility": "linear", "mmePerMg": 0.4, "notes": "CDC footnote: the MME is based on degree of mu-receptor agonist activity, and it is unknown whether tapentadol is associated with overdose in the same dose-dependent manner as drugs that are solely mu-receptor agonists."},
+    {"substance": "Methadone", "convertibility": "nonlinear", "notes": "CDC 2022 does give methadone a single factor (4.7), replacing the 2016 dose-banded ladder — but that factor is for population-level MME accounting. Piru declines to convert it: CDC's own caution is that methadone's half-life is long and variable and its peak respiratory-depressant effect arrives later and lasts longer than its peak analgesic effect, so a converted dose can read as adequate while the danger is still building. Deliberately stricter than the source, and the factor is withheld rather than shipped unused."},
+    {"substance": "Fentanyl", "convertibility": "transdermal", "notes": "CDC gives 2.4 MME per mcg/hr for transdermal fentanyl — a rate, not a mass, so it shares no unit space with the mg-based rows. CDC also cautions that absorption is affected by heat and other factors."},
+    {"substance": "Buprenorphine", "convertibility": "excluded", "notes": "CDC excludes buprenorphine pain products from the table 'because of their partial mu-receptor agonist activity and resultant ceiling effects compared with full mu-receptor agonists', and states it should not be counted in total MME/day."}
+  ]
+}
