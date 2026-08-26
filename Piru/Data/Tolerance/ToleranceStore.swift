@@ -192,23 +192,24 @@ final class ToleranceStore {
     /// replay matters, a suffix-resume checkpoint is the follow-up optimization.
     nonisolated static let defaultLookbackDays = 365.0
 
-    /// The canonical PK-complete **class representative** for each class whose PK-less members should
-    /// still build tolerance: a substance with no full pharmacokinetics is modeled *as* this stand-in
-    /// at an equivalent dose (Stage D missing-PK fallback, `Specs/tolerance-faithful-model.md` §4), so
-    /// an RC benzo with only a dose ladder still accrues GABA tolerance. Classes absent here have no
-    /// fallback — their PK-less members stay listed as "can't predict yet".
-    nonisolated static let classRepresentative: [ReceptorClasses.ReceptorClass: String] = [
-        .gaba: "Diazepam",
-        .muOpioid: "Morphine",
-        .catecholamineStimulant: "Amphetamine",
-        .serotonergicReleaser: "MDMA",
-        // 4-AcO-DMT, 2C-E, 4-HO-MET and most research psychedelics/dissociatives ship a dose ladder
-        // but no full PK, so they need a stand-in too. Psilocin (oral F/Vd/t½ all known) is the
-        // 5-HT2A psychedelic representative; Ketamine the NMDA dissociative one.
-        .psychedelic5HT2A: "Psilocin",
-        .nmdaAntagonist: "Ketamine",
-        .alpha2Delta: "Pregabalin",
-    ]
+    /// The PK-complete **class representative** for each class present in `params`, derived from the
+    /// records themselves: every resolved substance carries the classes it stands in for
+    /// (``PharmacologyParameters/representsClasses``, from the bundled DB's `class_representatives`),
+    /// so the replay needs no second table threaded alongside `params`.
+    ///
+    /// A class whose representative is absent, or present without usable pharmacology, has **no**
+    /// fallback — its PK-less members stay listed as "can't predict yet", which is the honest state.
+    nonisolated static func representativeIndex(
+        _ params: [String: PharmacologyParameters],
+    ) -> [ReceptorClasses.ReceptorClass: PharmacologyParameters] {
+        var out: [ReceptorClasses.ReceptorClass: PharmacologyParameters] = [:]
+        for candidate in params.values {
+            for cls in candidate.representsClasses where out[cls] == nil {
+                out[cls] = candidate
+            }
+        }
+        return out
+    }
 
     /// Oral **morphine-milligram-equivalent** factors — morphine-mg per 1 mg of the named opioid,
     /// derived from ``OpioidEquivalence/table`` (CDC 2022) so the tolerance fallback and the
@@ -222,34 +223,6 @@ final class ToleranceStore {
             equivalence.mmePerMg.map { (equivalence.name, $0) }
         },
     )
-
-    /// **Diazepam-milligram-equivalent** factors — diazepam-mg per 1 mg of the named benzodiazepine.
-    /// The structural analogue of ``opioidMMEPerMg`` for the GABA fallback: a named benzo with no PK
-    /// is modeled as Diazepam at `dose × factor` mg, lifting the confidence floor from `.unverified`
-    /// (dose-fraction guess) to `.low` (validated clinical equivalence). 27 ratios from the Ashton
-    /// manual / manufacturer data, cross-checked against the DB's `diazepam_equivalents` table.
-    /// Designer benzos with no validated equivalence (etizolam excepted) are deliberately absent and
-    /// fall through to the dose-fraction proxy.
-    nonisolated static let gabaDiazepamPerMg: [String: Double] = [
-        "alprazolam": 20, "bromazepam": 1.667, "chlordiazepoxide": 0.2,
-        "clobazam": 0.5, "clonazepam": 20, "clorazepate": 0.667,
-        "diazepam": 1, "estazolam": 5, "etizolam": 10,
-        "flunitrazepam": 10, "flurazepam": 0.333, "halazepam": 0.25,
-        "ketazolam": 0.333, "loprazolam": 5, "lorazepam": 10,
-        "lormetazepam": 10, "medazepam": 0.5, "midazolam": 1.333,
-        "nitrazepam": 2, "nordazepam": 1, "oxazepam": 0.333,
-        "phenazepam": 20, "prazepam": 0.5, "quazepam": 0.667,
-        "temazepam": 0.5, "triazolam": 40,
-    ]
-
-    /// Entactogens whose metabolites suppress serotonin synthesis (TPH) → weeks-scale recovery, unlike
-    /// the cathinone releasers (mephedrone etc.) which spare synthesis and reset in days (§3.4). Keyed
-    /// by canonical name, lowercased. Methylenedioxy entactogens only — **not** cathinones: membership
-    /// resolves ``PharmacologyParameters/suppressesSerotoninSynthesis``, which gates the SERT class's
-    /// slow synthesis pool so the two recover on different clocks within the same mechanism class.
-    nonisolated static let serotoninSynthesisSuppressors: Set<String> = [
-        "mdma", "mda", "mdea", "mbdb", "mdoh",
-    ]
 
     /// Curated **intrinsic efficacy** ∈ (0, 1] relative to a full agonist, keyed by canonical name
     /// (lowercased) — the partials that entrench *less* tolerance per unit occupancy (§5c). Only the
@@ -369,7 +342,7 @@ final class ToleranceStore {
         // SubstanceStore's batch connection, not in a tight loop on main (the post-commit hang the
         // 1.5 s launch delay only masked). The class representatives are resolved alongside the logged
         // substances so the PK-less fallback (Stage D) has their PK template in `params`.
-        let uniqueNames = Array(Set(doses.map(\.substance) + Self.classRepresentative.values))
+        let uniqueNames = Array(Set(doses.map(\.substance) + SubstanceStore.shared.classRepresentativeNames()))
         let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
 
         let computed = await Self.computeOffMain(doses: doses, params: params, now: now, weightKg: weightKg)
@@ -395,7 +368,7 @@ final class ToleranceStore {
         let doses = entries.map {
             SimDose(substance: $0.substance, amountMg: DoseUnit.convert($0.amount, from: $0.unit, to: "mg"), timestamp: $0.timestamp)
         }
-        let uniqueNames = Array(Set(doses.map(\.substance) + Self.classRepresentative.values))
+        let uniqueNames = Array(Set(doses.map(\.substance) + SubstanceStore.shared.classRepresentativeNames()))
         let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
         return Self.loadTrail(
             doses: doses, params: params, now: now, weightKg: weightKg,
@@ -418,7 +391,7 @@ final class ToleranceStore {
         }
         // Resolve pharmacology for every logged substance and the class representatives once (shared
         // across the per-substance replays, exactly as the joint recompute does).
-        let uniqueNames = Array(Set(doses.map(\.substance) + Self.classRepresentative.values))
+        let uniqueNames = Array(Set(doses.map(\.substance) + SubstanceStore.shared.classRepresentativeNames()))
         let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
 
         perSubstanceStates = await Self.computePerSubstanceOffMain(doses: doses, params: params, now: now, weightKg: weightKg)
@@ -496,7 +469,7 @@ final class ToleranceStore {
     /// The tolerance classes a **PK-less** substance can still be modeled in via a class representative
     /// (missing-PK fallback): each class it belongs to — by its named, mechanism-gated targets **or** by
     /// its pharmacological category (benzodiazepine → GABA, opioid → μ, …) — for which a PK-complete
-    /// ``classRepresentative`` plus both reference doses (the substance's own and the representative's)
+    /// class representative plus both reference doses (the substance's own and the representative's)
     /// exist. Empty ⇒ genuinely unmodelable (stays "can't predict yet"). Shared by ``buildClassWork``
     /// (which builds the surrogate contributors) and ``incompleteData``.
     ///
@@ -508,8 +481,9 @@ final class ToleranceStore {
         for substanceParams: PharmacologyParameters, params: [String: PharmacologyParameters],
     ) -> Set<ReceptorClasses.ReceptorClass> {
         guard substanceParams.referenceDoseMg != nil else { return [] }
+        let representatives = representativeIndex(params)
         func hasRepresentative(_ cls: ReceptorClasses.ReceptorClass) -> Bool {
-            guard let repName = classRepresentative[cls], let rep = params[repName] else { return false }
+            guard let rep = representatives[cls] else { return false }
             return rep.canComputeOccupancy && rep.referenceDoseMg != nil
         }
         var classes: Set<ReceptorClasses.ReceptorClass> = []
@@ -594,6 +568,7 @@ final class ToleranceStore {
         weightKg: Double,
         timestepMinutes: Double = defaultTimestepMinutes,
         lookbackDays: Double = defaultLookbackDays,
+        representativeNames: [String] = [],
         resolve: (String) -> PharmacologyParameters?,
     ) -> [ReceptorClasses.ReceptorClass: ClassTolerance] {
         let doses = entries.map {
@@ -606,7 +581,7 @@ final class ToleranceStore {
         }
         // Resolve the class representatives too, so the PK-less fallback (Stage D) can model a logged
         // substance as its representative at an equivalent dose.
-        for repName in Self.classRepresentative.values where resolved.insert(repName).inserted {
+        for repName in representativeNames where resolved.insert(repName).inserted {
             if let p = resolve(repName) { params[repName] = p }
         }
         return simulate(
@@ -757,15 +732,16 @@ final class ToleranceStore {
                 // equivalent dose, so an RC benzo with only a dose ladder still accrues GABA tolerance.
                 // The deep gate still uses the *substance's own* escalation (dose ÷ its heavy ceiling).
                 let escalation = doseMg / refSub
+                let representatives = Self.representativeIndex(params)
                 for cls in fallbackClasses(for: p, params: params) {
-                    guard let repName = Self.classRepresentative[cls], let rep = params[repName],
+                    guard let rep = representatives[cls],
                           let refRep = rep.referenceDoseMg, refRep > 0 else { continue }
                     let equivalentDoseMg: Double
                     let confidenceFloor: ConfidenceTier
                     if cls == .muOpioid, let mme = Self.opioidMMEPerMg[dose.substance.lowercased()] {
                         equivalentDoseMg = doseMg * mme
                         confidenceFloor = .low
-                    } else if cls == .gaba, let deq = Self.gabaDiazepamPerMg[dose.substance.lowercased()] {
+                    } else if cls == .gaba, let deq = p.diazepamPerMg {
                         equivalentDoseMg = doseMg * deq
                         confidenceFloor = .low
                     } else {

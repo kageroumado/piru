@@ -151,7 +151,9 @@ struct SubstanceShareSheet: View {
             )
             monoamineProfile = MonoamineProfile.from(
                 bindings: SubstanceStore.shared.bindings(forSubstanceName: substance.name),
-                substanceName: substance.name,
+                isSoldAsMDMA: SubstanceStore.shared.hasFlag(
+                    PharmacologyParameters.Flag.missoldAsMDMA, forSubstanceName: substance.name,
+                ),
             )
             moleculeLoaded = true
         }

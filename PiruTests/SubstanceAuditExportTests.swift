@@ -318,7 +318,10 @@ enum AuditSerializer {
     /// from these same binding rows (mechanism, DAT:SERT lean, 5-HT2B / mis-sold flags). Surfacing it in
     /// the audit makes the card's classification reviewable without a screenshot.
     private static func monoamineProfileSection(_ hits: [BindingHit], name: String) -> String {
-        guard let p = MonoamineProfile.from(bindings: hits, substanceName: name) else { return "" }
+        let isSoldAsMDMA = SubstanceStore.shared.hasFlag(
+            PharmacologyParameters.Flag.missoldAsMDMA, forSubstanceName: name,
+        )
+        guard let p = MonoamineProfile.from(bindings: hits, isSoldAsMDMA: isSoldAsMDMA) else { return "" }
         var m = "### Monoamine profile (computed card)\n\n"
         m += "- **Mechanism:** \(String(localized: p.mechanismLabel))\n"
         if let r = p.datSertRatio {

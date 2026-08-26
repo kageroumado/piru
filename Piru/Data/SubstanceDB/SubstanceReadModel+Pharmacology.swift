@@ -290,6 +290,86 @@ extension SubstanceReadModel {
         return classes
     }
 
+    /// Whether a substance carries one `substance_flags` flag. `nonisolated static` so the off-main
+    /// batch resolve can run it on the dedicated batch connection. Flags are model gates, not display
+    /// vocabulary — the app never renders one, so there is no source-priority resolution here: a flag
+    /// is present or it is not.
+    nonisolated static func hasFlag(_ flag: String, substanceID id: Int64, db queue: DatabaseQueue) -> Bool {
+        let hit = try? queue.read { db in
+            try Int64.fetchOne(
+                db, sql: "SELECT 1 FROM substance_flags WHERE substance_id = ? AND flag = ? LIMIT 1",
+                arguments: [id, flag],
+            )
+        }
+        return (hit ?? nil) != nil
+    }
+
+    /// Diazepam-mg per 1 mg of this substance, from the highest-priority enabled `diazepam_equivalents`
+    /// row. `nil` when the substance has no row, or when its row carries only the "no validated
+    /// equivalence" prose with no numbers (the designer benzos) — in both cases the caller must fall
+    /// through to the dose-fraction proxy rather than invent a factor.
+    nonisolated static func diazepamPerMg(substanceID id: Int64, db queue: DatabaseQueue, order: [String]) -> Double? {
+        let enabled = enabledSourceListSQL(order)
+        let priority = priorityCaseSQL(order)
+        return (try? queue.read { db -> Double? in
+            guard let row = try Row.fetchOne(db, sql: """
+                SELECT dose_mg, equivalent_diazepam_mg
+                  FROM diazepam_equivalents d
+                  JOIN sources src ON src.id = d.source_id
+                 WHERE d.substance_id = ?
+                   AND src.slug IN (\(enabled))
+                 ORDER BY \(priority) ASC
+                 LIMIT 1
+            """, arguments: [id]) else { return nil }
+            guard let doseMg: Double = row["dose_mg"], doseMg > 0,
+                  let equivalent: Double = row["equivalent_diazepam_mg"] else { return nil }
+            return equivalent / doseMg
+        }) ?? nil
+    }
+
+    /// The tolerance mechanism classes each representative substance stands in for, keyed by substance
+    /// id — the whole `class_representatives` table in one read. `nonisolated static` so the off-main
+    /// batch resolve can run it once per recompute on the batch connection.
+    nonisolated static func classRepresentatives(db queue: DatabaseQueue) -> [Int64: Set<ReceptorClasses.ReceptorClass>] {
+        let rows = (try? queue.read { db in
+            try Row.fetchAll(db, sql: "SELECT receptor_class, substance_id FROM class_representatives")
+        }) ?? []
+        var out: [Int64: Set<ReceptorClasses.ReceptorClass>] = [:]
+        for row in rows {
+            guard let raw: String = row["receptor_class"],
+                  let cls = ReceptorClasses.ReceptorClass(rawValue: raw),
+                  let id: Int64 = row["substance_id"] else { continue }
+            out[id, default: []].insert(cls)
+        }
+        return out
+    }
+
+    /// The whole `regional_names` table, keyed by lowercased canonical name — which spelling of a
+    /// substance to display in which regions. Read once at index build; see ``RegionalSubstanceName``
+    /// for why it is held rather than queried per call.
+    nonisolated static func regionalNames(db queue: DatabaseQueue) -> [String: RegionalSubstanceName.Variant] {
+        let rows = (try? queue.read { db in
+            try Row.fetchAll(db, sql: """
+                SELECT s.canonical_name AS name, r.base_name, r.alternate_name, r.alternate_regions
+                  FROM regional_names r
+                  JOIN substances s ON s.id = r.substance_id
+            """)
+        }) ?? []
+        var out: [String: RegionalSubstanceName.Variant] = [:]
+        for row in rows {
+            guard let name: String = row["name"],
+                  let base: String = row["base_name"],
+                  let alternate: String = row["alternate_name"],
+                  let regions: String = row["alternate_regions"] else { continue }
+            out[name.lowercased()] = RegionalSubstanceName.Variant(
+                base: base,
+                alternate: alternate,
+                alternateRegions: Set(regions.split(separator: ",").map(String.init)),
+            )
+        }
+        return out
+    }
+
     /// The single-column name→id lookup on a given connection. `nonisolated static` so the off-main
     /// batch borrow can resolve a reference-substance name without hopping to the main actor's
     /// in-memory `nameIndex`. Canonical name first (case-insensitive), then alias.

@@ -99,7 +99,7 @@ final class SubstanceDBUpdater {
         documentsDir.appendingPathComponent("piru-substances-updated.sqlite")
     }
 
-    private static var appliedManifestURL: URL {
+    fileprivate static var appliedManifestURL: URL {
         documentsDir.appendingPathComponent("piru-substances-updated.manifest.json")
     }
 
@@ -323,15 +323,36 @@ final class SubstanceDBUpdater {
         }
     }
 
-    private func loadAppliedManifest() -> SubstanceDBManifest? {
-        guard let data = try? Data(contentsOf: Self.appliedManifestURL) else { return nil }
+    /// Whether a previously applied update is **older** than the database this build ships with —
+    /// the app-upgrade case, where the user took an OTA update, then installed a newer app whose
+    /// bundled database is newer still.
+    ///
+    /// It matters because the applied copy is otherwise preferred unconditionally, so the new binary
+    /// would run against data predating it: any table this build's reader expects but that release did
+    /// not yet build resolves empty, and the features reading it turn themselves off silently. Content
+    /// versions sort lexicographically (`YYYY-MM-DD.N`), the same comparison the update check uses.
+    static func appliedCopyIsStale() -> Bool {
+        guard let applied = loadAppliedManifest(), let bundled = loadBundledManifest() else { return false }
+        return applied.isOlderThan(bundled)
+    }
+
+    fileprivate static func loadAppliedManifest() -> SubstanceDBManifest? {
+        guard let data = try? Data(contentsOf: appliedManifestURL) else { return nil }
         return try? SubstanceDBManifest.jsonDecoder.decode(SubstanceDBManifest.self, from: data)
     }
 
-    private func loadBundledManifest() -> SubstanceDBManifest? {
+    fileprivate static func loadBundledManifest() -> SubstanceDBManifest? {
         guard let url = Bundle.main.url(forResource: "manifest", withExtension: "json"),
               let data = try? Data(contentsOf: url) else { return nil }
         return try? SubstanceDBManifest.jsonDecoder.decode(SubstanceDBManifest.self, from: data)
+    }
+
+    private func loadAppliedManifest() -> SubstanceDBManifest? {
+        Self.loadAppliedManifest()
+    }
+
+    private func loadBundledManifest() -> SubstanceDBManifest? {
+        Self.loadBundledManifest()
     }
 
     /// Synthesised "local" placeholder used when no manifest is present

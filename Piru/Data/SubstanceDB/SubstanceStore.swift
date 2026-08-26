@@ -125,6 +125,11 @@ final class SubstanceStore {
     /// Benzodiazepine diazepam-equivalences for the converter tool — one batched
     /// query, cached after first load. Cleared with the other source-derived caches.
     @ObservationIgnored private var benzoEquivalenceCache: [BenzoEquivalence]?
+    /// `class_representatives` in full: substance id → the tolerance classes it stands in for. A
+    /// handful of rows that every pharmacology resolve consults, so it is read once and held. Not
+    /// source-derived (a representative's identity does not depend on the user's source order), so it
+    /// is never invalidated.
+    @ObservationIgnored private var classRepresentativeCache: [Int64: Set<ReceptorClasses.ReceptorClass>]?
 
     /// Name/alias (lowercased) → lightweight batch row, derived from `allCache`.
     /// This is the journal/timeline resolution path: it carries everything
@@ -237,9 +242,15 @@ final class SubstanceStore {
     /// ``SubstanceDBUpdater``) and falls back to the bundled resource the app
     /// shipped with. The init recovers if the chosen file turns out to be
     /// unopenable (see ``init(substancesDBURL:userPrefsDBURL:prewarmsAllCache:)``).
+    ///
+    /// The applied copy wins only while it is at least as new as the bundled one
+    /// (``SubstanceDBUpdater/appliedCopyIsStale()``). After an app upgrade it can be older, and
+    /// serving it would run this build's reader against data that predates it — every table added
+    /// since resolves empty and the features reading it turn themselves off with no error. The next
+    /// update check re-downloads and the applied copy takes over again.
     static func resolveSubstancesDBURL() -> URL {
         let applied = SubstanceDBUpdater.appliedSQLiteURL
-        if FileManager.default.fileExists(atPath: applied.path) {
+        if FileManager.default.fileExists(atPath: applied.path), !SubstanceDBUpdater.appliedCopyIsStale() {
             return applied
         }
         return bundledSubstancesDBURL()
@@ -675,6 +686,9 @@ final class SubstanceStore {
                     return (names, aliases, aliasDisplay, aliasFacets, displayNames, uids, formTitles, stubs)
                 }
             self.stubIDs = stubs
+            // Which spelling to display per region. Installed here because `displayTitle` reads it from
+            // `nonisolated` code with no store reference — see `RegionalSubstanceName`.
+            RegionalSubstanceName.load(SubstanceReadModel.regionalNames(db: substancesDB))
             self.allNames = names.map(\.0)
             // `uniquingKeysWith` (not `uniqueKeysWithValues:`) so a duplicate
             // lowercased canonical name (`MDMA`/`mdma` from an imported DB, or an
@@ -1142,6 +1156,37 @@ final class SubstanceStore {
         }) ?? []
         benzoEquivalenceCache = result
         return result
+    }
+
+    /// Whether a substance carries one `substance_flags` flag, resolved by name or alias. Flags are
+    /// model/logic gates rather than display vocabulary, which is why they are not projected onto
+    /// ``Substance`` alongside `tags` — nothing renders one.
+    func hasFlag(_ flag: String, forSubstanceName name: String) -> Bool {
+        guard let id = substanceID(forNameOrAlias: name) else { return false }
+        return SubstanceReadModel.hasFlag(flag, substanceID: id, db: substancesDB)
+    }
+
+    /// `class_representatives` as substance id → the tolerance classes that substance stands in for.
+    /// Read once and held (see ``classRepresentativeCache``).
+    func classRepresentativeClasses() -> [Int64: Set<ReceptorClasses.ReceptorClass>] {
+        if let cached = classRepresentativeCache { return cached }
+        let loaded = SubstanceReadModel.classRepresentatives(db: substancesDB)
+        classRepresentativeCache = loaded
+        return loaded
+    }
+
+    /// The canonical names of every class representative, for the tolerance recompute's batch request:
+    /// their pharmacology must be resolved alongside the logged substances so the missing-PK fallback
+    /// has each representative's PK template in hand.
+    func classRepresentativeNames() -> [String] {
+        let ids = Set(classRepresentativeClasses().keys)
+        guard !ids.isEmpty else { return [] }
+        return (try? substancesDB.read { db in
+            try String.fetchAll(
+                db,
+                sql: "SELECT canonical_name FROM substances WHERE id IN (\(ids.map(String.init).joined(separator: ",")))",
+            )
+        }) ?? []
     }
 
     /// Categories that have at least one browsable substance after resolution.

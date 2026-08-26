@@ -28,14 +28,13 @@ struct MonoamineProfile {
     /// longer, more stimulant/anxiogenic, more dangerous on an empathogen-style redose.
     let misSoldAsMDMA: Bool
 
-    /// Substances commonly pressed/sold as "MDMA" or "molly" but pharmacologically DAT-dominant blockers.
-    private static let misSoldNames: Set<String> = [
-        "eutylone", "n-ethylpentylone", "nep", "ephylone", "n-ethylnorpentylone", "pentylone",
-    ]
-
     /// Build the profile from a substance's binding rows. Returns `nil` unless the substance has at least
     /// one DAT/NET/SERT release or uptake-inhibition row to characterize.
-    static func from(bindings: [BindingHit], substanceName: String) -> MonoamineProfile? {
+    ///
+    /// `isSoldAsMDMA` is the substance's `missold-as-mdma` flag from the bundled DB — a market fact the
+    /// caller resolves. It only becomes ``misSoldAsMDMA`` for a non-releaser, because the warning is
+    /// about the mismatch: a blocker sold as an empathogen behaves nothing like one on a redose.
+    static func from(bindings: [BindingHit], isSoldAsMDMA: Bool) -> MonoamineProfile? {
         func best(_ target: String, _ action: String) -> Double? {
             bindings
                 .filter { $0.target.uppercased().hasPrefix(target) && $0.action == action }
@@ -83,8 +82,7 @@ struct MonoamineProfile {
         let engages5HT2B = bindings.contains {
             $0.target.uppercased().hasPrefix("5-HT2B") && $0.action == "agonist"
         }
-        let misSold = mechanism != .releaser
-            && misSoldNames.contains(substanceName.lowercased().trimmingCharacters(in: .whitespaces))
+        let misSold = mechanism != .releaser && isSoldAsMDMA
 
         return MonoamineProfile(
             mechanism: mechanism,

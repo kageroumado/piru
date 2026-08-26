@@ -56,6 +56,19 @@ struct SubstanceDBManifestTests {
         #expect(!b.isOlderThan(a))
     }
 
+    /// The app-upgrade case behind ``SubstanceStore/resolveSubstancesDBURL()``: an update applied
+    /// under an older build can end up older than the database the new build ships with, and serving
+    /// it would run the new reader against data predating it. Equal versions must NOT count as stale
+    /// — the applied copy is the normal, preferred case and a spurious "stale" would discard every
+    /// update the user has taken.
+    @Test
+    func `An applied copy older than the bundled one is stale; an equal one is not`() {
+        let bundled = stubManifest(version: "2026-08-26.0")
+        #expect(stubManifest(version: "2026-08-20.1").isOlderThan(bundled))
+        #expect(!stubManifest(version: "2026-08-26.0").isOlderThan(bundled))
+        #expect(!stubManifest(version: "2026-09-01.0").isOlderThan(bundled))
+    }
+
     @Test
     func `Round-trips through Codable`() throws {
         let original = stubManifest(version: "2026-06-01.0")

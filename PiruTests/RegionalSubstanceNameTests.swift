@@ -1,8 +1,16 @@
 import Testing
 @testable import Piru
 
+/// The variants are `regional_names` rows now, installed into ``RegionalSubstanceName`` when the store
+/// builds its indexes — so every test here needs the store up first. Touching the singleton in `init`
+/// makes that dependency explicit rather than relying on some other suite having warmed it.
 @Suite("RegionalSubstanceName")
+@MainActor
 struct RegionalSubstanceNameTests {
+    init() {
+        _ = SubstanceStore.shared
+    }
+
     @Test
     func `US region shows the US adopted name`() {
         #expect(RegionalSubstanceName.resolve(canonicalName: "Acetaminophen", region: "US") == "Acetaminophen")
@@ -15,7 +23,6 @@ struct RegionalSubstanceNameTests {
         for region in ["CA", "JP"] {
             #expect(RegionalSubstanceName.resolve(canonicalName: "Acetaminophen", region: region) == "Acetaminophen")
             #expect(RegionalSubstanceName.resolve(canonicalName: "Epinephrine", region: region) == "Epinephrine")
-            #expect(RegionalSubstanceName.resolve(canonicalName: "Norepinephrine", region: region) == "Norepinephrine")
             // …but Albuterol is US-only; CA/JP keep the INN Salbutamol.
             #expect(RegionalSubstanceName.resolve(canonicalName: "Salbutamol", region: region) == "Salbutamol")
         }
@@ -26,7 +33,6 @@ struct RegionalSubstanceNameTests {
         #expect(RegionalSubstanceName.resolve(canonicalName: "Acetaminophen", region: "GB") == "Paracetamol")
         #expect(RegionalSubstanceName.resolve(canonicalName: "Salbutamol", region: "GB") == "Salbutamol")
         #expect(RegionalSubstanceName.resolve(canonicalName: "Epinephrine", region: "AU") == "Adrenaline")
-        #expect(RegionalSubstanceName.resolve(canonicalName: "Norepinephrine", region: "DE") == "Noradrenaline")
     }
 
     @Test
@@ -63,5 +69,20 @@ struct RegionalSubstanceNameTests {
     func `Substances without a regional variant return nil`() {
         #expect(RegionalSubstanceName.resolve(canonicalName: "Ketamine", region: "GB") == nil)
         #expect(RegionalSubstanceName.resolve(canonicalName: "MDMA", region: "US") == nil)
+    }
+
+    /// Every variant must name a substance the bundled DB actually carries, or the entry can never
+    /// reach the screen: the only caller is ``Substance/displayTitle``, which is reached with a real
+    /// substance's name. A norepinephrine entry sat in the old Swift table doing exactly this.
+    @Test
+    func `Every regional variant names a substance in the bundled DB`() {
+        let variants = SubstanceReadModel.regionalNames(db: SubstanceStore.shared.substancesDB)
+        #expect(variants.count == 5, "expected 5 regional variants, found \(variants.count)")
+        for name in variants.keys {
+            #expect(
+                SubstanceStore.shared.substanceID(forNameOrAlias: name) != nil,
+                "\(name) has a regional_names row but no substance",
+            )
+        }
     }
 }

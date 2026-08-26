@@ -146,7 +146,9 @@ struct ToleranceCalibrationTests {
     /// A **PK-less** benzodiazepine surrogate: a GABA-A PAM target but no Vd / F / half-life / molar
     /// mass, so ``PharmacologyParameters/canComputeOccupancy`` is false. The Stage D fallback must
     /// model it as the Diazepam representative at a dose-fraction-equivalent dose.
-    static func pkLessBenzo(name _: String = "RC-Benzo", referenceDoseMg: Double?) -> PharmacologyParameters {
+    static func pkLessBenzo(
+        name _: String = "RC-Benzo", referenceDoseMg: Double?, diazepamPerMg: Double? = nil,
+    ) -> PharmacologyParameters {
         PharmacologyParameters(
             molarMassGramsPerMole: nil,
             vdLPerKg: nil,
@@ -161,6 +163,7 @@ struct ToleranceCalibrationTests {
             targets: [
                 .init(target: "GABA-A", action: .positiveAllostericModulator, halfMaxNanomolar: 50, kind: .ki, confidence: .low),
             ],
+            diazepamPerMg: diazepamPerMg,
         )
     }
 
@@ -187,7 +190,8 @@ struct ToleranceCalibrationTests {
     }
 
     /// A PK-complete **Diazepam** representative (GABA-A PAM) — the class stand-in the GABA fallback
-    /// resolves `ToleranceStore.classRepresentative[.gaba]` to.
+    /// resolves for `.gaba`. `representsClasses` stands in for the substance's `class_representatives`
+    /// row, which is what marks it as the stand-in in the resolved records the engine actually sees.
     static func diazepam(
         referenceDoseMg: Double, metabolites: [PharmacologyParameters.MetaboliteContributor] = [],
     ) -> PharmacologyParameters {
@@ -206,6 +210,7 @@ struct ToleranceCalibrationTests {
                 .init(target: "GABA-A", action: .positiveAllostericModulator, halfMaxNanomolar: 50, kind: .ki, confidence: .high),
             ],
             metabolites: metabolites,
+            representsClasses: [.gaba],
         )
     }
 
@@ -242,7 +247,7 @@ struct ToleranceCalibrationTests {
         )
     }
 
-    /// A PK-complete **Morphine** representative (MOR agonist) — `classRepresentative[.muOpioid]`.
+    /// A PK-complete **Morphine** representative (MOR agonist) — the `.muOpioid` class stand-in.
     static func morphine(referenceDoseMg: Double) -> PharmacologyParameters {
         PharmacologyParameters(
             molarMassGramsPerMole: 285,
@@ -258,6 +263,7 @@ struct ToleranceCalibrationTests {
             targets: [
                 .init(target: "MOR", action: .agonist, halfMaxNanomolar: 50, kind: .ki, confidence: .high),
             ],
+            representsClasses: [.muOpioid],
         )
     }
 
@@ -295,7 +301,7 @@ struct ToleranceCalibrationTests {
         )
     }
 
-    /// PK-complete **Psilocin** representative (5-HT2A agonist) — `classRepresentative[.psychedelic5HT2A]`.
+    /// PK-complete **Psilocin** representative (5-HT2A agonist) — the `.psychedelic5HT2A` stand-in.
     static func psilocin(referenceDoseMg: Double) -> PharmacologyParameters {
         PharmacologyParameters(
             molarMassGramsPerMole: 204, vdLPerKg: 4, bioavailabilityFraction: 0.5,
@@ -305,6 +311,7 @@ struct ToleranceCalibrationTests {
             targets: [
                 .init(target: "5-HT2A", action: .agonist, halfMaxNanomolar: 50, kind: .ki, confidence: .high),
             ],
+            representsClasses: [.psychedelic5HT2A],
         )
     }
 
@@ -321,7 +328,7 @@ struct ToleranceCalibrationTests {
         )
     }
 
-    /// PK-complete **Ketamine** representative (NMDA channel blocker) — `classRepresentative[.nmdaAntagonist]`.
+    /// PK-complete **Ketamine** representative (NMDA channel blocker) — the `.nmdaAntagonist` stand-in.
     static func ketamine(referenceDoseMg: Double) -> PharmacologyParameters {
         PharmacologyParameters(
             molarMassGramsPerMole: 238, vdLPerKg: 2.5, bioavailabilityFraction: 0.2,
@@ -331,6 +338,7 @@ struct ToleranceCalibrationTests {
             targets: [
                 .init(target: "NMDA", action: .channelBlocker, halfMaxNanomolar: 50, kind: .ki, confidence: .high),
             ],
+            representsClasses: [.nmdaAntagonist],
         )
     }
 
@@ -1044,7 +1052,7 @@ struct ToleranceCalibrationTests {
         // Temazepam: diazepam factor 0.5 → 20 mg temazepam ≡ 10 mg diazepam. The equivalence path
         // carries .low (validated clinical ratio), not .unverified (dose-fraction guess).
         let params = [
-            "temazepam": Self.pkLessBenzo(name: "temazepam", referenceDoseMg: 30),
+            "temazepam": Self.pkLessBenzo(name: "temazepam", referenceDoseMg: 30, diazepamPerMg: 0.5),
             "Diazepam": Self.diazepam(referenceDoseMg: 30),
         ]
         let states = ToleranceStore.simulate(

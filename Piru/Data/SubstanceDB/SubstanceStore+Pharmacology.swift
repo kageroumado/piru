@@ -213,8 +213,18 @@ extension SubstanceStore {
             subjectID: pkID, db: substancesDB,
             resolveReferenceID: { self.substanceID(forNameOrAlias: $0) },
         )
+        // The model flags and the equivalence factor are facts about the **active compound**
+        // (Kratom→Mitragynine), like binding and PK — so they resolve off `pkID`, not the logged id.
+        let suppressesSynthesis = pkID.map {
+            SubstanceReadModel.hasFlag(
+                PharmacologyParameters.Flag.suppressesSerotoninSynthesis, substanceID: $0, db: substancesDB,
+            )
+        } ?? false
+        let diazepamPerMg = pkID.flatMap {
+            SubstanceReadModel.diazepamPerMg(substanceID: $0, db: substancesDB, order: enabledSourceOrder)
+        }
+        let representsClasses = pkID.map { classRepresentativeClasses()[$0] ?? [] } ?? []
         return Self.assemblePharmacologyParameters(
-            name: name,
             molarMass: molarMass(forSubstanceName: routed.name),
             pk: effectivePK,
             bindingHits: bindings(forSubstanceName: routed.name),
@@ -226,6 +236,9 @@ extension SubstanceStore {
             categoryClasses: categoryClasses,
             // Metabolites route through the **active compound** (Kratom→Mitragynine), like binding/PK.
             metabolites: Self.metaboliteContributors(from: metabolism(forSubstanceName: routed.name)),
+            suppressesSerotoninSynthesis: suppressesSynthesis,
+            diazepamPerMg: diazepamPerMg,
+            representsClasses: representsClasses,
         )
     }
 
@@ -257,13 +270,16 @@ extension SubstanceStore {
         )
         let db = substancesBatchDB
         let order = enabledSourceOrder
+        // One read of the whole `class_representatives` table per recompute, snapshotted here rather
+        // than re-queried per substance: it is a handful of rows and every resolve consults it.
+        let representatives = classRepresentativeClasses()
         // The user's CYP2D6 metabolizer status (§F.3) — snapshotted on the main actor and passed into
         // the detached resolve, where it scales a CYP2D6-major clearance substrate's half-life.
         let cyp2d6Status = UserProfileStore.shared.cyp2d6Status
         return await Task.detached(priority: .utility) {
             Self.resolvePharmacologyParametersBatch(
                 names: names, ids: ids, referenceDoseIDs: referenceDoseIDs, order: order, db: db,
-                cyp2d6Status: cyp2d6Status,
+                cyp2d6Status: cyp2d6Status, representatives: representatives,
             )
         }.value
     }
@@ -274,6 +290,7 @@ extension SubstanceStore {
     private nonisolated static func resolvePharmacologyParametersBatch(
         names: [String], ids: [String: Int64], referenceDoseIDs: [String: Int64],
         order: [String], db queue: DatabaseQueue, cyp2d6Status: CYP2D6Status = .unknown,
+        representatives: [Int64: Set<ReceptorClasses.ReceptorClass>] = [:],
     ) -> [String: PharmacologyParameters] {
         var out: [String: PharmacologyParameters] = [:]
         for name in names where out[name] == nil {
@@ -297,7 +314,6 @@ extension SubstanceStore {
             // multiplier (F.3).
             let metabolismHits = id.map { SubstanceReadModel.metabolismRows(substanceID: $0, db: queue, order: order) } ?? []
             out[name] = assemblePharmacologyParameters(
-                name: name,
                 molarMass: id.flatMap { SubstanceReadModel.molarMass(substanceID: $0, db: queue) },
                 pk: effectivePK,
                 bindingHits: id.map { SubstanceReadModel.bindingRows(substanceID: $0, db: queue) } ?? [],
@@ -308,6 +324,15 @@ extension SubstanceStore {
                 categoryClasses: categoryClasses,
                 metabolites: metaboliteContributors(from: metabolismHits),
                 cyp2d6HalfLifeMultiplier: cyp2d6HalfLifeMultiplier(status: cyp2d6Status, metabolismHits: metabolismHits),
+                suppressesSerotoninSynthesis: id.map {
+                    SubstanceReadModel.hasFlag(
+                        PharmacologyParameters.Flag.suppressesSerotoninSynthesis, substanceID: $0, db: queue,
+                    )
+                } ?? false,
+                diazepamPerMg: id.flatMap {
+                    SubstanceReadModel.diazepamPerMg(substanceID: $0, db: queue, order: order)
+                },
+                representsClasses: id.map { representatives[$0] ?? [] } ?? [],
             )
         }
         return out
@@ -429,12 +454,15 @@ extension SubstanceStore {
     /// Assemble the occupancy-pipeline inputs from already-read rows. `nonisolated static` so the
     /// cached instance path and the off-main batch path share identical resolution logic.
     private nonisolated static func assemblePharmacologyParameters(
-        name: String, molarMass: Double?, pk: [PKRouteHit], bindingHits: [BindingHit],
+        molarMass: Double?, pk: [PKRouteHit], bindingHits: [BindingHit],
         doseScale: Double = 1, doseScaleConfidence: ConfidenceTier = .high,
         referenceDoseMg: Double? = nil, intrinsicEfficacy: Double = 1,
         categoryClasses: Set<ReceptorClasses.ReceptorClass> = [],
         metabolites: [PharmacologyParameters.MetaboliteContributor] = [],
         cyp2d6HalfLifeMultiplier: Double = 1,
+        suppressesSerotoninSynthesis: Bool = false,
+        diazepamPerMg: Double? = nil,
+        representsClasses: Set<ReceptorClasses.ReceptorClass> = [],
     ) -> PharmacologyParameters {
         // Read Vd, F, and half-life from a SINGLE coherent pk row — never pair a Vd from one study
         // with an F or half-life from another. That cross-pairing silently double-counts F when a
@@ -552,10 +580,7 @@ extension SubstanceStore {
             halfLifeMinutes: halfLife,
             vdConfidence: resolvedVdConfidence,
             referenceDoseMg: referenceDoseMg,
-            // Per-substance serotonin-synthesis suppression (§3.4): set by membership in the curated
-            // entactogen set, so MDMA-type releasers route onto the weeks-scale synthesis pool while
-            // the cathinones (spared synthesis) reset in days. Both resolver paths funnel through here.
-            suppressesSerotoninSynthesis: ToleranceStore.serotoninSynthesisSuppressors.contains(name.lowercased()),
+            suppressesSerotoninSynthesis: suppressesSerotoninSynthesis,
             targets: targets,
             tmaxMinutes: tmax,
             tmaxConfidence: tmaxConfidence,
@@ -564,6 +589,8 @@ extension SubstanceStore {
             pkSpecies: pkSpecies,
             fractionUnbound: Self.resolveFractionUnbound(pk: pk),
             metabolites: metabolites,
+            diazepamPerMg: diazepamPerMg,
+            representsClasses: representsClasses,
         )
     }
 

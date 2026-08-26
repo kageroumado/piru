@@ -32,7 +32,7 @@ struct MonoamineProfileTests {
             bind("NET", "releasingAgent", ec50: 62.7),
             bind("SERT", "releasingAgent", ec50: 118.3),
         ]
-        let p = try #require(MonoamineProfile.from(bindings: rows, substanceName: "Mephedrone"))
+        let p = try #require(MonoamineProfile.from(bindings: rows, isSoldAsMDMA: false))
         #expect(p.mechanism == .releaser)
         #expect(p.basis == .release)
         // DAT:SERT = 118.3 / 49.1 ≈ 2.41 → balanced/empathogen band.
@@ -52,7 +52,7 @@ struct MonoamineProfileTests {
             bind("NET", "reuptakeInhibitor", ic50: 26),
             bind("SERT", "reuptakeInhibitor", ic50: 3_349),
         ]
-        let p = try #require(MonoamineProfile.from(bindings: rows, substanceName: "MDPV"))
+        let p = try #require(MonoamineProfile.from(bindings: rows, isSoldAsMDMA: false))
         #expect(p.mechanism == .blocker)
         #expect(p.basis == .uptake)
         // DAT:SERT ≈ 817 → far dopaminergic end.
@@ -68,22 +68,43 @@ struct MonoamineProfileTests {
             bind("SERT", "releasingAgent", ec50: 19),
             bind("5-HT2B", "agonist", ec50: 280),
         ]
-        let p = try #require(MonoamineProfile.from(bindings: rows, substanceName: "5-APB"))
+        let p = try #require(MonoamineProfile.from(bindings: rows, isSoldAsMDMA: false))
         // DAT:SERT = 19/31 ≈ 0.61 < 0.8 → serotonin-leaning, left of center.
         let pos = try #require(p.leanPosition)
         #expect(pos < 0.25)
         #expect(p.engages5HT2B)
     }
 
+    /// The flag only fires for a **blocker**: the warning is about the mismatch between what the pill is
+    /// sold as and how it behaves, so a flagged substance that really is a releaser (there are none
+    /// today, but the market moves) must not carry it.
     @Test
-    func `eutylone is flagged mis-sold-as-MDMA, a releaser cathinone is not`() throws {
+    func `the mis-sold flag applies to a blocker and is suppressed for a releaser`() throws {
         let blocker = [bind("DAT", "reuptakeInhibitor", ic50: 120), bind("SERT", "reuptakeInhibitor", ic50: 1_100)]
-        let eutylone = try #require(MonoamineProfile.from(bindings: blocker, substanceName: "Eutylone"))
+        let eutylone = try #require(MonoamineProfile.from(bindings: blocker, isSoldAsMDMA: true))
         #expect(eutylone.misSoldAsMDMA)
 
         let releaserRows = [bind("DAT", "releasingAgent", ec50: 49), bind("SERT", "releasingAgent", ec50: 118)]
-        let mephedrone = try #require(MonoamineProfile.from(bindings: releaserRows, substanceName: "Mephedrone"))
-        #expect(!mephedrone.misSoldAsMDMA)
+        let flaggedReleaser = try #require(MonoamineProfile.from(bindings: releaserRows, isSoldAsMDMA: true))
+        #expect(!flaggedReleaser.misSoldAsMDMA)
+
+        let unflagged = try #require(MonoamineProfile.from(bindings: blocker, isSoldAsMDMA: false))
+        #expect(!unflagged.misSoldAsMDMA)
+    }
+
+    /// The substances the card actually warns about are DB rows now, so gate the rows: each must carry
+    /// the `missold-as-mdma` flag and resolve as a blocker, which is what makes the warning fire.
+    @Test
+    @MainActor
+    func `the mis-sold cathinones carry the flag in the bundled DB`() async {
+        await SubstanceStore.shared.ensureAllLoaded()
+        for name in ["Eutylone", "N-Ethylpentylone", "Pentylone"] {
+            #expect(
+                SubstanceStore.shared.hasFlag(PharmacologyParameters.Flag.missoldAsMDMA, forSubstanceName: name),
+                "\(name) lost its missold-as-mdma flag",
+            )
+        }
+        #expect(!SubstanceStore.shared.hasFlag(PharmacologyParameters.Flag.missoldAsMDMA, forSubstanceName: "Mephedrone"))
     }
 
     @Test
@@ -98,7 +119,7 @@ struct MonoamineProfileTests {
             bind("DAT", "reuptakeInhibitor", ic50: 3_300),
             bind("SERT", "reuptakeInhibitor", ic50: 930),
         ]
-        let p = try #require(MonoamineProfile.from(bindings: rows, substanceName: "6-APB"))
+        let p = try #require(MonoamineProfile.from(bindings: rows, isSoldAsMDMA: false))
         #expect(p.mechanism == .releaser)
         #expect(p.basis == .release)
         // Release-basis DAT:SERT = 36/10 = 3.6 → dopamine-leaning.
@@ -112,13 +133,13 @@ struct MonoamineProfileTests {
             bind("DAT", "reuptakeInhibitor", ic50: 400),
             bind("SERT", "releasingAgent", ec50: 330),
         ]
-        let p = try #require(MonoamineProfile.from(bindings: rows, substanceName: "Butylone"))
+        let p = try #require(MonoamineProfile.from(bindings: rows, isSoldAsMDMA: false))
         #expect(p.mechanism == .hybrid)
     }
 
     @Test
     func `no DAT/NET/SERT rows → no profile (non-monoamine substances get no card)`() {
         let rows = [bind("MOR", "agonist", ec50: 3.4), bind("5-HT2A", "agonist", ec50: 74)]
-        #expect(MonoamineProfile.from(bindings: rows, substanceName: "Morphine") == nil)
+        #expect(MonoamineProfile.from(bindings: rows, isSoldAsMDMA: false) == nil)
     }
 }

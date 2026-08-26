@@ -1,0 +1,33 @@
+{
+  "_comment": "Boolean pharmacological facts read by an engine, never rendered as a UI chip (that is what `tags` is for). Keys are substances.canonical_name; each entry lists the flags that substance carries.",
+  "_flags": {
+    "suppresses-serotonin-synthesis": "Metabolites suppress tryptophan hydroxylase, so the SERT class's slow synthesis pool recovers on a weeks-scale clock instead of the days-scale reset of the synthesis-sparing releasers (Specs/tolerance-faithful-model-improvements.md §3.4). Methylenedioxy entactogens only — the cathinone releasers (mephedrone and relatives) spare synthesis and must NOT carry this flag.",
+    "missold-as-mdma": "Frequently pressed and sold as MDMA or \"molly\" while being a pharmacologically DAT-dominant reuptake blocker: longer, more stimulant and anxiogenic, and more dangerous on an empathogen-style redose. A market fact about what the pill contains, so it is carried per substance rather than inferred from the binding profile — the profile is what makes the substitution dangerous, not what identifies it."
+  },
+  "substances": {
+    "MDMA": [
+      "suppresses-serotonin-synthesis"
+    ],
+    "MDA": [
+      "suppresses-serotonin-synthesis"
+    ],
+    "MDEA": [
+      "suppresses-serotonin-synthesis"
+    ],
+    "MBDB": [
+      "suppresses-serotonin-synthesis"
+    ],
+    "MDOH": [
+      "suppresses-serotonin-synthesis"
+    ],
+    "Eutylone": [
+      "missold-as-mdma"
+    ],
+    "N-Ethylpentylone": [
+      "missold-as-mdma"
+    ],
+    "Pentylone": [
+      "missold-as-mdma"
+    ]
+  }
+}

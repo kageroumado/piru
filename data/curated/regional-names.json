@@ -1,0 +1,59 @@
+{
+  "_comment": "Which spelling of a substance's name to SHOW, by device region. Display only — both spellings stay searchable as aliases, so search results are identical regardless of region. `base` is shown everywhere except `alternateRegions`, which shows `alternate`. Both are stated explicitly per entry, so it does not matter which spelling the database happens to carry as the canonical row.",
+  "_region_groups": {
+    "usAdoptedNames": [
+      "US",
+      "CA",
+      "JP"
+    ],
+    "britishSpellings": [
+      "GB",
+      "IE",
+      "AU",
+      "NZ"
+    ]
+  },
+  "_region_group_notes": {
+    "usAdoptedNames": "Regions using US adopted names (acetaminophen, epinephrine). Canada and Japan follow USAN here, unlike most of the world.",
+    "britishSpellings": "Regions keeping the British oe- spellings (oestradiol, oestrogen)."
+  },
+  "names": [
+    {
+      "substance": "Acetaminophen",
+      "base": "Paracetamol",
+      "alternate": "Acetaminophen",
+      "alternateRegions": "usAdoptedNames"
+    },
+    {
+      "substance": "Epinephrine",
+      "base": "Adrenaline",
+      "alternate": "Epinephrine",
+      "alternateRegions": "usAdoptedNames"
+    },
+    {
+      "substance": "Salbutamol",
+      "base": "Salbutamol",
+      "alternate": "Albuterol",
+      "alternateRegions": [
+        "US"
+      ],
+      "_note": "Albuterol is US-only — Canada and Japan use the INN Salbutamol."
+    },
+    {
+      "substance": "Chlorpheniramine",
+      "base": "Chlorphenamine",
+      "alternate": "Chlorpheniramine",
+      "alternateRegions": [
+        "US",
+        "CA"
+      ]
+    },
+    {
+      "substance": "Estradiol",
+      "base": "Estradiol",
+      "alternate": "Oestradiol",
+      "alternateRegions": "britishSpellings",
+      "_note": "INN is estradiol (the US and most of the world); only the UK and Commonwealth keep oestradiol."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "_comment": "The one PK-complete stand-in per tolerance mechanism class. A logged substance with no full pharmacokinetics is modeled AS this compound at an equivalent dose (Stage D missing-PK fallback, Specs/tolerance-faithful-model.md §4), so a research-chemical benzo with only a dose ladder still accrues GABA tolerance. Classes absent here have no fallback — their PK-less members stay listed as \"can't predict yet\". Keys are ReceptorClasses.ReceptorClass raw values; each name must match a substances.canonical_name whose record carries full PK (F/Vd/t½) and a reference dose, or the fallback silently disables itself for that class.",
+  "representatives": {
+    "gaba": "Diazepam",
+    "muOpioid": "Morphine",
+    "catecholamineStimulant": "Amphetamine",
+    "serotonergicReleaser": "MDMA",
+    "psychedelic5HT2A": "Psilocin",
+    "nmdaAntagonist": "Ketamine",
+    "alpha2Delta": "Pregabalin"
+  },
+  "_psychedelic_note": "4-AcO-DMT, 2C-E, 4-HO-MET and most research psychedelics/dissociatives ship a dose ladder but no full PK, so they need a stand-in too. Psilocin (oral F/Vd/t½ all known) is the 5-HT2A representative; Ketamine the NMDA dissociative one."
+}

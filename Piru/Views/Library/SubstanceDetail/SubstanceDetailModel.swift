@@ -146,7 +146,10 @@ final class SubstanceDetailModel {
         // mechanism audience, so fetch once when either surface is shown.
         if policy.showsMechanism || policy.showsReceptorLiterature {
             let binds = store.bindings(forSubstanceName: substanceName)
-            monoamineProfile = MonoamineProfile.from(bindings: binds, substanceName: substanceName)
+            monoamineProfile = MonoamineProfile.from(
+                bindings: binds,
+                isSoldAsMDMA: store.hasFlag(PharmacologyParameters.Flag.missoldAsMDMA, forSubstanceName: substanceName),
+            )
             literatureBindings = binds
             visibleLiteratureBindings = Self.visibleBindings(from: binds)
         } else {

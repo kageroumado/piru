@@ -8,6 +8,18 @@ import Foundation
 /// their half-saturation constants — each value carrying the confidence tier it was graded at, so the
 /// engine can run on verified numbers and the UI can badge how much to trust the prediction.
 nonisolated struct PharmacologyParameters {
+    /// The `substance_flags.flag` values the engine reads. Spelled once here so a resolver and a
+    /// pipeline row can never drift apart on a string literal.
+    enum Flag {
+        /// Metabolites suppress tryptophan hydroxylase, routing the substance onto the weeks-scale
+        /// synthesis pool instead of the days-scale transporter reset. See ``suppressesSerotoninSynthesis``.
+        static let suppressesSerotoninSynthesis = "suppresses-serotonin-synthesis"
+        /// Pressed and sold as MDMA/"molly" while being a DAT-dominant reuptake blocker. Read by
+        /// ``MonoamineProfile``, not by the tolerance engine — it lives here so every
+        /// `substance_flags` value is spelled in one place.
+        static let missoldAsMDMA = "missold-as-mdma"
+    }
+
     /// Which constant a target's ``TargetEngagement/halfMaxNanomolar`` is, by mechanism.
     enum HalfMaxKind: String {
         /// Binding affinity (agonist / antagonist / PAM).
@@ -169,8 +181,9 @@ nonisolated struct PharmacologyParameters {
     /// §3.4). `true` for the methylenedioxy entactogens (MDMA, MDA, …) whose metabolites down-regulate
     /// the synthesis machinery — recovery waits weeks (the slow synthesis pool). `false` for the
     /// cathinone releasers (mephedrone/4-MMC) which spare synthesis and reset in days on
-    /// receptor/transporter resensitisation alone. Resolved by membership in
-    /// ``ToleranceStore/serotoninSynthesisSuppressors``; gates the engine's parallel synthesis layer.
+    /// receptor/transporter resensitisation alone. Resolved from the substance's
+    /// `suppresses-serotonin-synthesis` row in the bundled DB's `substance_flags`; gates the engine's
+    /// parallel synthesis layer.
     let suppressesSerotoninSynthesis: Bool
     /// **Intrinsic efficacy** relative to a full agonist ∈ (0, 1], scaling how much *tolerance drive*
     /// a unit of occupancy produces (`Specs/tolerance-faithful-model-improvements.md` §5c). Tolerance
@@ -195,6 +208,18 @@ nonisolated struct PharmacologyParameters {
     /// Active metabolites this substance produces that may extend its occupancy tail (K.5). Empty for
     /// substances with no metabolite data (and for every synthetic test-built parameter set).
     let metabolites: [MetaboliteContributor]
+    /// **Diazepam-milligram-equivalent** factor — diazepam-mg per 1 mg of this substance, from the
+    /// bundled DB's `diazepam_equivalents`. Lifts the GABA missing-PK fallback's confidence floor from
+    /// `.unverified` (dose-fraction guess) to `.low` (validated clinical equivalence): a named benzo
+    /// with no PK is modeled as the GABA representative at `dose × factor` mg. `nil` for the designer
+    /// benzos whose circulating multipliers are back-derived folklore — they fall through to the
+    /// dose-fraction proxy rather than borrowing a number nobody measured.
+    let diazepamPerMg: Double?
+    /// The tolerance mechanism classes this substance is the **class representative** for — the
+    /// PK-complete stand-in a PK-less member of the class is modeled as (Stage D missing-PK fallback).
+    /// From the bundled DB's `class_representatives`. Empty for every substance that is not a
+    /// representative, which is nearly all of them.
+    let representsClasses: Set<ReceptorClasses.ReceptorClass>
 
     /// Explicit memberwise-shaped initializer with the newer inputs (Tmax, intrinsic efficacy) as
     /// **trailing defaulted** parameters, so the many existing call sites (the resolver and the test
@@ -219,6 +244,8 @@ nonisolated struct PharmacologyParameters {
         pkSpecies: String? = nil,
         fractionUnbound: Double = 1,
         metabolites: [MetaboliteContributor] = [],
+        diazepamPerMg: Double? = nil,
+        representsClasses: Set<ReceptorClasses.ReceptorClass> = [],
     ) {
         self.molarMassGramsPerMole = molarMassGramsPerMole
         self.vdLPerKg = vdLPerKg
@@ -238,6 +265,8 @@ nonisolated struct PharmacologyParameters {
         self.fractionUnbound = fractionUnbound
         self.targets = targets
         self.metabolites = metabolites
+        self.diazepamPerMg = diazepamPerMg
+        self.representsClasses = representsClasses
     }
 
     /// The most potent engaged target — the occupancy driver.

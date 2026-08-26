@@ -1511,6 +1511,51 @@ CREATE TABLE class_reference_compounds (
     rank           INTEGER NOT NULL DEFAULT 0,
     PRIMARY KEY (family, substance_id)
 );
+
+-- The one PK-complete stand-in per tolerance mechanism class: a substance with no
+-- full pharmacokinetics is modeled *as* this compound at an equivalent dose, so a
+-- research-chemical benzo carrying only a dose ladder still accrues GABA tolerance.
+--
+-- Distinct from class_reference_compounds, which is an ordered display list of
+-- recognisable names for the signature axis. This is a single canonical surrogate
+-- per class, and its identity changes what the tolerance engine computes. One row
+-- per class: receptor_class is the PRIMARY KEY.
+CREATE TABLE class_representatives (
+    receptor_class TEXT PRIMARY KEY,
+    substance_id   INTEGER NOT NULL REFERENCES substances(id)
+);
+
+-- Boolean pharmacological facts about one substance that gate model behavior
+-- rather than describe it. Separate from `tags`, which is a browse/display
+-- vocabulary the app renders: a flag is read by an engine and never shown as a
+-- chip, so putting these in `tags` would leak model internals into the UI.
+CREATE TABLE substance_flags (
+    substance_id INTEGER NOT NULL REFERENCES substances(id),
+    flag         TEXT NOT NULL,
+    source_id    INTEGER NOT NULL REFERENCES sources(id),
+    citation_id  INTEGER REFERENCES citations(id),
+    notes        TEXT,
+    PRIMARY KEY (substance_id, flag)
+);
+CREATE INDEX idx_substance_flags_flag ON substance_flags(flag);
+
+-- Which spelling of a substance's name to SHOW, by device region. The database
+-- stores one canonical name and keeps the other spelling as a searchable alias;
+-- this table only decides presentation, so search recall is identical everywhere.
+--
+-- The split is genuinely per-drug and cannot be reduced to a global "US vs rest"
+-- flag: the US, Canada and Japan all say "acetaminophen", but only the UK and
+-- Commonwealth say "oestradiol", and "albuterol" is US-only. It also cannot live
+-- in `aliases`: that table is keyed (substance_id, alias) with a single `locale`,
+-- so it cannot say that one spelling belongs to three regions at once.
+CREATE TABLE regional_names (
+    substance_id      INTEGER PRIMARY KEY REFERENCES substances(id),
+    -- Shown by default, everywhere outside `alternate_regions`.
+    base_name         TEXT NOT NULL,
+    alternate_name    TEXT NOT NULL,
+    -- Comma-separated ISO 3166-1 alpha-2 region codes, no spaces.
+    alternate_regions TEXT NOT NULL
+);
 """
 
 
@@ -9193,6 +9238,85 @@ class Build:
                     pass
         return stats
 
+    def populate_class_representatives(self) -> dict[str, int]:
+        """Fill `class_representatives` from curated JSON — one PK-complete stand-in
+        per tolerance mechanism class.
+
+        Resolved by name OR alias, because the recognisable name is often not the
+        canonical one (MDA's canonical row is "3,4-Methylenedioxyamphetamine"). An
+        unmatched class is counted, never fatal: the app treats a missing
+        representative as "this class has no fallback", which is the same state it
+        had before the class was listed."""
+        path = CURATED_DIR.parent / "class-representatives.json"
+        stats = {"inserted": 0, "unmatched": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        for receptor_class, name in payload.get("representatives", {}).items():
+            sid = index.get(normalise(name))
+            if sid is None:
+                stats["unmatched"] += 1
+                continue
+            self.cur.execute(
+                "INSERT OR REPLACE INTO class_representatives(receptor_class, substance_id)"
+                " VALUES (?, ?)",
+                (receptor_class, sid),
+            )
+            stats["inserted"] += 1
+        return stats
+
+    def populate_regional_names(self) -> dict[str, int]:
+        """Fill `regional_names` from curated JSON. `alternateRegions` is either a
+        literal list of ISO region codes or the name of a group declared in
+        `_region_groups`, so the shared sets (the USAN countries, the British-spelling
+        ones) are stated once."""
+        path = CURATED_DIR.parent / "regional-names.json"
+        stats = {"inserted": 0, "unmatched": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        groups = payload.get("_region_groups", {})
+        index = self._alias_index()
+        for entry in payload.get("names", []):
+            sid = index.get(normalise(entry["substance"]))
+            if sid is None:
+                stats["unmatched"] += 1
+                continue
+            regions = entry["alternateRegions"]
+            if isinstance(regions, str):
+                regions = groups[regions]
+            self.cur.execute(
+                "INSERT OR REPLACE INTO regional_names"
+                "(substance_id, base_name, alternate_name, alternate_regions) VALUES (?, ?, ?, ?)",
+                (sid, entry["base"], entry["alternate"], ",".join(regions)),
+            )
+            stats["inserted"] += 1
+        return stats
+
+    def ingest_substance_flags(self) -> dict[str, int]:
+        """Fill `substance_flags` from curated JSON. Resolved by name OR alias."""
+        path = CURATED_DIR.parent / "substance-flags.json"
+        stats = {"inserted": 0, "unmatched": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        source_id = self.source_ids["piru-curated"]
+        for name, flags in payload.get("substances", {}).items():
+            sid = index.get(normalise(name))
+            if sid is None:
+                stats["unmatched"] += 1
+                continue
+            for flag in flags:
+                self.cur.execute(
+                    "INSERT OR REPLACE INTO substance_flags(substance_id, flag, source_id)"
+                    " VALUES (?, ?, ?)",
+                    (sid, flag, source_id),
+                )
+                stats["inserted"] += 1
+        return stats
+
     def derive_half_lives_from_pk(self) -> dict[str, int]:
         """Give a substance a `half_lives` row when its only half-life is sitting in
         `pk_routes`.
@@ -11595,6 +11719,15 @@ def main() -> int:
     class_refs = build.populate_class_reference_compounds()
     print(f"Class reference compounds: {class_refs}", file=sys.stderr)
 
+    class_reps = build.populate_class_representatives()
+    print(f"Class representatives: {class_reps}", file=sys.stderr)
+
+    substance_flags = build.ingest_substance_flags()
+    print(f"Substance flags: {substance_flags}", file=sys.stderr)
+
+    regional_names = build.populate_regional_names()
+    print(f"Regional names: {regional_names}", file=sys.stderr)
+
     derived_half_lives = build.derive_half_lives_from_pk()
     print(f"Half-lives derived from PK: {derived_half_lives}", file=sys.stderr)
 
@@ -11793,6 +11926,10 @@ def main() -> int:
         "class_contexts",
         "substance_classes",
         "molecule_shapes",
+        "class_reference_compounds",
+        "class_representatives",
+        "substance_flags",
+        "regional_names",
     ]
     db = sqlite3.connect(str(OUT_SQLITE))
     for t in tables:

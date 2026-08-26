@@ -30,35 +30,80 @@ struct EquivalenceAgreementTests {
         }
     }
 
-    /// The benzo side cannot share one table — the converter parses cited
-    /// `diazepam_equivalents` rows from the bundled DB at the user's source
-    /// priority, while the tolerance fallback needs a static nonisolated
-    /// table. Equivalence tables legitimately disagree (Ashton vs
-    /// manufacturer), so this asserts agreement within a ×2 band: tight
-    /// enough to catch a typo, a unit swap, or an inverted ratio, loose
-    /// enough to survive a data rebuild that switches sources.
+    /// Benzodiazepine diazepam-equivalence now has exactly one home: the bundled DB's
+    /// `diazepam_equivalents`. Both consumers — the converter tool's batched
+    /// ``SubstanceStore/benzoEquivalences()`` and the tolerance fallback's per-substance
+    /// ``PharmacologyParameters/diazepamPerMg`` — resolve from it at the user's source priority, so
+    /// this gates the rows themselves rather than pinning a second copy in Swift.
+    ///
+    /// The assertions are the ones a data rebuild can actually break: the identity anchor, an
+    /// inversion check (potency ordering), and a unit-swap band. Individual factors are not
+    /// re-asserted here — the DB row is the cited value, and a test restating it would only be a
+    /// literal table wearing a different hat.
     @Test
     @MainActor
-    func `Static diazepam factors agree with the bundled DB within 2x`() {
+    func `Diazepam-equivalence rows are self-consistent`() {
         let dbEquivalences = SubstanceStore.shared.benzoEquivalences()
         guard !dbEquivalences.isEmpty else {
             Issue.record("No diazepam_equivalents rows in the bundled DB")
             return
         }
-        var compared = 0
-        for benzo in dbEquivalences {
-            guard let dbRatio = benzo.diazepamPerMg,
-                  let staticRatio = ToleranceStore.gabaDiazepamPerMg[benzo.name.lowercased()]
-            else { continue }
-            compared += 1
-            let drift = staticRatio / dbRatio
-            #expect(
-                drift >= 0.5 && drift <= 2.0,
-                "\(benzo.name): static \(staticRatio)× vs DB \(dbRatio)× diazepam-per-mg",
-            )
+        let ratios = Dictionary(
+            dbEquivalences.compactMap { benzo in benzo.diazepamPerMg.map { (benzo.name.lowercased(), $0) } },
+            uniquingKeysWith: { first, _ in first },
+        )
+        #expect(ratios.count >= 25, "only \(ratios.count) benzos carry a numeric equivalence")
+
+        // Identity: diazepam converts to itself 1:1. Catches an inverted ratio or a unit swap at the
+        // one row whose correct answer needs no source at all.
+        #expect(ratios["diazepam"] == 1)
+
+        // Potency ordering. The high-potency benzos dose in fractions of a milligram, so one of their
+        // mg is worth many diazepam mg; the low-potency ones are the reverse. An inverted or
+        // dose_mg/equivalent_mg-swapped column flips both groups at once.
+        for name in ["alprazolam", "clonazepam", "triazolam"] {
+            guard let ratio = ratios[name] else { Issue.record("\(name) missing"); continue }
+            #expect(ratio > 5, "\(name) is high-potency; expected ≫1 diazepam-mg per mg, got \(ratio)")
         }
-        // The static table was authored against the DB — if the overlap ever
-        // collapses, the test is comparing nothing and must say so.
-        #expect(compared >= 10, "only \(compared) benzos overlap between the static table and the DB")
+        for name in ["chlordiazepoxide", "oxazepam", "temazepam"] {
+            guard let ratio = ratios[name] else { Issue.record("\(name) missing"); continue }
+            #expect(ratio < 1, "\(name) is low-potency; expected <1 diazepam-mg per mg, got \(ratio)")
+        }
+
+        // No row may carry an implausible magnitude — the shape a mg/µg or mg/g mix-up takes.
+        for (name, ratio) in ratios {
+            #expect(ratio > 0.05 && ratio < 100, "\(name): \(ratio)× diazepam-per-mg is out of range")
+        }
+    }
+
+    /// The designer benzodiazepines ship a `diazepam_equivalents` row that carries the "no validated
+    /// equivalence" prose and **no numbers**. The tolerance fallback must read `nil` for them and drop
+    /// to the dose-fraction proxy: a back-derived multiplier from the forums would convert an RC benzo
+    /// as though a clinical equivalence study existed for it.
+    @Test
+    @MainActor
+    func `Designer benzos carry no equivalence factor`() async {
+        await SubstanceStore.shared.ensureAllLoaded()
+        for name in ["Flubromazolam", "Flubromazepam", "Diclazepam", "Pyrazolam"] {
+            let params = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: name)
+            #expect(params.diazepamPerMg == nil, "\(name) must stay un-convertible")
+        }
+    }
+
+    /// The two read paths over `diazepam_equivalents` — the converter's batched window query and the
+    /// tolerance resolver's per-substance read — must agree. They resolve the same row through
+    /// different SQL, so a divergence means one of them picked a different source.
+    @Test
+    @MainActor
+    func `Both diazepam-equivalence read paths agree`() async {
+        await SubstanceStore.shared.ensureAllLoaded()
+        var compared = 0
+        for benzo in SubstanceStore.shared.benzoEquivalences() {
+            guard let batched = benzo.diazepamPerMg else { continue }
+            let resolved = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: benzo.name).diazepamPerMg
+            #expect(resolved == batched, "\(benzo.name): converter \(batched)× vs resolver \(String(describing: resolved))×")
+            compared += 1
+        }
+        #expect(compared >= 25, "only \(compared) benzos compared across the two read paths")
     }
 }
