@@ -62,6 +62,8 @@ fix, not noise to tolerate.
 | `substance-flags.json` | `substance_flags` | booleans an engine reads and nothing renders |
 | `regional-names.json` | `regional_names` | which spelling of a name to display in which regions |
 | `opioid-mme.json` | `opioid_mme` | oral morphine-milligram-equivalent factors, and which opioids must never be converted |
+| `enzyme-modulators.json` | `enzyme_modulators`, `pharmacology_matchers` | which drugs and lifestyle contexts inhibit or induce a clearing enzyme |
+| `combination-metabolites.json` | `combination_metabolites`, `pharmacology_matchers`, `metabolism.conditional_combination_id` | which drug pairs react to form a third active species |
 | `alias-kinds.json`, `brands.json` | `aliases` | alias provenance, brand flagships |
 | `drug-classes.json` | `substances.drug_class` | interaction-checker class per substance |
 

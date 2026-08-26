@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-08-26.0 → `Piru/Data/piru-substances.sqlite` (13,692,928 bytes, sha256 `ff30995d7ec3d44a66a6a0ea075b12da12ff0c00d968afb8c609b42a041a10f0`)
+Built 2026-08-26.0 → `Piru/Data/piru-substances.sqlite` (13,725,696 bytes, sha256 `066e09d10a37935e0f8f3452baf1c2501f7ce8b5df7ba04e7c72fba30d3502e9`)
 
 ## Row counts
 
@@ -42,6 +42,9 @@ Built 2026-08-26.0 → `Piru/Data/piru-substances.sqlite` (13,692,928 bytes, sha
 | substance_flags | 8 |
 | regional_names | 5 |
 | opioid_mme | 11 |
+| enzyme_modulators | 10 |
+| combination_metabolites | 2 |
+| pharmacology_matchers | 39 |
 
 ## Per-source coverage
 

@@ -46,6 +46,9 @@
     "half_lives":                {"surface": "pharmacokinetics"},
     "pk_routes":                 {"surface": "pharmacokinetics"},
     "metabolism":                {"surface": "pharmacokinetics"},
+    "enzyme_modulators":         {"surface": "pharmacokinetics",     "note": "the grapefruit/smoking/co-active-drug modulation banners, the contraceptive-efficacy caution, and the checker's metabolic section; the substrate side is derived by joining metabolism.enzyme, so no substance is named in the table"},
+    "combination_metabolites":   {"surface": "pharmacokinetics",     "note": "the 'Formed With' section on a dose entry and the checker's combination banner; also derives metabolism.conditional_combination_id, which keeps these species out of the parent's Also Active fold"},
+    "pharmacology_matchers":     {"surface": null,                   "note": "the names identifying a participant in a curated pharmacology rule — matched against a logged dose to decide whether a rule fires, never rendered"},
     "pharmacogenetics":          {"surface": "pharmacokinetics",     "note": "UNRENDERED — CYP2D6NoteSection already asks the user for their metabolizer status and answers with hardcoded generic prose; these are the substance-specific cited answers, for CYP2C19/2B6/3A4 too"},
     "concentration_effects":     {"surface": "pharmacokinetics",     "note": "UNRENDERED — the plasma-concentration thresholds that would give the PK curve a labelled y-axis"},
     "tolerance":                 {"surface": "pharmacokinetics",     "note": "also Tools ▸ Tolerance"},
@@ -70,6 +73,7 @@
   },
 
   "renders_as": {
+    "metabolism.conditional_combination_id": "MetabolismHit.conditionalCombinationID",
     "dose_ranges.threshold": "DoseRange.threshold",
     "dose_ranges.light_lower": "DoseRange.light",
     "dose_ranges.light_upper": "DoseRange.light",
