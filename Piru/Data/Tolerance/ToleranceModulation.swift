@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 /// The **tolerance-modulation graph** — curated edges where one substance, while onboard, *changes how
 /// fast another mechanism builds tolerance* (`Specs/pharmacology-axis-meta-plan.md`, Stage 4b). This is
@@ -12,16 +13,15 @@ import Foundation
 /// ``ToleranceStore/simulate(entries:now:weightKg:timestepMinutes:lookbackDays:resolve:)``, so the edge
 /// is concentration/overlap-gated for free).
 ///
-/// ## v1 seed
-/// **NMDA antagonism ↓ μ-opioid tolerance.** Blocking NMDA receptors attenuates the development of
-/// opioid analgesic tolerance — the best-known clinical use is ketamine/memantine alongside opioids.
-/// The effect is robust preclinically and used clinically, but the human magnitude is variable, so it
-/// ships ``ConfidenceTier/low`` and as a *shape* (μ ≈ 0.5 at full NMDA engagement), never a precise %.
-/// Because it is keyed by the `.nmdaAntagonist` class it covers memantine, ketamine, DXM, and MXE.
+/// The edges come from the bundled DB's `tolerance_modulation`, loaded once by ``SubstanceStore`` at
+/// index build. They are held in a lock-guarded static rather than read per call because the one
+/// caller — the replay's `appendModulators` — is `nonisolated` and runs off the main actor inside the
+/// per-dose loop, where a GRDB hop per dose would dominate the integration. Before the load lands,
+/// ``edges(forModulatorClass:)`` returns nothing and tolerance develops unmodulated.
 nonisolated enum ToleranceModulation {
     /// One modulation edge: while the modulator is present, scale tolerance development at
     /// ``affectedClass`` by ``muFactor`` (proportional to the modulator's current engagement).
-    struct Edge {
+    struct Edge: Sendable {
         /// The tolerance class whose `μ_R(t)` this edge scales.
         let affectedClass: ReceptorClasses.ReceptorClass
         /// Tolerance-development factor at *full* modulator engagement. `< 1` attenuates; the engine
@@ -29,15 +29,17 @@ nonisolated enum ToleranceModulation {
         let muFactor: Double
     }
 
+    private static let table = OSAllocatedUnfairLock<[ReceptorClasses.ReceptorClass: [Edge]]>(
+        initialState: [:],
+    )
+
+    /// Install the edges read from `tolerance_modulation`. Called once per store init.
+    static func load(_ edges: [ReceptorClasses.ReceptorClass: [Edge]]) {
+        table.withLock { $0 = edges }
+    }
+
     /// The edges for which `modulatorClass` is the modulator. Empty for classes with no curated edge.
     static func edges(forModulatorClass modulatorClass: ReceptorClasses.ReceptorClass) -> [Edge] {
-        switch modulatorClass {
-        case .nmdaAntagonist:
-            // NMDA antagonism attenuates opioid tolerance development
-            // (preclinically robust, human magnitude variable) — LOW confidence.
-            [Edge(affectedClass: .muOpioid, muFactor: 0.5)]
-        default:
-            []
-        }
+        table.withLock { $0[modulatorClass] ?? [] }
     }
 }

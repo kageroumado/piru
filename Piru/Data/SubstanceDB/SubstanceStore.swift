@@ -133,6 +133,11 @@ final class SubstanceStore {
     /// source-derived (a representative's identity does not depend on the user's source order), so it
     /// is never invalidated.
     @ObservationIgnored private var classRepresentativeCache: [Int64: Set<ReceptorClasses.ReceptorClass>]?
+    /// `substance_interaction_classes` expanded across every alias, and the per-category fallbacks:
+    /// what ``InteractionChecker`` resolves a logged name into. Whole-table lookups consulted on every
+    /// pairing, so they are read once and held. Not source-derived, so never invalidated.
+    @ObservationIgnored private var interactionClassCache: [String: [DrugClass]]?
+    @ObservationIgnored private var categoryInteractionClassCache: [String: DrugClass]?
 
     /// Name/alias (lowercased) → lightweight batch row, derived from `allCache`.
     /// This is the journal/timeline resolution path: it carries everything
@@ -693,6 +698,9 @@ final class SubstanceStore {
             // Which spelling to display per region. Installed here because `displayTitle` reads it from
             // `nonisolated` code with no store reference — see `RegionalSubstanceName`.
             RegionalSubstanceName.load(SubstanceReadModel.regionalNames(db: substancesDB))
+            // The tolerance replay reads these from `nonisolated` off-main code with no store
+            // reference, so they are installed once here — see `ToleranceModulation`.
+            ToleranceModulation.load(SubstanceReadModel.toleranceModulationEdges(db: substancesDB))
             self.allNames = names.map(\.0)
             // `uniquingKeysWith` (not `uniqueKeysWithValues:`) so a duplicate
             // lowercased canonical name (`MDMA`/`mdma` from an imported DB, or an
@@ -1227,6 +1235,24 @@ final class SubstanceStore {
         if let cached = classRepresentativeCache { return cached }
         let loaded = SubstanceReadModel.classRepresentatives(db: substancesDB)
         classRepresentativeCache = loaded
+        return loaded
+    }
+
+    /// `substance_interaction_classes` as lowercased name → the interaction classes that name carries,
+    /// aliases included. Read once and held (see ``interactionClassCache``).
+    func interactionClasses() -> [String: [DrugClass]] {
+        if let cached = interactionClassCache { return cached }
+        let loaded = reader.substanceInteractionClasses()
+        interactionClassCache = loaded
+        return loaded
+    }
+
+    /// `category_interaction_classes` as category raw value → the interaction class it falls back to.
+    /// Read once and held (see ``categoryInteractionClassCache``).
+    func categoryInteractionClasses() -> [String: DrugClass] {
+        if let cached = categoryInteractionClassCache { return cached }
+        let loaded = reader.categoryInteractionClasses()
+        categoryInteractionClassCache = loaded
         return loaded
     }
 

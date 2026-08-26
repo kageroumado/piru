@@ -3157,6 +3157,206 @@ class TestSignatureGates(unittest.TestCase):
         ).fetchall()
         self.assertEqual(uncited, [], f"uncited opioid_mme rows: {[r[0] for r in uncited]}")
 
+    # ── Interaction tables ────────────────────────────────────────────────
+
+    def test_every_class_pair_appears_once(self):
+        """UNIQUE(class_a, class_b) is on the ORDERED tuple, so the same pair
+        written back-to-front by two ingesters satisfies it and then decides by
+        row order in the app. Only the sorted pair is the rule's identity."""
+        seen, duplicates = set(), []
+        for class_a, class_b in self.db.execute("SELECT class_a, class_b FROM interaction_rules"):
+            key = tuple(sorted((class_a, class_b)))
+            if key in seen:
+                duplicates.append("|".join(key))
+            seen.add(key)
+        self.assertEqual([], duplicates, f"class pairs declared twice: {duplicates}")
+
+    def test_curated_rules_outrank_tripsit_on_every_shared_pair(self):
+        """Where the two layers name the same pair, the curated verdict is the one
+        that shipped — TripSit is community consensus and these are adjudications
+        that deliberately contradict folk ordering."""
+        curated = {
+            tuple(sorted((r["classA"], r["classB"]))): r["severity"]
+            for r in _load_curated("interaction-rules")["rules"]
+        }
+        wrong = []
+        for class_a, class_b, severity, slug in self.db.execute(
+            "SELECT r.class_a, r.class_b, r.severity, s.slug FROM interaction_rules r"
+            "  JOIN sources s ON s.id = r.source_id"
+        ):
+            key = tuple(sorted((class_a, class_b)))
+            if key not in curated:
+                continue
+            if slug != "piru-curated" or severity != curated[key]:
+                wrong.append(f"{'|'.join(key)} is {severity} from {slug}")
+        self.assertEqual([], wrong, f"curated rules did not win: {wrong}")
+
+    def test_the_serotonergic_ordering_is_by_evidence_not_reputation(self):
+        """MDMA + an antidepressant SERT blocker is *blockade*, not danger: the
+        replicated human finding is 30–80% effect reduction, and no serotonin
+        syndrome case has MDMA as sole agent. The lethal serotonergic edge is the
+        MAOI. Any rebuild that reverses this ordering has adopted folk ranking."""
+        rank = {"caution": 0, "unsafe": 1, "dangerous": 2}
+        severities = {
+            tuple(sorted((a, b))): sev
+            for a, b, sev in self.db.execute(
+                "SELECT class_a, class_b, severity FROM interaction_rules"
+            )
+        }
+        for blocker in ("ssri", "snri", "tca"):
+            pair = tuple(sorted((blocker, "empathogen")))
+            self.assertEqual(
+                "caution",
+                severities.get(pair),
+                f"{blocker} + empathogen must be caution (blunting), not a danger tier",
+            )
+        maoi = tuple(sorted(("maoi", "empathogen")))
+        self.assertEqual("dangerous", severities.get(maoi))
+        self.assertGreater(
+            rank[severities[maoi]],
+            rank[severities[tuple(sorted(("ssri", "empathogen")))]],
+            "the MAOI edge must outrank the SSRI one",
+        )
+
+    def test_a_barbiturate_outranks_a_benzodiazepine_on_every_shared_partner(self):
+        """A barbiturate opens the GABA-A chloride channel directly rather than
+        modulating it, so its respiratory depression has no ceiling where a
+        benzodiazepine's plateaus. Wherever both classes have a rule against the
+        same partner, the barbiturate one must be at least as severe."""
+        rank = {"caution": 0, "unsafe": 1, "dangerous": 2}
+        by_class = {}
+        for class_a, class_b, severity in self.db.execute(
+            "SELECT class_a, class_b, severity FROM interaction_rules"
+        ):
+            by_class.setdefault(class_a, {})[class_b] = severity
+            by_class.setdefault(class_b, {})[class_a] = severity
+        barbiturate = by_class.get("barbiturate", {})
+        benzo = by_class.get("benzodiazepine", {})
+        self.assertTrue(barbiturate, "no barbiturate rules at all")
+        inverted = [
+            f"{partner}: barbiturate {barbiturate[partner]} < benzodiazepine {sev}"
+            for partner, sev in benzo.items()
+            if partner in barbiturate and rank[barbiturate[partner]] < rank[sev]
+        ]
+        self.assertEqual([], inverted, f"barbiturate ranked below benzodiazepine: {inverted}")
+
+    def test_the_respiratory_depression_anchors_are_dangerous(self):
+        """The pairs that actually kill people. Every one of these is `dangerous`
+        by adjudication, and a rebuild that demotes one is the single worst thing
+        this table can do."""
+        severities = {
+            tuple(sorted((a, b))): sev
+            for a, b, sev in self.db.execute(
+                "SELECT class_a, class_b, severity FROM interaction_rules"
+            )
+        }
+        for pair in (
+            ("opioid", "benzodiazepine"),
+            ("opioid", "alcohol"),
+            ("benzodiazepine", "alcohol"),
+            ("barbiturate", "opioid"),
+            ("barbiturate", "benzodiazepine"),
+            ("ghb", "alcohol"),
+            ("alpha2Agonist", "opioid"),
+        ):
+            key = tuple(sorted(pair))
+            self.assertEqual("dangerous", severities.get(key), f"{'|'.join(key)} is not dangerous")
+
+    def test_every_rule_note_says_something(self):
+        """A severity word with no explanation is what the glance card was fixed to
+        stop showing, and the app's compact surfaces render only the clause before
+        the em dash — so a note has to carry a mechanism, not a label."""
+        thin = self.db.execute(
+            "SELECT class_a, class_b, note FROM interaction_rules WHERE length(trim(note)) < 20"
+        ).fetchall()
+        self.assertEqual(thin, [], f"rules with no real note: {thin}")
+
+    def test_orexin_antagonists_never_reach_the_respiratory_danger_tier(self):
+        """DORAs block OX1R/OX2R rather than enhancing GABA: they add next-day
+        sedation and fall risk but not brainstem respiratory depression. Ranking one
+        with benzo+opioid would tell a reader the two are the same hazard."""
+        over = self.db.execute(
+            "SELECT class_a, class_b, severity FROM interaction_rules"
+            " WHERE (class_a = 'orexinAntagonist' OR class_b = 'orexinAntagonist')"
+            "   AND severity != 'caution'"
+        ).fetchall()
+        self.assertEqual(over, [], f"orexin antagonist rules above caution: {over}")
+
+    def test_substance_interaction_classes_cover_the_named_overrides(self):
+        """Every name in the curated file writes a row, linked or not. An unlinked
+        name still answers under its own spelling — a person can log a name the
+        catalog does not carry, and those are the ones that most need a class."""
+        names = {
+            normalise(name)
+            for group in _load_curated("substance-interaction-classes")["groups"]
+            for name in group["names"]
+        }
+        written = {
+            r[0] for r in self.db.execute("SELECT DISTINCT name FROM substance_interaction_classes")
+        }
+        self.assertEqual(set(), names - written, f"override names with no row: {names - written}")
+
+    def test_the_safety_critical_overrides_are_present(self):
+        """Each of these was added because its category left it interaction-invisible:
+        a barbiturate reads as `Depressant`, methylene blue as `Nootropic`, xylazine
+        as nothing at all — and `other` participates in no rule."""
+        rows = {
+            (name, drug_class)
+            for name, drug_class in self.db.execute(
+                "SELECT name, drug_class FROM substance_interaction_classes"
+            )
+        }
+        for name, drug_class in (
+            ("phenobarbital", "barbiturate"),
+            ("primidone", "barbiturate"),
+            ("methylene blue", "maoi"),
+            ("xylazine", "alpha2Agonist"),
+            ("clonidine", "alpha2Agonist"),
+            ("tramadol", "serotonergic"),
+            ("zolpidem", "benzodiazepine"),
+        ):
+            self.assertIn((name, drug_class), rows, f"{name} is not classed {drug_class}")
+
+    def test_pyrrolidinophenones_never_ride_the_empathogen_bucket(self):
+        """MDPV and the α-PVP family are pure reuptake blockers, SERT-sparing. Class
+        them as empathogens and they inherit the MDMA rules — the SSRI blunting
+        readout and the MAOI serotonin-toxicity danger — for a serotonergic action
+        they do not have. Naphyrone is the measured exception and is not a template."""
+        wrong = self.db.execute(
+            "SELECT name, drug_class FROM substance_interaction_classes"
+            " WHERE name IN ('mdpv', 'alpha-pvp', 'alpha-php', 'alpha-pihp', 'mdpbp', 'mdppp')"
+            "   AND drug_class IN ('empathogen', 'serotonergic')"
+        ).fetchall()
+        self.assertEqual(wrong, [], f"pyrrolidinophenones classed serotonergically: {wrong}")
+
+    def test_every_substance_category_has_an_interaction_class(self):
+        """A category with no row falls back to `other`, which participates in no
+        rule — so a missing row makes every substance under it invisible to the
+        checker with nothing on screen to say so."""
+        categories = {r[0] for r in self.db.execute("SELECT DISTINCT category FROM categories")}
+        mapped = {
+            r[0] for r in self.db.execute("SELECT category FROM category_interaction_classes")
+        }
+        self.assertEqual(set(), categories - mapped, f"unmapped categories: {categories - mapped}")
+
+    def test_tolerance_modulation_edges_attenuate(self):
+        """`mu_factor` scales tolerance DEVELOPMENT: below 1 attenuates, above 1
+        accelerates, and exactly 1 is an edge that claims a modulation and does
+        nothing. The seed edge is NMDA antagonism attenuating opioid tolerance."""
+        edges = self.db.execute(
+            "SELECT modulator_class, affected_class, mu_factor, confidence FROM tolerance_modulation"
+        ).fetchall()
+        self.assertTrue(edges, "tolerance_modulation is empty")
+        for modulator, affected, mu, confidence in edges:
+            self.assertGreater(mu, 0, f"{modulator}->{affected} has a non-positive mu")
+            self.assertNotEqual(1.0, mu, f"{modulator}->{affected} modulates by nothing")
+            self.assertIn(confidence, ("low", "moderate", "high"))
+        self.assertIn(
+            ("nmdaAntagonist", "muOpioid"),
+            {(m, a) for m, a, _, _ in edges},
+            "the NMDA-antagonism edge is missing",
+        )
+
     def test_class_reference_compounds_populated(self):
         families = self.db.execute(
             "SELECT family, COUNT(*) FROM class_reference_compounds GROUP BY family"

@@ -349,6 +349,33 @@ extension SubstanceReadModel {
         }) ?? nil
     }
 
+    /// The whole `tolerance_modulation` table — which receptor class, while onboard, scales another
+    /// class's tolerance development and by how much. Read once at index build; see
+    /// ``ToleranceModulation`` for why it is held rather than queried per call.
+    nonisolated static func toleranceModulationEdges(
+        db queue: DatabaseQueue,
+    ) -> [ReceptorClasses.ReceptorClass: [ToleranceModulation.Edge]] {
+        let rows = (try? queue.read { db in
+            try Row.fetchAll(db, sql: """
+                SELECT modulator_class, affected_class, mu_factor
+                  FROM tolerance_modulation
+                 ORDER BY modulator_class, affected_class
+            """)
+        }) ?? []
+        var out: [ReceptorClasses.ReceptorClass: [ToleranceModulation.Edge]] = [:]
+        for row in rows {
+            guard let modulatorRaw: String = row["modulator_class"],
+                  let affectedRaw: String = row["affected_class"],
+                  let modulator = ReceptorClasses.ReceptorClass(rawValue: modulatorRaw),
+                  let affected = ReceptorClasses.ReceptorClass(rawValue: affectedRaw),
+                  let muFactor: Double = row["mu_factor"] else { continue }
+            out[modulator, default: []].append(
+                ToleranceModulation.Edge(affectedClass: affected, muFactor: muFactor),
+            )
+        }
+        return out
+    }
+
     /// The tolerance mechanism classes each representative substance stands in for, keyed by substance
     /// id — the whole `class_representatives` table in one read. `nonisolated static` so the off-main
     /// batch resolve can run it once per recompute on the batch connection.

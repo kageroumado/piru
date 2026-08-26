@@ -334,30 +334,15 @@ private struct InteractionRule {
     let classA: DrugClass
     let classB: DrugClass
     let severity: InteractionSeverity
+    /// Piru's own localized sentence for the pair where it has one, and the
+    /// database row's English note where it does not — see ``InteractionRuleCopy``.
     let description: String
-
-    init(classA: DrugClass, classB: DrugClass, severity: InteractionSeverity, description: LocalizedStringResource) {
-        self.classA = classA
-        self.classB = classB
-        self.severity = severity
-        self.description = String(localized: description)
-    }
-
-    /// For a rule read from the bundled database. Its note is source prose, not
-    /// a catalog key, so it ships in English regardless of locale — the same
-    /// treatment every other DB-authored string gets.
-    init(classA: DrugClass, classB: DrugClass, severity: InteractionSeverity, note: String) {
-        self.classA = classA
-        self.classB = classB
-        self.severity = severity
-        description = note
-    }
 
     /// The class pair this rule is written against, order-independent. This is
     /// the rule's identity: two pairs firing the same rule share a cause, which
     /// two pairs merely sharing boilerplate prose do not.
     var key: String {
-        [classA.rawValue, classB.rawValue].sorted().joined(separator: "|")
+        InteractionRuleCopy.key(classA, classB)
     }
 
     /// A hard pharmacological edge whose danger **outlasts the subjective
@@ -382,10 +367,11 @@ private struct InteractionRule {
 ///
 /// ## Source layers
 ///
-/// **Class-pair rules** (``rules``) keyed by ``DrugClass`` pairs are the only
-/// active source. Adding TripSit combo data or FDA-label warnings as a
-/// fallback layer means populating the bundled SQLite's `interaction_rules`
-/// table and adding a SQL-backed source layer here — tracked separately.
+/// Every rule comes from the bundled database's `interaction_rules`: Piru's own
+/// adjudicated verdicts, and TripSit's combination matrix for the pairs those do
+/// not cover. Which pair interacts and how badly is data; the *sentence* shown
+/// for a pair Piru has adjudicated is localized copy and lives in
+/// ``InteractionRuleCopy``, keyed by the same class pair.
 ///
 /// ## Severity ordering
 ///
@@ -395,13 +381,13 @@ private struct InteractionRule {
 ///
 /// ## Caveats
 ///
-/// ``DrugClass/other`` participates in **zero** rules. Any substance that
-/// `categoryToDrugClass` maps to `.other` (analgesics, cardiovascular,
-/// antimicrobials, GI, respiratory, endocrine, immunological, depressants not
-/// otherwise classified, etc.) is interaction-invisible: with class rules as
-/// the only active layer, it returns nothing for every pairing. The fix is an
-/// entry in ``substanceClassOverrides`` lifting the substance into a real
-/// class — that is how barbiturates and methylene blue were recovered.
+/// ``DrugClass/other`` participates in **zero** rules. Any substance whose
+/// category resolves to `.other` (analgesics, cardiovascular, antimicrobials,
+/// GI, respiratory, endocrine, immunological, depressants not otherwise
+/// classified, etc.) is interaction-invisible: it returns nothing for every
+/// pairing. The fix is a row in `substance_interaction_classes` lifting the
+/// substance into a real class — that is how barbiturates and methylene blue
+/// were recovered.
 enum InteractionChecker {
     // MARK: - Public API
 
@@ -585,266 +571,6 @@ enum InteractionChecker {
 
     // MARK: - Drug Class Mapping
 
-    /// Specific substance name → drug class overrides
-    private static let substanceClassOverrides: [String: [DrugClass]] = {
-        var map: [String: [DrugClass]] = [:]
-
-        // MAOIs
-        for name in [
-            "Phenelzine",
-            "Tranylcypromine",
-            "Isocarboxazid",
-            "Selegiline",
-            "Moclobemide",
-            "Syrian Rue",
-        ] {
-            map[name.lowercased()] = [.maoi]
-        }
-
-        // SSRIs
-        for name in [
-            "Sertraline",
-            "Fluoxetine",
-            "Paroxetine",
-            "Citalopram",
-            "Escitalopram",
-            "Fluvoxamine",
-        ] {
-            map[name.lowercased()] = [.ssri]
-        }
-
-        // SNRIs
-        for name in [
-            "Venlafaxine",
-            "Duloxetine",
-            "Desvenlafaxine",
-            "Levomilnacipran",
-            "Milnacipran",
-        ] {
-            map[name.lowercased()] = [.snri]
-        }
-
-        // TCAs
-        for name in [
-            "Amitriptyline",
-            "Nortriptyline",
-            "Imipramine",
-            "Desipramine",
-            "Clomipramine",
-            "Doxepin",
-            "Trimipramine",
-            "Protriptyline",
-        ] {
-            map[name.lowercased()] = [.tca]
-        }
-
-        // Dual-class substances. Tramadol, meperidine, and DXM are serotonin *adders* (releaser /
-        // reuptake inhibitor), NOT antidepressant SERT blockers — so they ride `.serotonergic` (genuine
-        // serotonin-toxicity danger) rather than `.ssri/.snri` (which now read as empathogen *blunting*).
-        // Evidence: Foundation-C serotonergic run, 2026-06-22 (tramadol SS grade B/HIGH + seizure A/HIGH).
-        map["tramadol"] = [.opioid, .serotonergic]
-        // Tapentadol is NRI-dominant with minimal SERT activity (low SS risk) — plain opioid, so it
-        // neither blunts an empathogen nor carries the serotonergic danger.
-        map["tapentadol"] = [.opioid]
-        map["meperidine"] = [.opioid, .serotonergic]
-        map["pethidine"] = [.opioid, .serotonergic]
-        map["dxm"] = [.dissociative, .serotonergic]
-        map["dextromethorphan"] = [.dissociative, .serotonergic]
-        map["mdma"] = [.empathogen, .stimulant]
-        map["mda"] = [.empathogen, .stimulant]
-        map["mdea"] = [.empathogen, .stimulant]
-
-        // Lithium
-        map["lithium"] = [.lithium]
-        map["lithium carbonate"] = [.lithium]
-        map["lithium orotate"] = [.lithium]
-
-        // GHB/GBL
-        map["ghb"] = [.ghb]
-        map["gbl"] = [.ghb]
-        map["ghb/gbl"] = [.ghb]
-        map["1,4-butanediol"] = [.ghb]
-
-        // Alcohol
-        map["alcohol"] = [.alcohol]
-        map["ethanol"] = [.alcohol]
-
-        // Gabapentinoids
-        map["phenibut"] = [.gabapentinoid]
-        map["gabapentin"] = [.gabapentinoid]
-        map["pregabalin"] = [.gabapentinoid]
-        map["baclofen"] = [.ghb]
-
-        // Stimulants (common names)
-        for name in [
-            "Caffeine",
-            "Nicotine",
-            "Methamphetamine",
-            "Cocaine",
-            "Amphetamine",
-            "Dextroamphetamine",
-            "Lisdexamfetamine",
-            "Methylphenidate",
-            "Modafinil",
-            "Armodafinil",
-            "DMAA",
-        ] {
-            map[name.lowercased()] = [.stimulant]
-        }
-
-        // Opioids (common names/variants)
-        map["kratom"] = [.opioid]
-        map["heroin"] = [.opioid]
-        map["fentanyl"] = [.opioid]
-
-        // Atypical antidepressants
-        map["bupropion"] = [.stimulant] // NDRI — stimulant-like, lowers seizure threshold
-        map["trazodone"] = [.ssri] // SARI — serotonergic, reasonable SSRI proxy
-        map["vortioxetine"] = [.ssri] // Multimodal serotonergic
-        map["vilazodone"] = [.ssri] // SSRI + 5-HT1A partial agonist
-        map["agomelatine"] = [.other] // Melatonin agonist — minimal serotonin interactions
-        map["reboxetine"] = [.snri] // NRI — norepinephrine-selective
-
-        // Antihistamines
-        for name in [
-            "Diphenhydramine",
-            "DPH",
-            "Hydroxyzine",
-            "Promethazine",
-            "Doxylamine",
-            "Chlorpheniramine",
-            "Cetirizine",
-            "Meclizine",
-            "Dimenhydrinate",
-        ] {
-            map[name.lowercased()] = [.antihistamine]
-        }
-
-        // Z-drugs (GABA-A agonists — interact like benzos)
-        for name in ["Zolpidem", "Zopiclone", "Eszopiclone", "Zaleplon"] {
-            map[name.lowercased()] = [.benzodiazepine]
-        }
-
-        // Buspirone (5-HT1A partial agonist — serotonin syndrome risk)
-        map["buspirone"] = [.ssri] // Serotonergic proxy for interaction matching
-
-        // Quetiapine (sedating antipsychotic — also acts as antihistamine at low doses)
-        map["quetiapine"] = [.antipsychotic, .antihistamine]
-
-        // Alpha-2 adrenergic agonists (clonidine/guanfacine for ADHD/BP; tizanidine muscle relaxant;
-        // dexmedetomidine/lofexidine). Additive sedation/bradycardia/hypotension; naloxone-irreversible.
-        for name in ["Clonidine", "Guanfacine", "Tizanidine", "Dexmedetomidine", "Lofexidine", "Xylazine", "Medetomidine"] {
-            map[name.lowercased()] = [.alpha2Agonist]
-        }
-
-        // Beta-blockers. NOT split selective vs non-selective: the actionable interaction rules
-        // (alpha-2-withdrawal hypertensive crisis, additive hypotension) don't turn on selectivity, and
-        // the beta-blocker + stimulant "unopposed alpha" contraindication is contested dogma (evidence run).
-        for name in [
-            "Propranolol", "Metoprolol", "Atenolol", "Bisoprolol", "Carvedilol", "Labetalol",
-            "Nebivolol", "Nadolol", "Sotalol", "Pindolol", "Timolol", "Esmolol", "Acebutolol",
-        ] {
-            map[name.lowercased()] = [.betaBlocker]
-        }
-
-        // Mirtazapine (NaSSA): a strong H1 antagonist that raises 5-HT/NE *release* via presynaptic
-        // α2 blockade while antagonising postsynaptic 5-HT2/5-HT3 — it does NOT inhibit serotonin
-        // reuptake, so it is neither a SERT blocker (`.ssri`, which would predict false MDMA blunting)
-        // nor a dangerous serotonin adder (`.serotonergic`). Modeled by its faithful acute property:
-        // antihistaminergic sedation.
-        map["mirtazapine"] = [.antihistamine]
-
-        // ── RC-expansion (2026-06-23): cathinones, designer benzos, eugeroics ──
-        // Grounded in the Foundation-C RC evidence runs. The cathinone class is NOT a
-        // uniform "releaser" family: membership is set per the substance's measured
-        // mechanism flag (releaser vs hybrid vs pure blocker) and DAT:SERT lean, so the
-        // engine applies the right interaction rules (empathogen blunting/serotonin
-        // danger vs plain stimulant) instead of a class-wide assumption.
-
-        // Substrate RELEASERS — balanced DAT:SERT (~1.8–2.4) reads empathogen-like
-        // (mephedrone/methylone/4-CMC), so they ride the MDMA-style [.empathogen, .stimulant]
-        // bucket (SSRI blunting + MAOI serotonin-toxicity rules apply).
-        for name in ["Mephedrone", "4-MMC", "Methylone", "bk-MDMA", "4-CMC", "Clephedrone", "Ethylone", "bk-MDEA"] {
-            map[name.lowercased()] = [.empathogen, .stimulant]
-        }
-        // Catecholamine-leaning releasers (DAT:SERT ≥4) and the uncharacterised CMC/MMC
-        // isomers → stimulant-leaning. Kept SEPARATE from their para-isomers (no aliasing).
-        for name in ["3-MMC", "Metaphedrone", "2-MMC", "3-CMC", "Clophedrone", "2-CMC"] {
-            map[name.lowercased()] = [.stimulant]
-        }
-        // HYBRIDS — a single α-alkyl/N-ethyl substituent flips DAT substrate→blocker.
-        // SERT-substrate hybrids keep a mild empathogenic lean; DAT/NET-blocker hybrids
-        // and the pure blocker NEP are stimulant-only (NOT empathogens, despite mis-sale).
-        for name in ["Butylone", "bk-MBDB", "4-MEC", "Mexedrone"] {
-            map[name.lowercased()] = [.stimulant, .empathogen]
-        }
-        for name in ["Pentylone", "Eutylone", "bk-EBDB", "N-Ethylpentylone", "NEP", "Ephylone"] {
-            map[name.lowercased()] = [.stimulant]
-        }
-        // Pure pyrrolidinophenone reuptake BLOCKERS — stimulant ONLY (must NOT ride the
-        // empathogen/releaser bucket). SERT-sparing → no serotonergic edge.
-        for name in ["MDPV", "Alpha-PVP", "α-PVP", "a-PVP", "Flakka", "Alpha-PHP", "α-PHP", "Alpha-PiHP", "α-PiHP", "MDPBP", "MDPPP"] {
-            map[name.lowercased()] = [.stimulant]
-        }
-        // …EXCEPT naphyrone — the family outlier that potently blocks SERT (~46 nM), a
-        // genuine serotonin adder. Data-driven edge; the rest of the family does NOT inherit it.
-        for name in ["Naphyrone", "NRG-1", "Naphthylpyrovalerone"] {
-            map[name.lowercased()] = [.stimulant, .serotonergic]
-        }
-        // 4-MA: balanced serotonin releaser + MAO-A inhibitor (PMA-class) — serotonin-toxicity /
-        // hyperthermia danger. RING-POSITION-SPECIFIC: do NOT propagate to the fluoro isomers.
-        for name in ["4-MA", "4-methylamphetamine", "PAL-313"] {
-            map[name.lowercased()] = [.stimulant, .serotonergic]
-        }
-        // Fluoro/methyl amphetamine analogues — plain stimulant releasers (catecholamine-
-        // selective; 4-FA's para serotonergic lean is character, not a danger-class flag).
-        for name in ["2-FA", "3-FA", "4-FA", "2-FMA", "3-FMA", "4-FMA"] {
-            map[name.lowercased()] = [.stimulant]
-        }
-        // Memantine — moderate-affinity, FAST-off NMDA open-channel blocker. Routed to
-        // .dissociative (no dedicated NMDA bucket), but it is NOT ketamine/PCP-strength.
-        map["memantine"] = [.dissociative]
-        // Adrafinil — hepatic prodrug of modafinil; bromantane — weak indirect dopaminergic
-        // (TH/AAAD upregulation). Both stimulant-like. (Modafinil/armodafinil already .stimulant.)
-        map["adrafinil"] = [.stimulant]
-        map["bromantane"] = [.stimulant]
-        // O-DSMT (M1) — potent pure µ-agonist (the opioid limb of tramadol). Plain opioid:
-        // the serotonergic/seizure liability lives with the PARENT, not the metabolite.
-        map["o-dsmt"] = [.opioid]
-        map["o-desmethyltramadol"] = [.opioid]
-        // Designer benzodiazepines — interact like classical benzos (additive CNS/respiratory
-        // depression with opioids/alcohol/Z-drugs). Diazepam-equivalence is a separate honesty
-        // problem (see BenzoEquivalence) — class membership here only drives interaction rules.
-        for name in [
-            "Clonazolam", "Flualprazolam", "Flubromazolam", "Bromazolam", "Diclazepam",
-            "Flubromazepam", "Etizolam", "Deschloroetizolam", "Metizolam", "Flunitrazolam",
-            "Adinazolam", "Nifoxipam", "Norflurazepam", "Pyrazolam", "Meclonazepam",
-        ] {
-            map[name.lowercased()] = [.benzodiazepine]
-        }
-
-        // Barbiturates. Category `Depressant` routes to `.other`, so without this every
-        // barbiturate pairing — including with opioids and benzodiazepines — returned
-        // nothing at all. Primidone belongs here because it is metabolized to
-        // phenobarbital; its own anticonvulsant category says nothing about that.
-        for name in [
-            "Phenobarbital", "Pentobarbital", "Secobarbital", "Amobarbital", "Butalbital",
-            "Barbital", "Allobarbital", "Hexobarbital", "Thiopental", "Butabarbital",
-            "Methohexital", "Aprobarbital", "Talbutal", "Primidone",
-        ] {
-            map[name.lowercased()] = [.barbiturate]
-        }
-
-        // Methylene blue is a potent reversible MAO-A inhibitor at doses used clinically,
-        // and serotonin toxicity with serotonergic drugs is the documented consequence —
-        // an FDA drug-safety communication exists for exactly this pair. Its `Nootropic`
-        // category routed it to `.other`, so every MAOI rule missed it.
-        map["methylene blue"] = [.maoi]
-        map["methylthioninium chloride"] = [.maoi]
-
-        return map
-    }()
-
     /// Lazy cache mapping lowercased substance names (and aliases) to their
     /// resolved drug classes. Filled on first lookup via ``SubstanceLibrary``.
     /// Memoised drug-class lookups. `OSAllocatedUnfairLock` owns the dictionary,
@@ -855,14 +581,15 @@ enum InteractionChecker {
     private static let drugClassCache = OSAllocatedUnfairLock<[String: [DrugClass]]>(initialState: [:])
 
     /// Get drug classes for a substance name. Falls back to a `SubstanceLibrary`
-    /// lookup (canonical name or alias) when not in the overrides table; the
-    /// result is memoised for subsequent calls. Misses are deliberately NOT
-    /// memoised: a transient lookup failure (store not yet warm, or a startup
-    /// race) must not permanently poison a substance's interactions.
+    /// lookup (canonical name or alias) when no override names it; the result is
+    /// memoised for subsequent calls. Misses are deliberately NOT memoised: a
+    /// transient lookup failure (store not yet warm, or a startup race) must not
+    /// permanently poison a substance's interactions.
     static func drugClasses(for substanceName: String) -> [DrugClass] {
         let lower = substanceName.lowercased()
+        let overrides = SubstanceStore.shared.interactionClasses()
 
-        if let override = substanceClassOverrides[lower] {
+        if let override = overrides[lower] {
             return override
         }
 
@@ -873,687 +600,74 @@ enum InteractionChecker {
         guard let substance = SubstanceLibrary.lookup(substanceName) else {
             return []
         }
-        // Re-check the overrides under the canonical name: the table is keyed by one
-        // spelling, and a logged dose may carry any alias ("Nembutal", "Luminal",
-        // "Blue Heavens"). Without this an override silently loses to the category
-        // fallback for every name but the one it was written under.
-        let resolved = substanceClassOverrides[substance.name.lowercased()]
+        // Re-check under the canonical name. The overrides already cover every
+        // catalog alias, but `SubstanceLibrary` also resolves a user's own
+        // relabel — someone who renames Alprazolam to "my anxiety pill" would
+        // otherwise fall through to the category.
+        let resolved = overrides[substance.name.lowercased()]
             ?? [categoryToDrugClass(substance.category)]
         drugClassCache.withLock { $0[lower] = resolved }
         return resolved
     }
 
+    /// The interaction class a substance's category falls back to.
+    ///
+    /// `.other` is the default for a category `category_interaction_classes`
+    /// does not name, and it participates in no rule — so an unmapped category
+    /// makes every substance under it interaction-invisible. That default is in
+    /// code because it is what "unmapped" *means*, not a judgment someone made.
     private static func categoryToDrugClass(_ category: SubstanceCategory) -> DrugClass {
-        switch category {
-        case .opioid: .opioid
-        case .benzodiazepine: .benzodiazepine
-        case .stimulant: .stimulant
-        case .psychedelic: .psychedelic
-        case .dissociative: .dissociative
-        // KOR agonists are pharmacologically closer to dissociatives than to
-        // classical psychedelics — they don't engage 5-HT2A, but the kappa
-        // mechanism shares acute dissociation/derealisation phenomenology and
-        // (more importantly for interaction modeling) compounds with
-        // dissociatives or sedatives. Route to `.dissociative` until we add a
-        // dedicated `.kappaAgonist` class with its own rule set.
-        case .dysdelic: .dissociative
-        case .empathogen: .empathogen
-        case .cannabinoid: .cannabinoid
-        case .gabapentinoid: .gabapentinoid
-        case .ampakine: .other
-        // Eugeroics block DAT/NET like stimulants and stack badly with serotonergics
-        // and MAOIs — treat as `.stimulant` for interaction purposes.
-        case .eugeroic: .stimulant
-        // Default fallback for the `.antidepressant` category. SSRI is the
-        // most common subtype, so this is the safest serotonergic proxy when
-        // we have no better information. **Failure mode:** any imported MAOI,
-        // SNRI, or TCA that lacks a name/alias hit in
-        // `substanceClassOverrides` will silently land here and be matched
-        // against SSRI rules — missing MAOI×stimulant or SNRI×empathogen
-        // warnings, for instance. When such a gap is discovered, add the
-        // substance to `substanceClassOverrides` with the correct subtype.
-        case .antidepressant: .ssri
-        case .antipsychotic: .antipsychotic
-        case .supplement: .supplement
-        case .nootropic: .other
-        case .depressant: .other
-        case .orexinAntagonist: .orexinAntagonist
-        case .analgesic: .other
-        case .antihistamine: .antihistamine
-        // Deliriants are anticholinergic/antimuscarinic; their dominant interaction
-        // concern is additive anticholinergic toxicity, the same profile as the
-        // first-gen antihistamines they were split out of. Route to `.antihistamine`
-        // so those rules (and the sedative/anticholinergic stacking warnings) apply.
-        case .deliriant: .antihistamine
-        case .cardiovascular: .other
-        case .antimicrobial: .other
-        case .gastrointestinal: .other
-        case .respiratory: .other
-        case .endocrine: .other
-        case .immunological: .other
-        case .peptide: .other
-        // Anticonvulsants are pharmacologically heterogeneous (sodium-channel
-        // blockers, SV2A ligands, gabapentinoids, GABAergics) — no single
-        // safe class proxy. Route to `.other` and let
-        // `substanceClassOverrides` map specific drugs (gabapentin,
-        // pregabalin → `.gabapentinoid`; benzo-class anticonvulsants
-        // → `.benzodiazepine`) where the subtype is known.
-        case .anticonvulsant: .other
-        case .other: .other
-        }
+        SubstanceStore.shared.categoryInteractionClasses()[category.rawValue] ?? .other
     }
 
     // MARK: - Interaction Rules
 
-    private static let rules: [InteractionRule] = [
-        // === DANGEROUS ===
-
-        InteractionRule(
-            classA: .opioid,
-            classB: .benzodiazepine,
-            severity: .dangerous,
-            description: "Combined respiratory depression — the leading cause of overdose death.",
-        ),
-        InteractionRule(
-            classA: .opioid,
-            classB: .ghb,
-            severity: .dangerous,
-            description: "Severe respiratory depression — both substances suppress breathing.",
-        ),
-        InteractionRule(
-            classA: .opioid,
-            classB: .alcohol,
-            severity: .dangerous,
-            description: "Respiratory depression and CNS shutdown — potentially fatal combination.",
-        ),
-        InteractionRule(
-            classA: .maoi,
-            classB: .empathogen,
-            severity: .dangerous,
-            description: "Risk of fatal serotonin syndrome — do not combine.",
-        ),
-        InteractionRule(
-            classA: .maoi,
-            classB: .ssri,
-            severity: .dangerous,
-            description: "Serotonin syndrome — potentially fatal. Allow 2+ week washout.",
-        ),
-        InteractionRule(
-            classA: .maoi,
-            classB: .snri,
-            severity: .dangerous,
-            description: "Serotonin syndrome — potentially fatal. Allow 2+ week washout.",
-        ),
-        InteractionRule(
-            classA: .maoi,
-            classB: .tca,
-            severity: .dangerous,
-            description: "Risk of serotonin syndrome and hypertensive crisis.",
-        ),
-        InteractionRule(
-            classA: .maoi,
-            classB: .stimulant,
-            severity: .dangerous,
-            description: "Hypertensive crisis — potentially fatal spike in blood pressure.",
-        ),
-        InteractionRule(
-            classA: .maoi,
-            classB: .opioid,
-            severity: .dangerous,
-            description: "Risk of serotonin syndrome, especially with meperidine/pethidine, tramadol, and tapentadol.",
-        ),
-        InteractionRule(
-            classA: .lithium,
-            classB: .psychedelic,
-            severity: .dangerous,
-            description: "Risk of seizures and serotonin toxicity — well-documented dangerous combination.",
-        ),
-        InteractionRule(
-            classA: .ghb,
-            classB: .alcohol,
-            severity: .dangerous,
-            description: "Respiratory depression and loss of consciousness — very narrow safety margin.",
-        ),
-        InteractionRule(
-            classA: .ghb,
-            classB: .benzodiazepine,
-            severity: .dangerous,
-            description: "Severe respiratory depression — both are GABAergic depressants.",
-        ),
-        InteractionRule(
-            classA: .benzodiazepine,
-            classB: .alcohol,
-            severity: .dangerous,
-            description: "Life-threatening respiratory depression — this combination is a leading cause of overdose death.",
-        ),
-
-        // === UNSAFE ===
-
-        InteractionRule(
-            classA: .opioid,
-            classB: .gabapentinoid,
-            severity: .unsafe,
-            description: "Enhanced respiratory depression — gabapentinoids increase opioid overdose risk.",
-        ),
-        InteractionRule(
-            classA: .opioid,
-            classB: .opioid,
-            severity: .unsafe,
-            description: "Stacking opioids is unpredictable — respiratory depression risk compounds.",
-        ),
-        InteractionRule(
-            classA: .opioid,
-            classB: .antihistamine,
-            severity: .unsafe,
-            description: "Additive CNS and respiratory depression — antihistamines potentiate opioid sedation.",
-        ),
-        InteractionRule(
-            classA: .opioid,
-            classB: .stimulant,
-            severity: .unsafe,
-            description: "Stimulants mask overdose signs — when they wear off, respiratory depression can emerge.",
-        ),
-        InteractionRule(
-            classA: .benzodiazepine,
-            classB: .gabapentinoid,
-            severity: .unsafe,
-            description: "Excessive sedation and respiratory depression risk.",
-        ),
-        InteractionRule(
-            classA: .benzodiazepine,
-            classB: .antihistamine,
-            severity: .unsafe,
-            description: "Compounded CNS depression — excessive sedation and impaired breathing.",
-        ),
-        // Antidepressant SERT blockers + empathogen: a myth-buster, not a danger. These compete for
-        // SERT and *blunt* the empathogen (it may feel much weaker or not work) — on their own they do
-        // not cause serotonin syndrome; the real lethal serotonergic edge is the MAOI rules above. Kept
-        // visible (and bypassing the relevance gate via `persistentClasses`) so people aren't blindsided
-        // when their dose does nothing, but colored `.caution`, not danger.
-        InteractionRule(
-            classA: .ssri,
-            classB: .empathogen,
-            severity: .caution,
-            description: "SSRIs usually blunt MDMA — it may feel much weaker, so people often redose into trouble (overheating, heart strain). On their own they don't cause serotonin syndrome.",
-        ),
-        InteractionRule(
-            classA: .snri,
-            classB: .empathogen,
-            severity: .caution,
-            description: "SNRIs usually blunt MDMA — it may feel weaker, so people often redose into trouble (overheating, heart strain). On their own they don't cause serotonin syndrome.",
-        ),
-        InteractionRule(
-            classA: .tca,
-            classB: .empathogen,
-            severity: .caution,
-            description: "TCAs usually blunt MDMA rather than boosting it, so people may redose; the bigger concern is added strain on heart rate and blood pressure.",
-        ),
-        InteractionRule(
-            classA: .dissociative,
-            classB: .alcohol,
-            severity: .unsafe,
-            description: "Risk of respiratory depression, aspiration, and loss of consciousness.",
-        ),
-        InteractionRule(
-            classA: .dissociative,
-            classB: .benzodiazepine,
-            severity: .unsafe,
-            description: "Significant respiratory depression risk and profound loss of consciousness.",
-        ),
-        InteractionRule(
-            classA: .benzodiazepine,
-            classB: .benzodiazepine,
-            severity: .unsafe,
-            description: "Stacking benzodiazepines dramatically increases sedation and respiratory depression risk.",
-        ),
-        InteractionRule(
-            classA: .ssri,
-            classB: .snri,
-            severity: .unsafe,
-            description: "Overlapping serotonin reuptake inhibition — increased serotonin syndrome risk.",
-        ),
-        InteractionRule(
-            classA: .ssri,
-            classB: .tca,
-            severity: .unsafe,
-            description: "SSRIs inhibit TCA metabolism — risk of TCA toxicity and serotonin syndrome.",
-        ),
-        InteractionRule(
-            classA: .gabapentinoid,
-            classB: .alcohol,
-            severity: .unsafe,
-            description: "Enhanced CNS depression — risk of respiratory depression and death.",
-        ),
-
-        // === SEROTONIN-ADDING AGENTS (tramadol, meperidine, DXM) ===
-        // Genuine additive serotonin-toxicity risk — these RAISE serotonin (unlike antidepressant SERT
-        // blockers, which blunt empathogens), so they stack rather than compete. Grounded in the
-        // Foundation-C serotonergic evidence run (2026-06-22): tramadol SS grade B/HIGH, seizure A/HIGH.
-        InteractionRule(
-            classA: .serotonergic,
-            classB: .empathogen,
-            severity: .dangerous,
-            description: "Serotonin syndrome risk — these drugs add serotonin on top of an empathogen's surge. Some (tramadol, meperidine) can also trigger seizures.",
-        ),
-        InteractionRule(
-            classA: .serotonergic,
-            classB: .maoi,
-            severity: .dangerous,
-            description: "Serotonin syndrome — potentially fatal. Do not combine.",
-        ),
-        InteractionRule(
-            classA: .serotonergic,
-            classB: .serotonergic,
-            severity: .unsafe,
-            description: "Serotonin syndrome risk — two serotonin-raising drugs stacked together.",
-        ),
-        InteractionRule(
-            classA: .serotonergic,
-            classB: .ssri,
-            severity: .unsafe,
-            description: "Serotonin syndrome risk — a serotonin-raising drug stacked with an SSRI.",
-        ),
-        InteractionRule(
-            classA: .serotonergic,
-            classB: .snri,
-            severity: .unsafe,
-            description: "Serotonin syndrome risk — a serotonin-raising drug stacked with an SNRI.",
-        ),
-        InteractionRule(
-            classA: .serotonergic,
-            classB: .tca,
-            severity: .unsafe,
-            description: "Serotonin syndrome risk — a serotonin-raising drug stacked with a tricyclic antidepressant.",
-        ),
-        InteractionRule(
-            classA: .serotonergic,
-            classB: .lithium,
-            severity: .unsafe,
-            description: "Increased serotonin syndrome risk — lithium adds to the serotonergic load.",
-        ),
-
-        // === ALPHA-2 AGONISTS & BETA-BLOCKERS ===
-        // Grounded in the Foundation-C alpha-2/beta-blocker evidence run (2026-06-22). Key corrections:
-        // the alpha-2 + opioid danger is the xylazine/"tranq" reality (naloxone won't reverse the alpha-2
-        // part); the genuine "unopposed alpha" is alpha-2 *withdrawal* while beta-blocked, NOT routine
-        // beta-blocker + stimulant (that contraindication is contested dogma → caution, not danger).
-        InteractionRule(
-            classA: .alpha2Agonist,
-            classB: .opioid,
-            severity: .dangerous,
-            description: "Heavy sedation with a dangerously slow heart rate and breathing. Naloxone reverses the opioid but NOT the alpha-2 part — give rescue breaths and call for help even after naloxone.",
-        ),
-        InteractionRule(
-            classA: .alpha2Agonist,
-            classB: .alcohol,
-            severity: .caution,
-            description: "Adds up sedation and lowers blood pressure further — expect stronger drowsiness and dizziness. Use less and don't drive.",
-        ),
-        InteractionRule(
-            classA: .alpha2Agonist,
-            classB: .benzodiazepine,
-            severity: .caution,
-            description: "Compounded sedation and low blood pressure — stronger drowsiness and dizziness.",
-        ),
-        InteractionRule(
-            classA: .alpha2Agonist,
-            classB: .gabapentinoid,
-            severity: .caution,
-            description: "Additive sedation and low blood pressure — increased drowsiness and dizziness.",
-        ),
-        InteractionRule(
-            classA: .alpha2Agonist,
-            classB: .tca,
-            severity: .caution,
-            description: "Tricyclics can cancel out clonidine-type blood-pressure lowering, so blood pressure may rise — a medical issue more than an overdose risk.",
-        ),
-        InteractionRule(
-            classA: .betaBlocker,
-            classB: .alpha2Agonist,
-            severity: .unsafe,
-            description: "Don't stop the clonidine-type drug suddenly while on a beta-blocker — it can spike blood pressure to dangerous levels. Taper it slowly.",
-        ),
-        InteractionRule(
-            classA: .betaBlocker,
-            classB: .stimulant,
-            severity: .caution,
-            description: "The old \u{201C}never mix\u{201D} warning is largely a medical myth — large reviews found no real harm. Both still strain the heart, so it isn't a green light to combine them.",
-        ),
-        InteractionRule(
-            classA: .betaBlocker,
-            classB: .alcohol,
-            severity: .caution,
-            description: "Both can lower blood pressure and add to dizziness — you may feel faint, especially standing up.",
-        ),
-
-        // === OREXIN ANTAGONISTS (DORAs) ===
-        // Suvorexant / lemborexant / daridorexant. Grounded in the FDA labels + respiratory-safety
-        // literature: DORAs block OX1R/OX2R rather than enhancing GABA, so combining with other CNS
-        // depressants adds next-day sedation and psychomotor/fall risk, but they do NOT depress the
-        // brainstem respiratory drive — so the lethal respiratory synergy of benzo+opioid does not
-        // apply. All `.caution`, deliberately two tiers below that danger, with wording that says so.
-        InteractionRule(
-            classA: .orexinAntagonist,
-            classB: .opioid,
-            severity: .caution,
-            description: "Added drowsiness and next-day grogginess, with more fall and coordination risk. Unlike a benzo, an orexin antagonist doesn't suppress breathing, so this isn't the deadly opioid+benzo combination — but still use less, and don't drive.",
-        ),
-        InteractionRule(
-            classA: .orexinAntagonist,
-            classB: .alcohol,
-            severity: .caution,
-            description: "Alcohol stacks psychomotor and memory impairment on top of the sleep med (and raises lemborexant's blood levels) — expect worse next-day grogginess and unsteadiness. The labels advise against drinking with these.",
-        ),
-        InteractionRule(
-            classA: .orexinAntagonist,
-            classB: .benzodiazepine,
-            severity: .caution,
-            description: "Two sleep-promoting drugs stacked — additive next-day sedation and fall risk, and largely redundant. Not the respiratory danger of benzo+opioid, but heavier grogginess and impaired coordination.",
-        ),
-        InteractionRule(
-            classA: .orexinAntagonist,
-            classB: .gabapentinoid,
-            severity: .caution,
-            description: "Additive sedation and next-day grogginess — more drowsiness, dizziness, and fall risk. Use less and avoid driving.",
-        ),
-        InteractionRule(
-            classA: .orexinAntagonist,
-            classB: .ghb,
-            severity: .caution,
-            description: "Compounded sedation — stronger, deeper drowsiness. The orexin antagonist doesn't add respiratory depression itself, but GHB can, so keep doses low and don't combine when alone.",
-        ),
-        InteractionRule(
-            classA: .orexinAntagonist,
-            classB: .antihistamine,
-            severity: .caution,
-            description: "Both cause drowsiness — expect additive next-day sedation and grogginess. Use less and don't drive.",
-        ),
-        InteractionRule(
-            classA: .dissociative,
-            classB: .opioid,
-            severity: .unsafe,
-            description: "Respiratory depression risk — dissociatives can mask overdose signs.",
-        ),
-        InteractionRule(
-            classA: .opioid,
-            classB: .antipsychotic,
-            severity: .unsafe,
-            description: "Additive CNS and respiratory depression.",
-        ),
-        InteractionRule(
-            classA: .lithium,
-            classB: .ssri,
-            severity: .unsafe,
-            description: "Increased risk of serotonin syndrome and lithium toxicity.",
-        ),
-        InteractionRule(
-            classA: .lithium,
-            classB: .snri,
-            severity: .unsafe,
-            description: "Increased risk of serotonin syndrome and lithium toxicity.",
-        ),
-        InteractionRule(
-            classA: .maoi,
-            classB: .dissociative,
-            severity: .unsafe,
-            description: "Serotonin syndrome risk — especially with DXM and other serotonergic dissociatives.",
-        ),
-
-        // === BARBITURATES ===
-        // Kept as one block across all three severities because the ordering is the point:
-        // a barbiturate sits ABOVE a benzodiazepine on every depressant pairing, not level
-        // with it. Direct chloride-channel opening has no modulator ceiling, so the
-        // respiratory depression keeps deepening with dose instead of plateauing.
-        InteractionRule(
-            classA: .barbiturate,
-            classB: .opioid,
-            severity: .dangerous,
-            description: "Combined respiratory depression with no ceiling — barbiturates deepen an opioid's suppression of breathing until it stops.",
-        ),
-        InteractionRule(
-            classA: .barbiturate,
-            classB: .benzodiazepine,
-            severity: .dangerous,
-            description: "Life-threatening respiratory depression. A barbiturate opens the GABA-A channel directly rather than modulating it, so this stacks past the point where benzodiazepines alone level off.",
-        ),
-        InteractionRule(
-            classA: .barbiturate,
-            classB: .alcohol,
-            severity: .dangerous,
-            description: "Life-threatening respiratory depression and loss of consciousness — the classic fatal combination.",
-        ),
-        InteractionRule(
-            classA: .barbiturate,
-            classB: .ghb,
-            severity: .dangerous,
-            description: "Severe respiratory depression — two direct-acting depressants with no shared ceiling.",
-        ),
-        InteractionRule(
-            classA: .barbiturate,
-            classB: .barbiturate,
-            severity: .dangerous,
-            description: "Doses add with no plateau, and the gap between a sedating dose and a fatal one is narrow to begin with.",
-        ),
-        InteractionRule(
-            classA: .barbiturate,
-            classB: .gabapentinoid,
-            severity: .unsafe,
-            description: "Additive sedation and respiratory depression.",
-        ),
-        InteractionRule(
-            classA: .barbiturate,
-            classB: .antihistamine,
-            severity: .unsafe,
-            description: "Heavy additive sedation — profound drowsiness and impaired breathing.",
-        ),
-        InteractionRule(
-            classA: .barbiturate,
-            classB: .dissociative,
-            severity: .unsafe,
-            description: "Additive CNS and respiratory depression, with a raised risk of vomiting while unresponsive.",
-        ),
-        InteractionRule(
-            classA: .barbiturate,
-            classB: .alpha2Agonist,
-            severity: .caution,
-            description: "Additive sedation, low blood pressure, and slow heart rate.",
-        ),
-        InteractionRule(
-            classA: .barbiturate,
-            classB: .orexinAntagonist,
-            severity: .caution,
-            description: "Additive sedation and next-day impairment.",
-        ),
-        InteractionRule(
-            classA: .barbiturate,
-            classB: .cannabinoid,
-            severity: .caution,
-            description: "Additive sedation, dizziness, and slowed reaction time.",
-        ),
-        InteractionRule(
-            classA: .barbiturate,
-            classB: .antipsychotic,
-            severity: .caution,
-            description: "Additive CNS depression — increased sedation and impairment.",
-        ),
-
-        // === CAUTION ===
-
-        InteractionRule(
-            classA: .stimulant,
-            classB: .stimulant,
-            severity: .caution,
-            description: "Cardiovascular strain — combined stimulants increase heart rate and blood pressure.",
-        ),
-        InteractionRule(
-            classA: .stimulant,
-            classB: .psychedelic,
-            severity: .caution,
-            description: "Increased anxiety and vasoconstriction — stimulants can intensify difficult trips.",
-        ),
-        InteractionRule(
-            classA: .cannabinoid,
-            classB: .psychedelic,
-            severity: .caution,
-            description: "Unpredictable intensification — cannabis can trigger anxiety or thought loops.",
-        ),
-        InteractionRule(
-            classA: .ssri,
-            classB: .psychedelic,
-            severity: .caution,
-            description: "SSRIs typically reduce psychedelic effects but may increase risk with some compounds.",
-        ),
-        InteractionRule(
-            classA: .ssri,
-            classB: .ssri,
-            severity: .caution,
-            description: "Serotonin accumulation risk — combining serotonergic agents increases toxicity chance.",
-        ),
-        InteractionRule(
-            classA: .stimulant,
-            classB: .dissociative,
-            severity: .caution,
-            description: "Increased heart rate and blood pressure — cardiovascular strain.",
-        ),
-        InteractionRule(
-            classA: .alcohol,
-            classB: .stimulant,
-            severity: .caution,
-            description: "Stimulants mask alcohol impairment — risk of overconsumption.",
-        ),
-        InteractionRule(
-            classA: .alcohol,
-            classB: .antihistamine,
-            severity: .caution,
-            description: "Compounded drowsiness and impaired coordination.",
-        ),
-        InteractionRule(
-            classA: .alcohol,
-            classB: .antipsychotic,
-            severity: .caution,
-            description: "Additive CNS depression — increased sedation and impairment.",
-        ),
-        InteractionRule(
-            classA: .gabapentinoid,
-            classB: .gabapentinoid,
-            severity: .caution,
-            description: "Stacking gabapentinoids compounds sedation and respiratory depression risk.",
-        ),
-        InteractionRule(
-            classA: .dissociative,
-            classB: .dissociative,
-            severity: .caution,
-            description: "Compounded dissociation — disorientation and loss of motor control.",
-        ),
-        InteractionRule(
-            classA: .empathogen,
-            classB: .empathogen,
-            severity: .caution,
-            description: "Serotonin depletion and neurotoxicity risk — allow adequate recovery between uses.",
-        ),
-        InteractionRule(
-            classA: .lithium,
-            classB: .empathogen,
-            severity: .dangerous,
-            description: "Risk of seizures and serotonin toxicity — potentially fatal combination.",
-        ),
-        InteractionRule(
-            classA: .lithium,
-            classB: .maoi,
-            severity: .unsafe,
-            description: "Risk of serotonin syndrome and lithium toxicity.",
-        ),
-
-        InteractionRule(
-            classA: .stimulant,
-            classB: .ssri,
-            severity: .caution,
-            description: "Some combinations increase serotonin or seizure risk — monitor for symptoms.",
-        ),
-        InteractionRule(
-            classA: .stimulant,
-            classB: .snri,
-            severity: .caution,
-            description: "Cardiovascular strain and potential serotonin interaction — monitor heart rate and blood pressure.",
-        ),
-        InteractionRule(
-            classA: .antipsychotic,
-            classB: .antipsychotic,
-            severity: .caution,
-            description: "Combined QTc prolongation risk — monitor cardiac rhythm.",
-        ),
-        InteractionRule(
-            classA: .gabapentinoid,
-            classB: .antihistamine,
-            severity: .caution,
-            description: "Additive CNS depression — increased sedation and impaired coordination.",
-        ),
-        InteractionRule(
-            classA: .cannabinoid,
-            classB: .benzodiazepine,
-            severity: .caution,
-            description: "Additive sedation — may increase drowsiness and impaired coordination.",
-        ),
-        InteractionRule(
-            classA: .cannabinoid,
-            classB: .opioid,
-            severity: .caution,
-            description: "Additive CNS depression — may increase sedation and respiratory depression risk.",
-        ),
-        InteractionRule(
-            classA: .cannabinoid,
-            classB: .alcohol,
-            severity: .caution,
-            description: "Additive impairment — increased dizziness, drowsiness, and slowed reaction time.",
-        ),
-    ]
-
-    /// Precomputed rule lookup keyed by sorted class pairs for O(1) access.
     /// Whether any rule mentions `drugClass`. A class no rule mentions makes
     /// every substance routed to it interaction-invisible.
     static func hasAnyRule(_ drugClass: DrugClass) -> Bool {
-        rules.contains { $0.classA == drugClass || $0.classB == drugClass }
+        ruleLookup.values.contains { $0.classA == drugClass || $0.classB == drugClass }
     }
 
-    /// Class pairs declared more than once. `ruleLookup` is keyed on the sorted
-    /// pair and last-wins, so a duplicate silently discards the earlier rule —
-    /// harmless while both say the same thing, and invisible when they stop.
+    /// Class pairs the database declares more than once. `UNIQUE (class_a,
+    /// class_b)` is on the **ordered** tuple, so the same pair written
+    /// back-to-front by two ingesters satisfies it and then silently decides by
+    /// row order here — harmless while both say the same thing, invisible when
+    /// they stop.
     static var duplicateRuleKeys: [String] {
         var seen: Set<String> = []
         var duplicates: [String] = []
-        for rule in rules {
-            if !seen.insert(rule.key).inserted { duplicates.append(rule.key) }
+        for bundled in SubstanceStore.shared.classInteractionRules() {
+            guard let classA = DrugClass(rawValue: bundled.classA),
+                  let classB = DrugClass(rawValue: bundled.classB) else { continue }
+            let key = InteractionRuleCopy.key(classA, classB)
+            if !seen.insert(key).inserted { duplicates.append(key) }
         }
         return duplicates
     }
 
+    /// Every `interaction_rules` row, keyed by its sorted class pair for O(1)
+    /// lookup. A pair Piru has adjudicated shows its localized sentence; the
+    /// rest show the row's own note, which is TripSit's prose in English.
     private static let ruleLookup: [String: InteractionRule] = {
         var dict: [String: InteractionRule] = [:]
-        // Bundled rules FIRST, so a hand-written one overwrites them. TripSit's
-        // matrix is community consensus; the table below carries adjudications
-        // that deliberately contradict folk ordering — MDMA + SSRI is blockade,
-        // not danger, and the real danger there is MAOI. Where the two disagree
-        // the curated verdict is the one that has been checked.
         for bundled in SubstanceStore.shared.classInteractionRules() {
             guard let classA = DrugClass(rawValue: bundled.classA),
                   let classB = DrugClass(rawValue: bundled.classB),
                   let severity = InteractionSeverity(bundledName: bundled.severity)
             else { continue }
-            let key = [classA.rawValue, classB.rawValue].sorted().joined(separator: "|")
-            dict[key] = InteractionRule(
-                classA: classA, classB: classB, severity: severity, note: bundled.note,
+            let copy = InteractionRuleCopy.note(classA, classB)
+            dict[InteractionRuleCopy.key(classA, classB)] = InteractionRule(
+                classA: classA,
+                classB: classB,
+                severity: severity,
+                description: copy.map { String(localized: $0) } ?? bundled.note,
             )
-        }
-        for rule in rules {
-            let key = [rule.classA.rawValue, rule.classB.rawValue].sorted().joined(separator: "|")
-            dict[key] = rule
         }
         return dict
     }()
 
     private static func findRule(_ a: DrugClass, _ b: DrugClass) -> InteractionRule? {
-        let key = [a.rawValue, b.rawValue].sorted().joined(separator: "|")
-        return ruleLookup[key]
+        ruleLookup[InteractionRuleCopy.key(a, b)]
     }
 
     // MARK: - Relevance Gating

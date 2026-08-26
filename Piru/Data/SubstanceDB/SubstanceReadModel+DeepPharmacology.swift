@@ -271,12 +271,92 @@ extension SubstanceReadModel {
         }
     }
 
+    // MARK: - Interaction classes
+
+    /// Every substance-name interaction-class override, keyed by lowercased name.
+    ///
+    /// A row linked to a catalog substance is expanded across that substance's
+    /// canonical name and every alias, so a dose logged as "Nembutal" or "Xanax"
+    /// carries the same class as the spelling the override was written under. A
+    /// row the catalog has no substance for still answers under its own spelling:
+    /// a person can log a name the library does not have, and the overrides that
+    /// matter most (xylazine, the rarer barbiturates) are exactly those.
+    ///
+    /// An explicit row always beats an alias expansion — an alias shared between
+    /// two overridden substances would otherwise decide by row order.
+    func substanceInteractionClasses() -> [String: [DrugClass]] {
+        do {
+            return try db.read { db in
+                var explicit: [String: [DrugClass]] = [:]
+                var expanded: [String: [DrugClass]] = [:]
+
+                let rows = try Row.fetchAll(db, sql: """
+                    SELECT name, drug_class, substance_id
+                      FROM substance_interaction_classes
+                     ORDER BY name, rank
+                """)
+                var classesBySubstance: [Int64: [DrugClass]] = [:]
+                for row in rows {
+                    guard let name: String = row["name"],
+                          let raw: String = row["drug_class"],
+                          let drugClass = DrugClass(rawValue: raw) else { continue }
+                    explicit[name, default: []].append(drugClass)
+                    if let id: Int64 = row["substance_id"] {
+                        classesBySubstance[id, default: []].append(drugClass)
+                    }
+                }
+                guard !classesBySubstance.isEmpty else { return explicit }
+
+                let ids = classesBySubstance.keys.map(String.init).joined(separator: ",")
+                let names = try Row.fetchAll(db, sql: """
+                    SELECT id AS substance_id, canonical_name AS name
+                      FROM substances WHERE id IN (\(ids))
+                    UNION ALL
+                    SELECT substance_id, alias AS name
+                      FROM aliases WHERE substance_id IN (\(ids))
+                    UNION ALL
+                    SELECT substance_id, alias_normalized AS name
+                      FROM aliases WHERE substance_id IN (\(ids))
+                """)
+                for row in names {
+                    guard let id: Int64 = row["substance_id"],
+                          let name: String = row["name"],
+                          let classes = classesBySubstance[id] else { continue }
+                    expanded[name.lowercased()] = classes
+                }
+                return expanded.merging(explicit) { _, explicitClasses in explicitClasses }
+            }
+        } catch {
+            logger.error("substanceInteractionClasses() failed: \(error.localizedDescription, privacy: .public)")
+            return [:]
+        }
+    }
+
+    /// The interaction class each substance category falls back to, keyed by the
+    /// category's raw value. A category with no row participates in no rule; that
+    /// default lives in ``InteractionChecker``, because it is what an unmapped
+    /// category means rather than a value someone chose.
+    func categoryInteractionClasses() -> [String: DrugClass] {
+        do {
+            return try db.read { db in
+                try Row.fetchAll(db, sql: "SELECT category, drug_class FROM category_interaction_classes")
+                    .reduce(into: [String: DrugClass]()) { out, row in
+                        guard let category: String = row["category"],
+                              let raw: String = row["drug_class"],
+                              let drugClass = DrugClass(rawValue: raw) else { return }
+                        out[category] = drugClass
+                    }
+            }
+        } catch {
+            logger.error("categoryInteractionClasses() failed: \(error.localizedDescription, privacy: .public)")
+            return [:]
+        }
+    }
+
     // MARK: - Class-pair interaction rules
 
-    /// Every class-pair rule in the bundled database.
-    ///
-    /// Read once and merged UNDER the app's own table — see
-    /// `InteractionChecker.rules`. A pair with a hand-written rule keeps it.
+    /// Every class-pair rule in the bundled database — the curated verdicts and,
+    /// for the pairs curation does not reach, TripSit's matrix.
     func classInteractionRules() -> [ClassInteractionRule] {
         do {
             return try db.read { db in
