@@ -78,6 +78,10 @@
       "reason": "No US FDA label exists (openFDA has zero cyclizine records), and the only verifiable human PK study (PMID 22209223, closed-access) reports in its abstract a median half-life of 13 h with IQR 7-48 h in palliative-care patients on subcutaneous infusion — not healthy adults, and a ~7x spread that would be misleading as a single value."
     },
     {
+      "substance": "D-glucose",
+      "reason": "The only cited quantity (pmid:736717, \"The half-life values for glucose were 16 minutes and 19 minutes\") is the disappearance rate of an intravenous glucose load — a measure of insulin-mediated uptake into tissue, not elimination of a dose. It varies with insulin sensitivity, carbohydrate load and route, and a curve drawn from it would describe the person rather than the substance."
+    },
+    {
       "substance": "Estrogens, Conjugated",
       "reason": "Mixture, not a single parent compound: the Premarin FDA label reports only per-component half-lives (total estrone 26.7 h, total equilin 11.4 h, baseline-adjusted total estrone 14.8-17.5 h depending on dose), so any single number would be misleading; DrugBank's cited PMID 28798519 is paywalled (papers status closed) and its abstract states no value."
     },

@@ -1,0 +1,23 @@
+{
+  "_comment": "Elimination half-lives (minutes) verified against the paper they are cited to, written by pipeline/audit/halflife_from_primary.py --write. DrugBank names the paper; the value and the citation both come from the paper itself, and `quote` is the sentence that carries it so the claim can be re-checked without re-deriving how it was found. Add rows by re-running the tool, never by hand: a hand-written row is a number with a citation attached to it rather than one taken from the citation.",
+  "entries": [
+    {
+      "substance": "Doxazosin",
+      "half_life_minutes": 1320.0,
+      "citation": "pmid:2884857",
+      "quote": "In later multiple-dose studies in which doxazosin concentrations were measured beyond 24 hours after administration, the terminal elimination half-life was 22 hours."
+    },
+    {
+      "substance": "Hydrocortisone",
+      "half_life_minutes": 102.0,
+      "citation": "pmid:2050835",
+      "quote": "After IV administration, hydrocortisone was eliminated with a total body clearance of 18 L/hr and a half-life of 1.7 hr."
+    },
+    {
+      "substance": "Pyrantel",
+      "half_life_minutes": 104.0,
+      "citation": "pmid:9024887",
+      "quote": "Following i.v. administration pyrantel was quickly cleared from the bloodstream, exhibiting a terminal half-life of 1.75 ± 0.19 h and a residence time (MRT) of 2.54 ± 0.27 h."
+    }
+  ]
+}

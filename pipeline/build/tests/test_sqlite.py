@@ -3974,6 +3974,53 @@ class TestSignatureGates(unittest.TestCase):
                 f"family {family!r} has fewer than 3 reference compounds",
             )
 
+    def test_benzodiazepine_ladder_rungs_ascend(self):
+        """The duration ladder is drawn in curated rank order, so a rank that
+        disagrees with the half-lives draws the ladder upside down — and every
+        rung has to have a half-life at all, or the ladder loses a step
+        silently."""
+        rungs = self.db.execute(
+            "SELECT s.canonical_name, MIN(h.half_life_minutes)"
+            "  FROM class_reference_compounds r"
+            "  JOIN substances s ON s.id = r.substance_id"
+            "  LEFT JOIN half_lives h ON h.substance_id = s.id"
+            " WHERE r.family = 'benzodiazepine'"
+            " GROUP BY r.rank, s.canonical_name ORDER BY r.rank"
+        ).fetchall()
+        self.assertEqual(len(rungs), 6)
+        for name, minutes in rungs:
+            self.assertIsNotNone(minutes, f"ladder rung {name} has no half-life")
+        for (earlier, low), (later, high) in zip(rungs, rungs[1:], strict=False):
+            self.assertLessEqual(low, high, f"{earlier} ranks before {later} but outlasts it")
+
+    def test_curated_half_lives_are_cited(self):
+        """`half-lives.json` exists to hold numbers taken FROM a paper. A row
+        without a citation is a bare number wearing a sourced row's clothes, and
+        a row for a substance the DrugBank audit adjudicated as having no honest
+        single value is that adjudication being quietly reversed."""
+        path = _REPO / "data/curated/half-lives.json"
+        if not path.exists():
+            self.skipTest("no curated half-lives file")
+        entries = json.loads(path.read_text()).get("entries", [])
+        unresolvable = {
+            entry["substance"].lower()
+            for entry in json.loads(
+                (_REPO / "data/curated/drugbank-adjudications.json").read_text()
+            ).get("half_life_unresolvable", [])
+        }
+        for entry in entries:
+            with self.subTest(entry["substance"]):
+                self.assertTrue(entry.get("citation"), "no citation")
+                self.assertTrue(entry.get("quote"), "no quoted sentence")
+                self.assertGreater(entry["half_life_minutes"], 0)
+                self.assertNotIn(entry["substance"].lower(), unresolvable)
+        written = self.db.execute(
+            "SELECT COUNT(*) FROM half_lives h"
+            "  JOIN sources src ON src.id = h.source_id"
+            " WHERE src.slug = 'peer-review-primary' AND h.citation_id IS NULL"
+        ).fetchone()[0]
+        self.assertEqual(written, 0, "a peer-review-primary half-life shipped without a citation")
+
     def test_clearance_fractions_do_not_exceed_100(self):
         over = self.db.execute(
             "SELECT s.canonical_name, m.citation_id, SUM(m.fraction_of_clearance_pct)"

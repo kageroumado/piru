@@ -1579,6 +1579,14 @@ CREATE TABLE manifest (
     value TEXT NOT NULL
 );
 
+-- The recognisable names a comparison is drawn against, ordered, per family. Every
+-- consumer filters by `family`, so a family answers to exactly one screen: the
+-- signature families (muOpioid, serotonin, …) label a binding axis, and
+-- `benzodiazepine` is the duration ladder's rungs.
+--
+-- Chosen for recognition rather than coverage — a research chemical never anchors
+-- a scale even when it would widen it, because a reader placing an unfamiliar
+-- compound needs rungs they already know.
 CREATE TABLE class_reference_compounds (
     family         TEXT NOT NULL,
     substance_id   INTEGER NOT NULL REFERENCES substances(id),
@@ -9752,6 +9760,66 @@ class Build:
             stats["inserted"] += 1
         return stats
 
+    def ingest_curated_half_lives(self) -> dict[str, int]:
+        """Fill `half_lives` from the primary papers `halflife_from_primary.py` verified.
+
+        Every row carries the sentence its number came from, so the claim can be
+        re-checked against the paper without re-deriving how it was found. A row
+        needs a citation: the whole reason this file exists rather than a
+        transcription of DrugBank is that the number is attached to something a
+        reader can chase, and one without a citation would be a bare number
+        wearing a sourced row's clothes.
+
+        A substance adjudicated as having no honest single half-life is refused
+        here too — the audit rejected exactly this number, and letting it back in
+        through a second door is how an adjudication silently stops meaning
+        anything."""
+        path = CURATED_DIR.parent / "half-lives.json"
+        stats = {"inserted": 0, "unmatched": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        adjudications = json.loads((REPO / "data/curated/drugbank-adjudications.json").read_text())
+        unresolvable = {
+            normalise(entry["substance"])
+            for entry in adjudications.get("half_life_unresolvable", [])
+        }
+        for entry in payload.get("entries", []):
+            name = normalise(entry["substance"])
+            sid = index.get(name)
+            if sid is None:
+                stats["unmatched"] += 1
+                continue
+            citation_id = self.cite(entry.get("citation"))
+            minutes = to_float(entry.get("half_life_minutes"))
+            if citation_id is None or not minutes or minutes <= 0 or name in unresolvable:
+                print(
+                    f"  half_lives: refusing {entry['substance']!r} — "
+                    f"minutes {entry.get('half_life_minutes')!r}, "
+                    f"citation {entry.get('citation')!r}"
+                    f"{', adjudicated unresolvable' if name in unresolvable else ''}",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            try:
+                self.cur.execute(
+                    "INSERT INTO half_lives(substance_id, source_id, half_life_minutes, notes,"
+                    " citation_id) VALUES (?, ?, ?, ?, ?)",
+                    (
+                        sid,
+                        self.source_ids["peer-review-primary"],
+                        minutes,
+                        entry.get("quote"),
+                        citation_id,
+                    ),
+                )
+                stats["inserted"] += 1
+            except sqlite3.IntegrityError:
+                pass
+        return stats
+
     def ingest_by_volume_dosing(self) -> dict[str, int]:
         """Fill `by_volume_dosing` + `drink_presets` from curated JSON. Resolved by
         name OR alias.
@@ -12948,6 +13016,9 @@ def main() -> int:
 
     opioid_mme = build.ingest_opioid_mme()
     print(f"Opioid MME: {opioid_mme}", file=sys.stderr)
+
+    curated_half_lives = build.ingest_curated_half_lives()
+    print(f"Curated half-lives: {curated_half_lives}", file=sys.stderr)
 
     interaction_classes = build.ingest_substance_interaction_classes()
     print(f"Substance interaction classes: {interaction_classes}", file=sys.stderr)

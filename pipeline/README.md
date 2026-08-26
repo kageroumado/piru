@@ -57,7 +57,8 @@ fix, not noise to tolerate.
 
 | file | table | what it decides |
 |---|---|---|
-| `class-reference-compounds.json` | `class_reference_compounds` | the recognisable peers labelled on a signature axis |
+| `class-reference-compounds.json` | `class_reference_compounds` | the recognisable peers a comparison is drawn against — a binding axis's labels, the benzo duration ladder's rungs |
+| `half-lives.json` | `half_lives` | elimination half-lives verified against the paper they cite; written by `audit/halflife_from_primary.py --write`, never by hand |
 | `class-representatives.json` | `class_representatives` | the per-class PK stand-in the tolerance fallback models a PK-less substance as |
 | `substance-flags.json` | `substance_flags` | booleans an engine reads and nothing renders |
 | `regional-names.json` | `regional_names` | which spelling of a name to display in which regions |
@@ -211,6 +212,23 @@ LLM-assisted research used to fill gaps external sources don't cover
   removes the card with no empty state to notice), a CYP2D6 substrate with no
   `pharmacogenetics` row (no metabolizer readout), and metabolites named by a
   DrugBank reaction that no row carries.
+- **`halflife_from_primary.py`** — walks that work-list end to end. For every
+  substance with no `half_lives` row whose DrugBank record cites a PubMed id, it
+  reads the cited paper (local `papers` cache first, Europe PMC's abstract or OA
+  full text when no copy could be got) and compares what the paper states with
+  what it was cited for. A paper that independently states a consistent value
+  yields a row carrying **the paper's** number and **the paper's** citation;
+  everything else stays on the work-list with the reason. `--write` merges the
+  resolved rows into `data/curated/half-lives.json`.
+
+  The value has to sit in the half-life's own clause — after the words, before
+  whatever names another parameter — and the sentence must be about a person
+  taking the drug itself under no special condition. Reading every quantity in
+  the sentence instead put a Tmax, a sampling window, a rat study and a monkey's
+  response duration into the first run's output, all of them agreeing with
+  DrugBank to within a quarter. **Read the quoted sentence on every row before
+  committing it**: agreement with DrugBank means the two sources say the same
+  thing, not that either says what you asked.
 - **`dump_substance_library.py`** — emits the by-category text dumps
   that live in `data/snapshots/by-category/`.
 - **`dump_for_verification.py`** — emits richer per-substance dumps

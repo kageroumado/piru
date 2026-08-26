@@ -28131,15 +28131,15 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 1320.0,
     "mechanism_summary": "Systemically blocks alpha-1 adrenergic receptors resulting in effects including relaxation of smooth muscle around the bladder neck (improving urinary flow), and reduction in vascular resistance (may reduce blood pressure).",
     "effects": [],
-    "references": [],
+    "references": [
+      "10.1016/0002-9149(87)90162-7"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "duration_by_route"
     ]
   },
   {
@@ -36097,16 +36097,16 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 102.0,
     "mechanism_summary": "Hydrocortisone is a synthetic glucocorticoid with potent anti-inflammatory and immunomodulating properties. After cell entry, it binds to corticosteroid receptors on the nucleus and produces anti-inflammatory, antiproliferative, immunosuppressive, and vasoconstrictive effects that can be beneficial for psoriatic, pruritic, and other corticosteroid responsive dermatoses.",
     "effects": [],
     "references": [
-      "https://en.wikipedia.org/wiki/Hydrocortisone"
+      "https://en.wikipedia.org/wiki/Hydrocortisone",
+      "10.1002/j.1552-4604.1991.tb01906.x"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes"
+      "duration_by_route"
     ]
   },
   {
@@ -54747,16 +54747,16 @@
     "has_dose_data": false,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
+    "half_life_minutes": 104.0,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "10.1016/s0020-7519(96)00134-8"
+    ],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
