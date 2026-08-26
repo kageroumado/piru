@@ -1633,7 +1633,7 @@ Myristicin,,MMDA-precursor | Nutmeg | constituent of Myristica fragrans (nutmeg)
 榄香素的化学结构似乎是麦斯卡林的碳基类似物，而肉豆蔻醚本身似乎是 Lophophine 的碳基类似物，这些结构差异可能是榄香素和肉豆蔻醚具有略微不同的精神活性效果的指标哦。
 
 在肉豆蔻中没有发现任何化合物直接结合 CB1 或 CB2 受体。肉豆蔻中的三种化合物（Malabaricone C、Licarin A、5-Methoxylicarin A）已被证明通过抑制 FAAH 和 MAGL 酶来充当内源性大麻素调节剂。",,,"half_life_minutes, references"
-N-Acetylcysteine,,Acetylcysteine | Fluimucil | Mucomyst | N-乙酰半胱氨酸 | NAC,Supplement,recreational,OTC | amino-acid-derivative | antioxidant | class:cysteine | glutathione-precursor | mucolytic | supplement,oral,oral,oral,yes,yes,360.0,"乙酰半胱氨酸是 L-半胱氨酸的前药，而 L-半胱氨酸是生物抗氧化剂谷胱甘肽的前体喵。因此，服用乙酰半胱氨酸可以补充谷胱甘肽的储备呢。
+N-Acetylcysteine,,Acetylcysteine | Fluimucil | Mucomyst | N-acetyl cysteine | N-乙酰半胱氨酸 | NAC,Supplement,recreational,OTC | amino-acid-derivative | antioxidant | class:cysteine | glutathione-precursor | mucolytic | supplement,oral,oral,oral,yes,yes,360.0,"乙酰半胱氨酸是 L-半胱氨酸的前药，而 L-半胱氨酸是生物抗氧化剂谷胱甘肽的前体喵。因此，服用乙酰半胱氨酸可以补充谷胱甘肽的储备呢。
 
 谷胱甘肽、氧化型谷胱甘肽 (GSSG) 和 S-亚硝基谷胱甘肽 (GSNO) 已被发现能与 NMDA 受体和 AMPA 受体的谷氨酸识别位点结合，并可能是内源性的神经调节剂喵。在毫摩尔浓度下，它们还可能调节 NMDA 受体复合物的氧化还原状态。此外，谷胱甘肽已被发现能结合并激活不同于任何其他兴奋性氨基酸受体的离子型受体，这可能构成了“谷胱甘肽受体”，从而使其可能成为一种神经递质呢。因此，由于 N-乙酰半胱氨酸是谷胱甘肽的前药，它也可能调节上述所有受体哦。 谷胱甘肽还通过作用于氧化还原位点来调节 NMDA 受体喵。
 
@@ -2072,7 +2072,6 @@ THC-O,,ATHC | O-acetyl-THC | THC acetate ester,Cannabinoid,recreational,CB1-part
 THCP,,Tetrahydrocannabiphorol | Δ9-THCP,Cannabinoid,recreational,CB1-full-agonist | cannabinoid | high-risk | phytocannabinoid | psychoactive | semi-synthetic | ultra-potent,inhalation,inhalation | oral,inhalation | oral,yes,yes,2400.0,,,https://en.wikipedia.org/wiki/Tetrahydrocannabiphorol,mechanism_of_action
 THCV,,Delta-9-THCV | Tetrahydrocannabivarin | Δ9-THCV,Cannabinoid,recreational,CB1-antagonist-low-dose | CB1-partial-agonist | appetite-suppressant | cannabinoid | phytocannabinoid | psychoactive-high-dose,inhalation,inhalation | oral,inhalation | oral,yes,yes,960.0,,,https://en.wikipedia.org/wiki/Tetrahydrocannabivarin,mechanism_of_action
 Theacrine,,Temorine | Temurin,Stimulant,recreational,class:purine alkaloid | class:xanthines,insufflation,insufflation | oral,insufflation | oral,yes,yes,,,,,"half_life_minutes, mechanism_of_action, references"
-Theanine,,,Nootropic,recreational,,oral,oral,oral,yes,yes,,,,,"half_life_minutes, mechanism_of_action, references"
 Theobromine,,,Other,recreational,,oral,oral,oral,yes,no,,,,,"duration_by_route, half_life_minutes, mechanism_of_action, references"
 Thiopental,,Nesdonal | Penthiobarbital | Pentothal | Sodipental | Thiomebumal | Thionembutal | Thiopental Sodium | Thiopentobarbital | Thiopentone | Trapanal,Depressant,recreational,IV-anaesthetic | class:Barbiturate | context-sensitive-half-life | habit-forming | thiobarbiturate,intravenous,intravenous,intravenous,yes,yes,,,,,"half_life_minutes, mechanism_of_action, references"
 Thiopropamine,,normethiopropamine | tpa,Stimulant,recreational,habit-forming | research-chemical,oral,oral,oral,yes,no,,,,,"duration_by_route, half_life_minutes, mechanism_of_action, references"

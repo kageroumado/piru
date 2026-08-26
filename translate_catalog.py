@@ -2637,6 +2637,10 @@ T = {
     # Antidepressant class card.
     "Drug Class": ("药物类别", "藥物類別"),
     "The rest of the family": ("同类其他药物", "同類其他藥物"),
+    "Which class this belongs in is argued over — the label is the conventional one, not a settled one.": (
+        "它该归到哪一类是有争议的——这个标签是约定俗成的说法，而不是定论。",
+        "它該歸到哪一類是有爭議的——這個標籤是約定俗成的說法，而不是定論。",
+    ),
     "Selective serotonin reuptake inhibitor": (
         "选择性5-羟色胺再摄取抑制剂",
         "選擇性血清素回收抑制劑",
@@ -2645,9 +2649,17 @@ T = {
         "5-羟色胺-去甲肾上腺素再摄取抑制剂",
         "血清素-正腎上腺素回收抑制劑",
     ),
+    "Noradrenaline reuptake inhibitor": (
+        "去甲肾上腺素再摄取抑制剂",
+        "正腎上腺素回收抑制劑",
+    ),
     "Noradrenaline–dopamine reuptake inhibitor": (
         "去甲肾上腺素-多巴胺再摄取抑制剂",
         "正腎上腺素-多巴胺回收抑制劑",
+    ),
+    "Serotonin modulator and stimulator": (
+        "5-羟色胺调节剂与激动剂",
+        "血清素調節劑與激動劑",
     ),
     "Tricyclic antidepressant": ("三环类抗抑郁药", "三環類抗憂鬱藥"),
     "Monoamine oxidase inhibitor": ("单胺氧化酶抑制剂", "單胺氧化酶抑制劑"),
@@ -2667,9 +2679,17 @@ T = {
         "同时阻断5-羟色胺和去甲肾上腺素的再摄取。去甲肾上腺素那一份随剂量增大，因此低剂量时表现可以很像SSRI。",
         "同時阻斷血清素和正腎上腺素的回收。正腎上腺素那一份隨劑量增大，因此低劑量時表現可以很像SSRI。",
     ),
+    "Blocks the noradrenaline transporter and leaves the other two. In the prefrontal cortex that same transporter is what clears dopamine, so the effect there is not as purely noradrenergic as the name reads.": (
+        "只阻断去甲肾上腺素转运体，另外两种不动。在前额叶皮层，清除多巴胺的正是同一个转运体，所以那里的作用并不像名字读起来那样纯粹是去甲肾上腺素性的。",
+        "只阻斷正腎上腺素轉運體，另外兩種不動。在前額葉皮質，清除多巴胺的正是同一個轉運體，所以那裡的作用並不像名字讀起來那樣純粹是正腎上腺素性的。",
+    ),
     "Blocks noradrenaline and dopamine reuptake, leaving serotonin alone — the activating end of the family.": (
         "阻断去甲肾上腺素和多巴胺的再摄取，不动5-羟色胺——这一类里偏兴奋的一端。",
         "阻斷正腎上腺素和多巴胺的回收，不動血清素——這一類裡偏興奮的一端。",
+    ),
+    "Blocks serotonin reuptake and acts on several serotonin receptors directly, agonist at some and antagonist at others. The receptor work is what separates it from an SSRI, not the transporter block they share.": (
+        "既阻断5-羟色胺再摄取，又直接作用于多个5-羟色胺受体，对一些是激动，对另一些是拮抗。把它和SSRI区分开的是受体上的这部分作用，而不是两者共有的转运体阻断。",
+        "既阻斷血清素回收，又直接作用於多個血清素受體，對一些是激動，對另一些是拮抗。把它和SSRI區分開的是受體上的這部分作用，而不是兩者共有的轉運體阻斷。",
     ),
     "Blocks serotonin and noradrenaline reuptake like an SNRI, and also histamine, muscarinic and α₁ receptors. That extra binding is the sedation, the dry mouth, and the narrow margin in overdose.": (
         "像SNRI一样阻断5-羟色胺和去甲肾上腺素的再摄取，同时还结合组胺、毒蕈碱和α₁受体。多出来的这部分结合，就是镇静、口干，以及过量时安全窗口狭窄的来源。",
@@ -7175,6 +7195,11 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Which class this belongs in is argued over — the label is the conventional one, not a settled one.",
+        "Noradrenaline reuptake inhibitor",
+        "Serotonin modulator and stimulator",
+        "Blocks the noradrenaline transporter and leaves the other two. In the prefrontal cortex that same transporter is what clears dopamine, so the effect there is not as purely noradrenergic as the name reads.",
+        "Blocks serotonin reuptake and acts on several serotonin receptors directly, agonist at some and antagonist at others. The receptor work is what separates it from an SSRI, not the transporter block they share.",
         "%lld–%lld days",
         "%lld–%lld hours",
         "RCT, n = %lld",

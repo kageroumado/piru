@@ -422,6 +422,25 @@ extension SubstanceReadModel {
         return out
     }
 
+    /// `substances.drug_class` for every substance that carries one, keyed by lowercased canonical
+    /// name — the normalized antidepressant-subclass axis, a few dozen rows.
+    nonisolated static func drugClasses(db queue: DatabaseQueue) -> [String: CuratedDrugClass] {
+        let rows = (try? queue.read { db in
+            try Row.fetchAll(db, sql: """
+                SELECT canonical_name, drug_class, drug_class_ambiguous
+                  FROM substances WHERE drug_class IS NOT NULL
+            """)
+        }) ?? []
+        return rows.reduce(into: [:]) { out, row in
+            guard let name: String = row["canonical_name"], let value: String = row["drug_class"]
+            else { return }
+            out[name.lowercased()] = CuratedDrugClass(
+                value: value,
+                isContested: (row["drug_class_ambiguous"] as Int?) == 1,
+            )
+        }
+    }
+
     /// The recognisable names one comparison family is drawn against, most prominent first.
     nonisolated static func referenceCompounds(db queue: DatabaseQueue, family: String) -> [String] {
         (try? queue.read { db in

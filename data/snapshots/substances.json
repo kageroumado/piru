@@ -46972,6 +46972,7 @@
       "Acetylcysteine",
       "Fluimucil",
       "Mucomyst",
+      "N-acetyl cysteine",
       "N-乙酰半胱氨酸",
       "NAC"
     ],
@@ -59804,33 +59805,6 @@
     ],
     "routes_with_dose": [
       "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "Theanine",
-    "display_name": "",
-    "aliases": [],
-    "category": "Nootropic",
-    "display_class": "recreational",
-    "tags": [],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
       "oral"
     ],
     "has_dose_data": true,

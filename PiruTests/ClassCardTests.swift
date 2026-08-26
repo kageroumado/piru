@@ -2,9 +2,9 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// The two class cards' pure models. Both resolve from data that is messier than
-/// it looks — mixed-case tags, and a reference ladder whose subject may or may
-/// not already be on it.
+/// The two class cards' pure models. Both resolve from data that is messier than it looks — a
+/// curated class column whose casing is the DB's and whose vocabulary is wider than the card's, and
+/// a reference ladder whose subject may or may not already be on it.
 @Suite("Class cards")
 @MainActor
 struct ClassCardTests {
@@ -32,36 +32,67 @@ struct ClassCardTests {
     // MARK: - Antidepressant class
 
     @Test
-    func `Class tags fold case, because the table holds both SSRI and ssri`() {
-        #expect(AntidepressantClass.resolve(tags: ["SSRI"]) == [.ssri])
-        #expect(AntidepressantClass.resolve(tags: ["ssri"]) == [.ssri])
-        // A substance carrying both casings from two sources resolves once.
-        #expect(AntidepressantClass.resolve(tags: ["SSRI", "ssri"]) == [.ssri])
+    func `The curated column's casing is the DB's, so resolution folds it`() {
+        #expect(AntidepressantClass.resolve(drugClass: .init(value: "SSRI", isContested: false)) == .ssri)
+        #expect(AntidepressantClass.resolve(drugClass: .init(value: "NaSSA", isContested: true)) == .nassa)
+        #expect(AntidepressantClass.resolve(drugClass: nil) == nil)
     }
 
+    /// These four are curated classes with no case here on purpose — the card lists a class against
+    /// its family, and none of them is a point on the monoamine axis the family compares along.
     @Test
-    func `Multiple classes come back in declaration order, not tag order`() {
-        let resolved = AntidepressantClass.resolve(tags: ["maoi", "SSRI"])
-        #expect(resolved == [.ssri, .maoi])
+    func `The classes that are departures from the axis carry no card`() {
+        for departure in ["MELATONERGIC", "NEUROSTEROID", "OPIOIDERGIC", "ATYPICAL"] {
+            #expect(AntidepressantClass.resolve(drugClass: .init(value: departure, isContested: false)) == nil)
+        }
     }
 
+    /// The curated column exists because the tags disagree with it on exactly the compounds where
+    /// precision matters. Each of these is a substance whose tag names the wrong class.
     @Test
-    func `Unrelated tags resolve to nothing`() {
-        #expect(AntidepressantClass.resolve(tags: ["cathinone", "research-chemical"]).isEmpty)
+    func `The curated column outranks the tags where they disagree`() {
+        let store = SubstanceStore.shared
+        #expect(AntidepressantClass.resolve(drugClass: store.drugClass(forName: "Atomoxetine")) == .nri)
+        #expect(AntidepressantClass.resolve(drugClass: store.drugClass(forName: "Maprotiline")) == .nri)
+        #expect(AntidepressantClass.resolve(drugClass: store.drugClass(forName: "Vortioxetine")) == .sms)
+        #expect(AntidepressantClass.resolve(drugClass: store.drugClass(forName: "Vilazodone")) == .sms)
+        #expect(AntidepressantClass.resolve(drugClass: store.drugClass(forName: "Sertraline")) == .ssri)
     }
 
+    /// Every curated value either resolves to a case or is one of the four deliberate departures.
+    /// A new value appearing in the column with neither would silently show no card at all.
     @Test
-    func `Sertraline resolves as an SSRI from the shipped tags`() throws {
-        let sertraline = try #require(SubstanceLibrary.resolveFull("Sertraline"))
-        #expect(AntidepressantClass.resolve(tags: sertraline.tags) == [.ssri])
+    func `Every curated drug class is accounted for`() {
+        let departures: Set = ["melatonergic", "neurosteroid", "opioidergic", "atypical"]
+        let classes = SubstanceReadModel.drugClasses(db: SubstanceStore.shared.substancesDB)
+        #expect(!classes.isEmpty)
+        for (name, curated) in classes {
+            #expect(
+                AntidepressantClass(rawValue: curated.value.lowercased()) != nil
+                    || departures.contains(curated.value.lowercased()),
+                "\(name) carries an unaccounted drug_class \(curated.value)",
+            )
+        }
+    }
+
+    /// The hedge is the reason `drug_class_ambiguous` exists, so it has to reach a substance that
+    /// carries it and stay off one that doesn't.
+    @Test
+    func `A contested classification is marked, a settled one is not`() {
+        let store = SubstanceStore.shared
+        #expect(store.drugClass(forName: "Bupropion")?.isContested == true)
+        #expect(store.drugClass(forName: "Mirtazapine")?.isContested == true)
+        #expect(store.drugClass(forName: "Sertraline")?.isContested == false)
+        #expect(store.drugClass(forName: "Fluoxetine")?.isContested == false)
     }
 
     @Test
     func `Methamphetamine carries the NDRI tag, which is why the card gates on category`() throws {
-        // The tag is mechanistically right and the card must still not appear:
-        // an antidepressant-class card frames the compound as something it isn't.
+        // The tag is mechanistically right and the card must still not appear: an
+        // antidepressant-class card frames the compound as something it isn't. The curated column
+        // leaves it empty, and the category gate is the second guard.
         let meth = try #require(SubstanceLibrary.resolveFull("Methamphetamine"))
-        #expect(AntidepressantClass.resolve(tags: meth.tags) == [.ndri])
+        #expect(SubstanceStore.shared.drugClass(forName: meth.name) == nil)
         #expect(meth.category != .antidepressant)
         #expect(!meth.extraBrowseCategories.contains(.antidepressant))
     }

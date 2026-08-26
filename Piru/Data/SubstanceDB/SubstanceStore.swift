@@ -133,6 +133,9 @@ final class SubstanceStore {
     /// source-derived (a representative's identity does not depend on the user's source order), so it
     /// is never invalidated.
     @ObservationIgnored private var classRepresentativeCache: [Int64: Set<ReceptorClasses.ReceptorClass>]?
+    /// `substances.drug_class` for every substance carrying one — a few dozen rows read whenever an
+    /// antidepressant detail page draws its class card. Not source-derived, so never invalidated.
+    @ObservationIgnored private var drugClassCache: [String: CuratedDrugClass]?
     /// The benzodiazepine duration ladder's rungs, in curated order. Six names read on every
     /// benzodiazepine detail page. Not source-derived, so never invalidated; an empty result is not
     /// held, since a ladder with no reference compounds is six facts missing rather than a ladder.
@@ -1426,6 +1429,17 @@ final class SubstanceStore {
             bioavailability: profile.bioavailability,
             weightKg: weightKg,
         )
+    }
+
+    /// The curated antidepressant subclass for a substance, from `substances.drug_class`.
+    /// Read once and held (see ``drugClassCache``).
+    func drugClass(forName name: String) -> CuratedDrugClass? {
+        if drugClassCache == nil {
+            let loaded = SubstanceReadModel.drugClasses(db: substancesDB)
+            if !loaded.isEmpty { drugClassCache = loaded }
+            return loaded[name.lowercased()]
+        }
+        return drugClassCache?[name.lowercased()]
     }
 
     /// The `class_reference_compounds` rungs of the benzodiazepine duration ladder, shortest-acting

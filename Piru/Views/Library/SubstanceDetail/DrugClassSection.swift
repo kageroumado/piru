@@ -8,32 +8,39 @@ import SwiftUI
 /// a dictionary entry; the family beside it is what makes it an answer, because
 /// every class is defined by what the neighbouring ones do differently.
 ///
-/// Gated on the compound being an antidepressant, not merely on carrying a class
-/// tag. `NDRI` is tagged on methamphetamine and the cathinones, and `SNRI` on
-/// tramadol — mechanistically right, and an antidepressant-class card on any of
-/// them frames the compound as something it isn't.
+/// Gated on the compound being an antidepressant as well as on carrying a
+/// curated class. The curated column is antidepressants-only today, and the gate
+/// is what keeps it that way if it ever isn't: an antidepressant-class card on
+/// methamphetamine or tramadol frames the compound as something it isn't, and
+/// both carry an `NDRI`/`SNRI` tag that is mechanistically right.
 struct DrugClassSection: View {
     let substance: Substance
 
     @State private var isExpanded = false
 
-    private var ownClasses: [AntidepressantClass] {
+    private var curated: CuratedDrugClass? {
         guard substance.category == .antidepressant
             || substance.extraBrowseCategories.contains(.antidepressant)
-        else { return [] }
-        return AntidepressantClass.resolve(tags: substance.tags)
+        else { return nil }
+        return SubstanceStore.shared.drugClass(forName: substance.name)
     }
 
     var body: some View {
-        if !ownClasses.isEmpty {
-            let own = Set(ownClasses)
+        if let curated, let ownClass = AntidepressantClass.resolve(drugClass: curated) {
+            let own: Set<AntidepressantClass> = [ownClass]
             CollapsibleSection(
                 "Drug Class",
                 isExpanded: $isExpanded,
             ) {
                 VStack(alignment: .leading, spacing: 10) {
-                    ForEach(ownClasses, id: \.self) { drugClass in
-                        DrugClassRow(drugClass: drugClass, isThisDrug: true, accent: substance.category.color)
+                    DrugClassRow(drugClass: ownClass, isThisDrug: true, accent: substance.category.color)
+                    if curated.isContested {
+                        Text(
+                            "Which class this belongs in is argued over — the label is the conventional one, not a settled one.",
+                            comment: "Shown under a drug's own class when the classification is contested",
+                        )
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
                     }
                     Divider()
                     Text("The rest of the family", comment: "Header above the sibling drug classes")
