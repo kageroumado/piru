@@ -365,7 +365,9 @@ struct InteractionCheckerView: View {
         }
         results = InteractionChecker.checkBatch(selected, against: [], policy: .explore)
         metabolicEffects = MetabolicModulation.checkerEffects(among: selected)
-        combinationMetabolites = CombinationMetabolite.formed(among: selected)
+        combinationMetabolites = CombinationMetabolite.formed(
+            among: selected, catalog: SubstanceStore.shared.combinationMetabolites(),
+        )
     }
 
     // MARK: - Combination metabolites (Stage 4d)

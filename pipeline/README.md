@@ -66,6 +66,8 @@ fix, not noise to tolerate.
 | `substance-interaction-classes.json` | `substance_interaction_classes` | the interaction class a name carries, overriding its category |
 | `category-interaction-classes.json` | `category_interaction_classes` | the interaction class each category falls back to |
 | `tolerance-modulation.json` | `tolerance_modulation` | which receptor class, while onboard, slows another's tolerance development |
+| `enzyme-modulators.json` | `enzyme_modulators`, `pharmacology_matchers` | which drugs and lifestyle contexts inhibit or induce a clearing enzyme |
+| `combination-metabolites.json` | `combination_metabolites`, `pharmacology_matchers`, `metabolism.conditional_combination_id` | which drug pairs react to form a third active species |
 | `alias-kinds.json`, `brands.json` | `aliases` | alias provenance, brand flagships |
 | `drug-classes.json` | `substances.drug_class` | normalized antidepressant subclass (SSRI/SNRI/NRI/…), not the interaction class |
 

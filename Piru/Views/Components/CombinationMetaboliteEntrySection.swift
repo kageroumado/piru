@@ -6,8 +6,8 @@ import SwiftUI
 // methylphenidate — they are metabolites of *cocaine plus alcohol* and
 // *methylphenidate plus alcohol*. So they are deliberately excluded from the
 // per-substance fold (``SubstanceDetailModel/foldActiveMetabolites(from:)``
-// skips anything ``CombinationMetabolite/isConditional(_:)`` names) and surface
-// only here, where the co-drug can be seen in the same session and named in the
+// skips every row carrying a `conditional_combination_id`) and surface only
+// here, where the co-drug can be seen in the same session and named in the
 // copy. One fact, one place; before this the two features disagreed on screen.
 
 /// Resolves the combination metabolites forming around one logged dose, off the
@@ -38,7 +38,9 @@ final class CombinationMetaboliteEntryModel {
             .map {
                 CombinationMetabolite.Onboard(name: $0.substance, interval: Self.onboardWindow(for: $0))
             }
-        formations = CombinationMetabolite.formed(overlapping: focus, with: peers)
+        formations = CombinationMetabolite.formed(
+            overlapping: focus, with: peers, catalog: SubstanceStore.shared.combinationMetabolites(),
+        )
     }
 
     /// How long a dose counts as onboard, mirroring

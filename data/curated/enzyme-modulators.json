@@ -1,0 +1,105 @@
+{
+  "_comment": "Curated modulator side of the metabolic-modulation readout: one rule per (perpetrator, enzyme), joined at read time against the `metabolism` table's substrate side. The database already knows which enzyme clears which substance; it does not know which substances inhibit or induce an enzyme, and that is the only thing stated here. One row therefore fans out to every substance that enzyme clears — 152 for CYP3A4 — which is why this is not a pair table like drug_interactions_pk.",
+  "_strength": "Qualitative only — weak | moderate | strong. A fold-change is never stored: the readout says which way exposure moves and roughly how hard, and no figure ships that would read as measured.",
+  "_origin": {
+    "substance": "A logged co-active drug. Fires in the interaction checker when both it and a substrate are selected.",
+    "context": "A lifestyle flag that is never logged as a dose (grapefruit, tobacco smoke), so it carries no matchers and surfaces only as substance-page education.",
+    "self": "A drug modulating the enzyme that clears itself, so repeated doses build up disproportionately."
+  },
+  "_matchers": "Lowercased names that identify the perpetrator in a logged dose. Their own relation, kept out of `aliases`: three of these perpetrators (grapefruit, ritonavir, rifampicin, St John's Wort) have no substances row at all, and armodafinil's names are alias rows on Modafinil — keying on substance_id would merge two rules that carry different copy. See the pharmacology_matchers schema comment.",
+  "_uncited": "These are qualitative textbook classifications carried over from the app's original hardcoded catalog; no row carries a per-value citation yet. Worth grounding in the FDA Drug Development and Drug Interactions substrate/inhibitor/inducer table before any of them is restated as measured.",
+  "source": "piru-curated",
+  "modulators": [
+    {
+      "id": "grapefruit",
+      "origin": "context",
+      "enzyme": "CYP3A4",
+      "direction": "inhibits",
+      "strength": "moderate",
+      "confidence": "high",
+      "matchers": []
+    },
+    {
+      "id": "smoking",
+      "origin": "context",
+      "enzyme": "CYP1A2",
+      "direction": "induces",
+      "strength": "moderate",
+      "confidence": "high",
+      "matchers": []
+    },
+    {
+      "id": "ritonavir",
+      "origin": "substance",
+      "enzyme": "CYP3A4",
+      "direction": "inhibits",
+      "strength": "strong",
+      "confidence": "high",
+      "matchers": ["ritonavir"],
+      "notes": "The database's own drug_interactions_pk row for MDMA x ritonavir names CYP2D6 inhibition alongside CYP3A4. Only the 3A4 arm is curated here; a 2D6 rule would need its own sourced strength."
+    },
+    {
+      "id": "fluvoxamine",
+      "origin": "substance",
+      "enzyme": "CYP1A2",
+      "direction": "inhibits",
+      "strength": "strong",
+      "confidence": "high",
+      "matchers": ["fluvoxamine"]
+    },
+    {
+      "id": "carbamazepine",
+      "origin": "substance",
+      "enzyme": "CYP3A4",
+      "direction": "induces",
+      "strength": "strong",
+      "confidence": "high",
+      "matchers": ["carbamazepine", "tegretol"]
+    },
+    {
+      "id": "rifampicin",
+      "origin": "substance",
+      "enzyme": "CYP3A4",
+      "direction": "induces",
+      "strength": "strong",
+      "confidence": "high",
+      "matchers": ["rifampicin", "rifampin"]
+    },
+    {
+      "id": "st-johns-wort",
+      "origin": "substance",
+      "enzyme": "CYP3A4",
+      "direction": "induces",
+      "strength": "moderate",
+      "confidence": "medium",
+      "matchers": ["st john's wort", "st. john's wort", "st johns wort", "hypericum", "hypericum perforatum"]
+    },
+    {
+      "id": "modafinil",
+      "origin": "substance",
+      "enzyme": "CYP3A4",
+      "direction": "induces",
+      "strength": "moderate",
+      "confidence": "high",
+      "matchers": ["modafinil", "provigil", "modalert", "modvigil"]
+    },
+    {
+      "id": "armodafinil",
+      "origin": "substance",
+      "enzyme": "CYP3A4",
+      "direction": "induces",
+      "strength": "moderate",
+      "confidence": "high",
+      "matchers": ["armodafinil", "nuvigil", "waklert", "artvigil"]
+    },
+    {
+      "id": "mdma-cyp2d6",
+      "origin": "self",
+      "enzyme": "CYP2D6",
+      "direction": "inhibits",
+      "strength": "strong",
+      "confidence": "high",
+      "matchers": ["mdma"]
+    }
+  ]
+}

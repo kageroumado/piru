@@ -1283,6 +1283,13 @@ CREATE TABLE metabolism (
     formation_fraction_pct           REAL,
     metabolite_tmax_min              REAL,
     route                            TEXT,
+    -- Set when this metabolite forms ONLY alongside a second drug, naming the
+    -- `combination_metabolites` row that says which. Such a species must never
+    -- read as an unconditional "Also Active" metabolite of the parent: the body
+    -- makes cocaethylene while ethanol is present, not whenever cocaine is. The
+    -- column is derived after both tables are built, so a row can only be marked
+    -- conditional by a combination that was actually declared.
+    conditional_combination_id       TEXT REFERENCES combination_metabolites(combination_id),
     citation_id                      INTEGER REFERENCES citations(id),
     notes                            TEXT
 );
@@ -1640,6 +1647,88 @@ CREATE TABLE regional_names (
     -- Comma-separated ISO 3166-1 alpha-2 region codes, no spaces.
     alternate_regions TEXT NOT NULL
 );
+
+-- One curated rule: a perpetrator inhibits or induces one metabolic enzyme, at
+-- one qualitative magnitude. The substrate side is NOT stored — it is derived by
+-- joining `metabolism.enzyme`, so a single row reaches every substance that
+-- enzyme clears (152 for CYP3A4) and a newly-added substrate needs no curation.
+--
+-- That derivation is what separates this from `drug_interactions_pk`, which
+-- records one documented perpetrator/victim pair each carrying its own measured
+-- effect. Writing these ten rules as pairs would mean materialising the cross
+-- product and re-curating it on every substance import.
+--
+-- `substance_id` is NULL whenever the perpetrator is not a substances row of its
+-- own: a lifestyle context that is never logged as a dose (grapefruit, tobacco
+-- smoke), a compound the database does not carry (ritonavir, rifampicin, St
+-- John's Wort), and one it carries only as an alias of another compound
+-- (armodafinil is an alias row on Modafinil, and the two are separate rules).
+-- Identity is `modulator_id`; the link is provenance, never the key.
+CREATE TABLE enzyme_modulators (
+    modulator_id TEXT PRIMARY KEY,
+    substance_id INTEGER REFERENCES substances(id),
+    source_id    INTEGER NOT NULL REFERENCES sources(id),
+    -- substance | context | self
+    origin       TEXT NOT NULL,
+    -- Matched case-insensitively as a substring of a `metabolism.enzyme` cell,
+    -- which is free text and may name several ("CYP2C19, CYP3A4").
+    enzyme       TEXT NOT NULL,
+    -- inhibits (slower clearance, higher levels) | induces (the reverse)
+    direction    TEXT NOT NULL,
+    -- weak | moderate | strong. Qualitative on purpose: no fold-change is stored,
+    -- because none of these rules carries a substrate-specific measured one.
+    strength     TEXT NOT NULL,
+    -- ConfidenceTier raw value: high | medium | low | unverified
+    confidence   TEXT NOT NULL,
+    rank         INTEGER NOT NULL DEFAULT 0,
+    citation_id  INTEGER REFERENCES citations(id),
+    notes        TEXT
+);
+
+-- An active species two co-ingested drugs REACT to form, which neither carries
+-- alone. Inexpressible both in an additive combination index and in the
+-- per-substance metabolite path, because the species belongs to the pair.
+CREATE TABLE combination_metabolites (
+    combination_id  TEXT PRIMARY KEY,
+    -- The formed species, as it is spelled in `metabolism.metabolite_name`. That
+    -- is what the conditional flag is derived by matching, so the two must agree.
+    metabolite_name TEXT NOT NULL,
+    source_id       INTEGER NOT NULL REFERENCES sources(id),
+    -- ConfidenceTier raw value.
+    confidence      TEXT NOT NULL,
+    citation_id     INTEGER REFERENCES citations(id),
+    notes           TEXT
+);
+
+-- The names that identify a participant in a curated pharmacology rule. A
+-- relation of its own, deliberately NOT folded into `aliases`.
+--
+-- `aliases` is keyed (substance_id, alias) and answers "what else is this
+-- compound called". These rows answer a different question and often cannot be
+-- keyed on a substance at all: four enzyme modulators have no substances row,
+-- armodafinil's names sit on Modafinil's row so keying there would merge two
+-- rules, and a combination precursor is a POSITION in a reaction rather than
+-- another name for a drug. `relation` keeps those questions apart; merging them
+-- is a known correctness bug, so a new relation gets a new discriminator value
+-- rather than a reused one.
+--
+-- `substance_id` is filled when the matcher does resolve to a compound, as a
+-- cross-check that a matcher has not drifted to naming a different drug. It is
+-- never the lookup key.
+CREATE TABLE pharmacology_matchers (
+    -- enzyme-modulator | combination-precursor
+    relation     TEXT NOT NULL,
+    -- enzyme_modulators.modulator_id / combination_metabolites.combination_id
+    owner_id     TEXT NOT NULL,
+    -- Which precursor slot this name fills; every slot must be onboard for a
+    -- combination to form. Always 0 for a single-participant relation.
+    slot         INTEGER NOT NULL DEFAULT 0,
+    -- Lowercased.
+    matcher      TEXT NOT NULL,
+    substance_id INTEGER REFERENCES substances(id),
+    PRIMARY KEY (relation, owner_id, slot, matcher)
+);
+CREATE INDEX idx_pharmacology_matchers_owner ON pharmacology_matchers(relation, owner_id);
 """
 
 
@@ -9592,6 +9681,161 @@ class Build:
                 stats["inserted"] += 1
         return stats
 
+    def ingest_enzyme_modulators(self) -> dict[str, int]:
+        """Fill `enzyme_modulators` + its matcher rows from curated JSON.
+
+        A modulator is identified by its own id, not by a substance: four of them
+        name no substances row, and armodafinil's names resolve to Modafinil's.
+        `substance_id` is therefore best-effort provenance and `unlinked` counts
+        how many rules ride on the id alone — a number that is expected to be
+        non-zero, unlike `unmatched` elsewhere.
+
+        A row whose direction or strength is outside the vocabulary is refused
+        rather than written: the readout renders the direction as a sentence
+        ("raises the levels of"), so an unrecognised one would silently drop the
+        modulator at read time instead of failing where it can be seen."""
+        path = CURATED_DIR.parent / "enzyme-modulators.json"
+        stats = {"inserted": 0, "matchers": 0, "unlinked": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        source_id = self.source_ids[payload.get("source", "piru-curated")]
+        citation_id = self.cite(payload.get("citation"))
+        for rank, entry in enumerate(payload.get("modulators", [])):
+            if (
+                entry["origin"] not in {"substance", "context", "self"}
+                or entry["direction"] not in {"inhibits", "induces"}
+                or entry["strength"] not in {"weak", "moderate", "strong"}
+            ):
+                print(
+                    f"  enzyme_modulators: refusing {entry['id']!r} — origin/direction/"
+                    f"strength outside the vocabulary",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            sid = index.get(normalise(entry["id"]))
+            if sid is None:
+                stats["unlinked"] += 1
+            self.cur.execute(
+                "INSERT OR REPLACE INTO enzyme_modulators"
+                "(modulator_id, substance_id, source_id, origin, enzyme, direction,"
+                " strength, confidence, rank, citation_id, notes)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    entry["id"],
+                    sid,
+                    source_id,
+                    entry["origin"],
+                    entry["enzyme"],
+                    entry["direction"],
+                    entry["strength"],
+                    entry["confidence"],
+                    rank,
+                    citation_id,
+                    entry.get("notes"),
+                ),
+            )
+            stats["inserted"] += 1
+            stats["matchers"] += self._write_matchers(
+                "enzyme-modulator", entry["id"], 0, entry.get("matchers", []), index
+            )
+        return stats
+
+    def ingest_combination_metabolites(self) -> dict[str, int]:
+        """Fill `combination_metabolites` + its precursor matchers from curated JSON,
+        then mark the `metabolism` rows those combinations explain.
+
+        The marking pass is what keeps a combination-only species off the parent's
+        own page, and it runs from this table rather than a hardcoded name list so
+        a row can only be flagged conditional by a combination that exists. A
+        combination whose species no metabolism row names flags nothing and is
+        reported, because that is a coverage gap rather than a build error.
+
+        A combination with fewer than two precursor slots is refused: with one
+        slot the species is an ordinary metabolite of that drug and belongs in
+        `metabolism`, where it would be simulated instead of merely disclosed."""
+        path = CURATED_DIR.parent / "combination-metabolites.json"
+        stats = {"inserted": 0, "matchers": 0, "flagged_rows": 0, "unflagged": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        source_id = self.source_ids[payload.get("source", "piru-curated")]
+        for entry in payload.get("combinations", []):
+            precursors = entry.get("precursors", [])
+            if len(precursors) < 2 or any(not slot for slot in precursors):
+                print(
+                    f"  combination_metabolites: refusing {entry['id']!r} — needs at "
+                    f"least two non-empty precursor slots",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            name = entry["metaboliteName"]
+            self.cur.execute(
+                "INSERT OR REPLACE INTO combination_metabolites"
+                "(combination_id, metabolite_name, source_id, confidence, citation_id, notes)"
+                " VALUES (?, ?, ?, ?, ?, ?)",
+                (
+                    entry["id"],
+                    name,
+                    source_id,
+                    entry["confidence"],
+                    self.cite(entry.get("citation")),
+                    entry.get("notes"),
+                ),
+            )
+            stats["inserted"] += 1
+            for slot, matchers in enumerate(precursors):
+                stats["matchers"] += self._write_matchers(
+                    "combination-precursor", entry["id"], slot, matchers, index
+                )
+            # Whole-name comparison, never a substring: "dexmethylphenidate"
+            # contains "ethylphenidate", so a LIKE would mark serdexmethylphenidate's
+            # ordinary metabolite as a species that needs alcohol to form. The
+            # trailing parenthetical a curator adds ("MDA (3,4-methylene...)") is
+            # the only suffix allowed.
+            wanted = name.lower()
+            hits = [
+                row_id
+                for row_id, raw in self.cur.execute(
+                    "SELECT id, metabolite_name FROM metabolism WHERE metabolite_name IS NOT NULL"
+                ).fetchall()
+                if raw.lower().split("(")[0].strip() == wanted
+            ]
+            self.cur.executemany(
+                "UPDATE metabolism SET conditional_combination_id = ? WHERE id = ?",
+                [(entry["id"], row_id) for row_id in hits],
+            )
+            if hits:
+                stats["flagged_rows"] += len(hits)
+            else:
+                stats["unflagged"] += 1
+                print(
+                    f"  combination_metabolites: no metabolism row names {name!r} — "
+                    f"the {entry['id']!r} guard rests on the combination table alone",
+                    file=sys.stderr,
+                )
+        return stats
+
+    def _write_matchers(
+        self, relation: str, owner_id: str, slot: int, matchers: list[str], index: dict[str, int]
+    ) -> int:
+        """Write one participant's identifying names into `pharmacology_matchers`.
+        `substance_id` is a cross-check, not a key — a matcher naming no compound
+        (a context flag, a compound we do not carry) is written all the same."""
+        written = 0
+        for matcher in matchers:
+            self.cur.execute(
+                "INSERT OR REPLACE INTO pharmacology_matchers"
+                "(relation, owner_id, slot, matcher, substance_id) VALUES (?, ?, ?, ?, ?)",
+                (relation, owner_id, slot, matcher.lower(), index.get(normalise(matcher))),
+            )
+            written += 1
+        return written
+
     def derive_half_lives_from_pk(self) -> dict[str, int]:
         """Give a substance a `half_lives` row when its only half-life is sitting in
         `pk_routes`.
@@ -12019,6 +12263,13 @@ def main() -> int:
 
     tolerance_edges = build.ingest_tolerance_modulation()
     print(f"Tolerance modulation edges: {tolerance_edges}", file=sys.stderr)
+    enzyme_modulators = build.ingest_enzyme_modulators()
+    print(f"Enzyme modulators: {enzyme_modulators}", file=sys.stderr)
+
+    # After the modulators so both matcher relations land together, and after every
+    # metabolism ingest so the conditional flag can reach the rows it explains.
+    combination_metabolites = build.ingest_combination_metabolites()
+    print(f"Combination metabolites: {combination_metabolites}", file=sys.stderr)
 
     derived_half_lives = build.derive_half_lives_from_pk()
     print(f"Half-lives derived from PK: {derived_half_lives}", file=sys.stderr)
@@ -12227,6 +12478,9 @@ def main() -> int:
         "substance_interaction_classes",
         "category_interaction_classes",
         "tolerance_modulation",
+        "enzyme_modulators",
+        "combination_metabolites",
+        "pharmacology_matchers",
     ]
     db = sqlite3.connect(str(OUT_SQLITE))
     for t in tables:

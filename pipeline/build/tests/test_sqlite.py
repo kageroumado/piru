@@ -3357,6 +3357,137 @@ class TestSignatureGates(unittest.TestCase):
             "the NMDA-antagonism edge is missing",
         )
 
+    def test_enzyme_modulator_vocabulary_is_closed(self):
+        """Origin, direction and strength each become a word in a rendered sentence,
+        so a value outside the vocabulary would drop the whole rule at read time
+        rather than fail where anyone can see it."""
+        bad = self.db.execute(
+            "SELECT modulator_id, origin, direction, strength FROM enzyme_modulators"
+            " WHERE origin NOT IN ('substance', 'context', 'self')"
+            "    OR direction NOT IN ('inhibits', 'induces')"
+            "    OR strength NOT IN ('weak', 'moderate', 'strong')"
+        ).fetchall()
+        self.assertEqual(bad, [], f"enzyme_modulators rows outside the vocabulary: {bad}")
+
+    def test_enzyme_modulator_enzymes_are_cleared_by_something(self):
+        """The substrate side is derived from `metabolism`, never curated. A rule
+        naming an enzyme no metabolism row mentions can never fire, so it would ship
+        as invisible dead data instead of a readout."""
+        for modulator_id, enzyme in self.db.execute(
+            "SELECT modulator_id, enzyme FROM enzyme_modulators"
+        ).fetchall():
+            (count,) = self.db.execute(
+                "SELECT COUNT(*) FROM metabolism WHERE upper(enzyme) LIKE ?",
+                (f"%{enzyme.upper()}%",),
+            ).fetchone()
+            self.assertGreater(count, 0, f"{modulator_id}: nothing is cleared by {enzyme}")
+
+    def test_enzyme_modulator_matchers_track_origin(self):
+        """A context flag (grapefruit, tobacco smoke) is never logged as a dose and
+        must carry no matchers; a drug or self rule is unreachable without them."""
+        rows = self.db.execute(
+            "SELECT m.modulator_id, m.origin, COUNT(p.matcher)"
+            "  FROM enzyme_modulators m"
+            "  LEFT JOIN pharmacology_matchers p"
+            "    ON p.relation = 'enzyme-modulator' AND p.owner_id = m.modulator_id"
+            " GROUP BY m.modulator_id, m.origin"
+        ).fetchall()
+        self.assertTrue(rows, "enzyme_modulators is empty")
+        for modulator_id, origin, matchers in rows:
+            if origin == "context":
+                self.assertEqual(matchers, 0, f"{modulator_id} is a context flag with matchers")
+            else:
+                self.assertGreater(
+                    matchers, 0, f"{modulator_id} has no matchers to recognize it by"
+                )
+
+    def test_armodafinil_and_modafinil_stay_separate_rules(self):
+        """Armodafinil is an *alias row* on Modafinil in `substances`, so a modulator
+        table keyed on substance_id would merge two rules that carry different names
+        and different copy. Identity is the curated id; this is the row pair that
+        proves it, and the reason `substance_id` here is provenance rather than a key."""
+        rows = dict(
+            self.db.execute(
+                "SELECT modulator_id, substance_id FROM enzyme_modulators"
+                " WHERE modulator_id IN ('modafinil', 'armodafinil')"
+            ).fetchall()
+        )
+        self.assertEqual(set(rows), {"modafinil", "armodafinil"})
+        self.assertEqual(rows["modafinil"], rows["armodafinil"])
+
+    def test_combination_metabolites_are_pairs(self):
+        """Two non-empty precursor slots minimum. With one slot the species is an
+        ordinary metabolite of that drug and belongs in `metabolism`, where it would
+        be modeled rather than merely disclosed."""
+        for (combination_id,) in self.db.execute(
+            "SELECT combination_id FROM combination_metabolites"
+        ).fetchall():
+            slots = self.db.execute(
+                "SELECT slot, COUNT(*) FROM pharmacology_matchers"
+                " WHERE relation = 'combination-precursor' AND owner_id = ?"
+                " GROUP BY slot",
+                (combination_id,),
+            ).fetchall()
+            self.assertGreaterEqual(
+                len(slots), 2, f"{combination_id} has fewer than two precursor slots"
+            )
+            for slot, count in slots:
+                self.assertGreater(count, 0, f"{combination_id} slot {slot} is empty")
+
+    def test_conditional_metabolism_rows_name_a_declared_combination(self):
+        """A metabolite that forms only alongside a second drug is kept off the
+        parent's own page by this flag, so a flag pointing at nothing would put
+        cocaethylene back on cocaine's page as an unconditional metabolite."""
+        orphans = self.db.execute(
+            "SELECT m.id, m.metabolite_name, m.conditional_combination_id"
+            "  FROM metabolism m"
+            "  LEFT JOIN combination_metabolites c"
+            "    ON c.combination_id = m.conditional_combination_id"
+            " WHERE m.conditional_combination_id IS NOT NULL AND c.combination_id IS NULL"
+        ).fetchall()
+        self.assertEqual(orphans, [], f"conditional rows with no combination: {orphans}")
+
+    def test_conditional_flag_marks_the_named_species_only(self):
+        """Whole-name comparison, never a substring: "dexmethylphenidate" contains
+        "ethylphenidate", and a LIKE would mark serdexmethylphenidate's ordinary
+        metabolite as one that needs alcohol to form."""
+        rows = self.db.execute(
+            "SELECT m.metabolite_name, c.metabolite_name"
+            "  FROM metabolism m"
+            "  JOIN combination_metabolites c ON c.combination_id = m.conditional_combination_id"
+        ).fetchall()
+        for flagged, species in rows:
+            self.assertEqual(
+                flagged.lower().split("(")[0].strip(),
+                species.lower(),
+                f"{flagged!r} was flagged as {species!r}",
+            )
+        (cocaethylene,) = self.db.execute(
+            "SELECT COUNT(*) FROM metabolism WHERE conditional_combination_id = 'cocaethylene'"
+        ).fetchone()
+        self.assertGreater(cocaethylene, 0, "cocaine's cocaethylene row lost its conditional flag")
+
+    def test_pharmacology_matchers_keep_their_relations_apart(self):
+        """One table, one discriminator. The relations answer different questions —
+        which drug is this rule about, versus which slot of a reaction this name
+        fills — and merging them is the correctness bug the column exists to prevent."""
+        unknown = self.db.execute(
+            "SELECT DISTINCT relation FROM pharmacology_matchers"
+            " WHERE relation NOT IN ('enzyme-modulator', 'combination-precursor')"
+        ).fetchall()
+        self.assertEqual(unknown, [], f"undeclared matcher relations: {unknown}")
+        uncased = self.db.execute(
+            "SELECT relation, owner_id, matcher FROM pharmacology_matchers WHERE matcher != lower(matcher)"
+        ).fetchall()
+        self.assertEqual(uncased, [], f"matchers must be lowercased: {uncased}")
+        orphans = self.db.execute(
+            "SELECT p.relation, p.owner_id FROM pharmacology_matchers p"
+            "  LEFT JOIN enzyme_modulators m ON m.modulator_id = p.owner_id"
+            "  LEFT JOIN combination_metabolites c ON c.combination_id = p.owner_id"
+            " WHERE m.modulator_id IS NULL AND c.combination_id IS NULL"
+        ).fetchall()
+        self.assertEqual(orphans, [], f"matchers with no owner: {orphans}")
+
     def test_class_reference_compounds_populated(self):
         families = self.db.execute(
             "SELECT family, COUNT(*) FROM class_reference_compounds GROUP BY family"

@@ -1,0 +1,28 @@
+{
+  "_comment": "Active species that two co-ingested drugs REACT to form, which neither carries alone. A property of the pair, so it fits neither the additive combined-depression index nor the per-substance active-metabolite path. Both known cases are carboxylesterase transesterifications that proceed only while ethanol is present.",
+  "_precursors": "One slot per precursor; every slot must be onboard for the species to form. A slot lists the lowercased names that identify that precursor in a logged dose — its own relation, stored in pharmacology_matchers, because a slot is a position in a reaction rather than another name for a substance.",
+  "_conditional": "Each entry's metaboliteName is matched against metabolism.metabolite_name, and every row it hits gets conditional_combination_id set. That is what keeps a combination-only species off the parent's own page as an unconditional 'Also Active' metabolite.",
+  "source": "piru-curated",
+  "combinations": [
+    {
+      "id": "cocaethylene",
+      "metaboliteName": "Cocaethylene",
+      "confidence": "medium",
+      "precursors": [
+        ["cocaine", "crack", "crack cocaine", "cocaine hydrochloride", "coke", "benzoylmethylecgonine"],
+        ["ethanol", "alcohol", "ethyl alcohol"]
+      ],
+      "notes": "Graded by the 2026-06-22 Foundation-C evidence run, which found no shippable human Vd or clearance — only canine numbers below the human floor. Without a Vd the species gets no absolute-exposure curve, so it is disclosed rather than simulated. The same run traced the 18-25x sudden-death figure to a single 1997 narrative review with no primary cohort."
+    },
+    {
+      "id": "ethylphenidate",
+      "metaboliteName": "Ethylphenidate",
+      "confidence": "low",
+      "precursors": [
+        ["methylphenidate", "ritalin", "concerta", "mph", "dexmethylphenidate", "focalin", "d-methylphenidate"],
+        ["ethanol", "alcohol", "ethyl alcohol"]
+      ],
+      "notes": "The structural analogue of cocaethylene: CES1 transesterifies the methyl ester to an ethyl ester only while ethanol is present. Human PK is thinner than cocaethylene's, hence the lower confidence. No metabolism row names it yet, so the conditional flag currently reaches zero rows and the guard rests on this table alone."
+    }
+  ]
+}

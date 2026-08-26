@@ -21,64 +21,76 @@ import Foundation
 /// Formation is **gated on the precursors co-occurring** — the temporal-overlap signal the interaction
 /// engine already computes (`activeEntries`) — because cocaethylene only forms while ethanol is present
 /// at the time cocaine is metabolized (CES1/hCE1 transesterification).
+///
+/// The definitions come from the `combination_metabolites` table through
+/// ``SubstanceStore/combinationMetabolites()``; the detection functions take the catalog they match
+/// against, so they stay pure.
 nonisolated enum CombinationMetabolite {
-    /// A curated pair-generated active species.
-    struct Definition: Identifiable {
-        let id: String
-        let displayName: LocalizedStringResource
+    /// The combinations the app has copy for, keyed by `combination_metabolites.combination_id`.
+    ///
+    /// A row whose id is not a case here is dropped at load: the readout is two sentences, and a
+    /// combination with none has nothing to say. `CombinationMetaboliteTests` gates the pairing both
+    /// ways so a curated id and its copy cannot drift apart.
+    enum CombinationID: String, CaseIterable, Hashable, Sendable {
+        /// Cocaine + ethanol → a longer-lived, DAT-dominant active stimulant metabolite. Copy anchored
+        /// to the gate-clean evidence run (faithful over comprehensive).
+        case cocaethylene
+        /// Methylphenidate + ethanol → a longer-lived, more DAT-selective active stimulant. The exact
+        /// structural analogue of cocaethylene: carboxylesterase (CES1) transesterifies the methyl ester
+        /// to an ethyl ester **only while ethanol is present**, so like cocaethylene it is a property of
+        /// the pair. Calmer confidence than cocaethylene — the human PK is thinner — but the formation
+        /// chemistry and the "outlasts the parent" shape are well attested.
+        case ethylphenidate
+
+        var displayName: LocalizedStringResource {
+            switch self {
+            case .cocaethylene: "Cocaethylene"
+            case .ethylphenidate: "Ethylphenidate"
+            }
+        }
+
+        /// What it is and how it forms (mechanism + the overlap requirement), for non-experts.
+        var formationNote: LocalizedStringResource {
+            switch self {
+            case .cocaethylene:
+                "Cocaine and alcohol together form cocaethylene — an active stimulant your body makes only while both are present. It lasts noticeably longer than cocaine, so the stimulant effect (and its strain) is drawn out."
+            case .ethylphenidate:
+                "Methylphenidate and alcohol together form ethylphenidate — an active stimulant your body makes only while both are present. It leans more on dopamine and lingers a little longer than methylphenidate, so the stimulant effect is drawn out."
+            }
+        }
+
+        /// The caution — the real signal, with the myth explicitly defused.
+        var cautionNote: LocalizedStringResource {
+            switch self {
+            case .cocaethylene:
+                "Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated \"18–25× sudden death\" figure is not supported by the evidence — but the added cardiac and liver strain is real, so it's worth avoiding the mix.)"
+            case .ethylphenidate:
+                "The mix adds cardiovascular strain beyond either alone, and the ethylphenidate it forms outlasts the methylphenidate itself, so the load on your heart is stretched out rather than added up."
+            }
+        }
+    }
+
+    /// A curated pair-generated active species, built from a `combination_metabolites` row.
+    struct Definition: Identifiable, Hashable, Sendable {
+        let id: CombinationID
+        /// The species as named in `metabolism.metabolite_name`.
+        let metaboliteName: String
         /// One matcher set **per precursor**; every precursor must be onboard for the species to form.
         /// Matchers are lowercased names/aliases, matched against the onboard substance names.
         let precursors: [[String]]
         let confidence: ConfidenceTier
-        /// What it is and how it forms (mechanism + the overlap requirement), for non-experts.
-        let formationNote: LocalizedStringResource
-        /// The harm-reduction caution — the real signal, with the myth explicitly defused.
-        let cautionNote: LocalizedStringResource
-    }
 
-    /// Cocaethylene — cocaine + ethanol → a longer-lived, DAT-dominant active stimulant metabolite.
-    /// Parameters and copy anchored to the gate-clean evidence run (faithful over comprehensive).
-    static let cocaethylene = Definition(
-        id: "cocaethylene",
-        displayName: "Cocaethylene",
-        precursors: [
-            ["cocaine", "crack", "crack cocaine", "cocaine hydrochloride", "coke", "benzoylmethylecgonine"],
-            ["ethanol", "alcohol", "ethyl alcohol"],
-        ],
-        confidence: .medium,
-        formationNote: "Cocaine and alcohol together form cocaethylene — an active stimulant your body makes only while both are present. It lasts noticeably longer than cocaine, so the stimulant effect (and its strain) is drawn out.",
-        cautionNote: "Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated \"18–25× sudden death\" figure is not supported by the evidence — but the added cardiac and liver strain is real, so it's worth avoiding the mix.)",
-    )
+        var displayName: LocalizedStringResource {
+            id.displayName
+        }
 
-    /// Ethylphenidate — methylphenidate + ethanol → a longer-lived, more DAT-selective active stimulant.
-    /// The exact structural analogue of cocaethylene: carboxylesterase (CES1) transesterifies the methyl
-    /// ester to an ethyl ester **only while ethanol is present**, so like cocaethylene it is a property of
-    /// the pair. Calmer confidence than cocaethylene — the human PK is thinner — but the formation chemistry
-    /// and the "outlasts the parent" shape are well attested.
-    static let ethylphenidate = Definition(
-        id: "ethylphenidate",
-        displayName: "Ethylphenidate",
-        precursors: [
-            ["methylphenidate", "ritalin", "concerta", "mph", "dexmethylphenidate", "focalin", "d-methylphenidate"],
-            ["ethanol", "alcohol", "ethyl alcohol"],
-        ],
-        confidence: .low,
-        formationNote: "Methylphenidate and alcohol together form ethylphenidate — an active stimulant your body makes only while both are present. It leans more on dopamine and lingers a little longer than methylphenidate, so the stimulant effect is drawn out.",
-        cautionNote: "The mix adds cardiovascular strain beyond either alone, and the ethylphenidate it forms outlasts the methylphenidate itself, so the load on your heart is stretched out rather than added up.",
-    )
+        var formationNote: LocalizedStringResource {
+            id.formationNote
+        }
 
-    static let catalog: [Definition] = [cocaethylene, ethylphenidate]
-
-    /// Metabolite names that form **only** when a second drug is co-present. They must never appear as an
-    /// unconditional "Also Active" metabolite on the parent's own page — that would claim a species the body
-    /// makes only in combination is always present. They are surfaced through ``formed(among:)`` instead,
-    /// gated on co-occurrence, where the caution can name the pair. Matched case-insensitively against a
-    /// metabolism row's `metabolite_name`.
-    static let conditionalMetaboliteNames: Set<String> = ["cocaethylene", "ethylphenidate"]
-
-    /// Whether a metabolite forms only in combination, so the per-substance active-metabolite fold must skip it.
-    static func isConditional(_ metaboliteName: String) -> Bool {
-        conditionalMetaboliteNames.contains(metaboliteName.lowercased().trimmingCharacters(in: .whitespaces))
+        var cautionNote: LocalizedStringResource {
+            id.cautionNote
+        }
     }
 
     // MARK: - Detection
@@ -86,7 +98,7 @@ nonisolated enum CombinationMetabolite {
     /// A combination metabolite that forms among a set of onboard substances.
     struct Formation: Identifiable {
         let definition: Definition
-        var id: String {
+        var id: CombinationID {
             definition.id
         }
         var displayName: LocalizedStringResource {
@@ -103,10 +115,11 @@ nonisolated enum CombinationMetabolite {
         }
     }
 
-    /// Pure: which combination metabolites form among `substances` (every precursor present). Gated on
-    /// co-presence; the caller passes a set already filtered to what's concurrently onboard (the
-    /// temporal-overlap signal) for the dose-entry path, or the hypothetical selection for the checker.
-    static func formed(among substances: [String]) -> [Formation] {
+    /// Pure: which combination metabolites in `catalog` form among `substances` (every precursor
+    /// present). Gated on co-presence; the caller passes a set already filtered to what's concurrently
+    /// onboard (the temporal-overlap signal) for the dose-entry path, or the hypothetical selection for
+    /// the checker.
+    static func formed(among substances: [String], catalog: [Definition]) -> [Formation] {
         let onboard = Set(substances.map { $0.lowercased().trimmingCharacters(in: .whitespaces) })
         return catalog.compactMap { def in
             let allPresent = def.precursors.allSatisfy { matchers in
@@ -121,8 +134,8 @@ nonisolated enum CombinationMetabolite {
     /// One substance and the window it is actually onboard for — the unit the
     /// dose-entry path gates on. The interaction checker asks a hypothetical
     /// ("what if I took these together"), so it has no windows and uses
-    /// ``formed(among:)`` directly; a *logged* dose has real timestamps, and two
-    /// doses eight hours apart are not a combination.
+    /// ``formed(among:catalog:)`` directly; a *logged* dose has real timestamps,
+    /// and two doses eight hours apart are not a combination.
     struct Onboard: Hashable, Sendable {
         let name: String
         let interval: DateInterval
@@ -136,8 +149,8 @@ nonisolated enum CombinationMetabolite {
     /// Which combination metabolites form *around one dose* — the surface an entry
     /// screen needs.
     ///
-    /// Two conditions beyond ``formed(among:)``, both of which keep the readout
-    /// from over-claiming:
+    /// Two conditions beyond ``formed(among:catalog:)``, both of which keep the
+    /// readout from over-claiming:
     ///
     /// - **`focus` must itself be a precursor.** Otherwise a session containing
     ///   cocaine and alcohol would print a cocaethylene note on the ibuprofen
@@ -147,11 +160,14 @@ nonisolated enum CombinationMetabolite {
     ///   this dose was taken contributes nothing. `DateInterval.intersects`
     ///   includes touching endpoints, which is the right boundary: a dose taken
     ///   exactly as the previous one clears still meets it.
-    static func formed(overlapping focus: Onboard, with peers: [Onboard]) -> [Formation] {
+    static func formed(
+        overlapping focus: Onboard, with peers: [Onboard], catalog: [Definition],
+    ) -> [Formation] {
         let concurrent = peers.filter { $0.interval.intersects(focus.interval) }
         let focusKey = focus.name.lowercased().trimmingCharacters(in: .whitespaces)
-        return formed(among: [focus.name] + concurrent.map(\.name)).filter { formation in
-            formation.definition.precursors.contains { $0.contains(focusKey) }
-        }
+        return formed(among: [focus.name] + concurrent.map(\.name), catalog: catalog)
+            .filter { formation in
+                formation.definition.precursors.contains { $0.contains(focusKey) }
+            }
     }
 }

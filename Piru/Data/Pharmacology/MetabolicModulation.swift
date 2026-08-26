@@ -17,47 +17,38 @@ import Foundation
 ///
 /// ## Curated modulator × data-driven substrate
 /// The bundled DB knows *which enzyme clears a substance* (the `metabolism` table → ``majorEnzymes``);
-/// it does **not** know which substances inhibit/induce which enzyme. So the modulator side is a small
-/// hand-curated, evidence-tiered ``catalog`` (textbook PK — grapefruit/3A4, smoking/1A2, ritonavir,
-/// carbamazepine, …), joined against the metabolism table on the substrate side. A substance is
-/// "affected" only when a *major* share of its clearance runs through the modulated enzyme, so the
-/// readout fires on real data and stays silent otherwise.
+/// the modulator side is the `enzyme_modulators` table, joined against it on the substrate side. A
+/// substance is "affected" only when a *major* share of its clearance runs through the modulated
+/// enzyme, so the readout fires on real data and stays silent otherwise. The rows arrive through
+/// ``SubstanceStore/enzymeModulators()``; every function here takes the catalog it works on, so the
+/// matching stays pure and testable.
 nonisolated enum MetabolicModulation {
     // MARK: - Enzymes
 
     /// The metabolic enzymes for which we curate modulators. Recreational/clinical PK is dominated by a
     /// handful of CYPs; this is the subset with both well-evidenced modulators and real DB coverage.
-    enum Enzyme: String, CaseIterable, Hashable {
-        case cyp3a4
-        case cyp1a2
-        case cyp2d6
-        case cyp2c19
-        case cyp2c9
-        case cyp2b6
-
-        /// Token matched (case-insensitive, substring) against a `metabolism.enzyme` cell. The cells are
-        /// free-text and may name several enzymes ("CYP2C19, CYP3A4", "CYP2D6 (major)"), so detection is
-        /// contains-based. The tokens are mutually non-overlapping ("CYP2C19" never contains "CYP2C9").
-        var dbToken: String {
-            switch self {
-            case .cyp3a4: "CYP3A4"
-            case .cyp1a2: "CYP1A2"
-            case .cyp2d6: "CYP2D6"
-            case .cyp2c19: "CYP2C19"
-            case .cyp2c9: "CYP2C9"
-            case .cyp2b6: "CYP2B6"
-            }
-        }
+    ///
+    /// The raw value is the token matched (case-insensitive, substring) against a `metabolism.enzyme`
+    /// cell and stored in `enzyme_modulators.enzyme`. The cells are free text and may name several
+    /// enzymes ("CYP2C19, CYP3A4", "CYP2D6 (major)"), so detection is contains-based. The tokens are
+    /// mutually non-overlapping ("CYP2C19" never contains "CYP2C9").
+    enum Enzyme: String, CaseIterable, Hashable, Sendable {
+        case cyp3a4 = "CYP3A4"
+        case cyp1a2 = "CYP1A2"
+        case cyp2d6 = "CYP2D6"
+        case cyp2c19 = "CYP2C19"
+        case cyp2c9 = "CYP2C9"
+        case cyp2b6 = "CYP2B6"
 
         /// Human-facing enzyme name for the readout copy.
         var displayName: String {
-            dbToken
+            rawValue
         }
 
         /// Every curated enzyme named by a `metabolism.enzyme` cell (may be empty for generic/other rows).
         static func all(inDBString raw: String) -> Set<Enzyme> {
             let upper = raw.uppercased()
-            return Set(Enzyme.allCases.filter { upper.contains($0.dbToken) })
+            return Set(Enzyme.allCases.filter { upper.contains($0.rawValue) })
         }
     }
 
@@ -79,7 +70,7 @@ nonisolated enum MetabolicModulation {
     // MARK: - Direction & strength
 
     /// Which way a modulator moves the substrate's exposure.
-    enum Direction {
+    enum Direction: String, Hashable, Sendable {
         /// Enzyme **inhibition** → slower clearance → **higher** levels.
         case inhibits
         /// Enzyme **induction** → faster clearance → **lower** levels.
@@ -92,33 +83,102 @@ nonisolated enum MetabolicModulation {
     }
 
     /// Qualitative magnitude — never a fabricated fold-change. Surfaced as a word, not a number.
-    enum Strength: Int, Comparable {
-        case weak = 0
+    enum Strength: String, Comparable, Sendable {
+        case weak
         case moderate
         case strong
 
+        private var rank: Int {
+            switch self {
+            case .weak: 0
+            case .moderate: 1
+            case .strong: 2
+            }
+        }
+
         static func < (lhs: Strength, rhs: Strength) -> Bool {
-            lhs.rawValue < rhs.rawValue
+            lhs.rank < rhs.rank
         }
     }
 
-    // MARK: - Modulator catalog
+    // MARK: - Modulator identity + copy
+
+    /// The modulators the app has copy for, keyed by `enzyme_modulators.modulator_id`.
+    ///
+    /// A row whose id is not a case here is dropped at load: the readout *is* a sentence, so a rule with
+    /// no sentence has nothing to show, and a DB row can never ship an untranslated one. The pairing is
+    /// gated both ways by `MetabolicModulationTests`, so a curated id and its copy cannot drift apart.
+    enum ModulatorID: String, CaseIterable, Hashable, Sendable {
+        case grapefruit
+        case smoking
+        case ritonavir
+        case fluvoxamine
+        case carbamazepine
+        case rifampicin
+        case stJohnsWort = "st-johns-wort"
+        case modafinil
+        case armodafinil
+        case mdmaCYP2D6 = "mdma-cyp2d6"
+
+        /// The modulator's name as the reader sees it.
+        var displayName: LocalizedStringResource {
+            switch self {
+            case .grapefruit: "Grapefruit"
+            case .smoking: "Tobacco smoking"
+            case .ritonavir: "Ritonavir"
+            case .fluvoxamine: "Fluvoxamine"
+            case .carbamazepine: "Carbamazepine"
+            case .rifampicin: "Rifampicin"
+            case .stJohnsWort: "St John's Wort"
+            case .modafinil: "Modafinil"
+            case .armodafinil: "Armodafinil"
+            case .mdmaCYP2D6: "MDMA"
+            }
+        }
+
+        /// One-line educational explanation of the mechanism and direction.
+        var note: LocalizedStringResource {
+            switch self {
+            case .grapefruit:
+                "Grapefruit (and related citrus) inhibits intestinal CYP3A4 for roughly 1–3 days, raising the levels of drugs cleared by it."
+            case .smoking:
+                "Tobacco smoke induces CYP1A2, lowering the levels of drugs cleared by it. Quitting reverses this over about a week and can raise levels."
+            case .ritonavir:
+                "Ritonavir strongly inhibits CYP3A4, sharply raising the levels of drugs cleared by it."
+            case .fluvoxamine:
+                "Fluvoxamine strongly inhibits CYP1A2, raising the levels of drugs cleared by it."
+            case .carbamazepine:
+                "Carbamazepine induces CYP3A4, lowering the levels of drugs cleared by it."
+            case .rifampicin:
+                "Rifampicin strongly induces CYP3A4, markedly lowering the levels of drugs cleared by it."
+            case .stJohnsWort:
+                "St John's Wort induces CYP3A4, lowering the levels of drugs cleared by it (magnitude varies by product)."
+            case .modafinil:
+                "Modafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception."
+            case .armodafinil:
+                "Armodafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception."
+            case .mdmaCYP2D6:
+                "MDMA inactivates the CYP2D6 that clears it, so repeated or closely-spaced doses build up disproportionately rather than in proportion to the dose. The enzyme recovers over about 10 days."
+            }
+        }
+    }
+
+    // MARK: - Modulator
 
     /// One curated source of metabolic modulation: a logged drug, a lifestyle context, or a substance's
-    /// effect on its own clearing enzyme.
-    struct Modulator: Identifiable {
+    /// effect on its own clearing enzyme. Built from an `enzyme_modulators` row.
+    struct Modulator: Identifiable, Hashable, Sendable {
         /// Where the modulation comes from — drives where/when it is surfaced.
-        enum Origin {
+        enum Origin: String, Hashable, Sendable {
             /// A *logged* co-active drug (ritonavir, carbamazepine, …).
             case substance
             /// A non-dose lifestyle flag — grapefruit (per-dose) or smoking (profile).
             case context
             /// The substance modulating the enzyme that clears *itself* (MDMA ⊣ CYP2D6).
-            case selfEdge
+            case selfEdge = "self"
         }
 
-        let id: String
-        let displayName: LocalizedStringResource
+        let id: ModulatorID
         let origin: Origin
         let enzyme: Enzyme
         let direction: Direction
@@ -127,146 +187,39 @@ nonisolated enum MetabolicModulation {
         /// Lowercased names/aliases identifying the modulating (or self) substance. Empty for a pure
         /// context flag that is never logged as a dose (grapefruit, smoking).
         let matchers: [String]
-        /// One-line educational explanation of the mechanism and direction.
-        let note: LocalizedStringResource
-    }
 
-    /// The curated modulator catalog (v1). Textbook PK — no number ships without being well-evidenced;
-    /// magnitudes are qualitative (``Strength``), never fabricated fold-changes.
-    static let catalog: [Modulator] = [
-        // Context modifiers (lifestyle flags, not logged doses).
-        Modulator(
-            id: "grapefruit",
-            displayName: "Grapefruit",
-            origin: .context,
-            enzyme: .cyp3a4,
-            direction: .inhibits,
-            strength: .moderate,
-            confidence: .high,
-            matchers: [],
-            note: "Grapefruit (and related citrus) inhibits intestinal CYP3A4 for roughly 1–3 days, raising the levels of drugs cleared by it.",
-        ),
-        Modulator(
-            id: "smoking",
-            displayName: "Tobacco smoking",
-            origin: .context,
-            enzyme: .cyp1a2,
-            direction: .induces,
-            strength: .moderate,
-            confidence: .high,
-            matchers: [],
-            note: "Tobacco smoke induces CYP1A2, lowering the levels of drugs cleared by it. Quitting reverses this over about a week and can raise levels.",
-        ),
-        // Co-active inhibitors — raise levels.
-        Modulator(
-            id: "ritonavir",
-            displayName: "Ritonavir",
-            origin: .substance,
-            enzyme: .cyp3a4,
-            direction: .inhibits,
-            strength: .strong,
-            confidence: .high,
-            matchers: ["ritonavir"],
-            note: "Ritonavir strongly inhibits CYP3A4, sharply raising the levels of drugs cleared by it.",
-        ),
-        Modulator(
-            id: "fluvoxamine",
-            displayName: "Fluvoxamine",
-            origin: .substance,
-            enzyme: .cyp1a2,
-            direction: .inhibits,
-            strength: .strong,
-            confidence: .high,
-            matchers: ["fluvoxamine"],
-            note: "Fluvoxamine strongly inhibits CYP1A2, raising the levels of drugs cleared by it.",
-        ),
-        // Inducers — lower levels.
-        Modulator(
-            id: "carbamazepine",
-            displayName: "Carbamazepine",
-            origin: .substance,
-            enzyme: .cyp3a4,
-            direction: .induces,
-            strength: .strong,
-            confidence: .high,
-            matchers: ["carbamazepine", "tegretol"],
-            note: "Carbamazepine induces CYP3A4, lowering the levels of drugs cleared by it.",
-        ),
-        Modulator(
-            id: "rifampicin",
-            displayName: "Rifampicin",
-            origin: .substance,
-            enzyme: .cyp3a4,
-            direction: .induces,
-            strength: .strong,
-            confidence: .high,
-            matchers: ["rifampicin", "rifampin"],
-            note: "Rifampicin strongly induces CYP3A4, markedly lowering the levels of drugs cleared by it.",
-        ),
-        Modulator(
-            id: "st-johns-wort",
-            displayName: "St John's Wort",
-            origin: .substance,
-            enzyme: .cyp3a4,
-            direction: .induces,
-            strength: .moderate,
-            confidence: .medium,
-            matchers: ["st john's wort", "st. john's wort", "st johns wort", "hypericum", "hypericum perforatum"],
-            note: "St John's Wort induces CYP3A4, lowering the levels of drugs cleared by it (magnitude varies by product).",
-        ),
-        Modulator(
-            id: "modafinil",
-            displayName: "Modafinil",
-            origin: .substance,
-            enzyme: .cyp3a4,
-            direction: .induces,
-            strength: .moderate,
-            confidence: .high,
-            matchers: ["modafinil", "provigil", "modalert", "modvigil"],
-            note: "Modafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception.",
-        ),
-        Modulator(
-            id: "armodafinil",
-            displayName: "Armodafinil",
-            origin: .substance,
-            enzyme: .cyp3a4,
-            direction: .induces,
-            strength: .moderate,
-            confidence: .high,
-            matchers: ["armodafinil", "nuvigil", "waklert", "artvigil"],
-            note: "Armodafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception.",
-        ),
-        // Self-edge — a drug inactivating the enzyme that clears it (auto-modulation).
-        Modulator(
-            id: "mdma-cyp2d6",
-            displayName: "MDMA",
-            origin: .selfEdge,
-            enzyme: .cyp2d6,
-            direction: .inhibits,
-            strength: .strong,
-            confidence: .high,
-            matchers: ["mdma"],
-            note: "MDMA inactivates the CYP2D6 that clears it, so repeated or closely-spaced doses build up disproportionately rather than in proportion to the dose. The enzyme recovers over about 10 days.",
-        ),
-    ]
+        var displayName: LocalizedStringResource {
+            id.displayName
+        }
+
+        var note: LocalizedStringResource {
+            id.note
+        }
+    }
 
     // MARK: - Effect
 
     /// One predicted metabolic-modulation effect on a substrate. Carries direction, qualitative strength,
     /// and a confidence tier — never a fabricated fold-change.
     struct Effect: Identifiable {
-        let modulatorID: String
-        let modulatorName: LocalizedStringResource
+        let modulatorID: ModulatorID
         let origin: Modulator.Origin
         /// The affected substance (display name as supplied).
         let substrate: String
         let enzyme: Enzyme
         let direction: Direction
         let confidence: ConfidenceTier
-        let note: LocalizedStringResource
 
         var id: String {
-            "\(substrate.lowercased())|\(modulatorID)|\(enzyme.rawValue)"
+            "\(substrate.lowercased())|\(modulatorID.rawValue)|\(enzyme.rawValue)"
+        }
+
+        var modulatorName: LocalizedStringResource {
+            modulatorID.displayName
+        }
+
+        var note: LocalizedStringResource {
+            modulatorID.note
         }
 
         /// `true` when levels go up (inhibition).
@@ -278,13 +231,11 @@ nonisolated enum MetabolicModulation {
     private static func makeEffect(_ m: Modulator, substrate: String) -> Effect {
         Effect(
             modulatorID: m.id,
-            modulatorName: m.displayName,
             origin: m.origin,
             substrate: substrate,
             enzyme: m.enzyme,
             direction: m.direction,
             confidence: m.confidence,
-            note: m.note,
         )
     }
 
@@ -297,7 +248,7 @@ nonisolated enum MetabolicModulation {
     /// armodafinil) can reduce them. This is a *class property* of being a 3A4 inducer, derived from the
     /// catalog rather than hard-coded per drug. Weak inducers are excluded (the threshold is `.moderate`).
     /// Returns `nil` for everything that is not such an inducer.
-    static func contraceptiveEfficacyCaution(forSubstance name: String) -> Modulator? {
+    static func contraceptiveEfficacyCaution(forSubstance name: String, in catalog: [Modulator]) -> Modulator? {
         // Canonicalize through the shared alias table so a brand name
         // ("Equetro") matches its compound's catalog entry.
         let key = PharmacologyNameKey.canonical(name, aliases: HalfLifeDatabase.sharedAliases)
@@ -326,7 +277,11 @@ nonisolated enum MetabolicModulation {
     /// smoking) and self-edge that *could* affect it, independent of the user's profile or what else is
     /// logged. "Grapefruit raises levels of this drug", "smoking lowers them". Empty when no major
     /// clearance enzyme is modulated.
-    static func educationalEffects(forSubstance name: String, metabolism: [SubstanceStore.MetabolismHit]) -> [Effect] {
+    static func educationalEffects(
+        forSubstance name: String,
+        metabolism: [SubstanceStore.MetabolismHit],
+        catalog: [Modulator],
+    ) -> [Effect] {
         let enzymes = majorEnzymes(metabolism: metabolism)
         guard !enzymes.isEmpty else { return [] }
         let key = PharmacologyNameKey.canonical(name, aliases: HalfLifeDatabase.sharedAliases)
@@ -345,6 +300,7 @@ nonisolated enum MetabolicModulation {
     /// flags and self-edges are excluded (the checker reasons about substance combinations only).
     @MainActor
     static func checkerEffects(among substances: [String]) -> [Effect] {
+        let catalog = SubstanceStore.shared.enzymeModulators()
         var results: [Effect] = []
         for substrate in substances {
             let enzymes = majorEnzymes(metabolism: SubstanceStore.shared.metabolism(forSubstanceName: substrate))

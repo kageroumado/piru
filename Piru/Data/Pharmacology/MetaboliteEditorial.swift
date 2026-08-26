@@ -22,6 +22,12 @@ import Foundation
 /// space-insensitive substring) so a curator string like
 /// `"O-desmethyltramadol (M1)"` or `"MDA (3,4-methylenedioxyamphetamine)"` still
 /// resolves.
+///
+/// The sentences stay here rather than in `metabolism.notes`: that column carries
+/// the enrichment layer's quoted paper text with its citation, and these are
+/// localized app copy — a different register in a column with no `language`
+/// dimension. `MetaboliteEditorialTests` is what keeps the keys honest, failing
+/// when a key stops naming a real metabolism row.
 nonisolated enum MetaboliteEditorial {
     struct DivergentNote {
         let parent: String
