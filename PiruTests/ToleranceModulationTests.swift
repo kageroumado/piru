@@ -9,6 +9,13 @@ import Testing
 @Suite("ToleranceModulation")
 @MainActor
 struct ToleranceModulationTests {
+    init() async {
+        // The edges are installed at index build, so nothing modulates until the
+        // store is up — an empty graph would make every test here pass by
+        // measuring an effect that is switched off.
+        await SubstanceStore.shared.ensureAllLoaded()
+    }
+
     static let now = Date(timeIntervalSince1970: 1_700_000_000)
 
     static func dose(_ substance: String, mg: Double, daysAgo: Double) -> DoseEntry {
@@ -33,15 +40,26 @@ struct ToleranceModulationTests {
     // MARK: - The seed edge
 
     @Test
-    func `The seed edge is NMDA antagonism attenuating opioid tolerance, and nothing else`() {
+    func `NMDA antagonism attenuates opioid tolerance`() {
+        // The cardinality is a row count and belongs to the curated file; what
+        // must hold here is the direction — an edge that did not attenuate would
+        // be a modulator accelerating tolerance, which nothing has claimed.
         let nmda = ToleranceModulation.edges(forModulatorClass: .nmdaAntagonist)
-        #expect(nmda.count == 1)
-        #expect(nmda.first?.affectedClass == .muOpioid)
-        #expect((nmda.first?.muFactor ?? 1) < 1)
-        // No accidental edges on unrelated modulator classes.
-        #expect(ToleranceModulation.edges(forModulatorClass: .gaba).isEmpty)
-        #expect(ToleranceModulation.edges(forModulatorClass: .adenosine).isEmpty)
-        #expect(ToleranceModulation.edges(forModulatorClass: .muOpioid).isEmpty)
+        let opioid = nmda.first { $0.affectedClass == .muOpioid }
+        #expect(opioid != nil, "the NMDA → μ-opioid edge did not load")
+        #expect(nmda.allSatisfy { $0.muFactor < 1 }, "an NMDA edge accelerates tolerance")
+    }
+
+    @Test
+    func `Every modulation edge is a real modulation`() {
+        // A factor of 1 reads on every later inspection as a real edge whose
+        // magnitude someone forgot to fill in.
+        for modulator in ReceptorClasses.ReceptorClass.allCases {
+            for edge in ToleranceModulation.edges(forModulatorClass: modulator) {
+                #expect(edge.muFactor > 0, "\(modulator) → \(edge.affectedClass) has a non-positive factor")
+                #expect(edge.muFactor != 1, "\(modulator) → \(edge.affectedClass) modulates by nothing")
+            }
+        }
     }
 
     // MARK: - The modulation effect

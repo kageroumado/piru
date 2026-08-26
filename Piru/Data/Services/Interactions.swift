@@ -105,7 +105,10 @@ struct PKInteractionFinding: Identifiable, Hashable {
 
 // MARK: - Drug Class (for interaction matching)
 
-nonisolated enum DrugClass: String, Codable {
+/// `CaseIterable` so the coverage gates enumerate the classes themselves — a new
+/// case joins the unruled set, or gets a representative substance, by failing a
+/// test rather than by being missed off a hand-written list.
+nonisolated enum DrugClass: String, Codable, CaseIterable {
     case opioid
     case benzodiazepine
     /// Barbiturates (phenobarbital, pentobarbital, secobarbital, thiopental, …) and
@@ -645,10 +648,19 @@ enum InteractionChecker {
         return duplicates
     }
 
+    private static let ruleLookupCache = OSAllocatedUnfairLock<[String: InteractionRule]?>(
+        initialState: nil,
+    )
+
     /// Every `interaction_rules` row, keyed by its sorted class pair for O(1)
-    /// lookup. A pair Piru has adjudicated shows its localized sentence; the
-    /// rest show the row's own note, which is TripSit's prose in English.
-    private static let ruleLookup: [String: InteractionRule] = {
+    /// lookup. A pair Piru has adjudicated shows its localized sentence; the rest
+    /// show the row's own note, which is TripSit's prose in English.
+    ///
+    /// An empty result is **not** memoised. Every rule the app has now comes from
+    /// one read, so caching a failed one would leave the process with no
+    /// interaction warnings at all — and nothing on screen would say so.
+    private static var ruleLookup: [String: InteractionRule] {
+        if let cached = ruleLookupCache.withLock({ $0 }) { return cached }
         var dict: [String: InteractionRule] = [:]
         for bundled in SubstanceStore.shared.classInteractionRules() {
             guard let classA = DrugClass(rawValue: bundled.classA),
@@ -663,8 +675,10 @@ enum InteractionChecker {
                 description: copy.map { String(localized: $0) } ?? bundled.note,
             )
         }
-        return dict
-    }()
+        let loaded = dict
+        if !loaded.isEmpty { ruleLookupCache.withLock { $0 = loaded } }
+        return loaded
+    }
 
     private static func findRule(_ a: DrugClass, _ b: DrugClass) -> InteractionRule? {
         ruleLookup[InteractionRuleCopy.key(a, b)]

@@ -62,8 +62,12 @@ fix, not noise to tolerate.
 | `substance-flags.json` | `substance_flags` | booleans an engine reads and nothing renders |
 | `regional-names.json` | `regional_names` | which spelling of a name to display in which regions |
 | `opioid-mme.json` | `opioid_mme` | oral morphine-milligram-equivalent factors, and which opioids must never be converted |
+| `interaction-rules.json` | `interaction_rules` | which class pairs interact and how badly; ingested ahead of TripSit's matrix so a curated verdict wins the pair |
+| `substance-interaction-classes.json` | `substance_interaction_classes` | the interaction class a name carries, overriding its category |
+| `category-interaction-classes.json` | `category_interaction_classes` | the interaction class each category falls back to |
+| `tolerance-modulation.json` | `tolerance_modulation` | which receptor class, while onboard, slows another's tolerance development |
 | `alias-kinds.json`, `brands.json` | `aliases` | alias provenance, brand flagships |
-| `drug-classes.json` | `substances.drug_class` | interaction-checker class per substance |
+| `drug-classes.json` | `substances.drug_class` | normalized antidepressant subclass (SSRI/SNRI/NRI/…), not the interaction class |
 
 Adding one is: a path read in the ingester, DDL in `SCHEMA_SQL`, a method on
 `Build`, a call + `print` in `main()`, the table in the build-report row-count

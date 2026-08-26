@@ -1240,19 +1240,24 @@ final class SubstanceStore {
 
     /// `substance_interaction_classes` as lowercased name → the interaction classes that name carries,
     /// aliases included. Read once and held (see ``interactionClassCache``).
+    ///
+    /// An empty result is not held: every override the checker has comes from this one read, so
+    /// memoizing a failed one would silently return every barbiturate and beta-blocker to the
+    /// interaction-invisible `other` class for the rest of the process.
     func interactionClasses() -> [String: [DrugClass]] {
         if let cached = interactionClassCache { return cached }
         let loaded = reader.substanceInteractionClasses()
-        interactionClassCache = loaded
+        if !loaded.isEmpty { interactionClassCache = loaded }
         return loaded
     }
 
     /// `category_interaction_classes` as category raw value → the interaction class it falls back to.
-    /// Read once and held (see ``categoryInteractionClassCache``).
+    /// Read once and held (see ``categoryInteractionClassCache``); an empty result is not held, for
+    /// the same reason as ``interactionClasses()``.
     func categoryInteractionClasses() -> [String: DrugClass] {
         if let cached = categoryInteractionClassCache { return cached }
         let loaded = reader.categoryInteractionClasses()
-        categoryInteractionClassCache = loaded
+        if !loaded.isEmpty { categoryInteractionClassCache = loaded }
         return loaded
     }
 

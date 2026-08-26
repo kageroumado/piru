@@ -4,6 +4,10 @@ import Testing
 
 @Suite("Interaction Rules Extended")
 struct InteractionRuleTests {
+    init() async {
+        await SubstanceStore.shared.ensureAllLoaded()
+    }
+
     private func makeEntry(substance: String, amount: Double = 10, timestamp: Date = .now) -> DoseEntry {
         DoseEntry(substance: substance, amount: amount, route: .oral, timestamp: timestamp)
     }
@@ -111,157 +115,66 @@ struct InteractionRuleTests {
         }
     }
 
-    // MARK: - Dangerous Interactions
+    // MARK: - Adjudications that contradict the folk ordering
+
+    //
+    // Each of these is a *ranking* claim, not a severity: the absolute tiers are
+    // rows now and are gated with their reasoning in
+    // `pipeline/build/tests/test_sqlite.py`. What must survive a rebuild is the
+    // order, which is the part that was actually adjudicated.
 
     @Test
-    func `Opioid + Alcohol is dangerous`() {
-        let entry = makeEntry(substance: "Morphine")
-        let results = InteractionChecker.check("Alcohol", against: [entry])
-        #expect(!results.isEmpty)
-        #expect(results[0].severity == .dangerous)
+    func `An antidepressant SERT blocker ranks below an MAOI with an empathogen`() throws {
+        // SSRIs blunt MDMA rather than endangering it — the replicated human
+        // finding is 30–80% effect reduction, and no serotonin-syndrome case has
+        // MDMA as sole agent. The lethal serotonergic edge is the MAOI. Folk
+        // ordering has these the other way round.
+        let blunting = InteractionChecker.check("MDMA", against: [makeEntry(substance: "Sertraline")])
+            .first { $0.substanceB.lowercased() == "sertraline" }
+        let lethal = InteractionChecker.check("MDMA", against: [makeEntry(substance: "Phenelzine")])
+            .first { $0.substanceB.lowercased() == "phenelzine" }
+        #expect(blunting != nil && lethal != nil)
+        #expect(try #require(blunting?.severity) < lethal!.severity, "MDMA + SSRI must rank below MDMA + MAOI")
+        #expect(try #require(blunting?.prominence) < .blocking, "blunting must not stop the reader")
     }
 
     @Test
-    func `MAOI + Stimulant is dangerous`() {
-        let entry = makeEntry(substance: "Phenelzine")
-        let results = InteractionChecker.check("Cocaine", against: [entry])
-        #expect(!results.isEmpty)
-        #expect(results[0].severity == .dangerous)
-    }
-
-    @Test
-    func `Lithium + Psychedelic is dangerous`() {
-        let entry = makeEntry(substance: "Lithium")
-        let results = InteractionChecker.check("LSD", against: [entry])
-        #expect(!results.isEmpty)
-        #expect(results[0].severity == .dangerous)
-    }
-
-    @Test
-    func `GHB + Alcohol is dangerous`() {
-        let entry = makeEntry(substance: "GHB")
-        let results = InteractionChecker.check("Alcohol", against: [entry])
-        #expect(!results.isEmpty)
-        #expect(results[0].severity == .dangerous)
-    }
-
-    @Test
-    func `Benzo + Alcohol is dangerous`() {
-        let entry = makeEntry(substance: "Alprazolam")
-        let results = InteractionChecker.check("Alcohol", against: [entry])
-        #expect(!results.isEmpty)
-        #expect(results[0].severity == .dangerous)
-    }
-
-    // MARK: - Unsafe Interactions
-
-    @Test
-    func `Opioid + Gabapentinoid is unsafe`() {
-        let entry = makeEntry(substance: "Morphine")
-        let results = InteractionChecker.check("Gabapentin", against: [entry])
-        #expect(!results.isEmpty)
-        #expect(results[0].severity == .unsafe)
-    }
-
-    @Test
-    func `SSRI + Empathogen is caution (blunting, not danger)`() {
-        // SSRIs blunt MDMA rather than endangering — a myth-buster, so the pair reads `.caution`,
-        // never `.unsafe`/`.dangerous`. (The lethal serotonergic edge is MAOI + empathogen.)
-        let entry = makeEntry(substance: "Sertraline")
-        let results = InteractionChecker.check("MDMA", against: [entry])
-        let pair = results.first { $0.substanceB.lowercased() == "sertraline" }
-        #expect(pair?.severity == .caution)
-        // MDMA is empathogen + stimulant, but none of its antidepressant pairings should be danger-coloured.
-        #expect(!results.contains { $0.severity == .dangerous })
-    }
-
-    @Test
-    func `Tramadol + Empathogen is dangerous (serotonin adder, not blunting)`() {
-        // Tramadol ADDS serotonin (+ lowers seizure threshold) — it must not ride the SNRI blunting
-        // rule. Foundation-C evidence run (2026-06-22): SS grade B/HIGH, seizure A/HIGH → dangerous.
-        // A meaningful (non-trivial) tramadol dose so the relevance gate doesn't suppress it as
-        // sub-threshold — serotonergic adders aren't in persistentClasses, so the dose gate applies.
-        let entry = makeEntry(substance: "Tramadol", amount: 100)
-        let results = InteractionChecker.check("MDMA", against: [entry])
-        let pair = results.first { $0.substanceB.lowercased() == "tramadol" }
-        #expect(pair?.severity == .dangerous)
-    }
-
-    @Test
-    func `DXM + Empathogen is dangerous, never blunting`() {
-        // DXM + MDMA is a real serotonin-toxicity combo — it must never read as antidepressant blunting.
-        let entry = makeEntry(substance: "DXM", amount: 200)
-        let results = InteractionChecker.check("MDMA", against: [entry])
-        let pair = results.first { $0.substanceB.lowercased() == "dxm" }
-        #expect(pair?.severity == .dangerous)
-    }
-
-    // MARK: - Alpha-2 agonists & beta-blockers (Foundation-C run, 2026-06-22)
-
-    @Test
-    func `Clonidine is an alpha-2 agonist, not interaction-invisible .other`() {
-        // Was mapped to .other (zero rules). Now a real class so its depressant/opioid edges fire.
-        #expect(InteractionChecker.drugClasses(for: "Clonidine") == [.alpha2Agonist])
-        #expect(InteractionChecker.drugClasses(for: "Propranolol") == [.betaBlocker])
-    }
-
-    @Test
-    func `Alpha-2 agonist + opioid is dangerous`() {
-        // Clonidine is the prospective (amount-unknown) side so the dose gate doesn't touch it — its
-        // bundled dose-range has a corrupt unit row (µg values labeled g) that can read as sub-threshold.
-        let entry = makeEntry(substance: "Morphine", amount: 30)
-        let results = InteractionChecker.check("Clonidine", against: [entry])
-        let pair = results.first { $0.substanceB.lowercased() == "morphine" }
-        #expect(pair?.severity == .dangerous)
-    }
-
-    @Test
-    func `Beta-blocker + stimulant is only caution (unopposed-alpha is contested dogma)`() {
-        // The blanket "never mix beta-blockers with stimulants" contraindication failed verification —
-        // graded caution, not dangerous (evidence run 2026-06-22).
-        let entry = makeEntry(substance: "Propranolol", amount: 40)
-        let results = InteractionChecker.check("Amphetamine", against: [entry])
-        let pair = results.first { $0.substanceB.lowercased() == "propranolol" }
-        #expect(pair?.severity == .caution)
-    }
-
-    @Test
-    func `Beta-blocker + alpha-2 agonist is unsafe (withdrawal hypertensive crisis)`() {
-        let entry = makeEntry(substance: "Propranolol", amount: 40)
-        let results = InteractionChecker.check("Clonidine", against: [entry])
-        let pair = results.first { $0.substanceB.lowercased() == "propranolol" }
-        #expect(pair?.severity == .unsafe)
-    }
-
-    @Test
-    func `Opioid + Opioid is unsafe`() {
-        let entry = makeEntry(substance: "Morphine")
-        let results = InteractionChecker.check("Fentanyl", against: [entry])
-        #expect(!results.isEmpty)
-        #expect(results[0].severity == .unsafe)
-    }
-
-    // MARK: - Caution Interactions
-
-    @Test
-    func `Stimulant + Stimulant is caution`() {
-        // A realistic caffeine dose — 10 mg is below threshold and is now
-        // (correctly) gated out as a sub-threshold interaction.
-        let entry = makeEntry(substance: "Caffeine", amount: 100)
-        let results = InteractionChecker.check("Cocaine", against: [entry])
-        #expect(!results.isEmpty)
-        #expect(results[0].severity == .caution)
-    }
-
-    @Test
-    func `Cannabinoid + Psychedelic is caution`() {
-        let entry = makeEntry(substance: "Cannabis")
-        let results = InteractionChecker.check("LSD", against: [entry])
-        // Cannabis needs to be in the library as cannabinoid for this to work
-        // If not in cache, this may return empty
-        if !results.isEmpty {
-            #expect(results[0].severity == .caution)
+    func `A serotonin adder outranks a SERT blocker with an empathogen`() throws {
+        // Tramadol and DXM *raise* serotonin rather than competing it away, so
+        // they stack where an antidepressant blunts. Routing either into the
+        // `.ssri` bucket would invert this.
+        let blocker = InteractionChecker.check("MDMA", against: [makeEntry(substance: "Sertraline")])
+            .first { $0.substanceB.lowercased() == "sertraline" }
+        for adder in ["Tramadol", "DXM"] {
+            let result = InteractionChecker.check("MDMA", against: [makeEntry(substance: adder, amount: 200)])
+                .first { $0.substanceB.lowercased() == adder.lowercased() }
+            #expect(result != nil, "MDMA + \(adder) returned nothing")
+            #expect(try #require(result?.severity) > blocker!.severity, "MDMA + \(adder) must outrank MDMA + SSRI")
         }
+    }
+
+    @Test
+    func `A beta-blocker with a stimulant never stops the reader`() throws {
+        // The blanket "never mix" contraindication failed verification — large
+        // reviews found no real harm. Both still strain the heart, so the pair is
+        // shown; it just may not interrupt.
+        let pair = InteractionChecker.check("Amphetamine", against: [makeEntry(substance: "Propranolol", amount: 40)])
+            .first { $0.substanceB.lowercased() == "propranolol" }
+        #expect(pair != nil, "beta-blocker + stimulant returned nothing")
+        #expect(try #require(pair?.prominence) < .blocking)
+    }
+
+    @Test
+    func `Alpha-2 agonist plus opioid stops the reader`() {
+        // The xylazine/"tranq" reality: naloxone reverses the opioid and not the
+        // alpha-2 sedation, which is why this one has to interrupt. Clonidine is
+        // the prospective (amount-unknown) side so the dose gate leaves it alone —
+        // its bundled dose range has a corrupt unit row that can read as
+        // sub-threshold.
+        let pair = InteractionChecker.check("Clonidine", against: [makeEntry(substance: "Morphine", amount: 30)])
+            .first { $0.substanceB.lowercased() == "morphine" }
+        #expect(pair != nil, "alpha-2 + opioid returned nothing")
+        #expect(pair?.prominence == .blocking)
     }
 
     // MARK: - Orexin antagonists (DORAs)

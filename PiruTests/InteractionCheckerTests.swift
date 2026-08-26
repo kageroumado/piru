@@ -5,6 +5,10 @@ import Testing
 
 @Suite("InteractionChecker")
 struct InteractionCheckerTests {
+    init() async {
+        await SubstanceStore.shared.ensureAllLoaded()
+    }
+
     // MARK: - Helpers
 
     /// Create a DoseEntry using an in-memory SwiftData container
@@ -278,23 +282,28 @@ struct InteractionCheckerTests {
     // MARK: - Bundled class-pair rules
 
     @Test
-    func `TripSit fills pairs the hand-written table does not cover`() throws {
-        // Tramadol is `serotonergic` here, and the Swift table carries no rule
-        // for it with alcohol, benzodiazepines, GHB or stimulants — every one
-        // of which TripSit calls dangerous, on seizure and respiratory grounds.
+    func `TripSit fills pairs curation does not cover`() throws {
+        // Tramadol is `serotonergic` here, and no curated rule pairs that class
+        // with alcohol, benzodiazepines, GHB or stimulants — every one of which
+        // TripSit covers, on seizure and respiratory grounds. A pair with no
+        // curated copy shows the row's own note, so a non-empty description is
+        // what says the bundled layer reached the reader.
+        #expect(InteractionRuleCopy.note(.serotonergic, .alcohol) == nil, "this pair is curated now")
         let results = InteractionChecker.checkBatch(["Tramadol", "Alcohol"], against: [])
         let finding = try #require(results.first)
-        #expect(finding.severity == .dangerous)
         #expect(!finding.description.isEmpty)
     }
 
     @Test
-    func `A hand-written rule wins over the bundled one`() throws {
-        // TripSit calls tramadol + SSRI dangerous; the curated rule calls it
-        // unsafe, and the curated verdict is the one that has been checked.
+    func `A curated rule wins over the bundled one`() throws {
+        // TripSit and curation both name serotonergic + SSRI. The curated verdict
+        // is the one that has been checked, and its sentence is the one shown —
+        // which is the observable difference, since a TripSit row would arrive as
+        // that source's own prose.
+        let curated = try #require(InteractionRuleCopy.note(.serotonergic, .ssri))
         let results = InteractionChecker.checkBatch(["Tramadol", "Sertraline"], against: [])
         let finding = try #require(results.first)
-        #expect(finding.severity == .unsafe)
+        #expect(finding.description == String(localized: curated))
     }
 
     @Test
@@ -303,7 +312,7 @@ struct InteractionCheckerTests {
         // effect blockade. A bundled rule must not overturn that.
         let results = InteractionChecker.checkBatch(["MDMA", "Sertraline"], against: [])
         let finding = try #require(results.first)
-        #expect(finding.severity == .caution)
+        #expect(finding.prominence < .blocking, "blockade must not arrive as a danger")
         #expect(finding.description.localizedCaseInsensitiveContains("blunt"))
     }
 
@@ -356,45 +365,5 @@ struct InteractionCheckerTests {
         #expect(!danger.leadClause.contains("—"))
         #expect(danger.leadClause.count < danger.description.count)
         #expect(!danger.leadClause.isEmpty)
-    }
-}
-
-/// Structural guards on the rule table itself — the ones a data edit can break
-/// without breaking a behavior test.
-@Suite("Interaction rule table")
-@MainActor
-struct InteractionRuleTableTests {
-    /// Every class that appears in at least one rule, derived by asking the
-    /// checker rather than by reading the table (which is private).
-    private var ruled: Set<DrugClass> {
-        var found: Set<DrugClass> = []
-        let all: [DrugClass] = [
-            .opioid, .benzodiazepine, .barbiturate, .stimulant, .psychedelic, .dissociative,
-            .empathogen, .cannabinoid, .gabapentinoid, .alcohol, .ghb, .orexinAntagonist,
-            .antihistamine, .maoi, .ssri, .snri, .tca, .serotonergic, .lithium,
-            .antipsychotic, .alpha2Agonist, .betaBlocker, .supplement, .other,
-        ]
-        for a in all where InteractionChecker.hasAnyRule(a) {
-            found.insert(a)
-        }
-        return found
-    }
-
-    @Test
-    func `The set of classes no rule mentions is exactly the documented one`() {
-        let all: Set<DrugClass> = [
-            .opioid, .benzodiazepine, .barbiturate, .stimulant, .psychedelic, .dissociative,
-            .empathogen, .cannabinoid, .gabapentinoid, .alcohol, .ghb, .orexinAntagonist,
-            .antihistamine, .maoi, .ssri, .snri, .tca, .serotonergic, .lithium,
-            .antipsychotic, .alpha2Agonist, .betaBlocker, .supplement, .other,
-        ]
-        #expect(all.subtracting(ruled) == DrugClass.unruled)
-    }
-
-    @Test
-    func `No class pair is declared twice`() {
-        // The lookup is a dictionary keyed on the sorted pair, so a second
-        // declaration silently replaces the first — including a divergent one.
-        #expect(InteractionChecker.duplicateRuleKeys.isEmpty)
     }
 }
