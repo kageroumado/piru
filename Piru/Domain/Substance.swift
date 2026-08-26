@@ -1521,7 +1521,11 @@ struct Substance: Identifiable {
     /// sort runs in a `Task.detached` where the project-default `MainActor`
     /// isolation would otherwise forbid the access (a Release-only warning).
     nonisolated var displayTitle: String {
-        let base = RegionalSubstanceName.resolve(canonicalName: name) ?? displayName ?? name
+        // The user's own relabel outranks the region default: naming a med the
+        // way you say it is a stronger signal than the spelling your locale
+        // prefers, and the five substances carrying a regional row (paracetamol
+        // above all) are exactly the ones someone relabels.
+        let base = displayName ?? RegionalSubstanceName.resolve(canonicalName: name) ?? name
         return Substance.strippingLeadingPictograph(base).text
     }
 

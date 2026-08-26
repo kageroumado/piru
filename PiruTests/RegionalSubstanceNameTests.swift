@@ -71,6 +71,33 @@ struct RegionalSubstanceNameTests {
         #expect(RegionalSubstanceName.resolve(canonicalName: "MDMA", region: "US") == nil)
     }
 
+    /// `displayTitle` consults the relabel first. Nothing else covers the interaction, and the
+    /// substances carrying a regional row are precisely the ones a user relabels — so a regression
+    /// here silently discards the relabel on paracetamol and four others, with no feedback.
+    @Test
+    func `A user relabel outranks the regional spelling`() {
+        let relabelled = Substance(
+            name: "Acetaminophen",
+            displayName: "Doliprane",
+            aliases: [],
+            category: .other,
+            defaultRoute: .oral,
+            routes: [],
+            effects: [],
+        )
+        #expect(relabelled.displayTitle == "Doliprane")
+
+        let unlabelled = Substance(
+            name: "Acetaminophen",
+            aliases: [],
+            category: .other,
+            defaultRoute: .oral,
+            routes: [],
+            effects: [],
+        )
+        #expect(unlabelled.displayTitle == RegionalSubstanceName.resolve(canonicalName: "Acetaminophen"))
+    }
+
     /// Every variant must name a substance the bundled DB actually carries, or the entry can never
     /// reach the screen: the only caller is ``Substance/displayTitle``, which is reached with a real
     /// substance's name. A norepinephrine entry sat in the old Swift table doing exactly this.
