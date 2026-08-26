@@ -16,8 +16,6 @@ nonisolated struct SaturableKineticsRow {
     /// `whole_body_mg_per_min` | `mg_per_kg_per_day`.
     let vmaxBasis: String?
     let vdLPerKg: Double?
-    /// Oral bioavailability `F ∈ (0, 1]`.
-    let bioavailability: Double?
     /// First-order absorption rate constant, per minute.
     let kaPerMin: Double?
     /// Terminal elimination half-life, minutes — present on an `absorption` row, whose clearance is
@@ -238,7 +236,7 @@ enum SaturablePharmacology {
                 displayName: copy.displayName,
                 mechanism: mechanism,
                 confidence: ConfidenceTier(grade: row.confidence),
-                kinetics: copy.kinetics(from: row),
+                kinetics: copy.kinetics(from: row, bioavailability: resolvedBioavailability(row.substanceName)),
                 absorption: copy.absorption(from: row, fByDose: fByDose[row.substanceName.lowercased()] ?? []),
                 headline: copy.headline,
                 knee: copy.knee,
@@ -246,6 +244,20 @@ enum SaturablePharmacology {
                 citation: row.citation,
             )
         }
+    }
+
+    /// Oral bioavailability for a ceiling profile, from the same `pk_routes` resolution every other
+    /// consumer reads. `saturable_kinetics` carries no F of its own, so a correction to a substance's
+    /// bioavailability reaches this tool with no second copy to remember.
+    ///
+    /// The resolver's fallback when a substance has no measured F is `1.0`, badged `.unverified` —
+    /// which is the consistent reading where the stored Vd is an apparent V/F, but not where this
+    /// table supplies a true Vd. Phenytoin is that case today: no `pk_routes` row carries its F, so its
+    /// curve is drawn at F = 1 and reads ~11% higher than a measured ~0.9 would give. The fix is a
+    /// sourced `pk_routes` row, not a column here.
+    private static func resolvedBioavailability(_ substanceName: String) -> Double {
+        SubstanceStore.shared.pharmacologyParameters(forSubstanceName: substanceName)
+            .bioavailabilityFraction ?? 1
     }
 
     /// Case-insensitive lookup by substance name (canonical or display alias handled by the caller).
@@ -438,11 +450,11 @@ enum SaturablePharmacology {
 
         /// Quantitative saturable-*elimination* kinetics for this substance, or `nil` when the DB row
         /// carries no Km/Vmax (a qualitative profile) or the mechanism is not elimination.
-        func kinetics(from row: SaturableKineticsRow) -> Kinetics? {
+        /// `bioavailability` comes from the substance's resolved pharmacology, not from this table.
+        func kinetics(from row: SaturableKineticsRow, bioavailability: Double) -> Kinetics? {
             guard let geometry, let km = row.kmMgPerL, let vmax = row.vmax,
                   let basis = Kinetics.VmaxBasis(rawBasis: row.vmaxBasis, value: vmax),
-                  let vdPerKg = row.vdLPerKg, let bioavailability = row.bioavailability,
-                  let ka = row.kaPerMin else { return nil }
+                  let vdPerKg = row.vdLPerKg, let ka = row.kaPerMin else { return nil }
             return Kinetics(
                 kmMgPerL: km,
                 vmax: basis,

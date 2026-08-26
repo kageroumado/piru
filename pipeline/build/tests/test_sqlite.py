@@ -3198,6 +3198,19 @@ class TestSignatureGates(unittest.TestCase):
         # would draw a human curve from an animal number.
         self.assertEqual(rows["ghb"], (None, None, None))
 
+    def test_saturable_kinetics_never_grows_a_bioavailability_column(self):
+        """Oral F has one home, `pk_routes`, and this table must not fork it.
+
+        Vd is carried here because it is genuinely a different quantity under the same
+        name (total body water against the forensic Widmark volume). F is not: a copy
+        here would go stale the moment someone corrects a substance's bioavailability
+        where it actually lives.
+        """
+        columns = {row[1] for row in self.db.execute("PRAGMA table_info(saturable_kinetics)")}
+        self.assertNotIn("bioavailability", columns)
+        self.assertNotIn("bioavailability_pct", columns)
+        self.assertIn("vd_l_per_kg", columns)
+
     def test_saturable_kinetics_rows_are_cited(self):
         """Every profile names its source, quantitative or not — the qualitative rows
         make a mechanism claim ("this saturates, in this direction") that a reader has

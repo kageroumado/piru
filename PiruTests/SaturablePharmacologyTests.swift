@@ -207,6 +207,15 @@ struct SaturablePharmacologyTests {
     // MARK: - Per-day → single dose
 
     @Test
+    func `a quantitative profile's F is the substance's resolved pk_routes bioavailability`() throws {
+        // `saturable_kinetics` deliberately carries no F column, so a correction to a substance's
+        // bioavailability reaches this tool without a second copy to update.
+        let kinetics = try #require(SaturablePharmacology.profile(forSubstanceName: "Alcohol")?.kinetics)
+        let resolved = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "Alcohol")
+        #expect(kinetics.bioavailability == (resolved.bioavailabilityFraction ?? 1))
+    }
+
+    @Test
     func `gabapentin's absorption table is its per-day series divided by the label's three doses`() throws {
         let perDay = SubstanceStore.shared.bioavailabilityByDose()["gabapentin"] ?? []
         let absorption = try #require(SaturablePharmacology.profile(forSubstanceName: "Gabapentin")?.absorption)

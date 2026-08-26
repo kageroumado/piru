@@ -404,7 +404,7 @@ extension PKModel {
     /// (Norberg, Gabrielsson, Jones & Hahn 2000, PMID 10792196).
     nonisolated static func ethanolZeroOrder(weightKg: Double) -> ZeroOrderKinetics {
         let w = weightKg.isFinite ? min(max(weightKg, 20), 300) : referenceBodyWeightKg
-        return ZeroOrderKinetics(bioavailability: 0.9, vmaxMgPerMin: ethanolVmaxMgPerMinPerKg * w, ka: 0.05)
+        return ZeroOrderKinetics(bioavailability: 0.88, vmaxMgPerMin: ethanolVmaxMgPerMinPerKg * w, ka: 0.05)
     }
 
     /// Canonical ethanol kinetics at the 60 kg reference weight — the fixed baseline used by tests and the

@@ -373,7 +373,7 @@ extension SubstanceReadModel {
         let rows = (try? queue.read { db in
             try Row.fetchAll(db, sql: """
                 SELECT s.canonical_name AS name, k.mechanism, k.confidence, k.km_mg_per_l,
-                       k.vmax, k.vmax_basis, k.vd_l_per_kg, k.bioavailability, k.ka_per_min,
+                       k.vmax, k.vmax_basis, k.vd_l_per_kg, k.ka_per_min,
                        k.half_life_min, k.citation_text
                   FROM saturable_kinetics k
                   JOIN substances s ON s.id = k.substance_id
@@ -392,7 +392,6 @@ extension SubstanceReadModel {
                 vmax: row["vmax"],
                 vmaxBasis: row["vmax_basis"],
                 vdLPerKg: row["vd_l_per_kg"],
-                bioavailability: row["bioavailability"],
                 kaPerMin: row["ka_per_min"],
                 halfLifeMinutes: row["half_life_min"],
                 citation: citation,

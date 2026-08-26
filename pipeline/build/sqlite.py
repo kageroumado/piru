@@ -1613,6 +1613,12 @@ CREATE TABLE regional_names (
 -- the forensic whole-body (Widmark) volume — 0.55 vs 0.7 L/kg for ethanol.
 -- Pairing a Vmax with the other convention's Vd moves where the curve crosses
 -- Km, so do not replace this column with a join.
+--
+-- There is deliberately NO bioavailability column, and adding one would fork a
+-- fact that already has a home: oral F is resolved from pk_routes like every
+-- other consumer's, so a correction to a substance's F reaches this tool without
+-- anyone remembering that it also had a copy here. Vd is the exception above
+-- precisely because it is NOT the same quantity under the same name; F is.
 CREATE TABLE saturable_kinetics (
     substance_id    INTEGER NOT NULL REFERENCES substances(id),
     source_id       INTEGER NOT NULL REFERENCES sources(id),
@@ -1627,8 +1633,6 @@ CREATE TABLE saturable_kinetics (
     -- whole_body_mg_per_min | mg_per_kg_per_day
     vmax_basis      TEXT,
     vd_l_per_kg     REAL,
-    -- Oral bioavailability as a fraction in (0, 1] — not a percentage.
-    bioavailability REAL,
     -- First-order absorption rate constant, per MINUTE (not per hour).
     ka_per_min      REAL,
     -- Terminal elimination half-life, minutes. Carried only on an `absorption`
@@ -9522,9 +9526,9 @@ class Build:
             self.cur.execute(
                 "INSERT OR REPLACE INTO saturable_kinetics"
                 "(substance_id, source_id, mechanism, confidence, km_mg_per_l, vmax, vmax_basis,"
-                " vd_l_per_kg, bioavailability, ka_per_min, half_life_min, rank, citation_id,"
+                " vd_l_per_kg, ka_per_min, half_life_min, rank, citation_id,"
                 " citation_text, notes)"
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     sid,
                     source_id,
@@ -9534,7 +9538,6 @@ class Build:
                     vmax,
                     basis,
                     entry.get("vdLPerKg"),
-                    entry.get("bioavailability"),
                     entry.get("kaPerMin"),
                     entry.get("halfLifeMin"),
                     rank,
