@@ -1632,6 +1632,12 @@ CREATE TABLE saturable_kinetics (
     vmax            REAL,
     -- whole_body_mg_per_min | mg_per_kg_per_day
     vmax_basis      TEXT,
+    -- The TOTAL-BODY-WATER volume of distribution the Vmax above was fitted
+    -- against (ethanol 0.55 L/kg, Holford's ~37 L / 70 kg). NOT the same
+    -- quantity as pk_routes.vd_l_per_kg, which for ethanol holds the forensic
+    -- whole-body (Widmark) volume of 0.7 L/kg. Never replace this column with a
+    -- join to pk_routes: pairing a Michaelis-Menten Vmax with the other
+    -- convention's Vd moves where the curve crosses Km.
     vd_l_per_kg     REAL,
     -- First-order absorption rate constant, per MINUTE (not per hour).
     ka_per_min      REAL,

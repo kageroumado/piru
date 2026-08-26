@@ -15,6 +15,10 @@ nonisolated struct SaturableKineticsRow {
     let vmax: Double?
     /// `whole_body_mg_per_min` | `mg_per_kg_per_day`.
     let vmaxBasis: String?
+    /// The **total-body-water** volume of distribution ``vmax`` was fitted against, L/kg. A different
+    /// quantity from the substance's `pk_routes` Vd, which for ethanol carries the forensic whole-body
+    /// (Widmark) 0.7 L/kg against this 0.55 — so never source this from the resolver instead: pairing a
+    /// Michaelis-Menten Vmax with the other convention's Vd moves where the curve crosses Km.
     let vdLPerKg: Double?
     /// First-order absorption rate constant, per minute.
     let kaPerMin: Double?
