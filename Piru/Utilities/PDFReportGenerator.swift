@@ -69,6 +69,10 @@ nonisolated enum PDFReportGenerator {
         /// table credits exactly what the in-app screen credits.
         var identityKey: String = ""
         var routeRaw: String = ""
+        /// The substance this name resolves to, resolved on the main actor at
+        /// snapshot-build time. Two logged names sharing one id are the same drug
+        /// under two spellings, which is the whole of the duplicate check.
+        var substanceID: Int64?
     }
 
     struct DailyDoseSnapshot {
@@ -525,39 +529,25 @@ nonisolated enum PDFReportGenerator {
         let totalEntries: Int
     }
 
+    /// Names logged separately that are one substance — a brand beside its generic, an
+    /// abbreviation beside its expansion.
+    ///
+    /// Two names are the same drug when they resolve to the same `substances` row, which the
+    /// snapshot carries. That is the alias table's whole job, so it covers every brand and spelling
+    /// the catalog knows rather than the dozen a hand-written list could name.
     private static func findDuplicates(in entries: [EntrySnapshot]) -> [DuplicateGroup] {
-        let allNames = Array(Set(entries.map(\.substance)))
-
-        // Known equivalent names (lowercased)
-        let equivalences: [[String]] = [
-            ["spironolactone", "espironolactone"],
-            ["l-theanine", "theanine"],
-            ["atomoxetine", "strattera"],
-            ["venlafaxine", "effexor"],
-            ["aripiprazole", "abilify"],
-            ["pregabalin", "lyrica"],
-            ["memantine", "namenda"],
-            ["tramadol", "ultram"],
-            ["dxm", "dextromethorphan"],
-            ["5-hydroxytryptophan", "5-htp"],
-            ["nac", "n-acetylcysteine", "n-acetyl cysteine"],
-            ["curcumin", "turmeric"],
-        ]
-
-        var groups: [DuplicateGroup] = []
-
-        for equiv in equivalences {
-            let found = allNames.filter { name in
-                equiv.contains(name.lowercased())
-            }
-            if found.count >= 2 {
-                let lowered = Set(found.map { $0.lowercased() })
-                let count = entries.count(where: { lowered.contains($0.substance.lowercased()) })
-                groups.append(DuplicateGroup(names: found.sorted(), totalEntries: count))
-            }
+        var byID: [Int64: (names: Set<String>, count: Int)] = [:]
+        for entry in entries {
+            guard let id = entry.substanceID else { continue }
+            var held = byID[id] ?? (names: [], count: 0)
+            held.names.insert(entry.substance)
+            held.count += 1
+            byID[id] = held
         }
-
-        return groups
+        return byID.values
+            .filter { $0.names.count >= 2 }
+            .map { DuplicateGroup(names: $0.names.sorted(), totalEntries: $0.count) }
+            .sorted { $0.names.lexicographicallyPrecedes($1.names) }
     }
 
     private static func drawDuplicates(_ cursor: inout Cursor, duplicates: [DuplicateGroup]) {

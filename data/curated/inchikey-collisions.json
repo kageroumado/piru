@@ -147,6 +147,14 @@
       ],
       "into": "4F-PHP",
       "note": "same drug; the 4F-PHP row's corrupt (a-PHP) key had hidden this duplicate from structural dedup. 4F-PHP is the standard short name; the richer 4-Fluoro-alpha-PHP row folds into it (data reassigned by _merge_into). Merge runs before the 0.0a key correction, which then fixes the surviving row's key to BCJXLSGKMNRRKO."
+    },
+    {
+      "members": [
+        "L-Theanine",
+        "Theanine"
+      ],
+      "into": "L-Theanine",
+      "note": "One compound under two rows: the theanine in tea is the L enantiomer, and the Theanine row's own key is the L one. The collision was invisible until L-Theanine got identifiers at all (identifier-corrections-manual.json) — it had none, so nothing collided. Keeping L-Theanine: it holds the half-life, the binding row and the Chinese name, and already lists Theanine as an alias. Split, a dose logged as 'theanine' and one logged as 'L-theanine' landed on different substances — two of every graph and every stat."
     }
   ]
 }

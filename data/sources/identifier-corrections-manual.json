@@ -189,5 +189,11 @@
     "smiles": "CN1CCC=C(C1)C(=O)OC",
     "cas": "63-75-2",
     "formula": "C8H13NO2"
+  },
+  "L-Theanine": {
+    "inchikey": "DATAGRPVKZEWHA-YFKPBYRVSA-N",
+    "smiles": "CCNC(=O)CC[C@@H](C(=O)O)N",
+    "cas": "3081-61-6",
+    "formula": "C7H14N2O3"
   }
 }

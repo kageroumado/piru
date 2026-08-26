@@ -210,6 +210,7 @@ struct ReportView: View {
                 notes: entry.notes,
                 identityKey: entry.identityKey,
                 routeRaw: entry.route.rawValue,
+                substanceID: SubstanceStore.shared.substanceID(forNameOrAlias: entry.substance),
             )
         }
 
