@@ -1,7 +1,8 @@
 import Foundation
 
 // Metabolism read models. The query that builds them is
-// `SubstanceStore+Pharmacology.metabolism(forSubstanceName:)`.
+// `SubstanceReadModel.metabolismRows(substanceID:db:order:)`, reached through
+// `SubstanceStore.metabolism(forSubstanceName:)`.
 extension SubstanceStore {
     /// One metabolism row — an enzyme/pathway and (optionally) the metabolite it
     /// produces — joined to its source + citation. Surfaced alongside

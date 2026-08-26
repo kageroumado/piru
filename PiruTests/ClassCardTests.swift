@@ -143,7 +143,7 @@ struct ActiveIngredientTests {
         // "Original Felder/Showalter measurement") and CBD's (GPR55) — a plant
         // has no Kᵢ.
         let cannabisID = try #require(store.substanceID(forNameOrAlias: "Cannabis"))
-        #expect(SubstanceStore.bindingRows(substanceID: cannabisID, db: store.substancesDB).isEmpty)
+        #expect(SubstanceReadModel.bindingRows(substanceID: cannabisID, db: store.substancesDB).isEmpty)
     }
 
     @Test

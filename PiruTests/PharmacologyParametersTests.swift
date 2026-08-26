@@ -192,9 +192,9 @@ struct PharmacologyParametersTests {
         #expect(meph.canComputeOccupancy)
         let db = SubstanceStore.shared.substancesDB
         let mephID = try #require(SubstanceStore.shared.substanceID(forNameOrAlias: "Mephedrone"))
-        #expect(SubstanceStore.pkReference(substanceID: mephID, db: db) == nil) // no onward pointer
+        #expect(SubstanceReadModel.pkReference(substanceID: mephID, db: db) == nil) // no onward pointer
         let twoID = try #require(SubstanceStore.shared.substanceID(forNameOrAlias: "2-MMC"))
-        let ref = try #require(SubstanceStore.pkReference(substanceID: twoID, db: db))
+        let ref = try #require(SubstanceReadModel.pkReference(substanceID: twoID, db: db))
         #expect(ref.name == "Mephedrone")
         #expect(ref.confidence <= .low)
     }
