@@ -62,6 +62,8 @@ fix, not noise to tolerate.
 | `substance-flags.json` | `substance_flags` | booleans an engine reads and nothing renders |
 | `regional-names.json` | `regional_names` | which spelling of a name to display in which regions |
 | `opioid-mme.json` | `opioid_mme` | oral morphine-milligram-equivalent factors, and which opioids must never be converted |
+| `withdrawal-bands.json` | `withdrawal_timing_bands`, `withdrawal_acting_class` | the discontinuation onset/peak windows, and which band a named benzodiazepine belongs to |
+| `taper-interventions.json` | `taper_interventions` | what the trial literature found for each intervention tried alongside a taper |
 | `alias-kinds.json`, `brands.json` | `aliases` | alias provenance, brand flagships |
 | `drug-classes.json` | `substances.drug_class` | interaction-checker class per substance |
 

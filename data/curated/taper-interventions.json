@@ -1,0 +1,106 @@
+{
+  "_comment": "What the clinical-trial literature found for each intervention tried alongside a benzodiazepine taper — including, and more usefully, the ones that did nothing. The verdict and the trial arithmetic are data and live here; the sentence a reader sees is localized copy in Swift keyed by `intervention`, so a row can never ship an untranslated finding.",
+  "citation": "Navarrete F, Garcia-Gutierrez MS, Gasparyan A, Manzanares J. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430; doi:10.3390/ijms27031430",
+  "source": "piru-curated",
+  "_sample_size": "The n of the single controlled trial the row rests on. Null when the row summarizes several trials with different ns (their counts go in `trialCount` and their individual ns in `notes`), or when it rests on synthesis or consensus rather than one study.",
+  "_no_outcome_columns": "Effect sizes stay in the prose deliberately. The three rows carrying one state it as '82.6% vs 37.5%', '79% at week 5' and 'more than 60%' — a column would have to store the third as 60 and drop the bound, which is a wrong number wearing a schema's authority.",
+
+  "interventions": [
+    {
+      "intervention": "cbt-plus-taper",
+      "verdict": "supported",
+      "notes": "NAV26 Sec. 8.4: a meta-analysis found the proportion of patients discontinuing significantly higher with CBT plus gradual tapering than with tapering alone, both short-term (3 months) and long-term (6 to 12 months after allocation)."
+    },
+    {
+      "intervention": "gradual-taper",
+      "verdict": "supported",
+      "notes": "NAV26 Sec. 8.1: consensus is gradual discontinuation over 4 to 6 weeks, and approximately 2 of 3 patients achieve discontinuation short-term with 1 of 3 maintaining long-term abstinence. The review states there is NO consensus rate — 'no unique tapering strategy regarding duration or rate' — so the app's '25% reduction per week' is not a consensus figure; it is the taper protocol the Sec. 8.3 trials happened to use."
+    },
+    {
+      "intervention": "imipramine",
+      "verdict": "supported",
+      "sampleSize": 107,
+      "notes": "NAV26 Sec. 8.3.2: long-term BZD users with GAD (n = 107) in a discontinuation program; taper success 82.6% with imipramine 180 mg/day vs 37.5% placebo. The trial's third arm was buspirone 38 mg/day."
+    },
+    {
+      "intervention": "carbamazepine",
+      "verdict": "supported",
+      "trialCount": 3,
+      "notes": "NAV26 Sec. 8.3.1: three trials — n = 40 (significantly more BZD-free at week 5, no difference in withdrawal severity), n = 36 elderly (lower withdrawal incidence p < 0.01, reduced anxiety p < 0.05), and n = 36 panic disorder plus n = 35 GAD (alprazolam withdrawal)."
+    },
+    {
+      "intervention": "pregabalin",
+      "verdict": "supported",
+      "sampleSize": 106,
+      "trialCount": 1,
+      "notes": "NAV26 Sec. 8.3.1: the one randomized double-blind placebo-controlled trial (n = 106, chronic users with lifetime GAD, 25%/week taper) plus a 12-week prospective open non-controlled sleep study (n = 282). sampleSize is the controlled trial's."
+    },
+    {
+      "intervention": "valproate",
+      "verdict": "supported",
+      "sampleSize": 78,
+      "notes": "NAV26 Sec. 8.3.1: 79% of valproate patients abstinent at week 5 post-taper, significantly above placebo (p < 0.03); no significant effect on withdrawal severity or taper success at 12 weeks. n = 78 was a three-arm trial whose third arm was trazodone."
+    },
+    {
+      "intervention": "flumazenil",
+      "verdict": "supported",
+      "trialCount": 2,
+      "notes": "NAV26 Sec. 8.3.5: two trials by the same group — n = 36 during abrupt discontinuation, and n = 50 against oxazepam tapering and placebo, where flumazenil reduced withdrawal scores and craving. NAV26 Table 8 lists it under safety issues: it can precipitate a severe withdrawal syndrome, and Sec. 2 notes the response is unpredictable in chronic users."
+    },
+
+    {
+      "intervention": "melatonin",
+      "verdict": "not-supported",
+      "trialCount": 3,
+      "notes": "NAV26 Sec. 8.3.3: one positive trial (n = 34, more discontinued, p = 0.006) against two negative ones — n = 80 in methadone maintenance, and n = 38 with no difference in discontinuation at 1-year follow-up. Sleep quality improved in all three without improving discontinuation."
+    },
+    {
+      "intervention": "long-acting-switch",
+      "verdict": "not-supported",
+      "notes": "NAV26 Sec. 8.1: 'to date, there is insufficient evidence to support the efficacy of this strategy.' NAV26 Table 9 grades the evidence for switching to a long-acting BZD as Low. No trial count, because the review cites no trial of the strategy itself."
+    },
+    {
+      "intervention": "gabapentin",
+      "verdict": "not-supported",
+      "sampleSize": 19,
+      "notes": "NAV26 Sec. 8.3.1: one 8-week randomized double-blind placebo-controlled pilot in outpatients on methadone maintenance (n = 19), gabapentin titrated to 3600 mg. The review itself notes the limited sample may have reduced the power to detect an effect."
+    },
+    {
+      "intervention": "lithium",
+      "verdict": "not-supported",
+      "sampleSize": 244,
+      "notes": "NAV26 Sec. 8.3.5: French multicenter randomized double-blind placebo-controlled study in outpatients on BZD for at least 6 months (n = 244). Both arms discontinued at over 60% with no significant difference, and none on anxiety or withdrawal symptoms."
+    },
+    {
+      "intervention": "progesterone",
+      "verdict": "not-supported",
+      "sampleSize": 40,
+      "notes": "NAV26 Sec. 8.3.5: a single double-blind placebo-controlled study in patients with at least a year of continuous daily use (n = 40), progesterone titrated to a mean 1983 mg/day for 3 weeks against a 25%/week taper. No difference in taper withdrawal severity, anxiety control, or drug-free status at 12 weeks."
+    },
+    {
+      "intervention": "magnesium-aspartate",
+      "verdict": "not-supported",
+      "sampleSize": 144,
+      "notes": "NAV26 Sec. 8.3.5: 3-month randomized double-blind placebo-controlled trial in chronic users (n = 144); no significant difference in discontinuation, cessation without withdrawal or anxiety symptoms, or relapse. NAV26's own Table 8 disagrees with that narrative, listing magnesium aspartate under 'Worsening outcomes' as decreasing discontinuation rates."
+    },
+    {
+      "intervention": "ondansetron",
+      "verdict": "not-supported",
+      "sampleSize": 108,
+      "notes": "NAV26 Sec. 8.3.5: randomized double-blind trial in long-term users (n = 108), ondansetron 2 mg twice daily against a 6-week taper. Percentage dose reduction matched placebo at every time point, with no effect on withdrawal severity or anxiety."
+    },
+    {
+      "intervention": "buspirone",
+      "verdict": "not-supported",
+      "trialCount": 4,
+      "notes": "NAV26 Sec. 8.3.4: four small trials with contradictory results; three are described — n = 72 (less anxiety and fewer abstinence signs than placebo), n = 24 (lower anxiety, a trend), n = 24 (some anxiolysis, insufficient to assist withdrawal)."
+    },
+    {
+      "intervention": "propranolol",
+      "verdict": "not-supported",
+      "sampleSize": 40,
+      "trialCount": 1,
+      "notes": "NAV26 Sec. 8.3.4: one randomized double-blind placebo-controlled study in chronic lorazepam or diazepam users (n = 40), propranolol 60-120 mg/day. No effect on dropout rate or withdrawal incidence; symptom severity significantly reduced in completers."
+    }
+  ]
+}
