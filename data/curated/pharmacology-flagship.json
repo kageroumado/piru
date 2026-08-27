@@ -4,10 +4,11 @@
     "pk_routes": [
       {
         "route": "oral",
+        "bioavailability_pct": 90,
         "vd_l_per_kg": 0.7,
-        "bioavailability_pct": 88,
-        "confidence": "HIGH",
-        "reference": "10.1016/j.forsciint.2018.10.033"
+        "confidence": "MEDIUM",
+        "reference": "doi:10.1186/1472-6904-2-4",
+        "notes": "One row on purpose: the resolver takes F, Vd and t1/2 from a single coherent row, so splitting the two numbers across rows loses whichever the winning row lacks. The citation is the F's, because F is the number the timeline and the ceiling tool both read. There is no single oral F for ethanol; 90% is a stated PBPK model output for a typical drinking dose with food, not a midpoint — Levitt 2002 re-analyses the classic first-pass data and finds the AUC method behind the low figures overstates first-pass metabolism about twofold (73% vs 38% at 0.15 g/kg, 44% vs 7% at 0.3 g/kg), and that “FPM is close to zero for the fasting subjects”. Across the literature F runs ~0.62 fed at a small dose to ~1.0 fasted, and sex is a first-order covariate: women's first-pass metabolism measured ~23% of men's (Frezza 1990). A logged drink carries none of that. The Vd 0.7 L/kg is Maskell 2018's Widmark value (doi:10.1016/j.forsciint.2018.10.033) — that paper is a volume-of-distribution survey, and the 88% F this row used to carry was never in it: it says the opposite, that bioavailability under those conditions is “close to 100%”."
       }
     ]
   },

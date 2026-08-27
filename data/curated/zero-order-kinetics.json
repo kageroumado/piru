@@ -7,9 +7,9 @@
       "substance": "Alcohol",
       "vmaxMgPerMin": 95,
       "vmaxReferenceWeightKg": 60,
-      "kaPerMin": 0.05,
+      "kaPerMin": 0.026,
       "citation": "Norberg A, Gabrielsson J, Jones AW, Hahn RG. Within- and between-subject variations in pharmacokinetic parameters of ethanol by analysis of breath, venous blood and urine. Br J Clin Pharmacol 2000;49(5):399-408; doi:10.1046/j.1365-2125.2000.00194.x",
-      "notes": "Vmax 95 +/- 25 mg/min is Norberg's population mean over 16 subjects, quoted whole-body with no per-kg normalisation (Km 27 +/- 19 mg/L sits far below any intoxicating BAC, which is why the elimination reads as flat-rate). The 60 kg anchor is Piru's, not the paper's: it is the default profile weight, picked so an unset weight reproduces the published figure exactly. kaPerMin is a fitted absorption constant with no source of its own — Norberg dosed intravenously (0.4 g/kg infusion) and reports no oral absorption rate."
+      "notes": "Vmax 95 +/- 25 mg/min is Norberg's population mean over 16 subjects, quoted whole-body with no per-kg normalisation (Km 27 +/- 19 mg/L sits far below any intoxicating BAC, which is why the elimination reads as flat-rate). The 60 kg anchor is Piru's, not the paper's: it is the default profile weight, picked so an unset weight reproduces the published figure exactly. kaPerMin comes from Levitt 2002 (doi:10.1186/1472-6904-2-4): absorption half-time 26.8 min in the fasted arm, so ln2/t1/2 = 0.026/min. It is the FASTEST published condition, and that is deliberate — the zero-order form assumes absorption completes well ahead of elimination, and at the paper's fed half-times (34 min at a small dose, 48.3 min at 0.3 g/kg) that assumption breaks: the modelled decline stops being linear and one standard drink appears to clear in about 70 minutes. So a real fed occasion absorbs roughly twice as slowly as this curve shows. It is an approximation of shape as well as rate: Levitt models absorption as gastric-emptying-limited and sigmoidal (Hill coefficient 1.9-2.6), not first-order. The 0.05 this replaced implied a 13.9 min half-time, faster than any published condition. Buesker 2023 (pmid:36688276) fits a genuine first-order ka over 1510 BACs but its abstract prints no value and the full text is unreachable."
     }
   ]
 }

@@ -21,10 +21,10 @@
       "vmax": 95,
       "vmaxBasis": "whole_body_mg_per_min",
       "vdLPerKg": 0.55,
-      "kaPerMin": 0.05,
+      "kaPerMin": 0.026,
       "citation": "pmid:10792196",
       "citationText": "Norberg, Gabrielsson, Jones & Hahn 2000, Br J Clin Pharmacol (PMID 10792196); Holford 1987 (PMID 3319346).",
-      "notes": "Km is a literature range (IV-primary 27 ± 19 mg/L per Norberg 2000; ~80 mg/L in Holford's review; ~20 mg/L in a 2023 modeling paper) led here by the IV-primary value. The 90 mg/L figure that circulates is a clinical-teaching round number stated by none of the primaries and must not be shipped. Vd 0.55 L/kg is the total-body-water convention Vmax 95 mg/min was fitted against (Holford: ~37 L / 70 kg), NOT the forensic whole-body (Widmark) volume that pk_routes carries at 0.7 L/kg."
+      "notes": "Km is a literature range (IV-primary 27 ± 19 mg/L per Norberg 2000; ~80 mg/L in Holford's review; ~20 mg/L in a 2023 modeling paper) led here by the IV-primary value. The 90 mg/L figure that circulates is a clinical-teaching round number stated by none of the primaries and must not be shipped. Vd 0.55 L/kg is the total-body-water convention Vmax 95 mg/min was fitted against (Holford: ~37 L / 70 kg), NOT the forensic whole-body (Widmark) volume that pk_routes carries at 0.7 L/kg. kaPerMin matches `zero_order_kinetics` by construction — the two engines draw the same drug and a reader must not get two stories about one night. kaPerMin comes from Levitt 2002 (doi:10.1186/1472-6904-2-4): absorption half-time 26.8 min in the fasted arm, so ln2/t1/2 = 0.026/min. It is the FASTEST published condition, and that is deliberate — the zero-order form assumes absorption completes well ahead of elimination, and at the paper's fed half-times (34 min at a small dose, 48.3 min at 0.3 g/kg) that assumption breaks: the modelled decline stops being linear and one standard drink appears to clear in about 70 minutes. So a real fed occasion absorbs roughly twice as slowly as this curve shows. It is an approximation of shape as well as rate: Levitt models absorption as gastric-emptying-limited and sigmoidal (Hill coefficient 1.9-2.6), not first-order. The 0.05 this replaced implied a 13.9 min half-time, faster than any published condition. Buesker 2023 (pmid:36688276) fits a genuine first-order ka over 1510 BACs but its abstract prints no value and the full text is unreachable."
     },
     {
       "substance": "Phenytoin",

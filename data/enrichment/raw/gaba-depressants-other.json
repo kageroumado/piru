@@ -97,7 +97,7 @@
       "routes": [
         {
           "route": "oral",
-          "bioavailability_pct": 80,
+          "bioavailability_pct": null,
           "cmax_ng_per_ml": null,
           "tmax_min": 45,
           "auc_0_inf_ng_h_per_ml": null,
@@ -107,7 +107,7 @@
           "protein_binding_pct": 0,
           "dose_in_study_mg": null,
           "subject_n": null,
-          "subject_demographics": "Mixed populations; Vd ~0.55 L/kg males, ~0.50 L/kg females (less body water).",
+          "subject_demographics": "Mixed populations; Vd ~0.55 L/kg males, ~0.50 L/kg females (less body water). This row carried an oral F of 80% that its citation does not state — the abstract gives Km, elimination rates and Vd only, and the full text is unreachable. F is carried by the Levitt row instead.",
           "reference": "pmid:26231237"
         }
       ],
