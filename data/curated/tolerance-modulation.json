@@ -3,16 +3,16 @@
     "what": "Curated edges where one substance, while onboard, changes how fast another mechanism builds tolerance — the μ_R(t) factor in the availability ODE (Specs/pharmacology-axis-meta-plan.md, Stage 4b).",
     "why": "μ < 1 attenuates tolerance development, μ > 1 would accelerate it. Edges are keyed by the modulator's RECEPTOR class, and the engine applies one only while the modulator is actually present, so the edge is concentration-gated for free.",
     "taxonomy": "`modulatorClass` and `affectedClass` are `ReceptorClasses.ReceptorClass` values (psychedelic5HT2A, muOpioid, gaba, nmdaAntagonist, …), NOT the `DrugClass` values in interaction_rules. The two vocabularies are different resolutions of different questions — one is mechanism families for the tolerance engine, the other is interaction-matching buckets — and this table has its own so neither has to pretend to be the other.",
-    "magnitude": "muFactor ships as a SHAPE, never a precise percentage: the effect is robust preclinically and used clinically, but the human magnitude is variable, which is what the low confidence tier records."
+    "magnitude": "muFactor ships as a SHAPE, never a precise percentage — and only where a HUMAN magnitude exists at all. An edge scales an engine output by a number no reader ever sees, so one resting on a direction observed in rodents is the worst kind of uncited claim: invisible. Such an edge belongs in `withdrawn`, with what was looked for and not found."
   },
   "source": "piru-curated",
-  "edges": [
+  "edges": [],
+  "withdrawn": [
     {
       "modulatorClass": "nmdaAntagonist",
       "affectedClass": "muOpioid",
       "muFactor": 0.5,
-      "confidence": "low",
-      "note": "Blocking NMDA receptors attenuates the development of opioid analgesic tolerance — the best-known clinical use is ketamine or memantine alongside opioids. Keyed by the receptor class, so it covers memantine, ketamine, DXM and MXE."
+      "why": "Withdrawn 2026-08-26 after sourcing it. The 0.5 had no numeric ancestor anywhere. Trujillo & Akil 1991 (pmid:1824728) report a direction in rats and state no magnitude, and the agent that first wrote this row drafted a DOI for it, recognised it as invented, and removed it. The effect modelled here — attenuation of tolerance DEVELOPMENT over weeks — then failed in humans: Galer 2005 (pmid:15911155) ran three multicentre double-blind RCTs of morphine/dextromethorphan designed specifically to detect reduced tolerance and found no difference on any primary or secondary endpoint, and Ferraro 2025's Cochrane review of 67 RCTs (pmid:40819842) rates the class low-to-very-low certainty with no pooled opioid-consumption result at all. The best positive human trial argues against the mechanism rather than for it: Lee 2015 (doi:10.1038/srep10140) found add-on memantine reduced methadone dose escalation over 12 weeks (1 mg vs 8 mg increase, p = 0.039, borderline at endpoint) — and reports that at 5 mg/day plasma memantine reached 0.05-0.2 uM against an NMDA IC50 of 2-3 uM, so the authors attribute the effect to anti-inflammatory action 'mechanistically remote from an NMDA receptor'. What does replicate on NMDA grounds is a narrower thing on a different timescale: perioperative opioid sparing over hours, topping out near 29% at near-maximum-tolerated dextromethorphan doses (pmid:11159249) and absent at ordinary doses (pmid:9620514, pmid:22320028). That is not what a dose-tracking app computes. Restoring the edge needs a human study stating a magnitude for tolerance development, not a stronger citation for the direction."
     }
   ]
 }

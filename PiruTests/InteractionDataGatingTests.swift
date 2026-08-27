@@ -306,21 +306,16 @@ struct InteractionDataGatingTests {
 
     // MARK: - Tolerance modulation
 
+    /// The graph is empty today — the one edge it held was withdrawn once someone looked for its
+    /// magnitude (`data/curated/tolerance-modulation.json`). What must hold is that whatever the
+    /// curated file does say arrives intact: nothing renders these, so a load that silently dropped
+    /// an edge would leave tolerance developing unmodulated with no way to notice.
     @Test
-    func `The tolerance modulation edges are loaded and attenuate`() {
-        // Before the store installs them the graph is empty and tolerance develops
-        // unmodulated — a silent loss, since nothing renders these.
-        let edges = ToleranceModulation.edges(forModulatorClass: .nmdaAntagonist)
-        #expect(!edges.isEmpty, "the NMDA edge did not load")
-        for edge in edges {
-            #expect(edge.muFactor > 0 && edge.muFactor != 1, "an edge that modulates by nothing")
-        }
-    }
-
-    @Test
-    func `A class with no curated edge modulates nothing`() {
-        for modulator in [ReceptorClasses.ReceptorClass.gaba, .adenosine, .muOpioid] {
-            #expect(ToleranceModulation.edges(forModulatorClass: modulator).isEmpty)
+    func `Every loaded modulation edge is a real modulation`() {
+        for modulator in ReceptorClasses.ReceptorClass.allCases {
+            for edge in ToleranceModulation.edges(forModulatorClass: modulator) {
+                #expect(edge.muFactor > 0 && edge.muFactor != 1, "an edge that modulates by nothing")
+            }
         }
     }
 }

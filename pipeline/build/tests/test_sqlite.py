@@ -3342,20 +3342,22 @@ class TestSignatureGates(unittest.TestCase):
     def test_tolerance_modulation_edges_attenuate(self):
         """`mu_factor` scales tolerance DEVELOPMENT: below 1 attenuates, above 1
         accelerates, and exactly 1 is an edge that claims a modulation and does
-        nothing. The seed edge is NMDA antagonism attenuating opioid tolerance."""
+        nothing.
+
+        The table is empty today, and that is a result rather than a gap — see
+        `tolerance-modulation.json`'s `withdrawn`. An edge scales an engine output
+        by a number no reader ever sees, which is why the gate here is on the
+        citation rather than on the row count: an uncited edge is invisible in a
+        way an uncited displayed value is not."""
         edges = self.db.execute(
-            "SELECT modulator_class, affected_class, mu_factor, confidence FROM tolerance_modulation"
+            "SELECT modulator_class, affected_class, mu_factor, confidence, citation_id"
+            "  FROM tolerance_modulation"
         ).fetchall()
-        self.assertTrue(edges, "tolerance_modulation is empty")
-        for modulator, affected, mu, confidence in edges:
+        for modulator, affected, mu, confidence, citation in edges:
             self.assertGreater(mu, 0, f"{modulator}->{affected} has a non-positive mu")
             self.assertNotEqual(1.0, mu, f"{modulator}->{affected} modulates by nothing")
             self.assertIn(confidence, ("low", "moderate", "high"))
-        self.assertIn(
-            ("nmdaAntagonist", "muOpioid"),
-            {(m, a) for m, a, _, _ in edges},
-            "the NMDA-antagonism edge is missing",
-        )
+            self.assertIsNotNone(citation, f"{modulator}->{affected} scales the engine uncited")
 
     def test_enzyme_modulator_vocabulary_is_closed(self):
         """Origin, direction and strength each become a word in a rendered sentence,
