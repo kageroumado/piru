@@ -251,7 +251,7 @@ nonisolated enum MetabolicModulation {
     static func contraceptiveEfficacyCaution(forSubstance name: String, in catalog: [Modulator]) -> Modulator? {
         // Canonicalize through the shared alias table so a brand name
         // ("Equetro") matches its compound's catalog entry.
-        let key = PharmacologyNameKey.canonical(name, aliases: HalfLifeDatabase.sharedAliases)
+        let key = PharmacologyNameKey.canonical(name, aliases: PharmacologyNameKey.sharedAliases)
         return catalog.first {
             $0.origin == .substance && $0.enzyme == .cyp3a4 && $0.direction == .induces
                 && $0.strength >= .moderate && $0.matchers.contains(key)
@@ -284,7 +284,7 @@ nonisolated enum MetabolicModulation {
     ) -> [Effect] {
         let enzymes = majorEnzymes(metabolism: metabolism)
         guard !enzymes.isEmpty else { return [] }
-        let key = PharmacologyNameKey.canonical(name, aliases: HalfLifeDatabase.sharedAliases)
+        let key = PharmacologyNameKey.canonical(name, aliases: PharmacologyNameKey.sharedAliases)
         let mods = catalog.filter { m in
             switch m.origin {
             case .context: true
@@ -309,7 +309,7 @@ nonisolated enum MetabolicModulation {
             for m in catalog where m.origin == .substance && enzymes.contains(m.enzyme) {
                 let modPresent = substances.contains { other in
                     other.lowercased() != substrateLower
-                        && m.matchers.contains(PharmacologyNameKey.canonical(other, aliases: HalfLifeDatabase.sharedAliases))
+                        && m.matchers.contains(PharmacologyNameKey.canonical(other, aliases: PharmacologyNameKey.sharedAliases))
                 }
                 if modPresent { results.append(makeEffect(m, substrate: substrate)) }
             }

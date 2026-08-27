@@ -9,8 +9,7 @@ import UIKit
 ///
 /// **`nonisolated` by design** so generation can run off the main actor
 /// (`UIGraphicsPDFRenderer` is documented thread-safe). The draw passes only
-/// touch nonisolated helpers (`HalfLifeDatabase.halfLife(for:)`,
-/// `Calendar.sessionDayStart`, `Double.doseFormatted`, `PKModel`) and the
+/// touch nonisolated helpers (`Calendar.sessionDayStart`, `Double.doseFormatted`, `PKModel`) and the
 /// snapshot value types below. The one genuinely MainActor-bound lookup —
 /// `InteractionChecker.drugClasses(for:)`, which memoises into a mutable
 /// static cache and resolves through the `SubstanceLibrary`/`SubstanceStore`
@@ -73,6 +72,9 @@ nonisolated enum PDFReportGenerator {
         /// snapshot-build time. Two logged names sharing one id are the same drug
         /// under two spellings, which is the whole of the duplicate check.
         var substanceID: Int64?
+        /// Elimination half-life, resolved on the main actor alongside the id. The PK chart section
+        /// needs it and this renderer cannot reach the store — same reason `substanceID` rides here.
+        var halfLifeMinutes: Double?
     }
 
     struct DailyDoseSnapshot {
@@ -195,7 +197,7 @@ nonisolated enum PDFReportGenerator {
                 // PK concentration charts for top substances with half-life data
                 let topForPK = summary.prefix(5)
                 let pkSubstances = topForPK.compactMap { stat -> (name: String, halfLife: Double, doseCount: Int)? in
-                    guard let hl = HalfLifeDatabase.halfLife(for: stat.name) else { return nil }
+                    guard let hl = stat.halfLifeMinutes, hl > 0 else { return nil }
                     return (name: stat.name, halfLife: hl, doseCount: stat.totalDoses)
                 }
                 if !pkSubstances.isEmpty {
@@ -573,6 +575,7 @@ nonisolated enum PDFReportGenerator {
 
     private struct SubstanceStat {
         let name: String
+        let halfLifeMinutes: Double?
         let totalDoses: Int
         let averageDose: Double
         let unit: String
@@ -591,7 +594,8 @@ nonisolated enum PDFReportGenerator {
             let mostCommonRoute = Dictionary(grouping: entries, by: \.route)
                 .max(by: { $0.value.count < $1.value.count })?.key ?? "Oral"
             return SubstanceStat(
-                name: name, totalDoses: entries.count, averageDose: avgDose,
+                name: name, halfLifeMinutes: entries.compactMap(\.halfLifeMinutes).first,
+                totalDoses: entries.count, averageDose: avgDose,
                 unit: mostCommonUnit, route: mostCommonRoute,
                 firstTaken: sorted.first!.timestamp, lastTaken: sorted.last!.timestamp,
             )

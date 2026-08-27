@@ -51,8 +51,7 @@ enum ActiveSubstanceCalculator {
             return result
         }
 
-        // Half-life resolution goes through the shared `PKResolver` (substance
-        // model → HalfLifeDatabase by name → by alias); the local cache just
+        // Half-life resolution goes through the shared `PKResolver`; the local cache just
         // avoids re-resolving the same name across a long dose log.
         var halfLifeCache: [String: Double] = [:]
         func resolveHalfLife(substance: Substance?, entryName: String) -> Double? {
@@ -278,8 +277,7 @@ extension ActiveSubstanceState {
         return nil
     }
 
-    /// Resolve a half-life (minutes) for a duration-less dose — the shared
-    /// ``PKResolver`` fallback: substance model → HalfLifeDatabase by name → by alias.
+    /// Resolve a half-life (minutes) for a duration-less dose, through the shared ``PKResolver``.
     static func resolveHalfLifeMinutes(substance: Substance, name: String) -> Double? {
         PKResolver.halfLifeMinutes(substance: substance, entryName: name)
     }

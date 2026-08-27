@@ -128,6 +128,6 @@ nonisolated struct WithdrawalReference: Sendable {
             return [floor, metaboliteBand].compactMap(\.self).max { $0.rank < $1.rank } ?? floor
         }
         if let metaboliteBand { return metaboliteBand }
-        return HalfLifeDatabase.halfLife(for: name).flatMap(band(forMinutes:)) ?? .intermediate
+        return .intermediate
     }
 }

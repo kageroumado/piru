@@ -263,7 +263,7 @@ struct BenzoEquivalenceToolView: View {
             Text(benzo.displayName)
                 .font(.caption.weight(.medium))
             Spacer()
-            if let minutes = HalfLifeDatabase.halfLife(for: benzo.name) {
+            if let minutes = SubstanceLibrary.lookup(benzo.name)?.halfLifeMinutes {
                 Text(Self.formatHalfLife(minutes))
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)

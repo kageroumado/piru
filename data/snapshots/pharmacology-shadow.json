@@ -1,8 +1,4 @@
 {
-  "halfLifeKeys" : 531,
-  "halfLifeLiveNoDBValue" : 219,
-  "halfLifeShadowed" : 275,
-  "halfLifeUnresolved" : 37,
   "moaKeys" : 242,
   "moaNoDBBindings" : 120,
   "moaProseShadowed" : 179,

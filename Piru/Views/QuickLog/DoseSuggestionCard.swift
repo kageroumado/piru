@@ -10,13 +10,8 @@ enum DosePK {
         // per unique recent substance when the quick-log card list rebuilds.
         let substance = SubstanceLibrary.lookup(substanceName)
         let halfLife: Double
-        if let hl = substance?.halfLifeMinutes, hl > 0 {
-            halfLife = hl
-        } else if let hl = HalfLifeDatabase.halfLife(for: substanceName), hl > 0 {
-            halfLife = hl
-        } else {
-            return nil
-        }
+        guard let hl = substance?.halfLifeMinutes, hl > 0 else { return nil }
+        halfLife = hl
 
         let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
         guard ke > 0 else { return nil }

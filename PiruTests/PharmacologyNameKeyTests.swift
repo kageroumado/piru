@@ -36,9 +36,11 @@ struct PharmacologyNameKeyTests {
     }
 
     @Test
-    func `HalfLifeDatabase resolves aliases and tolerates trailing newlines`() {
-        #expect(HalfLifeDatabase.halfLife(for: "caffeine\n") == 300)
-        #expect(HalfLifeDatabase.halfLife(for: "Adderall") == HalfLifeDatabase.halfLife(for: "amphetamine"))
+    func `Resolution tolerates trailing newlines and hops one alias`() {
+        let data = ["amphetamine": 600.0]
+        let aliases = PharmacologyNameKey.sharedAliases
+        #expect(PharmacologyNameKey.resolve("amphetamine\n", in: data, aliases: aliases) == 600)
+        #expect(PharmacologyNameKey.resolve("Adderall", in: data, aliases: aliases) == 600)
     }
 
     /// Brand names and synonyms reach the same class template as the
@@ -65,13 +67,12 @@ struct PharmacologyNameKeyTests {
             == MechanismOfActionDatabase.mechanism(for: "a-php")?.summary)
     }
 
-    /// The two curated tables keep separate alias relations on purpose:
-    /// lisdexamfetamine carries its own half-life but inherits amphetamine's
-    /// model scalars. A merged alias table would break one side or the other.
+    /// The two alias relations are separate on purpose: to the shared table lisdexamfetamine is its
+    /// own name, while `SubstanceModelDatabase` aliases it to amphetamine because it must inherit
+    /// amphetamine's model scalars. A merged table would break one side or the other.
     @Test
-    func `Half-life and model tables keep their own alias relations`() {
-        #expect(HalfLifeDatabase.halfLife(for: "lisdexamfetamine") == 720)
-        #expect(HalfLifeDatabase.halfLife(for: "amphetamine") == 600)
+    func `The shared and model tables keep their own alias relations`() {
+        #expect(PharmacologyNameKey.sharedAliases["lisdexamfetamine"] == nil)
         #expect(SubstanceModelDatabase.isCalibratedTrigger("lisdexamfetamine"))
     }
 

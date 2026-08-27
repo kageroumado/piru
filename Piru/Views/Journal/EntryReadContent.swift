@@ -236,8 +236,7 @@ struct EntryReadHero: View {
     /// When this dose dropped below ~3% remaining — the same threshold the
     /// session's body-load projection uses. `nil` when no half-life is known.
     private var clearedDate: Date? {
-        let halfLife = substance?.halfLifeMinutes ?? HalfLifeDatabase.halfLife(for: entry.substance)
-        guard let halfLife, halfLife > 0 else { return nil }
+        guard let halfLife = substance?.halfLifeMinutes, halfLife > 0 else { return nil }
         let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
         let ka = SubstanceEliminationCurve.estimateKa(for: entry.substance, ke: ke)
         let step = max(1.0, halfLife / 200)

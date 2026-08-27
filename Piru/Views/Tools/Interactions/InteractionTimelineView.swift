@@ -177,8 +177,7 @@ private final class InteractionTimelineModel {
 
     private static func resolveParams(for name: String) -> PKParams? {
         let substance = SubstanceLibrary.lookup(name)
-        let halfLife = substance?.halfLifeMinutes ?? HalfLifeDatabase.halfLife(for: name)
-        guard let halfLife, halfLife > 0 else { return nil }
+        guard let halfLife = substance?.halfLifeMinutes, halfLife > 0 else { return nil }
 
         let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
         let ka: Double

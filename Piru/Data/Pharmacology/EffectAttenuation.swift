@@ -216,10 +216,10 @@ nonisolated enum EffectAttenuation {
         return entry.timestamp.addingTimeInterval(max(halfLife * 5, 360) * 60)
     }
 
-    /// Resolved half-life (minutes) for a substance — the library value, else the hardcoded database.
+    /// Resolved half-life (minutes) for a substance.
     @MainActor
     private static func halfLifeMinutes(for name: String) -> Double? {
-        SubstanceLibrary.lookup(name)?.halfLifeMinutes ?? HalfLifeDatabase.halfLife(for: name)
+        SubstanceLibrary.lookup(name)?.halfLifeMinutes
     }
 
     // MARK: - Role detection

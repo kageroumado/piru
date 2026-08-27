@@ -149,7 +149,7 @@ struct ToleranceToolView: View {
         var out: [String: Double] = [:]
         for name in contributors {
             let params = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: name)
-            let parent = params.halfLifeMinutes ?? HalfLifeDatabase.halfLife(for: name)
+            let parent = params.halfLifeMinutes
             let slowestMetabolite = params.metabolites.filter(\.canFold).map(\.halfLifeMinutes).max()
             if let effective = [parent, slowestMetabolite].compactMap(\.self).max() {
                 out[name] = effective

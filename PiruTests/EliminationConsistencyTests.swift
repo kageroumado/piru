@@ -2,23 +2,21 @@ import Foundation
 import Testing
 @testable import Piru
 
-/// Cross-checks the curated elimination sources against each other:
-/// `HalfLifeDatabase` (fallback t½, minutes), the bundled DB's resolved
-/// `Substance.halfLifeMinutes`, the PK-derived
-/// `PharmacologyParameters.halfLifeMinutes`, and the felt-effect `ke` patches
-/// in `SubstanceModelDatabase` (stored per-hour, exposed here only through the
-/// minutes-typed `curatedHalfLifeMinutes(for:)` boundary).
+/// Cross-checks the elimination sources the app resolves against each other: the bundled DB's
+/// `Substance.halfLifeMinutes`, the PK-derived `PharmacologyParameters.halfLifeMinutes`, and the
+/// felt-effect `ke` patches in `SubstanceModelDatabase` (stored per-hour, exposed here only through
+/// the minutes-typed `curatedHalfLifeMinutes(for:)` boundary).
 ///
-/// The gate is **2.0×**: `HalfLifeDatabase`'s own header calls its values
-/// order-of-magnitude estimates that vary with route, formulation, dose, and
-/// metabolizer status, and published population half-lives routinely span 2×
-/// across studies — anything tighter is a report, not a gate. What 2× reliably
-/// catches is the failure modes that matter: a unit error (a per-hour value
-/// read as per-minute shows up as 60×), a metabolite/depot/prodrug value filed
-/// under the parent, and plain data bugs. Known-legitimate disagreements live
-/// in `data/curated/elimination-consistency-allowlist.json`, each with a
-/// mandatory prose note; a waiver that stops tripping fails the suite so the
-/// allowlist can't rot.
+/// This is the *resolver-side* mirror of `pipeline/audit/pk_sanity.py`, which compares the same two
+/// tables in SQL. Both are worth having: the pipeline gate catches a bad row, this one catches a
+/// resolver that reaches a different row than the SQL does.
+///
+/// The gate is **2.0×**, because published population half-lives routinely span that across studies
+/// and anything tighter is a report rather than a gate. What 2× reliably catches is the failure modes
+/// that matter: a unit error (a per-hour value read as per-minute shows up as 60×), a
+/// metabolite/depot/prodrug value filed under the parent, and plain data bugs. Known-legitimate
+/// disagreements live in `data/curated/elimination-consistency-allowlist.json`, each with a mandatory
+/// prose note; a waiver that stops tripping fails the suite so the allowlist can't rot.
 @Suite("Elimination consistency")
 struct EliminationConsistencyTests {
     static let gateRatio = 2.0
@@ -28,9 +26,8 @@ struct EliminationConsistencyTests {
     struct Waiver: Hashable {
         /// Folded substance key (`PharmacologyNameKey.fold` form).
         let name: String
-        /// Which comparison the waiver covers: `halflife-db` (fallback vs
-        /// resolved DB t½), `halflife-pk` (fallback vs PK-derived t½), or
-        /// `override` (felt-effect ke patch vs any measured source).
+        /// Which comparison the waiver covers: `halflife-pk` (resolved DB t½ vs PK-derived t½) or
+        /// `override` (felt-effect ke patch vs either measured source).
         let pair: String
         let note: String
     }
@@ -103,21 +100,16 @@ struct EliminationConsistencyTests {
             }
         }
 
-        for (key, fallback) in HalfLifeDatabase.allEntries {
-            guard let substance = SubstanceLibrary.lookup(key) else { continue }
-            if let resolved = substance.halfLifeMinutes {
-                check("halflife-db", key, fallback, resolved)
-            }
-            if let pk = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: key).halfLifeMinutes {
-                check("halflife-pk", key, fallback, pk)
-            }
+        for substance in SubstanceStore.shared.all {
+            guard let resolved = substance.halfLifeMinutes,
+                  let pk = SubstanceStore.shared
+                  .pharmacologyParameters(forSubstanceName: substance.name).halfLifeMinutes
+            else { continue }
+            check("halflife-pk", PharmacologyNameKey.fold(substance.name), resolved, pk)
         }
 
         for name in SubstanceModelDatabase.curatedOverrideNames {
             guard let felt = SubstanceModelDatabase.curatedHalfLifeMinutes(for: name) else { continue }
-            if let fallback = HalfLifeDatabase.halfLife(for: name) {
-                check("override", name, felt, fallback)
-            }
             if let substance = SubstanceLibrary.lookup(name) {
                 if let resolved = substance.halfLifeMinutes {
                     check("override", name, felt, resolved)
@@ -135,7 +127,7 @@ struct EliminationConsistencyTests {
 
     @Test
     @MainActor
-    func `Curated half-life agrees with the bundled DB within 2x`() async throws {
+    func `The resolved half-life agrees with the PK-derived one within 2x`() async throws {
         let waived = try Set(Self.loadAllowlist().map { "\($0.pair)|\($0.name)" })
         let violations = await Self.measuredViolations()
             .filter { $0.pair != "override" }

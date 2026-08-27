@@ -2,7 +2,7 @@ import Foundation
 
 /// Resolves the one-compartment oral PK parameters a dose needs — the elimination
 /// half-life and the `(ke, ka)` rate constants — from a substance model, its
-/// aliases, the ``HalfLifeDatabase``, and an acute duration profile.
+/// aliases, and an acute duration profile.
 ///
 /// This is the single home for half-life fallback and `ka`-from-time-to-peak
 /// resolution. Never re-derive either at a call site — ``ActiveSubstanceCalculator``
@@ -26,18 +26,12 @@ enum PKResolver {
         let ka: Double
     }
 
-    /// Resolve the elimination half-life (minutes), in the fallback order every
-    /// caller shares: the substance model → ``HalfLifeDatabase`` by the logged
-    /// name → by each of the substance's aliases. `nil` when no source knows one.
-    static func halfLifeMinutes(substance: Substance?, entryName: String) -> Double? {
-        if let hl = substance?.halfLifeMinutes, hl > 0 { return hl }
-        if let hl = HalfLifeDatabase.halfLife(for: entryName), hl > 0 { return hl }
-        if let substance {
-            for alias in substance.aliases {
-                if let hl = HalfLifeDatabase.halfLife(for: alias), hl > 0 { return hl }
-            }
-        }
-        return nil
+    /// Resolve the elimination half-life (minutes) from the substance's own record. `nil` when the
+    /// database knows none — which is the honest answer for a compound nobody has measured, and is
+    /// what every caller must keep handling.
+    static func halfLifeMinutes(substance: Substance?, entryName _: String) -> Double? {
+        guard let hl = substance?.halfLifeMinutes, hl > 0 else { return nil }
+        return hl
     }
 
     /// Derive `(ke, ka)` from a half-life and an optional acute duration profile.

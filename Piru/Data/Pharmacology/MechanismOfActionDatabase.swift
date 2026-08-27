@@ -5,10 +5,10 @@ enum MechanismOfActionDatabase {
 
     /// Class-template lookup by substance name or pharmacology alias — a brand
     /// name or synonym (`"xanax"`, `"4-mmc"`) resolves through
-    /// `HalfLifeDatabase.sharedAliases` to the same template as its canonical
+    /// ``PharmacologyNameKey/sharedAliases`` to the same template as its canonical
     /// spelling. Direct keys win over an alias claiming the same spelling.
     static func mechanism(for name: String) -> MechanismOfAction? {
-        PharmacologyNameKey.resolve(name, in: substanceData, aliases: HalfLifeDatabase.sharedAliases)
+        PharmacologyNameKey.resolve(name, in: substanceData, aliases: PharmacologyNameKey.sharedAliases)
     }
 
     static func categoryFallback(for category: SubstanceCategory) -> MechanismOfAction? {

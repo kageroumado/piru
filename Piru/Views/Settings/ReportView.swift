@@ -211,6 +211,7 @@ struct ReportView: View {
                 identityKey: entry.identityKey,
                 routeRaw: entry.route.rawValue,
                 substanceID: SubstanceStore.shared.substanceID(forNameOrAlias: entry.substance),
+                halfLifeMinutes: SubstanceLibrary.lookup(entry.substance)?.halfLifeMinutes,
             )
         }
 

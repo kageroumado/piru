@@ -425,7 +425,6 @@ extension SessionStateExport {
         if let substance, let hl = ActiveSubstanceState.resolveHalfLifeMinutes(substance: substance, name: name) {
             return hl
         }
-        if let hl = HalfLifeDatabase.halfLife(for: name), hl > 0 { return hl }
         return nil
     }
 
