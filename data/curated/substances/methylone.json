@@ -84,5 +84,6 @@
     "empathogen-adjacent",
     "research-chemical"
   ],
-  "halfLifeSource": "pmid:36498963"
+  "halfLifeSource": "pmid:36498963",
+  "halfLifeNotes": "6.4 h, the middle of four measured doses in the only controlled human study: 5.8 h at 50 mg, 6.4 at 100, 6.9 at 150, 6.4 at 200 (348-414 min), which the paper summarises as 6-7 h. The 90 min this replaced was uncited and is almost certainly the 1.5 h Tmax read as a t1/2."
 }
