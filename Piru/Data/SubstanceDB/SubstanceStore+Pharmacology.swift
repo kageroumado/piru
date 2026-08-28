@@ -227,6 +227,9 @@ extension SubstanceStore {
             SubstanceReadModel.opioidMMEPerMg(substanceID: $0, db: substancesDB, order: enabledSourceOrder)
         }
         let representsClasses = pkID.map { classRepresentativeClasses()[$0] ?? [] } ?? []
+        let intrinsicEfficacy = pkID.flatMap {
+            SubstanceReadModel.intrinsicEfficacy(substanceID: $0, db: substancesDB, order: enabledSourceOrder)
+        }
         return Self.assemblePharmacologyParameters(
             molarMass: molarMass(forSubstanceName: routed.name),
             pk: effectivePK,
@@ -234,8 +237,10 @@ extension SubstanceStore {
             doseScale: routed.scale,
             doseScaleConfidence: routed.confidence,
             referenceDoseMg: referenceDoseMg,
-            // §5c: keyed on the active compound (Kratom→Mitragynine), defaulting to full-agonist 1.0.
-            intrinsicEfficacy: ToleranceStore.intrinsicEfficacyByName[routed.name.lowercased()] ?? 1,
+            // §5c: keyed on the active compound (Kratom→Mitragynine), defaulting to full-agonist 1.0
+            // for every substance with no row — which is nearly all of them, and means "no reason to
+            // model this as partial", not "unknown".
+            intrinsicEfficacy: intrinsicEfficacy ?? 1,
             categoryClasses: categoryClasses,
             // Metabolites route through the **active compound** (Kratom→Mitragynine), like binding/PK.
             metabolites: Self.metaboliteContributors(from: metabolism(forSubstanceName: routed.name)),
@@ -324,7 +329,9 @@ extension SubstanceStore {
                 doseScale: routed.scale,
                 doseScaleConfidence: routed.confidence,
                 referenceDoseMg: referenceDoseMg,
-                intrinsicEfficacy: ToleranceStore.intrinsicEfficacyByName[routed.name.lowercased()] ?? 1,
+                intrinsicEfficacy: id.flatMap {
+                    SubstanceReadModel.intrinsicEfficacy(substanceID: $0, db: queue, order: order)
+                } ?? 1,
                 categoryClasses: categoryClasses,
                 metabolites: metaboliteContributors(from: metabolismHits),
                 cyp2d6HalfLifeMultiplier: cyp2d6HalfLifeMultiplier(status: cyp2d6Status, metabolismHits: metabolismHits),

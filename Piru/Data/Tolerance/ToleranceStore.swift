@@ -211,19 +211,6 @@ final class ToleranceStore {
         return out
     }
 
-    /// Curated **intrinsic efficacy** ∈ (0, 1] relative to a full agonist, keyed by canonical name
-    /// (lowercased) — the partials that entrench *less* tolerance per unit occupancy (§5c). Only the
-    /// well-established low-efficacy agonists are listed; everything absent defaults to a full-agonist
-    /// `1.0`. Mitragynine (Kratom's active, and the dominant opioid-class driver in real logs) is a
-    /// partial μ-agonist; buprenorphine is the textbook partial; tianeptine is a low-efficacy μ-agonist.
-    /// Low-confidence — a multiplier on the already-soft adaptive/synthesis drive.
-    nonisolated static let intrinsicEfficacyByName: [String: Double] = [
-        "mitragynine": 0.4,
-        "7-hydroxymitragynine": 0.6,
-        "buprenorphine": 0.5,
-        "tianeptine": 0.5,
-    ]
-
     /// Current per-class tolerance snapshot, keyed by mechanism class. Observation-tracked; views read
     /// this. One entry per engaged class (aggregating all of that class's targets).
     private(set) var states: [ReceptorClasses.ReceptorClass: ClassTolerance] = [:]

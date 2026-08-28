@@ -1664,6 +1664,30 @@ CREATE TABLE opioid_mme (
     PRIMARY KEY (substance_id, source_id)
 );
 
+CREATE TABLE intrinsic_efficacy (
+    substance_id INTEGER NOT NULL REFERENCES substances(id),
+    source_id    INTEGER NOT NULL REFERENCES sources(id),
+    -- Maximal receptor activation relative to a full agonist, on (0, 1]. Feeds the
+    -- tolerance engine's occupancy-weighted drive: a partial agonist entrenches
+    -- less tolerance per unit occupancy than a full one.
+    --
+    -- NOT `bindings.relative_tau`, which is Black-Leff operational tau against
+    -- DAMGO — a different quantity on a different scale (buprenorphine 0.021 vs
+    -- 0.2 here), with no row for any Mitragyna alkaloid. Wiring that column in
+    -- would rescale the whole mu class.
+    --
+    -- Every row must come from ONE assay, named in the curated file, because
+    -- measured efficacy tracks receptor reserve and readout amplification: the
+    -- same compound reads 22% in a low-amplification assay and 96% in an
+    -- amplified one, from one lab in one paper. A substance with no number in
+    -- that assay gets no row and falls back to the full-agonist default, which
+    -- is why this table is small and must stay that way.
+    efficacy     REAL NOT NULL,
+    citation_id  INTEGER REFERENCES citations(id),
+    notes        TEXT,
+    PRIMARY KEY (substance_id, source_id)
+);
+
 CREATE TABLE regional_names (
     substance_id      INTEGER PRIMARY KEY REFERENCES substances(id),
     -- Shown by default, everywhere outside `alternate_regions`.
@@ -9812,6 +9836,43 @@ class Build:
             stats["inserted"] += 1
         return stats
 
+    def ingest_intrinsic_efficacy(self) -> dict[str, int]:
+        """Fill `intrinsic_efficacy` from curated JSON. Resolved by name OR alias.
+
+        Refuses anything outside (0, 1]: the column is a fraction of a full
+        agonist's maximal activation, so a value above 1 is a supra-efficacious
+        claim this engine has no meaning for, and 0 is an antagonist, which is not
+        a tolerance-drive scalar at all."""
+        path = CURATED_DIR.parent / "intrinsic-efficacy.json"
+        stats = {"inserted": 0, "unmatched": 0, "rejected": 0}
+        if not path.exists():
+            return stats
+        payload = json.loads(path.read_text())
+        index = self._alias_index()
+        source_id = self.source_ids[payload.get("source", "piru-curated")]
+        citation_id = self.cite(payload.get("citation"))
+        for entry in payload.get("substances", []):
+            sid = index.get(normalise(entry["substance"]))
+            if sid is None:
+                stats["unmatched"] += 1
+                continue
+            efficacy = to_float(entry.get("efficacy"))
+            if efficacy is None or not (0 < efficacy <= 1):
+                print(
+                    f"  intrinsic_efficacy: refusing {entry['substance']!r} — "
+                    f"efficacy {entry.get('efficacy')!r} outside (0, 1]",
+                    file=sys.stderr,
+                )
+                stats["rejected"] += 1
+                continue
+            self.cur.execute(
+                "INSERT OR REPLACE INTO intrinsic_efficacy"
+                "(substance_id, source_id, efficacy, citation_id, notes) VALUES (?, ?, ?, ?, ?)",
+                (sid, source_id, efficacy, citation_id, entry.get("notes")),
+            )
+            stats["inserted"] += 1
+        return stats
+
     def ingest_curated_half_lives(self) -> dict[str, int]:
         """Fill `half_lives` from the primary papers `halflife_from_primary.py` verified.
 
@@ -13107,7 +13168,9 @@ def main() -> int:
     print(f"Regional names: {regional_names}", file=sys.stderr)
 
     opioid_mme = build.ingest_opioid_mme()
+    intrinsic_efficacy = build.ingest_intrinsic_efficacy()
     print(f"Opioid MME: {opioid_mme}", file=sys.stderr)
+    print(f"Intrinsic efficacy: {intrinsic_efficacy}", file=sys.stderr)
 
     curated_half_lives = build.ingest_curated_half_lives()
     print(f"Curated half-lives: {curated_half_lives}", file=sys.stderr)

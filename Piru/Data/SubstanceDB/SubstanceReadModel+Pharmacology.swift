@@ -387,6 +387,29 @@ extension SubstanceReadModel {
         }) ?? nil
     }
 
+    /// Intrinsic efficacy at MOR relative to a full agonist, for the tolerance engine's
+    /// occupancy-weighted drive. `nil` when the substance has no row — which is the common case and
+    /// means the full-agonist default, not "unknown".
+    ///
+    /// The table is deliberately tiny: every row comes from one low-amplification assay, because
+    /// measured efficacy tracks receptor reserve and readout amplification hard enough that mixing
+    /// assays encodes an ordering that is an artifact of method. See the `intrinsic_efficacy` DDL.
+    nonisolated static func intrinsicEfficacy(substanceID id: Int64, db queue: DatabaseQueue, order: [String]) -> Double? {
+        let enabled = enabledSourceListSQL(order)
+        let priority = priorityCaseSQL(order)
+        return (try? queue.read { db -> Double? in
+            try Row.fetchOne(db, sql: """
+                SELECT efficacy
+                  FROM intrinsic_efficacy e
+                  JOIN sources src ON src.id = e.source_id
+                 WHERE e.substance_id = ?
+                   AND src.slug IN (\(enabled))
+                 ORDER BY \(priority) ASC
+                 LIMIT 1
+            """, arguments: [id])?["efficacy"]
+        }) ?? nil
+    }
+
     /// The whole `tolerance_modulation` table — which receptor class, while onboard, scales another
     /// class's tolerance development and by how much. Read once at index build; see
     /// ``ToleranceModulation`` for why it is held rather than queried per call.
