@@ -21,8 +21,9 @@ struct MonoamineProfile {
     let datSertRatio: Double?
     /// 0 (serotonin-leaning) … 1 (strongly dopaminergic), log-scaled — the spectrum marker position.
     let leanPosition: Double?
-    /// Carries a functional 5-HT2B agonist binding (the fenfluramine/MDA valvular-heart antitarget that
-    /// MDMA does *not* engage).
+    /// Carries 5-HT2B agonism potent enough to matter — the valvular-heart antitarget that killed
+    /// fenfluramine, engaged by the benzofurans (6-APB EC₅₀ 140 nM) and not by MDMA. See
+    /// ``engagesValvularAntitarget(_:)`` for what "potent enough" means and why partial agonism counts.
     let engages5HT2B: Bool
     /// Frequently sold on the street as MDMA/"molly" despite being a pharmacological reuptake blocker —
     /// longer, more stimulant/anxiogenic, more dangerous on an empathogen-style redose.
@@ -79,9 +80,7 @@ struct MonoamineProfile {
             position = min(max((log10(r) + 1) / 4, 0), 1)
         }
 
-        let engages5HT2B = bindings.contains {
-            $0.target.uppercased().hasPrefix("5-HT2B") && $0.action == "agonist"
-        }
+        let engages5HT2B = engagesValvularAntitarget(bindings)
         let misSold = mechanism != .releaser && isSoldAsMDMA
 
         return MonoamineProfile(
@@ -92,6 +91,28 @@ struct MonoamineProfile {
             engages5HT2B: engages5HT2B,
             misSoldAsMDMA: misSold,
         )
+    }
+
+    /// Whether the substance engages 5-HT2B strongly enough for the valvulopathy warning.
+    ///
+    /// **Partial agonism counts.** Pergolide, cabergoline and norfenfluramine are partial agonists at
+    /// this receptor and are precisely the drugs that caused valvular fibrosis; reading only `agonist`
+    /// missed 25B-NBOMe and 25C-NBOMe at Kᵢ 0.5 and 1.1 nM. Antagonists never count — cariprazine,
+    /// phentermine and viloxazine block the receptor.
+    ///
+    /// **Potency counts too**, on the app's own ``ReceptorStrength`` bands, at moderate or better.
+    /// Without that floor 4-fluoroamphetamine qualifies on a 14.4 µM EC₅₀ — three orders of magnitude
+    /// above any dose — and a heart-valve warning that appears on anything ever assayed at 5-HT2B
+    /// teaches the reader to ignore it. A row with no measurement falls back to its curated
+    /// ``BindingHit/affinityTier``, so a hand-graded row still speaks; a row with neither says nothing.
+    static func engagesValvularAntitarget(_ bindings: [BindingHit]) -> Bool {
+        bindings.contains { hit in
+            guard hit.target.uppercased().hasPrefix("5-HT2B"),
+                  hit.action == "agonist" || hit.action == "partialAgonist" else { return false }
+            let tier = ReceptorStrength.tier(kiNm: hit.kiNm, ec50Nm: hit.ec50Nm, ic50Nm: hit.ic50Nm)
+                ?? hit.affinityTier
+            return (tier ?? 0) >= 2
+        }
     }
 
     var mechanismLabel: LocalizedStringResource {

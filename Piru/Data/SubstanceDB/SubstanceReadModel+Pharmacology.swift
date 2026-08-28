@@ -121,6 +121,11 @@ nonisolated struct BindingHit: Identifiable, Hashable {
     let pmid: Int?
     /// Citation-verification grade for this binding (`.unverified` when un-graded).
     var confidence: ConfidenceTier = .unverified
+    /// The curated ordinal tier (1 weak … 3 primary) for a row that carries no
+    /// measured value. NULL on measured rows, which rank by their own
+    /// concentration through ``ReceptorStrength/tier(kiNm:ec50Nm:ic50Nm:)``.
+    /// Read it only as a fallback for that call, never instead of it.
+    var affinityTier: Int?
 }
 
 /// The pharmacology / pharmacokinetics query layer: the per-substance binding,
@@ -136,6 +141,7 @@ extension SubstanceReadModel {
             return try queue.read { db in
                 let rows = try Row.fetchAll(db, sql: """
                     SELECT b.id, b.target, b.action, b.ki_nm, b.ec50_nm, b.ic50_nm, b.species, b.confidence,
+                           b.affinity_tier,
                            s.canonical_name AS substance_name,
                            src.slug AS source_slug,
                            c.doi, c.pmid
@@ -160,6 +166,7 @@ extension SubstanceReadModel {
                         doi: row["doi"],
                         pmid: row["pmid"],
                         confidence: ConfidenceTier(grade: row["confidence"]),
+                        affinityTier: row["affinity_tier"],
                     )
                 }
             }
@@ -183,6 +190,7 @@ extension SubstanceReadModel {
             return try db.read { db in
                 var sql = """
                     SELECT b.id, b.target, b.action, b.ki_nm, b.ec50_nm, b.ic50_nm, b.species, b.confidence,
+                           b.affinity_tier,
                            s.canonical_name AS substance_name,
                            src.slug AS source_slug,
                            c.doi, c.pmid
@@ -223,6 +231,7 @@ extension SubstanceReadModel {
                         doi: row["doi"],
                         pmid: row["pmid"],
                         confidence: ConfidenceTier(grade: row["confidence"]),
+                        affinityTier: row["affinity_tier"],
                     )
                 }
             }
