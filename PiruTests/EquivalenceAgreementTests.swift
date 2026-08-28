@@ -124,19 +124,31 @@ struct EquivalenceAgreementTests {
     }
 
     /// The two read paths over `diazepam_equivalents` — the converter's batched window query and the
-    /// tolerance resolver's per-substance read — must agree. They resolve the same row through
-    /// different SQL, so a divergence means one of them picked a different source.
+    /// tolerance resolver's per-substance read — resolve the same row through different SQL, so where
+    /// both return a number they must agree; a divergence means one picked a different source.
+    ///
+    /// They diverge in exactly one way, on purpose. The resolver's number *raises the tolerance
+    /// engine's confidence floor*, so it takes only rows whose value is cited; the converter is a
+    /// display and shows every row, marking which are sourced. So the invariant is two-sided: cited
+    /// rows agree, and an uncited row is visible in the converter and absent from the resolver.
     @Test
     @MainActor
-    func `Both diazepam-equivalence read paths agree`() async {
+    func `Both diazepam-equivalence read paths agree where both speak`() async {
         await SubstanceStore.shared.ensureAllLoaded()
-        var compared = 0
+        var agreed = 0
+        var gated = 0
         for benzo in SubstanceStore.shared.benzoEquivalences() {
             guard let batched = benzo.diazepamPerMg else { continue }
             let resolved = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: benzo.name).diazepamPerMg
-            #expect(resolved == batched, "\(benzo.name): converter \(batched)× vs resolver \(String(describing: resolved))×")
-            compared += 1
+            if benzo.equivalent.isCited {
+                #expect(resolved == batched, "\(benzo.name): converter \(batched)× vs resolver \(String(describing: resolved))×")
+                agreed += 1
+            } else {
+                #expect(resolved == nil, "\(benzo.name) is uncited and must not reach the engine")
+                gated += 1
+            }
         }
-        #expect(compared >= 25, "only \(compared) benzos compared across the two read paths")
+        #expect(agreed >= 23, "only \(agreed) cited benzos compared across the two read paths")
+        #expect(gated > 0, "the citation gate stopped gating anything — check the ingester")
     }
 }

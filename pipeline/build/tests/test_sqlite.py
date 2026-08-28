@@ -3976,6 +3976,44 @@ class TestSignatureGates(unittest.TestCase):
                 f"family {family!r} has fewer than 3 reference compounds",
             )
 
+    def test_diazepam_equivalents_are_cited_or_inert(self):
+        """A cited row raises the tolerance engine's confidence floor from
+        `.unverified` to `.low` — an upgrade only a validated clinical
+        equivalence earns. Nothing upstream can say where these numbers came
+        from (`diazvalue` carries no per-value source), so the citation is
+        attached by the ingester only where the shipped value agrees with the
+        Ashton range for that drug, and the reader refuses an uncited row.
+
+        This gates the agreement, not the citation's presence: a row citing
+        Ashton whose value is outside Ashton's range would be the exact failure
+        this whole mechanism exists to prevent."""
+        ashton = json.loads((_REPO / "data/curated/benzo-equivalence-ashton.json").read_text())
+        table = {k.lower(): v for k, v in ashton["equivalentToTenMgDiazepam"].items()}
+        rows = self.db.execute(
+            "SELECT s.canonical_name, d.dose_mg, d.equivalent_diazepam_mg, d.citation_id"
+            "  FROM diazepam_equivalents d JOIN substances s ON s.id = d.substance_id"
+            " WHERE d.dose_mg > 0"
+        ).fetchall()
+        self.assertTrue(rows, "diazepam_equivalents has no numeric rows")
+        cited = 0
+        for name, dose, equivalent, citation in rows:
+            with self.subTest(name):
+                if citation is None:
+                    self.assertNotIn(
+                        name.lower(), table, f"{name} is in Ashton Table 1 but shipped uncited"
+                    )
+                    continue
+                cited += 1
+                self.assertAlmostEqual(equivalent, 10.0, msg=f"{name} is not stated against 10 mg")
+                bounds = table.get(name.lower())
+                self.assertIsNotNone(bounds, f"{name} cites Ashton but is not in Table 1")
+                low, high = bounds
+                self.assertGreaterEqual(
+                    dose, low - 1e-9, f"{name} {dose} below Ashton {low}-{high}"
+                )
+                self.assertLessEqual(dose, high + 1e-9, f"{name} {dose} above Ashton {low}-{high}")
+        self.assertGreater(cited, 20, "the Ashton citations stopped attaching")
+
     def test_benzodiazepine_ladder_rungs_ascend(self):
         """The duration ladder is drawn in curated rank order, so a rank that
         disagrees with the half-lives draws the ladder upside down — and every

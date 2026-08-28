@@ -63,3 +63,65 @@ struct BenzoEquivalenceTests {
         #expect(zero.diazepamPerMg == nil)
     }
 }
+
+/// The shipped rows, and the citation gate that decides which of them the tolerance engine is
+/// allowed to trust.
+///
+/// `ToleranceStore` models a PK-less benzodiazepine AS diazepam at an equivalent dose and raises the
+/// result's confidence floor from `.unverified` to `.low` on the strength of the ratio — an upgrade
+/// only a validated clinical equivalence earns. The upstream dataset carries no per-value source, so
+/// the pipeline attaches a citation only where the value agrees with Ashton Table 1 and
+/// `SubstanceReadModel.diazepamPerMg` refuses the rest.
+@Suite("BenzoEquivalence · shipped rows")
+@MainActor
+struct BenzoEquivalenceDataTests {
+    init() async {
+        await SubstanceStore.shared.ensureAllLoaded()
+    }
+
+    /// Ashton omits these five, so nothing sources their number. They keep their converter row —
+    /// a reader looking up phenazepam should see what is known — but must not reach the engine.
+    static let uncited: Set<String> = [
+        "Brotizolam", "Etizolam", "Flutoprazepam", "Midazolam", "Phenazepam",
+    ]
+
+    @Test
+    func `Only a cited equivalence reaches the tolerance engine`() {
+        let store = SubstanceStore.shared
+        for name in Self.uncited {
+            let params = store.pharmacologyParameters(forSubstanceName: name)
+            #expect(
+                params.diazepamPerMg == nil,
+                "\(name) has no Ashton entry, so its ratio must not upgrade the confidence floor",
+            )
+        }
+        // The gate is worth nothing if it also blocks the cited ones.
+        for name in ["Alprazolam", "Lorazepam", "Temazepam", "Clonazepam"] {
+            #expect(store.pharmacologyParameters(forSubstanceName: name).diazepamPerMg != nil, "\(name)")
+        }
+    }
+
+    @Test
+    func `The converter still shows the uncited rows, marked`() {
+        let rows = SubstanceStore.shared.benzoEquivalences()
+        #expect(rows.count > 20)
+        for row in rows where Self.uncited.contains(row.name) {
+            #expect(!row.equivalent.isCited, "\(row.name) should not claim a citation")
+            #expect(row.diazepamPerMg != nil, "\(row.name) should still convert in the tool")
+        }
+        let cited = rows.filter(\.equivalent.isCited)
+        #expect(cited.count >= 23, "found \(cited.count) cited rows")
+        for row in cited {
+            #expect(!Self.uncited.contains(row.name))
+        }
+    }
+
+    /// Diazepam is the unit this table is expressed in, so it must convert to itself exactly.
+    @Test
+    func `Diazepam is its own unit`() {
+        let rows = SubstanceStore.shared.benzoEquivalences()
+        let diazepam = rows.first { $0.name == "Diazepam" }
+        #expect(diazepam?.diazepamPerMg == 1)
+        #expect(diazepam?.equivalent.isCited == true)
+    }
+}

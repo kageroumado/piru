@@ -334,9 +334,17 @@ extension SubstanceReadModel {
     }
 
     /// Diazepam-mg per 1 mg of this substance, from the highest-priority enabled `diazepam_equivalents`
-    /// row. `nil` when the substance has no row, or when its row carries only the "no validated
-    /// equivalence" prose with no numbers (the designer benzos) — in both cases the caller must fall
-    /// through to the dose-fraction proxy rather than invent a factor.
+    /// row **that carries a citation**. `nil` when the substance has no row, when its row carries only
+    /// the "no validated equivalence" prose with no numbers (the designer benzos), or when its number
+    /// has no source — in every case the caller falls through to the dose-fraction proxy rather than
+    /// invent a factor.
+    ///
+    /// The citation gate is the point, not a nicety. The caller uses this ratio to model a PK-less
+    /// benzodiazepine AS diazepam and *raises the result's confidence floor from `.unverified` to
+    /// `.low`* on the strength of it — an upgrade only a validated clinical equivalence earns. The
+    /// upstream `diazvalue` field carries no per-value source, so before this gate the upgrade applied
+    /// to numbers of unknown origin. Five rows sit uncited today (brotizolam, etizolam, flutoprazepam,
+    /// midazolam, phenazepam): absent from Ashton Table 1, and none the worse for saying so.
     nonisolated static func diazepamPerMg(substanceID id: Int64, db queue: DatabaseQueue, order: [String]) -> Double? {
         let enabled = enabledSourceListSQL(order)
         let priority = priorityCaseSQL(order)
@@ -347,6 +355,7 @@ extension SubstanceReadModel {
                   JOIN sources src ON src.id = d.source_id
                  WHERE d.substance_id = ?
                    AND src.slug IN (\(enabled))
+                   AND d.citation_id IS NOT NULL
                  ORDER BY \(priority) ASC
                  LIMIT 1
             """, arguments: [id]) else { return nil }

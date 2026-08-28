@@ -14728,6 +14728,7 @@
       }
     },
     "Cited equivalence" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -38672,6 +38673,22 @@
         }
       }
     },
+    "Not in the Ashton Manual's equivalence table, and not sourced elsewhere — treat the number as a rough guide and dose by this drug's own threshold." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不在 Ashton 手册的等效剂量表中，也没有其他来源——这个数字只能当作粗略参考，请按这个药自身的阈值来把握剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不在 Ashton 手冊的等效劑量表中，也沒有其他來源——這個數字只能當作粗略參考，請按這個藥自身的閾值來拿捏劑量。"
+          }
+        }
+      }
+    },
     "not measured" : {
       "localizations" : {
         "zh-Hans" : {
@@ -39604,6 +39621,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每種機制一張卡片"
+          }
+        }
+      }
+    },
+    "One of these is from the Ashton Manual's equivalence table; the other is not in it and is not sourced elsewhere. Equivalences are approximate either way." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中一个来自 Ashton 手册的等效剂量表，另一个不在表中、也没有其他来源。无论哪种，等效换算都只是近似。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中一個來自 Ashton 手冊的等效劑量表，另一個不在表中、也沒有其他來源。無論哪種，等效換算都只是近似。"
           }
         }
       }
@@ -51490,6 +51523,22 @@
         }
       }
     },
+    "Source: the Ashton Manual's equivalence table, which calls these doses approximate and notes that not every clinician agrees with them." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来源：Ashton 手册的等效剂量表。该表自称这些剂量只是近似值，并指出并非所有临床医生都认同这些换算。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來源：Ashton 手冊的等效劑量表。該表自稱這些劑量只是近似值，並指出並非所有臨床醫師都認同這些換算。"
+          }
+        }
+      }
+    },
     "Source: TripSit benzodiazepine dataset. Equivalences vary by reference (Ashton, manufacturer, clinical); these are a guide, not a single clinical truth." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -51508,6 +51557,7 @@
       }
     },
     "Source: TripSit benzodiazepine dataset. Equivalences vary by reference (Ashton, manufacturer, clinical); these are a guide." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

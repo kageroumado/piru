@@ -1156,6 +1156,24 @@ struct DiazepamEquivalent: Codable, Hashable {
     let doseMg: Double?
     let equivalentDiazepamMg: Double?
     let displayText: String?
+    /// Whether this row's number matches the reference table it is attributed to. The upstream
+    /// dataset carries no per-value source, so the pipeline attaches a citation only where the
+    /// shipped value agrees with Ashton Table 1 — leaving the five benzodiazepines Ashton omits
+    /// (brotizolam, etizolam, flutoprazepam, midazolam, phenazepam) honestly unsourced. Both the
+    /// converter's copy and the tolerance engine's confidence floor key on this.
+    var isCited: Bool = false
+
+    init(
+        doseMg: Double?,
+        equivalentDiazepamMg: Double?,
+        displayText: String?,
+        isCited: Bool = false,
+    ) {
+        self.doseMg = doseMg
+        self.equivalentDiazepamMg = equivalentDiazepamMg
+        self.displayText = displayText
+        self.isCited = isCited
+    }
 }
 
 /// A primary reference for a compound — a DOI, PubMed ID, URL, or free-text

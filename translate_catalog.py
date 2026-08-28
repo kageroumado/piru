@@ -2637,6 +2637,18 @@ T = {
     # Antidepressant class card.
     "Drug Class": ("药物类别", "藥物類別"),
     "The rest of the family": ("同类其他药物", "同類其他藥物"),
+    "Source: the Ashton Manual's equivalence table, which calls these doses approximate and notes that not every clinician agrees with them.": (
+        "来源：Ashton 手册的等效剂量表。该表自称这些剂量只是近似值，并指出并非所有临床医生都认同这些换算。",
+        "來源：Ashton 手冊的等效劑量表。該表自稱這些劑量只是近似值，並指出並非所有臨床醫師都認同這些換算。",
+    ),
+    "Not in the Ashton Manual's equivalence table, and not sourced elsewhere — treat the number as a rough guide and dose by this drug's own threshold.": (
+        "不在 Ashton 手册的等效剂量表中，也没有其他来源——这个数字只能当作粗略参考，请按这个药自身的阈值来把握剂量。",
+        "不在 Ashton 手冊的等效劑量表中，也沒有其他來源——這個數字只能當作粗略參考，請按這個藥自身的閾值來拿捏劑量。",
+    ),
+    "One of these is from the Ashton Manual's equivalence table; the other is not in it and is not sourced elsewhere. Equivalences are approximate either way.": (
+        "其中一个来自 Ashton 手册的等效剂量表，另一个不在表中、也没有其他来源。无论哪种，等效换算都只是近似。",
+        "其中一個來自 Ashton 手冊的等效劑量表，另一個不在表中、也沒有其他來源。無論哪種，等效換算都只是近似。",
+    ),
     "Which class this belongs in is argued over — the label is the conventional one, not a settled one.": (
         "它该归到哪一类是有争议的——这个标签是约定俗成的说法，而不是定论。",
         "它該歸到哪一類是有爭議的——這個標籤是約定俗成的說法，而不是定論。",
@@ -7195,6 +7207,9 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Source: the Ashton Manual's equivalence table, which calls these doses approximate and notes that not every clinician agrees with them.",
+        "Not in the Ashton Manual's equivalence table, and not sourced elsewhere — treat the number as a rough guide and dose by this drug's own threshold.",
+        "One of these is from the Ashton Manual's equivalence table; the other is not in it and is not sourced elsewhere. Equivalences are approximate either way.",
         "Which class this belongs in is argued over — the label is the conventional one, not a settled one.",
         "Noradrenaline reuptake inhibitor",
         "Serotonin modulator and stimulator",

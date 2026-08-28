@@ -203,11 +203,11 @@ struct BenzoEquivalenceToolView: View {
         return "Pick both substances and a dose."
     }
 
-    // MARK: - Citations (the differentiator — cited, not invented)
+    // MARK: - Provenance
 
     private var citationCard: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Label("Cited equivalence", systemImage: "text.quote")
+            Label("Where this comes from", systemImage: "text.quote")
                 .font(.subheadline.weight(.semibold))
                 .accessibilityAddTraits(.isHeader)
             if let text = from?.equivalent.displayText {
@@ -216,7 +216,7 @@ struct BenzoEquivalenceToolView: View {
             if let to, to.name != from?.name, let text = to.equivalent.displayText {
                 citationLine(text)
             }
-            Text("Source: TripSit benzodiazepine dataset. Equivalences vary by reference (Ashton, manufacturer, clinical); these are a guide.")
+            Text(sourceLine)
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
                 .padding(.top, 2)
@@ -256,6 +256,22 @@ struct BenzoEquivalenceToolView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .themeCard()
+    }
+
+    /// What the numbers on screen actually rest on. Ashton's Table 1 is where 23 of the shipped
+    /// equivalences come from and it says of itself that the doses are approximate and not
+    /// universally agreed; the five it omits are not sourced at all, and saying which is which is
+    /// the whole difference between a citation and a decoration.
+    private var sourceLine: LocalizedStringResource {
+        let shown = [from, to].compactMap(\.self)
+        let uncited = shown.filter { !$0.equivalent.isCited }
+        if uncited.isEmpty {
+            return "Source: the Ashton Manual's equivalence table, which calls these doses approximate and notes that not every clinician agrees with them."
+        }
+        if uncited.count == shown.count {
+            return "Not in the Ashton Manual's equivalence table, and not sourced elsewhere — treat the number as a rough guide and dose by this drug's own threshold."
+        }
+        return "One of these is from the Ashton Manual's equivalence table; the other is not in it and is not sourced elsewhere. Equivalences are approximate either way."
     }
 
     private func halfLifeLine(for benzo: BenzoEquivalence) -> some View {

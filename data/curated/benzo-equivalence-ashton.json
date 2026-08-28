@@ -1,0 +1,33 @@
+{
+  "_comment": "Ashton Manual Table 1, 'Approximately Equivalent Oral dosages (mg)' — mg of each benzodiazepine approximately equivalent to 10 mg diazepam. Transcribed 2026-08-28 from benzo.org.uk/manual/bzcha01.htm, the canonical hosting of Ashton C.H., 'Benzodiazepines: How They Work and How to Withdraw' (2002). This file is a REFERENCE, not an input: it does not write equivalence values. The ingester compares the value benzos-cited ships against the range here and attaches the citation only where the two agree, so the citation is earned by agreement rather than asserted. A row whose upstream value drifts out of range silently loses its citation — and with it the tolerance engine's confidence upgrade, which is the point.",
+  "_whyThisMatters": "The tolerance engine multiplies a logged dose by this ratio to model a PK-less benzodiazepine AS diazepam, and promotes the result from `.unverified` to `.low` on the strength of it. Nothing else in the pipeline could say where any of these numbers came from: the upstream `diazvalue` field carries no per-value source, and only 1 of its 111 records mentions an equivalence reference anywhere (clobazam, citing a Royal Society of Medicine symposium at 2:1 — which agrees with the 20 mg here).",
+  "_ashtonSaysItself": "Ashton prefaces the table: 'These differences in strength have not always been fully appreciated by doctors, and some would not agree with the equivalents given here.' The column is titled 'Approximately Equivalent'. Treat a match as provenance, never as precision.",
+  "citation": "https://benzo.org.uk/manual/bzcha01.htm",
+  "citationText": "Ashton CH. Benzodiazepines: How They Work and How to Withdraw (the Ashton Manual), 2002. Chapter I, Table 1 — Approximately Equivalent Oral dosages.",
+  "equivalentToTenMgDiazepam": {
+    "Alprazolam": [0.5, 0.5],
+    "Bromazepam": [5, 6],
+    "Chlordiazepoxide": [25, 25],
+    "Clobazam": [20, 20],
+    "Clonazepam": [0.5, 0.5],
+    "Clorazepate": [15, 15],
+    "Diazepam": [10, 10],
+    "Estazolam": [1, 2],
+    "Flunitrazepam": [1, 1],
+    "Flurazepam": [15, 30],
+    "Halazepam": [20, 20],
+    "Ketazolam": [15, 30],
+    "Loprazolam": [1, 2],
+    "Lorazepam": [1, 1],
+    "Lormetazepam": [1, 2],
+    "Medazepam": [10, 10],
+    "Nitrazepam": [10, 10],
+    "Nordazepam": [10, 10],
+    "Oxazepam": [20, 20],
+    "Prazepam": [10, 20],
+    "Quazepam": [20, 20],
+    "Temazepam": [20, 20],
+    "Triazolam": [0.5, 0.5]
+  },
+  "_rangePicks": "Where Ashton gives a range, the shipped value takes the LOW-POTENCY end in six of seven cases (bromazepam 6 not 5, estazolam 2 not 1, flurazepam 30 not 15, ketazolam 30 not 15, loprazolam 2 not 1, lormetazepam 2 not 1; prazepam takes the midpoint 15 of 10-20). Six out of seven in one direction is not chance. The effect is to under-state the diazepam-equivalent load, so the modelled GABA tolerance for those six runs low — verified 2026-08-28, left as-is because the values are inside a cited range and moving them would substitute our arithmetic for Ashton's."
+}

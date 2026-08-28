@@ -1496,12 +1496,20 @@ CREATE TABLE contraindications (
 );
 CREATE INDEX idx_contraindications_substance ON contraindications(substance_id);
 
+-- Dose equivalence to 10 mg diazepam. The tolerance engine multiplies a logged
+-- dose by this ratio to model a PK-less benzodiazepine AS diazepam, and promotes
+-- the result from `.unverified` to `.low` on the strength of it — a confidence
+-- upgrade that only a real clinical equivalence earns. `citation_id` is what
+-- says whether this row earned it: the upstream `diazvalue` field carries no
+-- per-value source, so a row without a citation here is a number of unknown
+-- origin, and `SubstanceReadModel.diazepamPerMg` refuses to return it.
 CREATE TABLE diazepam_equivalents (
     substance_id          INTEGER NOT NULL REFERENCES substances(id),
     source_id             INTEGER NOT NULL REFERENCES sources(id),
     dose_mg               REAL,
     equivalent_diazepam_mg REAL,
     display_text          TEXT,
+    citation_id           INTEGER REFERENCES citations(id),
     PRIMARY KEY (substance_id, source_id)
 );
 
@@ -6489,14 +6497,19 @@ class Build:
         dose_mg: float | None,
         equivalent_diazepam_mg: float | None,
         display_text: str | None,
+        citation: str | None = None,
     ) -> None:
         src = self.source_ids[source_slug]
         try:
             self.cur.execute(
-                "INSERT INTO diazepam_equivalents(substance_id, source_id, dose_mg, equivalent_diazepam_mg, display_text) VALUES (?, ?, ?, ?, ?)",
-                (sid, src, dose_mg, equivalent_diazepam_mg, display_text),
+                "INSERT INTO diazepam_equivalents(substance_id, source_id, dose_mg, equivalent_diazepam_mg, display_text, citation_id) VALUES (?, ?, ?, ?, ?, ?)",
+                (sid, src, dose_mg, equivalent_diazepam_mg, display_text, self.cite(citation)),
             )
             self.stats["diazepam_equivalents"] += 1
+            if citation:
+                self.stats["diazepam_equivalents_cited"] = (
+                    self.stats.get("diazepam_equivalents_cited", 0) + 1
+                )
         except sqlite3.IntegrityError:
             pass
 
@@ -8315,6 +8328,35 @@ class Build:
         ),
     }
 
+    def _ashton_citation(
+        self, canonical: str, dose_mg: float | None, equivalent_mg: float | None
+    ) -> str | None:
+        """The Ashton Manual URL when this row's number matches its Table 1 entry, else None.
+
+        Equivalence is stated against 10 mg diazepam, so a row claiming a different
+        diazepam side is answering a different question and does not match. Ashton's
+        own ranges are honoured whole: any value inside one is that table's value."""
+        if dose_mg is None or equivalent_mg is None or abs(equivalent_mg - 10.0) > 1e-6:
+            return None
+        table = self._ashton_table()
+        bounds = table["equivalentToTenMgDiazepam"].get(canonical)
+        if bounds is None:
+            return None
+        low, high = bounds
+        return table["citation"] if low - 1e-9 <= dose_mg <= high + 1e-9 else None
+
+    def _ashton_table(self) -> dict:
+        if getattr(self, "_ashton_cache", None) is None:
+            path = CURATED_DIR.parent / "benzo-equivalence-ashton.json"
+            payload = json.loads(path.read_text()) if path.exists() else {"citation": None}
+            payload.setdefault("equivalentToTenMgDiazepam", {})
+            # Keyed by the same normalisation the caller resolves with.
+            payload["equivalentToTenMgDiazepam"] = {
+                normalise(k): v for k, v in payload["equivalentToTenMgDiazepam"].items()
+            }
+            self._ashton_cache = payload
+        return self._ashton_cache
+
     def _alias_index(self) -> dict[str, int]:
         """name/alias → sid index over everything already in the DB. Canonical
         names win over aliases (seeded first, aliases folded in with setdefault).
@@ -8373,12 +8415,17 @@ class Build:
                         dose_mg = float(m.group(1))
                         equiv_mg = float(m.group(2))
                     display = self._BENZO_EQUIV_BAND_TEXT.get(canon, prose.strip())
+                # The citation is EARNED, not asserted: attached only where the
+                # shipped number agrees with the Ashton range for that drug. An
+                # upstream value that drifts out of range loses its citation, and
+                # with it the tolerance engine's confidence upgrade.
                 self.add_diazepam_equivalent(
                     sid,
                     slug,
                     dose_mg=dose_mg,
                     equivalent_diazepam_mg=equiv_mg,
                     display_text=display,
+                    citation=self._ashton_citation(canon, dose_mg, equiv_mg),
                 )
             # x_summary → a plain description; x_avoid → a contraindication
             # (discontinuation/combination warning, not a boxed warning);

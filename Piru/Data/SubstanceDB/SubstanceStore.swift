@@ -1185,7 +1185,7 @@ final class SubstanceStore {
             let rows = try Row.fetchAll(db, sql: """
                 SELECT s.canonical_name AS name, s.display_name AS display_name,
                        d.dose_mg AS dose_mg, d.equivalent_diazepam_mg AS eq_mg,
-                       d.display_text AS display_text
+                       d.display_text AS display_text, d.citation_id AS citation_id
                   FROM (
                     SELECT de.*, ROW_NUMBER() OVER (
                         PARTITION BY de.substance_id
@@ -1206,6 +1206,7 @@ final class SubstanceStore {
                         doseMg: row["dose_mg"],
                         equivalentDiazepamMg: row["eq_mg"],
                         displayText: row["display_text"],
+                        isCited: (row["citation_id"] as Int64?) != nil,
                     ),
                 )
             }
