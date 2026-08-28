@@ -184,6 +184,13 @@ enum SubstanceLibrary {
         }
     }
 
+    /// Whether the substance has at least one active metabolite whose elimination
+    /// may outlast the parent — used by the body-load readout to qualify "fully
+    /// eliminated" with a metabolite caveat.
+    static func hasActiveMetabolite(_ canonicalName: String) -> Bool {
+        SubstanceStore.shared.hasActiveMetabolite(canonicalName)
+    }
+
     static func search(_ query: String, limit: Int = 50) -> [Substance] {
         overlaySearch(SubstanceStore.shared.searchMatches(query, limit: limit), query: query).map(\.substance)
     }

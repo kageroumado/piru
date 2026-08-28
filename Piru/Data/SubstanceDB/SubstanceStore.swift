@@ -150,6 +150,10 @@ final class SubstanceStore {
     /// read once and never invalidated. ``combinationMetaboliteCache`` is the same shape.
     @ObservationIgnored private var enzymeModulatorCache: [MetabolicModulation.Modulator]?
     @ObservationIgnored private var combinationMetaboliteCache: [CombinationMetabolite.Definition]?
+    /// Lowercased canonical names of substances carrying at least one `metabolism` row with
+    /// `metabolite_active = 1`. The body-load readout qualifies "fully eliminated" when the
+    /// parent cleared but a longer-lived active metabolite may persist. Not source-derived.
+    @ObservationIgnored private var activeMetaboliteNamesCache: Set<String>?
     /// The discontinuation screen's timing bands and acting-class floors — a dozen rows read once
     /// and held. Source-derived (the floors carry a source), so invalidated with the converters.
     @ObservationIgnored private var withdrawalReferenceCache: WithdrawalReference?
@@ -1300,6 +1304,23 @@ final class SubstanceStore {
         let loaded = SubstanceReadModel.combinationMetabolites(db: substancesDB)
         combinationMetaboliteCache = loaded
         return loaded
+    }
+
+    /// Whether a substance has at least one active metabolite in the `metabolism` table.
+    func hasActiveMetabolite(_ canonicalName: String) -> Bool {
+        if activeMetaboliteNamesCache == nil {
+            let names: Set<String> = (try? substancesDB.read { db in
+                let rows = try String.fetchAll(db, sql: """
+                    SELECT DISTINCT lower(s.canonical_name)
+                      FROM metabolism m
+                      JOIN substances s ON s.id = m.substance_id
+                     WHERE m.metabolite_active = 1
+                """)
+                return Set(rows)
+            }) ?? []
+            activeMetaboliteNamesCache = names
+        }
+        return activeMetaboliteNamesCache?.contains(canonicalName.lowercased()) == true
     }
 
     /// The benzodiazepine discontinuation screen's population tables: the timing bands and the

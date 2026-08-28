@@ -2,7 +2,6 @@
   "_note": "Cross-source elimination disagreements >2x that are deliberate or explained, waived for EliminationConsistencyTests. `pair` names the comparison: halflife-pk (the DB-resolved t1/2 vs the PK-derived one) or override (SubstanceModelDatabase felt-effect ke patch vs either measured source). Every entry needs a non-empty prose `note` — the loader refuses an empty one. A waiver that stops tripping fails the suite (stale-entry test); delete it then. Reseed candidates with PIRU_ELIM_DUMP=1 (writes Audits/elimination-violations.json). Entries marked 'unverified disagreement' are open data questions, not explanations — fixing the data retires them.",
   "entries": [
     { "name": "buprenorphine", "pair": "halflife-pk", "observedRatio": 12.0, "note": "Route- and phase-dependent PK (sublingual terminal ~24-42 h vs short parenteral distribution values); which study row drives the 180 min side is unverified, needs a sourced check." },
-    { "name": "kratom", "pair": "override", "observedRatio": 5.79, "note": "Deliberate felt-effect patch: SubstanceModelDatabase pins ~4 h because the terminal half-life far outlasts the felt effect (see the override's comment)." },
     { "name": "heroin", "pair": "override", "observedRatio": 19.74, "note": "Deliberate felt-effect patch: the 3-8 min plasma half-life is the prodrug, not the felt duration (see the override's comment)." }
   ]
 }

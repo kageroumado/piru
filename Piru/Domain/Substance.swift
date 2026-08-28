@@ -1058,6 +1058,9 @@ struct MechanismOfAction: Codable {
     let description: String
     let primaryTargets: [String]
     let bindings: [ReceptorBinding]
+    /// The language code of the DB row the summary came from (e.g. "en", "zh-Hans").
+    /// `nil` when the text is from the category floor (already localized via xcstrings).
+    var summaryLanguage: String?
 
     private enum CodingKeys: String, CodingKey {
         case summary
@@ -1066,11 +1069,12 @@ struct MechanismOfAction: Codable {
         case bindings
     }
 
-    init(summary: String, description: String, primaryTargets: [String] = [], bindings: [ReceptorBinding] = []) {
+    init(summary: String, description: String, primaryTargets: [String] = [], bindings: [ReceptorBinding] = [], summaryLanguage: String? = nil) {
         self.summary = summary
         self.description = description
         self.primaryTargets = primaryTargets.isEmpty ? bindings.map(\.target) : primaryTargets
         self.bindings = bindings
+        self.summaryLanguage = summaryLanguage
     }
 
     init(from decoder: Decoder) throws {

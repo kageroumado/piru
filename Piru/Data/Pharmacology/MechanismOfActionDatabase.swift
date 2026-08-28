@@ -37,7 +37,15 @@ enum MechanismOfActionDatabase {
         let categoryMoa = categoryFallback(for: category)
 
         let hasDBSummary = !(dbMechanism?.summary.isEmpty ?? true)
-        let textSource: MechanismOfAction? = hasDBSummary ? dbMechanism : (categoryMoa ?? dbMechanism)
+        // A Chinese reader seeing English-only DB prose should get the localized
+        // category floor instead — it is generic but in their language.
+        let dbLanguageMismatch: Bool = {
+            guard ContentLanguage.current.isChinese,
+                  let lang = dbMechanism?.summaryLanguage else { return false }
+            return !lang.hasPrefix("zh")
+        }()
+        let preferDB = hasDBSummary && !dbLanguageMismatch
+        let textSource: MechanismOfAction? = preferDB ? dbMechanism : (categoryMoa ?? dbMechanism)
         guard let textSource else { return nil }
 
         var bindings = dbMechanism?.bindings ?? []

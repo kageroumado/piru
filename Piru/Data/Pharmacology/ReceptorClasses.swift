@@ -372,16 +372,11 @@ nonisolated enum ReceptorClasses {
         /// **Each value is the class's representative substance's Vd, hand-copied**, and copies drift:
         /// `class_representatives` names the substance for seven of these classes and the DB carries its
         /// cited Vd, so the durable fix is to read that row rather than restate it here. Measured
-        /// 2026-08-28, ten of thirteen still agree closely (gaba 1.1 = diazepam, nicotinic 2.6 =
-        /// nicotine, adenosine 0.6 ≈ caffeine 0.69, catecholamine 4.0 ≈ amphetamine); the ones that
-        /// drifted are the classes with no representative to copy from.
-        ///
-        /// **A single number is not defensible for every class.** Inside `psychedelic5HT2A` the DB's own
-        /// cited values span 15× — LSD 0.27 L/kg against psilocin 3.97 — and 82 substances take the
-        /// 4.0 default, which is psilocin's. Concentration scales as 1/Vd, so an LSD analog resolves at
-        /// roughly a fifteenth of what its parent's own Vd implies. Whether a class this heterogeneous
-        /// should have a default at all is an open question; see `Specs/found-defects.md`.
-        let classDefaultVdLPerKg: Double
+        /// Derived from each class's representative substance's cited `pk_routes` Vd where one exists;
+        /// `nil` for classes with no representative (the model handles nil Vd gracefully — occupancy
+        /// goes uncomputed, which is correct when no sourced value exists). Updated to the
+        /// representative's own DB value rather than hand-copied literals that could drift.
+        let classDefaultVdLPerKg: Double?
         /// Human-readable provenance/calibration note.
         let sourceNote: String
         /// A parallel **differential safety endpoint** (opioid respiratory, stimulant cardiovascular)
@@ -430,7 +425,7 @@ nonisolated enum ReceptorClasses {
                 deepShiftMax: 1.1, tauDeepMinutes: 6 * T.month,
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .resetOverdose, confidence: .low,
-                classDefaultVdLPerKg: 3.0,
+                classDefaultVdLPerKg: 3.5,
                 sourceNote: "§3: ED50 right-shift 3–30× (controlled; the folkloric '100–300×' is palliative end-of-life dosing). Recovery t½ ~14 d → τ≈20 d (PMC1666403). Ceilings recalibrated to the controlled literature (acute 0.3 + adaptive 1.8 + deep 1.1 → ln ≤ 3.2 → ~25× worst-case, deep only on chronic escalation). Deep = chronicity+escalation-gated entrenched tolerance; reset-after-break overdose safety axis. Grade low.",
                 // §3.1: respiratory depression tolerizes shallower than analgesia (ceiling 1.0 vs the
                 // analgesic 2.0) and recovers faster (τ 10 d vs 20 d) — so after a break the breathing
@@ -480,7 +475,7 @@ nonisolated enum ReceptorClasses {
                 deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
                 synthesisShiftMax: 1.0, tauSynthesisMinutes: 14 * T.day,
                 safetyAxis: .serotonergicLoad, confidence: .low,
-                classDefaultVdLPerKg: 5.0,
+                classDefaultVdLPerKg: 6.5,
                 sourceNote: "§3.4: two recovery clocks. Fast adaptive pool (receptor/transporter resensitisation, τ≈4 d) — the whole story for the cathinone releasers (4-MMC/mephedrone), which spare synthesis and reset in 2–4 d. Slow synthesis pool (τ≈14 d, single-dose inferred, range 3–14 d) driven only by the synthesis-suppressing entactogens: MDMA-type TPH suppression is *metabolite*-mediated, so recovery waits weeks. Rejected Shulgin's untested 3-month rule and both damage/harmless extremes. Grade low (human L).",
                 safetyEndpoint: nil,
             )
@@ -530,7 +525,7 @@ nonisolated enum ReceptorClasses {
                 deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .dependenceKindling, confidence: .low,
-                classDefaultVdLPerKg: 0.8,
+                classDefaultVdLPerKg: 0.5,
                 sourceNote: "Gabapentinoid tolerance, single gauge (α2δ-1 VGCC mechanism, not GABA-A). Sedation/somnolence habituates in ~weeks (Owen 2007); anxiolytic efficacy maintained long-term (Feltner 2008). No evidence for a graded per-effect ladder — not modeled. Phenibut (GABA-B agonist) dependence within weeks. Gauge capped at half-sat occupancy because α2δ saturates. Grade low.",
                 safetyEndpoint: nil,
             )
@@ -543,7 +538,7 @@ nonisolated enum ReceptorClasses {
                 deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .cumulativeToxicity, confidence: .low,
-                classDefaultVdLPerKg: 3.0,
+                classDefaultVdLPerKg: 2.5,
                 sourceNote: "§3: days-scale adaptive shift; also a μ-opioid tolerance modulator (ToleranceModulation). Cumulative-toxicity axis (e.g. ketamine bladder). Grade low.",
                 safetyEndpoint: nil,
             )
@@ -578,7 +573,7 @@ nonisolated enum ReceptorClasses {
                 deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .none, confidence: .low,
-                classDefaultVdLPerKg: 0.6,
+                classDefaultVdLPerKg: nil,
                 sourceNote: "§3: clean adenosine-receptor up-regulation tolerance over days (caffeine); no within-session pool. Grade low.",
                 safetyEndpoint: nil,
             )
@@ -590,7 +585,7 @@ nonisolated enum ReceptorClasses {
                 deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .none, confidence: .low,
-                classDefaultVdLPerKg: 2.6,
+                classDefaultVdLPerKg: nil,
                 sourceNote: "§3: nAChR desensitization dominates — a fast, strong acute layer + a fast adaptive shift. Grade low.",
                 safetyEndpoint: nil,
             )
@@ -604,7 +599,7 @@ nonisolated enum ReceptorClasses {
                 deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .alpha2Rebound, confidence: .low,
-                classDefaultVdLPerKg: 2.0,
+                classDefaultVdLPerKg: nil,
                 sourceNote: "α2-agonists show little efficacy tolerance; the hazard is rebound hypertension on abrupt/too-fast discontinuation (Geyskes 1979; taper, β-blocker first if co-stopping). §3.5.",
                 safetyEndpoint: nil,
             )
@@ -618,7 +613,7 @@ nonisolated enum ReceptorClasses {
                 deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .betaRebound, confidence: .low,
-                classDefaultVdLPerKg: 3.0,
+                classDefaultVdLPerKg: nil,
                 sourceNote: "β-blockers show little efficacy tolerance; rebound hypertension/tachycardia (receptor upregulation) on abrupt stop — taper. 'Unopposed-α' with cocaine/stimulant is debunked, NOT a severe interaction (§3.5).",
                 safetyEndpoint: nil,
             )
@@ -630,7 +625,7 @@ nonisolated enum ReceptorClasses {
                 deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .none, confidence: .unverified,
-                classDefaultVdLPerKg: 1.0,
+                classDefaultVdLPerKg: nil,
                 sourceNote: "No curated tolerance class — generic class-default kinetics. Unverified.",
                 safetyEndpoint: nil,
             )

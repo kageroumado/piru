@@ -144,7 +144,7 @@ struct SessionShareCard: View {
                 count: row.count,
                 total: row.total,
                 unit: row.unit,
-                status: hasActive ? .cleared : nil,
+                status: hasActive ? .cleared(hasActiveMetabolite: row.hasActiveMetabolite) : nil,
             )
         }
         return rows

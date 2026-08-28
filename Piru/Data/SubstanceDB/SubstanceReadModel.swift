@@ -670,7 +670,7 @@ struct SubstanceReadModel {
         let lang = language.clauses(column: "t.language")
         // Primary: the highest-priority enabled source, in the preferred language.
         if let row = try Row.fetchOne(db, sql: """
-            SELECT \(columns), t.machine_translated, src.slug AS source_slug
+            SELECT \(columns), t.machine_translated, src.slug AS source_slug, t.language AS row_language
               FROM \(table) t
               JOIN sources src ON src.id = t.source_id
              WHERE t.substance_id = ?
@@ -692,7 +692,7 @@ struct SubstanceReadModel {
         // matches nothing), which would otherwise blank every overview until the
         // priority list finishes loading.
         return try Row.fetchOne(db, sql: """
-            SELECT \(columns), t.machine_translated, src.slug AS source_slug
+            SELECT \(columns), t.machine_translated, src.slug AS source_slug, t.language AS row_language
               FROM \(table) t
               JOIN sources src ON src.id = t.source_id
              WHERE t.substance_id = ?
@@ -818,6 +818,7 @@ struct SubstanceReadModel {
             description: row?["description"] ?? "",
             primaryTargets: bindings.map(\.target),
             bindings: bindings,
+            summaryLanguage: row?["row_language"] as String?,
         )
     }
 

@@ -6609,6 +6609,10 @@ T = {
         "本次記錄隨時間可能的感受",
     ),
     "Fully eliminated": ("已完全消除", "已完全消除"),
+    "Fully eliminated · active metabolite may persist": (
+        "母体已完全消除 · 活性代谢物可能仍存在",
+        "母體已完全消除 · 活性代謝物可能仍存在",
+    ),
     # US-spelling renames of existing keys (2026-07-10); zh copied verbatim from the
     # British-spelled originals, which become stale orphans.
     "No half-life data — elimination not modeled": (

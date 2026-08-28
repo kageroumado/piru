@@ -1125,7 +1125,7 @@
   {
     "name": "Methadone",
     "summary": "Full μ-Opioid Agonist and NMDA Receptor Antagonist",
-    "description": "Acts as a full agonist at μ-opioid receptors with additional NMDA receptor antagonist activity. The NMDA antagonism may slow opioid tolerance development and contribute to analgesic efficacy in neuropathic pain. A very long and variable half-life (15-60 hours) provides sustained opioid receptor occupancy that suppresses withdrawal and craving. Also weakly inhibits serotonin and norepinephrine reuptake.",
+    "description": "Acts as a full agonist at μ-opioid receptors with additional NMDA receptor antagonist activity. The NMDA antagonism may slow opioid tolerance development and contribute to analgesic efficacy in neuropathic pain. A very long and variable half-life provides sustained opioid receptor occupancy that suppresses withdrawal and craving. Also weakly inhibits serotonin and norepinephrine reuptake.",
     "bindings": [
       {
         "target": "μ-opioid",
@@ -1365,7 +1365,7 @@
   {
     "name": "Naltrexone",
     "summary": "Long-Acting Opioid Receptor Antagonist",
-    "description": "Acts as a competitive antagonist at μ-, κ-, and δ-opioid receptors with good oral bioavailability and a long duration of action (24-72 hours). At standard doses (50 mg) it blocks the euphoric effects of exogenous opioids. Also used for alcohol use disorder, where it reduces alcohol-induced dopamine release and craving through opioid-system modulation.",
+    "description": "Acts as a competitive antagonist at μ-, κ-, and δ-opioid receptors with good oral bioavailability and a long duration of action. Blocks the euphoric effects of exogenous opioids. Also used for alcohol use disorder, where it reduces alcohol-induced dopamine release and craving through opioid-system modulation.",
     "bindings": [
       {
         "target": "μ-opioid",
@@ -1608,7 +1608,7 @@
   {
     "name": "Tadalafil",
     "summary": "Phosphodiesterase Type 5 (PDE5) Inhibitor",
-    "description": "Selectively inhibits PDE5, preventing degradation of cGMP in smooth muscle. Has a substantially longer half-life than sildenafil (~17.5 hours vs. ~4 hours), permitting daily dosing and a wider window of efficacy (up to ~36 hours on demand). Also weakly inhibits PDE11, though the clinical significance is unclear.",
+    "description": "Selectively inhibits PDE5, preventing degradation of cGMP in smooth muscle. Has a substantially longer half-life than sildenafil, permitting daily dosing and a wider window of efficacy. Also weakly inhibits PDE11, though the clinical significance is unclear.",
     "bindings": [
       {
         "target": "PDE5",

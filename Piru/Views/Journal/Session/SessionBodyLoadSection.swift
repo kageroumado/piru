@@ -7,7 +7,8 @@ enum BodyLoadStatus {
     /// Still circulating: "26% eliminated · clear ~5 AM" with a trailing "N mg left".
     case eliminating(percent: Int, clear: String, remaining: Double)
     /// Fully cleared, shown for visual consistency when other rows are still active.
-    case cleared
+    /// `hasActiveMetabolite` qualifies the text when a longer-lived metabolite may persist.
+    case cleared(hasActiveMetabolite: Bool = false)
     /// No half-life is known for this substance, so nothing about its clearance
     /// can be stated. Distinct from ``cleared``: the calculator drops a dose for
     /// two different reasons — worn off, and unmodelable — and calling the second
@@ -112,8 +113,10 @@ struct BodyLoadRowLabel: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
-        case .cleared:
-            Text("Fully eliminated")
+        case let .cleared(hasActiveMetabolite):
+            Text(hasActiveMetabolite
+                ? "Fully eliminated · active metabolite may persist"
+                : "Fully eliminated")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
         case .unmodeled:
@@ -162,6 +165,8 @@ struct SessionBodyLoadModel {
         /// `true` when the row is here because no half-life is known, not
         /// because the dose wore off.
         var unmodeled: Bool = false
+        /// The parent is cleared but a longer-lived active metabolite may persist.
+        var hasActiveMetabolite: Bool = false
 
         var id: String {
             displayName
@@ -255,6 +260,7 @@ struct SessionBodyLoadModel {
                     total: group?.total ?? active.totalDosed,
                     unit: group?.unit ?? active.unit,
                     count: group?.count ?? active.doses.count,
+                    hasActiveMetabolite: SubstanceLibrary.hasActiveMetabolite(active.name),
                 ))
             } else {
                 // `group` counts every dose in the session; `active` counts only
@@ -394,7 +400,9 @@ struct SessionBodyLoadSection: View {
                         count: row.count,
                         total: row.total,
                         unit: row.unit,
-                        status: row.unmodeled ? .unmodeled : (model.active.isEmpty ? nil : .cleared),
+                        status: row.unmodeled
+                            ? .unmodeled
+                            : (model.active.isEmpty ? nil : .cleared(hasActiveMetabolite: row.hasActiveMetabolite)),
                     )
                     .padding(.vertical, 2)
                     .accessibilityElement(children: .combine)

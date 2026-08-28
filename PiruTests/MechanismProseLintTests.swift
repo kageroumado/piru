@@ -88,9 +88,9 @@ struct MechanismProseLintTests {
     /// rather than deleting the sentence.
     static let knownOffenders: Set<String> = [
         "1D-LSD", "2-Me-PiHP", "4\'-DMA-7,8-DHF", "AC-262536", "BAM-15", "Bretazenil",
-        "Enclomiphene", "Fluoprazolam", "Heroin", "Letrozole", "MPT", "Methadone", "Mirabegron",
-        "NB-5-MeO-DALT", "NB-5-MeO-MiPT", "Naltrexone", "RAD-140", "RU58841", "S-23", "S4",
-        "SLU-PP-332", "SR-9011", "Tadalafil", "Tesofensine", "Thozalinone", "Xanomeline",
+        "Enclomiphene", "Fluoprazolam", "Heroin", "Letrozole", "MPT", "Mirabegron",
+        "NB-5-MeO-DALT", "NB-5-MeO-MiPT", "RAD-140", "RU58841", "S-23", "S4",
+        "SLU-PP-332", "SR-9011", "Tesofensine", "Thozalinone", "Xanomeline",
     ]
 
     /// The waiver list may only shrink. A name that stops offending must leave it, or the list

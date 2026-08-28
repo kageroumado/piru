@@ -80,19 +80,18 @@ nonisolated enum SubstanceModelDatabase {
         // Reuptake-blocker stimulants — no depletion; curated DAT dissociation controls the plateau.
         "methylphenidate": Overrides(refUnit: 60, deplete: 0, koff: 8.0),
         "mdpv": Overrides(refUnit: 15, deplete: 0, koff: 3.0),
-        // No DB PK — full PK from the override, weights still from DB.
-        "5-apb": Overrides(ke: ln2 / 6.0, ka: 2.0, refUnit: 70, deplete: 0.08),
+        // No DB PK for 5-APB — refUnit + PD weights only; no sourced human PK exists.
+        "5-apb": Overrides(refUnit: 70, deplete: 0.08),
         // Opioids — µ drive/efficacy/respiratory are curated; heroin's 3-min *plasma* half-life is the
         // prodrug, not the felt duration (6-MAM/morphine), so its ke is patched.
         "heroin": Overrides(ke: ln2 / 2.5, ka: 6.0, refUnit: 10, mu: 1.0, muEff: 0.97, resp: 1.4),
         "morphine": Overrides(refUnit: 30, mu: 1.0, muEff: 0.95, resp: 1.0),
         "oxycodone": Overrides(refUnit: 20, mu: 1.0, muEff: 0.92, resp: 0.9),
-        // Kratom's terminal half-life (~23 h, enterohepatic) far outlasts the felt effect (~4 h).
-        "kratom": Overrides(ke: ln2 / 4.0, ka: 1.5, refUnit: 3, mu: 0.55, muEff: 0.5),
+        "kratom": Overrides(refUnit: 3, mu: 0.55, muEff: 0.5),
         // Sedatives / enhancers / antagonists — adjuncts (never trigger the view alone).
         "bromazepam": Overrides(refUnit: 6, gaba: 1.0),
-        "ppap": Overrides(ke: ln2 / 4.0, ka: 1.5, refUnit: 20, cae: 0.45),
-        "bpap": Overrides(ke: ln2 / 5.0, ka: 1.5, refUnit: 1, cae: 1.1),
+        "ppap": Overrides(refUnit: 20, cae: 0.45),
+        "bpap": Overrides(refUnit: 1, cae: 1.1),
         "mirtazapine": Overrides(refUnit: 30, rec: ReceptorAffinities(h1: 0.03, a2: 0.6, c2C: 0.6, c2A: 0.9)),
     ]
 

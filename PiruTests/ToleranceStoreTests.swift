@@ -111,9 +111,19 @@ struct ToleranceStoreTests {
     // MARK: - Class-default Vd fallback
 
     @Test
-    func `Every receptor class exposes a positive class-default Vd for the fallback`() {
+    func `Classes with a representative carry a positive class-default Vd`() {
+        let classesWithRepresentative: Set<ReceptorClasses.ReceptorClass> = [
+            .psychedelic5HT2A, .muOpioid, .catecholamineStimulant,
+            .serotonergicReleaser, .gaba, .alpha2Delta,
+            .nmdaAntagonist, .cannabinoidCB1,
+        ]
         for receptorClass in ReceptorClasses.ReceptorClass.allCases {
-            #expect(ReceptorClasses.parameters(for: receptorClass).classDefaultVdLPerKg > 0)
+            let vd = ReceptorClasses.parameters(for: receptorClass).classDefaultVdLPerKg
+            if classesWithRepresentative.contains(receptorClass) {
+                #expect(vd != nil && vd! > 0, "\(receptorClass) should have a sourced Vd")
+            } else {
+                #expect(vd == nil, "\(receptorClass) has no representative — Vd should be nil")
+            }
         }
     }
 
