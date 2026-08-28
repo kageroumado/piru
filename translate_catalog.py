@@ -540,10 +540,10 @@ T = {
         "地西泮、氯氮䓬、氯硝西泮",
         "地西泮、氯氮䓬、氯硝西泮",
     ),
-    "temazepam, oxazepam, bromazepam": ("替马西泮、奥沙西泮、溴西泮", "替馬西泮、奧沙西泮、溴西泮"),
-    "triazolam, alprazolam, lorazepam": (
-        "三唑仑、阿普唑仑、劳拉西泮",
-        "三唑侖、阿普唑侖、勞拉西泮",
+    "temazepam, bromazepam": ("替马西泮、溴西泮", "替馬西泮、溴西泮"),
+    "triazolam, alprazolam, lorazepam, oxazepam": (
+        "三唑仑、阿普唑仑、劳拉西泮、奥沙西泮",
+        "三唑侖、阿普唑侖、勞拉西泮、奧沙西泮",
     ),
     "2–7 days": ("2–7 天", "2–7 天"),
     "5–14 days": ("5–14 天", "5–14 天"),

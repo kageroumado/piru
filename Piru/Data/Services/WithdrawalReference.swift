@@ -37,8 +37,8 @@ nonisolated enum WithdrawalActingClass: String, Hashable, Sendable, CaseIterable
     /// gates this list against the rows so a reclassified drug cannot leave a stale example behind.
     var examples: LocalizedStringResource {
         switch self {
-        case .short: "triazolam, alprazolam, lorazepam"
-        case .intermediate: "temazepam, oxazepam, bromazepam"
+        case .short: "triazolam, alprazolam, lorazepam, oxazepam"
+        case .intermediate: "temazepam, bromazepam"
         case .long: "diazepam, chlordiazepoxide, clonazepam"
         }
     }

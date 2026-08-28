@@ -54578,7 +54578,24 @@
         }
       }
     },
+    "temazepam, bromazepam" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "替马西泮、溴西泮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "替馬西泮、溴西泮"
+          }
+        }
+      }
+    },
     "temazepam, oxazepam, bromazepam" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -57838,6 +57855,7 @@
       }
     },
     "triazolam, alprazolam, lorazepam" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -57849,6 +57867,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "三唑侖、阿普唑侖、勞拉西泮"
+          }
+        }
+      }
+    },
+    "triazolam, alprazolam, lorazepam, oxazepam" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三唑仑、阿普唑仑、劳拉西泮、奥沙西泮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三唑侖、阿普唑侖、勞拉西泮、奧沙西泮"
           }
         }
       }

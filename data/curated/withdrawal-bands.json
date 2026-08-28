@@ -56,13 +56,12 @@
       "substance": "Temazepam",
       "band": "intermediate",
       "citation": false,
-      "notes": "Absent from NAV26 Table 2 entirely, so the review does not place it in any band. The value agrees with this database's own half-life (900 min = 15 h), which the boundaries read as intermediate; it is the citation that is missing, not the number."
+      "notes": "Absent from NAV26 Table 2 entirely, so the review does not place it in any band, and no other primary source classifies temazepam into a named acting-class band either. The FDA label gives a biphasic decline with terminal half-life 3.5-18.4 h (mean 8.8 h; DailyMed setid 066e25b2-8a1b-4b08-b585-ce36753bf104) and Ashton Table 1 gives 8-22 h -- both wide enough to bracket this database's own 900 min (15 h) without confirming it, and the label's mean sits below it. So 15 h is non-contradicted rather than corroborated. It falls inside the intermediate boundary under every source's range, and intermediate carries no timing window, so nothing is shown that a reader could be misled by. Still the citation that is missing, not the number."
     },
     {
       "substance": "Oxazepam",
-      "band": "intermediate",
-      "citation": false,
-      "notes": "CONTRADICTS the cited review: NAV26 Table 2 lists oxazepam under Short Acting at t-half 6-10 h, and this database's own half-life (480 min = 8 h) agrees with the review. Carried at intermediate because that is what the app has shown; the disagreement is recorded rather than reconciled."
+      "band": "short",
+      "notes": "NAV26 Table 2, Short Acting: t-half 6-10 h. Moved from intermediate 2026-08-28 after three independent sources agreed and none dissented: the review's own table, the FDA label ('The mean elimination half-life for oxazepam was approximately 8.2 hours (range 5.7 to 10.9 hours)', DailyMed setid 03440821-831c-4085-98f9-faa88e98c503), and this database's own 480 min (8 h). Ashton Table 1 gives 4-15 h, consistent, though Ashton has no acting-class column at all -- it carries raw half-life ranges and an unrelated market-aim axis, so it offers no second opinion on the taxonomy. Note what the move does beyond the label: `short` carries a peak-timing window, so oxazepam now shows 'peaks around 2 days'. Rickels 1990's abstract does not name which benzodiazepines were in its short arm, so that attachment is a class-level inference -- the same one already made for every other member of this band, not a new kind of claim."
     },
     {
       "substance": "Bromazepam",
