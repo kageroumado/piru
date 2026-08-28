@@ -117,6 +117,22 @@ final class LiveActivityManager {
     /// The `activityState` re-check is not redundant with `init`'s: the activity
     /// can end (user dismissal, system expiry) while the process is alive, and
     /// `currentActivity` is only cleared on the paths *we* drive.
+    ///
+    /// **Do not add an unmodeled-form check here, and do not thread the flag
+    /// through `PiruActivityAttributes` to make one possible.** There is no
+    /// `DoseEntry` at this point, so the check looks missing — but it has already
+    /// run, one layer up and permanently. A dose whose form the app declines to
+    /// model resolves a `nil` duration
+    /// (``ActiveSessionManager/resolveDuration(substance:route:namesUnmodeledForm:)``),
+    /// and `pruneCompleted` drops every `nil`-duration entry from `activeEntries`
+    /// as a *membership* rule rather than an expiry one. `buildSubstanceStates`
+    /// maps over what survives, so an `ActiveSubstanceState` can only exist for a
+    /// dose the guard already let through, and the phase boundaries recovered
+    /// below are that same permitted profile read back.
+    ///
+    /// The one unmodeled form that does reach here is a named ER product with an
+    /// authored `product_durations` envelope, which is modeled after all — and it
+    /// recovers its own envelope, not the base ladder's.
     func recoverEntriesFromActivity() -> [(snapshot: DoseSnapshot, duration: DurationProfile?, colorHex: String)]? {
         guard let existing = currentActivity,
               existing.activityState == .active || existing.activityState == .stale,
