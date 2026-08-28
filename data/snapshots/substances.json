@@ -17950,7 +17950,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Pharmacokinetics of the oral narcotic analgesic bezitramide and preliminary observations on its effect on experimentally induced pain"
+      "Pharmacokinetics of the oral narcotic analgesic bezitramide and preliminary observations on its effect on experimentally induced pain."
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -28133,7 +28133,7 @@
     "mechanism_summary": "Systemically blocks alpha-1 adrenergic receptors resulting in effects including relaxation of smooth muscle around the bladder neck (improving urinary flow), and reduction in vascular resistance (may reduce blood pressure).",
     "effects": [],
     "references": [
-      "10.1016/0002-9149(87)90162-7"
+      "PMID 2884857"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -36100,7 +36100,7 @@
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Hydrocortisone",
-      "10.1002/j.1552-4604.1991.tb01906.x"
+      "PMID 2050835"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -44709,7 +44709,7 @@
     "mechanism_summary": "Methylprednisolone is a synthetic glucocorticoid with anti-inflammatory and immunomodulating properties, and minimal mineralocorticoid properties. After cell surface receptor attachment and cell entry, methylprednisolone enters the nucleus where it binds to and activates specific nuclear receptors, resulting in an altered gene expression and inhibition of proinflammatory cytokine production. This agent also decreases the number of circulating lymphocytes, induces cell differentiation, and stimulates apoptosis in sensitive tumor cell populations.",
     "effects": [],
     "references": [
-      "Rectal and oral absorption of methylprednisolone acetate",
+      "Rectal and oral absorption of methylprednisolone acetate.",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0703-0031"
     ],
     "data_gaps": [
@@ -51235,7 +51235,7 @@
     "mechanism_summary": "巴比妥类药物的行为与苯二氮卓类物质相似。戊巴比妥结合于GABAA受体的变构位点，并增强内源性配体γ-氨基丁酸（GABA）的效应。当巴比妥类药物结合到GABAA受体时，会导致离子孔开放时间延长，从而引起细胞内氯离子浓度增加。由于该位点是大脑中最多产的抑制性受体组，其调节导致了巴比妥类药物对神经系统的镇静（或平复）效应。\n\n戊巴比妥的生物利用度为70-90%。45-60%的戊巴比妥会与蛋白质结合。其生物半衰期为15-48小时。戊巴比妥由肝脏代谢并由肾脏排泄。",
     "effects": [],
     "references": [
-      "Effects of delta-9-tetrahydrocannabinol on drug distribution and metabolism. Antipyrine, pentobarbital, and ethanol"
+      "Effects of delta-9-tetrahydrocannabinol on drug distribution and metabolism. Antipyrine, pentobarbital, and ethanol."
     ],
     "data_gaps": []
   },
@@ -54751,7 +54751,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "10.1016/s0020-7519(96)00134-8"
+      "PMID 9024887"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -61637,7 +61637,7 @@
     "mechanism_summary": "Primarily inhibits norepinephrine and serotonin reuptake at the presynaptic neurons leading to higher concentrations of these neurotransmitters in the neuronal synapse. As a tertiary amine (TCAs are either tertiary or secondary amines), this drug displays more selectivity towards serotonin reuptake inhibition. Additionally, blocks histamine-H1, alpha-1 adrenergic, and muscarinic receptors accounting for sedative, hypotensive and anticholinergic effects, respectively.",
     "effects": [],
     "references": [
-      "Chronopharmacokinetic and bioequivalence studies of two formulations of trimipramine after oral administration in man",
+      "Chronopharmacokinetic and bioequivalence studies of two formulations of trimipramine after oral administration in man.",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=51285-538"
     ],
     "data_gaps": [
@@ -63302,7 +63302,7 @@
     "mechanism_summary": "Yohimbine's primary and most well-studied mechanism of action is antagonism of a class of receptors known as alpha-2 adrenergic receptors, thereby elevating norepinephrine levels by preventing its reuptake by downstream neurons. Blockade of alpha-2 adrenergic receptors raises blood pressure, releases insulin, and lowers blood glucose levels. Yohimbine also blocks alpha-1 adrenergic receptors, albeit with lower affinity. Research has additionally shown that it weakly inhibits monoamine oxidase.\n\nAt higher concentrations, yohimbine acts as an antagonist at dopamine D2 and D3 receptors, serotonin 5-HT1A, 5-HT1B, and 5-HT2A receptors, and as a partial agonist at 5-HT1A receptors.",
     "effects": [],
     "references": [
-      "The pharmacokinetics of yohimbine in man"
+      "The pharmacokinetics of yohimbine in man."
     ],
     "data_gaps": []
   },
