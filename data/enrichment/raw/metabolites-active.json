@@ -1800,27 +1800,24 @@
   },
   {
     "name": "Lisdexamfetamine",
-    "parent_half_life_min": 70.0,
-    "parent_half_life_reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/208510lbl.pdf",
+    "parent_half_life_min": 25,
+    "parent_half_life_reference": "doi:10.1177/0091270007310381",
     "parent_half_life_notes": "Lisdexamfetamine itself is cleared very rapidly by RBC-mediated hydrolysis (essentially undetectable by ~6h post-dose); it has negligible independent pharmacological activity. This is the prodrug's own washout, not the active-drug duration -- see the d-amphetamine metabolite entry for the pharmacologically relevant kinetics.",
     "metabolism": [
       {
         "enzyme": "Peptidase (erythrocyte-mediated hydrolysis, non-CYP)",
         "metabolite_name": "d-amphetamine",
         "metabolite_active": true,
-        "metabolite_half_life_min": 639,
-        "metabolite_half_life_range_min": [
-          600,
-          678
-        ],
+        "metabolite_half_life_min": 581,
+        "metabolite_half_life_range_min": null,
         "formation_fraction_pct": 29.7,
-        "metabolite_tmax_min": 228,
+        "metabolite_tmax_min": 227,
         "metabolite_potency_vs_parent_pct": null,
         "metabolite_potency_basis": null,
-        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/208510lbl.pdf",
+        "reference": "doi:10.1177/0091270007310381",
         "metabolite_mechanism_vs_parent": "scaled",
         "metabolite_potency_target": null,
-        "notes": "Metabolite half-life corrected 2026-08-28 to the adult arm of the label this row already cites. The Vyvanse label states both populations in one sentence: 'The plasma elimination half-life of dextroamphetamine was approximately 8.6 to 9.5 hours in pediatric patients 6 to 12 years and 10 to 11.3 hours in healthy adults.' The stored 582 min (9.7 h) with range 504-675 straddled the two and matched neither; Piru models adults, so this is the adult range 600-678 min, summarised at its midpoint because the label states no mean. formation_fraction_pct 29.7 is NOT a measured formation fraction -- it is the stoichiometric mass yield of complete conversion, MW d-amphetamine 135.21 / MW lisdexamfetamine dimesylate 455.60 = 29.7%. That is the right number for a mass-based fold (70 mg delivers ~20.8 mg d-amphetamine) but do not go looking for a study reporting it, and do not 'correct' it to 100% on the grounds that conversion is complete -- the completeness is already what the 29.7% assumes."
+        "notes": "All three numbers here are Krishnan & Zhang 2008 (doi:10.1177/0091270007310381, n=18 adults, 70 mg, 3-way crossover, read in full), NOT the FDA label this row used to cite -- the label states none of them. Fasted-capsule arm: d-amphetamine t1/2 9.69 h (581 min) and Tmax 3.78 h (227 min); the fed and solution arms give t1/2 9.59 and 9.37 h. Do not replace 581 with a midpoint of the label's adult range (10-11.3 h): that range is a different summary from different studies, and a stated measurement outranks arithmetic over a stated range. formation_fraction_pct 29.7 is NOT measured -- it is the stoichiometric mass yield of complete conversion, MW d-amphetamine 135.21 / MW lisdexamfetamine dimesylate 455.60. Correct for a mass-based fold (70 mg delivers ~20.8 mg d-amphetamine), but nobody published it, and it must not be 'corrected' to 100% because completeness is what it already assumes. The measured signal points higher: Krishnan/Pennick/Stark 2008 recovered 41.5% of the dose in urine as d-amphetamine, but that paper is closed and its mass balance was not read."
       }
     ]
   },

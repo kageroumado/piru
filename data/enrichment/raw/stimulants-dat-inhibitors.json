@@ -2639,12 +2639,14 @@
         {
           "route": "oral",
           "bioavailability_pct": null,
-          "cmax_ng_per_ml": null,
-          "tmax_min": 60,
-          "half_life_min": 60,
+          "cmax_ng_per_ml": 48.0,
+          "tmax_min": 69,
+          "half_life_min": 25,
           "protein_binding_pct": null,
           "dose_in_study_mg": 70,
-          "reference": "pmc:4257105"
+          "reference": "doi:10.1177/0091270007310381",
+          "subject_n": 18,
+          "notes": "Corrected 2026-08-28. This row carried half_life_min 60 and tmax_min 60 cited to PMC4257105, which is an IN VITRO red-cell hydrolysis study and reports no human pharmacokinetics at all -- its 1.0 h is the disappearance half-life of lisdexamfetamine in isolated erythrocytes, not a plasma elimination half-life in a person. Replaced with the fasted-capsule arm of Krishnan & Zhang 2008 (doi:10.1177/0091270007310381, Table III, n=18 adults, 70 mg): Tmax 1.15 h, t1/2 0.41 h, Cmax 48.0 ng/mL. The FDA label agrees on the shape -- lisdexamfetamine's half-life 'typically averaged less than one hour' and its Tmax is 'approximately 1 hour' -- but states no point estimate, so do not restore 60 from the label's bound either."
         }
       ]
     },
@@ -2655,7 +2657,7 @@
         "metabolite_name": "d-amphetamine",
         "metabolite_active": true,
         "reference": "pmc:4257105",
-        "notes": "metabolite_potency_vs_parent_pct removed 2026-08-28: it read 100%, which asserts d-amphetamine is equipotent with lisdexamfetamine. Lisdexamfetamine has no potency to be equipotent with -- its own FDA label states 'The parent drug, lisdexamfetamine, does not bind to the sites responsible for the reuptake of norepinephrine and dopamine in vitro.' A ratio against zero is undefined, not 1. The fraction_of_clearance_pct of 100 is kept and is correct: all of the parent goes through this one erythrocyte pathway, and it is a different quantity from the sibling row's 29.7% mass yield."
+        "notes": "The enzyme identification is this paper's own finding and is the best-sourced part of the row: PMC4257105 shows the hydrolysis is cytosolic aminopeptidase activity in red cells, not membrane-bound, and is CYP-independent. fraction_of_clearance_pct 100 is NOT from this paper, which reports no fraction-of-dose figures at all. It is true and sourced elsewhere -- the same paper excludes intestine, kidney, liver and pancreas as sites, so the erythrocyte route carries the parent's whole clearance -- but do not read the 100 as having been measured here. A metabolite_potency_vs_parent_pct of 100 was removed 2026-08-28: it asserted d-amphetamine is equipotent with lisdexamfetamine, and the parent has no potency to be equipotent with. Its FDA label states 'the parent drug, lisdexamfetamine, does not bind to the sites responsible for the reuptake of norepinephrine and dopamine in vitro', which this paper independently confirms. A ratio against zero is undefined, not 1."
       }
     ],
     "tags_to_add": [

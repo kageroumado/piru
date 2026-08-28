@@ -39629,11 +39629,11 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 70.0,
+    "half_life_minutes": 25.0,
     "mechanism_summary": "Prodrug of Dextroamphetamine (Monoamine Releasing Agent)",
     "effects": [],
     "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/208510lbl.pdf"
+      "10.1177/0091270007310381"
     ],
     "data_gaps": []
   },
