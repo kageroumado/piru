@@ -95,16 +95,30 @@ enum MechanismOfActionDatabase {
 
     // MARK: - Shared Class Mechanisms
 
+    // A template's binding list carries ONLY targets its own summary does not already name.
+    // "Selective Serotonin Reuptake Inhibitor (SSRI)" beside a chip reading `SERT — reuptake
+    // inhibitor` is the sentence twice, and the second copy wears the authority of a
+    // measurement; the same held for ACE, HMG-CoA reductase, AT1, the proton pump, 5-HT1B/1D,
+    // GABA-A and the rest. Eight templates keep a list because it says something the phrase
+    // does not: a tricyclic's H1/M1/α1, a first-generation antihistamine's muscarinic load, a
+    // barbiturate's AMPA/kainate antagonism, ketamine's downstream AMPA and mTOR.
+    //
+    // Two of the deleted lists were also wrong: the β-blocker template asserted β1 AND β2 for
+    // cardioselective members, and the NSAID template asserted COX-1 AND COX-2 for the
+    // COX-2-preferential ones. A per-substance claim does not survive being written once per
+    // class. Where a real per-substance panel exists it is in `bindings` and outranks anything
+    // here anyway — see `resolvedMechanism`.
+
     private static let ssri = moa(
         "Selective Serotonin Reuptake Inhibitor (SSRI)",
         "Selectively inhibits the serotonin transporter (SERT), blocking the reuptake of serotonin (5-HT) from the synaptic cleft into the presynaptic neuron. This increases serotonin availability at postsynaptic receptors. Therapeutic effects typically require 2–4 weeks as presynaptic 5-HT1A autoreceptors desensitize, allowing sustained serotonergic neurotransmission.",
-        [b("SERT", .reuptakeInhibitor, .primary)],
+        [],
     )
 
     private static let snri = moa(
         "Serotonin-Norepinephrine Reuptake Inhibitor (SNRI)",
         "Inhibits both the serotonin transporter (SERT) and the norepinephrine transporter (NET), blocking reuptake of both monoamines from the synaptic cleft. At lower doses, serotonin reuptake inhibition predominates; norepinephrine reuptake inhibition becomes more significant at higher doses. This dual mechanism provides antidepressant and analgesic effects.",
-        [b("SERT", .reuptakeInhibitor, .primary), b("NET", .reuptakeInhibitor, .primary)],
+        [],
     )
 
     private static let tca = moa(
@@ -122,19 +136,19 @@ enum MechanismOfActionDatabase {
     private static let maoi = moa(
         "Irreversible Monoamine Oxidase Inhibitor (MAOI)",
         "Irreversibly inhibits monoamine oxidase enzymes (MAO-A and MAO-B), which are responsible for the oxidative deamination of monoamine neurotransmitters. MAO-A primarily metabolizes serotonin, norepinephrine, and dopamine; MAO-B primarily metabolizes phenylethylamine and dopamine. Inhibition increases synaptic levels of all monoamines. Requires dietary tyramine restriction due to risk of hypertensive crisis.",
-        [b("MAO-A", .enzymeInhibitor, .primary), b("MAO-B", .enzymeInhibitor, .primary)],
+        [],
     )
 
     private static let rima = moa(
         "Reversible Inhibitor of Monoamine Oxidase A (RIMA)",
         "Selectively and reversibly inhibits MAO-A, increasing synaptic serotonin and norepinephrine. Unlike irreversible MAOIs, the reversible binding allows dietary tyramine to compete for the enzyme, significantly reducing the risk of hypertensive crisis and eliminating the need for strict dietary restrictions.",
-        [b("MAO-A", .enzymeInhibitor, .primary)],
+        [],
     )
 
     private static let maobSelective = moa(
         "Selective MAO-B Inhibitor",
         "Selectively inhibits monoamine oxidase B (MAO-B), which preferentially metabolizes dopamine and phenylethylamine in the brain. At selective doses, increases dopamine availability without significantly affecting serotonin or norepinephrine metabolism, and without requiring dietary tyramine restriction. At higher doses, selectivity is lost and MAO-A is also inhibited.",
-        [b("MAO-B", .enzymeInhibitor, .primary)],
+        [],
     )
 
     private static let typicalAP = moa(
@@ -146,19 +160,19 @@ enum MechanismOfActionDatabase {
     private static let atypicalAP = moa(
         "Serotonin-Dopamine Antagonist (Second-Generation Antipsychotic)",
         "Antagonizes both dopamine D2 and serotonin 5-HT2A receptors. The 5-HT2A antagonism modulates dopamine release in the nigrostriatal pathway, reducing extrapyramidal side effects compared to first-generation agents. May improve negative symptoms and cognitive function. Individual agents differ in their affinity for additional receptors including H1, α1, and muscarinic receptors.",
-        [b("D2", .antagonist, .primary), b("5-HT2A", .antagonist, .primary)],
+        [],
     )
 
     private static let benzo = moa(
         "GABA-A Positive Allosteric Modulator (Benzodiazepine)",
         "Binds to the benzodiazepine site at the interface of α and γ subunits on GABA-A receptors, acting as a positive allosteric modulator. Enhances the effect of GABA by increasing the frequency of chloride channel opening, leading to neuronal hyperpolarization and reduced excitability. Produces anxiolytic, sedative, hypnotic, anticonvulsant, and muscle relaxant effects.",
-        [b("GABA-A", .positiveAllostericModulator, .primary)],
+        [],
     )
 
     private static let zDrug = moa(
         "GABA-A Receptor Agonist (α1-Selective)",
         "Binds to the benzodiazepine site on GABA-A receptors with preferential selectivity for the α1 subunit, which is predominantly associated with sedation and hypnosis. This selectivity produces hypnotic effects with less anxiolytic, anticonvulsant, and muscle relaxant activity compared to benzodiazepines, though selectivity diminishes at higher doses.",
-        [b("GABA-A (α1)", .agonist, .primary)],
+        [],
     )
 
     private static let barb = moa(
@@ -170,7 +184,7 @@ enum MechanismOfActionDatabase {
     private static let opioidFull = moa(
         "μ-Opioid Receptor (MOR) Full Agonist",
         "Acts as a full agonist at μ-opioid receptors (MOR), G-protein coupled receptors distributed throughout the central and peripheral nervous system. MOR activation inhibits adenylyl cyclase, opens inwardly rectifying potassium channels, and closes voltage-gated calcium channels, reducing neuronal excitability and neurotransmitter release. Produces analgesia, euphoria, respiratory depression, and decreased gastrointestinal motility.",
-        [b("μ-opioid (MOR)", .agonist, .primary)],
+        [],
     )
 
     private static let amphetamine = moa(
@@ -205,7 +219,7 @@ enum MechanismOfActionDatabase {
     private static let cathinoneReleaser = moa(
         "Non-selective Monoamine Releaser (Substituted Cathinone)",
         "A β-keto amphetamine that enters dopamine, norepinephrine, and serotonin nerve terminals through their transporters (DAT/NET/SERT) and reverses them, releasing all three monoamines. The dopamine-to-serotonin release ratio sets the character — balanced (e.g. mephedrone) is entactogenic-stimulant, dopamine-dominant is more purely stimulating.",
-        [b("DAT", .releasingAgent, .primary), b("NET", .releasingAgent, .primary), b("SERT", .releasingAgent, .significant)],
+        [],
     )
 
     /// Pyrovalerone (pyrrolidinophenone) cathinones — MDPV, α-PVP, α-PHP, etc.
@@ -213,7 +227,7 @@ enum MechanismOfActionDatabase {
     private static let cathinonePyrovalerone = moa(
         "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
         "A pyrrolidine cathinone that potently blocks the dopamine and norepinephrine transporters (DAT/NET) without releasing monoamines and with little serotonergic activity. The strong, long-lasting rise in dopamine and norepinephrine is intensely stimulating and carries a high risk of compulsive redosing.",
-        [b("DAT", .reuptakeInhibitor, .primary), b("NET", .reuptakeInhibitor, .primary)],
+        [],
     )
 
     private static let classicalPsychedelic = moa(
@@ -225,43 +239,43 @@ enum MechanismOfActionDatabase {
     private static let nmdaDissociative = moa(
         "NMDA Receptor Antagonist (Dissociative)",
         "Blocks N-methyl-D-aspartate (NMDA) glutamate receptors, typically by binding within the ion channel pore as a non-competitive antagonist. NMDA receptor blockade reduces excitatory glutamatergic neurotransmission, producing dissociative anesthesia, analgesia, and altered states of consciousness characterized by feelings of detachment from body and environment.",
-        [b("NMDA", .antagonist, .primary)],
+        [],
     )
 
     private static let cannabinoidAgonist = moa(
         "Cannabinoid CB1/CB2 Receptor Agonist",
         "Acts as an agonist at cannabinoid CB1 receptors in the central nervous system and CB2 receptors in immune tissues. CB1 activation inhibits adenylyl cyclase and modulates ion channels via Gi/Go proteins, reducing neurotransmitter release (particularly GABA and glutamate) in brain regions involved in reward, memory, coordination, and pain perception.",
-        [b("CB1", .agonist, .primary), b("CB2", .agonist, .significant)],
+        [],
     )
 
     private static let gabapentinoid = moa(
         "Voltage-Gated Calcium Channel α2δ Subunit Ligand",
         "Binds to the α2δ-1 subunit of voltage-gated calcium channels (VGCCs), reducing calcium influx at presynaptic nerve terminals. This decreases the release of excitatory neurotransmitters including glutamate, norepinephrine, substance P, and calcitonin gene-related peptide. Despite the name, gabapentinoids do not interact with GABA receptors or GABA metabolism.",
-        [b("α2δ-1 VGCC", .channelBlocker, .primary)],
+        [],
     )
 
     private static let betaBlocker = moa(
         "β-Adrenergic Receptor Antagonist",
         "Competitively blocks β-adrenergic receptors, preventing the effects of catecholamines. β1-selective agents primarily reduce heart rate and cardiac contractility. Non-selective agents also block β2 receptors in bronchial smooth muscle and peripheral vasculature. Used for hypertension, arrhythmias, heart failure, and performance anxiety.",
-        [b("β1-adrenergic", .antagonist, .primary), b("β2-adrenergic", .antagonist, .significant)],
+        [],
     )
 
     private static let aceInhibitor = moa(
         "Angiotensin-Converting Enzyme (ACE) Inhibitor",
         "Inhibits angiotensin-converting enzyme (ACE), preventing the conversion of angiotensin I to angiotensin II, a potent vasoconstrictor. Also reduces degradation of bradykinin, a vasodilator. The net effect is decreased peripheral vascular resistance, reduced aldosterone secretion, and lower blood pressure. ACE inhibitors also reduce cardiac remodeling after myocardial infarction.",
-        [b("ACE", .enzymeInhibitor, .primary)],
+        [],
     )
 
     private static let arb = moa(
         "Angiotensin II Receptor Blocker (ARB)",
         "Selectively blocks angiotensin II type 1 (AT1) receptors, preventing the vasoconstrictive, aldosterone-secreting, and growth-promoting effects of angiotensin II. Unlike ACE inhibitors, ARBs do not affect bradykinin metabolism and therefore do not cause cough. Provides similar hemodynamic effects to ACE inhibitors through a different mechanism.",
-        [b("AT1", .antagonist, .primary)],
+        [],
     )
 
     private static let nsaid = moa(
         "Cyclooxygenase (COX) Inhibitor (NSAID)",
         "Reversibly inhibits cyclooxygenase enzymes COX-1 and COX-2, reducing the synthesis of prostaglandins from arachidonic acid. COX-2 inhibition mediates anti-inflammatory and analgesic effects, while COX-1 inhibition reduces gastric mucosal protection. Central prostaglandin inhibition contributes to antipyretic effects.",
-        [b("COX-1", .enzymeInhibitor, .primary), b("COX-2", .enzymeInhibitor, .primary)],
+        [],
     )
 
     private static let antihistamine1 = moa(
@@ -273,49 +287,49 @@ enum MechanismOfActionDatabase {
     private static let antihistamine2 = moa(
         "Histamine H1 Receptor Inverse Agonist (Second-Generation)",
         "Selectively acts as an inverse agonist at peripheral histamine H1 receptors with minimal blood-brain barrier penetration. Provides antiallergic and antipruritic effects without significant sedation or cognitive impairment. Reduced CNS penetration is due to P-glycoprotein efflux at the blood-brain barrier.",
-        [b("H1 (peripheral)", .inverseAgonist, .primary)],
+        [],
     )
 
     private static let ppi = moa(
         "Proton Pump Inhibitor (PPI)",
         "Irreversibly inhibits the hydrogen-potassium ATPase (H⁺/K⁺ ATPase, the proton pump) on the luminal surface of gastric parietal cells. This blocks the final step of acid secretion regardless of the stimulus, producing a profound and long-lasting reduction in gastric acid production. Requires activation in the acidic environment of the parietal cell canaliculus.",
-        [b("H⁺/K⁺ ATPase", .enzymeInhibitor, .primary)],
+        [],
     )
 
     private static let racetam = moa(
         "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)",
         "Exact mechanism not fully established. Modulates AMPA-type glutamate receptors (positive allosteric modulation), enhancing glutamatergic neurotransmission and synaptic plasticity. May also increase acetylcholine turnover and improve cerebral blood flow. Individual racetams vary in their receptor selectivity and additional mechanisms.",
-        [b("AMPA", .positiveAllostericModulator, .primary), b("Acetylcholine", .modulator, .significant)],
+        [],
     )
 
     private static let statin = moa(
         "HMG-CoA Reductase Inhibitor (Statin)",
         "Competitively inhibits 3-hydroxy-3-methylglutaryl-coenzyme A (HMG-CoA) reductase, the rate-limiting enzyme in hepatic cholesterol synthesis. Reduced intracellular cholesterol upregulates LDL receptor expression on hepatocytes, increasing LDL clearance from the blood. Also produces pleiotropic effects including improved endothelial function and anti-inflammatory activity.",
-        [b("HMG-CoA reductase", .enzymeInhibitor, .primary)],
+        [],
     )
 
     private static let triptan = moa(
         "Serotonin 5-HT1B/1D Receptor Agonist (Triptan)",
         "Selectively activates serotonin 5-HT1B receptors on cranial blood vessels (causing vasoconstriction of dilated meningeal arteries) and 5-HT1D receptors on trigeminal nerve terminals (inhibiting release of vasoactive neuropeptides including CGRP and substance P). This dual action reverses the pathophysiology of migraine: vasodilation and neurogenic inflammation.",
-        [b("5-HT1B", .agonist, .primary), b("5-HT1D", .agonist, .primary)],
+        [],
     )
 
     private static let corticosteroid = moa(
         "Glucocorticoid Receptor Agonist",
         "Binds to intracellular glucocorticoid receptors, which translocate to the nucleus and modulate gene transcription. Upregulates anti-inflammatory proteins (lipocortins, IL-10) and downregulates pro-inflammatory mediators (cytokines, prostaglandins, leukotrienes). Also suppresses immune cell activation and migration. Metabolic effects include increased gluconeogenesis and altered fat distribution.",
-        [b("Glucocorticoid receptor", .agonist, .primary)],
+        [],
     )
 
     private static let fluoroquinolone = moa(
         "Bacterial DNA Gyrase and Topoisomerase IV Inhibitor",
         "Inhibits bacterial DNA gyrase (topoisomerase II) and topoisomerase IV, enzymes essential for DNA replication, transcription, repair, and recombination. DNA gyrase inhibition prevents supercoil relaxation; topoisomerase IV inhibition prevents daughter chromosome separation. These actions are bactericidal. Human topoisomerases are structurally different, providing selectivity.",
-        [b("DNA gyrase", .enzymeInhibitor, .primary), b("Topoisomerase IV", .enzymeInhibitor, .primary)],
+        [],
     )
 
     private static let ccb = moa(
         "Calcium Channel Blocker (Dihydropyridine)",
         "Blocks L-type voltage-gated calcium channels in vascular smooth muscle, reducing calcium influx and causing vasodilation. Primarily acts on arterial smooth muscle with minimal cardiac effects at therapeutic doses. Reduces peripheral vascular resistance and blood pressure.",
-        [b("L-type Ca²⁺ channels", .channelBlocker, .primary)],
+        [],
     )
 
     // MARK: - Shared Unique Mechanisms
@@ -328,11 +342,22 @@ enum MechanismOfActionDatabase {
 
     // MARK: - Category Fallbacks
 
+    // The category floor supplies PROSE. It supplies a binding list only where the category
+    // names actual molecular targets — orexinAntagonist's OX1R/OX2R, and the entries that reuse
+    // a class template above.
+    //
+    // No entry here may name a system, a pathway, or "Various" as a receptor. `Pain pathways`,
+    // `Microbial targets`, `Cardiovascular system`, `GI system`, `Immune system` and `Various`
+    // were all rendered as graded chips with filled strength dots — a claim of measured affinity
+    // at something that is not a target, on 42% of the library. A substance with nothing
+    // measured shows its summary and no receptor list; an empty section is the honest answer and
+    // a placeholder is not.
+
     private static let categoryData: [SubstanceCategory: MechanismOfAction] = [
         .stimulant: moa(
             "Central Nervous System Stimulant",
             "Increases central nervous system activity by enhancing monoamine neurotransmission, typically through increased release or reduced reuptake of dopamine and/or norepinephrine. The specific mechanism varies by substance class (releasing agents, reuptake inhibitors, or receptor agonists). Effects include increased alertness, attention, and energy.",
-            [b("Dopamine", .modulator, .primary), b("Norepinephrine", .modulator, .primary)],
+            [],
         ),
         .psychedelic: classicalPsychedelic,
         .dissociative: nmdaDissociative,
@@ -342,23 +367,18 @@ enum MechanismOfActionDatabase {
         .empathogen: moa(
             "Monoamine Releasing Agent (Serotonin-Predominant)",
             "Increases synaptic serotonin, dopamine, and norepinephrine, with a predominant serotonergic component that distinguishes empathogens from classical stimulants. Many also stimulate the release of oxytocin from the hypothalamus, contributing to prosocial effects, emotional openness, and feelings of empathy and connectedness.",
-            [
-                b("SERT", .releasingAgent, .primary),
-                b("DAT", .releasingAgent, .significant),
-                b("NET", .releasingAgent, .significant),
-                b("Oxytocin", .modulator, .significant),
-            ],
+            [],
         ),
         .cannabinoid: cannabinoidAgonist,
         .nootropic: moa(
             "Cognitive-Enhancing Agent (Nootropic)",
             "Nootropic agents enhance cognitive function through diverse mechanisms which may include modulation of acetylcholine, glutamate, or monoamine neurotransmitter systems; improvement of cerebral blood flow; neuroprotection through antioxidant activity; or modulation of neuroplasticity signaling cascades. Mechanisms vary widely and are substance-specific.",
-            [b("Various", .modulator, .primary)],
+            [],
         ),
         .depressant: moa(
             "Central Nervous System Depressant",
             "Reduces central nervous system excitability, typically through enhancement of inhibitory GABAergic neurotransmission and/or reduction of excitatory glutamatergic neurotransmission. Produces sedation, anxiolysis, and muscle relaxation in a dose-dependent manner.",
-            [b("GABA system", .modulator, .primary), b("Glutamate system", .antagonist, .primary)],
+            [],
         ),
         .orexinAntagonist: moa(
             "Dual Orexin Receptor Antagonist (DORA)",
@@ -368,54 +388,54 @@ enum MechanismOfActionDatabase {
         .antidepressant: moa(
             "Antidepressant (Monoamine Modulator)",
             "Modulates monoamine neurotransmitter systems (serotonin, norepinephrine, and/or dopamine) through various mechanisms including reuptake inhibition, enzyme inhibition, or receptor modulation. The specific mechanism depends on the drug class. Therapeutic effects typically develop over 2–6 weeks.",
-            [b("Serotonin", .modulator, .primary), b("Norepinephrine", .modulator, .significant), b("Dopamine", .modulator, .weak)],
+            [],
         ),
         .antipsychotic: atypicalAP,
         .analgesic: moa(
             "Analgesic Agent",
             "Reduces pain perception through mechanisms that may include inhibition of prostaglandin synthesis, activation of endogenous opioid pathways, modulation of descending pain inhibitory circuits, or blockade of peripheral nociceptor sensitization. The specific mechanism depends on the drug class.",
-            [b("Pain pathways", .modulator, .primary)],
+            [],
         ),
         .antihistamine: antihistamine1,
         .cardiovascular: moa(
             "Cardiovascular Agent",
             "Modulates cardiovascular function through mechanisms including adrenergic receptor blockade, calcium channel inhibition, renin-angiotensin system modulation, or direct vasodilation. The specific mechanism depends on the drug class.",
-            [b("Cardiovascular system", .modulator, .primary)],
+            [],
         ),
         .antimicrobial: moa(
             "Antimicrobial Agent",
             "Eliminates or inhibits the growth of microorganisms by targeting microbial-specific processes such as cell wall synthesis, protein synthesis, nucleic acid replication, metabolic pathways, or cell membrane integrity.",
-            [b("Microbial targets", .modulator, .primary)],
+            [],
         ),
         .gastrointestinal: moa(
             "Gastrointestinal Agent",
             "Modulates digestive function through mechanisms such as acid secretion inhibition, motility modulation, mucosal protection, or neurotransmitter receptor interactions in the enteric nervous system.",
-            [b("GI system", .modulator, .primary)],
+            [],
         ),
         .respiratory: moa(
             "Respiratory Agent",
             "Modulates airway function through mechanisms including bronchodilation via β2-adrenergic agonism or anticholinergic blockade, anti-inflammatory effects from corticosteroids, mast cell stabilization, or leukotriene receptor antagonism.",
-            [b("Airway smooth muscle", .modulator, .primary), b("Inflammatory mediators", .modulator, .significant)],
+            [],
         ),
         .endocrine: moa(
             "Endocrine Agent",
             "Modulates hormonal signaling through receptor agonism or antagonism, enzyme inhibition affecting hormone synthesis or metabolism, or direct hormone replacement. Interacts with the hypothalamic-pituitary-endocrine axes.",
-            [b("Hormonal receptors", .modulator, .primary)],
+            [],
         ),
         .immunological: moa(
             "Immunomodulatory Agent",
             "Modulates immune system function through mechanisms such as inhibition of inflammatory cytokine production, suppression of T-cell or B-cell activation, complement system modulation, or targeted inhibition of specific immune pathways.",
-            [b("Immune system", .modulator, .primary)],
+            [],
         ),
         .supplement: moa(
             "Dietary Supplement",
             "Supports physiological functions through various mechanisms including enzyme cofactor activity, antioxidant effects, neurotransmitter precursor supply, hormonal modulation, or direct receptor interactions. Mechanisms vary widely and are substance-specific.",
-            [b("Various", .modulator, .primary)],
+            [],
         ),
         .other: moa(
             "Pharmacological Agent",
             "This substance's mechanism of action may involve multiple pharmacological targets or may not be fully characterized. Consult specific pharmacological references for detailed mechanistic information.",
-            [b("Various", .modulator, .primary)],
+            [],
         ),
     ]
 

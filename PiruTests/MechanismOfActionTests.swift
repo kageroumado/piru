@@ -23,34 +23,52 @@ struct MechanismOfActionTests {
     // MARK: - Curated per-name entries are pharmacologically correct
 
     @Test
-    func `Releaser cathinones bind transporters as releasing agents, never as modulators`() {
-        for name in ["mephedrone", "4-mmc", "3-mmc", "2-mmc", "methylone", "methcathinone"] {
-            let m = MechanismOfActionDatabase.mechanism(for: name)
-            #expect(m != nil, "\(name) should have a curated mechanism entry")
-            let transporters = m?.bindings.filter { ["DAT", "NET", "SERT"].contains($0.target) } ?? []
-            #expect(!transporters.isEmpty, "\(name) should list DAT/NET/SERT")
+    @MainActor
+    func `Cathinone transporter action comes from the DB, never a generic placeholder`() async {
+        // The bug this guards: cathinones rendering as an undifferentiated "Modulator".
+        // The claim used to live in a Swift class template that asserted DAT/NET/SERT for
+        // every substituted cathinone; it was a restatement of the summary, so it is gone
+        // and the measured rows carry it. A cathinone the literature never assayed now
+        // shows no receptor list at all, which is the honest result.
+        await SubstanceStore.shared.ensureAllLoaded()
+        for name in ["Mephedrone", "Methylone", "MDPV", "a-PVP"] {
+            guard let sub = SubstanceStore.shared.lookup(name) else {
+                Issue.record("\(name) missing from bundled DB"); continue
+            }
+            let resolved = MechanismOfActionDatabase.resolvedMechanism(
+                dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+            )
+            let transporters = (resolved?.bindings ?? []).filter { ["DAT", "NET", "SERT"].contains($0.target) }
+            #expect(!transporters.isEmpty, "\(name) has measured transporter rows and must show them")
             for t in transporters {
                 #expect(
-                    t.action == .releasingAgent,
-                    "\(name) \(t.target) should be a releasingAgent, got \(t.action.rawValue)",
+                    t.action == .releasingAgent || t.action == .reuptakeInhibitor,
+                    "\(name) \(t.target) is \(t.action.rawValue) — the releaser/blocker split is the whole claim",
                 )
             }
+            // Narrow on purpose: a modulator row is fine in general — MDPV's σ1 is one, cited —
+            // but a *transporter* reading "Modulator" is the original bug, an undifferentiated
+            // label standing where the releaser/blocker distinction belongs.
+            #expect(
+                transporters.contains { $0.action == .modulator } == false,
+                "\(name) shows a transporter as a generic Modulator",
+            )
         }
     }
 
     @Test
-    func `Pyrovalerone cathinones are DAT/NET reuptake inhibitors, not releasers`() {
-        for name in ["mdpv", "α-pvp", "a-pvp", "α-php"] {
-            let m = MechanismOfActionDatabase.mechanism(for: name)
-            #expect(m != nil, "\(name) should have a curated mechanism entry")
-            let transporters = m?.bindings.filter { ["DAT", "NET"].contains($0.target) } ?? []
-            #expect(!transporters.isEmpty, "\(name) should list DAT/NET")
-            for t in transporters {
-                #expect(
-                    t.action == .reuptakeInhibitor,
-                    "\(name) \(t.target) should be a reuptakeInhibitor, got \(t.action.rawValue)",
-                )
-            }
+    func `A class fallback never invents a receptor out of a category name`() {
+        // Every category placeholder ("Various", "Pain pathways", "Microbial targets",
+        // "Cardiovascular system") is gone: a system is not a target, and a dot beside
+        // one claims a measurement that was never made. A substance with nothing
+        // measured now shows prose and no receptor list — an absence, not a placeholder.
+        for category in SubstanceCategory.allCases {
+            let targets = (MechanismOfActionDatabase.categoryFallback(for: category)?.bindings ?? [])
+                .map(\.target)
+            #expect(
+                targets.allSatisfy { !$0.contains(" system") && $0 != "Various" },
+                "\(category) still names a system rather than a target: \(targets)",
+            )
         }
     }
 
@@ -146,19 +164,21 @@ struct MechanismOfActionTests {
 
     @Test
     func `A class template's bindings fill in when the DB summary carries none`() {
-        // A class-mapped substance (fluoxetine → the SSRI template, kept in Swift)
-        // whose DB row supplies a summary but no bindings must still show the
-        // template's receptor data, not an empty list. (Curated per-substance
-        // bindings now arrive via the DB; the template is the generic fallback.)
-        let db = moa(summary: "DB-supplied SSRI summary", bindings: [])
+        // Eight templates still carry receptor data — the ones naming targets the summary
+        // does not imply. A tricyclic's H1/M1/α1 profile is the sedation-and-orthostasis
+        // story and appears in no part of the phrase "Tricyclic Antidepressant", so it
+        // survives where "SSRI → SERT" did not.
+        let db = moa(summary: "DB-supplied TCA summary", bindings: [])
         let resolved = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: db, substanceName: "fluoxetine", category: .antidepressant,
+            dbMechanism: db, substanceName: "amitriptyline", category: .antidepressant,
         )
-        #expect(resolved?.summary == "DB-supplied SSRI summary")
-        #expect(
-            resolved?.bindings.contains { $0.target == "SERT" } == true,
-            "Fluoxetine should fall back to the SSRI template's SERT binding",
-        )
+        #expect(resolved?.summary == "DB-supplied TCA summary")
+        for target in ["H1", "M1", "α1"] {
+            #expect(
+                resolved?.bindings.contains { $0.target == target } == true,
+                "amitriptyline should keep the TCA template's \(target) binding",
+            )
+        }
     }
 
     @Test

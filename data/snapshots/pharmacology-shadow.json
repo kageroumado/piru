@@ -3,7 +3,7 @@
   "moaNoDBBindings" : 120,
   "moaProseShadowed" : 179,
   "moaResolving" : 226,
-  "moaTemplateOnlyTargets" : 309,
+  "moaTemplateOnlyTargets" : 141,
   "moaUnresolved" : 0,
   "sourceOrder" : [
     "piru-curated",
