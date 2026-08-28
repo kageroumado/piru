@@ -43,28 +43,26 @@ struct PharmacologyNameKeyTests {
         #expect(PharmacologyNameKey.resolve("Adderall", in: data, aliases: aliases) == 600)
     }
 
-    /// Brand names and synonyms reach the same class template as the
-    /// canonical spelling, via the shared alias table.
+    /// Brand names and synonyms fold onto the canonical spelling through the shared alias table.
+    ///
+    /// These used to run through `MechanismOfActionDatabase.mechanism(for:)`, which was only ever
+    /// a convenient dictionary to resolve against — the table is gone and the fold is the subject,
+    /// so a fixture says so directly.
     @Test
-    func `Mechanism lookup resolves pharmacology aliases`() {
-        #expect(MechanismOfActionDatabase.mechanism(for: "Xanax")?.summary
-            == MechanismOfActionDatabase.mechanism(for: "alprazolam")?.summary)
-        #expect(MechanismOfActionDatabase.mechanism(for: "4-MMC")?.summary
-            == MechanismOfActionDatabase.mechanism(for: "mephedrone")?.summary)
-    }
-
-    /// The DB canonical spellings that previously fell to a category-generic
-    /// template now key the correct class template directly.
-    @Test
-    func `DB-canonical names key their class templates`() {
-        #expect(MechanismOfActionDatabase.mechanism(for: "3-chloromethcathinone")?.summary
-            == MechanismOfActionDatabase.mechanism(for: "3-cmc")?.summary)
-        #expect(MechanismOfActionDatabase.mechanism(for: "carphedon")?.summary
-            == MechanismOfActionDatabase.mechanism(for: "phenylpiracetam")?.summary)
-        #expect(MechanismOfActionDatabase.mechanism(for: "md-php")?.summary
-            == MechanismOfActionDatabase.mechanism(for: "mdphp")?.summary)
-        #expect(MechanismOfActionDatabase.mechanism(for: "alpha-pyrrolidinohexiophenone")?.summary
-            == MechanismOfActionDatabase.mechanism(for: "a-php")?.summary)
+    func `Resolution folds brand names and synonyms onto the canonical key`() {
+        // Only names the shared table actually folds. The old test also paired md-php/mdphp and
+        // 3-chloromethcathinone/3-cmc, which agreed because the deleted Swift dictionary happened
+        // to carry both spellings as direct keys — that was a fact about the table, not about the
+        // fold, and it went with the table.
+        let table = ["alprazolam": "benzo", "mephedrone": "cathinone", "phenylpiracetam": "racetam", "a-php": "pyrovalerone"]
+        func resolve(_ name: String) -> String? {
+            PharmacologyNameKey.resolve(name, in: table, aliases: PharmacologyNameKey.sharedAliases)
+        }
+        #expect(resolve("Xanax") == resolve("alprazolam"))
+        #expect(resolve("4-MMC") == resolve("mephedrone"))
+        #expect(resolve("carphedon") == resolve("phenylpiracetam"))
+        #expect(resolve("alpha-pyrrolidinohexiophenone") == resolve("a-php"))
+        #expect(resolve("Xanax") != nil, "the fold must land on a key, not merely agree on nil")
     }
 
     /// The two alias relations are separate on purpose: to the shared table lisdexamfetamine is its

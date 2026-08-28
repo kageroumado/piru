@@ -146,7 +146,6 @@ struct SubstanceShareSheet: View {
             reportedEffects = SubstanceStore.shared.reportedEffects(forSubstanceName: substance.name)
             mechanism = MechanismOfActionDatabase.resolvedMechanism(
                 dbMechanism: substance.mechanismOfAction,
-                substanceName: substance.name,
                 category: substance.category,
             )
             monoamineProfile = MonoamineProfile.from(

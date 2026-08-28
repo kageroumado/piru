@@ -889,6 +889,47 @@ extension SubstanceReadModel {
         }
     }
 
+    /// The Mechanism-column label for every substance at once: the highest-priority enabled
+    /// source's `mechanisms_summary` headline, resolved locale-first.
+    ///
+    /// One windowed query rather than a per-substance resolve, and `nonisolated static` so the
+    /// Pharma table's off-main pass can run it on the batch connection. It reads the same table
+    /// under the same priority and language rules as the detail card's mechanism, which is the
+    /// point: the two used to disagree, because the table asked the Swift class templates and the
+    /// card asked the database.
+    nonisolated static func mechanismLabelBySubstanceID(
+        db queue: DatabaseQueue, order: [String], language: ContentLanguage,
+    ) -> [Int64: String] {
+        let lang = language.clauses(column: "m.language")
+        var labels: [Int64: String] = [:]
+        do {
+            let rows = try queue.read { db in
+                try Row.fetchAll(db, sql: """
+                    SELECT substance_id, summary FROM (
+                        SELECT m.substance_id, m.summary,
+                               ROW_NUMBER() OVER (
+                                 PARTITION BY m.substance_id
+                                 ORDER BY \(lang.orderPrefix)\(priorityCaseSQL(order)) ASC
+                               ) AS rn
+                          FROM mechanisms_summary m
+                          JOIN sources src ON src.id = m.source_id
+                         WHERE src.slug IN (\(enabledSourceListSQL(order)))
+                           \(lang.whereAnd)
+                    )
+                     WHERE rn = 1
+                """)
+            }
+            for row in rows {
+                let id: Int64 = row["substance_id"]
+                let summary: String = row["summary"]
+                if !summary.isEmpty { labels[id] = summary }
+            }
+        } catch {
+            logger.error("mechanismLabelBySubstanceID failed: \(error.localizedDescription, privacy: .public)")
+        }
+        return labels
+    }
+
     /// The single windowed `pk_routes` pass behind the Pharma table: one preferred row per substance
     /// (oral first, else the row carrying the most PK fields, best confidence), keyed by substance id.
     /// `nonisolated static` so it runs entirely off the main actor on the batch connection —

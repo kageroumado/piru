@@ -1,61 +1,43 @@
 import Foundation
 
+/// The **category floor** for the substance detail card's Pharmacology section, and the composer
+/// that decides what that section shows.
+///
+/// This used to be a database: 226 substance names mapped onto 34 hand-written class templates,
+/// each carrying prose and a receptor list. All of it now lives in the bundled SQLite —
+/// per-substance rows in `mechanisms_summary` and `bindings`, class-level ones fanned out from
+/// `data/curated/class-mechanisms.json`. What is left here is the floor beneath them: the
+/// per-category text shown for a substance no source has described, which 1,149 substances reach.
+///
+/// **Do not rebuild the table.** Two failures came out of having one, and both are cheap to
+/// repeat. Its generic binding lists *replaced* the cited DB panel rather than filling it,
+/// dropping 150 measured targets across 67 substances. And its per-class prose could not say
+/// where in a class a member sat, so the opioid floor called 66 substances full agonists —
+/// 7-hydroxymitragynine's card read "μ-Opioid Receptor (MOR) Full Agonist" directly above its own
+/// rows reading `μ Partial Agonist · Kᵢ 47 nM`. A class-level fact belongs in
+/// `class-mechanisms.json`, whose ingester writes it only where the substance has nothing of its
+/// own; a per-substance one belongs in `mechanisms.json`.
 enum MechanismOfActionDatabase {
-    // MARK: - Lookup
-
-    /// Class-template lookup by substance name or pharmacology alias — a brand
-    /// name or synonym (`"xanax"`, `"4-mmc"`) resolves through
-    /// ``PharmacologyNameKey/sharedAliases`` to the same template as its canonical
-    /// spelling. Direct keys win over an alias claiming the same spelling.
-    static func mechanism(for name: String) -> MechanismOfAction? {
-        PharmacologyNameKey.resolve(name, in: substanceData, aliases: PharmacologyNameKey.sharedAliases)
-    }
-
     static func categoryFallback(for category: SubstanceCategory) -> MechanismOfAction? {
         categoryData[category]
     }
 
-    /// The curated per-substance keys, read-only — for the shadowing audit.
-    static var substanceKeys: [String] {
-        Array(substanceData.keys)
-    }
-
-    /// Composes the mechanism shown in the substance detail card by precedence,
-    /// so real receptor data is never hidden behind a generic template.
+    /// Composes the mechanism shown in the substance detail card.
     ///
-    /// **Bindings come from the database. This file contributes none.** Per-substance rows
-    /// (curated ∪ measured) and the class-level rows relocated out of the Swift templates both
-    /// live in `bindings`, already deduped per receptor and tier-ordered by ``SubstanceStore``,
-    /// so `dbMechanism` is the panel. The class templates ``mechanism(for:)`` reads are prose
-    /// only, and ``categoryData`` keeps a target list in exactly one place — the orexin
-    /// antagonists, whose OX1R/OX2R are real receptors rather than a restatement of a category
-    /// name.
-    ///
-    /// Do not reintroduce a Swift binding list here. Two failures produced this shape and both
-    /// are cheap to repeat: a generic class list *replacing* the DB panel dropped 150 cited
-    /// targets across 67 substances, and a category floor naming `Pain pathways` or `Various` as
-    /// a receptor put filled strength dots beside a noun on most of the library. Where a class
-    /// genuinely knows a target the literature has not measured for a member, the home is
-    /// `data/curated/class-mechanism-bindings.json`, whose ingester writes the row only where no
-    /// measurement exists.
-    ///
-    /// - **Summary text**: the DB `mechanisms_summary` (non-empty summary on
-    ///   `dbMechanism`) wins; otherwise the class-template entry, then the
-    ///   per-category fallback.
-    /// - **Bindings**: the DB set, or the category fallback when it is empty. A substance with
-    ///   nothing measured shows its summary and no receptor list.
+    /// - **Summary text**: the DB `mechanisms_summary` (a non-empty summary on `dbMechanism`)
+    ///   wins; otherwise the per-category floor.
+    /// - **Bindings**: the DB set, or the floor's when it is empty. A substance with nothing
+    ///   measured shows its summary and no receptor list — an absence, not a placeholder.
     ///
     /// Pure and deterministic so it can be unit-tested without a database.
     static func resolvedMechanism(
         dbMechanism: MechanismOfAction?,
-        substanceName: String,
         category: SubstanceCategory,
     ) -> MechanismOfAction? {
-        let template = mechanism(for: substanceName)
         let categoryMoa = categoryFallback(for: category)
 
         let hasDBSummary = !(dbMechanism?.summary.isEmpty ?? true)
-        let textSource: MechanismOfAction? = hasDBSummary ? dbMechanism : (template ?? categoryMoa ?? dbMechanism)
+        let textSource: MechanismOfAction? = hasDBSummary ? dbMechanism : (categoryMoa ?? dbMechanism)
         guard let textSource else { return nil }
 
         var bindings = dbMechanism?.bindings ?? []
@@ -83,236 +65,6 @@ enum MechanismOfActionDatabase {
     private static func b(_ target: String, _ action: BindingAction, _ affinity: BindingAffinity) -> ReceptorBinding {
         ReceptorBinding(target: target, action: action, affinity: affinity)
     }
-
-    // MARK: - Shared Class Mechanisms
-
-    // A template's binding list carries ONLY targets its own summary does not already name.
-    // "Selective Serotonin Reuptake Inhibitor (SSRI)" beside a chip reading `SERT — reuptake
-    // inhibitor` is the sentence twice, and the second copy wears the authority of a
-    // measurement; the same held for ACE, HMG-CoA reductase, AT1, the proton pump, 5-HT1B/1D,
-    // GABA-A and the rest. Eight templates keep a list because it says something the phrase
-    // does not: a tricyclic's H1/M1/α1, a first-generation antihistamine's muscarinic load, a
-    // barbiturate's AMPA/kainate antagonism, ketamine's downstream AMPA and mTOR.
-    //
-    // Two of the deleted lists were also wrong: the β-blocker template asserted β1 AND β2 for
-    // cardioselective members, and the NSAID template asserted COX-1 AND COX-2 for the
-    // COX-2-preferential ones. A per-substance claim does not survive being written once per
-    // class. Where a real per-substance panel exists it is in `bindings` and outranks anything
-    // here anyway — see `resolvedMechanism`.
-
-    private static let ssri = moa(
-        "Selective Serotonin Reuptake Inhibitor (SSRI)",
-        "Selectively inhibits the serotonin transporter (SERT), blocking the reuptake of serotonin (5-HT) from the synaptic cleft into the presynaptic neuron. This increases serotonin availability at postsynaptic receptors. Therapeutic effects typically require 2–4 weeks as presynaptic 5-HT1A autoreceptors desensitize, allowing sustained serotonergic neurotransmission.",
-        [],
-    )
-
-    private static let snri = moa(
-        "Serotonin-Norepinephrine Reuptake Inhibitor (SNRI)",
-        "Inhibits both the serotonin transporter (SERT) and the norepinephrine transporter (NET), blocking reuptake of both monoamines from the synaptic cleft. At lower doses, serotonin reuptake inhibition predominates; norepinephrine reuptake inhibition becomes more significant at higher doses. This dual mechanism provides antidepressant and analgesic effects.",
-        [],
-    )
-
-    private static let tca = moa(
-        "Tricyclic Antidepressant (TCA)",
-        "Inhibits the reuptake of serotonin and norepinephrine by blocking SERT and NET. Unlike SSRIs and SNRIs, TCAs also significantly antagonize histamine H1, muscarinic M1, and α1-adrenergic receptors, which accounts for their sedative, anticholinergic, and orthostatic hypotension side effects. The ratio of serotonin to norepinephrine reuptake inhibition varies between individual TCAs.",
-        [],
-    )
-
-    private static let maoi = moa(
-        "Irreversible Monoamine Oxidase Inhibitor (MAOI)",
-        "Irreversibly inhibits monoamine oxidase enzymes (MAO-A and MAO-B), which are responsible for the oxidative deamination of monoamine neurotransmitters. MAO-A primarily metabolizes serotonin, norepinephrine, and dopamine; MAO-B primarily metabolizes phenylethylamine and dopamine. Inhibition increases synaptic levels of all monoamines. Requires dietary tyramine restriction due to risk of hypertensive crisis.",
-        [],
-    )
-
-    private static let rima = moa(
-        "Reversible Inhibitor of Monoamine Oxidase A (RIMA)",
-        "Selectively and reversibly inhibits MAO-A, increasing synaptic serotonin and norepinephrine. Unlike irreversible MAOIs, the reversible binding allows dietary tyramine to compete for the enzyme, significantly reducing the risk of hypertensive crisis and eliminating the need for strict dietary restrictions.",
-        [],
-    )
-
-    private static let maobSelective = moa(
-        "Selective MAO-B Inhibitor",
-        "Selectively inhibits monoamine oxidase B (MAO-B), which preferentially metabolizes dopamine and phenylethylamine in the brain. At selective doses, increases dopamine availability without significantly affecting serotonin or norepinephrine metabolism, and without requiring dietary tyramine restriction. At higher doses, selectivity is lost and MAO-A is also inhibited.",
-        [],
-    )
-
-    private static let typicalAP = moa(
-        "Dopamine D2 Receptor Antagonist (First-Generation Antipsychotic)",
-        "Blocks dopamine D2 receptors in the mesolimbic pathway, reducing dopaminergic neurotransmission associated with positive psychotic symptoms. Also blocks D2 receptors in the nigrostriatal pathway (causing extrapyramidal symptoms), tuberoinfundibular pathway (causing hyperprolactinemia), and mesocortical pathway. Most also antagonize histamine H1, muscarinic, and α1-adrenergic receptors to varying degrees.",
-        [],
-    )
-
-    private static let atypicalAP = moa(
-        "Serotonin-Dopamine Antagonist (Second-Generation Antipsychotic)",
-        "Antagonizes both dopamine D2 and serotonin 5-HT2A receptors. The 5-HT2A antagonism modulates dopamine release in the nigrostriatal pathway, reducing extrapyramidal side effects compared to first-generation agents. May improve negative symptoms and cognitive function. Individual agents differ in their affinity for additional receptors including H1, α1, and muscarinic receptors.",
-        [],
-    )
-
-    private static let benzo = moa(
-        "GABA-A Positive Allosteric Modulator (Benzodiazepine)",
-        "Binds to the benzodiazepine site at the interface of α and γ subunits on GABA-A receptors, acting as a positive allosteric modulator. Enhances the effect of GABA by increasing the frequency of chloride channel opening, leading to neuronal hyperpolarization and reduced excitability. Produces anxiolytic, sedative, hypnotic, anticonvulsant, and muscle relaxant effects.",
-        [],
-    )
-
-    private static let zDrug = moa(
-        "GABA-A Receptor Agonist (α1-Selective)",
-        "Binds to the benzodiazepine site on GABA-A receptors with preferential selectivity for the α1 subunit, which is predominantly associated with sedation and hypnosis. This selectivity produces hypnotic effects with less anxiolytic, anticonvulsant, and muscle relaxant activity compared to benzodiazepines, though selectivity diminishes at higher doses.",
-        [],
-    )
-
-    private static let barb = moa(
-        "GABA-A Positive Allosteric Modulator (Barbiturate)",
-        "Binds to a distinct site on the GABA-A receptor, acting as a positive allosteric modulator that increases the duration of chloride channel opening (unlike benzodiazepines which increase frequency). At higher concentrations, can directly activate GABA-A receptors even without GABA, accounting for their greater overdose lethality. Also inhibits AMPA/kainate glutamate receptors.",
-        [],
-    )
-
-    private static let opioidFull = moa(
-        "μ-Opioid Receptor (MOR) Full Agonist",
-        "Acts as a full agonist at μ-opioid receptors (MOR), G-protein coupled receptors distributed throughout the central and peripheral nervous system. MOR activation inhibits adenylyl cyclase, opens inwardly rectifying potassium channels, and closes voltage-gated calcium channels, reducing neuronal excitability and neurotransmitter release. Produces analgesia, euphoria, respiratory depression, and decreased gastrointestinal motility.",
-        [],
-    )
-
-    private static let amphetamine = moa(
-        "Monoamine Releasing Agent",
-        "Enters monoaminergic nerve terminals via dopamine (DAT), norepinephrine (NET), and serotonin (SERT) transporters, then reverses their function to release stored neurotransmitters into the synaptic cleft. Also activates trace amine-associated receptor 1 (TAAR1), inhibits vesicular monoamine transporter 2 (VMAT2), and weakly inhibits monoamine oxidase. The net effect is a substantial increase in synaptic dopamine, norepinephrine, and to a lesser extent serotonin.",
-        [],
-    )
-
-    /// Methamphetamine — the amphetamine releaser set plus SERT, which it touches
-    /// measurably (it is more serotonergic than amphetamine). The DB's measured SERT
-    /// potency sets the displayed dot tier; the editorial tier here is just a fallback.
-    /// Summary/description text comes from the curated `mechanisms.json` entry at runtime.
-    private static let methamphetamine = moa(
-        "Monoamine Releasing Agent",
-        "Enters dopamine (DAT), norepinephrine (NET), and serotonin (SERT) nerve terminals and reverses their transporters, releasing all three monoamines. Also agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol.",
-        [],
-    )
-
-    /// Substrate-type (releaser) cathinones — mephedrone, methylone, the MMC
-    /// series, etc. Enter the terminal via the transporter and reverse it.
-    private static let cathinoneReleaser = moa(
-        "Non-selective Monoamine Releaser (Substituted Cathinone)",
-        "A β-keto amphetamine that enters dopamine, norepinephrine, and serotonin nerve terminals through their transporters (DAT/NET/SERT) and reverses them, releasing all three monoamines. The dopamine-to-serotonin release ratio sets the character — balanced (e.g. mephedrone) is entactogenic-stimulant, dopamine-dominant is more purely stimulating.",
-        [],
-    )
-
-    /// Pyrovalerone (pyrrolidinophenone) cathinones — MDPV, α-PVP, α-PHP, etc.
-    /// Potent DAT/NET reuptake inhibitors with little/no monoamine release.
-    private static let cathinonePyrovalerone = moa(
-        "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
-        "A pyrrolidine cathinone that potently blocks the dopamine and norepinephrine transporters (DAT/NET) without releasing monoamines and with little serotonergic activity. The strong, long-lasting rise in dopamine and norepinephrine is intensely stimulating and carries a high risk of compulsive redosing.",
-        [],
-    )
-
-    private static let classicalPsychedelic = moa(
-        "Serotonin 5-HT2A Receptor Agonist (Classical Psychedelic)",
-        "Primarily acts as an agonist or partial agonist at serotonin 5-HT2A receptors, particularly on layer V pyramidal neurons in the prefrontal cortex. 5-HT2A activation increases glutamate release and enhances cortical excitability, leading to altered perception, cognition, and consciousness. Most classical psychedelics also interact with 5-HT2C, 5-HT1A, and other serotonin receptor subtypes.",
-        [],
-    )
-
-    private static let nmdaDissociative = moa(
-        "NMDA Receptor Antagonist (Dissociative)",
-        "Blocks N-methyl-D-aspartate (NMDA) glutamate receptors, typically by binding within the ion channel pore as a non-competitive antagonist. NMDA receptor blockade reduces excitatory glutamatergic neurotransmission, producing dissociative anesthesia, analgesia, and altered states of consciousness characterized by feelings of detachment from body and environment.",
-        [],
-    )
-
-    private static let cannabinoidAgonist = moa(
-        "Cannabinoid CB1/CB2 Receptor Agonist",
-        "Acts as an agonist at cannabinoid CB1 receptors in the central nervous system and CB2 receptors in immune tissues. CB1 activation inhibits adenylyl cyclase and modulates ion channels via Gi/Go proteins, reducing neurotransmitter release (particularly GABA and glutamate) in brain regions involved in reward, memory, coordination, and pain perception.",
-        [],
-    )
-
-    private static let gabapentinoid = moa(
-        "Voltage-Gated Calcium Channel α2δ Subunit Ligand",
-        "Binds to the α2δ-1 subunit of voltage-gated calcium channels (VGCCs), reducing calcium influx at presynaptic nerve terminals. This decreases the release of excitatory neurotransmitters including glutamate, norepinephrine, substance P, and calcitonin gene-related peptide. Despite the name, gabapentinoids do not interact with GABA receptors or GABA metabolism.",
-        [],
-    )
-
-    private static let betaBlocker = moa(
-        "β-Adrenergic Receptor Antagonist",
-        "Competitively blocks β-adrenergic receptors, preventing the effects of catecholamines. β1-selective agents primarily reduce heart rate and cardiac contractility. Non-selective agents also block β2 receptors in bronchial smooth muscle and peripheral vasculature. Used for hypertension, arrhythmias, heart failure, and performance anxiety.",
-        [],
-    )
-
-    private static let aceInhibitor = moa(
-        "Angiotensin-Converting Enzyme (ACE) Inhibitor",
-        "Inhibits angiotensin-converting enzyme (ACE), preventing the conversion of angiotensin I to angiotensin II, a potent vasoconstrictor. Also reduces degradation of bradykinin, a vasodilator. The net effect is decreased peripheral vascular resistance, reduced aldosterone secretion, and lower blood pressure. ACE inhibitors also reduce cardiac remodeling after myocardial infarction.",
-        [],
-    )
-
-    private static let arb = moa(
-        "Angiotensin II Receptor Blocker (ARB)",
-        "Selectively blocks angiotensin II type 1 (AT1) receptors, preventing the vasoconstrictive, aldosterone-secreting, and growth-promoting effects of angiotensin II. Unlike ACE inhibitors, ARBs do not affect bradykinin metabolism and therefore do not cause cough. Provides similar hemodynamic effects to ACE inhibitors through a different mechanism.",
-        [],
-    )
-
-    private static let nsaid = moa(
-        "Cyclooxygenase (COX) Inhibitor (NSAID)",
-        "Reversibly inhibits cyclooxygenase enzymes COX-1 and COX-2, reducing the synthesis of prostaglandins from arachidonic acid. COX-2 inhibition mediates anti-inflammatory and analgesic effects, while COX-1 inhibition reduces gastric mucosal protection. Central prostaglandin inhibition contributes to antipyretic effects.",
-        [],
-    )
-
-    private static let antihistamine1 = moa(
-        "Histamine H1 Receptor Inverse Agonist (First-Generation)",
-        "Acts as an inverse agonist at histamine H1 receptors, reducing constitutive receptor activity and blocking histamine-mediated signaling. Crosses the blood-brain barrier readily, producing sedation, anxiolysis, and antiemetic activity through central H1 blockade. Most also have significant anticholinergic (muscarinic antagonist) activity.",
-        [],
-    )
-
-    private static let antihistamine2 = moa(
-        "Histamine H1 Receptor Inverse Agonist (Second-Generation)",
-        "Selectively acts as an inverse agonist at peripheral histamine H1 receptors with minimal blood-brain barrier penetration. Provides antiallergic and antipruritic effects without significant sedation or cognitive impairment. Reduced CNS penetration is due to P-glycoprotein efflux at the blood-brain barrier.",
-        [],
-    )
-
-    private static let ppi = moa(
-        "Proton Pump Inhibitor (PPI)",
-        "Irreversibly inhibits the hydrogen-potassium ATPase (H⁺/K⁺ ATPase, the proton pump) on the luminal surface of gastric parietal cells. This blocks the final step of acid secretion regardless of the stimulus, producing a profound and long-lasting reduction in gastric acid production. Requires activation in the acidic environment of the parietal cell canaliculus.",
-        [],
-    )
-
-    private static let racetam = moa(
-        "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)",
-        "Exact mechanism not fully established. Modulates AMPA-type glutamate receptors (positive allosteric modulation), enhancing glutamatergic neurotransmission and synaptic plasticity. May also increase acetylcholine turnover and improve cerebral blood flow. Individual racetams vary in their receptor selectivity and additional mechanisms.",
-        [],
-    )
-
-    private static let statin = moa(
-        "HMG-CoA Reductase Inhibitor (Statin)",
-        "Competitively inhibits 3-hydroxy-3-methylglutaryl-coenzyme A (HMG-CoA) reductase, the rate-limiting enzyme in hepatic cholesterol synthesis. Reduced intracellular cholesterol upregulates LDL receptor expression on hepatocytes, increasing LDL clearance from the blood. Also produces pleiotropic effects including improved endothelial function and anti-inflammatory activity.",
-        [],
-    )
-
-    private static let triptan = moa(
-        "Serotonin 5-HT1B/1D Receptor Agonist (Triptan)",
-        "Selectively activates serotonin 5-HT1B receptors on cranial blood vessels (causing vasoconstriction of dilated meningeal arteries) and 5-HT1D receptors on trigeminal nerve terminals (inhibiting release of vasoactive neuropeptides including CGRP and substance P). This dual action reverses the pathophysiology of migraine: vasodilation and neurogenic inflammation.",
-        [],
-    )
-
-    private static let corticosteroid = moa(
-        "Glucocorticoid Receptor Agonist",
-        "Binds to intracellular glucocorticoid receptors, which translocate to the nucleus and modulate gene transcription. Upregulates anti-inflammatory proteins (lipocortins, IL-10) and downregulates pro-inflammatory mediators (cytokines, prostaglandins, leukotrienes). Also suppresses immune cell activation and migration. Metabolic effects include increased gluconeogenesis and altered fat distribution.",
-        [],
-    )
-
-    private static let fluoroquinolone = moa(
-        "Bacterial DNA Gyrase and Topoisomerase IV Inhibitor",
-        "Inhibits bacterial DNA gyrase (topoisomerase II) and topoisomerase IV, enzymes essential for DNA replication, transcription, repair, and recombination. DNA gyrase inhibition prevents supercoil relaxation; topoisomerase IV inhibition prevents daughter chromosome separation. These actions are bactericidal. Human topoisomerases are structurally different, providing selectivity.",
-        [],
-    )
-
-    private static let ccb = moa(
-        "Calcium Channel Blocker (Dihydropyridine)",
-        "Blocks L-type voltage-gated calcium channels in vascular smooth muscle, reducing calcium influx and causing vasodilation. Primarily acts on arterial smooth muscle with minimal cardiac effects at therapeutic doses. Reduces peripheral vascular resistance and blood pressure.",
-        [],
-    )
-
-    // MARK: - Shared Unique Mechanisms
-
-    private static let ketamineMOA = moa(
-        "Non-Competitive NMDA Receptor Antagonist with Rapid Antidepressant Properties",
-        "Acts as a non-competitive antagonist at the NMDA glutamate receptor by binding within the ion channel pore (use-dependent blockade). Produces dissociative anesthesia at higher doses and rapid antidepressant effects at sub-anesthetic doses. The antidepressant mechanism involves enhanced AMPA receptor signaling, increased brain-derived neurotrophic factor (BDNF) release, and activation of the mTOR signaling pathway, promoting rapid synaptic plasticity.",
-        [],
-    )
 
     // MARK: - Category Fallbacks
 
@@ -357,17 +109,37 @@ enum MechanismOfActionDatabase {
             "Increases central nervous system activity by enhancing monoamine neurotransmission, typically through increased release or reduced reuptake of dopamine and/or norepinephrine. The specific mechanism varies by substance class (releasing agents, reuptake inhibitors, or receptor agonists). Effects include increased alertness, attention, and energy.",
             [],
         ),
-        .psychedelic: classicalPsychedelic,
-        .dissociative: nmdaDissociative,
+        .psychedelic: moa(
+            "Serotonin 5-HT2A Receptor Agonist (Classical Psychedelic)",
+            "Primarily acts as an agonist or partial agonist at serotonin 5-HT2A receptors, particularly on layer V pyramidal neurons in the prefrontal cortex. 5-HT2A activation increases glutamate release and enhances cortical excitability, leading to altered perception, cognition, and consciousness. Most classical psychedelics also interact with 5-HT2C, 5-HT1A, and other serotonin receptor subtypes.",
+            [],
+        ),
+        .dissociative: moa(
+            "NMDA Receptor Antagonist (Dissociative)",
+            "Blocks N-methyl-D-aspartate (NMDA) glutamate receptors, typically by binding within the ion channel pore as a non-competitive antagonist. NMDA receptor blockade reduces excitatory glutamatergic neurotransmission, producing dissociative anesthesia, analgesia, and altered states of consciousness characterized by feelings of detachment from body and environment.",
+            [],
+        ),
         .opioid: opioidUnspecified,
-        .benzodiazepine: benzo,
-        .gabapentinoid: gabapentinoid,
+        .benzodiazepine: moa(
+            "GABA-A Positive Allosteric Modulator (Benzodiazepine)",
+            "Binds to the benzodiazepine site at the interface of α and γ subunits on GABA-A receptors, acting as a positive allosteric modulator. Enhances the effect of GABA by increasing the frequency of chloride channel opening, leading to neuronal hyperpolarization and reduced excitability. Produces anxiolytic, sedative, hypnotic, anticonvulsant, and muscle relaxant effects.",
+            [],
+        ),
+        .gabapentinoid: moa(
+            "Voltage-Gated Calcium Channel α2δ Subunit Ligand",
+            "Binds to the α2δ-1 subunit of voltage-gated calcium channels (VGCCs), reducing calcium influx at presynaptic nerve terminals. This decreases the release of excitatory neurotransmitters including glutamate, norepinephrine, substance P, and calcitonin gene-related peptide. Despite the name, gabapentinoids do not interact with GABA receptors or GABA metabolism.",
+            [],
+        ),
         .empathogen: moa(
             "Monoamine Releasing Agent (Serotonin-Predominant)",
             "Increases synaptic serotonin, dopamine, and norepinephrine, with a predominant serotonergic component that distinguishes empathogens from classical stimulants. Many also stimulate the release of oxytocin from the hypothalamus, contributing to prosocial effects, emotional openness, and feelings of empathy and connectedness.",
             [],
         ),
-        .cannabinoid: cannabinoidAgonist,
+        .cannabinoid: moa(
+            "Cannabinoid CB1/CB2 Receptor Agonist",
+            "Acts as an agonist at cannabinoid CB1 receptors in the central nervous system and CB2 receptors in immune tissues. CB1 activation inhibits adenylyl cyclase and modulates ion channels via Gi/Go proteins, reducing neurotransmitter release (particularly GABA and glutamate) in brain regions involved in reward, memory, coordination, and pain perception.",
+            [],
+        ),
         .nootropic: moa(
             "Cognitive-Enhancing Agent (Nootropic)",
             "Nootropic agents enhance cognitive function through diverse mechanisms which may include modulation of acetylcholine, glutamate, or monoamine neurotransmitter systems; improvement of cerebral blood flow; neuroprotection through antioxidant activity; or modulation of neuroplasticity signaling cascades. Mechanisms vary widely and are substance-specific.",
@@ -436,307 +208,4 @@ enum MechanismOfActionDatabase {
             [],
         ),
     ]
-
-    // MARK: - Substance Data
-
-    // Built programmatically to avoid slow large-dictionary-literal initialization in debug builds.
-    // swiftlint:disable function_body_length
-    private static let substanceData: [String: MechanismOfAction] = {
-        var d = [String: MechanismOfAction](minimumCapacity: 300)
-
-        // ── SSRIs ──────────────────────────────────────────────────
-        for n in ["fluoxetine", "sertraline", "paroxetine", "citalopram", "escitalopram", "fluvoxamine"] {
-            d[n] = ssri
-        }
-
-        // ── SNRIs ──────────────────────────────────────────────────
-        for n in ["venlafaxine", "desvenlafaxine", "duloxetine", "milnacipran", "levomilnacipran"] {
-            d[n] = snri
-        }
-
-        // ── TCAs ───────────────────────────────────────────────────
-        for n in ["amitriptyline", "nortriptyline", "imipramine", "desipramine", "clomipramine", "doxepin", "trimipramine", "protriptyline", "amoxapine", "maprotiline"] {
-            d[n] = tca
-        }
-
-        // ── MAOIs ──────────────────────────────────────────────────
-        for n in ["phenelzine", "tranylcypromine", "isocarboxazid"] {
-            d[n] = maoi
-        }
-        d["moclobemide"] = rima
-        d["selegiline"] = maobSelective
-
-        // ── Typical Antipsychotics ─────────────────────────────────
-        for n in ["haloperidol", "chlorpromazine", "fluphenazine", "perphenazine", "thioridazine", "trifluoperazine", "loxapine", "pimozide", "thiothixene", "droperidol"] {
-            d[n] = typicalAP
-        }
-
-        // ── Atypical Antipsychotics ────────────────────────────────
-        for n in ["risperidone", "olanzapine", "quetiapine", "ziprasidone", "paliperidone", "lurasidone", "iloperidone", "asenapine"] {
-            d[n] = atypicalAP
-        }
-
-        // ── Benzodiazepines ────────────────────────────────────────
-        for n in ["diazepam", "alprazolam", "clonazepam", "lorazepam", "midazolam", "triazolam", "temazepam", "chlordiazepoxide", "oxazepam", "flurazepam", "nitrazepam", "estazolam", "quazepam", "clorazepate", "flunitrazepam", "phenazepam", "bromazepam", "etizolam", "flualprazolam", "clonazolam", "flubromazolam", "bromazolam"] {
-            d[n] = benzo
-        }
-
-        // ── Z-Drugs ───────────────────────────────────────────────
-        for n in ["zolpidem", "zopiclone", "zaleplon", "eszopiclone"] {
-            d[n] = zDrug
-        }
-
-        // ── Barbiturates ──────────────────────────────────────────
-        for n in ["phenobarbital", "pentobarbital", "secobarbital", "amobarbital", "thiopental"] {
-            d[n] = barb
-        }
-
-        // ── Opioid Agonists ───────────────────────────────────────
-        for n in ["morphine", "heroin"] {
-            d[n] = opioidFull
-        }
-        for n in ["diacetylmorphine", "diamorphine"] {
-            d[n] = opioidFull
-        }
-        for n in ["oxycodone", "hydrocodone"] {
-            d[n] = opioidFull
-        }
-        for n in ["oxymorphone", "hydromorphone"] {
-            d[n] = opioidFull
-        }
-        for n in ["fentanyl", "sufentanil"] {
-            d[n] = opioidFull
-        }
-        for n in ["meperidine", "pethidine"] {
-            d[n] = opioidFull
-        }
-
-        // ── Stimulants ────────────────────────────────────────────
-        for n in ["amphetamine", "dextroamphetamine"] {
-            d[n] = amphetamine
-        }
-        d["methamphetamine"] = methamphetamine
-
-        // ── Substituted Cathinones ────────────────────────────────
-        // Releasers (substrate-type: DA/NE/5-HT release via transporter reversal)
-        for n in [
-            "mephedrone",
-            "4-mmc",
-            "3-mmc",
-            "2-mmc",
-            "methcathinone",
-            "cathinone",
-            "methylone",
-            "ethylone",
-            "butylone",
-            "eutylone",
-            "mexedrone",
-            "4-mec",
-            "4-cmc",
-            "3-cmc",
-            "3-chloromethcathinone",
-            "4-cec",
-            "n-ethylpentylone",
-        ] {
-            d[n] = cathinoneReleaser
-        }
-        // Pyrovalerones (DAT/NET reuptake inhibitors, no monoamine release)
-        for n in [
-            "mdpv",
-            "α-pvp",
-            "a-pvp",
-            "α-php",
-            "a-php",
-            "alpha-pyrrolidinohexiophenone",
-            "mdphp",
-            "md-php",
-            "naphyrone",
-            "pyrovalerone",
-        ] {
-            d[n] = cathinonePyrovalerone
-        }
-
-        // ── Classical Psychedelics ─────────────────────────────────
-        for n in ["lsd", "lsd-25"] {
-            d[n] = classicalPsychedelic
-        }
-        for n in ["1p-lsd", "1cp-lsd"] {
-            d[n] = classicalPsychedelic
-        }
-        for n in ["ald-52", "eth-lad"] {
-            d[n] = classicalPsychedelic
-        }
-        d["al-lad"] = classicalPsychedelic
-        d["psilocin"] = classicalPsychedelic
-        for n in ["4-aco-dmt", "4-ho-met"] {
-            d[n] = classicalPsychedelic
-        }
-        d["4-ho-mipt"] = classicalPsychedelic
-        for n in ["mescaline", "dpt"] {
-            d[n] = classicalPsychedelic
-        }
-        for n in ["2c-b", "2c-e"] {
-            d[n] = classicalPsychedelic
-        }
-        for n in ["2c-i", "2c-c"] {
-            d[n] = classicalPsychedelic
-        }
-        d["2c-t-7"] = classicalPsychedelic
-        for n in ["dob", "doc"] {
-            d[n] = classicalPsychedelic
-        }
-        for n in ["doi", "dom"] {
-            d[n] = classicalPsychedelic
-        }
-
-        // ── Dissociatives ──────────────────────────────────────────
-        for n in ["ketamine", "esketamine"] {
-            d[n] = ketamineMOA
-        }
-        for n in ["3-meo-pcp", "3-ho-pcp"] {
-            d[n] = nmdaDissociative
-        }
-        for n in ["mxe", "methoxetamine"] {
-            d[n] = nmdaDissociative
-        }
-        for n in ["diphenidine", "methoxphenidine"] {
-            d[n] = nmdaDissociative
-        }
-
-        // ── Cannabinoids ──────────────────────────────────────────
-        for n in ["nabilone", "dronabinol"] {
-            d[n] = cannabinoidAgonist
-        }
-        d["jwh-018"] = cannabinoidAgonist
-
-        // ── Gabapentinoids ─────────────────────────────────────────
-        for n in ["gabapentin", "pregabalin"] {
-            d[n] = gabapentinoid
-        }
-
-        // ── Analgesics / NSAIDs ───────────────────────────────────
-        for n in ["ibuprofen", "naproxen", "diclofenac"] {
-            d[n] = nsaid
-        }
-        for n in ["indomethacin", "piroxicam", "meloxicam"] {
-            d[n] = nsaid
-        }
-        d["ketorolac"] = nsaid
-
-        // ── Antihistamines ────────────────────────────────────────
-        for n in ["diphenhydramine", "hydroxyzine"] {
-            d[n] = antihistamine1
-        }
-        for n in ["doxylamine", "chlorpheniramine"] {
-            d[n] = antihistamine1
-        }
-        for n in ["promethazine", "cyproheptadine"] {
-            d[n] = antihistamine1
-        }
-        for n in ["brompheniramine", "clemastine"] {
-            d[n] = antihistamine1
-        }
-        for n in ["meclizine", "dimenhydrinate"] {
-            d[n] = antihistamine1
-        }
-        for n in ["cetirizine", "loratadine"] {
-            d[n] = antihistamine2
-        }
-        for n in ["fexofenadine", "levocetirizine"] {
-            d[n] = antihistamine2
-        }
-        d["desloratadine"] = antihistamine2
-
-        // ── Beta-Blockers ─────────────────────────────────────────
-        for n in ["propranolol", "metoprolol"] {
-            d[n] = betaBlocker
-        }
-        for n in ["atenolol", "bisoprolol"] {
-            d[n] = betaBlocker
-        }
-        d["nadolol"] = betaBlocker
-        for n in ["nebivolol", "labetalol"] {
-            d[n] = betaBlocker
-        }
-
-        // ── ACE Inhibitors ────────────────────────────────────────
-        for n in ["lisinopril", "enalapril"] {
-            d[n] = aceInhibitor
-        }
-        d["ramipril"] = aceInhibitor
-        d["benazepril"] = aceInhibitor
-        d["quinapril"] = aceInhibitor
-
-        // ── ARBs ──────────────────────────────────────────────────
-        for n in ["losartan", "valsartan", "irbesartan"] {
-            d[n] = arb
-        }
-        d["olmesartan"] = arb
-
-        // ── Calcium Channel Blockers ──────────────────────────────
-        for n in ["amlodipine", "nifedipine", "felodipine"] {
-            d[n] = ccb
-        }
-
-        // ── PPIs ──────────────────────────────────────────────────
-        for n in ["omeprazole", "esomeprazole", "lansoprazole"] {
-            d[n] = ppi
-        }
-        for n in ["pantoprazole", "dexlansoprazole"] {
-            d[n] = ppi
-        }
-
-        // ── Statins ───────────────────────────────────────────────
-        for n in ["atorvastatin", "rosuvastatin"] {
-            d[n] = statin
-        }
-        for n in ["simvastatin", "pravastatin"] {
-            d[n] = statin
-        }
-        for n in ["lovastatin", "fluvastatin"] {
-            d[n] = statin
-        }
-
-        // ── Triptans ──────────────────────────────────────────────
-        for n in ["sumatriptan", "rizatriptan"] {
-            d[n] = triptan
-        }
-        for n in ["zolmitriptan", "eletriptan"] {
-            d[n] = triptan
-        }
-        for n in ["naratriptan", "almotriptan"] {
-            d[n] = triptan
-        }
-
-        // ── Corticosteroids ───────────────────────────────────────
-        for n in ["prednisone", "prednisolone"] {
-            d[n] = corticosteroid
-        }
-        for n in ["dexamethasone", "hydrocortisone"] {
-            d[n] = corticosteroid
-        }
-        for n in ["methylprednisolone", "budesonide"] {
-            d[n] = corticosteroid
-        }
-
-        // ── Antibiotics ───────────────────────────────────────────
-        for n in ["ciprofloxacin", "levofloxacin"] {
-            d[n] = fluoroquinolone
-        }
-
-        // ── Supplements & Nootropics ──────────────────────────────
-        for n in ["piracetam", "aniracetam"] {
-            d[n] = racetam
-        }
-        for n in ["oxiracetam", "pramiracetam"] {
-            d[n] = racetam
-        }
-        for n in ["phenylpiracetam", "carphedon", "coluracetam"] {
-            d[n] = racetam
-        }
-        d["fasoracetam"] = racetam
-
-        return d
-    }()
-    // swiftlint:enable function_body_length
 }

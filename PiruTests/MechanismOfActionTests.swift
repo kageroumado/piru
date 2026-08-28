@@ -36,7 +36,7 @@ struct MechanismOfActionTests {
                 Issue.record("\(name) missing from bundled DB"); continue
             }
             let resolved = MechanismOfActionDatabase.resolvedMechanism(
-                dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+                dbMechanism: sub.mechanismOfAction, category: sub.category,
             )
             let transporters = (resolved?.bindings ?? []).filter { ["DAT", "NET", "SERT"].contains($0.target) }
             #expect(!transporters.isEmpty, "\(name) has measured transporter rows and must show them")
@@ -69,13 +69,14 @@ struct MechanismOfActionTests {
             Issue.record("7-Hydroxymitragynine missing from bundled DB"); return
         }
         let resolved = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+            dbMechanism: sub.mechanismOfAction, category: sub.category,
         )
         let text = (resolved?.summary ?? "") + " " + (resolved?.description ?? "")
-        #expect(text.localizedCaseInsensitiveContains("partial"), "got: \(resolved?.summary ?? "nil")")
-        #expect(!text.localizedCaseInsensitiveContains("full agonist"))
+        #expect(!text.localizedCaseInsensitiveContains("full agonist"), "got: \(text.prefix(80))")
+        // The prose does not say "partial" either, and should not: the chip, the efficacy axis
+        // and the μ row below it all say so already. What it must not do is contradict them.
         let mu = resolved?.bindings.first { $0.target == "MOR" }
-        #expect(mu?.action == .partialAgonist, "the prose and the panel must agree")
+        #expect(mu?.action == .partialAgonist, "the panel carries the efficacy claim")
     }
 
     @Test
@@ -127,7 +128,7 @@ struct MechanismOfActionTests {
                 Issue.record("\(name) missing from bundled DB"); continue
             }
             let m = MechanismOfActionDatabase.resolvedMechanism(
-                dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+                dbMechanism: sub.mechanismOfAction, category: sub.category,
             )
             #expect(m != nil, "\(name) should resolve a mechanism")
             let mu = m?.bindings.first { $0.target.localizedCaseInsensitiveContains("opioid") }
@@ -154,7 +155,7 @@ struct MechanismOfActionTests {
             binding("DAT", .releasingAgent), binding("NET", .releasingAgent), binding("SERT", .releasingAgent),
         ])
         let resolved = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: db, substanceName: "zzzSyntheticReleaser-NoHandEntry", category: .stimulant,
+            dbMechanism: db, category: .stimulant,
         )
         #expect(resolved != nil)
         #expect(
@@ -174,7 +175,7 @@ struct MechanismOfActionTests {
             binding("5-HT2C", .antagonist), binding("sigma-1", .agonist),
         ])
         let resolved = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: db, substanceName: "fluoxetine", category: .antidepressant,
+            dbMechanism: db, category: .antidepressant,
         )
         for target in ["SERT", "NET", "5-HT2C", "sigma-1"] {
             #expect(
@@ -187,22 +188,23 @@ struct MechanismOfActionTests {
 
     @Test
     @MainActor
-    func `No class-mapped substance loses a DB binding target end-to-end`() async {
-        // The blanket form of the rule above, over every key the Swift table maps.
-        // This is the invariant `resolvedMechanism`'s doc comment asserts; it went
-        // false once already, silently, when the two sets stopped being disjoint.
+    func `No substance loses a DB binding target end-to-end`() async {
+        // The composer may add to the DB panel; it may never drop from it. This once went false
+        // silently, when a class template's generic list replaced the panel for 67 substances.
+        // It used to walk the Swift table's keys — there is no Swift table now, so it walks the
+        // library, which is the stronger form of the same check.
         await SubstanceStore.shared.ensureAllLoaded()
-        for key in MechanismOfActionDatabase.substanceKeys {
-            guard let sub = SubstanceStore.shared.lookup(key),
+        for name in SubstanceStore.shared.allNames.prefix(400) {
+            guard let sub = SubstanceStore.shared.lookup(name),
                   let dbBindings = sub.mechanismOfAction?.bindings, !dbBindings.isEmpty else { continue }
             let resolved = MechanismOfActionDatabase.resolvedMechanism(
-                dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+                dbMechanism: sub.mechanismOfAction, category: sub.category,
             )
             let shown = Set((resolved?.bindings ?? []).map { SubstanceReadModel.normalizedBindingTarget($0.target) })
             let missing = dbBindings
                 .map { SubstanceReadModel.normalizedBindingTarget($0.target) }
                 .filter { !shown.contains($0) }
-            #expect(missing.isEmpty, "\(key) drops DB targets \(missing.sorted())")
+            #expect(missing.isEmpty, "\(name) drops DB targets \(missing.sorted())")
         }
     }
 
@@ -218,7 +220,7 @@ struct MechanismOfActionTests {
             Issue.record("Amitriptyline missing from bundled DB"); return
         }
         let resolved = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+            dbMechanism: sub.mechanismOfAction, category: sub.category,
         )
         for target in ["H1", "M1", "α1-adrenergic", "SERT", "NET"] {
             #expect(
@@ -226,8 +228,6 @@ struct MechanismOfActionTests {
                 "amitriptyline should show \(target) from the DB",
             )
         }
-        // And Swift contributes nothing: the template is prose now.
-        #expect(MechanismOfActionDatabase.mechanism(for: "amitriptyline")?.bindings.isEmpty == true)
     }
 
     @Test
@@ -245,30 +245,16 @@ struct MechanismOfActionTests {
             "the class summary should come from the DB now, got \(sub.mechanismOfAction?.summary ?? "nil")",
         )
         let resolved = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+            dbMechanism: sub.mechanismOfAction, category: sub.category,
         )
         #expect(resolved?.summary == sub.mechanismOfAction?.summary, "the DB row is what displays")
-    }
-
-    @Test
-    func `No class template carries a receptor list any more`() {
-        // The whole Swift table is prose. A binding list here would be a second copy of the
-        // panel with no citation and no way to be corrected without an app release; where a
-        // class genuinely knows an unmeasured target, it belongs in
-        // data/curated/class-mechanism-bindings.json.
-        for key in MechanismOfActionDatabase.substanceKeys {
-            #expect(
-                MechanismOfActionDatabase.mechanism(for: key)?.bindings.isEmpty != false,
-                "\(key)'s template grew a binding list back",
-            )
-        }
     }
 
     @Test
     func `A real DB summary is preferred verbatim over fallbacks`() {
         let db = moa(summary: "Bespoke measured summary", bindings: [binding("5-HT2A", .agonist)])
         let resolved = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: db, substanceName: "zzzUnknown", category: .psychedelic,
+            dbMechanism: db, category: .psychedelic,
         )
         #expect(resolved?.summary == "Bespoke measured summary")
         #expect(resolved?.bindings.first?.target == "5-HT2A")
@@ -280,7 +266,7 @@ struct MechanismOfActionTests {
         // dead-ends to nil for a known category — it bottoms out at the category
         // mechanism. (nil is reserved for the no-category / no-data degenerate.)
         let resolved = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: nil, substanceName: "zzzCompletelyUnknownCompound", category: .stimulant,
+            dbMechanism: nil, category: .stimulant,
         )
         #expect(resolved != nil)
         #expect(resolved?.summary == MechanismOfActionDatabase.categoryFallback(for: .stimulant)?.summary)
@@ -293,7 +279,7 @@ struct MechanismOfActionTests {
         // wrong. With the .orexinAntagonist category they must resolve to OX1R/OX2R
         // antagonism and carry NO GABA/glutamate bindings.
         let resolved = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: nil, substanceName: "Suvorexant", category: .orexinAntagonist,
+            dbMechanism: nil, category: .orexinAntagonist,
         )
         #expect(resolved != nil)
         #expect(resolved?.bindings.contains { $0.target == "OX1R" && $0.action == .antagonist } == true)
@@ -320,7 +306,7 @@ struct MechanismOfActionTests {
             Issue.record("Mephedrone missing from bundled DB"); return
         }
         let resolved = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+            dbMechanism: sub.mechanismOfAction, category: sub.category,
         )
         #expect(resolved != nil)
         let transporters = resolved?.bindings.filter { ["DAT", "NET", "SERT"].contains($0.target) } ?? []
@@ -346,7 +332,7 @@ struct MechanismOfActionTests {
             }
             #expect(sub.category == .orexinAntagonist, "\(name) should be .orexinAntagonist, got \(sub.category)")
             let resolved = MechanismOfActionDatabase.resolvedMechanism(
-                dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+                dbMechanism: sub.mechanismOfAction, category: sub.category,
             )
             #expect(resolved?.bindings.contains { $0.target == "OX1R" } == true, "\(name) should list OX1R")
             #expect(
@@ -363,7 +349,7 @@ struct MechanismOfActionTests {
             Issue.record("Mitragynine missing from bundled DB"); return
         }
         let resolved = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+            dbMechanism: sub.mechanismOfAction, category: sub.category,
         )
         #expect(resolved?.summary.localizedCaseInsensitiveContains("full agonist") == false)
         let mu = resolved?.bindings.first { $0.target.localizedCaseInsensitiveContains("opioid") }
@@ -403,7 +389,7 @@ struct MechanismOfActionTests {
             Issue.record("Mitragynine missing from bundled DB"); return
         }
         let m = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+            dbMechanism: sub.mechanismOfAction, category: sub.category,
         )
         #expect(m?.summary.localizedCaseInsensitiveContains("partial") == true)
         let mu = m?.bindings.first { $0.target.localizedCaseInsensitiveContains("opioid") }
@@ -422,7 +408,7 @@ struct MechanismOfActionTests {
             Issue.record("5-Hydroxytryptophan missing from bundled DB"); return
         }
         let m = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+            dbMechanism: sub.mechanismOfAction, category: sub.category,
         )
         #expect(m?.summary.isEmpty == false, "5-HTP should resolve a curated summary")
     }

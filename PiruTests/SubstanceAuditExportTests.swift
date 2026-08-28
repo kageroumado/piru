@@ -152,7 +152,7 @@ enum AuditSerializer {
 
         // Mechanism (composed — same call the detail view's `composedMechanism` makes)
         if let moa = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: s.mechanismOfAction, substanceName: s.name, category: s.category,
+            dbMechanism: s.mechanismOfAction, category: s.category,
         ) {
             m += mechanismSection(moa)
         }

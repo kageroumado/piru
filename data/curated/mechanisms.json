@@ -156,8 +156,8 @@
   },
   {
     "name": "7-Hydroxymitragynine",
-    "summary": "Partial μ-Opioid Agonist — Mitragynine's Active Metabolite",
-    "description": "The oxidised metabolite of mitragynine, and the species that carries most of kratom's opioid effect despite being a trace constituent of the leaf itself — under 0.05% of dry mass, against mitragynine's 1–2%. Kruegel et al. showed it is formed from mitragynine by CYP3A isoforms in both mouse and human liver preparations, and that the brain concentrations reached in mice account for most or all of mitragynine's opioid-receptor-mediated analgesia, while mitragynine itself accumulates far above its own binding affinity without appearing to activate the receptor directly. At the human μ-opioid receptor it is a partial agonist — EC₅₀ 34.5 nM with an Emax of 47% of DAMGO — roughly tenfold more potent than mitragynine (EC₅₀ 339 nM, Emax 34%). Both are reported as G protein-biased, recruiting little β-arrestin-2. Because the active species is made rather than taken, route of administration and CYP3A activity shape what the dose does.",
+    "summary": "μ-Opioid Receptor Agonist (Kratom Alkaloid)",
+    "description": "Activates μ-opioid receptors, inhibiting adenylyl cyclase, opening inwardly rectifying potassium channels and closing voltage-gated calcium channels — reducing neuronal excitability and neurotransmitter release, and producing analgesia, euphoria, respiratory depression and slowed gastrointestinal transit. It is also what mitragynine becomes: Kruegel et al. showed CYP3A isoforms convert mitragynine to 7-OH in mouse and human liver preparations, and that the brain concentrations reached account for most or all of mitragynine's opioid-mediated analgesia, while mitragynine itself accumulates far above its own binding affinity without appearing to activate the receptor directly. So kratom's opioid effect runs through a conversion step and depends on CYP3A activity; 7-OH taken directly does not. In the leaf it is a trace alkaloid — under 0.05% of dry mass, against mitragynine's 1–2%.",
     "references": [
       "10.1021/acscentsci.9b00141"
     ]

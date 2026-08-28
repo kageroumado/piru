@@ -701,21 +701,24 @@ extension SubstanceStore {
     func pharmaTableRowsOffMain() async -> [PharmaTableRow] {
         let substances: [PharmaSubstanceSeed] = SubstanceLibrary.all.compactMap { substance in
             guard let id = substanceID(forNameOrAlias: substance.name) else { return nil }
-            // Cheap main-actor mechanism/class label (pure ``MechanismOfActionDatabase`` dictionary
-            // lookups — no heavy per-substance DB resolve): the per-substance class template if one is
-            // mapped, else the category fallback. Feeds the table's default Mechanism column and widens
-            // the inclusion gate so categorised-but-PK-less substances still appear.
-            let mechanism = MechanismOfActionDatabase.mechanism(for: substance.name)
-                ?? MechanismOfActionDatabase.categoryFallback(for: substance.category)
-            let mechanismLabel: String? = (mechanism?.summary).flatMap { $0.isEmpty ? nil : $0 }
+            // The category floor only — the per-substance label comes from the database in the
+            // off-main pass below, resolved under the same priority and language rules the detail
+            // card uses. This column used to read `MechanismOfActionDatabase.mechanism(for:)` and
+            // never consult the DB, so the table and the card could print different mechanisms for
+            // the same substance. The floor still widens the inclusion gate so categorised-but-
+            // PK-less substances appear.
+            let categoryLabel = MechanismOfActionDatabase.categoryFallback(for: substance.category)
+                .map(\.summary).flatMap { $0.isEmpty ? nil : $0 }
             return PharmaSubstanceSeed(
                 id: id, name: substance.name, category: substance.category,
-                mechanismLabel: mechanismLabel, halfLifeMin: substance.halfLifeMinutes,
+                mechanismLabel: categoryLabel, halfLifeMin: substance.halfLifeMinutes,
             )
         }
         let db = substancesBatchDB
+        let order = enabledSourceOrder
+        let language = languageOverride ?? SubstanceReadModel.contentLanguage
         return await Task.detached(priority: .utility) {
-            Self.buildPharmaTableRows(substances: substances, db: db)
+            Self.buildPharmaTableRows(substances: substances, db: db, order: order, language: language)
         }.value
     }
 
@@ -734,8 +737,12 @@ extension SubstanceStore {
     /// static` so it runs entirely off the main actor on the batch connection.
     private nonisolated static func buildPharmaTableRows(
         substances: [PharmaSubstanceSeed], db queue: DatabaseQueue,
+        order: [String], language: ContentLanguage,
     ) -> [PharmaTableRow] {
         let pkByID = SubstanceReadModel.preferredPKRowBySubstanceID(db: queue)
+        let labelByID = SubstanceReadModel.mechanismLabelBySubstanceID(
+            db: queue, order: order, language: language,
+        )
 
         var out: [PharmaTableRow] = []
         out.reserveCapacity(substances.count)
@@ -745,7 +752,7 @@ extension SubstanceStore {
             let row = PharmaTableRow(
                 name: substance.name,
                 category: substance.category,
-                mechanismLabel: substance.mechanismLabel,
+                mechanismLabel: labelByID[substance.id] ?? substance.mechanismLabel,
                 halfLifeMin: halfLife,
                 tmaxMin: pk.flatMap { $0["tmax_min"] },
                 bioavailabilityPct: pk.flatMap { $0["bioavailability_pct"] },

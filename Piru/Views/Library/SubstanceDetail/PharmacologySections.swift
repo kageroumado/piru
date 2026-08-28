@@ -225,7 +225,6 @@ struct PharmacologySections: View {
     private var composedMechanism: MechanismOfAction? {
         MechanismOfActionDatabase.resolvedMechanism(
             dbMechanism: substance.mechanismOfAction,
-            substanceName: substance.name,
             category: substance.category,
         )
     }
