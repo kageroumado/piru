@@ -155,6 +155,14 @@
     ]
   },
   {
+    "name": "7-Hydroxymitragynine",
+    "summary": "Partial μ-Opioid Agonist — Mitragynine's Active Metabolite",
+    "description": "The oxidised metabolite of mitragynine, and the species that carries most of kratom's opioid effect despite being a trace constituent of the leaf itself — under 0.05% of dry mass, against mitragynine's 1–2%. Kruegel et al. showed it is formed from mitragynine by CYP3A isoforms in both mouse and human liver preparations, and that the brain concentrations reached in mice account for most or all of mitragynine's opioid-receptor-mediated analgesia, while mitragynine itself accumulates far above its own binding affinity without appearing to activate the receptor directly. At the human μ-opioid receptor it is a partial agonist — EC₅₀ 34.5 nM with an Emax of 47% of DAMGO — roughly tenfold more potent than mitragynine (EC₅₀ 339 nM, Emax 34%). Both are reported as G protein-biased, recruiting little β-arrestin-2. Because the active species is made rather than taken, route of administration and CYP3A activity shape what the dose does.",
+    "references": [
+      "10.1021/acscentsci.9b00141"
+    ]
+  },
+  {
     "name": "Acetaminophen",
     "summary": "Centrally-Acting Analgesic and Antipyretic",
     "description": "Mechanism remains incompletely understood despite widespread use. Weakly inhibits cyclooxygenase, with a relatively greater effect centrally than peripherally, reducing CNS prostaglandin synthesis and producing antipyresis via the hypothalamus. A proposed (but not fully established) additional mechanism involves the metabolite AM404, which may inhibit endocannabinoid (anandamide) reuptake and weakly engage CB1 and TRPV1 receptors; recent evidence also implicates peripheral voltage-gated sodium channel inhibition by AM404. Lacks significant anti-inflammatory activity.",
@@ -244,6 +252,18 @@
     "bindings": []
   },
   {
+    "name": "Alprazolam",
+    "summary": "GABA-A Positive Allosteric Modulator",
+    "description": "Binds the benzodiazepine site of the GABA-A receptor and potentiates GABA-mediated chloride conductance, increasing neuronal inhibition. High potency and rapid onset give it strong anxiolytic and panic-suppressing effects with marked sedation. It enhances GABA already present rather than directly gating the channel; tolerance and a pronounced withdrawal syndrome develop with sustained use.",
+    "bindings": [
+      {
+        "target": "GABA-A",
+        "action": "positiveAllostericModulator",
+        "affinity_tier": 3
+      }
+    ]
+  },
+  {
     "name": "Amoxicillin",
     "summary": "β-Lactam Antibiotic (Cell Wall Synthesis Inhibitor)",
     "description": "Binds penicillin-binding proteins (PBPs) on the bacterial cytoplasmic membrane, inhibiting transpeptidation, the final cross-linking step of peptidoglycan (cell wall) synthesis. The weakened cell wall undergoes osmotic lysis, producing bactericidal killing of susceptible organisms. Inactivated by bacterial β-lactamases, which is overcome by combining with the β-lactamase inhibitor clavulanate.",
@@ -252,6 +272,38 @@
         "target": "PBPs (transpeptidases)",
         "action": "enzymeInhibitor",
         "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Amphetamine",
+    "summary": "Catecholamine-Releasing Agent",
+    "description": "A substrate-type releasing agent: it enters catecholaminergic neurons through NET and DAT and triggers reverse transport, dumping norepinephrine and dopamine into the synapse. In rat synaptosomes norepinephrine release is most potent, dopamine close behind, and serotonin release is very weak — present but near-SERT-sparing, making amphetamine more catecholamine-selective than methamphetamine. It additionally agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol.",
+    "bindings": [
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "affinity_tier": 3
+      },
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "affinity_tier": 3
+      },
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "affinity_tier": 1
+      },
+      {
+        "target": "TAAR1",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "VMAT2",
+        "action": "modulator",
+        "affinity_tier": 2
       }
     ]
   },
@@ -417,6 +469,55 @@
     ]
   },
   {
+    "name": "CBD",
+    "summary": "Multimodal Modulator (Non-Intoxicating Cannabinoid)",
+    "description": "Does not directly activate CB1 or CB2 receptors at physiological concentrations. Acts as a negative allosteric modulator of CB1, reducing the efficacy of orthosteric agonists such as THC and 2-AG. Agonist at 5-HT1A (anxiolytic), TRPV1 vanilloid channels (analgesic/antipsychotic-linked), and PPARγ nuclear receptors (anti-inflammatory). Inhibits fatty acid amide hydrolase (FAAH), raising endogenous anandamide. Antagonizes the orphan receptor GPR55.",
+    "bindings": [
+      {
+        "target": "CB1",
+        "action": "negativeAllostericModulator",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT1A",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "TRPV1",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "PPARγ",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "FAAH",
+        "action": "enzymeInhibitor",
+        "affinity_tier": 2
+      },
+      {
+        "target": "GPR55",
+        "action": "antagonist",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
+    "name": "CDP-Choline",
+    "summary": "Cholinergic Precursor and Membrane Phospholipid Source",
+    "description": "An endogenous intermediate in phosphatidylcholine synthesis. Supplies both choline (for acetylcholine synthesis) and cytidine (converted to uridine, which supports synaptic membrane phospholipid formation via the Kennedy pathway). Chronic exposure is associated with modest, indirect increases in striatal dopamine receptor density and dopamine release, in addition to cholinergic effects. Supports neuronal membrane integrity and repair.",
+    "bindings": [
+      {
+        "target": "Dopaminergic (indirect, downstream)",
+        "action": "modulator",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
     "name": "Caffeine",
     "summary": "Non-Selective Adenosine Receptor Antagonist",
     "description": "Competitively antagonizes adenosine A1 and A2A receptors. Adenosine normally promotes sleep and suppresses arousal; blocking its receptors increases wakefulness and alertness. A2A antagonism in the striatum indirectly enhances dopaminergic signaling. At supratherapeutic doses it also inhibits phosphodiesterases (raising intracellular cAMP), but this effect is minor at normal dietary doses.",
@@ -432,6 +533,11 @@
         "affinity_tier": 3
       }
     ]
+  },
+  {
+    "name": "Cannabis",
+    "summary": "Cannabinoid Mixture — Partial CB1 Agonism (THC)",
+    "description": "A plant, not a molecule. THC is the partial agonist at CB1 receptors responsible for intoxication; CB1 sits presynaptically throughout the cortex, hippocampus and basal ganglia, where its activation dampens neurotransmitter release. CBD is not intoxicating and behaves as a negative allosteric modulator at CB1, blunting some THC effects. Cultivars differ severalfold in THC:CBD ratio and in the minor cannabinoids and terpenes alongside them, so the same weight of two flowers is not the same exposure."
   },
   {
     "name": "Carbamazepine",
@@ -508,55 +614,6 @@
         "target": "α1",
         "action": "antagonist",
         "affinity_tier": 2
-      }
-    ]
-  },
-  {
-    "name": "CBD",
-    "summary": "Multimodal Modulator (Non-Intoxicating Cannabinoid)",
-    "description": "Does not directly activate CB1 or CB2 receptors at physiological concentrations. Acts as a negative allosteric modulator of CB1, reducing the efficacy of orthosteric agonists such as THC and 2-AG. Agonist at 5-HT1A (anxiolytic), TRPV1 vanilloid channels (analgesic/antipsychotic-linked), and PPARγ nuclear receptors (anti-inflammatory). Inhibits fatty acid amide hydrolase (FAAH), raising endogenous anandamide. Antagonizes the orphan receptor GPR55.",
-    "bindings": [
-      {
-        "target": "CB1",
-        "action": "negativeAllostericModulator",
-        "affinity_tier": 2
-      },
-      {
-        "target": "5-HT1A",
-        "action": "agonist",
-        "affinity_tier": 2
-      },
-      {
-        "target": "TRPV1",
-        "action": "agonist",
-        "affinity_tier": 2
-      },
-      {
-        "target": "PPARγ",
-        "action": "agonist",
-        "affinity_tier": 2
-      },
-      {
-        "target": "FAAH",
-        "action": "enzymeInhibitor",
-        "affinity_tier": 2
-      },
-      {
-        "target": "GPR55",
-        "action": "antagonist",
-        "affinity_tier": 2
-      }
-    ]
-  },
-  {
-    "name": "CDP-Choline",
-    "summary": "Cholinergic Precursor and Membrane Phospholipid Source",
-    "description": "An endogenous intermediate in phosphatidylcholine synthesis. Supplies both choline (for acetylcholine synthesis) and cytidine (converted to uridine, which supports synaptic membrane phospholipid formation via the Kennedy pathway). Chronic exposure is associated with modest, indirect increases in striatal dopamine receptor density and dopamine release, in addition to cholinergic effects. Supports neuronal membrane integrity and repair.",
-    "bindings": [
-      {
-        "target": "Dopaminergic (indirect, downstream)",
-        "action": "modulator",
-        "affinity_tier": 1
       }
     ]
   },
@@ -671,6 +728,28 @@
     ]
   },
   {
+    "name": "DMT",
+    "summary": "Serotonin 5-HT2A Agonist and Sigma-1 Receptor Agonist",
+    "description": "Acts as an agonist at serotonin 5-HT2A receptors (the primary psychedelic mechanism) and also activates sigma-1 receptors, which may modulate ion channels, ER stress responses, and neuroplasticity. Additionally interacts with trace amine-associated receptors. Rapidly metabolized by monoamine oxidase (MAO), so oral activity requires an MAO inhibitor (as in ayahuasca).",
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "Sigma-1",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "TAAR1",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
     "name": "Delta-8-THC",
     "summary": "Cannabinoid CB1 Partial Agonist (Lower Potency)",
     "description": "A positional isomer of Δ9-THC with the ring double bond at the 8-carbon rather than the 9-carbon position. Acts as a CB1 partial agonist with lower binding affinity than Δ9-THC, producing qualitatively similar but generally milder psychoactive effects (euphoria, relaxation, altered perception). Also a weak CB2 partial agonist.",
@@ -715,24 +794,14 @@
     ]
   },
   {
-    "name": "DMT",
-    "summary": "Serotonin 5-HT2A Agonist and Sigma-1 Receptor Agonist",
-    "description": "Acts as an agonist at serotonin 5-HT2A receptors (the primary psychedelic mechanism) and also activates sigma-1 receptors, which may modulate ion channels, ER stress responses, and neuroplasticity. Additionally interacts with trace amine-associated receptors. Rapidly metabolized by monoamine oxidase (MAO), so oral activity requires an MAO inhibitor (as in ayahuasca).",
+    "name": "Diazepam",
+    "summary": "GABA-A Positive Allosteric Modulator",
+    "description": "Binds the benzodiazepine site of the GABA-A receptor and enhances the inhibitory effect of GABA, increasing the frequency of chloride-channel opening and neuronal hyperpolarization. This produces anxiolytic, sedative, muscle-relaxant, and anticonvulsant effects. It does not open the channel on its own — it only potentiates GABA already present, which is why it is comparatively safe in isolated overdose but dangerous combined with other CNS depressants.",
     "bindings": [
       {
-        "target": "5-HT2A",
-        "action": "agonist",
+        "target": "GABA-A",
+        "action": "positiveAllostericModulator",
         "affinity_tier": 3
-      },
-      {
-        "target": "Sigma-1",
-        "action": "agonist",
-        "affinity_tier": 2
-      },
-      {
-        "target": "TAAR1",
-        "action": "agonist",
-        "affinity_tier": 1
       }
     ]
   },
@@ -808,6 +877,28 @@
     ]
   },
   {
+    "name": "Ketamine",
+    "summary": "NMDA Receptor Antagonist (Open-Channel Blocker)",
+    "description": "Binds inside the NMDA receptor's open pore, so it blocks channels that are already active — preferentially those on tonically firing inhibitory interneurons. Removing that inhibition disinhibits cortical pyramidal cells and produces a glutamate surge, which is a different account of the effect than simple receptor blockade. Downstream AMPA activation and mTOR signaling are the leading explanation for the antidepressant response, which outlasts the drug itself by days. The S-enantiomer is several times more potent at NMDA than the R.",
+    "bindings": [
+      {
+        "target": "NMDA",
+        "action": "antagonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "HCN1",
+        "action": "modulator",
+        "affinity_tier": 1
+      },
+      {
+        "target": "μ-opioid",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
     "name": "Kratom",
     "summary": "Partial μ-Opioid Agonist and Adrenergic/Serotonergic Modulator",
     "description": "The primary alkaloid mitragynine acts as a partial agonist at μ-opioid receptors (MOR), producing dose-dependent analgesic and euphoric effects. At lower doses, stimulant-like effects are attributed to α2-adrenergic agonism and 5-HT2A antagonism. The metabolite 7-hydroxymitragynine has substantially higher MOR potency. Unlike classical opioids, mitragynine also acts as a κ-opioid receptor antagonist.",
@@ -842,6 +933,33 @@
       {
         "target": "Glutamate receptors (NMDA/AMPA/kainate, low-affinity)",
         "action": "antagonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "LSD",
+    "summary": "5-HT2A Partial Agonist (Long Receptor Residence)",
+    "description": "A partial agonist at 5-HT2A, the receptor whose activation on cortical pyramidal neurons accounts for the psychedelic effect, with additional activity across the serotonin family and at dopamine D2. Its crystal structure explains the duration that dose alone cannot: an extracellular loop folds shut over the bound molecule, so it leaves the receptor slowly and signaling continues long after plasma levels fall. Active at microgram amounts.",
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "partialAgonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT1A",
+        "action": "partialAgonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT2C",
+        "action": "partialAgonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "D2",
+        "action": "partialAgonist",
         "affinity_tier": 1
       }
     ]
@@ -1022,6 +1140,38 @@
     ]
   },
   {
+    "name": "Methamphetamine",
+    "summary": "Monoamine-Releasing Stimulant",
+    "description": "Carried into monoaminergic neurons, where it drives reverse transport of norepinephrine, dopamine, and serotonin through NET, DAT, and SERT. In rat synaptosomes it releases norepinephrine most potently, dopamine close behind, and serotonin about 30× weaker — catecholamine-dominant, but more serotonergic than amphetamine. It also agonizes TAAR1 (modulating its own release) and is a VMAT2 substrate that collapses the vesicular gradient, redistributing stored monoamines for efflux.",
+    "bindings": [
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "affinity_tier": 3
+      },
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "affinity_tier": 3
+      },
+      {
+        "target": "SERT",
+        "action": "releasingAgent",
+        "affinity_tier": 1
+      },
+      {
+        "target": "TAAR1",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "VMAT2",
+        "action": "modulator",
+        "affinity_tier": 2
+      }
+    ]
+  },
+  {
     "name": "Methaqualone",
     "summary": "GABA-A Positive Allosteric Modulator (Quinazolinone)",
     "description": "A quinazolinone sedative-hypnotic that acts as a positive allosteric modulator of GABA-A receptors, binding at the transmembrane β(+)/α(–) subunit interface — a site distinct from the benzodiazepine, barbiturate, and neurosteroid sites and overlapping the general-anesthetic (etomidate) site. Potentiation widens the ion-conducting pore and destabilizes the hydrophobic activation gate, enhancing GABAergic inhibition to produce sedative, hypnotic, anxiolytic, and muscle-relaxant effects. Functionality is subtype-dependent.",
@@ -1143,6 +1293,50 @@
         "target": "CysLT1",
         "action": "antagonist",
         "affinity_tier": 3
+      }
+    ]
+  },
+  {
+    "name": "Morphine",
+    "summary": "Mu-Opioid Receptor Agonist",
+    "description": "A full agonist at the mu-opioid receptor and the reference compound the class is measured against, with weaker activity at kappa and delta. Mu activation in the periaqueductal gray and spinal dorsal horn produces analgesia; the same receptor in the brainstem suppresses the drive to breathe, which is the mechanism behind fatal overdose. UGT2B7 conjugates it to morphine-6-glucuronide, which is itself an active agonist, and morphine-3-glucuronide, which is not — and because both are cleared renally, impaired kidneys let the active one accumulate.",
+    "bindings": [
+      {
+        "target": "μ-opioid",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "κ-opioid",
+        "action": "agonist",
+        "affinity_tier": 1
+      },
+      {
+        "target": "δ-opioid",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
+    "name": "Mushrooms",
+    "summary": "Psilocybin-Bearing Fungi → Psilocin (5-HT2A)",
+    "description": "Fruiting bodies of Psilocybe and related genera, carrying psilocybin as the main constituent. Alkaline phosphatase dephosphorylates it to psilocin, the molecule that acts at 5-HT2A. Alkaloid content varies severalfold between species, between flushes of one culture, and between the cap and the stem of a single mushroom, so weight is a weak proxy for what a given amount contains. Baeocystin, norbaeocystin and aeruginascin occur alongside it in variable amounts, with unsettled contributions of their own.",
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "5-HT2C",
+        "action": "agonist",
+        "affinity_tier": 2
+      },
+      {
+        "target": "5-HT1A",
+        "action": "agonist",
+        "affinity_tier": 1
       }
     ]
   },
@@ -1271,6 +1465,28 @@
     ]
   },
   {
+    "name": "Oxycodone",
+    "summary": "Mu-Opioid Receptor Agonist (Parent-Active)",
+    "description": "An agonist at the mu-opioid receptor with weaker kappa and delta activity. The molecule swallowed does most of the work itself, which is what separates it from codeine: CYP2D6 converts a few percent into the more potent oxymorphone, while CYP3A4 converts a much larger share into noroxycodone, which barely crosses into the brain. So CYP2D6 phenotype shifts what oxycodone does far less than it shifts codeine, and CYP3A4 inhibitors move its levels more.",
+    "bindings": [
+      {
+        "target": "μ-opioid",
+        "action": "agonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "κ-opioid",
+        "action": "agonist",
+        "affinity_tier": 1
+      },
+      {
+        "target": "δ-opioid",
+        "action": "agonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
     "name": "PCP",
     "summary": "Non-Competitive NMDA Antagonist and Dopamine Reuptake Inhibitor",
     "description": "Blocks NMDA glutamate receptors as a non-competitive (open-channel) antagonist. Also raises synaptic dopamine — largely through indirect/allosteric effects on monoamine transport rather than high-affinity direct DAT blockade — which distinguishes it from other dissociatives and contributes to its stimulant properties and higher psychosis risk. Additionally interacts with sigma receptors, nicotinic receptors, and voltage-gated sodium channels.",
@@ -1373,6 +1589,23 @@
     ]
   },
   {
+    "name": "THC",
+    "summary": "Cannabinoid CB1 Partial Agonist",
+    "description": "A partial agonist at central cannabinoid CB1 receptors, mimicking the endogenous cannabinoid anandamide. CB1 receptors sit presynaptically on GABAergic and glutamatergic terminals; their activation suppresses neurotransmitter release via retrograde endocannabinoid-like signaling, modulating synaptic plasticity, pain, appetite, memory consolidation, and motor coordination. Also a weak partial agonist at CB2 receptors.",
+    "bindings": [
+      {
+        "target": "CB1",
+        "action": "partialAgonist",
+        "affinity_tier": 3
+      },
+      {
+        "target": "CB2",
+        "action": "partialAgonist",
+        "affinity_tier": 1
+      }
+    ]
+  },
+  {
     "name": "Tadalafil",
     "summary": "Phosphodiesterase Type 5 (PDE5) Inhibitor",
     "description": "Selectively inhibits PDE5, preventing degradation of cGMP in smooth muscle. Has a substantially longer half-life than sildenafil (~17.5 hours vs. ~4 hours), permitting daily dosing and a wider window of efficacy (up to ~36 hours on demand). Also weakly inhibits PDE11, though the clinical significance is unclear.",
@@ -1398,23 +1631,6 @@
         "target": "NET",
         "action": "reuptakeInhibitor",
         "affinity_tier": 3
-      }
-    ]
-  },
-  {
-    "name": "THC",
-    "summary": "Cannabinoid CB1 Partial Agonist",
-    "description": "A partial agonist at central cannabinoid CB1 receptors, mimicking the endogenous cannabinoid anandamide. CB1 receptors sit presynaptically on GABAergic and glutamatergic terminals; their activation suppresses neurotransmitter release via retrograde endocannabinoid-like signaling, modulating synaptic plasticity, pain, appetite, memory consolidation, and motor coordination. Also a weak partial agonist at CB2 receptors.",
-    "bindings": [
-      {
-        "target": "CB1",
-        "action": "partialAgonist",
-        "affinity_tier": 3
-      },
-      {
-        "target": "CB2",
-        "action": "partialAgonist",
-        "affinity_tier": 1
       }
     ]
   },
@@ -1635,166 +1851,6 @@
         "target": "VKORC1",
         "action": "enzymeInhibitor",
         "affinity_tier": 3
-      }
-    ]
-  },
-  {
-    "name": "Methamphetamine",
-    "summary": "Monoamine-Releasing Stimulant",
-    "description": "Carried into monoaminergic neurons, where it drives reverse transport of norepinephrine, dopamine, and serotonin through NET, DAT, and SERT. In rat synaptosomes it releases norepinephrine most potently, dopamine close behind, and serotonin about 30\u00d7 weaker \u2014 catecholamine-dominant, but more serotonergic than amphetamine. It also agonizes TAAR1 (modulating its own release) and is a VMAT2 substrate that collapses the vesicular gradient, redistributing stored monoamines for efflux.",
-    "bindings": [
-      {"target": "NET", "action": "releasingAgent", "affinity_tier": 3},
-      {"target": "DAT", "action": "releasingAgent", "affinity_tier": 3},
-      {"target": "SERT", "action": "releasingAgent", "affinity_tier": 1},
-      {"target": "TAAR1", "action": "agonist", "affinity_tier": 2},
-      {"target": "VMAT2", "action": "modulator", "affinity_tier": 2}
-    ]
-  },
-  {
-    "name": "Amphetamine",
-    "summary": "Catecholamine-Releasing Agent",
-    "description": "A substrate-type releasing agent: it enters catecholaminergic neurons through NET and DAT and triggers reverse transport, dumping norepinephrine and dopamine into the synapse. In rat synaptosomes norepinephrine release is most potent, dopamine close behind, and serotonin release is very weak \u2014 present but near-SERT-sparing, making amphetamine more catecholamine-selective than methamphetamine. It additionally agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol.",
-    "bindings": [
-      {"target": "NET", "action": "releasingAgent", "affinity_tier": 3},
-      {"target": "DAT", "action": "releasingAgent", "affinity_tier": 3},
-      {"target": "SERT", "action": "releasingAgent", "affinity_tier": 1},
-      {"target": "TAAR1", "action": "agonist", "affinity_tier": 2},
-      {"target": "VMAT2", "action": "modulator", "affinity_tier": 2}
-    ]
-  },
-  {
-    "name": "Diazepam",
-    "summary": "GABA-A Positive Allosteric Modulator",
-    "description": "Binds the benzodiazepine site of the GABA-A receptor and enhances the inhibitory effect of GABA, increasing the frequency of chloride-channel opening and neuronal hyperpolarization. This produces anxiolytic, sedative, muscle-relaxant, and anticonvulsant effects. It does not open the channel on its own \u2014 it only potentiates GABA already present, which is why it is comparatively safe in isolated overdose but dangerous combined with other CNS depressants.",
-    "bindings": [
-      {"target": "GABA-A", "action": "positiveAllostericModulator", "affinity_tier": 3}
-    ]
-  },
-  {
-    "name": "Alprazolam",
-    "summary": "GABA-A Positive Allosteric Modulator",
-    "description": "Binds the benzodiazepine site of the GABA-A receptor and potentiates GABA-mediated chloride conductance, increasing neuronal inhibition. High potency and rapid onset give it strong anxiolytic and panic-suppressing effects with marked sedation. It enhances GABA already present rather than directly gating the channel; tolerance and a pronounced withdrawal syndrome develop with sustained use.",
-    "bindings": [
-      {"target": "GABA-A", "action": "positiveAllostericModulator", "affinity_tier": 3}
-    ]
-  },
-  {
-    "name": "Cannabis",
-    "summary": "Cannabinoid Mixture — Partial CB1 Agonism (THC)",
-    "description": "A plant, not a molecule. THC is the partial agonist at CB1 receptors responsible for intoxication; CB1 sits presynaptically throughout the cortex, hippocampus and basal ganglia, where its activation dampens neurotransmitter release. CBD is not intoxicating and behaves as a negative allosteric modulator at CB1, blunting some THC effects. Cultivars differ severalfold in THC:CBD ratio and in the minor cannabinoids and terpenes alongside them, so the same weight of two flowers is not the same exposure."
-  },
-  {
-    "name": "Ketamine",
-    "summary": "NMDA Receptor Antagonist (Open-Channel Blocker)",
-    "description": "Binds inside the NMDA receptor's open pore, so it blocks channels that are already active — preferentially those on tonically firing inhibitory interneurons. Removing that inhibition disinhibits cortical pyramidal cells and produces a glutamate surge, which is a different account of the effect than simple receptor blockade. Downstream AMPA activation and mTOR signaling are the leading explanation for the antidepressant response, which outlasts the drug itself by days. The S-enantiomer is several times more potent at NMDA than the R.",
-    "bindings": [
-      {
-        "target": "NMDA",
-        "action": "antagonist",
-        "affinity_tier": 3
-      },
-      {
-        "target": "HCN1",
-        "action": "modulator",
-        "affinity_tier": 1
-      },
-      {
-        "target": "μ-opioid",
-        "action": "agonist",
-        "affinity_tier": 1
-      }
-    ]
-  },
-  {
-    "name": "LSD",
-    "summary": "5-HT2A Partial Agonist (Long Receptor Residence)",
-    "description": "A partial agonist at 5-HT2A, the receptor whose activation on cortical pyramidal neurons accounts for the psychedelic effect, with additional activity across the serotonin family and at dopamine D2. Its crystal structure explains the duration that dose alone cannot: an extracellular loop folds shut over the bound molecule, so it leaves the receptor slowly and signaling continues long after plasma levels fall. Active at microgram amounts.",
-    "bindings": [
-      {
-        "target": "5-HT2A",
-        "action": "partialAgonist",
-        "affinity_tier": 3
-      },
-      {
-        "target": "5-HT1A",
-        "action": "partialAgonist",
-        "affinity_tier": 2
-      },
-      {
-        "target": "5-HT2C",
-        "action": "partialAgonist",
-        "affinity_tier": 2
-      },
-      {
-        "target": "D2",
-        "action": "partialAgonist",
-        "affinity_tier": 1
-      }
-    ]
-  },
-  {
-    "name": "Morphine",
-    "summary": "Mu-Opioid Receptor Agonist",
-    "description": "A full agonist at the mu-opioid receptor and the reference compound the class is measured against, with weaker activity at kappa and delta. Mu activation in the periaqueductal gray and spinal dorsal horn produces analgesia; the same receptor in the brainstem suppresses the drive to breathe, which is the mechanism behind fatal overdose. UGT2B7 conjugates it to morphine-6-glucuronide, which is itself an active agonist, and morphine-3-glucuronide, which is not — and because both are cleared renally, impaired kidneys let the active one accumulate.",
-    "bindings": [
-      {
-        "target": "μ-opioid",
-        "action": "agonist",
-        "affinity_tier": 3
-      },
-      {
-        "target": "κ-opioid",
-        "action": "agonist",
-        "affinity_tier": 1
-      },
-      {
-        "target": "δ-opioid",
-        "action": "agonist",
-        "affinity_tier": 1
-      }
-    ]
-  },
-  {
-    "name": "Mushrooms",
-    "summary": "Psilocybin-Bearing Fungi → Psilocin (5-HT2A)",
-    "description": "Fruiting bodies of Psilocybe and related genera, carrying psilocybin as the main constituent. Alkaline phosphatase dephosphorylates it to psilocin, the molecule that acts at 5-HT2A. Alkaloid content varies severalfold between species, between flushes of one culture, and between the cap and the stem of a single mushroom, so weight is a weak proxy for what a given amount contains. Baeocystin, norbaeocystin and aeruginascin occur alongside it in variable amounts, with unsettled contributions of their own.",
-    "bindings": [
-      {
-        "target": "5-HT2A",
-        "action": "agonist",
-        "affinity_tier": 3
-      },
-      {
-        "target": "5-HT2C",
-        "action": "agonist",
-        "affinity_tier": 2
-      },
-      {
-        "target": "5-HT1A",
-        "action": "agonist",
-        "affinity_tier": 1
-      }
-    ]
-  },
-  {
-    "name": "Oxycodone",
-    "summary": "Mu-Opioid Receptor Agonist (Parent-Active)",
-    "description": "An agonist at the mu-opioid receptor with weaker kappa and delta activity. The molecule swallowed does most of the work itself, which is what separates it from codeine: CYP2D6 converts a few percent into the more potent oxymorphone, while CYP3A4 converts a much larger share into noroxycodone, which barely crosses into the brain. So CYP2D6 phenotype shifts what oxycodone does far less than it shifts codeine, and CYP3A4 inhibitors move its levels more.",
-    "bindings": [
-      {
-        "target": "μ-opioid",
-        "action": "agonist",
-        "affinity_tier": 3
-      },
-      {
-        "target": "κ-opioid",
-        "action": "agonist",
-        "affinity_tier": 1
-      },
-      {
-        "target": "δ-opioid",
-        "action": "agonist",
-        "affinity_tier": 1
       }
     ]
   }

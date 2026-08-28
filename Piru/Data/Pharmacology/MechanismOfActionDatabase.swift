@@ -316,6 +316,30 @@ enum MechanismOfActionDatabase {
 
     // MARK: - Category Fallbacks
 
+    /// A category floor describes a substance NOTHING has described. It may name what the class
+    /// does; it may never assert where in the class this member sits. Three of these used to do
+    /// exactly that by aliasing a class template — the opioid floor said "Full Agonist" over 66
+    /// substances, and 7-hydroxymitragynine's card carried that sentence directly above its own
+    /// measured rows reading `μ Partial Agonist, Ki 47 nM`. Pentazocine and butorphanol, whose
+    /// ceiling effect is the clinically important fact about them, read as full agonists too.
+    private static let opioidUnspecified = moa(
+        "μ-Opioid Receptor Ligand",
+        "Acts at μ-opioid receptors (MOR), G-protein coupled receptors distributed throughout the central and peripheral nervous system. MOR activation inhibits adenylyl cyclase, opens inwardly rectifying potassium channels, and closes voltage-gated calcium channels, reducing neuronal excitability and neurotransmitter release — producing analgesia, euphoria, respiratory depression, and slowed gastrointestinal transit. How far this particular compound activates the receptor, and whether it also engages κ or δ, is not characterized here; the receptor panel below carries whatever has been measured for it.",
+        [],
+    )
+
+    private static let antipsychoticUnspecified = moa(
+        "Antipsychotic (Dopamine Receptor Antagonist)",
+        "Blocks dopamine D2 receptors in the mesolimbic pathway, reducing positive psychotic symptoms. Whether this compound also carries the 5-HT2A antagonism that distinguishes the second-generation agents, and the histamine, muscarinic and adrenergic activity that drives sedation and orthostasis, varies across the class and is not characterized here.",
+        [],
+    )
+
+    private static let antihistamineUnspecified = moa(
+        "Histamine H1 Receptor Antagonist",
+        "Blocks histamine H1 receptors, reducing the itching, flare, wheal and vasodilation of the histamine response. Whether this compound crosses into the central nervous system — the difference between a sedating first-generation antihistamine with a muscarinic load and a peripherally selective second-generation one — is not characterized here.",
+        [],
+    )
+
     // The category floor supplies PROSE. It supplies a binding list only where the category
     // names actual molecular targets — orexinAntagonist's OX1R/OX2R, and the entries that reuse
     // a class template above.
@@ -335,7 +359,7 @@ enum MechanismOfActionDatabase {
         ),
         .psychedelic: classicalPsychedelic,
         .dissociative: nmdaDissociative,
-        .opioid: opioidFull,
+        .opioid: opioidUnspecified,
         .benzodiazepine: benzo,
         .gabapentinoid: gabapentinoid,
         .empathogen: moa(
@@ -364,13 +388,13 @@ enum MechanismOfActionDatabase {
             "Modulates monoamine neurotransmitter systems (serotonin, norepinephrine, and/or dopamine) through various mechanisms including reuptake inhibition, enzyme inhibition, or receptor modulation. The specific mechanism depends on the drug class. Therapeutic effects typically develop over 2–6 weeks.",
             [],
         ),
-        .antipsychotic: atypicalAP,
+        .antipsychotic: antipsychoticUnspecified,
         .analgesic: moa(
             "Analgesic Agent",
             "Reduces pain perception through mechanisms that may include inhibition of prostaglandin synthesis, activation of endogenous opioid pathways, modulation of descending pain inhibitory circuits, or blockade of peripheral nociceptor sensitization. The specific mechanism depends on the drug class.",
             [],
         ),
-        .antihistamine: antihistamine1,
+        .antihistamine: antihistamineUnspecified,
         .cardiovascular: moa(
             "Cardiovascular Agent",
             "Modulates cardiovascular function through mechanisms including adrenergic receptor blockade, calcium channel inhibition, renin-angiotensin system modulation, or direct vasodilation. The specific mechanism depends on the drug class.",

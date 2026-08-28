@@ -57,6 +57,50 @@ struct MechanismOfActionTests {
     }
 
     @Test
+    @MainActor
+    func `7-hydroxymitragynine reads partial agonist, never full`() async {
+        // Reported from a shipped build: the card's headline said "μ-Opioid Receptor (MOR) Full
+        // Agonist" directly above its own measured rows reading `μ Partial Agonist · Ki 47 nM`.
+        // 7-OH had no mechanism summary of its own, so it fell to the opioid category floor —
+        // which asserted full agonism for every opioid nothing had described. It has a cited
+        // entry now (Kruegel 2019), and the floor no longer makes that claim.
+        await SubstanceStore.shared.ensureAllLoaded()
+        guard let sub = SubstanceStore.shared.lookup("7-Hydroxymitragynine") else {
+            Issue.record("7-Hydroxymitragynine missing from bundled DB"); return
+        }
+        let resolved = MechanismOfActionDatabase.resolvedMechanism(
+            dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+        )
+        let text = (resolved?.summary ?? "") + " " + (resolved?.description ?? "")
+        #expect(text.localizedCaseInsensitiveContains("partial"), "got: \(resolved?.summary ?? "nil")")
+        #expect(!text.localizedCaseInsensitiveContains("full agonist"))
+        let mu = resolved?.bindings.first { $0.target == "MOR" }
+        #expect(mu?.action == .partialAgonist, "the prose and the panel must agree")
+    }
+
+    @Test
+    func `A category floor never asserts an efficacy or a generation`() {
+        // The floor describes a substance nothing else has described. It may say what the class
+        // does; it may not say where in the class this member sits. "Full Agonist" over every
+        // opioid is how pentazocine and butorphanol — whose ceiling effect is the clinically
+        // important fact about them — came to read as full agonists.
+        // The headline is the claim, so that is what is checked. A description may name a
+        // distinction in order to say it is NOT characterized here — which is the honest thing
+        // to do and the opposite of asserting it.
+        let forbidden = ["full agonist", "first-generation", "second-generation"]
+        for category in SubstanceCategory.allCases {
+            guard let summary = MechanismOfActionDatabase.categoryFallback(for: category)?.summary
+            else { continue }
+            for phrase in forbidden {
+                #expect(
+                    !summary.localizedCaseInsensitiveContains(phrase),
+                    "\(category)'s floor headline claims \"\(phrase)\" for every member it describes",
+                )
+            }
+        }
+    }
+
+    @Test
     func `A class fallback never invents a receptor out of a category name`() {
         // Every category placeholder ("Various", "Pain pathways", "Microbial targets",
         // "Cardiovascular system") is gone: a system is not a target, and a dot beside

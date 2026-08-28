@@ -9,6 +9,33 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # The three category floors rewritten so they stop asserting an efficacy or a
+    # generation for every member they describe (7-OH read "Full Agonist" above its own
+    # partial-agonist rows).
+    "μ-Opioid Receptor Ligand": (
+        "μ-阿片受体配体",
+        "μ-鴉片受體配體",
+    ),
+    "Acts at μ-opioid receptors (MOR), G-protein coupled receptors distributed throughout the central and peripheral nervous system. MOR activation inhibits adenylyl cyclase, opens inwardly rectifying potassium channels, and closes voltage-gated calcium channels, reducing neuronal excitability and neurotransmitter release — producing analgesia, euphoria, respiratory depression, and slowed gastrointestinal transit. How far this particular compound activates the receptor, and whether it also engages κ or δ, is not characterized here; the receptor panel below carries whatever has been measured for it.": (
+        "作用于 μ-阿片受体（MOR）——一类分布于中枢与外周神经系统的 G 蛋白偶联受体。MOR 激活会抑制腺苷酸环化酶、开放内向整流钾通道并关闭电压门控钙通道，降低神经元兴奋性与神经递质释放，产生镇痛、欣快、呼吸抑制以及胃肠蠕动减慢。此处未说明该化合物对受体的激活程度，也未说明它是否同时作用于 κ 或 δ；下方的受体面板列出的是已实测到的数据。",
+        "作用於 μ-鴉片受體（MOR）——一類分布於中樞與周邊神經系統的 G 蛋白偶聯受體。MOR 活化會抑制腺苷酸環化酶、開放內向整流鉀通道並關閉電壓閘控鈣通道，降低神經元興奮性與神經傳導物質釋放，產生鎮痛、欣快、呼吸抑制以及胃腸蠕動減慢。此處未說明該化合物對受體的活化程度，也未說明它是否同時作用於 κ 或 δ；下方的受體面板列出的是已實測到的資料。",
+    ),
+    "Antipsychotic (Dopamine Receptor Antagonist)": (
+        "抗精神病药（多巴胺受体拮抗剂）",
+        "抗精神病藥（多巴胺受體拮抗劑）",
+    ),
+    "Blocks dopamine D2 receptors in the mesolimbic pathway, reducing positive psychotic symptoms. Whether this compound also carries the 5-HT2A antagonism that distinguishes the second-generation agents, and the histamine, muscarinic and adrenergic activity that drives sedation and orthostasis, varies across the class and is not characterized here.": (
+        "阻断中脑边缘通路的多巴胺 D2 受体，减轻精神病性阳性症状。该化合物是否同时具有区分第二代药物的 5-HT2A 拮抗作用，以及导致镇静与体位性低血压的组胺、毒蕈碱与肾上腺素能活性，在同类药物中各不相同，此处未作说明。",
+        "阻斷中腦邊緣通路的多巴胺 D2 受體，減輕精神病性陽性症狀。該化合物是否同時具有區分第二代藥物的 5-HT2A 拮抗作用，以及導致鎮靜與姿勢性低血壓的組織胺、蕈毒鹼與腎上腺素能活性，在同類藥物中各不相同，此處未作說明。",
+    ),
+    "Histamine H1 Receptor Antagonist": (
+        "组胺 H1 受体拮抗剂",
+        "組織胺 H1 受體拮抗劑",
+    ),
+    "Blocks histamine H1 receptors, reducing the itching, flare, wheal and vasodilation of the histamine response. Whether this compound crosses into the central nervous system — the difference between a sedating first-generation antihistamine with a muscarinic load and a peripherally selective second-generation one — is not characterized here.": (
+        "阻断组胺 H1 受体，减轻组胺反应中的瘙痒、红晕、风团与血管扩张。该化合物是否进入中枢神经系统——这正是具有毒蕈碱负荷、会引起嗜睡的第一代抗组胺药与外周选择性的第二代抗组胺药之间的区别——此处未作说明。",
+        "阻斷組織胺 H1 受體，減輕組織胺反應中的搔癢、紅暈、風疹塊與血管擴張。該化合物是否進入中樞神經系統——這正是具有蕈毒鹼負荷、會引起嗜睡的第一代抗組織胺藥與周邊選擇性的第二代抗組織胺藥之間的區別——此處未作說明。",
+    ),
     # The methamphetamine class-mechanism description — the one MOA template literal that was
     # never translated, found when the class prose moved into the bundled DB.
     "Enters dopamine (DAT), norepinephrine (NET), and serotonin (SERT) nerve terminals and reverses their transporters, releasing all three monoamines. Also agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol.": (
@@ -7241,6 +7268,12 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "μ-Opioid Receptor Ligand",
+        "Acts at μ-opioid receptors (MOR), G-protein coupled receptors distributed throughout the central and peripheral nervous system. MOR activation inhibits adenylyl cyclase, opens inwardly rectifying potassium channels, and closes voltage-gated calcium channels, reducing neuronal excitability and neurotransmitter release — producing analgesia, euphoria, respiratory depression, and slowed gastrointestinal transit. How far this particular compound activates the receptor, and whether it also engages κ or δ, is not characterized here; the receptor panel below carries whatever has been measured for it.",
+        "Antipsychotic (Dopamine Receptor Antagonist)",
+        "Blocks dopamine D2 receptors in the mesolimbic pathway, reducing positive psychotic symptoms. Whether this compound also carries the 5-HT2A antagonism that distinguishes the second-generation agents, and the histamine, muscarinic and adrenergic activity that drives sedation and orthostasis, varies across the class and is not characterized here.",
+        "Histamine H1 Receptor Antagonist",
+        "Blocks histamine H1 receptors, reducing the itching, flare, wheal and vasodilation of the histamine response. Whether this compound crosses into the central nervous system — the difference between a sedating first-generation antihistamine with a muscarinic load and a peripherally selective second-generation one — is not characterized here.",
         "Enters dopamine (DAT), norepinephrine (NET), and serotonin (SERT) nerve terminals and reverses their transporters, releasing all three monoamines. Also agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol.",
         "When it peaks",
         "Worst around %@",

@@ -11971,14 +11971,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 240.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Partial μ-Opioid Agonist — Mitragynine's Active Metabolite",
     "effects": [],
     "references": [
-      "Human Mitragynine and 7-Hydroxymitragynine Pharmacokinetics after Single and Multiple Daily Doses of Oral Encapsulated Dried Kratom Leaf Powder"
+      "Human Mitragynine and 7-Hydroxymitragynine Pharmacokinetics after Single and Multiple Daily Doses of Oral Encapsulated Dried Kratom Leaf Powder",
+      "7-Hydroxymitragynine Is an Active Metabolite of Mitragynine and a Key Mediator of Its Analgesic Effects"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "9-Me-BC",
