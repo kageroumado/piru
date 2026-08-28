@@ -19,7 +19,7 @@
   ],
   "mechanismOfAction": {
     "summary": "Nonsteroidal AR partial agonist (Ki ~5 nM, ~64% DHT efficacy); anabolic:androgenic ratio ~2.45:1 in rat.",
-    "description": "Bicyclic azabicyclooctane scaffold SARM; AR partial agonist with EC50 ~1.58 nM in luciferase assay; selective over 47 other nuclear receptors at 10 µM. Never tested in humans — all data from rat studies. No published PK or t½ in any species.",
+    "description": "Bicyclic azabicyclooctane scaffold SARM; potent AR partial agonist in cell-based assays, selective over other nuclear receptors. Never tested in humans — all data from rat studies. No published PK in any species.",
     "primaryTargets": [
       "Androgen receptor"
     ],

@@ -29,7 +29,7 @@
   "halfLifeMinutes": 2682,
   "mechanismOfAction": {
     "summary": "Potent oral androgen receptor full agonist with tissue selectivity.",
-    "description": "Nonsteroidal SARM; binds AR with Ki ~7 nM; tissue-selective for muscle and bone over prostate; does not bind ERα/ERβ/PR/GR significantly; no aromatization. Long t½ (~44.7 h) leads to accumulation on daily dosing.",
+    "description": "Nonsteroidal SARM; high AR binding affinity, tissue-selective for muscle and bone over prostate; does not bind ERα/ERβ/PR/GR significantly; no aromatization. Long half-life leads to accumulation on daily dosing.",
     "primaryTargets": [
       "Androgen receptor"
     ],

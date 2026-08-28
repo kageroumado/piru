@@ -19,7 +19,7 @@
   ],
   "mechanismOfAction": {
     "summary": "Selective mitochondrial uncoupler; transports protons across the inner mitochondrial membrane without depolarizing the plasma membrane.",
-    "description": "Lipophilic weak acid protonophore; dissipates the inner mitochondrial membrane proton-motive force, increasing energy expenditure. Key distinction from DNP: does not depolarize the plasma membrane at therapeutic concentrations in mice, and does not raise body temperature. Mouse data: oral bioavailability ~67%, t½ ~1.7 h (oral gavage) or ~3 h (food admixture) in C57BL/6J mice. No human PK. Community dosing speculation is based on allometric scaling from mouse and is highly speculative.",
+    "description": "Lipophilic weak acid protonophore; dissipates the inner mitochondrial membrane proton-motive force, increasing energy expenditure. Key distinction from DNP: does not depolarize the plasma membrane at therapeutic concentrations in mice, and does not raise body temperature. Oral bioavailability and short half-life measured in mice only; no human PK. Community dosing speculation is based on allometric scaling from mouse and is highly speculative.",
     "primaryTargets": [
       "Mitochondrial inner membrane proton gradient"
     ],

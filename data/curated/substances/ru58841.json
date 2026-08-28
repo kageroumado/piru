@@ -27,7 +27,7 @@
   "halfLifeMinutes": 60,
   "mechanismOfAction": {
     "summary": "Topical nonsteroidal competitive AR antagonist; designed for scalp application with minimal systemic exposure.",
-    "description": "Competitive androgen receptor antagonist targeting scalp follicle ARs to block DHT-mediated miniaturization in androgenetic alopecia. Designed for minimal systemic absorption — rapid systemic clearance (t½ ~1 h parenteral) when absorbed, intentional design to reduce systemic antiandrogen effects. Development abandoned; no completed randomized controlled trials.",
+    "description": "Competitive androgen receptor antagonist targeting scalp follicle ARs to block DHT-mediated miniaturization in androgenetic alopecia. Designed for minimal systemic absorption — rapid systemic clearance when absorbed, intentional design to reduce systemic antiandrogen effects. Development abandoned; no completed randomized controlled trials.",
     "primaryTargets": [
       "Androgen receptor"
     ],

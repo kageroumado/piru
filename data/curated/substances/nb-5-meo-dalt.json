@@ -22,7 +22,7 @@
   ],
   "mechanismOfAction": {
     "summary": "N1-Boc thermolabile prodrug of 5-MeO-DALT; inactive until pyrolysis (~150–200°C) or acid conditions cleave the Boc group, releasing the 5-HT1A/2A agonist 5-MeO-DALT.",
-    "description": "'NB-' prefix denotes N1-tert-butoxycarbonyl (NOT N-benzyl as sometimes assumed). Boc group cleaves at ~150–200°C (pyrolysis/smoking route) or under acid conditions. Parent 5-MeO-DALT: 5-HT1A and 5-HT2A agonist. Delivered parent dose from the Boc compound is unpredictable. No validated dosing for the Boc form itself. Parent 5-MeO-DALT oral: onset 10–15 min, total 2–4 h.",
+    "description": "'NB-' prefix denotes N1-tert-butoxycarbonyl (NOT N-benzyl as sometimes assumed). Boc group cleaves at high temperature (pyrolysis/smoking route) or under acid conditions. Parent 5-MeO-DALT: 5-HT1A and 5-HT2A agonist with rapid onset and short duration. Delivered parent dose from the Boc compound is unpredictable. No validated dosing for the Boc form itself.",
     "primaryTargets": [
       "5-HT2A",
       "5-HT1A"

@@ -27,7 +27,7 @@
   "halfLifeMinutes": 714,
   "mechanismOfAction": {
     "summary": "High-affinity androgen receptor full agonist (Ki ~1.7 nM); tissue-selective SARM.",
-    "description": "Nonsteroidal SARM with among the highest AR affinity of characterized SARMs (Ki ~1.7 nM). Tissue-selective for muscle and bone. Investigated as male hormonal contraceptive in rodents due to spermatogenesis suppression. No human efficacy or safety data. t½ ~11.9 h is from male rat studies only.",
+    "description": "Nonsteroidal SARM with among the highest AR affinity of characterized SARMs. Tissue-selective for muscle and bone. Investigated as male hormonal contraceptive in rodents due to spermatogenesis suppression. No human efficacy or safety data. Half-life measured in rats only.",
     "primaryTargets": [
       "Androgen receptor"
     ],

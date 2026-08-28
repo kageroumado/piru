@@ -27,7 +27,7 @@
   ],
   "mechanismOfAction": {
     "summary": "A small-molecule agonist of TrkB — the receptor for brain-derived neurotrophic factor (BDNF) — that activates TrkB signaling directly, mimicking BDNF. A synthetic 7,8-DHF derivative with higher potency and longer action than the parent.",
-    "description": "4'-DMA-7,8-DHF is a synthetic derivative of 7,8-dihydroxyflavone (7,8-DHF), the small-molecule TrkB agonist. A 4'-dimethylamino substituent gives it higher TrkB agonistic activity than the parent and a more robust, longer-lasting TrkB activation in animals, along with greater antiapoptotic activity; chronic oral dosing promotes hippocampal neurogenesis and produces marked antidepressant effects in mice. In the N171-82Q Huntington's-disease mouse model, chronic 4'-DMA-7,8-DHF (1 mg/kg) improved motor deficits, reduced brain atrophy, preserved striatal DARPP32, and extended survival. All evidence is preclinical (rodent) — no human pharmacokinetic, dose, or safety data exist.",
+    "description": "4'-DMA-7,8-DHF is a synthetic derivative of 7,8-dihydroxyflavone (7,8-DHF), the small-molecule TrkB agonist. A 4'-dimethylamino substituent gives it higher TrkB agonistic activity than the parent and a more robust, longer-lasting TrkB activation in animals, along with greater antiapoptotic activity; chronic oral dosing promotes hippocampal neurogenesis and produces marked antidepressant effects in mice. In the Huntington's-disease mouse model, chronic low-dose 4'-DMA-7,8-DHF improved motor deficits, reduced brain atrophy, preserved striatal DARPP32, and extended survival. All evidence is preclinical (rodent) — no human pharmacokinetic, dose, or safety data exist.",
     "primaryTargets": [
       "TrkB (NTRK2)"
     ],

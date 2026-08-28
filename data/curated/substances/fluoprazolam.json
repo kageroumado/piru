@@ -22,7 +22,7 @@
   ],
   "mechanismOfAction": {
     "summary": "Presumed high-potency GABA-A BZD-site positive allosteric modulator; loprazolam structural analog. Distinct from flualprazolam.",
-    "description": "Designer imidazobenzodiazepine; fluorinated analog of loprazolam (NOT flualprazolam — distinct compound). Described as 'very high potency' in NPS literature; no published Ki/EC50. Reported '1–2 mg' dosing is unsourced and unreliable. No validated human dosing data. Loprazolam t½ ~6–12 h — extrapolation to this compound is uncertain.",
+    "description": "Designer imidazobenzodiazepine; fluorinated analog of loprazolam (NOT flualprazolam — distinct compound). Described as very high potency in NPS literature; no published Ki/EC50. No validated human dosing data. Loprazolam's half-life cannot be reliably extrapolated to this compound.",
     "primaryTargets": [
       "GABA-A"
     ],

@@ -74,7 +74,7 @@
   "halfLifeMinutes": 216,
   "mechanismOfAction": {
     "summary": "LSD prodrug — strained cyclobutane ring hydrolyzes to release LSD → 5-HT2A partial agonist.",
-    "description": "N1-acyl LSD prodrug bearing a 1,2-dimethylcyclobutane-1-carbonyl group. The strained cyclobutane ring reportedly accelerates ester hydrolysis relative to most acyl-LSD prodrugs, producing faster onset (~20–30 min vs ~45–60 min for LSD). Pharmacological activity is attributed entirely to released LSD. Prodrug conversion t½ estimated ~3–4 h (not formally measured). All LSD-class risks apply: serotonin syndrome with MAOIs/SSRIs/lithium/tramadol, HPPD, full 5-HT2A cross-tolerance.",
+    "description": "N1-acyl LSD prodrug bearing a 1,2-dimethylcyclobutane-1-carbonyl group. The strained cyclobutane ring reportedly accelerates ester hydrolysis relative to most acyl-LSD prodrugs, producing faster onset. Pharmacological activity is attributed entirely to released LSD. Prodrug conversion half-life has not been formally measured. All LSD-class risks apply: serotonin syndrome with MAOIs/SSRIs/lithium/tramadol, HPPD, full 5-HT2A cross-tolerance.",
     "primaryTargets": [
       "5-HT2A"
     ],

@@ -23,7 +23,7 @@
   ],
   "mechanismOfAction": {
     "summary": "N1-Boc thermolabile prodrug of 5-MeO-MiPT ('moxy'); inactive until Boc cleavage releases the potent 5-HT1A/2A agonist.",
-    "description": "'NB-' prefix denotes N1-tert-butoxycarbonyl (NOT N-benzyl). Parent 5-MeO-MiPT: 5-HT1A Ki ~12–143 nM, 5-HT2A Ki ~113–449 nM (assay-dependent). Parent oral: onset 20–40 min, total 5–8 h, t½ ~2–3 h, CYP2D6 metabolism. Delivered parent dose from the Boc form is unpredictable. No validated dosing exists for the Boc compound.",
+    "description": "'NB-' prefix denotes N1-tert-butoxycarbonyl (NOT N-benzyl). Parent 5-MeO-MiPT is a 5-HT1A and 5-HT2A agonist with moderate duration, metabolized by CYP2D6. Delivered parent dose from the Boc form is unpredictable. No validated dosing exists for the Boc compound.",
     "primaryTargets": [
       "5-HT1A",
       "5-HT2A"

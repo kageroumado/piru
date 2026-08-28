@@ -25,7 +25,7 @@
   "halfLifeMinutes": 240,
   "mechanismOfAction": {
     "summary": "REV-ERBα/β agonist; represses Bmal1/Clock gene expression to alter circadian rhythms and metabolic gene programs.",
-    "description": "Nuclear receptor REV-ERB (NR1D1/NR1D2) agonist with EC50 ~790 nM REV-ERBα and ~560 nM REV-ERBβ. Represses clock gene Bmal1 expression; upregulates fatty acid oxidation genes; reduces inflammatory gene expression. Better oral bioavailability than SR9009. Human PK not established; t½ ~4 h is preclinical only.",
+    "description": "Nuclear receptor REV-ERB (NR1D1/NR1D2) dual agonist. Represses clock gene Bmal1 expression; upregulates fatty acid oxidation genes; reduces inflammatory gene expression. Better oral bioavailability than SR9009. Human PK not established; half-life is preclinical only.",
     "primaryTargets": [
       "REV-ERBα",
       "REV-ERBβ"

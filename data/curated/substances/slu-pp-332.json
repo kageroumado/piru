@@ -20,7 +20,7 @@
   ],
   "mechanismOfAction": {
     "summary": "Pan-ERR agonist (ERRα/ERRβ/ERRγ); recruits PGC-1α → mitochondrial biogenesis and fatty acid oxidation.",
-    "description": "Small molecule pan-estrogen-related receptor agonist (ERRα EC50 ~98 nM, ERRβ ~230 nM, ERRγ ~430 nM); recruits PGC-1α coactivator to increase mitochondrial biogenesis, fatty acid oxidation, and OXPHOS gene expression. Increases Type IIa muscle fibers and exercise endurance in mice. ERRα-dependent mechanism confirmed by knockout. No human studies; poor drug-like properties (no published oral bioavailability in humans).",
+    "description": "Small molecule pan-estrogen-related receptor agonist with highest potency at ERRα; recruits PGC-1α coactivator to increase mitochondrial biogenesis, fatty acid oxidation, and OXPHOS gene expression. Increases Type IIa muscle fibers and exercise endurance in mice. ERRα-dependent mechanism confirmed by knockout. No human studies; poor drug-like properties (no published oral bioavailability in humans).",
     "primaryTargets": [
       "ERRα",
       "ERRβ",

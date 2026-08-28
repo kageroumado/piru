@@ -29,7 +29,7 @@
   "halfLifeMinutes": 300,
   "mechanismOfAction": {
     "summary": "Oral androgen receptor partial agonist (Ki ~4 nM); tissue-selective; notable ocular AR binding.",
-    "description": "Nonsteroidal SARM; AR partial agonist with Ki ~4 nM; weaker androgenic activity at prostate vs full agonists. Critically binds ocular ARs causing reversible yellow-tint vision and night-vision impairment, especially at doses ≥50 mg/day. Short t½ (~4–6 h) requires split dosing.",
+    "description": "Nonsteroidal SARM; AR partial agonist, weaker androgenic activity at prostate vs full agonists. Critically binds ocular ARs causing reversible yellow-tint vision and night-vision impairment at higher doses. Short half-life requires split dosing.",
     "primaryTargets": [
       "Androgen receptor"
     ],
