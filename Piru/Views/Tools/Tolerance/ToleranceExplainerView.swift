@@ -16,6 +16,7 @@ struct ToleranceExplainerView: View {
                 crossToleranceSection
                 effectSelectiveSection
                 conditionedSection
+                modelBoundarySection
                 mechanismSection
                 sourcesSection
             }
@@ -122,11 +123,46 @@ struct ToleranceExplainerView: View {
             concept(
                 icon: "mappin.and.ellipse",
                 tint: .orange,
-                title: "Where you use it matters",
-                body: "Tolerance is partly learned in context: your body braces in a familiar place. In a new setting, or after a change in routine, that bracing doesn't fire — so the same dose hits harder than expected. With opioids especially, a dose that felt fine before can become dangerous after a break or in a new environment.",
+                title: "Your body learns when to brace",
+                body: "When a drug is taken repeatedly in the same place, with the same ritual, the body learns to pre-compensate — it starts pushing back before the dose even arrives. That conditioned response is a real part of tolerance: you feel less, partly because your system saw the cues and braced for it.",
+            )
+            concept(
+                icon: "location.slash",
+                tint: .red,
+                title: "Change the setting, lose the bracing",
+                body: "In a new place, the conditioned push-back doesn't fire, and the same dose hits as if tolerance were lower. Heroin-tolerant rats given a familiar dose in a novel environment died at markedly higher rates than ones dosed in their usual cage — the pharmacology was the same, the conditioning was not (Siegel et al., Science 1982).",
+            )
+            concept(
+                icon: "arrow.uturn.backward",
+                tint: .teal,
+                title: "The cues alone can produce the opposite",
+                body: "Once the compensatory response is conditioned, presenting the cues without the drug leaves the push-back running unopposed. The result feels like the drug's mirror: a stimulant's familiar setting without the stimulant can produce fatigue, an opioid's without the opioid can produce aches. This is one route into situational withdrawal.",
+            )
+            concept(
+                icon: "fork.knife",
+                tint: .purple,
+                title: "Some tolerance only develops if you experience the effect",
+                body: "Tolerance to amphetamine's appetite suppression does not build at all unless food is available while intoxicated — the tolerance is an instrumental response, not a receptor count (Carlton & Wolgin 1971). This means tolerance to one effect of a drug can exist while tolerance to another has never started.",
             )
         } header: {
-            Text("Setting & a break")
+            Text("The learned part of tolerance")
+        } footer: {
+            Text("Siegel 1976; Siegel, Hinson, Krank & McCully 1982; Weise-Kelly & Siegel 2001; Carlton & Wolgin 1971.")
+        }
+    }
+
+    // MARK: - Model boundary
+
+    private var modelBoundarySection: some View {
+        Section {
+            concept(
+                icon: "ruler",
+                tint: Theme.secondaryLabel,
+                title: "What this number does not include",
+                body: "Every layer above is pharmacodynamic — it is computed from your dose log and the clock. A large part of real tolerance is associative and context-specific: it attaches to the setting, the ritual and the cues around a dose, which is why tolerance measured in a familiar context can be substantially higher than tolerance in an unfamiliar one, and why the same cues without the dose can produce the opposite of the drug's effect. Piru cannot see any of that, because it does not record where you were or what you were doing. Treat the shift as a pharmacological estimate, not a total.",
+            )
+        } header: {
+            Text("Model boundary")
         }
     }
 
@@ -208,7 +244,7 @@ struct ToleranceExplainerView: View {
         case .psychedelic5HT2A:
             "Strong and fast: a second trip soon after is much weaker. Resets within a few days."
         case .muOpioid:
-            "Real tolerance that drops after a break — which is exactly what makes returning to an old dose dangerous."
+            "Real tolerance that drops after a break or a change of setting — which is exactly what makes returning to an old dose dangerous."
         case .gaba:
             "Tolerance plus physical dependence; stopping abruptly after heavy regular use can be dangerous — taper."
         case .nmdaAntagonist:

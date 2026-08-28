@@ -173,7 +173,7 @@ struct ToleranceRow: Identifiable {
         switch params.safetyAxis {
         case .resetOverdose:
             if hasTolerance {
-                add("After a break, tolerance drops fast — a dose that felt fine before can stop your breathing. Restart low.")
+                add("After a break or in a new setting, tolerance drops — a dose that felt fine before can stop your breathing. Restart low.")
             }
         case .dependenceKindling:
             if snapshot.chronicExposure > 0.10 {

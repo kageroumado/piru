@@ -9049,6 +9049,22 @@
         }
       }
     },
+    "After a break or in a new setting, tolerance drops — a dose that felt fine before can stop your breathing. Restart low." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停一阵子或换了环境后耐受会掉——以前没事的剂量，这时可能让你停止呼吸。重新开始一定要减量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停一陣子或換了環境後耐受會掉——以前沒事的劑量，這時可能讓你停止呼吸。重新開始一定要減量。"
+          }
+        }
+      }
+    },
     "After a break your opioid tolerance drops — the dose that felt fine before can stop your breathing. Hypoxia is sudden, with no warning. Restart low, and keep naloxone accessible to someone who's with you." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -9067,6 +9083,7 @@
       }
     },
     "After a break, tolerance drops fast — a dose that felt fine before can stop your breathing. Restart low." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14447,6 +14464,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "變更物質顏色"
+          }
+        }
+      }
+    },
+    "Change the setting, lose the bracing" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "换个地方，准备就不在了"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "換個地方，準備就不在了"
           }
         }
       }
@@ -24222,6 +24255,9 @@
         }
       }
     },
+    "Every layer above is pharmacodynamic — it is computed from your dose log and the clock. A large part of real tolerance is associative and context-specific: it attaches to the setting, the ritual and the cues around a dose, which is why tolerance measured in a familiar context can be substantially higher than tolerance in an unfamiliar one, and why the same cues without the dose can produce the opposite of the drug's effect. Piru cannot see any of that, because it does not record where you were or what you were doing. Treat the shift as a pharmacological estimate, not a total." : {
+
+    },
     "Every other day" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26309,7 +26345,20 @@
       }
     },
     "Fully eliminated · active metabolite may persist" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "母体已完全消除 · 活性代谢物可能仍存在"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "母體已完全消除 · 活性代謝物可能仍存在"
+          }
+        }
+      }
     },
     "fully settled in %@" : {
       "localizations" : {
@@ -29815,6 +29864,22 @@
     },
     "in %lld min" : {
 
+    },
+    "In a new place, the conditioned push-back doesn't fire, and the same dose hits as if tolerance were lower. Heroin-tolerant rats given a familiar dose in a novel environment died at markedly higher rates than ones dosed in their usual cage — the pharmacology was the same, the conditioning was not (Siegel et al., Science 1982)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "换一个地方，那种条件性的反向调整就不会启动，同样的剂量会像耐受更低那样击中你。习惯了海洛因的大鼠在一个陌生环境下注射惯常剂量，死亡率明显高于在平时笼子里注射的——药理作用是一样的，条件反应不一样（Siegel 等，Science 1982）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "換一個地方，那種條件性的反向調整就不會啟動，同樣的劑量會像耐受更低那樣擊中你。習慣了海洛因的大鼠在一個陌生環境下注射慣常劑量，死亡率明顯高於在平時籠子裡注射的——藥理作用是一樣的，條件反應不一樣（Siegel 等，Science 1982）。"
+          }
+        }
+      }
     },
     "in body" : {
       "localizations" : {
@@ -34775,6 +34840,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "模型基準劑量"
+          }
+        }
+      }
+    },
+    "Model boundary" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型边界"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型邊界"
           }
         }
       }
@@ -39863,6 +39944,22 @@
         }
       }
     },
+    "Once the compensatory response is conditioned, presenting the cues without the drug leaves the push-back running unopposed. The result feels like the drug's mirror: a stimulant's familiar setting without the stimulant can produce fatigue, an opioid's without the opioid can produce aches. This is one route into situational withdrawal." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦代偿反应被条件化了，只给信号不给药，反向调整就会在没有对手的情况下运行。感觉就像药效的反面：兴奋剂的熟悉环境里没有兴奋剂，可能会产生疲惫感；阿片的没有阿片，可能会出现疼痛。这是情境性戒断的一条路径。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦代償反應被條件化了，只給訊號不給藥，反向調整就會在沒有對手的情況下運行。感覺就像藥效的反面：興奮劑的熟悉環境裡沒有興奮劑，可能會產生疲憊感；鴉片的沒有鴉片，可能會出現疼痛。這是情境性戒斷的一條路徑。"
+          }
+        }
+      }
+    },
     "Ondansetron" : {
       "localizations" : {
         "zh-Hans" : {
@@ -44667,6 +44764,7 @@
       }
     },
     "Real tolerance that drops after a break — which is exactly what makes returning to an old dose dangerous." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44678,6 +44776,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "實打實的耐受，停一陣子就會掉——這正是為什麼回到以前的劑量會很危險。"
+          }
+        }
+      }
+    },
+    "Real tolerance that drops after a break or a change of setting — which is exactly what makes returning to an old dose dangerous." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "实打实的耐受，停一阵子或换了环境就会掉——这正是为什么回到以前的剂量会很危险。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實打實的耐受，停一陣子或換了環境就會掉——這正是為什麼回到以前的劑量會很危險。"
           }
         }
       }
@@ -50048,6 +50162,7 @@
       }
     },
     "Setting & a break" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -50811,6 +50926,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "收合時間軸"
+          }
+        }
+      }
+    },
+    "Siegel 1976; Siegel, Hinson, Krank & McCully 1982; Weise-Kelly & Siegel 2001; Carlton & Wolgin 1971." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siegel 1976；Siegel、Hinson、Krank 和 McCully 1982；Weise-Kelly 和 Siegel 2001；Carlton 和 Wolgin 1971。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siegel 1976；Siegel、Hinson、Krank 和 McCully 1982；Weise-Kelly 和 Siegel 2001；Carlton 和 Wolgin 1971。"
           }
         }
       }
@@ -51616,6 +51747,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一些視覺或思維殘餘可能會持續 — 這是正常的,會消退。"
+          }
+        }
+      }
+    },
+    "Some tolerance only develops if you experience the effect" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有些耐受只有在你体验到那种效果时才会形成"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有些耐受只有在你體驗到那種效果時才會形成"
           }
         }
       }
@@ -54961,6 +55108,22 @@
         }
       }
     },
+    "The cues alone can produce the opposite" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "光是信号就能引出反向效果"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "光是訊號就能引出反向效果"
+          }
+        }
+      }
+    },
     "The DAT:NET:SERT potency ratios are taken from one published assay, chosen by coverage and confidence, never mixed across labs. Only ratios measured in the same experiment are physically comparable." : {
       "localizations" : {
         "zh-Hans" : {
@@ -55315,6 +55478,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血清素 (5-HT) 的直接生物合成前體。穿過血腦屏障,由芳香族 L-胺基酸脫羧酶 (AADC) 轉化為血清素。與色胺酸不同,繞過限速的色胺酸羥化酶步驟。增加中樞血清素合成。由於血清素綜合徵風險,不應與血清素能藥物合用。"
+          }
+        }
+      }
+    },
+    "The learned part of tolerance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受中学习来的部分"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "耐受中學習來的部分"
           }
         }
       }
@@ -57351,6 +57530,7 @@
       }
     },
     "Tolerance is partly learned in context: your body braces in a familiar place. In a new setting, or after a change in routine, that bracing doesn't fire — so the same dose hits harder than expected. With opioids especially, a dose that felt fine before can become dangerous after a break or in a new environment." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -57410,6 +57590,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "耐受恢復"
+          }
+        }
+      }
+    },
+    "Tolerance to amphetamine's appetite suppression does not build at all unless food is available while intoxicated — the tolerance is an instrumental response, not a receptor count (Carlton & Wolgin 1971). This means tolerance to one effect of a drug can exist while tolerance to another has never started." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安非他命对食欲的抑制，除非在药效期间有食物可吃，否则根本不会形成耐受——这种耐受是一种工具性反应，不是受体数量问题（Carlton & Wolgin 1971）。这意味着对一种药的某个效果可以有耐受，而对另一个效果的耐受可能从未开始。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安非他命對食慾的抑制，除非在藥效期間有食物可吃，否則根本不會形成耐受——這種耐受是一種工具性反應，不是受體數量問題（Carlton & Wolgin 1971）。這意味著對一種藥的某個效果可以有耐受，而對另一個效果的耐受可能從未開始。"
           }
         }
       }
@@ -60213,6 +60409,22 @@
         }
       }
     },
+    "What this number does not include" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这个数字没有包含的部分"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這個數字沒有包含的部分"
+          }
+        }
+      }
+    },
     "What to avoid" : {
       "localizations" : {
         "zh-Hans" : {
@@ -60354,6 +60566,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "時間"
+          }
+        }
+      }
+    },
+    "When a drug is taken repeatedly in the same place, with the same ritual, the body learns to pre-compensate — it starts pushing back before the dose even arrives. That conditioned response is a real part of tolerance: you feel less, partly because your system saw the cues and braced for it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在同一个地方、按同一套习惯反复用药，身体会学着提前代偿——还没等剂量生效就开始做出反向调整。这种条件反应确实是耐受的一部分：你感觉减弱了，有一部分原因正是你的系统看到了那些信号，提前做好了准备。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在同一個地方、按同一套習慣反覆用藥，身體會學著提前代償——還沒等劑量生效就開始做出反向調整。這種條件反應確實是耐受的一部分：你感覺減弱了，有一部分原因正是你的系統看到了那些訊號，提前做好了準備。"
           }
         }
       }
@@ -60634,6 +60862,7 @@
       }
     },
     "Where you use it matters" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -61531,6 +61760,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您的身體正在處理並排出該物質。"
+          }
+        }
+      }
+    },
+    "Your body learns when to brace" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的身体会学着做好准备"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的身體會學著做好準備"
           }
         }
       }

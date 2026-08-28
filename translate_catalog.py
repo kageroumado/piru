@@ -3059,12 +3059,43 @@ T = {
         "两种不同的药只要作用在同一个受体上，就会共享耐受。最近用过 LSD 会让蘑菇的体验变弱，因为两者都作用在 5-HT2A 上；一种苯二氮䓬会带到另一种；一种阿片会带到下一种。所以这里的耐受是按受体来算的，也是为什么同一类里一种“新”药用起来还是可能很弱。",
         "兩種不同的藥只要作用在同一個受體上，就會共享耐受。最近用過 LSD 會讓蘑菇的體驗變弱，因為兩者都作用在 5-HT2A 上；一種苯二氮平會帶到另一種；一種鴉片會帶到下一種。所以這裡的耐受是按受體來算的，也是為什麼同一類裡一種「新」藥用起來還是可能很弱。",
     ),
-    "Where you use it matters": ("你在哪儿用也有影响", "你在哪兒用也有影響"),
-    "Tolerance is partly learned in context: your body braces in a familiar place. In a new setting, or after a change in routine, that bracing doesn't fire — so the same dose hits harder than expected. With opioids especially, a dose that felt fine before can become dangerous after a break or in a new environment.": (
-        "耐受有一部分是跟环境一起学会的：在熟悉的地方，你的身体会提前做好准备。换个新环境，或者作息一变，这种准备就不会启动——所以同样的剂量会比预想的更猛。阿片尤其要注意：以前没事的剂量，在中断之后或者换了环境之后可能变得危险。",
-        "耐受有一部分是跟環境一起學會的：在熟悉的地方，你的身體會提前做好準備。換個新環境，或者作息一變，這種準備就不會啟動——所以同樣的劑量會比預想的更猛。鴉片尤其要注意：以前沒事的劑量，在中斷之後或者換了環境之後可能變得危險。",
+    "Your body learns when to brace": ("你的身体会学着做好准备", "你的身體會學著做好準備"),
+    "When a drug is taken repeatedly in the same place, with the same ritual, the body learns to pre-compensate — it starts pushing back before the dose even arrives. That conditioned response is a real part of tolerance: you feel less, partly because your system saw the cues and braced for it.": (
+        "在同一个地方、按同一套习惯反复用药，身体会学着提前代偿——还没等剂量生效就开始做出反向调整。这种条件反应确实是耐受的一部分：你感觉减弱了，有一部分原因正是你的系统看到了那些信号，提前做好了准备。",
+        "在同一個地方、按同一套習慣反覆用藥，身體會學著提前代償——還沒等劑量生效就開始做出反向調整。這種條件反應確實是耐受的一部分：你感覺減弱了，有一部分原因正是你的系統看到了那些訊號，提前做好了準備。",
     ),
-    "Setting & a break": ("环境和中断", "環境和中斷"),
+    "Change the setting, lose the bracing": ("换个地方，准备就不在了", "換個地方，準備就不在了"),
+    "In a new place, the conditioned push-back doesn't fire, and the same dose hits as if tolerance were lower. Heroin-tolerant rats given a familiar dose in a novel environment died at markedly higher rates than ones dosed in their usual cage — the pharmacology was the same, the conditioning was not (Siegel et al., Science 1982).": (
+        "换一个地方，那种条件性的反向调整就不会启动，同样的剂量会像耐受更低那样击中你。习惯了海洛因的大鼠在一个陌生环境下注射惯常剂量，死亡率明显高于在平时笼子里注射的——药理作用是一样的，条件反应不一样（Siegel 等，Science 1982）。",
+        "換一個地方，那種條件性的反向調整就不會啟動，同樣的劑量會像耐受更低那樣擊中你。習慣了海洛因的大鼠在一個陌生環境下注射慣常劑量，死亡率明顯高於在平時籠子裡注射的——藥理作用是一樣的，條件反應不一樣（Siegel 等，Science 1982）。",
+    ),
+    "The cues alone can produce the opposite": (
+        "光是信号就能引出反向效果",
+        "光是訊號就能引出反向效果",
+    ),
+    "Once the compensatory response is conditioned, presenting the cues without the drug leaves the push-back running unopposed. The result feels like the drug's mirror: a stimulant's familiar setting without the stimulant can produce fatigue, an opioid's without the opioid can produce aches. This is one route into situational withdrawal.": (
+        "一旦代偿反应被条件化了，只给信号不给药，反向调整就会在没有对手的情况下运行。感觉就像药效的反面：兴奋剂的熟悉环境里没有兴奋剂，可能会产生疲惫感；阿片的没有阿片，可能会出现疼痛。这是情境性戒断的一条路径。",
+        "一旦代償反應被條件化了，只給訊號不給藥，反向調整就會在沒有對手的情況下運行。感覺就像藥效的反面：興奮劑的熟悉環境裡沒有興奮劑，可能會產生疲憊感；鴉片的沒有鴉片，可能會出現疼痛。這是情境性戒斷的一條路徑。",
+    ),
+    "Some tolerance only develops if you experience the effect": (
+        "有些耐受只有在你体验到那种效果时才会形成",
+        "有些耐受只有在你體驗到那種效果時才會形成",
+    ),
+    "Tolerance to amphetamine's appetite suppression does not build at all unless food is available while intoxicated — the tolerance is an instrumental response, not a receptor count (Carlton & Wolgin 1971). This means tolerance to one effect of a drug can exist while tolerance to another has never started.": (
+        "安非他命对食欲的抑制，除非在药效期间有食物可吃，否则根本不会形成耐受——这种耐受是一种工具性反应，不是受体数量问题（Carlton & Wolgin 1971）。这意味着对一种药的某个效果可以有耐受，而对另一个效果的耐受可能从未开始。",
+        "安非他命對食慾的抑制，除非在藥效期間有食物可吃，否則根本不會形成耐受——這種耐受是一種工具性反應，不是受體數量問題（Carlton & Wolgin 1971）。這意味著對一種藥的某個效果可以有耐受，而對另一個效果的耐受可能從未開始。",
+    ),
+    "The learned part of tolerance": ("耐受中学习来的部分", "耐受中學習來的部分"),
+    "Siegel 1976; Siegel, Hinson, Krank & McCully 1982; Weise-Kelly & Siegel 2001; Carlton & Wolgin 1971.": (
+        "Siegel 1976；Siegel、Hinson、Krank 和 McCully 1982；Weise-Kelly 和 Siegel 2001；Carlton 和 Wolgin 1971。",
+        "Siegel 1976；Siegel、Hinson、Krank 和 McCully 1982；Weise-Kelly 和 Siegel 2001；Carlton 和 Wolgin 1971。",
+    ),
+    "Model boundary": ("模型边界", "模型邊界"),
+    "What this number does not include": ("这个数字没有包含的部分", "這個數字沒有包含的部分"),
+    "Every layer above is pharmacodynamic — it is computed from your dose log and the clock. A large part of real tolerance is associative and context-specific: it attaches to the setting, the ritual and the cues around a dose, which is why tolerance measured in a familiar context can be substantially higher than tolerance in an unfamiliar one, and why the same cues without the dose can produce the opposite of the drug's effect. Piru cannot see any of that, because it does not record where you were or what you were doing. Treat the shift as a pharmacological estimate, not a total.": (
+        "上面所有层级都是药效动力学层面的——根据你的剂量记录和时间来计算。真实耐受中有很大一部分是联结性的、跟环境绑定的：它和用药时的地点、仪式、周围的线索绑在一起。这就是为什么在熟悉环境下测到的耐受可以远高于陌生环境，也是为什么同样的线索、没有药物时，身体可以产生药效的反面。Piru 看不到这些，因为它不记录你在哪里、在做什么。把这个数字当作药理学估计来看，不是总量。",
+        "上面所有層級都是藥效動力學層面的——根據你的劑量記錄和時間來計算。真實耐受中有很大一部分是聯結性的、跟環境綁定的：它和用藥時的地點、儀式、周圍的線索綁在一起。這就是為什麼在熟悉環境下測到的耐受可以遠高於陌生環境，也是為什麼同樣的線索、沒有藥物時，身體可以產生藥效的反面。Piru 看不到這些，因為它不記錄你在哪裡、在做什麼。把這個數字當作藥理學估計來看，不是總量。",
+    ),
     "Recovery timescales and behaviour are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are.": (
         "每一类受体的恢复时间和表现，都是照着已发表的文献校准的。每条下面的小字是校准依据；徽章表示这些动力学数据有多可靠。",
         "每一類受體的恢復時間和表現，都是照著已發表的文獻校準的。每條下面的小字是校準依據；徽章表示這些動力學數據有多可靠。",
@@ -3073,9 +3104,9 @@ T = {
         "结合亲和力来自 NIMH PDSP Kᵢ 数据库和原始文献；恢复动力学则照着已发表的人体研究校准。每个参数都标了可信度，凡是用了类别默认值的都会标出来。卡片是根据你的剂量记录和这些经过整理的数值预测出来的——是估计，不是对你本人的实测。",
         "結合親和力來自 NIMH PDSP Kᵢ 資料庫和原始文獻；恢復動力學則照著已發表的人體研究校準。每個參數都標了可信度，凡是用了類別預設值的都會標出來。卡片是根據你的劑量記錄和這些經過整理的數值預測出來的——是估計，不是對你本人的實測。",
     ),
-    "Real tolerance that drops after a break — which is exactly what makes returning to an old dose dangerous.": (
-        "实打实的耐受，停一阵子就会掉——这正是为什么回到以前的剂量会很危险。",
-        "實打實的耐受，停一陣子就會掉——這正是為什麼回到以前的劑量會很危險。",
+    "Real tolerance that drops after a break or a change of setting — which is exactly what makes returning to an old dose dangerous.": (
+        "实打实的耐受，停一阵子或换了环境就会掉——这正是为什么回到以前的剂量会很危险。",
+        "實打實的耐受，停一陣子或換了環境就會掉——這正是為什麼回到以前的劑量會很危險。",
     ),
     "Builds its own tolerance, and can also slow opioid tolerance when taken together.": (
         "自己会形成耐受，和阿片一起用时，还能减慢阿片耐受的形成。",
@@ -3158,9 +3189,9 @@ T = {
         "如果现在停用，大部分会在 %@ 内消退——最深的那部分要几个月。",
         "如果現在停用，大部分會在 %@ 內消退——最深的那部分要幾個月。",
     ),
-    "After a break, tolerance drops fast — a dose that felt fine before can stop your breathing. Restart low.": (
-        "停一阵子后耐受会掉得很快——以前没事的剂量，这时可能让你停止呼吸。重新开始一定要减量。",
-        "停一陣子後耐受會掉得很快——以前沒事的劑量，這時可能讓你停止呼吸。重新開始一定要減量。",
+    "After a break or in a new setting, tolerance drops — a dose that felt fine before can stop your breathing. Restart low.": (
+        "停一阵子或换了环境后耐受会掉——以前没事的剂量，这时可能让你停止呼吸。重新开始一定要减量。",
+        "停一陣子或換了環境後耐受會掉——以前沒事的劑量，這時可能讓你停止呼吸。重新開始一定要減量。",
     ),
     "Heavy regular use builds dependence — stopping abruptly can be dangerous. Taper.": (
         "长期大量使用会形成依赖——突然停用可能很危险。要逐渐减量。",
