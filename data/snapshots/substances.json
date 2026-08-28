@@ -26537,8 +26537,7 @@
       "Sedation"
     ],
     "references": [
-      "https://en.wikipedia.org/wiki/Dimenhydrinate",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=37205-111"
+      "https://en.wikipedia.org/wiki/Dimenhydrinate"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -26805,8 +26804,7 @@
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/08495s041lbl.pdf",
       "https://en.wikipedia.org/wiki/Diphenhydramine",
-      "Pharmacokinetics of diphenhydramine and a demethylated metabolite following intravenous and oral administration",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=55910-205"
+      "Pharmacokinetics of diphenhydramine and a demethylated metabolite following intravenous and oral administration"
     ],
     "data_gaps": []
   },
@@ -32005,7 +32003,7 @@
     "has_dose_data": true,
     "has_duration_data": false,
     "has_protocol_dosing": false,
-    "half_life_minutes": 2100.0,
+    "half_life_minutes": 1800.0,
     "mechanism_summary": "Highly selective inhibitor of the fungal cytochrome P450 14-α-demethylase enzyme responsible for the conversion of lanosterol to ergosterol, which is an important component of fungal cell membrane formation.",
     "effects": [],
     "references": [
@@ -39836,7 +39834,7 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": 705.0,
+    "half_life_minutes": 648.0,
     "mechanism_summary": "Peripheral μ-Opioid Receptor Agonist",
     "effects": [],
     "references": [
@@ -56493,8 +56491,7 @@
     "mechanism_summary": "β2-Adrenergic Receptor Agonist (Short-Acting Bronchodilator)",
     "effects": [],
     "references": [
-      "FDA label for Albuterol Sulfate Inhalation Aerosol (albuterol sulfate), Clinical Pharmacology 12.2 — terminal t½ ≈ 6 hours",
-      "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=21695-423"
+      "FDA label for Albuterol Sulfate Inhalation Aerosol (albuterol sulfate), Clinical Pharmacology 12.2 — terminal t½ ≈ 6 hours"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
