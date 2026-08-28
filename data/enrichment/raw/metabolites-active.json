@@ -1845,6 +1845,21 @@
         "reference": "doi:10.1097/FPC.0000000000000376",
         "metabolite_mechanism_vs_parent": "scaled",
         "metabolite_potency_target": "DAT"
+      },
+      {
+        "enzyme": "Carboxylesterase (transesterification, requires concurrent ethanol)",
+        "metabolite_name": "Ethylphenidate",
+        "metabolite_active": true,
+        "metabolite_half_life_min": null,
+        "metabolite_half_life_range_min": null,
+        "formation_fraction_pct": null,
+        "metabolite_tmax_min": null,
+        "metabolite_potency_vs_parent_pct": 21,
+        "metabolite_potency_basis": "in_vitro",
+        "metabolite_potency_target": "DAT",
+        "reference": "pmid:10820132",
+        "metabolite_mechanism_vs_parent": "scaled",
+        "notes": "Formation quantified by Markowitz 2000 (pmid:10820132) in 6 healthy subjects given 20 mg oral methylphenidate plus 0.6 g/kg ethanol 30 min later: ethylphenidate AUC was 2.3 +/- 1.3% of methylphenidate's (1.2 +/- 0.7 vs 48 +/- 12 ng/ml/h). That is a systemic-exposure ratio, NOT a dose mass-balance formation fraction, which is why formation_fraction_pct is null here; the paper's other percentage (0.02 +/- 0.1% urinary recovery over 0-6 h) is a partial renal window with an SD larger than its mean, and neither figure is comparable to the ritalinic-acid row's clearance-based 70%. DAT potency is from Patrick 2005 (pmid:15828826), racemic vs racemic in the same HEK-hDAT uptake assay: ethylphenidate IC50 95 nM against methylphenidate's 19.9 nM, so 21%. Read that number with its enantiomer caveat: (+)-ethylphenidate is IC50 27 nM against (-)-ethylphenidate's 1730 nM, roughly 64-fold, and the metabolite this pathway actually produces in human plasma is enantioenriched toward the weak (-)-isomer -- so 21% probably overstates what forms."
       }
     ]
   },

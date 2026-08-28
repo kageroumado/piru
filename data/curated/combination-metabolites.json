@@ -9,8 +9,19 @@
       "metaboliteName": "Cocaethylene",
       "confidence": "medium",
       "precursors": [
-        ["cocaine", "crack", "crack cocaine", "cocaine hydrochloride", "coke", "benzoylmethylecgonine"],
-        ["ethanol", "alcohol", "ethyl alcohol"]
+        [
+          "cocaine",
+          "crack",
+          "crack cocaine",
+          "cocaine hydrochloride",
+          "coke",
+          "benzoylmethylecgonine"
+        ],
+        [
+          "ethanol",
+          "alcohol",
+          "ethyl alcohol"
+        ]
       ],
       "notes": "Graded by the 2026-06-22 Foundation-C evidence run, which found no shippable human Vd or clearance — only canine numbers below the human floor. Without a Vd the species gets no absolute-exposure curve, so it is disclosed rather than simulated. The same run traced the 18-25x sudden-death figure to a single 1997 narrative review with no primary cohort."
     },
@@ -19,10 +30,22 @@
       "metaboliteName": "Ethylphenidate",
       "confidence": "low",
       "precursors": [
-        ["methylphenidate", "ritalin", "concerta", "mph", "dexmethylphenidate", "focalin", "d-methylphenidate"],
-        ["ethanol", "alcohol", "ethyl alcohol"]
+        [
+          "methylphenidate",
+          "ritalin",
+          "concerta",
+          "mph",
+          "dexmethylphenidate",
+          "focalin",
+          "d-methylphenidate"
+        ],
+        [
+          "ethanol",
+          "alcohol",
+          "ethyl alcohol"
+        ]
       ],
-      "notes": "The structural analogue of cocaethylene: CES1 transesterifies the methyl ester to an ethyl ester only while ethanol is present. Human PK is thinner than cocaethylene's, hence the lower confidence. No metabolism row names it yet, so the conditional flag currently reaches zero rows and the guard rests on this table alone."
+      "notes": "The structural analogue of cocaethylene: CES1 transesterifies the methyl ester to an ethyl ester only while ethanol is present. Human PK is thinner than cocaethylene's, hence the lower confidence. Markowitz 2000 (pmid:10820132) measured it in 6 subjects given methylphenidate plus ethanol; the metabolism row carries the numbers and their caveats."
     }
   ]
 }
