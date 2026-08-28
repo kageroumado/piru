@@ -157,7 +157,7 @@
   {
     "name": "7-Hydroxymitragynine",
     "summary": "μ-Opioid Receptor Agonist (Kratom Alkaloid)",
-    "description": "Activates μ-opioid receptors, inhibiting adenylyl cyclase, opening inwardly rectifying potassium channels and closing voltage-gated calcium channels — reducing neuronal excitability and neurotransmitter release, and producing analgesia, euphoria, respiratory depression and slowed gastrointestinal transit. It is also what mitragynine becomes: Kruegel et al. showed CYP3A isoforms convert mitragynine to 7-OH in mouse and human liver preparations, and that the brain concentrations reached account for most or all of mitragynine's opioid-mediated analgesia, while mitragynine itself accumulates far above its own binding affinity without appearing to activate the receptor directly. So kratom's opioid effect runs through a conversion step and depends on CYP3A activity; 7-OH taken directly does not. In the leaf it is a trace alkaloid — under 0.05% of dry mass, against mitragynine's 1–2%.",
+    "description": "Activates μ-opioid receptors, producing analgesia, euphoria, respiratory depression and slowed gastrointestinal transit. It is also what mitragynine becomes: CYP3A isoforms convert mitragynine to 7-OH, and the brain concentrations reached that way account for most or all of mitragynine's opioid-mediated analgesia, while mitragynine itself accumulates far above its own binding affinity without appearing to activate the receptor directly (Kruegel et al.). So kratom's opioid effect runs through a conversion step, and depends on CYP3A activity; 7-OH taken directly does not. In the leaf it is a trace alkaloid — under 0.05% of dry mass, against mitragynine's 1–2%.",
     "references": [
       "10.1021/acscentsci.9b00141"
     ]
