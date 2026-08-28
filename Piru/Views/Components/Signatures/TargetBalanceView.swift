@@ -5,7 +5,8 @@ import SwiftUI
 /// 5-HT2A gates the visual, perceptual arm; 5-HT1A gates the warm, bodily one. One ratio is why
 /// 5-MeO-DMT produces an overwhelming, largely non-visual whole-body state where DMT draws intricate
 /// scenery — and it is a *ratio*, which is precisely why both values have to come from one
-/// experiment. When they don't, the arc is withheld and the card falls back to 5-HT2A alone.
+/// experiment. When they don't, the arc is not drawn and the card shows 5-HT2A alone — no note in
+/// its place: a sentence about a missing rendering is still a row asking to be read.
 struct TargetBalanceView: View {
     let model: TargetBalanceModel
     let accent: Color
@@ -23,16 +24,6 @@ struct TargetBalanceView: View {
                 poles
             } else {
                 BalanceReadout(model: model, accent: accent)
-            }
-
-            if let reason = model.withheldReason {
-                Text(reason)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(10)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Theme.secondaryLabel.opacity(0.06), in: RoundedRectangle(cornerRadius: 10))
             }
 
             if let provenance = model.provenance {

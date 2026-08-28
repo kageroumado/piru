@@ -325,9 +325,12 @@ struct ClassSignatureTests {
             Issue.record("expected a balance rendering")
             return
         }
-        // No arc: the 5-HT2A value stands alone and the card says why.
+        // No arc — a ratio across two studies is not a ratio. The 5-HT2A value stands
+        // alone, with no note in place of the missing arc: the card shows what it has.
         #expect(model.focus == nil)
-        #expect(model.withheldReason != nil)
+        #expect(model.ticks.isEmpty)
+        #expect(model.ratioText.isEmpty)
+        #expect(!model.valueText.isEmpty, "the 5-HT2A value is what remains, and it must be shown")
     }
 
     @Test

@@ -318,11 +318,6 @@ nonisolated extension ClassSignature {
                 ratioText: "",
                 valueText: concentrationText(ki, basis: .ki),
                 provenance: provenance(nil, fallback: fallback, basis: .ki),
-                withheldReason: """
-                No single study in our data measured 5-HT2A and 5-HT1A for this compound on one \
-                assay, so the balance is withheld — a ratio built from two studies is not a ratio. \
-                The 5-HT2A value alone is shown.
-                """,
             ))
         }
 
@@ -336,7 +331,6 @@ nonisolated extension ClassSignature {
             ratioText: ratioText(ratio),
             valueText: "\(group.basis.symbol) \(shortNanomolar(oneValue)) · \(shortNanomolar(twoValue))",
             provenance: provenance(group, fallback: two, basis: group.basis),
-            withheldReason: nil,
         ))
     }
 
@@ -602,14 +596,14 @@ nonisolated struct TargetBalanceModel: Sendable {
         }
     }
 
-    /// `nil` when no single study measured both receptors — the card then shows
-    /// ``valueText`` alone and prints ``withheldReason``.
+    /// `nil` when no single study measured both receptors — the arc is not drawn and the card
+    /// shows ``valueText`` alone. No note explains the absence: a ratio built from two studies is
+    /// not a ratio, and the card's answer to that is to show the one value it has, not a paragraph.
     let focus: Tick?
     let ticks: [Tick]
     let ratioText: String
     let valueText: String
     let provenance: SignatureProvenance?
-    let withheldReason: LocalizedStringResource?
 
     var leadingPole: String {
         SignatureTarget.serotonin2A.label
