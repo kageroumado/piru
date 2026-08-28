@@ -365,8 +365,22 @@ nonisolated enum ReceptorClasses {
         /// Confidence in *these kinetics* (not the affinity data) — see the type doc.
         let confidence: ConfidenceTier
         /// CNS-distribution volume-of-distribution fallback (L/kg), used (flagged ``ConfidenceTier/unverified``)
-        /// when a substance in this class has no graded Vd of its own — e.g. LSD, which the evidence
-        /// run left without a Vd.
+        /// when a substance in this class has no graded Vd of its own — the LSD analogs, the synthetic
+        /// cannabinoids, most of the 2C-x and substituted-tryptamine families. 399 substances with
+        /// binding data have no Vd of their own, so this is load-bearing.
+        ///
+        /// **Each value is the class's representative substance's Vd, hand-copied**, and copies drift:
+        /// `class_representatives` names the substance for seven of these classes and the DB carries its
+        /// cited Vd, so the durable fix is to read that row rather than restate it here. Measured
+        /// 2026-08-28, ten of thirteen still agree closely (gaba 1.1 = diazepam, nicotinic 2.6 =
+        /// nicotine, adenosine 0.6 ≈ caffeine 0.69, catecholamine 4.0 ≈ amphetamine); the ones that
+        /// drifted are the classes with no representative to copy from.
+        ///
+        /// **A single number is not defensible for every class.** Inside `psychedelic5HT2A` the DB's own
+        /// cited values span 15× — LSD 0.27 L/kg against psilocin 3.97 — and 82 substances take the
+        /// 4.0 default, which is psilocin's. Concentration scales as 1/Vd, so an LSD analog resolves at
+        /// roughly a fifteenth of what its parent's own Vd implies. Whether a class this heterogeneous
+        /// should have a default at all is an open question; see `Specs/found-defects.md`.
         let classDefaultVdLPerKg: Double
         /// Human-readable provenance/calibration note.
         let sourceNote: String
@@ -541,6 +555,17 @@ nonisolated enum ReceptorClasses {
                 deepShiftMax: 0, tauDeepMinutes: 3 * T.month,
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .none, confidence: .low,
+                // THC's steady-state Vd, and the *newer* of the two figures its own review gives:
+                // Huestis 2007 (pmid:17712819) says the Vd "is large, ca. 10 l/kg" and then that "more
+                // recently, with the benefit of advanced analytical techniques, the steady state Vd
+                // value of THC was estimated to be 3.4 l/kg". Lucas 2018 (doi:10.1111/bcp.13710)
+                // reports the same and ties it to inhaled dosing. Do not "correct" this back to 10 —
+                // that is the superseded number, and the DB's Cannabis row carried it until 2026-08-28.
+                //
+                // It has no evidentiary basis for the ~30 synthetic cannabinoids that take it (JWH-,
+                // AM-, ADB-, 5F- series): they share CB1 affinity with THC and nothing else — not
+                // scaffold, not lipophilicity, not protein binding. That is an argument for this class
+                // having no default at all, not for a different number.
                 classDefaultVdLPerKg: 3.4,
                 sourceNote: "§3: fast, real, recoverable CB1 tolerance — a redose pool + a days-scale adaptive shift. Grade low.",
                 safetyEndpoint: nil,

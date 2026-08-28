@@ -67,13 +67,14 @@
           "tmax_min": 10,
           "auc_0_inf_ng_h_per_ml": null,
           "half_life_min": 1800,
-          "vd_l_per_kg": 10,
+          "vd_l_per_kg": 3.4,
           "clearance_ml_per_min_per_kg": 17,
           "protein_binding_pct": 97,
           "dose_in_study_mg": 34,
           "subject_n": 6,
           "subject_demographics": "occasional cannabis users",
-          "reference": "pmid:17712819"
+          "reference": "pmid:17712819",
+          "notes": "Vd corrected 10 -> 3.4 L/kg on 2026-08-28, from the same review this row already cites. Huestis 2007 (pmid:17712819) gives both figures one sentence apart and says which supersedes which: 'The distribution volume (Vd) of THC is large, ca. 10 l/kg, despite the fact that it is 95-99% protein-bound in plasma' and then 'More recently, with the benefit of advanced analytical techniques, the steady state Vd value of THC was estimated to be 3.4 l/kg'. The row was carrying the superseded number. Lucas 2018 (doi:10.1111/bcp.13710) independently reports the same value and pins its derivation to this route: 'Vdss 3.4 l kg-1 (calculated following inhaled administration)'. Do not restore 10 L/kg -- it is the older estimate from this very paper, not a competing measurement. Note the quantity is Vdss; CBN's 50 L/kg row is a Vd(gamma) after IV dosing and CBD's published ~32 L/kg is a Vd(beta), so none of the three are directly comparable."
         },
         {
           "route": "oral",
