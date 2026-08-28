@@ -216,14 +216,21 @@ struct MetabolicModulationTests {
     }
 
     @Test
-    func `The contraceptive caution generalizes to every moderate-or-stronger 3A4 inducer`() {
+    func `The contraceptive caution generalizes to every 3A4 inducer, weak ones included`() {
         // It is a class property of being a 3A4 inducer, not a modafinil special case,
-        // so it must hold for every rule in the table that qualifies.
+        // so it must hold for every rule in the table that qualifies — and strength is
+        // deliberately not part of qualifying. A `>= .moderate` filter here silently
+        // dropped modafinil and armodafinil the moment their labels re-graded them
+        // weak; see the prohibition on `contraceptiveEfficacyCaution`.
         let catalog = store.enzymeModulators()
         let inducers = catalog.filter {
-            $0.origin == .substance && $0.enzyme == .cyp3a4 && $0.direction == .induces && $0.strength >= .moderate
+            $0.origin == .substance && $0.enzyme == .cyp3a4 && $0.direction == .induces
         }
         #expect(!inducers.isEmpty)
+        #expect(
+            inducers.contains { $0.strength == .weak },
+            "the weak-inducer case this gate exists to keep is gone; the test no longer proves anything",
+        )
         for inducer in inducers {
             let reachable = inducer.matchers.contains {
                 MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: $0, in: catalog) != nil

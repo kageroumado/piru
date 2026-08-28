@@ -271,17 +271,25 @@ nonisolated enum MetabolicModulation {
     /// When `name` is a meaningful **CYP3A4 inducer**, the catalog entry behind a heads-up that it can
     /// lower the levels — and thus the efficacy — of systemic hormonal contraception. The estrogen and
     /// progestin in the combined pill, patch, ring, implant and hormonal IUD are CYP3A4 substrates, so
-    /// any drug that meaningfully induces 3A4 (rifampicin, carbamazepine, St John's Wort, modafinil,
-    /// armodafinil) can reduce them. This is a *class property* of being a 3A4 inducer, derived from the
-    /// catalog rather than hard-coded per drug. Weak inducers are excluded (the threshold is `.moderate`).
-    /// Returns `nil` for everything that is not such an inducer.
+    /// any drug that induces 3A4 (rifampicin, carbamazepine, St John's Wort, modafinil, armodafinil) can
+    /// reduce them. This is a *class property* of being a 3A4 inducer, derived from the catalog rather
+    /// than hard-coded per drug. Returns `nil` for everything that is not such an inducer.
+    ///
+    /// **There is deliberately no `strength` threshold here, and adding one back is a safety
+    /// regression.** This filtered on `>= .moderate` while modafinil and armodafinil were graded
+    /// moderate; when they were re-graded `weak` against their own FDA labels — which say in as many
+    /// words that modafinil "is a weak inducer of CYP3A activity" — the threshold silently dropped the
+    /// two drugs this caution's own doc comment names. The band and the risk come apart because they
+    /// measure different things: the band grades how hard the inducer pushes, while contraceptive
+    /// failure turns on how little margin the *substrate* has. The same label that grades modafinil weak
+    /// tells patients to use an alternative contraceptive method during treatment and for a month after.
     static func contraceptiveEfficacyCaution(forSubstance name: String, in catalog: [Modulator]) -> Modulator? {
         // Canonicalize through the shared alias table so a brand name
         // ("Equetro") matches its compound's catalog entry.
         let key = PharmacologyNameKey.canonical(name, aliases: PharmacologyNameKey.sharedAliases)
         return catalog.first {
             $0.origin == .substance && $0.enzyme == .cyp3a4 && $0.direction == .induces
-                && $0.strength >= .moderate && $0.matchers.contains(key)
+                && $0.matchers.contains(key)
         }
     }
 
