@@ -48,6 +48,30 @@ struct MetabolicModulationTests {
         #expect(MetabolicModulation.Enzyme.all(inDBString: "UGT2B7").isEmpty)
     }
 
+    @Test
+    func `A clause the cell calls minor contributes no enzyme`() {
+        // Every string here is a real `metabolism.enzyme` cell. The qualifier
+        // scopes over its own clause, not the whole cell — the first case would
+        // otherwise lose the two enzymes it explicitly calls major.
+        #expect(
+            MetabolicModulation.Enzyme.major(inDBString: "CYP3A4, CYP1A2 (major); CYP2D6 (minor)")
+                == [.cyp3a4, .cyp1a2],
+        )
+        #expect(
+            MetabolicModulation.Enzyme.major(
+                inDBString: "CYP2D6 (dominant; CYP2C8/CYP2E1/CYP2A6 minor — CYP1A2 contribution is negligible)",
+            ) == [.cyp2d6],
+        )
+        // The whole cell is one minor pathway, so nothing in it is major.
+        #expect(
+            MetabolicModulation.Enzyme.major(inDBString: "CYP2B6 / CYP1A2 / CYP3A4 (minor N-demethylation)")
+                .isEmpty,
+        )
+        // An unqualified cell is unchanged by the split.
+        #expect(MetabolicModulation.Enzyme.major(inDBString: "CYP2C19, CYP3A4") == [.cyp2c19, .cyp3a4])
+        #expect(MetabolicModulation.Enzyme.major(inDBString: "CYP2D6 (major)") == [.cyp2d6])
+    }
+
     // MARK: - Major-enzyme detection (pure)
 
     @Test
@@ -59,6 +83,17 @@ struct MetabolicModulationTests {
             Self.metab("UGT2B7", 90), // not curated → ignored
         ])
         #expect(enzymes == [.cyp3a4, .cyp2d6])
+    }
+
+    @Test
+    func `An unquantified pathway the cell calls minor is not promoted`() {
+        // The generous unquantified default exists because most cells carry no
+        // fraction; it must not override the cell saying so in words.
+        let enzymes = MetabolicModulation.majorEnzymes(metabolism: [
+            Self.metab("CYP2D6", nil),
+            Self.metab("CYP2B6 / CYP1A2 / CYP3A4 (minor N-demethylation)", nil),
+        ])
+        #expect(enzymes == [.cyp2d6])
     }
 
     // MARK: - The curated table itself

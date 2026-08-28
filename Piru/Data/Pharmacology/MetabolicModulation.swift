@@ -50,6 +50,29 @@ nonisolated enum MetabolicModulation {
             let upper = raw.uppercased()
             return Set(Enzyme.allCases.filter { upper.contains($0.rawValue) })
         }
+
+        /// The enzymes a cell names as a **major** route, dropping those its own prose calls minor.
+        ///
+        /// One cell routinely mixes weights — `CYP3A4, CYP1A2 (major); CYP2D6 (minor)`,
+        /// `CYP2D6 (dominant; CYP2C8/CYP2E1/CYP2A6 minor — CYP1A2 contribution is negligible)`. Scanning
+        /// the whole cell with ``all(inDBString:)`` promoted every enzyme in it, so a pathway the source
+        /// wrote down as *negligible* fanned modulator callouts out as though it were dominant. Splitting
+        /// on the punctuation those qualifiers scope over, then dropping a whole clause that carries one,
+        /// is what the cell already means.
+        ///
+        /// A clause with no enzyme token contributes nothing, so an unparseable cell reads as silence
+        /// rather than as a guess.
+        static func major(inDBString raw: String) -> Set<Enzyme> {
+            raw.split(whereSeparator: { ";—–".contains($0) })
+                .filter { clause in
+                    let lowered = clause.lowercased()
+                    return !minorQualifiers.contains { lowered.contains($0) }
+                }
+                .reduce(into: Set<Enzyme>()) { $0.formUnion(all(inDBString: String($1))) }
+        }
+
+        /// Words that demote every enzyme in the clause carrying them.
+        private static let minorQualifiers = ["minor", "negligible", "trace"]
     }
 
     /// A quantified clearance share at or above this percent — or any *unquantified* listed pathway — is
@@ -59,10 +82,14 @@ nonisolated enum MetabolicModulation {
 
     /// The enzymes carrying a *major* share of a substance's clearance, from its `metabolism` rows.
     /// Pure (takes the rows) so it is unit-testable without the store.
+    ///
+    /// Two gates, because a row can say "minor" in either of two places: the quantified share, and the
+    /// prose of the cell itself. Neither subsumes the other — most cells carrying a qualifier have no
+    /// fraction at all, which is why the unquantified default has to be generous.
     static func majorEnzymes(metabolism: [SubstanceStore.MetabolismHit]) -> Set<Enzyme> {
         var result = Set<Enzyme>()
         for hit in metabolism where (hit.fractionOfClearancePct ?? 100) >= majorClearanceThresholdPct {
-            result.formUnion(Enzyme.all(inDBString: hit.enzyme))
+            result.formUnion(Enzyme.major(inDBString: hit.enzyme))
         }
         return result
     }
