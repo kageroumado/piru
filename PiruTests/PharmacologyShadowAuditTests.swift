@@ -12,11 +12,12 @@ import Testing
 /// outright rather than migrated: 221 of its 534 keys were community estimates for compounds with no
 /// published human pharmacokinetics, and the rest duplicated values the DB already resolved.
 ///
-/// The MoA columns are reported separately on purpose: the table is *not*
-/// mostly dead. `resolvedMechanism` deliberately prefers the curated class
-/// templates' binding sets over a noisier measured panel, so only the summary
-/// prose is shadowed where the DB has its own; the receptor dots stay
-/// template-driven for every resolving key.
+/// The MoA columns are reported separately on purpose. `moaProseShadowed` counts keys whose
+/// summary the DB already outranks; `moaTemplateOnlyTargets` counts the receptor targets the
+/// class templates still contribute beyond the DB panel — the payload a migration would have
+/// to carry, and the number that says how much of the table is load-bearing. Both must be
+/// tracked: prose shadowing alone once read as "the table is not mostly dead" while the
+/// templates were silently *dropping* 150 cited DB targets across 67 substances.
 @Suite("Pharmacology shadow audit")
 struct PharmacologyShadowAuditTests {
     struct Counts: Codable, Equatable {
@@ -29,6 +30,9 @@ struct PharmacologyShadowAuditTests {
         var moaUnresolved: Int
         var moaProseShadowed: Int
         var moaNoDBBindings: Int
+        /// Distinct (substance, normalized target) pairs a class template adds on top of the
+        /// DB panel. It can only ever be additive — see `resolvedMechanism`'s binding rule.
+        var moaTemplateOnlyTargets: Int
     }
 
     @MainActor
@@ -39,29 +43,54 @@ struct PharmacologyShadowAuditTests {
         var counts = Counts(
             sourceOrder: store.enabledSourceOrder,
             moaKeys: 0, moaResolving: 0, moaUnresolved: 0, moaProseShadowed: 0, moaNoDBBindings: 0,
+            moaTemplateOnlyTargets: 0,
         )
 
-        var moaIDs: [Int64] = []
+        var resolved: [(key: String, id: Int64)] = []
         for key in MechanismOfActionDatabase.substanceKeys {
             counts.moaKeys += 1
             if let id = store.substanceID(forNameOrAlias: key) {
                 counts.moaResolving += 1
-                moaIDs.append(id)
+                resolved.append((key, id))
             } else {
                 counts.moaUnresolved += 1
             }
         }
 
-        guard !moaIDs.isEmpty else { return counts }
-        let resolvedIDs = moaIDs
-        let (proseIDs, bindingIDs) = try await store.substancesDB.read { db in
-            let list = resolvedIDs.map(String.init).joined(separator: ", ")
+        guard !resolved.isEmpty else { return counts }
+        let moaIDs = resolved.map(\.id)
+        let (proseIDs, bindingIDs, dbTargets) = try await store.substancesDB.read { db in
+            let list = moaIDs.map(String.init).joined(separator: ", ")
             let prose = try Int64.fetchSet(db, sql: "SELECT DISTINCT substance_id FROM mechanisms_summary WHERE substance_id IN (\(list))")
             let bindings = try Int64.fetchSet(db, sql: "SELECT DISTINCT substance_id FROM bindings WHERE substance_id IN (\(list))")
-            return (prose, bindings)
+            // Raw targets: folding them is @MainActor, so it happens after the read.
+            let targets: [(Int64, String)] = try Row
+                .fetchAll(db, sql: "SELECT substance_id, target FROM bindings WHERE substance_id IN (\(list))")
+                .compactMap { row in
+                    guard let id: Int64 = row["substance_id"], let target: String = row["target"] else { return nil }
+                    return (id, target)
+                }
+            return (prose, bindings, targets)
+        }
+        var dbTargetsByID: [Int64: Set<String>] = [:]
+        for (id, target) in dbTargets {
+            dbTargetsByID[id, default: []].insert(SubstanceReadModel.normalizedBindingTarget(target))
         }
         counts.moaProseShadowed = moaIDs.filter { proseIDs.contains($0) }.count
         counts.moaNoDBBindings = moaIDs.filter { !bindingIDs.contains($0) }.count
+
+        // What the templates still buy: targets present on a class template and absent from
+        // the substance's DB panel. Counted per (substance, target) so two keys naming the
+        // same substance (lsd / lsd-25) contribute once.
+        var templateOnly: Set<String> = []
+        for (key, id) in resolved {
+            let dbSet = dbTargetsByID[id] ?? []
+            for binding in MechanismOfActionDatabase.mechanism(for: key)?.bindings ?? [] {
+                let target = SubstanceReadModel.normalizedBindingTarget(binding.target)
+                if !dbSet.contains(target) { templateOnly.insert("\(id)\u{1}\(target)") }
+            }
+        }
+        counts.moaTemplateOnlyTargets = templateOnly.count
 
         return counts
     }

@@ -1,9 +1,10 @@
 {
-  "moaKeys" : 242,
+  "moaKeys" : 226,
   "moaNoDBBindings" : 120,
   "moaProseShadowed" : 179,
   "moaResolving" : 226,
-  "moaUnresolved" : 16,
+  "moaTemplateOnlyTargets" : 309,
+  "moaUnresolved" : 0,
   "sourceOrder" : [
     "piru-curated",
     "peer-review-primary",

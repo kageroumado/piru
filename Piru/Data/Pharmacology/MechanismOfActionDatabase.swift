@@ -28,19 +28,22 @@ enum MechanismOfActionDatabase {
     /// carries them — union-merged with any measured rows by
     /// ``SubstanceStore``. The Swift `substanceData` that this reads via
     /// ``mechanism(for:)`` holds the generic, xcstrings-localized **class
-    /// templates** (SSRI, benzodiazepine, …) mapped per substance; it serves as
-    /// the fallback when the DB has nothing.
+    /// templates** (SSRI, benzodiazepine, …) mapped per substance; it supplies the
+    /// prose when the DB has none, and adds only targets the DB does not carry.
     ///
     /// - **Summary text**: the DB `mechanisms_summary` (non-empty summary on
     ///   `dbMechanism`) wins; otherwise the class-template entry, then the
     ///   per-category fallback.
-    /// - **Bindings**: a class template's bindings (when the substance is
-    ///   class-mapped) win — they're the clean, curated generic set (e.g. the
-    ///   cathinone releaser's DAT/NET/SERT), preferred over a noisier measured
-    ///   panel. Otherwise the DB binding set (curated ∪ measured — the relocated
-    ///   per-substance data, which is not class-mapped), then the category
-    ///   fallback. Class-mapped and relocated substances are disjoint, so this
-    ///   never hides relocated curated bindings behind a template.
+    /// - **Bindings**: the DB set (curated ∪ measured, already deduped per
+    ///   receptor and tier-ordered by ``SubstanceStore``) comes first, then the
+    ///   class template contributes only the targets the DB does not carry;
+    ///   the category fallback applies when both are empty.
+    ///
+    ///   **A class template must never replace the DB panel.** It is a
+    ///   hand-written generic summary of a whole class, so substituting it drops
+    ///   every per-substance target the class does not share — promethazine's
+    ///   D2/M1–M5, ketamine's μ-opioid and σ1, diazepam's α-subunit rows. It is
+    ///   additive here for exactly that reason.
     ///
     /// Pure and deterministic so it can be unit-tested without a database.
     static func resolvedMechanism(
@@ -55,29 +58,17 @@ enum MechanismOfActionDatabase {
         let textSource: MechanismOfAction? = hasDBSummary ? dbMechanism : (template ?? categoryMoa ?? dbMechanism)
         guard let textSource else { return nil }
 
-        let baseBindings: [ReceptorBinding] = if let template, !template.bindings.isEmpty {
-            template.bindings
-        } else if let dbBindings = dbMechanism?.bindings, !dbBindings.isEmpty {
-            dbBindings
-        } else {
-            categoryMoa?.bindings ?? textSource.bindings
+        // The DB rows carry their own measured tier and action, so the strength dots
+        // stay on one systematic scale (`ReceptorStrength`) without a second merge
+        // pass — ketamine's NMDA reads moderate from its ~300 nM Kᵢ because that IS
+        // the row shown, and the template's downstream AMPA/mTOR arrive as additions.
+        var seen = Set<String>()
+        var bindings: [ReceptorBinding] = []
+        for binding in (dbMechanism?.bindings ?? []) + (template?.bindings ?? [])
+            where seen.insert(SubstanceReadModel.normalizedBindingTarget(binding.target)).inserted {
+            bindings.append(binding)
         }
-
-        // The strength dots are a single systematic scale (`ReceptorStrength`, measurement-aware bands).
-        // A class template / hardcoded entry supplies the clean target set, actions, and editorial tiers,
-        // but where the DB carries a *measured* tier for that target it WINS — so the Mechanism card's
-        // dots match the Receptor Literature card (e.g. ketamine NMDA reads moderate from its ~300 nM Kᵢ,
-        // not the template's "primary"). Targets the DB doesn't measure (downstream AMPA/mTOR) keep the
-        // template tier. `dbMechanism.bindings` already encodes measured-wins in `SubstanceStore`.
-        let dbTierByTarget = Dictionary(
-            (dbMechanism?.bindings ?? []).map { (SubstanceReadModel.normalizedBindingTarget($0.target), $0.affinity) },
-            uniquingKeysWith: { max($0, $1) },
-        )
-        let bindings = baseBindings.map { binding -> ReceptorBinding in
-            guard let dbTier = dbTierByTarget[SubstanceReadModel.normalizedBindingTarget(binding.target)],
-                  dbTier != binding.affinity else { return binding }
-            return ReceptorBinding(target: binding.target, action: binding.action, affinity: dbTier)
-        }
+        if bindings.isEmpty { bindings = categoryMoa?.bindings ?? textSource.bindings }
 
         return MechanismOfAction(
             summary: textSource.summary,
@@ -455,9 +446,7 @@ enum MechanismOfActionDatabase {
             d[n] = maoi
         }
         d["moclobemide"] = rima
-        d["selegiline"] = maobSelective; d["rasagiline"] = maobSelective
-
-        // ── Unique Antidepressants ─────────────────────────────────
+        d["selegiline"] = maobSelective
 
         // ── Typical Antipsychotics ─────────────────────────────────
         for n in ["haloperidol", "chlorpromazine", "fluphenazine", "perphenazine", "thioridazine", "trifluoperazine", "loxapine", "pimozide", "thiothixene", "droperidol"] {
@@ -480,7 +469,7 @@ enum MechanismOfActionDatabase {
         }
 
         // ── Barbiturates ──────────────────────────────────────────
-        for n in ["phenobarbital", "pentobarbital", "secobarbital", "amobarbital", "butalbital", "thiopental", "methohexital"] {
+        for n in ["phenobarbital", "pentobarbital", "secobarbital", "amobarbital", "thiopental"] {
             d[n] = barb
         }
 
@@ -503,7 +492,6 @@ enum MechanismOfActionDatabase {
         for n in ["meperidine", "pethidine"] {
             d[n] = opioidFull
         }
-        d["levorphanol"] = opioidFull
 
         // ── Stimulants ────────────────────────────────────────────
         for n in ["amphetamine", "dextroamphetamine"] {
@@ -530,7 +518,6 @@ enum MechanismOfActionDatabase {
             "3-cmc",
             "3-chloromethcathinone",
             "4-cec",
-            "3-mmc",
             "n-ethylpentylone",
         ] {
             d[n] = cathinoneReleaser
@@ -542,19 +529,14 @@ enum MechanismOfActionDatabase {
             "a-pvp",
             "α-php",
             "a-php",
-            "α-pvt",
             "alpha-pyrrolidinohexiophenone",
             "mdphp",
             "md-php",
-            "mdpep",
             "naphyrone",
             "pyrovalerone",
-            "mphp",
         ] {
             d[n] = cathinonePyrovalerone
         }
-
-        // ── Empathogens ───────────────────────────────────────────
 
         // ── Classical Psychedelics ─────────────────────────────────
         for n in ["lsd", "lsd-25"] {
@@ -603,8 +585,6 @@ enum MechanismOfActionDatabase {
             d[n] = nmdaDissociative
         }
 
-        // ── Depressants ───────────────────────────────────────────
-
         // ── Cannabinoids ──────────────────────────────────────────
         for n in ["nabilone", "dronabinol"] {
             d[n] = cannabinoidAgonist
@@ -616,8 +596,6 @@ enum MechanismOfActionDatabase {
             d[n] = gabapentinoid
         }
 
-        // ── Mood Stabilizers ──────────────────────────────────────
-
         // ── Analgesics / NSAIDs ───────────────────────────────────
         for n in ["ibuprofen", "naproxen", "diclofenac"] {
             d[n] = nsaid
@@ -625,9 +603,7 @@ enum MechanismOfActionDatabase {
         for n in ["indomethacin", "piroxicam", "meloxicam"] {
             d[n] = nsaid
         }
-        for n in ["ketorolac", "mefenamic acid"] {
-            d[n] = nsaid
-        }
+        d["ketorolac"] = nsaid
 
         // ── Antihistamines ────────────────────────────────────────
         for n in ["diphenhydramine", "hydroxyzine"] {
@@ -660,9 +636,7 @@ enum MechanismOfActionDatabase {
         for n in ["atenolol", "bisoprolol"] {
             d[n] = betaBlocker
         }
-        for n in ["nadolol", "timolol"] {
-            d[n] = betaBlocker
-        }
+        d["nadolol"] = betaBlocker
         for n in ["nebivolol", "labetalol"] {
             d[n] = betaBlocker
         }
@@ -671,42 +645,28 @@ enum MechanismOfActionDatabase {
         for n in ["lisinopril", "enalapril"] {
             d[n] = aceInhibitor
         }
-        for n in ["ramipril", "captopril"] {
-            d[n] = aceInhibitor
-        }
-        for n in ["benazepril", "fosinopril"] {
-            d[n] = aceInhibitor
-        }
-        for n in ["quinapril", "perindopril"] {
-            d[n] = aceInhibitor
-        }
+        d["ramipril"] = aceInhibitor
+        d["benazepril"] = aceInhibitor
+        d["quinapril"] = aceInhibitor
 
         // ── ARBs ──────────────────────────────────────────────────
         for n in ["losartan", "valsartan", "irbesartan"] {
             d[n] = arb
         }
-        for n in ["candesartan", "olmesartan", "telmisartan"] {
-            d[n] = arb
-        }
+        d["olmesartan"] = arb
 
         // ── Calcium Channel Blockers ──────────────────────────────
         for n in ["amlodipine", "nifedipine", "felodipine"] {
             d[n] = ccb
         }
 
-        // ── Other Cardiovascular ──────────────────────────────────
-
-        // ── NSAIDs done above ─────────────────────────────────────
-
         // ── PPIs ──────────────────────────────────────────────────
         for n in ["omeprazole", "esomeprazole", "lansoprazole"] {
             d[n] = ppi
         }
-        for n in ["pantoprazole", "rabeprazole", "dexlansoprazole"] {
+        for n in ["pantoprazole", "dexlansoprazole"] {
             d[n] = ppi
         }
-
-        // ── GI Agents ─────────────────────────────────────────────
 
         // ── Statins ───────────────────────────────────────────────
         for n in ["atorvastatin", "rosuvastatin"] {
@@ -745,9 +705,6 @@ enum MechanismOfActionDatabase {
         for n in ["ciprofloxacin", "levofloxacin"] {
             d[n] = fluoroquinolone
         }
-        d["moxifloxacin"] = fluoroquinolone
-
-        // ── Endocrine ─────────────────────────────────────────────
 
         // ── Supplements & Nootropics ──────────────────────────────
         for n in ["piracetam", "aniracetam"] {
@@ -761,14 +718,6 @@ enum MechanismOfActionDatabase {
         }
         d["fasoracetam"] = racetam
 
-        // ── Racetams done above ───────────────────────────────────
-
-        // ── Respiratory ───────────────────────────────────────────
-
-        // ── Fluoroquinolones done above ───────────────────────────
-
-        // ── Other ─────────────────────────────────────────────────
-        d["dextroamphetamine"] = amphetamine
         return d
     }()
     // swiftlint:enable function_body_length

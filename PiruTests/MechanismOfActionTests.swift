@@ -103,6 +103,48 @@ struct MechanismOfActionTests {
     }
 
     @Test
+    func `A class template never displaces a DB binding target`() {
+        // The rule the Mechanism card rests on: the cited panel outranks the generic list.
+        // fluoxetine maps to the SSRI template (SERT only) while its DB row carries NET,
+        // 5-HT2C and sigma-1 — substituting the template would drop all three.
+        let db = moa(summary: "DB summary", bindings: [
+            binding("SERT", .reuptakeInhibitor), binding("NET", .reuptakeInhibitor),
+            binding("5-HT2C", .antagonist), binding("sigma-1", .agonist),
+        ])
+        let resolved = MechanismOfActionDatabase.resolvedMechanism(
+            dbMechanism: db, substanceName: "fluoxetine", category: .antidepressant,
+        )
+        for target in ["SERT", "NET", "5-HT2C", "sigma-1"] {
+            #expect(
+                resolved?.bindings.contains { $0.target == target } == true,
+                "\(target) came from the DB and must survive the SSRI template",
+            )
+        }
+        #expect(resolved?.bindings.first?.target == "SERT", "DB rows keep their tier order and lead")
+    }
+
+    @Test
+    @MainActor
+    func `No class-mapped substance loses a DB binding target end-to-end`() async {
+        // The blanket form of the rule above, over every key the Swift table maps.
+        // This is the invariant `resolvedMechanism`'s doc comment asserts; it went
+        // false once already, silently, when the two sets stopped being disjoint.
+        await SubstanceStore.shared.ensureAllLoaded()
+        for key in MechanismOfActionDatabase.substanceKeys {
+            guard let sub = SubstanceStore.shared.lookup(key),
+                  let dbBindings = sub.mechanismOfAction?.bindings, !dbBindings.isEmpty else { continue }
+            let resolved = MechanismOfActionDatabase.resolvedMechanism(
+                dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+            )
+            let shown = Set((resolved?.bindings ?? []).map { SubstanceReadModel.normalizedBindingTarget($0.target) })
+            let missing = dbBindings
+                .map { SubstanceReadModel.normalizedBindingTarget($0.target) }
+                .filter { !shown.contains($0) }
+            #expect(missing.isEmpty, "\(key) drops DB targets \(missing.sorted())")
+        }
+    }
+
+    @Test
     func `A class template's bindings fill in when the DB summary carries none`() {
         // A class-mapped substance (fluoxetine → the SSRI template, kept in Swift)
         // whose DB row supplies a summary but no bindings must still show the
