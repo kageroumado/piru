@@ -1,12 +1,5 @@
 import SwiftUI
 
-extension EnvironmentValues {
-    /// The quick-log zoom namespace, published by `ContentView` so add buttons
-    /// living outside it (e.g. the day/session detail's floating button) can tag
-    /// themselves as a `matchedTransitionSource` and grow into the sheet too.
-    @Entry var quickLogZoomNamespace: Namespace.ID?
-}
-
 /// Recursively renders the navigator's `sheetStack` by attaching one
 /// `.sheet(item:)` modifier per depth level. Each level binds to its own
 /// stack index so SwiftUI's identity-preserving sheet diffing works normally.
@@ -15,13 +8,9 @@ extension EnvironmentValues {
 /// that iOS doesn't render reliably anyway.
 struct SheetStackPresenter: ViewModifier {
     @Bindable var navigator: AppNavigator
-    /// Namespace for the quick-log zoom transition, shared with the add-button
-    /// sources in `ContentView`. The depth-0 quick-log sheet uses it to grow
-    /// out of the tapped button rather than sliding up from the bottom.
-    var quickLogZoom: Namespace.ID?
 
     func body(content: Content) -> some View {
-        content.modifier(SheetLayer(navigator: navigator, depth: 0, quickLogZoom: quickLogZoom))
+        content.modifier(SheetLayer(navigator: navigator, depth: 0))
     }
 }
 
@@ -31,7 +20,6 @@ struct SheetStackPresenter: ViewModifier {
 private struct SheetLayer: ViewModifier {
     @Bindable var navigator: AppNavigator
     let depth: Int
-    var quickLogZoom: Namespace.ID?
 
     func body(content: Content) -> some View {
         if depth >= AppNavigator.maxSheetDepth {
@@ -47,7 +35,7 @@ private struct SheetLayer: ViewModifier {
             // occupies the cover's only presentation slot — a nested sheet
             // attached here could never present. The cover's content mounts the
             // next layer on the dock instead, via
-            // ``hostsNestedNavigatorSheets(_:quickLogZoom:)``.
+            // ``hostsNestedNavigatorSheets(_:)``.
             content
                 // The quick-log cover clears its transition view's
                 // `accessibilityViewIsModal` (see `CoverAccessibilityUnmasker`)
@@ -58,7 +46,7 @@ private struct SheetLayer: ViewModifier {
                 .accessibilityHidden(coverPresentedHere)
                 .sheet(item: binding(fullScreen: false)) { route in
                     routeContent(route)
-                        .modifier(SheetLayer(navigator: navigator, depth: depth + 1, quickLogZoom: quickLogZoom))
+                        .modifier(SheetLayer(navigator: navigator, depth: depth + 1))
                 }
                 .fullScreenCover(item: binding(fullScreen: true)) { route in
                     // The cover's content re-mounts the next layer itself at a
@@ -83,11 +71,6 @@ private struct SheetLayer: ViewModifier {
     private func routeContent(_ route: SheetRoute) -> some View {
         SheetRouteView(route: route, depth: depth)
             .environment(\.appNavigator, navigator)
-            .sheetZoomTransition(
-                depth: depth,
-                sourceID: navigator.sheetZoomSourceID,
-                in: quickLogZoom,
-            )
     }
 
     /// Whether the route at this depth is currently presented as a
@@ -139,34 +122,14 @@ extension View {
     /// Edit Routine…) stack *on the dock*. Hardcodes depth 1 — quick log is
     /// only ever presented at depth 0.
     func hostsNestedNavigatorSheets(_ navigator: AppNavigator) -> some View {
-        modifier(SheetLayer(navigator: navigator, depth: 1, quickLogZoom: nil))
+        modifier(SheetLayer(navigator: navigator, depth: 1))
     }
 
     /// Presents `navigator.sheetStack` as nested sheets. Attach at the root of
     /// the scene above the tab view; do not attach multiple times in the
     /// hierarchy.
     ///
-    /// Pass `quickLogZoom` to let depth-0 sheets grow out of their launching
-    /// control via a zoom transition (the control must be tagged with
-    /// `matchedTransitionSource(id:in:)` using a `QuickLogTransition` id).
-    func sheetStackPresenter(_ navigator: AppNavigator, quickLogZoom: Namespace.ID? = nil) -> some View {
-        modifier(SheetStackPresenter(navigator: navigator, quickLogZoom: quickLogZoom))
-    }
-
-    /// Applies the zoom transition to a presented sheet, but only at the top
-    /// level (`depth == 0`) and only when the launch recorded a `sourceID` —
-    /// that's the only case with an on-screen `matchedTransitionSource` to grow
-    /// from. Nested or deep-linked sheets (no `sourceID`) slide up by default.
-    @ViewBuilder
-    fileprivate func sheetZoomTransition(
-        depth: Int,
-        sourceID: String?,
-        in namespace: Namespace.ID?,
-    ) -> some View {
-        if depth == 0, let namespace, let sourceID {
-            navigationTransition(.zoom(sourceID: sourceID, in: namespace))
-        } else {
-            self
-        }
+    func sheetStackPresenter(_ navigator: AppNavigator) -> some View {
+        modifier(SheetStackPresenter(navigator: navigator))
     }
 }

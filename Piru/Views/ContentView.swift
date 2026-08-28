@@ -8,12 +8,6 @@ struct ContentView: View {
     @Environment(\.appNavigator) private var navigator
     @Environment(\.modelContext) private var modelContext
 
-    /// Shared namespace for the quick-log zoom transition. The floating add
-    /// button and the session accessory's add button tag themselves as the
-    /// source; the presented quick-log sheet grows out of whichever is on
-    /// screen instead of sliding up from the bottom (Mail-style).
-    @Namespace private var quickLogZoom
-
     /// A thin root. `MainTabView` now owns its own search state (no bindings in),
     /// so it has zero stored inputs and SwiftUI skips re-evaluating it whenever
     /// this body re-runs (scene-phase change). The launch chrome — onboarding,
@@ -23,8 +17,7 @@ struct ContentView: View {
     /// view is trivially comparable.
     var body: some View {
         MainTabView()
-            .environment(\.quickLogZoomNamespace, quickLogZoom)
-            .sheetStackPresenter(navigator, quickLogZoom: quickLogZoom)
+            .sheetStackPresenter(navigator)
             .modifier(OnboardingGateModifier())
             .modifier(DiscordInviteModifier())
             .modifier(StoreDiagnosticsModifier())
@@ -561,9 +554,15 @@ private extension View {
     /// never looks orphaned, and it folds into the bar's inline placement for
     /// free when the tab bar minimizes on scroll.
     ///
-    /// Note: iOS hosts accessory content in a context separate from the main view
-    /// tree, so a `matchedTransitionSource` placed *inside* the accessory can't
-    /// anchor a sheet's zoom — the quick-log sheet presents as a normal slide-up.
+    /// **Do not add a grow-from-button zoom to the sheets launched from here.**
+    /// iOS hosts accessory content in a context separate from the main view tree,
+    /// so a `matchedTransitionSource` placed *inside* the accessory cannot anchor
+    /// a sheet's zoom: the transition silently does nothing and the sheet slides
+    /// up anyway. The navigator carried the plumbing for one — a `zoomSource`
+    /// parameter, a namespace published through the environment — and every piece
+    /// of it was unreachable for exactly this reason. A zoom needs a source
+    /// control in the main view tree; the primary action lives here instead,
+    /// which is the trade this accessory is making.
     func withSessionAccessory(
         showSessionPill: Bool,
         showLogTip: Bool,

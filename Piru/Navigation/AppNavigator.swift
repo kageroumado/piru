@@ -40,12 +40,6 @@ final class AppNavigator {
     /// the user can't see while the sheet itself stays put.
     private(set) var sheetPaths: [Int: [PushRoute]] = [:]
 
-    /// `matchedTransitionSource` id the current depth-0 sheet should zoom out of,
-    /// set by `present(_:zoomSource:)`. Drives the Mail-style grow-from-button
-    /// effect for the quick-log and current-session sheets. `nil` → default
-    /// slide-up (deep links, ordinary presents).
-    var sheetZoomSourceID: String?
-
     // MARK: - Persistence
 
     @ObservationIgnored
@@ -165,12 +159,7 @@ final class AppNavigator {
     ///
     /// Pushes beyond `maxSheetDepth` are dropped; replacements always succeed.
     ///
-    /// `zoomSource` records the `matchedTransitionSource` id the presented sheet
-    /// should grow out of (e.g. the floating add button). It's set on *every*
-    /// call — defaulting to `nil` — so an ordinary present never inherits a stale
-    /// zoom id from a previous launch; only callers that pass one get a zoom.
-    func present(_ sheet: SheetRoute, replacingTop: Bool = false, zoomSource: String? = nil) {
-        sheetZoomSourceID = zoomSource
+    func present(_ sheet: SheetRoute, replacingTop: Bool = false) {
         if replacingTop, !sheetStack.isEmpty {
             sheetStack[sheetStack.count - 1] = sheet
             sheetPaths[sheetStack.count - 1] = nil
@@ -297,9 +286,6 @@ final class AppNavigator {
             default: sheetStack.last == sheet
             }
             if !topIsSameKind {
-                // Deep links have no on-screen source button; `present` defaults
-                // `zoomSource` to nil, so the sheet slides up normally rather
-                // than zooming from a control that isn't there.
                 present(sheet)
             }
         }
