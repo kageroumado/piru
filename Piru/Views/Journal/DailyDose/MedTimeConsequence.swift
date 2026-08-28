@@ -29,13 +29,6 @@ struct MedTimeConsequence: Equatable {
     /// effects-end time worth stating against bedtime rather than left implicit.
     let affectsSleep: Bool
 
-    /// Classes whose whole point is wakefulness. Stimulants and empathogens are
-    /// the pair ``RampDownScheduler`` already schedules its sleep reminder for;
-    /// eugeroics (modafinil, armodafinil) join them because wake promotion is
-    /// their indication, not a side effect. Deliberately narrow — a med that
-    /// merely *can* disturb sleep is not a claim this line should make.
-    static let wakePromotingCategories: Set<SubstanceCategory> = [.stimulant, .empathogen, .eugeroic]
-
     /// Local hours the sleep clause treats as "most people's night". Used only
     /// to decide whether the effects-end time is worth flagging — never to
     /// prescribe a bedtime, which Piru does not know and does not ask for.
@@ -62,7 +55,7 @@ struct MedTimeConsequence: Equatable {
             onsetMinutes: onset,
             wearOffMinutes: min(max(bounds.peakEnd, onset), end),
             effectsEndMinutes: end,
-            affectsSleep: wakePromotingCategories.contains(substance.category),
+            affectsSleep: SubstanceCategory.wakePromoting.contains(substance.category),
         )
     }
 

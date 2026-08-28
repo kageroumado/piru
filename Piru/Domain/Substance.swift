@@ -2115,6 +2115,23 @@ extension Substance: Hashable {
 // MARK: - Category Display Metadata
 
 extension SubstanceCategory {
+    /// Categories whose whole point is wakefulness — the gate on whether the app
+    /// may say a dose will still be working at bedtime, and on the wind-down
+    /// reminder that follows a long session.
+    ///
+    /// Deliberately narrow: a med that merely *can* disturb sleep is not a claim
+    /// either surface should make. Eugeroics are in because wake promotion is
+    /// their indication rather than a side effect.
+    ///
+    /// **One declaration, read by both consumers** (`MedTimeConsequence` for the
+    /// sentence, `RampDownScheduler` for the reminder). They were two lists that
+    /// had already diverged — the scheduler tested `.stimulant || .empathogen`
+    /// inline while the sentence added `.eugeroic`, so modafinil was told it
+    /// would keep the user up and then never reminded to wind down. This lives on
+    /// the category rather than in either surface so neither owns the other's
+    /// rule.
+    static let wakePromoting: Set<SubstanceCategory> = [.stimulant, .empathogen, .eugeroic]
+
     var icon: String {
         switch self {
         case .stimulant: "bolt.fill"

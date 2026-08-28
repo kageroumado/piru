@@ -13,6 +13,19 @@ struct AcetaldehydeCard: View {
 
     /// Qualitative acetaldehyde-exposure band — scales with the ethanol oxidised, which all passes
     /// through ADH to acetaldehyde. Ordinal only; never presented as a concentration.
+    ///
+    /// **These cut points do not belong in `concentration_effects`,** which
+    /// `Specs/pharma-data-in-swift.md` names as their target. That table holds
+    /// measured concentration→effect rows; these are counts of standard drinks
+    /// with an ordinal word attached, and filing them there would give a display
+    /// ladder the authority of a measurement — the same fabricated-µM claim the
+    /// card's own doc comment refuses one line up.
+    ///
+    /// The band is safe to show as a traffic light here, where a daily-total one
+    /// would not be (see the deleted CDC MME bands), because it grades the *dose*
+    /// against a mechanism that has no threshold rather than grading the reader
+    /// against an authority's line — and the copy beside it says exactly that:
+    /// there is no amount that clears as cleanly as it does for others.
     enum Load {
         case elevated
         case high

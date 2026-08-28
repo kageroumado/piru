@@ -216,8 +216,8 @@ enum RampDownScheduler {
     ///   1-hour delay.
     /// - **Hydration #2**: fires at the start of the offset phase, but only
     ///   if it's at least 30 minutes after the first reminder.
-    /// - **Sleep reminder (stimulants/empathogens only)**: fires 12 hours
-    ///   after the dose by default. If the user has already been on a stim
+    /// - **Sleep reminder (``SubstanceCategory/wakePromoting`` only)**: fires 12
+    ///   hours after the dose by default. If the user has already been on a stim
     ///   session for 10+ hours, fires 2 hours after the new dose instead so
     ///   the nudge actually arrives during the session.
     ///
@@ -298,8 +298,9 @@ enum RampDownScheduler {
                 }
             }
 
-            // Sleep reminder for stimulants — if session has been going 12+ hours
-            if sleepAllowed, category == .stimulant || category == .empathogen {
+            // Wind-down reminder for the wake-promoting categories — if the
+            // session has been going 12+ hours.
+            if sleepAllowed, let category, SubstanceCategory.wakePromoting.contains(category) {
                 if let stimHours = recentStimHours, stimHours >= 10 {
                     let sleepFireDate = Date.now.addingTimeInterval(Timing.extendedStimSleepDelay)
                     if !hasPendingWithin(of: sleepFireDate, prefix: NotificationType.sleep.identifierPrefix) {
