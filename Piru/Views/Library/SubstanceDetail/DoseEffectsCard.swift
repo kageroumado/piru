@@ -126,6 +126,7 @@ struct DoseEffectsCard: View {
                     elementalPercentCaption(elementalFraction)
                 } icon: {
                     Image(systemName: "atom").imageScale(.small)
+                        .accessibilityHidden(true)
                 }
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -140,6 +141,7 @@ struct DoseEffectsCard: View {
             Text("Recreational doses — not a prescribed amount")
         } icon: {
             Image(systemName: "person.fill.questionmark").imageScale(.small)
+                .accessibilityHidden(true)
         }
         .font(.caption)
         .foregroundStyle(Theme.secondaryLabel)
@@ -275,6 +277,7 @@ struct DoseEffectsCard: View {
         HStack(spacing: 8) {
             Image(systemName: "clock.arrow.circlepath")
                 .foregroundStyle(accent)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text("Duration of action")
                     .font(.caption.weight(.semibold))

@@ -75,7 +75,7 @@ struct DoseInfoView: View {
     private func elementalNote(unit: String) -> some View {
         if let fraction = substance.elementalFraction(for: route, saltForm: saltForm, isomer: isomer) {
             HStack(spacing: 5) {
-                Image(systemName: "atom").imageScale(.small)
+                Image(systemName: "atom").imageScale(.small).accessibilityHidden(true)
                 if let currentDose, let elemental = substance.elementalAmount(of: currentDose, for: route, saltForm: saltForm, isomer: isomer) {
                     Text("≈ \(elemental.doseFormatted) \(unit) elemental", comment: "Elemental content of a salt dose")
                 } else {
@@ -184,7 +184,7 @@ struct RouteDosingCard: View {
             }
             if let elementalFraction {
                 HStack(spacing: 5) {
-                    Image(systemName: "atom").imageScale(.small)
+                    Image(systemName: "atom").imageScale(.small).accessibilityHidden(true)
                     elementalPercentCaption(elementalFraction)
                 }
                 .font(.caption)

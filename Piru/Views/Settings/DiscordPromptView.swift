@@ -50,6 +50,7 @@ struct DiscordPromptView: View {
                     .background(Self.blurple, in: Capsule())
                     .foregroundStyle(.white)
             }
+            .accessibilityAddTraits(.isLink)
             .simultaneousGesture(TapGesture().onEnded {
                 // Joining is strong intent — don't nag again.
                 dismissedForever = true

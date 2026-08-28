@@ -73,6 +73,7 @@ private struct EducationRow: View {
                 .font(.headline)
                 .foregroundStyle(Theme.accent)
                 .frame(width: 28)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(tool.name)
@@ -89,6 +90,7 @@ private struct EducationRow: View {
             Image(systemName: "chevron.right")
                 .font(.caption2.weight(.semibold))
                 .foregroundStyle(Theme.secondaryLabel)
+                .accessibilityHidden(true)
         }
         .padding(.horizontal, 13)
         .padding(.vertical, 11)

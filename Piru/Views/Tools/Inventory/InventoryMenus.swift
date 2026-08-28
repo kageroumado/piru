@@ -76,6 +76,7 @@ struct InventoryOptionsMenu: View {
                             Text(option.displayName)
                         } icon: {
                             Image(systemName: option.icon)
+                                .accessibilityHidden(true)
                         }
                         .tag(option)
                     }
@@ -152,6 +153,7 @@ struct InventoryOptionsMenu: View {
             }
         } icon: {
             Image(systemName: systemImage)
+                .accessibilityHidden(true)
         }
     }
 
@@ -168,6 +170,7 @@ struct InventoryOptionsMenu: View {
                 title
             } icon: {
                 Image(systemName: isOn ? "checkmark" : icon)
+                    .accessibilityHidden(true)
             }
         }
     }

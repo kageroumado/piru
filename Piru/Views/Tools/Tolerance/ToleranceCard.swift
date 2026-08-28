@@ -222,6 +222,7 @@ struct ToleranceSafetyNotesView: View {
                     } icon: {
                         Image(systemName: note.systemImage)
                             .foregroundStyle(note.tint)
+                            .accessibilityHidden(true)
                     }
                 }
             }

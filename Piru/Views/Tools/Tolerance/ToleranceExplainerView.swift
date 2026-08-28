@@ -243,6 +243,7 @@ struct ToleranceExplainerView: View {
                 .foregroundStyle(tint)
                 .frame(width: 28)
                 .padding(.top, 2)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
                     .font(.subheadline.weight(.semibold))

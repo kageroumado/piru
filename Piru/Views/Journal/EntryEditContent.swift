@@ -100,6 +100,7 @@ struct EntryEditContent: View {
                     Image(systemName: "chevron.right")
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
+                        .accessibilityHidden(true)
                 }
             }
         }
@@ -109,6 +110,7 @@ struct EntryEditContent: View {
                 HStack(spacing: 8) {
                     Image(systemName: "mappin.circle.fill")
                         .foregroundStyle(Theme.accent)
+                        .accessibilityHidden(true)
                     Text(location.name)
                     Spacer()
                     Button {

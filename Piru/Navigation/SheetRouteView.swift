@@ -311,6 +311,7 @@ private struct UnmigratedRoutePlaceholder: View {
             VStack(spacing: 16) {
                 Image(systemName: "wrench.adjustable")
                     .font(.largeTitle)
+                    .accessibilityHidden(true)
                 Text("Route not yet migrated:")
                 Text(String(describing: route))
                     .font(.caption.monospaced())

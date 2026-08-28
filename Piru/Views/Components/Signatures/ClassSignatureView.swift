@@ -54,6 +54,7 @@ struct SignatureCaption: View {
                     )
                 } icon: {
                     Image(systemName: "circle.dashed")
+                        .accessibilityHidden(true)
                 }
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)

@@ -201,6 +201,7 @@ private struct HelpCard: View {
                         .font(.system(size: 21, weight: .semibold))
                         .foregroundStyle(.white)
                         .frame(height: 28, alignment: .leading)
+                        .accessibilityHidden(true)
                     Text("Help & Safety")
                         .font(.system(size: 20, weight: .bold))
                         .foregroundStyle(.white)

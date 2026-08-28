@@ -112,6 +112,7 @@ struct ComedownGuideView: View {
             Image(systemName: icon)
                 .foregroundStyle(color)
                 .frame(width: 16)
+                .accessibilityHidden(true)
             Text(text)
                 .foregroundStyle(Theme.secondaryLabel)
         }
@@ -379,6 +380,7 @@ struct ComedownCategoryDisclosure: View {
             HStack(spacing: 10) {
                 Image(systemName: category.icon)
                     .foregroundStyle(category.labelColor)
+                    .accessibilityHidden(true)
                     .frame(width: 24)
                 Text(category.displayName)
                     .font(.body)

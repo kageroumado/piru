@@ -267,6 +267,7 @@ struct SubstanceShareCard: View {
                 Image(systemName: "atom")
                     .font(.system(size: 60, weight: .thin))
                     .foregroundStyle(.white.opacity(0.5))
+                    .accessibilityHidden(true)
             }
         }
         .frame(height: height)
@@ -335,6 +336,7 @@ struct SubstanceShareCard: View {
         VStack(spacing: 3) {
             Image(systemName: symbol)
                 .font(.system(size: 11))
+                .accessibilityHidden(true)
                 .foregroundStyle(.white.opacity(0.75))
             Text(range.map { Self.compactDuration($0) } ?? "—")
                 .font(.system(size: 15, weight: .heavy, design: .rounded).monospacedDigit())
@@ -448,6 +450,7 @@ struct SubstanceShareCard: View {
     private func phaseCell(_ symbol: String, _ name: LocalizedStringKey, _ range: DurationRange?) -> some View {
         VStack(spacing: 2) {
             Image(systemName: symbol)
+                .accessibilityHidden(true)
                 .font(.system(size: 9))
                 .foregroundStyle(.white.opacity(0.8))
             Text(name)
@@ -678,6 +681,7 @@ struct SubstanceShareCard: View {
             Image("AppIconArtwork")
                 .resizable().interpolation(.high)
                 .frame(width: 22, height: 22)
+                .accessibilityHidden(true)
             Text(verbatim: "Piru")
                 .font(.system(.subheadline, design: .rounded).weight(.semibold))
                 .foregroundStyle(.white.opacity(0.72))
@@ -730,6 +734,7 @@ private struct DoseTierMark: View {
             .font(.system(size: diameter * 0.82))
             .foregroundStyle(.white.opacity(level == 0 ? 0.5 : level >= 3 ? 0.95 : 0.78))
             .frame(width: diameter, height: diameter)
+            .accessibilityHidden(true)
     }
 }
 

@@ -96,7 +96,7 @@ struct CeilingEffectToolView: View {
             Label {
                 Text(sub.knee).font(.caption).foregroundStyle(Theme.secondaryLabel)
             } icon: {
-                Image(systemName: "arrow.turn.right.up").foregroundStyle(tint(for: sub))
+                Image(systemName: "arrow.turn.right.up").foregroundStyle(tint(for: sub)).accessibilityHidden(true)
             }
 
             Text(sub.detail)
@@ -147,6 +147,7 @@ struct CeilingEffectToolView: View {
                 Image(systemName: "arrow.triangle.swap")
                     .font(.caption2)
                     .foregroundStyle(.blue)
+                    .accessibilityHidden(true)
                 Text("Gabapentin vs pregabalin — one absorbing target, two opposite dose curves")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -346,6 +347,7 @@ struct CeilingEffectToolView: View {
             Image(systemName: sub.mechanism == .activation ? "arrow.up.forward.circle" : "exclamationmark.triangle.fill")
                 .font(.title3)
                 .foregroundStyle(tint(for: sub))
+                .accessibilityHidden(true)
             Text(
                 sub.mechanism == .activation
                     ? "Ceiling on effect — described in words (no precise dose knee)."

@@ -14,6 +14,7 @@ struct VolumetricDosingDisclaimer: View {
         } icon: {
             Image(systemName: "exclamationmark.triangle.fill")
                 .foregroundStyle(.red)
+                .accessibilityHidden(true)
         }
     }
 }
@@ -29,6 +30,7 @@ struct THCContentNote: View {
         } icon: {
             Image(systemName: "leaf")
                 .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
         }
     }
 }
@@ -44,6 +46,7 @@ struct PreciseScaleNote: View {
         } icon: {
             Image(systemName: "scalemass")
                 .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
         }
     }
 }

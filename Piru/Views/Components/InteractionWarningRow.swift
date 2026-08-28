@@ -13,6 +13,7 @@ struct InteractionWarningRow: View {
                 .foregroundStyle(warning.severity.labelColor)
                 .font(.body)
                 .frame(width: 16)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 3) {
                 Text("\(warning.severity.label): \(warning.substanceA) + \(warning.substanceB)")

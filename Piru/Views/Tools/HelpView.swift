@@ -147,6 +147,7 @@ struct HelpView: View {
             Image(systemName: icon)
                 .foregroundStyle(color)
                 .frame(width: 20)
+                .accessibilityHidden(true)
         }
         .padding(.vertical, 2)
     }
@@ -161,6 +162,7 @@ struct HelpView: View {
                         Image(systemName: category.icon)
                             .foregroundStyle(category.labelColor)
                             .frame(width: 20)
+                            .accessibilityHidden(true)
                         Text(category.displayName)
                             .font(.subheadline.weight(.semibold))
                     }

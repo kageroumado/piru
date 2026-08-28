@@ -140,6 +140,7 @@ struct PhoneMock<Content: View>: View {
                 Image(systemName: "wifi")
                 Image(systemName: "battery.75")
             }
+            .accessibilityHidden(true)
             .font(.system(size: 9))
         }
         .foregroundStyle(.primary)
@@ -344,6 +345,7 @@ private struct ToolsMock: View {
                         Image(systemName: tool.0)
                             .font(.system(size: 20))
                             .foregroundStyle(tool.2)
+                            .accessibilityHidden(true)
                         Text(tool.1)
                             .font(.system(size: 12, weight: .semibold))
                             .foregroundStyle(.primary)

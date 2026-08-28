@@ -285,6 +285,7 @@ private struct MedsEmptyView: View {
             Image(systemName: "pills")
                 .font(.title2)
                 .foregroundStyle(WidgetColors.accent)
+                .accessibilityHidden(true)
             Text("No meds today")
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -539,6 +540,7 @@ private struct WidgetCheckCircle: View {
                 Image(systemName: "checkmark")
                     .font(.system(size: 9, weight: .bold))
                     .foregroundStyle(.white)
+                    .accessibilityHidden(true)
             }
         }
         .frame(width: 18, height: 18)
@@ -554,6 +556,7 @@ private struct MedsCircularView: View {
     var body: some View {
         Gauge(value: Double(entry.takenCount), in: 0 ... Double(max(1, entry.slots.count))) {
             Image(systemName: "pills.fill")
+                .accessibilityHidden(true)
         } currentValueLabel: {
             Text(verbatim: "\(entry.takenCount)/\(entry.slots.count)")
                 .font(.system(.caption2, design: .monospaced).weight(.semibold))
@@ -571,6 +574,7 @@ private struct MedsRectangularView: View {
             HStack(spacing: 4) {
                 Image(systemName: "pills.fill")
                     .font(.caption2)
+                    .accessibilityHidden(true)
                 Text("Meds")
                     .font(.caption2.weight(.semibold))
                 Spacer(minLength: 0)

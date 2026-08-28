@@ -429,6 +429,7 @@ struct SubstanceCategoryListView: View {
                                     classLink.label
                                     Image(systemName: "chevron.right")
                                         .font(.caption2.weight(.semibold))
+                                        .accessibilityHidden(true)
                                 }
                                 .font(.subheadline.weight(.medium))
                                 .foregroundStyle(category.color)

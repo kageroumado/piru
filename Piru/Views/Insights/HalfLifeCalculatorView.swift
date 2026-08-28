@@ -422,6 +422,7 @@ private struct HalfLifeNoDataCard: View {
             Image(systemName: "clock.badge.questionmark")
                 .font(.title2)
                 .foregroundStyle(Theme.secondaryLabel)
+                .accessibilityHidden(true)
             Text("Half-life data not available for \(substanceName ?? "this substance").")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)

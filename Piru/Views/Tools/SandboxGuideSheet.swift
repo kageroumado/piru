@@ -162,6 +162,7 @@ struct ParameterSection: View {
             LabeledContent {
                 Image(systemName: "info.circle")
                     .foregroundStyle(Theme.accent)
+                    .accessibilityHidden(true)
             } label: {
                 Text("Measured pharmacokinetics")
                     .font(.subheadline.weight(.semibold))
@@ -225,6 +226,7 @@ struct ParameterSection: View {
             LabeledContent {
                 Image(systemName: "info.circle")
                     .foregroundStyle(Theme.accent)
+                    .accessibilityHidden(true)
             } label: {
                 Text("Binding used")
                     .font(.subheadline.weight(.semibold))

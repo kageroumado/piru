@@ -80,6 +80,7 @@ struct ToleranceOptionsMenu: View {
                 Image(systemName: "checkmark")
                     .font(.caption2.weight(.bold))
                     .foregroundStyle(.white)
+                    .accessibilityHidden(true)
             } else {
                 Circle().strokeBorder(Color.secondary.opacity(0.5), lineWidth: 1.5)
             }
@@ -93,7 +94,9 @@ struct ToleranceOptionsMenu: View {
                 .foregroundStyle(Theme.accent)
                 .opacity(tier == option ? 1 : 0)
                 .frame(width: 16)
+                .accessibilityHidden(true)
             Image(systemName: option.icon)
+                .accessibilityHidden(true)
                 .foregroundStyle(Theme.accent)
                 .frame(width: 22)
             Text(option.displayName)

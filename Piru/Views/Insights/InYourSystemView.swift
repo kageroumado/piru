@@ -121,6 +121,7 @@ struct InYourSystemView: View {
                         .font(.caption2.weight(.semibold))
                         .foregroundStyle(Theme.secondaryLabel)
                         .rotationEffect(.degrees(isExpanded ? 90 : 0))
+                        .accessibilityHidden(true)
                 }
             }
             .buttonStyle(.plain)

@@ -162,6 +162,7 @@ private struct ExposureCard: View {
                 HStack {
                     Image(systemName: "cross.case")
                         .foregroundStyle(.blue)
+                        .accessibilityHidden(true)
                     Text("Benzodiazepines ≈ \(de.formatted(.number.precision(.fractionLength(0 ... 1)))) mg diazepam-eq/day")
                         .font(.caption)
                     Spacer()
@@ -192,6 +193,7 @@ private struct MMEBand: View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: "cross.case")
                 .foregroundStyle(.blue)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text("Opioids: peak day ≈ \(peakDayMME.formatted(.number.precision(.fractionLength(0)))) MME")
                     .font(.subheadline.weight(.semibold))

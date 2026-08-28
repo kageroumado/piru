@@ -242,6 +242,7 @@ struct SteadyStateView: View {
                             Image(systemName: "clock")
                                 .padding(8)
                                 .foregroundStyle(.primary)
+                                .accessibilityHidden(true)
                         }
                     }
                     .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 8))
@@ -337,6 +338,7 @@ struct SteadyStateView: View {
         VStack(spacing: 10) {
             Image(systemName: "clock.badge.questionmark")
                 .font(.title2)
+                .accessibilityHidden(true)
                 .foregroundStyle(Theme.secondaryLabel)
             Text("Half-life data not available for \(selectedSubstance?.name ?? "this substance").")
                 .font(.subheadline)

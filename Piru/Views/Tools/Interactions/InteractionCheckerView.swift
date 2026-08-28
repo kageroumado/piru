@@ -206,6 +206,7 @@ struct InteractionCheckerView: View {
                                 Image(systemName: "chevron.right")
                                     .font(.caption2.weight(.semibold))
                                     .foregroundStyle(Theme.secondaryLabel)
+                                    .accessibilityHidden(true)
                             }
                             .padding(.horizontal, 16)
                             .padding(.vertical, 8)

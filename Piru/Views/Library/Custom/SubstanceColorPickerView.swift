@@ -68,6 +68,10 @@ struct SubstanceColorPickerView: View {
         return Color.gray.opacity(0.3)
     }
 
+    private var allTakenHexes: Set<String> {
+        Set(takenColors.keys)
+    }
+
     // MARK: - Preview
 
     private var previewSection: some View {
@@ -150,6 +154,7 @@ struct SubstanceColorPickerView: View {
                             Image(systemName: "checkmark")
                                 .font(.caption.weight(.bold))
                                 .foregroundStyle(.white)
+                                .accessibilityHidden(true)
                         }
                     }
                     .overlay {

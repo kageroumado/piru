@@ -74,6 +74,7 @@ struct WithdrawalReferenceView: View {
                     } icon: {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .foregroundStyle(.orange)
+                            .accessibilityHidden(true)
                     }
                 }
 

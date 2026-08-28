@@ -438,6 +438,7 @@ private struct NotificationPermissionSection: View {
                 } icon: {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundStyle(.green)
+                        .accessibilityHidden(true)
                 }
             case .denied:
                 Label {
@@ -445,6 +446,7 @@ private struct NotificationPermissionSection: View {
                 } icon: {
                     Image(systemName: "bell.slash.fill")
                         .foregroundStyle(.secondary)
+                        .accessibilityHidden(true)
                 }
                 Button {
                     if let url = URL(string: UIApplication.openNotificationSettingsURLString) {

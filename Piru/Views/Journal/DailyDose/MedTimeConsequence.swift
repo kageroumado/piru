@@ -107,6 +107,7 @@ struct MedTimeConsequenceLine: View {
                 effectText
             } icon: {
                 Image(systemName: "clock")
+                    .accessibilityHidden(true)
             }
             if consequence.affectsSleep {
                 Label {
@@ -114,6 +115,7 @@ struct MedTimeConsequenceLine: View {
                 } icon: {
                     Image(systemName: "moon.zzz")
                         .foregroundStyle(landsInNight ? .orange : Theme.secondaryLabel)
+                        .accessibilityHidden(true)
                 }
             }
         }

@@ -183,6 +183,7 @@ struct QuickLogView: View {
                         } label: {
                             Image(systemName: "xmark")
                         }
+                        .accessibilityLabel(Text("Close"))
                     } else {
                         Menu {
                             Button(role: .destructive) {
@@ -193,6 +194,7 @@ struct QuickLogView: View {
                         } label: {
                             Image(systemName: "xmark")
                         }
+                        .accessibilityLabel(Text("Close"))
                     }
                 }
                 // One standard Edit action, text-labeled per the HIG ("Edit"

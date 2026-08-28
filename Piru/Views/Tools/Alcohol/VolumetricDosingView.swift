@@ -60,6 +60,7 @@ struct VolumetricDosingView: View {
             Image(systemName: "flask")
                 .font(.largeTitle)
                 .foregroundStyle(Theme.accent)
+                .accessibilityHidden(true)
             Text("Volumetric Dosing")
                 .font(.title3.weight(.semibold))
             Text("Calculate measurements for dissolving substances in liquid solvents.")

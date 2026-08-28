@@ -12,6 +12,7 @@ struct QuickLogHelpBanner: View {
                 Image(systemName: "hand.raised.fill")
                     .font(.title2)
                     .foregroundStyle(.blue)
+                    .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Take a breath.")
                         .font(.headline)
@@ -47,6 +48,7 @@ struct QuickLogHelpBanner: View {
                     Image(systemName: "phone.fill")
                         .font(.caption)
                         .foregroundStyle(.blue)
+                        .accessibilityHidden(true)
                     Text(title)
                         .font(.subheadline.weight(.medium))
                         .foregroundStyle(.primary)

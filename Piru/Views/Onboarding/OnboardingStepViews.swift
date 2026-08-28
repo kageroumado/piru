@@ -185,6 +185,7 @@ struct OnboardingDepthStep: View {
                 Image(systemName: "checkmark")
                     .font(.body.weight(.semibold))
                     .foregroundStyle(Theme.accent)
+                    .accessibilityHidden(true)
                     .opacity(isSelected ? 1 : 0)
                     .accessibilityHidden(!isSelected)
             }

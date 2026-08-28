@@ -149,6 +149,7 @@ struct TodaySummaryView: View {
             Image(systemName: "pill")
                 .font(.title2)
                 .foregroundStyle(WidgetColors.accent)
+                .accessibilityHidden(true)
             Text("No active session")
                 .font(.caption)
                 .foregroundStyle(.secondary)

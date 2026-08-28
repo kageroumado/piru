@@ -112,6 +112,7 @@ struct DockFamilyPill: View {
             HStack(spacing: 5) {
                 Image(systemName: family.icon)
                     .imageScale(.small)
+                    .accessibilityHidden(true)
                 Text(family.title)
             }
             .font(.subheadline.weight(.semibold))

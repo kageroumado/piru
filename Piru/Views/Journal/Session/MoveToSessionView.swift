@@ -83,6 +83,7 @@ struct MoveToSessionView: View {
                                     } icon: {
                                         Image(systemName: "plus.circle.fill")
                                             .foregroundStyle(Theme.accent)
+                                            .accessibilityHidden(true)
                                     }
                                 }
                                 .listRowBackground(CardBackground())
@@ -251,6 +252,7 @@ private struct RetimeMoveView: View {
     let dose: DoseEntry
     let session: Session
     let onConfirm: (Date) -> Void
+    @Environment(\.dismiss) private var dismiss
     @State private var draft: Date
 
     init(dose: DoseEntry, session: Session, onConfirm: @escaping (Date) -> Void) {

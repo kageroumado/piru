@@ -128,6 +128,7 @@ struct EffectsAndIntensityView: View {
             HStack(spacing: 12) {
                 Image(systemName: "text.book.closed")
                     .foregroundStyle(Theme.accent)
+                    .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 2) {
                     if link.chinese {
                         Text("Read experience reports on FreeODWiki", comment: "Reports link, Chinese source")
@@ -144,6 +145,7 @@ struct EffectsAndIntensityView: View {
                 Image(systemName: "arrow.up.right")
                     .font(.footnote)
                     .foregroundStyle(Theme.secondaryLabel)
+                    .accessibilityHidden(true)
             }
             .padding(16)
             .themeCard()

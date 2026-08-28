@@ -315,6 +315,7 @@ private struct HistoryRowLabel: View {
                 .font(.body)
                 .foregroundStyle(tint)
                 .frame(width: 26)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.subheadline.weight(.medium))

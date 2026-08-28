@@ -340,6 +340,7 @@ struct EffectEstimatesView: View {
         } icon: {
             Image(systemName: icon)
                 .foregroundStyle(Theme.accent)
+                .accessibilityHidden(true)
         }
     }
 }

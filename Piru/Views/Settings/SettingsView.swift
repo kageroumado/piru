@@ -88,6 +88,7 @@ struct SettingsView: View {
                                 Text(profile.displayName)
                             } icon: {
                                 Image(systemName: profile.icon)
+                                    .accessibilityHidden(true)
                             }
                             .tag(profile)
                         }
@@ -256,3 +257,5 @@ struct SettingsView: View {
         }
     }
 }
+
+// MARK: - Notifications

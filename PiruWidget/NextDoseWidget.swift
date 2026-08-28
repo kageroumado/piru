@@ -195,6 +195,7 @@ private struct NextDoseView: View {
             HStack {
                 Image(systemName: "timer")
                     .foregroundStyle(WidgetColors.accent)
+                    .accessibilityHidden(true)
                 Text("Next Dose")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
@@ -221,6 +222,7 @@ private struct NextDoseView: View {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.title)
                     .foregroundStyle(.green)
+                    .accessibilityHidden(true)
                 Text("All taken")
                     .font(.subheadline.weight(.medium))
                 Spacer()
@@ -241,6 +243,7 @@ private struct NextDoseView: View {
             if slotIsDue {
                 VStack(spacing: 2) {
                     Image(systemName: "pill")
+                        .accessibilityHidden(true)
                     Text("Due")
                         .font(.caption.weight(.semibold))
                 }
@@ -251,15 +254,18 @@ private struct NextDoseView: View {
                         .minimumScaleFactor(0.6)
                     Image(systemName: "pill")
                         .font(.caption2)
+                        .accessibilityHidden(true)
                 }
             }
         } else if entry.totalCount > 0 {
             Image(systemName: "checkmark.circle")
                 .font(.title2)
+                .accessibilityHidden(true)
         } else {
             Image(systemName: "pill")
                 .font(.title2)
                 .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
         }
     }
 

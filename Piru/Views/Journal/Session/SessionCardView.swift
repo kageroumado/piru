@@ -146,6 +146,7 @@ struct SessionCardView: View, Equatable {
             Image(systemName: "pills.fill")
                 .font(.body)
                 .foregroundStyle(Theme.secondaryLabel)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(card.title ?? String(localized: "Medications"))
                     .font(.subheadline.weight(.semibold))
@@ -158,6 +159,7 @@ struct SessionCardView: View, Equatable {
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.tertiary)
+                .accessibilityHidden(true)
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -193,6 +195,7 @@ struct SessionCardView: View, Equatable {
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.tertiary)
+                .accessibilityHidden(true)
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)

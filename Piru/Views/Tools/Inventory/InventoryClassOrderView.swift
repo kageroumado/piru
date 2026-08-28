@@ -28,6 +28,7 @@ struct InventoryClassOrderView: View {
                         } icon: {
                             Image(systemName: category.icon)
                                 .foregroundStyle(Theme.accent)
+                                .accessibilityHidden(true)
                         }
                         .listRowBackground(CardBackground())
                     }

@@ -339,6 +339,7 @@ struct InteractionTimelineView: View {
             Image(systemName: "clock.badge.questionmark")
                 .font(.title2)
                 .foregroundStyle(Theme.secondaryLabel)
+                .accessibilityHidden(true)
             ForEach(model.missingData, id: \.self) { name in
                 Text("Half-life data unavailable for \(name)")
                     .font(.subheadline)
@@ -587,6 +588,7 @@ struct InteractionTimelineView: View {
             HStack(spacing: 8) {
                 Image(systemName: "lungs.fill")
                     .foregroundStyle(bandColor)
+                    .accessibilityHidden(true)
                 Text("Combined depression")
                     .font(.headline)
                     .accessibilityAddTraits(.isHeader)
@@ -687,6 +689,7 @@ struct InteractionTimelineView: View {
             HStack(spacing: 8) {
                 Image(systemName: "arrow.down.right.circle")
                     .foregroundStyle(Theme.secondaryLabel)
+                    .accessibilityHidden(true)
                 Text("Reduced effect")
                     .font(.headline)
                     .accessibilityAddTraits(.isHeader)
@@ -719,6 +722,7 @@ struct InteractionTimelineView: View {
             Image(systemName: severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
                 .foregroundStyle(severity.labelColor)
                 .font(.title3)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 3) {
                 Text("\(severity.label): \(substanceA) + \(substanceB)")

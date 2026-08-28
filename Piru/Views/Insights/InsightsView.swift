@@ -383,6 +383,7 @@ private struct InsightsToleranceCard: View {
                     Image(systemName: "checkmark.seal.fill")
                         .font(.title)
                         .foregroundStyle(.green)
+                        .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Receptors rested")
                             .font(.subheadline.weight(.semibold))

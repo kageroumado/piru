@@ -303,6 +303,7 @@ struct EntryEndedReceipt: View {
             }
         } icon: {
             Image(systemName: "checkmark.circle")
+                .accessibilityHidden(true)
         }
         .font(.caption)
         .foregroundStyle(Theme.secondaryLabel)

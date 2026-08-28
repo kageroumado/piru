@@ -286,6 +286,7 @@ struct NextPhaseView: View {
         Image(systemName: transition.phase.symbolName)
             .font(.system(size: size, weight: .semibold))
             .foregroundStyle(transition.color)
+            .accessibilityHidden(true)
     }
 }
 
@@ -454,6 +455,7 @@ struct CompactTrailingView: View {
                 .font(.system(size: CompactMetrics.iconFontSize, weight: .semibold))
                 .foregroundStyle(SessionTiming.colors(context.state).first ?? .white)
                 .frame(width: CompactMetrics.iconSide, height: CompactMetrics.iconSide)
+                .accessibilityLabel("Session complete")
         }
     }
 }

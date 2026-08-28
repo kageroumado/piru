@@ -308,6 +308,7 @@ struct StagedDoseEditor: View {
             HStack(spacing: 5) {
                 Image(systemName: "note.text")
                     .imageScale(.small)
+                    .accessibilityHidden(true)
                 Text(item.note.isEmpty ? String(localized: "Note") : item.note)
                     .lineLimit(1)
             }
@@ -711,6 +712,7 @@ struct StagedDoseEditor: View {
                 .foregroundStyle(.primary)
                 .frame(width: 42, height: 42)
                 .background(Color(.secondarySystemFill), in: Circle())
+                .accessibilityHidden(true)
         }
         .buttonStyle(.plain)
     }
@@ -1074,6 +1076,7 @@ private struct DrinkPresetMenu: View {
                     .lineLimit(1)
                 Image(systemName: "chevron.down")
                     .font(.caption2.weight(.semibold))
+                    .accessibilityHidden(true)
             }
             .font(.footnote.weight(.semibold))
             .padding(.horizontal, 11)

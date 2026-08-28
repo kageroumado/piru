@@ -95,6 +95,7 @@ struct DosePKBadge: View {
             Image(systemName: "chevron.down")
                 .font(.system(size: 8, weight: .bold))
                 .foregroundStyle(Theme.accent)
+                .accessibilityHidden(true)
         }
         .font(.caption2.weight(.semibold))
         .padding(.horizontal, 8)

@@ -182,7 +182,7 @@ struct SessionShareSheet: View {
                 .clipShape(previewShape)
                 .overlay(previewShape.stroke(Color.primary.opacity(0.08), lineWidth: 1))
             HStack(spacing: 8) {
-                Image(systemName: icon).font(.subheadline).foregroundStyle(Theme.accent)
+                Image(systemName: icon).font(.subheadline).foregroundStyle(Theme.accent).accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 1) {
                     Text(title).font(.subheadline.weight(.semibold))
                     Text(subtitle).font(.caption).foregroundStyle(Theme.secondaryLabel)
@@ -201,7 +201,7 @@ struct SessionShareSheet: View {
             .fill(background)
             .overlay(alignment: .top) {
                 if let uiImage {
-                    Image(uiImage: uiImage).resizable().aspectRatio(contentMode: contentMode)
+                    Image(uiImage: uiImage).resizable().aspectRatio(contentMode: contentMode).accessibilityHidden(true)
                 } else {
                     ProgressView().tint(Theme.accent)
                 }

@@ -131,6 +131,7 @@ struct OpioidEquivalenceToolView: View {
                 Image(systemName: "chevron.up.chevron.down")
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
+                    .accessibilityHidden(true)
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 10)

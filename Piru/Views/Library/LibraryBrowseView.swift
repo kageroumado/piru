@@ -382,6 +382,7 @@ private struct LibraryFavoritesCard: View {
                         Image(systemName: "star.fill")
                             .font(.system(size: 21, weight: .semibold))
                             .foregroundStyle(.white)
+                            .accessibilityHidden(true)
                             .frame(height: 28, alignment: .leading)
                         Text("Favorites")
                             .font(.system(size: 20, weight: .bold))

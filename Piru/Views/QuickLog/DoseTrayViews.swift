@@ -283,6 +283,7 @@ struct TrayMetaChips: View {
             HStack(spacing: 5) {
                 Image(systemName: "tag")
                     .imageScale(.small)
+                    .accessibilityHidden(true)
                 if model.tags.isEmpty {
                     Text("Tags")
                         .lineLimit(1)
@@ -475,6 +476,8 @@ struct TraySwipeRow<Content: View>: View {
                             .onTapGesture {
                                 withAnimation(.snappy) { offset = 0 }
                             }
+                            .accessibilityAddTraits(.isButton)
+                            .accessibilityLabel(Text("Dismiss"))
                     }
                 }
                 // The swipe gesture is invisible to assistive tech — expose

@@ -235,6 +235,7 @@ private struct AdherenceStreakCard: View {
             Image(systemName: "flame.fill")
                 .font(.largeTitle)
                 .foregroundStyle(.orange)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text("\(streak)")
                     .font(.system(.largeTitle, design: .rounded, weight: .bold))
@@ -404,14 +405,17 @@ struct AdherenceCalendarCell: View {
             Image(systemName: "checkmark")
                 .font(.system(size: 8, weight: .bold))
                 .foregroundStyle(.green)
+                .accessibilityHidden(true)
         case .partial:
             Image(systemName: "circle.lefthalf.filled")
                 .font(.system(size: 8))
                 .foregroundStyle(.orange)
+                .accessibilityHidden(true)
         case .missed:
             Image(systemName: "xmark")
                 .font(.system(size: 8, weight: .bold))
                 .foregroundStyle(.red)
+                .accessibilityHidden(true)
         case .noData:
             Color.clear
                 .frame(height: 8)
@@ -453,6 +457,7 @@ struct AdherenceDayDetailSheet: View {
                             Image(systemName: itemAdherence.taken ? "checkmark.circle.fill" : "xmark.circle.fill")
                                 .foregroundStyle(itemAdherence.taken ? .green : .red)
                                 .font(.title3)
+                                .accessibilityHidden(true)
 
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(
@@ -476,6 +481,7 @@ struct AdherenceDayDetailSheet: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }
+                        .accessibilityLabel(Text("Close"))
                 }
             }
         }
@@ -485,6 +491,7 @@ struct AdherenceDayDetailSheet: View {
         HStack(spacing: 6) {
             Image(systemName: statusIcon)
                 .foregroundStyle(statusColor)
+                .accessibilityHidden(true)
             Text(statusLabel)
                 .font(.headline)
         }

@@ -151,6 +151,7 @@ private struct BindingHitRow: View {
             HStack(spacing: 6) {
                 Image(systemName: "doc.text.magnifyingglass")
                     .font(.caption2)
+                    .accessibilityHidden(true)
                 Text(hit.sourceSlug)
                     .font(.caption2.monospaced())
                 if let pmid = hit.pmid {

@@ -130,6 +130,7 @@ struct JournalOptionsMenu: View {
                 Image(systemName: "checkmark")
                     .font(.system(size: 9, weight: .bold))
                     .foregroundStyle(.white)
+                    .accessibilityHidden(true)
             } else {
                 Circle().strokeBorder(Color.secondary.opacity(0.5), lineWidth: 1.5)
             }
@@ -145,6 +146,7 @@ struct JournalOptionsMenu: View {
                     .font(.body)
                     .foregroundStyle(Theme.accent)
                     .frame(width: 24)
+                    .accessibilityHidden(true)
                 title
                     .font(.body)
                     .foregroundStyle(.primary)
@@ -199,6 +201,7 @@ struct JournalFilterMenu: View {
                 Image(systemName: "line.3.horizontal.decrease")
                     .font(.system(size: 15, weight: .semibold))
                     .frame(width: 20, height: 20)
+                    .accessibilityHidden(true)
             }
             .menuStyle(.button)
             .buttonStyle(.glassProminent)
@@ -292,6 +295,7 @@ struct JournalFilterMenu: View {
             }
         } icon: {
             Image(systemName: systemImage)
+                .accessibilityHidden(true)
         }
     }
 
@@ -305,8 +309,10 @@ struct JournalFilterMenu: View {
             } icon: {
                 if isOn {
                     Image(systemName: "checkmark")
+                        .accessibilityHidden(true)
                 } else if let icon {
                     Image(systemName: icon)
+                        .accessibilityHidden(true)
                 }
             }
         }

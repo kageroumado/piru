@@ -167,6 +167,7 @@ struct RecentDoseView: View {
                 Image(systemName: "pill.fill")
                     .font(.caption)
                     .foregroundStyle(WidgetColors.accent)
+                    .accessibilityHidden(true)
                 // Deliberately static: the self-updating relative/timer styles
                 // render too wide ("1 hr, 5 min" / "1:05:32") for a ~50pt
                 // circular face. Refreshes with the 15-minute timeline reload.
@@ -178,6 +179,7 @@ struct RecentDoseView: View {
             } else {
                 Image(systemName: "pill")
                     .font(.title3)
+                    .accessibilityHidden(true)
                     .foregroundStyle(.secondary)
             }
         }

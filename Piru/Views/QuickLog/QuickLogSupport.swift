@@ -405,6 +405,7 @@ struct QuickLogCardList: View {
             HStack(spacing: 6) {
                 Image(systemName: "plus")
                     .imageScale(.small)
+                    .accessibilityHidden(true)
                 Text("Add a Med")
             }
             .font(.subheadline.weight(.semibold))
@@ -434,6 +435,7 @@ struct QuickLogCardList: View {
             HStack(spacing: 6) {
                 Image(systemName: done ? "checkmark" : group.icon)
                     .imageScale(.small)
+                    .accessibilityHidden(true)
                 Text(group.title)
                 // A single-med pill (every PRN med) is just its name — "· 1"
                 // is noise.

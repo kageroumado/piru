@@ -78,6 +78,7 @@ struct ActiveNowCard: View {
         Image(systemName: "chevron.right")
             .font(.caption.weight(.semibold))
             .foregroundStyle(.tertiary)
+            .accessibilityHidden(true)
     }
 
     // MARK: Single-dose — the common, quick-glance case.

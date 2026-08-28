@@ -262,7 +262,7 @@ struct PharmacologyCard: View {
 
     private func flag(icon: String, tint: Color, text: LocalizedStringResource) -> some View {
         HStack(alignment: .top, spacing: 8) {
-            Image(systemName: icon).font(.caption).foregroundStyle(tint)
+            Image(systemName: icon).font(.caption).foregroundStyle(tint).accessibilityHidden(true)
             Text(text).font(.caption).foregroundStyle(Theme.secondaryLabel)
                 .fixedSize(horizontal: false, vertical: true)
         }

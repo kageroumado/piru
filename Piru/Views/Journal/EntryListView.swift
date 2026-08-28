@@ -440,6 +440,7 @@ struct EntryListView: View {
                 Image(systemName: "xmark")
                     .font(.caption2.weight(.semibold))
                     .opacity(0.8)
+                    .accessibilityHidden(true)
             }
             .font(.subheadline.weight(.medium))
             .padding(.horizontal, 12)
@@ -806,6 +807,7 @@ private struct SubstanceEntryRow: View {
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.tertiary)
+                .accessibilityHidden(true)
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)

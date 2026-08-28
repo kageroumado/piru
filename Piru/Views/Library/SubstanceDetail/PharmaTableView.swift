@@ -95,6 +95,7 @@ struct PharmaTableView: View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(Theme.secondaryLabel)
+                .accessibilityHidden(true)
             TextField(text: $searchText) {
                 Text("Search substances")
             }
@@ -340,6 +341,7 @@ struct PharmaTableView: View {
             Image(systemName: "tablecells")
                 .font(.largeTitle)
                 .foregroundStyle(Theme.secondaryLabel)
+                .accessibilityHidden(true)
             Text("No substances match these filters.")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -447,6 +449,7 @@ struct PharmaTableView: View {
         if sortKey == key {
             Image(systemName: sortAscending ? "chevron.up" : "chevron.down")
                 .font(.caption2.weight(.bold))
+                .accessibilityHidden(true)
         }
     }
 

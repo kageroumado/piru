@@ -367,6 +367,7 @@ private struct BenzoPickerSheet: View {
                         if benzo.name == selection {
                             Image(systemName: "checkmark")
                                 .foregroundStyle(Theme.accent)
+                                .accessibilityHidden(true)
                         }
                     }
                 }

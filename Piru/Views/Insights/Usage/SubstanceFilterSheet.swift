@@ -95,6 +95,7 @@ struct SubstanceFilterSheet: View {
                 Image(systemName: "checkmark")
                     .foregroundStyle(Theme.accent)
                     .opacity(shown.contains(substance.name) ? 1 : 0)
+                    .accessibilityHidden(true)
             }
         }
     }

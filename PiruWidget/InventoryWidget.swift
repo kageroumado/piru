@@ -128,6 +128,7 @@ struct InventoryWidgetView: View {
                 Image(systemName: "shippingbox")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
             }
 
             if entry.items.isEmpty {

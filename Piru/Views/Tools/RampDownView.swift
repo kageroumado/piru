@@ -113,6 +113,7 @@ struct RampDownView: View {
                 HStack {
                     Image(systemName: "bell.fill")
                         .foregroundStyle(.green)
+                        .accessibilityHidden(true)
                     Text("Alert scheduled")
                         .font(.headline)
                     Spacer()
@@ -128,6 +129,7 @@ struct RampDownView: View {
                 HStack {
                     Image(systemName: "clock.badge.exclamationmark")
                         .foregroundStyle(.orange)
+                        .accessibilityHidden(true)
                     Text("Comedown window has passed")
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
@@ -138,6 +140,7 @@ struct RampDownView: View {
                 HStack {
                     Image(systemName: "bell.slash")
                         .foregroundStyle(.orange)
+                        .accessibilityHidden(true)
                     Text("Comedown alerts are turned off")
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
@@ -178,6 +181,7 @@ struct RampDownView: View {
                     Image(systemName: "leaf.fill")
                         .font(.caption)
                         .foregroundStyle(.green)
+                        .accessibilityHidden(true)
                     Text(tip)
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)

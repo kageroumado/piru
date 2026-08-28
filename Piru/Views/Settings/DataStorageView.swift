@@ -219,7 +219,7 @@ struct DataStorageView: View {
                 .foregroundStyle(Theme.secondaryLabel)
         case let .failed(message):
             Label { Text("Last backup failed: \(message)") } icon: {
-                Image(systemName: "exclamationmark.icloud").foregroundStyle(.orange)
+                Image(systemName: "exclamationmark.icloud").foregroundStyle(.orange).accessibilityHidden(true)
             }
             .font(.footnote)
         default:
@@ -783,7 +783,7 @@ private struct PassphraseSheet: View {
                         Label {
                             Text("If you lose this passphrase, the backup can't be recovered. There is no reset.")
                         } icon: {
-                            Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
+                            Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange).accessibilityHidden(true)
                         }
                         .font(.footnote)
                     }
