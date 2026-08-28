@@ -75,7 +75,7 @@
     },
     "halfLifeMinutes": {
       "type": "number",
-      "description": "Elimination half-life in MINUTES (12 h = 720). Overrides every scraped source and the Swift HalfLifeDatabase fallback."
+      "description": "Elimination half-life in MINUTES (12 h = 720). Curated, so it outranks every scraped source."
     },
     "halfLifeSource": {
       "type": "string",

@@ -94,13 +94,13 @@ before it leaves your machine.
 - `Piru/Models/` — `Substance`, `DoseRange`, `DurationProfile`, `DoseUnit`, and the category enums.
 - `Piru/Views/` — SwiftUI; the four tabs (Journal, Library, Tools, Insights), plus `Insights/` and `Components/`.
 - `Piru/Data/` — `SubstanceStore` (GRDB over the bundled SQLite, per-field source-priority resolution),
-  `HalfLifeDatabase`, `Interactions` (class-based severity rules), `StoreRecovery`, `BackupManager`.
+  `Interactions` (class-based severity rules), `StoreRecovery`, `BackupManager`.
 - `Piru/Navigation/` — `AppNavigator` (tab / sheet / path state) and the `piru://` deep-link codec.
 - `Shared/` — the SwiftData `@Model`s, `PKModel`, and formatting, shared with the widget and Live Activity.
 - `PiruWidget/`, `PiruLiveActivityExtension/` — Home Screen widgets and the Lock Screen Live Activity.
 - `pipeline/` — the offline Python pipeline that builds the substance DB from `data/`.
 
-The safety-critical code — `Interactions`, `HalfLifeDatabase`, `PKModel`, the effect engine, and the curated
+The safety-critical code — `Interactions`, `PKModel`, the effect engine, and the curated
 data layer — is the high-value, fragile part. Read the relevant `Specs/` doc before touching it.
 
 ## Pull requests

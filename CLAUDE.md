@@ -101,7 +101,7 @@ Piru/
 │   ├── SubstanceDB/     # SubstanceStore (GRDB over bundled SQLite) + extensions, SubstanceLibrary façade, AppSources, DB updater/manifest, search history
 │   ├── Persistence/     # SwiftData store lifecycle: StoreRecovery, StoreHealth, StoreDiagnostics, backfill migrations
 │   ├── Backup/          # BackupManager, BackupCrypto (AES-256-GCM encrypted backups)
-│   ├── Pharmacology/    # the science: HalfLifeDatabase, MechanismOfActionDatabase, receptor/metabolism/effect models
+│   ├── Pharmacology/    # the science: MechanismOfActionDatabase, receptor/metabolism/effect models
 │   ├── Tolerance/       # ToleranceStore, ToleranceModulation
 │   └── Services/        # Interactions, Benzo/OpioidEquivalence, InventoryService, UserProfile(+Store)
 ├── Utilities/       # ActiveSubstanceCalculator, RampDownScheduler, LiveActivityManager, etc.
@@ -132,7 +132,6 @@ pipeline/            # Python data pipeline that builds the bundled substance SQ
 | `Data/SubstanceDB/SubstanceLibrary.swift` | The `SubstanceLibrary` static façade (overlay-aware lookups) — the only intended resolution path for app code |
 | `Data/SubstanceDB/SubstanceDBUpdater.swift` | Opt-in over-the-air updates for the bundled substance DB (manifest + checksum) |
 | `Data/Persistence/StoreRecovery.swift` | Never-delete SwiftData store recovery: versioned migration plan + data-aware fallback |
-| `Data/Pharmacology/HalfLifeDatabase.swift` | 530+ hardcoded half-life values (minutes) |
 | `Data/Services/Interactions.swift` | The interaction engine. Classes, rules and severities all resolve from the bundled DB (`interaction_rules`, `substance_interaction_classes`, `category_interaction_classes`); the localized sentence per class pair is `InteractionRuleCopy.swift` |
 | `Shared/Engines/PKModel.swift` | One-compartment oral PK model (concentration, Tmax, Cmax, ka estimation) |
 | `Utilities/RampDownScheduler.swift` | Harm-reduction notifications with session-based grouping |
@@ -180,7 +179,7 @@ struct DoseEntryTests {
 }
 ```
 
-**Coverage areas**: Models (Substance, DoseEntry, DoseRange, DurationProfile, RouteOfAdministration, etc.), Data (BundledDatabase, SourcePriorityResolution, SubstanceLibrary, SubstanceCustomOverlay, Interactions, HalfLifeDatabase, AppSources, StoreRecovery, BackupCrypto/BackupManager, SubstanceDBUpdater), Utilities (AdherenceCalculator, DataExportImport, PKModel, RampDownScheduler, TagExtractor, ColorHex, SessionClustering, SessionService), Features (FuzzySearch, NotificationGrouping, Navigation/DeepLink).
+**Coverage areas**: Models (Substance, DoseEntry, DoseRange, DurationProfile, RouteOfAdministration, etc.), Data (BundledDatabase, SourcePriorityResolution, SubstanceLibrary, SubstanceCustomOverlay, Interactions, AppSources, StoreRecovery, BackupCrypto/BackupManager, SubstanceDBUpdater), Utilities (AdherenceCalculator, DataExportImport, PKModel, RampDownScheduler, TagExtractor, ColorHex, SessionClustering, SessionService), Features (FuzzySearch, NotificationGrouping, Navigation/DeepLink).
 
 ## Conventions
 
