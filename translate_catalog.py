@@ -9,6 +9,12 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # The methamphetamine class-mechanism description — the one MOA template literal that was
+    # never translated, found when the class prose moved into the bundled DB.
+    "Enters dopamine (DAT), norepinephrine (NET), and serotonin (SERT) nerve terminals and reverses their transporters, releasing all three monoamines. Also agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol.": (
+        "进入多巴胺（DAT）、去甲肾上腺素（NET）与血清素（SERT）能神经末梢，使其转运体反向运作，释放这三种单胺。同时激动 TAAR1，并作用于 VMAT2，将囊泡内的单胺重新分布到胞质中。",
+        "進入多巴胺（DAT）、正腎上腺素（NET）與血清素（SERT）能神經末梢，使其轉運體反向運作，釋放這三種單胺。同時激動 TAAR1，並作用於 VMAT2，將囊泡內的單胺重新分布到胞質中。",
+    ),
     # The opioid converter's picker label for transdermal fentanyl: fentanyl shares
     # one substance row across every route, so the route is what disambiguates it.
     "%@ (transdermal)": ("%@（透皮贴）", "%@（穿皮貼片）"),
@@ -7235,6 +7241,7 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Enters dopamine (DAT), norepinephrine (NET), and serotonin (SERT) nerve terminals and reverses their transporters, releasing all three monoamines. Also agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol.",
         "When it peaks",
         "Worst around %@",
         "%lld hours",

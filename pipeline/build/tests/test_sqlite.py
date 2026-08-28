@@ -3081,9 +3081,9 @@ class TestSignatureGates(unittest.TestCase):
         ingester enforces this by skipping; this checks the shipped result, because a skip that
         silently stops working looks exactly like a skip that worked.
         """
-        path = _REPO / "data/curated/class-mechanism-bindings.json"
+        path = _REPO / "data/curated/class-mechanisms.json"
         if not path.exists():
-            self.skipTest("class-mechanism-bindings.json absent")
+            self.skipTest("class-mechanisms.json absent")
         doc = json.loads(path.read_text())
 
         def fold(target):

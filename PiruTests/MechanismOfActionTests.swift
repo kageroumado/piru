@@ -187,6 +187,26 @@ struct MechanismOfActionTests {
     }
 
     @Test
+    @MainActor
+    func `Relocated class prose resolves from the DB in place of the template`() async {
+        // Fluvoxamine had no mechanism summary from any source, so the SSRI class paragraph in
+        // Swift was the only text on its card. It now ships as a `piru-curated` row in each of
+        // en / zh-Hans / zh-Hant, lifted from the translations the template already carried.
+        await SubstanceStore.shared.ensureAllLoaded()
+        guard let sub = SubstanceStore.shared.lookup("Fluvoxamine") else {
+            Issue.record("Fluvoxamine missing from bundled DB"); return
+        }
+        #expect(
+            sub.mechanismOfAction?.summary.contains("SSRI") == true,
+            "the class summary should come from the DB now, got \(sub.mechanismOfAction?.summary ?? "nil")",
+        )
+        let resolved = MechanismOfActionDatabase.resolvedMechanism(
+            dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
+        )
+        #expect(resolved?.summary == sub.mechanismOfAction?.summary, "the DB row is what displays")
+    }
+
+    @Test
     func `No class template carries a receptor list any more`() {
         // The whole Swift table is prose. A binding list here would be a second copy of the
         // panel with no citation and no way to be corrected without an app release; where a

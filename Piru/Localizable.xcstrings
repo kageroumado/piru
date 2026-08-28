@@ -23269,7 +23269,20 @@
       }
     },
     "Enters dopamine (DAT), norepinephrine (NET), and serotonin (SERT) nerve terminals and reverses their transporters, releasing all three monoamines. Also agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "进入多巴胺（DAT）、去甲肾上腺素（NET）与血清素（SERT）能神经末梢，使其转运体反向运作，释放这三种单胺。同时激动 TAAR1，并作用于 VMAT2，将囊泡内的单胺重新分布到胞质中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "進入多巴胺（DAT）、正腎上腺素（NET）與血清素（SERT）能神經末梢，使其轉運體反向運作，釋放這三種單胺。同時激動 TAAR1，並作用於 VMAT2，將囊泡內的單胺重新分布到胞質中。"
+          }
+        }
+      }
     },
     "Enters monoaminergic nerve terminals via dopamine (DAT), norepinephrine (NET), and serotonin (SERT) transporters, then reverses their function to release stored neurotransmitters into the synaptic cleft. Also activates trace amine-associated receptor 1 (TAAR1), inhibits vesicular monoamine transporter 2 (VMAT2), and weakly inhibits monoamine oxidase. The net effect is a substantial increase in synaptic dopamine, norepinephrine, and to a lesser extent serotonin." : {
       "localizations" : {
@@ -38014,6 +38027,7 @@
       }
     },
     "No single study in our data measured 5-HT2A and 5-HT1A for this compound on one assay, so the balance is withheld — a ratio built from two studies is not a ratio. The 5-HT2A value alone is shown." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

@@ -1740,14 +1740,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Non-selective Monoamine Releaser (Substituted Cathinone)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/2-Methylmethcathinone"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -3015,7 +3014,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Serotonin 5-HT2A Receptor Agonist (Classical Psychedelic)",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -3072,8 +3071,7 @@
       "https://erowid.org/library/books_online/pihkal/pihkal020.shtml"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -5134,7 +5132,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "3-CMC 的药理学尚未被充分研究，不过已知它会促进多巴胺、去甲肾上腺素 和血清素 的释放，类似于其他取代甲卡西酮类物质。",
+    "mechanism_summary": "Non-selective Monoamine Releaser (Substituted Cathinone)",
     "effects": [],
     "references": [
       "https://www.emcdda.europa.eu/publications/risk-assessments/3-cmc_en"
@@ -5661,14 +5659,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "NMDA Receptor Antagonist (Dissociative)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/3-HO-PCP"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -6293,15 +6290,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 180.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Non-selective Monoamine Releaser (Substituted Cathinone)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/3-Methylmethcathinone",
       "Safety and cognitive pharmacodynamics following dose escalations with 3-methylmethcathinone (3-MMC): a first in human, designer drug study"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "3-OH-Phenazepam",
@@ -7145,7 +7140,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "当 O-乙酰赛洛辛（也就是 4-AcO-DMT）进入身体后，它会在首过代谢期间以及随后经过肝脏时，被脱乙酰酶/乙酰转移酶脱去乙酰基，变成赛洛辛（因为通过非肠道途径摄入时它也有效，所以这点很明显喵）。\n\n4-AcO-DMT 的迷幻效果被认为来自于它作为5-HT2A受体的部分激动剂的作用。不过，这些相互作用具体是如何产生迷幻体验的，科学家们还在努力研究中呢。\n\n关于乙酰化形式（4-AcO-DMT）和非乙酰化形式（赛洛辛）在主观感受上的区别，说法不一喵：有的用户说 O-乙酰赛洛辛持续时间稍微长一点，有的却说短得多。许多用户报告说，和赛洛辛相比，它的身体负荷（Body load）和恶心感更轻。还有些用户觉得 O-乙酰赛洛辛产生的视觉效果更像 DMT，而不是赛洛辛或赛洛西宾。如果 psilacetin 本身就有精神活性，而不仅仅是作为前药的话，这些差异是有可能的。尽管如此，目前还没有对照临床研究来区分 psilacetin、psilocin 和 psilocybin 之间的现象学差异哦。",
+    "mechanism_summary": "Serotonin 5-HT2A Receptor Agonist (Classical Psychedelic)",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -7522,12 +7517,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Non-selective Monoamine Releaser (Substituted Cathinone)",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -7713,14 +7707,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Non-selective Monoamine Releaser (Substituted Cathinone)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Clephedrone"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -8926,14 +8919,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Non-selective Monoamine Releaser (Substituted Cathinone)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/4-Methyl-N-ethylcathinone"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -12256,12 +12248,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -12360,7 +12351,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "α-PVP 是一种强效且具有选择性的 去甲肾上腺素-多巴胺 再摄取抑制剂 (NDRI)，其效力与 MDPV 相似。α-PVP 不作为转运体底物，也就是说，它不会引起神经递质的释放（不像苯丙胺那样）。它是比经典兴奋剂可卡因和苯丙胺更强效的 DAT 和 NET 抑制剂呢。\n\nMDPV、α-PVP、可卡因和苯丙胺对多巴胺 (DAT)、去甲肾上腺素 (NET) 和血清素 (SERT) 转运体 [3H] 递质摄取的抑制作用对比：",
+    "mechanism_summary": "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
     "effects": [
       "Acuity suppression",
       "Analysis enhancement",
@@ -14654,7 +14645,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "α-PHP 的作用机制尚不清楚呢。除了持续时间明显更短之外，人们认为它的作用与 策划药 Pentedrone和 α-PVP 类似，它们都是强效的 去甲肾上腺素-多巴胺 神经递质再摄取抑制剂 (NDRI)，不过目前还没有关于这种化合物药理学的实质性研究。\n\n这意味着它可能通过结合并部分阻断通常从突触间隙移除这些单胺的转运蛋白，从而有效地提高大脑中去甲肾上腺素和多巴胺神经递质的水平。这使得多巴胺和去甲肾上腺素在大脑内积聚，从而产生 兴奋 和 欣快 的效果。",
+    "mechanism_summary": "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Alpha-PHP"
@@ -15505,12 +15496,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "GABA-A Positive Allosteric Modulator (Barbiturate)",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -19044,14 +19034,12 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1926.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "GABA-A Positive Allosteric Modulator (Benzodiazepine)",
     "effects": [],
     "references": [
       "The effect of itraconazole on the pharmacokinetics and pharmacodynamics of bromazepam in healthy volunteers"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Bromazolam",
@@ -19085,14 +19073,12 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1080.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "GABA-A Positive Allosteric Modulator (Benzodiazepine)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Bromazolam"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Bromo-dragonfly",
@@ -19203,7 +19189,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1500.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Histamine H1 Receptor Inverse Agonist (First-Generation)",
     "effects": [
       "Sedation"
     ],
@@ -19212,8 +19198,7 @@
     ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "mechanism_of_action"
+      "duration_by_route"
     ]
   },
   {
@@ -22414,14 +22399,13 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Histamine H1 Receptor Inverse Agonist (First-Generation)",
     "effects": [],
     "references": [],
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -24201,7 +24185,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 480.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Histamine H1 Receptor Inverse Agonist (First-Generation)",
     "effects": [
       "Sedation"
     ],
@@ -24211,8 +24195,7 @@
     ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "mechanism_of_action"
+      "duration_by_route"
     ]
   },
   {
@@ -26532,16 +26515,14 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 540.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Histamine H1 Receptor Inverse Agonist (First-Generation)",
     "effects": [
       "Sedation"
     ],
     "references": [
       "https://en.wikipedia.org/wiki/Dimenhydrinate"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Dimercaprol",
@@ -28406,15 +28387,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1800.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Cannabinoid CB1/CB2 Receptor Agonist",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018651s029lbl.pdf",
       "https://en.wikipedia.org/wiki/Dronabinol"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Droperidol",
@@ -28443,14 +28422,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 120.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Dopamine D2 Receptor Antagonist (First-Generation Antipsychotic)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Droperidol"
     ],
     "data_gaps": [
-      "dose_ranges_by_route",
-      "mechanism_of_action"
+      "dose_ranges_by_route"
     ]
   },
   {
@@ -29917,14 +29895,12 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1020.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "GABA-A Positive Allosteric Modulator (Benzodiazepine)",
     "effects": [],
     "references": [
       "FDA label for Estazolam (estazolam), Clinical Pharmacology/Pharmacokinetics — t½ ≈ 10–24 h"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Estradiol",
@@ -30059,14 +30035,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Serotonin 5-HT2A Receptor Agonist (Classical Psychedelic)",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/tihkal/tihkal12.shtml"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -30858,14 +30833,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Non-selective Monoamine Releaser (Substituted Cathinone)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Eutylone"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -31184,14 +31158,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Fasoracetam"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -31871,7 +31844,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1800.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "GABA-A Positive Allosteric Modulator (Benzodiazepine)",
     "effects": [
       "Amnesia",
       "Analysis suppression",
@@ -31891,9 +31864,7 @@
     "references": [
       "https://en.wikipedia.org/wiki/Flubromazolam"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Flubrotizolam",
@@ -32737,14 +32708,12 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 150.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "GABA-A Positive Allosteric Modulator (Benzodiazepine)",
     "effects": [],
     "references": [
       "https://www.drugs.com/monograph/flurazepam.html"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Flutazolam",
@@ -33068,7 +33037,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 900.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Selective Serotonin Reuptake Inhibitor (SSRI)",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019842s034lbl.pdf",
@@ -33077,8 +33046,7 @@
     ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "mechanism_of_action"
+      "duration_by_route"
     ]
   },
   {
@@ -36096,7 +36064,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 102.0,
-    "mechanism_summary": "Hydrocortisone is a synthetic glucocorticoid with potent anti-inflammatory and immunomodulating properties. After cell entry, it binds to corticosteroid receptors on the nucleus and produces anti-inflammatory, antiproliferative, immunosuppressive, and vasoconstrictive effects that can be beneficial for psoriatic, pruritic, and other corticosteroid responsive dermatoses.",
+    "mechanism_summary": "Glucocorticoid Receptor Agonist",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Hydrocortisone",
@@ -37585,7 +37553,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 150.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Irreversible Monoamine Oxidase Inhibitor (MAOI)",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/010632s041lbl.pdf",
@@ -37593,8 +37561,7 @@
     ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "mechanism_of_action"
+      "duration_by_route"
     ]
   },
   {
@@ -38142,14 +38109,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Cannabinoid CB1/CB2 Receptor Agonist",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/JWH-018"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -41830,13 +41796,12 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
     "effects": [],
     "references": [],
     "data_gaps": [
       "duration_by_route",
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -42871,7 +42836,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Serotonin 5-HT2A Receptor Agonist (Classical Psychedelic)",
     "effects": [
       "Acuity enhancement",
       "After images",
@@ -42922,7 +42887,6 @@
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -43792,7 +43756,7 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 300.0,
-    "mechanism_summary": "MXE 是一种非竞争性 NMDA 受体拮抗剂和血清素再摄取抑制剂。 NMDA 受体允许电信号在大脑和脊柱中的神经元之间传递；要传递信号，受体必须是开放的。解离剂通过阻断 NMDA 受体来关闭它们。这种神经元的断连导致感觉丧失、运动困难，最终导致几乎等同于著名的“K洞 (k-hole)”的状态。据报道，MXE 与氯胺酮相似，尽管药效更强且持续时间更长。\n\n由于其结构与 3-HO-PCP 相似，它曾被错误地认为具有阿片类药物特性。 这一说法没有实际数据支持，相反，数据表明该物质本身对 µ-阿片受体的亲和力微不足道，尽管体内代谢物可能会产生不同的效果。",
+    "mechanism_summary": "NMDA Receptor Antagonist (Dissociative)",
     "effects": [
       "Acuity suppression",
       "Amnesia",
@@ -45341,7 +45305,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 480.0,
-    "mechanism_summary": "Inhibits serotonin and norepinephrine reuptake in the presynaptic neurons leading to higher concentrations of serotonin and norepinephrine in the neuronal synapse.",
+    "mechanism_summary": "Serotonin-Norepinephrine Reuptake Inhibitor (SNRI)",
     "effects": [
       "Blood pressure elevation"
     ],
@@ -46000,14 +45964,12 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 90.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Reversible Inhibitor of Monoamine Oxidase A (RIMA)",
     "effects": [],
     "references": [
       "Clinical Pharmacokinetics of the Monoamine Oxidase-A Inhibitor Moclobemide*"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Modafinil",
@@ -47471,15 +47433,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 120.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Cannabinoid CB1/CB2 Receptor Agonist",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2006/018677s011lbl.pdf",
       "https://en.wikipedia.org/wiki/Nabilone"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Nabiximols",
@@ -47695,14 +47655,13 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Naphyrone"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
+      "half_life_minutes"
     ]
   },
   {
@@ -48441,14 +48400,12 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1800.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "GABA-A Positive Allosteric Modulator (Benzodiazepine)",
     "effects": [],
     "references": [
       "Clinical pharmacokinetics of nitrazepam"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Nitrazolam",
@@ -50052,14 +50009,12 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 480.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Oxiracetam"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Oxycodone",
@@ -51688,7 +51643,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 696.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Irreversible Monoamine Oxidase Inhibitor (MAOI)",
     "effects": [],
     "references": [
       "FDA label for Nardil (phenelzine sulfate), Clinical Pharmacology - Pharmacokinetics, Elimination",
@@ -51698,8 +51653,7 @@
     ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "mechanism_of_action"
+      "duration_by_route"
     ]
   },
   {
@@ -52145,14 +52099,12 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 300.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Phenylpiracetam"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Phenylpiracetam hydrazide",
@@ -52439,15 +52391,14 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 3360.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Dopamine D2 Receptor Antagonist (First-Generation Antipsychotic)",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/017473s055lbl.pdf",
       "https://en.wikipedia.org/wiki/Pimozide"
     ],
     "data_gaps": [
-      "duration_by_route",
-      "mechanism_of_action"
+      "duration_by_route"
     ]
   },
   {
@@ -53132,14 +53083,12 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 300.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Pramiracetam"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Prasugrel",
@@ -53803,16 +53752,14 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 720.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Histamine H1 Receptor Inverse Agonist (First-Generation)",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/007491s044lbl.pdf",
       "https://en.wikipedia.org/wiki/Promethazine",
       "Pharmacokinetics of promethazine hydrochloride after administration of rectal suppositories and oral syrup to healthy subjects"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Promethazine-Codeine",
@@ -54319,16 +54266,14 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 120.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Serotonin 5-HT2A Receptor Agonist (Classical Psychedelic)",
     "effects": [],
     "references": [
       "https://en.wikipedia.org/wiki/Psilocin",
       "https://erowid.org/library/books_online/tihkal/tihkal18.shtml",
       "Clinical Pharmacokinetics of Psilocin After Psilocybin Administration: A Systematic Review and Post-Hoc Analysis"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Psilocybe Cyanescens",
@@ -54952,12 +54897,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -55025,12 +54969,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "GABA-A Positive Allosteric Modulator (Benzodiazepine)",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -57218,12 +57161,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "GABA-A Positive Allosteric Modulator (Barbiturate)",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -57296,7 +57238,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 120.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Selective MAO-B Inhibitor",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021336s010lbl.pdf",
@@ -57304,8 +57246,7 @@
     ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "mechanism_of_action"
+      "duration_by_route"
     ]
   },
   {
@@ -58385,14 +58326,12 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 164.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "μ-Opioid Receptor (MOR) Full Agonist",
     "effects": [],
     "references": [
       "Optimization of the Radioimmunoassays for Measuring Fentanyl and Alfentanil in Human Serum"
     ],
-    "data_gaps": [
-      "mechanism_of_action"
-    ]
+    "data_gaps": []
   },
   {
     "name": "Sugammadex",
@@ -59882,12 +59821,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "GABA-A Positive Allosteric Modulator (Barbiturate)",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -61281,7 +61219,7 @@
     "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 130.0,
-    "mechanism_summary": "",
+    "mechanism_summary": "Irreversible Monoamine Oxidase Inhibitor (MAOI)",
     "effects": [],
     "references": [
       "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/010894s042lbl.pdf",
@@ -61289,8 +61227,7 @@
     ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "mechanism_of_action"
+      "duration_by_route"
     ]
   },
   {

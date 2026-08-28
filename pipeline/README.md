@@ -75,7 +75,7 @@ fix, not noise to tolerate.
 | `zero-order-kinetics.json` | `zero_order_kinetics` | which substances clear at a fixed mass-per-time, and the Vmax/ka the dose-scaled curve is drawn from |
 | `alias-kinds.json`, `brands.json` | `aliases` | alias provenance, brand flagships |
 | `drug-classes.json` | `substances.drug_class` | normalized antidepressant subclass (SSRI/SNRI/NRI/…), not the interaction class |
-| `class-mechanism-bindings.json` | `bindings` | the eight class-level receptor profiles that say something their own summary does not (a tricyclic's H1/M1/α1, a barbiturate's AMPA/kainate). Written only where the substance has no measured row for that target, uncited, marked `class-level generalisation` in `notes` — see the file's `_meta.rule` and the gate in `tests/test_sqlite.py` |
+| `class-mechanisms.json` | `mechanisms_summary`, `bindings` | the eight class-level receptor profiles that say something their own summary does not (a tricyclic's H1/M1/α1, a barbiturate's AMPA/kainate). Written only where the substance has no measured row for that target, uncited, marked `class-level generalisation` in `notes` — see the file's `_meta.rule` and the gate in `tests/test_sqlite.py` |
 
 Adding one is: a path read in the ingester, DDL in `SCHEMA_SQL`, a method on
 `Build`, a call + `print` in `main()`, the table in the build-report row-count

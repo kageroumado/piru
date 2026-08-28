@@ -1,0 +1,1042 @@
+{
+  "_meta": {
+    "what": "The class-level mechanism layer relocated out of MechanismOfActionDatabase.swift: shared prose per class, and the receptor targets that survived the tautology cull, both fanned out to member substances.",
+    "why": "A class template's target list may only carry targets its own summary does not already name; 26 of 34 named nothing new and were deleted rather than moved. The prose is the app's own class-level voice and had nowhere else to live.",
+    "rule": "BOTH fan-outs write only where the substance has nothing of that kind already. A generic class tier beside a measured binding would win the app's COALESCE(MAX(curated_tier), ...) and override the measurement; a generic class paragraph above a per-substance summary from pyrls or medtap would put the class blurb over the specific one. Neither may happen, so the ingester skips rather than overwrites.",
+    "citations": "Bindings carry none by design: a value-less row with a citation_id joins that citation's comparability group and, having no value on any basis, makes the group unplottable.",
+    "prose_languages": "en/zh-Hans/zh-Hant lifted from Piru/Localizable.xcstrings, where these strings were already translated before the move."
+  },
+  "classes": [
+    {
+      "class": "aceInhibitor",
+      "substances": [
+        "benazepril",
+        "enalapril",
+        "lisinopril",
+        "quinapril",
+        "ramipril"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Angiotensin-Converting Enzyme (ACE) Inhibitor",
+          "description": "Inhibits angiotensin-converting enzyme (ACE), preventing the conversion of angiotensin I to angiotensin II, a potent vasoconstrictor. Also reduces degradation of bradykinin, a vasodilator. The net effect is decreased peripheral vascular resistance, reduced aldosterone secretion, and lower blood pressure. ACE inhibitors also reduce cardiac remodeling after myocardial infarction."
+        },
+        "zh-Hans": {
+          "summary": "血管紧张素转换酶 (ACE) 抑制剂",
+          "description": "抑制血管紧张素转换酶 (ACE),阻止血管紧张素 I 转化为强效血管收缩剂血管紧张素 II。也减少血管扩张剂缓激肽的降解。净效应是外周血管阻力降低、醛固酮分泌减少和血压降低。ACE 抑制剂也减少心肌梗死后的心脏重塑。"
+        },
+        "zh-Hant": {
+          "summary": "血管收縮素轉換酶 (ACE) 抑制劑",
+          "description": "抑制血管收縮素轉換酶 (ACE),阻止血管收縮素 I 轉化為強效血管收縮劑血管收縮素 II。也減少血管擴張劑緩激肽的降解。淨效應是外周血管阻力降低、醛固酮分泌減少和血壓降低。ACE 抑制劑也減少心肌梗塞後的心臟重塑。"
+        }
+      }
+    },
+    {
+      "class": "amphetamine",
+      "why": "TAAR1 and VMAT2 — the intracellular half of substrate release, invisible in \"Monoamine Releasing Agent\".",
+      "substances": [
+        "amphetamine",
+        "dextroamphetamine"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Monoamine Releasing Agent",
+          "description": "Enters monoaminergic nerve terminals via dopamine (DAT), norepinephrine (NET), and serotonin (SERT) transporters, then reverses their function to release stored neurotransmitters into the synaptic cleft. Also activates trace amine-associated receptor 1 (TAAR1), inhibits vesicular monoamine transporter 2 (VMAT2), and weakly inhibits monoamine oxidase. The net effect is a substantial increase in synaptic dopamine, norepinephrine, and to a lesser extent serotonin."
+        },
+        "zh-Hans": {
+          "summary": "单胺释放剂",
+          "description": "通过多巴胺 (DAT)、去甲肾上腺素 (NET) 和血清素 (SERT) 转运体进入单胺能神经末梢,然后反转它们的功能,将储存的神经递质释放到突触间隙。也激活痕量胺相关受体 1 (TAAR1),抑制囊泡单胺转运体 2 (VMAT2),并弱抑制单胺氧化酶。净效应是突触多巴胺、去甲肾上腺素的大幅增加,以及较小程度的血清素增加。"
+        },
+        "zh-Hant": {
+          "summary": "單胺釋放劑",
+          "description": "透過多巴胺 (DAT)、去甲腎上腺素 (NET) 和血清素 (SERT) 轉運體進入單胺能神經末梢,然後反轉它們的功能,將儲存的神經傳導物質釋放到突觸間隙。也激活痕量胺相關受體 1 (TAAR1),抑制囊泡單胺轉運體 2 (VMAT2),並弱抑制單胺氧化酶。淨效應是突觸多巴胺、去甲腎上腺素的大幅增加,以及較小程度的血清素增加。"
+        }
+      },
+      "bindings": [
+        {
+          "target": "DAT",
+          "action": "releasingAgent",
+          "affinity_tier": 3
+        },
+        {
+          "target": "NET",
+          "action": "releasingAgent",
+          "affinity_tier": 3
+        },
+        {
+          "target": "TAAR1",
+          "action": "agonist",
+          "affinity_tier": 2
+        },
+        {
+          "target": "VMAT2",
+          "action": "modulator",
+          "affinity_tier": 2
+        }
+      ]
+    },
+    {
+      "class": "antihistamine1",
+      "why": "The muscarinic load is what separates a first-generation antihistamine from a second-generation one, and \"Histamine H1 Receptor Inverse Agonist\" does not say it.",
+      "substances": [
+        "brompheniramine",
+        "chlorpheniramine",
+        "clemastine",
+        "cyproheptadine",
+        "dimenhydrinate",
+        "diphenhydramine",
+        "doxylamine",
+        "hydroxyzine",
+        "meclizine",
+        "promethazine"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Histamine H1 Receptor Inverse Agonist (First-Generation)",
+          "description": "Acts as an inverse agonist at histamine H1 receptors, reducing constitutive receptor activity and blocking histamine-mediated signaling. Crosses the blood-brain barrier readily, producing sedation, anxiolysis, and antiemetic activity through central H1 blockade. Most also have significant anticholinergic (muscarinic antagonist) activity."
+        },
+        "zh-Hans": {
+          "summary": "组胺 H1 受体反向激动剂(第一代)",
+          "description": "作为组胺 H1 受体的反向激动剂,减少受体的本征活性并阻断组胺介导的信号传导。易于穿过血脑屏障,通过中枢 H1 阻断产生镇静、抗焦虑和止吐作用。大多数还具有显著的抗胆碱(毒蕈碱拮抗)活性。"
+        },
+        "zh-Hant": {
+          "summary": "組胺 H1 受體反向激動劑(第一代)",
+          "description": "作為組胺 H1 受體的反向激動劑,減少受體的本徵活性並阻斷組胺介導的訊號傳導。易於穿過血腦屏障,透過中樞 H1 阻斷產生鎮靜、抗焦慮和止吐作用。大多數還具有顯著的抗膽鹼(蕈毒鹼拮抗)活性。"
+        }
+      },
+      "bindings": [
+        {
+          "target": "H1",
+          "action": "inverseAgonist",
+          "affinity_tier": 3
+        },
+        {
+          "target": "Muscarinic (non-selective)",
+          "action": "antagonist",
+          "affinity_tier": 2
+        }
+      ]
+    },
+    {
+      "class": "antihistamine2",
+      "substances": [
+        "cetirizine",
+        "desloratadine",
+        "fexofenadine",
+        "levocetirizine",
+        "loratadine"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Histamine H1 Receptor Inverse Agonist (Second-Generation)",
+          "description": "Selectively acts as an inverse agonist at peripheral histamine H1 receptors with minimal blood-brain barrier penetration. Provides antiallergic and antipruritic effects without significant sedation or cognitive impairment. Reduced CNS penetration is due to P-glycoprotein efflux at the blood-brain barrier."
+        },
+        "zh-Hans": {
+          "summary": "组胺 H1 受体反向激动剂(第二代)",
+          "description": "选择性作为外周组胺 H1 受体的反向激动剂,血脑屏障穿透极小。提供抗过敏和止痒效应,无显著镇静或认知损害。中枢神经系统穿透减少是由于血脑屏障处的 P-糖蛋白外排。"
+        },
+        "zh-Hant": {
+          "summary": "組胺 H1 受體反向激動劑(第二代)",
+          "description": "選擇性作為外周組胺 H1 受體的反向激動劑,血腦屏障穿透極小。提供抗過敏和止癢效應,無顯著鎮靜或認知損害。中樞神經系統穿透減少是由於血腦屏障處的 P-糖蛋白外排。"
+        }
+      }
+    },
+    {
+      "class": "arb",
+      "substances": [
+        "irbesartan",
+        "losartan",
+        "olmesartan",
+        "valsartan"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Angiotensin II Receptor Blocker (ARB)",
+          "description": "Selectively blocks angiotensin II type 1 (AT1) receptors, preventing the vasoconstrictive, aldosterone-secreting, and growth-promoting effects of angiotensin II. Unlike ACE inhibitors, ARBs do not affect bradykinin metabolism and therefore do not cause cough. Provides similar hemodynamic effects to ACE inhibitors through a different mechanism."
+        },
+        "zh-Hans": {
+          "summary": "血管紧张素 II 受体阻滞剂 (ARB)",
+          "description": "选择性阻断血管紧张素 II 1 型 (AT1) 受体,阻止血管紧张素 II 的血管收缩、醛固酮分泌和促生长效应。与 ACE 抑制剂不同,ARB 不影响缓激肽代谢,因此不引起咳嗽。通过不同的机制提供与 ACE 抑制剂相似的血流动力学效应。"
+        },
+        "zh-Hant": {
+          "summary": "血管收縮素 II 受體阻滯劑 (ARB)",
+          "description": "選擇性阻斷血管收縮素 II 1 型 (AT1) 受體,阻止血管收縮素 II 的血管收縮、醛固酮分泌和促生長效應。與 ACE 抑制劑不同,ARB 不影響緩激肽代謝,因此不引起咳嗽。透過不同的機制提供與 ACE 抑制劑相似的血流動力學效應。"
+        }
+      }
+    },
+    {
+      "class": "atypicalAP",
+      "substances": [
+        "asenapine",
+        "iloperidone",
+        "lurasidone",
+        "olanzapine",
+        "paliperidone",
+        "quetiapine",
+        "risperidone",
+        "ziprasidone"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Serotonin-Dopamine Antagonist (Second-Generation Antipsychotic)",
+          "description": "Antagonizes both dopamine D2 and serotonin 5-HT2A receptors. The 5-HT2A antagonism modulates dopamine release in the nigrostriatal pathway, reducing extrapyramidal side effects compared to first-generation agents. May improve negative symptoms and cognitive function. Individual agents differ in their affinity for additional receptors including H1, α1, and muscarinic receptors."
+        },
+        "zh-Hans": {
+          "summary": "血清素-多巴胺拮抗剂(第二代抗精神病药)",
+          "description": "同时拮抗多巴胺 D2 和血清素 5-HT2A 受体。5-HT2A 拮抗作用调节黑质纹状体通路中的多巴胺释放,与第一代药物相比,减少锥体外系副作用。可能改善阴性症状和认知功能。各药物在 H1、α1 和毒蕈碱等其他受体的亲和力上有差异。"
+        },
+        "zh-Hant": {
+          "summary": "血清素-多巴胺拮抗劑(第二代抗精神病藥)",
+          "description": "同時拮抗多巴胺 D2 和血清素 5-HT2A 受體。5-HT2A 拮抗作用調節黑質紋狀體通路中的多巴胺釋放,與第一代藥物相比,減少錐體外系副作用。可能改善陰性症狀和認知功能。各藥物在 H1、α1 和蕈毒鹼等其他受體的親和力上有差異。"
+        }
+      }
+    },
+    {
+      "class": "barb",
+      "why": "AMPA/kainate antagonism alongside the GABA-A site — why a barbiturate overdose has no ceiling where a benzodiazepine's does.",
+      "substances": [
+        "amobarbital",
+        "pentobarbital",
+        "phenobarbital",
+        "secobarbital",
+        "thiopental"
+      ],
+      "prose": {
+        "en": {
+          "summary": "GABA-A Positive Allosteric Modulator (Barbiturate)",
+          "description": "Binds to a distinct site on the GABA-A receptor, acting as a positive allosteric modulator that increases the duration of chloride channel opening (unlike benzodiazepines which increase frequency). At higher concentrations, can directly activate GABA-A receptors even without GABA, accounting for their greater overdose lethality. Also inhibits AMPA/kainate glutamate receptors."
+        },
+        "zh-Hans": {
+          "summary": "GABA-A 正向变构调节剂(巴比妥类)",
+          "description": "结合于 GABA-A 受体上的一个独特位点,作为正向变构调节剂,增加氯离子通道开放的持续时间(与增加开放频率的苯二氮䓬类不同)。在较高浓度下,即使没有 GABA 也能直接激活 GABA-A 受体,这解释了其更高的过量致死风险。也抑制 AMPA/红藻氨酸盐谷氨酸受体。"
+        },
+        "zh-Hant": {
+          "summary": "GABA-A 正向變構調節劑(巴比妥類)",
+          "description": "結合於 GABA-A 受體上的一個獨特位點,作為正向變構調節劑,增加氯離子通道開放的持續時間(與增加開放頻率的苯二氮䓬類不同)。在較高濃度下,即使沒有 GABA 也能直接激活 GABA-A 受體,這解釋了其更高的過量致死風險。也抑制 AMPA/紅藻氨酸鹽麩胺酸受體。"
+        }
+      },
+      "bindings": [
+        {
+          "target": "GABA-A",
+          "action": "positiveAllostericModulator",
+          "affinity_tier": 3
+        },
+        {
+          "target": "AMPA/kainate",
+          "action": "antagonist",
+          "affinity_tier": 2
+        }
+      ]
+    },
+    {
+      "class": "benzo",
+      "substances": [
+        "alprazolam",
+        "bromazepam",
+        "bromazolam",
+        "chlordiazepoxide",
+        "clonazepam",
+        "clonazolam",
+        "clorazepate",
+        "diazepam",
+        "estazolam",
+        "etizolam",
+        "flualprazolam",
+        "flubromazolam",
+        "flunitrazepam",
+        "flurazepam",
+        "lorazepam",
+        "midazolam",
+        "nitrazepam",
+        "oxazepam",
+        "phenazepam",
+        "quazepam",
+        "temazepam",
+        "triazolam"
+      ],
+      "prose": {
+        "en": {
+          "summary": "GABA-A Positive Allosteric Modulator (Benzodiazepine)",
+          "description": "Binds to the benzodiazepine site at the interface of α and γ subunits on GABA-A receptors, acting as a positive allosteric modulator. Enhances the effect of GABA by increasing the frequency of chloride channel opening, leading to neuronal hyperpolarization and reduced excitability. Produces anxiolytic, sedative, hypnotic, anticonvulsant, and muscle relaxant effects."
+        },
+        "zh-Hans": {
+          "summary": "GABA-A 正向变构调节剂(苯二氮䓬类)",
+          "description": "结合于 GABA-A 受体上 α 和 γ 亚单位界面的苯二氮䓬位点,作为正向变构调节剂。通过增加氯离子通道开放频率增强 GABA 的效应,导致神经元超极化和兴奋性降低。产生抗焦虑、镇静、催眠、抗惊厥和肌肉松弛效应。"
+        },
+        "zh-Hant": {
+          "summary": "GABA-A 正向變構調節劑(苯二氮䓬類)",
+          "description": "結合於 GABA-A 受體上 α 和 γ 亞單位界面的苯二氮䓬位點,作為正向變構調節劑。透過增加氯離子通道開放頻率增強 GABA 的效應,導致神經元超極化和興奮性降低。產生抗焦慮、鎮靜、催眠、抗驚厥和肌肉鬆弛效應。"
+        }
+      }
+    },
+    {
+      "class": "betaBlocker",
+      "substances": [
+        "atenolol",
+        "bisoprolol",
+        "labetalol",
+        "metoprolol",
+        "nadolol",
+        "nebivolol",
+        "propranolol"
+      ],
+      "prose": {
+        "en": {
+          "summary": "β-Adrenergic Receptor Antagonist",
+          "description": "Competitively blocks β-adrenergic receptors, preventing the effects of catecholamines. β1-selective agents primarily reduce heart rate and cardiac contractility. Non-selective agents also block β2 receptors in bronchial smooth muscle and peripheral vasculature. Used for hypertension, arrhythmias, heart failure, and performance anxiety."
+        },
+        "zh-Hans": {
+          "summary": "β-肾上腺素受体拮抗剂",
+          "description": "竞争性阻断 β-肾上腺素受体,阻止儿茶酚胺的效应。β1-选择性药物主要降低心率和心肌收缩力。非选择性药物也阻断支气管平滑肌和外周血管中的 β2 受体。用于高血压、心律失常、心力衰竭和表演焦虑。"
+        },
+        "zh-Hant": {
+          "summary": "β-腎上腺素受體拮抗劑",
+          "description": "競爭性阻斷 β-腎上腺素受體,阻止兒茶酚胺的效應。β1-選擇性藥物主要降低心率和心肌收縮力。非選擇性藥物也阻斷支氣管平滑肌和外周血管中的 β2 受體。用於高血壓、心律不整、心衰竭和表演焦慮。"
+        }
+      }
+    },
+    {
+      "class": "cannabinoidAgonist",
+      "substances": [
+        "dronabinol",
+        "jwh-018",
+        "nabilone"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Cannabinoid CB1/CB2 Receptor Agonist",
+          "description": "Acts as an agonist at cannabinoid CB1 receptors in the central nervous system and CB2 receptors in immune tissues. CB1 activation inhibits adenylyl cyclase and modulates ion channels via Gi/Go proteins, reducing neurotransmitter release (particularly GABA and glutamate) in brain regions involved in reward, memory, coordination, and pain perception."
+        },
+        "zh-Hans": {
+          "summary": "大麻素 CB1/CB2 受体激动剂",
+          "description": "作为中枢神经系统中大麻素 CB1 受体和免疫组织中 CB2 受体的激动剂。CB1 激活抑制腺苷酸环化酶,并通过 Gi/Go 蛋白调节离子通道,减少参与奖赏、记忆、协调和痛觉的脑区中的神经递质释放(尤其是 GABA 和谷氨酸)。"
+        },
+        "zh-Hant": {
+          "summary": "大麻素 CB1/CB2 受體激動劑",
+          "description": "作為中樞神經系統中大麻素 CB1 受體和免疫組織中 CB2 受體的激動劑。CB1 激活抑制腺苷酸環化酶,並透過 Gi/Go 蛋白調節離子通道,減少參與獎賞、記憶、協調和痛覺的腦區中的神經傳導物質釋放(尤其是 GABA 和麩胺酸)。"
+        }
+      }
+    },
+    {
+      "class": "cathinonePyrovalerone",
+      "substances": [
+        "a-php",
+        "a-pvp",
+        "alpha-pyrrolidinohexiophenone",
+        "md-php",
+        "mdphp",
+        "mdpv",
+        "naphyrone",
+        "pyrovalerone",
+        "α-php",
+        "α-pvp"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
+          "description": "A pyrrolidine cathinone that potently blocks the dopamine and norepinephrine transporters (DAT/NET) without releasing monoamines and with little serotonergic activity. The strong, long-lasting rise in dopamine and norepinephrine is intensely stimulating and carries a high risk of compulsive redosing."
+        },
+        "zh-Hans": {
+          "summary": "多巴胺-去甲肾上腺素再摄取抑制剂(吡咯戊酮类卡西酮)",
+          "description": "一种吡咯烷类卡西酮,强效阻断多巴胺和去甲肾上腺素转运体(DAT/NET),不释放单胺,血清素活性很弱。多巴胺和去甲肾上腺素强烈而持久地升高,带来强烈兴奋,并伴有很高的强迫性反复用药风险。"
+        },
+        "zh-Hant": {
+          "summary": "多巴胺-正腎上腺素再攝取抑制劑(吡咯戊酮類卡西酮)",
+          "description": "一種吡咯烷類卡西酮,強效阻斷多巴胺和正腎上腺素轉運體(DAT/NET),不釋放單胺,血清素活性很弱。多巴胺和正腎上腺素強烈而持久地升高,帶來強烈興奮,並伴有很高的強迫性反覆用藥風險。"
+        }
+      }
+    },
+    {
+      "class": "cathinoneReleaser",
+      "substances": [
+        "2-mmc",
+        "3-chloromethcathinone",
+        "3-cmc",
+        "3-mmc",
+        "4-cec",
+        "4-cmc",
+        "4-mec",
+        "4-mmc",
+        "butylone",
+        "cathinone",
+        "ethylone",
+        "eutylone",
+        "mephedrone",
+        "methcathinone",
+        "methylone",
+        "mexedrone",
+        "n-ethylpentylone"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Non-selective Monoamine Releaser (Substituted Cathinone)",
+          "description": "A β-keto amphetamine that enters dopamine, norepinephrine, and serotonin nerve terminals through their transporters (DAT/NET/SERT) and reverses them, releasing all three monoamines. The dopamine-to-serotonin release ratio sets the character — balanced (e.g. mephedrone) is entactogenic-stimulant, dopamine-dominant is more purely stimulating."
+        },
+        "zh-Hans": {
+          "summary": "非选择性单胺释放剂(取代卡西酮类)",
+          "description": "一种β-酮苯丙胺,经转运体(DAT/NET/SERT)进入多巴胺、去甲肾上腺素和血清素神经末梢并使其反向转运,释放这三种单胺。多巴胺与血清素的释放比例决定其特性——比例均衡(如甲卡西酮)偏向移情兴奋,多巴胺占主导则更偏纯粹兴奋。"
+        },
+        "zh-Hant": {
+          "summary": "非選擇性單胺釋放劑(取代卡西酮類)",
+          "description": "一種β-酮苯丙胺,經轉運體(DAT/NET/SERT)進入多巴胺、正腎上腺素和血清素神經末梢並使其反向轉運,釋放這三種單胺。多巴胺與血清素的釋放比例決定其特性——比例均衡(如甲卡西酮)偏向移情興奮,多巴胺佔主導則更偏純粹興奮。"
+        }
+      }
+    },
+    {
+      "class": "ccb",
+      "substances": [
+        "amlodipine",
+        "felodipine",
+        "nifedipine"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Calcium Channel Blocker (Dihydropyridine)",
+          "description": "Blocks L-type voltage-gated calcium channels in vascular smooth muscle, reducing calcium influx and causing vasodilation. Primarily acts on arterial smooth muscle with minimal cardiac effects at therapeutic doses. Reduces peripheral vascular resistance and blood pressure."
+        },
+        "zh-Hans": {
+          "summary": "钙通道阻滞剂(二氢吡啶类)",
+          "description": "阻断血管平滑肌中的 L 型电压门控钙通道,减少钙内流并引起血管扩张。主要作用于动脉平滑肌,治疗剂量下心脏影响极小。降低外周血管阻力和血压。"
+        },
+        "zh-Hant": {
+          "summary": "鈣通道阻滯劑(二氫吡啶類)",
+          "description": "阻斷血管平滑肌中的 L 型電壓門控鈣通道,減少鈣內流並引起血管擴張。主要作用於動脈平滑肌,治療劑量下心臟影響極小。降低外周血管阻力和血壓。"
+        }
+      }
+    },
+    {
+      "class": "classicalPsychedelic",
+      "why": "5-HT2C and 5-HT1A beyond the defining 5-HT2A.",
+      "substances": [
+        "1cp-lsd",
+        "1p-lsd",
+        "2c-b",
+        "2c-c",
+        "2c-e",
+        "2c-i",
+        "2c-t-7",
+        "4-aco-dmt",
+        "4-ho-met",
+        "4-ho-mipt",
+        "al-lad",
+        "ald-52",
+        "dob",
+        "doc",
+        "doi",
+        "dom",
+        "dpt",
+        "eth-lad",
+        "lsd",
+        "lsd-25",
+        "mescaline",
+        "psilocin"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Serotonin 5-HT2A Receptor Agonist (Classical Psychedelic)",
+          "description": "Primarily acts as an agonist or partial agonist at serotonin 5-HT2A receptors, particularly on layer V pyramidal neurons in the prefrontal cortex. 5-HT2A activation increases glutamate release and enhances cortical excitability, leading to altered perception, cognition, and consciousness. Most classical psychedelics also interact with 5-HT2C, 5-HT1A, and other serotonin receptor subtypes."
+        },
+        "zh-Hans": {
+          "summary": "血清素 5-HT2A 受体激动剂(经典致幻剂)",
+          "description": "主要作为血清素 5-HT2A 受体的激动剂或部分激动剂,特别是在前额叶皮质 V 层锥体神经元上。5-HT2A 激活增加谷氨酸释放并增强皮质兴奋性,导致感知、认知和意识改变。大多数经典致幻剂也与 5-HT2C、5-HT1A 等血清素受体亚型相互作用。"
+        },
+        "zh-Hant": {
+          "summary": "血清素 5-HT2A 受體激動劑(經典致幻劑)",
+          "description": "主要作為血清素 5-HT2A 受體的激動劑或部分激動劑,特別是在前額葉皮質 V 層錐體神經元上。5-HT2A 激活增加麩胺酸釋放並增強皮質興奮性,導致感知、認知和意識改變。大多數經典致幻劑也與 5-HT2C、5-HT1A 等血清素受體亞型相互作用。"
+        }
+      },
+      "bindings": [
+        {
+          "target": "5-HT2A",
+          "action": "agonist",
+          "affinity_tier": 3
+        },
+        {
+          "target": "5-HT2C",
+          "action": "agonist",
+          "affinity_tier": 2
+        },
+        {
+          "target": "5-HT1A",
+          "action": "agonist",
+          "affinity_tier": 1
+        }
+      ]
+    },
+    {
+      "class": "corticosteroid",
+      "substances": [
+        "budesonide",
+        "dexamethasone",
+        "hydrocortisone",
+        "methylprednisolone",
+        "prednisolone",
+        "prednisone"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Glucocorticoid Receptor Agonist",
+          "description": "Binds to intracellular glucocorticoid receptors, which translocate to the nucleus and modulate gene transcription. Upregulates anti-inflammatory proteins (lipocortins, IL-10) and downregulates pro-inflammatory mediators (cytokines, prostaglandins, leukotrienes). Also suppresses immune cell activation and migration. Metabolic effects include increased gluconeogenesis and altered fat distribution."
+        },
+        "zh-Hans": {
+          "summary": "糖皮质激素受体激动剂",
+          "description": "结合于细胞内糖皮质激素受体,这些受体转位至细胞核并调节基因转录。上调抗炎蛋白(脂皮素、IL-10)并下调促炎介质(细胞因子、前列腺素、白三烯)。也抑制免疫细胞的激活和迁移。代谢效应包括糖异生增加和脂肪分布改变。"
+        },
+        "zh-Hant": {
+          "summary": "糖皮質激素受體激動劑",
+          "description": "結合於細胞內糖皮質激素受體,這些受體轉位至細胞核並調節基因轉錄。上調抗炎蛋白(脂皮素、IL-10)並下調促炎介質(細胞因子、前列腺素、白三烯)。也抑制免疫細胞的激活和遷移。代謝效應包括糖異生增加和脂肪分布改變。"
+        }
+      }
+    },
+    {
+      "class": "fluoroquinolone",
+      "substances": [
+        "ciprofloxacin",
+        "levofloxacin"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Bacterial DNA Gyrase and Topoisomerase IV Inhibitor",
+          "description": "Inhibits bacterial DNA gyrase (topoisomerase II) and topoisomerase IV, enzymes essential for DNA replication, transcription, repair, and recombination. DNA gyrase inhibition prevents supercoil relaxation; topoisomerase IV inhibition prevents daughter chromosome separation. These actions are bactericidal. Human topoisomerases are structurally different, providing selectivity."
+        },
+        "zh-Hans": {
+          "summary": "细菌 DNA 旋转酶和拓扑异构酶 IV 抑制剂",
+          "description": "抑制细菌 DNA 旋转酶(拓扑异构酶 II)和拓扑异构酶 IV,这是 DNA 复制、转录、修复和重组所必需的酶。DNA 旋转酶抑制阻止超螺旋松弛;拓扑异构酶 IV 抑制阻止子代染色体分离。这些作用是杀菌性的。人类拓扑异构酶结构不同,提供选择性。"
+        },
+        "zh-Hant": {
+          "summary": "細菌 DNA 旋轉酶和拓樸異構酶 IV 抑制劑",
+          "description": "抑制細菌 DNA 旋轉酶(拓樸異構酶 II)和拓樸異構酶 IV,這是 DNA 複製、轉錄、修復和重組所必需的酶。DNA 旋轉酶抑制阻止超螺旋鬆弛;拓樸異構酶 IV 抑制阻止子代染色體分離。這些作用是殺菌性的。人類拓樸異構酶結構不同,提供選擇性。"
+        }
+      }
+    },
+    {
+      "class": "gabapentinoid",
+      "substances": [
+        "gabapentin",
+        "pregabalin"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Voltage-Gated Calcium Channel α2δ Subunit Ligand",
+          "description": "Binds to the α2δ-1 subunit of voltage-gated calcium channels (VGCCs), reducing calcium influx at presynaptic nerve terminals. This decreases the release of excitatory neurotransmitters including glutamate, norepinephrine, substance P, and calcitonin gene-related peptide. Despite the name, gabapentinoids do not interact with GABA receptors or GABA metabolism."
+        },
+        "zh-Hans": {
+          "summary": "电压门控钙通道 α2δ 亚单位配体",
+          "description": "结合于电压门控钙通道 (VGCC) 的 α2δ-1 亚单位,减少突触前神经末梢的钙内流。这减少兴奋性神经递质(包括谷氨酸、去甲肾上腺素、P 物质和降钙素基因相关肽)的释放。尽管名字如此,加巴喷丁类药物并不与 GABA 受体或 GABA 代谢相互作用。"
+        },
+        "zh-Hant": {
+          "summary": "電壓門控鈣通道 α2δ 亞單位配體",
+          "description": "結合於電壓門控鈣通道 (VGCC) 的 α2δ-1 亞單位,減少突觸前神經末梢的鈣內流。這減少興奮性神經傳導物質(包括麩胺酸、去甲腎上腺素、P 物質和降鈣素基因相關肽)的釋放。儘管名字如此,加巴噴丁類藥物並不與 GABA 受體或 GABA 代謝相互作用。"
+        }
+      }
+    },
+    {
+      "class": "ketamineMOA",
+      "why": "AMPA and mTOR — the downstream plasticity cascade behind the antidepressant effect, which NMDA antagonism alone does not explain.",
+      "substances": [
+        "esketamine",
+        "ketamine"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Non-Competitive NMDA Receptor Antagonist with Rapid Antidepressant Properties",
+          "description": "Acts as a non-competitive antagonist at the NMDA glutamate receptor by binding within the ion channel pore (use-dependent blockade). Produces dissociative anesthesia at higher doses and rapid antidepressant effects at sub-anesthetic doses. The antidepressant mechanism involves enhanced AMPA receptor signaling, increased brain-derived neurotrophic factor (BDNF) release, and activation of the mTOR signaling pathway, promoting rapid synaptic plasticity."
+        },
+        "zh-Hans": {
+          "summary": "非竞争性 NMDA 受体拮抗剂(具快速抗抑郁特性)",
+          "description": "通过结合于离子通道孔内(使用依赖性阻断)作为 NMDA 谷氨酸受体的非竞争性拮抗剂。在较高剂量下产生解离性麻醉,在亚麻醉剂量下产生快速抗抑郁效应。抗抑郁机制涉及 AMPA 受体信号增强、脑源性神经营养因子 (BDNF) 释放增加,以及 mTOR 信号通路激活,促进快速突触可塑性。"
+        },
+        "zh-Hant": {
+          "summary": "非競爭性 NMDA 受體拮抗劑(具快速抗鬱特性)",
+          "description": "透過結合於離子通道孔內(使用依賴性阻斷)作為 NMDA 麩胺酸受體的非競爭性拮抗劑。在較高劑量下產生解離性麻醉,在亞麻醉劑量下產生快速抗鬱效應。抗鬱機制涉及 AMPA 受體訊號增強、腦源性神經滋養因子 (BDNF) 釋放增加,以及 mTOR 訊號通路激活,促進快速突觸可塑性。"
+        }
+      },
+      "bindings": [
+        {
+          "target": "NMDA",
+          "action": "antagonist",
+          "affinity_tier": 3
+        },
+        {
+          "target": "AMPA",
+          "action": "modulator",
+          "affinity_tier": 2
+        },
+        {
+          "target": "mTOR",
+          "action": "modulator",
+          "affinity_tier": 2
+        }
+      ]
+    },
+    {
+      "class": "maobSelective",
+      "substances": [
+        "selegiline"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Selective MAO-B Inhibitor",
+          "description": "Selectively inhibits monoamine oxidase B (MAO-B), which preferentially metabolizes dopamine and phenylethylamine in the brain. At selective doses, increases dopamine availability without significantly affecting serotonin or norepinephrine metabolism, and without requiring dietary tyramine restriction. At higher doses, selectivity is lost and MAO-A is also inhibited."
+        },
+        "zh-Hans": {
+          "summary": "选择性 MAO-B 抑制剂",
+          "description": "选择性抑制单胺氧化酶 B (MAO-B),后者优先代谢脑中的多巴胺和苯乙胺。在选择性剂量下,增加多巴胺可用性,而不显著影响血清素或去甲肾上腺素的代谢,也无需限制膳食酪胺。在较高剂量下,选择性消失,MAO-A 也被抑制。"
+        },
+        "zh-Hant": {
+          "summary": "選擇性 MAO-B 抑制劑",
+          "description": "選擇性抑制單胺氧化酶 B (MAO-B),後者優先代謝腦中的多巴胺和苯乙胺。在選擇性劑量下,增加多巴胺可用性,而不顯著影響血清素或去甲腎上腺素的代謝,也無需限制膳食酪胺。在較高劑量下,選擇性消失,MAO-A 也被抑制。"
+        }
+      }
+    },
+    {
+      "class": "maoi",
+      "substances": [
+        "isocarboxazid",
+        "phenelzine",
+        "tranylcypromine"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Irreversible Monoamine Oxidase Inhibitor (MAOI)",
+          "description": "Irreversibly inhibits monoamine oxidase enzymes (MAO-A and MAO-B), which are responsible for the oxidative deamination of monoamine neurotransmitters. MAO-A primarily metabolizes serotonin, norepinephrine, and dopamine; MAO-B primarily metabolizes phenylethylamine and dopamine. Inhibition increases synaptic levels of all monoamines. Requires dietary tyramine restriction due to risk of hypertensive crisis."
+        },
+        "zh-Hans": {
+          "summary": "不可逆单胺氧化酶抑制剂 (MAOI)",
+          "description": "不可逆地抑制单胺氧化酶 (MAO-A 和 MAO-B),后者负责单胺神经递质的氧化脱氨。MAO-A 主要代谢血清素、去甲肾上腺素和多巴胺;MAO-B 主要代谢苯乙胺和多巴胺。抑制会增加所有单胺的突触水平。由于有高血压危象的风险,需要饮食中限制酪胺。"
+        },
+        "zh-Hant": {
+          "summary": "不可逆單胺氧化酶抑制劑 (MAOI)",
+          "description": "不可逆地抑制單胺氧化酶 (MAO-A 和 MAO-B),後者負責單胺神經傳導物質的氧化脫氨。MAO-A 主要代謝血清素、去甲腎上腺素和多巴胺;MAO-B 主要代謝苯乙胺和多巴胺。抑制會增加所有單胺的突觸水平。由於有高血壓危象的風險,需要飲食中限制酪胺。"
+        }
+      }
+    },
+    {
+      "class": "methamphetamine",
+      "why": "As amphetamine, plus SERT: the serotonergic component that separates it from amphetamine proper.",
+      "substances": [
+        "methamphetamine"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Monoamine Releasing Agent",
+          "description": "Enters dopamine (DAT), norepinephrine (NET), and serotonin (SERT) nerve terminals and reverses their transporters, releasing all three monoamines. Also agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol."
+        },
+        "zh-Hans": {
+          "summary": "单胺释放剂",
+          "description": "进入多巴胺（DAT）、去甲肾上腺素（NET）与血清素（SERT）能神经末梢，使其转运体反向运作，释放这三种单胺。同时激动 TAAR1，并作用于 VMAT2，将囊泡内的单胺重新分布到胞质中。"
+        },
+        "zh-Hant": {
+          "summary": "單胺釋放劑",
+          "description": "進入多巴胺（DAT）、正腎上腺素（NET）與血清素（SERT）能神經末梢，使其轉運體反向運作，釋放這三種單胺。同時激動 TAAR1，並作用於 VMAT2，將囊泡內的單胺重新分布到胞質中。"
+        }
+      },
+      "bindings": [
+        {
+          "target": "DAT",
+          "action": "releasingAgent",
+          "affinity_tier": 3
+        },
+        {
+          "target": "NET",
+          "action": "releasingAgent",
+          "affinity_tier": 3
+        },
+        {
+          "target": "SERT",
+          "action": "releasingAgent",
+          "affinity_tier": 1
+        },
+        {
+          "target": "TAAR1",
+          "action": "agonist",
+          "affinity_tier": 2
+        },
+        {
+          "target": "VMAT2",
+          "action": "modulator",
+          "affinity_tier": 2
+        }
+      ]
+    },
+    {
+      "class": "nmdaDissociative",
+      "substances": [
+        "3-ho-pcp",
+        "3-meo-pcp",
+        "diphenidine",
+        "methoxetamine",
+        "methoxphenidine",
+        "mxe"
+      ],
+      "prose": {
+        "en": {
+          "summary": "NMDA Receptor Antagonist (Dissociative)",
+          "description": "Blocks N-methyl-D-aspartate (NMDA) glutamate receptors, typically by binding within the ion channel pore as a non-competitive antagonist. NMDA receptor blockade reduces excitatory glutamatergic neurotransmission, producing dissociative anesthesia, analgesia, and altered states of consciousness characterized by feelings of detachment from body and environment."
+        },
+        "zh-Hans": {
+          "summary": "NMDA 受体拮抗剂(解离剂)",
+          "description": "阻断 N-甲基-D-天冬氨酸 (NMDA) 谷氨酸受体,通常作为非竞争性拮抗剂结合于离子通道孔内。NMDA 受体阻断减少兴奋性谷氨酸能神经传递,产生解离性麻醉、镇痛和以与身体和环境脱离感为特征的意识改变状态。"
+        },
+        "zh-Hant": {
+          "summary": "NMDA 受體拮抗劑(解離劑)",
+          "description": "阻斷 N-甲基-D-天門冬胺酸 (NMDA) 麩胺酸受體,通常作為非競爭性拮抗劑結合於離子通道孔內。NMDA 受體阻斷減少興奮性麩胺酸能神經傳導,產生解離性麻醉、鎮痛和以與身體和環境脫離感為特徵的意識改變狀態。"
+        }
+      }
+    },
+    {
+      "class": "nsaid",
+      "substances": [
+        "diclofenac",
+        "ibuprofen",
+        "indomethacin",
+        "ketorolac",
+        "meloxicam",
+        "naproxen",
+        "piroxicam"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Cyclooxygenase (COX) Inhibitor (NSAID)",
+          "description": "Reversibly inhibits cyclooxygenase enzymes COX-1 and COX-2, reducing the synthesis of prostaglandins from arachidonic acid. COX-2 inhibition mediates anti-inflammatory and analgesic effects, while COX-1 inhibition reduces gastric mucosal protection. Central prostaglandin inhibition contributes to antipyretic effects."
+        },
+        "zh-Hans": {
+          "summary": "环氧合酶 (COX) 抑制剂(非甾体抗炎药)",
+          "description": "可逆地抑制环氧合酶 COX-1 和 COX-2,减少花生四烯酸合成前列腺素。COX-2 抑制介导抗炎和镇痛效应,而 COX-1 抑制减少胃黏膜保护。中枢前列腺素抑制助长退热效应。"
+        },
+        "zh-Hant": {
+          "summary": "環氧合酶 (COX) 抑制劑(非類固醇消炎藥)",
+          "description": "可逆地抑制環氧合酶 COX-1 和 COX-2,減少花生四烯酸合成前列腺素。COX-2 抑制介導抗炎和鎮痛效應,而 COX-1 抑制減少胃黏膜保護。中樞前列腺素抑制助長退熱效應。"
+        }
+      }
+    },
+    {
+      "class": "opioidFull",
+      "substances": [
+        "diacetylmorphine",
+        "diamorphine",
+        "fentanyl",
+        "heroin",
+        "hydrocodone",
+        "hydromorphone",
+        "meperidine",
+        "morphine",
+        "oxycodone",
+        "oxymorphone",
+        "pethidine",
+        "sufentanil"
+      ],
+      "prose": {
+        "en": {
+          "summary": "μ-Opioid Receptor (MOR) Full Agonist",
+          "description": "Acts as a full agonist at μ-opioid receptors (MOR), G-protein coupled receptors distributed throughout the central and peripheral nervous system. MOR activation inhibits adenylyl cyclase, opens inwardly rectifying potassium channels, and closes voltage-gated calcium channels, reducing neuronal excitability and neurotransmitter release. Produces analgesia, euphoria, respiratory depression, and decreased gastrointestinal motility."
+        },
+        "zh-Hans": {
+          "summary": "μ-阿片受体 (MOR) 完全激动剂",
+          "description": "作为 μ-阿片受体 (MOR) 的完全激动剂,这是分布于中枢和外周神经系统的 G 蛋白偶联受体。MOR 激活抑制腺苷酸环化酶,开放内向整流钾通道,关闭电压门控钙通道,降低神经元兴奋性和神经递质释放。产生镇痛、欣快、呼吸抑制和胃肠动力降低。"
+        },
+        "zh-Hant": {
+          "summary": "μ-阿片受體 (MOR) 完全激動劑",
+          "description": "作為 μ-阿片受體 (MOR) 的完全激動劑,這是分布於中樞和外周神經系統的 G 蛋白偶聯受體。MOR 激活抑制腺苷酸環化酶,開放內向整流鉀通道,關閉電壓門控鈣通道,降低神經元興奮性和神經傳導物質釋放。產生鎮痛、欣快、呼吸抑制和胃腸動力降低。"
+        }
+      }
+    },
+    {
+      "class": "ppi",
+      "substances": [
+        "dexlansoprazole",
+        "esomeprazole",
+        "lansoprazole",
+        "omeprazole",
+        "pantoprazole"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Proton Pump Inhibitor (PPI)",
+          "description": "Irreversibly inhibits the hydrogen-potassium ATPase (H⁺/K⁺ ATPase, the proton pump) on the luminal surface of gastric parietal cells. This blocks the final step of acid secretion regardless of the stimulus, producing a profound and long-lasting reduction in gastric acid production. Requires activation in the acidic environment of the parietal cell canaliculus."
+        },
+        "zh-Hans": {
+          "summary": "质子泵抑制剂 (PPI)",
+          "description": "不可逆地抑制胃壁细胞管腔表面的氢-钾 ATP 酶(H⁺/K⁺ ATP 酶,质子泵)。这阻断了酸分泌的最后一步,无论刺激如何,产生深远而持久的胃酸生产减少。需要在壁细胞小管的酸性环境中激活。"
+        },
+        "zh-Hant": {
+          "summary": "質子泵抑制劑 (PPI)",
+          "description": "不可逆地抑制胃壁細胞管腔表面的氫-鉀 ATP 酶(H⁺/K⁺ ATP 酶,質子泵)。這阻斷了酸分泌的最後一步,無論刺激如何,產生深遠而持久的胃酸生產減少。需要在壁細胞小管的酸性環境中激活。"
+        }
+      }
+    },
+    {
+      "class": "racetam",
+      "substances": [
+        "aniracetam",
+        "carphedon",
+        "coluracetam",
+        "fasoracetam",
+        "oxiracetam",
+        "phenylpiracetam",
+        "piracetam",
+        "pramiracetam"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)",
+          "description": "Exact mechanism not fully established. Modulates AMPA-type glutamate receptors (positive allosteric modulation), enhancing glutamatergic neurotransmission and synaptic plasticity. May also increase acetylcholine turnover and improve cerebral blood flow. Individual racetams vary in their receptor selectivity and additional mechanisms."
+        },
+        "zh-Hans": {
+          "summary": "吡拉西坦类益智剂(谷氨酸能/胆碱能调节剂)",
+          "description": "确切机制尚未完全确立。调节 AMPA 型谷氨酸受体(正向变构调节),增强谷氨酸能神经传递和突触可塑性。也可能增加乙酰胆碱周转并改善脑血流。各吡拉西坦类药物在受体选择性和其他机制上有所不同。"
+        },
+        "zh-Hant": {
+          "summary": "吡拉西坦類益智劑(麩胺酸能/膽鹼能調節劑)",
+          "description": "確切機制尚未完全確立。調節 AMPA 型麩胺酸受體(正向變構調節),增強麩胺酸能神經傳導和突觸可塑性。也可能增加乙醯膽鹼周轉並改善腦血流。各吡拉西坦類藥物在受體選擇性和其他機制上有所不同。"
+        }
+      }
+    },
+    {
+      "class": "rima",
+      "substances": [
+        "moclobemide"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Reversible Inhibitor of Monoamine Oxidase A (RIMA)",
+          "description": "Selectively and reversibly inhibits MAO-A, increasing synaptic serotonin and norepinephrine. Unlike irreversible MAOIs, the reversible binding allows dietary tyramine to compete for the enzyme, significantly reducing the risk of hypertensive crisis and eliminating the need for strict dietary restrictions."
+        },
+        "zh-Hans": {
+          "summary": "可逆性单胺氧化酶 A 抑制剂 (RIMA)",
+          "description": "选择性可逆地抑制 MAO-A,增加突触血清素和去甲肾上腺素。与不可逆 MAOI 不同,可逆结合允许膳食酪胺竞争该酶,显著降低高血压危象风险,并消除对严格饮食限制的需求。"
+        },
+        "zh-Hant": {
+          "summary": "可逆性單胺氧化酶 A 抑制劑 (RIMA)",
+          "description": "選擇性可逆地抑制 MAO-A,增加突觸血清素和去甲腎上腺素。與不可逆 MAOI 不同,可逆結合允許膳食酪胺競爭該酶,顯著降低高血壓危象風險,並消除對嚴格飲食限制的需求。"
+        }
+      }
+    },
+    {
+      "class": "snri",
+      "substances": [
+        "desvenlafaxine",
+        "duloxetine",
+        "levomilnacipran",
+        "milnacipran",
+        "venlafaxine"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Serotonin-Norepinephrine Reuptake Inhibitor (SNRI)",
+          "description": "Inhibits both the serotonin transporter (SERT) and the norepinephrine transporter (NET), blocking reuptake of both monoamines from the synaptic cleft. At lower doses, serotonin reuptake inhibition predominates; norepinephrine reuptake inhibition becomes more significant at higher doses. This dual mechanism provides antidepressant and analgesic effects."
+        },
+        "zh-Hans": {
+          "summary": "血清素-去甲肾上腺素再摄取抑制剂 (SNRI)",
+          "description": "抑制血清素转运体 (SERT) 和去甲肾上腺素转运体 (NET),阻断这两种单胺从突触间隙的再摄取。低剂量下血清素再摄取抑制占主导;高剂量下去甲肾上腺素再摄取抑制更显著。这种双重机制提供抗抑郁和镇痛效应。"
+        },
+        "zh-Hant": {
+          "summary": "血清素-去甲腎上腺素再攝取抑制劑 (SNRI)",
+          "description": "抑制血清素轉運體 (SERT) 和去甲腎上腺素轉運體 (NET),阻斷這兩種單胺從突觸間隙的再攝取。低劑量下血清素再攝取抑制佔主導;高劑量下去甲腎上腺素再攝取抑制更顯著。這種雙重機制提供抗鬱和鎮痛效應。"
+        }
+      }
+    },
+    {
+      "class": "ssri",
+      "substances": [
+        "citalopram",
+        "escitalopram",
+        "fluoxetine",
+        "fluvoxamine",
+        "paroxetine",
+        "sertraline"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Selective Serotonin Reuptake Inhibitor (SSRI)",
+          "description": "Selectively inhibits the serotonin transporter (SERT), blocking the reuptake of serotonin (5-HT) from the synaptic cleft into the presynaptic neuron. This increases serotonin availability at postsynaptic receptors. Therapeutic effects typically require 2–4 weeks as presynaptic 5-HT1A autoreceptors desensitize, allowing sustained serotonergic neurotransmission."
+        },
+        "zh-Hans": {
+          "summary": "选择性血清素再摄取抑制剂 (SSRI)",
+          "description": "选择性抑制血清素转运体 (SERT),阻断血清素 (5-HT) 从突触间隙再摄取至突触前神经元。这增加突触后受体处的血清素可用性。治疗效应通常需要 2–4 周,因为突触前 5-HT1A 自身受体需要去敏化,以维持持续的血清素能神经传递。"
+        },
+        "zh-Hant": {
+          "summary": "選擇性血清素再攝取抑制劑 (SSRI)",
+          "description": "選擇性抑制血清素轉運體 (SERT),阻斷血清素 (5-HT) 從突觸間隙再攝取至突觸前神經元。這增加突觸後受體處的血清素可用性。治療效應通常需要 2–4 週,因為突觸前 5-HT1A 自身受體需要去敏化,以維持持續的血清素能神經傳導。"
+        }
+      }
+    },
+    {
+      "class": "statin",
+      "substances": [
+        "atorvastatin",
+        "fluvastatin",
+        "lovastatin",
+        "pravastatin",
+        "rosuvastatin",
+        "simvastatin"
+      ],
+      "prose": {
+        "en": {
+          "summary": "HMG-CoA Reductase Inhibitor (Statin)",
+          "description": "Competitively inhibits 3-hydroxy-3-methylglutaryl-coenzyme A (HMG-CoA) reductase, the rate-limiting enzyme in hepatic cholesterol synthesis. Reduced intracellular cholesterol upregulates LDL receptor expression on hepatocytes, increasing LDL clearance from the blood. Also produces pleiotropic effects including improved endothelial function and anti-inflammatory activity."
+        },
+        "zh-Hans": {
+          "summary": "HMG-CoA 还原酶抑制剂(他汀类)",
+          "description": "竞争性抑制 3-羟基-3-甲基戊二酰辅酶 A (HMG-CoA) 还原酶,这是肝胆固醇合成的限速酶。细胞内胆固醇降低上调肝细胞上的 LDL 受体表达,增加血液中 LDL 的清除。也产生多效作用,包括改善内皮功能和抗炎活性。"
+        },
+        "zh-Hant": {
+          "summary": "HMG-CoA 還原酶抑制劑(他汀類)",
+          "description": "競爭性抑制 3-羥基-3-甲基戊二醯輔酶 A (HMG-CoA) 還原酶,這是肝膽固醇合成的限速酶。細胞內膽固醇降低上調肝細胞上的 LDL 受體表達,增加血液中 LDL 的清除。也產生多效作用,包括改善內皮功能和抗炎活性。"
+        }
+      }
+    },
+    {
+      "class": "tca",
+      "why": "SERT/NET/H1/M1/α1 — the sedation, dry mouth and orthostasis that define a tricyclic clinically, none of it implied by the phrase \"Tricyclic Antidepressant\".",
+      "substances": [
+        "amitriptyline",
+        "amoxapine",
+        "clomipramine",
+        "desipramine",
+        "doxepin",
+        "imipramine",
+        "maprotiline",
+        "nortriptyline",
+        "protriptyline",
+        "trimipramine"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Tricyclic Antidepressant (TCA)",
+          "description": "Inhibits the reuptake of serotonin and norepinephrine by blocking SERT and NET. Unlike SSRIs and SNRIs, TCAs also significantly antagonize histamine H1, muscarinic M1, and α1-adrenergic receptors, which accounts for their sedative, anticholinergic, and orthostatic hypotension side effects. The ratio of serotonin to norepinephrine reuptake inhibition varies between individual TCAs."
+        },
+        "zh-Hans": {
+          "summary": "三环抗抑郁药 (TCA)",
+          "description": "通过阻断 SERT 和 NET 抑制血清素和去甲肾上腺素的再摄取。与 SSRI 和 SNRI 不同,TCA 还显著拮抗组胺 H1、毒蕈碱 M1 和 α1-肾上腺素受体,这解释了其镇静、抗胆碱和直立性低血压副作用。各 TCA 之间血清素与去甲肾上腺素再摄取抑制的比例各不相同。"
+        },
+        "zh-Hant": {
+          "summary": "三環抗鬱藥 (TCA)",
+          "description": "透過阻斷 SERT 和 NET 抑制血清素和去甲腎上腺素的再攝取。與 SSRI 和 SNRI 不同,TCA 還顯著拮抗組胺 H1、蕈毒鹼 M1 和 α1-腎上腺素受體,這解釋了其鎮靜、抗膽鹼和直立性低血壓副作用。各 TCA 之間血清素與去甲腎上腺素再攝取抑制的比例各不相同。"
+        }
+      },
+      "bindings": [
+        {
+          "target": "SERT",
+          "action": "reuptakeInhibitor",
+          "affinity_tier": 3
+        },
+        {
+          "target": "NET",
+          "action": "reuptakeInhibitor",
+          "affinity_tier": 3
+        },
+        {
+          "target": "H1",
+          "action": "antagonist",
+          "affinity_tier": 2
+        },
+        {
+          "target": "M1",
+          "action": "antagonist",
+          "affinity_tier": 2
+        },
+        {
+          "target": "α1-adrenergic",
+          "action": "antagonist",
+          "affinity_tier": 2
+        }
+      ]
+    },
+    {
+      "class": "triptan",
+      "substances": [
+        "almotriptan",
+        "eletriptan",
+        "naratriptan",
+        "rizatriptan",
+        "sumatriptan",
+        "zolmitriptan"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Serotonin 5-HT1B/1D Receptor Agonist (Triptan)",
+          "description": "Selectively activates serotonin 5-HT1B receptors on cranial blood vessels (causing vasoconstriction of dilated meningeal arteries) and 5-HT1D receptors on trigeminal nerve terminals (inhibiting release of vasoactive neuropeptides including CGRP and substance P). This dual action reverses the pathophysiology of migraine: vasodilation and neurogenic inflammation."
+        },
+        "zh-Hans": {
+          "summary": "血清素 5-HT1B/1D 受体激动剂(曲普坦类)",
+          "description": "选择性激活颅血管上的血清素 5-HT1B 受体(引起扩张的脑膜动脉血管收缩)和三叉神经末梢上的 5-HT1D 受体(抑制血管活性神经肽包括 CGRP 和 P 物质的释放)。这种双重作用逆转偏头痛的病理生理学:血管扩张和神经源性炎症。"
+        },
+        "zh-Hant": {
+          "summary": "血清素 5-HT1B/1D 受體激動劑(曲普坦類)",
+          "description": "選擇性激活顱血管上的血清素 5-HT1B 受體(引起擴張的腦膜動脈血管收縮)和三叉神經末梢上的 5-HT1D 受體(抑制血管活性神經肽包括 CGRP 和 P 物質的釋放)。這種雙重作用逆轉偏頭痛的病理生理學:血管擴張和神經源性炎症。"
+        }
+      }
+    },
+    {
+      "class": "typicalAP",
+      "why": "H1 and α1 alongside D2 — the sedation and orthostatic hypotension, absent from \"Dopamine D2 Receptor Antagonist\".",
+      "substances": [
+        "chlorpromazine",
+        "droperidol",
+        "fluphenazine",
+        "haloperidol",
+        "loxapine",
+        "perphenazine",
+        "pimozide",
+        "thioridazine",
+        "thiothixene",
+        "trifluoperazine"
+      ],
+      "prose": {
+        "en": {
+          "summary": "Dopamine D2 Receptor Antagonist (First-Generation Antipsychotic)",
+          "description": "Blocks dopamine D2 receptors in the mesolimbic pathway, reducing dopaminergic neurotransmission associated with positive psychotic symptoms. Also blocks D2 receptors in the nigrostriatal pathway (causing extrapyramidal symptoms), tuberoinfundibular pathway (causing hyperprolactinemia), and mesocortical pathway. Most also antagonize histamine H1, muscarinic, and α1-adrenergic receptors to varying degrees."
+        },
+        "zh-Hans": {
+          "summary": "多巴胺 D2 受体拮抗剂(第一代抗精神病药)",
+          "description": "阻断中脑边缘通路中的多巴胺 D2 受体,减少与阳性精神病症状相关的多巴胺能神经传递。也阻断黑质纹状体通路(引起锥体外系症状)、漏斗结节通路(引起高催乳素血症)和中脑皮质通路中的 D2 受体。大多数还不同程度地拮抗组胺 H1、毒蕈碱和 α1-肾上腺素受体。"
+        },
+        "zh-Hant": {
+          "summary": "多巴胺 D2 受體拮抗劑(第一代抗精神病藥)",
+          "description": "阻斷中腦邊緣通路中的多巴胺 D2 受體,減少與陽性精神病症狀相關的多巴胺能神經傳導。也阻斷黑質紋狀體通路(引起錐體外系症狀)、漏斗結節通路(引起高泌乳素血症)和中腦皮質通路中的 D2 受體。大多數還不同程度地拮抗組胺 H1、蕈毒鹼和 α1-腎上腺素受體。"
+        }
+      },
+      "bindings": [
+        {
+          "target": "D2",
+          "action": "antagonist",
+          "affinity_tier": 3
+        },
+        {
+          "target": "H1",
+          "action": "antagonist",
+          "affinity_tier": 2
+        },
+        {
+          "target": "α1-adrenergic",
+          "action": "antagonist",
+          "affinity_tier": 2
+        }
+      ]
+    },
+    {
+      "class": "zDrug",
+      "substances": [
+        "eszopiclone",
+        "zaleplon",
+        "zolpidem",
+        "zopiclone"
+      ],
+      "prose": {
+        "en": {
+          "summary": "GABA-A Receptor Agonist (α1-Selective)",
+          "description": "Binds to the benzodiazepine site on GABA-A receptors with preferential selectivity for the α1 subunit, which is predominantly associated with sedation and hypnosis. This selectivity produces hypnotic effects with less anxiolytic, anticonvulsant, and muscle relaxant activity compared to benzodiazepines, though selectivity diminishes at higher doses."
+        },
+        "zh-Hans": {
+          "summary": "GABA-A 受体激动剂(α1 选择性)",
+          "description": "结合于 GABA-A 受体的苯二氮䓬位点,对 α1 亚单位具有优先选择性,后者主要与镇静和催眠相关。这种选择性产生催眠效应,而抗焦虑、抗惊厥和肌肉松弛活性比苯二氮䓬类少,但在较高剂量下选择性会减弱。"
+        },
+        "zh-Hant": {
+          "summary": "GABA-A 受體激動劑(α1 選擇性)",
+          "description": "結合於 GABA-A 受體的苯二氮䓬位點,對 α1 亞單位具有優先選擇性,後者主要與鎮靜和催眠相關。這種選擇性產生催眠效應,而抗焦慮、抗驚厥和肌肉鬆弛活性比苯二氮䓬類少,但在較高劑量下選擇性會減弱。"
+        }
+      }
+    }
+  ]
+}

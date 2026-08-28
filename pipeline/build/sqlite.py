@@ -104,7 +104,7 @@ CURATED_DIR = REPO / "data/curated/substances"
 # data-localizable and the bindings are surfaced (union-merged with measured
 # rows). One JSON array, ingested as `piru-curated` AFTER all substances exist.
 MECHANISMS = REPO / "data/curated/mechanisms.json"
-CLASS_MECHANISM_BINDINGS = REPO / "data/curated/class-mechanism-bindings.json"
+CLASS_MECHANISMS = REPO / "data/curated/class-mechanisms.json"
 # Flagship pharmacology seed: graded, citation-verified Vd / Kᵢ / EC₅₀ for the
 # pharmacology-axis flagship substances (transcribed from the private evidence
 # run; the raw graded records stay out of the repo). Ingested AFTER all
@@ -7323,17 +7323,25 @@ class Build:
                 file=sys.stderr,
             )
 
-    def ingest_class_mechanism_bindings(self, path: Path) -> None:
-        """Class-level receptor targets, fanned out to each member substance.
+    def ingest_class_mechanisms(self, path: Path) -> None:
+        """The class-level mechanism layer — shared prose and receptor targets — fanned out
+        to each member substance.
 
         Relocated from the iOS ``MechanismOfActionDatabase`` class templates. The file is
-        ``{"classes": [{"class", "substances": [...], "bindings": [{target, action,
-        affinity_tier}], "why"}]}``; every row is attributed to ``piru-curated`` and carries an
-        ordinal tier with no numeric value and no citation.
+        ``{"classes": [{"class", "substances": [...], "prose": {lang: {summary, description}},
+        "bindings": [{target, action, affinity_tier}], "why"}]}``; everything is attributed to
+        ``piru-curated``, prose in each of en / zh-Hans / zh-Hant, bindings as an ordinal tier
+        with no numeric value and no citation.
 
-        Two rules the file states and this enforces, both load-bearing:
+        **Both fan-outs write only where the substance has nothing of that kind already**, and
+        for the same reason in two registers — a class generalisation may never displace a
+        per-substance fact:
 
-        * **A row is written ONLY where the substance has no binding for that target yet.** The
+        * **Prose is written ONLY where the substance has no ``mechanisms_summary`` row at all.**
+          ``piru-curated`` outranks every other source, so a class paragraph written over a
+          substance that already has a pyrls or medtap summary would put "Selective Serotonin
+          Reuptake Inhibitor (SSRI)" above the text written about that specific drug.
+        * **A binding is written ONLY where the substance has no row for that target yet.** The
           app resolves a displayed tier as ``COALESCE(MAX(curated_tier), MAX(derived_tier), 1)``
           per (target, action), so a generic class tier written beside a measured row would
           override the measurement — the precise inversion the mechanism card was fixed to stop.
@@ -7368,7 +7376,7 @@ class Build:
             t = re.sub(r"\s+receptors?$", "", t, flags=re.IGNORECASE).strip()
             return t.casefold()
 
-        written = skipped_existing = 0
+        written = skipped_existing = prose_written = prose_skipped = 0
         unmatched: list[str] = []
         for rec in classes:
             if not isinstance(rec, dict):
@@ -7376,6 +7384,7 @@ class Build:
             bindings = [
                 b for b in rec.get("bindings") or [] if isinstance(b, dict) and b.get("target")
             ]
+            prose = rec.get("prose") or {}
             for name in rec.get("substances") or []:
                 sid = self.substance_ids.get(normalise(name))
                 if sid is None:
@@ -7387,6 +7396,27 @@ class Build:
                 if sid is None:
                     unmatched.append(name)
                     continue
+                # Prose: only for a substance no source has described at all.
+                if (
+                    prose
+                    and not self.cur.execute(
+                        "SELECT 1 FROM mechanisms_summary WHERE substance_id = ? LIMIT 1", (sid,)
+                    ).fetchone()
+                ):
+                    for lang, text in prose.items():
+                        if not isinstance(text, dict) or not text.get("summary"):
+                            continue
+                        self.add_mechanism_summary(
+                            sid,
+                            "piru-curated",
+                            text["summary"],
+                            description=text.get("description"),
+                            language=lang,
+                        )
+                        prose_written += 1
+                elif prose:
+                    prose_skipped += 1
+
                 have = {
                     fold(r[0])
                     for r in self.cur.execute(
@@ -7414,6 +7444,8 @@ class Build:
                     written += 1
         self.stats["class_mechanism_bindings"] = written
         self.stats["class_mechanism_bindings_skipped"] = skipped_existing
+        self.stats["class_mechanism_prose"] = prose_written
+        self.stats["class_mechanism_prose_skipped"] = prose_skipped
         if unmatched:
             print(
                 f"  WARNING: class-mechanism bindings, no substance match: {sorted(set(unmatched))}",
@@ -12722,10 +12754,12 @@ def main() -> int:
 
     # Class-level targets, fanned out per member. LAST of the binding passes on purpose: it
     # writes a row only where no source measured that target, so it must see the final panel.
-    build.ingest_class_mechanism_bindings(CLASS_MECHANISM_BINDINGS)
+    build.ingest_class_mechanisms(CLASS_MECHANISMS)
     print(
-        f"After class mechanism bindings: {build.stats.get('class_mechanism_bindings', 0)} written, "
-        f"{build.stats.get('class_mechanism_bindings_skipped', 0)} skipped (already measured)",
+        f"After class mechanisms: {build.stats.get('class_mechanism_prose', 0)} prose rows + "
+        f"{build.stats.get('class_mechanism_bindings', 0)} bindings written; skipped "
+        f"{build.stats.get('class_mechanism_prose_skipped', 0)} already-described substances and "
+        f"{build.stats.get('class_mechanism_bindings_skipped', 0)} already-measured targets",
         file=sys.stderr,
     )
 
