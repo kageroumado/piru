@@ -104,6 +104,7 @@ CURATED_DIR = REPO / "data/curated/substances"
 # data-localizable and the bindings are surfaced (union-merged with measured
 # rows). One JSON array, ingested as `piru-curated` AFTER all substances exist.
 MECHANISMS = REPO / "data/curated/mechanisms.json"
+CLASS_MECHANISM_BINDINGS = REPO / "data/curated/class-mechanism-bindings.json"
 # Flagship pharmacology seed: graded, citation-verified Vd / Kᵢ / EC₅₀ for the
 # pharmacology-axis flagship substances (transcribed from the private evidence
 # run; the raw graded records stay out of the repo). Ingested AFTER all
@@ -7322,6 +7323,103 @@ class Build:
                 file=sys.stderr,
             )
 
+    def ingest_class_mechanism_bindings(self, path: Path) -> None:
+        """Class-level receptor targets, fanned out to each member substance.
+
+        Relocated from the iOS ``MechanismOfActionDatabase`` class templates. The file is
+        ``{"classes": [{"class", "substances": [...], "bindings": [{target, action,
+        affinity_tier}], "why"}]}``; every row is attributed to ``piru-curated`` and carries an
+        ordinal tier with no numeric value and no citation.
+
+        Two rules the file states and this enforces, both load-bearing:
+
+        * **A row is written ONLY where the substance has no binding for that target yet.** The
+          app resolves a displayed tier as ``COALESCE(MAX(curated_tier), MAX(derived_tier), 1)``
+          per (target, action), so a generic class tier written beside a measured row would
+          override the measurement — the precise inversion the mechanism card was fixed to stop.
+          Skipping keeps "the cited panel wins" true structurally rather than by convention.
+        * **No citation.** These are class generalisations, not readings of a paper. A value-less
+          row carrying a ``citation_id`` joins that citation's comparability group and, having no
+          value on any basis, makes the whole group unplottable — it would silently delete a
+          signature chart.
+
+        Runs after every binding source (flagship included) so the skip sees the final panel. The
+        reported count is rows written; the substance-merge passes further down can collapse a
+        couple of them, so the shipped total runs slightly under it.
+        """
+        if not path.exists():
+            return
+        try:
+            doc = json.loads(path.read_text())
+        except (ValueError, OSError) as exc:
+            print(f"  WARNING: {path.name} failed to load: {exc}", file=sys.stderr)
+            return
+        classes = doc.get("classes") if isinstance(doc, dict) else None
+        if not isinstance(classes, list):
+            return
+
+        def fold(target: str) -> str:
+            """Mirror of ReceptorTargetKey.fold: drop a non-leading qualifier parenthetical and a
+            trailing ' receptor(s)', then casefold. Keeps a leading parenthetical, which is the
+            whole name rather than a qualifier."""
+            t = target.strip()
+            if not t.startswith("("):
+                t = re.sub(r"\s*\([^)]*\)\s*$", "", t).strip()
+            t = re.sub(r"\s+receptors?$", "", t, flags=re.IGNORECASE).strip()
+            return t.casefold()
+
+        written = skipped_existing = 0
+        unmatched: list[str] = []
+        for rec in classes:
+            if not isinstance(rec, dict):
+                continue
+            bindings = [
+                b for b in rec.get("bindings") or [] if isinstance(b, dict) and b.get("target")
+            ]
+            for name in rec.get("substances") or []:
+                sid = self.substance_ids.get(normalise(name))
+                if sid is None:
+                    row = self.cur.execute(
+                        "SELECT substance_id FROM aliases WHERE lower(alias) = ? LIMIT 1",
+                        (name.lower(),),
+                    ).fetchone()
+                    sid = row[0] if row else None
+                if sid is None:
+                    unmatched.append(name)
+                    continue
+                have = {
+                    fold(r[0])
+                    for r in self.cur.execute(
+                        "SELECT target FROM bindings WHERE substance_id = ?", (sid,)
+                    )
+                }
+                for b in bindings:
+                    if fold(b["target"]) in have:
+                        skipped_existing += 1
+                        continue
+                    # `notes` is unread by the app and is the only way to tell these apart from
+                    # the per-substance curated rows that share the source slug — which the
+                    # shipped-DB gate in test_sqlite.py needs, since the two kinds must obey
+                    # different rules about sitting beside a measurement.
+                    self.add_binding(
+                        sid,
+                        "piru-curated",
+                        {
+                            **b,
+                            "reference": None,
+                            "notes": f"class-level generalisation ({rec.get('class')})",
+                        },
+                    )
+                    have.add(fold(b["target"]))
+                    written += 1
+        self.stats["class_mechanism_bindings"] = written
+        self.stats["class_mechanism_bindings_skipped"] = skipped_existing
+        if unmatched:
+            print(
+                f"  WARNING: class-mechanism bindings, no substance match: {sorted(set(unmatched))}",
+                file=sys.stderr,
+            )
+
     def ingest_sourced_substances(self, path: Path, *, known_names: set[str] | None = None) -> None:
         """SubstanceCollector's per-record sourced output. Each record carries
         its provenance (mapped 1:1 to sources.slug) so every fact gets
@@ -12619,6 +12717,15 @@ def main() -> int:
     print(
         f"After flagship pharmacology: {build.stats.get('flagship_bindings', 0)} bindings, "
         f"{build.stats.get('flagship_pk_routes', 0)} pk_routes",
+        file=sys.stderr,
+    )
+
+    # Class-level targets, fanned out per member. LAST of the binding passes on purpose: it
+    # writes a row only where no source measured that target, so it must see the final panel.
+    build.ingest_class_mechanism_bindings(CLASS_MECHANISM_BINDINGS)
+    print(
+        f"After class mechanism bindings: {build.stats.get('class_mechanism_bindings', 0)} written, "
+        f"{build.stats.get('class_mechanism_bindings_skipped', 0)} skipped (already measured)",
         file=sys.stderr,
     )
 

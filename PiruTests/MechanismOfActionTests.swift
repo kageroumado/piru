@@ -163,20 +163,39 @@ struct MechanismOfActionTests {
     }
 
     @Test
-    func `A class template's bindings fill in when the DB summary carries none`() {
-        // Eight templates still carry receptor data — the ones naming targets the summary
-        // does not imply. A tricyclic's H1/M1/α1 profile is the sedation-and-orthostasis
-        // story and appears in no part of the phrase "Tricyclic Antidepressant", so it
-        // survives where "SSRI → SERT" did not.
-        let db = moa(summary: "DB-supplied TCA summary", bindings: [])
+    @MainActor
+    func `The class-level receptor profile now comes from the DB, not from Swift`() async {
+        // A tricyclic's H1/M1/α1 profile is the sedation-and-orthostasis story and appears in no
+        // part of the phrase "Tricyclic Antidepressant", so it survived the tautology cull — and
+        // it now lives in `bindings` via data/curated/class-mechanism-bindings.json rather than
+        // in a Swift template. This is the end-to-end proof of that move.
+        await SubstanceStore.shared.ensureAllLoaded()
+        guard let sub = SubstanceStore.shared.lookup("Amitriptyline") else {
+            Issue.record("Amitriptyline missing from bundled DB"); return
+        }
         let resolved = MechanismOfActionDatabase.resolvedMechanism(
-            dbMechanism: db, substanceName: "amitriptyline", category: .antidepressant,
+            dbMechanism: sub.mechanismOfAction, substanceName: sub.name, category: sub.category,
         )
-        #expect(resolved?.summary == "DB-supplied TCA summary")
-        for target in ["H1", "M1", "α1"] {
+        for target in ["H1", "M1", "α1-adrenergic", "SERT", "NET"] {
             #expect(
                 resolved?.bindings.contains { $0.target == target } == true,
-                "amitriptyline should keep the TCA template's \(target) binding",
+                "amitriptyline should show \(target) from the DB",
+            )
+        }
+        // And Swift contributes nothing: the template is prose now.
+        #expect(MechanismOfActionDatabase.mechanism(for: "amitriptyline")?.bindings.isEmpty == true)
+    }
+
+    @Test
+    func `No class template carries a receptor list any more`() {
+        // The whole Swift table is prose. A binding list here would be a second copy of the
+        // panel with no citation and no way to be corrected without an app release; where a
+        // class genuinely knows an unmeasured target, it belongs in
+        // data/curated/class-mechanism-bindings.json.
+        for key in MechanismOfActionDatabase.substanceKeys {
+            #expect(
+                MechanismOfActionDatabase.mechanism(for: key)?.bindings.isEmpty != false,
+                "\(key)'s template grew a binding list back",
             )
         }
     }

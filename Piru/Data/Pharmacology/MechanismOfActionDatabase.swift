@@ -23,27 +23,27 @@ enum MechanismOfActionDatabase {
     /// Composes the mechanism shown in the substance detail card by precedence,
     /// so real receptor data is never hidden behind a generic template.
     ///
-    /// Per-substance curated prose + bindings live in the bundled DB
-    /// (`piru-curated`, the highest-priority source), so `dbMechanism` already
-    /// carries them — union-merged with any measured rows by
-    /// ``SubstanceStore``. The Swift `substanceData` that this reads via
-    /// ``mechanism(for:)`` holds the generic, xcstrings-localized **class
-    /// templates** (SSRI, benzodiazepine, …) mapped per substance; it supplies the
-    /// prose when the DB has none, and adds only targets the DB does not carry.
+    /// **Bindings come from the database. This file contributes none.** Per-substance rows
+    /// (curated ∪ measured) and the class-level rows relocated out of the Swift templates both
+    /// live in `bindings`, already deduped per receptor and tier-ordered by ``SubstanceStore``,
+    /// so `dbMechanism` is the panel. The class templates ``mechanism(for:)`` reads are prose
+    /// only, and ``categoryData`` keeps a target list in exactly one place — the orexin
+    /// antagonists, whose OX1R/OX2R are real receptors rather than a restatement of a category
+    /// name.
+    ///
+    /// Do not reintroduce a Swift binding list here. Two failures produced this shape and both
+    /// are cheap to repeat: a generic class list *replacing* the DB panel dropped 150 cited
+    /// targets across 67 substances, and a category floor naming `Pain pathways` or `Various` as
+    /// a receptor put filled strength dots beside a noun on most of the library. Where a class
+    /// genuinely knows a target the literature has not measured for a member, the home is
+    /// `data/curated/class-mechanism-bindings.json`, whose ingester writes the row only where no
+    /// measurement exists.
     ///
     /// - **Summary text**: the DB `mechanisms_summary` (non-empty summary on
     ///   `dbMechanism`) wins; otherwise the class-template entry, then the
     ///   per-category fallback.
-    /// - **Bindings**: the DB set (curated ∪ measured, already deduped per
-    ///   receptor and tier-ordered by ``SubstanceStore``) comes first, then the
-    ///   class template contributes only the targets the DB does not carry;
-    ///   the category fallback applies when both are empty.
-    ///
-    ///   **A class template must never replace the DB panel.** It is a
-    ///   hand-written generic summary of a whole class, so substituting it drops
-    ///   every per-substance target the class does not share — promethazine's
-    ///   D2/M1–M5, ketamine's μ-opioid and σ1, diazepam's α-subunit rows. It is
-    ///   additive here for exactly that reason.
+    /// - **Bindings**: the DB set, or the category fallback when it is empty. A substance with
+    ///   nothing measured shows its summary and no receptor list.
     ///
     /// Pure and deterministic so it can be unit-tested without a database.
     static func resolvedMechanism(
@@ -58,17 +58,8 @@ enum MechanismOfActionDatabase {
         let textSource: MechanismOfAction? = hasDBSummary ? dbMechanism : (template ?? categoryMoa ?? dbMechanism)
         guard let textSource else { return nil }
 
-        // The DB rows carry their own measured tier and action, so the strength dots
-        // stay on one systematic scale (`ReceptorStrength`) without a second merge
-        // pass — ketamine's NMDA reads moderate from its ~300 nM Kᵢ because that IS
-        // the row shown, and the template's downstream AMPA/mTOR arrive as additions.
-        var seen = Set<String>()
-        var bindings: [ReceptorBinding] = []
-        for binding in (dbMechanism?.bindings ?? []) + (template?.bindings ?? [])
-            where seen.insert(SubstanceReadModel.normalizedBindingTarget(binding.target)).inserted {
-            bindings.append(binding)
-        }
-        if bindings.isEmpty { bindings = categoryMoa?.bindings ?? textSource.bindings }
+        var bindings = dbMechanism?.bindings ?? []
+        if bindings.isEmpty { bindings = categoryMoa?.bindings ?? [] }
 
         return MechanismOfAction(
             summary: textSource.summary,
@@ -124,13 +115,7 @@ enum MechanismOfActionDatabase {
     private static let tca = moa(
         "Tricyclic Antidepressant (TCA)",
         "Inhibits the reuptake of serotonin and norepinephrine by blocking SERT and NET. Unlike SSRIs and SNRIs, TCAs also significantly antagonize histamine H1, muscarinic M1, and α1-adrenergic receptors, which accounts for their sedative, anticholinergic, and orthostatic hypotension side effects. The ratio of serotonin to norepinephrine reuptake inhibition varies between individual TCAs.",
-        [
-            b("SERT", .reuptakeInhibitor, .primary),
-            b("NET", .reuptakeInhibitor, .primary),
-            b("H1", .antagonist, .significant),
-            b("M1", .antagonist, .significant),
-            b("α1", .antagonist, .significant),
-        ],
+        [],
     )
 
     private static let maoi = moa(
@@ -154,7 +139,7 @@ enum MechanismOfActionDatabase {
     private static let typicalAP = moa(
         "Dopamine D2 Receptor Antagonist (First-Generation Antipsychotic)",
         "Blocks dopamine D2 receptors in the mesolimbic pathway, reducing dopaminergic neurotransmission associated with positive psychotic symptoms. Also blocks D2 receptors in the nigrostriatal pathway (causing extrapyramidal symptoms), tuberoinfundibular pathway (causing hyperprolactinemia), and mesocortical pathway. Most also antagonize histamine H1, muscarinic, and α1-adrenergic receptors to varying degrees.",
-        [b("D2", .antagonist, .primary), b("H1", .antagonist, .significant), b("α1", .antagonist, .significant)],
+        [],
     )
 
     private static let atypicalAP = moa(
@@ -178,7 +163,7 @@ enum MechanismOfActionDatabase {
     private static let barb = moa(
         "GABA-A Positive Allosteric Modulator (Barbiturate)",
         "Binds to a distinct site on the GABA-A receptor, acting as a positive allosteric modulator that increases the duration of chloride channel opening (unlike benzodiazepines which increase frequency). At higher concentrations, can directly activate GABA-A receptors even without GABA, accounting for their greater overdose lethality. Also inhibits AMPA/kainate glutamate receptors.",
-        [b("GABA-A", .positiveAllostericModulator, .primary), b("AMPA/kainate", .antagonist, .significant)],
+        [],
     )
 
     private static let opioidFull = moa(
@@ -190,12 +175,7 @@ enum MechanismOfActionDatabase {
     private static let amphetamine = moa(
         "Monoamine Releasing Agent",
         "Enters monoaminergic nerve terminals via dopamine (DAT), norepinephrine (NET), and serotonin (SERT) transporters, then reverses their function to release stored neurotransmitters into the synaptic cleft. Also activates trace amine-associated receptor 1 (TAAR1), inhibits vesicular monoamine transporter 2 (VMAT2), and weakly inhibits monoamine oxidase. The net effect is a substantial increase in synaptic dopamine, norepinephrine, and to a lesser extent serotonin.",
-        [
-            b("DAT", .releasingAgent, .primary),
-            b("NET", .releasingAgent, .primary),
-            b("TAAR1", .agonist, .significant),
-            b("VMAT2", .modulator, .significant),
-        ],
+        [],
     )
 
     /// Methamphetamine — the amphetamine releaser set plus SERT, which it touches
@@ -205,13 +185,7 @@ enum MechanismOfActionDatabase {
     private static let methamphetamine = moa(
         "Monoamine Releasing Agent",
         "Enters dopamine (DAT), norepinephrine (NET), and serotonin (SERT) nerve terminals and reverses their transporters, releasing all three monoamines. Also agonizes TAAR1 and acts at VMAT2 to redistribute vesicular monoamines into the cytosol.",
-        [
-            b("DAT", .releasingAgent, .primary),
-            b("NET", .releasingAgent, .primary),
-            b("SERT", .releasingAgent, .weak),
-            b("TAAR1", .agonist, .significant),
-            b("VMAT2", .modulator, .significant),
-        ],
+        [],
     )
 
     /// Substrate-type (releaser) cathinones — mephedrone, methylone, the MMC
@@ -233,7 +207,7 @@ enum MechanismOfActionDatabase {
     private static let classicalPsychedelic = moa(
         "Serotonin 5-HT2A Receptor Agonist (Classical Psychedelic)",
         "Primarily acts as an agonist or partial agonist at serotonin 5-HT2A receptors, particularly on layer V pyramidal neurons in the prefrontal cortex. 5-HT2A activation increases glutamate release and enhances cortical excitability, leading to altered perception, cognition, and consciousness. Most classical psychedelics also interact with 5-HT2C, 5-HT1A, and other serotonin receptor subtypes.",
-        [b("5-HT2A", .agonist, .primary), b("5-HT2C", .agonist, .significant), b("5-HT1A", .agonist, .weak)],
+        [],
     )
 
     private static let nmdaDissociative = moa(
@@ -281,7 +255,7 @@ enum MechanismOfActionDatabase {
     private static let antihistamine1 = moa(
         "Histamine H1 Receptor Inverse Agonist (First-Generation)",
         "Acts as an inverse agonist at histamine H1 receptors, reducing constitutive receptor activity and blocking histamine-mediated signaling. Crosses the blood-brain barrier readily, producing sedation, anxiolysis, and antiemetic activity through central H1 blockade. Most also have significant anticholinergic (muscarinic antagonist) activity.",
-        [b("H1", .inverseAgonist, .primary), b("Muscarinic", .antagonist, .significant)],
+        [],
     )
 
     private static let antihistamine2 = moa(
@@ -337,7 +311,7 @@ enum MechanismOfActionDatabase {
     private static let ketamineMOA = moa(
         "Non-Competitive NMDA Receptor Antagonist with Rapid Antidepressant Properties",
         "Acts as a non-competitive antagonist at the NMDA glutamate receptor by binding within the ion channel pore (use-dependent blockade). Produces dissociative anesthesia at higher doses and rapid antidepressant effects at sub-anesthetic doses. The antidepressant mechanism involves enhanced AMPA receptor signaling, increased brain-derived neurotrophic factor (BDNF) release, and activation of the mTOR signaling pathway, promoting rapid synaptic plasticity.",
-        [b("NMDA", .antagonist, .primary), b("AMPA", .modulator, .significant), b("mTOR", .modulator, .significant)],
+        [],
     )
 
     // MARK: - Category Fallbacks

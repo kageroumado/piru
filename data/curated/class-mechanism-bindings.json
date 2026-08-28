@@ -1,0 +1,279 @@
+{
+  "_meta": {
+    "what": "Class-level receptor targets that survived the tautology cull, fanned out per member substance.",
+    "why": "A class template's target list may only carry targets its own summary does not already name. Twenty-six of thirty-four named nothing new (SSRI -> SERT, statin -> HMG-CoA reductase) and were deleted rather than moved; these eight say something the phrase does not. See the `why` on each.",
+    "rule": "These rows carry an ordinal affinity_tier and NO citation, and the ingester writes one ONLY where the substance has no measured row for that target. A generic class tier must never outrank a cited per-substance measurement, and a value-less row carrying a citation_id would suppress that citation's plottable signature group.",
+    "source": "Relocated from MechanismOfActionDatabase.swift's class templates."
+  },
+  "classes": [
+    {
+      "class": "amphetamine",
+      "summary_for_context": "Monoamine Releasing Agent",
+      "why": "TAAR1 and VMAT2 — the intracellular half of substrate release, invisible in \"Monoamine Releasing Agent\".",
+      "substances": [
+        "amphetamine",
+        "dextroamphetamine"
+      ],
+      "bindings": [
+        {
+          "target": "DAT",
+          "action": "releasingAgent",
+          "affinity_tier": 3
+        },
+        {
+          "target": "NET",
+          "action": "releasingAgent",
+          "affinity_tier": 3
+        },
+        {
+          "target": "TAAR1",
+          "action": "agonist",
+          "affinity_tier": 2
+        },
+        {
+          "target": "VMAT2",
+          "action": "modulator",
+          "affinity_tier": 2
+        }
+      ]
+    },
+    {
+      "class": "antihistamine1",
+      "summary_for_context": "Histamine H1 Receptor Inverse Agonist (First-Generation)",
+      "why": "The muscarinic load is what separates a first-generation antihistamine from a second-generation one, and \"Histamine H1 Receptor Inverse Agonist\" does not say it.",
+      "substances": [
+        "brompheniramine",
+        "chlorpheniramine",
+        "clemastine",
+        "cyproheptadine",
+        "dimenhydrinate",
+        "diphenhydramine",
+        "doxylamine",
+        "hydroxyzine",
+        "meclizine",
+        "promethazine"
+      ],
+      "bindings": [
+        {
+          "target": "H1",
+          "action": "inverseAgonist",
+          "affinity_tier": 3
+        },
+        {
+          "target": "Muscarinic (non-selective)",
+          "action": "antagonist",
+          "affinity_tier": 2
+        }
+      ]
+    },
+    {
+      "class": "barb",
+      "summary_for_context": "GABA-A Positive Allosteric Modulator (Barbiturate)",
+      "why": "AMPA/kainate antagonism alongside the GABA-A site — why a barbiturate overdose has no ceiling where a benzodiazepine's does.",
+      "substances": [
+        "amobarbital",
+        "pentobarbital",
+        "phenobarbital",
+        "secobarbital",
+        "thiopental"
+      ],
+      "bindings": [
+        {
+          "target": "GABA-A",
+          "action": "positiveAllostericModulator",
+          "affinity_tier": 3
+        },
+        {
+          "target": "AMPA/kainate",
+          "action": "antagonist",
+          "affinity_tier": 2
+        }
+      ]
+    },
+    {
+      "class": "classicalPsychedelic",
+      "summary_for_context": "Serotonin 5-HT2A Receptor Agonist (Classical Psychedelic)",
+      "why": "5-HT2C and 5-HT1A beyond the defining 5-HT2A.",
+      "substances": [
+        "1cp-lsd",
+        "1p-lsd",
+        "2c-b",
+        "2c-c",
+        "2c-e",
+        "2c-i",
+        "2c-t-7",
+        "4-aco-dmt",
+        "4-ho-met",
+        "4-ho-mipt",
+        "al-lad",
+        "ald-52",
+        "dob",
+        "doc",
+        "doi",
+        "dom",
+        "dpt",
+        "eth-lad",
+        "lsd",
+        "lsd-25",
+        "mescaline",
+        "psilocin"
+      ],
+      "bindings": [
+        {
+          "target": "5-HT2A",
+          "action": "agonist",
+          "affinity_tier": 3
+        },
+        {
+          "target": "5-HT2C",
+          "action": "agonist",
+          "affinity_tier": 2
+        },
+        {
+          "target": "5-HT1A",
+          "action": "agonist",
+          "affinity_tier": 1
+        }
+      ]
+    },
+    {
+      "class": "ketamineMOA",
+      "summary_for_context": "Non-Competitive NMDA Receptor Antagonist with Rapid Antidepressant Properties",
+      "why": "AMPA and mTOR — the downstream plasticity cascade behind the antidepressant effect, which NMDA antagonism alone does not explain.",
+      "substances": [
+        "esketamine",
+        "ketamine"
+      ],
+      "bindings": [
+        {
+          "target": "NMDA",
+          "action": "antagonist",
+          "affinity_tier": 3
+        },
+        {
+          "target": "AMPA",
+          "action": "modulator",
+          "affinity_tier": 2
+        },
+        {
+          "target": "mTOR",
+          "action": "modulator",
+          "affinity_tier": 2
+        }
+      ]
+    },
+    {
+      "class": "methamphetamine",
+      "summary_for_context": "Monoamine Releasing Agent",
+      "why": "As amphetamine, plus SERT: the serotonergic component that separates it from amphetamine proper.",
+      "substances": [
+        "methamphetamine"
+      ],
+      "bindings": [
+        {
+          "target": "DAT",
+          "action": "releasingAgent",
+          "affinity_tier": 3
+        },
+        {
+          "target": "NET",
+          "action": "releasingAgent",
+          "affinity_tier": 3
+        },
+        {
+          "target": "SERT",
+          "action": "releasingAgent",
+          "affinity_tier": 1
+        },
+        {
+          "target": "TAAR1",
+          "action": "agonist",
+          "affinity_tier": 2
+        },
+        {
+          "target": "VMAT2",
+          "action": "modulator",
+          "affinity_tier": 2
+        }
+      ]
+    },
+    {
+      "class": "tca",
+      "summary_for_context": "Tricyclic Antidepressant (TCA)",
+      "why": "SERT/NET/H1/M1/α1 — the sedation, dry mouth and orthostasis that define a tricyclic clinically, none of it implied by the phrase \"Tricyclic Antidepressant\".",
+      "substances": [
+        "amitriptyline",
+        "amoxapine",
+        "clomipramine",
+        "desipramine",
+        "doxepin",
+        "imipramine",
+        "maprotiline",
+        "nortriptyline",
+        "protriptyline",
+        "trimipramine"
+      ],
+      "bindings": [
+        {
+          "target": "SERT",
+          "action": "reuptakeInhibitor",
+          "affinity_tier": 3
+        },
+        {
+          "target": "NET",
+          "action": "reuptakeInhibitor",
+          "affinity_tier": 3
+        },
+        {
+          "target": "H1",
+          "action": "antagonist",
+          "affinity_tier": 2
+        },
+        {
+          "target": "M1",
+          "action": "antagonist",
+          "affinity_tier": 2
+        },
+        {
+          "target": "α1-adrenergic",
+          "action": "antagonist",
+          "affinity_tier": 2
+        }
+      ]
+    },
+    {
+      "class": "typicalAP",
+      "summary_for_context": "Dopamine D2 Receptor Antagonist (First-Generation Antipsychotic)",
+      "why": "H1 and α1 alongside D2 — the sedation and orthostatic hypotension, absent from \"Dopamine D2 Receptor Antagonist\".",
+      "substances": [
+        "chlorpromazine",
+        "droperidol",
+        "fluphenazine",
+        "haloperidol",
+        "loxapine",
+        "perphenazine",
+        "pimozide",
+        "thioridazine",
+        "thiothixene",
+        "trifluoperazine"
+      ],
+      "bindings": [
+        {
+          "target": "D2",
+          "action": "antagonist",
+          "affinity_tier": 3
+        },
+        {
+          "target": "H1",
+          "action": "antagonist",
+          "affinity_tier": 2
+        },
+        {
+          "target": "α1-adrenergic",
+          "action": "antagonist",
+          "affinity_tier": 2
+        }
+      ]
+    }
+  ]
+}

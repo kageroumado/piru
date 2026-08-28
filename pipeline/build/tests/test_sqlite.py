@@ -11,6 +11,7 @@ Run from the repo root:
 
 import importlib.util
 import json
+import re
 import sqlite3
 import unittest
 from pathlib import Path
@@ -3070,6 +3071,69 @@ class TestSignatureGates(unittest.TestCase):
         ).fetchall()
         mixed = [row for row in mixed if "not-comparable" not in row[0]]
         self.assertEqual(mixed, [], f"plottable group spans multiple species: {mixed}")
+
+    def test_class_mechanism_bindings_never_outrank_a_measurement(self):
+        """A class-level target may not sit beside a measured row for the same target.
+
+        The app resolves a displayed tier as COALESCE(MAX(curated_tier), MAX(derived_tier), 1)
+        per (target, action), so a generic class tier written next to a measured row would
+        override the measurement — the inversion the mechanism card was fixed to stop. The
+        ingester enforces this by skipping; this checks the shipped result, because a skip that
+        silently stops working looks exactly like a skip that worked.
+        """
+        path = _REPO / "data/curated/class-mechanism-bindings.json"
+        if not path.exists():
+            self.skipTest("class-mechanism-bindings.json absent")
+        doc = json.loads(path.read_text())
+
+        def fold(target):
+            t = target.strip()
+            if not t.startswith("("):
+                t = re.sub(r"\s*\([^)]*\)\s*$", "", t).strip()
+            return re.sub(r"\s+receptors?$", "", t, flags=re.IGNORECASE).strip().casefold()
+
+        offenders = []
+        uncited = []
+        for rec in doc.get("classes", []):
+            wanted = {fold(b["target"]) for b in rec.get("bindings", []) if b.get("target")}
+            for name in rec.get("substances", []):
+                row = self.db.execute(
+                    "SELECT id FROM substances WHERE lower(canonical_name) = ?"
+                    " UNION SELECT substance_id FROM aliases WHERE lower(alias) = ? LIMIT 1",
+                    (name.lower(), name.lower()),
+                ).fetchone()
+                if row is None:
+                    continue
+                sid = row[0]
+                measured, class_level, cited_class = set(), set(), set()
+                for target, tier, ki, kd, ec, ic, cid, notes in self.db.execute(
+                    "SELECT target, affinity_tier, ki_nm, kd_nm, ec50_nm, ic50_nm, citation_id, notes"
+                    "  FROM bindings WHERE substance_id = ?",
+                    (sid,),
+                ):
+                    key = fold(target)
+                    if any(v is not None for v in (ki, kd, ec, ic)):
+                        measured.add(key)
+                        continue
+                    # Scoped by the ingester's marker: a per-substance curated row from
+                    # mechanisms.json may legitimately sit beside a measurement (a curator graded
+                    # that target on purpose); a class generalisation may not.
+                    if tier is not None and (notes or "").startswith("class-level generalisation"):
+                        class_level.add(key)
+                        if cid is not None:
+                            cited_class.add(key)
+                for key in wanted & measured & class_level:
+                    offenders.append(f"{name}|{key}")
+                # A value-less row carrying a citation joins that citation's comparability group
+                # and, having no value on any basis, makes the group unplottable — it would
+                # silently delete a signature chart rather than add to one.
+                for key in wanted & cited_class:
+                    uncited.append(f"{name}|{key}")
+
+        self.assertEqual(
+            offenders, [], f"class-level tier written beside a measured row: {offenders[:10]}"
+        )
+        self.assertEqual(uncited, [], f"class-level binding carries a citation_id: {uncited[:10]}")
 
     def test_no_uncited_numeric_values(self):
         # `benzos-cited` is a source-level-attributed curated dataset: each record
