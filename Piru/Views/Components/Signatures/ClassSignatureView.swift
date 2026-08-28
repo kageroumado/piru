@@ -16,25 +16,6 @@ struct ClassSignatureView: View {
     }
 }
 
-/// Why a signature was withheld, in place of the plot it replaces.
-///
-/// The gate refusing to plot is a result, not a failure, and the reader is owed the difference
-/// between "nobody measured this" and "two studies exist and averaging them would invent a
-/// number". Shared by every rendering so the three cannot describe the same silence differently.
-struct WithheldNote: View {
-    let reason: LocalizedStringResource
-
-    var body: some View {
-        Text(reason)
-            .font(.caption)
-            .foregroundStyle(Theme.secondaryLabel)
-            .fixedSize(horizontal: false, vertical: true)
-            .padding(10)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Theme.secondaryLabel.opacity(0.06), in: RoundedRectangle(cornerRadius: 10))
-    }
-}
-
 /// The axis line: what was measured, in what species, and whether the compounds on it were measured
 /// together — printed under **every** signature, because "prints its basis" is the acceptance
 /// criterion these renderings are held to.

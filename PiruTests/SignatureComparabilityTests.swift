@@ -382,54 +382,52 @@ struct ClassSignatureTests {
     }
 
     @Test
-    func `A compound whose transporter rows share no basis says so instead of vanishing`() {
+    func `A compound whose transporter rows share no basis plots nothing`() {
         let legs = [
             Self.leg("1", "Ghostamine", .sert, ec50: 100, citation: 90),
             Self.leg("2", "Ghostamine", .dat, ki: 200, citation: 90),
             Self.leg("3", "Ghostamine", .net, ic50: 300, citation: 91),
         ]
         // SERT EC₅₀, DAT Kᵢ, NET IC₅₀ are three different bases: no single study
-        // measured all three the same way, so no triangle forms. The card is still
-        // returned, carrying the reason — a section that disappears cannot tell the
-        // reader whether the data is missing or the comparison was refused.
-        guard case let .ternary(model)? = ClassSignature.resolve(
-            substanceName: "Ghostamine", category: .stimulant, legs: legs,
-        ) else {
-            Issue.record("expected a withheld ternary, not nil")
-            return
-        }
-        #expect(model.triples.isEmpty, "no triangle may be plotted across bases")
-        #expect(model.withheldReason != nil, "the card must say why it is empty")
-        let reason = model.withheldReason.map { String(localized: $0) } ?? ""
-        #expect(
-            reason.localizedCaseInsensitiveContains("one basis"),
-            "all three are measured, so the reason is the mixed basis: \(reason)",
-        )
-    }
-
-    @Test
-    func `A compound the literature never touched still draws nothing`() {
-        // The other side of the same rule: an absence card is for a rendering that
-        // was withheld, not for a compound with no transporter rows at all.
+        // measured all three the same way, so no triangle forms and the card is
+        // withheld entirely rather than plotting a point built across bases.
         #expect(ClassSignature.resolve(
-            substanceName: "Ghostamine", category: .stimulant, legs: [],
+            substanceName: "Ghostamine", category: .stimulant, legs: legs,
         ) == nil)
     }
 
     @Test
-    func `A partial panel names the transporter nobody measured`() {
-        let legs = [
+    func `The reason a triangle is absent is answerable without re-deriving the gate`() {
+        // Nothing here renders: the card is an absence, deliberately. But the cause is
+        // classified, because "we withheld it" and "nobody measured it" are different
+        // states and a silent nil cannot tell them apart in an audit.
+        let mixed = [
+            Self.leg("1", "Ghostamine", .sert, ec50: 100, citation: 90),
+            Self.leg("2", "Ghostamine", .dat, ki: 200, citation: 90),
+            Self.leg("3", "Ghostamine", .net, ic50: 300, citation: 91),
+        ]
+        #expect(ClassSignature.resolve(substanceName: "Ghostamine", category: .stimulant, legs: mixed) == nil)
+        #expect(ClassSignature.ternaryWithholding(substanceName: "Ghostamine", legs: mixed) == .mixedBasis)
+
+        let partial = [
             Self.leg("1", "Ghostamine", .sert, ki: 100, citation: 90),
             Self.leg("2", "Ghostamine", .dat, ki: 200, citation: 90),
         ]
-        guard case let .ternary(model)? = ClassSignature.resolve(
-            substanceName: "Ghostamine", category: .stimulant, legs: legs,
-        ) else {
-            Issue.record("expected a withheld ternary, not nil")
-            return
-        }
-        let reason = model.withheldReason.map { String(localized: $0) } ?? ""
-        #expect(reason.contains("NET"), "the missing transporter is the actionable part: \(reason)")
+        #expect(
+            ClassSignature.ternaryWithholding(substanceName: "Ghostamine", legs: partial)
+                == .partialPanel(missing: [.net]),
+        )
+
+        let uncited = [
+            Self.leg("1", "Ghostamine", .sert, ki: 100),
+            Self.leg("2", "Ghostamine", .dat, ki: 200),
+            Self.leg("3", "Ghostamine", .net, ki: 300),
+        ]
+        #expect(ClassSignature.ternaryWithholding(substanceName: "Ghostamine", legs: uncited) == .noIdentifiableStudy)
+
+        // A compound the literature never touched is not a withholding — there was no
+        // rendering to withhold, and nothing to account for.
+        #expect(ClassSignature.ternaryWithholding(substanceName: "Ghostamine", legs: []) == nil)
     }
 
     @Test

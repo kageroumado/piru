@@ -383,6 +383,51 @@ nonisolated extension ClassSignature {
     /// **two** passing triples — Baumann's rat-synaptosome release EC₅₀ and Simmler's human uptake
     /// IC₅₀ — and they must be carried as two separately-labeled triangles, never averaged, so the
     /// rendering offers a basis switch rather than one triangle.
+    /// Why ``ternary(substanceName:legs:)`` declined to draw a triangle.
+    ///
+    /// **Diagnostic only — never rendered.** An empty section is an absence; a paragraph saying
+    /// "there is nothing here" is a different thing on screen, and the absence is what the card
+    /// wants. This exists so the withholding is answerable in tests and audits instead of being a
+    /// nil nobody can account for — 46 of the 82 transporter-class compounds carrying receptor data
+    /// take one of these branches, and before this the only way to learn which was to re-derive the
+    /// gate by hand.
+    nonisolated enum TernaryWithholding: Hashable, Sendable {
+        /// No potency value on any of the compound's transporter rows.
+        case noPotencyValue
+        /// Values exist but none is tied to a `comparable_set` or a citation, so no row was ever
+        /// established as part of a panel. May become plottable when a citation lands.
+        case noIdentifiableStudy
+        /// Fewer than three transporters are covered by any identified study. Never becomes
+        /// plottable until someone measures the named ones.
+        case partialPanel(missing: [SignatureTarget])
+        /// All three are measured, never together on one basis. A refusal, not a gap: a release
+        /// EC₅₀ and an uptake Kᵢ differ by orders of magnitude for the same compound.
+        case mixedBasis
+    }
+
+    /// The cause behind an absent triangle, or `nil` when one renders.
+    ///
+    /// Returns `nil` for a compound with no transporter rows at all, exactly as ``ternary`` does —
+    /// there is no withholding to explain when the literature never measured the thing.
+    static func ternaryWithholding(substanceName: String, legs: [SignatureLeg]) -> TernaryWithholding? {
+        let transporters: Set<SignatureTarget> = [.sert, .dat, .net]
+        let mine = legs.filter { transporters.contains($0.target) && $0.substanceName == substanceName }
+        guard !mine.isEmpty else { return nil }
+        guard ternary(substanceName: substanceName, legs: legs) == nil else { return nil }
+
+        let measured = mine.filter { leg in
+            SignatureBasis.allCases.contains { $0.isPotency && $0.value(in: leg) != nil }
+        }
+        guard !measured.isEmpty else { return .noPotencyValue }
+        let keyed = measured.filter { $0.comparabilityKey != nil }
+        guard !keyed.isEmpty else { return .noIdentifiableStudy }
+        let covered = Set(keyed.map(\.target))
+        guard covered.count == 3 else {
+            return .partialPanel(missing: [.sert, .dat, .net].filter { !covered.contains($0) })
+        }
+        return .mixedBasis
+    }
+
     static func ternary(substanceName: String, legs: [SignatureLeg]) -> ClassSignature? {
         let transporters: Set<SignatureTarget> = [.sert, .dat, .net]
         let relevant = legs.filter { transporters.contains($0.target) }
@@ -436,60 +481,13 @@ nonisolated extension ClassSignature {
             ))
         }
 
-        guard !triples.isEmpty else {
-            return .ternary(TransporterTernaryModel(triples: [], withheldReason: withheldTernaryReason(mine)))
-        }
+        guard !triples.isEmpty else { return nil }
         triples.sort { lhs, rhs in
             let lp = lhs.peers.count + (lhs.provenance.isDeclaredPanel ? 10 : 0)
             let rp = rhs.peers.count + (rhs.provenance.isDeclaredPanel ? 10 : 0)
             return lp > rp
         }
-        return .ternary(TransporterTernaryModel(triples: triples, withheldReason: nil))
-    }
-
-    /// Why the triangle is withheld, in the terms of what is actually missing. The three causes are
-    /// genuinely different and a reader can act on the difference: an uncited row may become
-    /// plottable when its citation lands, a partial panel never will until someone measures the
-    /// third transporter, and a mixed-basis set is a refusal to average a release EC₅₀ against an
-    /// uptake Kᵢ. Never collapse them back into one sentence.
-    private static func withheldTernaryReason(_ mine: [SignatureLeg]) -> LocalizedStringResource {
-        let measured = mine.filter { leg in
-            SignatureBasis.allCases.contains { $0.isPotency && $0.value(in: leg) != nil }
-        }
-        guard !measured.isEmpty else {
-            return """
-            This compound's transporter rows carry no potency value, so there is nothing to place \
-            on the triangle. The rows themselves are in Receptor Literature below.
-            """
-        }
-        let keyed = measured.filter { $0.comparabilityKey != nil }
-        guard !keyed.isEmpty else {
-            return """
-            No transporter measurement for this compound is tied to a study we can identify, and a \
-            triangle built from rows that were never established as one panel is not a comparison. \
-            The values are in Receptor Literature below.
-            """
-        }
-        let covered = Set(keyed.map(\.target))
-        if covered.count < 3 {
-            let missing = [SignatureTarget.sert, .dat, .net]
-                .filter { !covered.contains($0) }
-                .map(\.label)
-                .joined(separator: " and ")
-            return """
-            The triangle needs SERT, DAT and NET from one experiment; no study in our data measured \
-            \(missing) for this compound alongside the rest. The values we do have are in Receptor \
-            Literature below.
-            """
-        }
-        // Verbatim the copy this card carried before the message was dropped: it names the failure
-        // concretely, and it is already translated.
-        return """
-        No single study in our data measured SERT, DAT and NET for this compound on one basis. \
-        Mixing them is how MDMA once rendered as a 95 % noradrenaline drug — a binding Kᵢ plotted \
-        against a release EC₅₀ — so the triangle is withheld rather than drawn from rows that \
-        can't be ranked together.
-        """
+        return .ternary(TransporterTernaryModel(triples: triples))
     }
 
     private static func dominantAction(_ legs: [SignatureLeg]) -> BindingAction? {
@@ -622,11 +620,7 @@ nonisolated struct TargetBalanceModel: Sendable {
 }
 
 /// The SERT / DAT / NET triangle, one triple per gated study.
-///
-/// Not `Hashable`: `withheldReason` is a `LocalizedStringResource`, which isn't. Nothing hashes the
-/// whole model — the views key off `Triple.id` — and `TargetBalanceModel` carries the same field
-/// under the same conformances.
-nonisolated struct TransporterTernaryModel: Sendable {
+nonisolated struct TransporterTernaryModel: Hashable, Sendable {
     nonisolated struct Shares: Hashable, Sendable {
         let sert: Double
         let dat: Double
@@ -671,10 +665,4 @@ nonisolated struct TransporterTernaryModel: Sendable {
     }
 
     let triples: [Triple]
-    /// Set when the compound HAS transporter rows but none of them form a gated
-    /// SERT+DAT+NET triple on one basis, so `triples` is empty by decision rather
-    /// than by absence. The card prints this instead of vanishing — a section that
-    /// disappears teaches the reader nothing, and 46 of the 82 transporter-class
-    /// compounds with receptor data land here. `nil` whenever `triples` is populated.
-    let withheldReason: LocalizedStringResource?
 }
