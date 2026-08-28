@@ -2637,6 +2637,30 @@ T = {
     # Antidepressant class card.
     "Drug Class": ("药物类别", "藥物類別"),
     "The rest of the family": ("同类其他药物", "同類其他藥物"),
+    "Both raise serotonin, so serotonin syndrome is possible — agitation, tremor, sweating, a racing heart — and most likely in the first weeks. This pairing is prescribed and monitored on purpose; SSRIs do not raise lithium levels.": (
+        "两者都会升高5-羟色胺，因此可能出现5-羟色胺综合征——躁动、震颤、出汗、心跳加快，最常见于开始用药的头几周。这个组合本就是医生有意开出并加以监测的；SSRI 不会升高锂的血药浓度。",
+        "兩者都會升高血清素，因此可能出現血清素症候群——躁動、顫抖、出汗、心跳加快，最常見於開始用藥的頭幾週。這個組合本就是醫師有意開出並加以監測的；SSRI 不會升高鋰的血藥濃度。",
+    ),
+    "Both raise serotonin, so serotonin syndrome is possible — agitation, tremor, sweating, a racing heart — and most likely in the first weeks. This pairing is prescribed and monitored on purpose; SNRIs do not raise lithium levels.": (
+        "两者都会升高5-羟色胺，因此可能出现5-羟色胺综合征——躁动、震颤、出汗、心跳加快，最常见于开始用药的头几周。这个组合本就是医生有意开出并加以监测的；SNRI 不会升高锂的血药浓度。",
+        "兩者都會升高血清素，因此可能出現血清素症候群——躁動、顫抖、出汗、心跳加快，最常見於開始用藥的頭幾週。這個組合本就是醫師有意開出並加以監測的；SNRI 不會升高鋰的血藥濃度。",
+    ),
+    "A large serotonin load on top of lithium's own. The lithium label names tramadol and fentanyl in this group; serotonin syndrome can start within hours.": (
+        "在锂本身的5-羟色胺负荷之上再叠加一份很大的负荷。锂的说明书把曲马多和芬太尼列在这一组里；5-羟色胺综合征可在数小时内发作。",
+        "在鋰本身的血清素負荷之上再疊加一份很大的負荷。鋰的說明書把曲馬多和吩坦尼列在這一組裡；血清素症候群可在數小時內發作。",
+    ),
+    "MAOIs block the enzyme that clears serotonin, so the load builds instead of levelling off. Serotonin syndrome is the risk; MAOIs do not raise lithium levels.": (
+        "MAOI 阻断清除5-羟色胺的酶，因此负荷会不断累积而不是趋于平稳。风险是5-羟色胺综合征；MAOI 不会升高锂的血药浓度。",
+        "MAOI 阻斷清除血清素的酶，因此負荷會不斷累積而不是趨於平穩。風險是血清素症候群；MAOI 不會升高鋰的血藥濃度。",
+    ),
+    "Of 62 reports of this combination, 47% described a seizure and 39% involved medical attention — against none of 34 reports for lamotrigine. Self-reported, so the rate is not a measured one, but no other pairing shows a signal like it.": (
+        "在这一组合的62份报告中，47% 描述了癫痫发作，39% 涉及就医——而拉莫三嗪的34份报告中一例也没有。这些都是自我报告，所以这个比例并非实测值，但没有别的组合出现过这样的信号。",
+        "在這一組合的62份報告中，47% 描述了癲癇發作，39% 涉及就醫——而拉莫三嗪的34份報告中一例也沒有。這些都是自我報告，所以這個比例並非實測值，但沒有別的組合出現過這樣的訊號。",
+    ),
+    "MDMA releases serotonin in bulk and lithium adds to it, so serotonin syndrome is the main risk. Seizures are reported for lithium with classic psychedelics; MDMA has not been looked at the same way.": (
+        "MDMA 会大量释放5-羟色胺，锂在此之上再加一份，因此主要风险是5-羟色胺综合征。锂与经典致幻剂合用有癫痫发作的报告；MDMA 没有被同样地研究过。",
+        "MDMA 會大量釋放血清素，鋰在此之上再加一份，因此主要風險是血清素症候群。鋰與經典致幻劑合用有癲癇發作的報告；MDMA 沒有被同樣地研究過。",
+    ),
     "Source: the Ashton Manual's equivalence table, which calls these doses approximate and notes that not every clinician agrees with them.": (
         "来源：Ashton 手册的等效剂量表。该表自称这些剂量只是近似值，并指出并非所有临床医生都认同这些换算。",
         "來源：Ashton 手冊的等效劑量表。該表自稱這些劑量只是近似值，並指出並非所有臨床醫師都認同這些換算。",
@@ -2818,10 +2842,6 @@ T = {
     "Serotonin syndrome risk — a serotonin-raising drug stacked with a tricyclic antidepressant.": (
         "血清素综合征风险——升高血清素的药物与三环类抗抑郁药叠加。",
         "血清素症候群風險——升高血清素的藥物與三環類抗憂鬱藥疊加。",
-    ),
-    "Increased serotonin syndrome risk — lithium adds to the serotonergic load.": (
-        "血清素综合征风险增加——锂会增加血清素负荷。",
-        "血清素症候群風險增加——鋰會增加血清素負荷。",
     ),
     # Alpha-2 agonists + beta-blockers (Foundation-C run, 2026-06-22)
     "Heavy sedation with a dangerously slow heart rate and breathing. Naloxone reverses the opioid but NOT the alpha-2 part — give rescue breaths and call for help even after naloxone.": (
@@ -5003,10 +5023,6 @@ T = {
         "有血清素综合征的风险,尤其是与哌替啶、曲马多和他喷他多。",
         "有血清素綜合徵的風險,尤其是與哌替啶、曲馬多和他噴他多。",
     ),
-    "Risk of seizures and serotonin toxicity — well-documented dangerous combination.": (
-        "有癫痫发作和血清素毒性的风险 — 已有充分记录的危险组合。",
-        "有癲癇發作和血清素毒性的風險 — 已有充分記錄的危險組合。",
-    ),
     "Respiratory depression and loss of consciousness — very narrow safety margin.": (
         "呼吸抑制和意识丧失 — 安全边际极窄。",
         "呼吸抑制和意識喪失 — 安全邊際極窄。",
@@ -5060,10 +5076,6 @@ T = {
         "有呼吸抑制的風險 — 解離劑會掩蓋過量的徵兆。",
     ),
     "Additive CNS and respiratory depression.": ("中枢和呼吸抑制相加。", "中樞和呼吸抑制相加。"),
-    "Increased risk of serotonin syndrome and lithium toxicity.": (
-        "血清素综合征和锂中毒的风险增加。",
-        "血清素綜合徵和鋰中毒的風險增加。",
-    ),
     "Serotonin syndrome risk — especially with DXM and other serotonergic dissociatives.": (
         "有血清素综合征的风险 — 尤其是与 DXM 等血清素能解离剂。",
         "有血清素綜合徵的風險 — 尤其是與 DXM 等血清素能解離劑。",
@@ -5195,14 +5207,6 @@ T = {
     "Serotonin depletion and neurotoxicity risk — allow adequate recovery between uses.": (
         "血清素耗竭和神经毒性的风险 — 使用间隔应足够长以便恢复。",
         "血清素耗竭和神經毒性的風險 — 使用間隔應足夠長以便恢復。",
-    ),
-    "Risk of seizures and serotonin toxicity — potentially fatal combination.": (
-        "有癫痫发作和血清素毒性的风险 — 可能致命的组合。",
-        "有癲癇發作和血清素毒性的風險 — 可能致命的組合。",
-    ),
-    "Risk of serotonin syndrome and lithium toxicity.": (
-        "有血清素综合征和锂中毒的风险。",
-        "有血清素綜合徵和鋰中毒的風險。",
     ),
     "Some combinations increase serotonin or seizure risk — monitor for symptoms.": (
         "某些组合会增加血清素或癫痫的风险 — 注意监测症状。",
@@ -7207,6 +7211,12 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "Both raise serotonin, so serotonin syndrome is possible — agitation, tremor, sweating, a racing heart — and most likely in the first weeks. This pairing is prescribed and monitored on purpose; SSRIs do not raise lithium levels.",
+        "Both raise serotonin, so serotonin syndrome is possible — agitation, tremor, sweating, a racing heart — and most likely in the first weeks. This pairing is prescribed and monitored on purpose; SNRIs do not raise lithium levels.",
+        "A large serotonin load on top of lithium's own. The lithium label names tramadol and fentanyl in this group; serotonin syndrome can start within hours.",
+        "MAOIs block the enzyme that clears serotonin, so the load builds instead of levelling off. Serotonin syndrome is the risk; MAOIs do not raise lithium levels.",
+        "Of 62 reports of this combination, 47% described a seizure and 39% involved medical attention — against none of 34 reports for lamotrigine. Self-reported, so the rate is not a measured one, but no other pairing shows a signal like it.",
+        "MDMA releases serotonin in bulk and lithium adds to it, so serotonin syndrome is the main risk. Seizures are reported for lithium with classic psychedelics; MDMA has not been looked at the same way.",
         "Source: the Ashton Manual's equivalence table, which calls these doses approximate and notes that not every clinician agrees with them.",
         "Not in the Ashton Manual's equivalence table, and not sourced elsewhere — treat the number as a rough guide and dose by this drug's own threshold.",
         "One of these is from the Ashton Manual's equivalence table; the other is not in it and is not sourced elsewhere. Equivalences are approximate either way.",

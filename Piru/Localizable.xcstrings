@@ -5936,6 +5936,22 @@
         }
       }
     },
+    "A large serotonin load on top of lithium's own. The lithium label names tramadol and fentanyl in this group; serotonin syndrome can start within hours." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在锂本身的5-羟色胺负荷之上再叠加一份很大的负荷。锂的说明书把曲马多和芬太尼列在这一组里；5-羟色胺综合征可在数小时内发作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在鋰本身的血清素負荷之上再疊加一份很大的負荷。鋰的說明書把曲馬多和吩坦尼列在這一組裡；血清素症候群可在數小時內發作。"
+          }
+        }
+      }
+    },
     "A larger dose draws dopamine stores down harder: a bigger rise, and a deeper dip once it clears." : {
       "localizations" : {
         "zh-Hans" : {
@@ -13010,6 +13026,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "兩者都會引起睏倦——隔日鎮靜和昏沉會相加。請減量，且不要開車。"
+          }
+        }
+      }
+    },
+    "Both raise serotonin, so serotonin syndrome is possible — agitation, tremor, sweating, a racing heart — and most likely in the first weeks. This pairing is prescribed and monitored on purpose; SNRIs do not raise lithium levels." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两者都会升高5-羟色胺，因此可能出现5-羟色胺综合征——躁动、震颤、出汗、心跳加快，最常见于开始用药的头几周。这个组合本就是医生有意开出并加以监测的；SNRI 不会升高锂的血药浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兩者都會升高血清素，因此可能出現血清素症候群——躁動、顫抖、出汗、心跳加快，最常見於開始用藥的頭幾週。這個組合本就是醫師有意開出並加以監測的；SNRI 不會升高鋰的血藥濃度。"
+          }
+        }
+      }
+    },
+    "Both raise serotonin, so serotonin syndrome is possible — agitation, tremor, sweating, a racing heart — and most likely in the first weeks. This pairing is prescribed and monitored on purpose; SSRIs do not raise lithium levels." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两者都会升高5-羟色胺，因此可能出现5-羟色胺综合征——躁动、震颤、出汗、心跳加快，最常见于开始用药的头几周。这个组合本就是医生有意开出并加以监测的；SSRI 不会升高锂的血药浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兩者都會升高血清素，因此可能出現血清素症候群——躁動、顫抖、出汗、心跳加快，最常見於開始用藥的頭幾週。這個組合本就是醫師有意開出並加以監測的；SSRI 不會升高鋰的血藥濃度。"
           }
         }
       }
@@ -29933,6 +29981,7 @@
       }
     },
     "Increased risk of serotonin syndrome and lithium toxicity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29949,6 +29998,7 @@
       }
     },
     "Increased serotonin syndrome risk — lithium adds to the serotonergic load." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -33169,6 +33219,22 @@
         }
       }
     },
+    "MAOIs block the enzyme that clears serotonin, so the load builds instead of levelling off. Serotonin syndrome is the risk; MAOIs do not raise lithium levels." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MAOI 阻断清除5-羟色胺的酶，因此负荷会不断累积而不是趋于平稳。风险是5-羟色胺综合征；MAOI 不会升高锂的血药浓度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MAOI 阻斷清除血清素的酶，因此負荷會不斷累積而不是趨於平穩。風險是血清素症候群；MAOI 不會升高鋰的血藥濃度。"
+          }
+        }
+      }
+    },
     "Markdown" : {
       "localizations" : {
         "zh-Hans" : {
@@ -33342,6 +33408,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "MDMA 會使清除它的 CYP2D6 失活，因此反覆或間隔很短的用藥會不成比例地累積，而非與劑量成正比。該酶約需 10 天恢復。"
+          }
+        }
+      }
+    },
+    "MDMA releases serotonin in bulk and lithium adds to it, so serotonin syndrome is the main risk. Seizures are reported for lithium with classic psychedelics; MDMA has not been looked at the same way." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MDMA 会大量释放5-羟色胺，锂在此之上再加一份，因此主要风险是5-羟色胺综合征。锂与经典致幻剂合用有癫痫发作的报告；MDMA 没有被同样地研究过。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MDMA 會大量釋放血清素，鋰在此之上再加一份，因此主要風險是血清素症候群。鋰與經典致幻劑合用有癲癇發作的報告；MDMA 沒有被同樣地研究過。"
           }
         }
       }
@@ -39379,6 +39461,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "共 %lld 天"
+          }
+        }
+      }
+    },
+    "Of 62 reports of this combination, 47% described a seizure and 39% involved medical attention — against none of 34 reports for lamotrigine. Self-reported, so the rate is not a measured one, but no other pairing shows a signal like it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在这一组合的62份报告中，47% 描述了癫痫发作，39% 涉及就医——而拉莫三嗪的34份报告中一例也没有。这些都是自我报告，所以这个比例并非实测值，但没有别的组合出现过这样的信号。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在這一組合的62份報告中，47% 描述了癲癇發作，39% 涉及就醫——而拉莫三嗪的34份報告中一例也沒有。這些都是自我報告，所以這個比例並非實測值，但沒有別的組合出現過這樣的訊號。"
           }
         }
       }
@@ -47065,6 +47163,7 @@
       }
     },
     "Risk of seizures and serotonin toxicity — potentially fatal combination." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47081,6 +47180,7 @@
       }
     },
     "Risk of seizures and serotonin toxicity — well-documented dangerous combination." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47113,6 +47213,7 @@
       }
     },
     "Risk of serotonin syndrome and lithium toxicity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

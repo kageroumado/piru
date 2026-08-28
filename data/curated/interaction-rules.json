@@ -66,7 +66,8 @@
       "classA": "lithium",
       "classB": "psychedelic",
       "severity": "dangerous",
-      "note": "Risk of seizures and serotonin toxicity — well-documented dangerous combination."
+      "note": "Of 62 reports of this combination, 47% described a seizure and 39% involved medical attention — against none of 34 reports for lamotrigine. Self-reported, so the rate is not a measured one, but no other pairing shows a signal like it.",
+      "citation": "doi:10.1055/a-1524-2794"
     },
     {
       "classA": "ghb",
@@ -218,7 +219,8 @@
       "classA": "serotonergic",
       "classB": "lithium",
       "severity": "unsafe",
-      "note": "Increased serotonin syndrome risk — lithium adds to the serotonergic load."
+      "note": "A large serotonin load on top of lithium's own. The lithium label names tramadol and fentanyl in this group; serotonin syndrome can start within hours.",
+      "citation": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=01c4facd-ed79-4078-ba33-2044de372d0f"
     },
     {
       "classA": "alpha2Agonist",
@@ -321,14 +323,16 @@
     {
       "classA": "lithium",
       "classB": "ssri",
-      "severity": "unsafe",
-      "note": "Increased risk of serotonin syndrome and lithium toxicity."
+      "severity": "caution",
+      "note": "Both raise serotonin, so serotonin syndrome is possible — agitation, tremor, sweating, a racing heart — and most likely in the first weeks. This pairing is prescribed and monitored on purpose; SSRIs do not raise lithium levels.",
+      "citation": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=01c4facd-ed79-4078-ba33-2044de372d0f"
     },
     {
       "classA": "lithium",
       "classB": "snri",
-      "severity": "unsafe",
-      "note": "Increased risk of serotonin syndrome and lithium toxicity."
+      "severity": "caution",
+      "note": "Both raise serotonin, so serotonin syndrome is possible — agitation, tremor, sweating, a racing heart — and most likely in the first weeks. This pairing is prescribed and monitored on purpose; SNRIs do not raise lithium levels.",
+      "citation": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=01c4facd-ed79-4078-ba33-2044de372d0f"
     },
     {
       "classA": "maoi",
@@ -485,13 +489,15 @@
       "classA": "lithium",
       "classB": "empathogen",
       "severity": "dangerous",
-      "note": "Risk of seizures and serotonin toxicity — potentially fatal combination."
+      "note": "MDMA releases serotonin in bulk and lithium adds to it, so serotonin syndrome is the main risk. Seizures are reported for lithium with classic psychedelics; MDMA has not been looked at the same way.",
+      "citation": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=01c4facd-ed79-4078-ba33-2044de372d0f"
     },
     {
       "classA": "lithium",
       "classB": "maoi",
       "severity": "unsafe",
-      "note": "Risk of serotonin syndrome and lithium toxicity."
+      "note": "MAOIs block the enzyme that clears serotonin, so the load builds instead of levelling off. Serotonin syndrome is the risk; MAOIs do not raise lithium levels.",
+      "citation": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=01c4facd-ed79-4078-ba33-2044de372d0f"
     },
     {
       "classA": "stimulant",
