@@ -107,11 +107,8 @@
         "fraction_of_clearance_pct": 80,
         "metabolite_name": "dextrorphan (DXO)",
         "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 800,
         "reference": "pmid:15988119",
-        "metabolite_potency_target": "NMDA",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "notes": "Potency, target, basis and mechanism stripped 2026-08-28: pmid:15988119 is a hepatocyte metabolism study in CYP2D6 poor and extensive metabolizers. It supports the enzyme and the clearance fraction kept here and contains no NMDA or receptor-binding data, so the '800% at NMDA, receptor_affinity, scaled' it carried was attached to a source that does not make the claim. Dextrorphan's classification lives on the metabolites-active row: divergent, because it amplifies DXM's NMDA axis while being weaker at the serotonergic/sigma one, so no single ratio relates the two. Do not re-add a scaled classification here."
       },
       {
         "enzyme": "CYP3A4/CYP3A5",
@@ -276,11 +273,8 @@
         "fraction_of_clearance_pct": 80,
         "metabolite_name": "dextrorphan",
         "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 800,
         "reference": "pmid:15988119",
-        "metabolite_potency_target": "NMDA",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "notes": "Potency, target, basis and mechanism stripped 2026-08-28: pmid:15988119 is a hepatocyte metabolism study in CYP2D6 poor and extensive metabolizers. It supports the enzyme and the clearance fraction kept here and contains no NMDA or receptor-binding data, so the '800% at NMDA, receptor_affinity, scaled' it carried was attached to a source that does not make the claim. Dextrorphan's classification lives on the metabolites-active row: divergent, because it amplifies DXM's NMDA axis while being weaker at the serotonergic/sigma one, so no single ratio relates the two. Do not re-add a scaled classification here."
       }
     ],
     "drug_interactions_pk": [],
@@ -377,11 +371,8 @@
         "fraction_of_clearance_pct": 80,
         "metabolite_name": "dextrorphan",
         "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 800,
         "reference": "pmid:15988119",
-        "metabolite_potency_target": "NMDA",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "notes": "Potency, target, basis and mechanism stripped 2026-08-28: pmid:15988119 is a hepatocyte metabolism study in CYP2D6 poor and extensive metabolizers. It supports the enzyme and the clearance fraction kept here and contains no NMDA or receptor-binding data, so the '800% at NMDA, receptor_affinity, scaled' it carried was attached to a source that does not make the claim. Dextrorphan's classification lives on the metabolites-active row: divergent, because it amplifies DXM's NMDA axis while being weaker at the serotonergic/sigma one, so no single ratio relates the two. Do not re-add a scaled classification here."
       }
     ],
     "drug_interactions_pk": [],

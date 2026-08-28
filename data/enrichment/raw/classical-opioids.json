@@ -2706,11 +2706,8 @@
         "fraction_of_clearance_pct": 60,
         "metabolite_name": "normeperidine (norpethidine)",
         "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 50,
         "reference": "pmid:15319333",
-        "metabolite_potency_target": "MOR",
-        "metabolite_potency_basis": "receptor_affinity",
-        "metabolite_mechanism_vs_parent": "scaled"
+        "notes": "Potency, target, basis and mechanism stripped 2026-08-28: pmid:15319333 is an in vitro human-liver-microsome study of which CYP enzymes N-demethylate meperidine. It supports the enzyme split and the clearance fraction kept here and says nothing about MOR affinity, so the '50% at MOR, receptor_affinity, scaled' it carried was attached to a source that does not make the claim. Normeperidine's classification lives on the metabolites-active row, which cites a review that does: divergent, because its dominant action is non-opioid CNS excitation. Do not re-add a scaled classification here."
       }
     ],
     "drug_interactions_pk": [

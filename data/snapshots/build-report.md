@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-08-28.0 → `Piru/Data/piru-substances.sqlite` (13,938,688 bytes, sha256 `34aac17b8e500264935c7c58cdbd68a7b6ec7e51ff0a281257006d1061b9b3e9`)
+Built 2026-08-28.0 → `Piru/Data/piru-substances.sqlite` (13,942,784 bytes, sha256 `b7b846735022718c54ee91694b2cee8892aba0a85d3c5020203deaaa31e93822`)
 
 ## Row counts
 
@@ -30,7 +30,7 @@ Built 2026-08-28.0 → `Piru/Data/piru-substances.sqlite` (13,938,688 bytes, sha
 | neuroimaging | 52 |
 | pk_routes | 434 |
 | concentration_effects | 23 |
-| metabolism | 559 |
+| metabolism | 557 |
 | drug_interactions_pk | 205 |
 | pharmacogenetics | 305 |
 | off_targets | 209 |

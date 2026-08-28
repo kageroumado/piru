@@ -12186,7 +12186,8 @@ class Build:
         """
         rows = self.cur.execute(
             "SELECT id, substance_id, metabolite_name, metabolite_half_life_min,"
-            " metabolite_potency_basis, fraction_of_clearance_pct, route FROM metabolism"
+            " metabolite_potency_basis, fraction_of_clearance_pct, route,"
+            " metabolite_mechanism_vs_parent FROM metabolism"
             " WHERE metabolite_name IS NOT NULL"
         ).fetchall()
 
@@ -12205,7 +12206,24 @@ class Build:
             # "strictly less informative" than the other. Dropping the second lost
             # the 90% outright — and there is no need to drop it, because the card
             # groups rows by metabolite and merges them into one statement.
-            return row[3] is not None or (row[4] not in (None, "unknown")) or row[5] is not None
+            #
+            # A classified mechanism counts too, for the same reason the second
+            # pass's `informativeness` weights it above raw field count: it is the
+            # gate on whether a metabolite may be folded into the parent's curve,
+            # so a row carrying only that says more than one carrying only a
+            # number. Without this the active-metabolite research layer's rows —
+            # which often bring the classification and nothing else — were deleted
+            # here, *before* the second pass that knows how to value them.
+            # Dextromethorphan → dextrorphan is the case: its cited `divergent`
+            # row was dropped, leaving the bare `scaled` one, and the two surfaces
+            # then disagreed about a metabolite whose whole point is that it acts
+            # on a different axis.
+            return (
+                row[3] is not None
+                or (row[4] not in (None, "unknown"))
+                or row[5] is not None
+                or (row[7] not in (None, "unknown"))
+            )
 
         doomed: list[int] = []
         for members in groups.values():
@@ -12253,7 +12271,26 @@ class Build:
 
         if doomed:
             self.cur.executemany("DELETE FROM metabolism WHERE id = ?", [(i,) for i in doomed])
-        return {"metabolism_superseded": len(doomed)}
+
+        # What survives can still contradict itself, and that must not be silent:
+        # the read path returns every row, so two rows classifying one metabolite
+        # `scaled` and `divergent` render as two statements disagreeing about
+        # whether it is the same drug at a different strength. `unknown` beside a
+        # classification is not a contradiction — it is one row declining to say —
+        # so only genuine opposites are counted. These cannot be resolved
+        # mechanically: picking the survivor means checking whether each row's
+        # citation actually supports the claim attached to it, and in the pairs
+        # examined so far it often did not.
+        surviving = self.cur.execute(
+            "SELECT substance_id, metabolite_name, route, metabolite_mechanism_vs_parent"
+            " FROM metabolism WHERE metabolite_name IS NOT NULL"
+            " AND metabolite_mechanism_vs_parent IN ('scaled', 'divergent')"
+        ).fetchall()
+        claims: dict[tuple, set[str]] = {}
+        for substance_id, name, route, mechanism in surviving:
+            claims.setdefault(key(substance_id, name, route), set()).add(mechanism)
+        contradictions = sum(1 for v in claims.values() if len(v) > 1)
+        return {"metabolism_superseded": len(doomed), "metabolism_contradictions": contradictions}
 
     def curate_common_card(self) -> dict[str, int]:
         """Make the Library's "Common" card a curated set, not an aggregator dump.
