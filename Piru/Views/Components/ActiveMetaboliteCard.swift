@@ -166,6 +166,23 @@ struct ActiveMetabolite: Identifiable {
         static let doseEquivalentFormationPct: Double = 50
         /// Enzymes whose activity varies enough between people to change what a
         /// dose does. Matched as substrings so "CYP2D6 (O-demethylation)" hits.
+        ///
+        /// **Do not re-ground this in a substance's own `pharmacogenetics` rows.**
+        /// It reads like the substance-keyed data the no-pharma-data-in-Swift
+        /// policy is about, and it is not: the claim is about the *enzyme*, it is
+        /// true of every drug that enzyme clears, and this list is the gate on
+        /// when a card may say so — a sibling of the two percentages above, not a
+        /// fact table.
+        ///
+        /// Gating on `pharmacogenetics` was measured and is worse. 95 substances
+        /// name a polymorphic CYP in `metabolism`; only 69 also carry a matching
+        /// `pharmacogenetics` row, so 26 would lose the line — including
+        /// atomoxetine, eliglustat, pimozide, methadone and pethidine, whose FDA
+        /// labels carry CYP2D6 genotype guidance. That table's coverage is a
+        /// property of what has been curated, not of the pharmacology, so joining
+        /// against it would silence the callout exactly where a label says it
+        /// matters most. `MetaboliteEditorialTests` gates that both names here
+        /// still occur in real `metabolism` cells, so the list cannot go stale.
         static let polymorphicEnzymes = ["CYP2D6", "CYP2C19"]
     }
 }

@@ -59,6 +59,21 @@ struct MetaboliteEditorialTests {
     }
 
     @Test
+    func `Both polymorphic enzymes still occur in real metabolism cells`() {
+        // The genetics line is gated on a two-name list rather than on a
+        // substance's own `pharmacogenetics` rows, deliberately — see the
+        // prohibition on `Threshold.polymorphicEnzymes`. What that costs is a
+        // name that could go stale against a renamed enzyme cell, so gate it:
+        // each name must still be reachable, or the callout silently stops.
+        let cells = { (parent: String) in
+            self.store.metabolism(forSubstanceName: parent).map(\.enzyme).joined().uppercased()
+        }
+        #expect(cells("Tramadol").contains("CYP2D6"))
+        #expect(cells("Amitriptyline").contains("CYP2C19"))
+        #expect(ActiveMetabolite.Threshold.polymorphicEnzymes == ["CYP2D6", "CYP2C19"])
+    }
+
+    @Test
     func `The curator's parenthetical synonyms still match`() {
         // The DB stores "O-desmethyltramadol (M1)" and "MDA (3,4-methylenedioxy...)";
         // the note is keyed on the bare name and must survive both forms.
