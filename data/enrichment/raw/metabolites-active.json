@@ -1808,10 +1808,10 @@
         "enzyme": "Peptidase (erythrocyte-mediated hydrolysis, non-CYP)",
         "metabolite_name": "d-amphetamine",
         "metabolite_active": true,
-        "metabolite_half_life_min": 582,
+        "metabolite_half_life_min": 639,
         "metabolite_half_life_range_min": [
-          504,
-          675
+          600,
+          678
         ],
         "formation_fraction_pct": 29.7,
         "metabolite_tmax_min": 228,
@@ -1819,7 +1819,8 @@
         "metabolite_potency_basis": null,
         "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/208510lbl.pdf",
         "metabolite_mechanism_vs_parent": "scaled",
-        "metabolite_potency_target": null
+        "metabolite_potency_target": null,
+        "notes": "Metabolite half-life corrected 2026-08-28 to the adult arm of the label this row already cites. The Vyvanse label states both populations in one sentence: 'The plasma elimination half-life of dextroamphetamine was approximately 8.6 to 9.5 hours in pediatric patients 6 to 12 years and 10 to 11.3 hours in healthy adults.' The stored 582 min (9.7 h) with range 504-675 straddled the two and matched neither; Piru models adults, so this is the adult range 600-678 min, summarised at its midpoint because the label states no mean. formation_fraction_pct 29.7 is NOT a measured formation fraction -- it is the stoichiometric mass yield of complete conversion, MW d-amphetamine 135.21 / MW lisdexamfetamine dimesylate 455.60 = 29.7%. That is the right number for a mass-based fold (70 mg delivers ~20.8 mg d-amphetamine) but do not go looking for a study reporting it, and do not 'correct' it to 100% on the grounds that conversion is complete -- the completeness is already what the 29.7% assumes."
       }
     ]
   },

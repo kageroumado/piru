@@ -2654,8 +2654,8 @@
         "fraction_of_clearance_pct": 100,
         "metabolite_name": "d-amphetamine",
         "metabolite_active": true,
-        "metabolite_potency_vs_parent_pct": 100,
-        "reference": "pmc:4257105"
+        "reference": "pmc:4257105",
+        "notes": "metabolite_potency_vs_parent_pct removed 2026-08-28: it read 100%, which asserts d-amphetamine is equipotent with lisdexamfetamine. Lisdexamfetamine has no potency to be equipotent with -- its own FDA label states 'The parent drug, lisdexamfetamine, does not bind to the sites responsible for the reuptake of norepinephrine and dopamine in vitro.' A ratio against zero is undefined, not 1. The fraction_of_clearance_pct of 100 is kept and is correct: all of the parent goes through this one erythrocyte pathway, and it is a different quantity from the sibling row's 29.7% mass yield."
       }
     ],
     "tags_to_add": [
