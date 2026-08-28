@@ -1,24 +1,24 @@
 # Piru SQLite build report
 
-Built 2026-08-28.0 → `Piru/Data/piru-substances.sqlite` (14,036,992 bytes, sha256 `18f82eb61cf79f0f7749cced6032538a5d2469f9e2b54d6eb1ccb47a06adc4cd`)
+Built 2026-08-28.0 → `Piru/Data/piru-substances.sqlite` (14,020,608 bytes, sha256 `25bb7fecf59956cf5ec283b7474a33be3577258cabee3d39303ef9aff0a90b0d`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,735 |
-| aliases | 5,395 |
+| substances | 1,689 |
+| aliases | 5,360 |
 | sources | 17 |
 | citations | 2,882 |
-| categories | 1,591 |
-| tags | 7,099 |
+| categories | 1,557 |
+| tags | 7,088 |
 | dose_ranges | 2,498 |
-| durations | 9,135 |
-| half_lives | 694 |
-| mechanisms_summary | 1,150 |
+| durations | 9,131 |
+| half_lives | 692 |
+| mechanisms_summary | 1,146 |
 | effects | 2,952 |
-| subjective_effects | 23,511 |
-| tolerance | 323 |
+| subjective_effects | 23,503 |
+| tolerance | 322 |
 | indications | 1,133 |
 | contraindications | 1,412 |
 | diazepam_equivalents | 32 |
@@ -26,7 +26,7 @@ Built 2026-08-28.0 → `Piru/Data/piru-substances.sqlite` (14,036,992 bytes, sha
 | functional_assays | 179 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
-| downstream_signalling | 689 |
+| downstream_signalling | 678 |
 | neuroimaging | 52 |
 | pk_routes | 434 |
 | concentration_effects | 23 |
@@ -35,8 +35,8 @@ Built 2026-08-28.0 → `Piru/Data/piru-substances.sqlite` (14,036,992 bytes, sha
 | pharmacogenetics | 305 |
 | off_targets | 209 |
 | class_contexts | 50 |
-| substance_classes | 687 |
-| molecule_shapes | 963 |
+| substance_classes | 680 |
+| molecule_shapes | 957 |
 | class_reference_compounds | 40 |
 | class_representatives | 7 |
 | substance_flags | 13 |
@@ -63,13 +63,13 @@ Built 2026-08-28.0 → `Piru/Data/piru-substances.sqlite` (14,036,992 bytes, sha
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 237 | 444 | 653 | 2,277 |
+| piru-curated | 237 | 444 | 648 | 2,272 |
 | peer-review-primary | 0 | 1,006 | 0 | 1,606 |
 | drug.community | 844 | 0 | 0 | 126 |
-| psychonautwiki | 374 | 0 | 75 | 321 |
-| tripsit | 585 | 0 | 420 | 1,268 |
+| psychonautwiki | 374 | 0 | 63 | 321 |
+| tripsit | 585 | 0 | 410 | 1,266 |
 | dailymed | 0 | 0 | 0 | 0 |
-| erowid-pihkal | 103 | 0 | 168 | 430 |
+| erowid-pihkal | 103 | 0 | 167 | 426 |
 | erowid-tihkal | 35 | 0 | 48 | 121 |
 | pdsp | 0 | 0 | 0 | 0 |
 | pubchem | 0 | 0 | 0 | 0 |
@@ -79,4 +79,4 @@ Built 2026-08-28.0 → `Piru/Data/piru-substances.sqlite` (14,036,992 bytes, sha
 | medtap | 0 | 0 | 0 | 0 |
 | benzos-cited | 0 | 0 | 0 | 0 |
 | nps-datahub | 0 | 0 | 0 | 0 |
-| freeodwiki | 320 | 0 | 33 | 0 |
+| freeodwiki | 320 | 0 | 27 | 0 |

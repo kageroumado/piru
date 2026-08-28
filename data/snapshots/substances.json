@@ -1021,6 +1021,8 @@
       "2-diphenylmethylpiperidine",
       "2-二苯甲基哌啶",
       "2dpmp",
+      "4-desoxymescaline",
+      "DESOXY",
       "Desoxypipradol",
       "Desoxypipradrol",
       "Ivory Wave"
@@ -1028,8 +1030,11 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
+      "PIHKAL",
       "class:substituted piperidines",
       "habit-forming",
+      "no-human-data",
+      "phenethylamine",
       "research-chemical",
       "tentative"
     ],
@@ -1048,17 +1053,19 @@
     "half_life_minutes": 1080.0,
     "mechanism_summary": "2-DPMP主要作为一种去甲肾上腺素-多巴胺再摄取抑制剂 (NDRI) 发挥作用，但作为一种兴奋剂，它的效力异常高，持续时间极长，剂量反应也不可预测。这些风险可能归因于它异常高的亲脂性和长消除半衰期，这也增加了滥用时引发兴奋剂精神病状态的相对风险，而且在人类中已经证实它的阈值低得惊人。",
     "effects": [],
-    "references": [],
-    "data_gaps": [
-      "references"
-    ]
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal052.shtml"
+    ],
+    "data_gaps": []
   },
   {
     "name": "2-FEA",
-    "display_name": "",
+    "display_name": "2-FEA",
     "aliases": [
+      "2-F-ethylamphetamine",
       "2-Fluoroethamphetamine",
-      "2-fluoroethylamphetamine"
+      "2-fluoroethylamphetamine",
+      "2-氟乙基苯丙胺"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -1069,21 +1076,26 @@
     ],
     "default_route": "insufflation",
     "all_routes": [
-      "insufflation"
+      "insufflation",
+      "oral",
+      "rectal",
+      "sublingual"
     ],
     "routes_with_dose": [
-      "insufflation"
+      "insufflation",
+      "oral",
+      "rectal",
+      "sublingual"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "目前还没有像对传统苯丙胺类药物那样对 2-FEA 进行正式的研究喵。目前假设它主要作为一种三重神经递质再摄取抑制剂起作用，并会释放以下神经递质：血清素、多巴胺和去甲肾上腺素。2-FEA 可能是通过作为这些神经递质的释放剂，或者通过结合并部分阻断那些在完成神经冲动传导后通常会将物质从突触间隙清除的转运蛋白来产生效果的呢。",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -1170,42 +1182,6 @@
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "由于缺乏关于该物质的研究，所有关于其药理学的讨论都纯粹基于它的结构，以及它与其他芳基环己胺类物质解离剂，例如DCK和氯胺酮之间的主观效应相似性。考虑到这一点，2-氟去氯氯胺酮被认为可作为NMDA受体拮抗剂类药物发挥作用。\n\nNMDA受体允许电信号在脑和脊髓中的神经元之间传递；要让信号通过，受体必须处于开放状态。解离剂会通过阻断NMDA受体来关闭它们。神经元之间的这种断连会导致感觉丧失、运动困难，并最终导致这种物质相当于“K洞”的状态。",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
-    "name": "2-Fluoroethamphetamine",
-    "display_name": "2-FEA",
-    "aliases": [
-      "2-F-ethylamphetamine",
-      "2-FEA",
-      "2-氟乙基苯丙胺"
-    ],
-    "category": "Empathogen",
-    "display_class": "recreational",
-    "tags": [],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "oral",
-      "rectal",
-      "sublingual"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "oral",
-      "rectal",
-      "sublingual"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "目前还没有像对传统苯丙胺类药物那样对 2-FEA 进行正式的研究喵。目前假设它主要作为一种三重神经递质再摄取抑制剂起作用，并会释放以下神经递质：血清素、多巴胺和去甲肾上腺素。2-FEA 可能是通过作为这些神经递质的释放剂，或者通过结合并部分阻断那些在完成神经冲动传导后通常会将物质从突触间隙清除的转运蛋白来产生效果的呢。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -1491,49 +1467,6 @@
     ]
   },
   {
-    "name": "2-MeO-Ketamine",
-    "display_name": "",
-    "aliases": [
-      "2-MeO-K",
-      "MXM",
-      "Methoxyketamine",
-      "O-methoxyketamine"
-    ],
-    "category": "Dissociative",
-    "display_class": "recreational",
-    "tags": [
-      "NMDA-antagonist",
-      "arylcyclohexylamine",
-      "class:Arylcyclohexylamine",
-      "duplicate-of-2-MeO-Ketamine",
-      "habit-forming",
-      "research-chemical"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "intramuscular",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "intramuscular",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "2-Methoxymethyl-salvinorin B",
     "display_name": "",
     "aliases": [
@@ -1584,6 +1517,7 @@
     "tags": [
       "ADH-resistant",
       "GABA-A-PAM-alcohol-pocket",
+      "class:alcohol",
       "habit-forming",
       "tentative",
       "tertiary-alcohol"
@@ -4321,7 +4255,8 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal041.shtml"
+      "https://erowid.org/library/books_online/pihkal/pihkal041.shtml",
+      "https://erowid.org/library/books_online/pihkal/pihkal042.shtml"
     ],
     "data_gaps": [
       "half_life_minutes",
@@ -4563,35 +4498,6 @@
     "data_gaps": [
       "half_life_minutes",
       "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "2M2B",
-    "display_name": "",
-    "aliases": [],
-    "category": "Depressant",
-    "display_class": "recreational",
-    "tags": [
-      "class:alcohol"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
     ]
   },
   {
@@ -5244,78 +5150,6 @@
     ]
   },
   {
-    "name": "3-FA",
-    "display_name": "",
-    "aliases": [
-      "3-Fluoroamphetamine",
-      "3fa",
-      "PAL-353"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "class:amphetamine",
-      "class:substituted amphetamines",
-      "habit-forming",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "3-FEA",
-    "display_name": "",
-    "aliases": [],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "class:amphetamine",
-      "class:substituted amphetamines",
-      "habit-forming",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "3-Fluoro-PCP",
     "display_name": "",
     "aliases": [
@@ -5371,6 +5205,7 @@
       "3-FA",
       "3-氟苯丙胺",
       "3F-AMP",
+      "3fa",
       "PAL-353",
       "m-fluoroamphetamine",
       "meta-fluoroamphetamine"
@@ -5378,7 +5213,12 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "DA-NE-releaser"
+      "DA-NE-releaser",
+      "class:amphetamine",
+      "class:substituted amphetamines",
+      "habit-forming",
+      "research-chemical",
+      "tentative"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -5409,7 +5249,13 @@
     ],
     "category": "Stimulant",
     "display_class": "recreational",
-    "tags": [],
+    "tags": [
+      "class:amphetamine",
+      "class:substituted amphetamines",
+      "habit-forming",
+      "research-chemical",
+      "tentative"
+    ],
     "default_route": "insufflation",
     "all_routes": [
       "insufflation",
@@ -5666,41 +5512,6 @@
     ],
     "data_gaps": [
       "half_life_minutes"
-    ]
-  },
-  {
-    "name": "3-Hydroxyphenazepam",
-    "display_name": "",
-    "aliases": [
-      "3-HO-Phenazepam",
-      "3-OH-Phenazepam"
-    ],
-    "category": "Benzodiazepine",
-    "display_class": "recreational",
-    "tags": [
-      "UGT-substrate",
-      "class:Benzodiazepine",
-      "designer-benzo",
-      "metabolite-as-drug"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
     ]
   },
   {
@@ -6222,35 +6033,6 @@
     ]
   },
   {
-    "name": "3-Methylmorphine",
-    "display_name": "",
-    "aliases": [
-      "可待因"
-    ],
-    "category": "Opioid",
-    "display_class": "recreational",
-    "tags": [],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "可待因本身没有中枢活性，必须首先通过细胞色素 P450 酶 CYP2D6 进行首过代谢转化为吗啡（因此，它是吗啡的前药）。可待因也通过 CYP3A4 酶系统代谢为无活性的去甲可待因。这两种生成的产物都由 UGT2B7 结合成相应的 3-葡糖醛酸苷。\n\n一部分人群产生的 CYP2D6 酶较少，因此与普通人相比，可待因的效果会显著降低。然而，另一些人产生的 CYP2D6 酶数量较多，这可能导致对药物的超敏反应。一些增强阿片类药物效果的方法，例如在服用前一天全天饮用西柚汁，会抑制 CYP3A4 酶。 这导致较少的可待因转化为去甲可待因，从而留下更多的可待因代谢为吗啡。这也表明，当使用者在摄入可待因之前服用抗组胺药如苯海拉明时，将可待因代谢为吗啡的能力会缺乏。\n\n个人单次服用过程中，通过酶代谢转化为吗啡的可待因量有一个上限。这个上限通常被称为“天花板剂量”，普遍认为在 400mg 左右。服用更高剂量会导致更严重的副作用，如瘙痒感和恶心，但不会增加欣快感哦。\n\n可待因的活性代谢产物，特别是吗啡，通过结合并激活阿片受体，主要是μ-阿片 受体来发挥作用。 发生这种情况是因为阿片类药物在结构上模仿了内源性内啡肽，内啡肽天然存在于体内，也作用于 μ-阿片受体组。阿片类药物在结构上模仿这些天然内啡肽的方式导致了它们的欣快感、镇痛、肌肉松弛和抗焦虑作用。这是因为内啡肽负责减轻疼痛、引起睡意和产生愉悦感。它们会在疼痛、剧烈运动、性高潮或一般兴奋时释放呢。\n\n可待因本身是阿片受体的弱配体。然而，其主要的活性代谢产物吗啡显示出更强的激动效应。\n\nMu 阿片受体激动剂 - 589 nM",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
     "name": "3-MMC",
     "display_name": "",
     "aliases": [
@@ -6303,9 +6085,9 @@
     "display_name": "",
     "aliases": [
       "3-HO-P",
-      "3-HO-phenazepam",
+      "3-HO-Phenazepam",
+      "3-Hydroxyphenazepam",
       "3-OH-P",
-      "3-hydroxyphenazepam",
       "3hop",
       "3hophenazepam",
       "3ohp",
@@ -6315,8 +6097,12 @@
     "display_class": "recreational",
     "tags": [
       "GABAA-PAM",
+      "UGT-substrate",
       "benzodiazepine",
+      "class:Benzodiazepine",
+      "designer-benzo",
       "habit-forming",
+      "metabolite-as-drug",
       "research-chemical",
       "tentative"
     ],
@@ -6886,20 +6672,28 @@
     ]
   },
   {
-    "name": "4,4'-Dimethylaminorex",
+    "name": "4,4-DMAR",
     "display_name": "",
     "aliases": [
       "4,4'-DMAR",
+      "4,4'-Dimethylaminorex",
+      "4,4-DMAP",
       "4-M-4-MAR",
       "4-methyl-U4Euh",
       "4-methyl-euphoria",
       "Serotoni"
     ],
-    "category": "Stimulant",
+    "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
+      "PAH-risk",
+      "SNDRA",
+      "aminorex-class",
       "balanced-SNDRA",
-      "fatal-overdose-risk"
+      "fatal-overdose-risk",
+      "fatalities-confirmed",
+      "habit-forming",
+      "tentative"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -6918,44 +6712,6 @@
     "effects": [],
     "references": [],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "4,4-DMAR",
-    "display_name": "",
-    "aliases": [
-      "4,4'-DMAR",
-      "4,4'-dimethylaminorex",
-      "4,4-DMAP",
-      "Serotoni"
-    ],
-    "category": "Empathogen",
-    "display_class": "recreational",
-    "tags": [
-      "PAH-risk",
-      "SNDRA",
-      "aminorex-class",
-      "fatalities-confirmed",
-      "habit-forming",
-      "tentative"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -7459,38 +7215,6 @@
     ]
   },
   {
-    "name": "4-CBC",
-    "display_name": "",
-    "aliases": [],
-    "category": "Empathogen",
-    "display_class": "recreational",
-    "tags": [
-      "habit-forming",
-      "research-chemical"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "4-CEC",
     "display_name": "",
     "aliases": [
@@ -7573,8 +7297,10 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
+      "habit-forming",
       "hybrid-DAT-blocker-SERT-substrate-predicted",
-      "para-chloro-neurotoxicity-flag"
+      "para-chloro-neurotoxicity-flag",
+      "research-chemical"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -8056,6 +7782,7 @@
     "display_class": "recreational",
     "tags": [
       "DAT-selective",
+      "class:substituted phenidates",
       "habit-forming",
       "research-chemical",
       "tentative"
@@ -8781,38 +8508,6 @@
     ],
     "data_gaps": [
       "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "4-MA",
-    "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "PIHKAL",
-      "phenethylamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal097.shtml"
-    ],
-    "data_gaps": [
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
@@ -9627,37 +9322,6 @@
     ]
   },
   {
-    "name": "4F-EPH",
-    "display_name": "",
-    "aliases": [
-      "4-FEPH"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "class:substituted phenidates"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "4F-MABP",
     "display_name": "",
     "aliases": [
@@ -10382,40 +10046,6 @@
       "half_life_minutes",
       "mechanism_of_action",
       "references"
-    ]
-  },
-  {
-    "name": "5-HO-DMT",
-    "display_name": "",
-    "aliases": [
-      "bufotenin"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "5-HT2A-agonist",
-      "TIHKAL",
-      "tryptamine"
-    ],
-    "default_route": "intravenous",
-    "all_routes": [
-      "intravenous"
-    ],
-    "routes_with_dose": [
-      "intravenous"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/tihkal/tihkal19.shtml"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
     ]
   },
   {
@@ -11288,11 +10918,15 @@
   {
     "name": "5-MeO-TMT",
     "display_name": "",
-    "aliases": [],
+    "aliases": [
+      "Indapex"
+    ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "TIHKAL",
+      "research-chemical",
+      "tentative",
       "tryptamine"
     ],
     "default_route": "oral",
@@ -12120,16 +11754,21 @@
     "name": "a-ET",
     "display_name": "",
     "aliases": [
+      "AET",
       "Monase",
+      "a-ethyltryptamine",
+      "alpha-ethyl-tryptamine",
       "etryptamine",
       "α-ethyltryptamine",
       "αET"
     ],
-    "category": "Psychedelic",
+    "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
       "TIHKAL",
       "agranulocytosis-risk-historical",
+      "research-chemical",
+      "tentative",
       "tryptamine"
     ],
     "default_route": "oral",
@@ -12154,37 +11793,6 @@
     ]
   },
   {
-    "name": "a-MT",
-    "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "TIHKAL",
-      "tryptamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/tihkal/tihkal48.shtml"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "A-pbp",
     "display_name": "",
     "aliases": [
@@ -12202,85 +11810,6 @@
       "oral"
     ],
     "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "A-PHP",
-    "display_name": "",
-    "aliases": [
-      "PV7",
-      "alpha-PHP",
-      "α-PHP"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "class:cathinone",
-      "class:substituted cathinones",
-      "class:substituted pyrrolidines"
-    ],
-    "default_route": "inhalation",
-    "all_routes": [
-      "inhalation",
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "inhalation",
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
-    "name": "A-pihp",
-    "display_name": "",
-    "aliases": [
-      "pihp",
-      "α-PiHP"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "NDRI",
-      "habit-forming",
-      "pyrovalerone-cathinone",
-      "research-chemical",
-      "stimulant-not-entactogen",
-      "tentative"
-    ],
-    "default_route": "inhalation",
-    "all_routes": [
-      "inhalation",
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "inhalation",
-      "insufflation",
       "oral"
     ],
     "has_dose_data": true,
@@ -13362,40 +12891,6 @@
     ]
   },
   {
-    "name": "AET",
-    "display_name": "",
-    "aliases": [
-      "a-et",
-      "a-ethyltryptamine",
-      "alpha-ethyl-tryptamine"
-    ],
-    "category": "Empathogen",
-    "display_class": "recreational",
-    "tags": [
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Afamelanotide",
     "display_name": "",
     "aliases": [
@@ -13643,37 +13138,6 @@
       "half_life_minutes",
       "mechanism_of_action",
       "references"
-    ]
-  },
-  {
-    "name": "AL",
-    "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "PIHKAL",
-      "phenethylamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal002.shtml"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
     ]
   },
   {
@@ -14288,6 +13752,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
+      "PIHKAL",
       "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
@@ -14340,10 +13805,11 @@
       "Unity and interconnectedness",
       "Wakefulness"
     ],
-    "references": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal002.shtml"
+    ],
     "data_gaps": [
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -14561,6 +14027,7 @@
       "A-PiHP",
       "alpha-PHiP",
       "alpha-pyrrolidinoisohexanophenone",
+      "pihp",
       "α-PHiP",
       "α-PiHP",
       "α-Pyrrolidinoisohexaphenone",
@@ -14569,12 +14036,17 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
+      "NDRI",
       "cathinone",
       "fatalities-reported",
+      "habit-forming",
       "no-human-data",
       "pure-DAT-NET-blocker",
+      "pyrovalerone-cathinone",
       "pyrrolidinophenone",
-      "research-chemical"
+      "research-chemical",
+      "stimulant-not-entactogen",
+      "tentative"
     ],
     "default_route": "inhalation",
     "all_routes": [
@@ -14604,9 +14076,9 @@
     "name": "alpha-Pyrrolidinohexiophenone",
     "display_name": "",
     "aliases": [
+      "A-PHP",
       "PV-7",
       "PV7",
-      "a-PHP",
       "alpha-PHP",
       "aphp",
       "α-PHP",
@@ -14621,6 +14093,9 @@
       "DAT-NET-selective",
       "TAAR1-inactive-human",
       "cathinone",
+      "class:cathinone",
+      "class:substituted cathinones",
+      "class:substituted pyrrolidines",
       "fatalities-reported",
       "habit-forming",
       "high-risk",
@@ -15139,50 +14614,20 @@
     "aliases": [
       "AA",
       "AFA",
+      "Amfonelicacid",
       "WIN 25,978",
-      "WIN-25,978"
+      "WIN-25,978",
+      "win25978"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "DAT-selective",
       "DRI",
+      "habit-forming",
       "investigational",
       "neuroprotective-vs-meth",
       "no-human-data",
-      "research-chemical"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://en.wikipedia.org/wiki/Amfonelic_acid"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Amfonelicacid",
-    "display_name": "",
-    "aliases": [
-      "aa",
-      "afa",
-      "win25978"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "habit-forming",
       "research-chemical"
     ],
     "default_route": "oral",
@@ -15198,11 +14643,12 @@
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://en.wikipedia.org/wiki/Amfonelic_acid"
+    ],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -15753,6 +15199,7 @@
       "IT-403",
       "Indopan",
       "U-14,164E",
+      "a-MT",
       "alphamethyltryptamine",
       "monase",
       "α-Methyltryptamine",
@@ -15762,6 +15209,7 @@
     "display_class": "recreational",
     "tags": [
       "MAO-A-inhibitor-weak",
+      "TIHKAL",
       "class:Tryptamine",
       "class:substituted tryptamines",
       "monoamine-releaser-broad",
@@ -15787,10 +15235,11 @@
     "half_life_minutes": null,
     "mechanism_summary": "αMT 是一种相对平衡的再摄取抑制剂，也是三种主要单胺类神经递质（血清素、去甲肾上腺素和多巴胺）的释放剂，并且是非选择性的血清素受体激动剂。\n\n人们认为 αMT 的迷幻效果来自于它在 5-HT2A 受体上作为部分激动剂的功效。\n\nαMT 还作为血清素、去甲肾上腺素和多巴胺的释放剂起作用。它在体外和体内也表现出非常微弱的非选择性 可逆性MAOA抑制剂（RIMA）活性，但在常规剂量下，这一点似乎不太重要（甚至可能完全不重要）。",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://erowid.org/library/books_online/tihkal/tihkal48.shtml"
+    ],
     "data_gaps": [
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -19419,7 +18868,9 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
+      "5-HT2A-agonist",
       "5-HT3-agonist",
+      "TIHKAL",
       "class:substituted tryptamines",
       "high-body-load",
       "no-human-data",
@@ -19429,11 +18880,13 @@
     "all_routes": [
       "inhalation",
       "insufflation",
+      "intravenous",
       "oral"
     ],
     "routes_with_dose": [
       "inhalation",
       "insufflation",
+      "intravenous",
       "oral"
     ],
     "has_dose_data": true,
@@ -19443,6 +18896,7 @@
     "mechanism_summary": "在大鼠中，皮下注射给予蟾毒色胺（1–100 μg/kg）后，药物主要分布于肺、心脏和血液中，而在脑部（下丘脑、脑干、纹状体和大脑皮层）以及肝脏中的分布则少得多。其浓度在一小时达到峰值，并会在8小时内几乎被完全清除。在人体中，静脉注射蟾毒色胺后，注入药物中有70%以5-HIAA（血清素的一种内源性代谢产物）的形式排出，而大约4%会以未代谢形式经尿液排出。口服给予的蟾毒色胺会经由单胺氧化酶发生广泛的首过代谢。\n\n蟾毒色胺的迷幻剂效应，通常被认为主要来自它作为部分激动剂作用于5-HT受体的效能。更具体地说，这种分子对5-HT2A和5-HT1A亚型显示出较高的结合亲和力。不过，这些相互作用究竟如何导致迷幻体验，其具体机制仍然尚未完全明了。\n\n其他作用机制也被认为在一定程度上参与其中，例如对血清素、去甲肾上腺素和多巴胺等神经递质的再摄取抑制。这也意味着，当蟾毒色胺与单胺氧化酶抑制剂、可逆性MAOA抑制剂、SSRI、兴奋剂，或任何作为单胺类神经递质释放剂或再摄取抑制剂发挥作用的物质联用时，可能会产生危险毒性。",
     "effects": [],
     "references": [
+      "https://erowid.org/library/books_online/tihkal/tihkal19.shtml",
       "[Use of corticosteroid preparations in therapy of tuberculous meningitis]."
     ],
     "data_gaps": []
@@ -20588,39 +20042,6 @@
     "data_gaps": []
   },
   {
-    "name": "Carphedon",
-    "display_name": "",
-    "aliases": [
-      "4-Phenylpiracetam",
-      "Phenotropil",
-      "Phenylpiracetam",
-      "苯基吡拉西坦"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "research-chemical"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "苯基吡拉西坦被认为会增加海马细胞内的乙酰胆碱释放。 由于乙酰胆碱参与记忆功能，这可能解释了其报告的益智药效应。\n\n苯基吡拉西坦似乎进行了一系列试验，显示出对器质性原因导致的认知衰退患者的认知改善，其中一项研究指出青少年癫痫患者的认知有轻微改善。",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
     "name": "Carvedilol",
     "display_name": "",
     "aliases": [
@@ -21558,14 +20979,18 @@
       "Noctec",
       "Somnote",
       "Trichloroacetaldehyde monohydrate",
-      "Welldorm"
+      "Welldorm",
+      "chloral-hydrate",
+      "somnos"
     ],
     "category": "GABAergic",
     "display_class": "recreational",
     "tags": [
       "ADH-substrate-prodrug",
       "GABA-A-PAM-via-metabolite",
-      "IARC-2A"
+      "IARC-2A",
+      "duplicate-of-chloral-hydrate",
+      "habit-forming"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -23250,11 +22675,18 @@
     "name": "Codeine",
     "display_name": "",
     "aliases": [
-      "3-methylmorphine",
+      "3-Methylmorphine",
       "Lean",
+      "Promethazine+Codeine",
       "Purple Drank",
       "Syrup",
+      "barre",
+      "drank",
       "methylmorphine",
+      "pint",
+      "sizzurp",
+      "texas tea",
+      "wock",
       "可待因"
     ],
     "category": "Opioid",
@@ -23262,12 +22694,14 @@
     "tags": [
       "CYP2D6-prodrug",
       "MOR-via-metabolite",
+      "QT-risk",
       "analgesic",
       "class:substituted morphinans",
       "common",
       "habit-forming",
       "opioid",
-      "pharmacogenetic-critical"
+      "pharmacogenetic-critical",
+      "polypharmacy"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -23675,76 +23109,16 @@
     ]
   },
   {
-    "name": "CPM",
-    "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "PIHKAL",
-      "phenethylamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal037.shtml"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Creatine",
-    "display_name": "",
-    "aliases": [
-      "Methylguanidoacetic acid"
-    ],
-    "category": "Nootropic",
-    "display_class": "recreational",
-    "tags": [],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": 162.0,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "Single- and multiple-dose pharmacokinetics of oral creatine."
-    ],
-    "data_gaps": [
-      "duration_by_route",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "Creatine Monohydrate",
     "display_name": "",
     "aliases": [
       "Creapure",
       "Creatine",
+      "Methylguanidoacetic acid",
       "肌酸"
     ],
     "category": "Supplement",
-    "display_class": "otc",
+    "display_class": "recreational",
     "tags": [
       "NMDA-modulator",
       "OTC",
@@ -24129,6 +23503,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
+      "PIHKAL",
       "no-human-data",
       "phenethylamine",
       "research-chemical",
@@ -24147,11 +23522,12 @@
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal037.shtml"
+    ],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -24803,39 +24179,6 @@
     ]
   },
   {
-    "name": "Dehydroxyfluorafinil",
-    "display_name": "",
-    "aliases": [
-      "Dehydroxy-fluorafinil",
-      "Modafiendz"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Delorazepam",
     "display_name": "",
     "aliases": [
@@ -25446,42 +24789,6 @@
     ]
   },
   {
-    "name": "DESOXY",
-    "display_name": "",
-    "aliases": [
-      "2-DPMP",
-      "4-desoxymescaline",
-      "desoxypipradrol"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "PIHKAL",
-      "no-human-data",
-      "phenethylamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal052.shtml"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "Desvenlafaxine",
     "display_name": "",
     "aliases": [
@@ -25960,40 +25267,6 @@
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Dichloropane",
-    "display_name": "",
-    "aliases": [
-      "RTI-111"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "class:substituted tropanes"
-    ],
-    "default_route": "inhalation",
-    "all_routes": [
-      "inhalation",
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "inhalation",
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "RTI-111对中枢神经系统最被广泛研究的效应，是阻断血清素、多巴胺与去甲肾上腺素转运体。该物质作为一种三重再摄取抑制剂，可阻止单胺类神经递质被重新回收，导致它们在突触中，也就是神经元之间的连接处过量积聚。其结果是，单胺能信号在接收神经元受体上的突触后效应会被增强并延长。一般认为，正是这种在多个脑区突触间隙中骤然增加的神经递质洪流，造成了RTI-111的各种效应。\n\n托烷类兴奋剂的转运体结合谱\n\n与可卡因相比，RTI-111对血清素和去甲肾上腺素转运体相对于多巴胺转运体具有更高的相对亲和力，而这被认为至少部分解释了它在主观效应上的差异。",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
     ]
   },
   {
@@ -28356,45 +27629,6 @@
     ]
   },
   {
-    "name": "Dronabinol",
-    "display_name": "",
-    "aliases": [
-      "Marinol",
-      "Syndros",
-      "Synthetic THC"
-    ],
-    "category": "Cannabinoid",
-    "display_class": "recreational",
-    "tags": [
-      "CB1-partial-agonist",
-      "CB2-agonist",
-      "FDA-approved",
-      "US-Schedule-III",
-      "antiemetic",
-      "cannabinoid",
-      "prescription-only",
-      "psychoactive"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": 1800.0,
-    "mechanism_summary": "Cannabinoid CB1/CB2 Receptor Agonist",
-    "effects": [],
-    "references": [
-      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018651s029lbl.pdf",
-      "https://en.wikipedia.org/wiki/Dronabinol"
-    ],
-    "data_gaps": []
-  },
-  {
     "name": "Droperidol",
     "display_name": "",
     "aliases": [
@@ -29974,40 +29208,6 @@
     ]
   },
   {
-    "name": "ETH-CAT",
-    "display_name": "",
-    "aliases": [
-      "Ethcathinone",
-      "Ethylpropion"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "class:cathinone"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "ETH-LAD",
     "display_name": "",
     "aliases": [
@@ -30237,19 +29437,21 @@
     "name": "Ethylcathinone",
     "display_name": "",
     "aliases": [
-      "ETH-cat",
+      "ETH-CAT",
       "Ethcathinone",
+      "Ethylpropion",
       "N-Ethylcathinone",
       "NEC",
       "e-cat",
       "乙卡西酮"
     ],
-    "category": "Psychedelic",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "DRI",
       "amfepramone-active-metabolite",
       "cathinone",
+      "class:cathinone",
       "habit-forming",
       "research-chemical",
       "substrate-releaser"
@@ -34979,39 +34181,6 @@
     ]
   },
   {
-    "name": "HDMP-28",
-    "display_name": "",
-    "aliases": [
-      "methylnaphtidate"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "habit-forming",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Heparin",
     "display_name": "",
     "aliases": [
@@ -35217,46 +34386,6 @@
     "data_gaps": [
       "half_life_minutes",
       "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Hexen",
-    "display_name": "",
-    "aliases": [
-      "N-Ethylhexedrone",
-      "NEH",
-      "ethyl-hexedrone",
-      "hex-en",
-      "n-ethyl-hexedrone"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "habit-forming",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "inhalation",
-    "all_routes": [
-      "inhalation",
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "inhalation",
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "关于 N-ethylhexedrone 以及其他取代卡西酮类物质在人类体内的药代动力学与药效动力学，目前几乎没有数据。NEH 很可能是一种强效的多巴胺和去甲肾上腺素再摄取抑制剂，不会释放神经递质，也不会影响其他神经递质。和苯丙胺一样，合成卡西酮通过提高突触间隙中儿茶酚胺（如多巴胺、血清素和去甲肾上腺素）的浓度来发挥其兴奋和拟交感作用。这些分子能够抑制单胺再摄取转运体，从而减少神经递质从突触中的清除。此外，它们还可能促使生物胺从细胞内储存中释放出来。看起来 N-ethylhexedrone 对多巴胺转运体具有较高亲和性。\n\n基于其结构，并假设 N-ethylhexedrone 的代谢方式与其他卡西酮类似，这种化合物很可能经由 N-去烷基化和/或羰基还原，随后再进行 N-去烷基化而代谢。\n\n一般来说，由于 β-酮基增加了分子极性，合成卡西酮穿过血脑屏障的能力通常弱于苯丙胺。与其他合成卡西酮不同，吡咯烷衍生物由于吡咯烷环赋予这些分子较低的极性，因此更容易穿过血脑屏障。关于合成卡西酮代谢的研究表明，它们会发生 N-去甲基化，酮基会被还原为羟基，而环上的烷基则会被氧化。",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
     ]
   },
   {
@@ -35740,7 +34869,9 @@
     "display_name": "",
     "aliases": [
       "HupA",
-      "Selagine"
+      "Huperzine-a",
+      "Selagine",
+      "h-a"
     ],
     "category": "Nootropic",
     "display_class": "recreational",
@@ -35751,17 +34882,20 @@
       "NMDA-weak-clinically-negligible",
       "cholinergic",
       "donepezil-equivalent-mechanism",
-      "nootropic"
+      "nootropic",
+      "tentative"
     ],
-    "default_route": "oral",
+    "default_route": "insufflation",
     "all_routes": [
+      "insufflation",
       "oral"
     ],
     "routes_with_dose": [
+      "insufflation",
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": false,
+    "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 720.0,
     "mechanism_summary": "",
@@ -35770,39 +34904,7 @@
       "https://en.wikipedia.org/wiki/Huperzine_A"
     ],
     "data_gaps": [
-      "duration_by_route",
       "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Huperzine-a",
-    "display_name": "",
-    "aliases": [
-      "h-a"
-    ],
-    "category": "Nootropic",
-    "display_class": "recreational",
-    "tags": [
-      "tentative"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation"
-    ],
-    "routes_with_dose": [
-      "insufflation"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
     ]
   },
   {
@@ -36808,38 +35910,6 @@
     ]
   },
   {
-    "name": "Indapex",
-    "display_name": "",
-    "aliases": [
-      "5-MeO-TMT"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Indapyrophenidone",
     "display_name": "",
     "aliases": [],
@@ -37498,34 +36568,6 @@
     "data_gaps": [
       "duration_by_route",
       "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "ISF 2522",
-    "display_name": "",
-    "aliases": [
-      "奥拉西坦"
-    ],
-    "category": "Nootropic",
-    "display_class": "recreational",
-    "tags": [],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "研究显示，奥拉西坦能够增加海马细胞中的乙酰胆碱释放。由于乙酰胆碱参与记忆巩固功能，这或许可以解释它的益智药效应哦。",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
     ]
   },
   {
@@ -38749,11 +37791,13 @@
       "酪氨酸"
     ],
     "category": "Supplement",
-    "display_class": "otc",
+    "display_class": "recreational",
     "tags": [
       "OTC",
       "amino-acid",
       "catecholamine-precursor",
+      "class:amino acid",
+      "class:substituted phenethylamines",
       "dopamine-precursor",
       "nootropic",
       "supplement"
@@ -38997,46 +38041,6 @@
       "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
-      "references"
-    ]
-  },
-  {
-    "name": "Lean",
-    "display_name": "",
-    "aliases": [
-      "Promethazine+Codeine",
-      "Purple Drank",
-      "barre",
-      "drank",
-      "pint",
-      "sizzurp",
-      "syrup",
-      "texas tea",
-      "wock"
-    ],
-    "category": "Opioid",
-    "display_class": "recreational",
-    "tags": [
-      "QT-risk",
-      "polypharmacy"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -40539,37 +39543,6 @@
     ]
   },
   {
-    "name": "M",
-    "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "PIHKAL",
-      "phenethylamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal096.shtml"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "Maca",
     "display_name": "",
     "aliases": [
@@ -40842,13 +39815,15 @@
     "name": "MBDB",
     "display_name": "",
     "aliases": [
-      "eden",
-      "methyl-j"
+      "METHYL-J",
+      "eden"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
     "tags": [
+      "PIHKAL",
       "habit-forming",
+      "phenethylamine",
       "research-chemical",
       "tentative"
     ],
@@ -40865,11 +39840,12 @@
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal128.shtml"
+    ],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -40961,48 +39937,6 @@
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "mCPP 对 5-HT, 5-HT, 5-HT, 5-HT, 5-HT, 5-HT, 5-HT 和 5-HT 受体，以及血清素转运蛋白（SERT）具有显著的亲和力。它对 α-肾上腺素能、α-肾上腺素能、H、I（咪唑啉受体）和去甲肾上腺素转运蛋白（NET）也有一定的亲和力。它在大多数血清素受体上表现为激动剂。研究表明，mCPP 不仅作为血清素再摄取抑制剂发挥作用，还作为血清素释放剂起作用呢。\n\nmCPP 最强的作用发生在 5-HT 和 5-HT 受体上，其辨别性提示主要由 5-HT 介导。它的负面效应，如焦虑、头痛和食欲减退，很可能是通过它对 5-HT 受体的作用介导的喵。mCPP 的其他效应还包括恶心、活动减退和阴茎勃起，后两者是 5-HT 活性增加的结果，而前者可能是通过 5-HT 刺激产生的。\n\nmCPP 是人类 5-HT 受体部分激动剂，但作为人类 5-HT 和 5-HT 受体的拮抗剂。由于它对人类 5-HT 受体缺乏激动作用，目前还没有 mCPP 在人类中产生致幻效应的报告哦。\n\nmCPP 是抗抑郁药曲唑酮的一种活性代谢物呢。",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
-    "name": "MD-PHP",
-    "display_name": "",
-    "aliases": [
-      "3'",
-      "3,4-MDPHP",
-      "MDPH",
-      "MDPHP",
-      "methylenedioxypyrolidinohexiophenone",
-      "monkey dust",
-      "zombie dust"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "NDRI",
-      "pyrovalerone-cathinone",
-      "stimulant-not-entactogen"
-    ],
-    "default_route": "inhalation",
-    "all_routes": [
-      "inhalation",
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "inhalation",
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "MDPHP 被认为主要作为一种强效的去甲肾上腺素-多巴胺再摄取抑制剂（NDRI）起作用。去甲肾上腺素和多巴胺的再摄取减少会导致突触间隙（即神经元之间的间隙）中这两种儿茶酚胺神经递质的浓度升高呢。这种抑制的结果是增强并延长了多巴胺能和去甲肾上腺素信号在接收神经元的多巴胺和去甲肾上腺素受体上的突触后效应。 血清素也起到了一定作用，尽管程度要小得多喵。大脑中神经递质浓度的这种突然增加被认为是 MDPHP 产生药效的原因。MDPHP 主要具有再摄取抑制特性，在作用方式上可能更像可卡因或哌甲酯，而不是苯丙胺哦。相比之下，苯丙胺主要作为激动剂，通过激活 TAAR1 受体间接释放多巴胺和去甲肾上腺素。\n\n然而，尽管结构相似，MDPHP 的效果与 3,4-亚甲双氧基苯基烷基胺衍生物（如 MDMA）几乎没有相似之处，它主要产生兴奋效果，仅具有轻微的共情特质喵。它与强效兴奋剂 MDPV 密切相关，但效果略微温和，强迫性补量的渴望也较小呢。虽然 MDPHP 早在 20 世纪 60 年代就已首次合成，但在某些国家禁用 MDPV 后，它被用作替代品。",
     "effects": [],
     "references": [],
     "data_gaps": [
@@ -41739,69 +40673,52 @@
     ]
   },
   {
-    "name": "MDPH",
+    "name": "MDPHP",
     "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
+    "aliases": [
+      "3'",
+      "3,4-MDPHP",
+      "MD-PHP",
+      "MDPH",
+      "methylenedioxypyrolidinohexiophenone",
+      "monkey dust",
+      "monkey-dust",
+      "zombie dust"
+    ],
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
+      "NDRI",
       "PIHKAL",
-      "phenethylamine"
+      "habit-forming",
+      "phenethylamine",
+      "pyrovalerone-cathinone",
+      "research-chemical",
+      "stimulant-not-entactogen",
+      "tentative"
     ],
-    "default_route": "oral",
+    "default_route": "inhalation",
     "all_routes": [
+      "inhalation",
+      "insufflation",
       "oral"
     ],
     "routes_with_dose": [
+      "inhalation",
+      "insufflation",
       "oral"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
     "effects": [],
     "references": [
       "https://erowid.org/library/books_online/pihkal/pihkal116.shtml"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "MDPHP",
-    "display_name": "",
-    "aliases": [
-      "monkey-dust"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "habit-forming",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -42818,6 +41735,7 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-partial-agonist",
+      "PIHKAL",
       "class:Phenethylamine",
       "class:substituted phenethylamines",
       "no-human-data",
@@ -42883,10 +41801,11 @@
       "Unity and interconnectedness",
       "Wakefulness"
     ],
-    "references": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal168.shtml"
+    ],
     "data_gaps": [
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -43363,6 +42282,7 @@
       "NE-selective",
       "TAAR1",
       "TAAR1-agonist",
+      "TIHKAL",
       "class:amphetamine",
       "class:substituted amphetamines",
       "common",
@@ -43372,6 +42292,7 @@
       "peripheral-sympathomimetic",
       "phenethylamine",
       "stimulant",
+      "tryptamine",
       "σ1-agonist"
     ],
     "default_route": "inhalation",
@@ -43427,6 +42348,7 @@
       "Wakefulness"
     ],
     "references": [
+      "https://erowid.org/library/books_online/tihkal/tihkal53.shtml",
       "Urinary pharmacokinetics of methamphetamine and its metabolite, amphetamine following controlled oral administration to humans"
     ],
     "data_gaps": []
@@ -43646,12 +42568,15 @@
     "name": "Methiopropamine",
     "display_name": "",
     "aliases": [
-      "MPA"
+      "MPA",
+      "甲基噻吩丙胺"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:thiophene"
+      "class:thiophene",
+      "habit-forming",
+      "research-chemical"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -43666,12 +42591,31 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
+    "mechanism_summary": "甲基噻吩丙胺作为一种选择性的去甲肾上腺素-多巴胺释放剂发挥作用。这使多巴胺和去甲肾上腺素能够在大脑内积累，从而产生兴奋与躯体欣快感效应。作为去甲肾上腺素再摄取抑制剂时，它的效力大约是右旋苯丙胺的三分之一；作为多巴胺再摄取抑制剂时，则约为右旋苯丙胺的五分之一。它作为血清素再摄取抑制剂几乎没有活性。",
+    "effects": [
+      "Analysis enhancement",
+      "Anxiety",
+      "Appetite suppression",
+      "Cognitive fatigue",
+      "Compulsive redosing",
+      "Depression",
+      "Focus enhancement",
+      "Increased heart rate",
+      "Increased libido",
+      "Increased perspiration",
+      "Irritability",
+      "Motivation enhancement",
+      "Stimulation",
+      "Teeth grinding",
+      "Temperature regulation suppression",
+      "Thought acceleration",
+      "Thought deceleration",
+      "Thought organization",
+      "Wakefulness"
+    ],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -43815,12 +42759,16 @@
     "name": "Methoxmetamine",
     "display_name": "",
     "aliases": [
+      "2-MeO-K",
+      "2-MeO-Ketamine",
       "3-MeO-2'-oxo-PCM",
       "3-MeO-2-oxo-PCM",
       "E-MXE",
       "MMXE",
       "MXM",
+      "Methoxyketamine",
       "Methoxymetamine",
+      "O-methoxyketamine",
       "e-Methoxetamine"
     ],
     "category": "Dissociative",
@@ -43828,7 +42776,10 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
+      "class:Arylcyclohexylamine",
       "class:Arylcyclohexylamine dissociative",
+      "duplicate-of-2-MeO-Ketamine",
+      "habit-forming",
       "no-human-data",
       "research-chemical"
     ],
@@ -44046,37 +42997,6 @@
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "METHYL-J",
-    "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "PIHKAL",
-      "phenethylamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal128.shtml"
-    ],
-    "data_gaps": [
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -44448,12 +43368,16 @@
     "name": "Methylnaphthidate",
     "display_name": "",
     "aliases": [
-      "HDMP-28"
+      "HDMP-28",
+      "methylnaphtidate"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:substituted phenidates"
+      "class:substituted phenidates",
+      "habit-forming",
+      "research-chemical",
+      "tentative"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -46274,13 +45198,15 @@
     "tags": [
       "MOR-full-agonist",
       "OPRM1-sensitive",
+      "PIHKAL",
       "UGT2B7-substrate",
       "active-glucuronide-M6G",
       "analgesic",
       "class:substituted morphinans",
       "common",
       "habit-forming",
-      "opioid"
+      "opioid",
+      "phenethylamine"
     ],
     "default_route": "intramuscular",
     "all_routes": [
@@ -46315,6 +45241,7 @@
       "Sedation"
     ],
     "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal096.shtml",
       "Morphine and metabolite behavior after different routes of morphine administration: Demonstration of the importance of the active metabolite morphine-6-glucuronide",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=57664-190"
     ],
@@ -46384,60 +45311,6 @@
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "MPA",
-    "display_name": "",
-    "aliases": [
-      "Methiopropamine",
-      "甲基噻吩丙胺"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "habit-forming",
-      "research-chemical"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "甲基噻吩丙胺作为一种选择性的去甲肾上腺素-多巴胺释放剂发挥作用。这使多巴胺和去甲肾上腺素能够在大脑内积累，从而产生兴奋与躯体欣快感效应。作为去甲肾上腺素再摄取抑制剂时，它的效力大约是右旋苯丙胺的三分之一；作为多巴胺再摄取抑制剂时，则约为右旋苯丙胺的五分之一。它作为血清素再摄取抑制剂几乎没有活性。",
-    "effects": [
-      "Analysis enhancement",
-      "Anxiety",
-      "Appetite suppression",
-      "Cognitive fatigue",
-      "Compulsive redosing",
-      "Depression",
-      "Focus enhancement",
-      "Increased heart rate",
-      "Increased libido",
-      "Increased perspiration",
-      "Irritability",
-      "Motivation enhancement",
-      "Stimulation",
-      "Teeth grinding",
-      "Temperature regulation suppression",
-      "Thought acceleration",
-      "Thought deceleration",
-      "Thought organization",
-      "Wakefulness"
-    ],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
     ]
   },
   {
@@ -46632,91 +45505,6 @@
     ]
   },
   {
-    "name": "Mushrooms",
-    "display_name": "",
-    "aliases": [
-      "Magic mushrooms",
-      "Psilocybe cubensis",
-      "Shrooms",
-      "mushroom",
-      "psylocybin",
-      "古巴裸盖菇"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "common",
-      "psilocybin-containing"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": 150.0,
-    "mechanism_summary": "Psilocybin-Bearing Fungi → Psilocin (5-HT2A)",
-    "effects": [
-      "Acuity enhancement",
-      "After images",
-      "Analysis enhancement",
-      "Auditory distortion",
-      "Auditory enhancement",
-      "Auditory hallucinations",
-      "Autonomous entities",
-      "Changes in gravity",
-      "Color enhancement",
-      "Color shifting",
-      "Conceptual thinking",
-      "Creativity enhancement",
-      "Delusions",
-      "Drifting",
-      "Déjà vu",
-      "Emotion enhancement",
-      "Enhancement and suppression cycles",
-      "Excessive yawning",
-      "Exposure to inner mechanics of consciousness",
-      "External hallucinations",
-      "Feelings of interdependent opposites",
-      "Feelings of predeterminism",
-      "Feelings of self-design",
-      "Geometry",
-      "Immersion enhancement",
-      "Internal hallucinations",
-      "Memory suppression",
-      "Mindfulness",
-      "Nausea",
-      "Novelty enhancement",
-      "Pattern recognition enhancement",
-      "Personal bias suppression",
-      "Perspective alterations",
-      "Pupil dilation",
-      "Runny nose",
-      "Salivation",
-      "Scenarios and plots",
-      "Scenery slicing",
-      "Sedation",
-      "Settings, sceneries, and landscapes",
-      "Spirituality enhancement",
-      "Spontaneous tactile sensations",
-      "Subconscious communication",
-      "Symmetrical texture repetition",
-      "Synaesthesia",
-      "Thought connectivity",
-      "Time distortion",
-      "Tracers",
-      "Transformations"
-    ],
-    "references": [],
-    "data_gaps": [
-      "references"
-    ]
-  },
-  {
     "name": "MXiPr",
     "display_name": "",
     "aliases": [
@@ -46754,38 +45542,6 @@
     ],
     "data_gaps": [
       "half_life_minutes"
-    ]
-  },
-  {
-    "name": "Mxm",
-    "display_name": "",
-    "aliases": [
-      "methoxmetamine"
-    ],
-    "category": "Dissociative",
-    "display_class": "recreational",
-    "tags": [
-      "habit-forming",
-      "research-chemical"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
     ]
   },
   {
@@ -47014,32 +45770,37 @@
       "Ethyl-Hexedrone",
       "Hex-en",
       "Hexen",
-      "NEH"
+      "NEH",
+      "n-ethyl-hexedrone"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:cathinone"
+      "class:cathinone",
+      "habit-forming",
+      "research-chemical",
+      "tentative"
     ],
     "default_route": "inhalation",
     "all_routes": [
       "inhalation",
-      "insufflation"
+      "insufflation",
+      "oral"
     ],
     "routes_with_dose": [
       "inhalation",
-      "insufflation"
+      "insufflation",
+      "oral"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "关于 N-ethylhexedrone 以及其他取代卡西酮类物质在人类体内的药代动力学与药效动力学，目前几乎没有数据。NEH 很可能是一种强效的多巴胺和去甲肾上腺素再摄取抑制剂，不会释放神经递质，也不会影响其他神经递质。和苯丙胺一样，合成卡西酮通过提高突触间隙中儿茶酚胺（如多巴胺、血清素和去甲肾上腺素）的浓度来发挥其兴奋和拟交感作用。这些分子能够抑制单胺再摄取转运体，从而减少神经递质从突触中的清除。此外，它们还可能促使生物胺从细胞内储存中释放出来。看起来 N-ethylhexedrone 对多巴胺转运体具有较高亲和性。\n\n基于其结构，并假设 N-ethylhexedrone 的代谢方式与其他卡西酮类似，这种化合物很可能经由 N-去烷基化和/或羰基还原，随后再进行 N-去烷基化而代谢。\n\n一般来说，由于 β-酮基增加了分子极性，合成卡西酮穿过血脑屏障的能力通常弱于苯丙胺。与其他合成卡西酮不同，吡咯烷衍生物由于吡咯烷环赋予这些分子较低的极性，因此更容易穿过血脑屏障。关于合成卡西酮代谢的研究表明，它们会发生 N-去甲基化，酮基会被还原为羟基，而环上的烷基则会被氧化。",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -47212,6 +45973,7 @@
     "display_name": "",
     "aliases": [
       "4'-difluoro-modafinil",
+      "Dehydroxy-fluorafinil",
       "Dehydroxyfluorafinil",
       "Modafiendz",
       "N-Methyl-4",
@@ -47220,7 +45982,9 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:benzhydryl"
+      "class:benzhydryl",
+      "research-chemical",
+      "tentative"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -48771,53 +47535,21 @@
     ]
   },
   {
-    "name": "Noctec",
-    "display_name": "",
-    "aliases": [
-      "aquachloral",
-      "chloral-hydrate",
-      "somnos"
-    ],
-    "category": "Depressant",
-    "display_class": "recreational",
-    "tags": [
-      "duplicate-of-chloral-hydrate",
-      "habit-forming"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Noopept",
     "display_name": "",
     "aliases": [
       "DVD-111",
       "GVS-111",
       "Omberacetam",
-      "SGS-111"
+      "SGS-111",
+      "Ноопепт"
     ],
     "category": "Nootropic",
     "display_class": "recreational",
     "tags": [
       "AMPA-PAM-indirect",
       "Russian-clinical-only",
+      "class:peptide",
       "glutamate-modulator",
       "nootropic",
       "prodrug-of-cPG",
@@ -49590,40 +48322,6 @@
     ]
   },
   {
-    "name": "Omberacetam",
-    "display_name": "",
-    "aliases": [
-      "GVS-111",
-      "Noopept",
-      "Ноопепт"
-    ],
-    "category": "Nootropic",
-    "display_class": "recreational",
-    "tags": [
-      "class:peptide"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "Omberacetam 调节乙酰胆碱系统以及 AMPA 受体哦。这种调节本质上允许乙酰胆碱积累到比原本更高的水平。由于乙酰胆碱参与记忆功能，这可能就是它产生益智效果的原因呢。一些研究还表明，NMDA 受体也参与了 Omberacetam 的作用机制。",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
     "name": "Omega-3 Fatty Acids",
     "display_name": "",
     "aliases": [
@@ -49980,10 +48678,12 @@
       "CGP-21690E",
       "CT-848",
       "Hydroxypiracetam",
+      "ISF 2522",
       "ISF-2522",
       "Neuractiv",
       "Neuromet",
-      "Oxiracetamum"
+      "Oxiracetamum",
+      "奥拉西坦"
     ],
     "category": "Nootropic",
     "display_class": "recreational",
@@ -50507,30 +49207,34 @@
     "tags": [
       "CYP2D6-substrate",
       "MAO-A-inhibitor",
+      "PIHKAL",
       "SERT-dominant",
       "class:amphetamine",
       "class:substituted amphetamines",
       "deadly",
       "delayed-onset",
+      "phenethylamine",
       "tentative"
     ],
     "default_route": "oral",
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [],
-    "has_dose_data": false,
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
-    "references": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal097.shtml"
+    ],
     "data_gaps": [
-      "dose_ranges_by_route",
       "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -50916,38 +49620,6 @@
       "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes"
-    ]
-  },
-  {
-    "name": "PEA",
-    "display_name": "",
-    "aliases": [
-      "Phenethylamine",
-      "β-PEA"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "PIHKAL",
-      "phenethylamine"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal142.shtml"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
     ]
   },
   {
@@ -51676,6 +50348,7 @@
     "display_class": "recreational",
     "tags": [
       "MAO-substrate",
+      "PIHKAL",
       "endogenous-TAAR1-agonist",
       "no-human-data",
       "orally-inactive",
@@ -51695,6 +50368,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal142.shtml",
       "Trace amines: identification of a family of mammalian G protein-coupled receptors"
     ],
     "data_gaps": [
@@ -52073,9 +50747,11 @@
     "name": "Phenylpiracetam",
     "display_name": "",
     "aliases": [
+      "4-Phenylpiracetam",
       "Carphedon",
       "Fonturacetam",
-      "Phenotropil"
+      "Phenotropil",
+      "苯基吡拉西坦"
     ],
     "category": "Nootropic",
     "display_class": "recreational",
@@ -52085,6 +50761,7 @@
       "class:racetams",
       "nootropic",
       "racetam",
+      "research-chemical",
       "stimulant-adjacent"
     ],
     "default_route": "oral",
@@ -54154,40 +52831,6 @@
     "data_gaps": []
   },
   {
-    "name": "PSI-2C-T-4",
-    "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "2C-x",
-      "5-HT2A-agonist",
-      "PIHKAL",
-      "phenethylamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal042.shtml"
-    ],
-    "data_gaps": [
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "psi-DOM",
     "display_name": "",
     "aliases": [
@@ -54384,12 +53027,18 @@
     "aliases": [
       "4-PO-DMT",
       "Magic Mushrooms",
-      "Shrooms"
+      "Mushrooms",
+      "Psilocybe cubensis",
+      "Shrooms",
+      "mushroom",
+      "psylocybin",
+      "古巴裸盖菇"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:substituted tryptamines"
+      "class:substituted tryptamines",
+      "psilocybin-containing"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -54401,13 +53050,61 @@
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
+    "half_life_minutes": 150.0,
+    "mechanism_summary": "Psilocybin-Bearing Fungi → Psilocin (5-HT2A)",
+    "effects": [
+      "Acuity enhancement",
+      "After images",
+      "Analysis enhancement",
+      "Auditory distortion",
+      "Auditory enhancement",
+      "Auditory hallucinations",
+      "Autonomous entities",
+      "Changes in gravity",
+      "Color enhancement",
+      "Color shifting",
+      "Conceptual thinking",
+      "Creativity enhancement",
+      "Delusions",
+      "Drifting",
+      "Déjà vu",
+      "Emotion enhancement",
+      "Enhancement and suppression cycles",
+      "Excessive yawning",
+      "Exposure to inner mechanics of consciousness",
+      "External hallucinations",
+      "Feelings of interdependent opposites",
+      "Feelings of predeterminism",
+      "Feelings of self-design",
+      "Geometry",
+      "Immersion enhancement",
+      "Internal hallucinations",
+      "Memory suppression",
+      "Mindfulness",
+      "Nausea",
+      "Novelty enhancement",
+      "Pattern recognition enhancement",
+      "Personal bias suppression",
+      "Perspective alterations",
+      "Pupil dilation",
+      "Runny nose",
+      "Salivation",
+      "Scenarios and plots",
+      "Scenery slicing",
+      "Sedation",
+      "Settings, sceneries, and landscapes",
+      "Spirituality enhancement",
+      "Spontaneous tactile sensations",
+      "Subconscious communication",
+      "Symmetrical texture repetition",
+      "Synaesthesia",
+      "Thought connectivity",
+      "Time distortion",
+      "Tracers",
+      "Transformations"
+    ],
     "references": [],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -56140,21 +54837,24 @@
     "name": "RTI-111",
     "display_name": "",
     "aliases": [
-      "dichloropane"
+      "Dichloropane"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
+      "class:substituted tropanes",
       "habit-forming",
       "research-chemical",
       "tentative"
     ],
-    "default_route": "insufflation",
+    "default_route": "inhalation",
     "all_routes": [
+      "inhalation",
       "insufflation",
       "oral"
     ],
     "routes_with_dose": [
+      "inhalation",
       "insufflation",
       "oral"
     ],
@@ -56162,12 +54862,11 @@
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "RTI-111对中枢神经系统最被广泛研究的效应，是阻断血清素、多巴胺与去甲肾上腺素转运体。该物质作为一种三重再摄取抑制剂，可阻止单胺类神经递质被重新回收，导致它们在突触中，也就是神经元之间的连接处过量积聚。其结果是，单胺能信号在接收神经元受体上的突触后效应会被增强并延长。一般认为，正是这种在多个脑区突触间隙中骤然增加的神经递质洪流，造成了RTI-111的各种效应。\n\n托烷类兴奋剂的转运体结合谱\n\n与可卡因相比，RTI-111对血清素和去甲肾上腺素转运体相对于多巴胺转运体具有更高的相对亲和力，而这被认为至少部分解释了它在主观效应上的差异。",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -58693,38 +57392,6 @@
     ]
   },
   {
-    "name": "T",
-    "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "TIHKAL",
-      "tryptamine"
-    ],
-    "default_route": "intravenous",
-    "all_routes": [
-      "intravenous"
-    ],
-    "routes_with_dose": [
-      "intravenous"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/tihkal/tihkal53.shtml"
-    ],
-    "data_gaps": [
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "TA",
     "display_name": "",
     "aliases": [],
@@ -59553,11 +58220,12 @@
       "Delta-9-tetrahydrocannabinol",
       "Dronabinol",
       "Marinol",
+      "Syndros",
+      "Synthetic THC",
       "Tetrahydrocannabinol",
       "cesamet",
       "delta9-THC",
       "delta9-tetrahydrocannabinol",
-      "syndros",
       "Δ9-THC",
       "δ9--tetrahydrocannabinol",
       "四氢大麻酚",
@@ -59568,10 +58236,14 @@
     "tags": [
       "CB1-partial-agonist",
       "CB2-agonist",
+      "FDA-approved",
       "US-Schedule-I",
+      "US-Schedule-III",
+      "antiemetic",
       "cannabinoid",
       "cannabinoid-miscategorized",
       "phytocannabinoid",
+      "prescription-only",
       "psychoactive",
       "tentative"
     ],
@@ -59595,6 +58267,8 @@
       "Increased appetite"
     ],
     "references": [
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018651s029lbl.pdf",
+      "https://en.wikipedia.org/wiki/Dronabinol",
       "Human cannabinoid pharmacokinetics",
       "https://en.wikipedia.org/wiki/Tetrahydrocannabinol"
     ],
@@ -60747,35 +59421,6 @@
     ]
   },
   {
-    "name": "TMPEA",
-    "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "PIHKAL",
-      "phenethylamine"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal168.shtml"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "Tobacco",
     "display_name": "",
     "aliases": [
@@ -61785,38 +60430,6 @@
       "barbiturate-combination-product",
       "habit-forming",
       "historic"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "Tyrosine",
-    "display_name": "",
-    "aliases": [
-      "4-Hydroxyphenylalanine"
-    ],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "class:amino acid",
-      "class:substituted phenethylamines"
     ],
     "default_route": "oral",
     "all_routes": [

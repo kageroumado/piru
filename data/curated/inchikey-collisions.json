@@ -155,6 +155,233 @@
       ],
       "into": "L-Theanine",
       "note": "One compound under two rows: the theanine in tea is the L enantiomer, and the Theanine row's own key is the L one. The collision was invisible until L-Theanine got identifiers at all (identifier-corrections-manual.json) — it had none, so nothing collided. Keeping L-Theanine: it holds the half-life, the binding row and the Chinese name, and already lists Theanine as an alias. Split, a dose logged as 'theanine' and one logged as 'L-theanine' landed on different substances — two of every graph and every stat."
+    },
+    {
+      "_batch": "2026-08-28 name-similarity dedup pass: true duplicates",
+      "members": ["Tyrosine", "L-Tyrosine"],
+      "into": "L-Tyrosine",
+      "note": "Same amino acid; L-Tyrosine is the biologically relevant form and carries the data"
+    },
+    {
+      "members": ["Creatine", "Creatine Monohydrate"],
+      "into": "Creatine Monohydrate",
+      "note": "Same supplement; monohydrate is the standard commercial form"
+    },
+    {
+      "members": ["Mushrooms", "Psilocybin mushrooms"],
+      "into": "Psilocybin mushrooms",
+      "note": "Same thing; Mushrooms carried aliases 'shrooms', 'magic mushrooms'"
+    },
+    {
+      "members": ["MD-PHP", "MDPH", "MDPHP"],
+      "into": "MDPHP",
+      "note": "Same compound (3,4-methylenedioxy-α-pyrrolidinohexanophenone / monkey dust); MDPHP has the InChIKey"
+    },
+    {
+      "members": ["Dronabinol", "THC"],
+      "into": "THC",
+      "note": "Dronabinol is the INN for delta-9-THC; Marinol (brand) already merged"
+    },
+    {
+      "_batch": "2026-08-28 name-similarity dedup pass: alias-as-substance rows",
+      "members": ["2-Fluoroethamphetamine", "2-FEA"],
+      "into": "2-FEA",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["2M2B", "2-Methyl-2-Butanol"],
+      "into": "2-Methyl-2-Butanol",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["3-FA", "3-Fluoroamphetamine"],
+      "into": "3-Fluoroamphetamine",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["3-Methylmorphine", "Codeine"],
+      "into": "Codeine",
+      "note": "3-methylmorphine is codeine's IUPAC name"
+    },
+    {
+      "members": ["4F-EPH", "4-Fluoroethylphenidate"],
+      "into": "4-Fluoroethylphenidate",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["A-PHP", "alpha-Pyrrolidinohexiophenone"],
+      "into": "alpha-Pyrrolidinohexiophenone",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["A-pihp", "alpha-PiHP"],
+      "into": "alpha-PiHP",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["AET", "a-ET"],
+      "into": "a-ET",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["AL", "Allylescaline"],
+      "into": "Allylescaline",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["Amfonelicacid", "Amfonelic acid"],
+      "into": "Amfonelic acid",
+      "note": "missing space in name"
+    },
+    {
+      "members": ["CPM", "Cyclopropylmescaline"],
+      "into": "Cyclopropylmescaline",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["ETH-CAT", "Ethylcathinone"],
+      "into": "Ethylcathinone",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["Hexen", "N-Ethylhexedrone"],
+      "into": "N-Ethylhexedrone",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["Huperzine-a", "Huperzine A"],
+      "into": "Huperzine A",
+      "note": "hyphen vs space variant"
+    },
+    {
+      "members": ["Lean", "Codeine"],
+      "into": "Codeine",
+      "note": "slang name for codeine syrup"
+    },
+    {
+      "members": ["M", "Morphine"],
+      "into": "Morphine",
+      "note": "single-letter alias as substance"
+    },
+    {
+      "members": ["METHYL-J", "MBDB"],
+      "into": "MBDB",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["MPA", "Methiopropamine"],
+      "into": "Methiopropamine",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["Mxm", "Methoxmetamine"],
+      "into": "Methoxmetamine",
+      "note": "alias-as-substance duplicate (NOT Methoxetamine/MXE — different compound)"
+    },
+    {
+      "members": ["Noctec", "Chloral Hydrate"],
+      "into": "Chloral Hydrate",
+      "note": "Noctec is a chloral hydrate brand"
+    },
+    {
+      "members": ["Omberacetam", "Noopept"],
+      "into": "Noopept",
+      "note": "Omberacetam is the INN for Noopept"
+    },
+    {
+      "members": ["PEA", "Phenethylamine"],
+      "into": "Phenethylamine",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["PSI-2C-T-4", "2C-T-4"],
+      "into": "2C-T-4",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["T", "Methamphetamine"],
+      "into": "Methamphetamine",
+      "note": "single-letter slang alias"
+    },
+    {
+      "members": ["TMPEA", "Mescaline"],
+      "into": "Mescaline",
+      "note": "3,4,5-trimethoxyphenethylamine is mescaline's IUPAC name"
+    },
+    {
+      "members": ["a-MT", "AMT"],
+      "into": "AMT",
+      "note": "alias-as-substance duplicate"
+    },
+    {
+      "members": ["ISF 2522", "Oxiracetam"],
+      "into": "Oxiracetam",
+      "note": "ISF 2522 is an oxiracetam development code"
+    },
+    {
+      "members": ["3-Hydroxyphenazepam", "3-OH-Phenazepam"],
+      "into": "3-OH-Phenazepam",
+      "note": "naming variant of the same benzodiazepine metabolite"
+    },
+    {
+      "members": ["5-HO-DMT", "Bufotenin"],
+      "into": "Bufotenin",
+      "note": "5-HO-DMT is the systematic name for bufotenin"
+    },
+    {
+      "members": ["5-MeO-TMT", "Indapex"],
+      "into": "5-MeO-TMT",
+      "note": "Indapex is a less common name for 5-MeO-TMT"
+    },
+    {
+      "members": ["Carphedon", "Phenylpiracetam"],
+      "into": "Phenylpiracetam",
+      "note": "Carphedon is the Russian brand name"
+    },
+    {
+      "members": ["Dichloropane", "RTI-111"],
+      "into": "RTI-111",
+      "note": "Dichloropane is a common name for the research compound RTI-111"
+    },
+    {
+      "members": ["HDMP-28", "Methylnaphthidate"],
+      "into": "Methylnaphthidate",
+      "note": "HDMP-28 is the research code"
+    },
+    {
+      "members": ["3-FEA", "3-Fluoroethamphetamine"],
+      "into": "3-Fluoroethamphetamine",
+      "note": "abbreviation"
+    },
+    {
+      "members": ["4,4'-Dimethylaminorex", "4,4-DMAR"],
+      "into": "4,4-DMAR",
+      "note": "full name vs common abbreviation"
+    },
+    {
+      "members": ["4-CBC", "4-Chlorobuphedrone"],
+      "into": "4-Chlorobuphedrone",
+      "note": "abbreviation"
+    },
+    {
+      "members": ["DESOXY", "2-DPMP"],
+      "into": "2-DPMP",
+      "note": "desoxypipradrol = 2-diphenylmethylpiperidine"
+    },
+    {
+      "members": ["Dehydroxyfluorafinil", "N-Methylbisfluoromodafinil"],
+      "into": "N-Methylbisfluoromodafinil",
+      "note": "alternative name for the same eugeroic"
+    },
+    {
+      "members": ["4-MA", "Para-Methoxyamphetamine"],
+      "into": "Para-Methoxyamphetamine",
+      "note": "4-MA as used in drug communities refers to PMA"
+    },
+    {
+      "members": ["2-MeO-Ketamine", "Methoxyketamine", "Methoxmetamine"],
+      "into": "Methoxmetamine",
+      "note": "2-methoxy-ketamine / methoxyketamine / methoxmetamine (MXM) are the same dissociative"
     }
   ]
 }
