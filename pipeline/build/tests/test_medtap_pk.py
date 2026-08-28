@@ -7,6 +7,7 @@ below is a real misattribution the guards caught while it was being written.
 """
 
 import importlib.util
+import sqlite3
 import unittest
 from pathlib import Path
 
@@ -51,13 +52,65 @@ class LabelTable(unittest.TestCase):
 
 
 class IndependentCheck(unittest.TestCase):
-    def test_the_swift_table_parses_to_real_values(self):
-        # A regex that matched the wrong block put memantine at 0.1 hours and
-        # made every long-half-life drug look like a conflict.
-        reference = _mod.independent_half_lives()
-        self.assertGreater(len(reference), 400)
-        self.assertAlmostEqual(reference["memantine"], 3600.0)
-        self.assertAlmostEqual(reference["caffeine"], 300.0, delta=120)
+    """The reference set the refusal rule cross-checks against. Expectations are
+    computed from the database rather than written down, so a rebuild that
+    changes a value does not fail a test that has nothing to say about it."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.reference = _mod.independent_half_lives()
+        cls.db = sqlite3.connect(_mod.DB)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.db.close()
+
+    def test_it_reaches_most_of_the_catalog(self):
+        self.assertGreater(len(self.reference), 400)
+
+    def test_values_are_plausible_minutes(self):
+        # The check this replaces existed because a regex matched the wrong
+        # block and put memantine at 0.1 hours, making every long-half-life
+        # drug look like a conflict. A unit slip is still the failure to catch.
+        self.assertTrue(all(v > 0 for v in self.reference.values()))
+        self.assertGreater(max(self.reference.values()), 24 * 60)
+
+    def test_medtap_cannot_corroborate_itself(self):
+        # A substance whose only half-life came from the label corpus must not
+        # appear: it would then agree with itself and the refusal never fires.
+        medtap_only = {
+            name
+            for (name,) in self.db.execute(
+                """
+                SELECT lower(s.canonical_name)
+                  FROM half_lives h
+                  JOIN substances s ON s.id = h.substance_id
+                 GROUP BY h.substance_id
+                HAVING SUM(h.source_id <> (SELECT id FROM sources WHERE slug = 'medtap')) = 0
+                """
+            )
+        }
+        self.assertTrue(medtap_only, "no medtap-only rows left to prove the exclusion")
+        self.assertEqual(medtap_only & set(self.reference), set())
+
+    def test_the_best_source_wins_a_disagreement(self):
+        # Several sources carry a half-life for the same substance and disagree.
+        # The reference must be the best-priority row, not whichever came last.
+        rows = self.db.execute(
+            """
+            SELECT lower(s.canonical_name), h.half_life_minutes
+              FROM half_lives h
+              JOIN substances s ON s.id = h.substance_id
+              JOIN sources src ON src.id = h.source_id
+             WHERE src.slug <> 'medtap'
+             GROUP BY h.substance_id
+            HAVING COUNT(DISTINCT h.half_life_minutes) > 1
+             ORDER BY MIN(src.default_priority) ASC, src.default_priority ASC
+            """
+        ).fetchall()
+        self.assertTrue(rows, "no disagreements left to prove the ordering")
+        for name, best in rows:
+            self.assertAlmostEqual(self.reference[name], best, msg=name)
 
 
 if __name__ == "__main__":

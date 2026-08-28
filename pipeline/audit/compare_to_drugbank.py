@@ -173,7 +173,8 @@ _REJECT_WORDS = re.compile(
 #: "22 hours (range of 7 to 42 hours)". The number-counting rule below refuses
 #: these for having three numbers, but they are the *clearest* statement a label
 #: makes: a point estimate and the spread it came from. The range is what is
-#: kept, since it is what the mean summarises.
+#: kept, since it is what the mean summarises. A caller that must write ONE
+#: number wants ``parse_half_life_mean`` instead — never the range's midpoint.
 _MEAN_THEN_RANGE = re.compile(
     r"^\s*(?P<mean>\d+(?:\.\d+)?)\s*(?P<unit>seconds?|minutes?|mins?|min|hours?|hrs?|hr|h|days?|weeks?)\b"
     r"[^()]{0,20}\(\s*range[:\s]*(?:of\s+)?"
@@ -247,6 +248,35 @@ def parse_half_life(text: str) -> tuple[float, float] | None:
     if lo <= 0 or hi <= 0:
         return None
     return (lo * factor, hi * factor)
+
+
+def parse_half_life_mean(text: str) -> float | None:
+    """The point estimate a statement gives outright, in minutes, or None.
+
+    ``parse_half_life`` returns the *range* from "22 hours (range of 7 to 42
+    hours)", which is right for a tolerance comparison: the range is what the
+    mean summarises. A caller that must store one number needs the other half of
+    that statement, because the range's midpoint is 24.5 h and the label said 22.
+
+    Never fall back to a midpoint when this returns a value. The rule is narrow —
+    it is *never discard a stated mean*, not *midpoints are bad*: a label reading
+    "1 to 4 hours" and nothing else has no point estimate, and summarising it as
+    2.5 h invents nothing.
+    """
+    t = normalize_quantity_text(strip_citation_tokens(text or "")).strip()
+    if not t or len(t) > 160 or ";" in t or "\n" in t:
+        return None
+    if _REJECT_WORDS.search(t):
+        return None
+    for pattern in (_MEAN_THEN_RANGE, _RANGE_THEN_MEAN):
+        match = pattern.match(t)
+        if match:
+            # Both patterns name the range's unit `unit`, and in both the mean
+            # shares it: _MEAN_THEN_RANGE puts the mean immediately before it,
+            # _RANGE_THEN_MEAN leaves the parenthesised mean's own unit optional.
+            mean = float(match.group("mean")) * unit_factor(match.group("unit"))
+            return mean if mean > 0 else None
+    return None
 
 
 def inchikey_relation(a: str, b: str) -> str:

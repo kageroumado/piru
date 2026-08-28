@@ -18,6 +18,7 @@ _spec = importlib.util.spec_from_file_location(
 _mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)
 parse_half_life = _mod.parse_half_life
+parse_half_life_mean = _mod.parse_half_life_mean
 normalize_quantity_text = _mod.normalize_quantity_text
 strip_citation_tokens = _mod.strip_citation_tokens
 inchikey_relation = _mod.inchikey_relation
@@ -229,6 +230,42 @@ class MeanWithRange(unittest.TestCase):
     def test_a_third_number_that_is_not_a_range_is_still_refused(self):
         self.assertIsNone(parse_half_life("Healthy subjects = 3 hours; others 5 hours"))
         self.assertIsNone(parse_half_life("d-methylphenidate = 3-4 hours; l- 2 hours"))
+
+
+class StatedMean(unittest.TestCase):
+    """The other half of the same statement, for a caller that stores one number.
+    Composed with the midpoint a caller would otherwise take, the range-keeping
+    rule threw away a number the label states outright."""
+
+    def test_mean_then_range(self):
+        self.assertEqual(parse_half_life_mean("12 hours (range 8-17 hours)"), 720.0)
+        self.assertEqual(parse_half_life_mean("22 hours (range of 7 to 42 hours)"), 1320.0)
+        self.assertEqual(parse_half_life_mean("7.5 days (range: 4-11 days)"), 10800.0)
+
+    def test_range_then_mean(self):
+        self.assertEqual(parse_half_life_mean("9.1 to 14.4 hours (average 10.8 hours)"), 648.0)
+        self.assertEqual(parse_half_life_mean("2.5 to 3.6 hours (mean 2.9 hours)"), 174.0)
+
+    def test_the_two_rows_this_was_written_for(self):
+        # Phenytoin's label says 22 hours; the midpoint of its range is 24.5.
+        self.assertEqual(parse_half_life_mean("22 hours (range of 7 to 42 hours)"), 1320.0)
+        # Phenelzine's upper bound IS its point estimate, so the midpoint (384
+        # min) contradicts the sentence it was computed from.
+        self.assertEqual(parse_half_life_mean("1.2 to 11.6 hours (mean 11.6 hours)"), 696.0)
+
+    def test_a_plain_range_states_no_mean(self):
+        # The rule is "never discard a stated mean", not "midpoints are bad":
+        # summarising a bare 1-4 hours as 2.5 h invents nothing.
+        self.assertIsNone(parse_half_life_mean("1 to 4 hours"))
+        self.assertIsNone(parse_half_life_mean("9-11 hours"))
+
+    def test_a_single_value_needs_no_mean_of_its_own(self):
+        self.assertIsNone(parse_half_life_mean("10 hours"))
+
+    def test_refuses_what_the_range_parser_refuses(self):
+        self.assertIsNone(parse_half_life_mean("Healthy subjects = 3 hours; others 5 hours"))
+        self.assertIsNone(parse_half_life_mean("6 hours (range 2-9 hours) in elderly subjects"))
+        self.assertIsNone(parse_half_life_mean(""))
 
 
 class QuantityNormalisation(unittest.TestCase):

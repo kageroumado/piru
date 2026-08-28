@@ -114,6 +114,10 @@
       "reason": "Opium is a botanical mixture of alkaloids (morphine, codeine, thebaine, papaverine, noscapine) with individually distinct kinetics, not a single parent compound; a single elimination half-life cannot be assigned to the preparation."
     },
     {
+      "substance": "Progesterone",
+      "reason": "Formulation-dependent and endogenous. The oral micronized capsule label -- the dominant US product -- states no elimination half-life at all, giving only Tmax 1.5-2.3 h; the 34.8-55.13 h figure in the MedTAP corpus is Endometrin's, a vaginal insert whose apparent half-life is absorption-rate-limited rather than elimination-limited. Progesterone is also produced endogenously and cycles, so no single terminal half-life represents the app's generic 'Progesterone' entry."
+    },
+    {
       "substance": "Sebelipase Alfa",
       "reason": "No source states a value. Sebelipase alfa is a BLA biologic absent from openFDA's drug-label endpoint (zero records for substance, generic name, and brand Kanuma), and the only PubMed PK-tagged trial (Balwani et al., Hepatology 2013, doi 10.1002/hep.26289, read in full) explicitly defers the numbers — \"The pharmacokinetic profile will be reported separately\" — describing only \"the rapid clearance of sebelipase alfa from the circulation following administration (data not shown)\"."
     },
@@ -128,6 +132,10 @@
     {
       "substance": "Sodium",
       "reason": "The app's substance is the bare electrolyte sodium, but the DrugBank match (DB09154) is sodium citrate — a different substance — and its 18–54 min hint describes citrate disposition. Sodium itself is homeostatically regulated (renal/hormonal), so a single elimination half-life would be misleading."
+    },
+    {
+      "substance": "Spironolactone",
+      "reason": "A prodrug whose effect belongs to its metabolites. The FDA label (12.3, set_id 08738ad4-1607-4d55-af71-6790477353bd) states 'The mean half-life of spironolactone is 1.4 hour' while canrenone, TMS and HTMS are 16.5, 13.8 and 15 hours -- a ~10x gap between the parent's decay and the aldosterone antagonism a user would feel. The 10 minutes carried by the MedTAP corpus is a third value again, matching neither."
     },
     {
       "substance": "Sulfacetamide",

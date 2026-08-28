@@ -19,8 +19,7 @@
       "half_life_high_minutes": 240.0,
       "half_life_label": "1 to 4 hours",
       "protein_binding_pct": 25.0,
-      "protein_binding_label": "25%",
-      "half_life_corroborated": true
+      "protein_binding_label": "25%"
     },
     {
       "substance": "Allopurinol",
@@ -40,7 +39,8 @@
       "half_life_high_minutes": 240.0,
       "half_life_label": "3-4 hours",
       "protein_binding_pct": 35.0,
-      "protein_binding_label": "35%"
+      "protein_binding_label": "35%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Aluminum hydroxide",
@@ -54,7 +54,8 @@
       "half_life_minutes": 450.0,
       "half_life_low_minutes": 360.0,
       "half_life_high_minutes": 540.0,
-      "half_life_label": "Plasma half-life varies from 6 to 9 hours."
+      "half_life_label": "Plasma half-life varies from 6 to 9 hours.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Amlodipine",
@@ -65,8 +66,7 @@
       "half_life_high_minutes": 3000.0,
       "half_life_label": "30-50 hours",
       "protein_binding_pct": 97.5,
-      "protein_binding_label": "97.5%",
-      "half_life_corroborated": true
+      "protein_binding_label": "97.5%"
     },
     {
       "substance": "Amphetamine",
@@ -99,7 +99,8 @@
       "half_life_high_minutes": 480.0,
       "half_life_label": "8 hours",
       "protein_binding_pct": 98.7,
-      "protein_binding_label": "98.7%"
+      "protein_binding_label": "98.7%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Arformoterol",
@@ -110,7 +111,7 @@
       "substance": "Asenapine",
       "ndc": "0052-0118",
       "brand": "Saphris",
-      "half_life_minutes": 1578.0,
+      "half_life_minutes": 1440.0,
       "half_life_low_minutes": 804.0,
       "half_life_high_minutes": 2352.0,
       "half_life_label": "24 hours (range of 13.4 - 39.2 hours)",
@@ -182,7 +183,8 @@
       "half_life_high_minutes": 66.0,
       "half_life_label": "1.1 hours",
       "protein_binding_pct": 92.9,
-      "protein_binding_label": "92.9% and 95.8% of belinostat is bound to protein"
+      "protein_binding_label": "92.9% and 95.8% of belinostat is bound to protein",
+      "half_life_corroborated": true
     },
     {
       "substance": "Benazepril",
@@ -212,7 +214,8 @@
       "half_life_high_minutes": 336.0,
       "half_life_label": "5.6 hours",
       "protein_binding_pct": 64.0,
-      "protein_binding_label": "64%"
+      "protein_binding_label": "64%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Bexarotene",
@@ -221,7 +224,8 @@
       "half_life_minutes": 420.0,
       "half_life_low_minutes": 420.0,
       "half_life_high_minutes": 420.0,
-      "half_life_label": "7 hours"
+      "half_life_label": "7 hours",
+      "half_life_corroborated": true
     },
     {
       "substance": "Bicalutamide",
@@ -265,7 +269,8 @@
       "half_life_high_minutes": 115.0,
       "half_life_label": "115 minutes",
       "protein_binding_pct": 1.0,
-      "protein_binding_label": "1%"
+      "protein_binding_label": "1%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Botulinum Toxin Type A",
@@ -286,7 +291,8 @@
       "half_life_high_minutes": 90.0,
       "half_life_label": "60-90 minutes",
       "protein_binding_pct": 97.0,
-      "protein_binding_label": "97%"
+      "protein_binding_label": "97%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Bupivacaine",
@@ -335,7 +341,8 @@
       "half_life_high_minutes": 156.0,
       "half_life_label": "2.6 hours",
       "protein_binding_pct": 32.0,
-      "protein_binding_label": "32% bound to plasma proteins and 47% bound to red blood cells."
+      "protein_binding_label": "32% bound to plasma proteins and 47% bound to red blood cells.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Caffeine",
@@ -402,7 +409,8 @@
       "half_life_high_minutes": 80.0,
       "half_life_label": "Approximately 80 minutes following intramuscular or intravenous injection.",
       "protein_binding_pct": 50.0,
-      "protein_binding_label": "50% to serum protein"
+      "protein_binding_label": "50% to serum protein",
+      "half_life_corroborated": true
     },
     {
       "substance": "Celecoxib",
@@ -420,8 +428,7 @@
       "half_life_high_minutes": 60.0,
       "half_life_label": "1 hour",
       "protein_binding_pct": 14.0,
-      "protein_binding_label": "14%",
-      "half_life_corroborated": true
+      "protein_binding_label": "14%"
     },
     {
       "substance": "Cetirizine",
@@ -487,7 +494,8 @@
       "half_life_high_minutes": 192.0,
       "half_life_label": "2.4 to 3.2 hours",
       "protein_binding_pct": 6.0,
-      "protein_binding_label": "6%"
+      "protein_binding_label": "6%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Cilastatin",
@@ -501,8 +509,7 @@
       "half_life_minutes": 240.0,
       "half_life_low_minutes": 240.0,
       "half_life_high_minutes": 240.0,
-      "half_life_label": "4 hours",
-      "half_life_corroborated": true
+      "half_life_label": "4 hours"
     },
     {
       "substance": "Citalopram",
@@ -527,7 +534,8 @@
       "half_life_high_minutes": 240.0,
       "half_life_label": "3-4 hours",
       "protein_binding_pct": 70.0,
-      "protein_binding_label": "~ 70% protein bound"
+      "protein_binding_label": "~ 70% protein bound",
+      "half_life_corroborated": true
     },
     {
       "substance": "Clemastine",
@@ -541,8 +549,7 @@
       "half_life_minutes": 144.0,
       "half_life_low_minutes": 144.0,
       "half_life_high_minutes": 144.0,
-      "half_life_label": "clindamycin:   2.4 hours   null:",
-      "half_life_corroborated": true
+      "half_life_label": "clindamycin:   2.4 hours   null:"
     },
     {
       "substance": "Clomiphene",
@@ -571,7 +578,8 @@
       "half_life_minutes": 78.0,
       "half_life_low_minutes": 78.0,
       "half_life_high_minutes": 78.0,
-      "half_life_label": "1.3 hours"
+      "half_life_label": "1.3 hours",
+      "half_life_corroborated": true
     },
     {
       "substance": "Cyclopentolate",
@@ -597,7 +605,8 @@
       "half_life_high_minutes": 1140.0,
       "half_life_label": "The elimination half-life of darifenacin following chronic dosing is approximately 13-19 hours.",
       "protein_binding_pct": 98.0,
-      "protein_binding_label": "Darifenacin is approximately 98% bound to plasma proteins (primarily to alpha-1-acid-glycoprotein)."
+      "protein_binding_label": "Darifenacin is approximately 98% bound to plasma proteins (primarily to alpha-1-acid-glycoprotein).",
+      "half_life_corroborated": true
     },
     {
       "substance": "Decitabine",
@@ -613,7 +622,8 @@
       "half_life_high_minutes": 114.0,
       "half_life_label": "The half-life is 1.9 hours.",
       "protein_binding_pct": 10.0,
-      "protein_binding_label": "Plasma protein binding is less than 10%."
+      "protein_binding_label": "Plasma protein binding is less than 10%.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Deferoxamine",
@@ -641,7 +651,8 @@
       "half_life_high_minutes": 120.0,
       "half_life_label": "~2 hours.",
       "vd_l_per_kg": 0.25,
-      "vd_label": "0.25 L/kg."
+      "vd_label": "0.25 L/kg.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Desmopressin",
@@ -664,8 +675,7 @@
       "half_life_high_minutes": 3240.0,
       "half_life_label": "36-54 hours",
       "protein_binding_pct": 70.0,
-      "protein_binding_label": "70%",
-      "half_life_corroborated": true
+      "protein_binding_label": "70%"
     },
     {
       "substance": "Dexmedetomidine",
@@ -676,7 +686,8 @@
       "half_life_high_minutes": 120.0,
       "half_life_label": "2 hours",
       "protein_binding_pct": 94.0,
-      "protein_binding_label": "94%"
+      "protein_binding_label": "94%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Dextromethorphan",
@@ -685,7 +696,8 @@
       "half_life_minutes": 270.0,
       "half_life_low_minutes": 180.0,
       "half_life_high_minutes": 360.0,
-      "half_life_label": "3-6 hours"
+      "half_life_label": "3-6 hours",
+      "half_life_corroborated": true
     },
     {
       "substance": "Diatrizoate",
@@ -710,8 +722,7 @@
       "protein_binding_pct": 99.0,
       "protein_binding_label": "More than 99%",
       "vd_l_per_kg": 1.3,
-      "vd_label": "* 1.3 L/kg",
-      "half_life_corroborated": true
+      "vd_label": "* 1.3 L/kg"
     },
     {
       "substance": "Dicloxacillin",
@@ -720,7 +731,8 @@
       "half_life_minutes": 42.0,
       "half_life_low_minutes": 42.0,
       "half_life_high_minutes": 42.0,
-      "half_life_label": "The elimination half-life for dicloxacillin is about 0.7 hour."
+      "half_life_label": "The elimination half-life for dicloxacillin is about 0.7 hour.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Diflorasone",
@@ -736,18 +748,12 @@
       "half_life_high_minutes": 270.0,
       "half_life_label": "3.0 - 4.5 hours",
       "protein_binding_pct": 70.0,
-      "protein_binding_label": "70%-80%",
-      "half_life_corroborated": true
+      "protein_binding_label": "70%-80%"
     },
     {
       "substance": "Dimenhydrinate",
       "ndc": "37205-111",
-      "brand": "Original Formula Motion Sickness Relief",
-      "half_life_minutes": 150.0,
-      "half_life_low_minutes": 60.0,
-      "half_life_high_minutes": 240.0,
-      "half_life_label": "1-4 hours",
-      "half_life_corroborated": true
+      "brand": "Original Formula Motion Sickness Relief"
     },
     {
       "substance": "Dimercaprol",
@@ -757,12 +763,7 @@
     {
       "substance": "Diphenhydramine",
       "ndc": "55910-205",
-      "brand": "Nite Time Sleep Aid Liquidgels",
-      "half_life_minutes": 150.0,
-      "half_life_low_minutes": 60.0,
-      "half_life_high_minutes": 240.0,
-      "half_life_label": "1-4 hours",
-      "half_life_corroborated": true
+      "brand": "Nite Time Sleep Aid Liquidgels"
     },
     {
       "substance": "Disulfiram",
@@ -788,8 +789,7 @@
       "half_life_minutes": 1200.0,
       "half_life_low_minutes": 1080.0,
       "half_life_high_minutes": 1320.0,
-      "half_life_label": "18-22 hours",
-      "half_life_corroborated": true
+      "half_life_label": "18-22 hours"
     },
     {
       "substance": "Doxylamine",
@@ -815,7 +815,7 @@
       "substance": "Duloxetine",
       "ndc": "0615-7894",
       "brand": "Duloxetine Hydrochloride",
-      "half_life_minutes": 750.0,
+      "half_life_minutes": 720.0,
       "half_life_low_minutes": 480.0,
       "half_life_high_minutes": 1020.0,
       "half_life_label": "12 hours (range 8-17 hours)",
@@ -832,8 +832,7 @@
       "half_life_high_minutes": 50400.0,
       "half_life_label": "5 weeks",
       "protein_binding_pct": 99.0,
-      "protein_binding_label": "Highly bound to albumin (99%) and α-1 acid glycoprotein (96.6%).",
-      "half_life_corroborated": true
+      "protein_binding_label": "Highly bound to albumin (99%) and α-1 acid glycoprotein (96.6%)."
     },
     {
       "substance": "Econazole",
@@ -854,7 +853,8 @@
       "half_life_high_minutes": 744.0,
       "half_life_label": "Terminal elimination half life was found to be 12.4 h based on population pharmacokinetic analysis.",
       "protein_binding_pct": 86.2,
-      "protein_binding_label": "Plasma protein binding was found to be 86.2%"
+      "protein_binding_label": "Plasma protein binding was found to be 86.2%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Enalapril",
@@ -894,7 +894,8 @@
       "half_life_high_minutes": 150.0,
       "half_life_label": "Approximately 2.5 hours",
       "protein_binding_pct": 25.0,
-      "protein_binding_label": "Approximately 25%"
+      "protein_binding_label": "Approximately 25%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Erythromycin",
@@ -924,8 +925,7 @@
       "half_life_minutes": 2160.0,
       "half_life_low_minutes": 2160.0,
       "half_life_high_minutes": 2160.0,
-      "half_life_label": "36 hours",
-      "half_life_corroborated": true
+      "half_life_label": "36 hours"
     },
     {
       "substance": "Estrogens, Conjugated",
@@ -944,7 +944,8 @@
       "half_life_minutes": 360.0,
       "half_life_low_minutes": 180.0,
       "half_life_high_minutes": 540.0,
-      "half_life_label": "3 to 9 hours"
+      "half_life_label": "3 to 9 hours",
+      "half_life_corroborated": true
     },
     {
       "substance": "Ethynodiol",
@@ -960,7 +961,8 @@
       "half_life_high_minutes": 75.0,
       "half_life_label": "75 minutes.",
       "protein_binding_pct": 76.0,
-      "protein_binding_label": "76%, primarily to serum albumin."
+      "protein_binding_label": "76%, primarily to serum albumin.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Etoposide",
@@ -971,7 +973,8 @@
       "half_life_high_minutes": 660.0,
       "half_life_label": "4-11 hours",
       "protein_binding_pct": 97.0,
-      "protein_binding_label": "97% protein bound."
+      "protein_binding_label": "97% protein bound.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Everolimus",
@@ -982,7 +985,8 @@
       "half_life_high_minutes": 1800.0,
       "half_life_label": "~30 hours.",
       "protein_binding_pct": 74.0,
-      "protein_binding_label": "~ 74% in both healthy patients and those with moderate hepatic impairment."
+      "protein_binding_label": "~ 74% in both healthy patients and those with moderate hepatic impairment.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Evolocumab",
@@ -996,7 +1000,8 @@
       "half_life_minutes": 144.0,
       "half_life_low_minutes": 144.0,
       "half_life_high_minutes": 144.0,
-      "half_life_label": "Mean terminal half-life is 2.4 hours."
+      "half_life_label": "Mean terminal half-life is 2.4 hours.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Famotidine",
@@ -1029,11 +1034,10 @@
       "substance": "Fluconazole",
       "ndc": "0143-9666",
       "brand": "",
-      "half_life_minutes": 2100.0,
+      "half_life_minutes": 1800.0,
       "half_life_low_minutes": 1200.0,
       "half_life_high_minutes": 3000.0,
-      "half_life_label": "30 hours (range 20-50 hours)",
-      "half_life_corroborated": true
+      "half_life_label": "30 hours (range 20-50 hours)"
     },
     {
       "substance": "Fludarabine",
@@ -1042,7 +1046,8 @@
       "half_life_minutes": 1200.0,
       "half_life_low_minutes": 1200.0,
       "half_life_high_minutes": 1200.0,
-      "half_life_label": "20 hours"
+      "half_life_label": "20 hours",
+      "half_life_corroborated": true
     },
     {
       "substance": "Fluocinolone",
@@ -1065,7 +1070,8 @@
       "half_life_minutes": 15.0,
       "half_life_low_minutes": 10.0,
       "half_life_high_minutes": 20.0,
-      "half_life_label": "10-20 minutes"
+      "half_life_label": "10-20 minutes",
+      "half_life_corroborated": true
     },
     {
       "substance": "Fluvastatin",
@@ -1078,7 +1084,8 @@
       "protein_binding_pct": 98.0,
       "protein_binding_label": "98% bound to plasma proteins. At therapeutic concentrations, the protein binding of fluvastatin is not affected by warfarin, salicylic acid and glyburide.",
       "vd_l_per_kg": 0.35,
-      "vd_label": "* 0.35 L/kg"
+      "vd_label": "* 0.35 L/kg",
+      "half_life_corroborated": true
     },
     {
       "substance": "Fluvoxamine",
@@ -1106,8 +1113,7 @@
       "half_life_high_minutes": 120.0,
       "half_life_label": "2 hours",
       "protein_binding_pct": 95.0,
-      "protein_binding_label": "95% bound to plasma proteins",
-      "half_life_corroborated": true
+      "protein_binding_label": "95% bound to plasma proteins"
     },
     {
       "substance": "Galsulfase",
@@ -1150,7 +1156,8 @@
       "half_life_minutes": 900.0,
       "half_life_low_minutes": 540.0,
       "half_life_high_minutes": 1260.0,
-      "half_life_label": "9-21 hours"
+      "half_life_label": "9-21 hours",
+      "half_life_corroborated": true
     },
     {
       "substance": "Guaifenesin",
@@ -1159,7 +1166,8 @@
       "half_life_minutes": 60.0,
       "half_life_low_minutes": 60.0,
       "half_life_high_minutes": 60.0,
-      "half_life_label": "1 hour"
+      "half_life_label": "1 hour",
+      "half_life_corroborated": true
     },
     {
       "substance": "Heparin",
@@ -1204,8 +1212,7 @@
       "half_life_minutes": 180.0,
       "half_life_low_minutes": 120.0,
       "half_life_high_minutes": 240.0,
-      "half_life_label": "2-4 hours",
-      "half_life_corroborated": true
+      "half_life_label": "2-4 hours"
     },
     {
       "substance": "Idarubicin",
@@ -1216,7 +1223,8 @@
       "half_life_high_minutes": 1320.0,
       "half_life_label": "22 hours",
       "protein_binding_pct": 97.0,
-      "protein_binding_label": "97%"
+      "protein_binding_label": "97%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Ifosfamide",
@@ -1225,7 +1233,8 @@
       "half_life_minutes": 660.0,
       "half_life_low_minutes": 420.0,
       "half_life_high_minutes": 900.0,
-      "half_life_label": "7-15 hours. The elimination half-life increase appeared to be related to the increase in ifosfamide volume of distribution with age."
+      "half_life_label": "7-15 hours. The elimination half-life increase appeared to be related to the increase in ifosfamide volume of distribution with age.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Indapamide",
@@ -1252,7 +1261,8 @@
       "half_life_minutes": 81.0,
       "half_life_low_minutes": 81.0,
       "half_life_high_minutes": 81.0,
-      "half_life_label": "81 minutes (following subcutaneous administration in healthy subjects)."
+      "half_life_label": "81 minutes (following subcutaneous administration in healthy subjects).",
+      "half_life_corroborated": true
     },
     {
       "substance": "Irbesartan",
@@ -1307,7 +1317,8 @@
       "half_life_high_minutes": 1260.0,
       "half_life_label": "21 hours (for elimination)",
       "protein_binding_pct": 75.0,
-      "protein_binding_label": "75%"
+      "protein_binding_label": "75%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Lamotrigine",
@@ -1339,7 +1350,8 @@
       "half_life_high_minutes": 372.0,
       "half_life_label": "6.2 hours",
       "protein_binding_pct": 15.0,
-      "protein_binding_label": "~15%"
+      "protein_binding_label": "~15%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Levalbuterol",
@@ -1348,7 +1360,8 @@
       "half_life_minutes": 219.0,
       "half_life_low_minutes": 198.0,
       "half_life_high_minutes": 240.0,
-      "half_life_label": "3.3 - 4 hours"
+      "half_life_label": "3.3 - 4 hours",
+      "half_life_corroborated": true
     },
     {
       "substance": "Levetiracetam",
@@ -1388,13 +1401,12 @@
       "substance": "Loperamide",
       "ndc": "0093-0311",
       "brand": "Loperamide Hydrochloride",
-      "half_life_minutes": 705.0,
+      "half_life_minutes": 648.0,
       "half_life_low_minutes": 546.0,
       "half_life_high_minutes": 864.0,
       "half_life_label": "9.1 to 14.4 hours (average 10.8 hours)",
       "protein_binding_pct": 97.0,
-      "protein_binding_label": "97%",
-      "half_life_corroborated": true
+      "protein_binding_label": "97%"
     },
     {
       "substance": "Loratadine",
@@ -1444,8 +1456,7 @@
       "half_life_high_minutes": 1200.0,
       "half_life_label": "15-20 hours",
       "protein_binding_pct": 99.4,
-      "protein_binding_label": "99.4% bound, primarily to albumin",
-      "half_life_corroborated": true
+      "protein_binding_label": "99.4% bound, primarily to albumin"
     },
     {
       "substance": "Melphalan",
@@ -1557,7 +1568,8 @@
       "half_life_high_minutes": 120.0,
       "half_life_label": "The elimination half-life of miglitol from plasma is approximately 2 hours.",
       "vd_l_per_kg": 0.18,
-      "vd_label": "* 0.18 L/kg"
+      "vd_label": "* 0.18 L/kg",
+      "half_life_corroborated": true
     },
     {
       "substance": "Miglustat",
@@ -1566,7 +1578,8 @@
       "half_life_minutes": 390.0,
       "half_life_low_minutes": 360.0,
       "half_life_high_minutes": 420.0,
-      "half_life_label": "The effective half-life of miglustat is approximately 6 to 7 hours."
+      "half_life_label": "The effective half-life of miglustat is approximately 6 to 7 hours.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Minoxidil",
@@ -1645,7 +1658,8 @@
       "half_life_high_minutes": 480.0,
       "half_life_label": "5-8 hours",
       "protein_binding_pct": 28.0,
-      "protein_binding_label": "28%-31% (over the concentration range of 50 to 1000 ng/mL)"
+      "protein_binding_label": "28%-31% (over the concentration range of 50 to 1000 ng/mL)",
+      "half_life_corroborated": true
     },
     {
       "substance": "Nefazodone",
@@ -1750,7 +1764,8 @@
       "half_life_minutes": 180.0,
       "half_life_low_minutes": 180.0,
       "half_life_high_minutes": 180.0,
-      "half_life_label": "3 hours"
+      "half_life_label": "3 hours",
+      "half_life_corroborated": true
     },
     {
       "substance": "Omeprazole",
@@ -1768,8 +1783,7 @@
       "half_life_high_minutes": 342.0,
       "half_life_label": "5.7 hours",
       "protein_binding_pct": 70.0,
-      "protein_binding_label": "70%-76% (Plasma protein binding)",
-      "half_life_corroborated": true
+      "protein_binding_label": "70%-76% (Plasma protein binding)"
     },
     {
       "substance": "Orphenadrine",
@@ -1847,7 +1861,8 @@
       "half_life_high_minutes": 360.0,
       "half_life_label": "4 to 6 hours",
       "protein_binding_pct": 99.8,
-      "protein_binding_label": "99.8% (bound to plasma proteins)"
+      "protein_binding_label": "99.8% (bound to plasma proteins)",
+      "half_life_corroborated": true
     },
     {
       "substance": "Paroxetine",
@@ -1920,13 +1935,14 @@
       "half_life_high_minutes": 204.0,
       "half_life_label": "2.1 to 3.4 hours",
       "protein_binding_pct": 95.0,
-      "protein_binding_label": "95% binding-plasma proteins"
+      "protein_binding_label": "95% binding-plasma proteins",
+      "half_life_corroborated": true
     },
     {
       "substance": "Phenytoin",
       "ndc": "0378-3850",
       "brand": "",
-      "half_life_minutes": 1470.0,
+      "half_life_minutes": 1320.0,
       "half_life_low_minutes": 420.0,
       "half_life_high_minutes": 2520.0,
       "half_life_label": "22 hours (range of 7 to 42 hours)",
@@ -1963,12 +1979,17 @@
       "half_life_minutes": 420.0,
       "half_life_low_minutes": 360.0,
       "half_life_high_minutes": 480.0,
-      "half_life_label": "6 to 8 hours"
+      "half_life_label": "6 to 8 hours",
+      "half_life_corroborated": true
     },
     {
       "substance": "Progesterone",
       "ndc": "55566-6500",
       "brand": "Endometrin",
+      "half_life_minutes": 2697.9,
+      "half_life_low_minutes": 2088.0,
+      "half_life_high_minutes": 3307.8,
+      "half_life_label": "34.8-55.13 hours",
       "protein_binding_pct": 96.0,
       "protein_binding_label": "96%-99%"
     },
@@ -2012,7 +2033,8 @@
       "half_life_high_minutes": 1080.0,
       "half_life_label": "Approximately 18 hours",
       "protein_binding_pct": 70.0,
-      "protein_binding_label": "Approximately 70%"
+      "protein_binding_label": "Approximately 70%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Ranitidine",
@@ -2035,7 +2057,8 @@
       "half_life_minutes": 1080.0,
       "half_life_low_minutes": 1080.0,
       "half_life_high_minutes": 1080.0,
-      "half_life_label": "18 hours"
+      "half_life_label": "18 hours",
+      "half_life_corroborated": true
     },
     {
       "substance": "Remifentanil",
@@ -2046,8 +2069,7 @@
       "half_life_high_minutes": 20.0,
       "half_life_label": "1-20 minutes",
       "protein_binding_pct": 70.0,
-      "protein_binding_label": "70% (bound to plasma proteins)",
-      "half_life_corroborated": true
+      "protein_binding_label": "70% (bound to plasma proteins)"
     },
     {
       "substance": "Retapamulin",
@@ -2082,11 +2104,7 @@
     {
       "substance": "Salbutamol",
       "ndc": "21695-423",
-      "brand": "Ventolinhfa",
-      "half_life_minutes": 96.0,
-      "half_life_low_minutes": 96.0,
-      "half_life_high_minutes": 96.0,
-      "half_life_label": "1.6 hours"
+      "brand": "Ventolinhfa"
     },
     {
       "substance": "Sargramostim",
@@ -2100,8 +2118,7 @@
       "half_life_minutes": 270.0,
       "half_life_low_minutes": 270.0,
       "half_life_high_minutes": 270.0,
-      "half_life_label": "4.5 hours",
-      "half_life_corroborated": true
+      "half_life_label": "4.5 hours"
     },
     {
       "substance": "Sebelipase Alfa",
@@ -2133,7 +2150,11 @@
     {
       "substance": "Spironolactone",
       "ndc": "46287-020",
-      "brand": "Carospir"
+      "brand": "Carospir",
+      "half_life_minutes": 10.0,
+      "half_life_low_minutes": 10.0,
+      "half_life_high_minutes": 10.0,
+      "half_life_label": "10 minutes"
     },
     {
       "substance": "Squalene monooxygenase",
@@ -2151,7 +2172,8 @@
       "half_life_minutes": 120.0,
       "half_life_low_minutes": 120.0,
       "half_life_high_minutes": 120.0,
-      "half_life_label": "About 2 hours"
+      "half_life_label": "About 2 hours",
+      "half_life_corroborated": true
     },
     {
       "substance": "Sulfacetamide",
@@ -2178,7 +2200,8 @@
       "protein_binding_pct": 14.0,
       "protein_binding_label": "sumatriptan:   14%-21%",
       "vd_l_per_kg": 2.7,
-      "vd_label": "sumatriptan:   * 2.7 L/kg [subcutaneous dosing]"
+      "vd_label": "sumatriptan:   * 2.7 L/kg [subcutaneous dosing]",
+      "half_life_corroborated": true
     },
     {
       "substance": "Technetium Tc-99M Sestamibi",
@@ -2203,8 +2226,7 @@
       "half_life_high_minutes": 1200.0,
       "half_life_label": "10-20 hours",
       "protein_binding_pct": 96.0,
-      "protein_binding_label": "96%",
-      "half_life_corroborated": true
+      "protein_binding_label": "96%"
     },
     {
       "substance": "Tenofovir",
@@ -2213,7 +2235,8 @@
       "half_life_minutes": 1020.0,
       "half_life_low_minutes": 1020.0,
       "half_life_high_minutes": 1020.0,
-      "half_life_label": "When a single oral dose is given, the terminal elimination half-life is approximately 17 hours."
+      "half_life_label": "When a single oral dose is given, the terminal elimination half-life is approximately 17 hours.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Terazosin",
@@ -2228,6 +2251,10 @@
       "substance": "Testosterone",
       "ndc": "0143-9750",
       "brand": "Testosterone Enanthate",
+      "half_life_minutes": 55.0,
+      "half_life_low_minutes": 10.0,
+      "half_life_high_minutes": 100.0,
+      "half_life_label": "10-100 minutes",
       "protein_binding_pct": 40.0,
       "protein_binding_label": "40% of testosterone in plasma is bound to sex hormone-binding globulin and 2% remains unbound and the rest is bound to albumin and other proteins."
     },
@@ -2261,7 +2288,8 @@
       "half_life_minutes": 168.0,
       "half_life_low_minutes": 90.0,
       "half_life_high_minutes": 246.0,
-      "half_life_label": "1.5 to 4.1 hours"
+      "half_life_label": "1.5 to 4.1 hours",
+      "half_life_corroborated": true
     },
     {
       "substance": "Thiothixene",
@@ -2301,7 +2329,8 @@
       "half_life_minutes": 165.0,
       "half_life_low_minutes": 120.0,
       "half_life_high_minutes": 210.0,
-      "half_life_label": "2-3.5 hours"
+      "half_life_label": "2-3.5 hours",
+      "half_life_corroborated": true
     },
     {
       "substance": "Tolmetin",
@@ -2322,7 +2351,8 @@
       "half_life_high_minutes": 180.0,
       "half_life_label": "2-3 hours",
       "protein_binding_pct": 35.0,
-      "protein_binding_label": "35%"
+      "protein_binding_label": "35%",
+      "half_life_corroborated": true
     },
     {
       "substance": "Tramadol",
@@ -2354,7 +2384,8 @@
       "half_life_minutes": 75.0,
       "half_life_low_minutes": 30.0,
       "half_life_high_minutes": 120.0,
-      "half_life_label": "0.5-2 hours"
+      "half_life_label": "0.5-2 hours",
+      "half_life_corroborated": true
     },
     {
       "substance": "Trifluoperazine",
@@ -2373,7 +2404,8 @@
       "half_life_minutes": 480.0,
       "half_life_low_minutes": 420.0,
       "half_life_high_minutes": 540.0,
-      "half_life_label": "The mean elimination half-life of trimethobenzamide is 7 to 9 hours."
+      "half_life_label": "The mean elimination half-life of trimethobenzamide is 7 to 9 hours.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Trimipramine",
@@ -2394,7 +2426,8 @@
       "half_life_minutes": 300.0,
       "half_life_low_minutes": 240.0,
       "half_life_high_minutes": 360.0,
-      "half_life_label": "4 to 6 hours."
+      "half_life_label": "4 to 6 hours.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Urofollitropin",
@@ -2451,7 +2484,8 @@
       "half_life_high_minutes": 8760.0,
       "half_life_label": "146 hours",
       "protein_binding_pct": 22.0,
-      "protein_binding_label": "Approximately 22% bound in human plasma, independent of the concentration. However, Canadian product information states binding to human plasma protein is approximately 56%."
+      "protein_binding_label": "Approximately 22% bound in human plasma, independent of the concentration. However, Canadian product information states binding to human plasma protein is approximately 56%.",
+      "half_life_corroborated": true
     },
     {
       "substance": "Zolmitriptan",
@@ -2477,16 +2511,15 @@
       "half_life_minutes": 360.0,
       "half_life_low_minutes": 360.0,
       "half_life_high_minutes": 360.0,
-      "half_life_label": "6 hours",
-      "half_life_corroborated": true
+      "half_life_label": "6 hours"
     }
   ],
   "refused_half_lives": [
     {
-      "substance": "Spironolactone",
-      "label_minutes": 10.0,
-      "independent_minutes": 90.0,
-      "label": "10 minutes"
+      "substance": "Diphenhydramine",
+      "label_minutes": 150.0,
+      "independent_minutes": 540.0,
+      "label": "1-4 hours"
     },
     {
       "substance": "Chlordiazepoxide",
@@ -2497,32 +2530,32 @@
     {
       "substance": "Hydrocortisone",
       "label_minutes": 420.0,
-      "independent_minutes": 90.0,
+      "independent_minutes": 102.0,
       "label": "6-8 hours"
     },
     {
       "substance": "Fexofenadine",
       "label_minutes": 150.0,
-      "independent_minutes": 870.0,
+      "independent_minutes": 840.0,
       "label": "1-4 hours"
     },
     {
-      "substance": "Testosterone",
-      "label_minutes": 55.0,
-      "independent_minutes": 600.0,
-      "label": "10-100 minutes"
+      "substance": "Salbutamol",
+      "label_minutes": 96.0,
+      "independent_minutes": 360.0,
+      "label": "1.6 hours"
+    },
+    {
+      "substance": "Dimenhydrinate",
+      "label_minutes": 150.0,
+      "independent_minutes": 540.0,
+      "label": "1-4 hours"
     },
     {
       "substance": "Pravastatin",
       "label_minutes": 4620.0,
-      "independent_minutes": 120.0,
+      "independent_minutes": 108.0,
       "label": "77 hours"
-    },
-    {
-      "substance": "Progesterone",
-      "label_minutes": 2697.9,
-      "independent_minutes": 300.0,
-      "label": "34.8-55.13 hours"
     },
     {
       "substance": "Carisoprodol",

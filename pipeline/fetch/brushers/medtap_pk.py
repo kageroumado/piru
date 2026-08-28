@@ -51,6 +51,7 @@ _spec = importlib.util.spec_from_file_location(
 _cdb = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_cdb)
 parse_half_life = _cdb.parse_half_life
+parse_half_life_mean = _cdb.parse_half_life_mean
 
 _LABEL_HEADER = re.compile(r"<text class='druglabel_header'>(.*?)</text>", re.S)
 _TAGS = re.compile(r"<[^>]+>")
@@ -66,7 +67,7 @@ AGREEMENT_RATIO = 3.0
 
 
 def independent_half_lives() -> dict[str, float]:
-    """The Swift fallback table, as an independent check on the label value.
+    """The database's own half-lives, as an independent check on the label value.
 
     A label's "Half-life" field is not always an elimination half-life:
     pravastatin's 77 hours is the duration of cholesterol-synthesis inhibition,
@@ -74,13 +75,27 @@ def independent_half_lives() -> dict[str, float]:
     belongs to meprobamate. Nothing in the field says which — but a second
     source disagreeing by more than a factor of three does, and that is enough
     to refuse rather than arbitrate.
+
+    MedTAP's own rows are excluded: this sidecar is where they came from, so a
+    value would otherwise corroborate itself.
     """
-    text = (REPO / "Piru/Data/Pharmacology/HalfLifeDatabase.swift").read_text()
-    block = text[text.index("private static let data:") : text.index("private static let aliases:")]
-    return {
-        name.lower(): float(minutes.replace("_", ""))
-        for name, minutes in re.findall(r'"([^"]+)"\s*:\s*([0-9_.]+)', block)
-    }
+    db = sqlite3.connect(DB)
+    try:
+        rows = db.execute(
+            """
+            SELECT lower(s.canonical_name), h.half_life_minutes
+              FROM half_lives h
+              JOIN substances s ON s.id = h.substance_id
+              JOIN sources src ON src.id = h.source_id
+             WHERE h.half_life_minutes > 0 AND src.slug <> 'medtap'
+             -- Worst priority first, so the best-priority row is the one that
+             -- survives the comprehension below.
+             ORDER BY src.default_priority DESC
+            """
+        ).fetchall()
+    finally:
+        db.close()
+    return {name: float(minutes) for name, minutes in rows}
 
 
 def label_fields(section: dict) -> dict[str, str]:
@@ -185,7 +200,16 @@ def harvest() -> tuple[dict, dict]:
                 else:
                     parsed = parse_half_life(raw)
                     if parsed:
-                        entry["half_life_minutes"] = round((parsed[0] + parsed[1]) / 2, 1)
+                        # A label that states a mean beside its range has already
+                        # named the point estimate; the midpoint would be
+                        # arithmetic of ours wearing the label's authority.
+                        # Phenelzine's "1.2 to 11.6 hours (mean 11.6)" is the
+                        # case that shows it — the midpoint contradicts the
+                        # sentence it was computed from.
+                        stated = parse_half_life_mean(raw)
+                        entry["half_life_minutes"] = round(
+                            stated if stated is not None else (parsed[0] + parsed[1]) / 2, 1
+                        )
                         entry["half_life_low_minutes"] = round(parsed[0], 1)
                         entry["half_life_high_minutes"] = round(parsed[1], 1)
                         entry["half_life_label"] = raw[:200]
@@ -281,6 +305,22 @@ def main() -> int:
                 f"  {conflict['substance']:<20} label {conflict['label_minutes'] / 60:>6.1f} h  "
                 f"vs {conflict['independent_minutes'] / 60:>6.1f} h   <- {conflict['label'][:44]}"
             )
+
+    # A half-life the reference set cannot reach is not corroborated and not
+    # refused — it is unchecked, and it enters at `medtap` priority anyway. Say
+    # so: the refusal rule can only fire where a second source exists, and the
+    # entries with none are exactly where a wrong quantity gets through.
+    unchecked = sorted(
+        k
+        for k, v in entries.items()
+        if "half_life_minutes" in v and not v.get("half_life_corroborated")
+    )
+    print(f"\n{len(unchecked)} half-lives no second source could check:")
+    for name in unchecked:
+        entry = entries[name]
+        print(
+            f"  {name:<26} {entry['half_life_minutes'] / 60:>6.1f} h   <- {entry['half_life_label'][:50]}"
+        )
 
     print(f"\n{len(new_half_life)} of them have NO half-life in the database today:")
     for name in sorted(new_half_life)[:20]:
