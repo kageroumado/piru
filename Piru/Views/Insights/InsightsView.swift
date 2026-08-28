@@ -2,6 +2,151 @@ import Charts
 import SwiftData
 import SwiftUI
 
+// MARK: - Model
+
+@Observable
+@MainActor
+final class InsightsModel {
+    struct DailyCount: Identifiable {
+        let date: Date
+        let count: Int
+        var id: Date {
+            date
+        }
+    }
+
+    struct AdherenceSummary {
+        let streak: Int
+        let monthPct: Int
+        let hasData: Bool
+        var monthText: String {
+            "\(monthPct)%"
+        }
+    }
+
+    struct UsageSummary {
+        let total: Int
+        let perDay: Double
+        let mostLogged: String?
+        var hasData: Bool {
+            total > 0
+        }
+        var perDayText: String {
+            String(format: "%.1f", perDay)
+        }
+    }
+
+    private(set) var adherence: AdherenceSummary?
+    private(set) var usage: UsageSummary?
+    private(set) var active: [ActiveSubstance] = []
+    private(set) var dailyCounts: [DailyCount] = []
+    private(set) var monthCells: [DayAdherence?] = []
+
+    private let calendar = Calendar.current
+
+    func changeToken(substanceColors: [SubstanceColor], dailyItemCount: Int) -> Int {
+        var hasher = Hasher()
+        hasher.combine(DoseLogService.shared.revision)
+        for color in substanceColors {
+            hasher.combine(color.substance)
+            hasher.combine(color.hexColor)
+        }
+        hasher.combine(dailyItemCount)
+        return hasher.finalize()
+    }
+
+    func recompute(
+        entries: [DoseEntry],
+        dailyItems: [DailyDoseItem],
+        substanceColors: [SubstanceColor],
+        container: ModelContainer,
+    ) async {
+        await SubstanceStore.shared.ensureAllLoaded()
+        let cal = calendar
+        var entriesByDay: [Date: [DoseEntry]] = [:]
+        for entry in entries {
+            entriesByDay[cal.startOfDay(for: entry.timestamp), default: []].append(entry)
+        }
+
+        adherence = computeMonthAdherence(cal: cal, entriesByDay: entriesByDay, dailyItems: dailyItems)
+        usage = computeUsage(entries: entries)
+        active = ActiveSubstanceCalculator.compute(from: entries, colorMap: substanceColors.colorMap)
+        dailyCounts = computeDailyCounts(cal: cal, entriesByDay: entriesByDay)
+        monthCells = computeMonthCells(cal: cal, entriesByDay: entriesByDay, dailyItems: dailyItems)
+
+        await refreshStreak(dailyItems: dailyItems, container: container)
+    }
+
+    private func computeDailyCounts(cal: Calendar, entriesByDay: [Date: [DoseEntry]]) -> [DailyCount] {
+        let today = cal.startOfDay(for: .now)
+        return (0 ..< 14).reversed().compactMap { offset in
+            guard let day = cal.date(byAdding: .day, value: -offset, to: today) else { return nil }
+            return DailyCount(date: day, count: entriesByDay[day]?.count ?? 0)
+        }
+    }
+
+    private func computeMonthCells(cal: Calendar, entriesByDay: [Date: [DoseEntry]], dailyItems: [DailyDoseItem]) -> [DayAdherence?] {
+        guard !dailyItems.isEmpty,
+              let start = cal.date(from: cal.dateComponents([.year, .month], from: .now)),
+              let range = cal.range(of: .day, in: .month, for: start) else { return [] }
+
+        let firstWeekday = cal.component(.weekday, from: start) - cal.firstWeekday
+        let leadingBlanks = (firstWeekday + 7) % 7
+        var cells: [DayAdherence?] = Array(repeating: nil, count: leadingBlanks)
+        for dayOffset in range {
+            guard let date = cal.date(byAdding: .day, value: dayOffset - 1, to: start) else { continue }
+            let dayStart = cal.startOfDay(for: date)
+            cells.append(AdherenceCalculator.adherence(for: date, entries: entriesByDay[dayStart] ?? [], dailyItems: dailyItems))
+        }
+        return cells
+    }
+
+    private func computeMonthAdherence(cal: Calendar, entriesByDay: [Date: [DoseEntry]], dailyItems: [DailyDoseItem]) -> AdherenceSummary {
+        guard !dailyItems.isEmpty else {
+            return AdherenceSummary(streak: 0, monthPct: 0, hasData: false)
+        }
+
+        let monthStart = cal.date(from: cal.dateComponents([.year, .month], from: .now)) ?? .now
+        let range = cal.range(of: .day, in: .month, for: monthStart) ?? 1 ..< 2
+        var month: [DayAdherence] = []
+        for offset in range {
+            guard let date = cal.date(byAdding: .day, value: offset - 1, to: monthStart) else { continue }
+            let dayEntries = entriesByDay[cal.startOfDay(for: date)] ?? []
+            month.append(AdherenceCalculator.adherence(for: date, entries: dayEntries, dailyItems: dailyItems))
+        }
+        let actionable = month.filter { $0.status != .noData && $0.date <= .now }
+        let due = actionable.reduce(0) { $0 + $1.totalCount }
+        let taken = actionable.reduce(0) { $0 + $1.takenCount }
+        let pct = due > 0 ? Int((Double(taken) / Double(due)) * 100) : 0
+
+        return AdherenceSummary(streak: 0, monthPct: pct, hasData: due > 0)
+    }
+
+    private func refreshStreak(dailyItems: [DailyDoseItem], container: ModelContainer) async {
+        guard !dailyItems.isEmpty else { return }
+        let streak = await AdherenceStreakFetcher.currentStreak(container: container)
+        guard let current = adherence else { return }
+        adherence = AdherenceSummary(streak: streak, monthPct: current.monthPct, hasData: current.hasData || streak > 0)
+    }
+
+    private func computeUsage(entries: [DoseEntry]) -> UsageSummary {
+        guard !entries.isEmpty,
+              let newest = entries.first?.timestamp,
+              let oldest = entries.last?.timestamp else {
+            return UsageSummary(total: 0, perDay: 0, mostLogged: nil)
+        }
+        let days = max(1, newest.timeIntervalSince(oldest) / 86_400 + 1)
+        var counts: [String: Int] = [:]
+        for entry in entries {
+            counts[entry.substance, default: 0] += 1
+        }
+        let most = counts.max { $0.value < $1.value }?.key
+        return UsageSummary(total: entries.count, perDay: Double(entries.count) / days, mostLogged: most)
+    }
+}
+
+// MARK: - View
+
 /// Insights overview — Apple Health–style large cards that surface each
 /// insight's headline graph (or calendar) inline, tapping through to the full
 /// detail screen.
@@ -11,16 +156,8 @@ struct InsightsView: View {
     @Query private var substanceColors: [SubstanceColor]
     @Environment(\.modelContext) private var modelContext
 
-    @State private var adherence: AdherenceSummary?
-    @State private var usage: UsageSummary?
-    @State private var active: [ActiveSubstance] = []
-    /// Zero-filled dose counts for the trailing two weeks (oldest → newest).
-    @State private var dailyCounts: [DailyCount] = []
-    /// Current month's per-day adherence, with leading `nil` weekday blanks so
-    /// the mini grid aligns to the week — mirrors ``AdherenceView``'s layout.
-    @State private var monthCells: [DayAdherence?] = []
+    @State private var model = InsightsModel()
 
-    private let calendar = Calendar.current
     private let calendarColumns = Array(repeating: GridItem(.flexible(), spacing: 3), count: 7)
 
     var body: some View {
@@ -29,7 +166,7 @@ struct InsightsView: View {
                 usageCard
                 inYourBodyCard
                 adherenceCard
-                toleranceCard
+                InsightsToleranceCard()
                 patternsCard
             }
             .padding(.horizontal)
@@ -38,30 +175,21 @@ struct InsightsView: View {
         }
         .background(Theme.background)
         .appNavigationBar("Insights")
-        .task(id: changeToken) { await recompute() }
-    }
-
-    /// Re-derive summaries when the underlying data changes. Keyed on the
-    /// dose-log revision (one observed Int — in-place edits bump it too via
-    /// `DoseLogService.changed()`) plus the small color/daily-item inputs, so
-    /// the streak scan doesn't recompute on every redraw and this body never
-    /// touches per-entry fields (which would subscribe it to every dose).
-    private var changeToken: Int {
-        var hasher = Hasher()
-        hasher.combine(DoseLogService.shared.revision)
-        for color in substanceColors {
-            hasher.combine(color.substance)
-            hasher.combine(color.hexColor)
+        .task(id: model.changeToken(substanceColors: substanceColors, dailyItemCount: dailyItems.count)) {
+            await model.recompute(
+                entries: allEntries,
+                dailyItems: dailyItems,
+                substanceColors: substanceColors,
+                container: modelContext.container,
+            )
         }
-        hasher.combine(dailyItems.count)
-        return hasher.finalize()
     }
 
     // MARK: - Usage
 
     private var usageCard: some View {
         largeCard(icon: "chart.bar.fill", tint: .blue, title: "Usage", route: .insight(.usage)) {
-            if let u = usage, u.hasData {
+            if let u = model.usage, u.hasData {
                 VStack(alignment: .leading, spacing: 12) {
                     HStack(alignment: .firstTextBaseline, spacing: 6) {
                         Text("\(u.total)")
@@ -86,7 +214,7 @@ struct InsightsView: View {
     }
 
     private var usageChart: some View {
-        Chart(dailyCounts) { item in
+        Chart(model.dailyCounts) { item in
             BarMark(
                 x: .value("Day", item.date, unit: .day),
                 y: .value("Doses", item.count),
@@ -99,21 +227,18 @@ struct InsightsView: View {
         .chartYAxis(.hidden)
         .frame(height: 76)
         .accessibilityLabel(Text("Doses logged per day over the past two weeks"))
-        .accessibilityValue(Text("\(dailyCounts.reduce(0) { $0 + $1.count }) in the last 14 days"))
+        .accessibilityValue(Text("\(model.dailyCounts.reduce(0) { $0 + $1.count }) in the last 14 days"))
     }
 
     // MARK: - In Your Body
 
-    /// The entry point to the "In Your Body" group (what's active now + how
-    /// body-load has moved over time). Previews the live in-system readout — the
-    /// most glanceable of the two — and pushes the group's list screen.
     private var inYourBodyCard: some View {
         largeCard(icon: "waveform.path.ecg", tint: .teal, title: "In your body", route: .insightGroup(.inYourBody)) {
-            if active.isEmpty {
+            if model.active.isEmpty {
                 emptyContent("Nothing active right now")
             } else {
                 VStack(spacing: 10) {
-                    ForEach(active.prefix(3)) { sub in
+                    ForEach(model.active.prefix(3)) { sub in
                         GlanceRow(dotColor: sub.color, title: Text(sub.name)) {
                             Text("\(sub.totalRemaining.doseFormatted) \(sub.unit)")
                                 .font(.subheadline.weight(.semibold))
@@ -126,8 +251,8 @@ struct InsightsView: View {
                         }
                         .accessibilityElement(children: .combine)
                     }
-                    if active.count > 3 {
-                        GlanceMoreRow(count: active.count - 3)
+                    if model.active.count > 3 {
+                        GlanceMoreRow(count: model.active.count - 3)
                     }
                 }
             }
@@ -143,10 +268,10 @@ struct InsightsView: View {
             } else {
                 VStack(alignment: .leading, spacing: 14) {
                     HStack(alignment: .firstTextBaseline, spacing: 6) {
-                        if let a = adherence {
+                        if let a = model.adherence {
                             Text("\(a.streak)")
                                 .font(.system(.title2, design: .rounded, weight: .bold))
-                            Text(a.streak == 1 ? "day streak" : "days streak")
+                            Text(a.streak == 1 ? "day streak" : "day streak")
                                 .font(.subheadline)
                                 .foregroundStyle(Theme.secondaryLabel)
                             Spacer()
@@ -169,13 +294,13 @@ struct InsightsView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             LazyVGrid(columns: calendarColumns, spacing: 3) {
-                ForEach(Array(monthCells.enumerated()), id: \.offset) { _, cell in
+                ForEach(Array(model.monthCells.enumerated()), id: \.offset) { _, cell in
                     if let cell {
                         RoundedRectangle(cornerRadius: 3)
                             .fill(adherenceDotColor(cell))
                             .frame(height: 15)
                             .overlay {
-                                if calendar.isDateInToday(cell.date) {
+                                if Calendar.current.isDateInToday(cell.date) {
                                     RoundedRectangle(cornerRadius: 3)
                                         .stroke(Theme.accent, lineWidth: 1.5)
                                 }
@@ -200,18 +325,59 @@ struct InsightsView: View {
         }
     }
 
-    // MARK: - Tolerance
+    // MARK: - Patterns
 
-    /// Tolerance is usage statistics — a summary of the user's own logged history — so it lives in
-    /// Insights (§7). The glance reads the warm ``ToleranceStore/states`` snapshot the background refresh
-    /// keeps current, so the card is free (no compute here). Renders the top mechanism classes as a
-    /// color-coded horizontal bar chart (family color = the same class colors used in the Library).
-    private var toleranceCard: some View {
-        // Non-rested = responseFraction < 0.90 ⇒ severity > 0.10 (matches the tool's rested bucket).
+    private var patternsCard: some View {
+        largeCard(icon: "list.clipboard", tint: .brown, title: "Patterns", route: .insight(.patterns)) {
+            if allEntries.isEmpty {
+                emptyContent("Log doses to see your patterns")
+            } else {
+                Text("Days used, cumulative exposure, dose trend, and overlap — for you or your doctor")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+    }
+
+    // MARK: - Card chrome
+
+    private func largeCard(
+        icon: String,
+        tint: Color,
+        title: LocalizedStringKey,
+        route: PushRoute,
+        @ViewBuilder content: @escaping () -> some View,
+    ) -> some View {
+        GlanceCard(icon: icon, tint: tint, titleColor: tint, title: Text(title), route: route, content: content)
+    }
+
+    private func emptyContent(_ message: LocalizedStringKey) -> some View {
+        Text(message)
+            .font(.subheadline)
+            .foregroundStyle(Theme.secondaryLabel)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+// MARK: - Tolerance card
+
+private struct InsightsToleranceCard: View {
+    private func largeCard(
+        icon: String,
+        tint: Color,
+        title: LocalizedStringKey,
+        route: PushRoute,
+        @ViewBuilder content: @escaping () -> some View,
+    ) -> some View {
+        GlanceCard(icon: icon, tint: tint, titleColor: tint, title: Text(title), route: route, content: content)
+    }
+
+    var body: some View {
         let notable = ToleranceStore.shared.states.values
             .filter { $0.severity > 0.10 }
             .sorted { $0.severity > $1.severity }
-        return largeCard(icon: "chart.line.downtrend.xyaxis", tint: .purple, title: "Tolerance", route: .insightGroup(.toleranceReceptors)) {
+        largeCard(icon: "chart.line.downtrend.xyaxis", tint: .purple, title: "Tolerance", route: .insightGroup(.toleranceReceptors)) {
             if notable.isEmpty {
                 HStack(alignment: .center, spacing: 14) {
                     Image(systemName: "checkmark.seal.fill")
@@ -236,8 +402,6 @@ struct InsightsView: View {
         }
     }
 
-    /// One color-coded mechanism row: family-color dot + class name + a bar
-    /// whose fill length tracks the predicted tolerance level.
     private func toleranceBar(_ state: ClassTolerance) -> some View {
         let color = state.receptorClass.familyColor
         return HStack(spacing: 10) {
@@ -264,163 +428,5 @@ struct InsightsView: View {
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(state.receptorClass.casualName))
         .accessibilityValue(Text("\(Int(state.severity * 100))% tolerance"))
-    }
-
-    // MARK: - Patterns
-
-    private var patternsCard: some View {
-        largeCard(icon: "list.clipboard", tint: .brown, title: "Patterns", route: .insight(.patterns)) {
-            if allEntries.isEmpty {
-                emptyContent("Log doses to see your patterns")
-            } else {
-                Text("Days used, cumulative exposure, dose trend, and overlap — for you or your doctor")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-        }
-    }
-
-    // MARK: - Card chrome
-
-    /// An Apple Health–style large card — the shared ``GlanceCard``.
-    private func largeCard(
-        icon: String,
-        tint: Color,
-        title: LocalizedStringKey,
-        route: PushRoute,
-        @ViewBuilder content: @escaping () -> some View,
-    ) -> some View {
-        GlanceCard(icon: icon, tint: tint, titleColor: tint, title: Text(title), route: route, content: content)
-    }
-
-    private func emptyContent(_ message: LocalizedStringKey) -> some View {
-        Text(message)
-            .font(.subheadline)
-            .foregroundStyle(Theme.secondaryLabel)
-            .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    // MARK: - Summaries
-
-    private struct DailyCount: Identifiable {
-        let date: Date
-        let count: Int
-        var id: Date {
-            date
-        }
-    }
-
-    private struct AdherenceSummary {
-        let streak: Int
-        let monthPct: Int
-        let hasData: Bool
-        var monthText: String {
-            "\(monthPct)%"
-        }
-    }
-
-    private struct UsageSummary {
-        let total: Int
-        let perDay: Double
-        var hasData: Bool {
-            total > 0
-        }
-        var perDayText: String {
-            String(format: "%.1f", perDay)
-        }
-    }
-
-    private func recompute() async {
-        // The active-substances readout resolves each unique substance from
-        // the batch cache; warm it first so a cold launch straight into this
-        // tab awaits the off-main prefill instead of paying the synchronous
-        // main-actor batch build.
-        await SubstanceStore.shared.ensureAllLoaded()
-        let cal = calendar
-        var entriesByDay: [Date: [DoseEntry]] = [:]
-        for entry in allEntries {
-            entriesByDay[cal.startOfDay(for: entry.timestamp), default: []].append(entry)
-        }
-
-        // Instant on-main readout: this month's adherence rate + the other cards.
-        adherence = computeMonthAdherence(cal: cal, entriesByDay: entriesByDay)
-        usage = computeUsage()
-        active = ActiveSubstanceCalculator.compute(from: allEntries, colorMap: substanceColors.colorMap)
-        dailyCounts = computeDailyCounts(cal: cal, entriesByDay: entriesByDay)
-        monthCells = computeMonthCells(cal: cal, entriesByDay: entriesByDay)
-
-        // The 365-day streak scan is the heavy part — run it off-main over
-        // Sendable snapshots, then merge it into the (already-shown) summary.
-        await refreshStreak()
-    }
-
-    /// Trailing 14 days of dose counts, zero-filled and ordered oldest → newest.
-    private func computeDailyCounts(cal: Calendar, entriesByDay: [Date: [DoseEntry]]) -> [DailyCount] {
-        let today = cal.startOfDay(for: .now)
-        return (0 ..< 14).reversed().compactMap { offset in
-            guard let day = cal.date(byAdding: .day, value: -offset, to: today) else { return nil }
-            return DailyCount(date: day, count: entriesByDay[day]?.count ?? 0)
-        }
-    }
-
-    /// Current month's per-day adherence with leading weekday blanks, for the
-    /// mini calendar grid. Cheap (~30 days) so it stays on main.
-    private func computeMonthCells(cal: Calendar, entriesByDay: [Date: [DoseEntry]]) -> [DayAdherence?] {
-        guard !dailyItems.isEmpty,
-              let start = cal.date(from: cal.dateComponents([.year, .month], from: .now)),
-              let range = cal.range(of: .day, in: .month, for: start) else { return [] }
-
-        let firstWeekday = cal.component(.weekday, from: start) - cal.firstWeekday
-        let leadingBlanks = (firstWeekday + 7) % 7
-        var cells: [DayAdherence?] = Array(repeating: nil, count: leadingBlanks)
-        for dayOffset in range {
-            guard let date = cal.date(byAdding: .day, value: dayOffset - 1, to: start) else { continue }
-            let dayStart = cal.startOfDay(for: date)
-            cells.append(AdherenceCalculator.adherence(for: date, entries: entriesByDay[dayStart] ?? [], dailyItems: dailyItems))
-        }
-        return cells
-    }
-
-    /// This-month adherence rate only — the instant readout. The streak is filled
-    /// in afterward by ``refreshStreak()`` (off-main), so this returns `streak: 0`.
-    private func computeMonthAdherence(cal: Calendar, entriesByDay: [Date: [DoseEntry]]) -> AdherenceSummary {
-        guard !dailyItems.isEmpty else {
-            return AdherenceSummary(streak: 0, monthPct: 0, hasData: false)
-        }
-
-        let monthStart = cal.date(from: cal.dateComponents([.year, .month], from: .now)) ?? .now
-        let range = cal.range(of: .day, in: .month, for: monthStart) ?? 1 ..< 2
-        var month: [DayAdherence] = []
-        for offset in range {
-            guard let date = cal.date(byAdding: .day, value: offset - 1, to: monthStart) else { continue }
-            let dayEntries = entriesByDay[cal.startOfDay(for: date)] ?? []
-            month.append(AdherenceCalculator.adherence(for: date, entries: dayEntries, dailyItems: dailyItems))
-        }
-        let actionable = month.filter { $0.status != .noData && $0.date <= .now }
-        let due = actionable.reduce(0) { $0 + $1.totalCount }
-        let taken = actionable.reduce(0) { $0 + $1.takenCount }
-        let pct = due > 0 ? Int((Double(taken) / Double(due)) * 100) : 0
-
-        return AdherenceSummary(streak: 0, monthPct: pct, hasData: due > 0)
-    }
-
-    /// Compute the past-year streak off the main actor over `Sendable` snapshots
-    /// and merge it into the current month summary.
-    private func refreshStreak() async {
-        guard !dailyItems.isEmpty else { return }
-        let streak = await AdherenceStreakFetcher.currentStreak(container: modelContext.container)
-        guard let current = adherence else { return }
-        adherence = AdherenceSummary(streak: streak, monthPct: current.monthPct, hasData: current.hasData || streak > 0)
-    }
-
-    private func computeUsage() -> UsageSummary {
-        guard !allEntries.isEmpty,
-              let newest = allEntries.first?.timestamp,
-              let oldest = allEntries.last?.timestamp else {
-            return UsageSummary(total: 0, perDay: 0)
-        }
-        let days = max(1, newest.timeIntervalSince(oldest) / 86_400 + 1)
-        return UsageSummary(total: allEntries.count, perDay: Double(allEntries.count) / days)
     }
 }

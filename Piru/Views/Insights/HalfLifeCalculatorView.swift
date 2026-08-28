@@ -1,6 +1,12 @@
 import SwiftData
 import SwiftUI
 
+/// PK rate constants passed to subviews, replacing the unnamed tuple.
+struct PKRateConstants: Equatable {
+    let ke: Double
+    let ka: Double
+}
+
 struct HalfLifeCalculatorView: View {
     @State private var substanceName = ""
     @State private var selectedSubstance: Substance?
@@ -10,6 +16,7 @@ struct HalfLifeCalculatorView: View {
     @State private var useCustomHalfLife = false
     @State private var customHalfLifeHours: Double?
     @State private var selectedRoute: RouteOfAdministration = .oral
+    @State private var halfLifeCount = 0
 
     private var effectiveHalfLife: Double? {
         if useCustomHalfLife {
@@ -19,12 +26,13 @@ struct HalfLifeCalculatorView: View {
         return PKResolver.halfLifeMinutes(substance: selectedSubstance, entryName: substanceName)
     }
 
-    private var pkParameters: (ke: Double, ka: Double)? {
+    private var rateConstants: PKRateConstants? {
         guard let halfLife = effectiveHalfLife, halfLife > 0 else { return nil }
-        return PKResolver.rateConstants(
+        let params = PKResolver.rateConstants(
             halfLifeMinutes: halfLife,
             duration: selectedSubstance?.resolveDuration(for: selectedRoute),
         )
+        return PKRateConstants(ke: params.ke, ka: params.ka)
     }
 
     private var dose: Double {
@@ -34,21 +42,49 @@ struct HalfLifeCalculatorView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                calculatorHeader
-                inputSection
+                HalfLifeHeader(count: halfLifeCount)
+
+                HalfLifeInputSection(
+                    substanceName: $substanceName,
+                    selectedSubstance: $selectedSubstance,
+                    doseAmount: $doseAmount,
+                    doseUnit: $doseUnit,
+                    timeTaken: $timeTaken,
+                    useCustomHalfLife: $useCustomHalfLife,
+                    customHalfLifeHours: $customHalfLifeHours,
+                    selectedRoute: $selectedRoute,
+                )
 
                 if let halfLife = effectiveHalfLife, dose > 0 {
                     TimelineView(.periodic(from: .now, by: 60)) { _ in
-                        decayChart(halfLife: halfLife)
-                        currentAmountCard(halfLife: halfLife)
+                        HalfLifeDecayChart(
+                            halfLife: halfLife,
+                            rateConstants: rateConstants,
+                            dose: dose,
+                            doseUnit: doseUnit,
+                            timeTaken: timeTaken,
+                        )
+                        HalfLifeCurrentAmountCard(
+                            remaining: remainingAmount(halfLife: halfLife),
+                            dose: dose,
+                            unit: doseUnit,
+                        )
                     }
-                    milestonesSection(halfLife: halfLife)
+                    HalfLifeMilestonesSection(
+                        halfLife: halfLife,
+                        rateConstants: rateConstants,
+                        dose: dose,
+                        unit: doseUnit,
+                    )
                 } else if selectedSubstance != nil, !useCustomHalfLife, selectedSubstance?.halfLifeMinutes == nil {
-                    noDataCard
+                    HalfLifeNoDataCard(
+                        substanceName: selectedSubstance?.name,
+                        useCustomHalfLife: $useCustomHalfLife,
+                    )
                 }
 
-                disclaimerSection
-                inSystemLink
+                HalfLifeDisclaimerSection()
+                HalfLifeRelatedLinks()
             }
             .padding()
         }
@@ -59,50 +95,45 @@ struct HalfLifeCalculatorView: View {
         }
     }
 
-    // MARK: - Cross-link
-
-    private var inSystemLink: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Related")
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(Theme.secondaryLabel)
-                .padding(.leading, 4)
-
-            GlanceCard(icon: "chart.line.flattrend.xyaxis", title: Text("Steady State"), route: .tool(.steadyState)) {
-                Text("Taking this daily? See where the level settles")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-
-            GlanceCard(icon: "hourglass", title: Text("In Your System"), route: .insight(.inSystem)) {
-                Text("See what's active in your body right now")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
+    private func remainingAmount(halfLife: Double) -> Double {
+        let elapsed = Date.now.timeIntervalSince(timeTaken) / 60
+        if let params = rateConstants {
+            return dose * PKModel.fractionRemainingInBody(at: max(0, elapsed), ke: params.ke, ka: params.ka)
         }
+        return dose * pow(0.5, max(0, elapsed) / halfLife)
     }
+}
 
-    // MARK: - Calculator Header
+// MARK: - Header
 
-    /// Filled in the `.task` — as a computed property this scanned the whole
-    /// catalog per body pass, and a cold cache paid the synchronous main-actor
-    /// batch build.
-    @State private var halfLifeCount = 0
+private struct HalfLifeHeader: View {
+    let count: Int
 
-    private var calculatorHeader: some View {
+    var body: some View {
         HStack {
             Text("Calculator")
                 .font(.headline)
             Spacer()
-            Text("\(halfLifeCount) with half-life data")
+            Text("\(count) with half-life data")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
         }
     }
+}
 
-    // MARK: - Input
+// MARK: - Input Section
 
-    private var inputSection: some View {
+private struct HalfLifeInputSection: View {
+    @Binding var substanceName: String
+    @Binding var selectedSubstance: Substance?
+    @Binding var doseAmount: Double?
+    @Binding var doseUnit: String
+    @Binding var timeTaken: Date
+    @Binding var useCustomHalfLife: Bool
+    @Binding var customHalfLifeHours: Double?
+    @Binding var selectedRoute: RouteOfAdministration
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             SubstanceSearchField(text: $substanceName) { substance, _ in
                 selectedSubstance = substance
@@ -166,18 +197,36 @@ struct HalfLifeCalculatorView: View {
         .padding()
         .themeCard()
     }
+}
 
-    // MARK: - Decay Chart
+// MARK: - Decay Chart
 
-    private func decayChart(halfLife: Double) -> some View {
-        let peakTime = pkParameters.map { PKModel.tmax(ke: $0.ke, ka: $0.ka) } ?? 0
+private struct HalfLifeDecayChart: View {
+    let halfLife: Double
+    let rateConstants: PKRateConstants?
+    let dose: Double
+    let doseUnit: String
+    let timeTaken: Date
 
-        return VStack(alignment: .leading, spacing: 8) {
+    private var peakTime: Double {
+        rateConstants.map { PKModel.tmax(ke: $0.ke, ka: $0.ka) } ?? 0
+    }
+
+    private func remainingAmount() -> Double {
+        let elapsed = Date.now.timeIntervalSince(timeTaken) / 60
+        if let params = rateConstants {
+            return dose * PKModel.fractionRemainingInBody(at: max(0, elapsed), ke: params.ke, ka: params.ka)
+        }
+        return dose * pow(0.5, max(0, elapsed) / halfLife)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
             Text("Concentration Curve")
                 .font(.headline)
 
             Canvas { context, size in
-                guard let params = pkParameters else { return }
+                guard let params = rateConstants else { return }
                 let ke = params.ke
                 let ka = params.ka
 
@@ -190,11 +239,12 @@ struct HalfLifeCalculatorView: View {
                 let totalMinutes = PKModel.timeToFraction(0.03, ke: ke, ka: ka, maxMinutes: halfLife * 8)
                 guard totalMinutes > 0, graphHeight > 0, peakConc > 0 else { return }
 
-                // Fill and stroke share one sampling pass over the curve.
-                var fillPath = Path()
-                var strokePath = Path()
                 let steps = 120
                 let baseline = inset + graphHeight
+
+                // Fill and stroke share one sampling pass.
+                var fillPath = Path()
+                var strokePath = Path()
                 fillPath.move(to: CGPoint(x: inset, y: baseline))
 
                 for i in 0 ... steps {
@@ -211,8 +261,7 @@ struct HalfLifeCalculatorView: View {
                 context.stroke(strokePath, with: .color(Theme.accent), lineWidth: 2)
 
                 // Peak line (Tmax)
-                let peakTime = PKModel.tmax(ke: ke, ka: ka)
-                let peakX = inset + CGFloat(peakTime / totalMinutes) * graphWidth
+                let peakX = inset + CGFloat(PKModel.tmax(ke: ke, ka: ka) / totalMinutes) * graphWidth
                 var peakLine = Path()
                 peakLine.move(to: CGPoint(x: peakX, y: inset + graphHeight * 0.1))
                 peakLine.addLine(to: CGPoint(x: peakX, y: baseline))
@@ -256,28 +305,22 @@ struct HalfLifeCalculatorView: View {
             }
             .frame(height: 200)
             .accessibilityLabel(Text("Concentration curve"))
-            .accessibilityValue(Text("Peak after \(formatDuration(peakTime)), \(remainingAmount(halfLife: halfLife).doseFormatted) of \(dose.doseFormatted) \(doseUnit) remaining now"))
+            .accessibilityValue(Text("Peak after \(halfLifeFormatDuration(peakTime)), \(remainingAmount().doseFormatted) of \(dose.doseFormatted) \(doseUnit) remaining now"))
         }
         .padding()
         .themeCard()
     }
+}
 
-    // MARK: - Current Amount
+// MARK: - Current Amount Card
 
-    /// Estimated amount still in the body right now, for the given half-life.
-    private func remainingAmount(halfLife: Double) -> Double {
-        let elapsed = Date.now.timeIntervalSince(timeTaken) / 60
-        if let params = pkParameters {
-            return dose * PKModel.fractionRemainingInBody(at: max(0, elapsed), ke: params.ke, ka: params.ka)
-        }
-        return dose * pow(0.5, max(0, elapsed) / halfLife)
-    }
+private struct HalfLifeCurrentAmountCard: View {
+    let remaining: Double
+    let dose: Double
+    let unit: String
 
-    private func currentAmountCard(halfLife: Double) -> some View {
-        let remaining = remainingAmount(halfLife: halfLife)
-        let unit = doseUnit
-
-        return HStack {
+    var body: some View {
+        HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Current Estimated Amount")
                     .font(.subheadline)
@@ -303,14 +346,22 @@ struct HalfLifeCalculatorView: View {
         .padding()
         .themeCard()
     }
+}
 
-    // MARK: - Milestones
+// MARK: - Milestones Section
 
-    private func milestonesSection(halfLife: Double) -> some View {
-        let unit = doseUnit
-        let peakTime = pkParameters.map { PKModel.tmax(ke: $0.ke, ka: $0.ka) } ?? 0
+private struct HalfLifeMilestonesSection: View {
+    let halfLife: Double
+    let rateConstants: PKRateConstants?
+    let dose: Double
+    let unit: String
 
-        return VStack(alignment: .leading, spacing: 12) {
+    private var peakTime: Double {
+        rateConstants.map { PKModel.tmax(ke: $0.ke, ka: $0.ka) } ?? 0
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
             Text("Milestones")
                 .font(.headline)
 
@@ -322,7 +373,7 @@ struct HalfLifeCalculatorView: View {
                     VStack(alignment: .leading) {
                         Text("Peak concentration")
                             .font(.subheadline.weight(.medium))
-                        Text("Reached after \(formatDuration(peakTime))")
+                        Text("Reached after \(halfLifeFormatDuration(peakTime))")
                             .font(.caption)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
@@ -334,7 +385,7 @@ struct HalfLifeCalculatorView: View {
                 let fraction = pow(0.5, Double(n))
                 let eliminatedPct = (1 - fraction) * 100
                 let remaining = dose * fraction
-                let timeMinutes: Double = if let params = pkParameters {
+                let timeMinutes: Double = if let params = rateConstants {
                     PKModel.timeToFraction(fraction, ke: params.ke, ka: params.ka, maxMinutes: halfLife * 8)
                 } else {
                     peakTime + halfLife * Double(n)
@@ -347,7 +398,7 @@ struct HalfLifeCalculatorView: View {
                     VStack(alignment: .leading) {
                         Text("\(Int(eliminatedPct))% eliminated")
                             .font(.subheadline.weight(.medium))
-                        Text("\(remaining.doseFormatted) \(unit) remaining after \(formatDuration(timeMinutes))")
+                        Text("\(remaining.doseFormatted) \(unit) remaining after \(halfLifeFormatDuration(timeMinutes))")
                             .font(.caption)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
@@ -358,13 +409,20 @@ struct HalfLifeCalculatorView: View {
         .padding()
         .themeCard()
     }
+}
 
-    private var noDataCard: some View {
+// MARK: - No Data Card
+
+private struct HalfLifeNoDataCard: View {
+    let substanceName: String?
+    @Binding var useCustomHalfLife: Bool
+
+    var body: some View {
         VStack(spacing: 10) {
             Image(systemName: "clock.badge.questionmark")
                 .font(.title2)
                 .foregroundStyle(Theme.secondaryLabel)
-            Text("Half-life data not available for \(selectedSubstance?.name ?? "this substance").")
+            Text("Half-life data not available for \(substanceName ?? "this substance").")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
                 .multilineTextAlignment(.center)
@@ -382,10 +440,12 @@ struct HalfLifeCalculatorView: View {
         .frame(maxWidth: .infinity)
         .themeCard()
     }
+}
 
-    // MARK: - Disclaimer
+// MARK: - Disclaimer
 
-    private var disclaimerSection: some View {
+private struct HalfLifeDisclaimerSection: View {
+    var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Label("Estimate Only", systemImage: "info.circle")
                 .font(.subheadline.weight(.semibold))
@@ -399,15 +459,42 @@ struct HalfLifeCalculatorView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .themeCard()
     }
+}
 
-    private func formatDuration(_ minutes: Double) -> String {
-        if minutes < 60 {
-            let m = Int(minutes)
-            return String(localized: "\(m) min")
+// MARK: - Related Links
+
+private struct HalfLifeRelatedLinks: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Related")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Theme.secondaryLabel)
+                .padding(.leading, 4)
+
+            GlanceCard(icon: "chart.line.flattrend.xyaxis", title: Text("Steady State"), route: .tool(.steadyState)) {
+                Text("Taking this daily? See where the level settles")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+
+            GlanceCard(icon: "hourglass", title: Text("In Your System"), route: .insight(.inSystem)) {
+                Text("See what's active in your body right now")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
         }
-        let hours = Int(round(minutes / 60))
-        if hours < 24 { return String(localized: "\(hours) hours") }
-        let days = Int(round(minutes / 1_440))
-        return String(localized: "\(days) days")
     }
+}
+
+// MARK: - Shared Helper
+
+private func halfLifeFormatDuration(_ minutes: Double) -> String {
+    if minutes < 60 {
+        let m = Int(minutes)
+        return String(localized: "\(m) min")
+    }
+    let hours = Int(round(minutes / 60))
+    if hours < 24 { return String(localized: "\(hours) hours") }
+    let days = Int(round(minutes / 1_440))
+    return String(localized: "\(days) days")
 }
