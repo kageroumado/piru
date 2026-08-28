@@ -174,11 +174,11 @@ struct SubstanceStatusMarker: View {
                 return substance.displayClass == .medicalRx ? .prescription : .medicalReference
             }
             // Only a genuinely thin entry (no dose, duration, *or* protocol data)
-            // earns the "limited human data" framing. A pharma drug carries
-            // mechanism, duration, and pharmacology but no *recreational* dose
-            // ladder — that is not "limited data", so it gets no banner. `isStub`
-            // is the same signal the library list badge uses, so the two agree.
-            if substance.isStub { return .limitedHumanData }
+            // earns the "limited human data" framing, and only where the phrase can
+            // be true of the molecule — an OTC compound reaches here without a
+            // display-class banner of its own, and calcium is not thinly studied.
+            // `mayReportLimitedData` is the shared gate the list badge also reads.
+            if substance.isStub, substance.displayClass.mayReportLimitedData { return .limitedHumanData }
             return nil
         }
 

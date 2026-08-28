@@ -1102,6 +1102,25 @@ enum CompoundDisplayClass: String, Codable {
     /// but hidden from recreational browsing; no dose/duration.
     case nonRecreational = "non_recreational"
 
+    /// Whether "Limited data" / "Limited human data" may be said about this
+    /// compound at all — before any row count is consulted.
+    ///
+    /// The label reads as a statement about the **molecule's evidence base**, not
+    /// about what Piru happens to have ingested. That makes it false for anything
+    /// approved: atorvastatin, omeprazole, testosterone and calcium have vast human
+    /// literature whatever this database holds, so no row count can license the
+    /// phrase for them. It belongs to research chemicals with little or no human
+    /// data — which is exactly the recreational / dual-use half of the catalog.
+    ///
+    /// Never gate the badge on `isStub` alone: 294 of the 421 flagged rows are
+    /// approved or OTC drugs.
+    var mayReportLimitedData: Bool {
+        switch self {
+        case .recreational, .dualUse: true
+        case .otc, .medicalRx, .nonRecreational: false
+        }
+    }
+
     /// Dose ladder visible. Suppressed for medical/non-recreational compounds.
     var showsDoseLadder: Bool {
         switch self {
@@ -1379,10 +1398,13 @@ struct Substance: Identifiable {
     /// "Popularity" sort in category browse; loaded in the batch path.
     let popularity: Double
     /// True for a genuinely thin catalog entry — zero dose AND duration AND
-    /// protocol data from any source (the pipeline's `flag_dose_less_stubs`).
-    /// Drives the "Limited data" list badge. NOT the same as "no dose ladder":
-    /// a brew like Ayahuasca has no mg ladder but plenty of duration/effect data,
-    /// so it isn't a stub. Loaded in the batch path.
+    /// protocol AND half-life AND binding data from any source (the pipeline's
+    /// `flag_dose_less_stubs`). NOT the same as "no dose ladder": a brew like
+    /// Ayahuasca has no mg ladder but plenty of duration/effect data, so it isn't
+    /// a stub. Necessary but NOT sufficient for the "Limited data" badge — that
+    /// also requires `displayClass.mayReportLimitedData`, because the phrase makes
+    /// a claim about the molecule rather than about this catalog. Loaded in the
+    /// batch path.
     let isStub: Bool
     /// Orthogonal class metadata: mechanism (`DRI`, `NMDA-antagonist`), chemical
     /// family (`cathinone`, `arylcyclohexylamine`), provenance (`PIHKAL`,

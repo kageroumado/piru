@@ -11131,15 +11131,17 @@ class Build:
         ZERO durations, ZERO protocol_dosing, ZERO half_lives, AND ZERO bindings.
 
         These are bare catalog entries — a name/indication and nothing else. The
-        "Limited data" badge and detail banner both key on this, so a prescription
-        drug whose therapeutic dose was (correctly) stripped must NOT read as
-        "limited": it still carries a half-life and receptor pharmacology, which is
-        real, trackable data. Half-life and bindings therefore keep a substance out
-        of the stub set even with no dose/duration. Flagging (rather than dropping)
-        lets the app demote/badge the genuinely thin ones without losing the
-        catalog. Distinct from drop_orphan_stubs(), which deletes truly
-        content-less wikidata rows. Runs after all ingest + the therapeutic-dose
-        strip, so a drug that lost its ladder is re-evaluated on what remains."""
+        flag says only how thin THIS catalog's row is; it is not a claim about how
+        well the molecule is studied. Do not use it alone to drive a "Limited data"
+        label: 294 of the ~421 rows it flags are approved or OTC drugs (calcium,
+        omeprazole, testosterone, atorvastatin), and no row count can make that
+        phrase true of them. The app gates the label on
+        `CompoundDisplayClass.mayReportLimitedData` first, which is where the
+        judgement belongs. Flagging (rather than dropping) lets the app demote the
+        genuinely thin ones without losing the catalog. Distinct from
+        drop_orphan_stubs(), which deletes truly content-less wikidata rows. Runs
+        after all ingest + the therapeutic-dose strip, so a drug that lost its
+        ladder is re-evaluated on what remains."""
         # CASE (not a one-way SET=1): this runs twice — once before and once after
         # the therapeutic-dose strip — and enrichment can ADD a half-life or binding
         # between the two calls. A one-way flag would leave a row that was bare at

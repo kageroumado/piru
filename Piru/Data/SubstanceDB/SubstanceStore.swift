@@ -195,9 +195,12 @@ final class SubstanceStore {
     /// full SQL scan tax.
     private(set) var nameIndex: [String: Int64] = [:]
     private(set) var aliasIndex: [String: Int64] = [:]
-    /// Row ids the build flagged `is_stub` — no dose ranges at all. They stay in
-    /// the library (their identifiers and aliases are still worth having) but
-    /// lose name-resolution ties to a substance that actually carries data.
+    /// Row ids the build flagged `is_stub` — no dose, duration, protocol,
+    /// half-life or binding data from any source. They stay in the library (their
+    /// identifiers and aliases are still worth having) but lose name-resolution
+    /// ties to a substance that actually carries data. A tie-break signal about
+    /// this catalog, not a verdict on the molecule — the "Limited data" label has
+    /// its own gate in `CompoundDisplayClass.mayReportLimitedData`.
     private(set) var stubIDs: Set<Int64> = []
     /// Every substance owning a given normalized alias, in table order. Only the
     /// keys owned by more than one substance are kept — 123 of ~5.8k — so this is

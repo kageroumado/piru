@@ -536,10 +536,11 @@ struct SubstanceRowView: View {
                 }
             }
             Spacer(minLength: 8)
-            // Genuinely thin entries (zero dose + duration + protocol) get a
-            // "Limited data" badge. The unit used to sit here — useless in a
-            // browse list, so it's gone.
-            if substance.isStub {
+            // A thin entry gets a "Limited data" badge — but only where the phrase
+            // can be true of the molecule (`mayReportLimitedData`), which is the
+            // same precedence the detail banner applies. The unit used to sit here
+            // — useless in a browse list, so it's gone.
+            if substance.isStub, substance.displayClass.mayReportLimitedData {
                 Text("Limited data")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
