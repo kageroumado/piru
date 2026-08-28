@@ -10216,7 +10216,8 @@ class Build:
         payload = json.loads(path.read_text())
         index = self._alias_index()
         source_id = self.source_ids[payload.get("source", "piru-curated")]
-        citation_id = self.cite(payload.get("citation"))
+        # File-level fallback; a rule that has grounded its own grading carries its own.
+        default_citation_id = self.cite(payload.get("citation"))
         for rank, entry in enumerate(payload.get("modulators", [])):
             if (
                 entry["origin"] not in {"substance", "context", "self"}
@@ -10248,7 +10249,7 @@ class Build:
                     entry["strength"],
                     entry["confidence"],
                     rank,
-                    citation_id,
+                    self.cite(entry.get("citation")) or default_citation_id,
                     entry.get("notes"),
                 ),
             )

@@ -7,7 +7,7 @@
     "self": "A drug modulating the enzyme that clears itself, so repeated doses build up disproportionately."
   },
   "_matchers": "Lowercased names that identify the perpetrator in a logged dose. Their own relation, kept out of `aliases`: three of these perpetrators (grapefruit, ritonavir, rifampicin, St John's Wort) have no substances row at all, and armodafinil's names are alias rows on Modafinil — keying on substance_id would merge two rules that carry different copy. See the pharmacology_matchers schema comment.",
-  "_uncited": "These are qualitative textbook classifications carried over from the app's original hardcoded catalog; no row carries a per-value citation yet. Worth grounding in the FDA Drug Development and Drug Interactions substrate/inhibitor/inducer table before any of them is restated as measured.",
+  "_uncited": "Eight of the ten rules are qualitative textbook classifications carried over from the app's original hardcoded catalog and still carry no per-value citation. Two were checked in 2026-08 because they were suspected wrong, and both turned out to be right — see the `notes` on st-johns-wort and ritonavir, which also record what must not be changed back. The remaining eight (grapefruit, smoking, fluvoxamine, carbamazepine, rifampicin, modafinil, armodafinil, mdma-cyp2d6) are uncontroversial in direction but ungraded against a source; ground each against the FDA substrate/inhibitor/inducer table or the drug's own label before restating it as measured.",
   "source": "piru-curated",
   "modulators": [
     {
@@ -35,8 +35,11 @@
       "direction": "inhibits",
       "strength": "strong",
       "confidence": "high",
-      "matchers": ["ritonavir"],
-      "notes": "The database's own drug_interactions_pk row for MDMA x ritonavir names CYP2D6 inhibition alongside CYP3A4. Only the 3A4 arm is curated here; a 2D6 rule would need its own sourced strength."
+      "matchers": [
+        "ritonavir"
+      ],
+      "notes": "CYP3A4 only, deliberately. Do not add a CYP2D6 arm: the case for one is Henry & Hill's single fatality on ritonavir plus MDMA (pmid:9848354), and de la Torre's reply in the same journal (pmid:10029010, read in full) names three confounders — alcoholic liver impairment, ritonavir started two weeks earlier, CYP2D6 status never determined — and offers MDMA's own non-linear kinetics as the alternative: across a 3-fold dose range (50-150 mg) its AUC rose 10-fold. Piru already models that saturation, so attributing it to ritonavir would double-count one mechanism. The reply also states ritonavir's CYP2D6 interactions are 'less relevant than those associated with CYP3A'.",
+      "citation": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=115178c8-5ee2-4d96-820e-ea8264c1ac10"
     },
     {
       "id": "fluvoxamine",
@@ -45,7 +48,9 @@
       "direction": "inhibits",
       "strength": "strong",
       "confidence": "high",
-      "matchers": ["fluvoxamine"]
+      "matchers": [
+        "fluvoxamine"
+      ]
     },
     {
       "id": "carbamazepine",
@@ -54,7 +59,10 @@
       "direction": "induces",
       "strength": "strong",
       "confidence": "high",
-      "matchers": ["carbamazepine", "tegretol"]
+      "matchers": [
+        "carbamazepine",
+        "tegretol"
+      ]
     },
     {
       "id": "rifampicin",
@@ -63,7 +71,10 @@
       "direction": "induces",
       "strength": "strong",
       "confidence": "high",
-      "matchers": ["rifampicin", "rifampin"]
+      "matchers": [
+        "rifampicin",
+        "rifampin"
+      ]
     },
     {
       "id": "st-johns-wort",
@@ -72,7 +83,15 @@
       "direction": "induces",
       "strength": "moderate",
       "confidence": "medium",
-      "matchers": ["st john's wort", "st. john's wort", "st johns wort", "hypericum", "hypericum perforatum"]
+      "matchers": [
+        "st john's wort",
+        "st. john's wort",
+        "st johns wort",
+        "hypericum",
+        "hypericum perforatum"
+      ],
+      "citation": "pmid:11673747",
+      "notes": "Moderate is right, and was checked because it was suspected of understating a strong inducer. Wang 2001's probe-cocktail study in 12 healthy subjects found long-term St John's wort cut ORAL midazolam AUC by >50% while cutting IV midazolam AUC only 20% — induction of intestinal CYP3A, largely not hepatic. A >50% oral AUC fall sits in the moderate band, not the >=80% strong one. The same study found no change in CYP1A2, CYP2C9 or CYP2D6 activity, so the single-enzyme rule is right too. Confidence stays medium because hyperforin content varies several-fold between preparations and the induction tracks it."
     },
     {
       "id": "modafinil",
@@ -81,7 +100,12 @@
       "direction": "induces",
       "strength": "moderate",
       "confidence": "high",
-      "matchers": ["modafinil", "provigil", "modalert", "modvigil"]
+      "matchers": [
+        "modafinil",
+        "provigil",
+        "modalert",
+        "modvigil"
+      ]
     },
     {
       "id": "armodafinil",
@@ -90,7 +114,12 @@
       "direction": "induces",
       "strength": "moderate",
       "confidence": "high",
-      "matchers": ["armodafinil", "nuvigil", "waklert", "artvigil"]
+      "matchers": [
+        "armodafinil",
+        "nuvigil",
+        "waklert",
+        "artvigil"
+      ]
     },
     {
       "id": "mdma-cyp2d6",
@@ -99,7 +128,9 @@
       "direction": "inhibits",
       "strength": "strong",
       "confidence": "high",
-      "matchers": ["mdma"]
+      "matchers": [
+        "mdma"
+      ]
     }
   ]
 }
