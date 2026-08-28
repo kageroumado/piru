@@ -1315,7 +1315,6 @@ final class SubstanceStore {
         let result: WithdrawalReference = (try? substancesDB.read { db in
             let bandRows = try Row.fetchAll(db, sql: """
                 SELECT band, min_half_life_minutes AS lo, max_half_life_minutes AS hi,
-                       onset_min_hours AS onset_lo, onset_max_hours AS onset_hi,
                        peak_min_hours AS peak_lo, peak_max_hours AS peak_hi
                   FROM withdrawal_timing_bands
                  ORDER BY min_half_life_minutes DESC
@@ -1323,15 +1322,16 @@ final class SubstanceStore {
             let bands = bandRows.compactMap { row -> TimingBand? in
                 guard let raw: String = row["band"],
                       let actingClass = WithdrawalActingClass(rawValue: raw) else { return nil }
-                let onsetLo: Double = row["onset_lo"], onsetHi: Double = row["onset_hi"]
-                let peakLo: Double = row["peak_lo"], peakHi: Double = row["peak_hi"]
-                guard onsetLo <= onsetHi, peakLo <= peakHi else { return nil }
+                // A band with no measured window is still a band — it places a drug — so a
+                // missing peak drops the window, never the row.
+                let peakLo: Double? = row["peak_lo"], peakHi: Double? = row["peak_hi"]
+                var peak: ClosedRange<Double>?
+                if let peakLo, let peakHi, peakLo <= peakHi { peak = peakLo ... peakHi }
                 return TimingBand(
                     actingClass: actingClass,
                     minHalfLifeMinutes: row["lo"],
                     maxHalfLifeMinutes: row["hi"],
-                    onsetHours: onsetLo ... onsetHi,
-                    peakHours: peakLo ... peakHi,
+                    peakHours: peak,
                 )
             }
             let floorRows = try Row.fetchAll(db, sql: """

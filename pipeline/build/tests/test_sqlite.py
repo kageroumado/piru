@@ -3514,29 +3514,39 @@ class TestSignatureGates(unittest.TestCase):
         ):
             self.assertEqual(lower_max, upper_min, f"{lower_band} does not meet {upper_band}")
 
-    def test_withdrawal_bands_onset_precedes_peak_and_lengthens(self):
-        """Within a band the onset window must open before the peak window, and across
-        bands a longer half-life must mean a later onset and a later peak. The screen's
-        own footer states that claim ('longer-acting drugs delay onset because the drug
-        is still leaving your system'), so a row order that broke it would put the table
-        and the sentence beneath it in contradiction."""
+    def test_withdrawal_band_windows_are_cited_and_lengthen(self):
+        """A timing window ships only with a citation stating it, and across bands a longer
+        half-life must peak later. The screen's own footer makes that second claim, so a row
+        order breaking it would put the table and the sentence beneath it in contradiction.
+
+        A band may carry no window at all — the intermediate one does, because Rickels 1990
+        measured a short and a long arm and there is no middle one to take a peak from. That
+        is the whole point of the columns being nullable: interpolating between two measured
+        arms would invent a third."""
         rows = self.db.execute(
-            "SELECT band, onset_min_hours, onset_max_hours, peak_min_hours, peak_max_hours"
+            "SELECT band, peak_min_hours, peak_max_hours, citation_id"
             "  FROM withdrawal_timing_bands ORDER BY min_half_life_minutes"
         ).fetchall()
-        for band, onset_lo, onset_hi, peak_lo, peak_hi in rows:
-            self.assertLessEqual(onset_lo, onset_hi, f"{band} onset window runs backwards")
+        self.assertTrue(rows, "withdrawal_timing_bands is empty")
+        windowed = []
+        for band, peak_lo, peak_hi, citation in rows:
+            if peak_lo is None and peak_hi is None:
+                self.assertIsNone(citation, f"{band} cites a source for a window it does not have")
+                continue
+            self.assertIsNotNone(peak_lo, f"{band} has half a window")
+            self.assertIsNotNone(peak_hi, f"{band} has half a window")
             self.assertLessEqual(peak_lo, peak_hi, f"{band} peak window runs backwards")
-            self.assertLessEqual(onset_lo, peak_lo, f"{band} peaks before it starts")
-        for shorter, longer in zip(rows, rows[1:], strict=False):
-            self.assertLess(shorter[1], longer[1], f"{longer[0]} starts no later than {shorter[0]}")
-            self.assertLess(shorter[3], longer[3], f"{longer[0]} peaks no later than {shorter[0]}")
+            self.assertIsNotNone(citation, f"{band} shows a peak window with no source")
+            windowed.append((band, peak_lo))
+        self.assertGreaterEqual(len(windowed), 2, "no band carries a sourced peak window")
+        for (shorter, lo), (longer, hi) in zip(windowed, windowed[1:], strict=False):
+            self.assertLess(lo, hi, f"{longer} peaks no later than {shorter}")
 
     def test_withdrawal_rows_are_cited_or_say_why_not(self):
-        """A row may decline the citation, and several here do — the review states no
-        onset/peak windows at all, and its Table 2 places oxazepam in a different band
-        than the app shows. What it may not do is decline silently: an uncited row with
-        no note reads on screen exactly like a sourced one."""
+        """A row may decline the citation, and several here do — the intermediate band has
+        no measured arm to take a window from, and NAV26 Table 2 places oxazepam in a
+        different band than the app shows. What it may not do is decline silently: an
+        uncited row with no note reads on screen exactly like a sourced one."""
         for table in ("withdrawal_timing_bands", "withdrawal_acting_class"):
             silent = self.db.execute(
                 f"SELECT band FROM {table}"

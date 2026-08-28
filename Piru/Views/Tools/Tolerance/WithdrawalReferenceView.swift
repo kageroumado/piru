@@ -7,9 +7,10 @@ import SwiftUI
 /// "since your last dose" reading is driven by ``ToleranceStore``'s combined GABA-A occupancy curve
 /// (metabolite tails included) — so it says whether the drug is still on board (withdrawal not yet
 /// begun) rather than dropping a calendar day-count onto a fixed band. The taxonomy is NAV26 §5.3
-/// and Table 3 (Navarrete et al. 2026, Int J Mol Sci 27:1430); the timing bands come from
-/// `withdrawal_timing_bands`, whose rows carry their own provenance and record that NAV26 does not
-/// state those windows.
+/// and Table 3 (Navarrete et al. 2026, Int J Mol Sci 27:1430); the peak-timing windows are Rickels
+/// 1990's measured arms and come from `withdrawal_timing_bands`, whose rows carry their own
+/// provenance. The two sources are credited separately because the page used to credit NAV26 for
+/// windows it does not contain.
 struct WithdrawalReferenceView: View {
     /// The GABA-class substances the user actually logged (the card's `contributors`), used to pick
     /// which timing band(s) apply.
@@ -60,9 +61,9 @@ struct WithdrawalReferenceView: View {
                         TimingRow(band: band, isYours: false)
                     }
                 } header: {
-                    Text("When symptoms start")
+                    Text("When it peaks")
                 } footer: {
-                    Text("Longer-acting drugs delay onset because the drug is still leaving your system. Active metabolites (diazepam, chlordiazepoxide, clonazepam) can push the window later still.")
+                    Text("From a trial that stopped 57 people abruptly after a year or more of daily use and assessed them every day. Longer-acting drugs peak later because the drug is still leaving your system; active metabolites (diazepam, chlordiazepoxide, clonazepam) push it later still. When symptoms *start* is not shown because no source survives checking — the figures in circulation land at or after the measured peak, which cannot be right.")
                 }
 
                 Section {
@@ -77,9 +78,19 @@ struct WithdrawalReferenceView: View {
                 }
 
                 Section {
+                    Link(destination: URL(string: "https://doi.org/10.1001/archpsyc.1990.01810220015002")!) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Peak timing: Rickels K, et al. Long-term therapeutic use of benzodiazepines. I. Effects of abrupt discontinuation. Arch Gen Psychiatry. 1990;47(10):899-907.")
+                                .font(.caption2)
+                                .foregroundStyle(Theme.secondaryLabel)
+                            Text("doi:10.1001/archpsyc.1990.01810220015002")
+                                .font(.caption2)
+                                .foregroundStyle(.tint)
+                        }
+                    }
                     Link(destination: URL(string: "https://doi.org/10.3390/ijms27031430")!) {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Navarrete F, et al. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430.")
+                            Text("Symptom groups and drug classes: Navarrete F, et al. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430.")
                                 .font(.caption2)
                                 .foregroundStyle(Theme.secondaryLabel)
                             Text("doi:10.3390/ijms27031430")
@@ -231,9 +242,11 @@ private struct TimingRow: View {
                         .foregroundStyle(Theme.accent)
                 }
             }
-            Text("Onset \(band.onsetPhrase), peak \(band.peakPhrase)")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+            if let peak = band.peakPhrase {
+                Text("Worst around \(peak)")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
             Text(band.actingClass.examples)
                 .font(.caption2)
                 .foregroundStyle(.tertiary)

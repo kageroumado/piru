@@ -1777,10 +1777,15 @@ CREATE TABLE withdrawal_timing_bands (
     min_half_life_minutes REAL NOT NULL,
     -- Exclusive upper bound; NULL is unbounded (the longest-acting band).
     max_half_life_minutes REAL,
-    onset_min_hours       REAL NOT NULL,
-    onset_max_hours       REAL NOT NULL,
-    peak_min_hours        REAL NOT NULL,
-    peak_max_hours        REAL NOT NULL,
+    -- Nullable on purpose. Onset by half-life class has no source that survives
+    -- checking: NAV26 Sec. 5.4's onset figures (2-3 d short, 5-10 d long) are at or
+    -- past Rickels' measured PEAK for the same classes, so at least one of the two
+    -- is mislabelled and neither can be shipped as onset. A band with nothing
+    -- behind a window carries NULL and the screen shows nothing for it.
+    onset_min_hours       REAL,
+    onset_max_hours       REAL,
+    peak_min_hours        REAL,
+    peak_max_hours        REAL,
     source_id             INTEGER NOT NULL REFERENCES sources(id),
     citation_id           INTEGER REFERENCES citations(id),
     notes                 TEXT
@@ -10394,8 +10399,10 @@ class Build:
                 )
                 stats["rejected"] += 1
                 continue
-            onset_min, onset_max = band["onsetHours"]
-            peak_min, peak_max = band["peakHours"]
+            # A window with no source is absent, not zero: `null` here reaches the
+            # screen as nothing shown rather than as a number nobody can chase.
+            onset_min, onset_max = band.get("onsetHours") or (None, None)
+            peak_min, peak_max = band.get("peakHours") or (None, None)
             self.cur.execute(
                 "INSERT OR REPLACE INTO withdrawal_timing_bands"
                 "(band, min_half_life_minutes, max_half_life_minutes,"

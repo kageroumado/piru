@@ -53,8 +53,10 @@ nonisolated struct TimingBand: Identifiable, Sendable {
     let minHalfLifeMinutes: Double
     /// Exclusive upper bound; `nil` for the unbounded longest-acting band.
     let maxHalfLifeMinutes: Double?
-    let onsetHours: ClosedRange<Double>
-    let peakHours: ClosedRange<Double>
+    /// When withdrawal peaks for this half-life class. `nil` when no source states one — the
+    /// intermediate band, which no trial measured. A band with no window says nothing rather than
+    /// interpolating between the two arms that were measured.
+    let peakHours: ClosedRange<Double>?
 
     var id: Int {
         actingClass.rank
@@ -64,24 +66,30 @@ nonisolated struct TimingBand: Identifiable, Sendable {
         minutes >= minHalfLifeMinutes && (maxHalfLifeMinutes.map { minutes < $0 } ?? true)
     }
 
-    var onsetPhrase: String {
-        Self.phrase(onsetHours)
-    }
-
-    var peakPhrase: String {
-        Self.phrase(peakHours)
+    /// The window as words, or `nil` when this band has none.
+    var peakPhrase: String? {
+        peakHours.map(Self.phrase)
     }
 
     /// Hours while the window fits inside a day, days once it does not — and days only when both
     /// bounds are whole days, so a 36-hour bound is never rounded away into "1–2 days".
+    ///
+    /// A window whose bounds coincide renders as one figure. Rickels measured the short-half-life
+    /// peak at a single day, and "2–2 days" would read as a rounding artefact rather than as the
+    /// precision the trial actually reported.
     private static func phrase(_ hours: ClosedRange<Double>) -> String {
         let (lower, upper) = (hours.lowerBound, hours.upperBound)
         let wholeDays = lower.truncatingRemainder(dividingBy: 24) == 0
             && upper.truncatingRemainder(dividingBy: 24) == 0
         if upper > 24, wholeDays {
-            return String(localized: "\(Int(lower / 24))–\(Int(upper / 24)) days")
+            let (lowDays, highDays) = (Int(lower / 24), Int(upper / 24))
+            return lowDays == highDays
+                ? String(localized: "\(lowDays) days")
+                : String(localized: "\(lowDays)–\(highDays) days")
         }
-        return String(localized: "\(Int(lower))–\(Int(upper)) hours")
+        return Int(lower) == Int(upper)
+            ? String(localized: "\(Int(lower)) hours")
+            : String(localized: "\(Int(lower))–\(Int(upper)) hours")
     }
 }
 
@@ -89,8 +97,9 @@ nonisolated struct TimingBand: Identifiable, Sendable {
 /// `withdrawal_timing_bands` and `withdrawal_acting_class` and held as one value so the screen reads
 /// them once.
 ///
-/// The onset and peak windows this carries are **not** stated by the review the screen cites — see
-/// each band row's `notes` in the database, which records what the review says instead.
+/// The peak windows are Rickels 1990's two measured arms; the intermediate band carries none,
+/// because no trial measured a middle one. Each band row's `notes` in the database records what its
+/// window rests on, and why the onset windows this used to carry are gone.
 nonisolated struct WithdrawalReference: Sendable {
     /// Longest-acting first, so the governing band reads at the top.
     let bands: [TimingBand]

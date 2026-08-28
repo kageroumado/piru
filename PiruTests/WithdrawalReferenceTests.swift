@@ -56,29 +56,30 @@ struct WithdrawalReferenceTests {
         #expect(byHalfLife.map(\.actingClass) == byRank.map(\.actingClass))
     }
 
-    /// Onset must precede peak in every band, and both windows must run forward. An inverted pair
-    /// renders as "Onset 7–2 days" and would otherwise ship.
+    /// Every window that ships must run forward — an inverted pair renders as "7–2 days" and would
+    /// otherwise ship. A band may carry no window: Rickels measured a short and a long arm, and the
+    /// intermediate band has no middle one to take a peak from.
     @Test
-    func `Onset precedes peak in every band`() {
+    func `Every shipped window runs forward, and at least two exist`() {
+        var windowed = 0
         for band in reference.bands {
-            #expect(band.onsetHours.lowerBound <= band.onsetHours.upperBound)
-            #expect(band.peakHours.lowerBound <= band.peakHours.upperBound)
-            #expect(
-                band.onsetHours.lowerBound <= band.peakHours.lowerBound,
-                "\(band.actingClass.rawValue) peaks before it starts",
-            )
+            guard let peak = band.peakHours else { continue }
+            windowed += 1
+            #expect(peak.lowerBound <= peak.upperBound, "\(band.actingClass.rawValue) runs backwards")
         }
+        #expect(windowed >= 2, "no band carries a peak window — the loader dropped them")
     }
 
-    /// Longer-acting bands must start and peak later. This is the whole claim the section makes —
-    /// "longer-acting drugs delay onset because the drug is still leaving your system" — so a
-    /// reordering that broke it would contradict the footer on the same screen.
+    /// Longer-acting bands must peak later. This is the whole claim the section makes — "longer-acting
+    /// drugs peak later because the drug is still leaving your system" — so a reordering that broke it
+    /// would contradict the footer on the same screen. Bands with no window sit out.
     @Test
-    func `Longer-acting bands start and peak later`() {
-        let ascending = reference.bands.sorted { $0.actingClass.rank < $1.actingClass.rank }
-        for (shorter, longer) in zip(ascending, ascending.dropFirst()) {
-            #expect(shorter.onsetHours.lowerBound < longer.onsetHours.lowerBound)
-            #expect(shorter.peakHours.lowerBound < longer.peakHours.lowerBound)
+    func `Longer-acting bands peak later`() {
+        let ascending = reference.bands
+            .sorted { $0.actingClass.rank < $1.actingClass.rank }
+            .compactMap { band in band.peakHours.map { (band, $0) } }
+        for ((_, shorter), (_, longer)) in zip(ascending, ascending.dropFirst()) {
+            #expect(shorter.lowerBound < longer.lowerBound)
         }
     }
 
@@ -114,17 +115,18 @@ struct WithdrawalReferenceTests {
     @Test
     func `Window phrases reconstruct the window they came from`() {
         for band in reference.bands {
-            for (window, phrase) in [
-                (band.onsetHours, band.onsetPhrase),
-                (band.peakHours, band.peakPhrase),
-            ] {
-                let numbers = phrase.split(whereSeparator: { !$0.isNumber }).compactMap { Int($0) }
-                #expect(numbers.count == 2, "\(phrase) does not state two bounds")
-                guard numbers.count == 2 else { continue }
-                let scale = Double(numbers[1]) == window.upperBound ? 1.0 : 24.0
-                #expect(Double(numbers[0]) * scale == window.lowerBound, "\(phrase) rounds its start")
-                #expect(Double(numbers[1]) * scale == window.upperBound, "\(phrase) rounds its end")
-            }
+            guard let window = band.peakHours, let phrase = band.peakPhrase else { continue }
+            let numbers = phrase.split(whereSeparator: { !$0.isNumber }).compactMap { Int($0) }
+            // A window whose bounds coincide states one figure, not two.
+            let expected = window.lowerBound == window.upperBound ? 1 : 2
+            #expect(numbers.count == expected, "\(phrase) does not state \(expected) bound(s)")
+            guard numbers.count == expected else { continue }
+            let scale = Double(numbers[numbers.count - 1]) == window.upperBound ? 1.0 : 24.0
+            #expect(Double(numbers[0]) * scale == window.lowerBound, "\(phrase) rounds its start")
+            #expect(
+                Double(numbers[numbers.count - 1]) * scale == window.upperBound,
+                "\(phrase) rounds its end",
+            )
         }
     }
 

@@ -2637,6 +2637,30 @@ T = {
     # Antidepressant class card.
     "Drug Class": ("药物类别", "藥物類別"),
     "The rest of the family": ("同类其他药物", "同類其他藥物"),
+    "When it peaks": (
+        "最严重的时候",
+        "最嚴重的時候",
+    ),
+    "Worst around %@": (
+        "大约在%@最严重",
+        "大約在%@最嚴重",
+    ),
+    "%lld hours": (
+        "%lld小时",
+        "%lld小時",
+    ),
+    "From a trial that stopped 57 people abruptly after a year or more of daily use and assessed them every day. Longer-acting drugs peak later because the drug is still leaving your system; active metabolites (diazepam, chlordiazepoxide, clonazepam) push it later still. When symptoms *start* is not shown because no source survives checking — the figures in circulation land at or after the measured peak, which cannot be right.": (
+        "数据来自一项试验：57人在连续每日使用一年以上后骤然停药，并接受每日评估。长效药物达到最严重的时间更晚，因为药物仍在排出体内；活性代谢物（地西泮、氯氮䓬、氯硝西泮）会把这个时间推得更晚。这里不显示症状“开始”的时间，因为没有经得起核查的来源——流传的那些数字落在实测峰值当天或之后，这不可能成立。",
+        "數據來自一項試驗：57人在連續每日使用一年以上後驟然停藥，並接受每日評估。長效藥物達到最嚴重的時間更晚，因為藥物仍在排出體內；活性代謝物（地西泮、氯二氮平、氯硝西泮）會把這個時間推得更晚。這裡不顯示症狀「開始」的時間，因為沒有經得起核查的來源——流傳的那些數字落在實測峰值當天或之後，這不可能成立。",
+    ),
+    "Peak timing: Rickels K, et al. Long-term therapeutic use of benzodiazepines. I. Effects of abrupt discontinuation. Arch Gen Psychiatry. 1990;47(10):899-907.": (
+        "峰值时间来源：Rickels K 等，《苯二氮䓬类药物的长期治疗性使用（一）：骤然停药的影响》，《普通精神病学文献》1990;47(10):899-907。",
+        "峰值時間來源：Rickels K 等，《苯二氮平類藥物的長期治療性使用（一）：驟然停藥的影響》，《普通精神病學文獻》1990;47(10):899-907。",
+    ),
+    "Symptom groups and drug classes: Navarrete F, et al. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430.": (
+        "症状分组与药物分类来源：Navarrete F 等，《苯二氮䓬类依赖：临床与分子层面、预防策略与治疗方法》，《国际分子科学杂志》2026;27(3):1430。",
+        "症狀分組與藥物分類來源：Navarrete F 等，《苯二氮平類依賴：臨床與分子層面、預防策略與治療方法》，《國際分子科學雜誌》2026;27(3):1430。",
+    ),
     "Both raise serotonin, so serotonin syndrome is possible — agitation, tremor, sweating, a racing heart — and most likely in the first weeks. This pairing is prescribed and monitored on purpose; SSRIs do not raise lithium levels.": (
         "两者都会升高5-羟色胺，因此可能出现5-羟色胺综合征——躁动、震颤、出汗、心跳加快，最常见于开始用药的头几周。这个组合本就是医生有意开出并加以监测的；SSRI 不会升高锂的血药浓度。",
         "兩者都會升高血清素，因此可能出現血清素症候群——躁動、顫抖、出汗、心跳加快，最常見於開始用藥的頭幾週。這個組合本就是醫師有意開出並加以監測的；SSRI 不會升高鋰的血藥濃度。",
@@ -7211,6 +7235,12 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "When it peaks",
+        "Worst around %@",
+        "%lld hours",
+        "From a trial that stopped 57 people abruptly after a year or more of daily use and assessed them every day. Longer-acting drugs peak later because the drug is still leaving your system; active metabolites (diazepam, chlordiazepoxide, clonazepam) push it later still. When symptoms *start* is not shown because no source survives checking — the figures in circulation land at or after the measured peak, which cannot be right.",
+        "Peak timing: Rickels K, et al. Long-term therapeutic use of benzodiazepines. I. Effects of abrupt discontinuation. Arch Gen Psychiatry. 1990;47(10):899-907.",
+        "Symptom groups and drug classes: Navarrete F, et al. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430.",
         "Both raise serotonin, so serotonin syndrome is possible — agitation, tremor, sweating, a racing heart — and most likely in the first weeks. This pairing is prescribed and monitored on purpose; SSRIs do not raise lithium levels.",
         "Both raise serotonin, so serotonin syndrome is possible — agitation, tremor, sweating, a racing heart — and most likely in the first weeks. This pairing is prescribed and monitored on purpose; SNRIs do not raise lithium levels.",
         "A large serotonin load on top of lithium's own. The lithium label names tramadol and fentanyl in this group; serotonin syndrome can start within hours.",

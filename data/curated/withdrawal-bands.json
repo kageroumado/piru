@@ -3,47 +3,86 @@
   "citation": "Navarrete F, Garcia-Gutierrez MS, Gasparyan A, Manzanares J. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430; doi:10.3390/ijms27031430",
   "source": "piru-curated",
   "_units": "Half-life boundaries are minutes (the unit every half-life in this database carries). Onset and peak windows are hours, one unit for all three bands so the boundaries stay comparable; the reader-facing phrase picks days or hours for itself and is localized copy keyed by the band.",
-  "_uncited_rule": "A row carries `citation: false` when the cited review does not support it, and then `notes` must say what the review actually states. Nothing here may carry the citation on a value the paper does not contain.",
-
+  "_uncited_rule": "A band's timing window ships only with a citation that states it. `citation: false` means the window is absent, not that a number is being shown uncited — the columns are nullable and the screen renders nothing for a band with no window.",
   "bands": [
     {
       "band": "long",
       "minHalfLifeMinutes": 2400,
       "maxHalfLifeMinutes": null,
-      "onsetHours": [48, 168],
-      "peakHours": [120, 336],
-      "citation": false,
-      "notes": "Onset/peak windows unsourced. NAV26 Sec. 5.4 states only that withdrawal symptoms 'typically appear within 2-3 days of ceasing short-acting BZDs and 5-10 days for long-acting BZDs' — two bands, onset only, and different numbers from these. The 40 h boundary approximates NAV26 Table 2's Long Acting group (clonazepam 18-50 h, clobazam 36-42 h, clorazepate 36-60 h, chlordiazepoxide 40-100 h, diazepam 40-200 h) but the review states no threshold, and its groups are not threshold-separable."
+      "peakHours": [
+        96,
+        168
+      ],
+      "citation": "pmid:2222129",
+      "notes": "Peak at 4-7 days, measured — the long-half-life arm of the same Rickels 1990 trial (pmid:2222129): 'peak severity at 2 days for short half-life and 4 to 7 days for long half-life benzodiazepines.' This replaces a 5-14 day window that overshot it and cited nothing. Onset is absent because nothing survives checking: NAV26 Sec. 5.4 gives 2-3 days (short) and 5-10 days (long), which are at or past Rickels' MEASURED peak for the same classes — onset cannot follow peak, so at least one of the two is mislabelled, and the 2026 narrative review loses to the 1990 double-blind trial with daily assessments. The 6-24 h short onset this replaced was clinically plausible and sourced to nothing at all. The 40 h boundary approximates NAV26 Table 2's Long Acting group, but the review states no threshold and its groups are not threshold-separable."
     },
     {
       "band": "intermediate",
       "minHalfLifeMinutes": 720,
       "maxHalfLifeMinutes": 2400,
-      "onsetHours": [24, 48],
-      "peakHours": [72, 168],
+      "peakHours": null,
       "citation": false,
-      "notes": "Onset/peak windows unsourced; NAV26 Sec. 5.4 gives no intermediate band at all. The 12 h boundary approximates NAV26 Table 2's Intermediate Acting group (bromazepam 11-22 h, ketazolam 15-52 h) but overlaps its Short Acting group (alprazolam 12-15 h, lorazepam 10-20 h, lormetazepam 12-20 h), so no threshold reproduces the review's own classification."
+      "notes": "No timing window: Rickels 1990 measured two half-life arms, short and long, and there is no intermediate one to take a peak from. NAV26 Sec. 5.4 gives no intermediate band either. The band still exists to classify a drug, because the half-life boundaries place one; it just has nothing to say about when withdrawal peaks, and says nothing rather than interpolating between the two arms."
     },
     {
       "band": "short",
       "minHalfLifeMinutes": 0,
       "maxHalfLifeMinutes": 720,
-      "onsetHours": [6, 24],
-      "peakHours": [24, 96],
-      "citation": false,
-      "notes": "Onset/peak windows unsourced, and the onset contradicts the cited review: NAV26 Sec. 5.4 says short-acting withdrawal symptoms typically appear within 2-3 days, not 6-24 hours."
+      "peakHours": [
+        48,
+        48
+      ],
+      "citation": "pmid:2222129",
+      "notes": "Peak at 2 days, measured. Rickels 1990 (pmid:2222129, `papers` closed — the abstract states the figure) abruptly discontinued 57 benzodiazepine-dependent patients on >1 year of daily use, double-blind against continued dosing, assessing daily: 'peak severity at 2 days for short half-life and 4 to 7 days for long half-life benzodiazepines.' Onset is absent because nothing survives checking: NAV26 Sec. 5.4 gives 2-3 days (short) and 5-10 days (long), which are at or past Rickels' MEASURED peak for the same classes — onset cannot follow peak, so at least one of the two is mislabelled, and the 2026 narrative review loses to the 1990 double-blind trial with daily assessments. The 6-24 h short onset this replaced was clinically plausible and sourced to nothing at all. The 12 h boundary approximates NAV26 Table 2's Short Acting group but overlaps its Intermediate group, so no threshold reproduces the review's own classification; the boundary is Piru's, not the review's."
     }
   ],
-
   "actingClasses": [
-    {"substance": "Diazepam", "band": "long", "notes": "NAV26 Table 2, Long Acting: t-half 40-200 h, active metabolites."},
-    {"substance": "Chlordiazepoxide", "band": "long", "notes": "NAV26 Table 2, Long Acting: t-half 40-100 h, active metabolites. Its own parent half-life in this database is 600 min (10 h), which the half-life boundaries alone would read as short — the clinical floor is what carries it, and the nordazepam tail is why."},
-    {"substance": "Clonazepam", "band": "long", "notes": "NAV26 Table 2, Long Acting: t-half 18-50 h."},
-    {"substance": "Temazepam", "band": "intermediate", "citation": false, "notes": "Absent from NAV26 Table 2 entirely, so the review does not place it in any band. The value agrees with this database's own half-life (900 min = 15 h), which the boundaries read as intermediate; it is the citation that is missing, not the number."},
-    {"substance": "Oxazepam", "band": "intermediate", "citation": false, "notes": "CONTRADICTS the cited review: NAV26 Table 2 lists oxazepam under Short Acting at t-half 6-10 h, and this database's own half-life (480 min = 8 h) agrees with the review. Carried at intermediate because that is what the app has shown; the disagreement is recorded rather than reconciled."},
-    {"substance": "Bromazepam", "band": "intermediate", "notes": "NAV26 Table 2, Intermediate Acting: t-half 11-22 h."},
-    {"substance": "Triazolam", "band": "short", "notes": "NAV26 Table 2, Ultra-Short Acting: t-half 1.5-5.5 h. Folded into short because these bands carry no ultra-short."},
-    {"substance": "Alprazolam", "band": "short", "notes": "NAV26 Table 2, Short Acting: t-half 12-15 h."},
-    {"substance": "Lorazepam", "band": "short", "notes": "NAV26 Table 2, Short Acting: t-half 10-20 h. This database's half-life (840 min = 14 h) crosses the 12 h boundary, so the boundaries alone would read it as intermediate — the clinical floor is why it stays short, and the review agrees with the floor."}
+    {
+      "substance": "Diazepam",
+      "band": "long",
+      "notes": "NAV26 Table 2, Long Acting: t-half 40-200 h, active metabolites."
+    },
+    {
+      "substance": "Chlordiazepoxide",
+      "band": "long",
+      "notes": "NAV26 Table 2, Long Acting: t-half 40-100 h, active metabolites. Its own parent half-life in this database is 600 min (10 h), which the half-life boundaries alone would read as short — the clinical floor is what carries it, and the nordazepam tail is why."
+    },
+    {
+      "substance": "Clonazepam",
+      "band": "long",
+      "notes": "NAV26 Table 2, Long Acting: t-half 18-50 h."
+    },
+    {
+      "substance": "Temazepam",
+      "band": "intermediate",
+      "citation": false,
+      "notes": "Absent from NAV26 Table 2 entirely, so the review does not place it in any band. The value agrees with this database's own half-life (900 min = 15 h), which the boundaries read as intermediate; it is the citation that is missing, not the number."
+    },
+    {
+      "substance": "Oxazepam",
+      "band": "intermediate",
+      "citation": false,
+      "notes": "CONTRADICTS the cited review: NAV26 Table 2 lists oxazepam under Short Acting at t-half 6-10 h, and this database's own half-life (480 min = 8 h) agrees with the review. Carried at intermediate because that is what the app has shown; the disagreement is recorded rather than reconciled."
+    },
+    {
+      "substance": "Bromazepam",
+      "band": "intermediate",
+      "notes": "NAV26 Table 2, Intermediate Acting: t-half 11-22 h."
+    },
+    {
+      "substance": "Triazolam",
+      "band": "short",
+      "notes": "NAV26 Table 2, Ultra-Short Acting: t-half 1.5-5.5 h. Folded into short because these bands carry no ultra-short."
+    },
+    {
+      "substance": "Alprazolam",
+      "band": "short",
+      "notes": "NAV26 Table 2, Short Acting: t-half 12-15 h."
+    },
+    {
+      "substance": "Lorazepam",
+      "band": "short",
+      "notes": "NAV26 Table 2, Short Acting: t-half 10-20 h. This database's half-life (840 min = 14 h) crosses the 12 h boundary, so the boundaries alone would read it as intermediate — the clinical floor is why it stays short, and the review agrees with the floor."
+    }
   ]
 }
