@@ -77,7 +77,7 @@ nonisolated struct TaperIntervention: Identifiable, Sendable {
             case .cbtPlusTaper:
                 "The strongest result in the literature. Discontinuation significantly higher than taper alone at both 3 months and 6–12 months."
             case .gradualTaper:
-                "About two-thirds discontinue short-term; roughly one-third sustain long-term. Consensus rate: 25% reduction per week over 4–6 weeks."
+                "About two-thirds discontinue short-term; roughly one-third sustain long-term. Consensus is to taper gradually over 4–6 weeks; there is no agreed rate — the trials here used 25% per week."
             case .imipramine:
                 "Taper success 82.6% vs 37.5% placebo."
             case .carbamazepine:

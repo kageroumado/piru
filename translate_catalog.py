@@ -6873,9 +6873,9 @@ T = {
     ),
     "Meta-analysis": ("荟萃分析", "薈萃分析"),
     "Gradual taper": ("逐步减量", "逐步減量"),
-    "About two-thirds discontinue short-term; roughly one-third sustain long-term. Consensus rate: 25% reduction per week over 4–6 weeks.": (
-        "约三分之二短期成功停药；约三分之一长期维持。共识方案：4–6周内每周减少25%。",
-        "約三分之二短期成功停藥；約三分之一長期維持。共識方案：4–6週內每週減少25%。",
+    "About two-thirds discontinue short-term; roughly one-third sustain long-term. Consensus is to taper gradually over 4–6 weeks; there is no agreed rate — the trials here used 25% per week.": (
+        "约三分之二短期成功停药；约三分之一长期维持。共识是在4–6周内逐步减量；减量速率没有公认标准——此处的试验采用每周减少25%。",
+        "約三分之二短期成功停藥；約三分之一長期維持。共識是在4–6週內逐步減量；減量速率沒有公認標準——此處的試驗採用每週減少25%。",
     ),
     "Clinical consensus": ("临床共识", "臨床共識"),
     "Imipramine": ("丙米嗪", "丙米嗪"),
