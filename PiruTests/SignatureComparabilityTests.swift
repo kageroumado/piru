@@ -382,18 +382,54 @@ struct ClassSignatureTests {
     }
 
     @Test
-    func `A compound whose transporter rows share no basis plots nothing`() {
+    func `A compound whose transporter rows share no basis says so instead of vanishing`() {
         let legs = [
             Self.leg("1", "Ghostamine", .sert, ec50: 100, citation: 90),
             Self.leg("2", "Ghostamine", .dat, ki: 200, citation: 90),
             Self.leg("3", "Ghostamine", .net, ic50: 300, citation: 91),
         ]
         // SERT EC₅₀, DAT Kᵢ, NET IC₅₀ are three different bases: no single study
-        // measured all three the same way, so no triangle forms and the card is
-        // withheld entirely rather than plotting a point built across bases.
-        #expect(ClassSignature.resolve(
+        // measured all three the same way, so no triangle forms. The card is still
+        // returned, carrying the reason — a section that disappears cannot tell the
+        // reader whether the data is missing or the comparison was refused.
+        guard case let .ternary(model)? = ClassSignature.resolve(
             substanceName: "Ghostamine", category: .stimulant, legs: legs,
+        ) else {
+            Issue.record("expected a withheld ternary, not nil")
+            return
+        }
+        #expect(model.triples.isEmpty, "no triangle may be plotted across bases")
+        #expect(model.withheldReason != nil, "the card must say why it is empty")
+        let reason = model.withheldReason.map { String(localized: $0) } ?? ""
+        #expect(
+            reason.localizedCaseInsensitiveContains("one basis"),
+            "all three are measured, so the reason is the mixed basis: \(reason)",
+        )
+    }
+
+    @Test
+    func `A compound the literature never touched still draws nothing`() {
+        // The other side of the same rule: an absence card is for a rendering that
+        // was withheld, not for a compound with no transporter rows at all.
+        #expect(ClassSignature.resolve(
+            substanceName: "Ghostamine", category: .stimulant, legs: [],
         ) == nil)
+    }
+
+    @Test
+    func `A partial panel names the transporter nobody measured`() {
+        let legs = [
+            Self.leg("1", "Ghostamine", .sert, ki: 100, citation: 90),
+            Self.leg("2", "Ghostamine", .dat, ki: 200, citation: 90),
+        ]
+        guard case let .ternary(model)? = ClassSignature.resolve(
+            substanceName: "Ghostamine", category: .stimulant, legs: legs,
+        ) else {
+            Issue.record("expected a withheld ternary, not nil")
+            return
+        }
+        let reason = model.withheldReason.map { String(localized: $0) } ?? ""
+        #expect(reason.contains("NET"), "the missing transporter is the actionable part: \(reason)")
     }
 
     @Test

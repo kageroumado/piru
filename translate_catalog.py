@@ -9,6 +9,21 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # The class-signature ternary's withheld notes — why the SERT/DAT/NET triangle
+    # is empty. Four distinct causes, because the reader can act on the difference
+    # between "nobody measured it" and "we refuse to average two studies".
+    "This compound's transporter rows carry no potency value, so there is nothing to place on the triangle. The rows themselves are in Receptor Literature below.": (
+        "该化合物的转运体条目没有效价数值，因此没有可放上三角图的内容。这些条目本身见下方的受体文献。",
+        "該化合物的轉運體條目沒有效價數值，因此沒有可放上三角圖的內容。這些條目本身見下方的受體文獻。",
+    ),
+    "No transporter measurement for this compound is tied to a study we can identify, and a triangle built from rows that were never established as one panel is not a comparison. The values are in Receptor Literature below.": (
+        "该化合物的转运体测定都无法追溯到可识别的研究，而由从未被确立为同一组数据的条目拼出的三角图并不构成比较。数值见下方的受体文献。",
+        "該化合物的轉運體測定都無法追溯到可識別的研究，而由從未被確立為同一組資料的條目拼出的三角圖並不構成比較。數值見下方的受體文獻。",
+    ),
+    "The triangle needs SERT, DAT and NET from one experiment; no study in our data measured %@ for this compound alongside the rest. The values we do have are in Receptor Literature below.": (
+        "三角图需要来自同一实验的 SERT、DAT 和 NET；我们的数据中没有任何研究在测定其余转运体的同时也测定了该化合物的 %@。已有的数值见下方的受体文献。",
+        "三角圖需要來自同一實驗的 SERT、DAT 和 NET；我們的資料中沒有任何研究在測定其餘轉運體的同時也測定了該化合物的 %@。已有的數值見下方的受體文獻。",
+    ),
     # The opioid converter's picker label for transdermal fentanyl: fentanyl shares
     # one substance row across every route, so the route is what disambiguates it.
     "%@ (transdermal)": ("%@（透皮贴）", "%@（穿皮貼片）"),
@@ -7235,6 +7250,9 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        "This compound's transporter rows carry no potency value, so there is nothing to place on the triangle. The rows themselves are in Receptor Literature below.",
+        "No transporter measurement for this compound is tied to a study we can identify, and a triangle built from rows that were never established as one panel is not a comparison. The values are in Receptor Literature below.",
+        "The triangle needs SERT, DAT and NET from one experiment; no study in our data measured %@ for this compound alongside the rest. The values we do have are in Receptor Literature below.",
         "When it peaks",
         "Worst around %@",
         "%lld hours",

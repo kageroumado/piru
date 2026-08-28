@@ -26,13 +26,7 @@ struct TargetBalanceView: View {
             }
 
             if let reason = model.withheldReason {
-                Text(reason)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(10)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Theme.secondaryLabel.opacity(0.06), in: RoundedRectangle(cornerRadius: 10))
+                WithheldNote(reason: reason)
             }
 
             if let provenance = model.provenance {

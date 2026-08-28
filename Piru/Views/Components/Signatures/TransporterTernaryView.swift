@@ -22,6 +22,18 @@ struct TransporterTernaryView: View {
     }
 
     var body: some View {
+        if let reason = model.withheldReason {
+            // No triple passed the gate. Say so — `triple` would index an empty
+            // array, and more to the point a section that silently disappears
+            // leaves the reader unable to tell "nobody measured this" from
+            // "we refuse to average two incomparable studies".
+            WithheldNote(reason: reason)
+        } else {
+            plot
+        }
+    }
+
+    private var plot: some View {
         VStack(alignment: .leading, spacing: 9) {
             if model.triples.count > 1 {
                 Picker(selection: $selection) {
