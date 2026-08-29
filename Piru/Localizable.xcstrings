@@ -91,6 +91,22 @@
         }
       }
     },
+    "· %lld entries" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· %lld 条记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· %lld 條記錄"
+          }
+        }
+      }
+    },
     "· %lld total" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -875,6 +891,16 @@
         }
       }
     },
+    "%@ + %@ active together ~%lldh (%@ + %@)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ + %2$@ active together ~%3$lldh (%4$@ + %5$@)."
+          }
+        }
+      }
+    },
     "%@ +%lld more" : {
       "localizations" : {
         "en" : {
@@ -1197,6 +1223,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 詳情"
+          }
+        }
+      }
+    },
+    "%@ dose rising, +%lld%% over the reporting period (%@ → %@ %@)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ dose rising, +%2$lld%% over the reporting period (%3$@ → %4$@ %5$@)."
           }
         }
       }
@@ -3222,6 +3258,50 @@
         }
       }
     },
+    "%lld of %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld / %lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld / %lld"
+          }
+        }
+      }
+    },
+    "%lld of %lld sessions" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld sessions"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld / %lld 条记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld / %lld 條記錄"
+          }
+        }
+      }
+    },
     "%lld of %lld substances from receptor occupancy, the rest estimated from effect curves · %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -3401,6 +3481,25 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 個結果"
+          }
+        }
+      }
+    },
+    "%lld selected" : {
+
+    },
+    "%lld sessions as individual images" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 条记录导出为单独图片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 條記錄匯出為單獨圖片"
           }
         }
       }
@@ -6083,6 +6182,7 @@
       }
     },
     "A PDF summary to share with a clinician" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6513,6 +6613,7 @@
       }
     },
     "A snapshot of what's active right now — image, PDF, or data" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -9565,6 +9666,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "全部恢復提示"
+          }
+        }
+      }
+    },
+    "All selected sessions in one tall image" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有选中记录合成为一张长图"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有選中記錄合成為一張長圖"
           }
         }
       }
@@ -13530,6 +13647,22 @@
         }
       }
     },
+    "By Date" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按日期"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按日期"
+          }
+        }
+      }
+    },
     "By dose" : {
       "comment" : "Intensity dial eyebrow"
     },
@@ -15240,6 +15373,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "臨床藥物，按治療類別劃分。"
+          }
+        }
+      }
+    },
+    "Clinical Report" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "临床报告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "臨床報告"
           }
         }
       }
@@ -24256,7 +24405,20 @@
       }
     },
     "Every layer above is pharmacodynamic — it is computed from your dose log and the clock. A large part of real tolerance is associative and context-specific: it attaches to the setting, the ritual and the cues around a dose, which is why tolerance measured in a familiar context can be substantially higher than tolerance in an unfamiliar one, and why the same cues without the dose can produce the opposite of the drug's effect. Piru cannot see any of that, because it does not record where you were or what you were doing. Treat the shift as a pharmacological estimate, not a total." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上面所有层级都是药效动力学层面的——根据你的剂量记录和时间来计算。真实耐受中有很大一部分是联结性的、跟环境绑定的：它和用药时的地点、仪式、周围的线索绑在一起。这就是为什么在熟悉环境下测到的耐受可以远高于陌生环境，也是为什么同样的线索、没有药物时，身体可以产生药效的反面。Piru 看不到这些，因为它不记录你在哪里、在做什么。把这个数字当作药理学估计来看，不是总量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上面所有層級都是藥效動力學層面的——根據你的劑量記錄和時間來計算。真實耐受中有很大一部分是聯結性的、跟環境綁定的：它和用藥時的地點、儀式、周圍的線索綁在一起。這就是為什麼在熟悉環境下測到的耐受可以遠高於陌生環境，也是為什麼同樣的線索、沒有藥物時，身體可以產生藥效的反面。Piru 看不到這些，因為它不記錄你在哪裡、在做什麼。把這個數字當作藥理學估計來看，不是總量。"
+          }
+        }
+      }
     },
     "Every other day" : {
       "localizations" : {
@@ -24943,6 +25105,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "匯出失敗:%@"
+          }
+        }
+      }
+    },
+    "Export sessions, generate clinical reports" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出记录、生成临床报告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯出記錄、產生臨床報告"
           }
         }
       }
@@ -26834,6 +27012,7 @@
       }
     },
     "Generate Medical Report" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -31239,6 +31418,22 @@
         }
       }
     },
+    "Key findings, medication summary, dose trends — for your doctor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关键发现、用药概要、剂量趋势——供你的医生参考"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關鍵發現、用藥概要、劑量趨勢——供你的醫生參考"
+          }
+        }
+      }
+    },
     "kg" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -31598,6 +31793,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "延後"
+          }
+        }
+      }
+    },
+    "Latest" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近"
           }
         }
       }
@@ -37692,6 +37903,23 @@
         }
       }
     },
+    "No entries in this range" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此范围内没有条目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此範圍內沒有條目"
+          }
+        }
+      }
+    },
     "No entries in this window" : {
       "localizations" : {
         "zh-Hans" : {
@@ -38163,6 +38391,23 @@
       }
     },
     "No Sessions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無記錄"
+          }
+        }
+      }
+    },
+    "No sessions yet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -41464,6 +41709,12 @@
         }
       }
     },
+    "Peak opioid load %lld MME/day — above the CDC 90 MME reference." : {
+
+    },
+    "Peak opioid load %lld MME/day — at or above the CDC 50 MME reference." : {
+
+    },
     "Peak timing: Rickels K, et al. Long-term therapeutic use of benzodiazepines. I. Effects of abrupt discontinuation. Arch Gen Psychiatry. 1990;47(10):899-907." : {
       "localizations" : {
         "zh-Hans" : {
@@ -42667,6 +42918,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "藥代動力學列"
+          }
+        }
+      }
+    },
+    "Plain-text session data — for notes, AI, or records" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "纯文本记录数据——用于笔记、AI 或存档"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "純文字記錄資料——用於筆記、AI 或存檔"
           }
         }
       }
@@ -46516,6 +46783,7 @@
       }
     },
     "Report" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -46576,6 +46844,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "報告的主觀效果"
+          }
+        }
+      }
+    },
+    "Reports" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "报告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "報告"
           }
         }
       }
@@ -48844,6 +49128,38 @@
         }
       }
     },
+    "Select sessions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇記錄"
+          }
+        }
+      }
+    },
+    "Select Sessions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇記錄"
+          }
+        }
+      }
+    },
     "Selected" : {
       "localizations" : {
         "zh-Hans" : {
@@ -49945,6 +50261,22 @@
         }
       }
     },
+    "Session Images" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录图片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄圖片"
+          }
+        }
+      }
+    },
     "Session Note" : {
       "localizations" : {
         "zh-Hans" : {
@@ -50092,6 +50424,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "記錄"
+          }
+        }
+      }
+    },
+    "Sessions in this range as individual images" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此范围内的记录导出为单独图片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此範圍內的記錄匯出為單獨圖片"
           }
         }
       }
@@ -50275,6 +50623,7 @@
       }
     },
     "Share Current State" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -53288,6 +53637,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "興奮劑會掩蓋過量的徵兆 — 一旦消退,呼吸抑制可能浮現。"
+          }
+        }
+      }
+    },
+    "Stitched Image" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拼接图片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拼接圖片"
           }
         }
       }
@@ -59422,6 +59787,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用估算預設值"
+          }
+        }
+      }
+    },
+    "Used %lld of %lld days (%lld%%)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Used %1$lld of %2$lld days (%3$lld%%)."
+          }
+        }
+      }
+    },
+    "Used %lld of %lld days; longest break %lld days." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Used %1$lld of %2$lld days; longest break %3$lld days."
           }
         }
       }

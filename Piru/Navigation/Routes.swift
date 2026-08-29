@@ -115,6 +115,10 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
     /// exposure (clinical equivalents where they exist), dose trend, and
     /// co-exposure. Off the shared `ClinicalStats` layer the PDF report also uses.
     case patterns
+    /// Export hub: multi-select sessions for batch export (images, markdown),
+    /// generate a clinical PDF with key findings first and compressed
+    /// interactions, filter by substance and precise dates.
+    case reports
 
     var id: String {
         rawValue

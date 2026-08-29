@@ -148,6 +148,7 @@ private struct PushRouteView: View {
         case .receptorLoad: ReceptorLoadView().navigationTitle("Receptor Load")
         case .steadyStateProjection: SteadyStateProjectionView().navigationTitle("Steady State")
         case .patterns: PatternsView().navigationTitle("Patterns")
+        case .reports: ReportsView().navigationTitle("Reports")
         }
     }
 

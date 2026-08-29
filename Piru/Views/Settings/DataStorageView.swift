@@ -62,9 +62,6 @@ struct DataStorageView: View {
     @State private var showingExportOptions = false
     @State private var showingImportOptions = false
 
-    // Report + delete.
-    @State private var showingReport = false
-    @State private var showShareSession = false
     @State private var showingDeleteConfirmation = false
 
     // Recoverable copies — loaded async (enumerating sidecars opens each store).
@@ -78,7 +75,6 @@ struct DataStorageView: View {
             storageSection
             backupSection
             exportImportSection
-            reportSection
             howItWorksSection
             recoverableSection
             deleteSection
@@ -122,16 +118,6 @@ struct DataStorageView: View {
         }
         .sheet(item: $exported, onDismiss: cleanupExportedFile) { item in
             ShareSheet(items: [item.url])
-        }
-        .sheet(isPresented: $showingReport) { ReportView() }
-        .sheet(isPresented: $showShareSession) {
-            SessionShareSheet(
-                title: String(localized: "Current Session"),
-                dateText: Date.now.formatted(date: .abbreviated, time: .omitted),
-                entries: shareableEntries,
-                colors: substanceColors,
-                stackRedoses: true,
-            )
         }
         .confirmationDialog("Restore Backup", isPresented: $showingStrategyDialog, titleVisibility: .visible) {
             Button("Merge With Current Data") { executeRestore(.merge) }
@@ -390,31 +376,6 @@ struct DataStorageView: View {
         }
         .buttonStyle(.plain)
         .listRowBackground(CardBackground())
-    }
-
-    // MARK: - Report
-
-    private var reportSection: some View {
-        Section {
-            dataRow(
-                title: "Generate Medical Report",
-                subtitle: "A PDF summary to share with a clinician",
-                systemImage: "doc.richtext",
-            ) { showingReport = true }
-            dataRow(
-                title: "Share Current State",
-                subtitle: "A snapshot of what's active right now — image, PDF, or data",
-                systemImage: "waveform.path.ecg",
-            ) { showShareSession = true }
-                .disabled(shareableEntries.isEmpty)
-        } header: {
-            Text("Report")
-        }
-    }
-
-    /// Currently-active doses — empty disables "Share Current State".
-    private var shareableEntries: [DoseEntry] {
-        InteractionChecker.activeEntries(from: doses)
     }
 
     // MARK: - How encryption works

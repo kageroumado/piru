@@ -24,6 +24,7 @@ extension Insight {
         case .receptorLoad: "Receptor load over time"
         case .steadyStateProjection: "Steady state"
         case .patterns: "Patterns"
+        case .reports: "Reports"
         }
     }
 
@@ -37,6 +38,7 @@ extension Insight {
         case .receptorLoad: "chart.xyaxis.line"
         case .steadyStateProjection: "arrow.up.forward.circle"
         case .patterns: "list.clipboard"
+        case .reports: "square.and.arrow.up.on.square"
         }
     }
 
@@ -50,6 +52,7 @@ extension Insight {
         case .receptorLoad: .pink
         case .steadyStateProjection: .mint
         case .patterns: .brown
+        case .reports: .indigo
         }
     }
 
@@ -64,6 +67,7 @@ extension Insight {
         case .receptorLoad: "How hard each mechanism has been driven over time"
         case .steadyStateProjection: "Where a regular dose settles, from your own cadence"
         case .patterns: "Days used, exposure, dose trend, and overlap"
+        case .reports: "Export sessions, generate clinical reports"
         }
     }
 }

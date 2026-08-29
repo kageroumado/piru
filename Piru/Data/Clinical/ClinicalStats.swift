@@ -20,6 +20,7 @@ nonisolated enum ExposureCurrency: String, Sendable, Codable {
 /// One substance in a clinical report: identity + the currency its doses are
 /// summed in.
 nonisolated struct ClinicalSubstance: Sendable {
+    let name: String
     let displayName: String
     let colorHex: String
     /// The unit doses are shown in (the logged unit, or "MME"/"mg diazepam-eq").
@@ -100,6 +101,7 @@ nonisolated struct EscalationStat: Sendable, Identifiable {
     /// Median dose in the first / last third of the window (same currency).
     let earlyMedian: Double
     let lateMedian: Double
+    let doseCount: Int
 
     var id: Int {
         substanceIndex
@@ -122,6 +124,8 @@ nonisolated struct OverlapStat: Sendable, Identifiable {
 /// The whole clinical/patterns report for one window — the single value both the
 /// Insights UI and the PDF clinician report render from.
 nonisolated struct ClinicalReport: Sendable {
+    let start: Date
+    let end: Date
     let substances: [ClinicalSubstance]
     let holidays: HolidayStats
     let exposure: [ExposureStat]
@@ -184,7 +188,7 @@ nonisolated enum ClinicalStats {
         calendar: Calendar,
     ) -> ClinicalReport {
         ClinicalReport(
-            substances: substances,
+            start: start, end: end, substances: substances,
             holidays: holidays(doses: doses, start: start, end: end, calendar: calendar),
             exposure: exposure(substances: substances, doses: doses, start: start, end: end, calendar: calendar),
             escalation: escalation(substances: substances, doses: doses, start: start, end: end),
@@ -285,7 +289,7 @@ nonisolated enum ClinicalStats {
                 change > escalationThreshold ? .rising : (change < -escalationThreshold ? .falling : .steady)
             out.append(EscalationStat(
                 substanceIndex: index, direction: direction, change: change,
-                earlyMedian: early, lateMedian: late,
+                earlyMedian: early, lateMedian: late, doseCount: rows.count,
             ))
         }
         // Rising first, then by magnitude — escalation is the headline.

@@ -108,6 +108,9 @@ nonisolated enum PDFReportGenerator {
         let endDate: Date
         let notes: String
         let patientName: String
+        var clinical: ClinicalReport?
+        var findings: [Finding] = []
+        var compressedInteractions: [CompressedInteraction] = []
     }
 
     // MARK: - Page Tracking
@@ -165,9 +168,16 @@ nonisolated enum PDFReportGenerator {
 
             drawHeader(&cursor, data: data)
 
+            // Current Medications
             if !data.dailyDoseItems.isEmpty {
                 drawSectionHeader(&cursor, title: "Current Medications")
                 drawMedicationsTable(&cursor, items: data.dailyDoseItems)
+            }
+
+            // Key Findings — the headline for the prescriber
+            if !data.findings.isEmpty {
+                drawSectionHeader(&cursor, title: "Key Findings")
+                drawKeyFindings(&cursor, findings: data.findings)
             }
 
             // Adherence
@@ -176,12 +186,17 @@ nonisolated enum PDFReportGenerator {
                 drawAdherence(&cursor, entries: data.entries, dailyDoses: data.dailyDoseItems, startDate: data.startDate, endDate: data.endDate)
             }
 
-            if !data.interactions.isEmpty {
+            // Interactions — class-deduped table when compressed data is available, full cards otherwise
+            if !data.compressedInteractions.isEmpty {
+                drawSectionHeader(&cursor, title: "Significant Interactions")
+                drawCompressedInteractions(&cursor, interactions: data.compressedInteractions)
+            } else if !data.interactions.isEmpty {
                 drawSectionHeader(&cursor, title: "Interaction Alerts")
                 drawInteractions(&cursor, interactions: data.interactions)
             }
 
-            // Duplicate substances
+            // --- Appendix ---
+
             let duplicates = findDuplicates(in: data.entries)
             if !duplicates.isEmpty {
                 drawSectionHeader(&cursor, title: "Possible Duplicate Substances")
@@ -194,7 +209,6 @@ nonisolated enum PDFReportGenerator {
                 drawSectionHeader(&cursor, title: "Substance Summary")
                 drawSubstanceSummary(&cursor, summary: summary)
 
-                // PK concentration charts for top substances with half-life data
                 let topForPK = summary.prefix(5)
                 let pkSubstances = topForPK.compactMap { stat -> (name: String, halfLife: Double, doseCount: Int)? in
                     guard let hl = stat.halfLifeMinutes, hl > 0 else { return nil }
@@ -269,16 +283,24 @@ nonisolated enum PDFReportGenerator {
         // Quick stats badges
         let substanceCount = Set(data.entries.map(\.substance)).count
         let entryCount = data.entries.count
-        let unsafeCount = data.interactions.count(where: { $0.severity == .unsafe || $0.severity == .dangerous })
 
         let statsAttr: [NSAttributedString.Key: Any] = [
             .font: Fonts.bodyBold, .foregroundColor: Colors.text,
         ]
-        let stats = [
+        var stats = [
             "\(substanceCount) substances",
             "\(entryCount) entries",
-            "\(unsafeCount) alert\(unsafeCount == 1 ? "" : "s")",
         ]
+        if let clinical = data.clinical {
+            let pct = Int((clinical.holidays.fractionUsed * 100).rounded())
+            stats.append("\(pct)% days used")
+            if let mme = clinical.opioidPeakDayMME {
+                stats.append("\(Int(mme.rounded())) peak MME/day")
+            }
+            if let de = clinical.benzoDiazepamPerDay {
+                stats.append(String(format: "%.1f mg DE/day", de))
+            }
+        }
         var badgeX = Layout.margin
         for stat in stats {
             let size = (stat as NSString).size(withAttributes: statsAttr)
@@ -522,6 +544,108 @@ nonisolated enum PDFReportGenerator {
             )
             cursor.y += descHeight + 10
         }
+    }
+
+    // MARK: - Key Findings
+
+    private static func drawKeyFindings(_ cursor: inout Cursor, findings: [Finding]) {
+        let dotAttr: [NSAttributedString.Key: Any] = [.font: Fonts.bodyBold]
+        let textAttr: [NSAttributedString.Key: Any] = [.font: Fonts.body, .foregroundColor: Colors.text]
+
+        for finding in findings {
+            let dot: String
+            let dotColor: UIColor
+            switch finding.severity {
+            case .warning:
+                dot = "⚠"
+                dotColor = Colors.unsafeOrange
+            case .info:
+                dot = "ℹ"
+                dotColor = UIColor.systemBlue
+            }
+
+            let textWidth = Layout.contentWidth - 18
+            let textHeight = (finding.summary as NSString).boundingRect(
+                with: CGSize(width: textWidth, height: .greatestFiniteMagnitude),
+                options: [.usesLineFragmentOrigin, .usesFontLeading],
+                attributes: textAttr, context: nil,
+            ).height
+
+            cursor.ensureSpace(textHeight + 6)
+
+            let coloredDotAttr = dotAttr.merging([.foregroundColor: dotColor]) { _, new in new }
+            dot.draw(at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: coloredDotAttr)
+            (finding.summary as NSString).draw(
+                in: CGRect(x: Layout.margin + 18, y: cursor.y, width: textWidth, height: textHeight + 2),
+                withAttributes: textAttr,
+            )
+            cursor.y += textHeight + 6
+        }
+        cursor.y += Layout.lineSpacing
+    }
+
+    // MARK: - Compressed Interactions (class-deduped table)
+
+    private static func drawCompressedInteractions(
+        _ cursor: inout Cursor, interactions: [CompressedInteraction],
+    ) {
+        let significant = interactions.filter { $0.severity == .dangerous || $0.severity == .unsafe }
+        let cautionCount = interactions.count(where: { $0.severity == .caution })
+
+        let dotAttr: [NSAttributedString.Key: Any] = [.font: Fonts.bodyBold]
+        let textAttr: [NSAttributedString.Key: Any] = [.font: Fonts.body, .foregroundColor: Colors.text]
+        let substanceAttr: [NSAttributedString.Key: Any] = [.font: Fonts.caption, .foregroundColor: Colors.secondaryText]
+
+        let cap = 8
+        for (index, interaction) in significant.prefix(cap).enumerated() {
+            let dot: String
+            let dotColor: UIColor
+            switch interaction.severity {
+            case .dangerous:
+                dot = "🔴"
+                dotColor = Colors.dangerousRed
+            case .unsafe:
+                dot = "🟠"
+                dotColor = Colors.unsafeOrange
+            case .caution:
+                dot = "🟡"
+                dotColor = Colors.cautionYellow
+            }
+
+            let classLabel = "\(interaction.classA.capitalized) + \(interaction.classB.capitalized)"
+            let substanceLabel = "(\(interaction.substancesA.joined(separator: ", ")), \(interaction.substancesB.joined(separator: ", ")))"
+
+            let rowHeight: CGFloat = 28
+            cursor.ensureSpace(rowHeight)
+            drawRowBackground(&cursor, rowIndex: index, height: rowHeight)
+
+            let coloredDotAttr = dotAttr.merging([.foregroundColor: dotColor]) { _, new in new }
+            dot.draw(at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: coloredDotAttr)
+            classLabel.draw(at: CGPoint(x: Layout.margin + 22, y: cursor.y), withAttributes: textAttr)
+            cursor.y += 14
+            substanceLabel.draw(at: CGPoint(x: Layout.margin + 22, y: cursor.y), withAttributes: substanceAttr)
+            cursor.y += 14
+        }
+
+        if significant.count > cap {
+            let overflow = "+\(significant.count - cap) more significant interactions."
+            cursor.ensureSpace(16)
+            overflow.draw(at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: substanceAttr)
+            cursor.y += 16
+        }
+
+        if cautionCount > 0 {
+            let cautionNote = "+ \(cautionCount) caution-level combination\(cautionCount == 1 ? "" : "s") — standard pairings."
+            cursor.ensureSpace(16)
+            cautionNote.draw(at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: substanceAttr)
+            cursor.y += 16
+        }
+
+        let footnote = "Class-level combinations from this log; not exhaustive pairwise pharmacology."
+        let footnoteAttr: [NSAttributedString.Key: Any] = [.font: Fonts.caption, .foregroundColor: Colors.secondaryText]
+        cursor.ensureSpace(16)
+        footnote.draw(at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: footnoteAttr)
+        cursor.y += Layout.sectionSpacing
     }
 
     // MARK: - Duplicate Detection

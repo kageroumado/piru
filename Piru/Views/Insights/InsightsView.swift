@@ -168,6 +168,7 @@ struct InsightsView: View {
                 adherenceCard
                 InsightsToleranceCard()
                 patternsCard
+                reportsCard
             }
             .padding(.horizontal)
             .padding(.top, 4)
@@ -337,6 +338,17 @@ struct InsightsView: View {
                     .foregroundStyle(Theme.secondaryLabel)
                     .fixedSize(horizontal: false, vertical: true)
             }
+        }
+    }
+
+    // MARK: - Reports
+
+    private var reportsCard: some View {
+        largeCard(icon: "square.and.arrow.up.on.square", tint: .indigo, title: "Reports", route: .insight(.reports)) {
+            Text("Export sessions, generate clinical reports")
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 

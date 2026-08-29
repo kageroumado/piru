@@ -134,6 +134,43 @@ T = {
         "记录一些剂量以查看你的规律。",
         "記錄一些劑量以查看你的規律。",
     ),
+    # Reports & Export hub (Insights → Reports)
+    "Reports": ("报告", "報告"),
+    "Export sessions, generate clinical reports": (
+        "导出记录、生成临床报告",
+        "匯出記錄、產生臨床報告",
+    ),
+    "Latest": ("最近", "最近"),
+    "By Date": ("按日期", "按日期"),
+    "Select sessions": ("选择记录", "選擇記錄"),
+    "Select Sessions": ("选择记录", "選擇記錄"),
+    "%lld of %lld sessions": ("%lld / %lld 条记录", "%lld / %lld 條記錄"),
+    "No entries in this range": ("此范围内没有条目", "此範圍內沒有條目"),
+    "Clinical Report": ("临床报告", "臨床報告"),
+    "Key findings, medication summary, dose trends — for your doctor": (
+        "关键发现、用药概要、剂量趋势——供你的医生参考",
+        "關鍵發現、用藥概要、劑量趨勢——供你的醫生參考",
+    ),
+    "Session Images": ("记录图片", "記錄圖片"),
+    "Stitched Image": ("拼接图片", "拼接圖片"),
+    "All selected sessions in one tall image": (
+        "所有选中记录合成为一张长图",
+        "所有選中記錄合成為一張長圖",
+    ),
+    "Plain-text session data — for notes, AI, or records": (
+        "纯文本记录数据——用于笔记、AI 或存档",
+        "純文字記錄資料——用於筆記、AI 或存檔",
+    ),
+    "· %lld entries": ("· %lld 条记录", "· %lld 條記錄"),
+    "%lld sessions as individual images": (
+        "%lld 条记录导出为单独图片",
+        "%lld 條記錄匯出為單獨圖片",
+    ),
+    "Sessions in this range as individual images": (
+        "此范围内的记录导出为单独图片",
+        "此範圍內的記錄匯出為單獨圖片",
+    ),
+    "No sessions yet": ("暂无记录", "暫無記錄"),
     "Nothing to Summarize": ("暂无可汇总内容", "暫無可彙總內容"),
     "Nothing logged in this range.": ("此范围内没有记录。", "此範圍內沒有記錄。"),
     "A record and a model, not medical advice. Exposure uses clinical equivalents where they're established, and the substance's typical dose otherwise.": (
@@ -7303,6 +7340,25 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        # Reports & Export hub
+        "Reports",
+        "Export sessions, generate clinical reports",
+        "Latest",
+        "By Date",
+        "Select sessions",
+        "Select Sessions",
+        "Clinical Report",
+        "Key findings, medication summary, dose trends — for your doctor",
+        "Session Images",
+        "Stitched Image",
+        "All selected sessions in one tall image",
+        "Plain-text session data — for notes, AI, or records",
+        "No entries in this range",
+        "· %lld entries",
+        "%lld sessions as individual images",
+        "Sessions in this range as individual images",
+        "No sessions yet",
+        # (previous keys below)
         "μ-Opioid Receptor Ligand",
         "Acts at μ-opioid receptors (MOR), G-protein coupled receptors distributed throughout the central and peripheral nervous system. MOR activation inhibits adenylyl cyclase, opens inwardly rectifying potassium channels, and closes voltage-gated calcium channels, reducing neuronal excitability and neurotransmitter release — producing analgesia, euphoria, respiratory depression, and slowed gastrointestinal transit. How far this particular compound activates the receptor, and whether it also engages κ or δ, is not characterized here; the receptor panel below carries whatever has been measured for it.",
         "Antipsychotic (Dopamine Receptor Antagonist)",
