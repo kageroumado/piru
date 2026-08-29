@@ -49,6 +49,12 @@
   "title": "Central nervous system excitatory effects of meperidine in cancer patients",
   "year": "1983"
  },
+ "doi:10.1002/ana.410180107": {
+  "journal": "Annals of neurology",
+  "subjects": [],
+  "title": "Pharmacokinetics of trihexyphenidyl after short-term and long-term administration to dystonic patients",
+  "year": "1985"
+ },
  "doi:10.1002/anie.201410526": {
   "journal": "Angewandte Chemie (International ed. in English)",
   "subjects": [],
@@ -66,6 +72,12 @@
   "subjects": [],
   "title": "Human cannabinoid pharmacokinetics",
   "year": "2007"
+ },
+ "doi:10.1002/chir.530040303": {
+  "journal": "Chirality",
+  "subjects": [],
+  "title": "Enantioselective pharmacokinetics of ethotoin in humans following single oral doses of the racemate",
+  "year": "1992"
  },
  "doi:10.1002/cpdd.326": {
   "journal": "Clinical Pharmacology in Drug Development",
@@ -145,6 +157,12 @@
   "subjects": [],
   "title": "Response\u2010Based Dosing for Ponatinib: Model\u2010Based Analyses of the Dose\u2010Ranging OPTIC Study",
   "year": 2023
+ },
+ "doi:10.1002/cpt.3351": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Clinical Pharmacogenetics Implementation Consortium Guideline (CPIC)\u00a0for CYP2D6, ADRB1, ADRB2, ADRA2C, GRK4, and GRK5 Genotypes and Beta-Blocker Therapy",
+  "year": "2024"
  },
  "doi:10.1002/cpt.3391": {
   "journal": "Clinical Pharmacology &amp; Therapeutics",
@@ -501,6 +519,12 @@
   "title": "Methaqualone-diphenhydramine interaction study in humans",
   "year": "1983"
  },
+ "doi:10.1002/jps.2600740920": {
+  "journal": "Journal of pharmaceutical sciences",
+  "subjects": [],
+  "title": "Pharmacokinetics of methyprylon following a single oral dose",
+  "year": "1985"
+ },
  "doi:10.1002/lsm.1900120411": {
   "journal": "Lasers in surgery and medicine",
   "subjects": [],
@@ -796,6 +820,12 @@
   "title": "Assessment of the abuse potential of methamnetamine in rodents: a behavioral pharmacology study",
   "year": "2021"
  },
+ "doi:10.1007/s00213-022-06083-y": {
+  "journal": "Psychopharmacology",
+  "subjects": [],
+  "title": "Drug-drug interactions between psychiatric medications and MDMA or psilocybin: a systematic review",
+  "year": 2022
+ },
  "doi:10.1007/s00216-008-2486-x": {
   "journal": "Analytical and Bioanalytical Chemistry",
   "subjects": [],
@@ -982,6 +1012,12 @@
   "title": "Pharmacokinetics, Pharmacodynamics, and Urinary Recovery of Oral Mescaline Hydrochloride in Healthy Participants",
   "year": 2025
  },
+ "doi:10.1007/s40265-018-1010-7": {
+  "journal": "Drugs",
+  "subjects": [],
+  "title": "Bictegravir/Emtricitabine/Tenofovir Alafenamide: A Review in HIV-1 Infection",
+  "year": "2018"
+ },
  "doi:10.1007/s40268-015-0092-x": {
   "journal": "Drugs in R&D",
   "subjects": [],
@@ -1079,6 +1115,12 @@
   "subjects": [],
   "title": "3,4-Methylenedioxypyrovalerone (MDPV) and metabolites quantification in human and rat plasma by liquid chromatography\u2013high resolution mass spectrometry",
   "year": 2014
+ },
+ "doi:10.1016/j.ahj.2014.12.009": {
+  "journal": "American heart journal",
+  "subjects": [],
+  "title": "A reappraisal of loop diuretic choice in heart failure patients",
+  "year": "2015"
  },
  "doi:10.1016/j.ajog.2016.10.027": {
   "journal": "American journal of obstetrics and gynecology",
@@ -1936,6 +1978,12 @@
   "title": "Determination of psilocin and 4-hydroxyindole-3-acetic acid in plasma by HPLC-ECD and pharmacokinetic profiles of oral and intravenous psilocybin in man",
   "year": "1997"
  },
+ "doi:10.1016/s0090-9556(24)15139-2": {
+  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
+  "subjects": [],
+  "title": "Ethylphenidate formation in human subjects after the administration of a single dose of methylphenidate and ethanol",
+  "year": "2000"
+ },
  "doi:10.1016/s0091-3057(96)00565-5": {
   "journal": "Pharmacology, biochemistry, and behavior",
   "subjects": [],
@@ -2524,6 +2572,12 @@
   "title": "Plasma delta-9 tetrahydrocannabinol concentrations and clinical effects after oral and intravenous administration and smoking",
   "year": "1980"
  },
+ "doi:10.1038/clpt.1980.220": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Kinetics and biotransformation of lormetazepam. II. Radioimmunologic determinations in plasma and urine of young and elderly subjects: first-pass effect",
+  "year": "1980"
+ },
  "doi:10.1038/clpt.1980.4": {
   "journal": "Clinical pharmacology and therapeutics",
   "subjects": [],
@@ -2788,6 +2842,18 @@
   "subjects": [],
   "title": "Hydroxynorketamine, but not ketamine, acts via \u03b17 nicotinic acetylcholine receptor to control presynaptic function and gene expression",
   "year": 2024
+ },
+ "doi:10.1038/s41431-023-01347-3": {
+  "journal": "European journal of human genetics : EJHG",
+  "subjects": [],
+  "title": "Dutch Pharmacogenetics Working Group (DPWG) guideline for the gene-drug interaction between CYP2D6, CYP3A4 and CYP1A2 and antipsychotics",
+  "year": "2024"
+ },
+ "doi:10.1038/s41467-021-23736-2": {
+  "journal": "Nature communications",
+  "subjects": [],
+  "title": "Site selective C-H functionalization of Mitragyna alkaloids reveals a molecular switch for tuning opioid receptor signaling efficacy",
+  "year": "2021"
  },
  "doi:10.1038/s41467-023-40064-9": {
   "journal": "Nature Communications",
@@ -3055,6 +3121,12 @@
   "title": "Non\u2010linear pharmacokinetics of MDMA (\u2018ecstasy\u2019) in humans",
   "year": 2000
  },
+ "doi:10.1046/j.1365-2125.2000.00194.x": {
+  "journal": "British Journal of Clinical Pharmacology",
+  "subjects": [],
+  "title": "Within\u2010 and between\u2010subject variations in pharmacokinetic parameters of ethanol by analysis of breath, venous blood and urine",
+  "year": 2000
+ },
  "doi:10.1046/j.1365-2125.2002.01578.x": {
   "journal": "British journal of clinical pharmacology",
   "subjects": [],
@@ -3309,6 +3381,12 @@
   "subjects": [],
   "title": "Pharmacokinetic and Pharmacodynamic of the Cognitive Enhancer Modafinil: Relevant Clinical and Forensic Aspects",
   "year": 2020
+ },
+ "doi:10.1080/1120009x.2017.1380357": {
+  "journal": "Journal of chemotherapy (Florence, Italy)",
+  "subjects": [],
+  "title": "Pharmacological properties of oral antibiotics for the treatment of uncomplicated urinary tract infections",
+  "year": "2017"
  },
  "doi:10.1080/13880209.2023.2200613": null,
  "doi:10.1080/15389580701552510": null,
@@ -4069,6 +4147,12 @@
   "title": "Pharmacokinetics and bioavailability of midazolam in man",
   "year": "1983"
  },
+ "doi:10.1111/j.1365-2125.1983.tb02302.x": {
+  "journal": "British journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Pharmacokinetics of brotizolam in healthy subjects following intravenous and oral administration",
+  "year": "1983"
+ },
  "doi:10.1111/j.1365-2125.1985.tb02799.x": {
   "journal": "British Journal of Clinical Pharmacology",
   "subjects": [],
@@ -4098,6 +4182,12 @@
   "subjects": [],
   "title": "The bioavailability and pharmacokinetics of morphine after intravenous, oral and buccal administration in healthy volunteers",
   "year": "1989"
+ },
+ "doi:10.1111/j.1365-2125.1991.tb03973.x": {
+  "journal": "British journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Clinical pharmacology of prochlorperazine in healthy young males",
+  "year": "1991"
  },
  "doi:10.1111/j.1365-2125.1995.tb04413.x": {
   "journal": "British journal of clinical pharmacology",
@@ -4276,6 +4366,12 @@
   "subjects": [],
   "title": "Nefiracetam (DM\u20109384): A Novel Antiamnesic Drug",
   "year": 1996
+ },
+ "doi:10.1111/j.1528-1157.1996.tb00021.x": {
+  "journal": "Epilepsia",
+  "subjects": [],
+  "title": "Concentrations and effects of oral midazolam are greatly reduced in patients treated with carbamazepine or phenytoin",
+  "year": "1996"
  },
  "doi:10.1111/j.1528-1167.2008.01623.x": {
   "journal": "Epilepsia",
@@ -4886,6 +4982,12 @@
   "title": "The absolute bioavailability of oral melatonin",
   "year": "2000"
  },
+ "doi:10.1177/0091270002239703": {
+  "journal": "Journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Single- and multiple-dose pharmacokinetics of oral creatine",
+  "year": "2003"
+ },
  "doi:10.1177/0091270005280861": {
   "journal": "Journal of clinical pharmacology",
   "subjects": [],
@@ -4897,6 +4999,12 @@
   "subjects": [],
   "title": "Multiple-dose pharmacokinetics of the selective nicotinic receptor partial agonist, varenicline, in healthy smokers",
   "year": "2006"
+ },
+ "doi:10.1177/0091270007310381": {
+  "journal": "Journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Relative bioavailability of lisdexamfetamine 70-mg capsules in fasted and fed healthy adult volunteers and in solution: a single-dose, crossover pharmacokinetic study",
+  "year": "2008"
  },
  "doi:10.1177/0091270009352087": {
   "journal": "Journal of clinical pharmacology",
@@ -4953,6 +5061,12 @@
   "title": "Comparison of the monoamine transporters from human and mouse in their sensitivities to psychostimulant drugs",
   "year": 2006
  },
+ "doi:10.1186/1472-6904-2-4": {
+  "journal": "BMC clinical pharmacology",
+  "subjects": [],
+  "title": "PKQuest: measurement of intestinal absorption and first pass metabolism - application to human ethanol pharmacokinetics",
+  "year": "2002"
+ },
  "doi:10.1186/1478-811x-11-13": {
   "journal": "Cell Communication and Signaling",
   "subjects": [],
@@ -4995,6 +5109,12 @@
   "subjects": [],
   "title": "Drug-drug interactions and QT prolongation as a commonly assessed cardiac effect - comprehensive overview of clinical trials",
   "year": 2016
+ },
+ "doi:10.1186/s40360-017-0178-x": {
+  "journal": "BMC pharmacology & toxicology",
+  "subjects": [],
+  "title": "Pharmacokinetic study of single- and multiple-dosing with metolazone tablets in healthy Chinese population",
+  "year": "2017"
  },
  "doi:10.1192/bjp.bp.115.179440": null,
  "doi:10.1208/s12248-017-0132-2": {
@@ -5147,6 +5267,12 @@
   "title": "\u03949-Tetrahydrocannabinol (THC), 11-Hydroxy-THC, and 11-Nor-9-carboxy-THC Plasma Pharmacokinetics during and after Continuous High-Dose Oral THC",
   "year": 2009
  },
+ "doi:10.1515/dmdi.1988.6.3-4.425": {
+  "journal": "Drug metabolism and drug interactions",
+  "subjects": [],
+  "title": "S-oxidation of thioridazine to psychoactive metabolites: an oral dose-proportionality study in healthy volunteers",
+  "year": "1988"
+ },
  "doi:10.1517/00377722-204-09-006": null,
  "doi:10.1517/14656560903413575": null,
  "doi:10.1517/14656566.2014.951330": null,
@@ -5184,6 +5310,12 @@
   "subjects": [],
   "title": "Predictors and potentiators of psychedelic-occasioned mystical experiences",
   "year": 2022
+ },
+ "doi:10.15585/mmwr.rr7103a1": {
+  "journal": "MMWR. Recommendations and reports : Morbidity and mortality weekly report. Recommendations and reports",
+  "subjects": [],
+  "title": "CDC Clinical Practice Guideline for Prescribing Opioids for Pain - United States, 2022",
+  "year": "2022"
  },
  "doi:10.1592/phco.24.5.468.33347": {
   "journal": "Pharmacotherapy",
@@ -5452,6 +5584,12 @@
   "title": "Pharmacokinetically Based Estimation of Patient Compliance with Oral Anticancer Chemotherapies",
   "year": 2009
  },
+ "doi:10.2165/00063030-200418040-00003": {
+  "journal": "BioDrugs : clinical immunotherapeutics, biopharmaceuticals and gene therapy",
+  "subjects": [],
+  "title": "The role of recombinant hirudins in the management of thrombotic disorders",
+  "year": "2004"
+ },
  "doi:10.2165/00126839-200304050-00008": {
   "journal": "Drugs in R&D",
   "subjects": [],
@@ -5507,6 +5645,12 @@
   "year": "2007"
  },
  "doi:10.2967/jnumed.110.082313": null,
+ "doi:10.31083/ph.2013.2676": {
+  "journal": "Die Pharmazie",
+  "subjects": [],
+  "title": "Simvastatin pharmacokinetics in healthy Chinese subjects and its relations with CYP2C9, CYP3A5, ABCB1, ABCG2 and SLCO1B1 polymorphisms",
+  "year": "2013"
+ },
  "doi:10.3109/00498254.2013.833362": {
   "journal": "Xenobiotica; the fate of foreign compounds in biological systems",
   "subjects": [],
@@ -5760,6 +5904,12 @@
   "title": "Oral Fluid Concentrations and Pharmacological Effects of Clephedrone and Methylone in Humans",
   "year": 2025
  },
+ "doi:10.3390/ijms27031430": {
+  "journal": "International journal of molecular sciences",
+  "subjects": [],
+  "title": "Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches",
+  "year": "2026"
+ },
  "doi:10.3390/jcm11030858": {
   "journal": "Journal of Clinical Medicine",
   "subjects": [],
@@ -5965,6 +6115,12 @@
   "title": "Review of the results from clinical studies on the efficacy, safety and tolerability of mirtazapine for the treatment of patients with major depression.",
   "year": "1998"
  },
+ "pmid:10376760": {
+  "journal": "Pharmacogenetics",
+  "subjects": [],
+  "title": "Estimation of cytochrome P-450 CYP1A2 activity in 863 healthy Caucasians using a saliva-based caffeine test.",
+  "year": "1999"
+ },
  "pmid:10384858": {
   "journal": "Clinical pharmacokinetics",
   "subjects": [],
@@ -6079,10 +6235,22 @@
   "title": "Subunit-dependent inhibition of human neuronal nicotinic acetylcholine receptors and other ligand-gated ion channels by dissociative anesthetics ketamine and dizocilpine.",
   "year": "2000"
  },
+ "pmid:10792196": {
+  "journal": "British journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Within- and between-subject variations in pharmacokinetic parameters of ethanol by analysis of breath, venous blood and urine.",
+  "year": "2000"
+ },
  "pmid:10799653": {
   "journal": "Biochemical pharmacology",
   "subjects": [],
   "title": "Identification of the human cytochromes P450 involved in the oxidative metabolism of \"Ecstasy\"-related designer drugs.",
+  "year": "2000"
+ },
+ "pmid:10820132": {
+  "journal": "Drug metabolism and disposition: the biological fate of chemicals",
+  "subjects": [],
+  "title": "Ethylphenidate formation in human subjects after the administration of a single dose of methylphenidate and ethanol.",
   "year": "2000"
  },
  "pmid:10883420": {
@@ -6344,6 +6512,12 @@
   "title": "Mechanism and impact of allosteric AMPA receptor modulation by the ampakine CX546.",
   "year": "2001"
  },
+ "pmid:11673747": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "The effects of St John's wort (Hypericum perforatum) on human cytochrome P450 activity.",
+  "year": "2001"
+ },
  "pmid:11717363": {
   "journal": "The Journal of neuroscience : the official journal of the Society for Neuroscience",
   "subjects": [],
@@ -6469,6 +6643,12 @@
   "journal": "Pharmacology & therapeutics",
   "subjects": [],
   "title": "Therapeutic and adverse actions of serotonin transporter substrates.",
+  "year": "2002"
+ },
+ "pmid:12182761": {
+  "journal": "BMC clinical pharmacology",
+  "subjects": [],
+  "title": "PKQuest: measurement of intestinal absorption and first pass metabolism - application to human ethanol pharmacokinetics.",
   "year": "2002"
  },
  "pmid:12185406": {
@@ -6919,6 +7099,12 @@
   "journal": "The American journal of psychiatry",
   "subjects": [],
   "title": "Serotonin transporter occupancy of five selective serotonin reuptake inhibitors at different doses: an [11C]DASB positron emission tomography study.",
+  "year": "2004"
+ },
+ "pmid:15206993": {
+  "journal": "British journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Effects of regular consumption of grapefruit juice on the pharmacokinetics of simvastatin.",
   "year": "2004"
  },
  "pmid:15210974": {
@@ -7637,6 +7823,12 @@
   "title": "Dental implants placed in grafted maxillary sinuses: a retrospective analysis of clinical outcome according to the initial clinical situation and a proposal of defect classification.",
   "year": "2008"
  },
+ "pmid:18285619": {
+  "journal": "Journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Relative bioavailability of lisdexamfetamine 70-mg capsules in fasted and fed healthy adult volunteers and in solution: a single-dose, crossover pharmacokinetic study.",
+  "year": "2008"
+ },
  "pmid:18294091": {
   "journal": "Journal of child and adolescent psychopharmacology",
   "subjects": [],
@@ -8087,6 +8279,12 @@
   "title": "Comparative properties of the dopamine transport complex in dog and rodent brain: striatal [(3)H]GBR12935 binding and [(3)H]dopamine uptake.",
   "year": "1989"
  },
+ "pmid:2050835": {
+  "journal": "Journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Pharmacokinetics and oral bioavailability of hydrocortisone.",
+  "year": "1991"
+ },
  "pmid:20632": {
   "journal": "Proceedings of the National Academy of Sciences of the United States of America",
   "subjects": [],
@@ -8205,6 +8403,12 @@
   "journal": "Bioorganic & medicinal chemistry",
   "subjects": [],
   "title": "Synthesis and biological activity of optically active NCL-1, a lysine-specific demethylase 1 selective inhibitor.",
+  "year": "2011"
+ },
+ "pmid:21233690": {
+  "journal": "Therapeutic drug monitoring",
+  "subjects": [],
+  "title": "Excretion of the principal urinary metabolites of phenytoin and absolute oral bioavailability determined by use of a stable isotope in patients with epilepsy.",
   "year": "2011"
  },
  "pmid:21284706": {
@@ -9299,6 +9503,12 @@
   "title": "A Phase 1B, randomized, double blind, placebo controlled, multiple-dose escalation study of NSI-189 phosphate, a neurogenic compound, in depressed patients.",
   "year": "2016"
  },
+ "pmid:26659543": {
+  "journal": "British journal of clinical pharmacology",
+  "subjects": [],
+  "title": "Pharmacokinetics and pharmacodynamics of \u03b3-hydroxybutyrate in healthy subjects.",
+  "year": "2016"
+ },
  "pmid:26721643": {
   "journal": "The Annals of pharmacotherapy",
   "subjects": [],
@@ -9765,6 +9975,12 @@
   "journal": "Japanese journal of pharmacology",
   "subjects": [],
   "title": "Antimuscarinic effects of antihistamines: quantitative evaluation by receptor-binding assay.",
+  "year": "1987"
+ },
+ "pmid:2884857": {
+  "journal": "The American journal of cardiology",
+  "subjects": [],
+  "title": "Pharmacokinetic overview of doxazosin.",
   "year": "1987"
  },
  "pmid:28856569": {
@@ -10565,6 +10781,12 @@
   "title": "Evaluating the toxicity and therapeutic potential of ibogaine in the treatment of chronic opioid abuse.",
   "year": "2021"
  },
+ "pmid:34158473": {
+  "journal": "Nature communications",
+  "subjects": [],
+  "title": "Site selective C-H functionalization of Mitragyna alkaloids reveals a molecular switch for tuning opioid receptor signaling efficacy.",
+  "year": "2021"
+ },
  "pmid:34240442": {
   "journal": "Journal of clinical pharmacy and therapeutics",
   "subjects": [],
@@ -10845,6 +11067,12 @@
   "journal": "Pharmacology, biochemistry, and behavior",
   "subjects": [],
   "title": "In vitro and in vivo pharmacology of nine novel synthetic cannabinoid receptor agonists.",
+  "year": "2022"
+ },
+ "pmid:36327391": {
+  "journal": "MMWR. Recommendations and reports : Morbidity and mortality weekly report. Recommendations and reports",
+  "subjects": [],
+  "title": "CDC Clinical Practice Guideline for Prescribing Opioids for Pain - United States, 2022.",
   "year": "2022"
  },
  "pmid:36407948": {
@@ -11343,6 +11571,12 @@
   "journal": "Clinical drug investigation",
   "subjects": [],
   "title": "Mazindol Immediate-Release/Sustained-Release (IR/SR): A 50-Year Legacy of Multifaceted Mechanisms and Emerging Therapeutic Potential.",
+  "year": "2026"
+ },
+ "pmid:41683852": {
+  "journal": "International journal of molecular sciences",
+  "subjects": [],
+  "title": "Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches.",
   "year": "2026"
  },
  "pmid:41931242": {
@@ -11891,6 +12125,12 @@
   "title": "Synthesis and binding properties of MK-801 isothiocyanates; (+)-3-isothiocyanato-5-methyl-10,11-dihydro-5H-dibenzo[a,d]cyclohepten- 5,10-imine hydrochloride: a new, potent and selective electrophilic affinity ligand for the NMDA receptor-coupled phencyclidine binding site.",
   "year": "1993"
  },
+ "pmid:837647": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Individualization of phenytoin dosage regimens.",
+  "year": "1977"
+ },
  "pmid:8383736": {
   "journal": "The Journal of pharmacology and experimental therapeutics",
   "subjects": [],
@@ -11963,6 +12203,12 @@
   "title": "Clinical pharmacokinetics and pharmacodynamics of zolpidem. Therapeutic implications.",
   "year": "1995"
  },
+ "pmid:8549036": {
+  "journal": "Clinical pharmacology and therapeutics",
+  "subjects": [],
+  "title": "Rifampin drastically reduces plasma concentrations and effects of oral midazolam.",
+  "year": "1996"
+ },
  "pmid:8582117": {
   "journal": "Clinical pharmacokinetics",
   "subjects": [],
@@ -11974,6 +12220,12 @@
   "subjects": [],
   "title": "L-DOPA is converted to dopamine in serotonergic fibers of the striatum of the rat: a double-labeling immunofluorescence study.",
   "year": "1995"
+ },
+ "pmid:8598183": {
+  "journal": "Epilepsia",
+  "subjects": [],
+  "title": "Concentrations and effects of oral midazolam are greatly reduced in patients treated with carbamazepine or phenytoin.",
+  "year": "1996"
  },
  "pmid:8612379": {
   "journal": "Clinical pharmacology and therapeutics",
@@ -12160,6 +12412,12 @@
   "subjects": [],
   "title": "Transactivation of the human renin promoter by the cyclic AMP/protein kinase A pathway is mediated by both cAMP-responsive element binding protein-1 (CREB)-dependent and CREB-independent mechanisms in Calu-6 cells.",
   "year": "1997"
+ },
+ "pmid:9024887": {
+  "journal": "International journal for parasitology",
+  "subjects": [],
+  "title": "The kinetic disposition of pyrantel citrate and pamoate and their efficacy against pyrantel-resistant Oesophagostomum dentatum in pigs.",
+  "year": "1996"
  },
  "pmid:9054453": {
   "journal": "The Journal of biological chemistry",
@@ -12375,6 +12633,12 @@
   "journal": "Behavioural brain research",
   "subjects": [],
   "title": "Neuropsychopharmacological mechanisms of stimulant drug action in attention-deficit hyperactivity disorder: a review and integration.",
+  "year": "1998"
+ },
+ "pmid:9714500": {
+  "journal": "Epilepsy research",
+  "subjects": [],
+  "title": "Gabapentin bioavailability: effect of dose and frequency of administration in adult patients with epilepsy.",
   "year": "1998"
  },
  "pmid:9756415": {

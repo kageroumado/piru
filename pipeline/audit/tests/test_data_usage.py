@@ -107,7 +107,14 @@ class SurfaceMap(unittest.TestCase):
         self.assertTrue(cases, "could not read DetailSection cases")
         # Sections that render without a DisclosurePolicy row: the identity
         # header, the overview prose, and the class screen.
-        extra = {"identity", "overview", "drugClass"}
+        extra = {
+            "identity",
+            "overview",
+            "drugClass",
+            "If You Stop",
+            "Discontinuation Evidence",
+            "tolerance",
+        }
         for table, entry in declared["tables"].items():
             surface = entry.get("surface")
             if surface is None:
