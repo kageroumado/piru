@@ -150,6 +150,7 @@ final class SubstanceStore {
     /// read once and never invalidated. ``combinationMetaboliteCache`` is the same shape.
     @ObservationIgnored private var enzymeModulatorCache: [MetabolicModulation.Modulator]?
     @ObservationIgnored private var combinationMetaboliteCache: [CombinationMetabolite.Definition]?
+    @ObservationIgnored private var tagEnzymeInteractionCache: [String: [String: TagEnzymeInteraction]]?
     /// Lowercased canonical names of substances carrying at least one `metabolism` row with
     /// `metabolite_active = 1`. The body-load readout qualifies "fully eliminated" when the
     /// parent cleared but a longer-lived active metabolite may persist. Not source-derived.
@@ -1294,6 +1295,15 @@ final class SubstanceStore {
         if let cached = enzymeModulatorCache { return cached }
         let loaded = SubstanceReadModel.enzymeModulators(db: substancesDB)
         enzymeModulatorCache = loaded
+        return loaded
+    }
+
+    /// Tag-derived enzyme interactions materialized by the pipeline: perpetrator→victim→interaction.
+    /// Keyed by lowercased perpetrator name, then lowercased victim name for O(1) pair lookup.
+    func tagEnzymeInteractions() -> [String: [String: TagEnzymeInteraction]] {
+        if let cached = tagEnzymeInteractionCache { return cached }
+        let loaded = SubstanceReadModel.tagEnzymeInteractions(db: substancesDB)
+        tagEnzymeInteractionCache = loaded
         return loaded
     }
 

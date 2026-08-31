@@ -239,7 +239,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:lysergamides",
+      "lysergamide",
       "prodrug-of-LSD",
       "research-chemical",
       "tentative"
@@ -343,7 +343,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:lysergamides"
+      "lysergamide"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -384,8 +384,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:Lysergamide",
-      "class:lysergamides",
+      "lysergamide",
       "prodrug-of-LSD",
       "research-chemical",
       "tentative"
@@ -425,8 +424,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:Lysergamides",
-      "class:lysergamides"
+      "lysergamide"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -500,7 +498,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:lysergamides",
+      "lysergamide",
       "research-chemical",
       "tentative"
     ],
@@ -537,8 +535,7 @@
     "display_class": "recreational",
     "tags": [
       "CES1-substrate",
-      "class:Lysergamide",
-      "class:lysergamides",
+      "lysergamide",
       "prodrug-of-LSD",
       "research-chemical"
     ],
@@ -619,7 +616,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:Lysergamide"
+      "lysergamide"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -652,7 +649,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:lysergamides"
+      "lysergamide"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -1161,7 +1158,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:arylcyclohexylamines",
       "designer-dissociative",
       "fatalities-reported",
       "habit-forming",
@@ -1399,7 +1395,6 @@
     "tags": [
       "5-HT2A-agonist",
       "TIHKAL",
-      "class:substituted tryptamine",
       "research-chemical",
       "tentative",
       "tryptamine"
@@ -2019,7 +2014,6 @@
       "CYP2D6-substrate",
       "NBOMe",
       "PET-tracer-Cimbi-36",
-      "class:substituted phenethylamines",
       "phenethylamine",
       "research-chemical"
     ],
@@ -2137,7 +2131,6 @@
     "tags": [
       "5-HT2A-agonist",
       "NBOH",
-      "class:substituted phenethylamines",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -2178,7 +2171,6 @@
       "CYP2D6-substrate",
       "CYP3A4-substrate",
       "NBOMe",
-      "class:substituted phenethylamines",
       "fatality-documented",
       "phenethylamine",
       "research-chemical"
@@ -2305,7 +2297,6 @@
       "5-HT2A-agonist",
       "CYP2D6-substrate",
       "NBOMe",
-      "class:substituted phenethylamines",
       "phenethylamine",
       "research-chemical"
     ],
@@ -2335,7 +2326,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:substituted phenethylamines"
+      "phenethylamine"
     ],
     "default_route": "sublingual",
     "all_routes": [
@@ -2569,7 +2560,6 @@
       "5-HT2A-agonist",
       "CYP2D6-substrate",
       "NBOH",
-      "class:substituted phenethylamines",
       "phenethylamine",
       "phenolic-glucuronidation",
       "research-chemical",
@@ -2618,7 +2608,6 @@
       "CYP2D6-substrate",
       "CYP3A4-substrate",
       "NBOMe",
-      "class:substituted phenethylamines",
       "fatality-documented",
       "hERG-data-lacking",
       "phenethylamine",
@@ -2753,7 +2742,6 @@
     "tags": [
       "5-HT2A-agonist",
       "NBOMe",
-      "class:substituted phenethylamines",
       "phenethylamine",
       "research-chemical",
       "tentative"
@@ -2782,34 +2770,23 @@
     "name": "25P-NBOMe",
     "display_name": "",
     "aliases": [
-      "25P",
-      "2C-P-NBOMe",
-      "NBOMe",
-      "NBOMe-2C-P",
-      "P-NBOMe"
+      "NBOMe-2C-P"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
       "NBOMe",
-      "duplicate-of-25P-NBOMe",
       "phenethylamine",
       "research-chemical",
       "tentative"
     ],
-    "default_route": "inhalation",
+    "default_route": "oral",
     "all_routes": [
-      "inhalation",
-      "insufflation",
-      "oral",
-      "sublingual"
+      "oral"
     ],
     "routes_with_dose": [
-      "inhalation",
-      "insufflation",
-      "oral",
-      "sublingual"
+      "oral"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
@@ -2924,9 +2901,7 @@
       "2C-x",
       "5-HT2A-agonist",
       "5-HT2B-agonist",
-      "5HT2A-agonist",
       "PIHKAL",
-      "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
       "psychedelic"
@@ -3056,7 +3031,6 @@
       "5-HT2A-agonist",
       "5-HT2B-strong",
       "class:substituted benzofurans",
-      "class:substituted phenethylamines",
       "phenethylamine",
       "research-chemical",
       "valvulopathy-concern"
@@ -3140,7 +3114,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
       "research-chemical"
@@ -3227,8 +3200,6 @@
       "5-HT2A-agonist",
       "MAO-substrate",
       "PIHKAL",
-      "class:Phenethylamine",
-      "class:substituted phenethylamines",
       "phenethylamine",
       "research-chemical"
     ],
@@ -3305,7 +3276,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
       "research-chemical"
@@ -3418,7 +3388,6 @@
     "tags": [
       "2C-x",
       "5-HT2A-agonist",
-      "5HT2A-agonist",
       "PIHKAL",
       "no-human-data",
       "phenethylamine",
@@ -3642,8 +3611,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:Phenethylamine",
-      "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
       "research-chemical"
@@ -3798,8 +3765,7 @@
       "PIHKAL",
       "no-human-data",
       "phenethylamine",
-      "weak-psychedelic",
-      "wrong-group-classification"
+      "weak-psychedelic"
     ],
     "default_route": "",
     "all_routes": [],
@@ -3834,7 +3800,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
       "research-chemical"
@@ -3912,6 +3877,43 @@
     ]
   },
   {
+    "name": "2C-P-NBOMe",
+    "display_name": "",
+    "aliases": [
+      "25P",
+      "25P-NBOMe",
+      "NBOMe",
+      "NBOMe-2C-P",
+      "P-NBOMe"
+    ],
+    "category": "",
+    "display_class": "recreational",
+    "tags": [],
+    "default_route": "inhalation",
+    "all_routes": [
+      "inhalation",
+      "insufflation",
+      "sublingual"
+    ],
+    "routes_with_dose": [
+      "inhalation",
+      "insufflation",
+      "sublingual"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
+    ]
+  },
+  {
     "name": "2C-SE",
     "display_name": "",
     "aliases": [],
@@ -3958,7 +3960,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
       "research-chemical",
@@ -4104,7 +4105,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
       "research-chemical"
@@ -4191,7 +4191,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
       "research-chemical",
@@ -4325,7 +4324,6 @@
       "2C-x",
       "5-HT2A-agonist",
       "PIHKAL",
-      "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
       "research-chemical"
@@ -4803,7 +4801,6 @@
       "SNDRI",
       "TAAR1",
       "class:amphetamine",
-      "duplicate-of-MDA",
       "habit-forming",
       "no-human-data",
       "phenethylamine",
@@ -5123,7 +5120,7 @@
     "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
-      "class:Arylcyclohexylamine dissociative"
+      "arylcyclohexylamine"
     ],
     "default_route": "inhalation",
     "all_routes": [
@@ -5150,25 +5147,19 @@
     ]
   },
   {
-    "name": "3-Fluoro-PCP",
+    "name": "3-F-PCP",
     "display_name": "",
     "aliases": [
       "3'-F-PCP",
-      "3-F-PCP",
+      "3-Fluoro-PCP",
       "3-fluoro phencyclidine",
       "3F-PCP",
       "3FPCP"
     ],
-    "category": "Dissociative",
+    "category": "",
     "display_class": "recreational",
     "tags": [
-      "NMDA-antagonist",
-      "PCP-analog",
-      "arylcyclohexylamine",
-      "class:Arylcyclohexylamine dissociative",
-      "duplicate-of-3-Fluoro-PCP",
-      "no-human-data",
-      "research-chemical"
+      "arylcyclohexylamine"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -5193,6 +5184,39 @@
     "effects": [],
     "references": [],
     "data_gaps": [
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
+    ]
+  },
+  {
+    "name": "3-Fluoro-PCP",
+    "display_name": "",
+    "aliases": [
+      "3-F-PCP"
+    ],
+    "category": "Dissociative",
+    "display_class": "recreational",
+    "tags": [
+      "NMDA-antagonist",
+      "PCP-analog",
+      "arylcyclohexylamine",
+      "no-human-data",
+      "research-chemical"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -5434,7 +5458,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:arylcyclohexylamines",
       "habit-forming",
       "possible-μ-opioid-agonist",
       "research-chemical",
@@ -5481,10 +5504,7 @@
       "NMDA-antagonist",
       "PCP-analog",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine",
-      "class:arylcyclohexylamines",
       "habit-forming",
-      "mu-opioid-agonist",
       "naloxone-responsive-respiratory-depression",
       "no-human-data",
       "research-chemical",
@@ -5683,8 +5703,6 @@
       "PCP-analog",
       "agitation-risk",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine",
-      "class:arylcyclohexylamines",
       "designer-dissociative",
       "habit-forming",
       "research-chemical",
@@ -5722,7 +5740,7 @@
     "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
-      "class:arylcyclohexylamines",
+      "arylcyclohexylamine",
       "research-chemical",
       "tentative"
     ],
@@ -5766,8 +5784,6 @@
       "SERT-inhibitor",
       "agitation-risk",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine",
-      "class:arylcyclohexylamines",
       "designer-dissociative",
       "fatal-overdose-narrow-window",
       "fatalities-reported",
@@ -5861,7 +5877,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine",
       "habit-forming",
       "research-chemical",
       "sigma-1",
@@ -6049,7 +6064,6 @@
       "CYP2D6-substrate",
       "DAT-preferring",
       "cathinone",
-      "class:cathinone",
       "empathogen-adjacent",
       "first-in-human-published",
       "habit-forming",
@@ -6099,7 +6113,6 @@
       "GABAA-PAM",
       "UGT-substrate",
       "benzodiazepine",
-      "class:Benzodiazepine",
       "designer-benzo",
       "habit-forming",
       "metabolite-as-drug",
@@ -6791,11 +6804,10 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:Tryptamine",
-      "class:substituted tryptamines",
       "prodrug",
       "research-chemical",
-      "tentative"
+      "tentative",
+      "tryptamine"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -6834,7 +6846,6 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
-      "class:substituted tryptamines",
       "prodrug",
       "research-chemical",
       "tryptamine"
@@ -6876,8 +6887,6 @@
     "tags": [
       "5-HT2A-agonist",
       "CES1-substrate",
-      "class:Tryptamine",
-      "class:substituted tryptamines",
       "no-human-data",
       "prodrug-of-psilocin",
       "research-chemical",
@@ -7000,9 +7009,9 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:substituted tryptamines",
       "prodrug",
-      "research-chemical"
+      "research-chemical",
+      "tryptamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -7078,11 +7087,11 @@
     "tags": [
       "5-HT2A-agonist",
       "MISCATEGORIZED",
-      "class:substituted tryptamines",
       "prodrug",
       "psychedelic",
       "research-chemical",
-      "tentative"
+      "tentative",
+      "tryptamine"
     ],
     "default_route": "inhalation",
     "all_routes": [
@@ -7226,7 +7235,7 @@
     "display_class": "recreational",
     "tags": [
       "SERT-selective",
-      "class:Substituted cathinone",
+      "cathinone",
       "hybrid-DAT-blocker-SERT-substrate",
       "para-chloro-neurotoxicity-flag"
     ],
@@ -7866,11 +7875,8 @@
       "GABAergic",
       "alpha-2-delta-ligand",
       "class:gabapentinoids",
-      "duplicate-of-4-fluorophenibut",
-      "habit-forming",
       "high-dependence-risk",
-      "research-chemical",
-      "tentative"
+      "research-chemical"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -8040,7 +8046,6 @@
     "display_class": "recreational",
     "tags": [
       "TIHKAL",
-      "class:substituted tryptamines",
       "no-human-data",
       "research-chemical",
       "tryptamine"
@@ -8080,7 +8085,6 @@
       "5-HT2A-agonist",
       "5-HT2A-vs-2C-selective",
       "TIHKAL",
-      "class:substituted tryptamines",
       "research-chemical",
       "tryptamine"
     ],
@@ -8120,7 +8124,6 @@
     "display_class": "recreational",
     "tags": [
       "TIHKAL",
-      "class:substituted tryptamines",
       "no-human-data",
       "research-chemical",
       "tentative",
@@ -8159,8 +8162,8 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:substituted tryptamines",
-      "tentative"
+      "tentative",
+      "tryptamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -8190,9 +8193,9 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:Tryptamine",
       "research-chemical",
-      "tentative"
+      "tentative",
+      "tryptamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -8229,8 +8232,6 @@
     "display_class": "recreational",
     "tags": [
       "TIHKAL",
-      "class:Tryptamine",
-      "class:substituted tryptamines",
       "no-human-data",
       "research-chemical",
       "tryptamine"
@@ -8315,7 +8316,6 @@
     "tags": [
       "5-HT2A-selective-vs-2B",
       "TIHKAL",
-      "class:substituted tryptamines",
       "no-human-data",
       "research-chemical",
       "tryptamine"
@@ -8426,7 +8426,6 @@
     "display_class": "recreational",
     "tags": [
       "TIHKAL",
-      "class:substituted tryptamines",
       "no-human-data",
       "research-chemical",
       "tentative",
@@ -8462,7 +8461,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:Tryptamine"
+      "tryptamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -8593,7 +8592,6 @@
     "display_class": "recreational",
     "tags": [
       "cathinone",
-      "class:Substituted cathinone",
       "fatalities-reported",
       "habit-forming",
       "hybrid-DAT-blocker-SERT-substrate",
@@ -8624,6 +8622,39 @@
     ]
   },
   {
+    "name": "4-MeO-Butryfentanyl",
+    "display_name": "",
+    "aliases": [
+      "4-MeO-BF",
+      "4-Methoxybutyrfentanyl"
+    ],
+    "category": "Opioid",
+    "display_class": "recreational",
+    "tags": [
+      "MOR-agonist",
+      "habit-forming",
+      "research-chemical",
+      "tentative"
+    ],
+    "default_route": "",
+    "all_routes": [],
+    "routes_with_dose": [],
+    "has_dose_data": false,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "dose_ranges_by_route",
+      "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
+    ]
+  },
+  {
     "name": "4-MeO-MiPT",
     "display_name": "",
     "aliases": [],
@@ -8631,7 +8662,6 @@
     "display_class": "recreational",
     "tags": [
       "TIHKAL",
-      "class:Tryptamine",
       "research-chemical",
       "tentative",
       "tryptamine"
@@ -8672,7 +8702,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:arylcyclohexylamines",
       "habit-forming",
       "lower-NMDA-than-3-MeO-isomer",
       "research-chemical",
@@ -8705,21 +8734,15 @@
     "display_name": "4-MeO-BF",
     "aliases": [
       "4-MeO-BF",
-      "4-MeO-Butryfentanyl",
       "4-Methoxy-butyrylfentanyl",
       "p-MeO-butyrylfentanyl",
       "para-Methoxybutyrylfentanyl"
     ],
-    "category": "Opioid",
+    "category": "",
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
-      "duplicate-of-4-methoxybutyrfentanyl",
-      "habit-forming",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
-      "research-chemical",
-      "tentative",
+      "MOR-full-agonist",
       "wooden-chest-syndrome-risk"
     ],
     "default_route": "insufflation",
@@ -9231,7 +9254,7 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
-      "mu-full-agonist",
+      "MOR-full-agonist",
       "wooden-chest-syndrome-risk"
     ],
     "default_route": "insufflation",
@@ -9332,7 +9355,7 @@
     "display_class": "recreational",
     "tags": [
       "DAT-NET-blocker-predicted",
-      "class:substituted cathinone"
+      "cathinone"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -9368,7 +9391,6 @@
     "tags": [
       "US-Schedule-I",
       "class:Indazole-3-carboxamide synthetic cannabinoid",
-      "duplicate-of:4F-MDMB-BINACA",
       "fatalities-reported",
       "full-agonist-CB1",
       "high-risk",
@@ -9453,7 +9475,7 @@
     "category": "Cannabinoid",
     "display_class": "recreational",
     "tags": [
-      "MISCLASSIFICATION",
+      "MISCATEGORIZED",
       "actually-cathinone-or-stimulant-not-cannabinoid",
       "research-chemical",
       "synthetic-cannabinoid"
@@ -9491,7 +9513,7 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "MISCLASSIFICATION",
+      "MISCATEGORIZED",
       "actually-synthetic-cathinone",
       "habit-forming",
       "pyrrolidinophenone",
@@ -10074,7 +10096,6 @@
       "OTC",
       "amino-acid-derivative",
       "class:amino acid",
-      "class:substituted tryptamines",
       "mood",
       "no-human-data",
       "serotonin-precursor",
@@ -10341,10 +10362,9 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:Tryptamine",
-      "class:substituted tryptamines",
       "promiscuous-binding",
-      "research-chemical"
+      "research-chemical",
+      "tryptamine"
     ],
     "default_route": "inhalation",
     "all_routes": [
@@ -10482,7 +10502,6 @@
       "5-HT2A-agonist",
       "CYP2D6-substrate",
       "TIHKAL",
-      "class:substituted tryptamines",
       "research-chemical",
       "tryptamine"
     ],
@@ -10536,7 +10555,6 @@
       "G-protein-biased-5HT2A",
       "MAO-A-substrate",
       "TIHKAL",
-      "class:substituted tryptamines",
       "no-human-data",
       "no-tachyphylaxis",
       "research-chemical",
@@ -10607,8 +10625,8 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:Substituted tryptamine",
-      "research-chemical"
+      "research-chemical",
+      "tryptamine"
     ],
     "default_route": "inhalation",
     "all_routes": [
@@ -10744,8 +10762,6 @@
     "tags": [
       "5-HT2A-preferring-5MeO",
       "TIHKAL",
-      "class:Tryptamine",
-      "class:substituted tryptamines",
       "research-chemical",
       "tryptamine"
     ],
@@ -11375,8 +11391,8 @@
       "SSRA-NRI",
       "class:substituted amphetamines",
       "class:substituted benzofurans",
-      "class:substituted phenethylamines",
       "habit-forming",
+      "phenethylamine",
       "research-chemical"
     ],
     "default_route": "oral",
@@ -11852,8 +11868,6 @@
       "DRI",
       "TAAR1-inactive-human",
       "cathinone",
-      "class:cathinone",
-      "class:substituted cathinones",
       "class:substituted pyrrolidines",
       "fatalities-reported",
       "habit-forming",
@@ -11999,7 +12013,6 @@
     "display_class": "recreational",
     "tags": [
       "class:indazolecarboxamide",
-      "duplicate-of:AB-FUBINACA",
       "full-agonist-CB1",
       "habit-forming",
       "high-toxicity",
@@ -12379,10 +12392,10 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
+      "MOR-agonist",
+      "MOR-full-agonist",
       "class:anilidopiperidine",
       "habit-forming",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
       "research-chemical",
       "wooden-chest-syndrome-risk"
     ],
@@ -12448,22 +12461,51 @@
     ]
   },
   {
+    "name": "Acryl-fentanyl",
+    "display_name": "",
+    "aliases": [
+      "Acrylfentanyl"
+    ],
+    "category": "Opioid",
+    "display_class": "recreational",
+    "tags": [
+      "MOR-agonist",
+      "habit-forming",
+      "research-chemical",
+      "tentative"
+    ],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
+    ]
+  },
+  {
     "name": "Acrylfentanyl",
     "display_name": "",
     "aliases": [
       "Acryl-fentanyl",
       "Acryloylfentanyl"
     ],
-    "category": "Opioid",
+    "category": "",
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
-      "duplicate-of-acrylfentanyl",
-      "habit-forming",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
-      "research-chemical",
-      "tentative",
+      "MOR-full-agonist",
       "wooden-chest-syndrome-risk"
     ],
     "default_route": "inhalation",
@@ -12480,13 +12522,14 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -13048,10 +13091,10 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-full-agonist",
       "habit-forming",
       "kappa-agonist",
       "morphine-equivalent-potency",
-      "mu-full-agonist",
       "research-chemical"
     ],
     "default_route": "oral",
@@ -13155,7 +13198,7 @@
     "tags": [
       "5-HT2A-partial-agonist",
       "TIHKAL",
-      "class:lysergamides",
+      "lysergamide",
       "research-chemical",
       "tryptamine"
     ],
@@ -13359,7 +13402,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:lysergamides",
+      "lysergamide",
       "prodrug-of-LSD",
       "research-chemical",
       "tentative"
@@ -13599,7 +13642,7 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
-      "mu-full-agonist",
+      "MOR-full-agonist",
       "rapid-onset",
       "short-acting"
     ],
@@ -13753,7 +13796,6 @@
     "display_class": "recreational",
     "tags": [
       "PIHKAL",
-      "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
       "research-chemical"
@@ -14093,8 +14135,6 @@
       "DAT-NET-selective",
       "TAAR1-inactive-human",
       "cathinone",
-      "class:cathinone",
-      "class:substituted cathinones",
       "class:substituted pyrrolidines",
       "fatalities-reported",
       "habit-forming",
@@ -14155,7 +14195,6 @@
       "active-metabolite",
       "anxiolytic",
       "benzodiazepine",
-      "class:benzodiazepines",
       "common",
       "habit-forming",
       "high-potency",
@@ -15125,8 +15164,6 @@
       "TAAR1",
       "TAAR1-agonist",
       "brand-of-dextroamphetamine",
-      "class:Phenethylamine",
-      "class:substituted phenethylamines",
       "common",
       "habit-forming",
       "mixed-enantiomer",
@@ -15210,8 +15247,6 @@
     "tags": [
       "MAO-A-inhibitor-weak",
       "TIHKAL",
-      "class:Tryptamine",
-      "class:substituted tryptamines",
       "monoamine-releaser-broad",
       "no-human-data",
       "research-chemical",
@@ -15321,7 +15356,6 @@
     "display_class": "recreational",
     "tags": [
       "AMPA-PAM",
-      "class:racetams",
       "nootropic",
       "racetam",
       "research-chemical"
@@ -15660,8 +15694,8 @@
     "display_class": "medical_rx",
     "tags": [
       "2nd generation antipsychotic",
-      "5HT1A-partial-agonist",
-      "5HT2A-antagonist",
+      "5-HT1A-partial-agonist",
+      "5-HT2A-antagonist",
       "D2-partial-agonist",
       "D3-partial-agonist",
       "antipsychotic",
@@ -15730,7 +15764,7 @@
     "display_class": "medical_rx",
     "tags": [
       "2nd generation antipsychotic",
-      "5HT2A-antagonist",
+      "5-HT2A-antagonist",
       "D2-antagonist",
       "H1-antagonist",
       "alpha1-blocker",
@@ -16129,7 +16163,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "5HT2A-agonist",
+      "5-HT2A-agonist",
       "DMT-containing",
       "MAOI",
       "MAOI-containing",
@@ -16248,7 +16282,6 @@
     "tags": [
       "H1-antagonist",
       "antihistamine",
-      "antihistamine, 2nd generation",
       "mast-cell-stabilizer",
       "non-sedating",
       "prescription-only",
@@ -16284,8 +16317,8 @@
     "category": "Antihistamine",
     "display_class": "medical_rx",
     "tags": [
-      "antihistamine, 2nd generation",
-      "corticosteroid"
+      "corticosteroid",
+      "second-gen-antihistamine"
     ],
     "default_route": "",
     "all_routes": [],
@@ -16947,8 +16980,8 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
-      "mu-agonist-presumed",
-      "mu-opioid-agonist",
+      "MOR-agonist",
+      "MOR-agonist-presumed",
       "research-chemical",
       "tentative"
     ],
@@ -17133,7 +17166,6 @@
     "display_class": "otc",
     "tags": [
       "AMPK-activator",
-      "CYP450-inhibitor",
       "GI-side-effects",
       "OTC",
       "herbal",
@@ -17682,7 +17714,6 @@
     "tags": [
       "2C-x",
       "5-HT2A-agonist",
-      "class:substituted phenethylamines",
       "phenethylamine",
       "research-chemical"
     ],
@@ -18279,8 +18310,8 @@
     "display_class": "medical_rx",
     "tags": [
       "2nd generation antipsychotic",
-      "5HT1A-partial-agonist",
-      "5HT2A-antagonist",
+      "5-HT1A-partial-agonist",
+      "5-HT2A-antagonist",
       "D2-partial-agonist",
       "D3-partial-agonist",
       "alpha1-blocker",
@@ -18468,7 +18499,6 @@
       "GABAA-PAM",
       "atypical-CYP-pathway",
       "benzodiazepine",
-      "class:Benzodiazepine",
       "habit-forming"
     ],
     "default_route": "oral",
@@ -18586,7 +18616,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "duplicate-of-2-Br-DCK",
       "no-human-data",
       "research-chemical"
     ],
@@ -18681,11 +18710,11 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-full-agonist",
       "US-Schedule-I",
       "benzimidazole-opioid",
       "extreme-potency",
       "fatalities-reported",
-      "mu-full-agonist",
       "naloxone-high-dose-required"
     ],
     "default_route": "",
@@ -18742,7 +18771,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Pharmacokinetics of brotizolam in healthy subjects following intravenous and oral administration."
+      "Pharmacokinetics of brotizolam in healthy subjects following intravenous and oral administration"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -18871,7 +18900,6 @@
       "5-HT2A-agonist",
       "5-HT3-agonist",
       "TIHKAL",
-      "class:substituted tryptamines",
       "high-body-load",
       "no-human-data",
       "tryptamine"
@@ -19071,7 +19099,6 @@
       "CYP2D6-inhibitor-strong",
       "NDRI",
       "antidepressant",
-      "dopamine/ne reuptake inhibitor",
       "nAChR-antagonist",
       "prescription-only",
       "seizure-risk",
@@ -19107,7 +19134,7 @@
     "category": "Other",
     "display_class": "medical_rx",
     "tags": [
-      "5HT1A-agonist",
+      "5-HT1A-agonist",
       "anxiolytic",
       "azapirone",
       "prescription-only",
@@ -19168,11 +19195,11 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-full-agonist",
       "benzimidazole-opioid",
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
-      "mu-full-agonist",
       "naloxone-high-dose-required",
       "nitazene"
     ],
@@ -19254,9 +19281,7 @@
     "tags": [
       "MDMA-analog",
       "cathinone",
-      "class:cathinone",
       "class:mdxx",
-      "class:substituted cathinones",
       "habit-forming",
       "hybrid-DAT-blocker-SERT-substrate",
       "research-chemical"
@@ -19295,9 +19320,9 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
+      "MOR-agonist",
+      "MOR-full-agonist",
       "habit-forming",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
       "research-chemical",
       "tentative",
       "wooden-chest-syndrome-risk"
@@ -19336,8 +19361,8 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:Piperazine",
       "habit-forming",
+      "piperazine",
       "research-chemical"
     ],
     "default_route": "oral",
@@ -19476,10 +19501,7 @@
     ],
     "category": "Other",
     "display_class": "recreational",
-    "tags": [
-      "easter-egg",
-      "fictional"
-    ],
+    "tags": [],
     "default_route": "oral",
     "all_routes": [
       "oral"
@@ -19651,10 +19673,10 @@
       "CBL",
       "Cannabipinol"
     ],
-    "category": "",
-    "display_class": "medical_rx",
+    "category": "Cannabinoid",
+    "display_class": "recreational",
     "tags": [
-      "class:Phytocannabinoid"
+      "phytocannabinoid"
     ],
     "default_route": "",
     "all_routes": [],
@@ -19741,7 +19763,7 @@
     "tags": [
       "CYP2C9-substrate",
       "CYP3A4-substrate",
-      "class:cannabinoid",
+      "cannabinoid",
       "common",
       "habit-forming",
       "long-detection-window",
@@ -19880,7 +19902,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "dopamine precursor"
+      "dopamine-precursor"
     ],
     "default_route": "",
     "all_routes": [],
@@ -19971,8 +19993,8 @@
     "display_class": "medical_rx",
     "tags": [
       "2nd generation antipsychotic",
-      "5HT1A-partial-agonist",
-      "5HT2A-antagonist",
+      "5-HT1A-partial-agonist",
+      "5-HT2A-antagonist",
       "D2-partial-agonist",
       "D3-partial-agonist",
       "antipsychotic",
@@ -20017,8 +20039,8 @@
     "tags": [
       "CYP2C19-pharmacogenetic",
       "GABA-A-PAM",
+      "carbamate",
       "class:1,3-propanediol dicarbamate",
-      "class:Carbamate",
       "habit-forming",
       "meprobamate-prodrug",
       "skeletal muscle relaxant"
@@ -20239,7 +20261,6 @@
       "TRPA1-agonist",
       "TRPV1-agonist",
       "cannabinoid",
-      "class:Phytocannabinoid",
       "non-intoxicating",
       "phytocannabinoid",
       "therapeutic",
@@ -20281,7 +20302,6 @@
       "5-HT1A-agonist",
       "CB2-agonist",
       "cannabinoid",
-      "class:cannabinoid",
       "non-intoxicating",
       "phytocannabinoid",
       "therapeutic"
@@ -20324,7 +20344,6 @@
       "anticonvulsant",
       "anticonvulsant-mechanism",
       "cannabinoid",
-      "class:Phytocannabinoid",
       "non-intoxicating",
       "phytocannabinoid",
       "therapeutic"
@@ -20405,7 +20424,6 @@
       "CB2-agonist",
       "CYP2C9-substrate",
       "cannabinoid",
-      "class:Cannabinoid",
       "mildly-psychoactive",
       "phytocannabinoid",
       "sedative",
@@ -20801,7 +20819,6 @@
     "tags": [
       "DMAE-prodrug",
       "cholinergic",
-      "class:cholinergic",
       "nootropic",
       "old-pharmaceutical",
       "tentative"
@@ -20914,7 +20931,6 @@
       "H1-antagonist",
       "OTC",
       "antihistamine",
-      "antihistamine, 2nd generation",
       "non-sedating",
       "second-gen-antihistamine"
     ],
@@ -20989,7 +21005,6 @@
       "ADH-substrate-prodrug",
       "GABA-A-PAM-via-metabolite",
       "IARC-2A",
-      "duplicate-of-chloral-hydrate",
       "habit-forming"
     ],
     "default_route": "oral",
@@ -21091,7 +21106,6 @@
       "anxiolytic",
       "benzodiazepine",
       "brand-name-of-chlordiazepoxide",
-      "class:Benzodiazepine",
       "habit-forming"
     ],
     "default_route": "oral",
@@ -21259,7 +21273,6 @@
       "SERT-inhibitor-clinically-relevant",
       "anticholinergic",
       "antihistamine",
-      "antihistamine, 1st generation",
       "first-gen-antihistamine",
       "hERG-moderate-overdose-only",
       "sedating",
@@ -21300,7 +21313,7 @@
     "display_class": "medical_rx",
     "tags": [
       "1st generation antipsychotic",
-      "5HT2A-antagonist",
+      "5-HT2A-antagonist",
       "D2-antagonist",
       "alpha1-blocker",
       "antipsychotic",
@@ -21516,13 +21529,11 @@
     "category": "Antihistamine",
     "display_class": "medical_rx",
     "tags": [
-      "CYP-inhibitor",
       "H2-antagonist",
       "OTC",
       "acid-reducer",
       "antacid agent",
       "antihistamine",
-      "histamine-2 receptor antagonist",
       "non-sedating"
     ],
     "default_route": "",
@@ -22148,7 +22159,6 @@
       "anticonvulsant",
       "anxiolytic",
       "benzodiazepine",
-      "class:benzodiazepines",
       "habit-forming",
       "high-binding-affinity",
       "long-half-life"
@@ -22201,7 +22211,6 @@
     "tags": [
       "GABAA-PAM",
       "benzodiazepine",
-      "class:benzodiazepines",
       "designer-benzo",
       "extreme-potency",
       "fatalities-reported",
@@ -22261,9 +22270,8 @@
       "alpha-2A-partial-agonist",
       "alpha2-agonist",
       "antihypertensive",
-      "centrally-acting alpha-2 agonist",
       "class:arylaminoimidazoline",
-      "class:imidazoline",
+      "imidazoline",
       "opioid-withdrawal",
       "prescription-only",
       "rebound-hypertension-risk",
@@ -22330,10 +22338,10 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-agonist",
+      "MOR-full-agonist",
       "habit-forming",
       "morphine-stronger",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
       "nitazene",
       "research-chemical"
     ],
@@ -22514,7 +22522,7 @@
     "display_class": "medical_rx",
     "tags": [
       "2nd generation antipsychotic",
-      "5HT2A-antagonist",
+      "5-HT2A-antagonist",
       "D2-antagonist",
       "H1-antagonist",
       "REMS-required",
@@ -22835,7 +22843,6 @@
       "CHT1-modulator-proposed",
       "HACU-enhancer",
       "cholinergic",
-      "class:racetams",
       "nootropic",
       "preclinical-only",
       "racetam",
@@ -23193,7 +23200,6 @@
     "category": "Supplement",
     "display_class": "otc",
     "tags": [
-      "CYP450-inhibitor",
       "NF-kB-inhibitor",
       "OTC",
       "anti-inflammatory",
@@ -23468,9 +23474,9 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
+      "MOR-agonist",
+      "MOR-full-agonist",
       "habit-forming",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
       "research-chemical",
       "tentative",
       "wooden-chest-syndrome-risk"
@@ -24294,6 +24300,41 @@
     "data_gaps": []
   },
   {
+    "name": "Deoxymethoxetamine",
+    "display_name": "",
+    "aliases": [
+      "3-Me-2'-oxo-PCE",
+      "3D-MXE",
+      "DMXE",
+      "脱氧甲氧基氯胺酮"
+    ],
+    "category": "",
+    "display_class": "recreational",
+    "tags": [
+      "arylcyclohexylamine"
+    ],
+    "default_route": "insufflation",
+    "all_routes": [
+      "insufflation",
+      "oral"
+    ],
+    "routes_with_dose": [
+      "insufflation",
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "DMXE 作为一种非竞争性 NMDA受体拮抗剂 起作用喵。NMDAR（N-甲基-D-天冬氨酸受体）是谷氨酸受体的一种特定类型，负责调节大脑和脊髓中神经元之间电信号的传递；信号要通过，受体必须处于开放状态。\n\n该物质的 IC50（半数最大抑制浓度）为 0.679mM，这表明它具有显著的效力呢。DMXE 及其相关化合物结合在 NMDAR 的苯环己哌啶 (PCP) 位点，这是通过计算机模拟对接结果确定的喵。这种结合与其观察到的拮抗活性有关，包括以剂量依赖的方式阻断 NMDA 诱导的内向电流。DMXE 显示出与 MXiPr 和 O-脱甲基 MXE 等其他 MXE 类似物相当的高亲和力和强效抑制能力。此外，DMXE 还能显著降低在 NMDA 存在下诱发的兴奋性突触后电流 (EPSCs) 呢。\n\n解离剂通过结合并阻断正常运作的 NMDA 受体来抑制其功能。这种神经网络活动的破坏会导致正常认知、情感处理、心理运动功能的丧失，产生麻醉感，最终导致类似于“K-洞”的状态喵。",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "half_life_minutes",
+      "references"
+    ]
+  },
+  {
     "name": "Dermorphin",
     "display_name": "",
     "aliases": [
@@ -24340,7 +24381,6 @@
     "tags": [
       "GABAA-PAM",
       "benzodiazepine",
-      "class:Thienotriazolodiazepine",
       "class:thienodiazepines",
       "designer-benzo",
       "habit-forming",
@@ -24401,8 +24441,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine",
-      "class:arylcyclohexylamines",
       "designer-dissociative",
       "habit-forming",
       "longer-duration-than-ketamine",
@@ -24535,7 +24573,7 @@
     "mechanism_summary": "Desirudin is a direct inhibitor of free circulating and clot-bound thrombin. The anticoagulant properties of desirudin are demonstrated by its ability to prolong the clotting time of human plasma. One molecule of desirudin binds to one molecule of thrombin and thereby blocks the thrombogenic activity of thrombin. As a result, all thrombin-dependent coagulation assays are affected. Activated partial thromboplastin time (aPTT) is a measure of the anticoagulant activity of desirudin and increases in a dose-dependent fashion.",
     "effects": [],
     "references": [
-      "The role of recombinant hirudins in the management of thrombotic disorders.",
+      "The role of recombinant hirudins in the management of thrombotic disorders",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0187-0011"
     ],
     "data_gaps": [
@@ -24556,10 +24594,10 @@
     "tags": [
       "H1-antagonist",
       "antihistamine",
-      "antihistamine, 3rd generation",
       "non-sedating",
       "prescription-only",
-      "second-gen-antihistamine"
+      "second-gen-antihistamine",
+      "third-gen-antihistamine"
     ],
     "default_route": "",
     "all_routes": [],
@@ -24594,7 +24632,6 @@
     "tags": [
       "GABAA-PAM",
       "benzodiazepine",
-      "class:Benzodiazepine",
       "designer-benzo",
       "habit-forming",
       "metabolite-as-drug",
@@ -24835,7 +24872,6 @@
     "display_class": "recreational",
     "tags": [
       "TIHKAL",
-      "class:substituted tryptamines",
       "no-human-data",
       "orally-active-tryptamine",
       "research-chemical",
@@ -25192,8 +25228,6 @@
       "anticonvulsant",
       "anxiolytic",
       "benzodiazepine",
-      "class:Benzodiazepine",
-      "class:benzodiazepines",
       "common",
       "habit-forming"
     ],
@@ -25289,8 +25323,6 @@
       "GABAA-PAM",
       "active-metabolite-lorazepam",
       "benzodiazepine",
-      "class:Benzodiazepine",
-      "class:benzodiazepines",
       "designer-benzo",
       "habit-forming",
       "long-half-life"
@@ -25759,8 +25791,7 @@
       "Gravol",
       "O-benzhydryldimethylaminoethanol 8-chlorotheophyllinate",
       "Triptone",
-      "Vomex A",
-      "茶苯海明"
+      "Vomex A"
     ],
     "category": "Deliriant",
     "display_class": "recreational",
@@ -25772,7 +25803,6 @@
       "antihistamine",
       "deliriant",
       "diphenhydramine-salt",
-      "duplicate-of-dimenhydrinate",
       "first-gen-antihistamine",
       "sedating"
     ],
@@ -25980,7 +26010,6 @@
       "anticholinergic",
       "anticholinergic-strong",
       "antihistamine",
-      "antihistamine, 1st generation",
       "class:ethanolamine",
       "deliriant",
       "first-gen-antihistamine",
@@ -26206,8 +26235,6 @@
       "5-HT2A-agonist",
       "TIHKAL",
       "auditory-distortion",
-      "class:Tryptamine",
-      "class:substituted tryptamines",
       "research-chemical",
       "tryptamine"
     ],
@@ -26350,7 +26377,6 @@
     "display_class": "recreational",
     "tags": [
       "Olney-lesion-positive",
-      "duplicate-of-Dizocilpine",
       "habit-forming",
       "high-affinity-NMDA-blocker",
       "research-chemical",
@@ -26767,7 +26793,6 @@
       "DMT-salt-form",
       "MAO-A-substrate",
       "TIHKAL",
-      "class:substituted tryptamines",
       "no-human-data",
       "no-tolerance",
       "sigma1-agonist-endogenous",
@@ -26843,39 +26868,34 @@
     "name": "DMXE",
     "display_name": "",
     "aliases": [
-      "3-Me-2'-oxo-PCE",
       "3D-MXE",
-      "Deoxymethoxetamine",
-      "脱氧甲氧基氯胺酮"
+      "Deoxymethoxetamine"
     ],
     "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:arylcyclohexylamine",
       "designer-dissociative",
-      "duplicate-of-DMXE",
       "research-chemical"
     ],
     "default_route": "insufflation",
     "all_routes": [
-      "insufflation",
-      "oral"
+      "insufflation"
     ],
     "routes_with_dose": [
-      "insufflation",
-      "oral"
+      "insufflation"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "DMXE 作为一种非竞争性 NMDA受体拮抗剂 起作用喵。NMDAR（N-甲基-D-天冬氨酸受体）是谷氨酸受体的一种特定类型，负责调节大脑和脊髓中神经元之间电信号的传递；信号要通过，受体必须处于开放状态。\n\n该物质的 IC50（半数最大抑制浓度）为 0.679mM，这表明它具有显著的效力呢。DMXE 及其相关化合物结合在 NMDAR 的苯环己哌啶 (PCP) 位点，这是通过计算机模拟对接结果确定的喵。这种结合与其观察到的拮抗活性有关，包括以剂量依赖的方式阻断 NMDA 诱导的内向电流。DMXE 显示出与 MXiPr 和 O-脱甲基 MXE 等其他 MXE 类似物相当的高亲和力和强效抑制能力。此外，DMXE 还能显著降低在 NMDA 存在下诱发的兴奋性突触后电流 (EPSCs) 呢。\n\n解离剂通过结合并阻断正常运作的 NMDA 受体来抑制其功能。这种神经网络活动的破坏会导致正常认知、情感处理、心理运动功能的丧失，产生麻醉感，最终导致类似于“K-洞”的状态喵。",
+    "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
+      "mechanism_of_action",
       "references"
     ]
   },
@@ -27484,7 +27504,6 @@
       "anticholinergic",
       "antiemetic",
       "antihistamine",
-      "antihistamine, 1st generation",
       "deliriant",
       "first-gen-antihistamine",
       "muscarinic-antagonist",
@@ -27562,8 +27581,6 @@
     "display_class": "recreational",
     "tags": [
       "TIHKAL",
-      "class:Tryptamine",
-      "class:substituted tryptamines",
       "research-chemical",
       "tryptamine"
     ],
@@ -27626,6 +27643,37 @@
     ],
     "data_gaps": [
       "half_life_minutes"
+    ]
+  },
+  {
+    "name": "Dramamine",
+    "display_name": "",
+    "aliases": [
+      "dimenhydrinate",
+      "gravol",
+      "茶苯海明"
+    ],
+    "category": "Depressant",
+    "display_class": "recreational",
+    "tags": [],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
     ]
   },
   {
@@ -27917,6 +27965,39 @@
       "half_life_minutes",
       "mechanism_of_action",
       "references"
+    ]
+  },
+  {
+    "name": "E; ESCALINE",
+    "display_name": "",
+    "aliases": [
+      "Escaline"
+    ],
+    "category": "Psychedelic",
+    "display_class": "recreational",
+    "tags": [
+      "PIHKAL",
+      "phenethylamine"
+    ],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal072.shtml"
+    ],
+    "data_gaps": [
+      "half_life_minutes",
+      "mechanism_of_action"
     ]
   },
   {
@@ -28992,16 +29073,12 @@
     "name": "Escaline",
     "display_name": "",
     "aliases": [
-      "E; ESCALINE",
       "艾斯卡林",
       "艾斯卡林d"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "PIHKAL",
-      "class:substituted phenethylamines",
-      "duplicate-of-Escaline",
       "phenethylamine",
       "research-chemical"
     ],
@@ -29060,11 +29137,10 @@
       "Transformations",
       "Wakefulness"
     ],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal072.shtml"
-    ],
+    "references": [],
     "data_gaps": [
-      "half_life_minutes"
+      "half_life_minutes",
+      "references"
     ]
   },
   {
@@ -29219,7 +29295,7 @@
     "tags": [
       "5-HT2A-partial-agonist",
       "TIHKAL",
-      "class:lysergamides",
+      "lysergamide",
       "research-chemical",
       "tryptamine"
     ],
@@ -29349,7 +29425,6 @@
       "AMPA-active",
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "duplicate-of-Ethketamine",
       "habit-forming",
       "no-human-data",
       "research-chemical"
@@ -29395,7 +29470,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Enantioselective pharmacokinetics of ethotoin in humans following single oral doses of the racemate.",
+      "Enantioselective pharmacokinetics of ethotoin in humans following single oral doses of the racemate",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=55292-601"
     ],
     "data_gaps": [
@@ -29451,7 +29526,6 @@
       "DRI",
       "amfepramone-active-metabolite",
       "cathinone",
-      "class:cathinone",
       "habit-forming",
       "research-chemical",
       "substrate-releaser"
@@ -29633,7 +29707,6 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:substituted tryptamines",
       "no-human-data",
       "research-chemical",
       "tentative",
@@ -29811,13 +29884,12 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-agonist",
+      "MOR-full-agonist",
       "benzimidazole-opioid",
-      "duplicate-of-etodesnitazene",
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
       "naloxone-high-dose-required",
       "nitazene",
       "research-chemical"
@@ -29912,12 +29984,12 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-full-agonist",
       "US-Schedule-I",
       "benzimidazole-opioid",
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
-      "mu-full-agonist",
       "naloxone-high-dose-required",
       "nitazene",
       "subnanomolar-Ki"
@@ -30306,7 +30378,6 @@
       "acid-reducer",
       "antacid agent",
       "antihistamine",
-      "histamine-2 receptor antagonist",
       "non-sedating"
     ],
     "default_route": "intravenous",
@@ -30517,10 +30588,8 @@
     "all_routes": [
       "oral"
     ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
+    "routes_with_dose": [],
+    "has_dose_data": false,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": 1200.0,
@@ -30530,6 +30599,7 @@
       "Pharmacokinetics of fenfluramine and norfenfluramine in volunteers given d- and dl-fenfluramine for 15 days"
     ],
     "data_gaps": [
+      "dose_ranges_by_route",
       "mechanism_of_action"
     ]
   },
@@ -30589,14 +30659,14 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
+      "MOR-agonist",
+      "MOR-full-agonist",
       "OPRM1-pharmacogenetic",
       "analgesic",
       "class:Phenylpiperidine opioid",
       "class:anilidopiperidine",
       "class:substituted piperidines",
       "habit-forming",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
       "naloxone-responsive",
       "no-human-data",
       "opioid",
@@ -30659,9 +30729,9 @@
       "H1-antagonist",
       "OTC",
       "antihistamine",
-      "antihistamine, 3rd generation",
       "non-sedating",
-      "second-gen-antihistamine"
+      "second-gen-antihistamine",
+      "third-gen-antihistamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -30836,8 +30906,8 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "5-ht1a agonist",
-      "5-ht2a antagonist"
+      "5-HT1A-agonist",
+      "5-HT2A-antagonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -30924,7 +30994,6 @@
       "GABAA-PAM",
       "US-Schedule-IV",
       "benzodiazepine",
-      "class:benzodiazepines",
       "designer-benzo",
       "extreme-potency",
       "fatalities-confirmed",
@@ -30968,8 +31037,6 @@
       "CYP3A4-substrate",
       "GABAA-PAM",
       "benzodiazepine",
-      "class:Benzodiazepine",
-      "class:benzodiazepines",
       "designer-benzo",
       "habit-forming",
       "long-half-life",
@@ -31025,7 +31092,6 @@
       "CYP3A4-substrate",
       "GABAA-PAM",
       "benzodiazepine",
-      "class:benzodiazepines",
       "designer-benzo",
       "extreme-potency",
       "fatalities-confirmed",
@@ -31077,7 +31143,6 @@
     "category": "Benzodiazepine",
     "display_class": "recreational",
     "tags": [
-      "class:Thienotriazolodiazepine",
       "research-chemical",
       "thienotriazolodiazepine"
     ],
@@ -31220,7 +31285,6 @@
     "category": "Benzodiazepine",
     "display_class": "recreational",
     "tags": [
-      "class:Thienotriazolodiazepine",
       "designer-benzo",
       "thienotriazolodiazepine"
     ],
@@ -31347,11 +31411,11 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-full-agonist",
       "benzimidazole-opioid",
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
-      "mu-full-agonist",
       "nitazene",
       "weaker-than-fentanyl-class"
     ],
@@ -31409,7 +31473,6 @@
       "active-metabolite",
       "benzodiazepine",
       "class:1,4-benzodiazepine",
-      "class:benzodiazepines",
       "habit-forming"
     ],
     "default_route": "oral",
@@ -31442,7 +31505,6 @@
     "tags": [
       "GABAA-PAM",
       "benzodiazepine",
-      "class:benzodiazepines",
       "designer-benzo",
       "extreme-potency",
       "habit-forming",
@@ -31649,7 +31711,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine",
       "designer-dissociative",
       "research-chemical"
     ],
@@ -31733,6 +31794,36 @@
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
+      "half_life_minutes",
+      "mechanism_of_action",
+      "references"
+    ]
+  },
+  {
+    "name": "Fluorophenibut",
+    "display_name": "",
+    "aliases": [],
+    "category": "Depressant",
+    "display_class": "recreational",
+    "tags": [
+      "habit-forming",
+      "tentative"
+    ],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
+    "has_protocol_dosing": false,
+    "half_life_minutes": null,
+    "mechanism_summary": "",
+    "effects": [],
+    "references": [],
+    "data_gaps": [
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -31893,7 +31984,6 @@
       "CYP3A4-substrate",
       "GABAA-PAM",
       "benzodiazepine",
-      "class:Benzodiazepine",
       "habit-forming",
       "long-acting-metabolite",
       "prodrug-like"
@@ -32154,7 +32244,6 @@
     "tags": [
       "GABAA-PAM",
       "benzodiazepine",
-      "class:Benzodiazepine",
       "habit-forming",
       "long-half-life"
     ],
@@ -32388,8 +32477,7 @@
     "category": "Benzodiazepine",
     "display_class": "recreational",
     "tags": [
-      "benzodiazepine",
-      "class:Benzodiazepine"
+      "benzodiazepine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -32511,10 +32599,10 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
+      "MOR-agonist",
+      "MOR-full-agonist",
       "class:Anilide fentanyl analogue",
       "habit-forming",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
       "research-chemical",
       "tentative",
       "wooden-chest-syndrome-risk"
@@ -33065,7 +33153,7 @@
     "category": "Other",
     "display_class": "medical_rx",
     "tags": [
-      "5HT1A-agonist",
+      "5-HT1A-agonist",
       "anxiolytic",
       "azapirone",
       "prescription-only",
@@ -33276,7 +33364,7 @@
     "category": "Benzodiazepine",
     "display_class": "recreational",
     "tags": [
-      "class:Benzodiazepine",
+      "benzodiazepine",
       "designer-benzo",
       "post-Soviet",
       "prodrug"
@@ -33782,7 +33870,6 @@
       "alpha2-agonist",
       "antihypertensive",
       "anxiolytic",
-      "centrally-acting alpha-2 agonist",
       "prescription-only"
     ],
     "default_route": "oral",
@@ -33891,7 +33978,6 @@
     "tags": [
       "GABAA-PAM",
       "benzodiazepine",
-      "class:Benzodiazepine",
       "habit-forming",
       "prodrug-of-nordazepam"
     ],
@@ -33991,7 +34077,6 @@
       "D2-antagonist",
       "antipsychotic",
       "butyrophenone",
-      "class:butyrophenone",
       "class:substituted piperidines",
       "high-EPS-risk",
       "prescription-only",
@@ -34215,10 +34300,10 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-agonist",
       "MOR-selective-on-salvinorin-scaffold",
       "biased-agonist",
       "biased-agonist-G-protein-contested",
-      "mu-opioid-agonist",
       "no-human-data",
       "research-chemical",
       "research-tool-compound",
@@ -34361,7 +34446,6 @@
     "tags": [
       "DAT-NET-blocker",
       "cathinone",
-      "class:cathinone",
       "habit-forming",
       "no-human-data",
       "research-chemical",
@@ -34617,7 +34701,7 @@
     "category": "",
     "display_class": "recreational",
     "tags": [
-      "class:Phenethylamine"
+      "phenethylamine"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -34920,8 +35004,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine",
-      "class:arylcyclohexylamines",
       "no-human-data",
       "possible-μ-opioid-agonist",
       "research-chemical",
@@ -35288,7 +35370,6 @@
       "H1-strong",
       "anticholinergic",
       "antihistamine",
-      "antihistamine, 1st generation",
       "anxiolytic",
       "cetirizine-prodrug",
       "first-gen-antihistamine",
@@ -35365,14 +35446,12 @@
       "CYP2D6-substrate",
       "QT-prolongation-risk",
       "TIHKAL",
-      "class:substituted tryptamines",
       "hERG-high-risk",
       "iboga-alkaloid",
       "long-acting-via-noribogaine",
       "no-human-data",
       "polyligand",
       "polypharmacological",
-      "should-be-regrouped",
       "tryptamine"
     ],
     "default_route": "oral",
@@ -35729,7 +35808,7 @@
     "display_class": "medical_rx",
     "tags": [
       "2nd generation antipsychotic",
-      "5HT2A-antagonist",
+      "5-HT2A-antagonist",
       "D2-antagonist",
       "QTc-risk",
       "alpha1-blocker",
@@ -36811,6 +36890,7 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-full-agonist",
       "US-Schedule-I",
       "active-metabolite",
       "benzimidazole-opioid",
@@ -36818,7 +36898,6 @@
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
-      "mu-full-agonist",
       "naloxone-high-dose-required",
       "nitazene",
       "subnanomolar-EC50"
@@ -36859,13 +36938,13 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-agonist",
+      "MOR-full-agonist",
       "designer-opioid",
       "fatalities-reported",
       "fentanyl-class-potency",
       "fentanyl-stronger",
       "less-mor-selective",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
       "naloxone-high-dose-required",
       "nitazene",
       "opioid"
@@ -37345,9 +37424,7 @@
       "US-Schedule-III",
       "antidepressant",
       "arylcyclohexylamine",
-      "class:arylcyclohexylamines",
       "common",
-      "duplicate-of-esketamine",
       "habit-forming",
       "investigational",
       "investigational-antidepressant",
@@ -37797,9 +37874,9 @@
       "amino-acid",
       "catecholamine-precursor",
       "class:amino acid",
-      "class:substituted phenethylamines",
       "dopamine-precursor",
       "nootropic",
+      "phenethylamine",
       "supplement"
     ],
     "default_route": "oral",
@@ -37926,7 +38003,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:lysergamides"
+      "lysergamide"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -38247,9 +38324,9 @@
       "H1-antagonist",
       "OTC",
       "antihistamine",
-      "antihistamine, 3rd generation",
       "non-sedating",
-      "second-gen-antihistamine"
+      "second-gen-antihistamine",
+      "third-gen-antihistamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -38602,7 +38679,7 @@
     "mechanism_summary": "Prodrug of Dextroamphetamine (Monoamine Releasing Agent)",
     "effects": [],
     "references": [
-      "10.1177/0091270007310381"
+      "Relative bioavailability of lisdexamfetamine 70-mg capsules in fasted and fed healthy adult volunteers and in solution: a single-dose, crossover pharmacokinetic study"
     ],
     "data_gaps": []
   },
@@ -38925,7 +39002,6 @@
       "H1-antagonist",
       "OTC",
       "antihistamine",
-      "antihistamine, 2nd generation",
       "non-sedating",
       "second-gen-antihistamine"
     ],
@@ -38970,7 +39046,6 @@
       "anticonvulsant",
       "anxiolytic",
       "benzodiazepine",
-      "class:benzodiazepines",
       "habit-forming",
       "no-CYP-metabolism",
       "no-active-metabolite"
@@ -39041,7 +39116,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Kinetics and biotransformation of lormetazepam. II. Radioimmunologic determinations in plasma and urine of young and elderly subjects: first-pass effect."
+      "Kinetics and biotransformation of lormetazepam. II. Radioimmunologic determinations in plasma and urine of young and elderly subjects: first-pass effect"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -39118,7 +39193,7 @@
     "display_class": "medical_rx",
     "tags": [
       "1st generation antipsychotic",
-      "5HT2A-antagonist",
+      "5-HT2A-antagonist",
       "D2-antagonist",
       "antipsychotic",
       "dibenzoxazepine",
@@ -39196,7 +39271,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:lysergamides",
+      "lysergamide",
       "natural-ergot-alkaloid"
     ],
     "default_route": "oral",
@@ -39299,9 +39374,9 @@
       "TAAR1-agonist",
       "TIHKAL",
       "arrestin-biased-5HT2A",
-      "class:lysergamides",
       "common",
       "long-residence-time",
+      "lysergamide",
       "tryptamine"
     ],
     "default_route": "oral",
@@ -39385,7 +39460,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:lysergamides",
+      "lysergamide",
       "research-chemical",
       "tentative"
     ],
@@ -39421,7 +39496,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:lysergamides",
+      "lysergamide",
       "research-chemical"
     ],
     "default_route": "oral",
@@ -39480,8 +39555,8 @@
     "display_class": "medical_rx",
     "tags": [
       "2nd generation antipsychotic",
-      "5HT1A-partial-agonist",
-      "5HT2A-antagonist",
+      "5-HT1A-partial-agonist",
+      "5-HT2A-antagonist",
       "5HT7-antagonist",
       "D2-antagonist",
       "antipsychotic",
@@ -39592,7 +39667,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "MISCLASSIFICATION",
+      "MISCATEGORIZED",
       "PIHKAL",
       "PIHKAL-inactive",
       "phenethylamine",
@@ -40194,7 +40269,6 @@
       "class:amphetamine",
       "class:mdxx",
       "class:substituted amphetamines",
-      "duplicate-of-MDE",
       "low-DA-release",
       "phenethylamine",
       "tentative"
@@ -40836,9 +40910,9 @@
       "DAT-selective-extreme",
       "DRI",
       "TAAR1-inactive-human",
+      "cathinone",
       "class:Pyrrolidinophenone cathinone stimulant",
       "class:mdxx",
-      "class:substituted cathinones",
       "class:substituted pyrrolidines",
       "hERG-direct-block",
       "habit-forming",
@@ -40982,7 +41056,6 @@
       "anticholinergic",
       "antiemetic",
       "antihistamine",
-      "antihistamine, 1st generation",
       "first-gen-antihistamine",
       "sedating"
     ],
@@ -41269,7 +41342,6 @@
     "tags": [
       "CYP1A2-substrate",
       "MT1-MT2-agonist",
-      "class:substituted tryptamines",
       "common",
       "endogenous",
       "tryptamine"
@@ -41503,8 +41575,7 @@
       "CYP2D6-substrate",
       "DAT-NET-SERT-balanced",
       "TAAR1-inactive-human",
-      "class:cathinone",
-      "class:substituted cathinones",
+      "cathinone",
       "hERG-safe",
       "habit-forming",
       "no-human-data",
@@ -41573,7 +41644,7 @@
     "category": "Depressant",
     "display_class": "recreational",
     "tags": [
-      "class:quinazolinone"
+      "quinazolinone"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -41736,8 +41807,6 @@
     "tags": [
       "5-HT2A-partial-agonist",
       "PIHKAL",
-      "class:Phenethylamine",
-      "class:substituted phenethylamines",
       "no-human-data",
       "phenethylamine",
       "psychedelic"
@@ -41856,9 +41925,9 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:substituted tryptamines",
       "research-chemical",
-      "tentative"
+      "tentative",
+      "tryptamine"
     ],
     "default_route": "inhalation",
     "all_routes": [
@@ -42111,7 +42180,6 @@
     "tags": [
       "5-HT2C-selective",
       "PIHKAL",
-      "class:substituted phenethylamines",
       "phenethylamine",
       "research-chemical"
     ],
@@ -42378,8 +42446,6 @@
     "display_class": "recreational",
     "tags": [
       "GABA-A-PAM-etomidate-site",
-      "class:Quinazolinone",
-      "class:quinazolinone",
       "habit-forming",
       "quinazolinone"
     ],
@@ -42462,8 +42528,6 @@
       "DRI",
       "US-Schedule-I",
       "cathinone",
-      "class:cathinone",
-      "class:substituted cathinones",
       "manganese-toxicity-synthesis-contaminant",
       "no-human-data",
       "phenethylamine",
@@ -42672,8 +42736,6 @@
       "NMDA-antagonist",
       "SERT-inhibitor",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine",
-      "class:arylcyclohexylamines",
       "designer-dissociative",
       "fatalities-reported",
       "habit-forming",
@@ -42776,9 +42838,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine",
-      "class:Arylcyclohexylamine dissociative",
-      "duplicate-of-2-MeO-Ketamine",
       "habit-forming",
       "no-human-data",
       "research-chemical"
@@ -42832,7 +42891,6 @@
       "class:diarylethylamines",
       "designer-dissociative",
       "diarylethylamine",
-      "duplicate-of-Methoxphenidine",
       "fatalities-documented",
       "fatalities-reported",
       "habit-forming",
@@ -42912,9 +42970,9 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
+      "MOR-agonist",
+      "MOR-full-agonist",
       "habit-forming",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
       "research-chemical",
       "wooden-chest-syndrome-risk"
     ],
@@ -43420,7 +43478,6 @@
     "tags": [
       "MDMA-analog",
       "cathinone",
-      "class:cathinone",
       "empathogen-adjacent",
       "habit-forming",
       "linear-PK",
@@ -43632,7 +43689,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Pharmacokinetics of methyprylon following a single oral dose."
+      "Pharmacokinetics of methyprylon following a single oral dose"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -43741,11 +43798,11 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-full-agonist",
       "benzimidazole-opioid",
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
-      "mu-full-agonist",
       "nitazene"
     ],
     "default_route": "",
@@ -43789,7 +43846,7 @@
     "mechanism_summary": "Inhibits sodium reabsorption by inhibiting the sodium-chloride cotransporters in the distal convoluted tubule of nephrons, causing increased excretion of sodium, chloride, potassium, magnesium, and water. Thiazide diuretics cause retention of calcium, bicarbonate, and uric acid.",
     "effects": [],
     "references": [
-      "Pharmacokinetic study of single- and multiple-dosing with metolazone tablets in healthy Chinese population."
+      "Pharmacokinetic study of single- and multiple-dosing with metolazone tablets in healthy Chinese population"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -43805,12 +43862,12 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-full-agonist",
       "US-Schedule-I",
       "benzimidazole-opioid",
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
-      "mu-full-agonist",
       "naloxone-high-dose-required",
       "nitazene"
     ],
@@ -43949,7 +44006,6 @@
     "display_class": "recreational",
     "tags": [
       "cathinone",
-      "class:cathinone",
       "habit-forming",
       "research-chemical",
       "tentative",
@@ -44085,8 +44141,6 @@
       "GABAA-PAM",
       "active-metabolite",
       "benzodiazepine",
-      "class:Benzodiazepine",
-      "class:benzodiazepines",
       "habit-forming",
       "imidazobenzodiazepine"
     ],
@@ -44366,7 +44420,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:lysergamides"
+      "lysergamide"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -44395,7 +44449,6 @@
     "display_class": "recreational",
     "tags": [
       "TIHKAL",
-      "class:substituted tryptamines",
       "no-human-data",
       "research-chemical",
       "tentative",
@@ -45452,9 +45505,9 @@
     "display_class": "recreational",
     "tags": [
       "G-protein-biased",
+      "MOR-partial-agonist",
       "habit-forming",
       "moderate-potency",
-      "mu-partial-agonist",
       "ototoxicity-reported",
       "research-chemical"
     ],
@@ -45517,8 +45570,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:arylcyclohexylamine",
-      "class:arylcyclohexylamines",
       "no-human-data",
       "research-chemical"
     ],
@@ -45776,7 +45827,7 @@
     "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
-      "class:cathinone",
+      "cathinone",
       "habit-forming",
       "research-chemical",
       "tentative"
@@ -45822,7 +45873,7 @@
     "display_class": "recreational",
     "tags": [
       "DAT-selective",
-      "class:cathinone",
+      "cathinone",
       "pure-DAT-NET-blocker",
       "research-chemical",
       "tentative"
@@ -45867,7 +45918,6 @@
     "tags": [
       "MDMA-analog",
       "cathinone",
-      "class:cathinone",
       "fatalities-mdma-substitution",
       "fatalities-reported",
       "high-risk",
@@ -46077,11 +46127,11 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-full-agonist",
       "benzimidazole-opioid",
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
-      "mu-full-agonist",
       "naloxone-high-dose-required",
       "nitazene"
     ],
@@ -46114,11 +46164,11 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-full-agonist",
       "benzimidazole-opioid",
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
-      "mu-full-agonist",
       "naloxone-high-dose-required",
       "nitazene"
     ],
@@ -46944,7 +46994,6 @@
       "GABAA-PAM",
       "UGT-substrate",
       "benzodiazepine",
-      "class:benzodiazepines",
       "designer-benzo",
       "habit-forming",
       "metabolite-as-drug",
@@ -47149,7 +47198,6 @@
     "tags": [
       "GABAA-PAM",
       "benzodiazepine",
-      "class:Benzodiazepine",
       "habit-forming"
     ],
     "default_route": "oral",
@@ -47230,7 +47278,7 @@
     "mechanism_summary": "Nitrofurantoin is reduced by bacterial flavoproteins to reactive intermediates which inactivate or alter bacterial ribosomal proteins and other macromolecules. As a result of such inactivations, the vital biochemical processes of protein synthesis, aerobic energy metabolism, DNA synthesis, RNA synthesis, and cell wall synthesis are inhibited.",
     "effects": [],
     "references": [
-      "Pharmacological properties of oral antibiotics for the treatment of uncomplicated urinary tract infections.",
+      "Pharmacological properties of oral antibiotics for the treatment of uncomplicated urinary tract infections",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0378-3422"
     ],
     "data_gaps": [
@@ -47549,9 +47597,9 @@
     "tags": [
       "AMPA-PAM-indirect",
       "Russian-clinical-only",
-      "class:peptide",
       "glutamate-modulator",
       "nootropic",
+      "peptide",
       "prodrug-of-cPG",
       "racetam-adjacent",
       "research-chemical"
@@ -47716,7 +47764,6 @@
     "tags": [
       "GABAA-PAM",
       "benzodiazepine",
-      "class:Benzodiazepine",
       "designer-benzo",
       "habit-forming",
       "metabolite-as-drug",
@@ -48036,10 +48083,7 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine",
-      "class:arylcyclohexylamines",
       "designer-dissociative",
-      "duplicate-of-O-PCE",
       "habit-forming",
       "research-chemical",
       "tentative"
@@ -48187,15 +48231,14 @@
     "display_class": "medical_rx",
     "tags": [
       "2nd generation antipsychotic",
+      "5-HT2A-antagonist",
       "5-HT2A:D2-ratio-3:1",
-      "5HT2A-antagonist",
       "D2-antagonist",
       "H1-antagonist",
       "alpha1-blocker",
       "anticholinergic",
       "antipsychotic",
       "atypical-antipsychotic",
-      "class:Thienobenzodiazepine",
       "diabetogenic",
       "high-weight-gain",
       "muscarinic-antagonist",
@@ -48296,7 +48339,6 @@
     "tags": [
       "H1-antagonist",
       "antihistamine",
-      "antihistamine, 2nd generation",
       "mast-cell-stabilizer",
       "non-sedating",
       "prescription-only",
@@ -48410,7 +48452,7 @@
     "category": "Gastrointestinal",
     "display_class": "medical_rx",
     "tags": [
-      "5-ht3 receptor antagonist",
+      "5-HT3-antagonist",
       "antiemetic"
     ],
     "default_route": "intravenous",
@@ -48582,7 +48624,6 @@
       "UGT2B15-substrate",
       "anxiolytic",
       "benzodiazepine",
-      "class:Benzodiazepine",
       "habit-forming",
       "hepatic-failure-safe",
       "no-CYP-metabolism",
@@ -48690,8 +48731,6 @@
     "tags": [
       "HACU-upregulator",
       "cholinergic",
-      "class:Racetam",
-      "class:racetams",
       "italy-approved",
       "nootropic",
       "racetam",
@@ -48835,7 +48874,7 @@
     "category": "",
     "display_class": "otc",
     "tags": [
-      "alpha adrenergic agonist",
+      "alpha-agonist",
       "decongestant"
     ],
     "default_route": "",
@@ -49037,7 +49076,7 @@
     "display_class": "medical_rx",
     "tags": [
       "2nd generation antipsychotic",
-      "5HT2A-antagonist",
+      "5-HT2A-antagonist",
       "D2-antagonist",
       "antipsychotic",
       "atypical-antipsychotic",
@@ -49077,7 +49116,6 @@
     "category": "Supplement",
     "display_class": "otc",
     "tags": [
-      "CYP450-inducer",
       "OTC",
       "adaptogen",
       "herbal",
@@ -49211,7 +49249,6 @@
       "SERT-dominant",
       "class:amphetamine",
       "class:substituted amphetamines",
-      "deadly",
       "delayed-onset",
       "phenethylamine",
       "tentative"
@@ -49249,9 +49286,9 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
+      "MOR-agonist",
+      "MOR-full-agonist",
       "habit-forming",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
       "research-chemical",
       "wooden-chest-syndrome-risk"
     ],
@@ -49286,9 +49323,9 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
+      "MOR-agonist",
+      "MOR-full-agonist",
       "habit-forming",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
       "tentative",
       "wooden-chest-syndrome-risk"
     ],
@@ -49324,7 +49361,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:lysergamides"
+      "lysergamide"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -49424,7 +49461,7 @@
     "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
-      "class:arylcyclohexylamines",
+      "arylcyclohexylamine",
       "habit-forming",
       "tentative"
     ],
@@ -49488,8 +49525,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:Arylcyclohexylamine",
-      "class:arylcyclohexylamines",
       "habit-forming",
       "sigma-1"
     ],
@@ -49796,7 +49831,6 @@
       "DAT-NET-blocker",
       "DAT-selective",
       "cathinone",
-      "class:cathinone",
       "habit-forming",
       "research-chemical"
     ],
@@ -49840,7 +49874,7 @@
       "CYP-inducer",
       "GABA-A-direct-agonist",
       "anaesthetic-grade-lethality",
-      "class:barbiturates",
+      "barbiturate",
       "habit-forming"
     ],
     "default_route": "intramuscular",
@@ -50179,7 +50213,6 @@
       "GABAA-PAM",
       "Soviet-era",
       "benzodiazepine",
-      "class:Benzodiazepine",
       "designer-benzo",
       "fatalities-confirmed",
       "fatalities-reported",
@@ -50532,7 +50565,6 @@
       "GABA-A-PAM-direct-agonist-high-conc",
       "anticonvulsant",
       "barbiturate",
-      "class:barbiturates",
       "habit-forming",
       "very-long-half-life",
       "withdrawal-treatment-tool"
@@ -50710,7 +50742,7 @@
     "display_class": "recreational",
     "tags": [
       "OTC",
-      "alpha adrenergic agonist",
+      "alpha-agonist",
       "alpha1-agonist",
       "class:Phenylethanolamine",
       "decongestant",
@@ -50758,7 +50790,6 @@
     "tags": [
       "DAT-inhibitor",
       "WADA-banned",
-      "class:racetams",
       "nootropic",
       "racetam",
       "research-chemical",
@@ -51271,7 +51302,6 @@
       "AMPA-modulator",
       "century-old-mechanism-unknown",
       "cholinergic",
-      "class:racetams",
       "membrane-fluidity-modulator-proposed",
       "nootropic",
       "racetam",
@@ -51708,7 +51738,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "dopamine agonist"
+      "dopamine-agonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -51742,7 +51772,6 @@
       "HACU-enhancer",
       "brain-penetrant",
       "cholinergic",
-      "class:racetams",
       "lipophilic",
       "lipophilic-racetam",
       "nootropic",
@@ -52178,7 +52207,7 @@
     "display_class": "recreational",
     "tags": [
       "TIHKAL",
-      "class:lysergamides",
+      "lysergamide",
       "tentative",
       "tryptamine"
     ],
@@ -52221,7 +52250,6 @@
       "EPS-risk",
       "QT-prolonging",
       "antiemetic",
-      "class:phenothiazine",
       "dopamine-antagonist",
       "phenothiazine",
       "prescription-only"
@@ -52240,7 +52268,7 @@
     "mechanism_summary": "一般认为，丙氯拉嗪通过阻断多巴胺受体来发挥其抗精神病药效应。\n\n丙氯拉嗪与氯丙嗪结构类似；这两种药物都会在中枢神经系统的多个通路中拮抗多巴胺能 D2 受体。这种 D2 阻断会带来抗精神病、止吐以及其他效应。",
     "effects": [],
     "references": [
-      "Clinical pharmacology of prochlorperazine in healthy young males.",
+      "Clinical pharmacology of prochlorperazine in healthy young males",
       "https://en.wikipedia.org/wiki/Prochlorperazine",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=0093-9643"
     ],
@@ -52407,7 +52435,6 @@
       "anticholinergic",
       "antiemetic",
       "antihistamine",
-      "class:phenothiazine",
       "first-gen-antihistamine",
       "hERG-strong",
       "phenothiazine",
@@ -52446,8 +52473,8 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
-      "antihistamine, 1st generation",
       "antitussive",
+      "first-gen-antihistamine",
       "opioid"
     ],
     "default_route": "",
@@ -52702,7 +52729,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:substituted phenethylamines",
+      "phenethylamine",
       "research-chemical"
     ],
     "default_route": "oral",
@@ -52736,11 +52763,11 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-full-agonist",
       "benzimidazole-opioid",
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
-      "mu-full-agonist",
       "naloxone-high-dose-required",
       "nitazene"
     ],
@@ -52882,13 +52909,11 @@
     "tags": [
       "5-HT2A-agonist",
       "5-HT2A-full-efficacy",
-      "5HT2A-agonist",
       "MAO-A-substrate",
       "MISCATEGORIZED",
       "TIHKAL",
       "UGT1A10-substrate",
       "active-metabolite-of-psilocybin",
-      "class:substituted tryptamines",
       "no-human-data",
       "psychedelic",
       "research-chemical",
@@ -52992,7 +53017,6 @@
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
-      "5HT2A-agonist",
       "natural-product",
       "no-human-data",
       "prodrug",
@@ -53037,8 +53061,8 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
-      "class:substituted tryptamines",
-      "psilocybin-containing"
+      "psilocybin-containing",
+      "tryptamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -53413,7 +53437,6 @@
       "GABAA-PAM",
       "UGT-substrate",
       "benzodiazepine",
-      "class:benzodiazepines",
       "designer-benzo",
       "habit-forming",
       "no-CYP-metabolism",
@@ -53611,11 +53634,11 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-full-agonist",
       "benzimidazole-opioid",
       "extreme-potency",
       "fatalities-reported",
       "fentanyl-stronger",
-      "mu-full-agonist",
       "naloxone-high-dose-required",
       "nitazene"
     ],
@@ -53725,7 +53748,7 @@
     "display_class": "dual_use",
     "tags": [
       "2nd generation antipsychotic",
-      "5HT2A-antagonist",
+      "5-HT2A-antagonist",
       "CYP3A4-substrate",
       "D2-antagonist",
       "H1-antagonist",
@@ -53734,7 +53757,6 @@
       "antipsychotic",
       "atypical-antipsychotic",
       "class:Dibenzothiazepine derivative",
-      "class:dibenzothiazepine",
       "dibenzothiazepine",
       "multi-target-antipsychotic",
       "off-label-sleep-aid",
@@ -54008,7 +54030,6 @@
       "acid-reducer",
       "antacid agent",
       "antihistamine",
-      "histamine-2 receptor antagonist",
       "non-sedating",
       "withdrawn-US"
     ],
@@ -54109,10 +54130,10 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-full-agonist",
       "OIH-risk",
       "class:Phenyl-piperidine synthetic opioid",
       "ester-hydrolysis-cleared",
-      "mu-full-agonist",
       "ultra-short-acting"
     ],
     "default_route": "intravenous",
@@ -54525,7 +54546,7 @@
     "display_class": "dual_use",
     "tags": [
       "2nd generation antipsychotic",
-      "5HT2A-antagonist",
+      "5-HT2A-antagonist",
       "D2-antagonist",
       "antipsychotic",
       "atypical-antipsychotic",
@@ -54655,7 +54676,6 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
-      "class:arylcyclohexylamines",
       "habit-forming",
       "research-chemical",
       "tentative"
@@ -54729,7 +54749,7 @@
     "category": "",
     "display_class": "medical_rx",
     "tags": [
-      "dopamine agonist"
+      "dopamine-agonist"
     ],
     "default_route": "",
     "all_routes": [],
@@ -55374,7 +55394,6 @@
       "DMN-attenuating",
       "KOR-selective",
       "balanced-agonist-KOR",
-      "class:salvinorin",
       "class:terpenoid",
       "dysdelic",
       "kappa-opioid-agonist",
@@ -55844,8 +55863,8 @@
     "display_class": "recreational",
     "tags": [
       "MAID-protocol-drug",
+      "barbiturate",
       "barbiturate-short-acting",
-      "class:barbiturates",
       "habit-forming"
     ],
     "default_route": "oral",
@@ -56439,7 +56458,7 @@
     "mechanism_summary": "Inhibits HMG-CoA reductase, the rate-limiting enzyme that converts 3-hydroxy-3-methylglutaryl-coenzyme A to mevalonate, a precursor of sterols, including cholesterol.",
     "effects": [],
     "references": [
-      "Simvastatin pharmacokinetics in healthy Chinese subjects and its relations with CYP2C9, CYP3A5, ABCB1, ABCG2 and SLCO1B1 polymorphisms."
+      "Simvastatin pharmacokinetics in healthy Chinese subjects and its relations with CYP2C9, CYP3A5, ABCB1, ABCG2 and SLCO1B1 polymorphisms"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -57007,11 +57026,11 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
+      "MOR-agonist",
+      "MOR-full-agonist",
       "class:anilidopiperidine",
       "fentanyl-stronger",
-      "habit-forming",
-      "mu-full-agonist",
-      "mu-opioid-agonist"
+      "habit-forming"
     ],
     "default_route": "intravenous",
     "all_routes": [
@@ -57785,7 +57804,6 @@
       "GABAA-PAM",
       "UGT2B15-substrate",
       "benzodiazepine",
-      "class:benzodiazepines",
       "habit-forming",
       "no-CYP-metabolism",
       "no-active-metabolite"
@@ -57827,7 +57845,7 @@
     "mechanism_summary": "Tenofovir DF is an acyclic nucleoside phosphonate diester analog of adenosine monophosphate. Tenofovir DF requires initial diester hydrolysis for conversion to tenofovir and subsequent phosphorylations by cellular enzymes to form tenofovir diphosphate, an obligate chain terminator. Tenofovir diphosphate inhibits the activity of HIV-1 reverse transcriptase and HBV reverse transcriptase by competing with the natural substrate deoxyadenosine 5'-triphosphate and, after incorporation into DNA, by DNA chain termination. Tenofovir diphosphate is a weak inhibitor of mammalian DNA polymerases α, β, and mitochondrial DNA polymerase γ. Activity against HIV Antiviral Activity The antiviral activity of tenofovir against laboratory and clinical isolates of HIV-1 was assessed in lymphoblastoid cell lines, primary monocyte/macrophage cells and peripheral blood lymphocytes. The EC 50 (50% effective concentration) values for tenofovir were in the range of 0.04 µM to 8.5 µM.",
     "effects": [],
     "references": [
-      "Bictegravir/Emtricitabine/Tenofovir Alafenamide: A Review in HIV-1 Infection.",
+      "Bictegravir/Emtricitabine/Tenofovir Alafenamide: A Review in HIV-1 Infection",
       "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=50090-0754"
     ],
     "data_gaps": [
@@ -58052,9 +58070,9 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
+      "MOR-agonist",
+      "MOR-full-agonist",
       "habit-forming",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
       "research-chemical",
       "wooden-chest-syndrome-risk"
     ],
@@ -58478,7 +58496,7 @@
     "display_class": "recreational",
     "tags": [
       "IV-anaesthetic",
-      "class:Barbiturate",
+      "barbiturate",
       "context-sensitive-half-life",
       "habit-forming",
       "thiobarbiturate"
@@ -58557,7 +58575,7 @@
     "mechanism_summary": "Competitively blocks postsynaptic dopamine receptors (notably D2) in the brain. Increased dopamine activity in the brain is thought to be associated with the \"positive\" symptoms of schizophrenia/psychosis such as hallucinations, hearing voices, aggression/hostility, disorganized speech, and psychomotor agitation. Also blocks, to varying degrees, several other subtypes of dopamine receptors (D1, D3, D4, D5), serotonin (5HT-1A, 5HT-2A, 5HT-2C, and 5HT-7) receptors, histamine-1 receptors, muscarinic (M1) receptors, and alpha-1 and alpha-2 (slightly) adrenergic receptors.",
     "effects": [],
     "references": [
-      "S-oxidation of thioridazine to psychoactive metabolites: an oral dose-proportionality study in healthy volunteers."
+      "S-oxidation of thioridazine to psychoactive metabolites: an oral dose-proportionality study in healthy volunteers"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -58826,15 +58844,15 @@
     "category": "Antidepressant",
     "display_class": "dual_use",
     "tags": [
+      "MOR-agonist",
+      "MOR-full-agonist",
       "OPRM1-substrate",
       "antidepressant",
       "class:antidepressants",
-      "class:dibenzothiazepine",
+      "dibenzothiazepine",
       "habit-forming",
       "high-abuse-liability",
       "high-dependence-risk",
-      "mu-opioid-agonist",
-      "mu-opioid-full-agonist",
       "non-CYP-metabolized",
       "nootropic",
       "opioid-withdrawal-on-cessation"
@@ -58997,7 +59015,7 @@
     "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
-      "class:Arylcyclohexylamine"
+      "arylcyclohexylamine"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -59156,12 +59174,11 @@
     "category": "Depressant",
     "display_class": "recreational",
     "tags": [
-      "alpha-2 agonist",
+      "CYP1A2-substrate",
       "alpha2-agonist",
       "antispasmodic",
       "class:arylaminoimidazoline",
-      "class:imidazoline",
-      "cyp1a2-substrate",
+      "imidazoline",
       "muscle-relaxant",
       "prescription-only",
       "sedating",
@@ -59727,7 +59744,7 @@
     "mechanism_summary": "Inhibits sodium-potassium-chloride cotransporters at the ascending Loop of Henle of nephrons, producing a potent diuretic effect that causes increased excretion of sodium, chloride, potassium, magnesium, calcium, and water. Loop diuretics cause retention of bicarbonate and uric acid.",
     "effects": [],
     "references": [
-      "A reappraisal of loop diuretic choice in heart failure patients."
+      "A reappraisal of loop diuretic choice in heart failure patients"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -60161,7 +60178,7 @@
     "mechanism_summary": "",
     "effects": [],
     "references": [
-      "Pharmacokinetics of trihexyphenidyl after short-term and long-term administration to dystonic patients."
+      "Pharmacokinetics of trihexyphenidyl after short-term and long-term administration to dystonic patients"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -60460,11 +60477,11 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
+      "MOR-agonist",
+      "MOR-full-agonist",
       "class:benzamide",
       "fatalities-reported",
       "habit-forming",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
       "naloxone-responsive",
       "research-chemical"
     ],
@@ -60514,7 +60531,7 @@
     "category": "Opioid",
     "display_class": "recreational",
     "tags": [
-      "mu-agonist",
+      "MOR-agonist",
       "research-chemical",
       "tentative"
     ],
@@ -60759,9 +60776,9 @@
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
+      "MOR-agonist",
+      "MOR-full-agonist",
       "habit-forming",
-      "mu-full-agonist",
-      "mu-opioid-agonist",
       "research-chemical",
       "tentative",
       "wooden-chest-syndrome-risk"
@@ -62090,7 +62107,6 @@
     "tags": [
       "2nd generation antipsychotic",
       "5-HT2A-antagonist",
-      "5HT2A-antagonist",
       "D2-antagonist",
       "QT-prolongation",
       "QTc-risk",
@@ -62360,7 +62376,7 @@
       "GABAA-PAM",
       "S-enantiomer-of-zopiclone",
       "benzodiazepine receptor agonist",
-      "class:cyclopyrrolone",
+      "cyclopyrrolone",
       "habit-forming",
       "hypnotic",
       "non-selective-GABA-A",

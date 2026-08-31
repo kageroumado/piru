@@ -7,7 +7,6 @@ struct InteractionCheckerView: View {
 
     @State private var selected: [String] = []
     @State private var results: [InteractionResult] = []
-    @State private var metabolicEffects: [MetabolicModulation.Effect] = []
     @State private var combinationMetabolites: [CombinationMetabolite.Formation] = []
     @State private var searchText = ""
     @State private var searchResults: [Substance] = []
@@ -60,10 +59,10 @@ struct InteractionCheckerView: View {
             VStack(spacing: 16) {
                 searchSection
                 selectedSection
+                frequentlyUsedSection
+                emptyStatePrompt
                 resultsSection
                 combinationSection
-                metabolicSection
-                frequentlyUsedSection
             }
             .padding(.horizontal)
             .padding(.bottom, 80)
@@ -137,7 +136,12 @@ struct InteractionCheckerView: View {
                 }
             }
             .padding(.vertical, 4)
-        } else if !showSearchResults {
+        }
+    }
+
+    @ViewBuilder
+    private var emptyStatePrompt: some View {
+        if selected.isEmpty, !showSearchResults {
             HStack(spacing: 8) {
                 Image(systemName: "hand.tap")
                     .foregroundStyle(Theme.secondaryLabel)
@@ -360,12 +364,10 @@ struct InteractionCheckerView: View {
     private func recheckInteractions() {
         guard selected.count >= 2 else {
             results = []
-            metabolicEffects = []
             combinationMetabolites = []
             return
         }
         results = InteractionChecker.checkBatch(selected, against: [], policy: .explore)
-        metabolicEffects = MetabolicModulation.checkerEffects(among: selected)
         combinationMetabolites = CombinationMetabolite.formed(
             among: selected, catalog: SubstanceStore.shared.combinationMetabolites(),
         )
@@ -391,36 +393,6 @@ struct InteractionCheckerView: View {
                         Divider().padding(.leading, 46)
                     }
                     CombinationMetaboliteBanner(formation: formation)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
-                }
-                .padding(.bottom, 4)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .themeCard()
-        }
-    }
-
-    // MARK: - Metabolic modulation (Stage 4c)
-
-    @ViewBuilder
-    private var metabolicSection: some View {
-        if selected.count >= 2, !metabolicEffects.isEmpty {
-            VStack(alignment: .leading, spacing: 0) {
-                Text("Metabolic Effects")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .textCase(.uppercase)
-                    .accessibilityAddTraits(.isHeader)
-                    .padding(.horizontal, 16)
-                    .padding(.top, 12)
-                    .padding(.bottom, 8)
-
-                ForEach(Array(metabolicEffects.enumerated()), id: \.offset) { index, effect in
-                    if index > 0 {
-                        Divider().padding(.leading, 46)
-                    }
-                    MetabolicModulationBanner(effect: effect)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
                 }

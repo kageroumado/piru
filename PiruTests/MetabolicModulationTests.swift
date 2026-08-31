@@ -8,8 +8,8 @@ import Testing
 /// (never a fabricated fold-change). (`Specs/pharmacology-axis-meta-plan.md`, Stage 4c.)
 ///
 /// The catalog is a database table, so these gate the rows rather than restating their values: that
-/// every rule decodes, that every rule has copy and every copy has a rule, that a rule's enzyme is one
-/// the metabolism table actually names, and that origin decides which surface a rule reaches.
+/// every rule decodes, that every rule carries display text, that a rule's enzyme is one the metabolism
+/// table actually names, and that origin decides which surface a rule reaches.
 @Suite("MetabolicModulation")
 @MainActor
 struct MetabolicModulationTests {
@@ -99,12 +99,13 @@ struct MetabolicModulationTests {
     // MARK: - The curated table itself
 
     @Test
-    func `Every curated rule decodes and every rule has copy`() {
-        // Both directions: a row the app has no sentence for is dropped at load and
-        // would vanish silently, and a `ModulatorID` case with no row is copy for a
-        // rule that no longer ships. Either drift breaks this.
-        let loaded = Set(store.enzymeModulators().map(\.id))
-        #expect(loaded == Set(MetabolicModulation.ModulatorID.allCases))
+    func `Every curated rule decodes and carries display text`() {
+        let modulators = store.enzymeModulators()
+        #expect(!modulators.isEmpty)
+        for m in modulators {
+            #expect(!m.displayName.isEmpty, "\(m.id) has no display name")
+            #expect(!m.userNote.isEmpty, "\(m.id) has no user note")
+        }
     }
 
     @Test
@@ -114,9 +115,9 @@ struct MetabolicModulationTests {
         for modulator in store.enzymeModulators() {
             switch modulator.origin {
             case .context:
-                #expect(modulator.matchers.isEmpty, "\(modulator.id.rawValue) is a context flag with matchers")
+                #expect(modulator.matchers.isEmpty, "\(modulator.id) is a context flag with matchers")
             case .substance, .selfEdge:
-                #expect(!modulator.matchers.isEmpty, "\(modulator.id.rawValue) has no matchers to recognize it by")
+                #expect(!modulator.matchers.isEmpty, "\(modulator.id) has no matchers to recognize it by")
             }
         }
     }
@@ -127,7 +128,7 @@ struct MetabolicModulationTests {
         // upper-case matcher row would be permanently unreachable.
         for modulator in store.enzymeModulators() {
             for matcher in modulator.matchers {
-                #expect(matcher == matcher.lowercased(), "\(modulator.id.rawValue): \(matcher)")
+                #expect(matcher == matcher.lowercased(), "\(modulator.id): \(matcher)")
             }
         }
     }
@@ -149,7 +150,7 @@ struct MetabolicModulationTests {
 
     @Test
     func `effects matches catalog modulators to substrate enzymes`() throws {
-        let grapefruit = try #require(store.enzymeModulators().first { $0.id == .grapefruit })
+        let grapefruit = try #require(store.enzymeModulators().first { $0.id == "grapefruit" })
         let effects = MetabolicModulation.effects(
             substrateName: "Demo", substrateEnzymes: [.cyp3a4], modulators: [grapefruit],
         )
@@ -169,7 +170,7 @@ struct MetabolicModulationTests {
             forSubstance: "MDMA", metabolism: metabolism, catalog: store.enzymeModulators(),
         )
         // MDMA is a CYP1A2 substrate → smoking education; and carries its own 2D6 self-edge.
-        #expect(effects.contains { $0.modulatorID == .smoking })
+        #expect(effects.contains { $0.modulatorID == "smoking" })
         #expect(effects.contains { $0.origin == .selfEdge })
         // No logged-drug (substance-origin) modulator should appear in the static card.
         #expect(!effects.contains { $0.origin == .substance })
@@ -180,7 +181,7 @@ struct MetabolicModulationTests {
         let effects = MetabolicModulation.checkerEffects(among: ["Ritonavir", "Midazolam"])
         let effect = try #require(effects.first)
         #expect(effect.substrate == "Midazolam")
-        #expect(effect.modulatorID == .ritonavir)
+        #expect(effect.modulatorID == "ritonavir")
         // Self-edges and context flags are not part of a combination check.
         #expect(!effects.contains { $0.origin != .substance })
     }
@@ -212,7 +213,7 @@ struct MetabolicModulationTests {
         let armodafinil = MetabolicModulation.contraceptiveEfficacyCaution(
             forSubstance: "Nuvigil", in: store.enzymeModulators(),
         )
-        #expect(armodafinil?.id == .armodafinil)
+        #expect(armodafinil?.id == "armodafinil")
     }
 
     @Test
@@ -235,7 +236,7 @@ struct MetabolicModulationTests {
             let reachable = inducer.matchers.contains {
                 MetabolicModulation.contraceptiveEfficacyCaution(forSubstance: $0, in: catalog) != nil
             }
-            #expect(reachable, "\(inducer.id.rawValue) qualifies but no matcher reaches it")
+            #expect(reachable, "\(inducer.id) qualifies but no matcher reaches it")
         }
     }
 
@@ -252,8 +253,24 @@ struct MetabolicModulationTests {
     @Test
     func `A co-present modafinil lowers a CYP3A4 substrate's levels in the checker`() throws {
         let effects = MetabolicModulation.checkerEffects(among: ["Modafinil", "Midazolam"])
-        let mod = try #require(effects.first { $0.modulatorID == .modafinil })
+        let mod = try #require(effects.first { $0.modulatorID == "modafinil" })
         #expect(mod.substrate == "Midazolam")
         #expect(!mod.raisesLevels) // induction → lower levels
+    }
+
+    // MARK: - Tag-derived enzyme interactions
+
+    @Test
+    func `Tag-derived interactions populate the materialized table`() {
+        let interactions = store.tagEnzymeInteractions()
+        #expect(!interactions.isEmpty, "tag_enzyme_interactions table is empty — pipeline materialization failed")
+    }
+
+    @Test
+    func `Bupropion plus tramadol surfaces via tag-derived engine`() {
+        let effects = MetabolicModulation.checkerEffects(among: ["Bupropion", "Tramadol"])
+        #expect(!effects.isEmpty, "expected bupropion→tramadol enzyme interaction")
+        let tramadolEffect = effects.first { $0.substrate == "Tramadol" }
+        #expect(tramadolEffect != nil, "expected an effect on tramadol as substrate")
     }
 }

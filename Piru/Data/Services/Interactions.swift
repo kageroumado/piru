@@ -173,6 +173,43 @@ nonisolated enum DrugClass: String, Codable, CaseIterable {
 
 // MARK: - Interaction Result
 
+/// The pharmacological mechanism category behind an interaction warning — drives
+/// the icon shown beside it so the reader can tell respiratory depression apart
+/// from serotonin toxicity at a glance.
+nonisolated enum InteractionMechanism {
+    case respiratoryDepression
+    case serotoninToxicity
+    case cardiovascular
+    case seizure
+    case enzymeMetabolic
+    case sedation
+    case generic
+
+    var iconName: String {
+        switch self {
+        case .respiratoryDepression: "lungs.fill"
+        case .serotoninToxicity: "brain.head.profile"
+        case .cardiovascular: "heart.fill"
+        case .seizure: "bolt.fill"
+        case .enzymeMetabolic: "arrow.triangle.2.circlepath"
+        case .sedation: "moon.fill"
+        case .generic: "exclamationmark.triangle"
+        }
+    }
+
+    var filledIconName: String {
+        switch self {
+        case .respiratoryDepression: "lungs.fill"
+        case .serotoninToxicity: "brain.head.profile.fill"
+        case .cardiovascular: "heart.fill"
+        case .seizure: "bolt.fill"
+        case .enzymeMetabolic: "arrow.triangle.2.circlepath"
+        case .sedation: "moon.fill"
+        case .generic: "exclamationmark.triangle.fill"
+        }
+    }
+}
+
 struct InteractionResult: Equatable {
     let severity: InteractionSeverity
     let substanceA: String
@@ -243,14 +280,35 @@ struct InteractionResult: Equatable {
     /// dash, then the elaboration ("Combined respiratory depression — the
     /// leading cause of overdose death."). Compact surfaces show the first
     /// half, which is the part that is not already implied by a red dot.
+    var mechanism: InteractionMechanism {
+        if ruleKey.hasPrefix("enzyme:") { return .enzymeMetabolic }
+        let key = ruleKey.lowercased()
+        if key.contains("opioid") && (key.contains("benzo") || key.contains("barbiturate")
+            || key.contains("alcohol") || key.contains("ghb") || key.contains("gabapentinoid")) {
+            return .respiratoryDepression
+        }
+        if key.contains("maoi") || key.contains("serotonergic") || key.contains("ssri")
+            || key.contains("snri") || key.contains("tca") || key.contains("lithium") {
+            return .serotoninToxicity
+        }
+        if key.contains("stimulant") && (key.contains("stimulant") || key.contains("beta")) {
+            return .cardiovascular
+        }
+        if key.contains("antihistamine") || key.contains("orexin")
+            || (key.contains("alpha2") && !key.contains("stimulant")) {
+            return .sedation
+        }
+        return .generic
+    }
+
     var leadClause: String {
         if let dash = description.range(of: " — ") {
-            return String(description[description.startIndex ..< dash.lowerBound])
+            String(description[description.startIndex ..< dash.lowerBound])
+        } else if let stop = description.firstIndex(of: ".") {
+            String(description[description.startIndex ..< stop])
+        } else {
+            description
         }
-        if let stop = description.firstIndex(of: ".") {
-            return String(description[description.startIndex ... stop])
-        }
-        return description
     }
 
     /// How loudly this finding has earned the right to arrive.
@@ -447,10 +505,29 @@ enum InteractionChecker {
             merge(result, into: &byPair)
         }
 
+        // Enzyme interactions for this substance against active entries.
+        let allNames = [substanceName] + activeEntries.map(\.substance)
+        let enzymeEffects = MetabolicModulation.checkerEffects(among: allNames)
+        for effect in enzymeEffects {
+            let key = pairKey(effect.modulatorName, effect.substrate)
+            byPair.removeValue(forKey: key)
+            byPair["enzyme:" + key] = InteractionResult(
+                severity: .unsafe,
+                substanceA: effect.modulatorName,
+                substanceB: effect.substrate,
+                description: effect.userNote,
+                ruleKey: "enzyme:\(effect.modulatorID)|\(effect.enzyme.rawValue)",
+            )
+        }
+
         return byPair.values.sorted { $0.displayScore > $1.displayScore }
     }
 
     /// Check all substances in a batch against each other and against active entries.
+    ///
+    /// Returns a **unified** ranked list: drug-specific enzyme interactions at the
+    /// top, generic class-pair rules demoted when a more specific interaction
+    /// exists for the same pair.
     static func checkBatch(
         _ substances: [String],
         against activeEntries: [DoseEntry],
@@ -481,6 +558,26 @@ enum InteractionChecker {
                     ruleKey: rule.key,
                 ), into: &byPair)
             }
+        }
+
+        // Layer 2: enzyme interactions (curated modulators + tag-derived).
+        // More specific than class rules — when both exist for a pair, the enzyme
+        // interaction replaces the class rule entirely.
+        let allSubstances = substances + activeEntries.map(\.substance)
+        let enzymeEffects = MetabolicModulation.checkerEffects(among: allSubstances)
+        for effect in enzymeEffects {
+            let key = pairKey(effect.modulatorName, effect.substrate)
+            // Remove the generic class rule for this pair — the enzyme interaction
+            // is strictly more informative and the class rule is often misleading
+            // (e.g. "stimulant + opioid seizure risk" when the real issue is CYP2D6).
+            byPair.removeValue(forKey: key)
+            byPair["enzyme:" + key] = InteractionResult(
+                severity: .unsafe,
+                substanceA: effect.modulatorName,
+                substanceB: effect.substrate,
+                description: effect.userNote,
+                ruleKey: "enzyme:\(effect.modulatorID)|\(effect.enzyme.rawValue)",
+            )
         }
 
         return byPair.values.sorted { $0.displayScore > $1.displayScore }

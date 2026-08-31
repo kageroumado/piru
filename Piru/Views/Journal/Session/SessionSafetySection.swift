@@ -67,41 +67,43 @@ struct SessionSafetySection: View {
     // MARK: - Interaction rows
 
     private func interactionRow(_ group: InteractionGroup) -> some View {
-        // Mirrors a dose row: the severity glyph takes the color-dot's slot
-        // (same 9pt size + 8pt gap, so the pairs line up with the dose/cumulative
-        // titles), and the description sits flush with the row's leading edge —
-        // where a dose row keeps its time/meta line — not indented under the pair.
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Image(systemName: group.severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
-                    .font(.system(size: 9, weight: .semibold))
-                    .foregroundStyle(group.severity.labelColor)
-                    .accessibilityHidden(true)
-
-                VStack(alignment: .leading, spacing: 3) {
-                    ForEach(Array(group.pairs.enumerated()), id: \.offset) { index, pair in
-                        HStack(alignment: .firstTextBaseline, spacing: 8) {
-                            Text(pair)
-                                .font(.body.weight(.semibold))
-                                .foregroundStyle(.primary)
-                                .lineLimit(1)
-                            if index == 0 {
-                                Spacer(minLength: 8)
-                                Text(String(localized: group.severity.label).lowercased())
-                                    .capsuleChip(text: group.severity.labelColor, fill: group.severity.color)
-                            }
+        NavigationLink {
+            InteractionTimelineView(
+                substanceA: group.navigationSubstanceA,
+                substanceB: group.navigationSubstanceB,
+                severity: group.severity,
+                mechanism: group.description,
+            )
+        } label: {
+            VStack(alignment: .leading, spacing: 4) {
+                ForEach(Array(group.pairs.enumerated()), id: \.offset) { index, pair in
+                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                        Text(pair)
+                            .font(.body.weight(.semibold))
+                            .foregroundStyle(.primary)
+                            .lineLimit(1)
+                        if index == 0 {
+                            Spacer(minLength: 8)
+                            Image(systemName: group.severity == .dangerous
+                                ? group.mechanism.filledIconName : group.mechanism.iconName)
+                                .font(.system(size: 10, weight: .semibold))
+                                .foregroundStyle(group.severity.labelColor)
+                                .accessibilityHidden(true)
+                            Text(String(localized: group.severity.label).lowercased())
+                                .capsuleChip(text: group.severity.labelColor, fill: group.severity.color)
                         }
                     }
                 }
-            }
 
-            Text(group.description)
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-                .fixedSize(horizontal: false, vertical: true)
+                Text(group.description)
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(.vertical, 2)
+            .accessibilityElement(children: .combine)
         }
-        .padding(.vertical, 2)
-        .accessibilityElement(children: .combine)
+        .buttonStyle(.plain)
     }
 
     private func hrSummaryRow(_ summary: HRSummary) -> some View {
@@ -147,8 +149,19 @@ struct SessionSafetySection: View {
     private struct InteractionGroup: Identifiable {
         let id: String
         let severity: InteractionSeverity
+        let mechanism: InteractionMechanism
         let description: String
         let pairs: [String]
+        let substanceAs: [String]
+        let substanceBs: [String]
+
+        var navigationSubstanceA: String {
+            substanceAs.first ?? ""
+        }
+
+        var navigationSubstanceB: String {
+            substanceBs.first ?? ""
+        }
     }
 
     /// Collapse warnings produced by the same rule into one row that lists
@@ -163,7 +176,10 @@ struct SessionSafetySection: View {
     private func grouped(_ warnings: [InteractionResult]) -> [InteractionGroup] {
         var order: [String] = []
         var pairs: [String: [String]] = [:]
+        var substanceAs: [String: [String]] = [:]
+        var substanceBs: [String: [String]] = [:]
         var severities: [String: InteractionSeverity] = [:]
+        var mechanisms: [String: InteractionMechanism] = [:]
         var descriptions: [String: String] = [:]
         for warning in warnings {
             let key = warning.ruleKey.isEmpty ? warning.description : warning.ruleKey
@@ -171,23 +187,25 @@ struct SessionSafetySection: View {
             if pairs[key] == nil {
                 order.append(key)
                 severities[key] = warning.severity
+                mechanisms[key] = warning.mechanism
             }
             pairs[key, default: []].append("\(warning.substanceA) + \(warning.substanceB)")
-            // A shared rule keeps its strongest severity.
+            substanceAs[key, default: []].append(warning.substanceA)
+            substanceBs[key, default: []].append(warning.substanceB)
             if let existing = severities[key], warning.severity.rawValue > existing.rawValue {
                 severities[key] = warning.severity
             }
         }
         return order
             .map { key in
-                // Keyed on the rule, not an index: the loud and quiet lists
-                // are grouped separately and rendered in one Section, so
-                // positional ids would collide across them.
                 InteractionGroup(
                     id: key,
                     severity: severities[key] ?? .caution,
+                    mechanism: mechanisms[key] ?? .generic,
                     description: descriptions[key] ?? "",
                     pairs: pairs[key] ?? [],
+                    substanceAs: substanceAs[key] ?? [],
+                    substanceBs: substanceBs[key] ?? [],
                 )
             }
             .sorted { $0.severity.rawValue > $1.severity.rawValue }

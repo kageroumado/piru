@@ -2887,6 +2887,11 @@ T = {
         "MDMA 会使清除它的 CYP2D6 失活，因此反复或间隔很短的用药会不成比例地累积，而非与剂量成正比。该酶约需 10 天恢复。",
         "MDMA 會使清除它的 CYP2D6 失活，因此反覆或間隔很短的用藥會不成比例地累積，而非與劑量成正比。該酶約需 10 天恢復。",
     ),
+    "Bupropion": ("安非他酮", "安非他酮"),
+    "Bupropion's reductive metabolites strongly inhibit CYP2D6, raising the levels of drugs cleared by it. For prodrugs activated by CYP2D6 (tramadol, codeine), it blocks the activation pathway instead.": (
+        "安非他酮的还原代谢物强效抑制 CYP2D6，升高经该酶清除的药物浓度。对于由 CYP2D6 活化的前药（曲马多、可待因），其效果相反：活化通路被阻断。",
+        "安非他酮的還原代謝物強效抑制 CYP2D6，升高經該酶清除的藥物濃度。對於由 CYP2D6 活化的前藥（曲馬多、可待因），其效果相反：活化通路被阻斷。",
+    ),
     # Antidepressant + empathogen reframed as myth-buster (blunting, not serotonin syndrome) (2026-06-21)
     "SSRIs blunt MDMA — it may feel much weaker or not work. On their own they don't cause serotonin syndrome.": (
         "SSRI 会减弱 MDMA 的效果——可能明显变弱甚至无效。两者单独合用不会引起血清素综合征。",
@@ -7887,6 +7892,9 @@ if __name__ == "__main__":
         "Taking this daily? See where the level settles",
         "Where a med taken on a schedule settles",
         "Half-life data not available for %@.",
+        # Bupropion enzyme modulator (A1)
+        "Bupropion",
+        "Bupropion's reductive metabolites strongly inhibit CYP2D6, raising the levels of drugs cleared by it. For prodrugs activated by CYP2D6 (tramadol, codeine), it blocks the activation pathway instead.",
     }
 
     print("--- Piru main app catalog ---")

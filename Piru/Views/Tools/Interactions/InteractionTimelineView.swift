@@ -39,14 +39,6 @@ private struct ChartData {
     let totalHours: Double
 }
 
-/// All derived interaction-timeline state: resolved PK params, the generated
-/// curves, the journal-matched doses, and the depression/attenuation readouts.
-/// The init seeds everything derivable without the dose log — params, curves,
-/// and the attenuation readout (which defaults unmatched doses) — so the first
-/// frame renders complete. The one journal scan (``autoDetect(entries:)``) and
-/// later time edits flow through ``recompute()``, which runs one library
-/// lookup, Newton ka solve, and 200-sample generation per input change, never
-/// per body eval.
 @Observable @MainActor
 private final class InteractionTimelineModel {
     let substanceA: String
@@ -57,16 +49,10 @@ private final class InteractionTimelineModel {
     private(set) var paramsA: PKParams?
     private(set) var paramsB: PKParams?
     private(set) var chartData: ChartData?
-    // Real logged doses for the two substances (within 48 h), captured on
-    // auto-detect. The combined-depression index is a dose-resolved readout,
-    // so it is only computed when both depressants have an actual logged dose
-    // — never fabricated from names alone.
     private(set) var matchedA: MatchedDose?
     private(set) var matchedB: MatchedDose?
     private(set) var depression: CombinedDepressionResult?
     private(set) var attenuations: [EffectAttenuationResult] = []
-    /// Guards ``autoDetect(entries:)`` to one shot — a returning appearance
-    /// must not clobber times the user has since adjusted.
     private var didAutoDetect = false
     private var computedFor: CurveInputs?
 
@@ -84,10 +70,6 @@ private final class InteractionTimelineModel {
             chartData = Self.generateCurveData(pA: pA, pB: pB, ingestTimeA: now, ingestTimeB: now)
         }
         let inputs = CurveInputs(substanceA: substanceA, substanceB: substanceB, timeA: now, timeB: now)
-        // Attenuation is part of the synchronous seed: it needs no journal
-        // data (persistent blockers gate on co-presence, and unmatched doses
-        // default), and seeding `computedFor` without it left the readout
-        // permanently blank whenever no logged dose ever changed the inputs.
         attenuations = computeAttenuations(for: inputs)
         computedFor = inputs
     }
@@ -96,7 +78,6 @@ private final class InteractionTimelineModel {
         CurveInputs(substanceA: substanceA, substanceB: substanceB, timeA: ingestTimeA, timeB: ingestTimeB)
     }
 
-    /// Reference time for the chart x-axis (the earlier of the two ingestion times).
     var referenceTime: Date {
         min(ingestTimeA, ingestTimeB)
     }
@@ -128,8 +109,6 @@ private final class InteractionTimelineModel {
         computedFor = inputs
     }
 
-    /// One-shot scan of the recent dose log: adopt each substance's most
-    /// recent logged time and dose, then refresh the dose-resolved readouts.
     func autoDetect(entries: [DoseEntry]) {
         guard !didAutoDetect else { return }
         didAutoDetect = true
@@ -149,10 +128,6 @@ private final class InteractionTimelineModel {
         depression = computeDepression(for: curveInputs)
     }
 
-    /// Sign-flipped readout: if one substance is a transporter releaser and the other blocks reuptake
-    /// at that transporter (e.g. MDMA + an SSRI), surface the predicted *reduced* effect — distinct from
-    /// the danger warning. Built from the two matched doses; persistent (SSRI) blockers gate on
-    /// co-presence, so explicit timestamps aren't required.
     private func computeAttenuations(for inputs: CurveInputs) -> [EffectAttenuationResult] {
         let entries = [
             DoseEntry(substance: inputs.substanceA, amount: matchedA?.amount ?? 1, unit: matchedA?.unit ?? "mg", route: matchedA?.route ?? .oral, timestamp: inputs.timeA),
@@ -161,10 +136,6 @@ private final class InteractionTimelineModel {
         return EffectAttenuation.analyze(entries: entries)
     }
 
-    /// The combined CNS/respiratory-depression index for the pair, computed from the two real logged
-    /// doses at the (possibly adjusted) ingestion times. Nil unless both substances are additive
-    /// depressants *and* both have an actual logged dose — the index is a dose-resolved readout, so it
-    /// is never fabricated from names alone (the dose-blind explorer keeps the concentration overlap).
     private func computeDepression(for inputs: CurveInputs) -> CombinedDepressionResult? {
         guard let a = matchedA, let b = matchedB else { return nil }
         let entries = [
@@ -205,8 +176,8 @@ private final class InteractionTimelineModel {
         let offsetAMinutes = ingestTimeA.timeIntervalSince(referenceTime) / 60
         let offsetBMinutes = ingestTimeB.timeIntervalSince(referenceTime) / 60
 
-        let tailA = PKModel.timeToFraction(0.03, ke: pA.ke, ka: pA.ka, maxMinutes: pA.halfLifeMinutes * 8)
-        let tailB = PKModel.timeToFraction(0.03, ke: pB.ke, ka: pB.ka, maxMinutes: pB.halfLifeMinutes * 8)
+        let tailA = PKModel.timeToFraction(0.05, ke: pA.ke, ka: pA.ka, maxMinutes: pA.halfLifeMinutes * 7)
+        let tailB = PKModel.timeToFraction(0.05, ke: pB.ke, ka: pB.ka, maxMinutes: pB.halfLifeMinutes * 7)
         let totalMinutes = max(offsetAMinutes + tailA, offsetBMinutes + tailB)
         let totalHours = totalMinutes / 60
 
@@ -253,16 +224,8 @@ struct InteractionTimelineView: View {
     let substanceA: String
     let substanceB: String
     let severity: InteractionSeverity
-    /// What the caller already computed. Carried across the push rather than
-    /// re-derived: the explorer runs the checker under `.explore`, and asking
-    /// again here under the default `.warn` returns nothing for any pair that
-    /// policy suppresses, which would leave only a generic "exercise caution"
-    /// line beneath a chip reading "Dangerous".
     let mechanism: String
 
-    /// Windowed to the 48 h the auto-detect and the "recent entry" checks
-    /// read. Never widen or drop this filter: unbounded, it materializes the
-    /// whole dose log on every body pass.
     @Query private var allEntries: [DoseEntry]
 
     @State private var model: InteractionTimelineModel
@@ -290,24 +253,12 @@ struct InteractionTimelineView: View {
 
                 if let data = model.chartData {
                     chartSection(data: data)
-                    timeControlsSection
-                    overlapCard(data: data)
+                    detailsCard(data: data)
                 }
 
-                if let depression = model.depression, depression.hasMeaningfulLoad {
-                    depressionCard(depression)
-                }
+                analysisCard
 
-                ForEach(model.attenuations) { attenuation in
-                    attenuationCard(attenuation)
-                }
-
-                warningCard
-                if let pA = model.paramsA, let pB = model.paramsB {
-                    substanceInfoCards(pA: pA, pB: pB)
-                }
-
-                disclaimerCard
+                disclaimerFooter
             }
             .padding()
         }
@@ -319,16 +270,14 @@ struct InteractionTimelineView: View {
     }
 
     private var hasRecentEntryA: Bool {
-        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
-        return allEntries.contains {
-            $0.substance.lowercased() == substanceA.lowercased() && $0.timestamp > cutoff
+        allEntries.contains {
+            $0.substance.lowercased() == substanceA.lowercased()
         }
     }
 
     private var hasRecentEntryB: Bool {
-        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
-        return allEntries.contains {
-            $0.substance.lowercased() == substanceB.lowercased() && $0.timestamp > cutoff
+        allEntries.contains {
+            $0.substance.lowercased() == substanceB.lowercased()
         }
     }
 
@@ -360,52 +309,35 @@ struct InteractionTimelineView: View {
     private func chartSection(data: ChartData) -> some View {
         let nowHours = Date.now.timeIntervalSince(model.referenceTime) / 3_600
         let showNowMarker = nowHours > 0.05 && nowHours < data.totalHours
-        let window = overlapWindow(in: data)
 
         return VStack(alignment: .leading, spacing: 8) {
-            Text("Concentration Curves")
-                .font(.headline)
-                .accessibilityAddTraits(.isHeader)
-
             Chart {
-                ForEach(data.overlap, id: \.hours) { point in
-                    AreaMark(
-                        x: .value("Time", point.hours),
-                        y: .value("Conc", point.minConcentration),
-                    )
-                    .foregroundStyle(severity.color.opacity(0.2))
-                    .interpolationMethod(.monotone)
-                }
-
                 ForEach(data.pointsA, id: \.hours) { point in
                     LineMark(
                         x: .value("Time", point.hours),
                         y: .value("Conc", point.concentration),
+                        series: .value("Substance", "A"),
                     )
                     .foregroundStyle(colorA)
                     .interpolationMethod(.monotone)
-                    .lineStyle(StrokeStyle(lineWidth: 2))
+                    .lineStyle(StrokeStyle(lineWidth: 2.5))
                 }
 
                 ForEach(data.pointsB, id: \.hours) { point in
                     LineMark(
                         x: .value("Time", point.hours),
                         y: .value("Conc", point.concentration),
+                        series: .value("Substance", "B"),
                     )
                     .foregroundStyle(colorB)
                     .interpolationMethod(.monotone)
-                    .lineStyle(StrokeStyle(lineWidth: 2))
+                    .lineStyle(StrokeStyle(lineWidth: 2.5))
                 }
 
                 if showNowMarker {
                     RuleMark(x: .value("Now", nowHours))
-                        .foregroundStyle(.white.opacity(0.4))
-                        .lineStyle(StrokeStyle(lineWidth: 1, dash: [5, 3]))
-                        .annotation(position: .top, alignment: .leading, spacing: 2) {
-                            Text("Now")
-                                .font(.caption2)
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
+                        .foregroundStyle(Theme.secondaryLabel.opacity(0.5))
+                        .lineStyle(StrokeStyle(lineWidth: 1.5))
                 }
             }
             .chartXAxis {
@@ -430,20 +362,23 @@ struct InteractionTimelineView: View {
                     }
                 }
             }
+            .chartXScale(domain: 0 ... data.totalHours)
             .chartYScale(domain: 0 ... 105)
             .chartLegend(.hidden)
             .frame(height: 220)
             .chartSummaryAccessibility(
                 label: Text("Concentration Curves"),
-                value: window.map { w in
-                    Text("\(substanceA) and \(substanceB) over time; both active from \(formatHours(w.start)) to \(formatHours(w.end)).")
-                } ?? Text("\(substanceA) and \(substanceB) over time; no overlapping active window."),
+                value: {
+                    let window = overlapWindow(in: data)
+                    return window.map { w in
+                        Text("\(substanceA) and \(substanceB) over time; both active from \(formatHours(w.start)) to \(formatHours(w.end)).")
+                    } ?? Text("\(substanceA) and \(substanceB) over time; no overlapping active window.")
+                }(),
             )
 
             HStack(spacing: 16) {
                 legendItem(color: colorA, label: substanceA)
                 legendItem(color: colorB, label: substanceB)
-                legendItem(color: severity.color.opacity(0.4), label: String(localized: "Overlap"), filled: true)
             }
             .font(.caption)
         }
@@ -468,144 +403,148 @@ struct InteractionTimelineView: View {
         }
     }
 
-    // MARK: - Time Controls
+    // MARK: - Details (time controls + PK info + overlap — one card)
 
     private var timePickerRange: ClosedRange<Date> {
         Date.now.addingTimeInterval(-48 * 3_600) ... Date.now.addingTimeInterval(12 * 3_600)
     }
 
-    private var timeControlsSection: some View {
-        VStack(spacing: 12) {
-            substanceTimeRow(name: substanceA, color: colorA, time: $model.ingestTimeA, hasRecentEntry: hasRecentEntryA)
-            substanceTimeRow(name: substanceB, color: colorB, time: $model.ingestTimeB, hasRecentEntry: hasRecentEntryB)
-        }
-    }
+    private func detailsCard(data: ChartData) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            substanceDetailRow(
+                name: substanceA, color: colorA, time: $model.ingestTimeA,
+                hasRecentEntry: hasRecentEntryA, params: model.paramsA,
+            )
 
-    private func substanceTimeRow(name: String, color: Color, time: Binding<Date>, hasRecentEntry: Bool) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Circle().fill(color).frame(width: 10, height: 10)
-                Text(name)
-                    .font(.subheadline.weight(.medium))
-                Spacer()
-                if hasRecentEntry {
-                    Text("From journal")
-                        .font(.caption2.weight(.medium))
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(color.opacity(0.10), in: Capsule())
-                        .foregroundStyle(color)
+            Divider().padding(.leading, 22)
+
+            substanceDetailRow(
+                name: substanceB, color: colorB, time: $model.ingestTimeB,
+                hasRecentEntry: hasRecentEntryB, params: model.paramsB,
+            )
+
+            let window = overlapWindow(in: data)
+            Divider().padding(.leading, 22)
+
+            HStack(spacing: 8) {
+                Image(systemName: window != nil ? "clock.arrow.2.circlepath" : "checkmark.circle.fill")
+                    .font(.caption)
+                    .foregroundStyle(window != nil ? severity.labelColor : .green)
+                    .accessibilityHidden(true)
+                if let window {
+                    Text("Both active \(formatHours(window.start))–\(formatHours(window.end)) (\(formatHours(window.end - window.start)) overlap)")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                } else {
+                    Text("No active overlap at this timing")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
             }
-
-            HStack {
-                Text("Ingestion time")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                Spacer()
-                DatePicker("", selection: time, in: timePickerRange)
-                    .labelsHidden()
-                    .datePickerStyle(.compact)
-            }
-
-            Text(relativeTimeDescription(time.wrappedValue))
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
         }
-        .padding()
         .themeCard()
     }
 
-    private func relativeTimeDescription(_ date: Date) -> String {
-        let interval = Date.now.timeIntervalSince(date)
-        if abs(interval) < 60 { return String(localized: "Right now") }
-        if interval > 0 {
-            return String(localized: "\(formatDuration(interval / 60)) ago")
-        } else {
-            return String(localized: "In \(formatDuration(-interval / 60))")
-        }
-    }
-
-    // MARK: - Overlap Window
-
-    private func overlapWindow(in data: ChartData) -> (start: Double, end: Double)? {
-        guard let first = data.overlap.first, let last = data.overlap.last else { return nil }
-        return (first.hours, last.hours)
-    }
-
-    private func overlapCard(data: ChartData) -> some View {
-        let window = overlapWindow(in: data)
-
-        return VStack(alignment: .leading, spacing: 8) {
-            if let window {
-                HStack(spacing: 10) {
-                    Image(systemName: "clock.arrow.2.circlepath")
-                        .font(.title3)
-                        .foregroundStyle(severity.labelColor)
-                        .accessibilityHidden(true)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("Both substances active")
-                            .font(.subheadline.weight(.semibold))
-                        Text("From \(formatHours(window.start)) to \(formatHours(window.end)) (\(formatHours(window.end - window.start)) overlap)")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
+    private func substanceDetailRow(
+        name: String, color: Color, time: Binding<Date>,
+        hasRecentEntry: Bool, params: PKParams?,
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 8) {
+                Circle().fill(color).frame(width: 8, height: 8)
+                Text(name)
+                    .font(.body.weight(.semibold))
+                Spacer(minLength: 4)
+                if hasRecentEntry {
+                    Text(time.wrappedValue.formatted(date: .abbreviated, time: .shortened))
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                } else {
+                    DatePicker("", selection: time, in: timePickerRange)
+                        .labelsHidden()
+                        .datePickerStyle(.compact)
                 }
-                .accessibilityElement(children: .combine)
-            } else {
-                HStack(spacing: 10) {
-                    Image(systemName: "checkmark.circle.fill")
-                        .font(.title3)
-                        .foregroundStyle(.green)
-                        .accessibilityHidden(true)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("No active overlap")
-                            .font(.subheadline.weight(.semibold))
-                        Text("At this timing, the substances are not simultaneously active above threshold.")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
+            }
+
+            if let params {
+                HStack(spacing: 12) {
+                    Label("t\u{00BD} \(formatDuration(params.halfLifeMinutes))", systemImage: "clock")
+                    Label("Peak \(formatDuration(params.timeToPeakMinutes))", systemImage: "arrow.up")
                 }
-                .accessibilityElement(children: .combine)
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+                .padding(.leading, 16)
             }
         }
-        .padding()
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+    }
+
+    // MARK: - Analysis (warning + depression + attenuation — one card)
+
+    private var analysisCard: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            // Warning
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
+                    .foregroundStyle(severity.labelColor)
+                    .font(.body)
+                    .accessibilityHidden(true)
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("\(severity.label): \(substanceA) + \(substanceB)")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(severity.labelColor)
+                    Text(mechanism)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            }
+            .padding(16)
+
+            // Combined depression
+            if let depression = model.depression, depression.hasMeaningfulLoad {
+                Divider().padding(.leading, 36)
+                depressionSection(depression)
+                    .padding(16)
+            }
+
+            // Effect attenuation
+            ForEach(model.attenuations) { attenuation in
+                Divider().padding(.leading, 36)
+                attenuationSection(attenuation)
+                    .padding(16)
+            }
+        }
         .frame(maxWidth: .infinity, alignment: .leading)
         .themeCard()
     }
 
-    // MARK: - Combined Depression
-
-    /// The Stage-3b readout: a single combined CNS/respiratory-depression load over the shared
-    /// timeline, with the peak value and *when* it occurs marked. The danger signal becomes "your
-    /// combined respiratory depression peaks at ~02:30," not "two depressant tags co-exist."
-    private func depressionCard(_ d: CombinedDepressionResult) -> some View {
+    private func depressionSection(_ d: CombinedDepressionResult) -> some View {
         let bandColor = d.band?.labelColor ?? Theme.secondaryLabel
         let peakHours = max(0, d.peakDate.timeIntervalSince(model.referenceTime) / 3_600)
         let yMax = max(CombinedDepression.dangerousThreshold * 1.1, d.peakLoad * 1.1)
 
-        return VStack(alignment: .leading, spacing: 10) {
+        return VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
                 Image(systemName: "lungs.fill")
                     .foregroundStyle(bandColor)
+                    .font(.caption)
                     .accessibilityHidden(true)
-                Text("Combined depression")
-                    .font(.headline)
-                    .accessibilityAddTraits(.isHeader)
+                Text("Combined depression peaks around \(peakClockTime(d.peakDate))")
+                    .font(.subheadline.weight(.medium))
                 Spacer()
                 if let level = d.levelLabel {
                     Text(level)
-                        .font(.caption.weight(.semibold))
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
+                        .font(.caption2.weight(.semibold))
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
                         .background(bandColor.opacity(0.15), in: Capsule())
                         .foregroundStyle(bandColor)
                 }
             }
-
-            Text("Combined respiratory depression peaks around \(peakClockTime(d.peakDate)).")
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
 
             Chart {
                 ForEach(Array(d.points.enumerated()), id: \.offset) { _, point in
@@ -631,11 +570,6 @@ struct InteractionTimelineView: View {
                 RuleMark(x: .value("Peak", peakHours))
                     .foregroundStyle(bandColor.opacity(0.6))
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [5, 3]))
-                    .annotation(position: .top, alignment: .center, spacing: 2) {
-                        Text("Peak")
-                            .font(.caption2)
-                            .foregroundStyle(bandColor)
-                    }
             }
             .chartXAxis {
                 AxisMarks(values: .automatic) { value in
@@ -649,23 +583,14 @@ struct InteractionTimelineView: View {
             }
             .chartYAxis(.hidden)
             .chartYScale(domain: 0 ... yMax)
-            .frame(height: 130)
-            .chartSummaryAccessibility(
-                label: Text("Combined depression over time"),
-                value: Text("Peaks around \(peakClockTime(d.peakDate)); the dashed line marks the dangerous threshold."),
-            )
+            .frame(height: 100)
 
             Text(depressionCaveat(d))
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
         }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .themeCard()
     }
 
-    /// House honesty caveat — confidence tier + how much of the stack used real occupancy vs the
-    /// effect-curve surrogate ("predicted (model, confidence)", never "measured").
     private func depressionCaveat(_ d: CombinedDepressionResult) -> String {
         let confidence = String(localized: d.confidence.label)
         if d.isFullyModeled {
@@ -681,110 +606,38 @@ struct InteractionTimelineView: View {
         date.formatted(date: .omitted, time: .shortened)
     }
 
-    // MARK: - Effect attenuation (sign-flipped readout)
-
-    private func attenuationCard(_ a: EffectAttenuationResult) -> some View {
+    private func attenuationSection(_ a: EffectAttenuationResult) -> some View {
         let blockerPhrase = ListFormatter.localizedString(byJoining: a.blockers)
-        return VStack(alignment: .leading, spacing: 10) {
+        return VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 8) {
                 Image(systemName: "arrow.down.right.circle")
                     .foregroundStyle(Theme.secondaryLabel)
-                    .accessibilityHidden(true)
-                Text("Reduced effect")
-                    .font(.headline)
-                    .accessibilityAddTraits(.isHeader)
-                Spacer()
-                Text("~\(a.reductionRangeText)")
-                    .font(.caption.weight(.semibold))
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 3)
-                    .background(Theme.secondaryLabel.opacity(0.15), in: Capsule())
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-
-            Text("\(blockerPhrase) blocks the \(String(localized: a.transporter.displayName)) that \(a.attenuated) needs to work, so \(a.attenuated) is predicted to feel ~\(a.reductionRangeText) weaker.")
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-
-            Text("This is a reduced effect · predicted (model, \(String(localized: a.confidence.label))).")
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-        }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .themeCard()
-    }
-
-    // MARK: - Warning
-
-    private var warningCard: some View {
-        HStack(alignment: .top, spacing: 10) {
-            Image(systemName: severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
-                .foregroundStyle(severity.labelColor)
-                .font(.title3)
-                .accessibilityHidden(true)
-
-            VStack(alignment: .leading, spacing: 3) {
-                Text("\(severity.label): \(substanceA) + \(substanceB)")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(severity.labelColor)
-                Text(mechanism)
                     .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .accessibilityHidden(true)
+                Text("Reduced effect (~\(a.reductionRangeText))")
+                    .font(.subheadline.weight(.medium))
             }
-        }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .themeCard()
-    }
-
-    // MARK: - Substance Info
-
-    private func substanceInfoCards(pA: PKParams, pB: PKParams) -> some View {
-        VStack(spacing: 12) {
-            substanceInfoRow(name: substanceA, params: pA, color: colorA)
-            substanceInfoRow(name: substanceB, params: pB, color: colorB)
-        }
-    }
-
-    private func substanceInfoRow(name: String, params: PKParams, color: Color) -> some View {
-        HStack(spacing: 12) {
-            Circle()
-                .fill(color)
-                .frame(width: 10, height: 10)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(name)
-                    .font(.subheadline.weight(.semibold))
-                HStack(spacing: 12) {
-                    Label("t\u{00BD} \(formatDuration(params.halfLifeMinutes))", systemImage: "clock")
-                    Label("Peak \(formatDuration(params.timeToPeakMinutes))", systemImage: "arrow.up")
-                }
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
-            }
-
-            Spacer()
-        }
-        .padding()
-        .themeCard()
-    }
-
-    // MARK: - Disclaimer
-
-    private var disclaimerCard: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Label("Estimate Only", systemImage: "info.circle")
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(Theme.secondaryLabel)
-
-            Text("This timeline uses a simplified one-compartment PK model with population-average half-lives. Real overlap depends on individual metabolism, dose, route, tolerance, and many other factors. This is not medical advice.")
+            Text("\(blockerPhrase) blocks the \(String(localized: a.transporter.displayName)) that \(a.attenuated) needs to work.")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
         }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .themeCard()
+    }
+
+    // MARK: - Overlap Window
+
+    private func overlapWindow(in data: ChartData) -> (start: Double, end: Double)? {
+        guard let first = data.overlap.first, let last = data.overlap.last else { return nil }
+        return (first.hours, last.hours)
+    }
+
+    // MARK: - Disclaimer (footer text, no card)
+
+    private var disclaimerFooter: some View {
+        Text("Estimate only — simplified one-compartment PK model with population-average half-lives. Real overlap depends on individual metabolism, dose, route, and tolerance. Not medical advice.")
+            .font(.caption2)
+            .foregroundStyle(Theme.secondaryLabel)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 4)
     }
 
     // MARK: - Formatting

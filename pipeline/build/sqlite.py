@@ -814,6 +814,9 @@ CREATE TABLE tags (
     tag          TEXT NOT NULL,
     source_id    INTEGER NOT NULL REFERENCES sources(id),
     confidence   TEXT,
+    -- 0 = shown as a chip on the detail card (default).
+    -- 1 = stored for engine consumption but hidden from UI display.
+    hidden       INTEGER NOT NULL DEFAULT 0,
     PRIMARY KEY (substance_id, tag, source_id)
 );
 CREATE INDEX idx_tags_tag       ON tags(tag);
@@ -1731,6 +1734,12 @@ CREATE TABLE enzyme_modulators (
     -- ConfidenceTier raw value: high | medium | low | unverified
     confidence   TEXT NOT NULL,
     rank         INTEGER NOT NULL DEFAULT 0,
+    -- Human-facing label for the modulator (e.g. "Bupropion", "Tobacco smoking").
+    -- Localized via the xcstrings catalog keyed on this English string.
+    display_name TEXT,
+    -- One-sentence educational explanation shown in the app (e.g. "Bupropion's
+    -- reductive metabolites strongly inhibit CYP2D6, ..."). Localized the same way.
+    user_note    TEXT,
     citation_id  INTEGER REFERENCES citations(id),
     notes        TEXT
 );
@@ -1779,6 +1788,23 @@ CREATE TABLE pharmacology_matchers (
     PRIMARY KEY (relation, owner_id, slot, matcher)
 );
 CREATE INDEX idx_pharmacology_matchers_owner ON pharmacology_matchers(relation, owner_id);
+
+-- Materialized enzyme-interaction pairs derived from CYP tags at build time.
+-- Each row says: "perpetrator inhibits/induces enzyme X, and victim is
+-- cleared/activated by it". The app reads this as a flat lookup rather than
+-- parsing tags at runtime. Rows where the curated enzyme_modulators table
+-- already covers the perpetrator are excluded at build time.
+CREATE TABLE tag_enzyme_interactions (
+    perpetrator_id  INTEGER NOT NULL REFERENCES substances(id),
+    victim_id       INTEGER NOT NULL REFERENCES substances(id),
+    enzyme          TEXT NOT NULL,
+    direction       TEXT NOT NULL,
+    strength        TEXT,
+    victim_type     TEXT NOT NULL,
+    PRIMARY KEY (perpetrator_id, victim_id, enzyme)
+);
+CREATE INDEX idx_tei_perpetrator ON tag_enzyme_interactions(perpetrator_id);
+CREATE INDEX idx_tei_victim      ON tag_enzyme_interactions(victim_id);
 
 -- The population onset/peak windows the benzodiazepine discontinuation screen
 -- shows, and the half-life interval that decides which band a drug falls into.
@@ -5332,8 +5358,7 @@ _CLASS_DOSE_CEILING_MG: dict[str, float] = {
     # Lysergamides: LSD threshold ~15 µg, heavy ~300 µg. 5 mg = 5000 µg,
     # which is well above every entry in the DB but flags obvious
     # mg/µg unit confusion (e.g. a `light 100 mg` LSD row).
-    "class:lysergamides": 5.0,
-    "class:Lysergamide": 5.0,
+    "lysergamide": 5.0,
 }
 
 
@@ -5806,6 +5831,7 @@ class Build:
             pass
 
     _TAG_NORMALIZE: dict[str, str] = {
+        # Antidepressant class acronyms
         "ssri": "SSRI",
         "snri": "SNRI",
         "sari": "SARI",
@@ -5816,21 +5842,112 @@ class Build:
         "tca": "TCA",
         "tricyclic antidepressant": "TCA",
         "tricyclic": "TCA",
+        # --- class: prefix → bare canonical form ---
+        "class:benzodiazepine": "benzodiazepine",
+        "class:benzodiazepines": "benzodiazepine",
+        "class:arylcyclohexylamines": "arylcyclohexylamine",
+        "class:arylcyclohexylamine": "arylcyclohexylamine",
+        "class:arylcyclohexylamine dissociative": "arylcyclohexylamine",
+        "class:tryptamine": "tryptamine",
+        "class:substituted tryptamines": "tryptamine",
+        "class:substituted tryptamine": "tryptamine",
+        "class:phenethylamine": "phenethylamine",
+        "class:substituted phenethylamines": "phenethylamine",
+        "class:cathinone": "cathinone",
+        "class:substituted cathinones": "cathinone",
+        "class:substituted cathinone": "cathinone",
+        "class:lysergamides": "lysergamide",
+        "class:lysergamide": "lysergamide",
+        "class:racetam": "racetam",
+        "class:racetams": "racetam",
+        "class:cannabinoid": "cannabinoid",
+        "class:phytocannabinoid": "phytocannabinoid",
+        "class:barbiturates": "barbiturate",
+        "class:barbiturate": "barbiturate",
+        "class:phenothiazine": "phenothiazine",
+        "class:quinazolinone": "quinazolinone",
+        "class:butyrophenone": "butyrophenone",
+        "class:piperazine": "piperazine",
+        "class:carbamate": "carbamate",
+        "class:cyclopyrrolone": "cyclopyrrolone",
+        "class:thienobenzodiazepine": "thienobenzodiazepine",
+        "class:thienotriazolodiazepine": "thienotriazolodiazepine",
+        "class:dibenzothiazepine": "dibenzothiazepine",
+        "class:imidazoline": "imidazoline",
+        "class:salvinorin": "salvinorin",
+        "class:cholinergic": "cholinergic",
+        "class:peptide": "peptide",
+        # --- 5-HT receptor naming: canonical "5-HT2A-agonist" ---
+        "5ht2a-agonist": "5-HT2A-agonist",
+        "5ht2a-antagonist": "5-HT2A-antagonist",
+        "5-ht2a antagonist": "5-HT2A-antagonist",
+        "5ht1a-agonist": "5-HT1A-agonist",
+        "5ht1a-partial-agonist": "5-HT1A-partial-agonist",
+        "5-ht1a agonist": "5-HT1A-agonist",
+        "5-ht3 receptor antagonist": "5-HT3-antagonist",
+        # --- MOR naming: canonical "MOR-full-agonist" ---
+        "mu-full-agonist": "MOR-full-agonist",
+        "mu-opioid-agonist": "MOR-agonist",
+        "mu-opioid-full-agonist": "MOR-full-agonist",
+        "mu-agonist": "MOR-agonist",
+        "mu-agonist-presumed": "MOR-agonist-presumed",
+        "mu-partial-agonist": "MOR-partial-agonist",
+        # --- Case collisions ---
+        "miscategorized": "MISCATEGORIZED",
+        "misclassification": "MISCATEGORIZED",
+        "cyp1a2-substrate": "CYP1A2-substrate",
+        # --- Antihistamine generation ---
+        "antihistamine, 1st generation": "first-gen-antihistamine",
+        "antihistamine, 2nd generation": "second-gen-antihistamine",
+        "antihistamine, 3rd generation": "third-gen-antihistamine",
+        # --- Alpha receptor naming ---
+        "centrally-acting alpha-2 agonist": "alpha2-agonist",
+        "alpha adrenergic agonist": "alpha-agonist",
+        "alpha-2 agonist": "alpha2-agonist",
+        # --- Histamine receptor ---
+        "histamine-2 receptor antagonist": "H2-antagonist",
+        # --- Dopamine ---
+        "dopamine/ne reuptake inhibitor": "NDRI",
+        "dopamine agonist": "dopamine-agonist",
+        "dopamine precursor": "dopamine-precursor",
+        # --- Drop: CYP non-specific (too vague) ---
+        "cyp-inhibitor": "",
+        "cyp450-inhibitor": "",
+        "cyp450-inducer": "",
+        # --- Drop: noise/strays ---
+        "easter-egg": "",
+        "fictional": "",
+        "deadly": "",
+        "should-be-regrouped": "",
+        "wrong-group-classification": "",
     }
+
+    @staticmethod
+    def _tag_hidden(tag: str) -> bool:
+        """Tags stored for engine/pipeline use but hidden from the detail-card UI.
+
+        Tags whose content is already shown by a dedicated UI panel (the
+        bindings table, the category label) add noise as chips. The enzyme-role
+        tags are *not* hidden — they say something the mechanism panel does not.
+        """
+        return tag.lower().startswith("class:")
 
     def add_tag(self, sid: int, source_slug: str, tag: str, confidence: str | None = None) -> None:
         if not tag or is_dosage_form_tag(tag):
             return
         tag = self._TAG_NORMALIZE.get(tag.lower(), tag)
+        if not tag:
+            return
+        if tag.startswith("duplicate-of"):
+            return
+        hidden = 1 if self._tag_hidden(tag) else 0
         src = self.source_ids[source_slug]
-        # Cache unconditionally so the dose-magnitude gate sees every tag
-        # any source asserts for this substance, even if the row was already
-        # inserted by an earlier pass.
         self.substance_tags[sid].add(tag)
         try:
             self.cur.execute(
-                "INSERT INTO tags(substance_id, tag, source_id, confidence) VALUES (?, ?, ?, ?)",
-                (sid, tag, src, confidence),
+                "INSERT INTO tags(substance_id, tag, source_id, confidence, hidden)"
+                " VALUES (?, ?, ?, ?, ?)",
+                (sid, tag, src, confidence, hidden),
             )
             self.stats["tags"] += 1
         except sqlite3.IntegrityError:
@@ -5879,6 +5996,15 @@ class Build:
             self.note_reject(
                 "dropped_ambiguous_unit", unit, sid=sid, route=route, source=source_slug
             )
+            return
+
+        # Drop per-day dose totals on non-patch routes. A per-dose logger cannot
+        # meaningfully show "150 mg/day" — it is a daily target, not a dose. Patch
+        # routes (transdermal) are exempt: the delivery IS daily by nature.
+        if unit and "/day" in unit.lower() and route != "transdermal":
+            self.stats.setdefault("dropped_daily_unit", 0)
+            self.stats["dropped_daily_unit"] += 1
+            self.note_reject("dropped_daily_unit", unit, sid=sid, route=route, source=source_slug)
             return
 
         unit = canonical_mass_unit(unit)
@@ -10433,8 +10559,8 @@ class Build:
             self.cur.execute(
                 "INSERT OR REPLACE INTO enzyme_modulators"
                 "(modulator_id, substance_id, source_id, origin, enzyme, direction,"
-                " strength, confidence, rank, citation_id, notes)"
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                " strength, confidence, rank, display_name, user_note, citation_id, notes)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     entry["id"],
                     sid,
@@ -10445,6 +10571,8 @@ class Build:
                     entry["strength"],
                     entry["confidence"],
                     rank,
+                    entry.get("display_name"),
+                    entry.get("user_note"),
                     self.cite(entry.get("citation")) or default_citation_id,
                     entry.get("notes"),
                 ),
@@ -10547,6 +10675,111 @@ class Build:
             )
             written += 1
         return written
+
+    def materialize_enzyme_interactions(self) -> dict[str, int]:
+        """Cross-join CYP inhibitor/inducer tags × CYP substrate/prodrug tags
+        into ``tag_enzyme_interactions``.
+
+        Excludes pairs where the perpetrator is already covered by a curated
+        ``enzyme_modulators`` row for the same enzyme — those carry richer copy
+        and the app should prefer them.
+
+        Called AFTER all tag ingestion and enzyme_modulators ingestion."""
+        _ENZYME_PREFIXES = [
+            "CYP2D6",
+            "CYP3A4",
+            "CYP1A2",
+            "CYP2C19",
+            "CYP2B6",
+            "CYP2C9",
+            "CYP2A6",
+            "CYP2E1",
+        ]
+
+        curated_perpetrators: dict[str, set[str]] = {}
+        for row in self.cur.execute(
+            "SELECT substance_id, enzyme FROM enzyme_modulators WHERE substance_id IS NOT NULL"
+        ).fetchall():
+            curated_perpetrators.setdefault(row[0], set()).add(row[1].upper())
+
+        inhibitors: list[tuple[int, str, str | None, str]] = []
+        inducers: list[tuple[int, str, str | None, str]] = []
+        substrates: list[tuple[int, str, str]] = []
+
+        for row in self.cur.execute("SELECT substance_id, tag FROM tags").fetchall():
+            sid, tag = row
+            upper = tag.upper()
+            for pfx in _ENZYME_PREFIXES:
+                if (
+                    upper.startswith(pfx + "-INHIBITOR")
+                    or upper == pfx + "-MBI"
+                    or upper.startswith(pfx + "-MECHANISM-BASED")
+                ):
+                    strength = None
+                    if (
+                        upper.endswith("-STRONG")
+                        or upper.endswith("-MBI")
+                        or "MECHANISM-BASED" in upper
+                    ):
+                        strength = "strong"
+                    elif upper.endswith("-MODERATE"):
+                        strength = "moderate"
+                    elif upper.endswith("-WEAK"):
+                        strength = "weak"
+                    inhibitors.append((sid, pfx, strength, "inhibits"))
+                    break
+                if upper.startswith(pfx + "-INDUCER"):
+                    strength = None
+                    if upper.endswith("-STRONG"):
+                        strength = "strong"
+                    elif upper.endswith("-MODERATE"):
+                        strength = "moderate"
+                    elif upper.endswith("-WEAK"):
+                        strength = "weak"
+                    inducers.append((sid, pfx, strength, "induces"))
+                    break
+                if (
+                    upper.startswith(pfx + "-SUBSTRATE")
+                    or upper.startswith(pfx + "-PRODRUG")
+                    or upper.startswith(pfx + "-BIOACTIVATION")
+                ):
+                    vtype = (
+                        "prodrug"
+                        if ("PRODRUG" in upper or "BIOACTIVATION" in upper)
+                        else "substrate"
+                    )
+                    substrates.append((sid, pfx, vtype))
+                    break
+
+        perp_best: dict[tuple[int, str], tuple[str | None, str]] = {}
+        for sid, enzyme, strength, direction in inhibitors + inducers:
+            key = (sid, enzyme)
+            rank = {"strong": 3, "moderate": 2, "weak": 1}.get(strength, 0)  # type: ignore[arg-type]
+            existing = perp_best.get(key)
+            if existing is None or rank > {"strong": 3, "moderate": 2, "weak": 1}.get(
+                existing[0], 0
+            ):  # type: ignore[arg-type]
+                perp_best[key] = (strength, direction)
+
+        inserted = 0
+        for (perp_sid, enzyme), (strength, direction) in perp_best.items():
+            if enzyme in curated_perpetrators.get(perp_sid, set()):
+                continue
+            for victim_sid, victim_enzyme, victim_type in substrates:
+                if victim_enzyme != enzyme or victim_sid == perp_sid:
+                    continue
+                try:
+                    self.cur.execute(
+                        "INSERT OR IGNORE INTO tag_enzyme_interactions"
+                        "(perpetrator_id, victim_id, enzyme, direction, strength, victim_type)"
+                        " VALUES (?, ?, ?, ?, ?, ?)",
+                        (perp_sid, victim_sid, enzyme, direction, strength, victim_type),
+                    )
+                    inserted += 1
+                except sqlite3.IntegrityError:
+                    pass
+
+        return {"pairs": inserted, "perpetrators": len(perp_best), "substrates": len(substrates)}
 
     def ingest_withdrawal_bands(self) -> dict[str, int]:
         """Fill `withdrawal_timing_bands` and `withdrawal_acting_class` from one
@@ -13334,6 +13567,9 @@ def main() -> int:
     combination_metabolites = build.ingest_combination_metabolites()
     print(f"Combination metabolites: {combination_metabolites}", file=sys.stderr)
 
+    enzyme_interactions = build.materialize_enzyme_interactions()
+    print(f"Tag enzyme interactions: {enzyme_interactions}", file=sys.stderr)
+
     withdrawal_bands = build.ingest_withdrawal_bands()
     print(f"Withdrawal bands: {withdrawal_bands}", file=sys.stderr)
 
@@ -13567,6 +13803,7 @@ def main() -> int:
         "tolerance_modulation",
         "enzyme_modulators",
         "combination_metabolites",
+        "tag_enzyme_interactions",
         "pharmacology_matchers",
         "withdrawal_timing_bands",
         "withdrawal_acting_class",

@@ -78,17 +78,55 @@ struct TrayCommitBar: View {
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
+    @State private var interactions: [InteractionResult] = []
+
     var body: some View {
         VStack(spacing: 0) {
             if !dynamicTypeSize.isAccessibilitySize {
+                interactionBanner
                 TrayMetaChips(model: model, content: content)
-
                 commitButton
                     .padding(.top, 14)
             } else {
+                interactionBanner
                 commitButton
             }
         }
+        .onChange(of: model.staged.map(\.substanceName)) { _, names in
+            recheckInteractions(names)
+        }
+        .task { recheckInteractions(model.staged.map(\.substanceName)) }
+    }
+
+    // MARK: Interactions
+
+    @ViewBuilder
+    private var interactionBanner: some View {
+        let shown = interactions.admitted(.notable)
+        if !shown.isEmpty {
+            VStack(alignment: .leading, spacing: 6) {
+                ForEach(Array(shown.prefix(3).enumerated()), id: \.offset) { _, warning in
+                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                        Image(systemName: warning.severity == .dangerous
+                            ? warning.mechanism.filledIconName : warning.mechanism.iconName)
+                            .foregroundStyle(warning.severity.labelColor)
+                            .font(.caption)
+                            .accessibilityHidden(true)
+                        Text(warning.leadClause)
+                            .font(.caption.weight(.medium))
+                            .foregroundStyle(warning.severity.labelColor)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.bottom, 10)
+            .transition(.opacity.combined(with: .move(edge: .top)))
+        }
+    }
+
+    private func recheckInteractions(_ names: [String]) {
+        guard names.count >= 2 else { interactions = []; return }
+        interactions = InteractionChecker.checkBatch(names, against: [], policy: .warn)
     }
 
     // MARK: Commit
@@ -99,8 +137,6 @@ struct TrayCommitBar: View {
                 .font(.headline)
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
-                // The dock contract: the Log button and the search field
-                // share one frame, so the faces morph into one another.
                 .frame(height: DoseTrayMetrics.controlHeight)
                 .background(Theme.accent, in: Capsule())
         }

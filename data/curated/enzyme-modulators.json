@@ -19,7 +19,9 @@
       "confidence": "medium",
       "matchers": [],
       "citation": "pmid:15206993",
-      "notes": "Moderate is measured, not assumed: Lilja 2004 (pmid:15206993, randomized crossover, n=10) gave one normal-strength 200 mL glass daily for 3 days and saw simvastatin AUC rise 3.6-fold (range 1.8-6.0) -- the 2- to 5-fold moderate band. Do not read moderate as a ceiling: repeated DOUBLE-strength juice three times daily measured 13.5-fold in the same group's earlier study (pmid:11061578), which is strong. Confidence is medium for that reason -- the effect tracks quantity and preparation, and Piru cannot know either. Same variability logic as the st-johns-wort row."
+      "notes": "Moderate is measured, not assumed: Lilja 2004 (pmid:15206993, randomized crossover, n=10) gave one normal-strength 200 mL glass daily for 3 days and saw simvastatin AUC rise 3.6-fold (range 1.8-6.0) -- the 2- to 5-fold moderate band. Do not read moderate as a ceiling: repeated DOUBLE-strength juice three times daily measured 13.5-fold in the same group's earlier study (pmid:11061578), which is strong. Confidence is medium for that reason -- the effect tracks quantity and preparation, and Piru cannot know either. Same variability logic as the st-johns-wort row.",
+      "display_name": "Grapefruit",
+      "user_note": "Grapefruit (and related citrus) inhibits intestinal CYP3A4 for roughly 1–3 days, raising the levels of drugs cleared by it."
     },
     {
       "id": "smoking",
@@ -30,7 +32,9 @@
       "confidence": "medium",
       "matchers": [],
       "citation": "pmid:10376760",
-      "notes": "Weak by the band arithmetic this file uses everywhere else, which is why it was downgraded from moderate. Tantcheva-Poor 1999 (pmid:10376760) is the largest quantitative dataset -- 786 evaluable healthy adults, caffeine clearance from saliva -- and gives CYP1A2 activity 1.22 / 1.47 / 1.66 / 1.72-fold for 1-5 / 6-10 / 11-20 / >20 cigarettes per day. Even the heaviest band is only a 42% AUC decrease (1 - 1/1.72), under the 50% moderate threshold. Two honest caveats: these are population covariate effects from an ANCOVA on one probe substrate, not a within-subject induction study, hence medium confidence; and 'weak' is a band label, not a clinical dismissal -- for a narrow-index CYP1A2 substrate like clozapine or olanzapine the consequence of starting or stopping smoking is real. The inducer is the polycyclic aromatic hydrocarbons in tobacco SMOKE, not nicotine (pmid:10427467), so nicotine replacement does not carry it."
+      "notes": "Weak by the band arithmetic this file uses everywhere else, which is why it was downgraded from moderate. Tantcheva-Poor 1999 (pmid:10376760) is the largest quantitative dataset -- 786 evaluable healthy adults, caffeine clearance from saliva -- and gives CYP1A2 activity 1.22 / 1.47 / 1.66 / 1.72-fold for 1-5 / 6-10 / 11-20 / >20 cigarettes per day. Even the heaviest band is only a 42% AUC decrease (1 - 1/1.72), under the 50% moderate threshold. Two honest caveats: these are population covariate effects from an ANCOVA on one probe substrate, not a within-subject induction study, hence medium confidence; and 'weak' is a band label, not a clinical dismissal -- for a narrow-index CYP1A2 substrate like clozapine or olanzapine the consequence of starting or stopping smoking is real. The inducer is the polycyclic aromatic hydrocarbons in tobacco SMOKE, not nicotine (pmid:10427467), so nicotine replacement does not carry it.",
+      "display_name": "Tobacco smoking",
+      "user_note": "Tobacco smoke induces CYP1A2, lowering the levels of drugs cleared by it. Quitting reverses this over about a week and can raise levels."
     },
     {
       "id": "ritonavir",
@@ -43,7 +47,9 @@
         "ritonavir"
       ],
       "notes": "CYP3A4 only, deliberately. Do not add a CYP2D6 arm: the case for one is Henry & Hill's single fatality on ritonavir plus MDMA (pmid:9848354), and de la Torre's reply in the same journal (pmid:10029010, read in full) names three confounders — alcoholic liver impairment, ritonavir started two weeks earlier, CYP2D6 status never determined — and offers MDMA's own non-linear kinetics as the alternative: across a 3-fold dose range (50-150 mg) its AUC rose 10-fold. Piru already models that saturation, so attributing it to ritonavir would double-count one mechanism. The reply also states ritonavir's CYP2D6 interactions are 'less relevant than those associated with CYP3A'.",
-      "citation": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=115178c8-5ee2-4d96-820e-ea8264c1ac10"
+      "citation": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=115178c8-5ee2-4d96-820e-ea8264c1ac10",
+      "display_name": "Ritonavir",
+      "user_note": "Ritonavir strongly inhibits CYP3A4, sharply raising the levels of drugs cleared by it."
     },
     {
       "id": "fluvoxamine",
@@ -56,7 +62,9 @@
         "fluvoxamine"
       ],
       "citation": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0a6836ab-bd0e-410b-82af-07720e386532",
-      "notes": "Strong is anchored to tizanidine, a CYP1A2-selective probe: the FDA label reports AUC increased 33-fold (range 14-103), and even the low end clears the 5-fold strong threshold about threefold. Do not downgrade using the theophylline number (clearance fell ~3-fold) -- theophylline is the less selective probe and understates a CYP1A2-specific effect."
+      "notes": "Strong is anchored to tizanidine, a CYP1A2-selective probe: the FDA label reports AUC increased 33-fold (range 14-103), and even the low end clears the 5-fold strong threshold about threefold. Do not downgrade using the theophylline number (clearance fell ~3-fold) -- theophylline is the less selective probe and understates a CYP1A2-specific effect.",
+      "display_name": "Fluvoxamine",
+      "user_note": "Fluvoxamine strongly inhibits CYP1A2, raising the levels of drugs cleared by it."
     },
     {
       "id": "carbamazepine",
@@ -70,7 +78,9 @@
         "tegretol"
       ],
       "citation": "pmid:8598183",
-      "notes": "Backman 1996 (pmid:8598183): oral midazolam AUC in treated epilepsy patients was 5.7% of controls -- a 94% decrease, past the 80% strong threshold. The study pooled carbamazepine with phenytoin patients (n=6 combined vs 7 controls) rather than isolating carbamazepine, so the number is not carbamazepine-only; both are established strong CYP3A4 inducers and the band does not turn on the difference, but do not restate 94% as a carbamazepine-specific figure."
+      "notes": "Backman 1996 (pmid:8598183): oral midazolam AUC in treated epilepsy patients was 5.7% of controls -- a 94% decrease, past the 80% strong threshold. The study pooled carbamazepine with phenytoin patients (n=6 combined vs 7 controls) rather than isolating carbamazepine, so the number is not carbamazepine-only; both are established strong CYP3A4 inducers and the band does not turn on the difference, but do not restate 94% as a carbamazepine-specific figure.",
+      "display_name": "Carbamazepine",
+      "user_note": "Carbamazepine induces CYP3A4, lowering the levels of drugs cleared by it."
     },
     {
       "id": "rifampicin",
@@ -84,7 +94,9 @@
         "rifampin"
       ],
       "citation": "pmid:8549036",
-      "notes": "Backman 1996 (pmid:8549036), double-blind randomized crossover, n=10, rifampin 600 mg daily for 5 days: oral midazolam AUC fell 96% -- among the largest induction effects documented for any CYP3A4 substrate, and far past the 80% strong threshold."
+      "notes": "Backman 1996 (pmid:8549036), double-blind randomized crossover, n=10, rifampin 600 mg daily for 5 days: oral midazolam AUC fell 96% -- among the largest induction effects documented for any CYP3A4 substrate, and far past the 80% strong threshold.",
+      "display_name": "Rifampicin",
+      "user_note": "Rifampicin strongly induces CYP3A4, markedly lowering the levels of drugs cleared by it."
     },
     {
       "id": "st-johns-wort",
@@ -101,7 +113,9 @@
         "hypericum perforatum"
       ],
       "citation": "pmid:11673747",
-      "notes": "Moderate is right, and was checked because it was suspected of understating a strong inducer. Wang 2001's probe-cocktail study in 12 healthy subjects found long-term St John's wort cut ORAL midazolam AUC by >50% while cutting IV midazolam AUC only 20% — induction of intestinal CYP3A, largely not hepatic. A >50% oral AUC fall sits in the moderate band, not the >=80% strong one. The same study found no change in CYP1A2, CYP2C9 or CYP2D6 activity, so the single-enzyme rule is right too. Confidence stays medium because hyperforin content varies several-fold between preparations and the induction tracks it."
+      "notes": "Moderate is right, and was checked because it was suspected of understating a strong inducer. Wang 2001's probe-cocktail study in 12 healthy subjects found long-term St John's wort cut ORAL midazolam AUC by >50% while cutting IV midazolam AUC only 20% — induction of intestinal CYP3A, largely not hepatic. A >50% oral AUC fall sits in the moderate band, not the >=80% strong one. The same study found no change in CYP1A2, CYP2C9 or CYP2D6 activity, so the single-enzyme rule is right too. Confidence stays medium because hyperforin content varies several-fold between preparations and the induction tracks it.",
+      "display_name": "St John’s Wort",
+      "user_note": "St John’s Wort induces CYP3A4, lowering the levels of drugs cleared by it (magnitude varies by product)."
     },
     {
       "id": "modafinil",
@@ -117,7 +131,9 @@
         "modvigil"
       ],
       "citation": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=013450dd-cd42-46c7-98d6-9a2925761978",
-      "notes": "Weak, not moderate, and the label says so in its own words: 'modafinil is a weak inducer of CYP3A activity'. The measured substrates agree -- ethinyl estradiol AUC -18%, oral midazolam -32%, IV midazolam -17%, quetiapine -29%, all at or under the 50% moderate threshold. Triazolam (-59%) is a single moderate-band outlier; do not use it alone to re-upgrade the rule. 'Weak' grades the induction, not the consequence: the same label tells patients on steroidal contraceptives to use an alternative method during modafinil and for a month after. Modafinil also reversibly inhibits CYP2C19 and weakly induces CYP1A2/CYP2B6 -- real, and out of scope for this CYP3A4-induction row."
+      "notes": "Weak, not moderate, and the label says so in its own words: 'modafinil is a weak inducer of CYP3A activity'. The measured substrates agree -- ethinyl estradiol AUC -18%, oral midazolam -32%, IV midazolam -17%, quetiapine -29%, all at or under the 50% moderate threshold. Triazolam (-59%) is a single moderate-band outlier; do not use it alone to re-upgrade the rule. 'Weak' grades the induction, not the consequence: the same label tells patients on steroidal contraceptives to use an alternative method during modafinil and for a month after. Modafinil also reversibly inhibits CYP2C19 and weakly induces CYP1A2/CYP2B6 -- real, and out of scope for this CYP3A4-induction row.",
+      "display_name": "Modafinil",
+      "user_note": "Modafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception."
     },
     {
       "id": "armodafinil",
@@ -133,7 +149,31 @@
         "artvigil"
       ],
       "citation": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=3dd49302-f757-d945-e063-6294a90afcba",
-      "notes": "Weak, on the same evidence as the modafinil row and deliberately identical to it: FDA reuses the SAME armodafinil 250 mg trials in both labels (oral midazolam AUC -32%, IV -17%, quetiapine -29%), so the matching numbers on the two rows are directly supported rather than one row being copied to the other. The oral-versus-IV midazolam split shows the induction is largely intestinal, the same pattern as grapefruit and St John's wort. Armodafinil also reversibly inhibits CYP2C19 (omeprazole AUC +40%) -- out of scope for this row."
+      "notes": "Weak, on the same evidence as the modafinil row and deliberately identical to it: FDA reuses the SAME armodafinil 250 mg trials in both labels (oral midazolam AUC -32%, IV -17%, quetiapine -29%), so the matching numbers on the two rows are directly supported rather than one row being copied to the other. The oral-versus-IV midazolam split shows the induction is largely intestinal, the same pattern as grapefruit and St John's wort. Armodafinil also reversibly inhibits CYP2C19 (omeprazole AUC +40%) -- out of scope for this row.",
+      "display_name": "Armodafinil",
+      "user_note": "Armodafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception."
+    },
+    {
+      "id": "bupropion",
+      "origin": "substance",
+      "enzyme": "CYP2D6",
+      "direction": "inhibits",
+      "strength": "strong",
+      "confidence": "high",
+      "matchers": [
+        "bupropion",
+        "wellbutrin",
+        "wellbutrin sr",
+        "wellbutrin xl",
+        "zyban",
+        "aplenzin",
+        "forfivo",
+        "forfivo xl"
+      ],
+      "citation": "pmid:18420781",
+      "notes": "Strong by the FDA band: desipramine (CYP2D6 probe) AUC increased 5.1-fold at steady-state bupropion 300 mg/day (pmid:18420781). The active inhibitors are bupropion's reductive metabolites erythrohydrobupropion (Ki 1.7 uM) and threohydrobupropion (Ki 5.4 uM), not bupropion or hydroxybupropion themselves; steady-state matters because the reductive metabolites accumulate. For prodrugs activated BY CYP2D6 (tramadol -> O-DSMT, codeine -> morphine), the effect is the reverse: the activation pathway is blocked and the active metabolite is reduced.",
+      "display_name": "Bupropion",
+      "user_note": "Bupropion’s reductive metabolites strongly inhibit CYP2D6, raising the levels of drugs cleared by it. For prodrugs activated by CYP2D6 (tramadol, codeine), it blocks the activation pathway instead."
     },
     {
       "id": "mdma-cyp2d6",
@@ -146,7 +186,9 @@
         "mdma"
       ],
       "citation": "pmid:23162568",
-      "notes": "'Strong' here does not mean a reversible-inhibitor AUC band, because none was measured that way. MDMA is a mechanism-based (quasi-irreversible) inactivator: de la Torre 2012 (pmid:23162568, read in full) states subjects are 'phenocopied to the poor metabolizer (PM) phenotype' regardless of genotype, and Van LM 2006 (pmid:16478752, abstract) gives k_inact 0.20-0.58 min-1 and K_I 2.2-6.4 uM in recombinant CYP2D6. Cite the same review's own counterweight rather than cherry-picking it: it concludes the fraction of MDMA clearance actually regulated by CYP2D6 is 'substantially lower than expected from in vitro studies' and that the clinical relevance of CYP2D6 polymorphism is lower than in vitro work predicts. Keep this separate from the ritonavir row -- that one is about MDMA's own non-linear kinetics, which Piru models elsewhere, and merging the two would double-count one mechanism."
+      "notes": "'Strong' here does not mean a reversible-inhibitor AUC band, because none was measured that way. MDMA is a mechanism-based (quasi-irreversible) inactivator: de la Torre 2012 (pmid:23162568, read in full) states subjects are 'phenocopied to the poor metabolizer (PM) phenotype' regardless of genotype, and Van LM 2006 (pmid:16478752, abstract) gives k_inact 0.20-0.58 min-1 and K_I 2.2-6.4 uM in recombinant CYP2D6. Cite the same review's own counterweight rather than cherry-picking it: it concludes the fraction of MDMA clearance actually regulated by CYP2D6 is 'substantially lower than expected from in vitro studies' and that the clinical relevance of CYP2D6 polymorphism is lower than in vitro work predicts. Keep this separate from the ritonavir row -- that one is about MDMA's own non-linear kinetics, which Piru models elsewhere, and merging the two would double-count one mechanism.",
+      "display_name": "MDMA",
+      "user_note": "MDMA inactivates the CYP2D6 that clears it, so repeated or closely-spaced doses build up disproportionately rather than in proportion to the dose. The enzyme recovers over about 10 days."
     }
   ]
 }

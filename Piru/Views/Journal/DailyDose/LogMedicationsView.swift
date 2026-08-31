@@ -175,7 +175,17 @@ struct InteractionWarningSheet: View {
                 Group {
                     Section {
                         ForEach(Array(warnings.enumerated()), id: \.offset) { _, warning in
-                            InteractionWarningRow(warning: warning)
+                            NavigationLink {
+                                InteractionTimelineView(
+                                    substanceA: warning.substanceA,
+                                    substanceB: warning.substanceB,
+                                    severity: warning.severity,
+                                    mechanism: warning.description,
+                                )
+                            } label: {
+                                InteractionWarningRow(warning: warning)
+                            }
+                            .buttonStyle(.plain)
                         }
                     } header: {
                         Text("\(warnings.count) interaction\(warnings.count == 1 ? "" : "s") detected")

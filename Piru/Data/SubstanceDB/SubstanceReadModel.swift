@@ -358,13 +358,14 @@ struct SubstanceReadModel {
     }
 
     private func resolvedTags(db: Database, substanceID: Int64) throws -> [String] {
-        // Tags are additive — return the union across all enabled sources.
+        // Tags are additive — return the union across all enabled sources, hiding engine-consumed ones.
         try String.fetchAll(db, sql: """
             SELECT DISTINCT tag
               FROM tags t
               JOIN sources src ON src.id = t.source_id
              WHERE t.substance_id = ?
                AND src.slug IN (\(enabledSourceListSQL))
+               AND t.hidden = 0
              ORDER BY tag
         """, arguments: [substanceID])
     }
@@ -1040,13 +1041,14 @@ struct SubstanceReadModel {
                     extraCategoriesByID[row["substance_id"], default: []].append(cat)
                 }
 
-                // Tags — union across enabled sources.
+                // Tags — union across enabled sources, excluding engine-consumed hidden tags.
                 var tagsByID: [Int64: [String]] = [:]
                 for row in try Row.fetchAll(db, sql: """
                     SELECT DISTINCT t.substance_id, t.tag
                       FROM tags t
                       JOIN sources src ON src.id = t.source_id
                      WHERE src.slug IN (\(enabledSourceListSQL))
+                       AND t.hidden = 0
                      ORDER BY t.tag
                 """) {
                     tagsByID[row["substance_id"], default: []].append(row["tag"])

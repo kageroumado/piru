@@ -128,72 +128,13 @@ nonisolated enum MetabolicModulation {
         }
     }
 
-    // MARK: - Modulator identity + copy
-
-    /// The modulators the app has copy for, keyed by `enzyme_modulators.modulator_id`.
-    ///
-    /// A row whose id is not a case here is dropped at load: the readout *is* a sentence, so a rule with
-    /// no sentence has nothing to show, and a DB row can never ship an untranslated one. The pairing is
-    /// gated both ways by `MetabolicModulationTests`, so a curated id and its copy cannot drift apart.
-    enum ModulatorID: String, CaseIterable, Hashable, Sendable {
-        case grapefruit
-        case smoking
-        case ritonavir
-        case fluvoxamine
-        case carbamazepine
-        case rifampicin
-        case stJohnsWort = "st-johns-wort"
-        case modafinil
-        case armodafinil
-        case mdmaCYP2D6 = "mdma-cyp2d6"
-
-        /// The modulator's name as the reader sees it.
-        var displayName: LocalizedStringResource {
-            switch self {
-            case .grapefruit: "Grapefruit"
-            case .smoking: "Tobacco smoking"
-            case .ritonavir: "Ritonavir"
-            case .fluvoxamine: "Fluvoxamine"
-            case .carbamazepine: "Carbamazepine"
-            case .rifampicin: "Rifampicin"
-            case .stJohnsWort: "St John's Wort"
-            case .modafinil: "Modafinil"
-            case .armodafinil: "Armodafinil"
-            case .mdmaCYP2D6: "MDMA"
-            }
-        }
-
-        /// One-line educational explanation of the mechanism and direction.
-        var note: LocalizedStringResource {
-            switch self {
-            case .grapefruit:
-                "Grapefruit (and related citrus) inhibits intestinal CYP3A4 for roughly 1–3 days, raising the levels of drugs cleared by it."
-            case .smoking:
-                "Tobacco smoke induces CYP1A2, lowering the levels of drugs cleared by it. Quitting reverses this over about a week and can raise levels."
-            case .ritonavir:
-                "Ritonavir strongly inhibits CYP3A4, sharply raising the levels of drugs cleared by it."
-            case .fluvoxamine:
-                "Fluvoxamine strongly inhibits CYP1A2, raising the levels of drugs cleared by it."
-            case .carbamazepine:
-                "Carbamazepine induces CYP3A4, lowering the levels of drugs cleared by it."
-            case .rifampicin:
-                "Rifampicin strongly induces CYP3A4, markedly lowering the levels of drugs cleared by it."
-            case .stJohnsWort:
-                "St John's Wort induces CYP3A4, lowering the levels of drugs cleared by it (magnitude varies by product)."
-            case .modafinil:
-                "Modafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception."
-            case .armodafinil:
-                "Armodafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception."
-            case .mdmaCYP2D6:
-                "MDMA inactivates the CYP2D6 that clears it, so repeated or closely-spaced doses build up disproportionately rather than in proportion to the dose. The enzyme recovers over about 10 days."
-            }
-        }
-    }
-
     // MARK: - Modulator
 
-    /// One curated source of metabolic modulation: a logged drug, a lifestyle context, or a substance's
+    /// One source of metabolic modulation: a logged drug, a lifestyle context, or a substance's
     /// effect on its own clearing enzyme. Built from an `enzyme_modulators` row.
+    ///
+    /// Display text (`displayName`, `userNote`) is DB-driven — adding a new modulator is a
+    /// pipeline change, not a Swift code change.
     struct Modulator: Identifiable, Hashable, Sendable {
         /// Where the modulation comes from — drives where/when it is surfaced.
         enum Origin: String, Hashable, Sendable {
@@ -205,7 +146,7 @@ nonisolated enum MetabolicModulation {
             case selfEdge = "self"
         }
 
-        let id: ModulatorID
+        let id: String
         let origin: Origin
         let enzyme: Enzyme
         let direction: Direction
@@ -214,14 +155,8 @@ nonisolated enum MetabolicModulation {
         /// Lowercased names/aliases identifying the modulating (or self) substance. Empty for a pure
         /// context flag that is never logged as a dose (grapefruit, smoking).
         let matchers: [String]
-
-        var displayName: LocalizedStringResource {
-            id.displayName
-        }
-
-        var note: LocalizedStringResource {
-            id.note
-        }
+        let displayName: String
+        let userNote: String
     }
 
     // MARK: - Effect
@@ -229,24 +164,18 @@ nonisolated enum MetabolicModulation {
     /// One predicted metabolic-modulation effect on a substrate. Carries direction, qualitative strength,
     /// and a confidence tier — never a fabricated fold-change.
     struct Effect: Identifiable {
-        let modulatorID: ModulatorID
+        let modulatorID: String
         let origin: Modulator.Origin
         /// The affected substance (display name as supplied).
         let substrate: String
         let enzyme: Enzyme
         let direction: Direction
         let confidence: ConfidenceTier
+        let modulatorName: String
+        let userNote: String
 
         var id: String {
-            "\(substrate.lowercased())|\(modulatorID.rawValue)|\(enzyme.rawValue)"
-        }
-
-        var modulatorName: LocalizedStringResource {
-            modulatorID.displayName
-        }
-
-        var note: LocalizedStringResource {
-            modulatorID.note
+            "\(substrate.lowercased())|\(modulatorID)|\(enzyme.rawValue)"
         }
 
         /// `true` when levels go up (inhibition).
@@ -263,6 +192,8 @@ nonisolated enum MetabolicModulation {
             enzyme: m.enzyme,
             direction: m.direction,
             confidence: m.confidence,
+            modulatorName: m.displayName,
+            userNote: m.userNote,
         )
     }
 
@@ -330,15 +261,27 @@ nonisolated enum MetabolicModulation {
         return effects(substrateName: name, substrateEnzymes: enzymes, modulators: mods)
     }
 
-    /// **Interaction-checker** effects among a set of hypothetically co-present substances: each pair
-    /// where one selected substance is a curated modulator of an enzyme that clears another. Context
-    /// flags and self-edges are excluded (the checker reasons about substance combinations only).
+    /// **Interaction-checker** effects among a set of hypothetically co-present substances.
+    ///
+    /// Two layers, merged and deduplicated:
+    /// 1. **Curated modulators** (`enzyme_modulators`): each pair where one selected substance is a
+    ///    curated modulator of an enzyme that clears another. Rich per-modulator notes.
+    /// 2. **Tag-derived** (`tag_enzyme_interactions`): every pair where one selected substance carries
+    ///    a CYP inhibitor/inducer tag and the other a CYP substrate/prodrug tag on the same enzyme.
+    ///    Broader coverage (324+ pairs), template-generated notes.
+    ///
+    /// When both layers fire on the same pair, the curated entry wins (it has the richer copy).
+    /// Context flags and self-edges are excluded (the checker reasons about substance combinations only).
     @MainActor
     static func checkerEffects(among substances: [String]) -> [Effect] {
-        let catalog = SubstanceStore.shared.enzymeModulators()
+        let store = SubstanceStore.shared
+        let catalog = store.enzymeModulators()
+        var seen: Set<String> = []
         var results: [Effect] = []
+
+        // Layer 1: curated modulators (richer copy, wins on overlap).
         for substrate in substances {
-            let enzymes = majorEnzymes(metabolism: SubstanceStore.shared.metabolism(forSubstanceName: substrate))
+            let enzymes = majorEnzymes(metabolism: store.metabolism(forSubstanceName: substrate))
             guard !enzymes.isEmpty else { continue }
             let substrateLower = substrate.lowercased()
             for m in catalog where m.origin == .substance && enzymes.contains(m.enzyme) {
@@ -346,9 +289,67 @@ nonisolated enum MetabolicModulation {
                     other.lowercased() != substrateLower
                         && m.matchers.contains(PharmacologyNameKey.canonical(other, aliases: PharmacologyNameKey.sharedAliases))
                 }
-                if modPresent { results.append(makeEffect(m, substrate: substrate)) }
+                if modPresent {
+                    results.append(makeEffect(m, substrate: substrate))
+                    seen.insert("\(m.id)|\(substrate.lowercased())")
+                }
             }
         }
+
+        // Layer 2: tag-derived enzyme interactions (broader coverage).
+        let tagIndex = store.tagEnzymeInteractions()
+        let substanceLower = Set(substances.map { $0.lowercased() })
+        let canonicalForDisplay = Dictionary(
+            substances.map { ($0.lowercased(), $0) },
+            uniquingKeysWith: { first, _ in first },
+        )
+        for substance in substances {
+            let key = SubstanceLibrary.lookup(substance)?.name.lowercased() ?? substance.lowercased()
+            guard let victims = tagIndex[key] else { continue }
+            for otherLower in substanceLower where otherLower != key {
+                let otherCanonical = SubstanceLibrary.lookup(canonicalForDisplay[otherLower] ?? otherLower)?.name.lowercased() ?? otherLower
+                guard let hit = victims[otherCanonical] else { continue }
+                let dedup = "\(key)|\(otherCanonical)"
+                guard !seen.contains(dedup) else { continue }
+                seen.insert(dedup)
+                guard let enzyme = Enzyme(rawValue: hit.enzyme) else { continue }
+                let direction: Direction = hit.direction == "induces" ? .induces : .inhibits
+                let perpetratorDisplay = canonicalForDisplay[key] ?? hit.perpetratorName
+                let victimDisplay = canonicalForDisplay[otherLower] ?? hit.victimName
+                let note = Self.templateNote(
+                    perpetrator: perpetratorDisplay, enzyme: enzyme, direction: direction,
+                    strength: hit.strength, victimType: hit.victimType,
+                )
+                results.append(Effect(
+                    modulatorID: key,
+                    origin: .substance,
+                    substrate: victimDisplay,
+                    enzyme: enzyme,
+                    direction: direction,
+                    confidence: .medium,
+                    modulatorName: perpetratorDisplay,
+                    userNote: note,
+                ))
+            }
+        }
+
         return results
+    }
+
+    /// Generate a user-facing note for a tag-derived enzyme interaction.
+    private static func templateNote(
+        perpetrator: String, enzyme: Enzyme, direction: Direction,
+        strength: String?, victimType: String,
+    ) -> String {
+        let strengthWord = strength.map { "\($0)ly " } ?? ""
+        let verb = direction == .inhibits ? "inhibits" : "induces"
+        let consequence = if victimType == "prodrug", direction == .inhibits {
+            "blocking the activation pathway for prodrugs that depend on it"
+        } else if direction == .inhibits {
+            "raising the levels of drugs cleared by it"
+        } else {
+            "lowering the levels of drugs cleared by it"
+        }
+        return "\(perpetrator) \(strengthWord)\(verb) \(enzyme.displayName), \(consequence)."
     }
 }

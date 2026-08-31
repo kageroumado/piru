@@ -17,7 +17,7 @@ struct MetabolicModulationBanner: View {
                 Spacer(minLength: 8)
                 ConfidenceBadge(tier: effect.confidence)
             }
-            Text(effect.note)
+            Text(LocalizedStringKey(effect.userNote))
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
                 .fixedSize(horizontal: false, vertical: true)
@@ -34,7 +34,7 @@ struct MetabolicModulationBanner: View {
         if effect.origin == .selfEdge {
             return String(localized: "Repeated doses build up faster than the dose suggests")
         }
-        let modulator = String(localized: effect.modulatorName)
+        let modulator = String(localized: String.LocalizationValue(stringLiteral: effect.modulatorName))
         return effect.raisesLevels
             ? String(localized: "\(modulator) may raise levels")
             : String(localized: "\(modulator) may lower levels")

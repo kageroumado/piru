@@ -1,29 +1,29 @@
 import SwiftUI
 
-/// One interaction warning as a severity-tinted icon + title/description row.
-/// Shared by the daily-dose log confirmation and the interaction checker.
+/// One interaction warning — drug names at leading edge, mechanism icon + severity
+/// at trailing. Shared by the interaction checker, session detail, and log confirmation.
 struct InteractionWarningRow: View {
     let warning: InteractionResult
 
     var body: some View {
-        HStack(alignment: .top, spacing: 10) {
-            // Fixed 16pt column — in the dose tray this puts the icon on the
-            // same vertical line as the row chevrons and the add-more plus.
-            Image(systemName: warning.severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
-                .foregroundStyle(warning.severity.labelColor)
-                .font(.body)
-                .frame(width: 16)
-                .accessibilityHidden(true)
-
-            VStack(alignment: .leading, spacing: 3) {
-                Text("\(warning.severity.label): \(warning.substanceA) + \(warning.substanceB)")
+        VStack(alignment: .leading, spacing: 3) {
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                Text("\(warning.substanceA) + \(warning.substanceB)")
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(warning.severity.labelColor)
-                Text(warning.description)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                Spacer(minLength: 4)
+                Image(systemName: warning.severity == .dangerous
+                    ? warning.mechanism.filledIconName : warning.mechanism.iconName)
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundStyle(warning.severity.labelColor)
+                    .accessibilityHidden(true)
+                Text(String(localized: warning.severity.label).lowercased())
+                    .capsuleChip(text: warning.severity.labelColor, fill: warning.severity.color)
             }
+            Text(warning.description)
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.vertical, 2)
         .frame(maxWidth: .infinity, alignment: .leading)

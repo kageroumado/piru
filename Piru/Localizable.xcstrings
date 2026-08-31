@@ -941,6 +941,7 @@
       }
     },
     "%@ ago" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1071,6 +1072,7 @@
       }
     },
     "%@ blocks the %@ that %@ needs to work, so %@ is predicted to feel ~%@ weaker." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1082,6 +1084,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 阻斷了 %@，而 %@ 起效需要它，因此預計 %@ 的效果會減弱約 %@。"
+          }
+        }
+      }
+    },
+    "%@ blocks the %@ that %@ needs to work." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ blocks the %2$@ that %3$@ needs to work."
           }
         }
       }
@@ -4414,9 +4426,6 @@
           }
         }
       }
-    },
-    "~%@" : {
-
     },
     "~%@ – %@ hours" : {
       "localizations" : {
@@ -10854,6 +10863,7 @@
       }
     },
     "Armodafinil" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10870,6 +10880,7 @@
       }
     },
     "Armodafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11246,6 +11257,7 @@
       }
     },
     "At this timing, the substances are not simultaneously active above threshold." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13211,6 +13223,16 @@
         }
       }
     },
+    "Both active %@–%@ (%@ overlap)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Both active %1$@–%2$@ (%3$@ overlap)"
+          }
+        }
+      }
+    },
     "Both bind the α2δ-1 calcium-channel subunit — but gabapentin rides a saturable intestinal carrier (system-L / LAT1), so the fraction absorbed drops as the dose climbs (~60% → ~27%) and exposure flattens out. That's why gabapentin is dosed several times a day and why very large single doses buy little extra. Pregabalin uses the carrier without saturating it, so it stays ~90% absorbed at any dose — predictable, dose-proportional, simpler to titrate. (Pregabalin is also effective at far fewer milligrams, so its line sits at the low end of the dose axis.)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13292,6 +13314,7 @@
       }
     },
     "Both substances active" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13627,6 +13650,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "丁丙諾啡是部分激動劑，對呼吸抑制存在封頂效應，因此過量風險不呈線性增長。CDC 有意將其排除——MME 不適用。"
+          }
+        }
+      }
+    },
+    "Bupropion" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安非他酮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安非他酮"
+          }
+        }
+      }
+    },
+    "Bupropion's reductive metabolites strongly inhibit CYP2D6, raising the levels of drugs cleared by it. For prodrugs activated by CYP2D6 (tramadol, codeine), it blocks the activation pathway instead." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安非他酮的还原代谢物强效抑制 CYP2D6，升高经该酶清除的药物浓度。对于由 CYP2D6 活化的前药（曲马多、可待因），其效果相反：活化通路被阻断。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安非他酮的還原代謝物強效抑制 CYP2D6，升高經該酶清除的藥物濃度。對於由 CYP2D6 活化的前藥（曲馬多、可待因），其效果相反：活化通路被阻斷。"
           }
         }
       }
@@ -14128,6 +14185,7 @@
       }
     },
     "Carbamazepine induces CYP3A4, lowering the levels of drugs cleared by it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15864,6 +15922,7 @@
       }
     },
     "Combined depression" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15880,6 +15939,7 @@
       }
     },
     "Combined depression over time" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15894,6 +15954,9 @@
           }
         }
       }
+    },
+    "Combined depression peaks around %@" : {
+
     },
     "Combined load across your active GABAergics, relative to your recent peak." : {
       "localizations" : {
@@ -15976,6 +16039,7 @@
       }
     },
     "Combined respiratory depression peaks around %@." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -23862,6 +23926,9 @@
         }
       }
     },
+    "Estimate only — simplified one-compartment PK model with population-average half-lives. Real overlap depends on individual metabolism, dose, route, and tolerance. Not medical advice." : {
+
+    },
     "Estimated" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -25835,6 +25902,7 @@
       }
     },
     "Fluvoxamine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25851,6 +25919,7 @@
       }
     },
     "Fluvoxamine strongly inhibits CYP1A2, raising the levels of drugs cleared by it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26256,6 +26325,7 @@
       }
     },
     "From %@ to %@ (%@ overlap)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -26342,6 +26412,7 @@
       }
     },
     "From journal" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -27435,6 +27506,7 @@
       }
     },
     "Grapefruit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -27451,6 +27523,7 @@
       }
     },
     "Grapefruit (and related citrus) inhibits intestinal CYP3A4 for roughly 1–3 days, raising the levels of drugs cleared by it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30023,6 +30096,7 @@
       }
     },
     "In %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30501,6 +30575,7 @@
       }
     },
     "Ingestion time" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -33826,6 +33901,7 @@
       }
     },
     "MDMA" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -33842,6 +33918,7 @@
       }
     },
     "MDMA inactivates the CYP2D6 that clears it, so repeated or closely-spaced doses build up disproportionately rather than in proportion to the dose. The enzyme recovers over about 10 days." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -34492,6 +34569,7 @@
       }
     },
     "Metabolic Effects" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -34976,6 +35054,7 @@
       }
     },
     "Modafinil" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -34992,6 +35071,7 @@
       }
     },
     "Modafinil induces CYP3A4, lowering the levels of drugs cleared by it — including the hormones in systemic contraception." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -37433,6 +37513,7 @@
       }
     },
     "No active overlap" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -37447,6 +37528,9 @@
           }
         }
       }
+    },
+    "No active overlap at this timing" : {
+
     },
     "No active session" : {
       "extractionState" : "stale",
@@ -41045,6 +41129,7 @@
       "comment" : "Dose band"
     },
     "Overlap" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -41732,6 +41817,7 @@
       }
     },
     "Peaks around %@; the dashed line marks the dangerous threshold." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -45843,6 +45929,7 @@
       }
     },
     "Reduced effect" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -45857,6 +45944,9 @@
           }
         }
       }
+    },
+    "Reduced effect (~%@)" : {
+
     },
     "Reduced effects and risk of serotonin syndrome — SSRIs block MDMA's mechanism." : {
       "extractionState" : "stale",
@@ -47643,6 +47733,7 @@
       }
     },
     "Rifampicin" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47659,6 +47750,7 @@
       }
     },
     "Rifampicin strongly induces CYP3A4, markedly lowering the levels of drugs cleared by it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47838,6 +47930,7 @@
       }
     },
     "Ritonavir" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47854,6 +47947,7 @@
       }
     },
     "Ritonavir strongly inhibits CYP3A4, sharply raising the levels of drugs cleared by it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -52654,6 +52748,7 @@
       }
     },
     "St John's Wort" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -52670,6 +52765,7 @@
       }
     },
     "St John's Wort induces CYP3A4, lowering the levels of drugs cleared by it (magnitude varies by product)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -56814,6 +56910,7 @@
       }
     },
     "This is a reduced effect · predicted (model, %@)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -57138,6 +57235,7 @@
       }
     },
     "This timeline uses a simplified one-compartment PK model with population-average half-lives. Real overlap depends on individual metabolism, dose, route, tolerance, and many other factors. This is not medical advice." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -57713,6 +57811,7 @@
       }
     },
     "Tobacco smoke induces CYP1A2, lowering the levels of drugs cleared by it. Quitting reverses this over about a week and can raise levels." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -57766,6 +57865,7 @@
 
     },
     "Tobacco smoking" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

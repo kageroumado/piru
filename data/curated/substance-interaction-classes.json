@@ -176,7 +176,6 @@
       ],
       "why": "Stimulants (common names)",
       "names": [
-        "Caffeine",
         "Nicotine",
         "Methamphetamine",
         "Cocaine",
@@ -544,6 +543,15 @@
       "names": [
         "methylene blue",
         "methylthioninium chloride"
+      ]
+    },
+    {
+      "classes": [
+        "other"
+      ],
+      "why": "Xanthine/adenosine antagonists — not monoamine stimulants. Generic stimulant class rules (cardiovascular stacking, seizure synergy) do not apply.",
+      "names": [
+        "Caffeine"
       ]
     }
   ]

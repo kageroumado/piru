@@ -13,36 +13,78 @@ import GRDB
 extension SubstanceReadModel {
     /// The whole `enzyme_modulators` table with each rule's matcher names attached.
     ///
-    /// A row whose `modulator_id`, origin, enzyme, direction or strength does not decode is skipped:
-    /// the readout renders every one of those as a word in a sentence, so a value the app cannot
-    /// name has nothing to render and must not reach the screen half-formed.
+    /// A row whose origin, enzyme, direction or strength does not decode is skipped:
+    /// the readout renders every one of those as a word in a sentence, so a value the
+    /// app cannot name has nothing to render and must not reach the screen half-formed.
+    /// Rows without a `display_name` or `user_note` are also skipped — the readout IS
+    /// a sentence, and a rule with no sentence has nothing to show.
     nonisolated static func enzymeModulators(db queue: DatabaseQueue) -> [MetabolicModulation.Modulator] {
         let matchers = matchers(relation: "enzyme-modulator", db: queue)
         let rows = (try? queue.read { db in
             try Row.fetchAll(db, sql: """
-                SELECT modulator_id, origin, enzyme, direction, strength, confidence
+                SELECT modulator_id, origin, enzyme, direction, strength, confidence,
+                       display_name, user_note
                   FROM enzyme_modulators
                  ORDER BY rank ASC
             """)
         }) ?? []
         return rows.compactMap { row -> MetabolicModulation.Modulator? in
             guard let rawID: String = row["modulator_id"],
-                  let id = MetabolicModulation.ModulatorID(rawValue: rawID),
                   let origin = (row["origin"] as String?).flatMap(MetabolicModulation.Modulator.Origin.init(rawValue:)),
                   let enzyme = (row["enzyme"] as String?).flatMap(MetabolicModulation.Enzyme.init(rawValue:)),
                   let direction = (row["direction"] as String?).flatMap(MetabolicModulation.Direction.init(rawValue:)),
-                  let strength = (row["strength"] as String?).flatMap(MetabolicModulation.Strength.init(rawValue:))
+                  let strength = (row["strength"] as String?).flatMap(MetabolicModulation.Strength.init(rawValue:)),
+                  let displayName: String = row["display_name"], !displayName.isEmpty,
+                  let userNote: String = row["user_note"], !userNote.isEmpty
             else { return nil }
             return MetabolicModulation.Modulator(
-                id: id,
+                id: rawID,
                 origin: origin,
                 enzyme: enzyme,
                 direction: direction,
                 strength: strength,
                 confidence: (row["confidence"] as String?).flatMap(ConfidenceTier.init(rawValue:)) ?? .unverified,
                 matchers: matchers[rawID]?[0] ?? [],
+                displayName: displayName,
+                userNote: userNote,
             )
         }
+    }
+
+    /// Tag-derived enzyme interactions materialized by the pipeline: every pair
+    /// where a tagged CYP inhibitor/inducer meets a tagged CYP substrate/prodrug.
+    nonisolated static func tagEnzymeInteractions(
+        db queue: DatabaseQueue,
+    ) -> [String: [String: TagEnzymeInteraction]] {
+        let rows = (try? queue.read { db in
+            try Row.fetchAll(db, sql: """
+                SELECT p.canonical_name AS perpetrator_name,
+                       v.canonical_name AS victim_name,
+                       tei.enzyme, tei.direction, tei.strength, tei.victim_type
+                  FROM tag_enzyme_interactions tei
+                  JOIN substances p ON p.id = tei.perpetrator_id
+                  JOIN substances v ON v.id = tei.victim_id
+            """)
+        }) ?? []
+        var out: [String: [String: TagEnzymeInteraction]] = [:]
+        for row in rows {
+            guard let perpetrator: String = row["perpetrator_name"],
+                  let victim: String = row["victim_name"],
+                  let enzyme: String = row["enzyme"],
+                  let direction: String = row["direction"],
+                  let victimType: String = row["victim_type"]
+            else { continue }
+            let interaction = TagEnzymeInteraction(
+                perpetratorName: perpetrator,
+                victimName: victim,
+                enzyme: enzyme,
+                direction: direction,
+                strength: row["strength"],
+                victimType: victimType,
+            )
+            out[perpetrator.lowercased(), default: [:]][victim.lowercased()] = interaction
+        }
+        return out
     }
 
     /// The whole `combination_metabolites` table with each combination's precursor slots attached.
@@ -93,4 +135,14 @@ extension SubstanceReadModel {
         }
         return out
     }
+}
+
+/// One row from the pipeline-materialized `tag_enzyme_interactions` table.
+nonisolated struct TagEnzymeInteraction: Sendable {
+    let perpetratorName: String
+    let victimName: String
+    let enzyme: String
+    let direction: String
+    let strength: String?
+    let victimType: String
 }
