@@ -268,9 +268,9 @@ struct MyMedsCard: View {
 
     private var completionText: String {
         if let streak, streak > 1 {
-            String(localized: "That's everything today — \(streak) days and counting.")
+            String(localized: "That's everything today — \(streak) days and counting")
         } else {
-            String(localized: "That's everything today.")
+            String(localized: "That's everything today")
         }
     }
 

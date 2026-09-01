@@ -53,6 +53,20 @@ enum Theme {
 
     /// Text-field and other input fills.
     static let inputBackground = Color.Surface.input
+
+    // MARK: - Shape
+
+    /// The floor for every card corner. `ConcentricRectangle` inherits the
+    /// enclosing container's radius and only falls back to this when there is
+    /// nothing to inherit from; 22 matches the system grouped-list rounding.
+    static let cardCornerRadius: CGFloat = 22
+
+    /// The card outline as a shape — for `contentShape` and clips on views that
+    /// sit on `themeCard` or inside one, so hit areas and clips follow the same
+    /// container-derived corner the card draws with.
+    static var cardShape: ConcentricRectangle {
+        ConcentricRectangle(corners: .concentric(minimum: .fixed(cardCornerRadius)), isUniform: true)
+    }
 }
 
 // MARK: - Theme View Modifiers
@@ -98,15 +112,15 @@ extension View {
     /// a fixed radius breaks it the moment a card is nested or the container
     /// rounding changes.
     ///
-    /// `minimum: 22` matches the system grouped-list / Library card rounding
-    /// (the 16 the app shipped with read too boxy beside them).
+    /// The default minimum is ``Theme/cardCornerRadius``; pass a smaller value
+    /// only for a card that is itself nested inside another card.
     ///
     /// Note: this does not also call `containerShape`, which requires an
     /// `InsettableShape` that `ConcentricRectangle` is not. Cards still derive
     /// from whatever container the system provides (sheet, screen, grouped
     /// list); they just don't yet re-publish themselves as a container for
     /// their own children. Nested content still needs an explicit radius.
-    func themeCard(cornerRadius: CGFloat = 22) -> some View {
+    func themeCard(cornerRadius: CGFloat = Theme.cardCornerRadius) -> some View {
         modifier(ThemedBackground(
             shape: ConcentricRectangle(corners: .concentric(minimum: .fixed(cornerRadius)), isUniform: true),
         ))
@@ -116,7 +130,7 @@ extension View {
     /// shared grouped container, where the container draws the background and the
     /// row should not.
     @ViewBuilder
-    func themeCard(enabled: Bool, cornerRadius: CGFloat = 16) -> some View {
+    func themeCard(enabled: Bool, cornerRadius: CGFloat = Theme.cardCornerRadius) -> some View {
         if enabled {
             themeCard(cornerRadius: cornerRadius)
         } else {

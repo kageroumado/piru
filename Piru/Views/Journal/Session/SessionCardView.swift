@@ -164,7 +164,7 @@ struct SessionCardView: View, Equatable {
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
         .themeCard(enabled: !inGroup)
-        .contentShape(RoundedRectangle(cornerRadius: 16))
+        .contentShape(Theme.cardShape)
     }
 
     private var fullCard: some View {
@@ -200,7 +200,7 @@ struct SessionCardView: View, Equatable {
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
         .themeCard(enabled: !inGroup)
-        .contentShape(RoundedRectangle(cornerRadius: 16))
+        .contentShape(Theme.cardShape)
     }
 
     private var substanceDots: some View {
