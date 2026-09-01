@@ -333,6 +333,7 @@ final class JournalModel {
     func rebuildGroups(
         entries: [DoseEntry],
         grouping: JournalGrouping,
+        groupKey: JournalGroupKey = .substance,
         searchText: String,
         filterTags: Set<String>,
         filterCategories: Set<SubstanceCategory>,
@@ -342,6 +343,7 @@ final class JournalModel {
     ) {
         var sigHasher = Hasher()
         sigHasher.combine(grouping)
+        sigHasher.combine(groupKey)
         sigHasher.combine(searchText)
         sigHasher.combine(filterTags)
         sigHasher.combine(filterCategories)
@@ -366,7 +368,7 @@ final class JournalModel {
         lastGroupsSignature = signature
 
         // Only the Day grouping is windowed; reset the flag so the load-more
-        // sentinel never lingers under Recent / Substance / Category.
+        // sentinel never lingers under Timeline / Grouped.
         hasMoreSessions = false
 
         let calendar = Calendar.current
@@ -380,8 +382,8 @@ final class JournalModel {
         filtered = result
 
         switch grouping {
-        case .recent, .timeline:
-            break // Both consume `filtered` directly, no bucketing needed.
+        case .timeline:
+            break // Consumes `filtered` directly, no bucketing needed.
 
         case .byDay:
             // Group the filtered doses by their persisted session (decided at log
@@ -450,18 +452,21 @@ final class JournalModel {
                 dayBounded: true,
             )
 
-        case .bySubstance:
-            let grouped = Dictionary(grouping: result, by: \.substance)
-            substanceGroups = grouped.sorted { $0.value.count > $1.value.count }
-                .map { (name: $0.key, entries: $0.value) }
+        case .grouped:
+            switch groupKey {
+            case .substance:
+                let grouped = Dictionary(grouping: result, by: \.substance)
+                substanceGroups = grouped.sorted { $0.value.count > $1.value.count }
+                    .map { (name: $0.key, entries: $0.value) }
 
-        case .byCategory:
-            let grouped = Dictionary(grouping: result) { entry in
-                derived[entry.persistentModelID]?.category ?? .other
-            }
-            categoryGroups = SubstanceCategory.allCases.compactMap { cat in
-                guard let entries = grouped[cat], !entries.isEmpty else { return nil }
-                return (category: cat, entries: entries)
+            case .category:
+                let grouped = Dictionary(grouping: result) { entry in
+                    derived[entry.persistentModelID]?.category ?? .other
+                }
+                categoryGroups = SubstanceCategory.allCases.compactMap { cat in
+                    guard let entries = grouped[cat], !entries.isEmpty else { return nil }
+                    return (category: cat, entries: entries)
+                }
             }
         }
     }

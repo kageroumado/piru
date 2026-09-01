@@ -4,21 +4,70 @@ import TipKit
 
 // MARK: - Journal Grouping
 
+/// The Journal's three views. `grouped` buckets entries under a secondary key
+/// (``JournalGroupKey``) picked in the options popover.
 enum JournalGrouping: String, CaseIterable {
     // Order drives the grouping menu; Days is the default so it leads.
     case byDay = "Days"
     case timeline = "Timeline"
-    case recent = "Recent"
-    case bySubstance = "Substance"
-    case byCategory = "Category"
+    case grouped = "Grouped"
 
     var displayName: LocalizedStringResource {
         switch self {
-        case .recent: "Recent"
         case .byDay: "Days"
         case .timeline: "Timeline"
-        case .bySubstance: "Substance"
-        case .byCategory: "Category"
+        case .grouped: "Grouped"
+        }
+    }
+}
+
+/// What the Grouped view buckets by — the popover's segmented control under
+/// the thumbnails. Remembered across launches.
+enum JournalGroupKey: String, CaseIterable {
+    case substance = "Substance"
+    case category = "Category"
+
+    var displayName: LocalizedStringResource {
+        switch self {
+        case .substance: "By Substance"
+        case .category: "By Category"
+        }
+    }
+}
+
+/// Rewrites a persisted grouping from the five-thumbnail picker into the
+/// three-view one, so nobody's saved choice snaps back to Days. Recent was the
+/// Timeline's bubbles without the hour axis, so it becomes Timeline with the
+/// axis off; Substance and Category become Grouped with the matching key.
+enum JournalGroupingMigration {
+    static let groupingKey = "journalGrouping"
+    static let groupKeyKey = "journalGroupKey"
+    static let timelineAxisKey = "timelineShowsAxis"
+
+    enum Outcome: Equatable {
+        case unchanged
+        case recentToTimeline
+        case substanceToGrouped
+        case categoryToGrouped
+    }
+
+    @discardableResult
+    static func migrate(in defaults: UserDefaults) -> Outcome {
+        switch defaults.string(forKey: groupingKey) {
+        case "Recent":
+            defaults.set(JournalGrouping.timeline.rawValue, forKey: groupingKey)
+            defaults.set(false, forKey: timelineAxisKey)
+            return .recentToTimeline
+        case "Substance":
+            defaults.set(JournalGrouping.grouped.rawValue, forKey: groupingKey)
+            defaults.set(JournalGroupKey.substance.rawValue, forKey: groupKeyKey)
+            return .substanceToGrouped
+        case "Category":
+            defaults.set(JournalGrouping.grouped.rawValue, forKey: groupingKey)
+            defaults.set(JournalGroupKey.category.rawValue, forKey: groupKeyKey)
+            return .categoryToGrouped
+        default:
+            return .unchanged
         }
     }
 }
@@ -54,7 +103,27 @@ struct EntryListView: View {
     var onSwitchToLibrary: (() -> Void)?
 
     @AppStorage("journalGrouping", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var grouping: JournalGrouping = .byDay
+    @AppStorage("journalGroupKey", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var groupKey: JournalGroupKey = .substance
     @State private var showingCalendar = false
+
+    /// Rename / Move Doses / Share targets set from a session card's context
+    /// menu; the matching alert and sheets hang off the list.
+    @State private var cardActions = SessionCardActionModel()
+
+    /// Runs once per process, ahead of the first `@AppStorage` read above — a
+    /// raw value the enum no longer has would otherwise silently read as Days.
+    private static let persistedGroupingMigrated: Void = {
+        if let defaults = UserDefaults(suiteName: "group.dev.yumeji.piru") {
+            JournalGroupingMigration.migrate(in: defaults)
+        }
+    }()
+
+    init(searchText: Binding<String>, isSearchSurface: Bool = false, onSwitchToLibrary: (() -> Void)? = nil) {
+        _ = Self.persistedGroupingMigrated
+        _searchText = searchText
+        self.isSearchSurface = isSearchSurface
+        self.onSwitchToLibrary = onSwitchToLibrary
+    }
 
     /// The Timeline grouping's day layouts — built lazily, only while that
     /// grouping is selected. Shares the zoom preference with the pushed
@@ -184,6 +253,7 @@ struct EntryListView: View {
         model.rebuildGroups(
             entries: entries,
             grouping: grouping,
+            groupKey: groupKey,
             searchText: searchText,
             filterTags: filterTags,
             filterCategories: filterCategories,
@@ -256,14 +326,16 @@ struct EntryListView: View {
 
             // Main content
             switch grouping {
-            case .recent: recentContent
             case .byDay: sessionGroupedContent(activeID: activeID)
             case .timeline: timelineContent
-            case .bySubstance: substanceGroupedContent
-            case .byCategory: categoryGroupedContent
+            case .grouped:
+                switch groupKey {
+                case .substance: substanceGroupedContent
+                case .category: categoryGroupedContent
+                }
             }
         }
-        .id(grouping)
+        .id(listIdentity)
         .listStyle(.plain)
         .listSectionSpacing(.custom(2))
         .scrollContentBackground(.hidden)
@@ -284,7 +356,7 @@ struct EntryListView: View {
                 }
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 ToolbarItem(placement: .topBarTrailing) {
-                    JournalOptionsButton(grouping: $grouping) { showingCalendar = true }
+                    JournalOptionsButton(grouping: $grouping, groupKey: $groupKey) { showingCalendar = true }
                 }
             }
         }
@@ -338,6 +410,7 @@ struct EntryListView: View {
         }
         .onChange(of: filterTags) { resetWindowAndRegroup() }
         .onChange(of: grouping) { resetWindowAndRegroup() }
+        .onChange(of: groupKey) { resetWindowAndRegroup() }
         .onChange(of: filterCategories) { resetWindowAndRegroup() }
         .onChange(of: filterRoutes) { resetWindowAndRegroup() }
         // The Timeline grouping's layouts. Waits a beat so the filter/search
@@ -367,6 +440,13 @@ struct EntryListView: View {
                 .presentationDetents([.medium])
                 .presentationBackground(.regularMaterial)
         }
+        .sessionCardActions(cardActions, colors: substanceColors)
+    }
+
+    /// The List is recreated (scroll reset, fresh rows) when the view changes;
+    /// the Grouped key is part of that identity, the other views ignore it.
+    private var listIdentity: String {
+        grouping == .grouped ? "\(grouping.rawValue)|\(groupKey.rawValue)" : grouping.rawValue
     }
 
     private var timelineRebuildKey: String {
@@ -532,16 +612,10 @@ struct EntryListView: View {
         filterRoutes = []
     }
 
-    // MARK: - Recent (Flat) Content
-
-    private var recentContent: some View {
-        ForEach(model.filtered) { entry in
-            entryRow(entry)
-        }
-    }
+    // MARK: - Grouped Entry Row
 
     /// One dose entry as a tappable card row (chevron-free, pushes to detail).
-    /// Shared by the flat, substance-grouped, and category-grouped lists.
+    /// Shared by the substance- and category-keyed Grouped lists.
     private func entryRow(_ entry: DoseEntry) -> some View {
         Button {
             navigator.push(.entry(timestamp: entry.timestamp, id: entry.id))
@@ -603,6 +677,16 @@ struct EntryListView: View {
                                     .equatable()
                             }
                             .buttonStyle(.plain)
+                            .contextMenu {
+                                if let session = card.session {
+                                    SessionCardContextMenu(session: session, actions: cardActions)
+                                }
+                            } preview: {
+                                // The row draws no background inside the day's
+                                // container, so the preview is the standalone card.
+                                SessionCardView(card: card, colorMap: model.colorMap)
+                                    .frame(width: 340)
+                            }
 
                             if index < cards.count - 1 {
                                 Divider()
@@ -772,18 +856,16 @@ enum JournalMenuAction {
     case help
 }
 
-/// The groupings' screen sketches for ``MenuPhoneThumbnail`` — each mode's list
+/// The groupings' screen sketches for ``MenuPhoneThumbnail`` — each view's list
 /// shape reduced to line art matching the real journal layouts: day-grouped
-/// sessions in rounded cards, flat chronological rows, collapsible substance
-/// sections with dots, collapsible category sections with icon tiles.
+/// sessions in rounded cards, the timeline's axis-and-bubbles, and collapsible
+/// section headers over indented rows.
 enum JournalGroupingArt {
     static func sketch(for grouping: JournalGrouping) -> (GraphicsContext, CGRect, Color) -> Void {
         switch grouping {
         case .byDay: drawDayGroups
         case .timeline: drawTimelineSpine
-        case .recent: drawFlatRows
-        case .bySubstance: drawDotGroups
-        case .byCategory: drawTileGroups
+        case .grouped: drawSectionGroups
         }
     }
 
@@ -844,70 +926,23 @@ enum JournalGroupingArt {
         }
     }
 
-    /// Individual entry rows with spacing — the flat chronological list. Each
-    /// row has a title line and a shorter detail line (dose + time), matching
-    /// the real entry rows.
-    private static func drawFlatRows(_ context: GraphicsContext, in rect: CGRect, color: Color) {
+    /// A bold section header line with a trailing chevron, then indented entry
+    /// rows — twice (two groups). The header stands for the substance or
+    /// category the section collapses under; the indent is the group's rows.
+    private static func drawSectionGroups(_ context: GraphicsContext, in rect: CGRect, color: Color) {
         let unit = rect.height / 26
-        for row in 0 ..< 4 {
-            let y = rect.minY + unit * CGFloat(row) * 6.2
-            // Substance name
-            line(context, x: rect.minX, y: y, width: rect.width * 0.6, height: unit * 1.4, color: color)
-            // Dose + route
-            line(context, x: rect.minX, y: y + unit * 2, width: rect.width * 0.35, height: unit * 1, color: color.opacity(0.5))
-            // Timestamp (right-aligned)
-            line(context, x: rect.maxX - rect.width * 0.25, y: y + unit * 2, width: rect.width * 0.25, height: unit * 1, color: color.opacity(0.35))
-        }
-    }
-
-    /// A leading dot + header line with a trailing chevron, then indented entry
-    /// rows — twice (two substance sections). The dot represents the substance
-    /// color, the chevron the expand/collapse toggle.
-    private static func drawDotGroups(_ context: GraphicsContext, in rect: CGRect, color: Color) {
-        let unit = rect.height / 26
-        let dot = unit * 2
         for groupTop in [rect.minY, rect.minY + unit * 14] {
-            // Substance dot
-            context.fill(
-                Path(ellipseIn: CGRect(x: rect.minX, y: groupTop, width: dot, height: dot)),
-                with: .color(color),
-            )
-            // Substance name
-            line(context, x: rect.minX + dot * 1.4, y: groupTop + (dot - unit * 1.4) / 2, width: rect.width * 0.5, height: unit * 1.4, color: color)
+            // Section header
+            line(context, x: rect.minX, y: groupTop, width: rect.width * 0.55, height: unit * 1.6, color: color)
             // Chevron placeholder (right side)
             let chevSize = unit * 1.2
-            line(context, x: rect.maxX - chevSize, y: groupTop + (dot - chevSize) / 2, width: chevSize, height: chevSize, color: color.opacity(0.3))
+            line(context, x: rect.maxX - chevSize, y: groupTop + (unit * 1.6 - chevSize) / 2, width: chevSize, height: chevSize, color: color.opacity(0.3))
             // Indented entry rows
-            let indent = dot * 1.4
+            let indent = unit * 2.4
             for row in 0 ..< 2 {
-                let y = groupTop + unit * (4 + CGFloat(row) * 3.5)
+                let y = groupTop + unit * (4 + CGFloat(row) * 3.8)
                 line(context, x: rect.minX + indent, y: y, width: rect.width - indent, height: unit * 1.2, color: color.opacity(0.5))
-                line(context, x: rect.minX + indent, y: y + unit * 1.6, width: (rect.width - indent) * 0.4, height: unit * 0.8, color: color.opacity(0.25))
-            }
-        }
-    }
-
-    /// A leading rounded icon tile + header line with a trailing chevron, then
-    /// indented entry rows — twice. The tile represents the category icon.
-    private static func drawTileGroups(_ context: GraphicsContext, in rect: CGRect, color: Color) {
-        let unit = rect.height / 26
-        let tile = unit * 2
-        for groupTop in [rect.minY, rect.minY + unit * 14] {
-            // Category icon tile
-            context.fill(
-                Path(roundedRect: CGRect(x: rect.minX, y: groupTop, width: tile, height: tile), cornerRadius: tile * 0.25),
-                with: .color(color),
-            )
-            // Category name
-            line(context, x: rect.minX + tile * 1.4, y: groupTop + (tile - unit * 1.4) / 2, width: rect.width * 0.45, height: unit * 1.4, color: color)
-            // Count bubble
-            line(context, x: rect.maxX - unit * 3, y: groupTop + (tile - unit * 1.2) / 2, width: unit * 3, height: unit * 1.2, color: color.opacity(0.3))
-            // Indented entry rows
-            let indent = tile * 1.4
-            for row in 0 ..< 2 {
-                let y = groupTop + unit * (4 + CGFloat(row) * 3.5)
-                line(context, x: rect.minX + indent, y: y, width: rect.width - indent, height: unit * 1.2, color: color.opacity(0.5))
-                line(context, x: rect.minX + indent, y: y + unit * 1.6, width: (rect.width - indent) * 0.4, height: unit * 0.8, color: color.opacity(0.25))
+                line(context, x: rect.minX + indent, y: y + unit * 1.6, width: (rect.width - indent) * 0.45, height: unit * 0.8, color: color.opacity(0.25))
             }
         }
     }

@@ -10,6 +10,7 @@ import TipKit
 struct JournalOptionsButton: View {
     @Environment(\.appNavigator) private var navigator
     @Binding var grouping: JournalGrouping
+    @Binding var groupKey: JournalGroupKey
     let onJumpToDate: () -> Void
 
     @State private var showsOptions = false
@@ -24,7 +25,7 @@ struct JournalOptionsButton: View {
         }
         .accessibilityLabel(Text("More"))
         .popover(isPresented: $showsOptions) {
-            JournalOptionsMenu(grouping: $grouping) { action in
+            JournalOptionsMenu(grouping: $grouping, groupKey: $groupKey) { action in
                 pendingAction = action
                 showsOptions = false
             }
@@ -60,12 +61,14 @@ struct JournalOptionsButton: View {
 }
 
 /// The options popover content, modeled on Mail's view-options menu: the
-/// grouping thumbnail picker across the top (five line-art phones with a radio
-/// each), then Jump to Date, then the app-level Settings/Help. Picking a
+/// grouping thumbnail picker across the top (three line-art phones with a radio
+/// each, plus the Grouped key as a segmented control beneath while Grouped is
+/// selected), then Jump to Date, then the app-level Settings/Help. Picking a
 /// grouping keeps the popover open (Mail's behavior — the list re-buckets
 /// behind it); the action rows dismiss.
 struct JournalOptionsMenu: View {
     @Binding var grouping: JournalGrouping
+    @Binding var groupKey: JournalGroupKey
     let onAction: (JournalMenuAction) -> Void
 
     var body: some View {
@@ -78,6 +81,17 @@ struct JournalOptionsMenu: View {
             .padding(.horizontal, 14)
             .padding(.top, 16)
             .padding(.bottom, 12)
+
+            if grouping == .grouped {
+                Picker("Group by", selection: $groupKey) {
+                    ForEach(JournalGroupKey.allCases, id: \.self) { key in
+                        Text(key.displayName).tag(key)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal, 14)
+                .padding(.bottom, 14)
+            }
 
             Divider()
 
