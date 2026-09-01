@@ -18,6 +18,7 @@ struct ReceptorLoadView: View {
     @State private var loaded = false
     @State private var hidden: Set<String> = []
     @State private var selectedDate: Date?
+    @State private var zoomLevel: ZoomLevel = .medium
 
     var body: some View {
         ScrollView {
@@ -58,6 +59,34 @@ struct ReceptorLoadView: View {
         return hasher.finalize()
     }
 
+    // MARK: - Zoom
+
+    enum ZoomLevel: String, CaseIterable, Identifiable {
+        case wide = "Wide"
+        case medium = "Medium"
+        case close = "Close"
+
+        var id: String {
+            rawValue
+        }
+
+        var label: LocalizedStringKey {
+            switch self {
+            case .wide: "Wide"
+            case .medium: "Medium"
+            case .close: "Close"
+            }
+        }
+
+        var windowSeconds: Double {
+            switch self {
+            case .wide: 180 * 86_400
+            case .medium: 90 * 86_400
+            case .close: 30 * 86_400
+            }
+        }
+    }
+
     // MARK: - Load
 
     private func load() async {
@@ -66,8 +95,6 @@ struct ReceptorLoadView: View {
             loaded = true
             return
         }
-        // Ensure the driven-class snapshot is current (signature-gated, so a
-        // repeat visit is a no-op), then trace each class it touches.
         await ToleranceStore.shared.recompute(from: allEntries)
         let classes = ToleranceStore.shared.states.values
             .sorted { $0.severity > $1.severity }
@@ -120,12 +147,23 @@ struct ReceptorLoadView: View {
         UsageSectionCard(title: "Receptor load over time", subtitle: "How hard each mechanism has been driven, relative to your recent baseline") {
             let visible = series.filter { !hidden.contains($0.id) }
             let shown = visible.isEmpty ? series : visible
-            ReceptorLoadChart(series: shown, selectedDate: $selectedDate)
+            ReceptorLoadChart(series: shown, selectedDate: $selectedDate, windowSeconds: zoomLevel.windowSeconds)
             if let selectedDate {
                 ReceptorLoadReadout(series: shown, date: selectedDate)
             }
+            zoomPicker
             legend
         }
+    }
+
+    private var zoomPicker: some View {
+        Picker("Zoom", selection: $zoomLevel) {
+            ForEach(ZoomLevel.allCases) { level in
+                Text(level.label).tag(level)
+            }
+        }
+        .pickerStyle(.segmented)
+        .onChange(of: zoomLevel) { selectedDate = nil }
     }
 
     private var legend: some View {
@@ -207,11 +245,12 @@ struct ReceptorLoadSeries: Identifiable {
 private struct ReceptorLoadChart: View {
     let series: [ReceptorLoadSeries]
     @Binding var selectedDate: Date?
+    var windowSeconds: Double = usageChartWindowSeconds
 
     private var span: (length: Double, windowStart: Date?) {
         let dates = series.flatMap { $0.points.map(\.date) }
         guard let first = dates.min(), let last = dates.max(), last > first else { return (1, nil) }
-        return (last.timeIntervalSince(first), last.addingTimeInterval(-usageChartWindowSeconds))
+        return (last.timeIntervalSince(first), last.addingTimeInterval(-windowSeconds))
     }
 
     var body: some View {
@@ -236,7 +275,7 @@ private struct ReceptorLoadChart: View {
         }
         .frame(height: 200)
         .chartXSelection(value: $selectedDate)
-        .chartXScrollWindow(fullLength: span.length, window: usageChartWindowSeconds, initialX: span.windowStart)
+        .chartXScrollWindow(fullLength: span.length, window: windowSeconds, initialX: span.windowStart)
         .chartYScale(domain: 0 ... 1)
         .chartYAxis {
             AxisMarks(position: .leading, values: [0, 0.5, 1]) { value in

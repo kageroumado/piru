@@ -93,20 +93,27 @@ struct CeilingEffectToolView: View {
             Text(sub.headline)
                 .font(.subheadline.weight(.medium))
 
-            Label {
-                Text(sub.knee).font(.caption).foregroundStyle(Theme.secondaryLabel)
-            } icon: {
-                Image(systemName: "arrow.turn.right.up").foregroundStyle(tint(for: sub)).accessibilityHidden(true)
+            DisclosureGroup {
+                VStack(alignment: .leading, spacing: 8) {
+                    Label {
+                        Text(sub.knee).font(.caption).foregroundStyle(Theme.secondaryLabel)
+                    } icon: {
+                        Image(systemName: "arrow.turn.right.up").foregroundStyle(tint(for: sub)).accessibilityHidden(true)
+                    }
+
+                    Text(sub.detail)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+
+                    Text(sub.citation)
+                        .font(.caption2)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            } label: {
+                Text("Details & sources")
+                    .font(.caption.weight(.medium))
+                    .foregroundStyle(Theme.secondaryLabel)
             }
-
-            Text(sub.detail)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
-
-            Text(sub.citation)
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, 2)
         }
         .padding(.vertical, 6)
     }
@@ -165,13 +172,21 @@ struct CeilingEffectToolView: View {
 
             Text(SaturablePharmacology.GabapentinoidComparison.headline)
                 .font(.subheadline.weight(.medium))
-            Text(SaturablePharmacology.GabapentinoidComparison.detail)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
-            Text(SaturablePharmacology.GabapentinoidComparison.citation)
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, 2)
+
+            DisclosureGroup {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(SaturablePharmacology.GabapentinoidComparison.detail)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                    Text(SaturablePharmacology.GabapentinoidComparison.citation)
+                        .font(.caption2)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            } label: {
+                Text("Details & sources")
+                    .font(.caption.weight(.medium))
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
         }
         .padding(.vertical, 6)
     }
@@ -184,7 +199,9 @@ struct CeilingEffectToolView: View {
         let pre = SaturablePharmacology.GabapentinoidComparison.pregabalin
         let gabaBase = gaba.first?.doseMgPerDay ?? 900
         let preBase = pre.first?.doseMgPerDay ?? 150
-        let maxMultiple = (gaba.map { $0.doseMgPerDay / gabaBase }.max() ?? 5) + 0.3
+        let allMultiples = gaba.map { $0.doseMgPerDay / gabaBase } + pre.map { $0.doseMgPerDay / preBase }
+        let minMultiple = max(0, (allMultiples.min() ?? 1) - 0.2)
+        let maxMultiple = (allMultiples.max() ?? 5) + 0.3
         return Chart {
             ForEach(gaba) { p in
                 LineMark(
@@ -226,9 +243,9 @@ struct CeilingEffectToolView: View {
                 }
             }
         }
-        .chartXScale(domain: 1 ... maxMultiple)
+        .chartXScale(domain: minMultiple ... maxMultiple)
         .chartXAxis {
-            AxisMarks(values: [1, 2, 3, 4, 5]) { value in
+            AxisMarks(values: [0.5, 1, 2, 3, 4, 5]) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.3))
                 AxisValueLabel {
                     if let v = value.as(Int.self) { Text("\(v)×").font(.caption2) }

@@ -266,6 +266,8 @@ private struct AdherenceCalendar: View {
     @Binding var selectedDay: DayAdherence?
     let calendar: Calendar
 
+    @State private var showMonthPicker = false
+
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 4), count: 7)
 
     var body: some View {
@@ -276,6 +278,11 @@ private struct AdherenceCalendar: View {
         }
         .padding()
         .themeCard()
+        .sheet(isPresented: $showMonthPicker) {
+            AdherenceMonthPicker(displayedMonth: $displayedMonth, calendar: calendar)
+                .presentationDetents([.medium])
+                .presentationBackground(.regularMaterial)
+        }
     }
 
     private var monthHeader: some View {
@@ -290,8 +297,13 @@ private struct AdherenceCalendar: View {
             }
             .accessibilityLabel(Text("Previous Month"))
             Spacer()
-            Text(displayedMonth.formatted(.dateTime.month(.wide).year()))
-                .font(.headline)
+            Button { showMonthPicker = true } label: {
+                Text(displayedMonth.formatted(.dateTime.month(.wide).year()))
+                    .font(.headline)
+                    .contentShape(.rect)
+            }
+            .buttonStyle(.plain)
+            .accessibilityHint(Text("Opens month picker"))
             Spacer()
             Button {
                 withAnimation {
@@ -522,5 +534,106 @@ struct AdherenceDayDetailSheet: View {
         case .missed: "All missed"
         case .noData: "Nothing due"
         }
+    }
+}
+
+// MARK: - Month Picker
+
+private struct AdherenceMonthPicker: View {
+    @Binding var displayedMonth: Date
+    let calendar: Calendar
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var pickerYear: Int
+    private let monthColumns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 3)
+
+    init(displayedMonth: Binding<Date>, calendar: Calendar) {
+        _displayedMonth = displayedMonth
+        self.calendar = calendar
+        _pickerYear = State(initialValue: calendar.component(.year, from: displayedMonth.wrappedValue))
+    }
+
+    private var currentYear: Int {
+        calendar.component(.year, from: Date.now)
+    }
+    private var currentMonth: Int {
+        calendar.component(.month, from: Date.now)
+    }
+    private var selectedMonth: Int {
+        calendar.component(.month, from: displayedMonth)
+    }
+    private var selectedYear: Int {
+        calendar.component(.year, from: displayedMonth)
+    }
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 20) {
+                HStack {
+                    Button {
+                        withAnimation(.snappy) { pickerYear -= 1 }
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .font(.body.weight(.semibold))
+                    }
+                    .accessibilityLabel(Text("Previous Year"))
+                    Spacer()
+                    Text(verbatim: "\(pickerYear)")
+                        .font(.title3.weight(.bold))
+                    Spacer()
+                    Button {
+                        withAnimation(.snappy) { pickerYear += 1 }
+                    } label: {
+                        Image(systemName: "chevron.right")
+                            .font(.body.weight(.semibold))
+                    }
+                    .accessibilityLabel(Text("Next Year"))
+                    .disabled(pickerYear >= currentYear)
+                }
+                .padding(.horizontal)
+
+                LazyVGrid(columns: monthColumns, spacing: 10) {
+                    ForEach(1 ... 12, id: \.self) { month in
+                        let isFuture = pickerYear > currentYear || (pickerYear == currentYear && month > currentMonth)
+                        let isSelected = pickerYear == selectedYear && month == selectedMonth
+                        Button {
+                            select(month: month)
+                        } label: {
+                            Text(calendar.monthSymbols[month - 1])
+                                .font(.subheadline.weight(isSelected ? .bold : .regular))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12)
+                                .background(isSelected ? Theme.accent.opacity(0.15) : Color.clear, in: RoundedRectangle(cornerRadius: 10))
+                                .foregroundStyle(isFuture ? Theme.secondaryLabel.opacity(0.4) : isSelected ? Theme.accent : .primary)
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(isFuture)
+                    }
+                }
+                .padding(.horizontal)
+
+                Spacer()
+            }
+            .padding(.top, 8)
+            .navigationTitle("Select Month")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button { dismiss() } label: { Image(systemName: "xmark") }
+                        .accessibilityLabel(Text("Close"))
+                }
+            }
+        }
+    }
+
+    private func select(month: Int) {
+        var comps = DateComponents()
+        comps.year = pickerYear
+        comps.month = month
+        comps.day = 1
+        if let date = calendar.date(from: comps) {
+            withAnimation { displayedMonth = date }
+        }
+        dismiss()
     }
 }

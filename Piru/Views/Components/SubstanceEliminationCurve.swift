@@ -4,71 +4,65 @@ import SwiftUI
 /// 50%/25% milestone lines, a "now" dot, and adaptive time-axis labels.
 /// Extracted from ``InYourSystemView`` so the session detail's In Your Body
 /// section renders the identical curve.
+///
+/// When ``projection`` is set **and the substance meaningfully accumulates**
+/// (ratio ≥ 1.15), the curve extends past "now" with dashed projected future
+/// doses at the detected regular interval, showing the steady-state trajectory.
+/// A stats row below the graph shows the detected cadence, plateau, peak,
+/// buildup×, and time to reach steady state.
 struct SubstanceEliminationCurve: View {
     let active: ActiveSubstance
     /// What the surrounding row calls this substance. `ActiveSubstance.name` is
     /// always the canonical English name, so without this VoiceOver announces
     /// "Memantine" under a row the user sees as 美金刚.
     var displayName: String?
+    var projection: SteadyStateProjection?
+
+    private var showsProjection: Bool {
+        guard let projection else { return false }
+        return projection.result.accumulationRatio >= 1.15
+    }
+
+    /// All precomputed data the Canvas and stats need.
+    private var curve: CurveData {
+        CurveData(active: active, projection: showsProjection ? projection : nil)
+    }
 
     var body: some View {
-        let halfLife = active.halfLifeMinutes
-        let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
-        let ka = Self.estimateKa(for: active.name, ke: ke)
-        let peakConc = PKModel.cmax(ke: ke, ka: ka)
+        let data = curve
         let color = active.color
+        let halfLife = active.halfLifeMinutes
 
-        let sortedDoses = active.doses.sorted { $0.timestamp < $1.timestamp }
-        let earliest = sortedDoses.first?.timestamp ?? .now
-        let latestOffset = (sortedDoses.last?.timestamp.timeIntervalSince(earliest) ?? 0) / 60
-        let tailMinutes = PKModel.timeToFraction(0.03, ke: ke, ka: ka, maxMinutes: halfLife * 8)
-        let endMinutes = max(1, latestOffset + tailMinutes)
+        VStack(spacing: 0) {
+            curveCanvas(data: data, color: color, halfLife: halfLife)
 
-        let doseOffsets: [(amount: Double, offset: Double)] = sortedDoses.map {
-            ($0.amount, $0.timestamp.timeIntervalSince(earliest) / 60)
-        }
-
-        // Precompute curve points for Canvas (avoids capturing functions)
-        let steps = 120
-        var rawPoints: [Double] = []
-        var maxConc = 0.001
-        for i in 0 ... steps {
-            let t = Double(i) / Double(steps) * endMinutes
-            var c = 0.0
-            if peakConc > 0 {
-                for d in doseOffsets {
-                    let elapsed = t - d.offset
-                    if elapsed >= 0 {
-                        c += d.amount * PKModel.concentration(at: elapsed, ke: ke, ka: ka) / peakConc
-                    }
-                }
+            if showsProjection, let proj = projection {
+                projectionStats(proj, color: color)
             }
-            rawPoints.append(c)
-            maxConc = max(maxConc, c)
         }
-        let curvePoints = rawPoints.map { $0 / maxConc }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text("Elimination curve for \(displayName ?? active.name)"))
+        .accessibilityValue(Text("\(active.totalRemaining.doseFormatted) \(active.unit) remaining, \(Int(active.eliminatedFraction * 100))% eliminated, half-life \(Self.formatDuration(halfLife))"))
+    }
 
-        // Current time position
-        let currentOffset = Date.now.timeIntervalSince(earliest) / 60
-        let currentNormalized: Double? = {
-            guard currentOffset >= 0, currentOffset <= endMinutes, peakConc > 0, maxConc > 0 else { return nil }
-            var c = 0.0
-            for d in doseOffsets {
-                let elapsed = currentOffset - d.offset
-                if elapsed >= 0 {
-                    c += d.amount * PKModel.concentration(at: elapsed, ke: ke, ka: ka) / peakConc
-                }
-            }
-            return c / maxConc
-        }()
+    // MARK: - Canvas
 
-        return Canvas { context, size in
+    private func curveCanvas(data: CurveData, color: Color, halfLife: Double) -> some View {
+        Canvas { context, size in
             let inset: CGFloat = 4
             let graphWidth = size.width - inset * 2
             let labelAreaHeight: CGFloat = 18
             let graphHeight = size.height - labelAreaHeight - inset
             guard graphHeight > 0 else { return }
             let baseline = inset + graphHeight
+            let steps = data.curvePoints.count - 1
+            guard steps > 0 else { return }
+
+            func pointAt(_ i: Int) -> CGPoint {
+                let x = inset + CGFloat(Double(i) / Double(steps)) * graphWidth
+                let y = inset + graphHeight - CGFloat(data.curvePoints[i]) * graphHeight * 0.9
+                return CGPoint(x: x, y: y)
+            }
 
             // Half-life milestone lines (50%, 25%)
             for fraction in [0.5, 0.25] as [Double] {
@@ -84,30 +78,55 @@ struct SubstanceEliminationCurve: View {
                 context.draw(context.resolve(label), at: CGPoint(x: inset + graphWidth - 2, y: y - 1), anchor: .bottomTrailing)
             }
 
-            // Fill path
-            var fillPath = Path()
-            fillPath.move(to: CGPoint(x: inset, y: baseline))
-            for (i, c) in curvePoints.enumerated() {
-                let x = inset + CGFloat(Double(i) / Double(steps)) * graphWidth
-                let y = inset + graphHeight - CGFloat(c) * graphHeight * 0.9
-                fillPath.addLine(to: CGPoint(x: x, y: y))
-            }
-            fillPath.addLine(to: CGPoint(x: inset + graphWidth, y: baseline))
-            fillPath.closeSubpath()
-            context.fill(fillPath, with: .color(color.opacity(0.2)))
+            // Split at "now" only when a projection continues the curve past it;
+            // otherwise the actual decay draws to its end like any other curve.
+            let splitStep = (data.hasProjection ? data.nowStep : nil).map { min($0, steps) } ?? steps
 
-            // Stroke path
-            var strokePath = Path()
-            for (i, c) in curvePoints.enumerated() {
-                let x = inset + CGFloat(Double(i) / Double(steps)) * graphWidth
-                let y = inset + graphHeight - CGFloat(c) * graphHeight * 0.9
-                if i == 0 { strokePath.move(to: CGPoint(x: x, y: y)) } else { strokePath.addLine(to: CGPoint(x: x, y: y)) }
+            // --- Actual portion (solid) ---
+            var actualFill = Path()
+            actualFill.move(to: CGPoint(x: inset, y: baseline))
+            for i in 0 ... splitStep {
+                actualFill.addLine(to: pointAt(i))
             }
-            context.stroke(strokePath, with: .color(color), lineWidth: 2)
+            let splitX = pointAt(splitStep).x
+            actualFill.addLine(to: CGPoint(x: splitX, y: baseline))
+            actualFill.closeSubpath()
+            context.fill(actualFill, with: .color(color.opacity(0.2)))
+
+            var actualStroke = Path()
+            for i in 0 ... splitStep {
+                let p = pointAt(i)
+                if i == 0 { actualStroke.move(to: p) } else { actualStroke.addLine(to: p) }
+            }
+            context.stroke(actualStroke, with: .color(color), lineWidth: 2)
+
+            // --- Projected portion (dashed) ---
+            if data.hasProjection, let ns = data.nowStep, ns < steps {
+                var projFill = Path()
+                projFill.move(to: CGPoint(x: splitX, y: baseline))
+                for i in ns ... steps {
+                    projFill.addLine(to: pointAt(i))
+                }
+                projFill.addLine(to: CGPoint(x: inset + graphWidth, y: baseline))
+                projFill.closeSubpath()
+                context.fill(projFill, with: .color(color.opacity(0.08)))
+
+                var projStroke = Path()
+                for i in ns ... steps {
+                    let p = pointAt(i)
+                    if i == ns { projStroke.move(to: p) } else { projStroke.addLine(to: p) }
+                }
+                context.stroke(projStroke, with: .color(color.opacity(0.5)), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
+
+                var nowLine = Path()
+                nowLine.move(to: CGPoint(x: splitX, y: inset))
+                nowLine.addLine(to: CGPoint(x: splitX, y: baseline))
+                context.stroke(nowLine, with: .color(color.opacity(0.25)), style: StrokeStyle(lineWidth: 0.5, dash: [2, 3]))
+            }
 
             // Current time dot
-            if let c = currentNormalized {
-                let x = inset + CGFloat(currentOffset / endMinutes) * graphWidth
+            if let c = data.currentNormalized {
+                let x = inset + CGFloat(data.currentOffset / data.totalEndMinutes) * graphWidth
                 let y = inset + graphHeight - CGFloat(c) * graphHeight * 0.9
                 let dotSize: CGFloat = 7
                 let dot = Path(ellipseIn: CGRect(x: x - dotSize / 2, y: y - dotSize / 2, width: dotSize, height: dotSize))
@@ -115,9 +134,8 @@ struct SubstanceEliminationCurve: View {
                 context.stroke(dot, with: .color(.white.opacity(0.8)), lineWidth: 1)
             }
 
-            // Time labels. The interval is chosen so its unit matches how the
-            // label reads (minutes < 1h, hours < ~2 days, days beyond) — else a
-            // 6h tick over a 40h span prints "1d" four times in a row.
+            // Time labels
+            let endMinutes = data.totalEndMinutes
             let interval: Double = if endMinutes <= 60 { 15 } else if endMinutes <= 180 { 30 } else if endMinutes <= 360 { 60 } else if endMinutes <= 720 { 120 } else if endMinutes <= 1_440 { 240 } else if endMinutes <= 2_880 { 480 } else if endMinutes <= 5_760 { 1_440 } else if endMinutes <= 11_520 { 2_880 } else if endMinutes <= 40_320 { 5_760 } else { 10_080 }
 
             let labelY = inset + graphHeight + labelAreaHeight / 2 + 1
@@ -137,24 +155,59 @@ struct SubstanceEliminationCurve: View {
         .padding(12)
         .background(Color.primary.opacity(0.04), in: .rect(cornerRadius: 16, style: .continuous))
         .overlay(alignment: .topTrailing) {
-            // A floating label rather than a header row, so it doesn't push the
-            // curve down. "Elimination Curve" is dropped — self-evident from the
-            // shape and the section it lives in.
             Text("t½ = \(Self.formatDuration(halfLife))")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(color)
                 .padding(10)
         }
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text("Elimination curve for \(displayName ?? active.name)"))
-        .accessibilityValue(Text("\(active.totalRemaining.doseFormatted) \(active.unit) remaining, \(Int(active.eliminatedFraction * 100))% eliminated, half-life \(Self.formatDuration(halfLife))"))
     }
 
-    /// Absorption-rate estimate from the substance's oral time-to-peak, falling
-    /// back to the model default. Shared by the curve and milestone projections.
+    // MARK: - Projection stats
+
+    private func projectionStats(_ proj: SteadyStateProjection, color: Color) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Projected · \(Self.cadenceText(proj.intervalHours))")
+                .font(.caption2.weight(.medium))
+                .foregroundStyle(color.opacity(0.8))
+
+            HStack(spacing: 0) {
+                stat("Plateau", "\(proj.result.averageAmount.doseFormatted) \(proj.unit)")
+                stat("Peak", "\(proj.result.peakAmount.doseFormatted) \(proj.unit)")
+                stat("Buildup", "\(proj.result.accumulationRatio.formatted(.number.precision(.fractionLength(1))))×")
+                stat("Reaches", Self.daysToSteadyText(proj.daysToSteady))
+            }
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+    }
+
+    private func stat(_ label: LocalizedStringKey, _ value: String) -> some View {
+        VStack(alignment: .leading, spacing: 1) {
+            Text(label)
+                .font(.system(size: 9, weight: .medium))
+                .foregroundStyle(Theme.secondaryLabel)
+            Text(value)
+                .font(.caption2.weight(.semibold))
+                .monospacedDigit()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    // MARK: - Helpers
+
+    static func cadenceText(_ intervalHours: Double) -> String {
+        if abs(intervalHours - 24) < 3 { return String(localized: "about daily") }
+        if intervalHours >= 44, intervalHours <= 52 { return String(localized: "about every 2 days") }
+        if intervalHours < 36 { return String(localized: "every ~\(Int(intervalHours.rounded())) h") }
+        return String(localized: "every ~\((intervalHours / 24).formatted(.number.precision(.fractionLength(0 ... 1)))) days")
+    }
+
+    static func daysToSteadyText(_ days: Double) -> String {
+        if days < 1 { return String(localized: "<1 day") }
+        return String(localized: "~\(Int(days.rounded())) days")
+    }
+
     static func estimateKa(for substanceName: String, ke: Double) -> Double {
-        // Batch projection — durations are on it, and this runs in `body` per
-        // rendered active-substance row.
         if let substance = SubstanceLibrary.lookup(substanceName.lowercased()),
            let duration = substance.resolveDuration(for: .oral) {
             let timeToPeak = (duration.onset?.midpoint ?? 0) + (duration.comeup?.midpoint ?? 0)
@@ -174,5 +227,102 @@ struct SubstanceEliminationCurve: View {
         if hours < 24 { return String(localized: "\(hours) hours") }
         let days = Int(round(minutes / 1_440))
         return String(localized: "\(days) days")
+    }
+}
+
+// MARK: - Precomputed curve data
+
+/// Extracted so ``SubstanceEliminationCurve/body`` stays a pure `@ViewBuilder`
+/// with no `var` mutation.
+private struct CurveData {
+    let curvePoints: [Double]
+    let totalEndMinutes: Double
+    let currentOffset: Double
+    let currentNormalized: Double?
+    let nowStep: Int?
+    let hasProjection: Bool
+
+    init(active: ActiveSubstance, projection: SteadyStateProjection?) {
+        let halfLife = active.halfLifeMinutes
+        let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
+        let ka = SubstanceEliminationCurve.estimateKa(for: active.name, ke: ke)
+        let peakConc = PKModel.cmax(ke: ke, ka: ka)
+
+        let sortedDoses = active.doses.sorted { $0.timestamp < $1.timestamp }
+        let earliest = sortedDoses.first?.timestamp ?? .now
+        let latestOffset = (sortedDoses.last?.timestamp.timeIntervalSince(earliest) ?? 0) / 60
+        let tailMinutes = PKModel.timeToFraction(0.03, ke: ke, ka: ka, maxMinutes: halfLife * 8)
+        let actualEndMinutes = max(1, latestOffset + tailMinutes)
+
+        let realDoseOffsets: [(amount: Double, offset: Double)] = sortedDoses.map {
+            ($0.amount, $0.timestamp.timeIntervalSince(earliest) / 60)
+        }
+
+        let currentOff = Date.now.timeIntervalSince(earliest) / 60
+        currentOffset = currentOff
+
+        // Build dose offsets including projected future doses
+        var allDoses = realDoseOffsets
+        let endMinutes: Double
+        if let proj = projection, currentOff > 0 {
+            hasProjection = true
+            let intervalMin = proj.intervalHours * 60
+            var nextDose = latestOffset + intervalMin
+            while nextDose <= currentOff {
+                nextDose += intervalMin
+            }
+            let projectionExtension = min(halfLife * 5, intervalMin * 8)
+            let projEnd = currentOff + projectionExtension
+            while nextDose <= projEnd {
+                allDoses.append((proj.medianDose, nextDose))
+                nextDose += intervalMin
+            }
+            endMinutes = max(actualEndMinutes, projEnd + tailMinutes * 0.3)
+        } else {
+            hasProjection = false
+            endMinutes = actualEndMinutes
+        }
+        totalEndMinutes = endMinutes
+
+        // Curve points
+        let steps = hasProjection ? 180 : 120
+        var rawPoints: [Double] = []
+        rawPoints.reserveCapacity(steps + 1)
+        var maxConc = 0.001
+        for i in 0 ... steps {
+            let t = Double(i) / Double(steps) * endMinutes
+            var c = 0.0
+            if peakConc > 0 {
+                for d in allDoses {
+                    let elapsed = t - d.offset
+                    if elapsed >= 0 {
+                        c += d.amount * PKModel.concentration(at: elapsed, ke: ke, ka: ka) / peakConc
+                    }
+                }
+            }
+            rawPoints.append(c)
+            maxConc = max(maxConc, c)
+        }
+        curvePoints = rawPoints.map { $0 / maxConc }
+
+        // Now position
+        if currentOff >= 0, currentOff <= endMinutes {
+            nowStep = min(Int((currentOff / endMinutes) * Double(steps)), steps)
+            if peakConc > 0, maxConc > 0 {
+                var c = 0.0
+                for d in realDoseOffsets {
+                    let elapsed = currentOff - d.offset
+                    if elapsed >= 0 {
+                        c += d.amount * PKModel.concentration(at: elapsed, ke: ke, ka: ka) / peakConc
+                    }
+                }
+                currentNormalized = c / maxConc
+            } else {
+                currentNormalized = nil
+            }
+        } else {
+            nowStep = nil
+            currentNormalized = nil
+        }
     }
 }

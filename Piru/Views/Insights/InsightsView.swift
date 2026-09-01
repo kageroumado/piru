@@ -167,6 +167,7 @@ struct InsightsView: View {
                 inYourBodyCard
                 adherenceCard
                 InsightsToleranceCard()
+                InsightsReceptorLoadCard()
                 patternsCard
                 reportsCard
             }
@@ -389,7 +390,7 @@ private struct InsightsToleranceCard: View {
         let notable = ToleranceStore.shared.states.values
             .filter { $0.severity > 0.10 }
             .sorted { $0.severity > $1.severity }
-        largeCard(icon: "chart.line.downtrend.xyaxis", tint: .purple, title: "Tolerance", route: .insightGroup(.toleranceReceptors)) {
+        largeCard(icon: "chart.line.downtrend.xyaxis", tint: .purple, title: "Tolerance", route: .insight(.tolerance)) {
             if notable.isEmpty {
                 HStack(alignment: .center, spacing: 14) {
                     Image(systemName: "checkmark.seal.fill")
@@ -441,5 +442,57 @@ private struct InsightsToleranceCard: View {
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(state.receptorClass.casualName))
         .accessibilityValue(Text("\(Int(state.severity * 100))% tolerance"))
+    }
+}
+
+private struct InsightsReceptorLoadCard: View {
+    private func largeCard(
+        icon: String,
+        tint: Color,
+        title: LocalizedStringKey,
+        route: PushRoute,
+        @ViewBuilder content: @escaping () -> some View,
+    ) -> some View {
+        GlanceCard(icon: icon, tint: tint, titleColor: tint, title: Text(title), route: route, content: content)
+    }
+
+    var body: some View {
+        let notable = ToleranceStore.shared.states.values
+            .filter { $0.severity > 0.10 }
+            .sorted { $0.severity > $1.severity }
+        largeCard(icon: "chart.xyaxis.line", tint: .pink, title: "Receptor Load", route: .insight(.receptorLoad)) {
+            if notable.isEmpty {
+                Text("How hard each mechanism has been driven over time")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
+            } else {
+                VStack(spacing: 9) {
+                    ForEach(notable.prefix(3)) { state in
+                        receptorRow(state)
+                    }
+                }
+            }
+        }
+    }
+
+    private func receptorRow(_ state: ClassTolerance) -> some View {
+        let color = state.receptorClass.familyColor
+        return HStack(spacing: 10) {
+            Circle()
+                .fill(color)
+                .frame(width: 8, height: 8)
+            Text(state.receptorClass.casualName)
+                .font(.subheadline.weight(.medium))
+                .lineLimit(1)
+            Spacer(minLength: 10)
+            Text("\(Int(state.severity * 100))%")
+                .font(.caption.monospacedDigit())
+                .foregroundStyle(Theme.secondaryLabel)
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(state.receptorClass.casualName))
+        .accessibilityValue(Text("\(Int(state.severity * 100))% load"))
     }
 }

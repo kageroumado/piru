@@ -11,6 +11,7 @@ struct InYourSystemView: View {
 
     @State private var cachedActiveSubstances: [ActiveSubstance] = []
     @State private var expandedSubstance: String?
+    @State private var projections: [String: SteadyStateProjection] = [:]
 
     /// Cap on individual ingestion rows shown per active substance — a daily
     /// medication can accumulate dozens of in-system doses; show the most
@@ -46,6 +47,8 @@ struct InYourSystemView: View {
             guard !Task.isCancelled else { return }
             await SubstanceStore.shared.ensureAllLoaded()
             cachedActiveSubstances = ActiveSubstanceCalculator.compute(from: allEntries, colorMap: substanceColors.colorMap)
+            let allProjections = SteadyStateProjectionBuilder.compute(entries: allEntries, colorMap: substanceColors.colorMap)
+            projections = Dictionary(uniqueKeysWithValues: allProjections.map { ($0.id, $0) })
         }
     }
 
@@ -123,6 +126,7 @@ struct InYourSystemView: View {
                         .rotationEffect(.degrees(isExpanded ? 90 : 0))
                         .accessibilityHidden(true)
                 }
+                .contentShape(.rect)
             }
             .buttonStyle(.plain)
 
@@ -151,7 +155,7 @@ struct InYourSystemView: View {
                                 .font(.caption2)
                                 .foregroundStyle(Theme.secondaryLabel)
                             Spacer()
-                            Text(d.timestamp.formatted(date: .omitted, time: .shortened))
+                            Text(Self.doseTimestampText(d.timestamp))
                                 .font(.caption2)
                                 .foregroundStyle(Theme.secondaryLabel)
                             Text("\(d.remaining.doseFormatted) \(active.unit) left")
@@ -172,10 +176,12 @@ struct InYourSystemView: View {
                 .padding(.top, 8)
             }
 
-            // Expandable elimination curve
             if isExpanded {
-                SubstanceEliminationCurve(active: active)
-                    .padding(.top, 14)
+                SubstanceEliminationCurve(
+                    active: active,
+                    projection: projections[active.name.lowercased()],
+                )
+                .padding(.top, 14)
             }
         }
         .padding()
@@ -197,12 +203,25 @@ struct InYourSystemView: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
 
-            GlanceCard(icon: "chart.line.flattrend.xyaxis", title: Text("Steady State"), route: .tool(.steadyState)) {
-                Text("Where a med taken on a schedule settles")
+            GlanceCard(icon: "waveform.path.ecg", title: Text("In Your Body"), route: .insight(.bodyLoad)) {
+                Text("Body levels over time, with steady-state projections")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+
+            GlanceCard(icon: "chart.line.flattrend.xyaxis", title: Text("Steady State Calculator"), route: .tool(.steadyState)) {
+                Text("Model a fixed dose schedule's plateau")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             }
         }
+    }
+
+    private static func doseTimestampText(_ date: Date) -> String {
+        if Calendar.current.isDateInToday(date) {
+            return date.formatted(date: .omitted, time: .shortened)
+        }
+        return date.formatted(.dateTime.month(.abbreviated).day().hour().minute())
     }
 
     private func timeAgoText(_ date: Date?) -> String {

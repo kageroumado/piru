@@ -3077,6 +3077,7 @@
       }
     },
     "%lld left" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3846,6 +3847,9 @@
         }
       }
     },
+    "%lld%% load" : {
+
+    },
     "%lld%% tolerance" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4214,6 +4218,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 種物質"
+          }
+        }
+      }
+    },
+    "^[%lld substances](inflect: true) you added or customized" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你添加或自定义的 %lld 种物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你新增或自訂的 %lld 種物質"
           }
         }
       }
@@ -8522,6 +8542,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新增再問"
+          }
+        }
+      }
+    },
+    "Add regular meds to project steady state" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加常规用药以预测稳态"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增常規用藥以預測穩態"
           }
         }
       }
@@ -13187,8 +13224,27 @@
     "Body content" : {
 
     },
+    "Body levels over time, with steady-state projections" : {
+
+    },
     "Body load" : {
 
+    },
+    "Body load (PK)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体内残留（药代）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體內殘留（藥代）"
+          }
+        }
+      }
     },
     "Body Weight" : {
       "extractionState" : "stale",
@@ -15488,13 +15544,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "关闭"
+            "value" : "近"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "關閉"
+            "value" : "近"
           }
         }
       }
@@ -16813,6 +16869,22 @@
         }
       }
     },
+    "Compress empty time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "压缩空闲时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "壓縮空閒時間"
+          }
+        }
+      }
+    },
     "Compulsion" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17705,6 +17777,7 @@
       }
     },
     "Crisis resources, safety basics, and how Piru works." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17716,6 +17789,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "危機求助資源、安全基礎知識，以及 Piru 的使用方法。"
+          }
+        }
+      }
+    },
+    "Crisis resources, safety basics, and what's active right now." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "危机求助资源、安全基础知识，以及当前活跃的物质。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "危機求助資源、安全基礎知識，以及目前活躍的物質。"
           }
         }
       }
@@ -19314,6 +19403,22 @@
         }
       }
     },
+    "Details & sources" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "详情与来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "詳情與來源"
+          }
+        }
+      }
+    },
     "Develops; rate not quantified" : {
       "localizations" : {
         "zh-Hans" : {
@@ -19590,6 +19695,22 @@
       }
     },
     "Display options" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示选项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示選項"
+          }
+        }
+      }
+    },
+    "Display Options" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22445,6 +22566,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "學習"
+          }
+        }
+      }
+    },
+    "Effect curves" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果曲线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果曲線"
           }
         }
       }
@@ -25422,6 +25559,22 @@
         }
       }
     },
+    "Fast metabolizer" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快代谢型"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快代謝型"
+          }
+        }
+      }
+    },
     "Faster conversion to active metabolite — higher active metabolite exposure. For codeine, this is an FDA contraindication due to the risk of respiratory depression." : {
       "localizations" : {
         "zh-Hans" : {
@@ -27160,6 +27313,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "採用通用的類別預設動力學，可信度最低。"
+          }
+        }
+      }
+    },
+    "Genetic variation in %@ formation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 生成的基因变异"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 生成的基因變異"
           }
         }
       }
@@ -28958,6 +29127,22 @@
         }
       }
     },
+    "How much is estimated to remain in your body" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估计体内剩余的量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估計體內剩餘的量"
+          }
+        }
+      }
+    },
     "How much of a dose actually reaches your bloodstream. Swallowing a drug usually delivers less than injecting it." : {
       "localizations" : {
         "zh-Hans" : {
@@ -28995,6 +29180,7 @@
       }
     },
     "How much of this you make is partly genetic — the same dose produces noticeably more in some people than others." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29038,6 +29224,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "其相對於 %@ 的強度尚無定論。"
+          }
+        }
+      }
+    },
+    "How strongly effects are felt over time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随时间感受到的效果强度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨時間感受到的效果強度"
           }
         }
       }
@@ -34358,6 +34560,22 @@
         }
       }
     },
+    "Medium" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中"
+          }
+        }
+      }
+    },
     "Medium confidence" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35102,6 +35320,9 @@
           }
         }
       }
+    },
+    "Model a fixed dose schedule's plateau" : {
+
     },
     "Model a single dose's decay over time" : {
       "localizations" : {
@@ -37127,6 +37348,22 @@
         }
       }
     },
+    "Next Year" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一年"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一年"
+          }
+        }
+      }
+    },
     "Next-Dose" : {
       "localizations" : {
         "zh-Hans" : {
@@ -38016,6 +38253,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此時間範圍內沒有條目"
+          }
+        }
+      }
+    },
+    "No Entries Yet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還沒有記錄"
           }
         }
       }
@@ -40574,6 +40827,22 @@
         }
       }
     },
+    "Opens month picker" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开月份选择器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟月份選擇器"
+          }
+        }
+      }
+    },
     "Opens the full timeline." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -42340,6 +42609,9 @@
         }
       }
     },
+    "Phenotype" : {
+
+    },
     "Phenytoin" : {
       "localizations" : {
         "zh-Hans" : {
@@ -43828,6 +44100,22 @@
         }
       }
     },
+    "Previous Year" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上一年"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上一年"
+          }
+        }
+      }
+    },
     "Primarily acts as an agonist or partial agonist at serotonin 5-HT2A receptors, particularly on layer V pyramidal neurons in the prefrontal cortex. 5-HT2A activation increases glutamate release and enhances cortical excitability, leading to altered perception, cognition, and consciousness. Most classical psychedelics also interact with 5-HT2C, 5-HT1A, and other serotonin receptor subtypes." : {
       "localizations" : {
         "zh-Hans" : {
@@ -44177,6 +44465,25 @@
           }
         }
       }
+    },
+    "Projected · %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预测 · %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預測 · %@"
+          }
+        }
+      }
+    },
+    "Projected Steady State" : {
+
     },
     "Propranolol" : {
       "localizations" : {
@@ -46124,6 +46431,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "常規"
+          }
+        }
+      }
+    },
+    "regular med" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "种常规药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "種常規藥"
+          }
+        }
+      }
+    },
+    "regular meds" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "种常规药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "種常規藥"
           }
         }
       }
@@ -48405,6 +48746,22 @@
         }
       }
     },
+    "Same dose, different conversion — the effect varies by genotype." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同样的剂量，不同的转化——效应因基因型而异。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同樣的劑量，不同的轉化——效應因基因型而異。"
+          }
+        }
+      }
+    },
     "SAMHSA Helpline" : {
       "localizations" : {
         "zh-Hans" : {
@@ -49218,6 +49575,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "選擇苯二氮䓬"
+          }
+        }
+      }
+    },
+    "Select Month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择月份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇月份"
           }
         }
       }
@@ -50274,7 +50647,6 @@
       }
     },
     "Session" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -50599,6 +50971,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定時間"
+          }
+        }
+      }
+    },
+    "Set up your daily medications and supplements" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置您的每日用药和补充剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定您的每日用藥和補充劑"
           }
         }
       }
@@ -51909,6 +52297,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "滑動移動，捏合縮放，長按查看"
+          }
+        }
+      }
+    },
+    "Slow metabolizer" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "慢代谢型"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "慢代謝型"
           }
         }
       }
@@ -53510,6 +53914,9 @@
         }
       }
     },
+    "Steady State Calculator" : {
+
+    },
     "Steady state needs a regular schedule. Log a substance on a consistent cadence and its plateau appears here." : {
       "localizations" : {
         "zh-Hans" : {
@@ -54195,6 +54602,22 @@
         }
       }
     },
+    "substance modeled" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "种物质已建模"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "種物質已建模"
+          }
+        }
+      }
+    },
     "Substance name" : {
       "localizations" : {
         "zh-Hans" : {
@@ -54304,6 +54727,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "同一天記錄的物質"
+          }
+        }
+      }
+    },
+    "substances modeled" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "种物质已建模"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "種物質已建模"
           }
         }
       }
@@ -61267,6 +61706,7 @@
       }
     },
     "Where a med taken on a schedule settles" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -61313,6 +61753,9 @@
           }
         }
       }
+    },
+    "Where each regularly dosed substance settles, based on your log's cadence" : {
+
     },
     "Where the numbers come from" : {
       "localizations" : {
@@ -61569,6 +62012,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "我們為何詢問"
+          }
+        }
+      }
+    },
+    "Wide" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "宽"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "寬"
           }
         }
       }
@@ -62480,6 +62939,22 @@
         }
       }
     },
+    "Your dose timeline will appear here once you log something." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录第一笔用药后，剂量时间线会显示在这里。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄第一筆用藥後，劑量時間線會顯示在這裡。"
+          }
+        }
+      }
+    },
     "Your drinks" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -62880,6 +63355,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "零級動力學"
+          }
+        }
+      }
+    },
+    "Zoom" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "缩放"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "縮放"
           }
         }
       }

@@ -205,7 +205,7 @@ private struct HelpCard: View {
                     Text("Help & Safety")
                         .font(.system(size: 20, weight: .bold))
                         .foregroundStyle(.white)
-                    Text("Crisis resources, safety basics, and how Piru works.")
+                    Text("Crisis resources, safety basics, and what's active right now.")
                         .font(.footnote)
                         .foregroundStyle(.white.opacity(0.93))
                         .fixedSize(horizontal: false, vertical: true)

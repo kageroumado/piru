@@ -444,6 +444,12 @@ private struct SearchSurface: View {
     /// appears — see ``applyScopePickerFont(_:)``.
     @State private var pickerToken = 0
 
+    /// Captures `isSearching` before a NavigationLink push resets it to `false`.
+    /// The path-change `onChange` fires *after* the push, at which point
+    /// `isSearching` is already gone — reading the live value there would always
+    /// see `.landing` and never record anything.
+    @State private var wasSearching = false
+
     private enum Phase { case landing, focusedEmpty, typing }
     private var phase: Phase {
         guard isSearching else { return .landing }
@@ -471,14 +477,21 @@ private struct SearchSurface: View {
             // and restore it otherwise so sibling tabs' controls don't inherit it.
             .onChange(of: isSearching) { _, searching in
                 applyScopePickerFont(searching)
+                if searching {
+                    wasSearching = true
+                } else {
+                    // Cancel and push-dismissal both land here. A push's path
+                    // append arrives in the same transaction, so defer the
+                    // reset one tick: the recording onChange still sees the
+                    // flag for a real search push, while Cancel followed by
+                    // browsing the landing grid records nothing.
+                    Task { wasSearching = false }
+                }
             }
-            // Record into "Recently Searched" whenever a substance is opened from
-            // a *focused* search surface (results or the recent lists) — i.e. a
-            // substance the user looked up while searching. Browsing from the
-            // landing's class grid (phase `.landing`) is deliberately excluded.
             .onChange(of: navigator.path(for: .search)) { _, newPath in
-                guard phase != .landing, case let .substance(name) = newPath.last else { return }
+                guard wasSearching, case let .substance(name) = newPath.last else { return }
                 SearchHistoryStore.shared.record(name)
+                wasSearching = false
             }
     }
 
@@ -614,21 +627,26 @@ private struct BottomAccessoryContent: View {
         compact ? 34 : 44
     }
 
+    @Environment(\.appNavigator) private var navigator
+    @State private var hasMedsDue = false
+
     var body: some View {
         TimelineView(.periodic(from: .now, by: 60)) { context in
-            ZStack(alignment: .trailing) {
+            ZStack {
                 Button(action: showSessionPill ? onShowSessionDetail : onAdd) {
                     bodyContent(currentTime: context.date)
                         .frame(maxWidth: .infinity)
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                // No explicit label: idle reads "Log a dose" from its Text, and
-                // the live pill reads the substance names/times it already shows.
 
-                // Overlaid on the body's reserved trailing slot — always present
-                // (outside the crossfade), so it stays put across the swap.
-                plusButton
+                HStack {
+                    if !showSessionPill, !hasMedsDue {
+                        inventoryButton
+                    }
+                    Spacer()
+                    plusButton
+                }
             }
             .padding(.leading, 16)
             .padding(.trailing, 11)
@@ -658,7 +676,7 @@ private struct BottomAccessoryContent: View {
                 // accessory then names the next action instead of decoration
                 // (Specs/meds-ux-review.md §7). Same tap either way: open the
                 // log screen, where the due strip is the first thing on it.
-                MedsDueGlyph(currentTime: currentTime, compact: compact, controlSide: controlSide)
+                MedsDueGlyph(currentTime: currentTime, compact: compact, controlSide: controlSide, hasDue: $hasMedsDue)
                     .transition(.opacity)
 
                 Spacer(minLength: 0)
@@ -676,6 +694,21 @@ private struct BottomAccessoryContent: View {
             Color.clear
                 .frame(width: controlSide, height: controlSide)
         }
+    }
+
+    private var inventoryButton: some View {
+        Button {
+            navigator.selectedTab = .tools
+            navigator.push(.tool(.inventory), in: .tools)
+        } label: {
+            Image(systemName: "shippingbox")
+                .font((compact ? Font.subheadline : Font.title3).weight(.medium))
+                .foregroundStyle(.secondary)
+                .frame(width: controlSide, height: controlSide)
+                .contentShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text("Inventory"))
     }
 
     /// Log another dose. Pinned trailing in every face — no background fill (a
@@ -722,6 +755,7 @@ private struct MedsDueGlyph: View {
     let currentTime: Date
     let compact: Bool
     let controlSide: CGFloat
+    @Binding var hasDue: Bool
 
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
@@ -742,11 +776,8 @@ private struct MedsDueGlyph: View {
                 .frame(height: controlSide)
                 .accessibilityLabel(Text("\(dueCount) meds due"))
             } else {
-                Image(systemName: "chart.line.flattrend.xyaxis")
-                    .font(compact ? .subheadline : .title3)
-                    .foregroundStyle(.secondary)
+                Color.clear
                     .frame(width: controlSide, height: controlSide)
-                    .accessibilityHidden(true)
             }
         }
         .task(id: recomputeKey) { recompute() }
@@ -762,6 +793,7 @@ private struct MedsDueGlyph: View {
     private func recompute() {
         guard !items.isEmpty, items.contains(where: { !$0.isAsNeeded }) else {
             dueCount = 0
+            hasDue = false
             return
         }
         let dayStart = Calendar.current.startOfDay(for: currentTime)
@@ -770,6 +802,7 @@ private struct MedsDueGlyph: View {
         )
         let todays = (try? modelContext.fetch(descriptor)) ?? []
         dueCount = DueNowSlot.derive(items: items, todayEntries: todays, now: currentTime).count
+        hasDue = dueCount > 0
     }
 }
 

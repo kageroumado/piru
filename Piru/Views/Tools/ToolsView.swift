@@ -1,3 +1,4 @@
+import SwiftData
 import SwiftUI
 
 /// A tool surfaced in the Tools tab hub. Each value is pushed as a full-screen
@@ -97,6 +98,7 @@ struct ToolsView: View {
 
                 InteractionsSummaryCard()
                 InventorySummaryCard()
+                MyMedsToolCard()
 
                 ForEach(rowTools) { tool in
                     GlanceCard(icon: tool.icon, title: Text(tool.name), route: .tool(tool)) {
@@ -112,5 +114,38 @@ struct ToolsView: View {
         }
         .background(Theme.background)
         .appNavigationBar("Tools")
+    }
+}
+
+private struct MyMedsToolCard: View {
+    @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
+
+    var body: some View {
+        let scheduled = items.filter { !$0.isAsNeeded }
+        GlanceCard(icon: "pills", title: Text("My Meds"), route: .myMeds) {
+            if scheduled.isEmpty {
+                Text("Set up your daily medications and supplements")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            } else {
+                VStack(spacing: 6) {
+                    ForEach(scheduled.prefix(3)) { item in
+                        HStack {
+                            Text(CustomSubstanceStore.shared.displayName(for: item.substance))
+                                .font(.subheadline)
+                                .lineLimit(1)
+                            Spacer()
+                            Text("\(item.amount.doseFormatted) \(item.unit)")
+                                .font(.caption.monospacedDigit())
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                    }
+                    if scheduled.count > 3 {
+                        GlanceMoreRow(count: scheduled.count - 3)
+                    }
+                }
+            }
+        }
     }
 }

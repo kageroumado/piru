@@ -75,8 +75,8 @@ extension Insight {
 // MARK: - Group screen
 
 /// The middle tier of the Insights two-level push: a group's graphs listed as
-/// tappable cards. Only reached for groups with more than one graph; a lone
-/// graph is pushed straight from the landing.
+/// tappable cards with inline data previews. Only reached for groups with more
+/// than one graph; a lone graph is pushed straight from the landing.
 struct InsightGroupView: View {
     let group: InsightGroup
 
@@ -91,11 +91,7 @@ struct InsightGroupView: View {
                         title: Text(insight.cardTitle),
                         route: .insight(insight),
                     ) {
-                        Text(insight.blurb)
-                            .font(.subheadline)
-                            .foregroundStyle(Theme.secondaryLabel)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .fixedSize(horizontal: false, vertical: true)
+                        InsightGroupPreview(insight: insight)
                     }
                 }
             }
@@ -105,4 +101,92 @@ struct InsightGroupView: View {
         }
         .background(Theme.background)
     }
+}
+
+// MARK: - Preview content per insight
+
+/// Dispatches to a data-aware preview for insights that have one, or falls back
+/// to the static blurb text.
+private struct InsightGroupPreview: View {
+    let insight: Insight
+
+    var body: some View {
+        switch insight {
+        case .inSystem: InSystemPreview()
+        case .bodyLoad: BodyLoadPreview()
+        default: staticBlurb
+        }
+    }
+
+    private var staticBlurb: some View {
+        Text(insight.blurb)
+            .font(.subheadline)
+            .foregroundStyle(Theme.secondaryLabel)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
+// MARK: - In Your System preview
+
+private struct InSystemPreview: View {
+    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
+    @Query private var substanceColors: [SubstanceColor]
+    @State private var active: [ActiveSubstance] = []
+
+    var body: some View {
+        Group {
+            if active.isEmpty {
+                blurb("Nothing active right now")
+            } else {
+                VStack(spacing: 6) {
+                    ForEach(active.prefix(3)) { sub in
+                        GlanceRow(dotColor: sub.color, title: Text(sub.name)) {
+                            Text("\(Int((1 - sub.eliminatedFraction) * 100))%")
+                                .font(.caption)
+                                .foregroundStyle(Theme.secondaryLabel)
+                                .monospacedDigit()
+                                .frame(width: 34, alignment: .trailing)
+                        }
+                        .accessibilityElement(children: .combine)
+                    }
+                    if active.count > 3 {
+                        GlanceMoreRow(count: active.count - 3)
+                    }
+                }
+            }
+        }
+        .task(id: DoseLogService.shared.revision) {
+            await SubstanceStore.shared.ensureAllLoaded()
+            active = ActiveSubstanceCalculator.compute(from: allEntries, colorMap: substanceColors.colorMap)
+        }
+    }
+}
+
+// MARK: - Body Load preview
+
+private struct BodyLoadPreview: View {
+    private let manager = BodyLevelsManager.shared
+
+    var body: some View {
+        if let trail = manager.trail, !trail.isEmpty {
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                Text("\(trail.series.count)")
+                    .font(.system(.title3, design: .rounded, weight: .bold))
+                Text(trail.series.count == 1 ? "substance modeled" : "substances modeled")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        } else {
+            blurb("How body-load has moved over time")
+        }
+    }
+}
+
+private func blurb(_ text: LocalizedStringKey) -> some View {
+    Text(text)
+        .font(.subheadline)
+        .foregroundStyle(Theme.secondaryLabel)
+        .frame(maxWidth: .infinity, alignment: .leading)
 }

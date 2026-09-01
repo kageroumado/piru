@@ -219,7 +219,7 @@ struct MyMedsCard: View {
     /// while done, otherwise the next timed dose, otherwise how many remain.
     /// One line in every state, so the card height never moves.
     @ViewBuilder
-    private func statusSubtitle(slots: [MedSlot], takenCount: Int, isComplete: Bool) -> some View {
+    private func statusSubtitle(slots: [MedSlot], takenCount _: Int, isComplete: Bool) -> some View {
         if isComplete {
             Text(completionText)
                 .font(.caption)
@@ -228,11 +228,6 @@ struct MyMedsCard: View {
         } else if let next = slots.first(where: { !$0.taken && $0.time != nil && $0.time! > MedSlot.nowMinutes }),
                   let time = next.time {
             Text("Next: \(displayName(for: next.item)) at \(Self.timeText(time)) · \(Self.relativeText(time))")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
-                .lineLimit(1)
-        } else {
-            Text("\(slots.count - takenCount) left")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
                 .lineLimit(1)
@@ -547,16 +542,12 @@ private struct SlotRowView: View {
 
             Button(action: onOpen) {
                 HStack(spacing: 10) {
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text(title)
-                            .font(.subheadline.weight(dismissed ? .regular : .medium))
-                            .foregroundStyle(dismissed ? Theme.secondaryLabel : .primary)
-                            .strikethrough(taken, color: Theme.secondaryLabel.opacity(0.5))
-                        Text(subtitle)
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
-                    Spacer()
+                    Text(title)
+                        .font(.subheadline.weight(dismissed ? .regular : .medium))
+                        .foregroundStyle(dismissed ? Theme.secondaryLabel : .primary)
+                        .strikethrough(taken, color: Theme.secondaryLabel.opacity(0.5))
+                        .lineLimit(1)
+                    Spacer(minLength: 4)
                     if slotState == .skipped {
                         Text("Skipped")
                             .font(.caption2)
@@ -569,6 +560,10 @@ private struct SlotRowView: View {
                             .background(Theme.accent.opacity(0.15), in: Capsule())
                             .foregroundStyle(Theme.accent)
                     }
+                    Text(subtitle)
+                        .font(.caption.monospacedDigit())
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .lineLimit(1)
                     if let timeText {
                         Text(timeText)
                             .font(.caption.monospacedDigit())
@@ -582,7 +577,7 @@ private struct SlotRowView: View {
             .accessibilityHint(Text("Opens this med"))
         }
         .padding(.vertical, 7)
-        .padding(.leading, indented ? 22 : 0)
+        .padding(.leading, indented ? 28 : 6)
         .opacity(slotState == .skipped ? 0.6 : 1)
     }
 

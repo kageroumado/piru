@@ -28,6 +28,7 @@ struct LibraryBrowseView: View {
                     if !favoriteSubstances.isEmpty {
                         LibraryFavoritesCard(substances: favoriteSubstances, total: favoriteSubstances.count)
                     }
+                    LibraryCustomCard()
                     ForEach(visibleFamilies) { family in
                         LibraryFamilyCard(
                             family: family,
@@ -413,5 +414,44 @@ private struct LibraryFavoritesCard: View {
             }
         }
         .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Custom Substances Card
+
+private struct LibraryCustomCard: View {
+    private var customCount: Int {
+        CustomSubstanceStore.shared.all.count
+    }
+
+    var body: some View {
+        if customCount > 0 {
+            NavigationLink(value: PushRoute.libraryCustom) {
+                FamilyGradientCard(color: Theme.accent, cornerRadius: 22, padding: 16) {
+                    Image(systemName: "sparkles")
+                        .font(.system(size: 100, weight: .regular))
+                        .foregroundStyle(.white.opacity(0.12))
+                        .offset(x: 30, y: 10)
+                        .accessibilityHidden(true)
+                } content: {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Image(systemName: "sparkles")
+                            .font(.system(size: 19, weight: .semibold))
+                            .foregroundStyle(.white)
+                            .frame(height: 26, alignment: .leading)
+                            .accessibilityHidden(true)
+                        Spacer(minLength: 14)
+                        Text("Custom")
+                            .font(.system(size: 20, weight: .bold))
+                            .foregroundStyle(.white)
+                        Text("^[\(customCount) substances](inflect: true) you added or customized")
+                            .font(.footnote)
+                            .foregroundStyle(.white.opacity(0.9))
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+            }
+            .buttonStyle(.plain)
+        }
     }
 }

@@ -1,3 +1,4 @@
+import Charts
 import SwiftUI
 
 // The "Also Active" surface: what your body turns a substance into, when that
@@ -474,7 +475,10 @@ struct ActiveMetaboliteCard: View {
             caption(measurementText(extra, prefix: hasHeadlineClaim))
         }
         if metabolite.conversionVariesByGenetics {
-            caption(String(localized: "How much of this you make is partly genetic — the same dose produces noticeably more in some people than others."))
+            MetabolizerVariationChart(
+                metaboliteName: metabolite.displayName,
+                halfLifeMinutes: metabolite.halfLifeMinutes ?? 180,
+            )
         }
         if metabolite.hasSuppressedMagnitude {
             caption(String(localized: "How strong it is compared to \(parentName) hasn't been established."))
@@ -622,5 +626,89 @@ struct ActiveMetaboliteCard: View {
             .font(.caption)
             .foregroundStyle(Theme.secondaryLabel)
             .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
+// MARK: - Metabolizer Variation Chart
+
+/// A compact inline chart showing how a polymorphic enzyme (CYP2D6/CYP2C19)
+/// creates different metabolite levels in fast vs slow metabolizers. Replaces a
+/// text description with a visual that communicates the concept at a glance.
+private struct MetabolizerVariationChart: View {
+    let metaboliteName: String
+    let halfLifeMinutes: Double
+
+    private struct CurvePoint: Identifiable {
+        let id: Int
+        let hours: Double
+        let level: Double
+        let phenotype: String
+    }
+
+    private var curves: [CurvePoint] {
+        let ke = log(2) / (halfLifeMinutes / 60)
+        let ka = max(ke * 4, 2.0)
+        let steps = 24
+        let maxHours = min(max(halfLifeMinutes / 60 * 3.5, 4), 12)
+        let dt = maxHours / Double(steps)
+
+        var points: [CurvePoint] = []
+        let fast = String(localized: "Fast metabolizer")
+        let slow = String(localized: "Slow metabolizer")
+
+        var peakFast: Double = 0
+        for i in 0 ... steps {
+            let t = Double(i) * dt
+            let c = 3.0 * ka / (ka - ke) * (exp(-ke * t) - exp(-ka * t))
+            peakFast = max(peakFast, c)
+        }
+        let norm = peakFast > 0 ? peakFast : 1
+
+        for i in 0 ... steps {
+            let t = Double(i) * dt
+            let cFast = 3.0 * ka / (ka - ke) * (exp(-ke * t) - exp(-ka * t)) / norm
+            let cSlow = 0.5 * ka / (ka - ke) * (exp(-ke * t) - exp(-ka * t)) / norm
+            points.append(CurvePoint(id: i, hours: t, level: max(0, cFast), phenotype: fast))
+            points.append(CurvePoint(id: steps + 1 + i, hours: t, level: max(0, cSlow), phenotype: slow))
+        }
+        return points
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Genetic variation in \(metaboliteName) formation")
+                .font(.caption2.weight(.medium))
+                .foregroundStyle(Theme.secondaryLabel)
+            Chart(curves) { point in
+                LineMark(
+                    x: .value("Hours", point.hours),
+                    y: .value("Level", point.level),
+                    series: .value("Phenotype", point.phenotype),
+                )
+                .foregroundStyle(by: .value("Phenotype", point.phenotype))
+                .lineStyle(StrokeStyle(lineWidth: 1.5, lineCap: .round))
+                .interpolationMethod(.catmullRom)
+            }
+            .chartForegroundStyleScale([
+                String(localized: "Fast metabolizer"): Color.orange,
+                String(localized: "Slow metabolizer"): Color.blue.opacity(0.6),
+            ])
+            .chartYAxis(.hidden)
+            .chartXAxis {
+                AxisMarks(values: .automatic(desiredCount: 3)) { value in
+                    AxisValueLabel {
+                        if let hours = value.as(Double.self) {
+                            Text("\(hours.formatted(.number.precision(.fractionLength(0))))h")
+                                .font(.caption2)
+                        }
+                    }
+                }
+            }
+            .chartLegend(position: .bottom, alignment: .leading, spacing: 4)
+            .frame(height: 80)
+            Text("Same dose, different conversion — the effect varies by genotype.")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+        }
     }
 }

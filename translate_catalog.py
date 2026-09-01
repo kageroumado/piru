@@ -9,6 +9,55 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Unified timeline (Journal → Active Now / Timeline grouping)
+    "No Entries Yet": (
+        "还没有记录",
+        "還沒有記錄",
+    ),
+    "Your dose timeline will appear here once you log something.": (
+        "记录第一笔用药后，剂量时间线会显示在这里。",
+        "記錄第一筆用藥後，劑量時間線會顯示在這裡。",
+    ),
+    "Projected · %@": (
+        "预测 · %@",
+        "預測 · %@",
+    ),
+    "Compress empty time": (
+        "压缩空闲时间",
+        "壓縮空閒時間",
+    ),
+    "Effect curves": (
+        "效果曲线",
+        "效果曲線",
+    ),
+    "How strongly effects are felt over time": (
+        "随时间感受到的效果强度",
+        "隨時間感受到的效果強度",
+    ),
+    "Body load (PK)": (
+        "体内残留（药代）",
+        "體內殘留（藥代）",
+    ),
+    "How much is estimated to remain in your body": (
+        "估计体内剩余的量",
+        "估計體內剩餘的量",
+    ),
+    "Display Options": (
+        "显示选项",
+        "顯示選項",
+    ),
+    "Previous Year": (
+        "上一年",
+        "上一年",
+    ),
+    "Next Year": (
+        "下一年",
+        "下一年",
+    ),
+    "^[%lld substances](inflect: true) you added or customized": (
+        "你添加或自定义的 %lld 种物质",
+        "你新增或自訂的 %lld 種物質",
+    ),
     # The three category floors rewritten so they stop asserting an efficacy or a
     # generation for every member they describe (7-OH read "Full Agonist" above its own
     # partial-agonist rows).
@@ -4173,9 +4222,9 @@ T = {
     "Browse by class": ("按类别浏览", "按類別瀏覽"),
     "Search Library instead": ("改为搜索物质库", "改為搜尋物質庫"),
     "Help & Safety": ("帮助与安全", "幫助與安全"),
-    "Crisis resources, safety basics, and how Piru works.": (
-        "危机求助资源、安全基础知识，以及 Piru 的使用方法。",
-        "危機求助資源、安全基礎知識，以及 Piru 的使用方法。",
+    "Crisis resources, safety basics, and what's active right now.": (
+        "危机求助资源、安全基础知识，以及当前活跃的物质。",
+        "危機求助資源、安全基礎知識，以及目前活躍的物質。",
     ),
     "Class Not Found": ("未找到类别", "未找到類別"),
     "This class isn’t in the library anymore.": (
@@ -6293,6 +6342,9 @@ T = {
     "Collapse Chart": ("收起图表", "收起圖表"),
     "Previous Month": ("上个月", "上個月"),
     "Next Month": ("下个月", "下個月"),
+    "Select Month": ("选择月份", "選擇月份"),
+    "Opens month picker": ("打开月份选择器", "開啟月份選擇器"),
+    "Details & sources": ("详情与来源", "詳情與來源"),
     "Add Routine": ("添加日常", "新增日常"),
     "Add Custom Substance": ("添加自定义物质", "新增自訂物質"),
     "Log %@ %@": ("记录 %1$@ %2$@", "記錄 %1$@ %2$@"),
@@ -6816,6 +6868,10 @@ T = {
     ),
     # Meds & reminders redesign — hub, form, detail, card (2026-07-21).
     "My Meds": ("我的用药", "我的用藥"),
+    "Set up your daily medications and supplements": (
+        "设置您的每日用药和补充剂",
+        "設定您的每日用藥和補充劑",
+    ),
     "Med": ("用药", "用藥"),
     "Meds": ("用药", "用藥"),
     "%lld meds": ("%lld 项用药", "%lld 項用藥"),
@@ -7139,6 +7195,31 @@ T = {
         "CYP2D6 是 %@ 的主要代谢途径。",
         "CYP2D6 是 %@ 的主要代謝途徑。",
     ),
+    # b45 feedback — metabolizer variation chart (C1)
+    "Fast metabolizer": ("快代谢型", "快代謝型"),
+    "Slow metabolizer": ("慢代谢型", "慢代謝型"),
+    "Genetic variation in %@ formation": (
+        "%@ 生成的基因变异",
+        "%@ 生成的基因變異",
+    ),
+    "Same dose, different conversion — the effect varies by genotype.": (
+        "同样的剂量，不同的转化——效应因基因型而异。",
+        "同樣的劑量，不同的轉化——效應因基因型而異。",
+    ),
+    # b45 feedback — insight group previews (D6)
+    "substance modeled": ("种物质已建模", "種物質已建模"),
+    "substances modeled": ("种物质已建模", "種物質已建模"),
+    "Add regular meds to project steady state": (
+        "添加常规用药以预测稳态",
+        "新增常規用藥以預測穩態",
+    ),
+    "regular med": ("种常规药", "種常規藥"),
+    "regular meds": ("种常规药", "種常規藥"),
+    # b45 feedback — receptor load zoom (E2)
+    "Wide": ("宽", "寬"),
+    "Medium": ("中", "中"),
+    "Close": ("近", "近"),
+    "Zoom": ("缩放", "縮放"),
 }
 
 # Widget translations
@@ -7345,6 +7426,13 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        # Unified timeline
+        "Compress empty time",
+        "Effect curves",
+        "How strongly effects are felt over time",
+        "Body load (PK)",
+        "How much is estimated to remain in your body",
+        "Display Options",
         # Reports & Export hub
         "Reports",
         "Export sessions, generate clinical reports",
@@ -7406,7 +7494,11 @@ if __name__ == "__main__":
         "<1% elemental",
         "Curated",
         "curated entry",
-        "Crisis resources, safety basics, and how Piru works.",
+        "Crisis resources, safety basics, and what's active right now.",
+        "Details & sources",
+        "Select Month",
+        "Opens month picker",
+        "Set up your daily medications and supplements",
         "Pharmacological data is compiled from the sources above — community databases, FDA labeling, and peer-reviewed literature. Provided for reference and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use.",
         "Includes %lld min of workout — the dose rows leave it out",
         "Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device. Workouts come too, only so a run isn't read as a dose's effect.",
@@ -7895,6 +7987,22 @@ if __name__ == "__main__":
         # Bupropion enzyme modulator (A1)
         "Bupropion",
         "Bupropion's reductive metabolites strongly inhibit CYP2D6, raising the levels of drugs cleared by it. For prodrugs activated by CYP2D6 (tramadol, codeine), it blocks the activation pathway instead.",
+        # b45 feedback — metabolizer variation chart (C1)
+        "Fast metabolizer",
+        "Slow metabolizer",
+        "Genetic variation in %@ formation",
+        "Same dose, different conversion — the effect varies by genotype.",
+        # b45 feedback — insight group previews (D6)
+        "substance modeled",
+        "substances modeled",
+        "Add regular meds to project steady state",
+        "regular med",
+        "regular meds",
+        # b45 feedback — receptor load zoom (E2)
+        "Wide",
+        "Medium",
+        "Close",
+        "Zoom",
     }
 
     print("--- Piru main app catalog ---")

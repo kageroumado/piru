@@ -18,6 +18,11 @@ struct BodyLoadView: View {
     @State private var range: UsageTimeRange = .thirtyDays
     @State private var hidden: Set<Int> = []
     @State private var selectedDate: Date?
+    @State private var selectedCategory: SubstanceCategory?
+    @State private var projections: [SteadyStateProjection] = []
+    /// Series id → category, resolved once per refresh — `body` re-evaluates
+    /// on every chart-scrub frame, so it must never run substance lookups.
+    @State private var seriesCategories: [Int: SubstanceCategory] = [:]
 
     var body: some View {
         ScrollView {
@@ -34,6 +39,9 @@ struct BodyLoadView: View {
                         emptyState
                     } else {
                         chartCard(trail)
+                        if !projections.isEmpty {
+                            steadyStateSection
+                        }
                         disclaimer
                     }
                 } else {
@@ -53,6 +61,12 @@ struct BodyLoadView: View {
         .task(id: refreshToken) {
             await SubstanceStore.shared.ensureAllLoaded()
             await manager.refresh(entries: allEntries, colors: substanceColors, range: range)
+            projections = SteadyStateProjectionBuilder.compute(entries: allEntries, colorMap: substanceColors.colorMap)
+            if let trail = manager.trail {
+                seriesCategories = Dictionary(uniqueKeysWithValues: trail.series.map {
+                    ($0.id, SubstanceLibrary.lookup($0.displayName)?.category ?? .other)
+                })
+            }
         }
     }
 
@@ -84,19 +98,85 @@ struct BodyLoadView: View {
 
     private func chartCard(_ trail: BodyLoadTrail) -> some View {
         UsageSectionCard(title: "In your body over time", subtitle: "Estimated amount still circulating, each line a share of its own peak") {
-            let visible = trail.series.filter { !hidden.contains($0.id) }
-            let series = visible.isEmpty ? trail.series : visible
+            let filtered = filteredSeries(from: trail)
+            let visible = filtered.filter { !hidden.contains($0.id) }
+            let series = visible.isEmpty ? filtered : visible
             BodyLoadChart(series: series, dates: trail.dates, selectedDate: $selectedDate)
             if let selectedDate {
                 BodyLoadReadout(series: series, date: selectedDate)
+            }
+            if categories(for: trail).count > 1 {
+                categoryFilter(trail)
             }
             legend(trail)
         }
     }
 
+    // MARK: - Category filter
+
+    private func categories(for trail: BodyLoadTrail) -> [(category: SubstanceCategory, count: Int)] {
+        var counts: [SubstanceCategory: Int] = [:]
+        for item in trail.series {
+            counts[seriesCategories[item.id] ?? .other, default: 0] += 1
+        }
+        return counts.sorted { $0.value > $1.value }.map { ($0.key, $0.value) }
+    }
+
+    private func filteredSeries(from trail: BodyLoadTrail) -> [BodyLoadTrail.Series] {
+        guard let cat = selectedCategory else { return trail.series }
+        return trail.series.filter { (seriesCategories[$0.id] ?? .other) == cat }
+    }
+
+    private func categoryFilter(_ trail: BodyLoadTrail) -> some View {
+        FlowLayout(spacing: 6) {
+            let cats = categories(for: trail)
+            Button {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    selectedCategory = nil
+                    hidden.removeAll()
+                }
+            } label: {
+                Text("All")
+                    .font(.caption2.weight(.medium))
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(selectedCategory == nil ? Theme.accent.opacity(0.15) : Color(.tertiarySystemFill))
+                    .foregroundStyle(selectedCategory == nil ? Theme.accent : .primary)
+                    .clipShape(Capsule())
+            }
+            .buttonStyle(.plain)
+
+            ForEach(cats, id: \.category) { entry in
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        selectedCategory = selectedCategory == entry.category ? nil : entry.category
+                        hidden.removeAll()
+                    }
+                } label: {
+                    HStack(spacing: 4) {
+                        Circle()
+                            .fill(entry.category.color)
+                            .frame(width: 7, height: 7)
+                        Text(entry.category.displayName)
+                            .font(.caption2.weight(.medium))
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(selectedCategory == entry.category ? entry.category.color.opacity(0.15) : Color(.tertiarySystemFill))
+                    .foregroundStyle(selectedCategory == entry.category ? entry.category.color : .primary)
+                    .clipShape(Capsule())
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+
+    // MARK: - Legend
+
     private func legend(_ trail: BodyLoadTrail) -> some View {
-        FlowLayout(spacing: 8) {
-            ForEach(trail.series) { item in
+        let filtered = filteredSeries(from: trail)
+        return FlowLayout(spacing: 8) {
+            ForEach(filtered) { item in
                 legendChip(item)
             }
         }
@@ -124,6 +204,28 @@ struct BodyLoadView: View {
         .accessibilityValue(isHidden ? Text("Hidden") : Text("Shown"))
         .accessibilityHint(Text("Toggles this substance's line"))
         .accessibilityAddTraits(isHidden ? [] : [.isSelected])
+    }
+
+    // MARK: - Steady state (merged from the standalone projection screen)
+
+    private var steadyStateSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 6) {
+                Image(systemName: "arrow.up.forward.circle")
+                    .foregroundStyle(.mint)
+                    .font(.subheadline)
+                Text("Projected Steady State")
+                    .font(.subheadline.weight(.semibold))
+            }
+
+            Text("Where each regularly dosed substance settles, based on your log's cadence")
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+
+            ForEach(projections) { projection in
+                SteadyStateProjectionCard(projection: projection)
+            }
+        }
     }
 
     private var emptyState: some View {
@@ -170,6 +272,9 @@ private struct BodyLoadChart: View {
                     .interpolationMethod(.linear)
                 }
             }
+            RuleMark(x: .value("Now", Date.now))
+                .foregroundStyle(Theme.accent.opacity(0.35))
+                .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 4]))
             if let selectedDate {
                 RuleMark(x: .value("Selected", selectedDate))
                     .foregroundStyle(Theme.secondaryLabel.opacity(0.4))
