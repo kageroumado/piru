@@ -380,8 +380,8 @@ final class JournalModel {
         filtered = result
 
         switch grouping {
-        case .recent:
-            break // Uses `filtered` directly, no grouping needed.
+        case .recent, .timeline:
+            break // Both consume `filtered` directly, no bucketing needed.
 
         case .byDay:
             // Group the filtered doses by their persisted session (decided at log

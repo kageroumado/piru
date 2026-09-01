@@ -66,6 +66,11 @@ private struct PushRouteView: View {
         case .comedownGuide:
             ComedownGuideView()
 
+        case .timeline:
+            UnifiedTimelineView()
+                .navigationTitle("Timeline")
+                .navigationBarTitleDisplayMode(.inline)
+
         case let .substance(name):
             // Push a **lightweight shell** (the warm batch projection's hot
             // fields) so the detail header + dose card render instantly off the
@@ -101,6 +106,9 @@ private struct PushRouteView: View {
 
         case .libraryFavorites:
             SubstanceCategoryListView(title: "Favorites", category: nil)
+
+        case .libraryCustom:
+            CustomSubstancesListView()
 
         case let .tool(tool):
             toolView(for: tool)
@@ -146,7 +154,7 @@ private struct PushRouteView: View {
         case .inSystem: InYourSystemView().navigationTitle("In Your System")
         case .bodyLoad: BodyLoadView().navigationTitle("In Your Body")
         case .receptorLoad: ReceptorLoadView().navigationTitle("Receptor Load")
-        case .steadyStateProjection: SteadyStateProjectionView().navigationTitle("Steady State")
+        case .steadyStateProjection: BodyLoadView().navigationTitle("In Your Body")
         case .patterns: PatternsView().navigationTitle("Patterns")
         case .reports: ReportsView().navigationTitle("Reports")
         }

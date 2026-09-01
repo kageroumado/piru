@@ -30,11 +30,13 @@ nonisolated enum PushRoute: Hashable, Codable {
     /// duration profile is re-derived from the resolved entry.
     case rampDown(timestamp: Date, id: UUID?)
     case comedownGuide
+    case timeline
     case substance(name: String)
     case libraryCategory(SubstanceCategory)
     /// Substances flagged with a metadata tag (the Library's Common card).
     case libraryTag(String)
     case libraryFavorites
+    case libraryCustom
     case tool(Tool)
     /// One pharmacological class's write-up, by `class_contexts.slug`. Reached
     /// from Tools ▸ Education ▸ Drug Classes and from a substance's own class
@@ -142,7 +144,7 @@ nonisolated enum InsightGroup: String, Hashable, Codable, CaseIterable, Identifi
     /// The graphs in the group, in display order.
     var insights: [Insight] {
         switch self {
-        case .inYourBody: [.inSystem, .bodyLoad, .steadyStateProjection]
+        case .inYourBody: [.inSystem, .bodyLoad]
         case .toleranceReceptors: [.tolerance, .receptorLoad]
         }
     }

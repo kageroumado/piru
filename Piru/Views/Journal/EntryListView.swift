@@ -7,6 +7,7 @@ import TipKit
 enum JournalGrouping: String, CaseIterable {
     // Order drives the grouping menu; Days is the default so it leads.
     case byDay = "Days"
+    case timeline = "Timeline"
     case recent = "Recent"
     case bySubstance = "Substance"
     case byCategory = "Category"
@@ -15,6 +16,7 @@ enum JournalGrouping: String, CaseIterable {
         switch self {
         case .recent: "Recent"
         case .byDay: "Days"
+        case .timeline: "Timeline"
         case .bySubstance: "Substance"
         case .byCategory: "Category"
         }
@@ -53,6 +55,14 @@ struct EntryListView: View {
 
     @AppStorage("journalGrouping", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var grouping: JournalGrouping = .byDay
     @State private var showingCalendar = false
+
+    /// The Timeline grouping's day layouts — built lazily, only while that
+    /// grouping is selected. Shares the zoom preference with the pushed
+    /// timeline screen.
+    @State private var timelineModel = UnifiedTimelineModel()
+    @AppStorage("timelineZoom", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineZoom = 1.0
+    @AppStorage("timelineCompression", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineCompression = true
+    @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelinePKCurves = false
 
     /// Mirrors the day cards' redose-stacking preference so the timeline prewarm
     /// computes geometry under the same key the cards will look up.
@@ -93,21 +103,6 @@ struct EntryListView: View {
             }
         }
         return nil
-    }
-
-    /// The id of the session owning the currently-active doses, read straight
-    /// from SwiftData so an Active Now tap always resolves — even in the window
-    /// right after logging when the day groups are still rebuilding and
-    /// ``activeSessionCard`` hasn't matched. Anchored to the latest active dose.
-    private func resolveActiveSessionID() -> UUID? {
-        guard let anchor = ActiveSessionManager.shared.activeSubstanceStates.map(\.doseTimestamp).max() else { return nil }
-        let lo = anchor.addingTimeInterval(-1)
-        let hi = anchor.addingTimeInterval(1)
-        var descriptor = FetchDescriptor<DoseEntry>(
-            predicate: #Predicate { $0.timestamp >= lo && $0.timestamp <= hi },
-        )
-        descriptor.fetchLimit = 1
-        return (try? modelContext.fetch(descriptor))?.first?.session?.id
     }
 
     // MARK: - Derived State
@@ -244,13 +239,7 @@ struct EntryListView: View {
                     colors: substanceColors,
                     colorMap: model.colorMap,
                     onTap: {
-                        // Resolve the session id from the matched day card,
-                        // falling back to a direct SwiftData lookup during the
-                        // brief window right after logging when the day groups
-                        // are still rebuilding — so the tap always lands.
-                        if let id = activeID ?? resolveActiveSessionID() {
-                            navigator.push(.session(id: id))
-                        }
+                        navigator.push(.timeline)
                     },
                 )
                 .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 10, trailing: 16))
@@ -266,6 +255,7 @@ struct EntryListView: View {
             switch grouping {
             case .recent: recentContent
             case .byDay: sessionGroupedContent(activeID: activeID)
+            case .timeline: timelineContent
             case .bySubstance: substanceGroupedContent
             case .byCategory: categoryGroupedContent
             }
@@ -347,6 +337,24 @@ struct EntryListView: View {
         .onChange(of: grouping) { resetWindowAndRegroup() }
         .onChange(of: filterCategories) { resetWindowAndRegroup() }
         .onChange(of: filterRoutes) { resetWindowAndRegroup() }
+        // The Timeline grouping's layouts. Waits a beat so the filter/search
+        // regroup above lands first — the timeline renders `model.filtered`
+        // whenever a filter or search is active, the raw log otherwise.
+        .task(id: timelineRebuildKey) {
+            guard grouping == .timeline else { return }
+            try? await Task.sleep(for: .milliseconds(200))
+            guard !Task.isCancelled else { return }
+            let source = (hasActiveFilters || !searchText.isEmpty) ? model.filtered : entries
+            await timelineModel.rebuild(
+                entries: source,
+                colors: substanceColors,
+                colorMap: substanceColors.colorMap,
+                revision: timelineRebuildKey.hashValue,
+                zoom: timelineZoom,
+                compressGaps: timelineCompression,
+                pkCurves: timelinePKCurves,
+            )
+        }
         .onChange(of: colorSignature) {
             Task { await rebuildAll(animated: true) }
         }
@@ -357,10 +365,48 @@ struct EntryListView: View {
         }
     }
 
+    private var timelineRebuildKey: String {
+        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(timelineZoom)|\(timelineCompression)|\(timelinePKCurves)|\(searchText)|\(filterTags.hashValue)|\(filterCategories.hashValue)|\(filterRoutes.hashValue)"
+    }
+
+    /// The Timeline grouping rendered as list rows — the same continuous
+    /// strip the pushed timeline screen draws (day pills float over each
+    /// slice), with the meds/Active Now cards above.
+    private var timelineContent: some View {
+        ForEach(timelineModel.days) { day in
+            TimelineDayContent(
+                day: day,
+                onEntryTap: { entry in
+                    navigator.push(.entry(timestamp: entry.timestamp, id: entry.id))
+                },
+                onSessionTap: { sessionID in
+                    navigator.push(.session(id: sessionID))
+                },
+            )
+            .id(day.date)
+            .listRowInsets(EdgeInsets())
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
+        }
+    }
+
     /// Scroll the day list to the selected calendar date. Switches to the Days
-    /// grouping if needed, then targets the nearest rendered day at or before
-    /// the tapped date (the list is newest-first), falling back to the oldest.
+    /// grouping if needed (the Timeline grouping scrolls in place), then
+    /// targets the nearest rendered day at or before the tapped date (the
+    /// list is newest-first), falling back to the oldest.
     private func jump(to date: Date, proxy: ScrollViewProxy) {
+        if grouping == .timeline {
+            let target = Calendar.current.startOfDay(for: date)
+            Task {
+                try? await Task.sleep(for: .milliseconds(350))
+                guard let day = timelineModel.days.first(where: { $0.date <= target })
+                    ?? timelineModel.days.last else { return }
+                withAnimation {
+                    proxy.scrollTo(day.date, anchor: .top)
+                }
+            }
+            return
+        }
         if grouping != .byDay {
             grouping = .byDay
             regroup()
@@ -536,7 +582,7 @@ struct EntryListView: View {
                             }
                         }
                     }
-                    .themeCard()
+                    .themeCard(cornerRadius: 16)
                     .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16))
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
@@ -699,71 +745,141 @@ enum JournalMenuAction {
 }
 
 /// The groupings' screen sketches for ``MenuPhoneThumbnail`` — each mode's list
-/// shape reduced to line art: day-grouped, flat-chronological, grouped by a
-/// substance dot, grouped by a category tile.
+/// shape reduced to line art matching the real journal layouts: day-grouped
+/// sessions in rounded cards, flat chronological rows, collapsible substance
+/// sections with dots, collapsible category sections with icon tiles.
 enum JournalGroupingArt {
     static func sketch(for grouping: JournalGrouping) -> (GraphicsContext, CGRect, Color) -> Void {
         switch grouping {
         case .byDay: drawDayGroups
+        case .timeline: drawTimelineSpine
         case .recent: drawFlatRows
         case .bySubstance: drawDotGroups
         case .byCategory: drawTileGroups
         }
     }
 
-    /// A solid header bar, then indented line rows — twice (two "days").
+    /// A vertical axis on the left with dose dots, connector lines reaching
+    /// right into rounded card rows — the timeline's three-column shape.
+    private static func drawTimelineSpine(_ context: GraphicsContext, in rect: CGRect, color: Color) {
+        let unit = rect.height / 26
+        let axisX = rect.minX + unit * 3
+        // The time axis
+        var axis = Path()
+        axis.move(to: CGPoint(x: axisX, y: rect.minY))
+        axis.addLine(to: CGPoint(x: axisX, y: rect.maxY))
+        context.stroke(axis, with: .color(color.opacity(0.35)), lineWidth: 0.8)
+        // Dose dots + connectors + card rows
+        let cardX = rect.minX + unit * 7
+        let cardW = rect.maxX - cardX
+        for (index, dotY) in [rect.minY + unit * 3, rect.minY + unit * 11, rect.minY + unit * 20].enumerated() {
+            let cardY = dotY + (index == 1 ? unit * 2.5 : 0)
+            context.fill(
+                Path(ellipseIn: CGRect(x: axisX - unit, y: dotY - unit, width: unit * 2, height: unit * 2)),
+                with: .color(color),
+            )
+            var connector = Path()
+            connector.move(to: CGPoint(x: axisX + unit, y: dotY))
+            connector.addLine(to: CGPoint(x: cardX, y: cardY + unit * 2))
+            context.stroke(connector, with: .color(color.opacity(0.4)), lineWidth: 0.6)
+            let cardRect = CGRect(x: cardX, y: cardY, width: cardW, height: unit * 4)
+            context.stroke(Path(roundedRect: cardRect, cornerRadius: unit), with: .color(color.opacity(0.5)), lineWidth: 0.6)
+            line(context, x: cardX + unit, y: cardY + unit * 1.2, width: cardW * 0.5, height: unit * 0.9, color: color.opacity(0.7))
+        }
+    }
+
+    /// A thin header line (date), then a rounded card containing session rows
+    /// separated by hairlines — twice (two "days"). Mirrors the real layout
+    /// where each day is a date header + a `.themeCard(cornerRadius: 16)`
+    /// containing `SessionCardView` rows.
     private static func drawDayGroups(_ context: GraphicsContext, in rect: CGRect, color: Color) {
-        let unit = rect.height / 24
-        for groupTop in [rect.minY, rect.minY + unit * 13] {
-            let header = CGRect(x: rect.minX, y: groupTop, width: rect.width * 0.55, height: unit * 2)
-            context.fill(Path(roundedRect: header, cornerRadius: unit), with: .color(color))
+        let unit = rect.height / 26
+        for groupTop in [rect.minY, rect.minY + unit * 14] {
+            // Date header ("Aug 28 Wed")
+            line(context, x: rect.minX + unit, y: groupTop, width: rect.width * 0.5, height: unit * 1.2, color: color)
+            // Rounded card container
+            let cardTop = groupTop + unit * 2.2
+            let cardHeight = unit * 9
+            let cardRadius = unit * 1.4
+            let cardRect = CGRect(x: rect.minX, y: cardTop, width: rect.width, height: cardHeight)
+            context.stroke(Path(roundedRect: cardRect, cornerRadius: cardRadius), with: .color(color.opacity(0.3)), lineWidth: 0.5)
+            // Session rows inside the card
+            let inset = unit * 1.2
             for row in 0 ..< 2 {
-                let y = groupTop + unit * (4.5 + CGFloat(row) * 3.5)
-                line(context, x: rect.minX, y: y, width: rect.width, height: unit * 1.6, color: color)
+                let rowY = cardTop + inset + CGFloat(row) * (cardHeight - inset * 2) * 0.5
+                line(context, x: rect.minX + inset, y: rowY, width: rect.width - inset * 2, height: unit * 1.2, color: color.opacity(0.7))
+                line(context, x: rect.minX + inset, y: rowY + unit * 1.8, width: (rect.width - inset * 2) * 0.65, height: unit * 0.9, color: color.opacity(0.35))
             }
+            // Hairline divider between rows
+            let divY = cardTop + cardHeight * 0.5
+            line(context, x: rect.minX + inset, y: divY, width: rect.width - inset * 2, height: 0.5, color: color.opacity(0.15))
         }
     }
 
-    /// Five uniform rows — the flat chronological list.
+    /// Individual entry rows with spacing — the flat chronological list. Each
+    /// row has a title line and a shorter detail line (dose + time), matching
+    /// the real entry rows.
     private static func drawFlatRows(_ context: GraphicsContext, in rect: CGRect, color: Color) {
-        let unit = rect.height / 24
-        for row in 0 ..< 5 {
-            let y = rect.minY + unit * CGFloat(row) * 5
-            line(context, x: rect.minX, y: y, width: rect.width, height: unit * 1.6, color: color)
-            line(context, x: rect.minX, y: y + unit * 2.2, width: rect.width * 0.55, height: unit * 1.1, color: color.opacity(0.55))
+        let unit = rect.height / 26
+        for row in 0 ..< 4 {
+            let y = rect.minY + unit * CGFloat(row) * 6.2
+            // Substance name
+            line(context, x: rect.minX, y: y, width: rect.width * 0.6, height: unit * 1.4, color: color)
+            // Dose + route
+            line(context, x: rect.minX, y: y + unit * 2, width: rect.width * 0.35, height: unit * 1, color: color.opacity(0.5))
+            // Timestamp (right-aligned)
+            line(context, x: rect.maxX - rect.width * 0.25, y: y + unit * 2, width: rect.width * 0.25, height: unit * 1, color: color.opacity(0.35))
         }
     }
 
-    /// A leading dot + header line, then indented rows — twice (two substances).
+    /// A leading dot + header line with a trailing chevron, then indented entry
+    /// rows — twice (two substance sections). The dot represents the substance
+    /// color, the chevron the expand/collapse toggle.
     private static func drawDotGroups(_ context: GraphicsContext, in rect: CGRect, color: Color) {
-        let unit = rect.height / 24
-        let dot = unit * 2.4
-        for groupTop in [rect.minY, rect.minY + unit * 13] {
+        let unit = rect.height / 26
+        let dot = unit * 2
+        for groupTop in [rect.minY, rect.minY + unit * 14] {
+            // Substance dot
             context.fill(
                 Path(ellipseIn: CGRect(x: rect.minX, y: groupTop, width: dot, height: dot)),
                 with: .color(color),
             )
-            line(context, x: rect.minX + dot * 1.5, y: groupTop + (dot - unit * 1.6) / 2, width: rect.width - dot * 1.5, height: unit * 1.6, color: color)
+            // Substance name
+            line(context, x: rect.minX + dot * 1.4, y: groupTop + (dot - unit * 1.4) / 2, width: rect.width * 0.5, height: unit * 1.4, color: color)
+            // Chevron placeholder (right side)
+            let chevSize = unit * 1.2
+            line(context, x: rect.maxX - chevSize, y: groupTop + (dot - chevSize) / 2, width: chevSize, height: chevSize, color: color.opacity(0.3))
+            // Indented entry rows
+            let indent = dot * 1.4
             for row in 0 ..< 2 {
-                let y = groupTop + unit * (4.5 + CGFloat(row) * 3.5)
-                line(context, x: rect.minX + dot * 1.5, y: y, width: rect.width - dot * 1.5, height: unit * 1.4, color: color.opacity(0.55))
+                let y = groupTop + unit * (4 + CGFloat(row) * 3.5)
+                line(context, x: rect.minX + indent, y: y, width: rect.width - indent, height: unit * 1.2, color: color.opacity(0.5))
+                line(context, x: rect.minX + indent, y: y + unit * 1.6, width: (rect.width - indent) * 0.4, height: unit * 0.8, color: color.opacity(0.25))
             }
         }
     }
 
-    /// A leading rounded tile + header line, then indented rows — twice.
+    /// A leading rounded icon tile + header line with a trailing chevron, then
+    /// indented entry rows — twice. The tile represents the category icon.
     private static func drawTileGroups(_ context: GraphicsContext, in rect: CGRect, color: Color) {
-        let unit = rect.height / 24
-        let tile = unit * 2.4
-        for groupTop in [rect.minY, rect.minY + unit * 13] {
+        let unit = rect.height / 26
+        let tile = unit * 2
+        for groupTop in [rect.minY, rect.minY + unit * 14] {
+            // Category icon tile
             context.fill(
-                Path(roundedRect: CGRect(x: rect.minX, y: groupTop, width: tile, height: tile), cornerRadius: tile * 0.3),
+                Path(roundedRect: CGRect(x: rect.minX, y: groupTop, width: tile, height: tile), cornerRadius: tile * 0.25),
                 with: .color(color),
             )
-            line(context, x: rect.minX + tile * 1.5, y: groupTop + (tile - unit * 1.6) / 2, width: rect.width - tile * 1.5, height: unit * 1.6, color: color)
+            // Category name
+            line(context, x: rect.minX + tile * 1.4, y: groupTop + (tile - unit * 1.4) / 2, width: rect.width * 0.45, height: unit * 1.4, color: color)
+            // Count bubble
+            line(context, x: rect.maxX - unit * 3, y: groupTop + (tile - unit * 1.2) / 2, width: unit * 3, height: unit * 1.2, color: color.opacity(0.3))
+            // Indented entry rows
+            let indent = tile * 1.4
             for row in 0 ..< 2 {
-                let y = groupTop + unit * (4.5 + CGFloat(row) * 3.5)
-                line(context, x: rect.minX + tile * 1.5, y: y, width: rect.width - tile * 1.5, height: unit * 1.4, color: color.opacity(0.55))
+                let y = groupTop + unit * (4 + CGFloat(row) * 3.5)
+                line(context, x: rect.minX + indent, y: y, width: rect.width - indent, height: unit * 1.2, color: color.opacity(0.5))
+                line(context, x: rect.minX + indent, y: y + unit * 1.6, width: (rect.width - indent) * 0.4, height: unit * 0.8, color: color.opacity(0.25))
             }
         }
     }
