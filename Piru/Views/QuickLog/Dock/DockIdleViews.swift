@@ -16,7 +16,7 @@ struct DockShortcutSlots: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            ForEach(preferences.shortcuts) { shortcut in
+            ForEach(preferences.shortcuts.prefix(Self.visibleCount(of: preferences.shortcuts.count, compact: compact))) { shortcut in
                 DockShortcutButton(
                     shortcut: shortcut,
                     compact: compact,
@@ -40,9 +40,16 @@ struct DockShortcutSlots: View {
     }
 }
 
-/// The width the body content must leave free for the slots, so the center
-/// label lands on true center.
 extension DockShortcutSlots {
+    /// How many slots show: all of them in the full bar; only the first when
+    /// the tab bar is folded, where three slots would leave the label a few
+    /// characters ("Vita…").
+    static func visibleCount(of total: Int, compact: Bool) -> Int {
+        compact ? min(total, 1) : total
+    }
+
+    /// The width the body content must leave free for the slots, so the center
+    /// label lands on true center.
     static func reservedWidth(slots: Int, controlSide: CGFloat) -> CGFloat {
         CGFloat(slots) * controlSide
     }

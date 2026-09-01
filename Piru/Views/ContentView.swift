@@ -680,7 +680,10 @@ private struct BottomAccessoryContent: View {
                 // label centers between them and the "+". No slots, no room.
                 Color.clear
                     .frame(
-                        width: DockShortcutSlots.reservedWidth(slots: preferences.shortcuts.count, controlSide: controlSide),
+                        width: DockShortcutSlots.reservedWidth(
+                            slots: DockShortcutSlots.visibleCount(of: preferences.shortcuts.count, compact: compact),
+                            controlSide: controlSide,
+                        ),
                         height: controlSide,
                     )
 
