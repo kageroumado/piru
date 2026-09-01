@@ -88,6 +88,34 @@ struct SessionMenu: View {
         .accessibilityLabel(Text("Session options"))
     }
 
+    /// The dose immediately after the widest interior gap in `doses` (ascending
+    /// order) with a "3h 10m" gap label — the pivot a one-tap "Split at Longest
+    /// Break" cuts at, mirroring where the clustering heuristic would break.
+    /// `nil` with fewer than two doses or no gap above the always-join floor.
+    /// Shared by this menu's host and the Journal's session-card context menu.
+    static func longestBreakPivot(in doses: [DoseEntry]) -> (dose: DoseEntry, gapText: String)? {
+        guard doses.count > 1 else { return nil }
+        var widest: TimeInterval = 0
+        var pivotIndex = 0
+        for index in 1 ..< doses.count {
+            let gap = doses[index].timestamp.timeIntervalSince(doses[index - 1].timestamp)
+            if gap > widest {
+                widest = gap
+                pivotIndex = index
+            }
+        }
+        guard pivotIndex > 0, widest > SessionClustering.Constants.floor else { return nil }
+        return (doses[pivotIndex], gapFormatter.string(from: widest) ?? "")
+    }
+
+    /// Compact "3h 10m" style formatter for the longest-break label.
+    private static let gapFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute]
+        formatter.unitsStyle = .abbreviated
+        return formatter
+    }()
+
     /// The session immediately before this one in time — the target for "Merge with
     /// previous". A bounded one-row fetch resolved when the menu opens, rather than a
     /// whole-table `@Query` that would re-run the detail view's body on every change

@@ -593,33 +593,9 @@ struct SessionDetailView: View {
         }
     }
 
-    /// The dose immediately after the session's widest interior gap — the pivot a
-    /// one-tap "Split at Longest Break" cuts at, mirroring where the clustering
-    /// heuristic would break. `nil` when the session has fewer than two doses or
-    /// no gap wide enough to be worth splitting (below the always-join floor).
     private var longestBreakPivot: (dose: DoseEntry, gapText: String)? {
-        let doses = entries
-        guard doses.count > 1 else { return nil }
-        var widest: TimeInterval = 0
-        var pivotIndex = 0
-        for index in 1 ..< doses.count {
-            let gap = doses[index].timestamp.timeIntervalSince(doses[index - 1].timestamp)
-            if gap > widest {
-                widest = gap
-                pivotIndex = index
-            }
-        }
-        guard pivotIndex > 0, widest > SessionClustering.Constants.floor else { return nil }
-        return (doses[pivotIndex], Self.gapFormatter.string(from: widest) ?? "")
+        SessionMenu.longestBreakPivot(in: entries)
     }
-
-    /// Compact "3h 10m" style formatter for the longest-break label.
-    private static let gapFormatter: DateComponentsFormatter = {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour, .minute]
-        formatter.unitsStyle = .abbreviated
-        return formatter
-    }()
 
     private func colorFor(_ entry: DoseEntry) -> Color {
         resolvedColor(entry.substance)

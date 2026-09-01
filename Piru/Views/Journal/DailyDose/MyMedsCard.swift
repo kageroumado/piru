@@ -15,7 +15,9 @@ struct MyMedsCard: View {
     @Query private var todayEntries: [DoseEntry]
     @Query private var recentEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
-    @Query private var todayOccurrences: [RoutineOccurrence]
+    /// Yesterday's and today's occurrences — today's drive the slot states,
+    /// yesterday's `missed` rows the missed-yesterday info line.
+    @Query private var recentOccurrences: [RoutineOccurrence]
 
     @State private var supplementsExpanded = false
     @State private var streak: Int?
@@ -23,8 +25,13 @@ struct MyMedsCard: View {
     @State private var pendingSlots: [MedSlot] = []
     @State private var showInteractionSheet = false
 
+    /// The info lines' fetched facts (supply projections) and the dismissed
+    /// missed-day keys, refreshed off `body`.
+    @State private var info = MyMedsInfoModel()
+
     init() {
         let dayStart = Calendar.current.startOfDay(for: .now)
+        let yesterdayStart = Self.yesterdayStart
         _todayEntries = Query(
             filter: #Predicate<DoseEntry> { $0.timestamp >= dayStart },
             sort: \DoseEntry.timestamp,
@@ -34,9 +41,27 @@ struct MyMedsCard: View {
             filter: #Predicate<DoseEntry> { $0.timestamp >= cutoff },
             sort: \DoseEntry.timestamp,
         )
-        _todayOccurrences = Query(
-            filter: #Predicate<RoutineOccurrence> { $0.dueDay >= dayStart },
+        _recentOccurrences = Query(
+            filter: #Predicate<RoutineOccurrence> { $0.dueDay >= yesterdayStart },
         )
+    }
+
+    private static var yesterdayStart: Date {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: .now)
+        return calendar.date(byAdding: .day, value: -1, to: today) ?? today
+    }
+
+    private var todayOccurrences: [RoutineOccurrence] {
+        let today = Calendar.current.startOfDay(for: .now)
+        return recentOccurrences.filter { $0.dueDay >= today }
+    }
+
+    /// Yesterday's slots that ended the day unlogged (`missed` is written by
+    /// `RoutineOccurrenceService.reconcile`, never inferred here).
+    private var yesterdayMissed: [RoutineOccurrence] {
+        let today = Calendar.current.startOfDay(for: .now)
+        return recentOccurrences.filter { $0.dueDay < today && $0.state == .missed }
     }
 
     // MARK: Slot derivation
@@ -162,10 +187,22 @@ struct MyMedsCard: View {
                         }
                     }
                 }
+
+                let lines = infoLines(slots: slots)
+                if !lines.isEmpty {
+                    VStack(spacing: 0) {
+                        ForEach(lines, id: \.self) { line in
+                            infoLine(line)
+                        }
+                    }
+                }
             }
             .padding(14)
             .themeCard()
             .task { await refreshStreak() }
+            .task(id: DoseLogService.shared.revision) {
+                info.refresh(items: items, in: modelContext)
+            }
             .sheet(isPresented: $showInteractionSheet) {
                 InteractionWarningSheet(
                     warnings: interactionWarnings,
@@ -216,18 +253,29 @@ struct MyMedsCard: View {
     }
 
     /// The always-present status line under "My Meds": the completion note
-    /// while done, otherwise the next timed dose, otherwise how many remain.
-    /// One line in every state, so the card height never moves.
+    /// while done, otherwise what is due right now, otherwise that nothing is.
+    /// One line in every state, so the card height never moves. What comes
+    /// *next* is the info line under the rows, so it is never said twice.
     @ViewBuilder
     private func statusSubtitle(slots: [MedSlot], takenCount _: Int, isComplete: Bool) -> some View {
+        let due = slots.filter(\.isDueNow)
         if isComplete {
             Text(completionText)
                 .font(.caption)
                 .foregroundStyle(.green)
                 .lineLimit(1)
-        } else if let next = slots.first(where: { !$0.taken && $0.time != nil && $0.time! > MedSlot.nowMinutes }),
-                  let time = next.time {
-            Text("Next: \(displayName(for: next.item)) at \(Self.timeText(time)) · \(Self.relativeText(time))")
+        } else if due.count == 1, let slot = due.first {
+            Text("\(displayName(for: slot.item)) is due")
+                .font(.caption)
+                .foregroundStyle(Theme.accent)
+                .lineLimit(1)
+        } else if due.count > 1 {
+            Text("\(due.count) doses due")
+                .font(.caption)
+                .foregroundStyle(Theme.accent)
+                .lineLimit(1)
+        } else {
+            Text("Nothing due right now")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
                 .lineLimit(1)
@@ -462,12 +510,93 @@ struct MyMedsCard: View {
         return date.formatted(date: .omitted, time: .shortened)
     }
 
-    private static func relativeText(_ minutes: Int) -> String {
-        let delta = minutes - MedSlot.nowMinutes
-        if delta < 60 {
-            return String(localized: "in \(delta) min")
+    // MARK: Info lines
+
+    /// The two-at-most facts under the rows, chosen by ``MyMedsInfo/select``.
+    private func infoLines(slots: [MedSlot]) -> [MyMedsInfoLine] {
+        let summaries = slots.map { slot in
+            MyMedsInfo.SlotSummary(name: displayName(for: slot.item), minutes: slot.time, pending: slot.state == .pending)
         }
-        return String(localized: "in \(Int((Double(delta) / 60).rounded())) h")
+        let missed = yesterdayMissed.map { occurrence in
+            let item = items.first { $0.substance.lowercased() == occurrence.substance.lowercased() }
+            let name = item.map(displayName(for:)) ?? CustomSubstanceStore.shared.displayName(for: occurrence.substance)
+            return (name: name, slotMinutes: occurrence.slotMinutes)
+        }
+        let missedLine = MyMedsInfo.missedYesterday(missed: missed, yesterday: Self.yesterdayStart)
+        let missedDismissed: Bool = if case let .missedYesterday(notice)? = missedLine {
+            info.isDismissed(notice.dayKey)
+        } else {
+            false
+        }
+        return MyMedsInfo.select(
+            restock: info.restock,
+            nextDue: MyMedsInfo.nextDue(slots: summaries, nowMinutes: MedSlot.nowMinutes),
+            missed: missedLine,
+            missedDismissed: missedDismissed,
+        )
+    }
+
+    @ViewBuilder
+    private func infoLine(_ line: MyMedsInfoLine) -> some View {
+        switch line {
+        case let .restock(name, daysLeft, itemID):
+            RestockInfoLine(name: name, daysLeft: daysLeft) {
+                navigator.present(.inventoryItemForm(id: itemID))
+            }
+        case let .nextDue(name, minutes):
+            NextDueInfoLine(name: name, timeText: Self.timeText(minutes)) {
+                navigator.push(.myMeds)
+            }
+        case let .missedYesterday(notice):
+            MissedYesterdayInfoLine(
+                notice: notice,
+                onTap: { navigator.push(.myMeds) },
+                onDismiss: { withAnimation(.snappy) { info.dismiss(notice.dayKey) } },
+            )
+        }
+    }
+}
+
+/// The info lines' facts that need a store: each tracked med's supply
+/// projection (a dose fetch per item, so refreshed on the dose-log revision
+/// rather than per body pass) and the missed-notice dismissals.
+@MainActor
+@Observable
+final class MyMedsInfoModel {
+    private(set) var restock: MyMedsInfoLine?
+    private var dismissedDayKeys: Set<String> = []
+
+    private let defaults = UserDefaults(suiteName: "group.dev.yumeji.piru")
+
+    func refresh(items: [DailyDoseItem], in context: ModelContext) {
+        var projections: [MyMedsInfo.SupplyProjection] = []
+        var seen = Set<UUID>()
+        for item in items where !item.isAsNeeded {
+            // A med scheduled without a salt still matches the salt-less
+            // tracked supply; a salted schedule wants its own.
+            guard let stock = InventoryService.find(substance: item.substance, saltForm: item.saltForm, in: context)
+                ?? InventoryService.find(substance: item.substance, saltForm: nil, in: context),
+                seen.insert(stock.id).inserted,
+                let runOut = InventoryMath.runOut(for: stock, in: context)
+            else { continue }
+            let name = item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance)
+            projections.append(MyMedsInfo.SupplyProjection(name: name, daysLeft: runOut.daysLeft, itemID: stock.id))
+        }
+        restock = MyMedsInfo.restock(from: projections)
+        if let defaults {
+            dismissedDayKeys = Set(defaults.stringArray(forKey: MissedNoticeDismissals.defaultsKey) ?? [])
+        }
+    }
+
+    func isDismissed(_ dayKey: String) -> Bool {
+        dismissedDayKeys.contains(dayKey)
+    }
+
+    func dismiss(_ dayKey: String) {
+        dismissedDayKeys.insert(dayKey)
+        if let defaults {
+            MissedNoticeDismissals.dismiss(dayKey, in: defaults)
+        }
     }
 }
 
