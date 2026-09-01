@@ -10,6 +10,10 @@ from pathlib import Path
 # Translations: English -> (Simplified, Traditional)
 T = {
     # b46 feedback batches (2026-09-01)
+    "Backups, export & import are under Tools › Data & Backup; preferences are under Settings.": (
+        "备份、导出与导入在「工具 › 数据与备份」；偏好设置在「设置」。",
+        "備份、匯出與匯入在「工具 › 資料與備份」；偏好設定在「設定」。",
+    ),
     "That's everything today — %lld days and counting": (
         "今天的都完成了 — 已连续 %lld 天",
         "今天的都完成了 — 已連續 %lld 天",
@@ -7457,6 +7461,7 @@ if __name__ == "__main__":
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
         # b46 feedback batches
+        "Backups, export & import are under Tools › Data & Backup; preferences are under Settings.",
         "That's everything today — %lld days and counting",
         "That's everything today",
         "Scale by Dose Strength",

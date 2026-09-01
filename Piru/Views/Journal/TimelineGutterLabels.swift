@@ -16,7 +16,7 @@ nonisolated enum TimelineGutterLabels {
     /// Cap height of the "Now" tag (10 pt semibold).
     static let nowLabelHeight: CGFloat = 12
     /// Breathing room two labels keep between their frames.
-    static let gap: CGFloat = 2
+    static let gap: CGFloat = 6
 
     /// A label's vertical extent, centered on its anchor.
     struct Frame: Equatable {

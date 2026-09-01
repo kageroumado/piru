@@ -9,7 +9,7 @@ struct TimelineGutterLabelsTests {
     @Test
     func `Frames touching within the gap collide`() {
         let a = TimelineGutterLabels.Frame(center: 100, height: 12)
-        let b = TimelineGutterLabels.Frame(center: 113, height: 12) // 1 pt apart, gap is 2
+        let b = TimelineGutterLabels.Frame(center: 113, height: 12) // 1 pt apart, gap is 6
         #expect(a.collides(with: b))
         #expect(b.collides(with: a))
     }
@@ -17,7 +17,7 @@ struct TimelineGutterLabelsTests {
     @Test
     func `Frames separated by more than the gap are clear`() {
         let a = TimelineGutterLabels.Frame(center: 100, height: 12)
-        let b = TimelineGutterLabels.Frame(center: 115, height: 12) // 3 pt apart
+        let b = TimelineGutterLabels.Frame(center: 120, height: 12) // 8 pt apart
         #expect(!a.collides(with: b))
     }
 
@@ -37,8 +37,8 @@ struct TimelineGutterLabelsTests {
 
     @Test
     func `A dose timestamp just clear of the Now tag survives`() {
-        // 12 + 12 halves = 12, plus the 2 pt gap → 14 pt is the first clear spacing.
-        let visible = TimelineGutterLabels.doseLabelsVisible(doseYs: [54, 53], nowY: 40)
+        // 12 + 12 halves = 12, plus the 6 pt gap → 18 pt is the first clear spacing.
+        let visible = TimelineGutterLabels.doseLabelsVisible(doseYs: [58, 57], nowY: 40)
         #expect(visible == [true, false])
     }
 
@@ -58,7 +58,7 @@ struct TimelineGutterLabelsTests {
     @Test
     func `An hour label clear of both draws`() {
         #expect(TimelineGutterLabels.hourLabelFits(y: 200, doseYs: [230], nowY: 40))
-        // 11/2 + 12/2 + 2 = 13.5 → 14 pt away is clear.
-        #expect(TimelineGutterLabels.hourLabelFits(y: 214, doseYs: [200], nowY: nil))
+        // 11/2 + 12/2 + 6 = 17.5 → 18 pt away is clear.
+        #expect(TimelineGutterLabels.hourLabelFits(y: 218, doseYs: [200], nowY: nil))
     }
 }

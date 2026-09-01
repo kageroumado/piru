@@ -419,91 +419,86 @@ private struct LibraryFavoritesCard: View {
 
 // MARK: - Yours Row (custom substances · colors)
 
-/// The user's own layer over the library, as one row of the card flow: custom
-/// substances (only once there are any) beside substance colors (always — a
-/// color applies to any substance, so the card has somewhere to go even before
-/// the first one is assigned). The cards share a height so the row reads as a
-/// pair rather than two stacked banners.
+/// The user's own layer over the library as one quiet card of rows: custom
+/// substances (only once there are any) and substance colors (always — a
+/// color applies to any substance, so the row has somewhere to go before the
+/// first one is assigned). Rows, not banners: these are doors to lists the
+/// user made, and the family cards below are the library itself.
 private struct LibraryYoursRow: View {
     private var customCount: Int {
         CustomSubstanceStore.shared.all.count
     }
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        VStack(spacing: 0) {
             if customCount > 0 {
-                LibraryCustomCard(count: customCount)
+                LibraryCustomRow(count: customCount)
+                Divider().padding(.leading, 56)
             }
-            LibraryColorsCard()
+            LibraryColorsRow()
         }
-        .fixedSize(horizontal: false, vertical: true)
+        .themeCard()
     }
 }
 
-/// The accent-tinted card recipe the Yours row's cards share: a faint glyph
-/// bleeding off the top-trailing edge, the glyph again as a badge, then the
-/// title and a one-line blurb pinned to the bottom edge.
-private struct LibraryYoursCard<Blurb: View>: View {
+/// One row of the Yours card: an accent glyph tile, a title, a trailing
+/// detail, and the push chevron.
+private struct LibraryYoursRowLabel<Detail: View>: View {
     let icon: String
     let title: LocalizedStringKey
-    @ViewBuilder var blurb: () -> Blurb
+    @ViewBuilder var detail: () -> Detail
 
     var body: some View {
-        FamilyGradientCard(color: Theme.accent, cornerRadius: 22, padding: 16) {
+        HStack(spacing: 12) {
             Image(systemName: icon)
-                .font(.system(size: 100, weight: .regular))
-                .foregroundStyle(.white.opacity(0.12))
-                .offset(x: 30, y: 10)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 32, height: 32)
+                .background(Theme.accent.gradient, in: .rect(cornerRadius: 8))
                 .accessibilityHidden(true)
-        } content: {
-            VStack(alignment: .leading, spacing: 4) {
-                Image(systemName: icon)
-                    .font(.system(size: 19, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .frame(height: 26, alignment: .leading)
-                    .accessibilityHidden(true)
-                Spacer(minLength: 14)
-                Text(title)
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundStyle(.white)
-                blurb()
-                    .font(.footnote)
-                    .foregroundStyle(.white.opacity(0.9))
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            Text(title)
+                .font(.body.weight(.semibold))
+                .foregroundStyle(.primary)
+            Spacer(minLength: 8)
+            detail()
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            Image(systemName: "chevron.right")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(.tertiary)
+                .accessibilityHidden(true)
         }
-        .frame(maxHeight: .infinity)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 11)
+        .contentShape(.rect)
     }
 }
 
-private struct LibraryCustomCard: View {
+private struct LibraryCustomRow: View {
     let count: Int
 
     var body: some View {
         NavigationLink(value: PushRoute.libraryCustom) {
-            LibraryYoursCard(icon: "sparkles", title: "Custom") {
-                Text("^[\(count) substances](inflect: true) you added or customized")
+            LibraryYoursRowLabel(icon: "sparkles", title: "Custom") {
+                Text("\(count)")
             }
         }
         .buttonStyle(.plain)
+        .accessibilityValue(Text("^[\(count) substances](inflect: true) you added or customized"))
     }
 }
 
-/// Routes to the substance color list. Its blurb is the user's own palette —
-/// the first few assigned colors as swatches, with the overflow as a count —
-/// until there are none, when it says what the card is for.
-private struct LibraryColorsCard: View {
+/// Routes to the substance color list. Its detail is the user's own palette —
+/// the first few assigned colors as swatches, with the overflow as a count.
+private struct LibraryColorsRow: View {
     @Query(sort: \SubstanceColor.substance) private var substanceColors: [SubstanceColor]
 
     private static let swatchLimit = 5
 
     var body: some View {
         NavigationLink(value: PushRoute.libraryColors) {
-            LibraryYoursCard(icon: "paintpalette.fill", title: "Colors") {
-                if substanceColors.isEmpty {
-                    Text("A color for every substance you log")
-                } else {
+            LibraryYoursRowLabel(icon: "paintpalette.fill", title: "Colors") {
+                if !substanceColors.isEmpty {
                     swatches
                 }
             }
@@ -517,17 +512,15 @@ private struct LibraryColorsCard: View {
             ForEach(substanceColors.prefix(Self.swatchLimit)) { sc in
                 Circle()
                     .fill(sc.color)
-                    .frame(width: 18, height: 18)
-                    .overlay(Circle().stroke(.white, lineWidth: 1.5))
+                    .frame(width: 16, height: 16)
+                    .overlay(Circle().stroke(Theme.background, lineWidth: 1.5))
             }
             if substanceColors.count > Self.swatchLimit {
                 Text("+\(substanceColors.count - Self.swatchLimit)")
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(.white)
                     .padding(.leading, 8)
             }
         }
-        .padding(.top, 2)
         .accessibilityHidden(true)
     }
 }

@@ -5870,6 +5870,7 @@
       }
     },
     "A color for every substance you log" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11962,7 +11963,24 @@
         }
       }
     },
+    "Backups, export & import are under Tools › Data & Backup; preferences are under Settings." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份、导出与导入在「工具 › 数据与备份」；偏好设置在「设置」。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備份、匯出與匯入在「工具 › 資料與備份」；偏好設定在「設定」。"
+          }
+        }
+      }
+    },
     "Backups, export & import, and preferences are all under Settings." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

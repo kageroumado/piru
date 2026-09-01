@@ -66,14 +66,15 @@ struct LogDoseTip: Tip {
     }
 }
 
-/// Once the user has logged a dose, points at the ••• menu to reveal that backups, export/import,
-/// and preferences all live under Settings — the one thing the tour deliberately doesn't cover.
+/// Once the user has logged a dose, points at the ••• menu to say where backups and export/import
+/// live (Tools › Data & Backup) and where preferences do (Settings) — the one thing the tour
+/// deliberately doesn't cover.
 struct SettingsDataTip: Tip {
     var title: Text {
         Text("Your data lives here")
     }
     var message: Text? {
-        Text("Backups, export & import, and preferences are all under Settings.")
+        Text("Backups, export & import are under Tools › Data & Backup; preferences are under Settings.")
     }
     var image: Image? {
         Image(systemName: "gearshape")
