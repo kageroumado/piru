@@ -9,6 +9,36 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # b46 feedback batches (2026-09-01)
+    "That's everything today — %lld days and counting": (
+        "今天的都完成了 — 已连续 %lld 天",
+        "今天的都完成了 — 已連續 %lld 天",
+    ),
+    "That's everything today": ("今天的都完成了", "今天的都完成了"),
+    "Scale by Dose Strength": ("按剂量强度缩放", "依劑量強度縮放"),
+    "· %lld of %lld": ("· 已服 %1$lld / %2$lld", "· 已服 %1$lld / %2$lld"),
+    "%lld of %lld logged today": ("今天已记录 %1$lld / %2$lld", "今天已記錄 %1$lld / %2$lld"),
+    "Dose Times": ("用药时间", "用藥時間"),
+    "Edit Dose Times…": ("编辑用药时间…", "編輯用藥時間…"),
+    "The quick offsets in the “Now” menu when logging a dose.": (
+        "记录剂量时“现在”菜单中的快捷时间偏移。",
+        "記錄劑量時「現在」選單中的快捷時間偏移。",
+    ),
+    "Colors": ("颜色", "顏色"),
+    "A color for every substance you log": (
+        "为你记录的每种物质配一个颜色",
+        "為你記錄的每種物質配一個顏色",
+    ),
+    "^[%lld substances](inflect: true) with a color": ("%lld 种物质已配色", "%lld 種物質已配色"),
+    "Export, import, and encrypted backups": ("导出、导入与加密备份", "匯出、匯入與加密備份"),
+    "Which source wins when they disagree, and opt-in updates to the bundled substance data.": (
+        "来源冲突时以哪个为准，以及内置物质数据的自选更新。",
+        "來源衝突時以哪個為準，以及內建物質資料的自選更新。",
+    ),
+    "Tap a dot to name it": ("点一下圆点显示名称", "點一下圓點顯示名稱"),
+    "Name on plot": ("在图上显示名称", "在圖上顯示名稱"),
+    "%@, this substance": ("%@，当前物质", "%@，目前物質"),
+    "%@, measured in the same study": ("%@，同一研究中测得", "%@，同一研究中測得"),
     # Unified timeline (Journal → Active Now / Timeline grouping)
     "No Entries Yet": (
         "还没有记录",
@@ -7426,6 +7456,24 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        # b46 feedback batches
+        "That's everything today — %lld days and counting",
+        "That's everything today",
+        "Scale by Dose Strength",
+        "· %lld of %lld",
+        "%lld of %lld logged today",
+        "Dose Times",
+        "Edit Dose Times…",
+        "The quick offsets in the “Now” menu when logging a dose.",
+        "Colors",
+        "A color for every substance you log",
+        "^[%lld substances](inflect: true) with a color",
+        "Export, import, and encrypted backups",
+        "Which source wins when they disagree, and opt-in updates to the bundled substance data.",
+        "Tap a dot to name it",
+        "Name on plot",
+        "%@, this substance",
+        "%@, measured in the same study",
         # Unified timeline
         "Compress empty time",
         "Effect curves",

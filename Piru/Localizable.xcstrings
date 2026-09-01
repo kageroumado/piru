@@ -107,6 +107,22 @@
         }
       }
     },
+    "· %lld of %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· 已服 %1$lld / %2$lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· 已服 %1$lld / %2$lld"
+          }
+        }
+      }
+    },
     "· %lld total" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2144,6 +2160,23 @@
         }
       }
     },
+    "%@, measured in the same study" : {
+      "comment" : "Accessibility label for a same-study peer dot",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，同一研究中测得"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，同一研究中測得"
+          }
+        }
+      }
+    },
     "%@, out of stock" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2200,6 +2233,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@，來源：%@"
+          }
+        }
+      }
+    },
+    "%@, this substance" : {
+      "comment" : "Accessibility label for the current substance's dot",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，当前物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，目前物質"
           }
         }
       }
@@ -3293,6 +3343,22 @@
         }
       }
     },
+    "%lld of %lld logged today" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天已记录 %1$lld / %2$lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天已記錄 %1$lld / %2$lld"
+          }
+        }
+      }
+    },
     "%lld of %lld sessions" : {
       "localizations" : {
         "en" : {
@@ -4218,6 +4284,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 種物質"
+          }
+        }
+      }
+    },
+    "^[%lld substances](inflect: true) with a color" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 种物质已配色"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 種物質已配色"
           }
         }
       }
@@ -5783,6 +5865,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "換個環境 — 即使只是換到另一個房間 — 可以改變心境。"
+          }
+        }
+      }
+    },
+    "A color for every substance you log" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为你记录的每种物质配一个颜色"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為你記錄的每種物質配一個顏色"
           }
         }
       }
@@ -15896,6 +15994,22 @@
         }
       }
     },
+    "Colors" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "颜色"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顏色"
+          }
+        }
+      }
+    },
     "Colors appear here after you log your first entry. Tap one to change it." : {
       "localizations" : {
         "zh-Hans" : {
@@ -20813,6 +20927,22 @@
         }
       }
     },
+    "Dose Times" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用药时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用藥時間"
+          }
+        }
+      }
+    },
     "Dose trend" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22303,6 +22433,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "編輯自訂單位"
+          }
+        }
+      }
+    },
+    "Edit Dose Times…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑用药时间…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯用藥時間…"
           }
         }
       }
@@ -25325,6 +25471,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "匯出記錄、產生臨床報告"
+          }
+        }
+      }
+    },
+    "Export, import, and encrypted backups" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出、导入与加密备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯出、匯入與加密備份"
           }
         }
       }
@@ -36924,6 +37086,23 @@
         }
       }
     },
+    "Name on plot" : {
+      "comment" : "Accessibility action on a ternary plot dot",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在图上显示名称"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在圖上顯示名稱"
+          }
+        }
+      }
+    },
     "names & tags" : {
       "comment" : "Sources list — what a source supplies",
       "localizations" : {
@@ -44798,6 +44977,7 @@
       }
     },
     "Quick Times" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -48922,6 +49102,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已儲存的副本"
+          }
+        }
+      }
+    },
+    "Scale by Dose Strength" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按剂量强度缩放"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依劑量強度縮放"
           }
         }
       }
@@ -55496,6 +55692,23 @@
         }
       }
     },
+    "Tap a dot to name it" : {
+      "comment" : "Hint under the transporter ternary plot",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点一下圆点显示名称"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點一下圓點顯示名稱"
+          }
+        }
+      }
+    },
     "Tap doses to select them, then tap Add to log together." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -55857,11 +56070,37 @@
         }
       }
     },
-    "That's everything today — %lld days and counting." : {
-
+    "That's everything today" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天的都完成了"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天的都完成了"
+          }
+        }
+      }
     },
-    "That's everything today." : {
-
+    "That's everything today — %lld days and counting" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天的都完成了 — 已连续 %lld 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天的都完成了 — 已連續 %lld 天"
+          }
+        }
+      }
     },
     "The active compound salvinorin A is a structurally unique non-nitrogenous terpenoid that acts as a highly potent and selective agonist at κ-opioid receptors (KOR). Unlike virtually all other known psychoactive compounds, it has no significant activity at serotonin 5-HT2A receptors. KOR activation in the claustrum and prefrontal cortex produces intensely dissociative and hallucinatory effects." : {
       "extractionState" : "stale",
@@ -56659,6 +56898,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "下方方案反映社群或試驗性用途，並非經過驗證的人體劑量或醫療建議。其中許多化合物被 WADA 禁用，且缺乏人體安全數據。"
+          }
+        }
+      }
+    },
+    "The quick offsets in the “Now” menu when logging a dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录剂量时“现在”菜单中的快捷时间偏移。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄劑量時「現在」選單中的快捷時間偏移。"
           }
         }
       }
@@ -61883,6 +62138,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按常規劑量單位統計的日期和時段"
+          }
+        }
+      }
+    },
+    "Which source wins when they disagree, and opt-in updates to the bundled substance data." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来源冲突时以哪个为准，以及内置物质数据的自选更新。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來源衝突時以哪個為準，以及內建物質資料的自選更新。"
           }
         }
       }

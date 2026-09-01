@@ -28,7 +28,7 @@ struct DoseTimeSettingsView: View {
                     }
                 }
             } header: {
-                Text("Quick Times")
+                Text("Dose Times")
             } footer: {
                 Text("These appear in the “When” menu when logging a dose, alongside Now and the full date picker. Swipe to remove, drag to reorder.")
             }
@@ -44,7 +44,7 @@ struct DoseTimeSettingsView: View {
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle("Quick Times")
+        .navigationTitle("Dose Times")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar { EditButton() }
         .sheet(isPresented: $showAdd) {
