@@ -78,6 +78,23 @@ struct DoseTrayModelTests {
         #expect((snapshot["aspirin"] ?? .empty) == .empty)
     }
 
+    /// Two different substances are two rows, each visible to the card snapshot —
+    /// the "Log 2 Doses" button counts rows, and every counted row needs a card.
+    @Test
+    func `staging a second substance adds a second row`() {
+        let tray = DoseTrayModel()
+        stage(tray, "Kratom", amount: 3, unit: "g")
+        stage(tray, "Amphetamine", amount: 10)
+
+        #expect(tray.staged.map(\.substanceName) == ["Kratom", "Amphetamine"])
+        #expect(tray.staged.allSatisfy { $0.totalAmount > 0 })
+        #expect(tray.isCommittable)
+
+        let snapshot = tray.stagedCountsBySubstance()
+        #expect((snapshot["kratom"] ?? .empty).count(route: .oral, amount: 3, unit: "g") == 1)
+        #expect((snapshot["amphetamine"] ?? .empty).count(route: .oral, amount: 10, unit: "mg") == 1)
+    }
+
     /// The doubling bug: staging a Concerta (canonical Methylphenidate, release
     /// `XR`) onto an already-staged plain Methylphenidate matched by name alone and
     /// summed the two into one row — you couldn't log IR + Concerta together, and
