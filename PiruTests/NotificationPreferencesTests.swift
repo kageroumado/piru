@@ -178,7 +178,8 @@ struct NotificationPreferencesStoreTests {
         #expect(NotificationType.routineFollowUp.rawValue == "routineFollowUp")
         #expect(NotificationType.nextDose.rawValue == "nextDose")
         #expect(NotificationType.inventory.rawValue == "inventory")
-        #expect(NotificationType.allCases.count == 9)
+        #expect(NotificationType.checkIn.rawValue == "checkIn")
+        #expect(NotificationType.allCases.count == 10)
     }
 
     @Test
