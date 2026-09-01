@@ -63,6 +63,7 @@ struct EntryListView: View {
     @AppStorage("timelineZoom", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineZoom = 1.0
     @AppStorage("timelineCompression", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineCompression = true
     @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelinePKCurves = false
+    @AppStorage("timelineStrengthScaling", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineStrengthScaling = true
 
     /// Mirrors the day cards' redose-stacking preference so the timeline prewarm
     /// computes geometry under the same key the cards will look up.
@@ -355,6 +356,7 @@ struct EntryListView: View {
                 zoom: timelineZoom,
                 compressGaps: timelineCompression,
                 pkCurves: timelinePKCurves,
+                strengthScaling: timelineStrengthScaling,
             )
         }
         .onChange(of: colorSignature) {
@@ -368,13 +370,37 @@ struct EntryListView: View {
     }
 
     private var timelineRebuildKey: String {
-        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(timelineZoom)|\(timelineCompression)|\(timelinePKCurves)|\(searchText)|\(filterTags.hashValue)|\(filterCategories.hashValue)|\(filterRoutes.hashValue)"
+        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(timelineZoom)|\(timelineCompression)|\(timelinePKCurves)|\(timelineStrengthScaling)|\(searchText)|\(filterTags.hashValue)|\(filterCategories.hashValue)|\(filterRoutes.hashValue)"
     }
 
     /// The Timeline grouping rendered as list rows — the same continuous
     /// strip the pushed timeline screen draws (day pills float over each
-    /// slice), with the meds/Active Now cards above.
+    /// slice), with the meds/Active Now cards above and the strip's display
+    /// options (the pushed screen's toolbar menu) as a compact row on top.
+    @ViewBuilder
     private var timelineContent: some View {
+        TimelineOptionsMenu(
+            zoom: $timelineZoom,
+            compressGaps: $timelineCompression,
+            pkCurves: $timelinePKCurves,
+            strengthScaling: $timelineStrengthScaling,
+        ) {
+            Label {
+                Text(verbatim: TimelineZoom.label(timelineZoom))
+            } icon: {
+                Image(systemName: "slider.horizontal.3")
+            }
+            .font(.caption.weight(.medium))
+        }
+        .menuStyle(.button)
+        .buttonStyle(.glass)
+        .buttonBorderShape(.capsule)
+        .controlSize(.small)
+        .frame(maxWidth: .infinity, alignment: .trailing)
+        .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 6, trailing: 16))
+        .listRowSeparator(.hidden)
+        .listRowBackground(Color.clear)
+
         ForEach(timelineModel.days) { day in
             TimelineDayContent(
                 day: day,
