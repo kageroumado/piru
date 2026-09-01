@@ -25,7 +25,11 @@ final class DockDetentBookkeeping {
     var compactValue: CGFloat = 0
     /// Invalidates deferred detent work (the UIKit selection hand-off and the
     /// member prune in `applyDetents`) when a newer change supersedes it.
+    /// Settle callbacks are never invalidated with it — they wait in
+    /// ``pendingSettled`` for whichever move lands.
     var generation = 0
+    /// Work queued behind the sheet's next settle, across supersession.
+    var pendingSettled = PendingSettleQueue()
     /// Logical height the in-flight ramp is heading to — marks "a ramp owns
     /// the sheet right now" and anchors chained retargets.
     var rampLogicalTarget: CGFloat?
@@ -42,6 +46,33 @@ final class DockDetentBookkeeping {
     let frameAnimator = DisplayLinkAnimator()
     /// The mutable custom detent driving the ramp.
     let rampDetent = MutableSheetDetent()
+}
+
+/// Callbacks waiting for the sheet's next settle. A detent move can be
+/// superseded before it lands — a newer `applyDetents` bumps the generation
+/// and the older move's completion is dropped — so a callback is queued here
+/// rather than bound to the move that registered it, and the move that
+/// finally lands drains the whole queue in registration order. Work sequenced
+/// behind a resize (revealing a freshly staged row once the sheet has grown
+/// for it) therefore survives a second refresh landing mid-move, such as the
+/// commit bar growing for an interaction warning.
+struct PendingSettleQueue {
+    private var callbacks: [() -> Void] = []
+
+    var isEmpty: Bool {
+        callbacks.isEmpty
+    }
+
+    mutating func enqueue(_ callback: (() -> Void)?) {
+        guard let callback else { return }
+        callbacks.append(callback)
+    }
+
+    /// Removes every queued callback and returns them in registration order.
+    mutating func drain() -> [() -> Void] {
+        defer { callbacks.removeAll() }
+        return callbacks
+    }
 }
 
 // MARK: - Display-link animator

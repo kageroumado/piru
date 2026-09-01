@@ -703,7 +703,8 @@ private struct BottomAccessoryContent: View {
         } label: {
             Image(systemName: "shippingbox")
                 .font((compact ? Font.subheadline : Font.title3).weight(.medium))
-                .foregroundStyle(.secondary)
+                // Accent like the "+": a gray glyph beside a tinted one reads as disabled.
+                .foregroundStyle(Theme.accent)
                 .frame(width: controlSide, height: controlSide)
                 .contentShape(Circle())
         }

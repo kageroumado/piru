@@ -424,6 +424,8 @@ struct QuickLogCardList: View {
     /// re-logs. Long-press to manage meds.
     private func routinePill(_ group: DailyCategoryGroup, staged: [String: StagedChipCounts]) -> some View {
         let done = group.remaining.isEmpty
+        let count = group.items.count
+        let taken = count - group.remaining.count
         let allStaged = group.items.allSatisfy { stagedQuantity($0, staged: staged) > 0 }
         return Button {
             withAnimation(.snappy) {
@@ -437,11 +439,19 @@ struct QuickLogCardList: View {
                     .imageScale(.small)
                     .accessibilityHidden(true)
                 Text(group.title)
-                // A single-med pill (every PRN med) is just its name — "· 1"
-                // is noise.
-                if group.items.count > 1 {
-                    Text(verbatim: "· \(group.items.count)")
-                        .opacity(0.75)
+                // A single-med pill is just the med's name — "· 1" is noise. A
+                // slot with several shows its count, and progress once any of
+                // them is taken ("· 1 of 2", "✓ Morning · 2 of 2"), so the check
+                // always has a visible subject.
+                if count > 1 {
+                    Group {
+                        if taken > 0 {
+                            Text("· \(taken) of \(count)")
+                        } else {
+                            Text(verbatim: "· \(count)")
+                        }
+                    }
+                    .opacity(0.75)
                 }
             }
             .font(.subheadline.weight(.semibold))
@@ -466,8 +476,10 @@ struct QuickLogCardList: View {
         .accessibilityLabel(group.title)
         .accessibilityValue(
             done
-                ? Text("^[\(group.items.count) item](inflect: true), all logged today")
-                : Text("^[\(group.items.count) item](inflect: true)"),
+                ? Text("^[\(count) item](inflect: true), all logged today")
+                : taken > 0
+                ? Text("\(taken) of \(count) logged today")
+                : Text("^[\(count) item](inflect: true)"),
         )
         .accessibilityHint("Stages this group’s meds")
         .accessibilityAddTraits(.isButton)

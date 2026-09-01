@@ -629,13 +629,21 @@ final class QuickLogContentModel {
             items.filter { takenToday($0) < max(1, $0.reminderTimesMinutes.count) }
         }
 
+        func medName(_ item: DailyDoseItem) -> String {
+            item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance)
+        }
+
         var groups: [DailyCategoryGroup] = MedTimeGroup.allCases.compactMap { group in
             guard group != .asNeeded else { return nil }
             let items = dailyDoseItems.filter { MedTimeGroup.belongs($0, to: group) }
             guard !items.isEmpty else { return nil }
+            // A slot holding one med is titled by the med: "✓ Anytime" reads
+            // as a substance called Anytime being checked, "✓ Memantine" reads
+            // as the med being taken. The slot's icon still says when.
+            let title = items.count == 1 ? medName(items[0]) : String(localized: group.label)
             return DailyCategoryGroup(
                 id: group.slug,
-                title: String(localized: group.label),
+                title: title,
                 icon: group.symbol,
                 items: items,
                 remaining: remaining(in: items),
@@ -648,7 +656,7 @@ final class QuickLogContentModel {
             let capped = item.maxPerDay.map { takenToday(item) >= $0 } ?? false
             groups.append(DailyCategoryGroup(
                 id: "prn-\(item.identityKey)-\(item.sortOrder)",
-                title: item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance),
+                title: medName(item),
                 icon: "cross.vial",
                 items: [item],
                 remaining: capped ? [] : [item],

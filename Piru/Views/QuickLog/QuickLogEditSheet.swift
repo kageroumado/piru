@@ -21,6 +21,10 @@ struct QuickLogEditSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appNavigator) private var navigator
     @State private var customStore = CustomSubstanceStore.shared
+    /// The "Now" pill's quick offsets — the same shared-suite key the pill
+    /// reads and `DoseTimeSettingsView` writes.
+    @AppStorage(DoseTimeDefaults.choicesKey, store: UserDefaults(suiteName: DoseTimeDefaults.suite))
+    private var doseTimeChoicesRaw = DoseTimeDefaults.defaultRaw
 
     @State private var path = NavigationPath()
 
@@ -32,6 +36,7 @@ struct QuickLogEditSheet: View {
                     favoritesSection
                 }
                 drinksSections
+                doseTimesSection
             }
             .environment(\.editMode, .constant(.active))
             .navigationDestination(for: CustomDrinkPreset.self) { preset in
@@ -39,6 +44,9 @@ struct QuickLogEditSheet: View {
             }
             .navigationDestination(for: NewDrinkRoute.self) { route in
                 DrinkPresetForm(preset: nil, substanceName: route.substanceName)
+            }
+            .navigationDestination(for: DoseTimesRoute.self) { _ in
+                DoseTimeSettingsView()
             }
             .navigationTitle("Edit")
             .navigationBarTitleDisplayMode(.inline)
@@ -255,7 +263,44 @@ struct QuickLogEditSheet: View {
         }
         try? modelContext.save()
     }
+
+    // MARK: Dose times
+
+    /// The offsets the tray's "Now" pill offers, with the editor Settings also
+    /// pushes — the pill is edited where it's used, not only under Settings.
+    private var doseTimesSection: some View {
+        Section {
+            Button {
+                path.append(DoseTimesRoute())
+            } label: {
+                Label {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Edit Dose Times…")
+                        Text(doseTimesSummary)
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                } icon: {
+                    Image(systemName: "clock.arrow.circlepath")
+                }
+            }
+        } header: {
+            Text("Dose Times")
+                .textCase(nil)
+        } footer: {
+            Text("The quick offsets in the “Now” menu when logging a dose.")
+        }
+    }
+
+    private var doseTimesSummary: String {
+        DoseTimeDefaults.parse(doseTimeChoicesRaw)
+            .map { TrayTime.offsetLabel(minutes: $0) }
+            .joined(separator: " · ")
+    }
 }
+
+/// Push target for the "Now" pill's offset editor.
+private struct DoseTimesRoute: Hashable {}
 
 /// Push target for creating a new drink preset in a given substance's group —
 /// `CustomDrinkPreset` itself routes to the edit form.

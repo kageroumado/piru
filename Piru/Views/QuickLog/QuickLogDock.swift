@@ -552,9 +552,13 @@ struct QuickLogDock: View {
     ) {
         bookkeeping.generation &+= 1
         let generation = bookkeeping.generation
+        // Queued, not captured: if this move is superseded before it lands,
+        // its completion below is dropped, and the callback must still run
+        // when the superseding move settles (see ``PendingSettleQueue``).
+        bookkeeping.pendingSettled.enqueue(onSettled)
         guard selection != detent else {
             detents = target
-            onSettled?()
+            settle()
             return
         }
         // Target members plus the *outgoing* selection as a bridge until the
@@ -572,14 +576,22 @@ struct QuickLogDock: View {
                 // to animate.
                 detent = selection
                 detents = target
-                onSettled?()
+                settle()
                 return
             }
             animateSelection(selection, height: height, in: sheet) {
                 guard generation == bookkeeping.generation else { return }
                 detents = target
-                onSettled?()
+                settle()
             }
+        }
+    }
+
+    /// Runs everything waiting on the sheet to settle — including callbacks
+    /// registered by moves this one superseded.
+    private func settle() {
+        for callback in bookkeeping.pendingSettled.drain() {
+            callback()
         }
     }
 
