@@ -110,10 +110,16 @@ private struct PushRouteView: View {
         case .libraryCustom:
             CustomSubstancesListView()
 
+        case .libraryColors:
+            SubstanceColorsListView()
+
         case let .tool(tool):
             toolView(for: tool)
                 .navigationTitle(Text(tool.name))
                 .navigationBarTitleDisplayMode(.inline)
+
+        case .dataStorage:
+            DataStorageView()
 
         case let .drugClass(slug):
             DrugClassDetailView(slug: slug)

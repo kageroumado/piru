@@ -99,6 +99,7 @@ struct ToolsView: View {
                 InteractionsSummaryCard()
                 InventorySummaryCard()
                 MyMedsToolCard()
+                DataBackupToolCard()
 
                 ForEach(rowTools) { tool in
                     GlanceCard(icon: tool.icon, title: Text(tool.name), route: .tool(tool)) {
@@ -114,6 +115,20 @@ struct ToolsView: View {
         }
         .background(Theme.background)
         .appNavigationBar("Tools")
+    }
+}
+
+/// Pushes `DataStorageView` — the record's own tool: what is stored on the
+/// device, iCloud backup, export and import, recovery snapshots, and the
+/// substance database. The same screen stays reachable from Settings.
+private struct DataBackupToolCard: View {
+    var body: some View {
+        GlanceCard(icon: "externaldrive", title: Text("Data & Backup"), route: .dataStorage) {
+            Text("Export, import, and encrypted backups")
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
     }
 }
 
