@@ -133,6 +133,8 @@ MEDTAP_PK = REPO / "data/sources/medtap-pk.json"
 # The build drops citations this proved dead (HTTP 404/410) so no broken link ships.
 LINK_CACHE = REPO / "data/sources/link-cache.json"
 PSYCHONAUTWIKI = REPO / "data/sources/psychonautwiki.json"
+# SubFxOnEx ontology release, verbatim — see pipeline/fetch/subfxonex.py.
+SUBFXONEX = REPO / "data/sources/subfxonex.json"
 PUBMED_PUBTYPES = REPO / "data/sources/pubmed-pubtypes.json"
 ENRICHMENT_DIR = REPO / "data/enrichment/raw"
 
@@ -1005,6 +1007,39 @@ CREATE TABLE subjective_effects (
 );
 CREATE INDEX idx_subjective_substance ON subjective_effects(substance_id);
 CREATE INDEX idx_subjective_vocab     ON subjective_effects(vocab_id) WHERE vocab_id IS NOT NULL;
+
+-- SubFxOnEx subjective-effects ontology (drug.community, LGPL-2.1): the
+-- descriptor vocabulary on session notes. Substance-independent, so it has no
+-- substance_id. `kind` is 'rollup' (21 top-level groups, one per domain,
+-- parent_id NULL) or 'atomic' (485 concepts, each under one rollup). `position`
+-- is the release's display order. Ids are the release's own UUIDs — a note
+-- stores them, so they must survive every rebuild unchanged.
+CREATE TABLE subjective_effect_concepts (
+    id          TEXT PRIMARY KEY,
+    name        TEXT NOT NULL,
+    slug        TEXT NOT NULL UNIQUE,
+    domain      TEXT NOT NULL,
+    kind        TEXT NOT NULL CHECK (kind IN ('rollup', 'atomic')),
+    parent_id   TEXT REFERENCES subjective_effect_concepts(id),
+    position    INTEGER NOT NULL,
+    definition  TEXT
+);
+CREATE INDEX idx_sec_parent ON subjective_effect_concepts(parent_id);
+CREATE INDEX idx_sec_kind ON subjective_effect_concepts(kind, position);
+
+-- Alias labels for the chip search ("absorbed in the present" → attentional
+-- absorption). `normalized_label` follows the release's own normalization
+-- (lowercase, NFKD, ASCII dashes, collapsed whitespace) so a lowercased query
+-- can prefix-match it directly.
+CREATE TABLE subjective_effect_concept_aliases (
+    id               INTEGER PRIMARY KEY,
+    label            TEXT NOT NULL,
+    normalized_label TEXT NOT NULL,
+    effect_id        TEXT NOT NULL REFERENCES subjective_effect_concepts(id),
+    UNIQUE(normalized_label, effect_id)
+);
+CREATE INDEX idx_seca_effect ON subjective_effect_concept_aliases(effect_id);
+CREATE INDEX idx_seca_label ON subjective_effect_concept_aliases(normalized_label);
 
 -- drug.community intensity spectrum: one row per dose band (dc's 6 fixed levels
 -- mapped onto Piru's dose-band vocabulary). Powers the circular dose-intensity
@@ -3017,8 +3052,13 @@ def enforce_us_english(con) -> dict:
         ("molecule_shapes", "atoms_json"),
         ("molecule_shapes", "bonds_json"),
     }
+    # The SubFxOnEx ontology ships verbatim (LGPL-2.1, and a note's descriptor
+    # search matches the release's own normalized labels) — never rewrite it.
+    verbatim_tables = {"subjective_effect_concepts", "subjective_effect_concept_aliases"}
     rewritten = 0
     for table in tables:
+        if table in verbatim_tables:
+            continue
         columns = [
             r[1]
             for r in cur.execute(f'PRAGMA table_info("{table}")')
@@ -7675,6 +7715,63 @@ class Build:
         data = json.loads(path.read_text())
         for s in sorted(data, key=lambda x: x.get("name", "").lower()):
             self._ingest_substance_record(s, "piru-curated")
+
+    def ingest_subfxonex(self, path: Path) -> None:
+        """Load the SubFxOnEx ontology release into the two concept tables.
+
+        Rollups are inserted before atomics so the parent FK resolves
+        (foreign_keys is ON). Every concept and alias in the release is shipped
+        — the license asks for the data unmodified in shape, and a trimmed
+        vocabulary would silently orphan any descriptor id a note already holds.
+        """
+        if not path.exists():
+            print(
+                f"  (no SubFxOnEx snapshot at {path}; run pipeline/fetch/subfxonex.py)",
+                file=sys.stderr,
+            )
+            return
+        data = json.loads(path.read_text())
+        concepts = data.get("concepts") or []
+        aliases = data.get("aliases") or []
+        by_kind = {"rollup": 0, "atomic": 1}
+        ordered = sorted(
+            concepts, key=lambda c: (by_kind.get(c.get("kind"), 2), c.get("position", 0), c["id"])
+        )
+        known: set[str] = set()
+        for c in ordered:
+            parent = c.get("parent_id")
+            if parent is not None and parent not in known:
+                raise ValueError(
+                    f"SubFxOnEx concept {c['id']} ({c.get('name')}) names unknown parent {parent}"
+                )
+            self.cur.execute(
+                "INSERT INTO subjective_effect_concepts(id, name, slug, domain, kind, parent_id, position, definition)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    c["id"],
+                    c["name"],
+                    c["slug"],
+                    c["domain"],
+                    c["kind"],
+                    parent,
+                    int(c.get("position", 0)),
+                    c.get("definition"),
+                ),
+            )
+            known.add(c["id"])
+        alias_rows = 0
+        for a in aliases:
+            if a.get("effect_id") not in known:
+                raise ValueError(
+                    f"SubFxOnEx alias {a.get('label')!r} names unknown concept {a.get('effect_id')}"
+                )
+            self.cur.execute(
+                "INSERT OR IGNORE INTO subjective_effect_concept_aliases(label, normalized_label, effect_id) VALUES (?, ?, ?)",
+                (a["label"], a.get("normalized_label") or a["label"].lower(), a["effect_id"]),
+            )
+            alias_rows += self.cur.rowcount
+        self.stats["subjective_effect_concepts"] = len(ordered)
+        self.stats["subjective_effect_concept_aliases"] = alias_rows
 
     def ingest_psychonautwiki_snapshot(self, path: Path) -> None:
         """Ingest the PsychonautWiki GraphQL snapshot generated by
@@ -12956,6 +13053,10 @@ def main() -> int:
     build.ingest_freeodwiki(FREEODWIKI)
     print(f"After drug.community: {build.stats}", file=sys.stderr)
 
+    # Substance-independent: the session-note descriptor vocabulary.
+    build.ingest_subfxonex(SUBFXONEX)
+    print(f"After SubFxOnEx: {build.stats}", file=sys.stderr)
+
     for f in sorted(ENRICHMENT_DIR.glob("*.json")):
         before = dict(build.stats)
         build.ingest_enrichment(f)
@@ -13791,6 +13892,8 @@ def main() -> int:
         "mechanisms_summary",
         "effects",
         "subjective_effects",
+        "subjective_effect_concepts",
+        "subjective_effect_concept_aliases",
         "tolerance",
         "indications",
         "contraindications",

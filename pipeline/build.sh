@@ -22,6 +22,8 @@ if [ "$MODE" = "full" ]; then
   step "1/8  Fetch PsychonautWiki  → data/sources/psychonautwiki.json"
   python3 pipeline/fetch/psychonautwiki.py
   # drug.community is a manual snapshot → data/sources/drug-community.json (no script)
+  step "1b/8 Fetch SubFxOnEx ontology → data/sources/subfxonex.json"
+  python3 pipeline/fetch/subfxonex.py
 
   step "2/8  Merge scraped web sources (Swift collector) → data/intermediate/sourced-substances.json"
   # TripSit + Wikidata + PubChem + Erowid + DEA. The collector also reads the

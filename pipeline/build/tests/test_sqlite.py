@@ -690,6 +690,34 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
                 broken.append(f"{path.name}: not a list")
         self.assertEqual([], broken)
 
+    def test_subfxonex_ontology_ships_whole(self):
+        """A note stores concept ids, so the shipped vocabulary must be the whole
+        release: every rollup, every atomic under a rollup, every alias resolving."""
+        snapshot = json.loads(
+            (Path(__file__).resolve().parents[3] / "data/sources/subfxonex.json").read_text()
+        )
+        concepts = snapshot["concepts"]
+        rollups = self.db.execute(
+            "select count(*) from subjective_effect_concepts where kind = 'rollup' and parent_id is null"
+        ).fetchone()[0]
+        atomics = self.db.execute(
+            "select count(*) from subjective_effect_concepts c"
+            " join subjective_effect_concepts p on p.id = c.parent_id and p.kind = 'rollup'"
+            " where c.kind = 'atomic'"
+        ).fetchone()[0]
+        self.assertEqual(rollups, sum(1 for c in concepts if c["kind"] == "rollup"))
+        self.assertEqual(atomics, sum(1 for c in concepts if c["kind"] == "atomic"))
+        self.assertEqual(rollups + atomics, len(concepts))
+        aliases = self.db.execute(
+            "select count(*) from subjective_effect_concept_aliases"
+        ).fetchone()[0]
+        self.assertEqual(aliases, len(snapshot["aliases"]))
+        orphans = self.db.execute(
+            "select count(*) from subjective_effect_concept_aliases a"
+            " left join subjective_effect_concepts c on c.id = a.effect_id where c.id is null"
+        ).fetchone()[0]
+        self.assertEqual(orphans, 0)
+
     def test_substance_forms_are_written_in_a_stable_order(self):
         """Insertion order within a substance must not depend on PYTHONHASHSEED — an
         unsorted `set` here made two builds of identical inputs differ in row order,
