@@ -16,6 +16,13 @@ enum OnboardingTips {
         if UserDefaults.standard.bool(forKey: "hasCompletedOnboarding") {
             markOnboardingComplete()
         }
+        #if DEBUG
+            // Debug builds reset the simulator constantly and every reset re-arms the whole
+            // ladder, so tips stay hidden unless a run opts in with `-piruShowTips YES`.
+            if !UserDefaults.standard.bool(forKey: "piruShowTips") {
+                Tips.hideAllTipsForTesting()
+            }
+        #endif
     }
 
     /// Flip every onboarding-gated tip's eligibility on. Called when onboarding finishes and at

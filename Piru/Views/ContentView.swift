@@ -87,6 +87,11 @@ private struct DiscordInviteModifier: ViewModifier {
                 DiscordPromptView()
             }
             .task {
+                #if DEBUG
+                    // Same opt-in as the tips: a reset simulator would otherwise re-invite on
+                    // every third launch.
+                    guard UserDefaults.standard.bool(forKey: "piruShowTips") else { return }
+                #endif
                 guard hasCompletedOnboarding, !discordShown, !discordDismissed, appLaunchCount >= 3
                 else { return }
                 let hasDose = ((try? modelContext.fetchCount(FetchDescriptor<DoseEntry>())) ?? 0) > 0
