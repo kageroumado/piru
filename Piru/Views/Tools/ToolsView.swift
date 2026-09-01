@@ -126,6 +126,10 @@ struct ToolsView: View {
 private struct MyMedsToolCard: View {
     @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
 
+    /// Personalized names resolve through the batch cache; until it is warm
+    /// (a launch restored onto this tab) rows show the stored name, one frame.
+    @State private var warmed = false
+
     var body: some View {
         let scheduled = items.filter { !$0.isAsNeeded }
         GlanceCard(icon: "pills", title: Text("My Meds"), route: .myMeds) {
@@ -138,7 +142,7 @@ private struct MyMedsToolCard: View {
                 VStack(spacing: 6) {
                     ForEach(scheduled.prefix(3)) { item in
                         HStack {
-                            Text(CustomSubstanceStore.shared.displayName(for: item.substance))
+                            Text(warmed ? CustomSubstanceStore.shared.displayName(for: item.substance) : item.substance)
                                 .font(.subheadline)
                                 .lineLimit(1)
                             Spacer()
@@ -152,6 +156,10 @@ private struct MyMedsToolCard: View {
                     }
                 }
             }
+        }
+        .task {
+            await SubstanceStore.shared.ensureAllLoaded()
+            warmed = true
         }
     }
 }
