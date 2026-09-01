@@ -4,8 +4,8 @@ import SwiftUI
 /// A vertically scrollable timeline of all dose entries — one **continuous
 /// strip of time** running upward: the newest moment is at the top and every
 /// scroll downward goes further into the past, through day boundaries without
-/// a seam. Day pills float over the strip as markers; curves, the axis, and
-/// the hour ruler flow straight through them.
+/// a seam. A day tag sits in the label gutter at the top of each slice as a
+/// marker; the curves and the axis flow straight past it.
 ///
 /// The scale is uniform (points per minute, adjustable by zoom); only
 /// doseless stretches are compressed, capped so an empty night costs a
@@ -27,6 +27,7 @@ struct UnifiedTimelineView: View {
     @AppStorage("timelineZoom", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var zoom = 1.0
     @AppStorage("timelineCompression", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var compressGaps = true
     @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var pkCurves = false
+    @AppStorage("timelineStrengthScaling", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var strengthScaling = true
     @Environment(\.appNavigator) private var navigator
 
     var body: some View {
@@ -60,7 +61,14 @@ struct UnifiedTimelineView: View {
             .simultaneousGesture(magnification)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    scaleMenu
+                    TimelineOptionsMenu(
+                        zoom: $zoom,
+                        compressGaps: $compressGaps,
+                        pkCurves: $pkCurves,
+                        strengthScaling: $strengthScaling,
+                    ) {
+                        Image(systemName: "slider.horizontal.3")
+                    }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -85,13 +93,14 @@ struct UnifiedTimelineView: View {
                     zoom: zoom,
                     compressGaps: compressGaps,
                     pkCurves: pkCurves,
+                    strengthScaling: strengthScaling,
                 )
             }
         }
     }
 
     private var rebuildKey: String {
-        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)"
+        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(strengthScaling)"
     }
 
     /// Pinch on the graph: preview by stretching vertically while the fingers
@@ -102,54 +111,8 @@ struct UnifiedTimelineView: View {
                 state = min(max(value.magnification, 0.7), 1.6)
             }
             .onEnded { value in
-                zoom = min(max(zoom * value.magnification, 0.5), 4)
+                zoom = min(max(zoom * value.magnification, TimelineZoom.range.lowerBound), TimelineZoom.range.upperBound)
             }
-    }
-
-    private var scaleMenu: some View {
-        Menu {
-            ForEach([0.6, 1.0, 1.6, 2.5], id: \.self) { preset in
-                Button {
-                    zoom = preset
-                } label: {
-                    if abs(zoom - preset) < 0.01 {
-                        Label(Self.zoomLabel(preset), systemImage: "checkmark")
-                    } else {
-                        Text(Self.zoomLabel(preset))
-                    }
-                }
-            }
-            Divider()
-            Toggle("Compress empty time", isOn: $compressGaps)
-            Divider()
-            Button {
-                pkCurves = false
-            } label: {
-                if pkCurves {
-                    Text("Effect curves")
-                } else {
-                    Label("Effect curves", systemImage: "checkmark")
-                }
-                Text("How strongly effects are felt over time")
-            }
-            Button {
-                pkCurves = true
-            } label: {
-                if pkCurves {
-                    Label("Body load (PK)", systemImage: "checkmark")
-                } else {
-                    Text("Body load (PK)")
-                }
-                Text("How much is estimated to remain in your body")
-            }
-        } label: {
-            Image(systemName: "slider.horizontal.3")
-        }
-        .accessibilityLabel(Text("Display Options"))
-    }
-
-    private static func zoomLabel(_ value: Double) -> String {
-        "\(value.formatted(.number.precision(.fractionLength(0 ... 1))))×"
     }
 
     private func calendarSheet(proxy: ScrollViewProxy) -> some View {
@@ -218,8 +181,9 @@ final class UnifiedTimelineModel {
         zoom: Double,
         compressGaps: Bool,
         pkCurves: Bool,
+        strengthScaling: Bool,
     ) async {
-        let key = "\(revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(entries.count)"
+        let key = "\(revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(strengthScaling)|\(entries.count)"
         if key == builtKey, !days.isEmpty { return }
         await SubstanceStore.shared.ensureAllLoaded()
         guard !Task.isCancelled else { return }
@@ -231,6 +195,7 @@ final class UnifiedTimelineModel {
             zoom: zoom,
             compressGaps: compressGaps,
             pkCurves: pkCurves,
+            strengthScaling: strengthScaling,
         ) else {
             days = []
             builtKey = key
@@ -258,33 +223,57 @@ final class UnifiedTimelineModel {
 
 // MARK: - Day header pill
 
-/// The floating day marker — a small glass capsule over the strip. The
-/// timeline continues underneath it; the pill only names where you are.
+/// The day marker at the top of each slice — a two-line tag (relative day or
+/// weekday, then the date) that sits inside the hour-label gutter, ending
+/// before the axis. Opaque, so the ruler ticks it covers stay covered and the
+/// curve lane beside it stays untouched at every zoom.
 struct TimelineDayHeader: View {
     let date: Date
     let isToday: Bool
+    /// The gutter's width — the tag fills it edge to edge.
+    let width: CGFloat
 
     var body: some View {
-        HStack(spacing: 6) {
-            if isToday {
-                Circle()
-                    .fill(Theme.accent)
-                    .frame(width: 7, height: 7)
+        VStack(alignment: .leading, spacing: 1) {
+            HStack(spacing: 4) {
+                if isToday {
+                    Circle()
+                        .fill(Theme.accent)
+                        .frame(width: 6, height: 6)
+                }
+                Text(primaryText)
+                    .font(.system(size: 11, weight: .semibold, design: .rounded))
+                    .foregroundStyle(isToday ? .primary : Theme.secondaryLabel)
             }
-            Text(headerText)
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(isToday ? .primary : Theme.secondaryLabel)
+            Text(date.formatted(.dateTime.month(.abbreviated).day()))
+                .font(.system(size: 9.5, design: .rounded).monospacedDigit())
+                .foregroundStyle(Theme.secondaryLabel.opacity(0.8))
         }
-        .padding(.horizontal, 11)
-        .padding(.vertical, 5)
-        .background(.ultraThinMaterial, in: .capsule)
+        .lineLimit(1)
+        .minimumScaleFactor(0.75)
+        .padding(.horizontal, 7)
+        .padding(.vertical, 4)
+        .frame(width: width, alignment: .leading)
+        .background {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(Theme.background)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(Color.primary.opacity(0.04))
+                }
+                .overlay {
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .strokeBorder(Color.primary.opacity(0.07), lineWidth: 1)
+                }
+        }
+        .accessibilityElement(children: .combine)
     }
 
-    private var headerText: String {
+    private var primaryText: String {
         let calendar = Calendar.current
         if calendar.isDateInToday(date) { return String(localized: "Today") }
         if calendar.isDateInYesterday(date) { return String(localized: "Yesterday") }
-        return date.formatted(.dateTime.weekday(.wide).month(.abbreviated).day())
+        return date.formatted(.dateTime.weekday(.abbreviated))
     }
 }
 
@@ -317,8 +306,10 @@ struct TimelineDayContent: View {
         .padding(.leading, 8)
         .padding(.trailing, 12)
         .overlay(alignment: .topLeading) {
-            TimelineDayHeader(date: day.date, isToday: day.isToday)
-                .padding(.leading, 12)
+            // Inset 4 from the leading edge and sized to end at the gutter's
+            // trailing edge, short of the axis in the curve column.
+            TimelineDayHeader(date: day.date, isToday: day.isToday, width: Self.timeWidth + 4)
+                .padding(.leading, 4)
                 .padding(.top, 4)
         }
     }
@@ -345,7 +336,7 @@ struct TimelineDayContent: View {
                 context.draw(context.resolve(text), at: CGPoint(x: size.width - 9, y: tick.y), anchor: .trailing)
             }
 
-            for group in day.cardGroups {
+            for group in day.cardGroups where group.showsTimeLabel {
                 let y = group.centerY
                 guard y >= 0, y <= size.height else { continue }
                 let text = Text(group.representativeTime.formatted(date: .omitted, time: .shortened))
@@ -588,6 +579,9 @@ struct TimelineDayLayout: Identifiable {
         /// Resolved top of the card stack (after collision push-down).
         var topY: CGFloat = 0
         var inSession = false
+        /// `false` when the group's timestamp would overprint the "Now" tag
+        /// in the gutter — Now wins (``TimelineGutterLabels``).
+        var showsTimeLabel = true
 
         var height: CGFloat {
             CGFloat(items.count) * TimelineDayLayout.cardHeight
@@ -659,6 +653,10 @@ struct TimelineStripBuilder {
     private let remainingFractions: [PersistentIdentifier: Double]
     /// Body-load mode: draw half-life PK decay instead of effect curves.
     private let pkCurves: Bool
+    /// Weight each dose's curve by its strength (effect intensity, or amount
+    /// in PK mode). Off, every dose draws at unit weight — a medium dose gets
+    /// the full lane instead of a sliver of it.
+    private let strengthScaling: Bool
     /// Effect states per substance (lowercased canonical name) — the same
     /// acute-effect curves every other timeline surface draws. Doses without
     /// duration data have no state and appear as dots/cards only, exactly as
@@ -688,10 +686,11 @@ struct TimelineStripBuilder {
         slices.count
     }
 
-    init?(entries: [DoseEntry], colors: [SubstanceColor], colorMap: [String: Color], zoom: Double, compressGaps: Bool, pkCurves: Bool) {
+    init?(entries: [DoseEntry], colors: [SubstanceColor], colorMap: [String: Color], zoom: Double, compressGaps: Bool, pkCurves: Bool, strengthScaling: Bool) {
         guard !entries.isEmpty else { return nil }
         self.colorMap = colorMap
         self.pkCurves = pkCurves
+        self.strengthScaling = strengthScaling
         remainingFractions = Self.computeRemainingFractions(entries: entries)
 
         let states = ActiveSubstanceState.timeline(for: entries, colors: colors).states
@@ -708,17 +707,22 @@ struct TimelineStripBuilder {
         guard let oldestDay = dayDates.last else { return nil }
 
         // Strip bounds: from just before the oldest dose up past "now" to
-        // where the still-running effects end (bounded), so the axis visibly
-        // continues into the modeled near future.
+        // where the longest still-running curve ends plus a margin, capped at
+        // a day so a multi-day half-life can't make the future a screen-tall
+        // empty run. The curve mode decides what "running" means: effect
+        // windows, or six half-lives in body-load mode.
         let globalStart = byDay[oldestDay]!.map(\.timestamp).min()!.addingTimeInterval(-5 * 60)
         let currentTime = now
-        let effectsEnd = states
-            .map { $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) }
-            .filter { $0 > currentTime }
-            .max()
+        let modeledEnds: [Date] = pkCurves
+            ? Self.pkActivityEnds(entries: entries)
+            : states.map { $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) }
+        let curvesEnd = modeledEnds.filter { $0 > currentTime }.max()
         let globalEnd = max(
-            currentTime.addingTimeInterval(10 * 60),
-            min(effectsEnd ?? .distantPast, currentTime.addingTimeInterval(4 * 3_600)),
+            currentTime.addingTimeInterval(Self.minimumFutureSeconds),
+            min(
+                (curvesEnd ?? .distantPast).addingTimeInterval(Self.futureMarginSeconds),
+                currentTime.addingTimeInterval(Self.maximumFutureSeconds),
+            ),
         )
 
         // Slices, newest first. A slice runs from its day's start up to the
@@ -738,14 +742,18 @@ struct TimelineStripBuilder {
         slices = sliceInfos
 
         // Global map: uniform points-per-minute, with doseless gaps capped
-        // (unless compression is off). Every slice boundary and group anchor
-        // is a breakpoint. Per slice, if the cards need more room than its
-        // span provides, the deficit stretches the slice's largest gap — the
-        // dense stretches keep their uniform scale.
+        // (unless compression is off). Every slice boundary, group anchor,
+        // and "now" is a breakpoint. The segment past now carries the active
+        // curves' tails, so it gets its own, far roomier cap — the tail's end
+        // stays on the strip, with the hour ticks bunching to say how far it
+        // reaches. Per slice, if the cards need more room than its span
+        // provides, the deficit stretches the slice's largest gap — the dense
+        // stretches keep their uniform scale.
         let ppm = TimelineDayLayout.basePointsPerMinute * CGFloat(zoom)
         let gapCap: CGFloat = compressGaps ? max(90, 45 * ppm) : .infinity
+        let futureCap: CGFloat = compressGaps ? max(240, 240 * ppm) : .infinity
 
-        var eventTimes: Set<Date> = [globalStart, globalEnd]
+        var eventTimes: Set<Date> = [globalStart, globalEnd, currentTime]
         for slice in sliceInfos {
             eventTimes.insert(slice.bottomTime)
             for group in slice.groups {
@@ -758,7 +766,10 @@ struct TimelineStripBuilder {
         heights.reserveCapacity(times.count - 1)
         for i in 0 ..< (times.count - 1) {
             let minutes = CGFloat(times[i + 1].timeIntervalSince(times[i]) / 60)
-            heights.append(max(min(minutes * ppm, gapCap), 2))
+            let isFuture = times[i] >= currentTime
+            let cap = isFuture ? futureCap : gapCap
+            let floor = isFuture ? Self.liveEdgeMinimumHeight : 2
+            heights.append(max(min(minutes * ppm, cap), floor))
         }
 
         // Slice floors: stretch the largest segment inside an undersized
@@ -787,6 +798,39 @@ struct TimelineStripBuilder {
         mapTimes = times
         mapYs = ys
         stripHeight = ys[ys.count - 1]
+    }
+
+    /// The strip always runs at least this far past now, so the live edge
+    /// has room for its arrowhead and fade even when nothing is active.
+    private static let minimumFutureSeconds: TimeInterval = 10 * 60
+    /// Breathing room past the last curve's modeled end.
+    private static let futureMarginSeconds: TimeInterval = 30 * 60
+    /// Ceiling on the future extent, whatever is still active.
+    private static let maximumFutureSeconds: TimeInterval = 24 * 3_600
+    /// Point floor for the segment past now, at any zoom: keeps the "Now"
+    /// tag below the day tag in the gutter and clear of the axis arrowhead.
+    private static let liveEdgeMinimumHeight: CGFloat = 52
+
+    /// Body-load mode's activity end per dose: six half-lives, the same cutoff
+    /// ``computeRemainingFractions(entries:)`` treats as cleared. Doses that
+    /// draw no body-load curve (supplements, no half-life) contribute nothing.
+    private static func pkActivityEnds(entries: [DoseEntry]) -> [Date] {
+        var substanceCache: [String: Substance?] = [:]
+        var ends: [Date] = []
+        for entry in entries {
+            let key = entry.substance.lowercased()
+            let substance: Substance?
+            if let cached = substanceCache[key] {
+                substance = cached
+            } else {
+                substance = SubstanceLibrary.lookup(entry.substance)
+                substanceCache[key] = substance
+            }
+            if substance?.category == .supplement { continue }
+            guard let halfLife = PKResolver.halfLifeMinutes(substance: substance, entryName: entry.substance) else { continue }
+            ends.append(entry.timestamp.addingTimeInterval(halfLife * 6 * 60))
+        }
+        return ends
     }
 
     /// Global reversed lookup: later time → smaller y (from the strip's top).
@@ -902,6 +946,11 @@ struct TimelineStripBuilder {
             nil
         }
 
+        let visibleLabels = TimelineGutterLabels.doseLabelsVisible(doseYs: groups.map(\.centerY), nowY: nowY)
+        for k in groups.indices {
+            groups[k].showsTimeLabel = visibleLabels[k]
+        }
+
         let hourTicks = hourTicks(
             slice: slice,
             localY: localY,
@@ -945,6 +994,7 @@ struct TimelineStripBuilder {
         guard var t = calendar.dateInterval(of: .hour, for: slice.bottomTime)?.end else { return [] }
 
         let labels = groups.map { (time: $0.representativeTime, y: $0.centerY) }
+        let visibleDoseYs = groups.filter(\.showsTimeLabel).map(\.centerY)
         var ticks: [TimelineDayLayout.HourTick] = []
         var lastTickY: CGFloat = .infinity
         var lastLabelY: CGFloat = .infinity
@@ -958,8 +1008,7 @@ struct TimelineStripBuilder {
             }
             let labelFits = y >= 12 && y <= mapHeight - 12
                 && ordered
-                && labels.allSatisfy { abs($0.y - y) > 13 }
-                && (nowY.map { abs($0 - y) > 14 } ?? true)
+                && TimelineGutterLabels.hourLabelFits(y: y, doseYs: visibleDoseYs, nowY: nowY)
                 && lastLabelY - y >= 24
             if labelFits {
                 ticks.append(TimelineDayLayout.HourTick(y: y, label: t.formatted(.dateTime.hour())))
@@ -1039,7 +1088,7 @@ struct TimelineStripBuilder {
             values.reserveCapacity(grid.count)
             var sliceMax = 0.0
             for sample in grid {
-                let v = Self.effectValue(at: sample.t, states: relevant)
+                let v = Self.effectValue(at: sample.t, states: relevant, strengthScaling: strengthScaling)
                 values.append(v)
                 sliceMax = max(sliceMax, v)
             }
@@ -1080,7 +1129,7 @@ struct TimelineStripBuilder {
                 for entry in relevant {
                     let elapsed = sample.t.timeIntervalSince(entry.timestamp) / 60
                     if elapsed >= 0 {
-                        conc += entry.amount * PKModel.concentration(at: elapsed, ke: pk.ke, ka: pk.ka)
+                        conc += doseWeight(entry) * PKModel.concentration(at: elapsed, ke: pk.ke, ka: pk.ka)
                     }
                 }
                 values.append(conc)
@@ -1132,7 +1181,7 @@ struct TimelineStripBuilder {
             for entry in substanceEntries {
                 let elapsed = t.timeIntervalSince(entry.timestamp) / 60
                 if elapsed >= 0 {
-                    conc += entry.amount * PKModel.concentration(at: elapsed, ke: pk.ke, ka: pk.ka)
+                    conc += doseWeight(entry) * PKModel.concentration(at: elapsed, ke: pk.ke, ka: pk.ka)
                 }
             }
             peak = max(peak, conc)
@@ -1141,14 +1190,22 @@ struct TimelineStripBuilder {
         return peak
     }
 
+    /// PK mode's per-dose weight: the logged amount, or unit weight with
+    /// strength scaling off.
+    private func doseWeight(_ entry: DoseEntry) -> Double {
+        strengthScaling ? entry.amount : 1
+    }
+
     /// Stacked effect intensity for one substance at `t` — each dose's
-    /// phase-curve shape scaled by its dose intensity, summed.
-    private static func effectValue(at t: Date, states: [ActiveSubstanceState]) -> Double {
+    /// phase-curve shape scaled by its dose intensity (unit weight with
+    /// strength scaling off), summed.
+    private static func effectValue(at t: Date, states: [ActiveSubstanceState], strengthScaling: Bool) -> Double {
         var total = 0.0
         for state in states {
             let minutes = t.timeIntervalSince(state.doseTimestamp) / 60
             guard minutes >= 0, minutes <= state.totalMinutes else { continue }
-            total += state.doseIntensity * TimelineCurveModel.intensity(at: minutes, for: state)
+            let weight = strengthScaling ? state.doseIntensity : 1
+            total += weight * TimelineCurveModel.intensity(at: minutes, for: state)
         }
         return total
     }
@@ -1163,7 +1220,7 @@ struct TimelineStripBuilder {
             let crest = state.doseTimestamp.addingTimeInterval(
                 (state.comeupEndMinutes + state.peakEndMinutes) / 2 * 60,
             )
-            peak = max(peak, Self.effectValue(at: crest, states: states))
+            peak = max(peak, Self.effectValue(at: crest, states: states, strengthScaling: strengthScaling))
         }
         peakCache[key] = peak
         return peak
