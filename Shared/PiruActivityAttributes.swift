@@ -107,7 +107,18 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
     /// zero-order, and with what Vmax" once, at build time, and every renderer reads that answer.
     let zeroOrder: PKModel.ZeroOrderKinetics?
 
-    init(substanceName: String, colorHex: String, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, tachyphylaxis: Double = 0, bodyWeightKg: Double = PKModel.referenceBodyWeightKg, zeroOrder: PKModel.ZeroOrderKinetics? = nil) {
+    /// Widths (max − min, minutes) of the come-up, peak, and offset phase
+    /// ranges the boundary midpoints came from. The effect curve uses them to
+    /// let a "peak 3–5 h" profile draw broader/softer than a "peak 4 h" one:
+    /// come-up spread delays the full-effect anchor, peak spread broadens the
+    /// crest dome, offset spread extends the tail landing. `nil` (older
+    /// payloads, range-less or synthesized phases) means zero spread — the
+    /// pure midpoint fit.
+    let comeupSpreadMinutes: Double?
+    let peakSpreadMinutes: Double?
+    let offsetSpreadMinutes: Double?
+
+    init(substanceName: String, colorHex: String, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, heavyThresholdMagnitude: Double? = nil, tachyphylaxis: Double = 0, bodyWeightKg: Double = PKModel.referenceBodyWeightKg, zeroOrder: PKModel.ZeroOrderKinetics? = nil, comeupSpreadMinutes: Double? = nil, peakSpreadMinutes: Double? = nil, offsetSpreadMinutes: Double? = nil) {
         self.substanceName = substanceName
         self.colorHex = colorHex
         self.doseTimestamp = doseTimestamp
@@ -126,6 +137,9 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
         self.tachyphylaxis = tachyphylaxis
         self.bodyWeightKg = bodyWeightKg
         self.zeroOrder = zeroOrder
+        self.comeupSpreadMinutes = comeupSpreadMinutes
+        self.peakSpreadMinutes = peakSpreadMinutes
+        self.offsetSpreadMinutes = offsetSpreadMinutes
     }
 
     init(from decoder: Decoder) throws {
@@ -152,5 +166,9 @@ nonisolated struct ActiveSubstanceState: Codable, Hashable {
         // Absent on an activity started by an older build: the dose draws the fixed phase bell, which
         // is what every first-order substance gets and what alcohol got before this field existed.
         zeroOrder = try c.decodeIfPresent(PKModel.ZeroOrderKinetics.self, forKey: .zeroOrder)
+        // Absent on an activity started by an older build: zero spread — the pure midpoint fit.
+        comeupSpreadMinutes = try c.decodeIfPresent(Double.self, forKey: .comeupSpreadMinutes)
+        peakSpreadMinutes = try c.decodeIfPresent(Double.self, forKey: .peakSpreadMinutes)
+        offsetSpreadMinutes = try c.decodeIfPresent(Double.self, forKey: .offsetSpreadMinutes)
     }
 }

@@ -303,30 +303,6 @@ nonisolated enum TimelineCurveModel {
         return shape * toleranceGate(at: minutes, for: s)
     }
 
-    /// Subjective effect-strength curve in `[0, 1]`, built directly from the
-    /// dose's duration phases rather than a plasma-concentration model. The graph
-    /// shows *how strong the effects feel*, not blood level, so:
-    ///
-    /// The curve is a **Gaussian-shouldered bell**: a rising Gaussian half on the
-    /// left, an optional flat (or rounded) crest across the peak, and a falling
-    /// Gaussian half on the right. Each shoulder is anchored to its phase window —
-    ///
-    /// - **σ↑** `= (comeupEnd − onsetEnd) / comeupSharpness` widens the rising
-    ///   shoulder to span the come-up; the **onset delay falls out for free** as
-    ///   that shoulder's far-left tail (≈0 through the onset window). `comeupEnd`
-    ///   is the ``effectiveComeupEnd`` — synthesized when the data lists no
-    ///   come-up phase, so the rise never collapses to a vertical wall.
-    /// - **σ↓** `= (offsetEnd − peakEnd) / offsetSharpness` widens the falling
-    ///   shoulder to span the offset.
-    /// - **crest** holds at 1.0 between `leftEdge`/`rightEdge`; ``peakDome`` shrinks
-    ///   that flat span toward the peak center, so a short peak rounds to a bell
-    ///   tip while a long one keeps a gently broad crest.
-    ///
-    /// Both shoulders meet the crest with zero slope (a Gaussian's derivative is 0
-    /// at its mean), so the whole curve is C¹-smooth — no shoulder kinks like the
-    /// old smoothstep+sine. The asymmetry users expect (fast rise, slow fall)
-    /// comes from the offset window being wider than the come-up window in the
-    /// data, not from the constants. Tuned with the offline curve tools.
     /// Zero-order elimination kinetics + the logged dose in **milligrams** for a substance whose
     /// clearing enzyme saturates across its dose range (alcohol). `nil` for every first-order
     /// substance, or when the dose can't be read as a mass — both fall back to the phase bell.
@@ -382,6 +358,27 @@ nonisolated enum TimelineCurveModel {
         }
     }
 
+    /// Subjective effect-strength curve in `[0, 1]`, built directly from the
+    /// dose's duration phases rather than a plasma-concentration model. The graph
+    /// shows *how strong the effects feel*, not blood level.
+    ///
+    /// The shape is a **split flat-top generalized Gaussian times a bounded crest
+    /// dome** — one smooth arc through the phase anchors instead of pieces joined
+    /// at phase boundaries. Per side of the crest instant μ:
+    ///
+    ///     shape(t) = exp(−½·(|t−μ|/σ)^p) · dome(|t−μ|/S)
+    ///
+    /// with `(σ, p)` solved in closed form so the curve passes ``footLo`` at the
+    /// end of onset, ``crestHi`` at the end of come-up (the ``effectiveComeupEnd``
+    /// synthesis is kept verbatim), ``crestHi`` again at the end of peak, and
+    /// ``tailLo`` at the end of offset. The dome sags at most ``domeSag`` far
+    /// from the crest, so a long peak reads as a gently domed plateau, and the
+    /// product is C¹ everywhere (C² for every non-degenerate profile): monotone
+    /// rise, one crest, monotone fall — no false cap or slope break at the
+    /// crest's edges. Phase-range spreads, when the state carries them, delay
+    /// the full-effect anchor, broaden the dome, and extend the tail landing;
+    /// absent spreads degrade exactly to the midpoint fit. Derivation, candidate
+    /// survey, and reference plots: `Specs/prototypes/effect-curves/`.
     nonisolated static func effectShape(at minutes: Double, for s: ActiveSubstanceState) -> Double {
         guard minutes >= 0 else { return 0 }
         // Zero-order substances (alcohol) ignore the fixed phase windows: their curve is a dose-scaled
@@ -390,53 +387,114 @@ nonisolated enum TimelineCurveModel {
            let shape = PKModel.zeroOrderShape(doseMg: doseMg, at: minutes, kinetics: kinetics) {
             return shape
         }
-        let onsetEnd = s.onsetEndMinutes
-        let peakEnd = max(s.peakEndMinutes, onsetEnd + 2)
-        let offsetEnd = max(s.offsetEndMinutes, peakEnd + 1)
-        let comeupEnd = Self.effectiveComeupEnd(for: s, onsetEnd: onsetEnd, peakEnd: peakEnd)
+        return EffectCurveParams(for: s).value(at: minutes)
+    }
 
-        let sigmaUp = max((comeupEnd - onsetEnd) / Self.comeupSharpness, 1e-3)
-        let sigmaDown = max((offsetEnd - peakEnd) / Self.offsetSharpness, 1e-3)
-        let center = (comeupEnd + peakEnd) / 2
-        // Round the flat crest's edges inward for a soft dome — but never by more
-        // than the adjacent shoulder's own width. A substance whose listed `peak`
-        // phase runs many times longer than its come-up (a hypnotic like zolpidem:
-        // a ~1 h come-up but a 3–6 h peak) would otherwise have its *time to peak*
-        // dragged to the center of that long plateau: the come-up is over, yet the
-        // curve keeps climbing for another hour-plus before it reads as "peak".
-        // Capping the inward shift at the come-up / offset width keeps the plateau
-        // anchored to when the effects actually plateau (end of come-up) and lift
-        // (start of offset). For ordinary profiles — where the peak phase is at most
-        // ~4× the come-up — the cap never binds, so their tuned shape is unchanged.
-        let leftEdge = comeupEnd + min((center - comeupEnd) * Self.peakDome, comeupEnd - onsetEnd)
-        let rightEdge = peakEnd - min((peakEnd - center) * Self.peakDome, offsetEnd - peakEnd)
+    /// All fit parameters for one dose's effect curve — a pure function of the
+    /// state, cheap enough to compute per call (one closed-form solve per side).
+    nonisolated struct EffectCurveParams {
+        let mu: Double
+        let sigmaUp: Double, exponentUp: Double, domeScaleUp: Double
+        let sigmaDown: Double, exponentDown: Double, domeScaleDown: Double
 
-        // The crest is a shallow dome, not a lid: a literal `1` across the whole
-        // peak band draws a trapezoid — a near-vertical rise into an exactly flat
-        // top — which is not a shape any pharmacokinetics produces, and is most
-        // visible exactly where the cap above binds hardest (a short come-up into
-        // a long peak, e.g. methamphetamine IV). The dome keeps the plateau's
-        // *timing* untouched — leftEdge/rightEdge are unchanged, so
-        // zolpidem's time-to-peak stays anchored where the comment above put it
-        // — and only lets the level drift across it, peaking at the crest's
-        // midpoint. The shoulders anchor to the dome's edge value so the curve
-        // stays continuous, and the maximum is still exactly 1 at the midpoint,
-        // so nothing downstream needs to renormalize.
-        let crestHalfSpan = max((rightEdge - leftEdge) / 2, 0)
-        let crestMid = (leftEdge + rightEdge) / 2
-        func crest(_ at: Double) -> Double {
-            guard crestHalfSpan > 1e-6 else { return 1 }
-            let offset = (at - crestMid) / crestHalfSpan
-            return 1 - Self.crestFall * offset * offset
+        /// Height where come-up ends / offset begins.
+        static let crestHi = 0.92
+        /// Height at the end of onset.
+        static let footLo = 0.03
+        /// Height at the end of offset (+ half its spread).
+        static let tailLo = 0.03
+        /// Max crest sag; the dome never drops below `1 − domeSag`.
+        static let domeSag = 0.10
+        /// The crest instant sits this far into the come-up-end → peak-end window.
+        static let peakBias = 0.40
+        /// Exponent clamps: the floor keeps every side at least super-Gaussian
+        /// (C² across the crest); the fall ceiling stops a short offset window
+        /// from fitting a cliff, and the rise ceiling only bounds genuine
+        /// sub-minute IV walls.
+        static let exponentFloor = 1.6, riseCeiling = 1_000.0, fallCeiling = 6.0
+
+        init(for s: ActiveSubstanceState) {
+            let a = s.onsetEndMinutes
+            let c = max(s.peakEndMinutes, a + 2)
+            let d = max(s.offsetEndMinutes, c + 1)
+            let b = TimelineCurveModel.effectiveComeupEnd(for: s, onsetEnd: a, peakEnd: c)
+
+            // A phase's spread widens the feature it bounds: come-up spread
+            // delays the full-effect anchor, offset spread extends the tail
+            // landing. Peak spread broadens the dome scale below instead of
+            // moving the C anchor — moving C right compresses the C→D descent
+            // and manufactures a cliff. The onset spread is deliberately
+            // unused: anchoring the foot at the onset range's early bound drew
+            // 10–30% effect through the onset window.
+            let bAnchor = b + (s.comeupSpreadMinutes ?? 0) / 2
+            let cAnchor = max(c, bAnchor + 1e-3)
+            let dAnchor = max(d + (s.offsetSpreadMinutes ?? 0) / 2, cAnchor + 1)
+            mu = bAnchor + Self.peakBias * (cAnchor - bAnchor)
+
+            let rUp = max(mu - bAnchor, 1e-3)
+            let rDown = max(cAnchor - mu, 1e-3)
+            let domeHalf = (s.peakSpreadMinutes ?? 0) / 2
+            domeScaleUp = rUp + domeHalf
+            domeScaleDown = rDown + domeHalf
+
+            // The dome's value at a fixed u is a constant, so dividing it out
+            // of each anchor target leaves the core alone to solve in closed
+            // form — both anchors then hold exactly for the product.
+            (sigmaUp, exponentUp) = Self.fit(
+                near: rUp, far: mu - a,
+                hi: Self.crestHi / Self.dome(rUp / domeScaleUp),
+                lo: Self.footLo / Self.dome((mu - a) / domeScaleUp),
+                ceiling: Self.riseCeiling, keepFarOnClamp: false,
+            )
+            (sigmaDown, exponentDown) = Self.fit(
+                near: rDown, far: dAnchor - mu,
+                hi: Self.crestHi / Self.dome(rDown / domeScaleDown),
+                lo: Self.tailLo / Self.dome((dAnchor - mu) / domeScaleDown),
+                ceiling: Self.fallCeiling, keepFarOnClamp: true,
+            )
         }
 
-        if minutes <= leftEdge {
-            let z = (leftEdge - minutes) / sigmaUp
-            return crest(leftEdge) * exp(-0.5 * z * z)
+        /// Bounded crest sag: 1 at the crest, easing toward `1 − domeSag` far
+        /// away — with zero slope at the crest, so the two sides meet C¹.
+        static func dome(_ u: Double) -> Double {
+            1 - domeSag * (1 - exp(-0.5 * u * u))
         }
-        if minutes <= rightEdge { return crest(minutes) }
-        let z = (minutes - rightEdge) / sigmaDown
-        return crest(rightEdge) * exp(-0.5 * z * z)
+
+        /// Two-anchor closed-form solve for `(σ, p)`. Both anchors hold exactly
+        /// while `p` lands inside its clamp; a clamped `p` honors one anchor,
+        /// chosen by `keepFarOnClamp` — the fall keeps "effects ended" where the
+        /// data put it, the rise keeps full-effect-at-come-up-end.
+        static func fit(
+            near: Double, far: Double, hi: Double, lo: Double,
+            ceiling: Double, keepFarOnClamp: Bool,
+        ) -> (Double, Double) {
+            let rNear = max(near, 1e-3)
+            let rFar = max(far, rNear * 1.005)
+            let hNear = -2 * log(min(hi, 0.995))
+            let hFar = -2 * log(min(max(lo, 1e-6), 0.9))
+            let exact = log(hFar / hNear) / log(rFar / rNear)
+            let p = min(max(exact, exponentFloor), ceiling)
+            let sigma = (p != exact && keepFarOnClamp)
+                ? rFar / pow(hFar, 1 / p)
+                : rNear / pow(hNear, 1 / p)
+            return (sigma, p)
+        }
+
+        func value(at minutes: Double) -> Double {
+            let fromCrest = minutes - mu
+            let z, u, p: Double
+            if fromCrest < 0 {
+                z = -fromCrest / sigmaUp
+                u = -fromCrest / domeScaleUp
+                p = exponentUp
+            } else {
+                z = fromCrest / sigmaDown
+                u = fromCrest / domeScaleDown
+                p = exponentDown
+            }
+            let core = z > 0 ? exp(-0.5 * pow(z, p)) : 1
+            return core * Self.dome(u)
+        }
     }
 
     /// The come-up boundary the rising shoulder is fit to — synthesizing a
@@ -474,23 +532,6 @@ nonisolated enum TimelineCurveModel {
     /// ``effectiveComeupEnd(for:onsetEnd:peakEnd:)``.
     nonisolated static let comeupFloorMinutes: Double = 8
 
-    /// σ↑ divisor: how many standard deviations the come-up window spans. Higher =
-    /// steeper rise hugging the come-up band.
-    nonisolated static let comeupSharpness: Double = 1.7
-    /// σ↓ divisor: how many standard deviations the offset window spans. `2.4`
-    /// lands the falling shoulder at ~5 % of peak right as the offset band closes
-    /// — a graceful touchdown rather than a clipped cliff. Lowering it pushes
-    /// residual effect past the substance's own stated end.
-    nonisolated static let offsetSharpness: Double = 2.4
-    /// Peak rounding: `0` keeps a flat plateau across the whole peak band, `1`
-    /// collapses it to a point (pure split-normal bell). `0.46` is a rounded crest
-    /// that still broadens with peak duration.
-    nonisolated static let peakDome: Double = 0.46
-    /// How far the crest sags at the edges of the peak band, as a fraction of the
-    /// maximum. Small on purpose: enough that a long peak reads as a dome rather
-    /// than a flat lid, not so much that the plateau stops looking like a plateau.
-    nonisolated static let crestFall: Double = 0.06
-
     /// Acute-tolerance (tachyphylaxis) multiplier on the descending limb. For
     /// `s.tachyphylaxis == 0` it's identity, so non-tolerant compounds keep the
     /// pure Bateman offset. For releasers (stimulants, empathogens) the felt
@@ -521,12 +562,12 @@ nonisolated enum TimelineCurveModel {
             let clear = PKModel.zeroOrderClearMinutes(doseMg: doseMg, kinetics: kinetics)
             if clear > 0 { return min(max(clear * 1.04, 1), Self.maxDisplayMinutes) }
         }
-        let peakEnd = max(s.peakEndMinutes, s.comeupEndMinutes)
-        let offsetEnd = max(s.offsetEndMinutes, peakEnd + 1)
-        // The falling Gaussian sits at ~5% of peak at `offsetEnd`; draw ½σ further
-        // so it eases to ~1–2% and lands on the axis instead of being clipped.
-        let sigmaDown = (offsetEnd - peakEnd) / Self.offsetSharpness
-        let end = offsetEnd + sigmaDown * 0.5
+        // The falling limb crosses a threshold θ at μ + σ↓·(−2·ln θ)^(1/q); at
+        // 1.5% the curve has just left the tail anchor (3% at offsetEnd) and
+        // lands on the axis instead of being clipped. The dome is ignored — it
+        // only lowers the value, so this errs long.
+        let params = EffectCurveParams(for: s)
+        let end = params.mu + params.sigmaDown * pow(-2 * log(0.015), 1 / params.exponentDown)
         return min(max(end, 1), Self.maxDisplayMinutes)
     }
 
@@ -541,40 +582,34 @@ nonisolated enum TimelineCurveModel {
     /// below one device pixel while still sizing the axis — a long-acting
     /// background dose could hold the window open until 6 AM with nothing on it.
     ///
-    /// Solved in closed form rather than by sampling: the falling limb is
-    /// `crest · exp(-½z²)` with `z = (t - rightEdge) / σ↓`, so the moment it
-    /// crosses a threshold is `rightEdge + σ↓·√(-2·ln θ)`. That keeps this cheap
-    /// enough to call from a view body — no 240-step scan, no Newton solve — and
-    /// it never returns more than ``curveExtent``, so the window can only shrink.
-    /// The tolerance gate is deliberately ignored: it only pulls the tail in
-    /// further, so skipping it errs toward keeping pixels that might be visible.
+    /// Solved in closed form rather than by sampling: the falling limb's core is
+    /// `exp(-½·z^q)` with `z = (t − μ) / σ↓`, so the moment it crosses a
+    /// threshold is `μ + σ↓·(−2·ln θ)^(1/q)`. That keeps this cheap enough to
+    /// call from a view body — no 240-step scan, no Newton solve — and it never
+    /// returns more than ``curveExtent``, so the window can only shrink. The
+    /// tolerance gate and the crest dome are deliberately ignored: both only
+    /// pull the value down, so skipping them errs toward keeping pixels that
+    /// might be visible.
     nonisolated static func visibleExtent(
         for s: ActiveSubstanceState,
         peerMagnitude: Double,
         threshold: Double = 0.02,
     ) -> Double {
         let full = curveExtent(for: s)
-        // Zero-order (alcohol) isn't a Gaussian tail — leave its extent alone.
+        // Zero-order (alcohol) isn't a generalized-Gaussian tail — leave its extent alone.
         if zeroOrderKinetics(for: s) != nil { return full }
         let magnitude = max(s.doseMagnitude, 0)
         let peer = max(peerMagnitude, magnitude)
         guard magnitude > 0, peer > 0, threshold > 0 else { return full }
 
-        let onsetEnd = s.onsetEndMinutes
-        let peakEnd = max(s.peakEndMinutes, onsetEnd + 2)
-        let offsetEnd = max(s.offsetEndMinutes, peakEnd + 1)
-        let comeupEnd = effectiveComeupEnd(for: s, onsetEnd: onsetEnd, peakEnd: peakEnd)
-        let sigmaDown = max((offsetEnd - peakEnd) / offsetSharpness, 1e-3)
-        let center = (comeupEnd + peakEnd) / 2
-        let rightEdge = peakEnd - min((peakEnd - center) * peakDome, offsetEnd - peakEnd)
-
+        let params = EffectCurveParams(for: s)
         // The shape value at which this dose stops registering against `peer`.
         let cutoff = threshold * peer / magnitude
         // Already below the bar at its own crest: it never reads as anything, so
         // let its own peak bound it rather than an invisible tail.
-        guard cutoff < 1 else { return min(max(rightEdge, 1), full) }
-        let z = (-2 * log(cutoff)).squareRoot()
-        return min(max(rightEdge + sigmaDown * z, 1), full)
+        guard cutoff < 1 else { return min(max(params.mu, 1), full) }
+        let t = params.mu + params.sigmaDown * pow(-2 * log(cutoff), 1 / params.exponentDown)
+        return min(max(t, 1), full)
     }
 
     // MARK: - Stacked Merge

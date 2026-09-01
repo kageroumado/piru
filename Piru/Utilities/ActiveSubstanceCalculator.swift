@@ -197,6 +197,12 @@ extension ActiveSubstanceState {
             tachyphylaxis: tachyphylaxis,
             bodyWeightKg: weightKg,
             zeroOrder: zeroOrderKinetics,
+            // Phase-range widths for the effect curve's spread-aware fit.
+            // Synthesized phases are min == max, so they contribute zero
+            // spread automatically; zero-order doses ignore the phase curve.
+            comeupSpreadMinutes: duration.comeup.map { $0.max - $0.min },
+            peakSpreadMinutes: duration.peak.map { $0.max - $0.min },
+            offsetSpreadMinutes: duration.offset.map { $0.max - $0.min },
         )
     }
 

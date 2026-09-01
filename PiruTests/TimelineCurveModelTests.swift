@@ -3,7 +3,7 @@ import Testing
 @testable import Piru
 
 /// Characterization tests for the extracted timeline curve math. These pin the
-/// *current* rendering semantics — the Gaussian-shouldered effect shape, the
+/// *current* rendering semantics — the split flat-top effect shape, the
 /// `Hill(Σ magnitude·bell)` redose merge, γ-compression, tail scanning, and the
 /// lane/tick layout — so the pure functions can't drift silently under the view.
 @Suite("TimelineCurveModel")
@@ -178,14 +178,81 @@ struct TimelineCurveModelTests {
 
         // The maximum is still 1, so nothing downstream has to renormalize.
         #expect(abs(peak - 1) < 1e-3)
-        // The old shape returned a literal `1` across the whole peak band —
-        // ~900 of these samples were bit-identical maxima, which is what drew
-        // the flat lid. A dome touches its maximum essentially once.
+        // A flat lid would leave hundreds of bit-identical maxima; a dome
+        // touches its maximum essentially once.
         let atMaximum = samples.filter { peak - $0 < 1e-6 }.count
         #expect(atMaximum < 40)
         // Still recognizably a plateau: mid-crest sits within the sag budget,
         // not on a second bell.
-        #expect(TimelineCurveModel.effectShape(at: 60, for: s) > 1 - TimelineCurveModel.crestFall)
+        #expect(TimelineCurveModel.effectShape(at: 60, for: s) > 1 - TimelineCurveModel.EffectCurveParams.domeSag)
+    }
+
+    @Test
+    func `Effect shape is one smooth arc — monotone each side of a single crest`() {
+        // The old three-piece curve decelerated to a dead stop at the crest's
+        // left edge, then climbed again to the true maximum — the visible
+        // "cap, then up, then down". One monotone rise and one monotone fall
+        // around a single argmax is exactly the property that forbids it.
+        let profiles = [
+            dose(onsetEnd: 5, comeupEnd: 12, peakEnd: 34, offsetEnd: 108), // insufflated stimulant
+            dose(), // typical oral
+            dose(onsetEnd: 40, comeupEnd: 75, peakEnd: 210, offsetEnd: 285), // MDMA-like
+            dose(onsetEnd: 25, comeupEnd: 55, peakEnd: 320, offsetEnd: 500), // long-peak hypnotic
+        ]
+        for s in profiles {
+            let extent = TimelineCurveModel.curveExtent(for: s)
+            let samples = stride(from: 0.0, through: extent, by: 0.25)
+                .map { TimelineCurveModel.effectShape(at: $0, for: s) }
+            let crest = samples.firstIndex(of: samples.max() ?? 0) ?? 0
+            for i in 1 ... crest {
+                #expect(samples[i] >= samples[i - 1] - 1e-9)
+            }
+            for i in (crest + 1) ..< samples.count {
+                #expect(samples[i] <= samples[i - 1] + 1e-9)
+            }
+        }
+    }
+
+    @Test
+    func `Effect shape passes its phase anchors`() {
+        // The closed-form fit lands the curve on the phase boundaries the rest
+        // of the app quotes: near-zero at the end of onset, essentially full
+        // through the peak band, and effects ended at the end of offset.
+        let s = dose(onsetEnd: 40, comeupEnd: 75, peakEnd: 210, offsetEnd: 285)
+        let foot = TimelineCurveModel.effectShape(at: 40, for: s)
+        let comeupTop = TimelineCurveModel.effectShape(at: 75, for: s)
+        let peakEdge = TimelineCurveModel.effectShape(at: 210, for: s)
+        let tail = TimelineCurveModel.effectShape(at: 285, for: s)
+        #expect(abs(foot - TimelineCurveModel.EffectCurveParams.footLo) < 0.02)
+        #expect(comeupTop > 0.85)
+        #expect(peakEdge > 0.85)
+        #expect(abs(tail - TimelineCurveModel.EffectCurveParams.tailLo) < 0.03)
+        // The extent still clears the stated offset, so "effects ended" copy
+        // never outlives the drawn curve.
+        #expect(TimelineCurveModel.curveExtent(for: s) >= 285)
+    }
+
+    @Test
+    func `Phase-range spreads widen the curve without breaking its anchors`() {
+        let tight = dose(onsetEnd: 40, comeupEnd: 75, peakEnd: 210, offsetEnd: 285)
+        let spread = ActiveSubstanceState(
+            substanceName: "Testine", colorHex: "FF66AA", doseTimestamp: t0,
+            amount: 20, unit: "mg", route: "oral",
+            onsetEndMinutes: 40, comeupEndMinutes: 75, peakEndMinutes: 210,
+            offsetEndMinutes: 285, afterglowEndMinutes: nil, totalMinutes: 400,
+            doseIntensity: 0.7, doseMagnitude: 0.7,
+            comeupSpreadMinutes: 30, peakSpreadMinutes: 120, offsetSpreadMinutes: 90,
+        )
+        // The offset spread extends the tail landing: the spread curve still
+        // carries real effect where the tight one has already landed.
+        #expect(
+            TimelineCurveModel.effectShape(at: 285, for: spread)
+                > TimelineCurveModel.effectShape(at: 285, for: tight) + 0.02,
+        )
+        // Still one bounded, monotone-falling tail that reaches baseline.
+        let extent = TimelineCurveModel.curveExtent(for: spread)
+        #expect(extent > TimelineCurveModel.curveExtent(for: tight))
+        #expect(TimelineCurveModel.effectShape(at: extent, for: spread) < 0.05)
     }
 
     @Test
