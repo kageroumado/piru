@@ -16744,6 +16744,9 @@
         }
       }
     },
+    "Compact Entries" : {
+
+    },
     "Compare %lld other sources" : {
       "comment" : "Opens the dose-source comparison",
       "extractionState" : "stale",
@@ -51911,6 +51914,9 @@
           }
         }
       }
+    },
+    "Show Timeline Axis" : {
+
     },
     "Showing %@ entries only — other units excluded" : {
       "extractionState" : "stale",

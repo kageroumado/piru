@@ -43,7 +43,7 @@ enum WidgetStoreAccess {
             for: DoseEntry.self, SubstanceColor.self, UserColor.self,
             DailyDoseItem.self, FavoriteSubstance.self, QuickLogDose.self, Session.self,
             DoseRoutine.self, InventoryItem.self, UserProfileRecord.self, ToleranceState.self,
-            CustomSubstanceRecord.self,
+            CustomSubstanceRecord.self, SessionNote.self,
             configurations: config,
         )
     }

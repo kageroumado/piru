@@ -82,6 +82,18 @@ struct SessionReportView: View {
             }
             phaseLegend
 
+            if !export.notes.isEmpty {
+                sectionHeader("Notes")
+                VStack(alignment: .leading, spacing: 0) {
+                    ForEach(Array(export.notes.enumerated()), id: \.element.id) { index, note in
+                        noteRow(note)
+                            .overlay(alignment: .top) {
+                                if index > 0 { Rectangle().fill(hair).frame(height: 1) }
+                            }
+                    }
+                }
+            }
+
             sectionHeader("Elimination")
             VStack(spacing: 12) {
                 ForEach(export.eliminations) { group in
@@ -149,6 +161,43 @@ struct SessionReportView: View {
         }
         .padding(.top, 26)
         .padding(.bottom, 14)
+    }
+
+    // MARK: Notes
+
+    private func noteRow(_ note: SessionStateExport.NoteLine) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            VStack(alignment: .trailing, spacing: 2) {
+                Text(verbatim: TripReport.tPlus(note.timestamp.timeIntervalSince(export.sessionStart)))
+                    .font(.system(size: 12, weight: .semibold, design: .monospaced))
+                Text(verbatim: shortTime(note.timestamp))
+                    .font(.system(size: 10.5))
+                    .foregroundStyle(ink2)
+            }
+            .frame(width: 64, alignment: .trailing)
+            VStack(alignment: .leading, spacing: 3) {
+                if !note.structure.isEmpty || note.kind == .checkIn {
+                    HStack(spacing: 6) {
+                        if note.kind == .checkIn {
+                            Text("Check-in").font(.system(size: 10, weight: .semibold)).foregroundStyle(ink2)
+                        }
+                        if !note.structure.isEmpty {
+                            Text(verbatim: note.structure).font(.system(size: 11.5, weight: .medium, design: .monospaced))
+                        }
+                    }
+                }
+                if !note.text.isEmpty {
+                    Text(verbatim: note.text).font(.system(size: 12.5))
+                }
+                if !note.descriptors.isEmpty {
+                    Text(verbatim: note.descriptors.joined(separator: " · "))
+                        .font(.system(size: 11))
+                        .foregroundStyle(Theme.accent)
+                }
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(.vertical, 8)
     }
 
     // MARK: Interaction

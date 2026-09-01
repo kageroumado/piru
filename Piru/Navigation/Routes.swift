@@ -183,13 +183,15 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
 
     /// Session / entries
     case sessionDetail
+    /// The add/edit sheet for one timestamped session note. `noteID == nil`
+    /// composes a new note on `sessionID`'s session; `checkIn` tags that new
+    /// note `.checkIn` (the landing state for a check-in notification tap), and
+    /// `summary` makes it the session's summary.
+    case sessionNoteEditor(sessionID: UUID, noteID: UUID? = nil, checkIn: Bool = false, summary: Bool = false)
     /// Entry detail sheet. Carries the entry's stable `id` with `timestamp`
     /// as the resolution fallback (see `PushRoute` — same compatibility
     /// contract for pre-V4 payloads and id-less `piru://entry/<ts>` URLs).
     case entryDetail(timestamp: Date, id: UUID?)
-    /// The note editor for one session — the dock's Add Note shortcut, which
-    /// targets the current session (most recent by start date).
-    case sessionNoteEditor(sessionID: UUID, noteID: UUID? = nil, checkIn: Bool = false)
 
     // Daily dose tracking
     case dailyDoseLog(category: String)

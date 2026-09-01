@@ -239,7 +239,7 @@ nonisolated enum NotificationCategory {
     var types: [NotificationType] {
         switch self {
         case .reminders: [.routine, .routineFollowUp, .nextDose]
-        case .session: [.comedown, .phase, .hydration, .sleep]
+        case .session: [.comedown, .phase, .hydration, .sleep, .checkIn]
         case .safety: [.cumulative, .inventory]
         }
     }
@@ -538,6 +538,7 @@ extension NotificationType {
         case .routineFollowUp: "Ask Again"
         case .nextDose: "Next-Dose Window"
         case .inventory: "Low Stock Alerts"
+        case .checkIn: "Check-ins"
         }
     }
 
@@ -552,6 +553,7 @@ extension NotificationType {
         case .routineFollowUp: "Ask Again"
         case .nextDose: "Next-Dose"
         case .inventory: "Low Stock"
+        case .checkIn: "Check-ins"
         }
     }
 
@@ -566,6 +568,7 @@ extension NotificationType {
         case .routineFollowUp: "clock.arrow.circlepath"
         case .nextDose: "timer"
         case .inventory: "archivebox"
+        case .checkIn: "quote.bubble"
         }
     }
 
@@ -589,6 +592,8 @@ extension NotificationType {
             "After you log a med you've opted in, a nudge when its next dose window opens. An estimate, not medical advice — opt in per med."
         case .inventory:
             "A heads-up when something you track runs low or out — before the empty bottle surprises you."
+        case .checkIn:
+            "\"How is it going?\" at set points in a session, opening a timestamped note. Turned on per session; off unless you ask."
         }
     }
 }

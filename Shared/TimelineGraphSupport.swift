@@ -41,6 +41,14 @@ enum GraphMetrics {
     static func vitalsBandTotal(enlarged: Bool) -> CGFloat {
         vitalsBand(enlarged: enlarged) + vitalsBandGap
     }
+    /// Height of the Shulgin-rating step lane drawn under the effect curves
+    /// (above the vitals lane when both are present), plus its gap. Added to
+    /// the canvas only when a session note carries a rating.
+    static let shulginLane: CGFloat = 30
+    static let shulginLaneGap: CGFloat = 6
+    static var shulginLaneTotal: CGFloat {
+        shulginLane + shulginLaneGap
+    }
 
     /// Timeline height. Overlapping-curve days use the fixed embedded/enlarged
     /// heights; lane-mode days grow with the lane count so each horizon strip
@@ -105,6 +113,15 @@ struct DoseMarker: Hashable {
     let colorHex: String
     let amount: Double
     let unit: String
+}
+
+/// A session note placed on the graph's time axis. `shulgin` (0…4) feeds the
+/// Shulgin step lane; `kind` picks the glyph.
+struct NoteMarker: Hashable, Identifiable {
+    let id: UUID
+    let timestamp: Date
+    let kind: SessionNote.Kind
+    let shulgin: Int?
 }
 
 /// Process-wide cache of computed timeline geometry, keyed by curve inputs.

@@ -29,6 +29,7 @@ final class NotificationPreferences {
     var routineFollowUpEnabled: Bool = true
     var nextDoseEnabled: Bool = true
     var inventoryEnabled: Bool = true
+    var checkInEnabled: Bool = true
 
     /// Quiet hours: dose reminders and session nudges whose fire time falls
     /// inside the window are silenced. Safety warnings (cumulative dose) and

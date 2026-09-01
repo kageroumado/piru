@@ -54,6 +54,11 @@ enum DoseNotificationManager {
             title: String(localized: "Restock"),
             options: [.foreground],
         )
+        let addNote = UNNotificationAction(
+            identifier: addNoteActionID,
+            title: String(localized: "Add Note"),
+            options: [.foreground],
+        )
 
         var categories: Set<UNNotificationCategory> = []
         for identifier in [routineCategoryID, routineFollowUpCategoryID] {
@@ -68,6 +73,9 @@ enum DoseNotificationManager {
         }
         categories.insert(UNNotificationCategory(
             identifier: inventoryCategoryID, actions: [restock], intentIdentifiers: [], options: [],
+        ))
+        categories.insert(UNNotificationCategory(
+            identifier: CheckInScheduler.categoryID, actions: [addNote], intentIdentifiers: [], options: [],
         ))
         for identifier in [
             RampDownScheduler.hydrationCategoryID,
@@ -91,6 +99,7 @@ enum DoseNotificationManager {
     nonisolated static let skipTodayActionID = "piru.action.skipToday"
     nonisolated static let viewTimelineActionID = "piru.action.viewTimeline"
     nonisolated static let restockActionID = "piru.action.restock"
+    nonisolated static let addNoteActionID = "piru.action.addNote"
 
     // MARK: - Dose lifecycle
 
@@ -915,7 +924,8 @@ final class DoseNotificationDelegate: NSObject, UNUserNotificationCenterDelegate
             case UNNotificationDefaultActionIdentifier,
                  DoseNotificationManager.logActionID,
                  DoseNotificationManager.viewTimelineActionID,
-                 DoseNotificationManager.restockActionID:
+                 DoseNotificationManager.restockActionID,
+                 DoseNotificationManager.addNoteActionID:
                 guard let link,
                       let url = URL(string: link),
                       let outcome = DeepLink.decode(url)

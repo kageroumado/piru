@@ -17,7 +17,8 @@ struct SessionMenu: View {
     /// there's no gap worth splitting.
     let longestBreakPivot: (dose: DoseEntry, gapText: String)?
     let onRename: () -> Void
-    let onEditNote: () -> Void
+    let onAddNote: () -> Void
+    let onEditSummary: () -> Void
     let onToggleLiveActivity: () -> Void
 
     @Environment(\.modelContext) private var modelContext
@@ -34,9 +35,17 @@ struct SessionMenu: View {
                 Label(session.title == nil ? "Add Title" : "Rename", systemImage: "pencil")
             }
             Button {
-                onEditNote()
+                onAddNote()
             } label: {
-                Label(session.note == nil ? "Add Note" : "Edit Note", systemImage: "note.text")
+                Label("Add Note", systemImage: "quote.opening")
+            }
+            Button {
+                onEditSummary()
+            } label: {
+                Label(session.note == nil ? "Add Summary" : "Edit Summary", systemImage: "text.alignleft")
+            }
+            if hasOngoingDose || session.checkInIntervalMinutes != nil {
+                checkInMenu
             }
             if hasCurves {
                 Divider()
@@ -115,6 +124,35 @@ struct SessionMenu: View {
         formatter.unitsStyle = .abbreviated
         return formatter
     }()
+
+    /// Per-session check-in cadence: off, or one of the cadences. Changing it
+    /// reschedules from the latest dose.
+    private var checkInMenu: some View {
+        Menu {
+            Picker("Check-ins", selection: cadenceSelection) {
+                Text("Off").tag(CheckInScheduler.Cadence?.none)
+                ForEach(CheckInScheduler.Cadence.allCases) { cadence in
+                    Text(cadence.title).tag(CheckInScheduler.Cadence?.some(cadence))
+                }
+            }
+        } label: {
+            Label("Check-ins", systemImage: "quote.bubble")
+        }
+    }
+
+    private var cadenceSelection: Binding<CheckInScheduler.Cadence?> {
+        Binding(
+            get: { CheckInScheduler.Cadence(storedMinutes: session.checkInIntervalMinutes) },
+            set: { cadence in
+                session.checkInOffered = true
+                session.checkInIntervalMinutes = cadence?.storedMinutes
+                Task {
+                    if cadence != nil { _ = await DoseNotificationManager.requestAuthorization() }
+                    CheckInScheduler.sync(session: session)
+                }
+            },
+        )
+    }
 
     /// The session immediately before this one in time — the target for "Merge with
     /// previous". A bounded one-row fetch resolved when the menu opens, rather than a

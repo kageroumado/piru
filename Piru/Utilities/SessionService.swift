@@ -232,13 +232,10 @@ enum SessionService {
         DoseLogService.shared.changed()
     }
 
-    /// Set (or clear) a session's note; blank trims to `nil`.
+    /// Set (or clear) a session's summary note; blank trims to `nil`. Writes
+    /// through to the timeline's `.summary` note as well (``SessionNoteService``).
     static func setNote(_ note: String, for session: Session) {
-        let trimmed = note.trimmingCharacters(in: .whitespacesAndNewlines)
-        let value = trimmed.isEmpty ? nil : trimmed
-        guard session.note != value else { return }
-        session.note = value
-        DoseLogService.shared.changed()
+        SessionNoteService.setSummary(note, for: session)
     }
 
     /// Sweep every session-less dose into a session. Safe and cheap to call on

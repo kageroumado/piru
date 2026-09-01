@@ -14,6 +14,9 @@ struct SessionTimelineSection: View {
     @Binding var timelineEnlarged: Bool
     let hasOngoingDose: Bool
     let vitals: SessionVitals?
+    /// The session's notes on the axis; rated ones add the Shulgin lane.
+    var noteMarkers: [NoteMarker] = []
+    var onNoteTap: ((UUID) -> Void)? = nil
 
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
     @AppStorage(LaneModeDefaults.enabledKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeEnabled = LaneModeDefaults.enabledDefault
@@ -21,7 +24,9 @@ struct SessionTimelineSection: View {
 
     var body: some View {
         Section {
-            let bandExtra = (vitals?.hasHeartRate == true) ? GraphMetrics.vitalsBandTotal(enlarged: timelineEnlarged) : 0
+            let vitalsExtra = (vitals?.hasHeartRate == true) ? GraphMetrics.vitalsBandTotal(enlarged: timelineEnlarged) : 0
+            let shulginExtra = noteMarkers.contains { $0.shulgin != nil } ? GraphMetrics.shulginLaneTotal : 0
+            let bandExtra = vitalsExtra + shulginExtra
             let height = GraphMetrics.graphHeight(
                 enlarged: timelineEnlarged,
                 curveLaneCount: curveLaneCount, markerLaneCount: markerLaneCount,
@@ -33,6 +38,8 @@ struct SessionTimelineSection: View {
                     currentTime: .now,
                     compact: false,
                     markers: markers,
+                    noteMarkers: noteMarkers,
+                    onNoteTap: onNoteTap,
                     stackRedoses: stackRedoses,
                     dayBounded: true,
                     vitals: vitals,

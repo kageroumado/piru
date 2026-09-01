@@ -138,6 +138,9 @@ struct PiruApp: App {
                     // One-time: break up multi-day sessions that the old flat-ceiling
                     // heuristic chained together (nonstop redosing / long-acting tails).
                     SessionService.resplitOverlongSessions(in: container.mainContext)
+                    // Give every pre-notes summary its place on the session
+                    // timeline (additive; idempotent).
+                    SessionNoteService.migrateLegacySummaries(in: container.mainContext)
                     // One-time: remap every logged dose onto its stable PSID identity
                     // (substanceUID + displayNameSnapshot). Backup-first, additive,
                     // never-drop, guarded once — see PSIDBackfillMigration. Runs here

@@ -77,6 +77,7 @@ nonisolated enum StoreRecovery {
             CustomUnitPreset.self,
             NotificationPreferences.self,
             RoutineOccurrence.self,
+            SessionNote.self,
         ]
     }
 

@@ -177,6 +177,8 @@ backfilling anything it doesn't cover. Which source wins a given field, in prior
 - **[DailyMed](https://dailymed.nlm.nih.gov)** (FDA) & **DEA Orange Book** — prescription labels & scheduling
 - **[PubChem](https://pubchem.ncbi.nlm.nih.gov)** & **[Wikidata](https://www.wikidata.org)** — identifiers, chemistry
 - **[PDSP K<sub>i</sub> database](https://pdsp.unc.edu)** — receptor binding affinities
+- **[SubFxOnEx](https://github.com/Di-lemma/SubFxOnEx)** (drug.community, LGPL-2.1) — the subjective-effects
+  ontology behind the descriptor chips on session notes (21 domains, 485 concepts, 1,178 aliases)
 - **Erowid PiHKAL/TiHKAL** and other primary literature for the rest
 
 <div align="center">

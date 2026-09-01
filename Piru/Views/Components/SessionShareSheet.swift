@@ -19,6 +19,9 @@ struct SessionShareSheet: View {
     /// on screen do. Handed in rather than read here: HealthKit access belongs to the
     /// session screen, and an empty map simply renders rows without chips.
     var doseHR: [UUID: DoseHRResponse] = [:]
+    /// The session itself, for the trip report (its notes). Nil from hosts that
+    /// have only entries (Help / Settings).
+    var session: Session? = nil
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
@@ -27,6 +30,8 @@ struct SessionShareSheet: View {
     @State private var pdfData: Data?
     @State private var pdfThumbnail: UIImage?
     @State private var markdown: String?
+    /// The trip report, when the session has notes.
+    @State private var tripReport: String?
     @State private var preparing = true
     @State private var justCopied: CopyTarget?
     @State private var contentHeight: CGFloat = 420
@@ -38,7 +43,7 @@ struct SessionShareSheet: View {
     /// is instant (no on-tap PNG encode).
     @State private var imageFileURL: URL?
 
-    private enum CopyTarget: Equatable { case image, pdf, markdown }
+    private enum CopyTarget: Equatable { case image, pdf, markdown, tripReport }
 
     /// Inline nav bar + grabber allowance — the chrome above the scroll content
     /// that `.height` detents must include but `contentHeight` (the VStack) omits.
@@ -60,6 +65,9 @@ struct SessionShareSheet: View {
                             pdfCard
                             markdownCard
                         }
+                    }
+                    if tripReport != nil {
+                        tripReportCard
                     }
                 }
                 .padding(.horizontal, 16)
@@ -104,12 +112,16 @@ struct SessionShareSheet: View {
                 return url
             }.value
         }
-        if let export = SessionStateExport.build(from: entries, colors: colors) {
+        if let export = SessionStateExport.build(from: entries, colors: colors, notes: session?.orderedNotes ?? []) {
             let data = SessionReportPDF.render(export)
             pdfData = data
             pdfThumbnail = PDFDocument(data: data)?.page(at: 0)?
                 .thumbnail(of: CGSize(width: 612, height: 792), for: .mediaBox)
             markdown = export.markdown()
+        }
+        if let session {
+            let report = TripReport.build(session: session)
+            if !report.isEmpty { tripReport = report.markdown() }
         }
         preparing = false
     }
@@ -154,10 +166,19 @@ struct SessionShareSheet: View {
 
     private var markdownCard: some View {
         artifactCard(icon: "curlybraces", title: "Session Data", subtitle: "Markdown", previewHeight: 120) {
-            markdownPreview
+            markdownPreview(markdown)
         } actions: {
             actionButton(copyLabel(.markdown), icon: copyIcon(.markdown), showIcon: false) { copyMarkdown() }.disabled(markdown == nil)
             actionButton("Share", icon: "square.and.arrow.up", prominent: true, showIcon: false) { shareMarkdown() }.disabled(markdown == nil)
+        }
+    }
+
+    private var tripReportCard: some View {
+        artifactCard(icon: "quote.opening", title: "Trip Report", subtitle: "Markdown — notes with T+ offsets", previewHeight: 120) {
+            markdownPreview(tripReport)
+        } actions: {
+            actionButton(copyLabel(.tripReport), icon: copyIcon(.tripReport)) { copyTripReport() }.disabled(tripReport == nil)
+            actionButton("Share", icon: "square.and.arrow.up", prominent: true) { shareTripReport() }.disabled(tripReport == nil)
         }
     }
 
@@ -211,12 +232,12 @@ struct SessionShareSheet: View {
     /// The Markdown export previewed as a monospace snippet on a light "paper"
     /// ground (like the PDF page preview), so it reads as a document regardless
     /// of the sheet's theme.
-    private var markdownPreview: some View {
+    private func markdownPreview(_ text: String?) -> some View {
         Rectangle()
             .fill(Color(white: 0.96))
             .overlay(alignment: .topLeading) {
-                if let markdown {
-                    Text(markdown)
+                if let text {
+                    Text(text)
                         .font(.system(size: 6, design: .monospaced))
                         .foregroundStyle(Color(white: 0.15))
                         .lineLimit(nil)
@@ -297,6 +318,17 @@ struct SessionShareSheet: View {
         flashCopied(.markdown)
     }
 
+    private func copyTripReport() {
+        guard let tripReport else { return }
+        UIPasteboard.general.string = tripReport
+        flashCopied(.tripReport)
+    }
+
+    private func shareTripReport() {
+        guard let tripReport, let url = write(Data(tripReport.utf8), ext: "md", stem: "piru-trip-report") else { return }
+        ShareSheetPresenter.present([url])
+    }
+
     private func share(_ image: UIImage?) {
         guard let image else { return }
         ShareSheetPresenter.present([image])
@@ -312,11 +344,11 @@ struct SessionShareSheet: View {
         ShareSheetPresenter.present([url])
     }
 
-    private func write(_ data: Data, ext: String) -> URL? {
+    private func write(_ data: Data, ext: String, stem: String = "piru-session") -> URL? {
         let stamp = DateFormatter()
         stamp.dateFormat = "yyyy-MM-dd-HHmm"
         let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent("piru-session-\(stamp.string(from: .now)).\(ext)")
+            .appendingPathComponent("\(stem)-\(stamp.string(from: .now)).\(ext)")
         do { try data.write(to: url); return url } catch { return nil }
     }
 }
