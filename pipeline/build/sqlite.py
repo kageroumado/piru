@@ -5043,6 +5043,16 @@ _FORCE_MERGE: list[tuple[str, str, bool]] = [
     # hyphenated stub has no SMILES at all, so the structural pass cannot see
     # (or re-verify) the pair. Winner holds the full identifiers and 4 dose rows.
     ("Acryl-fentanyl", "Acrylfentanyl", True),
+    # One compound, CAS 1443-58-9 on both rows. The loser's "Butry" is a
+    # misspelling of "Butyr" but it carries the InChIKey/CID (which COALESCE
+    # into the winner); the correctly-spelled full-name row holds the 3 dose
+    # rows and no SMILES, so the structural pass cannot reach the pair.
+    ("4-MeO-Butryfentanyl", "4-Methoxybutyrfentanyl", True),
+    # Dramamine is dimenhydrinate's brand — the curated dimenhydrinate.json
+    # already lists it as an alias, but a scraped brand stub (no CAS/InChIKey,
+    # its own aliases are just "dimenhydrinate"/"gravol"/茶苯海明) survived as a
+    # separate row. Same pattern as Sonata → Zaleplon.
+    ("Dramamine", "Dimenhydrinate", True),
     ("4-CMA", "4-Chloromethamphetamine", True),
     ("Mexamine", "5-Methoxytryptamine", True),
     # Dexedrine is the brand for dextroamphetamine (it already lists it as an

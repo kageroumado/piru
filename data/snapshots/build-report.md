@@ -1,13 +1,13 @@
 # Piru SQLite build report
 
-Built 2026-09-01.0 → `Piru/Data/piru-substances.sqlite` (14,049,280 bytes, sha256 `d9246041fa7fd77831304860e9d58a29f670c3b656966f68605eff5ae6d3716d`)
+Built 2026-09-01.0 → `Piru/Data/piru-substances.sqlite` (14,045,184 bytes, sha256 `b3fd2df022901440bbd971cf559ae94d54df39a61e9bad36d44971eac94eddba`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,691 |
-| aliases | 5,362 |
+| substances | 1,689 |
+| aliases | 5,359 |
 | sources | 17 |
 | citations | 2,882 |
 | categories | 1,560 |
@@ -18,7 +18,7 @@ Built 2026-09-01.0 → `Piru/Data/piru-substances.sqlite` (14,049,280 bytes, sha
 | mechanisms_summary | 1,146 |
 | effects | 2,952 |
 | subjective_effects | 23,503 |
-| tolerance | 324 |
+| tolerance | 322 |
 | indications | 1,133 |
 | contraindications | 1,412 |
 | diazepam_equivalents | 32 |
@@ -26,7 +26,7 @@ Built 2026-09-01.0 → `Piru/Data/piru-substances.sqlite` (14,049,280 bytes, sha
 | functional_assays | 179 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
-| downstream_signalling | 680 |
+| downstream_signalling | 678 |
 | neuroimaging | 52 |
 | pk_routes | 434 |
 | concentration_effects | 23 |
@@ -35,7 +35,7 @@ Built 2026-09-01.0 → `Piru/Data/piru-substances.sqlite` (14,049,280 bytes, sha
 | pharmacogenetics | 305 |
 | off_targets | 209 |
 | class_contexts | 50 |
-| substance_classes | 682 |
+| substance_classes | 680 |
 | molecule_shapes | 957 |
 | class_reference_compounds | 40 |
 | class_representatives | 7 |

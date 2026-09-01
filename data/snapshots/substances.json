@@ -8568,39 +8568,6 @@
     ]
   },
   {
-    "name": "4-MeO-Butryfentanyl",
-    "display_name": "",
-    "aliases": [
-      "4-MeO-BF",
-      "4-Methoxybutyrfentanyl"
-    ],
-    "category": "Opioid",
-    "display_class": "recreational",
-    "tags": [
-      "MOR-agonist",
-      "habit-forming",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "4-MeO-MiPT",
     "display_name": "",
     "aliases": [],
@@ -8680,15 +8647,20 @@
     "display_name": "4-MeO-BF",
     "aliases": [
       "4-MeO-BF",
+      "4-MeO-Butryfentanyl",
       "4-Methoxy-butyrylfentanyl",
       "p-MeO-butyrylfentanyl",
       "para-Methoxybutyrylfentanyl"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
+      "MOR-agonist",
       "MOR-full-agonist",
+      "habit-forming",
+      "research-chemical",
+      "tentative",
       "wooden-chest-syndrome-risk"
     ],
     "default_route": "insufflation",
@@ -25671,7 +25643,8 @@
       "Gravol",
       "O-benzhydryldimethylaminoethanol 8-chlorotheophyllinate",
       "Triptone",
-      "Vomex A"
+      "Vomex A",
+      "茶苯海明"
     ],
     "category": "Deliriant",
     "display_class": "recreational",
@@ -27526,37 +27499,6 @@
     ],
     "data_gaps": [
       "half_life_minutes"
-    ]
-  },
-  {
-    "name": "Dramamine",
-    "display_name": "",
-    "aliases": [
-      "dimenhydrinate",
-      "gravol",
-      "茶苯海明"
-    ],
-    "category": "Depressant",
-    "display_class": "recreational",
-    "tags": [],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
     ]
   },
   {
