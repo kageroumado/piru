@@ -288,6 +288,8 @@ nonisolated enum DeepLink {
              .libraryTag,
              .libraryFavorites,
              .libraryCustom,
+             .libraryColors,
+             .dataStorage,
              .drugClass,
              .drugClassGroup,
              .insightGroup,

@@ -75,6 +75,7 @@ struct DataStorageView: View {
             storageSection
             backupSection
             exportImportSection
+            substanceDatabaseSection
             howItWorksSection
             recoverableSection
             deleteSection
@@ -379,6 +380,26 @@ struct DataStorageView: View {
     }
 
     // MARK: - How encryption works
+
+    /// The bundled substance data — source priority and opt-in updates — lives
+    /// in `SubstanceDatabaseView`; this row keeps it one tap from the data tool.
+    private var substanceDatabaseSection: some View {
+        Section {
+            NavigationLink {
+                SubstanceDatabaseView()
+            } label: {
+                LabeledContent {
+                    Text("\(SubstanceStore.shared.count)")
+                        .foregroundStyle(Theme.secondaryLabel)
+                } label: {
+                    Label("Substance Database", systemImage: "books.vertical")
+                }
+            }
+            .listRowBackground(CardBackground())
+        } footer: {
+            Text("Which source wins when they disagree, and opt-in updates to the bundled substance data.")
+        }
+    }
 
     private var howItWorksSection: some View {
         Section {

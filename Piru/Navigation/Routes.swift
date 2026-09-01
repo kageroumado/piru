@@ -37,7 +37,14 @@ nonisolated enum PushRoute: Hashable, Codable {
     case libraryTag(String)
     case libraryFavorites
     case libraryCustom
+    /// The user's substance colors (`SubstanceColorsListView`), pushed from
+    /// the Library's Colors card. Settings keeps its own inline entry.
+    case libraryColors
     case tool(Tool)
+    /// Data & Backup (`DataStorageView`): export, import, encrypted backups,
+    /// and recovery snapshots. Pushed from the Tools hub; Settings keeps its
+    /// own inline entry.
+    case dataStorage
     /// One pharmacological class's write-up, by `class_contexts.slug`. Reached
     /// from Tools ▸ Education ▸ Drug Classes and from a substance's own class
     /// row.
