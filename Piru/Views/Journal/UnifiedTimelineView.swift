@@ -407,77 +407,99 @@ struct TimelineStripDayContent: View {
 
     // MARK: The strip canvas
 
+    /// Height of one canvas tile. A slice at high zoom with compression off
+    /// runs many thousands of points tall, and one full-width canvas that
+    /// tall exceeds what Core Animation rasterizes — it silently draws
+    /// nothing. Each tile draws the whole slice translated to its origin, so
+    /// the tiles join seamlessly.
+    private static let tileHeight: CGFloat = 1024
+
     private func strip(bubbleLeft: CGFloat, bubbleRight: CGFloat) -> some View {
-        Canvas { context, size in
-            let mapHeight = day.mapHeight
-            guard mapHeight > 0 else { return }
-
-            let axisX = TimelineGutter.axisX
-            let laneRight = day.style.strengthScaling ? bubbleRight : bubbleLeft - Self.peakClearance
-            let curveWidth = max(0, laneRight - axisX)
-
-            // Hour gridlines across the lane; in a compressed gap they bunch
-            // together, which is what says "time is squeezed here".
-            for tick in day.hourTicks {
-                var line = Path()
-                line.move(to: CGPoint(x: axisX, y: tick.y))
-                line.addLine(to: CGPoint(x: size.width, y: tick.y))
-                context.stroke(line, with: .color(Color.primary.opacity(0.06)), lineWidth: 0.5)
-            }
-
-            drawAxis(in: &context, size: size, axisX: axisX)
-
-            // Per-substance curves — normalized to the substance's own
-            // all-time peak so widths mean the same thing on every day and a
-            // curve crosses day boundaries without a jump.
-            for series in day.series {
-                guard series.points.count > 1 else { continue }
-
-                var fill = Path()
-                fill.move(to: CGPoint(x: axisX, y: series.points[0].y))
-                for p in series.points {
-                    fill.addLine(to: CGPoint(x: axisX + curveWidth * CGFloat(p.v), y: p.y))
-                }
-                fill.addLine(to: CGPoint(x: axisX, y: series.points[series.points.count - 1].y))
-                fill.closeSubpath()
-                context.fill(fill, with: .color(series.color.opacity(0.12)))
-
-                var stroke = Path()
-                for (i, p) in series.points.enumerated() {
-                    let pt = CGPoint(x: axisX + curveWidth * CGFloat(p.v), y: p.y)
-                    if i == 0 { stroke.move(to: pt) } else { stroke.addLine(to: pt) }
-                }
-                context.stroke(stroke, with: .color(series.color.opacity(0.75)), lineWidth: 1.5)
-            }
-
-            drawHourLabels(in: &context, size: size)
-
-            // Connectors from each dose's position on the axis to its bubble.
-            for connector in day.connectors {
-                var path = Path()
-                path.move(to: CGPoint(x: axisX, y: connector.fromY))
-                path.addLine(to: CGPoint(x: bubbleLeft, y: connector.toY))
-                context.stroke(path, with: .color(connector.color.opacity(0.35)), lineWidth: 1)
-            }
-
-            if let y = day.nowY {
-                drawNow(in: &context, size: size, axisX: axisX, y: y)
-            }
-
-            // Only the strip's very top edge cuts curves mid-flight — fade
-            // them into the background there. Day boundaries fade nothing;
-            // the strip continues.
-            if day.showsLiveEdge {
-                let fadeHeight: CGFloat = 28
-                context.fill(
-                    Path(CGRect(x: 0, y: 0, width: size.width, height: fadeHeight)),
-                    with: .linearGradient(
-                        Gradient(colors: [Theme.background, Theme.background.opacity(0)]),
-                        startPoint: .zero,
-                        endPoint: CGPoint(x: 0, y: fadeHeight),
-                    ),
+        let tileYs = Array(stride(from: CGFloat(0), to: max(day.totalHeight, 1), by: Self.tileHeight))
+        return ForEach(tileYs, id: \.self) { tileY in
+            Canvas { context, size in
+                context.translateBy(x: 0, y: -tileY)
+                drawStrip(
+                    in: &context,
+                    size: CGSize(width: size.width, height: day.totalHeight),
+                    bubbleLeft: bubbleLeft,
+                    bubbleRight: bubbleRight,
                 )
             }
+            .frame(height: min(Self.tileHeight, day.totalHeight - tileY))
+            .offset(y: tileY)
+        }
+    }
+
+    private func drawStrip(in context: inout GraphicsContext, size: CGSize, bubbleLeft: CGFloat, bubbleRight: CGFloat) {
+        let mapHeight = day.mapHeight
+        guard mapHeight > 0 else { return }
+
+        let axisX = TimelineGutter.axisX
+        let laneRight = day.style.strengthScaling ? bubbleRight : bubbleLeft - Self.peakClearance
+        let curveWidth = max(0, laneRight - axisX)
+
+        // Hour gridlines across the lane; in a compressed gap they bunch
+        // together, which is what says "time is squeezed here".
+        for tick in day.hourTicks {
+            var line = Path()
+            line.move(to: CGPoint(x: axisX, y: tick.y))
+            line.addLine(to: CGPoint(x: size.width, y: tick.y))
+            context.stroke(line, with: .color(Color.primary.opacity(0.06)), lineWidth: 0.5)
+        }
+
+        drawAxis(in: &context, size: size, axisX: axisX)
+
+        // Per-substance curves — normalized to the substance's own
+        // all-time peak so widths mean the same thing on every day and a
+        // curve crosses day boundaries without a jump.
+        for series in day.series {
+            guard series.points.count > 1 else { continue }
+
+            var fill = Path()
+            fill.move(to: CGPoint(x: axisX, y: series.points[0].y))
+            for p in series.points {
+                fill.addLine(to: CGPoint(x: axisX + curveWidth * CGFloat(p.v), y: p.y))
+            }
+            fill.addLine(to: CGPoint(x: axisX, y: series.points[series.points.count - 1].y))
+            fill.closeSubpath()
+            context.fill(fill, with: .color(series.color.opacity(0.12)))
+
+            var stroke = Path()
+            for (i, p) in series.points.enumerated() {
+                let pt = CGPoint(x: axisX + curveWidth * CGFloat(p.v), y: p.y)
+                if i == 0 { stroke.move(to: pt) } else { stroke.addLine(to: pt) }
+            }
+            context.stroke(stroke, with: .color(series.color.opacity(0.75)), lineWidth: 1.5)
+        }
+
+        drawHourLabels(in: &context, size: size)
+
+        // Connectors from each dose's position on the axis to its bubble.
+        for connector in day.connectors {
+            var path = Path()
+            path.move(to: CGPoint(x: axisX, y: connector.fromY))
+            path.addLine(to: CGPoint(x: bubbleLeft, y: connector.toY))
+            context.stroke(path, with: .color(connector.color.opacity(0.35)), lineWidth: 1)
+        }
+
+        if let y = day.nowY {
+            drawNow(in: &context, size: size, axisX: axisX, y: y)
+        }
+
+        // Only the strip's very top edge cuts curves mid-flight — fade
+        // them into the background there. Day boundaries fade nothing;
+        // the strip continues.
+        if day.showsLiveEdge {
+            let fadeHeight: CGFloat = 28
+            context.fill(
+                Path(CGRect(x: 0, y: 0, width: size.width, height: fadeHeight)),
+                with: .linearGradient(
+                    Gradient(colors: [Theme.background, Theme.background.opacity(0)]),
+                    startPoint: .zero,
+                    endPoint: CGPoint(x: 0, y: fadeHeight),
+                ),
+            )
         }
     }
 

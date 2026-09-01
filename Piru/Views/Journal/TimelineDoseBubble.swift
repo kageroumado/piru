@@ -19,7 +19,7 @@ struct TimelineDoseBubble: View {
     static func width(for style: TimelineBubbleStyle) -> CGFloat {
         switch style {
         case .full: 236
-        case .compact: 212
+        case .compact: 224
         }
     }
 
