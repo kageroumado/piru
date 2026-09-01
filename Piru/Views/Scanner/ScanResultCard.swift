@@ -8,6 +8,8 @@ struct ScanResultCard: View {
     let onAdd: (ResolvedDrug) -> Void
     let onSearch: (String) -> Void
     let onRescan: () -> Void
+    /// Identify mode: hand over the reading gathered so far.
+    var onCapture: (BoxReading) -> Void = { _ in }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -40,7 +42,40 @@ struct ScanResultCard: View {
 
         case let .noMatch(text, canSearch):
             noMatchContent(text: text, canSearch: canSearch)
+
+        case let .reading(reading, barcodeKnown):
+            readingContent(reading, barcodeKnown: barcodeKnown)
         }
+    }
+
+    /// Identify mode: a running tally of what the camera has read, and the
+    /// button that turns it into an answer. The count is what keeps the user
+    /// pointing — a box reads in over a second or two, not at once.
+    private func readingContent(_ reading: BoxReading, barcodeKnown: Bool) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            if reading.isEmpty {
+                Label("Point at the box — name, strength, barcode", systemImage: "barcode.viewfinder")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            } else {
+                Label(readingSummary(reading, barcodeKnown: barcodeKnown), systemImage: barcodeKnown ? "checkmark.circle" : "text.viewfinder")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+            Button { onCapture(reading) } label: {
+                Label("Identify", systemImage: "magnifyingglass")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(reading.isEmpty)
+        }
+    }
+
+    private func readingSummary(_ reading: BoxReading, barcodeKnown: Bool) -> String {
+        let lines = String(localized: "\(reading.texts.count) lines read")
+        if barcodeKnown { return String(localized: "Barcode recognized · \(lines)") }
+        if !reading.barcodes.isEmpty { return String(localized: "Barcode read · \(lines)") }
+        return lines
     }
 
     private func resolvedContent(_ resolved: ResolvedDrug) -> some View {
@@ -117,6 +152,7 @@ struct ScanResultCard: View {
         case .resolving: 1
         case .resolved: 2
         case .noMatch: 3
+        case .reading: 4
         }
     }
 }

@@ -41,6 +41,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pipeline/ — shared modules
 
 import collision_registry  # noqa: E402
+import product_codes as product_code_keys  # noqa: E402
 import psid  # noqa: E402
 from contraindication_flags import FLAG_LABELS as CONTRAINDICATION_FLAGS  # noqa: E402
 from contraindication_flags import normalize as normalize_contraindication  # noqa: E402
@@ -111,6 +112,14 @@ CLASS_MECHANISMS = REPO / "data/curated/class-mechanisms.json"
 # substances exist so it can attach to existing rows.
 FLAGSHIP_PHARMA = REPO / "data/curated/pharmacology-flagship.json"
 BUNDLED = REPO / "data/intermediate/substances-bundled.json"
+# Barcode registries (pipeline/fetch/product_codes.py): openFDA NDC directory
+# (US) and ANSM BDPM (FR), pre-filtered to single-ingredient products whose
+# active folds onto a known name. In priority order — a code listed by two
+# registries keeps the first.
+PRODUCT_CODE_SNAPSHOTS = (
+    ("openfda-ndc", "US", REPO / "data/sources/product-codes-openfda.json"),
+    ("bdpm", "FR", REPO / "data/sources/product-codes-bdpm.json"),
+)
 DRUG_COMMUNITY = REPO / "data/sources/drug-community.json"
 # drug.community experiential companion datasets (Sept-2025 redesign): the
 # intensity spectra + reported effects that power the "Effects & Intensity"
@@ -785,6 +794,43 @@ CREATE TABLE product_durations (
     offset_min         REAL, offset_max         REAL,
     afterglow_min      REAL, afterglow_max      REAL,
     total_min          REAL, total_max          REAL
+);
+
+-- Marketed products the box scanner identifies by barcode (Specs/box-scanner-
+-- tool.md): a brand + strength + form under a substance the catalog knows, one
+-- row per distinct product — every repackager's listing of the same
+-- brand/strength/form shares it, which is what keeps 47k registry listings to
+-- a third as many rows. `psid` is the substance's base-form PSID (composed from
+-- substance_uid; NULL when the row has no uid). `source` and `country` name the
+-- registry ('openfda-ndc'/'US', 'bdpm'/'FR'). Strength/form/route are the
+-- registry's own strings, shown as read; nothing here drives pharmacology,
+-- dose ladders, or identity.
+CREATE TABLE coded_products (
+    id            INTEGER PRIMARY KEY,
+    substance_id  INTEGER NOT NULL REFERENCES substances(id),
+    psid          TEXT,
+    brand         TEXT,
+    strength      TEXT,
+    form          TEXT,
+    route         TEXT,
+    country       TEXT NOT NULL,
+    source        TEXT NOT NULL
+);
+CREATE INDEX idx_coded_products_substance ON coded_products(substance_id);
+
+-- The barcodes those products print, keyed by the 14-digit GTIN as an integer:
+-- a US package NDC as 003 + NDC-10 + check, a retail UPC-A or a French CIP13
+-- (EAN-13) left-padded — so every symbology the camera reads normalizes to one
+-- key (see pipeline/product_codes.py). `code_kind` says which: 'ndc' | 'upc' |
+-- 'cip13'. `pack_count`/`pack_unit` are the registry's package contents
+-- (30 'tablet', 118 'mL'); NULL when the description names only a container.
+-- `code` is the rowid alias, so ~100k rows cost a few MB and no extra index.
+CREATE TABLE product_codes (
+    code        INTEGER PRIMARY KEY,
+    code_kind   TEXT NOT NULL,
+    product_id  INTEGER NOT NULL REFERENCES coded_products(id),
+    pack_count  REAL,
+    pack_unit   TEXT
 );
 
 CREATE TABLE categories (
@@ -11339,6 +11385,125 @@ class Build:
             "product_strengths_missing_parent": len(missing_parent),
         }
 
+    def build_product_codes(self) -> dict[str, int]:
+        """Load the barcode registry snapshots (PRODUCT_CODE_SNAPSHOTS) into
+        `coded_products` + `product_codes`.
+
+        Each registry product names its active ingredient in its own idiom
+        ("Methylphenidate hydrochloride", "CHLORHYDRATE DE MÉTHYLPHÉNIDATE");
+        both fold to the same key (product_codes.name_keys) and are resolved
+        against the built catalog's canonical names first, then its aliases,
+        preferring a non-stub owner — the fetcher's snapshot filter only kept
+        the file small, this is the authoritative mapping. A product whose name
+        no longer resolves is skipped and counted, never failed: registries and
+        the catalog drift independently."""
+        # Folded key → substance id. Canonical names win over aliases; among
+        # alias owners a substance with data wins over a stub.
+        by_key: dict[str, int] = {}
+        stub_ids = {r[0] for r in self.cur.execute("SELECT id FROM substances WHERE is_stub = 1")}
+        alias_rows = self.cur.execute("SELECT substance_id, alias FROM aliases").fetchall()
+        for sid, alias in alias_rows:
+            for key in product_code_keys.name_keys(alias):
+                if len(key) < 4:
+                    continue
+                current = by_key.get(key)
+                if current is None or (current in stub_ids and sid not in stub_ids):
+                    by_key[key] = sid
+        for sid, name in self.cur.execute("SELECT id, canonical_name FROM substances"):
+            for key in product_code_keys.name_keys(name):
+                if len(key) >= 4:
+                    by_key[key] = sid
+        uids = dict(self.cur.execute("SELECT id, substance_uid FROM substances").fetchall())
+
+        def resolve(name: str) -> int | None:
+            for key in product_code_keys.name_keys(name):
+                sid = by_key.get(key)
+                if sid is not None:
+                    return sid
+            return None
+
+        products = codes = unresolved = duplicate_codes = 0
+        unresolved_names: Counter[str] = Counter()
+        # One row per distinct product: repackagers relist the same
+        # brand/strength/form under their own NDCs, and their packages all join
+        # the first row. This also keeps every row distinct, which the dedupe
+        # pass requires — it would otherwise delete a twin from under its codes.
+        product_ids: dict[tuple, int] = {}
+        for source, country, path in PRODUCT_CODE_SNAPSHOTS:
+            if not path.exists():
+                print(
+                    f"  product codes: {path.relative_to(REPO)} missing — {source} skipped",
+                    file=sys.stderr,
+                )
+                continue
+            for row in json.loads(path.read_text(encoding="utf-8")):
+                if source == "openfda-ndc":
+                    name = row["generic"]
+                    packages = [
+                        (product_code_keys.gtin14_from_ndc(ndc), "ndc", count, unit)
+                        for ndc, count, unit in row["packages"]
+                    ] + [(upc, "upc", None, None) for upc in row.get("upc", [])]
+                else:
+                    name = row["substance"]
+                    packages = [
+                        (product_code_keys.gtin14_from_ean(cip13), "cip13", count, unit)
+                        for cip13, count, unit in row["presentations"]
+                    ]
+                    if not row.get("brand"):
+                        # "RITALINE 10 mg, comprimé sécable" → "RITALINE"
+                        row["brand"] = (
+                            re.split(r"\s+\d|,", row["name"], maxsplit=1)[0].strip().title()
+                        )
+                sid = resolve(name)
+                if sid is None:
+                    unresolved += 1
+                    unresolved_names[name] += 1
+                    continue
+                uid = uids.get(sid)
+                values = (
+                    sid,
+                    psid.compose(uid) if uid else None,
+                    row.get("brand"),
+                    row.get("strength"),
+                    row.get("form"),
+                    row.get("route"),
+                    country,
+                    source,
+                )
+                product_id = product_ids.get(values)
+                if product_id is None:
+                    self.cur.execute(
+                        "INSERT INTO coded_products "
+                        "(substance_id, psid, brand, strength, form, route, country, source) "
+                        "VALUES (?,?,?,?,?,?,?,?)",
+                        values,
+                    )
+                    product_id = self.cur.lastrowid
+                    product_ids[values] = product_id
+                    products += 1
+                for gtin, kind, count, unit in packages:
+                    if not gtin:
+                        continue
+                    inserted = self.cur.execute(
+                        "INSERT OR IGNORE INTO product_codes (code, code_kind, product_id, pack_count, pack_unit) "
+                        "VALUES (?,?,?,?,?)",
+                        (int(gtin), kind, product_id, count, unit),
+                    ).rowcount
+                    codes += inserted
+                    duplicate_codes += 1 - inserted
+        if unresolved:
+            top = ", ".join(f"{n} ×{c}" for n, c in unresolved_names.most_common(8))
+            print(
+                f"  product codes: {unresolved} product(s) whose active no longer resolves, skipped: {top}",
+                file=sys.stderr,
+            )
+        return {
+            "coded_products": products,
+            "product_codes": codes,
+            "product_codes_duplicate": duplicate_codes,
+            "product_codes_unresolved": unresolved,
+        }
+
     def build_product_durations(self) -> dict[str, int]:
         """Load per-product duration-of-effect envelopes (product-durations.json)
         into `product_durations`, so an extended-release brand draws a curve of the
@@ -13628,6 +13793,8 @@ def main() -> int:
     print(f"Product strengths: {strengths}", file=sys.stderr)
     product_durations = build.build_product_durations()
     print(f"Product durations: {product_durations}", file=sys.stderr)
+    coded = build.build_product_codes()
+    print(f"Product codes: {coded}", file=sys.stderr)
     alias_collisions = build.audit_alias_collisions()
     print(f"Alias-collision audit: {alias_collisions}", file=sys.stderr)
 
@@ -13832,6 +13999,8 @@ def main() -> int:
         "saturable_kinetics",
         "bioavailability_by_dose",
         "attenuation_bands",
+        "coded_products",
+        "product_codes",
     ]
     db = sqlite3.connect(str(OUT_SQLITE))
     for t in tables:

@@ -179,6 +179,12 @@ struct PiruApp: App {
                            !DemoData.insertPersonaData(container: container) {
                             DemoData.insertShowcaseData(container: container)
                         }
+                        // `-piruScanFixture <name>` opens Tools ▸ Identify a Box
+                        // with a canned reading resolved (ScanFixtures).
+                        if ScanFixtures.isRequested {
+                            AppNavigator.shared.selectedTab = .tools
+                            AppNavigator.shared.push(.tool(.identify), in: .tools)
+                        }
                     #endif
                 }
         }

@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import VisionKit
 
 // MARK: - Tools summary card
 
@@ -99,6 +100,9 @@ struct InventoryListView: View {
     /// and its current section list as inputs, neither of which a `Codable`
     /// deep-linkable route can carry.
     @State private var showsClassOrder = false
+    /// The box scanner: substance, strength and pack count read off a box land
+    /// in the add form prefilled.
+    @State private var showsScanner = false
 
     private var colorMap: [String: Color] {
         Array(substanceColors).colorMap
@@ -124,6 +128,16 @@ struct InventoryListView: View {
         // search is the primary way in, and a hidden field reads as "there is no
         // search here".
         .searchable(text: $model.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search Inventory"))
+        .fullScreenCover(isPresented: $showsScanner) {
+            LabelScannerView { reading in
+                let identified = BoxIdentifier.identify(reading)
+                navigator.present(.inventoryItemForm(
+                    id: nil,
+                    prefillSubstance: identified.canonicalName,
+                    prefill: identified.inventoryPrefill,
+                ))
+            }
+        }
         .sheet(isPresented: $showsClassOrder) {
             // Seeded with the manager's *current* section order, so the editor
             // opens showing exactly what's on screen behind it.
@@ -274,6 +288,16 @@ struct InventoryListView: View {
                     )
                 }
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
+            }
+            if DataScannerViewController.isSupported {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showsScanner = true
+                    } label: {
+                        Image(systemName: "barcode.viewfinder")
+                    }
+                    .accessibilityLabel("Scan a box")
+                }
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {

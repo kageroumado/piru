@@ -18,6 +18,9 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
     case effectSandbox
     case steadyState
     case drugClasses
+    /// The box scanner as a reference: point the camera at any medication box
+    /// and open what the library knows about what is inside.
+    case identify
 
     var id: String {
         rawValue
@@ -39,6 +42,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .effectSandbox: "Effect Estimator"
         case .steadyState: "Steady State"
         case .drugClasses: "Drug Classes"
+        case .identify: "Identify a Box"
         }
     }
 
@@ -58,6 +62,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .effectSandbox: "Compare substances and preview how they may feel"
         case .steadyState: "Where a repeated dose settles, and when"
         case .drugClasses: "What the members of a family share"
+        case .identify: "Point at any medication box to see what's inside it"
         }
     }
 
@@ -76,6 +81,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .effectSandbox: "slider.horizontal.2.square"
         case .steadyState: "chart.line.flattrend.xyaxis"
         case .drugClasses: "square.stack.3d.up"
+        case .identify: "barcode.viewfinder"
         }
     }
 }
@@ -89,7 +95,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
 /// tolerance, recovery) are grouped under an expandable ``EducationCard``.
 struct ToolsView: View {
     /// Plain tools rendered as rows, in order.
-    private let rowTools: [Tool] = [.effectSandbox, .calculator, .steadyState, .volumetric, .benzoEquivalence, .opioidEquivalence, .pharma]
+    private let rowTools: [Tool] = [.identify, .effectSandbox, .calculator, .steadyState, .volumetric, .benzoEquivalence, .opioidEquivalence, .pharma]
 
     var body: some View {
         ScrollView {

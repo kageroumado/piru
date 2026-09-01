@@ -18,8 +18,8 @@ struct SheetRouteView: View {
 
     var body: some View {
         switch route {
-        case let .quickLog(routine, prefillSubstance):
-            QuickLogSheet(prestagedRoutine: routine, prefillSubstance: prefillSubstance)
+        case let .quickLog(routine, prefillSubstance, prefillDose):
+            QuickLogSheet(prestagedRoutine: routine, prefillSubstance: prefillSubstance, prefillDose: prefillDose)
 
         case .settings:
             // SettingsView owns its own xmark toolbar item.
@@ -95,8 +95,8 @@ struct SheetRouteView: View {
                     .withAppDestinations()
             }
 
-        case let .inventoryItemForm(id, prefillSubstance, prefillSalt):
-            InventoryItemFormHost(itemID: id, prefillSubstance: prefillSubstance, prefillSalt: prefillSalt)
+        case let .inventoryItemForm(id, prefillSubstance, prefillSalt, prefill):
+            InventoryItemFormHost(itemID: id, prefillSubstance: prefillSubstance, prefillSalt: prefillSalt, prefill: prefill)
 
         case let .inventoryItemEdit(id):
             InventoryItemEditHost(itemID: id)
