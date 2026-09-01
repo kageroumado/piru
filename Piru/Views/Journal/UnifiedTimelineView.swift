@@ -28,6 +28,8 @@ struct UnifiedTimelineView: View {
     @AppStorage("timelineCompression", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var compressGaps = true
     @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var pkCurves = false
     @AppStorage("timelineStrengthScaling", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var strengthScaling = true
+    @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var showsAxis = true
+    @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var bubbleStyle = TimelineBubbleStyle.full
     @Environment(\.appNavigator) private var navigator
 
     var body: some View {
@@ -66,6 +68,8 @@ struct UnifiedTimelineView: View {
                         compressGaps: $compressGaps,
                         pkCurves: $pkCurves,
                         strengthScaling: $strengthScaling,
+                        showsAxis: $showsAxis,
+                        bubbleStyle: $bubbleStyle,
                     ) {
                         Image(systemName: "slider.horizontal.3")
                     }
@@ -94,13 +98,15 @@ struct UnifiedTimelineView: View {
                     compressGaps: compressGaps,
                     pkCurves: pkCurves,
                     strengthScaling: strengthScaling,
+                    showsAxis: showsAxis,
+                    bubbleStyle: bubbleStyle,
                 )
             }
         }
     }
 
     private var rebuildKey: String {
-        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(strengthScaling)"
+        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(strengthScaling)|\(showsAxis)|\(bubbleStyle.rawValue)"
     }
 
     /// Pinch on the graph: preview by stretching vertically while the fingers
@@ -182,8 +188,10 @@ final class UnifiedTimelineModel {
         compressGaps: Bool,
         pkCurves: Bool,
         strengthScaling: Bool,
+        showsAxis: Bool,
+        bubbleStyle: TimelineBubbleStyle,
     ) async {
-        let key = "\(revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(strengthScaling)|\(entries.count)"
+        let key = "\(revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(strengthScaling)|\(showsAxis)|\(bubbleStyle.rawValue)|\(entries.count)"
         if key == builtKey, !days.isEmpty { return }
         await SubstanceStore.shared.ensureAllLoaded()
         guard !Task.isCancelled else { return }
@@ -194,8 +202,12 @@ final class UnifiedTimelineModel {
             colorMap: colorMap,
             zoom: zoom,
             compressGaps: compressGaps,
-            pkCurves: pkCurves,
-            strengthScaling: strengthScaling,
+            style: TimelineDayLayout.Style(
+                showsAxis: showsAxis,
+                bubbleStyle: bubbleStyle,
+                pkMode: pkCurves,
+                strengthScaling: strengthScaling,
+            ),
         ) else {
             days = []
             builtKey = key
@@ -224,14 +236,13 @@ final class UnifiedTimelineModel {
 // MARK: - Day header pill
 
 /// The day marker at the top of each slice — a two-line tag (relative day or
-/// weekday, then the date) that sits inside the hour-label gutter, ending
-/// before the axis. Opaque, so the ruler ticks it covers stay covered and the
-/// curve lane beside it stays untouched at every zoom.
+/// weekday, then the date) floating at the slice's leading edge, across the
+/// axis. Opaque, so the ruler and axis it covers stay covered at every zoom.
 struct TimelineDayHeader: View {
     let date: Date
     let isToday: Bool
-    /// The gutter's width — the tag fills it edge to edge.
-    let width: CGFloat
+    /// A fixed width for the tag, or `nil` to hug its text.
+    let width: CGFloat?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 1) {
@@ -277,139 +288,148 @@ struct TimelineDayHeader: View {
     }
 }
 
-// MARK: - Day slice (three-column layout)
+// MARK: - Day slice
 
+/// One day slice of the strip. Axis on: the strip layout
+/// (``TimelineStripDayContent``); axis off: the bubbles as a plain list
+/// (``TimelineListDayContent``).
 struct TimelineDayContent: View {
     let day: TimelineDayLayout
     let onEntryTap: (DoseEntry) -> Void
     let onSessionTap: (UUID) -> Void
 
-    /// Wide enough for "12:01 AM" at the label font — the Canvas clips, so a
-    /// narrower column cuts the leading digit off five-character times.
-    private static let chartWidth: CGFloat = 64
-    private static let timeWidth: CGFloat = 58
-    /// Horizontal inset of every card within its column, so a session
-    /// envelope's edge stays visible around the cards it wraps.
-    private static let cardInset: CGFloat = 8
+    var body: some View {
+        if day.style.showsAxis {
+            TimelineStripDayContent(day: day, onEntryTap: onEntryTap, onSessionTap: onSessionTap)
+        } else {
+            TimelineListDayContent(day: day, onEntryTap: onEntryTap, onSessionTap: onSessionTap)
+        }
+    }
+}
+
+/// The strip layout of one day: a single full-width canvas (hour ruler,
+/// axis, curves, connectors, Now) with the time capsules, dose dots and the
+/// glass bubble column layered over it. The curves get the lane from the axis
+/// to the bubbles' right edge and run under the bubbles — the eye reconstructs
+/// the covered part — except with strength scaling off, when every curve
+/// reaches full amplitude and the lane stops 8 pt short of the bubbles so the
+/// peaks stay visible.
+struct TimelineStripDayContent: View {
+    let day: TimelineDayLayout
+    let onEntryTap: (DoseEntry) -> Void
+    let onSessionTap: (UUID) -> Void
+
+    /// Horizontal inset of every bubble within its column, so a session
+    /// envelope's edge stays visible around the bubbles it wraps.
+    private static let bubbleInset: CGFloat = 8
+    /// Clearance between a full-amplitude curve and the bubbles when the
+    /// lane must stop short of them.
+    private static let peakClearance: CGFloat = 8
 
     var body: some View {
-        HStack(alignment: .top, spacing: 0) {
-            timeColumn
-                .frame(width: Self.timeWidth)
+        GeometryReader { geo in
+            let bubbleWidth = TimelineDoseBubble.width(for: day.style.bubbleStyle)
+            let columnWidth = bubbleWidth + 2 * Self.bubbleInset
+            let columnX = geo.size.width - TimelineGutter.edgeInset - columnWidth
+            let bubbleLeft = columnX + Self.bubbleInset
+            let bubbleRight = columnX + columnWidth - Self.bubbleInset
 
-            curveSpine
-                .frame(width: Self.chartWidth)
-
-            cardsColumn
+            ZStack(alignment: .topLeading) {
+                strip(bubbleLeft: bubbleLeft, bubbleRight: bubbleRight)
+                capsules
+                doseDots
+                bubbleColumn(width: columnWidth)
+                    .offset(x: columnX)
+            }
         }
-        .frame(height: day.totalHeight, alignment: .top)
-        .padding(.leading, 8)
-        .padding(.trailing, 12)
+        .frame(height: day.totalHeight)
         .overlay(alignment: .topLeading) {
-            // Inset 4 from the leading edge and sized to end at the gutter's
-            // trailing edge, short of the axis in the curve column.
-            TimelineDayHeader(date: day.date, isToday: day.isToday, width: Self.timeWidth + 4)
-                .padding(.leading, 4)
+            TimelineDayHeader(date: day.date, isToday: day.isToday, width: nil)
+                .padding(.leading, TimelineGutter.edgeInset)
                 .padding(.top, 4)
         }
     }
 
-    // MARK: - Time column
+    // MARK: Gutter overlays
 
-    private var timeColumn: some View {
-        Canvas { context, size in
-            // Hour marks: fainter regular label + a tick reaching from the
-            // gutter toward the axis, visually distinct from dose dots. Lines
-            // survive dense stretches even when their label had to yield — in
-            // a compressed gap they visibly bunch together, which is what
-            // says "time is squeezed here".
-            for tick in day.hourTicks {
-                guard tick.y >= 0, tick.y <= size.height else { continue }
-                var line = Path()
-                line.move(to: CGPoint(x: size.width - 6, y: tick.y))
-                line.addLine(to: CGPoint(x: size.width, y: tick.y))
-                context.stroke(line, with: .color(Color.primary.opacity(0.18)), lineWidth: 1)
-                guard let label = tick.label else { continue }
-                let text = Text(label)
-                    .font(.system(size: 9, design: .rounded).monospacedDigit())
-                    .foregroundStyle(Theme.secondaryLabel.opacity(0.55))
-                context.draw(context.resolve(text), at: CGPoint(x: size.width - 9, y: tick.y), anchor: .trailing)
-            }
-
-            for group in day.cardGroups where group.showsTimeLabel {
-                let y = group.centerY
-                guard y >= 0, y <= size.height else { continue }
-                let text = Text(group.representativeTime.formatted(date: .omitted, time: .shortened))
-                    .font(.system(size: 10, weight: .medium, design: .rounded).monospacedDigit())
-                    .foregroundStyle(Theme.secondaryLabel)
-                context.draw(context.resolve(text), at: CGPoint(x: size.width - 4, y: y), anchor: .trailing)
-            }
-
-            if let nowY = day.nowY {
-                let text = Text("Now")
-                    .font(.system(size: 10, weight: .semibold, design: .rounded))
-                    .foregroundStyle(Theme.accent)
-                context.draw(context.resolve(text), at: CGPoint(x: size.width - 4, y: nowY), anchor: .trailing)
-            }
+    private var capsules: some View {
+        ForEach(day.cardGroups.filter(\.showsTimeLabel)) { group in
+            TimelineTimeCapsule(date: group.representativeTime)
+                .position(x: TimelineGutter.edgeInset + TimelineGutter.capsuleWidth / 2, y: group.centerY)
         }
     }
 
-    // MARK: - Vertical PK curve
+    /// Dose dots on the axis — the primary "something was taken here" mark,
+    /// drawn above the capsules so a capsule hanging across the axis is
+    /// pinned by its dot.
+    private var doseDots: some View {
+        ForEach(Array(day.doseDots.enumerated()), id: \.offset) { _, dot in
+            Circle()
+                .fill(dot.color)
+                .frame(width: 8, height: 8)
+                .padding(1.5)
+                .background(Theme.background, in: Circle())
+                .position(x: TimelineGutter.axisX, y: dot.y)
+                .accessibilityHidden(true)
+        }
+    }
 
-    private var curveSpine: some View {
+    // MARK: Bubble column
+
+    private func bubbleColumn(width: CGFloat) -> some View {
+        ZStack(alignment: .topLeading) {
+            ForEach(day.envelopes) { envelope in
+                SessionEnvelopeButton { onSessionTap(envelope.id) }
+                    .frame(width: width, height: envelope.yEnd - envelope.yStart)
+                    .offset(y: envelope.yStart)
+            }
+
+            GlassEffectContainer {
+                ZStack(alignment: .topLeading) {
+                    ForEach(day.cardGroups) { group in
+                        VStack(spacing: TimelineDayLayout.cardSpacing) {
+                            ForEach(group.items) { item in
+                                TimelineDoseBubble(
+                                    item: item,
+                                    style: day.style.bubbleStyle,
+                                    pkMode: day.style.pkMode,
+                                ) { onEntryTap(item.entry) }
+                            }
+                        }
+                        .padding(.horizontal, Self.bubbleInset)
+                        .offset(y: group.topY)
+                    }
+                }
+            }
+        }
+        .frame(width: width, alignment: .topLeading)
+    }
+
+    // MARK: The strip canvas
+
+    private func strip(bubbleLeft: CGFloat, bubbleRight: CGFloat) -> some View {
         Canvas { context, size in
             let mapHeight = day.mapHeight
             guard mapHeight > 0 else { return }
 
-            let axisX: CGFloat = 5
-            let curveWidth = size.width - axisX - 4
+            let axisX = TimelineGutter.axisX
+            let laneRight = day.style.strengthScaling ? bubbleRight : bubbleLeft - Self.peakClearance
+            let curveWidth = max(0, laneRight - axisX)
 
-            // Hour gridlines
+            // Hour gridlines across the lane; in a compressed gap they bunch
+            // together, which is what says "time is squeezed here".
             for tick in day.hourTicks {
                 var line = Path()
-                line.move(to: CGPoint(x: 0, y: tick.y))
+                line.move(to: CGPoint(x: axisX, y: tick.y))
                 line.addLine(to: CGPoint(x: size.width, y: tick.y))
                 context.stroke(line, with: .color(Color.primary.opacity(0.06)), lineWidth: 0.5)
             }
 
-            // The time axis, running the full slice (cards can spill past the
-            // mapped span; the axis keeps going so the strip reads as
-            // unbroken). The newest slice carries an arrowhead at the top —
-            // the axis runs past "now" to where the active doses wind down,
-            // and the arrow says it keeps going up from there.
-            let axisTop: CGFloat = day.showsLiveEdge ? 16 : 0
-            var axisLine = Path()
-            axisLine.move(to: CGPoint(x: axisX, y: axisTop))
-            axisLine.addLine(to: CGPoint(x: axisX, y: size.height))
-            context.stroke(axisLine, with: .color(Color.primary.opacity(day.showsLiveEdge ? 0.22 : 0.12)), lineWidth: day.showsLiveEdge ? 1 : 0.7)
-            if day.showsLiveEdge {
-                var arrow = Path()
-                arrow.move(to: CGPoint(x: axisX - 4.5, y: axisTop + 6))
-                arrow.addLine(to: CGPoint(x: axisX, y: axisTop - 2))
-                arrow.addLine(to: CGPoint(x: axisX + 4.5, y: axisTop + 6))
-                context.stroke(arrow, with: .color(Color.primary.opacity(0.3)), style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
-            }
+            drawAxis(in: &context, size: size, axisX: axisX)
 
-            // Faint up-chevrons along the axis — the ambient reminder that
-            // time on this strip flows upward.
-            var chevronY = size.height - 60
-            while chevronY > 40 {
-                let clearOfDots = day.doseDots.allSatisfy { abs($0.y - chevronY) > 14 }
-                let clearOfNow = day.nowY.map { abs($0 - chevronY) > 14 } ?? true
-                if clearOfDots, clearOfNow {
-                    var chevron = Path()
-                    chevron.move(to: CGPoint(x: axisX - 3.5, y: chevronY + 3))
-                    chevron.addLine(to: CGPoint(x: axisX, y: chevronY - 2.5))
-                    chevron.addLine(to: CGPoint(x: axisX + 3.5, y: chevronY + 3))
-                    context.stroke(chevron, with: .color(Color.primary.opacity(0.16)), style: StrokeStyle(lineWidth: 1.2, lineCap: .round, lineJoin: .round))
-                }
-                chevronY -= 130
-            }
-
-            // Per-substance effect curves — the same acute-effect model as
-            // the journal cards, normalized to the substance's own all-time
-            // peak so widths mean the same thing on every day and a curve
-            // crosses day boundaries without a jump.
+            // Per-substance curves — normalized to the substance's own
+            // all-time peak so widths mean the same thing on every day and a
+            // curve crosses day boundaries without a jump.
             for series in day.series {
                 guard series.points.count > 1 else { continue }
 
@@ -430,33 +450,18 @@ struct TimelineDayContent: View {
                 context.stroke(stroke, with: .color(series.color.opacity(0.75)), lineWidth: 1.5)
             }
 
-            // Connectors from each dose's position on the axis to its card.
+            drawHourLabels(in: &context, size: size)
+
+            // Connectors from each dose's position on the axis to its bubble.
             for connector in day.connectors {
                 var path = Path()
                 path.move(to: CGPoint(x: axisX, y: connector.fromY))
-                path.addLine(to: CGPoint(x: size.width, y: connector.toY))
+                path.addLine(to: CGPoint(x: bubbleLeft, y: connector.toY))
                 context.stroke(path, with: .color(connector.color.opacity(0.35)), lineWidth: 1)
             }
 
-            // Dose dots on the axis — the primary "something was taken here"
-            // mark, sized to survive a crowded stretch.
-            for dot in day.doseDots {
-                let ring = Path(ellipseIn: CGRect(x: axisX - 5.5, y: dot.y - 5.5, width: 11, height: 11))
-                context.fill(ring, with: .color(Theme.background))
-                let disc = Path(ellipseIn: CGRect(x: axisX - 4, y: dot.y - 4, width: 8, height: 8))
-                context.fill(disc, with: .color(dot.color))
-            }
-
-            // Now marker
             if let y = day.nowY {
-                var nowLine = Path()
-                nowLine.move(to: CGPoint(x: 0, y: y))
-                nowLine.addLine(to: CGPoint(x: size.width, y: y))
-                context.stroke(nowLine, with: .color(Theme.accent.opacity(0.65)), lineWidth: 2.5)
-                context.fill(
-                    Path(ellipseIn: CGRect(x: axisX - 3.5, y: y - 3.5, width: 7, height: 7)),
-                    with: .color(Theme.accent),
-                )
+                drawNow(in: &context, size: size, axisX: axisX, y: y)
             }
 
             // Only the strip's very top edge cuts curves mid-flight — fade
@@ -476,48 +481,117 @@ struct TimelineDayContent: View {
         }
     }
 
-    // MARK: - Cards column
+    /// The time axis, running the full slice (bubbles can spill past the
+    /// mapped span; the axis keeps going so the strip reads as unbroken). The
+    /// newest slice carries an arrowhead at the top — the axis runs past "now"
+    /// to where the active doses wind down, and the arrow says it keeps going
+    /// up from there. Faint up-chevrons along it are the ambient reminder that
+    /// time on this strip flows upward.
+    private func drawAxis(in context: inout GraphicsContext, size: CGSize, axisX: CGFloat) {
+        let axisTop: CGFloat = day.showsLiveEdge ? 16 : 0
+        var axisLine = Path()
+        axisLine.move(to: CGPoint(x: axisX, y: axisTop))
+        axisLine.addLine(to: CGPoint(x: axisX, y: size.height))
+        context.stroke(axisLine, with: .color(Color.primary.opacity(day.showsLiveEdge ? 0.22 : 0.12)), lineWidth: day.showsLiveEdge ? 1 : 0.7)
+        if day.showsLiveEdge {
+            var arrow = Path()
+            arrow.move(to: CGPoint(x: axisX - 4.5, y: axisTop + 6))
+            arrow.addLine(to: CGPoint(x: axisX, y: axisTop - 2))
+            arrow.addLine(to: CGPoint(x: axisX + 4.5, y: axisTop + 6))
+            context.stroke(arrow, with: .color(Color.primary.opacity(0.3)), style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
+        }
 
-    private var cardsColumn: some View {
-        ZStack(alignment: .topLeading) {
-            ForEach(day.envelopes) { envelope in
-                SessionEnvelopeButton { onSessionTap(envelope.id) }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: envelope.yEnd - envelope.yStart)
-                    .offset(y: envelope.yStart)
+        var chevronY = size.height - 60
+        while chevronY > 40 {
+            let clearOfDots = day.doseDots.allSatisfy { abs($0.y - chevronY) > 14 }
+            let clearOfNow = day.nowY.map { abs($0 - chevronY) > 14 } ?? true
+            if clearOfDots, clearOfNow {
+                var chevron = Path()
+                chevron.move(to: CGPoint(x: axisX - 3.5, y: chevronY + 3))
+                chevron.addLine(to: CGPoint(x: axisX, y: chevronY - 2.5))
+                chevron.addLine(to: CGPoint(x: axisX + 3.5, y: chevronY + 3))
+                context.stroke(chevron, with: .color(Color.primary.opacity(0.16)), style: StrokeStyle(lineWidth: 1.2, lineCap: .round, lineJoin: .round))
             }
+            chevronY -= 130
+        }
+    }
 
-            ForEach(day.cardGroups) { group in
-                VStack(spacing: TimelineDayLayout.cardSpacing) {
-                    ForEach(group.items) { item in
-                        TimelineDoseCard(item: item, inSession: group.inSession) { onEntryTap(item.entry) }
-                    }
-                }
-                .padding(.horizontal, Self.cardInset)
-                .offset(y: group.topY)
+    /// Hour numerals (bare 24 h, tabular) and the sun/moon glyphs standing in
+    /// for 06 and 18, each on a small background halo so the gridline and the
+    /// curves under it stop at the digits.
+    private func drawHourLabels(in context: inout GraphicsContext, size: CGSize) {
+        let centerX = TimelineGutter.labelCenterX
+        for tick in day.hourTicks {
+            guard let label = tick.label, tick.y >= 0, tick.y <= size.height else { continue }
+            switch label {
+            case let .numeral(text):
+                let resolved = context.resolve(
+                    Text(verbatim: text)
+                        .font(.system(size: 11, design: .rounded).monospacedDigit())
+                        .foregroundStyle(Theme.secondaryLabel),
+                )
+                let measured = resolved.measure(in: CGSize(width: 60, height: 30))
+                drawHalo(in: &context, center: CGPoint(x: centerX, y: tick.y), size: measured)
+                context.draw(resolved, at: CGPoint(x: centerX, y: tick.y), anchor: .center)
+            case let .symbol(name):
+                var image = context.resolve(Image(systemName: name))
+                image.shading = .style(.quaternary)
+                let side: CGFloat = 12
+                drawHalo(in: &context, center: CGPoint(x: centerX, y: tick.y), size: CGSize(width: side, height: side))
+                context.draw(image, in: CGRect(x: centerX - side / 2, y: tick.y - side / 2, width: side, height: side))
             }
         }
-        .frame(maxWidth: .infinity, alignment: .topLeading)
+    }
+
+    private func drawNow(in context: inout GraphicsContext, size: CGSize, axisX: CGFloat, y: CGFloat) {
+        var nowLine = Path()
+        nowLine.move(to: CGPoint(x: axisX, y: y))
+        nowLine.addLine(to: CGPoint(x: size.width, y: y))
+        context.stroke(nowLine, with: .color(Theme.accent.opacity(0.65)), lineWidth: 2.5)
+        context.fill(
+            Path(ellipseIn: CGRect(x: axisX - 3.5, y: y - 3.5, width: 7, height: 7)),
+            with: .color(Theme.accent),
+        )
+        let resolved = context.resolve(
+            Text("Now")
+                .font(.system(size: 10, weight: .semibold, design: .rounded))
+                .foregroundStyle(Theme.accent),
+        )
+        let center = CGPoint(x: TimelineGutter.labelCenterX, y: y)
+        drawHalo(in: &context, center: center, size: resolved.measure(in: CGSize(width: 60, height: 30)))
+        context.draw(resolved, at: center, anchor: .center)
+    }
+
+    private func drawHalo(in context: inout GraphicsContext, center: CGPoint, size: CGSize) {
+        let rect = CGRect(
+            x: center.x - size.width / 2 - 2,
+            y: center.y - size.height / 2 - 1,
+            width: size.width + 4,
+            height: size.height + 2,
+        )
+        context.fill(Path(roundedRect: rect, cornerRadius: 3), with: .color(Theme.background))
     }
 }
 
 // MARK: - Session envelope
 
-private struct SessionEnvelopeButton: View {
+/// The tappable frame around a session's bubbles — an outline (the bubbles
+/// carry their own glass) with a "Session ›" footer that opens the session.
+struct SessionEnvelopeButton: View {
     let onTap: () -> Void
 
     var body: some View {
         Button(action: onTap) {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color.primary.opacity(0.03))
+                .fill(Color.primary.opacity(0.02))
                 .overlay {
                     RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .strokeBorder(Color.primary.opacity(0.07), lineWidth: 1)
+                        .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
                 }
                 .overlay(alignment: .bottomTrailing) {
-                    // Chevron styled and inset identically to the dose cards'
-                    // (card inset 8 + card padding 10), so the two columns of
-                    // chevrons align.
+                    // Chevron styled and inset identically to the bubbles'
+                    // (bubble inset 8 + bubble padding 10), so the two columns
+                    // of chevrons align.
                     HStack(spacing: 8) {
                         Text("Session")
                             .font(.caption.weight(.medium))
@@ -545,6 +619,7 @@ private struct SessionEnvelopeButton: View {
 struct TimelineDayLayout: Identifiable {
     let date: Date
     let isToday: Bool
+    let style: Style
     /// The strip's newest slice: carries the axis arrowhead, the top fade,
     /// and (usually) the "Now" line.
     let showsLiveEdge: Bool
@@ -562,7 +637,20 @@ struct TimelineDayLayout: Identifiable {
         date
     }
 
-    static let cardHeight: CGFloat = 58
+    /// The display options the slice was laid out for.
+    struct Style: Equatable {
+        /// Off: no strip, ruler or curves — the bubbles stack as a list.
+        let showsAxis: Bool
+        let bubbleStyle: TimelineBubbleStyle
+        /// Body-load mode: half-life PK decay instead of effect curves, and
+        /// elimination percentages on the bubbles.
+        let pkMode: Bool
+        /// Weight each dose's curve by its strength (effect intensity, or
+        /// amount in PK mode). Off, every dose draws at unit weight — a medium
+        /// dose gets the full lane instead of a sliver of it.
+        let strengthScaling: Bool
+    }
+
     static let cardSpacing: CGFloat = 4
     static let groupGap: CGFloat = 14
     static let envelopePad: CGFloat = 6
@@ -576,15 +664,17 @@ struct TimelineDayLayout: Identifiable {
         let items: [CardItem]
         let representativeTime: Date
         let sessionID: UUID?
+        /// Each bubble's height, per the bubble style.
+        let cardHeight: CGFloat
         /// Resolved top of the card stack (after collision push-down).
         var topY: CGFloat = 0
         var inSession = false
-        /// `false` when the group's timestamp would overprint the "Now" tag
-        /// in the gutter — Now wins (``TimelineGutterLabels``).
+        /// `false` when the group's time capsule would overprint the "Now"
+        /// tag in the gutter — Now wins (``TimelineGutterLabels``).
         var showsTimeLabel = true
 
         var height: CGFloat {
-            CGFloat(items.count) * TimelineDayLayout.cardHeight
+            CGFloat(items.count) * cardHeight
                 + CGFloat(items.count - 1) * TimelineDayLayout.cardSpacing
         }
 
@@ -600,6 +690,10 @@ struct TimelineDayLayout: Identifiable {
         let entry: DoseEntry
         let color: Color
         let remainingFraction: Double?
+        /// The dose's acute-effect state while its effects are still running
+        /// at build time — the bubble's phase progress reads from it. `nil`
+        /// for ended doses and doses without duration data.
+        let state: ActiveSubstanceState?
 
         var id: PersistentIdentifier {
             entry.persistentModelID
@@ -637,9 +731,17 @@ struct TimelineDayLayout: Identifiable {
 
     struct HourTick {
         let y: CGFloat
-        /// `nil` when the tick line stands alone — its label would collide
-        /// with a dose-time label, the "Now" tag, or a neighboring hour label.
-        let label: String?
+        /// `nil` when the gridline stands alone — its label would collide
+        /// with a dose capsule, the "Now" tag, or a neighboring hour label.
+        let label: Label?
+
+        enum Label {
+            /// The bare two-digit 24 h hour.
+            case numeral(String)
+            /// An SF Symbol standing in for the hour: `sun.max` at 06,
+            /// `moon` at 18.
+            case symbol(String)
+        }
     }
 }
 
@@ -651,12 +753,15 @@ struct TimelineDayLayout: Identifiable {
 struct TimelineStripBuilder {
     private let colorMap: [String: Color]
     private let remainingFractions: [PersistentIdentifier: Double]
-    /// Body-load mode: draw half-life PK decay instead of effect curves.
-    private let pkCurves: Bool
-    /// Weight each dose's curve by its strength (effect intensity, or amount
-    /// in PK mode). Off, every dose draws at unit weight — a medium dose gets
-    /// the full lane instead of a sliver of it.
-    private let strengthScaling: Bool
+    private let style: TimelineDayLayout.Style
+    private var pkCurves: Bool {
+        style.pkMode
+    }
+
+    private var strengthScaling: Bool {
+        style.strengthScaling
+    }
+
     /// Effect states per substance (lowercased canonical name) — the same
     /// acute-effect curves every other timeline surface draws. Doses without
     /// duration data have no state and appear as dots/cards only, exactly as
@@ -686,14 +791,23 @@ struct TimelineStripBuilder {
         slices.count
     }
 
-    init?(entries: [DoseEntry], colors: [SubstanceColor], colorMap: [String: Color], zoom: Double, compressGaps: Bool, pkCurves: Bool, strengthScaling: Bool) {
+    init?(entries: [DoseEntry], colors: [SubstanceColor], colorMap: [String: Color], zoom: Double, compressGaps: Bool, style: TimelineDayLayout.Style) {
         guard !entries.isEmpty else { return nil }
         self.colorMap = colorMap
-        self.pkCurves = pkCurves
-        self.strengthScaling = strengthScaling
+        self.style = style
         remainingFractions = Self.computeRemainingFractions(entries: entries)
 
-        let states = ActiveSubstanceState.timeline(for: entries, colors: colors).states
+        // One state per dose that resolves duration data — the curves' input
+        // and, per entry, the bubble's phase progress.
+        let hexMap = colors.hexColorMap
+        var states: [ActiveSubstanceState] = []
+        var statesByEntry: [PersistentIdentifier: ActiveSubstanceState] = [:]
+        for entry in entries {
+            let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
+            guard let state = ActiveSubstanceState.from(entry: entry, colorHex: hex) else { continue }
+            states.append(state)
+            statesByEntry[entry.persistentModelID] = state
+        }
         statesBySubstance = Dictionary(grouping: states) { $0.substanceName.lowercased() }
         var bySubstance = Dictionary(grouping: entries) { $0.substance.lowercased() }
         for k in bySubstance.keys {
@@ -713,7 +827,7 @@ struct TimelineStripBuilder {
         // windows, or six half-lives in body-load mode.
         let globalStart = byDay[oldestDay]!.map(\.timestamp).min()!.addingTimeInterval(-5 * 60)
         let currentTime = now
-        let modeledEnds: [Date] = pkCurves
+        let modeledEnds: [Date] = style.pkMode
             ? Self.pkActivityEnds(entries: entries)
             : states.map { $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) }
         let curvesEnd = modeledEnds.filter { $0 > currentTime }.max()
@@ -729,6 +843,7 @@ struct TimelineStripBuilder {
         // next newer dosed day's start (absorbing any empty days between), and
         // the newest slice runs to the strip's live edge.
         var sliceInfos: [(date: Date, isToday: Bool, topTime: Date, bottomTime: Date, groups: [TimelineDayLayout.CardGroup])] = []
+        let cardHeight = TimelineDoseBubble.height(for: style.bubbleStyle)
         for (index, day) in dayDates.enumerated() {
             let topTime = index == 0 ? globalEnd : calendar.startOfDay(for: dayDates[index - 1])
             let bottomTime = index == dayDates.count - 1 ? globalStart : day
@@ -736,6 +851,9 @@ struct TimelineStripBuilder {
                 dayEntries: byDay[day]!,
                 colorMap: colorMap,
                 remainingFractions: remainingFractions,
+                statesByEntry: statesByEntry,
+                cardHeight: cardHeight,
+                now: currentTime,
             )
             sliceInfos.append((day, calendar.isDateInToday(day), topTime, bottomTime, groups))
         }
@@ -933,8 +1051,8 @@ struct TimelineStripBuilder {
                 let dotY = localY(item.entry.timestamp)
                 doseDots.append(TimelineDayLayout.DoseDot(y: dotY, color: item.color))
                 let cardCenterY = group.topY
-                    + CGFloat(itemIndex) * (TimelineDayLayout.cardHeight + TimelineDayLayout.cardSpacing)
-                    + TimelineDayLayout.cardHeight / 2
+                    + CGFloat(itemIndex) * (group.cardHeight + TimelineDayLayout.cardSpacing)
+                    + group.cardHeight / 2
                 connectors.append(TimelineDayLayout.Connector(fromY: dotY, toY: cardCenterY, color: item.color))
             }
         }
@@ -959,11 +1077,13 @@ struct TimelineStripBuilder {
             nowY: nowY,
         )
 
-        let series = curveSeries(slice: slice, localY: localY)
+        // With the axis off nothing draws the curves, so skip sampling them.
+        let series = style.showsAxis ? curveSeries(slice: slice, localY: localY) : []
 
         return TimelineDayLayout(
             date: slice.date,
             isToday: slice.isToday,
+            style: style,
             showsLiveEdge: showsLiveEdge,
             cardGroups: groups,
             envelopes: envelopes,
@@ -979,10 +1099,11 @@ struct TimelineStripBuilder {
 
     // MARK: Hour ruler
 
-    /// A tick line for every hour that fits (≥8 pt apart — in a compressed
+    /// A gridline for every hour that fits (≥8 pt apart — in a compressed
     /// gap they bunch, which is the compression cue); labels additionally
-    /// thin out around dose-time labels, the "Now" tag, each other, and any
-    /// label a displaced card has pushed out of time order.
+    /// thin out around dose capsules, the "Now" tag, each other, and any
+    /// label a displaced card has pushed out of time order. Sun and moon
+    /// glyphs stand in for the 06 and 18 numerals.
     private func hourTicks(
         slice: (date: Date, isToday: Bool, topTime: Date, bottomTime: Date, groups: [TimelineDayLayout.CardGroup]),
         localY: (Date) -> CGFloat,
@@ -1011,7 +1132,12 @@ struct TimelineStripBuilder {
                 && TimelineGutterLabels.hourLabelFits(y: y, doseYs: visibleDoseYs, nowY: nowY)
                 && lastLabelY - y >= 24
             if labelFits {
-                ticks.append(TimelineDayLayout.HourTick(y: y, label: t.formatted(.dateTime.hour())))
+                let label: TimelineDayLayout.HourTick.Label = switch calendar.component(.hour, from: t) {
+                case 6: .symbol("sun.max")
+                case 18: .symbol("moon")
+                default: .numeral(TimelineGutter.hourNumeral(t))
+                }
+                ticks.append(TimelineDayLayout.HourTick(y: y, label: label))
                 lastLabelY = y
             } else {
                 ticks.append(TimelineDayLayout.HourTick(y: y, label: nil))
@@ -1232,6 +1358,9 @@ struct TimelineStripBuilder {
         dayEntries: [DoseEntry],
         colorMap: [String: Color],
         remainingFractions: [PersistentIdentifier: Double],
+        statesByEntry: [PersistentIdentifier: ActiveSubstanceState],
+        cardHeight: CGFloat,
+        now: Date,
     ) -> [TimelineDayLayout.CardGroup] {
         let sorted = dayEntries.sorted { $0.timestamp < $1.timestamp }
         var groups: [TimelineDayLayout.CardGroup] = []
@@ -1242,14 +1371,18 @@ struct TimelineStripBuilder {
             groups.append(TimelineDayLayout.CardGroup(
                 id: currentBatch[0].persistentModelID,
                 items: currentBatch.reversed().map { entry in
-                    TimelineDayLayout.CardItem(
+                    let state = statesByEntry[entry.persistentModelID]
+                    let running = state.map { $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) > now } ?? false
+                    return TimelineDayLayout.CardItem(
                         entry: entry,
                         color: SubstancePalette.color(for: entry.substance, colorMap: colorMap),
                         remainingFraction: remainingFractions[entry.persistentModelID],
+                        state: running ? state : nil,
                     )
                 },
                 representativeTime: repTime,
                 sessionID: currentBatch[0].session?.id,
+                cardHeight: cardHeight,
             ))
             currentBatch = []
         }
@@ -1303,69 +1436,5 @@ struct TimelineStripBuilder {
             }
         }
         return result
-    }
-}
-
-// MARK: - Dose card
-
-private struct TimelineDoseCard: View {
-    let item: TimelineDayLayout.CardItem
-    /// Inside a session envelope the card sits on the envelope's shared
-    /// background; outside it draws its own.
-    let inSession: Bool
-    let onTap: () -> Void
-
-    private var isActive: Bool {
-        (item.remainingFraction ?? 0) > 0.03
-    }
-
-    var body: some View {
-        Button(action: onTap) {
-            HStack(spacing: 8) {
-                Circle()
-                    .fill(isActive ? item.color : item.color.opacity(0.4))
-                    .frame(width: 8, height: 8)
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(CustomSubstanceStore.shared.displayName(for: item.entry.substance))
-                        .font(.subheadline.weight(.semibold))
-                        .lineLimit(1)
-
-                    HStack(spacing: 4) {
-                        Text("\(item.entry.amount.doseFormatted) \(item.entry.unit)")
-                            .font(.footnote)
-                            .foregroundStyle(Theme.secondaryLabel)
-                        ROAPill(route: item.entry.route, size: .compact)
-                    }
-                }
-
-                Spacer(minLength: 4)
-
-                if let remaining = item.remainingFraction, isActive {
-                    Text("\(Int(remaining * 100))%")
-                        .font(.caption.weight(.semibold).monospacedDigit())
-                        .foregroundStyle(item.color)
-                }
-
-                Image(systemName: "chevron.right")
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-                    .accessibilityHidden(true)
-            }
-            .padding(.vertical, 8)
-            .padding(.horizontal, 10)
-            .background {
-                if !inSession {
-                    RoundedRectangle(cornerRadius: 12, style: .continuous)
-                        .fill(Theme.background)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                .fill(Color.primary.opacity(0.04))
-                        }
-                }
-            }
-            .contentShape(.rect)
-        }
-        .buttonStyle(.plain)
     }
 }

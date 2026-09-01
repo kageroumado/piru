@@ -9,6 +9,16 @@ import SwiftUI
 struct DosePhaseProgressBar: View {
     let state: ActiveSubstanceState
     let now: Date
+    var style: Style = .full
+
+    /// How much of the readout to draw.
+    enum Style {
+        /// The 6 pt bar over the dotted phase word and "{elapsed} in · {remaining} left".
+        case full
+        /// The phase word over a 3 pt bar, sized to sit at the trailing edge of a
+        /// timeline bubble — the same fill and phase color, no clock text.
+        case compact
+    }
 
     /// Phase bands, mirroring the timeline graph's hues so the bar reads
     /// coherently with a curve drawn near it.
@@ -67,16 +77,42 @@ struct DosePhaseProgressBar: View {
         let fraction = state.totalMinutes > 0 ? min(1, max(0, elapsedMinutes / state.totalMinutes)) : 0
         let phase = Self.phase(state, elapsedMinutes: elapsedMinutes)
 
-        VStack(alignment: .leading, spacing: 7) {
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule().fill(phase.color.opacity(0.10))
-                    Capsule()
-                        .fill(phase.color)
-                        .frame(width: max(0, geo.size.width * fraction))
-                }
+        switch style {
+        case .full:
+            fullReadout(phase: phase, fraction: fraction, start: start, end: end)
+        case .compact:
+            compactReadout(phase: phase, fraction: fraction)
+        }
+    }
+
+    private func bar(phase: Phase, fraction: Double, height: CGFloat) -> some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Capsule().fill(phase.color.opacity(0.10))
+                Capsule()
+                    .fill(phase.color)
+                    .frame(width: max(0, geo.size.width * fraction))
             }
-            .frame(height: 6)
+        }
+        .frame(height: height)
+    }
+
+    private func compactReadout(phase: Phase, fraction: Double) -> some View {
+        VStack(alignment: .trailing, spacing: 3) {
+            Text(phase.name)
+                .font(.caption2.weight(.semibold))
+                .foregroundStyle(phase.labelColor)
+                .lineLimit(1)
+            bar(phase: phase, fraction: fraction, height: 3)
+                .frame(width: 40)
+        }
+        .fixedSize()
+        .accessibilityElement(children: .combine)
+    }
+
+    private func fullReadout(phase: Phase, fraction: Double, start: Date, end: Date) -> some View {
+        VStack(alignment: .leading, spacing: 7) {
+            bar(phase: phase, fraction: fraction, height: 6)
 
             HStack(spacing: 6) {
                 HStack(spacing: 5) {
