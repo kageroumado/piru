@@ -2767,41 +2767,6 @@
     ]
   },
   {
-    "name": "25P-NBOMe",
-    "display_name": "",
-    "aliases": [
-      "NBOMe-2C-P"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "5-HT2A-agonist",
-      "NBOMe",
-      "phenethylamine",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "25T-2-NBOMe",
     "display_name": "",
     "aliases": [
@@ -3886,18 +3851,26 @@
       "NBOMe-2C-P",
       "P-NBOMe"
     ],
-    "category": "",
+    "category": "Psychedelic",
     "display_class": "recreational",
-    "tags": [],
+    "tags": [
+      "5-HT2A-agonist",
+      "NBOMe",
+      "phenethylamine",
+      "research-chemical",
+      "tentative"
+    ],
     "default_route": "inhalation",
     "all_routes": [
       "inhalation",
       "insufflation",
+      "oral",
       "sublingual"
     ],
     "routes_with_dose": [
       "inhalation",
       "insufflation",
+      "oral",
       "sublingual"
     ],
     "has_dose_data": true,
@@ -5156,10 +5129,14 @@
       "3F-PCP",
       "3FPCP"
     ],
-    "category": "",
+    "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
-      "arylcyclohexylamine"
+      "NMDA-antagonist",
+      "PCP-analog",
+      "arylcyclohexylamine",
+      "no-human-data",
+      "research-chemical"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -5184,39 +5161,6 @@
     "effects": [],
     "references": [],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "3-Fluoro-PCP",
-    "display_name": "",
-    "aliases": [
-      "3-F-PCP"
-    ],
-    "category": "Dissociative",
-    "display_class": "recreational",
-    "tags": [
-      "NMDA-antagonist",
-      "PCP-analog",
-      "arylcyclohexylamine",
-      "no-human-data",
-      "research-chemical"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -7875,8 +7819,10 @@
       "GABAergic",
       "alpha-2-delta-ligand",
       "class:gabapentinoids",
+      "habit-forming",
       "high-dependence-risk",
-      "research-chemical"
+      "research-chemical",
+      "tentative"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -12461,51 +12407,21 @@
     ]
   },
   {
-    "name": "Acryl-fentanyl",
-    "display_name": "",
-    "aliases": [
-      "Acrylfentanyl"
-    ],
-    "category": "Opioid",
-    "display_class": "recreational",
-    "tags": [
-      "MOR-agonist",
-      "habit-forming",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Acrylfentanyl",
     "display_name": "",
     "aliases": [
       "Acryl-fentanyl",
       "Acryloylfentanyl"
     ],
-    "category": "",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "CYP3A4-substrate",
+      "MOR-agonist",
       "MOR-full-agonist",
+      "habit-forming",
+      "research-chemical",
+      "tentative",
       "wooden-chest-syndrome-risk"
     ],
     "default_route": "inhalation",
@@ -12522,14 +12438,13 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": false,
+    "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
-      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -24300,41 +24215,6 @@
     "data_gaps": []
   },
   {
-    "name": "Deoxymethoxetamine",
-    "display_name": "",
-    "aliases": [
-      "3-Me-2'-oxo-PCE",
-      "3D-MXE",
-      "DMXE",
-      "脱氧甲氧基氯胺酮"
-    ],
-    "category": "",
-    "display_class": "recreational",
-    "tags": [
-      "arylcyclohexylamine"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "DMXE 作为一种非竞争性 NMDA受体拮抗剂 起作用喵。NMDAR（N-甲基-D-天冬氨酸受体）是谷氨酸受体的一种特定类型，负责调节大脑和脊髓中神经元之间电信号的传递；信号要通过，受体必须处于开放状态。\n\n该物质的 IC50（半数最大抑制浓度）为 0.679mM，这表明它具有显著的效力呢。DMXE 及其相关化合物结合在 NMDAR 的苯环己哌啶 (PCP) 位点，这是通过计算机模拟对接结果确定的喵。这种结合与其观察到的拮抗活性有关，包括以剂量依赖的方式阻断 NMDA 诱导的内向电流。DMXE 显示出与 MXiPr 和 O-脱甲基 MXE 等其他 MXE 类似物相当的高亲和力和强效抑制能力。此外，DMXE 还能显著降低在 NMDA 存在下诱发的兴奋性突触后电流 (EPSCs) 呢。\n\n解离剂通过结合并阻断正常运作的 NMDA 受体来抑制其功能。这种神经网络活动的破坏会导致正常认知、情感处理、心理运动功能的丧失，产生麻醉感，最终导致类似于“K-洞”的状态喵。",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
     "name": "Dermorphin",
     "display_name": "",
     "aliases": [
@@ -26868,8 +26748,10 @@
     "name": "DMXE",
     "display_name": "",
     "aliases": [
+      "3-Me-2'-oxo-PCE",
       "3D-MXE",
-      "Deoxymethoxetamine"
+      "Deoxymethoxetamine",
+      "脱氧甲氧基氯胺酮"
     ],
     "category": "Dissociative",
     "display_class": "recreational",
@@ -26881,21 +26763,22 @@
     ],
     "default_route": "insufflation",
     "all_routes": [
-      "insufflation"
+      "insufflation",
+      "oral"
     ],
     "routes_with_dose": [
-      "insufflation"
+      "insufflation",
+      "oral"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
-    "mechanism_summary": "",
+    "mechanism_summary": "DMXE 作为一种非竞争性 NMDA受体拮抗剂 起作用喵。NMDAR（N-甲基-D-天冬氨酸受体）是谷氨酸受体的一种特定类型，负责调节大脑和脊髓中神经元之间电信号的传递；信号要通过，受体必须处于开放状态。\n\n该物质的 IC50（半数最大抑制浓度）为 0.679mM，这表明它具有显著的效力呢。DMXE 及其相关化合物结合在 NMDAR 的苯环己哌啶 (PCP) 位点，这是通过计算机模拟对接结果确定的喵。这种结合与其观察到的拮抗活性有关，包括以剂量依赖的方式阻断 NMDA 诱导的内向电流。DMXE 显示出与 MXiPr 和 O-脱甲基 MXE 等其他 MXE 类似物相当的高亲和力和强效抑制能力。此外，DMXE 还能显著降低在 NMDA 存在下诱发的兴奋性突触后电流 (EPSCs) 呢。\n\n解离剂通过结合并阻断正常运作的 NMDA 受体来抑制其功能。这种神经网络活动的破坏会导致正常认知、情感处理、心理运动功能的丧失，产生麻醉感，最终导致类似于“K-洞”的状态喵。",
     "effects": [],
     "references": [],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -27965,39 +27848,6 @@
       "half_life_minutes",
       "mechanism_of_action",
       "references"
-    ]
-  },
-  {
-    "name": "E; ESCALINE",
-    "display_name": "",
-    "aliases": [
-      "Escaline"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "PIHKAL",
-      "phenethylamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "https://erowid.org/library/books_online/pihkal/pihkal072.shtml"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
     ]
   },
   {
@@ -29079,6 +28929,7 @@
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
+      "PIHKAL",
       "phenethylamine",
       "research-chemical"
     ],
@@ -29137,10 +28988,11 @@
       "Transformations",
       "Wakefulness"
     ],
-    "references": [],
+    "references": [
+      "https://erowid.org/library/books_online/pihkal/pihkal072.shtml"
+    ],
     "data_gaps": [
-      "half_life_minutes",
-      "references"
+      "half_life_minutes"
     ]
   },
   {
@@ -31794,36 +31646,6 @@
     "data_gaps": [
       "dose_ranges_by_route",
       "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "Fluorophenibut",
-    "display_name": "",
-    "aliases": [],
-    "category": "Depressant",
-    "display_class": "recreational",
-    "tags": [
-      "habit-forming",
-      "tentative"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
       "half_life_minutes",
       "mechanism_of_action",
       "references"

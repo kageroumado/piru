@@ -5038,6 +5038,11 @@ _FORCE_MERGE: list[tuple[str, str, bool]] = [
     ("Valproic Acid", "Valproate", True),
     ("SEP-225289", "Dasotraline", True),  # development code → name
     ("Etazene", "Etodesnitazene", True),
+    # Hyphenation variant of one fentanyl analogue; both rows carry CAS
+    # 82003-75-6 and each lists the other's spelling as an alias, but the
+    # hyphenated stub has no SMILES at all, so the structural pass cannot see
+    # (or re-verify) the pair. Winner holds the full identifiers and 4 dose rows.
+    ("Acryl-fentanyl", "Acrylfentanyl", True),
     ("4-CMA", "4-Chloromethamphetamine", True),
     ("Mexamine", "5-Methoxytryptamine", True),
     # Dexedrine is the brand for dextroamphetamine (it already lists it as an
@@ -5321,6 +5326,9 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     # being back-expanded wrongly, and it makes a search for an inert amide land
     # on a stimulant's ladder.
     "cathinone": {"2-phenylacetamide"},
+    # The structural merge of the mangled "E; ESCALINE" row would otherwise
+    # re-attach that broken synonym list ('E' is the PiHKAL code) as an alias.
+    "escaline": {"e; escaline"},
 }
 
 

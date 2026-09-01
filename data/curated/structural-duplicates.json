@@ -72,6 +72,36 @@
       "merge": "2-AI",
       "key": "LMHHFZAXSANGGM-UHFFFAOYSA-N",
       "why": "Abbreviation of the survivor's own name. The two rows carry different CAS numbers — 2338-13-8 on the survivor and 2975-41-9 on the abbreviation — which is the freebase/hydrochloride pair, not two compounds; that mismatch is exactly why no name- or identifier-keyed pass merged them. Survivor holds 5 dose rows and 23 durations to the other's 1 and 3. Flagged in the 2026-08-01 data audit's duplicate list and surfaced structurally once the alias tangle was untied."
+    },
+    {
+      "keep": "2C-P-NBOMe",
+      "merge": "25P-NBOMe",
+      "key": "QHEBYIJRKGDFGH-UHFFFAOYSA-N",
+      "why": "The same compound under the two competing NBOMe naming schemes, exactly like 2C-T-4-NBOMe/25T-4-NBOMe above. Identical SMILES on both rows; the 25P row has no InChIKey or CID, which is why nothing identifier-keyed matched them. Survivor carries the full identifiers, 3 dose rows and 17 durations to the other's 1 and 3, and already lists '25P-NBOMe' and '25P' as aliases."
+    },
+    {
+      "keep": "3-F-PCP",
+      "merge": "3-Fluoro-PCP",
+      "key": "PFPLGKFWWBXTNP-UHFFFAOYSA-N",
+      "why": "Spelled-out vs abbreviated form of one name, identical SMILES. The spelled-out row is a bare stub — no CAS, InChIKey, CID, doses or durations — that already lists '3-F-PCP' as its alias. Survivor holds CAS 89156-99-0, CID 398433, 5 dose rows and 17 durations, and keeps the abbreviation drug-checking reports use."
+    },
+    {
+      "keep": "4-Fluorophenibut",
+      "merge": "Fluorophenibut",
+      "key": "QWHXHLDNSXLAPX-UHFFFAOYSA-N",
+      "why": "The survivor's own name minus the locant — a second stub of the same kind as the F-Phenibut merge above, under the same key. Identical SMILES; the stub has no identifiers and no aliases at all, so nothing existed to match on. Survivor holds 4 dose rows and 16 durations to the stub's 1 and 3, and already lists 'Fluorophenibut' as an alias."
+    },
+    {
+      "keep": "Escaline",
+      "merge": "E; ESCALINE",
+      "key": "RHOGRSKNWDNCDN-UHFFFAOYSA-N",
+      "why": "The merged row's 'name' is a broken synonym list ingested as a canonical name: 'E' is the PiHKAL code for escaline, joined to the spelled-out name with a semicolon. Identical SMILES and the row's sole alias is 'Escaline'. Survivor holds the InChIKey, CID 38240, 3 dose rows, 9 durations, 41 effects and 3 bindings to the stub's 1 dose and 1 duration. The mangled string is blocklisted (_ALIAS_BLOCKLIST) so the merge does not attach it as a searchable alias."
+    },
+    {
+      "keep": "DMXE",
+      "merge": "Deoxymethoxetamine",
+      "key": "WIMLPRYZJQNQLE-UHFFFAOYSA-N",
+      "why": "Straight synonyms — each row lists the other's name as an alias and both carry CAS 2666932-45-0. Identical SMILES; the merged row's stored inchikey column (GMWMZATZQUZOEQ) does not match its own structure, which is why identifier-keyed passes never fused them, while the survivor's stored key matches the one computed from the shared SMILES and it holds CID 157010705. Keeping the abbreviation drug-checking reports actually use, per Dipentylone; the merged row's 3 dose rows and 17 durations fold in."
     }
   ],
   "notMerged": [
