@@ -60,7 +60,7 @@ struct JournalOptionsButton: View {
 }
 
 /// The options popover content, modeled on Mail's view-options menu: the
-/// grouping thumbnail picker across the top (four line-art phones with a radio
+/// grouping thumbnail picker across the top (five line-art phones with a radio
 /// each), then Jump to Date, then the app-level Settings/Help. Picking a
 /// grouping keeps the popover open (Mail's behavior — the list re-buckets
 /// behind it); the action rows dismiss.
@@ -70,7 +70,7 @@ struct JournalOptionsMenu: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .top, spacing: 10) {
+            HStack(alignment: .top, spacing: 8) {
                 ForEach(JournalGrouping.allCases, id: \.self) { option in
                     groupingColumn(option)
                 }
@@ -97,7 +97,7 @@ struct JournalOptionsMenu: View {
             }
             .padding(.bottom, 8)
         }
-        .frame(width: 296)
+        .frame(width: 320)
     }
 
     private func groupingColumn(_ option: JournalGrouping) -> some View {
@@ -107,7 +107,7 @@ struct JournalOptionsMenu: View {
         } label: {
             VStack(spacing: 7) {
                 MenuPhoneThumbnail(selected: selected, sketch: JournalGroupingArt.sketch(for: option))
-                    .frame(width: 56, height: 115) // aspect 0.486 — the iPhone 17 bezel
+                    .frame(width: 52, height: 107) // aspect 0.486 — the iPhone 17 bezel
                 Text(option.displayName)
                     .font(.caption)
                     .lineLimit(1)

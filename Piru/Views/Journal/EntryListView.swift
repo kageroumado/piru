@@ -83,9 +83,11 @@ struct EntryListView: View {
 
     /// Surface the live session as a hero card atop the Journal. Independent of
     /// the tag/category filters — "what's active right now" is a status banner,
-    /// not part of the filtered history.
+    /// not part of the filtered history. The Timeline grouping already opens on
+    /// the live strip, which carries the same doses and phases, so the card is
+    /// omitted there rather than shown twice.
     private var showActiveHero: Bool {
-        !isSearchSurface && ActiveSessionManager.shared.hasActiveSession
+        !isSearchSurface && grouping != .timeline && ActiveSessionManager.shared.hasActiveSession
     }
 
     /// The day-list card representing the currently-active session — the cluster
@@ -582,7 +584,7 @@ struct EntryListView: View {
                             }
                         }
                     }
-                    .themeCard(cornerRadius: 16)
+                    .themeCard()
                     .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16))
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
@@ -790,7 +792,7 @@ enum JournalGroupingArt {
 
     /// A thin header line (date), then a rounded card containing session rows
     /// separated by hairlines — twice (two "days"). Mirrors the real layout
-    /// where each day is a date header + a `.themeCard(cornerRadius: 16)`
+    /// where each day is a date header + a `.themeCard()`
     /// containing `SessionCardView` rows.
     private static func drawDayGroups(_ context: GraphicsContext, in rect: CGRect, color: Color) {
         let unit = rect.height / 26
@@ -928,7 +930,7 @@ private struct SubstanceEntryRow: View {
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
         .themeCard()
-        .contentShape(RoundedRectangle(cornerRadius: 16))
+        .contentShape(Theme.cardShape)
     }
 }
 

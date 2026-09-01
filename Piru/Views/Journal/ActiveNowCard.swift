@@ -56,7 +56,7 @@ struct ActiveNowCard: View {
                 .padding(.horizontal, 12)
                 .padding(.bottom, showsGraph ? 6 : 12)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .contentShape(RoundedRectangle(cornerRadius: 16))
+                .contentShape(Theme.cardShape)
             }
             .buttonStyle(.plain)
             .themeCard()
