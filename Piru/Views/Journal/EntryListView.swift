@@ -133,6 +133,8 @@ struct EntryListView: View {
     @AppStorage("timelineCompression", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineCompression = true
     @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelinePKCurves = false
     @AppStorage("timelineStrengthScaling", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineStrengthScaling = true
+    @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineShowsAxis = true
+    @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineBubbleStyle = TimelineBubbleStyle.full
 
     /// Mirrors the day cards' redose-stacking preference so the timeline prewarm
     /// computes geometry under the same key the cards will look up.
@@ -430,6 +432,8 @@ struct EntryListView: View {
                 compressGaps: timelineCompression,
                 pkCurves: timelinePKCurves,
                 strengthScaling: timelineStrengthScaling,
+                showsAxis: timelineShowsAxis,
+                bubbleStyle: timelineBubbleStyle,
             )
         }
         .onChange(of: colorSignature) {
@@ -450,7 +454,7 @@ struct EntryListView: View {
     }
 
     private var timelineRebuildKey: String {
-        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(timelineZoom)|\(timelineCompression)|\(timelinePKCurves)|\(timelineStrengthScaling)|\(searchText)|\(filterTags.hashValue)|\(filterCategories.hashValue)|\(filterRoutes.hashValue)"
+        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(timelineZoom)|\(timelineCompression)|\(timelinePKCurves)|\(timelineStrengthScaling)|\(timelineShowsAxis)|\(timelineBubbleStyle.rawValue)|\(searchText)|\(filterTags.hashValue)|\(filterCategories.hashValue)|\(filterRoutes.hashValue)"
     }
 
     /// The Timeline grouping rendered as list rows — the same continuous
@@ -464,6 +468,8 @@ struct EntryListView: View {
             compressGaps: $timelineCompression,
             pkCurves: $timelinePKCurves,
             strengthScaling: $timelineStrengthScaling,
+            showsAxis: $timelineShowsAxis,
+            bubbleStyle: $timelineBubbleStyle,
         ) {
             Label {
                 Text(verbatim: TimelineZoom.label(timelineZoom))
