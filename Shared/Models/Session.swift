@@ -56,13 +56,29 @@ final class Session {
     /// Optional user-authored session title (e.g. "Festival Saturday").
     var title: String?
 
-    /// Optional free-form session note.
+    /// The session's summary text. Mirrors the `.summary` ``SessionNote`` (kept
+    /// in step by ``SessionNoteService``) so every reader of this field keeps
+    /// working while the timeline notes are the primary record.
     var note: String?
 
     /// The doses in this session. Optional relationship with an explicit inverse
     /// and `.nullify` rule — deleting the session never deletes the doses.
     @Relationship(deleteRule: .nullify, inverse: \DoseEntry.session)
     var doses: [DoseEntry]?
+
+    /// Timestamped observations (see ``SessionNote``). Cascade: a note has no
+    /// meaning outside its session.
+    @Relationship(deleteRule: .cascade, inverse: \SessionNote.session)
+    var notes: [SessionNote]?
+
+    /// Minutes between scheduled check-in notifications, `nil` = check-ins off
+    /// (the default; opt-in per session). `0` selects the T+30 m / 1 h / 2 h / 4 h /
+    /// 6 h ladder rather than a fixed interval.
+    var checkInIntervalMinutes: Double?
+
+    /// Set once the check-in offer has been shown for this session (accepted or
+    /// dismissed), so it is offered exactly once.
+    var checkInOffered: Bool = false
 
     init(id: UUID = UUID(), startDate: Date, title: String? = nil, note: String? = nil) {
         self.id = id
@@ -76,6 +92,12 @@ final class Session {
     /// unordered).
     var orderedDoses: [DoseEntry] {
         (doses ?? []).sorted { $0.timestamp < $1.timestamp }
+    }
+
+    /// The session's notes in ascending time order (the relationship array is
+    /// unordered).
+    var orderedNotes: [SessionNote] {
+        (notes ?? []).sorted { $0.timestamp < $1.timestamp }
     }
 
     /// `true` when every dose is a background medication, so the session should
