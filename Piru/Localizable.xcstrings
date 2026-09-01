@@ -524,6 +524,16 @@
         }
       }
     },
+    "%@ · %lld days left" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$lld days left"
+          }
+        }
+      }
+    },
     "%@ · %lld sources" : {
       "localizations" : {
         "en" : {
@@ -1449,6 +1459,9 @@
           }
         }
       }
+    },
+    "%@ is due" : {
+
     },
     "%@ is logged on a different day. Pick a time within this session's day so the session stays a single day." : {
       "localizations" : {
@@ -2693,6 +2706,9 @@
         }
       }
     },
+    "%lld doses due" : {
+
+    },
     "%lld doses plotted; the largest reaches about %@× the total exposure of one reference dose." : {
       "localizations" : {
         "zh-Hans" : {
@@ -3434,6 +3450,9 @@
           }
         }
       }
+    },
+    "%lld of yesterday's doses weren't logged" : {
+
     },
     "%lld percent left" : {
       "localizations" : {
@@ -8745,6 +8764,9 @@
         }
       }
     },
+    "Add Title…" : {
+
+    },
     "Add to %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -13876,6 +13898,9 @@
         }
       }
     },
+    "By Category" : {
+
+    },
     "By Date" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13945,6 +13970,9 @@
           }
         }
       }
+    },
+    "By Substance" : {
+
     },
     "By Weight" : {
       "localizations" : {
@@ -27905,7 +27933,6 @@
       }
     },
     "Group by" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -27970,6 +27997,9 @@
           }
         }
       }
+    },
+    "Grouped" : {
+
     },
     "Guideline: %@" : {
       "localizations" : {
@@ -28626,6 +28656,9 @@
           }
         }
       }
+    },
+    "Hides this notice" : {
+
     },
     "high" : {
       "localizations" : {
@@ -30493,12 +30526,6 @@
           }
         }
       }
-    },
-    "in %lld h" : {
-
-    },
-    "in %lld min" : {
-
     },
     "In a new place, the conditioned push-back doesn't fire, and the same dose hits as if tolerance were lower. Heroin-tolerant rats given a familiar dose in a novel environment died at markedly higher rates than ones dosed in their usual cage — the pharmacology was the same, the conditioning was not (Siegel et al., Science 1982)." : {
       "localizations" : {
@@ -36559,6 +36586,12 @@
         }
       }
     },
+    "Move Doses" : {
+
+    },
+    "Move Doses…" : {
+
+    },
     "Move to" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -37641,7 +37674,18 @@
         }
       }
     },
+    "Next: %@ at %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Next: %1$@ at %2$@"
+          }
+        }
+      }
+    },
     "Next: %@ at %@ · %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -40081,6 +40125,9 @@
         }
       }
     },
+    "Nothing due right now" : {
+
+    },
     "Nothing here can anchor a curve. Add a calibrated substance — amphetamine, methylphenidate, mephedrone, 3-MMC, or 2-MMC." : {
       "localizations" : {
         "zh-Hans" : {
@@ -41056,6 +41103,9 @@
           }
         }
       }
+    },
+    "Opens the restock form" : {
+
     },
     "Opens this med" : {
       "localizations" : {
@@ -42955,6 +43005,9 @@
           }
         }
       }
+    },
+    "Pick a dose to move to another session." : {
+
     },
     "Pick a longer time range to see your history." : {
       "localizations" : {
@@ -47329,6 +47382,9 @@
         }
       }
     },
+    "Rename…" : {
+
+    },
     "Repeated %@ doses build up faster than the dose suggests." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -51382,6 +51438,9 @@
           }
         }
       }
+    },
+    "Share Report" : {
+
     },
     "Share session" : {
       "localizations" : {
@@ -62692,6 +62751,21 @@
           }
         }
       }
+    },
+    "Yesterday's %@ wasn't logged" : {
+
+    },
+    "Yesterday's afternoon dose of %@ wasn't logged" : {
+
+    },
+    "Yesterday's evening dose of %@ wasn't logged" : {
+
+    },
+    "Yesterday's morning dose of %@ wasn't logged" : {
+
+    },
+    "Yesterday's night dose of %@ wasn't logged" : {
+
     },
     "Yorisoi Hotline" : {
       "localizations" : {

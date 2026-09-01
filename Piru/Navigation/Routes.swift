@@ -187,6 +187,9 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// as the resolution fallback (see `PushRoute` — same compatibility
     /// contract for pre-V4 payloads and id-less `piru://entry/<ts>` URLs).
     case entryDetail(timestamp: Date, id: UUID?)
+    /// The note editor for one session — the dock's Add Note shortcut, which
+    /// targets the current session (most recent by start date).
+    case sessionNoteEditor(sessionID: UUID, noteID: UUID? = nil, checkIn: Bool = false)
 
     // Daily dose tracking
     case dailyDoseLog(category: String)

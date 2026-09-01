@@ -4,7 +4,7 @@ import SwiftUI
 // MARK: - Quick-Log Edit Sheet
 
 /// The Log screen's single Edit surface: the meds order, the favorites
-/// order, and drink presets, one sheet. The list is permanently in edit mode
+/// order, drink presets, and the dock's shortcuts and label, one sheet. The list is permanently in edit mode
 /// so rows show the standard reorder grabbers and delete controls — a bare
 /// long-press drag technically reorders outside edit mode, but nothing
 /// advertises it. The `editMode` environment stays scoped to the `List`
@@ -37,8 +37,21 @@ struct QuickLogEditSheet: View {
                 }
                 drinksSections
                 doseTimesSection
+                DockShortcutsSection(path: $path)
+                DockLabelsSection(path: $path)
             }
             .environment(\.editMode, .constant(.active))
+            .navigationDestination(for: DockEditRoute.self) { route in
+                switch route {
+                case .addShortcut:
+                    DockShortcutPicker()
+                case .addLabel:
+                    DockLabelForm(index: nil, existing: nil)
+                case let .editLabel(index):
+                    let labels = DockPreferences.shared.labels
+                    DockLabelForm(index: index, existing: labels.indices.contains(index) ? labels[index] : nil)
+                }
+            }
             .navigationDestination(for: CustomDrinkPreset.self) { preset in
                 DrinkPresetForm(preset: preset, substanceName: preset.substanceName)
             }

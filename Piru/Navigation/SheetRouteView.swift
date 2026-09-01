@@ -47,6 +47,9 @@ struct SheetRouteView: View {
                 }
             }
 
+        case let .sessionNoteEditor(sessionID, _, _):
+            SessionNoteHost(sessionID: sessionID)
+
         case let .colorPicker(substance, remaining, dismissAllOnComplete):
             ColorPickerHost(
                 substance: substance,
@@ -296,6 +299,36 @@ private struct CurrentSessionHost: View {
                 systemImage: "calendar.day.timeline.left",
                 description: Text("Log a dose to start your first session."),
             )
+        }
+    }
+}
+
+/// Resolves a session by id and hosts its note editor. The draft is seeded
+/// from the session's note once, so reopening shows the existing text.
+private struct SessionNoteHost: View {
+    let sessionID: UUID
+    @Environment(\.modelContext) private var modelContext
+    @State private var session: Session?
+    @State private var draft = ""
+
+    var body: some View {
+        Group {
+            if let session {
+                SessionNoteEditor(text: $draft) { SessionService.setNote($0, for: session) }
+            } else {
+                ContentUnavailableView(
+                    "No Sessions",
+                    systemImage: "calendar.day.timeline.left",
+                    description: Text("Log a dose to start your first session."),
+                )
+            }
+        }
+        .task {
+            guard session == nil else { return }
+            var descriptor = FetchDescriptor<Session>(predicate: #Predicate { $0.id == sessionID })
+            descriptor.fetchLimit = 1
+            session = try? modelContext.fetch(descriptor).first
+            draft = session?.note ?? ""
         }
     }
 }
