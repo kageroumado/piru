@@ -130,12 +130,14 @@ struct InventoryListView: View {
         .searchable(text: $model.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search Inventory"))
         .fullScreenCover(isPresented: $showsScanner) {
             LabelScannerView { reading in
-                let identified = BoxIdentifier.identify(reading)
-                navigator.present(.inventoryItemForm(
-                    id: nil,
-                    prefillSubstance: identified.canonicalName,
-                    prefill: identified.inventoryPrefill,
-                ))
+                Task {
+                    let identified = await BoxIdentifier.identify(reading)
+                    navigator.present(.inventoryItemForm(
+                        id: nil,
+                        prefillSubstance: identified.canonicalName,
+                        prefill: identified.inventoryPrefill,
+                    ))
+                }
             }
         }
         .sheet(isPresented: $showsClassOrder) {

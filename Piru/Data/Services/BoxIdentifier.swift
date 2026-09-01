@@ -74,7 +74,10 @@ nonisolated struct BoxIdentification: Hashable {
 /// pack size parsed from the same lines. Links out only when nothing local matched.
 @MainActor
 enum BoxIdentifier {
-    static func identify(_ reading: BoxReading) -> BoxIdentification {
+    /// Awaits the batch cache first: the name index and the Library rows the
+    /// result screen shows both read it, and a cold cache asserts.
+    static func identify(_ reading: BoxReading) async -> BoxIdentification {
+        await SubstanceStore.shared.ensureAllLoaded()
         var chips: [ReadChip] = []
         var name: String?
         var psid: String?
@@ -188,8 +191,9 @@ enum BoxIdentifier {
     /// likely to know when the library doesn't.
     private static func bestToken(in lines: [String]) -> String? {
         lines
+            .filter { PackCountParser.parse($0) == nil && PackCountParser.form(in: $0) == nil }
             .map(LabelMatcher.bestCandidate(in:))
-            .filter { $0.rangeOfCharacter(from: .letters) != nil && $0.count >= 3 }
+            .filter { $0.rangeOfCharacter(from: .letters) != nil && $0.rangeOfCharacter(from: .decimalDigits) == nil && $0.count >= 3 }
             .max { $0.count < $1.count }
     }
 

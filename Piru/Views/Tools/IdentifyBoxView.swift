@@ -46,14 +46,14 @@ struct IdentifyBoxView: View {
         .background(Theme.background)
         .fullScreenCover(isPresented: $showScanner) {
             LabelScannerView { reading in
-                result = BoxIdentifier.identify(reading)
+                Task { result = await BoxIdentifier.identify(reading) }
             }
         }
         .task {
             cameraStatus = DataScannerViewController.isSupported ? .available : .unsupported
             #if DEBUG
                 if result == nil, let reading = ScanFixtures.launchReading() {
-                    result = BoxIdentifier.identify(reading)
+                    result = await BoxIdentifier.identify(reading)
                 }
             #endif
         }

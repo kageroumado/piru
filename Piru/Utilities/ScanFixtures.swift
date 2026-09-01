@@ -31,7 +31,7 @@
             // Nothing the library knows: the external-links state.
             "unknown": BoxReading(
                 texts: ["Zaltrapex", "Comprimés pelliculés", "20 comprimés"],
-                barcodes: ["3400912345677"],
+                barcodes: ["3400912345676"],
             ),
         ]
 
