@@ -27,8 +27,9 @@
       "doseBasis": "per_day",
       "citation": "pmid:20818832",
       "citationText": "Bockbrader et al. 2010 (PMID 20818832)",
-      "notes": "Dose-linear: the same α2δ-1 drug uses the carrier in a non-saturating regime and stays ≥ ~90% absorbed at any dose. The four points span its therapeutic range; the same value would hold outside it, so this is a flat line rather than a measured decline.",
+      "notes": "Dose-linear: the same α2δ-1 drug uses the carrier in a non-saturating regime and stays ≥ ~90% absorbed at any dose. The five points span the starting-to-maximum therapeutic range (75–600 mg/day); the same value would hold outside it, so this is a flat line rather than a measured decline.",
       "points": [
+        {"doseMg": 75, "bioavailabilityPct": 90},
         {"doseMg": 150, "bioavailabilityPct": 90},
         {"doseMg": 300, "bioavailabilityPct": 90},
         {"doseMg": 450, "bioavailabilityPct": 90},
