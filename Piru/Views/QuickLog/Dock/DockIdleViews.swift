@@ -102,7 +102,8 @@ private struct DockShortcutButton: View {
         } else {
             Image(systemName: shortcut.systemImage)
                 .font((compact ? Font.subheadline : Font.title3).weight(.medium))
-                .foregroundStyle(isEnabled ? AnyShapeStyle(.secondary) : AnyShapeStyle(.tertiary))
+                // Accent like the "+": a gray glyph beside a tinted one reads as disabled.
+                .foregroundStyle(isEnabled ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(.tertiary))
         }
     }
 

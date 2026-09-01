@@ -208,6 +208,9 @@
         }
       }
     },
+    "“2 due”, or the med’s name when one is due" : {
+
+    },
     "(%@)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1275,6 +1278,9 @@
         }
       }
     },
+    "%@ due" : {
+
+    },
     "%@ entries across seven equal slices of the period." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1752,6 +1758,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ 上升至每週 %2$@"
+          }
+        }
+      }
+    },
+    "%@ since %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ since %2$@"
           }
         }
       }
@@ -8484,6 +8500,12 @@
         }
       }
     },
+    "Add Label" : {
+
+    },
+    "Add Label…" : {
+
+    },
     "Add Location" : {
       "localizations" : {
         "zh-Hans" : {
@@ -8714,6 +8736,12 @@
           }
         }
       }
+    },
+    "Add Shortcut" : {
+
+    },
+    "Add Shortcut…" : {
+
     },
     "Add tag..." : {
       "localizations" : {
@@ -19970,6 +19998,12 @@
         }
       }
     },
+    "Dock Label" : {
+
+    },
+    "Dock Shortcuts" : {
+
+    },
     "Does not directly activate CB1 or CB2 receptors at physiological concentrations. Acts as a negative allosteric modulator of CB1, reducing the efficacy of agonists like THC. Activates 5-HT1A receptors (anxiolytic), TRPV1 vanilloid receptors (analgesic), and PPARγ nuclear receptors (anti-inflammatory). Inhibits fatty acid amide hydrolase (FAAH), increasing endogenous anandamide levels." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -22581,6 +22615,9 @@
           }
         }
       }
+    },
+    "Edit Label" : {
+
     },
     "Edit Med" : {
       "localizations" : {
@@ -32087,6 +32124,9 @@
         }
       }
     },
+    "Kind" : {
+
+    },
     "Klimaka Crisis Line" : {
       "localizations" : {
         "zh-Hans" : {
@@ -34814,6 +34854,9 @@
           }
         }
       }
+    },
+    "Meds Due" : {
+
     },
     "Melatonin" : {
       "localizations" : {
@@ -37703,6 +37746,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "下一次：%1$@ 於 %2$@ · %3$@"
+          }
+        }
+      }
+    },
+    "Next: %@ in %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Next: %1$@ in %2$@"
           }
         }
       }
@@ -41070,6 +41123,9 @@
           }
         }
       }
+    },
+    "Opens Log with that substance staged at its usual dose. Nothing is logged until you commit." : {
+
     },
     "Opens month picker" : {
       "localizations" : {
@@ -51937,6 +51993,12 @@
         }
       }
     },
+    "Shown while the time is inside this range. A range ending before it starts wraps past midnight." : {
+
+    },
+    "Shows “2 due”, or the med’s name when exactly one is due. Falls through to the next label otherwise." : {
+
+    },
     "Shows dosing advice" : {
       "localizations" : {
         "zh-Hans" : {
@@ -52146,6 +52208,9 @@
           }
         }
       }
+    },
+    "Since last dose" : {
+
     },
     "Since your last dose" : {
       "localizations" : {
@@ -53586,6 +53651,9 @@
           }
         }
       }
+    },
+    "Stage a Substance" : {
+
     },
     "Staged" : {
       "localizations" : {
@@ -56099,6 +56167,9 @@
         }
       }
     },
+    "Text" : {
+
+    },
     "Text HOME to 741741" : {
       "localizations" : {
         "zh-Hans" : {
@@ -56532,6 +56603,9 @@
           }
         }
       }
+    },
+    "The first label that applies is shown. When none does, the dock shows “—”." : {
+
     },
     "The foggy feeling will clear. Give it hours, not minutes." : {
       "extractionState" : "stale",
@@ -58453,6 +58527,9 @@
         }
       }
     },
+    "Timed Text" : {
+
+    },
     "Timeline" : {
       "localizations" : {
         "zh-Hans" : {
@@ -58468,6 +58545,9 @@
           }
         }
       }
+    },
+    "Timer" : {
+
     },
     "Times" : {
       "localizations" : {
@@ -60208,6 +60288,12 @@
         }
       }
     },
+    "Until" : {
+
+    },
+    "Until next med" : {
+
+    },
     "Untreated thyroid disease" : {
       "localizations" : {
         "zh-Hans" : {
@@ -60256,6 +60342,9 @@
         }
       }
     },
+    "Up to %lld characters." : {
+
+    },
     "up to %lld× daily" : {
       "localizations" : {
         "zh-Hans" : {
@@ -60303,6 +60392,9 @@
           }
         }
       }
+    },
+    "Up to three, shown at the left of the dock." : {
+
     },
     "Update Applied" : {
       "localizations" : {
