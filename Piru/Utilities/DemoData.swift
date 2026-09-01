@@ -51,6 +51,11 @@ import SwiftData
             /// the low-stock threshold — the "refill me" state the store
             /// screenshots need, which no adherence fixture reaches on its own.
             case medsLowStock
+            /// Two psychedelic sessions with timestamped notes: an LSD evening
+            /// twelve days ago fully annotated (ratings, mood, descriptors — the
+            /// trip-report fixture), and a psilocybin session ~90 min in right
+            /// now with its first notes (the check-in offer + live markers).
+            case psychonaut
         }
 
         /// Seed the persona named by `-piruPersona`, if any. Returns `true`
@@ -71,6 +76,7 @@ import SwiftData
             case .sporadicMeds: seedMedsPersona(context: context, sporadic: true)
             case .rareOpener: seedRareOpener(context: context)
             case .medsLowStock: seedMedsPersona(context: context, sporadic: false, lowStock: true)
+            case .psychonaut: seedPsychonaut(context: context)
             }
 
             // Inventory caches are a replay over doses, so they can only be
@@ -288,6 +294,65 @@ import SwiftData
             }
             context.insert(QuickLogDose(substance: "Ibuprofen", route: .oral, amount: 400, unit: "mg", sortOrder: 0))
             context.insert(QuickLogDose(substance: "Melatonin", route: .sublingual, amount: 0.5, unit: "mg", sortOrder: 1))
+        }
+
+        /// Two psychedelic sessions with notes. Descriptor ids are SubFxOnEx
+        /// concept ids from the bundled vocabulary (geometric imagery, euphoria,
+        /// time dilation, nausea, awe, body load, introspection enhancement,
+        /// jaw tension, color saturation enhancement).
+        private static func seedPsychonaut(context: ModelContext) {
+            let geometry = "5c5d671b-c0ea-5e67-8e09-9aecfc80a4b2"
+            let euphoria = "43d66167-066c-575d-8ad3-16f95173a09f"
+            let timeDilation = "a1fe306c-0b09-5031-8798-7740ac64165f"
+            let nausea = "01bed144-1aa9-5c8d-9eec-2e353ef8f973"
+            let awe = "2cca26d2-7717-58ef-bb2c-394b217cc39c"
+            let bodyLoad = "f5f9b005-9ddb-52f7-bccb-cb2ae42f17dc"
+            let introspection = "957f9432-9dac-50a5-9de7-696410f41058"
+            let jawTension = "fc4d5df9-9d59-5860-baef-5d738b46cb5c"
+            let colorSaturation = "a0b825ef-e144-5fb8-b6ca-16a2edef90d8"
+
+            // An LSD evening twelve days ago, annotated end to end.
+            let lsdStart = Calendar.current.startOfDay(for: .now).addingTimeInterval(-12 * 86_400 + 19 * 3_600)
+            let lsdSession = Session(startDate: lsdStart, title: "Lake evening", note: "Gentle the whole way; the second half was the good part. Would keep the same dose.")
+            context.insert(lsdSession)
+            let lsd = DoseEntry(substance: "LSD", amount: 100, unit: "µg", route: .sublingual, timestamp: lsdStart)
+            lsd.session = lsdSession
+            context.insert(lsd)
+            func lsdNote(_ minutes: Double, _ text: String, shulgin: Int? = nil, mood: Int? = nil, energy: Int? = nil, _ descriptors: [String] = [], hr: Double? = nil, kind: SessionNote.Kind = .observation) {
+                context.insert(SessionNote(
+                    timestamp: lsdStart.addingTimeInterval(minutes * 60), text: text,
+                    shulgin: shulgin, mood: mood, energy: energy, descriptors: descriptors, heartRate: hr,
+                    kind: kind, session: lsdSession,
+                ))
+            }
+            lsdNote(35, "Slight nausea, a little restless. Nothing visual yet.", shulgin: 0, mood: 0, energy: 1, [nausea], hr: 78)
+            lsdNote(65, "Edges of things breathing. Colors up. Laughing at the dog.", shulgin: 1, mood: 2, energy: 1, [colorSaturation, euphoria], hr: 86, kind: .checkIn)
+            lsdNote(125, "Geometry behind closed eyes, ten minutes felt like an hour. Jaw a bit tight.", shulgin: 3, mood: 2, energy: 0, [geometry, timeDilation, jawTension], hr: 92)
+            lsdNote(210, "Sat by the water. Quiet, very clear, kept thinking about my grandmother.", shulgin: 2, mood: 3, energy: -1, [awe, introspection], hr: 81, kind: .checkIn)
+            lsdNote(330, "Mostly down. Tired in a good way.", shulgin: 1, mood: 1, energy: -2, [bodyLoad], hr: 72)
+            SessionNoteService.ensureSummaryNote(for: lsdSession)
+            lsdSession.refreshDoseBounds()
+
+            // A psilocybin session ninety minutes in, still climbing.
+            let mushroomStart = Date.now.addingTimeInterval(-90 * 60)
+            let mushroomSession = Session(startDate: mushroomStart)
+            context.insert(mushroomSession)
+            let mushrooms = DoseEntry(substance: "Psilocybin mushrooms", amount: 2.5, unit: "g", route: .oral, timestamp: mushroomStart)
+            mushrooms.session = mushroomSession
+            context.insert(mushrooms)
+            context.insert(SessionNote(
+                timestamp: mushroomStart.addingTimeInterval(40 * 60), text: "Warm stomach, yawning. Music sounds wider.",
+                shulgin: 1, mood: 1, energy: 0, descriptors: [bodyLoad], session: mushroomSession,
+            ))
+            context.insert(SessionNote(
+                timestamp: mushroomStart.addingTimeInterval(75 * 60), text: "Patterns in the ceiling. Everything is a bit funny.",
+                shulgin: 2, mood: 2, energy: 0, descriptors: [geometry, euphoria], session: mushroomSession,
+            ))
+            mushroomSession.refreshDoseBounds()
+
+            for (name, hex) in [("lsd", "8394ff"), ("psilocybin mushrooms", "f17395")] {
+                context.insert(SubstanceColor(substance: name, hexColor: hex))
+            }
         }
 
         // MARK: - Showcase Data (~500 entries)

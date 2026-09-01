@@ -32,15 +32,18 @@ enum SessionNoteService {
             logger.error("Refusing to add a note to a session with no model context")
             return nil
         }
+        // Built without its session: setting the relationship registers the
+        // note with the context, so an empty draft must be rejected before that.
         let note = SessionNote(
             timestamp: timestamp,
             text: text.trimmingCharacters(in: .whitespacesAndNewlines),
             shulgin: shulgin, mood: mood, energy: energy,
             descriptors: descriptors, heartRate: heartRate,
-            kind: kind, session: session,
+            kind: kind,
         )
         guard note.hasContent else { return nil }
         context.insert(note)
+        note.session = session
         if kind == .summary { session.note = note.text.isEmpty ? nil : note.text }
         DoseLogService.shared.changed()
         return note
@@ -76,8 +79,17 @@ enum SessionNoteService {
         if note.kind == .summary, let session = note.session {
             session.note = nil
         }
-        context.delete(note)
+        detachAndDelete(note, in: context)
         DoseLogService.shared.changed()
+    }
+
+    /// Drop the note from its session's array before deleting it, so readers of
+    /// `session.notes` (and this service's own summary lookup) stop seeing it
+    /// without waiting for the context to process the deletion.
+    private static func detachAndDelete(_ note: SessionNote, in context: ModelContext) {
+        note.session?.notes?.removeAll { $0 === note }
+        note.session = nil
+        context.delete(note)
     }
 
     // MARK: - Summary bridge
@@ -93,8 +105,8 @@ enum SessionNoteService {
         if let summary {
             if let value {
                 summary.text = value
-            } else {
-                summary.modelContext?.delete(summary)
+            } else if let context = summary.modelContext {
+                detachAndDelete(summary, in: context)
             }
         } else if let value, let context = session.modelContext {
             context.insert(SessionNote(timestamp: session.startDate, text: value, kind: .summary, session: session))

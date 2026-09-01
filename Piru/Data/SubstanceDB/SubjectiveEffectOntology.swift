@@ -125,14 +125,15 @@ final class SubjectiveEffectOntology {
     nonisolated static func normalize(_ raw: String) -> String {
         var s = raw.decomposedStringWithCompatibilityMapping
         s = s.unicodeScalars.filter { !$0.properties.isDiacritic }.map { String($0) }.joined()
+        // Greek letters are spelled out before lowercasing, or Δ would become δ.
+        for (symbol, word) in [("Δ", "delta"), ("δ", "delta"), ("α", "alpha"), ("β", "beta")] {
+            s = s.replacingOccurrences(of: symbol, with: word)
+        }
         s = s.lowercased()
         for dash in ["‐", "‑", "‒", "–", "—", "―", "−"] {
             s = s.replacingOccurrences(of: dash, with: "-")
         }
         s = s.replacingOccurrences(of: "_", with: " ")
-        s = s.replacingOccurrences(of: "Δ", with: "delta")
-            .replacingOccurrences(of: "α", with: "alpha")
-            .replacingOccurrences(of: "β", with: "beta")
         return s.split(whereSeparator: \.isWhitespace).joined(separator: " ")
     }
 

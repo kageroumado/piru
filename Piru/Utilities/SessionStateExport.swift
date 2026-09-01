@@ -28,9 +28,22 @@ struct SessionStateExport {
     /// generated timestamp). `false` for a historical session, which renders the
     /// same report without any now-relative bits.
     let isLive: Bool
+    /// The session's timestamped notes (empty when the host has none to give).
+    var notes: [NoteLine] = []
 
     var isEmpty: Bool {
         substances.isEmpty
+    }
+
+    /// One note, resolved for rendering: its T+ from the session start, the
+    /// structure line, and descriptor names.
+    struct NoteLine: Identifiable {
+        let id: UUID
+        let timestamp: Date
+        let kind: SessionNote.Kind
+        let text: String
+        let structure: String
+        let descriptors: [String]
     }
 
     /// Subjective effect phase, mirroring ``DosePhaseProgressBar/Phase``.
@@ -130,7 +143,7 @@ extension SessionStateExport {
     private static let liveWindowHours: Double = 18
 
     @MainActor
-    static func build(from allEntries: [DoseEntry], colors: [SubstanceColor], now: Date = .now) -> SessionStateExport? {
+    static func build(from allEntries: [DoseEntry], colors: [SubstanceColor], notes: [SessionNote] = [], now: Date = .now) -> SessionStateExport? {
         // A currently-active session reports only its live doses ("right now");
         // a session with nothing recent on board reports all its doses as a
         // historical record — same layout, without the now-relative chrome.
@@ -192,6 +205,20 @@ extension SessionStateExport {
             }
 
         let start = states.map(\.doseTimestamp).min() ?? now
+        let ontology = SubjectiveEffectOntology.shared
+        let noteLines = notes
+            .filter { $0.kind != .summary && $0.hasContent }
+            .sorted { $0.timestamp < $1.timestamp }
+            .map { note in
+                NoteLine(
+                    id: note.id, timestamp: note.timestamp, kind: note.kind, text: note.text,
+                    structure: TripReport.structureLine(
+                        shulgin: note.shulgin, mood: note.mood, energy: note.energy,
+                        heartRate: note.heartRate.map { Int($0.rounded()) },
+                    ),
+                    descriptors: note.descriptors.map(ontology.name(for:)),
+                )
+            }
         return SessionStateExport(
             generatedAt: now,
             sessionStart: start,
@@ -199,6 +226,7 @@ extension SessionStateExport {
             eliminations: eliminations,
             interactions: lines,
             isLive: isLive,
+            notes: noteLines,
         )
     }
 

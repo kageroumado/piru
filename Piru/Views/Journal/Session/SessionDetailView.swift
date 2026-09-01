@@ -7,6 +7,7 @@ struct SessionDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.sessionEditingService) private var editing
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.appNavigator) private var navigator
     let session: Session
     @Query private var substanceColors: [SubstanceColor]
 
@@ -32,8 +33,6 @@ struct SessionDetailView: View {
 
     @State private var showRename = false
     @State private var titleDraft = ""
-    @State private var showNoteEditor = false
-    @State private var noteDraft = ""
     /// Grows the inline timeline in place: the graph's frame steps up to a taller
     /// height and the List reflows the entries below it — no separate fullscreen
     /// sheet, no overlay. Every gesture stays the same; the curves just get room.
@@ -397,6 +396,8 @@ struct SessionDetailView: View {
                             timelineEnlarged: $timelineEnlarged,
                             hasOngoingDose: hasOngoingDose,
                             vitals: model.sessionVitals,
+                            noteMarkers: noteMarkers,
+                            onNoteTap: { id in navigator.present(.sessionNoteEditor(sessionID: session.id, noteID: id)) },
                         )
                     }
 
@@ -429,39 +430,8 @@ struct SessionDetailView: View {
                         VitalsOfferBanner()
                     }
 
-                    if let note = session.note, !note.isEmpty {
-                        Section("Note") {
-                            Text(note)
-                                .font(.subheadline)
-                                .foregroundStyle(Theme.secondaryLabel)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .contentShape(.rect)
-                                .onTapGesture { editNote() }
-                                .accessibilityAddTraits(.isButton)
-                                .accessibilityHint(Text("Edits the note"))
-                                .accessibilityAction(named: Text("Edit Note")) { editNote() }
-                                .accessibilityAction(named: Text("Delete Note")) { deleteNote() }
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                    Button(role: .destructive) { deleteNote() } label: {
-                                        Label("Delete", systemImage: "trash")
-                                    }
-                                }
-                                .swipeActions(edge: .leading) {
-                                    Button { editNote() } label: {
-                                        Label("Edit", systemImage: "pencil")
-                                    }
-                                    .tint(.orange)
-                                }
-                                .contextMenu {
-                                    Button { editNote() } label: {
-                                        Label("Edit Note", systemImage: "pencil")
-                                    }
-                                    Divider()
-                                    Button(role: .destructive) { deleteNote() } label: {
-                                        Label("Delete Note", systemImage: "trash")
-                                    }
-                                }
-                        }
+                    if CheckInScheduler.shouldOffer(session: session, hasOngoingDose: hasOngoingDose) {
+                        CheckInOfferBanner(session: session)
                     }
 
                     let cores = resolvedDay.entryCores
@@ -472,7 +442,12 @@ struct SessionDetailView: View {
                             confounderColors: (hr?.confounders ?? []).map { resolvedColor($0) },
                         )
                     }
-                    SessionEntryListSection(entries: entries, displays: displays, isRecentDay: isRecentDay)
+                    let notes = session.orderedNotes
+                    SessionEntryListSection(
+                        entries: entries, displays: displays,
+                        notes: notes, noteDisplays: SessionNoteDisplay.make(from: notes),
+                        sessionID: session.id, isRecentDay: isRecentDay,
+                    )
 
                     // In Your Body — per-substance session totals merged with the
                     // live elimination model (what's still circulating, clearance
@@ -541,7 +516,8 @@ struct SessionDetailView: View {
                         titleDraft = session.title ?? ""
                         showRename = true
                     },
-                    onEditNote: editNote,
+                    onAddNote: { navigator.present(.sessionNoteEditor(sessionID: session.id)) },
+                    onEditSummary: editSummary,
                     onToggleLiveActivity: toggleLiveActivity,
                 )
             }
@@ -553,9 +529,6 @@ struct SessionDetailView: View {
             TextField("Session title", text: $titleDraft)
             Button("Cancel", role: .cancel) {}
             Button("Save") { SessionService.setTitle(titleDraft, for: session) }
-        }
-        .sheet(isPresented: $showNoteEditor) {
-            SessionNoteEditor(text: $noteDraft) { SessionService.setNote($0, for: session) }
         }
         .sheet(item: $editing.entryToAdjustTime) { entry in
             NavigationStack {
@@ -575,6 +548,7 @@ struct SessionDetailView: View {
                 colors: Array(substanceColors),
                 stackRedoses: stackRedoses,
                 doseHR: model.doseHR,
+                session: session,
             )
         }
         .sheet(item: $editing.recolorRequest) { request in
@@ -639,16 +613,20 @@ struct SessionDetailView: View {
         return Array(substanceColors).colorMap[key] ?? Theme.accent
     }
 
-    /// Open the note editor, seeding the draft from the session's current note.
-    /// Shared by the ⋯ menu and the Note row's inline tap / swipe / context edit.
-    private func editNote() {
-        noteDraft = session.note ?? ""
-        showNoteEditor = true
+    /// Open the summary in the note sheet: the existing `.summary` note, or a
+    /// fresh one of that kind (which the shim also creates from a pre-notes
+    /// `Session.note`).
+    private func editSummary() {
+        let summary = SessionNoteService.ensureSummaryNote(for: session)
+        navigator.present(.sessionNoteEditor(sessionID: session.id, noteID: summary?.id, summary: summary == nil))
     }
 
-    /// Clear the session's note (row swipe-to-delete / context "Delete Note").
-    private func deleteNote() {
-        withAnimation { SessionService.setNote("", for: session) }
+    /// The session's notes as graph markers. The summary sits at the session start
+    /// and carries no rating, so it is left off the axis — the row list shows it.
+    private var noteMarkers: [NoteMarker] {
+        session.orderedNotes
+            .filter { $0.kind != .summary }
+            .map { NoteMarker(id: $0.id, timestamp: $0.timestamp, kind: $0.kind, shulgin: $0.shulgin) }
     }
 
     private func toggleLiveActivity() {
