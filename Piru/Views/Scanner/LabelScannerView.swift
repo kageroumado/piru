@@ -35,6 +35,14 @@ enum ScanResolver {
 @Observable
 @MainActor
 final class LabelScanModel {
+    /// What the scan is for. `.log` resolves one item to a dose to stage;
+    /// `.identify` gathers everything in frame into a ``BoxReading`` for the
+    /// box-identification result screen (and the inventory add form).
+    enum Mode {
+        case log
+        case identify
+    }
+
     enum Phase {
         case scanning
         case resolving
@@ -42,9 +50,29 @@ final class LabelScanModel {
         /// No substance matched. `canSearch` is true for OCR text (offer manual
         /// search with `text`), false for an unrecognized barcode.
         case noMatch(text: String, canSearch: Bool)
+        /// Identify mode: what has been read so far. `barcodeKnown` when a
+        /// barcode in frame resolved against the bundled registry.
+        case reading(BoxReading, barcodeKnown: Bool)
     }
 
+    let mode: Mode
     private(set) var phase: Phase = .scanning
+
+    /// Identify mode: transcripts keyed by the recognized region, so a region
+    /// whose text sharpens over frames replaces its earlier reading.
+    private var transcripts: [UUID: String] = [:]
+    private var transcriptOrder: [UUID] = []
+    private var barcodes: [String] = []
+    private var barcodeKnown = false
+
+    init(mode: Mode = .log) {
+        self.mode = mode
+    }
+
+    /// Identify mode: the reading gathered so far.
+    var reading: BoxReading {
+        BoxReading(texts: transcriptOrder.compactMap { transcripts[$0] }, barcodes: barcodes)
+    }
 
     /// Barcodes already attempted, so a barcode lingering in frame resolves once.
     private var seenBarcodes: Set<String> = []
@@ -57,6 +85,10 @@ final class LabelScanModel {
     /// explicit tap always resolves — even a barcode the auto-handler already
     /// tried — so it isn't a dead spot after "Scan Again".
     func handleTap(on item: RecognizedItem) {
+        if mode == .identify {
+            gather([item])
+            return
+        }
         if case .resolving = phase { return }
         switch item {
         case let .barcode(barcode):
@@ -78,6 +110,10 @@ final class LabelScanModel {
     /// cascade), since every frame surfaces many regions and a guess must not
     /// present itself.
     func autoHandle(_ items: [RecognizedItem]) {
+        if mode == .identify {
+            gather(items)
+            return
+        }
         guard case .scanning = phase else { return }
         for case let .barcode(barcode) in items {
             if let payload = barcode.payloadStringValue, seenBarcodes.insert(payload).inserted {
@@ -97,6 +133,30 @@ final class LabelScanModel {
 
     func resumeScanning() {
         phase = .scanning
+    }
+
+    /// Identify mode: fold recognized items into the reading. A barcode the
+    /// bundled registry knows marks the reading as barcode-backed; the caller
+    /// (`LabelScannerView`) then hands the reading over without a tap.
+    private func gather(_ items: [RecognizedItem]) {
+        for item in items {
+            switch item {
+            case let .barcode(barcode):
+                guard let payload = barcode.payloadStringValue, !barcodes.contains(payload) else { continue }
+                barcodes.append(payload)
+                if SubstanceStore.shared.productCode(forBarcode: payload) != nil {
+                    barcodeKnown = true
+                }
+            case let .text(text):
+                let transcript = text.transcript.trimmingCharacters(in: .whitespacesAndNewlines)
+                guard !transcript.isEmpty else { continue }
+                if transcripts[item.id] == nil { transcriptOrder.append(item.id) }
+                transcripts[item.id] = transcript
+            @unknown default:
+                continue
+            }
+        }
+        phase = .reading(reading, barcodeKnown: barcodeKnown)
     }
 
     private func resolveBarcode(_ payload: String) {
@@ -120,19 +180,37 @@ final class LabelScanModel {
 }
 
 /// Full-screen live label scanner. Presents the VisionKit camera and a floating
-/// result card; resolving to a substance hands a ``ResolvedDrug`` back to QuickLog.
+/// result card. In log mode, resolving to a substance hands a ``ResolvedDrug``
+/// back to QuickLog; in identify mode, everything read off the box is handed
+/// over as a ``BoxReading`` — on a registry-known barcode without a tap,
+/// otherwise when the user taps Identify.
 struct LabelScannerView: View {
     /// Called with a resolved substance to stage in QuickLog, then the scanner
     /// dismisses.
-    let onResolved: (ResolvedDrug) -> Void
+    var onResolved: (ResolvedDrug) -> Void = { _ in }
     /// Called with OCR text the user chose to search manually.
-    let onSearch: (String) -> Void
+    var onSearch: (String) -> Void = { _ in }
+    /// Identify mode: called with what was read, then the scanner dismisses.
+    var onCapture: ((BoxReading) -> Void)?
 
     @Environment(\.dismiss) private var dismiss
-    @State private var model = LabelScanModel()
+    @State private var model: LabelScanModel
     @State private var cameraStatus: CameraStatus = .checking
 
     private enum CameraStatus { case checking, authorized, denied }
+
+    /// The logging scanner: one label → one staged dose.
+    init(onResolved: @escaping (ResolvedDrug) -> Void, onSearch: @escaping (String) -> Void) {
+        self.onResolved = onResolved
+        self.onSearch = onSearch
+        _model = State(initialValue: LabelScanModel(mode: .log))
+    }
+
+    /// The identify scanner: the whole box → a reading.
+    init(onCapture: @escaping (BoxReading) -> Void) {
+        self.onCapture = onCapture
+        _model = State(initialValue: LabelScanModel(mode: .identify))
+    }
 
     var body: some View {
         ZStack {
@@ -179,9 +257,25 @@ struct LabelScannerView: View {
                     dismiss()
                 },
                 onRescan: { model.resumeScanning() },
+                onCapture: { reading in
+                    onCapture?(reading)
+                    dismiss()
+                },
             )
             .padding()
         }
+        .onChange(of: barcodeKnown) { _, known in
+            // A registry hit is the "point and it fills in" moment — no tap needed.
+            if known, let onCapture {
+                onCapture(model.reading)
+                dismiss()
+            }
+        }
+    }
+
+    private var barcodeKnown: Bool {
+        if case let .reading(_, known) = model.phase { return known }
+        return false
     }
 
     private var unavailableView: some View {

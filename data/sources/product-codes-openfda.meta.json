@@ -1,0 +1,10 @@
+{
+  "source": "openFDA NDC directory (bulk download)",
+  "url": "https://download.open.fda.gov/drug/ndc/drug-ndc-0001-of-0001.json.zip",
+  "license": "https://open.fda.gov/license/",
+  "fetched_at": "2026-09-01T21:35:32+00:00",
+  "products_total": 137590,
+  "products_kept": 42674,
+  "packages": 95110,
+  "upcs": 2271
+}

@@ -20,6 +20,8 @@ struct QuickLogSheet: View {
     var prestagedRoutine: String?
     /// Canonical name of a substance to stage (with its editor open) on present.
     var prefillSubstance: String?
+    /// A complete dose for `prefillSubstance` — the box scanner's hand-off.
+    var prefillDose: DosePrefill?
 
     /// Days of dose history the quick-log surfaces treat as "recent". Must
     /// exceed the longest plausible "still-active PK badge" horizon: a dose
@@ -35,7 +37,7 @@ struct QuickLogSheet: View {
     @State private var cutoff = Date.now.addingTimeInterval(-recentWindowDays * 86_400)
 
     var body: some View {
-        QuickLogView(prestagedRoutine: prestagedRoutine, prefillSubstance: prefillSubstance, historyCutoff: cutoff)
+        QuickLogView(prestagedRoutine: prestagedRoutine, prefillSubstance: prefillSubstance, prefillDose: prefillDose, historyCutoff: cutoff)
     }
 }
 
@@ -49,6 +51,9 @@ struct QuickLogView: View {
     /// the "Log" button on a substance's detail screen
     /// (`piru://quicklog?substance=`).
     var prefillSubstance: String?
+    /// With `prefillSubstance`, stage it as this complete dose rather than an
+    /// empty draft.
+    var prefillDose: DosePrefill?
 
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
@@ -104,9 +109,10 @@ struct QuickLogView: View {
     /// reference-typed model drops the view's stored surface to a few flags.
     @State private var content = QuickLogContentModel()
 
-    init(prestagedRoutine: String? = nil, prefillSubstance: String? = nil, historyCutoff: Date) {
+    init(prestagedRoutine: String? = nil, prefillSubstance: String? = nil, prefillDose: DosePrefill? = nil, historyCutoff: Date) {
         self.prestagedRoutine = prestagedRoutine
         self.prefillSubstance = prefillSubstance
+        self.prefillDose = prefillDose
         // The windowed @Query closes over the init parameter — see QuickLogSheet
         // for the cutoff's meaning.
         _allEntries = Query(
@@ -349,6 +355,20 @@ struct QuickLogView: View {
     private func stagePrefill(named name: String) {
         guard let substance = SubstanceLibrary.resolveFull(name) else { return }
         let route = substance.defaultRoute
+        if let prefillDose {
+            withAnimation(.snappy) {
+                tray.stage(
+                    substance: substance.name,
+                    route: route,
+                    amount: prefillDose.amount,
+                    unit: prefillDose.unit,
+                    colorHex: content.cachedColorLookup[substance.name.lowercased()],
+                    librarySubstance: substance,
+                    productName: prefillDose.productName,
+                )
+            }
+            return
+        }
         withAnimation(.snappy) {
             tray.stageDraft(
                 substance: substance.name,

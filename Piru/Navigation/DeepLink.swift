@@ -313,7 +313,10 @@ nonisolated enum DeepLink {
         components.scheme = scheme
 
         switch sheet {
-        case let .quickLog(routine, prefillSubstance):
+        case let .quickLog(routine, prefillSubstance, prefillDose):
+            if prefillDose != nil {
+                return nil
+            }
             components.host = "quicklog"
             var items: [URLQueryItem] = []
             if let routine {
@@ -354,8 +357,8 @@ nonisolated enum DeepLink {
             components.host = "meds"
             components.path = "/\(category)"
 
-        case let .inventoryItemForm(id, prefillSubstance, prefillSalt):
-            if prefillSubstance != nil || prefillSalt != nil {
+        case let .inventoryItemForm(id, prefillSubstance, prefillSalt, prefill):
+            if prefillSubstance != nil || prefillSalt != nil || prefill != nil {
                 return nil
             }
             components.host = "inventory"

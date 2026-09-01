@@ -10,6 +10,7 @@ struct InventoryItemFormHost: View {
     let itemID: UUID?
     let prefillSubstance: String?
     let prefillSalt: String?
+    var prefill: InventoryPrefill?
 
     @Environment(\.modelContext) private var modelContext
 
@@ -18,6 +19,7 @@ struct InventoryItemFormHost: View {
             existingItem: itemID.flatMap(resolve),
             prefillSubstance: prefillSubstance,
             prefillSalt: prefillSalt,
+            prefill: prefill,
         )
     }
 
@@ -32,13 +34,17 @@ struct InventoryItemFormHost: View {
 
 /// Add a new tracked item or restock an existing one. With an `existingItem` it's
 /// a restock (Substance omitted, unit fixed); otherwise it's the add form. When
-/// opened from a substance screen the substance is prefilled and fixed.
+/// opened from a substance screen the substance is prefilled and fixed. From
+/// the box scanner, `prefill` fills in what the box stated: a pack count in
+/// its own unit, or count × strength in milligrams when both were printed;
+/// with no count read, the amount opens empty and focused.
 ///
 /// Uses ✕ / ✓ nav icons with the ✓ as the commit — no bottom button.
 struct InventoryItemForm: View {
     let existingItem: InventoryItem?
     let prefillSubstance: String?
     let prefillSalt: String?
+    let prefill: InventoryPrefill?
 
     @Environment(\.appNavigator) private var navigator
     @Environment(\.modelContext) private var modelContext
@@ -47,20 +53,34 @@ struct InventoryItemForm: View {
     @State private var unit: String
     @State private var amount: Double
     @State private var useBaseline = false
-    @State private var note = ""
+    @State private var note: String
     /// The library match for the typed name, when one was picked. `nil` for a
     /// custom (off-library) substance — still trackable, just no unit default.
     @State private var selectedSubstance: Substance?
 
     private static let unitOptions = ["µg", "mg", "g", "mL", "caps", "tabs", "drops"]
 
-    init(existingItem: InventoryItem?, prefillSubstance: String?, prefillSalt: String?) {
+    init(existingItem: InventoryItem?, prefillSubstance: String?, prefillSalt: String?, prefill: InventoryPrefill? = nil) {
         self.existingItem = existingItem
         self.prefillSubstance = prefillSubstance
         self.prefillSalt = prefillSalt
+        self.prefill = prefill
         _substanceName = State(initialValue: existingItem?.substance ?? prefillSubstance ?? "")
-        _unit = State(initialValue: existingItem?.unit ?? "mg")
-        _amount = State(initialValue: Self.initialAmount(for: existingItem))
+        let scanned = Self.scannedAmount(prefill)
+        _unit = State(initialValue: existingItem?.unit ?? scanned?.unit ?? "mg")
+        _amount = State(initialValue: scanned?.amount ?? Self.initialAmount(for: existingItem))
+        _note = State(initialValue: prefill?.note ?? "")
+    }
+
+    /// What a scanned box adds up to: count × per-unit strength in milligrams
+    /// when both were printed (the unit doses count against), else the count in
+    /// its own unit ("30 tabs"), else nothing — the field opens empty.
+    private static func scannedAmount(_ prefill: InventoryPrefill?) -> (amount: Double, unit: String)? {
+        guard let prefill, let count = prefill.count, count > 0 else { return nil }
+        if let strength = prefill.strengthMG, strength > 0 {
+            return (count * strength, "mg")
+        }
+        return (count, prefill.unit ?? "pieces")
     }
 
     /// A restock opens pre-filled with what you last bought (the most recent
@@ -220,6 +240,7 @@ struct InventoryItemForm: View {
                 stepBasis: stepBasis,
                 unitChoices: isRestock ? nil : unitChoices,
                 onUnitChange: isRestock ? nil : { unit = $0 },
+                focusOnAppear: prefill != nil && amount == 0,
             )
         } header: {
             Text(isRestock ? "Amount added" : "Starting amount")

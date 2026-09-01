@@ -176,7 +176,11 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// staged and its dose editor expanded — the "Log" affordance on a
     /// substance's detail screen. Carries the **canonical** substance name (the
     /// lookup key), never a user-typed alias.
-    case quickLog(routine: String?, prefillSubstance: String? = nil)
+    ///
+    /// `prefillDose` stages that substance as a complete dose (strength read
+    /// off a scanned box, with the brand it was sold under) instead of an
+    /// empty editor — the box scanner's "Log This" hand-off.
+    case quickLog(routine: String?, prefillSubstance: String? = nil, prefillDose: DosePrefill? = nil)
     case settings
     case help
     case onboarding
@@ -231,7 +235,9 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// Substance picker); a non-nil id restocks that existing item (and the
     /// Substance field is omitted). `prefillSubstance`/`prefillSalt` open the add
     /// form pre-targeted at a substance (the "Track" button in substance detail).
-    case inventoryItemForm(id: UUID?, prefillSubstance: String? = nil, prefillSalt: String? = nil)
+    /// `prefill` carries what a scanned box stated (pack count, unit, a note)
+    /// so the add form opens filled in; with no count the amount stays empty.
+    case inventoryItemForm(id: UUID?, prefillSubstance: String? = nil, prefillSalt: String? = nil, prefill: InventoryPrefill? = nil)
     /// Edit screen reached from the detail-view pencil.
     case inventoryItemEdit(id: UUID)
 
@@ -268,6 +274,24 @@ nonisolated struct EntryPrefillPayload: Hashable, Codable {
     var substance: String
     var route: RouteOfAdministration
     var unit: String
+}
+
+/// A dose a scanned box stated, staged into the quick-log tray as-is: the
+/// per-unit strength in `unit`, under the brand printed on the box.
+nonisolated struct DosePrefill: Hashable, Codable {
+    var amount: Double
+    var unit: String
+    var productName: String?
+}
+
+/// What a scanned box stated about its contents, for the inventory add form.
+/// `count` in `unit` ("tabs", "caps", "mL"); `strengthMG` is the per-unit
+/// strength when the box printed one, so the form can seed the amount in mg.
+nonisolated struct InventoryPrefill: Hashable, Codable {
+    var count: Double?
+    var unit: String?
+    var strengthMG: Double?
+    var note: String?
 }
 
 // MARK: - Snapshot

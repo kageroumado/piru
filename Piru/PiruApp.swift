@@ -182,6 +182,21 @@ struct PiruApp: App {
                            !DemoData.insertPersonaData(container: container) {
                             DemoData.insertShowcaseData(container: container)
                         }
+                        // `-piruScanFixture <name>` opens Tools ▸ Identify a Box
+                        // with a canned reading resolved (ScanFixtures).
+                        // Warm the batch cache first: the Tools tab's cards
+                        // resolve substances on render, and a cold cache
+                        // asserts in DEBUG.
+                        if ScanFixtures.isRequested {
+                            Task {
+                                // Source prefs load after launch and republish
+                                // the cache; wait them out, then warm it.
+                                try? await Task.sleep(for: .seconds(1))
+                                await SubstanceStore.shared.ensureAllLoaded()
+                                AppNavigator.shared.selectedTab = .tools
+                                AppNavigator.shared.push(.tool(.identify), in: .tools)
+                            }
+                        }
                     #endif
                 }
         }

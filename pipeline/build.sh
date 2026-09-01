@@ -35,6 +35,9 @@ if [ "$MODE" = "full" ]; then
   # The CLI now also declares a defaultSubcommand, so both spellings work.
   ( cd pipeline/fetch/collector && swift run SubstanceCollector build )
 
+  step "2b/8 Fetch barcode registries (openFDA NDC + BDPM) → data/sources/product-codes-*.json"
+  python3 pipeline/fetch/product_codes.py
+
   step "4/8  (manual) Enrichment swarm → data/enrichment/raw/*.json  — see pipeline/enrichment/"
 else
   step "1-2,4/8  skipped (fast mode) — using committed upstream inputs"
@@ -69,6 +72,7 @@ step "9/10  Regression + invariant tests"
 python3 pipeline/build/tests/test_sqlite.py
 python3 pipeline/build/tests/test_overlay_integrity.py
 python3 pipeline/build/tests/test_psid.py
+python3 pipeline/build/tests/test_product_codes.py
 python3 pipeline/fetch/brushers/test_freeodwiki_extract.py
 python3 pipeline/build/tests/test_drugbank_adjudications.py
 

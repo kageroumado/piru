@@ -216,6 +216,9 @@ struct InventoryStepperRow: View {
     var stepBasis: Double?
     var unitChoices: [String]?
     var onUnitChange: ((String) -> Void)?
+    /// Open with the keyboard up on the amount — for a form that arrived with
+    /// everything but the number filled in.
+    var focusOnAppear = false
 
     @State private var stepTick = 0
     @FocusState private var focused: Bool
@@ -242,6 +245,7 @@ struct InventoryStepperRow: View {
         }
         .sensoryFeedback(.increase, trigger: stepTick)
         .padding(.vertical, 4)
+        .onAppear { if focusOnAppear { focused = true } }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(label))
         .accessibilityValue(Text(verbatim: "\(value.doseFormatted) \(unit)"))
