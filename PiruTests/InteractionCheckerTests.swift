@@ -258,10 +258,11 @@ struct InteractionCheckerTests {
         #expect(danger.severity == .dangerous)
         #expect(danger.prominence == .blocking)
 
-        // Two stimulants is real cardiovascular strain and a real `caution` —
-        // and the reason the commit gate stopped firing for a coffee.
+        // Two stimulants is real cardiovascular strain and a real `caution`.
+        // Caffeine no longer stands for the class — it maps to `other`, so a
+        // coffee never fires the commit gate — hence two true stimulants here.
         let caution = try #require(
-            InteractionChecker.checkBatch(["Caffeine", "Amphetamine"], against: []).first,
+            InteractionChecker.checkBatch(["Cocaine", "Amphetamine"], against: []).first,
         )
         #expect(caution.severity == .caution)
         #expect(caution.prominence == .background)

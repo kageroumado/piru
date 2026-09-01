@@ -510,7 +510,13 @@ enum InteractionChecker {
         let enzymeEffects = MetabolicModulation.checkerEffects(among: allNames)
         for effect in enzymeEffects {
             let key = pairKey(effect.modulatorName, effect.substrate)
-            byPair.removeValue(forKey: key)
+            // The enzyme interaction replaces a class rule of equal or lower
+            // severity — but never a `dangerous` one: the enzyme result is
+            // capped at `unsafe`, and MDMA + tramadol's serotonergic pairing
+            // must not arrive downgraded because the pair also shares CYP2D6.
+            if let classRule = byPair[key], classRule.severity < .dangerous {
+                byPair.removeValue(forKey: key)
+            }
             byPair["enzyme:" + key] = InteractionResult(
                 severity: .unsafe,
                 substanceA: effect.modulatorName,
@@ -569,8 +575,13 @@ enum InteractionChecker {
             let key = pairKey(effect.modulatorName, effect.substrate)
             // Remove the generic class rule for this pair — the enzyme interaction
             // is strictly more informative and the class rule is often misleading
-            // (e.g. "stimulant + opioid seizure risk" when the real issue is CYP2D6).
-            byPair.removeValue(forKey: key)
+            // (e.g. "stimulant + opioid seizure risk" when the real issue is
+            // CYP2D6). A `dangerous` class rule stays: the enzyme result is
+            // capped at `unsafe`, and replacing one would downgrade the worst
+            // severity the pair shows.
+            if let classRule = byPair[key], classRule.severity < .dangerous {
+                byPair.removeValue(forKey: key)
+            }
             byPair["enzyme:" + key] = InteractionResult(
                 severity: .unsafe,
                 substanceA: effect.modulatorName,

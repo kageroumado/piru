@@ -353,18 +353,6 @@ struct InsightsView: View {
         }
     }
 
-    // MARK: - Card chrome
-
-    private func largeCard(
-        icon: String,
-        tint: Color,
-        title: LocalizedStringKey,
-        route: PushRoute,
-        @ViewBuilder content: @escaping () -> some View,
-    ) -> some View {
-        GlanceCard(icon: icon, tint: tint, titleColor: tint, title: Text(title), route: route, content: content)
-    }
-
     private func emptyContent(_ message: LocalizedStringKey) -> some View {
         Text(message)
             .font(.subheadline)
@@ -373,23 +361,31 @@ struct InsightsView: View {
     }
 }
 
+// MARK: - Card chrome
+
+/// Card chrome shared by every Insights glance card — the tint drives icon and title alike.
+private func largeCard(
+    icon: String,
+    tint: Color,
+    title: LocalizedStringKey,
+    route: PushRoute,
+    @ViewBuilder content: @escaping () -> some View,
+) -> some View {
+    GlanceCard(icon: icon, tint: tint, titleColor: tint, title: Text(title), route: route, content: content)
+}
+
+/// Tolerance states worth surfacing on a glance card, worst first.
+private var notableToleranceStates: [ClassTolerance] {
+    ToleranceStore.shared.states.values
+        .filter { $0.severity > 0.10 }
+        .sorted { $0.severity > $1.severity }
+}
+
 // MARK: - Tolerance card
 
 private struct InsightsToleranceCard: View {
-    private func largeCard(
-        icon: String,
-        tint: Color,
-        title: LocalizedStringKey,
-        route: PushRoute,
-        @ViewBuilder content: @escaping () -> some View,
-    ) -> some View {
-        GlanceCard(icon: icon, tint: tint, titleColor: tint, title: Text(title), route: route, content: content)
-    }
-
     var body: some View {
-        let notable = ToleranceStore.shared.states.values
-            .filter { $0.severity > 0.10 }
-            .sorted { $0.severity > $1.severity }
+        let notable = notableToleranceStates
         largeCard(icon: "chart.line.downtrend.xyaxis", tint: .purple, title: "Tolerance", route: .insight(.tolerance)) {
             if notable.isEmpty {
                 HStack(alignment: .center, spacing: 14) {
@@ -446,20 +442,8 @@ private struct InsightsToleranceCard: View {
 }
 
 private struct InsightsReceptorLoadCard: View {
-    private func largeCard(
-        icon: String,
-        tint: Color,
-        title: LocalizedStringKey,
-        route: PushRoute,
-        @ViewBuilder content: @escaping () -> some View,
-    ) -> some View {
-        GlanceCard(icon: icon, tint: tint, titleColor: tint, title: Text(title), route: route, content: content)
-    }
-
     var body: some View {
-        let notable = ToleranceStore.shared.states.values
-            .filter { $0.severity > 0.10 }
-            .sorted { $0.severity > $1.severity }
+        let notable = notableToleranceStates
         largeCard(icon: "chart.xyaxis.line", tint: .pink, title: "Receptor Load", route: .insight(.receptorLoad)) {
             if notable.isEmpty {
                 Text("How hard each mechanism has been driven over time")

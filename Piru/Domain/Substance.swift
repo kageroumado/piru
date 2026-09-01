@@ -232,17 +232,22 @@ struct Substance: Identifiable {
         self.waterHeat = waterHeat
     }
 
-    /// Title shown in lists and the detail header — the region-appropriate
-    /// spelling for drugs with US/international name variants (Acetaminophen vs
-    /// Paracetamol), else the curated override, else the canonical `name`. A
-    /// leading pictograph is stripped (see ``titlePictograph``).
+    /// Title shown in lists and the detail header — the display-name override
+    /// (a user relabel or curated title), else the region-appropriate spelling
+    /// for drugs with US/international name variants (Acetaminophen vs
+    /// Paracetamol), else the canonical `name`. A leading pictograph is
+    /// stripped (see ``titlePictograph``).
     ///
     /// `nonisolated` (pure — regional-name resolve + pictograph strip over the
     /// struct's own stored fields) so off-main callers can read it: the Library's
     /// sort runs in a `Task.detached` where the project-default `MainActor`
     /// isolation would otherwise forbid the access (a Release-only warning).
     nonisolated var displayTitle: String {
-        let base = RegionalSubstanceName.resolve(canonicalName: name) ?? displayName ?? name
+        // The user's own relabel outranks the region default: naming a med the
+        // way you say it is a stronger signal than the spelling your locale
+        // prefers, and the five substances carrying a regional row (paracetamol
+        // above all) are exactly the ones someone relabels.
+        let base = displayName ?? RegionalSubstanceName.resolve(canonicalName: name) ?? name
         return Substance.strippingLeadingPictograph(base).text
     }
 

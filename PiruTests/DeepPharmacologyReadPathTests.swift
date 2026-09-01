@@ -259,7 +259,7 @@ struct ClassSummaryCoverageTests {
         }
         #expect(!single.isEmpty, "no single-group category in the bundled database")
         for category in single {
-            let only = try? #require(SubstanceStore.shared.classContexts(in: category).first)
+            let only = SubstanceStore.shared.classContexts(in: category).first
             #expect(only?.title.isEmpty == false, "\(category.rawValue)'s only group has no name to show")
         }
     }

@@ -26,7 +26,7 @@ struct InteractionDataGatingTests {
         .opioid: "Morphine",
         .benzodiazepine: "Alprazolam",
         .barbiturate: "Phenobarbital",
-        .stimulant: "Caffeine",
+        .stimulant: "Amphetamine",
         .psychedelic: "LSD",
         .dissociative: "Ketamine",
         .empathogen: "MDMA",
