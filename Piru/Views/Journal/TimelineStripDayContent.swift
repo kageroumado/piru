@@ -5,13 +5,12 @@ import SwiftUI
 /// axis, curves, connectors, the Now line) with the gutter marks, dose dots
 /// and the glass bubble column layered over it. The curves get the lane from
 /// the axis to 60 % of the width beyond it and run under the bubbles — the
-/// eye reconstructs the covered part — except with strength scaling off, when
-/// every curve reaches full amplitude and the lane also stops 8 pt short of
-/// the bubbles so the peaks stay visible.
+/// eye reconstructs the covered part.
 struct TimelineStripDayContent: View {
     let day: TimelineDayLayout
     let onEntryTap: (DoseEntry) -> Void
     let onSessionTap: (UUID) -> Void
+    @Environment(\.appNavigator) private var navigator
 
     /// Horizontal inset of every bubble within its column, so a session
     /// envelope's edge stays visible around the bubbles it wraps.
@@ -35,7 +34,8 @@ struct TimelineStripDayContent: View {
             let bubbleLeft = columnX + Self.bubbleInset
 
             ZStack(alignment: .topLeading) {
-                strip(bubbleLeft: bubbleLeft)
+                strip(bubbleLeft: bubbleLeft, columnX: columnX)
+                noteMarks(bubbleLeft: bubbleLeft, laneWidth: max(0, Self.maxAmplitudeFraction * (geo.size.width - TimelineGutter.axisX)))
                 gutterMarks
                 doseDots
                 bubbleColumn(width: columnWidth)
@@ -77,6 +77,26 @@ struct TimelineStripDayContent: View {
                 TimelineNowMark()
                     .offset(x: TimelineGutter.edgeInset, y: y - TimelineGutterMarkMetrics.singleLineHeight / 2)
             }
+        }
+    }
+
+    /// Session notes in the lane, each at its own moment and pushed clear of
+    /// whatever curve runs past it.
+    private func noteMarks(bubbleLeft: CGFloat, laneWidth: CGFloat) -> some View {
+        ForEach(day.noteMarks) { mark in
+            let x = TimelineNoteLane.glyphX(
+                axisX: TimelineGutter.axisX,
+                curveWidth: laneWidth,
+                curveFraction: mark.curveFraction,
+                besideCapsule: mark.besideCapsule,
+            )
+            TimelineNoteMark(
+                mark: mark,
+                textWidth: TimelineNoteLane.textWidth(glyphX: x, bubbleLeft: bubbleLeft),
+            ) {
+                navigator.present(.sessionNoteEditor(sessionID: mark.sessionID, noteID: mark.id))
+            }
+            .offset(x: x, y: mark.y - TimelineNoteLane.glyphSize / 2)
         }
     }
 
@@ -137,7 +157,7 @@ struct TimelineStripDayContent: View {
     /// the tiles join seamlessly.
     private static let tileHeight: CGFloat = 1_024
 
-    private func strip(bubbleLeft: CGFloat) -> some View {
+    private func strip(bubbleLeft: CGFloat, columnX: CGFloat) -> some View {
         let tileYs = Array(stride(from: CGFloat(0), to: max(day.totalHeight, 1), by: Self.tileHeight))
         return ForEach(tileYs, id: \.self) { tileY in
             Canvas { context, size in
@@ -146,6 +166,7 @@ struct TimelineStripDayContent: View {
                     in: &context,
                     size: CGSize(width: size.width, height: day.totalHeight),
                     bubbleLeft: bubbleLeft,
+                    columnX: columnX,
                 )
             }
             .frame(height: min(Self.tileHeight, day.totalHeight - tileY))
@@ -153,7 +174,16 @@ struct TimelineStripDayContent: View {
         }
     }
 
-    private func drawStrip(in context: inout GraphicsContext, size: CGSize, bubbleLeft: CGFloat) {
+    /// Gridlines end this far before the bubbles' left edge.
+    private static let gridlineInset: CGFloat = 12
+    /// The Now line ends this far before the bubble column.
+    private static let nowLineInset: CGFloat = 8
+    /// A curve's fill fades to nothing this far right of its peak.
+    private static let fillFadeOverrun: CGFloat = 40
+    /// Stroke width of every curve.
+    private static let curveLineWidth: CGFloat = 1.5
+
+    private func drawStrip(in context: inout GraphicsContext, size: CGSize, bubbleLeft: CGFloat, columnX: CGFloat) {
         let mapHeight = day.mapHeight
         guard mapHeight > 0 else { return }
 
@@ -165,22 +195,27 @@ struct TimelineStripDayContent: View {
             context.clip(to: Path(CGRect(x: 0, y: day.breakAbove, width: size.width, height: size.height - day.breakAbove)))
         }
 
-        // Hour gridlines across the lane; in a compressed gap they bunch
-        // together, which is what says "time is squeezed here".
+        // Hour gridlines across the lane, stopping short of the bubbles; in
+        // a compressed gap they bunch together, which is what says "time is
+        // squeezed here".
+        let gridlineEnd = max(axisX, bubbleLeft - Self.gridlineInset)
         for tick in day.hourTicks {
             var line = Path()
             line.move(to: CGPoint(x: axisX, y: tick.y))
-            line.addLine(to: CGPoint(x: size.width, y: tick.y))
+            line.addLine(to: CGPoint(x: gridlineEnd, y: tick.y))
             context.stroke(line, with: .color(Color.primary.opacity(0.06)), lineWidth: 0.5)
         }
 
         drawAxis(in: &context, size: size, axisX: axisX)
+        drawHeartRate(in: &context, axisX: axisX, laneWidth: curveWidth)
 
         // Per-substance curves — normalized to the substance's own
         // all-time peak so widths mean the same thing on every day and a
-        // curve crosses day boundaries without a jump.
+        // curve crosses day boundaries without a jump. The fill fades from
+        // the axis toward the peak so the lane stays airy under the bubbles.
         for series in day.series {
             guard series.points.count > 1 else { continue }
+            let peakX = axisX + curveWidth * CGFloat(series.points.map(\.v).max() ?? 0)
 
             var fill = Path()
             fill.move(to: CGPoint(x: axisX, y: series.points[0].y))
@@ -189,29 +224,31 @@ struct TimelineStripDayContent: View {
             }
             fill.addLine(to: CGPoint(x: axisX, y: series.points[series.points.count - 1].y))
             fill.closeSubpath()
-            context.fill(fill, with: .color(series.color.opacity(0.12)))
+            context.fill(
+                fill,
+                with: .linearGradient(
+                    Gradient(colors: [series.color.opacity(0.18), series.color.opacity(0)]),
+                    startPoint: CGPoint(x: axisX, y: 0),
+                    endPoint: CGPoint(x: peakX + Self.fillFadeOverrun, y: 0),
+                ),
+            )
 
-            var stroke = Path()
-            for (i, p) in series.points.enumerated() {
-                let pt = CGPoint(x: axisX + curveWidth * CGFloat(p.v), y: p.y)
-                if i == 0 { stroke.move(to: pt) } else { stroke.addLine(to: pt) }
-            }
-            context.stroke(stroke, with: .color(series.color.opacity(0.75)), lineWidth: 1.5)
+            strokeCurve(
+                in: &context,
+                series: series,
+                palette: TimelineCurvePalette(base: series.color, environment: context.environment),
+                axisX: axisX,
+                curveWidth: curveWidth,
+            )
         }
 
-        // Connectors from each dose's position on the axis to its bubble.
-        for connector in day.connectors {
-            var path = Path()
-            path.move(to: CGPoint(x: axisX, y: connector.fromY))
-            path.addLine(to: CGPoint(x: bubbleLeft, y: connector.toY))
-            context.stroke(path, with: .color(connector.color.opacity(0.35)), lineWidth: 1)
-        }
+        drawConnectors(in: &context, axisX: axisX, bubbleLeft: bubbleLeft)
 
         if let y = day.nowY {
             var nowLine = Path()
             nowLine.move(to: CGPoint(x: axisX, y: y))
-            nowLine.addLine(to: CGPoint(x: size.width, y: y))
-            context.stroke(nowLine, with: .color(Theme.accent.opacity(0.65)), lineWidth: 2.5)
+            nowLine.addLine(to: CGPoint(x: max(axisX, columnX - Self.nowLineInset), y: y))
+            context.stroke(nowLine, with: .color(Theme.accent.opacity(0.65)), style: StrokeStyle(lineWidth: 2.5, lineCap: .round))
         }
 
         // Only the strip's very top edge cuts curves mid-flight — fade
@@ -226,6 +263,101 @@ struct TimelineStripDayContent: View {
                     startPoint: .zero,
                     endPoint: CGPoint(x: 0, y: fadeHeight),
                 ),
+            )
+        }
+    }
+
+    /// Opacity of a curve's stroke.
+    private static let curveStrokeOpacity = 0.75
+
+    /// The heart-rate trace's share of the curve lane.
+    private static let heartRateLaneFraction: CGFloat = 0.5
+
+    /// Heart rate as a thin second trace in the lane — texture under the
+    /// curves, never a chart: no labels, no fill, and it draws only where
+    /// enough was recorded to make a line.
+    private func drawHeartRate(in context: inout GraphicsContext, axisX: CGFloat, laneWidth: CGFloat) {
+        guard day.heartRate.count > 1 else { return }
+        let width = laneWidth * Self.heartRateLaneFraction
+        var path = Path()
+        for (i, point) in day.heartRate.enumerated() {
+            let pt = CGPoint(x: axisX + width * CGFloat(point.v), y: point.y)
+            if i == 0 { path.move(to: pt) } else { path.addLine(to: pt) }
+        }
+        context.stroke(
+            path,
+            with: .color(Color.secondary.opacity(0.35)),
+            style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round),
+        )
+    }
+
+    /// One curve's stroke, split at its phase boundaries: each run of points
+    /// in one phase is stroked in that phase's color and blends into the next
+    /// run's color over the last tenth of its length, so the arc reads as a
+    /// shift along the line rather than a stack of bands.
+    private func strokeCurve(
+        in context: inout GraphicsContext,
+        series: TimelineDayLayout.CurveSeries,
+        palette: TimelineCurvePalette,
+        axisX: CGFloat,
+        curveWidth: CGFloat,
+    ) {
+        let points = series.points.map { CGPoint(x: axisX + curveWidth * CGFloat($0.v), y: $0.y) }
+        let style = StrokeStyle(lineWidth: Self.curveLineWidth, lineCap: .round, lineJoin: .round)
+        let segments = TimelineCurveSegment.segments(of: series.points.map(\.phase))
+
+        for (index, segment) in segments.enumerated() {
+            guard segment.range.count > 1 else { continue }
+            var path = Path()
+            path.move(to: points[segment.range.lowerBound])
+            for i in segment.range.dropFirst() {
+                path.addLine(to: points[i])
+            }
+
+            let color = palette.color(for: segment.phase).opacity(Self.curveStrokeOpacity)
+            let next = segments.count > index + 1 ? segments[index + 1].phase : segment.phase
+            let shading: GraphicsContext.Shading
+            if next == segment.phase {
+                shading = .color(color)
+            } else {
+                let blended = palette.color(for: next).opacity(Self.curveStrokeOpacity)
+                shading = .linearGradient(
+                    Gradient(stops: [
+                        .init(color: color, location: 0),
+                        .init(color: color, location: 1 - TimelineCurvePalette.transitionFraction),
+                        .init(color: blended, location: 1),
+                    ]),
+                    startPoint: CGPoint(x: 0, y: points[segment.range.lowerBound].y),
+                    endPoint: CGPoint(x: 0, y: points[segment.range.upperBound].y),
+                )
+            }
+            context.stroke(path, with: shading, style: style)
+        }
+    }
+
+    /// Connectors from each dose's position on the axis to its bubble's left
+    /// edge: a gentle S-curve (control points at 40 % and 60 % of the run, on
+    /// the dot's y and the bubble's y) that fades out by the midpoint, so the
+    /// dot side says which bubble is whose and the bubble side stays clean.
+    private func drawConnectors(in context: inout GraphicsContext, axisX: CGFloat, bubbleLeft: CGFloat) {
+        let run = bubbleLeft - axisX
+        guard run > 0 else { return }
+        for connector in day.connectors {
+            var path = Path()
+            path.move(to: CGPoint(x: axisX, y: connector.fromY))
+            path.addCurve(
+                to: CGPoint(x: bubbleLeft, y: connector.toY),
+                control1: CGPoint(x: axisX + run * 0.4, y: connector.fromY),
+                control2: CGPoint(x: axisX + run * 0.6, y: connector.toY),
+            )
+            context.stroke(
+                path,
+                with: .linearGradient(
+                    Gradient(colors: [connector.color.opacity(0.6), connector.color.opacity(0)]),
+                    startPoint: CGPoint(x: axisX, y: 0),
+                    endPoint: CGPoint(x: axisX + run / 2, y: 0),
+                ),
+                lineWidth: 1,
             )
         }
     }
@@ -287,19 +419,32 @@ struct TimelineStripDayContent: View {
 
 // MARK: - Session envelope
 
-/// The tappable frame around a session's bubbles — an outline (the bubbles
-/// carry their own glass) with a "Session ›" footer that opens the session.
+/// The tappable tray a session's bubbles sit in — a frosted material with a
+/// hairline and the same top highlight the bubbles carry, one step quieter,
+/// with a "Session ›" footer that opens the session. Material rather than
+/// glass: the bubbles are glass already, and glass stacked on glass smears.
 struct SessionEnvelopeButton: View {
     let onTap: () -> Void
+    @Environment(\.colorScheme) private var colorScheme
+
+    private static let cornerRadius: CGFloat = 16
 
     var body: some View {
         Button(action: onTap) {
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color.primary.opacity(0.02))
+            RoundedRectangle(cornerRadius: Self.cornerRadius, style: .continuous)
+                .fill(.ultraThinMaterial)
                 .overlay {
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: Self.cornerRadius, style: .continuous)
+                        .fill(Color.primary.opacity(0.015))
                 }
+                .overlay {
+                    RoundedRectangle(cornerRadius: Self.cornerRadius, style: .continuous)
+                        .strokeBorder(
+                            TimelineGlass.edgeHighlight(colorScheme: colorScheme, floor: Color.primary.opacity(0.06)),
+                            lineWidth: 0.5,
+                        )
+                }
+                .shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.04), radius: 12, y: 4)
                 .overlay(alignment: .bottomTrailing) {
                     // Chevron styled and inset identically to the bubbles'
                     // (bubble inset 8 + bubble padding 10), so the two columns

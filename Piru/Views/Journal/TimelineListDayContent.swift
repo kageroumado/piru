@@ -10,6 +10,7 @@ struct TimelineListDayContent: View {
     let day: TimelineDayLayout
     let onEntryTap: (DoseEntry) -> Void
     let onSessionTap: (UUID) -> Void
+    @Environment(\.appNavigator) private var navigator
 
     /// Consecutive groups sharing an envelope, or one group standing alone.
     private struct Run: Identifiable {
@@ -30,22 +31,39 @@ struct TimelineListDayContent: View {
         return runs
     }
 
+    /// The notes falling below each group — between it and the next older
+    /// one, keyed by group. Notes newer than the newest group are keyed by
+    /// `nil` and lead the day.
+    private var notesByGroup: [PersistentIdentifier?: [TimelineDayLayout.NoteMark]] {
+        var result: [PersistentIdentifier?: [TimelineDayLayout.NoteMark]] = [:]
+        for note in day.noteMarks.sorted(by: { $0.timestamp > $1.timestamp }) {
+            // Groups run newest first, so the group a note sits below is the
+            // oldest one still newer than it.
+            let group = day.cardGroups.last { $0.representativeTime > note.timestamp }
+            result[group?.id, default: []].append(note)
+        }
+        return result
+    }
+
     var body: some View {
+        let notes = notesByGroup
         VStack(alignment: .leading, spacing: 10) {
             TimelineDayHeader(date: day.date, isToday: day.isToday)
+
+            noteRows(notes[nil] ?? [])
 
             GlassEffectContainer {
                 VStack(spacing: TimelineDayLayout.groupGap) {
                     ForEach(runs) { run in
                         if let sessionID = run.sessionID {
-                            groupRows(run.groups)
+                            groupRows(run.groups, notes: notes)
                                 .padding(TimelineDayLayout.envelopePad)
                                 .padding(.bottom, TimelineDayLayout.envelopeFooterHeight)
                                 .background {
                                     SessionEnvelopeButton { onSessionTap(sessionID) }
                                 }
                         } else {
-                            groupRows(run.groups)
+                            groupRows(run.groups, notes: notes)
                         }
                     }
                 }
@@ -56,7 +74,10 @@ struct TimelineListDayContent: View {
         .padding(.bottom, 16)
     }
 
-    private func groupRows(_ groups: [TimelineDayLayout.CardGroup]) -> some View {
+    private func groupRows(
+        _ groups: [TimelineDayLayout.CardGroup],
+        notes: [PersistentIdentifier?: [TimelineDayLayout.NoteMark]],
+    ) -> some View {
         VStack(spacing: TimelineDayLayout.groupGap) {
             ForEach(groups) { group in
                 HStack(alignment: .top, spacing: 8) {
@@ -71,7 +92,25 @@ struct TimelineListDayContent: View {
                         }
                     }
                 }
+                noteRows(notes[group.id] ?? [])
             }
+        }
+    }
+
+    /// Notes as their own rows between the bubbles, indented past the time
+    /// capsule so the dose column stays the spine of the list.
+    @ViewBuilder
+    private func noteRows(_ marks: [TimelineDayLayout.NoteMark]) -> some View {
+        if !marks.isEmpty {
+            VStack(alignment: .leading, spacing: TimelineDayLayout.cardSpacing) {
+                ForEach(marks) { mark in
+                    TimelineNoteMark(mark: mark, textWidth: .infinity) {
+                        navigator.present(.sessionNoteEditor(sessionID: mark.sessionID, noteID: mark.id))
+                    }
+                }
+            }
+            .padding(.leading, 8)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }

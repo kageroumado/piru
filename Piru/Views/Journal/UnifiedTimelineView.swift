@@ -29,6 +29,7 @@ struct UnifiedTimelineView: View {
     @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var pkCurves = false
     @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var showsAxis = true
     @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var bubbleStyle = TimelineBubbleStyle.full
+    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var showsVitals = false
     @Environment(\.appNavigator) private var navigator
 
     var body: some View {
@@ -105,13 +106,14 @@ struct UnifiedTimelineView: View {
                     pkCurves: pkCurves,
                     showsAxis: showsAxis,
                     bubbleStyle: bubbleStyle,
+                    showsVitals: showsVitals,
                 )
             }
         }
     }
 
     private var rebuildKey: String {
-        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)"
+        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)"
     }
 
     /// Pinch on the graph: preview by stretching vertically while the fingers
@@ -194,10 +196,14 @@ final class UnifiedTimelineModel {
         pkCurves: Bool,
         showsAxis: Bool,
         bubbleStyle: TimelineBubbleStyle,
+        showsVitals: Bool,
     ) async {
-        let key = "\(revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(entries.count)"
+        let key = "\(revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(entries.count)"
         if key == builtKey, !days.isEmpty { return }
         await SubstanceStore.shared.ensureAllLoaded()
+        guard !Task.isCancelled else { return }
+
+        let heartRate = showsAxis && showsVitals ? await Self.recentHeartRate(entries: entries) : []
         guard !Task.isCancelled else { return }
 
         guard var builder = TimelineStripBuilder(
@@ -211,6 +217,7 @@ final class UnifiedTimelineModel {
                 bubbleStyle: bubbleStyle,
                 pkMode: pkCurves,
             ),
+            heartRate: heartRate,
         ) else {
             days = []
             builtKey = key
@@ -233,6 +240,31 @@ final class UnifiedTimelineModel {
         }
         days = built
         builtKey = key
+    }
+
+    /// How far back the heart-rate trace is read. A wrist sensor records
+    /// every few minutes, so a whole log would be hundreds of thousands of
+    /// samples for a texture only the recent strip has room to show.
+    private static let heartRateLookbackDays = 14
+
+    /// The recent stretch's heart rate, read the way the session detail reads
+    /// it: a plain query with no authorization prompt, empty when there is no
+    /// access or nothing recorded.
+    private static func recentHeartRate(entries: [DoseEntry]) async -> [HeartRateSample] {
+        let now = Date.now
+        guard let oldest = entries.map(\.timestamp).min() else { return [] }
+        let start = max(oldest, Calendar.current.date(byAdding: .day, value: -heartRateLookbackDays, to: now) ?? now)
+        guard start < now else { return [] }
+
+        #if DEBUG
+            // On-simulator visual verification without Health data.
+            if ProcessInfo.processInfo.arguments.contains("-piruFakeVitals") {
+                let doses = entries.map(\.timestamp).filter { $0 >= start && $0 <= now }
+                return DebugVitals.synthetic(doses: doses, start: start, end: now).heartRate
+            }
+        #endif
+        guard HealthKitVitals.shared.isAvailable else { return [] }
+        return await HealthKitVitals.shared.vitals(from: start, to: now).heartRate
     }
 }
 
@@ -280,6 +312,11 @@ struct TimelineDayLayout: Identifiable {
     let series: [CurveSeries]
     let doseDots: [DoseDot]
     let connectors: [Connector]
+    let noteMarks: [NoteMark]
+    /// Heart rate across the slice as (y, 0…1) points, y ascending. Empty
+    /// unless the health overlay is on and the slice holds enough samples to
+    /// read as a line.
+    let heartRate: [CurvePoint]
     let hourTicks: [HourTick]
     let nowY: CGFloat?
     let mapHeight: CGFloat
@@ -360,10 +397,18 @@ struct TimelineDayLayout: Identifiable {
 
     /// One substance's effect curve as (y, 0…1) points, y ascending (newest
     /// first), normalized to the substance's own all-time effect peak so day
-    /// slices join seamlessly.
+    /// slices join seamlessly. Each point carries the phase of the newest dose
+    /// covering it, which the stroke draws as a color shift along the line;
+    /// body-load curves model no phases and carry `nil`.
     struct CurveSeries {
         let color: Color
-        let points: [(y: CGFloat, v: Double)]
+        let points: [CurvePoint]
+    }
+
+    struct CurvePoint: Equatable {
+        let y: CGFloat
+        let v: Double
+        var phase: TimelineCurvePhase?
     }
 
     struct DoseDot {
@@ -379,6 +424,26 @@ struct TimelineDayLayout: Identifiable {
         let fromY: CGFloat
         let toY: CGFloat
         let color: Color
+    }
+
+    /// One session note at its own moment on the axis. It lives in the lane
+    /// between the curves and the bubble column, never in the gutter, so it
+    /// can't collide with a dose capsule.
+    struct NoteMark: Identifiable {
+        let id: UUID
+        let sessionID: UUID
+        let kind: SessionNote.Kind
+        let timestamp: Date
+        /// First line of the note's text, empty when the note carries only
+        /// structure (a rating, a mood).
+        let text: String
+        let y: CGFloat
+        /// How much of the curve lane is taken by the widest curve at this y,
+        /// `0…1`. The view turns it into the room left for the note's text.
+        let curveFraction: Double
+        /// A dose time capsule or the "Now" tag shares this note's height, so
+        /// it starts further into the lane than an hour pill would need.
+        let besideCapsule: Bool
     }
 
     struct HourTick {

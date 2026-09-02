@@ -134,6 +134,7 @@ struct EntryListView: View {
     @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelinePKCurves = false
     @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineShowsAxis = true
     @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineBubbleStyle = TimelineBubbleStyle.full
+    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var showsVitals = false
 
     /// Mirrors the day cards' redose-stacking preference so the timeline prewarm
     /// computes geometry under the same key the cards will look up.
@@ -446,6 +447,7 @@ struct EntryListView: View {
                 pkCurves: timelinePKCurves,
                 showsAxis: timelineShowsAxis,
                 bubbleStyle: timelineBubbleStyle,
+                showsVitals: showsVitals,
             )
         }
         .onChange(of: colorSignature) {
@@ -466,7 +468,9 @@ struct EntryListView: View {
     }
 
     private var timelineRebuildKey: String {
-        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(timelineZoom)|\(timelineCompression)|\(timelinePKCurves)|\(timelineShowsAxis)|\(timelineBubbleStyle.rawValue)|\(searchText)|\(filterTags.hashValue)|\(filterCategories.hashValue)|\(filterRoutes.hashValue)"
+        let options = "\(timelineZoom)|\(timelineCompression)|\(timelinePKCurves)|\(timelineShowsAxis)|\(timelineBubbleStyle.rawValue)|\(showsVitals)"
+        let filters = "\(searchText)|\(filterTags.hashValue)|\(filterCategories.hashValue)|\(filterRoutes.hashValue)"
+        return "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(options)|\(filters)"
     }
 
     /// The Timeline grouping rendered as list rows — the same continuous
