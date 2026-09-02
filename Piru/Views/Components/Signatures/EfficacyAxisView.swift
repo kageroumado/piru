@@ -19,13 +19,13 @@ struct EfficacyAxisView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 9) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             if let headline = model.headline {
                 Text(headline)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(accent)
-                    .padding(.horizontal, 10).padding(.vertical, 4)
-                    .background(Capsule().fill(accent.opacity(0.14)))
+                    .padding(.horizontal, Spacing.lg).padding(.vertical, Spacing.xs)
+                    .background(Capsule().fill(accent.opacity(Theme.Opacity.tint)))
             }
 
             if model.isStaticReadout {
@@ -113,7 +113,7 @@ private struct EfficacyAxisTrack: View {
     private func track(width: CGFloat) -> some View {
         ZStack(alignment: .topLeading) {
             Capsule()
-                .fill(Theme.secondaryLabel.opacity(0.18))
+                .fill(Theme.secondaryLabel.opacity(Theme.Opacity.tintActive))
                 .frame(width: max(0, width - Self.inset * 2), height: 7)
                 .offset(x: Self.inset, y: Self.trackY - 3.5)
             Capsule()
@@ -193,7 +193,7 @@ private struct EfficacyAxisTrack: View {
     private var endLabels: some View {
         let zero = String(localized: "no activation", comment: "Zero end of the efficacy axis")
         let isRTL = layoutDirection == .rightToLeft
-        return HStack(spacing: 8) {
+        return HStack(spacing: Spacing.md) {
             Text(isRTL ? fullEndLabel : zero)
             Spacer(minLength: 4)
             Text(isRTL ? zero : fullEndLabel)
@@ -277,13 +277,12 @@ private struct EfficacyStaticReadout: View {
     let accent: Color
 
     var body: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 8) {
+        HStack(alignment: .firstTextBaseline, spacing: Spacing.md) {
             Text(model.focus.valueText)
                 .font(.title3.weight(.bold).monospacedDigit())
                 .foregroundStyle(accent)
             Text("nothing comparable to rank it against", comment: "Efficacy axis degraded to a single readout")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -298,7 +297,7 @@ private struct EfficacyMarkList: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ForEach(model.marks.reversed()) { mark in
-                HStack(spacing: 8) {
+                HStack(spacing: Spacing.md) {
                     Text(mark.name)
                         .font(.subheadline.weight(mark.isFocus ? .bold : .regular))
                         .foregroundStyle(mark.isFocus ? accent : .primary)

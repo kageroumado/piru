@@ -231,13 +231,13 @@ struct SpeciesCite: View {
 
     var body: some View {
         if let species, species != "—", !species.isEmpty {
+            let isHuman = species.lowercased() == "human"
             Text(species.prefix(1).uppercased() + species.dropFirst())
-                .font(.caption2.weight(.semibold))
-                .lineLimit(1)
+                .capsuleChip(
+                    text: isHuman ? Color.Semantic.Success.text : Theme.secondaryLabel,
+                    fill: isHuman ? Color.Semantic.Success.accent : Theme.secondaryLabel,
+                )
                 .fixedSize(horizontal: true, vertical: false)
-                .foregroundStyle(species.lowercased() == "human" ? Color(red: 0.11, green: 0.48, blue: 0.20) : Theme.secondaryLabel)
-                .padding(.horizontal, 7).padding(.vertical, 2)
-                .background((species.lowercased() == "human" ? Color.green : Theme.secondaryLabel).opacity(0.16), in: Capsule())
         }
         if let citation {
             CitationLink(url: citation, size: 9)
@@ -255,11 +255,11 @@ struct ReceptorPanel: View {
         VStack(spacing: 0) {
             ForEach(Array(rows.enumerated()), id: \.element.id) { index, row in
                 if index > 0 { Divider() }
-                HStack(spacing: 8) {
+                HStack(spacing: Spacing.md) {
                     Text(row.label).font(.subheadline.weight(.bold))
                     if let action = row.action { actionChip(action) }
                     if let effect = row.effect {
-                        Text(effect).font(.caption).foregroundStyle(Theme.secondaryLabel)
+                        Text(effect).captionSecondary()
                     }
                     Spacer(minLength: 6)
                     AffinityDots(filled: row.tier, tint: accent)
@@ -286,7 +286,7 @@ struct ReceptorPanel: View {
             .font(.caption2.weight(.semibold))
             .foregroundStyle(color)
             .padding(.horizontal, 7).padding(.vertical, 1)
-            .background(color.opacity(0.10), in: Capsule())
+            .background(color.opacity(Theme.Opacity.tint), in: Capsule())
     }
 }
 
@@ -296,11 +296,11 @@ struct PotencyBars: View {
     let accent: Color
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 11) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             ForEach(bars) { bar in
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack(spacing: 8) {
-                        Text(bar.label).font(.subheadline.weight(.semibold))
+                VStack(alignment: .leading, spacing: Spacing.xs) {
+                    HStack(spacing: Spacing.md) {
+                        Text(bar.label).sectionLabel()
                         SpeciesCite(species: bar.species, citation: bar.citation)
                         Spacer(minLength: 6)
                         Text(bar.value).font(.caption.weight(.semibold).monospacedDigit()).foregroundStyle(accent)

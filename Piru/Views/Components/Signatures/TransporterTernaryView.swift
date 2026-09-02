@@ -27,7 +27,7 @@ struct TransporterTernaryView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 9) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             if model.triples.count > 1 {
                 Picker(selection: $selection) {
                     ForEach(Array(model.triples.enumerated()), id: \.element.id) { index, item in
@@ -72,7 +72,7 @@ struct TransporterTernaryView: View {
                                 .font(.caption2)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
-                        .padding(.trailing, 2)
+                        .padding(.trailing, Spacing.xxs)
                     }
 
                 if !tapHintSeen {
@@ -172,7 +172,7 @@ private struct TernaryPlot: View {
                 TriangleShape(vertices: vertices(box))
                     .stroke(Theme.secondaryLabel.opacity(0.22), lineWidth: 1.4)
                 GridLines(vertices: vertices(box))
-                    .stroke(Theme.secondaryLabel.opacity(0.10), lineWidth: 1)
+                    .stroke(Theme.secondaryLabel.opacity(Theme.Opacity.tint), lineWidth: 1)
 
                 // One clear layer under the marks takes every tap, so a tap on
                 // empty space clears the selection and a near miss on a dot still
@@ -520,7 +520,7 @@ private struct TernaryShareList: View {
     let accent: Color
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 7) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             row(SignatureTarget.dat.label, share: triple.focus.shares.dat, value: triple.focus.values.dat)
             row(SignatureTarget.net.label, share: triple.focus.shares.net, value: triple.focus.values.net)
             row(SignatureTarget.sert.label, share: triple.focus.shares.sert, value: triple.focus.values.sert)
@@ -529,7 +529,7 @@ private struct TernaryShareList: View {
 
     private func row(_ label: String, share: Double, value: Double) -> some View {
         VStack(alignment: .leading, spacing: 3) {
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.md) {
                 Text(label).font(.subheadline.weight(.bold))
                 Spacer(minLength: 6)
                 Text(ClassSignature.shortNanomolar(value))

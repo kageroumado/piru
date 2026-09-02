@@ -12,14 +12,14 @@ struct DoseLevelIndicator: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             if let level {
-                HStack(spacing: 6) {
+                HStack(spacing: Spacing.sm) {
                     Circle()
                         .fill(level.swiftUIColor)
                         .frame(width: 10, height: 10)
                     Text(level.displayName)
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                         .foregroundStyle(level.labelColor)
                 }
             }
@@ -35,7 +35,7 @@ struct DoseLevelIndicator: View {
             HStack(spacing: 0) {
                 ForEach(Array(segments.enumerated()), id: \.offset) { index, segment in
                     Text(segment.label)
-                        .font(.system(size: 9))
+                        .font(.chartAnnotation)
                         .foregroundStyle(Theme.secondaryLabel)
                         .frame(maxWidth: .infinity, alignment: index == 0 ? .leading : (index == segments.count - 1 ? .trailing : .center))
                 }
@@ -95,7 +95,7 @@ struct DoseLevelIndicator: View {
                         let pct = min(max((currentDose - range.lowerBound) / (range.upperBound - range.lowerBound), 0), 1)
                         Circle()
                             .fill(.white)
-                            .frame(width: 8, height: 8)
+                            .frame(width: IconSize.dot, height: IconSize.dot)
                             .shadow(radius: 1)
                             .position(x: geo.size.width * pct, y: geo.size.height / 2)
                     }

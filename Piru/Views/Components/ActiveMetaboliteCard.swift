@@ -410,9 +410,9 @@ struct ActiveMetaboliteCard: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             nameRow
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
                 primaryLine
                 secondaryLines
             }
@@ -427,7 +427,7 @@ struct ActiveMetaboliteCard: View {
         // already carry the screen's card background, so drawing another one
         // here nested a 22pt-radius card inside the row's card at a different
         // inset — the one card on the screen that didn't match its siblings.
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
     }
 
     // MARK: Bands
@@ -436,9 +436,9 @@ struct ActiveMetaboliteCard: View {
     private var nameRow: some View {
         if let target = metabolite.substanceName, let onOpenSubstance {
             Button { onOpenSubstance(target) } label: {
-                HStack(spacing: 6) {
+                HStack(spacing: Spacing.sm) {
                     Text(verbatim: metabolite.displayName)
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                         .foregroundStyle(.primary)
                         .multilineTextAlignment(.leading)
                     Spacer(minLength: 4)
@@ -451,7 +451,7 @@ struct ActiveMetaboliteCard: View {
             .accessibilityHint(Text("Opens this substance in the library."))
         } else {
             Text(verbatim: metabolite.displayName)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
@@ -492,7 +492,7 @@ struct ActiveMetaboliteCard: View {
     private var chips: some View {
         let halfLives = halfLifePair
         if !metabolite.enzymes.isEmpty || halfLives != nil || metabolite.formationFractionPct != nil {
-            HStack(alignment: .top, spacing: 8) {
+            HStack(alignment: .top, spacing: Spacing.md) {
                 if !metabolite.enzymes.isEmpty {
                     PKMetricChip(
                         label: "Made by",
@@ -623,8 +623,7 @@ struct ActiveMetaboliteCard: View {
 
     private func caption(_ text: String) -> some View {
         Text(text)
-            .font(.caption)
-            .foregroundStyle(Theme.secondaryLabel)
+            .captionSecondary()
             .fixedSize(horizontal: false, vertical: true)
     }
 }
@@ -675,7 +674,7 @@ private struct MetabolizerVariationChart: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
             Text("Genetic variation in \(metaboliteName) formation")
                 .font(.caption2.weight(.medium))
                 .foregroundStyle(Theme.secondaryLabel)
@@ -704,7 +703,7 @@ private struct MetabolizerVariationChart: View {
                     }
                 }
             }
-            .chartLegend(position: .bottom, alignment: .leading, spacing: 4)
+            .chartLegend(position: .bottom, alignment: .leading, spacing: Spacing.xs)
             .frame(height: 80)
             Text("Same dose, different conversion — the effect varies by genotype.")
                 .font(.caption2)

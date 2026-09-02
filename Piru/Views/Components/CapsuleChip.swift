@@ -99,7 +99,7 @@ extension Text {
     func capsuleOutlineChip(stroke: Color) -> some View {
         font(.caption2.weight(.medium))
             .lineLimit(1)
-            .padding(.horizontal, 8)
+            .padding(.horizontal, Spacing.md)
             .padding(.vertical, 3)
             .foregroundStyle(Theme.secondaryLabel)
             .overlay(Capsule().strokeBorder(stroke, lineWidth: 1))

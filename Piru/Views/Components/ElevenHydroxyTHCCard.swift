@@ -12,28 +12,26 @@ import SwiftUI
 struct ElevenHydroxyTHCCard: View {
     var body: some View {
         Section {
-            HStack(alignment: .top, spacing: 10) {
+            HStack(alignment: .top, spacing: Spacing.lg) {
                 Image(systemName: "clock.badge.exclamationmark")
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(.cautionAccent)
                     .font(.title3)
-                    .padding(.top, 2)
+                    .padding(.top, Spacing.xxs)
                     .accessibilityHidden(true)
 
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: Spacing.sm) {
                     Text("11-OH-THC")
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
 
                     Text("Swallowed THC passes through your liver first, which turns much of it into 11-hydroxy-THC — an active by-product that reaches the brain more easily and binds the CB1 receptor far more strongly than THC itself. That's why an edible tends to feel stronger, milligram for milligram, than the same amount smoked.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
 
                     Text("Edibles also come on slowly — usually 30 minutes to 2 hours — and last much longer, often 6–10 hours. That slow start is the redose trap: wait at least 2 hours before taking more, or you can stack a far stronger, longer dose than you meant to.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
                 .accessibilityElement(children: .combine)
             }
-            .padding(.vertical, 2)
+            .padding(.vertical, Spacing.xxs)
         } header: {
             Text("11-OH-THC (edibles)")
         } footer: {

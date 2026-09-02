@@ -19,14 +19,14 @@ struct GlanceCardHeader<Trailing: View>: View {
     }
 
     var body: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: Spacing.lg) {
             Image(systemName: icon)
-                .font(.headline)
+                .cardTitle()
                 .foregroundStyle(iconTint)
                 .frame(width: Self.iconWidth, alignment: .center)
                 .accessibilityHidden(true)
             title
-                .font(.headline)
+                .cardTitle()
                 .foregroundStyle(titleColor)
             Spacer(minLength: 8)
             trailing()
@@ -59,10 +59,8 @@ struct GlanceRow<Trailing: View>: View {
     @ViewBuilder var trailing: () -> Trailing
 
     var body: some View {
-        HStack(spacing: 10) {
-            Circle()
-                .fill(dotColor)
-                .frame(width: 9, height: 9)
+        HStack(spacing: Spacing.lg) {
+            LegendDot(color: dotColor, size: .large)
             title
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(titleColor)
@@ -80,8 +78,7 @@ struct GlanceMoreRow: View {
     var body: some View {
         HStack {
             Text("+\(count) more")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
             Spacer()
         }
     }
@@ -107,14 +104,14 @@ struct GlanceCard<Content: View>: View {
 
     var body: some View {
         NavigationLink(value: route) {
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: Spacing.xl) {
                 GlanceCardHeader(icon: icon, iconTint: tint, title: title, titleColor: titleColor) {
                     GlanceCardChevron()
                 }
 
                 content()
             }
-            .padding(16)
+            .padding(Spacing.xxl)
             .frame(maxWidth: .infinity, alignment: .leading)
             .themeCard()
             .contentShape(Rectangle())

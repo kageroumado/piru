@@ -57,8 +57,7 @@ struct GroupedReceptorLiterature: View {
                     ForEach(group.rows) { hit in
                         GridRow {
                             label(hit)
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
+                                .captionSecondary()
                                 .lineLimit(1)
                             dotsCell(hit)
                             valueCell(hit)
@@ -70,7 +69,7 @@ struct GroupedReceptorLiterature: View {
                 }
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     /// Column 1 for a single-measurement receptor: name + its action concatenated into one `Text` so the
@@ -111,11 +110,10 @@ struct GroupedReceptorLiterature: View {
         if let species = hit.species, !species.isEmpty, species != "—" {
             let isHuman = species.lowercased() == "human"
             Text(species.prefix(1).uppercased() + species.dropFirst())
-                .font(.caption2.weight(.semibold))
-                .lineLimit(1)
-                .foregroundStyle(isHuman ? Color(red: 0.11, green: 0.48, blue: 0.20) : Theme.secondaryLabel)
-                .padding(.horizontal, 7).padding(.vertical, 2)
-                .background((isHuman ? Color.green : Theme.secondaryLabel).opacity(0.16), in: Capsule())
+                .capsuleChip(
+                    text: isHuman ? Color.Semantic.Success.text : Theme.secondaryLabel,
+                    fill: isHuman ? Color.Semantic.Success.accent : Theme.secondaryLabel,
+                )
         } else {
             Color.clear.frame(width: 0, height: 0)
         }
@@ -203,7 +201,7 @@ struct AffinityDots: View {
     let tint: Color
 
     var body: some View {
-        HStack(spacing: 2) {
+        HStack(spacing: Spacing.xxs) {
             ForEach(0 ..< 3, id: \.self) { i in
                 Circle()
                     .fill(i < filled ? tint : tint.opacity(0.15))
@@ -229,7 +227,7 @@ struct StrengthMeter: View {
     var emptyOpacity: Double = 0.18
 
     var body: some View {
-        HStack(spacing: 4) {
+        HStack(spacing: Spacing.xs) {
             ForEach(0 ..< 3, id: \.self) { i in
                 Capsule()
                     .fill(tint.opacity(i < filled ? filledOpacity : emptyOpacity))
@@ -284,7 +282,7 @@ struct CitationLink: View {
 func sourceNameLink(_ name: String, doi: String?, pmid: Int?, accent: Color) -> some View {
     if let url = citationURL(doi: doi, pmid: pmid) {
         Link(destination: url) {
-            HStack(spacing: 2) {
+            HStack(spacing: Spacing.xxs) {
                 Text(name).font(.caption2)
                 Image(systemName: "arrow.up.right")
                     .font(.system(size: 9, weight: .semibold))
@@ -311,10 +309,10 @@ struct PKRouteRow: View {
     let accent: Color
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            HStack(spacing: Spacing.sm) {
                 Text(RouteOfAdministration.from(string: hit.route).localizedName)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 if studyCount > 1 {
                     Text("\(studyCount) studies", comment: "Count of PK studies behind one route")
                         .font(.caption2)
@@ -322,7 +320,7 @@ struct PKRouteRow: View {
                 }
             }
             if !metrics.isEmpty {
-                FlowLayout(spacing: 6) {
+                FlowLayout(spacing: Spacing.sm) {
                     ForEach(metrics) { metric in
                         PKMetricChip(label: metric.label, value: metric.value)
                     }
@@ -382,9 +380,9 @@ struct PKMetricChip: View {
                 .font(.subheadline.weight(.semibold).monospacedDigit())
         }
         .accessibilityElement(children: .combine)
-        .padding(.horizontal, 10)
-        .padding(.vertical, 6)
-        .background(Theme.secondaryLabel.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
+        .padding(.horizontal, Spacing.lg)
+        .padding(.vertical, Spacing.sm)
+        .background(Theme.secondaryLabel.opacity(Theme.Opacity.hairline), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
     }
 }
 
@@ -442,21 +440,20 @@ struct MetabolismRow: View {
     /// arrow and no active/inactive chip, because an unchanged-drug excretion fraction is neither.
     private var eliminationBody: some View {
         VStack(alignment: .leading, spacing: 5) {
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
                 Image(systemName: "drop")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .captionSecondary()
                     .accessibilityHidden(true)
                 Text(eliminationLabel)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 Spacer()
                 if let frac = hit.fractionOfClearancePct {
                     Text("\(SubstanceDetailView.chemNumber(frac))%")
                         .font(.caption2.monospacedDigit())
                         .foregroundStyle(Theme.secondaryLabel)
                         .padding(.horizontal, 7)
-                        .padding(.vertical, 2)
-                        .background(Theme.secondaryLabel.opacity(0.1), in: Capsule())
+                        .padding(.vertical, Spacing.xxs)
+                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: Capsule())
                 }
             }
             sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
@@ -503,7 +500,7 @@ struct MetabolismRow: View {
     /// target, the enzyme becomes a "via …" caption, and the curated note folds in.
     private func metaboliteHeadlineBody(_ headline: String) -> some View {
         let resolved = resolvedMetabolite
-        return VStack(alignment: .leading, spacing: 4) {
+        return VStack(alignment: .leading, spacing: Spacing.xs) {
             // Never nest the trailing affordance inside the push button: that
             // button is disabled when the metabolite has no library entry —
             // which is exactly when the affordance is a citation link. A
@@ -511,7 +508,7 @@ struct MetabolismRow: View {
             // would render but could never be tapped: the only rows whose
             // citation you need would be the rows whose citation you
             // couldn't reach.
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.md) {
                 Group {
                     if let resolved {
                         Button { navigator.push(.substance(name: resolved.name)) } label: {
@@ -531,25 +528,23 @@ struct MetabolismRow: View {
                 trailingAffordance(resolved: resolved)
             }
 
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
                 Text("via \(hit.enzyme)")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
                 if let frac = hit.fractionOfClearancePct {
                     Text("\(SubstanceDetailView.chemNumber(frac))%")
                         .font(.caption2.monospacedDigit())
                         .foregroundStyle(Theme.secondaryLabel)
                         .padding(.horizontal, 7)
-                        .padding(.vertical, 2)
-                        .background(Theme.secondaryLabel.opacity(0.1), in: Capsule())
+                        .padding(.vertical, Spacing.xxs)
+                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: Capsule())
                 }
             }
 
             if let divergentNote {
                 Text(divergentNote)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.top, 1)
             }
@@ -565,9 +560,9 @@ struct MetabolismRow: View {
     /// The metabolite name plus its active/inactive chip — shared by the tappable
     /// and non-tappable forms of the row so they stay visually identical.
     private func metaboliteLabel(_ headline: String) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 8) {
+        HStack(alignment: .firstTextBaseline, spacing: Spacing.md) {
             Text(headline)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(.primary)
                 .lineLimit(1)
                 .truncationMode(.middle)
@@ -575,9 +570,9 @@ struct MetabolismRow: View {
                 Text(active ? "active" : "inactive")
                     .font(.caption2.weight(.medium))
                     .foregroundStyle(active ? accent : .secondary)
-                    .padding(.horizontal, 6)
+                    .padding(.horizontal, Spacing.sm)
                     .padding(.vertical, 1)
-                    .background((active ? accent : Theme.secondaryLabel).opacity(0.12), in: Capsule())
+                    .background((active ? accent : Theme.secondaryLabel).opacity(Theme.Opacity.tint), in: Capsule())
             }
         }
         .contentShape(Rectangle())
@@ -602,15 +597,15 @@ struct MetabolismRow: View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .firstTextBaseline) {
                 Text(hit.enzyme)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 Spacer()
                 if let frac = hit.fractionOfClearancePct {
                     Text("\(SubstanceDetailView.chemNumber(frac))%")
                         .font(.caption2.monospacedDigit())
                         .foregroundStyle(Theme.secondaryLabel)
                         .padding(.horizontal, 7)
-                        .padding(.vertical, 2)
-                        .background(Theme.secondaryLabel.opacity(0.1), in: Capsule())
+                        .padding(.vertical, Spacing.xxs)
+                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: Capsule())
                 }
             }
             sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
@@ -622,7 +617,7 @@ struct MetabolismRow: View {
 /// citation link (name + ↗), followed by an optional italic detail (PK demographics). Left-aligned so
 /// the source and its link read as one element instead of sitting at opposite ends of the row.
 func sourceLine(slug: String, detail: String?, doi: String?, pmid: Int?, accent: Color) -> some View {
-    HStack(spacing: 6) {
+    HStack(spacing: Spacing.sm) {
         Image(systemName: "doc.text.magnifyingglass").font(.caption2).accessibilityHidden(true)
         sourceNameLink(pharmaSourceName(slug), doi: doi, pmid: pmid, accent: accent)
         if let detail, !detail.isEmpty {

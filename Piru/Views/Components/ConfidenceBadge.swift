@@ -10,16 +10,16 @@ struct ConfidenceBadge: View {
     let tier: ConfidenceTier
 
     var body: some View {
-        HStack(spacing: 4) {
+        HStack(spacing: Spacing.xs) {
             Image(systemName: symbol)
                 .imageScale(.small)
             Text(tier.label)
         }
         .font(.caption2.weight(.semibold))
         .foregroundStyle(color)
-        .padding(.horizontal, 8)
+        .padding(.horizontal, Spacing.md)
         .padding(.vertical, 3)
-        .background(color.opacity(0.10), in: Capsule())
+        .background(color.opacity(Theme.Opacity.tint), in: Capsule())
         .accessibilityElement(children: .combine)
         .accessibilityLabel(tier.label)
     }
@@ -44,7 +44,7 @@ struct ConfidenceBadge: View {
 }
 
 #Preview {
-    VStack(alignment: .leading, spacing: 8) {
+    VStack(alignment: .leading, spacing: Spacing.md) {
         ForEach(ConfidenceTier.allCases, id: \.self) { ConfidenceBadge(tier: $0) }
     }
     .padding()

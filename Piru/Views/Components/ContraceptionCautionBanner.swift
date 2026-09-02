@@ -12,22 +12,14 @@ struct ContraceptionCautionBanner: View {
     let inducer: MetabolicModulation.Modulator
 
     var body: some View {
-        HStack(alignment: .top, spacing: 10) {
-            Image(systemName: "pills.circle")
-                .foregroundStyle(.orange)
-                .font(.title3)
-                .accessibilityHidden(true)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text("May reduce hormonal birth-control efficacy")
-                    .font(.subheadline.weight(.semibold))
-                Text("Induces \(inducer.enzyme.displayName), which clears the hormones in the combined pill, patch, ring, implant and hormonal IUD — lowering their levels. Anyone relying on hormonal contraception should consider a backup method. Often noted on the label, but easy to miss.")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .accessibilityElement(children: .combine)
-            Spacer(minLength: 0)
+        InfoBanner(
+            icon: "pills.circle",
+            iconTint: .cautionAccent,
+            title: "May reduce hormonal birth-control efficacy",
+        ) {
+            Text("Induces \(inducer.enzyme.displayName), which clears the hormones in the combined pill, patch, ring, implant and hormonal IUD — lowering their levels. Anyone relying on hormonal contraception should consider a backup method. Often noted on the label, but easy to miss.")
+                .captionSecondary()
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 }

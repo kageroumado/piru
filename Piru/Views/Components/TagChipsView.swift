@@ -11,13 +11,13 @@ struct TagChipsView: View {
             // Quiet inline treatment (Option C): one tag glyph + the tags joined,
             // kept low-key since they're secondary information, not chips competing
             // with the dose.
-            HStack(spacing: 5) {
+            HStack(spacing: Spacing.sm) {
                 Image(systemName: "tag")
                     .font(compact ? .caption2 : .caption)
                     .foregroundStyle(.tertiary)
                 Text(tags.joined(separator: " · "))
                     .font(compact ? .caption2 : .caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
                     .lineLimit(1)
                     .truncationMode(.tail)
             }
@@ -34,9 +34,9 @@ struct TagEditorView: View {
     @State private var newTag = ""
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             if !tags.isEmpty {
-                FlowLayout(spacing: 6) {
+                FlowLayout(spacing: Spacing.sm) {
                     ForEach(tags, id: \.self) { tag in
                         HStack(spacing: 3) {
                             Text("#\(tag)")
@@ -51,15 +51,15 @@ struct TagEditorView: View {
                                 // out of layout so the chip looks unchanged.
                                 Image(systemName: "xmark.circle.fill")
                                     .font(.caption2)
-                                    .padding(12)
+                                    .padding(Spacing.xl)
                                     .contentShape(Rectangle())
                             }
                             .padding(-12)
                             .accessibilityLabel(Text("Remove \(tag)"))
                         }
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(Theme.accent.opacity(0.15))
+                        .padding(.horizontal, Spacing.md)
+                        .padding(.vertical, Spacing.xs)
+                        .background(Theme.accent.opacity(Theme.Opacity.tint))
                         .foregroundStyle(Theme.accent)
                         .clipShape(Capsule())
                     }
@@ -80,7 +80,7 @@ struct TagEditorView: View {
             }
 
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 6) {
+                HStack(spacing: Spacing.sm) {
                     ForEach(availableSuggestions, id: \.self) { suggestion in
                         Button {
                             withAnimation(.easeInOut(duration: 0.2)) {
@@ -89,10 +89,10 @@ struct TagEditorView: View {
                         } label: {
                             Text("#\(suggestion)")
                                 .font(.caption)
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 4)
+                                .padding(.horizontal, Spacing.md)
+                                .padding(.vertical, Spacing.xs)
                                 .background(Color(.secondarySystemFill))
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Theme.secondaryLabel)
                                 .clipShape(Capsule())
                         }
                     }

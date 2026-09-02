@@ -88,7 +88,7 @@ struct DosePhaseProgressBar: View {
     private func bar(phase: Phase, fraction: Double, height: CGFloat) -> some View {
         GeometryReader { geo in
             ZStack(alignment: .leading) {
-                Capsule().fill(phase.color.opacity(0.10))
+                Capsule().fill(phase.color.opacity(Theme.Opacity.tint))
                 Capsule()
                     .fill(phase.color)
                     .frame(width: max(0, geo.size.width * fraction))
@@ -111,11 +111,11 @@ struct DosePhaseProgressBar: View {
     }
 
     private func fullReadout(phase: Phase, fraction: Double, start: Date, end: Date) -> some View {
-        VStack(alignment: .leading, spacing: 7) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             bar(phase: phase, fraction: fraction, height: 6)
 
-            HStack(spacing: 6) {
-                HStack(spacing: 5) {
+            HStack(spacing: Spacing.sm) {
+                HStack(spacing: Spacing.sm) {
                     Circle()
                         .fill(phase.color)
                         .frame(width: 6, height: 6)
@@ -125,8 +125,7 @@ struct DosePhaseProgressBar: View {
                 }
                 Spacer(minLength: 8)
                 Text("\(now.timeIntervalSince(start).durationHM) in \u{00B7} \(end.timeIntervalSince(now).durationHM) left")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .monospacedDigit()
             }
         }

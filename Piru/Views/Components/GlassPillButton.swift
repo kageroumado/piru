@@ -34,7 +34,7 @@ struct GlassPillButton: View {
     private var button: some View {
         Button(action: action) {
             Text(title)
-                .font(.headline)
+                .cardTitle()
                 .foregroundStyle(prominence == .neutral ? AnyShapeStyle(Theme.secondaryLabel) : AnyShapeStyle(.foreground))
                 .frame(maxWidth: .infinity)
         }

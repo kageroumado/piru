@@ -51,7 +51,7 @@ struct PharmacologyCard: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             if let hero {
                 // Class-panel path (opioid/benzo/dissociative): headline, prose, signature, hero.
                 summaryText
@@ -79,7 +79,7 @@ struct PharmacologyCard: View {
                 receptorTargets
             }
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
     }
 
     @ViewBuilder private var summaryText: some View {
@@ -95,7 +95,7 @@ struct PharmacologyCard: View {
         if !moa.description.isEmpty {
             Text(moa.description)
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
                 .fixedSize(horizontal: false, vertical: true)
         }
     }
@@ -118,13 +118,13 @@ struct PharmacologyCard: View {
     // MARK: - Class-specific receptor-panel hero (opioid / benzo / dissociative)
 
     private func heroSection(_ hero: PharmacologyHero) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             if let character = hero.character, !signatureSuppliesCharacter {
                 Text(character)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(accent)
-                    .padding(.horizontal, 10).padding(.vertical, 4)
-                    .background(Capsule().fill(accent.opacity(0.14)))
+                    .padding(.horizontal, Spacing.lg).padding(.vertical, Spacing.xs)
+                    .background(Capsule().fill(accent.opacity(Theme.Opacity.tint)))
             }
             switch hero.kind {
             case .opioid, .benzo: ReceptorPanel(rows: hero.rows, accent: accent)
@@ -132,24 +132,23 @@ struct PharmacologyCard: View {
             }
             if let note = hero.note {
                 Text(note)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
             }
             if let minor = hero.minor {
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text("Minor / off-targets")
                         .font(.caption.weight(.semibold)).foregroundStyle(Theme.secondaryLabel)
                         .accessibilityAddTraits(.isHeader)
-                    Text(minor).font(.caption).foregroundStyle(Theme.secondaryLabel)
+                    Text(minor).captionSecondary()
                 }
                 .fixedSize(horizontal: false, vertical: true)
-                .padding(10)
+                .padding(Spacing.lg)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Theme.secondaryLabel.opacity(0.06), in: RoundedRectangle(cornerRadius: 10))
+                .background(Theme.secondaryLabel.opacity(Theme.Opacity.hairline), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
             }
         }
-        .padding(.top, 2)
+        .padding(.top, Spacing.xxs)
     }
 
     // MARK: - Receptor target pills (full-width)
@@ -159,7 +158,7 @@ struct PharmacologyCard: View {
     /// uses) — so the row uses the whole screen instead of clustering the meter at
     /// ~45% and leaving dead space. "Acts on" leads the group.
     private var receptorPills: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             Text("Acts on")
                 .font(.caption2.weight(.semibold))
                 .textCase(.uppercase)
@@ -168,22 +167,21 @@ struct PharmacologyCard: View {
                 .accessibilityAddTraits(.isHeader)
 
             ForEach(moa.bindings) { binding in
-                HStack(spacing: 10) {
+                HStack(spacing: Spacing.lg) {
                     Text(binding.target)
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
                     Text(binding.action.displayName)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .captionSecondary()
                         .lineLimit(1)
                     Spacer(minLength: 8)
                     StrengthMeter(filled: binding.affinity.rawValue, tint: accent)
                 }
-                .padding(.horizontal, 12)
+                .padding(.horizontal, Spacing.xl)
                 .padding(.vertical, 9)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(accent.opacity(0.06), in: RoundedRectangle(cornerRadius: 10))
+                .background(accent.opacity(Theme.Opacity.hairline), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
                 .accessibilityElement(children: .combine)
             }
         }
@@ -197,7 +195,7 @@ struct PharmacologyCard: View {
         // `release EC₅₀`, and every ACTS ON row says "Releasing Agent" — a pill
         // would be a fourth statement of the same word with the most visual
         // weight of the four.
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             if profile.leanPosition != nil {
                 spectrum(profile)
             }
@@ -247,27 +245,27 @@ struct PharmacologyCard: View {
         if profile.engages5HT2B {
             flag(
                 icon: "heart.text.square",
-                tint: .orange,
+                tint: .cautionText,
                 text: "Activates 5-HT2B, which is linked to heart-valve damage (valvulopathy) with chronic or heavy use.",
             )
         }
         if profile.misSoldAsMDMA {
             flag(
                 icon: "exclamationmark.triangle.fill",
-                tint: .red,
+                tint: .dangerText,
                 text: "Often mis-sold as MDMA / \u{201C}molly,\u{201D} but it is pharmacologically a reuptake blocker — longer, more stimulant and anxiogenic, and more dangerous on an empathogen-style redose.",
             )
         }
     }
 
     private func flag(icon: String, tint: Color, text: LocalizedStringResource) -> some View {
-        HStack(alignment: .top, spacing: 8) {
+        HStack(alignment: .top, spacing: Spacing.md) {
             Image(systemName: icon).font(.caption).foregroundStyle(tint).accessibilityHidden(true)
-            Text(text).font(.caption).foregroundStyle(Theme.secondaryLabel)
+            Text(text).captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(10)
+        .padding(Spacing.lg)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(tint.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
+        .background(tint.opacity(Theme.Opacity.hairline), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
     }
 }

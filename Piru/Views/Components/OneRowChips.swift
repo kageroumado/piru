@@ -17,7 +17,7 @@ struct OneRowChips<Item: Identifiable, ChipView: View, TrailingView: View>: View
 
     var body: some View {
         if isExpanded || items.count <= 1 {
-            FlowLayout(spacing: 6) {
+            FlowLayout(spacing: Spacing.sm) {
                 ForEach(items) { item in
                     chip(item)
                 }
@@ -36,7 +36,7 @@ struct OneRowChips<Item: Identifiable, ChipView: View, TrailingView: View>: View
         // `maxHeight: .infinity` lets every item grow to the row's tallest child
         // (a two-line drink chip pulls the plain gram chips + trailing controls up
         // to match), so the row reads as one even height. A no-op for uniform rows.
-        HStack(spacing: 6) {
+        HStack(spacing: Spacing.sm) {
             ForEach(items.prefix(visibleCount)) { item in
                 chip(item)
                     // Chips must not compress, otherwise every candidate
@@ -49,7 +49,7 @@ struct OneRowChips<Item: Identifiable, ChipView: View, TrailingView: View>: View
                 Button(action: onExpand) {
                     Text(verbatim: "+\(items.count - visibleCount)")
                         .font(.subheadline.weight(.medium))
-                        .padding(.horizontal, 12)
+                        .padding(.horizontal, Spacing.xl)
                         .frame(maxHeight: .infinity)
                         .background(Color(.secondarySystemFill))
                         .foregroundStyle(Theme.secondaryLabel)
