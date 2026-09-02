@@ -21,7 +21,7 @@ struct SessionShareSheet: View {
     var doseHR: [UUID: DoseHRResponse] = [:]
     /// The session itself, for the trip report (its notes). Nil from hosts that
     /// have only entries (Help / Settings).
-    var session: Session? = nil
+    var session: Session?
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
@@ -70,8 +70,8 @@ struct SessionShareSheet: View {
                         tripReportCard
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 16)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.bottom, Spacing.xxl)
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { contentHeight = $0 }
             }
             .navigationTitle("Share Session")
@@ -142,7 +142,7 @@ struct SessionShareSheet: View {
                             .padding(.horizontal, 9)
                             .padding(.vertical, 5)
                             .background(.regularMaterial, in: Capsule())
-                            .padding(8)
+                            .padding(Spacing.md)
                             .allowsHitTesting(false)
                     }
                 }
@@ -196,21 +196,21 @@ struct SessionShareSheet: View {
     }
 
     private func artifactCard(icon: String, title: LocalizedStringKey, subtitle: LocalizedStringKey, previewHeight: CGFloat = 150, @ViewBuilder preview: () -> some View, @ViewBuilder actions: () -> some View) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             preview()
                 .frame(maxWidth: .infinity)
                 .frame(height: previewHeight)
                 .clipShape(previewShape)
-                .overlay(previewShape.stroke(Color.primary.opacity(0.08), lineWidth: 1))
-            HStack(spacing: 8) {
+                .overlay(previewShape.stroke(Color.primary.opacity(Theme.Opacity.hairline), lineWidth: 1))
+            HStack(spacing: Spacing.md) {
                 Image(systemName: icon).font(.subheadline).foregroundStyle(Theme.accent).accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 1) {
-                    Text(title).font(.subheadline.weight(.semibold))
-                    Text(subtitle).font(.caption).foregroundStyle(Theme.secondaryLabel)
+                    Text(title).sectionLabel()
+                    Text(subtitle).captionSecondary()
                 }
                 Spacer(minLength: 0)
             }
-            HStack(spacing: 8) { actions() }
+            HStack(spacing: Spacing.md) { actions() }
         }
         .padding(14)
         .background { cardShape.fill(.thickMaterial) }
@@ -242,7 +242,7 @@ struct SessionShareSheet: View {
                         .foregroundStyle(Color(white: 0.15))
                         .lineLimit(nil)
                         .multilineTextAlignment(.leading)
-                        .padding(8)
+                        .padding(Spacing.md)
                 } else {
                     ProgressView().tint(Theme.accent).frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
@@ -260,7 +260,7 @@ struct SessionShareSheet: View {
                     Text(label)
                 }
             }
-            .font(.subheadline.weight(.semibold))
+            .sectionLabel()
             .lineLimit(1)
             .minimumScaleFactor(0.8)
             .frame(maxWidth: .infinity)

@@ -14,7 +14,7 @@ struct TargetBalanceView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 9) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             if let focus = model.focus {
                 if dynamicTypeSize.isAccessibilitySize {
                     BalanceReadout(model: model, accent: accent)
@@ -36,7 +36,7 @@ struct TargetBalanceView: View {
     /// Pole labels sit in an `HStack`, so they mirror with the layout direction for free — the arc
     /// itself is mirrored explicitly in ``BalanceArc``.
     private var poles: some View {
-        HStack(alignment: .top, spacing: 10) {
+        HStack(alignment: .top, spacing: Spacing.lg) {
             VStack(alignment: .leading, spacing: 1) {
                 Text(model.leadingPole).font(.caption2.weight(.bold)).foregroundStyle(accent)
                 Text("perception", comment: "What the 5-HT2A pole of the balance arc governs")
@@ -158,7 +158,7 @@ private struct BalanceArc: View {
         return Circle()
             .fill(Color(.systemBackground))
             .overlay(Circle().strokeBorder(accent, lineWidth: 4))
-            .frame(width: 22, height: 22)
+            .frame(width: IconSize.iconMini, height: IconSize.iconMini)
             .offset(x: position.x - 11, y: position.y - 11)
     }
 
@@ -211,7 +211,7 @@ private struct BalanceReadout: View {
                 .foregroundStyle(model.focus == nil ? accent : Theme.secondaryLabel)
             if !model.ticks.isEmpty {
                 ForEach(model.ticks) { tick in
-                    HStack(spacing: 8) {
+                    HStack(spacing: Spacing.md) {
                         Text(tick.name).font(.caption)
                         Spacer(minLength: 6)
                         Text(Self.leanText(tick.ratio))

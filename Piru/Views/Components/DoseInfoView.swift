@@ -15,7 +15,7 @@ struct DoseInfoView: View {
 
     var body: some View {
         if let doseRange {
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: Spacing.lg) {
                 let unit = substance.unit(for: route, saltForm: saltForm, isomer: isomer)
                 DoseLevelIndicator(doseRange: doseRange, currentDose: currentDose, unit: unit)
 
@@ -74,7 +74,7 @@ struct DoseInfoView: View {
     @ViewBuilder
     private func elementalNote(unit: String) -> some View {
         if let fraction = substance.elementalFraction(for: route, saltForm: saltForm, isomer: isomer) {
-            HStack(spacing: 5) {
+            HStack(spacing: Spacing.sm) {
                 Image(systemName: "atom").imageScale(.small).accessibilityHidden(true)
                 if let currentDose, let elemental = substance.elementalAmount(of: currentDose, for: route, saltForm: saltForm, isomer: isomer) {
                     Text("≈ \(elemental.doseFormatted) \(unit) elemental", comment: "Elemental content of a salt dose")
@@ -82,19 +82,17 @@ struct DoseInfoView: View {
                     elementalPercentCaption(fraction)
                 }
             }
-            .font(.caption)
-            .foregroundStyle(Theme.secondaryLabel)
+            .captionSecondary()
         }
     }
 
     private func doseLabel(_ label: LocalizedStringResource, level: DoseLevel) -> some View {
-        HStack(spacing: 4) {
+        HStack(spacing: Spacing.xs) {
             Circle()
                 .fill(level.swiftUIColor)
                 .frame(width: 6, height: 6)
             Text(label)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
     }
 }
@@ -141,7 +139,7 @@ struct RouteDosingCard: View {
         VStack(alignment: .leading, spacing: 18) {
             if showsTitle {
                 Text(route.localizedName)
-                    .font(.headline)
+                    .cardTitle()
             }
             if hasDosage, let doses {
                 dosageBlock(doses)
@@ -157,7 +155,7 @@ struct RouteDosingCard: View {
                 releaseBlock(releaseWindow)
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     // MARK: Dosage
@@ -183,12 +181,11 @@ struct RouteDosingCard: View {
                 }
             }
             if let elementalFraction {
-                HStack(spacing: 5) {
+                HStack(spacing: Spacing.sm) {
                     Image(systemName: "atom").imageScale(.small).accessibilityHidden(true)
                     elementalPercentCaption(elementalFraction)
                 }
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
             }
             if showDisclaimers {
                 disclaimer(for: doses)
@@ -271,14 +268,14 @@ struct RouteDosingCard: View {
         }
         .font(.subheadline)
         .fontWeight(emphasized ? .semibold : .regular)
-        .padding(.vertical, 6)
+        .padding(.vertical, Spacing.sm)
         .background {
             if emphasized {
                 // Radius nests within the ~22pt card: the wash bleeds outward
                 // (negative inset), so a tight 8pt corner read as unrelated to
                 // the card's rounding — 14 sits concentrically inside it.
                 RoundedRectangle(cornerRadius: 14)
-                    .fill(Theme.accent.opacity(0.08))
+                    .fill(Theme.accent.opacity(Theme.Opacity.hairline))
                     .padding(.horizontal, -10)
             }
         }

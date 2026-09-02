@@ -38,13 +38,13 @@ struct SubstanceShareSheet: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 16) {
+                VStack(spacing: Spacing.xxl) {
                     detailPicker
                     imageCard
                     actions
                 }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 16)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.bottom, Spacing.xxl)
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { contentHeight = $0 }
             }
             .navigationTitle("Share Substance")
@@ -87,7 +87,7 @@ struct SubstanceShareSheet: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .clipShape(RoundedRectangle(cornerRadius: 14))
-                        .padding(10)
+                        .padding(Spacing.lg)
                         .overlay { ZoomSourceView { imageSourceView = $0 } }
                         .overlay(alignment: .bottomTrailing) {
                             Label("Tap to view", systemImage: "arrow.up.left.and.arrow.down.right")
@@ -96,7 +96,7 @@ struct SubstanceShareSheet: View {
                                 .padding(.horizontal, 9)
                                 .padding(.vertical, 5)
                                 .background(.regularMaterial, in: Capsule())
-                                .padding(16)
+                                .padding(Spacing.xxl)
                                 .allowsHitTesting(false)
                         }
                         .onTapGesture { openViewer() }
@@ -113,10 +113,10 @@ struct SubstanceShareSheet: View {
     // MARK: actions
 
     private var actions: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: Spacing.lg) {
             Button { copy() } label: {
                 Label(justCopied ? "Copied" : "Copy", systemImage: justCopied ? "checkmark" : "doc.on.doc")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
@@ -126,7 +126,7 @@ struct SubstanceShareSheet: View {
 
             Button { share() } label: {
                 Label("Share", systemImage: "square.and.arrow.up")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)

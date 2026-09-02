@@ -31,8 +31,8 @@ struct ProvenanceBadge: View {
         .font(.caption2.weight(.semibold))
         .foregroundStyle(color)
         .padding(.horizontal, 7)
-        .padding(.vertical, 2)
-        .background(color.opacity(0.10), in: Capsule())
+        .padding(.vertical, Spacing.xxs)
+        .background(color.opacity(Theme.Opacity.tint), in: Capsule())
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Evidence source: \(String(localized: kind.accessibleName)), \(String(localized: confidence.label))")
     }
@@ -110,7 +110,7 @@ struct ProvenanceBadge: View {
 }
 
 #Preview {
-    VStack(alignment: .leading, spacing: 8) {
+    VStack(alignment: .leading, spacing: Spacing.md) {
         ProvenanceBadge(confidence: .high, species: "human", sourceSlug: "peer-review-primary")
         ProvenanceBadge(confidence: .medium, species: "rat brain synaptosomes", sourceSlug: "peer-review-primary")
         ProvenanceBadge(confidence: .high, species: "HEK293", sourceSlug: "peer-review-primary")

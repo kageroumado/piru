@@ -22,7 +22,7 @@ struct MenuPillLabel<MenuContent: View>: View {
     @ViewBuilder let menuContent: () -> MenuContent
 
     var body: some View {
-        HStack(spacing: 5) {
+        HStack(spacing: Spacing.sm) {
             Image(systemName: systemImage)
                 .imageScale(.small)
             Text(text)

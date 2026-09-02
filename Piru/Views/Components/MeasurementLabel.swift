@@ -29,13 +29,13 @@ struct MeasurementLabel: View {
     var unitStyle: Font.TextStyle = .subheadline
 
     var body: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 2) {
+        HStack(alignment: .firstTextBaseline, spacing: Spacing.xxs) {
             Text(verbatim: "\(isApproximate ? "~" : "")\(amount.doseFormatted)")
                 .font(.system(numberStyle, design: .rounded).weight(numberWeight))
                 .foregroundStyle(.primary)
             Text(displayUnit)
                 .font(.system(unitStyle))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
         }
         .lineLimit(1)
         .accessibilityElement(children: .combine)

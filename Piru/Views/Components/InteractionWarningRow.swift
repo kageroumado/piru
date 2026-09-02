@@ -7,25 +7,24 @@ struct InteractionWarningRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.md) {
                 Text("\(warning.substanceA) + \(warning.substanceB)")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(warning.severity.labelColor)
                 Spacer(minLength: 4)
                 Image(systemName: warning.severity == .dangerous
                     ? warning.mechanism.filledIconName : warning.mechanism.iconName)
-                    .font(.system(size: 10, weight: .semibold))
+                    .font(.chartLabel)
                     .foregroundStyle(warning.severity.labelColor)
                     .accessibilityHidden(true)
                 Text(String(localized: warning.severity.label).lowercased())
                     .capsuleChip(text: warning.severity.labelColor, fill: warning.severity.color)
             }
             Text(warning.description)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

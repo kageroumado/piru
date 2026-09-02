@@ -63,39 +63,37 @@ struct AcetaldehydeCard: View {
 
     var body: some View {
         Section {
-            HStack(alignment: .top, spacing: 10) {
+            HStack(alignment: .top, spacing: Spacing.lg) {
                 Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(.cautionAccent)
                     .font(.title3)
-                    .padding(.top, 2)
+                    .padding(.top, Spacing.xxs)
                     .accessibilityHidden(true)
 
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: Spacing.sm) {
                     HStack {
                         Text("Acetaldehyde")
-                            .font(.subheadline.weight(.semibold))
+                            .sectionLabel()
                         Spacer(minLength: 8)
                         if let load {
                             Text(load.label)
                                 .font(.caption.weight(.semibold))
                                 .foregroundStyle(load.tint)
-                                .padding(.horizontal, 8)
+                                .padding(.horizontal, Spacing.md)
                                 .padding(.vertical, 3)
-                                .background(load.tint.opacity(0.10), in: Capsule())
+                                .background(load.tint.opacity(Theme.Opacity.tint), in: Capsule())
                         }
                     }
 
                     Text("Your ALDH2 variant clears acetaldehyde — the first, toxic by-product of alcohol — slowly, so it builds up and lingers. That build-up *is* the flush, racing heart, and nausea, and it's a Group 1 carcinogen (IARC): for flush-reactive drinkers each drink carries more long-term throat and oesophageal cancer risk. Less alcohol means less acetaldehyde — there's no amount that clears as cleanly as it does for others.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
 
                     Text("Avoid mixing alcohol with metronidazole or certain other antibiotics — they block this same step and can make even a small drink severe.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
                 .accessibilityElement(children: .combine)
             }
-            .padding(.vertical, 2)
+            .padding(.vertical, Spacing.xxs)
         } header: {
             Text("Acetaldehyde (ALDH2)")
         } footer: {

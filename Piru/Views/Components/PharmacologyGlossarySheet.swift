@@ -27,7 +27,7 @@ struct PharmacologyGlossarySheet: View {
                     Section {
                         Text(about)
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.secondaryLabel)
                             .fixedSize(horizontal: false, vertical: true)
                     }
                 }
@@ -35,9 +35,9 @@ struct PharmacologyGlossarySheet: View {
                     Section {
                         ForEach(entries) { entry in
                             VStack(alignment: .leading, spacing: 3) {
-                                HStack(spacing: 6) {
+                                HStack(spacing: Spacing.sm) {
                                     Text(entry.term)
-                                        .font(.subheadline.weight(.semibold))
+                                        .sectionLabel()
                                     if let symbol = entry.symbol {
                                         Text(symbol)
                                             .font(.caption.monospaced())
@@ -46,11 +46,11 @@ struct PharmacologyGlossarySheet: View {
                                 }
                                 Text(entry.explanation)
                                     .font(.subheadline)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(Theme.secondaryLabel)
                                     .fixedSize(horizontal: false, vertical: true)
                             }
                             .accessibilityElement(children: .combine)
-                            .padding(.vertical, 2)
+                            .padding(.vertical, Spacing.xxs)
                         }
                     }
                 }
@@ -58,14 +58,13 @@ struct PharmacologyGlossarySheet: View {
                     Section {
                         Text(caveat)
                             .font(.footnote)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.secondaryLabel)
                             .fixedSize(horizontal: false, vertical: true)
                     }
                 }
             }
             .listRowBackground(CardBackground())
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

@@ -104,8 +104,8 @@ struct SubstanceSearchField: View {
                                 onSelect(substance, product)
                             } label: {
                                 HStack {
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        HStack(spacing: 4) {
+                                    VStack(alignment: .leading, spacing: Spacing.xxs) {
+                                        HStack(spacing: Spacing.xs) {
                                             // Show the same presentation name as
                                             // the journal / quick-log (display
                                             // override, regional name); the
@@ -123,25 +123,24 @@ struct SubstanceSearchField: View {
                                         }
                                         if let secondary = secondaryNames(for: substance) {
                                             Text(secondary)
-                                                .font(.caption)
-                                                .foregroundStyle(Theme.secondaryLabel)
+                                                .captionSecondary()
                                         }
                                     }
                                     Spacer()
                                     Text(substance.category.displayName)
                                         .font(.caption2)
-                                        .padding(.horizontal, 6)
-                                        .padding(.vertical, 2)
+                                        .padding(.horizontal, Spacing.sm)
+                                        .padding(.vertical, Spacing.xxs)
                                         .background(.fill.secondary, in: Capsule())
                                 }
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 8)
+                                .padding(.horizontal, Spacing.xl)
+                                .padding(.vertical, Spacing.md)
                                 .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
                             .accessibilityValue(favoriteNames.contains(substance.name.lowercased()) ? Text("Favorite") : Text(verbatim: ""))
 
-                            Divider().padding(.leading, 12)
+                            Divider().padding(.leading, Spacing.xl)
                         }
 
                         // Custom substance option
@@ -155,24 +154,23 @@ struct SubstanceSearchField: View {
                                     Image(systemName: "plus.circle.fill")
                                         .foregroundStyle(Theme.accent)
                                         .accessibilityHidden(true)
-                                    VStack(alignment: .leading, spacing: 2) {
+                                    VStack(alignment: .leading, spacing: Spacing.xxs) {
                                         Text("Use \"\(text)\"")
                                             .font(.body)
                                             .foregroundStyle(.primary)
                                         Text("Custom substance (no dose data)")
-                                            .font(.caption)
-                                            .foregroundStyle(Theme.secondaryLabel)
+                                            .captionSecondary()
                                     }
                                     Spacer()
                                     Text("Custom")
                                         .font(.caption2)
-                                        .padding(.horizontal, 6)
-                                        .padding(.vertical, 2)
-                                        .background(Theme.accent.opacity(0.25), in: Capsule())
+                                        .padding(.horizontal, Spacing.sm)
+                                        .padding(.vertical, Spacing.xxs)
+                                        .background(Theme.accent.opacity(Theme.Opacity.emphasis), in: Capsule())
                                         .foregroundStyle(Theme.accent)
                                 }
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 8)
+                                .padding(.horizontal, Spacing.xl)
+                                .padding(.vertical, Spacing.md)
                                 .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
@@ -181,8 +179,8 @@ struct SubstanceSearchField: View {
                 }
                 .frame(maxHeight: 280)
                 .background(CardBackground())
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
+                .clipShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.input))
+                .shadow(color: .black.opacity(Theme.Opacity.tint), radius: 4, y: 2)
             }
         }
     }
