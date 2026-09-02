@@ -36,7 +36,7 @@ struct SessionStateExport {
     }
 
     /// One note, resolved for rendering: its T+ from the session start, the
-    /// structure line, and descriptor names.
+    /// structure line, and the descriptor names the vocabulary resolves.
     struct NoteLine: Identifiable {
         let id: UUID
         let timestamp: Date
@@ -216,7 +216,7 @@ extension SessionStateExport {
                         shulgin: note.shulgin, mood: note.mood, energy: note.energy,
                         heartRate: note.heartRate.map { Int($0.rounded()) },
                     ),
-                    descriptors: note.descriptors.map(ontology.name(for:)),
+                    descriptors: note.descriptors.compactMap(ontology.name(for:)),
                 )
             }
         return SessionStateExport(

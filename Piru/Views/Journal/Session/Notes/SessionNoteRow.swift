@@ -12,7 +12,8 @@ struct SessionNoteDisplay: Equatable, Identifiable {
     let mood: Int?
     let energy: Int?
     let heartRate: Int?
-    /// Descriptor names, in the order chosen.
+    /// Descriptor names, in the order chosen; ids the vocabulary no longer
+    /// resolves are dropped.
     let descriptors: [String]
 
     @MainActor
@@ -28,7 +29,7 @@ struct SessionNoteDisplay: Equatable, Identifiable {
                 mood: note.mood,
                 energy: note.energy,
                 heartRate: note.heartRate.map { Int($0.rounded()) },
-                descriptors: note.descriptors.map(ontology.name(for:)),
+                descriptors: note.descriptors.compactMap(ontology.name(for:)),
             )
         }
     }
@@ -96,6 +97,9 @@ struct SessionNoteRow: View, Equatable {
                     }
                 }
                 Spacer(minLength: 8)
+                // Each time label stays on one line: the column keeps its natural
+                // width against the text column and never wraps "1 hr. ago" under
+                // the clock time.
                 VStack(alignment: .trailing, spacing: 2) {
                     Text(display.timestamp, style: .time)
                         .font(.caption.monospacedDigit())
@@ -106,6 +110,9 @@ struct SessionNoteRow: View, Equatable {
                             .foregroundStyle(.tertiary)
                     }
                 }
+                .lineLimit(1)
+                .fixedSize(horizontal: true, vertical: false)
+                .layoutPriority(1)
             }
             .contentShape(.rect)
         }

@@ -46,7 +46,15 @@ struct UnifiedTimelineView: View {
                             TimelineDayContent(
                                 day: day,
                                 onEntryTap: { entry in
-                                    navigator.push(.entry(timestamp: entry.timestamp, id: entry.id))
+                                    // A lone dose draws no session envelope, so its
+                                    // bubble is the only way into the session — notes,
+                                    // check-ins and splitting live there, and the entry
+                                    // stays one tap further in.
+                                    if let session = entry.session, session.doses?.count == 1 {
+                                        navigator.push(.session(id: session.id))
+                                    } else {
+                                        navigator.push(.entry(timestamp: entry.timestamp, id: entry.id))
+                                    }
                                 },
                                 onSessionTap: { sessionID in
                                     navigator.push(.session(id: sessionID))
