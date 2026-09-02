@@ -99,7 +99,7 @@ final class DockSheetGeometry {
 /// transitions.
 struct QuickLogDock: View {
     var tray: DoseTrayModel
-    var content: QuickLogContentModel
+    @Bindable var content: QuickLogContentModel
     /// Height of the quick-log cover — caps the compact detent so a tall
     /// stack never pushes it past medium.
     var containerHeight: CGFloat
@@ -165,15 +165,6 @@ struct QuickLogDock: View {
     /// ``compactHeightValue`` never reads `tray.staged` from this body (a
     /// whole-array dependency would re-run it on every amount keystroke).
     @State private var stagedCardEstimate: CGFloat = 0
-
-    // MARK: Browse suggestions
-
-    /// The effect-family pills shown in the suggestions state (resolved once —
-    /// the taxonomy is static over a session).
-    @State private var families: [LibraryFamily] = []
-    @State private var selectedFamilyID: String?
-    /// Top-by-popularity substances of the selected family.
-    @State private var browseResults: [Substance] = []
 
     var body: some View {
         // The probe hangs off `dockContent` as a **background**, not as a sibling
@@ -265,9 +256,9 @@ struct QuickLogDock: View {
                 searchFocused: $searchFocused,
                 onCancel: cancelSearch,
             )
-            .padding(.horizontal, 16)
-            .padding(.top, 16)
-            .padding(.bottom, 6)
+            .padding(.horizontal, Spacing.xxl)
+            .padding(.top, Spacing.xxl)
+            .padding(.bottom, Spacing.sm)
 
             ScrollView {
                 DockMiddleContent(
@@ -276,9 +267,9 @@ struct QuickLogDock: View {
                     searchText: searchText,
                     tray: tray,
                     content: content,
-                    families: families,
-                    selectedFamilyID: $selectedFamilyID,
-                    browseResults: $browseResults,
+                    families: content.browseFamilies,
+                    selectedFamilyID: $content.selectedFamilyID,
+                    browseResults: $content.browseResults,
                     unrevealedItemIDs: unrevealedItemIDs,
                     awaitingBareCollapse: awaitingBareCollapse,
                     onCreateCustom: {
@@ -290,9 +281,9 @@ struct QuickLogDock: View {
                     },
                     onDidStage: finishStagingFromSearch,
                 )
-                .padding(.horizontal, 16)
-                .padding(.top, 8)
-                .padding(.bottom, 12)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.top, Spacing.md)
+                .padding(.bottom, Spacing.xl)
             }
             // Maps behavior: dragging up inside the dock resizes it first;
             // content scrolls only at the tallest detent.
@@ -409,8 +400,7 @@ struct QuickLogDock: View {
     private func handleSearchActiveChanged() {
         guard !searchActive else { return }
         searchFocused = false
-        selectedFamilyID = nil
-        browseResults = []
+        content.clearBrowseSelection()
         if tray.isEmpty { awaitingBareCollapse = true }
         withAnimation(.snappy) { settleDetent() }
     }
@@ -438,12 +428,7 @@ struct QuickLogDock: View {
     }
 
     private func handleAppear() {
-        Task {
-            // `browsable` reads `SubstanceStore.all`; the dock can appear
-            // before the store's prewarm finishes on a cold launch.
-            await SubstanceStore.shared.ensureAllLoaded()
-            families = LibraryFamily.browsable
-        }
+        Task { await content.loadBrowseFamilies() }
         guard !tray.isEmpty else { return }
         refreshDetents()
         if tray.expandedItemIDs.isEmpty, let compactDetent = bookkeeping.compactDetent {
