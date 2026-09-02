@@ -320,6 +320,10 @@ struct TimelineDayLayout: Identifiable {
         /// Newest first — matching the axis direction.
         let items: [CardItem]
         let representativeTime: Date
+        /// Where ``representativeTime`` falls on the axis — the time capsule
+        /// sits here, beside the dose dot, however far the card stack below is
+        /// pushed down by the groups above it.
+        var timeY: CGFloat = 0
         let sessionID: UUID?
         /// Each bubble's height, per the bubble style.
         let cardHeight: CGFloat

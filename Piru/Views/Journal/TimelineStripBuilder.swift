@@ -315,7 +315,8 @@ struct TimelineStripBuilder {
         // capsule never slides under the tag.
         let reservedTop = TimelineStripDayContent.reservedTop(breakAbove: breakAbove)
         for k in groups.indices {
-            var top = localY(groups[k].representativeTime) - groups[k].height / 2
+            groups[k].timeY = localY(groups[k].representativeTime)
+            var top = groups[k].timeY - groups[k].height / 2
             if k == 0 {
                 top = max(top, padAbove[0] + reservedTop + TimelineGutterLabels.gap)
             } else {
@@ -361,7 +362,7 @@ struct TimelineStripBuilder {
             nil
         }
 
-        let visibleLabels = TimelineGutterLabels.doseLabelsVisible(doseYs: groups.map(\.centerY), nowY: nowY)
+        let visibleLabels = TimelineGutterLabels.doseLabelsVisible(doseYs: groups.map(\.timeY), nowY: nowY)
         for k in groups.indices {
             groups[k].showsTimeLabel = visibleLabels[k]
         }
@@ -414,8 +415,8 @@ struct TimelineStripBuilder {
         let calendar = Calendar.current
         guard var t = calendar.dateInterval(of: .hour, for: slice.bottomTime)?.end else { return [] }
 
-        let labels = groups.map { (time: $0.representativeTime, y: $0.centerY) }
-        let visibleDoseYs = groups.filter(\.showsTimeLabel).map(\.centerY)
+        let labels = groups.map { (time: $0.representativeTime, y: $0.timeY) }
+        let visibleDoseYs = groups.filter(\.showsTimeLabel).map(\.timeY)
         let labelHalf = TimelineGutterLabels.hourLabelHeight / 2
         let labelSpacing = TimelineGutterLabels.hourLabelHeight + TimelineGutterLabels.gap
         var ticks: [TimelineDayLayout.HourTick] = []

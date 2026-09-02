@@ -74,7 +74,7 @@ struct TimelineStripDayContent: View {
             }
             ForEach(day.cardGroups.filter(\.showsTimeLabel)) { group in
                 TimelineTimeCapsule(date: group.representativeTime)
-                    .offset(x: TimelineGutter.edgeInset, y: group.centerY - TimelineGutterMarkMetrics.singleLineHeight / 2)
+                    .offset(x: TimelineGutter.edgeInset, y: group.timeY - TimelineGutterMarkMetrics.singleLineHeight / 2)
             }
             if let y = day.nowY {
                 TimelineNowMark()
@@ -108,7 +108,9 @@ struct TimelineStripDayContent: View {
                     .offset(y: envelope.yStart)
             }
 
-            GlassEffectContainer {
+            // Zero spacing: stacked bubbles sit 8 pt apart, and a partial glass
+            // merge between neighbors reads as a smear, so they never blend.
+            GlassEffectContainer(spacing: 0) {
                 ZStack(alignment: .topLeading) {
                     ForEach(day.cardGroups) { group in
                         VStack(spacing: TimelineDayLayout.cardSpacing) {
@@ -136,7 +138,7 @@ struct TimelineStripDayContent: View {
     /// tall exceeds what Core Animation rasterizes — it silently draws
     /// nothing. Each tile draws the whole slice translated to its origin, so
     /// the tiles join seamlessly.
-    private static let tileHeight: CGFloat = 1024
+    private static let tileHeight: CGFloat = 1_024
 
     private func strip(bubbleLeft: CGFloat) -> some View {
         let tileYs = Array(stride(from: CGFloat(0), to: max(day.totalHeight, 1), by: Self.tileHeight))
