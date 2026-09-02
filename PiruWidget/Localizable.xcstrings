@@ -23,46 +23,6 @@
         }
       }
     },
-    "%@ %@ · %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ %2$@ · %3$@"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ %@ · %@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ %@ · %@"
-          }
-        }
-      }
-    },
-    "%@ %@ of %@ left." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%3$@还剩 %1$@ %2$@。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%3$@還剩 %1$@ %2$@。"
-          }
-        }
-      }
-    },
     "%@ at %lld percent" : {
       "localizations" : {
         "en" : {
@@ -103,23 +63,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 處於%@，%lld%%"
-          }
-        }
-      }
-    },
-    "%@ left" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "还剩 %@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "還剩 %@"
           }
         }
       }
@@ -178,23 +121,6 @@
         }
       }
     },
-    "%lld left" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "剩 %lld 项"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "剩 %lld 項"
-          }
-        }
-      }
-    },
     "%lldh" : {
       "localizations" : {
         "zh-Hans" : {
@@ -233,40 +159,6 @@
         }
       }
     },
-    "%lldh %lldm ago" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld 小时 %2$lld 分钟前"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld 小時 %2$lld 分鐘前"
-          }
-        }
-      }
-    },
-    "%lldh ago" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 小时前"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 小時前"
-          }
-        }
-      }
-    },
     "%lldm" : {
       "localizations" : {
         "zh-Hans" : {
@@ -279,23 +171,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 分鐘"
-          }
-        }
-      }
-    },
-    "%lldm ago" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 分钟前"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 分鐘前"
           }
         }
       }
@@ -908,23 +783,6 @@
         }
       }
     },
-    "No doses today" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今日无剂量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今日無劑量"
-          }
-        }
-      }
-    },
     "No doses yet" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1161,23 +1019,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "查看今天的用藥安排，並直接從主畫面完成服用。"
-          }
-        }
-      }
-    },
-    "See what you've taken today at a glance." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一眼查看今天服用了什么。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一眼查看今天服用了什麼。"
           }
         }
       }
@@ -1435,23 +1276,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今日"
-          }
-        }
-      }
-    },
-    "Today's Doses" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今日剂量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今日劑量"
           }
         }
       }
