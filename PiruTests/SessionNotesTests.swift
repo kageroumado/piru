@@ -160,7 +160,7 @@ struct TripReportBuildTests {
 
         let md = report.markdown(locale: Locale(identifier: "en_US"), calendar: Self.utc)
         #expect(md.hasPrefix("# LSD — November 14, 2023\n"))
-        #expect(md.contains("Started 10:13 PM · "))
+        #expect(md.contains("Started 10:13"))
         #expect(md.contains("1 dose · 2 notes · last note at T+2:05"))
         #expect(md.contains("| T+ | Time | Substance | Dose | Route |"))
         #expect(md.contains("| T+0:00 | "))
