@@ -188,7 +188,7 @@ struct InventoryItemDetailView: View {
                 tint: tint(for: event.kind),
                 title: title(for: event.kind),
                 amount: amountLabel(event),
-                amountColor: event.amount >= 0 ? Color.Semantic.Success.text : Theme.secondaryLabel,
+                amountColor: event.amount >= 0 ? Color.successText : Theme.secondaryLabel,
                 date: event.date,
                 note: event.note,
             )

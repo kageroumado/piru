@@ -155,9 +155,9 @@ struct UsageOverviewSection: View {
     /// This is a description of the record, not a verdict on it.
     private func intensityColor(_ intensity: Double) -> Color {
         switch intensity {
-        case ..<0.25: .green
-        case ..<0.5: .yellow
-        default: .orange
+        case ..<0.25: .Dose.Light.accent
+        case ..<0.5: .Dose.Common.accent
+        default: .Dose.Heavy.accent
         }
     }
 }

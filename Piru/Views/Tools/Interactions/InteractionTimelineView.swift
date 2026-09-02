@@ -429,7 +429,7 @@ struct InteractionTimelineView: View {
             HStack(spacing: Spacing.md) {
                 Image(systemName: window != nil ? "clock.arrow.2.circlepath" : "checkmark.circle.fill")
                     .font(.caption)
-                    .foregroundStyle(window != nil ? severity.labelColor : Color.Semantic.Success.text)
+                    .foregroundStyle(window != nil ? severity.labelColor : Color.successText)
                     .accessibilityHidden(true)
                 if let window {
                     Text("Both active \(formatHours(window.start))–\(formatHours(window.end)) (\(formatHours(window.end - window.start)) overlap)")

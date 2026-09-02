@@ -434,7 +434,7 @@ private struct NotificationPermissionSection: View {
                     Text("Notifications Enabled")
                 } icon: {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(Color.Semantic.Success.text)
+                        .foregroundStyle(Color.successText)
                         .accessibilityHidden(true)
                 }
             case .denied:

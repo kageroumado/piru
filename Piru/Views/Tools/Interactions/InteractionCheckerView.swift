@@ -163,7 +163,7 @@ struct InteractionCheckerView: View {
             if results.isEmpty {
                 HStack(spacing: Spacing.lg) {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(Color.Semantic.Success.accent)
+                        .foregroundStyle(Color.successAccent)
                         .font(.title3)
                         .accessibilityHidden(true)
                     Text("No known interactions found.")

@@ -266,8 +266,8 @@ private struct EscalationRow: View {
 
     private var glyph: (name: String, color: Color) {
         switch stat.direction {
-        case .rising: ("arrow.up.right", .orange)
-        case .falling: ("arrow.down.right", .green)
+        case .rising: ("arrow.up.right", .Dose.Heavy.accent)
+        case .falling: ("arrow.down.right", .Dose.Light.accent)
         case .steady: ("arrow.right", Theme.secondaryLabel)
         }
     }

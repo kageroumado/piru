@@ -69,4 +69,13 @@ public extension ShapeStyle where Self == Color {
     static var infoAccent: Color {
         .Semantic.Info.accent
     }
+
+    /// A completed, confirmed, or on-track state. Small copy.
+    static var successText: Color {
+        .Semantic.Success.text
+    }
+    /// A completed, confirmed, or on-track state. Standalone marks.
+    static var successAccent: Color {
+        .Semantic.Success.accent
+    }
 }

@@ -109,7 +109,7 @@ struct RampDownView: View {
             if isActive {
                 HStack {
                     Image(systemName: "bell.fill")
-                        .foregroundStyle(Color.Semantic.Success.accent)
+                        .foregroundStyle(Color.successAccent)
                         .accessibilityHidden(true)
                     Text("Alert scheduled")
                         .cardTitle()

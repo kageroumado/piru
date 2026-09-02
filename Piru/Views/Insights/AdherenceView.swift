@@ -160,7 +160,7 @@ private struct TodayAdherenceRow: View {
         HStack(spacing: Spacing.xl) {
             Image(systemName: done ? "checkmark.circle.fill" : "circle")
                 .font(.title3)
-                .foregroundStyle(done ? Color.Semantic.Success.accent : Color(.tertiaryLabel))
+                .foregroundStyle(done ? Color.successAccent : Color(.tertiaryLabel))
             VStack(alignment: .leading, spacing: 1) {
                 Text(title)
                     .font(.body)
@@ -208,7 +208,7 @@ private struct AdherenceStreakCard: View {
             VStack(alignment: .trailing, spacing: Spacing.xxs) {
                 Text("\(Int(adherenceRate * 100))%")
                     .font(.system(.title2, design: .rounded, weight: .semibold))
-                    .foregroundStyle(adherenceRate >= 0.8 ? Color.Semantic.Success.text : adherenceRate >= 0.5 ? Color.Semantic.Caution.text : Color.Semantic.Danger.text)
+                    .foregroundStyle(adherenceRate >= 0.8 ? Color.successText : adherenceRate >= 0.5 ? Color.Semantic.Caution.text : Color.Semantic.Danger.text)
                 Text("this month")
                     .captionSecondary()
             }
@@ -402,7 +402,7 @@ struct AdherenceCalendarCell: View {
         case .complete:
             Image(systemName: "checkmark")
                 .font(.system(size: 8, weight: .bold))
-                .foregroundStyle(Color.Semantic.Success.text)
+                .foregroundStyle(Color.successText)
                 .accessibilityHidden(true)
         case .partial:
             Image(systemName: "circle.lefthalf.filled")
@@ -422,7 +422,7 @@ struct AdherenceCalendarCell: View {
 
     private var backgroundColor: Color {
         switch status {
-        case .complete: Color.Semantic.Success.accent.opacity(Theme.Opacity.tint)
+        case .complete: Color.successAccent.opacity(Theme.Opacity.tint)
         case .partial: Color.Semantic.Caution.accent.opacity(Theme.Opacity.tint)
         case .missed: Color.Semantic.Danger.accent.opacity(Theme.Opacity.tint)
         case .noData: Color(.secondarySystemBackground).opacity(Theme.Opacity.dimmed)
@@ -453,7 +453,7 @@ struct AdherenceDayDetailSheet: View {
                     ForEach(day.items) { itemAdherence in
                         HStack(spacing: Spacing.xl) {
                             Image(systemName: itemAdherence.taken ? "checkmark.circle.fill" : "xmark.circle.fill")
-                                .foregroundStyle(itemAdherence.taken ? Color.Semantic.Success.accent : Color.Semantic.Danger.accent)
+                                .foregroundStyle(itemAdherence.taken ? Color.successAccent : Color.Semantic.Danger.accent)
                                 .font(.title3)
                                 .accessibilityHidden(true)
 
@@ -505,7 +505,7 @@ struct AdherenceDayDetailSheet: View {
 
     private var statusColor: Color {
         switch day.status {
-        case .complete: Color.Semantic.Success.accent
+        case .complete: Color.successAccent
         case .partial: Color.Semantic.Caution.accent
         case .missed: Color.Semantic.Danger.accent
         case .noData: .secondary

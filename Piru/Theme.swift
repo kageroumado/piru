@@ -8,42 +8,22 @@ enum Theme {
     /// this is a compile error.
     static let accent = Color.accent
 
-    // `legibleYellow` lived here. It was a hue pretending to be a role, and the
-    // whole design system exists because of what that cost: the same "darken it
-    // for light mode" fix was independently rediscovered four times, in four
-    // files, none of which could share the others' work.
-    //
-    // Its four consumers each turned out to be a different *kind* of thing —
-    // one L1 status (interaction caution) and three L2 encoding scales (dose
-    // tier, and two evidence grades). Naming by appearance is what let them all
-    // collapse onto one value; naming by role is what pulled them apart.
-    // See `design-system/color/color-system.md`.
-
-    /// De-emphasized body text. ~566 call sites, so this accessor stays even
-    /// though the value now comes from the asset catalog.
+    /// De-emphasized body text: `#6E6E73` light (4.65:1 on the card) and the
+    /// system's `#BCBCC4` dark (9.97:1), gated by `ColorContrastTests`. Kept as
+    /// an accessor over the catalog symbol for its ~600 call sites.
     ///
-    /// The old hand-rolled pair (`#7A7A80` / `#A6A6AD`) was half right. Its
-    /// light value genuinely beat the system colour — 3.89:1 against system's
-    /// 2.17:1 — but **still failed WCAG AA**, which the original audit missed by
-    /// computing against pure white instead of the measured `#f5f5f5` card. Its
-    /// dark value was simply worse than the system's (7.79 vs 9.97).
-    ///
-    /// Now `#6E6E73` light (4.65:1) and the system's own `#BCBCC4` dark
-    /// (9.97:1). Gated by `ColorContrastTests`.
+    /// Never swap this for the system `.secondary`: it measures 2.17:1 on the
+    /// light card and fails WCAG AA.
     static let secondaryLabel = Color.Text.secondary
 
     // MARK: - Surfaces
 
-    // These were `UIColor { traits }` closures. A closure branches on
-    // `userInterfaceStyle` alone, so it cannot express high contrast at all —
-    // as colorsets they gain the Any+HC / Dark+HC slots the app has never had.
-    //
-    // Light values are the system colours the closures already resolved to
-    // (`systemBackground`, `systemGray6`, `systemGroupedBackground`), which are
-    // fixed published values, so pinning them loses nothing. The dark values
-    // are the app's deliberate OLED choice — which is *why* the closures
-    // existed, since the system's own dark surfaces sit around `#1C1C1E` and
-    // never reach true black.
+    // Colorsets, never `UIColor { traits }` closures: a closure branches on
+    // `userInterfaceStyle` alone and cannot express the Any+HC / Dark+HC
+    // variants. Light values are the published system colours
+    // (`systemBackground`, `systemGray6`, `systemGroupedBackground`); dark
+    // values are the app's OLED choice, which the system's own dark surfaces
+    // (around `#1C1C1E`) never reach.
 
     /// Page backdrop. True black in dark mode for OLED.
     static let background = Color.Surface.background
@@ -87,8 +67,9 @@ struct ThemedBackground<S: Shape>: ViewModifier {
 /// The app's standard card fill as a standalone view — the same scheme-adaptive
 /// treatment ``themeCard`` applies (`.ultraThinMaterial` in light, a soft solid
 /// in dark), for `listRowBackground` and other spots that need the fill directly.
-/// Replaces the bare `Theme.cardBackground` (a cold `systemGray6` in light) so
-/// grouped Lists match the rest of the app.
+/// Use this rather than the bare `Theme.cardBackground` for list rows: the bare
+/// fill is a cold `systemGray6` in light mode and grouped Lists stop matching
+/// the rest of the app.
 struct CardBackground: View {
     @Environment(\.colorScheme) private var colorScheme
 

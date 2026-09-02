@@ -271,7 +271,7 @@ struct DockDueBadge: View {
                 .foregroundStyle(.white)
                 .padding(.horizontal, 5)
                 .frame(minWidth: 16, minHeight: 16)
-                .background(.red, in: Capsule())
+                .background(Theme.accent, in: Capsule())
                 .accessibilityLabel(Text("\(count) meds due"))
         }
     }

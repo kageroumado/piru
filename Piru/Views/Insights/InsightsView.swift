@@ -319,7 +319,7 @@ struct InsightsView: View {
     private func adherenceDotColor(_ day: DayAdherence) -> Color {
         if day.date > .now { return Color(.tertiarySystemFill) }
         switch day.status {
-        case .complete: return Color.Semantic.Success.accent.opacity(0.85)
+        case .complete: return Color.successAccent.opacity(0.85)
         case .partial: return .cautionAccent.opacity(0.85)
         case .missed: return .dangerAccent.opacity(Theme.Opacity.strong)
         case .noData: return Color(.secondarySystemFill)
@@ -390,7 +390,7 @@ private struct InsightsToleranceCard: View {
                 HStack(alignment: .center, spacing: 14) {
                     Image(systemName: "checkmark.seal.fill")
                         .font(.title)
-                        .foregroundStyle(Color.Semantic.Success.accent)
+                        .foregroundStyle(Color.successAccent)
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: Spacing.xxs) {
                         Text("Receptors rested")

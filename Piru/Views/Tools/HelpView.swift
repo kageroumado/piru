@@ -222,14 +222,14 @@ struct HelpView: View {
                 .init(title: "Suicide & Crisis Lifeline", detail: "988", systemImage: "phone.fill", url: "tel:988", tint: .infoAccent),
                 .init(title: "Poison Control", detail: "1-800-222-1222", systemImage: "phone.fill", url: "tel:18002221222", tint: .cautionAccent),
                 .init(title: "SAMHSA Helpline", detail: "1-800-662-4357", systemImage: "phone.fill", url: "tel:18006624357", tint: .purple),
-                .init(title: "Crisis Text Line", detail: "Text HOME to 741741", systemImage: "message.fill", url: "sms:741741&body=HOME", tint: Color.Semantic.Success.accent),
+                .init(title: "Crisis Text Line", detail: "Text HOME to 741741", systemImage: "message.fill", url: "sms:741741&body=HOME", tint: Color.successAccent),
             ]
         case "CA":
             [
                 .init(title: "Emergency Services", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .dangerAccent),
                 .init(title: "Suicide Crisis Helpline", detail: "988", systemImage: "phone.fill", url: "tel:988", tint: .infoAccent),
                 .init(title: "Poison Centre", detail: "1-844-767-8187", systemImage: "phone.fill", url: "tel:18447678187", tint: .cautionAccent),
-                .init(title: "Crisis Text Line", detail: "Text HOME to 686868", systemImage: "message.fill", url: "sms:686868&body=HOME", tint: Color.Semantic.Success.accent),
+                .init(title: "Crisis Text Line", detail: "Text HOME to 686868", systemImage: "message.fill", url: "sms:686868&body=HOME", tint: Color.successAccent),
             ]
         case "CO":
             [

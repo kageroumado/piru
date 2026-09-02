@@ -69,7 +69,7 @@ struct SubstanceDBUpdateRow: View {
     private func upToDateRow(local: SubstanceDBManifest) -> some View {
         HStack {
             Label("Up to date", systemImage: "checkmark.seal.fill")
-                .foregroundStyle(Color.Semantic.Success.text)
+                .foregroundStyle(Color.successText)
                 .font(.subheadline)
             Spacer()
             Text(local.contentVersion)
@@ -118,7 +118,7 @@ struct SubstanceDBUpdateRow: View {
         VStack(alignment: .leading, spacing: Spacing.xs) {
             HStack {
                 Label("Update Applied", systemImage: "checkmark.circle.fill")
-                    .foregroundStyle(Color.Semantic.Success.text)
+                    .foregroundStyle(Color.successText)
                     .sectionLabel()
                 Spacer()
                 Text(applied.contentVersion)

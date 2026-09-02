@@ -24,7 +24,7 @@ struct OnboardingImportStep: View {
                 if imported {
                     Label("Import complete. Your data is ready.", systemImage: "checkmark.circle.fill")
                         .font(.subheadline.weight(.medium))
-                        .foregroundStyle(Color.Semantic.Success.text)
+                        .foregroundStyle(Color.successText)
                         .onboardingGroupedCard()
                 } else {
                     VStack(spacing: 18) {

@@ -741,7 +741,7 @@ private struct PassphraseSheet: View {
         } else if passphrase != confirmation {
             Text("Passphrases don't match yet.").foregroundStyle(Theme.secondaryLabel)
         } else {
-            Label("Passphrases match.", systemImage: "checkmark.circle.fill").foregroundStyle(Color.Semantic.Success.text)
+            Label("Passphrases match.", systemImage: "checkmark.circle.fill").foregroundStyle(Color.successText)
         }
     }
 }

@@ -422,7 +422,7 @@ private struct MyMedsHeader: View {
         if isComplete {
             Text(completionText)
                 .font(.caption)
-                .foregroundStyle(Color.Semantic.Success.text)
+                .foregroundStyle(Color.successText)
                 .lineLimit(1)
         } else if dueCount == 1, let firstDueName {
             Text("\(firstDueName) is due")
@@ -450,7 +450,7 @@ private struct MyMedsHeader: View {
             // logging (or unlogging) animates the fill rather than snapping.
             Circle()
                 .trim(from: 0, to: fraction)
-                .stroke(Color.Semantic.Success.accent, style: StrokeStyle(lineWidth: 4, lineCap: .round))
+                .stroke(Color.successAccent, style: StrokeStyle(lineWidth: 4, lineCap: .round))
                 .rotationEffect(.degrees(-90))
                 .animation(.snappy, value: fraction)
             // At completion the count gives way to a checkmark that bounces —
@@ -459,7 +459,7 @@ private struct MyMedsHeader: View {
             if isComplete {
                 Image(systemName: "checkmark")
                     .font(.system(size: 13, weight: .bold))
-                    .foregroundStyle(Color.Semantic.Success.text)
+                    .foregroundStyle(Color.successText)
                     .symbolEffect(.bounce, value: isComplete)
                     .transition(.scale.combined(with: .opacity))
             } else {
@@ -510,8 +510,8 @@ private struct SupplementsRowView: View {
                 Button(action: onTakeAll) {
                     Text("Take All")
                         .capsuleChip(
-                            text: Color.Semantic.Success.text,
-                            fill: Color.Semantic.Success.accent,
+                            text: Color.successText,
+                            fill: Color.successAccent,
                             size: .hero,
                         )
                 }
@@ -541,7 +541,7 @@ private struct SupplementsRowView: View {
                     .stroke(Color(.tertiarySystemFill), lineWidth: 2.5)
                 Circle()
                     .trim(from: 0, to: total == 0 ? 0 : CGFloat(takenCount) / CGFloat(total))
-                    .stroke(Color.Semantic.Success.accent, style: StrokeStyle(lineWidth: 2.5, lineCap: .round))
+                    .stroke(Color.successAccent, style: StrokeStyle(lineWidth: 2.5, lineCap: .round))
                     .rotationEffect(.degrees(-90))
             }
         }
@@ -559,7 +559,7 @@ private struct CheckCircle: View {
     var body: some View {
         ZStack {
             Circle()
-                .fill(state == .taken ? Color.Semantic.Success.accent : Color.clear)
+                .fill(state == .taken ? Color.successAccent : Color.clear)
             Circle()
                 .stroke(strokeColor, lineWidth: 2)
             switch state {
@@ -581,7 +581,7 @@ private struct CheckCircle: View {
 
     private var strokeColor: Color {
         switch state {
-        case .taken: Color.Semantic.Success.accent
+        case .taken: Color.successAccent
         case .skipped: Color(.tertiarySystemFill)
         case .pending: due ? Theme.accent : Color(.tertiarySystemFill)
         }

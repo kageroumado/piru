@@ -460,13 +460,13 @@ struct QuickLogCardList: View {
             .background(
                 allStaged
                     ? Theme.accent
-                    : done ? Color.Semantic.Success.accent.opacity(Theme.Opacity.tint) : Theme.accent.opacity(Theme.Opacity.tint),
+                    : done ? Color.successAccent.opacity(Theme.Opacity.tint) : Theme.accent.opacity(Theme.Opacity.tint),
                 in: Capsule(),
             )
             .foregroundStyle(
                 allStaged
                     ? Color.white
-                    : done ? Color.Semantic.Success.text : Theme.accent,
+                    : done ? Color.successText : Theme.accent,
             )
         }
         .buttonStyle(.plain)

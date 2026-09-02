@@ -80,15 +80,15 @@ private struct UsageRegularityRow: View {
         .accessibilityValue(Text("\(String(localized: tier.displayName)), about every \(interval) days across \(row.entryCount) entries"))
     }
 
-    /// Green through red as the gaps get less even. This encodes *evenness*,
-    /// not virtue — a sporadic supplement and a sporadic recreational dose read
-    /// the same here.
+    /// The dose ladder's ramp, light through heavy, as the gaps get less even.
+    /// This encodes *evenness*, not virtue — a sporadic supplement and a
+    /// sporadic recreational dose read the same here.
     private func color(for tier: UsageRegularityTier) -> Color {
         switch tier {
-        case .veryRegular: .green
-        case .somewhatRegular: .yellow
-        case .irregular: .orange
-        case .sporadic: .red
+        case .veryRegular: .Dose.Light.accent
+        case .somewhatRegular: .Dose.Common.accent
+        case .irregular: .Dose.Strong.accent
+        case .sporadic: .Dose.Heavy.accent
         }
     }
 }

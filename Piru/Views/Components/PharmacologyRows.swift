@@ -111,8 +111,8 @@ struct GroupedReceptorLiterature: View {
             let isHuman = species.lowercased() == "human"
             Text(species.prefix(1).uppercased() + species.dropFirst())
                 .capsuleChip(
-                    text: isHuman ? Color.Semantic.Success.text : Theme.secondaryLabel,
-                    fill: isHuman ? Color.Semantic.Success.accent : Theme.secondaryLabel,
+                    text: isHuman ? Color.successText : Theme.secondaryLabel,
+                    fill: isHuman ? Color.successAccent : Theme.secondaryLabel,
                 )
         } else {
             Color.clear.frame(width: 0, height: 0)
