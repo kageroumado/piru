@@ -201,7 +201,7 @@ struct EffectEstimatesView: View {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("A busy session")
                         .sectionLabel()
-                    Text("The model is calibrated on a single substance taken once, in lab conditions. The interactions here stay mechanistic, but each extra dose and substance adds parameters and widens the margin of error.")
+                    Text("Calibrated on one substance taken once; each extra dose and substance widens the margin of error.")
                         .captionSecondary()
                         .fixedSize(horizontal: false, vertical: true)
                 }
