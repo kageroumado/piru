@@ -18,8 +18,8 @@ struct DockSearchBar: View {
     let onCancel: () -> Void
 
     var body: some View {
-        HStack(spacing: 8) {
-            HStack(spacing: 8) {
+        HStack(spacing: Spacing.md) {
+            HStack(spacing: Spacing.md) {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(Theme.secondaryLabel)
                     .accessibilityHidden(true)
@@ -53,7 +53,7 @@ struct DockSearchBar: View {
                     onCancel()
                 } label: {
                     Image(systemName: "xmark")
-                        .font(.title3.weight(.semibold))
+                        .screenTitle()
                         .foregroundStyle(Theme.secondaryLabel)
                         .frame(width: QuickLogDockMetrics.fieldHeight, height: QuickLogDockMetrics.fieldHeight)
                         .background(Color(.secondarySystemFill), in: Circle())

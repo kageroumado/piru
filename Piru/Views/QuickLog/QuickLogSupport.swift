@@ -237,7 +237,7 @@ struct QuickLogCardList: View {
         // its own slice, so a card whose staged state is unchanged is skipped by
         // its `.equatable()` rather than re-diffing every chip + context menu.
         let staged = tray.stagedCountsBySubstance()
-        return LazyVStack(alignment: .leading, spacing: 12) {
+        return LazyVStack(alignment: .leading, spacing: Spacing.xl) {
             if !content.hasLoaded {
                 // Loading: render nothing (the dock stays put) rather than
                 // the empty-state placeholder — the caches fill within a
@@ -255,9 +255,9 @@ struct QuickLogCardList: View {
     /// separates sections; header → content is the stack's own 12pt.
     private func sectionHeader(_ title: LocalizedStringKey) -> some View {
         Text(title)
-            .font(.subheadline.weight(.semibold))
+            .sectionLabel()
             .foregroundStyle(Theme.secondaryLabel)
-            .padding(.top, 8)
+            .padding(.top, Spacing.md)
             .accessibilityAddTraits(.isHeader)
     }
 
@@ -341,7 +341,7 @@ struct QuickLogCardList: View {
             }
         }
         .padding(.horizontal, 14)
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
         .themeCard()
     }
 
@@ -370,16 +370,16 @@ struct QuickLogCardList: View {
         Button {
             withAnimation(.snappy) { routinesCollapsed.toggle() }
         } label: {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 Text("My Meds")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
                     .rotationEffect(.degrees(routinesCollapsed ? 0 : 90))
                 Spacer()
             }
             .foregroundStyle(Theme.secondaryLabel)
-            .padding(.top, 8)
+            .padding(.top, Spacing.md)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -387,7 +387,7 @@ struct QuickLogCardList: View {
         .accessibilityValue(routinesCollapsed ? Text("Collapsed") : Text("Expanded"))
 
         if !routinesCollapsed {
-            FlowLayout(spacing: 8) {
+            FlowLayout(spacing: Spacing.md) {
                 ForEach(content.cachedDailyGroups) { group in
                     routinePill(group, staged: staged)
                 }
@@ -402,13 +402,13 @@ struct QuickLogCardList: View {
         Button {
             navigator.present(.dailyDoseSettings)
         } label: {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 Image(systemName: "plus")
                     .imageScale(.small)
                     .accessibilityHidden(true)
                 Text("Add a Med")
             }
-            .font(.subheadline.weight(.semibold))
+            .sectionLabel()
             .padding(.horizontal, 14)
             .padding(.vertical, 9)
             .background(Color(.secondarySystemFill), in: Capsule())
@@ -434,7 +434,7 @@ struct QuickLogCardList: View {
                 }
             }
         } label: {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 Image(systemName: done ? "checkmark" : group.icon)
                     .imageScale(.small)
                     .accessibilityHidden(true)
@@ -454,19 +454,19 @@ struct QuickLogCardList: View {
                     .opacity(0.75)
                 }
             }
-            .font(.subheadline.weight(.semibold))
+            .sectionLabel()
             .padding(.horizontal, 14)
             .padding(.vertical, 9)
             .background(
                 allStaged
                     ? Theme.accent
-                    : done ? Color.green.opacity(0.12) : Theme.accent.opacity(0.12),
+                    : done ? Color.Semantic.Success.accent.opacity(Theme.Opacity.tint) : Theme.accent.opacity(Theme.Opacity.tint),
                 in: Capsule(),
             )
             .foregroundStyle(
                 allStaged
                     ? Color.white
-                    : done ? Color.green : Theme.accent,
+                    : done ? Color.Semantic.Success.text : Theme.accent,
             )
         }
         .buttonStyle(.plain)
@@ -510,7 +510,7 @@ struct QuickLogCardList: View {
 
         var body: some View {
             Button(action: onTap) {
-                HStack(spacing: 12) {
+                HStack(spacing: Spacing.xl) {
                     Text(timeText.map(\.self) ?? String(localized: "Anytime"))
                         .font(.subheadline.weight(.medium).monospacedDigit())
                         .foregroundStyle(Theme.secondaryLabel)
@@ -529,7 +529,7 @@ struct QuickLogCardList: View {
                         .foregroundStyle(staged ? Theme.accent : Color(.tertiaryLabel))
                         .contentTransition(.symbolEffect(.replace))
                 }
-                .padding(.vertical, 10)
+                .padding(.vertical, Spacing.lg)
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
@@ -586,21 +586,19 @@ struct QuickLogCardList: View {
         Button {
             openLibrarySubstance(substance)
         } label: {
-            HStack(spacing: 10) {
+            HStack(spacing: Spacing.lg) {
                 Image(systemName: "pill")
                     .foregroundStyle(Theme.secondaryLabel)
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(substance.name)
                         .font(.body.weight(.medium))
                         .foregroundStyle(.primary)
                     Text("\(substance.defaultRoute.displayName) \u{2014} \(substance.defaultUnit)")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
             .padding(14)
             .themeCard(cornerRadius: 20)

@@ -58,7 +58,7 @@ struct DockSuggestions: View {
     /// Horizontally scrolling effect-family filter pills (Library taxonomy).
     private var familyPills: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.md) {
                 ForEach(families) { family in
                     DockFamilyPill(family: family, isSelected: selectedFamilyID == family.id) {
                         withAnimation(.snappy) {
@@ -75,7 +75,7 @@ struct DockSuggestions: View {
             }
             // Bleed to the sheet edges so the row scrolls edge-to-edge while
             // resting pills align with the cards.
-            .padding(.horizontal, 16)
+            .padding(.horizontal, Spacing.xxl)
         }
         .padding(.horizontal, -16)
     }
@@ -115,11 +115,11 @@ struct DockFamilyPill: View {
                     .accessibilityHidden(true)
                 Text(family.title)
             }
-            .font(.subheadline.weight(.semibold))
+            .sectionLabel()
             .padding(.horizontal, 14)
-            .padding(.vertical, 10)
+            .padding(.vertical, Spacing.lg)
             .background(
-                isSelected ? AnyShapeStyle(family.color) : AnyShapeStyle(family.color.opacity(0.15)),
+                isSelected ? AnyShapeStyle(family.color) : AnyShapeStyle(family.color.opacity(Theme.Opacity.tint)),
                 in: Capsule(),
             )
             .foregroundStyle(isSelected ? AnyShapeStyle(Color.white) : AnyShapeStyle(family.color))
