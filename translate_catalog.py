@@ -9,6 +9,24 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Notes follow-up (2026-09-02)
+    "Notes at their T+ offsets, descriptors by domain — 1 session with notes": (
+        "按 T+ 偏移列出的笔记，按领域分组的描述词——1 个时段有笔记",
+        "按 T+ 偏移列出的筆記，按領域分組的描述詞——1 個時段有筆記",
+    ),
+    "Notes at their T+ offsets, descriptors by domain — %lld sessions with notes": (
+        "按 T+ 偏移列出的笔记，按领域分组的描述词——%lld 个时段有笔记",
+        "按 T+ 偏移列出的筆記，按領域分組的描述詞——%lld 個時段有筆記",
+    ),
+    "Notes live here": ("笔记在这里", "筆記在這裡"),
+    "Notes, check-ins and splitting live under this menu.": (
+        "笔记、签到和拆分都在这个菜单里。",
+        "筆記、簽到和拆分都在這個選單裡。",
+    ),
+    "Notes at their T+ offsets, descriptors by domain — none of the selected sessions has notes yet": (
+        "按 T+ 偏移列出的笔记，按领域分组的描述词——所选时段还没有笔记",
+        "按 T+ 偏移列出的筆記，按領域分組的描述詞——所選時段還沒有筆記",
+    ),
     # Library "Yours" card (2026-09-02)
     "Yours": ("你的", "你的"),
     "Favorites, colors, and the substances you added.": (

@@ -4509,6 +4509,7 @@
       }
     },
     "^[%lld substances](inflect: true) with a color" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4525,6 +4526,7 @@
       }
     },
     "^[%lld substances](inflect: true) you added or customized" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6106,7 +6108,6 @@
       }
     },
     "A color for every substance you log" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26663,6 +26664,22 @@
         }
       }
     },
+    "Favorites, colors, and the substances you added." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收藏、颜色，以及你添加的物质。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收藏、顏色，以及你新增的物質。"
+          }
+        }
+      }
+    },
     "FDA" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -41170,6 +41187,86 @@
         }
       }
     },
+    "Notes at their T+ offsets, descriptors by domain — %lld sessions with notes" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按 T+ 偏移列出的笔记，按领域分组的描述词——%lld 个时段有笔记"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按 T+ 偏移列出的筆記，按領域分組的描述詞——%lld 個時段有筆記"
+          }
+        }
+      }
+    },
+    "Notes at their T+ offsets, descriptors by domain — 1 session with notes" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按 T+ 偏移列出的笔记，按领域分组的描述词——1 个时段有笔记"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按 T+ 偏移列出的筆記，按領域分組的描述詞——1 個時段有筆記"
+          }
+        }
+      }
+    },
+    "Notes at their T+ offsets, descriptors by domain — none of the selected sessions has notes yet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按 T+ 偏移列出的笔记，按领域分组的描述词——所选时段还没有笔记"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按 T+ 偏移列出的筆記，按領域分組的描述詞——所選時段還沒有筆記"
+          }
+        }
+      }
+    },
+    "Notes live here" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "笔记在这里"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "筆記在這裡"
+          }
+        }
+      }
+    },
+    "Notes, check-ins and splitting live under this menu." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "笔记、签到和拆分都在这个菜单里。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "筆記、簽到和拆分都在這個選單裡。"
+          }
+        }
+      }
+    },
     "Nothing active right now" : {
       "localizations" : {
         "zh-Hans" : {
@@ -55276,6 +55373,22 @@
         }
       }
     },
+    "Star a substance to keep it here" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "给物质加星即可收藏在此"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為物質加星即可收藏於此"
+          }
+        }
+      }
+    },
     "start" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -56624,6 +56737,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "種物質已建模"
+          }
+        }
+      }
+    },
+    "Substances you added or customized" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你添加或自定义的物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你新增或自訂的物質"
           }
         }
       }
@@ -65710,6 +65839,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "體重是把劑量換算成暴露量的分母：越輕，同樣的劑量作用越強。有了它，Piru 才能估算諸如一杯酒對*你的*身體有多強、反覆使用如何累積耐受等。而疊加在每次記錄上的心率和血壓，則顯示身體對某次用量的真實反應——把預測曲線變成一份記錄。"
+          }
+        }
+      }
+    },
+    "Yours" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的"
           }
         }
       }
