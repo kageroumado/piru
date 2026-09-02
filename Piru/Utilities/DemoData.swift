@@ -29,12 +29,18 @@ import SwiftData
         ///
         ///     xcrun simctl launch booted dev.yumeji.piru -piruPersona dailyMeds
         ///
-        /// Unlike the showcase seed (which only fills an empty store), a
-        /// persona **always wipes and reseeds**, so relaunching with a
+        /// A persona **always wipes and reseeds**, so relaunching with a
         /// different name deterministically switches the whole UI state —
         /// the point is auditing the same screens under the data shapes real
-        /// users actually have, not the dense dev journal we're blind to.
+        /// users actually have. ``week`` is also what an empty DEBUG store
+        /// fills with on launch (``insertDefaultData(container:)``).
         enum Persona: String, CaseIterable {
+            /// One variable week ending today that lights up every surface:
+            /// ADHD morning meds from My Meds with routine occurrences, a
+            /// benzo at night, two titled psychedelic sessions with
+            /// timestamped notes, a drinks evening logged from the beer
+            /// preset, inventory, favorites, colors, and quick-log recents.
+            case week
             /// The archetypal real user (what TestFlight screenshots show):
             /// one scheduled stimulant med + one quiet supplement, taken
             /// consistently for 60 days; this morning's med is active now.
@@ -59,7 +65,7 @@ import SwiftData
         }
 
         /// Seed the persona named by `-piruPersona`, if any. Returns `true`
-        /// when a persona was seeded, so the caller skips the showcase seed.
+        /// when a persona was seeded, so the caller skips the default seed.
         @MainActor
         static func insertPersonaData(container: ModelContainer) -> Bool {
             guard let name = UserDefaults.standard.string(forKey: "piruPersona") else { return false }
@@ -67,11 +73,35 @@ import SwiftData
                 print("DemoData: unknown persona '\(name)' — known: \(Persona.allCases.map(\.rawValue).joined(separator: ", "))")
                 return false
             }
+            seed(persona, container: container)
+            return true
+        }
 
+        /// Fill an empty DEBUG store with ``Persona/week`` so a fresh
+        /// simulator opens on a populated app. Launch with `-piruNoDemoData`
+        /// to suppress it — needed when restoring a real export onto a wiped
+        /// store, which would otherwise come up pre-seeded and merge the two
+        /// histories.
+        @MainActor
+        static func insertDefaultData(container: ModelContainer) {
+            guard !ProcessInfo.processInfo.arguments.contains("-piruNoDemoData") else { return }
+            let count = (try? container.mainContext.fetchCount(FetchDescriptor<DoseEntry>())) ?? 0
+            guard count == 0 else { return }
+            seed(.week, container: container)
+        }
+
+        /// Wipe the store and seed `persona`, then run the launch-time passes
+        /// that already ran against the pre-wipe store: session clustering,
+        /// today's routine occurrences, and live-session recovery — so the
+        /// persona's active dose opens the live session on this launch
+        /// instead of needing a second one.
+        @MainActor
+        static func seed(_ persona: Persona, container: ModelContainer) {
             let context = container.mainContext
             wipeUserData(context: context)
 
             switch persona {
+            case .week: seedWeek(context: context)
             case .dailyMeds: seedMedsPersona(context: context, sporadic: false)
             case .sporadicMeds: seedMedsPersona(context: context, sporadic: true)
             case .rareOpener: seedRareOpener(context: context)
@@ -85,12 +115,9 @@ import SwiftData
 
             try? context.save()
             SessionService.assignUnassignedDoses(in: context)
-            // The launch recovery pass ran against the pre-wipe store; re-run
-            // it so a persona's active dose opens the live session on this
-            // launch instead of needing a second one.
+            RoutineOccurrenceService.reconcile(in: context)
             ActiveSessionManager.shared.clearSession()
             ActiveSessionManager.shared.recoverSession(container: container)
-            return true
         }
 
         /// Wipe every model that surfaces in the UI — a fixture must not
@@ -100,6 +127,7 @@ import SwiftData
         @MainActor
         static func wipeUserData(context: ModelContext) {
             try? context.delete(model: DoseEntry.self)
+            try? context.delete(model: SessionNote.self)
             try? context.delete(model: Session.self)
             try? context.delete(model: SubstanceColor.self)
             try? context.delete(model: UserColor.self)
@@ -125,7 +153,7 @@ import SwiftData
         ///
         /// Like personas, this always wipes first so relaunching is
         /// deterministic. Returns `true` when the argument was present (even on
-        /// a failed import — the store was wiped, so the showcase seed must not
+        /// a failed import — the store was wiped, so the default seed must not
         /// fill it and mask the failure).
         @MainActor
         static func insertImportFileData(container: ModelContainer) -> Bool {
@@ -355,343 +383,236 @@ import SwiftData
             }
         }
 
-        // MARK: - Showcase Data (~500 entries)
+        // MARK: - The week (default seed)
 
-        /// Inserts a realistic 90-day dose history for app showcasing.
+        /// One realistic week ending today. Fixed hours and doses so
+        /// screenshots reproduce; every substance resolves in the bundled DB
+        /// and draws a timeline curve, except the quiet magnesium supplement,
+        /// which stays off the graphs by design. Goes through the same
+        /// services the UI uses (session notes, quick-log recents, drink
+        /// presets) so relationships come out the way a logged week would.
         ///
-        /// Models an everyday journal: morning coffee with the occasional
-        /// L-Theanine, a small supplement routine (Vitamin D3, Magnesium,
-        /// Creatine on gym days), melatonin some nights, ibuprofen as needed —
-        /// plus light weekend drinking, a couple of cannabis evenings a week,
-        /// and two one-off events (an MDMA club night, a mushroom afternoon).
-        /// Kept to a few entries per day so the journal cards and PK curves
-        /// read cleanly in screenshots.
-        ///
-        /// Only runs when fewer than 50 entries exist; clears existing data first.
-        ///
-        /// Launch with `-piruNoDemoData` to suppress the seed — needed when
-        /// restoring a real export onto a wiped simulator store, which would
-        /// otherwise come up pre-seeded and merge the two histories.
-        @MainActor
-        static func insertShowcaseData(container: ModelContainer) {
-            guard !ProcessInfo.processInfo.arguments.contains("-piruNoDemoData") else { return }
-            let context = container.mainContext
-            let count = (try? context.fetchCount(FetchDescriptor<DoseEntry>())) ?? 0
-            guard count < 50 else { return }
-
-            try? context.delete(model: DoseEntry.self)
-            try? context.delete(model: SubstanceColor.self)
-            try? context.delete(model: FavoriteSubstance.self)
-            try? context.delete(model: DailyDoseItem.self)
-
-            var rng = SeededRNG(seed: 20_260_611)
+        /// `now` is injectable so a test can pin the time of day: today's
+        /// morning doses exist only once 08:05 has passed, so the morning
+        /// tail is "Active Now" and nothing is ever seeded in the future.
+        static func seedWeek(context: ModelContext, now: Date = .now) {
             let cal = Calendar.current
-            let today = cal.startOfDay(for: Date())
-            let totalDays = 90
+            let today = cal.startOfDay(for: now)
 
-            func ts(_ daysAgo: Int, _ hour: Double, variance: Double = 20, weekendShift: Bool = false) -> Date {
-                let dayStart = today.addingTimeInterval(-Double(daysAgo) * 86_400)
-                let shift: Double = (weekendShift && cal.isDateInWeekend(dayStart) && hour < 12) ? 1.5 : 0
-                let jitter = Double.random(in: -variance ... variance, using: &rng) * 60
-                return dayStart.addingTimeInterval((hour + shift) * 3_600 + jitter)
+            func day(_ daysAgo: Int) -> Date {
+                cal.date(byAdding: .day, value: -daysAgo, to: today) ?? today
             }
-
-            func takes(_ rate: Double) -> Bool {
-                Double.random(in: 0 ..< 1, using: &rng) < rate
+            func at(_ daysAgo: Int, _ hour: Int, _ minute: Int = 0) -> Date {
+                cal.date(bySettingHour: hour, minute: minute, second: 0, of: day(daysAgo)) ?? day(daysAgo)
             }
-
-            func jitterAmount(_ base: Double, plusOrMinus: Double) -> Double {
-                base + Double.random(in: -plusOrMinus ... plusOrMinus, using: &rng)
+            func uid(_ name: String) -> String? {
+                SubstanceLibrary.substanceUID(for: name)
             }
-
-            var entries: [DoseEntry] = []
-            entries.reserveCapacity(500)
-
-            // One-off events land on specific past Saturdays so the recent
-            // week stays tidy for the journal screenshot.
-            var saturdaysAgo: [Int] = []
-            for day in 0 ..< totalDays where cal.component(.weekday, from: today.addingTimeInterval(-Double(day) * 86_400)) == 7 {
-                saturdaysAgo.append(day)
-            }
-            let clubNight = saturdaysAgo.count > 5 ? saturdaysAgo[5] : 38
-            let mushroomDay = saturdaysAgo.count > 9 ? saturdaysAgo[9] : 66
-
-            // Day 0 is handcrafted below as a live session — generating it from
-            // the daily template would future-date entries (e.g. tonight's
-            // magnesium at a 9 AM capture) and never satisfy the active-window
-            // check the Journal's "Active Now" card keys on.
-            // Day 1 ("Yesterday") is curated too: cannabis evening + ibuprofen,
-            // no supplements — vitamins draw flat, meaningless curves that
-            // crowd the hero/day graphs in screenshots, and an early-morning
-            // capture pulls yesterday's stragglers into the current session.
-            for day in (1 ..< totalDays).reversed() {
-                let dayStart = today.addingTimeInterval(-Double(day) * 86_400)
-                let weekday = cal.component(.weekday, from: dayStart)
-                let isWeekend = cal.isDateInWeekend(dayStart)
-                let isFridayOrSaturday = weekday == 6 || weekday == 7
-                let isGymDay = weekday == 2 || weekday == 4 || weekday == 6
-                let isYesterday = day == 1
-
-                if isYesterday {
-                    entries.append(DoseEntry(
-                        substance: "Caffeine",
-                        amount: 110, unit: "mg", route: .oral,
-                        timestamp: ts(day, 8.2, variance: 15),
-                        notes: "Flat white",
-                        tags: ["coffee", "morning"],
-                    ))
-                    entries.append(DoseEntry(
-                        substance: "Ibuprofen",
-                        amount: 400, unit: "mg", route: .oral,
-                        timestamp: ts(day, 14.0, variance: 20),
-                        notes: "Headache",
-                        tags: ["as-needed"],
-                    ))
-                    entries.append(DoseEntry(
-                        substance: "Cannabis",
-                        amount: 8, unit: "mg", route: .inhalation,
-                        timestamp: ts(day, 21.2, variance: 20),
-                        notes: "Movie night",
-                        tags: ["chill"],
-                    ))
-                    continue
-                }
-
-                // ── Coffee ──────────────────────────────────────
-
-                if takes(0.95) {
-                    entries.append(DoseEntry(
-                        substance: "Caffeine",
-                        amount: (jitterAmount(110, plusOrMinus: 30) / 5).rounded() * 5,
-                        unit: "mg", route: .oral,
-                        timestamp: ts(day, 8.0, variance: 25, weekendShift: true),
-                        notes: [nil, nil, nil, "Flat white"].randomElement(using: &rng)!,
-                        tags: ["coffee", "morning"],
-                    ))
-                    // L-Theanine alongside, sometimes
-                    if takes(0.35) {
-                        entries.append(DoseEntry(
-                            substance: "L-Theanine",
-                            amount: 200, unit: "mg", route: .oral,
-                            timestamp: ts(day, 8.2, variance: 25, weekendShift: true),
-                            tags: ["coffee", "supplement"],
-                        ))
-                    }
-                    // Afternoon cup on weekdays, mostly
-                    if takes(isWeekend ? 0.25 : 0.55) {
-                        entries.append(DoseEntry(
-                            substance: "Caffeine",
-                            amount: (jitterAmount(70, plusOrMinus: 15) / 5).rounded() * 5,
-                            unit: "mg", route: .oral,
-                            timestamp: ts(day, 13.5, variance: 40),
-                            tags: ["coffee"],
-                        ))
-                    }
-                }
-
-                // ── Supplements ─────────────────────────────────
-
-                if takes(0.85) {
-                    entries.append(DoseEntry(
-                        substance: "Vitamin D3",
-                        amount: 4_000, unit: "IU", route: .oral,
-                        timestamp: ts(day, 8.5, variance: 30, weekendShift: true),
-                        tags: ["supplement"],
-                    ))
-                }
-                if isGymDay, takes(0.7) {
-                    entries.append(DoseEntry(
-                        substance: "Creatine",
-                        amount: 5, unit: "g", route: .oral,
-                        timestamp: ts(day, 17.0, variance: 45),
-                        notes: [nil, nil, "Post-workout"].randomElement(using: &rng)!,
-                        tags: ["gym"],
-                    ))
-                }
-                if takes(0.8) {
-                    entries.append(DoseEntry(
-                        substance: "Magnesium",
-                        amount: jitterAmount(350, plusOrMinus: 50).rounded(),
-                        unit: "mg", route: .oral,
-                        timestamp: ts(day, 22.0, variance: 30),
-                        tags: ["supplement", "sleep"],
-                    ))
-                }
-
-                // Melatonin — some nights
-                if takes(0.22) {
-                    entries.append(DoseEntry(
-                        substance: "Melatonin",
-                        amount: takes(0.6) ? 0.5 : 1,
-                        unit: "mg", route: .sublingual,
-                        timestamp: ts(day, 23.0, variance: 25),
-                        tags: ["sleep"],
-                    ))
-                }
-
-                // Ibuprofen — as needed
-                if takes(0.07) {
-                    entries.append(DoseEntry(
-                        substance: "Ibuprofen",
-                        amount: 400, unit: "mg", route: .oral,
-                        timestamp: ts(day, Double.random(in: 10 ... 20, using: &rng)),
-                        notes: ["Headache", "Headache", "Sore from the gym"].randomElement(using: &rng)!,
-                        tags: ["as-needed"],
-                    ))
-                }
-
-                // ── Weekend drinks ──────────────────────────────
-
-                if day == clubNight {
-                    // One big night out, ~5 Saturdays back: MDMA + a couple of drinks.
-                    entries.append(DoseEntry(
-                        substance: "MDMA",
-                        amount: 120, unit: "mg", route: .oral,
-                        timestamp: ts(day, 22.5, variance: 15),
-                        notes: "Club night",
-                        tags: ["party"],
-                    ))
-                    entries.append(DoseEntry(
-                        substance: "MDMA",
-                        amount: 60, unit: "mg", route: .oral,
-                        timestamp: ts(day, 24.5, variance: 15),
-                        notes: "Redose",
-                        tags: ["party"],
-                    ))
-                    entries.append(DoseEntry(
-                        substance: "Alcohol",
-                        amount: 2, unit: "units", route: .oral,
-                        timestamp: ts(day, 21.0, variance: 20),
-                        tags: ["party"],
-                    ))
-                } else if isFridayOrSaturday, takes(0.65) {
-                    // A normal evening out or in: 2–4 drinks over a few hours.
-                    let rounds = takes(0.5) ? 2 : (takes(0.5) ? 1 : 3)
-                    for round in 0 ... rounds {
-                        entries.append(DoseEntry(
-                            substance: "Alcohol",
-                            amount: takes(0.7) ? 1 : 2,
-                            unit: "units", route: .oral,
-                            timestamp: ts(day, 19.5 + Double(round) * 1.4, variance: 25),
-                            notes: round == 0 ? [nil, nil, "Drinks with friends"].randomElement(using: &rng)! : nil,
-                            tags: ["drinks", "social"],
-                        ))
-                    }
-                } else if takes(0.08) {
-                    // The odd weekday beer.
-                    entries.append(DoseEntry(
-                        substance: "Alcohol",
-                        amount: 1, unit: "units", route: .oral,
-                        timestamp: ts(day, 20.5, variance: 40),
-                        tags: ["drinks"],
-                    ))
-                }
-
-                // ── Cannabis — a couple of evenings a week ──────
-
-                if day != clubNight, day != mushroomDay, takes(isWeekend ? 0.35 : 0.22) {
-                    entries.append(DoseEntry(
-                        substance: "Cannabis",
-                        amount: jitterAmount(7, plusOrMinus: 3).rounded(),
-                        unit: "mg", route: .inhalation,
-                        timestamp: ts(day, 21.3, variance: 45),
-                        notes: [nil, nil, nil, "Movie night"].randomElement(using: &rng)!,
-                        tags: ["chill"],
-                    ))
-                }
-
-                // ── Mushroom afternoon, ~9 Saturdays back ───────
-
-                if day == mushroomDay {
-                    entries.append(DoseEntry(
-                        substance: "Psilocybin mushrooms",
-                        amount: 1.8, unit: "g", route: .oral,
-                        timestamp: ts(day, 14.0, variance: 20),
-                        notes: "Forest walk",
-                        tags: ["trip"],
-                    ))
-                }
-            }
-
-            // ── Today: a session that's active right now ────────
-            // Anchored to the seeding moment (not clock hours) so the Journal's
-            // "Active Now" card shows whenever screenshots are taken.
-            // Session recovery only fetches the current session day, so clamp
-            // each timestamp to just after the day cutoff — otherwise seeding
-            // shortly after the cutoff (e.g. 04:15 with a 04:00 boundary)
-            // back-dates the doses into yesterday and no session recovers.
-
-            let now = Date()
-            let sessionDayStart = cal.sessionDayStart(for: now)
-            func recent(_ hoursAgo: Double, slot: Double) -> Date {
-                let ideal = now.addingTimeInterval(-hoursAgo * 3_600)
-                let floor = sessionDayStart.addingTimeInterval((5 + slot * 4) * 60)
-                return max(ideal, floor)
-            }
-            entries.append(DoseEntry(
-                substance: "Caffeine",
-                amount: 110, unit: "mg", route: .oral,
-                timestamp: recent(2.1, slot: 0),
-                notes: "Flat white",
-                tags: ["coffee"],
-            ))
-            entries.append(DoseEntry(
-                substance: "Alcohol",
-                amount: 2, unit: "units", route: .oral,
-                timestamp: recent(1.3, slot: 1),
-                notes: "Drinks with friends",
-                tags: ["drinks", "social"],
-            ))
-            entries.append(DoseEntry(
-                substance: "Alcohol",
-                amount: 1, unit: "units", route: .oral,
-                timestamp: recent(0.4, slot: 2),
-                tags: ["drinks", "social"],
-            ))
-
-            for entry in entries {
+            @discardableResult
+            func dose(
+                _ name: String, _ amount: Double, _ unit: String, route: RouteOfAdministration = .oral,
+                at timestamp: Date, notes: String? = nil, tags: [String] = [], background: Bool = false,
+                volumeML: Double? = nil, abv: Double? = nil, drinkName: String? = nil,
+            ) -> DoseEntry {
+                let entry = DoseEntry(
+                    substance: name, amount: amount, unit: unit, route: route, substanceUID: uid(name),
+                    timestamp: timestamp, notes: notes, tags: tags, isBackgroundMed: background,
+                    volumeML: volumeML, abv: abv, drinkName: drinkName,
+                )
                 context.insert(entry)
+                return entry
+            }
+            /// A descriptor resolved by its vocabulary name at seed time, so the
+            /// fixture never carries a concept id the bundled vocabulary might
+            /// not know. An unmatched name is dropped and reported.
+            func descriptor(_ name: String) -> String? {
+                let want = SubjectiveEffectOntology.normalize(name)
+                guard let hit = SubjectiveEffectOntology.shared.search(name, limit: 1).first,
+                      SubjectiveEffectOntology.normalize(hit.concept.name) == want
+                else {
+                    print("DemoData: no subjective-effect concept named '\(name)'")
+                    return nil
+                }
+                return hit.concept.id
+            }
+            func note(
+                _ session: Session, plus minutes: Double, _ text: String,
+                shulgin: Int? = nil, mood: Int? = nil, energy: Int? = nil,
+                _ descriptors: [String] = [], heartRate: Double? = nil, kind: SessionNote.Kind = .observation,
+            ) {
+                SessionNoteService.add(
+                    to: session, timestamp: session.startDate.addingTimeInterval(minutes * 60), text: text,
+                    shulgin: shulgin, mood: mood, energy: energy,
+                    descriptors: descriptors.compactMap(descriptor), heartRate: heartRate, kind: kind,
+                )
+            }
+            func titledSession(_ title: String?, start: Date, checkIns: Bool = false) -> Session {
+                let session = Session(startDate: start, title: title)
+                if checkIns {
+                    session.checkInIntervalMinutes = CheckInScheduler.Cadence.ladder.storedMinutes
+                    session.checkInOffered = true
+                }
+                context.insert(session)
+                return session
             }
 
-            // ── Substance Colors (preset palette) ──
+            // ── My Meds ─────────────────────────────────────────
+            let methylphenidate = DailyDoseItem(
+                substance: "Methylphenidate", amount: 10, unit: "mg", sortOrder: 0,
+                substanceUID: uid("Methylphenidate"), reminderTimesMinutes: [8 * 60],
+            )
+            let theanine = DailyDoseItem(
+                substance: "L-Theanine", amount: 200, unit: "mg", sortOrder: 1,
+                substanceUID: uid("L-Theanine"), reminderTimesMinutes: [8 * 60],
+            )
+            let magnesium = DailyDoseItem(
+                substance: "Magnesium", amount: 350, unit: "mg", sortOrder: 2,
+                isBackgroundMed: true, substanceUID: uid("Magnesium"), isQuiet: true, isAsNeeded: true,
+            )
+            for item in [methylphenidate, theanine, magnesium] {
+                context.insert(item)
+            }
 
+            // ── Mornings ────────────────────────────────────────
+            // The two scheduled meds plus a coffee. Past days also get their
+            // routine occurrence rows, satisfied by the dose that was logged,
+            // so adherence reads six of seven with today pending until 08:00.
+            func morning(_ daysAgo: Int) {
+                let med = dose("Methylphenidate", 10, "mg", at: at(daysAgo, 8, 0), tags: ["meds"])
+                let supplement = dose("L-Theanine", 200, "mg", at: at(daysAgo, 8, 5), tags: ["meds"])
+                dose("Caffeine", 90, "mg", at: at(daysAgo, 8, 5), notes: daysAgo == 0 ? "flat white" : nil, tags: ["coffee"])
+                guard daysAgo > 0 else { return }
+                for (item, entry) in [(methylphenidate, med), (theanine, supplement)] {
+                    let occurrence = RoutineOccurrence(
+                        substance: item.substance, substanceUID: item.substanceUID,
+                        route: item.route, dueDay: day(daysAgo), slotMinutes: 8 * 60,
+                    )
+                    occurrence.state = .logged
+                    occurrence.satisfyingEntryID = entry.id
+                    context.insert(occurrence)
+                }
+            }
+            for daysAgo in 1 ... 6 {
+                morning(daysAgo)
+            }
+            if now >= at(0, 8, 6) {
+                morning(0)
+            }
+
+            // ── Nights ──────────────────────────────────────────
+            // Each benzo night is its own session: the clustering heuristic
+            // would otherwise chain a 23:30 dose into the next morning's meds.
+            for (daysAgo, hour, minute, amount) in [(1, 23, 10, 1.0), (3, 23, 30, 0.5)] {
+                let night = titledSession(nil, start: at(daysAgo, hour, minute))
+                dose("Lorazepam", amount, "mg", at: night.startDate, notes: "sleep", tags: ["sleep"]).session = night
+                night.refreshDoseBounds()
+            }
+            dose("Magnesium", 350, "mg", at: at(6, 22, 0), tags: ["supplement"], background: true)
+
+            // ── Lake evening (−2): psilocybin, notes end to end ──
+            let lake = titledSession("Lake evening", start: at(2, 19, 30), checkIns: true)
+            dose("Psilocybin mushrooms", 2.5, "g", at: lake.startDate, tags: ["trip"]).session = lake
+            note(lake, plus: 40, "warm stomach, yawning. music sounds wider.",
+                 shulgin: 1, mood: 1, energy: 0, ["warmth", "body load"])
+            note(lake, plus: 80, "patterns in the wood grain, everything a bit funny. lake is very still.",
+                 shulgin: 2, mood: 2, energy: 0, ["geometric imagery", "euphoria"], heartRate: 82, kind: .checkIn)
+            note(lake, plus: 150, "peak. the water is breathing and I lost twenty minutes just looking at it. very happy, want to walk.",
+                 shulgin: 3, mood: 2, energy: 1, ["geometric imagery", "euphoria", "time distortion"], heartRate: 88)
+            note(lake, plus: 300, "mostly back. tired in the good way. tea, then bed.",
+                 shulgin: 1, mood: 1, energy: -1, ["fatigue"], heartRate: 70, kind: .checkIn)
+            SessionNoteService.setSummary("gentle the whole way. same dose next time, earlier start.", for: lake)
+            lake.refreshDoseBounds()
+
+            // ── Friday drinks (−4): three beers from the preset ──
+            let alcohol = ByVolumeCatalog.capability(forAnyOf: ["Alcohol"])
+            if let alcohol {
+                CustomDrinkPreset.seedIfNeeded(for: "Alcohol", capability: alcohol, context: context)
+            }
+            let beer = (try? context.fetch(FetchDescriptor<CustomDrinkPreset>(
+                predicate: #Predicate { $0.substanceName == "alcohol" },
+                sortBy: [SortDescriptor(\.sortOrder)],
+            )))?.first
+            let beerML = beer?.volumeML ?? 330
+            let beerABV = beer?.strengthABV ?? 5
+            let beerGrams = alcohol?.canonicalAmount(volumeML: beerML, strength: beerABV)
+                ?? ByVolumeDosing.grams(volumeML: beerML, abv: beerABV)
+            let beerName = beer?.name ?? "Beer"
+            let drinks = titledSession("Friday drinks", start: at(4, 19, 0))
+            dose("Caffeine", 60, "mg", at: drinks.startDate, notes: "espresso before heading out", tags: ["coffee"]).session = drinks
+            for (hour, minute) in [(20, 0), (21, 15), (22, 30)] {
+                dose("Alcohol", beerGrams, alcohol?.canonicalUnit ?? "g", at: at(4, hour, minute), tags: ["drinks"],
+                     volumeML: beerML, abv: beerABV, drinkName: beerName).session = drinks
+            }
+            drinks.refreshDoseBounds()
+
+            // ── Forest walk (−5): LSD, three notes ──────────────
+            let forest = titledSession("Forest walk", start: at(5, 14, 0), checkIns: true)
+            dose("LSD", 100, "µg", route: .sublingual, at: forest.startDate, tags: ["trip"]).session = forest
+            note(forest, plus: 50, "tab under the tongue for twenty minutes, now walking. slight jitter, colors a notch up.",
+                 shulgin: 1, mood: 1, energy: 1, ["color saturation enhancement", "restlessness"])
+            note(forest, plus: 120, "trees doing the thing. moss looks like it's breathing. laughed a full minute at a squirrel.",
+                 shulgin: 3, mood: 3, energy: 1, ["drifting", "euphoria", "pattern recognition enhancement"], heartRate: 90, kind: .checkIn)
+            note(forest, plus: 270, "sat on a log for an hour. thinking about work in a way that felt kind for once.",
+                 shulgin: 2, mood: 2, energy: -1, ["introspection enhancement", "time dilation"])
+            SessionNoteService.setSummary("long, clear, mostly kind. 100 µg is the right amount for a walk.", for: forest)
+            forest.refreshDoseBounds()
+
+            // ── Inventory ───────────────────────────────────────
+            // Stock is a replay over doses newer than `trackingStart`, so the
+            // fill sizes are chosen to land on round counts after the week's
+            // consumption: 14 tablets of methylphenidate, 60 theanine caps, 8
+            // lorazepam tablets, 40 caffeine tablets, 90 magnesium caps.
+            let fill = at(7, 9, 0)
+            let stock: [(name: String, doseSize: Double, initial: Double, threshold: Double, note: String)] = [
+                ("Methylphenidate", 10, 210, 50, "pharmacy refill"),
+                ("L-Theanine", 200, 67 * 200, 10 * 200, "new bottle"),
+                ("Lorazepam", 1, 9.5, 2, "pharmacy refill"),
+                ("Caffeine", 90, 47 * 90 + 60, 5 * 90, "new bottle"),
+                ("Magnesium", 350, 91 * 350, 10 * 350, "new bottle"),
+            ]
+            for (order, item) in stock.enumerated() {
+                context.insert(InventoryItem(
+                    substance: item.name, unit: "mg", trackingStart: fill,
+                    lowStockThreshold: item.threshold, baselineQuantity: item.initial, doseSize: item.doseSize,
+                    manualEvents: [ManualEvent(kind: .initial, amount: item.initial, date: fill, note: item.note, setsBaseline: true)],
+                    sortOrder: order,
+                ))
+            }
+
+            // ── Favorites, colors, quick-log recents ────────────
+            for (order, name) in ["Psilocybin mushrooms", "LSD", "Caffeine", "Lorazepam"].enumerated() {
+                context.insert(FavoriteSubstance(substance: name, sortOrder: order, substanceUID: uid(name)))
+            }
             let colors: [(String, String)] = [
-                ("caffeine", "F5A623"), // Mustard — amber
-                ("l-theanine", "00b3a2"), // Cyan — teal
-                ("vitamin d3", "F9E2AF"), // Honey — soft yellow
-                ("creatine", "2ca2f5"), // Azure — bright blue
-                ("magnesium", "A6E3A1"), // Sage — green
-                ("melatonin", "8394ff"), // Lavender
-                ("ibuprofen", "f17395"), // Rose
-                ("alcohol", "CBA6F7"), // Violet — purple
-                ("cannabis", "8FAE5C"), // Olive — sage
-                ("mdma", "FF6B9D"), // Pink
-                ("psilocybin mushrooms", "5C7CFA"), // Iris — blue
+                ("methylphenidate", "2ca2f5"), ("l-theanine", "00b3a2"), ("caffeine", "e08600"),
+                ("lorazepam", "8394ff"), ("psilocybin mushrooms", "f17395"), ("lsd", "b885ef"),
+                ("alcohol", "bb9900"), ("magnesium", "21b26a"),
             ]
             for (name, hex) in colors {
                 context.insert(SubstanceColor(substance: name, hexColor: hex))
             }
-
-            // ── Favorites ──
-
-            for name in ["Caffeine", "Magnesium", "Vitamin D3", "Melatonin"] {
-                context.insert(FavoriteSubstance(substance: name))
+            // Chips are normally minted at log time; seeded entries bypass
+            // that path, so record the week's doses the way a log would.
+            func recent(
+                _ name: String, _ amount: Double, _ unit: String, route: RouteOfAdministration = .oral,
+                volumeML: Double? = nil, abv: Double? = nil, drinkName: String? = nil, emoji: String? = nil,
+            ) -> QuickLogManager.LoggedDose {
+                QuickLogManager.LoggedDose(
+                    substance: name, route: route, amount: amount, unit: unit,
+                    volumeML: volumeML, abv: abv, drinkName: drinkName, emoji: emoji, substanceUID: uid(name),
+                )
             }
-
-            // ── Daily supplement routine ──
-
-            let schedule: [(String, Double, String, Int)] = [
-                ("Vitamin D3", 4_000, "IU", 0),
-                ("Magnesium", 350, "mg", 1),
-            ]
-            for (name, amount, unit, order) in schedule {
-                context.insert(DailyDoseItem(substance: name, amount: amount, unit: unit, sortOrder: order))
-            }
-
-            try? context.save()
-            // Cluster the freshly-seeded doses into sessions (the launch populate
-            // pass already ran on the then-empty store).
-            SessionService.assignUnassignedDoses(in: context)
+            QuickLogManager.record([
+                recent("Methylphenidate", 10, "mg"),
+                recent("L-Theanine", 200, "mg"),
+                recent("Caffeine", 90, "mg"),
+                recent("Lorazepam", 1, "mg"),
+                recent("Psilocybin mushrooms", 2.5, "g"),
+                recent("LSD", 100, "µg", route: .sublingual),
+                recent("Alcohol", beerGrams, alcohol?.canonicalUnit ?? "g",
+                       volumeML: beerML, abv: beerABV, drinkName: beerName, emoji: beer?.emoji ?? "🍺"),
+                recent("Magnesium", 350, "mg"),
+            ], fixedOrder: true, context: context, save: false)
         }
     }
 
