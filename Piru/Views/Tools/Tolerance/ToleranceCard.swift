@@ -29,7 +29,7 @@ struct ToleranceCard: View {
                     showsLegend: tier != .casual,
                 )
             } else {
-                EffectLadderView(snapshot: row.snapshot, tier: tier)
+                EffectLadderView(snapshot: row.snapshot)
             }
 
             if let lede = row.lede {

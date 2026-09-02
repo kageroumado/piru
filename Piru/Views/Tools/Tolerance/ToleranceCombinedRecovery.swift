@@ -16,15 +16,9 @@ struct ToleranceRecoverySeries: Identifiable {
 struct ToleranceCombinedRecoverySection: View {
     let series: [ToleranceRecoverySeries]
     let axisDays: [Double]
-    /// At least one mechanism's natural recovery window exceeds the shared 60-day cap — the caption then
-    /// notes the chart is showing only the first 60 days.
+    /// At least one mechanism's natural recovery window exceeds the shared 60-day cap — the chart then
+    /// carries a caption saying it shows only the first 60 days.
     let isClipped: Bool
-
-    private var caption: LocalizedStringResource {
-        isClipped
-            ? "Each line is a mechanism's tolerance fading — a steeper drop means a faster reset. Showing the first 60 days."
-            : "Each line is a mechanism's tolerance fading — a steeper drop means a faster reset."
-    }
 
     var body: some View {
         Section {
@@ -39,9 +33,11 @@ struct ToleranceCombinedRecoverySection: View {
                 } else {
                     ToleranceCombinedRecoveryChart(series: series, axisDays: axisDays)
                     ToleranceRecoveryLegend(series: series)
-                    Text(caption)
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
+                    if isClipped {
+                        Text("Showing the first 60 days.")
+                            .font(.caption2)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
                 }
             }
             .padding(.vertical, Spacing.sm)

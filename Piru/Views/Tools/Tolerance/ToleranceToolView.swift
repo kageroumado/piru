@@ -38,9 +38,6 @@ struct ToleranceToolView: View {
     var body: some View {
         List {
             Group {
-                ToleranceBanner(isWeightEstimated: profile.isWeightEstimated)
-                ToleranceHowItWorksCard()
-
                 if rows.isEmpty, tolerance.incompleteDataSubstances.isEmpty {
                     ToleranceEmptyState()
                 } else {
@@ -103,6 +100,7 @@ struct ToleranceToolView: View {
                     }
                     ToleranceIncompleteDataSection(names: tolerance.incompleteDataSubstances)
                 }
+                ToleranceHowItWorksCard()
             }
             .listRowBackground(CardBackground())
         }
