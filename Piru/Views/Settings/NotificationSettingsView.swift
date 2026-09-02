@@ -47,8 +47,7 @@ struct NotificationSettingsView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle("Notifications")
         .navigationBarTitleDisplayMode(.inline)
         .task { await refresh() }
@@ -87,12 +86,11 @@ struct NotificationSettingsView: View {
                     disabled: rowsDisabled,
                 )
             } label: {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: Spacing.xs) {
                     Label(category.title, systemImage: category.symbol)
                     let summary = enabledSummary(for: category)
                     Text(summary)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
             }
             .disabled(rowsDisabled)
@@ -289,8 +287,7 @@ struct NotificationTypeDetailSheet: View {
             }
             .listRowBackground(CardBackground())
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle(category.title)
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -437,7 +434,7 @@ private struct NotificationPermissionSection: View {
                     Text("Notifications Enabled")
                 } icon: {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.Semantic.Success.text)
                         .accessibilityHidden(true)
                 }
             case .denied:
@@ -445,7 +442,7 @@ private struct NotificationPermissionSection: View {
                     Text("Notifications Are Off")
                 } icon: {
                     Image(systemName: "bell.slash.fill")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                         .accessibilityHidden(true)
                 }
                 Button {
@@ -503,8 +500,7 @@ private struct NotificationTypeRow: View {
             .tint(Theme.accent)
             .accessibilityHint(Text(type.rowWhy))
             Text(type.rowWhy)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .accessibilityHidden(true)
             if let nextFireDate, prefs.isEffectivelyEnabled(type) {
                 Text("Next: \(nextFireDate, format: .dateTime.weekday(.wide).hour().minute())")

@@ -28,14 +28,14 @@ struct OnboardingFeatureTour: View {
                         .frame(width: 7, height: 7)
                 }
             }
-            .padding(.top, 4)
+            .padding(.top, Spacing.xs)
             .padding(.bottom, 20)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(Text("Page \(page + 1) of \(pages.count)"))
 
             GlassPillButton(title: "Continue", action: nav.advance)
-                .padding(.horizontal, 24)
-                .padding(.bottom, 12)
+                .padding(.horizontal, Spacing.xxxl)
+                .padding(.bottom, Spacing.xl)
         }
     }
 
@@ -44,7 +44,7 @@ struct OnboardingFeatureTour: View {
             Spacer(minLength: 0)
             PhoneMock { item.mock }
             Spacer(minLength: 0)
-            VStack(spacing: 8) {
+            VStack(spacing: Spacing.md) {
                 Text(item.title)
                     .font(.title2.weight(.bold))
                 Text(item.caption)
@@ -54,7 +54,7 @@ struct OnboardingFeatureTour: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
             .padding(.horizontal, 32)
-            .padding(.bottom, 8)
+            .padding(.bottom, Spacing.md)
             .accessibilityElement(children: .combine)
         }
     }
@@ -115,8 +115,8 @@ struct PhoneMock<Content: View>: View {
         VStack(spacing: 0) {
             statusBar
             content
-                .padding(.horizontal, 12)
-                .padding(.top, 4)
+                .padding(.horizontal, Spacing.xl)
+                .padding(.top, Spacing.xs)
             Spacer(minLength: 0)
         }
         .frame(width: Self.mockWidth, height: Self.mockHeight)
@@ -124,9 +124,9 @@ struct PhoneMock<Content: View>: View {
         .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 36, style: .continuous)
-                .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1),
+                .strokeBorder(Color.primary.opacity(Theme.Opacity.hairline), lineWidth: 1),
         )
-        .shadow(color: .black.opacity(0.18), radius: 24, y: 12)
+        .shadow(color: .black.opacity(Theme.Opacity.tintActive), radius: 24, y: 12)
         .accessibilityHidden(true)
     }
 
@@ -141,12 +141,12 @@ struct PhoneMock<Content: View>: View {
                 Image(systemName: "battery.75")
             }
             .accessibilityHidden(true)
-            .font(.system(size: 9))
+            .font(.chartAnnotation)
         }
         .foregroundStyle(.primary)
         .padding(.horizontal, 18)
-        .padding(.top, 12)
-        .padding(.bottom, 8)
+        .padding(.top, Spacing.xl)
+        .padding(.bottom, Spacing.md)
     }
 }
 
@@ -206,15 +206,15 @@ private struct JournalMock: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             MockTitle(text: "Journal")
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: Spacing.md) {
                 Text(verbatim: "Today")
                     .font(.system(size: 15, weight: .semibold))
-                HStack(spacing: 6) {
-                    Circle().fill(MockPalette.pink).frame(width: 8, height: 8)
-                    Circle().fill(MockPalette.orange).frame(width: 8, height: 8)
-                    Circle().fill(MockPalette.blue).frame(width: 8, height: 8)
+                HStack(spacing: Spacing.sm) {
+                    LegendDot(color: MockPalette.pink)
+                    LegendDot(color: MockPalette.orange)
+                    LegendDot(color: MockPalette.blue)
                     Text(verbatim: "Caffeine · Alcohol · Ibuprofen")
                         .font(.system(size: 12))
                         .foregroundStyle(Theme.secondaryLabel)
@@ -232,8 +232,8 @@ private struct JournalMock: View {
                 .frame(height: 180)
                 .allowsHitTesting(false)
             }
-            .padding(12)
-            .themeCard(cornerRadius: 16)
+            .padding(Spacing.xl)
+            .themeCard(cornerRadius: Theme.CornerRadius.container)
         }
     }
 }
@@ -286,7 +286,7 @@ private struct LibraryMock: View {
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             MockTitle(text: "Library")
             ForEach(Array(families.enumerated()), id: \.offset) { _, family in
                 card(family)
@@ -298,7 +298,7 @@ private struct LibraryMock: View {
         FamilyGradientCard(color: family.color, cornerRadius: 18, padding: 12) {
             MoleculeView(key: family.molecule)
                 .frame(width: 108, height: 108)
-                .opacity(0.5)
+                .opacity(Theme.Opacity.dimmed)
                 .offset(x: 20, y: -6)
         } content: {
             VStack(alignment: .leading, spacing: 3) {
@@ -306,7 +306,7 @@ private struct LibraryMock: View {
                     Image(systemName: family.icon)
                         .font(.system(size: 14, weight: .bold))
                     Spacer()
-                    HStack(spacing: 2) {
+                    HStack(spacing: Spacing.xxs) {
                         Text(verbatim: family.count).font(.system(size: 12, weight: .semibold))
                         Image(systemName: "chevron.right").font(.system(size: 10, weight: .bold))
                     }
@@ -337,11 +337,11 @@ private struct ToolsMock: View {
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             MockTitle(text: "Tools")
-            LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
+            LazyVGrid(columns: [GridItem(.flexible(), spacing: Spacing.lg), GridItem(.flexible(), spacing: Spacing.lg)], spacing: Spacing.lg) {
                 ForEach(tools, id: \.1.key) { tool in
-                    VStack(spacing: 8) {
+                    VStack(spacing: Spacing.md) {
                         Image(systemName: tool.0)
                             .font(.system(size: 20))
                             .foregroundStyle(tool.2)
@@ -351,8 +351,8 @@ private struct ToolsMock: View {
                             .foregroundStyle(.primary)
                     }
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 24)
-                    .themeCard(cornerRadius: 16)
+                    .padding(.vertical, Spacing.xxxl)
+                    .themeCard(cornerRadius: Theme.CornerRadius.container)
                 }
             }
         }
@@ -381,18 +381,18 @@ private struct InsightsMock: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             MockTitle(text: "Insights")
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: Spacing.xl) {
                 Text("Time of Day")
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundStyle(Theme.secondaryLabel)
                 chart
             }
             .padding(14)
-            .themeCard(cornerRadius: 16)
+            .themeCard(cornerRadius: Theme.CornerRadius.container)
 
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.md) {
                 Image(systemName: "chart.bar.fill")
                     .font(.system(size: 12))
                     .foregroundStyle(Theme.accent)
@@ -401,16 +401,16 @@ private struct InsightsMock: View {
                 Spacer()
             }
             .padding(14)
-            .themeCard(cornerRadius: 16)
+            .themeCard(cornerRadius: Theme.CornerRadius.container)
         }
     }
 
     private var chart: some View {
-        HStack(alignment: .bottom, spacing: 12) {
+        HStack(alignment: .bottom, spacing: Spacing.xl) {
             ForEach(bars) { bar in
-                VStack(spacing: 6) {
+                VStack(spacing: Spacing.sm) {
                     Text(verbatim: "\(bar.count)")
-                        .font(.system(size: 10, weight: .semibold))
+                        .font(.chartLabel)
                         .foregroundStyle(Theme.secondaryLabel)
                     RoundedRectangle(cornerRadius: 5)
                         .fill(bar.color)

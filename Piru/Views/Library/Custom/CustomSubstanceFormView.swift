@@ -326,8 +326,7 @@ struct CustomSubstanceFormView: View {
                     Text("Optional notes about this substance for your reference.")
                 }
             }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .navigationTitle(navTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

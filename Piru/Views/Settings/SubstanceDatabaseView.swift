@@ -30,8 +30,7 @@ struct SubstanceDatabaseView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle("Substance Database")
         .navigationBarTitleDisplayMode(.inline)
     }

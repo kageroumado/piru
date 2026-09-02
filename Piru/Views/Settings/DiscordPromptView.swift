@@ -10,7 +10,7 @@ struct DiscordPromptView: View {
     private static let blurple = Color(hex: "5865F2")
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: Spacing.xxl) {
             HStack {
                 Spacer()
                 Button {
@@ -26,7 +26,7 @@ struct DiscordPromptView: View {
             Image(systemName: "bubble.left.and.bubble.right.fill")
                 .font(.system(size: 54))
                 .foregroundStyle(Self.blurple)
-                .padding(.top, 4)
+                .padding(.top, Spacing.xs)
                 .accessibilityHidden(true)
 
             Text("Join the community")
@@ -38,15 +38,15 @@ struct DiscordPromptView: View {
                 .foregroundStyle(Theme.secondaryLabel)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
-                .padding(.horizontal, 8)
+                .padding(.horizontal, Spacing.md)
 
             Spacer(minLength: 12)
 
             Link(destination: Self.discordURL) {
                 Label("Join Discord", systemImage: "arrow.up.right")
-                    .font(.headline)
+                    .cardTitle()
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
+                    .padding(.vertical, Spacing.xxl)
                     .background(Self.blurple, in: Capsule())
                     .foregroundStyle(.white)
             }
@@ -56,8 +56,8 @@ struct DiscordPromptView: View {
                 dismissedForever = true
             })
         }
-        .padding(.horizontal, 24)
-        .padding(.top, 24)
+        .padding(.horizontal, Spacing.xxxl)
+        .padding(.top, Spacing.xxxl)
         .presentationDetents([.height(340)])
         .presentationDragIndicator(.visible)
     }

@@ -148,7 +148,7 @@ struct CustomUnitEditorView: View {
             } footer: {
                 if duplicateLabel {
                     Text("This substance already has a \"\(trimmedLabel)\" unit.")
-                        .foregroundStyle(.red)
+                        .foregroundStyle(Color.Semantic.Danger.text)
                 } else {
                     Text("Logs in this unit convert to the mass automatically.")
                 }

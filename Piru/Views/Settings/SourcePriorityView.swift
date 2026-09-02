@@ -60,13 +60,12 @@ private struct SourceRow: View {
                 .font(.headline.monospacedDigit())
                 .foregroundStyle(Theme.accent)
                 .frame(width: 20, alignment: .center)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(state.displayName)
                     .font(.body)
                 if let description = state.description, !description.isEmpty {
                     Text(description)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .captionSecondary()
                         .lineLimit(2)
                 }
             }

@@ -13,13 +13,13 @@ struct SubstanceDBUpdateRow: View {
     @State private var updater = SubstanceDBUpdater.shared
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             switch updater.state {
             case .idle:
                 idleRow
 
             case .checking:
-                HStack(spacing: 8) {
+                HStack(spacing: Spacing.md) {
                     ProgressView().controlSize(.small)
                     Text("Checking…")
                         .font(.subheadline)
@@ -42,14 +42,14 @@ struct SubstanceDBUpdateRow: View {
                 errorRow(message: message)
             }
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
     }
 
     // MARK: - Sub-rows
 
     private var idleRow: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Label("Database Build", systemImage: "shippingbox")
                     .font(.subheadline)
                 Text(updater.currentManifest?.contentVersion ?? "—")
@@ -69,7 +69,7 @@ struct SubstanceDBUpdateRow: View {
     private func upToDateRow(local: SubstanceDBManifest) -> some View {
         HStack {
             Label("Up to date", systemImage: "checkmark.seal.fill")
-                .foregroundStyle(.green)
+                .foregroundStyle(Color.Semantic.Success.text)
                 .font(.subheadline)
             Spacer()
             Text(local.contentVersion)
@@ -80,11 +80,11 @@ struct SubstanceDBUpdateRow: View {
     }
 
     private func updateAvailableRow(local: SubstanceDBManifest, remote: SubstanceDBManifest) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             HStack {
                 Label("Update Available", systemImage: "arrow.down.circle.fill")
                     .foregroundStyle(Theme.accent)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 Spacer()
                 Text("\(local.contentVersion) → \(remote.contentVersion)")
                     .font(.caption.monospaced())
@@ -106,7 +106,7 @@ struct SubstanceDBUpdateRow: View {
     }
 
     private func downloadingRow(progress: Double) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             Label("Downloading…", systemImage: "arrow.down.circle")
                 .font(.subheadline)
             ProgressView(value: progress)
@@ -115,28 +115,27 @@ struct SubstanceDBUpdateRow: View {
     }
 
     private func appliedRow(applied: SubstanceDBManifest) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
             HStack {
                 Label("Update Applied", systemImage: "checkmark.circle.fill")
-                    .foregroundStyle(.green)
-                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Color.Semantic.Success.text)
+                    .sectionLabel()
                 Spacer()
                 Text(applied.contentVersion)
                     .font(.caption.monospaced())
                     .foregroundStyle(Theme.secondaryLabel)
             }
             Text("Restart Piru to use the new database.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .captionSecondary()
         }
     }
 
     private func errorRow(message: String) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
             HStack {
                 Label("Update Failed", systemImage: "exclamationmark.triangle.fill")
-                    .foregroundStyle(.orange)
-                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Color.Semantic.Caution.text)
+                    .sectionLabel()
                 Spacer()
                 Button("Retry") {
                     Task { await updater.checkForUpdates() }
@@ -145,8 +144,7 @@ struct SubstanceDBUpdateRow: View {
                 .controlSize(.small)
             }
             Text(message)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
         }
     }

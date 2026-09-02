@@ -26,8 +26,7 @@ struct SubstanceLibraryView: View {
                     }
                 }
                 .listStyle(.insetGrouped)
-                .scrollContentBackground(.hidden)
-                .background(Theme.background)
+                .themedPage()
             }
         }
         .appNavigationBar("Library", enabled: !isSearchSurface)
@@ -119,15 +118,15 @@ private struct SubstanceSearchResultsList: View {
 
     private var helpResourcesSection: some View {
         Section {
-            VStack(alignment: .leading, spacing: 16) {
-                HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: Spacing.xxl) {
+                HStack(spacing: Spacing.xl) {
                     Image(systemName: "hand.raised.fill")
                         .font(.largeTitle)
                         .foregroundStyle(.blue)
                         .accessibilityHidden(true)
-                    VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading, spacing: Spacing.xs) {
                         Text("Take a breath.")
-                            .font(.title3.weight(.semibold))
+                            .screenTitle()
                         Text("You're going to be okay. Whatever you're feeling right now is temporary.")
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
@@ -136,9 +135,9 @@ private struct SubstanceSearchResultsList: View {
 
                 Divider()
 
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: Spacing.lg) {
                     Text("If you need help right now:")
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                         .accessibilityAddTraits(.isHeader)
 
                     helpLink(
@@ -180,25 +179,21 @@ private struct SubstanceSearchResultsList: View {
 
                 Divider()
 
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: Spacing.sm) {
                     Text("While you wait or if you just need to calm down:")
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                         .accessibilityAddTraits(.isHeader)
                     Text("Breathe slowly: 4 seconds in, hold for 4, out for 4.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                     Text("Put your feet flat on the floor. Feel the ground beneath you.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                     Text("Name 5 things you can see. 4 you can touch. 3 you can hear.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                     Text("You are not alone. People care about you and help is available.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
             }
-            .padding(.vertical, 8)
+            .padding(.vertical, Spacing.md)
         }
     }
 
@@ -206,7 +201,7 @@ private struct SubstanceSearchResultsList: View {
     private func helpLink(icon: String, color: Color, title: LocalizedStringKey, detail: LocalizedStringKey, url: String) -> some View {
         if let destination = URL(string: url) {
             Link(destination: destination) {
-                HStack(spacing: 10) {
+                HStack(spacing: Spacing.lg) {
                     Image(systemName: icon)
                         .foregroundStyle(color)
                         .frame(width: 24)
@@ -216,8 +211,7 @@ private struct SubstanceSearchResultsList: View {
                             .font(.subheadline.weight(.medium))
                             .foregroundStyle(.primary)
                         Text(detail)
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                     }
                     Spacer()
                     Image(systemName: "arrow.up.right")
@@ -409,7 +403,7 @@ struct SubstanceCategoryListView: View {
             // convenience rather than a pharmacological family.
             if let category, let summary = category.classSummary {
                 Section {
-                    VStack(alignment: .leading, spacing: 10) {
+                    VStack(alignment: .leading, spacing: Spacing.lg) {
                         Text(summary)
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
@@ -422,7 +416,7 @@ struct SubstanceCategoryListView: View {
                             Button {
                                 navigator.push(classLink.route)
                             } label: {
-                                HStack(spacing: 4) {
+                                HStack(spacing: Spacing.xs) {
                                     // The label says what is behind the tap and
                                     // how much of it. "The groups within it"
                                     // said neither.
@@ -437,7 +431,7 @@ struct SubstanceCategoryListView: View {
                             .buttonStyle(.plain)
                         }
                     }
-                    .padding(.vertical, 2)
+                    .padding(.vertical, Spacing.xxs)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .listRowBackground(CardBackground())
@@ -463,8 +457,7 @@ struct SubstanceCategoryListView: View {
             .listRowBackground(CardBackground())
         }
         .listStyle(.insetGrouped)
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .task(id: listSignature) {
             await SubstanceStore.shared.ensureAllLoaded()
             await rebuildList()
@@ -515,14 +508,14 @@ struct SubstanceRowView: View {
     }
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             // Category-color accent — ties each row to the family palette and
             // adds a touch of color to an otherwise flat list.
             Circle()
                 .fill(substance.category.color.gradient)
                 .frame(width: 10, height: 10)
                 .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(substance.displayTitle)
                     .font(.body.weight(.medium))
                     .foregroundStyle(.primary)
@@ -531,8 +524,7 @@ struct SubstanceRowView: View {
                 // long alias lists shouldn't blow a row up to three lines.
                 if let subtitle = isPersonalized ? substance.name : substance.displaySubtitle {
                     Text(subtitle)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                         .lineLimit(1)
                 }
             }
@@ -544,21 +536,13 @@ struct SubstanceRowView: View {
             if substance.isStub, substance.displayClass.mayReportLimitedData {
                 Text("Limited data")
                     .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .padding(.horizontal, 8)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .padding(.horizontal, Spacing.md)
                     .padding(.vertical, 3)
                     .background(.fill.tertiary, in: Capsule())
             } else if showsCategoryBadge {
                 Text(substance.category.displayName)
-                    .font(.caption2.weight(.medium))
-                    .foregroundStyle(substance.category.labelColor)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 3)
-                    // 0.10 — the alpha every scale's `text` variant is gated against.
-                    // At 0.12 the badge measured 4.40:1 on device, just under the
-                    // 4.5 gate: a fill 2% darker than the one the token was
-                    // derived for is enough to fail it.
-                    .background(substance.category.color.opacity(0.10), in: Capsule())
+                    .capsuleChip(text: substance.category.labelColor, fill: substance.category.color)
             }
         }
         .padding(.vertical, 3)
@@ -576,14 +560,10 @@ struct SubstanceTagFlow: View {
     let accent: Color
 
     var body: some View {
-        FlowLayout(spacing: 6) {
+        FlowLayout(spacing: Spacing.sm) {
             ForEach(tags, id: \.self) { tag in
                 Text(tag)
-                    .font(.caption2.weight(.medium))
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 3)
-                    .background(accent.opacity(0.15), in: Capsule())
-                    .foregroundStyle(accent)
+                    .capsuleChip(text: accent, fill: accent)
             }
         }
     }

@@ -43,7 +43,7 @@ extension View {
     /// rows) so the "what you get" lists read as a cohesive card rather than floating text.
     func onboardingGroupedCard() -> some View {
         padding(18)
-            .themeCard(cornerRadius: 22)
+            .themeCard(cornerRadius: Theme.CornerRadius.card)
     }
 }
 
@@ -60,12 +60,11 @@ struct OnboardingBulletRow: View {
                 .foregroundStyle(Theme.accent)
                 .frame(width: 34)
                 .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(title)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 Text(detail)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 0)
@@ -121,7 +120,7 @@ struct OnboardingPrivacyStep: View {
                 )
             }
             .onboardingGroupedCard()
-            .padding(.horizontal, 24)
+            .padding(.horizontal, Spacing.xxxl)
             .padding(.top, 28)
         } footer: {
             GlassPillButton(title: "Continue", action: nav.advance)
@@ -151,7 +150,7 @@ struct OnboardingDepthStep: View {
             .scrollContentBackground(.hidden)
             .scrollDisabled(true)
             .frame(height: 340)
-            .padding(.top, 8)
+            .padding(.top, Spacing.md)
         } footer: {
             GlassPillButton(title: "Continue") {
                 UserProfileStore.shared.setDisclosureTier(selection)
@@ -173,11 +172,10 @@ struct OnboardingDepthStep: View {
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(tier.displayName)
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                         .foregroundStyle(.primary)
                     Text(tier.summary)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -190,7 +188,7 @@ struct OnboardingDepthStep: View {
                     .accessibilityHidden(!isSelected)
             }
             .contentShape(.rect)
-            .padding(.vertical, 6)
+            .padding(.vertical, Spacing.sm)
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(isSelected ? [.isSelected] : [])
@@ -240,7 +238,7 @@ struct OnboardingRemindersStep: View {
                 )
             }
             .onboardingGroupedCard()
-            .padding(.horizontal, 24)
+            .padding(.horizontal, Spacing.xxxl)
             .padding(.top, 28)
         } footer: {
             GlassPillButton(title: requesting ? "Turning On…" : "Enable Selected") {
@@ -292,12 +290,11 @@ struct OnboardingToggleRow: View {
                 .frame(width: 34)
                 .accessibilityHidden(true)
             Toggle(isOn: $isOn) {
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(title)
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                     Text(detail)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
@@ -336,7 +333,7 @@ struct OnboardingDoneStep: View {
                 )
             }
             .onboardingGroupedCard()
-            .padding(.horizontal, 24)
+            .padding(.horizontal, Spacing.xxxl)
             .padding(.top, 28)
         } footer: {
             GlassPillButton(title: "Start Using Piru", action: nav.finish)

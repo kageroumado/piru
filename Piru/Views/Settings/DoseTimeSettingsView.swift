@@ -42,8 +42,7 @@ struct DoseTimeSettingsView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle("Dose Times")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar { EditButton() }
@@ -114,8 +113,7 @@ private struct DoseTimeAddSheet: View {
                     }
                 }
             }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .navigationTitle("Add Preset")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

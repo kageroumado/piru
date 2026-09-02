@@ -12,12 +12,12 @@ struct ScanResultCard: View {
     var onCapture: (BoxReading) -> Void = { _ in }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             content
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(18)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.card, style: .continuous))
         .animation(.snappy, value: phaseKey)
     }
 
@@ -27,14 +27,14 @@ struct ScanResultCard: View {
         case .scanning:
             Label("Point at a barcode or label, then tap a highlighted area", systemImage: "viewfinder")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
 
         case .resolving:
-            HStack(spacing: 10) {
+            HStack(spacing: Spacing.lg) {
                 ProgressView()
                 Text("Resolving…")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
 
         case let .resolved(resolved):
@@ -52,15 +52,15 @@ struct ScanResultCard: View {
     /// button that turns it into an answer. The count is what keeps the user
     /// pointing — a box reads in over a second or two, not at once.
     private func readingContent(_ reading: BoxReading, barcodeKnown: Bool) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             if reading.isEmpty {
                 Label("Point at the box — name, strength, barcode", systemImage: "barcode.viewfinder")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             } else {
                 Label(readingSummary(reading, barcodeKnown: barcodeKnown), systemImage: barcodeKnown ? "checkmark.circle" : "text.viewfinder")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
             Button { onCapture(reading) } label: {
                 Label("Identify", systemImage: "magnifyingglass")
@@ -80,20 +80,20 @@ struct ScanResultCard: View {
 
     private func resolvedContent(_ resolved: ResolvedDrug) -> some View {
         VStack(alignment: .leading, spacing: 14) {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text(resolved.brandName ?? resolved.substance.displayTitle)
-                    .font(.headline)
+                    .cardTitle()
                 if let brand = resolved.brandName, brand.caseInsensitiveCompare(resolved.substance.name) != .orderedSame {
                     Text(resolved.substance.displayTitle)
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
                 Text(detailLine(resolved))
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
 
-            HStack(spacing: 12) {
+            HStack(spacing: Spacing.xl) {
                 Button { onAdd(resolved) } label: {
                     Label("Add to Log", systemImage: "plus")
                         .frame(maxWidth: .infinity)
@@ -107,15 +107,15 @@ struct ScanResultCard: View {
     }
 
     private func noMatchContent(text: String, canSearch: Bool) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             Text("No match")
-                .font(.headline)
+                .cardTitle()
 
             if canSearch, !text.isEmpty {
                 Text(text)
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                HStack(spacing: 12) {
+                    .foregroundStyle(Theme.secondaryLabel)
+                HStack(spacing: Spacing.xl) {
                     Button { onSearch(text) } label: {
                         Label("Search", systemImage: "magnifyingglass")
                             .frame(maxWidth: .infinity)
@@ -127,7 +127,7 @@ struct ScanResultCard: View {
             } else {
                 Text("Point the camera at the printed drug name.")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
                 Button("Scan Again", action: onRescan)
                     .buttonStyle(.bordered)
             }

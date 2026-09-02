@@ -165,8 +165,7 @@ struct SettingsView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle("Settings")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
@@ -252,7 +251,7 @@ struct SettingsView: View {
                 Text("+\(substanceColors.count - 5)")
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
-                    .padding(.leading, 6)
+                    .padding(.leading, Spacing.sm)
             }
         }
     }

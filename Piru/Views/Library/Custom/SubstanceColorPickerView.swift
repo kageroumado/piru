@@ -75,14 +75,14 @@ struct SubstanceColorPickerView: View {
     // MARK: - Preview
 
     private var previewSection: some View {
-        HStack(spacing: 12) {
-            RoundedRectangle(cornerRadius: 3)
+        HStack(spacing: Spacing.xl) {
+            RoundedRectangle(cornerRadius: Theme.CornerRadius.tiny)
                 .fill(previewColor)
                 .frame(width: 5, height: 44)
                 .accessibilityHidden(true)
             VStack(alignment: .leading) {
                 Text(CustomSubstanceStore.shared.displayName(for: substanceName))
-                    .font(.title3.weight(.semibold))
+                    .screenTitle()
                 Text("Pick a color for this substance")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -96,8 +96,8 @@ struct SubstanceColorPickerView: View {
 
     @ViewBuilder
     private var presetGrid: some View {
-        let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 8)
-        LazyVGrid(columns: columns, spacing: 16) {
+        let columns = Array(repeating: GridItem(.flexible(), spacing: Spacing.md), count: 8)
+        LazyVGrid(columns: columns, spacing: Spacing.xxl) {
             ForEach(PresetColor.all) { preset in
                 gridCircle(hex: preset.hex, name: preset.name)
             }
@@ -108,23 +108,22 @@ struct SubstanceColorPickerView: View {
     // MARK: - User Colors
 
     private var userColorsSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             Divider()
 
             Text("Your Colors")
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(Theme.secondaryLabel)
                 .padding(.horizontal)
 
             if userColors.isEmpty {
                 Text("Custom shades you create will appear here.")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 8)
+                    .padding(.vertical, Spacing.md)
             } else {
-                let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 8)
-                LazyVGrid(columns: columns, spacing: 16) {
+                let columns = Array(repeating: GridItem(.flexible(), spacing: Spacing.md), count: 8)
+                LazyVGrid(columns: columns, spacing: Spacing.xxl) {
                     ForEach(userColors) { uc in
                         gridCircle(hex: uc.hex, name: uc.name)
                     }
@@ -145,7 +144,7 @@ struct SubstanceColorPickerView: View {
         let circleButton = Button {
             selectedHex = hex
         } label: {
-            VStack(spacing: 4) {
+            VStack(spacing: Spacing.xs) {
                 Circle()
                     .fill(Color(hex: hex))
                     .frame(width: 38, height: 38)
@@ -182,7 +181,7 @@ struct SubstanceColorPickerView: View {
     // MARK: - Custom Color Creator
 
     private var customColorSection: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: Spacing.xl) {
             Divider()
 
             if showCustomPicker {
@@ -199,7 +198,7 @@ struct SubstanceColorPickerView: View {
                 showCustomPicker = true
             }
         } label: {
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.md) {
                 Image(systemName: "paintpalette")
                     .accessibilityHidden(true)
                 Text("Create Custom Shade")
@@ -207,14 +206,14 @@ struct SubstanceColorPickerView: View {
             }
             .frame(maxWidth: .infinity)
             .frame(height: 50)
-            .background(.quaternary, in: RoundedRectangle(cornerRadius: 12))
+            .background(.quaternary, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.medium))
         }
         .buttonStyle(.plain)
         .padding(.horizontal)
     }
 
     private var customPickerExpanded: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: Spacing.xxl) {
             // Color picker
             ColorPicker("Pick a color", selection: $customColor, supportsOpacity: false)
                 .padding(.horizontal)
@@ -239,7 +238,7 @@ struct SubstanceColorPickerView: View {
             if let error = customError {
                 Label(error, systemImage: "exclamationmark.triangle.fill")
                     .font(.caption)
-                    .foregroundStyle(.red)
+                    .foregroundStyle(Color.Semantic.Danger.text)
                     .padding(.horizontal)
             }
 
@@ -252,7 +251,7 @@ struct SubstanceColorPickerView: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 50)
                     .foregroundStyle(.white)
-                    .background(Color(hex: sanitizedHex), in: RoundedRectangle(cornerRadius: 12))
+                    .background(Color(hex: sanitizedHex), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.medium))
             }
             .buttonStyle(.plain)
             .padding(.horizontal)
@@ -262,7 +261,7 @@ struct SubstanceColorPickerView: View {
     }
 
     private var hexInputRow: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: Spacing.md) {
             Text("#")
                 .font(.system(.body, design: .monospaced))
                 .foregroundStyle(Theme.secondaryLabel)
@@ -285,7 +284,7 @@ struct SubstanceColorPickerView: View {
             if isHexValid {
                 Circle()
                     .fill(Color(hex: sanitizedHex))
-                    .frame(width: 24, height: 24)
+                    .frame(width: IconSize.iconCompact, height: IconSize.iconCompact)
                     .accessibilityHidden(true)
             }
         }
@@ -295,7 +294,7 @@ struct SubstanceColorPickerView: View {
     @ViewBuilder
     private var customPreviewRow: some View {
         if isHexValid {
-            HStack(spacing: 12) {
+            HStack(spacing: Spacing.xl) {
                 Circle()
                     .fill(Color(hex: sanitizedHex))
                     .frame(width: 32, height: 32)

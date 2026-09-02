@@ -84,8 +84,7 @@ struct JournalSettingsView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle("Journal")
         .navigationBarTitleDisplayMode(.inline)
     }

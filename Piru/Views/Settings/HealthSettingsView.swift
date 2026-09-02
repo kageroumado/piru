@@ -32,8 +32,7 @@ struct HealthSettingsView: View {
                 unavailableSection
             }
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle("Apple Health")
         .navigationBarTitleDisplayMode(.inline)
         .task { connectWouldPrompt = await vitals.connectWouldPrompt() }

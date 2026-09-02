@@ -133,8 +133,8 @@ private struct StoreDiagnosticsModifier: ViewModifier {
             .overlay {
                 if preparingDiagnostics {
                     ProgressView().controlSize(.large)
-                        .padding(24)
-                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
+                        .padding(Spacing.xxxl)
+                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.container))
                 }
             }
     }
@@ -556,8 +556,8 @@ private struct ScopePickerBar: View {
         .id(token)
         .frame(height: 44)
         .padding(.horizontal)
-        .padding(.top, 4)
-        .padding(.bottom, 8)
+        .padding(.top, Spacing.xs)
+        .padding(.bottom, Spacing.md)
     }
 }
 
@@ -659,7 +659,7 @@ private struct BottomAccessoryContent: View {
                     plusButton
                 }
             }
-            .padding(.leading, 16)
+            .padding(.leading, Spacing.xxl)
             .padding(.trailing, 11)
             .animation(.snappy, value: showSessionPill)
         }
@@ -670,7 +670,7 @@ private struct BottomAccessoryContent: View {
     }
 
     private func bodyContent(currentTime: Date) -> some View {
-        HStack(spacing: 10) {
+        HStack(spacing: Spacing.lg) {
             if showSessionPill {
                 SessionAccessoryInfo(
                     states: ActiveSessionManager.shared.activeSubstanceStates,
@@ -758,7 +758,7 @@ private struct SessionAccessoryInfo: View {
     let placement: TabViewBottomAccessoryPlacement?
 
     var body: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: Spacing.lg) {
             // The mini timeline stays in *both* placements — in the folded bar a
             // name + "+" alone read ambiguously; the graph anchors it as a live
             // session and balances the trailing glyph.
@@ -774,15 +774,14 @@ private struct SessionAccessoryInfo: View {
             .allowsHitTesting(false)
             .accessibilityHidden(true)
 
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(uniqueNames)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .lineLimit(1)
 
                 if placement != .inline {
                     Text("\(elapsedText) in \u{00B7} \(remainingText) left")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .captionSecondary()
                 }
             }
         }

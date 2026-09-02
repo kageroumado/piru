@@ -20,29 +20,27 @@ struct CustomSubstancesListView: View {
                     Button {
                         editingSubstance = substance
                     } label: {
-                        HStack(spacing: 12) {
+                        HStack(spacing: Spacing.xl) {
                             Image(systemName: substance.category.icon)
                                 .foregroundStyle(substance.category.labelColor)
                                 .frame(width: 24)
                                 .accessibilityHidden(true)
-                            VStack(alignment: .leading, spacing: 2) {
+                            VStack(alignment: .leading, spacing: Spacing.xxs) {
                                 Text(substance.name)
                                     .font(.body.weight(.medium))
                                     .foregroundStyle(.primary)
-                                HStack(spacing: 6) {
+                                HStack(spacing: Spacing.sm) {
                                     Text(substance.category.displayName)
                                     Middot()
                                     Text(substance.defaultRoute.localizedName)
                                     Middot()
                                     Text(substance.unit)
                                 }
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
+                                .captionSecondary()
                             }
                             Spacer()
                             Image(systemName: "chevron.right")
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
+                                .captionSecondary()
                                 .accessibilityHidden(true)
                         }
                         .accessibilityElement(children: .combine)
@@ -54,8 +52,7 @@ struct CustomSubstancesListView: View {
                 .listRowBackground(CardBackground())
             }
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle("Custom Substances")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

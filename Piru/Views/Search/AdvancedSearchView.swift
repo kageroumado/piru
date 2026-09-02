@@ -88,7 +88,7 @@ struct AdvancedSearchView: View {
         Section {
             if results.isEmpty {
                 Text("No bindings match these filters.")
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             } else {
                 ForEach(results) { hit in
                     BindingHitRow(hit: hit)
@@ -120,22 +120,22 @@ private struct BindingHitRow: View {
     let hit: BindingHit
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             HStack {
                 Text(hit.substanceName)
-                    .font(.headline)
+                    .cardTitle()
                 Spacer()
                 if let ki = hit.kiNm {
                     Text("Ki \(formatNm(ki)) nM")
                         .font(.subheadline.monospacedDigit())
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                 } else if let ec = hit.ec50Nm {
                     Text("EC50 \(formatNm(ec)) nM")
                         .font(.subheadline.monospacedDigit())
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
             }
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 Text(hit.target)
                     .font(.caption.monospaced())
                 Middot()
@@ -146,9 +146,8 @@ private struct BindingHitRow: View {
                         .italic()
                 }
             }
-            .font(.caption)
-            .foregroundStyle(.secondary)
-            HStack(spacing: 6) {
+            .captionSecondary()
+            HStack(spacing: Spacing.sm) {
                 Image(systemName: "doc.text.magnifyingglass")
                     .font(.caption2)
                     .accessibilityHidden(true)
@@ -163,7 +162,7 @@ private struct BindingHitRow: View {
             .foregroundStyle(.tertiary)
         }
         .accessibilityElement(children: .combine)
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
     }
 }
 

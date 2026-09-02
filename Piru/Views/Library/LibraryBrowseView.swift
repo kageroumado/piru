@@ -24,7 +24,7 @@ struct LibraryBrowseView: View {
     var body: some View {
         ScrollView {
             if loaded {
-                LazyVStack(spacing: 12) {
+                LazyVStack(spacing: Spacing.xl) {
                     LibraryYoursCard(
                         favorites: favoriteSubstances,
                         isExpanded: expanded.contains("yours"),
@@ -38,8 +38,8 @@ struct LibraryBrowseView: View {
                         )
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.top, 4)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.top, Spacing.xs)
                 .padding(.bottom, 28)
             } else {
                 ProgressView()
@@ -48,8 +48,7 @@ struct LibraryBrowseView: View {
                     .padding(.top, 80)
             }
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .task {
             // Resolve against the warmed batch cache so the ~12 category counts
             // and favorite lookups are dict hits, not a cold main-thread resolve.
@@ -150,7 +149,7 @@ private struct LibraryFamilyCard: View {
         } else if let source = family.source {
             NavigationLink(value: source.route) {
                 surface {
-                    VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading, spacing: Spacing.xs) {
                         header(chevron: "chevron.right", count: groupCount)
                         if family.highlightsRisk {
                             riskBadge.padding(.top, 5)
@@ -166,7 +165,7 @@ private struct LibraryFamilyCard: View {
 
     private var umbrella: some View {
         surface {
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: Spacing.xl) {
                 Button(action: toggle) {
                     header(chevron: "chevron.down", rotates: true)
                         .contentShape(Rectangle())
@@ -175,7 +174,7 @@ private struct LibraryFamilyCard: View {
                 .accessibilityValue(isExpanded ? Text("Expanded") : Text("Collapsed"))
 
                 if isExpanded {
-                    VStack(spacing: 8) {
+                    VStack(spacing: Spacing.md) {
                         ForEach(family.subclasses) { sub in
                             NavigationLink(value: sub.route) {
                                 LibrarySubclassRow(sub: sub)
@@ -188,7 +187,7 @@ private struct LibraryFamilyCard: View {
                     // geometry morph flash a one-line description at the boundary).
                     .transition(.scale(scale: 0.92, anchor: .top).combined(with: .opacity))
                 } else {
-                    FlowLayout(spacing: 6) {
+                    FlowLayout(spacing: Spacing.sm) {
                         ForEach(family.subclasses) { sub in
                             chip(sub)
                         }
@@ -207,7 +206,7 @@ private struct LibraryFamilyCard: View {
     /// right chevron.
     private func header(chevron: String?, rotates: Bool = false, count: Int? = nil) -> some View {
         HStack(alignment: .top, spacing: 0) {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 Image(systemName: family.icon)
                     .font(.system(size: 21, weight: .semibold))
                     .foregroundStyle(.white)
@@ -223,12 +222,12 @@ private struct LibraryFamilyCard: View {
                     .frame(maxWidth: 210, alignment: .leading)
             }
             Spacer(minLength: 8)
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 // Group size, like the inner sub-rows show. Only on navigating
                 // cards — umbrellas expand to reveal their sub-rows' own counts.
                 if let count {
                     Text("\(count)")
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                         .monospacedDigit()
                         .foregroundStyle(.white.opacity(0.9))
                 }
@@ -240,7 +239,7 @@ private struct LibraryFamilyCard: View {
                         .accessibilityHidden(true)
                 }
             }
-            .padding(.top, 4)
+            .padding(.top, Spacing.xs)
             // Lift the count/chevron off the molecule skeleton behind them.
             .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)
         }
@@ -278,7 +277,7 @@ private struct LibraryFamilyCard: View {
         Text(sub.title)
             .font(.caption.weight(.semibold))
             .foregroundStyle(.white)
-            .padding(.horizontal, 10)
+            .padding(.horizontal, Spacing.lg)
             .padding(.vertical, 5)
             .background(.white.opacity(0.22), in: Capsule())
     }
@@ -313,16 +312,16 @@ private struct LibrarySubclassRow: View {
     }
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             Image(systemName: sub.category.icon)
                 .font(.system(size: 15, weight: .semibold))
                 .foregroundStyle(.white)
                 .frame(width: 32, height: 32)
                 .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
                 .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(sub.title)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(.white)
                 Text(sub.blurb)
                     .font(.caption2)
@@ -332,12 +331,12 @@ private struct LibrarySubclassRow: View {
             }
             Spacer(minLength: 6)
             Text("\(count)")
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(.white.opacity(0.92))
                 .monospacedDigit()
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(.white.opacity(Theme.Opacity.strong))
                 .accessibilityHidden(true)
         }
         .padding(.horizontal, 13)
@@ -346,7 +345,7 @@ private struct LibrarySubclassRow: View {
         .background(.white.opacity(0.17), in: RoundedRectangle(cornerRadius: 15, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 15, style: .continuous)
-                .strokeBorder(.white.opacity(0.18), lineWidth: 0.5),
+                .strokeBorder(.white.opacity(Theme.Opacity.tintActive), lineWidth: 0.5),
         )
         .contentShape(Rectangle())
     }
@@ -413,7 +412,7 @@ private struct LibraryYoursCard: View {
                 .offset(x: 30, y: -18)
                 .accessibilityHidden(true)
         } content: {
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: Spacing.xl) {
                 Button(action: toggle) {
                     header.contentShape(Rectangle())
                 }
@@ -421,7 +420,7 @@ private struct LibraryYoursCard: View {
                 .accessibilityValue(isExpanded ? Text("Expanded") : Text("Collapsed"))
 
                 if isExpanded {
-                    VStack(spacing: 8) {
+                    VStack(spacing: Spacing.md) {
                         ForEach(rows) { row in
                             NavigationLink(value: row.route) {
                                 LibraryYoursSubRow(model: row)
@@ -431,7 +430,7 @@ private struct LibraryYoursCard: View {
                     }
                     .transition(.scale(scale: 0.92, anchor: .top).combined(with: .opacity))
                 } else {
-                    FlowLayout(spacing: 6) {
+                    FlowLayout(spacing: Spacing.sm) {
                         ForEach(rows) { row in
                             chip(row)
                         }
@@ -444,7 +443,7 @@ private struct LibraryYoursCard: View {
 
     private var header: some View {
         HStack(alignment: .top, spacing: 0) {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 Image(systemName: "person.crop.circle.fill")
                     .font(.system(size: 21, weight: .semibold))
                     .foregroundStyle(.white)
@@ -465,7 +464,7 @@ private struct LibraryYoursCard: View {
                 .foregroundStyle(.white.opacity(0.9))
                 .rotationEffect(.degrees(isExpanded ? 180 : 0))
                 .accessibilityHidden(true)
-                .padding(.top, 4)
+                .padding(.top, Spacing.xs)
                 .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)
         }
     }
@@ -479,7 +478,7 @@ private struct LibraryYoursCard: View {
         }
         .font(.caption.weight(.semibold))
         .foregroundStyle(.white)
-        .padding(.horizontal, 10)
+        .padding(.horizontal, Spacing.lg)
         .padding(.vertical, 5)
         .background(.white.opacity(0.22), in: Capsule())
     }
@@ -500,16 +499,16 @@ private struct LibraryYoursSubRow: View {
     let model: Model
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             Image(systemName: model.icon)
                 .font(.system(size: 15, weight: .semibold))
                 .foregroundStyle(.white)
                 .frame(width: 32, height: 32)
                 .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
                 .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(model.title)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(.white)
                 model.blurb
                     .font(.caption2)
@@ -519,12 +518,12 @@ private struct LibraryYoursSubRow: View {
             }
             Spacer(minLength: 6)
             Text("\(model.count)")
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(.white.opacity(0.92))
                 .monospacedDigit()
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(.white.opacity(Theme.Opacity.strong))
                 .accessibilityHidden(true)
         }
         .padding(.horizontal, 13)
@@ -533,7 +532,7 @@ private struct LibraryYoursSubRow: View {
         .background(.white.opacity(0.17), in: RoundedRectangle(cornerRadius: 15, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 15, style: .continuous)
-                .strokeBorder(.white.opacity(0.18), lineWidth: 0.5),
+                .strokeBorder(.white.opacity(Theme.Opacity.tintActive), lineWidth: 0.5),
         )
         .contentShape(Rectangle())
         .accessibilityElement(children: .combine)

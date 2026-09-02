@@ -235,8 +235,8 @@ struct LabelScannerView: View {
                 Spacer()
                 Button { dismiss() } label: {
                     Image(systemName: "xmark")
-                        .font(.headline)
-                        .padding(12)
+                        .cardTitle()
+                        .padding(Spacing.xl)
                         .background(.ultraThinMaterial, in: Circle())
                 }
                 .tint(.white)
