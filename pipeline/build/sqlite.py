@@ -79,6 +79,29 @@ REJECT_LOG_PATH = os.environ.get("PIRU_REJECTS", "")
 REPO = Path(__file__).resolve().parents[2]
 OUT_SQLITE = REPO / "Piru/Data/piru-substances.sqlite"
 OUT_MANIFEST = REPO / "Piru/Data/manifest.json"
+
+
+def next_content_version(today: str, previous: str | None = None) -> str:
+    """`YYYY-MM-DD.N`, with N one past the last build on the same day.
+
+    The app keeps an opt-in downloaded copy over the bundle only while the copy is
+    at least as new, comparing this string — so two same-day builds must not share
+    it, or an older downloaded copy shadows the bundle and every table added in
+    between reads as empty.
+    """
+    if previous is None:
+        try:
+            previous = json.loads(OUT_MANIFEST.read_text()).get("content_version")
+        except (OSError, ValueError):
+            previous = None
+    if previous and previous.startswith(today + "."):
+        try:
+            return f"{today}.{int(previous.rsplit('.', 1)[1]) + 1}"
+        except ValueError:
+            pass
+    return f"{today}.0"
+
+
 OUT_REPORT = REPO / "data/snapshots/build-report.md"
 PAPERS_INDEX = Path.home() / "Developer/papers/index.json"
 
@@ -13934,7 +13957,7 @@ def main() -> int:
     print(f"Final dose-less stub flag: {final_stubs}", file=sys.stderr)
 
     substance_count = db.execute("SELECT COUNT(*) FROM substances").fetchone()[0]
-    content_version = datetime.now(UTC).strftime("%Y-%m-%d.0")
+    content_version = next_content_version(datetime.now(UTC).strftime("%Y-%m-%d"))
     sources_summary = {
         slug: {
             "dose_ranges": db.execute(

@@ -4207,3 +4207,19 @@ class TestSignatureGates(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestNextContentVersion(unittest.TestCase):
+    """Same-day rebuilds must mint distinct versions: the app keeps an opt-in
+    downloaded copy over the bundle while the version string is not older."""
+
+    def test_first_build_of_the_day(self):
+        self.assertEqual(_mod.next_content_version("2026-09-01", "2026-08-31.2"), "2026-09-01.0")
+        self.assertEqual(_mod.next_content_version("2026-09-01", None), "2026-09-01.0")
+
+    def test_same_day_increments(self):
+        self.assertEqual(_mod.next_content_version("2026-09-01", "2026-09-01.0"), "2026-09-01.1")
+        self.assertEqual(_mod.next_content_version("2026-09-01", "2026-09-01.7"), "2026-09-01.8")
+
+    def test_garbled_suffix_restarts(self):
+        self.assertEqual(_mod.next_content_version("2026-09-01", "2026-09-01.x"), "2026-09-01.0")

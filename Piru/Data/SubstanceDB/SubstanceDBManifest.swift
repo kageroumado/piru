@@ -53,8 +53,13 @@ struct SubstanceDBManifest: Codable, Equatable, Hashable {
 
     /// Returns `true` when `other` represents a newer content build than this
     /// one. The comparison treats `contentVersion` as a lexicographic string,
-    /// which works because the format `YYYY-MM-DD.N` sorts chronologically.
+    /// which works because the format `YYYY-MM-DD.N` sorts chronologically;
+    /// equal versions fall back to `generatedAt` (ISO 8601, also lexicographic)
+    /// so two builds minted with the same version still order by build time.
     func isOlderThan(_ other: SubstanceDBManifest) -> Bool {
-        contentVersion < other.contentVersion
+        if contentVersion != other.contentVersion {
+            return contentVersion < other.contentVersion
+        }
+        return generatedAt < other.generatedAt
     }
 }
