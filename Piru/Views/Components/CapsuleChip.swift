@@ -1,9 +1,49 @@
 import SwiftUI
 
+/// The three sizes the filled capsule chip comes in.
+///
+/// Size here is optical, not semantic: the same badge is `.compact` on a dense
+/// row and `.hero` standing alone, so it keeps a constant relationship to the
+/// text beside it.
+enum CapsuleChipSize {
+    /// caption2-semibold, 8·3 — a badge on a list row.
+    case compact
+    /// caption2-semibold, 10·4 — a badge in a card header.
+    case regular
+    /// caption-semibold, 10·5 — a badge standing alone beside a hero value,
+    /// matching `ROAPill`'s `.regular` metrics.
+    case hero
+
+    var font: Font {
+        switch self {
+        case .compact, .regular: .caption2.weight(.semibold)
+        case .hero: .caption.weight(.semibold)
+        }
+    }
+
+    var horizontalPadding: CGFloat {
+        switch self {
+        case .compact: Spacing.md
+        case .regular, .hero: Spacing.lg
+        }
+    }
+
+    /// Off-ladder on purpose at `.compact` and `.hero`: a capsule's vertical
+    /// inset sets its cap height against the text beside it, so these are
+    /// optical values matched to a font, not layout gaps drawn from ``Spacing``.
+    var verticalPadding: CGFloat {
+        switch self {
+        case .compact: 3
+        case .regular: Spacing.xs
+        case .hero: 5
+        }
+    }
+}
+
 extension Text {
     /// The shared badge grammar for categorical labels on a row — the route pill
     /// ("oral") and the dose-strength chip ("heavy") render identically so they
-    /// read as one visual language: caption2-semibold text on a 16% tint capsule.
+    /// read as one visual language: caption2-semibold text on a 10% tint capsule.
     /// `text` is the gated label colour, `fill` the mark colour the capsule is
     /// tinted from. They are separate because they cannot be the same value:
     /// a colour drawn on a tint of *itself* tops out around 4.5:1 and fails
@@ -16,11 +56,18 @@ extension Text {
     /// dark mode regardless of lightness, so a heavier tint fails the WCAG AA
     /// gate.
     func capsuleChip(text: Color, fill: Color) -> some View {
-        font(.caption2.weight(.semibold))
+        capsuleChip(text: text, fill: fill, size: .compact)
+    }
+
+    /// The filled capsule at an explicit size — the one implementation the
+    /// unsized ``capsuleChip(text:fill:)`` and ``heroChip(text:fill:)`` both
+    /// forward to, so the tint grammar cannot drift between them.
+    func capsuleChip(text: Color, fill: Color, size: CapsuleChipSize) -> some View {
+        font(size.font)
             .lineLimit(1)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 3)
-            .background(fill.opacity(0.10), in: Capsule())
+            .padding(.horizontal, size.horizontalPadding)
+            .padding(.vertical, size.verticalPadding)
+            .background(fill.opacity(Theme.Opacity.tint), in: Capsule())
             .foregroundStyle(text)
     }
 
@@ -29,12 +76,7 @@ extension Text {
     /// (`.caption`/10·5) so a strength or salt badge sits the same height as the
     /// route pill in a standalone hero. Row chips stay on ``capsuleChip``.
     func heroChip(text: Color, fill: Color) -> some View {
-        font(.caption.weight(.semibold))
-            .lineLimit(1)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 5)
-            .background(fill.opacity(0.10), in: Capsule())
-            .foregroundStyle(text)
+        capsuleChip(text: text, fill: fill, size: .hero)
     }
 
     /// A bordered, **unfilled** capsule for freeform tags — deliberately a
