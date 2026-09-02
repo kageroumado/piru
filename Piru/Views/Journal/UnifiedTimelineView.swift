@@ -280,6 +280,7 @@ struct TimelineDayLayout: Identifiable {
     let series: [CurveSeries]
     let doseDots: [DoseDot]
     let connectors: [Connector]
+    let noteMarks: [NoteMark]
     let hourTicks: [HourTick]
     let nowY: CGFloat?
     let mapHeight: CGFloat
@@ -387,6 +388,26 @@ struct TimelineDayLayout: Identifiable {
         let fromY: CGFloat
         let toY: CGFloat
         let color: Color
+    }
+
+    /// One session note at its own moment on the axis. It lives in the lane
+    /// between the curves and the bubble column, never in the gutter, so it
+    /// can't collide with a dose capsule.
+    struct NoteMark: Identifiable {
+        let id: UUID
+        let sessionID: UUID
+        let kind: SessionNote.Kind
+        let timestamp: Date
+        /// First line of the note's text, empty when the note carries only
+        /// structure (a rating, a mood).
+        let text: String
+        let y: CGFloat
+        /// How much of the curve lane is taken by the widest curve at this y,
+        /// `0…1`. The view turns it into the room left for the note's text.
+        let curveFraction: Double
+        /// A dose time capsule or the "Now" tag shares this note's height, so
+        /// it starts further into the lane than an hour pill would need.
+        let besideCapsule: Bool
     }
 
     struct HourTick {

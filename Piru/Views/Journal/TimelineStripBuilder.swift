@@ -37,6 +37,19 @@ struct TimelineStripBuilder {
         let breakBelow: Bool
     }
 
+    /// Every drawable session note in the log, ascending. The summary note is
+    /// left out: it describes the session rather than a moment in it.
+    private let notes: [Note]
+
+    /// One session note, flattened for layout.
+    private struct Note {
+        let id: UUID
+        let sessionID: UUID
+        let kind: SessionNote.Kind
+        let timestamp: Date
+        let text: String
+    }
+
     /// Per-day slices, newest first.
     private let slices: [Slice]
     private let map: TimelineTimeMap
@@ -78,6 +91,28 @@ struct TimelineStripBuilder {
             bySubstance[k]?.sort { $0.timestamp < $1.timestamp }
         }
         entriesBySubstance = bySubstance
+
+        var sessions: [UUID: Session] = [:]
+        for entry in entries {
+            if let session = entry.session {
+                sessions[session.id] = session
+            }
+        }
+        notes = sessions.values
+            .flatMap { session in
+                (session.notes ?? [])
+                    .filter { $0.kind != .summary }
+                    .map { note in
+                        Note(
+                            id: note.id,
+                            sessionID: session.id,
+                            kind: note.kind,
+                            timestamp: note.timestamp,
+                            text: note.text.split(separator: "\n", maxSplits: 1).first.map(String.init) ?? "",
+                        )
+                    }
+            }
+            .sorted { $0.timestamp < $1.timestamp }
 
         let calendar = Calendar.current
         let byDay = Dictionary(grouping: entries) { calendar.startOfDay(for: $0.timestamp) }
@@ -375,6 +410,29 @@ struct TimelineStripBuilder {
         // With the axis off nothing draws the curves, so skip sampling them.
         let series = style.showsAxis ? curveSeries(slice: slice, localY: localY) : []
 
+        let capsuleYs = groups.filter(\.showsTimeLabel).map(\.timeY) + [nowY].compactMap { $0 }
+        let noteMarks = notes
+            .filter { $0.timestamp >= slice.bottomTime && $0.timestamp < slice.topTime }
+            .map { note in
+                let y = localY(note.timestamp)
+                let frame = TimelineGutterLabels.Frame(center: y, height: TimelineNoteLane.glyphSize)
+                return TimelineDayLayout.NoteMark(
+                    id: note.id,
+                    sessionID: note.sessionID,
+                    kind: note.kind,
+                    timestamp: note.timestamp,
+                    text: note.text,
+                    y: y,
+                    curveFraction: Self.curveFraction(at: y, series: series),
+                    besideCapsule: capsuleYs.contains { capsuleY in
+                        frame.collides(
+                            with: TimelineGutterLabels.Frame(center: capsuleY, height: TimelineGutterLabels.doseLabelHeight),
+                            gap: 0,
+                        )
+                    },
+                )
+            }
+
         return TimelineDayLayout(
             date: slice.date,
             isToday: slice.isToday,
@@ -387,11 +445,33 @@ struct TimelineStripBuilder {
             series: series,
             doseDots: doseDots,
             connectors: connectors,
+            noteMarks: noteMarks,
             hourTicks: hourTicks,
             nowY: nowY,
             mapHeight: mapHeight,
             totalHeight: totalHeight,
         )
+    }
+
+    /// How far into the lane the widest curve reaches at `y`, `0…1` — what a
+    /// note placed there has to clear. Points bracketing `y` are interpolated,
+    /// so a note between two samples reads the curve at its own height.
+    static func curveFraction(at y: CGFloat, series: [TimelineDayLayout.CurveSeries]) -> Double {
+        var widest = 0.0
+        for curve in series {
+            let points = curve.points
+            guard let upper = points.firstIndex(where: { $0.y >= y }) else { continue }
+            guard upper > 0 else {
+                widest = max(widest, points[0].y == y ? points[0].v : 0)
+                continue
+            }
+            let a = points[upper - 1]
+            let b = points[upper]
+            let span = b.y - a.y
+            let f = span > 0 ? Double((y - a.y) / span) : 0
+            widest = max(widest, a.v + (b.v - a.v) * f)
+        }
+        return widest
     }
 
     // MARK: Hour ruler

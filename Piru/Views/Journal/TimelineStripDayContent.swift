@@ -10,6 +10,7 @@ struct TimelineStripDayContent: View {
     let day: TimelineDayLayout
     let onEntryTap: (DoseEntry) -> Void
     let onSessionTap: (UUID) -> Void
+    @Environment(\.appNavigator) private var navigator
 
     /// Horizontal inset of every bubble within its column, so a session
     /// envelope's edge stays visible around the bubbles it wraps.
@@ -34,6 +35,7 @@ struct TimelineStripDayContent: View {
 
             ZStack(alignment: .topLeading) {
                 strip(bubbleLeft: bubbleLeft, columnX: columnX)
+                noteMarks(bubbleLeft: bubbleLeft, laneWidth: max(0, Self.maxAmplitudeFraction * (geo.size.width - TimelineGutter.axisX)))
                 gutterMarks
                 doseDots
                 bubbleColumn(width: columnWidth)
@@ -75,6 +77,26 @@ struct TimelineStripDayContent: View {
                 TimelineNowMark()
                     .offset(x: TimelineGutter.edgeInset, y: y - TimelineGutterMarkMetrics.singleLineHeight / 2)
             }
+        }
+    }
+
+    /// Session notes in the lane, each at its own moment and pushed clear of
+    /// whatever curve runs past it.
+    private func noteMarks(bubbleLeft: CGFloat, laneWidth: CGFloat) -> some View {
+        ForEach(day.noteMarks) { mark in
+            let x = TimelineNoteLane.glyphX(
+                axisX: TimelineGutter.axisX,
+                curveWidth: laneWidth,
+                curveFraction: mark.curveFraction,
+                besideCapsule: mark.besideCapsule,
+            )
+            TimelineNoteMark(
+                mark: mark,
+                textWidth: TimelineNoteLane.textWidth(glyphX: x, bubbleLeft: bubbleLeft),
+            ) {
+                navigator.present(.sessionNoteEditor(sessionID: mark.sessionID, noteID: mark.id))
+            }
+            .offset(x: x, y: mark.y - TimelineNoteLane.glyphSize / 2)
         }
     }
 
