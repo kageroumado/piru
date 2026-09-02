@@ -22,14 +22,12 @@ struct StagedDoseEditorHeader: View {
             // (it used to read "trash … Collapses the editor").
             HStack(spacing: Spacing.md) {
                 VStack(alignment: .leading, spacing: 1) {
-                    // No "recognized" seal beside the name. It fired only when
-                    // the typed alias resolved to a different canonical entry —
-                    // exactly what the subtitle underneath already says in
-                    // words — and `checkmark.seal.fill` is the app's
-                    // *data-confidence* glyph (see ``ConfidenceBadge``), so a
-                    // green seal against a substance name read as a claim about
-                    // how much to trust it. A custom substance got no seal at
-                    // all, which is the opposite of how testers read it.
+                    // No "recognized" seal beside the name: it fired only when
+                    // the typed alias resolved to a different canonical entry,
+                    // which the subtitle underneath already says in words, and
+                    // a green seal against a substance name reads as a claim
+                    // about how much to trust it. A custom substance got no
+                    // seal at all, the opposite of how testers read it.
                     Text(title)
                         .font(.body.weight(.semibold))
                         .trayMorph(id: "title-\(morphID)", in: namespace, isSource: false)

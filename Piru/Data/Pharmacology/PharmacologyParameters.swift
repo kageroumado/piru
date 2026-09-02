@@ -148,7 +148,7 @@ nonisolated struct PharmacologyParameters {
     let doseScale: Double
     /// Confidence of ``doseScale`` — `.high` for a pure compound (no scaling),
     /// lower for an *estimated* preparation content fraction (potency varies by
-    /// strain/species). Caps ``occupancyConfidence`` like the other inputs.
+    /// strain/species).
     let doseScaleConfidence: ConfidenceTier
     let halfLifeMinutes: Double?
     /// Time-to-peak (Tmax) in **minutes** for the coherent PK row, when the source carries one — used
@@ -289,13 +289,6 @@ nonisolated struct PharmacologyParameters {
     var canComputeOccupancy: Bool {
         vdLPerKg != nil && molarMassGramsPerMole != nil && halfLifeMinutes != nil
             && bioavailabilityFraction != nil && primaryTarget != nil
-    }
-
-    /// Overall occupancy confidence = the weakest link among the inputs that feed it (the resolved
-    /// Vd, the bioavailability, and the primary target). A graded Vd with an un-graded Kᵢ is only as
-    /// trustworthy as the Kᵢ; a defaulted F (`.unverified`) likewise caps the whole prediction.
-    var occupancyConfidence: ConfidenceTier {
-        Swift.min(vdConfidence, bioavailabilityConfidence, doseScaleConfidence, primaryTarget?.confidence ?? .unverified)
     }
 
     /// Peak fractional occupancy/engagement of the primary target for a single oral dose, evaluated

@@ -2,7 +2,7 @@ import SwiftUI
 
 /// A compact pill that conveys **where a pharmacology value came from** — fusing the *method/species*
 /// (human vs animal vs in-vitro cell line vs an aggregator) with the *trust grade* (the color, from
-/// ``ConfidenceTier``). It complements ``ConfidenceBadge`` (which states the grade alone): a glance
+/// ``ConfidenceTier``): a glance
 /// distinguishes a human-PK number from a rat-synaptosome EC₅₀ or an aggregator transcription, which is
 /// exactly the faithful-over-comprehensive distinction the evidence pipeline grades on.
 ///
@@ -38,7 +38,7 @@ struct ProvenanceBadge: View {
     }
 
     /// Color tracks the trust grade so an at-a-glance read combines method *and* how much to trust it —
-    /// the same ramp as ``ConfidenceBadge`` (green → yellow → orange → gray).
+    /// green → yellow → orange → gray.
     private var color: Color {
         switch confidence {
         case .high: .Confidence.High.text

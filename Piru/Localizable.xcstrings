@@ -2538,6 +2538,7 @@
       }
     },
     "%@× the dose is only about %@× the exposure — past the knee, extra drug mostly isn't absorbed." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2554,6 +2555,7 @@
       }
     },
     "%@× the dose isn't %@× the exposure — the largest curve here holds about %@× the total exposure of one reference dose." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3656,6 +3658,7 @@
       }
     },
     "%lld percent left" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3692,6 +3695,9 @@
           }
         }
       }
+    },
+    "%lld percent tolerance" : {
+
     },
     "%lld points, peak %@ %@." : {
       "extractionState" : "stale",
@@ -4118,6 +4124,7 @@
       }
     },
     "%lld%% left" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6172,6 +6179,7 @@
       }
     },
     "A cross-taper usually switches from a short- to a long-half-life benzo: the longer drug self-tapers more smoothly. Diazepam's long-acting active metabolites stretch its effective half-life well beyond the parent." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6304,6 +6312,7 @@
       }
     },
     "A fixed serving fills strength and volume when selected — like a 330 mL can. Without one, only the strength is filled." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6433,6 +6442,7 @@
       }
     },
     "A logged dose checks this med off when the substance and route match — the same substance by another route stays a regular journal entry." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6596,6 +6606,9 @@
           }
         }
       }
+    },
+    "A picture of typical pharmacology." : {
+
     },
     "A Piru or PsychonautWiki JSON file" : {
       "localizations" : {
@@ -9792,6 +9805,7 @@
       }
     },
     "After you log this med, a nudge when the model says its next dose window opens. An estimate, not medical advice — follow your prescriber's schedule." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -9986,7 +10000,11 @@
         }
       }
     },
+    "Alcohol dehydrogenase saturates at about one drink, so clearance runs at a fixed rate and each extra drink stacks on the last. Chronic heavy drinking speeds clearance somewhat (CYP2E1 induction); the ALDH2 “flush” variant slows acetaldehyde clearance." : {
+
+    },
     "Alcohol is the classic zero-order drug: above a very low blood level the enzyme that clears it (alcohol dehydrogenase) is fully saturated and works at a fixed rate. Doubling the drinks more than doubles how long alcohol stays in your system and the area under the curve. Chronic heavy drinking speeds clearance somewhat (CYP2E1 induction); the ALDH2 “flush” variant does the opposite for acetaldehyde." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12643,6 +12661,7 @@
       }
     },
     "Based on an estimated %lld kg body weight — set yours in Settings for accuracy." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13001,7 +13020,11 @@
         }
       }
     },
+    "Benzodiazepine effect kinetics: Vinkers & Olivier 2012; Piot & Jovanovic 2026." : {
+
+    },
     "Benzodiazepine effect kinetics: Vinkers & Olivier 2012; Piot & Jovanovic 2026. These are directions from the literature, graded low — not fitted numbers." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13139,6 +13162,7 @@
       }
     },
     "Binding affinities come from the NIMH PDSP Kᵢ database and primary literature; the recovery kinetics are calibrated to published human studies. Every parameter is graded, and anything resting on a class default is flagged. The cards are predicted from your dose log and these curated values — estimates." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13883,6 +13907,7 @@
       }
     },
     "Both bind the α2δ-1 calcium-channel subunit — but gabapentin rides a saturable intestinal carrier (system-L / LAT1), so the fraction absorbed drops as the dose climbs (~60% → ~27%) and exposure flattens out. That's why gabapentin is dosed several times a day and why very large single doses buy little extra. Pregabalin uses the carrier without saturating it, so it stays ~90% absorbed at any dose — predictable, dose-proportional, simpler to titrate. (Pregabalin is also effective at far fewer milligrams, so its line sits at the low end of the dose axis.)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14620,6 +14645,9 @@
         }
       }
     },
+    "Calibrated on one substance taken once; each extra dose and substance widens the margin of error." : {
+
+    },
     "Call 911 (US) or your local emergency number" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15162,6 +15190,7 @@
       }
     },
     "Ceiling on effect — described in words (no precise dose knee)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15517,6 +15546,7 @@
       }
     },
     "Checked every %@." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15533,6 +15563,7 @@
       }
     },
     "Checked every 2 days starting from the start date." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15549,6 +15580,7 @@
       }
     },
     "Checked every 2 weeks on the same day as the start date." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15565,6 +15597,7 @@
       }
     },
     "Checked every day." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15580,7 +15613,11 @@
         }
       }
     },
+    "Checked off by a logged dose of the same substance and route." : {
+
+    },
     "Checked once per month on the same day-of-month as the start date." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15597,6 +15634,7 @@
       }
     },
     "Checked once per week on the same day as the start date." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16116,6 +16154,7 @@
       }
     },
     "Clearance is capped at ~1 drink/hour, so each extra drink stacks on top of the last and lingers — total exposure climbs far faster than the number of drinks." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16390,6 +16429,7 @@
       }
     },
     "Codeine only works by being converted to morphine, and most people's CYP2D6 enzyme caps how much morphine they can make — so past a point, more codeine adds side-effects and duration while the pain relief plateaus." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16421,6 +16461,9 @@
           }
         }
       }
+    },
+    "Codeine works through CYP2D6 conversion to morphine, and most people's enzyme caps how much they make: past ~60 mg the pain relief plateaus while side effects keep climbing. Ultra-rapid metabolizers have no cap and can reach dangerous levels at ordinary doses; poor metabolizers get little relief." : {
+
     },
     "Cognitive" : {
       "comment" : "Effect domain",
@@ -17256,6 +17299,7 @@
       }
     },
     "Common-dose units by weekday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17377,7 +17421,11 @@
         }
       }
     },
+    "Compare benzodiazepine doses against diazepam, or convert between two." : {
+
+    },
     "Compare benzodiazepine doses against diazepam, or convert between two. Switching to a long-acting benzo before tapering is standard practice, though evidence for better outcomes is limited." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17831,6 +17879,9 @@
         }
       }
     },
+    "Conditioned tolerance: Siegel 1976; Siegel, Hinson, Krank & McCully 1982; Weise-Kelly & Siegel 2001; Carlton & Wolgin 1971." : {
+
+    },
     "Confidence varies by substance. Well-studied ones like amphetamine and methylphenidate rest on firmer data than newer compounds." : {
       "localizations" : {
         "zh-Hans" : {
@@ -17896,6 +17947,7 @@
       }
     },
     "Connect Apple Health to overlay how your body responded to each dose — read-only." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17910,6 +17962,9 @@
           }
         }
       }
+    },
+    "Connect Apple Health to show your heart rate on the graph beside your doses. Read-only." : {
+
     },
     "Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device." : {
       "extractionState" : "stale",
@@ -20270,6 +20325,7 @@
       }
     },
     "Details & sources" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20286,6 +20342,7 @@
       }
     },
     "Develops; rate not quantified" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22152,6 +22209,7 @@
       }
     },
     "Drag to reorder. Swipe left to remove." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22784,6 +22842,7 @@
       }
     },
     "Each card blends these into one reading: how much of your usual dose you'd feel now, and how long until it returns if you stop." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22832,6 +22891,9 @@
         }
       }
     },
+    "Each line as a share of its own peak" : {
+
+    },
     "Each line is a mechanism recovering — a steeper climb means a faster reset." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -22867,6 +22929,7 @@
       }
     },
     "Each line is a mechanism's tolerance fading — a steeper drop means a faster reset." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22883,6 +22946,7 @@
       }
     },
     "Each line is a mechanism's tolerance fading — a steeper drop means a faster reset. Showing the first 60 days." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22899,6 +22963,7 @@
       }
     },
     "Each line is one dose; its height is the level in your blood and the area under it is your total exposure. Time is in days." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22915,6 +22980,7 @@
       }
     },
     "Each line is one dose; its height is the level in your blood and the area under it is your total exposure. Time is in hours." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24013,6 +24079,7 @@
       }
     },
     "Elimination is already maxed out after about one drink, so there is no “safe extra” that clears as fast as the first." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25009,7 +25076,11 @@
         }
       }
     },
+    "Estimate only" : {
+
+    },
     "Estimate Only" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25097,6 +25168,7 @@
       }
     },
     "Estimated amount still circulating, each line a share of its own peak" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26405,6 +26477,7 @@
       }
     },
     "Exposure rises steeply and faster than dose — a small step up can disproportionately increase how much your body sees. The gap between a recreational and a dangerous dose is small." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26502,6 +26575,7 @@
       }
     },
     "Fades near-completely in ~2 weeks" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26518,6 +26592,7 @@
       }
     },
     "Fades slowly and partially, over months" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26992,6 +27067,9 @@
         }
       }
     },
+    "Fires when the model's next dose window opens after a logged dose. Estimate only." : {
+
+    },
     "First effects starting now. Find your spot." : {
       "localizations" : {
         "zh-Hans" : {
@@ -27147,6 +27225,7 @@
       }
     },
     "Folds into the “Supplements” row and stays off the timeline graphs. Its reminders are silent — they wait in Notification Center instead of buzzing, and batch into iOS Scheduled Summary if you use it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -27228,7 +27307,11 @@
         }
       }
     },
+    "For most substances, twice the dose is roughly twice the exposure. For these, an enzyme or carrier runs out of capacity: exposure climbs faster than the dose, or an effect stops climbing. Estimates only." : {
+
+    },
     "For most substances, twice the dose means roughly twice the exposure. For these few, an enzyme runs out of capacity — so exposure can climb much faster than the dose (a warning), or an effect can stop climbing entirely (a ceiling). Shapes are model predictions, relative — not absolute concentrations." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -27262,6 +27345,7 @@
       }
     },
     "For supplements and other low-key meds: they fold into one “Supplements” row, share a single reminder per time of day, and stay off the timeline graphs. Adherence still counts them." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -27375,6 +27459,7 @@
       }
     },
     "Fraction reaching your blood (up the side) against dose (along the bottom, as a multiple of the usual starting dose)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28198,6 +28283,7 @@
       }
     },
     "Gabapentin — falls with dose" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28214,6 +28300,7 @@
       }
     },
     "Gabapentin is absorbed by a carrier that runs out of capacity, so the fraction that reaches your blood DROPS as the dose climbs — taking twice as much delivers much less than twice the exposure." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28230,6 +28317,7 @@
       }
     },
     "Gabapentin vs pregabalin — one absorbing target, two opposite dose curves" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28570,7 +28658,11 @@
         }
       }
     },
+    "GHB's clearing pathway saturates at moderate recreational doses: 25 → 35 mg/kg gave ~40% more exposure, and doubling the regulated product's dose raises exposure ~3.8×. Other depressants, especially alcohol, compound it. No reliable human Km/Vmax exists, so there is no curve." : {
+
+    },
     "GHB's clearing pathway saturates, so dose and effect are not proportional and the margin for error is thin. Measure precisely, wait fully between doses (never re-dose because “it hasn't hit yet”), and treat any other depressant — especially alcohol — as compounding the danger. Liver impairment lowers the threshold further. No reliable human Km/Vmax exists, so the direction is shown without a drawn curve." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28879,6 +28971,9 @@
           }
         }
       }
+    },
+    "Grouped under Supplements, off the timeline graphs. Reminders are silent." : {
+
     },
     "Guideline: %@" : {
       "localizations" : {
@@ -29715,6 +29810,7 @@
       }
     },
     "Higher is more pleasure. The opioid warmth signal — fades with tolerance." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29764,6 +29860,7 @@
       }
     },
     "Higher is more pull. The rush and craving signal — can grow with repeated use even as the high fades." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29991,6 +30088,7 @@
       }
     },
     "Hours two substances were both in your body at once" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30072,6 +30170,7 @@
       }
     },
     "How evenly spaced your doses are" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30137,6 +30236,7 @@
       }
     },
     "How hard each mechanism has been driven, relative to your recent baseline" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -30319,6 +30419,7 @@
       }
     },
     "How often, across this range" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -34726,6 +34827,7 @@
       }
     },
     "low evidence" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -34827,6 +34929,7 @@
       }
     },
     "Lower is better. Load on the body, shown with your heart rate when it's available." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36667,6 +36770,7 @@
       }
     },
     "Model estimates from your dose log and your body weight." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36683,6 +36787,7 @@
       }
     },
     "Model estimates from your dose log, assuming a %lld kg body weight — set yours in Settings." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36747,6 +36852,7 @@
       }
     },
     "moderate evidence" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -38397,6 +38503,9 @@
         }
       }
     },
+    "Never marked missed. A daily limit feeds the cumulative dose warnings." : {
+
+    },
     "Never miss a dose" : {
       "localizations" : {
         "zh-Hans" : {
@@ -39387,6 +39496,7 @@
       }
     },
     "No decline detected" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40083,6 +40193,7 @@
       }
     },
     "No schedule and never marked missed — adherence doesn't count as-needed meds. A daily limit feeds the cumulative dose warnings." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40411,6 +40522,7 @@
       }
     },
     "No tolerance detected" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40657,6 +40769,7 @@
       }
     },
     "Nonlinearity appears already at moderate recreational doses: a controlled study saw ~40% more exposure going from 25 to 35 mg/kg, and the regulated product's exposure rises ~3.8× when the dose doubles." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40995,6 +41108,7 @@
       }
     },
     "not measured" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -41977,7 +42091,11 @@
         }
       }
     },
+    "On a fixed schedule doses overlap and the level climbs until intake and clearance balance: steady state." : {
+
+    },
     "On a fixed schedule, each dose lands on the tail of the last and the level climbs until intake and clearance balance — steady state." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -42122,6 +42240,9 @@
         }
       }
     },
+    "One curve per effect, combined from every substance and dose in the session." : {
+
+    },
     "One of these is from the Ashton Manual's equivalence table; the other is not in it and is not sourced elsewhere. Equivalences are approximate either way." : {
       "localizations" : {
         "zh-Hans" : {
@@ -42189,6 +42310,7 @@
       }
     },
     "Only a minority of entries could be placed on a ladder" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44208,6 +44330,7 @@
 
     },
     "Phenytoin" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44224,6 +44347,7 @@
       }
     },
     "Phenytoin is hydroxylated by a saturable liver enzyme system (CYP2C9/CYP2C19). Because its Km lies below the therapeutic range, dose and level are not proportional: titrate in small steps and confirm with blood levels. CYP2C9/2C19 poor metabolizers, age, and interacting drugs shift the knee lower. Shown as relative shape — phenytoin is individualized by therapeutic drug monitoring." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -45262,6 +45386,9 @@
         }
       }
     },
+    "Population-average half-lives in a one-compartment model." : {
+
+    },
     "Population-average pharmacokinetics from primary literature with per-row source attribution. Real values vary with genetics, organ function, and route." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -45559,6 +45686,7 @@
       }
     },
     "Pregabalin — flat ~90%" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -46586,6 +46714,7 @@
       }
     },
     "Quiet meds share one silent reminder per time of day — it never buzzes, it just waits in Notification Center. As-needed meds are never counted against you." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -46788,6 +46917,7 @@
       }
     },
     "Ranked by how often, or by total common-dose units" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47729,6 +47859,7 @@
       }
     },
     "Recovery timescales and behavior are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -48241,6 +48372,9 @@
         }
       }
     },
+    "Relative to your recent baseline" : {
+
+    },
     "Relaxation, euphoria, and altered senses." : {
       "localizations" : {
         "zh-Hans" : {
@@ -48598,6 +48732,7 @@
       }
     },
     "Reminders, Ask Again, quiet hours, and everything else Piru sends." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -50599,6 +50734,7 @@
       }
     },
     "Saturation begins within the therapeutic window itself — the curve bends up where most other drugs would still be a straight line." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -53518,6 +53654,9 @@
         }
       }
     },
+    "Showing the first 60 days." : {
+
+    },
     "Shown" : {
       "localizations" : {
         "zh-Hans" : {
@@ -53728,6 +53867,7 @@
       }
     },
     "Siegel 1976; Siegel, Hinson, Krank & McCully 1982; Weise-Kelly & Siegel 2001; Carlton & Wolgin 1971." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -55948,6 +56088,7 @@
       }
     },
     "Steep, supralinear — described in words (no reliable human kinetics)." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -56369,6 +56510,7 @@
       }
     },
     "strong evidence" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -56746,6 +56888,7 @@
       }
     },
     "Substances logged on the same day" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -58081,6 +58224,7 @@
       }
     },
     "The carrier is already saturating across the normal dose range: bioavailability falls from ~60% at 900 mg/day to ~27% at 4800 mg/day, so each step up buys progressively less." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -58097,6 +58241,7 @@
       }
     },
     "The clearing enzyme is already half-saturated inside the normal dose range, so a small dose increase near the top can roughly double the level into toxicity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -58566,6 +58711,9 @@
         }
       }
     },
+    "The intestinal carrier (system-L / LAT1) saturates, so the fraction absorbed falls from ~60% at 900 mg/day to ~27% at 4800 mg/day." : {
+
+    },
     "The learned part of tolerance" : {
       "localizations" : {
         "zh-Hans" : {
@@ -58617,6 +58765,7 @@
       }
     },
     "The limit is set by how much CYP2D6 enzyme you have. The analgesic plateau around ~60 mg is a clinical observation." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -58702,6 +58851,7 @@
       }
     },
     "The model is calibrated on a single substance taken once, in lab conditions. The interactions here stay mechanistic, but each extra dose and substance adds parameters and widens the margin of error." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -58997,6 +59147,7 @@
       }
     },
     "The sleep effect tolerizes" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -59111,6 +59262,7 @@
       }
     },
     "There is no fixed milligram knee — the limit (or its absence) is set by your CYP2D6 activity. Poor metabolizers get little opioid effect but keep tramadol's serotonin/seizure risk; ultra-rapid metabolizers blow past the usual ceiling." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -59209,6 +59361,7 @@
       }
     },
     "These curves estimate how this session may feel over time — how effects rise, peak, and fade, and how strong they get. Redoses and each substance's full duration are included, so a bigger dose lifts the curve higher." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -59322,6 +59475,7 @@
       }
     },
     "This calculator uses a one-compartment oral pharmacokinetic model with absorption and elimination phases. Absorption rates are estimated from known duration profiles (onset + comeup timing) when available, or use a default 4× elimination rate ratio. Population-average elimination half-lives are sourced from FDA-approved prescribing information, published pharmacokinetic studies (PubMed), and DrugBank. Half-lives for some research chemicals and novel substances are estimated from structurally similar compounds and may be less reliable.\n\nReal pharmacokinetics vary significantly based on individual metabolism, genetics, liver and kidney function, body composition, age, drug interactions, tolerance, and route of administration. Multi-compartment distribution, protein binding, active metabolites, and enterohepatic recirculation are not accounted for. Polydrug use may alter elimination rates unpredictably.\n\nThese figures are approximate population averages — not a substitute for clinical monitoring or professional medical advice. Always consult a qualified healthcare professional." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -59371,6 +59525,7 @@
       }
     },
     "This ceiling is on the opioid effect only — not on codeine's other risks. Two big caveats: “ultra-rapid metabolizers” convert far more codeine to morphine and can reach dangerous levels at ordinary doses (the FDA contraindicates codeine in them), while “poor metabolizers” get little relief. So this is not a green light to take more." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -59516,6 +59671,7 @@
       }
     },
     "This is a picture of typical pharmacology. Your own response shifts with tolerance, body chemistry, and the day." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -59615,6 +59771,7 @@
       }
     },
     "This is the mirror image of codeine: same CYP2D6 activation step, opposite danger. Two cautions. (1) Repeated dosing raises tramadol's own absorption (first-pass saturates, F climbs ~75%→90–100%), so steady-state levels run higher than a single dose predicts. (2) The opioid limb is carried almost entirely by the metabolite M1/O-DSMT (a potent 3.4 nM µ-agonist), so strong CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine) mute the painkilling effect while leaving — or raising — the serotonergic and seizure risk of the parent. “Cleaner” is not “safer.” Described in words." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -59681,6 +59838,7 @@
       }
     },
     "This is the opposite of the alcohol/phenytoin ceiling: there the clearing enzyme saturates and exposure runs away upward; here the absorbing transporter (system-L / LAT1) saturates and exposure flattens out — a built-in brake, though it also caps the benefit of very large single doses and is why gabapentin is dosed several times a day. Pregabalin, the same drug class, uses the transporter differently and stays ~90% absorbed at any dose (dose-linear) — a clean contrast in the same family. Shown as relative shape." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -61154,7 +61312,11 @@
         }
       }
     },
+    "Tramadol → O-DSMT" : {
+
+    },
     "Tramadol → O-DSMT (M1)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -61169,6 +61331,9 @@
           }
         }
       }
+    },
+    "Tramadol becomes a strong opioid only after CYP2D6 converts it to O-DSMT, so the ceiling depends on your genes: most people plateau, ultra-rapid metabolizers don't. Repeated dosing raises tramadol's own absorption (~75% → 90–100%), and CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion) mute the opioid effect while leaving the parent's serotonergic and seizure risk." : {
+
     },
     "Tramadol is itself a weak opioid that also raises serotonin and noradrenaline. Most of the opioid effect people feel comes from this metabolite — and how much you make of it depends on a CYP2D6 gene, so the same dose can be a real opioid for one person and almost none for another." : {
       "localizations" : {
@@ -61204,6 +61369,7 @@
       }
     },
     "Tramadol only becomes a strong opioid after CYP2D6 converts it to M1 — and how much you make depends on your genes. Most people plateau; “ultra-rapid metabolizers” have no such cap and can reach dangerous levels at ordinary doses." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -61730,6 +61896,7 @@
       }
     },
     "Two drugs that hit the same target behave oppositely as you scale the dose: gabapentin's absorbed fraction falls, pregabalin's stays put." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -62824,6 +62991,7 @@
       }
     },
     "Values are body content in the dose's units, not a plasma concentration. Real accumulation varies with metabolism, dosing gaps, and metabolites." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -62838,6 +63006,9 @@
           }
         }
       }
+    },
+    "Values are body content in the dose's units." : {
+
     },
     "Vandrevala Foundation" : {
       "localizations" : {
@@ -63481,6 +63652,7 @@
       }
     },
     "Weakest input" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -64198,6 +64370,7 @@
 
     },
     "Where the numbers come from" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -64247,6 +64420,7 @@
       }
     },
     "Where your doses sit on each substance's ladder" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -64263,6 +64437,7 @@
       }
     },
     "Whether your typical dose has moved over this range" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -64296,6 +64471,7 @@
       }
     },
     "Which days and hours you log on" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -64312,6 +64488,7 @@
       }
     },
     "Which days and hours, by common-dose units" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -64344,6 +64521,7 @@
       }
     },
     "Which weekdays you log on most" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -64762,7 +64940,11 @@
         }
       }
     },
+    "Within a session the high fades faster than the blood-pressure rise, so a redose stacks onto it." : {
+
+    },
     "Within a session the high fades faster than the strain on your heart — chasing it with more stacks onto a blood-pressure spike that hasn't eased. Space your doses." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

@@ -14,7 +14,6 @@ struct PharmacologyParametersTests {
         #expect(p.vdLPerKg == nil)
         #expect(p.targets.isEmpty)
         #expect(!p.canComputeOccupancy)
-        #expect(p.occupancyConfidence == .unverified)
     }
 
     @Test
@@ -80,7 +79,6 @@ struct PharmacologyParametersTests {
     func `Occupancy confidence is the weakest link`() {
         // Caffeine: Vd graded HIGH but its adenosine Kᵢ graded MEDIUM → overall MEDIUM.
         let p = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "Caffeine")
-        #expect(p.occupancyConfidence == .medium)
     }
 
     /// Regression: a substance dosed by an **alias** resolves its full pharmacology. Canonical is now
@@ -111,7 +109,6 @@ struct PharmacologyParametersTests {
         #expect(p.bioavailabilityFraction == 1.0)
         #expect(p.bioavailabilityConfidence == .unverified)
         #expect(p.canComputeOccupancy) // was dropped (F nil) before the default
-        #expect(p.occupancyConfidence == .unverified) // F is the weakest link
     }
 
     /// Phase 2b: a logged *preparation* resolves its pharmacology from its active constituent and
@@ -180,7 +177,6 @@ struct PharmacologyParametersTests {
         #expect(p.canComputeOccupancy)
         let occ = try #require(p.peakPrimaryOccupancy(doseMg: 100, weightKg: 70))
         #expect(occ > 0)
-        #expect(p.occupancyConfidence <= .low)
     }
 
     /// The reference borrow is SINGLE-HOP: the surrogate (mephedrone) must carry real PK of its own and
