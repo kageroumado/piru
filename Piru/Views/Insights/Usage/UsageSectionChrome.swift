@@ -118,10 +118,10 @@ struct UsageSectionCard<Content: View>: View {
     @ViewBuilder var content: () -> Content
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(title)
-                    .font(.headline)
+                    .cardTitle()
                     .accessibilityAddTraits(.isHeader)
                 if let subtitle {
                     Text(subtitle)
@@ -164,11 +164,11 @@ struct UsageCollapsibleCard<Content: View>: View {
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
             content()
-                .padding(.top, 8)
+                .padding(.top, Spacing.md)
         } label: {
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(title)
-                    .font(.headline)
+                    .cardTitle()
                     .accessibilityAddTraits(.isHeader)
                 if let subtitle {
                     Text(subtitle)
@@ -193,7 +193,7 @@ struct UsageCategoryFilterBar: View {
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 pill(label: Text("All"), color: Theme.accent, isSelected: selection == nil) {
                     selection = nil
                 }
@@ -217,21 +217,37 @@ struct UsageCategoryFilterBar: View {
         Button {
             withAnimation(.easeInOut(duration: 0.2)) { action() }
         } label: {
-            HStack(spacing: 4) {
+            HStack(spacing: Spacing.xs) {
                 Circle()
                     .fill(color)
                     .frame(width: 6, height: 6)
                 label
                     .font(.caption2.weight(.medium))
             }
-            .padding(.horizontal, 9)
-            .padding(.vertical, 5)
-            .background(isSelected ? color.opacity(0.25) : Color.clear)
-            .foregroundStyle(.primary)
-            .clipShape(Capsule())
-            .overlay(Capsule().stroke(isSelected ? color : Color(.quaternaryLabel)))
+            .usageFilterPill(isSelected: isSelected, color: color)
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(isSelected ? [.isSelected] : [])
+    }
+}
+
+// MARK: - Filter pill
+
+extension View {
+    /// The outlined filter capsule both of the usage screen's horizontal filter
+    /// strips are drawn with — a tint only while selected, over an outline that
+    /// carries the category's or substance's identity color.
+    ///
+    /// Deliberately not ``SwiftUI/View/selectableCapsule(isSelected:tint:)``:
+    /// these strips scroll across a card's own fill, so an unselected pill stays
+    /// transparent instead of taking a `tertiarySystemFill` plate that would
+    /// read as a second surface on top of the card.
+    func usageFilterPill(isSelected: Bool, color: Color) -> some View {
+        padding(.horizontal, 9)
+            .padding(.vertical, 5)
+            .background(isSelected ? color.opacity(Theme.Opacity.emphasis) : Color.clear)
+            .foregroundStyle(.primary)
+            .clipShape(Capsule())
+            .overlay(Capsule().stroke(isSelected ? color : Color(.quaternaryLabel)))
     }
 }

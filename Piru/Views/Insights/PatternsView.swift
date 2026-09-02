@@ -17,7 +17,7 @@ struct PatternsView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: Spacing.xxl) {
                 if allEntries.isEmpty {
                     ContentUnavailableView(
                         "No Logged Entries",
@@ -91,7 +91,7 @@ struct PatternsView: View {
                 }
             }
         } label: {
-            Text(range.displayName).font(.subheadline.weight(.semibold))
+            Text(range.displayName).sectionLabel()
         }
     }
 
@@ -100,7 +100,7 @@ struct PatternsView: View {
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 4)
+            .padding(.horizontal, Spacing.xs)
     }
 }
 
@@ -123,7 +123,7 @@ private struct HolidayCard: View {
     }
 
     private func tile(_ value: String, _ label: LocalizedStringKey) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             Text(value)
                 .font(.title3.weight(.bold))
                 .monospacedDigit()
@@ -145,7 +145,7 @@ private struct ExposureCard: View {
             if report.opioidPeakDayMME != nil || report.benzoDiazepamPerDay != nil {
                 clinicalCallout
             }
-            VStack(spacing: 10) {
+            VStack(spacing: Spacing.lg) {
                 ForEach(report.exposure) { stat in
                     ExposureRow(stat: stat, substance: report.substances[stat.substanceIndex])
                 }
@@ -154,24 +154,24 @@ private struct ExposureCard: View {
     }
 
     private var clinicalCallout: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: Spacing.md) {
             if let peak = report.opioidPeakDayMME {
                 MMEBand(peakDayMME: peak, dailyMean: report.opioidMMEPerDay ?? 0)
             }
             if let de = report.benzoDiazepamPerDay {
                 HStack {
                     Image(systemName: "cross.case")
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(.infoText)
                         .accessibilityHidden(true)
                     Text("Benzodiazepines ≈ \(de.formatted(.number.precision(.fractionLength(0 ... 1)))) mg diazepam-eq/day")
                         .font(.caption)
                     Spacer()
                 }
-                .padding(10)
-                .background(Color.blue.opacity(0.10), in: .rect(cornerRadius: 10))
+                .padding(Spacing.lg)
+                .background(Color.infoAccent.opacity(Theme.Opacity.tint), in: .rect(cornerRadius: Theme.CornerRadius.inner))
             }
         }
-        .padding(.bottom, 4)
+        .padding(.bottom, Spacing.xs)
     }
 }
 
@@ -190,20 +190,20 @@ private struct MMEBand: View {
     let dailyMean: Double
 
     var body: some View {
-        HStack(alignment: .top, spacing: 10) {
+        HStack(alignment: .top, spacing: Spacing.lg) {
             Image(systemName: "cross.case")
-                .foregroundStyle(.blue)
+                .foregroundStyle(.infoAccent)
                 .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text("Opioids: peak day ≈ \(peakDayMME.formatted(.number.precision(.fractionLength(0)))) MME")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 Text("Average \(dailyMean.formatted(.number.precision(.fractionLength(0 ... 1)))) MME/day over the range")
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
             }
             Spacer()
         }
-        .padding(10)
+        .padding(Spacing.lg)
     }
 }
 
@@ -212,8 +212,8 @@ private struct ExposureRow: View {
     let substance: ClinicalSubstance
 
     var body: some View {
-        HStack(spacing: 10) {
-            Circle().fill(Color(hex: substance.colorHex)).frame(width: 9, height: 9)
+        HStack(spacing: Spacing.lg) {
+            LegendDot(color: Color(hex: substance.colorHex), size: .large)
             VStack(alignment: .leading, spacing: 1) {
                 Text(substance.displayName)
                     .font(.subheadline.weight(.medium))
@@ -233,7 +233,7 @@ private struct ExposureRow: View {
     private var sparkline: some View {
         Chart(stat.cumulative) { point in
             AreaMark(x: .value("Date", point.date), y: .value("Total", point.total))
-                .foregroundStyle(Color(hex: substance.colorHex).opacity(0.25))
+                .foregroundStyle(Color(hex: substance.colorHex).opacity(Theme.Opacity.emphasis))
             LineMark(x: .value("Date", point.date), y: .value("Total", point.total))
                 .foregroundStyle(Color(hex: substance.colorHex))
                 .lineStyle(StrokeStyle(lineWidth: 1.5))
@@ -251,7 +251,7 @@ private struct EscalationCard: View {
 
     var body: some View {
         UsageSectionCard(title: "Dose trend", subtitle: "Whether your typical dose has moved over this range") {
-            VStack(spacing: 10) {
+            VStack(spacing: Spacing.lg) {
                 ForEach(report.escalation) { stat in
                     EscalationRow(stat: stat, substance: report.substances[stat.substanceIndex])
                 }
@@ -273,8 +273,8 @@ private struct EscalationRow: View {
     }
 
     var body: some View {
-        HStack(spacing: 10) {
-            Circle().fill(Color(hex: substance.colorHex)).frame(width: 9, height: 9)
+        HStack(spacing: Spacing.lg) {
+            LegendDot(color: Color(hex: substance.colorHex), size: .large)
             Text(substance.displayName)
                 .font(.subheadline.weight(.medium))
                 .lineLimit(1)
@@ -317,13 +317,13 @@ private struct OverlapCard: View {
 
     var body: some View {
         UsageSectionCard(title: "Active together", subtitle: "Hours two substances were both in your body at once") {
-            VStack(spacing: 10) {
+            VStack(spacing: Spacing.lg) {
                 ForEach(report.overlaps.prefix(6)) { overlap in
                     let a = report.substances[overlap.a]
                     let b = report.substances[overlap.b]
-                    HStack(spacing: 8) {
-                        Circle().fill(Color(hex: a.colorHex)).frame(width: 8, height: 8)
-                        Circle().fill(Color(hex: b.colorHex)).frame(width: 8, height: 8)
+                    HStack(spacing: Spacing.md) {
+                        LegendDot(color: Color(hex: a.colorHex))
+                        LegendDot(color: Color(hex: b.colorHex))
                         Text("\(a.displayName) · \(b.displayName)")
                             .font(.subheadline)
                             .lineLimit(1)

@@ -24,7 +24,7 @@ struct ReportsView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 14) {
+            VStack(spacing: Spacing.xxl) {
                 modePicker
                 scopeSummary
                 if model.hasScope {
@@ -33,7 +33,7 @@ struct ReportsView: View {
                 }
             }
             .padding(.horizontal)
-            .padding(.top, 4)
+            .padding(.top, Spacing.xs)
             .padding(.bottom, 80)
         }
         .background(Theme.background)
@@ -58,7 +58,7 @@ struct ReportsView: View {
             }
         }
         .pickerStyle(.segmented)
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     // MARK: - Scope Summary
@@ -95,7 +95,7 @@ struct ReportsView: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
             .font(.subheadline)
-            .padding(16)
+            .padding(Spacing.xxl)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(Text("Select sessions"))
@@ -105,22 +105,21 @@ struct ReportsView: View {
     private var dateRangeRows: some View {
         VStack(spacing: 0) {
             DatePicker("From", selection: $model.customStart, displayedComponents: .date)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
-            Divider().padding(.leading, 16)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.vertical, Spacing.lg)
+            Divider().padding(.leading, Spacing.xxl)
             DatePicker("To", selection: $model.customEnd, displayedComponents: .date)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.vertical, Spacing.lg)
             if model.entryCountInScope > 0 {
-                Divider().padding(.leading, 16)
+                Divider().padding(.leading, Spacing.xxl)
                 HStack {
                     Text("\(model.entryCountInScope) entries across \(model.substancesInScope.count) substances")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                     Spacer()
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.vertical, Spacing.md)
             }
         }
     }
@@ -219,12 +218,12 @@ struct ReportsView: View {
                         .foregroundStyle(Theme.secondaryLabel)
                 }
                 .font(.subheadline)
-                .padding(16)
+                .padding(Spacing.xxl)
             }
             .buttonStyle(.plain)
 
             if model.substanceFilterExpanded {
-                Divider().padding(.leading, 16)
+                Divider().padding(.leading, Spacing.xxl)
 
                 HStack {
                     Spacer()
@@ -240,12 +239,12 @@ struct ReportsView: View {
                             .foregroundStyle(Theme.accent)
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.top, 6)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.top, Spacing.sm)
 
                 ForEach(model.substancesInScope, id: \.self) { substance in
                     Button { model.toggleSubstance(substance) } label: {
-                        HStack(spacing: 12) {
+                        HStack(spacing: Spacing.xl) {
                             let included = model.isSubstanceIncluded(substance)
                             Image(systemName: included ? "checkmark.circle.fill" : "circle")
                                 .foregroundStyle(included ? Theme.accent : Theme.secondaryLabel)
@@ -254,12 +253,12 @@ struct ReportsView: View {
                                 .font(.subheadline)
                             Spacer()
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 6)
+                        .padding(.horizontal, Spacing.xxl)
+                        .padding(.vertical, Spacing.sm)
                     }
                     .buttonStyle(.plain)
                 }
-                .padding(.bottom, 8)
+                .padding(.bottom, Spacing.md)
             }
         }
         .themeCard()
@@ -432,7 +431,7 @@ private struct SessionPickerSheet: View {
             List {
                 ForEach(sessions) { summary in
                     Button { model.toggleSession(summary.id) } label: {
-                        HStack(spacing: 12) {
+                        HStack(spacing: Spacing.xl) {
                             let selected = model.selectedSessions.contains(summary.id)
                             Image(systemName: selected ? "checkmark.circle.fill" : "circle")
                                 .foregroundStyle(selected ? Theme.accent : Theme.secondaryLabel)
@@ -443,23 +442,20 @@ private struct SessionPickerSheet: View {
                                 HStack {
                                     if let title = summary.title {
                                         Text(title)
-                                            .font(.subheadline.weight(.semibold))
+                                            .sectionLabel()
                                     }
                                     Text(summary.startDate.formatted(Self.dayFormat))
                                         .font(.subheadline.weight(summary.title == nil ? .semibold : .regular))
                                         .foregroundStyle(summary.title == nil ? .primary : Theme.secondaryLabel)
                                 }
 
-                                HStack(spacing: 6) {
+                                HStack(spacing: Spacing.sm) {
                                     Text(summary.timeLabel)
-                                        .font(.caption)
-                                        .foregroundStyle(Theme.secondaryLabel)
+                                        .captionSecondary()
                                     Text("·")
-                                        .font(.caption)
-                                        .foregroundStyle(Theme.secondaryLabel)
+                                        .captionSecondary()
                                     Text(summary.substanceSummary)
-                                        .font(.caption)
-                                        .foregroundStyle(Theme.secondaryLabel)
+                                        .captionSecondary()
                                         .lineLimit(1)
                                 }
                             }
@@ -469,8 +465,7 @@ private struct SessionPickerSheet: View {
                             Text(summary.doseCount == 1
                                 ? String(localized: "1 dose")
                                 : String(localized: "\(summary.doseCount) doses"))
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
+                                .captionSecondary()
                                 .monospacedDigit()
                         }
                     }
@@ -534,13 +529,12 @@ private struct ExportCard: View {
                     .foregroundStyle(tint)
                     .frame(width: 28, alignment: .center)
 
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(title)
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                         .foregroundStyle(.primary)
                     Text(description)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                         .fixedSize(horizontal: false, vertical: true)
                 }
 
@@ -555,7 +549,7 @@ private struct ExportCard: View {
                         .foregroundStyle(Theme.secondaryLabel)
                 }
             }
-            .padding(16)
+            .padding(Spacing.xxl)
         }
         .buttonStyle(.plain)
         .accessibilityElement(children: .combine)

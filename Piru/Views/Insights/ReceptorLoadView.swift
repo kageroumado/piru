@@ -22,7 +22,7 @@ struct ReceptorLoadView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: Spacing.xxl) {
                 if allEntries.isEmpty {
                     empty(
                         "No Logged Entries",
@@ -167,7 +167,7 @@ struct ReceptorLoadView: View {
     }
 
     private var legend: some View {
-        FlowLayout(spacing: 8) {
+        FlowLayout(spacing: Spacing.md) {
             ForEach(series) { item in
                 let isHidden = hidden.contains(item.id)
                 Button {
@@ -175,10 +175,8 @@ struct ReceptorLoadView: View {
                         if isHidden { hidden.remove(item.id) } else { hidden.insert(item.id) }
                     }
                 } label: {
-                    HStack(spacing: 4) {
-                        Circle()
-                            .fill(item.color)
-                            .frame(width: 8, height: 8)
+                    HStack(spacing: Spacing.xs) {
+                        LegendDot(color: item.color)
                             .opacity(isHidden ? 0.3 : 1)
                         Text(item.name)
                             .font(.caption2)
@@ -205,7 +203,7 @@ struct ReceptorLoadView: View {
             }
         } label: {
             Text(range.displayName)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
         }
         .onChange(of: range) { selectedDate = nil }
     }
@@ -220,7 +218,7 @@ struct ReceptorLoadView: View {
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 4)
+            .padding(.horizontal, Spacing.xs)
     }
 }
 
@@ -269,7 +267,7 @@ private struct ReceptorLoadChart: View {
             }
             if let selectedDate {
                 RuleMark(x: .value("Selected", selectedDate))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(0.4))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.muted))
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [3, 3]))
             }
         }
@@ -280,7 +278,7 @@ private struct ReceptorLoadChart: View {
         .chartYAxis {
             AxisMarks(position: .leading, values: [0, 0.5, 1]) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(0.5))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                 AxisValueLabel {
                     if let fraction = value.as(Double.self) {
                         Text(fraction.formatted(.percent.precision(.fractionLength(0))))
@@ -292,7 +290,7 @@ private struct ReceptorLoadChart: View {
         .chartXAxis {
             AxisMarks(values: .automatic(desiredCount: 4)) { _ in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(0.5))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                 AxisValueLabel(format: .dateTime.month(.abbreviated).day())
                     .font(.caption2)
             }
@@ -347,9 +345,9 @@ private struct ReceptorLoadReadout: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
         }
-        .padding(8)
+        .padding(Spacing.md)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .themeCard(cornerRadius: 10)
+        .themeCard(cornerRadius: Theme.CornerRadius.inner)
         .accessibilityElement(children: .combine)
         .transition(.opacity)
     }

@@ -28,7 +28,7 @@ struct SteadyStateProjectionView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: Spacing.xxl) {
                 if !loaded {
                     ProgressView().padding(.top, 60)
                 } else if projections.isEmpty {
@@ -61,7 +61,7 @@ struct SteadyStateProjectionView: View {
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 4)
+            .padding(.horizontal, Spacing.xs)
     }
 }
 
@@ -79,7 +79,7 @@ struct SteadyStateProjectionCard: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             header
             chart
             stats
@@ -90,16 +90,13 @@ struct SteadyStateProjectionCard: View {
     }
 
     private var header: some View {
-        HStack(spacing: 8) {
-            Circle()
-                .fill(projection.color)
-                .frame(width: 9, height: 9)
+        HStack(spacing: Spacing.md) {
+            LegendDot(color: projection.color, size: .large)
             Text(projection.displayName)
-                .font(.headline)
+                .cardTitle()
             Spacer()
             Text("\(projection.medianDose.doseFormatted) \(projection.unit) · \(cadenceText)")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
     }
 
@@ -111,7 +108,7 @@ struct SteadyStateProjectionCard: View {
                     x: .value("Day", point.minutes / 1_440),
                     y: .value("Body content", point.amount),
                 )
-                .foregroundStyle(projection.color.opacity(0.18))
+                .foregroundStyle(projection.color.opacity(Theme.Opacity.tintActive))
                 LineMark(
                     x: .value("Day", point.minutes / 1_440),
                     y: .value("Body content", point.amount),
@@ -120,21 +117,21 @@ struct SteadyStateProjectionCard: View {
                 .lineStyle(StrokeStyle(lineWidth: 2))
             }
             RuleMark(y: .value("Plateau", result.averageAmount))
-                .foregroundStyle(projection.color.opacity(0.5))
+                .foregroundStyle(projection.color.opacity(Theme.Opacity.dimmed))
                 .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 4]))
         }
         .frame(height: 130)
         .chartYAxis {
             AxisMarks(position: .leading) { _ in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(0.4))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.muted))
                 AxisValueLabel().font(.caption2)
             }
         }
         .chartXAxis {
             AxisMarks { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(0.4))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.muted))
                 AxisValueLabel {
                     if let day = value.as(Double.self) {
                         Text("\(Int(day))d").font(.caption2)
@@ -160,12 +157,12 @@ struct SteadyStateProjectionCard: View {
     }
 
     private func stat(_ label: LocalizedStringKey, _ value: String) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             Text(label)
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
             Text(value)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .monospacedDigit()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
