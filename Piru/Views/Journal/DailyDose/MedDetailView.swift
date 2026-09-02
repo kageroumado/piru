@@ -156,7 +156,7 @@ struct MedDetailView: View {
         } header: {
             Text("Dosage")
         } footer: {
-            Text("A logged dose checks this med off when the substance and route match — the same substance by another route stays a regular journal entry.")
+            Text("Checked off by a logged dose of the same substance and route.")
         }
         .listRowBackground(CardBackground())
     }
@@ -266,7 +266,7 @@ struct MedDetailView: View {
                 item.isBackgroundMed = item.isQuiet
             }
         } footer: {
-            Text("Folds into the \u{201C}Supplements\u{201D} row and stays off the timeline graphs. Its reminders are silent — they wait in Notification Center instead of buzzing, and batch into iOS Scheduled Summary if you use it.")
+            Text("Grouped under Supplements, off the timeline graphs. Reminders are silent.")
         }
         .listRowBackground(CardBackground())
     }
@@ -304,29 +304,9 @@ struct MedDetailView: View {
     @ViewBuilder
     private var scheduleFooter: some View {
         if item.isAsNeeded {
-            Text("No schedule and never marked missed — adherence doesn't count as-needed meds. A daily limit feeds the cumulative dose warnings.")
-        } else {
-            switch item.frequency {
-            case .daily:
-                Text("Checked every day.")
-            case .everyOtherDay:
-                Text("Checked every 2 days starting from the start date.")
-            case .weekly:
-                Text("Checked once per week on the same day as the start date.")
-            case .biweekly:
-                Text("Checked every 2 weeks on the same day as the start date.")
-            case .monthly:
-                Text("Checked once per month on the same day-of-month as the start date.")
-            case .specificDays:
-                if item.frequencyDays.isEmpty {
-                    Text("Select at least one day.")
-                } else {
-                    let names = item.frequencyDays.sorted().compactMap { idx in
-                        Self.weekdaySymbols.first { $0.index == idx }?.short
-                    }
-                    Text("Checked every \(names.joined(separator: ", ")).")
-                }
-            }
+            Text("Never marked missed. A daily limit feeds the cumulative dose warnings.")
+        } else if item.frequency == .specificDays, item.frequencyDays.isEmpty {
+            Text("Select at least one day.")
         }
     }
 

@@ -25,7 +25,6 @@ struct UsageRouteSection: View {
         if !breakdown.rows.isEmpty {
             UsageCollapsibleCard(
                 title: "Most logged",
-                subtitle: "Ranked by how often, or by total common-dose units",
                 storageKey: "routes",
             ) {
                 UsageRankingContent(breakdown: breakdown, style: style, metric: metric)

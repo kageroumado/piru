@@ -23,14 +23,13 @@ struct UsageDoseLevelSection: View {
         } else if breakdown.isLowCoverage {
             UsageCollapsibleCard(
                 title: "Dose levels",
-                subtitle: "Only a minority of entries could be placed on a ladder",
                 storageKey: "doseLevels",
                 defaultExpanded: false,
             ) {
                 content
             }
         } else {
-            UsageSectionCard(title: "Dose levels", subtitle: "Where your doses sit on each substance's ladder") {
+            UsageSectionCard(title: "Dose levels") {
                 content
             }
         }

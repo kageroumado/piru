@@ -16,7 +16,6 @@ struct UsageRegularitySection: View {
         if !rows.isEmpty {
             UsageCollapsibleCard(
                 title: "Regularity",
-                subtitle: "How evenly spaced your doses are",
                 storageKey: "regularity",
             ) {
                 VStack(spacing: Spacing.xl) {

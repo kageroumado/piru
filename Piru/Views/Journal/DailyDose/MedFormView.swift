@@ -181,7 +181,7 @@ struct MedFormView: View {
         } header: {
             Text("Dosage")
         } footer: {
-            Text("A logged dose checks this med off when the substance and route match — the same substance by another route stays a regular journal entry.")
+            Text("Checked off by a logged dose of the same substance and route.")
         }
     }
 
@@ -284,7 +284,7 @@ struct MedFormView: View {
                 Label("Quiet med", systemImage: "leaf")
             }
         } footer: {
-            Text("For supplements and other low-key meds: they fold into one \u{201C}Supplements\u{201D} row, share a single reminder per time of day, and stay off the timeline graphs. Adherence still counts them.")
+            Text("Grouped under Supplements, off the timeline graphs. Reminders are silent.")
         }
     }
 
@@ -293,7 +293,7 @@ struct MedFormView: View {
         return Section {
             Toggle("Next-dose window reminder", isOn: $draft.nextDoseReminder)
         } footer: {
-            Text("After you log this med, a nudge when the model says its next dose window opens. An estimate, not medical advice — follow your prescriber's schedule.")
+            Text("Fires when the model's next dose window opens after a logged dose. Estimate only.")
         }
     }
 
@@ -332,29 +332,9 @@ struct MedFormView: View {
     @ViewBuilder
     private var scheduleFooter: some View {
         if draft.isAsNeeded {
-            Text("No schedule and never marked missed — adherence doesn't count as-needed meds. A daily limit feeds the cumulative dose warnings.")
-        } else {
-            switch draft.frequency {
-            case .daily:
-                Text("Checked every day.")
-            case .everyOtherDay:
-                Text("Checked every 2 days starting from the start date.")
-            case .weekly:
-                Text("Checked once per week on the same day as the start date.")
-            case .biweekly:
-                Text("Checked every 2 weeks on the same day as the start date.")
-            case .monthly:
-                Text("Checked once per month on the same day-of-month as the start date.")
-            case .specificDays:
-                if draft.selectedWeekdays.isEmpty {
-                    Text("Select at least one day.")
-                } else {
-                    let names = draft.selectedWeekdays.sorted().compactMap { idx in
-                        Self.weekdaySymbols.first { $0.index == idx }?.short
-                    }
-                    Text("Checked every \(names.joined(separator: ", ")).")
-                }
-            }
+            Text("Never marked missed. A daily limit feeds the cumulative dose warnings.")
+        } else if draft.frequency == .specificDays, draft.selectedWeekdays.isEmpty {
+            Text("Select at least one day.")
         }
     }
 
