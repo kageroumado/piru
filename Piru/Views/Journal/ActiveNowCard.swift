@@ -68,7 +68,7 @@ struct ActiveNowCard: View {
 
     private var titleLabel: some View {
         Text("Active Now")
-            .font(.piru(.title3).weight(.semibold))
+            .font(.piru(.title3, weight: .semibold))
             .lineLimit(1)
     }
 
@@ -109,7 +109,7 @@ struct ActiveNowCard: View {
         // Big dose amount + route badge, mirroring the dose-detail hero.
         HStack(alignment: .center, spacing: 8) {
             Text(verbatim: "\(state.amount.doseFormatted) \(state.unit)")
-                .font(.system(.title, design: .rounded).weight(.bold))
+                .font(.piru(.title, design: .rounded, weight: .bold))
                 .lineLimit(1)
             Spacer(minLength: 8)
             ROAPill(route: RouteOfAdministration.from(string: state.route), size: .regular)

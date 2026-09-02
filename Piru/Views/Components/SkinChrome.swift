@@ -75,7 +75,7 @@ extension Text {
     /// chip with a stroke in the mark colour on the input surface.
     @ViewBuilder
     func skinChip(text: Color, fill: Color, style: Font.TextStyle, weight: Font.Weight, horizontal: CGFloat, vertical: CGFloat) -> some View {
-        let base = self.font(.piruLabel(style).weight(weight))
+        let base = self.font(.piruLabel(style, weight: weight))
             .lineLimit(1)
             .padding(.horizontal, horizontal)
             .padding(.vertical, vertical)
@@ -98,7 +98,7 @@ extension Text {
     /// floor, never the label). Capsule under glass, square under an edge.
     @ViewBuilder
     func skinOutlineChip(stroke: Color, style: Font.TextStyle, weight: Font.Weight, horizontal: CGFloat, vertical: CGFloat) -> some View {
-        let base = self.font(.piruLabel(style).weight(weight))
+        let base = self.font(.piruLabel(style, weight: weight))
             .lineLimit(1)
             .padding(.horizontal, horizontal)
             .padding(.vertical, vertical)

@@ -322,7 +322,7 @@ struct SteadyStateView: View {
                 .foregroundStyle(Theme.secondaryLabel)
                 .textCase(.uppercase)
             Text(value)
-                .font(.system(.title2, design: .rounded, weight: .bold))
+                .font(.piru(.title2, design: .rounded, weight: .bold))
             Text(sub)
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)

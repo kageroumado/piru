@@ -62,7 +62,7 @@ struct VolumetricDosingView: View {
                 .foregroundStyle(Theme.accent)
                 .accessibilityHidden(true)
             Text("Volumetric Dosing")
-                .font(.piru(.title3).weight(.semibold))
+                .font(.piru(.title3, weight: .semibold))
             Text("Calculate measurements for dissolving substances in liquid solvents.")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -162,7 +162,7 @@ struct VolumetricDosingView: View {
                     : String(format: "%.4g", result)
 
                 Text("\(formatted) \(resultUnit)")
-                    .font(.piru(.title).weight(.bold))
+                    .font(.piru(.title, weight: .bold))
                     .foregroundStyle(Theme.accent)
                     .contentTransition(.numericText())
                     .animation(.default, value: result)
@@ -177,7 +177,7 @@ struct VolumetricDosingView: View {
                 .tint(Theme.accent)
             } else {
                 Text("--")
-                    .font(.piru(.title).weight(.bold))
+                    .font(.piru(.title, weight: .bold))
                     .foregroundStyle(Theme.secondaryLabel)
             }
         }

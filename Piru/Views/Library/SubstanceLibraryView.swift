@@ -127,7 +127,7 @@ private struct SubstanceSearchResultsList: View {
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Take a breath.")
-                            .font(.piru(.title3).weight(.semibold))
+                            .font(.piru(.title3, weight: .semibold))
                         Text("You're going to be okay. Whatever you're feeling right now is temporary.")
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)

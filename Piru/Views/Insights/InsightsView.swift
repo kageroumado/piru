@@ -195,7 +195,7 @@ struct InsightsView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     HStack(alignment: .firstTextBaseline, spacing: 6) {
                         Text("\(u.total)")
-                            .font(.system(.title2, design: .rounded, weight: .bold))
+                            .font(.piru(.title2, design: .rounded, weight: .bold))
                         Text("entries")
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
@@ -272,7 +272,7 @@ struct InsightsView: View {
                     HStack(alignment: .firstTextBaseline, spacing: 6) {
                         if let a = model.adherence {
                             Text("\(a.streak)")
-                                .font(.system(.title2, design: .rounded, weight: .bold))
+                                .font(.piru(.title2, design: .rounded, weight: .bold))
                             Text(a.streak == 1 ? "day streak" : "day streak")
                                 .font(.subheadline)
                                 .foregroundStyle(Theme.secondaryLabel)

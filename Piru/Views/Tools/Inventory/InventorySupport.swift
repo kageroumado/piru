@@ -263,7 +263,7 @@ struct InventoryStepperRow: View {
                 .keyboardType(.decimalPad)
                 .multilineTextAlignment(.trailing)
                 .fixedSize()
-                .font(.piru(.title2).weight(.semibold))
+                .font(.piru(.title2, weight: .semibold))
                 .monospacedDigit()
                 .focused($focused)
             unitView

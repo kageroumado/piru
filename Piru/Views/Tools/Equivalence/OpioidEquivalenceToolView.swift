@@ -58,7 +58,7 @@ struct OpioidEquivalenceToolView: View {
                 .foregroundStyle(Theme.accent)
                 .accessibilityHidden(true)
             Text("Opioid Equivalence")
-                .font(.piru(.title3).weight(.semibold))
+                .font(.piru(.title3, weight: .semibold))
             Text("Convert a dose of one opioid to another through oral morphine milligram equivalents (MME), using the CDC 2022 conversion factors.")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -153,7 +153,7 @@ struct OpioidEquivalenceToolView: View {
                let result = from.equivalentDose(forDoseMg: dose, in: to),
                let mme = from.mme(forDoseMg: dose) {
                 Text("≈ \(EquivalenceFormat.mg(result)) mg")
-                    .font(.piru(.title).weight(.bold))
+                    .font(.piru(.title, weight: .bold))
                     .foregroundStyle(Theme.accent)
                     .contentTransition(.numericText())
                     .animation(.default, value: result)
@@ -165,7 +165,7 @@ struct OpioidEquivalenceToolView: View {
                 mmeBadge(mme)
             } else {
                 Text("--")
-                    .font(.piru(.title).weight(.bold))
+                    .font(.piru(.title, weight: .bold))
                     .foregroundStyle(Theme.secondaryLabel)
                 Text(fallbackReason)
                     .font(.caption2)

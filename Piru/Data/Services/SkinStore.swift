@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import WidgetKit
 
 /// The active skin and colour-scheme override, persisted to the app group.
 ///
@@ -42,7 +43,11 @@ final class SkinStore {
     /// the choice equals the default; only mutates `current` on a real change.
     func setSkin(_ skin: Skin) {
         defaults.set(skin.rawValue, forKey: SkinDefaults.skinKey)
-        if skin != current { current = skin }
+        if skin != current {
+            current = skin
+            // Widgets read the persisted choice; they only re-render on reload.
+            WidgetCenter.shared.reloadAllTimelines()
+        }
     }
 
     func setColorScheme(_ scheme: SkinColorScheme) {

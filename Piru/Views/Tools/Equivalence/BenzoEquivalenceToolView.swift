@@ -83,7 +83,7 @@ struct BenzoEquivalenceToolView: View {
                 .foregroundStyle(Theme.accent)
                 .accessibilityHidden(true)
             Text("Benzo Equivalence")
-                .font(.piru(.title3).weight(.semibold))
+                .font(.piru(.title3, weight: .semibold))
             Text("Compare benzodiazepine doses against diazepam, or convert between two. Switching to a long-acting benzo before tapering is standard practice, though evidence for better outcomes is limited.")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -163,7 +163,7 @@ struct BenzoEquivalenceToolView: View {
 
             if let from, let to, let dose, let result = from.equivalentDose(forDoseMg: dose, in: to) {
                 Text("≈ \(EquivalenceFormat.mg(result)) mg")
-                    .font(.piru(.title).weight(.bold))
+                    .font(.piru(.title, weight: .bold))
                     .foregroundStyle(Theme.accent)
                     .contentTransition(.numericText())
                     .animation(.default, value: result)
@@ -183,7 +183,7 @@ struct BenzoEquivalenceToolView: View {
                     .padding(.top, 2)
             } else {
                 Text("--")
-                    .font(.piru(.title).weight(.bold))
+                    .font(.piru(.title, weight: .bold))
                     .foregroundStyle(Theme.secondaryLabel)
                 Text(unconvertibleReason)
                     .font(.caption2)

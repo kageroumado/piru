@@ -254,7 +254,7 @@ private struct SubstanceDetailHeader: View {
         } header: {
             VStack(alignment: .leading, spacing: 5) {
                 Text(substance.displayTitle)
-                    .font(.system(size: 40, weight: .heavy, design: .rounded))
+                    .font(.piru(size: 40, weight: .heavy, design: .rounded, relativeTo: .largeTitle))
                     // `Color.primary`, not `.primary`: a section header carries a
                     // secondary style, and the hierarchical `.primary` resolves to
                     // the primary *level of that style* — which is still gray. The

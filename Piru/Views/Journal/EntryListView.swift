@@ -593,7 +593,7 @@ struct EntryListView: View {
                         Text(day.dateTitle)
                             .font(.piru(.headline))
                         Text(day.weekday)
-                            .font(.piru(.headline).weight(.regular))
+                            .font(.piru(.headline, weight: .regular))
                             .foregroundStyle(Theme.secondaryLabel)
                         Spacer()
                     }

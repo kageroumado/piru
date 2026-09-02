@@ -125,7 +125,7 @@ private struct HolidayCard: View {
     private func tile(_ value: String, _ label: LocalizedStringKey) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(value)
-                .font(.piru(.title3).weight(.bold))
+                .font(.piru(.title3, weight: .bold))
                 .monospacedDigit()
             Text(label)
                 .font(.caption2)

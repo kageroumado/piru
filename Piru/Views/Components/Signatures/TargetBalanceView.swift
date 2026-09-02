@@ -203,7 +203,7 @@ private struct BalanceReadout: View {
         VStack(alignment: .leading, spacing: 3) {
             if model.focus != nil, !model.ratioText.isEmpty {
                 Text(model.ratioText)
-                    .font(.piru(.title3).weight(.bold))
+                    .font(.piru(.title3, weight: .bold))
                     .foregroundStyle(accent)
             }
             Text(model.valueText)

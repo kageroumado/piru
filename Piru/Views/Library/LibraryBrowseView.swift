@@ -213,7 +213,7 @@ private struct LibraryFamilyCard: View {
                     .frame(height: 28, alignment: .leading)
                     .accessibilityHidden(true)
                 Text(family.title)
-                    .font(.system(size: 20, weight: .bold))
+                    .font(.piru(size: 20, weight: .bold, relativeTo: .title3))
                     .foregroundStyle(.white)
                 Text(family.blurb)
                     .font(.footnote)
@@ -386,7 +386,7 @@ private struct LibraryFavoritesCard: View {
                             .accessibilityHidden(true)
                             .frame(height: 28, alignment: .leading)
                         Text("Favorites")
-                            .font(.system(size: 20, weight: .bold))
+                            .font(.piru(size: 20, weight: .bold, relativeTo: .title3))
                             .foregroundStyle(.white)
                         // The saved-count now sits by the chevron, so this card drops
                         // its count subtitle and runs a line shorter than the rest.
@@ -442,7 +442,7 @@ private struct LibraryCustomCard: View {
                             .accessibilityHidden(true)
                         Spacer(minLength: 14)
                         Text("Custom")
-                            .font(.system(size: 20, weight: .bold))
+                            .font(.piru(size: 20, weight: .bold, relativeTo: .title3))
                             .foregroundStyle(.white)
                         Text("^[\(customCount) substances](inflect: true) you added or customized")
                             .font(.footnote)

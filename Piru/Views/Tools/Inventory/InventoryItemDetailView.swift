@@ -126,15 +126,15 @@ struct InventoryItemDetailView: View {
         let status = item.stockStatus
         if status == .out {
             Text("Out")
-                .font(.system(size: 38, weight: .bold))
+                .font(.piru(size: 38, weight: .bold, relativeTo: .largeTitle))
                 .foregroundStyle(status.numberColor)
         } else {
             HStack(alignment: .firstTextBaseline, spacing: 6) {
                 Text(item.currentQuantity.inventoryFormatted)
-                    .font(.system(size: 38, weight: .bold))
+                    .font(.piru(size: 38, weight: .bold, relativeTo: .largeTitle))
                     .foregroundStyle(status.numberColor)
                 Text(item.unit)
-                    .font(.piru(.title3).weight(.medium))
+                    .font(.piru(.title3, weight: .medium))
                     .foregroundStyle(Theme.secondaryLabel)
             }
         }

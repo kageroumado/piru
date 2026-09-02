@@ -122,7 +122,7 @@ struct MedDetailView: View {
         Section {
             HStack(spacing: 14) {
                 Image(systemName: "pill")
-                    .font(.piru(.title3).weight(.semibold))
+                    .font(.piru(.title3, weight: .semibold))
                     .foregroundStyle(.white)
                     .frame(width: 44, height: 44)
                     .background(Theme.accent, in: Circle())

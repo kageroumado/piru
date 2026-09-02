@@ -448,7 +448,7 @@ struct StagedDoseEditor: View {
                     .keyboardType(.decimalPad)
                     .focused(focus)
                     .multilineTextAlignment(.center)
-                    .font(.piru(.title3).weight(.semibold))
+                    .font(.piru(.title3, weight: .semibold))
                     .frame(height: 42)
                     .frame(maxWidth: .infinity)
                     .background(Color(.secondarySystemFill), in: Capsule())
@@ -634,7 +634,7 @@ struct StagedDoseEditor: View {
             .keyboardType(.decimalPad)
             .focused($amountFocused)
             .multilineTextAlignment(.center)
-            .font(.piru(.title3).weight(.semibold))
+            .font(.piru(.title3, weight: .semibold))
             .onChange(of: amountText) {
                 if suppressAmountSync {
                     suppressAmountSync = false
@@ -927,7 +927,7 @@ struct StagedDoseEditor: View {
                 stepButton(systemImage: "minus") { setPillCount(pillCount - 1) }
                     .accessibilityLabel("Fewer pills")
                 Text(formNoun(product.form, count: pillCount))
-                    .font(.piru(.title3).weight(.semibold))
+                    .font(.piru(.title3, weight: .semibold))
                     .frame(height: 42)
                     .frame(maxWidth: .infinity)
                     .background(Color(.secondarySystemFill), in: Capsule())

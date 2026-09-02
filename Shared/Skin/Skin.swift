@@ -196,11 +196,17 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
 
     /// Applied once at the root. `nil` keeps the system default design; this
     /// reshapes every semantic text style in the app without touching call
-    /// sites. Custom families come through ``typeface``.
+    /// sites.
+    ///
+    /// **Must be `nil` for any skin with a custom face in ``typeface``.** A
+    /// root `fontDesign` re-derives every SwiftUI font in the tree as a system
+    /// font of that design — wrapped custom `UIFont`s included — so the display
+    /// face would render only in UIKit's navigation bar and nowhere else.
+    /// `SkinTypeTests` enforces the exclusion.
     var fontDesign: Font.Design? {
         switch self {
         case .piru: nil
-        case .elyPink: .rounded
+        case .elyPink: nil
         }
     }
 

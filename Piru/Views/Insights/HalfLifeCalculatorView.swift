@@ -327,7 +327,7 @@ private struct HalfLifeCurrentAmountCard: View {
                     .foregroundStyle(Theme.secondaryLabel)
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text(remaining.doseFormatted)
-                        .font(.system(.title, design: .rounded, weight: .bold))
+                        .font(.piru(.title, design: .rounded, weight: .bold))
                         .foregroundStyle(Theme.accent)
                     Text(unit)
                         .font(.subheadline)
@@ -337,7 +337,7 @@ private struct HalfLifeCurrentAmountCard: View {
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
                 Text("\(Int(max(0, min(100, (1 - remaining / dose) * 100))))%")
-                    .font(.system(.title2, design: .rounded, weight: .semibold))
+                    .font(.piru(.title2, design: .rounded, weight: .semibold))
                 Text("eliminated")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)

@@ -13,25 +13,120 @@ extension Font {
     /// Display styles (`largeTitle` … `headline`) resolve to the skin's
     /// display family when it has one; every other style, and every skin
     /// without a display face, is the plain system style — so this is safe to
-    /// use at any call site that used `.font(.headline)` before.
-    static func piru(_ style: Font.TextStyle) -> Font {
-        guard style.isDisplay, let family = SkinStore.shared.current.typeface.display else {
-            return .system(style)
+    /// use at any call site that used `.font(.headline)` before. `weight`
+    /// defaults to the system's own weight for the style (headline is
+    /// semibold), and `design` is honoured by the system fallback.
+    static func piru(_ style: Font.TextStyle, design: Font.Design? = nil, weight: Font.Weight? = nil) -> Font {
+        let weight = weight ?? style.defaultWeight
+        guard style.isDisplay, let font = SkinFace.display(weight: weight, size: style.defaultPointSize, relativeTo: style) else {
+            let base: Font = design.map { .system(style, design: $0) } ?? .system(style)
+            return base.weight(weight)
         }
-        return .custom(family, size: style.defaultPointSize, relativeTo: style)
+        return font
+    }
+
+    /// A fixed-size display title in the skin's display face — for the few
+    /// hero titles that are sized by hand rather than by text style (Library
+    /// card titles, the substance hero). Scales with Dynamic Type relative to
+    /// `relativeTo`. Skins without a display face get the system font at that
+    /// size, weight and design, exactly as before.
+    static func piru(size: CGFloat, weight: Font.Weight = .regular, design: Font.Design? = nil, relativeTo style: Font.TextStyle = .title) -> Font {
+        guard let font = SkinFace.display(weight: weight, size: size, relativeTo: style) else {
+            return .system(size: size, weight: weight, design: design)
+        }
+        return font
     }
 
     /// A semantic text style in the skin's label face — for chips, badges and
     /// eyebrows only. Falls back to the system style.
-    static func piruLabel(_ style: Font.TextStyle) -> Font {
-        guard let family = SkinStore.shared.current.typeface.label else {
-            return .system(style)
+    static func piruLabel(_ style: Font.TextStyle, weight: Font.Weight = .regular) -> Font {
+        guard let font = SkinFace.label(weight: weight, size: style.defaultPointSize, relativeTo: style) else {
+            return Font.system(style).weight(weight)
         }
-        return .custom(family, size: style.defaultPointSize, relativeTo: style)
+        return font
+    }
+}
+
+/// Resolves a skin's family + weight to a **registered font name**, and builds
+/// the `Font` through UIKit.
+///
+/// Two traps, both silent: `Font.custom` wants a font name (`Fredoka-Bold`),
+/// not a family (`Fredoka`), and even with the right name it rendered the
+/// system font for this variable font's named instances on device, while
+/// `UIFont(name:)` resolved them — which is why the navigation bar (UIKit) was
+/// right when card titles (SwiftUI) were wrong. So the name is checked against
+/// UIKit, and the `Font` is a wrapped `UIFont` scaled by `UIFontMetrics` for
+/// Dynamic Type, never `Font.custom`.
+enum SkinFace {
+    /// The skin's display family at `weight`, as a `Font`, or nil for system.
+    static func display(weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle) -> Font? {
+        SkinStore.shared.current.typeface.display.map { font(family: $0, weight: weight, size: size, relativeTo: style) }
+    }
+
+    /// The skin's label family at `weight`, as a `Font`, or nil for system.
+    static func label(weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle) -> Font? {
+        SkinStore.shared.current.typeface.label.map { font(family: $0, weight: weight, size: size, relativeTo: style) }
+    }
+
+    /// Builds the face by **family + weight descriptor** — the lookup the
+    /// navigation bar uses, and the one that resolves a variable font's
+    /// instances before anything else has touched the family. `UIFont(name:)`
+    /// returned nil for `Fredoka-Bold` on the first render of a launch while
+    /// this returned the right face, which is why card titles were the system
+    /// font under a Fredoka nav title. Scaled by `UIFontMetrics` for Dynamic Type.
+    static func font(family: String, weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle) -> Font {
+        let descriptor = UIFontDescriptor(fontAttributes: [
+            .family: family,
+            .traits: [UIFontDescriptor.TraitKey.weight: uiWeight(weight)],
+        ])
+        let base = UIFont(descriptor: descriptor, size: size)
+        return Font(UIFontMetrics(forTextStyle: style.uiTextStyle).scaledFont(for: base))
+    }
+
+    /// The registered PostScript-style name for `family` at `weight`, or nil.
+    /// Diagnostic — `SkinTypeTests` uses it to prove the faces are bundled; the
+    /// render path above does not depend on it.
+    static func registered(_ family: String, weight: Font.Weight) -> String? {
+        for suffix in [suffix(for: weight), "Regular"] {
+            let name = "\(family)-\(suffix)"
+            if UIFont(name: name, size: 17) != nil { return name }
+        }
+        return UIFont(name: family, size: 17) != nil ? family : nil
+    }
+
+    static func uiWeight(_ weight: Font.Weight) -> UIFont.Weight {
+        switch weight {
+        case .ultraLight: .ultraLight
+        case .thin: .thin
+        case .light: .light
+        case .regular: .regular
+        case .medium: .medium
+        case .semibold: .semibold
+        case .bold: .bold
+        case .heavy: .heavy
+        case .black: .black
+        default: .regular
+        }
+    }
+
+    private static func suffix(for weight: Font.Weight) -> String {
+        switch weight {
+        case .ultraLight, .thin, .light: "Light"
+        case .regular: "Regular"
+        case .medium: "Medium"
+        case .semibold: "SemiBold"
+        default: "Bold"
+        }
     }
 }
 
 extension Font.TextStyle {
+    /// The system's default weight for the style — what `.font(.headline)`
+    /// renders without an explicit `.weight()`.
+    var defaultWeight: Font.Weight {
+        self == .headline ? .semibold : .regular
+    }
+
     /// The five styles a skin's display face applies to.
     var isDisplay: Bool {
         switch self {
@@ -84,12 +179,12 @@ enum SkinNavigationTitles {
         }
         let large = UIFont.TextStyle.largeTitle
         let inline = UIFont.TextStyle.headline
-        bar.largeTitleTextAttributes = [.font: font(family, weight: .bold, style: large)]
-        bar.titleTextAttributes = [.font: font(family, weight: .semibold, style: inline)]
+        bar.largeTitleTextAttributes = [.font: uiFont(family, weight: .bold, style: large)]
+        bar.titleTextAttributes = [.font: uiFont(family, weight: .semibold, style: inline)]
     }
 
-    /// A weighted face from a (variable) family, scaled for Dynamic Type.
-    private static func font(_ family: String, weight: UIFont.Weight, style: UIFont.TextStyle) -> UIFont {
+    /// The same family + weight descriptor `SkinFace` renders with, as a `UIFont`.
+    private static func uiFont(_ family: String, weight: UIFont.Weight, style: UIFont.TextStyle) -> UIFont {
         let size = UIFont.preferredFont(forTextStyle: style).pointSize
         let descriptor = UIFontDescriptor(fontAttributes: [
             .family: family,

@@ -272,7 +272,7 @@ struct SourceAttributionExplainer: View {
                             .textCase(.uppercase)
                             .foregroundStyle(Theme.secondaryLabel)
                         Text(displayName(winnerSlug))
-                            .font(.piru(.title3).weight(.semibold))
+                            .font(.piru(.title3, weight: .semibold))
                         if let description = descriptions[winnerSlug] {
                             Text(description)
                                 .font(.callout)

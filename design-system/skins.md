@@ -76,21 +76,41 @@ each branching on `Skin.surface`:
 
 Two roles. **Display** (`largeTitle` … `headline`, and UIKit navigation titles
 via the appearance proxy) takes `Skin.typeface.display`; **label** (chips,
-eyebrows) takes `Skin.typeface.label`. Body copy is always the system face,
-reshaped only by `Skin.fontDesign` at the root — the CJK body fonts a skin might
-want run 4–9 MB per weight, and the app ships in three scripts.
+eyebrows) takes `Skin.typeface.label`. Body copy is always the system face —
+the CJK body fonts a skin might want run 4–9 MB per weight, and the app ships in
+three scripts.
+
+Fonts are built through UIKit (`UIFontDescriptor` family + weight, scaled by
+`UIFontMetrics`) and wrapped, never `Font.custom`: on device, `Font.custom` and
+`UIFont(name:)` both missed this variable font's named instances on first
+render while the descriptor resolved them.
+
+`Skin.fontDesign` (a root `.fontDesign`) is **exclusive with custom faces**: it
+re-derives every SwiftUI font in the tree as a system font of that design,
+wrapped custom faces included, so only the UIKit nav bar would show the display
+face. A skin picks one or the other; `SkinTypeTests` enforces it.
 
 Call sites say `.font(.piru(.headline))`; the helper hands back the plain system
 style for non-display styles and for skins without a display face, so it is safe
-anywhere. Custom fonts are created `relativeTo:` their style, so Dynamic Type
-keeps scaling them. Families live in `Piru/Fonts/` with their OFL texts and are
-declared in `Piru/Info.plist` (`UIAppFonts`); `SkinTypeTests` checks the bundle
-actually registers what each skin names.
+anywhere. The few hand-sized hero titles (Library card titles, the substance
+hero, the inventory readout) use `.font(.piru(size:weight:design:relativeTo:))`
+instead of `.system(size:)`. Custom fonts are scaled by `UIFontMetrics` for a style, so
+Dynamic Type keeps scaling them. Families live in `Piru/Fonts/` with their OFL
+texts and are declared in `Piru/Info.plist` (`UIAppFonts`); `SkinTypeTests`
+checks the bundle actually registers what each skin names.
+
+## Widgets
+
+`PiruWidget/WidgetColors.swift` resolves through `Skin.current`, which in the
+extension falls back to the persisted app-group choice, and `SkinStore.setSkin`
+reloads widget timelines so they re-render on a change. The Live Activity is
+untouched: it draws per-substance colours (L3) on the system's Lock Screen
+surfaces and carries no skin chrome.
 
 ## Later
 
-- Widgets and the Live Activity read `SkinDefaults.storedSkin()` and resolve
-  the same catalog symbols.
 - Per-file section headers (eyebrows) are private today; a shared component
   would let the label face reach them.
+- The remaining `.font(.system(size:))` sites are numbers, icons, and export
+  renderers, which stay on the system face by design.
 - Decorations (falling glyphs, title sparkles) — stashed by decision.

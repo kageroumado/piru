@@ -25,6 +25,43 @@ struct SkinTypeTests {
         }
     }
 
+    @Test("The resolver returns registered face names per weight")
+    func facesResolve() {
+        // SwiftUI's `Font.custom` + `.weight()` on a family name rendered the
+        // system font on device; explicit face names are what reliably resolve.
+        #expect(SkinFace.registered("Fredoka", weight: .regular) == "Fredoka-Regular")
+        #expect(SkinFace.registered("Fredoka", weight: .semibold) == "Fredoka-SemiBold")
+        #expect(SkinFace.registered("Fredoka", weight: .bold) == "Fredoka-Bold")
+        #expect(SkinFace.registered("Fredoka", weight: .heavy) == "Fredoka-Bold")
+        // DotGothic16 ships one face; every weight lands on it.
+        #expect(SkinFace.registered("DotGothic16", weight: .semibold) == "DotGothic16-Regular")
+        #expect(SkinFace.registered("NoSuchFamily", weight: .bold) == nil)
+    }
+
+    @Test("With ely.pink active, display and label roles resolve to Fredoka and DotGothic16")
+    func elyPinkResolves() {
+        let store = SkinStore.shared
+        let previous = store.current
+        defer { store.setSkin(previous) }
+        store.setSkin(.elyPink)
+        #expect(SkinFace.display(weight: .bold, size: 20, relativeTo: .title) != nil)
+        #expect(SkinFace.label(weight: .semibold, size: 11, relativeTo: .caption2) != nil)
+        // The descriptor path resolves the family without a prior name lookup.
+        let descriptor = UIFontDescriptor(fontAttributes: [.family: "Fredoka", .traits: [UIFontDescriptor.TraitKey.weight: UIFont.Weight.bold]])
+        #expect(UIFont(descriptor: descriptor, size: 20).familyName == "Fredoka")
+        #expect(Font.piru(.headline) != Font.system(.headline).weight(.semibold))
+        #expect(Font.piru(size: 20, weight: .bold) != Font.system(size: 20, weight: .bold))
+    }
+
+    @Test("A skin with a custom face has no root font design")
+    func fontDesignAndFacesAreExclusive() {
+        // A root `.fontDesign` replaces every SwiftUI font in the tree, wrapped
+        // custom faces included; only UIKit's navigation bar escapes it.
+        for skin in Skin.allCases where skin.typeface.display != nil || skin.typeface.label != nil {
+            #expect(skin.fontDesign == nil, "\(skin.rawValue) sets fontDesign, which would erase its custom faces")
+        }
+    }
+
     @Test("Only the five display styles are display")
     func displayStyles() {
         let display: [Font.TextStyle] = [.largeTitle, .title, .title2, .title3, .headline]
@@ -46,8 +83,9 @@ struct SkinTypeTests {
         // Font is not Equatable by value across custom/system, so check the
         // resolution path: with no family, both helpers hand back the system style.
         if SkinStore.shared.current == .piru {
-            #expect(Font.piru(.headline) == .system(.headline))
-            #expect(Font.piruLabel(.caption2) == .system(.caption2))
+            #expect(Font.piru(.headline) == Font.system(.headline).weight(.semibold))
+            #expect(Font.piru(.title3) == Font.system(.title3).weight(.regular))
+            #expect(Font.piruLabel(.caption2) == Font.system(.caption2).weight(.regular))
         }
     }
 }

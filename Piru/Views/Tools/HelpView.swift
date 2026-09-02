@@ -98,7 +98,7 @@ struct HelpView: View {
                     .accessibilityHidden(true)
 
                 Text("You're going to be okay")
-                    .font(.piru(.title2).weight(.semibold))
+                    .font(.piru(.title2, weight: .semibold))
                     .accessibilityAddTraits(.isHeader)
 
                 Text("Whatever you're experiencing right now, help is available and you don't have to face it alone.")

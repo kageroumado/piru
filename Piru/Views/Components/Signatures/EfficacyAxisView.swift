@@ -279,7 +279,7 @@ private struct EfficacyStaticReadout: View {
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 8) {
             Text(model.focus.valueText)
-                .font(.piru(.title3).weight(.bold).monospacedDigit())
+                .font(.piru(.title3, weight: .bold).monospacedDigit())
                 .foregroundStyle(accent)
             Text("nothing comparable to rank it against", comment: "Efficacy axis degraded to a single readout")
                 .font(.caption)

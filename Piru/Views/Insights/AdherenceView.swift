@@ -238,7 +238,7 @@ private struct AdherenceStreakCard: View {
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text("\(streak)")
-                    .font(.system(.largeTitle, design: .rounded, weight: .bold))
+                    .font(.piru(.largeTitle, design: .rounded, weight: .bold))
                 Text(streak == 1 ? "day streak" : "days streak")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -246,7 +246,7 @@ private struct AdherenceStreakCard: View {
             Spacer()
             VStack(alignment: .trailing, spacing: 2) {
                 Text("\(Int(adherenceRate * 100))%")
-                    .font(.system(.title2, design: .rounded, weight: .semibold))
+                    .font(.piru(.title2, design: .rounded, weight: .semibold))
                     .foregroundStyle(adherenceRate >= 0.8 ? .green : adherenceRate >= 0.5 ? .orange : .red)
                 Text("this month")
                     .font(.caption)
@@ -579,7 +579,7 @@ private struct AdherenceMonthPicker: View {
                     .accessibilityLabel(Text("Previous Year"))
                     Spacer()
                     Text(verbatim: "\(pickerYear)")
-                        .font(.piru(.title3).weight(.bold))
+                        .font(.piru(.title3, weight: .bold))
                     Spacer()
                     Button {
                         withAnimation(.snappy) { pickerYear += 1 }
