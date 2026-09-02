@@ -20,25 +20,11 @@ import SwiftUI
 /// `pharmacologyParametersBatchOffMain` and cached by name — so Common is instant and only the opt-in
 /// "All substances" scope pays the ~1100-substance batch (once, with a resolving hint on those cells).
 struct PharmaTableView: View {
-    @State private var allRows: [PharmaTableRow] = []
-    @State private var isLoading = true
+    @State private var model = PharmaTableModel()
 
-    /// Lowercased canonical names carrying the metadata `"common"` tag — the same set the Library's
-    /// "Common" card surfaces (`SubstanceLibrary.substances(taggedWith: "common")`). Populated at load.
-    @State private var commonNames: Set<String> = []
-
-    /// Receptor/mechanism parameters resolved off-main for a scope, cached by canonical name so
-    /// re-filtering / re-sorting never re-resolves. Drives the Targets + Potency columns.
-    @State private var pharmacologyByName: [String: PharmacologyParameters] = [:]
-    @State private var resolvingPharma = false
-
-    @State private var searchText = ""
-    @State private var scope: Scope = .common
-    @State private var halfLifeOnly = false
+    /// The opt-in PK columns switched on from the navbar menu — presentation only,
+    /// so toggling one never invalidates the row set the model holds.
     @State private var enabledOptionalColumns: Set<PharmaColumn> = []
-
-    @State private var sortKey: SortKey = .name
-    @State private var sortAscending = true
 
     /// Header horizontal shift, driven by the body's horizontal scroll offset.
     /// An `@Observable` box rather than plain `@State`: only ``HeaderPan`` reads
@@ -47,19 +33,20 @@ struct PharmaTableView: View {
     /// per frame).
     @State private var headerOffset = PharmaHeaderOffset()
 
-    private let nameColumnWidth: CGFloat = 148
-    private let rowHeight: CGFloat = 52
+    private var visibleColumns: [PharmaColumn] {
+        PharmaColumn.allCases.filter { $0.isDefault || enabledOptionalColumns.contains($0) }
+    }
 
     var body: some View {
         VStack(spacing: 0) {
-            searchField
+            PharmaSearchField(text: $model.searchText)
             Divider()
-            if isLoading {
-                loadingState
-            } else if visibleRows.isEmpty {
-                emptyState
+            if model.isLoading {
+                PharmaLoadingState()
+            } else if model.visibleRows.isEmpty {
+                PharmaEmptyState()
             } else {
-                table
+                PharmaTableGrid(model: model, columns: visibleColumns, headerOffset: headerOffset)
             }
         }
         .background(Theme.background)
@@ -67,43 +54,58 @@ struct PharmaTableView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                filterMenu
+                PharmaFilterMenu(
+                    scope: $model.scope,
+                    halfLifeOnly: $model.halfLifeOnly,
+                    enabledOptionalColumns: $enabledOptionalColumns,
+                    availableCategories: model.availableCategories,
+                )
             }
         }
-        .task {
-            guard allRows.isEmpty else { return }
-            // Warm the batch cache first — the tag filter and the row seeding
-            // below both read `all`, and a cold cache builds it synchronously
-            // on the main actor.
-            await SubstanceStore.shared.ensureAllLoaded()
-            commonNames = Set(SubstanceLibrary.substances(taggedWith: "common").map { $0.name.lowercased() })
-            let resolved = await SubstanceStore.shared.pharmaTableRowsOffMain()
-            allRows = resolved
-            isLoading = false
-        }
+        .task { await model.load() }
         // Resolve receptor/mechanism parameters for the current scope off-main, once per scope. Keyed on
         // the loaded row count (so it fires when the base rows land) + the scope descriptor (so switching
         // scope re-resolves the newly-visible set). Already-cached names are skipped.
-        .task(id: "\(allRows.count)|\(scope.descriptor)") {
-            await resolvePharmacologyForScope()
+        .task(id: "\(model.allRows.count)|\(model.scope.descriptor)") {
+            await model.resolvePharmacologyForScope()
         }
     }
+}
 
-    // MARK: - Search (pill)
+// MARK: - Metrics
 
-    private var searchField: some View {
-        HStack(spacing: 8) {
+/// The table's fixed geometry. A frozen column and a scrolling region only line
+/// up while the header and every row agree on these to the point.
+private enum PharmaTableMetrics {
+    static let nameColumnWidth: CGFloat = 148
+    static let rowHeight: CGFloat = 52
+    static let headerHeight: CGFloat = 44
+}
+
+/// Zebra striping for the row at `index`, drawn identically behind the frozen
+/// name cell and the scrolling data row so a stripe never splits at the seam.
+private func pharmaRowBackground(_ index: Int) -> Color {
+    index.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.035)
+}
+
+// MARK: - Search (pill)
+
+private struct PharmaSearchField: View {
+    @Binding var text: String
+
+    var body: some View {
+        HStack(spacing: Spacing.md) {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
-            TextField(text: $searchText) {
+            TextField(text: $text) {
                 Text("Search substances")
             }
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
-            if !searchText.isEmpty {
+            if !text.isEmpty {
                 Button {
-                    searchText = ""
+                    text = ""
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundStyle(Theme.secondaryLabel)
@@ -112,21 +114,28 @@ struct PharmaTableView: View {
             }
         }
         .padding(.horizontal, 14)
-        .padding(.vertical, 10)
+        .padding(.vertical, Spacing.lg)
         .themeCapsule()
-        .padding(.horizontal, 16)
-        .padding(.vertical, 10)
+        .padding(.horizontal, Spacing.xxl)
+        .padding(.vertical, Spacing.lg)
     }
+}
 
-    // MARK: - Filter + columns menu (navbar)
+// MARK: - Filter + columns menu (navbar)
 
-    private var filterMenu: some View {
+private struct PharmaFilterMenu: View {
+    @Binding var scope: PharmaTableModel.Scope
+    @Binding var halfLifeOnly: Bool
+    @Binding var enabledOptionalColumns: Set<PharmaColumn>
+    let availableCategories: [SubstanceCategory]
+
+    var body: some View {
         Menu {
             Picker(selection: $scope) {
-                Text("Common").tag(Scope.common)
-                Text("All substances").tag(Scope.all)
+                Text("Common").tag(PharmaTableModel.Scope.common)
+                Text("All substances").tag(PharmaTableModel.Scope.all)
                 ForEach(availableCategories, id: \.self) { category in
-                    Text(category.displayName).tag(Scope.category(category))
+                    Text(category.displayName).tag(PharmaTableModel.Scope.category(category))
                 }
             } label: {
                 Text("Show")
@@ -161,67 +170,113 @@ struct PharmaTableView: View {
             },
         )
     }
+}
 
-    // MARK: - Table
+// MARK: - Table
 
-    /// The frozen-column table. A `GeometryReader` bounds the horizontal scroll region to
-    /// `width − nameColumnWidth`; without an explicit width the nested `ScrollView(.horizontal)` expands
-    /// to its content width, blowing up the enclosing stack and shoving everything off-screen.
-    private var table: some View {
+/// The frozen-column table. A `GeometryReader` bounds the horizontal scroll region to
+/// `width − nameColumnWidth`; without an explicit width the nested `ScrollView(.horizontal)` expands
+/// to its content width, blowing up the enclosing stack and shoving everything off-screen.
+private struct PharmaTableGrid: View {
+    let model: PharmaTableModel
+    let columns: [PharmaColumn]
+    let headerOffset: PharmaHeaderOffset
+
+    var body: some View {
         GeometryReader { geometry in
-            let dataViewportWidth = max(0, geometry.size.width - nameColumnWidth)
+            let dataViewportWidth = max(0, geometry.size.width - PharmaTableMetrics.nameColumnWidth)
             VStack(spacing: 0) {
-                headerRow(dataViewportWidth: dataViewportWidth)
+                PharmaHeaderRow(
+                    model: model,
+                    columns: columns,
+                    headerOffset: headerOffset,
+                    dataViewportWidth: dataViewportWidth,
+                )
                 Divider()
-                bodyRows(dataViewportWidth: dataViewportWidth)
+                PharmaBodyRows(
+                    model: model,
+                    rows: model.visibleRows,
+                    columns: columns,
+                    headerOffset: headerOffset,
+                    dataViewportWidth: dataViewportWidth,
+                )
             }
         }
     }
+}
 
-    private func headerRow(dataViewportWidth: CGFloat) -> some View {
+private struct PharmaHeaderRow: View {
+    let model: PharmaTableModel
+    let columns: [PharmaColumn]
+    let headerOffset: PharmaHeaderOffset
+    let dataViewportWidth: CGFloat
+
+    var body: some View {
         HStack(spacing: 0) {
-            substanceHeaderCell
+            PharmaSubstanceHeaderCell(model: model)
             HeaderPan(model: headerOffset, width: dataViewportWidth) {
-                dataHeaderCells
+                PharmaDataHeaderCells(model: model, columns: columns)
             }
         }
-        .frame(height: 44)
+        .frame(height: PharmaTableMetrics.headerHeight)
         .background(Theme.background)
     }
+}
 
-    private var substanceHeaderCell: some View {
+private struct PharmaSubstanceHeaderCell: View {
+    let model: PharmaTableModel
+
+    private var isActive: Bool {
+        model.sortKey == .name
+    }
+
+    var body: some View {
         Button {
-            toggleSort(.name)
+            model.toggleSort(.name)
         } label: {
-            HStack(spacing: 4) {
+            HStack(spacing: Spacing.xs) {
                 Text("Substance")
                     .font(.footnote.weight(.semibold))
-                sortChevron(for: .name)
+                PharmaSortChevron(isActive: isActive, ascending: model.sortAscending)
                 Spacer(minLength: 0)
             }
-            .padding(.horizontal, 12)
-            .frame(width: nameColumnWidth, height: 44, alignment: .leading)
+            .padding(.horizontal, Spacing.xl)
+            .frame(
+                width: PharmaTableMetrics.nameColumnWidth,
+                height: PharmaTableMetrics.headerHeight,
+                alignment: .leading,
+            )
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .foregroundStyle(sortKey == .name ? Theme.accent : .primary)
+        .foregroundStyle(isActive ? Theme.accent : .primary)
         .accessibilityLabel(Text("Sort by substance name"))
-        .accessibilityValue(sortAccessibilityValue(for: .name))
+        .accessibilityValue(PharmaCellFormat.sortAccessibilityValue(isActive: isActive, ascending: model.sortAscending))
     }
+}
 
-    private var dataHeaderCells: some View {
+private struct PharmaDataHeaderCells: View {
+    let model: PharmaTableModel
+    let columns: [PharmaColumn]
+
+    var body: some View {
         HStack(spacing: 0) {
-            ForEach(visibleColumns) { column in
+            ForEach(columns) { column in
+                let isActive = model.sortKey == .column(column)
                 Button {
-                    toggleSort(.column(column))
+                    model.toggleSort(.column(column))
                 } label: {
                     VStack(alignment: column.isText ? .leading : .trailing, spacing: 1) {
                         HStack(spacing: 3) {
-                            if !column.isText { sortChevron(for: .column(column)) }
+                            if !column.isText {
+                                PharmaSortChevron(isActive: isActive, ascending: model.sortAscending)
+                            }
                             Text(column.title)
                                 .font(.footnote.weight(.semibold))
                                 .lineLimit(1)
-                            if column.isText { sortChevron(for: .column(column)) }
+                            if column.isText {
+                                PharmaSortChevron(isActive: isActive, ascending: model.sortAscending)
+                            }
                         }
                         if let unit = column.unit {
                             Text(verbatim: unit)
@@ -229,29 +284,55 @@ struct PharmaTableView: View {
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
                     }
-                    .padding(column.isText ? .leading : .trailing, 12)
-                    .frame(width: column.width, height: 44, alignment: column.frameAlignment)
+                    .padding(column.isText ? .leading : .trailing, Spacing.xl)
+                    .frame(
+                        width: column.width,
+                        height: PharmaTableMetrics.headerHeight,
+                        alignment: column.frameAlignment,
+                    )
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                .foregroundStyle(sortKey == .column(column) ? Theme.accent : .primary)
+                .foregroundStyle(isActive ? Theme.accent : .primary)
                 .accessibilityLabel(Text("Sort by \(column.accessibilityName)"))
-                .accessibilityValue(sortAccessibilityValue(for: .column(column)))
+                .accessibilityValue(
+                    PharmaCellFormat.sortAccessibilityValue(isActive: isActive, ascending: model.sortAscending),
+                )
             }
         }
     }
+}
 
-    private func bodyRows(dataViewportWidth: CGFloat) -> some View {
-        let rows = visibleRows
-        return ScrollView(.vertical) {
+private struct PharmaSortChevron: View {
+    let isActive: Bool
+    let ascending: Bool
+
+    var body: some View {
+        if isActive {
+            Image(systemName: ascending ? "chevron.up" : "chevron.down")
+                .font(.caption2.weight(.bold))
+                .accessibilityHidden(true)
+        }
+    }
+}
+
+private struct PharmaBodyRows: View {
+    let model: PharmaTableModel
+    let rows: [PharmaTableRow]
+    let columns: [PharmaColumn]
+    let headerOffset: PharmaHeaderOffset
+    let dataViewportWidth: CGFloat
+
+    var body: some View {
+        ScrollView(.vertical) {
             HStack(alignment: .top, spacing: 0) {
                 // Frozen left column — outside any horizontal scroll.
                 LazyVStack(spacing: 0) {
                     ForEach(Array(rows.enumerated()), id: \.element.id) { index, row in
-                        nameCell(row, index: index)
+                        PharmaNameCell(row: row, index: index)
                     }
                 }
-                .frame(width: nameColumnWidth)
+                .frame(width: PharmaTableMetrics.nameColumnWidth)
 
                 // Single horizontal scroll holds every data row, so horizontal
                 // scrolling is inherently synchronized across all rows. An explicit
@@ -259,7 +340,13 @@ struct PharmaTableView: View {
                 ScrollView(.horizontal, showsIndicators: true) {
                     LazyVStack(spacing: 0) {
                         ForEach(Array(rows.enumerated()), id: \.element.id) { index, row in
-                            dataRow(row, index: index)
+                            PharmaDataRow(
+                                row: row,
+                                index: index,
+                                columns: columns,
+                                params: model.pharmacologyByName[row.name],
+                                resolving: model.resolvingPharma,
+                            )
                         }
                     }
                 }
@@ -272,9 +359,14 @@ struct PharmaTableView: View {
             }
         }
     }
+}
 
-    private func nameCell(_ row: PharmaTableRow, index: Int) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
+private struct PharmaNameCell: View {
+    let row: PharmaTableRow
+    let index: Int
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             Text(row.name)
                 .font(.subheadline.weight(.medium))
                 .lineLimit(1)
@@ -287,47 +379,65 @@ struct PharmaTableView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 12)
-        .frame(width: nameColumnWidth, height: rowHeight, alignment: .leading)
-        .background(rowBackground(index))
+        .padding(.horizontal, Spacing.xl)
+        .frame(
+            width: PharmaTableMetrics.nameColumnWidth,
+            height: PharmaTableMetrics.rowHeight,
+            alignment: .leading,
+        )
+        .background(pharmaRowBackground(index))
     }
+}
 
-    private func dataRow(_ row: PharmaTableRow, index: Int) -> some View {
-        let params = pharmacologyByName[row.name]
-        return HStack(spacing: 0) {
-            ForEach(visibleColumns) { column in
-                dataCell(column, row: row, params: params, index: index)
+private struct PharmaDataRow: View {
+    let row: PharmaTableRow
+    let index: Int
+    let columns: [PharmaColumn]
+    let params: PharmacologyParameters?
+    let resolving: Bool
+
+    var body: some View {
+        HStack(spacing: 0) {
+            ForEach(columns) { column in
+                PharmaDataCell(column: column, row: row, params: params, resolving: resolving)
             }
         }
-        .background(rowBackground(index))
+        .background(pharmaRowBackground(index))
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(rowAccessibilityLabel(row, params: params))
+        .accessibilityLabel(PharmaCellFormat.rowAccessibilityLabel(row, columns: columns, params: params))
     }
+}
 
-    private func dataCell(_ column: PharmaColumn, row: PharmaTableRow, params: PharmacologyParameters?, index _: Int) -> some View {
+private struct PharmaDataCell: View {
+    let column: PharmaColumn
+    let row: PharmaTableRow
+    let params: PharmacologyParameters?
+    let resolving: Bool
+
+    var body: some View {
         // Distinguish "resolving" (receptor batch in flight) from "no data" so a Common-scope open never
         // flashes an empty Targets column as though the drug had no receptors.
-        let awaiting = column.needsParams && params == nil && resolvingPharma
-        let text = awaiting ? Self.resolvingPlaceholder : cellText(row, column, params: params)
-        let isFaint = text == Self.missingPlaceholder || text == Self.resolvingPlaceholder
-        return Text(text)
+        let awaiting = column.needsParams && params == nil && resolving
+        let text = awaiting
+            ? PharmaCellFormat.resolvingPlaceholder
+            : PharmaCellFormat.cellText(row, column, params: params)
+        let isFaint = text == PharmaCellFormat.missingPlaceholder || text == PharmaCellFormat.resolvingPlaceholder
+        Text(text)
             .font(column.isText ? .footnote : .footnote.monospacedDigit())
             .foregroundStyle(isFaint ? AnyShapeStyle(Theme.secondaryLabel.opacity(0.6)) : AnyShapeStyle(.primary))
             .lineLimit(column.isText ? 2 : 1)
             .multilineTextAlignment(column.isText ? .leading : .trailing)
-            .padding(column.isText ? .leading : .trailing, 12)
-            .padding(column.isText ? .trailing : .leading, 8)
-            .frame(width: column.width, height: rowHeight, alignment: column.frameAlignment)
+            .padding(column.isText ? .leading : .trailing, Spacing.xl)
+            .padding(column.isText ? .trailing : .leading, Spacing.md)
+            .frame(width: column.width, height: PharmaTableMetrics.rowHeight, alignment: column.frameAlignment)
     }
+}
 
-    private func rowBackground(_ index: Int) -> some View {
-        index.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.035)
-    }
+// MARK: - States
 
-    // MARK: - States
-
-    private var loadingState: some View {
-        VStack(spacing: 12) {
+private struct PharmaLoadingState: View {
+    var body: some View {
+        VStack(spacing: Spacing.xl) {
             ProgressView()
             Text("Loading pharmacology…")
                 .font(.subheadline)
@@ -335,9 +445,11 @@ struct PharmaTableView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
+}
 
-    private var emptyState: some View {
-        VStack(spacing: 8) {
+private struct PharmaEmptyState: View {
+    var body: some View {
+        VStack(spacing: Spacing.md) {
             Image(systemName: "tablecells")
                 .font(.largeTitle)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -349,137 +461,33 @@ struct PharmaTableView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
     }
+}
 
-    // MARK: - Derived data
+// MARK: - Formatting
 
-    /// The scope-only slice of the base rows (before search / half-life / sort). Also the set whose
-    /// receptor parameters the resolve task warms.
-    private var scopeFilteredRows: [PharmaTableRow] {
-        switch scope {
-        case .common: allRows.filter { commonNames.contains($0.name.lowercased()) }
-        case .all: allRows
-        case let .category(category): allRows.filter { $0.category == category }
-        }
-    }
+/// Cell text and the VoiceOver strings built from it — pure functions of a row,
+/// a column, and whatever receptor parameters have resolved so far.
+private enum PharmaCellFormat {
+    static let missingPlaceholder = "—"
+    static let resolvingPlaceholder = "…"
 
-    private var visibleRows: [PharmaTableRow] {
-        var rows = scopeFilteredRows
-        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        if !query.isEmpty {
-            rows = rows.filter { $0.name.localizedCaseInsensitiveContains(query) }
-        }
-        if halfLifeOnly {
-            rows = rows.filter { $0.halfLifeMin != nil }
-        }
-        return sortedRows(rows)
-    }
-
-    private var visibleColumns: [PharmaColumn] {
-        PharmaColumn.allCases.filter { $0.isDefault || enabledOptionalColumns.contains($0) }
-    }
-
-    private var availableCategories: [SubstanceCategory] {
-        let present = Set(allRows.compactMap(\.category))
-        return SubstanceCategory.allCases.filter { present.contains($0) }
-    }
-
-    private func resolvePharmacologyForScope() async {
-        let names = scopeFilteredRows.map(\.name).filter { pharmacologyByName[$0] == nil }
-        guard !names.isEmpty else { return }
-        resolvingPharma = true
-        defer { resolvingPharma = false }
-        let resolved = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: names)
-        for (key, value) in resolved {
-            pharmacologyByName[key] = value
-        }
-    }
-
-    private func sortedRows(_ rows: [PharmaTableRow]) -> [PharmaTableRow] {
-        switch sortKey {
-        case .name:
-            rows.sorted { lhs, rhs in
-                let order = lhs.name.localizedCaseInsensitiveCompare(rhs.name)
-                return sortAscending ? order == .orderedAscending : order == .orderedDescending
-            }
-        case let .column(column) where column.isText:
-            rows.sorted { lhs, rhs in
-                let left = column.textValue(lhs, params: pharmacologyByName[lhs.name])
-                let right = column.textValue(rhs, params: pharmacologyByName[rhs.name])
-                switch (left, right) {
-                case let (leftValue?, rightValue?):
-                    let order = leftValue.localizedCaseInsensitiveCompare(rightValue)
-                    if order == .orderedSame {
-                        return lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .orderedAscending
-                    }
-                    return sortAscending ? order == .orderedAscending : order == .orderedDescending
-                case (nil, _?): return false
-                case (_?, nil): return true
-                case (nil, nil): return lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .orderedAscending
-                }
-            }
-        case let .column(column):
-            rows.sorted { lhs, rhs in
-                let left = column.numericValue(lhs, params: pharmacologyByName[lhs.name])
-                let right = column.numericValue(rhs, params: pharmacologyByName[rhs.name])
-                switch (left, right) {
-                case let (leftValue?, rightValue?):
-                    if leftValue == rightValue {
-                        return lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .orderedAscending
-                    }
-                    return sortAscending ? leftValue < rightValue : leftValue > rightValue
-                case (nil, _?): return false // missing values sort last regardless of direction
-                case (_?, nil): return true
-                case (nil, nil): return lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .orderedAscending
-                }
-            }
-        }
-    }
-
-    private func toggleSort(_ key: SortKey) {
-        if sortKey == key {
-            sortAscending.toggle()
-        } else {
-            sortKey = key
-            sortAscending = true
-        }
-    }
-
-    @ViewBuilder
-    private func sortChevron(for key: SortKey) -> some View {
-        if sortKey == key {
-            Image(systemName: sortAscending ? "chevron.up" : "chevron.down")
-                .font(.caption2.weight(.bold))
-                .accessibilityHidden(true)
-        }
-    }
-
-    private func sortAccessibilityValue(for key: SortKey) -> Text {
-        guard sortKey == key else { return Text("Not sorted") }
-        return sortAscending ? Text("Sorted ascending") : Text("Sorted descending")
-    }
-
-    // MARK: - Formatting
-
-    private static let missingPlaceholder = "—"
-    private static let resolvingPlaceholder = "…"
-
-    private func cellText(_ row: PharmaTableRow, _ column: PharmaColumn, params: PharmacologyParameters?) -> String {
+    static func cellText(_ row: PharmaTableRow, _ column: PharmaColumn, params: PharmacologyParameters?) -> String {
         if column.isText {
-            return column.textValue(row, params: params) ?? Self.missingPlaceholder
+            return column.textValue(row, params: params) ?? missingPlaceholder
         }
-        guard let value = column.numericValue(row, params: params) else { return Self.missingPlaceholder }
+        guard let value = column.numericValue(row, params: params) else { return missingPlaceholder }
         switch column {
         case .halfLife, .tmax:
-            return Self.formatDuration(value)
+            return formatDuration(value)
         case .potency:
             return formatNm(value) // shared with the detail-screen receptor rows; the "nM" unit is in the header
         default:
-            return Self.formatNumber(value)
+            return formatNumber(value)
         }
     }
 
     /// Human duration: "35 min", "4.5 h", "3 days". Mirrors `HalfLifeCalculatorView.formatDuration`.
-    private static func formatDuration(_ minutes: Double) -> String {
+    static func formatDuration(_ minutes: Double) -> String {
         if minutes < 60 {
             return String(localized: "\(Int(minutes.rounded())) min")
         }
@@ -493,7 +501,7 @@ struct PharmaTableView: View {
 
     /// Compact decimal: integers stay integers, otherwise up to one significant fractional digit,
     /// with trailing zeros trimmed. Keeps numeric cells narrow and aligned.
-    private static func formatNumber(_ value: Double) -> String {
+    static func formatNumber(_ value: Double) -> String {
         if value == value.rounded() {
             return String(Int(value))
         }
@@ -502,47 +510,36 @@ struct PharmaTableView: View {
             : String(format: "%.1f", value)
     }
 
-    private func rowAccessibilityLabel(_ row: PharmaTableRow, params: PharmacologyParameters?) -> Text {
+    static func rowAccessibilityLabel(
+        _ row: PharmaTableRow,
+        columns: [PharmaColumn],
+        params: PharmacologyParameters?,
+    ) -> Text {
         var parts: [String] = [row.name]
         if let category = row.category {
             parts.append(String(localized: category.displayName))
         }
-        for column in visibleColumns {
+        for column in columns {
             let value = cellText(row, column, params: params)
-            guard value != Self.missingPlaceholder, value != Self.resolvingPlaceholder else { continue }
+            guard value != missingPlaceholder, value != resolvingPlaceholder else { continue }
             let unit = column.unit.map { " \($0)" } ?? ""
             parts.append("\(String(localized: column.title)) \(value)\(unit)")
         }
         return Text(parts.joined(separator: ", "))
     }
-}
 
-/// The table's scope filter: the friendly Common default, the full library, or one browse category.
-private enum Scope: Hashable {
-    case common
-    case all
-    case category(SubstanceCategory)
-
-    /// Stable string used to key the receptor-parameter resolve task.
-    var descriptor: String {
-        switch self {
-        case .common: "common"
-        case .all: "all"
-        case let .category(category): "cat:\(category.rawValue)"
-        }
+    static func sortAccessibilityValue(isActive: Bool, ascending: Bool) -> Text {
+        guard isActive else { return Text("Not sorted") }
+        return ascending ? Text("Sorted ascending") : Text("Sorted descending")
     }
 }
 
-/// The active sort target: the frozen name column or one data column.
-private enum SortKey: Equatable {
-    case name
-    case column(PharmaColumn)
-}
+// MARK: - Columns
 
 /// The scrollable data columns, in display order (default receptor/mechanism story first, PK detail after).
 /// Each knows its header title, unit, width, alignment, whether it's textual, and how to read its value off
 /// a ``PharmaTableRow`` + resolved ``PharmacologyParameters`` (for sorting and cell formatting).
-private enum PharmaColumn: String, CaseIterable, Identifiable {
+enum PharmaColumn: String, CaseIterable, Identifiable {
     // Default (always-on) — the point of the table.
     case mechanism
     case targets
@@ -671,6 +668,8 @@ private enum PharmaColumn: String, CaseIterable, Identifiable {
         }
     }
 }
+
+// MARK: - Header pan
 
 /// The header's horizontal scroll offset — see the `headerOffset` property.
 @Observable @MainActor
