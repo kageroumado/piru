@@ -176,6 +176,34 @@ struct JournalOptionsMenu: View {
     }
 }
 
+/// The Journal's third toolbar control, present only while the Timeline
+/// grouping is selected: the strip's display options (``TimelineOptionsMenu``)
+/// behind a sliders glyph, so they stay reachable however far the canvas has
+/// scrolled. The bindings are the Journal's app-group defaults, shared with
+/// the pushed timeline screen's copy of the same menu.
+struct JournalTimelineOptionsButton: View {
+    @Binding var zoom: Double
+    @Binding var compressGaps: Bool
+    @Binding var pkCurves: Bool
+    @Binding var strengthScaling: Bool
+    @Binding var showsAxis: Bool
+    @Binding var bubbleStyle: TimelineBubbleStyle
+
+    var body: some View {
+        TimelineOptionsMenu(
+            zoom: $zoom,
+            compressGaps: $compressGaps,
+            pkCurves: $pkCurves,
+            strengthScaling: $strengthScaling,
+            showsAxis: $showsAxis,
+            bubbleStyle: $bubbleStyle,
+        ) {
+            Image(systemName: "slider.horizontal.3")
+                .font(.system(size: 17, weight: .semibold))
+        }
+    }
+}
+
 /// The Journal's filter toolbar menu — the single home for narrowing the list.
 /// Reads the model's available facet values (only what's actually present in
 /// the journal) and toggles the parent's filter sets through the bindings (the

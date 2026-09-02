@@ -1,11 +1,12 @@
 import SwiftUI
 
 /// One logged dose on the vertical timeline — a Liquid Glass bubble floating
-/// over the curve lane. Full style stacks the name over dose + route chip;
-/// compact puts name and dose on one line and drops the chip. The trailing
-/// readout is the effect's phase progress (the same bar the dose hero and the
-/// Active Now card draw) in effect mode, and the elimination percentage in
-/// body-load mode.
+/// over the curve lane. Full style gives the name the whole first row and
+/// puts dose + route chip on the second, with the readout trailing on that
+/// row; compact puts name and dose on one line, drops the chip, and trails
+/// the readout beside them. The readout is the effect's phase progress (the
+/// same bar the dose hero and the Active Now card draw) in effect mode, and
+/// the elimination percentage in body-load mode.
 struct TimelineDoseBubble: View {
     let item: TimelineDayLayout.CardItem
     let style: TimelineBubbleStyle
@@ -46,13 +47,13 @@ struct TimelineDoseBubble: View {
         Button(action: onTap) {
             HStack(spacing: 8) {
                 switch style {
-                case .full: fullLeading
-                case .compact: compactLeading
+                case .full:
+                    fullContent
+                case .compact:
+                    compactLeading
+                    Spacer(minLength: 4)
+                    trailingReadout
                 }
-
-                Spacer(minLength: 4)
-
-                trailingReadout
 
                 Image(systemName: "chevron.right")
                     .font(.caption2.weight(.semibold))
@@ -67,7 +68,9 @@ struct TimelineDoseBubble: View {
         .buttonStyle(.plain)
     }
 
-    private var fullLeading: some View {
+    /// Name across the whole first row; dose, route chip and the readout
+    /// share the second.
+    private var fullContent: some View {
         HStack(spacing: 8) {
             Circle()
                 .fill(isActive ? item.color : item.color.opacity(0.4))
@@ -77,12 +80,15 @@ struct TimelineDoseBubble: View {
                 Text(displayName)
                     .font(.subheadline.weight(.semibold))
                     .lineLimit(1)
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
                 HStack(spacing: 4) {
                     Text(verbatim: doseText)
                         .font(.footnote)
                         .foregroundStyle(Theme.secondaryLabel)
                     ROAPill(route: item.entry.route, size: .compact)
+                    Spacer(minLength: 4)
+                    trailingReadout
                 }
             }
         }

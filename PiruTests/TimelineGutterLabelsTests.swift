@@ -37,9 +37,17 @@ struct TimelineGutterLabelsTests {
 
     @Test
     func `A dose capsule just clear of the Now tag survives`() {
-        // Capsule 30/2 + Now 14/2 = 22, plus the 6 pt gap → 28 pt is the first clear spacing.
+        // Capsule 22/2 + Now 22/2 = 22, plus the 6 pt gap → 28 pt is the first clear spacing.
         let visible = TimelineGutterLabels.doseLabelsVisible(doseYs: [68, 67], nowY: 40)
         #expect(visible == [true, false])
+    }
+
+    @Test
+    func `Every one-line mark shares the recipe's height`() {
+        #expect(TimelineGutterLabels.hourLabelHeight == TimelineGutterMarkMetrics.singleLineHeight)
+        #expect(TimelineGutterLabels.doseLabelHeight == TimelineGutterMarkMetrics.singleLineHeight)
+        #expect(TimelineGutterLabels.nowLabelHeight == TimelineGutterMarkMetrics.singleLineHeight)
+        #expect(TimelineGutterLabels.dayTagHeight == TimelineGutterMarkMetrics.twoLineHeight)
     }
 
     // MARK: - Hour labels vs everything above them
@@ -53,14 +61,23 @@ struct TimelineGutterLabelsTests {
     @Test
     func `An hour label on a dose capsule is suppressed`() {
         #expect(!TimelineGutterLabels.hourLabelFits(y: 200, doseYs: [206], nowY: nil))
-        // The capsule is tall: 13/2 + 30/2 + 6 = 27.5 → 27 pt away still touches.
+        // 22/2 + 22/2 + 6 = 28 → 27 pt away still touches.
         #expect(!TimelineGutterLabels.hourLabelFits(y: 227, doseYs: [200], nowY: nil))
     }
 
     @Test
     func `An hour label clear of both draws`() {
         #expect(TimelineGutterLabels.hourLabelFits(y: 200, doseYs: [240], nowY: 40))
-        // 13/2 + 30/2 + 6 = 27.5 → 28 pt away is clear.
+        // 22/2 + 22/2 + 6 = 28 → 28 pt away is clear.
         #expect(TimelineGutterLabels.hourLabelFits(y: 228, doseYs: [200], nowY: nil))
+    }
+
+    @Test
+    func `An hour label under the day tag is suppressed`() {
+        // The tag reserves the top 44 pt; a 22 pt label needs its top edge
+        // 6 pt below that → center ≥ 61.
+        #expect(!TimelineGutterLabels.hourLabelFits(y: 50, doseYs: [], nowY: nil, reservedTop: 44))
+        #expect(!TimelineGutterLabels.hourLabelFits(y: 60, doseYs: [], nowY: nil, reservedTop: 44))
+        #expect(TimelineGutterLabels.hourLabelFits(y: 61, doseYs: [], nowY: nil, reservedTop: 44))
     }
 }

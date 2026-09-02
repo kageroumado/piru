@@ -32,7 +32,7 @@ struct TimelineListDayContent: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            TimelineDayHeader(date: day.date, isToday: day.isToday, width: nil)
+            TimelineDayHeader(date: day.date, isToday: day.isToday)
 
             GlassEffectContainer {
                 VStack(spacing: TimelineDayLayout.groupGap) {
@@ -60,7 +60,7 @@ struct TimelineListDayContent: View {
         VStack(spacing: TimelineDayLayout.groupGap) {
             ForEach(groups) { group in
                 HStack(alignment: .top, spacing: 8) {
-                    TimelineTimeCapsule(date: group.representativeTime)
+                    TimelineTimeCapsule(date: group.representativeTime, hasDotSlot: false)
                     VStack(spacing: TimelineDayLayout.cardSpacing) {
                         ForEach(group.items) { item in
                             TimelineDoseBubble(
