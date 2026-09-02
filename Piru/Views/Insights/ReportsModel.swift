@@ -270,10 +270,25 @@ final class ReportsModel {
             guard selectedSessions.contains(session.id) else { continue }
             let entries = (session.doses ?? []).sorted { $0.timestamp < $1.timestamp }
             guard !entries.isEmpty else { continue }
-            if let export = SessionStateExport.build(from: entries, colors: colors) {
+            if let export = SessionStateExport.build(from: entries, colors: colors, notes: session.orderedNotes) {
                 parts.append(export.markdown())
             }
         }
         return parts.joined(separator: "\n\n---\n\n")
+    }
+
+    /// The selected sessions that have at least one timeline note — the ones
+    /// a trip report exists for.
+    func sessionsWithNotes(in sessions: [Session]) -> [Session] {
+        sessions.filter { selectedSessions.contains($0.id) && TripReport.hasNotes($0) }
+    }
+
+    /// One trip report per selected session with notes, oldest first, joined
+    /// as a single Markdown document. Empty when no selected session has notes.
+    func exportTripReports(sessions: [Session]) -> String {
+        sessionsWithNotes(in: sessions)
+            .sorted { $0.startDate < $1.startDate }
+            .map { TripReport.build(session: $0).markdown() }
+            .joined(separator: "\n\n---\n\n")
     }
 }

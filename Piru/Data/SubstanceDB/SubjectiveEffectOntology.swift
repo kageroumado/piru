@@ -70,10 +70,13 @@ final class SubjectiveEffectOntology {
         return byID[parentID]
     }
 
-    /// Display name for a stored descriptor id; the id itself when it no longer
-    /// resolves, so an old note never shows a blank chip.
-    func name(for id: String) -> String {
-        concept(id: id)?.name ?? id
+    /// Display name for a stored descriptor id. `nil` when the id no longer
+    /// resolves — callers `compactMap` so an unresolved id is dropped from
+    /// display rather than printed. Never surface the raw id: a UUID in a note
+    /// row or a report reads as a bug, and the note keeps the id for the day
+    /// a vocabulary carrying it is loaded again.
+    func name(for id: String) -> String? {
+        concept(id: id)?.name
     }
 
     /// Rank concepts for a chip-search query: exact name, name prefix, alias

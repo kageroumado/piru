@@ -291,17 +291,22 @@ private struct ShulginInfoView: View {
 
 // MARK: - Chips
 
-/// The chosen descriptors as removable chips (ids resolved through the vocabulary).
+/// The chosen descriptors as removable chips (ids resolved through the
+/// vocabulary; an id it no longer resolves draws no chip).
 struct DescriptorChips: View {
     let ids: [String]
     var onRemove: ((String) -> Void)? = nil
     @State private var ontology = SubjectiveEffectOntology.shared
 
+    private var resolved: [(id: String, name: String)] {
+        ids.compactMap { id in ontology.name(for: id).map { (id: id, name: $0) } }
+    }
+
     var body: some View {
         FlowLayout(spacing: 6) {
-            ForEach(ids, id: \.self) { id in
+            ForEach(resolved, id: \.id) { id, name in
                 HStack(spacing: 4) {
-                    Text(ontology.name(for: id))
+                    Text(name)
                         .font(.caption.weight(.medium))
                     if onRemove != nil {
                         Image(systemName: "xmark")

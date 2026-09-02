@@ -100,6 +100,21 @@ struct TripReportFormattingTests {
         #expect(TripReport.structureLine(shulgin: 0, mood: 2, energy: -1, heartRate: 84) == "± · mood +2 · energy −1 · ♥ 84")
         #expect(TripReport.structureLine(shulgin: 9, mood: 0, energy: nil, heartRate: nil) == "mood 0")
     }
+
+    @Test
+    func `Mood/energy cell marks a missing side and is empty when neither was captured`() {
+        #expect(TripReport.moodEnergyCell(mood: nil, energy: nil) == "")
+        #expect(TripReport.moodEnergyCell(mood: 2, energy: 0) == "+2 / 0")
+        #expect(TripReport.moodEnergyCell(mood: nil, energy: -1) == "– / −1")
+        #expect(TripReport.moodEnergyCell(mood: 1, energy: nil, heartRate: 84) == "+1 / – · ♥ 84")
+        #expect(TripReport.moodEnergyCell(mood: nil, energy: nil, heartRate: 84) == "♥ 84")
+    }
+
+    @Test
+    func `Table cells escape pipes and keep line breaks`() {
+        #expect(TripReport.cell(" a | b ") == "a \\| b")
+        #expect(TripReport.cell("first\n\nsecond\r\nthird") == "first<br>second<br>third")
+    }
 }
 
 // MARK: - Trip report shape
@@ -107,6 +122,13 @@ struct TripReportFormattingTests {
 @MainActor
 @Suite("TripReport — build")
 struct TripReportBuildTests {
+    /// A fixed zone so the rendered date is the same on every machine.
+    private static let utc: Calendar = {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        return calendar
+    }()
+
     @Test
     func `Notes render at their offsets and descriptors group by domain with first-noted T+`() throws {
         let context = try makeContext()
@@ -120,27 +142,63 @@ struct TripReportBuildTests {
         let geometry = try #require(ontology.search("geometric imagery").first?.concept)
         let nausea = try #require(ontology.search("nausea").first?.concept)
         SessionNoteService.add(to: session, timestamp: start.addingTimeInterval(40 * 60), text: "queasy", shulgin: 0, descriptors: [nausea.id])
-        SessionNoteService.add(to: session, timestamp: start.addingTimeInterval(125 * 60), text: "patterns", shulgin: 3, mood: 2, descriptors: [geometry.id, nausea.id], kind: .checkIn)
+        SessionNoteService.add(to: session, timestamp: start.addingTimeInterval(125 * 60), text: "patterns", shulgin: 3, mood: 2, descriptors: [geometry.id, nausea.id, "not-a-concept"], kind: .checkIn)
         SessionNoteService.ensureSummaryNote(for: session)
 
+        #expect(TripReport.hasNotes(session))
         let report = TripReport.build(session: session)
         #expect(report.notes.count == 2)
         #expect(report.summary == "Good night.")
+        #expect(report.substances == ["LSD"])
+        // An id the vocabulary no longer resolves is dropped, never printed.
+        #expect(report.notes.last?.descriptors.map(\.name) == [geometry.name, nausea.name])
 
         let grouped = report.descriptorsByDomain
         #expect(grouped.map(\.domain) == [nausea.domain, geometry.domain])
         let nauseaFirst = try #require(grouped.first?.first.first)
         #expect(nauseaFirst.at == start.addingTimeInterval(40 * 60))
 
-        let md = report.markdown(locale: Locale(identifier: "en_US"))
-        #expect(md.contains("**T+0:40**"))
-        #expect(md.contains("**T+2:05**"))
-        #expect(md.contains("check-in"))
-        #expect(md.contains("+++ · mood +2"))
+        let md = report.markdown(locale: Locale(identifier: "en_US"), calendar: Self.utc)
+        #expect(md.hasPrefix("# LSD — November 14, 2023\n"))
+        #expect(md.contains("Started 10:13 PM · "))
+        #expect(md.contains("1 dose · 2 notes · last note at T+2:05"))
+        #expect(md.contains("| T+ | Time | Substance | Dose | Route |"))
+        #expect(md.contains("| T+0:00 | "))
+        #expect(md.contains(" | LSD | 100 µg | sublingual |"))
+        #expect(md.contains("| T+ | Time | Shulgin | Mood / Energy | Note |"))
+        #expect(md.contains("| T+0:40 | "))
+        #expect(md.contains(" | ± |  | queasy — _\(nausea.name)_ |"))
+        #expect(md.contains("| T+2:05 | "))
+        #expect(md.contains(" | +++ | +2 / – | **Check-in** — patterns — _\(geometry.name) · \(nausea.name)_ |"))
         #expect(md.contains("## Descriptors by domain"))
-        #expect(md.contains("- \(geometry.name) — T+2:05"))
-        #expect(md.contains("## Summary"))
+        #expect(md.contains("| Domain | Descriptor | First noted |"))
+        #expect(md.contains("| \(nausea.domain.capitalized) | \(nausea.name) | T+0:40 |"))
+        #expect(md.contains("| \(geometry.domain.capitalized) | \(geometry.name) | T+2:05 |"))
+        #expect(md.contains("## Summary\n\nGood night."))
+        #expect(md.hasSuffix("_Not medical advice. A record of one session, written with Piru._"))
+        #expect(!md.contains("not-a-concept"))
         #expect(!md.lowercased().contains("harm reduction"))
+    }
+
+    @Test
+    func `A titled session leads with its title and names the substances beneath`() throws {
+        let context = try makeContext()
+        let start = Date(timeIntervalSince1970: 1_700_000_000)
+        let session = Session(startDate: start, title: "Quiet Saturday")
+        context.insert(session)
+        for (offset, name) in [(0, "LSD"), (90, "Cannabis"), (200, "LSD")] {
+            let dose = DoseEntry(substance: name, amount: 1, unit: "mg", route: .oral, timestamp: start.addingTimeInterval(TimeInterval(offset * 60)))
+            dose.session = session
+            context.insert(dose)
+        }
+        #expect(!TripReport.hasNotes(session))
+        SessionNoteService.add(to: session, timestamp: start.addingTimeInterval(600), text: "settling in")
+
+        let report = TripReport.build(session: session)
+        #expect(report.substances == ["LSD", "Cannabis"])
+        let md = report.markdown(locale: Locale(identifier: "en_US"), calendar: Self.utc)
+        #expect(md.hasPrefix("# Quiet Saturday — November 14, 2023\n\n**LSD + Cannabis**\n"))
+        #expect(md.contains("3 doses · 1 note"))
     }
 }
 
@@ -262,8 +320,11 @@ struct SubjectiveEffectOntologyTests {
     }
 
     @Test
-    func `Unknown ids fall back to the id, never blank`() {
-        #expect(SubjectiveEffectOntology.shared.name(for: "not-a-concept") == "not-a-concept")
+    func `Unknown ids resolve to nil so display paths drop them`() {
+        let ontology = SubjectiveEffectOntology.shared
+        #expect(ontology.name(for: "not-a-concept") == nil)
+        let nausea = ontology.search("nausea").first?.concept
+        #expect(["not-a-concept", nausea?.id ?? ""].compactMap(ontology.name(for:)) == ["nausea"])
     }
 }
 

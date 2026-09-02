@@ -520,8 +520,10 @@ struct SessionDetailView: View {
                     onEditSummary: editSummary,
                     onToggleLiveActivity: toggleLiveActivity,
                 )
+                .popoverTip(SessionMenuTip(), arrowEdge: .top)
             }
         }
+        .task { await OnboardingTips.retireDataTipAfterSessionMenuTip() }
         // The primary "Log a dose" action lives in the tab bar's bottom accessory
         // (always on screen beneath this detail), so the day view no longer
         // floats its own add button.

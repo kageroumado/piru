@@ -33,7 +33,8 @@ struct TripReport {
         let mood: Int?
         let energy: Int?
         let heartRate: Int?
-        /// Resolved descriptor concepts, in the order they were chosen.
+        /// Descriptor concepts the vocabulary resolves, in the order they were
+        /// chosen.
         let descriptors: [Descriptor]
     }
 
@@ -53,7 +54,20 @@ struct TripReport {
         notes.isEmpty
     }
 
+    /// The substances taken, in order of first dose, each once.
+    var substances: [String] {
+        var seen = Set<String>()
+        return doses.map(\.name).filter { seen.insert($0).inserted }
+    }
+
     // MARK: - Build
+
+    /// Whether a report exists for the session: at least one timeline note
+    /// with content (the summary alone is the session's, not a report's).
+    @MainActor
+    static func hasNotes(_ session: Session) -> Bool {
+        (session.notes ?? []).contains { $0.kind != .summary && $0.hasContent }
+    }
 
     @MainActor
     static func build(session: Session) -> TripReport {
@@ -78,9 +92,8 @@ struct TripReport {
                 mood: note.mood,
                 energy: note.energy,
                 heartRate: note.heartRate.map { Int($0.rounded()) },
-                descriptors: note.descriptors.map { id in
-                    let concept = ontology.concept(id: id)
-                    return Descriptor(id: id, name: concept?.name ?? id, domain: concept?.domain ?? "other")
+                descriptors: note.descriptors.compactMap { id in
+                    ontology.concept(id: id).map { Descriptor(id: id, name: $0.name, domain: $0.domain) }
                 },
             )
         }
@@ -161,8 +174,9 @@ struct TripReport {
             heartRate: note.heartRate.map { Int($0.rounded()) },
         )
         if !structure.isEmpty { pieces.append("[\(structure)]") }
-        if !note.descriptors.isEmpty {
-            pieces.append("[" + note.descriptors.map(ontology.name(for:)).joined(separator: ", ") + "]")
+        let descriptors = note.descriptors.compactMap(ontology.name(for:))
+        if !descriptors.isEmpty {
+            pieces.append("[" + descriptors.joined(separator: ", ") + "]")
         }
         if !note.text.isEmpty { pieces.append(note.text) }
         return pieces.joined(separator: " ")
@@ -170,26 +184,65 @@ struct TripReport {
 
     // MARK: - Markdown
 
+    /// The mood/energy cell of the timeline table: `+2 / 0`, with `–` for a
+    /// side not captured and empty when neither was.
+    nonisolated static func moodEnergyCell(mood: Int?, energy: Int?, heartRate: Int? = nil) -> String {
+        var cell = ""
+        if mood != nil || energy != nil {
+            cell = (mood.map(signed) ?? "–") + " / " + (energy.map(signed) ?? "–")
+        }
+        if let heartRate {
+            cell += (cell.isEmpty ? "" : " · ") + "♥ \(heartRate)"
+        }
+        return cell
+    }
+
+    /// Text made safe for one Markdown table cell: pipes escaped, line breaks
+    /// kept as `<br>` so a multi-paragraph note stays one row.
+    nonisolated static func cell(_ text: String) -> String {
+        text.trimmingCharacters(in: .whitespacesAndNewlines)
+            .replacingOccurrences(of: "|", with: "\\|")
+            .replacingOccurrences(of: "\r\n", with: "\n")
+            .split(separator: "\n", omittingEmptySubsequences: false)
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .filter { !$0.isEmpty }
+            .joined(separator: "<br>")
+    }
+
+    /// The report as a Markdown document: a title naming the substances and
+    /// the date, one line of counts, a dose table, the notes as a timeline
+    /// table (T+, clock time, Shulgin, mood/energy, text), the descriptors by
+    /// domain with the T+ each was first noted, the summary, and the footer.
     func markdown(locale: Locale = .current, calendar: Calendar = .current) -> String {
         let time = DateFormatter()
         time.locale = locale
         time.calendar = calendar
+        time.timeZone = calendar.timeZone
         time.timeStyle = .short
         time.dateStyle = .none
         let dateOnly = DateFormatter()
         dateOnly.locale = locale
         dateOnly.calendar = calendar
+        dateOnly.timeZone = calendar.timeZone
         dateOnly.dateStyle = .long
         dateOnly.timeStyle = .none
 
         var out: [String] = []
-        out.append("# " + (title ?? "Trip report") + " — " + dateOnly.string(from: sessionStart))
+        let substanceLine = substances.joined(separator: " + ")
+        let headline = title ?? (substanceLine.isEmpty ? "Trip report" : substanceLine)
+        out.append("# \(headline) — \(dateOnly.string(from: sessionStart))")
         out.append("")
-        out.append("- **Session started:** \(time.string(from: sessionStart))")
-        out.append("- **Doses:** \(doses.count) · **Notes:** \(notes.count)")
-        if let last = notes.last {
-            out.append("- **Last note:** \(tPlus(last.timestamp))")
+        if title != nil, !substanceLine.isEmpty {
+            out.append("**\(substanceLine)**")
+            out.append("")
         }
+        var facts = [
+            "Started \(time.string(from: sessionStart))",
+            doses.count == 1 ? "1 dose" : "\(doses.count) doses",
+            notes.count == 1 ? "1 note" : "\(notes.count) notes",
+        ]
+        if let last = notes.last { facts.append("last note at \(tPlus(last.timestamp))") }
+        out.append(facts.joined(separator: " · "))
         out.append("")
 
         out.append("## Doses")
@@ -197,30 +250,22 @@ struct TripReport {
         out.append("| T+ | Time | Substance | Dose | Route |")
         out.append("|---|---|---|---|---|")
         for dose in doses {
-            out.append("| \(tPlus(dose.timestamp)) | \(time.string(from: dose.timestamp)) | \(dose.name) | \(dose.amount.doseFormatted) \(dose.unit) | \(dose.route.lowercased()) |")
+            out.append("| \(tPlus(dose.timestamp)) | \(time.string(from: dose.timestamp)) | \(Self.cell(dose.name)) | \(dose.amount.doseFormatted) \(dose.unit) | \(dose.route.lowercased()) |")
         }
         out.append("")
 
         out.append("## Timeline")
         out.append("")
-        if notes.isEmpty {
-            out.append("_No notes yet._")
-            out.append("")
-        }
+        out.append("| T+ | Time | Shulgin | Mood / Energy | Note |")
+        out.append("|---|---|---|---|---|")
         for note in notes {
-            var head = "**\(tPlus(note.timestamp))** (\(time.string(from: note.timestamp)))"
-            if note.kind == .checkIn { head += " · check-in" }
-            let structure = Self.structureLine(shulgin: note.shulgin, mood: note.mood, energy: note.energy, heartRate: note.heartRate)
-            if !structure.isEmpty { head += " · " + structure }
-            out.append("- " + head)
-            if !note.text.isEmpty {
-                for line in note.text.split(separator: "\n", omittingEmptySubsequences: false) {
-                    out.append("  " + (line.isEmpty ? "" : String(line)))
-                }
-            }
-            if !note.descriptors.isEmpty {
-                out.append("  _" + note.descriptors.map(\.name).joined(separator: " · ") + "_")
-            }
+            let shulgin = note.shulgin.flatMap(ShulginScale.glyph) ?? ""
+            let moodEnergy = Self.moodEnergyCell(mood: note.mood, energy: note.energy, heartRate: note.heartRate)
+            var text: [String] = []
+            if note.kind == .checkIn { text.append("**Check-in**") }
+            if !note.text.isEmpty { text.append(Self.cell(note.text)) }
+            if !note.descriptors.isEmpty { text.append("_" + note.descriptors.map(\.name).joined(separator: " · ") + "_") }
+            out.append("| \(tPlus(note.timestamp)) | \(time.string(from: note.timestamp)) | \(shulgin) | \(moodEnergy) | \(text.joined(separator: " — ")) |")
         }
         out.append("")
 
@@ -230,13 +275,14 @@ struct TripReport {
             out.append("")
             out.append("First noted at the T+ shown. Vocabulary: SubFxOnEx (drug.community).")
             out.append("")
+            out.append("| Domain | Descriptor | First noted |")
+            out.append("|---|---|---|")
             for (domain, rows) in grouped {
-                out.append("### " + domain.capitalized)
                 for row in rows {
-                    out.append("- \(row.descriptor.name) — \(tPlus(row.at))")
+                    out.append("| \(domain.capitalized) | \(Self.cell(row.descriptor.name)) | \(tPlus(row.at)) |")
                 }
-                out.append("")
             }
+            out.append("")
         }
 
         if let summary {
@@ -247,7 +293,8 @@ struct TripReport {
         }
 
         out.append("---")
-        out.append("_A record, not advice. Written with Piru._")
+        out.append("")
+        out.append("_Not medical advice. A record of one session, written with Piru._")
         return out.joined(separator: "\n")
     }
 }

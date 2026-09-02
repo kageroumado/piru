@@ -42,6 +42,17 @@ enum OnboardingTips {
     static func logDoseInvoked() {
         LogDoseTip().invalidate(reason: .actionPerformed)
     }
+
+    /// Retire the "where your data lives" tip once the session-menu tip has had its one
+    /// showing: one menu-shaped hint per ladder. Awaits the session-menu tip's status
+    /// stream, so run it from a `.task` on the screen that anchors that tip.
+    static func retireDataTipAfterSessionMenuTip() async {
+        for await status in SessionMenuTip().statusUpdates {
+            if case .invalidated = status {
+                SettingsDataTip().invalidate(reason: .tipClosed)
+            }
+        }
+    }
 }
 
 /// Points at the "Log a dose" accessory while the user is on the Journal root and hasn't logged
@@ -88,6 +99,32 @@ struct SettingsDataTip: Tip {
     }
 
     /// Shown once, ever — once the user has seen where their data lives, we don't say it again.
+    var options: [any TipOption] {
+        Tips.MaxDisplayCount(1)
+    }
+
+    var rules: [Rule] {
+        #Rule(LogDoseTip.$onboardingComplete) { $0 == true }
+        #Rule(LogDoseTip.$hasLoggedFirstDose) { $0 == true }
+    }
+}
+
+/// Points at a session's ••• menu the first time a session detail is open after the
+/// first logged dose: notes, check-ins and splitting all sit behind that one glyph,
+/// with nothing on the screen itself to suggest so. Shown once; when it has been, the
+/// "where your data lives" tip retires (``OnboardingTips/retireDataTipAfterSessionMenuTip()``).
+struct SessionMenuTip: Tip {
+    var title: Text {
+        Text("Notes live here")
+    }
+    var message: Text? {
+        Text("Notes, check-ins and splitting live under this menu.")
+    }
+    var image: Image? {
+        Image(systemName: "ellipsis.circle")
+    }
+
+    /// Shown once, ever.
     var options: [any TipOption] {
         Tips.MaxDisplayCount(1)
     }

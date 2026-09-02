@@ -172,8 +172,29 @@ struct ReportsView: View {
             ) {
                 await exportMarkdownAction()
             }
+
+            cardDivider
+
+            ExportCard(
+                icon: "quote.opening",
+                tint: .purple,
+                title: "Trip Report",
+                description: tripReportDescription,
+            ) {
+                await exportTripReportsAction()
+            }
         }
         .themeCard()
+    }
+
+    /// Says up front how many of the selected sessions have notes, so a tap
+    /// with nothing to export is never a surprise.
+    private var tripReportDescription: LocalizedStringKey {
+        switch model.sessionsWithNotes(in: selectedSessionObjects).count {
+        case 0: "Notes at their T+ offsets, descriptors by domain — none of the selected sessions has notes yet"
+        case 1: "Notes at their T+ offsets, descriptors by domain — 1 session with notes"
+        case let count: "Notes at their T+ offsets, descriptors by domain — \(count) sessions with notes"
+        }
     }
 
     private var cardDivider: some View {
@@ -363,6 +384,12 @@ struct ReportsView: View {
         defer { model.isExporting = false }
 
         let md = await model.exportMarkdown(sessions: selectedSessionObjects, colors: substanceColors)
+        guard !md.isEmpty else { return }
+        model.shareItems = [md]
+    }
+
+    private func exportTripReportsAction() async {
+        let md = model.exportTripReports(sessions: selectedSessionObjects)
         guard !md.isEmpty else { return }
         model.shareItems = [md]
     }
