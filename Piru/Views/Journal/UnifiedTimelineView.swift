@@ -29,6 +29,7 @@ struct UnifiedTimelineView: View {
     @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var pkCurves = false
     @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var showsAxis = true
     @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var bubbleStyle = TimelineBubbleStyle.full
+    @AppStorage("showSessionVitals", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var showsVitals = false
     @Environment(\.appNavigator) private var navigator
 
     var body: some View {
@@ -105,13 +106,14 @@ struct UnifiedTimelineView: View {
                     pkCurves: pkCurves,
                     showsAxis: showsAxis,
                     bubbleStyle: bubbleStyle,
+                    showsVitals: showsVitals,
                 )
             }
         }
     }
 
     private var rebuildKey: String {
-        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)"
+        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)"
     }
 
     /// Pinch on the graph: preview by stretching vertically while the fingers
@@ -194,10 +196,14 @@ final class UnifiedTimelineModel {
         pkCurves: Bool,
         showsAxis: Bool,
         bubbleStyle: TimelineBubbleStyle,
+        showsVitals: Bool,
     ) async {
-        let key = "\(revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(entries.count)"
+        let key = "\(revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(entries.count)"
         if key == builtKey, !days.isEmpty { return }
         await SubstanceStore.shared.ensureAllLoaded()
+        guard !Task.isCancelled else { return }
+
+        let heartRate = showsAxis && showsVitals ? await Self.recentHeartRate(entries: entries) : []
         guard !Task.isCancelled else { return }
 
         guard var builder = TimelineStripBuilder(
@@ -211,6 +217,7 @@ final class UnifiedTimelineModel {
                 bubbleStyle: bubbleStyle,
                 pkMode: pkCurves,
             ),
+            heartRate: heartRate,
         ) else {
             days = []
             builtKey = key
@@ -233,6 +240,31 @@ final class UnifiedTimelineModel {
         }
         days = built
         builtKey = key
+    }
+
+    /// How far back the heart-rate trace is read. A wrist sensor records
+    /// every few minutes, so a whole log would be hundreds of thousands of
+    /// samples for a texture only the recent strip has room to show.
+    private static let heartRateLookbackDays = 14
+
+    /// The recent stretch's heart rate, read the way the session detail reads
+    /// it: a plain query with no authorization prompt, empty when there is no
+    /// access or nothing recorded.
+    private static func recentHeartRate(entries: [DoseEntry]) async -> [HeartRateSample] {
+        let now = Date.now
+        guard let oldest = entries.map(\.timestamp).min() else { return [] }
+        let start = max(oldest, Calendar.current.date(byAdding: .day, value: -heartRateLookbackDays, to: now) ?? now)
+        guard start < now else { return [] }
+
+        #if DEBUG
+            // On-simulator visual verification without Health data.
+            if ProcessInfo.processInfo.arguments.contains("-piruFakeVitals") {
+                let doses = entries.map(\.timestamp).filter { $0 >= start && $0 <= now }
+                return DebugVitals.synthetic(doses: doses, start: start, end: now).heartRate
+            }
+        #endif
+        guard HealthKitVitals.shared.isAvailable else { return [] }
+        return await HealthKitVitals.shared.vitals(from: start, to: now).heartRate
     }
 }
 
@@ -281,6 +313,10 @@ struct TimelineDayLayout: Identifiable {
     let doseDots: [DoseDot]
     let connectors: [Connector]
     let noteMarks: [NoteMark]
+    /// Heart rate across the slice as (y, 0…1) points, y ascending. Empty
+    /// unless the health overlay is on and the slice holds enough samples to
+    /// read as a line.
+    let heartRate: [CurvePoint]
     let hourTicks: [HourTick]
     let nowY: CGFloat?
     let mapHeight: CGFloat
@@ -369,7 +405,7 @@ struct TimelineDayLayout: Identifiable {
         let points: [CurvePoint]
     }
 
-    struct CurvePoint {
+    struct CurvePoint: Equatable {
         let y: CGFloat
         let v: Double
         var phase: TimelineCurvePhase?

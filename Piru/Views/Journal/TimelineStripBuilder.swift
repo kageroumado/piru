@@ -50,6 +50,10 @@ struct TimelineStripBuilder {
         let text: String
     }
 
+    /// Heart-rate samples across the strip's recent stretch, ascending. Empty
+    /// when the health overlay is off or nothing was recorded.
+    private let heartRate: [HeartRateSample]
+
     /// Per-day slices, newest first.
     private let slices: [Slice]
     private let map: TimelineTimeMap
@@ -68,10 +72,19 @@ struct TimelineStripBuilder {
         slices.count
     }
 
-    init?(entries: [DoseEntry], colors: [SubstanceColor], colorMap: [String: Color], zoom: Double, compressGaps: Bool, style: TimelineDayLayout.Style) {
+    init?(
+        entries: [DoseEntry],
+        colors: [SubstanceColor],
+        colorMap: [String: Color],
+        zoom: Double,
+        compressGaps: Bool,
+        style: TimelineDayLayout.Style,
+        heartRate: [HeartRateSample] = [],
+    ) {
         guard !entries.isEmpty else { return nil }
         self.colorMap = colorMap
         self.style = style
+        self.heartRate = heartRate.sorted { $0.date < $1.date }
         remainingFractions = Self.computeRemainingFractions(entries: entries)
 
         // One state per dose that resolves duration data — the curves' input
@@ -433,6 +446,13 @@ struct TimelineStripBuilder {
                 )
             }
 
+        let heartRatePoints = Self.heartRatePoints(
+            samples: heartRate,
+            from: slice.bottomTime,
+            to: slice.topTime,
+            localY: localY,
+        )
+
         return TimelineDayLayout(
             date: slice.date,
             isToday: slice.isToday,
@@ -446,11 +466,43 @@ struct TimelineStripBuilder {
             doseDots: doseDots,
             connectors: connectors,
             noteMarks: noteMarks,
+            heartRate: heartRatePoints,
             hourTicks: hourTicks,
             nowY: nowY,
             mapHeight: mapHeight,
             totalHeight: totalHeight,
         )
+    }
+
+    /// The heart-rate band the lane maps: 40 bpm sits on the axis, 160 bpm at
+    /// the trace's full width. Beyond either end the trace flattens rather
+    /// than running out of the lane.
+    static let heartRateRange: ClosedRange<Double> = 40 ... 160
+
+    /// Fewer samples than this in a slice is a scatter, not a line, so the
+    /// trace is skipped there.
+    static let minimumHeartRateSamples = 6
+
+    /// One slice's heart-rate samples as lane points. Empty when too few
+    /// samples fall in the slice to read as a trace.
+    static func heartRatePoints(
+        samples: [HeartRateSample],
+        from bottomTime: Date,
+        to topTime: Date,
+        localY: (Date) -> CGFloat,
+    ) -> [TimelineDayLayout.CurvePoint] {
+        let inSlice = samples.filter { $0.date >= bottomTime && $0.date < topTime }
+        guard inSlice.count >= minimumHeartRateSamples else { return [] }
+        let low = heartRateRange.lowerBound
+        let span = heartRateRange.upperBound - low
+        return inSlice
+            .map { sample in
+                TimelineDayLayout.CurvePoint(
+                    y: localY(sample.date),
+                    v: min(max((sample.bpm - low) / span, 0), 1),
+                )
+            }
+            .sorted { $0.y < $1.y }
     }
 
     /// How far into the lane the widest curve reaches at `y`, `0…1` — what a

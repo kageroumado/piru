@@ -207,6 +207,7 @@ struct TimelineStripDayContent: View {
         }
 
         drawAxis(in: &context, size: size, axisX: axisX)
+        drawHeartRate(in: &context, axisX: axisX, laneWidth: curveWidth)
 
         // Per-substance curves — normalized to the substance's own
         // all-time peak so widths mean the same thing on every day and a
@@ -268,6 +269,27 @@ struct TimelineStripDayContent: View {
 
     /// Opacity of a curve's stroke.
     private static let curveStrokeOpacity = 0.75
+
+    /// The heart-rate trace's share of the curve lane.
+    private static let heartRateLaneFraction: CGFloat = 0.5
+
+    /// Heart rate as a thin second trace in the lane — texture under the
+    /// curves, never a chart: no labels, no fill, and it draws only where
+    /// enough was recorded to make a line.
+    private func drawHeartRate(in context: inout GraphicsContext, axisX: CGFloat, laneWidth: CGFloat) {
+        guard day.heartRate.count > 1 else { return }
+        let width = laneWidth * Self.heartRateLaneFraction
+        var path = Path()
+        for (i, point) in day.heartRate.enumerated() {
+            let pt = CGPoint(x: axisX + width * CGFloat(point.v), y: point.y)
+            if i == 0 { path.move(to: pt) } else { path.addLine(to: pt) }
+        }
+        context.stroke(
+            path,
+            with: .color(Color.secondary.opacity(0.35)),
+            style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round),
+        )
+    }
 
     /// One curve's stroke, split at its phase boundaries: each run of points
     /// in one phase is stroked in that phase's color and blends into the next

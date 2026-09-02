@@ -91,3 +91,69 @@ struct TimelineNoteLaneTests {
         #expect(TimelineNoteLane.textWidth(glyphX: 400, bubbleLeft: 380) == 0)
     }
 }
+
+@Suite("Timeline heart-rate trace")
+struct TimelineHeartRateTests {
+    private let start = Date(timeIntervalSinceReferenceDate: 800_000_000)
+
+    /// Slice-local y, one point per minute, later time higher up.
+    private func localY(_ date: Date) -> CGFloat {
+        CGFloat(600 - date.timeIntervalSince(start) / 60)
+    }
+
+    private func samples(_ bpms: [Double]) -> [HeartRateSample] {
+        bpms.enumerated().map { HeartRateSample(date: start.addingTimeInterval(Double($0.offset) * 300), bpm: $0.element) }
+    }
+
+    private func points(_ bpms: [Double], to end: TimeInterval = 86_400) -> [TimelineDayLayout.CurvePoint] {
+        TimelineStripBuilder.heartRatePoints(
+            samples: samples(bpms),
+            from: start,
+            to: start.addingTimeInterval(end),
+            localY: localY,
+        )
+    }
+
+    @Test
+    func `A scatter of samples draws nothing`() {
+        #expect(points([60, 70, 80, 90, 100]).isEmpty)
+        #expect(points([]).isEmpty)
+    }
+
+    @Test
+    func `Six samples are enough to make a line`() {
+        #expect(points([60, 70, 80, 90, 100, 110]).count == 6)
+    }
+
+    @Test
+    func `The band maps 40 bpm to the axis and 160 to the lane's full width`() {
+        let mapped = points([40, 100, 160, 70, 130, 90])
+        #expect(mapped.first { $0.y == localY(start) }?.v == 0)
+        let atFull = points([40, 100, 160, 70, 130, 90]).map(\.v).max()
+        #expect(atFull == 1)
+        // 100 bpm sits halfway up the band.
+        let middle = mapped.first { abs($0.v - 0.5) < 0.0001 }
+        #expect(middle != nil)
+    }
+
+    @Test
+    func `Rates outside the band flatten against its ends`() {
+        let mapped = points([20, 30, 200, 220, 100, 100])
+        #expect(mapped.allSatisfy { $0.v >= 0 && $0.v <= 1 })
+        #expect(mapped.contains { $0.v == 0 })
+        #expect(mapped.contains { $0.v == 1 })
+    }
+
+    @Test
+    func `Only the samples inside the slice count`() {
+        // Six samples five minutes apart, but the slice ends after fifteen
+        // minutes: four are in it, which is a scatter.
+        #expect(points([60, 70, 80, 90, 100, 110], to: 16 * 60).isEmpty)
+    }
+
+    @Test
+    func `Points come back in y order, newest first`() {
+        let mapped = points([60, 70, 80, 90, 100, 110])
+        #expect(mapped == mapped.sorted { $0.y < $1.y })
+    }
+}
