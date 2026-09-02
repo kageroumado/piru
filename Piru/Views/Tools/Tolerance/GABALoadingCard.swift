@@ -52,10 +52,10 @@ struct GABALoadingCard: View {
     var body: some View {
         Group {
             if peakLoad >= Self.visibilityFloor {
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: Spacing.lg) {
                     HStack(alignment: .firstTextBaseline) {
                         Text("Receptor load")
-                            .font(.headline)
+                            .cardTitle()
                         Spacer()
                         PredictionCapsule()
                     }
@@ -69,7 +69,7 @@ struct GABALoadingCard: View {
                         .font(.caption2)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
-                .padding(.vertical, 6)
+                .padding(.vertical, Spacing.sm)
             }
         }
         // Keyed on the log revision so editing an existing dose (same count)

@@ -9,7 +9,7 @@ struct ToleranceCard: View {
     let tier: UserProfile
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             ToleranceCardHeader(
                 color: row.familyColor,
                 name: toleranceClassName(row.snapshot.receptorClass, tier: tier),
@@ -45,7 +45,7 @@ struct ToleranceCard: View {
                 ToleranceNerdFooter(confidenceAndShift: row.confidenceAndShift, engagedLayers: row.engagedLayers)
             }
         }
-        .padding(.vertical, 6)
+        .padding(.vertical, Spacing.sm)
     }
 }
 
@@ -54,20 +54,14 @@ struct ToleranceCardHeader: View {
     let name: LocalizedStringResource
 
     var body: some View {
-        HStack(spacing: 8) {
-            Circle()
-                .fill(color)
-                .frame(width: 9, height: 9)
+        HStack(spacing: Spacing.md) {
+            LegendDot(color: color, size: .large)
             Text(name)
-                .font(.headline)
+                .cardTitle()
             Spacer(minLength: 8)
             Text("Predicted")
-                .font(.caption2.weight(.semibold))
+                .capsuleChip(text: Theme.secondaryLabel, fill: .secondary, size: .regular)
                 .textCase(.uppercase)
-                .padding(.horizontal, 9)
-                .padding(.vertical, 4)
-                .background(Color.secondary.opacity(0.14), in: Capsule())
-                .foregroundStyle(Theme.secondaryLabel)
         }
     }
 }
@@ -78,14 +72,10 @@ struct ToleranceContributorChips: View {
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 ForEach(contributors, id: \.self) { name in
                     Text(CustomSubstanceStore.shared.displayName(for: name))
-                        .font(.caption2.weight(.medium))
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(color.opacity(0.10), in: Capsule())
-                        .foregroundStyle(color)
+                        .capsuleChip(text: color, fill: color)
                 }
             }
         }
@@ -104,10 +94,10 @@ struct ToleranceBar: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(Color.secondary.opacity(0.18))
+                    Capsule().fill(Color.secondary.opacity(Theme.Opacity.tintActive))
                     HStack(spacing: multiBand ? 1.5 : 0) {
                         ForEach(bands) { band in
                             Rectangle()
@@ -121,11 +111,11 @@ struct ToleranceBar: View {
             .frame(height: 10)
 
             if showsLegend {
-                HStack(spacing: 10) {
+                HStack(spacing: Spacing.lg) {
                     if multiBand {
                         ForEach(bands) { band in
-                            HStack(spacing: 4) {
-                                Circle().fill(band.color).frame(width: 7, height: 7)
+                            HStack(spacing: Spacing.xs) {
+                                LegendDot(color: band.color, size: .compact)
                                 Text(band.label)
                             }
                         }
@@ -152,7 +142,7 @@ struct ToleranceRecoveryChart: View {
     var body: some View {
         if row.snapshot.severity > 0.03, row.recoveryWindowMinutes >= 120 {
             let points = row.recoveryCurve(overMinutes: row.recoveryWindowMinutes)
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
                 Chart {
                     ForEach(points) { point in
                         LineMark(
@@ -213,12 +203,11 @@ struct ToleranceSafetyNotesView: View {
 
     var body: some View {
         if !notes.isEmpty {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: Spacing.md) {
                 ForEach(notes) { note in
                     Label {
                         Text(note.text)
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                     } icon: {
                         Image(systemName: note.systemImage)
                             .foregroundStyle(note.tint)

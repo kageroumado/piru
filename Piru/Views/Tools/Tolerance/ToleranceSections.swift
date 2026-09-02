@@ -14,15 +14,14 @@ struct ToleranceBanner: View {
 
     var body: some View {
         Section {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
                 Label("Predicted", systemImage: "exclamationmark.triangle.fill")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.orange)
+                    .sectionLabel()
+                    .foregroundStyle(.cautionText)
                 Text(subtitle)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
         }
     }
 }
@@ -44,14 +43,13 @@ struct ToleranceHowItWorksCard: View {
 struct ToleranceEmptyState: View {
     var body: some View {
         Section {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: Spacing.md) {
                 Label("Nothing to show yet", systemImage: "checkmark.circle")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 Text("Log a few doses and your predicted tolerance shows up here. Anything you haven't taken recently counts as no tolerance.")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
         }
     }
 }
@@ -64,14 +62,13 @@ struct ToleranceIncompleteDataSection: View {
     var body: some View {
         if !names.isEmpty {
             Section {
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: Spacing.md) {
                     Label("Can't predict yet", systemImage: "questionmark.circle")
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                     Text("Logged, but missing the pharmacokinetics the model needs — so it's blind here, which is not the same as no tolerance. \(toleranceListPhrase(names)).")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
             }
         }
     }

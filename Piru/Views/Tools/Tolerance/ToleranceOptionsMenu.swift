@@ -48,7 +48,7 @@ struct ToleranceOptionsMenu: View {
                     .buttonStyle(.plain)
                 }
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
         }
         .frame(width: 280)
     }
@@ -58,14 +58,14 @@ struct ToleranceOptionsMenu: View {
         return Button {
             mode = option
         } label: {
-            VStack(spacing: 8) {
+            VStack(spacing: Spacing.md) {
                 MenuPhoneThumbnail(selected: selected, sketch: PhoneThumbnailArt.sketch(for: option))
                     .frame(width: 72, height: 148) // aspect 0.486 — the iPhone 17 bezel
                 Text(option.title)
                     .font(.subheadline)
                     .foregroundStyle(.primary)
                 radio(selected: selected)
-                    .frame(width: 22, height: 22)
+                    .frame(width: IconSize.iconMini, height: IconSize.iconMini)
             }
         }
         .buttonStyle(.plain)
@@ -82,15 +82,15 @@ struct ToleranceOptionsMenu: View {
                     .foregroundStyle(.white)
                     .accessibilityHidden(true)
             } else {
-                Circle().strokeBorder(Color.secondary.opacity(0.5), lineWidth: 1.5)
+                Circle().strokeBorder(Color.secondary.opacity(Theme.Opacity.dimmed), lineWidth: 1.5)
             }
         }
     }
 
     private func tierRow(_ option: UserProfile) -> some View {
-        HStack(spacing: 10) {
+        HStack(spacing: Spacing.lg) {
             Image(systemName: "checkmark")
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(Theme.accent)
                 .opacity(tier == option ? 1 : 0)
                 .frame(width: 16)
@@ -103,7 +103,7 @@ struct ToleranceOptionsMenu: View {
                 .foregroundStyle(.primary)
             Spacer(minLength: 0)
         }
-        .padding(.horizontal, 16)
+        .padding(.horizontal, Spacing.xxl)
         .padding(.vertical, 9)
         .contentShape(Rectangle())
         .accessibilityAddTraits(tier == option ? [.isSelected] : [])

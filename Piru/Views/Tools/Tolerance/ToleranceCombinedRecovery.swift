@@ -28,9 +28,9 @@ struct ToleranceCombinedRecoverySection: View {
 
     var body: some View {
         Section {
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: Spacing.xl) {
                 Text("Recovery if you stop now")
-                    .font(.headline)
+                    .cardTitle()
 
                 if series.isEmpty {
                     Text("Everything's rested — nothing recovering right now.")
@@ -44,7 +44,7 @@ struct ToleranceCombinedRecoverySection: View {
                         .foregroundStyle(Theme.secondaryLabel)
                 }
             }
-            .padding(.vertical, 6)
+            .padding(.vertical, Spacing.sm)
         }
     }
 }
@@ -53,20 +53,17 @@ struct ToleranceRecoveryLegend: View {
     let series: [ToleranceRecoverySeries]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             ForEach(series) { item in
-                HStack(spacing: 8) {
-                    Circle()
-                        .fill(item.color)
-                        .frame(width: 9, height: 9)
+                HStack(spacing: Spacing.md) {
+                    LegendDot(color: item.color, size: .large)
                     Text(item.name)
                         .font(.caption.weight(.medium))
                     Spacer(minLength: 8)
                     // Already a resolved, localized phrase from `durationPhrase` — show verbatim so it
                     // isn't re-looked-up as a catalog key.
                     Text(verbatim: item.recoveryPhrase)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
             }
         }

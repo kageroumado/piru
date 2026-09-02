@@ -166,8 +166,7 @@ struct InventoryItemForm: View {
                 baselineSection
                 noteSection
             }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .navigationTitle(navTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -198,13 +197,12 @@ struct InventoryItemForm: View {
                     selectedSubstance = nil
                 }
                 if selectedSubstance == nil, !substanceName.isEmpty {
-                    HStack(spacing: 4) {
+                    HStack(spacing: Spacing.xs) {
                         Image(systemName: "info.circle")
                             .accessibilityHidden(true)
                         Text("Custom substance — its doses count by exact name match.")
                     }
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                 }
             } header: {
                 Text("Substance")

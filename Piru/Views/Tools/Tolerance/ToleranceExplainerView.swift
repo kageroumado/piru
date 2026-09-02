@@ -23,8 +23,7 @@ struct ToleranceExplainerView: View {
             .listRowBackground(CardBackground())
         }
         .listStyle(.insetGrouped)
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .appNavigationBar("How tolerance works")
     }
 
@@ -182,10 +181,10 @@ struct ToleranceExplainerView: View {
 
     private func mechanismRow(_ cls: ReceptorClasses.ReceptorClass) -> some View {
         let parameters = ReceptorClasses.parameters(for: cls)
-        return VStack(alignment: .leading, spacing: 6) {
+        return VStack(alignment: .leading, spacing: Spacing.sm) {
             HStack {
                 Text(cls.displayName)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 Spacer()
                 ConfidenceBadge(tier: parameters.confidence)
             }
@@ -193,25 +192,23 @@ struct ToleranceExplainerView: View {
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
             Text(meaning(cls))
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
             Text(parameters.sourceNote)
                 .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel.opacity(0.8))
+                .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.strong))
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     private var sourcesSection: some View {
         Section {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
                 Label("Where the numbers come from", systemImage: "checkmark.seal")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 Text("Binding affinities come from the NIMH PDSP K\u{1D62} database and primary literature; the recovery kinetics are calibrated to published human studies. Every parameter is graded, and anything resting on a class default is flagged. The cards are predicted from your dose log and these curated values — estimates.")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
         }
     }
 
@@ -273,21 +270,20 @@ struct ToleranceExplainerView: View {
     // MARK: - Concept card
 
     private func concept(icon: String, tint: Color, title: LocalizedStringKey, body: LocalizedStringKey) -> some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .top, spacing: Spacing.xl) {
             Image(systemName: icon)
                 .font(.title3)
                 .foregroundStyle(tint)
                 .frame(width: 28)
-                .padding(.top, 2)
+                .padding(.top, Spacing.xxs)
                 .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text(title)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 Text(body)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 }

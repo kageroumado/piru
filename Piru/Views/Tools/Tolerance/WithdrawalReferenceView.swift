@@ -69,18 +69,17 @@ struct WithdrawalReferenceView: View {
                 Section {
                     Label {
                         Text("A model of your dose log, not medical advice. Stopping a benzodiazepine abruptly after regular use can cause seizures.")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                     } icon: {
                         Image(systemName: "exclamationmark.triangle.fill")
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(.cautionAccent)
                             .accessibilityHidden(true)
                     }
                 }
 
                 Section {
                     Link(destination: URL(string: "https://doi.org/10.1001/archpsyc.1990.01810220015002")!) {
-                        VStack(alignment: .leading, spacing: 4) {
+                        VStack(alignment: .leading, spacing: Spacing.xs) {
                             Text("Peak timing: Rickels K, et al. Long-term therapeutic use of benzodiazepines. I. Effects of abrupt discontinuation. Arch Gen Psychiatry. 1990;47(10):899-907.")
                                 .font(.caption2)
                                 .foregroundStyle(Theme.secondaryLabel)
@@ -90,7 +89,7 @@ struct WithdrawalReferenceView: View {
                         }
                     }
                     Link(destination: URL(string: "https://doi.org/10.3390/ijms27031430")!) {
-                        VStack(alignment: .leading, spacing: 4) {
+                        VStack(alignment: .leading, spacing: Spacing.xs) {
                             Text("Symptom groups and drug classes: Navarrete F, et al. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430.")
                                 .font(.caption2)
                                 .foregroundStyle(Theme.secondaryLabel)
@@ -104,8 +103,7 @@ struct WithdrawalReferenceView: View {
             .listRowBackground(CardBackground())
         }
         .listStyle(.insetGrouped)
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .appNavigationBar("If You Stop")
         .task(id: DoseLogService.shared.revision) {
             loadTrail = await ToleranceStore.shared.loadTrail(for: .gaba, from: allEntries)
@@ -119,10 +117,10 @@ struct WithdrawalReferenceView: View {
     /// modeled occupancy curve, not a calendar day-count against a fixed population band.
     private func sinceLastDoseSection(_ days: Int) -> some View {
         Section {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: Spacing.md) {
                 HStack(alignment: .firstTextBaseline) {
                     Text(daysPhrase(days))
-                        .font(.title3.weight(.semibold))
+                        .screenTitle()
                     Spacer()
                     PredictionCapsule()
                 }
@@ -130,7 +128,7 @@ struct WithdrawalReferenceView: View {
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             }
-            .padding(.vertical, 2)
+            .padding(.vertical, Spacing.xxs)
         } header: {
             Text("Since your last dose")
         }
@@ -213,12 +211,8 @@ struct WithdrawalReferenceView: View {
 struct PredictionCapsule: View {
     var body: some View {
         Text("Prediction")
-            .font(.caption2.weight(.semibold))
+            .capsuleChip(text: Theme.secondaryLabel, fill: Theme.secondaryLabel)
             .textCase(.uppercase)
-            .foregroundStyle(Theme.secondaryLabel)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 3)
-            .background(Theme.secondaryLabel.opacity(0.14), in: Capsule())
             .accessibilityLabel("Prediction from a model")
     }
 }
@@ -230,29 +224,24 @@ private struct TimingRow: View {
     let isYours: Bool
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
             HStack {
                 Text(band.actingClass.title)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 if isYours {
                     Text("your drugs")
-                        .font(.caption2.weight(.semibold))
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(Theme.accent.opacity(0.18), in: Capsule())
-                        .foregroundStyle(Theme.accent)
+                        .capsuleChip(text: Theme.accent, fill: Theme.accent)
                 }
             }
             if let peak = band.peakPhrase {
                 Text("Worst around \(peak)")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
             Text(band.actingClass.examples)
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
         .opacity(isYours ? 1 : 0.55)
     }
 }
@@ -261,17 +250,16 @@ private struct TaxonomyRow: View {
     let entry: TaxonomyEntry
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
             Text(entry.name)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
             Text(entry.what)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
             Text(entry.timing)
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 }
 
