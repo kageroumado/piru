@@ -6,7 +6,7 @@ import SwiftUI
 ///
 /// Showing the numbers matters even for a reader who can't evaluate them. A curve
 /// with no visible provenance is an oracle; the same curve with its half-life,
-/// Tmax, transporter weights and confidence grades attached is a claim you can
+/// Tmax and transporter weights attached is a claim you can
 /// follow, check, and disagree with.
 struct SandboxGuideSheet: View {
     let model: EffectSandboxModel
@@ -137,13 +137,6 @@ struct ParameterSection: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
             .textCase(nil)
-        } footer: {
-            if let tier = pharmacology?.occupancyConfidence {
-                HStack(spacing: Spacing.sm) {
-                    Text("Weakest input")
-                    ConfidenceBadge(tier: tier)
-                }
-            }
         }
         .listRowBackground(CardBackground())
     }
