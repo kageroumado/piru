@@ -185,7 +185,6 @@ struct JournalTimelineOptionsButton: View {
     @Binding var zoom: Double
     @Binding var compressGaps: Bool
     @Binding var pkCurves: Bool
-    @Binding var strengthScaling: Bool
     @Binding var showsAxis: Bool
     @Binding var bubbleStyle: TimelineBubbleStyle
 
@@ -194,7 +193,6 @@ struct JournalTimelineOptionsButton: View {
             zoom: $zoom,
             compressGaps: $compressGaps,
             pkCurves: $pkCurves,
-            strengthScaling: $strengthScaling,
             showsAxis: $showsAxis,
             bubbleStyle: $bubbleStyle,
         ) {

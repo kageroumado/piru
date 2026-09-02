@@ -32,7 +32,6 @@ struct TimelineOptionsMenu<Label: View>: View {
     @Binding var zoom: Double
     @Binding var compressGaps: Bool
     @Binding var pkCurves: Bool
-    @Binding var strengthScaling: Bool
     @Binding var showsAxis: Bool
     @Binding var bubbleStyle: TimelineBubbleStyle
     @ViewBuilder let label: () -> Label
@@ -67,7 +66,6 @@ struct TimelineOptionsMenu<Label: View>: View {
             Toggle("Show Timeline Axis", isOn: $showsAxis)
             Toggle("Compact Entries", isOn: compactEntries)
             Toggle("Compress Empty Time", isOn: $compressGaps)
-            Toggle("Scale by Dose Strength", isOn: $strengthScaling)
         } label: {
             label()
         }

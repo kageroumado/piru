@@ -16,9 +16,6 @@ struct TimelineStripDayContent: View {
     /// Horizontal inset of every bubble within its column, so a session
     /// envelope's edge stays visible around the bubbles it wraps.
     private static let bubbleInset: CGFloat = 8
-    /// Clearance between a full-amplitude curve and the bubbles when the
-    /// lane must stop short of them.
-    private static let peakClearance: CGFloat = 8
     /// A curve's full amplitude, as a fraction of the width available beyond
     /// the axis — wider would add precision the model doesn't have.
     private static let maxAmplitudeFraction: CGFloat = 0.6
@@ -161,11 +158,7 @@ struct TimelineStripDayContent: View {
         guard mapHeight > 0 else { return }
 
         let axisX = TimelineGutter.axisX
-        var curveWidth = Self.maxAmplitudeFraction * (size.width - axisX)
-        if !day.style.strengthScaling {
-            curveWidth = min(curveWidth, bubbleLeft - Self.peakClearance - axisX)
-        }
-        curveWidth = max(0, curveWidth)
+        let curveWidth = max(0, Self.maxAmplitudeFraction * (size.width - axisX))
 
         // Nothing draws in the break: the skipped days are an empty run.
         if day.breakAbove > 0 {

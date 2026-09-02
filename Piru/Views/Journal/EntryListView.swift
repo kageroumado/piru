@@ -132,7 +132,6 @@ struct EntryListView: View {
     @AppStorage("timelineZoom", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineZoom = 1.0
     @AppStorage("timelineCompression", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineCompression = true
     @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelinePKCurves = false
-    @AppStorage("timelineStrengthScaling", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineStrengthScaling = true
     @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineShowsAxis = true
     @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineBubbleStyle = TimelineBubbleStyle.full
 
@@ -356,7 +355,6 @@ struct EntryListView: View {
                             zoom: $timelineZoom,
                             compressGaps: $timelineCompression,
                             pkCurves: $timelinePKCurves,
-                            strengthScaling: $timelineStrengthScaling,
                             showsAxis: $timelineShowsAxis,
                             bubbleStyle: $timelineBubbleStyle,
                         )
@@ -446,7 +444,6 @@ struct EntryListView: View {
                 zoom: timelineZoom,
                 compressGaps: timelineCompression,
                 pkCurves: timelinePKCurves,
-                strengthScaling: timelineStrengthScaling,
                 showsAxis: timelineShowsAxis,
                 bubbleStyle: timelineBubbleStyle,
             )
@@ -469,14 +466,13 @@ struct EntryListView: View {
     }
 
     private var timelineRebuildKey: String {
-        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(timelineZoom)|\(timelineCompression)|\(timelinePKCurves)|\(timelineStrengthScaling)|\(timelineShowsAxis)|\(timelineBubbleStyle.rawValue)|\(searchText)|\(filterTags.hashValue)|\(filterCategories.hashValue)|\(filterRoutes.hashValue)"
+        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(timelineZoom)|\(timelineCompression)|\(timelinePKCurves)|\(timelineShowsAxis)|\(timelineBubbleStyle.rawValue)|\(searchText)|\(filterTags.hashValue)|\(filterCategories.hashValue)|\(filterRoutes.hashValue)"
     }
 
     /// The Timeline grouping rendered as list rows — the same continuous
     /// strip the pushed timeline screen draws (day pills float over each
     /// slice), with the meds/Active Now cards above; the strip's display
     /// options live in the toolbar (``JournalTimelineOptionsButton``).
-    @ViewBuilder
     private var timelineContent: some View {
         ForEach(timelineModel.days) { day in
             TimelineDayContent(

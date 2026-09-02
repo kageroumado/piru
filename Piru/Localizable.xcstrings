@@ -50667,6 +50667,7 @@
       }
     },
     "Scale by Dose Strength" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

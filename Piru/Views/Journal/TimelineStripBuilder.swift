@@ -12,10 +12,6 @@ struct TimelineStripBuilder {
         style.pkMode
     }
 
-    private var strengthScaling: Bool {
-        style.strengthScaling
-    }
-
     /// Effect states per substance (lowercased canonical name) — the same
     /// acute-effect curves every other timeline surface draws. Doses without
     /// duration data have no state and appear as dots/cards only, exactly as
@@ -507,7 +503,7 @@ struct TimelineStripBuilder {
             values.reserveCapacity(grid.count)
             var sliceMax = 0.0
             for sample in grid {
-                let v = Self.effectValue(at: sample.t, states: relevant, strengthScaling: strengthScaling)
+                let v = Self.effectValue(at: sample.t, states: relevant)
                 values.append(v)
                 sliceMax = max(sliceMax, v)
             }
@@ -618,22 +614,20 @@ struct TimelineStripBuilder {
         return peak
     }
 
-    /// PK mode's per-dose weight: the logged amount, or unit weight with
-    /// strength scaling off.
+    /// PK mode's per-dose weight: the logged amount.
     private func doseWeight(_ entry: DoseEntry) -> Double {
-        strengthScaling ? entry.amount : 1
+        entry.amount
     }
 
     /// Stacked effect intensity for one substance at `t` — each dose's
-    /// phase-curve shape scaled by its dose intensity (unit weight with
-    /// strength scaling off), summed.
-    private static func effectValue(at t: Date, states: [ActiveSubstanceState], strengthScaling: Bool) -> Double {
+    /// phase-curve shape scaled by its dose intensity, summed. Unit weight
+    /// would send every dose to the lane cap and flatten the peaks.
+    private static func effectValue(at t: Date, states: [ActiveSubstanceState]) -> Double {
         var total = 0.0
         for state in states {
             let minutes = t.timeIntervalSince(state.doseTimestamp) / 60
             guard minutes >= 0, minutes <= state.totalMinutes else { continue }
-            let weight = strengthScaling ? state.doseIntensity : 1
-            total += weight * TimelineCurveModel.intensity(at: minutes, for: state)
+            total += state.doseIntensity * TimelineCurveModel.intensity(at: minutes, for: state)
         }
         return total
     }
@@ -648,7 +642,7 @@ struct TimelineStripBuilder {
             let crest = state.doseTimestamp.addingTimeInterval(
                 (state.comeupEndMinutes + state.peakEndMinutes) / 2 * 60,
             )
-            peak = max(peak, Self.effectValue(at: crest, states: states, strengthScaling: strengthScaling))
+            peak = max(peak, Self.effectValue(at: crest, states: states))
         }
         peakCache[key] = peak
         return peak

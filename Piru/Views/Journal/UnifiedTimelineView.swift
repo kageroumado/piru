@@ -27,7 +27,6 @@ struct UnifiedTimelineView: View {
     @AppStorage("timelineZoom", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var zoom = 1.0
     @AppStorage("timelineCompression", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var compressGaps = true
     @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var pkCurves = false
-    @AppStorage("timelineStrengthScaling", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var strengthScaling = true
     @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var showsAxis = true
     @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var bubbleStyle = TimelineBubbleStyle.full
     @Environment(\.appNavigator) private var navigator
@@ -75,7 +74,6 @@ struct UnifiedTimelineView: View {
                         zoom: $zoom,
                         compressGaps: $compressGaps,
                         pkCurves: $pkCurves,
-                        strengthScaling: $strengthScaling,
                         showsAxis: $showsAxis,
                         bubbleStyle: $bubbleStyle,
                     ) {
@@ -105,7 +103,6 @@ struct UnifiedTimelineView: View {
                     zoom: zoom,
                     compressGaps: compressGaps,
                     pkCurves: pkCurves,
-                    strengthScaling: strengthScaling,
                     showsAxis: showsAxis,
                     bubbleStyle: bubbleStyle,
                 )
@@ -114,7 +111,7 @@ struct UnifiedTimelineView: View {
     }
 
     private var rebuildKey: String {
-        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(strengthScaling)|\(showsAxis)|\(bubbleStyle.rawValue)"
+        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)"
     }
 
     /// Pinch on the graph: preview by stretching vertically while the fingers
@@ -195,11 +192,10 @@ final class UnifiedTimelineModel {
         zoom: Double,
         compressGaps: Bool,
         pkCurves: Bool,
-        strengthScaling: Bool,
         showsAxis: Bool,
         bubbleStyle: TimelineBubbleStyle,
     ) async {
-        let key = "\(revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(strengthScaling)|\(showsAxis)|\(bubbleStyle.rawValue)|\(entries.count)"
+        let key = "\(revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(entries.count)"
         if key == builtKey, !days.isEmpty { return }
         await SubstanceStore.shared.ensureAllLoaded()
         guard !Task.isCancelled else { return }
@@ -214,7 +210,6 @@ final class UnifiedTimelineModel {
                 showsAxis: showsAxis,
                 bubbleStyle: bubbleStyle,
                 pkMode: pkCurves,
-                strengthScaling: strengthScaling,
             ),
         ) else {
             days = []
@@ -302,10 +297,6 @@ struct TimelineDayLayout: Identifiable {
         /// Body-load mode: half-life PK decay instead of effect curves, and
         /// elimination percentages on the bubbles.
         let pkMode: Bool
-        /// Weight each dose's curve by its strength (effect intensity, or
-        /// amount in PK mode). Off, every dose draws at unit weight — a medium
-        /// dose gets the full lane instead of a sliver of it.
-        let strengthScaling: Bool
     }
 
     static let cardSpacing: CGFloat = 4
