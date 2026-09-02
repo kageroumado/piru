@@ -27,8 +27,7 @@ struct InventoryItemDetailView: View {
             historySection
         }
         .listStyle(.insetGrouped)
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle(item.displayTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -74,7 +73,7 @@ struct InventoryItemDetailView: View {
                     .accessibilityLabel(accessibilityAmount)
 
                 if let supplyLine = inventorySupplyLine(for: item, runOut: runOut) {
-                    VStack(spacing: 4) {
+                    VStack(spacing: Spacing.xs) {
                         Text(supplyLine)
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
@@ -82,13 +81,12 @@ struct InventoryItemDetailView: View {
                             Button {
                                 showBasisInfo = true
                             } label: {
-                                HStack(spacing: 4) {
+                                HStack(spacing: Spacing.xs) {
                                     Image(systemName: "info.circle")
                                         .accessibilityHidden(true)
                                     Text(basisLine(runOut))
                                 }
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
+                                .captionSecondary()
                             }
                             .buttonStyle(.plain)
                             .accessibilityHint("How this is calculated")
@@ -98,24 +96,24 @@ struct InventoryItemDetailView: View {
 
                 if let fraction = item.fillFraction {
                     InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint, thickness: 12, status: item.stockStatus)
-                        .padding(.horizontal, 4)
-                        .padding(.top, 2)
+                        .padding(.horizontal, Spacing.xs)
+                        .padding(.top, Spacing.xxs)
                 }
 
                 Button {
                     navigator.present(.inventoryItemForm(id: item.id))
                 } label: {
                     Text("Restock")
-                        .font(.headline)
+                        .cardTitle()
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(Theme.accent)
-                .padding(.top, 2)
+                .padding(.top, Spacing.xxs)
             }
             .frame(maxWidth: .infinity)
             .multilineTextAlignment(.center)
-            .padding(.vertical, 8)
+            .padding(.vertical, Spacing.md)
             .listRowBackground(CardBackground())
         }
     }
@@ -126,12 +124,12 @@ struct InventoryItemDetailView: View {
         let status = item.stockStatus
         if status == .out {
             Text("Out")
-                .font(.system(size: 38, weight: .bold))
+                .font(.heroStat)
                 .foregroundStyle(status.numberColor)
         } else {
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
                 Text(item.currentQuantity.inventoryFormatted)
-                    .font(.system(size: 38, weight: .bold))
+                    .font(.heroStat)
                     .foregroundStyle(status.numberColor)
                 Text(item.unit)
                     .font(.title3.weight(.medium))
@@ -190,7 +188,7 @@ struct InventoryItemDetailView: View {
                 tint: tint(for: event.kind),
                 title: title(for: event.kind),
                 amount: amountLabel(event),
-                amountColor: event.amount >= 0 ? .green : Theme.secondaryLabel,
+                amountColor: event.amount >= 0 ? Color.Semantic.Success.text : Theme.secondaryLabel,
                 date: event.date,
                 note: event.note,
             )
@@ -310,20 +308,19 @@ private struct HistoryRowLabel: View {
     let note: String?
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             Image(systemName: glyph)
                 .font(.body)
                 .foregroundStyle(tint)
                 .frame(width: 26)
                 .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(title)
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(.primary)
                 if let note, !note.isEmpty {
                     Text(note)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                         .lineLimit(1)
                 }
                 Text(date.formatted(.dateTime.month().day().hour().minute()))
@@ -332,7 +329,7 @@ private struct HistoryRowLabel: View {
             }
             Spacer(minLength: 8)
             Text(amount)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(amountColor)
                 .monospacedDigit()
         }

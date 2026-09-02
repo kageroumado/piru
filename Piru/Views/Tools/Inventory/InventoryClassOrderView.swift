@@ -38,8 +38,7 @@ struct InventoryClassOrderView: View {
                 }
             }
             .listStyle(.insetGrouped)
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             // Permanent edit mode: the grips are always visible, and with no
             // delete or toggle the row is unmistakably about order.
             .environment(\.editMode, .constant(.active))

@@ -42,7 +42,7 @@ struct InventorySummaryCard: View {
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             } else {
-                VStack(spacing: 10) {
+                VStack(spacing: Spacing.lg) {
                     ForEach(topItems) { item in
                         InventorySummaryRow(item: item, colorMap: colorMap)
                     }
@@ -66,7 +66,7 @@ private struct InventorySummaryRow: View {
     let colorMap: [String: Color]
 
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: Spacing.md) {
             GlanceRow(dotColor: SubstancePalette.color(for: item.substance, colorMap: colorMap), title: Text(item.displayTitle)) {
                 StockAmountText(item: item, style: .subheadline)
             }
@@ -244,7 +244,7 @@ struct InventoryListView: View {
         return Button {
             withAnimation(.snappy(duration: 0.25)) { model.toggleCollapsed(category) }
         } label: {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 Image(systemName: category.icon)
                     .font(.caption2)
                     .accessibilityHidden(true)
@@ -345,10 +345,10 @@ private struct InventoryRow: View {
     @Environment(\.modelContext) private var modelContext
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            HStack(spacing: Spacing.md) {
                 Image(systemName: "circle.fill")
-                    .font(.system(size: 9))
+                    .font(.chartAnnotation)
                     .foregroundStyle(SubstancePalette.color(for: item.substance, colorMap: colorMap))
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
@@ -370,7 +370,7 @@ private struct InventoryRow: View {
                     .padding(.leading, 17)
             }
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
         .accessibilityElement(children: .combine)
     }
 

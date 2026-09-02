@@ -107,8 +107,7 @@ struct ToleranceToolView: View {
             .listRowBackground(CardBackground())
         }
         .listStyle(.insetGrouped)
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .appNavigationBar("Tolerance", showsOverflow: false)
         .toolbar {
             optionsButton

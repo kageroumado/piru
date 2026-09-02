@@ -43,7 +43,7 @@ struct EffectLadderView: View {
     }
 
     private func group(_ title: LocalizedStringResource, _ rows: [EffectLadderRow]) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             Text(title)
                 .font(.caption2.weight(.semibold))
                 .textCase(.uppercase)
@@ -90,13 +90,13 @@ private struct EffectLadderRowView: View {
             }
             track
             if showsDetail {
-                HStack(spacing: 8) {
+                HStack(spacing: Spacing.md) {
                     Text(tierLabel)
-                        .font(.system(size: 10, weight: .semibold))
+                        .font(.chartLabel)
                         .textCase(.uppercase)
                         .padding(.horizontal, 5)
                         .padding(.vertical, 1)
-                        .background(Color.secondary.opacity(0.14), in: RoundedRectangle(cornerRadius: 4))
+                        .background(Color.secondary.opacity(Theme.Opacity.tint), in: RoundedRectangle(cornerRadius: 4))
                         .foregroundStyle(Theme.secondaryLabel)
                     Text(row.axis.courseNote)
                         .font(.caption2)
@@ -109,7 +109,7 @@ private struct EffectLadderRowView: View {
     private var track: some View {
         GeometryReader { geo in
             ZStack(alignment: .leading) {
-                Capsule().fill(Color.secondary.opacity(0.18))
+                Capsule().fill(Color.secondary.opacity(Theme.Opacity.tintActive))
                 Capsule()
                     .fill(row.color)
                     .frame(width: max(2, geo.size.width * row.responseFraction))

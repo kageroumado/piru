@@ -47,7 +47,7 @@ struct ToleranceRow: Identifiable {
         let severity = max(0, min(1, snapshot.severity))
         let family = familyColor
         let raw: [(LocalizedStringResource, Double, Color)] = [
-            ("Tachyphylaxis", snapshot.sAcute, family.opacity(0.5)),
+            ("Tachyphylaxis", snapshot.sAcute, family.opacity(Theme.Opacity.dimmed)),
             ("Tolerance", snapshot.sAdaptive + snapshot.sSynthesis, family.opacity(0.82)),
             ("Deep", snapshot.sDeep, family),
         ]

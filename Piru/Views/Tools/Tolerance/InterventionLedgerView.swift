@@ -22,8 +22,7 @@ struct InterventionLedgerView: View {
 
                 Section(TaperIntervention.Verdict.notSupported.sectionTitle) {
                     Text("This half is the more useful half.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
 
                     ForEach(interventions(.notSupported)) { entry in
                         InterventionRow(entry: entry)
@@ -33,18 +32,17 @@ struct InterventionLedgerView: View {
                 Section {
                     Label {
                         Text("Research findings, not medical advice. Benzodiazepine discontinuation can be medically dangerous.")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                     } icon: {
                         Image(systemName: "exclamationmark.triangle.fill")
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(.cautionAccent)
                             .accessibilityHidden(true)
                     }
                 }
 
                 Section {
                     Link(destination: URL(string: "https://doi.org/10.3390/ijms27031430")!) {
-                        VStack(alignment: .leading, spacing: 4) {
+                        VStack(alignment: .leading, spacing: Spacing.xs) {
                             Text("Navarrete F, et al. Benzodiazepine Dependence: Clinical and Molecular Aspects, Preventive Strategies and Therapeutic Approaches. Int J Mol Sci. 2026;27(3):1430.")
                                 .font(.caption2)
                                 .foregroundStyle(Theme.secondaryLabel)
@@ -58,8 +56,7 @@ struct InterventionLedgerView: View {
             .listRowBackground(CardBackground())
         }
         .listStyle(.insetGrouped)
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .appNavigationBar("Discontinuation Evidence")
     }
 
@@ -74,13 +71,12 @@ private struct InterventionRow: View {
     let entry: TaperIntervention
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
             Text(entry.kind.name)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
 
             Text(entry.kind.finding)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
 
             if let detail = entry.detail {
                 Text(detail)
@@ -88,6 +84,6 @@ private struct InterventionRow: View {
                     .foregroundStyle(.tertiary)
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 }

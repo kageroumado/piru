@@ -120,8 +120,7 @@ struct InventoryItemEditView: View {
                 }
                 .listRowBackground(CardBackground())
             }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .navigationTitle("Edit")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

@@ -163,7 +163,7 @@ struct InventorySupplyBar: View {
         GeometryReader { geo in
             ZStack(alignment: .leading) {
                 Capsule()
-                    .fill(Color.primary.opacity(0.08))
+                    .fill(Color.primary.opacity(Theme.Opacity.hairline))
                 Capsule()
                     .fill(tint)
                     .frame(width: max(3, geo.size.width * fraction))
@@ -229,7 +229,7 @@ struct InventoryStepperRow: View {
     }
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             stepButton(systemImage: "minus") {
                 bump(to: max(0, value - step))
             }
@@ -244,7 +244,7 @@ struct InventoryStepperRow: View {
             .snappy(duration: 0.15)
         }
         .sensoryFeedback(.increase, trigger: stepTick)
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
         .onAppear { if focusOnAppear { focused = true } }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(label))
@@ -295,7 +295,7 @@ struct InventoryStepperRow: View {
                     }
                 }
             } label: {
-                HStack(alignment: .firstTextBaseline, spacing: 2) {
+                HStack(alignment: .firstTextBaseline, spacing: Spacing.xxs) {
                     Text(unit)
                     Image(systemName: "chevron.down").font(.caption2.weight(.semibold))
                         .accessibilityHidden(true)

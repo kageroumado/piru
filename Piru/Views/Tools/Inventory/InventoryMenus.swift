@@ -91,7 +91,7 @@ struct InventoryOptionsMenu: View {
             }
         } label: {
             Image(systemName: "ellipsis")
-                .font(.system(size: 17, weight: .semibold))
+                .font(.sectionTitle)
         }
         .accessibilityLabel(Text("More"))
         .accessibilityValue(optionsValue)
@@ -197,7 +197,7 @@ struct InventoryFilterBar: View {
 
     var body: some View {
         ScrollView(.horizontal) {
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.md) {
                 ForEach(Array(model.filterStatuses).sorted(by: { $0.sortIndex < $1.sortIndex })) { status in
                     chip(Text(status.displayName)) { model.filterStatuses.remove(status) }
                 }
@@ -212,22 +212,22 @@ struct InventoryFilterBar: View {
                     .foregroundStyle(Theme.accent)
             }
             .padding(.horizontal, 20)
-            .padding(.vertical, 8)
+            .padding(.vertical, Spacing.md)
         }
         .scrollIndicators(.hidden)
     }
 
     private func chip(_ title: Text, remove: @escaping () -> Void) -> some View {
         Button(action: remove) {
-            HStack(spacing: 4) {
+            HStack(spacing: Spacing.xs) {
                 title
                 Image(systemName: "xmark")
                     .font(.caption2.weight(.bold))
             }
             .font(.footnote.weight(.medium))
-            .padding(.horizontal, 10)
+            .padding(.horizontal, Spacing.lg)
             .padding(.vertical, 5)
-            .background(Theme.accent.opacity(0.16), in: Capsule())
+            .background(Theme.accent.opacity(Theme.Opacity.tint), in: Capsule())
             .foregroundStyle(Theme.accent)
         }
         .buttonStyle(.plain)

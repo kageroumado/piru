@@ -34,26 +34,25 @@ struct TolerancePerSubstanceSection: View {
         if groups.isEmpty {
             Section {
                 if isReplayRunning {
-                    HStack(spacing: 8) {
+                    HStack(spacing: Spacing.md) {
                         ProgressView()
                         Text("Calculating each substance's contribution…")
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
-                    .padding(.vertical, 4)
+                    .padding(.vertical, Spacing.xs)
                 } else {
                     Text("Log a few doses and each substance's tolerance shows up here.")
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
-                        .padding(.vertical, 4)
+                        .padding(.vertical, Spacing.xs)
                 }
             }
         } else {
             Section {
                 Label("Each card is that substance's own contribution. Mechanisms are shared, so your overall level (the chart above, or By mechanism) can be higher.", systemImage: "person.fill.viewfinder")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .padding(.vertical, 4)
+                    .captionSecondary()
+                    .padding(.vertical, Spacing.xs)
             }
             ForEach(groups) { group in
                 Section {
@@ -79,16 +78,16 @@ struct ToleranceSubstanceCard: View {
         let total = group.doses.count
         let cap = min(total, Self.expandedDoseLimit)
         let shown = expanded ? Array(group.doses.prefix(cap)) : Array(group.doses.prefix(3))
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 8) {
-                Circle().fill(topColor).frame(width: 9, height: 9)
+        VStack(alignment: .leading, spacing: Spacing.xl) {
+            HStack(spacing: Spacing.md) {
+                LegendDot(color: topColor, size: .large)
                 Text(group.displayName)
-                    .font(.headline)
+                    .cardTitle()
                 Spacer(minLength: 8)
             }
 
             // Every mechanism this substance drives, each with its own level and family-colored bar.
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: Spacing.lg) {
                 ForEach(group.classes) { snapshot in
                     ToleranceMechanismRow(
                         color: snapshot.receptorClass.familyColor,
@@ -101,7 +100,7 @@ struct ToleranceSubstanceCard: View {
 
             Divider()
 
-            VStack(spacing: 8) {
+            VStack(spacing: Spacing.md) {
                 ForEach(shown) { entry in
                     ToleranceDoseRow(entry: entry)
                     if entry.id != shown.last?.id { Divider() }
@@ -119,7 +118,7 @@ struct ToleranceSubstanceCard: View {
                 .buttonStyle(.borderless)
             }
         }
-        .padding(.vertical, 6)
+        .padding(.vertical, Spacing.sm)
     }
 
     /// The expand/collapse button's label: "Show less" when open, otherwise "Show all N doses" (when
@@ -150,8 +149,8 @@ struct ToleranceMechanismRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            HStack(spacing: 8) {
-                Circle().fill(color).frame(width: 7, height: 7)
+            HStack(spacing: Spacing.md) {
+                LegendDot(color: color, size: .compact)
                 Text(name)
                     .font(.subheadline)
                 Spacer(minLength: 8)
@@ -161,7 +160,7 @@ struct ToleranceMechanismRow: View {
             }
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(Color.secondary.opacity(0.18))
+                    Capsule().fill(Color.secondary.opacity(Theme.Opacity.tintActive))
                     Capsule().fill(color)
                         .frame(width: max(0, geo.size.width * min(1, max(0, severity))))
                 }
@@ -178,7 +177,7 @@ struct ToleranceDoseRow: View {
 
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text("\(entry.amount.doseFormatted) \(entry.unit)")
                     .font(.subheadline)
                 Text(entry.route.localizedName)
@@ -187,8 +186,7 @@ struct ToleranceDoseRow: View {
             }
             Spacer()
             Text(entry.timestamp.formatted(date: .abbreviated, time: .shortened))
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
     }
 }
