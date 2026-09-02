@@ -98,9 +98,9 @@ struct DosePKBadge: View {
                 .accessibilityHidden(true)
         }
         .font(.caption2.weight(.semibold))
-        .padding(.horizontal, 8)
+        .padding(.horizontal, Spacing.md)
         .padding(.vertical, 3)
-        .background(Theme.accent.opacity(0.12), in: Capsule())
+        .background(Theme.accent.opacity(Theme.Opacity.tint), in: Capsule())
         .foregroundStyle(Theme.accent)
     }
 
@@ -134,7 +134,7 @@ struct DoseSuggestionCard: View {
 
     private func cardContent(remainingPercent: Double, waitMinutes: Double) -> some View {
         let activeAmount = lastDoseAmount * remainingPercent / 100
-        return HStack(alignment: .top, spacing: 8) {
+        return HStack(alignment: .top, spacing: Spacing.md) {
             Image(systemName: "info.circle")
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(Theme.accent)
@@ -150,17 +150,16 @@ struct DoseSuggestionCard: View {
 
                 if remainingPercent > 10, waitMinutes > 1 {
                     Text("Consider waiting ~\(formattedWait(waitMinutes)) more")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
             }
         }
-        .padding(10)
+        .padding(Spacing.lg)
         .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .combine)
         // Accent-tinted so it reads as an informational callout instead of a
         // second gray surface clashing with the card behind it.
-        .background(Theme.accent.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
+        .background(Theme.accent.opacity(Theme.Opacity.hairline), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.medium))
     }
 
     private var timeAgo: String {

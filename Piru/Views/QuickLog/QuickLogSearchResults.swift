@@ -76,18 +76,18 @@ struct QuickLogSearchResults: View {
         VStack(spacing: 0) {
             ForEach(Array(results.enumerated()), id: \.element.id) { index, result in
                 if index > 0 {
-                    Divider().padding(.leading, 16)
+                    Divider().padding(.leading, Spacing.xxl)
                 }
                 row(result)
             }
             if let onCreateCustom {
                 if !results.isEmpty {
-                    Divider().padding(.leading, 16)
+                    Divider().padding(.leading, Spacing.xxl)
                 }
                 createCustomRow(onCreateCustom)
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     // MARK: Rows
@@ -169,7 +169,7 @@ struct QuickLogSearchResults: View {
         Button {
             add(result)
         } label: {
-            HStack(spacing: 10) {
+            HStack(spacing: Spacing.lg) {
                 // Decorative — the row itself is the Add button; without this
                 // VoiceOver announces the symbol before the substance name.
                 Image(systemName: "plus.circle.fill")
@@ -177,26 +177,24 @@ struct QuickLogSearchResults: View {
                     .foregroundStyle(tint)
                     .frame(width: 20)
                     .accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: 2) {
-                    HStack(spacing: 8) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
+                    HStack(spacing: Spacing.md) {
                         Text(name)
                             .font(.body.weight(.medium))
                             .foregroundStyle(.primary)
                             .lineLimit(1)
                         Spacer(minLength: 0)
                         Text(source)
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                     }
                     // The detail line always renders (a space when absent),
                     // so the title sits at the same height in every row.
                     Text(verbatim: detail ?? " ")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                         .lineLimit(1)
                 }
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, Spacing.xxl)
             .frame(height: resultRowHeight)
             .contentShape(Rectangle())
         }
@@ -265,9 +263,9 @@ struct QuickLogSearchResults: View {
 
     private func createCustomRow(_ action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            HStack(spacing: 10) {
+            HStack(spacing: Spacing.lg) {
                 Image(systemName: "plus")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .frame(width: 16)
                     .accessibilityHidden(true)
                 Text("Create custom substance")
@@ -276,7 +274,7 @@ struct QuickLogSearchResults: View {
                 Spacer()
             }
             .foregroundStyle(Theme.accent)
-            .padding(.horizontal, 16)
+            .padding(.horizontal, Spacing.xxl)
             .frame(height: createRowHeight)
             .contentShape(Rectangle())
         }

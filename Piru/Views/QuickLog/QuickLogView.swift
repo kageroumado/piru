@@ -152,7 +152,7 @@ struct QuickLogView: View {
                 // ``QuickLogCardList``.
                 QuickLogCardList(content: content, tray: tray)
                     .padding(.horizontal)
-                    .padding(.top, 4)
+                    .padding(.top, Spacing.xs)
                     // Clear the dock sheet's peek detent so the last cards can
                     // scroll above it.
                     .padding(.bottom, QuickLogDockMetrics.peekHeight + 20)

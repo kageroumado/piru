@@ -102,9 +102,9 @@ struct QuickLogEditSheet: View {
     /// Name + dose and reminder times — plain rows, matching the favorites
     /// section below. Editing schedules lives in the My Meds hub.
     private func medRow(_ item: DailyDoseItem) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             Text(item.productName ?? customStore.displayName(for: item.substance))
-            HStack(spacing: 4) {
+            HStack(spacing: Spacing.xs) {
                 Text(verbatim: "\(item.amount.doseFormatted) \(item.unit)")
                 if let first = item.reminderTimesMinutes.sorted().first,
                    let time = Calendar.current.date(
@@ -122,8 +122,7 @@ struct QuickLogEditSheet: View {
                     }
                 }
             }
-            .font(.caption)
-            .foregroundStyle(Theme.secondaryLabel)
+            .captionSecondary()
             .accessibilityElement(children: .combine)
         }
     }
@@ -154,7 +153,7 @@ struct QuickLogEditSheet: View {
     private var favoritesSection: some View {
         Section {
             ForEach(favorites) { favorite in
-                HStack(spacing: 10) {
+                HStack(spacing: Spacing.lg) {
                     Circle()
                         .fill(color(for: favorite.substance))
                         .frame(width: 10, height: 10)
@@ -287,11 +286,10 @@ struct QuickLogEditSheet: View {
                 path.append(DoseTimesRoute())
             } label: {
                 Label {
-                    VStack(alignment: .leading, spacing: 2) {
+                    VStack(alignment: .leading, spacing: Spacing.xxs) {
                         Text("Edit Dose Times…")
                         Text(doseTimesSummary)
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                     }
                 } icon: {
                     Image(systemName: "clock.arrow.circlepath")

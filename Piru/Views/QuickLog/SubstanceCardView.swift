@@ -66,8 +66,8 @@ struct SubstanceCardView: View, Equatable {
     var body: some View {
         let showsBadge = badge?.showsBadge ?? false
 
-        return VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 8) {
+        return VStack(alignment: .leading, spacing: Spacing.md) {
+            HStack(spacing: Spacing.md) {
                 Circle()
                     .fill(color)
                     .frame(width: 10, height: 10)
@@ -75,7 +75,7 @@ struct SubstanceCardView: View, Equatable {
                 // "Methylphenidate XR"); a plain card keeps the regionalized,
                 // relabel-aware display name.
                 Text(card.title ?? customSubstanceStore.displayName(for: card.substanceName))
-                    .font(.headline)
+                    .cardTitle()
                     .accessibilityAddTraits(.isHeader)
                 // PK status as a glanceable badge instead of a two-line card —
                 // tap to expand the full advice when it actually matters. The
@@ -104,7 +104,7 @@ struct SubstanceCardView: View, Equatable {
                         .font(.body)
                         .foregroundStyle(isFavorite ? Color.yellow : Theme.secondaryLabel)
                         .contentTransition(.symbolEffect(.replace))
-                        .padding(.horizontal, 4)
+                        .padding(.horizontal, Spacing.xs)
                         .contentShape(Rectangle())
                 }
                 .accessibilityLabel(isFavorite ? "Remove from Favorites" : "Add to Favorites")
@@ -122,7 +122,7 @@ struct SubstanceCardView: View, Equatable {
                     Image(systemName: "ellipsis")
                         .font(.body)
                         .foregroundStyle(Theme.secondaryLabel)
-                        .padding(.horizontal, 4)
+                        .padding(.horizontal, Spacing.xs)
                         .contentShape(Rectangle())
                 }
                 .accessibilityLabel("More actions")
@@ -172,7 +172,7 @@ struct SubstanceCardView: View, Equatable {
     @ViewBuilder
     private var inventoryHint: some View {
         if let item = inventoryItem {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 if let fraction = item.fillFraction {
                     InventorySupplyBar(fraction: fraction, tint: item.stockStatus.barTint, status: item.stockStatus)
                 }
@@ -189,11 +189,11 @@ struct SubstanceCardView: View, Equatable {
     }
 
     private func routeSection(_ group: SubstanceGroup) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             Text(group.route.localizedName)
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, 4)
+                .padding(.top, Spacing.xs)
 
             doseChips(for: group)
         }
@@ -223,9 +223,9 @@ struct SubstanceCardView: View, Equatable {
             } label: {
                 Image(systemName: "slider.horizontal.3")
                     .font(.subheadline.weight(.medium))
-                    .padding(.horizontal, 12)
+                    .padding(.horizontal, Spacing.xl)
                     .padding(.vertical, 7)
-                    .background(.tint.opacity(0.12))
+                    .background(.tint.opacity(Theme.Opacity.tint))
                     .foregroundStyle(.tint)
                     .clipShape(Capsule())
             }
@@ -265,12 +265,12 @@ struct SubstanceCardView: View, Equatable {
         } label: {
             chipLabel(chip)
                 .font(.subheadline.weight(.medium))
-                .padding(.horizontal, 12)
+                .padding(.horizontal, Spacing.xl)
                 .padding(.vertical, chip.hasDrinkDetail ? 8 : 6)
-                .background(stagedCount > 0 ? color : color.opacity(0.15))
+                .background(stagedCount > 0 ? color : color.opacity(Theme.Opacity.tint))
                 .foregroundStyle(stagedCount > 0 ? .white : color)
-                .clipShape(chip.hasDrinkDetail ? AnyShape(RoundedRectangle(cornerRadius: 16, style: .continuous)) : AnyShape(Capsule()))
-                .contentShape(chip.hasDrinkDetail ? AnyShape(RoundedRectangle(cornerRadius: 16, style: .continuous)) : AnyShape(Capsule()))
+                .clipShape(chip.hasDrinkDetail ? AnyShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.container, style: .continuous)) : AnyShape(Capsule()))
+                .contentShape(chip.hasDrinkDetail ? AnyShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.container, style: .continuous)) : AnyShape(Capsule()))
                 .overlay(alignment: .topTrailing) {
                     if stagedCount > 1 {
                         chipCountBadge(stagedCount)

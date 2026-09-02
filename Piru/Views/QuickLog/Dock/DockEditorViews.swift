@@ -101,11 +101,10 @@ private struct DockLabelRow: View {
     let label: DockLabel
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             Text(label.kind.title)
             Text(detail)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
     }
 

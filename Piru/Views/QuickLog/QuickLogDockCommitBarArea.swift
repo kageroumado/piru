@@ -28,7 +28,7 @@ struct DockCommitBarArea: View {
             content: content,
             onCommit: onCommit,
         )
-        .padding(.horizontal, 16)
+        .padding(.horizontal, Spacing.xxl)
         // Intrinsic height always: when a drag squeezes the sheet below the
         // compact detent, the bar must clip rather than compress — a
         // compressed measurement re-minted the compact detent mid-gesture and
