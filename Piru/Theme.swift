@@ -135,9 +135,13 @@ extension View {
     /// from whatever container the system provides (sheet, screen, grouped
     /// list); they just don't yet re-publish themselves as a container for
     /// their own children. Nested content still needs an explicit radius.
+    ///
+    /// A skin with a fixed ``Skin/cardCornerRadius`` (its cards are drawn
+    /// objects, not system surfaces) overrides the caller's radius.
     func themeCard(cornerRadius: CGFloat = 22) -> some View {
-        modifier(ThemedBackground(
-            shape: ConcentricRectangle(corners: .concentric(minimum: .fixed(cornerRadius)), isUniform: true),
+        let radius = SkinStore.shared.current.cardCornerRadius ?? cornerRadius
+        return modifier(ThemedBackground(
+            shape: ConcentricRectangle(corners: .concentric(minimum: .fixed(radius)), isUniform: true),
         ))
     }
 

@@ -17,6 +17,16 @@ final class SkinStore {
 
     private let defaults: UserDefaults
 
+    /// Installs itself as `Skin.current`'s provider so `Shared/` code (the
+    /// semantic-colour shorthands) reads the observable choice, not a stale
+    /// UserDefaults snapshot.
+    static func activate() {
+        // The shorthands are read inside view bodies, on the main actor;
+        // `assumeIsolated` states that and traps on any off-main read rather
+        // than racing the store.
+        Skin.currentProvider = { MainActor.assumeIsolated { shared.current } }
+    }
+
     init(defaults: UserDefaults) {
         self.defaults = defaults
         current = SkinDefaults.storedSkin(in: defaults)

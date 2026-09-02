@@ -23163,6 +23163,22 @@
         }
       }
     },
+    "ely.pink" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ely.pink"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ely.pink"
+          }
+        }
+      }
+    },
     "Emax" : {
       "localizations" : {
         "zh-Hans" : {
@@ -37708,6 +37724,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "夜間\n0–6"
+          }
+        }
+      }
+    },
+    "Night and pink, stickers and pixels" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜色与粉色，贴纸与像素"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜色與粉色，貼紙與像素"
           }
         }
       }

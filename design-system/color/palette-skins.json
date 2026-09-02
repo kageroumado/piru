@@ -1,0 +1,226 @@
+{
+ "_meta": {
+  "space": "oklch",
+  "note": "ely.pink skin. light = the site's ♡ pink mode, dark = its ☾ night default. Text roles gated AA 4.5:1, marks 3:1, on that skin's own card. Sources: ~/Developer/website main/index.html :root and html[data-theme=\"light\"]; the four light text twins are the site's values with L lowered until they clear 4.5:1."
+ },
+ "skins": {
+  "elypink": {
+   "surface/background": {
+    "light": [
+     0.8627,
+     0.08613,
+     351.6682
+    ],
+    "dark": [
+     0.18607,
+     0.03051,
+     295.52228
+    ]
+   },
+   "surface/card": {
+    "light": [
+     0.98151,
+     0.01162,
+     342.0294
+    ],
+    "dark": [
+     0.24117,
+     0.04935,
+     296.6892
+    ]
+   },
+   "surface/input": {
+    "light": [
+     0.96481,
+     0.02108,
+     346.94569
+    ],
+    "dark": [
+     0.27887,
+     0.05835,
+     295.29447
+    ]
+   },
+   "stroke": {
+    "light": [
+     0.18901,
+     0.02013,
+     342.43787
+    ],
+    "dark": [
+     0.45479,
+     0.0873,
+     294.58722
+    ]
+   },
+   "shadow": {
+    "light": [
+     0.18901,
+     0.02013,
+     342.43787
+    ],
+    "dark": [
+     0.27887,
+     0.05835,
+     295.29447
+    ]
+   },
+   "eyebrow": {
+    "light": [
+     0.48834,
+     0.16721,
+     8.85951
+    ],
+    "dark": [
+     0.72245,
+     0.12692,
+     320.5385
+    ]
+   },
+   "text/secondary": {
+    "light": [
+     0.51041,
+     0.04476,
+     347.22316
+    ],
+    "dark": [
+     0.75857,
+     0.06297,
+     310.05974
+    ]
+   },
+   "accent/text": {
+    "light": [
+     0.58038,
+     0.21703,
+     1.29836
+    ],
+    "dark": [
+     0.69,
+     0.2173,
+     1.10366
+    ]
+   },
+   "accent/mark": {
+    "light": [
+     0.682,
+     0.2173,
+     1.10366
+    ],
+    "dark": [
+     0.69,
+     0.2173,
+     1.10366
+    ]
+   },
+   "semantic/success/text": {
+    "light": [
+     0.53616,
+     0.10851,
+     166.17623
+    ],
+    "dark": [
+     0.81109,
+     0.09712,
+     172.85434
+    ]
+   },
+   "semantic/success/accent": {
+    "light": [
+     0.56604,
+     0.10796,
+     166.51239
+    ],
+    "dark": [
+     0.81109,
+     0.09712,
+     172.85434
+    ]
+   },
+   "semantic/caution/text": {
+    "light": [
+     0.55285,
+     0.11139,
+     82.69645
+    ],
+    "dark": [
+     0.75037,
+     0.11106,
+     90.34461
+    ]
+   },
+   "semantic/caution/accent": {
+    "light": [
+     0.62339,
+     0.11159,
+     82.66217
+    ],
+    "dark": [
+     0.75037,
+     0.11106,
+     90.34461
+    ]
+   },
+   "semantic/info/text": {
+    "light": [
+     0.55012,
+     0.06478,
+     234.48491
+    ],
+    "dark": [
+     0.71045,
+     0.06473,
+     233.56752
+    ]
+   },
+   "semantic/info/accent": {
+    "light": [
+     0.55012,
+     0.06478,
+     234.48491
+    ],
+    "dark": [
+     0.71045,
+     0.06473,
+     233.56752
+    ]
+   },
+   "semantic/danger/text": {
+    "light": [
+     0.52488,
+     0.19837,
+     16.83837
+    ],
+    "dark": [
+     0.69679,
+     0.1978,
+     12.91219
+    ]
+   },
+   "semantic/danger/accent": {
+    "light": [
+     0.52488,
+     0.19837,
+     16.83837
+    ],
+    "dark": [
+     0.69679,
+     0.1978,
+     12.91219
+    ]
+   },
+   "accent/on": {
+    "light": [
+     1.0,
+     0.00013,
+     259.98196
+    ],
+    "dark": [
+     0.14249,
+     0.0289,
+     297.5311
+    ]
+   }
+  }
+ }
+}

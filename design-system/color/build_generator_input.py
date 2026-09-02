@@ -101,6 +101,19 @@ def main() -> None:
                         token["dark_hc"] = l2_spec(modes["dark"][f"{role}_hc"])
                     tokens[f"{scale}/{step}/{role}"] = token
 
+    # Skins. Each skin is a namespace under `skin/<id>/` carrying its own
+    # surfaces, text, accent and semantic overrides, so a skin gets the same
+    # Any/Dark slots (and the same contrast gate) as the default tokens.
+    # `Skin.swift` switches on the skin and reads the generated symbols.
+    skins_path = HERE / "palette-skins.json"
+    if skins_path.exists():
+        for skin_id, skin_tokens in json.loads(skins_path.read_text())["skins"].items():
+            for name, modes in skin_tokens.items():
+                tokens[f"skin/{skin_id}/{name}"] = {
+                    "any": {"oklch": list(modes["light"])},
+                    "dark": {"oklch": list(modes["dark"])},
+                }
+
     out = HERE / "palette-generator-input.json"
     out.write_text(json.dumps({"tokens": tokens}, indent=1) + "\n")
     print(f"wrote {len(tokens)} tokens to {out.name}")

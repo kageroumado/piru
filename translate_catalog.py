@@ -26,6 +26,14 @@ T = {
         "柔粉、亮粉、液态玻璃",
         "柔粉、亮粉、液態玻璃",
     ),
+    "ely.pink": (
+        "ely.pink",
+        "ely.pink",
+    ),
+    "Night and pink, stickers and pixels": (
+        "夜色与粉色，贴纸与像素",
+        "夜色與粉色，貼紙與像素",
+    ),
     "A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay exactly as they are.": (
         "皮肤会改变应用的颜色、卡片和字体。你的物质颜色、时间轴和所有图表都保持原样。",
         "皮膚會改變應用程式的顏色、卡片和字體。你的物質顏色、時間軸和所有圖表都保持原樣。",
@@ -7468,6 +7476,8 @@ if __name__ == "__main__":
         "Skin",
         "Piru",
         "Soft pink, hot pink, liquid glass",
+        "ely.pink",
+        "Night and pink, stickers and pixels",
         "A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay exactly as they are.",
         "Follow System",
         "Light Mode",

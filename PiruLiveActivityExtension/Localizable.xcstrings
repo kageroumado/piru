@@ -238,7 +238,20 @@
       }
     },
     "Dark Mode" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色模式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色模式"
+          }
+        }
+      }
     },
     "Elapsed" : {
       "localizations" : {
@@ -255,6 +268,9 @@
           }
         }
       }
+    },
+    "ely.pink" : {
+
     },
     "Every 2 days" : {
       "localizations" : {
@@ -305,7 +321,20 @@
       }
     },
     "Follow System" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟随系统"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟隨系統"
+          }
+        }
+      }
     },
     "Heart rate" : {
       "localizations" : {
@@ -420,7 +449,20 @@
       }
     },
     "Light Mode" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浅色模式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "淺色模式"
+          }
+        }
+      }
     },
     "Low confidence" : {
       "localizations" : {
@@ -469,6 +511,9 @@
           }
         }
       }
+    },
+    "Night and pink, stickers and pixels" : {
+
     },
     "No active doses" : {
       "localizations" : {
@@ -583,7 +628,20 @@
       }
     },
     "Piru" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru"
+          }
+        }
+      }
     },
     "Rectal" : {
       "localizations" : {
@@ -637,7 +695,20 @@
       }
     },
     "Soft pink, hot pink, liquid glass" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "柔粉、亮粉、液态玻璃"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "柔粉、亮粉、液態玻璃"
+          }
+        }
+      }
     },
     "Specific days" : {
       "localizations" : {

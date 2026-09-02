@@ -68,6 +68,9 @@ struct PiruApp: App {
         // legacy wellness/phase flags) and refresh the UserDefaults mirror the
         // schedulers gate on — before any dose can be logged this launch.
         NotificationPreferencesStore.shared.configure(container: container)
+        // Point `Skin.current` at the observable store so the semantic-colour
+        // shorthands in Shared/ follow a skin change, not a UserDefaults snapshot.
+        SkinStore.activate()
 
         // Automatic lightweight migration fills the SAME UUID into every
         // pre-existing DoseEntry when it adds `id` (the default expression is

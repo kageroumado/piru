@@ -4327,6 +4327,294 @@
      264.59439
     ]
    }
+  },
+  "skin/elypink/surface/background": {
+   "any": {
+    "oklch": [
+     0.8627,
+     0.08613,
+     351.6682
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.18607,
+     0.03051,
+     295.52228
+    ]
+   }
+  },
+  "skin/elypink/surface/card": {
+   "any": {
+    "oklch": [
+     0.98151,
+     0.01162,
+     342.0294
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.24117,
+     0.04935,
+     296.6892
+    ]
+   }
+  },
+  "skin/elypink/surface/input": {
+   "any": {
+    "oklch": [
+     0.96481,
+     0.02108,
+     346.94569
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.27887,
+     0.05835,
+     295.29447
+    ]
+   }
+  },
+  "skin/elypink/stroke": {
+   "any": {
+    "oklch": [
+     0.18901,
+     0.02013,
+     342.43787
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.45479,
+     0.0873,
+     294.58722
+    ]
+   }
+  },
+  "skin/elypink/shadow": {
+   "any": {
+    "oklch": [
+     0.18901,
+     0.02013,
+     342.43787
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.27887,
+     0.05835,
+     295.29447
+    ]
+   }
+  },
+  "skin/elypink/eyebrow": {
+   "any": {
+    "oklch": [
+     0.48834,
+     0.16721,
+     8.85951
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.72245,
+     0.12692,
+     320.5385
+    ]
+   }
+  },
+  "skin/elypink/text/secondary": {
+   "any": {
+    "oklch": [
+     0.51041,
+     0.04476,
+     347.22316
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.75857,
+     0.06297,
+     310.05974
+    ]
+   }
+  },
+  "skin/elypink/accent/text": {
+   "any": {
+    "oklch": [
+     0.58038,
+     0.21703,
+     1.29836
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.69,
+     0.2173,
+     1.10366
+    ]
+   }
+  },
+  "skin/elypink/accent/mark": {
+   "any": {
+    "oklch": [
+     0.682,
+     0.2173,
+     1.10366
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.69,
+     0.2173,
+     1.10366
+    ]
+   }
+  },
+  "skin/elypink/semantic/success/text": {
+   "any": {
+    "oklch": [
+     0.53616,
+     0.10851,
+     166.17623
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.81109,
+     0.09712,
+     172.85434
+    ]
+   }
+  },
+  "skin/elypink/semantic/success/accent": {
+   "any": {
+    "oklch": [
+     0.56604,
+     0.10796,
+     166.51239
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.81109,
+     0.09712,
+     172.85434
+    ]
+   }
+  },
+  "skin/elypink/semantic/caution/text": {
+   "any": {
+    "oklch": [
+     0.55285,
+     0.11139,
+     82.69645
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.75037,
+     0.11106,
+     90.34461
+    ]
+   }
+  },
+  "skin/elypink/semantic/caution/accent": {
+   "any": {
+    "oklch": [
+     0.62339,
+     0.11159,
+     82.66217
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.75037,
+     0.11106,
+     90.34461
+    ]
+   }
+  },
+  "skin/elypink/semantic/info/text": {
+   "any": {
+    "oklch": [
+     0.55012,
+     0.06478,
+     234.48491
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.71045,
+     0.06473,
+     233.56752
+    ]
+   }
+  },
+  "skin/elypink/semantic/info/accent": {
+   "any": {
+    "oklch": [
+     0.55012,
+     0.06478,
+     234.48491
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.71045,
+     0.06473,
+     233.56752
+    ]
+   }
+  },
+  "skin/elypink/semantic/danger/text": {
+   "any": {
+    "oklch": [
+     0.52488,
+     0.19837,
+     16.83837
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.69679,
+     0.1978,
+     12.91219
+    ]
+   }
+  },
+  "skin/elypink/semantic/danger/accent": {
+   "any": {
+    "oklch": [
+     0.52488,
+     0.19837,
+     16.83837
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.69679,
+     0.1978,
+     12.91219
+    ]
+   }
+  },
+  "skin/elypink/accent/on": {
+   "any": {
+    "oklch": [
+     1.0,
+     0.00013,
+     259.98196
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.14249,
+     0.0289,
+     297.5311
+    ]
+   }
   }
  }
 }
