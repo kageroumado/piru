@@ -97,7 +97,7 @@ struct BodyLoadView: View {
     // MARK: - Chart card
 
     private func chartCard(_ trail: BodyLoadTrail) -> some View {
-        UsageSectionCard(title: "In your body over time", subtitle: "Estimated amount still circulating, each line a share of its own peak") {
+        UsageSectionCard(title: "In your body over time", subtitle: "Each line as a share of its own peak") {
             let filtered = filteredSeries(from: trail)
             let visible = filtered.filter { !hidden.contains($0.id) }
             let series = visible.isEmpty ? filtered : visible

@@ -110,7 +110,7 @@ private struct HolidayCard: View {
     let holidays: HolidayStats
 
     var body: some View {
-        UsageSectionCard(title: "Days used", subtitle: "How often, across this range") {
+        UsageSectionCard(title: "Days used") {
             HStack(alignment: .top, spacing: 0) {
                 tile("\(holidays.daysUsed)", "of \(holidays.totalDays) days")
                 tile(holidays.fractionUsed.formatted(.percent.precision(.fractionLength(0))), "of days")
@@ -250,7 +250,7 @@ private struct EscalationCard: View {
     let report: ClinicalReport
 
     var body: some View {
-        UsageSectionCard(title: "Dose trend", subtitle: "Whether your typical dose has moved over this range") {
+        UsageSectionCard(title: "Dose trend") {
             VStack(spacing: Spacing.lg) {
                 ForEach(report.escalation) { stat in
                     EscalationRow(stat: stat, substance: report.substances[stat.substanceIndex])
@@ -316,7 +316,7 @@ private struct OverlapCard: View {
     let report: ClinicalReport
 
     var body: some View {
-        UsageSectionCard(title: "Active together", subtitle: "Hours two substances were both in your body at once") {
+        UsageSectionCard(title: "Active together") {
             VStack(spacing: Spacing.lg) {
                 ForEach(report.overlaps.prefix(6)) { overlap in
                     let a = report.substances[overlap.a]

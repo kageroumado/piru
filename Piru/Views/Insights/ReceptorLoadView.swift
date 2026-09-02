@@ -144,7 +144,7 @@ struct ReceptorLoadView: View {
     // MARK: - Chart
 
     private var chartCard: some View {
-        UsageSectionCard(title: "Receptor load over time", subtitle: "How hard each mechanism has been driven, relative to your recent baseline") {
+        UsageSectionCard(title: "Receptor load over time", subtitle: "Relative to your recent baseline") {
             let visible = series.filter { !hidden.contains($0.id) }
             let shown = visible.isEmpty ? series : visible
             ReceptorLoadChart(series: shown, selectedDate: $selectedDate, windowSeconds: zoomLevel.windowSeconds)
