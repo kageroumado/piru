@@ -13,6 +13,7 @@ struct TimelineDoseBubble: View {
     /// Body-load mode: the trailing readout is what remains in the body.
     let pkMode: Bool
     let onTap: () -> Void
+    @Environment(\.colorScheme) private var colorScheme
 
     static let cornerRadius: CGFloat = 14
 
@@ -63,7 +64,12 @@ struct TimelineDoseBubble: View {
             .padding(.horizontal, 10)
             .frame(height: Self.height(for: style))
             .contentShape(.rect)
-            .glassEffect(.regular, in: .rect(cornerRadius: Self.cornerRadius))
+            .glassEffect(.regular.tint(item.color.opacity(TimelineGlass.tintOpacity)), in: .rect(cornerRadius: Self.cornerRadius))
+            .overlay {
+                RoundedRectangle(cornerRadius: Self.cornerRadius, style: .continuous)
+                    .strokeBorder(TimelineGlass.edgeHighlight(colorScheme: colorScheme), lineWidth: 0.5)
+            }
+            .shadow(color: .black.opacity(TimelineGlass.shadowOpacity(colorScheme: colorScheme)), radius: 10, y: 4)
         }
         .buttonStyle(.plain)
     }
@@ -124,5 +130,33 @@ struct TimelineDoseBubble: View {
                 }
             }
         }
+    }
+}
+
+/// The volumetric recipe every glass surface on the strip shares — a whisper
+/// of the substance color in the glass, a top-edge highlight that says "lit
+/// from above", and a soft drop shadow that lifts the bubble off the lane.
+enum TimelineGlass {
+    /// Opacity of the substance color tinting a bubble's glass.
+    static let tintOpacity = 0.06
+
+    /// Opacity of the white top-edge highlight.
+    static func highlightOpacity(colorScheme: ColorScheme) -> Double {
+        colorScheme == .dark ? 0.12 : 0.25
+    }
+
+    /// Opacity of the drop shadow under a bubble.
+    static func shadowOpacity(colorScheme: ColorScheme) -> Double {
+        colorScheme == .dark ? 0.30 : 0.06
+    }
+
+    /// A top-down stroke gradient: the highlight at the top edge fading to
+    /// `floor` (transparent by default) at the bottom.
+    static func edgeHighlight(colorScheme: ColorScheme, floor: Color = .clear) -> LinearGradient {
+        LinearGradient(
+            colors: [Color.white.opacity(highlightOpacity(colorScheme: colorScheme)), floor],
+            startPoint: .top,
+            endPoint: .bottom,
+        )
     }
 }
