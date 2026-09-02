@@ -108,7 +108,7 @@ struct DurationCurveView: View {
 ///
 /// Shared by ``DurationCurveView`` (in-app, accent) and the share card's
 /// `MonochromeDoseGraph` (plate, monochrome) so both read on one curve.
-struct EffectCurveShape: Shape {
+nonisolated struct EffectCurveShape: Shape {
     let boundaries: PhaseBoundaries
     var strokeOnly: Bool = false
 

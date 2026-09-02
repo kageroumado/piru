@@ -174,7 +174,7 @@ private struct BalanceArc: View {
         return CGPoint(x: center.x + radius * cos(radians), y: center.y + radius * sin(radians))
     }
 
-    private struct ArcShape: Shape {
+    private nonisolated struct ArcShape: Shape {
         let radius: CGFloat
 
         func path(in rect: CGRect) -> Path {

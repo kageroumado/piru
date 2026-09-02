@@ -261,7 +261,7 @@ private struct TernaryPlot: View {
             .offset(x: clamped, y: point.y + dy)
     }
 
-    private struct TriangleShape: Shape {
+    private nonisolated struct TriangleShape: Shape {
         let vertices: Vertices
 
         func path(in _: CGRect) -> Path {
@@ -275,7 +275,7 @@ private struct TernaryPlot: View {
     }
 
     /// Quarter-share guide lines, so the reader can eyeball "about a third DAT" instead of guessing.
-    private struct GridLines: Shape {
+    private nonisolated struct GridLines: Shape {
         let vertices: Vertices
 
         func path(in _: CGRect) -> Path {
