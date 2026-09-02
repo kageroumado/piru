@@ -13,15 +13,15 @@ struct DockPreferencesTests {
         return defaults
     }
 
-    @Test("Fresh store yields the defaults")
-    func defaults() {
+    @Test
+    func `Fresh store yields the defaults`() {
         let prefs = DockPreferences(defaults: makeDefaults())
         #expect(prefs.shortcuts == [.inventory])
         #expect(prefs.labels == [.due, .text("Log a dose")])
     }
 
-    @Test("Shortcuts round-trip through the store, favorites included")
-    func shortcutsRoundTrip() {
+    @Test
+    func `Shortcuts round-trip through the store, favorites included`() {
         let defaults = makeDefaults()
         let prefs = DockPreferences(defaults: defaults)
         prefs.shortcuts = [.favorite(substance: "Memantine"), .addNote, .timeline]
@@ -30,8 +30,8 @@ struct DockPreferencesTests {
         #expect(reloaded.shortcuts == [.favorite(substance: "Memantine"), .addNote, .timeline])
     }
 
-    @Test("Labels round-trip through the store, every kind")
-    func labelsRoundTrip() {
+    @Test
+    func `Labels round-trip through the store, every kind`() {
         let defaults = makeDefaults()
         let prefs = DockPreferences(defaults: defaults)
         let labels: [DockLabel] = [
@@ -46,8 +46,8 @@ struct DockPreferencesTests {
         #expect(reloaded.labels == labels)
     }
 
-    @Test("Adding caps at three slots and ignores duplicates")
-    func shortcutCap() {
+    @Test
+    func `Adding caps at three slots and ignores duplicates`() {
         let prefs = DockPreferences(defaults: makeDefaults())
         prefs.addShortcut(.inventory)
         prefs.addShortcut(.myMeds)
@@ -58,8 +58,8 @@ struct DockPreferencesTests {
         #expect(prefs.shortcuts.count == 3)
     }
 
-    @Test("Adding an identical label is a no-op")
-    func duplicateLabel() {
+    @Test
+    func `Adding an identical label is a no-op`() {
         let prefs = DockPreferences(defaults: makeDefaults())
         prefs.addLabel(.due)
         #expect(prefs.labels == [.due, .text("Log a dose")])
@@ -67,8 +67,8 @@ struct DockPreferencesTests {
         #expect(prefs.labels.last == .timer(.sinceLastDose))
     }
 
-    @Test("Undecodable stored data falls back to the defaults")
-    func corruptStore() {
+    @Test
+    func `Undecodable stored data falls back to the defaults`() {
         let defaults = makeDefaults()
         defaults.set(Data("nope".utf8), forKey: "dockShortcuts")
         let prefs = DockPreferences(defaults: defaults)

@@ -92,8 +92,10 @@ struct MyMedsInfoTests {
 
     @Test
     func `An anytime slot counts as due now; taken slots never count`() {
-        let anytime = [MyMedsInfo.SlotSummary(name: "Vitamin D", minutes: nil, pending: true),
-                       MyMedsInfo.SlotSummary(name: "Memantine", minutes: 21 * 60, pending: true)]
+        let anytime = [
+            MyMedsInfo.SlotSummary(name: "Vitamin D", minutes: nil, pending: true),
+            MyMedsInfo.SlotSummary(name: "Memantine", minutes: 21 * 60, pending: true),
+        ]
         #expect(MyMedsInfo.nextDue(slots: anytime, nowMinutes: 12 * 60) == nil)
 
         let allTaken = [MyMedsInfo.SlotSummary(name: "Memantine", minutes: 21 * 60, pending: false)]
@@ -103,8 +105,8 @@ struct MyMedsInfoTests {
     // MARK: Missed yesterday
 
     @Test
-    func `One miss names its slot; several collapse to a count`() {
-        let yesterday = Calendar.current.date(from: DateComponents(year: 2026, month: 8, day: 31))!
+    func `One miss names its slot; several collapse to a count`() throws {
+        let yesterday = try #require(Calendar.current.date(from: DateComponents(year: 2_026, month: 8, day: 31)))
         let one = MyMedsInfo.missedYesterday(missed: [(name: "Memantine", slotMinutes: 20 * 60)], yesterday: yesterday)
         #expect(one == .missedYesterday(MissedYesterdayNotice(name: "Memantine", slotMinutes: 20 * 60, count: 1, dayKey: "2026-08-31")))
 
@@ -125,9 +127,9 @@ struct MyMedsInfoTests {
     // MARK: Dismissals
 
     @Test
-    func `A dismissed day stays dismissed and the store stays bounded`() {
+    func `A dismissed day stays dismissed and the store stays bounded`() throws {
         let name = "MyMedsInfoTests.\(UUID().uuidString)"
-        let defaults = UserDefaults(suiteName: name)!
+        let defaults = try #require(UserDefaults(suiteName: name))
         defaults.removePersistentDomain(forName: name)
 
         #expect(!MissedNoticeDismissals.isDismissed("2026-08-31", in: defaults))
@@ -146,8 +148,8 @@ struct MyMedsInfoTests {
     }
 
     @Test
-    func `The day key is the calendar date, zero-padded`() {
-        let date = Calendar.current.date(from: DateComponents(year: 2026, month: 9, day: 1, hour: 23, minute: 59))!
+    func `The day key is the calendar date, zero-padded`() throws {
+        let date = try #require(Calendar.current.date(from: DateComponents(year: 2_026, month: 9, day: 1, hour: 23, minute: 59)))
         #expect(MissedNoticeDismissals.dayKey(for: date) == "2026-09-01")
     }
 }

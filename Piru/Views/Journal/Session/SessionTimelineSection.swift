@@ -16,7 +16,7 @@ struct SessionTimelineSection: View {
     let vitals: SessionVitals?
     /// The session's notes on the axis; rated ones add the Shulgin lane.
     var noteMarkers: [NoteMarker] = []
-    var onNoteTap: ((UUID) -> Void)? = nil
+    var onNoteTap: ((UUID) -> Void)?
 
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
     @AppStorage(LaneModeDefaults.enabledKey, store: UserDefaults(suiteName: LaneModeDefaults.suite)) private var laneModeEnabled = LaneModeDefaults.enabledDefault

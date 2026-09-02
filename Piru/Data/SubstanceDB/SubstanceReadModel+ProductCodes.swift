@@ -40,15 +40,15 @@ extension SubstanceReadModel {
         guard gtin14.count == 14, let code = Int64(gtin14) else { return nil }
         return try? db.read { db in
             try Row.fetchOne(db, sql: """
-                SELECT pc.code_kind, pc.pack_count, pc.pack_unit,
-                       cp.psid, cp.brand, cp.strength, cp.form, cp.route, cp.country, cp.source,
-                       s.canonical_name
-                  FROM product_codes pc
-                  JOIN coded_products cp ON cp.id = pc.product_id
-                  JOIN substances s ON s.id = cp.substance_id
-                 WHERE pc.code = ?
-                 LIMIT 1
-                """, arguments: [code]).map { row in
+            SELECT pc.code_kind, pc.pack_count, pc.pack_unit,
+                   cp.psid, cp.brand, cp.strength, cp.form, cp.route, cp.country, cp.source,
+                   s.canonical_name
+              FROM product_codes pc
+              JOIN coded_products cp ON cp.id = pc.product_id
+              JOIN substances s ON s.id = cp.substance_id
+             WHERE pc.code = ?
+             LIMIT 1
+            """, arguments: [code]).map { row in
                 ProductCodeHit(
                     gtin14: gtin14,
                     codeKind: row["code_kind"],

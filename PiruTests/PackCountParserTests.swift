@@ -23,7 +23,7 @@ struct PackCountParserTests {
     }
 
     @Test
-    func `Capsules`() {
+    func capsules() {
         #expect(PackCountParser.parse("20 capsules") == PackCount(count: 20, unit: .capsule))
     }
 

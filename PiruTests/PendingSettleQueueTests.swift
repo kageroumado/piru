@@ -18,7 +18,9 @@ struct PendingSettleQueueTests {
         queue.enqueue { ran.append("second move") }
         #expect(ran.isEmpty, "nothing runs until a move lands")
 
-        for callback in queue.drain() { callback() }
+        for callback in queue.drain() {
+            callback()
+        }
         #expect(ran == ["reveal", "second move"], "both fire, in registration order")
     }
 

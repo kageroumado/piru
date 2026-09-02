@@ -473,10 +473,10 @@ import SwiftData
                 context.insert(item)
             }
 
-            // ── Mornings ────────────────────────────────────────
-            // The two scheduled meds plus a coffee. Past days also get their
-            // routine occurrence rows, satisfied by the dose that was logged,
-            // so adherence reads six of seven with today pending until 08:00.
+            /// ── Mornings ────────────────────────────────────────
+            /// The two scheduled meds plus a coffee. Past days also get their
+            /// routine occurrence rows, satisfied by the dose that was logged,
+            /// so adherence reads six of seven with today pending until 08:00.
             func morning(_ daysAgo: Int) {
                 let med = dose("Methylphenidate", 10, "mg", at: at(daysAgo, 8, 0), tags: ["meds"])
                 let supplement = dose("L-Theanine", 200, "mg", at: at(daysAgo, 8, 5), tags: ["meds"])
@@ -512,14 +512,47 @@ import SwiftData
             // ── Lake evening (−2): psilocybin, notes end to end ──
             let lake = titledSession("Lake evening", start: at(2, 19, 30), checkIns: true)
             dose("Psilocybin mushrooms", 2.5, "g", at: lake.startDate, tags: ["trip"]).session = lake
-            note(lake, plus: 40, "warm stomach, yawning. music sounds wider.",
-                 shulgin: 1, mood: 1, energy: 0, ["warmth", "body load"])
-            note(lake, plus: 80, "patterns in the wood grain, everything a bit funny. lake is very still.",
-                 shulgin: 2, mood: 2, energy: 0, ["geometric imagery", "euphoria"], heartRate: 82, kind: .checkIn)
-            note(lake, plus: 150, "peak. the water is breathing and I lost twenty minutes just looking at it. very happy, want to walk.",
-                 shulgin: 3, mood: 2, energy: 1, ["geometric imagery", "euphoria", "time distortion"], heartRate: 88)
-            note(lake, plus: 300, "mostly back. tired in the good way. tea, then bed.",
-                 shulgin: 1, mood: 1, energy: -1, ["fatigue"], heartRate: 70, kind: .checkIn)
+            note(
+                lake,
+                plus: 40,
+                "warm stomach, yawning. music sounds wider.",
+                shulgin: 1,
+                mood: 1,
+                energy: 0,
+                ["warmth", "body load"],
+            )
+            note(
+                lake,
+                plus: 80,
+                "patterns in the wood grain, everything a bit funny. lake is very still.",
+                shulgin: 2,
+                mood: 2,
+                energy: 0,
+                ["geometric imagery", "euphoria"],
+                heartRate: 82,
+                kind: .checkIn,
+            )
+            note(
+                lake,
+                plus: 150,
+                "peak. the water is breathing and I lost twenty minutes just looking at it. very happy, want to walk.",
+                shulgin: 3,
+                mood: 2,
+                energy: 1,
+                ["geometric imagery", "euphoria", "time distortion"],
+                heartRate: 88,
+            )
+            note(
+                lake,
+                plus: 300,
+                "mostly back. tired in the good way. tea, then bed.",
+                shulgin: 1,
+                mood: 1,
+                energy: -1,
+                ["fatigue"],
+                heartRate: 70,
+                kind: .checkIn,
+            )
             SessionNoteService.setSummary("gentle the whole way. same dose next time, earlier start.", for: lake)
             lake.refreshDoseBounds()
 
@@ -540,20 +573,51 @@ import SwiftData
             let drinks = titledSession("Friday drinks", start: at(4, 19, 0))
             dose("Caffeine", 60, "mg", at: drinks.startDate, notes: "espresso before heading out", tags: ["coffee"]).session = drinks
             for (hour, minute) in [(20, 0), (21, 15), (22, 30)] {
-                dose("Alcohol", beerGrams, alcohol?.canonicalUnit ?? "g", at: at(4, hour, minute), tags: ["drinks"],
-                     volumeML: beerML, abv: beerABV, drinkName: beerName).session = drinks
+                dose(
+                    "Alcohol",
+                    beerGrams,
+                    alcohol?.canonicalUnit ?? "g",
+                    at: at(4, hour, minute),
+                    tags: ["drinks"],
+                    volumeML: beerML,
+                    abv: beerABV,
+                    drinkName: beerName,
+                ).session = drinks
             }
             drinks.refreshDoseBounds()
 
             // ── Forest walk (−5): LSD, three notes ──────────────
             let forest = titledSession("Forest walk", start: at(5, 14, 0), checkIns: true)
             dose("LSD", 100, "µg", route: .sublingual, at: forest.startDate, tags: ["trip"]).session = forest
-            note(forest, plus: 50, "tab under the tongue for twenty minutes, now walking. slight jitter, colors a notch up.",
-                 shulgin: 1, mood: 1, energy: 1, ["color saturation enhancement", "restlessness"])
-            note(forest, plus: 120, "trees doing the thing. moss looks like it's breathing. laughed a full minute at a squirrel.",
-                 shulgin: 3, mood: 3, energy: 1, ["drifting", "euphoria", "pattern recognition enhancement"], heartRate: 90, kind: .checkIn)
-            note(forest, plus: 270, "sat on a log for an hour. thinking about work in a way that felt kind for once.",
-                 shulgin: 2, mood: 2, energy: -1, ["introspection enhancement", "time dilation"])
+            note(
+                forest,
+                plus: 50,
+                "tab under the tongue for twenty minutes, now walking. slight jitter, colors a notch up.",
+                shulgin: 1,
+                mood: 1,
+                energy: 1,
+                ["color saturation enhancement", "restlessness"],
+            )
+            note(
+                forest,
+                plus: 120,
+                "trees doing the thing. moss looks like it's breathing. laughed a full minute at a squirrel.",
+                shulgin: 3,
+                mood: 3,
+                energy: 1,
+                ["drifting", "euphoria", "pattern recognition enhancement"],
+                heartRate: 90,
+                kind: .checkIn,
+            )
+            note(
+                forest,
+                plus: 270,
+                "sat on a log for an hour. thinking about work in a way that felt kind for once.",
+                shulgin: 2,
+                mood: 2,
+                energy: -1,
+                ["introspection enhancement", "time dilation"],
+            )
             SessionNoteService.setSummary("long, clear, mostly kind. 100 µg is the right amount for a walk.", for: forest)
             forest.refreshDoseBounds()
 
@@ -591,8 +655,8 @@ import SwiftData
             for (name, hex) in colors {
                 context.insert(SubstanceColor(substance: name, hexColor: hex))
             }
-            // Chips are normally minted at log time; seeded entries bypass
-            // that path, so record the week's doses the way a log would.
+            /// Chips are normally minted at log time; seeded entries bypass
+            /// that path, so record the week's doses the way a log would.
             func recent(
                 _ name: String, _ amount: Double, _ unit: String, route: RouteOfAdministration = .oral,
                 volumeML: Double? = nil, abv: Double? = nil, drinkName: String? = nil, emoji: String? = nil,
@@ -609,8 +673,15 @@ import SwiftData
                 recent("Lorazepam", 1, "mg"),
                 recent("Psilocybin mushrooms", 2.5, "g"),
                 recent("LSD", 100, "µg", route: .sublingual),
-                recent("Alcohol", beerGrams, alcohol?.canonicalUnit ?? "g",
-                       volumeML: beerML, abv: beerABV, drinkName: beerName, emoji: beer?.emoji ?? "🍺"),
+                recent(
+                    "Alcohol",
+                    beerGrams,
+                    alcohol?.canonicalUnit ?? "g",
+                    volumeML: beerML,
+                    abv: beerABV,
+                    drinkName: beerName,
+                    emoji: beer?.emoji ?? "🍺",
+                ),
                 recent("Magnesium", 350, "mg"),
             ], fixedOrder: true, context: context, save: false)
         }
