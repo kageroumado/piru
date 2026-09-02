@@ -176,11 +176,11 @@ struct PiruApp: App {
                         // A `-piruImportFile <path>` launch wipes + imports an
                         // exported JSON; a `-piruPersona <name>` launch wipes +
                         // reseeds a user archetype for UI-state testing;
-                        // otherwise the dense showcase journal fills an empty
-                        // store as before.
+                        // otherwise an empty store fills with the "week"
+                        // persona (`-piruNoDemoData` suppresses that).
                         if !DemoData.insertImportFileData(container: container),
                            !DemoData.insertPersonaData(container: container) {
-                            DemoData.insertShowcaseData(container: container)
+                            DemoData.insertDefaultData(container: container)
                         }
                         // `-piruScanFixture <name>` opens Tools ▸ Identify a Box
                         // with a canned reading resolved (ScanFixtures).
