@@ -108,8 +108,7 @@ struct EffectPipelineExplainerView: View {
 
             limitationsSection
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle("Step by step")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -134,7 +133,7 @@ struct EffectPipelineExplainerView: View {
                     .imageScale(.small)
                     .accessibilityHidden(true)
                 Text("\(number). \(Text(title))")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(.primary)
                     .textCase(nil)
             }
@@ -158,7 +157,7 @@ struct EffectPipelineExplainerView: View {
                     .imageScale(.small)
                     .accessibilityHidden(true)
                 Text("What this does not model")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(.primary)
                     .textCase(nil)
             }

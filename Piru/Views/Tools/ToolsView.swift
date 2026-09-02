@@ -116,7 +116,7 @@ struct ToolsView: View {
                 }
             }
             .padding(.horizontal)
-            .padding(.top, 4)
+            .padding(.top, Spacing.xs)
             .padding(.bottom, 80)
         }
         .background(Theme.background)
@@ -154,7 +154,7 @@ private struct MyMedsToolCard: View {
                     .foregroundStyle(Theme.secondaryLabel)
                     .frame(maxWidth: .infinity, alignment: .leading)
             } else {
-                VStack(spacing: 6) {
+                VStack(spacing: Spacing.sm) {
                     ForEach(scheduled.prefix(3)) { item in
                         HStack {
                             Text(warmed ? CustomSubstanceStore.shared.displayName(for: item.substance) : item.substance)

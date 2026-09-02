@@ -246,7 +246,7 @@ struct InteractionTimelineView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: Spacing.xxl) {
                 if !model.missingData.isEmpty {
                     missingDataSection
                 }
@@ -284,7 +284,7 @@ struct InteractionTimelineView: View {
     // MARK: - Missing Data
 
     private var missingDataSection: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: Spacing.lg) {
             Image(systemName: "clock.badge.questionmark")
                 .font(.title2)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -310,7 +310,7 @@ struct InteractionTimelineView: View {
         let nowHours = Date.now.timeIntervalSince(model.referenceTime) / 3_600
         let showNowMarker = nowHours > 0.05 && nowHours < data.totalHours
 
-        return VStack(alignment: .leading, spacing: 8) {
+        return VStack(alignment: .leading, spacing: Spacing.md) {
             Chart {
                 ForEach(data.pointsA, id: \.hours) { point in
                     LineMark(
@@ -336,7 +336,7 @@ struct InteractionTimelineView: View {
 
                 if showNowMarker {
                     RuleMark(x: .value("Now", nowHours))
-                        .foregroundStyle(Theme.secondaryLabel.opacity(0.5))
+                        .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                         .lineStyle(StrokeStyle(lineWidth: 1.5))
                 }
             }
@@ -376,7 +376,7 @@ struct InteractionTimelineView: View {
                 }(),
             )
 
-            HStack(spacing: 16) {
+            HStack(spacing: Spacing.xxl) {
                 legendItem(color: colorA, label: substanceA)
                 legendItem(color: colorB, label: substanceB)
             }
@@ -387,7 +387,7 @@ struct InteractionTimelineView: View {
     }
 
     private func legendItem(color: Color, label: String, filled: Bool = false) -> some View {
-        HStack(spacing: 4) {
+        HStack(spacing: Spacing.xs) {
             if filled {
                 RoundedRectangle(cornerRadius: 2)
                     .fill(color)
@@ -426,23 +426,21 @@ struct InteractionTimelineView: View {
             let window = overlapWindow(in: data)
             Divider().padding(.leading, 22)
 
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.md) {
                 Image(systemName: window != nil ? "clock.arrow.2.circlepath" : "checkmark.circle.fill")
                     .font(.caption)
-                    .foregroundStyle(window != nil ? severity.labelColor : .green)
+                    .foregroundStyle(window != nil ? severity.labelColor : Color.Semantic.Success.text)
                     .accessibilityHidden(true)
                 if let window {
                     Text("Both active \(formatHours(window.start))–\(formatHours(window.end)) (\(formatHours(window.end - window.start)) overlap)")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 } else {
                     Text("No active overlap at this timing")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 10)
+            .padding(.horizontal, Spacing.xxl)
+            .padding(.vertical, Spacing.lg)
         }
         .themeCard()
     }
@@ -451,9 +449,9 @@ struct InteractionTimelineView: View {
         name: String, color: Color, time: Binding<Date>,
         hasRecentEntry: Bool, params: PKParams?,
     ) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 8) {
-                Circle().fill(color).frame(width: 8, height: 8)
+        VStack(alignment: .leading, spacing: Spacing.xs) {
+            HStack(spacing: Spacing.md) {
+                LegendDot(color: color)
                 Text(name)
                     .font(.body.weight(.semibold))
                 Spacer(minLength: 4)
@@ -469,17 +467,16 @@ struct InteractionTimelineView: View {
             }
 
             if let params {
-                HStack(spacing: 12) {
+                HStack(spacing: Spacing.xl) {
                     Label("t\u{00BD} \(formatDuration(params.halfLifeMinutes))", systemImage: "clock")
                     Label("Peak \(formatDuration(params.timeToPeakMinutes))", systemImage: "arrow.up")
                 }
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
-                .padding(.leading, 16)
+                .captionSecondary()
+                .padding(.leading, Spacing.xxl)
             }
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
+        .padding(.horizontal, Spacing.xxl)
+        .padding(.vertical, Spacing.md)
     }
 
     // MARK: - Analysis (warning + depression + attenuation — one card)
@@ -487,7 +484,7 @@ struct InteractionTimelineView: View {
     private var analysisCard: some View {
         VStack(alignment: .leading, spacing: 0) {
             // Warning
-            HStack(alignment: .top, spacing: 10) {
+            HStack(alignment: .top, spacing: Spacing.lg) {
                 Image(systemName: severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
                     .foregroundStyle(severity.labelColor)
                     .font(.body)
@@ -495,27 +492,26 @@ struct InteractionTimelineView: View {
 
                 VStack(alignment: .leading, spacing: 3) {
                     Text("\(severity.label): \(substanceA) + \(substanceB)")
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                         .foregroundStyle(severity.labelColor)
                     Text(mechanism)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
             }
-            .padding(16)
+            .padding(Spacing.xxl)
 
             // Combined depression
             if let depression = model.depression, depression.hasMeaningfulLoad {
                 Divider().padding(.leading, 36)
                 depressionSection(depression)
-                    .padding(16)
+                    .padding(Spacing.xxl)
             }
 
             // Effect attenuation
             ForEach(model.attenuations) { attenuation in
                 Divider().padding(.leading, 36)
                 attenuationSection(attenuation)
-                    .padding(16)
+                    .padding(Spacing.xxl)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -524,11 +520,12 @@ struct InteractionTimelineView: View {
 
     private func depressionSection(_ d: CombinedDepressionResult) -> some View {
         let bandColor = d.band?.labelColor ?? Theme.secondaryLabel
+        let bandFill = d.band?.color ?? Theme.secondaryLabel
         let peakHours = max(0, d.peakDate.timeIntervalSince(model.referenceTime) / 3_600)
         let yMax = max(CombinedDepression.dangerousThreshold * 1.1, d.peakLoad * 1.1)
 
-        return VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 8) {
+        return VStack(alignment: .leading, spacing: Spacing.md) {
+            HStack(spacing: Spacing.md) {
                 Image(systemName: "lungs.fill")
                     .foregroundStyle(bandColor)
                     .font(.caption)
@@ -538,11 +535,7 @@ struct InteractionTimelineView: View {
                 Spacer()
                 if let level = d.levelLabel {
                     Text(level)
-                        .font(.caption2.weight(.semibold))
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(bandColor.opacity(0.15), in: Capsule())
-                        .foregroundStyle(bandColor)
+                        .capsuleChip(text: bandColor, fill: bandFill)
                 }
             }
 
@@ -552,7 +545,7 @@ struct InteractionTimelineView: View {
                         x: .value("Time", point.minute / 60),
                         y: .value("Load", point.load),
                     )
-                    .foregroundStyle(bandColor.opacity(0.18))
+                    .foregroundStyle(bandColor.opacity(Theme.Opacity.tintActive))
                     .interpolationMethod(.monotone)
                 }
                 ForEach(Array(d.points.enumerated()), id: \.offset) { _, point in
@@ -565,7 +558,7 @@ struct InteractionTimelineView: View {
                     .lineStyle(StrokeStyle(lineWidth: 2))
                 }
                 RuleMark(y: .value("Dangerous", CombinedDepression.dangerousThreshold))
-                    .foregroundStyle(InteractionSeverity.dangerous.color.opacity(0.5))
+                    .foregroundStyle(InteractionSeverity.dangerous.color.opacity(Theme.Opacity.dimmed))
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 4]))
                 RuleMark(x: .value("Peak", peakHours))
                     .foregroundStyle(bandColor.opacity(0.6))
@@ -608,8 +601,8 @@ struct InteractionTimelineView: View {
 
     private func attenuationSection(_ a: EffectAttenuationResult) -> some View {
         let blockerPhrase = ListFormatter.localizedString(byJoining: a.blockers)
-        return VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 8) {
+        return VStack(alignment: .leading, spacing: Spacing.xs) {
+            HStack(spacing: Spacing.md) {
                 Image(systemName: "arrow.down.right.circle")
                     .foregroundStyle(Theme.secondaryLabel)
                     .font(.caption)
@@ -618,8 +611,7 @@ struct InteractionTimelineView: View {
                     .font(.subheadline.weight(.medium))
             }
             Text("\(blockerPhrase) blocks the \(String(localized: a.transporter.displayName)) that \(a.attenuated) needs to work.")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
     }
 
@@ -637,7 +629,7 @@ struct InteractionTimelineView: View {
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 4)
+            .padding(.horizontal, Spacing.xs)
     }
 
     // MARK: - Formatting

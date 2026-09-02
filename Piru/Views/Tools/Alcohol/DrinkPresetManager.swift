@@ -102,7 +102,7 @@ struct DrinkPresetRow: View {
     let preset: CustomDrinkPreset
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             Text(preset.emoji)
                 .font(.title3)
             Text(preset.name)
@@ -157,10 +157,10 @@ struct DrinkPresetForm: View {
     var body: some View {
         Form {
             Section {
-                HStack(spacing: 12) {
+                HStack(spacing: Spacing.xl) {
                     EmojiField(text: $emoji)
-                        .frame(width: 44, height: 44)
-                        .background(Color(.secondarySystemFill), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .frame(width: IconSize.touchTarget, height: IconSize.touchTarget)
+                        .background(Color(.secondarySystemFill), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.medium, style: .continuous))
                         .accessibilityLabel("Drink emoji")
                     TextField("Name (e.g. IPA)", text: $name)
                         .textInputAutocapitalization(.words)
@@ -170,7 +170,7 @@ struct DrinkPresetForm: View {
                 LabeledContent("Strength") {
                     // One HStack — LabeledContent stacks multiple content
                     // views vertically.
-                    HStack(spacing: 4) {
+                    HStack(spacing: Spacing.xs) {
                         TextField("0", text: $strengthText)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
@@ -183,7 +183,7 @@ struct DrinkPresetForm: View {
                     .tint(Theme.accent)
                 if fixedVolume {
                     LabeledContent("Volume") {
-                        HStack(spacing: 4) {
+                        HStack(spacing: Spacing.xs) {
                             TextField("0", text: $volumeText)
                                 .keyboardType(.decimalPad)
                                 .multilineTextAlignment(.trailing)

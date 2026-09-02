@@ -28,7 +28,7 @@ struct VolumetricDosingView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: Spacing.xxl) {
                 headerCard
 
                 Picker("Mode", selection: $mode) {
@@ -56,16 +56,15 @@ struct VolumetricDosingView: View {
     // MARK: - Header
 
     private var headerCard: some View {
-        VStack(spacing: 6) {
+        VStack(spacing: Spacing.sm) {
             Image(systemName: "flask")
                 .font(.largeTitle)
                 .foregroundStyle(Theme.accent)
                 .accessibilityHidden(true)
             Text("Volumetric Dosing")
-                .font(.title3.weight(.semibold))
+                .screenTitle()
             Text("Calculate measurements for dissolving substances in liquid solvents.")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
@@ -94,22 +93,21 @@ struct VolumetricDosingView: View {
     }
 
     private func numericField(_ label: LocalizedStringResource, value: Binding<String>, unit: String) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
             Text(label)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
             HStack(spacing: 0) {
                 TextField("0", text: value)
                     .keyboardType(.decimalPad)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 10)
+                    .padding(.horizontal, Spacing.xl)
+                    .padding(.vertical, Spacing.lg)
 
                 Text(unit)
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(Theme.secondaryLabel)
-                    .padding(.trailing, 12)
+                    .padding(.trailing, Spacing.xl)
             }
-            .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 10))
+            .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
         }
     }
 
@@ -151,10 +149,9 @@ struct VolumetricDosingView: View {
     }
 
     private var resultCard: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: Spacing.md) {
             Text(resultLabel)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
 
             if let result {
                 let formatted = result.truncatingRemainder(dividingBy: 1) == 0
@@ -189,12 +186,12 @@ struct VolumetricDosingView: View {
     // MARK: - Safety
 
     private var safetyCard: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Label("Safety", systemImage: "exclamationmark.triangle")
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(.yellow)
+                .sectionLabel()
+                .foregroundStyle(.cautionText)
 
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
                 safetyPoint("Always label solutions with substance name and concentration.")
                 safetyPoint("Verify calculations independently before use.")
                 safetyPoint("Use a milligram scale and graduated cylinder for accuracy.")
@@ -206,14 +203,13 @@ struct VolumetricDosingView: View {
     }
 
     private func safetyPoint(_ text: LocalizedStringResource) -> some View {
-        HStack(alignment: .top, spacing: 8) {
+        HStack(alignment: .top, spacing: Spacing.md) {
             Circle()
                 .fill(Theme.secondaryLabel)
                 .frame(width: 4, height: 4)
-                .padding(.top, 6)
+                .padding(.top, Spacing.sm)
             Text(text)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
     }
 }

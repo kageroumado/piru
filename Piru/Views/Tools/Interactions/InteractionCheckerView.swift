@@ -56,7 +56,7 @@ struct InteractionCheckerView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: Spacing.xxl) {
                 searchSection
                 selectedSection
                 frequentlyUsedSection
@@ -77,8 +77,8 @@ struct InteractionCheckerView: View {
     // MARK: - Search
 
     private var searchSection: some View {
-        VStack(spacing: 8) {
-            HStack(spacing: 8) {
+        VStack(spacing: Spacing.md) {
+            HStack(spacing: Spacing.md) {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(Theme.secondaryLabel)
                     .accessibilityHidden(true)
@@ -110,7 +110,7 @@ struct InteractionCheckerView: View {
                         }
                     }
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, Spacing.xxl)
             .padding(.vertical, 11)
             .themeCapsule()
 
@@ -125,7 +125,7 @@ struct InteractionCheckerView: View {
     @ViewBuilder
     private var selectedSection: some View {
         if !selected.isEmpty {
-            FlowLayout(spacing: 8) {
+            FlowLayout(spacing: Spacing.md) {
                 ForEach(selected, id: \.self) { name in
                     substanceCapsule(name, removable: true) {
                         withAnimation(.easeInOut(duration: 0.2)) {
@@ -135,14 +135,14 @@ struct InteractionCheckerView: View {
                     }
                 }
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
         }
     }
 
     @ViewBuilder
     private var emptyStatePrompt: some View {
         if selected.isEmpty, !showSearchResults {
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.md) {
                 Image(systemName: "hand.tap")
                     .foregroundStyle(Theme.secondaryLabel)
                     .accessibilityHidden(true)
@@ -161,9 +161,9 @@ struct InteractionCheckerView: View {
     private var resultsSection: some View {
         if selected.count >= 2 {
             if results.isEmpty {
-                HStack(spacing: 10) {
+                HStack(spacing: Spacing.lg) {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.Semantic.Success.accent)
                         .font(.title3)
                         .accessibilityHidden(true)
                     Text("No known interactions found.")
@@ -171,7 +171,7 @@ struct InteractionCheckerView: View {
                         .foregroundStyle(Theme.secondaryLabel)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
+                .padding(.vertical, Spacing.xxl)
                 .themeCard()
             } else {
                 VStack(alignment: .leading, spacing: 0) {
@@ -188,9 +188,9 @@ struct InteractionCheckerView: View {
                     .foregroundStyle((results.map(\.severity).max() ?? .caution).labelColor)
                     .textCase(.uppercase)
                     .accessibilityAddTraits(.isHeader)
-                    .padding(.horizontal, 16)
-                    .padding(.top, 12)
-                    .padding(.bottom, 8)
+                    .padding(.horizontal, Spacing.xxl)
+                    .padding(.top, Spacing.xl)
+                    .padding(.bottom, Spacing.md)
 
                     ForEach(Array(results.enumerated()), id: \.offset) { index, warning in
                         if index > 0 {
@@ -212,13 +212,13 @@ struct InteractionCheckerView: View {
                                     .foregroundStyle(Theme.secondaryLabel)
                                     .accessibilityHidden(true)
                             }
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
+                            .padding(.horizontal, Spacing.xxl)
+                            .padding(.vertical, Spacing.md)
                             .contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
                     }
-                    .padding(.bottom, 4)
+                    .padding(.bottom, Spacing.xs)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .themeCard()
@@ -231,14 +231,14 @@ struct InteractionCheckerView: View {
     @ViewBuilder
     private var frequentlyUsedSection: some View {
         if !mostUsed.isEmpty {
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: Spacing.xl) {
                 Text("Frequently used")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
                     .textCase(.uppercase)
                     .accessibilityAddTraits(.isHeader)
 
-                FlowLayout(spacing: 8) {
+                FlowLayout(spacing: Spacing.md) {
                     ForEach(mostUsed, id: \.name) { item in
                         substanceCapsule(item.name, removable: false) {
                             addSubstance(item.name)
@@ -258,31 +258,30 @@ struct InteractionCheckerView: View {
         return VStack(alignment: .leading, spacing: 0) {
             ForEach(Array(shown.enumerated()), id: \.element.id) { index, substance in
                 if index > 0 {
-                    Divider().padding(.leading, 16)
+                    Divider().padding(.leading, Spacing.xxl)
                 }
                 Button {
                     addSubstance(substance.name)
                 } label: {
                     HStack {
-                        VStack(alignment: .leading, spacing: 2) {
+                        VStack(alignment: .leading, spacing: Spacing.xxs) {
                             Text(substance.name)
                                 .font(.body)
                                 .foregroundStyle(.primary)
                             if !substance.aliases.isEmpty {
                                 Text(substance.aliases.prefix(3).joined(separator: ", "))
-                                    .font(.caption)
-                                    .foregroundStyle(Theme.secondaryLabel)
+                                    .captionSecondary()
                             }
                         }
                         Spacer()
                         Text(substance.category.displayName)
                             .font(.caption2)
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 2)
+                            .padding(.horizontal, Spacing.sm)
+                            .padding(.vertical, Spacing.xxs)
                             .background(.fill.secondary, in: Capsule())
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 10)
+                    .padding(.horizontal, Spacing.xxl)
+                    .padding(.vertical, Spacing.lg)
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
@@ -290,7 +289,7 @@ struct InteractionCheckerView: View {
 
             if showCustom {
                 if !shown.isEmpty {
-                    Divider().padding(.leading, 16)
+                    Divider().padding(.leading, Spacing.xxl)
                 }
                 Button {
                     addSubstance(searchText)
@@ -305,19 +304,19 @@ struct InteractionCheckerView: View {
                         Spacer()
                         Text("Custom")
                             .font(.caption2)
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 2)
-                            .background(Theme.accent.opacity(0.25), in: Capsule())
+                            .padding(.horizontal, Spacing.sm)
+                            .padding(.vertical, Spacing.xxs)
+                            .background(Theme.accent.opacity(Theme.Opacity.emphasis), in: Capsule())
                             .foregroundStyle(Theme.accent)
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 10)
+                    .padding(.horizontal, Spacing.xxl)
+                    .padding(.vertical, Spacing.lg)
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
             }
         }
-        .themeCard(cornerRadius: 16)
+        .themeCard(cornerRadius: Theme.CornerRadius.container)
     }
 
     // MARK: - Capsule View
@@ -334,9 +333,9 @@ struct InteractionCheckerView: View {
                 Text(name)
                     .font(.subheadline.weight(.medium))
             }
-            .padding(.horizontal, 12)
+            .padding(.horizontal, Spacing.xl)
             .padding(.vertical, 7)
-            .background(color.opacity(0.15))
+            .background(color.opacity(Theme.Opacity.tint))
             .foregroundStyle(color)
             .clipShape(Capsule())
         }
@@ -384,19 +383,19 @@ struct InteractionCheckerView: View {
                     .foregroundStyle(Theme.secondaryLabel)
                     .textCase(.uppercase)
                     .accessibilityAddTraits(.isHeader)
-                    .padding(.horizontal, 16)
-                    .padding(.top, 12)
-                    .padding(.bottom, 8)
+                    .padding(.horizontal, Spacing.xxl)
+                    .padding(.top, Spacing.xl)
+                    .padding(.bottom, Spacing.md)
 
                 ForEach(Array(combinationMetabolites.enumerated()), id: \.offset) { index, formation in
                     if index > 0 {
                         Divider().padding(.leading, 46)
                     }
                     CombinationMetaboliteBanner(formation: formation)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
+                        .padding(.horizontal, Spacing.xxl)
+                        .padding(.vertical, Spacing.md)
                 }
-                .padding(.bottom, 4)
+                .padding(.bottom, Spacing.xs)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .themeCard()
