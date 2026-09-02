@@ -9,6 +9,9 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Timeline options menu (2026-09-02)
+    "Compress Empty Time": ("压缩空闲时间", "壓縮空閒時間"),
+    "Curves": ("曲线", "曲線"),
     # Notes follow-up (2026-09-02)
     "Notes at their T+ offsets, descriptors by domain — 1 session with notes": (
         "按 T+ 偏移列出的笔记，按领域分组的描述词——1 个时段有笔记",

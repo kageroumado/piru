@@ -24,9 +24,8 @@ nonisolated enum TimelineBubbleStyle: String {
     case compact
 }
 
-/// The vertical timeline's display options as one `Menu` — zoom presets, the
-/// axis and bubble style, gap compression, curve mode, and dose-strength
-/// scaling. Both surfaces that draw the strip (the pushed Timeline screen's
+/// The vertical timeline's display options as one `Menu` — zoom and curve
+/// mode as submenus that show their current value, then the four toggles. Both surfaces that draw the strip (the pushed Timeline screen's
 /// toolbar and the Journal's Timeline grouping) present this same menu over
 /// the same app-group defaults, so a change made on either shows on the other.
 struct TimelineOptionsMenu<Label: View>: View {
@@ -47,44 +46,28 @@ struct TimelineOptionsMenu<Label: View>: View {
 
     var body: some View {
         Menu {
-            ForEach(TimelineZoom.presets, id: \.self) { preset in
-                Button {
-                    zoom = preset
-                } label: {
-                    if abs(zoom - preset) < 0.01 {
-                        SwiftUI.Label(TimelineZoom.label(preset), systemImage: "checkmark")
-                    } else {
-                        Text(TimelineZoom.label(preset))
-                    }
+            Picker(selection: $zoom) {
+                ForEach(TimelineZoom.presets, id: \.self) { preset in
+                    Text(TimelineZoom.label(preset)).tag(preset)
                 }
+            } label: {
+                Text("Zoom")
+                Text(TimelineZoom.label(zoom))
             }
+            .pickerStyle(.menu)
+            Picker(selection: $pkCurves) {
+                Text("Effect curves").tag(false)
+                Text("Body load (PK)").tag(true)
+            } label: {
+                Text("Curves")
+                Text(pkCurves ? "Body load (PK)" : "Effect curves")
+            }
+            .pickerStyle(.menu)
             Divider()
             Toggle("Show Timeline Axis", isOn: $showsAxis)
             Toggle("Compact Entries", isOn: compactEntries)
-            Divider()
-            Toggle("Compress empty time", isOn: $compressGaps)
+            Toggle("Compress Empty Time", isOn: $compressGaps)
             Toggle("Scale by Dose Strength", isOn: $strengthScaling)
-            Divider()
-            Button {
-                pkCurves = false
-            } label: {
-                if pkCurves {
-                    Text("Effect curves")
-                } else {
-                    SwiftUI.Label("Effect curves", systemImage: "checkmark")
-                }
-                Text("How strongly effects are felt over time")
-            }
-            Button {
-                pkCurves = true
-            } label: {
-                if pkCurves {
-                    SwiftUI.Label("Body load (PK)", systemImage: "checkmark")
-                } else {
-                    Text("Body load (PK)")
-                }
-                Text("How much is estimated to remain in your body")
-            }
         } label: {
             label()
         }

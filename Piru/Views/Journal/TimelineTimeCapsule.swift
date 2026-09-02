@@ -10,21 +10,19 @@ nonisolated enum TimelineGutter {
     /// The time axis, x from the slice's leading edge.
     static let axisX: CGFloat = 16
 
-    /// The bare 24 h hour, two digits, whatever the device's 12/24 h setting —
-    /// a dose capsule has no room for AM/PM, and the hour ruler beside it
-    /// carries the day-half.
-    static func hourNumeral(_ date: Date) -> String {
-        String(format: "%02d", Calendar.current.component(.hour, from: date))
-    }
-
-    static func minuteNumeral(_ date: Date) -> String {
-        String(format: "%02d", Calendar.current.component(.minute, from: date))
+    /// A dose time in the device's own short time format ("1:01 AM", "13:01"),
+    /// split so the hour can carry the primary weight and the rest — minutes
+    /// and any day-half — reads lighter, the colon being the visual shift.
+    static func timeParts(_ date: Date) -> (hour: String, rest: String) {
+        let text = date.formatted(date: .omitted, time: .shortened)
+        guard let colon = text.firstIndex(of: ":") else { return (text, "") }
+        return (String(text[..<colon]), String(text[colon...]))
     }
 }
 
-/// A dose's timestamp as a gutter mark: `00:31` on one line, the hour in the
-/// primary weight and the `:31` smaller and lighter so the colon is the
-/// visual shift. On the strip the capsule leaves a slot at its leading edge
+/// A dose's timestamp as a gutter mark, in the device's short time format on
+/// one line: the hour in the primary weight and the `:31 AM` smaller and
+/// lighter so the colon is the visual shift. On the strip the capsule leaves a slot at its leading edge
 /// for the dose dot, which sits on the axis; the list layout (axis off) has
 /// no dot and drops the slot.
 struct TimelineTimeCapsule: View {
@@ -34,10 +32,11 @@ struct TimelineTimeCapsule: View {
 
     var body: some View {
         TimelineGutterMark(lines: .one) {
+            let parts = TimelineGutter.timeParts(date)
             HStack(alignment: .firstTextBaseline, spacing: 0) {
-                Text(verbatim: TimelineGutter.hourNumeral(date))
+                Text(verbatim: parts.hour)
                     .font(TimelineGutterMarkMetrics.primaryFont)
-                Text(verbatim: ":" + TimelineGutter.minuteNumeral(date))
+                Text(verbatim: parts.rest)
                     .font(TimelineGutterMarkMetrics.secondaryFont)
                     .foregroundStyle(Theme.secondaryLabel)
             }
