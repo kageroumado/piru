@@ -124,8 +124,7 @@ struct MedFormView: View {
                 }
                 .listRowBackground(CardBackground())
             }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .navigationTitle(isEditing ? "Edit Med" : "Add a Med")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -258,7 +257,7 @@ struct MedFormView: View {
         } header: {
             Text("Times")
         } footer: {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
                 if draft.times.isEmpty {
                     Text("No set time — this med still counts toward adherence once per due day.")
                 } else if draft.remind {
@@ -299,12 +298,12 @@ struct MedFormView: View {
     }
 
     private var weekdayPicker: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Text("Days")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityAddTraits(.isHeader)
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 ForEach(Self.weekdaySymbols, id: \.index) { day in
                     let isSelected = draft.selectedWeekdays.contains(day.index)
                     Button {
@@ -314,25 +313,20 @@ struct MedFormView: View {
                             draft.selectedWeekdays.insert(day.index)
                         }
                     } label: {
-                        // 44pt hit target around the 34pt circle; the negative
-                        // padding keeps the row's layout identical.
                         Text(String(day.short.prefix(2)))
                             .font(.caption.weight(.semibold))
-                            .frame(width: 34, height: 34)
-                            .background(isSelected ? Theme.accent : Color(.tertiarySystemFill))
-                            .foregroundStyle(isSelected ? .white : .primary)
-                            .clipShape(Circle())
-                            .frame(width: 44, height: 44)
-                            .contentShape(Rectangle())
+                            .selectableChip(isSelected: isSelected)
                     }
                     .buttonStyle(.plain)
+                    // Cancels the chip's hit-target frame back to the visible
+                    // circle so the row's layout is unchanged.
                     .padding(-5)
                     .accessibilityLabel(day.full)
                     .accessibilityAddTraits(isSelected ? .isSelected : [])
                 }
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     @ViewBuilder

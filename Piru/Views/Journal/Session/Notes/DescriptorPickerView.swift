@@ -59,23 +59,18 @@ struct DescriptorPickerView: View {
                     if isOpen { expanded.remove(rollup.id) } else { expanded.insert(rollup.id) }
                 }
             } label: {
-                HStack(spacing: 10) {
-                    VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: Spacing.lg) {
+                    VStack(alignment: .leading, spacing: Spacing.xxs) {
                         Text(rollup.name.capitalizedFirst)
                             .font(.body.weight(.semibold))
                             .foregroundStyle(.primary)
                         Text(verbatim: "\(rollup.domain) · \(atomics.count)")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                     }
                     Spacer()
                     if chosen > 0 {
                         Text("\(chosen)")
-                            .font(.caption.weight(.semibold))
-                            .padding(.horizontal, 7)
-                            .padding(.vertical, 3)
-                            .background(Theme.accent.opacity(0.14), in: Capsule())
-                            .foregroundStyle(Theme.accent)
+                            .capsuleChip(text: Theme.accent, fill: Theme.accent)
                     }
                     Image(systemName: "chevron.right")
                         .font(.caption.weight(.semibold))
@@ -87,13 +82,13 @@ struct DescriptorPickerView: View {
             .buttonStyle(.plain)
             .accessibilityHint(Text(isOpen ? "Collapses the group" : "Expands the group"))
             if isOpen {
-                FlowLayout(spacing: 6) {
+                FlowLayout(spacing: Spacing.sm) {
                     chip(rollup, isGroup: true)
                     ForEach(atomics) { concept in
                         chip(concept, isGroup: false)
                     }
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
             }
         }
     }
@@ -105,7 +100,7 @@ struct DescriptorPickerView: View {
         return Button {
             toggle(concept.id)
         } label: {
-            HStack(spacing: 4) {
+            HStack(spacing: Spacing.xs) {
                 if isGroup {
                     Image(systemName: "square.grid.2x2")
                         .font(.system(size: 9, weight: .bold))
@@ -114,11 +109,7 @@ struct DescriptorPickerView: View {
                     .font(.caption.weight(isOn ? .semibold : .regular))
                     .lineLimit(1)
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
-            .background(isOn ? Theme.accent.opacity(0.18) : Color.secondary.opacity(0.1), in: Capsule())
-            .foregroundStyle(isOn ? Theme.accent : .primary)
-            .overlay(Capsule().stroke(isOn ? Theme.accent.opacity(0.5) : .clear, lineWidth: 1))
+            .selectableCapsule(isSelected: isOn)
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(isOn ? .isSelected : [])
@@ -134,18 +125,17 @@ struct DescriptorPickerView: View {
         return Button {
             toggle(hit.concept.id)
         } label: {
-            HStack(spacing: 10) {
-                VStack(alignment: .leading, spacing: 2) {
+            HStack(spacing: Spacing.lg) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(hit.concept.name)
                         .foregroundStyle(.primary)
-                    HStack(spacing: 4) {
+                    HStack(spacing: Spacing.xs) {
                         if let alias = hit.matchedAlias {
                             Text(verbatim: "“\(alias)” · ")
                         }
                         Text(verbatim: parent?.name ?? hit.concept.domain)
                     }
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .lineLimit(1)
                 }
                 Spacer()

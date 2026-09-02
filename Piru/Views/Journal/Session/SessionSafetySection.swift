@@ -75,9 +75,9 @@ struct SessionSafetySection: View {
                 mechanism: group.description,
             )
         } label: {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 ForEach(Array(group.pairs.enumerated()), id: \.offset) { index, pair in
-                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    HStack(alignment: .firstTextBaseline, spacing: Spacing.md) {
                         Text(pair)
                             .font(.body.weight(.semibold))
                             .foregroundStyle(.primary)
@@ -86,7 +86,7 @@ struct SessionSafetySection: View {
                             Spacer(minLength: 8)
                             Image(systemName: group.severity == .dangerous
                                 ? group.mechanism.filledIconName : group.mechanism.iconName)
-                                .font(.system(size: 10, weight: .semibold))
+                                .font(.chartLabel)
                                 .foregroundStyle(group.severity.labelColor)
                                 .accessibilityHidden(true)
                             Text(String(localized: group.severity.label).lowercased())
@@ -100,20 +100,20 @@ struct SessionSafetySection: View {
                     .foregroundStyle(Theme.secondaryLabel)
                     .fixedSize(horizontal: false, vertical: true)
             }
-            .padding(.vertical, 2)
+            .padding(.vertical, Spacing.xxs)
             .accessibilityElement(children: .combine)
         }
         .buttonStyle(.plain)
     }
 
     private func hrSummaryRow(_ summary: HRSummary) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 8) {
+        HStack(alignment: .firstTextBaseline, spacing: Spacing.md) {
             Image(systemName: "heart.fill")
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(VitalsPalette.heart)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 3) {
-                HStack(spacing: 6) {
+                HStack(spacing: Spacing.sm) {
                     Text("Heart rate")
                         .font(.body.weight(.semibold))
                     Text("avg \(summary.average) · peak \(summary.peak) bpm")
@@ -140,7 +140,7 @@ struct SessionSafetySection: View {
             }
             Spacer(minLength: 0)
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
         .accessibilityElement(children: .combine)
     }
 

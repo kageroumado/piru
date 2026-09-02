@@ -16,7 +16,7 @@ struct SessionRecoverySection: View {
             NavigationLink(value: PushRoute.comedownGuide) {
                 // Matches the category rows above: a 24pt leading icon column and
                 // the same body font, tinted to read as the "see everything" link.
-                HStack(spacing: 10) {
+                HStack(spacing: Spacing.lg) {
                     Image(systemName: "heart.text.clipboard")
                         .foregroundStyle(Theme.accent)
                         .frame(width: 24)

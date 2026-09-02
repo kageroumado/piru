@@ -17,18 +17,17 @@ struct UnmodeledFormNote: View {
 
     var body: some View {
         Section {
-            HStack(alignment: .top, spacing: 12) {
+            HStack(alignment: .top, spacing: Spacing.xl) {
                 Image(systemName: "clock.badge.questionmark")
                     .font(.title3)
                     .foregroundStyle(Theme.secondaryLabel)
                     .accessibilityHidden(true)
                 Text(message)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
         }
     }
 

@@ -19,18 +19,17 @@ struct VitalsOfferBanner: View {
 
     var body: some View {
         Section {
-            VStack(alignment: .leading, spacing: 12) {
-                HStack(alignment: .top, spacing: 12) {
+            VStack(alignment: .leading, spacing: Spacing.xl) {
+                HStack(alignment: .top, spacing: Spacing.xl) {
                     Image(systemName: "heart.text.square")
                         .font(.title2)
                         .foregroundStyle(VitalsPalette.heart)
                         .accessibilityHidden(true)
-                    VStack(alignment: .leading, spacing: 3) {
+                    VStack(alignment: .leading, spacing: Spacing.xs) {
                         Text("See your heart rate here")
-                            .font(.subheadline.weight(.semibold))
+                            .sectionLabel()
                         Text("Connect Apple Health to overlay how your body responded to each dose — read-only.")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     Spacer(minLength: 0)
@@ -46,7 +45,7 @@ struct VitalsOfferBanner: View {
                 Button {
                     Task { await enableVitalsFromOffer() }
                 } label: {
-                    HStack(spacing: 8) {
+                    HStack(spacing: Spacing.md) {
                         if isConnectingVitals { ProgressView().controlSize(.mini) }
                         Text(isConnectingVitals ? "Connecting…" : "Turn On Apple Health")
                     }
@@ -57,7 +56,7 @@ struct VitalsOfferBanner: View {
                 .tint(Theme.accent)
                 .disabled(isConnectingVitals)
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
         }
     }
 

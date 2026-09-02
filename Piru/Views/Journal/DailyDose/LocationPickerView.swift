@@ -279,13 +279,12 @@ struct LocationPickerView: View {
                                     }
                                 }
                             } label: {
-                                VStack(alignment: .leading, spacing: 2) {
+                                VStack(alignment: .leading, spacing: Spacing.xxs) {
                                     Text(suggestion.title)
                                         .foregroundStyle(.primary)
                                     if !suggestion.subtitle.isEmpty {
                                         Text(suggestion.subtitle)
-                                            .font(.caption)
-                                            .foregroundStyle(Theme.secondaryLabel)
+                                            .captionSecondary()
                                     }
                                 }
                             }
@@ -294,8 +293,7 @@ struct LocationPickerView: View {
                     }
                 }
             }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .searchable(text: $query, isPresented: $searchActive, prompt: "Search for a place or address")
             .onChange(of: query) { model.query = query }
             .navigationTitle("Location")
