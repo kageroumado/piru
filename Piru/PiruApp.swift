@@ -208,8 +208,14 @@ struct PiruApp: App {
             if phase == .active {
                 InventoryService.recomputeAll(in: container.mainContext)
                 // Same horizon-roll as launch: doses logged from other
-                // surfaces while away may have satisfied a routine.
-                DoseNotificationManager.syncMedReminders(in: container.mainContext)
+                // surfaces while away may have satisfied a routine. The sync
+                // resolves med names, so it waits for the substance cache —
+                // a fast relaunch can reach here before the launch task has
+                // warmed it, and a cold `SubstanceStore.all` asserts in DEBUG.
+                Task(name: "Sync med reminders") {
+                    await SubstanceStore.shared.ensureAllLoaded()
+                    DoseNotificationManager.syncMedReminders(in: container.mainContext)
+                }
             }
             // Opt-in, end-to-end encrypted iCloud backup on backgrounding. No-op
             // unless the user enabled it; debounced and change-gated internally.
