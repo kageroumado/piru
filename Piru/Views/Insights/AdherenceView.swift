@@ -7,74 +7,83 @@ struct AdherenceView: View {
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyItems: [DailyDoseItem]
     @Environment(\.modelContext) private var modelContext
 
+    @State private var model = AdherenceModel()
     @State private var displayedMonth: Date = .now
-    @State private var monthAdherence: [DayAdherence] = []
-    /// Same data keyed by `startOfDay` so each calendar cell is an O(1) lookup
-    /// instead of a linear `first { isDate(...) }` scan — the grid did O(days²)
-    /// per body pass.
-    @State private var monthAdherenceByDay: [Date: DayAdherence] = [:]
-    /// Today's adherence, computed independently of the displayed month so
-    /// the Today strip survives browsing back through the calendar.
-    @State private var today: DayAdherence?
-    @State private var streak: Int = 0
     @State private var selectedDay: DayAdherence?
-
-    private let calendar = Calendar.current
 
     var body: some View {
         if dailyItems.isEmpty {
-            VStack(spacing: 16) {
-                ContentUnavailableView(
-                    "No Meds Yet",
-                    systemImage: "pills",
-                    description: Text("Adherence tracks how consistently you take your scheduled meds. Add one and this screen starts working."),
-                )
-                Button {
-                    navigator.push(.myMeds)
-                } label: {
-                    Label("Add Your Meds", systemImage: "plus")
-                        .font(.body.weight(.semibold))
-                        .padding(.horizontal, 24)
-                }
-                .buttonStyle(.glassProminent)
-                .tint(Theme.accent)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Theme.background)
+            AdherenceEmptyState { navigator.push(.myMeds) }
         } else {
             ScrollView {
                 VStack(spacing: 20) {
-                    AdherenceTodayCard(today: today) {
+                    AdherenceTodayCard(today: model.today) {
                         navigator.present(.quickLog(routine: nil))
                     }
-                    AdherenceStreakCard(streak: streak, adherenceRate: adherenceRate)
+                    AdherenceStreakCard(streak: model.streak, adherenceRate: model.adherenceRate)
                     AdherenceCalendar(
                         displayedMonth: $displayedMonth,
-                        monthAdherenceByDay: monthAdherenceByDay,
+                        monthAdherenceByDay: model.monthAdherenceByDay,
                         selectedDay: $selectedDay,
-                        calendar: calendar,
+                        calendar: model.calendar,
                     )
-                    remindersLink
+                    AdherenceRemindersLink()
                 }
                 .padding()
             }
             .background(Theme.background)
-            .task(id: DoseLogService.shared.revision) { await recompute() }
-            .onChange(of: displayedMonth) { recomputeMonth() }
+            .task(id: DoseLogService.shared.revision) {
+                await model.recompute(
+                    entries: allEntries,
+                    dailyItems: dailyItems,
+                    month: displayedMonth,
+                    container: modelContext.container,
+                )
+            }
+            .onChange(of: displayedMonth) {
+                model.recomputeMonth(entries: allEntries, dailyItems: dailyItems, month: displayedMonth)
+            }
             .sheet(item: $selectedDay) { day in
                 AdherenceDayDetailSheet(day: day)
                     .presentationDetents([.medium])
             }
         }
     }
+}
 
-    // MARK: - Reminders link
+// MARK: - Empty state
 
-    private var remindersLink: some View {
+private struct AdherenceEmptyState: View {
+    let onAddMeds: () -> Void
+
+    var body: some View {
+        VStack(spacing: Spacing.xxl) {
+            ContentUnavailableView(
+                "No Meds Yet",
+                systemImage: "pills",
+                description: Text("Adherence tracks how consistently you take your scheduled meds. Add one and this screen starts working."),
+            )
+            Button(action: onAddMeds) {
+                Label("Add Your Meds", systemImage: "plus")
+                    .font(.body.weight(.semibold))
+                    .padding(.horizontal, Spacing.xxxl)
+            }
+            .buttonStyle(.glassProminent)
+            .tint(Theme.accent)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Theme.background)
+    }
+}
+
+// MARK: - Reminders link
+
+private struct AdherenceRemindersLink: View {
+    var body: some View {
         NavigationLink {
             NotificationSettingsView()
         } label: {
-            HStack(spacing: 12) {
+            HStack(spacing: Spacing.xl) {
                 Image(systemName: "bell.badge")
                     .foregroundStyle(Theme.accent)
                 Text("Reminders")
@@ -89,54 +98,6 @@ struct AdherenceView: View {
         }
         .buttonStyle(.plain)
     }
-
-    // MARK: - Computation
-
-    private var adherenceRate: Double {
-        let actionable = monthAdherence.filter { $0.status != .noData && $0.date <= .now }
-        let totalDue = actionable.reduce(0) { $0 + $1.totalCount }
-        guard totalDue > 0 else { return 0 }
-        let totalTaken = actionable.reduce(0) { $0 + $1.takenCount }
-        return Double(totalTaken) / Double(totalDue)
-    }
-
-    private func recompute() async {
-        recomputeMonth()
-        today = AdherenceCalculator.adherence(for: .now, entries: allEntries, dailyItems: dailyItems)
-        await refreshStreak()
-    }
-
-    private func recomputeMonth() {
-        var entriesByDay: [Date: [DoseEntry]] = [:]
-        for entry in allEntries {
-            let day = calendar.startOfDay(for: entry.timestamp)
-            entriesByDay[day, default: []].append(entry)
-        }
-
-        let start = calendar.date(from: calendar.dateComponents([.year, .month], from: displayedMonth))!
-        let range = calendar.range(of: .day, in: .month, for: start)!
-
-        var data: [DayAdherence] = []
-        var byDay: [Date: DayAdherence] = [:]
-        for dayOffset in range {
-            let date = calendar.date(byAdding: .day, value: dayOffset - 1, to: start)!
-            let dayStart = calendar.startOfDay(for: date)
-            let adherence = AdherenceCalculator.adherence(for: date, entries: entriesByDay[dayStart] ?? [], dailyItems: dailyItems)
-            data.append(adherence)
-            byDay[dayStart] = adherence
-        }
-
-        monthAdherence = data
-        monthAdherenceByDay = byDay
-    }
-
-    private func refreshStreak() async {
-        guard !dailyItems.isEmpty else {
-            streak = 0
-            return
-        }
-        streak = await AdherenceStreakFetcher.currentStreak(container: modelContext.container)
-    }
 }
 
 // MARK: - Today Card
@@ -147,10 +108,10 @@ private struct AdherenceTodayCard: View {
 
     var body: some View {
         if let today, today.status != .noData {
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: Spacing.lg) {
                 HStack {
                     Text("Today")
-                        .font(.headline)
+                        .cardTitle()
                     Spacer()
                     Text("\(today.takenCount)/\(today.totalCount) taken")
                         .font(.subheadline.monospacedDigit())
@@ -170,7 +131,7 @@ private struct AdherenceTodayCard: View {
                 if today.takenCount < today.totalCount {
                     Button(action: onLogDose) {
                         Label("Log a Dose", systemImage: "plus")
-                            .font(.subheadline.weight(.semibold))
+                            .sectionLabel()
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.glass)
@@ -196,10 +157,10 @@ private struct TodayAdherenceRow: View {
     }
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             Image(systemName: done ? "checkmark.circle.fill" : "circle")
                 .font(.title3)
-                .foregroundStyle(done ? Color.green : Color(.tertiaryLabel))
+                .foregroundStyle(done ? Color.Semantic.Success.accent : Color(.tertiaryLabel))
             VStack(alignment: .leading, spacing: 1) {
                 Text(title)
                     .font(.body)
@@ -215,7 +176,7 @@ private struct TodayAdherenceRow: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
         }
-        .padding(.vertical, 6)
+        .padding(.vertical, Spacing.sm)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("\(title), \(doseText)"))
         .accessibilityValue(
@@ -236,7 +197,7 @@ private struct AdherenceStreakCard: View {
                 .font(.largeTitle)
                 .foregroundStyle(.orange)
                 .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text("\(streak)")
                     .font(.system(.largeTitle, design: .rounded, weight: .bold))
                 Text(streak == 1 ? "day streak" : "days streak")
@@ -244,13 +205,12 @@ private struct AdherenceStreakCard: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
             Spacer()
-            VStack(alignment: .trailing, spacing: 2) {
+            VStack(alignment: .trailing, spacing: Spacing.xxs) {
                 Text("\(Int(adherenceRate * 100))%")
                     .font(.system(.title2, design: .rounded, weight: .semibold))
-                    .foregroundStyle(adherenceRate >= 0.8 ? .green : adherenceRate >= 0.5 ? .orange : .red)
+                    .foregroundStyle(adherenceRate >= 0.8 ? Color.Semantic.Success.text : adherenceRate >= 0.5 ? Color.Semantic.Caution.text : Color.Semantic.Danger.text)
                 Text("this month")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
         }
         .padding()
@@ -268,13 +228,21 @@ private struct AdherenceCalendar: View {
 
     @State private var showMonthPicker = false
 
-    private let columns = Array(repeating: GridItem(.flexible(), spacing: 4), count: 7)
+    private let columns = Array(repeating: GridItem(.flexible(), spacing: Spacing.xs), count: 7)
 
     var body: some View {
-        VStack(spacing: 12) {
-            monthHeader
-            weekdayHeader
-            calendarGrid
+        VStack(spacing: Spacing.xl) {
+            AdherenceMonthHeader(displayedMonth: $displayedMonth, calendar: calendar) {
+                showMonthPicker = true
+            }
+            AdherenceWeekdayHeader(columns: columns, calendar: calendar)
+            AdherenceCalendarGrid(
+                columns: columns,
+                displayedMonth: displayedMonth,
+                monthAdherenceByDay: monthAdherenceByDay,
+                selectedDay: $selectedDay,
+                calendar: calendar,
+            )
         }
         .padding()
         .themeCard()
@@ -284,8 +252,14 @@ private struct AdherenceCalendar: View {
                 .presentationBackground(.regularMaterial)
         }
     }
+}
 
-    private var monthHeader: some View {
+private struct AdherenceMonthHeader: View {
+    @Binding var displayedMonth: Date
+    let calendar: Calendar
+    let onPickMonth: () -> Void
+
+    var body: some View {
         HStack {
             Button {
                 withAnimation {
@@ -297,9 +271,9 @@ private struct AdherenceCalendar: View {
             }
             .accessibilityLabel(Text("Previous Month"))
             Spacer()
-            Button { showMonthPicker = true } label: {
+            Button(action: onPickMonth) {
                 Text(displayedMonth.formatted(.dateTime.month(.wide).year()))
-                    .font(.headline)
+                    .cardTitle()
                     .contentShape(.rect)
             }
             .buttonStyle(.plain)
@@ -317,9 +291,14 @@ private struct AdherenceCalendar: View {
             .disabled(calendar.isDate(displayedMonth, equalTo: .now, toGranularity: .month))
         }
     }
+}
 
-    private var weekdayHeader: some View {
-        LazyVGrid(columns: columns, spacing: 4) {
+private struct AdherenceWeekdayHeader: View {
+    let columns: [GridItem]
+    let calendar: Calendar
+
+    var body: some View {
+        LazyVGrid(columns: columns, spacing: Spacing.xs) {
             ForEach(Array(calendar.orderedShortWeekdaySymbols.enumerated()), id: \.offset) { _, symbol in
                 Text(symbol)
                     .font(.caption2.weight(.semibold))
@@ -328,11 +307,18 @@ private struct AdherenceCalendar: View {
             }
         }
     }
+}
 
-    private var calendarGrid: some View {
-        let days = daysInMonth()
-        return LazyVGrid(columns: columns, spacing: 4) {
-            ForEach(Array(days.enumerated()), id: \.offset) { _, date in
+private struct AdherenceCalendarGrid: View {
+    let columns: [GridItem]
+    let displayedMonth: Date
+    let monthAdherenceByDay: [Date: DayAdherence]
+    @Binding var selectedDay: DayAdherence?
+    let calendar: Calendar
+
+    var body: some View {
+        LazyVGrid(columns: columns, spacing: Spacing.xs) {
+            ForEach(Array(daysInMonth().enumerated()), id: \.offset) { _, date in
                 if let date {
                     let adherence = monthAdherenceByDay[calendar.startOfDay(for: date)]
                     let isToday = calendar.isDateInToday(date)
@@ -416,17 +402,17 @@ struct AdherenceCalendarCell: View {
         case .complete:
             Image(systemName: "checkmark")
                 .font(.system(size: 8, weight: .bold))
-                .foregroundStyle(.green)
+                .foregroundStyle(Color.Semantic.Success.text)
                 .accessibilityHidden(true)
         case .partial:
             Image(systemName: "circle.lefthalf.filled")
                 .font(.system(size: 8))
-                .foregroundStyle(.orange)
+                .foregroundStyle(Color.Semantic.Caution.text)
                 .accessibilityHidden(true)
         case .missed:
             Image(systemName: "xmark")
                 .font(.system(size: 8, weight: .bold))
-                .foregroundStyle(.red)
+                .foregroundStyle(Color.Semantic.Danger.text)
                 .accessibilityHidden(true)
         case .noData:
             Color.clear
@@ -436,10 +422,10 @@ struct AdherenceCalendarCell: View {
 
     private var backgroundColor: Color {
         switch status {
-        case .complete: .green.opacity(0.1)
-        case .partial: .orange.opacity(0.1)
-        case .missed: .red.opacity(0.1)
-        case .noData: Color(.secondarySystemBackground).opacity(0.5)
+        case .complete: Color.Semantic.Success.accent.opacity(Theme.Opacity.tint)
+        case .partial: Color.Semantic.Caution.accent.opacity(Theme.Opacity.tint)
+        case .missed: Color.Semantic.Danger.accent.opacity(Theme.Opacity.tint)
+        case .noData: Color(.secondarySystemBackground).opacity(Theme.Opacity.dimmed)
         }
     }
 }
@@ -465,13 +451,13 @@ struct AdherenceDayDetailSheet: View {
 
                 Section("Meds due") {
                     ForEach(day.items) { itemAdherence in
-                        HStack(spacing: 12) {
+                        HStack(spacing: Spacing.xl) {
                             Image(systemName: itemAdherence.taken ? "checkmark.circle.fill" : "xmark.circle.fill")
-                                .foregroundStyle(itemAdherence.taken ? .green : .red)
+                                .foregroundStyle(itemAdherence.taken ? Color.Semantic.Success.accent : Color.Semantic.Danger.accent)
                                 .font(.title3)
                                 .accessibilityHidden(true)
 
-                            VStack(alignment: .leading, spacing: 2) {
+                            VStack(alignment: .leading, spacing: Spacing.xxs) {
                                 Text(
                                     itemAdherence.taken
                                         ? "Taken \(itemAdherence.item.substance)"
@@ -480,11 +466,10 @@ struct AdherenceDayDetailSheet: View {
                                 .font(.body)
 
                                 Text("\(itemAdherence.item.amount.doseFormatted) \(itemAdherence.item.unit) \u{2014} \(String(localized: itemAdherence.item.frequency.shortLabel))")
-                                    .font(.caption)
-                                    .foregroundStyle(Theme.secondaryLabel)
+                                    .captionSecondary()
                             }
                         }
-                        .padding(.vertical, 2)
+                        .padding(.vertical, Spacing.xxs)
                     }
                 }
             }
@@ -500,12 +485,12 @@ struct AdherenceDayDetailSheet: View {
     }
 
     private var statusBadge: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: Spacing.sm) {
             Image(systemName: statusIcon)
                 .foregroundStyle(statusColor)
                 .accessibilityHidden(true)
             Text(statusLabel)
-                .font(.headline)
+                .cardTitle()
         }
     }
 
@@ -520,9 +505,9 @@ struct AdherenceDayDetailSheet: View {
 
     private var statusColor: Color {
         switch day.status {
-        case .complete: .green
-        case .partial: .orange
-        case .missed: .red
+        case .complete: Color.Semantic.Success.accent
+        case .partial: Color.Semantic.Caution.accent
+        case .missed: Color.Semantic.Danger.accent
         case .noData: .secondary
         }
     }
@@ -545,7 +530,7 @@ private struct AdherenceMonthPicker: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var pickerYear: Int
-    private let monthColumns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 3)
+    private let monthColumns = Array(repeating: GridItem(.flexible(), spacing: Spacing.md), count: 3)
 
     init(displayedMonth: Binding<Date>, calendar: Calendar) {
         _displayedMonth = displayedMonth
@@ -592,7 +577,7 @@ private struct AdherenceMonthPicker: View {
                 }
                 .padding(.horizontal)
 
-                LazyVGrid(columns: monthColumns, spacing: 10) {
+                LazyVGrid(columns: monthColumns, spacing: Spacing.lg) {
                     ForEach(1 ... 12, id: \.self) { month in
                         let isFuture = pickerYear > currentYear || (pickerYear == currentYear && month > currentMonth)
                         let isSelected = pickerYear == selectedYear && month == selectedMonth
@@ -602,9 +587,9 @@ private struct AdherenceMonthPicker: View {
                             Text(calendar.monthSymbols[month - 1])
                                 .font(.subheadline.weight(isSelected ? .bold : .regular))
                                 .frame(maxWidth: .infinity)
-                                .padding(.vertical, 12)
-                                .background(isSelected ? Theme.accent.opacity(0.15) : Color.clear, in: RoundedRectangle(cornerRadius: 10))
-                                .foregroundStyle(isFuture ? Theme.secondaryLabel.opacity(0.4) : isSelected ? Theme.accent : .primary)
+                                .padding(.vertical, Spacing.xl)
+                                .background(isSelected ? Theme.accent.opacity(Theme.Opacity.tint) : Color.clear, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
+                                .foregroundStyle(isFuture ? Theme.secondaryLabel.opacity(Theme.Opacity.muted) : isSelected ? Theme.accent : .primary)
                         }
                         .buttonStyle(.plain)
                         .disabled(isFuture)
@@ -614,7 +599,7 @@ private struct AdherenceMonthPicker: View {
 
                 Spacer()
             }
-            .padding(.top, 8)
+            .padding(.top, Spacing.md)
             .navigationTitle("Select Month")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
