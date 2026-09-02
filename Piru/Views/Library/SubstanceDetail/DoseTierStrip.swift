@@ -74,10 +74,10 @@ struct DoseTierStrip: View {
     ]
 
     var body: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: Spacing.sm) {
             ForEach(tiers.tiers) { tier in
                 let isSelected = tier.id == (selectedID ?? tiers.selectedID)
-                VStack(spacing: 6) {
+                VStack(spacing: Spacing.sm) {
                     ZStack {
                         Circle()
                             .fill(Self.colors[tier.id])
@@ -98,10 +98,10 @@ struct DoseTierStrip: View {
                         .minimumScaleFactor(0.7)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 10)
-                .padding(.horizontal, 2)
+                .padding(.vertical, Spacing.lg)
+                .padding(.horizontal, Spacing.xxs)
                 .background(
-                    RoundedRectangle(cornerRadius: 10)
+                    RoundedRectangle(cornerRadius: Theme.CornerRadius.inner)
                         .fill(isSelected ? accent.opacity(0.12) : Color(.tertiarySystemFill)),
                 )
                 // The value + name Texts combine into "Threshold, 30" without a
@@ -114,7 +114,7 @@ struct DoseTierStrip: View {
                 // glyphs — and so the tap is consumed here rather than falling
                 // through to the enclosing disclosure, which is what made tapping
                 // a dose tier expand "All phases" instead.
-                .contentShape(RoundedRectangle(cornerRadius: 10))
+                .contentShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
                 .onTapGesture {
                     guard tier.fullValue != nil else { return }
                     onSelect?(tier.id)

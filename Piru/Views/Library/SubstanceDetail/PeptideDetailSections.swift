@@ -25,13 +25,13 @@ struct ProtocolDosingCard: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
+            HStack(spacing: Spacing.md) {
                 Image(systemName: "calendar.badge.clock")
                     .foregroundStyle(.blue)
                     .accessibilityHidden(true)
                 Text("Typical protocol")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .accessibilityAddTraits(.isHeader)
             }
 
@@ -65,8 +65,7 @@ struct ProtocolDosingCard: View {
                 ForEach(Array(titration.enumerated()), id: \.offset) { _, step in
                     HStack {
                         Text(step.label)
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                         Spacer()
                         Text("\(step.amount.doseFormatted) \(unit)")
                             .font(.caption.weight(.medium))
@@ -76,12 +75,11 @@ struct ProtocolDosingCard: View {
 
             if let notes = protocolDosing.notes, !notes.isEmpty {
                 Text(notes)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 }
 
@@ -94,9 +92,9 @@ struct PeptideHandlingCard: View {
     let molarMass: Double?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             if let sequence = profile.sequence {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: Spacing.xs) {
                     Text("Sequence")
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(Theme.secondaryLabel)
@@ -123,7 +121,7 @@ struct PeptideHandlingCard: View {
 
             if let storage = profile.storage {
                 Divider()
-                HStack(spacing: 8) {
+                HStack(spacing: Spacing.md) {
                     Image(systemName: storage.temperature.icon)
                         .foregroundStyle(.cyan)
                         .accessibilityHidden(true)
@@ -132,20 +130,18 @@ struct PeptideHandlingCard: View {
                 }
                 if storage.lightSensitive {
                     Label("Protect from light", systemImage: "light.min")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
                 if let days = storage.reconstitutedStabilityDays {
                     Label(
                         "Stable ~\(days.doseFormatted) days once reconstituted",
                         systemImage: "drop.fill",
                     )
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                 }
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 }
 
@@ -198,7 +194,7 @@ struct ReconstitutionCalculatorView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             inputRow(label: "Vial amount", value: $vialMg, unit: "mg")
             inputRow(label: "Bacteriostatic water", value: $waterML, unit: "mL")
 
@@ -228,15 +224,14 @@ struct ReconstitutionCalculatorView: View {
                 resultRow(label: "On a U-100 syringe", value: "\(units.doseFormatted) units", emphasised: true)
             } else {
                 Text("Enter a vial amount, diluent volume, and target dose.")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
 
             Text("Estimates only. Verify against your product and a clinician.")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     private func inputRow(label: LocalizedStringResource, value: Binding<Double>, unit: String) -> some View {

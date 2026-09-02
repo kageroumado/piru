@@ -59,10 +59,10 @@ struct SafetySection: View {
                         MythBustList(misconceptions: substance.misconceptions, accent: accent)
                     }
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
             } header: {
                 Text("Safety")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
             }
         }
     }
@@ -98,13 +98,13 @@ private struct ContraindicationsDisclosure: View {
 
     var body: some View {
         if cautions.count <= displayLimit {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: Spacing.md) {
                 header
                 rows
             }
         } else {
             DisclosureGroup(isExpanded: $isExpanded) {
-                rows.padding(.top, 6)
+                rows.padding(.top, Spacing.sm)
             } label: {
                 header
             }
@@ -113,7 +113,7 @@ private struct ContraindicationsDisclosure: View {
     }
 
     private var rows: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             ForEach(cautions.prefix(displayLimit), id: \.self) { caution in
                 Text(caution.display)
                     .font(.subheadline)
@@ -122,14 +122,13 @@ private struct ContraindicationsDisclosure: View {
             }
             if cautions.count > displayLimit {
                 Text("+\(cautions.count - displayLimit) more")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
         }
     }
 
     private var header: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: Spacing.sm) {
             Text("Contraindications & Cautions")
                 .font(.footnote.weight(.semibold))
                 .textCase(.uppercase)
@@ -138,9 +137,9 @@ private struct ContraindicationsDisclosure: View {
             Text(verbatim: "\(cautions.count)")
                 .font(.caption2.weight(.semibold))
                 .foregroundStyle(Theme.secondaryLabel)
-                .padding(.horizontal, 6)
+                .padding(.horizontal, Spacing.sm)
                 .padding(.vertical, 1)
-                .background(Theme.secondaryLabel.opacity(0.12), in: Capsule())
+                .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: Capsule())
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

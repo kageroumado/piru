@@ -14,18 +14,17 @@ struct ClassContextSection: View {
         if let context = model.classContext, context.hasBody {
             Section {
                 NavigationLink(value: PushRoute.drugClass(slug: context.slug)) {
-                    VStack(alignment: .leading, spacing: 2) {
+                    VStack(alignment: .leading, spacing: Spacing.xxs) {
                         // `verbatim`: the class name is data, read from the
                         // research write-up, not a catalog key.
                         Text(verbatim: context.title)
                             .font(.body)
                         if context.siblings.count > 1 {
                             Text("^[\(context.siblings.count) other substance](inflect: true)")
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
+                                .captionSecondary()
                         }
                     }
-                    .padding(.vertical, 2)
+                    .padding(.vertical, Spacing.xxs)
                 }
             } header: {
                 Text("Class")

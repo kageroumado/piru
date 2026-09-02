@@ -20,22 +20,14 @@ struct CYP2D6NoteSection: View {
     var body: some View {
         if status != .unknown {
             Section {
-                HStack(alignment: .top, spacing: 10) {
-                    Image(systemName: "person.badge.clock.fill")
-                        .foregroundStyle(.orange)
-                        .font(.title3)
-                        .accessibilityHidden(true)
-
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("CYP2D6: \(status.label)")
-                            .font(.subheadline.weight(.semibold))
-                        Text(noteText)
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    .accessibilityElement(children: .combine)
-                    Spacer(minLength: 0)
+                InfoBanner(
+                    icon: "person.badge.clock.fill",
+                    iconTint: .cautionAccent,
+                    title: "CYP2D6: \(status.label)",
+                ) {
+                    Text(noteText)
+                        .captionSecondary()
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }

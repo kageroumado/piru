@@ -58,13 +58,13 @@ struct DoseIntensityCard: View {
             .textCase(.uppercase)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity)
-            .padding(.top, 4)
+            .padding(.top, Spacing.xs)
 
             gauge
                 .frame(height: 200)
                 .overlay(centerReadout)
-                .padding(.top, 2)
-                .padding(.bottom, 10)
+                .padding(.top, Spacing.xxs)
+                .padding(.bottom, Spacing.lg)
 
             // Reserve the height of the tallest band summary so the card doesn't
             // grow and shrink as the selector moves between doses. Hidden copies
@@ -84,7 +84,7 @@ struct DoseIntensityCard: View {
                     .frame(maxWidth: .infinity)
                     .multilineTextAlignment(.center)
             }
-            .padding(.vertical, 8)
+            .padding(.vertical, Spacing.md)
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: selected)
 
             // Same reserve-the-space treatment as the summary above, and for the
@@ -157,13 +157,13 @@ struct DoseIntensityCard: View {
         // ridges. Keep this unconditional: the second line is ALWAYS built,
         // and merely invisible when the band has no dose range — the same
         // reserve-the-space rule the band summary below follows.
-        return VStack(spacing: 2) {
+        return VStack(spacing: Spacing.xxs) {
             Text(dose ?? current.localizedBandName)
                 .font(.system(size: 27, weight: .heavy, design: .rounded))
                 .foregroundStyle(current.isOverdose ? color(current.bandIndex) : .primary)
                 .contentTransition(reduceMotion ? .identity : .numericText())
             Text(current.localizedBandName)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(color(current.bandIndex))
                 .opacity(dose == nil ? 0 : 1)
         }
@@ -175,14 +175,14 @@ struct DoseIntensityCard: View {
 
     private func mostReported(_ band: SpectrumBand) -> some View {
         let maxFreq = max(band.topEffects.map(\.frequency).max() ?? 1, 1)
-        return VStack(alignment: .leading, spacing: 6) {
+        return VStack(alignment: .leading, spacing: Spacing.sm) {
             Text("MOST REPORTED AT THIS DOSE", comment: "Intensity dial effects heading")
                 .font(.caption2.weight(.bold))
                 .tracking(0.4)
                 .foregroundStyle(Theme.secondaryLabel)
-                .padding(.bottom, 2)
+                .padding(.bottom, Spacing.xxs)
             ForEach(band.topEffects.prefix(3), id: \.name) { eff in
-                HStack(spacing: 10) {
+                HStack(spacing: Spacing.lg) {
                     Text(eff.name)
                         .font(.subheadline)
                         .lineLimit(1)
@@ -197,7 +197,7 @@ struct DoseIntensityCard: View {
                 .accessibilityElement(children: .combine)
             }
         }
-        .padding(.top, 4)
+        .padding(.top, Spacing.xs)
     }
 }
 
@@ -690,7 +690,7 @@ extension SpectrumBand {
     // Wrapped in fillers so the segment seams and the scroll-past behavior are
     // both visible in the canvas.
     return ScrollView {
-        VStack(spacing: 16) {
+        VStack(spacing: Spacing.xxl) {
             Color.gray.opacity(0.12).frame(height: 200).overlay(Text("scroll above"))
             DoseIntensityCard(
                 bands: bands,

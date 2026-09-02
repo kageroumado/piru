@@ -38,10 +38,10 @@ struct BenzoDurationSection: View {
                         .foregroundStyle(Theme.secondaryLabel)
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
             } header: {
                 Text("How Long It Stays")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
             }
         }
     }
@@ -63,7 +63,7 @@ private struct BenzoRungRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
-            HStack(spacing: 4) {
+            HStack(spacing: Spacing.xs) {
                 if rung.role == .metabolite {
                     // The glyph is the sentence: this rung is *made from* the one
                     // above, so its longer bar is the parent's real reach.
@@ -106,7 +106,7 @@ private struct BenzoRungRow: View {
         switch rung.role {
         case .subject: AnyShapeStyle(accent)
         case .metabolite: AnyShapeStyle(accent.opacity(0.45))
-        case .reference: AnyShapeStyle(Theme.secondaryLabel.opacity(0.25))
+        case .reference: AnyShapeStyle(Theme.secondaryLabel.opacity(Theme.Opacity.emphasis))
         }
     }
 }

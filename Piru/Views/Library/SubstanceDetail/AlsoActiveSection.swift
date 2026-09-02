@@ -45,7 +45,7 @@ struct AlsoActiveSection: View {
                     .listRowSeparator(.hidden)
                 }
             } header: {
-                HStack(spacing: 6) {
+                HStack(spacing: Spacing.sm) {
                     Text("Also Active")
                     Button {
                         onGlossary(.metabolism)

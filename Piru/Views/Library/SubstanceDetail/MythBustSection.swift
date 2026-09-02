@@ -14,7 +14,7 @@ struct MythBustList: View {
         VStack(alignment: .leading, spacing: 0) {
             ForEach(Array(misconceptions.enumerated()), id: \.offset) { index, myth in
                 if index > 0 {
-                    Divider().padding(.vertical, 8)
+                    Divider().padding(.vertical, Spacing.md)
                 }
                 MythBustRow(myth: myth, accent: accent)
             }
@@ -34,7 +34,7 @@ private struct MythBustRow: View {
 
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: Spacing.md) {
                 Text(correction)
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -45,24 +45,24 @@ private struct MythBustRow: View {
                 }
 
                 if !myth.citations.isEmpty {
-                    FlowLayout(spacing: 6) {
+                    FlowLayout(spacing: Spacing.sm) {
                         ForEach(Array(myth.citations.enumerated()), id: \.offset) { _, citation in
                             MythCitationChip(citation: citation, accent: accent)
                         }
                     }
                 }
             }
-            .padding(.top, 6)
+            .padding(.top, Spacing.sm)
             .padding(.leading, Self.markerWidth)
         } label: {
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.md) {
                 Image(systemName: "xmark.circle.fill")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                     .frame(width: Self.markerWidth - 8, alignment: .leading)
                     .accessibilityHidden(true)
                 Text(myth.claim)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .fixedSize(horizontal: false, vertical: true)
                     // Prefix so VoiceOver never reads the claim as an endorsed
                     // fact before reaching the correction (the ✕ is silent).
@@ -70,7 +70,7 @@ private struct MythBustRow: View {
             }
         }
         .tint(Theme.secondaryLabel)
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
     }
 
     /// Indent that aligns the expanded correction under the claim text, past the
@@ -89,16 +89,15 @@ private struct PullQuoteView: View {
     let quote: PullQuote
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
             Text("“\(quote.text)”")
                 .font(.callout.italic())
                 .foregroundStyle(Theme.secondaryLabel)
                 .fixedSize(horizontal: false, vertical: true)
             Text("— \(quote.attribution)")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
-        .padding(.leading, 10)
+        .padding(.leading, Spacing.lg)
         .overlay(alignment: .leading) {
             Capsule()
                 .fill(Theme.secondaryLabel.opacity(0.3))
@@ -143,25 +142,27 @@ private struct MythCitationChip: View {
             }
         }
         .foregroundStyle(foreground)
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
+        .padding(.horizontal, Spacing.md)
+        .padding(.vertical, Spacing.xs)
         .background(background, in: Capsule())
         .accessibilityLabel(accessibilityLabel)
     }
 
     private var foreground: Color {
         switch citation.role {
-        case .retractedSource: .red
+        case .retractedSource: .dangerText
         case .refutes: accent
         case .dataset: Theme.secondaryLabel
         }
     }
 
+    /// The fill is its foreground's mark color at ``Theme/Opacity/tint``: a
+    /// label drawn on a heavier tint of its own color tops out below WCAG AA.
     private var background: Color {
         switch citation.role {
-        case .retractedSource: Color.red.opacity(0.12)
-        case .refutes: accent.opacity(0.12)
-        case .dataset: Theme.secondaryLabel.opacity(0.1)
+        case .retractedSource: Color.dangerAccent.opacity(Theme.Opacity.tint)
+        case .refutes: accent.opacity(Theme.Opacity.tint)
+        case .dataset: Theme.secondaryLabel.opacity(Theme.Opacity.tint)
         }
     }
 
