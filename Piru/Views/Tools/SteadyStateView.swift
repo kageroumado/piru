@@ -37,9 +37,9 @@ struct SteadyStateView: View {
 private struct SteadyStateExplanationCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.lg) {
-            Text("On a fixed schedule, each dose lands on the tail of the last and the level climbs until intake and clearance balance — steady state.")
+            Text("On a fixed schedule doses overlap and the level climbs until intake and clearance balance: steady state.")
                 .captionSecondary()
-            Text("Values are body content in the dose's units, not a plasma concentration. Real accumulation varies with metabolism, dosing gaps, and metabolites.")
+            Text("Values are body content in the dose's units.")
                 .captionSecondary()
         }
         .frame(maxWidth: .infinity, alignment: .leading)

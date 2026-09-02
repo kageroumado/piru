@@ -392,11 +392,11 @@ private struct HalfLifeNoDataCard: View {
 private struct HalfLifeDisclaimerSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
-            Label("Estimate Only", systemImage: "info.circle")
+            Label("Estimate only", systemImage: "info.circle")
                 .sectionLabel()
                 .foregroundStyle(Theme.secondaryLabel)
 
-            Text("This calculator uses a one-compartment oral pharmacokinetic model with absorption and elimination phases. Absorption rates are estimated from known duration profiles (onset + comeup timing) when available, or use a default 4\u{00D7} elimination rate ratio. Population-average elimination half-lives are sourced from FDA-approved prescribing information, published pharmacokinetic studies (PubMed), and DrugBank. Half-lives for some research chemicals and novel substances are estimated from structurally similar compounds and may be less reliable.\n\nReal pharmacokinetics vary significantly based on individual metabolism, genetics, liver and kidney function, body composition, age, drug interactions, tolerance, and route of administration. Multi-compartment distribution, protein binding, active metabolites, and enterohepatic recirculation are not accounted for. Polydrug use may alter elimination rates unpredictably.\n\nThese figures are approximate population averages — not a substitute for clinical monitoring or professional medical advice. Always consult a qualified healthcare professional.")
+            Text("Population-average half-lives in a one-compartment model.")
                 .captionSecondary()
         }
         .padding()

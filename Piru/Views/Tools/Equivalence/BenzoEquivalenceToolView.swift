@@ -84,7 +84,7 @@ struct BenzoEquivalenceToolView: View {
                 .accessibilityHidden(true)
             Text("Benzo Equivalence")
                 .screenTitle()
-            Text("Compare benzodiazepine doses against diazepam, or convert between two. Switching to a long-acting benzo before tapering is standard practice, though evidence for better outcomes is limited.")
+            Text("Compare benzodiazepine doses against diazepam, or convert between two.")
                 .captionSecondary()
                 .multilineTextAlignment(.center)
         }
@@ -234,7 +234,7 @@ struct BenzoEquivalenceToolView: View {
         }
     }
 
-    // MARK: - Half-life join (the "why switch")
+    // MARK: - Half-life
 
     private var halfLifeCard: some View {
         VStack(alignment: .leading, spacing: Spacing.lg) {
@@ -243,10 +243,6 @@ struct BenzoEquivalenceToolView: View {
                 .accessibilityAddTraits(.isHeader)
             if let from { halfLifeLine(for: from) }
             if let to, to.name != from?.name { halfLifeLine(for: to) }
-            Text("A cross-taper usually switches from a short- to a long-half-life benzo: the longer drug self-tapers more smoothly. Diazepam's long-acting active metabolites stretch its effective half-life well beyond the parent.")
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, Spacing.xxs)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()

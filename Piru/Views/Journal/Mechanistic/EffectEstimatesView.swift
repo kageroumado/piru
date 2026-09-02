@@ -112,9 +112,9 @@ struct EffectThumbnail: View {
 // MARK: - Dedicated screen
 
 /// The full effect-estimates screen: a large title, one short model card, every
-/// mechanistic lens as its own tall card, and two collapsed detail groups at the
-/// bottom for coverage and how to read the estimate. The full methodology lives
-/// one push deeper in ``EffectModelExplainerView`` so this screen stays glanceable.
+/// mechanistic lens as its own tall card, and two detail cards at the bottom for
+/// coverage and how to read the estimate. The full methodology lives one push
+/// deeper in ``EffectModelExplainerView`` so this screen stays glanceable.
 struct EffectEstimatesView: View {
     let result: MechanisticSessionModel.Result
     let startDate: Date
@@ -137,8 +137,8 @@ struct EffectEstimatesView: View {
             ForEach(result.activeLenses) { lens in
                 lensCard(lens)
             }
-            coverageGroup
-            readingGroup
+            coverageSection
+            readingSection
         }
         .scrollContentBackground(.hidden)
         .listSectionSpacing(16)
@@ -161,7 +161,7 @@ struct EffectEstimatesView: View {
                     Spacer(minLength: 0)
                     ExperimentalTag()
                 }
-                Text("These curves estimate how this session may feel over time — how effects rise, peak, and fade, and how strong they get. Redoses and each substance's full duration are included, so a bigger dose lifts the curve higher.")
+                Text("One curve per effect, combined from every substance and dose in the session.")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                     .fixedSize(horizontal: false, vertical: true)
@@ -247,51 +247,19 @@ struct EffectEstimatesView: View {
                     .foregroundStyle(.primary)
                     .textCase(nil)
             }
-        } footer: {
-            Text(footer(for: lens))
-        }
-    }
-
-    private func footer(for lens: EffectLens) -> LocalizedStringKey {
-        switch lens {
-        case .feeling:
-            "Higher is better. Pleasure and warmth rise above the line; the comedown dips below."
-        case .wanting:
-            "Higher is more pull. The rush and craving signal — can grow with repeated use even as the high fades."
-        case .liking:
-            "Higher is more pleasure. The opioid warmth signal — fades with tolerance."
-        case .energy:
-            "Higher is livelier. Drive rises above the line, sedation sits below."
-        case .compulsion:
-            "Lower is better. The pull to take another dose."
-        case .strain:
-            "Lower is better. Load on the body, shown with your heart rate when it's available."
-        case .timeline:
-            ""
         }
     }
 
     // MARK: Bottom — coverage
 
-    private var coverageGroup: some View {
-        Section {
-            DisclosureGroup {
-                VStack(alignment: .leading, spacing: Spacing.xl) {
-                    if !ignored.isEmpty {
-                        Text(coverageText)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    Text("The model is calibrated on five stimulants: amphetamine, methylphenidate, mephedrone, 3-MMC, and 2-MMC. Other substances shape the curves through how they interact with these. Opioids are read through their dopamine activity, mostly to show those interactions.")
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, Spacing.sm)
-            } label: {
-                detailLabel("square.stack.3d.up", "What these curves cover")
+    private var coverageSection: some View {
+        detailCard("square.stack.3d.up", "What these curves cover") {
+            if !ignored.isEmpty {
+                Text(coverageText)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .padding(.vertical, Spacing.xxs)
-            .listRowBackground(CardBackground())
+            Text("The model is calibrated on five stimulants: amphetamine, methylphenidate, mephedrone, 3-MMC, and 2-MMC. Other substances shape the curves through how they interact with these. Opioids are read through their dopamine activity, mostly to show those interactions.")
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
@@ -306,39 +274,37 @@ struct EffectEstimatesView: View {
 
     // MARK: Bottom — reading the estimate
 
-    private var readingGroup: some View {
-        Section {
-            DisclosureGroup {
-                VStack(alignment: .leading, spacing: Spacing.xl) {
-                    Text("This is a picture of typical pharmacology. Your own response shifts with tolerance, body chemistry, and the day.")
-                        .fixedSize(horizontal: false, vertical: true)
-                    Text("Confidence varies by substance. Well-studied ones like amphetamine and methylphenidate rest on firmer data than newer compounds.")
-                        .fixedSize(horizontal: false, vertical: true)
-                    Text("Compare the shape of a curve more than its exact height.")
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, Spacing.sm)
-            } label: {
-                detailLabel("checkmark.seal", "Reading the estimate")
-            }
-            .padding(.vertical, Spacing.xxs)
-            .listRowBackground(CardBackground())
-        } footer: {
-            Text("A rough guide, not medical advice.")
+    private var readingSection: some View {
+        detailCard("checkmark.seal", "Reading the estimate") {
+            Text("A picture of typical pharmacology.")
+                .fixedSize(horizontal: false, vertical: true)
+            Text("Compare the shape of a curve more than its exact height.")
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
-    private func detailLabel(_ icon: String, _ title: LocalizedStringKey) -> some View {
-        Label {
-            Text(title)
-                .sectionLabel()
-                .foregroundStyle(.primary)
-        } icon: {
-            Image(systemName: icon)
-                .foregroundStyle(Theme.accent)
-                .accessibilityHidden(true)
+    /// A labeled card with its body always visible: the label row styled like a
+    /// disclosure header, the body in secondary subheadline text beneath it.
+    private func detailCard(_ icon: String, _ title: LocalizedStringKey, @ViewBuilder body: () -> some View) -> some View {
+        Section {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
+                Label {
+                    Text(title)
+                        .sectionLabel()
+                        .foregroundStyle(.primary)
+                } icon: {
+                    Image(systemName: icon)
+                        .foregroundStyle(Theme.accent)
+                        .accessibilityHidden(true)
+                }
+                VStack(alignment: .leading, spacing: Spacing.xl) {
+                    body()
+                }
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+            }
+            .padding(.vertical, Spacing.xxs)
+            .listRowBackground(CardBackground())
         }
     }
 }
