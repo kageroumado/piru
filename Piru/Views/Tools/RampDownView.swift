@@ -32,8 +32,7 @@ struct RampDownView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle("Ramp Down")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
@@ -61,15 +60,14 @@ struct RampDownView: View {
 
     private var infoSection: some View {
         Section {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: Spacing.md) {
                 Label("How it works", systemImage: "info.circle")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
 
                 Text("Piru will notify you as the comedown approaches with practical care reminders — hydration, nutrition, and rest tips tailored to what you took.")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
         }
     }
 
@@ -89,12 +87,11 @@ struct RampDownView: View {
                         .foregroundStyle(Theme.secondaryLabel)
                     Text("(past)")
                         .font(.caption)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(.dangerText)
                 } else {
                     Text(redoseTime.formatted(date: .omitted, time: .shortened))
                     Text("(\(redoseTime, style: .relative))")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
             }
         }
@@ -112,10 +109,10 @@ struct RampDownView: View {
             if isActive {
                 HStack {
                     Image(systemName: "bell.fill")
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.Semantic.Success.accent)
                         .accessibilityHidden(true)
                     Text("Alert scheduled")
-                        .font(.headline)
+                        .cardTitle()
                     Spacer()
                     Text(redoseTime.formatted(date: .omitted, time: .shortened))
                         .foregroundStyle(Theme.secondaryLabel)
@@ -128,7 +125,7 @@ struct RampDownView: View {
             } else if isRedoseTimePast {
                 HStack {
                     Image(systemName: "clock.badge.exclamationmark")
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(.cautionAccent)
                         .accessibilityHidden(true)
                     Text("Comedown window has passed")
                         .font(.subheadline)
@@ -139,7 +136,7 @@ struct RampDownView: View {
                 // instead of offering a button that does nothing.
                 HStack {
                     Image(systemName: "bell.slash")
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(.cautionAccent)
                         .accessibilityHidden(true)
                     Text("Comedown alerts are turned off")
                         .font(.subheadline)
@@ -155,7 +152,7 @@ struct RampDownView: View {
                     activateAlert()
                 } label: {
                     Label("Enable Comedown Alert", systemImage: "bell.badge")
-                        .font(.headline)
+                        .cardTitle()
                         .foregroundStyle(Theme.accent)
                         .frame(maxWidth: .infinity)
                 }
@@ -177,14 +174,13 @@ struct RampDownView: View {
         Section("Recovery tips") {
             let guide = ComedownGuideView.guide(for: category ?? .other)
             ForEach(Array(guide.rightNow.prefix(3).enumerated()), id: \.offset) { _, tip in
-                HStack(alignment: .top, spacing: 8) {
+                HStack(alignment: .top, spacing: Spacing.md) {
                     Image(systemName: "leaf.fill")
                         .font(.caption)
                         .foregroundStyle(.green)
                         .accessibilityHidden(true)
                     Text(tip)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
             }
             NavigationLink(value: PushRoute.comedownGuide) {

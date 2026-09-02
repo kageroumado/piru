@@ -37,7 +37,7 @@ struct BenzoEquivalenceToolView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: Spacing.xxl) {
                 headerCard
                 inputCard
                 resultCard
@@ -77,16 +77,15 @@ struct BenzoEquivalenceToolView: View {
     // MARK: - Header
 
     private var headerCard: some View {
-        VStack(spacing: 6) {
+        VStack(spacing: Spacing.sm) {
             Image(systemName: "moon.fill")
                 .font(.largeTitle)
                 .foregroundStyle(Theme.accent)
                 .accessibilityHidden(true)
             Text("Benzo Equivalence")
-                .font(.title3.weight(.semibold))
+                .screenTitle()
             Text("Compare benzodiazepine doses against diazepam, or convert between two. Switching to a long-acting benzo before tapering is standard practice, though evidence for better outcomes is limited.")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
@@ -98,32 +97,30 @@ struct BenzoEquivalenceToolView: View {
 
     private var inputCard: some View {
         VStack(alignment: .leading, spacing: 14) {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text("From")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                HStack(spacing: 10) {
+                    .captionSecondary()
+                HStack(spacing: Spacing.lg) {
                     pickerButton(for: .from, selection: from)
                     HStack(spacing: 0) {
                         TextField("0", text: $doseText)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                             .frame(width: 64)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 10)
+                            .padding(.horizontal, Spacing.lg)
+                            .padding(.vertical, Spacing.lg)
                         Text("mg")
                             .font(.subheadline.weight(.medium))
                             .foregroundStyle(Theme.secondaryLabel)
-                            .padding(.trailing, 12)
+                            .padding(.trailing, Spacing.xl)
                     }
-                    .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 10))
+                    .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
                 }
             }
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text("To")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                 pickerButton(for: .to, selection: to)
             }
         }
@@ -143,10 +140,10 @@ struct BenzoEquivalenceToolView: View {
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
+            .padding(.horizontal, Spacing.xl)
+            .padding(.vertical, Spacing.lg)
             .frame(maxWidth: .infinity)
-            .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 10))
+            .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
         }
         .buttonStyle(.plain)
         .accessibilityLabel(target == .from ? Text("Convert from") : Text("Convert to"))
@@ -156,10 +153,9 @@ struct BenzoEquivalenceToolView: View {
     // MARK: - Result
 
     private var resultCard: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: Spacing.md) {
             Text("Equivalent Dose")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
 
             if let from, let to, let dose, let result = from.equivalentDose(forDoseMg: dose, in: to) {
                 Text("≈ \(EquivalenceFormat.mg(result)) mg")
@@ -168,8 +164,7 @@ struct BenzoEquivalenceToolView: View {
                     .contentTransition(.numericText())
                     .animation(.default, value: result)
                 Text("\(EquivalenceFormat.mg(dose)) mg \(from.displayName) ≈ \(EquivalenceFormat.mg(result)) mg \(to.displayName)")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .multilineTextAlignment(.center)
                 if to.name.lowercased() != "diazepam", let diazepam = from.diazepamEquivalent(forDoseMg: dose) {
                     Text("(≈ \(EquivalenceFormat.mg(diazepam)) mg diazepam)")
@@ -178,9 +173,9 @@ struct BenzoEquivalenceToolView: View {
                 }
                 Text("Approximate — equivalence tables disagree. Treat this as a ballpark.")
                     .font(.caption2)
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(.cautionText)
                     .multilineTextAlignment(.center)
-                    .padding(.top, 2)
+                    .padding(.top, Spacing.xxs)
             } else {
                 Text("--")
                     .font(.title.weight(.bold))
@@ -206,9 +201,9 @@ struct BenzoEquivalenceToolView: View {
     // MARK: - Provenance
 
     private var citationCard: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             Label("Where this comes from", systemImage: "text.quote")
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .accessibilityAddTraits(.isHeader)
             if let text = from?.equivalent.displayText {
                 citationLine(text)
@@ -219,7 +214,7 @@ struct BenzoEquivalenceToolView: View {
             Text(sourceLine)
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, 2)
+                .padding(.top, Spacing.xxs)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
@@ -227,11 +222,11 @@ struct BenzoEquivalenceToolView: View {
     }
 
     private func citationLine(_ text: String) -> some View {
-        HStack(alignment: .top, spacing: 8) {
+        HStack(alignment: .top, spacing: Spacing.md) {
             Image(systemName: "quote.opening")
                 .font(.caption2)
                 .foregroundStyle(Theme.accent)
-                .padding(.top, 2)
+                .padding(.top, Spacing.xxs)
                 .accessibilityHidden(true)
             Text(text)
                 .font(.caption)
@@ -242,16 +237,16 @@ struct BenzoEquivalenceToolView: View {
     // MARK: - Half-life join (the "why switch")
 
     private var halfLifeCard: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             Label("Half-life", systemImage: "hourglass")
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .accessibilityAddTraits(.isHeader)
             if let from { halfLifeLine(for: from) }
             if let to, to.name != from?.name { halfLifeLine(for: to) }
             Text("A cross-taper usually switches from a short- to a long-half-life benzo: the longer drug self-tapers more smoothly. Diazepam's long-acting active metabolites stretch its effective half-life well beyond the parent.")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, 2)
+                .padding(.top, Spacing.xxs)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
@@ -281,12 +276,10 @@ struct BenzoEquivalenceToolView: View {
             Spacer()
             if let minutes = SubstanceLibrary.lookup(benzo.name)?.halfLifeMinutes {
                 Text(Self.formatHalfLife(minutes))
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             } else {
                 Text("—")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
         }
     }
@@ -294,12 +287,12 @@ struct BenzoEquivalenceToolView: View {
     // MARK: - Safety
 
     private var safetyCard: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Label("Safety", systemImage: "exclamationmark.triangle")
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(.yellow)
+                .sectionLabel()
+                .foregroundStyle(.cautionText)
                 .accessibilityAddTraits(.isHeader)
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
                 safetyPoint("This converts and compares — it is not a taper schedule. Plan any dose reduction with a clinician.")
                 safetyPoint("Never stop a benzodiazepine abruptly. Withdrawal can be dangerous (seizures); a slow taper is the safe path.")
                 safetyPoint("Single-dose equivalence isn't steady-state equivalence — long-acting metabolites accumulate over days.")
@@ -311,15 +304,14 @@ struct BenzoEquivalenceToolView: View {
     }
 
     private func safetyPoint(_ text: LocalizedStringResource) -> some View {
-        HStack(alignment: .top, spacing: 8) {
+        HStack(alignment: .top, spacing: Spacing.md) {
             Circle()
                 .fill(Theme.secondaryLabel)
                 .frame(width: 4, height: 4)
-                .padding(.top, 6)
+                .padding(.top, Spacing.sm)
                 .accessibilityHidden(true)
             Text(text)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
     }
 
@@ -374,8 +366,7 @@ private struct BenzoPickerSheet: View {
                 .listRowBackground(CardBackground())
             }
             .listStyle(.insetGrouped)
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .searchable(text: $query, prompt: Text("Search benzodiazepines"))
             .navigationTitle("Select Benzodiazepine")
             .navigationBarTitleDisplayMode(.inline)

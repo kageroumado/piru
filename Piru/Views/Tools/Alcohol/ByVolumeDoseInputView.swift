@@ -49,26 +49,26 @@ struct ByVolumeDoseInputView: View {
 
     private var presetRow: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.md) {
                 ForEach(capability.drinkPresets) { preset in
                     Button {
                         onSelectPreset(preset)
                     } label: {
-                        VStack(spacing: 4) {
+                        VStack(spacing: Spacing.xs) {
                             Image(systemName: preset.systemImage)
                                 .font(.title3)
                             Text(preset.name)
                                 .font(.caption)
                         }
                         .frame(width: 60)
-                        .padding(.vertical, 8)
+                        .padding(.vertical, Spacing.md)
                     }
                     .buttonStyle(.glass)
                     .tint(Theme.accent)
                     .accessibilityLabel(Text(preset.name))
                 }
             }
-            .padding(.vertical, 2)
+            .padding(.vertical, Spacing.xxs)
         }
         .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 8))
     }
@@ -130,8 +130,7 @@ struct ByVolumeDoseInputView: View {
                     .foregroundStyle(readoutColor ?? .primary)
                     .contentTransition(.numericText())
                 Text("ethanol · ≈ \(standardDrinks, format: .number.precision(.fractionLength(1))) standard drinks")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }

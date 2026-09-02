@@ -32,7 +32,7 @@ struct OpioidEquivalenceToolView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: Spacing.xxl) {
                 headerCard
                 inputCard
                 resultCard
@@ -52,16 +52,15 @@ struct OpioidEquivalenceToolView: View {
     // MARK: - Header
 
     private var headerCard: some View {
-        VStack(spacing: 6) {
+        VStack(spacing: Spacing.sm) {
             Image(systemName: "cross.case")
                 .font(.largeTitle)
                 .foregroundStyle(Theme.accent)
                 .accessibilityHidden(true)
             Text("Opioid Equivalence")
-                .font(.title3.weight(.semibold))
+                .screenTitle()
             Text("Convert a dose of one opioid to another through oral morphine milligram equivalents (MME), using the CDC 2022 conversion factors.")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
@@ -73,11 +72,10 @@ struct OpioidEquivalenceToolView: View {
 
     private var inputCard: some View {
         VStack(alignment: .leading, spacing: 14) {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text("From")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-                HStack(spacing: 10) {
+                    .captionSecondary()
+                HStack(spacing: Spacing.lg) {
                     opioidMenu(selection: $fromName)
                         .accessibilityLabel(Text("Convert from"))
                         .accessibilityValue(Text(from?.pickerLabel ?? String(localized: "Select")))
@@ -86,21 +84,20 @@ struct OpioidEquivalenceToolView: View {
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                             .frame(width: 64)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 10)
+                            .padding(.horizontal, Spacing.lg)
+                            .padding(.vertical, Spacing.lg)
                         Text("mg")
                             .font(.subheadline.weight(.medium))
                             .foregroundStyle(Theme.secondaryLabel)
-                            .padding(.trailing, 12)
+                            .padding(.trailing, Spacing.xl)
                     }
-                    .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 10))
+                    .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
                 }
             }
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text("To")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                 opioidMenu(selection: $toName)
                     .accessibilityLabel(Text("Convert to"))
                     .accessibilityValue(Text(to?.pickerLabel ?? String(localized: "Select")))
@@ -133,10 +130,10 @@ struct OpioidEquivalenceToolView: View {
                     .foregroundStyle(Theme.secondaryLabel)
                     .accessibilityHidden(true)
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
+            .padding(.horizontal, Spacing.xl)
+            .padding(.vertical, Spacing.lg)
             .frame(maxWidth: .infinity)
-            .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 10))
+            .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
         }
         .buttonStyle(.plain)
     }
@@ -144,10 +141,9 @@ struct OpioidEquivalenceToolView: View {
     // MARK: - Result
 
     private var resultCard: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: Spacing.md) {
             Text("Equivalent Dose")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
 
             if let from, let to, let dose,
                let result = from.equivalentDose(forDoseMg: dose, in: to),
@@ -158,8 +154,7 @@ struct OpioidEquivalenceToolView: View {
                     .contentTransition(.numericText())
                     .animation(.default, value: result)
                 Text("\(EquivalenceFormat.mg(dose)) mg \(from.displayName) ≈ \(EquivalenceFormat.mg(result)) mg \(to.displayName)")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .multilineTextAlignment(.center)
 
                 mmeBadge(mme)
@@ -188,7 +183,7 @@ struct OpioidEquivalenceToolView: View {
         Text("≈ \(EquivalenceFormat.mg(mme)) mg oral morphine equivalent")
             .font(.caption.weight(.medium))
             .foregroundStyle(.primary)
-            .padding(.top, 4)
+            .padding(.top, Spacing.xs)
     }
 
     private var fallbackReason: LocalizedStringResource {
@@ -205,14 +200,13 @@ struct OpioidEquivalenceToolView: View {
     }
 
     private func specialCard(_ reason: LocalizedStringResource) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Label("Not a simple conversion", systemImage: "exclamationmark.octagon")
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(.orange)
+                .sectionLabel()
+                .foregroundStyle(.cautionText)
                 .accessibilityAddTraits(.isHeader)
             Text(reason)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
@@ -222,14 +216,13 @@ struct OpioidEquivalenceToolView: View {
     // MARK: - Cross-tolerance
 
     private var crossToleranceCard: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Label("Incomplete cross-tolerance", systemImage: "arrow.triangle.2.circlepath")
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(Theme.accent)
                 .accessibilityAddTraits(.isHeader)
             Text("When switching opioids, the equianalgesic dose is an over-estimate: tolerance to one opioid doesn't fully transfer to another. Clinicians start the new opioid **25–50% lower** than the calculated dose (more for high doses or frail/elderly people) and re-titrate. Never take the full converted dose.")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
@@ -239,12 +232,12 @@ struct OpioidEquivalenceToolView: View {
     // MARK: - Safety
 
     private var safetyCard: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Label("Safety", systemImage: "exclamationmark.triangle")
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(.yellow)
+                .sectionLabel()
+                .foregroundStyle(.cautionText)
                 .accessibilityAddTraits(.isHeader)
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
                 safetyPoint("MME is a population risk metric. CDC states the calculated MME should not be used to determine the dose when switching opioids.")
                 safetyPoint("Individual variation is large — genetics (e.g. CYP2D6 for codeine, tramadol, oxycodone), liver and kidney function all shift real potency.")
                 safetyPoint("These oral factors don't cover every route or product. Transdermal, buccal, and IV forms differ.")
@@ -257,15 +250,14 @@ struct OpioidEquivalenceToolView: View {
     }
 
     private func safetyPoint(_ text: LocalizedStringResource) -> some View {
-        HStack(alignment: .top, spacing: 8) {
+        HStack(alignment: .top, spacing: Spacing.md) {
             Circle()
                 .fill(Theme.secondaryLabel)
                 .frame(width: 4, height: 4)
-                .padding(.top, 6)
+                .padding(.top, Spacing.sm)
                 .accessibilityHidden(true)
             Text(text)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
     }
 

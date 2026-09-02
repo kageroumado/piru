@@ -22,13 +22,13 @@ struct EducationCard: View {
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             Button {
                 withAnimation(.snappy(duration: 0.3)) {
                     isExpanded.toggle()
                 }
             } label: {
-                VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: Spacing.xl) {
                     GlanceCardHeader(icon: "graduationcap.fill", title: Text("Education")) {
                         GlanceCardChevron(systemName: "chevron.down", rotated: isExpanded)
                     }
@@ -45,7 +45,7 @@ struct EducationCard: View {
             .accessibilityHint(Text(isExpanded ? "Collapse" : "Expand"))
 
             if isExpanded {
-                VStack(spacing: 8) {
+                VStack(spacing: Spacing.md) {
                     ForEach(items) { item in
                         NavigationLink(value: PushRoute.tool(item.tool)) {
                             EducationRow(tool: item.tool)
@@ -56,7 +56,7 @@ struct EducationCard: View {
                 .transition(.opacity.combined(with: .scale(scale: 0.97, anchor: .top)))
             }
         }
-        .padding(16)
+        .padding(Spacing.xxl)
         .frame(maxWidth: .infinity, alignment: .leading)
         .themeCard()
     }
@@ -68,20 +68,19 @@ private struct EducationRow: View {
     let tool: Tool
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             Image(systemName: tool.icon)
-                .font(.headline)
+                .cardTitle()
                 .foregroundStyle(Theme.accent)
                 .frame(width: 28)
                 .accessibilityHidden(true)
 
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(tool.name)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(.primary)
                 Text(tool.subtitle)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .lineLimit(2)
             }
 
@@ -95,7 +94,7 @@ private struct EducationRow: View {
         .padding(.horizontal, 13)
         .padding(.vertical, 11)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 12))
+        .background(Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.medium))
         .contentShape(Rectangle())
     }
 }

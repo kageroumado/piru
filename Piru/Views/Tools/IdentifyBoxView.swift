@@ -40,7 +40,7 @@ struct IdentifyBoxView: View {
                 disclaimer
             }
             .padding(.horizontal)
-            .padding(.top, 4)
+            .padding(.top, Spacing.xs)
             .padding(.bottom, 80)
         }
         .background(Theme.background)
@@ -60,7 +60,7 @@ struct IdentifyBoxView: View {
     }
 
     private var introCard: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             GlanceCardHeader(icon: Tool.identify.icon, title: Text("What is this box?")) {
                 EmptyView()
             }
@@ -71,7 +71,7 @@ struct IdentifyBoxView: View {
                 .font(.footnote)
                 .foregroundStyle(Theme.secondaryLabel)
         }
-        .padding(16)
+        .padding(Spacing.xxl)
         .frame(maxWidth: .infinity, alignment: .leading)
         .themeCard()
     }
@@ -101,8 +101,7 @@ struct IdentifyBoxView: View {
 
     private var disclaimer: some View {
         Text("What a box says is what is shown. Not medical advice.")
-            .font(.caption)
-            .foregroundStyle(Theme.secondaryLabel)
+            .captionSecondary()
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
@@ -116,7 +115,7 @@ private struct IdentifyChipsCard: View {
     let chips: [ReadChip]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             GlanceCardHeader(icon: "text.viewfinder", title: Text("Read from the box")) {
                 EmptyView()
             }
@@ -125,14 +124,14 @@ private struct IdentifyChipsCard: View {
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             } else {
-                FlowLayout(spacing: 8) {
+                FlowLayout(spacing: Spacing.md) {
                     ForEach(chips) { chip in
                         ReadChipView(chip: chip)
                     }
                 }
             }
         }
-        .padding(16)
+        .padding(Spacing.xxl)
         .frame(maxWidth: .infinity, alignment: .leading)
         .themeCard()
     }
@@ -154,8 +153,8 @@ private struct ReadChipView: View {
                 .foregroundStyle(confidenceColor)
                 .accessibilityHidden(true)
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 6)
+        .padding(.horizontal, Spacing.lg)
+        .padding(.vertical, Spacing.sm)
         .background(.fill.tertiary, in: Capsule())
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(accessibilityText)
@@ -182,14 +181,14 @@ private struct ReadChipView: View {
 
     private var confidenceColor: Color {
         switch chip.confidence {
-        case .high: .green
-        case .medium: .orange
+        case .high: .Confidence.High.text
+        case .medium: .Confidence.Medium.text
         case .low: Theme.secondaryLabel
         }
     }
 
     private var accessibilityText: String {
-        let kind: String = switch chip.kind {
+        let kind = switch chip.kind {
         case .barcode: String(localized: "Barcode")
         case .brand: String(localized: "Brand")
         case .substance: String(localized: "Substance")
@@ -197,7 +196,7 @@ private struct ReadChipView: View {
         case .form: String(localized: "Form")
         case .count: String(localized: "Pack size")
         }
-        let confidence: String = switch chip.confidence {
+        let confidence = switch chip.confidence {
         case .high: String(localized: "confident")
         case .medium: String(localized: "probable")
         case .low: String(localized: "unrecognized")
@@ -217,13 +216,13 @@ private struct IdentifySubstanceCard: View {
     var body: some View {
         if let substance = SubstanceLibrary.lookup(canonicalName) {
             NavigationLink(value: PushRoute.substance(name: substance.name)) {
-                VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: Spacing.xl) {
                     GlanceCardHeader(icon: "books.vertical", title: Text(brand.map { String(localized: "\($0) is") } ?? String(localized: "In the library"))) {
                         GlanceCardChevron()
                     }
                     SubstanceRowView(substance: substance)
                 }
-                .padding(16)
+                .padding(Spacing.xxl)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .themeCard()
                 .contentShape(Rectangle())
@@ -240,7 +239,7 @@ private struct IdentifyActionsCard: View {
     @Environment(\.appNavigator) private var navigator
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             Button {
                 navigator.present(.quickLog(routine: nil, prefillSubstance: result.canonicalName, prefillDose: dosePrefill))
             } label: {
@@ -274,7 +273,7 @@ extension BoxIdentification {
     /// milligram strength when the box printed one, and the box as a note.
     var inventoryPrefill: InventoryPrefill {
         let strengthMG: Double? = if let strength, strengthUnit == "mg" { strength } else { nil }
-        let noteParts = [brand, chips.first { $0.kind == .count }?.text].compactMap { $0 }
+        let noteParts = [brand, chips.first { $0.kind == .count }?.text].compactMap(\.self)
         return InventoryPrefill(
             count: packCount?.count,
             unit: packCount?.inventoryUnit,
@@ -292,7 +291,7 @@ private struct IdentifyExternalLinksCard: View {
     let result: BoxIdentification
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             GlanceCardHeader(icon: "questionmark.circle", title: Text("Not in the library")) {
                 EmptyView()
             }
@@ -306,15 +305,14 @@ private struct IdentifyExternalLinksCard: View {
                         Label(link.title, systemImage: link.icon)
                         Spacer()
                         Image(systemName: "arrow.up.right")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                             .accessibilityHidden(true)
                     }
                     .font(.subheadline.weight(.medium))
                 }
             }
         }
-        .padding(16)
+        .padding(Spacing.xxl)
         .frame(maxWidth: .infinity, alignment: .leading)
         .themeCard()
     }

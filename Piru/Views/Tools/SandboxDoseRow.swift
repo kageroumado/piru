@@ -36,7 +36,7 @@ struct SandboxDoseRow: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             nameButton
             if row.substance != nil {
                 doseControl
@@ -58,18 +58,18 @@ struct SandboxDoseRow: View {
                 }
             }
         }
-        .padding(.vertical, 6)
+        .padding(.vertical, Spacing.sm)
     }
 
     private var nameButton: some View {
         Button(action: onPickSubstance) {
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.md) {
                 Circle()
                     .fill(Color(hex: row.colorHex))
                     .frame(width: 10, height: 10)
                     .accessibilityHidden(true)
                 Text(row.substance == nil ? String(localized: "Choose substance") : row.displayName)
-                    .font(.headline)
+                    .cardTitle()
                     .foregroundStyle(row.substance == nil ? Theme.secondaryLabel : .primary)
                     .lineLimit(1)
                 Spacer(minLength: 4)
@@ -89,8 +89,8 @@ struct SandboxDoseRow: View {
     private var doseControl: some View {
         let scale = scale
         let level = scale.level(for: row.amount)
-        return VStack(spacing: 2) {
-            HStack(spacing: 6) {
+        return VStack(spacing: Spacing.xxs) {
+            HStack(spacing: Spacing.sm) {
                 Text("Dose")
                     .foregroundStyle(Theme.secondaryLabel)
                 Spacer(minLength: 4)
@@ -100,8 +100,7 @@ struct SandboxDoseRow: View {
                     .foregroundStyle(level?.labelColor ?? .primary)
                 if let level {
                     Text(level.displayName)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
             }
             Slider(value: amountBinding, in: 0 ... scale.upperBound, step: scale.step) { editing in

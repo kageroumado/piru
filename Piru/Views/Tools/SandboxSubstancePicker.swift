@@ -73,12 +73,11 @@ struct SandboxSubstancePicker: View {
             dismiss()
         } label: {
             HStack {
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(substance.displayTitle)
                         .foregroundStyle(.primary)
                     Text(substance.category.displayName)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
                 Spacer()
                 Image(systemName: "plus.circle.fill")

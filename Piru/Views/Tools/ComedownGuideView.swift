@@ -65,8 +65,7 @@ struct ComedownGuideView: View {
             .listRowBackground(CardBackground())
         }
         .listStyle(.insetGrouped)
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .task(id: DoseLogService.shared.revision) {
             await SubstanceStore.shared.ensureAllLoaded()
             // The query already bounds entries to the 48 h window.
@@ -78,14 +77,13 @@ struct ComedownGuideView: View {
 
     private var aboutSection: some View {
         Section {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: Spacing.md) {
                 Label("What is this?", systemImage: "heart.text.clipboard")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 Text("Practical tips for taking care of yourself as substances wear off. Every category is different — tap one below for specific guidance.")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
         }
     }
 
@@ -93,7 +91,7 @@ struct ComedownGuideView: View {
 
     private var generalSection: some View {
         Section("Universal recovery basics") {
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: Spacing.lg) {
                 tipRow(icon: "drop.fill", color: .blue, text: "Hydrate — water or electrolyte drinks, sip steadily")
                 tipRow(icon: "fork.knife", color: .orange, text: "Eat something nutritious — protein, carbs, and fruit")
                 tipRow(icon: "bed.double.fill", color: .indigo, text: "Sleep when your body lets you — don't fight it")
@@ -103,12 +101,12 @@ struct ComedownGuideView: View {
                 tipRow(icon: "person.2.fill", color: .pink, text: "Reach out to someone you trust if you feel overwhelmed")
             }
             .font(.caption)
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
         }
     }
 
     private func tipRow(icon: String, color: Color, text: LocalizedStringResource) -> some View {
-        HStack(alignment: .top, spacing: 8) {
+        HStack(alignment: .top, spacing: Spacing.md) {
             Image(systemName: icon)
                 .foregroundStyle(color)
                 .frame(width: 16)
@@ -377,7 +375,7 @@ struct ComedownCategoryDisclosure: View {
         DisclosureGroup(isExpanded: $isExpanded) {
             content
         } label: {
-            HStack(spacing: 10) {
+            HStack(spacing: Spacing.lg) {
                 Image(systemName: category.icon)
                     .foregroundStyle(category.labelColor)
                     .accessibilityHidden(true)
@@ -391,23 +389,23 @@ struct ComedownCategoryDisclosure: View {
     @ViewBuilder
     private var content: some View {
         let guide = ComedownGuideView.guide(for: category)
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             tipGroup("What's happening", items: guide.whatsHappening)
             tipGroup("Right now", items: guide.rightNow)
             tipGroup("Over the next hours", items: guide.nextHours)
             tipGroup("What to avoid", items: guide.avoid)
         }
         .font(.caption)
-        .padding(.vertical, 8)
+        .padding(.vertical, Spacing.md)
     }
 
     private func tipGroup(_ title: LocalizedStringResource, items: [LocalizedStringResource]) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
             Text(title)
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.primary)
             ForEach(Array(items.enumerated()), id: \.offset) { _, item in
-                HStack(alignment: .top, spacing: 6) {
+                HStack(alignment: .top, spacing: Spacing.sm) {
                     Text("\u{2022}")
                         .foregroundStyle(Theme.secondaryLabel)
                     Text(item)

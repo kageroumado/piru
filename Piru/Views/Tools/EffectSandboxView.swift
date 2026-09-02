@@ -166,7 +166,7 @@ struct EffectSandboxView: View {
             .listRowBackground(CardBackground())
         } header: {
             if model.isComparing {
-                HStack(spacing: 6) {
+                HStack(spacing: Spacing.sm) {
                     Capsule()
                         .fill(plan.color)
                         .frame(width: 14, height: 3)
@@ -257,14 +257,14 @@ private struct SandboxChartPager: View {
             Spacer(minLength: 0)
         }
         .padding(.horizontal, 20)
-        .padding(.top, 8)
+        .padding(.top, Spacing.md)
         .accessibilityElement(children: .combine)
     }
 
     /// All four at once — the relationship between channels is often the answer
     /// ("Feeling flat, Strain doubled"), and a paged view alone would hide it.
     private var overviewPage: some View {
-        LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 6) {
+        LazyVGrid(columns: [GridItem(.flexible(), spacing: Spacing.lg), GridItem(.flexible(), spacing: Spacing.lg)], spacing: Spacing.sm) {
             ForEach(model.activeLenses) { lens in
                 VStack(alignment: .leading, spacing: 0) {
                     label(lens, font: .caption2)
@@ -272,15 +272,15 @@ private struct SandboxChartPager: View {
                 }
             }
         }
-        .padding(.horizontal, 16)
-        .padding(.top, 4)
+        .padding(.horizontal, Spacing.xxl)
+        .padding(.top, Spacing.xs)
         // Clear of the paging dots, which the TabView pins to the frame's bottom.
         .padding(.bottom, 26)
         .accessibilityLabel("All four lenses")
     }
 
     private func singlePage(_ lens: EffectLens) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             label(lens, font: .subheadline)
             chart(lens, height: 150)
             Text(footer(for: lens))
@@ -288,10 +288,10 @@ private struct SandboxChartPager: View {
                 .foregroundStyle(Theme.secondaryLabel)
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
-                .padding(.horizontal, 4)
+                .padding(.horizontal, Spacing.xs)
         }
-        .padding(.horizontal, 16)
-        .padding(.top, 4)
+        .padding(.horizontal, Spacing.xxl)
+        .padding(.top, Spacing.xs)
         .padding(.bottom, 26)
     }
 
@@ -305,7 +305,7 @@ private struct SandboxChartPager: View {
                 .font(font.weight(.semibold))
                 .foregroundStyle(.primary)
         }
-        .padding(.leading, 4)
+        .padding(.leading, Spacing.xs)
     }
 
     private func chart(_ lens: EffectLens, height: CGFloat) -> some View {
