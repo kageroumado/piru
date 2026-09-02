@@ -80,7 +80,7 @@ struct ComedownGuideView: View {
             VStack(alignment: .leading, spacing: Spacing.md) {
                 Label("What is this?", systemImage: "heart.text.clipboard")
                     .sectionLabel()
-                Text("Practical tips for taking care of yourself as substances wear off. Every category is different — tap one below for specific guidance.")
+                Text("Tips as substances wear off — tap a category below.")
                     .captionSecondary()
             }
             .padding(.vertical, Spacing.xs)
@@ -158,7 +158,7 @@ struct ComedownGuideView: View {
                 whatsHappening: [
                     "Your serotonin reserves are depleted — that's why everything feels flat or low.",
                     "This is temporary. Your brain will replenish over the next few days.",
-                    "Some emotional sensitivity and physical fatigue is completely normal.",
+                    "Emotional sensitivity and fatigue are part of it.",
                 ],
                 rightNow: [
                     "Stay warm — your body's temperature regulation is still off.",
@@ -169,7 +169,7 @@ struct ComedownGuideView: View {
                 nextHours: [
                     "Rest in a comfortable, calm space. Soft music or silence both work.",
                     "Be patient with yourself for the next 1-3 days. Low mood is the serotonin dip.",
-                    "Gentle walks in nature can genuinely help when you're ready.",
+                    "A walk outside helps when you're ready.",
                     "Talk to someone you trust — connection helps more than isolation.",
                 ],
                 avoid: [
@@ -196,7 +196,7 @@ struct ComedownGuideView: View {
                     "Rest. Sleep often comes easily once the peak is past.",
                     "Don't try to 'figure it all out' right now. Integration takes days.",
                     "Nature, art, or quiet music can help you process gently.",
-                    "Be easy with yourself — profound experiences need time to settle.",
+                    "Be easy with yourself — big experiences need time to settle.",
                 ],
                 avoid: [
                     "Don't make big life decisions based on acute revelations — wait a week.",
@@ -351,11 +351,11 @@ struct ComedownGuideView: View {
                 nextHours: [
                     "Sleep is your best recovery tool.",
                     "Light food and fluids every few hours.",
-                    "Give yourself time. Most effects are temporary.",
+                    "Give yourself time.",
                 ],
                 avoid: [
-                    "Don't redose without careful consideration.",
-                    "Avoid mixing substances.",
+                    "Don't redose — tolerance builds fast within a session.",
+                    "Mixing adds risk.",
                     "Don't drive or make important decisions until you feel baseline.",
                 ],
             )

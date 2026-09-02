@@ -6460,6 +6460,22 @@
         }
       }
     },
+    "A model estimate, not a measurement. What's in your body and what you feel don't always line up." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型估算，非实测。体内留存与体感并不总是一致。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型估算，非實測。體內留存與體感並不總是一致。"
+          }
+        }
+      }
+    },
     "A model of your dose log, not medical advice. Stopping a benzodiazepine abruptly after regular use can cause seizures." : {
       "localizations" : {
         "zh-Hans" : {
@@ -6525,6 +6541,9 @@
           }
         }
       }
+    },
+    "A one-compartment model with population-average half-lives. Real overlap depends on your metabolism, dose, route, and tolerance." : {
+
     },
     "A passphrase is required." : {
       "localizations" : {
@@ -7141,6 +7160,9 @@
           }
         }
       }
+    },
+    "A walk outside helps when you're ready." : {
+
     },
     "A warm bath can ease the achy, restless feeling." : {
       "localizations" : {
@@ -7922,6 +7944,7 @@
       }
     },
     "Active in microgram (µg) quantities — 1/1000th of a milligram. Volumetric dosing is required at all times for safe and accurate measurement. Never attempt to measure doses by eye or with standard scales." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7936,6 +7959,9 @@
           }
         }
       }
+    },
+    "Active in micrograms — a thousandth of a milligram. Always measure volumetrically. You cannot dose this by eye." : {
+
     },
     "Active Now" : {
       "localizations" : {
@@ -10604,7 +10630,11 @@
         }
       }
     },
+    "Always show the full-height timeline. When off, graphs start compact — expand from the graph menu." : {
+
+    },
     "Always show the taller timeline graph when viewing a session. When off, the graph starts compact and you can expand it per session from the graph menu." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10800,6 +10830,7 @@
       }
     },
     "An estimate from a one-compartment model, not a measurement. How much is in your body doesn't always match how strong the effects feel, or how long a substance stays detectable." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10816,6 +10847,7 @@
       }
     },
     "An estimate of how much of each substance is still in your body. This doesn't always correspond to how strong the effects feel, or to how long it stays detectable." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11942,6 +11974,7 @@
       }
     },
     "Automatically show a Live Activity on the Lock Screen and Dynamic Island when you start tracking a substance. You can also start one manually from a day or entry's detail view." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12168,6 +12201,7 @@
       }
     },
     "Avoid mixing substances." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12794,7 +12828,11 @@
         }
       }
     },
+    "Be easy with yourself — big experiences need time to settle." : {
+
+    },
     "Be easy with yourself — profound experiences need time to settle." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15009,6 +15047,7 @@
       }
     },
     "Cardiovascular strain and potential serotonin interaction — monitor heart rate and blood pressure." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15023,6 +15062,9 @@
           }
         }
       }
+    },
+    "Cardiovascular strain and serotonin risk — watch your heart rate and blood pressure." : {
+
     },
     "Cards" : {
       "extractionState" : "stale",
@@ -16365,7 +16407,11 @@
         }
       }
     },
+    "Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated \"18–25× sudden death\" figure is not supported by the evidence — but the added cardiac and liver strain is real, )" : {
+
+    },
     "Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated \"18–25× sudden death\" figure is not supported by the evidence — but the added cardiac and liver strain is real, so it's worth avoiding the mix.)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16760,6 +16806,7 @@
       }
     },
     "Combine repeat doses of the same substance into a single curve, where each redose adds to the combined intensity. When off, each dose is drawn as its own line." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -19467,6 +19514,22 @@
         }
       }
     },
+    "Data from peer-reviewed literature, FDA labels, and community databases. Not medical advice — talk to a doctor before making decisions about substance use." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据来源于同行评审文献、FDA 标签与社区数据库。不构成医疗建议——在做出有关物质使用的决定前，请咨询医生。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "資料來源於同行評審文獻、FDA 標籤與社群資料庫。不構成醫療建議——在做出有關物質使用的決定前，請諮詢醫師。"
+          }
+        }
+      }
+    },
     "Data imported successfully." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -21047,6 +21110,9 @@
         }
       }
     },
+    "Don't redose — tolerance builds fast within a session." : {
+
+    },
     "Don't redose reactively — it reinforces the cycle." : {
       "localizations" : {
         "zh-Hans" : {
@@ -21112,6 +21178,7 @@
       }
     },
     "Don't redose without careful consideration." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21870,7 +21937,11 @@
         }
       }
     },
+    "Dosed in low milligrams — use a milligram scale (0.001 g). Can't be measured by eye or kitchen scale." : {
+
+    },
     "Dosed in low milligrams — use a precise milligram scale (0.001 g resolution). Hard to measure accurately by eye or with kitchen scales." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24265,6 +24336,9 @@
     "Emotional" : {
       "comment" : "Effect domain"
     },
+    "Emotional sensitivity and fatigue are part of it." : {
+
+    },
     "Empathogen" : {
       "localizations" : {
         "zh-Hans" : {
@@ -25100,9 +25174,6 @@
         }
       }
     },
-    "Estimate only — simplified one-compartment PK model with population-average half-lives. Real overlap depends on individual metabolism, dose, route, and tolerance. Not medical advice." : {
-
-    },
     "Estimated" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -25255,6 +25326,7 @@
       }
     },
     "Estimates based on pharmacokinetic modeling. Actual levels may vary." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25269,6 +25341,9 @@
           }
         }
       }
+    },
+    "Estimates from pharmacokinetic modeling." : {
+
     },
     "Estimates from population half-lives — individual clearance varies." : {
       "extractionState" : "stale",
@@ -25631,6 +25706,7 @@
       }
     },
     "Every backup is sealed with AES-256-GCM — the same authenticated encryption used by modern secure messengers. Tampering is detected and refused." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28559,6 +28635,7 @@
       }
     },
     "Gentle walks in nature can genuinely help when you're ready." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -28724,7 +28801,11 @@
         }
       }
     },
+    "Give yourself time." : {
+
+    },
     "Give yourself time. Most effects are temporary." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29532,7 +29613,11 @@
         }
       }
     },
+    "Heavy additive sedation — deep drowsiness and impaired breathing." : {
+
+    },
     "Heavy additive sedation — profound drowsiness and impaired breathing." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29628,6 +29713,9 @@
           }
         }
       }
+    },
+    "Help is available. You don't have to do this alone." : {
+
     },
     "Hidden" : {
       "localizations" : {
@@ -30414,6 +30502,9 @@
           }
         }
       }
+    },
+    "How much of each substance is still in your body — what's left and what you feel don't always line up." : {
+
     },
     "How much of this you make is partly genetic — the same dose produces noticeably more in some people than others." : {
       "extractionState" : "stale",
@@ -36121,6 +36212,9 @@
         }
       }
     },
+    "Merge repeat doses into one curve. When off, each dose draws its own line." : {
+
+    },
     "Merge With Current Data" : {
       "localizations" : {
         "zh-Hans" : {
@@ -36588,6 +36682,9 @@
         }
       }
     },
+    "Mixing adds risk." : {
+
+    },
     "mL" : {
 
     },
@@ -36775,6 +36872,7 @@
       }
     },
     "Model estimates (one-compartment oral PK; alcohol zero-order) from population half-lives and your logged doses — individual clearance varies. Subjective intensity is relative to each dose's own peak. Not medical advice." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36789,6 +36887,9 @@
           }
         }
       }
+    },
+    "Model estimates from population half-lives and your logged doses — individual clearance varies. Intensity is relative to each dose's own peak. Not medical advice." : {
+
     },
     "Model estimates from your dose log and your body weight." : {
       "extractionState" : "stale",
@@ -44235,6 +44336,7 @@
       }
     },
     "Pharmacological data is compiled from the sources above — community databases, FDA labeling, and peer-reviewed literature. Provided for reference and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44695,6 +44797,9 @@
         }
       }
     },
+    "Piru and PsychonautWiki files are plain JSON. Imports add to your journal (duplicates skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files." : {
+
+    },
     "Piru and PsychonautWiki files are plain, unencrypted JSON. An encrypted backup is protected by a passphrase you choose — **if you forget it, the file cannot be opened, not even by us.**" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -44730,6 +44835,7 @@
       }
     },
     "Piru and PsychonautWiki files are plain, unencrypted JSON. Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44825,7 +44931,18 @@
         }
       }
     },
+    "Piru doesn't model a timeline for %@ %@. The session shows when each dose was taken, not how long it lasts." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Piru doesn't model a timeline for %1$@ %2$@. The session shows when each dose was taken, not how long it lasts."
+          }
+        }
+      }
+    },
     "Piru doesn't model a timeline for some of these forms. How long they stay active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44842,6 +44959,7 @@
       }
     },
     "Piru doesn't model a timeline for the %@ form of %@. How long a form like this stays active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44856,6 +44974,9 @@
           }
         }
       }
+    },
+    "Piru doesn't model a timeline for these forms — the session shows when each dose was taken, not how long it lasts." : {
+
     },
     "Piru is built for sensitive data. Yours never leaves your device unless you choose." : {
       "localizations" : {
@@ -45480,6 +45601,7 @@
       }
     },
     "Practical tips for taking care of yourself as substances wear off. Every category is different — tap one below for specific guidance." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -51007,6 +51129,9 @@
         }
       }
     },
+    "Sealed with AES-256-GCM. Tampering is detected and refused." : {
+
+    },
     "Search" : {
       "localizations" : {
         "zh-Hans" : {
@@ -53121,6 +53246,9 @@
         }
       }
     },
+    "Severe respiratory depression and loss of consciousness." : {
+
+    },
     "Share" : {
       "localizations" : {
         "zh-Hans" : {
@@ -53485,6 +53613,9 @@
           }
         }
       }
+    },
+    "Show a Live Activity on your Lock Screen when tracking starts. You can also start one from any session." : {
+
     },
     "Show All" : {
       "localizations" : {
@@ -53943,6 +54074,7 @@
       }
     },
     "Significant respiratory depression risk and profound loss of consciousness." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -54719,6 +54851,7 @@
       }
     },
     "Some emotional sensitivity and physical fatigue is completely normal." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -55890,6 +56023,7 @@
       }
     },
     "Stay hydrated and comfortable. Avoid redosing to chase the feeling — reach out if you need support." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -55904,6 +56038,9 @@
           }
         }
       }
+    },
+    "Stay hydrated. Don't redose to chase it — it doesn't work." : {
+
     },
     "Stay seated or lying down. Your balance may not be what you think it is." : {
       "localizations" : {
@@ -58929,6 +59066,9 @@
         }
       }
     },
+    "The model's prediction of effect shape and direction — an estimate from typical pharmacology, not a dosing guide." : {
+
+    },
     "The old “never mix” warning is largely a medical myth — large reviews found no real harm. Both still strain the heart, so it isn't a green light to combine them." : {
       "localizations" : {
         "zh-Hans" : {
@@ -60030,6 +60170,7 @@
       }
     },
     "This shows what the model predicts about the shape and sign of an effect — not what you should take. It is an estimate from typical pharmacology, never a recommendation or a safe-dose guide." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -60636,6 +60777,9 @@
           }
         }
       }
+    },
+    "Tips as substances wear off — tap a category below." : {
+
     },
     "Tisnovka" : {
       "localizations" : {
@@ -64107,6 +64251,7 @@
       }
     },
     "Whatever you're experiencing right now, help is available and you don't have to face it alone." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -65979,6 +66124,7 @@
       }
     },
     "Your serotonin system is taking a hit. Please rest and take care of yourself." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -65993,6 +66139,9 @@
           }
         }
       }
+    },
+    "Your serotonin system is taking a hit. Rest." : {
+
     },
     "Your streak and this month's rate" : {
       "localizations" : {

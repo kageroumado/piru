@@ -156,7 +156,7 @@ struct NotificationSettingsView: View {
         } header: {
             Text("Live Activity")
         } footer: {
-            Text("Automatically show a Live Activity on the Lock Screen and Dynamic Island when you start tracking a substance. You can also start one manually from a day or entry's detail view.")
+            Text("Show a Live Activity on your Lock Screen when tracking starts. You can also start one from any session.")
         }
     }
 

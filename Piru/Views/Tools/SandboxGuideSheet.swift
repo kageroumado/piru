@@ -56,7 +56,7 @@ struct SandboxGuideSheet: View {
     private var readingSection: some View {
         Section {
             Text("See how doses might feel over time — compare two meds, preview a stack, or change the timing — without logging anything. This is a scratch surface; nothing here touches your journal.")
-            Text("This shows what the model predicts about the shape and sign of an effect — not what you should take. It is an estimate from typical pharmacology, never a recommendation or a safe-dose guide.")
+            Text("The model's prediction of effect shape and direction — an estimate from typical pharmacology, not a dosing guide.")
             Text("Compare the shape of a curve more than its exact height.")
             Text("Your own response shifts with tolerance, body chemistry, and the day. Talk to a prescriber about your medication.")
         } header: {

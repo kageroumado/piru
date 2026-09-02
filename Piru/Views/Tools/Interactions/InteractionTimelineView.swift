@@ -625,7 +625,7 @@ struct InteractionTimelineView: View {
     // MARK: - Disclaimer (footer text, no card)
 
     private var disclaimerFooter: some View {
-        Text("Estimate only — simplified one-compartment PK model with population-average half-lives. Real overlap depends on individual metabolism, dose, route, and tolerance. Not medical advice.")
+        Text("A one-compartment model with population-average half-lives. Real overlap depends on your metabolism, dose, route, and tolerance.")
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)

@@ -35,7 +35,7 @@ struct JournalSettingsView: View {
                     }
                     .tint(Theme.accent)
                 } footer: {
-                    Text("Combine repeat doses of the same substance into a single curve, where each redose adds to the combined intensity. When off, each dose is drawn as its own line.")
+                    Text("Merge repeat doses into one curve. When off, each dose draws its own line.")
                 }
 
                 Section {
@@ -64,7 +64,7 @@ struct JournalSettingsView: View {
                     }
                     .tint(Theme.accent)
                 } footer: {
-                    Text("Always show the taller timeline graph when viewing a session. When off, the graph starts compact and you can expand it per session from the graph menu.")
+                    Text("Always show the full-height timeline. When off, graphs start compact — expand from the graph menu.")
                 }
 
                 Section {

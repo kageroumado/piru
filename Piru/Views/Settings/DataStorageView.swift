@@ -347,7 +347,7 @@ private struct ExportImportSection: View {
         } header: {
             Text("Export & Import")
         } footer: {
-            Text("Piru and PsychonautWiki files are plain, unencrypted JSON. Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files.")
+            Text("Piru and PsychonautWiki files are plain JSON. Imports add to your journal (duplicates skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files.")
         }
         .disabled(isGenerating)
     }
@@ -514,7 +514,7 @@ private struct HowEncryptionWorksSection: View {
             HowItWorksRow(
                 icon: "lock.shield",
                 title: "Strong encryption",
-                detail: "Every backup is sealed with AES-256-GCM — the same authenticated encryption used by modern secure messengers. Tampering is detected and refused.",
+                detail: "Sealed with AES-256-GCM. Tampering is detected and refused.",
             )
             HowItWorksRow(
                 icon: "key.icloud",

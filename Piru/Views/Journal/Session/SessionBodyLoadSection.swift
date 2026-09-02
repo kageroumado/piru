@@ -410,7 +410,7 @@ struct SessionBodyLoadSection: View {
                 Text(header)
             } footer: {
                 if !model.active.isEmpty {
-                    Text("An estimate of how much of each substance is still in your body. This doesn't always correspond to how strong the effects feel, or to how long it stays detectable.")
+                    Text("How much of each substance is still in your body — what's left and what you feel don't always line up.")
                 }
             }
             // Open the first substance's curve by default, so the fold — and the

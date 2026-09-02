@@ -7,7 +7,7 @@ struct VolumetricDosingDisclaimer: View {
                 Text("Extremely Potent Substance")
                     .sectionLabel()
                     .foregroundStyle(.dangerText)
-                Text("Active in microgram (µg) quantities — 1/1000th of a milligram. Volumetric dosing is required at all times for safe and accurate measurement. Never attempt to measure doses by eye or with standard scales.")
+                Text("Active in micrograms — a thousandth of a milligram. Always measure volumetrically. You cannot dose this by eye.")
                     .captionSecondary()
             }
         } icon: {
@@ -38,7 +38,7 @@ struct THCContentNote: View {
 struct PreciseScaleNote: View {
     var body: some View {
         Label {
-            Text("Dosed in low milligrams — use a precise milligram scale (0.001 g resolution). Hard to measure accurately by eye or with kitchen scales.")
+            Text("Dosed in low milligrams — use a milligram scale (0.001 g). Can't be measured by eye or kitchen scale.")
                 .captionSecondary()
         } icon: {
             Image(systemName: "scalemass")

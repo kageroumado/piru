@@ -233,7 +233,7 @@ struct BodyLoadView: View {
     }
 
     private var disclaimer: some View {
-        Text("An estimate from a one-compartment model, not a measurement. How much is in your body doesn't always match how strong the effects feel, or how long a substance stays detectable.")
+        Text("A model estimate, not a measurement. What's in your body and what you feel don't always line up.")
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)

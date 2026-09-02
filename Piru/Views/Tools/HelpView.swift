@@ -100,7 +100,7 @@ struct HelpView: View {
                     .font(.title2.weight(.semibold))
                     .accessibilityAddTraits(.isHeader)
 
-                Text("Whatever you're experiencing right now, help is available and you don't have to face it alone.")
+                Text("Help is available. You don't have to do this alone.")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                     .multilineTextAlignment(.center)
@@ -567,7 +567,7 @@ struct HelpView: View {
         } header: {
             Text("Currently In Your System")
         } footer: {
-            Text("Estimates based on pharmacokinetic modeling. Actual levels may vary.")
+            Text("Estimates from pharmacokinetic modeling.")
         }
     }
 

@@ -587,9 +587,9 @@ T = {
         "此范围内记录的物质都没有可建模的消除曲线。",
         "此範圍內記錄的物質都沒有可建模的消除曲線。",
     ),
-    "An estimate from a one-compartment model, not a measurement. How much is in your body doesn't always match how strong the effects feel, or how long a substance stays detectable.": (
-        "这是单室模型的估算，并非实测。体内留存量与主观感受强度或可检出时长不一定一致。",
-        "這是單室模型的估算，並非實測。體內留存量與主觀感受強度或可檢出時長不一定一致。",
+    "A model estimate, not a measurement. What's in your body and what you feel don't always line up.": (
+        "模型估算，非实测。体内留存与体感并不总是一致。",
+        "模型估算，非實測。體內留存與體感並不總是一致。",
     ),
     "Nothing in your body at this time": ("此刻体内没有留存", "此刻體內沒有留存"),
     "Tolerance & Receptors": ("耐受与受体", "耐受與受體"),
@@ -1792,9 +1792,9 @@ T = {
         "在上方选择一种物质和剂量，即可查看它随时间可能带来的感受。",
         "在上方選擇一種物質和劑量，即可查看它隨時間可能帶來的感受。",
     ),
-    "This shows what the model predicts about the shape and sign of an effect — not what you should take. It is an estimate from typical pharmacology, never a recommendation or a safe-dose guide.": (
-        "这里展示的是模型对某种效果形态与正负的预测——而非你应该服用什么。它是基于典型药理学的估算，绝非建议或安全剂量指南。",
-        "這裡展示的是模型對某種效果形態與正負的預測——而非你應該服用什麼。它是基於典型藥理學的估算，絕非建議或安全劑量指南。",
+    "The model's prediction of effect shape and direction — an estimate from typical pharmacology, not a dosing guide.": (
+        "模型对效果形态与方向的预测——基于典型药理学的估算，不是给药指南。",
+        "模型對效果形態與方向的預測——基於典型藥理學的估算，不是給藥指南。",
     ),
     "Calibrated on five stimulants; other substances shape the curves through how they interact with those. Compare the shape of a curve more than its exact height.": (
         "基于五种兴奋剂校准；其他物质通过与它们的相互作用来影响曲线。比较曲线的形态，胜过比较其确切高度。",
@@ -2469,9 +2469,9 @@ T = {
     "Out of %@": ("%@已用尽", "%@已用盡"),
     "Running low on %@": ("%@所剩不多", "%@所剩不多"),
     "%@ of %@ %@ remaining": ("剩 %1$@，共 %2$@ %3$@", "剩 %1$@，共 %2$@ %3$@"),
-    "Piru and PsychonautWiki files are plain, unencrypted JSON. Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files.": (
-        "Piru 和 PsychonautWiki 文件是未加密的纯 JSON。导入的条目会添加到你的日志中（重复项会跳过）。加密备份的恢复可以合并或替换。库存包含在 Piru 和加密备份中，但不包含在 PsychonautWiki 文件中。",
-        "Piru 和 PsychonautWiki 檔案是未加密的純 JSON。匯入的條目會新增到你的日誌中（重複項會略過）。加密備份的還原可以合併或取代。庫存包含在 Piru 和加密備份中，但不包含在 PsychonautWiki 檔案中。",
+    "Piru and PsychonautWiki files are plain JSON. Imports add to your journal (duplicates skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files.": (
+        "Piru 和 PsychonautWiki 文件是纯 JSON。导入会添加到你的日志（重复项跳过）。加密备份可合并或替换。库存包含在 Piru 和加密备份中，但不含 PsychonautWiki 文件。",
+        "Piru 和 PsychonautWiki 檔案是純 JSON。匯入會新增到你的日誌（重複項略過）。加密備份可合併或取代。庫存包含在 Piru 和加密備份中，但不含 PsychonautWiki 檔案。",
     ),
     # Pharmacology card hybrid redesign (2026-06-29): nav-bar detail-level (tier) switcher + merged card.
     "Detail level": ("详细程度", "詳細程度"),
@@ -2834,9 +2834,9 @@ T = {
         "可卡因与酒精同时使用时，身体会生成可卡乙烯——一种只在两者同时存在时才形成的活性兴奋剂。它的持续时间明显长于可卡因，因此兴奋作用（及其带来的负担）会被拉长。",
         "古柯鹼與酒精同時使用時，身體會生成古柯乙烯——一種只在兩者同時存在時才形成的活性興奮劑。它的持續時間明顯長於古柯鹼，因此興奮作用（及其帶來的負擔）會被拉長。",
     ),
-    'Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated "18–25× sudden death" figure is not supported by the evidence — but the added cardiac and liver strain is real, so it\'s worth avoiding the mix.)': (
-        "相比单用可卡因，可卡乙烯会给心脏和肝脏带来额外负担，因此这种组合对身体的伤害更大。（广为流传的“猝死风险增加18–25倍”的说法并无证据支持——但对心脏和肝脏的额外负担是真实的，因此值得避免这种混用。）",
-        "相比單用古柯鹼，古柯乙烯會給心臟和肝臟帶來額外負擔，因此這種組合對身體的傷害更大。（廣為流傳的「猝死風險增加18–25倍」的說法並無證據支持——但對心臟和肝臟的額外負擔是真實的，因此值得避免這種混用。）",
+    "Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated “18–25× sudden death” figure is not supported by the evidence — but the added cardiac and liver strain is real.)": (
+        "相比单用可卡因，可卡乙烯会给心脏和肝脏带来额外负担，因此这种组合对身体的伤害更大。（广为流传的“猝死风险增加18–25倍”的说法并无证据支持——但对心脏和肝脏的额外负担是真实的。）",
+        "相比單用古柯鹼，古柯乙烯會給心臟和肝臟帶來額外負擔，因此這種組合對身體的傷害更大。（廣為流傳的「猝死風險增加18–25倍」的說法並無證據支持——但對心臟和肝臟的額外負擔是真實的。）",
     ),
     # Pharmacology axis Stage 4c — metabolic modulation (2026-06-21)
     "%@ may raise %@ levels (%@).": (
@@ -3013,9 +3013,9 @@ T = {
         "MDA 本身就是一种活性药物——比 MDMA 更像安非他明、致幻性更强，也更持久——因此后段时间的体验在性质上会与峰值不同。",
         "MDA 本身就是一種活性藥物——比 MDMA 更像安非他命、致幻性更強，也更持久——因此後段時間的體驗在性質上會與峰值不同。",
     ),
-    "Model estimates (one-compartment oral PK; alcohol zero-order) from population half-lives and your logged doses — individual clearance varies. Subjective intensity is relative to each dose's own peak. Not medical advice.": (
-        "模型估算（单室口服 PK；酒精按零级动力学）基于群体半衰期与你记录的剂量 — 个体清除速度存在差异。主观强度相对于每次剂量自身的峰值。不构成医疗建议。",
-        "模型估算（單室口服 PK；酒精按零級動力學）基於群體半衰期與你記錄的劑量 — 個體清除速度存在差異。主觀強度相對於每次劑量自身的峰值。不構成醫療建議。",
+    "Model estimates from population half-lives and your logged doses — individual clearance varies. Intensity is relative to each dose's own peak. Not medical advice.": (
+        "基于群体半衰期与你记录的剂量的模型估算——个体清除速度各异。强度相对于每次剂量自身的峰值。不构成医疗建议。",
+        "基於群體半衰期與你記錄的劑量的模型估算——個體清除速度各異。強度相對於每次劑量自身的峰值。不構成醫療建議。",
     ),
     "This is the mirror image of codeine: same CYP2D6 activation step, opposite danger. Two cautions. (1) Repeated dosing raises tramadol's own absorption (first-pass saturates, F climbs ~75%→90–100%), so steady-state levels run higher than a single dose predicts. (2) The opioid limb is carried almost entirely by the metabolite M1/O-DSMT (a potent 3.4 nM µ-agonist), so strong CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine) mute the painkilling effect while leaving — or raising — the serotonergic and seizure risk of the parent. “Cleaner” is not “safer.” Described in words.": (
         "这是可待因的镜像：同样的 CYP2D6 活化步骤，危险却相反。两点提醒。(1) 反复给药会提高曲马多自身的吸收（首过代谢饱和，生物利用度由约 75% 升至 90–100%），因此稳态血药浓度高于单次剂量的预测值。(2) 阿片效应几乎完全由代谢物 M1／O-DSMT（一种强效的 3.4 nM µ 受体激动剂）承载，因此强效 CYP2D6 抑制剂（帕罗西汀、氟西汀、安非他酮、奎尼丁）会削弱镇痛作用，同时保留——甚至升高——原药的 5-羟色胺能及致癫痫风险。“更干净”并不等于“更安全”。此处为文字描述。",
@@ -4110,9 +4110,9 @@ T = {
         "在此时刻之前记录的剂量将归入前一天——因此凌晨 2 点的剂量会留在前一晚，而不是在午夜开启新的一天。设为午夜 12 点即按标准日历日分组。",
         "在此時刻之前記錄的劑量將歸入前一天——因此凌晨 2 點的劑量會留在前一晚，而不是在午夜開啟新的一天。設為午夜 12 點即按標準日曆日分組。",
     ),
-    "Pharmacological data is compiled from the sources above — community databases, FDA labeling, and peer-reviewed literature. Provided for reference and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use.": (
-        "药理数据汇编自上述来源——社区数据库、FDA 药品标签以及同行评审文献。仅供参考与教育用途。在做出任何有关物质使用的决定前，请务必咨询合格的医疗专业人员。",
-        "藥理資料彙編自上述來源——社群資料庫、FDA 藥品標籤以及同行評審文獻。僅供參考與教育用途。在做出任何有關物質使用的決定前，請務必諮詢合格的醫療專業人員。",
+    "Data from peer-reviewed literature, FDA labels, and community databases. Not medical advice — talk to a doctor before making decisions about substance use.": (
+        "数据来源于同行评审文献、FDA 标签与社区数据库。不构成医疗建议——在做出有关物质使用的决定前，请咨询医生。",
+        "資料來源於同行評審文獻、FDA 標籤與社群資料庫。不構成醫療建議——在做出有關物質使用的決定前，請諮詢醫師。",
     ),
     "Colors appear here after you log your first entry. Tap one to change it.": (
         "记录第一条条目后，配色会显示在这里。点按即可更改。",
@@ -4343,9 +4343,9 @@ T = {
     "Remove from Quick Log": ("从快速记录中移除", "從快速記錄中移除"),
     "Keep Quick-Log Order": ("保持快速记录顺序", "保持快速記錄順序"),
     "Expand Session Graph": ("展开记录图表", "展開記錄圖表"),
-    "Always show the taller timeline graph when viewing a session. When off, the graph starts compact and you can expand it per session from the graph menu.": (
-        "查看记录时始终显示更高的时间线图表。关闭后，图表以紧凑模式开始，你可以在每条记录中通过图表菜单单独展开。",
-        "檢視記錄時始終顯示更高的時間軸圖表。關閉後，圖表以精簡模式開始，你可以在每條記錄中透過圖表選單單獨展開。",
+    "Always show the full-height timeline. When off, graphs start compact — expand from the graph menu.": (
+        "始终显示全高时间线。关闭后图表以紧凑模式显示——从图表菜单展开。",
+        "始終顯示全高時間軸。關閉後圖表以精簡模式顯示——從圖表選單展開。",
     ),
     "icon to log several at once, or long press a dose to remove or reorder it": (
         "图标可一次记录多个，或长按某个剂量以移除或重新排序",
@@ -4901,9 +4901,9 @@ T = {
         "您正在回到基线状态。休息、吃些清淡的东西。给自己时间来消化这次体验。",
         "您正在回到基線狀態。休息、吃些清淡的東西。給自己時間來消化這次體驗。",
     ),
-    "Stay hydrated and comfortable. Avoid redosing to chase the feeling — reach out if you need support.": (
-        "保持水分,让自己舒适。避免再次服用以追求感觉 — 如有需要请寻求支持。",
-        "保持水分,讓自己舒適。避免再次服用以追求感覺 — 如有需要請尋求支持。",
+    "Stay hydrated. Don't redose to chase it — it doesn't work.": (
+        "保持水分。不要追加以追求感觉——没用的。",
+        "保持水分。不要追加以追求感覺——沒用的。",
     ),
     "Stay somewhere comfortable and safe. Eat and hydrate when you can. Avoid driving.": (
         "留在舒适且安全的地方。能吃喝时就补充水分和食物。避免驾驶。",
@@ -4930,9 +4930,9 @@ T = {
         "记得补水、吃饭并尝试入睡。您的心脏一直在努力工作。",
         "記得補水、吃飯並嘗試入睡。您的心臟一直在努力工作。",
     ),
-    "Your serotonin system is taking a hit. Please rest and take care of yourself.": (
-        "您的血清素系统正承受压力。请休息并照顾好自己。",
-        "您的血清素系統正承受壓力。請休息並照顧好自己。",
+    "Your serotonin system is taking a hit. Rest.": (
+        "你的血清素系统正承受压力。休息。",
+        "你的血清素系統正承受壓力。休息。",
     ),
     "Be very careful. Don't mix with other downers. Have naloxone nearby if possible.": (
         "务必小心。不要与其他抑制剂混用。如果可能,请准备纳洛酮。",
@@ -4972,9 +4972,9 @@ T = {
         "在此時間點,這些物質未同時高於閾值活躍。",
     ),
     "From %@ to %@ (%@ overlap)": ("从 %@ 到 %@(重叠 %@)", "從 %@ 到 %@(重疊 %@)"),
-    "This timeline uses a simplified one-compartment PK model with population-average half-lives. Real overlap depends on individual metabolism, dose, route, tolerance, and many other factors. This is not medical advice.": (
-        "此时间轴使用简化的一房室药代动力学模型与群体平均半衰期。实际重叠取决于个人代谢、剂量、途径、耐受性等多种因素。这不构成医疗建议。",
-        "此時間軸使用簡化的一房室藥動學模型與族群平均半衰期。實際重疊取決於個人代謝、劑量、途徑、耐受性等多種因素。這不構成醫療建議。",
+    "A one-compartment model with population-average half-lives. Real overlap depends on your metabolism, dose, route, and tolerance.": (
+        "单室模型，使用群体平均半衰期。实际重叠取决于你的代谢、剂量、途径和耐受性。",
+        "單室模型，使用群體平均半衰期。實際重疊取決於你的代謝、劑量、途徑和耐受性。",
     ),
     # MoA / Pharmacology
     "Mechanism of Action": ("作用机制", "作用機制"),
@@ -5036,9 +5036,9 @@ T = {
     "Peak %@": ("巅峰 %@", "巔峰 %@"),
     "Conc": ("浓度", "濃度"),
     "Estimate Only": ("仅供参考", "僅供參考"),
-    "Estimates based on pharmacokinetic modeling. Actual levels may vary.": (
-        "基于药代动力学建模的估算。实际水平可能有所不同。",
-        "基於藥動學建模的估算。實際水平可能有所不同。",
+    "Estimates from pharmacokinetic modeling.": (
+        "基于药代动力学建模的估算。",
+        "基於藥動學建模的估算。",
     ),
     "Pinch to zoom in or out": ("捏合以放大或缩小", "捏合以放大或縮小"),
     "Open in Calculator": ("在计算器中打开", "在計算器中打開"),
@@ -5317,9 +5317,9 @@ T = {
     # Volumetric dosing
     "Volumetric Dosing": ("容积式给药", "容積式給藥"),
     "Extremely Potent Substance": ("极强效物质", "極強效物質"),
-    "Active in microgram (µg) quantities — 1/1000th of a milligram. Volumetric dosing is required at all times for safe and accurate measurement. Never attempt to measure doses by eye or with standard scales.": (
-        "微克(µg)量级即有效 — 即一毫克的千分之一。任何时候都必须使用容积式给药以确保安全准确的测量。绝不要靠目测或用普通秤来称量剂量。",
-        "微克(µg)量級即有效 — 即一毫克的千分之一。任何時候都必須使用容積式給藥以確保安全準確的測量。絕不要靠目測或用普通秤來秤量劑量。",
+    "Active in micrograms — a thousandth of a milligram. Always measure volumetrically. You cannot dose this by eye.": (
+        "微克量级即有效——一毫克的千分之一。必须容积法测量。无法靠目测给药。",
+        "微克量級即有效——一毫克的千分之一。必須容積法測量。無法靠目測給藥。",
     ),
     "Calculate measurements for dissolving substances in liquid solvents.": (
         "计算物质溶于液体溶剂的测量值。",
@@ -5353,9 +5353,9 @@ T = {
         "您并不孤单。有人关心您,也有可用的帮助。",
         "您並不孤單。有人關心您,也有可用的幫助。",
     ),
-    "Whatever you're experiencing right now, help is available and you don't have to face it alone.": (
-        "无论您此刻经历什么,都有可寻求的帮助,您不必独自面对。",
-        "無論您此刻經歷什麼,都有可尋求的幫助,您不必獨自面對。",
+    "Help is available. You don't have to do this alone.": (
+        "帮助就在身边。你不必独自面对。",
+        "幫助就在身邊。你不必獨自面對。",
     ),
     "You're going to be okay": ("一切都会好的", "一切都會好的"),
     "You're going to be okay. This feeling is temporary.": (
@@ -5570,9 +5570,9 @@ T = {
         "有呼吸抑制、误吸和意识丧失的风险。",
         "有呼吸抑制、誤吸和意識喪失的風險。",
     ),
-    "Significant respiratory depression risk and profound loss of consciousness.": (
-        "显著的呼吸抑制风险和深度意识丧失。",
-        "顯著的呼吸抑制風險和深度意識喪失。",
+    "Severe respiratory depression and loss of consciousness.": (
+        "严重呼吸抑制和意识丧失。",
+        "嚴重呼吸抑制和意識喪失。",
     ),
     "Stacking benzodiazepines dramatically increases sedation and respiratory depression risk.": (
         "叠加苯二氮䓬类会显著增加镇静和呼吸抑制的风险。",
@@ -5646,9 +5646,9 @@ T = {
         "镇静与呼吸抑制相加。",
         "鎮靜與呼吸抑制相加。",
     ),
-    "Heavy additive sedation — profound drowsiness and impaired breathing.": (
-        "镇静作用强烈相加——严重嗜睡与呼吸受损。",
-        "鎮靜作用強烈相加——嚴重嗜睡與呼吸受損。",
+    "Heavy additive sedation — deep drowsiness and impaired breathing.": (
+        "镇静作用强烈相加——深度嗜睡与呼吸受损。",
+        "鎮靜作用強烈相加——深度嗜睡與呼吸受損。",
     ),
     "Additive CNS and respiratory depression, with a raised risk of vomiting while unresponsive.": (
         "中枢与呼吸抑制相加，并且在失去反应时呕吐的风险升高。",
@@ -5686,9 +5686,9 @@ T = {
         "某些组合会增加血清素或癫痫的风险 — 注意监测症状。",
         "某些組合會增加血清素或癲癇的風險 — 注意監測症狀。",
     ),
-    "Cardiovascular strain and potential serotonin interaction — monitor heart rate and blood pressure.": (
-        "心血管压力和潜在的血清素相互作用 — 监测心率和血压。",
-        "心血管壓力和潛在的血清素相互作用 — 監測心率和血壓。",
+    "Cardiovascular strain and serotonin risk — watch your heart rate and blood pressure.": (
+        "心血管负荷与血清素风险——注意你的心率和血压。",
+        "心血管負荷與血清素風險——注意你的心率和血壓。",
     ),
     "Combined QTc prolongation risk — monitor cardiac rhythm.": (
         "联合 QTc 延长的风险 — 监测心律。",
@@ -5892,9 +5892,9 @@ T = {
         "这是暂时的。接下来几天您的大脑会补充。",
         "這是暫時的。接下來幾天您的大腦會補充。",
     ),
-    "Some emotional sensitivity and physical fatigue is completely normal.": (
-        "一些情绪敏感和身体疲劳完全正常。",
-        "一些情緒敏感和身體疲勞完全正常。",
+    "Emotional sensitivity and fatigue are part of it.": (
+        "情绪敏感和疲劳都是过程的一部分。",
+        "情緒敏感和疲勞都是過程的一部分。",
     ),
     "Stay warm — your body's temperature regulation is still off.": (
         "保暖 — 您的体温调节仍未恢复。",
@@ -5920,9 +5920,9 @@ T = {
         "接下来 1 至 3 天对自己耐心点。情绪低落是血清素下降。",
         "接下來 1 至 3 天對自己耐心點。情緒低落是血清素下降。",
     ),
-    "Gentle walks in nature can genuinely help when you're ready.": (
-        "准备好时,在大自然中轻轻散步真的有帮助。",
-        "準備好時,在大自然中輕輕散步真的有幫助。",
+    "A walk outside helps when you're ready.": (
+        "准备好了就出去走走。",
+        "準備好了就出去走走。",
     ),
     "Talk to someone you trust — connection helps more than isolation.": (
         "和您信任的人聊聊 — 联结比孤立更有帮助。",
@@ -5985,9 +5985,9 @@ T = {
         "大自然、艺术或宁静的音乐能温柔地帮助您消化。",
         "大自然、藝術或寧靜的音樂能溫柔地幫助您消化。",
     ),
-    "Be easy with yourself — profound experiences need time to settle.": (
-        "善待自己 — 深刻的体验需要时间沉淀。",
-        "善待自己 — 深刻的體驗需要時間沉澱。",
+    "Be easy with yourself — big experiences need time to settle.": (
+        "善待自己——大的体验需要时间沉淀。",
+        "善待自己——大的體驗需要時間沉澱。",
     ),
     "Don't make big life decisions based on acute revelations — wait a week.": (
         "不要根据急性顿悟做出重大人生决定 — 等一周再说。",
@@ -6333,15 +6333,15 @@ T = {
         "每隔几小时摄入清淡食物和水分。",
         "每隔幾小時攝入清淡食物和水分。",
     ),
-    "Give yourself time. Most effects are temporary.": (
-        "给自己时间。大部分影响都是暂时的。",
-        "給自己時間。大部分影響都是暫時的。",
+    "Give yourself time.": (
+        "给自己时间。",
+        "給自己時間。",
     ),
-    "Don't redose without careful consideration.": (
-        "未经仔细考虑前不要再次服用。",
-        "未經仔細考慮前不要再次服用。",
+    "Don't redose — tolerance builds fast within a session.": (
+        "不要追加——耐受在一次使用中上升很快。",
+        "不要追加——耐受在一次使用中上升很快。",
     ),
-    "Avoid mixing substances.": ("避免混用物质。", "避免混用物質。"),
+    "Mixing adds risk.": ("混用增加风险。", "混用增加風險。"),
     "Don't drive or make important decisions until you feel baseline.": (
         "感觉回到基线前不要驾驶或做重要决定。",
         "感覺回到基線前不要駕駛或做重要決定。",
@@ -6366,9 +6366,9 @@ T = {
         "正在显示您体内物质的指导。点击上方查看完整指南。",
         "正在顯示您體內物質的指導。點擊上方查看完整指南。",
     ),
-    "Practical tips for taking care of yourself as substances wear off. Every category is different — tap one below for specific guidance.": (
-        "物质消退时照顾自己的实用建议。每个类别都不同 — 点击下方任意一项查看具体指导。",
-        "物質消退時照顧自己的實用建議。每個類別都不同 — 點擊下方任意一項查看具體指導。",
+    "Tips as substances wear off — tap a category below.": (
+        "物质消退时的建议——点击下方类别查看。",
+        "物質消退時的建議——點擊下方類別查看。",
     ),
     # Reports
     "Generate Medical Report": ("生成医疗报告", "產生醫療報告"),
@@ -6392,17 +6392,17 @@ T = {
         "此應用中的藥理資料彙編自上述來源。劑量範圍、半衰期、持續時間、作用機制及相互作用資料來源於同行評審文獻、FDA 批准的標籤和成熟的藥理學資料庫。作用機制描述僅基於人類藥理學研究。此資訊僅用於減害和教育目的。在做出任何關於物質使用的決定前,請始終諮詢合格的醫療專業人員。",
     ),
     # Onboarding-style sub-text in Settings
-    "Show a Live Activity on the Lock Screen and Dynamic Island when tracking active substances.": (
-        "追踪活跃物质时在锁定屏幕和灵动岛上显示实时活动。",
-        "追蹤活躍物質時在鎖定畫面和動態島上顯示即時動態。",
+    "Show a Live Activity on your Lock Screen when tracking starts. You can also start one from any session.": (
+        "开始追踪时在锁定屏幕上显示实时活动。也可以从任何记录中启动。",
+        "開始追蹤時在鎖定畫面上顯示即時動態。也可以從任何記錄中啟動。",
     ),
     "Wellness reminders send hydration and sleep nudges automatically. Phase notifications alert you at onset, come-up, and peak — requires a substance with duration data.": (
         "健康提醒会自动发送补水和睡眠提示。阶段通知会在起效、上升期和巅峰时提醒您 — 需要物质具备时长数据。",
         "健康提醒會自動發送補水和睡眠提示。階段通知會在起效、上升期和巔峰時提醒您 — 需要物質具備時長資料。",
     ),
-    "Combine repeat doses of the same substance into a single curve, where each redose adds to the combined intensity. When off, each dose is drawn as its own line.": (
-        "将同一物质的重复剂量合并为单条曲线,每次重复剂量都会加到综合强度中。关闭时,每个剂量都会作为独立线条绘制。",
-        "將同一物質的重複劑量合併為單條曲線,每次重複劑量都會加到綜合強度中。關閉時,每個劑量都會作為獨立線條繪製。",
+    "Merge repeat doses into one curve. When off, each dose draws its own line.": (
+        "将重复剂量合并为一条曲线。关闭时，每个剂量各画一条线。",
+        "將重複劑量合併為一條曲線。關閉時，每個劑量各畫一條線。",
     ),
     "Doses logged before this hour are grouped with the previous day's session — so a 02:00 dose joins the night before instead of starting a new day at midnight. Set to 12 AM for classic calendar-day grouping.": (
         "在此小时之前记录的剂量会与前一天的会话分到一组 — 例如 02:00 的剂量会归入前一晚,而不是从午夜开始新的一天。设为凌晨 12 点即为传统日历日分组。",
@@ -6992,9 +6992,9 @@ T = {
         "基于群体半衰期的估算——个体清除速率各异。",
         "基於群體半衰期的估算——個體清除速率各異。",
     ),
-    "An estimate of how much of each substance is still in your body. This doesn't always correspond to how strong the effects feel, or to how long it stays detectable.": (
-        "每种物质在你体内残留量的估算。这并不总是与效果的强弱，或可被检测到的时长直接相关。",
-        "每種物質在你體內殘留量的估算。這並不總是與效果的強弱，或可被檢測到的時長直接相關。",
+    "How much of each substance is still in your body — what's left and what you feel don't always line up.": (
+        "每种物质在你体内的残留量——剩余量与体感并不总是一致。",
+        "每種物質在你體內的殘留量——剩餘量與體感並不總是一致。",
     ),
     "soon": ("很快", "很快"),
     "All recovery tips": ("全部恢复提示", "全部恢復提示"),
@@ -7153,13 +7153,13 @@ T = {
     # Unmodeled release-form explainer on session detail — why a Concerta draws a
     # dot, not a curve (D.4.4, 2026-07-16). Named form reorders in zh, so the two
     # drop-ins are positional (%1$@ = product, %2$@ = base substance).
-    "Piru doesn't model a timeline for the %@ form of %@. How long a form like this stays active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts.": (
-        "Piru 无法为 %2$@ 的 %1$@ 剂型绘制时间线。这类剂型的作用会持续多久并不在 Piru 的估算范围内，因此本次记录只显示每次用药的时间，而非其持续时长。",
-        "Piru 無法為 %2$@ 的 %1$@ 劑型繪製時間線。這類劑型的作用會持續多久並不在 Piru 的估算範圍內，因此本次記錄只顯示每次用藥的時間，而非其持續時長。",
+    "Piru doesn't model a timeline for %@ %@. The session shows when each dose was taken, not how long it lasts.": (
+        "Piru 无法为 %2$@ 的 %1$@ 绘制时间线。本次记录只显示每次用药的时间，而非其持续时长。",
+        "Piru 無法為 %2$@ 的 %1$@ 繪製時間線。本次記錄只顯示每次用藥的時間，而非其持續時長。",
     ),
-    "Piru doesn't model a timeline for some of these forms. How long they stay active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts.": (
-        "Piru 无法为其中部分剂型绘制时间线。它们的作用会持续多久并不在 Piru 的估算范围内，因此本次记录只显示每次用药的时间，而非其持续时长。",
-        "Piru 無法為其中部分劑型繪製時間線。它們的作用會持續多久並不在 Piru 的估算範圍內，因此本次記錄只顯示每次用藥的時間，而非其持續時長。",
+    "Piru doesn't model a timeline for these forms — the session shows when each dose was taken, not how long it lasts.": (
+        "Piru 无法为这些剂型绘制时间线——本次记录只显示每次用药的时间，而非其持续时长。",
+        "Piru 無法為這些劑型繪製時間線——本次記錄只顯示每次用藥的時間，而非其持續時長。",
     ),
     # Meds & reminders redesign — hub, form, detail, card (2026-07-21).
     "My Meds": ("我的用药", "我的用藥"),
@@ -7818,7 +7818,7 @@ if __name__ == "__main__":
         "Select Month",
         "Opens month picker",
         "Set up your daily medications and supplements",
-        "Pharmacological data is compiled from the sources above — community databases, FDA labeling, and peer-reviewed literature. Provided for reference and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use.",
+        "Data from peer-reviewed literature, FDA labels, and community databases. Not medical advice — talk to a doctor before making decisions about substance use.",
         "Includes %lld min of workout — the dose rows leave it out",
         "Connect once to pull your body weight, heart rate, and blood pressure from Health — all read-only, on your device. Workouts come too, only so a run isn't read as a dose's effect.",
         "Heart rate %lld falling to %lld beats per minute",
@@ -7914,7 +7914,7 @@ if __name__ == "__main__":
         "Log some doses to see what's been in your body over time.",
         "Nothing to Model",
         "None of your logged substances in this range have a modeled elimination curve.",
-        "An estimate from a one-compartment model, not a measurement. How much is in your body doesn't always match how strong the effects feel, or how long a substance stays detectable.",
+        "A model estimate, not a measurement. What's in your body and what you feel don't always line up.",
         "Nothing in your body at this time",
         "Tolerance & Receptors",
         "Your streak and this month's rate",

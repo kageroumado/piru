@@ -25,7 +25,7 @@ struct SubstanceDatabaseView: View {
                 Section {
                     EmptyView()
                 } footer: {
-                    Text("Pharmacological data is compiled from the sources above — community databases, FDA labeling, and peer-reviewed literature. Provided for reference and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use.")
+                    Text("Data from peer-reviewed literature, FDA labels, and community databases. Not medical advice — talk to a doctor before making decisions about substance use.")
                 }
             }
             .listRowBackground(CardBackground())

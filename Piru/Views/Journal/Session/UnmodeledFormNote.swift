@@ -34,9 +34,9 @@ struct UnmodeledFormNote: View {
     private var message: LocalizedStringKey {
         switch content {
         case let .named(product, base):
-            "Piru doesn't model a timeline for the \(product) form of \(base). How long a form like this stays active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts."
+            "Piru doesn't model a timeline for \(product) \(base). The session shows when each dose was taken, not how long it lasts."
         case .generic:
-            "Piru doesn't model a timeline for some of these forms. How long they stay active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts."
+            "Piru doesn't model a timeline for these forms — the session shows when each dose was taken, not how long it lasts."
         }
     }
 }
