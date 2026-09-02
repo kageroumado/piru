@@ -11,12 +11,8 @@ struct MetabolicModulationBanner: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
-            HStack(spacing: Spacing.sm) {
-                Text(headline)
-                    .sectionLabel()
-                Spacer(minLength: 8)
-                ConfidenceBadge(tier: effect.confidence)
-            }
+            Text(headline)
+                .sectionLabel()
             Text(LocalizedStringKey(effect.userNote))
                 .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
