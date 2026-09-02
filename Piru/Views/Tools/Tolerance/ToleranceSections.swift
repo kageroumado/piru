@@ -1,32 +1,6 @@
 import SwiftUI
 
-/// The "Predicted" provenance banner at the top of the tool.
-struct ToleranceBanner: View {
-    let isWeightEstimated: Bool
-
-    /// Model + body-weight provenance folded into one sentence (the weight clause only when it's the
-    /// population default, so a user who set their own weight doesn't see the nudge).
-    private var subtitle: LocalizedStringResource {
-        isWeightEstimated
-            ? "Model estimates from your dose log, assuming a \(Int(UserProfileStore.defaultWeightKg)) kg body weight — set yours in Settings."
-            : "Model estimates from your dose log and your body weight."
-    }
-
-    var body: some View {
-        Section {
-            VStack(alignment: .leading, spacing: Spacing.sm) {
-                Label("Predicted", systemImage: "exclamationmark.triangle.fill")
-                    .sectionLabel()
-                    .foregroundStyle(.cautionText)
-                Text(subtitle)
-                    .captionSecondary()
-            }
-            .padding(.vertical, Spacing.xs)
-        }
-    }
-}
-
-/// The "How tolerance works" navigation row.
+/// The "How tolerance works" navigation row, the last row of the tool.
 struct ToleranceHowItWorksCard: View {
     var body: some View {
         Section {

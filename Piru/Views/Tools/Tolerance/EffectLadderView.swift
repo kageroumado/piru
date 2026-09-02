@@ -1,28 +1,28 @@
 import SwiftUI
 
 /// The **effect ladder** — the differential-tolerance replacement for the single gauge on an
-/// effect-selective class (GABA, α2δ). One row per effect on a shared "% of naïve effect left at your
-/// usual dose" axis, sorted most-faded first and grouped Faded / Unchanged. The gap between the top and
-/// bottom rows *is* the finding: the dose that no longer sedates impairs you exactly as much as day one.
+/// effect-selective class (GABA, α2δ). One row per effect, each a bar of how much tolerance that effect
+/// has built at your usual dose, sorted most-toleranced first and grouped Faded / Unchanged. The gap
+/// between the top and bottom rows *is* the finding: the dose that no longer sedates impairs you exactly
+/// as much as day one.
 ///
 /// Design constraints (from `Specs/prototypes/benzo-tolerance/index.html`): one axis with one meaning, so
-/// rows are comparable; color encodes the effect's *kind* (felt vs impairment), never its rank, so
-/// re-sorting never repaints a row; grouped by outcome, not valence (Piru doesn't know whether a faded
-/// effect is a loss or a relief); and a per-row evidence tier, because "no tolerance detected" and "not
-/// measured" must not look alike.
+/// rows are comparable — and the same meaning as every other tolerance bar in the app, an empty track is
+/// no tolerance; color encodes the effect's *kind* (felt vs impairment), never its rank, so re-sorting
+/// never repaints a row; grouped by outcome, not valence (Piru doesn't know whether a faded effect is a
+/// loss or a relief).
 struct EffectLadderView: View {
     let snapshot: ClassTolerance
-    let tier: UserProfile
 
     private var rows: [EffectLadderRow] {
         let params = ReceptorClasses.parameters(for: snapshot.receptorClass)
         var out: [EffectLadderRow] = []
         if let primary = params.primaryEffectAxis, let fraction = snapshot.responseFraction(forEffect: primary) {
-            out.append(EffectLadderRow(axis: primary, responseFraction: fraction, evidenceTier: params.confidence))
+            out.append(EffectLadderRow(axis: primary, responseFraction: fraction))
         }
         for endpoint in params.effectEndpoints {
             if let fraction = snapshot.responseFraction(forEffect: endpoint.axis) {
-                out.append(EffectLadderRow(axis: endpoint.axis, responseFraction: fraction, evidenceTier: endpoint.evidenceTier))
+                out.append(EffectLadderRow(axis: endpoint.axis, responseFraction: fraction))
             }
         }
         return out.sorted { $0.responseFraction < $1.responseFraction }
@@ -49,23 +49,26 @@ struct EffectLadderView: View {
                 .textCase(.uppercase)
                 .foregroundStyle(.tertiary)
             ForEach(rows) { row in
-                EffectLadderRowView(row: row, showsDetail: tier != .casual)
+                EffectLadderRowView(row: row)
             }
         }
     }
 }
 
-/// One ladder row: an effect, how much of it is left at the usual dose, and the confidence in that.
+/// One ladder row: an effect and how much of it is left at the usual dose.
 private struct EffectLadderRow: Identifiable {
     let axis: ReceptorClasses.EffectAxis
     let responseFraction: Double
-    let evidenceTier: ConfidenceTier
     var id: ReceptorClasses.EffectAxis {
         axis
     }
     /// Below 80% left counts as faded — the grouping threshold.
     var faded: Bool {
         responseFraction < 0.8
+    }
+    /// The bar's fill: how much tolerance the effect has built, so an unchanged effect is an empty track.
+    var toleranceFraction: Double {
+        max(0, min(1, 1 - responseFraction))
     }
     /// Blue for effects you notice, amber for impairments that don't announce themselves.
     var color: Color {
@@ -75,34 +78,12 @@ private struct EffectLadderRow: Identifiable {
 
 private struct EffectLadderRowView: View {
     let row: EffectLadderRow
-    let showsDetail: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(row.axis.displayName)
-                    .font(.subheadline)
-                Spacer(minLength: 8)
-                Text("\(Int((row.responseFraction * 100).rounded()))% left")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(row.color)
-                    .monospacedDigit()
-            }
+            Text(row.axis.displayName)
+                .font(.subheadline)
             track
-            if showsDetail {
-                HStack(spacing: Spacing.md) {
-                    Text(tierLabel)
-                        .font(.chartLabel)
-                        .textCase(.uppercase)
-                        .padding(.horizontal, 5)
-                        .padding(.vertical, 1)
-                        .background(Color.secondary.opacity(Theme.Opacity.tint), in: RoundedRectangle(cornerRadius: 4))
-                        .foregroundStyle(Theme.secondaryLabel)
-                    Text(row.axis.courseNote)
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-            }
         }
     }
 
@@ -111,22 +92,13 @@ private struct EffectLadderRowView: View {
             ZStack(alignment: .leading) {
                 Capsule().fill(Color.secondary.opacity(Theme.Opacity.tintActive))
                 Capsule()
-                    .fill(row.color)
-                    .frame(width: max(2, geo.size.width * row.responseFraction))
+                    .fill(row.color.opacity(Theme.Opacity.dimmed))
+                    .frame(width: geo.size.width * row.toleranceFraction)
             }
         }
         .frame(height: 9)
         .accessibilityElement()
         .accessibilityLabel(row.axis.displayName)
-        .accessibilityValue(Text("\(Int((row.responseFraction * 100).rounded())) percent left"))
-    }
-
-    private var tierLabel: LocalizedStringResource {
-        switch row.evidenceTier {
-        case .high: "strong evidence"
-        case .medium: "moderate evidence"
-        case .low: "low evidence"
-        case .unverified: "not measured"
-        }
+        .accessibilityValue(Text("\(Int((row.toleranceFraction * 100).rounded())) percent tolerance"))
     }
 }

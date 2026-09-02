@@ -16,12 +16,13 @@ import Foundation
 /// literature agrees on (clustered dosing right-shifts the curve, spacing relaxes it; the acute layer
 /// moves within a session while the adaptive layer is the days–weeks baseline shift; the deep layer
 /// stays off for therapeutic users), not a false-precision percentage. These are the **Stage B
-/// literature-anchored** values (`Specs/tolerance-faithful-model.md` §3): each class's `sourceNote`
-/// records the controlled-evidence anchor (e.g. the opioid recovery t½ ≈ 14 d, PMC1666403; the
-/// stimulant vesicular-reserve tachyphylaxis, de Wit 1996) and its grade. The deep layer is gated on a
-/// **product of magnitude × chronicity** (§2): the dose-relative escalation factor (`dose ÷ the
-/// substance's heavy ceiling`) *and* a leaky duty-cycle accumulator, so a heavy binge (not sustained)
-/// and a therapeutic daily dose (not heavy) both stay dark — only sustained heavy use entrenches.
+/// literature-anchored** values (`Specs/tolerance-faithful-model.md` §3): the comment above each
+/// class's `Parameters` records the controlled-evidence anchor (e.g. the opioid recovery t½ ≈ 14 d,
+/// PMC1666403; the stimulant vesicular-reserve tachyphylaxis, de Wit 1996) and its grade. The deep
+/// layer is gated on a **product of magnitude × chronicity** (§2): the dose-relative escalation
+/// factor (`dose ÷ the substance's heavy ceiling`) *and* a leaky duty-cycle accumulator, so a heavy
+/// binge (not sustained) and a therapeutic daily dose (not heavy) both stay dark — only sustained
+/// heavy use entrenches.
 nonisolated enum ReceptorClasses {
     // MARK: - Time-constant vocabulary (minutes)
 
@@ -297,34 +298,17 @@ nonisolated enum ReceptorClasses {
             case .hypnotic: "Sleep"
             }
         }
-
-        /// One-line course of this effect's tolerance — the row's caption in the ladder. Directions from
-        /// VINK12; "no tolerance detected" (measured, flat) reads differently from "not measured".
-        var courseNote: LocalizedStringResource {
-            switch self {
-            case .sedation: "Fades near-completely in ~2 weeks"
-            case .hypnotic: "The sleep effect tolerizes"
-            case .anxiolysis: "No decline detected"
-            case .anticonvulsant: "Fades slowly and partially, over months"
-            case .myorelaxation: "Develops; rate not quantified"
-            case .memory: "No tolerance detected"
-            case .coordination: "No tolerance detected"
-            }
-        }
     }
 
     /// One effect's tolerance kinetics — an adaptive-only ln-shift endpoint driven by the same occupancy
     /// as the primary layer (no deep layer, no escalation gate), on the effect's own time-constant.
     /// `adaptiveShiftMax == 0` ⇒ the effect does not tolerize (its shift factor stays ≡ 1). The kinetics
-    /// are literature *directions*, graded by ``evidenceTier`` — a large gap at low confidence, never a
-    /// fitted "recovers in X". Sedation is not an endpoint: it is the class's primary layer.
+    /// are literature *directions* — a large gap at low confidence, never a fitted "recovers in X".
+    /// Sedation is not an endpoint: it is the class's primary layer.
     struct EffectEndpoint {
         let axis: EffectAxis
         let adaptiveShiftMax: Double
         let tauAdaptiveMinutes: Double
-        /// Confidence in *this effect's* tolerance direction — distinguishes "no tolerance detected"
-        /// (measured, flat) from "not measured".
-        let evidenceTier: ConfidenceTier
     }
 
     // MARK: - Per-class parameters
@@ -377,8 +361,6 @@ nonisolated enum ReceptorClasses {
         /// goes uncomputed, which is correct when no sourced value exists). Updated to the
         /// representative's own DB value rather than hand-copied literals that could drift.
         let classDefaultVdLPerKg: Double?
-        /// Human-readable provenance/calibration note.
-        let sourceNote: String
         /// A parallel **differential safety endpoint** (opioid respiratory, stimulant cardiovascular)
         /// that tolerizes on its own kinetics — `nil` for the eight classes without one (Stage C).
         let safetyEndpoint: SafetyEndpoint?
@@ -405,6 +387,9 @@ nonisolated enum ReceptorClasses {
             // adaptive shift** that builds over consecutive days toward near-total in-class
             // cross-tolerance and recovers in ~3–4 d (controlled-human; flagship correction 2026-06-21).
             // No deep layer (psychedelics don't entrench over months).
+            // §3: acute same-day tachyphylaxis (fast 5-HT2A desensitisation, gone by next morning,
+            // τ≈18 h) + adaptive subjective tolerance ~3–4 d (controlled-human, flagship-corrected),
+            // near-total in-class cross-tolerance. No deep layer. Grade medium.
             Parameters(
                 acuteShiftMax: 1.2, tauAcuteMinutes: 18 * T.hour,
                 adaptiveShiftMax: 2.5, tauAdaptiveMinutes: 3.5 * T.day,
@@ -412,13 +397,17 @@ nonisolated enum ReceptorClasses {
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .hppd, confidence: .medium,
                 classDefaultVdLPerKg: 4.0,
-                sourceNote: "§3: acute same-day tachyphylaxis (fast 5-HT2A desensitisation, gone by next morning, τ≈18 h) + adaptive subjective tolerance ~3–4 d (controlled-human, flagship-corrected), near-total in-class cross-tolerance. No deep layer. Grade medium.",
                 safetyEndpoint: nil,
             )
         case .muOpioid:
             // Days-to-weeks adaptive shift (recovery t½ ~14 d ⇒ τ≈20 d), a mild within-session acute
             // pool, and an escalation-gated deep layer: dosing sustained above the heavy ceiling
             // entrenches over months (the reset-after-break overdose axis is the safety hand-off, Stage C/F).
+            // §3: ED50 right-shift 3–30× (controlled; the folkloric '100–300×' is palliative
+            // end-of-life dosing). Recovery t½ ~14 d → τ≈20 d (PMC1666403). Ceilings recalibrated to
+            // the controlled literature (acute 0.3 + adaptive 1.8 + deep 1.1 → ln ≤ 3.2 → ~25×
+            // worst-case, deep only on chronic escalation). Deep = chronicity+escalation-gated
+            // entrenched tolerance; reset-after-break overdose safety axis. Grade low.
             Parameters(
                 acuteShiftMax: 0.3, tauAcuteMinutes: 4 * T.hour,
                 adaptiveShiftMax: 1.8, tauAdaptiveMinutes: 20 * T.day,
@@ -426,7 +415,6 @@ nonisolated enum ReceptorClasses {
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .resetOverdose, confidence: .low,
                 classDefaultVdLPerKg: 3.5,
-                sourceNote: "§3: ED50 right-shift 3–30× (controlled; the folkloric '100–300×' is palliative end-of-life dosing). Recovery t½ ~14 d → τ≈20 d (PMC1666403). Ceilings recalibrated to the controlled literature (acute 0.3 + adaptive 1.8 + deep 1.1 → ln ≤ 3.2 → ~25× worst-case, deep only on chronic escalation). Deep = chronicity+escalation-gated entrenched tolerance; reset-after-break overdose safety axis. Grade low.",
                 // §3.1: respiratory depression tolerizes shallower than analgesia (ceiling 1.0 vs the
                 // analgesic 2.0) and recovers faster (τ 10 d vs 20 d) — so after a break the breathing
                 // is unprotected while the user still expects their old dose (the reset-OD mechanism).
@@ -442,6 +430,12 @@ nonisolated enum ReceptorClasses {
             // stable for years). The deep layer is OFF for therapeutic users — the escalation gate
             // (dose ÷ heavy ceiling) only opens on heavy chronic escalation, then entrenches over
             // ~9 months (DAT density recovers slowly), asymptoting at its ceiling.
+            // §3: acute vesicular reserve-pool tachyphylaxis (subjective gone 3–4 h, τ 6–12 h;
+            // de Wit 1996). Adaptive modest (ADHD response stable, ~2.7%/10 y). Deep only on heavy
+            // chronic escalation (DAT recovers +20–26% over 12–17 mo; felt tolerance lags density).
+            // Cardiovascular = TWO mechanisms (§6): the acute within-session pressor does NOT tolerize
+            // (de Wit 1996), the chronic resting response adapts over weeks (CV meta PMC6121294).
+            // Grade low.
             Parameters(
                 acuteShiftMax: 0.8, tauAcuteMinutes: 9 * T.hour,
                 adaptiveShiftMax: 0.4, tauAdaptiveMinutes: 12 * T.day,
@@ -449,7 +443,6 @@ nonisolated enum ReceptorClasses {
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .stimulantLoad, confidence: .low,
                 classDefaultVdLPerKg: 4.0,
-                sourceNote: "§3: acute vesicular reserve-pool tachyphylaxis (subjective gone 3–4 h, τ 6–12 h; de Wit 1996). Adaptive modest (ADHD response stable, ~2.7%/10 y). Deep only on heavy chronic escalation (DAT recovers +20–26% over 12–17 mo; felt tolerance lags density). Cardiovascular = TWO mechanisms (§6): the acute within-session pressor does NOT tolerize (de Wit 1996), the chronic resting response adapts over weeks (CV meta PMC6121294). Grade low.",
                 // §6: cardiovascular is two mechanisms on two timescales. The **acute** within-session
                 // pressor (NET-mediated HR/BP spike) does NOT tolerize (`acuteShiftMax 0`) — so a chronic
                 // user redosing in-session still lands on a fresh, un-toleranced spike (the redose-toxicity
@@ -469,6 +462,12 @@ nonisolated enum ReceptorClasses {
             // **synthesis** pool (τ≈2 wk) engages only for the substances that suppress serotonin
             // synthesis (MDMA-type entactogens; the per-substance ``suppressesSerotoninSynthesis``
             // flag) — so MDMA recovers over weeks while mephedrone resets in days, same class.
+            // §3.4: two recovery clocks. Fast adaptive pool (receptor/transporter resensitisation,
+            // τ≈4 d) — the whole story for the cathinone releasers (4-MMC/mephedrone), which spare
+            // synthesis and reset in 2–4 d. Slow synthesis pool (τ≈14 d, single-dose inferred, range
+            // 3–14 d) driven only by the synthesis-suppressing entactogens: MDMA-type TPH suppression
+            // is *metabolite*-mediated, so recovery waits weeks. Rejected Shulgin's untested 3-month
+            // rule and both damage/harmless extremes. Grade low (human L).
             Parameters(
                 acuteShiftMax: 0.5, tauAcuteMinutes: 12 * T.hour,
                 adaptiveShiftMax: 1.0, tauAdaptiveMinutes: 4 * T.day,
@@ -476,7 +475,6 @@ nonisolated enum ReceptorClasses {
                 synthesisShiftMax: 1.0, tauSynthesisMinutes: 14 * T.day,
                 safetyAxis: .serotonergicLoad, confidence: .low,
                 classDefaultVdLPerKg: 6.5,
-                sourceNote: "§3.4: two recovery clocks. Fast adaptive pool (receptor/transporter resensitisation, τ≈4 d) — the whole story for the cathinone releasers (4-MMC/mephedrone), which spare synthesis and reset in 2–4 d. Slow synthesis pool (τ≈14 d, single-dose inferred, range 3–14 d) driven only by the synthesis-suppressing entactogens: MDMA-type TPH suppression is *metabolite*-mediated, so recovery waits weeks. Rejected Shulgin's untested 3-month rule and both damage/harmless extremes. Grade low (human L).",
                 safetyEndpoint: nil,
             )
         case .gaba:
@@ -485,6 +483,13 @@ nonisolated enum ReceptorClasses {
             // The primary layer represents the SEDATIVE endpoint alone (§B.cal); the safety endpoint
             // captures the cognitive impairment that does NOT tolerize — so the dose that no longer
             // sedates still impairs memory and coordination at full strength.
+            // §3/§B.cal: sedative/hypnotic tolerance near-complete ~2 wk (VINK12: triazolam sleep
+            // parameters back to baseline at 2 wk; alprazolam sedation by day 17); anxiolytic/amnesic
+            // tolerance absent. Primary layer is the SEDATIVE endpoint alone — adaptive de-blended
+            // 1.0→2.0 (the old 1.0 was ~the mean of near-complete sedative and ~0 anxiolytic, now split
+            // out as the cognitive-impairment endpoint). acute 0.4 unchanged (within-session
+            // tachyphylaxis; VINK12's days-scale data does not constrain it). Cognitive impairment
+            // endpoint shift ≡ 1 (no tolerance). Dependence/kindling safety axis. Grade low.
             Parameters(
                 acuteShiftMax: 0.4, tauAcuteMinutes: 6 * T.hour,
                 adaptiveShiftMax: 2.0, tauAdaptiveMinutes: 14 * T.day,
@@ -492,7 +497,6 @@ nonisolated enum ReceptorClasses {
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .dependenceKindling, confidence: .low,
                 classDefaultVdLPerKg: 1.1,
-                sourceNote: "§3/§B.cal: sedative/hypnotic tolerance near-complete ~2 wk (VINK12: triazolam sleep parameters back to baseline at 2 wk; alprazolam sedation by day 17); anxiolytic/amnesic tolerance absent. Primary layer is the SEDATIVE endpoint alone — adaptive de-blended 1.0→2.0 (the old 1.0 was ~the mean of near-complete sedative and ~0 anxiolytic, now split out as the cognitive-impairment endpoint). acute 0.4 unchanged (within-session tachyphylaxis; VINK12's days-scale data does not constrain it). Cognitive impairment endpoint shift ≡ 1 (no tolerance). Dependence/kindling safety axis. Grade low.",
                 safetyEndpoint: SafetyEndpoint(
                     kind: .cognitiveImpairment,
                     acuteShiftMax: 0, tauAcuteMinutes: 6 * T.hour,
@@ -502,11 +506,11 @@ nonisolated enum ReceptorClasses {
                 // impairments do NOT tolerize (adaptive 0) — the escalation trap. Anticonvulsant fades
                 // slowly and partially (months, 30–50%); myorelaxation develops at an unquantified rate.
                 effectEndpoints: [
-                    EffectEndpoint(axis: .anxiolysis, adaptiveShiftMax: 0, tauAdaptiveMinutes: 14 * T.day, evidenceTier: .low),
-                    EffectEndpoint(axis: .anticonvulsant, adaptiveShiftMax: 0.4, tauAdaptiveMinutes: 2 * T.month, evidenceTier: .low),
-                    EffectEndpoint(axis: .myorelaxation, adaptiveShiftMax: 0.5, tauAdaptiveMinutes: 14 * T.day, evidenceTier: .unverified),
-                    EffectEndpoint(axis: .memory, adaptiveShiftMax: 0, tauAdaptiveMinutes: 14 * T.day, evidenceTier: .low),
-                    EffectEndpoint(axis: .coordination, adaptiveShiftMax: 0, tauAdaptiveMinutes: 14 * T.day, evidenceTier: .low),
+                    EffectEndpoint(axis: .anxiolysis, adaptiveShiftMax: 0, tauAdaptiveMinutes: 14 * T.day),
+                    EffectEndpoint(axis: .anticonvulsant, adaptiveShiftMax: 0.4, tauAdaptiveMinutes: 2 * T.month),
+                    EffectEndpoint(axis: .myorelaxation, adaptiveShiftMax: 0.5, tauAdaptiveMinutes: 14 * T.day),
+                    EffectEndpoint(axis: .memory, adaptiveShiftMax: 0, tauAdaptiveMinutes: 14 * T.day),
+                    EffectEndpoint(axis: .coordination, adaptiveShiftMax: 0, tauAdaptiveMinutes: 14 * T.day),
                 ],
                 primaryEffectAxis: .sedation,
             )
@@ -519,6 +523,11 @@ nonisolated enum ReceptorClasses {
             // subtype "why" that drives the GABA ladder does not apply here. The single gauge represents
             // the sedative tolerance the user actually feels; the occupancy cap (gaugeOccupancyCap) is
             // required because α2δ saturates.
+            /// Gabapentinoid tolerance, single gauge (α2δ-1 VGCC mechanism, not GABA-A).
+            /// Sedation/somnolence habituates in ~weeks (Owen 2007); anxiolytic efficacy maintained
+            /// long-term (Feltner 2008). No evidence for a graded per-effect ladder — not modeled.
+            /// Phenibut (GABA-B agonist) dependence within weeks. Gauge capped at half-sat occupancy
+            /// because α2δ saturates. Grade low.
             Parameters(
                 acuteShiftMax: 0.3, tauAcuteMinutes: 6 * T.hour,
                 adaptiveShiftMax: 0.8, tauAdaptiveMinutes: 10 * T.day,
@@ -526,12 +535,13 @@ nonisolated enum ReceptorClasses {
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .dependenceKindling, confidence: .low,
                 classDefaultVdLPerKg: 0.5,
-                sourceNote: "Gabapentinoid tolerance, single gauge (α2δ-1 VGCC mechanism, not GABA-A). Sedation/somnolence habituates in ~weeks (Owen 2007); anxiolytic efficacy maintained long-term (Feltner 2008). No evidence for a graded per-effect ladder — not modeled. Phenibut (GABA-B agonist) dependence within weeks. Gauge capped at half-sat occupancy because α2δ saturates. Grade low.",
                 safetyEndpoint: nil,
             )
         case .nmdaAntagonist:
             // Ketamine / DXM / MXE: days-scale adaptive shift + a redose pool; cumulative toxicity.
             // Also a modulator of others' tolerance (ToleranceModulation).
+            // §3: days-scale adaptive shift; also a μ-opioid tolerance modulator (ToleranceModulation).
+            // Cumulative-toxicity axis (e.g. ketamine bladder). Grade low.
             Parameters(
                 acuteShiftMax: 0.4, tauAcuteMinutes: 4 * T.hour,
                 adaptiveShiftMax: 1.0, tauAdaptiveMinutes: 3 * T.day,
@@ -539,11 +549,11 @@ nonisolated enum ReceptorClasses {
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .cumulativeToxicity, confidence: .low,
                 classDefaultVdLPerKg: 2.5,
-                sourceNote: "§3: days-scale adaptive shift; also a μ-opioid tolerance modulator (ToleranceModulation). Cumulative-toxicity axis (e.g. ketamine bladder). Grade low.",
                 safetyEndpoint: nil,
             )
         case .cannabinoidCB1:
-            // THC: fast, real, recoverable CB1 tolerance — a redose pool + a days-scale adaptive shift.
+            // §3: fast, real, recoverable CB1 tolerance — a redose pool + a days-scale adaptive shift.
+            // Grade low.
             Parameters(
                 acuteShiftMax: 0.3, tauAcuteMinutes: 6 * T.hour,
                 adaptiveShiftMax: 1.2, tauAdaptiveMinutes: 4 * T.day,
@@ -562,11 +572,11 @@ nonisolated enum ReceptorClasses {
                 // scaffold, not lipophilicity, not protein binding. That is an argument for this class
                 // having no default at all, not for a different number.
                 classDefaultVdLPerKg: 3.4,
-                sourceNote: "§3: fast, real, recoverable CB1 tolerance — a redose pool + a days-scale adaptive shift. Grade low.",
                 safetyEndpoint: nil,
             )
         case .adenosine:
-            // Caffeine: clean, well-behaved up-regulation tolerance over days; no within-session pool.
+            // §3: clean adenosine-receptor up-regulation tolerance over days (caffeine); no
+            // within-session pool. Grade low.
             Parameters(
                 acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
                 adaptiveShiftMax: 1.0, tauAdaptiveMinutes: 5 * T.day,
@@ -574,11 +584,11 @@ nonisolated enum ReceptorClasses {
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .none, confidence: .low,
                 classDefaultVdLPerKg: nil,
-                sourceNote: "§3: clean adenosine-receptor up-regulation tolerance over days (caffeine); no within-session pool. Grade low.",
                 safetyEndpoint: nil,
             )
         case .nicotinic:
-            // Nicotine: desensitization-driven — a strong, fast acute layer plus a fast adaptive shift.
+            // §3: nAChR desensitization dominates — a fast, strong acute layer + a fast adaptive
+            // shift. Grade low.
             Parameters(
                 acuteShiftMax: 0.8, tauAcuteMinutes: 2 * T.hour,
                 adaptiveShiftMax: 0.4, tauAdaptiveMinutes: 1 * T.day,
@@ -586,13 +596,15 @@ nonisolated enum ReceptorClasses {
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .none, confidence: .low,
                 classDefaultVdLPerKg: nil,
-                sourceNote: "§3: nAChR desensitization dominates — a fast, strong acute layer + a fast adaptive shift. Grade low.",
                 safetyEndpoint: nil,
             )
         case .alpha2Agonist:
             // §3.5: α₂-agonists develop little efficacy tolerance — a faint adaptive shift only so a
             // card appears to carry the rebound warning. Everything else inert; the real hazard is the
             // discontinuation rebound safety axis, not a right-shift.
+            /// α2-agonists show little efficacy tolerance; the hazard is rebound hypertension on
+            /// abrupt/too-fast discontinuation (Geyskes 1979; taper, β-blocker first if co-stopping).
+            /// §3.5.
             Parameters(
                 acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
                 adaptiveShiftMax: 0.2, tauAdaptiveMinutes: 7 * T.day,
@@ -600,13 +612,15 @@ nonisolated enum ReceptorClasses {
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .alpha2Rebound, confidence: .low,
                 classDefaultVdLPerKg: nil,
-                sourceNote: "α2-agonists show little efficacy tolerance; the hazard is rebound hypertension on abrupt/too-fast discontinuation (Geyskes 1979; taper, β-blocker first if co-stopping). §3.5.",
                 safetyEndpoint: nil,
             )
         case .betaBlocker:
             // §3.5: β-blockers develop little efficacy tolerance — a faint adaptive shift only so a card
             // appears to carry the rebound warning. The 'unopposed-α' stimulant scare is debunked (no
             // severe interaction); the genuine hazard is rebound on abrupt stop, the safety axis below.
+            /// β-blockers show little efficacy tolerance; rebound hypertension/tachycardia (receptor
+            /// upregulation) on abrupt stop — taper. 'Unopposed-α' with cocaine/stimulant is debunked,
+            /// NOT a severe interaction (§3.5).
             Parameters(
                 acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
                 adaptiveShiftMax: 0.15, tauAdaptiveMinutes: 7 * T.day,
@@ -614,11 +628,10 @@ nonisolated enum ReceptorClasses {
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .betaRebound, confidence: .low,
                 classDefaultVdLPerKg: nil,
-                sourceNote: "β-blockers show little efficacy tolerance; rebound hypertension/tachycardia (receptor upregulation) on abrupt stop — taper. 'Unopposed-α' with cocaine/stimulant is debunked, NOT a severe interaction (§3.5).",
                 safetyEndpoint: nil,
             )
         case .unknown:
-            // Generic, deliberately weak default at the lowest confidence.
+            // No curated tolerance class — generic class-default kinetics. Unverified.
             Parameters(
                 acuteShiftMax: 0, tauAcuteMinutes: 4 * T.hour,
                 adaptiveShiftMax: 0.7, tauAdaptiveMinutes: 7 * T.day,
@@ -626,7 +639,6 @@ nonisolated enum ReceptorClasses {
                 synthesisShiftMax: 0, tauSynthesisMinutes: 3 * T.month,
                 safetyAxis: .none, confidence: .unverified,
                 classDefaultVdLPerKg: nil,
-                sourceNote: "No curated tolerance class — generic class-default kinetics. Unverified.",
                 safetyEndpoint: nil,
             )
         }

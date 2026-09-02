@@ -1,12 +1,11 @@
 import SwiftUI
 
-/// Educational explainer behind the **Tolerance** tool — what the cards *mean* and where the numbers
-/// come from. Frames tolerance as one thing (the brain adapting to a repeated input — an allostatic /
-/// predictive view, not the 2000s "receptors used up" picture), explains the three timescales that the
-/// engine models, cross-tolerance, and the conditioned/novel-setting danger, then surfaces the curated,
-/// citation-graded ``ReceptorClasses`` per-mechanism data (each class's `sourceNote` + ``ConfidenceTier``)
-/// so a curious user can see the basis, not just a bar. Copy is mechanism-first and matches the
-/// redesigned cards (`Specs/tolerance-faithful-model.md` §6, §8.5).
+/// Educational explainer behind the **Tolerance** tool — what the cards *mean*. Frames tolerance as one
+/// thing (the brain adapting to a repeated input — an allostatic / predictive view, not the 2000s
+/// "receptors used up" picture), explains the three timescales that the engine models, cross-tolerance,
+/// and the conditioned/novel-setting danger, then gives each ``ReceptorClasses`` mechanism a one-line
+/// character and recovery timescale, with the literature the copy draws on listed last. Copy is
+/// mechanism-first and matches the redesigned cards (`Specs/tolerance-faithful-model.md` §6, §8.5).
 struct ToleranceExplainerView: View {
     var body: some View {
         List {
@@ -72,8 +71,6 @@ struct ToleranceExplainerView: View {
             )
         } header: {
             Text("Three timescales")
-        } footer: {
-            Text("Each card blends these into one reading: how much of your usual dose you'd feel now, and how long until it returns if you stop.")
         }
     }
 
@@ -110,8 +107,6 @@ struct ToleranceExplainerView: View {
             )
         } header: {
             Text("Effect-selective tolerance")
-        } footer: {
-            Text("Benzodiazepine effect kinetics: Vinkers & Olivier 2012; Piot & Jovanovic 2026. These are directions from the literature, graded low — not fitted numbers.")
         }
     }
 
@@ -145,8 +140,6 @@ struct ToleranceExplainerView: View {
             )
         } header: {
             Text("The learned part of tolerance")
-        } footer: {
-            Text("Siegel 1976; Siegel, Hinson, Krank & McCully 1982; Weise-Kelly & Siegel 2001; Carlton & Wolgin 1971.")
         }
     }
 
@@ -165,7 +158,7 @@ struct ToleranceExplainerView: View {
         }
     }
 
-    // MARK: - Per-mechanism reference (the cited data)
+    // MARK: - Per-mechanism reference
 
     private var mechanismSection: some View {
         Section {
@@ -174,41 +167,34 @@ struct ToleranceExplainerView: View {
             }
         } header: {
             Text("By mechanism")
-        } footer: {
-            Text("Recovery timescales and behavior are calibrated to the published literature for each receptor class. The note under each is the calibration basis; the badge is how well-established those kinetics are.")
         }
     }
 
     private func mechanismRow(_ cls: ReceptorClasses.ReceptorClass) -> some View {
         let parameters = ReceptorClasses.parameters(for: cls)
         return VStack(alignment: .leading, spacing: Spacing.sm) {
-            HStack {
-                Text(cls.displayName)
-                    .sectionLabel()
-                Spacer()
-                ConfidenceBadge(tier: parameters.confidence)
-            }
+            Text(cls.displayName)
+                .sectionLabel()
             Label(recoveryDescriptor(parameters), systemImage: "clock.arrow.circlepath")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
             Text(meaning(cls))
                 .captionSecondary()
-            Text(parameters.sourceNote)
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.strong))
         }
         .padding(.vertical, Spacing.xs)
     }
 
+    // MARK: - Sources
+
+    /// The literature the copy above draws on, one row per topic.
     private var sourcesSection: some View {
-        Section {
-            VStack(alignment: .leading, spacing: Spacing.sm) {
-                Label("Where the numbers come from", systemImage: "checkmark.seal")
-                    .sectionLabel()
-                Text("Binding affinities come from the NIMH PDSP K\u{1D62} database and primary literature; the recovery kinetics are calibrated to published human studies. Every parameter is graded, and anything resting on a class default is flagged. The cards are predicted from your dose log and these curated values — estimates.")
-                    .captionSecondary()
+        Section("Sources") {
+            Group {
+                Text("Benzodiazepine effect kinetics: Vinkers & Olivier 2012; Piot & Jovanovic 2026.")
+                Text("Conditioned tolerance: Siegel 1976; Siegel, Hinson, Krank & McCully 1982; Weise-Kelly & Siegel 2001; Carlton & Wolgin 1971.")
             }
-            .padding(.vertical, Spacing.xs)
+            .font(.caption2)
+            .foregroundStyle(Theme.secondaryLabel)
         }
     }
 
