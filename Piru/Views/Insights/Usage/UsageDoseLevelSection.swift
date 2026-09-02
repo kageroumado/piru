@@ -79,7 +79,7 @@ private struct UsageDoseLevelContent: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             substancePicker
             chart
             legend
@@ -89,7 +89,7 @@ private struct UsageDoseLevelContent: View {
 
     private var substancePicker: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.md) {
                 chip(title: String(localized: "All"), isSelected: selectedSubstance == nil, color: Theme.accent) {
                     selectedSubstance = nil
                 }
@@ -110,11 +110,7 @@ private struct UsageDoseLevelContent: View {
         } label: {
             Text(title)
                 .font(.caption2.weight(.medium))
-                .padding(.horizontal, 9)
-                .padding(.vertical, 5)
-                .background(isSelected ? color.opacity(0.25) : Color.clear)
-                .clipShape(Capsule())
-                .overlay(Capsule().stroke(isSelected ? color : Color(.quaternaryLabel)))
+                .usageFilterPill(isSelected: isSelected, color: color)
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(isSelected ? [.isSelected] : [])
@@ -139,7 +135,7 @@ private struct UsageDoseLevelContent: View {
         .chartYAxis {
             AxisMarks(position: .leading) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(0.5))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                 AxisValueLabel {
                     if showsPercentages, let fraction = value.as(Double.self) {
                         Text("\(Int(fraction * 100))%")
@@ -154,7 +150,7 @@ private struct UsageDoseLevelContent: View {
         .chartXAxis {
             AxisMarks(values: .automatic(desiredCount: 4)) { _ in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(0.5))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                 AxisValueLabel(format: weekly ? .dateTime.month(.abbreviated) : .dateTime.month(.abbreviated).day())
                     .font(.caption2)
             }
@@ -200,7 +196,7 @@ private struct UsageDoseLevelContent: View {
     }
 
     private var legend: some View {
-        FlowLayout(spacing: 8) {
+        FlowLayout(spacing: Spacing.md) {
             ForEach(presentLevels, id: \.self) { level in
                 let doseLevel = UsageAxes.doseLevel(level)
                 let isDimmed = highlightedLevel != nil && highlightedLevel != level
@@ -209,7 +205,7 @@ private struct UsageDoseLevelContent: View {
                         highlightedLevel = highlightedLevel == level ? nil : level
                     }
                 } label: {
-                    HStack(spacing: 4) {
+                    HStack(spacing: Spacing.xs) {
                         RoundedRectangle(cornerRadius: 2)
                             .fill(doseLevel.swiftUIColor)
                             .frame(width: 9, height: 9)

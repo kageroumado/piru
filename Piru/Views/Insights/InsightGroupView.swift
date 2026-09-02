@@ -82,7 +82,7 @@ struct InsightGroupView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 14) {
+            VStack(spacing: Spacing.xxl) {
                 ForEach(group.insights) { insight in
                     GlanceCard(
                         icon: insight.icon,
@@ -96,7 +96,7 @@ struct InsightGroupView: View {
                 }
             }
             .padding(.horizontal)
-            .padding(.top, 4)
+            .padding(.top, Spacing.xs)
             .padding(.bottom, 40)
         }
         .background(Theme.background)
@@ -139,12 +139,11 @@ private struct InSystemPreview: View {
             if active.isEmpty {
                 blurb("Nothing active right now")
             } else {
-                VStack(spacing: 6) {
+                VStack(spacing: Spacing.sm) {
                     ForEach(active.prefix(3)) { sub in
                         GlanceRow(dotColor: sub.color, title: Text(sub.name)) {
                             Text("\(Int((1 - sub.eliminatedFraction) * 100))%")
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
+                                .captionSecondary()
                                 .monospacedDigit()
                                 .frame(width: 34, alignment: .trailing)
                         }
@@ -170,7 +169,7 @@ private struct BodyLoadPreview: View {
 
     var body: some View {
         if let trail = manager.trail, !trail.isEmpty {
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
                 Text("\(trail.series.count)")
                     .font(.system(.title3, design: .rounded, weight: .bold))
                 Text(trail.series.count == 1 ? "substance modeled" : "substances modeled")

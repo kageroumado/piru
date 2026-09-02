@@ -9,10 +9,10 @@ struct UsageOverviewSection: View {
     let overview: UsageOverview
     let range: UsageTimeRange
 
-    private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
+    private let columns = [GridItem(.flexible(), spacing: Spacing.xl), GridItem(.flexible(), spacing: Spacing.xl)]
 
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 12) {
+        LazyVGrid(columns: columns, spacing: Spacing.xl) {
             periodCard
             substancesCard
             averageCard
@@ -176,15 +176,12 @@ private struct UsageOverviewCard<Art: View>: View {
     @ViewBuilder var art: () -> Art
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             HStack(spacing: 5) {
                 Text(title)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                 if let badge {
-                    Circle()
-                        .fill(badge)
-                        .frame(width: 7, height: 7)
+                    LegendDot(color: badge, size: .compact)
                 }
                 Spacer(minLength: 0)
             }
@@ -202,8 +199,8 @@ private struct UsageOverviewCard<Art: View>: View {
             art()
         }
         .frame(maxWidth: .infinity, minHeight: 92, alignment: .topLeading)
-        .padding(12)
-        .themeCard(cornerRadius: 16)
+        .padding(Spacing.xl)
+        .themeCard(cornerRadius: Theme.CornerRadius.container)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(title))
         .accessibilityValue(Text(accessibilityValue))

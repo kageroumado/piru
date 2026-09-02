@@ -35,16 +35,15 @@ struct UsageCoUseSection: View {
                 subtitle: "Substances logged on the same day",
                 storageKey: "coUse",
             ) {
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: Spacing.lg) {
                     if categories.count > 1 {
                         UsageCategoryFilterBar(categories: categories, selection: $categoryFilter)
                     }
                     if filtered.isEmpty {
                         Text("No pairs in this class")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                     } else {
-                        VStack(spacing: 10) {
+                        VStack(spacing: Spacing.lg) {
                             ForEach(filtered) { pair in
                                 UsageCoUseRow(pair: pair, style: style)
                             }
@@ -67,15 +66,11 @@ private struct UsageCoUseRow: View {
         let secondName = style.name(pair.secondIndex)
         let overlapPercent = Int((pair.overlap * 100).rounded())
 
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
+            HStack(spacing: Spacing.sm) {
                 HStack(spacing: -3) {
-                    Circle()
-                        .fill(style.color(pair.firstIndex))
-                        .frame(width: 9, height: 9)
-                    Circle()
-                        .fill(style.color(pair.secondIndex))
-                        .frame(width: 9, height: 9)
+                    LegendDot(color: style.color(pair.firstIndex), size: .large)
+                    LegendDot(color: style.color(pair.secondIndex), size: .large)
                 }
                 Text("\(firstName) + \(secondName)")
                     .font(.subheadline)

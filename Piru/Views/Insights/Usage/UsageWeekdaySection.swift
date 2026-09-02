@@ -35,7 +35,7 @@ struct UsageWeekdaySection: View {
             .chartYAxis {
                 AxisMarks(position: .leading) { _ in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                        .foregroundStyle(Theme.secondaryLabel.opacity(0.5))
+                        .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                     AxisValueLabel()
                         .font(.caption2)
                 }
@@ -67,9 +67,9 @@ struct UsageWeekdaySection: View {
     private var averagesRow: some View {
         HStack(spacing: 0) {
             ForEach(buckets) { bucket in
-                VStack(spacing: 2) {
+                VStack(spacing: Spacing.xxs) {
                     Text(label(for: bucket.weekday))
-                        .font(.system(size: 9))
+                        .font(.chartAnnotation)
                         .foregroundStyle(Theme.secondaryLabel)
                     Text(average(bucket).formatted(.number.precision(.fractionLength(0 ... 1))))
                         .font(.caption2.weight(.medium))
@@ -81,7 +81,7 @@ struct UsageWeekdaySection: View {
                 .accessibilityValue(Text(average(bucket).formatted(.number.precision(.fractionLength(0 ... 1)))))
             }
         }
-        .padding(.top, 2)
+        .padding(.top, Spacing.xxs)
     }
 
     private var summary: String {

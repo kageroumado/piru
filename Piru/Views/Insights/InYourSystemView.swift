@@ -28,7 +28,7 @@ struct InYourSystemView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: Spacing.xxl) {
                 if cachedActiveSubstances.isEmpty {
                     emptyState
                 } else {
@@ -55,7 +55,7 @@ struct InYourSystemView: View {
     // MARK: - Active list
 
     private var activeList: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: Spacing.xl) {
             ForEach(cachedActiveSubstances) { active in
                 activeSubstanceCard(active)
             }
@@ -63,13 +63,13 @@ struct InYourSystemView: View {
     }
 
     private var emptyState: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: Spacing.xl) {
             Image(systemName: "hourglass")
                 .font(.system(size: 36))
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
             Text("Nothing active right now")
-                .font(.headline)
+                .cardTitle()
             Text("Substances you log will appear here while they're still estimated to be in your body.")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -90,23 +90,22 @@ struct InYourSystemView: View {
                     expandedSubstance = isExpanded ? nil : active.name
                 }
             } label: {
-                HStack(spacing: 12) {
+                HStack(spacing: Spacing.xl) {
                     Circle()
                         .fill(active.color)
                         .frame(width: 10, height: 10)
 
-                    VStack(alignment: .leading, spacing: 2) {
+                    VStack(alignment: .leading, spacing: Spacing.xxs) {
                         Text(active.name)
-                            .font(.subheadline.weight(.semibold))
+                            .sectionLabel()
                             .foregroundStyle(.primary)
                         Text(timeAgoText(active.doses.first?.timestamp))
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                     }
 
                     Spacer()
 
-                    VStack(alignment: .trailing, spacing: 2) {
+                    VStack(alignment: .trailing, spacing: Spacing.xxs) {
                         HStack(alignment: .firstTextBaseline, spacing: 3) {
                             Text(active.totalRemaining.doseFormatted)
                                 .font(.system(.subheadline, design: .rounded, weight: .bold))
@@ -142,13 +141,13 @@ struct InYourSystemView: View {
                 }
             }
             .frame(height: 4)
-            .padding(.top, 10)
+            .padding(.top, Spacing.lg)
 
             // Show individual doses if more than one, capped so a substance with
             // dozens of recent ingestions (e.g. a daily medication) doesn't render
             // an unbounded list. The most recent `maxDosesShown` are shown.
             if active.doses.count > 1 {
-                VStack(spacing: 4) {
+                VStack(spacing: Spacing.xs) {
                     ForEach(active.doses.prefix(Self.maxDosesShown)) { d in
                         HStack {
                             Text("\(d.amount.doseFormatted) \(active.unit)")
@@ -160,7 +159,7 @@ struct InYourSystemView: View {
                                 .foregroundStyle(Theme.secondaryLabel)
                             Text("\(d.remaining.doseFormatted) \(active.unit) left")
                                 .font(.caption2)
-                                .foregroundStyle(active.color.opacity(0.8))
+                                .foregroundStyle(active.color.opacity(Theme.Opacity.strong))
                         }
                         .accessibilityElement(children: .combine)
                     }
@@ -173,7 +172,7 @@ struct InYourSystemView: View {
                         }
                     }
                 }
-                .padding(.top, 8)
+                .padding(.top, Spacing.md)
             }
 
             if isExpanded {
@@ -191,11 +190,11 @@ struct InYourSystemView: View {
     // MARK: - Cross-link
 
     private var calculatorLink: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Text("Related")
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(Theme.secondaryLabel)
-                .padding(.leading, 4)
+                .padding(.leading, Spacing.xs)
 
             GlanceCard(icon: "function", title: Text("Half-Life Calculator"), route: .tool(.calculator)) {
                 Text("Model a single dose's decay over time")
