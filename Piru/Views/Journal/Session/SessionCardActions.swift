@@ -144,16 +144,15 @@ private struct MoveDosesSheet: View {
                         Button {
                             doseToMove = dose
                         } label: {
-                            HStack(spacing: 12) {
+                            HStack(spacing: Spacing.xl) {
                                 Circle()
                                     .fill(Array(substanceColors).colorMap[dose.substance.lowercased()] ?? Theme.accent)
                                     .frame(width: 12, height: 12)
-                                VStack(alignment: .leading, spacing: 2) {
+                                VStack(alignment: .leading, spacing: Spacing.xxs) {
                                     Text(CustomSubstanceStore.shared.displayName(for: dose.substance))
-                                        .font(.headline)
+                                        .cardTitle()
                                     Text(dose.timestamp.formatted(Self.clock))
-                                        .font(.caption)
-                                        .foregroundStyle(Theme.secondaryLabel)
+                                        .captionSecondary()
                                 }
                                 Spacer()
                                 Text("\(dose.amount.doseFormatted) \(dose.unit)")
@@ -173,8 +172,7 @@ private struct MoveDosesSheet: View {
                     Text("Pick a dose to move to another session.")
                 }
             }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .navigationTitle("Move Doses")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

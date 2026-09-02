@@ -63,14 +63,14 @@ struct SessionNoteRow: View, Equatable {
         Button {
             navigator.present(.sessionNoteEditor(sessionID: sessionID, noteID: display.id))
         } label: {
-            HStack(alignment: .top, spacing: 12) {
+            HStack(alignment: .top, spacing: Spacing.xl) {
                 Image(systemName: glyph)
                     .font(.caption.weight(.bold))
                     .foregroundStyle(Theme.accent)
-                    .frame(width: 22, height: 22)
-                    .background(Theme.accent.opacity(0.12), in: Circle())
+                    .frame(width: IconSize.iconMini, height: IconSize.iconMini)
+                    .background(Theme.accent.opacity(Theme.Opacity.tint), in: Circle())
                     .accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: Spacing.xs) {
                     if display.kind != .observation {
                         Text(display.kind == .summary ? "Summary" : "Check-in")
                             .font(.caption2.weight(.semibold))
@@ -100,7 +100,7 @@ struct SessionNoteRow: View, Equatable {
                 // Each time label stays on one line: the column keeps its natural
                 // width against the text column and never wraps "1 hr. ago" under
                 // the clock time.
-                VStack(alignment: .trailing, spacing: 2) {
+                VStack(alignment: .trailing, spacing: Spacing.xxs) {
                     Text(display.timestamp, style: .time)
                         .font(.caption.monospacedDigit())
                         .foregroundStyle(Theme.secondaryLabel)

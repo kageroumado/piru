@@ -1,8 +1,8 @@
 import SwiftUI
 
-/// The My Meds card's trailing info lines, one view per fact so each
-/// invalidates on its own inputs. All three share ``MedsInfoLineLayout`` —
-/// a glyph, one caption line, and a trailing control.
+// The My Meds card's trailing info lines, one view per fact so each
+// invalidates on its own inputs. All three share ``MedsInfoLineLayout`` —
+// a glyph, one caption line, and a trailing control.
 
 /// "Memantine · 6 days left" — tap opens the restock sheet.
 struct RestockInfoLine: View {
@@ -69,7 +69,7 @@ struct MissedYesterdayInfoLine: View {
                 Image(systemName: "xmark")
                     .font(.caption2.weight(.semibold))
                     .foregroundStyle(.tertiary)
-                    .frame(width: 24, height: 24)
+                    .frame(width: IconSize.iconCompact, height: IconSize.iconCompact)
                     .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
@@ -103,22 +103,21 @@ struct MedsInfoLineLayout<Content: View, Trailing: View>: View {
     @ViewBuilder let trailing: () -> Trailing
 
     var body: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: Spacing.lg) {
             Image(systemName: systemImage)
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(tint)
                 .frame(width: 24)
                 .accessibilityHidden(true)
             content()
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .lineLimit(1)
                 .minimumScaleFactor(0.85)
             Spacer(minLength: 4)
             trailing()
         }
-        .padding(.vertical, 6)
-        .padding(.leading, 6)
+        .padding(.vertical, Spacing.sm)
+        .padding(.leading, Spacing.sm)
         .contentShape(Rectangle())
     }
 }

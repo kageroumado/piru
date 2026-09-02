@@ -9,18 +9,17 @@ struct CheckInOfferBanner: View {
 
     var body: some View {
         Section {
-            VStack(alignment: .leading, spacing: 12) {
-                HStack(alignment: .top, spacing: 12) {
+            VStack(alignment: .leading, spacing: Spacing.xl) {
+                HStack(alignment: .top, spacing: Spacing.xl) {
                     Image(systemName: "quote.bubble")
                         .font(.title2)
                         .foregroundStyle(Theme.accent)
                         .accessibilityHidden(true)
-                    VStack(alignment: .leading, spacing: 3) {
+                    VStack(alignment: .leading, spacing: Spacing.xs) {
                         Text("Check in as it unfolds?")
-                            .font(.subheadline.weight(.semibold))
+                            .sectionLabel()
                         Text("A quiet prompt at a few points in the session, each opening a timestamped note. Off unless you turn it on; stops after eight hours.")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     Spacer(minLength: 0)
@@ -33,7 +32,7 @@ struct CheckInOfferBanner: View {
                     .buttonStyle(.plain)
                     .accessibilityLabel(Text("Dismiss"))
                 }
-                HStack(spacing: 8) {
+                HStack(spacing: Spacing.md) {
                     Button {
                         enable(.ladder)
                     } label: {
@@ -51,9 +50,9 @@ struct CheckInOfferBanner: View {
                     .buttonStyle(.bordered)
                 }
                 .controlSize(.regular)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
         }
     }
 

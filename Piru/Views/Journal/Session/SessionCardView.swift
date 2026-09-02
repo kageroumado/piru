@@ -142,17 +142,16 @@ struct SessionCardView: View, Equatable {
     }
 
     private var maintenanceRow: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             Image(systemName: "pills.fill")
                 .font(.body)
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(card.title ?? String(localized: "Medications"))
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 Text(verbatim: "\(card.timeLabel)  ·  \(card.substanceSummary)")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .lineLimit(1)
             }
             Spacer(minLength: 8)
@@ -161,25 +160,24 @@ struct SessionCardView: View, Equatable {
                 .foregroundStyle(.tertiary)
                 .accessibilityHidden(true)
         }
-        .padding(12)
+        .padding(Spacing.xl)
         .frame(maxWidth: .infinity, alignment: .leading)
         .themeCard(enabled: !inGroup)
         .contentShape(Theme.cardShape)
     }
 
     private var fullCard: some View {
-        HStack(spacing: 12) {
-            VStack(alignment: .leading, spacing: 5) {
+        HStack(spacing: Spacing.xl) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
                 Text(card.title ?? card.timeLabel)
-                    .font(.headline)
+                    .cardTitle()
                 Text(
                     verbatim: card.title == nil
                         ? card.doseCountText
                         : "\(card.timeLabel)  ·  \(card.doseCountText)",
                 )
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
-                HStack(spacing: 6) {
+                .captionSecondary()
+                HStack(spacing: Spacing.sm) {
                     substanceDots
                     Text(card.substanceSummary)
                         .font(.subheadline)
@@ -197,7 +195,7 @@ struct SessionCardView: View, Equatable {
                 .foregroundStyle(.tertiary)
                 .accessibilityHidden(true)
         }
-        .padding(14)
+        .padding(Spacing.xl)
         .frame(maxWidth: .infinity, alignment: .leading)
         .themeCard(enabled: !inGroup)
         .contentShape(Theme.cardShape)
@@ -231,7 +229,7 @@ struct SessionCardView: View, Equatable {
             )
             .equatable()
             .frame(width: 96, height: 52)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .clipShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.input))
             .allowsHitTesting(false)
         }
     }

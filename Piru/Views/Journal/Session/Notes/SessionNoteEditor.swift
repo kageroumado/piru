@@ -8,12 +8,12 @@ import SwiftUI
 struct SessionNoteEditor: View {
     let session: Session
     /// The note to edit; nil composes a new one.
-    var note: SessionNote? = nil
+    var note: SessionNote?
     /// Kind for a new note (ignored when editing).
     var kind: SessionNote.Kind = .observation
     /// Vitals the session screen already fetched, so the heart-rate snapshot
     /// needs no second HealthKit read. Nil when opened from elsewhere.
-    var vitals: SessionVitals? = nil
+    var vitals: SessionVitals?
 
     @Environment(\.appNavigator) private var navigator
     @State private var draft: SessionNoteDraft
@@ -111,7 +111,7 @@ struct SessionNoteEditor: View {
                     if draft.text.isEmpty {
                         Text(draft.kind == .summary ? "How was it, overall?" : "What do you notice?")
                             .foregroundStyle(.tertiary)
-                            .padding(.top, 8)
+                            .padding(.top, Spacing.md)
                             .padding(.leading, 5)
                             .allowsHitTesting(false)
                     }
@@ -219,7 +219,7 @@ private struct SevenStepRow: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             HStack {
                 Text(title)
                 Spacer()
@@ -248,9 +248,9 @@ private struct SevenStepRow: View {
             } maximumValueLabel: {
                 Text(high).font(.caption2).foregroundStyle(Theme.secondaryLabel)
             }
-            .tint(value == nil ? Color.secondary.opacity(0.35) : Theme.accent)
+            .tint(value == nil ? Color.secondary.opacity(Theme.Opacity.muted) : Theme.accent)
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
     }
 }
 
@@ -259,9 +259,9 @@ private struct SevenStepRow: View {
 /// The scale as PiHKAL states it — cited by name, quoted in substance.
 private struct ShulginInfoView: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             Text("The Shulgin Rating Scale")
-                .font(.headline)
+                .cardTitle()
             Group {
                 row("±", "Threshold — a real effect, its nature not yet clear.")
                 row("+", "Definite, but the nature or duration not yet clear; ordinary activity possible.")
@@ -270,15 +270,14 @@ private struct ShulginInfoView: View {
                 row("++++", "A rare, peak, transcendental state — a serene and all-encompassing experience; the person, and the rating, are describing something outside the ordinary scale.")
             }
             Text("Shulgin & Shulgin, PiHKAL: A Chemical Love Story (1991), \"The Shulgin Rating Scale\".")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
-        .padding(16)
+        .padding(Spacing.xxl)
         .frame(maxWidth: 340)
     }
 
     private func row(_ glyph: String, _ text: LocalizedStringKey) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 10) {
+        HStack(alignment: .firstTextBaseline, spacing: Spacing.lg) {
             Text(verbatim: glyph)
                 .font(.subheadline.weight(.bold).monospaced())
                 .frame(width: 44, alignment: .trailing)
@@ -295,7 +294,7 @@ private struct ShulginInfoView: View {
 /// vocabulary; an id it no longer resolves draws no chip).
 struct DescriptorChips: View {
     let ids: [String]
-    var onRemove: ((String) -> Void)? = nil
+    var onRemove: ((String) -> Void)?
     @State private var ontology = SubjectiveEffectOntology.shared
 
     private var resolved: [(id: String, name: String)] {
@@ -303,9 +302,9 @@ struct DescriptorChips: View {
     }
 
     var body: some View {
-        FlowLayout(spacing: 6) {
+        FlowLayout(spacing: Spacing.sm) {
             ForEach(resolved, id: \.id) { id, name in
-                HStack(spacing: 4) {
+                HStack(spacing: Spacing.xs) {
                     Text(name)
                         .font(.caption.weight(.medium))
                     if onRemove != nil {
@@ -313,9 +312,9 @@ struct DescriptorChips: View {
                             .font(.system(size: 8, weight: .bold))
                     }
                 }
-                .padding(.horizontal, 10)
-                .padding(.vertical, 6)
-                .background(Theme.accent.opacity(0.14), in: Capsule())
+                .padding(.horizontal, Spacing.lg)
+                .padding(.vertical, Spacing.sm)
+                .background(Theme.accent.opacity(Theme.Opacity.tint), in: Capsule())
                 .foregroundStyle(Theme.accent)
                 .contentShape(Capsule())
                 .onTapGesture { onRemove?(id) }
@@ -323,6 +322,6 @@ struct DescriptorChips: View {
                 .accessibilityHint(onRemove == nil ? Text("") : Text("Removes the descriptor"))
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 }

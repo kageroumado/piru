@@ -126,7 +126,7 @@ struct MyMedsHubView: View {
                             }
                         }
                     } header: {
-                        HStack(spacing: 6) {
+                        HStack(spacing: Spacing.sm) {
                             Image(systemName: group.symbol)
                                 .accessibilityHidden(true)
                             Text(group.label)
@@ -159,8 +159,7 @@ struct MyMedsHubView: View {
                 .listRowBackground(CardBackground())
             }
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle("My Meds")
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
@@ -180,7 +179,7 @@ struct MyMedsHubView: View {
 
     private var emptyState: some View {
         Section {
-            VStack(spacing: 16) {
+            VStack(spacing: Spacing.xxl) {
                 ContentUnavailableView(
                     "No Meds Yet",
                     systemImage: "pills",
@@ -214,23 +213,23 @@ private struct MedRow: View {
 
     var body: some View {
         Button(action: onTap) {
-            HStack(spacing: 12) {
+            HStack(spacing: Spacing.xl) {
                 Image(systemName: "pill")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(.white)
                     .frame(width: 30, height: 30)
                     .background(Theme.accent, in: Circle())
                     .accessibilityHidden(true)
 
-                VStack(alignment: .leading, spacing: 2) {
-                    HStack(spacing: 6) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
+                    HStack(spacing: Spacing.sm) {
                         Text(item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance))
                             .font(.body)
                             .foregroundStyle(.primary)
                         if item.isQuiet {
                             Text("quiet")
                                 .font(.caption2.weight(.semibold))
-                                .padding(.horizontal, 6)
+                                .padding(.horizontal, Spacing.sm)
                                 .padding(.vertical, 1)
                                 .background(Color(.tertiarySystemFill), in: Capsule())
                                 .foregroundStyle(Theme.secondaryLabel)

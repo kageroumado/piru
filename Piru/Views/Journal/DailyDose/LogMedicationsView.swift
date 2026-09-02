@@ -66,7 +66,7 @@ struct LogMedicationsView: View {
                             HStack {
                                 Spacer()
                                 Label("Log \(selectedCount) Item\(selectedCount == 1 ? "" : "s")", systemImage: "checkmark.circle.fill")
-                                    .font(.headline)
+                                    .cardTitle()
                                 Spacer()
                             }
                         }
@@ -75,8 +75,7 @@ struct LogMedicationsView: View {
                 }
                 .listRowBackground(CardBackground())
             }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .navigationTitle(category.isEmpty ? "Log Meds" : "Log \(category)")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -198,7 +197,7 @@ struct InteractionWarningSheet: View {
                             HStack {
                                 Spacer()
                                 Label("Log Anyway", systemImage: "exclamationmark.triangle")
-                                    .font(.headline)
+                                    .cardTitle()
                                 Spacer()
                             }
                         }
@@ -206,8 +205,7 @@ struct InteractionWarningSheet: View {
                 }
                 .listRowBackground(CardBackground())
             }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .navigationTitle("Interaction Warning")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

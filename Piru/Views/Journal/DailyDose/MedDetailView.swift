@@ -106,8 +106,7 @@ struct MedDetailView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationBarTitleDisplayMode(.inline)
         // Every field edits the model directly; one resync on close reschedules
         // reminders from the saved state (times, cadence, quiet grouping).
@@ -120,16 +119,16 @@ struct MedDetailView: View {
 
     private var headerSection: some View {
         Section {
-            HStack(spacing: 14) {
+            HStack(spacing: Spacing.xl) {
                 Image(systemName: "pill")
-                    .font(.title3.weight(.semibold))
+                    .screenTitle()
                     .foregroundStyle(.white)
-                    .frame(width: 44, height: 44)
+                    .frame(width: IconSize.touchTarget, height: IconSize.touchTarget)
                     .background(Theme.accent, in: Circle())
                     .accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: 3) {
+                VStack(alignment: .leading, spacing: Spacing.xs) {
                     Text(item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance))
-                        .font(.headline)
+                        .cardTitle()
                     Text(scheduleSummary)
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
@@ -273,12 +272,12 @@ struct MedDetailView: View {
     }
 
     private var weekdayPicker: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Text("Days")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityAddTraits(.isHeader)
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 ForEach(Self.weekdaySymbols, id: \.index) { day in
                     let isSelected = item.frequencyDays.contains(day.index)
                     Button {
@@ -288,21 +287,18 @@ struct MedDetailView: View {
                     } label: {
                         Text(String(day.short.prefix(2)))
                             .font(.caption.weight(.semibold))
-                            .frame(width: 34, height: 34)
-                            .background(isSelected ? Theme.accent : Color(.tertiarySystemFill))
-                            .foregroundStyle(isSelected ? .white : .primary)
-                            .clipShape(Circle())
-                            .frame(width: 44, height: 44)
-                            .contentShape(Rectangle())
+                            .selectableChip(isSelected: isSelected)
                     }
                     .buttonStyle(.plain)
+                    // Cancels the chip's hit-target frame back to the visible
+                    // circle so the row's layout is unchanged.
                     .padding(-5)
                     .accessibilityLabel(day.full)
                     .accessibilityAddTraits(isSelected ? .isSelected : [])
                 }
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     @ViewBuilder
