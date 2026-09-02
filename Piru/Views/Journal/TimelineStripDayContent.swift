@@ -22,8 +22,13 @@ struct TimelineStripDayContent: View {
     /// A curve's full amplitude, as a fraction of the width available beyond
     /// the axis — wider would add precision the model doesn't have.
     private static let maxAmplitudeFraction: CGFloat = 0.6
-    /// The day tag's inset from the slice's top (below any break).
+    /// The day tag's inset from the slice's top; a break above the slice is
+    /// inset enough on its own.
     private static let dayTagTop: CGFloat = 4
+
+    static func dayTagTop(breakAbove: CGFloat) -> CGFloat {
+        breakAbove > 0 ? breakAbove : dayTagTop
+    }
 
     var body: some View {
         GeometryReader { geo in
@@ -44,14 +49,14 @@ struct TimelineStripDayContent: View {
         .overlay(alignment: .topLeading) {
             TimelineDayHeader(date: day.date, isToday: day.isToday)
                 .padding(.leading, TimelineGutter.edgeInset)
-                .padding(.top, Self.dayTagTop + day.breakAbove)
+                .padding(.top, Self.dayTagTop(breakAbove: day.breakAbove))
         }
     }
 
     /// Slice-local y below which no gutter mark may start: the day tag and
     /// its breathing room.
     static func reservedTop(breakAbove: CGFloat) -> CGFloat {
-        breakAbove + dayTagTop + TimelineGutterLabels.dayTagHeight
+        dayTagTop(breakAbove: breakAbove) + TimelineGutterLabels.dayTagHeight
     }
 
     // MARK: Gutter marks
@@ -159,6 +164,11 @@ struct TimelineStripDayContent: View {
             curveWidth = min(curveWidth, bubbleLeft - Self.peakClearance - axisX)
         }
         curveWidth = max(0, curveWidth)
+
+        // Nothing draws in the break: the skipped days are an empty run.
+        if day.breakAbove > 0 {
+            context.clip(to: Path(CGRect(x: 0, y: day.breakAbove, width: size.width, height: size.height - day.breakAbove)))
+        }
 
         // Hour gridlines across the lane; in a compressed gap they bunch
         // together, which is what says "time is squeezed here".

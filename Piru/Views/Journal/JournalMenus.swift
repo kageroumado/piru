@@ -3,9 +3,9 @@ import SwiftUI
 import TipKit
 
 /// The Journal's `•••` toolbar button: a Mail-style options popover carrying the
-/// grouping thumbnail picker plus Jump to Date and the app-level Settings/Help
-/// (folded in from the removed ``AppOverflowMenu`` so the toolbar stays at two
-/// controls). A popover rather than a `Menu` because a menu can't host the
+/// grouping thumbnail picker plus Jump to Date and the app-level Settings/Help,
+/// so the toolbar stays at two controls (three while the Timeline grouping
+/// adds ``JournalTimelineOptionsButton``). A popover rather than a `Menu` because a menu can't host the
 /// custom thumbnail views — same pattern as the Tolerance screen's options menu.
 struct JournalOptionsButton: View {
     @Environment(\.appNavigator) private var navigator
