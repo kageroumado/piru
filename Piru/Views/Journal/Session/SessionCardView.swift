@@ -171,7 +171,7 @@ struct SessionCardView: View, Equatable {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 5) {
                 Text(card.title ?? card.timeLabel)
-                    .font(.headline)
+                    .font(.piru(.headline))
                 Text(
                     verbatim: card.title == nil
                         ? card.doseCountText

@@ -46,7 +46,7 @@ struct OnboardingFeatureTour: View {
             Spacer(minLength: 0)
             VStack(spacing: 8) {
                 Text(item.title)
-                    .font(.title2.weight(.bold))
+                    .font(.piru(.title2).weight(.bold))
                 Text(item.caption)
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)

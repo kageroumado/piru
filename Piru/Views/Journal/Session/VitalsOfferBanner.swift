@@ -22,7 +22,7 @@ struct VitalsOfferBanner: View {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(alignment: .top, spacing: 12) {
                     Image(systemName: "heart.text.square")
-                        .font(.title2)
+                        .font(.piru(.title2))
                         .foregroundStyle(VitalsPalette.heart)
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 3) {

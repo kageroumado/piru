@@ -286,7 +286,7 @@ struct InteractionTimelineView: View {
     private var missingDataSection: some View {
         VStack(spacing: 10) {
             Image(systemName: "clock.badge.questionmark")
-                .font(.title2)
+                .font(.piru(.title2))
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
             ForEach(model.missingData, id: \.self) { name in

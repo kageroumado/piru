@@ -66,7 +66,7 @@ struct LogMedicationsView: View {
                             HStack {
                                 Spacer()
                                 Label("Log \(selectedCount) Item\(selectedCount == 1 ? "" : "s")", systemImage: "checkmark.circle.fill")
-                                    .font(.headline)
+                                    .font(.piru(.headline))
                                 Spacer()
                             }
                         }
@@ -198,7 +198,7 @@ struct InteractionWarningSheet: View {
                             HStack {
                                 Spacer()
                                 Label("Log Anyway", systemImage: "exclamationmark.triangle")
-                                    .font(.headline)
+                                    .font(.piru(.headline))
                                 Spacer()
                             }
                         }

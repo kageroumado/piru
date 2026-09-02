@@ -19,7 +19,7 @@ struct UnmodeledFormNote: View {
         Section {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: "clock.badge.questionmark")
-                    .font(.title3)
+                    .font(.piru(.title3))
                     .foregroundStyle(Theme.secondaryLabel)
                     .accessibilityHidden(true)
                 Text(message)

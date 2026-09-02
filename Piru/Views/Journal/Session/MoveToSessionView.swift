@@ -64,7 +64,7 @@ struct MoveToSessionView: View {
                                     .fill(doseColor)
                                     .frame(width: 12, height: 12)
                                 Text(CustomSubstanceStore.shared.displayName(for: dose.substance))
-                                    .font(.headline)
+                                    .font(.piru(.headline))
                                 Spacer()
                                 Text("\(dose.amount.doseFormatted) \(dose.unit)")
                                     .font(.subheadline)
@@ -205,7 +205,7 @@ private struct SessionTargetRow: View {
             dots(dotColors(for: doses))
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                    .font(.headline)
+                    .font(.piru(.headline))
                     .foregroundStyle(.primary)
                 Text(timeRange(for: doses))
                     .font(.caption)

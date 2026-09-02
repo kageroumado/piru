@@ -72,8 +72,8 @@ extension Text {
     /// 4.5:1 in dark mode. An edged skin draws the site's blinky: a square
     /// chip with a stroke in the mark colour on the input surface.
     @ViewBuilder
-    func skinChip(text: Color, fill: Color, font: Font, horizontal: CGFloat, vertical: CGFloat) -> some View {
-        let base = self.font(font)
+    func skinChip(text: Color, fill: Color, style: Font.TextStyle, weight: Font.Weight, horizontal: CGFloat, vertical: CGFloat) -> some View {
+        let base = self.font(.piruLabel(style).weight(weight))
             .lineLimit(1)
             .padding(.horizontal, horizontal)
             .padding(.vertical, vertical)
@@ -95,8 +95,8 @@ extension Text {
     /// identity colour (a per-substance colour is a non-text mark at the 3:1
     /// floor, never the label). Capsule under glass, square under an edge.
     @ViewBuilder
-    func skinOutlineChip(stroke: Color, font: Font, horizontal: CGFloat, vertical: CGFloat) -> some View {
-        let base = self.font(font)
+    func skinOutlineChip(stroke: Color, style: Font.TextStyle, weight: Font.Weight, horizontal: CGFloat, vertical: CGFloat) -> some View {
+        let base = self.font(.piruLabel(style).weight(weight))
             .lineLimit(1)
             .padding(.horizontal, horizontal)
             .padding(.vertical, vertical)

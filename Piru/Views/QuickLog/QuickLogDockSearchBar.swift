@@ -53,7 +53,7 @@ struct DockSearchBar: View {
                     onCancel()
                 } label: {
                     Image(systemName: "xmark")
-                        .font(.title3.weight(.semibold))
+                        .font(.piru(.title3).weight(.semibold))
                         .foregroundStyle(Theme.secondaryLabel)
                         .frame(width: QuickLogDockMetrics.fieldHeight, height: QuickLogDockMetrics.fieldHeight)
                         .background(Color(.secondarySystemFill), in: Circle())

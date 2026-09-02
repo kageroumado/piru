@@ -69,7 +69,7 @@ struct InYourSystemView: View {
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
             Text("Nothing active right now")
-                .font(.headline)
+                .font(.piru(.headline))
             Text("Substances you log will appear here while they're still estimated to be in your body.")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)

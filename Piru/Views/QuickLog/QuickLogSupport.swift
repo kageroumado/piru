@@ -513,7 +513,7 @@ struct QuickLogCardList: View {
                     }
                     Spacer()
                     Image(systemName: staged ? "checkmark.circle.fill" : "circle")
-                        .font(.title3)
+                        .font(.piru(.title3))
                         .foregroundStyle(staged ? Theme.accent : Color(.tertiaryLabel))
                         .contentTransition(.symbolEffect(.replace))
                 }

@@ -112,7 +112,7 @@ struct DrugClassDetailView: View {
         Section {
             VStack(alignment: .leading, spacing: 8) {
                 Text(verbatim: context.title)
-                    .font(.title2.weight(.bold))
+                    .font(.piru(.title2).weight(.bold))
                     .fixedSize(horizontal: false, vertical: true)
                 if let category = context.category {
                     Text(category.browseTitle)

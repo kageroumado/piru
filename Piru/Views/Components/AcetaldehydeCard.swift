@@ -66,7 +66,7 @@ struct AcetaldehydeCard: View {
             HStack(alignment: .top, spacing: 10) {
                 Image(systemName: "exclamationmark.triangle.fill")
                     .foregroundStyle(.orange)
-                    .font(.title3)
+                    .font(.piru(.title3))
                     .padding(.top, 2)
                     .accessibilityHidden(true)
 

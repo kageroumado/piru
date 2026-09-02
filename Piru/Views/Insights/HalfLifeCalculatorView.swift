@@ -112,7 +112,7 @@ private struct HalfLifeHeader: View {
     var body: some View {
         HStack {
             Text("Calculator")
-                .font(.headline)
+                .font(.piru(.headline))
             Spacer()
             Text("\(count) with half-life data")
                 .font(.caption)
@@ -223,7 +223,7 @@ private struct HalfLifeDecayChart: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Concentration Curve")
-                .font(.headline)
+                .font(.piru(.headline))
 
             Canvas { context, size in
                 guard let params = rateConstants else { return }
@@ -363,7 +363,7 @@ private struct HalfLifeMilestonesSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Milestones")
-                .font(.headline)
+                .font(.piru(.headline))
 
             if peakTime > 0 {
                 HStack {
@@ -420,7 +420,7 @@ private struct HalfLifeNoDataCard: View {
     var body: some View {
         VStack(spacing: 10) {
             Image(systemName: "clock.badge.questionmark")
-                .font(.title2)
+                .font(.piru(.title2))
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
             Text("Half-life data not available for \(substanceName ?? "this substance").")

@@ -122,14 +122,14 @@ struct MedDetailView: View {
         Section {
             HStack(spacing: 14) {
                 Image(systemName: "pill")
-                    .font(.title3.weight(.semibold))
+                    .font(.piru(.title3).weight(.semibold))
                     .foregroundStyle(.white)
                     .frame(width: 44, height: 44)
                     .background(Theme.accent, in: Circle())
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance))
-                        .font(.headline)
+                        .font(.piru(.headline))
                     Text(scheduleSummary)
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)

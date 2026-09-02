@@ -12,7 +12,7 @@ struct CombinationMetaboliteBanner: View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: "heart.text.square")
                 .foregroundStyle(.orange)
-                .font(.title3)
+                .font(.piru(.title3))
                 .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 3) {

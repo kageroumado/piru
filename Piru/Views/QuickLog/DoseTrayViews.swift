@@ -134,7 +134,7 @@ struct TrayCommitBar: View {
     private var commitButton: some View {
         Button(action: onCommit) {
             Text(commitLabel)
-                .font(.headline)
+                .font(.piru(.headline))
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: DoseTrayMetrics.controlHeight)

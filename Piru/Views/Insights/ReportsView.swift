@@ -503,7 +503,7 @@ private struct ExportCard: View {
         } label: {
             HStack(spacing: 14) {
                 Image(systemName: icon)
-                    .font(.title3)
+                    .font(.piru(.title3))
                     .foregroundStyle(tint)
                     .frame(width: 28, alignment: .center)
 

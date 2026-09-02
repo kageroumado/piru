@@ -489,7 +489,7 @@ struct SubstanceShareCard: View {
                 leanBarHero(monoamineProfile)
             } else {
                 Text(mechanism.summary)
-                    .font(.headline.weight(.semibold))
+                    .font(.piru(.headline).weight(.semibold))
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)
                     .fixedSize(horizontal: false, vertical: true)

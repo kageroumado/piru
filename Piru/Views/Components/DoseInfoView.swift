@@ -141,7 +141,7 @@ struct RouteDosingCard: View {
         VStack(alignment: .leading, spacing: 18) {
             if showsTitle {
                 Text(route.localizedName)
-                    .font(.headline)
+                    .font(.piru(.headline))
             }
             if hasDosage, let doses {
                 dosageBlock(doses)

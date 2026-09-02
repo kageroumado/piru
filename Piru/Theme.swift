@@ -59,9 +59,14 @@ struct SkinnedRoot<Content: View>: View {
 
     var body: some View {
         content
+            // Re-created on a skin change, so UIKit bars pick up the new
+            // title face from the appearance proxy.
+            .id(skins.current)
             .tint(Theme.accent)
             .fontDesign(skins.current.fontDesign)
             .preferredColorScheme(skins.colorScheme.colorScheme)
+            .onAppear { SkinNavigationTitles.apply(skins.current) }
+            .onChange(of: skins.current) { _, skin in SkinNavigationTitles.apply(skin) }
     }
 }
 

@@ -121,7 +121,7 @@ struct UsageSectionCard<Content: View>: View {
         VStack(alignment: .leading, spacing: 10) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                    .font(.headline)
+                    .font(.piru(.headline))
                     .accessibilityAddTraits(.isHeader)
                 if let subtitle {
                     Text(subtitle)
@@ -168,7 +168,7 @@ struct UsageCollapsibleCard<Content: View>: View {
         } label: {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                    .font(.headline)
+                    .font(.piru(.headline))
                     .accessibilityAddTraits(.isHeader)
                 if let subtitle {
                     Text(subtitle)

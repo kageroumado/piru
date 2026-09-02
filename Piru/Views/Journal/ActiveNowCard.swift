@@ -68,7 +68,7 @@ struct ActiveNowCard: View {
 
     private var titleLabel: some View {
         Text("Active Now")
-            .font(.title3.weight(.semibold))
+            .font(.piru(.title3).weight(.semibold))
             .lineLimit(1)
     }
 

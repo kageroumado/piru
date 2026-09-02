@@ -104,7 +104,7 @@ struct DrinkPresetRow: View {
     var body: some View {
         HStack(spacing: 12) {
             Text(preset.emoji)
-                .font(.title3)
+                .font(.piru(.title3))
             Text(preset.name)
             Spacer()
             Text(preset.detailLabel)

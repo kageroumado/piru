@@ -122,7 +122,7 @@ struct CeilingEffectToolView: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text(sub.displayName)
-                    .font(.headline)
+                    .font(.piru(.headline))
                     .accessibilityAddTraits(.isHeader)
                 Spacer()
                 ConfidenceBadge(tier: sub.confidence)
@@ -145,7 +145,7 @@ struct CeilingEffectToolView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text("Same class, opposite behavior")
-                    .font(.headline)
+                    .font(.piru(.headline))
                     .accessibilityAddTraits(.isHeader)
                 Spacer()
                 ConfidenceBadge(tier: .high)
@@ -362,7 +362,7 @@ struct CeilingEffectToolView: View {
     private func qualitativeMarker(for sub: SaturablePharmacology.Profile) -> some View {
         HStack(spacing: 10) {
             Image(systemName: sub.mechanism == .activation ? "arrow.up.forward.circle" : "exclamationmark.triangle.fill")
-                .font(.title3)
+                .font(.piru(.title3))
                 .foregroundStyle(tint(for: sub))
                 .accessibilityHidden(true)
             Text(

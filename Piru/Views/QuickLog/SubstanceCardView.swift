@@ -75,7 +75,7 @@ struct SubstanceCardView: View, Equatable {
                 // "Methylphenidate XR"); a plain card keeps the regionalized,
                 // relabel-aware display name.
                 Text(card.title ?? customSubstanceStore.displayName(for: card.substanceName))
-                    .font(.headline)
+                    .font(.piru(.headline))
                     .accessibilityAddTraits(.isHeader)
                 // PK status as a glanceable badge instead of a two-line card —
                 // tap to expand the full advice when it actually matters. The

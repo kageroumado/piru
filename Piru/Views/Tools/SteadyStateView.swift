@@ -337,7 +337,7 @@ struct SteadyStateView: View {
     private var noDataCard: some View {
         VStack(spacing: 10) {
             Image(systemName: "clock.badge.questionmark")
-                .font(.title2)
+                .font(.piru(.title2))
                 .accessibilityHidden(true)
                 .foregroundStyle(Theme.secondaryLabel)
             Text("Half-life data not available for \(selectedSubstance?.name ?? "this substance").")

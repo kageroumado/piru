@@ -97,7 +97,7 @@ struct DoseEffectsCard: View {
             if let tiers, let activeTier, let selectedTier = tiers.tier(activeTier) {
                 HStack(alignment: .firstTextBaseline) {
                     Text(selectedTier.name)
-                        .font(.title3.weight(.bold))
+                        .font(.piru(.title3).weight(.bold))
                     Spacer(minLength: 8)
                     Text(selectedTier.fullValue)
                         .font(.system(.title2, design: .rounded).weight(.heavy).monospacedDigit())

@@ -10,12 +10,12 @@ struct QuickLogHelpBanner: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 10) {
                 Image(systemName: "hand.raised.fill")
-                    .font(.title2)
+                    .font(.piru(.title2))
                     .foregroundStyle(.blue)
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Take a breath.")
-                        .font(.headline)
+                        .font(.piru(.headline))
                     Text("You're going to be okay. This feeling is temporary.")
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)

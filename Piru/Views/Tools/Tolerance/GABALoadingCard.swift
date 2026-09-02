@@ -55,7 +55,7 @@ struct GABALoadingCard: View {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack(alignment: .firstTextBaseline) {
                         Text("Receptor load")
-                            .font(.headline)
+                            .font(.piru(.headline))
                         Spacer()
                         PredictionCapsule()
                     }

@@ -106,7 +106,7 @@ struct InventoryItemDetailView: View {
                     navigator.present(.inventoryItemForm(id: item.id))
                 } label: {
                     Text("Restock")
-                        .font(.headline)
+                        .font(.piru(.headline))
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
@@ -134,7 +134,7 @@ struct InventoryItemDetailView: View {
                     .font(.system(size: 38, weight: .bold))
                     .foregroundStyle(status.numberColor)
                 Text(item.unit)
-                    .font(.title3.weight(.medium))
+                    .font(.piru(.title3).weight(.medium))
                     .foregroundStyle(Theme.secondaryLabel)
             }
         }

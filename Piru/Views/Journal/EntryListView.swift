@@ -591,9 +591,9 @@ struct EntryListView: View {
                 } header: {
                     HStack(alignment: .firstTextBaseline, spacing: 7) {
                         Text(day.dateTitle)
-                            .font(.headline)
+                            .font(.piru(.headline))
                         Text(day.weekday)
-                            .font(.headline.weight(.regular))
+                            .font(.piru(.headline).weight(.regular))
                             .foregroundStyle(Theme.secondaryLabel)
                         Spacer()
                     }

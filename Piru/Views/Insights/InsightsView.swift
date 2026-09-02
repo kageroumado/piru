@@ -390,7 +390,7 @@ private struct InsightsToleranceCard: View {
             if notable.isEmpty {
                 HStack(alignment: .center, spacing: 14) {
                     Image(systemName: "checkmark.seal.fill")
-                        .font(.title)
+                        .font(.piru(.title))
                         .foregroundStyle(.green)
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 2) {

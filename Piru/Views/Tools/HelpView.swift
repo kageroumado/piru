@@ -93,12 +93,12 @@ struct HelpView: View {
         Section {
             VStack(spacing: 12) {
                 Image(systemName: "heart.fill")
-                    .font(.largeTitle)
+                    .font(.piru(.largeTitle))
                     .foregroundStyle(Theme.accent)
                     .accessibilityHidden(true)
 
                 Text("You're going to be okay")
-                    .font(.title2.weight(.semibold))
+                    .font(.piru(.title2).weight(.semibold))
                     .accessibilityAddTraits(.isHeader)
 
                 Text("Whatever you're experiencing right now, help is available and you don't have to face it alone.")

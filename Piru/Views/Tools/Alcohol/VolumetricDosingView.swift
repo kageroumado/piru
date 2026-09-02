@@ -58,11 +58,11 @@ struct VolumetricDosingView: View {
     private var headerCard: some View {
         VStack(spacing: 6) {
             Image(systemName: "flask")
-                .font(.largeTitle)
+                .font(.piru(.largeTitle))
                 .foregroundStyle(Theme.accent)
                 .accessibilityHidden(true)
             Text("Volumetric Dosing")
-                .font(.title3.weight(.semibold))
+                .font(.piru(.title3).weight(.semibold))
             Text("Calculate measurements for dissolving substances in liquid solvents.")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -162,7 +162,7 @@ struct VolumetricDosingView: View {
                     : String(format: "%.4g", result)
 
                 Text("\(formatted) \(resultUnit)")
-                    .font(.title.weight(.bold))
+                    .font(.piru(.title).weight(.bold))
                     .foregroundStyle(Theme.accent)
                     .contentTransition(.numericText())
                     .animation(.default, value: result)
@@ -177,7 +177,7 @@ struct VolumetricDosingView: View {
                 .tint(Theme.accent)
             } else {
                 Text("--")
-                    .font(.title.weight(.bold))
+                    .font(.piru(.title).weight(.bold))
                     .foregroundStyle(Theme.secondaryLabel)
             }
         }

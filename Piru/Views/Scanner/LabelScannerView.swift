@@ -157,7 +157,7 @@ struct LabelScannerView: View {
                 Spacer()
                 Button { dismiss() } label: {
                     Image(systemName: "xmark")
-                        .font(.headline)
+                        .font(.piru(.headline))
                         .padding(12)
                         .background(.ultraThinMaterial, in: Circle())
                 }

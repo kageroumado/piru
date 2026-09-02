@@ -57,7 +57,7 @@ private struct SourceRow: View {
     var body: some View {
         HStack(spacing: 14) {
             Text("\(rank)")
-                .font(.headline.monospacedDigit())
+                .font(.piru(.headline).monospacedDigit())
                 .foregroundStyle(Theme.accent)
                 .frame(width: 20, alignment: .center)
             VStack(alignment: .leading, spacing: 2) {

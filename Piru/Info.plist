@@ -34,6 +34,11 @@
 	</array>
 	<key>PiruManifestURL</key>
 	<string>https://github.com/kageroumado/piru/releases/download/db/manifest.json</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Fredoka-Variable.ttf</string>
+		<string>DotGothic16-Regular.ttf</string>
+	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 </dict>

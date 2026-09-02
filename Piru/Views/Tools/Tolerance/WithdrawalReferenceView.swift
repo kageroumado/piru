@@ -122,7 +122,7 @@ struct WithdrawalReferenceView: View {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(alignment: .firstTextBaseline) {
                     Text(daysPhrase(days))
-                        .font(.title3.weight(.semibold))
+                        .font(.piru(.title3).weight(.semibold))
                     Spacer()
                     PredictionCapsule()
                 }

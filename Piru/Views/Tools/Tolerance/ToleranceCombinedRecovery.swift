@@ -30,7 +30,7 @@ struct ToleranceCombinedRecoverySection: View {
         Section {
             VStack(alignment: .leading, spacing: 12) {
                 Text("Recovery if you stop now")
-                    .font(.headline)
+                    .font(.piru(.headline))
 
                 if series.isEmpty {
                     Text("Everything's rested — nothing recovering right now.")

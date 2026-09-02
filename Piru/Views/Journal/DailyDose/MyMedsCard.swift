@@ -195,7 +195,7 @@ struct MyMedsCard: View {
                 progressRing(takenCount: takenCount, total: slots.count, isComplete: isComplete)
                 VStack(alignment: .leading, spacing: 1) {
                     Text("My Meds")
-                        .font(.headline)
+                        .font(.piru(.headline))
                     // Status as a subtitle rather than a footer line — it
                     // swaps text (next dose → count left → "everything today")
                     // without ever changing the card's height, keeping the

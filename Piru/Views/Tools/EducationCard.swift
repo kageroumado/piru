@@ -70,7 +70,7 @@ private struct EducationRow: View {
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: tool.icon)
-                .font(.headline)
+                .font(.piru(.headline))
                 .foregroundStyle(Theme.accent)
                 .frame(width: 28)
                 .accessibilityHidden(true)

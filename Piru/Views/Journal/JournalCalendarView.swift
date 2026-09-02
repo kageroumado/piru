@@ -37,7 +37,7 @@ struct JournalCalendarView: View {
                 .accessibilityLabel(Text("Previous month"))
                 Spacer()
                 Text(selectedMonth.formatted(.dateTime.month(.wide).year()))
-                    .font(.headline)
+                    .font(.piru(.headline))
                 Spacer()
                 Button {
                     if let next = calendar.date(byAdding: .month, value: 1, to: selectedMonth) {

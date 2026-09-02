@@ -123,7 +123,7 @@ private struct BindingHitRow: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text(hit.substanceName)
-                    .font(.headline)
+                    .font(.piru(.headline))
                 Spacer()
                 if let ki = hit.kiNm {
                     Text("Ki \(formatNm(ki)) nM")

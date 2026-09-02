@@ -150,7 +150,7 @@ private struct AdherenceTodayCard: View {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Text("Today")
-                        .font(.headline)
+                        .font(.piru(.headline))
                     Spacer()
                     Text("\(today.takenCount)/\(today.totalCount) taken")
                         .font(.subheadline.monospacedDigit())
@@ -198,7 +198,7 @@ private struct TodayAdherenceRow: View {
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: done ? "checkmark.circle.fill" : "circle")
-                .font(.title3)
+                .font(.piru(.title3))
                 .foregroundStyle(done ? Color.green : Color(.tertiaryLabel))
             VStack(alignment: .leading, spacing: 1) {
                 Text(title)
@@ -233,7 +233,7 @@ private struct AdherenceStreakCard: View {
     var body: some View {
         HStack(spacing: 14) {
             Image(systemName: "flame.fill")
-                .font(.largeTitle)
+                .font(.piru(.largeTitle))
                 .foregroundStyle(.orange)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
@@ -299,7 +299,7 @@ private struct AdherenceCalendar: View {
             Spacer()
             Button { showMonthPicker = true } label: {
                 Text(displayedMonth.formatted(.dateTime.month(.wide).year()))
-                    .font(.headline)
+                    .font(.piru(.headline))
                     .contentShape(.rect)
             }
             .buttonStyle(.plain)
@@ -468,7 +468,7 @@ struct AdherenceDayDetailSheet: View {
                         HStack(spacing: 12) {
                             Image(systemName: itemAdherence.taken ? "checkmark.circle.fill" : "xmark.circle.fill")
                                 .foregroundStyle(itemAdherence.taken ? .green : .red)
-                                .font(.title3)
+                                .font(.piru(.title3))
                                 .accessibilityHidden(true)
 
                             VStack(alignment: .leading, spacing: 2) {
@@ -505,7 +505,7 @@ struct AdherenceDayDetailSheet: View {
                 .foregroundStyle(statusColor)
                 .accessibilityHidden(true)
             Text(statusLabel)
-                .font(.headline)
+                .font(.piru(.headline))
         }
     }
 
@@ -579,7 +579,7 @@ private struct AdherenceMonthPicker: View {
                     .accessibilityLabel(Text("Previous Year"))
                     Spacer()
                     Text(verbatim: "\(pickerYear)")
-                        .font(.title3.weight(.bold))
+                        .font(.piru(.title3).weight(.bold))
                     Spacer()
                     Button {
                         withAnimation(.snappy) { pickerYear += 1 }

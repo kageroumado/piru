@@ -159,7 +159,7 @@ struct ReportView: View {
                                     .tint(Theme.accent)
                             } else {
                                 Label("Generate PDF Report", systemImage: "doc.richtext")
-                                    .font(.headline)
+                                    .font(.piru(.headline))
                             }
                             Spacer()
                         }

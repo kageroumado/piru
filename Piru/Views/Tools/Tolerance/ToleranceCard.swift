@@ -59,7 +59,7 @@ struct ToleranceCardHeader: View {
                 .fill(color)
                 .frame(width: 9, height: 9)
             Text(name)
-                .font(.headline)
+                .font(.piru(.headline))
             Spacer(minLength: 8)
             Text("Predicted")
                 .font(.caption2.weight(.semibold))

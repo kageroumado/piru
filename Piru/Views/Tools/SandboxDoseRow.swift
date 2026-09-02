@@ -69,7 +69,7 @@ struct SandboxDoseRow: View {
                     .frame(width: 10, height: 10)
                     .accessibilityHidden(true)
                 Text(row.substance == nil ? String(localized: "Choose substance") : row.displayName)
-                    .font(.headline)
+                    .font(.piru(.headline))
                     .foregroundStyle(row.substance == nil ? Theme.secondaryLabel : .primary)
                     .lineLimit(1)
                 Spacer(minLength: 4)

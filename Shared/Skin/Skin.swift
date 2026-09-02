@@ -196,13 +196,34 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
 
     /// Applied once at the root. `nil` keeps the system default design; this
     /// reshapes every semantic text style in the app without touching call
-    /// sites. Custom families are the typography layer's job, not this one's.
+    /// sites. Custom families come through ``typeface``.
     var fontDesign: Font.Design? {
         switch self {
         case .piru: nil
         case .elyPink: .rounded
         }
     }
+
+    /// Custom families by role. Body copy always stays the system face (with
+    /// ``fontDesign``): the CJK body fonts a skin might want run 4–9 MB per
+    /// weight, and the app ships in three scripts. Display and label faces
+    /// are small and carry most of a skin's character.
+    var typeface: SkinTypeface {
+        switch self {
+        case .piru: SkinTypeface(display: nil, label: nil)
+        // Fredoka (variable, 159 KB) for titles; DotGothic16 (2 MB, includes
+        // kana + JIS kanji) for chips and eyebrows. Both SIL OFL, in Piru/Fonts.
+        case .elyPink: SkinTypeface(display: "Fredoka", label: "DotGothic16")
+        }
+    }
+}
+
+/// Font family names a skin bundles, by role. `nil` means the system face.
+struct SkinTypeface: Equatable, Sendable {
+    /// largeTitle · title · title2 · title3 · headline, and navigation titles.
+    let display: String?
+    /// Chips, badges, eyebrows — small categorical labels, never body copy.
+    let label: String?
 }
 
 /// The L1 status roles. A closed set — see `design-system/README.md`.

@@ -21,12 +21,12 @@ struct GlanceCardHeader<Trailing: View>: View {
     var body: some View {
         HStack(spacing: 10) {
             Image(systemName: icon)
-                .font(.headline)
+                .font(.piru(.headline))
                 .foregroundStyle(iconTint)
                 .frame(width: Self.iconWidth, alignment: .center)
                 .accessibilityHidden(true)
             title
-                .font(.headline)
+                .font(.piru(.headline))
                 .foregroundStyle(titleColor)
             Spacer(minLength: 8)
             trailing()

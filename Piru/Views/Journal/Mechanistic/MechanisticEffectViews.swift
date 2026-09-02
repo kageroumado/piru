@@ -45,7 +45,7 @@ struct MechanisticVitalsCards: View {
                 .labelStyle(.titleAndIcon)
                 .tint(tint)
             HStack(alignment: .firstTextBaseline, spacing: 3) {
-                Text(value).font(.title2.bold())
+                Text(value).font(.piru(.title2).bold())
                 Text(unit).font(.caption.weight(.semibold)).foregroundStyle(.secondary)
             }
             // The card headlines the reading nearest the playhead, so a day's

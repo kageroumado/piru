@@ -47,7 +47,7 @@ struct ScanResultCard: View {
         VStack(alignment: .leading, spacing: 14) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(resolved.brandName ?? resolved.substance.displayTitle)
-                    .font(.headline)
+                    .font(.piru(.headline))
                 if let brand = resolved.brandName, brand.caseInsensitiveCompare(resolved.substance.name) != .orderedSame {
                     Text(resolved.substance.displayTitle)
                         .font(.subheadline)
@@ -74,7 +74,7 @@ struct ScanResultCard: View {
     private func noMatchContent(text: String, canSearch: Bool) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("No match")
-                .font(.headline)
+                .font(.piru(.headline))
 
             if canSearch, !text.isEmpty {
                 Text(text)

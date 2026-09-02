@@ -35,7 +35,7 @@ struct EffectEstimatesCard: View {
                     VStack(alignment: .leading, spacing: 3) {
                         HStack(spacing: 6) {
                             Text("Effect Estimates")
-                                .font(.headline)
+                                .font(.piru(.headline))
                             ExperimentalTag()
                         }
                         Text("How this session may feel over time")

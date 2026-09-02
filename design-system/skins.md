@@ -55,10 +55,42 @@ roles stay split: a colour that is a fine mark can still fail as small copy
    table so its tokens are gated.
 4. Nothing else. The picker lists `Skin.allCases`.
 
+## Form: `Piru/Views/Components/SkinChrome.swift`
+
+Colour is `Theme`'s; shape, stroke and shadow are this file's. Three primitives,
+each branching on `Skin.surface`:
+
+- `skinButtonStyle(_:)` — every standalone action. Glass skins keep
+  `.glassProminent` / `.glass`; edged skins get `EdgedButtonStyle`, a sticker
+  whose press sinks onto its hard shadow. Never write `.buttonStyle(.glass…)`
+  directly again; the modifier is the one place the split lives.
+- `skinChip` / `skinOutlineChip` — the badge grammar under `capsuleChip`,
+  `heroChip`, `ROAPill`. A capsule tinted at 0.10 under glass (never higher —
+  a colour on a tint of itself asymptotes around 4.5:1 in dark mode), a stroked
+  square on the input surface under an edge. Takes a text style, not a `Font`,
+  so the edged branch can set the skin's label face.
+- `SkinSticker` — a group's label (the timeline day header). Material capsule,
+  or the site's tab: accent fill, stroke, hard shadow in the eyebrow colour.
+
+## Type: `Piru/Views/Components/SkinType.swift`
+
+Two roles. **Display** (`largeTitle` … `headline`, and UIKit navigation titles
+via the appearance proxy) takes `Skin.typeface.display`; **label** (chips,
+eyebrows) takes `Skin.typeface.label`. Body copy is always the system face,
+reshaped only by `Skin.fontDesign` at the root — the CJK body fonts a skin might
+want run 4–9 MB per weight, and the app ships in three scripts.
+
+Call sites say `.font(.piru(.headline))`; the helper hands back the plain system
+style for non-display styles and for skins without a display face, so it is safe
+anywhere. Custom fonts are created `relativeTo:` their style, so Dynamic Type
+keeps scaling them. Families live in `Piru/Fonts/` with their OFL texts and are
+declared in `Piru/Info.plist` (`UIAppFonts`); `SkinTypeTests` checks the bundle
+actually registers what each skin names.
+
 ## Later
 
-- Chrome components (`GlassPillButton`, chips, badges, the timeline day capsule,
-  the dock) read `Skin.surface` and pick their form.
-- A typography layer (`Font.piru(_:)`) so a skin can bundle custom families;
-  until then `fontDesign` reshapes the system faces app-wide.
-- Widgets read `SkinDefaults.storedSkin()` and resolve the same catalog symbols.
+- Widgets and the Live Activity read `SkinDefaults.storedSkin()` and resolve
+  the same catalog symbols.
+- Per-file section headers (eyebrows) are private today; a shared component
+  would let the label face reach them.
+- Decorations (falling glyphs, title sparkles) — stashed by decision.

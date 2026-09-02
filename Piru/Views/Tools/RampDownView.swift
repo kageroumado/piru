@@ -115,7 +115,7 @@ struct RampDownView: View {
                         .foregroundStyle(.green)
                         .accessibilityHidden(true)
                     Text("Alert scheduled")
-                        .font(.headline)
+                        .font(.piru(.headline))
                     Spacer()
                     Text(redoseTime.formatted(date: .omitted, time: .shortened))
                         .foregroundStyle(Theme.secondaryLabel)
@@ -155,7 +155,7 @@ struct RampDownView: View {
                     activateAlert()
                 } label: {
                     Label("Enable Comedown Alert", systemImage: "bell.badge")
-                        .font(.headline)
+                        .font(.piru(.headline))
                         .foregroundStyle(Theme.accent)
                         .frame(maxWidth: .infinity)
                 }

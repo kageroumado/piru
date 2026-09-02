@@ -202,7 +202,7 @@ struct OnboardingLayout<Hero: View, Mid: View, Footer: View>: View {
                             .padding(.bottom, 28)
                         VStack(spacing: 10) {
                             Text(title)
-                                .font(.largeTitle.weight(.bold))
+                                .font(.piru(.largeTitle).weight(.bold))
                                 .multilineTextAlignment(.center)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .accessibilityAddTraits(.isHeader)

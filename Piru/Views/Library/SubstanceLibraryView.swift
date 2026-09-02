@@ -122,12 +122,12 @@ private struct SubstanceSearchResultsList: View {
             VStack(alignment: .leading, spacing: 16) {
                 HStack(spacing: 12) {
                     Image(systemName: "hand.raised.fill")
-                        .font(.largeTitle)
+                        .font(.piru(.largeTitle))
                         .foregroundStyle(.blue)
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Take a breath.")
-                            .font(.title3.weight(.semibold))
+                            .font(.piru(.title3).weight(.semibold))
                         Text("You're going to be okay. Whatever you're feeling right now is temporary.")
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)

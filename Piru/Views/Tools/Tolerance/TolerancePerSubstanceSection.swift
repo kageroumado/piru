@@ -83,7 +83,7 @@ struct ToleranceSubstanceCard: View {
             HStack(spacing: 8) {
                 Circle().fill(topColor).frame(width: 9, height: 9)
                 Text(group.displayName)
-                    .font(.headline)
+                    .font(.piru(.headline))
                 Spacer(minLength: 8)
             }
 

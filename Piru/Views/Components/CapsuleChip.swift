@@ -11,7 +11,7 @@ extension Text {
     /// Every scale in `design-system/color/` ships both variants for exactly
     /// this call. The form (capsule or blinky) is the skin's — see ``skinChip``.
     func capsuleChip(text: Color, fill: Color) -> some View {
-        skinChip(text: text, fill: fill, font: .caption2.weight(.semibold), horizontal: 8, vertical: 3)
+        skinChip(text: text, fill: fill, style: .caption2, weight: .semibold, horizontal: 8, vertical: 3)
     }
 
     /// The chip at the larger **hero** size — same grammar as ``capsuleChip``
@@ -19,7 +19,7 @@ extension Text {
     /// strength or salt badge sits the same height as the route pill in a
     /// standalone hero. Row chips stay on ``capsuleChip``.
     func heroChip(text: Color, fill: Color) -> some View {
-        skinChip(text: text, fill: fill, font: .caption.weight(.semibold), horizontal: 10, vertical: 5)
+        skinChip(text: text, fill: fill, style: .caption, weight: .semibold, horizontal: 10, vertical: 5)
     }
 
     /// A bordered, **unfilled** chip for freeform tags — deliberately a
@@ -40,6 +40,6 @@ extension Text {
     /// at the 3:1 floor, so the colour still identifies the row while the label
     /// stays readable.
     func capsuleOutlineChip(stroke: Color) -> some View {
-        skinOutlineChip(stroke: stroke, font: .caption2.weight(.medium), horizontal: 8, vertical: 3)
+        skinOutlineChip(stroke: stroke, style: .caption2, weight: .medium, horizontal: 8, vertical: 3)
     }
 }

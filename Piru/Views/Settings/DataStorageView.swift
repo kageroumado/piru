@@ -335,7 +335,7 @@ struct DataStorageView: View {
         Button(action: action) {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: systemImage)
-                    .font(.title3).foregroundStyle(Theme.accent).frame(width: 28)
+                    .font(.piru(.title3)).foregroundStyle(Theme.accent).frame(width: 28)
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(title).foregroundStyle(.primary)
@@ -362,7 +362,7 @@ struct DataStorageView: View {
         Button(action: action) {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: systemImage)
-                    .font(.title3).foregroundStyle(Theme.accent).frame(width: 28)
+                    .font(.piru(.title3)).foregroundStyle(Theme.accent).frame(width: 28)
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(title).foregroundStyle(.primary)
@@ -409,7 +409,7 @@ struct DataStorageView: View {
 
     private func howItWorksRow(icon: String, title: LocalizedStringKey, detail: LocalizedStringKey) -> some View {
         HStack(alignment: .top, spacing: 12) {
-            Image(systemName: icon).font(.title3).foregroundStyle(Theme.accent).frame(width: 28)
+            Image(systemName: icon).font(.piru(.title3)).foregroundStyle(Theme.accent).frame(width: 28)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title).font(.subheadline.weight(.semibold))
@@ -446,7 +446,7 @@ struct DataStorageView: View {
         Button { pendingRestore = store } label: {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: store.isIntentional ? "clock.arrow.circlepath" : "exclamationmark.arrow.circlepath")
-                    .font(.title3)
+                    .font(.piru(.title3))
                     .foregroundStyle(store.isIntentional ? Theme.secondaryLabel : .orange)
                     .frame(width: 28)
                     .accessibilityHidden(true)

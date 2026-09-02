@@ -56,7 +56,7 @@ struct OnboardingBulletRow: View {
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
             Image(systemName: symbol)
-                .font(.title3)
+                .font(.piru(.title3))
                 .foregroundStyle(Theme.accent)
                 .frame(width: 34)
                 .accessibilityHidden(true)
@@ -167,7 +167,7 @@ struct OnboardingDepthStep: View {
         } label: {
             HStack(spacing: 14) {
                 Image(systemName: tier.icon)
-                    .font(.title3)
+                    .font(.piru(.title3))
                     .foregroundStyle(isSelected ? Theme.accent : Theme.secondaryLabel)
                     .frame(width: 30)
                     .accessibilityHidden(true)
@@ -287,7 +287,7 @@ struct OnboardingToggleRow: View {
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
             Image(systemName: symbol)
-                .font(.title3)
+                .font(.piru(.title3))
                 .foregroundStyle(Theme.accent)
                 .frame(width: 34)
                 .accessibilityHidden(true)

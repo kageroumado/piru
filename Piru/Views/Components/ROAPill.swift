@@ -20,10 +20,10 @@ struct ROAPill: View {
         /// Standalone placements: the entry-detail hero, the active-session row.
         case regular
 
-        var font: Font {
+        var textStyle: Font.TextStyle {
             switch self {
-            case .compact: .caption2.weight(.semibold)
-            case .regular: .caption.weight(.semibold)
+            case .compact: .caption2
+            case .regular: .caption
             }
         }
 
@@ -43,7 +43,8 @@ struct ROAPill: View {
             .skinChip(
                 text: route.tintTextColor,
                 fill: route.tintColor,
-                font: size.font,
+                style: size.textStyle,
+                weight: .semibold,
                 horizontal: size.horizontalPadding,
                 vertical: size.verticalPadding,
             )

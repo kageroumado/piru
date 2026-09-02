@@ -339,7 +339,7 @@ struct PharmaTableView: View {
     private var emptyState: some View {
         VStack(spacing: 8) {
             Image(systemName: "tablecells")
-                .font(.largeTitle)
+                .font(.piru(.largeTitle))
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
             Text("No substances match these filters.")

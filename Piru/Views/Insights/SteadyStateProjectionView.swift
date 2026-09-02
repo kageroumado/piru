@@ -95,7 +95,7 @@ struct SteadyStateProjectionCard: View {
                 .fill(projection.color)
                 .frame(width: 9, height: 9)
             Text(projection.displayName)
-                .font(.headline)
+                .font(.piru(.headline))
             Spacer()
             Text("\(projection.medianDose.doseFormatted) \(projection.unit) · \(cadenceText)")
                 .font(.caption)
