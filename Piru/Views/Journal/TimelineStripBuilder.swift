@@ -129,8 +129,12 @@ struct TimelineStripBuilder {
 
         let calendar = Calendar.current
         let byDay = Dictionary(grouping: entries) { calendar.startOfDay(for: $0.timestamp) }
-        let dayDates = byDay.keys.sorted(by: >)
-        guard let oldestDay = dayDates.last else { return nil }
+        // Today always gets a slice, dosed or not: the live edge lies in it,
+        // and a slice tagged with the last dosed day would otherwise run past
+        // midnight and call this morning "Yesterday".
+        let today = calendar.startOfDay(for: now)
+        let dayDates = Set(byDay.keys).union([today]).sorted(by: >)
+        guard let oldestDay = byDay.keys.min() else { return nil }
 
         // Strip bounds: from just before the oldest dose up past "now" to
         // where the longest still-running curve ends plus a margin, capped at
@@ -184,7 +188,7 @@ struct TimelineStripBuilder {
             }
             let bottomTime = day == oldestDay ? globalStart : day
             let groups = Self.makeGroups(
-                dayEntries: byDay[day]!,
+                dayEntries: byDay[day] ?? [],
                 colorMap: colorMap,
                 remainingFractions: remainingFractions,
                 statesByEntry: statesByEntry,
@@ -423,7 +427,7 @@ struct TimelineStripBuilder {
         // With the axis off nothing draws the curves, so skip sampling them.
         let series = style.showsAxis ? curveSeries(slice: slice, localY: localY) : []
 
-        let capsuleYs = groups.filter(\.showsTimeLabel).map(\.timeY) + [nowY].compactMap { $0 }
+        let capsuleYs = groups.filter(\.showsTimeLabel).map(\.timeY) + [nowY].compactMap(\.self)
         let noteMarks = notes
             .filter { $0.timestamp >= slice.bottomTime && $0.timestamp < slice.topTime }
             .map { note in
