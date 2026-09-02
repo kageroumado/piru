@@ -41,7 +41,7 @@ struct EntryReadContent: View {
                 Label("No effect timeline for this substance and route.", systemImage: "info.circle")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
-                    .padding(.vertical, 4)
+                    .padding(.vertical, Spacing.xs)
             }
         }
 
@@ -170,7 +170,7 @@ struct EntryReadHero: View {
 
     var body: some View {
         TimelineView(.periodic(from: .now, by: 60)) { context in
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: Spacing.xl) {
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(alignment: .top) {
                         // The dose row's number treatment at hero scale — the tier
@@ -187,7 +187,7 @@ struct EntryReadHero: View {
                         // Pulled 6pt past the text column so the capsules sit ~14pt
                         // off the card's top/trailing edges — concentric with its
                         // corner radius.
-                        HStack(spacing: 6) {
+                        HStack(spacing: Spacing.sm) {
                             if let saltForm = entry.saltForm {
                                 // Chemical proper noun — not localized.
                                 Text(saltForm)
@@ -305,8 +305,7 @@ struct EntryEndedReceipt: View {
             Image(systemName: "checkmark.circle")
                 .accessibilityHidden(true)
         }
-        .font(.caption)
-        .foregroundStyle(Theme.secondaryLabel)
+        .captionSecondary()
     }
 }
 

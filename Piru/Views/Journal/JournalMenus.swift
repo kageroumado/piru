@@ -21,7 +21,7 @@ struct JournalOptionsButton: View {
             showsOptions = true
         } label: {
             Image(systemName: "ellipsis")
-                .font(.system(size: 17, weight: .semibold))
+                .font(.sectionTitle)
         }
         .accessibilityLabel(Text("More"))
         .popover(isPresented: $showsOptions) {
@@ -73,14 +73,14 @@ struct JournalOptionsMenu: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .top, spacing: 8) {
+            HStack(alignment: .top, spacing: Spacing.md) {
                 ForEach(JournalGrouping.allCases, id: \.self) { option in
                     groupingColumn(option)
                 }
             }
             .padding(.horizontal, 14)
-            .padding(.top, 16)
-            .padding(.bottom, 12)
+            .padding(.top, Spacing.xxl)
+            .padding(.bottom, Spacing.xl)
 
             if grouping == .grouped {
                 Picker("Group by", selection: $groupKey) {
@@ -109,7 +109,7 @@ struct JournalOptionsMenu: View {
                 actionRow(.settings, title: Text("Settings"), systemImage: "gearshape")
                 actionRow(.help, title: Text("Help"), systemImage: "lifepreserver")
             }
-            .padding(.bottom, 8)
+            .padding(.bottom, Spacing.md)
         }
         .frame(width: 320)
     }
@@ -146,7 +146,7 @@ struct JournalOptionsMenu: View {
                     .foregroundStyle(.white)
                     .accessibilityHidden(true)
             } else {
-                Circle().strokeBorder(Color.secondary.opacity(0.5), lineWidth: 1.5)
+                Circle().strokeBorder(Color.secondary.opacity(Theme.Opacity.dimmed), lineWidth: 1.5)
             }
         }
     }
@@ -155,7 +155,7 @@ struct JournalOptionsMenu: View {
         Button {
             onAction(action)
         } label: {
-            HStack(spacing: 12) {
+            HStack(spacing: Spacing.xl) {
                 Image(systemName: systemImage)
                     .font(.body)
                     .foregroundStyle(Theme.accent)
@@ -167,7 +167,7 @@ struct JournalOptionsMenu: View {
                 Spacer(minLength: 0)
             }
             .padding(.leading, 28)
-            .padding(.trailing, 16)
+            .padding(.trailing, Spacing.xxl)
             .frame(maxWidth: .infinity)
             .frame(height: 42)
             .contentShape(Rectangle())
@@ -197,7 +197,7 @@ struct JournalTimelineOptionsButton: View {
             bubbleStyle: $bubbleStyle,
         ) {
             Image(systemName: "slider.horizontal.3")
-                .font(.system(size: 17, weight: .semibold))
+                .font(.sectionTitle)
         }
     }
 }
@@ -255,7 +255,7 @@ struct JournalFilterMenu: View {
                 menuContent
             } label: {
                 Image(systemName: "line.3.horizontal.decrease")
-                    .font(.system(size: 17, weight: .semibold))
+                    .font(.sectionTitle)
             }
             .accessibilityLabel(Text("Filter"))
             .accessibilityValue(filterValue)

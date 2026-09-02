@@ -37,7 +37,7 @@ struct ActiveNowCard: View {
             // One Button over the whole card — a single, properly-traited
             // accessibility element — opening today's session detail.
             Button(action: onTap) {
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: Spacing.lg) {
                     if isSingleDose, let state = states.first {
                         singleDoseContent(state: state, now: now)
                     } else {
@@ -52,8 +52,8 @@ struct ActiveNowCard: View {
                         )
                     }
                 }
-                .padding(.top, 12)
-                .padding(.horizontal, 12)
+                .padding(.top, Spacing.xl)
+                .padding(.horizontal, Spacing.xl)
                 .padding(.bottom, showsGraph ? 6 : 12)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .contentShape(Theme.cardShape)
@@ -68,7 +68,7 @@ struct ActiveNowCard: View {
 
     private var titleLabel: some View {
         Text("Active Now")
-            .font(.title3.weight(.semibold))
+            .screenTitle()
             .lineLimit(1)
     }
 
@@ -89,12 +89,10 @@ struct ActiveNowCard: View {
 
         // Title + substance identity, kept tight as a title/subtitle pair, with
         // the chevron overlaid at the trailing edge.
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             titleLabel
-            HStack(spacing: 6) {
-                Circle()
-                    .fill(color)
-                    .frame(width: 7, height: 7)
+            HStack(spacing: Spacing.sm) {
+                LegendDot(color: color, size: .compact)
                 Text(verbatim: CustomSubstanceStore.shared.displayName(for: state.substanceName))
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -107,7 +105,7 @@ struct ActiveNowCard: View {
         .overlay(alignment: .trailing) { disclosureChevron }
 
         // Big dose amount + route badge, mirroring the dose-detail hero.
-        HStack(alignment: .center, spacing: 8) {
+        HStack(alignment: .center, spacing: Spacing.md) {
             Text(verbatim: "\(state.amount.doseFormatted) \(state.unit)")
                 .font(.system(.title, design: .rounded).weight(.bold))
                 .lineLimit(1)
@@ -123,9 +121,9 @@ struct ActiveNowCard: View {
     // MARK: Multi-substance — dots + names.
 
     private var multiSubstanceContent: some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             titleLabel
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 substanceDots
                 Text(displayNames)
                     .font(.subheadline)
@@ -158,9 +156,7 @@ struct ActiveNowCard: View {
     private var substanceDots: some View {
         HStack(spacing: 3) {
             ForEach(uniqueSubstances.prefix(4).enumerated(), id: \.offset) { _, name in
-                Circle()
-                    .fill(SubstancePalette.color(for: name, colorMap: colorMap))
-                    .frame(width: 7, height: 7)
+                LegendDot(color: SubstancePalette.color(for: name, colorMap: colorMap), size: .compact)
             }
         }
     }

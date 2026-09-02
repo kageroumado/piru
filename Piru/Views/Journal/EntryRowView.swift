@@ -151,9 +151,9 @@ struct EntryRowView: View {
                 // At accessibility sizes the one-line layout would truncate both
                 // the name and the dose to "…", so stack them: name cluster on
                 // top, the dose (still the hero) on its own line below.
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: Spacing.xs) {
                     nameCluster(nameLineLimit: 2)
-                    HStack(alignment: .center, spacing: 8) {
+                    HStack(alignment: .center, spacing: Spacing.md) {
                         doseText
                         Spacer(minLength: 8)
                         chevron
@@ -164,7 +164,7 @@ struct EntryRowView: View {
                 // same rounded face as the detail card — and the disclosure chevron
                 // on the right. Center-aligned so the name, pill, dose, and chevron
                 // all sit on one line at the dose's height.
-                HStack(alignment: .center, spacing: 8) {
+                HStack(alignment: .center, spacing: Spacing.md) {
                     nameCluster(nameLineLimit: 1)
                     Spacer(minLength: 8)
                     doseText
@@ -190,7 +190,7 @@ struct EntryRowView: View {
     /// mid-token) and given a distinct outlined grammar so a rarely-used tag reads
     /// as a quiet annotation rather than another filled badge.
     private var tagRow: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: Spacing.sm) {
             ForEach(display.core.tags, id: \.self) { tag in
                 Text(tag).capsuleOutlineChip()
             }
@@ -199,9 +199,9 @@ struct EntryRowView: View {
     }
 
     private func nameCluster(nameLineLimit: Int) -> some View {
-        HStack(alignment: .center, spacing: 8) {
+        HStack(alignment: .center, spacing: Spacing.md) {
             Image(systemName: "circle.fill")
-                .font(.system(size: 9))
+                .font(.chartAnnotation)
                 .foregroundStyle(display.color)
                 .accessibilityHidden(true)
             Text(display.core.displayName)
@@ -263,12 +263,12 @@ struct EntryRowView: View {
                     // The side-by-side columns compress at accessibility sizes
                     // until the clock time wraps mid-token ("3:33 A / M") —
                     // stack them instead, each line free to use the full width.
-                    VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading, spacing: Spacing.xs) {
                         metaTextLine
                         strengthChip
                     }
                 } else {
-                    HStack(spacing: 8) {
+                    HStack(spacing: Spacing.md) {
                         metaTextLine
                         Spacer(minLength: 8)
                         strengthChip
@@ -294,11 +294,11 @@ struct EntryRowView: View {
     /// The elimination-progress rail with the live countdown at its trailing
     /// edge — the number sits beside the bar it measures.
     private func railRow(elapsed: Double, total: Double, now: Date) -> some View {
-        HStack(spacing: 10) {
+        HStack(spacing: Spacing.lg) {
             GeometryReader { geo in
                 let fraction = min(1, max(0, elapsed / total))
                 ZStack(alignment: .leading) {
-                    Capsule().fill(display.color.opacity(0.10))
+                    Capsule().fill(display.color.opacity(Theme.Opacity.tint))
                     Capsule()
                         .fill(display.color.opacity(0.6))
                         .frame(width: max(0, geo.size.width * fraction))
@@ -350,7 +350,7 @@ struct EntryRowView: View {
         // label color — reads as data, not a colored pill.
         HStack(spacing: 5) {
             Image(systemName: "heart.fill")
-                .font(.system(size: 9))
+                .font(.chartAnnotation)
                 .foregroundStyle(VitalsPalette.heart)
             Text(verbatim: "\(hr.atDose)")
                 .fontWeight(.semibold)
@@ -362,13 +362,13 @@ struct EntryRowView: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(.primary)
             Text("bpm")
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
             Text(verbatim: "\(hr.delta >= 0 ? "+" : "")\(hr.delta)")
                 .foregroundStyle(deltaColor(hr))
             if hr.sparkline.count >= 2 {
                 HRSparkline(values: hr.sparkline)
                     .frame(width: 34, height: 12)
-                    .padding(.leading, 2)
+                    .padding(.leading, Spacing.xxs)
             }
             if !display.confounderColors.isEmpty {
                 overlapMark
@@ -387,9 +387,7 @@ struct EntryRowView: View {
     private var overlapMark: some View {
         HStack(spacing: -3) {
             ForEach(Array(([display.color] + display.confounderColors).enumerated()), id: \.offset) { _, color in
-                Circle()
-                    .fill(color)
-                    .frame(width: 7, height: 7)
+                LegendDot(color: color, size: .compact)
                     .overlay(Circle().strokeBorder(Theme.background, lineWidth: 1))
             }
         }

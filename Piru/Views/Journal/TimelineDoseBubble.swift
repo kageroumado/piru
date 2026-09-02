@@ -46,7 +46,7 @@ struct TimelineDoseBubble: View {
 
     var body: some View {
         Button(action: onTap) {
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.md) {
                 switch style {
                 case .full:
                     fullContent
@@ -61,7 +61,7 @@ struct TimelineDoseBubble: View {
                     .foregroundStyle(.tertiary)
                     .accessibilityHidden(true)
             }
-            .padding(.horizontal, 10)
+            .padding(.horizontal, Spacing.lg)
             .frame(height: Self.height(for: style))
             .contentShape(.rect)
             .glassEffect(.regular.tint(item.color.opacity(TimelineGlass.tintOpacity)), in: .rect(cornerRadius: Self.cornerRadius))
@@ -77,18 +77,16 @@ struct TimelineDoseBubble: View {
     /// Name across the whole first row; dose, route chip and the readout
     /// share the second.
     private var fullContent: some View {
-        HStack(spacing: 8) {
-            Circle()
-                .fill(isActive ? item.color : item.color.opacity(0.4))
-                .frame(width: 8, height: 8)
+        HStack(spacing: Spacing.md) {
+            LegendDot(color: isActive ? item.color : item.color.opacity(Theme.Opacity.muted))
 
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(displayName)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                HStack(spacing: 4) {
+                HStack(spacing: Spacing.xs) {
                     Text(verbatim: doseText)
                         .font(.footnote)
                         .foregroundStyle(Theme.secondaryLabel)
@@ -101,9 +99,9 @@ struct TimelineDoseBubble: View {
     }
 
     private var compactLeading: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 6) {
+        HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
             Text(displayName)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .lineLimit(1)
             Text(verbatim: doseText)
                 .font(.footnote)

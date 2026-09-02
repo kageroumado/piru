@@ -29,21 +29,20 @@ struct EffectEstimatesCard: View {
                     ignored: ignored,
                 )
             } label: {
-                HStack(spacing: 12) {
+                HStack(spacing: Spacing.xl) {
                     EffectThumbnail(result: result)
                         .frame(width: 54, height: 44)
                     VStack(alignment: .leading, spacing: 3) {
-                        HStack(spacing: 6) {
+                        HStack(spacing: Spacing.sm) {
                             Text("Effect Estimates")
-                                .font(.headline)
+                                .cardTitle()
                             ExperimentalTag()
                         }
                         Text("How this session may feel over time")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                     }
                 }
-                .padding(.vertical, 2)
+                .padding(.vertical, Spacing.xxs)
             }
         }
     }
@@ -55,9 +54,9 @@ struct ExperimentalTag: View {
     var body: some View {
         Text("Experimental")
             .font(.caption2.weight(.semibold))
-            .foregroundStyle(.secondary)
+            .foregroundStyle(Theme.secondaryLabel)
             .padding(.horizontal, 7)
-            .padding(.vertical, 2)
+            .padding(.vertical, Spacing.xxs)
             .background(Color(.secondarySystemFill), in: Capsule())
     }
 }
@@ -104,8 +103,8 @@ struct EffectThumbnail: View {
             ))
             context.stroke(line, with: .color(lens.color), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
         }
-        .background(lens.color.opacity(0.08), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
-        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .background(lens.color.opacity(Theme.Opacity.hairline), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.inner, style: .continuous))
         .accessibilityHidden(true)
     }
 }
@@ -152,13 +151,13 @@ struct EffectEstimatesView: View {
 
     private var introSection: some View {
         Section {
-            VStack(alignment: .leading, spacing: 10) {
-                HStack(spacing: 8) {
+            VStack(alignment: .leading, spacing: Spacing.lg) {
+                HStack(spacing: Spacing.md) {
                     Image(systemName: "waveform.path.ecg.rectangle")
                         .foregroundStyle(Theme.accent)
                         .accessibilityHidden(true)
                     Text("Modeled from pharmacology")
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                     Spacer(minLength: 0)
                     ExperimentalTag()
                 }
@@ -169,7 +168,7 @@ struct EffectEstimatesView: View {
                 NavigationLink {
                     EffectModelExplainerView()
                 } label: {
-                    HStack(spacing: 4) {
+                    HStack(spacing: Spacing.xs) {
                         Image(systemName: "function")
                             .imageScale(.small)
                         Text("How this works")
@@ -179,7 +178,7 @@ struct EffectEstimatesView: View {
                 }
                 .buttonStyle(.plain)
             }
-            .padding(.vertical, 2)
+            .padding(.vertical, Spacing.xxs)
             .listRowBackground(CardBackground())
         }
     }
@@ -195,20 +194,19 @@ struct EffectEstimatesView: View {
 
     private var complexityNote: some View {
         Section {
-            HStack(alignment: .top, spacing: 10) {
+            HStack(alignment: .top, spacing: Spacing.lg) {
                 Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(.cautionAccent)
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text("A busy session")
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                     Text("The model is calibrated on a single substance taken once, in lab conditions. The interactions here stay mechanistic, but each extra dose and substance adds parameters and widens the margin of error.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
-            .padding(.vertical, 2)
+            .padding(.vertical, Spacing.xxs)
             .listRowBackground(CardBackground())
         }
     }
@@ -239,13 +237,13 @@ struct EffectEstimatesView: View {
                     .listRowSeparator(.hidden)
             }
         } header: {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 Image(systemName: lens.symbol)
                     .foregroundStyle(lens.color)
                     .imageScale(.small)
                     .accessibilityHidden(true)
                 Text(lens.label)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(.primary)
                     .textCase(nil)
             }
@@ -278,7 +276,7 @@ struct EffectEstimatesView: View {
     private var coverageGroup: some View {
         Section {
             DisclosureGroup {
-                VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: Spacing.xl) {
                     if !ignored.isEmpty {
                         Text(coverageText)
                             .fixedSize(horizontal: false, vertical: true)
@@ -288,11 +286,11 @@ struct EffectEstimatesView: View {
                 }
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, 6)
+                .padding(.top, Spacing.sm)
             } label: {
                 detailLabel("square.stack.3d.up", "What these curves cover")
             }
-            .padding(.vertical, 2)
+            .padding(.vertical, Spacing.xxs)
             .listRowBackground(CardBackground())
         }
     }
@@ -311,7 +309,7 @@ struct EffectEstimatesView: View {
     private var readingGroup: some View {
         Section {
             DisclosureGroup {
-                VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: Spacing.xl) {
                     Text("This is a picture of typical pharmacology. Your own response shifts with tolerance, body chemistry, and the day.")
                         .fixedSize(horizontal: false, vertical: true)
                     Text("Confidence varies by substance. Well-studied ones like amphetamine and methylphenidate rest on firmer data than newer compounds.")
@@ -321,11 +319,11 @@ struct EffectEstimatesView: View {
                 }
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, 6)
+                .padding(.top, Spacing.sm)
             } label: {
                 detailLabel("checkmark.seal", "Reading the estimate")
             }
-            .padding(.vertical, 2)
+            .padding(.vertical, Spacing.xxs)
             .listRowBackground(CardBackground())
         } footer: {
             Text("A rough guide, not medical advice.")
@@ -335,7 +333,7 @@ struct EffectEstimatesView: View {
     private func detailLabel(_ icon: String, _ title: LocalizedStringKey) -> some View {
         Label {
             Text(title)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(.primary)
         } icon: {
             Image(systemName: icon)
@@ -364,7 +362,7 @@ struct EffectModelExplainerView: View {
 
                     DopamineErrorDiagram()
                         .frame(height: 172)
-                        .padding(.vertical, 2)
+                        .padding(.vertical, Spacing.xxs)
 
                     DiagramLegend()
 
@@ -373,12 +371,12 @@ struct EffectModelExplainerView: View {
                         .foregroundStyle(Theme.secondaryLabel)
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
                 .listRowBackground(CardBackground())
             }
 
             Section {
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: Spacing.xxl) {
                     point(
                         "Rate over amount",
                         "A fast route, like insufflation, outruns that adjustment and spikes. The same dose taken slowly lets the brain keep pace, so it barely registers as a rush.",
@@ -394,7 +392,7 @@ struct EffectModelExplainerView: View {
                         "A larger dose draws dopamine stores down harder: a bigger rise, and a deeper dip once it clears.",
                     )
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
                 .listRowBackground(CardBackground())
             }
         }
@@ -406,9 +404,9 @@ struct EffectModelExplainerView: View {
     }
 
     private func point(_ title: LocalizedStringKey, _ body: LocalizedStringKey) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
             Text(title)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(.primary)
             Text(body)
                 .font(.subheadline)
@@ -523,20 +521,19 @@ private struct DopamineErrorDiagram: View {
 /// text than in-canvas) and glossing what the two shaded zones mean.
 private struct DiagramLegend: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 16) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            HStack(spacing: Spacing.xxl) {
                 swatch(EffectLens.feeling.color, dashed: false, "Dopamine")
                 swatch(Color(.systemGray), dashed: true, "Expected level")
             }
             Text("The shaded gap is what you feel. As dopamine fades and the expectation lags above it, that gap turns into the comedown.")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
         }
     }
 
     private func swatch(_ color: Color, dashed: Bool, _ label: LocalizedStringKey) -> some View {
-        HStack(spacing: 6) {
+        HStack(spacing: Spacing.sm) {
             Canvas { context, size in
                 var line = Path()
                 line.move(to: CGPoint(x: 0, y: size.height / 2))
@@ -545,8 +542,7 @@ private struct DiagramLegend: View {
             }
             .frame(width: 18, height: 6)
             Text(label)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
     }
 }

@@ -27,7 +27,7 @@ struct EntryContextSection: View {
                                 .tint(Theme.accent)
                         }
                         .frame(height: 140)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .clipShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.medium))
                         .allowsHitTesting(false)
                         .accessibilityHidden(true)
                         .listRowInsets(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 10))
@@ -35,15 +35,14 @@ struct EntryContextSection: View {
                     Button {
                         openInMaps(name: locationName, coordinate: entry.coordinate)
                     } label: {
-                        HStack(spacing: 8) {
+                        HStack(spacing: Spacing.md) {
                             Image(systemName: "mappin.circle.fill")
                                 .foregroundStyle(Theme.accent)
                             Text(locationName)
                                 .foregroundStyle(.primary)
                             Spacer()
                             Image(systemName: "arrow.up.forward.app")
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
+                                .captionSecondary()
                         }
                     }
                     .accessibilityHint(Text("Opens in Maps"))

@@ -47,7 +47,7 @@ struct TimelineListDayContent: View {
 
     var body: some View {
         let notes = notesByGroup
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             TimelineDayHeader(date: day.date, isToday: day.isToday)
 
             noteRows(notes[nil] ?? [])
@@ -70,8 +70,8 @@ struct TimelineListDayContent: View {
             }
         }
         .padding(.horizontal, TimelineGutter.axisX)
-        .padding(.top, 4)
-        .padding(.bottom, 16)
+        .padding(.top, Spacing.xs)
+        .padding(.bottom, Spacing.xxl)
     }
 
     private func groupRows(
@@ -80,7 +80,7 @@ struct TimelineListDayContent: View {
     ) -> some View {
         VStack(spacing: TimelineDayLayout.groupGap) {
             ForEach(groups) { group in
-                HStack(alignment: .top, spacing: 8) {
+                HStack(alignment: .top, spacing: Spacing.md) {
                     TimelineTimeCapsule(date: group.representativeTime, hasDotSlot: false)
                     VStack(spacing: TimelineDayLayout.cardSpacing) {
                         ForEach(group.items) { item in
@@ -109,7 +109,7 @@ struct TimelineListDayContent: View {
                     }
                 }
             }
-            .padding(.leading, 8)
+            .padding(.leading, Spacing.md)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
     }

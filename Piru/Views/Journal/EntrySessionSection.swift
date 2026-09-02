@@ -105,7 +105,7 @@ struct EntrySessionRowLabel: View {
                 .foregroundStyle(Theme.secondaryLabel)
                 .monospacedDigit()
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
     }
 }
 
@@ -121,9 +121,9 @@ struct EntrySiblingRow: View {
             ? EntryDoseFormat.relativeText(from: dose.timestamp, now: .now)
             : dose.timestamp.formatted(date: .omitted, time: .shortened)
         let detail = "\(name) \(dose.amount.doseFormatted) \(dose.unit) · \(time)"
-        return HStack(spacing: 8) {
+        return HStack(spacing: Spacing.md) {
             Image(systemName: "circle.fill")
-                .font(.system(size: 9))
+                .font(.chartAnnotation)
                 .foregroundStyle(colorMap[dose.substance.lowercased()] ?? Color(hex: PresetColor.defaultHex))
                 .accessibilityHidden(true)
             Text("with \(detail)")
@@ -131,7 +131,7 @@ struct EntrySiblingRow: View {
                 .foregroundStyle(Theme.secondaryLabel)
                 .lineLimit(1)
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
     }
 }
 
@@ -142,8 +142,8 @@ struct EntryInteractionEchoRow: View {
     let warning: InteractionResult
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.md) {
                 Image(systemName: warning.severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
                     .font(.system(size: 9, weight: .semibold))
                     .foregroundStyle(warning.severity.labelColor)
@@ -160,7 +160,7 @@ struct EntryInteractionEchoRow: View {
                 .foregroundStyle(Theme.secondaryLabel)
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
         .accessibilityElement(children: .combine)
     }
 }
