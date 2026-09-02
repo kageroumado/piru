@@ -9,6 +9,14 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Library "Yours" card (2026-09-02)
+    "Yours": ("你的", "你的"),
+    "Favorites, colors, and the substances you added.": (
+        "收藏、颜色，以及你添加的物质。",
+        "收藏、顏色，以及你新增的物質。",
+    ),
+    "Star a substance to keep it here": ("给物质加星即可收藏在此", "為物質加星即可收藏於此"),
+    "Substances you added or customized": ("你添加或自定义的物质", "你新增或自訂的物質"),
     # b46 feature batches (2026-09-02)
     '"How is it going?" at set points in a session, opening a timestamped note. Turned on per session; off unless you ask.': (
         "在过程中的几个时点提示“现在感觉如何？”，并打开一条带时间戳的笔记。按次开启；默认关闭。",
@@ -7692,6 +7700,11 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        # Library "Yours" card
+        "Yours",
+        "Favorites, colors, and the substances you added.",
+        "Star a substance to keep it here",
+        "Substances you added or customized",
         # b46 feedback batches
         "Backups, export & import are under Tools › Data & Backup; preferences are under Settings.",
         "That's everything today — %lld days and counting",

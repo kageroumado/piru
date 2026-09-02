@@ -25,10 +25,11 @@ struct LibraryBrowseView: View {
         ScrollView {
             if loaded {
                 LazyVStack(spacing: 12) {
-                    if !favoriteSubstances.isEmpty {
-                        LibraryFavoritesCard(substances: favoriteSubstances, total: favoriteSubstances.count)
-                    }
-                    LibraryYoursRow()
+                    LibraryYoursCard(
+                        favorites: favoriteSubstances,
+                        isExpanded: expanded.contains("yours"),
+                        toggle: { toggle("yours") },
+                    )
                     ForEach(visibleFamilies) { family in
                         LibraryFamilyCard(
                             family: family,
@@ -351,176 +352,190 @@ private struct LibrarySubclassRow: View {
     }
 }
 
-// MARK: - Favorites Card
+// MARK: - Yours Card (favorites · colors · custom substances)
 
-/// The user's favorites as a gradient card matching the family cards — a warm
-/// gold surface with a big faint star hero, sitting at the top of the browse
-/// flow. Single card: taps straight through to the full favorites list.
-private struct LibraryFavoritesCard: View {
-    let substances: [Substance]
-    let total: Int
+/// The user's own layer over the library as one umbrella card in the family
+/// style: a gradient surface with a star hero that expands in place into three
+/// sub-rows — favorites, substance colors, custom substances — each pushing its
+/// own list. Always present, counts included, so each row has somewhere to go
+/// before it has anything to count.
+private struct LibraryYoursCard: View {
+    let favorites: [Substance]
+    let isExpanded: Bool
+    let toggle: () -> Void
 
-    /// Raspberry — distinct from the warm Stimulants orange the gold used to clash
-    /// with, and from the cool Common blue.
+    @Query(sort: \SubstanceColor.substance) private var substanceColors: [SubstanceColor]
+
+    /// Raspberry — distinct from the warm Stimulants orange and the cool Common blue.
     private static let accent = Color(red: 0.85, green: 0.26, blue: 0.47)
 
-    private var exemplarLine: String {
-        substances.prefix(3).map(\.displayTitle).joined(separator: " · ")
-    }
-
-    var body: some View {
-        NavigationLink(value: PushRoute.libraryFavorites) {
-            FamilyGradientCard(color: Self.accent) {
-                Image(systemName: "star.fill")
-                    .font(.system(size: 152))
-                    .foregroundStyle(.white.opacity(0.16))
-                    .rotationEffect(.degrees(8))
-                    .offset(x: 30, y: -18)
-                    .accessibilityHidden(true)
-            } content: {
-                HStack(alignment: .top, spacing: 0) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Image(systemName: "star.fill")
-                            .font(.system(size: 21, weight: .semibold))
-                            .foregroundStyle(.white)
-                            .accessibilityHidden(true)
-                            .frame(height: 28, alignment: .leading)
-                        Text("Favorites")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundStyle(.white)
-                        // The saved-count now sits by the chevron, so this card drops
-                        // its count subtitle and runs a line shorter than the rest.
-                        Text(exemplarLine)
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.white.opacity(0.92))
-                            .lineLimit(1)
-                            .frame(maxWidth: 220, alignment: .leading)
-                            .padding(.top, 5)
-                    }
-                    Spacer(minLength: 8)
-                    HStack(spacing: 6) {
-                        Text("\(total)")
-                            .font(.subheadline.weight(.semibold))
-                            .monospacedDigit()
-                            .foregroundStyle(.white.opacity(0.9))
-                        Image(systemName: "chevron.right")
-                            .font(.subheadline.weight(.bold))
-                            .foregroundStyle(.white.opacity(0.9))
-                            .accessibilityHidden(true)
-                    }
-                    .padding(.top, 4)
-                    .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)
-                }
-            }
-        }
-        .buttonStyle(.plain)
-    }
-}
-
-// MARK: - Yours Row (custom substances · colors)
-
-/// The user's own layer over the library as one quiet card of rows: custom
-/// substances (only once there are any) and substance colors (always — a
-/// color applies to any substance, so the row has somewhere to go before the
-/// first one is assigned). Rows, not banners: these are doors to lists the
-/// user made, and the family cards below are the library itself.
-private struct LibraryYoursRow: View {
     private var customCount: Int {
         CustomSubstanceStore.shared.all.count
     }
 
-    var body: some View {
-        VStack(spacing: 0) {
-            if customCount > 0 {
-                LibraryCustomRow(count: customCount)
-                Divider().padding(.leading, 56)
-            }
-            LibraryColorsRow()
-        }
-        .themeCard()
+    private var rows: [LibraryYoursSubRow.Model] {
+        [
+            .init(
+                id: "favorites",
+                icon: "star.fill",
+                title: "Favorites",
+                blurb: favorites.isEmpty
+                    ? Text("Star a substance to keep it here")
+                    : Text(verbatim: favorites.prefix(3).map(\.displayTitle).joined(separator: " · ")),
+                count: favorites.count,
+                route: .libraryFavorites,
+            ),
+            .init(
+                id: "colors",
+                icon: "paintpalette.fill",
+                title: "Colors",
+                blurb: Text("A color for every substance you log"),
+                count: substanceColors.count,
+                route: .libraryColors,
+            ),
+            .init(
+                id: "custom",
+                icon: "sparkles",
+                title: "Custom Substances",
+                blurb: Text("Substances you added or customized"),
+                count: customCount,
+                route: .libraryCustom,
+            ),
+        ]
     }
-}
-
-/// One row of the Yours card: an accent glyph tile, a title, a trailing
-/// detail, and the push chevron.
-private struct LibraryYoursRowLabel<Detail: View>: View {
-    let icon: String
-    let title: LocalizedStringKey
-    @ViewBuilder var detail: () -> Detail
 
     var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: icon)
-                .font(.system(size: 15, weight: .semibold))
-                .foregroundStyle(.white)
-                .frame(width: 32, height: 32)
-                .background(Theme.accent.gradient, in: .rect(cornerRadius: 8))
+        FamilyGradientCard(color: Self.accent) {
+            Image(systemName: "star.fill")
+                .font(.system(size: 152))
+                .foregroundStyle(.white.opacity(isExpanded ? 0.08 : 0.16))
+                .rotationEffect(.degrees(8))
+                .offset(x: 30, y: -18)
                 .accessibilityHidden(true)
-            Text(title)
-                .font(.body.weight(.semibold))
-                .foregroundStyle(.primary)
-            Spacer(minLength: 8)
-            detail()
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-            Image(systemName: "chevron.right")
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(.tertiary)
-                .accessibilityHidden(true)
-        }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 11)
-        .contentShape(.rect)
-    }
-}
+        } content: {
+            VStack(alignment: .leading, spacing: 12) {
+                Button(action: toggle) {
+                    header.contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityValue(isExpanded ? Text("Expanded") : Text("Collapsed"))
 
-private struct LibraryCustomRow: View {
-    let count: Int
-
-    var body: some View {
-        NavigationLink(value: PushRoute.libraryCustom) {
-            LibraryYoursRowLabel(icon: "sparkles", title: "Custom") {
-                Text("\(count)")
-            }
-        }
-        .buttonStyle(.plain)
-        .accessibilityValue(Text("^[\(count) substances](inflect: true) you added or customized"))
-    }
-}
-
-/// Routes to the substance color list. Its detail is the user's own palette —
-/// the first few assigned colors as swatches, with the overflow as a count.
-private struct LibraryColorsRow: View {
-    @Query(sort: \SubstanceColor.substance) private var substanceColors: [SubstanceColor]
-
-    private static let swatchLimit = 5
-
-    var body: some View {
-        NavigationLink(value: PushRoute.libraryColors) {
-            LibraryYoursRowLabel(icon: "paintpalette.fill", title: "Colors") {
-                if !substanceColors.isEmpty {
-                    swatches
+                if isExpanded {
+                    VStack(spacing: 8) {
+                        ForEach(rows) { row in
+                            NavigationLink(value: row.route) {
+                                LibraryYoursSubRow(model: row)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    .transition(.scale(scale: 0.92, anchor: .top).combined(with: .opacity))
+                } else {
+                    FlowLayout(spacing: 6) {
+                        ForEach(rows) { row in
+                            chip(row)
+                        }
+                    }
+                    .transition(.scale(scale: 0.96, anchor: .top).combined(with: .opacity))
                 }
             }
         }
-        .buttonStyle(.plain)
-        .accessibilityValue(Text("^[\(substanceColors.count) substances](inflect: true) with a color"))
     }
 
-    private var swatches: some View {
-        HStack(spacing: -4) {
-            ForEach(substanceColors.prefix(Self.swatchLimit)) { sc in
-                Circle()
-                    .fill(sc.color)
-                    .frame(width: 16, height: 16)
-                    .overlay(Circle().stroke(Theme.background, lineWidth: 1.5))
+    private var header: some View {
+        HStack(alignment: .top, spacing: 0) {
+            VStack(alignment: .leading, spacing: 4) {
+                Image(systemName: "person.crop.circle.fill")
+                    .font(.system(size: 21, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(height: 28, alignment: .leading)
+                    .accessibilityHidden(true)
+                Text("Yours")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundStyle(.white)
+                Text("Favorites, colors, and the substances you added.")
+                    .font(.footnote)
+                    .foregroundStyle(.white.opacity(0.93))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: 210, alignment: .leading)
             }
-            if substanceColors.count > Self.swatchLimit {
-                Text("+\(substanceColors.count - Self.swatchLimit)")
-                    .font(.caption.weight(.semibold))
-                    .padding(.leading, 8)
-            }
+            Spacer(minLength: 8)
+            Image(systemName: "chevron.down")
+                .font(.subheadline.weight(.bold))
+                .foregroundStyle(.white.opacity(0.9))
+                .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                .accessibilityHidden(true)
+                .padding(.top, 4)
+                .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)
         }
-        .accessibilityHidden(true)
+    }
+
+    private func chip(_ row: LibraryYoursSubRow.Model) -> some View {
+        HStack(spacing: 5) {
+            Text(row.title)
+            Text("\(row.count)")
+                .monospacedDigit()
+                .foregroundStyle(.white.opacity(0.75))
+        }
+        .font(.caption.weight(.semibold))
+        .foregroundStyle(.white)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background(.white.opacity(0.22), in: Capsule())
+    }
+}
+
+/// One expanded row of the Yours card, in the family sub-row recipe: an icon
+/// tile, title and blurb, the count, and the push chevron.
+private struct LibraryYoursSubRow: View {
+    struct Model: Identifiable {
+        let id: String
+        let icon: String
+        let title: LocalizedStringKey
+        let blurb: Text
+        let count: Int
+        let route: PushRoute
+    }
+
+    let model: Model
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: model.icon)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 32, height: 32)
+                .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(model.title)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.white)
+                model.blurb
+                    .font(.caption2)
+                    .foregroundStyle(.white.opacity(0.85))
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 6)
+            Text("\(model.count)")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.white.opacity(0.92))
+                .monospacedDigit()
+            Image(systemName: "chevron.right")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.white.opacity(0.8))
+                .accessibilityHidden(true)
+        }
+        .padding(.horizontal, 13)
+        .padding(.vertical, 11)
+        .frame(maxWidth: .infinity)
+        .background(.white.opacity(0.17), in: RoundedRectangle(cornerRadius: 15, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 15, style: .continuous)
+                .strokeBorder(.white.opacity(0.18), lineWidth: 0.5),
+        )
+        .contentShape(Rectangle())
+        .accessibilityElement(children: .combine)
     }
 }
