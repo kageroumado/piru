@@ -347,7 +347,22 @@ struct EntryListView: View {
             // Two controls, Files/Mail style: the funnel is the single home for
             // narrowing (tags + categories + routes), the ellipsis for everything
             // view-related (grouping thumbnails, Jump to Date, Settings, Help).
+            // The Timeline grouping adds a third, leading them: the strip's
+            // display options.
             if !isSearchSurface {
+                if grouping == .timeline {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        JournalTimelineOptionsButton(
+                            zoom: $timelineZoom,
+                            compressGaps: $timelineCompression,
+                            pkCurves: $timelinePKCurves,
+                            strengthScaling: $timelineStrengthScaling,
+                            showsAxis: $timelineShowsAxis,
+                            bubbleStyle: $timelineBubbleStyle,
+                        )
+                    }
+                    ToolbarSpacer(.fixed, placement: .topBarTrailing)
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     JournalFilterMenu(
                         model: model,
@@ -459,34 +474,10 @@ struct EntryListView: View {
 
     /// The Timeline grouping rendered as list rows — the same continuous
     /// strip the pushed timeline screen draws (day pills float over each
-    /// slice), with the meds/Active Now cards above and the strip's display
-    /// options (the pushed screen's toolbar menu) as a compact row on top.
+    /// slice), with the meds/Active Now cards above; the strip's display
+    /// options live in the toolbar (``JournalTimelineOptionsButton``).
     @ViewBuilder
     private var timelineContent: some View {
-        TimelineOptionsMenu(
-            zoom: $timelineZoom,
-            compressGaps: $timelineCompression,
-            pkCurves: $timelinePKCurves,
-            strengthScaling: $timelineStrengthScaling,
-            showsAxis: $timelineShowsAxis,
-            bubbleStyle: $timelineBubbleStyle,
-        ) {
-            Label {
-                Text(verbatim: TimelineZoom.label(timelineZoom))
-            } icon: {
-                Image(systemName: "slider.horizontal.3")
-            }
-            .font(.caption.weight(.medium))
-        }
-        .menuStyle(.button)
-        .buttonStyle(.glass)
-        .buttonBorderShape(.capsule)
-        .controlSize(.small)
-        .frame(maxWidth: .infinity, alignment: .trailing)
-        .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 6, trailing: 16))
-        .listRowSeparator(.hidden)
-        .listRowBackground(Color.clear)
-
         ForEach(timelineModel.days) { day in
             TimelineDayContent(
                 day: day,

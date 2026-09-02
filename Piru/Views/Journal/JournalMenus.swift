@@ -3,9 +3,9 @@ import SwiftUI
 import TipKit
 
 /// The Journal's `•••` toolbar button: a Mail-style options popover carrying the
-/// grouping thumbnail picker plus Jump to Date and the app-level Settings/Help
-/// (folded in from the removed ``AppOverflowMenu`` so the toolbar stays at two
-/// controls). A popover rather than a `Menu` because a menu can't host the
+/// grouping thumbnail picker plus Jump to Date and the app-level Settings/Help,
+/// so the toolbar stays at two controls (three while the Timeline grouping
+/// adds ``JournalTimelineOptionsButton``). A popover rather than a `Menu` because a menu can't host the
 /// custom thumbnail views — same pattern as the Tolerance screen's options menu.
 struct JournalOptionsButton: View {
     @Environment(\.appNavigator) private var navigator
@@ -173,6 +173,34 @@ struct JournalOptionsMenu: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+    }
+}
+
+/// The Journal's third toolbar control, present only while the Timeline
+/// grouping is selected: the strip's display options (``TimelineOptionsMenu``)
+/// behind a sliders glyph, so they stay reachable however far the canvas has
+/// scrolled. The bindings are the Journal's app-group defaults, shared with
+/// the pushed timeline screen's copy of the same menu.
+struct JournalTimelineOptionsButton: View {
+    @Binding var zoom: Double
+    @Binding var compressGaps: Bool
+    @Binding var pkCurves: Bool
+    @Binding var strengthScaling: Bool
+    @Binding var showsAxis: Bool
+    @Binding var bubbleStyle: TimelineBubbleStyle
+
+    var body: some View {
+        TimelineOptionsMenu(
+            zoom: $zoom,
+            compressGaps: $compressGaps,
+            pkCurves: $pkCurves,
+            strengthScaling: $strengthScaling,
+            showsAxis: $showsAxis,
+            bubbleStyle: $bubbleStyle,
+        ) {
+            Image(systemName: "slider.horizontal.3")
+                .font(.system(size: 17, weight: .semibold))
+        }
     }
 }
 
