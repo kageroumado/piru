@@ -500,11 +500,14 @@ struct TimelineStripBuilder {
             guard !relevant.isEmpty else { continue }
 
             var values: [Double] = []
+            var phases: [TimelineCurvePhase?] = []
             values.reserveCapacity(grid.count)
+            phases.reserveCapacity(grid.count)
             var sliceMax = 0.0
             for sample in grid {
                 let v = Self.effectValue(at: sample.t, states: relevant)
                 values.append(v)
+                phases.append(TimelineCurvePhase.phase(at: sample.t, states: relevant))
                 sliceMax = max(sliceMax, v)
             }
 
@@ -512,7 +515,9 @@ struct TimelineStripBuilder {
             guard scale > 0, sliceMax > scale * 0.02 else { continue }
 
             let color = SubstancePalette.color(for: relevant[0].substanceName, colorMap: colorMap)
-            let points = Self.trimmed(zip(grid, values).map { (y: $0.y, v: min($1 / scale, 1)) })
+            let points = Self.trimmed(zip(grid, zip(values, phases)).map {
+                TimelineDayLayout.CurvePoint(y: $0.y, v: min($1.0 / scale, 1), phase: $1.1)
+            })
             result.append(TimelineDayLayout.CurveSeries(color: color, points: points))
         }
         return result
@@ -552,7 +557,9 @@ struct TimelineStripBuilder {
             guard scale > 0, sliceMax > scale * 0.03 else { continue }
 
             let color = SubstancePalette.color(for: name, colorMap: colorMap)
-            let points = Self.trimmed(zip(grid, values).map { (y: $0.y, v: min($1 / scale, 1)) })
+            let points = Self.trimmed(zip(grid, values).map {
+                TimelineDayLayout.CurvePoint(y: $0.y, v: min($1 / scale, 1))
+            })
             result.append(TimelineDayLayout.CurveSeries(color: color, points: points))
         }
         return result
@@ -562,7 +569,7 @@ struct TimelineStripBuilder {
     /// kept at each end so the curve still lands on the axis). Otherwise a
     /// curve's silent stretch before its dose draws as a colored line down
     /// the axis.
-    private static func trimmed(_ points: [(y: CGFloat, v: Double)]) -> [(y: CGFloat, v: Double)] {
+    private static func trimmed(_ points: [TimelineDayLayout.CurvePoint]) -> [TimelineDayLayout.CurvePoint] {
         guard let first = points.firstIndex(where: { $0.v > 0 }),
               let last = points.lastIndex(where: { $0.v > 0 }) else { return [] }
         return Array(points[max(first - 1, 0) ... min(last + 1, points.count - 1)])

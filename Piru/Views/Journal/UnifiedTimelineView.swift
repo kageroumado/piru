@@ -360,10 +360,18 @@ struct TimelineDayLayout: Identifiable {
 
     /// One substance's effect curve as (y, 0…1) points, y ascending (newest
     /// first), normalized to the substance's own all-time effect peak so day
-    /// slices join seamlessly.
+    /// slices join seamlessly. Each point carries the phase of the newest dose
+    /// covering it, which the stroke draws as a color shift along the line;
+    /// body-load curves model no phases and carry `nil`.
     struct CurveSeries {
         let color: Color
-        let points: [(y: CGFloat, v: Double)]
+        let points: [CurvePoint]
+    }
+
+    struct CurvePoint {
+        let y: CGFloat
+        let v: Double
+        var phase: TimelineCurvePhase?
     }
 
     struct DoseDot {

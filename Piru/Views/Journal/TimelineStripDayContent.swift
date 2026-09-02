@@ -210,15 +210,12 @@ struct TimelineStripDayContent: View {
                 ),
             )
 
-            var stroke = Path()
-            for (i, p) in series.points.enumerated() {
-                let pt = CGPoint(x: axisX + curveWidth * CGFloat(p.v), y: p.y)
-                if i == 0 { stroke.move(to: pt) } else { stroke.addLine(to: pt) }
-            }
-            context.stroke(
-                stroke,
-                with: .color(series.color.opacity(0.75)),
-                style: StrokeStyle(lineWidth: Self.curveLineWidth, lineCap: .round, lineJoin: .round),
+            strokeCurve(
+                in: &context,
+                series: series,
+                palette: TimelineCurvePalette(base: series.color, environment: context.environment),
+                axisX: axisX,
+                curveWidth: curveWidth,
             )
         }
 
@@ -244,6 +241,53 @@ struct TimelineStripDayContent: View {
                     endPoint: CGPoint(x: 0, y: fadeHeight),
                 ),
             )
+        }
+    }
+
+    /// Opacity of a curve's stroke.
+    private static let curveStrokeOpacity = 0.75
+
+    /// One curve's stroke, split at its phase boundaries: each run of points
+    /// in one phase is stroked in that phase's color and blends into the next
+    /// run's color over the last tenth of its length, so the arc reads as a
+    /// shift along the line rather than a stack of bands.
+    private func strokeCurve(
+        in context: inout GraphicsContext,
+        series: TimelineDayLayout.CurveSeries,
+        palette: TimelineCurvePalette,
+        axisX: CGFloat,
+        curveWidth: CGFloat,
+    ) {
+        let points = series.points.map { CGPoint(x: axisX + curveWidth * CGFloat($0.v), y: $0.y) }
+        let style = StrokeStyle(lineWidth: Self.curveLineWidth, lineCap: .round, lineJoin: .round)
+        let segments = TimelineCurveSegment.segments(of: series.points.map(\.phase))
+
+        for (index, segment) in segments.enumerated() {
+            guard segment.range.count > 1 else { continue }
+            var path = Path()
+            path.move(to: points[segment.range.lowerBound])
+            for i in segment.range.dropFirst() {
+                path.addLine(to: points[i])
+            }
+
+            let color = palette.color(for: segment.phase).opacity(Self.curveStrokeOpacity)
+            let next = segments.count > index + 1 ? segments[index + 1].phase : segment.phase
+            let shading: GraphicsContext.Shading
+            if next == segment.phase {
+                shading = .color(color)
+            } else {
+                let blended = palette.color(for: next).opacity(Self.curveStrokeOpacity)
+                shading = .linearGradient(
+                    Gradient(stops: [
+                        .init(color: color, location: 0),
+                        .init(color: color, location: 1 - TimelineCurvePalette.transitionFraction),
+                        .init(color: blended, location: 1),
+                    ]),
+                    startPoint: CGPoint(x: 0, y: points[segment.range.lowerBound].y),
+                    endPoint: CGPoint(x: 0, y: points[segment.range.upperBound].y),
+                )
+            }
+            context.stroke(path, with: shading, style: style)
         }
     }
 
