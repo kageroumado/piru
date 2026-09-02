@@ -33,10 +33,20 @@ struct GlassPillButton: View {
 
     private var button: some View {
         Button(action: action) {
-            Text(title)
-                .font(.piru(.headline))
-                .foregroundStyle(prominence == .neutral ? AnyShapeStyle(Theme.secondaryLabel) : AnyShapeStyle(.foreground))
+            // The style owns the prominent label colour (system glass, or the
+            // skin's on-accent ink); only the neutral label sets its own.
+            label
                 .frame(maxWidth: .infinity)
+        }
+    }
+
+    @ViewBuilder
+    private var label: some View {
+        let text = Text(title).font(.piru(.headline))
+        if prominence == .neutral {
+            text.foregroundStyle(Theme.secondaryLabel)
+        } else {
+            text
         }
     }
 }

@@ -50,13 +50,15 @@ struct EdgedButtonStyle: ButtonStyle {
         let skin = SkinStore.shared.current
         let shape = RoundedRectangle(cornerRadius: skin.cardCornerRadius ?? 12, style: .continuous)
         let pressed = configuration.isPressed
+        // Fill is the text-safe accent, not the vivid mark: `onAccent` is gated
+        // against it (6.4:1 night, 4.8:1 pink), and a label is small copy.
         configuration.label
             .foregroundStyle(prominence == .prominent ? skin.onAccent : skin.accent)
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
             .background {
                 shape.fill(shadow).offset(pressed ? .zero : shadowOffset)
-                shape.fill(prominence == .prominent ? skin.accentMark : skin.cardBackground)
+                shape.fill(prominence == .prominent ? skin.accent : skin.cardBackground)
                 shape.stroke(stroke, lineWidth: strokeWidth)
             }
             .offset(pressed ? shadowOffset : .zero)
@@ -132,8 +134,9 @@ struct SkinSticker<Label: View>: View {
                 .padding(.horizontal, 10)
                 .padding(.vertical, 3)
                 .background {
+                    // Text-safe accent under the label, as on buttons.
                     shape.fill(skin.eyebrow).offset(shadowOffset)
-                    shape.fill(isAccented ? skin.accentMark : skin.cardBackground)
+                    shape.fill(isAccented ? skin.accent : skin.cardBackground)
                     shape.stroke(stroke, lineWidth: strokeWidth)
                 }
         }

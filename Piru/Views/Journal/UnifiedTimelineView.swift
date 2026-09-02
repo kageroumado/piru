@@ -517,14 +517,27 @@ struct TimelineDayContent: View {
 private struct SessionEnvelopeButton: View {
     let onTap: () -> Void
 
-    var body: some View {
-        Button(action: onTap) {
+    /// The envelope is chrome, not graph: under glass it stays the faint
+    /// translucent frame that lets the spine show through; an edged skin draws
+    /// it as one of its cards (solid, stroked, hard shadow).
+    @ViewBuilder
+    private var envelopeSurface: some View {
+        switch SkinStore.shared.current.surface {
+        case .glass:
             RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .fill(Color.primary.opacity(0.03))
                 .overlay {
                     RoundedRectangle(cornerRadius: 16, style: .continuous)
                         .strokeBorder(Color.primary.opacity(0.07), lineWidth: 1)
                 }
+        case .edged:
+            Color.clear.themeCard(cornerRadius: 16)
+        }
+    }
+
+    var body: some View {
+        Button(action: onTap) {
+            envelopeSurface
                 .overlay(alignment: .bottomTrailing) {
                     // Chevron styled and inset identically to the dose cards'
                     // (card inset 8 + card padding 10), so the two columns of
