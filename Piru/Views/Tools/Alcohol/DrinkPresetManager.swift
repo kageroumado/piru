@@ -40,8 +40,6 @@ struct DrinkPresetManagerView: View {
                     }
                     .onMove(perform: move)
                     .onDelete(perform: delete)
-                } footer: {
-                    Text("Drag to reorder. Swipe left to remove.")
                 }
             }
             .environment(\.editMode, .constant(.active))
@@ -197,8 +195,6 @@ struct DrinkPresetForm: View {
                         }
                     }
                 }
-            } footer: {
-                Text("A fixed serving fills strength and volume when selected — like a 330 mL can. Without one, only the strength is filled.")
             }
         }
         .navigationTitle(preset == nil ? "New Drink" : "Edit Drink")

@@ -15,7 +15,7 @@ struct UsageWeekdaySection: View {
     let metric: UsageRankMetric
 
     var body: some View {
-        UsageSectionCard(title: "Day of week", subtitle: subtitle) {
+        UsageSectionCard(title: "Day of week") {
             Chart(buckets) { bucket in
                 BarMark(
                     x: .value("Day", label(for: bucket.weekday)),
@@ -45,10 +45,6 @@ struct UsageWeekdaySection: View {
 
             averagesRow
         }
-    }
-
-    private var subtitle: LocalizedStringKey {
-        metric == .commonDoses ? "Common-dose units by weekday" : "Which weekdays you log on most"
     }
 
     /// The active metric's total for a weekday — its entry count, or the

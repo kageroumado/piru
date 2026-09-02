@@ -141,8 +141,6 @@ struct MyMedsHubView: View {
 
                 Section {
                     addMedButton
-                } footer: {
-                    Text("Quiet meds share one silent reminder per time of day — it never buzzes, it just waits in Notification Center. As-needed meds are never counted against you.")
                 }
                 .listRowBackground(Color.clear)
                 .listRowSeparator(.hidden)
@@ -153,8 +151,6 @@ struct MyMedsHubView: View {
                     } label: {
                         Label("Notification Settings", systemImage: "bell.badge")
                     }
-                } footer: {
-                    Text("Reminders, Ask Again, quiet hours, and everything else Piru sends.")
                 }
                 .listRowBackground(CardBackground())
             }

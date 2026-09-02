@@ -21,7 +21,7 @@ struct UsageHeatmapSection: View {
     }
 
     var body: some View {
-        UsageSectionCard(title: "Activity", subtitle: subtitle) {
+        UsageSectionCard(title: "Activity") {
             if categories.count > 1 {
                 UsageCategoryFilterBar(categories: categories, selection: $categoryFilter)
             }
@@ -43,10 +43,6 @@ struct UsageHeatmapSection: View {
             )
         }
         .onChange(of: heatmap.weekStarts.first) { selectedDay = nil }
-    }
-
-    private var subtitle: LocalizedStringKey {
-        metric == .commonDoses ? "Which days and hours, by common-dose units" : "Which days and hours you log on"
     }
 
     /// The histogram's data in the active metric: the selected day's hours if a

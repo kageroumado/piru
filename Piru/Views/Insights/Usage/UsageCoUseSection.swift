@@ -32,7 +32,6 @@ struct UsageCoUseSection: View {
         if !pairs.isEmpty {
             UsageCollapsibleCard(
                 title: "Used together",
-                subtitle: "Substances logged on the same day",
                 storageKey: "coUse",
             ) {
                 VStack(alignment: .leading, spacing: Spacing.lg) {

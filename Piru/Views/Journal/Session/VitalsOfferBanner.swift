@@ -28,7 +28,7 @@ struct VitalsOfferBanner: View {
                     VStack(alignment: .leading, spacing: Spacing.xs) {
                         Text("See your heart rate here")
                             .sectionLabel()
-                        Text("Connect Apple Health to overlay how your body responded to each dose — read-only.")
+                        Text("Connect Apple Health to show your heart rate on the graph beside your doses. Read-only.")
                             .captionSecondary()
                             .fixedSize(horizontal: false, vertical: true)
                     }

@@ -165,8 +165,6 @@ struct QuickLogEditSheet: View {
         } header: {
             Text("Favorites")
                 .textCase(nil)
-        } footer: {
-            Text("Drag to reorder. Swipe left to remove.")
         }
     }
 
