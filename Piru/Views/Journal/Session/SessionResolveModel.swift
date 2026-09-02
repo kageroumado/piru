@@ -1,4 +1,5 @@
 import Foundation
+import SwiftData
 import SwiftUI
 
 /// A day's resolved curves, markers, and interaction warnings.
