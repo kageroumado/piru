@@ -106,8 +106,7 @@ struct PiruApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .tint(Theme.accent)
+            SkinnedRoot { ContentView() }
                 .task {
                     WidgetCenter.shared.reloadAllTimelines()
                     // Touch the store so its singleton init runs (opens the

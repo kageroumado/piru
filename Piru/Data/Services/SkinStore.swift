@@ -1,0 +1,42 @@
+import Foundation
+import Observation
+
+/// The active skin and colour-scheme override, persisted to the app group.
+///
+/// `Theme`'s accessors read `current` on every access, so any view that touches
+/// `Theme.accent` (or the card modifiers) inside its `body` is tracked by
+/// Observation and re-renders when the skin changes — the ~1,000 existing
+/// `Theme.*` call sites become skin-reactive without being edited.
+@Observable
+@MainActor
+final class SkinStore {
+    static let shared = SkinStore(defaults: UserDefaults(suiteName: SkinDefaults.suite) ?? .standard)
+
+    private(set) var current: Skin
+    private(set) var colorScheme: SkinColorScheme
+
+    private let defaults: UserDefaults
+
+    init(defaults: UserDefaults) {
+        self.defaults = defaults
+        current = SkinDefaults.storedSkin(in: defaults)
+        if let raw = defaults.string(forKey: SkinDefaults.colorSchemeKey),
+           let scheme = SkinColorScheme(rawValue: raw) {
+            colorScheme = scheme
+        } else {
+            colorScheme = SkinDefaults.colorSchemeDefault
+        }
+    }
+
+    /// Always writes, so the app-group key exists for the extensions even when
+    /// the choice equals the default; only mutates `current` on a real change.
+    func setSkin(_ skin: Skin) {
+        defaults.set(skin.rawValue, forKey: SkinDefaults.skinKey)
+        if skin != current { current = skin }
+    }
+
+    func setColorScheme(_ scheme: SkinColorScheme) {
+        defaults.set(scheme.rawValue, forKey: SkinDefaults.colorSchemeKey)
+        if scheme != colorScheme { colorScheme = scheme }
+    }
+}

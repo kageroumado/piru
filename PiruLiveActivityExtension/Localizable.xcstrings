@@ -237,6 +237,9 @@
         }
       }
     },
+    "Dark Mode" : {
+
+    },
     "Elapsed" : {
       "localizations" : {
         "zh-Hans" : {
@@ -300,6 +303,9 @@
           }
         }
       }
+    },
+    "Follow System" : {
+
     },
     "Heart rate" : {
       "localizations" : {
@@ -412,6 +418,9 @@
           }
         }
       }
+    },
+    "Light Mode" : {
+
     },
     "Low confidence" : {
       "localizations" : {
@@ -573,6 +582,9 @@
         }
       }
     },
+    "Piru" : {
+
+    },
     "Rectal" : {
       "localizations" : {
         "zh-Hans" : {
@@ -623,6 +635,9 @@
           }
         }
       }
+    },
+    "Soft pink, hot pink, liquid glass" : {
+
     },
     "Specific days" : {
       "localizations" : {

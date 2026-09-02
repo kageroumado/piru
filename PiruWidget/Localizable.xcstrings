@@ -508,6 +508,9 @@
         }
       }
     },
+    "Dark Mode" : {
+
+    },
     "Due" : {
       "localizations" : {
         "zh-Hans" : {
@@ -603,6 +606,9 @@
           }
         }
       }
+    },
+    "Follow System" : {
+
     },
     "Heart rate" : {
       "localizations" : {
@@ -747,6 +753,9 @@
           }
         }
       }
+    },
+    "Light Mode" : {
+
     },
     "Logs one dose of a scheduled med." : {
       "localizations" : {
@@ -1101,6 +1110,9 @@
         }
       }
     },
+    "Piru" : {
+
+    },
     "Rectal" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1229,6 +1241,9 @@
           }
         }
       }
+    },
+    "Soft pink, hot pink, liquid glass" : {
+
     },
     "Specific days" : {
       "localizations" : {

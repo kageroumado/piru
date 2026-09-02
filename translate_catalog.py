@@ -9,6 +9,43 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Skins (Settings → Appearance)
+    "Appearance": (
+        "外观",
+        "外觀",
+    ),
+    "Skin": (
+        "皮肤",
+        "皮膚",
+    ),
+    "Piru": (
+        "Piru",
+        "Piru",
+    ),
+    "Soft pink, hot pink, liquid glass": (
+        "柔粉、亮粉、液态玻璃",
+        "柔粉、亮粉、液態玻璃",
+    ),
+    "A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay exactly as they are.": (
+        "皮肤会改变应用的颜色、卡片和字体。你的物质颜色、时间轴和所有图表都保持原样。",
+        "皮膚會改變應用程式的顏色、卡片和字體。你的物質顏色、時間軸和所有圖表都保持原樣。",
+    ),
+    "Follow System": (
+        "跟随系统",
+        "跟隨系統",
+    ),
+    "Light Mode": (
+        "浅色模式",
+        "淺色模式",
+    ),
+    "Dark Mode": (
+        "深色模式",
+        "深色模式",
+    ),
+    "Every skin has a light and a dark side. Follow System switches with iOS.": (
+        "每个皮肤都有浅色和深色两面。跟随系统会随 iOS 切换。",
+        "每個皮膚都有淺色和深色兩面。跟隨系統會隨 iOS 切換。",
+    ),
     # Unified timeline (Journal → Active Now / Timeline grouping)
     "No Entries Yet": (
         "还没有记录",
@@ -7426,6 +7463,16 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS: set[str] = {
+        # Skins
+        "Appearance",
+        "Skin",
+        "Piru",
+        "Soft pink, hot pink, liquid glass",
+        "A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay exactly as they are.",
+        "Follow System",
+        "Light Mode",
+        "Dark Mode",
+        "Every skin has a light and a dark side. Follow System switches with iOS.",
         # Unified timeline
         "Compress empty time",
         "Effect curves",

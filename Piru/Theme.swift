@@ -1,12 +1,18 @@
 import SwiftUI
 
+/// The app's colour tokens, resolved through the active ``Skin``.
+///
+/// Every accessor is a computed property that reads `SkinStore.shared.current`.
+/// Observation tracks that read wherever it happens during a view's `body`, so
+/// the ~1,000 existing `Theme.*` call sites re-render on a skin change without
+/// being touched. Each skin returns Xcode's generated catalog symbol for its
+/// namespace — never a string lookup, so a renamed colorset is a compile error.
 enum Theme {
-    /// Soft pink in light mode, hot pink in dark mode.
-    ///
-    /// Xcode's generated symbol rather than `Color("AccentColor")` — a string
-    /// lookup resolves to a silent fallback if the asset is ever renamed, where
-    /// this is a compile error.
-    static let accent = Color.accent
+    private static var skin: Skin { SkinStore.shared.current }
+
+    /// Brand accent and control tint. Soft pink light / hot pink dark in the
+    /// default skin.
+    static var accent: Color { skin.accent }
 
     // `legibleYellow` lived here. It was a hue pretending to be a role, and the
     // whole design system exists because of what that cost: the same "darken it
@@ -19,70 +25,93 @@ enum Theme {
     // collapse onto one value; naming by role is what pulled them apart.
     // See `design-system/color/color-system.md`.
 
-    /// De-emphasized body text. ~566 call sites, so this accessor stays even
-    /// though the value now comes from the asset catalog.
+    /// De-emphasized body text. ~700 call sites, so this accessor stays even
+    /// though the value comes from the asset catalog.
     ///
-    /// The old hand-rolled pair (`#7A7A80` / `#A6A6AD`) was half right. Its
-    /// light value genuinely beat the system colour — 3.89:1 against system's
-    /// 2.17:1 — but **still failed WCAG AA**, which the original audit missed by
-    /// computing against pure white instead of the measured `#f5f5f5` card. Its
-    /// dark value was simply worse than the system's (7.79 vs 9.97).
-    ///
-    /// Now `#6E6E73` light (4.65:1) and the system's own `#BCBCC4` dark
-    /// (9.97:1). Gated by `ColorContrastTests`.
-    static let secondaryLabel = Color.Text.secondary
+    /// Gated by `ColorContrastTests` at WCAG AA 4.5:1 against the measured
+    /// card — not pure white, which is the optimistic mistake that once put a
+    /// wrong number in the audit's own findings.
+    static var secondaryLabel: Color { skin.secondaryLabel }
 
     // MARK: - Surfaces
 
-    // These were `UIColor { traits }` closures. A closure branches on
+    // Colorsets rather than `UIColor { traits }` closures: a closure branches on
     // `userInterfaceStyle` alone, so it cannot express high contrast at all —
-    // as colorsets they gain the Any+HC / Dark+HC slots the app has never had.
-    //
-    // Light values are the system colours the closures already resolved to
-    // (`systemBackground`, `systemGray6`, `systemGroupedBackground`), which are
-    // fixed published values, so pinning them loses nothing. The dark values
-    // are the app's deliberate OLED choice — which is *why* the closures
-    // existed, since the system's own dark surfaces sit around `#1C1C1E` and
-    // never reach true black.
+    // as colorsets they gain the Any+HC / Dark+HC slots.
 
-    /// Page backdrop. True black in dark mode for OLED.
-    static let background = Color.Surface.background
+    /// Page backdrop. True black in dark mode for OLED in the default skin.
+    static var background: Color { skin.background }
 
     /// Card / raised surface fill.
-    static let cardBackground = Color.Surface.card
+    static var cardBackground: Color { skin.cardBackground }
 
     /// Text-field and other input fills.
-    static let inputBackground = Color.Surface.input
+    static var inputBackground: Color { skin.inputBackground }
+}
+
+// MARK: - Root
+
+/// Wraps the app's root so skin-wide modifiers (`fontDesign`, the colour-scheme
+/// override) are read inside a `View.body`, where Observation tracks them.
+struct SkinnedRoot<Content: View>: View {
+    @State private var skins = SkinStore.shared
+    @ViewBuilder let content: Content
+
+    var body: some View {
+        content
+            .tint(Theme.accent)
+            .fontDesign(skins.current.fontDesign)
+            .preferredColorScheme(skins.colorScheme.colorScheme)
+    }
 }
 
 // MARK: - Theme View Modifiers
 
+/// The skin's card treatment on an arbitrary shape.
+///
+/// `.glass`: `.ultraThinMaterial` in light, the solid card colour in dark — the
+/// treatment the app shipped with. `.edged`: solid card colour in both schemes,
+/// a stroke, and a hard offset shadow drawn as a second fill behind the shape
+/// (unblurred by design — an edged skin has no soft shadows anywhere).
 struct ThemedBackground<S: Shape>: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
     let shape: S
 
     func body(content: Content) -> some View {
-        if colorScheme == .dark {
-            content.background(Theme.cardBackground, in: shape)
-        } else {
-            content.background(.ultraThinMaterial, in: shape)
+        switch SkinStore.shared.current.surface {
+        case .glass:
+            if colorScheme == .dark {
+                content.background(Theme.cardBackground, in: shape)
+            } else {
+                content.background(.ultraThinMaterial, in: shape)
+            }
+        case let .edged(stroke, strokeWidth, shadow, shadowOffset):
+            content.background {
+                shape.fill(shadow).offset(shadowOffset)
+                shape.fill(Theme.cardBackground)
+                shape.stroke(stroke, lineWidth: strokeWidth)
+            }
         }
     }
 }
 
-/// The app's standard card fill as a standalone view — the same scheme-adaptive
-/// treatment ``themeCard`` applies (`.ultraThinMaterial` in light, a soft solid
-/// in dark), for `listRowBackground` and other spots that need the fill directly.
-/// Replaces the bare `Theme.cardBackground` (a cold `systemGray6` in light) so
-/// grouped Lists match the rest of the app.
+/// The card fill as a standalone view, for `listRowBackground` and other spots
+/// that need the fill directly. Rows share their grouped container's edge, so
+/// an edged skin gives rows the solid fill only — the stroke and shadow belong
+/// to the container, not to every row inside it.
 struct CardBackground: View {
     @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
-        if colorScheme == .dark {
+        switch SkinStore.shared.current.surface {
+        case .glass:
+            if colorScheme == .dark {
+                Theme.cardBackground
+            } else {
+                Rectangle().fill(.ultraThinMaterial)
+            }
+        case .edged:
             Theme.cardBackground
-        } else {
-            Rectangle().fill(.ultraThinMaterial)
         }
     }
 }
