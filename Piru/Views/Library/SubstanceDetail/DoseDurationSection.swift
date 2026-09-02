@@ -319,7 +319,7 @@ private struct LogThisButton: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical, 3)
         }
-        .buttonStyle(.glassProminent)
+        .skinButtonStyle(.prominent)
         .tint(Theme.accent)
     }
 }

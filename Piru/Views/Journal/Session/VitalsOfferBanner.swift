@@ -52,7 +52,7 @@ struct VitalsOfferBanner: View {
                     }
                     .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(.glassProminent)
+                .skinButtonStyle(.prominent)
                 .controlSize(.regular)
                 .tint(Theme.accent)
                 .disabled(isConnectingVitals)

@@ -332,7 +332,7 @@ struct SourceAttributionExplainer: View {
                     } label: {
                         Image(systemName: "checkmark")
                     }
-                    .buttonStyle(.glassProminent)
+                    .skinButtonStyle(.prominent)
                     .accessibilityLabel(Text("Done"))
                 }
             }

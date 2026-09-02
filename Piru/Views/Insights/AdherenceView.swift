@@ -36,7 +36,7 @@ struct AdherenceView: View {
                         .font(.body.weight(.semibold))
                         .padding(.horizontal, 24)
                 }
-                .buttonStyle(.glassProminent)
+                .skinButtonStyle(.prominent)
                 .tint(Theme.accent)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -173,7 +173,7 @@ private struct AdherenceTodayCard: View {
                             .font(.subheadline.weight(.semibold))
                             .frame(maxWidth: .infinity)
                     }
-                    .buttonStyle(.glass)
+                    .skinButtonStyle(.neutral)
                     .tint(Theme.accent)
                 }
             }

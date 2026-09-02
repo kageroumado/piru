@@ -37,16 +37,15 @@ struct ROAPill: View {
     }
 
     var body: some View {
+        // The label takes the gated text variant, the fill the accent; the
+        // skin draws the form (see `skinChip`, which owns the 0.10 tint rule).
         Text(String(localized: route.localizedName).lowercased())
-            .font(size.font)
-            .lineLimit(1)
-            .padding(.horizontal, size.horizontalPadding)
-            .padding(.vertical, size.verticalPadding)
-            // Never raise this tint past ~0.10: a colour on a tint of itself
-            // asymptotes around 4.5:1 in dark mode regardless of lightness, so
-            // a heavier tint fails WCAG AA and no hue retune can fix it. The
-            // label takes the gated text variant, the fill the accent.
-            .background(route.tintColor.opacity(0.10), in: Capsule())
-            .foregroundStyle(route.tintTextColor)
+            .skinChip(
+                text: route.tintTextColor,
+                fill: route.tintColor,
+                font: size.font,
+                horizontal: size.horizontalPadding,
+                vertical: size.verticalPadding,
+            )
     }
 }

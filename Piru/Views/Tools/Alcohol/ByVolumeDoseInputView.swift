@@ -63,7 +63,7 @@ struct ByVolumeDoseInputView: View {
                         .frame(width: 60)
                         .padding(.vertical, 8)
                     }
-                    .buttonStyle(.glass)
+                    .skinButtonStyle(.neutral)
                     .tint(Theme.accent)
                     .accessibilityLabel(Text(preset.name))
                 }

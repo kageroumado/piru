@@ -258,26 +258,28 @@ final class UnifiedTimelineModel {
 
 // MARK: - Day header pill
 
-/// The floating day marker — a small glass capsule over the strip. The
-/// timeline continues underneath it; the pill only names where you are.
+/// The floating day marker — a small sticker over the strip (a glass capsule,
+/// or an edged tab, per the skin). The timeline continues underneath it; the
+/// sticker only names where you are.
 struct TimelineDayHeader: View {
     let date: Date
     let isToday: Bool
 
     var body: some View {
-        HStack(spacing: 6) {
-            if isToday {
-                Circle()
-                    .fill(Theme.accent)
-                    .frame(width: 7, height: 7)
+        SkinSticker(isAccented: isToday) {
+            HStack(spacing: 6) {
+                if isToday {
+                    Circle()
+                        .fill(SkinStore.shared.current.surface == .glass ? Theme.accent : SkinStore.shared.current.onAccent)
+                        .frame(width: 7, height: 7)
+                }
+                Text(headerText)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(SkinStore.shared.current.surface == .glass
+                        ? (isToday ? AnyShapeStyle(.primary) : AnyShapeStyle(Theme.secondaryLabel))
+                        : AnyShapeStyle(.foreground))
             }
-            Text(headerText)
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(isToday ? .primary : Theme.secondaryLabel)
         }
-        .padding(.horizontal, 11)
-        .padding(.vertical, 5)
-        .background(.ultraThinMaterial, in: .capsule)
     }
 
     private var headerText: String {

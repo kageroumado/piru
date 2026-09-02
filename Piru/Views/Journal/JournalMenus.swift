@@ -204,7 +204,7 @@ struct JournalFilterMenu: View {
                     .accessibilityHidden(true)
             }
             .menuStyle(.button)
-            .buttonStyle(.glassProminent)
+            .skinButtonStyle(.prominent)
             .buttonBorderShape(.circle)
             .controlSize(.regular)
             .tint(Theme.accent)
