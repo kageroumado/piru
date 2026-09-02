@@ -105,9 +105,7 @@ struct TimelineStripDayContent: View {
     /// pinned by its dot.
     private var doseDots: some View {
         ForEach(Array(day.doseDots.enumerated()), id: \.offset) { _, dot in
-            Circle()
-                .fill(dot.color)
-                .frame(width: 8, height: 8)
+            LegendDot(color: dot.color)
                 .padding(1.5)
                 .background(Theme.background, in: Circle())
                 .position(x: TimelineGutter.axisX, y: dot.y)
@@ -227,7 +225,7 @@ struct TimelineStripDayContent: View {
             context.fill(
                 fill,
                 with: .linearGradient(
-                    Gradient(colors: [series.color.opacity(0.18), series.color.opacity(0)]),
+                    Gradient(colors: [series.color.opacity(Theme.Opacity.tintActive), series.color.opacity(0)]),
                     startPoint: CGPoint(x: axisX, y: 0),
                     endPoint: CGPoint(x: peakX + Self.fillFadeOverrun, y: 0),
                 ),
@@ -449,7 +447,7 @@ struct SessionEnvelopeButton: View {
                     // Chevron styled and inset identically to the bubbles'
                     // (bubble inset 8 + bubble padding 10), so the two columns
                     // of chevrons align.
-                    HStack(spacing: 8) {
+                    HStack(spacing: Spacing.md) {
                         Text("Session")
                             .font(.caption.weight(.medium))
                             .foregroundStyle(Theme.secondaryLabel)
@@ -459,7 +457,7 @@ struct SessionEnvelopeButton: View {
                             .accessibilityHidden(true)
                     }
                     .padding(.trailing, 18)
-                    .padding(.bottom, 6)
+                    .padding(.bottom, Spacing.sm)
                 }
                 .contentShape(.rect)
         }

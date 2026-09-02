@@ -213,7 +213,7 @@ struct MechanisticChartView: View {
         var track = Path()
         track.move(to: CGPoint(x: trackX, y: y))
         track.addLine(to: CGPoint(x: trackX + trackW, y: y))
-        context.stroke(track, with: .color(.secondary.opacity(0.18)), lineWidth: 2)
+        context.stroke(track, with: .color(.secondary.opacity(Theme.Opacity.tintActive)), lineWidth: 2)
         let start = trackX + CGFloat(max(0, window.start - contentStart) / contentLength) * trackW
         let end = trackX + CGFloat(min(contentLength, window.start + window.width - contentStart) / contentLength) * trackW
         var seg = Path()
@@ -292,7 +292,7 @@ struct MechanisticChartView: View {
                 var tick = Path()
                 tick.move(to: CGPoint(x: tx, y: geo.rect.maxY))
                 tick.addLine(to: CGPoint(x: tx, y: geo.rect.maxY - 4))
-                context.stroke(tick, with: .color(.secondary.opacity(0.4)), lineWidth: 1)
+                context.stroke(tick, with: .color(.secondary.opacity(Theme.Opacity.muted)), lineWidth: 1)
             }
             hour += step
         }

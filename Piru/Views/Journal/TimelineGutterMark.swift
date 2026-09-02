@@ -33,7 +33,7 @@ struct TimelineGutterMark<Content: View>: View {
                     }
                     .overlay {
                         RoundedRectangle(cornerRadius: TimelineGutterMarkMetrics.cornerRadius, style: .continuous)
-                            .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
+                            .strokeBorder(Color.primary.opacity(Theme.Opacity.hairline), lineWidth: 1)
                     }
             }
     }

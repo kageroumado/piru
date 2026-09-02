@@ -24,7 +24,7 @@ struct JournalCalendarView: View {
     }
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: Spacing.xxl) {
             // Month navigation
             HStack {
                 Button {
@@ -37,7 +37,7 @@ struct JournalCalendarView: View {
                 .accessibilityLabel(Text("Previous month"))
                 Spacer()
                 Text(selectedMonth.formatted(.dateTime.month(.wide).year()))
-                    .font(.headline)
+                    .cardTitle()
                 Spacer()
                 Button {
                     if let next = calendar.date(byAdding: .month, value: 1, to: selectedMonth) {
@@ -53,7 +53,7 @@ struct JournalCalendarView: View {
             // Day-of-week header. Rotated to `firstWeekday` so it agrees with the
             // leading-blank math below — see `orderedShortWeekdaySymbols`.
             let weekdays = calendar.orderedShortWeekdaySymbols
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 8) {
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: Spacing.md) {
                 ForEach(Array(weekdays.enumerated()), id: \.offset) { _, day in
                     Text(day)
                         .font(.caption2.weight(.medium))
@@ -69,7 +69,7 @@ struct JournalCalendarView: View {
                         Button {
                             onSelectDate(date)
                         } label: {
-                            VStack(spacing: 2) {
+                            VStack(spacing: Spacing.xxs) {
                                 Text("\(item.day)")
                                     .font(.subheadline)
                                     .foregroundStyle(count > 0 ? .primary : Theme.secondaryLabel)
@@ -85,7 +85,7 @@ struct JournalCalendarView: View {
                             .frame(width: 40, height: 40)
                             .background {
                                 if calendar.isDateInToday(date) {
-                                    Circle().fill(Theme.accent.opacity(0.15))
+                                    Circle().fill(Theme.accent.opacity(Theme.Opacity.tintActive))
                                 }
                             }
                             .frame(maxWidth: .infinity)

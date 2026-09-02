@@ -55,11 +55,10 @@ struct EntryEditContent: View {
                 }
             }
             Toggle(isOn: $draft.isApproximate) {
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text("Approximate amount")
                     Text("Shows the dose with a ~; the estimate still drives the curves.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
             }
             Picker("Route", selection: $draft.route) {
@@ -98,8 +97,7 @@ struct EntryEditContent: View {
                         .fill(substanceColor)
                         .frame(width: 16, height: 16)
                     Image(systemName: "chevron.right")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                         .accessibilityHidden(true)
                 }
             }
@@ -107,7 +105,7 @@ struct EntryEditContent: View {
 
         Section("Location") {
             if let location = draft.location {
-                HStack(spacing: 8) {
+                HStack(spacing: Spacing.md) {
                     Image(systemName: "mappin.circle.fill")
                         .foregroundStyle(Theme.accent)
                         .accessibilityHidden(true)
@@ -150,7 +148,7 @@ struct EntryEditContent: View {
                     isomer: draft.isomer,
                     currentDose: normalizedDraftAmount,
                 )
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
             }
         }
 

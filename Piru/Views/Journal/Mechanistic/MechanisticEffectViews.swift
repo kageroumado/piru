@@ -13,7 +13,7 @@ struct MechanisticVitalsCards: View {
     private let earlierReadingLimit = 2
 
     var body: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: Spacing.lg) {
             if let bpm = nearestHeartRate {
                 vitalCard(icon: "heart.fill", tint: EffectLens.crash, title: "Heart rate", value: "\(bpm)", unit: "bpm")
             }
@@ -38,15 +38,15 @@ struct MechanisticVitalsCards: View {
         unit: LocalizedStringKey,
         caption: String? = nil,
     ) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             Label(title, systemImage: icon)
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
                 .labelStyle(.titleAndIcon)
                 .tint(tint)
             HStack(alignment: .firstTextBaseline, spacing: 3) {
                 Text(value).font(.title2.bold())
-                Text(unit).font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+                Text(unit).font(.caption.weight(.semibold)).foregroundStyle(Theme.secondaryLabel)
             }
             // The card headlines the reading nearest the playhead, so a day's
             // earlier measurements used to vanish behind it entirely. They keep
@@ -55,13 +55,13 @@ struct MechanisticVitalsCards: View {
             if let caption {
                 Text(caption)
                     .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(12)
+        .padding(Spacing.xl)
         .themeCard()
         // One utterance per card ("Heart rate, 72 bpm"), not four fragments.
         .accessibilityElement(children: .combine)
