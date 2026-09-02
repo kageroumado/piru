@@ -420,10 +420,11 @@ private struct LibraryFavoritesCard: View {
 // MARK: - Yours Row (custom substances · colors)
 
 /// The user's own layer over the library as one quiet card of rows: custom
-/// substances (only once there are any) and substance colors (always — a
-/// color applies to any substance, so the row has somewhere to go before the
-/// first one is assigned). Rows, not banners: these are doors to lists the
-/// user made, and the family cards below are the library itself.
+/// substances, then substance colors. Both rows always show — a color applies
+/// to any substance and the custom list is where a first one gets made, so
+/// each row has somewhere to go before it has anything to count. Rows, not
+/// banners: these are doors to lists the user made, and the family cards
+/// below are the library itself.
 private struct LibraryYoursRow: View {
     private var customCount: Int {
         CustomSubstanceStore.shared.all.count
@@ -431,10 +432,8 @@ private struct LibraryYoursRow: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            if customCount > 0 {
-                LibraryCustomRow(count: customCount)
-                Divider().padding(.leading, 56)
-            }
+            LibraryCustomRow(count: customCount)
+            Divider().padding(.leading, 56)
             LibraryColorsRow()
         }
         .themeCard()
@@ -479,8 +478,12 @@ private struct LibraryCustomRow: View {
 
     var body: some View {
         NavigationLink(value: PushRoute.libraryCustom) {
-            LibraryYoursRowLabel(icon: "sparkles", title: "Custom") {
-                Text("\(count)")
+            LibraryYoursRowLabel(icon: "sparkles", title: "Custom Substances") {
+                if count > 0 {
+                    Text("\(count)")
+                } else {
+                    Text("None yet")
+                }
             }
         }
         .buttonStyle(.plain)
