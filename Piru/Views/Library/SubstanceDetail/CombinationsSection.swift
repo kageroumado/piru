@@ -12,7 +12,7 @@ struct CombinationsList: View {
         VStack(alignment: .leading, spacing: 0) {
             ForEach(sorted, id: \.offset) { index, combo in
                 if index > 0 {
-                    Divider().padding(.vertical, 8)
+                    Divider().padding(.vertical, Spacing.md)
                 }
                 CombinationRow(combination: combo)
             }
@@ -28,17 +28,17 @@ private struct CombinationRow: View {
     let combination: Combination
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
+            HStack(spacing: Spacing.sm) {
                 Text(combination.name)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 if let note = combination.note {
                     Text(note)
                         .font(.caption2.weight(.medium))
                         .foregroundStyle(Theme.secondaryLabel)
                         .padding(.horizontal, 5)
                         .padding(.vertical, 1)
-                        .background(Theme.secondaryLabel.opacity(0.1), in: Capsule())
+                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: Capsule())
                 }
                 Spacer(minLength: 8)
                 EditorialPill(
@@ -53,7 +53,7 @@ private struct CombinationRow: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilityLabel)
     }
@@ -83,17 +83,20 @@ extension Combination.Severity {
 
     var foreground: Color {
         switch self {
-        case .danger: .red
-        case .caution: .orange
+        case .danger: .dangerText
+        case .caution: .cautionText
         case .note: Theme.secondaryLabel
         }
     }
 
+    /// The fill is the `accent` variant at ``Theme/Opacity/tint``, never an
+    /// authored color: the `text` foreground above is contrast-gated against
+    /// exactly that derivation.
     var background: Color {
         switch self {
-        case .danger: Color.red.opacity(0.12)
-        case .caution: Color.orange.opacity(0.12)
-        case .note: Theme.secondaryLabel.opacity(0.1)
+        case .danger: Color.dangerAccent.opacity(Theme.Opacity.tint)
+        case .caution: Color.cautionAccent.opacity(Theme.Opacity.tint)
+        case .note: Theme.secondaryLabel.opacity(Theme.Opacity.tint)
         }
     }
 

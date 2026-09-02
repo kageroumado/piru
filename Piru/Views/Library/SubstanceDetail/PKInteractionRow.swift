@@ -13,13 +13,13 @@ struct PKInteractionRow: View {
     var accent: Color = Theme.secondaryLabel
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
                 // `verbatim`: a drug or class name copied from its source is not a
                 // catalog key, and several are free-text sets ("ketoconazole /
                 // itraconazole") that no translation should try to split.
                 Text(verbatim: hit.withSubstance)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer(minLength: 8)
                 if let mechanism = hit.mechanism {
@@ -31,8 +31,7 @@ struct PKInteractionRow: View {
             }
             if let effect = hit.clinicalEffect {
                 Text(verbatim: effect)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }

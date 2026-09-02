@@ -49,7 +49,7 @@ struct InventoryStockSection: View {
                 Text("Inventory")
                 Spacer()
                 Button { showAllInventory = true } label: {
-                    HStack(spacing: 2) {
+                    HStack(spacing: Spacing.xxs) {
                         Text("Show All")
                         Image(systemName: "chevron.right").font(.caption2)
                             .accessibilityHidden(true)
@@ -64,7 +64,7 @@ struct InventoryStockSection: View {
     }
 
     private func trackedStockCard(_ item: InventoryItem) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 3) {
                     StockAmountText(item: item, style: .title2)
@@ -84,11 +84,10 @@ struct InventoryStockSection: View {
             }
             if hasUnitMismatch(item) {
                 Label("Doses in other units aren't counted.", systemImage: "info.circle")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     /// The shared accent text-pill used for both Track and Restock, so the two
@@ -96,11 +95,11 @@ struct InventoryStockSection: View {
     private func inventoryPill(_ title: LocalizedStringKey, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Text(title)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(Theme.accent)
                 .padding(.horizontal, 14)
-                .padding(.vertical, 8)
-                .background(Theme.accent.opacity(0.15), in: Capsule())
+                .padding(.vertical, Spacing.md)
+                .background(Theme.accent.opacity(Theme.Opacity.tint), in: Capsule())
         }
         .buttonStyle(.plain)
     }

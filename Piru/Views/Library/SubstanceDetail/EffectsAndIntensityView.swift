@@ -29,8 +29,8 @@ struct EffectsAndIntensityView: View {
                     reportsCard(link)
                 }
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 10)
+            .padding(.horizontal, Spacing.xxl)
+            .padding(.vertical, Spacing.lg)
         }
         .background(Theme.background)
         .navigationTitle(Text("Effects", comment: "Screen title"))
@@ -46,24 +46,24 @@ struct EffectsAndIntensityView: View {
                 Label {
                     Text(domain.localizedName)
                 } icon: {
-                    Circle().fill(domain.color).frame(width: 9, height: 9)
+                    LegendDot(color: domain.color, size: .large)
                 }
                 .font(.caption.weight(.bold))
                 .foregroundStyle(Theme.secondaryLabel)
                 .padding(.top, domain == model.groupedReported.first?.0 ? 0 : 14)
-                .padding(.bottom, 6)
-                .padding(.leading, 4)
+                .padding(.bottom, Spacing.sm)
+                .padding(.leading, Spacing.xs)
 
                 VStack(spacing: 0) {
                     ForEach(effects) { effect in
                         EffectRow(effect: effect, maxFrequency: model.maxReportedFrequency)
                         if effect.id != effects.last?.id {
-                            Divider().padding(.leading, 4)
+                            Divider().padding(.leading, Spacing.xs)
                         }
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 4)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.vertical, Spacing.xs)
                 .themeCard()
             }
 
@@ -72,7 +72,7 @@ struct EffectsAndIntensityView: View {
                 label: "Effects",
                 deepLink: model.drugCommunityDeepLink,
             )
-            .padding(.horizontal, 2)
+            .padding(.horizontal, Spacing.xxs)
         }
     }
 
@@ -85,7 +85,7 @@ struct EffectsAndIntensityView: View {
                     Text(group.category)
                         .font(.caption.weight(.bold))
                         .foregroundStyle(Theme.secondaryLabel)
-                        .padding(.bottom, 6)
+                        .padding(.bottom, Spacing.sm)
                     VStack(spacing: 0) {
                         ForEach(group.effects, id: \.self) { effect in
                             HStack {
@@ -98,7 +98,7 @@ struct EffectsAndIntensityView: View {
                             }
                         }
                     }
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, Spacing.xxl)
                     .themeCard()
                 }
             }
@@ -125,21 +125,20 @@ struct EffectsAndIntensityView: View {
 
     private func reportsCard(_ link: (url: URL, chinese: Bool)) -> some View {
         Link(destination: link.url) {
-            HStack(spacing: 12) {
+            HStack(spacing: Spacing.xl) {
                 Image(systemName: "text.book.closed")
                     .foregroundStyle(Theme.accent)
                     .accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     if link.chinese {
                         Text("Read experience reports on FreeODWiki", comment: "Reports link, Chinese source")
-                            .font(.subheadline.weight(.semibold))
+                            .sectionLabel()
                     } else {
                         Text("Search experiences on Erowid", comment: "Reports link, Erowid")
-                            .font(.subheadline.weight(.semibold))
+                            .sectionLabel()
                     }
                     Text("First-hand reports. Opens in your browser.", comment: "Reports link caption")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
                 Spacer()
                 Image(systemName: "arrow.up.right")
@@ -147,7 +146,7 @@ struct EffectsAndIntensityView: View {
                     .foregroundStyle(Theme.secondaryLabel)
                     .accessibilityHidden(true)
             }
-            .padding(16)
+            .padding(Spacing.xxl)
             .themeCard()
         }
         .buttonStyle(.plain)
@@ -162,7 +161,7 @@ private struct EffectRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
-            HStack(spacing: 10) {
+            HStack(spacing: Spacing.lg) {
                 Text(effect.name)
                     .font(.body)
                     .lineLimit(1)

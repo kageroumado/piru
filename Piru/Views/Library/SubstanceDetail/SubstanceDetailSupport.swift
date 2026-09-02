@@ -91,16 +91,16 @@ struct CollapsibleSection<Content: View>: View {
         DisclosureGroup(isExpanded: $isExpanded) {
             content()
         } label: {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 title
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 if let count {
                     Text(verbatim: "\(count)")
                         .font(.caption2.weight(.semibold))
                         .foregroundStyle(Theme.secondaryLabel)
-                        .padding(.horizontal, 6)
+                        .padding(.horizontal, Spacing.sm)
                         .padding(.vertical, 1)
-                        .background(Theme.secondaryLabel.opacity(0.12), in: Capsule())
+                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: Capsule())
                 }
                 if let onInfo {
                     Spacer(minLength: 0)
@@ -132,7 +132,7 @@ struct EditorialPill: View {
             .font(.system(.caption2, design: .rounded, weight: .bold))
             .textCase(.uppercase)
             .foregroundStyle(foreground)
-            .padding(.horizontal, 8)
+            .padding(.horizontal, Spacing.md)
             .padding(.vertical, 3)
             .background(background, in: Capsule())
             .fixedSize()
@@ -206,7 +206,7 @@ struct SourceAttributionRow: View {
     /// verify against the original. The accent source name is the tappable cue,
     /// same as everywhere else in the app.
     private var rowContent: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: Spacing.sm) {
             Image(systemName: "book.closed")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -221,7 +221,7 @@ struct SourceAttributionRow: View {
                 .foregroundStyle(Theme.accent)
             Spacer()
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
         .contentShape(Rectangle())
         .accessibilityElement(children: .combine)
         .accessibilityLabel(Text("\(String(localized: label)), source: \(displayName)"))
@@ -266,20 +266,20 @@ struct SourceAttributionExplainer: View {
         NavigationStack {
             List {
                 Section {
-                    VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading, spacing: Spacing.xs) {
                         Text(label)
                             .font(.caption2.weight(.bold))
                             .textCase(.uppercase)
                             .foregroundStyle(Theme.secondaryLabel)
                         Text(displayName(winnerSlug))
-                            .font(.title3.weight(.semibold))
+                            .screenTitle()
                         if let description = descriptions[winnerSlug] {
                             Text(description)
                                 .font(.callout)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
                     }
-                    .padding(.vertical, 2)
+                    .padding(.vertical, Spacing.xxs)
                 } header: {
                     Text("Shown from")
                 }
@@ -297,8 +297,7 @@ struct SourceAttributionExplainer: View {
                                     .foregroundStyle(Theme.accent)
                             } else {
                                 Text("Also has this")
-                                    .font(.caption)
-                                    .foregroundStyle(Theme.secondaryLabel)
+                                    .captionSecondary()
                             }
                         }
                     }

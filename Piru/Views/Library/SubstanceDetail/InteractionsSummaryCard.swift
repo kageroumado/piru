@@ -50,7 +50,7 @@ struct InteractionsSummaryCard: View {
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             } else {
-                VStack(spacing: 10) {
+                VStack(spacing: Spacing.lg) {
                     ForEach(top) { interaction in
                         row(interaction)
                     }
@@ -75,18 +75,15 @@ struct InteractionsSummaryCard: View {
     /// leaves the reader no better informed than the colour already did. The
     /// dot keeps the severity; the line says why.
     private func row(_ interaction: ActiveInteraction) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 10) {
-            Circle()
-                .fill(interaction.severity.color)
-                .frame(width: 9, height: 9)
+        HStack(alignment: .firstTextBaseline, spacing: Spacing.lg) {
+            LegendDot(color: interaction.severity.color, size: .large)
                 .alignmentGuide(.firstTextBaseline) { $0[.bottom] - 1 }
             VStack(alignment: .leading, spacing: 1) {
                 Text("\(interaction.a) + \(interaction.b)")
                     .font(.subheadline.weight(.medium))
                     .lineLimit(1)
                 Text(interaction.lead)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .lineLimit(2)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }

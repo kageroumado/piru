@@ -58,7 +58,7 @@ struct DoseEffectsCard: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: Spacing.xxl) {
             if hasDosage {
                 doseBlock
             }
@@ -71,7 +71,7 @@ struct DoseEffectsCard: View {
                 releaseBlock(releaseWindow)
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
         .onAppear { publishSelection() }
         .onChange(of: selected) { publishSelection() }
     }
@@ -128,8 +128,7 @@ struct DoseEffectsCard: View {
                     Image(systemName: "atom").imageScale(.small)
                         .accessibilityHidden(true)
                 }
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
             }
 
             if let doses { disclaimer(for: doses) }
@@ -143,8 +142,7 @@ struct DoseEffectsCard: View {
             Image(systemName: "person.fill.questionmark").imageScale(.small)
                 .accessibilityHidden(true)
         }
-        .font(.caption)
-        .foregroundStyle(Theme.secondaryLabel)
+        .captionSecondary()
         .fixedSize(horizontal: false, vertical: true)
     }
 
@@ -167,7 +165,7 @@ struct DoseEffectsCard: View {
     private func durationBlock(_ duration: DurationProfile) -> some View {
         let curveProfile = curveCategory.map { duration.fillingMissingPhases(for: $0) } ?? duration
         let boundaries = curveProfile.phaseBoundaries
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             if DurationCurveView.canRender(boundaries) {
                 DurationCurveView(boundaries: boundaries, accent: accent)
                     // Equal optical padding: the curve's baseline sits on the
@@ -183,7 +181,7 @@ struct DoseEffectsCard: View {
         }
     }
 
-    private static let curveShape = RoundedRectangle(cornerRadius: 12)
+    private static let curveShape = RoundedRectangle(cornerRadius: Theme.CornerRadius.medium)
 
     /// Phases beyond onset/peak/total: come-up, offset, afterglow.
     private func foldedPhases(_ duration: DurationProfile) -> Bool {
@@ -204,14 +202,14 @@ struct DoseEffectsCard: View {
 
             if foldedPhases(duration) {
                 if phasesExpanded {
-                    VStack(spacing: 8) {
+                    VStack(spacing: Spacing.md) {
                         DurationPhaseRows(duration: duration)
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.top, 10)
-                    .padding(.bottom, 4)
+                    .padding(.horizontal, Spacing.xl)
+                    .padding(.top, Spacing.lg)
+                    .padding(.bottom, Spacing.xs)
                     .overlay(alignment: .top) {
-                        Rectangle().fill(Color.primary.opacity(0.08)).frame(height: 1)
+                        Rectangle().fill(Color.primary.opacity(Theme.Opacity.hairline)).frame(height: 1)
                     }
                 }
                 Button {
@@ -219,7 +217,7 @@ struct DoseEffectsCard: View {
                         phasesExpanded.toggle()
                     }
                 } label: {
-                    HStack(spacing: 4) {
+                    HStack(spacing: Spacing.xs) {
                         Text(phasesExpanded ? "Fewer" : "All phases")
                         Image(systemName: phasesExpanded ? "chevron.up" : "chevron.down")
                             .font(.caption2.weight(.semibold))
@@ -234,11 +232,11 @@ struct DoseEffectsCard: View {
                 .buttonStyle(.plain)
             }
         }
-        .background(Color(.tertiarySystemFill), in: RoundedRectangle(cornerRadius: 12))
+        .background(Color(.tertiarySystemFill), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.medium))
     }
 
     private var trioDivider: some View {
-        Rectangle().fill(Color.primary.opacity(0.08)).frame(width: 1, height: 40)
+        Rectangle().fill(Color.primary.opacity(Theme.Opacity.hairline)).frame(width: 1, height: 40)
     }
 
     private func trioCell(_ name: LocalizedStringKey, _ range: DurationRange?) -> some View {
@@ -251,7 +249,7 @@ struct DoseEffectsCard: View {
                 .foregroundStyle(Theme.secondaryLabel)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 12)
+        .padding(.vertical, Spacing.xl)
         .accessibilityElement(children: .combine)
     }
 
@@ -274,11 +272,11 @@ struct DoseEffectsCard: View {
     // MARK: - Release window (extended-release)
 
     private func releaseBlock(_ window: String) -> some View {
-        HStack(spacing: 8) {
+        HStack(spacing: Spacing.md) {
             Image(systemName: "clock.arrow.circlepath")
                 .foregroundStyle(accent)
                 .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text("Duration of action")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)

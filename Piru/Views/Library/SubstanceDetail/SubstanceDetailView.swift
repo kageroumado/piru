@@ -282,7 +282,7 @@ struct SubstanceDetailView: View {
         // bar title and shouldn't lose it to a scroll position.
         ToolbarItem(placement: .principal) {
             Text(substance.displayTitle)
-                .font(.headline)
+                .cardTitle()
                 .lineLimit(1)
                 .opacity(headerTitleVisible ? 0 : 1)
                 .animation(.easeInOut(duration: 0.18), value: headerTitleVisible)

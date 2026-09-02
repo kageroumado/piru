@@ -165,7 +165,7 @@ struct DoseDurationSection: View {
                     // the page between two of them. Inside, under the sources, it
                     // reads as "…and here is what you do with this".
                     LogThisButton(substanceName: substance.name, doseText: loggableDose)
-                        .padding(.top, 12)
+                        .padding(.top, Spacing.xl)
                 }
                 .listRowSeparator(.hidden)
             } header: {
@@ -236,7 +236,7 @@ private struct CompareSourcesRow: View {
         Button {
             navigator.present(.doseSources(substance: substanceName, route: route))
         } label: {
-            HStack(spacing: 4) {
+            HStack(spacing: Spacing.xs) {
                 Text("Compare all \(sourceCount) sources", comment: "Opens the dose-source comparison")
                 Image(systemName: "chevron.right")
                     .font(.caption2.weight(.semibold))
@@ -248,7 +248,7 @@ private struct CompareSourcesRow: View {
             // glyph's width plus its gap — so this line starts where the source
             // names above it start instead of hanging off to their left.
             .padding(.leading, 22)
-            .padding(.top, 2)
+            .padding(.top, Spacing.xxs)
             .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
         }
@@ -266,7 +266,7 @@ struct RouteChips: View {
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.md) {
                 ForEach(routes, id: \.route) { r in
                     let isOn = activeRoute == r.route
                     Button {
@@ -276,7 +276,7 @@ struct RouteChips: View {
                             .font(.subheadline.weight(.medium))
                             .foregroundStyle(isOn ? Color.white : Color.primary)
                             .padding(.horizontal, 14)
-                            .padding(.vertical, 8)
+                            .padding(.vertical, Spacing.md)
                             .background(
                                 Capsule().fill(isOn ? Theme.accent : Color(.tertiarySystemFill)),
                             )
@@ -315,7 +315,7 @@ private struct LogThisButton: View {
                     Text("Log this", comment: "Primary action when the substance has no dose ladder")
                 }
             }
-            .font(.subheadline.weight(.semibold))
+            .sectionLabel()
             .frame(maxWidth: .infinity)
             .padding(.vertical, 3)
         }

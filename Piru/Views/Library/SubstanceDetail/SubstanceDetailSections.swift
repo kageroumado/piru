@@ -191,18 +191,17 @@ struct EffectsSection: View {
                 Section {
                     if !mainEffects.isEmpty {
                         ForEach(mainEffects, id: \.name) { effect in
-                            VStack(alignment: .leading, spacing: 4) {
+                            VStack(alignment: .leading, spacing: Spacing.xs) {
                                 Text(effect.name)
                                     .font(.subheadline)
                                 if !effect.description.isEmpty {
                                     Text(effect.description)
-                                        .font(.caption)
-                                        .foregroundStyle(Theme.secondaryLabel)
+                                        .captionSecondary()
                                         .fixedSize(horizontal: false, vertical: true)
                                 }
                             }
                             .accessibilityElement(children: .combine)
-                            .padding(.vertical, 2)
+                            .padding(.vertical, Spacing.xxs)
                         }
                     } else if hasAllEffects {
                         Button { showAllEffects = true } label: {
@@ -225,7 +224,7 @@ struct EffectsSection: View {
             // navigationDestination from a Button instead.
             if showsShowAll {
                 Button { showAllEffects = true } label: {
-                    HStack(spacing: 2) {
+                    HStack(spacing: Spacing.xxs) {
                         Text("Show All")
                         Image(systemName: "chevron.right").font(.caption2)
                             .accessibilityHidden(true)

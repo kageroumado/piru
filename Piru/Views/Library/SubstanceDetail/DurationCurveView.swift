@@ -66,7 +66,7 @@ struct DurationCurveView: View {
                 // Hour gridlines + labels.
                 ForEach(hourMarks(total), id: \.self) { hour in
                     let hx = xf(Double(hour) * 60)
-                    Rectangle().fill(Color.primary.opacity(0.08))
+                    Rectangle().fill(Color.primary.opacity(Theme.Opacity.hairline))
                         .frame(width: 1, height: plotH).offset(x: hx, y: plotTop)
                     Text(verbatim: "\(hour)h")
                         .font(.system(size: 8, weight: .bold, design: .rounded))

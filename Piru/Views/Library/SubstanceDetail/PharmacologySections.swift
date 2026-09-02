@@ -116,7 +116,7 @@ struct PharmacologySections: View {
                     isExpanded: binding(.receptorLit, default: policy.receptorLitDefaultExpanded),
                 ) {
                     GroupedReceptorLiterature(rows: model.visibleLiteratureBindings, accent: substance.category.color)
-                        .padding(.vertical, 4)
+                        .padding(.vertical, Spacing.xs)
                 }
             }
 
@@ -181,7 +181,7 @@ struct PharmacologySections: View {
                     // `ForEach` lands in that row's implicit horizontal layout
                     // and draws as a short VERTICAL rule with blank space
                     // around it.
-                    VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: Spacing.md) {
                         ForEach(model.pkInteractions) { hit in
                             PKInteractionRow(hit: hit)
                             if hit.id != model.pkInteractions.last?.id { Divider() }
@@ -233,7 +233,7 @@ struct PharmacologySections: View {
     /// pathways, each row carrying its own source/citation. Mirrors the Receptor
     /// Literature layout — dense, attributed, pharma-nerd-only.
     private var pharmacokineticsBody: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             ForEach(model.pkRoutes) { row in
                 PKRouteRow(hit: row.hit, studyCount: row.studyCount, accent: substance.category.color)
                 if row.id != model.pkRoutes.last?.id { Divider() }
@@ -249,7 +249,7 @@ struct PharmacologySections: View {
                 }
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     /// The CYP/enzyme clearance pathways and their metabolites — its own section
@@ -273,7 +273,7 @@ struct PharmacologySections: View {
 
     private var metabolismBody: some View {
         let noteRows = divergentNoteRowIDs
-        return VStack(alignment: .leading, spacing: 8) {
+        return VStack(alignment: .leading, spacing: Spacing.md) {
             ForEach(model.metabolismRows) { hit in
                 // The metabolite row now folds its own curated "acts differently"
                 // one-liner in (parentName keys ``MetaboliteEditorial``), deduped to
@@ -296,7 +296,7 @@ struct PharmacologySections: View {
                 )
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     /// A caption-weight note beneath the enzyme pathways — the divergent-metabolite
@@ -304,14 +304,13 @@ struct PharmacologySections: View {
     /// not a headline; the leading glyph signals the axis (branch = different
     /// pharmacology, person-pair = between-people variability).
     private func metabolismNote(_ text: LocalizedStringResource, systemImage: String) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 6) {
+        HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
             Image(systemName: systemImage)
                 .font(.caption2)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
             Text(text)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
         }
     }
@@ -331,7 +330,7 @@ struct ActiveIngredientNote: View {
         Button {
             navigator.push(.substance(name: ingredient))
         } label: {
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
                 Image(systemName: "arrow.trianglehead.branch")
                     .font(.caption2)
                     .accessibilityHidden(true)
@@ -353,6 +352,6 @@ struct ActiveIngredientNote: View {
             .foregroundStyle(accent)
         }
         .buttonStyle(.plain)
-        .padding(.bottom, 10)
+        .padding(.bottom, Spacing.lg)
     }
 }

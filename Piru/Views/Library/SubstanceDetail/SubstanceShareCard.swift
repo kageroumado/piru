@@ -189,13 +189,13 @@ struct SubstanceShareCard: View {
                 curvePanel.frame(maxWidth: .infinity)
             }
             HStack(alignment: .top, spacing: 26) {
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: Spacing.md) {
                     sectionLabel(route.map { "Dose · \($0.route.displayName)" } ?? "Dose")
                     doseLadderRows
                     Spacer(minLength: 0)
                 }
                 .frame(width: 210, alignment: .leading)
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: Spacing.md) {
                     effectsSection
                     Spacer(minLength: 0)
                 }
@@ -212,7 +212,7 @@ struct SubstanceShareCard: View {
     // MARK: header
 
     private var header: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             Text(substance.displayTitle)
                 .font(.system(size: 40, weight: .heavy, design: .rounded))
                 .minimumScaleFactor(0.6)
@@ -222,7 +222,7 @@ struct SubstanceShareCard: View {
     }
 
     private var centeredHeader: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: Spacing.lg) {
             Text(substance.displayTitle)
                 .font(.system(size: 52, weight: .heavy, design: .rounded))
                 .minimumScaleFactor(0.5)
@@ -234,7 +234,7 @@ struct SubstanceShareCard: View {
     }
 
     private var subtitleRow: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: Spacing.md) {
             categoryChip
             if let formula = substance.formula {
                 Text(formula)
@@ -250,10 +250,10 @@ struct SubstanceShareCard: View {
             .font(.caption.weight(.bold))
             .textCase(.uppercase)
             .tracking(0.6)
-            .padding(.horizontal, 10)
+            .padding(.horizontal, Spacing.lg)
             .padding(.vertical, 5)
-            .background(.white.opacity(0.18), in: Capsule())
-            .overlay(Capsule().stroke(.white.opacity(0.25), lineWidth: 1))
+            .background(.white.opacity(Theme.Opacity.tintActive), in: Capsule())
+            .overlay(Capsule().stroke(.white.opacity(Theme.Opacity.emphasis), lineWidth: 1))
     }
 
     // MARK: hero (molecule specimen)
@@ -266,7 +266,7 @@ struct SubstanceShareCard: View {
             } else {
                 Image(systemName: "atom")
                     .font(.system(size: 60, weight: .thin))
-                    .foregroundStyle(.white.opacity(0.5))
+                    .foregroundStyle(.white.opacity(Theme.Opacity.dimmed))
                     .accessibilityHidden(true)
             }
         }
@@ -306,7 +306,7 @@ struct SubstanceShareCard: View {
                     .frame(height: Self.dataRowHeight)
                     .overlay(alignment: .bottom) {
                         if index != 4, doseText[index + 1] != nil {
-                            Rectangle().fill(.white.opacity(0.10)).frame(height: 1)
+                            Rectangle().fill(.white.opacity(Theme.Opacity.tint)).frame(height: 1)
                         }
                     }
                 }
@@ -324,12 +324,12 @@ struct SubstanceShareCard: View {
             trioDivider
             trioCell("clock", "Total", duration.total)
         }
-        .background(.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 14))
+        .background(.white.opacity(Theme.Opacity.hairline), in: RoundedRectangle(cornerRadius: 14))
         .overlay(RoundedRectangle(cornerRadius: 14).stroke(.white.opacity(0.12), lineWidth: 1))
     }
 
     private var trioDivider: some View {
-        Rectangle().fill(.white.opacity(0.10)).frame(width: 1, height: 44)
+        Rectangle().fill(.white.opacity(Theme.Opacity.tint)).frame(width: 1, height: 44)
     }
 
     private func trioCell(_ symbol: String, _ name: LocalizedStringKey, _ range: DurationRange?) -> some View {
@@ -346,14 +346,14 @@ struct SubstanceShareCard: View {
                 .foregroundStyle(.white.opacity(0.6))
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 10)
+        .padding(.vertical, Spacing.lg)
     }
 
     // MARK: effects section (ramp / columns / fallback)
 
     @ViewBuilder private var effectsSection: some View {
         if hasBandedEffects {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: Spacing.md) {
                 sectionLabel("Most common effects · by dose")
                 EmergenceRamp(
                     rows: rampEffects,
@@ -371,7 +371,7 @@ struct SubstanceShareCard: View {
     // MARK: effects fallback (flat frequency list)
 
     private var effectChips: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             sectionLabel("Reported effects")
             FlowChips(items: topEffects)
         }
@@ -388,8 +388,8 @@ struct SubstanceShareCard: View {
             sectionLabel("Most reported")
             VStack(alignment: .leading, spacing: 0) {
                 ForEach(frequencyEffects) { effect in
-                    HStack(spacing: 10) {
-                        Circle().fill(effect.domain.color).frame(width: 7, height: 7)
+                    HStack(spacing: Spacing.lg) {
+                        LegendDot(color: effect.domain.color, size: .compact)
                         Text(effect.displayName)
                             .font(.footnote.weight(.medium))
                             .lineLimit(1)
@@ -417,7 +417,7 @@ struct SubstanceShareCard: View {
 
     private var curvePanel: some View {
         panel {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: Spacing.md) {
                 Text("EFFECT OVER TIME")
                     .font(.system(size: 8, weight: .bold)).tracking(0.6)
                     .foregroundStyle(.white.opacity(0.55))
@@ -430,7 +430,7 @@ struct SubstanceShareCard: View {
                 Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            .padding(16)
+            .padding(Spacing.xxl)
         }
         .frame(height: 190)
     }
@@ -439,7 +439,7 @@ struct SubstanceShareCard: View {
     /// Offset) with a phase icon and compact duration, decoupled from the
     /// time-accurate curve above so the grid stays balanced whatever the timing.
     private func phaseGrid(_ duration: DurationProfile) -> some View {
-        HStack(spacing: 6) {
+        HStack(spacing: Spacing.sm) {
             phaseCell("arrow.up.forward", "Onset", duration.onset)
             phaseCell("arrow.up.right", "Come-up", duration.comeup)
             phaseCell("sparkles", "Peak", duration.peak)
@@ -448,11 +448,11 @@ struct SubstanceShareCard: View {
     }
 
     private func phaseCell(_ symbol: String, _ name: LocalizedStringKey, _ range: DurationRange?) -> some View {
-        VStack(spacing: 2) {
+        VStack(spacing: Spacing.xxs) {
             Image(systemName: symbol)
                 .accessibilityHidden(true)
-                .font(.system(size: 9))
-                .foregroundStyle(.white.opacity(0.8))
+                .font(.chartAnnotation)
+                .foregroundStyle(.white.opacity(Theme.Opacity.strong))
             Text(name)
                 .font(.system(size: 8, weight: .bold))
                 .textCase(.uppercase).tracking(0.3)
@@ -461,8 +461,8 @@ struct SubstanceShareCard: View {
                 .font(.system(size: 10, weight: .bold, design: .rounded).monospacedDigit())
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 6)
-        .background(.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 9))
+        .padding(.vertical, Spacing.sm)
+        .background(.white.opacity(Theme.Opacity.hairline), in: RoundedRectangle(cornerRadius: 9))
     }
 
     /// Compact duration like "~30–45m", "~1.5–2.5h", or a mixed "~90m–2.5h" —
@@ -550,11 +550,11 @@ struct SubstanceShareCard: View {
     /// the SERT:DAT selectivity ratio (the bar already *shows* the lean, so the
     /// ratio quantifies it rather than repeating "serotonin-leaning" in words).
     private func leanBarHero(_ profile: MonoamineProfile) -> some View {
-        VStack(spacing: 12) {
+        VStack(spacing: Spacing.xl) {
             Text(profile.mechanismLabel)
                 .font(.subheadline.weight(.bold))
-                .padding(.horizontal, 12).padding(.vertical, 5)
-                .background(.white.opacity(0.18), in: Capsule())
+                .padding(.horizontal, Spacing.xl).padding(.vertical, 5)
+                .background(.white.opacity(Theme.Opacity.tintActive), in: Capsule())
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     Capsule()
@@ -565,7 +565,7 @@ struct SubstanceShareCard: View {
                         .frame(height: 12)
                     Circle()
                         .fill(.white)
-                        .frame(width: 22, height: 22)
+                        .frame(width: IconSize.iconMini, height: IconSize.iconMini)
                         .shadow(color: .black.opacity(0.3), radius: 3, y: 1)
                         .offset(x: min(max(geo.size.width * CGFloat(profile.leanPosition ?? 0.5) - 11, 0), geo.size.width - 22))
                 }
@@ -596,7 +596,7 @@ struct SubstanceShareCard: View {
             .font(.system(.subheadline, design: .rounded).weight(.semibold))
         } else if let profile = monoamineProfile {
             Text(profile.leanLabel)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(.white)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
@@ -624,7 +624,7 @@ struct SubstanceShareCard: View {
         Text(name)
             .font(.caption.weight(.bold))
             .foregroundStyle(.white)
-            .padding(.horizontal, 10).padding(.vertical, 4)
+            .padding(.horizontal, Spacing.lg).padding(.vertical, Spacing.xs)
             .background(tint.mix(with: .white, by: 0.12).opacity(0.85), in: Capsule())
     }
 
@@ -632,7 +632,7 @@ struct SubstanceShareCard: View {
         let bindings = Array(mechanism.bindings.sorted { $0.affinity > $1.affinity }.prefix(6))
         return VStack(spacing: 7) {
             ForEach(bindings) { binding in
-                HStack(spacing: 10) {
+                HStack(spacing: Spacing.lg) {
                     Text(binding.target)
                         .font(.caption.weight(.bold).monospaced())
                         .frame(width: 82, alignment: .leading)
@@ -650,37 +650,37 @@ struct SubstanceShareCard: View {
     // MARK: footer
 
     private var footer: some View {
-        footerContent.padding(.top, 2)
+        footerContent.padding(.top, Spacing.xxs)
     }
 
     private var richFooter: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: Spacing.xl) {
             Rectangle().fill(.white.opacity(0.16)).frame(height: 1)
             HStack(alignment: .center) {
                 footerBrand
                 Spacer()
                 Text(verbatim: "kagerou.glass/piru")
                     .font(.system(.caption2, design: .rounded).weight(.medium))
-                    .foregroundStyle(.white.opacity(0.5))
+                    .foregroundStyle(.white.opacity(Theme.Opacity.dimmed))
             }
         }
     }
 
     private var footerContent: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: Spacing.md) {
             footerBrand
             Spacer()
             Text(verbatim: "kagerou.glass/piru")
                 .font(.system(.caption2, design: .rounded).weight(.medium))
-                .foregroundStyle(.white.opacity(0.5))
+                .foregroundStyle(.white.opacity(Theme.Opacity.dimmed))
         }
     }
 
     private var footerBrand: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: Spacing.md) {
             Image("AppIconArtwork")
                 .resizable().interpolation(.high)
-                .frame(width: 22, height: 22)
+                .frame(width: IconSize.iconMini, height: IconSize.iconMini)
                 .accessibilityHidden(true)
             Text(verbatim: "Piru")
                 .font(.system(.subheadline, design: .rounded).weight(.semibold))
@@ -694,14 +694,14 @@ struct SubstanceShareCard: View {
         Text(key)
             .font(.caption2.weight(.bold)).textCase(.uppercase).tracking(0.6)
             .foregroundStyle(.white.opacity(0.55))
-            .padding(.bottom, 6)
+            .padding(.bottom, Spacing.sm)
     }
 
     /// The frosted specimen panel used for the molecule and curve heroes.
     private func panel(@ViewBuilder _ content: () -> some View) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .fill(.white.opacity(0.10))
+                .fill(.white.opacity(Theme.Opacity.tint))
                 .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white.opacity(0.15), lineWidth: 1))
             content()
         }
@@ -774,7 +774,7 @@ private struct EmergenceRamp: View {
 
             ZStack(alignment: .topLeading) {
                 ForEach(1 ... 4, id: \.self) { band in
-                    Rectangle().fill(.white.opacity(0.10))
+                    Rectangle().fill(.white.opacity(Theme.Opacity.tint))
                         .frame(width: 1, height: gridHeight)
                         .position(x: bandX(band), y: Self.headerH + (gridHeight - Self.headerH) / 2 - 3)
                     DoseTierMark(level: band, diameter: 18)
@@ -795,7 +795,7 @@ private struct EmergenceRamp: View {
                         .position(x: (nameWidth - Self.countW - 12) / 2, y: cy)
                     Text(Self.compact(effect.count))
                         .font(.system(size: font - 1, weight: .semibold, design: .rounded).monospacedDigit())
-                        .foregroundStyle(.white.opacity(0.5))
+                        .foregroundStyle(.white.opacity(Theme.Opacity.dimmed))
                         .frame(width: Self.countW, alignment: .trailing)
                         .position(x: nameWidth - Self.countW / 2 - 8, y: cy)
                 }
@@ -859,10 +859,10 @@ private struct MonochromeDoseGraph: View {
                         .frame(width: 1, height: plotH).offset(x: hx, y: plotTop)
                     Text(verbatim: "\(hour)h")
                         .font(.system(size: 8, weight: .bold, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.5))
+                        .foregroundStyle(.white.opacity(Theme.Opacity.dimmed))
                         .offset(x: hx - 6, y: 0)
                 }
-                Rectangle().fill(.white.opacity(0.25))
+                Rectangle().fill(.white.opacity(Theme.Opacity.emphasis))
                     .frame(height: 1).offset(y: plotTop + plotH - 0.5)
                 EffectCurveShape(boundaries: boundaries)
                     .fill(LinearGradient(colors: [.white.opacity(0.30), .white.opacity(0.03)], startPoint: .top, endPoint: .bottom))
@@ -895,9 +895,9 @@ private struct FlowChips: View {
             ForEach(items, id: \.self) { item in
                 Text(item)
                     .font(.caption.weight(.semibold))
-                    .padding(.horizontal, 10)
+                    .padding(.horizontal, Spacing.lg)
                     .padding(.vertical, 5)
-                    .background(.white.opacity(0.16), in: Capsule())
+                    .background(.white.opacity(Theme.Opacity.tintActive), in: Capsule())
                     .foregroundStyle(.white)
             }
         }

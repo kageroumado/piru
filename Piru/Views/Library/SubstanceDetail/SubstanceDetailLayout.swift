@@ -266,7 +266,7 @@ private struct SubstanceDetailHeader: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .accessibilityAddTraits(.isHeader)
 
-                HStack(spacing: 8) {
+                HStack(spacing: Spacing.md) {
                     CategoryChip(category: substance.category)
                     if let formula = substance.formula {
                         Text(formula)
@@ -288,8 +288,8 @@ private struct SubstanceDetailHeader: View {
                     FlowLayout(spacing: 7) {
                         ForEach(shownAliases, id: \.self) { alias in
                             Text(alias)
-                                .font(.subheadline.weight(.semibold))
-                                .padding(.horizontal, 10)
+                                .sectionLabel()
+                                .padding(.horizontal, Spacing.lg)
                                 .padding(.vertical, 5)
                                 .background(Color(.tertiarySystemFill), in: Capsule())
                         }
@@ -332,11 +332,11 @@ struct CategoryChip: View {
             .tracking(0.6)
             .foregroundStyle(category.labelColor)
             .padding(.horizontal, 9)
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
             // 0.10 is the alpha every scale's `text` variant is gated against. At
             // 0.14 this measured 4.40:1 on device — a fill a few percent darker
             // than the one a token was derived for is enough to fail its gate.
-            .background(category.color.opacity(0.10), in: Capsule())
+            .background(category.color.opacity(Theme.Opacity.tint), in: Capsule())
             .accessibilityLabel(Text(category.displayName))
     }
 }

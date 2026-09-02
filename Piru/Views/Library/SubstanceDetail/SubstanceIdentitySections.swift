@@ -29,7 +29,7 @@ struct InfoDisclosureSection: View {
                     }
                 }
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
 
             if !substance.displayAliases.isEmpty {
                 aliasChips
@@ -39,7 +39,7 @@ struct InfoDisclosureSection: View {
             VStack(alignment: .leading, spacing: 0) {
                 if !substance.tags.isEmpty {
                     SubstanceTagFlow(tags: substance.tags, accent: substance.category.color)
-                        .padding(.top, 4)
+                        .padding(.top, Spacing.xs)
                 }
                 if let slug = model.provenance?.categorySource {
                     SourceAttributionRow(
@@ -86,7 +86,7 @@ struct InfoDisclosureSection: View {
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
                 .textCase(.uppercase)
-            FlowLayout(spacing: 6) {
+            FlowLayout(spacing: Spacing.sm) {
                 ForEach(shown, id: \.self) { alias in
                     aliasChip(Text(alias))
                         .textSelection(.enabled)
@@ -101,15 +101,18 @@ struct InfoDisclosureSection: View {
                 }
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     private func aliasChip(_ text: Text, accent: Bool = false) -> some View {
         text
             .font(.caption.weight(.medium))
-            .padding(.horizontal, 10)
-            .padding(.vertical, 4)
-            .background(accent ? Theme.accent.opacity(0.12) : Color(.tertiarySystemFill), in: Capsule())
+            .padding(.horizontal, Spacing.lg)
+            .padding(.vertical, Spacing.xs)
+            .background(
+                accent ? Theme.accent.opacity(Theme.Opacity.tint) : Color(.tertiarySystemFill),
+                in: Capsule(),
+            )
             .foregroundStyle(accent ? Theme.accent : Theme.secondaryLabel)
     }
 
@@ -171,7 +174,7 @@ struct ChemistrySection: View {
                     MoleculeStructureView(structure: moleculeStructure, formula: substance.formula)
                         .frame(maxWidth: .infinity)
                         .frame(maxHeight: 150)
-                        .padding(.bottom, 4)
+                        .padding(.bottom, Spacing.xs)
                 }
                 let showMW = substance.molarMass != nil && !substance.usesPeptidePresentation
                 Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
@@ -202,7 +205,7 @@ struct ChemistrySection: View {
                         }
                     }
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
                 if let phys, phys.hasAnyValue {
                     // States where the numbers come from rather than warning the
                     // reader off them. They are computed from the structure, which
@@ -210,16 +213,15 @@ struct ChemistrySection: View {
                     // old "not measured for this preparation" line implied a defect
                     // that isn't there, and "this preparation" named nothing the
                     // reader could identify.
-                    VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading, spacing: Spacing.xs) {
                         Text("Computed from the molecular structure (PubChem, NPS-DataHub) rather than measured in a lab.")
                         if phys.hasLD50 {
                             Text("LD50 is rodent toxicity (order of magnitude) — not a human safe dose.")
                         }
                     }
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(.top, 2)
+                    .padding(.top, Spacing.xxs)
                 }
             }
             .task(id: substance.name) {
@@ -344,7 +346,7 @@ struct SourcesSection: View {
                 count: links.count,
                 isExpanded: $isExpanded,
             ) {
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: Spacing.lg) {
                     ForEach(links) { link in
                         if let url = link.url {
                             Link(destination: url) {
@@ -360,7 +362,7 @@ struct SourcesSection: View {
                         .foregroundStyle(Theme.secondaryLabel)
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
             }
         }
     }
@@ -405,11 +407,11 @@ private struct SourceLedgerRow: View {
     }
 
     private var nameColumn: some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             // `.firstTextBaseline`, not the default center: a citation title wraps
             // to five or six lines and a centered glyph then floats in the middle
             // of the block, reading as a bullet rather than a link marker.
-            HStack(alignment: .firstTextBaseline, spacing: 4) {
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.xs) {
                 Text(link.label)
                     .font(.subheadline)
                     .foregroundStyle(linked ? Color.primary : Theme.secondaryLabel)
@@ -433,8 +435,7 @@ private struct SourceLedgerRow: View {
 
     private var providesText: some View {
         Text(providesSummary)
-            .font(.caption)
-            .foregroundStyle(Theme.secondaryLabel)
+            .captionSecondary()
             .fixedSize(horizontal: false, vertical: true)
     }
 

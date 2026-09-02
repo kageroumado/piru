@@ -32,15 +32,14 @@ struct DrugClassSection: View {
                 "Drug Class",
                 isExpanded: $isExpanded,
             ) {
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: Spacing.lg) {
                     DrugClassRow(drugClass: ownClass, isThisDrug: true, accent: substance.category.color)
                     if curated.isContested {
                         Text(
                             "Which class this belongs in is argued over — the label is the conventional one, not a settled one.",
                             comment: "Shown under a drug's own class when the classification is contested",
                         )
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                     }
                     Divider()
                     Text("The rest of the family", comment: "Header above the sibling drug classes")
@@ -50,7 +49,7 @@ struct DrugClassSection: View {
                         DrugClassRow(drugClass: drugClass, isThisDrug: false, accent: substance.category.color)
                     }
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
             }
         }
     }
@@ -66,15 +65,14 @@ private struct DrugClassRow: View {
     let accent: Color
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            HStack(spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
+            HStack(spacing: Spacing.sm) {
                 // `verbatim`: an acronym is not a catalog key.
                 Text(verbatim: drugClass.acronym)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(isThisDrug ? accent : Color.primary)
                 Text(drugClass.expansion)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
             }
             Text(drugClass.difference)
@@ -86,8 +84,8 @@ private struct DrugClassRow: View {
         .padding(isThisDrug ? 8 : 0)
         .background {
             if isThisDrug {
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .fill(accent.opacity(0.10))
+                RoundedRectangle(cornerRadius: Theme.CornerRadius.inner, style: .continuous)
+                    .fill(accent.opacity(Theme.Opacity.tint))
             }
         }
         .accessibilityElement(children: .combine)
