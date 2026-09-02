@@ -8,18 +8,25 @@ import SwiftData
 /// `unknown` is the safe default (treated as extensive, the population majority).
 enum CYP2D6Status: String, CaseIterable, Codable {
     case unknown
-    case poor
-    case intermediate
-    case extensive
-    case ultraRapid
+    case slow
+    case rapid
 
     var label: LocalizedStringResource {
         switch self {
         case .unknown: "Unknown"
-        case .poor: "Poor metabolizer"
-        case .intermediate: "Intermediate metabolizer"
-        case .extensive: "Extensive metabolizer"
-        case .ultraRapid: "Ultra-rapid metabolizer"
+        case .slow: "Slow"
+        case .rapid: "Rapid"
+        }
+    }
+
+    /// Decodes the persisted wire value. Builds through v2.2-b47 stored the five CPIC phenotypes
+    /// (`poor`, `intermediate`, `extensive`, `ultraRapid`); keep folding them in, or a status set on
+    /// one of those builds silently resets to unknown on upgrade.
+    init(wire: String) {
+        switch wire {
+        case "slow", "poor", "intermediate": self = .slow
+        case "rapid", "ultraRapid": self = .rapid
+        default: self = .unknown
         }
     }
 }
@@ -88,9 +95,6 @@ final class UserProfileStore {
     /// Provenance of ``weightKg`` (or `.estimated` when unset).
     private(set) var weightSource: WeightSource = .estimated
 
-    /// Whether the user smokes tobacco regularly (chronic CYP1A2 induction — Stage 4c metabolic flag).
-    private(set) var smokesTobacco: Bool = false
-
     /// Whether the per-dose "had grapefruit" toggle is shown in the dose logger (off by default).
     private(set) var grapefruitLoggingEnabled: Bool = false
 
@@ -124,7 +128,6 @@ final class UserProfileStore {
             disclosureTier = .harmReduction
             weightKg = nil
             weightSource = .estimated
-            smokesTobacco = false
             grapefruitLoggingEnabled = false
             aldh2Deficient = false
             cyp2d6Status = .unknown
@@ -134,10 +137,9 @@ final class UserProfileStore {
         weightKg = record.bodyWeightKg
         weightSource = WeightSource(rawValue: record.weightSourceRaw)
             ?? (record.bodyWeightKg == nil ? .estimated : .manual)
-        smokesTobacco = record.smokesTobacco
         grapefruitLoggingEnabled = record.grapefruitLoggingEnabled
         aldh2Deficient = record.aldh2Deficient
-        cyp2d6Status = CYP2D6Status(rawValue: record.cyp2d6StatusRaw) ?? .unknown
+        cyp2d6Status = CYP2D6Status(wire: record.cyp2d6StatusRaw)
     }
 
     private static var defaultLegacyPrefsDBURL: URL {
@@ -158,14 +160,6 @@ final class UserProfileStore {
     }
 
     // MARK: - Metabolic context flags (Stage 4c)
-
-    /// Persist the "I smoke tobacco regularly" profile flag (chronic CYP1A2 induction).
-    func setSmokesTobacco(_ value: Bool) {
-        guard value != smokesTobacco else { return }
-        smokesTobacco = value
-        ensureRecord().smokesTobacco = value
-        save()
-    }
 
     /// Persist whether the per-dose grapefruit toggle is shown in the dose logger.
     func setGrapefruitLoggingEnabled(_ value: Bool) {

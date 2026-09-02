@@ -4660,6 +4660,7 @@
       }
     },
     "+%lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5346,6 +5347,7 @@
       }
     },
     "1 med" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18553,6 +18555,7 @@
       }
     },
     "Create or personalize substances — adjust dose ranges, duration, and units to match your own data and tolerance." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -19432,6 +19435,7 @@
 
     },
     "Data" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26527,6 +26531,7 @@
       }
     },
     "Extensive metabolizer" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26559,6 +26564,7 @@
       }
     },
     "Faded" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26708,7 +26714,11 @@
         }
       }
     },
+    "Faster CYP2D6 clearance — shorter duration." : {
+
+    },
     "Faster CYP2D6 clearance — shorter duration. Be aware of re-dose timing." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26773,6 +26783,7 @@
       }
     },
     "Favorites, colors, and the substances you added." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -26787,6 +26798,9 @@
           }
         }
       }
+    },
+    "Favorites, colors, units, and the substances you added." : {
+
     },
     "FDA" : {
       "extractionState" : "stale",
@@ -30857,6 +30871,7 @@
       }
     },
     "I smoke tobacco regularly" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -32472,6 +32487,7 @@
       }
     },
     "Intermediate metabolizer" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -35940,6 +35956,9 @@
         }
       }
     },
+    "Meds are in the Journal tab. Custom substances, colors, and units are under Yours in the Library tab. Data & Backup and the substance database are in the Tools tab." : {
+
+    },
     "Meds due" : {
       "localizations" : {
         "zh-Hans" : {
@@ -36321,6 +36340,7 @@
       }
     },
     "Mildly reduced conversion to active metabolite — effect may be modestly lower." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36337,6 +36357,7 @@
       }
     },
     "Mildly slower CYP2D6 clearance — duration may be modestly longer." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -38092,6 +38113,7 @@
       }
     },
     "My Substances" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40753,6 +40775,7 @@
       }
     },
     "None yet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -45355,6 +45378,7 @@
       }
     },
     "Poor metabolizer" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -46932,6 +46956,9 @@
           }
         }
       }
+    },
+    "Rapid" : {
+
     },
     "Rat" : {
       "localizations" : {
@@ -54423,6 +54450,9 @@
         }
       }
     },
+    "Slow" : {
+
+    },
     "Slow metabolizer" : {
       "localizations" : {
         "zh-Hans" : {
@@ -60722,9 +60752,6 @@
         }
       }
     },
-    "Tobacco smoke speeds up CYP1A2, so it lowers the levels of some drugs (like caffeine and olanzapine). Grapefruit slows down CYP3A4, raising the levels of others — turn on grapefruit logging to mark it on individual doses of affected substances. The alcohol flush (facial redness, fast heartbeat, nausea after a little alcohol) signals the ALDH2 variant — turn it on to see acetaldehyde, the toxic by-product it lets build up, on alcohol entries. CYP2D6 metabolizer status affects how your body handles codeine, tramadol, MDMA, and several other substances — set it if you know yours from a pharmacogenomics test. Unknown is treated as extensive (the most common)." : {
-
-    },
     "Tobacco smoking" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -61961,6 +61988,7 @@
       }
     },
     "Ultra-rapid metabolizer" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -62034,6 +62062,7 @@
       }
     },
     "Unchanged" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -62193,6 +62222,9 @@
           }
         }
       }
+    },
+    "Units you defined for your doses" : {
+
     },
     "Universal recovery basics" : {
       "localizations" : {

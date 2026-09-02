@@ -611,17 +611,16 @@ extension SubstanceStore {
     }
 
     /// Coarse CYP2D6 metabolizer-status multiplier on a **clearance** substrate's elimination
-    /// half-life (§F.3), flagged `.low` confidence. Poor metabolizers clear a CYP2D6-major drug more
-    /// slowly (longer exposure); ultra-rapid faster. The poor-metabolizer figure is the conservative
-    /// low end of a wide 1.5–3× literature range for CYP2D6-exclusive substrates. `1.0` (no change)
-    /// unless a CYP2D6-major status is set. Prodrug substrates (codeine, tramadol) are excluded here —
+    /// half-life (§F.3), flagged `.low` confidence. Slow metabolizers clear a CYP2D6-major drug more
+    /// slowly (longer exposure); rapid faster. The slow figure is the conservative low end of a wide
+    /// 1.5–3× literature range for CYP2D6-exclusive substrates. `1.0` (no change) unless a status
+    /// is set. Prodrug substrates (codeine, tramadol) are excluded here —
     /// their exposure change is in the active metabolite's formation, not the parent's clearance.
     nonisolated static func cyp2d6HalfLifeMultiplier(_ status: CYP2D6Status) -> Double {
         switch status {
-        case .poor: 1.5
-        case .intermediate: 1.2
-        case .ultraRapid: 0.65
-        case .extensive, .unknown: 1
+        case .slow: 1.5
+        case .rapid: 0.65
+        case .unknown: 1
         }
     }
 

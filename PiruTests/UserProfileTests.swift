@@ -174,21 +174,18 @@ struct UserProfileStoreTests {
     @Test
     func `Metabolic context flags default off`() throws {
         let store = try makeStore()
-        #expect(!store.smokesTobacco)
         #expect(!store.grapefruitLoggingEnabled)
     }
 
     @Test
-    func `Smoking and grapefruit flags persist across stores`() throws {
+    func `Grapefruit flag persists across stores`() throws {
         let container = try makeContainer()
         let first = UserProfileStore()
         first.configure(container: container, legacyPrefsDBURL: nil)
-        first.setSmokesTobacco(true)
         first.setGrapefruitLoggingEnabled(true)
 
         let second = UserProfileStore()
         second.configure(container: container, legacyPrefsDBURL: nil)
-        #expect(second.smokesTobacco)
         #expect(second.grapefruitLoggingEnabled)
     }
 
@@ -210,7 +207,6 @@ struct UserProfileStoreTests {
         let second = UserProfileStore()
         second.configure(container: container, legacyPrefsDBURL: nil)
         #expect(second.aldh2Deficient)
-        #expect(!second.smokesTobacco) // independent of the 4c flags
         #expect(!second.grapefruitLoggingEnabled)
     }
 

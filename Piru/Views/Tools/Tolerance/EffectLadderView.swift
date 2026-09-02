@@ -2,7 +2,7 @@ import SwiftUI
 
 /// The **effect ladder** — the differential-tolerance replacement for the single gauge on an
 /// effect-selective class (GABA, α2δ). One row per effect, each a bar of how much tolerance that effect
-/// has built at your usual dose, sorted most-toleranced first and grouped Faded / Unchanged. The gap
+/// has built at your usual dose, sorted most-toleranced first. The gap
 /// between the top and bottom rows *is* the finding: the dose that no longer sedates impairs you exactly
 /// as much as day one.
 ///
@@ -29,25 +29,7 @@ struct EffectLadderView: View {
     }
 
     var body: some View {
-        let all = rows
-        let faded = all.filter(\.faded)
-        let intact = all.filter { !$0.faded }
-        VStack(alignment: .leading, spacing: 14) {
-            if !faded.isEmpty {
-                group("Faded", faded)
-            }
-            if !intact.isEmpty {
-                group("Unchanged", intact)
-            }
-        }
-    }
-
-    private func group(_ title: LocalizedStringResource, _ rows: [EffectLadderRow]) -> some View {
         VStack(alignment: .leading, spacing: Spacing.xl) {
-            Text(title)
-                .font(.caption2.weight(.semibold))
-                .textCase(.uppercase)
-                .foregroundStyle(.tertiary)
             ForEach(rows) { row in
                 EffectLadderRowView(row: row)
             }

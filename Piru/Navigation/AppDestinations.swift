@@ -110,6 +110,9 @@ private struct PushRouteView: View {
         case .libraryCustom:
             CustomSubstancesListView()
 
+        case .libraryUnits:
+            CustomUnitsView()
+
         case .libraryColors:
             SubstanceColorsListView()
 

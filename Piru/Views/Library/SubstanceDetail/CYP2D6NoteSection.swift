@@ -6,7 +6,7 @@ import SwiftUI
 ///
 /// The note distinguishes **prodrug** patterns (CYP2D6 creates the active metabolite — codeine,
 /// tramadol) from **clearance** substrates (CYP2D6 eliminates the parent — MDMA, DXM,
-/// atomoxetine), because the clinical implications are reversed: a poor metabolizer gets less
+/// atomoxetine), because the clinical implications are reversed: a slow metabolizer gets less
 /// effect from a prodrug but more exposure from a clearance substrate.
 struct CYP2D6NoteSection: View {
     let substanceName: String
@@ -43,26 +43,22 @@ struct CYP2D6NoteSection: View {
 
     private var prodrugNote: LocalizedStringResource {
         switch status {
-        case .poor:
+        case .slow:
             "Reduced conversion to active metabolite — you may get less effect from \(substanceName)."
-        case .intermediate:
-            "Mildly reduced conversion to active metabolite — effect may be modestly lower."
-        case .ultraRapid:
+        case .rapid:
             "Faster conversion to active metabolite — higher active metabolite exposure. For codeine, this is an FDA contraindication due to the risk of respiratory depression."
-        case .extensive, .unknown:
+        case .unknown:
             "CYP2D6 is a major metabolic pathway for \(substanceName)."
         }
     }
 
     private var clearanceNote: LocalizedStringResource {
         switch status {
-        case .poor:
+        case .slow:
             "Slower CYP2D6 clearance — \(substanceName) may last longer and accumulate at repeated doses."
-        case .intermediate:
-            "Mildly slower CYP2D6 clearance — duration may be modestly longer."
-        case .ultraRapid:
-            "Faster CYP2D6 clearance — shorter duration. Be aware of re-dose timing."
-        case .extensive, .unknown:
+        case .rapid:
+            "Faster CYP2D6 clearance — shorter duration."
+        case .unknown:
             "CYP2D6 is a major metabolic pathway for \(substanceName)."
         }
     }

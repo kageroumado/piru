@@ -351,11 +351,11 @@ private struct LibrarySubclassRow: View {
     }
 }
 
-// MARK: - Yours Card (favorites · colors · custom substances)
+// MARK: - Yours Card (favorites · colors · custom substances · custom units)
 
 /// The user's own layer over the library as one umbrella card in the family
-/// style: a gradient surface with a star hero that expands in place into three
-/// sub-rows — favorites, substance colors, custom substances — each pushing its
+/// style: a gradient surface with a star hero that expands in place into four
+/// sub-rows — favorites, substance colors, custom substances, custom units — each pushing its
 /// own list. Always present, counts included, so each row has somewhere to go
 /// before it has anything to count.
 private struct LibraryYoursCard: View {
@@ -399,6 +399,14 @@ private struct LibraryYoursCard: View {
                 blurb: Text("Substances you added or customized"),
                 count: customCount,
                 route: .libraryCustom,
+            ),
+            .init(
+                id: "units",
+                icon: "ruler.fill",
+                title: "Custom Units",
+                blurb: Text("Units you defined for your doses"),
+                count: CustomUnitStore.shared.all.count,
+                route: .libraryUnits,
             ),
         ]
     }
@@ -452,7 +460,7 @@ private struct LibraryYoursCard: View {
                 Text("Yours")
                     .font(.system(size: 20, weight: .bold))
                     .foregroundStyle(.white)
-                Text("Favorites, colors, and the substances you added.")
+                Text("Favorites, colors, units, and the substances you added.")
                     .font(.footnote)
                     .foregroundStyle(.white.opacity(0.93))
                     .fixedSize(horizontal: false, vertical: true)
