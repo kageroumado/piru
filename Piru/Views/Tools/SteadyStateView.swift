@@ -1,258 +1,121 @@
 import SwiftUI
 
-/// Pure steady-state pharmacokinetics for a fixed repeated-dosing schedule.
-///
-/// Builds on the same one-compartment oral model as the single-dose
-/// ``HalfLifeCalculatorView``: it superimposes `PKModel.fractionRemainingInBody`
-/// at a fixed interval, so the plateau is the existing curve summed — no new
-/// pharmacology. Amounts are in the dose's own units (a body-content mass), which
-/// needs no volume of distribution; the accumulation ratio is dimensionless and
-/// depends only on the half-life and the interval.
-nonisolated enum SteadyStateModel {
-    struct Result: Equatable {
-        let dose: Double
-
-        /// Body-content curve while climbing to plateau, as `(minutes, amount)`.
-        let curve: [CurvePoint]
-        let totalMinutes: Double
-
-        /// Body content just after / just before a dose at steady state, and the
-        /// interval mean — all in the dose's units.
-        let peakAmount: Double
-        let troughAmount: Double
-        let averageAmount: Double
-
-        /// Trough-based accumulation ratio `1/(1 − e^(−ke·τ))` — how many single
-        /// doses' worth accumulate. Depends only on half-life and interval.
-        let accumulationRatio: Double
-        /// Peak-to-trough swing as a percentage of the interval mean.
-        let fluctuationPercent: Double
-
-        /// Time to reach ~90% / ~95% / ~97% of steady state (a function of the
-        /// half-life alone, not the dose or interval), in minutes.
-        let time90: Double
-        let time95: Double
-        let time97: Double
-    }
-
-    struct CurvePoint: Equatable {
-        let minutes: Double
-        let amount: Double
-    }
-
-    /// `nil` when any input is non-positive.
-    static func compute(dose: Double, halfLifeMinutes: Double, intervalMinutes: Double, ke: Double, ka: Double) -> Result? {
-        guard dose > 0, halfLifeMinutes > 0, intervalMinutes > 0, ke > 0 else { return nil }
-
-        // Fraction-of-steady-state approach depends only on half-life:
-        // 1 − 2^(−t/t½). 90% at 3.32·t½, 95% at 4.32·t½, ~97% at 5·t½.
-        let time90 = 3.3219 * halfLifeMinutes
-        let time95 = 4.3219 * halfLifeMinutes
-        let time97 = 5.0 * halfLifeMinutes
-
-        let totalMinutes = max(time97 * 1.2, intervalMinutes * 6, intervalMinutes + 1)
-        // The cap bounds the O(samples × doses) accumulation: a near-zero typed
-        // interval against a long half-life otherwise yields hundreds of
-        // thousands of doses and a multi-second hang per keystroke.
-        let doseCount = min(Int(totalMinutes / intervalMinutes) + 1, 5_000)
-
-        /// Body content = Σ over already-taken doses of dose · fractionRemaining.
-        func bodyContent(at t: Double) -> Double {
-            var total = 0.0
-            for n in 0 ..< doseCount {
-                let elapsed = t - Double(n) * intervalMinutes
-                if elapsed < 0 { break }
-                total += dose * PKModel.fractionRemainingInBody(at: elapsed, ke: ke, ka: ka)
-            }
-            return total
-        }
-
-        let sampleCount = 600
-        let step = totalMinutes / Double(sampleCount)
-        var curve: [CurvePoint] = []
-        curve.reserveCapacity(sampleCount + 1)
-        for i in 0 ... sampleCount {
-            let t = Double(i) * step
-            curve.append(CurvePoint(minutes: t, amount: bodyContent(at: t)))
-        }
-
-        // Peak / trough over the final full interval (the plateau).
-        let ssStart = totalMinutes - intervalMinutes
-        var peak = 0.0
-        var trough = Double.infinity
-        let ssSteps = 240
-        for i in 0 ... ssSteps {
-            let t = ssStart + intervalMinutes * Double(i) / Double(ssSteps)
-            let c = bodyContent(at: t)
-            peak = max(peak, c)
-            trough = min(trough, c)
-        }
-        if !trough.isFinite { trough = 0 }
-        let average = (peak + trough) / 2
-        let fluctuation = average > 0 ? (peak - trough) / average * 100 : 0
-        let accumulation = 1 / (1 - exp(-ke * intervalMinutes))
-
-        return Result(
-            dose: dose,
-            curve: curve, totalMinutes: totalMinutes,
-            peakAmount: peak, troughAmount: trough, averageAmount: average,
-            accumulationRatio: accumulation, fluctuationPercent: fluctuation,
-            time90: time90, time95: time95, time97: time97,
-        )
-    }
-}
-
 /// Tools-tab screen estimating where a med taken on a fixed schedule settles.
 ///
 /// Sibling to ``HalfLifeCalculatorView`` (single dose); reachable via
 /// `PushRoute.tool(.steadyState)`. Reuses the same half-life resolution and
 /// `PKModel` parameters, then projects a repeated schedule to its plateau.
 struct SteadyStateView: View {
-    @State private var substanceName = ""
-    @State private var selectedSubstance: Substance?
-    @State private var doseAmount: Double? = 20
-    @State private var doseUnit: String = "mg"
-    @State private var intervalHours: Double? = 24
-    @State private var useCustomHalfLife = false
-    @State private var customHalfLifeHours: Double?
-    @State private var selectedRoute: RouteOfAdministration = .oral
-
-    private var effectiveHalfLife: Double? {
-        if useCustomHalfLife {
-            guard let hours = customHalfLifeHours, hours > 0 else { return nil }
-            return hours * 60
-        }
-        return PKResolver.halfLifeMinutes(substance: selectedSubstance, entryName: substanceName)
-    }
-
-    private var pkParameters: (ke: Double, ka: Double)? {
-        guard let halfLife = effectiveHalfLife, halfLife > 0 else { return nil }
-        return PKResolver.rateConstants(
-            halfLifeMinutes: halfLife,
-            duration: selectedSubstance?.resolveDuration(for: selectedRoute),
-        )
-    }
-
-    private var dose: Double {
-        doseAmount ?? 0
-    }
-
-    private var steadyState: SteadyStateModel.Result? {
-        guard let halfLife = effectiveHalfLife,
-              let params = pkParameters,
-              let hours = intervalHours, hours > 0, dose > 0 else { return nil }
-        return SteadyStateModel.compute(
-            dose: dose, halfLifeMinutes: halfLife, intervalMinutes: hours * 60,
-            ke: params.ke, ka: params.ka,
-        )
-    }
+    @State private var inputs = SteadyStateInputs()
 
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                inputSection
+                SteadyStateInputSection(inputs: inputs)
 
-                if let result = steadyState {
-                    chartCard(result)
-                    metricsCard(result)
-                } else if selectedSubstance != nil, !useCustomHalfLife, selectedSubstance?.halfLifeMinutes == nil {
-                    noDataCard
+                if let result = inputs.result {
+                    SteadyStateChartCard(result: result, unit: inputs.doseUnit)
+                    SteadyStateMetricsCard(result: result, unit: inputs.doseUnit)
+                } else if inputs.isMissingHalfLife {
+                    SteadyStateNoDataCard(substanceName: inputs.selectedSubstance?.name) {
+                        inputs.useCustomHalfLife = true
+                    }
                 }
 
-                explanationCard
-                relatedLinks
+                SteadyStateExplanationCard()
+                SteadyStateRelatedLinks()
             }
             .padding()
         }
         .background(Theme.background)
+        .onChange(of: inputs.recomputeKey) { inputs.refresh() }
     }
+}
 
-    // MARK: - Explanation
+// MARK: - Explanation
 
-    private var explanationCard: some View {
-        VStack(alignment: .leading, spacing: 10) {
+private struct SteadyStateExplanationCard: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             Text("On a fixed schedule, each dose lands on the tail of the last and the level climbs until intake and clearance balance — steady state.")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
             Text("Values are body content in the dose's units, not a plasma concentration. Real accumulation varies with metabolism, dosing gaps, and metabolites.")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .themeCard()
     }
+}
 
-    // MARK: - Input
+// MARK: - Input
 
-    private var inputSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            SubstanceSearchField(text: $substanceName) { substance, _ in
-                selectedSubstance = substance
-                substanceName = substance.name
-                doseUnit = substance.defaultUnit
-                selectedRoute = substance.defaultRoute
+private struct SteadyStateInputSection: View {
+    @Bindable var inputs: SteadyStateInputs
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
+            SubstanceSearchField(text: $inputs.substanceName) { substance, _ in
+                inputs.select(substance)
             }
 
-            if let sub = selectedSubstance, sub.routes.count > 1 {
-                Picker("Route", selection: $selectedRoute) {
+            if let sub = inputs.selectedSubstance, sub.routes.count > 1 {
+                Picker("Route", selection: $inputs.selectedRoute) {
                     ForEach(sub.routes.map(\.route)) { r in
                         Text(r.displayName).tag(r)
                     }
                 }
             }
 
-            HStack(spacing: 12) {
+            HStack(spacing: Spacing.xl) {
                 VStack(alignment: .leading) {
                     Text("Dose each time")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                     HStack(spacing: 0) {
-                        TextField("Amount", value: $doseAmount, format: .number)
+                        TextField("Amount", value: $inputs.doseAmount, format: .number)
                             .keyboardType(.decimalPad)
-                            .padding(8)
+                            .padding(Spacing.md)
                         Divider().frame(height: 20)
                         Menu {
                             ForEach(["mg", "g", "µg", "mL", "IU", "drops", "puffs"], id: \.self) { u in
-                                Button(u) { doseUnit = u }
+                                Button(u) { inputs.doseUnit = u }
                             }
                         } label: {
-                            Text(doseUnit)
-                                .padding(8)
+                            Text(inputs.doseUnit)
+                                .padding(Spacing.md)
                                 .foregroundStyle(.primary)
                         }
                     }
-                    .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 8))
+                    .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.input))
                 }
 
                 VStack(alignment: .leading) {
                     Text("Taken every")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                     HStack(spacing: 0) {
-                        TextField("Hours", value: $intervalHours, format: .number)
+                        TextField("Hours", value: $inputs.intervalHours, format: .number)
                             .keyboardType(.decimalPad)
-                            .padding(8)
+                            .padding(Spacing.md)
                         Divider().frame(height: 20)
                         Menu {
                             ForEach(intervalPresets, id: \.hours) { preset in
-                                Button(preset.label) { intervalHours = preset.hours }
+                                Button(preset.label) { inputs.intervalHours = preset.hours }
                             }
                         } label: {
                             Image(systemName: "clock")
-                                .padding(8)
+                                .padding(Spacing.md)
                                 .foregroundStyle(.primary)
                                 .accessibilityHidden(true)
                         }
                     }
-                    .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 8))
+                    .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.input))
                 }
             }
 
-            Toggle("Custom half-life", isOn: $useCustomHalfLife)
-            if useCustomHalfLife {
+            Toggle("Custom half-life", isOn: $inputs.useCustomHalfLife)
+            if inputs.useCustomHalfLife {
                 HStack {
-                    TextField("Hours", value: $customHalfLifeHours, format: .number)
+                    TextField("Hours", value: $inputs.customHalfLifeHours, format: .number)
                         .keyboardType(.decimalPad)
                         .textFieldStyle(.roundedBorder)
                     Text("hours")
@@ -275,111 +138,58 @@ struct SteadyStateView: View {
             (String(localized: "Weekly"), 168),
         ]
     }
+}
 
-    // MARK: - Chart
+// MARK: - Chart
 
-    private func chartCard(_ r: SteadyStateModel.Result) -> some View {
-        SteadyStateChart(result: r, unit: doseUnit)
+private struct SteadyStateChartCard: View {
+    let result: SteadyStateModel.Result
+    let unit: String
+
+    var body: some View {
+        SteadyStateChart(result: result, unit: unit)
             .frame(height: 230)
             .padding()
             .themeCard()
     }
+}
 
-    // MARK: - Metrics
+// MARK: - Metrics
 
-    private func metricsCard(_ r: SteadyStateModel.Result) -> some View {
-        let peakMultiple = r.dose > 0 ? r.peakAmount / r.dose : 1
-        return LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-            metricTile(
+private struct SteadyStateMetricsCard: View {
+    let result: SteadyStateModel.Result
+    let unit: String
+
+    private var peakMultiple: Double {
+        result.dose > 0 ? result.peakAmount / result.dose : 1
+    }
+
+    var body: some View {
+        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: Spacing.xl) {
+            SteadyStateMetricTile(
                 key: String(localized: "Steady state by"),
-                value: formatDays(r.time95 / 1_440),
-                sub: String(localized: "fully settled in \(formatDays(r.time97 / 1_440))"),
+                value: formatDays(result.time95 / 1_440),
+                sub: String(localized: "fully settled in \(formatDays(result.time97 / 1_440))"),
             )
-            metricTile(
+            SteadyStateMetricTile(
                 key: String(localized: "Accumulation"),
                 value: formatMultiple(peakMultiple),
                 sub: String(localized: "at the peak, vs. one dose"),
             )
-            metricTile(
+            SteadyStateMetricTile(
                 key: String(localized: "Plateau range"),
-                value: "\(r.troughAmount.doseFormatted)–\(r.peakAmount.doseFormatted)",
-                sub: String(localized: "\(doseUnit) · trough to peak"),
+                value: "\(result.troughAmount.doseFormatted)–\(result.peakAmount.doseFormatted)",
+                sub: String(localized: "\(unit) · trough to peak"),
             )
-            metricTile(
+            SteadyStateMetricTile(
                 key: String(localized: "Fluctuation"),
-                value: "\(Int(r.fluctuationPercent.rounded()))%",
-                sub: fluctuationLabel(r.fluctuationPercent),
+                value: "\(Int(result.fluctuationPercent.rounded()))%",
+                sub: fluctuationLabel(result.fluctuationPercent),
             )
         }
         .padding()
         .themeCard()
     }
-
-    private func metricTile(key: String, value: String, sub: String) -> some View {
-        VStack(alignment: .leading, spacing: 5) {
-            Text(key)
-                .font(.caption2.weight(.semibold))
-                .foregroundStyle(Theme.secondaryLabel)
-                .textCase(.uppercase)
-            Text(value)
-                .font(.system(.title2, design: .rounded, weight: .bold))
-            Text(sub)
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(12)
-        .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 12))
-    }
-
-    // MARK: - No data / disclaimer / links
-
-    private var noDataCard: some View {
-        VStack(spacing: 10) {
-            Image(systemName: "clock.badge.questionmark")
-                .font(.title2)
-                .accessibilityHidden(true)
-                .foregroundStyle(Theme.secondaryLabel)
-            Text("Half-life data not available for \(selectedSubstance?.name ?? "this substance").")
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-                .multilineTextAlignment(.center)
-            Button {
-                useCustomHalfLife = true
-            } label: {
-                Label("Use Custom Half-Life", systemImage: "slider.horizontal.3")
-                    .font(.subheadline.weight(.medium))
-            }
-            .buttonStyle(.borderedProminent)
-            .tint(Theme.accent)
-            .controlSize(.small)
-        }
-        .padding()
-        .frame(maxWidth: .infinity)
-        .themeCard()
-    }
-
-    private var relatedLinks: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Related")
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(Theme.secondaryLabel)
-                .padding(.leading, 4)
-
-            GlanceCard(icon: "hourglass", title: Text("Half-Life Calculator"), route: .tool(.calculator)) {
-                Text("Model a single dose's decay over time")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            GlanceCard(icon: "hourglass", title: Text("In Your System"), route: .insight(.inSystem)) {
-                Text("See what's active in your body right now")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-        }
-    }
-
-    // MARK: - Formatting
 
     /// A number followed by the locale-invariant multiplication sign — no
     /// catalog key needed.
@@ -399,6 +209,81 @@ struct SteadyStateView: View {
         if pct < 40 { return String(localized: "smooth") }
         if pct < 120 { return String(localized: "moderate swing") }
         return String(localized: "spiky")
+    }
+}
+
+private struct SteadyStateMetricTile: View {
+    let key: String
+    let value: String
+    let sub: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(key)
+                .font(.caption2.weight(.semibold))
+                .foregroundStyle(Theme.secondaryLabel)
+                .textCase(.uppercase)
+            Text(value)
+                .font(.system(.title2, design: .rounded, weight: .bold))
+            Text(sub)
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(Spacing.xl)
+        .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.medium))
+    }
+}
+
+// MARK: - No data / links
+
+private struct SteadyStateNoDataCard: View {
+    let substanceName: String?
+    let onUseCustomHalfLife: () -> Void
+
+    var body: some View {
+        VStack(spacing: Spacing.lg) {
+            Image(systemName: "clock.badge.questionmark")
+                .font(.title2)
+                .accessibilityHidden(true)
+                .foregroundStyle(Theme.secondaryLabel)
+            Text("Half-life data not available for \(substanceName ?? "this substance").")
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+                .multilineTextAlignment(.center)
+            Button(action: onUseCustomHalfLife) {
+                Label("Use Custom Half-Life", systemImage: "slider.horizontal.3")
+                    .font(.subheadline.weight(.medium))
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(Theme.accent)
+            .controlSize(.small)
+        }
+        .padding()
+        .frame(maxWidth: .infinity)
+        .themeCard()
+    }
+}
+
+private struct SteadyStateRelatedLinks: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            Text("Related")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Theme.secondaryLabel)
+                .padding(.leading, Spacing.xs)
+
+            GlanceCard(icon: "hourglass", title: Text("Half-Life Calculator"), route: .tool(.calculator)) {
+                Text("Model a single dose's decay over time")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            GlanceCard(icon: "hourglass", title: Text("In Your System"), route: .insight(.inSystem)) {
+                Text("See what's active in your body right now")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+        }
     }
 }
 
@@ -440,7 +325,7 @@ private struct SteadyStateChart: View {
                 var line = Path()
                 line.move(to: CGPoint(x: leftPad, y: guideY))
                 line.addLine(to: CGPoint(x: leftPad + plotW, y: guideY))
-                context.stroke(line, with: .color(Theme.accent.opacity(0.4)), style: StrokeStyle(lineWidth: 1, dash: [5, 4]))
+                context.stroke(line, with: .color(Theme.accent.opacity(Theme.Opacity.muted)), style: StrokeStyle(lineWidth: 1, dash: [5, 4]))
             }
 
             // Curve fill + stroke.
@@ -455,7 +340,7 @@ private struct SteadyStateChart: View {
             }
             fill.addLine(to: CGPoint(x: x(r.curve.last?.minutes ?? xMax), y: baseline))
             fill.closeSubpath()
-            context.fill(fill, with: .color(Theme.accent.opacity(0.12)))
+            context.fill(fill, with: .color(Theme.accent.opacity(Theme.Opacity.tint)))
             context.stroke(stroke, with: .color(Theme.accent), lineWidth: 2.2)
 
             // Axis frame.
@@ -463,7 +348,7 @@ private struct SteadyStateChart: View {
             axes.move(to: CGPoint(x: leftPad, y: topPad))
             axes.addLine(to: CGPoint(x: leftPad, y: baseline))
             axes.addLine(to: CGPoint(x: leftPad + plotW, y: baseline))
-            context.stroke(axes, with: .color(Theme.secondaryLabel.opacity(0.35)), lineWidth: 1)
+            context.stroke(axes, with: .color(Theme.secondaryLabel.opacity(Theme.Opacity.muted)), lineWidth: 1)
 
             // Peak / trough values (numbers only), as y-axis readings.
             let valueFont = Font.system(size: 11, weight: .semibold, design: .rounded)
