@@ -16,20 +16,25 @@ struct SaturablePharmacologyTests {
     // MARK: - Shape
 
     @Test
-    func `six profiles ship, three quantitative three qualitative`() {
+    func `five profiles ship, two quantitative three qualitative`() {
         let names = Set(SaturablePharmacology.profiles.map(\.substanceName))
-        #expect(names == ["Alcohol", "Phenytoin", "Gabapentin", "Codeine", "Tramadol", "GHB"])
+        #expect(names == ["Alcohol", "Gabapentin", "Codeine", "Tramadol", "GHB"])
 
-        // Quantitative = a drawable curve: the two elimination ceilings + the gabapentin absorption ceiling.
+        // Quantitative = a drawable curve: the ethanol elimination ceiling + the gabapentin absorption ceiling.
         let quantitative = SaturablePharmacology.profiles.filter(\.isQuantitative).map(\.substanceName)
-        #expect(Set(quantitative) == ["Alcohol", "Phenytoin", "Gabapentin"])
+        #expect(Set(quantitative) == ["Alcohol", "Gabapentin"])
     }
 
     @Test
-    func `every profile carries a source line and a mechanism the tool can render`() {
+    func `every profile carries a source line and rests on at least medium-confidence data`() {
+        let rows = Dictionary(
+            SubstanceStore.shared.saturableKinetics().map { ($0.substanceName, $0) },
+            uniquingKeysWith: { first, _ in first },
+        )
         for profile in SaturablePharmacology.profiles {
             #expect(!profile.citation.isEmpty, "\(profile.substanceName) ships no citation")
-            #expect(profile.confidence >= .medium, "\(profile.substanceName) is below the shipping floor")
+            let grade = rows[profile.substanceName].map { ConfidenceTier(grade: $0.confidence) }
+            #expect(grade.map { $0 >= .medium } == true, "\(profile.substanceName) is below the shipping floor")
         }
     }
 
@@ -164,13 +169,6 @@ struct SaturablePharmacologyTests {
             Double(curve.points.count(where: { $0.level >= level })) * (curve.points.count > 1 ? curve.points[1].minutes : 0)
         }
         #expect(minutesAbove(four, onePeak) > minutesAbove(one, onePeak) * 2)
-    }
-
-    @Test
-    func `phenytoin curve family also shows supralinear exposure within the dose range`() throws {
-        let kinetics = try #require(SaturablePharmacology.profile(forSubstanceName: "Phenytoin")?.kinetics)
-        let chart = try #require(SaturablePharmacology.concentrationChart(for: kinetics, weightKg: Self.weight))
-        #expect(chart.exposureMultipleAtMax > chart.maxDoseMultiple)
     }
 
     @Test

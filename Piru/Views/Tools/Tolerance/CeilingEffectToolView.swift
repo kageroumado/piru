@@ -3,18 +3,16 @@ import SwiftUI
 
 /// The **Ceiling Effect** tool (pharmacology axis, Stage 6). It surfaces the handful of substances
 /// whose kinetics are *non-linear* — where doubling the dose does not double the exposure — using the
-/// curated ``SaturablePharmacology`` seed and the ``PKModel/saturableCurve`` integrator.
+/// curated ``SaturablePharmacology`` profiles and the ``PKModel/saturableCurve`` integrator.
 ///
 /// ## What it shows
-/// - **Saturable elimination** (ethanol, phenytoin): a dose→exposure chart whose modeled curve bends
-///   *up* away from a dashed proportional reference — the supralinear warning. Drawn only where clean
-///   human Km/Vmax exist.
-/// - **Saturable activation / qualitative** (codeine, GHB): a knee + direction in words, with no curve,
-///   because a drawn curve would imply precision the evidence doesn't support (codeine's ceiling is
-///   phenotype-limited; GHB has no clean human Km/Vmax).
-///
-/// Every figure is badged ``ConfidenceTier`` and the chart is labeled *relative shape, not absolute
-/// concentration* — the house rule is "predicted (model, confidence)", never "measured".
+/// Each substance is one card: name and mechanism, a concentration-over-time chart with one curve per
+/// example dose where clean human kinetics exist (alcohol's saturable elimination, gabapentin's
+/// saturable absorption), and one short paragraph carrying what the chart cannot show — the enzyme
+/// or carrier that saturates and the genetics or co-ingestants that move the ceiling. Codeine, tramadol
+/// and GHB ship words only, because a drawn curve would imply precision the evidence lacks. The
+/// gabapentin card is followed by the gabapentinoid contrast (gabapentin's falling bioavailability
+/// against pregabalin's flat one), and every citation sits in a Sources section at the bottom.
 struct CeilingEffectToolView: View {
     @State private var profile = UserProfileStore.shared
     /// Concentration-time charts keyed by substance name, recomputed when body weight changes (off the
@@ -34,6 +32,7 @@ struct CeilingEffectToolView: View {
                         Section { gabapentinoidComparisonCard }
                     }
                 }
+                sourcesSection
             }
             .listRowBackground(CardBackground())
         }
@@ -63,13 +62,8 @@ struct CeilingEffectToolView: View {
             VStack(alignment: .leading, spacing: Spacing.md) {
                 Label("When dose and effect aren't proportional", systemImage: "chart.line.uptrend.xyaxis")
                     .sectionLabel()
-                Text("For most substances, twice the dose means roughly twice the exposure. For these few, an enzyme runs out of capacity — so exposure can climb much faster than the dose (a warning), or an effect can stop climbing entirely (a ceiling). Shapes are model predictions, relative — not absolute concentrations.")
+                Text("For most substances, twice the dose is roughly twice the exposure. For these, an enzyme or carrier runs out of capacity: exposure climbs faster than the dose, or an effect stops climbing. Estimates only.")
                     .captionSecondary()
-                if profile.isWeightEstimated {
-                    Label("Based on an estimated \(Int(UserProfileStore.defaultWeightKg)) kg body weight — set yours in Settings for accuracy.", systemImage: "scalemass")
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
             }
             .padding(.vertical, Spacing.xs)
         }
@@ -80,50 +74,20 @@ struct CeilingEffectToolView: View {
     private func card(for sub: SaturablePharmacology.Profile) -> some View {
         VStack(alignment: .leading, spacing: Spacing.xl) {
             header(for: sub)
-
-            if sub.isQuantitative, let chart = charts[sub.substanceName] {
+            if let chart = charts[sub.substanceName] {
                 concentrationChart(chart, tint: tint(for: sub))
-                exposureReadout(chart, for: sub)
-            } else {
-                qualitativeMarker(for: sub)
             }
-
-            Text(sub.headline)
-                .font(.subheadline.weight(.medium))
-
-            DisclosureGroup {
-                VStack(alignment: .leading, spacing: Spacing.md) {
-                    Label {
-                        Text(sub.knee).captionSecondary()
-                    } icon: {
-                        Image(systemName: "arrow.turn.right.up").foregroundStyle(tint(for: sub)).accessibilityHidden(true)
-                    }
-
-                    Text(sub.detail)
-                        .captionSecondary()
-
-                    Text(sub.citation)
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-            } label: {
-                Text("Details & sources")
-                    .font(.caption.weight(.medium))
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
+            Text(sub.detail)
+                .captionSecondary()
         }
         .padding(.vertical, Spacing.sm)
     }
 
     private func header(for sub: SaturablePharmacology.Profile) -> some View {
         VStack(alignment: .leading, spacing: Spacing.xs) {
-            HStack {
-                Text(sub.displayName)
-                    .cardTitle()
-                    .accessibilityAddTraits(.isHeader)
-                Spacer()
-                ConfidenceBadge(tier: sub.confidence)
-            }
+            Text(sub.displayName)
+                .cardTitle()
+                .accessibilityAddTraits(.isHeader)
             HStack(spacing: Spacing.sm) {
                 Image(systemName: mechanismIcon(sub.mechanism))
                     .font(.caption2)
@@ -139,47 +103,15 @@ struct CeilingEffectToolView: View {
 
     private var gabapentinoidComparisonCard: some View {
         VStack(alignment: .leading, spacing: Spacing.xl) {
-            HStack {
-                Text("Same class, opposite behavior")
-                    .cardTitle()
-                    .accessibilityAddTraits(.isHeader)
-                Spacer()
-                ConfidenceBadge(tier: .high)
-            }
-            HStack(spacing: Spacing.sm) {
-                Image(systemName: "arrow.triangle.swap")
-                    .font(.caption2)
-                    .foregroundStyle(.blue)
-                    .accessibilityHidden(true)
-                Text("Gabapentin vs pregabalin — one absorbing target, two opposite dose curves")
-                    .captionSecondary()
-            }
+            Text("Same class, opposite behavior")
+                .cardTitle()
+                .accessibilityAddTraits(.isHeader)
 
             gabapentinoidComparisonChart
 
             HStack(spacing: Spacing.xxl) {
-                comparisonLegend(color: .blue, label: "Gabapentin — falls with dose")
-                comparisonLegend(color: .green, label: "Pregabalin — flat ~90%")
-            }
-            Text("Fraction reaching your blood (up the side) against dose (along the bottom, as a multiple of the usual starting dose).")
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-
-            Text(SaturablePharmacology.GabapentinoidComparison.headline)
-                .font(.subheadline.weight(.medium))
-
-            DisclosureGroup {
-                VStack(alignment: .leading, spacing: Spacing.md) {
-                    Text(SaturablePharmacology.GabapentinoidComparison.detail)
-                        .captionSecondary()
-                    Text(SaturablePharmacology.GabapentinoidComparison.citation)
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-            } label: {
-                Text("Details & sources")
-                    .font(.caption.weight(.medium))
-                    .foregroundStyle(Theme.secondaryLabel)
+                comparisonLegend(color: .blue, label: "Gabapentin")
+                comparisonLegend(color: .green, label: "Pregabalin")
             }
         }
         .padding(.vertical, Spacing.sm)
@@ -191,10 +123,9 @@ struct CeilingEffectToolView: View {
     private var gabapentinoidComparisonChart: some View {
         let gaba = SaturablePharmacology.GabapentinoidComparison.gabapentin
         let pre = SaturablePharmacology.GabapentinoidComparison.pregabalin
-        let gabaBase = gaba.first?.doseMgPerDay ?? 900
-        let preBase = pre.first?.doseMgPerDay ?? 150
+        let gabaBase = gaba.map(\.doseMgPerDay).min() ?? 900
+        let preBase = pre.map(\.doseMgPerDay).min() ?? 150
         let allMultiples = gaba.map { $0.doseMgPerDay / gabaBase } + pre.map { $0.doseMgPerDay / preBase }
-        let minMultiple = max(0, (allMultiples.min() ?? 1) - 0.2)
         let maxMultiple = (allMultiples.max() ?? 5) + 0.3
         return Chart {
             ForEach(gaba) { p in
@@ -237,9 +168,9 @@ struct CeilingEffectToolView: View {
                 }
             }
         }
-        .chartXScale(domain: minMultiple ... maxMultiple)
+        .chartXScale(domain: 1 ... maxMultiple)
         .chartXAxis {
-            AxisMarks(values: [0.5, 1, 2, 3, 4, 5]) { value in
+            AxisMarks(values: [1, 2, 3, 4, 5]) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.3))
                 AxisValueLabel {
                     if let v = value.as(Int.self) { Text("\(v)×").font(.caption2) }
@@ -260,6 +191,28 @@ struct CeilingEffectToolView: View {
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
         }
+    }
+
+    // MARK: - Sources
+
+    private var sourcesSection: some View {
+        Section("Sources") {
+            ForEach(SaturablePharmacology.profiles) { sub in
+                sourceRow(label: sub.displayName, citation: sub.citation)
+            }
+            sourceRow(label: "Same class, opposite behavior", citation: SaturablePharmacology.GabapentinoidComparison.citation)
+        }
+    }
+
+    private func sourceRow(label: LocalizedStringResource, citation: String) -> some View {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
+            Text(label)
+                .font(.caption)
+            Text(citation)
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+        }
+        .padding(.vertical, Spacing.xs)
     }
 
     // MARK: - Quantitative chart (concentration over time, one curve per example dose)
@@ -306,13 +259,6 @@ struct CeilingEffectToolView: View {
             )
 
             doseLegend(curves: curves, tint: tint)
-            Text(
-                usesDays
-                    ? "Each line is one dose; its height is the level in your blood and the area under it is your total exposure. Time is in days."
-                    : "Each line is one dose; its height is the level in your blood and the area under it is your total exposure. Time is in hours.",
-            )
-            .font(.caption2)
-            .foregroundStyle(Theme.secondaryLabel)
         }
     }
 
@@ -336,39 +282,6 @@ struct CeilingEffectToolView: View {
                 }
             }
         }
-    }
-
-    private func exposureReadout(_ chart: SaturablePharmacology.ConcentrationChart, for sub: SaturablePharmacology.Profile) -> some View {
-        let dose = multipleText(chart.maxDoseMultiple)
-        let exposure = multipleText(chart.exposureMultipleAtMax)
-        let isAbsorption = sub.mechanism == .absorption
-        return Text(
-            isAbsorption
-                ? "\(dose)× the dose is only about \(exposure)× the exposure — past the knee, extra drug mostly isn't absorbed."
-                : "\(dose)× the dose isn't \(dose)× the exposure — the largest curve here holds about \(exposure)× the total exposure of one reference dose.",
-        )
-        .font(.caption.weight(.medium))
-        .foregroundStyle(isAbsorption ? .blue : .orange)
-    }
-
-    // MARK: - Qualitative marker
-
-    private func qualitativeMarker(for sub: SaturablePharmacology.Profile) -> some View {
-        HStack(spacing: Spacing.lg) {
-            Image(systemName: sub.mechanism == .activation ? "arrow.up.forward.circle" : "exclamationmark.triangle.fill")
-                .font(.title3)
-                .foregroundStyle(tint(for: sub))
-                .accessibilityHidden(true)
-            Text(
-                sub.mechanism == .activation
-                    ? "Ceiling on effect — described in words (no precise dose knee)."
-                    : "Steep, supralinear — described in words (no reliable human kinetics).",
-            )
-            .captionSecondary()
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(Spacing.lg)
-        .background(tint(for: sub).opacity(Theme.Opacity.hairline), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner))
     }
 
     // MARK: - Helpers
