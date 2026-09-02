@@ -10,45 +10,33 @@ import UniformTypeIdentifiers
 /// Import/export lives here rather than a separate Backup screen, alongside
 /// local-storage transparency and on-device recovery for stores set aside
 /// automatically (an upgrade hiccup) or before a deliberate delete/restore.
+///
+/// The screen itself owns nothing but presentation: every flow that can fail or
+/// take time lives in ``DataStorageModel``, and each section is its own view.
 struct DataStorageView: View {
     @Environment(\.modelContext) private var modelContext
-    @State private var manager = BackupManager.shared
+    @State private var model = DataStorageModel()
 
-    // Local storage counts.
-    @Query private var doses: [DoseEntry]
-    @Query private var sessions: [Session]
-    @Query private var dailyItems: [DailyDoseItem]
-    @Query private var favorites: [FavoriteSubstance]
-    @Query private var substanceColors: [SubstanceColor]
-    @Query private var userColors: [UserColor]
-    @Query private var quickLogDoses: [QuickLogDose]
-    @Query private var inventoryItems: [InventoryItem]
-
-    // Encrypted export flow.
+    /// Asks for a passphrase to seal a new encrypted backup.
     @State private var showingExportPassphrase = false
-    @State private var exported: ExportedBackup?
-    /// The temporary encrypted file handed to the share sheet, removed once the
-    /// share sheet is dismissed so ciphertext doesn't linger in /tmp.
-    @State private var exportedFileToClean: URL?
 
-    // Restore flow.
+    /// Asks for the passphrase that opens a picked encrypted backup.
     @State private var showingRestorePassphrase = false
-    @State private var pendingData: Data?
-    @State private var pendingIsICloud = false
-    @State private var pendingPassphrase: String?
+    /// Merge-or-replace, once the payload to restore is known.
     @State private var showingStrategyDialog = false
 
-    @State private var notice: Notice?
-
-    // Plain (unencrypted) export/import — Piru-native & PsychonautWiki JSON.
-    @State private var plainExportDocument: PiruDocument?
+    /// The save panel for a plain (unencrypted) Piru or PsychonautWiki export.
     @State private var showingPlainExporter = false
-    @State private var generatingFormat: ExportFormat?
 
     /// Which file the single shared importer should pick. SwiftUI only honours one
     /// `.fileImporter` per view, so the plain-JSON and encrypted-restore pickers
     /// are driven by this one enum rather than two competing modifiers.
     @State private var importKind: ImportKind?
+
+    @State private var showingDeleteConfirmation = false
+
+    @State private var pendingRestore: RecoverableStore?
+    @State private var restoreComplete = false
 
     private enum ImportKind: Identifiable {
         case plainJSON
@@ -58,43 +46,41 @@ struct DataStorageView: View {
         }
     }
 
-    // Export / import option popovers.
-    @State private var showingExportOptions = false
-    @State private var showingImportOptions = false
-
-    @State private var showingDeleteConfirmation = false
-
-    // Recoverable copies — loaded async (enumerating sidecars opens each store).
-    @State private var recoverable: [RecoverableStore] = []
-    @State private var loadingRecoverable = true
-    @State private var pendingRestore: RecoverableStore?
-    @State private var restoreComplete = false
-
     var body: some View {
         List {
-            storageSection
-            backupSection
-            exportImportSection
-            substanceDatabaseSection
-            howItWorksSection
-            recoverableSection
-            deleteSection
+            LocalStorageSection()
+            ICloudBackupSection()
+            ExportImportSection(
+                isGenerating: model.isGenerating,
+                onExportPlain: exportPlain,
+                onExportEncrypted: { showingExportPassphrase = true },
+                onImportFile: { importKind = .plainJSON },
+                onRestoreEncrypted: { importKind = .encrypted },
+                onRestoreICloud: {
+                    model.prepareICloudRestore()
+                    showingStrategyDialog = true
+                },
+            )
+            SubstanceDatabaseSection()
+            HowEncryptionWorksSection()
+            RecoverableCopiesSection(
+                stores: model.recoverable,
+                isLoading: model.loadingRecoverable,
+                onSelect: { pendingRestore = $0 },
+            )
+            DeleteEverythingSection(onDelete: { showingDeleteConfirmation = true })
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle("Data & Backup")
         .navigationBarTitleDisplayMode(.inline)
-        .task { await loadRecoverable() }
+        .task { await model.loadRecoverable() }
         .fileExporter(
             isPresented: $showingPlainExporter,
-            document: plainExportDocument,
+            document: model.plainExportDocument,
             contentType: .json,
             defaultFilename: DataExportImport.exportFilename,
         ) { result in
-            plainExportDocument = nil
-            if case let .failure(error) = result {
-                notice = Notice(title: String(localized: "Export Failed"), message: error.localizedDescription)
-            }
+            model.finishPlainExport(result)
         }
         .fileImporter(
             isPresented: importerBinding,
@@ -112,28 +98,28 @@ struct DataStorageView: View {
         }
         .sheet(isPresented: $showingRestorePassphrase) {
             PassphraseSheet(mode: .enter) { passphrase in
-                pendingPassphrase = passphrase
+                model.setRestorePassphrase(passphrase)
                 showingRestorePassphrase = false
                 showingStrategyDialog = true
             }
         }
-        .sheet(item: $exported, onDismiss: cleanupExportedFile) { item in
+        .sheet(item: $model.exported, onDismiss: { model.cleanupExportedFile() }) { item in
             ShareSheet(items: [item.url])
         }
         .confirmationDialog("Restore Backup", isPresented: $showingStrategyDialog, titleVisibility: .visible) {
             Button("Merge With Current Data") { executeRestore(.merge) }
             Button("Replace Everything", role: .destructive) { executeRestore(.replace) }
-            Button("Cancel", role: .cancel) { clearPending() }
+            Button("Cancel", role: .cancel) { model.clearPending() }
         } message: {
             Text("Merge keeps your current entries and adds the backup's. Replace deletes your current data first (a recovery snapshot is taken automatically) and restores only the backup.")
         }
-        .alert(notice?.title ?? "", isPresented: noticeBinding, presenting: notice) { _ in
+        .alert(model.notice?.title ?? "", isPresented: noticeBinding, presenting: model.notice) { _ in
             Button("OK", role: .cancel) {}
         } message: { notice in
             Text(notice.message)
         }
         .alert("Delete Everything", isPresented: $showingDeleteConfirmation) {
-            Button("Delete", role: .destructive) { deleteAllData() }
+            Button("Delete", role: .destructive) { model.deleteAllData(context: modelContext) }
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("Are you sure you want to delete all your data? This action cannot be undone.")
@@ -142,7 +128,7 @@ struct DataStorageView: View {
             Button("Restore", role: .destructive) { restore(store) }
             Button("Cancel", role: .cancel) { pendingRestore = nil }
         } message: { store in
-            Text("This replaces your current data with the \(rowCountText(store.rowCount)) in this copy. A snapshot of your current data is taken first, so it's reversible. Restart Piru afterwards to load it.")
+            Text("This replaces your current data with the \(DataStorageFormat.rowCountText(store.rowCount)) in this copy. A snapshot of your current data is taken first, so it's reversible. Restart Piru afterwards to load it.")
         }
         .alert("Restored", isPresented: $restoreComplete) {
             Button("OK", role: .cancel) {}
@@ -151,19 +137,87 @@ struct DataStorageView: View {
         }
     }
 
-    // MARK: - On this device
+    // MARK: - Bindings
 
-    private var storageSection: some View {
+    private var restoreConfirmBinding: Binding<Bool> {
+        Binding(get: { pendingRestore != nil }, set: { if !$0 { pendingRestore = nil } })
+    }
+
+    private var noticeBinding: Binding<Bool> {
+        Binding(get: { model.notice != nil }, set: { if !$0 { model.notice = nil } })
+    }
+
+    private var importerBinding: Binding<Bool> {
+        Binding(get: { importKind != nil }, set: { if !$0 { importKind = nil } })
+    }
+
+    // MARK: - Actions
+
+    private func exportPlain(_ format: ExportFormat) {
+        Task {
+            if await model.generatePlainExport(format: format, context: modelContext) {
+                showingPlainExporter = true
+            }
+        }
+    }
+
+    private func handlePlainImport(_ result: Result<URL, Error>) {
+        Task { await model.importPlain(result, context: modelContext) }
+    }
+
+    private func runExport(passphrase: String) {
+        showingExportPassphrase = false
+        Task { await model.exportEncrypted(passphrase: passphrase, context: modelContext) }
+    }
+
+    private func handlePickedFile(_ result: Result<URL, Error>) {
+        Task {
+            switch await model.inspectPickedFile(result) {
+            case .passphrase: showingRestorePassphrase = true
+            case .strategy: showingStrategyDialog = true
+            case .failed: break
+            }
+        }
+    }
+
+    private func executeRestore(_ strategy: BackupManager.RestoreStrategy) {
+        Task { await model.executeRestore(strategy, context: modelContext) }
+    }
+
+    private func restore(_ store: RecoverableStore) {
+        pendingRestore = nil
+        restoreComplete = model.restoreRecoverable(store)
+    }
+}
+
+// MARK: - On this device
+
+private struct LocalStorageSection: View {
+    @Query private var doses: [DoseEntry]
+    @Query private var sessions: [Session]
+    @Query private var dailyItems: [DailyDoseItem]
+    @Query private var favorites: [FavoriteSubstance]
+    @Query private var substanceColors: [SubstanceColor]
+    @Query private var userColors: [UserColor]
+    @Query private var quickLogDoses: [QuickLogDose]
+    @Query private var inventoryItems: [InventoryItem]
+
+    var body: some View {
         Section {
-            countRow("Doses", systemImage: "pills", count: doses.count)
-            countRow("Sessions", systemImage: "calendar.day.timeline.left", count: sessions.count)
-            countRow("Daily Medications", systemImage: "cross.case", count: dailyItems.count)
-            countRow("Quick-Log Shortcuts", systemImage: "bolt", count: quickLogDoses.count)
-            countRow("Favorites", systemImage: "star", count: favorites.count)
-            countRow("Inventory", systemImage: "shippingbox", count: inventoryItems.count)
-            countRow("Custom Colors", systemImage: "paintpalette", count: substanceColors.count + userColors.count)
+            CountRow(title: "Doses", systemImage: "pills", count: doses.count)
+            CountRow(title: "Sessions", systemImage: "calendar.day.timeline.left", count: sessions.count)
+            CountRow(title: "Daily Medications", systemImage: "cross.case", count: dailyItems.count)
+            CountRow(title: "Quick-Log Shortcuts", systemImage: "bolt", count: quickLogDoses.count)
+            CountRow(title: "Favorites", systemImage: "star", count: favorites.count)
+            CountRow(title: "Inventory", systemImage: "shippingbox", count: inventoryItems.count)
+            CountRow(
+                title: "Custom Colors",
+                systemImage: "paintpalette",
+                count: substanceColors.count + userColors.count,
+            )
             LabeledContent {
-                Text(byteString(StoreRecovery.canonicalStoreBytes())).foregroundStyle(Theme.secondaryLabel)
+                Text(DataStorageFormat.byteString(StoreRecovery.canonicalStoreBytes()))
+                    .foregroundStyle(Theme.secondaryLabel)
             } label: {
                 Label("Store Size", systemImage: "internaldrive")
             }
@@ -174,10 +228,30 @@ struct DataStorageView: View {
             Text("Everything Piru stores locally. Your dose data lives only on this device unless you turn on iCloud backup.")
         }
     }
+}
 
-    // MARK: - Backup (automatic iCloud)
+private struct CountRow: View {
+    let title: LocalizedStringKey
+    let systemImage: String
+    let count: Int
 
-    private var backupSection: some View {
+    var body: some View {
+        LabeledContent {
+            Text("\(count)").foregroundStyle(Theme.secondaryLabel)
+        } label: {
+            Label(title, systemImage: systemImage)
+        }
+        .listRowBackground(CardBackground())
+    }
+}
+
+// MARK: - Backup (automatic iCloud)
+
+private struct ICloudBackupSection: View {
+    @Environment(\.modelContext) private var modelContext
+    @State private var manager = BackupManager.shared
+
+    var body: some View {
         Section {
             Toggle(isOn: autoBinding) {
                 Label("iCloud Backup", systemImage: "icloud")
@@ -186,7 +260,7 @@ struct DataStorageView: View {
             .disabled(!manager.iCloudAvailable)
             .listRowBackground(CardBackground())
 
-            statusRow.listRowBackground(CardBackground())
+            BackupStatusRow(manager: manager).listRowBackground(CardBackground())
         } header: {
             Text("Backup")
         } footer: {
@@ -198,15 +272,28 @@ struct DataStorageView: View {
         }
     }
 
-    @ViewBuilder
-    private var statusRow: some View {
+    private var autoBinding: Binding<Bool> {
+        Binding(
+            get: { manager.autoICloudEnabled },
+            set: { newValue in
+                manager.autoICloudEnabled = newValue
+                if newValue { Task { await manager.runAutomaticBackup(context: modelContext) } }
+            },
+        )
+    }
+}
+
+private struct BackupStatusRow: View {
+    let manager: BackupManager
+
+    var body: some View {
         switch manager.status {
         case .running:
             Label { Text("Backing up…") } icon: { ProgressView() }
                 .foregroundStyle(Theme.secondaryLabel)
         case let .failed(message):
             Label { Text("Last backup failed: \(message)") } icon: {
-                Image(systemName: "exclamationmark.icloud").foregroundStyle(.orange).accessibilityHidden(true)
+                Image(systemName: "exclamationmark.icloud").foregroundStyle(.cautionAccent).accessibilityHidden(true)
             }
             .font(.footnote)
         default:
@@ -221,22 +308,35 @@ struct DataStorageView: View {
             }
         }
     }
+}
 
-    // MARK: - Export & Import
+// MARK: - Export & Import
 
-    private var exportImportSection: some View {
+private struct ExportImportSection: View {
+    let isGenerating: Bool
+    let onExportPlain: (ExportFormat) -> Void
+    let onExportEncrypted: () -> Void
+    let onImportFile: () -> Void
+    let onRestoreEncrypted: () -> Void
+    let onRestoreICloud: () -> Void
+
+    @State private var manager = BackupManager.shared
+    @State private var showingExportOptions = false
+    @State private var showingImportOptions = false
+
+    var body: some View {
         Section {
-            dataRow(
+            DataActionRow(
                 title: "Export…",
                 subtitle: "Piru, PsychonautWiki, or an encrypted backup",
                 systemImage: "square.and.arrow.up",
-                showSpinner: generatingFormat != nil,
+                showSpinner: isGenerating,
             ) {
                 showingExportOptions = true
             }
             .popover(isPresented: $showingExportOptions) { exportOptions }
 
-            dataRow(
+            DataActionRow(
                 title: "Import & Restore…",
                 subtitle: "From a file, an encrypted backup, or iCloud",
                 systemImage: "square.and.arrow.down",
@@ -249,55 +349,49 @@ struct DataStorageView: View {
         } footer: {
             Text("Piru and PsychonautWiki files are plain, unencrypted JSON. Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files.")
         }
-        .disabled(generatingFormat != nil)
+        .disabled(isGenerating)
     }
 
     /// Choices inside the Export popover.
     private var exportOptions: some View {
-        chooser {
-            optionRow(
+        ChooserPopover {
+            OptionRow(
                 title: "Piru Backup",
                 subtitle: "A complete backup you can restore into Piru",
                 systemImage: "arrow.up.doc",
-            ) { afterPopoverDismiss { exportPlain(.piru) } }
-            optionRow(
+            ) { afterPopoverDismiss { onExportPlain(.piru) } }
+            OptionRow(
                 title: "PsychonautWiki Format",
                 subtitle: "For importing into the PsychonautWiki app",
                 systemImage: "arrow.up.doc",
-            ) { afterPopoverDismiss { exportPlain(.psyLog) } }
-            optionRow(
+            ) { afterPopoverDismiss { onExportPlain(.psyLog) } }
+            OptionRow(
                 title: "Encrypted Backup…",
                 subtitle: "Passphrase-protected — save or send it anywhere",
                 systemImage: "lock.doc",
-            ) { afterPopoverDismiss { showingExportPassphrase = true } }
+            ) { afterPopoverDismiss(onExportEncrypted) }
         }
     }
 
     /// Choices inside the Import & Restore popover.
     private var importOptions: some View {
-        chooser {
-            optionRow(
+        ChooserPopover {
+            OptionRow(
                 title: "Import from a File…",
                 subtitle: "A Piru or PsychonautWiki JSON file",
                 systemImage: "arrow.down.doc",
-            ) { afterPopoverDismiss { importKind = .plainJSON } }
-            optionRow(
+            ) { afterPopoverDismiss(onImportFile) }
+            OptionRow(
                 title: "Restore Encrypted Backup…",
                 subtitle: "A passphrase-protected .piruenc file",
                 systemImage: "lock.doc",
-            ) { afterPopoverDismiss { importKind = .encrypted } }
+            ) { afterPopoverDismiss(onRestoreEncrypted) }
             if manager.iCloudAvailable {
-                optionRow(
+                OptionRow(
                     title: "Restore Latest iCloud Backup",
                     subtitle: "From your automatic iCloud backups",
                     systemImage: "arrow.clockwise.icloud",
-                ) {
-                    afterPopoverDismiss {
-                        pendingIsICloud = true
-                        pendingPassphrase = nil
-                        showingStrategyDialog = true
-                    }
-                }
+                ) { afterPopoverDismiss(onRestoreICloud) }
             }
         }
     }
@@ -317,57 +411,65 @@ struct DataStorageView: View {
             action()
         }
     }
+}
 
-    /// Compact popover container (a real popover even on iPhone) holding option rows.
-    private func chooser(@ViewBuilder _ content: () -> some View) -> some View {
-        VStack(alignment: .leading, spacing: 0) { content() }
-            .padding(.vertical, 8)
+/// Compact popover container (a real popover even on iPhone) holding option rows.
+private struct ChooserPopover<Content: View>: View {
+    @ViewBuilder let content: Content
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) { content }
+            .padding(.vertical, Spacing.md)
             .frame(minWidth: 300)
             .presentationCompactAdaptation(.popover)
     }
+}
 
-    /// A single tappable option inside a chooser popover.
-    private func optionRow(
-        title: LocalizedStringKey,
-        subtitle: LocalizedStringKey,
-        systemImage: String,
-        action: @escaping () -> Void,
-    ) -> some View {
+/// A single tappable option inside a chooser popover.
+private struct OptionRow: View {
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
+    let systemImage: String
+    let action: () -> Void
+
+    var body: some View {
         Button(action: action) {
-            HStack(alignment: .top, spacing: 12) {
+            HStack(alignment: .top, spacing: Spacing.xl) {
                 Image(systemName: systemImage)
-                    .font(.title3).foregroundStyle(Theme.accent).frame(width: 28)
+                    .font(.title3).foregroundStyle(Theme.accent).frame(width: IconSize.iconSmall)
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(title).foregroundStyle(.primary)
-                    Text(subtitle).font(.caption).foregroundStyle(Theme.secondaryLabel)
+                    Text(subtitle).captionSecondary()
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 Spacer(minLength: 0)
             }
             .contentShape(Rectangle())
-            .padding(.horizontal, 16).padding(.vertical, 10)
+            .padding(.horizontal, Spacing.xxl).padding(.vertical, Spacing.lg)
         }
         .buttonStyle(.plain)
     }
+}
 
-    /// A list row with an accent icon, a title, a one-line description, and an
-    /// optional trailing spinner. Used for the Export/Import and Report entries.
-    private func dataRow(
-        title: LocalizedStringKey,
-        subtitle: LocalizedStringKey,
-        systemImage: String,
-        showSpinner: Bool = false,
-        action: @escaping () -> Void,
-    ) -> some View {
+/// A list row with an accent icon, a title, a one-line description, and an
+/// optional trailing spinner. Used for the Export/Import and Report entries.
+private struct DataActionRow: View {
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
+    let systemImage: String
+    var showSpinner: Bool = false
+    let action: () -> Void
+
+    var body: some View {
         Button(action: action) {
-            HStack(alignment: .top, spacing: 12) {
+            HStack(alignment: .top, spacing: Spacing.xl) {
                 Image(systemName: systemImage)
-                    .font(.title3).foregroundStyle(Theme.accent).frame(width: 28)
+                    .font(.title3).foregroundStyle(Theme.accent).frame(width: IconSize.iconSmall)
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(title).foregroundStyle(.primary)
-                    Text(subtitle).font(.caption).foregroundStyle(Theme.secondaryLabel)
+                    Text(subtitle).captionSecondary()
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 Spacer(minLength: 0)
@@ -378,12 +480,14 @@ struct DataStorageView: View {
         .buttonStyle(.plain)
         .listRowBackground(CardBackground())
     }
+}
 
-    // MARK: - How encryption works
+// MARK: - Substance database
 
-    /// The bundled substance data — source priority and opt-in updates — lives
-    /// in `SubstanceDatabaseView`; this row keeps it one tap from the data tool.
-    private var substanceDatabaseSection: some View {
+/// The bundled substance data — source priority and opt-in updates — lives
+/// in `SubstanceDatabaseView`; this row keeps it one tap from the data tool.
+private struct SubstanceDatabaseSection: View {
+    var body: some View {
         Section {
             NavigationLink {
                 SubstanceDatabaseView()
@@ -400,25 +504,29 @@ struct DataStorageView: View {
             Text("Which source wins when they disagree, and opt-in updates to the bundled substance data.")
         }
     }
+}
 
-    private var howItWorksSection: some View {
+// MARK: - How encryption works
+
+private struct HowEncryptionWorksSection: View {
+    var body: some View {
         Section {
-            howItWorksRow(
+            HowItWorksRow(
                 icon: "lock.shield",
                 title: "Strong encryption",
                 detail: "Every backup is sealed with AES-256-GCM — the same authenticated encryption used by modern secure messengers. Tampering is detected and refused.",
             )
-            howItWorksRow(
+            HowItWorksRow(
                 icon: "key.icloud",
                 title: "Your key, your device",
                 detail: "Automatic backups use a random key kept in your iCloud Keychain. It never leaves your devices in readable form, so iCloud only ever holds an unreadable blob.",
             )
-            howItWorksRow(
+            HowItWorksRow(
                 icon: "key.horizontal",
                 title: "Passphrase backups",
                 detail: "Manual exports turn your passphrase into a key with 600,000 rounds of PBKDF2. The passphrase is never saved or sent. Choose one you won't forget — there's no recovery.",
             )
-            howItWorksRow(
+            HowItWorksRow(
                 icon: "checkmark.shield",
                 title: "Nothing is deleted by surprise",
                 detail: "Replacing your data on restore takes a recoverable snapshot first. Backups are always optional and off until you turn them on.",
@@ -427,34 +535,48 @@ struct DataStorageView: View {
             Text("How Encryption Works")
         }
     }
+}
 
-    private func howItWorksRow(icon: String, title: LocalizedStringKey, detail: LocalizedStringKey) -> some View {
-        HStack(alignment: .top, spacing: 12) {
-            Image(systemName: icon).font(.title3).foregroundStyle(Theme.accent).frame(width: 28)
+private struct HowItWorksRow: View {
+    let icon: String
+    let title: LocalizedStringKey
+    let detail: LocalizedStringKey
+
+    var body: some View {
+        HStack(alignment: .top, spacing: Spacing.xl) {
+            Image(systemName: icon).font(.title3).foregroundStyle(Theme.accent).frame(width: IconSize.iconSmall)
                 .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(title).font(.subheadline.weight(.semibold))
-                Text(detail).font(.caption).foregroundStyle(Theme.secondaryLabel)
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
+                Text(title).sectionLabel()
+                Text(detail).captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
         .listRowBackground(CardBackground())
     }
+}
 
-    // MARK: - Recoverable copies
+// MARK: - Recoverable copies
 
-    private var recoverableSection: some View {
+private struct RecoverableCopiesSection: View {
+    let stores: [RecoverableStore]
+    let isLoading: Bool
+    let onSelect: (RecoverableStore) -> Void
+
+    var body: some View {
         Section {
-            if loadingRecoverable {
+            if isLoading {
                 HStack { ProgressView(); Text("Checking for recoverable copies…").foregroundStyle(Theme.secondaryLabel) }
                     .listRowBackground(CardBackground())
-            } else if recoverable.isEmpty {
+            } else if stores.isEmpty {
                 Label("No recoverable copies on this device.", systemImage: "checkmark.shield")
                     .foregroundStyle(Theme.secondaryLabel).font(.footnote)
                     .listRowBackground(CardBackground())
             } else {
-                ForEach(recoverable) { store in recoverableRow(store) }
+                ForEach(stores) { store in
+                    RecoverableRow(store: store) { onSelect(store) }
+                }
             }
         } header: {
             Text("Recoverable Copies")
@@ -462,20 +584,25 @@ struct DataStorageView: View {
             Text("Piru never deletes a store outright. Copies set aside automatically (after an upgrade hiccup) or before you deleted or restored data appear here, ready to restore.")
         }
     }
+}
 
-    private func recoverableRow(_ store: RecoverableStore) -> some View {
-        Button { pendingRestore = store } label: {
-            HStack(alignment: .top, spacing: 12) {
+private struct RecoverableRow: View {
+    let store: RecoverableStore
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(alignment: .top, spacing: Spacing.xl) {
                 Image(systemName: store.isIntentional ? "clock.arrow.circlepath" : "exclamationmark.arrow.circlepath")
                     .font(.title3)
-                    .foregroundStyle(store.isIntentional ? Theme.secondaryLabel : .orange)
-                    .frame(width: 28)
+                    .foregroundStyle(store.isIntentional ? Theme.secondaryLabel : .cautionAccent)
+                    .frame(width: IconSize.iconSmall)
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(reasonTitle(store.reason)).foregroundStyle(.primary)
-                    Text(subtitle(for: store)).font(.caption).foregroundStyle(Theme.secondaryLabel)
+                    Text(DataStorageFormat.reasonTitle(store.reason)).foregroundStyle(.primary)
+                    Text(DataStorageFormat.subtitle(for: store)).captionSecondary()
                         .fixedSize(horizontal: false, vertical: true)
-                        .accessibilityLabel(subtitle(for: store, separator: ", "))
+                        .accessibilityLabel(DataStorageFormat.subtitle(for: store, separator: ", "))
                 }
                 Spacer(minLength: 0)
                 if store.rowCount > 0 {
@@ -488,12 +615,16 @@ struct DataStorageView: View {
         .disabled(store.rowCount <= 0)
         .listRowBackground(CardBackground())
     }
+}
 
-    // MARK: - Delete
+// MARK: - Delete
 
-    private var deleteSection: some View {
+private struct DeleteEverythingSection: View {
+    let onDelete: () -> Void
+
+    var body: some View {
         Section {
-            Button(role: .destructive) { showingDeleteConfirmation = true } label: {
+            Button(role: .destructive, action: onDelete) {
                 Label("Delete Everything", systemImage: "trash")
             }
             .listRowBackground(CardBackground())
@@ -501,19 +632,14 @@ struct DataStorageView: View {
             Text("Permanently removes every dose, session, and setting. A recoverable snapshot is taken first.")
         }
     }
+}
 
-    // MARK: - Rows & formatting
+// MARK: - Formatting
 
-    private func countRow(_ title: LocalizedStringKey, systemImage: String, count: Int) -> some View {
-        LabeledContent {
-            Text("\(count)").foregroundStyle(Theme.secondaryLabel)
-        } label: {
-            Label(title, systemImage: systemImage)
-        }
-        .listRowBackground(CardBackground())
-    }
-
-    private func reasonTitle(_ reason: String) -> LocalizedStringKey {
+/// The screen's shared row copy: how a set-aside store names itself, and how
+/// sizes and record counts read.
+private enum DataStorageFormat {
+    static func reasonTitle(_ reason: String) -> LocalizedStringKey {
         switch reason {
         case "corrupt": "Auto-recovered Data"
         case "predelete": "Before You Deleted Everything"
@@ -523,199 +649,19 @@ struct DataStorageView: View {
         }
     }
 
-    private func subtitle(for store: RecoverableStore, separator: String = " · ") -> String {
+    static func subtitle(for store: RecoverableStore, separator: String = " · ") -> String {
         let rows = store.rowCount > 0 ? rowCountText(store.rowCount) : String(localized: "unreadable")
         let when = store.timestamp?.formatted(date: .abbreviated, time: .shortened) ?? String(localized: "unknown date")
         return [rows, byteString(store.bytes), when].joined(separator: separator)
     }
 
-    private func rowCountText(_ count: Int) -> String {
+    static func rowCountText(_ count: Int) -> String {
         String(localized: "\(count) records")
     }
 
-    private func byteString(_ bytes: Int64) -> String {
+    static func byteString(_ bytes: Int64) -> String {
         ByteCountFormatter.string(fromByteCount: bytes, countStyle: .file)
     }
-
-    // MARK: - Bindings
-
-    private var autoBinding: Binding<Bool> {
-        Binding(
-            get: { manager.autoICloudEnabled },
-            set: { newValue in
-                manager.autoICloudEnabled = newValue
-                if newValue { Task { await manager.runAutomaticBackup(context: modelContext) } }
-            },
-        )
-    }
-
-    private var restoreConfirmBinding: Binding<Bool> {
-        Binding(get: { pendingRestore != nil }, set: { if !$0 { pendingRestore = nil } })
-    }
-
-    private var noticeBinding: Binding<Bool> {
-        Binding(get: { notice != nil }, set: { if !$0 { notice = nil } })
-    }
-
-    private var importerBinding: Binding<Bool> {
-        Binding(get: { importKind != nil }, set: { if !$0 { importKind = nil } })
-    }
-
-    // MARK: - Actions
-
-    private func exportPlain(_ format: ExportFormat) {
-        generatingFormat = format
-        Task {
-            defer { generatingFormat = nil }
-            do {
-                let data = try await DataExportImport.exportJSONInBackground(format: format, context: modelContext)
-                plainExportDocument = PiruDocument(data: data)
-                showingPlainExporter = true
-            } catch {
-                notice = Notice(title: String(localized: "Export Failed"), message: error.localizedDescription)
-            }
-        }
-    }
-
-    private func handlePlainImport(_ result: Result<URL, Error>) {
-        switch result {
-        case let .success(url):
-            Task {
-                guard url.startAccessingSecurityScopedResource() else {
-                    notice = Notice(title: String(localized: "Import Failed"), message: String(localized: "Couldn't access the selected file."))
-                    return
-                }
-                defer { url.stopAccessingSecurityScopedResource() }
-                do {
-                    let data = try await Task.detached { try Data(contentsOf: url) }.value
-                    try DataExportImport.importJSON(data: data, context: modelContext)
-                    notice = Notice(title: String(localized: "Import Complete"), message: String(localized: "Your data was imported."))
-                } catch {
-                    notice = Notice(title: String(localized: "Import Failed"), message: DataExportImport.importErrorMessage(for: error))
-                }
-            }
-        case let .failure(error):
-            notice = Notice(title: String(localized: "Import Failed"), message: error.localizedDescription)
-        }
-    }
-
-    private func runExport(passphrase: String) {
-        showingExportPassphrase = false
-        Task {
-            do {
-                let url = try await manager.exportEncrypted(context: modelContext, passphrase: passphrase)
-                exportedFileToClean = url
-                exported = ExportedBackup(url: url)
-            } catch {
-                notice = Notice(title: String(localized: "Export Failed"), message: error.localizedDescription)
-            }
-        }
-    }
-
-    private func cleanupExportedFile() {
-        guard let url = exportedFileToClean else { return }
-        try? FileManager.default.removeItem(at: url)
-        exportedFileToClean = nil
-    }
-
-    private func handlePickedFile(_ result: Result<URL, Error>) {
-        switch result {
-        case let .success(url):
-            Task {
-                guard url.startAccessingSecurityScopedResource() else {
-                    notice = Notice(title: String(localized: "Restore Failed"), message: String(localized: "Couldn't access the selected file."))
-                    return
-                }
-                defer { url.stopAccessingSecurityScopedResource() }
-                do {
-                    let (data, kind) = try await Task.detached { () -> (Data, BackupCrypto.Envelope.Kind) in
-                        let size = (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0
-                        guard size <= BackupCrypto.maxEnvelopeBytes else { throw BackupManager.ManagerError.fileTooLarge }
-                        let data = try Data(contentsOf: url)
-                        let envelope = try BackupCrypto.inspect(data)
-                        return (data, envelope.kind)
-                    }.value
-                    pendingData = data
-                    pendingIsICloud = false
-                    if kind == .passphrase {
-                        showingRestorePassphrase = true
-                    } else {
-                        pendingPassphrase = nil
-                        showingStrategyDialog = true
-                    }
-                } catch {
-                    notice = Notice(title: String(localized: "Restore Failed"), message: error.localizedDescription)
-                }
-            }
-        case let .failure(error):
-            notice = Notice(title: String(localized: "Restore Failed"), message: error.localizedDescription)
-        }
-    }
-
-    private func executeRestore(_ strategy: BackupManager.RestoreStrategy) {
-        let passphrase = pendingPassphrase
-        let isICloud = pendingIsICloud
-        let data = pendingData
-        Task {
-            do {
-                if isICloud {
-                    try await manager.restoreFromICloud(passphrase: passphrase, strategy: strategy, context: modelContext)
-                } else if let data {
-                    try await manager.restore(data: data, passphrase: passphrase, strategy: strategy, context: modelContext)
-                }
-                notice = Notice(title: String(localized: "Restore Complete"), message: String(localized: "Your backup was restored."))
-            } catch {
-                notice = Notice(title: String(localized: "Restore Failed"), message: error.localizedDescription)
-            }
-            clearPending()
-        }
-    }
-
-    private func clearPending() {
-        pendingData = nil
-        pendingIsICloud = false
-        pendingPassphrase = nil
-    }
-
-    private func deleteAllData() {
-        StoreRecovery.snapshotStore(reason: "predelete")
-        do {
-            try DataExportImport.deleteAll(context: modelContext)
-        } catch {
-            notice = Notice(title: String(localized: "Delete Failed"), message: error.localizedDescription)
-        }
-    }
-
-    // MARK: - Recoverable copies loading
-
-    private func loadRecoverable() async {
-        loadingRecoverable = true
-        recoverable = await Task.detached { StoreRecovery.recoverableStores() }.value
-        loadingRecoverable = false
-    }
-
-    private func restore(_ store: RecoverableStore) {
-        pendingRestore = nil
-        do {
-            try StoreRecovery.restore(from: store.url)
-            restoreComplete = true
-        } catch {
-            notice = Notice(title: String(localized: "Restore Failed"), message: error.localizedDescription)
-        }
-    }
-}
-
-// MARK: - Supporting types
-
-private struct ExportedBackup: Identifiable {
-    let id = UUID()
-    let url: URL
-}
-
-private struct Notice: Identifiable {
-    let id = UUID()
-    let title: String
-    let message: String
 }
 
 // MARK: - Passphrase Sheet
@@ -765,15 +711,14 @@ private struct PassphraseSheet: View {
                         Label {
                             Text("If you lose this passphrase, the backup can't be recovered. There is no reset.")
                         } icon: {
-                            Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange).accessibilityHidden(true)
+                            Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.cautionAccent).accessibilityHidden(true)
                         }
                         .font(.footnote)
                     }
                     .listRowBackground(CardBackground())
                 }
             }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .navigationTitle(mode == .create ? Text("Set a Passphrase") : Text("Enter Passphrase"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -792,11 +737,11 @@ private struct PassphraseSheet: View {
         if passphrase.isEmpty {
             Text("Use at least \(Self.minLength) characters. A phrase of several words is stronger and easier to remember than a short password.")
         } else if passphrase.count < Self.minLength {
-            Text("Too short — use at least \(Self.minLength) characters.").foregroundStyle(.orange)
+            Text("Too short — use at least \(Self.minLength) characters.").foregroundStyle(.cautionText)
         } else if passphrase != confirmation {
             Text("Passphrases don't match yet.").foregroundStyle(Theme.secondaryLabel)
         } else {
-            Label("Passphrases match.", systemImage: "checkmark.circle.fill").foregroundStyle(.green)
+            Label("Passphrases match.", systemImage: "checkmark.circle.fill").foregroundStyle(Color.Semantic.Success.text)
         }
     }
 }
