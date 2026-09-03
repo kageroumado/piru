@@ -61,7 +61,7 @@ struct AdvancedSearchView: View {
     private var filterSection: some View {
         Section {
             TextField("Substance contains…", text: $substanceQuery)
-                .textInputAutocapitalization(.never)
+                .neverAutocapitalize()
                 .autocorrectionDisabled()
 
             Picker("Receptor target", selection: $selectedTarget) {

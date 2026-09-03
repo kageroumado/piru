@@ -1,6 +1,5 @@
 import Foundation
 import SwiftUI
-import UIKit
 
 enum RouteOfAdministration: String, Codable, CaseIterable, Identifiable {
     case oral

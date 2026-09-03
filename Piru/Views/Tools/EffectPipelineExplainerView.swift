@@ -110,7 +110,7 @@ struct EffectPipelineExplainerView: View {
         }
         .themedPage()
         .navigationTitle("Step by step")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
     }
 
     private func stage(

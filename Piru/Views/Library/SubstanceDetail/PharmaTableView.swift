@@ -51,9 +51,9 @@ struct PharmaTableView: View {
         }
         .background(Theme.background)
         .navigationTitle(Text("Pharma Table"))
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .platformTopBarTrailing) {
                 PharmaFilterMenu(
                     scope: $model.scope,
                     halfLifeOnly: $model.halfLifeOnly,
@@ -101,7 +101,7 @@ private struct PharmaSearchField: View {
             TextField(text: $text) {
                 Text("Search substances")
             }
-            .textInputAutocapitalization(.never)
+            .neverAutocapitalize()
             .autocorrectionDisabled()
             if !text.isEmpty {
                 Button {

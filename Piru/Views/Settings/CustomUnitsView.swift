@@ -57,7 +57,7 @@ struct CustomUnitsView: View {
             }
         }
         .navigationTitle("Custom Units")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
     }
 
     private func unitRow(_ preset: CustomUnitPreset) -> some View {
@@ -139,7 +139,7 @@ struct CustomUnitEditorView: View {
                     Text("1 \(trimmedLabel.isEmpty ? String(localized: "unit") : trimmedLabel) =")
                         .foregroundStyle(Theme.secondaryLabel)
                     TextField("Amount", text: $amountText)
-                        .keyboardType(.decimalPad)
+                        .decimalKeyboard()
                     Picker("Unit", selection: $unit) {
                         ForEach(Self.baseUnits, id: \.self) { Text($0) }
                     }
@@ -155,7 +155,7 @@ struct CustomUnitEditorView: View {
             }
         }
         .navigationTitle(editing == nil ? "Add Custom Unit" : "Edit Custom Unit")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Save", action: save).disabled(!canSave)

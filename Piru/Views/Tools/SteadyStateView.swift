@@ -73,7 +73,7 @@ private struct SteadyStateInputSection: View {
                         .captionSecondary()
                     HStack(spacing: 0) {
                         TextField("Amount", value: $inputs.doseAmount, format: .number)
-                            .keyboardType(.decimalPad)
+                            .decimalKeyboard()
                             .padding(Spacing.md)
                         Divider().frame(height: 20)
                         Menu {
@@ -94,7 +94,7 @@ private struct SteadyStateInputSection: View {
                         .captionSecondary()
                     HStack(spacing: 0) {
                         TextField("Hours", value: $inputs.intervalHours, format: .number)
-                            .keyboardType(.decimalPad)
+                            .decimalKeyboard()
                             .padding(Spacing.md)
                         Divider().frame(height: 20)
                         Menu {
@@ -116,7 +116,7 @@ private struct SteadyStateInputSection: View {
             if inputs.useCustomHalfLife {
                 HStack {
                     TextField("Hours", value: $inputs.customHalfLifeHours, format: .number)
-                        .keyboardType(.decimalPad)
+                        .decimalKeyboard()
                         .textFieldStyle(.roundedBorder)
                     Text("hours")
                         .foregroundStyle(Theme.secondaryLabel)

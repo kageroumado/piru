@@ -297,7 +297,7 @@ struct LocationPickerView: View {
             .searchable(text: $query, isPresented: $searchActive, prompt: "Search for a place or address")
             .onChange(of: query) { model.query = query }
             .navigationTitle("Location")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }

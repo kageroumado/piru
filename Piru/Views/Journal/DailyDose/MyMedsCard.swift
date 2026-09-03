@@ -445,7 +445,7 @@ private struct MyMedsHeader: View {
         let fraction = total == 0 ? 0 : CGFloat(takenCount) / CGFloat(total)
         return ZStack {
             Circle()
-                .stroke(Color(.tertiarySystemFill), lineWidth: 4)
+                .stroke(Color.platformTertiarySystemFill, lineWidth: 4)
             // The arc grows as doses land — `.snappy` keyed on the fraction so
             // logging (or unlogging) animates the fill rather than snapping.
             Circle()
@@ -538,7 +538,7 @@ private struct SupplementsRowView: View {
                 CheckCircle(state: .taken, due: false)
             } else {
                 Circle()
-                    .stroke(Color(.tertiarySystemFill), lineWidth: 2.5)
+                    .stroke(Color.platformTertiarySystemFill, lineWidth: 2.5)
                 Circle()
                     .trim(from: 0, to: total == 0 ? 0 : CGFloat(takenCount) / CGFloat(total))
                     .stroke(Color.successAccent, style: StrokeStyle(lineWidth: 2.5, lineCap: .round))
@@ -582,8 +582,8 @@ private struct CheckCircle: View {
     private var strokeColor: Color {
         switch state {
         case .taken: Color.successAccent
-        case .skipped: Color(.tertiarySystemFill)
-        case .pending: due ? Theme.accent : Color(.tertiarySystemFill)
+        case .skipped: Color.platformTertiarySystemFill
+        case .pending: due ? Theme.accent : Color.platformTertiarySystemFill
         }
     }
 }

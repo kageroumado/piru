@@ -40,7 +40,7 @@ struct QuickLogEditSheet: View {
                 DockShortcutsSection(path: $path)
                 DockLabelsSection(path: $path)
             }
-            .environment(\.editMode, .constant(.active))
+            .permanentEditMode()
             .navigationDestination(for: DockEditRoute.self) { route in
                 switch route {
                 case .addShortcut:
@@ -62,7 +62,7 @@ struct QuickLogEditSheet: View {
                 DoseTimeSettingsView()
             }
             .navigationTitle("Edit")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
@@ -180,7 +180,9 @@ struct QuickLogEditSheet: View {
             favorite.sortOrder = index
         }
         try? modelContext.save()
-        PhoneSyncCoordinator.shared.pushManifest()
+        #if os(iOS)
+            PhoneSyncCoordinator.shared.pushManifest()
+        #endif
     }
 
     private func deleteFavorites(at offsets: IndexSet) {
@@ -188,7 +190,9 @@ struct QuickLogEditSheet: View {
             modelContext.delete(favorites[index])
         }
         try? modelContext.save()
-        PhoneSyncCoordinator.shared.pushManifest()
+        #if os(iOS)
+            PhoneSyncCoordinator.shared.pushManifest()
+        #endif
     }
 
     // MARK: Drinks

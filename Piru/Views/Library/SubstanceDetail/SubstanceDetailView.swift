@@ -1,6 +1,5 @@
 import SwiftData
 import SwiftUI
-import UIKit
 
 struct SubstanceDetailView: View {
     /// The library substance backing this view. Pushed as a **lightweight shell**
@@ -249,7 +248,7 @@ struct SubstanceDetailView: View {
         // label; the bar's *rendered* title is the principal item below, which
         // is the only way to gate it on scroll position.
         .navigationTitle(substance.displayTitle)
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .navigationDestination(isPresented: $showAllEffects) {
             EffectsAndIntensityView(substanceName: substance.name, showsExperienceReports: showsErowidReports)
         }
@@ -288,7 +287,7 @@ struct SubstanceDetailView: View {
                 .animation(.easeInOut(duration: 0.18), value: headerTitleVisible)
                 .accessibilityHidden(false)
         }
-        ToolbarItem(placement: .topBarTrailing) {
+        ToolbarItem(placement: .platformTopBarTrailing) {
             Button {
                 showShareSheet = true
             } label: {
@@ -298,7 +297,7 @@ struct SubstanceDetailView: View {
             .accessibilityLabel("Share drug info")
         }
         // Share and the overflow menu share one glass platter (no separator).
-        ToolbarItem(placement: .topBarTrailing) {
+        ToolbarItem(placement: .platformTopBarTrailing) {
             // Everything that isn't Share lives in one overflow menu (Apple's Files-app pattern) —
             // four bar buttons was a button too many. Favorite, Personalize, and the detail-level
             // (tier) switcher all fold in here; the tier choices render as an inline checkmark list.

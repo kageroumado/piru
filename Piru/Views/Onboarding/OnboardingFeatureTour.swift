@@ -18,7 +18,9 @@ struct OnboardingFeatureTour: View {
                     tourPage(item).tag(index)
                 }
             }
+            #if os(iOS)
             .tabViewStyle(.page(indexDisplayMode: .never))
+            #endif
             .animation(.smooth, value: page)
 
             HStack(spacing: 7) {

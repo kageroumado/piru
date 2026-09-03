@@ -278,7 +278,7 @@ struct RouteChips: View {
                             .padding(.horizontal, 14)
                             .padding(.vertical, Spacing.md)
                             .background(
-                                Capsule().fill(isOn ? Theme.accent : Color(.tertiarySystemFill)),
+                                Capsule().fill(isOn ? Theme.accent : Color.platformTertiarySystemFill),
                             )
                     }
                     .buttonStyle(.plain)

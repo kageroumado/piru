@@ -36,7 +36,7 @@ struct CeilingEffectToolView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .listStyle(.insetGrouped)
+        .insetGroupedListStyle()
         .themedPage()
         .appNavigationBar("Ceiling Effect")
         .task(id: profile.effectiveWeightKg) { recomputeCurves() }

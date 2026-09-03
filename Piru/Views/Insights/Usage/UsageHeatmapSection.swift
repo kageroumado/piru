@@ -286,7 +286,7 @@ private struct UsageHeatmapGrid: View {
         // not gray. Every past day is a square: gray when empty, so a quiet run
         // reads as a real absence rather than a gap in the grid.
         if isFuture { return .clear }
-        guard value > 0 else { return Color(.tertiarySystemFill) }
+        guard value > 0 else { return Color.platformTertiarySystemFill }
         let peak = max(metric == .commonDoses ? heatmap.maxCommon : Double(heatmap.maxCount), 0.0001)
         let fraction = min(1, value / peak)
         return accent.opacity(0.28 + 0.72 * fraction)

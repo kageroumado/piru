@@ -32,6 +32,6 @@ struct SubstanceDatabaseView: View {
         }
         .themedPage()
         .navigationTitle("Substance Database")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
     }
 }

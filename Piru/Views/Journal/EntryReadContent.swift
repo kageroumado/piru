@@ -28,7 +28,9 @@ struct EntryReadContent: View {
                     .listRowSeparator(.hidden)
                     .popoverTip(GraphGestureTip())
             }
+            #if canImport(UIKit)
             .listSectionSpacing(12)
+            #endif
         } else {
             Section {
                 // Not "no pharmacokinetic data" — the body-load section directly

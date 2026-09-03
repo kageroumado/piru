@@ -57,7 +57,7 @@ struct ExperimentalTag: View {
             .foregroundStyle(Theme.secondaryLabel)
             .padding(.horizontal, 7)
             .padding(.vertical, Spacing.xxs)
-            .background(Color(.secondarySystemFill), in: Capsule())
+            .background(Color.platformSecondarySystemFill, in: Capsule())
     }
 }
 
@@ -141,10 +141,12 @@ struct EffectEstimatesView: View {
             readingSection
         }
         .scrollContentBackground(.hidden)
-        .listSectionSpacing(16)
+        .compactListSectionSpacing()
         .background(Theme.background)
         .navigationTitle("Effect Estimates")
-        .navigationBarTitleDisplayMode(.large)
+        #if canImport(UIKit)
+            .navigationBarTitleDisplayMode(.large)
+        #endif
     }
 
     // MARK: Intro — one short model card
@@ -363,10 +365,12 @@ struct EffectModelExplainerView: View {
             }
         }
         .scrollContentBackground(.hidden)
-        .listSectionSpacing(16)
+        .compactListSectionSpacing()
         .background(Theme.background)
         .navigationTitle("How this works")
-        .navigationBarTitleDisplayMode(.large)
+        #if canImport(UIKit)
+            .navigationBarTitleDisplayMode(.large)
+        #endif
     }
 
     private func point(_ title: LocalizedStringKey, _ body: LocalizedStringKey) -> some View {
@@ -388,7 +392,7 @@ struct EffectModelExplainerView: View {
 /// a falling dopamine is shaded as the comedown.
 private struct DopamineErrorDiagram: View {
     private let dopamineColor = EffectLens.feeling.color
-    private let expectationColor = Color(.systemGray)
+    private let expectationColor = Color.platformSystemGray
 
     private struct Sample {
         let time: Double
@@ -490,7 +494,7 @@ private struct DiagramLegend: View {
         VStack(alignment: .leading, spacing: Spacing.md) {
             HStack(spacing: Spacing.xxl) {
                 swatch(EffectLens.feeling.color, dashed: false, "Dopamine")
-                swatch(Color(.systemGray), dashed: true, "Expected level")
+                swatch(Color.platformSystemGray, dashed: true, "Expected level")
             }
             Text("The shaded gap is what you feel. As dopamine fades and the expectation lags above it, that gap turns into the comedown.")
                 .captionSecondary()

@@ -13,8 +13,10 @@ struct InventoryOptionsMenu: View {
     @Bindable var model: InventoryListModel
     /// Every class present in the inventory — the class facet offers only these.
     let categories: [SubstanceCategory]
-    /// Flipped by "Edit", which is how deletion is reached without a swipe.
-    @Binding var editMode: EditMode
+    // Flipped by "Edit", which is how deletion is reached without a swipe.
+    #if canImport(UIKit)
+        @Binding var editMode: EditMode
+    #endif
     /// Opens the class-arrangement sheet, which the list owns.
     let onArrangeClasses: () -> Void
 
@@ -35,18 +37,15 @@ struct InventoryOptionsMenu: View {
 
     var body: some View {
         Menu {
-            Section {
-                // "Edit" rather than Files' "Select": this mode reveals the
-                // per-row delete control (and, in Manual sort, the drag grabbers)
-                // instead of starting a multi-select. It's the reachable path to
-                // deleting for anyone who doesn't know about — or can't perform —
-                // a swipe.
-                Button {
-                    editMode = .active
-                } label: {
-                    Label("Edit", systemImage: "pencil")
+            #if canImport(UIKit)
+                Section {
+                    Button {
+                        editMode = .active
+                    } label: {
+                        Label("Edit", systemImage: "pencil")
+                    }
                 }
-            }
+            #endif
 
             Section {
                 Toggle(isOn: $model.isGrouped) {

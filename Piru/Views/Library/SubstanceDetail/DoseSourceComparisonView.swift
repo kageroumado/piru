@@ -68,7 +68,7 @@ struct DoseSourceComparisonView: View {
                 }
             }
             .navigationTitle(Text("Dose sources", comment: "Screen title"))
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
@@ -152,7 +152,7 @@ private struct LadderRow: View {
 
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(Color(.tertiarySystemFill))
+                    Capsule().fill(Color.platformTertiarySystemFill)
                     ForEach(Array(segments.enumerated()), id: \.offset) { _, segment in
                         Capsule()
                             .fill(segment.color)

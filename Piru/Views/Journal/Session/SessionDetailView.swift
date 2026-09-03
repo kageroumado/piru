@@ -265,103 +265,105 @@ struct SessionDetailView: View {
         .scrollContentBackground(.hidden)
         .contentMargins(.top, 0, for: .scrollContent)
         .contentMargins(.horizontal, Spacing.xxl, for: .scrollContent)
-        .listSectionSpacing(Spacing.xxl)
-        .background(Theme.background)
-        .task(id: colorSignature) {
-            model.loadColorMap(colors: substanceColors)
-        }
-        .task(id: vitalsTaskKey) {
-            await model.loadVitals(
-                session: session, entries: entries,
-                windowEnd: vitalsWindowEnd(resolvedDay.states), showSessionVitals: showSessionVitals,
-            )
-        }
-        .task(id: mechanisticSignature) {
-            await SubstanceStore.shared.ensureAllLoaded()
-            let resolved = resolvedDay
-            await model.computeMechanistic(
-                supported: resolved.mechanisticSupported,
-                doses: resolved.mechanisticDoses,
-                pharmacology: resolved.mechanisticPharmacology,
-                signature: mechanisticSignature,
-            )
-        }
-        .navigationTitle(session.title ?? "\(dayOfWeek), \(dateTitle)")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            if !entries.isEmpty {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showShareSession = true
-                    } label: {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                    .accessibilityLabel(Text("Share session"))
-                    .popoverTip(ShareSessionTip())
-                }
+        #if canImport(UIKit)
+            .listSectionSpacing(Spacing.xxl)
+        #endif
+            .background(Theme.background)
+            .task(id: colorSignature) {
+                model.loadColorMap(colors: substanceColors)
             }
-            ToolbarItem(placement: .topBarTrailing) {
-                SessionMenu(
-                    session: session,
-                    hasCurves: !day.states.isEmpty,
-                    isToday: isToday,
-                    hasOngoingDose: ongoing,
-                    longestBreakPivot: SessionMenu.longestBreakPivot(in: entries),
-                    onRename: {
-                        titleDraft = session.title ?? ""
-                        showRename = true
-                    },
-                    onAddNote: { navigator.present(.sessionNoteEditor(sessionID: session.id)) },
-                    onEditSummary: editSummary,
-                    onToggleLiveActivity: toggleLiveActivity,
+            .task(id: vitalsTaskKey) {
+                await model.loadVitals(
+                    session: session, entries: entries,
+                    windowEnd: vitalsWindowEnd(resolvedDay.states), showSessionVitals: showSessionVitals,
                 )
-                .popoverTip(SessionMenuTip(), arrowEdge: .top)
             }
-        }
-        .task { await OnboardingTips.retireDataTipAfterSessionMenuTip() }
-        // The primary "Log a dose" action lives in the tab bar's bottom accessory
-        // (always on screen beneath this detail), so the day view no longer
-        // floats its own add button.
-        .alert("Rename Session", isPresented: $showRename) {
-            TextField("Session title", text: $titleDraft)
-            Button("Cancel", role: .cancel) {}
-            Button("Save") { SessionService.setTitle(titleDraft, for: session) }
-        }
-        .sheet(item: $editing.entryToAdjustTime) { entry in
-            NavigationStack {
-                TimeAdjustSheet(entry: entry)
+            .task(id: mechanisticSignature) {
+                await SubstanceStore.shared.ensureAllLoaded()
+                let resolved = resolvedDay
+                await model.computeMechanistic(
+                    supported: resolved.mechanisticSupported,
+                    doses: resolved.mechanisticDoses,
+                    pharmacology: resolved.mechanisticPharmacology,
+                    signature: mechanisticSignature,
+                )
             }
-            .presentationDetents([.medium])
-        }
-        .sheet(item: $editing.entryToMove) { entry in
-            MoveToSessionView(dose: entry)
-                .presentationDetents([.medium, .large])
-        }
-        .sheet(isPresented: $showShareSession) {
-            SessionShareSheet(
-                title: session.title ?? "",
-                dateText: "\(dayOfWeek), \(dateTitle)",
-                entries: entries,
-                colors: Array(substanceColors),
-                stackRedoses: stackRedoses,
-                doseHR: model.doseHR,
-                session: session,
-            )
-        }
-        .sheet(item: $editing.recolorRequest) { request in
-            SubstanceColorPickerView(
-                substanceName: request.substanceName,
-                takenColors: Array(substanceColors).takenColorMap,
-            ) { hex in
-                if let existing = substanceColors.first(where: { $0.substance.lowercased() == request.substanceName.lowercased() }) {
-                    existing.hexColor = hex
-                } else {
-                    modelContext.insert(SubstanceColor(substance: request.substanceName, hexColor: hex))
+            .navigationTitle(session.title ?? "\(dayOfWeek), \(dateTitle)")
+            .inlineNavigationTitle()
+            .toolbar {
+                if !entries.isEmpty {
+                    ToolbarItem(placement: .platformTopBarTrailing) {
+                        Button {
+                            showShareSession = true
+                        } label: {
+                            Image(systemName: "square.and.arrow.up")
+                        }
+                        .accessibilityLabel(Text("Share session"))
+                        .popoverTip(ShareSessionTip())
+                    }
                 }
-                editing.recolorRequest = nil
+                ToolbarItem(placement: .platformTopBarTrailing) {
+                    SessionMenu(
+                        session: session,
+                        hasCurves: !day.states.isEmpty,
+                        isToday: isToday,
+                        hasOngoingDose: ongoing,
+                        longestBreakPivot: SessionMenu.longestBreakPivot(in: entries),
+                        onRename: {
+                            titleDraft = session.title ?? ""
+                            showRename = true
+                        },
+                        onAddNote: { navigator.present(.sessionNoteEditor(sessionID: session.id)) },
+                        onEditSummary: editSummary,
+                        onToggleLiveActivity: toggleLiveActivity,
+                    )
+                    .popoverTip(SessionMenuTip(), arrowEdge: .top)
+                }
             }
-            .presentationDetents([.large])
-        }
+            .task { await OnboardingTips.retireDataTipAfterSessionMenuTip() }
+            // The primary "Log a dose" action lives in the tab bar's bottom accessory
+            // (always on screen beneath this detail), so the day view no longer
+            // floats its own add button.
+            .alert("Rename Session", isPresented: $showRename) {
+                TextField("Session title", text: $titleDraft)
+                Button("Cancel", role: .cancel) {}
+                Button("Save") { SessionService.setTitle(titleDraft, for: session) }
+            }
+            .sheet(item: $editing.entryToAdjustTime) { entry in
+                NavigationStack {
+                    TimeAdjustSheet(entry: entry)
+                }
+                .presentationDetents([.medium])
+            }
+            .sheet(item: $editing.entryToMove) { entry in
+                MoveToSessionView(dose: entry)
+                    .presentationDetents([.medium, .large])
+            }
+            .sheet(isPresented: $showShareSession) {
+                SessionShareSheet(
+                    title: session.title ?? "",
+                    dateText: "\(dayOfWeek), \(dateTitle)",
+                    entries: entries,
+                    colors: Array(substanceColors),
+                    stackRedoses: stackRedoses,
+                    doseHR: model.doseHR,
+                    session: session,
+                )
+            }
+            .sheet(item: $editing.recolorRequest) { request in
+                SubstanceColorPickerView(
+                    substanceName: request.substanceName,
+                    takenColors: Array(substanceColors).takenColorMap,
+                ) { hex in
+                    if let existing = substanceColors.first(where: { $0.substance.lowercased() == request.substanceName.lowercased() }) {
+                        existing.hexColor = hex
+                    } else {
+                        modelContext.insert(SubstanceColor(substance: request.substanceName, hexColor: hex))
+                    }
+                    editing.recolorRequest = nil
+                }
+                .presentationDetents([.large])
+            }
     }
 
     /// Each dose row's render-ready facts: the resolved substance core (memoized

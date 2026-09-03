@@ -48,7 +48,7 @@ struct PatternsView: View {
         .background(Theme.background)
         .toolbar {
             if !allEntries.isEmpty {
-                ToolbarItem(placement: .topBarTrailing) { rangeMenu }
+                ToolbarItem(placement: .platformTopBarTrailing) { rangeMenu }
             }
         }
         .task(id: token) {

@@ -1,7 +1,12 @@
 import PDFKit
 import SwiftUI
-import UIKit
 import UniformTypeIdentifiers
+
+#if canImport(UIKit)
+    import UIKit
+#elseif canImport(AppKit)
+    import AppKit
+#endif
 
 /// The consolidated "Share Session" surface: one custom sheet reached from the
 /// session screen's share button (and Help / Settings). Offers three artifacts —
@@ -26,9 +31,9 @@ struct SessionShareSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
 
-    @State private var image: UIImage?
+    @State private var image: PlatformImage?
     @State private var pdfData: Data?
-    @State private var pdfThumbnail: UIImage?
+    @State private var pdfThumbnail: PlatformImage?
     @State private var markdown: String?
     /// The trip report, when the session has notes.
     @State private var tripReport: String?
@@ -38,7 +43,7 @@ struct SessionShareSheet: View {
     @State private var safeAreaBottom: CGFloat = 34
     /// A transparent view over the image thumbnail — the source of QuickLook's
     /// zoom transition.
-    @State private var imageSourceView: UIView?
+    @State private var imageSourceView: PlatformView?
     /// The image pre-encoded to a file during `prepare()`, so opening the viewer
     /// is instant (no on-tap PNG encode).
     @State private var imageFileURL: URL?
@@ -75,7 +80,7 @@ struct SessionShareSheet: View {
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { contentHeight = $0 }
             }
             .navigationTitle("Share Session")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: {
@@ -113,10 +118,12 @@ struct SessionShareSheet: View {
             }.value
         }
         if let export = SessionStateExport.build(from: entries, colors: colors, notes: session?.orderedNotes ?? []) {
-            let data = SessionReportPDF.render(export)
-            pdfData = data
-            pdfThumbnail = PDFDocument(data: data)?.page(at: 0)?
-                .thumbnail(of: CGSize(width: 612, height: 792), for: .mediaBox)
+            #if canImport(UIKit)
+                let data = SessionReportPDF.render(export)
+                pdfData = data
+                pdfThumbnail = PDFDocument(data: data)?.page(at: 0)?
+                    .thumbnail(of: CGSize(width: 612, height: 792), for: .mediaBox)
+            #endif
             markdown = export.markdown()
         }
         if let session {
@@ -217,12 +224,12 @@ struct SessionShareSheet: View {
     }
 
     /// A top-cropped raster preview (image / PDF page), or a spinner while loading.
-    private func preview(_ uiImage: UIImage?, contentMode: ContentMode, background: Color = Color.primary.opacity(0.03)) -> some View {
+    private func preview(_ platformImage: PlatformImage?, contentMode: ContentMode, background: Color = Color.primary.opacity(0.03)) -> some View {
         Rectangle()
             .fill(background)
             .overlay(alignment: .top) {
-                if let uiImage {
-                    Image(uiImage: uiImage).resizable().aspectRatio(contentMode: contentMode).accessibilityHidden(true)
+                if let platformImage {
+                    Image(platformImage: platformImage).resizable().aspectRatio(contentMode: contentMode).accessibilityHidden(true)
                 } else {
                     ProgressView().tint(Theme.accent)
                 }
@@ -302,25 +309,25 @@ struct SessionShareSheet: View {
 
     private func copyImage() {
         guard let image else { return }
-        UIPasteboard.general.image = image
+        PlatformPasteboard.copy(image: image)
         flashCopied(.image)
     }
 
     private func copyPDF() {
         guard let pdfData else { return }
-        UIPasteboard.general.setData(pdfData, forPasteboardType: UTType.pdf.identifier)
+        PlatformPasteboard.copy(data: pdfData, type: UTType.pdf.identifier)
         flashCopied(.pdf)
     }
 
     private func copyMarkdown() {
         guard let markdown else { return }
-        UIPasteboard.general.string = markdown
+        PlatformPasteboard.copy(markdown)
         flashCopied(.markdown)
     }
 
     private func copyTripReport() {
         guard let tripReport else { return }
-        UIPasteboard.general.string = tripReport
+        PlatformPasteboard.copy(tripReport)
         flashCopied(.tripReport)
     }
 
@@ -329,7 +336,7 @@ struct SessionShareSheet: View {
         ShareSheetPresenter.present([url])
     }
 
-    private func share(_ image: UIImage?) {
+    private func share(_ image: PlatformImage?) {
         guard let image else { return }
         ShareSheetPresenter.present([image])
     }

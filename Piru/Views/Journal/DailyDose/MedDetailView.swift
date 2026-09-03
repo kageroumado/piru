@@ -107,7 +107,7 @@ struct MedDetailView: View {
             .listRowBackground(CardBackground())
         }
         .themedPage()
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         // Every field edits the model directly; one resync on close reschedules
         // reminders from the saved state (times, cadence, quiet grouping).
         .onDisappear {
@@ -142,7 +142,7 @@ struct MedDetailView: View {
         Section {
             HStack {
                 TextField("Amount", value: $item.amount, format: .number)
-                    .keyboardType(.decimalPad)
+                    .decimalKeyboard()
                 Picker("Unit", selection: $item.unit) {
                     ForEach(unitOptions, id: \.self) { Text($0) }
                 }

@@ -264,7 +264,7 @@ struct InventoryStepperRow: View {
     private var amountField: some View {
         HStack(alignment: .firstTextBaseline, spacing: 5) {
             TextField("0", value: $value, format: .number)
-                .keyboardType(.decimalPad)
+                .decimalKeyboard()
                 .multilineTextAlignment(.trailing)
                 .fixedSize()
                 .font(.title2.weight(.semibold))
@@ -317,7 +317,7 @@ struct InventoryStepperRow: View {
                 .font(.body.weight(.semibold))
                 .foregroundStyle(.primary)
                 .frame(width: 38, height: 38)
-                .background(Color(.secondarySystemFill), in: Circle())
+                .background(Color.platformSecondarySystemFill, in: Circle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel(systemImage == "minus" ? "Decrease" : "Increase")

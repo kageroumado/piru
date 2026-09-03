@@ -126,7 +126,7 @@ struct MedFormView: View {
             }
             .themedPage()
             .navigationTitle(isEditing ? "Edit Med" : "Add a Med")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }
@@ -162,7 +162,7 @@ struct MedFormView: View {
         return Section {
             HStack {
                 TextField("Amount", value: $draft.amount, format: .number)
-                    .keyboardType(.decimalPad)
+                    .decimalKeyboard()
                 Picker("Unit", selection: $draft.unit) {
                     ForEach(currentUnits, id: \.self) { Text($0) }
                 }

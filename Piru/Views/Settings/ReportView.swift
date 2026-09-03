@@ -148,28 +148,30 @@ struct ReportView: View {
                 }
 
                 // Generate
-                Section {
-                    Button {
-                        generateReport()
-                    } label: {
-                        HStack {
-                            Spacer()
-                            if isGenerating {
-                                ProgressView()
-                                    .tint(Theme.accent)
-                            } else {
-                                Label("Generate PDF Report", systemImage: "doc.richtext")
-                                    .cardTitle()
+                #if canImport(UIKit)
+                    Section {
+                        Button {
+                            generateReport()
+                        } label: {
+                            HStack {
+                                Spacer()
+                                if isGenerating {
+                                    ProgressView()
+                                        .tint(Theme.accent)
+                                } else {
+                                    Label("Generate PDF Report", systemImage: "doc.richtext")
+                                        .cardTitle()
+                                }
+                                Spacer()
                             }
-                            Spacer()
                         }
+                        .disabled(entryCount == 0 || isGenerating)
+                        .foregroundStyle(entryCount == 0 ? Theme.secondaryLabel : Theme.accent)
                     }
-                    .disabled(entryCount == 0 || isGenerating)
-                    .foregroundStyle(entryCount == 0 ? Theme.secondaryLabel : Theme.accent)
-                }
+                #endif
             }
             .navigationTitle("Medical Report")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .task(id: filterToken) { recomputeFiltered() }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -197,78 +199,80 @@ struct ReportView: View {
         interactions = InteractionChecker.checkBatch(substances, against: filteredEntries, policy: .explore)
     }
 
-    private func generateReport() {
-        isGenerating = true
+    #if canImport(UIKit)
+        private func generateReport() {
+            isGenerating = true
 
-        let entrySnapshots = filteredEntries.map { entry in
-            PDFReportGenerator.EntrySnapshot(
-                substance: entry.substance,
-                amount: entry.amount,
-                unit: entry.unit,
-                route: entry.route.displayName,
-                timestamp: entry.timestamp,
-                notes: entry.notes,
-                identityKey: entry.identityKey,
-                routeRaw: entry.route.rawValue,
-                substanceID: SubstanceStore.shared.substanceID(forNameOrAlias: entry.substance),
-                halfLifeMinutes: SubstanceLibrary.lookup(entry.substance)?.halfLifeMinutes,
+            let entrySnapshots = filteredEntries.map { entry in
+                PDFReportGenerator.EntrySnapshot(
+                    substance: entry.substance,
+                    amount: entry.amount,
+                    unit: entry.unit,
+                    route: entry.route.displayName,
+                    timestamp: entry.timestamp,
+                    notes: entry.notes,
+                    identityKey: entry.identityKey,
+                    routeRaw: entry.route.rawValue,
+                    substanceID: SubstanceStore.shared.substanceID(forNameOrAlias: entry.substance),
+                    halfLifeMinutes: SubstanceLibrary.lookup(entry.substance)?.halfLifeMinutes,
+                )
+            }
+
+            let doseSnapshots = dailyDoseItems.map { item in
+                PDFReportGenerator.DailyDoseSnapshot(
+                    substance: item.substance,
+                    amount: item.amount,
+                    unit: item.unit,
+                    route: item.route.displayName,
+                    sortOrder: item.sortOrder,
+                    identityKey: item.identityKey,
+                    routeRaw: item.route.rawValue,
+                )
+            }
+
+            let interactionSnapshots = interactions.map { i in
+                PDFReportGenerator.InteractionSnapshot(
+                    severity: i.severity,
+                    substanceA: i.substanceA,
+                    substanceB: i.substanceB,
+                    description: i.description,
+                    drugClassesA: InteractionChecker.drugClasses(for: i.substanceA),
+                    drugClassesB: InteractionChecker.drugClasses(for: i.substanceB),
+                )
+            }
+
+            let range = dateRange
+
+            let data = PDFReportGenerator.ReportData(
+                entries: entrySnapshots,
+                dailyDoseItems: doseSnapshots,
+                interactions: interactionSnapshots,
+                startDate: range.start,
+                endDate: range.end,
+                notes: notes,
+                patientName: patientName,
             )
+
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let filename = "Piru Report \(formatter.string(from: .now)).pdf"
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
+
+            Task {
+                // The snapshot is plain Sendable value types with every
+                // MainActor-bound lookup (drug classes) pre-resolved above, so
+                // both the PDF render and the file write run off the main actor —
+                // see the note on `PDFReportGenerator`.
+                await Task.detached {
+                    let pdfData = PDFReportGenerator.generate(from: data)
+                    try? pdfData.write(to: url)
+                }.value
+
+                isGenerating = false
+                shareItem = PDFShareItem(url: url)
+            }
         }
-
-        let doseSnapshots = dailyDoseItems.map { item in
-            PDFReportGenerator.DailyDoseSnapshot(
-                substance: item.substance,
-                amount: item.amount,
-                unit: item.unit,
-                route: item.route.displayName,
-                sortOrder: item.sortOrder,
-                identityKey: item.identityKey,
-                routeRaw: item.route.rawValue,
-            )
-        }
-
-        let interactionSnapshots = interactions.map { i in
-            PDFReportGenerator.InteractionSnapshot(
-                severity: i.severity,
-                substanceA: i.substanceA,
-                substanceB: i.substanceB,
-                description: i.description,
-                drugClassesA: InteractionChecker.drugClasses(for: i.substanceA),
-                drugClassesB: InteractionChecker.drugClasses(for: i.substanceB),
-            )
-        }
-
-        let range = dateRange
-
-        let data = PDFReportGenerator.ReportData(
-            entries: entrySnapshots,
-            dailyDoseItems: doseSnapshots,
-            interactions: interactionSnapshots,
-            startDate: range.start,
-            endDate: range.end,
-            notes: notes,
-            patientName: patientName,
-        )
-
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let filename = "Piru Report \(formatter.string(from: .now)).pdf"
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
-
-        Task {
-            // The snapshot is plain Sendable value types with every
-            // MainActor-bound lookup (drug classes) pre-resolved above, so
-            // both the PDF render and the file write run off the main actor —
-            // see the note on `PDFReportGenerator`.
-            await Task.detached {
-                let pdfData = PDFReportGenerator.generate(from: data)
-                try? pdfData.write(to: url)
-            }.value
-
-            isGenerating = false
-            shareItem = PDFShareItem(url: url)
-        }
-    }
+    #endif
 }
 
 // MARK: - Share Sheet
@@ -278,15 +282,44 @@ struct PDFShareItem: Identifiable {
     let url: URL
 }
 
-/// UIKit share sheet wrapper, kept over `ShareLink` because these flows present
-/// the sheet *programmatically* after async work (PDF render, encrypted export)
-/// — `ShareLink` only presents from its own tap. Also used by `ContentView`.
-struct ShareSheet: UIViewControllerRepresentable {
-    let items: [Any]
+#if canImport(UIKit)
+    import UIKit
 
-    func makeUIViewController(context _: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: items, applicationActivities: nil)
+    struct ShareSheet: UIViewControllerRepresentable {
+        let items: [Any]
+
+        func makeUIViewController(context _: Context) -> UIActivityViewController {
+            UIActivityViewController(activityItems: items, applicationActivities: nil)
+        }
+
+        func updateUIViewController(_: UIActivityViewController, context _: Context) {}
     }
 
-    func updateUIViewController(_: UIActivityViewController, context _: Context) {}
-}
+#elseif canImport(AppKit)
+    import AppKit
+
+    struct ShareSheet: NSViewRepresentable {
+        let items: [Any]
+
+        func makeCoordinator() -> Coordinator {
+            Coordinator()
+        }
+
+        func makeNSView(context _: Context) -> NSView {
+            NSView(frame: NSRect(x: 0, y: 0, width: 1, height: 1))
+        }
+
+        func updateNSView(_ nsView: NSView, context: Context) {
+            guard !context.coordinator.presented else { return }
+            context.coordinator.presented = true
+            DispatchQueue.main.async {
+                let picker = NSSharingServicePicker(items: items)
+                picker.show(relativeTo: nsView.bounds, of: nsView, preferredEdge: .minY)
+            }
+        }
+
+        final class Coordinator {
+            var presented = false
+        }
+    }
+#endif

@@ -55,7 +55,7 @@ struct InterventionLedgerView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .listStyle(.insetGrouped)
+        .insetGroupedListStyle()
         .themedPage()
         .appNavigationBar("Discontinuation Evidence")
     }

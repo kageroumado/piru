@@ -72,7 +72,7 @@ struct DataStorageView: View {
         }
         .themedPage()
         .navigationTitle("Data & Backup")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .task { await model.loadRecoverable() }
         .fileExporter(
             isPresented: $showingPlainExporter,
@@ -696,10 +696,14 @@ private struct PassphraseSheet: View {
             List {
                 Section {
                     SecureField("Passphrase", text: $passphrase)
+                    #if canImport(UIKit)
                         .textContentType(.password).autocorrectionDisabled().textInputAutocapitalization(.never)
+                    #endif
                     if mode == .create {
                         SecureField("Confirm Passphrase", text: $confirmation)
+                        #if canImport(UIKit)
                             .textContentType(.password).autocorrectionDisabled().textInputAutocapitalization(.never)
+                        #endif
                     }
                 } footer: {
                     if mode == .create { strengthFooter }
@@ -720,7 +724,7 @@ private struct PassphraseSheet: View {
             }
             .themedPage()
             .navigationTitle(mode == .create ? Text("Set a Passphrase") : Text("Enter Passphrase"))
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {

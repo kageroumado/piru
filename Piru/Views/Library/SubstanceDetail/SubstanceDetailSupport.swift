@@ -1,6 +1,5 @@
 import SwiftData
 import SwiftUI
-import UIKit
 
 /// One row in the merged "Sources" list — a contributing database or a piece of
 /// primary literature, deep-linked to this substance's page where one exists,
@@ -323,7 +322,7 @@ struct SourceAttributionExplainer: View {
                 }
             }
             .navigationTitle("Where this comes from")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {

@@ -26,19 +26,30 @@ struct InventoryItemDetailView: View {
             substanceInfoSection
             historySection
         }
-        .listStyle(.insetGrouped)
+        .insetGroupedListStyle()
         .themedPage()
         .navigationTitle(item.displayTitle)
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    navigator.present(.inventoryItemEdit(id: item.id))
-                } label: {
-                    Image(systemName: "square.and.pencil")
+            #if os(iOS)
+                ToolbarItem(placement: .platformTopBarTrailing) {
+                    Button {
+                        navigator.present(.inventoryItemEdit(id: item.id))
+                    } label: {
+                        Image(systemName: "square.and.pencil")
+                    }
+                    .accessibilityLabel("Edit")
                 }
-                .accessibilityLabel("Edit")
-            }
+            #else
+                ToolbarItem(placement: .automatic) {
+                    Button {
+                        navigator.present(.inventoryItemEdit(id: item.id))
+                    } label: {
+                        Image(systemName: "square.and.pencil")
+                    }
+                    .accessibilityLabel("Edit")
+                }
+            #endif
         }
         // Re-derive when returning from a restock/edit sheet or a dose change.
         .onAppear { InventoryService.recompute(item, in: modelContext) }

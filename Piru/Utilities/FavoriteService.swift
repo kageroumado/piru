@@ -50,7 +50,9 @@ enum FavoriteService {
         // Reflect the change on the watch immediately — the favorites/recents manifest
         // otherwise only refreshes on a dose log. The push reads this same main context,
         // so it sees the pending insert/delete without waiting for the caller's save.
-        PhoneSyncCoordinator.shared.pushManifest()
+        #if os(iOS)
+            PhoneSyncCoordinator.shared.pushManifest()
+        #endif
         return nowFavorite
     }
 

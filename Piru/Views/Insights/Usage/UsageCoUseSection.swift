@@ -83,7 +83,7 @@ private struct UsageCoUseRow: View {
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
                     Capsule()
-                        .fill(Color(.tertiarySystemFill))
+                        .fill(Color.platformTertiarySystemFill)
                         .frame(height: 4)
                     Capsule()
                         .fill(style.color(pair.firstIndex).opacity(0.75))

@@ -81,8 +81,10 @@ private struct OnboardingStepChrome: ViewModifier {
         content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Theme.background.ignoresSafeArea())
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
+        #if canImport(UIKit)
             .toolbarBackground(.hidden, for: .navigationBar)
+        #endif
             .toolbar {
                 if OnboardingStep.progressSteps.contains(step) {
                     ToolbarItem(placement: .principal) {
@@ -95,7 +97,7 @@ private struct OnboardingStepChrome: ViewModifier {
                 }
                 // A bail-out on the welcome screen for people who just want in.
                 if step == .welcome {
-                    ToolbarItem(placement: .topBarTrailing) {
+                    ToolbarItem(placement: .platformTopBarTrailing) {
                         Button("Skip", action: nav.finish)
                             .tint(Theme.secondaryLabel)
                     }

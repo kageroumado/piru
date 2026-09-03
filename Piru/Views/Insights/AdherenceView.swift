@@ -160,7 +160,7 @@ private struct TodayAdherenceRow: View {
         HStack(spacing: Spacing.xl) {
             Image(systemName: done ? "checkmark.circle.fill" : "circle")
                 .font(.title3)
-                .foregroundStyle(done ? Color.successAccent : Color(.tertiaryLabel))
+                .foregroundStyle(done ? Color.successAccent : Color.platformTertiaryLabel)
             VStack(alignment: .leading, spacing: 1) {
                 Text(title)
                     .font(.body)
@@ -425,7 +425,7 @@ struct AdherenceCalendarCell: View {
         case .complete: Color.successAccent.opacity(Theme.Opacity.tint)
         case .partial: Color.Semantic.Caution.accent.opacity(Theme.Opacity.tint)
         case .missed: Color.Semantic.Danger.accent.opacity(Theme.Opacity.tint)
-        case .noData: Color(.secondarySystemBackground).opacity(Theme.Opacity.dimmed)
+        case .noData: Color.platformSecondarySystemBackground.opacity(Theme.Opacity.dimmed)
         }
     }
 }
@@ -474,7 +474,7 @@ struct AdherenceDayDetailSheet: View {
                 }
             }
             .navigationTitle(day.date.formatted(.dateTime.weekday(.wide).month(.abbreviated).day()))
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }
@@ -601,7 +601,7 @@ private struct AdherenceMonthPicker: View {
             }
             .padding(.top, Spacing.md)
             .navigationTitle("Select Month")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }

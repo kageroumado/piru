@@ -21,7 +21,7 @@ struct ToleranceExplainerView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .listStyle(.insetGrouped)
+        .insetGroupedListStyle()
         .themedPage()
         .appNavigationBar("How tolerance works")
     }

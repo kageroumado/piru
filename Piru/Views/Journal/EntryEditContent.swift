@@ -40,7 +40,7 @@ struct EntryEditContent: View {
             } else {
                 HStack {
                     TextField("Amount", text: $draft.amount)
-                        .keyboardType(.decimalPad)
+                        .decimalKeyboard()
                         .focused($amountFocused)
                         .foregroundStyle(draftDoseLevel?.swiftUIColor ?? .primary)
                     if let level = draftDoseLevel {

@@ -248,6 +248,6 @@ extension View {
             .background(isSelected ? color.opacity(Theme.Opacity.emphasis) : Color.clear)
             .foregroundStyle(.primary)
             .clipShape(Capsule())
-            .overlay(Capsule().stroke(isSelected ? color : Color(.quaternaryLabel)))
+            .overlay(Capsule().stroke(isSelected ? color : Color.platformQuaternaryLabel))
     }
 }

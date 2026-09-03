@@ -81,7 +81,7 @@ struct OpioidEquivalenceToolView: View {
                         .accessibilityValue(Text(from?.pickerLabel ?? String(localized: "Select")))
                     HStack(spacing: 0) {
                         TextField("0", text: $doseText)
-                            .keyboardType(.decimalPad)
+                            .decimalKeyboard()
                             .multilineTextAlignment(.trailing)
                             .frame(width: 64)
                             .padding(.horizontal, Spacing.lg)

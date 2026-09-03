@@ -34,7 +34,7 @@ struct EffectsAndIntensityView: View {
         }
         .background(Theme.background)
         .navigationTitle(Text("Effects", comment: "Screen title"))
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .task(id: substanceName) { model.load(substanceName: substanceName) }
     }
 

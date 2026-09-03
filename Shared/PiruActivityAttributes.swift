@@ -1,34 +1,38 @@
-import ActivityKit
+#if os(iOS)
+    import ActivityKit
+#endif
 import Foundation
 
-/// Wire format for the Piru Live Activity widget extension.
-///
-/// `PiruActivityAttributes` defines two parts of the data the app and extension
-/// exchange via ActivityKit:
-///
-/// - **Static attributes** (this struct's stored properties): set once at
-///   `Activity.request(…)` time and immutable for the lifetime of the activity.
-///   Currently just `startTime`.
-/// - **`ContentState`**: mutable per-update payload pushed via `activity.update(…)`.
-///   Drives the widget's timeline graph, progress bar, and timer labels.
-///
-/// Because the app target and the widget extension can be on different versions
-/// at runtime (a widget extension launched against an older activity, or vice
-/// versa after an upgrade), every field on `ContentState`, `ActiveSubstanceState`,
-/// and the static attributes MUST be treated as a stable, append-only contract:
-///
-/// - Never remove or rename fields without a deprecation window.
-/// - New fields must be optional (`Codable` decoding tolerates missing keys) or
-///   provide a default in a custom `init(from:)` — see `ActiveSubstanceState`'s
-///   `doseIntensity` for the pattern.
-nonisolated struct PiruActivityAttributes: ActivityAttributes {
-    nonisolated struct ContentState: Codable, Hashable {
-        var activeSubstances: [ActiveSubstanceState]
-        var lastUpdated: Date
-    }
+// Wire format for the Piru Live Activity widget extension.
+//
+// `PiruActivityAttributes` defines two parts of the data the app and extension
+// exchange via ActivityKit:
+//
+// - **Static attributes** (this struct's stored properties): set once at
+//   `Activity.request(…)` time and immutable for the lifetime of the activity.
+//   Currently just `startTime`.
+// - **`ContentState`**: mutable per-update payload pushed via `activity.update(…)`.
+//   Drives the widget's timeline graph, progress bar, and timer labels.
+//
+// Because the app target and the widget extension can be on different versions
+// at runtime (a widget extension launched against an older activity, or vice
+// versa after an upgrade), every field on `ContentState`, `ActiveSubstanceState`,
+// and the static attributes MUST be treated as a stable, append-only contract:
+//
+// - Never remove or rename fields without a deprecation window.
+// - New fields must be optional (`Codable` decoding tolerates missing keys) or
+//   provide a default in a custom `init(from:)` — see `ActiveSubstanceState`'s
+//   `doseIntensity` for the pattern.
+#if os(iOS)
+    nonisolated struct PiruActivityAttributes: ActivityAttributes {
+        nonisolated struct ContentState: Codable, Hashable {
+            var activeSubstances: [ActiveSubstanceState]
+            var lastUpdated: Date
+        }
 
-    let startTime: Date
-}
+        let startTime: Date
+    }
+#endif
 
 nonisolated struct ActiveSubstanceState: Codable, Hashable {
     let substanceName: String

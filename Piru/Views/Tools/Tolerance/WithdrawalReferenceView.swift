@@ -102,7 +102,7 @@ struct WithdrawalReferenceView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .listStyle(.insetGrouped)
+        .insetGroupedListStyle()
         .themedPage()
         .appNavigationBar("If You Stop")
         .task(id: DoseLogService.shared.revision) {

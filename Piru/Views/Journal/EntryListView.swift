@@ -321,123 +321,125 @@ struct EntryListView: View {
         }
         .id(listIdentity)
         .listStyle(.plain)
-        .listSectionSpacing(.custom(2))
-        .themedPage()
-        .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
-        .toolbar {
-            // Two controls, Files/Mail style: the funnel is the single home for
-            // narrowing (tags + categories + routes), the ellipsis for everything
-            // view-related (grouping thumbnails, Jump to Date, Settings, Help).
-            // The Timeline grouping adds a third, leading them: the strip's
-            // display options.
-            if !isSearchSurface {
-                if grouping == .timeline {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        JournalTimelineOptionsButton(
-                            zoom: prefs.$zoom,
-                            compressGaps: prefs.$compressGaps,
-                            pkCurves: prefs.$pkCurves,
-                            showsAxis: prefs.$showsAxis,
-                            bubbleStyle: prefs.$bubbleStyle,
+        #if canImport(UIKit)
+            .listSectionSpacing(.custom(2))
+        #endif
+            .themedPage()
+            .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
+            .toolbar {
+                // Two controls, Files/Mail style: the funnel is the single home for
+                // narrowing (tags + categories + routes), the ellipsis for everything
+                // view-related (grouping thumbnails, Jump to Date, Settings, Help).
+                // The Timeline grouping adds a third, leading them: the strip's
+                // display options.
+                if !isSearchSurface {
+                    if grouping == .timeline {
+                        ToolbarItem(placement: .platformTopBarTrailing) {
+                            JournalTimelineOptionsButton(
+                                zoom: prefs.$zoom,
+                                compressGaps: prefs.$compressGaps,
+                                pkCurves: prefs.$pkCurves,
+                                showsAxis: prefs.$showsAxis,
+                                bubbleStyle: prefs.$bubbleStyle,
+                            )
+                        }
+                        ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
+                    }
+                    ToolbarItem(placement: .platformTopBarTrailing) {
+                        JournalFilterMenu(
+                            model: model,
+                            filterTags: $model.filterTags,
+                            filterCategories: $model.filterCategories,
+                            filterRoutes: $model.filterRoutes,
                         )
                     }
-                    ToolbarSpacer(.fixed, placement: .topBarTrailing)
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    JournalFilterMenu(
-                        model: model,
-                        filterTags: $model.filterTags,
-                        filterCategories: $model.filterCategories,
-                        filterRoutes: $model.filterRoutes,
-                    )
-                }
-                ToolbarSpacer(.fixed, placement: .topBarTrailing)
-                ToolbarItem(placement: .topBarTrailing) {
-                    JournalOptionsButton(grouping: $grouping, groupKey: $groupKey) { showingCalendar = true }
+                    ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
+                    ToolbarItem(placement: .platformTopBarTrailing) {
+                        JournalOptionsButton(grouping: $grouping, groupKey: $groupKey) { showingCalendar = true }
+                    }
                 }
             }
-        }
-        .overlay {
-            // Gate the empty state on the first derive having finished: on a
-            // cold launch the initial rebuild awaits the substance-store
-            // warm-up, and flashing "No Entries" at a user who has entries
-            // reads as a blink of data loss. Until then, a spinner.
-            if model.filtered.isEmpty {
-                if hasDerivedOnce {
-                    emptyState
-                } else {
-                    ProgressView()
+            .overlay {
+                // Gate the empty state on the first derive having finished: on a
+                // cold launch the initial rebuild awaits the substance-store
+                // warm-up, and flashing "No Entries" at a user who has entries
+                // reads as a blink of data loss. Until then, a spinner.
+                if model.filtered.isEmpty {
+                    if hasDerivedOnce {
+                        emptyState
+                    } else {
+                        ProgressView()
+                    }
                 }
             }
-        }
-        // Single derive driver: runs once on appear (paints fast, no animation)
-        // and re-runs whenever the dose log commits a change (an edit / add /
-        // delete — every mutation path bumps `DoseLogService.revision`),
-        // debouncing briefly and animating the diff in. Keying off the one
-        // observed Int — instead of hashing every entry's fields in `body` —
-        // keeps this view from subscribing to every property of every dose.
-        // The model's generation guard makes a newer run supersede an in-flight
-        // one, so the overlap on first appear can't corrupt state.
-        .task(id: DoseLogService.shared.revision) {
-            let isFirst = !hasLoadedOnce
-            hasLoadedOnce = true
-            if !isFirst {
-                // Animate the diff so a newly-logged session slides in and pushes
-                // the others down instead of snapping.
-                try? await Task.sleep(for: .milliseconds(100))
+            // Single derive driver: runs once on appear (paints fast, no animation)
+            // and re-runs whenever the dose log commits a change (an edit / add /
+            // delete — every mutation path bumps `DoseLogService.revision`),
+            // debouncing briefly and animating the diff in. Keying off the one
+            // observed Int — instead of hashing every entry's fields in `body` —
+            // keeps this view from subscribing to every property of every dose.
+            // The model's generation guard makes a newer run supersede an in-flight
+            // one, so the overlap on first appear can't corrupt state.
+            .task(id: DoseLogService.shared.revision) {
+                let isFirst = !hasLoadedOnce
+                hasLoadedOnce = true
+                if !isFirst {
+                    // Animate the diff so a newly-logged session slides in and pushes
+                    // the others down instead of snapping.
+                    try? await Task.sleep(for: .milliseconds(100))
+                    guard !Task.isCancelled else { return }
+                }
+                await rebuildAll(animated: !isFirst)
+                hasDerivedOnce = true
+            }
+            // Debounce the search filter: re-filtering the whole history runs on the
+            // main actor, so doing it on every keystroke stalled typing. An empty
+            // query (clearing search) regroups immediately. The `.task(id:)` cancels
+            // the prior pending filter when the text changes again.
+            .task(id: searchText) {
+                // First appear: the derive task owns the initial regroup, and it
+                // regroups with the live `searchText` when it lands — bucketing
+                // now would run against an empty `derived`.
+                guard hasDerivedOnce else { return }
+                if !searchText.isEmpty {
+                    try? await Task.sleep(for: .milliseconds(150))
+                    guard !Task.isCancelled else { return }
+                }
+                resetWindowAndRegroup()
+            }
+            .onChange(of: grouping) { resetWindowAndRegroup() }
+            .onChange(of: groupKey) { resetWindowAndRegroup() }
+            .onChange(of: model.filterSignature) { resetWindowAndRegroup() }
+            // The Timeline grouping's layouts. Waits a beat so the filter/search
+            // regroup above lands first — the timeline renders `model.filtered`
+            // whenever a filter or search is active, the raw log otherwise.
+            .task(id: timelineRebuildKey) {
+                guard grouping == .timeline else { return }
+                try? await Task.sleep(for: .milliseconds(200))
                 guard !Task.isCancelled else { return }
+                let source = (model.hasActiveFilters || !searchText.isEmpty) ? model.filtered : entries
+                await timelineModel.rebuild(
+                    entries: source,
+                    colors: substanceColors,
+                    colorMap: substanceColors.colorMap,
+                    revision: timelineRebuildKey.hashValue,
+                    zoom: prefs.zoom,
+                    compressGaps: prefs.compressGaps,
+                    pkCurves: prefs.pkCurves,
+                    showsAxis: prefs.showsAxis,
+                    bubbleStyle: prefs.bubbleStyle,
+                    showsVitals: prefs.showsVitals,
+                )
             }
-            await rebuildAll(animated: !isFirst)
-            hasDerivedOnce = true
-        }
-        // Debounce the search filter: re-filtering the whole history runs on the
-        // main actor, so doing it on every keystroke stalled typing. An empty
-        // query (clearing search) regroups immediately. The `.task(id:)` cancels
-        // the prior pending filter when the text changes again.
-        .task(id: searchText) {
-            // First appear: the derive task owns the initial regroup, and it
-            // regroups with the live `searchText` when it lands — bucketing
-            // now would run against an empty `derived`.
-            guard hasDerivedOnce else { return }
-            if !searchText.isEmpty {
-                try? await Task.sleep(for: .milliseconds(150))
-                guard !Task.isCancelled else { return }
+            .onChange(of: colorSignature) {
+                Task { await rebuildAll(animated: true) }
             }
-            resetWindowAndRegroup()
-        }
-        .onChange(of: grouping) { resetWindowAndRegroup() }
-        .onChange(of: groupKey) { resetWindowAndRegroup() }
-        .onChange(of: model.filterSignature) { resetWindowAndRegroup() }
-        // The Timeline grouping's layouts. Waits a beat so the filter/search
-        // regroup above lands first — the timeline renders `model.filtered`
-        // whenever a filter or search is active, the raw log otherwise.
-        .task(id: timelineRebuildKey) {
-            guard grouping == .timeline else { return }
-            try? await Task.sleep(for: .milliseconds(200))
-            guard !Task.isCancelled else { return }
-            let source = (model.hasActiveFilters || !searchText.isEmpty) ? model.filtered : entries
-            await timelineModel.rebuild(
-                entries: source,
-                colors: substanceColors,
-                colorMap: substanceColors.colorMap,
-                revision: timelineRebuildKey.hashValue,
-                zoom: prefs.zoom,
-                compressGaps: prefs.compressGaps,
-                pkCurves: prefs.pkCurves,
-                showsAxis: prefs.showsAxis,
-                bubbleStyle: prefs.bubbleStyle,
-                showsVitals: prefs.showsVitals,
-            )
-        }
-        .onChange(of: colorSignature) {
-            Task { await rebuildAll(animated: true) }
-        }
-        .sheet(isPresented: $showingCalendar) {
-            calendarSheet(proxy: proxy)
-                .presentationDetents([.medium])
-                .presentationBackground(.regularMaterial)
-        }
-        .sessionCardActions(cardActions, colors: substanceColors)
+            .sheet(isPresented: $showingCalendar) {
+                calendarSheet(proxy: proxy)
+                    .presentationDetents([.medium])
+                    .presentationBackground(.regularMaterial)
+            }
+            .sessionCardActions(cardActions, colors: substanceColors)
     }
 
     /// The List is recreated (scroll reset, fresh rows) when the view changes;
@@ -578,7 +580,7 @@ struct EntryListView: View {
                 },
             )
             .navigationTitle("Jump to Date")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { showingCalendar = false } label: { Image(systemName: "xmark") }

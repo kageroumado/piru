@@ -1,6 +1,5 @@
 import SwiftData
 import SwiftUI
-import UIKit
 
 struct SubstanceLibraryView: View {
     @Binding var searchText: String
@@ -25,7 +24,7 @@ struct SubstanceLibraryView: View {
                         SubstanceSearchResultsList(searchText: searchText)
                     }
                 }
-                .listStyle(.insetGrouped)
+                .insetGroupedListStyle()
                 .themedPage()
             }
         }
@@ -456,29 +455,31 @@ struct SubstanceCategoryListView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .listStyle(.insetGrouped)
+        .insetGroupedListStyle()
         .themedPage()
         .task(id: listSignature) {
             await SubstanceStore.shared.ensureAllLoaded()
             await rebuildList()
         }
         .navigationTitle(Text(title))
-        .navigationBarTitleDisplayMode(.large)
-        .toolbar {
-            if isBrowse {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Menu {
-                        Picker("Sort", selection: $sortMode) {
-                            Label("Popularity", systemImage: "chart.bar.fill").tag(SortMode.popularity)
-                            Label("Name", systemImage: "textformat").tag(SortMode.name)
+        #if canImport(UIKit)
+            .navigationBarTitleDisplayMode(.large)
+        #endif
+            .toolbar {
+                if isBrowse {
+                    ToolbarItem(placement: .platformTopBarTrailing) {
+                        Menu {
+                            Picker("Sort", selection: $sortMode) {
+                                Label("Popularity", systemImage: "chart.bar.fill").tag(SortMode.popularity)
+                                Label("Name", systemImage: "textformat").tag(SortMode.name)
+                            }
+                        } label: {
+                            Image(systemName: "arrow.up.arrow.down")
+                                .accessibilityLabel(Text("Sort"))
                         }
-                    } label: {
-                        Image(systemName: "arrow.up.arrow.down")
-                            .accessibilityLabel(Text("Sort"))
                     }
                 }
             }
-        }
     }
 }
 

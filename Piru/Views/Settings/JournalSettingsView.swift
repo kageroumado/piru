@@ -86,7 +86,7 @@ struct JournalSettingsView: View {
         }
         .themedPage()
         .navigationTitle("Journal")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
     }
 
     private var boundaryHourLabel: String {

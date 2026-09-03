@@ -33,13 +33,13 @@ struct DescriptorPickerView: View {
                 }
             }
         }
-        .listStyle(.insetGrouped)
-        .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search effects"))
+        .insetGroupedListStyle()
+        .searchable(text: $query, placement: .automatic, prompt: Text("Search effects"))
         .navigationTitle("Descriptors")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
             if !selection.isEmpty {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .platformTopBarTrailing) {
                     Button("Clear") { selection.removeAll() }
                 }
             }

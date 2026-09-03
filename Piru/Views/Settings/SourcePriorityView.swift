@@ -25,9 +25,9 @@ struct SourcePriorityView: View {
         }
         // Permanent edit mode: the reorder grips are always visible, and with no
         // delete/toggle the row is unmistakably about order.
-        .environment(\.editMode, .constant(.active))
+        .permanentEditMode()
         .navigationTitle("Source Priority")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button("Reset") {

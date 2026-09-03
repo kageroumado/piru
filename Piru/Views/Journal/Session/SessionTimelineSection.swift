@@ -63,7 +63,9 @@ struct SessionTimelineSection: View {
         }
         // The screen's 16pt section gap plus the row's own 8pt bottom margin
         // reads as a hole below a fill-less chart; tighten the gap to compensate.
+        #if canImport(UIKit)
         .listSectionSpacing(12)
+        #endif
     }
 }
 

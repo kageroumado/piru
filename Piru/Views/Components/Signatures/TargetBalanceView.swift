@@ -156,7 +156,7 @@ private struct BalanceArc: View {
     private func handle(center: CGPoint, radius: CGFloat, width _: CGFloat) -> some View {
         let position = point(center: center, radius: radius, angle: angle(focus.position))
         return Circle()
-            .fill(Color(.systemBackground))
+            .fill(Color.platformSystemBackground)
             .overlay(Circle().strokeBorder(accent, lineWidth: 4))
             .frame(width: IconSize.iconMini, height: IconSize.iconMini)
             .offset(x: position.x - 11, y: position.y - 11)

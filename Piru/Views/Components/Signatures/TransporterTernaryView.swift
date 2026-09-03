@@ -290,7 +290,7 @@ private struct TernaryPlot: View {
         let filled = filled || isSelected
         let tint = point.isFocus ? accent : Theme.secondaryLabel
         let ring: Color = if point.isFocus || isSelected {
-            Color(.systemBackground)
+            Color.platformSystemBackground
         } else {
             tint.opacity(filled ? 0 : 0.35)
         }

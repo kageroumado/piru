@@ -2,9 +2,6 @@ import QuickLook
 import SwiftUI
 import UIKit
 
-/// A transparent overlay whose `UIView` is handed back so QuickLook can zoom its
-/// open/close transition out of (and back into) the image thumbnail. Shared by
-/// ``SessionShareSheet`` and ``SubstanceShareSheet``.
 struct ZoomSourceView: UIViewRepresentable {
     let onResolve: (UIView) -> Void
 
@@ -19,12 +16,7 @@ struct ZoomSourceView: UIViewRepresentable {
     func updateUIView(_: UIView, context _: Context) {}
 }
 
-/// Presents the session image full-screen in `QLPreviewController` — the system
-/// viewer with Markup (annotate/crop), rotate, share and print — zooming out of
-/// a source thumbnail, on an ultra-thin-material backdrop rather than opaque black.
 enum ImageQuickLook {
-    /// QuickLook holds its delegate/dataSource weakly, so retain the coordinator
-    /// for the lifetime of the presentation.
     private static var coordinator: Coordinator?
 
     @MainActor
@@ -77,19 +69,9 @@ enum ImageQuickLook {
     }
 }
 
-/// A `QLPreviewController` that wears an ultra-thin material backdrop *from the
-/// first frame*. QuickLook paints an opaque black background as it appears, so
-/// swapping it only at present-completion lets that black flash through the zoom
-/// transition. Installing the material in `viewWillAppear` — and re-clearing
-/// across the first few layout passes to catch QuickLook's async content-
-/// background repaint — keeps the backdrop material throughout, while the bounded
-/// clear window leaves the later Markup toolbar's own chrome untouched.
 private final class MaterialPreviewController: QLPreviewController {
-    private static let backdropTag = 0x5170 // arbitrary, stable marker
+    private static let backdropTag = 0x5170
 
-    /// Layout passes still owed an opaque-background sweep. Seeded on appear and
-    /// counted down so we only fight QuickLook during its initial layout, not for
-    /// the controller's whole life (which would strip Markup chrome).
     private var pendingClears = 0
 
     override func viewWillAppear(_ animated: Bool) {
@@ -115,7 +97,6 @@ private final class MaterialPreviewController: QLPreviewController {
         view.insertSubview(blur, at: 0)
     }
 
-    /// Recursively clear every opaque backing color, skipping our own blur.
     private func clearOpaqueBackgrounds(_ view: UIView) {
         guard view.tag != Self.backdropTag else { return }
         if let backing = view.backgroundColor, backing != .clear {

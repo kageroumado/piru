@@ -1,6 +1,9 @@
 import SwiftData
 import SwiftUI
-import UIKit
+
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 /// The staged doses as a grouped-style card (matching the system inset-grouped
 /// list): one row per dose, expanding inline into its editor — never a second
@@ -50,7 +53,7 @@ struct TrayStagedListCard: View {
             }
         }
         .background(
-            Color(.secondarySystemGroupedBackground),
+            Color.platformSecondarySystemGroupedBackground,
             in: RoundedRectangle(cornerRadius: DoseTrayMetrics.cardCornerRadius, style: .continuous),
         )
     }
@@ -207,13 +210,7 @@ struct TrayMetaChips: View {
         }
         .alert("Location access is off", isPresented: $showLocationDeniedAlert) {
             Button("Open Settings") {
-                // UIApplication directly, not `@Environment(\.openURL)`: the
-                // environment's action wrapper compares as changed on every
-                // parent pass, so reading it re-rendered these chips whenever
-                // the dock body ran (`_printChanges`: `_openURL changed`).
-                if let url = URL(string: UIApplication.openSettingsURLString) {
-                    UIApplication.shared.open(url)
-                }
+                openPlatformSettings()
             }
             Button("Cancel", role: .cancel) {}
         } message: {
@@ -245,7 +242,7 @@ struct TrayMetaChips: View {
         .padding(.vertical, Spacing.lg)
         .background(
             model.time.isNow
-                ? AnyShapeStyle(Color(.secondarySystemFill))
+                ? AnyShapeStyle(Color.platformSecondarySystemFill)
                 : AnyShapeStyle(Color.cautionAccent.opacity(Theme.Opacity.tintActive)),
             in: Capsule(),
         )
@@ -333,7 +330,7 @@ struct TrayMetaChips: View {
             .padding(.horizontal, 14)
             .padding(.vertical, Spacing.lg)
             .background(
-                model.tags.isEmpty ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)),
+                model.tags.isEmpty ? AnyShapeStyle(Color.platformSecondarySystemFill) : AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)),
                 in: Capsule(),
             )
             .foregroundStyle(model.tags.isEmpty ? AnyShapeStyle(.primary) : AnyShapeStyle(Theme.accent))
@@ -373,7 +370,7 @@ struct TrayMetaChips: View {
         .padding(.horizontal, 14)
         .padding(.vertical, Spacing.lg)
         .background(
-            model.location == nil ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)),
+            model.location == nil ? AnyShapeStyle(Color.platformSecondarySystemFill) : AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)),
             in: Capsule(),
         )
         .foregroundStyle(model.location == nil ? AnyShapeStyle(.primary) : AnyShapeStyle(Theme.accent))
@@ -459,7 +456,7 @@ struct TrayTagsPopover: View {
                         .padding(.horizontal, 11)
                         .padding(.vertical, Spacing.sm)
                         .background(
-                            on ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Color(.secondarySystemFill)),
+                            on ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Color.platformSecondarySystemFill),
                             in: Capsule(),
                         )
                         .foregroundStyle(on ? .white : .primary)
@@ -501,7 +498,7 @@ struct TraySwipeRow<Content: View>: View {
                 // the white card a white surface sliding is invisible.
                 .background {
                     RoundedRectangle(cornerRadius: DoseTrayMetrics.cardCornerRadius, style: .continuous)
-                        .fill(Color(.secondarySystemFill))
+                        .fill(Color.platformSecondarySystemFill)
                         .opacity(offset < -1 ? 1 : 0)
                 }
                 .offset(x: offset)

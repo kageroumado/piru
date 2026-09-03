@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		06C3E897629B462490951D1C /* PiruWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 51DE9CFA11C848FCA878214C /* PiruWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		06C3E897629B462490951D1C /* PiruWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 51DE9CFA11C848FCA878214C /* PiruWidget.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0B1576A92FEBA88900517683 /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 0B1576A82FEBA88900517683 /* AsyncAlgorithms */; };
 		0B33C3993025783600182A68 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B793F0F2F55446700FB3EE1 /* WidgetKit.framework */; };
 		0B33C39A3025783600182A68 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B793F112F55446700FB3EE1 /* SwiftUI.framework */; };
-		0B33C3A53025783800182A68 /* PiruComplicationExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0B33C3983025783600182A68 /* PiruComplicationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0B33C3A53025783800182A68 /* PiruComplicationExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0B33C3983025783600182A68 /* PiruComplicationExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0B793F102F55446700FB3EE1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B793F0F2F55446700FB3EE1 /* WidgetKit.framework */; };
 		0B793F122F55446700FB3EE1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B793F112F55446700FB3EE1 /* SwiftUI.framework */; };
-		0B793F1F2F55446900FB3EE1 /* PiruLiveActivityExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0B793F0D2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		0B7A7C0000000000000000A3 /* PiruWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0B3399093025398800182A68 /* PiruWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0B793F1F2F55446900FB3EE1 /* PiruLiveActivityExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0B793F0D2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0B7A7C0000000000000000A3 /* PiruWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0B3399093025398800182A68 /* PiruWatch Watch App.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0B7CFB712FC48B84007EE957 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 0B7CFB702FC48B84007EE957 /* GRDB */; };
 /* End PBXBuildFile section */
 
@@ -829,7 +829,25 @@
 				CODE_SIGN_ENTITLEMENTS = Piru/Piru.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 47;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_CAMERA = YES;
+				ENABLE_RESOURCE_ACCESS_LOCATION = YES;
+				"EXCLUDED_SOURCE_FILE_NAMES[sdk=iphoneos*]" = (
+					"$(inherited)",
+					"*+macOS.swift",
+				);
+				"EXCLUDED_SOURCE_FILE_NAMES[sdk=iphonesimulator*]" = (
+					"$(inherited)",
+					"*+macOS.swift",
+				);
+				"EXCLUDED_SOURCE_FILE_NAMES[sdk=macosx*]" = (
+					"$(inherited)",
+					"*+iOS.swift",
+					"$(SRCROOT)/Piru/iOS/*",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
@@ -845,10 +863,15 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -867,7 +890,25 @@
 				CODE_SIGN_ENTITLEMENTS = Piru/Piru.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 47;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_CAMERA = YES;
+				ENABLE_RESOURCE_ACCESS_LOCATION = YES;
+				"EXCLUDED_SOURCE_FILE_NAMES[sdk=iphoneos*]" = (
+					"$(inherited)",
+					"*+macOS.swift",
+				);
+				"EXCLUDED_SOURCE_FILE_NAMES[sdk=iphonesimulator*]" = (
+					"$(inherited)",
+					"*+macOS.swift",
+				);
+				"EXCLUDED_SOURCE_FILE_NAMES[sdk=macosx*]" = (
+					"$(inherited)",
+					"*+iOS.swift",
+					"$(SRCROOT)/Piru/iOS/*",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
@@ -883,10 +924,15 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;

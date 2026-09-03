@@ -93,9 +93,11 @@ struct InventoryListView: View {
     @Environment(\.modelContext) private var modelContext
 
     @Bindable private var model = InventoryListModel.shared
-    /// Scoped to this `List` (not the whole navigation stack) so entering it from
-    /// the menu's "Edit" doesn't put unrelated screens into edit mode.
-    @State private var editMode: EditMode = .inactive
+    // Scoped to this `List` (not the whole navigation stack) so entering it from
+    // the menu's "Edit" doesn't put unrelated screens into edit mode.
+    #if canImport(UIKit)
+        @State private var editMode: EditMode = .inactive
+    #endif
     /// A plain local sheet rather than a `SheetRoute`: the editor takes the model
     /// and its current section list as inputs, neither of which a `Codable`
     /// deep-linkable route can carry.
@@ -122,29 +124,31 @@ struct InventoryListView: View {
         }
         .background(Theme.background)
         .navigationTitle("Inventory")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar { toolbarContent }
         // Always-visible rather than pull-to-reveal: with dozens of tracked items
         // search is the primary way in, and a hidden field reads as "there is no
         // search here".
-        .searchable(text: $model.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search Inventory"))
-        .fullScreenCover(isPresented: $showsScanner) {
-            LabelScannerView { reading in
-                Task {
-                    let identified = await BoxIdentifier.identify(reading)
-                    navigator.present(.inventoryItemForm(
-                        id: nil,
-                        prefillSubstance: identified.canonicalName,
-                        prefill: identified.inventoryPrefill,
-                    ))
+        .searchable(text: $model.searchText, placement: .automatic, prompt: Text("Search Inventory"))
+        #if os(iOS)
+            .fullScreenCover(isPresented: $showsScanner) {
+                LabelScannerView { reading in
+                    Task {
+                        let identified = await BoxIdentifier.identify(reading)
+                        navigator.present(.inventoryItemForm(
+                            id: nil,
+                            prefillSubstance: identified.canonicalName,
+                            prefill: identified.inventoryPrefill,
+                        ))
+                    }
                 }
             }
-        }
-        .sheet(isPresented: $showsClassOrder) {
-            // Seeded with the manager's *current* section order, so the editor
-            // opens showing exactly what's on screen behind it.
-            InventoryClassOrderView(model: model, categories: sections.compactMap(\.category))
-        }
+        #endif
+            .sheet(isPresented: $showsClassOrder) {
+                // Seeded with the manager's *current* section order, so the editor
+                // opens showing exactly what's on screen behind it.
+                InventoryClassOrderView(model: model, categories: sections.compactMap(\.category))
+            }
     }
 
     // MARK: Empty states
@@ -203,13 +207,15 @@ struct InventoryListView: View {
                     }
                 }
             }
-            .listStyle(.insetGrouped)
+            .insetGroupedListStyle()
             .scrollContentBackground(.hidden)
-            .listSectionSpacing(16)
-            .environment(\.editMode, $editMode)
-            .safeAreaBar(edge: .top) {
-                if model.hasActiveFilters { InventoryFilterBar(model: model) }
-            }
+            #if canImport(UIKit)
+                .listSectionSpacing(16)
+                .environment(\.editMode, $editMode)
+            #endif
+                .safeAreaBar(edge: .top) {
+                    if model.hasActiveFilters { InventoryFilterBar(model: model) }
+                }
         }
     }
 
@@ -274,34 +280,54 @@ struct InventoryListView: View {
     /// so nothing competes with getting back out.
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
-        if editMode == .active {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Done") { editMode = .inactive }
-                    .fontWeight(.semibold)
+        #if canImport(UIKit)
+            if editMode == .active {
+                ToolbarItem(placement: .platformTopBarTrailing) {
+                    Button("Done") { editMode = .inactive }
+                        .fontWeight(.semibold)
+                }
+            } else {
+                if !items.isEmpty {
+                    ToolbarItem(placement: .platformTopBarTrailing) {
+                        InventoryOptionsMenu(
+                            model: model,
+                            categories: model.availableCategories(in: items),
+                            editMode: $editMode,
+                            onArrangeClasses: { showsClassOrder = true },
+                        )
+                    }
+                    ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
+                }
+                if DataScannerViewController.isSupported {
+                    ToolbarItem(placement: .platformTopBarTrailing) {
+                        Button {
+                            showsScanner = true
+                        } label: {
+                            Image(systemName: "barcode.viewfinder")
+                        }
+                        .accessibilityLabel("Scan a box")
+                    }
+                }
+                ToolbarItem(placement: .platformTopBarTrailing) {
+                    Button {
+                        navigator.present(.inventoryItemForm(id: nil))
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    .accessibilityLabel("Add Inventory Item")
+                }
             }
-        } else {
+        #else
             if !items.isEmpty {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .automatic) {
                     InventoryOptionsMenu(
                         model: model,
                         categories: model.availableCategories(in: items),
-                        editMode: $editMode,
                         onArrangeClasses: { showsClassOrder = true },
                     )
                 }
-                ToolbarSpacer(.fixed, placement: .topBarTrailing)
             }
-            if DataScannerViewController.isSupported {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showsScanner = true
-                    } label: {
-                        Image(systemName: "barcode.viewfinder")
-                    }
-                    .accessibilityLabel("Scan a box")
-                }
-            }
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .automatic) {
                 Button {
                     navigator.present(.inventoryItemForm(id: nil))
                 } label: {
@@ -309,7 +335,7 @@ struct InventoryListView: View {
                 }
                 .accessibilityLabel("Add Inventory Item")
             }
-        }
+        #endif
     }
 
     // MARK: Actions

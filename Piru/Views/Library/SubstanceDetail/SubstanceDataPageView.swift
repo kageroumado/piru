@@ -32,7 +32,7 @@ struct SubstanceDataPageView: View {
                 List {
                     sections(for: substance)
                 }
-                .listStyle(.insetGrouped)
+                .insetGroupedListStyle()
                 .task(id: name) {
                     if let full = SubstanceLibrary.resolveFull(name) {
                         resolved = full
@@ -51,7 +51,7 @@ struct SubstanceDataPageView: View {
             }
         }
         .navigationTitle(Text(section.pageTitle))
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
     }
 
     @ViewBuilder

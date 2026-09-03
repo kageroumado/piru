@@ -2,31 +2,35 @@ import BackgroundTasks
 import os
 import SwiftData
 import SwiftUI
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#endif
 import UserNotifications
 import WidgetKit
 
 private let appLogger = Logger(subsystem: "dev.yumeji.piru", category: "App")
 
-/// A UIKit background-execution assertion that ends itself exactly once —
-/// explicitly via ``end()`` when the protected work finishes, or from the
-/// system's expiration handler if time runs out first.
-@MainActor
-private final class BackgroundTaskAssertion {
-    private var id: UIBackgroundTaskIdentifier = .invalid
+// A UIKit background-execution assertion that ends itself exactly once —
+// explicitly via ``end()`` when the protected work finishes, or from the
+// system's expiration handler if time runs out first.
+#if canImport(UIKit)
+    @MainActor
+    private final class BackgroundTaskAssertion {
+        private var id: UIBackgroundTaskIdentifier = .invalid
 
-    init(name: String) {
-        id = UIApplication.shared.beginBackgroundTask(withName: name) { [weak self] in
-            self?.end()
+        init(name: String) {
+            id = UIApplication.shared.beginBackgroundTask(withName: name) { [weak self] in
+                self?.end()
+            }
+        }
+
+        func end() {
+            guard id != .invalid else { return }
+            UIApplication.shared.endBackgroundTask(id)
+            id = .invalid
         }
     }
-
-    func end() {
-        guard id != .invalid else { return }
-        UIApplication.shared.endBackgroundTask(id)
-        id = .invalid
-    }
-}
+#endif
 
 // MARK: - App
 
@@ -89,19 +93,23 @@ struct PiruApp: App {
         // Activate the Apple Watch sync: push the favorites/recents manifest to the wrist
         // and receive watch-logged doses through the canonical insert path. No-op where
         // WatchConnectivity is unsupported (iPad, Mac). See Specs/apple-watch-companion.md.
-        PhoneSyncCoordinator.shared.configure(container: container)
+        #if os(iOS)
+            PhoneSyncCoordinator.shared.configure(container: container)
+        #endif
 
         // BackgroundTasks is unsupported on iOS-apps-on-Mac — register raises an
         // uncatchable NSInternalInconsistencyException → SIGABRT before any window.
-        if !ProcessInfo.processInfo.isiOSAppOnMac {
-            BGTaskScheduler.shared.register(
-                forTaskWithIdentifier: LiveActivityManager.backgroundTaskIdentifier,
-                using: .main,
-            ) { task in
-                guard let task = task as? BGAppRefreshTask else { return }
-                LiveActivityManager.shared.handleBackgroundRefresh(task)
+        #if os(iOS)
+            if !ProcessInfo.processInfo.isiOSAppOnMac {
+                BGTaskScheduler.shared.register(
+                    forTaskWithIdentifier: LiveActivityManager.backgroundTaskIdentifier,
+                    using: .main,
+                ) { task in
+                    guard let task = task as? BGAppRefreshTask else { return }
+                    LiveActivityManager.shared.handleBackgroundRefresh(task)
+                }
             }
-        }
+        #endif
     }
 
     var body: some Scene {
@@ -226,18 +234,26 @@ struct PiruApp: App {
                 // out keyboard-avoiding — the QuickLog dock floats one keyboard
                 // height above the bottom with a dead touch zone below it
                 // (TestFlight feedback on build 2.2 (30), iOS 26.5.2).
-                UIApplication.shared.sendAction(
-                    #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil,
-                )
+                #if canImport(UIKit)
+                    UIApplication.shared.sendAction(
+                        #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil,
+                    )
+                #endif
                 let context = container.mainContext
                 // Hold a background-execution assertion across the await so
                 // iOS can't suspend the process mid-write; ended on completion
                 // or expiration, whichever comes first.
-                let assertion = BackgroundTaskAssertion(name: "AutomaticBackup")
-                Task {
-                    defer { assertion.end() }
-                    await BackupManager.shared.runAutomaticBackup(context: context)
-                }
+                #if canImport(UIKit)
+                    let assertion = BackgroundTaskAssertion(name: "AutomaticBackup")
+                    Task {
+                        defer { assertion.end() }
+                        await BackupManager.shared.runAutomaticBackup(context: context)
+                    }
+                #else
+                    Task {
+                        await BackupManager.shared.runAutomaticBackup(context: context)
+                    }
+                #endif
             }
         }
     }

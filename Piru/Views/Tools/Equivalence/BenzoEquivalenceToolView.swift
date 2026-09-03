@@ -104,7 +104,7 @@ struct BenzoEquivalenceToolView: View {
                     pickerButton(for: .from, selection: from)
                     HStack(spacing: 0) {
                         TextField("0", text: $doseText)
-                            .keyboardType(.decimalPad)
+                            .decimalKeyboard()
                             .multilineTextAlignment(.trailing)
                             .frame(width: 64)
                             .padding(.horizontal, Spacing.lg)
@@ -361,11 +361,11 @@ private struct BenzoPickerSheet: View {
                 }
                 .listRowBackground(CardBackground())
             }
-            .listStyle(.insetGrouped)
+            .insetGroupedListStyle()
             .themedPage()
             .searchable(text: $query, prompt: Text("Search benzodiazepines"))
             .navigationTitle("Select Benzodiazepine")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }

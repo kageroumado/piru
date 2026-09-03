@@ -54,7 +54,7 @@ struct UsageStatsView: View {
         .background(Theme.background)
         .toolbar {
             if !allEntries.isEmpty {
-                ToolbarItem(placement: .topBarTrailing) { filterMenu }
+                ToolbarItem(placement: .platformTopBarTrailing) { filterMenu }
             }
         }
         .sheet(isPresented: $showingSubstanceSheet) {

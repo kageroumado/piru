@@ -620,7 +620,7 @@ struct HelpView: View {
     private var copySection: some View {
         Section {
             Button {
-                UIPasteboard.general.string = generateSummaryText()
+                PlatformPasteboard.copy(generateSummaryText())
                 copiedSummary = true
                 Task {
                     try? await Task.sleep(for: UITiming.copiedFlash)

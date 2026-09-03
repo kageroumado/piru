@@ -177,7 +177,7 @@ struct DockShortcutPicker: View {
             }
         }
         .navigationTitle("Add Shortcut")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
     }
 
     private var availableKinds: [DockShortcut] {
@@ -275,7 +275,7 @@ struct DockLabelForm: View {
             }
         }
         .navigationTitle(index == nil ? "Add Label" : "Edit Label")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button {

@@ -51,9 +51,9 @@ struct SandboxSubstancePicker: View {
                     ContentUnavailableView.search(text: trimmedQuery)
                 }
             }
-            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search substances")
+            .searchable(text: $query, placement: .automatic, prompt: "Search substances")
             .navigationTitle("Pick a substance")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {

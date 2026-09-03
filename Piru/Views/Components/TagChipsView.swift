@@ -70,7 +70,7 @@ struct TagEditorView: View {
                 TextField("Add tag...", text: $newTag)
                     .font(.subheadline)
                     .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
+                    .neverAutocapitalize()
                     .onSubmit { addTag() }
                 if !newTag.isEmpty {
                     Button("Add") { addTag() }
@@ -91,7 +91,7 @@ struct TagEditorView: View {
                                 .font(.caption)
                                 .padding(.horizontal, Spacing.md)
                                 .padding(.vertical, Spacing.xs)
-                                .background(Color(.secondarySystemFill))
+                                .background(Color.platformSecondarySystemFill)
                                 .foregroundStyle(Theme.secondaryLabel)
                                 .clipShape(Capsule())
                         }

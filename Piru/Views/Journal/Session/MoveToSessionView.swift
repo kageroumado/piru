@@ -120,7 +120,7 @@ struct MoveToSessionView: View {
             }
             .background(Theme.background)
             .navigationTitle("Move \(dose.substance)")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .navigationDestination(item: $retimeTarget) { session in
                 RetimeMoveView(dose: dose, session: session) { newDate in
                     let previousTimestamp = dose.timestamp
@@ -291,7 +291,7 @@ private struct RetimeMoveView: View {
             }
         }
         .navigationTitle("Set Time")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Move") {

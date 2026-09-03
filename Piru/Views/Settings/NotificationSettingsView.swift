@@ -1,6 +1,5 @@
 import SwiftData
 import SwiftUI
-import UIKit
 import UserNotifications
 
 /// The unified notification management screen: every notification type the app
@@ -49,7 +48,7 @@ struct NotificationSettingsView: View {
         }
         .themedPage()
         .navigationTitle("Notifications")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .task { await refresh() }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { Task { await refresh() } }
@@ -289,7 +288,7 @@ struct NotificationTypeDetailSheet: View {
         }
         .themedPage()
         .navigationTitle(category.title)
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
     }
 
     private var typesSection: some View {
@@ -446,9 +445,7 @@ private struct NotificationPermissionSection: View {
                         .accessibilityHidden(true)
                 }
                 Button {
-                    if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                        openURL(url)
-                    }
+                    openNotificationSettings()
                 } label: {
                     Label("Open Settings", systemImage: "gear")
                 }

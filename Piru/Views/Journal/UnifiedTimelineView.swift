@@ -70,7 +70,7 @@ struct UnifiedTimelineView: View {
             .background(Theme.background)
             .simultaneousGesture(magnification)
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .platformTopBarTrailing) {
                     TimelineOptionsMenu(
                         zoom: $zoom,
                         compressGaps: $compressGaps,
@@ -81,7 +81,7 @@ struct UnifiedTimelineView: View {
                         Image(systemName: "slider.horizontal.3")
                     }
                 }
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .platformTopBarTrailing) {
                     Button {
                         showingCalendar = true
                     } label: {
@@ -138,7 +138,7 @@ struct UnifiedTimelineView: View {
                 },
             )
             .navigationTitle("Jump to Date")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { showingCalendar = false } label: { Image(systemName: "xmark") }

@@ -102,7 +102,7 @@ struct DoseTierStrip: View {
                 .padding(.horizontal, Spacing.xxs)
                 .background(
                     RoundedRectangle(cornerRadius: Theme.CornerRadius.inner)
-                        .fill(isSelected ? accent.opacity(0.12) : Color(.tertiarySystemFill)),
+                        .fill(isSelected ? accent.opacity(0.12) : Color.platformTertiarySystemFill),
                 )
                 // The value + name Texts combine into "Threshold, 30" without a
                 // custom label (which would mint a generic "%@, %@" catalog key);

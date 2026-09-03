@@ -101,74 +101,78 @@ struct EntryDetailView: View {
         }
         .scrollContentBackground(.hidden)
         .contentMargins(.top, 0, for: .scrollContent)
-        .listSectionSpacing(20)
-        .background(Theme.background)
-        // Keep the draft amount/unit synced with the by-volume fields in drink mode.
-        .onChange(of: draft.byVolumeGrams(capability: byVolumeCapability)) { draft.syncByVolumeAmount(capability: byVolumeCapability) }
-        .onChange(of: draft.byVolumeMode) { if draft.byVolumeMode { draft.syncByVolumeAmount(capability: byVolumeCapability) } }
-        .onChange(of: draft.volumeUnit) { old, new in
-            ByVolumeDefaults.preferredVolumeUnit = new
-            guard let value = Double(draft.volumeText.replacingOccurrences(of: ",", with: ".")), value > 0 else { return }
-            draft.volumeText = ByVolumeDefaults.format(Measurement(value: value, unit: old).converted(to: new).value)
-        }
-        .navigationTitle(DoseTitle.resolve(for: entry))
-        .navigationBarTitleDisplayMode(.large)
-        .animation(.snappy(duration: 0.28), value: isEditing)
-        .toolbar { toolbarContent }
-        .confirmationDialog(
-            "Delete this entry?",
-            isPresented: $showingDeleteConfirmation,
-            titleVisibility: .visible,
-        ) {
-            Button("Delete", role: .destructive) {
-                deleteEntry()
+        #if canImport(UIKit)
+            .listSectionSpacing(20)
+        #endif
+            .background(Theme.background)
+            // Keep the draft amount/unit synced with the by-volume fields in drink mode.
+            .onChange(of: draft.byVolumeGrams(capability: byVolumeCapability)) { draft.syncByVolumeAmount(capability: byVolumeCapability) }
+            .onChange(of: draft.byVolumeMode) { if draft.byVolumeMode { draft.syncByVolumeAmount(capability: byVolumeCapability) } }
+            .onChange(of: draft.volumeUnit) { old, new in
+                ByVolumeDefaults.preferredVolumeUnit = new
+                guard let value = Double(draft.volumeText.replacingOccurrences(of: ",", with: ".")), value > 0 else { return }
+                draft.volumeText = ByVolumeDefaults.format(Measurement(value: value, unit: old).converted(to: new).value)
             }
-        } message: {
-            Text("\(entry.amount.doseFormatted) \(entry.unit) \(CustomSubstanceStore.shared.displayName(for: entry.substance)) on \(entry.timestamp.formatted(date: .abbreviated, time: .shortened))")
-        }
-        .sheet(isPresented: $showColorPicker) {
-            SubstanceColorPickerView(
-                substanceName: entry.substance,
-                takenColors: Array(substanceColors).takenColorMap,
-            ) { hex in
-                if let existing = substanceColors.first(where: { $0.substance.lowercased() == entry.substance.lowercased() }) {
-                    existing.hexColor = hex
-                } else {
-                    modelContext.insert(SubstanceColor(substance: entry.substance, hexColor: hex))
+            .navigationTitle(DoseTitle.resolve(for: entry))
+        #if canImport(UIKit)
+            .navigationBarTitleDisplayMode(.large)
+        #endif
+            .animation(.snappy(duration: 0.28), value: isEditing)
+            .toolbar { toolbarContent }
+            .confirmationDialog(
+                "Delete this entry?",
+                isPresented: $showingDeleteConfirmation,
+                titleVisibility: .visible,
+            ) {
+                Button("Delete", role: .destructive) {
+                    deleteEntry()
                 }
-                showColorPicker = false
+            } message: {
+                Text("\(entry.amount.doseFormatted) \(entry.unit) \(CustomSubstanceStore.shared.displayName(for: entry.substance)) on \(entry.timestamp.formatted(date: .abbreviated, time: .shortened))")
             }
-            .presentationDetents([.large])
-        }
-        .sheet(isPresented: $showLocationPicker) {
-            LocationPickerView { picked in draft.location = picked }
-        }
-        .task {
-            // Resolve the full substance record once — it feeds the dose ladder,
-            // unit/route/salt lists, and live preview. The `substanceInfo == nil`
-            // guard below keeps this from re-running on every body pass and every
-            // keystroke while editing — `resolveFull` is a blocking lookup.
-            await SubstanceStore.shared.ensureAllLoaded()
-            if substanceInfo == nil {
-                substanceInfo = SubstanceLibrary.resolveFull(entry.substance)
+            .sheet(isPresented: $showColorPicker) {
+                SubstanceColorPickerView(
+                    substanceName: entry.substance,
+                    takenColors: Array(substanceColors).takenColorMap,
+                ) { hex in
+                    if let existing = substanceColors.first(where: { $0.substance.lowercased() == entry.substance.lowercased() }) {
+                        existing.hexColor = hex
+                    } else {
+                        modelContext.insert(SubstanceColor(substance: entry.substance, hexColor: hex))
+                    }
+                    showColorPicker = false
+                }
+                .presentationDetents([.large])
             }
-            // A row's Edit action opens this screen straight into edit mode.
-            // Consumed only after `substanceInfo` resolves — the draft's
-            // by-volume seeding reads it.
-            if editing.pendingEditEntryID == entry.id {
-                editing.pendingEditEntryID = nil
-                beginEditing()
+            .sheet(isPresented: $showLocationPicker) {
+                LocationPickerView { picked in draft.location = picked }
             }
-            // The session's worst interaction, for the "Part of Session" echo.
-            // One batch check per screen — not per body pass.
-            if sessionInteraction == nil, let doses = entry.session?.doses, doses.count >= 2 {
-                let names = Array(Set(doses.map(\.substance)))
-                if names.count >= 2 {
-                    sessionInteraction = InteractionChecker.checkBatch(names, against: [])
-                        .max { $0.severity.rawValue < $1.severity.rawValue }
+            .task {
+                // Resolve the full substance record once — it feeds the dose ladder,
+                // unit/route/salt lists, and live preview. The `substanceInfo == nil`
+                // guard below keeps this from re-running on every body pass and every
+                // keystroke while editing — `resolveFull` is a blocking lookup.
+                await SubstanceStore.shared.ensureAllLoaded()
+                if substanceInfo == nil {
+                    substanceInfo = SubstanceLibrary.resolveFull(entry.substance)
+                }
+                // A row's Edit action opens this screen straight into edit mode.
+                // Consumed only after `substanceInfo` resolves — the draft's
+                // by-volume seeding reads it.
+                if editing.pendingEditEntryID == entry.id {
+                    editing.pendingEditEntryID = nil
+                    beginEditing()
+                }
+                // The session's worst interaction, for the "Part of Session" echo.
+                // One batch check per screen — not per body pass.
+                if sessionInteraction == nil, let doses = entry.session?.doses, doses.count >= 2 {
+                    let names = Array(Set(doses.map(\.substance)))
+                    if names.count >= 2 {
+                        sessionInteraction = InteractionChecker.checkBatch(names, against: [])
+                            .max { $0.severity.rawValue < $1.severity.rawValue }
+                    }
                 }
             }
-        }
     }
 
     // MARK: - Toolbar
@@ -188,12 +192,12 @@ struct EntryDetailView: View {
             // Two explicit trailing buttons in the same accent tint — "Edit"
             // (Apple's convention over a pencil glyph) and a separate ⋯ menu,
             // split into their own glass groups by a ToolbarSpacer.
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .platformTopBarTrailing) {
                 Button("Edit") { beginEditing() }
                     .tint(Theme.accent)
             }
-            ToolbarSpacer(.fixed, placement: .topBarTrailing)
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
+            ToolbarItem(placement: .platformTopBarTrailing) {
                 EntryDoseMenu(
                     entry: entry,
                     colors: Array(substanceColors),

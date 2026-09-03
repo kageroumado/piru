@@ -225,8 +225,8 @@ final class ReportsModel {
 
     func exportSessionImages(
         sessions: [Session], colors: [SubstanceColor], scheme: ColorScheme,
-    ) async -> [UIImage] {
-        var images: [UIImage] = []
+    ) async -> [PlatformImage] {
+        var images: [PlatformImage] = []
         let stackRedoses = UserDefaults(suiteName: "group.dev.yumeji.piru")?.bool(forKey: "stackRedoses") ?? true
         for session in sessions {
             guard selectedSessions.contains(session.id) else { continue }
@@ -247,21 +247,25 @@ final class ReportsModel {
         return images
     }
 
-    func exportStitchedImage(_ images: [UIImage]) -> UIImage? {
+    func exportStitchedImage(_ images: [PlatformImage]) -> PlatformImage? {
         guard !images.isEmpty else { return nil }
-        let spacing: CGFloat = 24
-        let totalHeight = images.reduce(CGFloat(0)) { $0 + $1.size.height } + spacing * CGFloat(images.count - 1)
-        let maxWidth = images.reduce(CGFloat(0)) { max($0, $1.size.width) }
+        #if canImport(UIKit)
+            let spacing: CGFloat = 24
+            let totalHeight = images.reduce(CGFloat(0)) { $0 + $1.size.height } + spacing * CGFloat(images.count - 1)
+            let maxWidth = images.reduce(CGFloat(0)) { max($0, $1.size.width) }
 
-        let renderer = UIGraphicsImageRenderer(size: CGSize(width: maxWidth, height: totalHeight))
-        return renderer.image { _ in
-            var y: CGFloat = 0
-            for image in images {
-                let x = (maxWidth - image.size.width) / 2
-                image.draw(at: CGPoint(x: x, y: y))
-                y += image.size.height + spacing
+            let renderer = UIGraphicsImageRenderer(size: CGSize(width: maxWidth, height: totalHeight))
+            return renderer.image { _ in
+                var y: CGFloat = 0
+                for image in images {
+                    let x = (maxWidth - image.size.width) / 2
+                    image.draw(at: CGPoint(x: x, y: y))
+                    y += image.size.height + spacing
+                }
             }
-        }
+        #else
+            return images.first
+        #endif
     }
 
     func exportMarkdown(sessions: [Session], colors: [SubstanceColor]) async -> String {

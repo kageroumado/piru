@@ -98,7 +98,7 @@ struct VolumetricDosingView: View {
                 .captionSecondary()
             HStack(spacing: 0) {
                 TextField("0", text: value)
-                    .keyboardType(.decimalPad)
+                    .decimalKeyboard()
                     .padding(.horizontal, Spacing.xl)
                     .padding(.vertical, Spacing.lg)
 
@@ -165,7 +165,7 @@ struct VolumetricDosingView: View {
                     .animation(.default, value: result)
 
                 Button {
-                    UIPasteboard.general.string = formatted
+                    PlatformPasteboard.copy(formatted)
                 } label: {
                     Label("Copy", systemImage: "doc.on.doc")
                         .font(.caption.weight(.medium))

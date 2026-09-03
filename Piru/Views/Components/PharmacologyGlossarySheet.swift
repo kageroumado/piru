@@ -66,7 +66,7 @@ struct PharmacologyGlossarySheet: View {
             .listRowBackground(CardBackground())
             .themedPage()
             .navigationTitle(title)
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }

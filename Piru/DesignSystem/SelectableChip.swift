@@ -15,7 +15,7 @@ extension View {
     /// between fills.
     func selectableChip(isSelected: Bool, tint: Color = Theme.accent) -> some View {
         frame(width: IconSize.icon, height: IconSize.icon)
-            .background(isSelected ? tint : Color(.tertiarySystemFill))
+            .background(isSelected ? tint : Color.platformTertiarySystemFill)
             .foregroundStyle(isSelected ? AnyShapeStyle(.white) : AnyShapeStyle(.primary))
             .clipShape(Circle())
             .frame(width: IconSize.touchTarget, height: IconSize.touchTarget)
@@ -34,13 +34,13 @@ extension View {
         padding(.horizontal, Spacing.lg)
             .padding(.vertical, Spacing.sm)
             .background(
-                isSelected ? tint.opacity(Theme.Opacity.tintActive) : Color(.tertiarySystemFill),
+                isSelected ? tint.opacity(Theme.Opacity.tintActive) : Color.platformTertiarySystemFill,
                 in: Capsule(),
             )
             .foregroundStyle(.primary)
             .overlay(
                 Capsule().strokeBorder(
-                    isSelected ? tint : Color(.quaternaryLabel),
+                    isSelected ? tint : Color.platformQuaternaryLabel,
                     lineWidth: 1,
                 ),
             )

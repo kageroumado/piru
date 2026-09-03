@@ -56,7 +56,7 @@ struct SubstanceColorsListView: View {
         }
         .themedPage()
         .navigationTitle("Substance Colors")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .sheet(item: $editingSubstance) { sc in
             SubstanceColorPickerView(
                 substanceName: sc.substance,

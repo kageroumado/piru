@@ -110,7 +110,7 @@ struct InfoDisclosureSection: View {
             .padding(.horizontal, Spacing.lg)
             .padding(.vertical, Spacing.xs)
             .background(
-                accent ? Theme.accent.opacity(Theme.Opacity.tint) : Color(.tertiarySystemFill),
+                accent ? Theme.accent.opacity(Theme.Opacity.tint) : Color.platformTertiarySystemFill,
                 in: Capsule(),
             )
             .foregroundStyle(accent ? Theme.accent : Theme.secondaryLabel)

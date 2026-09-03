@@ -36,7 +36,7 @@ struct SandboxGuideSheet: View {
             }
             .themedPage()
             .navigationTitle("How this is estimated")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {

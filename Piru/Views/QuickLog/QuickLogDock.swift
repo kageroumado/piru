@@ -1,6 +1,9 @@
 import OSLog
 import SwiftUI
-import UIKit
+
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 // MARK: - Metrics
 
@@ -15,7 +18,11 @@ import UIKit
 enum QuickLogDockMetrics {
     /// The pinned search field's height — one size in every dock state.
     static var fieldHeight: CGFloat {
-        UIFontMetrics(forTextStyle: .body).scaledValue(for: 48).rounded()
+        #if canImport(UIKit)
+            UIFontMetrics(forTextStyle: .body).scaledValue(for: 48).rounded()
+        #else
+            48
+        #endif
     }
     /// How far the compact search bar floats above the physical screen bottom.
     static let bareFloat: CGFloat = 12
@@ -351,33 +358,37 @@ struct QuickLogDock: View {
         // A window-level recognizer is what catches taps in the sheet's large
         // empty area, not just within the laid-out content (see
         // ``KeyboardDismissTap``). Drag/scroll dismissal still applies too.
-        .background { KeyboardDismissTap() }
-        // The staged-array read (collapsed-card estimate) lives in this
-        // zero-size leaf, not in this body — otherwise every amount keystroke
-        // in a staged editor would re-run the whole dock.
-        .background {
-            TrayDerivedObserver(
-                tray: tray,
-                onStagedEstimate: { newValue in
-                    if newValue != stagedCardEstimate { stagedCardEstimate = newValue }
-                },
-            )
-        }
-        .background { SheetHostProbe(box: bookkeeping.host) }
-        // The empty⇄staged face swap mounts/unmounts dock content with NO
-        // animation: the sheet's detent change is the one animated element,
-        // and the content — laid out at its final frame from the first
-        // moment — just rides under the growing platter (the native sheet
-        // feel). Without this, the call sites' `withAnimation` played the
-        // staged card as a scale-from-center bloom inside the resize. Scoped
-        // to the *emptiness* flip only: adding to or removing from an
-        // already-visible staged list keeps the callers' animation, so the
-        // card grows/shrinks in step with the sheet instead of snapping a
-        // row in before the platter has moved. Sits *inside* the isBare
-        // animation below so it wins for updates where both change (staging
-        // the first dose from the bare pill).
-        .transaction(value: tray.isEmpty) { $0.animation = nil }
-        .animation(.snappy, value: isBare)
+        #if canImport(UIKit)
+            .background { KeyboardDismissTap() }
+        #endif
+            // The staged-array read (collapsed-card estimate) lives in this
+            // zero-size leaf, not in this body — otherwise every amount keystroke
+            // in a staged editor would re-run the whole dock.
+            .background {
+                TrayDerivedObserver(
+                    tray: tray,
+                    onStagedEstimate: { newValue in
+                        if newValue != stagedCardEstimate { stagedCardEstimate = newValue }
+                    },
+                )
+            }
+        #if canImport(UIKit)
+            .background { SheetHostProbe(box: bookkeeping.host) }
+        #endif
+            // The empty⇄staged face swap mounts/unmounts dock content with NO
+            // animation: the sheet's detent change is the one animated element,
+            // and the content — laid out at its final frame from the first
+            // moment — just rides under the growing platter (the native sheet
+            // feel). Without this, the call sites' `withAnimation` played the
+            // staged card as a scale-from-center bloom inside the resize. Scoped
+            // to the *emptiness* flip only: adding to or removing from an
+            // already-visible staged list keeps the callers' animation, so the
+            // card grows/shrinks in step with the sheet instead of snapping a
+            // row in before the platter has moved. Sits *inside* the isBare
+            // animation below so it wins for updates where both change (staging
+            // the first dose from the bare pill).
+            .transaction(value: tray.isEmpty) { $0.animation = nil }
+            .animation(.snappy, value: isBare)
         // Presentation configuration (detents, clear background, background
         // interaction) is applied by `QuickLogView` at the sheet closure's
         // root — attached in here it competes with the nested `.sheet`/
@@ -461,7 +472,11 @@ struct QuickLogDock: View {
         // bar exists, and minting it at a throwaway height churned the sheet's
         // detent mapping right as it grew. Estimated from type metrics so the
         // pre-measure mint stays close at accessibility sizes too.
-        let chipHeight = UIFont.preferredFont(forTextStyle: .subheadline).lineHeight + 20
+        #if canImport(UIKit)
+            let chipHeight = UIFont.preferredFont(forTextStyle: .subheadline).lineHeight + 20
+        #else
+            let chipHeight: CGFloat = 40
+        #endif
         let barEstimate = 12 + chipHeight + 14 + DoseTrayMetrics.controlHeight
         let bar = commitBarHeight > 0 ? commitBarHeight : barEstimate
         var raw = QuickLogDockMetrics.searchBlockHeight + contentPadding
@@ -555,20 +570,23 @@ struct QuickLogDock: View {
         detents = target.union([detent])
         Task { @MainActor in
             guard generation == bookkeeping.generation else { return }
-            guard let sheet = bookkeeping.host.sheetController else {
-                // Not yet presented (first-appear configuration) — a plain
-                // binding write is correct here; there is nothing on screen
-                // to animate.
+            #if canImport(UIKit)
+                guard let sheet = bookkeeping.host.sheetController else {
+                    detent = selection
+                    detents = target
+                    settle()
+                    return
+                }
+                animateSelection(selection, height: height, in: sheet) {
+                    guard generation == bookkeeping.generation else { return }
+                    detents = target
+                    settle()
+                }
+            #else
                 detent = selection
                 detents = target
                 settle()
-                return
-            }
-            animateSelection(selection, height: height, in: sheet) {
-                guard generation == bookkeeping.generation else { return }
-                detents = target
-                settle()
-            }
+            #endif
         }
     }
 
@@ -580,142 +598,144 @@ struct QuickLogDock: View {
         }
     }
 
-    /// Animates the sheet to `selection` through the memoized UIKit handle.
-    ///
-    /// Height→height moves ramp a mutable detent per display frame (see
-    /// ``animateHeightDetent(in:from:to:onSettled:)``): both `animateChanges`
-    /// and SwiftUI's binding animate the platter as a Core Animation
-    /// interpolation over content laid out ONCE at final size, which
-    /// displaces everything (frame-strip verified: the whole dock, search
-    /// bar to Log button, dips by the height delta and rides back). Only
-    /// per-frame layout — what a real drag does — keeps the bottom-pinned
-    /// bar stationary.
-    ///
-    /// Two kinds of move go through `animateChanges` instead:
-    /// `.medium`/`.large` (search, editors — full content swaps where
-    /// displacement doesn't read), and the shrink to the bare *peek* pill.
-    /// The smallest detent's resting look is the floating pill (scaled,
-    /// lifted off the bottom edge), which only UIKit can animate into — a
-    /// ramp that lands on the logical height leaves UIKit to morph the pill
-    /// treatment afterwards, which read as the search bar drifting to its
-    /// spot after the resize had visibly finished. The displacement artifact
-    /// needs *bottom-pinned* visible content, and a dock headed to bare has
-    /// none: the commit bar is hidden and the suggestions suppressed — only
-    /// the top-pinned search bar rides the platter, which CA animates
-    /// correctly, in one continuous settle like a released drag.
-    private func animateSelection(
-        _ selection: PresentationDetent,
-        height: CGFloat?,
-        in sheet: UISheetPresentationController,
-        completion: @escaping @MainActor () -> Void,
-    ) {
-        if let height, let fromLogical = currentLogicalHeight(),
-           selection != QuickLogDockMetrics.peekDetent {
-            animateHeightDetent(in: sheet, from: fromLogical, to: height) {
-                // Land the model on geometry that is already exactly there:
-                // an un-animated selection change re-resolves the sheet to
-                // the height the ramp just left it at.
-                detent = selection
-                completion()
+    #if canImport(UIKit)
+        /// Animates the sheet to `selection` through the memoized UIKit handle.
+        ///
+        /// Height→height moves ramp a mutable detent per display frame (see
+        /// ``animateHeightDetent(in:from:to:onSettled:)``): both `animateChanges`
+        /// and SwiftUI's binding animate the platter as a Core Animation
+        /// interpolation over content laid out ONCE at final size, which
+        /// displaces everything (frame-strip verified: the whole dock, search
+        /// bar to Log button, dips by the height delta and rides back). Only
+        /// per-frame layout — what a real drag does — keeps the bottom-pinned
+        /// bar stationary.
+        ///
+        /// Two kinds of move go through `animateChanges` instead:
+        /// `.medium`/`.large` (search, editors — full content swaps where
+        /// displacement doesn't read), and the shrink to the bare *peek* pill.
+        /// The smallest detent's resting look is the floating pill (scaled,
+        /// lifted off the bottom edge), which only UIKit can animate into — a
+        /// ramp that lands on the logical height leaves UIKit to morph the pill
+        /// treatment afterwards, which read as the search bar drifting to its
+        /// spot after the resize had visibly finished. The displacement artifact
+        /// needs *bottom-pinned* visible content, and a dock headed to bare has
+        /// none: the commit bar is hidden and the suggestions suppressed — only
+        /// the top-pinned search bar rides the platter, which CA animates
+        /// correctly, in one continuous settle like a released drag.
+        private func animateSelection(
+            _ selection: PresentationDetent,
+            height: CGFloat?,
+            in sheet: UISheetPresentationController,
+            completion: @escaping @MainActor () -> Void,
+        ) {
+            if let height, let fromLogical = currentLogicalHeight(),
+               selection != QuickLogDockMetrics.peekDetent {
+                animateHeightDetent(in: sheet, from: fromLogical, to: height) {
+                    // Land the model on geometry that is already exactly there:
+                    // an un-animated selection change re-resolves the sheet to
+                    // the height the ramp just left it at.
+                    detent = selection
+                    completion()
+                }
+                return
             }
-            return
-        }
-        bookkeeping.frameAnimator.cancel()
-        bookkeeping.rampLogicalTarget = nil
-        var identifier: UISheetPresentationController.Detent.Identifier?
-        if selection == .medium {
-            identifier = .medium
-        } else if selection == .large {
-            identifier = .large
-        } else if let height {
-            let context = SheetDetentResolutionContext(
-                containerTraitCollection: sheet.traitCollection,
-                maximumDetentValue: maximumDetentValue(of: sheet),
-            )
-            identifier = sheet.detents.first { candidate in
-                guard candidate.identifier != .medium, candidate.identifier != .large,
-                      let resolved = candidate.resolvedValue(in: context) else { return false }
-                return abs(resolved - height) < 1
-            }?.identifier
-        }
-        guard let identifier else {
-            // No UIKit counterpart found — fall back to the binding.
-            withAnimation(.snappy) { detent = selection }
-            completion()
-            return
-        }
-        CATransaction.begin()
-        CATransaction.setCompletionBlock {
-            MainActor.assumeIsolated { completion() }
-        }
-        sheet.animateChanges {
-            sheet.selectedDetentIdentifier = identifier
-        }
-        CATransaction.commit()
-        // Sync the SwiftUI model to the member UIKit is now moving to — same
-        // underlying detent, so SwiftUI's re-application is a no-op.
-        detent = selection
-    }
-
-    /// Numeric height of the *current* selection: the in-flight ramp target
-    /// when one is running (chained retargets), otherwise the resting value
-    /// tracked by ``detentChanged(from:to:)``. `nil` for `.medium`/`.large`.
-    private func currentLogicalHeight() -> CGFloat? {
-        bookkeeping.rampLogicalTarget ?? bookkeeping.restingLogicalHeight
-    }
-
-    /// The interpolated drag, through the controller's own machinery: a
-    /// custom detent with a *mutable* height is injected and selected
-    /// un-animated (it resolves to the current height — no motion), then the
-    /// height is eased on a display link with `invalidateDetents()` per tick.
-    /// Each invalidation re-resolves the detent and runs the sheet's full
-    /// resize path at the new height — real layout every frame, exactly like
-    /// the pan gesture, with none of the controller's bookkeeping bypassed.
-    /// (Direct `presentedView.frame` writes fought the controller: it
-    /// reasserted its own frame — no visible animation — and compensated
-    /// with residual scale transforms that accumulated into permanent layout
-    /// corruption, lldb-verified.)
-    private func animateHeightDetent(
-        in sheet: UISheetPresentationController,
-        from fromLogical: CGFloat,
-        to toLogical: CGFloat,
-        onSettled: @escaping @MainActor () -> Void,
-    ) {
-        // Chained retarget: continue from the ramp's live height.
-        let start = bookkeeping.rampLogicalTarget != nil ? bookkeeping.rampDetent.height : fromLogical
-        bookkeeping.rampLogicalTarget = toLogical
-        bookkeeping.rampDetent.height = start
-        installRampDetent(in: sheet)
-        bookkeeping.frameAnimator.run(from: start, to: toLogical) { height in
-            bookkeeping.rampDetent.height = height
-            // Self-heal: a SwiftUI presentation update mid-ramp can rewrite
-            // the sheet's detents/selection; re-assert before invalidating.
-            installRampDetent(in: sheet)
-            sheet.invalidateDetents()
-        } completion: {
+            bookkeeping.frameAnimator.cancel()
             bookkeeping.rampLogicalTarget = nil
-            onSettled()
+            var identifier: UISheetPresentationController.Detent.Identifier?
+            if selection == .medium {
+                identifier = .medium
+            } else if selection == .large {
+                identifier = .large
+            } else if let height {
+                let context = SheetDetentResolutionContext(
+                    containerTraitCollection: sheet.traitCollection,
+                    maximumDetentValue: maximumDetentValue(of: sheet),
+                )
+                identifier = sheet.detents.first { candidate in
+                    guard candidate.identifier != .medium, candidate.identifier != .large,
+                          let resolved = candidate.resolvedValue(in: context) else { return false }
+                    return abs(resolved - height) < 1
+                }?.identifier
+            }
+            guard let identifier else {
+                // No UIKit counterpart found — fall back to the binding.
+                withAnimation(.snappy) { detent = selection }
+                completion()
+                return
+            }
+            CATransaction.begin()
+            CATransaction.setCompletionBlock {
+                MainActor.assumeIsolated { completion() }
+            }
+            sheet.animateChanges {
+                sheet.selectedDetentIdentifier = identifier
+            }
+            CATransaction.commit()
+            // Sync the SwiftUI model to the member UIKit is now moving to — same
+            // underlying detent, so SwiftUI's re-application is a no-op.
+            detent = selection
         }
-    }
 
-    /// Ensures the mutable ramp detent is a member of the sheet's detents and
-    /// is the selection (both idempotent — no-ops while already installed).
-    private func installRampDetent(in sheet: UISheetPresentationController) {
-        if !sheet.detents.contains(where: { $0.identifier == MutableSheetDetent.identifier }) {
-            sheet.detents += [bookkeeping.rampDetent.detent]
+        /// Numeric height of the *current* selection: the in-flight ramp target
+        /// when one is running (chained retargets), otherwise the resting value
+        /// tracked by ``detentChanged(from:to:)``. `nil` for `.medium`/`.large`.
+        private func currentLogicalHeight() -> CGFloat? {
+            bookkeeping.rampLogicalTarget ?? bookkeeping.restingLogicalHeight
         }
-        if sheet.selectedDetentIdentifier != MutableSheetDetent.identifier {
-            sheet.selectedDetentIdentifier = MutableSheetDetent.identifier
-        }
-    }
 
-    /// The container height `.height` detents resolve against — only needs to
-    /// exceed the dock's real heights for exact matching, so the fallback is
-    /// generous.
-    private func maximumDetentValue(of sheet: UISheetPresentationController) -> CGFloat {
-        guard let container = sheet.containerView else { return 2_000 }
-        return container.bounds.height - container.safeAreaInsets.top
-    }
+        /// The interpolated drag, through the controller's own machinery: a
+        /// custom detent with a *mutable* height is injected and selected
+        /// un-animated (it resolves to the current height — no motion), then the
+        /// height is eased on a display link with `invalidateDetents()` per tick.
+        /// Each invalidation re-resolves the detent and runs the sheet's full
+        /// resize path at the new height — real layout every frame, exactly like
+        /// the pan gesture, with none of the controller's bookkeeping bypassed.
+        /// (Direct `presentedView.frame` writes fought the controller: it
+        /// reasserted its own frame — no visible animation — and compensated
+        /// with residual scale transforms that accumulated into permanent layout
+        /// corruption, lldb-verified.)
+        private func animateHeightDetent(
+            in sheet: UISheetPresentationController,
+            from fromLogical: CGFloat,
+            to toLogical: CGFloat,
+            onSettled: @escaping @MainActor () -> Void,
+        ) {
+            // Chained retarget: continue from the ramp's live height.
+            let start = bookkeeping.rampLogicalTarget != nil ? bookkeeping.rampDetent.height : fromLogical
+            bookkeeping.rampLogicalTarget = toLogical
+            bookkeeping.rampDetent.height = start
+            installRampDetent(in: sheet)
+            bookkeeping.frameAnimator.run(from: start, to: toLogical) { height in
+                bookkeeping.rampDetent.height = height
+                // Self-heal: a SwiftUI presentation update mid-ramp can rewrite
+                // the sheet's detents/selection; re-assert before invalidating.
+                installRampDetent(in: sheet)
+                sheet.invalidateDetents()
+            } completion: {
+                bookkeeping.rampLogicalTarget = nil
+                onSettled()
+            }
+        }
+
+        /// Ensures the mutable ramp detent is a member of the sheet's detents and
+        /// is the selection (both idempotent — no-ops while already installed).
+        private func installRampDetent(in sheet: UISheetPresentationController) {
+            if !sheet.detents.contains(where: { $0.identifier == MutableSheetDetent.identifier }) {
+                sheet.detents += [bookkeeping.rampDetent.detent]
+            }
+            if sheet.selectedDetentIdentifier != MutableSheetDetent.identifier {
+                sheet.selectedDetentIdentifier = MutableSheetDetent.identifier
+            }
+        }
+
+        /// The container height `.height` detents resolve against — only needs to
+        /// exceed the dock's real heights for exact matching, so the fallback is
+        /// generous.
+        private func maximumDetentValue(of sheet: UISheetPresentationController) -> CGFloat {
+            guard let container = sheet.containerView else { return 2_000 }
+            return container.bounds.height - container.safeAreaInsets.top
+        }
+    #endif
 
     /// Detent-selection side effects: leaving `.large` cancels search;
     /// arriving at compact collapses every editor; growing out of compact
@@ -872,101 +892,104 @@ struct QuickLogDock: View {
     }
 }
 
-// MARK: - Tap-outside-to-dismiss
+#if canImport(UIKit)
 
-/// Installs a tap recognizer on the host window that resigns the keyboard on a
-/// tap outside the focused field — the polished substitute for a "Done"
-/// accessory the decimal pad can't host (it has no return key). The dose fields
-/// commit their value live on every keystroke, so dismissing *is* the only job.
-///
-/// Why window-level (not a SwiftUI `onTapGesture`): the sheet's empty region —
-/// the tall gap below a short staged card when the keyboard is up — lies
-/// *outside* the laid-out content, where a content-attached gesture never
-/// fires. A window recognizer sees every tap in the presentation.
-///
-/// `cancelsTouchesInView = false` lets the tap still reach whatever it hit, so
-/// buttons/steppers/menus keep working; the delegate declines taps that land in
-/// a text input (`UITextField`/`UITextView`, which back SwiftUI's amount and
-/// note fields) so *re-tapping a field* doesn't immediately blur it. The
-/// recognizer is torn down with the dock, so it's live only while staging.
-private struct KeyboardDismissTap: UIViewRepresentable {
-    func makeCoordinator() -> Coordinator {
-        Coordinator()
-    }
+    // MARK: - Tap-outside-to-dismiss
 
-    func makeUIView(context: Context) -> InstallerView {
-        let view = InstallerView()
-        view.isUserInteractionEnabled = false
-        view.coordinator = context.coordinator
-        return view
-    }
-
-    func updateUIView(_: InstallerView, context _: Context) {}
-
-    static func dismantleUIView(_: InstallerView, coordinator: Coordinator) {
-        coordinator.detach()
-    }
-
-    /// Installs/removes the recognizer as it actually enters and leaves a
-    /// window — `didMoveToWindow` is the reliable hook (the window is not yet
-    /// attached inside `makeUIView`).
-    final class InstallerView: UIView {
-        weak var coordinator: Coordinator?
-        override func didMoveToWindow() {
-            super.didMoveToWindow()
-            if let window { coordinator?.attach(to: window) } else { coordinator?.detach() }
-        }
-    }
-
-    final class Coordinator: NSObject, UIGestureRecognizerDelegate {
-        private weak var window: UIWindow?
-        private weak var recognizer: UITapGestureRecognizer?
-
-        func attach(to window: UIWindow) {
-            guard self.recognizer == nil else { return }
-            let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-            tap.cancelsTouchesInView = false
-            tap.delegate = self
-            window.addGestureRecognizer(tap)
-            self.window = window
-            self.recognizer = tap
+    /// Installs a tap recognizer on the host window that resigns the keyboard on a
+    /// tap outside the focused field — the polished substitute for a "Done"
+    /// accessory the decimal pad can't host (it has no return key). The dose fields
+    /// commit their value live on every keystroke, so dismissing *is* the only job.
+    ///
+    /// Why window-level (not a SwiftUI `onTapGesture`): the sheet's empty region —
+    /// the tall gap below a short staged card when the keyboard is up — lies
+    /// *outside* the laid-out content, where a content-attached gesture never
+    /// fires. A window recognizer sees every tap in the presentation.
+    ///
+    /// `cancelsTouchesInView = false` lets the tap still reach whatever it hit, so
+    /// buttons/steppers/menus keep working; the delegate declines taps that land in
+    /// a text input (`UITextField`/`UITextView`, which back SwiftUI's amount and
+    /// note fields) so *re-tapping a field* doesn't immediately blur it. The
+    /// recognizer is torn down with the dock, so it's live only while staging.
+    private struct KeyboardDismissTap: UIViewRepresentable {
+        func makeCoordinator() -> Coordinator {
+            Coordinator()
         }
 
-        func detach() {
-            if let recognizer { window?.removeGestureRecognizer(recognizer) }
-            recognizer = nil
-            window = nil
+        func makeUIView(context: Context) -> InstallerView {
+            let view = InstallerView()
+            view.isUserInteractionEnabled = false
+            view.coordinator = context.coordinator
+            return view
         }
 
-        @objc
-        private func handleTap() {
-            UIApplication.shared.sendAction(
-                #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil,
-            )
+        func updateUIView(_: InstallerView, context _: Context) {}
+
+        static func dismantleUIView(_: InstallerView, coordinator: Coordinator) {
+            coordinator.detach()
         }
 
-        /// Let the sheet's own pan/scroll gestures run alongside this tap.
-        func gestureRecognizer(
-            _: UIGestureRecognizer,
-            shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer,
-        ) -> Bool {
-            true
-        }
-
-        /// Don't fire when the tap lands in a text input — that tap is the user
-        /// (re)focusing a field, and dismissing would fight it.
-        func gestureRecognizer(
-            _: UIGestureRecognizer, shouldReceive touch: UITouch,
-        ) -> Bool {
-            var view = touch.view
-            while let current = view {
-                if current is UITextField || current is UITextView { return false }
-                view = current.superview
+        /// Installs/removes the recognizer as it actually enters and leaves a
+        /// window — `didMoveToWindow` is the reliable hook (the window is not yet
+        /// attached inside `makeUIView`).
+        final class InstallerView: UIView {
+            weak var coordinator: Coordinator?
+            override func didMoveToWindow() {
+                super.didMoveToWindow()
+                if let window { coordinator?.attach(to: window) } else { coordinator?.detach() }
             }
-            return true
+        }
+
+        final class Coordinator: NSObject, UIGestureRecognizerDelegate {
+            private weak var window: UIWindow?
+            private weak var recognizer: UITapGestureRecognizer?
+
+            func attach(to window: UIWindow) {
+                guard self.recognizer == nil else { return }
+                let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+                tap.cancelsTouchesInView = false
+                tap.delegate = self
+                window.addGestureRecognizer(tap)
+                self.window = window
+                self.recognizer = tap
+            }
+
+            func detach() {
+                if let recognizer { window?.removeGestureRecognizer(recognizer) }
+                recognizer = nil
+                window = nil
+            }
+
+            @objc
+            private func handleTap() {
+                UIApplication.shared.sendAction(
+                    #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil,
+                )
+            }
+
+            /// Let the sheet's own pan/scroll gestures run alongside this tap.
+            func gestureRecognizer(
+                _: UIGestureRecognizer,
+                shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer,
+            ) -> Bool {
+                true
+            }
+
+            /// Don't fire when the tap lands in a text input — that tap is the user
+            /// (re)focusing a field, and dismissing would fight it.
+            func gestureRecognizer(
+                _: UIGestureRecognizer, shouldReceive touch: UITouch,
+            ) -> Bool {
+                var view = touch.view
+                while let current = view {
+                    if current is UITextField || current is UITextView { return false }
+                    view = current.superview
+                }
+                return true
+            }
         }
     }
-}
+#endif
 
 // MARK: - Geometry & tray leaves
 
@@ -986,8 +1009,13 @@ private struct TrayDerivedObserver: View {
     /// reports animated in-between frames during expand/collapse, which
     /// churned the fit-to-content detent mid-gesture.
     private static var collapsedRowHeight: CGFloat {
-        let title = UIFont.preferredFont(forTextStyle: .body).lineHeight
-        let subtitle = UIFont.preferredFont(forTextStyle: .subheadline).lineHeight
+        #if canImport(UIKit)
+            let title = UIFont.preferredFont(forTextStyle: .body).lineHeight
+            let subtitle = UIFont.preferredFont(forTextStyle: .subheadline).lineHeight
+        #else
+            let title: CGFloat = 20.5
+            let subtitle: CGFloat = 17
+        #endif
         return (title + subtitle + 2 + 24).rounded(.up)
     }
 

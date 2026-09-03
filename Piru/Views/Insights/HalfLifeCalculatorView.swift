@@ -89,7 +89,7 @@ private struct HalfLifeInputSection: View {
                         .captionSecondary()
                     HStack(spacing: 0) {
                         TextField("Amount", value: $model.doseAmount, format: .number)
-                            .keyboardType(.decimalPad)
+                            .decimalKeyboard()
                             .padding(Spacing.md)
                         Divider()
                             .frame(height: 20)
@@ -118,7 +118,7 @@ private struct HalfLifeInputSection: View {
             if model.useCustomHalfLife {
                 HStack {
                     TextField("Hours", value: $model.customHalfLifeHours, format: .number)
-                        .keyboardType(.decimalPad)
+                        .decimalKeyboard()
                         .textFieldStyle(.roundedBorder)
                     Text("hours")
                         .foregroundStyle(Theme.secondaryLabel)

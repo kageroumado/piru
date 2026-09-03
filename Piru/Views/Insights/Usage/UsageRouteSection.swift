@@ -174,7 +174,7 @@ private struct UsageRankRowView: View {
                 HStack(spacing: 1) {
                     if isUnavailable {
                         Capsule()
-                            .fill(Color(.quaternaryLabel).opacity(Theme.Opacity.dimmed))
+                            .fill(Color.platformQuaternaryLabel.opacity(Theme.Opacity.dimmed))
                             .frame(width: max(4, width * 0.04))
                     } else {
                         ForEach(segments, id: \.routeIndex) { segment in

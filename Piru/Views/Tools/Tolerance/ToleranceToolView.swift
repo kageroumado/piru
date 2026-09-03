@@ -104,7 +104,7 @@ struct ToleranceToolView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .listStyle(.insetGrouped)
+        .insetGroupedListStyle()
         .themedPage()
         .appNavigationBar("Tolerance", showsOverflow: false)
         .toolbar {
@@ -167,7 +167,7 @@ struct ToleranceToolView: View {
     /// display-mode thumbnail picker and the detail-tier list.
     @ToolbarContentBuilder
     private var optionsButton: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
+        ToolbarItem(placement: .platformTopBarTrailing) {
             Button {
                 showsOptions = true
             } label: {

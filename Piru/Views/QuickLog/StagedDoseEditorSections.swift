@@ -85,7 +85,7 @@ struct StagedDoseStepButton: View {
                 .font(.body.weight(.semibold))
                 .foregroundStyle(.primary)
                 .frame(width: 42, height: 42)
-                .background(Color(.secondarySystemFill), in: Circle())
+                .background(Color.platformSecondarySystemFill, in: Circle())
                 .accessibilityHidden(true)
         }
         .buttonStyle(.plain)
@@ -172,7 +172,7 @@ struct StagedDoseStepperBlock: View {
     /// overlay so it never shifts the number off-center.
     private var amountField: some View {
         TextField("0", text: $model.amountText)
-            .keyboardType(.decimalPad)
+            .decimalKeyboard()
             .focused(amountFocus)
             .multilineTextAlignment(.center)
             .screenTitle()
@@ -182,7 +182,7 @@ struct StagedDoseStepperBlock: View {
             .frame(height: 42)
             .frame(maxWidth: .infinity)
             // Same fill as the −/+ buttons — one control system, one shade.
-            .background(Color(.secondarySystemFill), in: Capsule())
+            .background(Color.platformSecondarySystemFill, in: Capsule())
             // Label the field *before* the overlay, so the "Amount" label
             // sticks to the text field and doesn't shadow the unit menu
             // composited on top (which keeps its own "Dose unit" label).
@@ -325,13 +325,13 @@ struct StagedDoseByDrinkRow<Trailing: View>: View {
                 StagedDoseStepButton(systemImage: "minus", action: onDec)
                     .accessibilityLabel(decLabel)
                 TextField("0", text: $text)
-                    .keyboardType(.decimalPad)
+                    .decimalKeyboard()
                     .focused(focus)
                     .multilineTextAlignment(.center)
                     .screenTitle()
                     .frame(height: 42)
                     .frame(maxWidth: .infinity)
-                    .background(Color(.secondarySystemFill), in: Capsule())
+                    .background(Color.platformSecondarySystemFill, in: Capsule())
                     // Label before the overlay so it scopes to the field, not
                     // the unit menu / "%" composited on top of it.
                     .accessibilityLabel(label)
@@ -434,7 +434,7 @@ struct StagedDoseStrengthChip: View {
             .padding(.horizontal, 13)
             .frame(height: pillHeight)
             .background(
-                selected ? AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)) : AnyShapeStyle(Color(.secondarySystemFill)),
+                selected ? AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)) : AnyShapeStyle(Color.platformSecondarySystemFill),
                 in: Capsule(),
             )
             .foregroundStyle(selected ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(.primary))
@@ -457,7 +457,7 @@ struct StagedDoseFreeFormChip: View {
                 .font(.subheadline.weight(.medium))
                 .padding(.horizontal, 13)
                 .frame(height: pillHeight)
-                .background(Color(.secondarySystemFill), in: Capsule())
+                .background(Color.platformSecondarySystemFill, in: Capsule())
                 .foregroundStyle(selected ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Theme.secondaryLabel))
                 .overlay(Capsule().strokeBorder(selected ? Theme.accent : .clear, lineWidth: 1.5))
         }
@@ -487,7 +487,7 @@ struct StagedDosePillCountRow: View {
                     .screenTitle()
                     .frame(height: 42)
                     .frame(maxWidth: .infinity)
-                    .background(Color(.secondarySystemFill), in: Capsule())
+                    .background(Color.platformSecondarySystemFill, in: Capsule())
                     .accessibilityLabel("Quantity")
                     .accessibilityValue(quantityLabel)
                 StagedDoseStepButton(systemImage: "plus") {
@@ -542,7 +542,7 @@ struct StagedDoseNotePill: View {
             .padding(.horizontal, 11)
             .frame(height: pillHeight)
             .background(
-                note.isEmpty ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)),
+                note.isEmpty ? AnyShapeStyle(Color.platformSecondarySystemFill) : AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)),
                 in: Capsule(),
             )
             .foregroundStyle(note.isEmpty ? AnyShapeStyle(.primary) : AnyShapeStyle(Theme.accent))
@@ -572,7 +572,7 @@ struct StagedDoseGrapefruitPill: View {
                 .padding(.horizontal, 11)
                 .frame(height: pillHeight)
                 .background(
-                    isOn ? AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)) : AnyShapeStyle(Color(.secondarySystemFill)),
+                    isOn ? AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)) : AnyShapeStyle(Color.platformSecondarySystemFill),
                     in: Capsule(),
                 )
                 .foregroundStyle(isOn ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(.primary))
@@ -609,7 +609,7 @@ struct StagedDoseRouteMenu: View {
         .fixedSize(horizontal: true, vertical: false)
         .padding(.horizontal, 11)
         .frame(height: pillHeight)
-        .background(Color(.secondarySystemFill), in: Capsule())
+        .background(Color.platformSecondarySystemFill, in: Capsule())
         .foregroundStyle(.primary)
         .accessibilityHidden(true)
         .overlay {

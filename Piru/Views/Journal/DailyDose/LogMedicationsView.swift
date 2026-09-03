@@ -77,7 +77,7 @@ struct LogMedicationsView: View {
             }
             .themedPage()
             .navigationTitle(category.isEmpty ? "Log Meds" : "Log \(category)")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { navigator.dismiss() } label: { Image(systemName: "xmark") }
@@ -207,7 +207,7 @@ struct InteractionWarningSheet: View {
             }
             .themedPage()
             .navigationTitle("Interaction Warning")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { onCancel() } label: { Image(systemName: "xmark") }

@@ -157,20 +157,22 @@ struct MyMedsHubView: View {
         }
         .themedPage()
         .navigationTitle("My Meds")
-        .navigationBarTitleDisplayMode(.large)
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    showingAddMed = true
-                } label: {
-                    Image(systemName: "plus")
+        #if canImport(UIKit)
+            .navigationBarTitleDisplayMode(.large)
+        #endif
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        showingAddMed = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    .accessibilityLabel("Add a Med")
                 }
-                .accessibilityLabel("Add a Med")
             }
-        }
-        .sheet(isPresented: $showingAddMed) {
-            MedFormView()
-        }
+            .sheet(isPresented: $showingAddMed) {
+                MedFormView()
+            }
     }
 
     private var emptyState: some View {
@@ -227,7 +229,7 @@ private struct MedRow: View {
                                 .font(.caption2.weight(.semibold))
                                 .padding(.horizontal, Spacing.sm)
                                 .padding(.vertical, 1)
-                                .background(Color(.tertiarySystemFill), in: Capsule())
+                                .background(Color.platformTertiarySystemFill, in: Capsule())
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
                     }

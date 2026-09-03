@@ -15,7 +15,7 @@ struct TimeAdjustSheet: View {
             DatePicker("Date & Time", selection: $entry.timestamp)
         }
         .navigationTitle("Adjust Time")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button { dismiss() } label: { Image(systemName: "xmark") }

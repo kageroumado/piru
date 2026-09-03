@@ -54,7 +54,7 @@ struct CustomSubstancesListView: View {
         }
         .themedPage()
         .navigationTitle("Custom Substances")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {

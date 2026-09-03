@@ -27,10 +27,10 @@ struct DrugClassGroupView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .listStyle(.insetGrouped)
+        .insetGroupedListStyle()
         .themedPage()
         .navigationTitle(Text(category.browseTitle))
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .task {
             if classes.isEmpty { classes = SubstanceStore.shared.classContexts(in: category) }
         }
@@ -92,10 +92,10 @@ struct DrugClassDetailView: View {
                 references(context.references)
             }
         }
-        .listStyle(.insetGrouped)
+        .insetGroupedListStyle()
         .themedPage()
         .navigationTitle(Text(verbatim: context?.title ?? ""))
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .task {
             if context == nil { context = SubstanceStore.shared.classContext(slug: slug) }
         }
@@ -209,7 +209,7 @@ struct DrugClassListView: View {
                 .listRowBackground(CardBackground())
             }
         }
-        .listStyle(.insetGrouped)
+        .insetGroupedListStyle()
         .themedPage()
         .task {
             guard groups.isEmpty else { return }

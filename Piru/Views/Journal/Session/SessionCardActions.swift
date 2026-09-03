@@ -174,7 +174,7 @@ private struct MoveDosesSheet: View {
             }
             .themedPage()
             .navigationTitle("Move Doses")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }

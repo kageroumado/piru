@@ -214,11 +214,15 @@ struct CustomSubstanceFormView: View {
             Text(label)
             Spacer()
             TextField("min", value: min, format: .number)
+            #if canImport(UIKit)
                 .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 56)
+            #endif
             Text("–").foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
             TextField("max", value: max, format: .number)
+            #if canImport(UIKit)
                 .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 56)
+            #endif
             Text(suffix).foregroundStyle(Theme.secondaryLabel)
         }
     }
@@ -228,7 +232,9 @@ struct CustomSubstanceFormView: View {
             Text(label)
             Spacer()
             TextField("amount", value: value, format: .number)
+            #if canImport(UIKit)
                 .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 56)
+            #endif
             Text(suffix).foregroundStyle(Theme.secondaryLabel)
         }
     }
@@ -290,7 +296,9 @@ struct CustomSubstanceFormView: View {
                         Text("Half-life")
                         Spacer()
                         TextField("minutes", value: $draft.halfLifeMinutes, format: .number)
+                        #if canImport(UIKit)
                             .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 80)
+                        #endif
                         Text("minutes").foregroundStyle(Theme.secondaryLabel)
                     }
                 } header: {
@@ -328,7 +336,7 @@ struct CustomSubstanceFormView: View {
             }
             .themedPage()
             .navigationTitle(navTitle)
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {

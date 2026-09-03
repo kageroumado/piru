@@ -141,7 +141,7 @@ private struct EfficacyAxisTrack: View {
                 .frame(width: cluster.isFocus ? 3 : 1.4, height: 18)
                 .offset(x: px - (cluster.isFocus ? 1.5 : 0.7), y: Self.trackY - 9)
             Circle()
-                .fill(cluster.isGated ? (cluster.isFocus ? Color(.systemBackground) : Theme.secondaryLabel.opacity(0.55)) : Color(.systemBackground))
+                .fill(cluster.isGated ? (cluster.isFocus ? Color.platformSystemBackground : Theme.secondaryLabel.opacity(0.55)) : Color.platformSystemBackground)
                 .overlay(
                     Circle().strokeBorder(
                         cluster.isFocus ? accent : Theme.secondaryLabel.opacity(0.55),

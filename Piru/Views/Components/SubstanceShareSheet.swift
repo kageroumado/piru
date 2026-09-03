@@ -1,5 +1,10 @@
 import SwiftUI
-import UIKit
+
+#if canImport(UIKit)
+    import UIKit
+#elseif canImport(AppKit)
+    import AppKit
+#endif
 
 /// The "Share Substance" surface: a custom sheet reached from the substance
 /// screen's share button. Renders the colorful ``SubstanceShareCard`` specimen
@@ -19,9 +24,9 @@ struct SubstanceShareSheet: View {
     @State private var mechanism: MechanismOfAction?
     @State private var monoamineProfile: MonoamineProfile?
     @State private var moleculeLoaded = false
-    @State private var images: [ShareDetailLevel: UIImage] = [:]
+    @State private var images: [ShareDetailLevel: PlatformImage] = [:]
     @State private var imageFileURL: URL?
-    @State private var imageSourceView: UIView?
+    @State private var imageSourceView: PlatformView?
     @State private var justCopied = false
     @State private var contentHeight: CGFloat = 460
     @State private var safeAreaBottom: CGFloat = 34
@@ -31,7 +36,7 @@ struct SubstanceShareSheet: View {
         contentHeight + Self.chromeAllowance + safeAreaBottom
     }
 
-    private var currentImage: UIImage? {
+    private var currentImage: PlatformImage? {
         images[detail]
     }
 
@@ -48,7 +53,7 @@ struct SubstanceShareSheet: View {
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { contentHeight = $0 }
             }
             .navigationTitle("Share Substance")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: {
@@ -83,7 +88,7 @@ struct SubstanceShareSheet: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 18).fill(Color.primary.opacity(0.04))
                 if let currentImage {
-                    Image(uiImage: currentImage)
+                    Image(platformImage: currentImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .clipShape(RoundedRectangle(cornerRadius: 14))
@@ -171,7 +176,7 @@ struct SubstanceShareSheet: View {
         )
         let renderer = ImageRenderer(content: card)
         renderer.scale = 3
-        if let image = renderer.uiImage {
+        if let image = renderer.platformImage {
             images[detail] = image
         }
         refreshFileURL()
@@ -196,7 +201,7 @@ struct SubstanceShareSheet: View {
 
     private func copy() {
         guard let currentImage else { return }
-        UIPasteboard.general.image = currentImage
+        PlatformPasteboard.copy(image: currentImage)
         justCopied = true
         Task {
             try? await Task.sleep(for: UITiming.copiedFlash)

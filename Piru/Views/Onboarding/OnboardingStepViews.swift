@@ -146,7 +146,7 @@ struct OnboardingDepthStep: View {
             List(UserProfile.allCases) { tier in
                 tierRow(tier)
             }
-            .listStyle(.insetGrouped)
+            .insetGroupedListStyle()
             .scrollContentBackground(.hidden)
             .scrollDisabled(true)
             .frame(height: 340)

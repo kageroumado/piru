@@ -34,7 +34,7 @@ struct RampDownView: View {
         }
         .themedPage()
         .navigationTitle("Ramp Down")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .onAppear {
             isActive = RampDownScheduler.isActive(for: RampDownScheduler.entryKey(for: entry))
         }

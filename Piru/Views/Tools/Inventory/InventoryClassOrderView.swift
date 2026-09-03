@@ -37,21 +37,31 @@ struct InventoryClassOrderView: View {
                     Text("Drag to set the order class sections appear in. Reset to let the current sort decide.")
                 }
             }
-            .listStyle(.insetGrouped)
+            .insetGroupedListStyle()
             .themedPage()
             // Permanent edit mode: the grips are always visible, and with no
             // delete or toggle the row is unmistakably about order.
-            .environment(\.editMode, .constant(.active))
+            .permanentEditMode()
             .navigationTitle("Arrange Classes")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Reset") {
-                        model.resetCategoryOrder()
-                        ordered = categories
+                #if os(iOS)
+                    ToolbarItem(placement: .platformTopBarLeading) {
+                        Button("Reset") {
+                            model.resetCategoryOrder()
+                            ordered = categories
+                        }
+                        .disabled(!model.hasCustomCategoryOrder)
                     }
-                    .disabled(!model.hasCustomCategoryOrder)
-                }
+                #else
+                    ToolbarItem(placement: .automatic) {
+                        Button("Reset") {
+                            model.resetCategoryOrder()
+                            ordered = categories
+                        }
+                        .disabled(!model.hasCustomCategoryOrder)
+                    }
+                #endif
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done") { dismiss() }
                         .fontWeight(.semibold)

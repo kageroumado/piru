@@ -64,7 +64,7 @@ struct ComedownGuideView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .listStyle(.insetGrouped)
+        .insetGroupedListStyle()
         .themedPage()
         .task(id: DoseLogService.shared.revision) {
             await SubstanceStore.shared.ensureAllLoaded()

@@ -55,7 +55,7 @@ struct BodyLoadView: View {
         .background(Theme.background)
         .toolbar {
             if !allEntries.isEmpty {
-                ToolbarItem(placement: .topBarTrailing) { rangeMenu }
+                ToolbarItem(placement: .platformTopBarTrailing) { rangeMenu }
             }
         }
         .task(id: refreshToken) {
@@ -140,7 +140,7 @@ struct BodyLoadView: View {
                     .font(.caption2.weight(.medium))
                     .padding(.horizontal, Spacing.lg)
                     .padding(.vertical, 5)
-                    .background(selectedCategory == nil ? Theme.accent.opacity(0.15) : Color(.tertiarySystemFill))
+                    .background(selectedCategory == nil ? Theme.accent.opacity(0.15) : Color.platformTertiarySystemFill)
                     .foregroundStyle(selectedCategory == nil ? Theme.accent : .primary)
                     .clipShape(Capsule())
             }
@@ -160,7 +160,7 @@ struct BodyLoadView: View {
                     }
                     .padding(.horizontal, Spacing.lg)
                     .padding(.vertical, 5)
-                    .background(selectedCategory == entry.category ? entry.category.color.opacity(0.15) : Color(.tertiarySystemFill))
+                    .background(selectedCategory == entry.category ? entry.category.color.opacity(0.15) : Color.platformTertiarySystemFill)
                     .foregroundStyle(selectedCategory == entry.category ? entry.category.color : .primary)
                     .clipShape(Capsule())
                 }

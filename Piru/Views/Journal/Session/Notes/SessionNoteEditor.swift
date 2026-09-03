@@ -61,7 +61,7 @@ struct SessionNoteEditor: View {
             }
             .scrollDismissesKeyboard(.interactively)
             .navigationTitle(title)
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { navigator.dismiss() } label: {

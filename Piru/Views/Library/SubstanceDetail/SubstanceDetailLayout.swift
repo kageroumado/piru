@@ -291,7 +291,7 @@ private struct SubstanceDetailHeader: View {
                                 .sectionLabel()
                                 .padding(.horizontal, Spacing.lg)
                                 .padding(.vertical, 5)
-                                .background(Color(.tertiarySystemFill), in: Capsule())
+                                .background(Color.platformTertiarySystemFill, in: Capsule())
                         }
                         if overflowCount > 0 {
                             Text("+ \(overflowCount) chemical names", comment: "Alias overflow count")
@@ -308,7 +308,9 @@ private struct SubstanceDetailHeader: View {
             .textCase(nil)
             .listRowInsets(EdgeInsets())
         }
+        #if canImport(UIKit)
         .listSectionSpacing(8)
+        #endif
     }
 
     private var aliasAccessibilityLabel: String {

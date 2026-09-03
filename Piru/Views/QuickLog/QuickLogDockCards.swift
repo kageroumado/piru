@@ -10,7 +10,7 @@ struct DockGroupedCard<Content: View>: View {
     var body: some View {
         content
             .background(
-                Color(.secondarySystemGroupedBackground),
+                Color.platformSecondarySystemGroupedBackground,
                 in: RoundedRectangle(cornerRadius: DoseTrayMetrics.cardCornerRadius, style: .continuous),
             )
     }

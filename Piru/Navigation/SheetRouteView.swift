@@ -251,7 +251,7 @@ private struct TimeAdjustHost: View {
                 )
             }
             .navigationTitle("Adjust Time")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {

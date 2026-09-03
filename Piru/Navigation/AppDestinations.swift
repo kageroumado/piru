@@ -69,7 +69,7 @@ private struct PushRouteView: View {
         case .timeline:
             UnifiedTimelineView()
                 .navigationTitle("Timeline")
-                .navigationBarTitleDisplayMode(.inline)
+                .inlineNavigationTitle()
 
         case let .substance(name):
             // Push a **lightweight shell** (the warm batch projection's hot
@@ -119,7 +119,7 @@ private struct PushRouteView: View {
         case let .tool(tool):
             toolView(for: tool)
                 .navigationTitle(Text(tool.name))
-                .navigationBarTitleDisplayMode(.inline)
+                .inlineNavigationTitle()
 
         case .dataStorage:
             DataStorageView()
@@ -132,12 +132,12 @@ private struct PushRouteView: View {
 
         case let .insight(insight):
             insightView(for: insight)
-                .navigationBarTitleDisplayMode(.inline)
+                .inlineNavigationTitle()
 
         case let .insightGroup(group):
             InsightGroupView(group: group)
                 .navigationTitle(group.title)
-                .navigationBarTitleDisplayMode(.inline)
+                .inlineNavigationTitle()
 
         case .myMeds:
             MyMedsHubView()

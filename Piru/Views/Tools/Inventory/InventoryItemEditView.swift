@@ -122,7 +122,7 @@ struct InventoryItemEditView: View {
             }
             .themedPage()
             .navigationTitle("Edit")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { navigator.dismiss() } label: { Image(systemName: "xmark") }

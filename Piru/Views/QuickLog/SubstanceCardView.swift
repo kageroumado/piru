@@ -258,10 +258,12 @@ struct SubstanceCardView: View, Equatable {
             // Staging is otherwise conveyed by color alone — the tree is
             // byte-identical after a tap. Speak it so a VoiceOver user gets
             // confirmation the tap did something.
-            UIAccessibility.post(
-                notification: .announcement,
-                argument: String(localized: "Staged \(customSubstanceStore.displayName(for: group.substanceName))"),
-            )
+            #if canImport(UIKit)
+                UIAccessibility.post(
+                    notification: .announcement,
+                    argument: String(localized: "Staged \(customSubstanceStore.displayName(for: group.substanceName))"),
+                )
+            #endif
         } label: {
             chipLabel(chip)
                 .font(.subheadline.weight(.medium))

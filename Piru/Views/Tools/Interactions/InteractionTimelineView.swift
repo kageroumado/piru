@@ -264,7 +264,7 @@ struct InteractionTimelineView: View {
         }
         .background(Theme.background)
         .navigationTitle("Interaction Timeline")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .task(id: model.curveInputs) { model.recompute() }
         .onAppear { model.autoDetect(entries: allEntries) }
     }

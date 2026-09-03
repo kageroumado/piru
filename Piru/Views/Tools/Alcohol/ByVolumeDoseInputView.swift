@@ -81,7 +81,7 @@ struct ByVolumeDoseInputView: View {
                 .foregroundStyle(Theme.secondaryLabel)
             Spacer()
             TextField("0", text: $volumeText)
-                .keyboardType(.decimalPad)
+                .decimalKeyboard()
                 .multilineTextAlignment(.trailing)
                 .frame(maxWidth: 90)
             Picker("Volume unit", selection: $volumeUnit) {
@@ -99,7 +99,7 @@ struct ByVolumeDoseInputView: View {
                 .foregroundStyle(Theme.secondaryLabel)
             Spacer()
             TextField("0", text: $abvText)
-                .keyboardType(.decimalPad)
+                .decimalKeyboard()
                 .multilineTextAlignment(.trailing)
                 .frame(maxWidth: 90)
             Text("% ABV")

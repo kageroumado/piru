@@ -168,7 +168,7 @@ struct InventoryItemForm: View {
             }
             .themedPage()
             .navigationTitle(navTitle)
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { navigator.dismiss() } label: { Image(systemName: "xmark") }

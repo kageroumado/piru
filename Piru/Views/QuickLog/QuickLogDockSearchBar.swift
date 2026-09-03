@@ -26,9 +26,10 @@ struct DockSearchBar: View {
                 TextField("Search", text: $searchText)
                     .textFieldStyle(.plain)
                     .autocorrectionDisabled()
+                #if canImport(UIKit)
                     .textInputAutocapitalization(.never)
+                #endif
                     .focused($searchFocused)
-                    .submitLabel(.search)
                     .accessibilityLabel("Search substances")
                 if !searchText.isEmpty {
                     Button {
@@ -43,7 +44,7 @@ struct DockSearchBar: View {
             }
             .padding(.horizontal, 14)
             .frame(height: QuickLogDockMetrics.fieldHeight)
-            .background(Color(.secondarySystemFill), in: Capsule())
+            .background(Color.platformSecondarySystemFill, in: Capsule())
 
             if searchActive {
                 // Same fill and height as the field — the pair reads as one
@@ -56,7 +57,7 @@ struct DockSearchBar: View {
                         .screenTitle()
                         .foregroundStyle(Theme.secondaryLabel)
                         .frame(width: QuickLogDockMetrics.fieldHeight, height: QuickLogDockMetrics.fieldHeight)
-                        .background(Color(.secondarySystemFill), in: Circle())
+                        .background(Color.platformSecondarySystemFill, in: Circle())
                         .contentShape(Circle())
                 }
                 .buttonStyle(.plain)

@@ -36,7 +36,7 @@ struct SubstanceColorPickerView: View {
             }
             .background(Theme.background)
             .navigationTitle("Choose Color")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Skip") {
@@ -267,7 +267,9 @@ struct SubstanceColorPickerView: View {
                 .foregroundStyle(Theme.secondaryLabel)
             TextField("FFAACC", text: $hexInput)
                 .font(.system(.body, design: .monospaced))
+            #if canImport(UIKit)
                 .textInputAutocapitalization(.characters)
+            #endif
                 .autocorrectionDisabled()
                 .onChange(of: hexInput) {
                     let cleaned = hexInput.filter(\.isHexDigit)
@@ -355,12 +357,17 @@ struct SubstanceColorPickerView: View {
 
 extension Color {
     func toHex() -> String {
-        let uiColor = UIColor(self)
+        let platformColor = PlatformColor(self)
         var r: CGFloat = 0
         var g: CGFloat = 0
         var b: CGFloat = 0
         var a: CGFloat = 0
-        uiColor.getRed(&r, green: &g, blue: &b, alpha: &a)
+        #if canImport(UIKit)
+            platformColor.getRed(&r, green: &g, blue: &b, alpha: &a)
+        #elseif canImport(AppKit)
+            let converted = platformColor.usingColorSpace(.sRGB) ?? platformColor
+            converted.getRed(&r, green: &g, blue: &b, alpha: &a)
+        #endif
         let ri = Int(round(r * 255))
         let gi = Int(round(g * 255))
         let bi = Int(round(b * 255))

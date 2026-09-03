@@ -54,7 +54,7 @@ private struct UsageRegularityRow: View {
                 GeometryReader { geometry in
                     ZStack(alignment: .leading) {
                         Capsule()
-                            .fill(Color(.tertiarySystemFill))
+                            .fill(Color.platformTertiarySystemFill)
                             .frame(height: 5)
                         Capsule()
                             .fill(color(for: tier))

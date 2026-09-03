@@ -174,7 +174,7 @@ struct DoseEffectsCard: View {
                     .padding(.vertical, 9)
                     .frame(height: 92)
                     .frame(maxWidth: .infinity)
-                    .background(Color(.tertiarySystemFill), in: Self.curveShape)
+                    .background(Color.platformTertiarySystemFill, in: Self.curveShape)
                     .clipShape(Self.curveShape)
             }
             phaseTable(duration)
@@ -232,7 +232,7 @@ struct DoseEffectsCard: View {
                 .buttonStyle(.plain)
             }
         }
-        .background(Color(.tertiarySystemFill), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.medium))
+        .background(Color.platformTertiarySystemFill, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.medium))
     }
 
     private var trioDivider: some View {

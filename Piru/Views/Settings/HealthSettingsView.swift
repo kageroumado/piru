@@ -34,7 +34,7 @@ struct HealthSettingsView: View {
         }
         .themedPage()
         .navigationTitle("Apple Health")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .task { connectWouldPrompt = await vitals.connectWouldPrompt() }
     }
 
