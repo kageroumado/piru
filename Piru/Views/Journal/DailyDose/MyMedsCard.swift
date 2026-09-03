@@ -165,7 +165,9 @@ struct MyMedsCard: View {
                     }
                 }
             }
-            .padding(14)
+            .padding(.top, Spacing.lg)
+            .padding(.bottom, Spacing.lg)
+            .padding(.horizontal, Spacing.xxl)
             .themeCard()
             .task { await model.refreshStreak(items: items, container: modelContext.container) }
             .task(id: DoseLogService.shared.revision) {
@@ -609,7 +611,7 @@ private struct SlotRowView: View {
             .accessibilityHint(Text("Opens this med"))
         }
         .padding(.vertical, Spacing.xs)
-        .padding(.leading, indented ? 28 : 6)
+        .padding(.leading, indented ? Spacing.xxl : 0)
         .opacity(slotState == .skipped ? 0.6 : 1)
     }
 
@@ -620,11 +622,11 @@ private struct SlotRowView: View {
     private var trailingDetail: some View {
         HStack(spacing: Spacing.xs) {
             Text(subtitle)
-                .font(.caption.monospacedDigit())
+                .font(.footnote.monospacedDigit())
             if let timeText {
                 Text("·")
                 Text(timeText)
-                    .font(.caption.monospacedDigit())
+                    .font(.footnote.monospacedDigit())
             }
         }
         .foregroundStyle(Theme.secondaryLabel)

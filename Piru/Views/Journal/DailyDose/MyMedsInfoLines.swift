@@ -108,17 +108,17 @@ struct MedsInfoLineLayout<Content: View, Trailing: View>: View {
             Image(systemName: systemImage)
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(tint)
-                .frame(width: 24)
+                .frame(width: 18)
                 .accessibilityHidden(true)
             content()
-                .captionSecondary()
+                .font(.footnote)
+                .foregroundStyle(Theme.secondaryLabel)
                 .lineLimit(1)
                 .minimumScaleFactor(0.85)
             Spacer(minLength: 4)
             trailing()
         }
         .padding(.vertical, Spacing.sm)
-        .padding(.leading, Spacing.sm)
         .contentShape(Rectangle())
     }
 }
