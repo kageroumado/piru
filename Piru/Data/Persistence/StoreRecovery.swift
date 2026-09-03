@@ -339,7 +339,7 @@ nonisolated enum StoreRecovery {
         }
     }
 
-    private static func countUserRows(at url: URL, schema: Schema, allowsSave: Bool = false) -> Int? {
+    private static func countUserRows(at url: URL, schema: Schema, allowsSave: Bool = true) -> Int? {
         do {
             // .none — never let the iCloud entitlement pull this probe into CloudKit
             // setup (the schema is CloudKit-incompatible). See PiruApp.makeContainer.
