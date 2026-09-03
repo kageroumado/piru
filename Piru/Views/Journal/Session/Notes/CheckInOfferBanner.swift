@@ -32,7 +32,7 @@ struct CheckInOfferBanner: View {
                     .buttonStyle(.plain)
                     .accessibilityLabel(Text("Dismiss"))
                 }
-                HStack(spacing: Spacing.md) {
+                VStack(spacing: Spacing.md) {
                     Button {
                         enable(.ladder)
                     } label: {

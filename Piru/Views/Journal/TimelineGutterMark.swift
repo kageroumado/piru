@@ -93,10 +93,11 @@ struct TimelineHourMark: View {
 struct TimelineNowMark: View {
     var body: some View {
         TimelineGutterMark(lines: .one) {
-            HStack(spacing: TimelineGutterMarkMetrics.dotSpacing) {
+            HStack(alignment: .center, spacing: TimelineGutterMarkMetrics.dotSpacing) {
                 Circle()
                     .fill(Theme.accent)
                     .frame(width: TimelineGutterMarkMetrics.dotSize, height: TimelineGutterMarkMetrics.dotSize)
+                    .alignmentGuide(.firstTextBaseline) { d in d[VerticalAlignment.center] }
                 Text("Now")
                     .font(TimelineGutterMarkMetrics.primaryFont)
                     .foregroundStyle(Theme.accent)

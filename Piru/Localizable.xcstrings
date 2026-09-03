@@ -2937,6 +2937,7 @@
       }
     },
     "%lld of yesterday's doses weren't logged" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -48944,6 +48945,9 @@
           }
         }
       }
+    },
+    "Yesterday's %@ weren't logged" : {
+
     },
     "Yesterday's afternoon dose of %@ wasn't logged" : {
       "localizations" : {

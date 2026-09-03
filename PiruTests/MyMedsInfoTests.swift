@@ -17,7 +17,7 @@ struct MyMedsInfoTests {
     }
 
     private var missedLine: MyMedsInfoLine {
-        .missedYesterday(MissedYesterdayNotice(name: "Memantine", slotMinutes: 20 * 60, count: 1, dayKey: "2026-08-31"))
+        .missedYesterday(MissedYesterdayNotice(names: ["Memantine"], slotMinutes: 20 * 60, count: 1, dayKey: "2026-08-31"))
     }
 
     // MARK: Selection
@@ -108,7 +108,7 @@ struct MyMedsInfoTests {
     func `One miss names its slot; several collapse to a count`() throws {
         let yesterday = try #require(Calendar.current.date(from: DateComponents(year: 2_026, month: 8, day: 31)))
         let one = MyMedsInfo.missedYesterday(missed: [(name: "Memantine", slotMinutes: 20 * 60)], yesterday: yesterday)
-        #expect(one == .missedYesterday(MissedYesterdayNotice(name: "Memantine", slotMinutes: 20 * 60, count: 1, dayKey: "2026-08-31")))
+        #expect(one == .missedYesterday(MissedYesterdayNotice(names: ["Memantine"], slotMinutes: 20 * 60, count: 1, dayKey: "2026-08-31")))
 
         let two = MyMedsInfo.missedYesterday(
             missed: [(name: "Memantine", slotMinutes: 20 * 60), (name: "Methylphenidate", slotMinutes: 8 * 60)],

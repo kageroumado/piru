@@ -80,7 +80,8 @@ struct MissedYesterdayInfoLine: View {
 
     private var text: Text {
         if notice.count > 1 {
-            return Text("\(notice.count) of yesterday's doses weren't logged")
+            let nameList = notice.names.formatted(.list(type: .and))
+            return Text("Yesterday's \(nameList) weren't logged")
         }
         guard let minutes = notice.slotMinutes else {
             return Text("Yesterday's \(notice.name) wasn't logged")

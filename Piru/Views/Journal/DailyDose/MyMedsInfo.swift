@@ -14,11 +14,15 @@ enum MyMedsInfoLine: Hashable {
 /// What yesterday's `missed` occurrences add up to. `slotMinutes` names the
 /// slot when exactly one was missed; `count` > 1 collapses them.
 struct MissedYesterdayNotice: Hashable {
-    let name: String
+    let names: [String]
     let slotMinutes: Int?
     let count: Int
     /// ``MissedNoticeDismissals/dayKey(for:calendar:)`` of the missed day.
     let dayKey: String
+
+    var name: String {
+        names.first ?? ""
+    }
 }
 
 /// The pure selection behind the card's info lines: which candidates exist and
@@ -94,7 +98,7 @@ enum MyMedsInfo {
     ) -> MyMedsInfoLine? {
         guard let first = missed.first else { return nil }
         return .missedYesterday(MissedYesterdayNotice(
-            name: first.name,
+            names: missed.map(\.name),
             slotMinutes: missed.count == 1 ? first.slotMinutes : nil,
             count: missed.count,
             dayKey: MissedNoticeDismissals.dayKey(for: yesterday, calendar: calendar),
