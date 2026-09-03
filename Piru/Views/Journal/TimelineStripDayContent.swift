@@ -351,9 +351,9 @@ struct TimelineStripDayContent: View {
             context.stroke(
                 path,
                 with: .linearGradient(
-                    Gradient(colors: [connector.color.opacity(0.6), connector.color.opacity(0)]),
+                    Gradient(colors: [connector.color.opacity(0.5), connector.color.opacity(0.12)]),
                     startPoint: CGPoint(x: axisX, y: 0),
-                    endPoint: CGPoint(x: axisX + run / 2, y: 0),
+                    endPoint: CGPoint(x: bubbleLeft, y: 0),
                 ),
                 lineWidth: 1,
             )

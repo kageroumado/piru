@@ -193,19 +193,11 @@ struct MyMedsCard: View {
         return MyMedsHeader(
             takenCount: slots.count(where: \.taken),
             total: slots.count,
-            completionText: completionText,
+            streak: model.streak,
             dueCount: due.count,
             firstDueName: due.first.map { displayName(for: $0.item) },
             onTap: { navigator.push(.myMeds) },
         )
-    }
-
-    private var completionText: String {
-        if let streak = model.streak, streak > 1 {
-            String(localized: "That's everything today — \(streak) days and counting")
-        } else {
-            String(localized: "That's everything today")
-        }
     }
 
     // MARK: Rows
@@ -376,13 +368,11 @@ struct MyMedsCard: View {
 private struct MyMedsHeader: View {
     let takenCount: Int
     let total: Int
-    let completionText: String
+    let streak: Int?
     let dueCount: Int
     let firstDueName: String?
     let onTap: () -> Void
 
-    /// Every scheduled slot logged for today — drives the ring's completion
-    /// state and the transient celebration line.
     private var isComplete: Bool {
         total > 0 && takenCount == total
     }
@@ -390,17 +380,15 @@ private struct MyMedsHeader: View {
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: Spacing.lg) {
-                progressRing
-                VStack(alignment: .leading, spacing: 1) {
+                HStack(spacing: Spacing.md) {
                     Text("My Meds")
                         .cardTitle()
-                    // Status as a subtitle rather than a footer line — it
-                    // swaps text (next dose → count left → "everything today")
-                    // without ever changing the card's height, keeping the
-                    // card visually light.
-                    statusSubtitle
+                    progressChip
                 }
                 Spacer()
+                if !isComplete {
+                    statusHint
+                }
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.tertiary)
@@ -413,64 +401,46 @@ private struct MyMedsHeader: View {
         .accessibilityHint("Opens your meds")
     }
 
-    /// The always-present status line under "My Meds": the completion note
-    /// while done, otherwise what is due right now, otherwise that nothing is.
-    /// One line in every state, so the card height never moves. What comes
-    /// *next* is the info line under the rows, so it is never said twice.
     @ViewBuilder
-    private var statusSubtitle: some View {
-        if isComplete {
-            Text(completionText)
-                .font(.caption)
-                .foregroundStyle(Color.successText)
-                .lineLimit(1)
-        } else if dueCount == 1, let firstDueName {
+    private var statusHint: some View {
+        if dueCount == 1, let firstDueName {
             Text("\(firstDueName) is due")
                 .font(.caption)
                 .foregroundStyle(Theme.accent)
                 .lineLimit(1)
         } else if dueCount > 1 {
-            Text("\(dueCount) doses due")
+            Text("\(dueCount) due")
                 .font(.caption)
                 .foregroundStyle(Theme.accent)
-                .lineLimit(1)
-        } else {
-            Text("Nothing due right now")
-                .captionSecondary()
                 .lineLimit(1)
         }
     }
 
-    private var progressRing: some View {
-        let fraction = total == 0 ? 0 : CGFloat(takenCount) / CGFloat(total)
-        return ZStack {
-            Circle()
-                .stroke(Color.platformTertiarySystemFill, lineWidth: 4)
-            // The arc grows as doses land — `.snappy` keyed on the fraction so
-            // logging (or unlogging) animates the fill rather than snapping.
-            Circle()
-                .trim(from: 0, to: fraction)
-                .stroke(Color.successAccent, style: StrokeStyle(lineWidth: 4, lineCap: .round))
-                .rotationEffect(.degrees(-90))
-                .animation(.snappy, value: fraction)
-            // At completion the count gives way to a checkmark that bounces —
-            // the small "done!" moment. Reverts to the count if a dose is
-            // unlogged.
-            if isComplete {
-                Image(systemName: "checkmark")
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundStyle(Color.successText)
-                    .symbolEffect(.bounce, value: isComplete)
-                    .transition(.scale.combined(with: .opacity))
-            } else {
-                Text("\(takenCount)/\(total)")
-                    .font(.system(size: 10, weight: .bold, design: .monospaced))
-                    .transition(.scale.combined(with: .opacity))
-            }
+    @ViewBuilder
+    private var progressChip: some View {
+        if isComplete {
+            Text(chipText)
+                .font(.caption2.weight(.semibold))
+                .padding(.horizontal, 7)
+                .padding(.vertical, Spacing.xxs)
+                .background(Theme.accent.opacity(0.12), in: Capsule())
+                .foregroundStyle(Theme.accent)
+        } else {
+            Text("\(takenCount)/\(total)")
+                .font(.caption2.weight(.bold).monospacedDigit())
+                .padding(.horizontal, 7)
+                .padding(.vertical, Spacing.xxs)
+                .background(Color.platformTertiarySystemFill, in: Capsule())
+                .foregroundStyle(Theme.secondaryLabel)
         }
-        .frame(width: 36, height: 36)
-        .animation(.snappy, value: isComplete)
-        .accessibilityHidden(true)
+    }
+
+    private var chipText: String {
+        if let streak, streak > 1 {
+            "\(streak) day streak"
+        } else {
+            "Done"
+        }
     }
 }
 
@@ -510,8 +480,8 @@ private struct SupplementsRowView: View {
                 Button(action: onTakeAll) {
                     Text("Take All")
                         .capsuleChip(
-                            text: Color.successText,
-                            fill: Color.successAccent,
+                            text: .white,
+                            fill: Theme.accent,
                             size: .hero,
                         )
                 }
@@ -529,7 +499,7 @@ private struct SupplementsRowView: View {
             .buttonStyle(.plain)
             .accessibilityHidden(true)
         }
-        .padding(.vertical, 7)
+        .padding(.vertical, Spacing.xs)
     }
 
     private var circle: some View {
@@ -538,14 +508,14 @@ private struct SupplementsRowView: View {
                 CheckCircle(state: .taken, due: false)
             } else {
                 Circle()
-                    .stroke(Color.platformTertiarySystemFill, lineWidth: 2.5)
+                    .stroke(Color.platformTertiarySystemFill, lineWidth: 2)
                 Circle()
                     .trim(from: 0, to: total == 0 ? 0 : CGFloat(takenCount) / CGFloat(total))
-                    .stroke(Color.successAccent, style: StrokeStyle(lineWidth: 2.5, lineCap: .round))
+                    .stroke(Theme.accent, style: StrokeStyle(lineWidth: 2, lineCap: .round))
                     .rotationEffect(.degrees(-90))
             }
         }
-        .frame(width: IconSize.iconCompact, height: IconSize.iconCompact)
+        .frame(width: 18, height: 18)
         .accessibilityHidden(true)
     }
 }
@@ -557,32 +527,25 @@ private struct CheckCircle: View {
     let due: Bool
 
     var body: some View {
-        ZStack {
-            Circle()
-                .fill(state == .taken ? Color.successAccent : Color.clear)
-            Circle()
-                .stroke(strokeColor, lineWidth: 2)
-            switch state {
-            case .taken:
-                Image(systemName: "checkmark")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(.white)
-            case .skipped:
-                Image(systemName: "minus")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(Theme.secondaryLabel)
-            case .pending:
-                EmptyView()
-            }
-        }
-        .frame(width: IconSize.iconCompact, height: IconSize.iconCompact)
-        .accessibilityHidden(true)
+        image
+            .font(.system(size: 16))
+            .foregroundStyle(foregroundColor)
+            .frame(width: 18, height: 18)
+            .accessibilityHidden(true)
     }
 
-    private var strokeColor: Color {
+    private var image: Image {
         switch state {
-        case .taken: Color.successAccent
-        case .skipped: Color.platformTertiarySystemFill
+        case .taken: Image(systemName: "circle.fill")
+        case .skipped: Image(systemName: "minus.circle")
+        case .pending: Image(systemName: "circle")
+        }
+    }
+
+    private var foregroundColor: Color {
+        switch state {
+        case .taken: Theme.accent
+        case .skipped: Theme.secondaryLabel.opacity(Theme.Opacity.muted)
         case .pending: due ? Theme.accent : Color.platformTertiarySystemFill
         }
     }
@@ -637,15 +600,7 @@ private struct SlotRowView: View {
                             .background(Theme.accent.opacity(0.15), in: Capsule())
                             .foregroundStyle(Theme.accent)
                     }
-                    Text(subtitle)
-                        .font(.caption.monospacedDigit())
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .lineLimit(1)
-                    if let timeText {
-                        Text(timeText)
-                            .font(.caption.monospacedDigit())
-                            .foregroundStyle(due ? Theme.accent : Theme.secondaryLabel)
-                    }
+                    trailingDetail
                 }
                 .contentShape(Rectangle())
             }
@@ -653,13 +608,27 @@ private struct SlotRowView: View {
             .accessibilityLabel(Text("\(title) details"))
             .accessibilityHint(Text("Opens this med"))
         }
-        .padding(.vertical, 7)
+        .padding(.vertical, Spacing.xs)
         .padding(.leading, indented ? 28 : 6)
         .opacity(slotState == .skipped ? 0.6 : 1)
     }
 
     private var dismissed: Bool {
         taken || slotState == .skipped
+    }
+
+    private var trailingDetail: some View {
+        HStack(spacing: Spacing.xs) {
+            Text(subtitle)
+                .font(.caption.monospacedDigit())
+            if let timeText {
+                Text("·")
+                Text(timeText)
+                    .font(.caption.monospacedDigit())
+            }
+        }
+        .foregroundStyle(Theme.secondaryLabel)
+        .lineLimit(1)
     }
 
     private var accessibilityStateValue: Text {

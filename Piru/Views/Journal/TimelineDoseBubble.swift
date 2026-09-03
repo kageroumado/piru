@@ -27,7 +27,7 @@ struct TimelineDoseBubble: View {
 
     static func height(for style: TimelineBubbleStyle) -> CGFloat {
         switch style {
-        case .full: 62
+        case .full: 58
         case .compact: 40
         }
     }
@@ -61,7 +61,7 @@ struct TimelineDoseBubble: View {
                     .foregroundStyle(.tertiary)
                     .accessibilityHidden(true)
             }
-            .padding(.horizontal, Spacing.lg)
+            .padding(.horizontal, Spacing.md)
             .frame(height: Self.height(for: style))
             .contentShape(.rect)
             .glassEffect(.regular.tint(item.color.opacity(TimelineGlass.tintOpacity)), in: .rect(cornerRadius: Self.cornerRadius))
