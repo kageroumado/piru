@@ -560,11 +560,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Piru;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_TEAM = 52K336H235;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Piru;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Piru reads your body weight to make dose and alcohol-strength estimates accurate for your body, and — if you enable it — your heart rate and blood pressure to show how your body responded during a session. Everything is read-only on your device and is never shared.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Piru reads your body weight, heart rate, and blood pressure from Health to personalize estimates and show your body's response during a session. It does not write any data back to Health.";
@@ -588,7 +589,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 26.0;
-			};
+};
 			name = Debug;
 		};
 		0B3399123025398900182A68 /* Release configuration for PBXNativeTarget "PiruWatch Watch App" */ = {
@@ -597,11 +598,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Piru;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_TEAM = 52K336H235;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Piru;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Piru reads your body weight to make dose and alcohol-strength estimates accurate for your body, and — if you enable it — your heart rate and blood pressure to show how your body responded during a session. Everything is read-only on your device and is never shared.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Piru reads your body weight, heart rate, and blood pressure from Health to personalize estimates and show your body's response during a session. It does not write any data back to Health.";
@@ -625,7 +627,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 26.0;
-			};
+};
 			name = Release;
 		};
 		0B33C3A73025783800182A68 /* Debug configuration for PBXNativeTarget "PiruComplicationExtension" */ = {
@@ -633,7 +635,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_TEAM = 52K336H235;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PiruComplication/Info.plist;
@@ -665,7 +667,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_TEAM = 52K336H235;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PiruComplication/Info.plist;
@@ -828,7 +830,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Piru/Piru.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
@@ -889,7 +891,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Piru/Piru.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
@@ -949,7 +951,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PiruLiveActivityExtension/PiruLiveActivityExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PiruLiveActivityExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PiruLiveActivityExtension;
@@ -979,7 +981,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PiruLiveActivityExtension/PiruLiveActivityExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PiruLiveActivityExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PiruLiveActivityExtension;
@@ -1008,7 +1010,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 2.2;
@@ -1031,7 +1033,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 2.2;
@@ -1055,7 +1057,7 @@
 				ASSTCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PiruWidget/PiruWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PiruWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PiruWidget;
@@ -1084,7 +1086,7 @@
 				ASSTCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PiruWidget/PiruWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PiruWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PiruWidget;
