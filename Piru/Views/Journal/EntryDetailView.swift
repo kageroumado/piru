@@ -99,12 +99,14 @@ struct EntryDetailView: View {
             }
             .listRowBackground(CardBackground())
         }
+        .insetGroupedListStyle()
         .scrollContentBackground(.hidden)
         .contentMargins(.top, 0, for: .scrollContent)
         #if canImport(UIKit)
             .listSectionSpacing(20)
         #endif
             .background(Theme.background)
+            .readableWidth()
             // Keep the draft amount/unit synced with the by-volume fields in drink mode.
             .onChange(of: draft.byVolumeGrams(capability: byVolumeCapability)) { draft.syncByVolumeAmount(capability: byVolumeCapability) }
             .onChange(of: draft.byVolumeMode) { if draft.byVolumeMode { draft.syncByVolumeAmount(capability: byVolumeCapability) } }

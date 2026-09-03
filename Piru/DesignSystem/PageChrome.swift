@@ -7,5 +7,6 @@ extension View {
     func themedPage() -> some View {
         scrollContentBackground(.hidden)
             .background(Theme.background)
+            .readableWidth()
     }
 }

@@ -262,6 +262,7 @@ struct SessionDetailView: View {
             }
             .listRowBackground(CardBackground())
         }
+        .insetGroupedListStyle()
         .scrollContentBackground(.hidden)
         .contentMargins(.top, 0, for: .scrollContent)
         .contentMargins(.horizontal, Spacing.xxl, for: .scrollContent)
@@ -269,6 +270,7 @@ struct SessionDetailView: View {
             .listSectionSpacing(Spacing.xxl)
         #endif
             .background(Theme.background)
+            .readableWidth()
             .task(id: colorSignature) {
                 model.loadColorMap(colors: substanceColors)
             }

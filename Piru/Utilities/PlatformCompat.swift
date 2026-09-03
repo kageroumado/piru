@@ -210,7 +210,7 @@ extension View {
         #if os(iOS)
             self.listStyle(.insetGrouped)
         #else
-            self
+            self.listStyle(.inset)
         #endif
     }
 
@@ -249,6 +249,14 @@ extension View {
     func compactListSectionSpacing() -> some View {
         #if canImport(UIKit)
             self.listSectionSpacing(16)
+        #else
+            self
+        #endif
+    }
+
+    func readableWidth() -> some View {
+        #if os(macOS)
+            self.frame(maxWidth: 720)
         #else
             self
         #endif

@@ -140,9 +140,11 @@ struct EffectEstimatesView: View {
             coverageSection
             readingSection
         }
+        .insetGroupedListStyle()
         .scrollContentBackground(.hidden)
         .compactListSectionSpacing()
         .background(Theme.background)
+        .readableWidth()
         .navigationTitle("Effect Estimates")
         #if canImport(UIKit)
             .navigationBarTitleDisplayMode(.large)
@@ -364,9 +366,11 @@ struct EffectModelExplainerView: View {
                 .listRowBackground(CardBackground())
             }
         }
+        .insetGroupedListStyle()
         .scrollContentBackground(.hidden)
         .compactListSectionSpacing()
         .background(Theme.background)
+        .readableWidth()
         .navigationTitle("How this works")
         #if canImport(UIKit)
             .navigationBarTitleDisplayMode(.large)
