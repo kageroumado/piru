@@ -97,17 +97,13 @@ struct PiruApp: App {
             PhoneSyncCoordinator.shared.configure(container: container)
         #endif
 
-        // BackgroundTasks is unsupported on iOS-apps-on-Mac — register raises an
-        // uncatchable NSInternalInconsistencyException → SIGABRT before any window.
         #if os(iOS)
-            if !ProcessInfo.processInfo.isiOSAppOnMac {
-                BGTaskScheduler.shared.register(
-                    forTaskWithIdentifier: LiveActivityManager.backgroundTaskIdentifier,
-                    using: .main,
-                ) { task in
-                    guard let task = task as? BGAppRefreshTask else { return }
-                    LiveActivityManager.shared.handleBackgroundRefresh(task)
-                }
+            BGTaskScheduler.shared.register(
+                forTaskWithIdentifier: LiveActivityManager.backgroundTaskIdentifier,
+                using: .main,
+            ) { task in
+                guard let task = task as? BGAppRefreshTask else { return }
+                LiveActivityManager.shared.handleBackgroundRefresh(task)
             }
         #endif
     }
