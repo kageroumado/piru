@@ -25,10 +25,17 @@ struct SkinBackdrop: View {
                 glow
                 Starfield()
                 GeometryReader { geo in
-                    ForEach(Array(placements(in: geo.size, decor: decor).enumerated()), id: \.offset) { index, place in
-                        sticker(place, decor: decor, animate: !reduceMotion)
-                            .position(x: place.x, y: place.y)
-                            .accessibilityHidden(true)
+                    let places = placements(in: geo.size, decor: decor)
+                    // One clock drives every glyph's drift — nineteen
+                    // `repeatForever` animations per screen was enough to
+                    // stall the main thread on a device.
+                    TimelineView(.periodic(from: .now, by: reduceMotion ? 3600 : 1 / 12)) { timeline in
+                        let t = timeline.date.timeIntervalSinceReferenceDate
+                        ForEach(Array(places.enumerated()), id: \.offset) { _, place in
+                            sticker(place, decor: decor)
+                                .position(x: place.x, y: place.y + drift(place, at: t, animate: !reduceMotion))
+                                .accessibilityHidden(true)
+                        }
                     }
                 }
             }
@@ -45,12 +52,22 @@ struct SkinBackdrop: View {
         )
     }
 
+    /// The site's `drift`: a slow ±5pt bob on each sticker's own phase.
+    private func drift(_ place: Placement, at t: TimeInterval, animate: Bool) -> CGFloat {
+        guard animate, case .glyph = place.kind else { return 0 }
+        let period = 5 + place.phase * 4
+        return 5 * sin((t / period + place.phase) * 2 * .pi)
+    }
+
     @ViewBuilder
-    private func sticker(_ place: Placement, decor: SkinDecorations, animate: Bool) -> some View {
+    private func sticker(_ place: Placement, decor: SkinDecorations) -> some View {
         switch place.kind {
         case let .glyph(index):
             let glyph = decor.glyphs[index % decor.glyphs.count]
-            DriftingGlyph(glyph: glyph, size: place.size, phase: place.phase, animate: animate)
+            Text(verbatim: glyph.symbol)
+                .font(.system(size: place.size))
+                .foregroundStyle(glyph.color)
+                .shadow(color: glyph.color.opacity(0.7), radius: 6)
                 .opacity(place.opacity)
         case let .slogan(index):
             // Blinky colours cycle the token colours only (gold, accent, wine);
@@ -108,29 +125,6 @@ struct SkinBackdrop: View {
 }
 
 // MARK: - Pieces
-
-/// A glyph with the site's glow, drifting up and down on its own phase.
-private struct DriftingGlyph: View {
-    let glyph: SkinGlyph
-    let size: CGFloat
-    let phase: Double
-    let animate: Bool
-    @State private var up = false
-
-    var body: some View {
-        Text(verbatim: glyph.symbol)
-            .font(.system(size: size))
-            .foregroundStyle(glyph.color)
-            .shadow(color: glyph.color.opacity(0.7), radius: 6)
-            .offset(y: up ? -5 : 5)
-            .onAppear {
-                guard animate else { return }
-                withAnimation(.easeInOut(duration: 5 + phase * 4).repeatForever(autoreverses: true).delay(phase * 3)) {
-                    up = true
-                }
-            }
-    }
-}
 
 /// One of the site's blinkies: a bordered pixel-face slogan with a soft glow.
 private struct Blinky: View {

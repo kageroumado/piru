@@ -219,7 +219,7 @@ private struct PharmaHeaderRow: View {
             }
         }
         .frame(height: PharmaTableMetrics.headerHeight)
-        .skinBackdrop()
+        .background(Theme.background)
     }
 }
 

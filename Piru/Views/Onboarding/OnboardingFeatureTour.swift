@@ -432,5 +432,5 @@ private struct InsightsMock: View {
 
 #Preview {
     OnboardingFeatureTour()
-        .skinBackdrop()
+        .background(Theme.background)
 }
