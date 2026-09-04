@@ -44,7 +44,7 @@ struct GlanceCardChevron: View {
         Image(systemName: systemName)
             .font(.caption.weight(.semibold))
             .foregroundStyle(Theme.secondaryLabel)
-            .rotationEffect(.degrees(rotated ? 180 : 0))
+            .rotationEffect(.degrees(rotated ? 90 : 0))
             .accessibilityHidden(true)
     }
 }

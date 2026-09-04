@@ -76,17 +76,48 @@ struct OnboardingBulletRow: View {
 // MARK: - Welcome
 
 struct OnboardingWelcomeStep: View {
+    @Environment(\.modelContext) private var modelContext
     @Environment(\.onboardingNav) private var nav
+    @State private var hasICloudBackup = false
+    @State private var restoring = false
 
     var body: some View {
         OnboardingLayout(
             title: "Welcome to Piru",
-            subtitle: "Track what you take — and understand how it affects your body.",
+            subtitle: hasICloudBackup
+                ? "We found an existing backup in your iCloud. Pick up where you left off, or start fresh."
+                : "Track what you take — and understand how it affects your body.",
         ) {
             OnboardingAppIconHero(size: 108)
         } footer: {
-            GlassPillButton(title: "Get Started", action: nav.advance)
+            if hasICloudBackup {
+                GlassPillButton(title: restoring ? "Restoring…" : "Restore from Backup") {
+                    Task { await restoreFromICloud() }
+                }
+                .disabled(restoring)
+                GlassPillButton(title: "Start Fresh", prominence: .neutral, action: nav.advance)
+            } else {
+                GlassPillButton(title: "Get Started", action: nav.advance)
+            }
         }
+        .task {
+            let available = FileManager.default.ubiquityIdentityToken != nil
+            guard available else { return }
+            hasICloudBackup = await Task.detached { BackupManager.iCloudBackupExists() }.value
+        }
+    }
+
+    private func restoreFromICloud() async {
+        restoring = true
+        defer { restoring = false }
+        let manager = BackupManager.shared
+        do {
+            try await manager.restoreFromICloud(passphrase: nil, strategy: .merge, context: modelContext)
+            manager.autoICloudEnabled = true
+        } catch {
+            // Fall through — the user can try again from Data & Backup later.
+        }
+        nav.advance()
     }
 }
 

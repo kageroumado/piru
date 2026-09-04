@@ -167,7 +167,7 @@ private struct LibraryFamilyCard: View {
         surface {
             VStack(alignment: .leading, spacing: Spacing.xl) {
                 Button(action: toggle) {
-                    header(chevron: "chevron.down", rotates: true)
+                    header(chevron: "chevron.right", rotates: true)
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
@@ -235,7 +235,7 @@ private struct LibraryFamilyCard: View {
                     Image(systemName: chevron)
                         .font(.subheadline.weight(.bold))
                         .foregroundStyle(.white.opacity(0.9))
-                        .rotationEffect(.degrees(rotates && isExpanded ? 180 : 0))
+                        .rotationEffect(.degrees(rotates && isExpanded ? 90 : 0))
                         .accessibilityHidden(true)
                 }
             }
@@ -467,10 +467,10 @@ private struct LibraryYoursCard: View {
                     .frame(maxWidth: 210, alignment: .leading)
             }
             Spacer(minLength: 8)
-            Image(systemName: "chevron.down")
+            Image(systemName: "chevron.right")
                 .font(.subheadline.weight(.bold))
                 .foregroundStyle(.white.opacity(0.9))
-                .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                .rotationEffect(.degrees(isExpanded ? 90 : 0))
                 .accessibilityHidden(true)
                 .padding(.top, Spacing.xs)
                 .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)

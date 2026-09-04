@@ -30,7 +30,7 @@ struct EducationCard: View {
             } label: {
                 VStack(alignment: .leading, spacing: Spacing.xl) {
                     GlanceCardHeader(icon: "graduationcap.fill", title: Text("Education")) {
-                        GlanceCardChevron(systemName: "chevron.down", rotated: isExpanded)
+                        GlanceCardChevron(systemName: "chevron.right", rotated: isExpanded)
                     }
 
                     Text("How dosing, tolerance, and recovery work")

@@ -79,7 +79,7 @@ struct JournalOptionsMenu: View {
                 }
             }
             .padding(.horizontal, 14)
-            .padding(.top, Spacing.xxl)
+            .padding(.top, Spacing.xxxl)
             .padding(.bottom, Spacing.xl)
 
             if grouping == .grouped {
@@ -157,9 +157,9 @@ struct JournalOptionsMenu: View {
         } label: {
             HStack(spacing: Spacing.xl) {
                 Image(systemName: systemImage)
-                    .font(.body)
+                    .font(.subheadline)
                     .foregroundStyle(Theme.accent)
-                    .frame(width: 24)
+                    .frame(width: 20)
                     .accessibilityHidden(true)
                 title
                     .font(.body)

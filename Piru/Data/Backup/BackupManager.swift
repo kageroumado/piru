@@ -193,7 +193,46 @@ final class BackupManager {
         backupLogger.notice("Restore (\(String(describing: strategy), privacy: .public)) completed.")
     }
 
+    // MARK: - iCloud backup management
+
+    /// Whether an iCloud backup file exists (downloaded or cloud-only placeholder).
+    nonisolated static func iCloudBackupExists() -> Bool {
+        guard let docs = try? iCloudDocumentsURL() else { return false }
+        let file = docs.appendingPathComponent(backupFilename)
+        if FileManager.default.fileExists(atPath: file.path) { return true }
+        let placeholder = docs.appendingPathComponent(".\(backupFilename).icloud")
+        return FileManager.default.fileExists(atPath: placeholder.path)
+    }
+
+    /// Remove the iCloud backup file and reset tracking state.
+    func removeICloudBackup() async throws {
+        try await Task.detached { try Self.deleteICloudFile() }.value
+        lastBackupDate = nil
+        lastBackupHash = nil
+    }
+
+    /// Disable automatic backups and remove the iCloud file.
+    func disableAndRemoveBackup() async {
+        autoICloudEnabled = false
+        lastBackupDate = nil
+        lastBackupHash = nil
+        try? await Task.detached { try Self.deleteICloudFile() }.value
+    }
+
     // MARK: - iCloud file IO (off the main actor)
+
+    private nonisolated static func deleteICloudFile() throws {
+        let src = try iCloudDocumentsURL().appendingPathComponent(backupFilename)
+        let coordinator = NSFileCoordinator()
+        var coordError: NSError?
+        var deleteError: Error?
+        coordinator.coordinate(writingItemAt: src, options: .forDeleting, error: &coordError) { url in
+            guard FileManager.default.fileExists(atPath: url.path) else { return }
+            do { try FileManager.default.removeItem(at: url) } catch { deleteError = error }
+        }
+        if let coordError { throw coordError }
+        if let deleteError { throw deleteError }
+    }
 
     private nonisolated static func iCloudDocumentsURL() throws -> URL {
         guard let container = FileManager.default.url(forUbiquityContainerIdentifier: nil) else {

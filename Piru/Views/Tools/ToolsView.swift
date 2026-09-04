@@ -88,30 +88,37 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
 
 /// The Tools tab root: a hub of tools, each pushing a full-screen view.
 ///
-/// Two safety-relevant tools lead as richer summary cards that glance their
-/// current state — Interactions surfaces the most important active interactions
-/// (``InteractionsSummaryCard``), Inventory shows what's low
-/// (``InventorySummaryCard``). The learn-oriented screens (ceiling effect,
-/// tolerance, recovery) are grouped under an expandable ``EducationCard``.
+/// Rich cards with preview state (Inventory, My Meds) and safety-relevant
+/// summaries (Interactions) render full-width. Simpler tools sit in a
+/// two-column grid to reduce vertical scroll.
 struct ToolsView: View {
-    /// Plain tools rendered as rows, in order.
-    private let rowTools: [Tool] = [.identify, .effectSandbox, .calculator, .steadyState, .volumetric, .benzoEquivalence, .opioidEquivalence, .pharma]
+    /// Tools rendered as half-width compact cards, in order (left-to-right,
+    /// top-to-bottom). Education sub-tools, Inventory, My Meds, Interactions,
+    /// and Data & Backup have their own full-width cards above the grid.
+    private let compactTools: [Tool] = [
+        .identify, .effectSandbox,
+        .calculator, .steadyState,
+        .volumetric, .pharma,
+        .benzoEquivalence, .opioidEquivalence,
+    ]
+
+    private let gridColumns = [
+        GridItem(.flexible(), spacing: Spacing.xl),
+        GridItem(.flexible(), spacing: Spacing.xl),
+    ]
 
     var body: some View {
         ScrollView {
             VStack(spacing: 14) {
+                MyMedsToolCard()
+                InventorySummaryCard()
+                InteractionsSummaryCard()
+                DataBackupToolCard()
                 EducationCard()
 
-                InteractionsSummaryCard()
-                InventorySummaryCard()
-                MyMedsToolCard()
-                DataBackupToolCard()
-
-                ForEach(rowTools) { tool in
-                    GlanceCard(icon: tool.icon, title: Text(tool.name), route: .tool(tool)) {
-                        Text(tool.subtitle)
-                            .font(.subheadline)
-                            .foregroundStyle(Theme.secondaryLabel)
+                LazyVGrid(columns: gridColumns, spacing: Spacing.xl) {
+                    ForEach(compactTools) { tool in
+                        ToolCompactCard(tool: tool)
                     }
                 }
             }
@@ -121,6 +128,38 @@ struct ToolsView: View {
         }
         .background(Theme.background)
         .appNavigationBar("Tools")
+    }
+}
+
+/// A half-width tool card: tinted icon, title, and subtitle in a compact
+/// `themeCard`, matching the Search tab's class browse grid density.
+private struct ToolCompactCard: View {
+    let tool: Tool
+
+    var body: some View {
+        NavigationLink(value: PushRoute.tool(tool)) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
+                Image(systemName: tool.icon)
+                    .font(.title3)
+                    .foregroundStyle(Theme.accent)
+                    .accessibilityHidden(true)
+                Text(tool.name)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.primary)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(tool.subtitle)
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .themeCard()
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 }
 
@@ -140,10 +179,33 @@ private struct DataBackupToolCard: View {
 
 private struct MyMedsToolCard: View {
     @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
+    @Query private var todayEntries: [DoseEntry]
+    @Query private var recentOccurrences: [RoutineOccurrence]
 
-    /// Personalized names resolve through the batch cache; until it is warm
-    /// (a launch restored onto this tab) rows show the stored name, one frame.
     @State private var warmed = false
+
+    init() {
+        let dayStart = Calendar.current.startOfDay(for: .now)
+        _todayEntries = Query(
+            filter: #Predicate<DoseEntry> { $0.timestamp >= dayStart },
+            sort: \DoseEntry.timestamp,
+        )
+        let yesterdayStart = Self.yesterdayStart
+        _recentOccurrences = Query(
+            filter: #Predicate<RoutineOccurrence> { $0.dueDay >= yesterdayStart },
+        )
+    }
+
+    private static var yesterdayStart: Date {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: .now)
+        return calendar.date(byAdding: .day, value: -1, to: today) ?? today
+    }
+
+    private var todayOccurrences: [RoutineOccurrence] {
+        let today = Calendar.current.startOfDay(for: .now)
+        return recentOccurrences.filter { $0.dueDay >= today }
+    }
 
     var body: some View {
         let scheduled = items.filter { !$0.isAsNeeded }
@@ -154,21 +216,20 @@ private struct MyMedsToolCard: View {
                     .foregroundStyle(Theme.secondaryLabel)
                     .frame(maxWidth: .infinity, alignment: .leading)
             } else {
-                VStack(spacing: Spacing.sm) {
-                    ForEach(scheduled.prefix(3)) { item in
-                        HStack {
-                            Text(warmed ? CustomSubstanceStore.shared.displayName(for: item.substance) : item.substance)
-                                .font(.subheadline)
-                                .lineLimit(1)
-                            Spacer()
-                            Text("\(item.amount.doseFormatted) \(item.unit)")
-                                .font(.caption.monospacedDigit())
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
+                let slots = MyMedsModel.slots(items: items, occurrences: todayOccurrences)
+                VStack(spacing: 0) {
+                    ForEach(slots.prefix(3), id: \.id) { slot in
+                        medsRow(slot)
                     }
-                    if scheduled.count > 3 {
-                        GlanceMoreRow(count: scheduled.count - 3)
+                    if slots.count > 3 {
+                        GlanceMoreRow(count: slots.count - 3)
+                            .padding(.top, Spacing.xs)
                     }
+                }
+
+                let nextSlot = slots.first { $0.state == .pending && !$0.isDueNow && $0.time != nil }
+                if let nextSlot {
+                    nextDueLine(slot: nextSlot)
                 }
             }
         }
@@ -176,5 +237,81 @@ private struct MyMedsToolCard: View {
             await SubstanceStore.shared.ensureAllLoaded()
             warmed = true
         }
+    }
+
+    private func medsRow(_ slot: MyMedsCard.MedSlot) -> some View {
+        HStack(spacing: Spacing.lg) {
+            slotCircle(slot)
+                .frame(width: 18, height: 18)
+            Text(displayName(for: slot.item))
+                .font(.subheadline.weight(slot.taken ? .regular : .medium))
+                .foregroundStyle(slot.taken ? Theme.secondaryLabel : .primary)
+                .strikethrough(slot.taken, color: Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
+                .lineLimit(1)
+            Spacer(minLength: 4)
+            HStack(spacing: Spacing.xs) {
+                Text("\(slot.item.amount.doseFormatted) \(slot.item.unit)")
+                    .font(.footnote.monospacedDigit())
+                if let time = slot.time {
+                    Text("·")
+                    Text(Self.timeText(time))
+                        .font(.footnote.monospacedDigit())
+                }
+            }
+            .foregroundStyle(Theme.secondaryLabel)
+            .lineLimit(1)
+        }
+        .padding(.vertical, Spacing.xs)
+    }
+
+    @ViewBuilder
+    private func slotCircle(_ slot: MyMedsCard.MedSlot) -> some View {
+        switch slot.state {
+        case .taken:
+            Image(systemName: "circle.fill")
+                .font(.system(size: 16))
+                .foregroundStyle(Theme.accent)
+        case .skipped:
+            Image(systemName: "minus.circle")
+                .font(.system(size: 16))
+                .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.muted))
+        case .pending:
+            Image(systemName: "circle")
+                .font(.system(size: 16))
+                .foregroundStyle(slot.isDueNow ? Theme.accent : Color.platformTertiarySystemFill)
+        }
+    }
+
+    private func nextDueLine(slot: MyMedsCard.MedSlot) -> some View {
+        HStack(spacing: Spacing.lg) {
+            Image(systemName: "clock")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(Theme.secondaryLabel)
+                .frame(width: 18)
+            Text("Next: \(displayName(for: slot.item)) at \(Self.timeText(slot.time!))")
+                .font(.footnote)
+                .foregroundStyle(Theme.secondaryLabel)
+                .lineLimit(1)
+            Spacer(minLength: 4)
+            Image(systemName: "chevron.right")
+                .font(.caption2.weight(.semibold))
+                .foregroundStyle(.tertiary)
+        }
+        .padding(.vertical, Spacing.sm)
+    }
+
+    private func displayName(for item: DailyDoseItem) -> String {
+        if warmed {
+            item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance)
+        } else {
+            item.productName ?? item.substance
+        }
+    }
+
+    private static func timeText(_ minutes: Int) -> String {
+        let date = Calendar.current.date(
+            bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: .now,
+        ) ?? .now
+        return date.formatted(date: .omitted, time: .shortened)
     }
 }

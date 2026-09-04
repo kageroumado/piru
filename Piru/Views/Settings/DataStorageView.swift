@@ -122,7 +122,7 @@ struct DataStorageView: View {
             Button("Delete", role: .destructive) { model.deleteAllData(context: modelContext) }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Are you sure you want to delete all your data? This action cannot be undone.")
+            Text("This permanently deletes all your data and cannot be undone. If iCloud backup is on, it will be disabled and the backup removed.")
         }
         .alert("Restore This Copy?", isPresented: restoreConfirmBinding, presenting: pendingRestore) { store in
             Button("Restore", role: .destructive) { restore(store) }
@@ -250,26 +250,86 @@ private struct CountRow: View {
 private struct ICloudBackupSection: View {
     @Environment(\.modelContext) private var modelContext
     @State private var manager = BackupManager.shared
+    @State private var existingBackupFound = false
+    @State private var showingRemoveConfirmation = false
+    @State private var showingMergeConfirmation = false
 
     var body: some View {
         Section {
-            Toggle(isOn: autoBinding) {
-                Label("iCloud Backup", systemImage: "icloud")
-            }
-            .tint(Theme.accent)
-            .disabled(!manager.iCloudAvailable)
-            .listRowBackground(CardBackground())
+            if !manager.autoICloudEnabled, existingBackupFound {
+                existingBackupRows
+            } else {
+                Toggle(isOn: autoBinding) {
+                    Label("iCloud Backup", systemImage: "icloud")
+                }
+                .tint(Theme.accent)
+                .disabled(!manager.iCloudAvailable)
+                .listRowBackground(CardBackground())
 
-            BackupStatusRow(manager: manager).listRowBackground(CardBackground())
+                BackupStatusRow(manager: manager).listRowBackground(CardBackground())
+            }
         } header: {
             Text("Backup")
         } footer: {
-            if manager.iCloudAvailable {
+            if !manager.autoICloudEnabled, existingBackupFound {
+                Text("An existing iCloud backup was found. Merge it with your current data to restore it, or remove it to start fresh.")
+            } else if manager.iCloudAvailable {
                 Text("When on, Piru encrypts your journal and saves it to your private iCloud Drive each time you leave the app. The key is stored only in your iCloud Keychain, so it's end-to-end encrypted — **neither Apple nor Piru can read it** — and it restores on your other devices signed in to the same Apple Account.")
             } else {
                 Text("Sign in to iCloud and turn on iCloud Drive to enable automatic encrypted backups.")
             }
         }
+        .task { await checkForExistingBackup() }
+        .alert("Remove Backup?", isPresented: $showingRemoveConfirmation) {
+            Button("Remove", role: .destructive) {
+                Task {
+                    try? await manager.removeICloudBackup()
+                    existingBackupFound = false
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("The existing iCloud backup will be permanently deleted. This cannot be undone.")
+        }
+        .confirmationDialog("Merge Backup", isPresented: $showingMergeConfirmation, titleVisibility: .visible) {
+            Button("Merge With Current Data") {
+                Task {
+                    try? await manager.restoreFromICloud(passphrase: nil, strategy: .merge, context: modelContext)
+                    manager.autoICloudEnabled = true
+                    existingBackupFound = false
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Entries from the backup will be added to your current data. Duplicates are skipped. Automatic backups will be turned on.")
+        }
+    }
+
+    @ViewBuilder
+    private var existingBackupRows: some View {
+        Label {
+            Text("An existing iCloud backup was found")
+        } icon: {
+            Image(systemName: "icloud.fill")
+                .foregroundStyle(Theme.accent)
+        }
+        .font(.footnote)
+        .foregroundStyle(Theme.secondaryLabel)
+        .listRowBackground(CardBackground())
+
+        Button {
+            showingMergeConfirmation = true
+        } label: {
+            Label("Merge With Current Data", systemImage: "arrow.triangle.merge")
+        }
+        .listRowBackground(CardBackground())
+
+        Button(role: .destructive) {
+            showingRemoveConfirmation = true
+        } label: {
+            Label("Remove Existing Backup", systemImage: "trash")
+        }
+        .listRowBackground(CardBackground())
     }
 
     private var autoBinding: Binding<Bool> {
@@ -280,6 +340,11 @@ private struct ICloudBackupSection: View {
                 if newValue { Task { await manager.runAutomaticBackup(context: modelContext) } }
             },
         )
+    }
+
+    private func checkForExistingBackup() async {
+        guard manager.iCloudAvailable, !manager.autoICloudEnabled else { return }
+        existingBackupFound = await Task.detached { BackupManager.iCloudBackupExists() }.value
     }
 }
 
@@ -528,8 +593,8 @@ private struct HowEncryptionWorksSection: View {
             )
             HowItWorksRow(
                 icon: "checkmark.shield",
-                title: "Nothing is deleted by surprise",
-                detail: "Replacing your data on restore takes a recoverable snapshot first. Backups are always optional and off until you turn them on.",
+                title: "Backups are opt-in",
+                detail: "Automatic backups are off until you turn them on. Replacing your data on restore takes a recoverable snapshot first.",
             )
         } header: {
             Text("How Encryption Works")
@@ -581,7 +646,7 @@ private struct RecoverableCopiesSection: View {
         } header: {
             Text("Recoverable Copies")
         } footer: {
-            Text("Piru never deletes a store outright. Copies set aside automatically (after an upgrade hiccup) or before you deleted or restored data appear here, ready to restore.")
+            Text("Copies set aside automatically (after an upgrade hiccup) or before a restore appear here, ready to restore.")
         }
     }
 }
@@ -625,11 +690,16 @@ private struct DeleteEverythingSection: View {
     var body: some View {
         Section {
             Button(role: .destructive, action: onDelete) {
-                Label("Delete Everything", systemImage: "trash")
+                Label {
+                    Text("Delete Everything")
+                } icon: {
+                    Image(systemName: "trash")
+                        .foregroundStyle(.red)
+                }
             }
             .listRowBackground(CardBackground())
         } footer: {
-            Text("Permanently removes every dose, session, and setting. A recoverable snapshot is taken first.")
+            Text("Permanently deletes every dose, session, and setting. If iCloud backup is on, it is disabled and the backup is removed.")
         }
     }
 }
