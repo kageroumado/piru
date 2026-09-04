@@ -97,10 +97,20 @@ final class DockPreferences {
         didSet { Self.store(labels, key: Self.labelsKey, in: defaults) }
     }
 
+    private static let labelsMigrationKey = "dockLabelsMigrated_v1"
+
     init(defaults: UserDefaults = UserDefaults(suiteName: DockPreferences.suiteName) ?? .standard) {
         self.defaults = defaults
         shortcuts = Self.load([DockShortcut].self, key: Self.shortcutsKey, from: defaults) ?? DockShortcut.defaultShortcuts
         labels = Self.load([DockLabel].self, key: Self.labelsKey, from: defaults) ?? DockLabel.defaultLabels
+
+        if !defaults.bool(forKey: Self.labelsMigrationKey) {
+            defaults.set(true, forKey: Self.labelsMigrationKey)
+            let oldDefault: [DockLabel] = [.due, .text(String(localized: "Log a dose"))]
+            if labels == oldDefault {
+                labels = DockLabel.defaultLabels
+            }
+        }
     }
 
     /// Whether another slot can be added.

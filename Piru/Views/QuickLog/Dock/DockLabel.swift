@@ -27,10 +27,8 @@ nonisolated enum DockLabel: Hashable, Codable, Identifiable {
     /// How long a last dose keeps counting; past this the timer falls through.
     static let sinceLastDoseWindow: TimeInterval = 24 * 60 * 60
 
-    /// Today's behavior: the due count when something is due, "Log a dose"
-    /// otherwise.
     static var defaultLabels: [DockLabel] {
-        [.due, .text(String(localized: "Log a dose"))]
+        [.due, .timer(.untilNextMed)]
     }
 
     var id: Self {
