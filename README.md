@@ -19,7 +19,7 @@
 
 <table>
   <tr>
-    <td align="center"><img src=".github/piru-journal.png" alt="Piru Journal — a live session graph with overlaid pharmacokinetic curves for caffeine, alcohol, and melatonin, above a list of past sessions grouped by day" width="380"><br><sub><b>the journal</b> ・ what you took, drawn as it rises and clears</sub></td>
+    <td align="center"><img src=".github/piru-journal.png" alt="The Journal — a live session graph with overlaid pharmacokinetic curves for caffeine, psilocybin, and methylphenidate, with a My Meds card and dose list" width="380"><br><sub><b>the journal</b> ・ what you took, drawn as it rises and clears</sub></td>
     <td align="center"><img src=".github/piru-pharmacology.png" alt="Piru pharmacology card for cocaine — a triple monoamine reuptake inhibitor with a serotonin–dopamine balance slider, receptor target table, and source attribution" width="380"><br><sub><b>the pharmacopeia</b> ・ mechanism, binding, and citations for 1,700+ substances</sub></td>
   </tr>
 </table>
@@ -30,16 +30,13 @@
 >
 > Most tracking apps are built to make you take less. Piru isn't. It assumes you already know what
 > you're doing and just want to *see* it — what you took, when, and what it's still doing to you
-> right now — so it keeps a clean ledger and draws the pharmacology over it: the curve rising and
-> clearing, the second dose stacking on the first, the interaction window opening. It's a question
-> of dose, not of goodness. ♡
+> right now. It's a question of dose, not of goodness. ♡
 
 ---
 
-Piru is an iOS dose journal and pharmacology reference for anyone who takes things — prescriptions,
-supplements, or recreational substances. Log a dose in two taps and Piru draws the pharmacokinetics
-over your day: what's still active, what stacks into a dangerous pair, how tolerance builds and
-fades. Everything stays on your device.
+Log a dose in two taps. Piru draws the pharmacokinetics over your day: what's still active, what
+stacks into a dangerous pair, how tolerance builds and fades. 1,700+ substances, each field cited
+to its source. Everything stays on your device.
 
 ## Get the beta
 
@@ -51,66 +48,28 @@ Piru ships through **TestFlight**, Apple's beta app. Two-minute setup:
 4. TestFlight opens the Piru page — tap **Install**.
 5. When it's done, tap **Open**, or launch Piru from your home screen.
 
-That's it. New builds arrive as a notification, and updating is one tap inside TestFlight.
-
 Questions, bug reports, or just want to hang out? **[Join the Discord →](https://discord.gg/hbpMZhPSdx)**
-
-## Features
-
-- **A journal that draws itself.** Every dose becomes a pharmacokinetic curve. Doses within a window
-  group into **sessions**, and the session graph overlays each substance so you can read the whole
-  night at a glance — what's peaking, what's fading, what's about to come back around.
-- **1,700+ substances, cited.** Dose ladders (threshold → light → common → strong → heavy), routes,
-  onset/peak/offset durations, half-lives, mechanism of action, receptor binding, and subjective
-  effects — resolved per-field from **17 data sources** and linked back to each one.
-- **Interaction warnings.** Class-based danger rules (MAOI + stimulant, opioid + depressant, serotonergic
-  stacks, and more) surface inline as you log and paint a danger window onto the timeline.
-- **Tolerance & effect forecasting.** A tolerance model tracks how sensitivity builds and recovers;
-  for stimulants and cathinones a calibrated pharmacodynamic engine forecasts how the session will
-  *feel* — its rush, its plateau, its crash. See [below](#where-piru-is-different).
-- **Adjustable depth.** Choose **Casual**, **Curious**, or **Pharma Nerd** and the whole app dials in
-  to match — from plain dose ladders and top-line warnings up to receptor-binding tables, biased
-  agonism, and CYP metabolism with citations down to the DOI.
-- **Medications & reminders.** Log branded meds by the tablet (Concerta → 18/27/36/54 mg), group daily
-  meds into **routines** with scheduled reminders that open Quick Log pre-filled, and let supplies count
-  down to a refill — plus opt-in nudges for next-dose windows and comedowns. See [below](#more-than-a-logger).
-- **A toolbox.** An **Effect Estimator** (compare two meds or preview a stack), half-life calculator,
-  volumetric dosing, benzodiazepine and opioid equivalence converters, inventory tracking, and an
-  interaction checker.
-- **Live Activity & widgets.** Active doses on the Lock Screen and Dynamic Island with time remaining;
-  Home Screen widgets for the current session and last dose.
-- **Insights.** Usage trends, an adherence calendar, a per-substance tolerance readout, and a live
-  "in your system" estimate.
-- **Share a session.** Export the current state of your body as a clean image, a PDF report with the
-  PK charts, or a Markdown summary — for a doctor, a friend, or your own notes.
 
 ## Where Piru is different
 
 Most dose trackers draw one generic bell curve for everything. Piru models three things they don't.
 
-### It predicts how a stimulant will feel — *when*, not how much
+### It predicts how a stimulant will feel
 
-For **amphetamine, methylphenidate, and the cathinones (2-/3-/4-MMC)**, Piru runs a real
-pharmacodynamic model instead of a stored curve. It treats what you *feel* as the gap between the
-dopamine a dose forces and how fast your brain compensates for it — and the whole shape falls out of
-that one idea. The same drug gives a rush intravenously but barely orally, because the rush tracks
-how *fast* dopamine rises, not how high it peaks. Euphoria fades on a plateau as your brain catches
-up, until residual drug feels like nothing. The comedown gets deeper with a bigger dose, then curves
-back toward baseline — and it isn't a dopamine dip but an over-correction: the brake still clamped
-down after dopamine has already returned to normal.
+For **amphetamine, methylphenidate, and the cathinones**, Piru runs a pharmacodynamic model: what
+you *feel* is the gap between the dopamine a dose forces and how fast your brain compensates. The
+same drug gives a rush intravenously but barely orally, because the rush tracks how *fast* dopamine
+rises, not how high. Euphoria fades on a plateau as the brain catches up; the comedown is an
+over-correction — the brake still clamped after dopamine has already returned to normal.
 
-The model is calibrated on human PET and primate microdialysis, not eyeballed — **Breier et al.
-(PNAS 1997)** for the dopamine-to-effect transfer function, **Volkow (2001, 2023)** for the rate
-hypothesis, and **Kuczenski & Segal (1997)** for the releaser-vs-blocker split that makes amphetamine
-hit harder and crash worse than methylphenidate. It forecasts **shape and sign, not milligrams** —
-when the effect lands, when it fades, when the crash arrives. Any substance the model can't ground
-falls back to the standard curve.
+Calibrated on human PET and primate microdialysis — **Breier et al. (PNAS 1997)**, **Volkow (2001,
+2023)**, **Kuczenski & Segal (1997)**. It forecasts **shape and sign** — when the effect lands, when
+it fades, when the crash arrives. Substances the model can't ground fall back to the standard curve.
 
 ### Your heart rate, mapped to each dose
 
-Connect Apple Health and Piru overlays your **heart rate and blood pressure** right on the session
-timeline — then reads how your body answered *each* dose: the resting rate before it, the peak after,
-and the delta. Read-only, and the numbers never leave your device.
+Connect Apple Health and Piru overlays your **heart rate and blood pressure** on the session
+timeline — the resting rate before each dose, the peak after, and the delta.
 
 <div align="center">
 <img src=".github/piru-heart-rate.png" alt="A session timeline with a red heart-rate band and a blood-pressure marker under the pharmacokinetic curves, and per-dose chips showing 64→75, 70→83, and 81→97 bpm" width="330">
@@ -118,10 +77,9 @@ and the delta. Read-only, and the numbers never leave your device.
 
 ### Alcohol, modeled the way it clears
 
-Alcohol doesn't decay like everything else. Its clearing enzyme saturates almost immediately, so it
-comes off at a **constant grams-per-hour** — *zero-order* elimination — which means **duration scales
-with the dose** and the decline is a straight line, not the usual exponential tail. Enter a drink by
-**volume × ABV** and Piru draws it correctly:
+Alcohol's clearing enzyme saturates almost immediately, so it comes off at a **constant
+grams-per-hour** — *zero-order* elimination. Duration scales with the dose; the decline is a
+straight line. Enter a drink by **volume × ABV** and Piru draws it correctly:
 
 <table>
   <tr>
@@ -130,9 +88,8 @@ with the dose** and the decline is a straight line, not the usual exponential ta
   </tr>
 </table>
 
-Seventeen times the ethanol takes roughly seventeen times as long to clear — the curve just gets
-wider, not taller-and-shorter. And because elimination tracks liver and body mass, Piru scales it by
-**your body weight**: the *same* bottle clears far faster in a larger body.
+Seventeen times the ethanol takes roughly seventeen times as long to clear. And because elimination
+tracks liver and body mass, Piru scales it by **your body weight**:
 
 <table>
   <tr>
@@ -143,54 +100,66 @@ wider, not taller-and-shorter. And because elimination tracks liver and body mas
 
 ## More than a logger
 
-Piru keeps a clean ledger — but calling it a dose logger sells it short. The same app that draws
-your pharmacokinetics is also a medication tracker, a reminder engine, and a pharmacodynamic
-sandbox. None of it is bolted on.
-
 <table>
   <tr>
-    <td align="center"><img src=".github/piru-pill.png" alt="Logging Concerta in Quick Log — the dose editor offers its real tablet strengths as chips (18, 27, 36, 54 mg) with a tablet-count stepper reading '1 tablet = 18 mg'" width="380"><br><sub><b>log the pill, not the milligram</b> ・ pick a brand like <b>Concerta</b> and Piru offers its real tablet strengths — 18 / 27 / 36 / 54 mg — and counts the dose by the tablet</sub></td>
-    <td align="center"><img src=".github/piru-routine.png" alt="A daily medication routine named Daily, scheduled for 9:00 AM with a reminder, holding Vitamin D3 4000 IU and Magnesium 350 mg" width="380"><br><sub><b>prescriptions &amp; routines</b> ・ group your daily meds into a routine, give it a time, and a reminder opens Quick Log already filled in — with supplies that count down to a refill</sub></td>
+    <td align="center"><img src=".github/piru-pill.png" alt="Logging Concerta in Quick Log — the dose editor offers its real tablet strengths as chips (18, 27, 36, 54 mg) with a tablet-count stepper reading '1 tablet = 18 mg'" width="380"><br><sub><b>log the pill, not the milligram</b> ・ pick a brand like <b>Concerta</b> and Piru offers its real tablet strengths — 18 / 27 / 36 / 54 mg — and counts by the tablet</sub></td>
+    <td align="center"><img src=".github/piru-routine.png" alt="A daily medication routine named Daily, scheduled for 9:00 AM with a reminder, holding Vitamin D3 4000 IU and Magnesium 350 mg" width="380"><br><sub><b>prescriptions & routines</b> ・ group daily meds, give them a time, and a reminder opens Quick Log pre-filled — with supplies that count down to a refill</sub></td>
   </tr>
   <tr>
-    <td align="center"><img src=".github/piru-notifications.png" alt="The notifications management screen listing every alert type as an opt-in toggle: routine reminders, ask again, next-dose window, comedown alerts" width="380"><br><sub><b>reminders that fit the dose</b> ・ routine nudges, an <i>ask-again</i> snooze, next-dose windows, and comedown alerts before a dose wears off — every type opt-in, on one screen</sub></td>
-    <td align="center"><img src=".github/piru-estimator.png" alt="The Effect Estimator's forecast — a Feeling curve and an Energy curve comparing two stimulants across eight hours, above a Compulsion curve" width="380"><br><sub><b>the effect estimator</b> ・ a what-if sandbox — compare two meds or preview a stack and watch how it might <i>feel</i> over the hours, without logging a thing</sub></td>
+    <td align="center"><img src=".github/piru-notifications.png" alt="The notifications management screen listing every alert type as an opt-in toggle: routine reminders, ask again, next-dose window, comedown alerts" width="380"><br><sub><b>reminders that fit the dose</b> ・ routine nudges, next-dose windows, comedown alerts, and quiet hours — every type opt-in</sub></td>
+    <td align="center"><img src=".github/piru-estimator.png" alt="The Effect Estimator's forecast — a Feeling curve and an Energy curve comparing two stimulants across eight hours, above a Compulsion curve" width="380"><br><sub><b>the effect estimator</b> ・ compare two meds or preview a stack — watch how it might <i>feel</i> over the hours, without logging a thing</sub></td>
   </tr>
 </table>
 
 ## The library — 1,700+ substances, every claim cited
 
-Piru bundles an offline SQLite library of **1,700+ substances**. Each field — a dose range, a duration,
-a receptor affinity, a mechanism summary — is resolved by **source priority** (which you can reorder)
-and carries its own attribution, so a substance sheet ends with a **Data Sources** list that links
-straight to each source's page for that compound. Doses and durations come first from
-**[drug.community](https://drug.community)** — our main dose/duration dataset — with the volunteer wikis
-backfilling anything it doesn't cover. Which source wins a given field, in priority order:
+An offline SQLite library where each field — a dose range, a duration, a receptor affinity, a
+mechanism summary — is resolved by **source priority** (which you can reorder) and carries its own
+attribution. Doses and durations come first from **[drug.community](https://drug.community)**, with
+the volunteer wikis backfilling. The full priority chain:
 
-- **Piru's own hand-curated overlay** & **peer-reviewed primary literature** — outrank everything, so a
-  verified correction always wins (this is also where genuine upstream dose bugs get overridden)
-- **[drug.community](https://drug.community)** — **preferred** dose/duration ladders & reported-effect spectra
-- **[PsychonautWiki](https://psychonautwiki.org)** & **[TripSit](https://tripsit.me)** — backfill dose ranges
-  and durations, plus effect vocabulary, interaction data, and harm-reduction dosing
-- **[FreeODwiki](https://github.com/SalviaSWC/FreeODwiki)** — the substance-profile copy for the **Chinese
-  locale** (读中文时的正文来源)
-- **[DailyMed](https://dailymed.nlm.nih.gov)** (FDA) & **DEA Orange Book** — prescription labels & scheduling
-- **[PubChem](https://pubchem.ncbi.nlm.nih.gov)** & **[Wikidata](https://www.wikidata.org)** — identifiers, chemistry
-- **[PDSP K<sub>i</sub> database](https://pdsp.unc.edu)** — receptor binding affinities
-- **[SubFxOnEx](https://github.com/Di-lemma/SubFxOnEx)** (drug.community, LGPL-2.1) — the subjective-effects
-  ontology behind the descriptor chips on session notes (21 domains, 485 concepts, 1,178 aliases)
-- **Erowid PiHKAL/TiHKAL** and other primary literature for the rest
+**Piru curated overlay** & **primary literature** → **[drug.community](https://drug.community)** →
+**[PsychonautWiki](https://psychonautwiki.org)** & **[TripSit](https://tripsit.me)** →
+**[FreeODwiki](https://github.com/SalviaSWC/FreeODwiki)** (中文正文来源) →
+**[DailyMed](https://dailymed.nlm.nih.gov)** & **DEA Orange Book** →
+**[PubChem](https://pubchem.ncbi.nlm.nih.gov)** & **[Wikidata](https://www.wikidata.org)** →
+**[PDSP K<sub>i</sub>](https://pdsp.unc.edu)** →
+**[SubFxOnEx](https://github.com/Di-lemma/SubFxOnEx)** (subjective-effects ontology) →
+**Erowid PiHKAL/TiHKAL** and the rest
 
 <div align="center">
 <img src=".github/piru-sources-zh.png" alt="A substance's Data Sources list — drug.community, FreeOD Wiki, PubMed, Piru's hand-curated overlay, PsychonautWiki, and TripSit, each a tappable link" width="300">
 </div>
 
+## A closer look
+
+<table>
+  <tr>
+    <td align="center"><img src=".github/piru-journal.png" alt="The Journal in dark mode — session timeline with overlaid PK curves, My Meds card, and dose list" width="380"><br><sub><b>journal</b> ・ dark</sub></td>
+    <td align="center"><img src=".github/piru-journal-light.png" alt="The Journal in light mode — the same timeline, meds card, and dose list in a light theme" width="380"><br><sub><b>journal</b> ・ light</sub></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center"><img src=".github/piru-session.png" alt="Session detail — Lake evening: a psilocybin session with check-in notes, mood and energy ratings, Shulgin scale markings, and a PK curve" width="250"><br><sub><b>session notes</b> ・ check-ins with mood, energy, Shulgin scale, and effect descriptors</sub></td>
+    <td align="center"><img src=".github/piru-library.png" alt="The Library browsing substances by category — Yours, Common, Stimulants, Empathogens, Hallucinogens — with colorful gradient cards" width="250"><br><sub><b>library</b> ・ browse by category</sub></td>
+    <td align="center"><img src=".github/piru-tools.png" alt="The Tools tab — My Meds, inventory with supply levels, interactions, data and backup, education, box identifier, and effect estimator" width="250"><br><sub><b>tools</b> ・ inventory, interactions, calculators</sub></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center"><img src=".github/piru-insights.png" alt="Insights in dark mode — usage bar chart, adherence calendar, in-your-body estimate, tolerance readout, and receptor load" width="380"><br><sub><b>insights</b> ・ dark</sub></td>
+    <td align="center"><img src=".github/piru-insights-light.png" alt="Insights in light mode — the same cards in a light theme" width="380"><br><sub><b>insights</b> ・ light</sub></td>
+  </tr>
+</table>
+
 ## Reads in your language
 
-Piru ships a **full localization in English, Simplified Chinese (简体中文), and Traditional Chinese
-(繁體中文)** — not just the interface chrome, but the pharmacology summaries, effect names, and safety
-copy. Crisis resources are **region-aware**: the *Get Help* screen shows the emergency and crisis
-lines for where you actually are.
+Full localization in **English, Simplified Chinese (简体中文), and Traditional Chinese (繁體中文)** —
+not just the interface, but pharmacology summaries, effect names, and safety copy. Crisis resources
+are **region-aware**: the *Get Help* screen shows the lines for where you actually are.
 
 <table>
   <tr>
@@ -200,29 +169,14 @@ lines for where you actually are.
   </tr>
 </table>
 
-## A closer look
-
-<table>
-  <tr>
-    <td align="center"><img src=".github/piru-session.png" alt="Session detail — four doses of caffeine, alcohol, and melatonin with individual progress rails and remaining time" width="250"><br><sub><b>session detail</b> ・ every dose, still ticking</sub></td>
-    <td align="center"><img src=".github/piru-library.png" alt="The Library browsing substances by effect class — Common, Stimulants, Empathogens, Hallucinogens" width="250"><br><sub><b>library</b> ・ browse by effect class</sub></td>
-    <td align="center"><img src=".github/piru-insights.png" alt="Insights — usage bar chart, in-your-system estimate, an adherence calendar, and a tolerance readout" width="250"><br><sub><b>insights</b> ・ usage, adherence, tolerance</sub></td>
-  </tr>
-  <tr>
-    <td align="center"><img src=".github/piru-tools.png" alt="The Tools tab — education, interactions, inventory, half-life calculator, volumetric dosing, benzo and opioid equivalence" width="250"><br><sub><b>tools</b> ・ calculators, converters, inventory</sub></td>
-    <td align="center"><img src=".github/piru-help.png" alt="The Get Help screen — grounding suggestions and US emergency, crisis, and poison-control lines" width="250"><br><sub><b>get help</b> ・ one tap away, always</sub></td>
-    <td align="center"><img src=".github/piru-share.png" alt="The Share Session sheet offering a session image, a PDF report, and a Markdown summary" width="250"><br><sub><b>share</b> ・ image, PDF, or Markdown</sub></td>
-  </tr>
-</table>
-
 ## Private by design
 
-Piru is built for sensitive data, so the default is the safe one: **nothing leaves your device.**
+**Nothing leaves your device.**
 
 - **On-device only.** Your journal lives locally in SwiftData. No sign-up, no account, no server.
 - **No cloud unless you ask.** Backups are opt-in and **end-to-end encrypted** (AES-256-GCM) with a
   device key held in your iCloud Keychain, or a passphrase only you know.
-- **No ads, no trackers, no analytics selling.** Your data is yours alone.
+- **No ads, no trackers, no analytics.**
 
 ## Requirements
 
