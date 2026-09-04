@@ -15,8 +15,8 @@
 
 <table>
   <tr>
-    <td align="center"><img src=".github/piru-journal.png" width="380"></td>
-    <td align="center"><img src=".github/piru-session.png” width="380"></td>
+    <td align="center"><img src=".github/piru-journal.png" width="290"></td>
+    <td align="center"><img src=".github/piru-session.png" width="290"></td>
   </tr>
 </table>
 
@@ -69,21 +69,25 @@ Alcohol's clearing enzyme saturates almost immediately, so it comes off at a **c
 grams-per-hour** — *zero-order* elimination. Duration scales with the dose; the decline is a
 straight line. Enter a drink by **volume × ABV** and Piru draws it correctly:
 
+<div align="center">
 <table>
   <tr>
-    <td align="center"><img src=".github/piru-alcohol-beer.png" alt="A 330 mL 5% beer — 13 g of ethanol — peaking and clearing in about two hours" width="290"><br><sub><b>a beer</b> ・ 330 mL · 5% → 13 g · clears in ~2 h</sub></td>
-    <td align="center"><img src=".github/piru-alcohol-whiskey.png" alt="A 700 mL 40% bottle of whiskey — 221 g of ethanol — declining as a straight line over about 34 hours" width="290"><br><sub><b>a bottle of whiskey</b> ・ 700 mL · 40% → 221 g · ~34 h, ruler-straight</sub></td>
+    <td align="center"><img src=".github/piru-alcohol-beer.png" alt="A 330 mL 5% beer — 13 g of ethanol — peaking and clearing in about two hours" width="290"><br><sub><b>a beer</b></sub></td>
+    <td align="center"><img src=".github/piru-alcohol-whiskey.png" alt="A 700 mL 40% bottle of whiskey — 221 g of ethanol — declining as a straight line over about 34 hours" width="290"><br><sub><b>a bottle of whiskey</b></sub></td>
   </tr>
 </table>
+</div>
 
 ## More than a logger
 
+<div align="center">
 <table>
   <tr>
-    <td align="center"><img src=".github/piru-pill.png" alt="Logging Concerta in Quick Log — the dose editor offers its real tablet strengths as chips (18, 27, 36, 54 mg) with a tablet-count stepper reading '1 tablet = 18 mg'" width="380"><br><sub><b>log the pill, not the milligram</b> ・ pick a brand like <b>Concerta</b> and Piru offers its real tablet strengths</sub></td>
-    <td align="center"><img src=".github/piru-routine.png" alt="A daily medication routine named Daily, scheduled for 9:00 AM with a reminder, holding Vitamin D3 4000 IU and Magnesium 350 mg" width="380"><br><sub><b>prescriptions & routines</b> ・ group daily meds, give them a time, and a reminder opens Quick Log pre-filled</sub></td>
+    <td align="center"><img src=".github/piru-pill.png" alt="Logging Concerta in Quick Log — the dose editor offers its real tablet strengths as chips (18, 27, 36, 54 mg) with a tablet-count stepper reading '1 tablet = 18 mg'" width="290"><br><sub><b>pick a brand like <b>Concerta</b> and Piru offers its tablet strengths</sub></td>
+    <td align="center"><img src=".github/piru-routine.png" alt="A daily medication routine named Daily, scheduled for 9:00 AM with a reminder, holding Vitamin D3 4000 IU and Magnesium 350 mg" width="290"><br><sub><b>prescriptions & routines</b> ・ group daily meds</sub></td>
   </tr>
 </table>
+</div>
 
 ## The library — 1,700+ substances, cited
 
@@ -102,18 +106,21 @@ attribution.
 
 ## A closer look
 
+<div align="center">
 <table>
   <tr>
-    <td align="center"><img src=".github/piru-insights.png” width="380"></td>
-    <td align="center"><img src=".github/piru-tools.png" width="380"></td>
+    <td align="center"><img src=".github/piru-insights.png" width="290"></td>
+    <td align="center"><img src=".github/piru-tools.png" width="290"></td>
   </tr>
 </table>
+</div>
 
 ## Reads in your language
 
 Full localization in **English, Simplified Chinese (简体中文), and Traditional Chinese (繁體中文)** —
 not just the interface, but pharmacology summaries, effect names, and safety copy.
 
+<div align="center">
 <table>
   <tr>
     <td align="center"><img src=".github/piru-journal-zh.png" alt="The Journal in Simplified Chinese, showing the current-session graph and past sessions" width="250"><br><sub>日志 ・ the journal, localized</sub></td>
@@ -121,6 +128,7 @@ not just the interface, but pharmacology summaries, effect names, and safety cop
     <td align="center"><img src=".github/piru-help-zh.png" alt="The Get Help screen in Simplified Chinese showing China's 120 ambulance number and a local crisis line" width="250"><br><sub>获取帮助 ・ region-aware crisis lines</sub></td>
   </tr>
 </table>
+</div>
 
 ## Private by design
 
