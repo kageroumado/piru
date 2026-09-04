@@ -168,8 +168,8 @@ struct InsightsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: Spacing.xxl) {
                 usageCard
-                inYourBodyCard
                 adherenceCard
+                inYourBodyCard
                 InsightsToleranceCard()
                 InsightsReceptorLoadCard()
 
@@ -219,14 +219,13 @@ struct InsightsView: View {
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
                         Spacer()
-                        Text("\(u.perDayText)/day")
+                        Text("\(u.perDayText)")
+                            .font(.system(.title2, design: .rounded, weight: .bold))
+                        Text("/day")
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                     usageChart
-                    Text("Past 2 weeks")
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
                 }
             } else {
                 emptyContent("No doses logged yet")
@@ -512,9 +511,18 @@ private struct InsightsReceptorLoadCard: View {
                 .font(.subheadline.weight(.medium))
                 .lineLimit(1)
             Spacer(minLength: 10)
-            Text("\(Int(state.severity * 100))%")
-                .font(.caption.monospacedDigit())
-                .foregroundStyle(Theme.secondaryLabel)
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(color.opacity(0.15))
+                        .frame(height: 6)
+                    Capsule()
+                        .fill(color)
+                        .frame(width: max(6, geo.size.width * state.severity), height: 6)
+                }
+                .frame(maxHeight: .infinity, alignment: .center)
+            }
+            .frame(width: 96, height: 8)
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(state.receptorClass.casualName))
