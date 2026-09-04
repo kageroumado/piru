@@ -690,6 +690,34 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
                 broken.append(f"{path.name}: not a list")
         self.assertEqual([], broken)
 
+    def test_subfxonex_ontology_ships_whole(self):
+        """A note stores concept ids, so the shipped vocabulary must be the whole
+        release: every rollup, every atomic under a rollup, every alias resolving."""
+        snapshot = json.loads(
+            (Path(__file__).resolve().parents[3] / "data/sources/subfxonex.json").read_text()
+        )
+        concepts = snapshot["concepts"]
+        rollups = self.db.execute(
+            "select count(*) from subjective_effect_concepts where kind = 'rollup' and parent_id is null"
+        ).fetchone()[0]
+        atomics = self.db.execute(
+            "select count(*) from subjective_effect_concepts c"
+            " join subjective_effect_concepts p on p.id = c.parent_id and p.kind = 'rollup'"
+            " where c.kind = 'atomic'"
+        ).fetchone()[0]
+        self.assertEqual(rollups, sum(1 for c in concepts if c["kind"] == "rollup"))
+        self.assertEqual(atomics, sum(1 for c in concepts if c["kind"] == "atomic"))
+        self.assertEqual(rollups + atomics, len(concepts))
+        aliases = self.db.execute(
+            "select count(*) from subjective_effect_concept_aliases"
+        ).fetchone()[0]
+        self.assertEqual(aliases, len(snapshot["aliases"]))
+        orphans = self.db.execute(
+            "select count(*) from subjective_effect_concept_aliases a"
+            " left join subjective_effect_concepts c on c.id = a.effect_id where c.id is null"
+        ).fetchone()[0]
+        self.assertEqual(orphans, 0)
+
     def test_substance_forms_are_written_in_a_stable_order(self):
         """Insertion order within a substance must not depend on PYTHONHASHSEED — an
         unsorted `set` here made two builds of identical inputs differ in row order,
@@ -4179,3 +4207,19 @@ class TestSignatureGates(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestNextContentVersion(unittest.TestCase):
+    """Same-day rebuilds must mint distinct versions: the app keeps an opt-in
+    downloaded copy over the bundle while the version string is not older."""
+
+    def test_first_build_of_the_day(self):
+        self.assertEqual(_mod.next_content_version("2026-09-01", "2026-08-31.2"), "2026-09-01.0")
+        self.assertEqual(_mod.next_content_version("2026-09-01", None), "2026-09-01.0")
+
+    def test_same_day_increments(self):
+        self.assertEqual(_mod.next_content_version("2026-09-01", "2026-09-01.0"), "2026-09-01.1")
+        self.assertEqual(_mod.next_content_version("2026-09-01", "2026-09-01.7"), "2026-09-01.8")
+
+    def test_garbled_suffix_restarts(self):
+        self.assertEqual(_mod.next_content_version("2026-09-01", "2026-09-01.x"), "2026-09-01.0")

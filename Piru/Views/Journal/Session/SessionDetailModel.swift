@@ -117,7 +117,7 @@ final class SessionDetailModel {
     /// `-piruFakeVitals` launch argument. Never compiled into release builds. HR
     /// rises after each dose (stimulant/alcohol tachycardia) with a little wobble,
     /// plus a couple of blood-pressure spot checks.
-    private enum DebugVitals {
+    enum DebugVitals {
         static func synthetic(doses: [Date], start: Date, end: Date) -> SessionVitals {
             let totalMinutes = end.timeIntervalSince(start) / 60
             guard totalMinutes > 0 else { return .empty }

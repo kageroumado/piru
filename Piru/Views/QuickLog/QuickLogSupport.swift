@@ -1,7 +1,6 @@
 import OSLog
 import SwiftData
 import SwiftUI
-import UIKit
 import WidgetKit
 
 /// The dock sheet's content root: owns the detent state and applies the
@@ -74,6 +73,7 @@ struct DockSheetHost: View {
         }
         // The label scanner stacks on the dock (the cover's slot is taken), like
         // the sheets above — full-screen for the live camera.
+        #if os(iOS)
         .fullScreenCover(isPresented: $showScanner) {
             LabelScannerView(
                 onResolved: stageScanned,
@@ -83,6 +83,7 @@ struct DockSheetHost: View {
                 },
             )
         }
+        #endif
         // Navigator sheets launched from quick log (Manage Routines, Edit
         // Routine…) present here, stacked on the dock — the dock occupies
         // the cover's only presentation slot, so they can't present there.
@@ -148,59 +149,7 @@ struct StagingHaptics: View {
     }
 }
 
-// MARK: - Cover Accessibility Unmasker
-
-/// Restores VoiceOver access to the dock sheet at undimmed detents.
-///
-/// UIKit marks the quick-log cover's `UITransitionView` `accessibilityViewIsModal`
-/// (it's a full-screen modal), and VoiceOver ignores every *sibling* of a modal
-/// view — which includes the always-presented dock sheet's own transition view
-/// whenever the dock is non-modal (peek/compact/medium, i.e. whenever
-/// `presentationBackgroundInteraction` leaves it undimmed). Net effect: at rest
-/// the search field, staged doses, and Log Dose are invisible to assistive tech;
-/// at `.large` the dock's transition view turns modal itself, wins as topmost,
-/// and the situation flips (verified via lldb: both transition views, flag by
-/// detent). The full-screen presentation already removes the Journal underneath
-/// from the hierarchy, so the cover's modal flag protects nothing — clearing it
-/// exposes cover content and dock together, while the dock's *own* modal flag
-/// still correctly masks the cover at `.large`.
-///
-/// Public-API superview walk from a hosted leaf, same pattern as the (retired)
-/// `SheetPlatterHider`. Re-asserted from `layoutSubviews` because UIKit can
-/// re-apply the flag across presentation transitions.
-struct CoverAccessibilityUnmasker: UIViewRepresentable {
-    func makeUIView(context _: Context) -> UnmaskView {
-        UnmaskView()
-    }
-    func updateUIView(_: UnmaskView, context _: Context) {}
-
-    final class UnmaskView: UIView {
-        override func didMoveToWindow() {
-            super.didMoveToWindow()
-            unmask()
-            // The presentation transition can set the flag after this view
-            // lands in the window — re-check once the current turn settles.
-            DispatchQueue.main.async { [weak self] in self?.unmask() }
-        }
-
-        override func layoutSubviews() {
-            super.layoutSubviews()
-            unmask()
-        }
-
-        private func unmask() {
-            var ancestor = superview
-            while let view = ancestor {
-                if view.accessibilityViewIsModal {
-                    view.accessibilityViewIsModal = false
-                    UIAccessibility.post(notification: .layoutChanged, argument: nil)
-                    break
-                }
-                ancestor = view.superview
-            }
-        }
-    }
-}
+// iOS UIKit type (CoverAccessibilityUnmasker) is in QuickLogSupport+iOS.swift.
 
 // MARK: - Card List
 
@@ -237,7 +186,7 @@ struct QuickLogCardList: View {
         // its own slice, so a card whose staged state is unchanged is skipped by
         // its `.equatable()` rather than re-diffing every chip + context menu.
         let staged = tray.stagedCountsBySubstance()
-        return LazyVStack(alignment: .leading, spacing: 12) {
+        return LazyVStack(alignment: .leading, spacing: Spacing.xl) {
             if !content.hasLoaded {
                 // Loading: render nothing (the dock stays put) rather than
                 // the empty-state placeholder — the caches fill within a
@@ -255,9 +204,9 @@ struct QuickLogCardList: View {
     /// separates sections; header → content is the stack's own 12pt.
     private func sectionHeader(_ title: LocalizedStringKey) -> some View {
         Text(title)
-            .font(.subheadline.weight(.semibold))
+            .sectionLabel()
             .foregroundStyle(Theme.secondaryLabel)
-            .padding(.top, 8)
+            .padding(.top, Spacing.md)
             .accessibilityAddTraits(.isHeader)
     }
 
@@ -341,7 +290,7 @@ struct QuickLogCardList: View {
             }
         }
         .padding(.horizontal, 14)
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
         .themeCard()
     }
 
@@ -370,16 +319,16 @@ struct QuickLogCardList: View {
         Button {
             withAnimation(.snappy) { routinesCollapsed.toggle() }
         } label: {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 Text("My Meds")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
                     .rotationEffect(.degrees(routinesCollapsed ? 0 : 90))
                 Spacer()
             }
             .foregroundStyle(Theme.secondaryLabel)
-            .padding(.top, 8)
+            .padding(.top, Spacing.md)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -387,7 +336,7 @@ struct QuickLogCardList: View {
         .accessibilityValue(routinesCollapsed ? Text("Collapsed") : Text("Expanded"))
 
         if !routinesCollapsed {
-            FlowLayout(spacing: 8) {
+            FlowLayout(spacing: Spacing.md) {
                 ForEach(content.cachedDailyGroups) { group in
                     routinePill(group, staged: staged)
                 }
@@ -402,16 +351,16 @@ struct QuickLogCardList: View {
         Button {
             navigator.present(.dailyDoseSettings)
         } label: {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 Image(systemName: "plus")
                     .imageScale(.small)
                     .accessibilityHidden(true)
                 Text("Add a Med")
             }
-            .font(.subheadline.weight(.semibold))
+            .sectionLabel()
             .padding(.horizontal, 14)
             .padding(.vertical, 9)
-            .background(Color(.secondarySystemFill), in: Capsule())
+            .background(Color.platformSecondarySystemFill, in: Capsule())
             .foregroundStyle(Theme.secondaryLabel)
         }
         .buttonStyle(.plain)
@@ -424,6 +373,8 @@ struct QuickLogCardList: View {
     /// re-logs. Long-press to manage meds.
     private func routinePill(_ group: DailyCategoryGroup, staged: [String: StagedChipCounts]) -> some View {
         let done = group.remaining.isEmpty
+        let count = group.items.count
+        let taken = count - group.remaining.count
         let allStaged = group.items.allSatisfy { stagedQuantity($0, staged: staged) > 0 }
         return Button {
             withAnimation(.snappy) {
@@ -432,31 +383,39 @@ struct QuickLogCardList: View {
                 }
             }
         } label: {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 Image(systemName: done ? "checkmark" : group.icon)
                     .imageScale(.small)
                     .accessibilityHidden(true)
                 Text(group.title)
-                // A single-med pill (every PRN med) is just its name — "· 1"
-                // is noise.
-                if group.items.count > 1 {
-                    Text(verbatim: "· \(group.items.count)")
-                        .opacity(0.75)
+                // A single-med pill is just the med's name — "· 1" is noise. A
+                // slot with several shows its count, and progress once any of
+                // them is taken ("· 1 of 2", "✓ Morning · 2 of 2"), so the check
+                // always has a visible subject.
+                if count > 1 {
+                    Group {
+                        if taken > 0 {
+                            Text("· \(taken) of \(count)")
+                        } else {
+                            Text(verbatim: "· \(count)")
+                        }
+                    }
+                    .opacity(0.75)
                 }
             }
-            .font(.subheadline.weight(.semibold))
+            .sectionLabel()
             .padding(.horizontal, 14)
             .padding(.vertical, 9)
             .background(
                 allStaged
                     ? Theme.accent
-                    : done ? Color.green.opacity(0.12) : Theme.accent.opacity(0.12),
+                    : done ? Color.successAccent.opacity(Theme.Opacity.tint) : Theme.accent.opacity(Theme.Opacity.tint),
                 in: Capsule(),
             )
             .foregroundStyle(
                 allStaged
                     ? Color.white
-                    : done ? Color.green : Theme.accent,
+                    : done ? Color.successText : Theme.accent,
             )
         }
         .buttonStyle(.plain)
@@ -466,8 +425,10 @@ struct QuickLogCardList: View {
         .accessibilityLabel(group.title)
         .accessibilityValue(
             done
-                ? Text("^[\(group.items.count) item](inflect: true), all logged today")
-                : Text("^[\(group.items.count) item](inflect: true)"),
+                ? Text("^[\(count) item](inflect: true), all logged today")
+                : taken > 0
+                ? Text("\(taken) of \(count) logged today")
+                : Text("^[\(count) item](inflect: true)"),
         )
         .accessibilityHint("Stages this group’s meds")
         .accessibilityAddTraits(.isButton)
@@ -498,7 +459,7 @@ struct QuickLogCardList: View {
 
         var body: some View {
             Button(action: onTap) {
-                HStack(spacing: 12) {
+                HStack(spacing: Spacing.xl) {
                     Text(timeText.map(\.self) ?? String(localized: "Anytime"))
                         .font(.subheadline.weight(.medium).monospacedDigit())
                         .foregroundStyle(Theme.secondaryLabel)
@@ -514,10 +475,10 @@ struct QuickLogCardList: View {
                     Spacer()
                     Image(systemName: staged ? "checkmark.circle.fill" : "circle")
                         .font(.piru(.title3))
-                        .foregroundStyle(staged ? Theme.accent : Color(.tertiaryLabel))
+                        .foregroundStyle(staged ? Theme.accent : Color.platformTertiaryLabel)
                         .contentTransition(.symbolEffect(.replace))
                 }
-                .padding(.vertical, 10)
+                .padding(.vertical, Spacing.lg)
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
@@ -574,21 +535,19 @@ struct QuickLogCardList: View {
         Button {
             openLibrarySubstance(substance)
         } label: {
-            HStack(spacing: 10) {
+            HStack(spacing: Spacing.lg) {
                 Image(systemName: "pill")
                     .foregroundStyle(Theme.secondaryLabel)
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(substance.name)
                         .font(.body.weight(.medium))
                         .foregroundStyle(.primary)
                     Text("\(substance.defaultRoute.displayName) \u{2014} \(substance.defaultUnit)")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
             .padding(14)
             .themeCard(cornerRadius: 20)

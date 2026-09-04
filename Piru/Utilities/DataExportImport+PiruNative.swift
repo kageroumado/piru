@@ -95,6 +95,38 @@ nonisolated struct PiruSessionData: Codable {
     var title: String?
     var note: String?
     var doses: [PiruDoseData]
+    /// Timestamped notes. Optional on decode so files written before session
+    /// notes still import (they decode as `nil`, treated as none).
+    var notes: [PiruSessionNoteData]?
+    /// Check-in cadence (see ``Session/checkInIntervalMinutes``); optional for
+    /// the same back-compat reason.
+    var checkInIntervalMinutes: Double?
+}
+
+/// Wire shape of one ``SessionNote``. `kind` is the raw `SessionNote.Kind`;
+/// `descriptors` are SubFxOnEx concept ids exactly as stored.
+nonisolated struct PiruSessionNoteData: Codable {
+    var id: UUID
+    var timestamp: Int64
+    var text: String
+    var shulgin: Int?
+    var mood: Int?
+    var energy: Int?
+    var descriptors: [String]
+    var heartRate: Double?
+    var kind: String
+
+    init(_ note: SessionNote) {
+        id = note.id
+        timestamp = note.timestamp.msSince1970
+        text = note.text
+        shulgin = note.shulgin
+        mood = note.mood
+        energy = note.energy
+        descriptors = note.descriptors
+        heartRate = note.heartRate
+        kind = note.kindRaw
+    }
 }
 
 nonisolated struct PiruDoseData: Codable {
@@ -224,6 +256,8 @@ extension DataExportImport {
                 id: session.id, startDate: session.startDate.msSince1970,
                 title: session.title, note: session.note,
                 doses: session.orderedDoses.map(doseData),
+                notes: session.orderedNotes.map(PiruSessionNoteData.init),
+                checkInIntervalMinutes: session.checkInIntervalMinutes,
             )
         }
         let orphans = allEntries
@@ -274,6 +308,27 @@ extension DataExportImport {
                 )
             },
         )
+    }
+
+    /// Merge exported notes into `session`, keyed by note id so a re-import is
+    /// idempotent. A session that had no `.summary` note but carries a summary
+    /// text gets one from ``SessionNoteService/ensureSummaryNote(for:)``.
+    @MainActor
+    static func importNotes(_ notes: [PiruSessionNoteData], into session: Session, context: ModelContext) {
+        var existing = Set((session.notes ?? []).map(\.id))
+        for data in notes where !existing.contains(data.id) {
+            existing.insert(data.id)
+            context.insert(SessionNote(
+                id: data.id,
+                timestamp: Date(ms: data.timestamp),
+                text: data.text,
+                shulgin: data.shulgin, mood: data.mood, energy: data.energy,
+                descriptors: data.descriptors, heartRate: data.heartRate,
+                kind: SessionNote.Kind(rawValue: data.kind) ?? .observation,
+                session: session,
+            ))
+        }
+        SessionNoteService.ensureSummaryNote(for: session)
     }
 
     @MainActor
@@ -340,6 +395,10 @@ extension DataExportImport {
                 dose.session = session
             }
             session.refreshDoseBounds()
+            importNotes(sessionData.notes ?? [], into: session, context: context)
+            if session.checkInIntervalMinutes == nil {
+                session.checkInIntervalMinutes = sessionData.checkInIntervalMinutes
+            }
         }
 
         // Session-less doses (defensive) are left unassigned; importJSON's

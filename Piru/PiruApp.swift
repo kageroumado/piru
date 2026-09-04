@@ -2,31 +2,35 @@ import BackgroundTasks
 import os
 import SwiftData
 import SwiftUI
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#endif
 import UserNotifications
 import WidgetKit
 
 private let appLogger = Logger(subsystem: "dev.yumeji.piru", category: "App")
 
-/// A UIKit background-execution assertion that ends itself exactly once —
-/// explicitly via ``end()`` when the protected work finishes, or from the
-/// system's expiration handler if time runs out first.
-@MainActor
-private final class BackgroundTaskAssertion {
-    private var id: UIBackgroundTaskIdentifier = .invalid
+// A UIKit background-execution assertion that ends itself exactly once —
+// explicitly via ``end()`` when the protected work finishes, or from the
+// system's expiration handler if time runs out first.
+#if canImport(UIKit)
+    @MainActor
+    private final class BackgroundTaskAssertion {
+        private var id: UIBackgroundTaskIdentifier = .invalid
 
-    init(name: String) {
-        id = UIApplication.shared.beginBackgroundTask(withName: name) { [weak self] in
-            self?.end()
+        init(name: String) {
+            id = UIApplication.shared.beginBackgroundTask(withName: name) { [weak self] in
+                self?.end()
+            }
+        }
+
+        func end() {
+            guard id != .invalid else { return }
+            UIApplication.shared.endBackgroundTask(id)
+            id = .invalid
         }
     }
-
-    func end() {
-        guard id != .invalid else { return }
-        UIApplication.shared.endBackgroundTask(id)
-        id = .invalid
-    }
-}
+#endif
 
 // MARK: - App
 
@@ -92,11 +96,11 @@ struct PiruApp: App {
         // Activate the Apple Watch sync: push the favorites/recents manifest to the wrist
         // and receive watch-logged doses through the canonical insert path. No-op where
         // WatchConnectivity is unsupported (iPad, Mac). See Specs/apple-watch-companion.md.
-        PhoneSyncCoordinator.shared.configure(container: container)
+        #if os(iOS)
+            PhoneSyncCoordinator.shared.configure(container: container)
+        #endif
 
-        // BackgroundTasks is unsupported on iOS-apps-on-Mac — register raises an
-        // uncatchable NSInternalInconsistencyException → SIGABRT before any window.
-        if !ProcessInfo.processInfo.isiOSAppOnMac {
+        #if os(iOS)
             BGTaskScheduler.shared.register(
                 forTaskWithIdentifier: LiveActivityManager.backgroundTaskIdentifier,
                 using: .main,
@@ -104,7 +108,7 @@ struct PiruApp: App {
                 guard let task = task as? BGAppRefreshTask else { return }
                 LiveActivityManager.shared.handleBackgroundRefresh(task)
             }
-        }
+        #endif
     }
 
     var body: some Scene {
@@ -140,6 +144,9 @@ struct PiruApp: App {
                     // One-time: break up multi-day sessions that the old flat-ceiling
                     // heuristic chained together (nonstop redosing / long-acting tails).
                     SessionService.resplitOverlongSessions(in: container.mainContext)
+                    // Give every pre-notes summary its place on the session
+                    // timeline (additive; idempotent).
+                    SessionNoteService.migrateLegacySummaries(in: container.mainContext)
                     // One-time: remap every logged dose onto its stable PSID identity
                     // (substanceUID + displayNameSnapshot). Backup-first, additive,
                     // never-drop, guarded once — see PSIDBackfillMigration. Runs here
@@ -175,11 +182,26 @@ struct PiruApp: App {
                         // A `-piruImportFile <path>` launch wipes + imports an
                         // exported JSON; a `-piruPersona <name>` launch wipes +
                         // reseeds a user archetype for UI-state testing;
-                        // otherwise the dense showcase journal fills an empty
-                        // store as before.
+                        // otherwise an empty store fills with the "week"
+                        // persona (`-piruNoDemoData` suppresses that).
                         if !DemoData.insertImportFileData(container: container),
                            !DemoData.insertPersonaData(container: container) {
-                            DemoData.insertShowcaseData(container: container)
+                            DemoData.insertDefaultData(container: container)
+                        }
+                        // `-piruScanFixture <name>` opens Tools ▸ Identify a Box
+                        // with a canned reading resolved (ScanFixtures).
+                        // Warm the batch cache first: the Tools tab's cards
+                        // resolve substances on render, and a cold cache
+                        // asserts in DEBUG.
+                        if ScanFixtures.isRequested {
+                            Task {
+                                // Source prefs load after launch and republish
+                                // the cache; wait them out, then warm it.
+                                try? await Task.sleep(for: .seconds(1))
+                                await SubstanceStore.shared.ensureAllLoaded()
+                                AppNavigator.shared.selectedTab = .tools
+                                AppNavigator.shared.push(.tool(.identify), in: .tools)
+                            }
                         }
                     #endif
                 }
@@ -192,8 +214,14 @@ struct PiruApp: App {
             if phase == .active {
                 InventoryService.recomputeAll(in: container.mainContext)
                 // Same horizon-roll as launch: doses logged from other
-                // surfaces while away may have satisfied a routine.
-                DoseNotificationManager.syncMedReminders(in: container.mainContext)
+                // surfaces while away may have satisfied a routine. The sync
+                // resolves med names, so it waits for the substance cache —
+                // a fast relaunch can reach here before the launch task has
+                // warmed it, and a cold `SubstanceStore.all` asserts in DEBUG.
+                Task(name: "Sync med reminders") {
+                    await SubstanceStore.shared.ensureAllLoaded()
+                    DoseNotificationManager.syncMedReminders(in: container.mainContext)
+                }
             }
             // Opt-in, end-to-end encrypted iCloud backup on backgrounding. No-op
             // unless the user enabled it; debounced and change-gated internally.
@@ -204,18 +232,26 @@ struct PiruApp: App {
                 // out keyboard-avoiding — the QuickLog dock floats one keyboard
                 // height above the bottom with a dead touch zone below it
                 // (TestFlight feedback on build 2.2 (30), iOS 26.5.2).
-                UIApplication.shared.sendAction(
-                    #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil,
-                )
+                #if canImport(UIKit)
+                    UIApplication.shared.sendAction(
+                        #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil,
+                    )
+                #endif
                 let context = container.mainContext
                 // Hold a background-execution assertion across the await so
                 // iOS can't suspend the process mid-write; ended on completion
                 // or expiration, whichever comes first.
-                let assertion = BackgroundTaskAssertion(name: "AutomaticBackup")
-                Task {
-                    defer { assertion.end() }
-                    await BackupManager.shared.runAutomaticBackup(context: context)
-                }
+                #if canImport(UIKit)
+                    let assertion = BackgroundTaskAssertion(name: "AutomaticBackup")
+                    Task {
+                        defer { assertion.end() }
+                        await BackupManager.shared.runAutomaticBackup(context: context)
+                    }
+                #else
+                    Task {
+                        await BackupManager.shared.runAutomaticBackup(context: context)
+                    }
+                #endif
             }
         }
     }

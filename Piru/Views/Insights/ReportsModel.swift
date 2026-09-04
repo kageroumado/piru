@@ -225,8 +225,8 @@ final class ReportsModel {
 
     func exportSessionImages(
         sessions: [Session], colors: [SubstanceColor], scheme: ColorScheme,
-    ) async -> [UIImage] {
-        var images: [UIImage] = []
+    ) async -> [PlatformImage] {
+        var images: [PlatformImage] = []
         let stackRedoses = UserDefaults(suiteName: "group.dev.yumeji.piru")?.bool(forKey: "stackRedoses") ?? true
         for session in sessions {
             guard selectedSessions.contains(session.id) else { continue }
@@ -247,21 +247,25 @@ final class ReportsModel {
         return images
     }
 
-    func exportStitchedImage(_ images: [UIImage]) -> UIImage? {
+    func exportStitchedImage(_ images: [PlatformImage]) -> PlatformImage? {
         guard !images.isEmpty else { return nil }
-        let spacing: CGFloat = 24
-        let totalHeight = images.reduce(CGFloat(0)) { $0 + $1.size.height } + spacing * CGFloat(images.count - 1)
-        let maxWidth = images.reduce(CGFloat(0)) { max($0, $1.size.width) }
+        #if canImport(UIKit)
+            let spacing: CGFloat = 24
+            let totalHeight = images.reduce(CGFloat(0)) { $0 + $1.size.height } + spacing * CGFloat(images.count - 1)
+            let maxWidth = images.reduce(CGFloat(0)) { max($0, $1.size.width) }
 
-        let renderer = UIGraphicsImageRenderer(size: CGSize(width: maxWidth, height: totalHeight))
-        return renderer.image { _ in
-            var y: CGFloat = 0
-            for image in images {
-                let x = (maxWidth - image.size.width) / 2
-                image.draw(at: CGPoint(x: x, y: y))
-                y += image.size.height + spacing
+            let renderer = UIGraphicsImageRenderer(size: CGSize(width: maxWidth, height: totalHeight))
+            return renderer.image { _ in
+                var y: CGFloat = 0
+                for image in images {
+                    let x = (maxWidth - image.size.width) / 2
+                    image.draw(at: CGPoint(x: x, y: y))
+                    y += image.size.height + spacing
+                }
             }
-        }
+        #else
+            return images.first
+        #endif
     }
 
     func exportMarkdown(sessions: [Session], colors: [SubstanceColor]) async -> String {
@@ -270,10 +274,25 @@ final class ReportsModel {
             guard selectedSessions.contains(session.id) else { continue }
             let entries = (session.doses ?? []).sorted { $0.timestamp < $1.timestamp }
             guard !entries.isEmpty else { continue }
-            if let export = SessionStateExport.build(from: entries, colors: colors) {
+            if let export = SessionStateExport.build(from: entries, colors: colors, notes: session.orderedNotes) {
                 parts.append(export.markdown())
             }
         }
         return parts.joined(separator: "\n\n---\n\n")
+    }
+
+    /// The selected sessions that have at least one timeline note — the ones
+    /// a trip report exists for.
+    func sessionsWithNotes(in sessions: [Session]) -> [Session] {
+        sessions.filter { selectedSessions.contains($0.id) && TripReport.hasNotes($0) }
+    }
+
+    /// One trip report per selected session with notes, oldest first, joined
+    /// as a single Markdown document. Empty when no selected session has notes.
+    func exportTripReports(sessions: [Session]) -> String {
+        sessionsWithNotes(in: sessions)
+            .sorted { $0.startDate < $1.startDate }
+            .map { TripReport.build(session: $0).markdown() }
+            .joined(separator: "\n\n---\n\n")
     }
 }

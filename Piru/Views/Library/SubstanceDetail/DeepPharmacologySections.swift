@@ -22,13 +22,13 @@ struct PharmacogeneticsSection: View {
                 count: model.pharmacogenetics.count,
                 isExpanded: $isExpanded,
             ) {
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: Spacing.md) {
                     ForEach(model.pharmacogenetics) { hit in
                         PharmacogeneticRow(hit: hit, accent: substance.category.color)
                         if hit.id != model.pharmacogenetics.last?.id { Divider() }
                     }
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
             }
         }
     }
@@ -46,8 +46,7 @@ struct PharmacogeneticRow: View {
                 .font(.subheadline.weight(.semibold).monospaced())
                 .fixedSize(horizontal: false, vertical: true)
             Text(verbatim: hit.phenotypeEffects)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
             sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
@@ -77,13 +76,13 @@ struct TargetEvidenceSection: View {
                 count: model.targetEvidence.count,
                 isExpanded: $isExpanded,
             ) {
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: Spacing.md) {
                     ForEach(model.targetEvidence) { item in
                         TargetEvidenceRow(item: item, accent: substance.category.color)
                         if item.id != model.targetEvidence.last?.id { Divider() }
                     }
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
             }
         }
     }
@@ -95,23 +94,18 @@ struct TargetEvidenceRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 // `verbatim`: a target, a complex or a scan modality — lab
                 // nomenclature authored in the DB, not catalog keys.
                 Text(verbatim: item.subject)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer(minLength: 6)
                 Text(item.kind.label)
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .padding(.horizontal, 7)
-                    .padding(.vertical, 3)
-                    .background(accent.opacity(0.10), in: Capsule())
+                    .capsuleChip(text: Theme.secondaryLabel, fill: accent)
             }
             Text(verbatim: item.finding)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
             sourceLine(slug: item.sourceSlug, detail: nil, doi: item.doi, pmid: item.pmid, accent: accent)
@@ -144,13 +138,12 @@ struct SignallingCascadeRow: View {
             // -> BDNF/TrkB -> mTORC1"), which is the notation the field uses and
             // reads far denser than the same claim as prose.
             Text(verbatim: cascade.summary)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
             sourceLine(slug: cascade.sourceSlug, detail: nil, doi: cascade.doi, pmid: cascade.pmid, accent: accent)
         }
-        .padding(.top, 8)
+        .padding(.top, Spacing.md)
         .accessibilityElement(children: .combine)
     }
 }
@@ -168,8 +161,8 @@ struct ConcentrationThresholdRow: View {
     let accent: Color
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.md) {
                 Text(verbatim: hit.effect)
                     .font(.subheadline)
                     .fixedSize(horizontal: false, vertical: true)

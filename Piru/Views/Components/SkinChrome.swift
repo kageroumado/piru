@@ -1,7 +1,7 @@
 import SwiftUI
 
-// The form layer of the skin system: how buttons, chips and stickers are
-// drawn under each `SkinSurface`. Colour comes from `Theme` / `Skin`; this file
+// The form layer of the skin system: how buttons and chips are drawn under
+// each `SkinSurface`. Colour comes from `Theme` / `Skin`; this file
 // only decides shape, stroke and shadow. Graphs never come through here.
 
 /// Prominence of a standalone action.
@@ -82,7 +82,7 @@ extension Text {
         switch SkinStore.shared.current.surface {
         case .glass:
             base
-                .background(fill.opacity(0.10), in: Capsule())
+                .background(fill.opacity(Theme.Opacity.tint), in: Capsule())
                 .foregroundStyle(text)
         case .edged:
             let shape = RoundedRectangle(cornerRadius: 3, style: .continuous)
@@ -108,37 +108,6 @@ extension Text {
             base.overlay(Capsule().strokeBorder(stroke, lineWidth: 1))
         case .edged:
             base.overlay(RoundedRectangle(cornerRadius: 3, style: .continuous).strokeBorder(stroke, lineWidth: 1.5))
-        }
-    }
-}
-
-/// A tab sticker: the skin's label for a group — a day on the timeline, a
-/// section on a card. Glass skins show a material capsule; edged skins the
-/// site's `.tab`: accent fill, stroke, a hard shadow in the eyebrow colour.
-struct SkinSticker<Label: View>: View {
-    let isAccented: Bool
-    @ViewBuilder let label: Label
-
-    var body: some View {
-        let skin = SkinStore.shared.current
-        switch skin.surface {
-        case .glass:
-            label
-                .padding(.horizontal, 11)
-                .padding(.vertical, 5)
-                .background(.ultraThinMaterial, in: .capsule)
-        case let .edged(stroke, strokeWidth, _, shadowOffset):
-            let shape = RoundedRectangle(cornerRadius: 8, style: .continuous)
-            label
-                .foregroundStyle(isAccented ? skin.onAccent : skin.accent)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 3)
-                .background {
-                    // Text-safe accent under the label, as on buttons.
-                    shape.fill(skin.eyebrow).offset(shadowOffset)
-                    shape.fill(isAccented ? skin.accent : skin.cardBackground)
-                    shape.stroke(stroke, lineWidth: strokeWidth)
-                }
         }
     }
 }

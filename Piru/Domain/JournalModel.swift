@@ -2,12 +2,15 @@ import SwiftData
 import SwiftUI
 
 /// Owns the Journal's *derived* state — per-entry resolution, the grouped
-/// buckets, the color map, the category facets, and the tag list — so it lives
-/// outside the view's `body` instead of in a web of `@State` caches.
+/// buckets, the color map, the category facets, and the tag list — plus the
+/// selection those buckets are derived under: the funnel's three filter facets
+/// and which Grouped sections are folded shut. All of it lives outside the
+/// view's `body` instead of in a web of `@State` caches.
 ///
-/// The view passes in its `@Query` results plus the current filter/grouping
-/// selection; the model recomputes only when its signature actually changes and
-/// publishes ready-to-render values, which SwiftUI diffs as a single observable
+/// The view passes in its `@Query` results and the grouping choice (a persisted
+/// preference, so it stays `@AppStorage` on the view); the model recomputes only
+/// when its signature actually changes and publishes ready-to-render values,
+/// which SwiftUI diffs as a single observable
 /// source of truth. This replaces the former shadow-`@State` model — six caches
 /// + two signature ints + `rebuild*` calls scattered across `.task`/`.onChange`
 /// — that `data.md` warns against ("don't cache derived collections in `@State`
@@ -33,6 +36,56 @@ final class JournalModel {
     /// Routes present in the data (declaration order), for the filter menu.
     private(set) var routes: [RouteOfAdministration] = []
     private(set) var colorMap: [String: Color] = [:]
+
+    // MARK: - Selection
+
+    // The funnel menu's three facets: tag, category, route. Within a facet the
+    // values OR; across facets they AND. (Substance and date filtering were
+    // dropped: substance duplicates Search, and a chronological day list makes
+    // time windows pointless — the calendar *scrolls* to a day instead.)
+    var filterTags: Set<String> = []
+    var filterCategories: Set<SubstanceCategory> = []
+    var filterRoutes: Set<RouteOfAdministration> = []
+
+    /// Which Grouped-view sections the user has folded shut.
+    var collapsedSubstances: Set<String> = []
+    var collapsedCategories: Set<SubstanceCategory> = []
+
+    var hasActiveFilters: Bool {
+        !filterTags.isEmpty || !filterCategories.isEmpty || !filterRoutes.isEmpty
+    }
+
+    /// A fingerprint of the whole facet selection, for a view that needs to
+    /// react to *any* filter change as one event.
+    var filterSignature: Int {
+        var hasher = Hasher()
+        hasher.combine(filterTags)
+        hasher.combine(filterCategories)
+        hasher.combine(filterRoutes)
+        return hasher.finalize()
+    }
+
+    func clearFilters() {
+        filterTags = []
+        filterCategories = []
+        filterRoutes = []
+    }
+
+    func toggleCollapsed(substance: String) {
+        if collapsedSubstances.contains(substance) {
+            collapsedSubstances.remove(substance)
+        } else {
+            collapsedSubstances.insert(substance)
+        }
+    }
+
+    func toggleCollapsed(category: SubstanceCategory) {
+        if collapsedCategories.contains(category) {
+            collapsedCategories.remove(category)
+        } else {
+            collapsedCategories.insert(category)
+        }
+    }
 
     /// The current filter result, plus the grouping buckets derived from it.
     private(set) var filtered: [DoseEntry] = []
@@ -327,12 +380,38 @@ final class JournalModel {
         routes = RouteOfAdministration.allCases.filter(seenRoutes.contains)
     }
 
+    /// Re-bucket against the model's own facet selection — what the view calls
+    /// on every filter, search, or grouping change. ``rebuildGroups`` keeps the
+    /// facets as explicit parameters so it can be exercised with an arbitrary
+    /// selection; this is the app's one caller.
+    func regroup(
+        entries: [DoseEntry],
+        grouping: JournalGrouping,
+        groupKey: JournalGroupKey,
+        searchText: String,
+        stackRedoses: Bool,
+        revision: Int,
+    ) {
+        rebuildGroups(
+            entries: entries,
+            grouping: grouping,
+            groupKey: groupKey,
+            searchText: searchText,
+            filterTags: filterTags,
+            filterCategories: filterCategories,
+            filterRoutes: filterRoutes,
+            stackRedoses: stackRedoses,
+            revision: revision,
+        )
+    }
+
     /// Re-filter and re-bucket. Pure grouping work — timelines come from
     /// `derived`, so no PK recompute. Guarded so an identical filter/grouping
     /// selection doesn't re-bucket.
     func rebuildGroups(
         entries: [DoseEntry],
         grouping: JournalGrouping,
+        groupKey: JournalGroupKey = .substance,
         searchText: String,
         filterTags: Set<String>,
         filterCategories: Set<SubstanceCategory>,
@@ -342,6 +421,7 @@ final class JournalModel {
     ) {
         var sigHasher = Hasher()
         sigHasher.combine(grouping)
+        sigHasher.combine(groupKey)
         sigHasher.combine(searchText)
         sigHasher.combine(filterTags)
         sigHasher.combine(filterCategories)
@@ -366,7 +446,7 @@ final class JournalModel {
         lastGroupsSignature = signature
 
         // Only the Day grouping is windowed; reset the flag so the load-more
-        // sentinel never lingers under Recent / Substance / Category.
+        // sentinel never lingers under Timeline / Grouped.
         hasMoreSessions = false
 
         let calendar = Calendar.current
@@ -380,8 +460,8 @@ final class JournalModel {
         filtered = result
 
         switch grouping {
-        case .recent, .timeline:
-            break // Both consume `filtered` directly, no bucketing needed.
+        case .timeline:
+            break // Consumes `filtered` directly, no bucketing needed.
 
         case .byDay:
             // Group the filtered doses by their persisted session (decided at log
@@ -450,18 +530,21 @@ final class JournalModel {
                 dayBounded: true,
             )
 
-        case .bySubstance:
-            let grouped = Dictionary(grouping: result, by: \.substance)
-            substanceGroups = grouped.sorted { $0.value.count > $1.value.count }
-                .map { (name: $0.key, entries: $0.value) }
+        case .grouped:
+            switch groupKey {
+            case .substance:
+                let grouped = Dictionary(grouping: result, by: \.substance)
+                substanceGroups = grouped.sorted { $0.value.count > $1.value.count }
+                    .map { (name: $0.key, entries: $0.value) }
 
-        case .byCategory:
-            let grouped = Dictionary(grouping: result) { entry in
-                derived[entry.persistentModelID]?.category ?? .other
-            }
-            categoryGroups = SubstanceCategory.allCases.compactMap { cat in
-                guard let entries = grouped[cat], !entries.isEmpty else { return nil }
-                return (category: cat, entries: entries)
+            case .category:
+                let grouped = Dictionary(grouping: result) { entry in
+                    derived[entry.persistentModelID]?.category ?? .other
+                }
+                categoryGroups = SubstanceCategory.allCases.compactMap { cat in
+                    guard let entries = grouped[cat], !entries.isEmpty else { return nil }
+                    return (category: cat, entries: entries)
+                }
             }
         }
     }

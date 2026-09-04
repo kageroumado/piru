@@ -5,6 +5,11 @@ struct TimelineGraphView: View, Equatable {
     let currentTime: Date
     let compact: Bool
     var markers: [DoseMarker] = []
+    /// Session notes on the time axis (full graph only): a tappable glyph per
+    /// note in the top label band, plus the Shulgin step lane for rated ones.
+    var noteMarkers: [NoteMarker] = []
+    /// Tap on a note glyph, by note id. Nil leaves the glyphs inert.
+    var onNoteTap: ((UUID) -> Void)?
     var stackRedoses: Bool = false
     /// Draws the per-curve "now" dot at `currentTime`. Meaningful on the live
     /// session accessory and the full detail graph; off for the historical
@@ -163,6 +168,7 @@ struct TimelineGraphView: View, Equatable {
               lhs.highlighted == rhs.highlighted,
               lhs.presetSpanMinutes == rhs.presetSpanMinutes,
               lhs.markers == rhs.markers,
+              lhs.noteMarkers == rhs.noteMarkers,
               lhs.vitals == rhs.vitals,
               lhs.vitalsBandEnlarged == rhs.vitalsBandEnlarged,
               lhs.focusAroundNow == rhs.focusAroundNow,
@@ -182,6 +188,8 @@ struct TimelineGraphView: View, Equatable {
         currentTime: Date,
         compact: Bool,
         markers: [DoseMarker] = [],
+        noteMarkers: [NoteMarker] = [],
+        onNoteTap: ((UUID) -> Void)? = nil,
         stackRedoses: Bool = false,
         showNowIndicator: Bool = true,
         nowUncertaintyMinutes: Double = 0,
@@ -198,6 +206,8 @@ struct TimelineGraphView: View, Equatable {
         self.currentTime = currentTime
         self.compact = compact
         self.markers = markers
+        self.noteMarkers = noteMarkers
+        self.onNoteTap = onNoteTap
         self.stackRedoses = stackRedoses
         self.showNowIndicator = showNowIndicator
         self.nowUncertaintyMinutes = nowUncertaintyMinutes
@@ -291,6 +301,7 @@ struct TimelineGraphView: View, Equatable {
         TimelineGraphRenderer(
             substances: substances,
             markers: markers,
+            noteMarkers: noteMarkers,
             derived: derived,
             currentTime: currentTime,
             compact: compact,
@@ -559,6 +570,7 @@ struct TimelineGraphView: View, Equatable {
                                 gestureStartPan = 0
                             }
                         }
+                    noteGlyphs(geom: geom)
                     scrubCallout(geom: geom)
                 }
             }
@@ -744,6 +756,47 @@ struct TimelineGraphView: View, Equatable {
                 .offset(x: left, y: max(geom.top - 4, 2))
                 .allowsHitTesting(false)
             }
+        }
+    }
+
+    /// One tappable glyph per note, placed on the time axis in the band above
+    /// the curves (where the relative-hour labels live). SwiftUI overlays rather
+    /// than Canvas marks so each is a real button with a real hit target; they
+    /// re-place on every pan/zoom because `body` re-runs with the viewport.
+    @ViewBuilder
+    private func noteGlyphs(geom: TimelineGraphRenderer.GraphGeometry) -> some View {
+        if !noteMarkers.isEmpty, geom.width > 0, visibleSpan > 0 {
+            let size: CGFloat = 16
+            ForEach(noteMarkers) { marker in
+                let minute = marker.timestamp.timeIntervalSince(earliestDose) / 60
+                let x = geom.inset + CGFloat((minute - visibleStart) / visibleSpan) * geom.width
+                if x >= geom.inset - size / 2, x <= geom.inset + geom.width + size / 2 {
+                    Button {
+                        onNoteTap?(marker.id)
+                    } label: {
+                        Image(systemName: Self.glyph(for: marker.kind))
+                            .font(.system(size: 8, weight: .bold))
+                            .foregroundStyle(.white)
+                            .frame(width: size, height: size)
+                            .background(Color.accentColor, in: Circle())
+                            .overlay(Circle().stroke(.white.opacity(0.85), lineWidth: 1))
+                    }
+                    .buttonStyle(.plain)
+                    .contentShape(Circle().inset(by: -6))
+                    .accessibilityLabel(Text("Note"))
+                    .position(x: x, y: max(size / 2, geom.top - size / 2 - 1))
+                }
+            }
+        }
+    }
+
+    /// The glyph for a note kind: a quote for an observation, a bell for a
+    /// check-in, lines for the summary.
+    static func glyph(for kind: SessionNote.Kind) -> String {
+        switch kind {
+        case .observation: "quote.opening"
+        case .checkIn: "bell.fill"
+        case .summary: "text.alignleft"
         }
     }
 

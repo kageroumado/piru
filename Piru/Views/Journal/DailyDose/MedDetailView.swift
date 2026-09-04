@@ -106,9 +106,8 @@ struct MedDetailView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
-        .navigationBarTitleDisplayMode(.inline)
+        .themedPage()
+        .inlineNavigationTitle()
         // Every field edits the model directly; one resync on close reschedules
         // reminders from the saved state (times, cadence, quiet grouping).
         .onDisappear {
@@ -120,16 +119,16 @@ struct MedDetailView: View {
 
     private var headerSection: some View {
         Section {
-            HStack(spacing: 14) {
+            HStack(spacing: Spacing.xl) {
                 Image(systemName: "pill")
-                    .font(.piru(.title3, weight: .semibold))
+                    .screenTitle()
                     .foregroundStyle(.white)
-                    .frame(width: 44, height: 44)
+                    .frame(width: IconSize.touchTarget, height: IconSize.touchTarget)
                     .background(Theme.accent, in: Circle())
                     .accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: 3) {
+                VStack(alignment: .leading, spacing: Spacing.xs) {
                     Text(item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance))
-                        .font(.piru(.headline))
+                        .cardTitle()
                     Text(scheduleSummary)
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
@@ -143,7 +142,7 @@ struct MedDetailView: View {
         Section {
             HStack {
                 TextField("Amount", value: $item.amount, format: .number)
-                    .keyboardType(.decimalPad)
+                    .decimalKeyboard()
                 Picker("Unit", selection: $item.unit) {
                     ForEach(unitOptions, id: \.self) { Text($0) }
                 }
@@ -157,7 +156,7 @@ struct MedDetailView: View {
         } header: {
             Text("Dosage")
         } footer: {
-            Text("A logged dose checks this med off when the substance and route match — the same substance by another route stays a regular journal entry.")
+            Text("Checked off by a logged dose of the same substance and route.")
         }
         .listRowBackground(CardBackground())
     }
@@ -267,18 +266,18 @@ struct MedDetailView: View {
                 item.isBackgroundMed = item.isQuiet
             }
         } footer: {
-            Text("Folds into the \u{201C}Supplements\u{201D} row and stays off the timeline graphs. Its reminders are silent — they wait in Notification Center instead of buzzing, and batch into iOS Scheduled Summary if you use it.")
+            Text("Grouped under Supplements, off the timeline graphs. Reminders are silent.")
         }
         .listRowBackground(CardBackground())
     }
 
     private var weekdayPicker: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Text("Days")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityAddTraits(.isHeader)
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 ForEach(Self.weekdaySymbols, id: \.index) { day in
                     let isSelected = item.frequencyDays.contains(day.index)
                     Button {
@@ -288,49 +287,26 @@ struct MedDetailView: View {
                     } label: {
                         Text(String(day.short.prefix(2)))
                             .font(.caption.weight(.semibold))
-                            .frame(width: 34, height: 34)
-                            .background(isSelected ? Theme.accent : Color(.tertiarySystemFill))
-                            .foregroundStyle(isSelected ? .white : .primary)
-                            .clipShape(Circle())
-                            .frame(width: 44, height: 44)
-                            .contentShape(Rectangle())
+                            .selectableChip(isSelected: isSelected)
                     }
                     .buttonStyle(.plain)
+                    // Cancels the chip's hit-target frame back to the visible
+                    // circle so the row's layout is unchanged.
                     .padding(-5)
                     .accessibilityLabel(day.full)
                     .accessibilityAddTraits(isSelected ? .isSelected : [])
                 }
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     @ViewBuilder
     private var scheduleFooter: some View {
         if item.isAsNeeded {
-            Text("No schedule and never marked missed — adherence doesn't count as-needed meds. A daily limit feeds the cumulative dose warnings.")
-        } else {
-            switch item.frequency {
-            case .daily:
-                Text("Checked every day.")
-            case .everyOtherDay:
-                Text("Checked every 2 days starting from the start date.")
-            case .weekly:
-                Text("Checked once per week on the same day as the start date.")
-            case .biweekly:
-                Text("Checked every 2 weeks on the same day as the start date.")
-            case .monthly:
-                Text("Checked once per month on the same day-of-month as the start date.")
-            case .specificDays:
-                if item.frequencyDays.isEmpty {
-                    Text("Select at least one day.")
-                } else {
-                    let names = item.frequencyDays.sorted().compactMap { idx in
-                        Self.weekdaySymbols.first { $0.index == idx }?.short
-                    }
-                    Text("Checked every \(names.joined(separator: ", ")).")
-                }
-            }
+            Text("Never marked missed. A daily limit feeds the cumulative dose warnings.")
+        } else if item.frequency == .specificDays, item.frequencyDays.isEmpty {
+            Text("Select at least one day.")
         }
     }
 

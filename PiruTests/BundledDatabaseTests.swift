@@ -1,4 +1,5 @@
 import Foundation
+import GRDB
 import Testing
 @testable import Piru
 
@@ -143,6 +144,20 @@ struct BundledDatabaseTests {
         // missing from the app bundle.
         let count = SubstanceStore.shared.count
         #expect(count > 0)
+    }
+
+    @Test
+    @MainActor
+    func `Bundled SQLite carries the whole SubFxOnEx vocabulary`() throws {
+        let counts = try SubstanceStore.shared.substancesDB.read { db -> (Int, Int, Int) in
+            let rollups = try Int.fetchOne(db, sql: "SELECT count(*) FROM subjective_effect_concepts WHERE kind = 'rollup'") ?? 0
+            let atomics = try Int.fetchOne(db, sql: "SELECT count(*) FROM subjective_effect_concepts WHERE kind = 'atomic'") ?? 0
+            let aliases = try Int.fetchOne(db, sql: "SELECT count(*) FROM subjective_effect_concept_aliases") ?? 0
+            return (rollups, atomics, aliases)
+        }
+        #expect(counts.0 == 21)
+        #expect(counts.1 == 485)
+        #expect(counts.2 == 1_178)
     }
 
     @Test

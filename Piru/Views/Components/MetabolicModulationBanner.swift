@@ -10,16 +10,11 @@ struct MetabolicModulationBanner: View {
     let effect: MetabolicModulation.Effect
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 6) {
-                Text(headline)
-                    .font(.subheadline.weight(.semibold))
-                Spacer(minLength: 8)
-                ConfidenceBadge(tier: effect.confidence)
-            }
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            Text(headline)
+                .sectionLabel()
             Text(LocalizedStringKey(effect.userNote))
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }

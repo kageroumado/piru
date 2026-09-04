@@ -2,7 +2,7 @@ import Foundation
 
 /// The four Application Identifiers a GS1 medication barcode carries, decoded
 /// from a DataMatrix/GS1-128 payload.
-struct GS1Data: Equatable {
+nonisolated struct GS1Data: Equatable {
     /// AI `01` — Global Trade Item Number, 14 digits. The drug-identifying field.
     var gtin: String?
     /// AI `17` — expiry, stored as the raw `YYMMDD` the barcode encodes.
@@ -25,7 +25,7 @@ struct GS1Data: Equatable {
 /// four AIs mandated by both US DSCSA and EU FMD; any other AI encountered is
 /// consumed (by its known fixed width, else as variable) so parsing stays aligned
 /// and later AIs are still recovered.
-enum GS1Parser {
+nonisolated enum GS1Parser {
     /// The FNC1 group separator that terminates a variable-length value.
     private static let groupSeparator: Character = "\u{1D}"
 

@@ -25,9 +25,9 @@ struct SourcePriorityView: View {
         }
         // Permanent edit mode: the reorder grips are always visible, and with no
         // delete/toggle the row is unmistakably about order.
-        .environment(\.editMode, .constant(.active))
+        .permanentEditMode()
         .navigationTitle("Source Priority")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button("Reset") {
@@ -60,13 +60,12 @@ private struct SourceRow: View {
                 .font(.piru(.headline).monospacedDigit())
                 .foregroundStyle(Theme.accent)
                 .frame(width: 20, alignment: .center)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(state.displayName)
                     .font(.body)
                 if let description = state.description, !description.isEmpty {
                     Text(description)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .captionSecondary()
                         .lineLimit(2)
                 }
             }

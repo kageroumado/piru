@@ -3,17 +3,16 @@ import SwiftUI
 struct VolumetricDosingDisclaimer: View {
     var body: some View {
         Label {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text("Extremely Potent Substance")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.red)
-                Text("Active in microgram (µg) quantities — 1/1000th of a milligram. Volumetric dosing is required at all times for safe and accurate measurement. Never attempt to measure doses by eye or with standard scales.")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .sectionLabel()
+                    .foregroundStyle(.dangerText)
+                Text("Active in micrograms — a thousandth of a milligram. Always measure volumetrically. You cannot dose this by eye.")
+                    .captionSecondary()
             }
         } icon: {
             Image(systemName: "exclamationmark.triangle.fill")
-                .foregroundStyle(.red)
+                .foregroundStyle(.dangerAccent)
                 .accessibilityHidden(true)
         }
     }
@@ -25,11 +24,10 @@ struct THCContentNote: View {
     var body: some View {
         Label {
             Text("Doses are milligrams of THC. Flower needed ≈ desired THC ÷ the strain's %THC (e.g. 3 mg ÷ 18% ≈ 0.02 g). Smoking loses 50–80% to combustion, so real flower amounts run higher.")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         } icon: {
             Image(systemName: "leaf")
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
         }
     }
@@ -40,12 +38,11 @@ struct THCContentNote: View {
 struct PreciseScaleNote: View {
     var body: some View {
         Label {
-            Text("Dosed in low milligrams — use a precise milligram scale (0.001 g resolution). Hard to measure accurately by eye or with kitchen scales.")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+            Text("Dosed in low milligrams — use a milligram scale (0.001 g). Can't be measured by eye or kitchen scale.")
+                .captionSecondary()
         } icon: {
             Image(systemName: "scalemass")
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
         }
     }

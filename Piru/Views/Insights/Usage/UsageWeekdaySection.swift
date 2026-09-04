@@ -15,7 +15,7 @@ struct UsageWeekdaySection: View {
     let metric: UsageRankMetric
 
     var body: some View {
-        UsageSectionCard(title: "Day of week", subtitle: subtitle) {
+        UsageSectionCard(title: "Day of week") {
             Chart(buckets) { bucket in
                 BarMark(
                     x: .value("Day", label(for: bucket.weekday)),
@@ -35,7 +35,7 @@ struct UsageWeekdaySection: View {
             .chartYAxis {
                 AxisMarks(position: .leading) { _ in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                        .foregroundStyle(Theme.secondaryLabel.opacity(0.5))
+                        .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                     AxisValueLabel()
                         .font(.caption2)
                 }
@@ -45,10 +45,6 @@ struct UsageWeekdaySection: View {
 
             averagesRow
         }
-    }
-
-    private var subtitle: LocalizedStringKey {
-        metric == .commonDoses ? "Common-dose units by weekday" : "Which weekdays you log on most"
     }
 
     /// The active metric's total for a weekday — its entry count, or the
@@ -67,9 +63,9 @@ struct UsageWeekdaySection: View {
     private var averagesRow: some View {
         HStack(spacing: 0) {
             ForEach(buckets) { bucket in
-                VStack(spacing: 2) {
+                VStack(spacing: Spacing.xxs) {
                     Text(label(for: bucket.weekday))
-                        .font(.system(size: 9))
+                        .font(.chartAnnotation)
                         .foregroundStyle(Theme.secondaryLabel)
                     Text(average(bucket).formatted(.number.precision(.fractionLength(0 ... 1))))
                         .font(.caption2.weight(.medium))
@@ -81,7 +77,7 @@ struct UsageWeekdaySection: View {
                 .accessibilityValue(Text(average(bucket).formatted(.number.precision(.fractionLength(0 ... 1)))))
             }
         }
-        .padding(.top, 2)
+        .padding(.top, Spacing.xxs)
     }
 
     private var summary: String {

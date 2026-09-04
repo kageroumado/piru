@@ -25,7 +25,6 @@ struct UsageRouteSection: View {
         if !breakdown.rows.isEmpty {
             UsageCollapsibleCard(
                 title: "Most logged",
-                subtitle: "Ranked by how often, or by total common-dose units",
                 storageKey: "routes",
             ) {
                 UsageRankingContent(breakdown: breakdown, style: style, metric: metric)
@@ -78,8 +77,8 @@ private struct UsageRankingContent: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
+            VStack(alignment: .leading, spacing: Spacing.lg) {
                 ForEach(rankedRows) { row in
                     UsageRankRowView(
                         row: row,
@@ -105,10 +104,10 @@ private struct UsageRankingContent: View {
     }
 
     private var legend: some View {
-        FlowLayout(spacing: 8) {
+        FlowLayout(spacing: Spacing.md) {
             ForEach(breakdown.distinctRoutes, id: \.self) { index in
                 let route = UsageAxes.route(index)
-                HStack(spacing: 4) {
+                HStack(spacing: Spacing.xs) {
                     RoundedRectangle(cornerRadius: 2)
                         .fill(route.tintColor)
                         .frame(width: 9, height: 9)
@@ -118,7 +117,7 @@ private struct UsageRankingContent: View {
                 .accessibilityElement(children: .combine)
             }
         }
-        .padding(.top, 2)
+        .padding(.top, Spacing.xxs)
     }
 
     private var footnote: some View {
@@ -160,7 +159,7 @@ private struct UsageRankRowView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 Text(name)
                     .font(.subheadline)
                     .lineLimit(1)
@@ -175,7 +174,7 @@ private struct UsageRankRowView: View {
                 HStack(spacing: 1) {
                     if isUnavailable {
                         Capsule()
-                            .fill(Color(.quaternaryLabel).opacity(0.5))
+                            .fill(Color.platformQuaternaryLabel.opacity(Theme.Opacity.dimmed))
                             .frame(width: max(4, width * 0.04))
                     } else {
                         ForEach(segments, id: \.routeIndex) { segment in

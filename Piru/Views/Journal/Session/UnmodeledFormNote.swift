@@ -17,27 +17,26 @@ struct UnmodeledFormNote: View {
 
     var body: some View {
         Section {
-            HStack(alignment: .top, spacing: 12) {
+            HStack(alignment: .top, spacing: Spacing.xl) {
                 Image(systemName: "clock.badge.questionmark")
                     .font(.piru(.title3))
                     .foregroundStyle(Theme.secondaryLabel)
                     .accessibilityHidden(true)
                 Text(message)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
         }
     }
 
     private var message: LocalizedStringKey {
         switch content {
         case let .named(product, base):
-            "Piru doesn't model a timeline for the \(product) form of \(base). How long a form like this stays active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts."
+            "Piru doesn't model a timeline for \(product) \(base). The session shows when each dose was taken, not how long it lasts."
         case .generic:
-            "Piru doesn't model a timeline for some of these forms. How long they stay active isn't something Piru estimates, so the session shows when each dose was taken — not how long it lasts."
+            "Piru doesn't model a timeline for these forms — the session shows when each dose was taken, not how long it lasts."
         }
     }
 }

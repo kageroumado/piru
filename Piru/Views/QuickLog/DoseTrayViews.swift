@@ -1,6 +1,9 @@
 import SwiftData
 import SwiftUI
-import UIKit
+
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 /// The staged doses as a grouped-style card (matching the system inset-grouped
 /// list): one row per dose, expanding inline into its editor — never a second
@@ -36,21 +39,21 @@ struct TrayStagedListCard: View {
                                 } onRemove: {
                                     withAnimation(.snappy) { model.remove(item) }
                                 }
-                                .padding(.vertical, 8)
+                                .padding(.vertical, Spacing.md)
                             } else {
                                 TrayRow(dose: item, model: model, namespace: morphNamespace)
                             }
                         }
-                        .padding(.horizontal, 16)
+                        .padding(.horizontal, Spacing.xxl)
                     }
                     if item.id != lastVisibleID {
-                        Divider().padding(.leading, 16)
+                        Divider().padding(.leading, Spacing.xxl)
                     }
                 }
             }
         }
         .background(
-            Color(.secondarySystemGroupedBackground),
+            Color.platformSecondarySystemGroupedBackground,
             in: RoundedRectangle(cornerRadius: DoseTrayMetrics.cardCornerRadius, style: .continuous),
         )
     }
@@ -104,9 +107,9 @@ struct TrayCommitBar: View {
     private var interactionBanner: some View {
         let shown = interactions.admitted(.notable)
         if !shown.isEmpty {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
                 ForEach(Array(shown.prefix(3).enumerated()), id: \.offset) { _, warning in
-                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
                         Image(systemName: warning.severity == .dangerous
                             ? warning.mechanism.filledIconName : warning.mechanism.iconName)
                             .foregroundStyle(warning.severity.labelColor)
@@ -119,7 +122,7 @@ struct TrayCommitBar: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.bottom, 10)
+            .padding(.bottom, Spacing.lg)
             .transition(.opacity.combined(with: .move(edge: .top)))
         }
     }
@@ -134,7 +137,7 @@ struct TrayCommitBar: View {
     private var commitButton: some View {
         Button(action: onCommit) {
             Text(commitLabel)
-                .font(.piru(.headline))
+                .cardTitle()
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: DoseTrayMetrics.controlHeight)
@@ -188,8 +191,8 @@ struct TrayMetaChips: View {
     /// character-per-line into vertical columns.
     private var chipLayout: AnyLayout {
         dynamicTypeSize.isAccessibilitySize
-            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8))
-            : AnyLayout(HStackLayout(spacing: 8))
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: Spacing.md))
+            : AnyLayout(HStackLayout(spacing: Spacing.md))
     }
 
     var body: some View {
@@ -207,13 +210,7 @@ struct TrayMetaChips: View {
         }
         .alert("Location access is off", isPresented: $showLocationDeniedAlert) {
             Button("Open Settings") {
-                // UIApplication directly, not `@Environment(\.openURL)`: the
-                // environment's action wrapper compares as changed on every
-                // parent pass, so reading it re-rendered these chips whenever
-                // the dock body ran (`_printChanges`: `_openURL changed`).
-                if let url = URL(string: UIApplication.openSettingsURLString) {
-                    UIApplication.shared.open(url)
-                }
+                openPlatformSettings()
             }
             Button("Cancel", role: .cancel) {}
         } message: {
@@ -237,17 +234,19 @@ struct TrayMetaChips: View {
             Image(systemName: "chevron.down")
                 .font(.caption2.weight(.semibold))
         }
-        .font(.subheadline.weight(.semibold))
+        .sectionLabel()
         // Pin the label to its ideal width so the new string isn't clipped to
         // the interpolating frame (which flashed truncated text mid-animation).
         .fixedSize(horizontal: true, vertical: false)
         .padding(.horizontal, 14)
-        .padding(.vertical, 10)
+        .padding(.vertical, Spacing.lg)
         .background(
-            model.time.isNow ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Color.orange.opacity(0.18)),
+            model.time.isNow
+                ? AnyShapeStyle(Color.platformSecondarySystemFill)
+                : AnyShapeStyle(Color.cautionAccent.opacity(Theme.Opacity.tintActive)),
             in: Capsule(),
         )
-        .foregroundStyle(model.time.isNow ? AnyShapeStyle(.primary) : AnyShapeStyle(Color.orange))
+        .foregroundStyle(model.time.isNow ? AnyShapeStyle(.primary) : AnyShapeStyle(Color.cautionText))
         .animation(.snappy, value: model.time)
         // The overlay Menu is the accessible element — expose only it, or
         // VoiceOver stops on the decorative chip content too.
@@ -273,7 +272,7 @@ struct TrayMetaChips: View {
             )
             .datePickerStyle(.graphical)
             .frame(width: 320)
-            .padding(12)
+            .padding(Spacing.xl)
             .presentationCompactAdaptation(.popover)
         }
     }
@@ -327,11 +326,11 @@ struct TrayMetaChips: View {
                     Text(verbatim: "\(model.tags.count)")
                 }
             }
-            .font(.subheadline.weight(.semibold))
+            .sectionLabel()
             .padding(.horizontal, 14)
-            .padding(.vertical, 10)
+            .padding(.vertical, Spacing.lg)
             .background(
-                model.tags.isEmpty ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Theme.accent.opacity(0.15)),
+                model.tags.isEmpty ? AnyShapeStyle(Color.platformSecondarySystemFill) : AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)),
                 in: Capsule(),
             )
             .foregroundStyle(model.tags.isEmpty ? AnyShapeStyle(.primary) : AnyShapeStyle(Theme.accent))
@@ -367,11 +366,11 @@ struct TrayMetaChips: View {
                     .lineLimit(1)
             }
         }
-        .font(.subheadline.weight(.semibold))
+        .sectionLabel()
         .padding(.horizontal, 14)
-        .padding(.vertical, 10)
+        .padding(.vertical, Spacing.lg)
         .background(
-            model.location == nil ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Theme.accent.opacity(0.15)),
+            model.location == nil ? AnyShapeStyle(Color.platformSecondarySystemFill) : AnyShapeStyle(Theme.accent.opacity(Theme.Opacity.tint)),
             in: Capsule(),
         )
         .foregroundStyle(model.location == nil ? AnyShapeStyle(.primary) : AnyShapeStyle(Theme.accent))
@@ -444,7 +443,7 @@ struct TrayTagsPopover: View {
     }
 
     var body: some View {
-        FlowLayout(spacing: 6) {
+        FlowLayout(spacing: Spacing.sm) {
             ForEach(allTagChoices, id: \.self) { tag in
                 let on = model.tags.contains(tag)
                 Button {
@@ -455,9 +454,9 @@ struct TrayTagsPopover: View {
                     Text(verbatim: "#\(tag)")
                         .font(.footnote.weight(.medium))
                         .padding(.horizontal, 11)
-                        .padding(.vertical, 6)
+                        .padding(.vertical, Spacing.sm)
                         .background(
-                            on ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Color(.secondarySystemFill)),
+                            on ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Color.platformSecondarySystemFill),
                             in: Capsule(),
                         )
                         .foregroundStyle(on ? .white : .primary)
@@ -499,7 +498,7 @@ struct TraySwipeRow<Content: View>: View {
                 // the white card a white surface sliding is invisible.
                 .background {
                     RoundedRectangle(cornerRadius: DoseTrayMetrics.cardCornerRadius, style: .continuous)
-                        .fill(Color(.secondarySystemFill))
+                        .fill(Color.platformSecondarySystemFill)
                         .opacity(offset < -1 ? 1 : 0)
                 }
                 .offset(x: offset)
@@ -543,7 +542,7 @@ struct TraySwipeRow<Content: View>: View {
         }
         .buttonStyle(.plain)
         .frame(maxHeight: .infinity, alignment: .center)
-        .padding(.trailing, 8)
+        .padding(.trailing, Spacing.md)
         .accessibilityLabel("Remove")
         .opacity(offset < -1 ? 1 : 0)
         // Hidden until the swipe reveals it — otherwise VoiceOver stops on an
@@ -593,7 +592,7 @@ struct TrayRow: View {
         // the *numbers* on the trailing edge — ROA as a pill, the amount bold
         // and large — with the disclosure chevron at the far trailing edge
         // where every system disclosure puts it.
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             VStack(alignment: .leading, spacing: 3) {
                 Text(dose.displayTitle)
                     .font(.body.weight(.semibold))
@@ -633,7 +632,7 @@ struct TrayRow: View {
             if dose.totalAmount <= 0 {
                 Image(systemName: "exclamationmark.circle.fill")
                     .font(.body)
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(.cautionAccent)
                     .accessibilityLabel("Needs an amount")
             }
             ROAPill(route: dose.route)
@@ -660,7 +659,7 @@ struct TrayRow: View {
                 .frame(width: 16)
                 .trayMorph(id: "chevron-\(dose.id)", in: namespace)
         }
-        .padding(.vertical, 12)
+        .padding(.vertical, Spacing.xl)
         .contentShape(Rectangle())
         .onTapGesture(perform: expand)
         .accessibilityElement(children: .combine)

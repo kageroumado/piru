@@ -47,7 +47,7 @@ struct ToleranceRow: Identifiable {
         let severity = max(0, min(1, snapshot.severity))
         let family = familyColor
         let raw: [(LocalizedStringResource, Double, Color)] = [
-            ("Tachyphylaxis", snapshot.sAcute, family.opacity(0.5)),
+            ("Tachyphylaxis", snapshot.sAcute, family.opacity(Theme.Opacity.dimmed)),
             ("Tolerance", snapshot.sAdaptive + snapshot.sSynthesis, family.opacity(0.82)),
             ("Deep", snapshot.sDeep, family),
         ]
@@ -192,7 +192,7 @@ struct ToleranceRow: Identifiable {
         }
 
         if snapshot.safetyEndpointKind == .cardiovascular {
-            add("Within a session the high fades faster than the strain on your heart — chasing it with more stacks onto a blood-pressure spike that hasn't eased. Space your doses.")
+            add("Within a session the high fades faster than the blood-pressure rise, so a redose stacks onto it.")
             if let cardiovascular = snapshot.safetyShiftFactor, cardiovascular > 1.05 {
                 add(
                     "With regular use, your resting heart rate and blood pressure tend to settle over weeks.",

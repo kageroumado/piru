@@ -1,14 +1,13 @@
 import SwiftUI
-import UIKit
 
-/// Renders a session as a shareable image by composing the app's **real** views —
-/// the timeline graph plus `EntryRowView` rows inside insetGrouped-style cards —
-/// so the export is visually identical to the on-screen session, not a bespoke
-/// redraw. Long sessions flow into two columns. Replaces the old Core-Graphics
-/// `DayLogImageExporter`.
+#if canImport(UIKit)
+    import UIKit
+#elseif canImport(AppKit)
+    import AppKit
+#endif
+
 @MainActor
 enum SessionShareImage {
-    /// Row count past which the entry list splits into two columns.
     static let twoColumnThreshold = 8
 
     static func render(
@@ -20,7 +19,7 @@ enum SessionShareImage {
         scheme: ColorScheme,
         doseHR: [UUID: DoseHRResponse] = [:],
         capturedAt: Date = .now,
-    ) -> UIImage? {
+    ) -> PlatformImage? {
         guard !entries.isEmpty else { return nil }
         let displays = DayEntryDisplay.make(from: entries, colors: colors, doseHR: doseHR)
         let (states, markers) = ActiveSubstanceState.timeline(for: entries, colors: colors)
@@ -38,7 +37,7 @@ enum SessionShareImage {
         )
         let renderer = ImageRenderer(content: card)
         renderer.scale = 3
-        return renderer.uiImage
+        return renderer.platformImage
     }
 }
 
@@ -78,14 +77,10 @@ struct SessionShareCard: View {
         .environment(\.colorScheme, scheme)
     }
 
-    /// Big title falls back to the date when the session has no custom title,
-    /// so a titleless session doesn't print the date twice.
     private var displayTitle: String {
         title.isEmpty ? dateText : title
     }
 
-    /// Always shows the capture time (the snapshot moment the graph's "now" bar
-    /// marks); prepends the date when the big title is a custom session name.
     private var subtitle: String {
         let time = capturedAt.formatted(date: .omitted, time: .shortened)
         if title.isEmpty || title == dateText { return time }
@@ -104,8 +99,6 @@ struct SessionShareCard: View {
         }
     }
 
-    /// One shareable "in your body" row's data, flattened from the model so the
-    /// active and cleared rows can be split across two columns together.
     private struct BodyLoadRowData: Identifiable {
         let id: String
         let dotColor: Color
@@ -116,9 +109,6 @@ struct SessionShareCard: View {
         let status: BodyLoadStatus?
     }
 
-    /// The model's active-then-cleared rows as one ordered list, ready to slice
-    /// into columns. `nil` status on cleared rows when nothing is still active
-    /// keeps them single-line, matching the live section.
     private func bodyLoadRows(_ model: SessionBodyLoadModel) -> [BodyLoadRowData] {
         let hasActive = !model.active.isEmpty
         var rows = model.active.map { row in
@@ -150,10 +140,6 @@ struct SessionShareCard: View {
         return rows
     }
 
-    /// "In your body" — the same per-substance elimination rows the live session
-    /// detail shows, rendered from the shared ``SessionBodyLoadModel`` and
-    /// ``BodyLoadRowLabel`` so the export can't drift from the screen. Static rows
-    /// only (no expandable curves), split into two columns whenever the entries are.
     @ViewBuilder private var bodyLoadSection: some View {
         let model = SessionBodyLoadModel.make(entries: entries, colorMap: colorMap)
         if !model.isEmpty {
@@ -170,8 +156,6 @@ struct SessionShareCard: View {
         }
     }
 
-    /// A grouped card of body-load rows with leading-inset hairline dividers, on
-    /// `CardBackground()` — the same shell as ``groupedCard`` for the entry rows.
     private func bodyLoadCard(_ rows: [BodyLoadRowData]) -> some View {
         VStack(spacing: 0) {
             ForEach(Array(rows.enumerated()), id: \.element.id) { index, row in
@@ -192,9 +176,6 @@ struct SessionShareCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    /// Distinct substances drawn, split the way the renderer splits them: the
-    /// graph draws a lane per duration-less (pin-only) substance too, so this
-    /// counts across both, not curve substances alone.
     private var curveLaneCount: Int {
         Set(states.map { $0.substanceName.lowercased() }).count
     }
@@ -210,9 +191,6 @@ struct SessionShareCard: View {
             let store = UserDefaults(suiteName: LaneModeDefaults.suite)
             let laneEnabled = store?.object(forKey: LaneModeDefaults.enabledKey) as? Bool ?? LaneModeDefaults.enabledDefault
             let threshold = store?.object(forKey: LaneModeDefaults.thresholdKey) as? Int ?? LaneModeDefaults.thresholdDefault
-            // Busy (lane-mode) sessions render as the app's *enlarged* small
-            // multiples so each substance's strip stays readable; simple
-            // overlapping-curve days keep the compact embedded height.
             let laneMode = laneEnabled && curveLaneCount >= threshold
             let height = GraphMetrics.graphHeight(
                 enlarged: laneMode,
@@ -251,8 +229,6 @@ struct SessionShareCard: View {
         }
     }
 
-    /// An insetGrouped-style card: real `EntryRowView` rows with leading-inset
-    /// hairline dividers, on `CardBackground()` — the on-screen list section.
     private func groupedCard(_ items: [DayEntryDisplay]) -> some View {
         VStack(spacing: 0) {
             ForEach(Array(items.enumerated()), id: \.element.core.entryID) { index, display in

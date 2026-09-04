@@ -159,20 +159,39 @@ struct InsightsView: View {
     @State private var model = InsightsModel()
 
     private let calendarColumns = Array(repeating: GridItem(.flexible(), spacing: 3), count: 7)
+    private let compactColumns = [
+        GridItem(.flexible(), spacing: Spacing.xl),
+        GridItem(.flexible(), spacing: Spacing.xl),
+    ]
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: Spacing.xxl) {
                 usageCard
-                inYourBodyCard
                 adherenceCard
+                inYourBodyCard
                 InsightsToleranceCard()
                 InsightsReceptorLoadCard()
-                patternsCard
-                reportsCard
+
+                LazyVGrid(columns: compactColumns, spacing: Spacing.xl) {
+                    InsightCompactCard(
+                        icon: "list.clipboard",
+                        tint: .brown,
+                        title: "Patterns",
+                        subtitle: "Trends, exposure, and overlap",
+                        route: .insight(.patterns),
+                    )
+                    InsightCompactCard(
+                        icon: "square.and.arrow.up.on.square",
+                        tint: .indigo,
+                        title: "Reports",
+                        subtitle: "Export sessions, generate clinical reports",
+                        route: .insight(.reports),
+                    )
+                }
             }
             .padding(.horizontal)
-            .padding(.top, 4)
+            .padding(.top, Spacing.xs)
             .padding(.bottom, 80)
         }
         .background(Theme.background)
@@ -192,22 +211,21 @@ struct InsightsView: View {
     private var usageCard: some View {
         largeCard(icon: "chart.bar.fill", tint: .blue, title: "Usage", route: .insight(.usage)) {
             if let u = model.usage, u.hasData {
-                VStack(alignment: .leading, spacing: 12) {
-                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                VStack(alignment: .leading, spacing: Spacing.xl) {
+                    HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
                         Text("\(u.total)")
                             .font(.piru(.title2, design: .rounded, weight: .bold))
                         Text("entries")
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
                         Spacer()
-                        Text("\(u.perDayText)/day")
+                        Text("\(u.perDayText)")
+                            .font(.piru(.title2, design: .rounded, weight: .bold))
+                        Text("/day")
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                     usageChart
-                    Text("Past 2 weeks")
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
                 }
             } else {
                 emptyContent("No doses logged yet")
@@ -239,17 +257,13 @@ struct InsightsView: View {
             if model.active.isEmpty {
                 emptyContent("Nothing active right now")
             } else {
-                VStack(spacing: 10) {
+                VStack(spacing: Spacing.lg) {
                     ForEach(model.active.prefix(3)) { sub in
                         GlanceRow(dotColor: sub.color, title: Text(sub.name)) {
                             Text("\(sub.totalRemaining.doseFormatted) \(sub.unit)")
-                                .font(.subheadline.weight(.semibold))
+                                .sectionLabel()
                                 .foregroundStyle(sub.color)
-                            Text("\(Int((1 - sub.eliminatedFraction) * 100))%")
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
-                                .monospacedDigit()
-                                .frame(width: 34, alignment: .trailing)
+                            RemainingBar(fraction: 1 - sub.eliminatedFraction, color: sub.color)
                         }
                         .accessibilityElement(children: .combine)
                     }
@@ -269,15 +283,17 @@ struct InsightsView: View {
                 emptyContent("Add your meds to see adherence")
             } else {
                 VStack(alignment: .leading, spacing: 14) {
-                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
                         if let a = model.adherence {
                             Text("\(a.streak)")
                                 .font(.piru(.title2, design: .rounded, weight: .bold))
-                            Text(a.streak == 1 ? "day streak" : "day streak")
+                            Text("day streak")
                                 .font(.subheadline)
                                 .foregroundStyle(Theme.secondaryLabel)
                             Spacer()
-                            Text("\(a.monthText) this month")
+                            Text("\(a.monthText)")
+                                .font(.piru(.title2, design: .rounded, weight: .bold))
+                            Text(Date.now.formatted(.dateTime.month(.wide)))
                                 .font(.subheadline)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
@@ -290,20 +306,15 @@ struct InsightsView: View {
 
     private var miniCalendar: some View {
         VStack(spacing: 5) {
-            Text(Date.now.formatted(.dateTime.month(.wide)))
-                .font(.caption2.weight(.semibold))
-                .foregroundStyle(Theme.secondaryLabel)
-                .frame(maxWidth: .infinity, alignment: .leading)
-
             LazyVGrid(columns: calendarColumns, spacing: 3) {
                 ForEach(Array(model.monthCells.enumerated()), id: \.offset) { _, cell in
                     if let cell {
-                        RoundedRectangle(cornerRadius: 3)
+                        RoundedRectangle(cornerRadius: Theme.CornerRadius.tiny)
                             .fill(adherenceDotColor(cell))
                             .frame(height: 15)
                             .overlay {
                                 if Calendar.current.isDateInToday(cell.date) {
-                                    RoundedRectangle(cornerRadius: 3)
+                                    RoundedRectangle(cornerRadius: Theme.CornerRadius.tiny)
                                         .stroke(Theme.accent, lineWidth: 1.5)
                                 }
                             }
@@ -318,38 +329,12 @@ struct InsightsView: View {
     }
 
     private func adherenceDotColor(_ day: DayAdherence) -> Color {
-        if day.date > .now { return Color(.tertiarySystemFill) }
+        if day.date > .now { return Color.platformTertiarySystemFill }
         switch day.status {
-        case .complete: return .green.opacity(0.85)
-        case .partial: return .orange.opacity(0.85)
-        case .missed: return .red.opacity(0.8)
-        case .noData: return Color(.secondarySystemFill)
-        }
-    }
-
-    // MARK: - Patterns
-
-    private var patternsCard: some View {
-        largeCard(icon: "list.clipboard", tint: .brown, title: "Patterns", route: .insight(.patterns)) {
-            if allEntries.isEmpty {
-                emptyContent("Log doses to see your patterns")
-            } else {
-                Text("Days used, cumulative exposure, dose trend, and overlap — for you or your doctor")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-        }
-    }
-
-    // MARK: - Reports
-
-    private var reportsCard: some View {
-        largeCard(icon: "square.and.arrow.up.on.square", tint: .indigo, title: "Reports", route: .insight(.reports)) {
-            Text("Export sessions, generate clinical reports")
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-                .fixedSize(horizontal: false, vertical: true)
+        case .complete: return Color.successAccent.opacity(0.85)
+        case .partial: return .cautionAccent.opacity(0.85)
+        case .missed: return .dangerAccent.opacity(Theme.Opacity.strong)
+        case .noData: return Color.platformSecondarySystemFill
         }
     }
 
@@ -358,6 +343,66 @@ struct InsightsView: View {
             .font(.subheadline)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+// MARK: - Remaining bar
+
+/// A small capsule progress bar showing the remaining fraction of a substance,
+/// matching the compact `DosePhaseProgressBar` style from timeline dose pills.
+private struct RemainingBar: View {
+    let fraction: Double
+    let color: Color
+
+    var body: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Capsule().fill(color.opacity(Theme.Opacity.tint))
+                Capsule()
+                    .fill(color)
+                    .frame(width: max(0, geo.size.width * fraction))
+            }
+        }
+        .frame(width: 40, height: 3)
+        .accessibilityLabel(Text("\(Int(fraction * 100))% remaining"))
+    }
+}
+
+// MARK: - Compact card
+
+/// A half-width insight card: tinted icon, title, and subtitle in a compact
+/// `themeCard`, matching the Tools tab's grid density.
+private struct InsightCompactCard: View {
+    let icon: String
+    var tint: Color = Theme.accent
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
+    let route: PushRoute
+
+    var body: some View {
+        NavigationLink(value: route) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
+                Image(systemName: icon)
+                    .font(.piru(.title3))
+                    .foregroundStyle(tint)
+                    .accessibilityHidden(true)
+                Text(title)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.primary)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .themeCard()
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 }
 
@@ -391,19 +436,18 @@ private struct InsightsToleranceCard: View {
                 HStack(alignment: .center, spacing: 14) {
                     Image(systemName: "checkmark.seal.fill")
                         .font(.piru(.title))
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.successAccent)
                         .accessibilityHidden(true)
-                    VStack(alignment: .leading, spacing: 2) {
+                    VStack(alignment: .leading, spacing: Spacing.xxs) {
                         Text("Receptors rested")
-                            .font(.subheadline.weight(.semibold))
+                            .sectionLabel()
                         Text("No notable predicted tolerance right now")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                     }
                     Spacer()
                 }
             } else {
-                VStack(spacing: 9) {
+                VStack(spacing: Spacing.lg) {
                     ForEach(notable.prefix(4)) { state in
                         toleranceBar(state)
                     }
@@ -414,10 +458,8 @@ private struct InsightsToleranceCard: View {
 
     private func toleranceBar(_ state: ClassTolerance) -> some View {
         let color = state.receptorClass.familyColor
-        return HStack(spacing: 10) {
-            Circle()
-                .fill(color)
-                .frame(width: 8, height: 8)
+        return HStack(spacing: Spacing.lg) {
+            LegendDot(color: color)
             Text(state.receptorClass.casualName)
                 .font(.subheadline.weight(.medium))
                 .lineLimit(1)
@@ -452,7 +494,7 @@ private struct InsightsReceptorLoadCard: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .fixedSize(horizontal: false, vertical: true)
             } else {
-                VStack(spacing: 9) {
+                VStack(spacing: Spacing.lg) {
                     ForEach(notable.prefix(3)) { state in
                         receptorRow(state)
                     }
@@ -463,17 +505,24 @@ private struct InsightsReceptorLoadCard: View {
 
     private func receptorRow(_ state: ClassTolerance) -> some View {
         let color = state.receptorClass.familyColor
-        return HStack(spacing: 10) {
-            Circle()
-                .fill(color)
-                .frame(width: 8, height: 8)
+        return HStack(spacing: Spacing.lg) {
+            LegendDot(color: color)
             Text(state.receptorClass.casualName)
                 .font(.subheadline.weight(.medium))
                 .lineLimit(1)
             Spacer(minLength: 10)
-            Text("\(Int(state.severity * 100))%")
-                .font(.caption.monospacedDigit())
-                .foregroundStyle(Theme.secondaryLabel)
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(color.opacity(0.15))
+                        .frame(height: 6)
+                    Capsule()
+                        .fill(color)
+                        .frame(width: max(6, geo.size.width * state.severity), height: 6)
+                }
+                .frame(maxHeight: .infinity, alignment: .center)
+            }
+            .frame(width: 96, height: 8)
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(state.receptorClass.casualName))

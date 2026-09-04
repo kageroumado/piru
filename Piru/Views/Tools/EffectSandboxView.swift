@@ -34,37 +34,39 @@ struct EffectSandboxView: View {
             }
         }
         .background(Theme.background)
-        .background { BackSwipeSuspender(isSuspended: isAdjustingDose) }
-        // The charts are pinned and the doses scroll under them — the inverse of
-        // the old layout. You are always editing against a visible curve, and the
-        // doses get the full width of a standard list instead of a cramped strip.
-        .safeAreaInset(edge: .top, spacing: 0) {
-            // Shown as soon as there are rows, not once the first result lands:
-            // the simulation runs off-main, so gating on it made the whole list
-            // jump down a moment after opening. The pager keeps its height and
-            // fills in the curves when they arrive.
-            if !model.rows.isEmpty {
-                SandboxChartPager(model: model)
-            }
-        }
-        .navigationTitle("Effect Estimator")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar { toolbarContent }
-        .onAppear {
-            if model.rows.isEmpty, !model.hasBeenCleared { model.seedDefaultDoses() }
-            model.scheduleRecompute(immediate: true)
-        }
-        .onChange(of: model.signature) { model.scheduleRecompute() }
-        .sheet(item: $pickTarget) { target in
-            SandboxSubstancePicker { substance in
-                switch target {
-                case let .new(plan): model.addRow(substance: substance, plan: plan)
-                case let .existing(rowID): model.setSubstance(substance, forRow: rowID)
+        #if canImport(UIKit)
+            .background { BackSwipeSuspender(isSuspended: isAdjustingDose) }
+        #endif
+            // The charts are pinned and the doses scroll under them — the inverse of
+            // the old layout. You are always editing against a visible curve, and the
+            // doses get the full width of a standard list instead of a cramped strip.
+            .safeAreaInset(edge: .top, spacing: 0) {
+                // Shown as soon as there are rows, not once the first result lands:
+                // the simulation runs off-main, so gating on it made the whole list
+                // jump down a moment after opening. The pager keeps its height and
+                // fills in the curves when they arrive.
+                if !model.rows.isEmpty {
+                    SandboxChartPager(model: model)
                 }
-                pickTarget = nil
             }
-        }
-        .sheet(isPresented: $showsGuide) { SandboxGuideSheet(model: model) }
+            .navigationTitle("Effect Estimator")
+            .inlineNavigationTitle()
+            .toolbar { toolbarContent }
+            .onAppear {
+                if model.rows.isEmpty, !model.hasBeenCleared { model.seedDefaultDoses() }
+                model.scheduleRecompute(immediate: true)
+            }
+            .onChange(of: model.signature) { model.scheduleRecompute() }
+            .sheet(item: $pickTarget) { target in
+                SandboxSubstancePicker { substance in
+                    switch target {
+                    case let .new(plan): model.addRow(substance: substance, plan: plan)
+                    case let .existing(rowID): model.setSubstance(substance, forRow: rowID)
+                    }
+                    pickTarget = nil
+                }
+            }
+            .sheet(isPresented: $showsGuide) { SandboxGuideSheet(model: model) }
     }
 
     // MARK: Toolbar
@@ -74,7 +76,7 @@ struct EffectSandboxView: View {
     /// degrades to a single "Clear" item is not worth the tap.
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
+        ToolbarItem(placement: .platformTopBarTrailing) {
             Button {
                 showsGuide = true
             } label: {
@@ -115,7 +117,7 @@ struct EffectSandboxView: View {
                 .listRowBackground(CardBackground())
             }
         }
-        .listStyle(.insetGrouped)
+        .insetGroupedListStyle()
         .scrollContentBackground(.hidden)
     }
 
@@ -166,7 +168,7 @@ struct EffectSandboxView: View {
             .listRowBackground(CardBackground())
         } header: {
             if model.isComparing {
-                HStack(spacing: 6) {
+                HStack(spacing: Spacing.sm) {
                     Capsule()
                         .fill(plan.color)
                         .frame(width: 14, height: 3)
@@ -235,8 +237,10 @@ private struct SandboxChartPager: View {
                     singlePage(lens).tag(index + 1)
                 }
             }
+            #if os(iOS)
             .tabViewStyle(.page(indexDisplayMode: .always))
             .indexViewStyle(.page(backgroundDisplayMode: .always))
+            #endif
             .frame(height: height)
         }
         .background(.bar)
@@ -257,14 +261,14 @@ private struct SandboxChartPager: View {
             Spacer(minLength: 0)
         }
         .padding(.horizontal, 20)
-        .padding(.top, 8)
+        .padding(.top, Spacing.md)
         .accessibilityElement(children: .combine)
     }
 
     /// All four at once — the relationship between channels is often the answer
     /// ("Feeling flat, Strain doubled"), and a paged view alone would hide it.
     private var overviewPage: some View {
-        LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 6) {
+        LazyVGrid(columns: [GridItem(.flexible(), spacing: Spacing.lg), GridItem(.flexible(), spacing: Spacing.lg)], spacing: Spacing.sm) {
             ForEach(model.activeLenses) { lens in
                 VStack(alignment: .leading, spacing: 0) {
                     label(lens, font: .caption2)
@@ -272,15 +276,15 @@ private struct SandboxChartPager: View {
                 }
             }
         }
-        .padding(.horizontal, 16)
-        .padding(.top, 4)
+        .padding(.horizontal, Spacing.xxl)
+        .padding(.top, Spacing.xs)
         // Clear of the paging dots, which the TabView pins to the frame's bottom.
         .padding(.bottom, 26)
         .accessibilityLabel("All four lenses")
     }
 
     private func singlePage(_ lens: EffectLens) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             label(lens, font: .subheadline)
             chart(lens, height: 150)
             Text(footer(for: lens))
@@ -288,10 +292,10 @@ private struct SandboxChartPager: View {
                 .foregroundStyle(Theme.secondaryLabel)
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
-                .padding(.horizontal, 4)
+                .padding(.horizontal, Spacing.xs)
         }
-        .padding(.horizontal, 16)
-        .padding(.top, 4)
+        .padding(.horizontal, Spacing.xxl)
+        .padding(.top, Spacing.xs)
         .padding(.bottom, 26)
     }
 
@@ -305,7 +309,7 @@ private struct SandboxChartPager: View {
                 .font(font.weight(.semibold))
                 .foregroundStyle(.primary)
         }
-        .padding(.leading, 4)
+        .padding(.leading, Spacing.xs)
     }
 
     private func chart(_ lens: EffectLens, height: CGFloat) -> some View {
@@ -346,50 +350,5 @@ private struct SandboxChartPager: View {
     }
 }
 
-// MARK: - Back-swipe arbitration
-
-/// Suspends the navigation stack's interactive back-swipe while a slider thumb is
-/// held.
-///
-/// A `Slider` in a pushed view loses its drag to the pop gesture: grabbing the
-/// thumb and moving horizontally pops the screen instead of changing the value.
-/// UIKit's recognizer claims the pan first, and SwiftUI's `Slider` has no way to
-/// require it to fail. Suspending it for exactly as long as the thumb is held is
-/// narrower than disabling back-swipe for the whole screen — anywhere you are not
-/// touching a slider, the gesture still works.
-private struct BackSwipeSuspender: UIViewRepresentable {
-    let isSuspended: Bool
-
-    func makeUIView(context _: Context) -> UIView {
-        let view = UIView(frame: .zero)
-        view.isUserInteractionEnabled = false
-        return view
-    }
-
-    func updateUIView(_ uiView: UIView, context _: Context) {
-        let suspended = isSuspended
-        // Deferred: on the first update the view is not yet in the hierarchy, so
-        // the navigation controller can't be found synchronously.
-        DispatchQueue.main.async {
-            uiView.enclosingNavigationController?.interactivePopGestureRecognizer?.isEnabled = !suspended
-        }
-    }
-
-    static func dismantleUIView(_ uiView: UIView, coordinator _: ()) {
-        // Never leave the gesture disabled behind us if the view goes away
-        // mid-drag (a dismissal, a cancelled touch).
-        uiView.enclosingNavigationController?.interactivePopGestureRecognizer?.isEnabled = true
-    }
-}
-
-private extension UIView {
-    var enclosingNavigationController: UINavigationController? {
-        var responder: UIResponder? = self
-        while let current = responder {
-            if let nav = current as? UINavigationController { return nav }
-            if let controller = current as? UIViewController, let nav = controller.navigationController { return nav }
-            responder = current.next
-        }
-        return nil
-    }
-}
+// iOS UIKit types (BackSwipeSuspender, UIView.enclosingNavigationController)
+// are in EffectSandboxView+iOS.swift.

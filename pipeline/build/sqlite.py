@@ -41,6 +41,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pipeline/ — shared modules
 
 import collision_registry  # noqa: E402
+import product_codes as product_code_keys  # noqa: E402
 import psid  # noqa: E402
 from contraindication_flags import FLAG_LABELS as CONTRAINDICATION_FLAGS  # noqa: E402
 from contraindication_flags import normalize as normalize_contraindication  # noqa: E402
@@ -78,6 +79,29 @@ REJECT_LOG_PATH = os.environ.get("PIRU_REJECTS", "")
 REPO = Path(__file__).resolve().parents[2]
 OUT_SQLITE = REPO / "Piru/Data/piru-substances.sqlite"
 OUT_MANIFEST = REPO / "Piru/Data/manifest.json"
+
+
+def next_content_version(today: str, previous: str | None = None) -> str:
+    """`YYYY-MM-DD.N`, with N one past the last build on the same day.
+
+    The app keeps an opt-in downloaded copy over the bundle only while the copy is
+    at least as new, comparing this string — so two same-day builds must not share
+    it, or an older downloaded copy shadows the bundle and every table added in
+    between reads as empty.
+    """
+    if previous is None:
+        try:
+            previous = json.loads(OUT_MANIFEST.read_text()).get("content_version")
+        except (OSError, ValueError):
+            previous = None
+    if previous and previous.startswith(today + "."):
+        try:
+            return f"{today}.{int(previous.rsplit('.', 1)[1]) + 1}"
+        except ValueError:
+            pass
+    return f"{today}.0"
+
+
 OUT_REPORT = REPO / "data/snapshots/build-report.md"
 PAPERS_INDEX = Path.home() / "Developer/papers/index.json"
 
@@ -111,6 +135,14 @@ CLASS_MECHANISMS = REPO / "data/curated/class-mechanisms.json"
 # substances exist so it can attach to existing rows.
 FLAGSHIP_PHARMA = REPO / "data/curated/pharmacology-flagship.json"
 BUNDLED = REPO / "data/intermediate/substances-bundled.json"
+# Barcode registries (pipeline/fetch/product_codes.py): openFDA NDC directory
+# (US) and ANSM BDPM (FR), pre-filtered to single-ingredient products whose
+# active folds onto a known name. In priority order — a code listed by two
+# registries keeps the first.
+PRODUCT_CODE_SNAPSHOTS = (
+    ("openfda-ndc", "US", REPO / "data/sources/product-codes-openfda.json"),
+    ("bdpm", "FR", REPO / "data/sources/product-codes-bdpm.json"),
+)
 DRUG_COMMUNITY = REPO / "data/sources/drug-community.json"
 # drug.community experiential companion datasets (Sept-2025 redesign): the
 # intensity spectra + reported effects that power the "Effects & Intensity"
@@ -133,6 +165,8 @@ MEDTAP_PK = REPO / "data/sources/medtap-pk.json"
 # The build drops citations this proved dead (HTTP 404/410) so no broken link ships.
 LINK_CACHE = REPO / "data/sources/link-cache.json"
 PSYCHONAUTWIKI = REPO / "data/sources/psychonautwiki.json"
+# SubFxOnEx ontology release, verbatim — see pipeline/fetch/subfxonex.py.
+SUBFXONEX = REPO / "data/sources/subfxonex.json"
 PUBMED_PUBTYPES = REPO / "data/sources/pubmed-pubtypes.json"
 ENRICHMENT_DIR = REPO / "data/enrichment/raw"
 
@@ -787,6 +821,43 @@ CREATE TABLE product_durations (
     total_min          REAL, total_max          REAL
 );
 
+-- Marketed products the box scanner identifies by barcode (Specs/box-scanner-
+-- tool.md): a brand + strength + form under a substance the catalog knows, one
+-- row per distinct product — every repackager's listing of the same
+-- brand/strength/form shares it, which is what keeps 47k registry listings to
+-- a third as many rows. `psid` is the substance's base-form PSID (composed from
+-- substance_uid; NULL when the row has no uid). `source` and `country` name the
+-- registry ('openfda-ndc'/'US', 'bdpm'/'FR'). Strength/form/route are the
+-- registry's own strings, shown as read; nothing here drives pharmacology,
+-- dose ladders, or identity.
+CREATE TABLE coded_products (
+    id            INTEGER PRIMARY KEY,
+    substance_id  INTEGER NOT NULL REFERENCES substances(id),
+    psid          TEXT,
+    brand         TEXT,
+    strength      TEXT,
+    form          TEXT,
+    route         TEXT,
+    country       TEXT NOT NULL,
+    source        TEXT NOT NULL
+);
+CREATE INDEX idx_coded_products_substance ON coded_products(substance_id);
+
+-- The barcodes those products print, keyed by the 14-digit GTIN as an integer:
+-- a US package NDC as 003 + NDC-10 + check, a retail UPC-A or a French CIP13
+-- (EAN-13) left-padded — so every symbology the camera reads normalizes to one
+-- key (see pipeline/product_codes.py). `code_kind` says which: 'ndc' | 'upc' |
+-- 'cip13'. `pack_count`/`pack_unit` are the registry's package contents
+-- (30 'tablet', 118 'mL'); NULL when the description names only a container.
+-- `code` is the rowid alias, so ~100k rows cost a few MB and no extra index.
+CREATE TABLE product_codes (
+    code        INTEGER PRIMARY KEY,
+    code_kind   TEXT NOT NULL,
+    product_id  INTEGER NOT NULL REFERENCES coded_products(id),
+    pack_count  REAL,
+    pack_unit   TEXT
+);
+
 CREATE TABLE categories (
     substance_id INTEGER NOT NULL REFERENCES substances(id),
     source_id    INTEGER NOT NULL REFERENCES sources(id),
@@ -1005,6 +1076,39 @@ CREATE TABLE subjective_effects (
 );
 CREATE INDEX idx_subjective_substance ON subjective_effects(substance_id);
 CREATE INDEX idx_subjective_vocab     ON subjective_effects(vocab_id) WHERE vocab_id IS NOT NULL;
+
+-- SubFxOnEx subjective-effects ontology (drug.community, LGPL-2.1): the
+-- descriptor vocabulary on session notes. Substance-independent, so it has no
+-- substance_id. `kind` is 'rollup' (21 top-level groups, one per domain,
+-- parent_id NULL) or 'atomic' (485 concepts, each under one rollup). `position`
+-- is the release's display order. Ids are the release's own UUIDs — a note
+-- stores them, so they must survive every rebuild unchanged.
+CREATE TABLE subjective_effect_concepts (
+    id          TEXT PRIMARY KEY,
+    name        TEXT NOT NULL,
+    slug        TEXT NOT NULL UNIQUE,
+    domain      TEXT NOT NULL,
+    kind        TEXT NOT NULL CHECK (kind IN ('rollup', 'atomic')),
+    parent_id   TEXT REFERENCES subjective_effect_concepts(id),
+    position    INTEGER NOT NULL,
+    definition  TEXT
+);
+CREATE INDEX idx_sec_parent ON subjective_effect_concepts(parent_id);
+CREATE INDEX idx_sec_kind ON subjective_effect_concepts(kind, position);
+
+-- Alias labels for the chip search ("absorbed in the present" → attentional
+-- absorption). `normalized_label` follows the release's own normalization
+-- (lowercase, NFKD, ASCII dashes, collapsed whitespace) so a lowercased query
+-- can prefix-match it directly.
+CREATE TABLE subjective_effect_concept_aliases (
+    id               INTEGER PRIMARY KEY,
+    label            TEXT NOT NULL,
+    normalized_label TEXT NOT NULL,
+    effect_id        TEXT NOT NULL REFERENCES subjective_effect_concepts(id),
+    UNIQUE(normalized_label, effect_id)
+);
+CREATE INDEX idx_seca_effect ON subjective_effect_concept_aliases(effect_id);
+CREATE INDEX idx_seca_label ON subjective_effect_concept_aliases(normalized_label);
 
 -- drug.community intensity spectrum: one row per dose band (dc's 6 fixed levels
 -- mapped onto Piru's dose-band vocabulary). Powers the circular dose-intensity
@@ -3017,8 +3121,13 @@ def enforce_us_english(con) -> dict:
         ("molecule_shapes", "atoms_json"),
         ("molecule_shapes", "bonds_json"),
     }
+    # The SubFxOnEx ontology ships verbatim (LGPL-2.1, and a note's descriptor
+    # search matches the release's own normalized labels) — never rewrite it.
+    verbatim_tables = {"subjective_effect_concepts", "subjective_effect_concept_aliases"}
     rewritten = 0
     for table in tables:
+        if table in verbatim_tables:
+            continue
         columns = [
             r[1]
             for r in cur.execute(f'PRAGMA table_info("{table}")')
@@ -7676,6 +7785,63 @@ class Build:
         for s in sorted(data, key=lambda x: x.get("name", "").lower()):
             self._ingest_substance_record(s, "piru-curated")
 
+    def ingest_subfxonex(self, path: Path) -> None:
+        """Load the SubFxOnEx ontology release into the two concept tables.
+
+        Rollups are inserted before atomics so the parent FK resolves
+        (foreign_keys is ON). Every concept and alias in the release is shipped
+        — the license asks for the data unmodified in shape, and a trimmed
+        vocabulary would silently orphan any descriptor id a note already holds.
+        """
+        if not path.exists():
+            print(
+                f"  (no SubFxOnEx snapshot at {path}; run pipeline/fetch/subfxonex.py)",
+                file=sys.stderr,
+            )
+            return
+        data = json.loads(path.read_text())
+        concepts = data.get("concepts") or []
+        aliases = data.get("aliases") or []
+        by_kind = {"rollup": 0, "atomic": 1}
+        ordered = sorted(
+            concepts, key=lambda c: (by_kind.get(c.get("kind"), 2), c.get("position", 0), c["id"])
+        )
+        known: set[str] = set()
+        for c in ordered:
+            parent = c.get("parent_id")
+            if parent is not None and parent not in known:
+                raise ValueError(
+                    f"SubFxOnEx concept {c['id']} ({c.get('name')}) names unknown parent {parent}"
+                )
+            self.cur.execute(
+                "INSERT INTO subjective_effect_concepts(id, name, slug, domain, kind, parent_id, position, definition)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    c["id"],
+                    c["name"],
+                    c["slug"],
+                    c["domain"],
+                    c["kind"],
+                    parent,
+                    int(c.get("position", 0)),
+                    c.get("definition"),
+                ),
+            )
+            known.add(c["id"])
+        alias_rows = 0
+        for a in aliases:
+            if a.get("effect_id") not in known:
+                raise ValueError(
+                    f"SubFxOnEx alias {a.get('label')!r} names unknown concept {a.get('effect_id')}"
+                )
+            self.cur.execute(
+                "INSERT OR IGNORE INTO subjective_effect_concept_aliases(label, normalized_label, effect_id) VALUES (?, ?, ?)",
+                (a["label"], a.get("normalized_label") or a["label"].lower(), a["effect_id"]),
+            )
+            alias_rows += self.cur.rowcount
+        self.stats["subjective_effect_concepts"] = len(ordered)
+        self.stats["subjective_effect_concept_aliases"] = alias_rows
+
     def ingest_psychonautwiki_snapshot(self, path: Path) -> None:
         """Ingest the PsychonautWiki GraphQL snapshot generated by
         ``Tools/SubstanceCollector/fetch-psychonautwiki.py``. Each record has
@@ -11339,6 +11505,125 @@ class Build:
             "product_strengths_missing_parent": len(missing_parent),
         }
 
+    def build_product_codes(self) -> dict[str, int]:
+        """Load the barcode registry snapshots (PRODUCT_CODE_SNAPSHOTS) into
+        `coded_products` + `product_codes`.
+
+        Each registry product names its active ingredient in its own idiom
+        ("Methylphenidate hydrochloride", "CHLORHYDRATE DE MÉTHYLPHÉNIDATE");
+        both fold to the same key (product_codes.name_keys) and are resolved
+        against the built catalog's canonical names first, then its aliases,
+        preferring a non-stub owner — the fetcher's snapshot filter only kept
+        the file small, this is the authoritative mapping. A product whose name
+        no longer resolves is skipped and counted, never failed: registries and
+        the catalog drift independently."""
+        # Folded key → substance id. Canonical names win over aliases; among
+        # alias owners a substance with data wins over a stub.
+        by_key: dict[str, int] = {}
+        stub_ids = {r[0] for r in self.cur.execute("SELECT id FROM substances WHERE is_stub = 1")}
+        alias_rows = self.cur.execute("SELECT substance_id, alias FROM aliases").fetchall()
+        for sid, alias in alias_rows:
+            for key in product_code_keys.name_keys(alias):
+                if len(key) < 4:
+                    continue
+                current = by_key.get(key)
+                if current is None or (current in stub_ids and sid not in stub_ids):
+                    by_key[key] = sid
+        for sid, name in self.cur.execute("SELECT id, canonical_name FROM substances"):
+            for key in product_code_keys.name_keys(name):
+                if len(key) >= 4:
+                    by_key[key] = sid
+        uids = dict(self.cur.execute("SELECT id, substance_uid FROM substances").fetchall())
+
+        def resolve(name: str) -> int | None:
+            for key in product_code_keys.name_keys(name):
+                sid = by_key.get(key)
+                if sid is not None:
+                    return sid
+            return None
+
+        products = codes = unresolved = duplicate_codes = 0
+        unresolved_names: Counter[str] = Counter()
+        # One row per distinct product: repackagers relist the same
+        # brand/strength/form under their own NDCs, and their packages all join
+        # the first row. This also keeps every row distinct, which the dedupe
+        # pass requires — it would otherwise delete a twin from under its codes.
+        product_ids: dict[tuple, int] = {}
+        for source, country, path in PRODUCT_CODE_SNAPSHOTS:
+            if not path.exists():
+                print(
+                    f"  product codes: {path.relative_to(REPO)} missing — {source} skipped",
+                    file=sys.stderr,
+                )
+                continue
+            for row in json.loads(path.read_text(encoding="utf-8")):
+                if source == "openfda-ndc":
+                    name = row["generic"]
+                    packages = [
+                        (product_code_keys.gtin14_from_ndc(ndc), "ndc", count, unit)
+                        for ndc, count, unit in row["packages"]
+                    ] + [(upc, "upc", None, None) for upc in row.get("upc", [])]
+                else:
+                    name = row["substance"]
+                    packages = [
+                        (product_code_keys.gtin14_from_ean(cip13), "cip13", count, unit)
+                        for cip13, count, unit in row["presentations"]
+                    ]
+                    if not row.get("brand"):
+                        # "RITALINE 10 mg, comprimé sécable" → "RITALINE"
+                        row["brand"] = (
+                            re.split(r"\s+\d|,", row["name"], maxsplit=1)[0].strip().title()
+                        )
+                sid = resolve(name)
+                if sid is None:
+                    unresolved += 1
+                    unresolved_names[name] += 1
+                    continue
+                uid = uids.get(sid)
+                values = (
+                    sid,
+                    psid.compose(uid) if uid else None,
+                    row.get("brand"),
+                    row.get("strength"),
+                    row.get("form"),
+                    row.get("route"),
+                    country,
+                    source,
+                )
+                product_id = product_ids.get(values)
+                if product_id is None:
+                    self.cur.execute(
+                        "INSERT INTO coded_products "
+                        "(substance_id, psid, brand, strength, form, route, country, source) "
+                        "VALUES (?,?,?,?,?,?,?,?)",
+                        values,
+                    )
+                    product_id = self.cur.lastrowid
+                    product_ids[values] = product_id
+                    products += 1
+                for gtin, kind, count, unit in packages:
+                    if not gtin:
+                        continue
+                    inserted = self.cur.execute(
+                        "INSERT OR IGNORE INTO product_codes (code, code_kind, product_id, pack_count, pack_unit) "
+                        "VALUES (?,?,?,?,?)",
+                        (int(gtin), kind, product_id, count, unit),
+                    ).rowcount
+                    codes += inserted
+                    duplicate_codes += 1 - inserted
+        if unresolved:
+            top = ", ".join(f"{n} ×{c}" for n, c in unresolved_names.most_common(8))
+            print(
+                f"  product codes: {unresolved} product(s) whose active no longer resolves, skipped: {top}",
+                file=sys.stderr,
+            )
+        return {
+            "coded_products": products,
+            "product_codes": codes,
+            "product_codes_duplicate": duplicate_codes,
+            "product_codes_unresolved": unresolved,
+        }
+
     def build_product_durations(self) -> dict[str, int]:
         """Load per-product duration-of-effect envelopes (product-durations.json)
         into `product_durations`, so an extended-release brand draws a curve of the
@@ -12956,6 +13241,10 @@ def main() -> int:
     build.ingest_freeodwiki(FREEODWIKI)
     print(f"After drug.community: {build.stats}", file=sys.stderr)
 
+    # Substance-independent: the session-note descriptor vocabulary.
+    build.ingest_subfxonex(SUBFXONEX)
+    print(f"After SubFxOnEx: {build.stats}", file=sys.stderr)
+
     for f in sorted(ENRICHMENT_DIR.glob("*.json")):
         before = dict(build.stats)
         build.ingest_enrichment(f)
@@ -13628,6 +13917,8 @@ def main() -> int:
     print(f"Product strengths: {strengths}", file=sys.stderr)
     product_durations = build.build_product_durations()
     print(f"Product durations: {product_durations}", file=sys.stderr)
+    coded = build.build_product_codes()
+    print(f"Product codes: {coded}", file=sys.stderr)
     alias_collisions = build.audit_alias_collisions()
     print(f"Alias-collision audit: {alias_collisions}", file=sys.stderr)
 
@@ -13666,7 +13957,7 @@ def main() -> int:
     print(f"Final dose-less stub flag: {final_stubs}", file=sys.stderr)
 
     substance_count = db.execute("SELECT COUNT(*) FROM substances").fetchone()[0]
-    content_version = datetime.now(UTC).strftime("%Y-%m-%d.0")
+    content_version = next_content_version(datetime.now(UTC).strftime("%Y-%m-%d"))
     sources_summary = {
         slug: {
             "dose_ranges": db.execute(
@@ -13791,6 +14082,8 @@ def main() -> int:
         "mechanisms_summary",
         "effects",
         "subjective_effects",
+        "subjective_effect_concepts",
+        "subjective_effect_concept_aliases",
         "tolerance",
         "indications",
         "contraindications",
@@ -13832,6 +14125,8 @@ def main() -> int:
         "saturable_kinetics",
         "bioavailability_by_dose",
         "attenuation_bands",
+        "coded_products",
+        "product_codes",
     ]
     db = sqlite3.connect(str(OUT_SQLITE))
     for t in tables:

@@ -25,11 +25,6 @@ final class UserProfileRecord {
     /// Weight-source wire value (mirrors `UserProfileStore.WeightSource.rawValue`).
     var weightSourceRaw: String
 
-    /// Whether the user smokes tobacco regularly — a chronic CYP1A2-inducer profile flag (Stage 4c).
-    /// While set, the metabolic-modulation readout notes that 1A2-cleared drugs run lower. Defaulted so
-    /// the migration stays additive/lightweight (`false` is correct for every pre-existing row).
-    var smokesTobacco: Bool = false
-
     /// Whether the per-dose "had grapefruit" toggle is shown in the dose logger (off by default — it is
     /// niche, surfaced only on CYP3A4-heavy substrates when enabled). A presentation preference, not a
     /// physiological fact. Defaulted for lightweight migration.
@@ -42,15 +37,14 @@ final class UserProfileRecord {
     /// presentation preference.
     var aldh2Deficient: Bool = false
 
-    /// CYP2D6 metabolizer-status wire value (mirrors `CYP2D6Status.rawValue`). `"unknown"` is the
-    /// default — treated as extensive (the population majority). Defaulted for lightweight migration.
+    /// CYP2D6 metabolizer-status wire value (decoded by `CYP2D6Status.init(wire:)`). `"unknown"` is the
+    /// default and is treated as a typical metabolizer. Defaulted for lightweight migration.
     var cyp2d6StatusRaw: String = "unknown"
 
     init(
         disclosureTierRaw: String = "harm-reduction",
         bodyWeightKg: Double? = nil,
         weightSourceRaw: String = "estimated",
-        smokesTobacco: Bool = false,
         grapefruitLoggingEnabled: Bool = false,
         aldh2Deficient: Bool = false,
         cyp2d6StatusRaw: String = "unknown",
@@ -58,7 +52,6 @@ final class UserProfileRecord {
         self.disclosureTierRaw = disclosureTierRaw
         self.bodyWeightKg = bodyWeightKg
         self.weightSourceRaw = weightSourceRaw
-        self.smokesTobacco = smokesTobacco
         self.grapefruitLoggingEnabled = grapefruitLoggingEnabled
         self.aldh2Deficient = aldh2Deficient
         self.cyp2d6StatusRaw = cyp2d6StatusRaw

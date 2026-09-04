@@ -1,8 +1,11 @@
 import SwiftData
 import SwiftUI
-import UIKit
 import VisionKit
 import WidgetKit
+
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 /// Thin wrapper that pins the recent-history window before building the screen.
 ///
@@ -20,6 +23,8 @@ struct QuickLogSheet: View {
     var prestagedRoutine: String?
     /// Canonical name of a substance to stage (with its editor open) on present.
     var prefillSubstance: String?
+    /// A complete dose for `prefillSubstance` — the box scanner's hand-off.
+    var prefillDose: DosePrefill?
 
     /// Days of dose history the quick-log surfaces treat as "recent". Must
     /// exceed the longest plausible "still-active PK badge" horizon: a dose
@@ -35,7 +40,7 @@ struct QuickLogSheet: View {
     @State private var cutoff = Date.now.addingTimeInterval(-recentWindowDays * 86_400)
 
     var body: some View {
-        QuickLogView(prestagedRoutine: prestagedRoutine, prefillSubstance: prefillSubstance, historyCutoff: cutoff)
+        QuickLogView(prestagedRoutine: prestagedRoutine, prefillSubstance: prefillSubstance, prefillDose: prefillDose, historyCutoff: cutoff)
     }
 }
 
@@ -49,6 +54,9 @@ struct QuickLogView: View {
     /// the "Log" button on a substance's detail screen
     /// (`piru://quicklog?substance=`).
     var prefillSubstance: String?
+    /// With `prefillSubstance`, stage it as this complete dose rather than an
+    /// empty draft.
+    var prefillDose: DosePrefill?
 
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
@@ -104,9 +112,10 @@ struct QuickLogView: View {
     /// reference-typed model drops the view's stored surface to a few flags.
     @State private var content = QuickLogContentModel()
 
-    init(prestagedRoutine: String? = nil, prefillSubstance: String? = nil, historyCutoff: Date) {
+    init(prestagedRoutine: String? = nil, prefillSubstance: String? = nil, prefillDose: DosePrefill? = nil, historyCutoff: Date) {
         self.prestagedRoutine = prestagedRoutine
         self.prefillSubstance = prefillSubstance
+        self.prefillDose = prefillDose
         // The windowed @Query closes over the init parameter — see QuickLogSheet
         // for the cutoff's meaning.
         _allEntries = Query(
@@ -146,7 +155,7 @@ struct QuickLogView: View {
                 // ``QuickLogCardList``.
                 QuickLogCardList(content: content, tray: tray)
                     .padding(.horizontal)
-                    .padding(.top, 4)
+                    .padding(.top, Spacing.xs)
                     // Clear the dock sheet's peek detent so the last cards can
                     // scroll above it.
                     .padding(.bottom, QuickLogDockMetrics.peekHeight + 20)
@@ -159,129 +168,132 @@ struct QuickLogView: View {
             // counters here would re-run the whole `QuickLogView.body` on
             // every stage/increment.
             .background(StagingHaptics(tray: tray))
-            .background(CoverAccessibilityUnmasker())
-            // With the cover's modal flag cleared (see the unmasker), nothing
-            // at the window level masks this content while a sheet is stacked
-            // on the dock — VoiceOver could wander into elements the sheet
-            // blocks from touch. Hide the cover content whenever a nested
-            // sheet is up. (Sheets presented from deep inside the dock — the
-            // drink preset manager, find-a-place — are the dock's own overlay
-            // problem and don't expose this layer.)
-            .accessibilityHidden(showEditSheet || showCustomForm || showScanner || navigator.sheetStack.count > 1)
-            .scrollDismissesKeyboard(.interactively)
-            .background(Theme.background)
-            .navigationTitle("Log")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    // With staged doses, close is a Menu — it gets the glass
-                    // morph out of the button, unlike a confirmationDialog,
-                    // which anchors to the toolbar as a stray popover.
-                    if tray.isEmpty {
-                        Button {
-                            navigator.dismiss()
-                        } label: {
-                            Image(systemName: "xmark")
-                        }
-                        .accessibilityLabel(Text("Close"))
-                    } else {
-                        Menu {
-                            Button(role: .destructive) {
+            #if canImport(UIKit)
+                .background(CoverAccessibilityUnmasker())
+            #endif
+                // With the cover's modal flag cleared (see the unmasker), nothing
+                // at the window level masks this content while a sheet is stacked
+                // on the dock — VoiceOver could wander into elements the sheet
+                // blocks from touch. Hide the cover content whenever a nested
+                // sheet is up. (Sheets presented from deep inside the dock — the
+                // drink preset manager, find-a-place — are the dock's own overlay
+                // problem and don't expose this layer.)
+                .accessibilityHidden(showEditSheet || showCustomForm || showScanner || navigator.sheetStack.count > 1)
+                .scrollDismissesKeyboard(.interactively)
+                .background(Theme.background)
+                .navigationTitle("Log")
+                .inlineNavigationTitle()
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        // With staged doses, close is a Menu — it gets the glass
+                        // morph out of the button, unlike a confirmationDialog,
+                        // which anchors to the toolbar as a stray popover.
+                        if tray.isEmpty {
+                            Button {
                                 navigator.dismiss()
                             } label: {
-                                Label("Discard Doses", systemImage: "trash")
+                                Image(systemName: "xmark")
                             }
-                        } label: {
-                            Image(systemName: "xmark")
+                            .accessibilityLabel(Text("Close"))
+                        } else {
+                            Menu {
+                                Button(role: .destructive) {
+                                    navigator.dismiss()
+                                } label: {
+                                    Label("Discard Doses", systemImage: "trash")
+                                }
+                            } label: {
+                                Image(systemName: "xmark")
+                            }
+                            .accessibilityLabel(Text("Close"))
                         }
-                        .accessibilityLabel(Text("Close"))
                     }
-                }
-                // One standard Edit action, text-labeled per the HIG ("Edit"
-                // is the canonical hard-to-symbolize action) — one sheet for
-                // everything editable here: routines & prescriptions and the
-                // favorites order. The "Fixed Order" toggle lives in
-                // Settings ▸ Journal ("Keep Quick-Log Order").
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Edit") {
-                        showEditSheet = true
-                    }
-                    .accessibilityLabel("Edit routines and favorites")
-                }
-                // The label scanner, split into its own glass group — point the
-                // camera at a medication box to stage its substance and strength.
-                if DataScannerViewController.isSupported {
-                    ToolbarSpacer(.fixed, placement: .topBarTrailing)
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            showScanner = true
-                        } label: {
-                            Image(systemName: "camera")
+                    // One standard Edit action, text-labeled per the HIG ("Edit"
+                    // is the canonical hard-to-symbolize action) — one sheet for
+                    // everything editable here: routines & prescriptions, the
+                    // favorites order, and the "Keep Order" toggle.
+                    ToolbarItem(placement: .platformTopBarTrailing) {
+                        Button("Edit") {
+                            showEditSheet = true
                         }
-                        .accessibilityLabel("Scan a label")
+                        .accessibilityLabel("Edit routines and favorites")
+                    }
+                    // The label scanner, split into its own glass group — point the
+                    // camera at a medication box to stage its substance and strength.
+                    #if canImport(UIKit)
+                        if DataScannerViewController.isSupported {
+                            ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
+                            ToolbarItem(placement: .platformTopBarTrailing) {
+                                Button {
+                                    showScanner = true
+                                } label: {
+                                    Image(systemName: "camera")
+                                }
+                                .accessibilityLabel("Scan a label")
+                            }
+                        }
+                    #endif
+                }
+                .task {
+                    // Wait for the launch prewarm so the card lookups below land on
+                    // the warm batch cache instead of cold per-substance SQL (returns
+                    // immediately if already loaded; the rebuild is then cheap enough
+                    // not to block the present animation).
+                    await SubstanceStore.shared.ensureAllLoaded()
+                    QuickLogManager.seedIfNeeded(history: allEntries, context: modelContext)
+                    seedFavoriteOrderIfNeeded()
+                    content.rebuildColorLookup(substanceColors: substanceColors)
+                    // Cards first: `rebuildEntryDerived` scopes its per-substance PK
+                    // badge work to the *displayed* set (favorites + the 10 recents),
+                    // so the card caches must exist before it runs.
+                    content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites)
+                    content.rebuildEntryDerived(allEntries: allEntries, dailyDoseItems: dailyDoseItems, routines: routines)
+                    content.markLoaded()
+                    if let prestagedRoutine {
+                        stageRoutine(named: prestagedRoutine)
+                    }
+                    if let prefillSubstance {
+                        stagePrefill(named: prefillSubstance)
                     }
                 }
-            }
-            .task {
-                // Wait for the launch prewarm so the card lookups below land on
-                // the warm batch cache instead of cold per-substance SQL (returns
-                // immediately if already loaded; the rebuild is then cheap enough
-                // not to block the present animation).
-                await SubstanceStore.shared.ensureAllLoaded()
-                QuickLogManager.seedIfNeeded(history: allEntries, context: modelContext)
-                seedFavoriteOrderIfNeeded()
-                content.rebuildColorLookup(substanceColors: substanceColors)
-                // Cards first: `rebuildEntryDerived` scopes its per-substance PK
-                // badge work to the *displayed* set (favorites + the 10 recents),
-                // so the card caches must exist before it runs.
-                content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites)
-                content.rebuildEntryDerived(allEntries: allEntries, dailyDoseItems: dailyDoseItems, routines: routines)
-                content.markLoaded()
-                if let prestagedRoutine {
-                    stageRoutine(named: prestagedRoutine)
+                .task(id: quickLogDoses.count) {
+                    try? await Task.sleep(for: .milliseconds(200))
+                    guard !Task.isCancelled else { return }
+                    content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites)
                 }
-                if let prefillSubstance {
-                    stagePrefill(named: prefillSubstance)
+                // A logged dose (here or elsewhere) changes the history-derived
+                // caches — refresh them off the body, keyed on the dose-log
+                // revision (one observed Int; hashing `allEntries` here would
+                // subscribe this body to every field of every entry). The initial
+                // `.task` above owns the first rebuild, so skip until it has run.
+                .task(id: DoseLogService.shared.revision) {
+                    guard content.hasLoaded, !isCommitted else { return }
+                    content.rebuildEntryDerived(allEntries: allEntries, dailyDoseItems: dailyDoseItems, routines: routines)
                 }
-            }
-            .task(id: quickLogDoses.count) {
-                try? await Task.sleep(for: .milliseconds(200))
-                guard !Task.isCancelled else { return }
-                content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites)
-            }
-            // A logged dose (here or elsewhere) changes the history-derived
-            // caches — refresh them off the body, keyed on the dose-log
-            // revision (one observed Int; hashing `allEntries` here would
-            // subscribe this body to every field of every entry). The initial
-            // `.task` above owns the first rebuild, so skip until it has run.
-            .task(id: DoseLogService.shared.revision) {
-                guard content.hasLoaded, !isCommitted else { return }
-                content.rebuildEntryDerived(allEntries: allEntries, dailyDoseItems: dailyDoseItems, routines: routines)
-            }
-            .onChange(of: substanceColors.count) {
-                content.rebuildColorLookup(substanceColors: substanceColors)
-                content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites)
-            }
-            // Keyed on names, not count — a reorder changes order only.
-            .onChange(of: favorites.map(\.substance)) { content.rebuildFavorites(favorites: favorites) }
-            // Routine pills depend on the routine rows + daily items; refresh
-            // the cache when either is edited (the Manage Routines sheet).
-            .onChange(of: routineSignature) { content.rebuildDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines) }
-            .task(id: searchText) {
-                guard !searchText.isEmpty else {
-                    content.setLibraryResults([])
-                    return
+                .onChange(of: substanceColors.count) {
+                    content.rebuildColorLookup(substanceColors: substanceColors)
+                    content.rebuildCards(quickLogDoses: quickLogDoses, favorites: favorites)
                 }
-                try? await Task.sleep(for: .milliseconds(150))
-                guard !Task.isCancelled else { return }
-                // Ranked off-main: the sync form runs the whole ranking pass —
-                // fuzzy tail included — on the main actor, per keystroke.
-                let matches = await SubstanceLibrary.searchMatchesAsync(searchText)
-                guard !Task.isCancelled else { return }
-                content.setLibraryResults(
-                    matches.filter { !content.cachedHistoryNames.contains($0.substance.name.lowercased()) },
-                )
-            }
+                // Keyed on names, not count — a reorder changes order only.
+                .onChange(of: favorites.map(\.substance)) { content.rebuildFavorites(favorites: favorites) }
+                // Routine pills depend on the routine rows + daily items; refresh
+                // the cache when either is edited (the Manage Routines sheet).
+                .onChange(of: routineSignature) { content.rebuildDailyGroups(dailyDoseItems: dailyDoseItems, routines: routines) }
+                .task(id: searchText) {
+                    guard !searchText.isEmpty else {
+                        content.setLibraryResults([])
+                        return
+                    }
+                    try? await Task.sleep(for: .milliseconds(150))
+                    guard !Task.isCancelled else { return }
+                    // Ranked off-main: the sync form runs the whole ranking pass —
+                    // fuzzy tail included — on the main actor, per keystroke.
+                    let matches = await SubstanceLibrary.searchMatchesAsync(searchText)
+                    guard !Task.isCancelled else { return }
+                    content.setLibraryResults(
+                        matches.filter { !content.cachedHistoryNames.contains($0.substance.name.lowercased()) },
+                    )
+                }
         }
         // The staging dock: a native detented sheet over this cover, mounted
         // for the cover's whole lifetime (never dismissible — it's the
@@ -349,6 +361,20 @@ struct QuickLogView: View {
     private func stagePrefill(named name: String) {
         guard let substance = SubstanceLibrary.resolveFull(name) else { return }
         let route = substance.defaultRoute
+        if let prefillDose {
+            withAnimation(.snappy) {
+                tray.stage(
+                    substance: substance.name,
+                    route: route,
+                    amount: prefillDose.amount,
+                    unit: prefillDose.unit,
+                    colorHex: content.cachedColorLookup[substance.name.lowercased()],
+                    librarySubstance: substance,
+                    productName: prefillDose.productName,
+                )
+            }
+            return
+        }
         withAnimation(.snappy) {
             tray.stageDraft(
                 substance: substance.name,
@@ -390,7 +416,7 @@ struct QuickLogView: View {
         // sheet starts sliding away immediately. (Haptic played directly
         // because the sheet tears down before a `sensoryFeedback` trigger
         // would fire.) Quick-log completes a flow, so clear the whole chain.
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        PlatformHaptics.success()
         navigator.dismissAll()
 
         // Tier 1 — next runloop tick: the work that makes the dose *appear*

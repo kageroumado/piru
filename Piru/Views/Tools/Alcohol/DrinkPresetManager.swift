@@ -1,6 +1,9 @@
 import SwiftData
 import SwiftUI
-import UIKit
+
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 // MARK: - Drink Preset Manager
 
@@ -40,16 +43,14 @@ struct DrinkPresetManagerView: View {
                     }
                     .onMove(perform: move)
                     .onDelete(perform: delete)
-                } footer: {
-                    Text("Drag to reorder. Swipe left to remove.")
                 }
             }
-            .environment(\.editMode, .constant(.active))
+            .permanentEditMode()
             .navigationDestination(for: CustomDrinkPreset.self) { preset in
                 DrinkPresetForm(preset: preset, substanceName: substanceName)
             }
             .navigationTitle("Drinks")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     NavigationLink {
@@ -102,7 +103,7 @@ struct DrinkPresetRow: View {
     let preset: CustomDrinkPreset
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             Text(preset.emoji)
                 .font(.piru(.title3))
             Text(preset.name)
@@ -157,22 +158,29 @@ struct DrinkPresetForm: View {
     var body: some View {
         Form {
             Section {
-                HStack(spacing: 12) {
-                    EmojiField(text: $emoji)
-                        .frame(width: 44, height: 44)
-                        .background(Color(.secondarySystemFill), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-                        .accessibilityLabel("Drink emoji")
+                HStack(spacing: Spacing.xl) {
+                    #if canImport(UIKit)
+                        EmojiField(text: $emoji)
+                            .frame(width: IconSize.touchTarget, height: IconSize.touchTarget)
+                            .background(Color.platformSecondarySystemFill, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.medium, style: .continuous))
+                            .accessibilityLabel("Drink emoji")
+                    #else
+                        TextField("", text: $emoji)
+                            .frame(width: IconSize.touchTarget, height: IconSize.touchTarget)
+                            .multilineTextAlignment(.center)
+                            .accessibilityLabel("Drink emoji")
+                    #endif
                     TextField("Name (e.g. IPA)", text: $name)
-                        .textInputAutocapitalization(.words)
+                        .wordsAutocapitalize()
                 }
             }
             Section {
                 LabeledContent("Strength") {
                     // One HStack — LabeledContent stacks multiple content
                     // views vertically.
-                    HStack(spacing: 4) {
+                    HStack(spacing: Spacing.xs) {
                         TextField("0", text: $strengthText)
-                            .keyboardType(.decimalPad)
+                            .decimalKeyboard()
                             .multilineTextAlignment(.trailing)
                             .frame(maxWidth: 80)
                         Text(verbatim: "%")
@@ -183,9 +191,9 @@ struct DrinkPresetForm: View {
                     .tint(Theme.accent)
                 if fixedVolume {
                     LabeledContent("Volume") {
-                        HStack(spacing: 4) {
+                        HStack(spacing: Spacing.xs) {
                             TextField("0", text: $volumeText)
-                                .keyboardType(.decimalPad)
+                                .decimalKeyboard()
                                 .multilineTextAlignment(.trailing)
                                 .frame(maxWidth: 80)
                             Picker("Volume unit", selection: $volumeUnit) {
@@ -197,12 +205,10 @@ struct DrinkPresetForm: View {
                         }
                     }
                 }
-            } footer: {
-                Text("A fixed serving fills strength and volume when selected — like a 330 mL can. Without one, only the strength is filled.")
             }
         }
         .navigationTitle(preset == nil ? "New Drink" : "Edit Drink")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Save", action: save)
@@ -259,58 +265,57 @@ struct DrinkPresetForm: View {
 
 // MARK: - Emoji Field
 
-/// A one-glyph text field that presents the system **emoji** keyboard, for the
-/// drink-preset emoji. Standard `UITextField` override of `textInputMode`; keeps
-/// only the last entered emoji so the field always holds a single glyph.
-private struct EmojiField: UIViewRepresentable {
-    @Binding var text: String
-
-    func makeUIView(context: Context) -> UITextField {
-        let field = EmojiUITextField()
-        field.text = text
-        field.delegate = context.coordinator
-        field.textAlignment = .center
-        field.font = .systemFont(ofSize: 24)
-        field.tintColor = .clear
-        field.setContentHuggingPriority(.required, for: .horizontal)
-        return field
-    }
-
-    func updateUIView(_ uiView: UITextField, context _: Context) {
-        if uiView.text != text { uiView.text = text }
-    }
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(text: $text)
-    }
-
-    final class Coordinator: NSObject, UITextFieldDelegate {
+#if canImport(UIKit)
+    private struct EmojiField: UIViewRepresentable {
         @Binding var text: String
-        init(text: Binding<String>) {
-            _text = text
+
+        func makeUIView(context: Context) -> UITextField {
+            let field = EmojiUITextField()
+            field.text = text
+            field.delegate = context.coordinator
+            field.textAlignment = .center
+            field.font = .systemFont(ofSize: 24)
+            field.tintColor = .clear
+            field.setContentHuggingPriority(.required, for: .horizontal)
+            return field
         }
 
-        func textField(_ textField: UITextField, shouldChangeCharactersIn _: NSRange, replacementString string: String) -> Bool {
-            // Keep only the newly typed glyph (single emoji), replacing any prior.
-            if string.isEmpty {
-                text = ""
-                textField.text = ""
-            } else {
-                text = string
-                textField.text = string
+        func updateUIView(_ uiView: UITextField, context _: Context) {
+            if uiView.text != text { uiView.text = text }
+        }
+
+        func makeCoordinator() -> Coordinator {
+            Coordinator(text: $text)
+        }
+
+        final class Coordinator: NSObject, UITextFieldDelegate {
+            @Binding var text: String
+            init(text: Binding<String>) {
+                _text = text
             }
-            return false
+
+            func textField(_ textField: UITextField, shouldChangeCharactersIn _: NSRange, replacementString string: String) -> Bool {
+                // Keep only the newly typed glyph (single emoji), replacing any prior.
+                if string.isEmpty {
+                    text = ""
+                    textField.text = ""
+                } else {
+                    text = string
+                    textField.text = string
+                }
+                return false
+            }
         }
     }
-}
 
-/// `UITextField` that forces the emoji keyboard by advertising the emoji input mode.
-private final class EmojiUITextField: UITextField {
-    override var textInputContextIdentifier: String? {
-        ""
-    }
+    /// `UITextField` that forces the emoji keyboard by advertising the emoji input mode.
+    private final class EmojiUITextField: UITextField {
+        override var textInputContextIdentifier: String? {
+            ""
+        }
 
-    override var textInputMode: UITextInputMode? {
-        UITextInputMode.activeInputModes.first { $0.primaryLanguage == "emoji" } ?? super.textInputMode
+        override var textInputMode: UITextInputMode? {
+            UITextInputMode.activeInputModes.first { $0.primaryLanguage == "emoji" } ?? super.textInputMode
+        }
     }
-}
+#endif

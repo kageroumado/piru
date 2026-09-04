@@ -76,6 +76,13 @@ enum AppSources {
             description: "EU agency providing risk assessments and pharmacological profiles of new psychoactive substances (NPS) and novel research chemicals.",
         ),
         SourceInfo(
+            name: "SubFxOnEx (drug.community)",
+            url: "https://github.com/Di-lemma/SubFxOnEx",
+            detail: "github.com/Di-lemma/SubFxOnEx — subjective-effects ontology",
+            description: "Bottom-up ontology of subjective effects built from first-hand experience reports, powering drug.community's effect parser. Piru bundles its concepts and aliases as the descriptor vocabulary for session notes.",
+            license: "LGPL-2.1",
+        ),
+        SourceInfo(
             name: "WHO",
             url: "https://www.who.int/teams/health-product-and-policy-standards/medicines-selection-and-ip",
             detail: "WHO Expert Committee on Drug Dependence",

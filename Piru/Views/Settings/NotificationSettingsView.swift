@@ -1,6 +1,5 @@
 import SwiftData
 import SwiftUI
-import UIKit
 import UserNotifications
 
 /// The unified notification management screen: every notification type the app
@@ -23,34 +22,17 @@ struct NotificationSettingsView: View {
                     await requestPermission()
                 }
 
-                pauseSection
+                globalSection
 
-                liveActivitySection
-
-                categorySummarySection(
-                    category: .reminders,
-                    header: "Dose Reminders",
-                    footer: "Reminders fire at each med's times. Quiet meds share one reminder per time of day. Logging a dose clears its follow-ups.",
-                )
-                categorySummarySection(
-                    category: .session,
-                    header: "During a Session",
-                    footer: "Timed from the typical onset and duration of each dose you log, for its substance and route. These are estimates from published data — Piru doesn't sense anything.",
-                )
-                categorySummarySection(
-                    category: .safety,
-                    header: "Safety & Supplies",
-                    footer: "Totals include scheduled meds, as-needed doses, and everything else — the safety net doesn't care why you took it.",
-                )
+                alertsSection
 
                 quietHoursSection
             }
             .listRowBackground(CardBackground())
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle("Notifications")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .task { await refresh() }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { Task { await refresh() } }
@@ -62,45 +44,46 @@ struct NotificationSettingsView: View {
 
     // MARK: - Sections
 
-    private var pauseSection: some View {
+    private var globalSection: some View {
         Section {
             Toggle(isOn: pauseAllBinding) {
                 Label("Pause All Notifications", systemImage: "bell.slash")
             }
             .tint(Theme.accent)
             .disabled(authStatus == .denied)
+
+            Toggle(isOn: $autoLiveActivity) {
+                Label("Automatic Live Activity", systemImage: "bolt.heart")
+            }
+            .tint(Theme.accent)
         } footer: {
-            Text("Silences everything without losing your choices below.")
+            Text("Pause silences everything without losing your choices. Live Activity shows tracking on your Lock Screen.")
         }
     }
 
-    private func categorySummarySection(
-        category: NotificationCategory,
-        header: LocalizedStringKey,
-        footer: LocalizedStringKey,
-    ) -> some View {
+    private var alertsSection: some View {
         Section {
-            NavigationLink {
-                NotificationTypeDetailSheet(
-                    category: category,
-                    nextFireDates: nextFireDates,
-                    disabled: rowsDisabled,
-                )
-            } label: {
-                VStack(alignment: .leading, spacing: 4) {
-                    Label(category.title, systemImage: category.symbol)
-                    let summary = enabledSummary(for: category)
-                    Text(summary)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+            ForEach(NotificationCategory.allCases, id: \.self) { category in
+                NavigationLink {
+                    NotificationTypeDetailSheet(
+                        category: category,
+                        nextFireDates: nextFireDates,
+                        disabled: rowsDisabled,
+                    )
+                } label: {
+                    VStack(alignment: .leading, spacing: Spacing.xs) {
+                        Label(category.title, systemImage: category.symbol)
+                        Text(enabledSummary(for: category))
+                            .captionSecondary()
+                    }
                 }
+                .disabled(rowsDisabled)
+                .opacity(rowsDisabled ? 0.55 : 1)
             }
-            .disabled(rowsDisabled)
-            .opacity(rowsDisabled ? 0.55 : 1)
         } header: {
-            Text(header)
+            Text("Alerts")
         } footer: {
-            Text(footer)
+            Text("Timing is based on published pharmacology data. Piru estimates — it never senses anything.")
         }
     }
 
@@ -145,20 +128,7 @@ struct NotificationSettingsView: View {
         } header: {
             Text("Quiet Hours")
         } footer: {
-            Text("Session nudges, re-asks, and next-dose reminders inside this window stay silent. Routine reminders at times you set, and cumulative dose warnings, still come through.")
-        }
-    }
-
-    private var liveActivitySection: some View {
-        Section {
-            Toggle(isOn: $autoLiveActivity) {
-                Label("Automatic Live Activity", systemImage: "bolt.heart")
-            }
-            .tint(Theme.accent)
-        } header: {
-            Text("Live Activity")
-        } footer: {
-            Text("Automatically show a Live Activity on the Lock Screen and Dynamic Island when you start tracking a substance. You can also start one manually from a day or entry's detail view.")
+            Text("Nudges and re-asks stay silent during quiet hours. Scheduled reminders and safety warnings still come through.")
         }
     }
 
@@ -231,7 +201,7 @@ struct NotificationSettingsView: View {
 // MARK: - Notification Category
 
 /// Groups notification types into the three spec sections.
-nonisolated enum NotificationCategory {
+nonisolated enum NotificationCategory: CaseIterable {
     case reminders
     case session
     case safety
@@ -239,7 +209,7 @@ nonisolated enum NotificationCategory {
     var types: [NotificationType] {
         switch self {
         case .reminders: [.routine, .routineFollowUp, .nextDose]
-        case .session: [.comedown, .phase, .hydration, .sleep]
+        case .session: [.comedown, .phase, .hydration, .sleep, .checkIn]
         case .safety: [.cumulative, .inventory]
         }
     }
@@ -289,10 +259,9 @@ struct NotificationTypeDetailSheet: View {
             }
             .listRowBackground(CardBackground())
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle(category.title)
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
     }
 
     private var typesSection: some View {
@@ -437,7 +406,7 @@ private struct NotificationPermissionSection: View {
                     Text("Notifications Enabled")
                 } icon: {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.successText)
                         .accessibilityHidden(true)
                 }
             case .denied:
@@ -445,13 +414,11 @@ private struct NotificationPermissionSection: View {
                     Text("Notifications Are Off")
                 } icon: {
                     Image(systemName: "bell.slash.fill")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                         .accessibilityHidden(true)
                 }
                 Button {
-                    if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                        openURL(url)
-                    }
+                    openNotificationSettings()
                 } label: {
                     Label("Open Settings", systemImage: "gear")
                 }
@@ -476,11 +443,11 @@ private struct NotificationPermissionSection: View {
         } footer: {
             switch status {
             case .denied:
-                Text("Notifications for Piru are turned off in Settings. None of the alerts below can be delivered until they're allowed again.")
+                Text("Notifications are turned off in Settings. Alerts below can't be delivered until they're allowed again.")
             case .notDetermined:
-                Text("Piru asks the system once. You choose exactly what it's allowed to send below.")
+                Text("Piru asks the system once. You choose exactly what it sends below.")
             default:
-                Text("Piru only sends the notifications listed on this screen.")
+                EmptyView()
             }
         }
     }
@@ -503,8 +470,7 @@ private struct NotificationTypeRow: View {
             .tint(Theme.accent)
             .accessibilityHint(Text(type.rowWhy))
             Text(type.rowWhy)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .accessibilityHidden(true)
             if let nextFireDate, prefs.isEffectivelyEnabled(type) {
                 Text("Next: \(nextFireDate, format: .dateTime.weekday(.wide).hour().minute())")
@@ -538,6 +504,7 @@ extension NotificationType {
         case .routineFollowUp: "Ask Again"
         case .nextDose: "Next-Dose Window"
         case .inventory: "Low Stock Alerts"
+        case .checkIn: "Check-ins"
         }
     }
 
@@ -552,6 +519,7 @@ extension NotificationType {
         case .routineFollowUp: "Ask Again"
         case .nextDose: "Next-Dose"
         case .inventory: "Low Stock"
+        case .checkIn: "Check-ins"
         }
     }
 
@@ -566,6 +534,7 @@ extension NotificationType {
         case .routineFollowUp: "clock.arrow.circlepath"
         case .nextDose: "timer"
         case .inventory: "archivebox"
+        case .checkIn: "quote.bubble"
         }
     }
 
@@ -589,6 +558,8 @@ extension NotificationType {
             "After you log a med you've opted in, a nudge when its next dose window opens. An estimate, not medical advice — opt in per med."
         case .inventory:
             "A heads-up when something you track runs low or out — before the empty bottle surprises you."
+        case .checkIn:
+            "\"How is it going?\" at set points in a session, opening a timestamped note. Turned on per session; off unless you ask."
         }
     }
 }

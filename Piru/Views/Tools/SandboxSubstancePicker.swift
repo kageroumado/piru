@@ -51,9 +51,9 @@ struct SandboxSubstancePicker: View {
                     ContentUnavailableView.search(text: trimmedQuery)
                 }
             }
-            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search substances")
+            .searchable(text: $query, placement: .automatic, prompt: "Search substances")
             .navigationTitle("Pick a substance")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
@@ -73,12 +73,11 @@ struct SandboxSubstancePicker: View {
             dismiss()
         } label: {
             HStack {
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(substance.displayTitle)
                         .foregroundStyle(.primary)
                     Text(substance.category.displayName)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
                 Spacer()
                 Image(systemName: "plus.circle.fill")

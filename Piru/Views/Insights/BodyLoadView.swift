@@ -26,7 +26,7 @@ struct BodyLoadView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: Spacing.xxl) {
                 if allEntries.isEmpty {
                     ContentUnavailableView(
                         "No Logged Entries",
@@ -55,7 +55,7 @@ struct BodyLoadView: View {
         .background(Theme.background)
         .toolbar {
             if !allEntries.isEmpty {
-                ToolbarItem(placement: .topBarTrailing) { rangeMenu }
+                ToolbarItem(placement: .platformTopBarTrailing) { rangeMenu }
             }
         }
         .task(id: refreshToken) {
@@ -89,7 +89,7 @@ struct BodyLoadView: View {
             }
         } label: {
             Text(range.displayName)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
         }
         .onChange(of: range) { selectedDate = nil }
     }
@@ -97,7 +97,7 @@ struct BodyLoadView: View {
     // MARK: - Chart card
 
     private func chartCard(_ trail: BodyLoadTrail) -> some View {
-        UsageSectionCard(title: "In your body over time", subtitle: "Estimated amount still circulating, each line a share of its own peak") {
+        UsageSectionCard(title: "In your body over time", subtitle: "Each line as a share of its own peak") {
             let filtered = filteredSeries(from: trail)
             let visible = filtered.filter { !hidden.contains($0.id) }
             let series = visible.isEmpty ? filtered : visible
@@ -128,7 +128,7 @@ struct BodyLoadView: View {
     }
 
     private func categoryFilter(_ trail: BodyLoadTrail) -> some View {
-        FlowLayout(spacing: 6) {
+        FlowLayout(spacing: Spacing.sm) {
             let cats = categories(for: trail)
             Button {
                 withAnimation(.easeInOut(duration: 0.2)) {
@@ -138,9 +138,9 @@ struct BodyLoadView: View {
             } label: {
                 Text("All")
                     .font(.caption2.weight(.medium))
-                    .padding(.horizontal, 10)
+                    .padding(.horizontal, Spacing.lg)
                     .padding(.vertical, 5)
-                    .background(selectedCategory == nil ? Theme.accent.opacity(0.15) : Color(.tertiarySystemFill))
+                    .background(selectedCategory == nil ? Theme.accent.opacity(0.15) : Color.platformTertiarySystemFill)
                     .foregroundStyle(selectedCategory == nil ? Theme.accent : .primary)
                     .clipShape(Capsule())
             }
@@ -153,16 +153,14 @@ struct BodyLoadView: View {
                         hidden.removeAll()
                     }
                 } label: {
-                    HStack(spacing: 4) {
-                        Circle()
-                            .fill(entry.category.color)
-                            .frame(width: 7, height: 7)
+                    HStack(spacing: Spacing.xs) {
+                        LegendDot(color: entry.category.color, size: .compact)
                         Text(entry.category.displayName)
                             .font(.caption2.weight(.medium))
                     }
-                    .padding(.horizontal, 10)
+                    .padding(.horizontal, Spacing.lg)
                     .padding(.vertical, 5)
-                    .background(selectedCategory == entry.category ? entry.category.color.opacity(0.15) : Color(.tertiarySystemFill))
+                    .background(selectedCategory == entry.category ? entry.category.color.opacity(0.15) : Color.platformTertiarySystemFill)
                     .foregroundStyle(selectedCategory == entry.category ? entry.category.color : .primary)
                     .clipShape(Capsule())
                 }
@@ -175,7 +173,7 @@ struct BodyLoadView: View {
 
     private func legend(_ trail: BodyLoadTrail) -> some View {
         let filtered = filteredSeries(from: trail)
-        return FlowLayout(spacing: 8) {
+        return FlowLayout(spacing: Spacing.md) {
             ForEach(filtered) { item in
                 legendChip(item)
             }
@@ -189,10 +187,8 @@ struct BodyLoadView: View {
                 if isHidden { hidden.remove(item.id) } else { hidden.insert(item.id) }
             }
         } label: {
-            HStack(spacing: 4) {
-                Circle()
-                    .fill(item.color)
-                    .frame(width: 8, height: 8)
+            HStack(spacing: Spacing.xs) {
+                LegendDot(color: item.color)
                     .opacity(isHidden ? 0.3 : 1)
                 Text(item.displayName)
                     .font(.caption2)
@@ -209,18 +205,17 @@ struct BodyLoadView: View {
     // MARK: - Steady state (merged from the standalone projection screen)
 
     private var steadyStateSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.xl) {
+            HStack(spacing: Spacing.sm) {
                 Image(systemName: "arrow.up.forward.circle")
                     .foregroundStyle(.mint)
                     .font(.subheadline)
                 Text("Projected Steady State")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
             }
 
             Text("Where each regularly dosed substance settles, based on your log's cadence")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
 
             ForEach(projections) { projection in
                 SteadyStateProjectionCard(projection: projection)
@@ -238,17 +233,17 @@ struct BodyLoadView: View {
     }
 
     private var disclaimer: some View {
-        Text("An estimate from a one-compartment model, not a measurement. How much is in your body doesn't always match how strong the effects feel, or how long a substance stays detectable.")
+        Text("A model estimate, not a measurement. What's in your body and what you feel don't always line up.")
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 4)
+            .padding(.horizontal, Spacing.xs)
     }
 }
 
 // MARK: - Chart
 
-private struct BodyLoadChart: View {
+struct BodyLoadChart: View {
     let series: [BodyLoadTrail.Series]
     let dates: [Date]
     @Binding var selectedDate: Date?
@@ -277,7 +272,7 @@ private struct BodyLoadChart: View {
                 .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 4]))
             if let selectedDate {
                 RuleMark(x: .value("Selected", selectedDate))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(0.4))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.muted))
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [3, 3]))
             }
         }
@@ -288,7 +283,7 @@ private struct BodyLoadChart: View {
         .chartYAxis {
             AxisMarks(position: .leading, values: [0, 0.5, 1]) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(0.5))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                 AxisValueLabel {
                     if let fraction = value.as(Double.self) {
                         Text(fraction.formatted(.percent.precision(.fractionLength(0))))
@@ -300,7 +295,7 @@ private struct BodyLoadChart: View {
         .chartXAxis {
             AxisMarks(values: .automatic(desiredCount: 4)) { _ in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(0.5))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                 AxisValueLabel(format: .dateTime.month(.abbreviated).day())
                     .font(.caption2)
             }
@@ -323,7 +318,7 @@ private struct BodyLoadChart: View {
 /// The tooltip for `chartXSelection`: the estimated real amount of each substance
 /// in the body at the scrubbed instant — restoring the magnitude the normalized
 /// lines drop.
-private struct BodyLoadReadout: View {
+struct BodyLoadReadout: View {
     let series: [BodyLoadTrail.Series]
     let date: Date
 
@@ -357,9 +352,9 @@ private struct BodyLoadReadout: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
         }
-        .padding(8)
+        .padding(Spacing.md)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .themeCard(cornerRadius: 10)
+        .themeCard(cornerRadius: Theme.CornerRadius.inner)
         .accessibilityElement(children: .combine)
         .transition(.opacity)
     }

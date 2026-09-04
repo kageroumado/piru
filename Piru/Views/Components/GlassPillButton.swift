@@ -42,7 +42,7 @@ struct GlassPillButton: View {
 
     @ViewBuilder
     private var label: some View {
-        let text = Text(title).font(.piru(.headline))
+        let text = Text(title).cardTitle()
         if prominence == .neutral {
             text.foregroundStyle(Theme.secondaryLabel)
         } else {

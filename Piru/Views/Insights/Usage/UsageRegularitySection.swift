@@ -16,10 +16,9 @@ struct UsageRegularitySection: View {
         if !rows.isEmpty {
             UsageCollapsibleCard(
                 title: "Regularity",
-                subtitle: "How evenly spaced your doses are",
                 storageKey: "regularity",
             ) {
-                VStack(spacing: 12) {
+                VStack(spacing: Spacing.xl) {
                     ForEach(rows) { row in
                         UsageRegularityRow(row: row, style: style)
                     }
@@ -44,12 +43,10 @@ private struct UsageRegularityRow: View {
         // Two columns: name over its evenness bar on the left, the interval over
         // its tier right-aligned on the right — so "every 2.6 days" and "Irregular"
         // share one right edge instead of the ragged split-alignment they had.
-        HStack(alignment: .center, spacing: 12) {
-            VStack(alignment: .leading, spacing: 6) {
-                HStack(spacing: 6) {
-                    Circle()
-                        .fill(style.color(row.substanceIndex))
-                        .frame(width: 8, height: 8)
+        HStack(alignment: .center, spacing: Spacing.xl) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
+                HStack(spacing: Spacing.sm) {
+                    LegendDot(color: style.color(row.substanceIndex))
                     Text(name)
                         .font(.subheadline)
                         .lineLimit(1)
@@ -57,7 +54,7 @@ private struct UsageRegularityRow: View {
                 GeometryReader { geometry in
                     ZStack(alignment: .leading) {
                         Capsule()
-                            .fill(Color(.tertiarySystemFill))
+                            .fill(Color.platformTertiarySystemFill)
                             .frame(height: 5)
                         Capsule()
                             .fill(color(for: tier))
@@ -67,10 +64,9 @@ private struct UsageRegularityRow: View {
                 }
                 .frame(height: 6)
             }
-            VStack(alignment: .trailing, spacing: 2) {
+            VStack(alignment: .trailing, spacing: Spacing.xxs) {
                 Text("every \(interval) days")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .monospacedDigit()
                 Text(tier.displayName)
                     .font(.caption2)
@@ -83,15 +79,15 @@ private struct UsageRegularityRow: View {
         .accessibilityValue(Text("\(String(localized: tier.displayName)), about every \(interval) days across \(row.entryCount) entries"))
     }
 
-    /// Green through red as the gaps get less even. This encodes *evenness*,
-    /// not virtue — a sporadic supplement and a sporadic recreational dose read
-    /// the same here.
+    /// The dose ladder's ramp, light through heavy, as the gaps get less even.
+    /// This encodes *evenness*, not virtue — a sporadic supplement and a
+    /// sporadic recreational dose read the same here.
     private func color(for tier: UsageRegularityTier) -> Color {
         switch tier {
-        case .veryRegular: .green
-        case .somewhatRegular: .yellow
-        case .irregular: .orange
-        case .sporadic: .red
+        case .veryRegular: .Dose.Light.accent
+        case .somewhatRegular: .Dose.Common.accent
+        case .irregular: .Dose.Strong.accent
+        case .sporadic: .Dose.Heavy.accent
         }
     }
 }

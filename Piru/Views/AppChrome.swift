@@ -30,7 +30,7 @@ struct AppOverflowMenu<Extras: View>: View {
             }
         } label: {
             Image(systemName: "ellipsis")
-                .font(.system(size: 17, weight: .semibold))
+                .font(.sectionTitle)
         }
         .accessibilityLabel(Text("More"))
     }
@@ -64,7 +64,7 @@ extension View {
                 .scrollEdgeEffectStyle(.soft, for: .top)
                 .toolbar {
                     if showsOverflow {
-                        ToolbarItem(placement: .topBarTrailing) {
+                        ToolbarItem(placement: .platformTopBarTrailing) {
                             AppOverflowMenu(menuExtras: menuExtras)
                         }
                     }

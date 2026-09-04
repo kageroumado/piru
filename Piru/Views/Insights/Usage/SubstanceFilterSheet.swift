@@ -59,17 +59,25 @@ struct SubstanceFilterSheet: View {
             }
             .searchable(
                 text: $query,
-                placement: .navigationBarDrawer(displayMode: .always),
+                placement: .automatic,
                 prompt: "Search substances",
             )
             .navigationTitle("Substances")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(allSelected ? "Deselect All" : "Select All") {
-                        shown = allSelected ? [] : allNames
+                #if os(iOS)
+                    ToolbarItem(placement: .platformTopBarLeading) {
+                        Button(allSelected ? "Deselect All" : "Select All") {
+                            shown = allSelected ? [] : allNames
+                        }
                     }
-                }
+                #else
+                    ToolbarItem(placement: .automatic) {
+                        Button(allSelected ? "Deselect All" : "Select All") {
+                            shown = allSelected ? [] : allNames
+                        }
+                    }
+                #endif
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done") { dismiss() }
                 }

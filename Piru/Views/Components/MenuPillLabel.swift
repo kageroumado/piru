@@ -22,7 +22,7 @@ struct MenuPillLabel<MenuContent: View>: View {
     @ViewBuilder let menuContent: () -> MenuContent
 
     var body: some View {
-        HStack(spacing: 5) {
+        HStack(spacing: Spacing.sm) {
             Image(systemName: systemImage)
                 .imageScale(.small)
             Text(text)
@@ -33,7 +33,7 @@ struct MenuPillLabel<MenuContent: View>: View {
         .fixedSize(horizontal: true, vertical: false)
         .padding(.horizontal, 11)
         .frame(height: height)
-        .background(Color(.secondarySystemFill), in: Capsule())
+        .background(Color.platformSecondarySystemFill, in: Capsule())
         .foregroundStyle(.primary)
         .accessibilityHidden(true)
         .overlay {

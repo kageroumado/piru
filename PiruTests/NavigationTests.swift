@@ -498,6 +498,8 @@ struct RoutesCodableTests {
         .libraryCategory(.psychedelic),
         .libraryTag("common"),
         .libraryFavorites,
+        .libraryColors,
+        .dataStorage,
     ])
     func `Each PushRoute case round-trips`(route: PushRoute) throws {
         #expect(try roundTrip(route) == route)

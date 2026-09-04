@@ -120,10 +120,9 @@ struct InventoryItemEditView: View {
                 }
                 .listRowBackground(CardBackground())
             }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .navigationTitle("Edit")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { navigator.dismiss() } label: { Image(systemName: "xmark") }

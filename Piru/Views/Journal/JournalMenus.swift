@@ -3,13 +3,14 @@ import SwiftUI
 import TipKit
 
 /// The Journal's `•••` toolbar button: a Mail-style options popover carrying the
-/// grouping thumbnail picker plus Jump to Date and the app-level Settings/Help
-/// (folded in from the removed ``AppOverflowMenu`` so the toolbar stays at two
-/// controls). A popover rather than a `Menu` because a menu can't host the
+/// grouping thumbnail picker plus Jump to Date and the app-level Settings/Help,
+/// so the toolbar stays at two controls (three while the Timeline grouping
+/// adds ``JournalTimelineOptionsButton``). A popover rather than a `Menu` because a menu can't host the
 /// custom thumbnail views — same pattern as the Tolerance screen's options menu.
 struct JournalOptionsButton: View {
     @Environment(\.appNavigator) private var navigator
     @Binding var grouping: JournalGrouping
+    @Binding var groupKey: JournalGroupKey
     let onJumpToDate: () -> Void
 
     @State private var showsOptions = false
@@ -20,11 +21,11 @@ struct JournalOptionsButton: View {
             showsOptions = true
         } label: {
             Image(systemName: "ellipsis")
-                .font(.system(size: 17, weight: .semibold))
+                .font(.sectionTitle)
         }
         .accessibilityLabel(Text("More"))
         .popover(isPresented: $showsOptions) {
-            JournalOptionsMenu(grouping: $grouping) { action in
+            JournalOptionsMenu(grouping: $grouping, groupKey: $groupKey) { action in
                 pendingAction = action
                 showsOptions = false
             }
@@ -60,24 +61,37 @@ struct JournalOptionsButton: View {
 }
 
 /// The options popover content, modeled on Mail's view-options menu: the
-/// grouping thumbnail picker across the top (four line-art phones with a radio
-/// each), then Jump to Date, then the app-level Settings/Help. Picking a
+/// grouping thumbnail picker across the top (three line-art phones with a radio
+/// each, plus the Grouped key as a segmented control beneath while Grouped is
+/// selected), then Jump to Date, then the app-level Settings/Help. Picking a
 /// grouping keeps the popover open (Mail's behavior — the list re-buckets
 /// behind it); the action rows dismiss.
 struct JournalOptionsMenu: View {
     @Binding var grouping: JournalGrouping
+    @Binding var groupKey: JournalGroupKey
     let onAction: (JournalMenuAction) -> Void
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .top, spacing: 10) {
+            HStack(alignment: .top, spacing: Spacing.md) {
                 ForEach(JournalGrouping.allCases, id: \.self) { option in
                     groupingColumn(option)
                 }
             }
             .padding(.horizontal, 14)
-            .padding(.top, 16)
-            .padding(.bottom, 12)
+            .padding(.top, Spacing.xxxl)
+            .padding(.bottom, Spacing.xl)
+
+            if grouping == .grouped {
+                Picker("Group by", selection: $groupKey) {
+                    ForEach(JournalGroupKey.allCases, id: \.self) { key in
+                        Text(key.displayName).tag(key)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal, 14)
+                .padding(.bottom, 14)
+            }
 
             Divider()
 
@@ -95,9 +109,9 @@ struct JournalOptionsMenu: View {
                 actionRow(.settings, title: Text("Settings"), systemImage: "gearshape")
                 actionRow(.help, title: Text("Help"), systemImage: "lifepreserver")
             }
-            .padding(.bottom, 8)
+            .padding(.bottom, Spacing.md)
         }
-        .frame(width: 296)
+        .frame(width: 320)
     }
 
     private func groupingColumn(_ option: JournalGrouping) -> some View {
@@ -107,7 +121,7 @@ struct JournalOptionsMenu: View {
         } label: {
             VStack(spacing: 7) {
                 MenuPhoneThumbnail(selected: selected, sketch: JournalGroupingArt.sketch(for: option))
-                    .frame(width: 56, height: 115) // aspect 0.486 — the iPhone 17 bezel
+                    .frame(width: 52, height: 107) // aspect 0.486 — the iPhone 17 bezel
                 Text(option.displayName)
                     .font(.caption)
                     .lineLimit(1)
@@ -132,7 +146,7 @@ struct JournalOptionsMenu: View {
                     .foregroundStyle(.white)
                     .accessibilityHidden(true)
             } else {
-                Circle().strokeBorder(Color.secondary.opacity(0.5), lineWidth: 1.5)
+                Circle().strokeBorder(Color.secondary.opacity(Theme.Opacity.dimmed), lineWidth: 1.5)
             }
         }
     }
@@ -141,11 +155,11 @@ struct JournalOptionsMenu: View {
         Button {
             onAction(action)
         } label: {
-            HStack(spacing: 12) {
+            HStack(spacing: Spacing.xl) {
                 Image(systemName: systemImage)
-                    .font(.body)
+                    .font(.subheadline)
                     .foregroundStyle(Theme.accent)
-                    .frame(width: 24)
+                    .frame(width: 20)
                     .accessibilityHidden(true)
                 title
                     .font(.body)
@@ -153,12 +167,38 @@ struct JournalOptionsMenu: View {
                 Spacer(minLength: 0)
             }
             .padding(.leading, 28)
-            .padding(.trailing, 16)
+            .padding(.trailing, Spacing.xxl)
             .frame(maxWidth: .infinity)
             .frame(height: 42)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+    }
+}
+
+/// The Journal's third toolbar control, present only while the Timeline
+/// grouping is selected: the strip's display options (``TimelineOptionsMenu``)
+/// behind a sliders glyph, so they stay reachable however far the canvas has
+/// scrolled. The bindings are the Journal's app-group defaults, shared with
+/// the pushed timeline screen's copy of the same menu.
+struct JournalTimelineOptionsButton: View {
+    @Binding var zoom: Double
+    @Binding var compressGaps: Bool
+    @Binding var pkCurves: Bool
+    @Binding var showsAxis: Bool
+    @Binding var bubbleStyle: TimelineBubbleStyle
+
+    var body: some View {
+        TimelineOptionsMenu(
+            zoom: $zoom,
+            compressGaps: $compressGaps,
+            pkCurves: $pkCurves,
+            showsAxis: $showsAxis,
+            bubbleStyle: $bubbleStyle,
+        ) {
+            Image(systemName: "slider.horizontal.3")
+                .font(.sectionTitle)
+        }
     }
 }
 
@@ -215,7 +255,7 @@ struct JournalFilterMenu: View {
                 menuContent
             } label: {
                 Image(systemName: "line.3.horizontal.decrease")
-                    .font(.system(size: 17, weight: .semibold))
+                    .font(.sectionTitle)
             }
             .accessibilityLabel(Text("Filter"))
             .accessibilityValue(filterValue)

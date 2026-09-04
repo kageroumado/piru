@@ -13,8 +13,10 @@ struct InventoryOptionsMenu: View {
     @Bindable var model: InventoryListModel
     /// Every class present in the inventory — the class facet offers only these.
     let categories: [SubstanceCategory]
-    /// Flipped by "Edit", which is how deletion is reached without a swipe.
-    @Binding var editMode: EditMode
+    // Flipped by "Edit", which is how deletion is reached without a swipe.
+    #if canImport(UIKit)
+        @Binding var editMode: EditMode
+    #endif
     /// Opens the class-arrangement sheet, which the list owns.
     let onArrangeClasses: () -> Void
 
@@ -35,18 +37,15 @@ struct InventoryOptionsMenu: View {
 
     var body: some View {
         Menu {
-            Section {
-                // "Edit" rather than Files' "Select": this mode reveals the
-                // per-row delete control (and, in Manual sort, the drag grabbers)
-                // instead of starting a multi-select. It's the reachable path to
-                // deleting for anyone who doesn't know about — or can't perform —
-                // a swipe.
-                Button {
-                    editMode = .active
-                } label: {
-                    Label("Edit", systemImage: "pencil")
+            #if canImport(UIKit)
+                Section {
+                    Button {
+                        editMode = .active
+                    } label: {
+                        Label("Edit", systemImage: "pencil")
+                    }
                 }
-            }
+            #endif
 
             Section {
                 Toggle(isOn: $model.isGrouped) {
@@ -91,7 +90,7 @@ struct InventoryOptionsMenu: View {
             }
         } label: {
             Image(systemName: "ellipsis")
-                .font(.system(size: 17, weight: .semibold))
+                .font(.sectionTitle)
         }
         .accessibilityLabel(Text("More"))
         .accessibilityValue(optionsValue)
@@ -197,7 +196,7 @@ struct InventoryFilterBar: View {
 
     var body: some View {
         ScrollView(.horizontal) {
-            HStack(spacing: 8) {
+            HStack(spacing: Spacing.md) {
                 ForEach(Array(model.filterStatuses).sorted(by: { $0.sortIndex < $1.sortIndex })) { status in
                     chip(Text(status.displayName)) { model.filterStatuses.remove(status) }
                 }
@@ -212,22 +211,22 @@ struct InventoryFilterBar: View {
                     .foregroundStyle(Theme.accent)
             }
             .padding(.horizontal, 20)
-            .padding(.vertical, 8)
+            .padding(.vertical, Spacing.md)
         }
         .scrollIndicators(.hidden)
     }
 
     private func chip(_ title: Text, remove: @escaping () -> Void) -> some View {
         Button(action: remove) {
-            HStack(spacing: 4) {
+            HStack(spacing: Spacing.xs) {
                 title
                 Image(systemName: "xmark")
                     .font(.caption2.weight(.bold))
             }
             .font(.footnote.weight(.medium))
-            .padding(.horizontal, 10)
+            .padding(.horizontal, Spacing.lg)
             .padding(.vertical, 5)
-            .background(Theme.accent.opacity(0.16), in: Capsule())
+            .background(Theme.accent.opacity(Theme.Opacity.tint), in: Capsule())
             .foregroundStyle(Theme.accent)
         }
         .buttonStyle(.plain)

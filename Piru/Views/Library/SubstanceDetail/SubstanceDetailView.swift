@@ -1,6 +1,5 @@
 import SwiftData
 import SwiftUI
-import UIKit
 
 struct SubstanceDetailView: View {
     /// The library substance backing this view. Pushed as a **lightweight shell**
@@ -50,8 +49,6 @@ struct SubstanceDetailView: View {
     /// Drives the push to the grouped "All effects" screen from the Effects
     /// header's "Show All" (a header NavigationLink isn't reliably hittable).
     @State private var showAllEffects = false
-    /// Drives the push to the full Inventory list from the stock card's "Show All".
-    @State private var showAllInventory = false
     /// Presents the "Share Substance" sheet (colorful specimen card + detail picker).
     @State private var showShareSheet = false
     /// Whether the header's 40pt display title is still on screen. The bar title
@@ -206,7 +203,6 @@ struct SubstanceDetailView: View {
                 selectedSaltForm: selectedSaltForm,
                 personalNotes: personalOverride?.notes,
                 showAllEffects: $showAllEffects,
-                showAllInventory: $showAllInventory,
                 cautionsExpanded: $cautionsExpanded,
                 onGlossary: { glossaryTopic = $0 },
             )
@@ -249,7 +245,7 @@ struct SubstanceDetailView: View {
         // label; the bar's *rendered* title is the principal item below, which
         // is the only way to gate it on scroll position.
         .navigationTitle(substance.displayTitle)
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .navigationDestination(isPresented: $showAllEffects) {
             EffectsAndIntensityView(substanceName: substance.name, showsExperienceReports: showsErowidReports)
         }
@@ -258,9 +254,6 @@ struct SubstanceDetailView: View {
         }
         .sheet(isPresented: $showShareSheet) {
             SubstanceShareSheet(substance: substance, route: routes.activeSubstanceRoute)
-        }
-        .navigationDestination(isPresented: $showAllInventory) {
-            InventoryListView()
         }
         .toolbar { toolbarContent }
         .task(id: TaskKey(substanceName: substance.name, profile: profile)) {
@@ -282,13 +275,13 @@ struct SubstanceDetailView: View {
         // bar title and shouldn't lose it to a scroll position.
         ToolbarItem(placement: .principal) {
             Text(substance.displayTitle)
-                .font(.piru(.headline))
+                .cardTitle()
                 .lineLimit(1)
                 .opacity(headerTitleVisible ? 0 : 1)
                 .animation(.easeInOut(duration: 0.18), value: headerTitleVisible)
                 .accessibilityHidden(false)
         }
-        ToolbarItem(placement: .topBarTrailing) {
+        ToolbarItem(placement: .platformTopBarTrailing) {
             Button {
                 showShareSheet = true
             } label: {
@@ -298,7 +291,7 @@ struct SubstanceDetailView: View {
             .accessibilityLabel("Share drug info")
         }
         // Share and the overflow menu share one glass platter (no separator).
-        ToolbarItem(placement: .topBarTrailing) {
+        ToolbarItem(placement: .platformTopBarTrailing) {
             // Everything that isn't Share lives in one overflow menu (Apple's Files-app pattern) —
             // four bar buttons was a button too many. Favorite, Personalize, and the detail-level
             // (tier) switcher all fold in here; the tier choices render as an inline checkmark list.

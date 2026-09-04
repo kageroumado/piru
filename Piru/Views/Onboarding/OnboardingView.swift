@@ -81,8 +81,10 @@ private struct OnboardingStepChrome: ViewModifier {
         content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Theme.background.ignoresSafeArea())
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
+        #if canImport(UIKit)
             .toolbarBackground(.hidden, for: .navigationBar)
+        #endif
             .toolbar {
                 if OnboardingStep.progressSteps.contains(step) {
                     ToolbarItem(placement: .principal) {
@@ -95,7 +97,7 @@ private struct OnboardingStepChrome: ViewModifier {
                 }
                 // A bail-out on the welcome screen for people who just want in.
                 if step == .welcome {
-                    ToolbarItem(placement: .topBarTrailing) {
+                    ToolbarItem(placement: .platformTopBarTrailing) {
                         Button("Skip", action: nav.finish)
                             .tint(Theme.secondaryLabel)
                     }
@@ -146,10 +148,10 @@ struct OnboardingProgressBar: View {
     let total: Int
 
     var body: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: Spacing.sm) {
             ForEach(0 ..< total, id: \.self) { index in
                 Capsule()
-                    .fill(index < current ? Theme.accent : Theme.accent.opacity(0.18))
+                    .fill(index < current ? Theme.accent : Theme.accent.opacity(Theme.Opacity.tintActive))
                     .frame(height: 4)
             }
         }
@@ -200,7 +202,7 @@ struct OnboardingLayout<Hero: View, Mid: View, Footer: View>: View {
                         Spacer(minLength: 8)
                         hero()
                             .padding(.bottom, 28)
-                        VStack(spacing: 10) {
+                        VStack(spacing: Spacing.lg) {
                             Text(title)
                                 .font(.piru(.largeTitle, weight: .bold))
                                 .multilineTextAlignment(.center)
@@ -222,9 +224,9 @@ struct OnboardingLayout<Hero: View, Mid: View, Footer: View>: View {
                 }
                 .scrollBounceBehavior(.basedOnSize)
             }
-            VStack(spacing: 12) { footer() }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 12)
+            VStack(spacing: Spacing.xl) { footer() }
+                .padding(.horizontal, Spacing.xxxl)
+                .padding(.bottom, Spacing.xl)
         }
     }
 }

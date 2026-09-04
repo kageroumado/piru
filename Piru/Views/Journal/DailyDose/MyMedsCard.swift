@@ -15,16 +15,24 @@ struct MyMedsCard: View {
     @Query private var todayEntries: [DoseEntry]
     @Query private var recentEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
-    @Query private var todayOccurrences: [RoutineOccurrence]
+    /// Yesterday's and today's occurrences — today's drive the slot states,
+    /// yesterday's `missed` rows the missed-yesterday info line.
+    @Query private var recentOccurrences: [RoutineOccurrence]
 
     @State private var supplementsExpanded = false
-    @State private var streak: Int?
-    @State private var interactionWarnings: [InteractionResult] = []
-    @State private var pendingSlots: [MedSlot] = []
     @State private var showInteractionSheet = false
+
+    /// Today's slots, the adherence streak, and the interaction warnings a tap
+    /// has to clear — see ``MyMedsModel``.
+    @State private var model = MyMedsModel()
+
+    /// The info lines' fetched facts (supply projections) and the dismissed
+    /// missed-day keys, refreshed off `body`.
+    @State private var info = MyMedsInfoModel()
 
     init() {
         let dayStart = Calendar.current.startOfDay(for: .now)
+        let yesterdayStart = Self.yesterdayStart
         _todayEntries = Query(
             filter: #Predicate<DoseEntry> { $0.timestamp >= dayStart },
             sort: \DoseEntry.timestamp,
@@ -34,9 +42,27 @@ struct MyMedsCard: View {
             filter: #Predicate<DoseEntry> { $0.timestamp >= cutoff },
             sort: \DoseEntry.timestamp,
         )
-        _todayOccurrences = Query(
-            filter: #Predicate<RoutineOccurrence> { $0.dueDay >= dayStart },
+        _recentOccurrences = Query(
+            filter: #Predicate<RoutineOccurrence> { $0.dueDay >= yesterdayStart },
         )
+    }
+
+    private static var yesterdayStart: Date {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: .now)
+        return calendar.date(byAdding: .day, value: -1, to: today) ?? today
+    }
+
+    private var todayOccurrences: [RoutineOccurrence] {
+        let today = Calendar.current.startOfDay(for: .now)
+        return recentOccurrences.filter { $0.dueDay >= today }
+    }
+
+    /// Yesterday's slots that ended the day unlogged (`missed` is written by
+    /// `RoutineOccurrenceService.reconcile`, never inferred here).
+    private var yesterdayMissed: [RoutineOccurrence] {
+        let today = Calendar.current.startOfDay(for: .now)
+        return recentOccurrences.filter { $0.dueDay < today && $0.state == .missed }
     }
 
     // MARK: Slot derivation
@@ -76,39 +102,6 @@ struct MyMedsCard: View {
         }
     }
 
-    private var allSlots: [MedSlot] {
-        var slots: [MedSlot] = []
-        let occurrencesByKey = Dictionary(
-            todayOccurrences.map { (RoutineOccurrenceService.slotKey(for: $0), $0) },
-            uniquingKeysWith: { _, last in last },
-        )
-        for item in items where !item.isAsNeeded && AdherenceCalculator.isDue(item, on: .now) {
-            let times = item.reminderTimesMinutes.sorted()
-            let expected = max(1, times.count)
-            for index in 0 ..< expected {
-                let slotMinutes = times.indices.contains(index) ? times[index] : nil
-                let key = RoutineOccurrenceService.slotKey(
-                    substance: item.substance,
-                    substanceUID: item.substanceUID,
-                    route: item.route,
-                    slotMinutes: slotMinutes,
-                )
-                let state: SlotState = switch occurrencesByKey[key]?.state {
-                case .logged: .taken
-                case .skipped: .skipped
-                default: .pending
-                }
-                slots.append(MedSlot(
-                    item: item,
-                    time: slotMinutes,
-                    index: index,
-                    state: state,
-                ))
-            }
-        }
-        return slots.sorted { ($0.time ?? .max) < ($1.time ?? .max) }
-    }
-
     // MARK: Body
 
     /// Rows render only once the substance batch cache is warm: each row
@@ -137,16 +130,16 @@ struct MyMedsCard: View {
 
     @ViewBuilder
     private var card: some View {
-        // `allSlots` rebuilds the occurrence index and walks every item, so
-        // derive it once per body pass and hand slices down.
-        let slots = allSlots
+        // The slot derivation rebuilds the occurrence index and walks every
+        // item, so derive it once per body pass and hand slices down.
+        let slots = MyMedsModel.slots(items: items, occurrences: todayOccurrences)
         if !slots.isEmpty {
             // The Supplements fold only pays for itself with 2+ quiet slots — a
             // single quiet med renders as a plain row rather than a one-item group.
             let collapseQuiet = slots.count(where: \.item.isQuiet) >= 2
             let loudSlots = collapseQuiet ? slots.filter { !$0.item.isQuiet } : slots
             let quietSlots = collapseQuiet ? slots.filter(\.item.isQuiet) : []
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: Spacing.lg) {
                 header(slots: slots)
 
                 VStack(spacing: 0) {
@@ -162,20 +155,34 @@ struct MyMedsCard: View {
                         }
                     }
                 }
+
+                let lines = infoLines(slots: slots)
+                if !lines.isEmpty {
+                    VStack(spacing: 0) {
+                        ForEach(lines, id: \.self) { line in
+                            infoLine(line)
+                        }
+                    }
+                }
             }
-            .padding(14)
+            .padding(.top, Spacing.lg)
+            .padding(.bottom, Spacing.lg)
+            .padding(.horizontal, Spacing.xxl)
             .themeCard()
-            .task { await refreshStreak() }
+            .task { await model.refreshStreak(items: items, container: modelContext.container) }
+            .task(id: DoseLogService.shared.revision) {
+                info.refresh(items: items, in: modelContext)
+            }
             .sheet(isPresented: $showInteractionSheet) {
                 InteractionWarningSheet(
-                    warnings: interactionWarnings,
+                    warnings: model.interactionWarnings,
                     onProceed: {
                         showInteractionSheet = false
-                        log(slots: pendingSlots)
+                        log(slots: model.pendingSlots)
                     },
                     onCancel: {
                         showInteractionSheet = false
-                        pendingSlots = []
+                        model.clearPending()
                     },
                 )
                 .presentationDetents([.medium, .large])
@@ -184,94 +191,15 @@ struct MyMedsCard: View {
     }
 
     private func header(slots: [MedSlot]) -> some View {
-        let takenCount = slots.count(where: \.taken)
-        // Every scheduled slot logged for today — drives the ring's completion
-        // state and the transient celebration line.
-        let isComplete = !slots.isEmpty && takenCount == slots.count
-        return Button {
-            navigator.push(.myMeds)
-        } label: {
-            HStack(spacing: 10) {
-                progressRing(takenCount: takenCount, total: slots.count, isComplete: isComplete)
-                VStack(alignment: .leading, spacing: 1) {
-                    Text("My Meds")
-                        .font(.piru(.headline))
-                    // Status as a subtitle rather than a footer line — it
-                    // swaps text (next dose → count left → "everything today")
-                    // without ever changing the card's height, keeping the
-                    // card visually light.
-                    statusSubtitle(slots: slots, takenCount: takenCount, isComplete: isComplete)
-                }
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-            }
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel("My Meds")
-        .accessibilityValue("\(takenCount) of \(slots.count) taken")
-        .accessibilityHint("Opens your meds")
-    }
-
-    /// The always-present status line under "My Meds": the completion note
-    /// while done, otherwise the next timed dose, otherwise how many remain.
-    /// One line in every state, so the card height never moves.
-    @ViewBuilder
-    private func statusSubtitle(slots: [MedSlot], takenCount _: Int, isComplete: Bool) -> some View {
-        if isComplete {
-            Text(completionText)
-                .font(.caption)
-                .foregroundStyle(.green)
-                .lineLimit(1)
-        } else if let next = slots.first(where: { !$0.taken && $0.time != nil && $0.time! > MedSlot.nowMinutes }),
-                  let time = next.time {
-            Text("Next: \(displayName(for: next.item)) at \(Self.timeText(time)) · \(Self.relativeText(time))")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
-                .lineLimit(1)
-        }
-    }
-
-    private func progressRing(takenCount: Int, total: Int, isComplete: Bool) -> some View {
-        let fraction = total == 0 ? 0 : CGFloat(takenCount) / CGFloat(total)
-        return ZStack {
-            Circle()
-                .stroke(Color(.tertiarySystemFill), lineWidth: 4)
-            // The arc grows as doses land — `.snappy` keyed on the fraction so
-            // logging (or unlogging) animates the fill rather than snapping.
-            Circle()
-                .trim(from: 0, to: fraction)
-                .stroke(Color.green, style: StrokeStyle(lineWidth: 4, lineCap: .round))
-                .rotationEffect(.degrees(-90))
-                .animation(.snappy, value: fraction)
-            // At completion the count gives way to a checkmark that bounces —
-            // the small "done!" moment. Reverts to the count if a dose is
-            // unlogged.
-            if isComplete {
-                Image(systemName: "checkmark")
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundStyle(.green)
-                    .symbolEffect(.bounce, value: isComplete)
-                    .transition(.scale.combined(with: .opacity))
-            } else {
-                Text("\(takenCount)/\(total)")
-                    .font(.system(size: 10, weight: .bold, design: .monospaced))
-                    .transition(.scale.combined(with: .opacity))
-            }
-        }
-        .frame(width: 36, height: 36)
-        .animation(.snappy, value: isComplete)
-        .accessibilityHidden(true)
-    }
-
-    private var completionText: String {
-        if let streak, streak > 1 {
-            String(localized: "That's everything today — \(streak) days and counting.")
-        } else {
-            String(localized: "That's everything today.")
-        }
+        let due = slots.filter(\.isDueNow)
+        return MyMedsHeader(
+            takenCount: slots.count(where: \.taken),
+            total: slots.count,
+            streak: model.streak,
+            dueCount: due.count,
+            firstDueName: due.first.map { displayName(for: $0.item) },
+            onTap: { navigator.push(.myMeds) },
+        )
     }
 
     // MARK: Rows
@@ -301,88 +229,20 @@ struct MyMedsCard: View {
     }
 
     private func supplementsRow(quietSlots: [MedSlot]) -> some View {
-        HStack(spacing: 10) {
-            Button {
-                withAnimation(.snappy) { supplementsExpanded.toggle() }
-            } label: {
-                HStack(spacing: 10) {
-                    supplementsCircle(quietSlots: quietSlots)
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text("Supplements")
-                            .font(.subheadline.weight(.medium))
-                        Text("\(quietSlots.count(where: \.taken)) of \(quietSlots.count) taken")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
-                    Spacer()
-                }
-                .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Supplements")
-            .accessibilityValue("\(quietSlots.count(where: \.taken)) of \(quietSlots.count) taken")
-            .accessibilityHint(supplementsExpanded ? Text("Collapses the list") : Text("Expands the list"))
-
-            if quietSlots.contains(where: { !$0.taken }) {
-                Button {
-                    attemptLog(slots: quietSlots.filter { !$0.taken })
-                } label: {
-                    Text("Take All")
-                        .font(.caption.weight(.semibold))
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(Color.green.opacity(0.15), in: Capsule())
-                        .foregroundStyle(.green)
-                }
-                .buttonStyle(.plain)
-            }
-
-            Button {
-                withAnimation(.snappy) { supplementsExpanded.toggle() }
-            } label: {
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .rotationEffect(.degrees(supplementsExpanded ? 90 : 0))
-            }
-            .buttonStyle(.plain)
-            .accessibilityHidden(true)
-        }
-        .padding(.vertical, 7)
-    }
-
-    private func supplementsCircle(quietSlots: [MedSlot]) -> some View {
-        let done = quietSlots.count(where: \.taken)
-        let allDone = done == quietSlots.count
-        return ZStack {
-            if allDone {
-                CheckCircle(state: .taken, due: false)
-            } else {
-                Circle()
-                    .stroke(Color(.tertiarySystemFill), lineWidth: 2.5)
-                Circle()
-                    .trim(from: 0, to: quietSlots.isEmpty ? 0 : CGFloat(done) / CGFloat(quietSlots.count))
-                    .stroke(Color.green, style: StrokeStyle(lineWidth: 2.5, lineCap: .round))
-                    .rotationEffect(.degrees(-90))
-            }
-        }
-        .frame(width: 24, height: 24)
-        .accessibilityHidden(true)
+        SupplementsRowView(
+            takenCount: quietSlots.count(where: \.taken),
+            total: quietSlots.count,
+            expanded: $supplementsExpanded,
+            onTakeAll: { attemptLog(slots: quietSlots.filter { !$0.taken }) },
+        )
     }
 
     // MARK: Logging
 
     private func attemptLog(slots: [MedSlot]) {
-        let names = slots.map(\.item.substance)
-        let active = InteractionChecker.activeEntries(from: recentEntries)
-        // See LogMedicationsView.attemptLog: only `.notable` and above may block.
-        let warnings = InteractionChecker.checkBatch(names, against: active).admitted(.notable)
-
-        if warnings.isEmpty {
+        if model.mayLog(slots: slots, against: recentEntries) {
             log(slots: slots)
         } else {
-            pendingSlots = slots
-            interactionWarnings = warnings
             showInteractionSheet = true
         }
     }
@@ -414,7 +274,7 @@ struct MyMedsCard: View {
         // Meds pass no deferredBookkeeping: routine medications skip the
         // ramp-down notifications on purpose.
         DoseLogService.shared.logBatch(batch, colors: Array(substanceColors), in: modelContext)
-        pendingSlots = []
+        model.clearPending()
     }
 
     /// Undo a logged dose: delete today's most-recent entry matching this
@@ -448,13 +308,6 @@ struct MyMedsCard: View {
         item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance)
     }
 
-    /// The past-year streak — fetch, snapshot, and calendar walk all on
-    /// ``DatabaseActor``, so the main actor never materializes a year of rows.
-    private func refreshStreak() async {
-        guard !items.isEmpty else { return }
-        streak = await AdherenceStreakFetcher.currentStreak(container: modelContext.container)
-    }
-
     private static func timeText(_ minutes: Int) -> String {
         let date = Calendar.current.date(
             bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: .now,
@@ -462,16 +315,212 @@ struct MyMedsCard: View {
         return date.formatted(date: .omitted, time: .shortened)
     }
 
-    private static func relativeText(_ minutes: Int) -> String {
-        let delta = minutes - MedSlot.nowMinutes
-        if delta < 60 {
-            return String(localized: "in \(delta) min")
+    // MARK: Info lines
+
+    /// The two-at-most facts under the rows, chosen by ``MyMedsInfo/select``.
+    private func infoLines(slots: [MedSlot]) -> [MyMedsInfoLine] {
+        let summaries = slots.map { slot in
+            MyMedsInfo.SlotSummary(name: displayName(for: slot.item), minutes: slot.time, pending: slot.state == .pending)
         }
-        return String(localized: "in \(Int((Double(delta) / 60).rounded())) h")
+        let missed = yesterdayMissed.map { occurrence in
+            let item = items.first { $0.substance.lowercased() == occurrence.substance.lowercased() }
+            let name = item.map(displayName(for:)) ?? CustomSubstanceStore.shared.displayName(for: occurrence.substance)
+            return (name: name, slotMinutes: occurrence.slotMinutes)
+        }
+        let missedLine = MyMedsInfo.missedYesterday(missed: missed, yesterday: Self.yesterdayStart)
+        let missedDismissed: Bool = if case let .missedYesterday(notice)? = missedLine {
+            info.isDismissed(notice.dayKey)
+        } else {
+            false
+        }
+        return MyMedsInfo.select(
+            restock: info.restock,
+            nextDue: MyMedsInfo.nextDue(slots: summaries, nowMinutes: MedSlot.nowMinutes),
+            missed: missedLine,
+            missedDismissed: missedDismissed,
+        )
+    }
+
+    @ViewBuilder
+    private func infoLine(_ line: MyMedsInfoLine) -> some View {
+        switch line {
+        case let .restock(name, daysLeft, itemID):
+            RestockInfoLine(name: name, daysLeft: daysLeft) {
+                navigator.present(.inventoryItemForm(id: itemID))
+            }
+        case let .nextDue(name, minutes):
+            NextDueInfoLine(name: name, timeText: Self.timeText(minutes)) {
+                navigator.push(.myMeds)
+            }
+        case let .missedYesterday(notice):
+            MissedYesterdayInfoLine(
+                notice: notice,
+                onTap: { navigator.push(.myMeds) },
+                onDismiss: { withAnimation(.snappy) { info.dismiss(notice.dayKey) } },
+            )
+        }
+    }
+}
+
+// MARK: - Header
+
+/// The card's tappable header: the completion ring, the title, and the status
+/// line under it. Value inputs only, so a row logging elsewhere in the card
+/// doesn't re-evaluate the ring's animation state.
+private struct MyMedsHeader: View {
+    let takenCount: Int
+    let total: Int
+    let streak: Int?
+    let dueCount: Int
+    let firstDueName: String?
+    let onTap: () -> Void
+
+    private var isComplete: Bool {
+        total > 0 && takenCount == total
+    }
+
+    var body: some View {
+        Button(action: onTap) {
+            HStack(spacing: Spacing.lg) {
+                HStack(spacing: Spacing.md) {
+                    Text("My Meds")
+                        .cardTitle()
+                    progressChip
+                }
+                Spacer()
+                if !isComplete {
+                    statusHint
+                }
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("My Meds")
+        .accessibilityValue("\(takenCount) of \(total) taken")
+        .accessibilityHint("Opens your meds")
+    }
+
+    @ViewBuilder
+    private var statusHint: some View {
+        if dueCount == 1, let firstDueName {
+            Text("\(firstDueName) is due")
+                .font(.caption)
+                .foregroundStyle(Theme.accent)
+                .lineLimit(1)
+        } else if dueCount > 1 {
+            Text("\(dueCount) due")
+                .font(.caption)
+                .foregroundStyle(Theme.accent)
+                .lineLimit(1)
+        }
+    }
+
+    @ViewBuilder
+    private var progressChip: some View {
+        if isComplete {
+            Text(chipText)
+                .font(.caption2.weight(.semibold))
+                .padding(.horizontal, 7)
+                .padding(.vertical, Spacing.xxs)
+                .background(Theme.accent.opacity(0.12), in: Capsule())
+                .foregroundStyle(Theme.accent)
+        } else {
+            Text("\(takenCount)/\(total)")
+                .font(.caption2.weight(.bold).monospacedDigit())
+                .padding(.horizontal, 7)
+                .padding(.vertical, Spacing.xxs)
+                .background(Color.platformTertiarySystemFill, in: Capsule())
+                .foregroundStyle(Theme.secondaryLabel)
+        }
+    }
+
+    private var chipText: String {
+        if let streak, streak > 1 {
+            "\(streak) day streak"
+        } else {
+            "Done"
+        }
     }
 }
 
 // MARK: - Row subviews
+
+/// The collapsed "Supplements" group row: a fractional ring, the taken count,
+/// a one-tap Take All, and the disclosure chevron.
+private struct SupplementsRowView: View {
+    let takenCount: Int
+    let total: Int
+    @Binding var expanded: Bool
+    let onTakeAll: () -> Void
+
+    var body: some View {
+        HStack(spacing: Spacing.lg) {
+            Button {
+                withAnimation(.snappy) { expanded.toggle() }
+            } label: {
+                HStack(spacing: Spacing.lg) {
+                    circle
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text("Supplements")
+                            .font(.subheadline.weight(.medium))
+                        Text("\(takenCount) of \(total) taken")
+                            .captionSecondary()
+                    }
+                    Spacer()
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Supplements")
+            .accessibilityValue("\(takenCount) of \(total) taken")
+            .accessibilityHint(expanded ? Text("Collapses the list") : Text("Expands the list"))
+
+            if takenCount < total {
+                Button(action: onTakeAll) {
+                    Text("Take All")
+                        .capsuleChip(
+                            text: .white,
+                            fill: Theme.accent,
+                            size: .hero,
+                        )
+                }
+                .buttonStyle(.plain)
+            }
+
+            Button {
+                withAnimation(.snappy) { expanded.toggle() }
+            } label: {
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .rotationEffect(.degrees(expanded ? 90 : 0))
+            }
+            .buttonStyle(.plain)
+            .accessibilityHidden(true)
+        }
+        .padding(.vertical, Spacing.xs)
+    }
+
+    private var circle: some View {
+        ZStack {
+            if takenCount == total {
+                CheckCircle(state: .taken, due: false)
+            } else {
+                Circle()
+                    .stroke(Color.platformTertiarySystemFill, lineWidth: 2)
+                Circle()
+                    .trim(from: 0, to: total == 0 ? 0 : CGFloat(takenCount) / CGFloat(total))
+                    .stroke(Theme.accent, style: StrokeStyle(lineWidth: 2, lineCap: .round))
+                    .rotationEffect(.degrees(-90))
+            }
+        }
+        .frame(width: 18, height: 18)
+        .accessibilityHidden(true)
+    }
+}
 
 /// The checked/unchecked/skipped circle shared by slot rows and the collapsed
 /// Supplements row.
@@ -480,33 +529,26 @@ private struct CheckCircle: View {
     let due: Bool
 
     var body: some View {
-        ZStack {
-            Circle()
-                .fill(state == .taken ? Color.green : Color.clear)
-            Circle()
-                .stroke(strokeColor, lineWidth: 2)
-            switch state {
-            case .taken:
-                Image(systemName: "checkmark")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(.white)
-            case .skipped:
-                Image(systemName: "minus")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(.secondary)
-            case .pending:
-                EmptyView()
-            }
-        }
-        .frame(width: 24, height: 24)
-        .accessibilityHidden(true)
+        image
+            .font(.system(size: 16))
+            .foregroundStyle(foregroundColor)
+            .frame(width: 18, height: 18)
+            .accessibilityHidden(true)
     }
 
-    private var strokeColor: Color {
+    private var image: Image {
         switch state {
-        case .taken: .green
-        case .skipped: Color(.tertiarySystemFill)
-        case .pending: due ? Theme.accent : Color(.tertiarySystemFill)
+        case .taken: Image(systemName: "circle.fill")
+        case .skipped: Image(systemName: "minus.circle")
+        case .pending: Image(systemName: "circle")
+        }
+    }
+
+    private var foregroundColor: Color {
+        switch state {
+        case .taken: Theme.accent
+        case .skipped: Theme.secondaryLabel.opacity(Theme.Opacity.muted)
+        case .pending: due ? Theme.accent : Color.platformTertiarySystemFill
         }
     }
 }
@@ -529,7 +571,7 @@ private struct SlotRowView: View {
     }
 
     var body: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: Spacing.lg) {
             Button(action: onToggle) {
                 CheckCircle(state: slotState, due: due)
                     .contentShape(Circle())
@@ -541,34 +583,26 @@ private struct SlotRowView: View {
             .accessibilityHint(slotState == .skipped ? Text("Skipped for today") : taken ? Text("Unlogs this dose") : Text("Logs this dose"))
 
             Button(action: onOpen) {
-                HStack(spacing: 10) {
+                HStack(spacing: Spacing.lg) {
                     Text(title)
                         .font(.subheadline.weight(dismissed ? .regular : .medium))
                         .foregroundStyle(dismissed ? Theme.secondaryLabel : .primary)
-                        .strikethrough(taken, color: Theme.secondaryLabel.opacity(0.5))
+                        .strikethrough(taken, color: Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                         .lineLimit(1)
                     Spacer(minLength: 4)
                     if slotState == .skipped {
                         Text("Skipped")
                             .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.secondaryLabel)
                     } else if due, timeText != nil {
                         Text("due")
                             .font(.caption2.weight(.bold))
                             .padding(.horizontal, 7)
-                            .padding(.vertical, 2)
+                            .padding(.vertical, Spacing.xxs)
                             .background(Theme.accent.opacity(0.15), in: Capsule())
                             .foregroundStyle(Theme.accent)
                     }
-                    Text(subtitle)
-                        .font(.caption.monospacedDigit())
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .lineLimit(1)
-                    if let timeText {
-                        Text(timeText)
-                            .font(.caption.monospacedDigit())
-                            .foregroundStyle(due ? Theme.accent : Theme.secondaryLabel)
-                    }
+                    trailingDetail
                 }
                 .contentShape(Rectangle())
             }
@@ -576,13 +610,27 @@ private struct SlotRowView: View {
             .accessibilityLabel(Text("\(title) details"))
             .accessibilityHint(Text("Opens this med"))
         }
-        .padding(.vertical, 7)
-        .padding(.leading, indented ? 28 : 6)
+        .padding(.vertical, Spacing.xs)
+        .padding(.leading, indented ? Spacing.xxl : 0)
         .opacity(slotState == .skipped ? 0.6 : 1)
     }
 
     private var dismissed: Bool {
         taken || slotState == .skipped
+    }
+
+    private var trailingDetail: some View {
+        HStack(spacing: Spacing.xs) {
+            Text(subtitle)
+                .font(.footnote.monospacedDigit())
+            if let timeText {
+                Text("·")
+                Text(timeText)
+                    .font(.footnote.monospacedDigit())
+            }
+        }
+        .foregroundStyle(Theme.secondaryLabel)
+        .lineLimit(1)
     }
 
     private var accessibilityStateValue: Text {

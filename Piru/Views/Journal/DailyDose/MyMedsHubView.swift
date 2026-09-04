@@ -126,7 +126,7 @@ struct MyMedsHubView: View {
                             }
                         }
                     } header: {
-                        HStack(spacing: 6) {
+                        HStack(spacing: Spacing.sm) {
                             Image(systemName: group.symbol)
                                 .accessibilityHidden(true)
                             Text(group.label)
@@ -141,8 +141,6 @@ struct MyMedsHubView: View {
 
                 Section {
                     addMedButton
-                } footer: {
-                    Text("Quiet meds share one silent reminder per time of day — it never buzzes, it just waits in Notification Center. As-needed meds are never counted against you.")
                 }
                 .listRowBackground(Color.clear)
                 .listRowSeparator(.hidden)
@@ -153,34 +151,33 @@ struct MyMedsHubView: View {
                     } label: {
                         Label("Notification Settings", systemImage: "bell.badge")
                     }
-                } footer: {
-                    Text("Reminders, Ask Again, quiet hours, and everything else Piru sends.")
                 }
                 .listRowBackground(CardBackground())
             }
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle("My Meds")
-        .navigationBarTitleDisplayMode(.large)
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    showingAddMed = true
-                } label: {
-                    Image(systemName: "plus")
+        #if canImport(UIKit)
+            .navigationBarTitleDisplayMode(.large)
+        #endif
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        showingAddMed = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    .accessibilityLabel("Add a Med")
                 }
-                .accessibilityLabel("Add a Med")
             }
-        }
-        .sheet(isPresented: $showingAddMed) {
-            MedFormView()
-        }
+            .sheet(isPresented: $showingAddMed) {
+                MedFormView()
+            }
     }
 
     private var emptyState: some View {
         Section {
-            VStack(spacing: 16) {
+            VStack(spacing: Spacing.xxl) {
                 ContentUnavailableView(
                     "No Meds Yet",
                     systemImage: "pills",
@@ -214,25 +211,25 @@ private struct MedRow: View {
 
     var body: some View {
         Button(action: onTap) {
-            HStack(spacing: 12) {
+            HStack(spacing: Spacing.xl) {
                 Image(systemName: "pill")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(.white)
                     .frame(width: 30, height: 30)
                     .background(Theme.accent, in: Circle())
                     .accessibilityHidden(true)
 
-                VStack(alignment: .leading, spacing: 2) {
-                    HStack(spacing: 6) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
+                    HStack(spacing: Spacing.sm) {
                         Text(item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance))
                             .font(.body)
                             .foregroundStyle(.primary)
                         if item.isQuiet {
                             Text("quiet")
                                 .font(.caption2.weight(.semibold))
-                                .padding(.horizontal, 6)
+                                .padding(.horizontal, Spacing.sm)
                                 .padding(.vertical, 1)
-                                .background(Color(.tertiarySystemFill), in: Capsule())
+                                .background(Color.platformTertiarySystemFill, in: Capsule())
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
                     }

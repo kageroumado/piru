@@ -6,7 +6,7 @@ import SwiftUI
 ///
 /// Showing the numbers matters even for a reader who can't evaluate them. A curve
 /// with no visible provenance is an oracle; the same curve with its half-life,
-/// Tmax, transporter weights and confidence grades attached is a claim you can
+/// Tmax and transporter weights attached is a claim you can
 /// follow, check, and disagree with.
 struct SandboxGuideSheet: View {
     let model: EffectSandboxModel
@@ -34,10 +34,9 @@ struct SandboxGuideSheet: View {
                     ParameterSection(row: row, onGlossary: { glossaryTopic = $0 })
                 }
             }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .navigationTitle("How this is estimated")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
@@ -57,7 +56,7 @@ struct SandboxGuideSheet: View {
     private var readingSection: some View {
         Section {
             Text("See how doses might feel over time — compare two meds, preview a stack, or change the timing — without logging anything. This is a scratch surface; nothing here touches your journal.")
-            Text("This shows what the model predicts about the shape and sign of an effect — not what you should take. It is an estimate from typical pharmacology, never a recommendation or a safe-dose guide.")
+            Text("The model's prediction of effect shape and direction — an estimate from typical pharmacology, not a dosing guide.")
             Text("Compare the shape of a curve more than its exact height.")
             Text("Your own response shifts with tolerance, body chemistry, and the day. Talk to a prescriber about your medication.")
         } header: {
@@ -131,23 +130,13 @@ struct ParameterSection: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
         } header: {
-            HStack(spacing: 6) {
-                Circle()
-                    .fill(Color(hex: row.colorHex))
-                    .frame(width: 8, height: 8)
-                    .accessibilityHidden(true)
+            HStack(spacing: Spacing.sm) {
+                LegendDot(color: Color(hex: row.colorHex))
                 Text(verbatim: row.displayName)
                 Text(row.route.localizedName)
                     .foregroundStyle(Theme.secondaryLabel)
             }
             .textCase(nil)
-        } footer: {
-            if let tier = pharmacology?.occupancyConfidence {
-                HStack(spacing: 6) {
-                    Text("Weakest input")
-                    ConfidenceBadge(tier: tier)
-                }
-            }
         }
         .listRowBackground(CardBackground())
     }
@@ -165,7 +154,7 @@ struct ParameterSection: View {
                     .accessibilityHidden(true)
             } label: {
                 Text("Measured pharmacokinetics")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(.primary)
             }
         }
@@ -198,7 +187,7 @@ struct ParameterSection: View {
     @ViewBuilder
     private func derivedRows(_ params: SubstanceModelParams) -> some View {
         Text("What the engine uses")
-            .font(.subheadline.weight(.semibold))
+            .sectionLabel()
         LabeledContent("Elimination rate (ke)", value: "\(params.ke.doseFormatted) /h")
         LabeledContent("Absorption rate (ka)", value: "\(params.ka.doseFormatted) /h")
         // Distinct from the DB's measured reference above: this is the curated
@@ -229,7 +218,7 @@ struct ParameterSection: View {
                     .accessibilityHidden(true)
             } label: {
                 Text("Binding used")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(.primary)
             }
         }
@@ -241,7 +230,7 @@ struct ParameterSection: View {
                 Text(verbatim: concentrationLabel(target))
                     .monospacedDigit()
             } label: {
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(verbatim: target.target)
                     ProvenanceBadge(
                         confidence: target.confidence,

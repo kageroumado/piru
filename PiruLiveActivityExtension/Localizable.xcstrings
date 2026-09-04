@@ -270,7 +270,20 @@
       }
     },
     "ely.pink" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ely.pink"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ely.pink"
+          }
+        }
+      }
     },
     "Every 2 days" : {
       "localizations" : {
@@ -513,7 +526,20 @@
       }
     },
     "Night and pink, stickers and pixels" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜色与粉色，贴纸与像素"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜色與粉色，貼紙與像素"
+          }
+        }
+      }
     },
     "No active doses" : {
       "localizations" : {
@@ -527,6 +553,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無活性劑量"
+          }
+        }
+      }
+    },
+    "Note" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备注"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備註"
           }
         }
       }

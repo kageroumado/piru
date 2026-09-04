@@ -30,8 +30,8 @@ extension Font {
     /// card titles, the substance hero). Scales with Dynamic Type relative to
     /// `relativeTo`. Skins without a display face get the system font at that
     /// size, weight and design, exactly as before.
-    static func piru(size: CGFloat, weight: Font.Weight = .regular, design: Font.Design? = nil, relativeTo style: Font.TextStyle = .title) -> Font {
-        guard let font = SkinFace.display(weight: weight, size: size, relativeTo: style) else {
+    static func piru(size: CGFloat, weight: Font.Weight = .regular, design: Font.Design? = nil, relativeTo style: Font.TextStyle = .title, scaling: Bool = true) -> Font {
+        guard let font = SkinFace.display(weight: weight, size: size, relativeTo: style, scaling: scaling) else {
             return .system(size: size, weight: weight, design: design)
         }
         return font
@@ -59,8 +59,8 @@ extension Font {
 /// Dynamic Type, never `Font.custom`.
 enum SkinFace {
     /// The skin's display family at `weight`, as a `Font`, or nil for system.
-    static func display(weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle) -> Font? {
-        SkinStore.shared.current.typeface.display.map { font(family: $0, weight: weight, size: size, relativeTo: style) }
+    static func display(weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle, scaling: Bool = true) -> Font? {
+        SkinStore.shared.current.typeface.display.map { font(family: $0, weight: weight, size: size, relativeTo: style, scaling: scaling) }
     }
 
     /// The skin's label family at `weight`, as a `Font`, or nil for system.
@@ -74,13 +74,15 @@ enum SkinFace {
     /// returned nil for `Fredoka-Bold` on the first render of a launch while
     /// this returned the right face, which is why card titles were the system
     /// font under a Fredoka nav title. Scaled by `UIFontMetrics` for Dynamic Type.
-    static func font(family: String, weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle) -> Font {
+    static func font(family: String, weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle, scaling: Bool = true) -> Font {
         let descriptor = UIFontDescriptor(fontAttributes: [
             .family: family,
             .traits: [UIFontDescriptor.TraitKey.weight: uiWeight(weight)],
         ])
         let base = UIFont(descriptor: descriptor, size: size)
-        return Font(UIFontMetrics(forTextStyle: style.uiTextStyle).scaledFont(for: base))
+        // `scaling: false` is for the fixed-size chart/stat roles in TextRoles,
+        // which are laid out against fixed-height cards and gutters.
+        return Font(scaling ? UIFontMetrics(forTextStyle: style.uiTextStyle).scaledFont(for: base) : base)
     }
 
     /// The registered PostScript-style name for `family` at `weight`, or nil.

@@ -18,12 +18,11 @@ struct SearchLandingView: View {
                 HelpCard()
                 ClassBrowseGroup()
             }
-            .padding(.horizontal, 16)
-            .padding(.top, 4)
+            .padding(.horizontal, Spacing.xxl)
+            .padding(.top, Spacing.xs)
             .padding(.bottom, 28)
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
     }
 }
 
@@ -37,12 +36,11 @@ struct SearchActivityList: View {
                 RecentlySearchedGroup()
                 RecentDosesGroup(limit: 8)
             }
-            .padding(.horizontal, 16)
-            .padding(.top, 8)
+            .padding(.horizontal, Spacing.xxl)
+            .padding(.top, Spacing.md)
             .padding(.bottom, 28)
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
     }
 }
 
@@ -63,14 +61,14 @@ private struct RecentlySearchedGroup: View {
     var body: some View {
         Group {
             if !substances.isEmpty {
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: Spacing.md) {
                     HStack {
                         SectionLabel("Recently Searched")
                         Spacer()
                         Button("Clear") { history.clear() }
-                            .font(.subheadline.weight(.semibold))
+                            .sectionLabel()
                     }
-                    .padding(.horizontal, 4)
+                    .padding(.horizontal, Spacing.xs)
                     SubstanceRowsCard(substances: substances)
                 }
             }
@@ -113,8 +111,8 @@ private struct RecentDosesGroup: View {
     var body: some View {
         Group {
             if !substances.isEmpty {
-                VStack(alignment: .leading, spacing: 8) {
-                    SectionLabel("Recent").padding(.horizontal, 4)
+                VStack(alignment: .leading, spacing: Spacing.md) {
+                    SectionLabel("Recent").padding(.horizontal, Spacing.xs)
                     SubstanceRowsCard(substances: substances)
                 }
             }
@@ -146,24 +144,24 @@ private struct SubstanceRowsCard: View {
         VStack(spacing: 0) {
             ForEach(Array(substances.enumerated()), id: \.element.id) { index, substance in
                 if index > 0 {
-                    Divider().padding(.leading, 16)
+                    Divider().padding(.leading, Spacing.xxl)
                 }
                 NavigationLink(value: PushRoute.substance(name: substance.name)) {
-                    HStack(spacing: 8) {
+                    HStack(spacing: Spacing.md) {
                         SubstanceRowView(substance: substance, isPersonalized: CustomSubstanceStore.shared.isPersonalized(substance.name))
                         Image(systemName: "chevron.right")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(Theme.secondaryLabel)
                             .accessibilityHidden(true)
                     }
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, Spacing.xxl)
                     .padding(.vertical, 11)
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
             }
         }
-        .themeCard(cornerRadius: 16)
+        .themeCard(cornerRadius: Theme.CornerRadius.container)
     }
 }
 
@@ -174,7 +172,7 @@ private struct SectionLabel: View {
     }
     var body: some View {
         Text(title)
-            .font(.subheadline.weight(.semibold))
+            .sectionLabel()
             .foregroundStyle(Theme.secondaryLabel)
             .accessibilityAddTraits(.isHeader)
     }
@@ -196,7 +194,7 @@ private struct HelpCard: View {
                     .offset(x: 26, y: -4)
                     .accessibilityHidden(true)
             } content: {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: Spacing.xs) {
                     Image(systemName: "lifepreserver")
                         .font(.system(size: 21, weight: .semibold))
                         .foregroundStyle(.white)
@@ -230,14 +228,14 @@ private struct ClassBrowseGroup: View {
     @State private var families: [LibraryFamily] = []
 
     private let columns = [
-        GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: Spacing.xl),
+        GridItem(.flexible(), spacing: Spacing.xl),
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            SectionLabel("Browse by class").padding(.horizontal, 4)
-            LazyVGrid(columns: columns, spacing: 12) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            SectionLabel("Browse by class").padding(.horizontal, Spacing.xs)
+            LazyVGrid(columns: columns, spacing: Spacing.xl) {
                 ForEach(families) { family in
                     if family.id == expandedID {
                         // Fold-back card sits where the umbrella was, then its
@@ -312,7 +310,7 @@ private struct ClassMiniCard<Content: View>: View {
                 if let molecule {
                     MoleculeView(key: molecule)
                         .frame(width: 116, height: 116)
-                        .opacity(0.5)
+                        .opacity(Theme.Opacity.dimmed)
                         .offset(x: 14, y: -10)
                 }
             } content: {
@@ -331,7 +329,7 @@ private struct ClassLabel: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Image(systemName: icon)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.sectionTitle)
                 .foregroundStyle(.white)
                 .frame(height: 26, alignment: .leading)
                 .accessibilityHidden(true)
@@ -352,7 +350,7 @@ private struct FoldBackLabel: View {
         VStack {
             Spacer(minLength: 0)
             Image(systemName: "chevron.up")
-                .font(.system(size: 38, weight: .bold))
+                .font(.heroStat)
                 .foregroundStyle(.white)
             Spacer(minLength: 0)
         }

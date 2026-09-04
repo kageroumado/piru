@@ -16,21 +16,15 @@ struct ToleranceRecoverySeries: Identifiable {
 struct ToleranceCombinedRecoverySection: View {
     let series: [ToleranceRecoverySeries]
     let axisDays: [Double]
-    /// At least one mechanism's natural recovery window exceeds the shared 60-day cap — the caption then
-    /// notes the chart is showing only the first 60 days.
+    /// At least one mechanism's natural recovery window exceeds the shared 60-day cap — the chart then
+    /// carries a caption saying it shows only the first 60 days.
     let isClipped: Bool
-
-    private var caption: LocalizedStringResource {
-        isClipped
-            ? "Each line is a mechanism's tolerance fading — a steeper drop means a faster reset. Showing the first 60 days."
-            : "Each line is a mechanism's tolerance fading — a steeper drop means a faster reset."
-    }
 
     var body: some View {
         Section {
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: Spacing.xl) {
                 Text("Recovery if you stop now")
-                    .font(.piru(.headline))
+                    .cardTitle()
 
                 if series.isEmpty {
                     Text("Everything's rested — nothing recovering right now.")
@@ -39,12 +33,14 @@ struct ToleranceCombinedRecoverySection: View {
                 } else {
                     ToleranceCombinedRecoveryChart(series: series, axisDays: axisDays)
                     ToleranceRecoveryLegend(series: series)
-                    Text(caption)
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
+                    if isClipped {
+                        Text("Showing the first 60 days.")
+                            .font(.caption2)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
                 }
             }
-            .padding(.vertical, 6)
+            .padding(.vertical, Spacing.sm)
         }
     }
 }
@@ -53,20 +49,17 @@ struct ToleranceRecoveryLegend: View {
     let series: [ToleranceRecoverySeries]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             ForEach(series) { item in
-                HStack(spacing: 8) {
-                    Circle()
-                        .fill(item.color)
-                        .frame(width: 9, height: 9)
+                HStack(spacing: Spacing.md) {
+                    LegendDot(color: item.color, size: .large)
                     Text(item.name)
                         .font(.caption.weight(.medium))
                     Spacer(minLength: 8)
                     // Already a resolved, localized phrase from `durationPhrase` — show verbatim so it
                     // isn't re-looked-up as a catalog key.
                     Text(verbatim: item.recoveryPhrase)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                 }
             }
         }

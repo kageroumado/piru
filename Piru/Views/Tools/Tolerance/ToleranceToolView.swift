@@ -38,9 +38,6 @@ struct ToleranceToolView: View {
     var body: some View {
         List {
             Group {
-                ToleranceBanner(isWeightEstimated: profile.isWeightEstimated)
-                ToleranceHowItWorksCard()
-
                 if rows.isEmpty, tolerance.incompleteDataSubstances.isEmpty {
                     ToleranceEmptyState()
                 } else {
@@ -103,12 +100,12 @@ struct ToleranceToolView: View {
                     }
                     ToleranceIncompleteDataSection(names: tolerance.incompleteDataSubstances)
                 }
+                ToleranceHowItWorksCard()
             }
             .listRowBackground(CardBackground())
         }
-        .listStyle(.insetGrouped)
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .insetGroupedListStyle()
+        .themedPage()
         .appNavigationBar("Tolerance", showsOverflow: false)
         .toolbar {
             optionsButton
@@ -170,7 +167,7 @@ struct ToleranceToolView: View {
     /// display-mode thumbnail picker and the detail-tier list.
     @ToolbarContentBuilder
     private var optionsButton: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
+        ToolbarItem(placement: .platformTopBarTrailing) {
             Button {
                 showsOptions = true
             } label: {

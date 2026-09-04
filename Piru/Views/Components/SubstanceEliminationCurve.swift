@@ -74,7 +74,7 @@ struct SubstanceEliminationCurve: View {
 
                 let label = Text("\(Int(fraction * 100))%")
                     .font(.system(size: 8, weight: .medium, design: .rounded))
-                    .foregroundStyle(color.opacity(0.4))
+                    .foregroundStyle(color.opacity(Theme.Opacity.muted))
                 context.draw(context.resolve(label), at: CGPoint(x: inset + graphWidth - 2, y: y - 1), anchor: .bottomTrailing)
             }
 
@@ -109,19 +109,19 @@ struct SubstanceEliminationCurve: View {
                 }
                 projFill.addLine(to: CGPoint(x: inset + graphWidth, y: baseline))
                 projFill.closeSubpath()
-                context.fill(projFill, with: .color(color.opacity(0.08)))
+                context.fill(projFill, with: .color(color.opacity(Theme.Opacity.hairline)))
 
                 var projStroke = Path()
                 for i in ns ... steps {
                     let p = pointAt(i)
                     if i == ns { projStroke.move(to: p) } else { projStroke.addLine(to: p) }
                 }
-                context.stroke(projStroke, with: .color(color.opacity(0.5)), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
+                context.stroke(projStroke, with: .color(color.opacity(Theme.Opacity.dimmed)), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
 
                 var nowLine = Path()
                 nowLine.move(to: CGPoint(x: splitX, y: inset))
                 nowLine.addLine(to: CGPoint(x: splitX, y: baseline))
-                context.stroke(nowLine, with: .color(color.opacity(0.25)), style: StrokeStyle(lineWidth: 0.5, dash: [2, 3]))
+                context.stroke(nowLine, with: .color(color.opacity(Theme.Opacity.emphasis)), style: StrokeStyle(lineWidth: 0.5, dash: [2, 3]))
             }
 
             // Current time dot
@@ -131,7 +131,7 @@ struct SubstanceEliminationCurve: View {
                 let dotSize: CGFloat = 7
                 let dot = Path(ellipseIn: CGRect(x: x - dotSize / 2, y: y - dotSize / 2, width: dotSize, height: dotSize))
                 context.fill(dot, with: .color(color))
-                context.stroke(dot, with: .color(.white.opacity(0.8)), lineWidth: 1)
+                context.stroke(dot, with: .color(.white.opacity(Theme.Opacity.strong)), lineWidth: 1)
             }
 
             // Time labels
@@ -145,30 +145,30 @@ struct SubstanceEliminationCurve: View {
                 let text = if t == 0 { "0" } else if interval < 60 { "\(Int(t.rounded()))m" } else if interval < 1_440 { "\(Int((t / 60).rounded()))h" } else { "\(Int((t / 1_440).rounded()))d" }
 
                 let resolved = context.resolve(
-                    Text(text).font(.system(size: 9, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(0.5)),
+                    Text(text).font(.system(size: 9, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(Theme.Opacity.dimmed)),
                 )
                 context.draw(resolved, at: CGPoint(x: x, y: labelY), anchor: .center)
                 t += interval
             }
         }
         .frame(height: 132)
-        .padding(12)
-        .background(Color.primary.opacity(0.04), in: .rect(cornerRadius: 16, style: .continuous))
+        .padding(Spacing.xl)
+        .background(Color.primary.opacity(0.04), in: .rect(cornerRadius: Theme.CornerRadius.container, style: .continuous))
         .overlay(alignment: .topTrailing) {
             Text("t½ = \(Self.formatDuration(halfLife))")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(color)
-                .padding(10)
+                .padding(Spacing.lg)
         }
     }
 
     // MARK: - Projection stats
 
     private func projectionStats(_ proj: SteadyStateProjection, color: Color) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
             Text("Projected · \(Self.cadenceText(proj.intervalHours))")
                 .font(.caption2.weight(.medium))
-                .foregroundStyle(color.opacity(0.8))
+                .foregroundStyle(color.opacity(Theme.Opacity.strong))
 
             HStack(spacing: 0) {
                 stat("Plateau", "\(proj.result.averageAmount.doseFormatted) \(proj.unit)")
@@ -177,8 +177,8 @@ struct SubstanceEliminationCurve: View {
                 stat("Reaches", Self.daysToSteadyText(proj.daysToSteady))
             }
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
+        .padding(.horizontal, Spacing.xl)
+        .padding(.vertical, Spacing.md)
     }
 
     private func stat(_ label: LocalizedStringKey, _ value: String) -> some View {

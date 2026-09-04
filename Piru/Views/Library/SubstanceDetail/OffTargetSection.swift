@@ -26,13 +26,13 @@ struct OffTargetSection: View {
                 count: model.offTargets.count,
                 isExpanded: $isExpanded,
             ) {
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: Spacing.md) {
                     ForEach(model.offTargets) { hit in
                         OffTargetRow(hit: hit, accent: substance.category.color)
                         if hit.id != model.offTargets.last?.id { Divider() }
                     }
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
             }
         }
     }
@@ -47,11 +47,11 @@ struct OffTargetRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 // `verbatim`: targets are proper nouns and lab shorthand ("hERG",
                 // "nAChR α3β4"), authored in the DB and not catalog keys.
                 Text(verbatim: hit.target)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .fixedSize(horizontal: false, vertical: true)
                 if let value = hit.valueNm {
                     // No Kᵢ/IC₅₀ symbol — `ki_or_ic50_nm` does not record which
@@ -68,8 +68,7 @@ struct OffTargetRow: View {
                 // regardless of locale — `verbatim` keeps it out of the catalog
                 // rather than minting ~200 untranslatable keys.
                 Text(verbatim: consequence)
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .fixedSize(horizontal: false, vertical: true)
             }
             sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
@@ -95,13 +94,7 @@ private struct ConcernMark: View {
 
     var body: some View {
         Text(label)
-            .font(.caption2.weight(.semibold))
-            .foregroundStyle(textColor)
-            .padding(.horizontal, 7)
-            .padding(.vertical, 3)
-            // 0.10 alpha over the card is the derivation every `text` token is
-            // gated against — see `Shared/SemanticColors.swift`.
-            .background(accentColor.opacity(0.10), in: Capsule())
+            .capsuleChip(text: textColor, fill: accentColor)
             .accessibilityLabel(Text(accessibilityLabel))
     }
 

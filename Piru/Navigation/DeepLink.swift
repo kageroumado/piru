@@ -179,11 +179,19 @@ nonisolated enum DeepLink {
             )
 
         case "session":
-            // `piru://session/<uuid>` pushes a session detail onto the Journal tab.
+            // `piru://session/<uuid>` pushes a session detail onto the Journal tab;
+            // `?note=new|checkIn` additionally opens the note sheet on it — the
+            // check-in notification's landing.
             guard let idString = pathSegments.first,
                   let id = UUID(uuidString: idString) else { return nil }
+            let noteSheet: SheetRoute? = switch query["note"] {
+            case "checkIn": .sessionNoteEditor(sessionID: id, checkIn: true)
+            case "new": .sessionNoteEditor(sessionID: id)
+            default: nil
+            }
             return DeepLinkOutcome(
                 tab: overrideTab ?? .journal,
+                sheet: noteSheet,
                 path: [.session(id: id)],
             )
 
@@ -288,6 +296,9 @@ nonisolated enum DeepLink {
              .libraryTag,
              .libraryFavorites,
              .libraryCustom,
+             .libraryUnits,
+             .libraryColors,
+             .dataStorage,
              .drugClass,
              .drugClassGroup,
              .insightGroup,
@@ -303,7 +314,10 @@ nonisolated enum DeepLink {
         components.scheme = scheme
 
         switch sheet {
-        case let .quickLog(routine, prefillSubstance):
+        case let .quickLog(routine, prefillSubstance, prefillDose):
+            if prefillDose != nil {
+                return nil
+            }
             components.host = "quicklog"
             var items: [URLQueryItem] = []
             if let routine {
@@ -325,6 +339,14 @@ nonisolated enum DeepLink {
         case .sessionDetail:
             components.host = "day"
 
+        case let .sessionNoteEditor(sessionID, noteID, checkIn, _):
+            // Only a new note has a URL form (an existing note's id is not
+            // addressable from outside the app).
+            guard noteID == nil else { return nil }
+            components.host = "session"
+            components.path = "/\(sessionID.uuidString)"
+            components.queryItems = [URLQueryItem(name: "note", value: checkIn ? "checkIn" : "new")]
+
         case let .entryDetail(timestamp, id):
             components.host = "entry"
             components.path = "/\(timestamp.timeIntervalSince1970)"
@@ -336,8 +358,8 @@ nonisolated enum DeepLink {
             components.host = "meds"
             components.path = "/\(category)"
 
-        case let .inventoryItemForm(id, prefillSubstance, prefillSalt):
-            if prefillSubstance != nil || prefillSalt != nil {
+        case let .inventoryItemForm(id, prefillSubstance, prefillSalt, prefill):
+            if prefillSubstance != nil || prefillSalt != nil || prefill != nil {
                 return nil
             }
             components.host = "inventory"

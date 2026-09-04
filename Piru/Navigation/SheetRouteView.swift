@@ -18,8 +18,8 @@ struct SheetRouteView: View {
 
     var body: some View {
         switch route {
-        case let .quickLog(routine, prefillSubstance):
-            QuickLogSheet(prestagedRoutine: routine, prefillSubstance: prefillSubstance)
+        case let .quickLog(routine, prefillSubstance, prefillDose):
+            QuickLogSheet(prestagedRoutine: routine, prefillSubstance: prefillSubstance, prefillDose: prefillDose)
 
         case .settings:
             // SettingsView owns its own xmark toolbar item.
@@ -37,6 +37,9 @@ struct SheetRouteView: View {
                     .withCancellationCloseButton()
                     .withAppDestinations()
             }
+
+        case let .sessionNoteEditor(sessionID, noteID, checkIn, summary):
+            SessionNoteEditorHost(sessionID: sessionID, noteID: noteID, checkIn: checkIn, summary: summary)
 
         case let .entryDetail(timestamp, id):
             EntryLookupView(id: id, timestamp: timestamp) { entry in
@@ -95,8 +98,8 @@ struct SheetRouteView: View {
                     .withAppDestinations()
             }
 
-        case let .inventoryItemForm(id, prefillSubstance, prefillSalt):
-            InventoryItemFormHost(itemID: id, prefillSubstance: prefillSubstance, prefillSalt: prefillSalt)
+        case let .inventoryItemForm(id, prefillSubstance, prefillSalt, prefill):
+            InventoryItemFormHost(itemID: id, prefillSubstance: prefillSubstance, prefillSalt: prefillSalt, prefill: prefill)
 
         case let .inventoryItemEdit(id):
             InventoryItemEditHost(itemID: id)
@@ -248,7 +251,7 @@ private struct TimeAdjustHost: View {
                 )
             }
             .navigationTitle("Adjust Time")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
@@ -278,6 +281,29 @@ private struct TimeAdjustHost: View {
         // Pending reminders are keyed to the old timestamp — a moved dose
         // must drop them and reschedule from its new time.
         DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: original, in: modelContext)
+    }
+}
+
+/// Resolves the session (and the note, when editing) for the note sheet. A
+/// session that no longer exists renders nothing; the navigator dismisses.
+private struct SessionNoteEditorHost: View {
+    let sessionID: UUID
+    let noteID: UUID?
+    let checkIn: Bool
+    let summary: Bool
+    @Environment(\.modelContext) private var modelContext
+
+    var body: some View {
+        if let session = lookupSession() {
+            let note = noteID.flatMap { id in (session.notes ?? []).first { $0.id == id } }
+            SessionNoteEditor(session: session, note: note, kind: checkIn ? .checkIn : summary ? .summary : .observation)
+        }
+    }
+
+    private func lookupSession() -> Session? {
+        var descriptor = FetchDescriptor<Session>(predicate: #Predicate { $0.id == sessionID })
+        descriptor.fetchLimit = 1
+        return try? modelContext.fetch(descriptor).first
     }
 }
 

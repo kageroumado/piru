@@ -35,6 +35,8 @@ them directly.
 | `psychonautwiki.json` | [PsychonautWiki](https://psychonautwiki.org) GraphQL API | `psychonautwiki` | Per-substance dose ranges, duration phases, tolerance info. Refreshed by `pipeline/fetch/psychonautwiki.py`. |
 | `drug-community.json` | drug.community dump | `drug.community` | User-reported dose ranges across many compounds. |
 | `drug-community-names.json` | drug.community | — | Name-only catalog used for alias detection. |
+| `product-codes-openfda.json` | [openFDA NDC directory](https://open.fda.gov/apis/drug/ndc/) bulk download (public domain) | — | US marketed products with package NDCs, retail UPCs, pack sizes; pre-filtered to single-ingredient products whose active maps to a known substance. Refreshed by `pipeline/fetch/product_codes.py`; feeds the `product_codes` barcode table. |
+| `product-codes-bdpm.json` | [ANSM BDPM](https://base-donnees-publique.medicaments.gouv.fr/) (Etalab open licence) | — | French products with CIP13 barcodes and presentations, same filter. Same fetcher. |
 
 ### `curated/` — hand-maintained overrides
 

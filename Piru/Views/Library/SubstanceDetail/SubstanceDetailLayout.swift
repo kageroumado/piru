@@ -31,7 +31,6 @@ struct SubstanceDetailLayout: View {
     /// The user's personal-override notes for this substance, if any.
     let personalNotes: String?
     let showAllEffects: Binding<Bool>
-    let showAllInventory: Binding<Bool>
     let cautionsExpanded: Binding<Bool>
     let onGlossary: (PharmacologyGlossarySheet.Topic) -> Void
 
@@ -79,7 +78,6 @@ struct SubstanceDetailLayout: View {
             substanceName: substance.name,
             selectedSaltForm: selectedSaltForm,
             inventoryItems: inventoryItems,
-            showAllInventory: showAllInventory,
         )
 
         // How Long It Stays — the benzodiazepine duration ladder, directly above
@@ -266,7 +264,7 @@ private struct SubstanceDetailHeader: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .accessibilityAddTraits(.isHeader)
 
-                HStack(spacing: 8) {
+                HStack(spacing: Spacing.md) {
                     CategoryChip(category: substance.category)
                     if let formula = substance.formula {
                         Text(formula)
@@ -288,10 +286,10 @@ private struct SubstanceDetailHeader: View {
                     FlowLayout(spacing: 7) {
                         ForEach(shownAliases, id: \.self) { alias in
                             Text(alias)
-                                .font(.subheadline.weight(.semibold))
-                                .padding(.horizontal, 10)
+                                .sectionLabel()
+                                .padding(.horizontal, Spacing.lg)
                                 .padding(.vertical, 5)
-                                .background(Color(.tertiarySystemFill), in: Capsule())
+                                .background(Color.platformTertiarySystemFill, in: Capsule())
                         }
                         if overflowCount > 0 {
                             Text("+ \(overflowCount) chemical names", comment: "Alias overflow count")
@@ -308,7 +306,9 @@ private struct SubstanceDetailHeader: View {
             .textCase(nil)
             .listRowInsets(EdgeInsets())
         }
+        #if canImport(UIKit)
         .listSectionSpacing(8)
+        #endif
     }
 
     private var aliasAccessibilityLabel: String {
@@ -332,11 +332,11 @@ struct CategoryChip: View {
             .tracking(0.6)
             .foregroundStyle(category.labelColor)
             .padding(.horizontal, 9)
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
             // 0.10 is the alpha every scale's `text` variant is gated against. At
             // 0.14 this measured 4.40:1 on device — a fill a few percent darker
             // than the one a token was derived for is enough to fail its gate.
-            .background(category.color.opacity(0.10), in: Capsule())
+            .background(category.color.opacity(Theme.Opacity.tint), in: Capsule())
             .accessibilityLabel(Text(category.displayName))
     }
 }

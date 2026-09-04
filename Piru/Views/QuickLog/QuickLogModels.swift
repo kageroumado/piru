@@ -386,6 +386,32 @@ final class QuickLogContentModel {
         hasLoaded = true
     }
 
+    // MARK: Dock browse
+
+    /// The effect-family pills the dock shows in its suggestions state.
+    private(set) var browseFamilies: [LibraryFamily] = []
+    /// The family whose substances the dock is listing, or `nil` for the bare
+    /// pill row.
+    var selectedFamilyID: String?
+    /// Top-by-popularity substances of the selected family.
+    var browseResults: [Substance] = []
+
+    /// Resolve the browsable taxonomy. `LibraryFamily.browsable` reads
+    /// `SubstanceStore.all`, so the store's prewarm has to finish first — the
+    /// dock can appear before it does on a cold launch. Resolved once: the
+    /// taxonomy is static over a session.
+    func loadBrowseFamilies() async {
+        guard browseFamilies.isEmpty else { return }
+        await SubstanceStore.shared.ensureAllLoaded()
+        browseFamilies = LibraryFamily.browsable
+    }
+
+    /// Drop the family selection, returning the dock's browse face to its pills.
+    func clearBrowseSelection() {
+        selectedFamilyID = nil
+        browseResults = []
+    }
+
     // MARK: Rebuilds
 
     func rebuildColorLookup(substanceColors: [SubstanceColor]) {
@@ -629,13 +655,21 @@ final class QuickLogContentModel {
             items.filter { takenToday($0) < max(1, $0.reminderTimesMinutes.count) }
         }
 
+        func medName(_ item: DailyDoseItem) -> String {
+            item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance)
+        }
+
         var groups: [DailyCategoryGroup] = MedTimeGroup.allCases.compactMap { group in
             guard group != .asNeeded else { return nil }
             let items = dailyDoseItems.filter { MedTimeGroup.belongs($0, to: group) }
             guard !items.isEmpty else { return nil }
+            // A slot holding one med is titled by the med: "✓ Anytime" reads
+            // as a substance called Anytime being checked, "✓ Memantine" reads
+            // as the med being taken. The slot's icon still says when.
+            let title = items.count == 1 ? medName(items[0]) : String(localized: group.label)
             return DailyCategoryGroup(
                 id: group.slug,
-                title: String(localized: group.label),
+                title: title,
                 icon: group.symbol,
                 items: items,
                 remaining: remaining(in: items),
@@ -648,7 +682,7 @@ final class QuickLogContentModel {
             let capped = item.maxPerDay.map { takenToday(item) >= $0 } ?? false
             groups.append(DailyCategoryGroup(
                 id: "prn-\(item.identityKey)-\(item.sortOrder)",
-                title: item.productName ?? CustomSubstanceStore.shared.displayName(for: item.substance),
+                title: medName(item),
                 icon: "cross.vial",
                 items: [item],
                 remaining: capped ? [] : [item],

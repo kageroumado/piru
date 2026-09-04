@@ -206,6 +206,43 @@ nonisolated struct PsyLogLocation: Codable {
     var longitude: Double?
 }
 
+/// PsychonautWiki's timed note (`TimedNoteCodable`): a free-text note pinned to a
+/// moment inside an experience. `color` is one of PW's named substance colors and
+/// `isPartOfTimeline` whether PW draws it on its graph; Piru writes `blue` and
+/// `true` and reads neither back.
+nonisolated struct PsyLogTimedNote: Codable {
+    var creationDate: Int64
+    var time: Int64
+    var note: String
+    var color: String
+    var isPartOfTimeline: Bool
+
+    init(time: Int64, note: String, creationDate: Int64? = nil) {
+        self.time = time
+        self.note = note
+        self.creationDate = creationDate ?? time
+        color = "blue"
+        isPartOfTimeline = true
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case creationDate
+        case time
+        case note
+        case color
+        case isPartOfTimeline
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        time = try c.decode(Int64.self, forKey: .time)
+        note = try c.decodeIfPresent(String.self, forKey: .note) ?? ""
+        creationDate = try c.decodeIfPresent(Int64.self, forKey: .creationDate) ?? time
+        color = try c.decodeIfPresent(String.self, forKey: .color) ?? "blue"
+        isPartOfTimeline = try c.decodeIfPresent(Bool.self, forKey: .isPartOfTimeline) ?? true
+    }
+}
+
 nonisolated struct PsyLogExperience: Codable {
     var title: String
     var isFavorite: Bool
@@ -214,6 +251,7 @@ nonisolated struct PsyLogExperience: Codable {
     var text: String
     var location: PsyLogLocation?
     var ingestions: [PsyLogIngestion]
+    var timedNotes: [PsyLogTimedNote]
 
     private enum CodingKeys: String, CodingKey {
         case title
@@ -227,7 +265,7 @@ nonisolated struct PsyLogExperience: Codable {
         case timedNotes
     }
 
-    init(title: String, text: String = "", creationDate: Int64, sortDate: Int64, location: PsyLogLocation? = nil, ingestions: [PsyLogIngestion]) {
+    init(title: String, text: String = "", creationDate: Int64, sortDate: Int64, location: PsyLogLocation? = nil, ingestions: [PsyLogIngestion], timedNotes: [PsyLogTimedNote] = []) {
         self.title = title
         self.isFavorite = false
         self.creationDate = creationDate
@@ -235,6 +273,7 @@ nonisolated struct PsyLogExperience: Codable {
         self.text = text
         self.location = location
         self.ingestions = ingestions
+        self.timedNotes = timedNotes
     }
 
     init(from decoder: Decoder) throws {
@@ -244,6 +283,9 @@ nonisolated struct PsyLogExperience: Codable {
         text = try c.decodeIfPresent(String.self, forKey: .text) ?? ""
         location = try c.decodeIfPresent(PsyLogLocation.self, forKey: .location)
         ingestions = try c.decodeIfPresent([PsyLogIngestion].self, forKey: .ingestions) ?? []
+        // Older Piru exports wrote `timedNotes: []` as a string-array placeholder;
+        // anything that isn't PW's object shape reads as no notes.
+        timedNotes = (try? c.decodeIfPresent([PsyLogTimedNote].self, forKey: .timedNotes)) ?? []
         // PsychonautWiki writes `sortDate: null` for experiences that never had
         // one, and its own importer falls back to the earliest ingestion — so
         // must we. Both dates are lenient: a missing one falls back to the
@@ -264,7 +306,7 @@ nonisolated struct PsyLogExperience: Codable {
         try c.encode(location, forKey: .location)
         try c.encode(sortDate, forKey: .sortDate)
         try c.encode(text, forKey: .text)
-        try c.encode([String](), forKey: .timedNotes)
+        try c.encode(timedNotes, forKey: .timedNotes)
         try c.encode(ingestions, forKey: .ingestions)
     }
 }
@@ -410,7 +452,7 @@ extension DataExportImport {
         titleFormatter.locale = Locale(identifier: "en_US")
         let calendar = Calendar.current
 
-        var groups: [(title: String, note: String, start: Date, doses: [DoseEntry])] = []
+        var groups: [(title: String, note: String, start: Date, doses: [DoseEntry], notes: [SessionNote])] = []
         for (session, doses) in Dictionary(grouping: entries, by: { $0.session }) {
             let sorted = doses.sorted { $0.timestamp < $1.timestamp }
             if let session {
@@ -419,10 +461,13 @@ extension DataExportImport {
                     note: session.note ?? "",
                     start: session.startDate,
                     doses: sorted,
+                    // The summary already rides in `text`; PW's timed notes carry the
+                    // rest of the timeline.
+                    notes: session.orderedNotes.filter { $0.kind != .summary },
                 ))
             } else {
                 for (day, dayDoses) in Dictionary(grouping: sorted, by: { calendar.sessionDayStart(for: $0.timestamp) }) {
-                    groups.append((title: titleFormatter.string(from: day), note: "", start: day, doses: dayDoses))
+                    groups.append((title: titleFormatter.string(from: day), note: "", start: day, doses: dayDoses, notes: []))
                 }
             }
         }
@@ -452,6 +497,12 @@ extension DataExportImport {
                 sortDate: startMs,
                 location: group.doses.lazy.compactMap(psyLogLocation).first,
                 ingestions: ingestions,
+                // PW has one text field per note, so the structure (rating, mood,
+                // energy, descriptors) is flattened into the line — the native
+                // format keeps the fields.
+                timedNotes: group.notes.map { note in
+                    PsyLogTimedNote(time: note.timestamp.msSince1970, note: TripReport.flattenedLine(for: note))
+                },
             )
         }
 
@@ -545,6 +596,10 @@ extension DataExportImport {
                 dose.session = session
             }
             session.refreshDoseBounds()
+            for timed in experience.timedNotes where !timed.note.trimmingCharacters(in: .whitespaces).isEmpty {
+                context.insert(SessionNote(timestamp: Date(ms: timed.time), text: timed.note, session: session))
+            }
+            SessionNoteService.ensureSummaryNote(for: session)
         }
 
         // Track imported colors to avoid duplicates — seeded with existing

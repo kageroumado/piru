@@ -69,7 +69,7 @@ private struct PushRouteView: View {
         case .timeline:
             UnifiedTimelineView()
                 .navigationTitle("Timeline")
-                .navigationBarTitleDisplayMode(.inline)
+                .inlineNavigationTitle()
 
         case let .substance(name):
             // Push a **lightweight shell** (the warm batch projection's hot
@@ -110,10 +110,19 @@ private struct PushRouteView: View {
         case .libraryCustom:
             CustomSubstancesListView()
 
+        case .libraryUnits:
+            CustomUnitsView()
+
+        case .libraryColors:
+            SubstanceColorsListView()
+
         case let .tool(tool):
             toolView(for: tool)
                 .navigationTitle(Text(tool.name))
-                .navigationBarTitleDisplayMode(.inline)
+                .inlineNavigationTitle()
+
+        case .dataStorage:
+            DataStorageView()
 
         case let .drugClass(slug):
             DrugClassDetailView(slug: slug)
@@ -123,12 +132,12 @@ private struct PushRouteView: View {
 
         case let .insight(insight):
             insightView(for: insight)
-                .navigationBarTitleDisplayMode(.inline)
+                .inlineNavigationTitle()
 
         case let .insightGroup(group):
-            InsightGroupView(group: group)
+            insightGroupView(for: group)
                 .navigationTitle(group.title)
-                .navigationBarTitleDisplayMode(.inline)
+                .inlineNavigationTitle()
 
         case .myMeds:
             MyMedsHubView()
@@ -151,12 +160,20 @@ private struct PushRouteView: View {
         case .adherence: AdherenceView().navigationTitle("Adherence")
         case .usage: UsageStatsView().navigationTitle("Usage")
         case .tolerance: ToleranceToolView().navigationTitle("Tolerance")
-        case .inSystem: InYourSystemView().navigationTitle("In Your System")
-        case .bodyLoad: BodyLoadView().navigationTitle("In Your Body")
+        case .inSystem: InYourBodyView().navigationTitle("In Your Body")
+        case .bodyLoad: InYourBodyView().navigationTitle("In Your Body")
         case .receptorLoad: ReceptorLoadView().navigationTitle("Receptor Load")
-        case .steadyStateProjection: BodyLoadView().navigationTitle("In Your Body")
+        case .steadyStateProjection: InYourBodyView().navigationTitle("In Your Body")
         case .patterns: PatternsView().navigationTitle("Patterns")
         case .reports: ReportsView().navigationTitle("Reports")
+        }
+    }
+
+    @ViewBuilder
+    private func insightGroupView(for group: InsightGroup) -> some View {
+        switch group {
+        case .inYourBody: InYourBodyView()
+        case .toleranceReceptors: InsightGroupView(group: group)
         }
     }
 
@@ -176,6 +193,7 @@ private struct PushRouteView: View {
         case .effectSandbox: EffectSandboxView()
         case .steadyState: SteadyStateView()
         case .drugClasses: DrugClassListView()
+        case .identify: IdentifyBoxView()
         }
     }
 

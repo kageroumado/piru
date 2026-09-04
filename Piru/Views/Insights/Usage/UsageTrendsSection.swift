@@ -44,17 +44,15 @@ struct UsageTrendsSection: View {
         UsageSectionCard(title: "Substance trends", subtitle: subtitle) {
             if trends.isEmpty {
                 Text("Not enough history yet")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.vertical, 16)
+                    .padding(.vertical, Spacing.xxl)
             } else {
                 if metricTrends.isEmpty {
                     Text("No common dose defined for these substances")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.vertical, 16)
+                        .padding(.vertical, Spacing.xxl)
                 } else {
                     UsageTrendsChart(
                         series: visibleSeries,
@@ -89,8 +87,8 @@ struct UsageTrendsSection: View {
     }
 
     private var legend: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            FlowLayout(spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            FlowLayout(spacing: Spacing.md) {
                 ForEach(legendTrends) { item in
                     legendChip(item)
                 }
@@ -120,10 +118,8 @@ struct UsageTrendsSection: View {
                 }
             }
         } label: {
-            HStack(spacing: 4) {
-                Circle()
-                    .fill(style.color(item.substanceIndex))
-                    .frame(width: 8, height: 8)
+            HStack(spacing: Spacing.xs) {
+                LegendDot(color: style.color(item.substanceIndex))
                     .opacity(isHidden ? 0.3 : 1)
                 Text(name)
                     .font(.caption2)
@@ -177,7 +173,7 @@ private struct UsageTrendsChart: View {
             }
             if let selectedDate {
                 RuleMark(x: .value("Selected", selectedDate))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(0.4))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.muted))
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [3, 3]))
             }
         }
@@ -188,7 +184,7 @@ private struct UsageTrendsChart: View {
         .chartYAxis {
             AxisMarks(position: .leading) { _ in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(0.5))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                 AxisValueLabel()
                     .font(.caption2)
             }
@@ -196,7 +192,7 @@ private struct UsageTrendsChart: View {
         .chartXAxis {
             AxisMarks(values: .automatic(desiredCount: 4)) { _ in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                    .foregroundStyle(Theme.secondaryLabel.opacity(0.5))
+                    .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                 AxisValueLabel(format: weekly ? .dateTime.month(.abbreviated) : .dateTime.month(.abbreviated).day())
                     .font(.caption2)
             }
@@ -276,9 +272,9 @@ private struct UsageTrendsReadout: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
         }
-        .padding(8)
+        .padding(Spacing.md)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .themeCard(cornerRadius: 10)
+        .themeCard(cornerRadius: Theme.CornerRadius.inner)
         .accessibilityElement(children: .combine)
         .transition(.opacity)
     }

@@ -28,7 +28,7 @@ struct DoseTimeSettingsView: View {
                     }
                 }
             } header: {
-                Text("Quick Times")
+                Text("Dose Times")
             } footer: {
                 Text("These appear in the “When” menu when logging a dose, alongside Now and the full date picker. Swipe to remove, drag to reorder.")
             }
@@ -42,20 +42,21 @@ struct DoseTimeSettingsView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
-        .navigationTitle("Quick Times")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar { EditButton() }
-        .sheet(isPresented: $showAdd) {
-            DoseTimeAddSheet(existing: choices) { minutes in
-                choices.append(minutes)
+        .themedPage()
+        .navigationTitle("Dose Times")
+        .inlineNavigationTitle()
+        #if os(iOS)
+            .toolbar { EditButton() }
+        #endif
+            .sheet(isPresented: $showAdd) {
+                DoseTimeAddSheet(existing: choices) { minutes in
+                    choices.append(minutes)
+                }
             }
-        }
-        .onAppear { choices = DoseTimeDefaults.parse(choicesRaw) }
-        .onChange(of: choices) { _, new in
-            choicesRaw = DoseTimeDefaults.format(new)
-        }
+            .onAppear { choices = DoseTimeDefaults.parse(choicesRaw) }
+            .onChange(of: choices) { _, new in
+                choicesRaw = DoseTimeDefaults.format(new)
+            }
     }
 
     private func delete(at offsets: IndexSet) {
@@ -97,11 +98,15 @@ private struct DoseTimeAddSheet: View {
                         Picker("Hours", selection: $hours) {
                             ForEach(0 ..< 24) { Text("\($0) h").tag($0) }
                         }
+                        #if os(iOS)
                         .pickerStyle(.wheel)
+                        #endif
                         Picker("Minutes", selection: $minutes) {
                             ForEach(0 ..< 60) { Text("\($0) min").tag($0) }
                         }
+                        #if os(iOS)
                         .pickerStyle(.wheel)
+                        #endif
                     }
                     .labelsHidden()
                 } footer: {
@@ -114,10 +119,9 @@ private struct DoseTimeAddSheet: View {
                     }
                 }
             }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .navigationTitle("Add Preset")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }

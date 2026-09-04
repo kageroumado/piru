@@ -193,7 +193,7 @@ struct DoseEntryTests {
   1. **Each section → its own `View` `struct` with narrow inputs** — only the fields it reads (value types by `let`, shared mutable state by `@Binding`, its own `@Environment`, actions as closures). **Not** a `private var section: some View` and **not** a `@ViewBuilder` helper — those share the parent's invalidation boundary and buy nothing.
   2. **More than ~6 `@State` is a smell.** Async-loaded data belongs in an `@Observable @MainActor` model filled in `.task`; a multi-field edit draft belongs in **one** `@Observable` draft model. Keep only genuine UI toggles as `@State`.
   3. Reference example: the giant-view decomposition of `SubstanceDetailView`/`SessionDetailView`/`EntryDetailView`/`QuickLogDock`/`ToleranceToolView` (each 1200–1600 lines → a thin coordinator + narrow-input subviews + an `@Observable` model). Follow the `swiftui-specialist` skill (`structure.md`, `dataflow.md`) when doing this.
-- **iOS 26+** minimum deployment target (Liquid Glass UI throughout)
+- **iOS 26+ / macOS 26+** minimum deployment targets (Liquid Glass UI throughout)
 - **Swift 6** strict concurrency (`default-isolation=MainActor`)
 - **No `Text + Text` concatenation.** The SwiftUI `+` operator on `Text` is deprecated in iOS 26 and trips a build warning (`'+' was deprecated in iOS 26.0: Use string interpolation on Text`). Build the value in one shot instead: a single `Text("… \(value) …")`, or — when several **independently localized** pieces must join (e.g. an `accessibilityValue`) — compose a plain `String` from `String(localized:)` pieces and pass that (`"\(status), \(position)"` assigned to a `let`, so it resolves to the `StringProtocol` overload rather than minting a `"%@, %@"` catalog key). Keep the build warning-clean; don't leave these to accumulate.
 - Colors: accent from `Assets.xcassets` (soft pink light / hot pink dark), substances get user-assignable `PresetColor`s
@@ -204,3 +204,33 @@ struct DoseEntryTests {
 - Interaction rules are class-based (e.g., "stimulant + MAOI"), not per-substance
 - Notifications use `threadIdentifier` for session-based grouping (6-hour windows)
 - `nonisolated(unsafe)` in LiveActivityManager is intentional (Apple's Activity API not Sendable)
+
+## Multiplatform (iOS + macOS)
+
+The app builds for both iOS and native macOS (not Catalyst) from a single target. Platform-specific code uses a naming convention enforced by `EXCLUDED_SOURCE_FILE_NAMES` in the build settings — no `#if` wrappers needed in these files.
+
+| File suffix | Compiled on | Excluded from |
+|---|---|---|
+| `Foo+iOS.swift` | iOS/iPadOS only | macOS (`sdk=macosx*`) |
+| `Foo+macOS.swift` | macOS only | iOS (`sdk=iphoneos*`, `sdk=iphonesimulator*`) |
+| `Foo.swift` (no suffix) | both platforms | neither |
+
+**Standalone iOS-only files** live in `Piru/iOS/` (camera scanner, WatchConnectivity, UIKit PDF rendering). They are also excluded on macOS via the same build setting.
+
+**Companion files** live next to their parent: `DoseIntensityCard+iOS.swift` beside `DoseIntensityCard.swift`, `ImageQuickLook+macOS.swift` beside `ImageQuickLook+iOS.swift`. The companion contains the platform-specific type definitions (`UIViewRepresentable`, `UIGestureRecognizerRepresentable`, `NSViewRepresentable`); the parent references them from call sites that are themselves inside `#if canImport(UIKit)` / `#if os(iOS)` guards.
+
+**`PlatformCompat.swift`** (`Piru/Utilities/`) is the cross-platform adapter layer:
+- Type aliases: `PlatformImage` (`UIImage`/`NSImage`), `PlatformColor`, `PlatformFont`, `PlatformView`
+- `PlatformPasteboard.copy(_:)` — clipboard
+- `PlatformHaptics.success()` / `.impact()` — no-op on macOS
+- `openPlatformSettings()` / `openNotificationSettings()`
+- View modifiers that absorb inline `#if`: `.inlineNavigationTitle()`, `.insetGroupedListStyle()`, `.decimalKeyboard()`, `.neverAutocapitalize()`, `.wordsAutocapitalize()`, `.permanentEditMode()`, `.compactListSectionSpacing()`
+- Toolbar placement: `.platformTopBarTrailing` / `.platformTopBarLeading`
+- System colors: `Color.platformSystemBackground`, `.platformSecondarySystemFill`, `.platformTertiarySystemFill`, `.platformQuaternaryLabel`, `.platformTertiaryLabel`, `.platformSystemGray`, etc.
+
+**Rules:**
+- Use the view modifier shims (`.inlineNavigationTitle()` not `#if canImport(UIKit) .navigationBarTitleDisplayMode(.inline) #endif`).
+- Use `Color.platformTertiarySystemFill` not `Color(.tertiarySystemFill)` — the `Color(_: UIColor)` initializer doesn't exist on macOS.
+- Use `.platformTopBarTrailing` not `.topBarTrailing` — the latter is unavailable on macOS.
+- `LiveActivityManager` has a macOS stub with no-op methods — call sites compile on both platforms without guards.
+- `fullScreenCover` doesn't exist on macOS; use `#if os(iOS) .fullScreenCover(...) #else .sheet(...) #endif` at call sites, or avoid `fullScreenCover` in new code.

@@ -124,10 +124,9 @@ struct MedFormView: View {
                 }
                 .listRowBackground(CardBackground())
             }
-            .scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .themedPage()
             .navigationTitle(isEditing ? "Edit Med" : "Add a Med")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }
@@ -163,7 +162,7 @@ struct MedFormView: View {
         return Section {
             HStack {
                 TextField("Amount", value: $draft.amount, format: .number)
-                    .keyboardType(.decimalPad)
+                    .decimalKeyboard()
                 Picker("Unit", selection: $draft.unit) {
                     ForEach(currentUnits, id: \.self) { Text($0) }
                 }
@@ -182,7 +181,7 @@ struct MedFormView: View {
         } header: {
             Text("Dosage")
         } footer: {
-            Text("A logged dose checks this med off when the substance and route match — the same substance by another route stays a regular journal entry.")
+            Text("Checked off by a logged dose of the same substance and route.")
         }
     }
 
@@ -258,7 +257,7 @@ struct MedFormView: View {
         } header: {
             Text("Times")
         } footer: {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
                 if draft.times.isEmpty {
                     Text("No set time — this med still counts toward adherence once per due day.")
                 } else if draft.remind {
@@ -285,7 +284,7 @@ struct MedFormView: View {
                 Label("Quiet med", systemImage: "leaf")
             }
         } footer: {
-            Text("For supplements and other low-key meds: they fold into one \u{201C}Supplements\u{201D} row, share a single reminder per time of day, and stay off the timeline graphs. Adherence still counts them.")
+            Text("Grouped under Supplements, off the timeline graphs. Reminders are silent.")
         }
     }
 
@@ -294,17 +293,17 @@ struct MedFormView: View {
         return Section {
             Toggle("Next-dose window reminder", isOn: $draft.nextDoseReminder)
         } footer: {
-            Text("After you log this med, a nudge when the model says its next dose window opens. An estimate, not medical advice — follow your prescriber's schedule.")
+            Text("Fires when the model's next dose window opens after a logged dose. Estimate only.")
         }
     }
 
     private var weekdayPicker: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Text("Days")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityAddTraits(.isHeader)
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 ForEach(Self.weekdaySymbols, id: \.index) { day in
                     let isSelected = draft.selectedWeekdays.contains(day.index)
                     Button {
@@ -314,53 +313,28 @@ struct MedFormView: View {
                             draft.selectedWeekdays.insert(day.index)
                         }
                     } label: {
-                        // 44pt hit target around the 34pt circle; the negative
-                        // padding keeps the row's layout identical.
                         Text(String(day.short.prefix(2)))
                             .font(.caption.weight(.semibold))
-                            .frame(width: 34, height: 34)
-                            .background(isSelected ? Theme.accent : Color(.tertiarySystemFill))
-                            .foregroundStyle(isSelected ? .white : .primary)
-                            .clipShape(Circle())
-                            .frame(width: 44, height: 44)
-                            .contentShape(Rectangle())
+                            .selectableChip(isSelected: isSelected)
                     }
                     .buttonStyle(.plain)
+                    // Cancels the chip's hit-target frame back to the visible
+                    // circle so the row's layout is unchanged.
                     .padding(-5)
                     .accessibilityLabel(day.full)
                     .accessibilityAddTraits(isSelected ? .isSelected : [])
                 }
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     @ViewBuilder
     private var scheduleFooter: some View {
         if draft.isAsNeeded {
-            Text("No schedule and never marked missed — adherence doesn't count as-needed meds. A daily limit feeds the cumulative dose warnings.")
-        } else {
-            switch draft.frequency {
-            case .daily:
-                Text("Checked every day.")
-            case .everyOtherDay:
-                Text("Checked every 2 days starting from the start date.")
-            case .weekly:
-                Text("Checked once per week on the same day as the start date.")
-            case .biweekly:
-                Text("Checked every 2 weeks on the same day as the start date.")
-            case .monthly:
-                Text("Checked once per month on the same day-of-month as the start date.")
-            case .specificDays:
-                if draft.selectedWeekdays.isEmpty {
-                    Text("Select at least one day.")
-                } else {
-                    let names = draft.selectedWeekdays.sorted().compactMap { idx in
-                        Self.weekdaySymbols.first { $0.index == idx }?.short
-                    }
-                    Text("Checked every \(names.joined(separator: ", ")).")
-                }
-            }
+            Text("Never marked missed. A daily limit feeds the cumulative dose warnings.")
+        } else if draft.frequency == .specificDays, draft.selectedWeekdays.isEmpty {
+            Text("Select at least one day.")
         }
     }
 

@@ -63,7 +63,7 @@ nonisolated enum CombinationMetabolite {
         var cautionNote: LocalizedStringResource {
             switch self {
             case .cocaethylene:
-                "Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated \"18–25× sudden death\" figure is not supported by the evidence — but the added cardiac and liver strain is real, so it's worth avoiding the mix.)"
+                "Cocaethylene adds extra strain on the heart and liver beyond cocaine alone, so this combination is harder on your body. (The widely-repeated \"18–25× sudden death\" figure is not supported by the evidence — but the added cardiac and liver strain is real, )"
             case .ethylphenidate:
                 "The mix adds cardiovascular strain beyond either alone, and the ethylphenidate it forms outlasts the methylphenidate itself, so the load on your heart is stretched out rather than added up."
             }

@@ -26,9 +26,9 @@ struct OverviewSection: View {
             // disclosure — you see what the substance *is* without a tap.
             let isLong = overview.text.count > collapsedThreshold
             Section {
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: Spacing.md) {
                     Text("Overview")
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                     Text(overview.text)
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
@@ -85,7 +85,7 @@ struct HistorySection: View {
                 let displayEntries = showAllHistory ? entries : Array(entries.prefix(10))
                 ForEach(displayEntries) { entry in
                     HStack {
-                        VStack(alignment: .leading, spacing: 2) {
+                        VStack(alignment: .leading, spacing: Spacing.xxs) {
                             Text("\(entry.amount.doseFormatted) \(entry.unit)")
                                 .font(.subheadline)
                             Text(entry.route.localizedName)
@@ -94,8 +94,7 @@ struct HistorySection: View {
                         }
                         Spacer()
                         Text(entry.timestamp.formatted(date: .abbreviated, time: .shortened))
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                     }
                     .accessibilityElement(children: .combine)
                 }
@@ -110,23 +109,21 @@ struct HistorySection: View {
                 }
             } label: {
                 HStack {
-                    VStack(alignment: .leading, spacing: 2) {
+                    VStack(alignment: .leading, spacing: Spacing.xxs) {
                         Text("^[\(count) entry](inflect: true)")
                             .font(.subheadline.weight(.medium))
                         if let earliest, let latest {
                             if Calendar.current.isDate(earliest, equalTo: latest, toGranularity: .month) {
                                 Text(earliest.formatted(.dateTime.month(.wide).year()))
-                                    .font(.caption)
-                                    .foregroundStyle(Theme.secondaryLabel)
+                                    .captionSecondary()
                             } else {
                                 Text("\(earliest.formatted(.dateTime.month(.abbreviated).year())) – \(latest.formatted(.dateTime.month(.abbreviated).year()))")
-                                    .font(.caption)
-                                    .foregroundStyle(Theme.secondaryLabel)
+                                    .captionSecondary()
                             }
                         }
                     }
                     Spacer()
-                    VStack(alignment: .trailing, spacing: 2) {
+                    VStack(alignment: .trailing, spacing: Spacing.xxs) {
                         if stats.minDose == stats.maxDose {
                             Text("\(stats.minDose.doseFormatted) \(unit)")
                                 .font(.subheadline.weight(.medium))
@@ -135,8 +132,7 @@ struct HistorySection: View {
                                 .font(.subheadline.weight(.medium))
                         }
                         Text("Most common: \(stats.mostCommon.doseFormatted) \(unit)")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                     }
                 }
             }
@@ -216,10 +212,20 @@ struct SubstanceStatusMarker: View {
             }
         }
 
-        var tint: Color {
+        /// The label and glyph *inside* the pill, so it is the `text` variant:
+        /// an `accent` mark drawn on an `accent`-derived fill measures 2.82:1.
+        var labelColor: Color {
             switch self {
-            case .researchCompound, .limitedHumanData: .orange
-            case .peptideProtocol, .prescription, .medicalReference: .blue
+            case .researchCompound, .limitedHumanData: .cautionText
+            case .peptideProtocol, .prescription, .medicalReference: .infoText
+            }
+        }
+
+        /// The mark color the pill's fill is derived from.
+        var markColor: Color {
+            switch self {
+            case .researchCompound, .limitedHumanData: .cautionAccent
+            case .peptideProtocol, .prescription, .medicalReference: .infoAccent
             }
         }
     }
@@ -229,12 +235,12 @@ struct SubstanceStatusMarker: View {
     var body: some View {
         Label(kind.title, systemImage: kind.systemImage)
             .font(.caption2.weight(.semibold))
-            .foregroundStyle(kind.tint)
+            .foregroundStyle(kind.labelColor)
             .padding(.horizontal, 9)
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
             // Matches ``CategoryChip``'s fill: 0.10 is the alpha the accent
             // scales' text variants are contrast-gated against.
-            .background(kind.tint.opacity(0.10), in: Capsule())
+            .background(kind.markColor.opacity(Theme.Opacity.tint), in: Capsule())
             .fixedSize(horizontal: false, vertical: true)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(Text(kind.detail))

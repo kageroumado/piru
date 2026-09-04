@@ -14,7 +14,6 @@ struct PharmacologyParametersTests {
         #expect(p.vdLPerKg == nil)
         #expect(p.targets.isEmpty)
         #expect(!p.canComputeOccupancy)
-        #expect(p.occupancyConfidence == .unverified)
     }
 
     @Test
@@ -76,13 +75,6 @@ struct PharmacologyParametersTests {
         #expect(light > heavy)
     }
 
-    @Test
-    func `Occupancy confidence is the weakest link`() {
-        // Caffeine: Vd graded HIGH but its adenosine Kᵢ graded MEDIUM → overall MEDIUM.
-        let p = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "Caffeine")
-        #expect(p.occupancyConfidence == .medium)
-    }
-
     /// Regression: a substance dosed by an **alias** resolves its full pharmacology. Canonical is now
     /// "LSD"; the systematic "Lysergic Acid Diethylamide" is the alias. The per-field accessors used to
     /// resolve via `nameIndex` (canonical only), so a dose logged under the non-canonical name came back
@@ -106,12 +98,11 @@ struct PharmacologyParametersTests {
     /// stored Vd is an apparent V/F, so F = 1 is the consistent reading — and it keeps the canonical
     /// MDMA serotonergic tolerance computable instead of silently dropped.
     @Test
-    func `Unmeasured bioavailability defaults to 1.0 and caps occupancy confidence at unverified`() {
+    func `Unmeasured bioavailability defaults to 1.0, flagged unverified`() {
         let p = SubstanceStore.shared.pharmacologyParameters(forSubstanceName: "MDMA")
         #expect(p.bioavailabilityFraction == 1.0)
         #expect(p.bioavailabilityConfidence == .unverified)
         #expect(p.canComputeOccupancy) // was dropped (F nil) before the default
-        #expect(p.occupancyConfidence == .unverified) // F is the weakest link
     }
 
     /// Phase 2b: a logged *preparation* resolves its pharmacology from its active constituent and
@@ -180,7 +171,6 @@ struct PharmacologyParametersTests {
         #expect(p.canComputeOccupancy)
         let occ = try #require(p.peakPrimaryOccupancy(doseMg: 100, weightKg: 70))
         #expect(occ > 0)
-        #expect(p.occupancyConfidence <= .low)
     }
 
     /// The reference borrow is SINGLE-HOP: the surrogate (mephedrone) must carry real PK of its own and

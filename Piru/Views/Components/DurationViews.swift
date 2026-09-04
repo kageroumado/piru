@@ -30,10 +30,8 @@ struct DurationPhaseRows: View {
 
     private func row(_ label: LocalizedStringResource, value: String, color: Color) -> some View {
         HStack {
-            HStack(spacing: 6) {
-                Circle()
-                    .fill(color)
-                    .frame(width: 8, height: 8)
+            HStack(spacing: Spacing.sm) {
+                LegendDot(color: color)
                 Text(label)
                     .foregroundStyle(Theme.secondaryLabel)
             }

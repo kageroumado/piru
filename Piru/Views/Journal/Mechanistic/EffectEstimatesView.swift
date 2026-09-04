@@ -29,21 +29,20 @@ struct EffectEstimatesCard: View {
                     ignored: ignored,
                 )
             } label: {
-                HStack(spacing: 12) {
+                HStack(spacing: Spacing.xl) {
                     EffectThumbnail(result: result)
                         .frame(width: 54, height: 44)
                     VStack(alignment: .leading, spacing: 3) {
-                        HStack(spacing: 6) {
+                        HStack(spacing: Spacing.sm) {
                             Text("Effect Estimates")
-                                .font(.piru(.headline))
+                                .cardTitle()
                             ExperimentalTag()
                         }
                         Text("How this session may feel over time")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+                            .captionSecondary()
                     }
                 }
-                .padding(.vertical, 2)
+                .padding(.vertical, Spacing.xxs)
             }
         }
     }
@@ -55,10 +54,10 @@ struct ExperimentalTag: View {
     var body: some View {
         Text("Experimental")
             .font(.caption2.weight(.semibold))
-            .foregroundStyle(.secondary)
+            .foregroundStyle(Theme.secondaryLabel)
             .padding(.horizontal, 7)
-            .padding(.vertical, 2)
-            .background(Color(.secondarySystemFill), in: Capsule())
+            .padding(.vertical, Spacing.xxs)
+            .background(Color.platformSecondarySystemFill, in: Capsule())
     }
 }
 
@@ -104,8 +103,8 @@ struct EffectThumbnail: View {
             ))
             context.stroke(line, with: .color(lens.color), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
         }
-        .background(lens.color.opacity(0.08), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
-        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .background(lens.color.opacity(Theme.Opacity.hairline), in: RoundedRectangle(cornerRadius: Theme.CornerRadius.inner, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.inner, style: .continuous))
         .accessibilityHidden(true)
     }
 }
@@ -113,9 +112,9 @@ struct EffectThumbnail: View {
 // MARK: - Dedicated screen
 
 /// The full effect-estimates screen: a large title, one short model card, every
-/// mechanistic lens as its own tall card, and two collapsed detail groups at the
-/// bottom for coverage and how to read the estimate. The full methodology lives
-/// one push deeper in ``EffectModelExplainerView`` so this screen stays glanceable.
+/// mechanistic lens as its own tall card, and two detail cards at the bottom for
+/// coverage and how to read the estimate. The full methodology lives one push
+/// deeper in ``EffectModelExplainerView`` so this screen stays glanceable.
 struct EffectEstimatesView: View {
     let result: MechanisticSessionModel.Result
     let startDate: Date
@@ -138,38 +137,42 @@ struct EffectEstimatesView: View {
             ForEach(result.activeLenses) { lens in
                 lensCard(lens)
             }
-            coverageGroup
-            readingGroup
+            coverageSection
+            readingSection
         }
+        .insetGroupedListStyle()
         .scrollContentBackground(.hidden)
-        .listSectionSpacing(16)
+        .compactListSectionSpacing()
         .background(Theme.background)
+        .readableWidth()
         .navigationTitle("Effect Estimates")
-        .navigationBarTitleDisplayMode(.large)
+        #if canImport(UIKit)
+            .navigationBarTitleDisplayMode(.large)
+        #endif
     }
 
     // MARK: Intro — one short model card
 
     private var introSection: some View {
         Section {
-            VStack(alignment: .leading, spacing: 10) {
-                HStack(spacing: 8) {
+            VStack(alignment: .leading, spacing: Spacing.lg) {
+                HStack(spacing: Spacing.md) {
                     Image(systemName: "waveform.path.ecg.rectangle")
                         .foregroundStyle(Theme.accent)
                         .accessibilityHidden(true)
                     Text("Modeled from pharmacology")
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                     Spacer(minLength: 0)
                     ExperimentalTag()
                 }
-                Text("These curves estimate how this session may feel over time — how effects rise, peak, and fade, and how strong they get. Redoses and each substance's full duration are included, so a bigger dose lifts the curve higher.")
+                Text("One curve per effect, combined from every substance and dose in the session.")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                     .fixedSize(horizontal: false, vertical: true)
                 NavigationLink {
                     EffectModelExplainerView()
                 } label: {
-                    HStack(spacing: 4) {
+                    HStack(spacing: Spacing.xs) {
                         Image(systemName: "function")
                             .imageScale(.small)
                         Text("How this works")
@@ -179,7 +182,7 @@ struct EffectEstimatesView: View {
                 }
                 .buttonStyle(.plain)
             }
-            .padding(.vertical, 2)
+            .padding(.vertical, Spacing.xxs)
             .listRowBackground(CardBackground())
         }
     }
@@ -195,20 +198,19 @@ struct EffectEstimatesView: View {
 
     private var complexityNote: some View {
         Section {
-            HStack(alignment: .top, spacing: 10) {
+            HStack(alignment: .top, spacing: Spacing.lg) {
                 Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(.cautionAccent)
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text("A busy session")
-                        .font(.subheadline.weight(.semibold))
-                    Text("The model is calibrated on a single substance taken once, in lab conditions. The interactions here stay mechanistic, but each extra dose and substance adds parameters and widens the margin of error.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .sectionLabel()
+                    Text("Calibrated on one substance taken once; each extra dose and substance widens the margin of error.")
+                        .captionSecondary()
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
-            .padding(.vertical, 2)
+            .padding(.vertical, Spacing.xxs)
             .listRowBackground(CardBackground())
         }
     }
@@ -239,61 +241,29 @@ struct EffectEstimatesView: View {
                     .listRowSeparator(.hidden)
             }
         } header: {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 Image(systemName: lens.symbol)
                     .foregroundStyle(lens.color)
                     .imageScale(.small)
                     .accessibilityHidden(true)
                 Text(lens.label)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(.primary)
                     .textCase(nil)
             }
-        } footer: {
-            Text(footer(for: lens))
-        }
-    }
-
-    private func footer(for lens: EffectLens) -> LocalizedStringKey {
-        switch lens {
-        case .feeling:
-            "Higher is better. Pleasure and warmth rise above the line; the comedown dips below."
-        case .wanting:
-            "Higher is more pull. The rush and craving signal — can grow with repeated use even as the high fades."
-        case .liking:
-            "Higher is more pleasure. The opioid warmth signal — fades with tolerance."
-        case .energy:
-            "Higher is livelier. Drive rises above the line, sedation sits below."
-        case .compulsion:
-            "Lower is better. The pull to take another dose."
-        case .strain:
-            "Lower is better. Load on the body, shown with your heart rate when it's available."
-        case .timeline:
-            ""
         }
     }
 
     // MARK: Bottom — coverage
 
-    private var coverageGroup: some View {
-        Section {
-            DisclosureGroup {
-                VStack(alignment: .leading, spacing: 12) {
-                    if !ignored.isEmpty {
-                        Text(coverageText)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    Text("The model is calibrated on five stimulants: amphetamine, methylphenidate, mephedrone, 3-MMC, and 2-MMC. Other substances shape the curves through how they interact with these. Opioids are read through their dopamine activity, mostly to show those interactions.")
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, 6)
-            } label: {
-                detailLabel("square.stack.3d.up", "What these curves cover")
+    private var coverageSection: some View {
+        detailCard("square.stack.3d.up", "What these curves cover") {
+            if !ignored.isEmpty {
+                Text(coverageText)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .padding(.vertical, 2)
-            .listRowBackground(CardBackground())
+            Text("The model is calibrated on five stimulants: amphetamine, methylphenidate, mephedrone, 3-MMC, and 2-MMC. Other substances shape the curves through how they interact with these. Opioids are read through their dopamine activity, mostly to show those interactions.")
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
@@ -308,39 +278,37 @@ struct EffectEstimatesView: View {
 
     // MARK: Bottom — reading the estimate
 
-    private var readingGroup: some View {
-        Section {
-            DisclosureGroup {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("This is a picture of typical pharmacology. Your own response shifts with tolerance, body chemistry, and the day.")
-                        .fixedSize(horizontal: false, vertical: true)
-                    Text("Confidence varies by substance. Well-studied ones like amphetamine and methylphenidate rest on firmer data than newer compounds.")
-                        .fixedSize(horizontal: false, vertical: true)
-                    Text("Compare the shape of a curve more than its exact height.")
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-                .padding(.top, 6)
-            } label: {
-                detailLabel("checkmark.seal", "Reading the estimate")
-            }
-            .padding(.vertical, 2)
-            .listRowBackground(CardBackground())
-        } footer: {
-            Text("A rough guide, not medical advice.")
+    private var readingSection: some View {
+        detailCard("checkmark.seal", "Reading the estimate") {
+            Text("A picture of typical pharmacology.")
+                .fixedSize(horizontal: false, vertical: true)
+            Text("Compare the shape of a curve more than its exact height.")
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
-    private func detailLabel(_ icon: String, _ title: LocalizedStringKey) -> some View {
-        Label {
-            Text(title)
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(.primary)
-        } icon: {
-            Image(systemName: icon)
-                .foregroundStyle(Theme.accent)
-                .accessibilityHidden(true)
+    /// A labeled card with its body always visible: the label row styled like a
+    /// disclosure header, the body in secondary subheadline text beneath it.
+    private func detailCard(_ icon: String, _ title: LocalizedStringKey, @ViewBuilder body: () -> some View) -> some View {
+        Section {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
+                Label {
+                    Text(title)
+                        .sectionLabel()
+                        .foregroundStyle(.primary)
+                } icon: {
+                    Image(systemName: icon)
+                        .foregroundStyle(Theme.accent)
+                        .accessibilityHidden(true)
+                }
+                VStack(alignment: .leading, spacing: Spacing.xl) {
+                    body()
+                }
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
+            }
+            .padding(.vertical, Spacing.xxs)
+            .listRowBackground(CardBackground())
         }
     }
 }
@@ -364,7 +332,7 @@ struct EffectModelExplainerView: View {
 
                     DopamineErrorDiagram()
                         .frame(height: 172)
-                        .padding(.vertical, 2)
+                        .padding(.vertical, Spacing.xxs)
 
                     DiagramLegend()
 
@@ -373,12 +341,12 @@ struct EffectModelExplainerView: View {
                         .foregroundStyle(Theme.secondaryLabel)
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
                 .listRowBackground(CardBackground())
             }
 
             Section {
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: Spacing.xxl) {
                     point(
                         "Rate over amount",
                         "A fast route, like insufflation, outruns that adjustment and spikes. The same dose taken slowly lets the brain keep pace, so it barely registers as a rush.",
@@ -394,21 +362,25 @@ struct EffectModelExplainerView: View {
                         "A larger dose draws dopamine stores down harder: a bigger rise, and a deeper dip once it clears.",
                     )
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, Spacing.xs)
                 .listRowBackground(CardBackground())
             }
         }
+        .insetGroupedListStyle()
         .scrollContentBackground(.hidden)
-        .listSectionSpacing(16)
+        .compactListSectionSpacing()
         .background(Theme.background)
+        .readableWidth()
         .navigationTitle("How this works")
-        .navigationBarTitleDisplayMode(.large)
+        #if canImport(UIKit)
+            .navigationBarTitleDisplayMode(.large)
+        #endif
     }
 
     private func point(_ title: LocalizedStringKey, _ body: LocalizedStringKey) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
             Text(title)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(.primary)
             Text(body)
                 .font(.subheadline)
@@ -424,7 +396,7 @@ struct EffectModelExplainerView: View {
 /// a falling dopamine is shaded as the comedown.
 private struct DopamineErrorDiagram: View {
     private let dopamineColor = EffectLens.feeling.color
-    private let expectationColor = Color(.systemGray)
+    private let expectationColor = Color.platformSystemGray
 
     private struct Sample {
         let time: Double
@@ -523,20 +495,19 @@ private struct DopamineErrorDiagram: View {
 /// text than in-canvas) and glossing what the two shaded zones mean.
 private struct DiagramLegend: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 16) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            HStack(spacing: Spacing.xxl) {
                 swatch(EffectLens.feeling.color, dashed: false, "Dopamine")
-                swatch(Color(.systemGray), dashed: true, "Expected level")
+                swatch(Color.platformSystemGray, dashed: true, "Expected level")
             }
             Text("The shaded gap is what you feel. As dopamine fades and the expectation lags above it, that gap turns into the comedown.")
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
                 .fixedSize(horizontal: false, vertical: true)
         }
     }
 
     private func swatch(_ color: Color, dashed: Bool, _ label: LocalizedStringKey) -> some View {
-        HStack(spacing: 6) {
+        HStack(spacing: Spacing.sm) {
             Canvas { context, size in
                 var line = Path()
                 line.move(to: CGPoint(x: 0, y: size.height / 2))
@@ -545,8 +516,7 @@ private struct DiagramLegend: View {
             }
             .frame(width: 18, height: 6)
             Text(label)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .captionSecondary()
         }
     }
 }

@@ -35,6 +35,9 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
     case nextDose
     /// Low-stock / out-of-stock alert for tracked inventory items.
     case inventory
+    /// "How is it going?" — the opt-in per-session note prompts at T+30 m,
+    /// 1 h, 2 h… (or a fixed interval), landing on the note sheet.
+    case checkIn
 
     var id: String {
         rawValue
@@ -49,7 +52,7 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
         // Follow-ups and next-dose also default on: they fire only where the
         // user explicitly configured them (a routine's cadence, a med's
         // opt-in), so these toggles are kill switches, not opt-ins.
-        case .comedown, .routine, .routineFollowUp, .nextDose, .inventory: true
+        case .comedown, .routine, .routineFollowUp, .nextDose, .inventory, .checkIn: true
         case .hydration, .sleep, .phase, .cumulative: false
         }
     }
@@ -80,7 +83,7 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
     var supportsTimeSensitive: Bool {
         switch self {
         case .routine, .routineFollowUp, .nextDose, .cumulative: true
-        case .comedown, .hydration, .sleep, .phase, .inventory: false
+        case .comedown, .hydration, .sleep, .phase, .inventory, .checkIn: false
         }
     }
 
@@ -101,7 +104,7 @@ nonisolated enum NotificationType: String, CaseIterable, Identifiable {
         case .routine: [identifierPrefix, DoseNotificationManager.legacyRoutineReminderPrefix]
         case .routineFollowUp: [identifierPrefix, DoseNotificationManager.legacyRoutineFollowUpPrefix]
         // Born under the current grammar — no legacy prefix to sweep.
-        case .nextDose: [identifierPrefix]
+        case .nextDose, .checkIn: [identifierPrefix]
         case .inventory: [identifierPrefix, DoseNotificationManager.legacyInventoryLowStockPrefix]
         }
     }
@@ -439,6 +442,7 @@ private extension NotificationType {
         case .routineFollowUp: \.routineFollowUpEnabled
         case .nextDose: \.nextDoseEnabled
         case .inventory: \.inventoryEnabled
+        case .checkIn: \.checkInEnabled
         }
     }
 
@@ -450,7 +454,7 @@ private extension NotificationType {
         case .routineFollowUp: \.routineFollowUpTimeSensitive
         case .nextDose: \.nextDoseTimeSensitive
         case .cumulative: \.cumulativeTimeSensitive
-        case .comedown, .hydration, .sleep, .phase, .inventory: nil
+        case .comedown, .hydration, .sleep, .phase, .inventory, .checkIn: nil
         }
     }
 }

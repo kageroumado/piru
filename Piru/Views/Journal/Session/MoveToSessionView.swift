@@ -59,12 +59,12 @@ struct MoveToSessionView: View {
                 } else {
                     List {
                         Section {
-                            HStack(spacing: 12) {
+                            HStack(spacing: Spacing.xl) {
                                 Circle()
                                     .fill(doseColor)
                                     .frame(width: 12, height: 12)
                                 Text(CustomSubstanceStore.shared.displayName(for: dose.substance))
-                                    .font(.piru(.headline))
+                                    .cardTitle()
                                 Spacer()
                                 Text("\(dose.amount.doseFormatted) \(dose.unit)")
                                     .font(.subheadline)
@@ -120,7 +120,7 @@ struct MoveToSessionView: View {
             }
             .background(Theme.background)
             .navigationTitle("Move \(dose.substance)")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .navigationDestination(item: $retimeTarget) { session in
                 RetimeMoveView(dose: dose, session: session) { newDate in
                     let previousTimestamp = dose.timestamp
@@ -201,24 +201,22 @@ private struct SessionTargetRow: View {
         // Sorted once per row render — `orderedDoses` sorts, and three derived
         // values read it.
         let doses = session.orderedDoses
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             dots(dotColors(for: doses))
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(title)
-                    .font(.piru(.headline))
+                    .cardTitle()
                     .foregroundStyle(.primary)
                 Text(timeRange(for: doses))
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
             Spacer()
             if requiresRetime {
                 Image(systemName: "clock.badge.questionmark")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .captionSecondary()
             }
             Text(countText(for: doses))
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(Theme.accent)
         }
         .contentShape(Rectangle())
@@ -293,7 +291,7 @@ private struct RetimeMoveView: View {
             }
         }
         .navigationTitle("Set Time")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Move") {

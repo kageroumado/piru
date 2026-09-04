@@ -37,7 +37,16 @@ nonisolated enum PushRoute: Hashable, Codable {
     case libraryTag(String)
     case libraryFavorites
     case libraryCustom
+    /// The user's custom dose units (`CustomUnitsView`), pushed from the
+    /// Library's Yours card.
+    case libraryUnits
+    /// The user's substance colors (`SubstanceColorsListView`), pushed from
+    /// the Library's Yours card.
+    case libraryColors
     case tool(Tool)
+    /// Data & Backup (`DataStorageView`): export, import, encrypted backups,
+    /// and recovery snapshots. Pushed from the Tools hub.
+    case dataStorage
     /// One pharmacological class's write-up, by `class_contexts.slug`. Reached
     /// from Tools ▸ Education ▸ Drug Classes and from a substance's own class
     /// row.
@@ -169,13 +178,22 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// staged and its dose editor expanded — the "Log" affordance on a
     /// substance's detail screen. Carries the **canonical** substance name (the
     /// lookup key), never a user-typed alias.
-    case quickLog(routine: String?, prefillSubstance: String? = nil)
+    ///
+    /// `prefillDose` stages that substance as a complete dose (strength read
+    /// off a scanned box, with the brand it was sold under) instead of an
+    /// empty editor — the box scanner's "Log This" hand-off.
+    case quickLog(routine: String?, prefillSubstance: String? = nil, prefillDose: DosePrefill? = nil)
     case settings
     case help
     case onboarding
 
     /// Session / entries
     case sessionDetail
+    /// The add/edit sheet for one timestamped session note. `noteID == nil`
+    /// composes a new note on `sessionID`'s session; `checkIn` tags that new
+    /// note `.checkIn` (the landing state for a check-in notification tap), and
+    /// `summary` makes it the session's summary.
+    case sessionNoteEditor(sessionID: UUID, noteID: UUID? = nil, checkIn: Bool = false, summary: Bool = false)
     /// Entry detail sheet. Carries the entry's stable `id` with `timestamp`
     /// as the resolution fallback (see `PushRoute` — same compatibility
     /// contract for pre-V4 payloads and id-less `piru://entry/<ts>` URLs).
@@ -219,7 +237,9 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     /// Substance picker); a non-nil id restocks that existing item (and the
     /// Substance field is omitted). `prefillSubstance`/`prefillSalt` open the add
     /// form pre-targeted at a substance (the "Track" button in substance detail).
-    case inventoryItemForm(id: UUID?, prefillSubstance: String? = nil, prefillSalt: String? = nil)
+    /// `prefill` carries what a scanned box stated (pack count, unit, a note)
+    /// so the add form opens filled in; with no count the amount stays empty.
+    case inventoryItemForm(id: UUID?, prefillSubstance: String? = nil, prefillSalt: String? = nil, prefill: InventoryPrefill? = nil)
     /// Edit screen reached from the detail-view pencil.
     case inventoryItemEdit(id: UUID)
 
@@ -256,6 +276,24 @@ nonisolated struct EntryPrefillPayload: Hashable, Codable {
     var substance: String
     var route: RouteOfAdministration
     var unit: String
+}
+
+/// A dose a scanned box stated, staged into the quick-log tray as-is: the
+/// per-unit strength in `unit`, under the brand printed on the box.
+nonisolated struct DosePrefill: Hashable, Codable {
+    var amount: Double
+    var unit: String
+    var productName: String?
+}
+
+/// What a scanned box stated about its contents, for the inventory add form.
+/// `count` in `unit` ("tabs", "caps", "mL"); `strengthMG` is the per-unit
+/// strength when the box printed one, so the form can seed the amount in mg.
+nonisolated struct InventoryPrefill: Hashable, Codable {
+    var count: Double?
+    var unit: String?
+    var strengthMG: Double?
+    var note: String?
 }
 
 // MARK: - Snapshot

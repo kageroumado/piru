@@ -143,6 +143,14 @@ deliberately NOT committed — only the built SQLite is.
 ### `fetch/`
 - **`psychonautwiki.py`** — paginated GraphQL crawl of psychonautwiki.org;
   writes `data/sources/psychonautwiki.json`.
+- **`product_codes.py`** — the barcode registries the box scanner resolves
+  against: the openFDA NDC directory bulk download (US, public domain) and
+  ANSM's BDPM files (FR, Etalab open licence), filtered to single-ingredient
+  products whose active folds onto a known name; writes
+  `data/sources/product-codes-openfda.json` + `product-codes-bdpm.json`.
+  `build/sqlite.py::build_product_codes` maps them onto the built alias table
+  into `coded_products` + `product_codes` (GTIN-14 keyed). Shared GTIN/name
+  primitives live in `pipeline/product_codes.py`.
 - **`brushers/extract.py`** — extracts the four out-of-repo datasets
   (`~/Developer/piru-data`: TripSit-benzos, MedTAP, NPS DataHub,
   Pyrls) into `Substance`-shaped JSON written to `/tmp/piru-extract`

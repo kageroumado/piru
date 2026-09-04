@@ -34,16 +34,15 @@ struct SubstanceColorsListView: View {
                     Button {
                         editingSubstance = sc
                     } label: {
-                        HStack(spacing: 12) {
+                        HStack(spacing: Spacing.xl) {
                             Circle()
                                 .fill(sc.color)
-                                .frame(width: 24, height: 24)
+                                .frame(width: IconSize.iconCompact, height: IconSize.iconCompact)
                             Text(CustomSubstanceStore.shared.displayName(for: sc.substance))
                                 .foregroundStyle(.primary)
                             Spacer()
                             Text("Change")
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
+                                .captionSecondary()
                         }
                     }
                 }
@@ -55,10 +54,9 @@ struct SubstanceColorsListView: View {
                 .listRowBackground(CardBackground())
             }
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .navigationTitle("Substance Colors")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .sheet(item: $editingSubstance) { sc in
             SubstanceColorPickerView(
                 substanceName: sc.substance,

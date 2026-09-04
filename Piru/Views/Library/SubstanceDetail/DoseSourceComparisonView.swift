@@ -68,7 +68,7 @@ struct DoseSourceComparisonView: View {
                 }
             }
             .navigationTitle(Text("Dose sources", comment: "Screen title"))
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
@@ -132,17 +132,17 @@ private struct LadderRow: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            HStack(spacing: Spacing.md) {
                 Text(displayName)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                 if ladder.isActive {
                     Text("In use", comment: "Badge on the source currently supplying the dose ladder")
                         .font(.caption2.weight(.bold))
                         .textCase(.uppercase)
                         .foregroundStyle(accent)
-                        .padding(.horizontal, 7).padding(.vertical, 2)
-                        .background(accent.opacity(0.12), in: Capsule())
+                        .padding(.horizontal, 7).padding(.vertical, Spacing.xxs)
+                        .background(accent.opacity(Theme.Opacity.tint), in: Capsule())
                 }
                 Spacer(minLength: 8)
                 Text(commonText)
@@ -152,7 +152,7 @@ private struct LadderRow: View {
 
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(Color(.tertiarySystemFill))
+                    Capsule().fill(Color.platformTertiarySystemFill)
                     ForEach(Array(segments.enumerated()), id: \.offset) { _, segment in
                         Capsule()
                             .fill(segment.color)
@@ -171,7 +171,7 @@ private struct LadderRow: View {
             .font(.system(size: 9).monospacedDigit())
             .foregroundStyle(Theme.secondaryLabel)
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(Text(displayName))
         .accessibilityValue(Text(commonText))

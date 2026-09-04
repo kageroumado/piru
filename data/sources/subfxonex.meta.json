@@ -1,0 +1,11 @@
+{
+  "source": "SubFxOnEx (drug.community) subjective-effects ontology release",
+  "repo": "https://github.com/Di-lemma/SubFxOnEx",
+  "url": "https://raw.githubusercontent.com/Di-lemma/SubFxOnEx/main/ontology_releases/subjective-effects-a6c48eee78d163113b37585e6cbaf2974ccf55953dbef902817503f2d732ea72.json",
+  "license": "LGPL-2.1",
+  "release_hash": "a6c48eee78d163113b37585e6cbaf2974ccf55953dbef902817503f2d732ea72",
+  "fetched_at": "2026-09-01T21:27:00+00:00",
+  "concept_count": 506,
+  "rollup_count": 21,
+  "alias_count": 1178
+}

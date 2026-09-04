@@ -163,7 +163,7 @@ struct InventorySupplyBar: View {
         GeometryReader { geo in
             ZStack(alignment: .leading) {
                 Capsule()
-                    .fill(Color.primary.opacity(0.08))
+                    .fill(Color.primary.opacity(Theme.Opacity.hairline))
                 Capsule()
                     .fill(tint)
                     .frame(width: max(3, geo.size.width * fraction))
@@ -216,6 +216,9 @@ struct InventoryStepperRow: View {
     var stepBasis: Double?
     var unitChoices: [String]?
     var onUnitChange: ((String) -> Void)?
+    /// Open with the keyboard up on the amount — for a form that arrived with
+    /// everything but the number filled in.
+    var focusOnAppear = false
 
     @State private var stepTick = 0
     @FocusState private var focused: Bool
@@ -226,7 +229,7 @@ struct InventoryStepperRow: View {
     }
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             stepButton(systemImage: "minus") {
                 bump(to: max(0, value - step))
             }
@@ -241,7 +244,8 @@ struct InventoryStepperRow: View {
             .snappy(duration: 0.15)
         }
         .sensoryFeedback(.increase, trigger: stepTick)
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
+        .onAppear { if focusOnAppear { focused = true } }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(label))
         .accessibilityValue(Text(verbatim: "\(value.doseFormatted) \(unit)"))
@@ -260,7 +264,7 @@ struct InventoryStepperRow: View {
     private var amountField: some View {
         HStack(alignment: .firstTextBaseline, spacing: 5) {
             TextField("0", value: $value, format: .number)
-                .keyboardType(.decimalPad)
+                .decimalKeyboard()
                 .multilineTextAlignment(.trailing)
                 .fixedSize()
                 .font(.piru(.title2, weight: .semibold))
@@ -291,7 +295,7 @@ struct InventoryStepperRow: View {
                     }
                 }
             } label: {
-                HStack(alignment: .firstTextBaseline, spacing: 2) {
+                HStack(alignment: .firstTextBaseline, spacing: Spacing.xxs) {
                     Text(unit)
                     Image(systemName: "chevron.down").font(.caption2.weight(.semibold))
                         .accessibilityHidden(true)
@@ -313,7 +317,7 @@ struct InventoryStepperRow: View {
                 .font(.body.weight(.semibold))
                 .foregroundStyle(.primary)
                 .frame(width: 38, height: 38)
-                .background(Color(.secondarySystemFill), in: Circle())
+                .background(Color.platformSecondarySystemFill, in: Circle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel(systemImage == "minus" ? "Decrease" : "Increase")

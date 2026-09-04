@@ -34,23 +34,23 @@ struct OnboardingHealthStep: View {
         ) {
             OnboardingIconHero(symbol: "heart.text.square.fill")
         } mid: {
-            VStack(spacing: 16) {
+            VStack(spacing: Spacing.xxl) {
                 OnboardingVitalsSampleChart()
 
-                VStack(spacing: 8) {
+                VStack(spacing: Spacing.md) {
                     HStack {
                         Text("Your body weight")
-                            .font(.subheadline.weight(.semibold))
+                            .sectionLabel()
                         Spacer()
                     }
                     InventoryStepperRow(value: $weightKg, unit: "kg", label: "Your body weight", stepBasis: 10)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
+                        .padding(.horizontal, Spacing.lg)
+                        .padding(.vertical, Spacing.xs)
                         .themeCapsule()
                     noteView
                 }
             }
-            .padding(.horizontal, 24)
+            .padding(.horizontal, Spacing.xxxl)
             .padding(.top, 20)
         } footer: {
             GlassPillButton(title: connecting ? "Connecting…" : "Continue") {
@@ -122,7 +122,7 @@ struct OnboardingHealthStep: View {
 /// Fully synthetic and deterministic; nothing here reads Health.
 private struct OnboardingVitalsSampleChart: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             HStack(spacing: 14) {
                 legend(color: Theme.accent, label: "Alcohol")
                 legend(color: VitalsPalette.heart, label: "Heart rate")
@@ -136,14 +136,14 @@ private struct OnboardingVitalsSampleChart: View {
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(14)
-        .themeCard(cornerRadius: 22)
+        .themeCard(cornerRadius: Theme.CornerRadius.card)
         .accessibilityElement()
         .accessibilityLabel("Example chart: an alcohol effect curve with heart rate rising and falling alongside it.")
     }
 
     private func legend(color: Color, label: LocalizedStringKey) -> some View {
         HStack(spacing: 5) {
-            Circle().fill(color).frame(width: 7, height: 7)
+            LegendDot(color: color, size: .compact)
             Text(label)
                 .font(.caption2.weight(.medium))
                 .foregroundStyle(Theme.secondaryLabel)
@@ -208,7 +208,7 @@ private struct OnboardingVitalsSampleChart: View {
 
         // Companion cardio band — a faint crimson lane, echoing the real overlay.
         let band = CGRect(x: pad, y: bandTop, width: plotW, height: bandH)
-        context.fill(Path(roundedRect: band, cornerRadius: 8), with: .color(VitalsPalette.heart.opacity(0.07)))
+        context.fill(Path(roundedRect: band, cornerRadius: Theme.CornerRadius.input), with: .color(VitalsPalette.heart.opacity(0.07)))
 
         // Heart rate — baseline + a lagged, gently jittered echo of the effect.
         let hrLo = 58.0, hrHi = 92.0

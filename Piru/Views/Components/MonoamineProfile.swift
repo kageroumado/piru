@@ -180,7 +180,7 @@ struct DopamineSerotoninLeanBar: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             GeometryReader { geo in
                 let knobX = geo.size.width * (leanPosition ?? 0.5)
                 ZStack(alignment: .leading) {
@@ -191,8 +191,8 @@ struct DopamineSerotoninLeanBar: View {
                     Circle()
                         .fill(.white)
                         .frame(width: 16, height: 16)
-                        .overlay(Circle().strokeBorder(.black.opacity(0.08), lineWidth: 0.5))
-                        .shadow(color: .black.opacity(0.25), radius: 2, y: 1)
+                        .overlay(Circle().strokeBorder(.black.opacity(Theme.Opacity.hairline), lineWidth: 0.5))
+                        .shadow(color: .black.opacity(Theme.Opacity.emphasis), radius: 2, y: 1)
                         .offset(x: knobX - Self.knobRadius, y: Self.ratioRowHeight)
                     // The ratio rides directly above the knob, so it reads as that
                     // position's value rather than a caption about the whole bar —

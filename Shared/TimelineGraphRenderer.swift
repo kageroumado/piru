@@ -10,6 +10,9 @@ import SwiftUI
 struct TimelineGraphRenderer {
     let substances: [ActiveSubstanceState]
     let markers: [DoseMarker]
+    /// Session notes placed on the time axis; the rated ones also draw the
+    /// Shulgin step lane. The tappable glyphs are SwiftUI overlays in the view.
+    let noteMarkers: [NoteMarker]
     let derived: TimelineCurveModel.Derived
     let currentTime: Date
     let compact: Bool
@@ -66,6 +69,23 @@ struct TimelineGraphRenderer {
     /// Vertical space the vitals lane consumes below the effect curves, or 0.
     var vitalsBandTotal: CGFloat {
         vitalsBandActive ? GraphMetrics.vitalsBandTotal(enlarged: vitalsBandEnlarged) : 0
+    }
+
+    /// Whether the Shulgin-rating lane is drawn — the full graph only, and only
+    /// when at least one note carries a rating.
+    var shulginLaneActive: Bool {
+        !compact && noteMarkers.contains { $0.shulgin != nil }
+    }
+
+    /// Vertical space the Shulgin lane consumes below the effect curves, or 0.
+    var shulginLaneTotal: CGFloat {
+        shulginLaneActive ? GraphMetrics.shulginLaneTotal : 0
+    }
+
+    /// Everything stacked under the effect curves: the Shulgin lane, then the
+    /// vitals lane. The now-rule and scrub rule extend through all of it.
+    var belowCurvesTotal: CGFloat {
+        shulginLaneTotal + vitalsBandTotal
     }
 
     /// One lane per distinct substance, in first-dose order, carrying every dose
@@ -164,7 +184,7 @@ struct TimelineGraphRenderer {
             // The effect-curve region excludes the companion vitals lane, which
             // sits in the extra height the host reserves below it (via
             // GraphMetrics.vitalsBandTotal), so the curves keep their normal size.
-            height: size.height - labelAreaHeight - topLabelAreaHeight - vInset * 2 - vitalsBandTotal,
+            height: size.height - labelAreaHeight - topLabelAreaHeight - vInset * 2 - belowCurvesTotal,
         )
     }
 
@@ -419,7 +439,7 @@ struct TimelineGraphRenderer {
         let drawsNowBand = nowUncertaintyMinutes > 0
         if drawsNowRule || drawsNowBand, hasActiveNow, scrubX == nil, nowMinutes >= 0,
            nowX >= graphInset, nowX <= graphInset + graphWidth {
-            let indicatorBottom = graphTop + graphHeight + vitalsBandTotal
+            let indicatorBottom = graphTop + graphHeight + belowCurvesTotal
             if drawsNowBand {
                 let bandEnd = min(
                     graphInset + CGFloat((nowMinutes + nowUncertaintyMinutes - vStart) / vSpan) * graphWidth,
@@ -593,7 +613,7 @@ struct TimelineGraphRenderer {
             let clampedX = min(max(sx, graphInset), graphInset + graphWidth)
             var rule = Path()
             rule.move(to: CGPoint(x: clampedX, y: graphTop))
-            rule.addLine(to: CGPoint(x: clampedX, y: graphTop + graphHeight + vitalsBandTotal))
+            rule.addLine(to: CGPoint(x: clampedX, y: graphTop + graphHeight + belowCurvesTotal))
             context.stroke(rule, with: .color(.primary.opacity(0.55)), lineWidth: 1)
 
             let minute = vStart + Double((clampedX - graphInset) / graphWidth) * vSpan
@@ -634,6 +654,13 @@ struct TimelineGraphRenderer {
 
         // Companion vitals lane (heart rate + blood pressure), drawn on top of
         // the extended now-line/scrub rule so the HR trace and dots read clearly.
+        if shulginLaneActive {
+            drawShulginLane(
+                context: context, visibleStart: vStart, visibleSpan: vSpan,
+                graphInset: graphInset, graphWidth: graphWidth,
+                graphTop: graphTop, graphHeight: graphHeight,
+            )
+        }
         if vitalsBandActive, let vitals {
             drawVitalsLane(
                 context: context, size: size, vitals: vitals,
@@ -655,7 +682,7 @@ struct TimelineGraphRenderer {
                 top: graphTop,
                 // Inflate the height passed to the label placer so the clock
                 // labels land below the vitals lane, not inside it.
-                graphHeight: graphHeight + vitalsBandTotal,
+                graphHeight: graphHeight + belowCurvesTotal,
             )
             drawRelativeTimeLabels(
                 context: context,
@@ -1413,11 +1440,67 @@ struct TimelineGraphRenderer {
 
     /// The faint framed strip the vitals trace sits in. Drawn before the now-line
     /// so both the rule and the HR trace layer on top of it.
+    /// The Shulgin lane: each rated note's level (± … ++++) as a faint step line
+    /// held until the next rated note, with a dot at every rating. A record of
+    /// what was felt when — it shares the time axis, so it pans and zooms with
+    /// the curves.
+    private func drawShulginLane(
+        context: GraphicsContext, visibleStart: Double, visibleSpan: Double,
+        graphInset: CGFloat, graphWidth: CGFloat,
+        graphTop: CGFloat, graphHeight: CGFloat,
+    ) {
+        let rated = noteMarkers
+            .compactMap { marker -> (minute: Double, level: Int)? in
+                guard let level = marker.shulgin else { return nil }
+                return (marker.timestamp.timeIntervalSince(earliestDose) / 60, level)
+            }
+            .sorted { $0.minute < $1.minute }
+        guard !rated.isEmpty, visibleSpan > 0 else { return }
+        let bandTop = graphTop + graphHeight + GraphMetrics.shulginLaneGap
+        let laneHeight = GraphMetrics.shulginLane
+        let rect = CGRect(x: graphInset, y: bandTop, width: graphWidth, height: laneHeight)
+        context.fill(Path(roundedRect: rect, cornerRadius: 7), with: .color(Color.accentColor.opacity(0.06)))
+        let plotTop = bandTop + 5
+        let plotHeight = laneHeight - 10
+        func x(_ minute: Double) -> CGFloat {
+            graphInset + CGFloat((minute - visibleStart) / visibleSpan) * graphWidth
+        }
+        func y(_ level: Int) -> CGFloat {
+            plotTop + (1 - CGFloat(level) / 4) * plotHeight
+        }
+        let right = graphInset + graphWidth
+        var step = Path()
+        for (index, point) in rated.enumerated() {
+            let startX = min(max(x(point.minute), graphInset), right)
+            let endMinute = index + 1 < rated.count ? rated[index + 1].minute : visibleStart + visibleSpan
+            let endX = min(max(x(endMinute), graphInset), right)
+            guard endX > startX else { continue }
+            step.move(to: CGPoint(x: startX, y: y(point.level)))
+            step.addLine(to: CGPoint(x: endX, y: y(point.level)))
+            if index + 1 < rated.count {
+                step.addLine(to: CGPoint(x: endX, y: y(rated[index + 1].level)))
+            }
+        }
+        context.stroke(step, with: .color(Color.accentColor.opacity(0.55)), style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
+        for point in rated {
+            let px = x(point.minute)
+            guard px >= graphInset - 3, px <= right + 3 else { continue }
+            let dot = Path(ellipseIn: CGRect(x: px - 3, y: y(point.level) - 3, width: 6, height: 6))
+            context.fill(dot, with: .color(Color.accentColor))
+            context.stroke(dot, with: .color(.white.opacity(0.85)), lineWidth: 1)
+        }
+        let labelFont = Font.system(size: 7, weight: .semibold, design: .rounded)
+        let top = Text(verbatim: "++++").font(labelFont).foregroundStyle(Color.accentColor.opacity(0.7))
+        let bottom = Text(verbatim: "±").font(labelFont).foregroundStyle(Color.accentColor.opacity(0.7))
+        context.draw(context.resolve(top), at: CGPoint(x: graphInset + 3, y: plotTop), anchor: .topLeading)
+        context.draw(context.resolve(bottom), at: CGPoint(x: graphInset + 3, y: plotTop + plotHeight), anchor: .bottomLeading)
+    }
+
     private func drawVitalsLaneBackdrop(
         context: GraphicsContext, graphTop: CGFloat, graphHeight: CGFloat,
         graphInset: CGFloat, graphWidth: CGFloat,
     ) {
-        let bandTop = graphTop + graphHeight + GraphMetrics.vitalsBandGap
+        let bandTop = graphTop + graphHeight + shulginLaneTotal + GraphMetrics.vitalsBandGap
         let rect = CGRect(x: graphInset, y: bandTop, width: graphWidth, height: vitalsBandHeight)
         context.fill(Path(roundedRect: rect, cornerRadius: 9), with: .color(Self.hrColor.opacity(0.06)))
     }
@@ -1434,7 +1517,7 @@ struct TimelineGraphRenderer {
     ) {
         let earliest = earliestDose
         let visEnd = visibleStart + visibleSpan
-        let bandTop = graphTop + graphHeight + GraphMetrics.vitalsBandGap
+        let bandTop = graphTop + graphHeight + shulginLaneTotal + GraphMetrics.vitalsBandGap
         let innerPad: CGFloat = 12 // room for the lane-label row at the top
         let plotTop = bandTop + innerPad
         let plotH = vitalsBandHeight - innerPad - 4

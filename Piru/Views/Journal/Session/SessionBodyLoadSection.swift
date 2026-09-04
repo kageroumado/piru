@@ -29,8 +29,8 @@ struct BodyLoadRowLabel: View {
     let status: BodyLoadStatus?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            HStack(alignment: .center, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            HStack(alignment: .center, spacing: Spacing.md) {
                 nameCluster
                 Spacer(minLength: 8)
                 trailingReadout
@@ -43,9 +43,9 @@ struct BodyLoadRowLabel: View {
     /// capsule rather than a tiny inline word so a redose count reads as a badge,
     /// not a stray glyph riding beside the name.
     private var nameCluster: some View {
-        HStack(alignment: .center, spacing: 8) {
+        HStack(alignment: .center, spacing: Spacing.md) {
             Image(systemName: "circle.fill")
-                .font(.system(size: 9))
+                .font(.chartAnnotation)
                 .foregroundStyle(dotColor)
                 .accessibilityHidden(true)
             Text(name)
@@ -77,7 +77,7 @@ struct BodyLoadRowLabel: View {
     /// (secondary), unit trailing. Compact so seven glyphs don't take on the mass
     /// of the hero readout.
     private func cumulativeReadout(remaining: Double) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 2) {
+        HStack(alignment: .firstTextBaseline, spacing: Spacing.xxs) {
             Text(remaining.doseFormatted)
                 .font(.system(.body, design: .rounded).weight(.semibold))
                 .foregroundStyle(.primary)
@@ -86,10 +86,9 @@ struct BodyLoadRowLabel: View {
                 .foregroundStyle(.tertiary)
             Text(total.doseFormatted)
                 .font(.system(.subheadline, design: .rounded).weight(.medium))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
             Text(unit)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .captionSecondary()
         }
         .lineLimit(1)
         .monospacedDigit()
@@ -404,14 +403,14 @@ struct SessionBodyLoadSection: View {
                             ? .unmodeled
                             : (model.active.isEmpty ? nil : .cleared(hasActiveMetabolite: row.hasActiveMetabolite)),
                     )
-                    .padding(.vertical, 2)
+                    .padding(.vertical, Spacing.xxs)
                     .accessibilityElement(children: .combine)
                 }
             } header: {
                 Text(header)
             } footer: {
                 if !model.active.isEmpty {
-                    Text("An estimate of how much of each substance is still in your body. This doesn't always correspond to how strong the effects feel, or to how long it stays detectable.")
+                    Text("How much of each substance is still in your body — what's left and what you feel don't always line up.")
                 }
             }
             // Open the first substance's curve by default, so the fold — and the
@@ -431,7 +430,7 @@ struct SessionBodyLoadSection: View {
     private func activeRow(_ row: SessionBodyLoadModel.Active) -> some View {
         DisclosureGroup(isExpanded: expansion(row.id)) {
             SubstanceEliminationCurve(active: row.active, displayName: row.displayName)
-                .padding(.top, 4)
+                .padding(.top, Spacing.xs)
         } label: {
             BodyLoadRowLabel(
                 dotColor: row.active.color,

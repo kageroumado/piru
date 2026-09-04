@@ -29,7 +29,7 @@ struct UsageStatsView: View {
 
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: 16) {
+            LazyVStack(spacing: Spacing.xxl) {
                 if allEntries.isEmpty {
                     ContentUnavailableView(
                         "No Logged Entries",
@@ -54,7 +54,7 @@ struct UsageStatsView: View {
         .background(Theme.background)
         .toolbar {
             if !allEntries.isEmpty {
-                ToolbarItem(placement: .topBarTrailing) { filterMenu }
+                ToolbarItem(placement: .platformTopBarTrailing) { filterMenu }
             }
         }
         .sheet(isPresented: $showingSubstanceSheet) {
@@ -122,7 +122,7 @@ struct UsageStatsView: View {
     @ViewBuilder
     private var filterLabel: some View {
         if filterActive {
-            HStack(spacing: 4) {
+            HStack(spacing: Spacing.xs) {
                 Image(systemName: "line.3.horizontal.decrease")
                 Text(verbatim: "\(selectedSubstances.count)")
             }

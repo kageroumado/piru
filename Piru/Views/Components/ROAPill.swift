@@ -20,6 +20,7 @@ struct ROAPill: View {
         /// Standalone placements: the entry-detail hero, the active-session row.
         case regular
 
+        /// The text style, not a `Font`: the skin's chip primitive sets the face.
         var textStyle: Font.TextStyle {
             switch self {
             case .compact: .caption2
@@ -38,7 +39,7 @@ struct ROAPill: View {
 
     var body: some View {
         // The label takes the gated text variant, the fill the accent; the
-        // skin draws the form (see `skinChip`, which owns the 0.10 tint rule).
+        // skin draws the form (see `skinChip`, which owns the tint rule).
         Text(String(localized: route.localizedName).lowercased())
             .skinChip(
                 text: route.tintTextColor,

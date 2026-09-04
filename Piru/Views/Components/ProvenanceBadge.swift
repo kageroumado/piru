@@ -2,7 +2,7 @@ import SwiftUI
 
 /// A compact pill that conveys **where a pharmacology value came from** — fusing the *method/species*
 /// (human vs animal vs in-vitro cell line vs an aggregator) with the *trust grade* (the color, from
-/// ``ConfidenceTier``). It complements ``ConfidenceBadge`` (which states the grade alone): a glance
+/// ``ConfidenceTier``): a glance
 /// distinguishes a human-PK number from a rat-synaptosome EC₅₀ or an aggregator transcription, which is
 /// exactly the faithful-over-comprehensive distinction the evidence pipeline grades on.
 ///
@@ -31,14 +31,14 @@ struct ProvenanceBadge: View {
         .font(.caption2.weight(.semibold))
         .foregroundStyle(color)
         .padding(.horizontal, 7)
-        .padding(.vertical, 2)
-        .background(color.opacity(0.10), in: Capsule())
+        .padding(.vertical, Spacing.xxs)
+        .background(color.opacity(Theme.Opacity.tint), in: Capsule())
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Evidence source: \(String(localized: kind.accessibleName)), \(String(localized: confidence.label))")
     }
 
     /// Color tracks the trust grade so an at-a-glance read combines method *and* how much to trust it —
-    /// the same ramp as ``ConfidenceBadge`` (green → yellow → orange → gray).
+    /// green → yellow → orange → gray.
     private var color: Color {
         switch confidence {
         case .high: .Confidence.High.text
@@ -110,7 +110,7 @@ struct ProvenanceBadge: View {
 }
 
 #Preview {
-    VStack(alignment: .leading, spacing: 8) {
+    VStack(alignment: .leading, spacing: Spacing.md) {
         ProvenanceBadge(confidence: .high, species: "human", sourceSlug: "peer-review-primary")
         ProvenanceBadge(confidence: .medium, species: "rat brain synaptosomes", sourceSlug: "peer-review-primary")
         ProvenanceBadge(confidence: .high, species: "HEK293", sourceSlug: "peer-review-primary")

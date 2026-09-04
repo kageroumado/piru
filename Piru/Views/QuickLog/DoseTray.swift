@@ -1,6 +1,5 @@
 import SwiftData
 import SwiftUI
-import UIKit
 
 // MARK: - Metrics
 

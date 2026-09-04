@@ -4,21 +4,70 @@ import TipKit
 
 // MARK: - Journal Grouping
 
+/// The Journal's three views. `grouped` buckets entries under a secondary key
+/// (``JournalGroupKey``) picked in the options popover.
 enum JournalGrouping: String, CaseIterable {
-    // Order drives the grouping menu; Days is the default so it leads.
+    // Order drives the grouping menu.
     case byDay = "Days"
     case timeline = "Timeline"
-    case recent = "Recent"
-    case bySubstance = "Substance"
-    case byCategory = "Category"
+    case grouped = "Grouped"
 
     var displayName: LocalizedStringResource {
         switch self {
-        case .recent: "Recent"
         case .byDay: "Days"
         case .timeline: "Timeline"
-        case .bySubstance: "Substance"
-        case .byCategory: "Category"
+        case .grouped: "Grouped"
+        }
+    }
+}
+
+/// What the Grouped view buckets by — the popover's segmented control under
+/// the thumbnails. Remembered across launches.
+enum JournalGroupKey: String, CaseIterable {
+    case substance = "Substance"
+    case category = "Category"
+
+    var displayName: LocalizedStringResource {
+        switch self {
+        case .substance: "By Substance"
+        case .category: "By Category"
+        }
+    }
+}
+
+/// Rewrites a persisted grouping from the five-thumbnail picker into the
+/// three-view one, so nobody's saved choice snaps back to Days. Recent was the
+/// Timeline's bubbles without the hour axis, so it becomes Timeline with the
+/// axis off; Substance and Category become Grouped with the matching key.
+enum JournalGroupingMigration {
+    static let groupingKey = "journalGrouping"
+    static let groupKeyKey = "journalGroupKey"
+    static let timelineAxisKey = "timelineShowsAxis"
+
+    enum Outcome: Equatable {
+        case unchanged
+        case recentToTimeline
+        case substanceToGrouped
+        case categoryToGrouped
+    }
+
+    @discardableResult
+    static func migrate(in defaults: UserDefaults) -> Outcome {
+        switch defaults.string(forKey: groupingKey) {
+        case "Recent":
+            defaults.set(JournalGrouping.timeline.rawValue, forKey: groupingKey)
+            defaults.set(false, forKey: timelineAxisKey)
+            return .recentToTimeline
+        case "Substance":
+            defaults.set(JournalGrouping.grouped.rawValue, forKey: groupingKey)
+            defaults.set(JournalGroupKey.substance.rawValue, forKey: groupKeyKey)
+            return .substanceToGrouped
+        case "Category":
+            defaults.set(JournalGrouping.grouped.rawValue, forKey: groupingKey)
+            defaults.set(JournalGroupKey.category.rawValue, forKey: groupKeyKey)
+            return .categoryToGrouped
+        default:
+            return .unchanged
         }
     }
 }
@@ -53,39 +102,45 @@ struct EntryListView: View {
     /// searching the Library instead when a query finds no journal entries.
     var onSwitchToLibrary: (() -> Void)?
 
-    @AppStorage("journalGrouping", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var grouping: JournalGrouping = .byDay
+    @AppStorage("journalGrouping", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var grouping: JournalGrouping = .timeline
+    @AppStorage("journalGroupKey", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var groupKey: JournalGroupKey = .substance
     @State private var showingCalendar = false
+
+    /// Rename / Move Doses / Share targets set from a session card's context
+    /// menu; the matching alert and sheets hang off the list.
+    @State private var cardActions = SessionCardActionModel()
+
+    /// Runs once per process, ahead of the first `@AppStorage` read above — a
+    /// raw value the enum no longer has would otherwise silently read as Days.
+    private static let persistedGroupingMigrated: Void = {
+        if let defaults = UserDefaults(suiteName: "group.dev.yumeji.piru") {
+            JournalGroupingMigration.migrate(in: defaults)
+        }
+    }()
+
+    init(searchText: Binding<String>, isSearchSurface: Bool = false, onSwitchToLibrary: (() -> Void)? = nil) {
+        _ = Self.persistedGroupingMigrated
+        _searchText = searchText
+        self.isSearchSurface = isSearchSurface
+        self.onSwitchToLibrary = onSwitchToLibrary
+    }
 
     /// The Timeline grouping's day layouts — built lazily, only while that
     /// grouping is selected. Shares the zoom preference with the pushed
     /// timeline screen.
     @State private var timelineModel = UnifiedTimelineModel()
-    @AppStorage("timelineZoom", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineZoom = 1.0
-    @AppStorage("timelineCompression", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelineCompression = true
-    @AppStorage("timelinePKCurves", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var timelinePKCurves = false
 
-    /// Mirrors the day cards' redose-stacking preference so the timeline prewarm
-    /// computes geometry under the same key the cards will look up.
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
-
-    // Filter state — the funnel menu's three facets: tag, category, route.
-    // Within a facet the values OR; across facets they AND. (Substance and date
-    // filtering were dropped: substance duplicates Search, and a chronological
-    // day list makes time windows pointless — the calendar *scrolls* to a day
-    // instead.)
-    @State private var filterTags: Set<String> = []
-    @State private var filterCategories: Set<SubstanceCategory> = []
-    @State private var filterRoutes: Set<RouteOfAdministration> = []
-
-    private var hasActiveFilters: Bool {
-        !filterTags.isEmpty || !filterCategories.isEmpty || !filterRoutes.isEmpty
-    }
+    /// The strip's display options plus the day cards' redose stacking, read
+    /// live from the app-group defaults the rest of the app writes.
+    private var prefs = TimelinePreferences()
 
     /// Surface the live session as a hero card atop the Journal. Independent of
     /// the tag/category filters — "what's active right now" is a status banner,
-    /// not part of the filtered history.
+    /// not part of the filtered history. The Timeline grouping already opens on
+    /// the live strip, which carries the same doses and phases, so the card is
+    /// omitted there rather than shown twice.
     private var showActiveHero: Bool {
-        !isSearchSurface && ActiveSessionManager.shared.hasActiveSession
+        !isSearchSurface && grouping != .timeline && ActiveSessionManager.shared.hasActiveSession
     }
 
     /// The day-list card representing the currently-active session — the cluster
@@ -107,14 +162,12 @@ struct EntryListView: View {
 
     // MARK: - Derived State
 
-    /// All derived journal state — the grouped buckets, color map, category
-    /// facets, and tag list — lives in this observable model so recomputation
-    /// happens off `body` and the view diffs a single source of truth. UI-only
-    /// state (grouping, filters, collapse sets) stays on the view.
+    /// All journal state that isn't a persisted preference — the grouped
+    /// buckets, color map, category facets, tag list, the funnel's facet
+    /// selection, and which Grouped sections are folded shut — lives in this
+    /// observable model so recomputation happens off `body` and the view diffs a
+    /// single source of truth.
     @State private var model = JournalModel()
-
-    @State private var collapsedSubstances: Set<String> = []
-    @State private var collapsedCategories: Set<SubstanceCategory> = []
 
     /// First-appear gate: the initial derive paints without animation; later
     /// revision-driven re-runs animate the diff in.
@@ -178,14 +231,12 @@ struct EntryListView: View {
 
     /// Re-bucket for the current filter/grouping selection — no re-resolve.
     private func regroup() {
-        model.rebuildGroups(
+        model.regroup(
             entries: entries,
             grouping: grouping,
+            groupKey: groupKey,
             searchText: searchText,
-            filterTags: filterTags,
-            filterCategories: filterCategories,
-            filterRoutes: filterRoutes,
-            stackRedoses: stackRedoses,
+            stackRedoses: prefs.stackRedoses,
             revision: DoseLogService.shared.revision,
         )
     }
@@ -205,16 +256,22 @@ struct EntryListView: View {
         // entries; the hero card and the day list's "Active" badge share them.
         let activeStates = isSearchSurface ? [] : ActiveSessionManager.shared.activeSubstanceStates
         let activeID = activeSessionCard(states: activeStates)?.id
+        @Bindable var model = self.model
         return List {
             // Active-filter summary — the funnel's accent fill alone says *that*
             // something is filtered; this strip says *what*, chip-per-value, each
             // removable in place. It only exists while filtering, so the common
             // (unfiltered) case pays no standing row for it.
-            if !isSearchSurface, hasActiveFilters {
-                activeFilterBar
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
+            if !isSearchSurface, model.hasActiveFilters {
+                JournalActiveFilterBar(
+                    tags: $model.filterTags,
+                    categories: $model.filterCategories,
+                    routes: $model.filterRoutes,
+                    onClear: { model.clearFilters() },
+                )
+                .listRowInsets(.rowFlush)
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
             }
 
             // The daily meds front door — today's checklist, tap to log
@@ -222,7 +279,7 @@ struct EntryListView: View {
             // user has no meds, so a recreational-only journal never sees it.
             if !isSearchSurface {
                 MyMedsCard()
-                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 10, trailing: 16))
+                    .listRowInsets(.rowStandard)
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
             }
@@ -242,7 +299,7 @@ struct EntryListView: View {
                         navigator.push(.timeline)
                     },
                 )
-                .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 10, trailing: 16))
+                .listRowInsets(.rowStandard)
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
             }
@@ -253,125 +310,152 @@ struct EntryListView: View {
 
             // Main content
             switch grouping {
-            case .recent: recentContent
             case .byDay: sessionGroupedContent(activeID: activeID)
             case .timeline: timelineContent
-            case .bySubstance: substanceGroupedContent
-            case .byCategory: categoryGroupedContent
+            case .grouped:
+                switch groupKey {
+                case .substance: JournalSubstanceSections(model: model)
+                case .category: JournalCategorySections(model: model)
+                }
             }
         }
-        .id(grouping)
+        .id(listIdentity)
         .listStyle(.plain)
-        .listSectionSpacing(.custom(2))
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
-        .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
-        .toolbar {
-            // Two controls, Files/Mail style: the funnel is the single home for
-            // narrowing (tags + categories + routes), the ellipsis for everything
-            // view-related (grouping thumbnails, Jump to Date, Settings, Help).
-            if !isSearchSurface {
-                ToolbarItem(placement: .topBarTrailing) {
-                    JournalFilterMenu(
-                        model: model,
-                        filterTags: $filterTags,
-                        filterCategories: $filterCategories,
-                        filterRoutes: $filterRoutes,
-                    )
-                }
-                ToolbarSpacer(.fixed, placement: .topBarTrailing)
-                ToolbarItem(placement: .topBarTrailing) {
-                    JournalOptionsButton(grouping: $grouping) { showingCalendar = true }
+        #if canImport(UIKit)
+            .listSectionSpacing(.custom(2))
+        #endif
+            .themedPage()
+            .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
+            .toolbar {
+                // Two controls, Files/Mail style: the funnel is the single home for
+                // narrowing (tags + categories + routes), the ellipsis for everything
+                // view-related (grouping thumbnails, Jump to Date, Settings, Help).
+                // The Timeline grouping adds a third, leading them: the strip's
+                // display options.
+                if !isSearchSurface {
+                    if grouping == .timeline {
+                        ToolbarItem(placement: .platformTopBarTrailing) {
+                            JournalTimelineOptionsButton(
+                                zoom: prefs.$zoom,
+                                compressGaps: prefs.$compressGaps,
+                                pkCurves: prefs.$pkCurves,
+                                showsAxis: prefs.$showsAxis,
+                                bubbleStyle: prefs.$bubbleStyle,
+                            )
+                        }
+                        ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
+                    }
+                    ToolbarItem(placement: .platformTopBarTrailing) {
+                        JournalFilterMenu(
+                            model: model,
+                            filterTags: $model.filterTags,
+                            filterCategories: $model.filterCategories,
+                            filterRoutes: $model.filterRoutes,
+                        )
+                    }
+                    ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
+                    ToolbarItem(placement: .platformTopBarTrailing) {
+                        JournalOptionsButton(grouping: $grouping, groupKey: $groupKey) { showingCalendar = true }
+                    }
                 }
             }
-        }
-        .overlay {
-            // Gate the empty state on the first derive having finished: on a
-            // cold launch the initial rebuild awaits the substance-store
-            // warm-up, and flashing "No Entries" at a user who has entries
-            // reads as a blink of data loss. Until then, a spinner.
-            if model.filtered.isEmpty {
-                if hasDerivedOnce {
-                    emptyState
-                } else {
-                    ProgressView()
+            .overlay {
+                // Gate the empty state on the first derive having finished: on a
+                // cold launch the initial rebuild awaits the substance-store
+                // warm-up, and flashing "No Entries" at a user who has entries
+                // reads as a blink of data loss. Until then, a spinner.
+                if model.filtered.isEmpty {
+                    if hasDerivedOnce {
+                        emptyState
+                    } else {
+                        ProgressView()
+                    }
                 }
             }
-        }
-        // Single derive driver: runs once on appear (paints fast, no animation)
-        // and re-runs whenever the dose log commits a change (an edit / add /
-        // delete — every mutation path bumps `DoseLogService.revision`),
-        // debouncing briefly and animating the diff in. Keying off the one
-        // observed Int — instead of hashing every entry's fields in `body` —
-        // keeps this view from subscribing to every property of every dose.
-        // The model's generation guard makes a newer run supersede an in-flight
-        // one, so the overlap on first appear can't corrupt state.
-        .task(id: DoseLogService.shared.revision) {
-            let isFirst = !hasLoadedOnce
-            hasLoadedOnce = true
-            if !isFirst {
-                // Animate the diff so a newly-logged session slides in and pushes
-                // the others down instead of snapping.
-                try? await Task.sleep(for: .milliseconds(100))
+            // Single derive driver: runs once on appear (paints fast, no animation)
+            // and re-runs whenever the dose log commits a change (an edit / add /
+            // delete — every mutation path bumps `DoseLogService.revision`),
+            // debouncing briefly and animating the diff in. Keying off the one
+            // observed Int — instead of hashing every entry's fields in `body` —
+            // keeps this view from subscribing to every property of every dose.
+            // The model's generation guard makes a newer run supersede an in-flight
+            // one, so the overlap on first appear can't corrupt state.
+            .task(id: DoseLogService.shared.revision) {
+                let isFirst = !hasLoadedOnce
+                hasLoadedOnce = true
+                if !isFirst {
+                    // Animate the diff so a newly-logged session slides in and pushes
+                    // the others down instead of snapping.
+                    try? await Task.sleep(for: .milliseconds(100))
+                    guard !Task.isCancelled else { return }
+                }
+                await rebuildAll(animated: !isFirst)
+                hasDerivedOnce = true
+            }
+            // Debounce the search filter: re-filtering the whole history runs on the
+            // main actor, so doing it on every keystroke stalled typing. An empty
+            // query (clearing search) regroups immediately. The `.task(id:)` cancels
+            // the prior pending filter when the text changes again.
+            .task(id: searchText) {
+                // First appear: the derive task owns the initial regroup, and it
+                // regroups with the live `searchText` when it lands — bucketing
+                // now would run against an empty `derived`.
+                guard hasDerivedOnce else { return }
+                if !searchText.isEmpty {
+                    try? await Task.sleep(for: .milliseconds(150))
+                    guard !Task.isCancelled else { return }
+                }
+                resetWindowAndRegroup()
+            }
+            .onChange(of: grouping) { resetWindowAndRegroup() }
+            .onChange(of: groupKey) { resetWindowAndRegroup() }
+            .onChange(of: model.filterSignature) { resetWindowAndRegroup() }
+            // The Timeline grouping's layouts. Waits a beat so the filter/search
+            // regroup above lands first — the timeline renders `model.filtered`
+            // whenever a filter or search is active, the raw log otherwise.
+            .task(id: timelineRebuildKey) {
+                guard grouping == .timeline else { return }
+                try? await Task.sleep(for: .milliseconds(200))
                 guard !Task.isCancelled else { return }
+                let source = (model.hasActiveFilters || !searchText.isEmpty) ? model.filtered : entries
+                await timelineModel.rebuild(
+                    entries: source,
+                    colors: substanceColors,
+                    colorMap: substanceColors.colorMap,
+                    revision: timelineRebuildKey.hashValue,
+                    zoom: prefs.zoom,
+                    compressGaps: prefs.compressGaps,
+                    pkCurves: prefs.pkCurves,
+                    showsAxis: prefs.showsAxis,
+                    bubbleStyle: prefs.bubbleStyle,
+                    showsVitals: prefs.showsVitals,
+                )
             }
-            await rebuildAll(animated: !isFirst)
-            hasDerivedOnce = true
-        }
-        // Debounce the search filter: re-filtering the whole history runs on the
-        // main actor, so doing it on every keystroke stalled typing. An empty
-        // query (clearing search) regroups immediately. The `.task(id:)` cancels
-        // the prior pending filter when the text changes again.
-        .task(id: searchText) {
-            // First appear: the derive task owns the initial regroup, and it
-            // regroups with the live `searchText` when it lands — bucketing
-            // now would run against an empty `derived`.
-            guard hasDerivedOnce else { return }
-            if !searchText.isEmpty {
-                try? await Task.sleep(for: .milliseconds(150))
-                guard !Task.isCancelled else { return }
+            .onChange(of: colorSignature) {
+                Task { await rebuildAll(animated: true) }
             }
-            resetWindowAndRegroup()
-        }
-        .onChange(of: filterTags) { resetWindowAndRegroup() }
-        .onChange(of: grouping) { resetWindowAndRegroup() }
-        .onChange(of: filterCategories) { resetWindowAndRegroup() }
-        .onChange(of: filterRoutes) { resetWindowAndRegroup() }
-        // The Timeline grouping's layouts. Waits a beat so the filter/search
-        // regroup above lands first — the timeline renders `model.filtered`
-        // whenever a filter or search is active, the raw log otherwise.
-        .task(id: timelineRebuildKey) {
-            guard grouping == .timeline else { return }
-            try? await Task.sleep(for: .milliseconds(200))
-            guard !Task.isCancelled else { return }
-            let source = (hasActiveFilters || !searchText.isEmpty) ? model.filtered : entries
-            await timelineModel.rebuild(
-                entries: source,
-                colors: substanceColors,
-                colorMap: substanceColors.colorMap,
-                revision: timelineRebuildKey.hashValue,
-                zoom: timelineZoom,
-                compressGaps: timelineCompression,
-                pkCurves: timelinePKCurves,
-            )
-        }
-        .onChange(of: colorSignature) {
-            Task { await rebuildAll(animated: true) }
-        }
-        .sheet(isPresented: $showingCalendar) {
-            calendarSheet(proxy: proxy)
-                .presentationDetents([.medium])
-                .presentationBackground(.regularMaterial)
-        }
+            .sheet(isPresented: $showingCalendar) {
+                calendarSheet(proxy: proxy)
+                    .presentationDetents([.medium])
+                    .presentationBackground(.regularMaterial)
+            }
+            .sessionCardActions(cardActions, colors: substanceColors)
+    }
+
+    /// The List is recreated (scroll reset, fresh rows) when the view changes;
+    /// the Grouped key is part of that identity, the other views ignore it.
+    private var listIdentity: String {
+        grouping == .grouped ? "\(grouping.rawValue)|\(groupKey.rawValue)" : grouping.rawValue
     }
 
     private var timelineRebuildKey: String {
-        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(timelineZoom)|\(timelineCompression)|\(timelinePKCurves)|\(searchText)|\(filterTags.hashValue)|\(filterCategories.hashValue)|\(filterRoutes.hashValue)"
+        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(prefs.layoutSignature)|\(searchText)|\(model.filterSignature)"
     }
 
     /// The Timeline grouping rendered as list rows — the same continuous
     /// strip the pushed timeline screen draws (day pills float over each
-    /// slice), with the meds/Active Now cards above.
+    /// slice), with the meds/Active Now cards above; the strip's display
+    /// options live in the toolbar (``JournalTimelineOptionsButton``).
     private var timelineContent: some View {
         ForEach(timelineModel.days) { day in
             TimelineDayContent(
@@ -384,7 +468,7 @@ struct EntryListView: View {
                 },
             )
             .id(day.date)
-            .listRowInsets(EdgeInsets())
+            .listRowInsets(.rowFlush)
             .listRowSeparator(.hidden)
             .listRowBackground(Color.clear)
         }
@@ -435,97 +519,6 @@ struct EntryListView: View {
         }
     }
 
-    // MARK: - Active Filter Bar
-
-    /// One removable chip per active filter value (tags, then categories, then
-    /// routes) and a trailing Clear. Only rendered while a filter is active —
-    /// the funnel menu is where filters are *applied*; this strip is where the
-    /// current selection stays visible and individually dismissible.
-    private var activeFilterBar: some View {
-        ScrollView(.horizontal) {
-            HStack(spacing: 8) {
-                ForEach(filterTags.sorted(), id: \.self) { tag in
-                    filterChip(title: Text(verbatim: "#\(tag)")) {
-                        filterTags.remove(tag)
-                    }
-                }
-                ForEach(filterCategories.sorted { $0.rawValue < $1.rawValue }, id: \.self) { category in
-                    filterChip(title: Text(category.displayName)) {
-                        filterCategories.remove(category)
-                    }
-                }
-                ForEach(filterRoutes.sorted { $0.rawValue < $1.rawValue }, id: \.self) { route in
-                    filterChip(title: Text(route.localizedName)) {
-                        filterRoutes.remove(route)
-                    }
-                }
-
-                Button {
-                    withAnimation(.snappy) { clearFilters() }
-                } label: {
-                    Text("Clear")
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(Theme.accent)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 8)
-                }
-                .buttonStyle(.plain)
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 4)
-        }
-        .scrollIndicators(.hidden)
-    }
-
-    private func filterChip(title: Text, remove: @escaping () -> Void) -> some View {
-        Button {
-            withAnimation(.snappy) { remove() }
-        } label: {
-            HStack(spacing: 5) {
-                title
-                Image(systemName: "xmark")
-                    .font(.caption2.weight(.semibold))
-                    .opacity(0.8)
-                    .accessibilityHidden(true)
-            }
-            .font(.subheadline.weight(.medium))
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(Theme.accent, in: Capsule())
-            .foregroundStyle(.white)
-        }
-        .buttonStyle(.plain)
-        .accessibilityHint(Text("Removes this filter."))
-    }
-
-    private func clearFilters() {
-        filterTags = []
-        filterCategories = []
-        filterRoutes = []
-    }
-
-    // MARK: - Recent (Flat) Content
-
-    private var recentContent: some View {
-        ForEach(model.filtered) { entry in
-            entryRow(entry)
-        }
-    }
-
-    /// One dose entry as a tappable card row (chevron-free, pushes to detail).
-    /// Shared by the flat, substance-grouped, and category-grouped lists.
-    private func entryRow(_ entry: DoseEntry) -> some View {
-        Button {
-            navigator.push(.entry(timestamp: entry.timestamp, id: entry.id))
-        } label: {
-            SubstanceEntryRow(entry: entry, colorMap: model.colorMap)
-        }
-        .buttonStyle(.plain)
-        .listRowInsets(EdgeInsets(top: 5, leading: 16, bottom: 5, trailing: 16))
-        .listRowSeparator(.hidden)
-        .listRowBackground(Color.clear)
-    }
-
     // MARK: - Session Grouped Content
 
     /// Sessions grouped under day headers — the Journal's primary view. Each day
@@ -534,155 +527,22 @@ struct EntryListView: View {
     /// row; everything else is a full card with a mini per-session timeline.
     @ViewBuilder
     private func sessionGroupedContent(activeID: UUID?) -> some View {
-        sessionDayRows(activeID: activeID)
+        JournalDaySections(
+            days: model.sessionDays,
+            colorMap: model.colorMap,
+            activeID: activeID,
+            actions: cardActions,
+        )
         // Load-more sentinel: when the last built day scrolls into view, pull
         // in the next page of older sessions. Removed once the whole history
         // is materialized (`hasMoreSessions == false`).
         if model.hasMoreSessions {
             Color.clear
                 .frame(height: 1)
-                .listRowInsets(EdgeInsets())
+                .listRowInsets(.rowFlush)
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
                 .onAppear { loadMoreSessions() }
-        }
-    }
-
-    private func sessionDayRows(activeID: UUID?) -> some View {
-        ForEach(model.sessionDays) { day in
-            // History is the *completed* record: the live session lives only in
-            // the Active Now card until it ends, then enters the log. So drop
-            // it here — otherwise a single-dose day showed the exact same dose
-            // and curve twice (Active Now + a "Today" row). A day left empty by
-            // that removal renders nothing (no orphan header); the session
-            // reappears here once it wears off.
-            let cards = day.sessions.filter { $0.id != activeID }
-            if !cards.isEmpty {
-                Section {
-                    // The day's sessions share one rounded container, separated by
-                    // inset hairlines — the day reads as a single unit rather than
-                    // a stack of floating cards. Each row is still its own plain
-                    // Button (programmatic push, no system disclosure chevron over
-                    // the graph), so taps stay per-session.
-                    VStack(spacing: 0) {
-                        ForEach(cards.enumerated(), id: \.element.id) { index, card in
-                            Button {
-                                if let session = card.session {
-                                    navigator.push(.session(id: session.id))
-                                }
-                            } label: {
-                                SessionCardView(card: card, colorMap: model.colorMap, inGroup: true)
-                                    .equatable()
-                            }
-                            .buttonStyle(.plain)
-
-                            if index < cards.count - 1 {
-                                Divider()
-                                    .padding(.horizontal, 14)
-                            }
-                        }
-                    }
-                    .themeCard(cornerRadius: 16)
-                    .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16))
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                    // Scroll anchor for the calendar's "Jump to Date".
-                    .id(day.id)
-                } header: {
-                    HStack(alignment: .firstTextBaseline, spacing: 7) {
-                        Text(day.dateTitle)
-                            .font(.piru(.headline))
-                        Text(day.weekday)
-                            .font(.piru(.headline, weight: .regular))
-                            .foregroundStyle(Theme.secondaryLabel)
-                        Spacer()
-                    }
-                    .textCase(nil)
-                    // Indented to align with the cards' inner content (the card
-                    // edge sits at 16, its text at ~30), matching how the detail
-                    // screens' section headers sit in from the card edge. Plus a
-                    // little more room beneath before the day's container.
-                    .listRowInsets(EdgeInsets(top: 0, leading: 30, bottom: 8, trailing: 16))
-                }
-            }
-        }
-    }
-
-    // MARK: - Substance Grouped Content
-
-    private var substanceGroupedContent: some View {
-        ForEach(model.substanceGroups, id: \.name) { group in
-            let isCollapsed = collapsedSubstances.contains(group.name)
-            Section {
-                if !isCollapsed {
-                    ForEach(group.entries) { entry in
-                        entryRow(entry)
-                    }
-                }
-            } header: {
-                Button {
-                    withAnimation(.snappy) {
-                        if isCollapsed {
-                            collapsedSubstances.remove(group.name)
-                        } else {
-                            collapsedSubstances.insert(group.name)
-                        }
-                    }
-                } label: {
-                    HStack(spacing: 8) {
-                        SubstanceGroupHeader(name: group.name, count: group.entries.count, colorMap: model.colorMap)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.caption2.weight(.semibold))
-                            .foregroundStyle(.tertiary)
-                            .rotationEffect(.degrees(isCollapsed ? 0 : 90))
-                            .accessibilityHidden(true)
-                    }
-                }
-                .accessibilityValue(isCollapsed ? Text("Collapsed") : Text("Expanded"))
-            }
-        }
-    }
-
-    // MARK: - Category Grouped Content
-
-    private var categoryGroupedContent: some View {
-        ForEach(model.categoryGroups, id: \.category) { group in
-            let isCollapsed = collapsedCategories.contains(group.category)
-            Section {
-                if !isCollapsed {
-                    ForEach(group.entries) { entry in
-                        entryRow(entry)
-                    }
-                }
-            } header: {
-                Button {
-                    withAnimation(.snappy) {
-                        if isCollapsed {
-                            collapsedCategories.remove(group.category)
-                        } else {
-                            collapsedCategories.insert(group.category)
-                        }
-                    }
-                } label: {
-                    HStack(spacing: 8) {
-                        Label {
-                            Text("\(String(localized: group.category.displayName)) (\(group.entries.count))")
-                        } icon: {
-                            Image(systemName: group.category.icon)
-                                .foregroundStyle(group.category.labelColor)
-                        }
-                        .font(.subheadline.weight(.semibold))
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.caption2.weight(.semibold))
-                            .foregroundStyle(.tertiary)
-                            .rotationEffect(.degrees(isCollapsed ? 0 : 90))
-                            .accessibilityHidden(true)
-                    }
-                }
-                .accessibilityValue(isCollapsed ? Text("Collapsed") : Text("Expanded"))
-            }
         }
     }
 
@@ -691,12 +551,12 @@ struct EntryListView: View {
     private var emptyState: some View {
         ContentUnavailableView {
             Label(
-                searchText.isEmpty && !hasActiveFilters ? "No Entries" : "No Results",
-                systemImage: searchText.isEmpty && !hasActiveFilters ? "pill" : "magnifyingglass",
+                searchText.isEmpty && !model.hasActiveFilters ? "No Entries" : "No Results",
+                systemImage: searchText.isEmpty && !model.hasActiveFilters ? "pill" : "magnifyingglass",
             )
         } description: {
             Text(
-                hasActiveFilters ? "Try adjusting your filters." :
+                model.hasActiveFilters ? "Try adjusting your filters." :
                     searchText.isEmpty ? "Tap + to log your first entry." :
                     "Try a different search term.",
             )
@@ -720,7 +580,7 @@ struct EntryListView: View {
                 },
             )
             .navigationTitle("Jump to Date")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { showingCalendar = false } label: { Image(systemName: "xmark") }
@@ -743,211 +603,3 @@ enum JournalMenuAction {
     case settings
     case help
 }
-
-/// The groupings' screen sketches for ``MenuPhoneThumbnail`` — each mode's list
-/// shape reduced to line art matching the real journal layouts: day-grouped
-/// sessions in rounded cards, flat chronological rows, collapsible substance
-/// sections with dots, collapsible category sections with icon tiles.
-enum JournalGroupingArt {
-    static func sketch(for grouping: JournalGrouping) -> (GraphicsContext, CGRect, Color) -> Void {
-        switch grouping {
-        case .byDay: drawDayGroups
-        case .timeline: drawTimelineSpine
-        case .recent: drawFlatRows
-        case .bySubstance: drawDotGroups
-        case .byCategory: drawTileGroups
-        }
-    }
-
-    /// A vertical axis on the left with dose dots, connector lines reaching
-    /// right into rounded card rows — the timeline's three-column shape.
-    private static func drawTimelineSpine(_ context: GraphicsContext, in rect: CGRect, color: Color) {
-        let unit = rect.height / 26
-        let axisX = rect.minX + unit * 3
-        // The time axis
-        var axis = Path()
-        axis.move(to: CGPoint(x: axisX, y: rect.minY))
-        axis.addLine(to: CGPoint(x: axisX, y: rect.maxY))
-        context.stroke(axis, with: .color(color.opacity(0.35)), lineWidth: 0.8)
-        // Dose dots + connectors + card rows
-        let cardX = rect.minX + unit * 7
-        let cardW = rect.maxX - cardX
-        for (index, dotY) in [rect.minY + unit * 3, rect.minY + unit * 11, rect.minY + unit * 20].enumerated() {
-            let cardY = dotY + (index == 1 ? unit * 2.5 : 0)
-            context.fill(
-                Path(ellipseIn: CGRect(x: axisX - unit, y: dotY - unit, width: unit * 2, height: unit * 2)),
-                with: .color(color),
-            )
-            var connector = Path()
-            connector.move(to: CGPoint(x: axisX + unit, y: dotY))
-            connector.addLine(to: CGPoint(x: cardX, y: cardY + unit * 2))
-            context.stroke(connector, with: .color(color.opacity(0.4)), lineWidth: 0.6)
-            let cardRect = CGRect(x: cardX, y: cardY, width: cardW, height: unit * 4)
-            context.stroke(Path(roundedRect: cardRect, cornerRadius: unit), with: .color(color.opacity(0.5)), lineWidth: 0.6)
-            line(context, x: cardX + unit, y: cardY + unit * 1.2, width: cardW * 0.5, height: unit * 0.9, color: color.opacity(0.7))
-        }
-    }
-
-    /// A thin header line (date), then a rounded card containing session rows
-    /// separated by hairlines — twice (two "days"). Mirrors the real layout
-    /// where each day is a date header + a `.themeCard(cornerRadius: 16)`
-    /// containing `SessionCardView` rows.
-    private static func drawDayGroups(_ context: GraphicsContext, in rect: CGRect, color: Color) {
-        let unit = rect.height / 26
-        for groupTop in [rect.minY, rect.minY + unit * 14] {
-            // Date header ("Aug 28 Wed")
-            line(context, x: rect.minX + unit, y: groupTop, width: rect.width * 0.5, height: unit * 1.2, color: color)
-            // Rounded card container
-            let cardTop = groupTop + unit * 2.2
-            let cardHeight = unit * 9
-            let cardRadius = unit * 1.4
-            let cardRect = CGRect(x: rect.minX, y: cardTop, width: rect.width, height: cardHeight)
-            context.stroke(Path(roundedRect: cardRect, cornerRadius: cardRadius), with: .color(color.opacity(0.3)), lineWidth: 0.5)
-            // Session rows inside the card
-            let inset = unit * 1.2
-            for row in 0 ..< 2 {
-                let rowY = cardTop + inset + CGFloat(row) * (cardHeight - inset * 2) * 0.5
-                line(context, x: rect.minX + inset, y: rowY, width: rect.width - inset * 2, height: unit * 1.2, color: color.opacity(0.7))
-                line(context, x: rect.minX + inset, y: rowY + unit * 1.8, width: (rect.width - inset * 2) * 0.65, height: unit * 0.9, color: color.opacity(0.35))
-            }
-            // Hairline divider between rows
-            let divY = cardTop + cardHeight * 0.5
-            line(context, x: rect.minX + inset, y: divY, width: rect.width - inset * 2, height: 0.5, color: color.opacity(0.15))
-        }
-    }
-
-    /// Individual entry rows with spacing — the flat chronological list. Each
-    /// row has a title line and a shorter detail line (dose + time), matching
-    /// the real entry rows.
-    private static func drawFlatRows(_ context: GraphicsContext, in rect: CGRect, color: Color) {
-        let unit = rect.height / 26
-        for row in 0 ..< 4 {
-            let y = rect.minY + unit * CGFloat(row) * 6.2
-            // Substance name
-            line(context, x: rect.minX, y: y, width: rect.width * 0.6, height: unit * 1.4, color: color)
-            // Dose + route
-            line(context, x: rect.minX, y: y + unit * 2, width: rect.width * 0.35, height: unit * 1, color: color.opacity(0.5))
-            // Timestamp (right-aligned)
-            line(context, x: rect.maxX - rect.width * 0.25, y: y + unit * 2, width: rect.width * 0.25, height: unit * 1, color: color.opacity(0.35))
-        }
-    }
-
-    /// A leading dot + header line with a trailing chevron, then indented entry
-    /// rows — twice (two substance sections). The dot represents the substance
-    /// color, the chevron the expand/collapse toggle.
-    private static func drawDotGroups(_ context: GraphicsContext, in rect: CGRect, color: Color) {
-        let unit = rect.height / 26
-        let dot = unit * 2
-        for groupTop in [rect.minY, rect.minY + unit * 14] {
-            // Substance dot
-            context.fill(
-                Path(ellipseIn: CGRect(x: rect.minX, y: groupTop, width: dot, height: dot)),
-                with: .color(color),
-            )
-            // Substance name
-            line(context, x: rect.minX + dot * 1.4, y: groupTop + (dot - unit * 1.4) / 2, width: rect.width * 0.5, height: unit * 1.4, color: color)
-            // Chevron placeholder (right side)
-            let chevSize = unit * 1.2
-            line(context, x: rect.maxX - chevSize, y: groupTop + (dot - chevSize) / 2, width: chevSize, height: chevSize, color: color.opacity(0.3))
-            // Indented entry rows
-            let indent = dot * 1.4
-            for row in 0 ..< 2 {
-                let y = groupTop + unit * (4 + CGFloat(row) * 3.5)
-                line(context, x: rect.minX + indent, y: y, width: rect.width - indent, height: unit * 1.2, color: color.opacity(0.5))
-                line(context, x: rect.minX + indent, y: y + unit * 1.6, width: (rect.width - indent) * 0.4, height: unit * 0.8, color: color.opacity(0.25))
-            }
-        }
-    }
-
-    /// A leading rounded icon tile + header line with a trailing chevron, then
-    /// indented entry rows — twice. The tile represents the category icon.
-    private static func drawTileGroups(_ context: GraphicsContext, in rect: CGRect, color: Color) {
-        let unit = rect.height / 26
-        let tile = unit * 2
-        for groupTop in [rect.minY, rect.minY + unit * 14] {
-            // Category icon tile
-            context.fill(
-                Path(roundedRect: CGRect(x: rect.minX, y: groupTop, width: tile, height: tile), cornerRadius: tile * 0.25),
-                with: .color(color),
-            )
-            // Category name
-            line(context, x: rect.minX + tile * 1.4, y: groupTop + (tile - unit * 1.4) / 2, width: rect.width * 0.45, height: unit * 1.4, color: color)
-            // Count bubble
-            line(context, x: rect.maxX - unit * 3, y: groupTop + (tile - unit * 1.2) / 2, width: unit * 3, height: unit * 1.2, color: color.opacity(0.3))
-            // Indented entry rows
-            let indent = tile * 1.4
-            for row in 0 ..< 2 {
-                let y = groupTop + unit * (4 + CGFloat(row) * 3.5)
-                line(context, x: rect.minX + indent, y: y, width: rect.width - indent, height: unit * 1.2, color: color.opacity(0.5))
-                line(context, x: rect.minX + indent, y: y + unit * 1.6, width: (rect.width - indent) * 0.4, height: unit * 0.8, color: color.opacity(0.25))
-            }
-        }
-    }
-
-    private static func line(_ context: GraphicsContext, x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, color: Color) {
-        context.fill(
-            Path(roundedRect: CGRect(x: x, y: y, width: width, height: height), cornerRadius: height / 2),
-            with: .color(color),
-        )
-    }
-}
-
-private struct SubstanceEntryRow: View {
-    let entry: DoseEntry
-    let colorMap: [String: Color]
-
-    private var color: Color {
-        SubstancePalette.color(for: entry.substance, colorMap: colorMap)
-    }
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Circle()
-                .fill(color)
-                .frame(width: 10, height: 10)
-            VStack(alignment: .leading, spacing: 3) {
-                Text(CustomSubstanceStore.shared.displayName(for: entry.substance))
-                    .font(.subheadline.weight(.semibold))
-                Text("\(entry.amount.doseFormatted) \(entry.unit) — \(String(localized: entry.route.localizedName))")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            Spacer(minLength: 8)
-            VStack(alignment: .trailing, spacing: 3) {
-                Text(entry.timestamp.formatted(.dateTime.month(.abbreviated).day()))
-                    .font(.caption)
-                Text(entry.timestamp.formatted(date: .omitted, time: .shortened))
-                    .font(.caption2)
-            }
-            .foregroundStyle(Theme.secondaryLabel)
-            Image(systemName: "chevron.right")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.tertiary)
-                .accessibilityHidden(true)
-        }
-        .padding(14)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .themeCard()
-        .contentShape(RoundedRectangle(cornerRadius: 16))
-    }
-}
-
-// MARK: - Substance Group Header
-
-private struct SubstanceGroupHeader: View {
-    let name: String
-    let count: Int
-    let colorMap: [String: Color]
-
-    var body: some View {
-        HStack(spacing: 8) {
-            Circle()
-                .fill(SubstancePalette.color(for: name, colorMap: colorMap))
-                .frame(width: 8, height: 8)
-            Text("\(name) (\(count))")
-                .font(.subheadline.weight(.semibold))
-        }
-    }
-}
-
-// MARK: - Day Card

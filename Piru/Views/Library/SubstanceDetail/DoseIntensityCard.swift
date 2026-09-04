@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit.UIGestureRecognizerSubclass
 
 /// The drug.community intensity spectrum as a circular, draggable dose dial.
 ///
@@ -58,13 +57,13 @@ struct DoseIntensityCard: View {
             .textCase(.uppercase)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity)
-            .padding(.top, 4)
+            .padding(.top, Spacing.xs)
 
             gauge
                 .frame(height: 200)
                 .overlay(centerReadout)
-                .padding(.top, 2)
-                .padding(.bottom, 10)
+                .padding(.top, Spacing.xxs)
+                .padding(.bottom, Spacing.lg)
 
             // Reserve the height of the tallest band summary so the card doesn't
             // grow and shrink as the selector moves between doses. Hidden copies
@@ -84,7 +83,7 @@ struct DoseIntensityCard: View {
                     .frame(maxWidth: .infinity)
                     .multilineTextAlignment(.center)
             }
-            .padding(.vertical, 8)
+            .padding(.vertical, Spacing.md)
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: selected)
 
             // Same reserve-the-space treatment as the summary above, and for the
@@ -157,13 +156,13 @@ struct DoseIntensityCard: View {
         // ridges. Keep this unconditional: the second line is ALWAYS built,
         // and merely invisible when the band has no dose range — the same
         // reserve-the-space rule the band summary below follows.
-        return VStack(spacing: 2) {
+        return VStack(spacing: Spacing.xxs) {
             Text(dose ?? current.localizedBandName)
                 .font(.system(size: 27, weight: .heavy, design: .rounded))
                 .foregroundStyle(current.isOverdose ? color(current.bandIndex) : .primary)
                 .contentTransition(reduceMotion ? .identity : .numericText())
             Text(current.localizedBandName)
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(color(current.bandIndex))
                 .opacity(dose == nil ? 0 : 1)
         }
@@ -175,14 +174,14 @@ struct DoseIntensityCard: View {
 
     private func mostReported(_ band: SpectrumBand) -> some View {
         let maxFreq = max(band.topEffects.map(\.frequency).max() ?? 1, 1)
-        return VStack(alignment: .leading, spacing: 6) {
+        return VStack(alignment: .leading, spacing: Spacing.sm) {
             Text("MOST REPORTED AT THIS DOSE", comment: "Intensity dial effects heading")
                 .font(.caption2.weight(.bold))
                 .tracking(0.4)
                 .foregroundStyle(Theme.secondaryLabel)
-                .padding(.bottom, 2)
+                .padding(.bottom, Spacing.xxs)
             ForEach(band.topEffects.prefix(3), id: \.name) { eff in
-                HStack(spacing: 10) {
+                HStack(spacing: Spacing.lg) {
                     Text(eff.name)
                         .font(.subheadline)
                         .lineLimit(1)
@@ -197,7 +196,7 @@ struct DoseIntensityCard: View {
                 .accessibilityElement(children: .combine)
             }
         }
-        .padding(.top, 4)
+        .padding(.top, Spacing.xs)
     }
 }
 
@@ -295,16 +294,24 @@ struct IntensityGauge: View {
                         ),
                     )
                     .animation(slide, value: selected)
+                #if canImport(UIKit)
                     .gesture(
                         ArcPan(
                             coordSpace: coordSpace,
-                            // The lift is animated once, on the selector itself
-                            // (`.animation(_:value: isGrabbed)`); wrapping the
-                            // mutation in a second transaction here raced it.
                             onGrab: { isGrabbed = $0 },
                             onMove: { onSelect(band(for: $0, center: center)) },
                         ),
                     )
+                #else
+                    .gesture(
+                            DragGesture(coordinateSpace: .named(coordSpace))
+                                .onChanged { value in
+                                    isGrabbed = true
+                                    onSelect(band(for: value.location, center: center))
+                                }
+                                .onEnded { _ in isGrabbed = false },
+                        )
+                #endif
             }
             .coordinateSpace(.named(coordSpace))
             // Tapping any band jumps the selector to it.
@@ -588,75 +595,7 @@ private nonisolated struct ArcRing: Shape {
     }
 }
 
-/// The pan that drives the glass selector.
-///
-/// Attached to the small grab handle riding the selected band, so it only ever
-/// receives touches that land on the handle — the rest of the card scrolls. It
-/// fires `onGrab(true)` on touch-down for immediate lift feedback (a pan
-/// otherwise waits for movement, and the grab should read the instant the finger
-/// lands), and once dragging, the recognizer tracks the finger anywhere on the
-/// arc — including the near-vertical ends that broke direction-based schemes.
-private final class GrabPanRecognizer: UIPanGestureRecognizer {
-    var onGrabChange: (Bool) -> Void = { _ in }
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
-        super.touchesBegan(touches, with: event)
-        onGrabChange(true)
-    }
-
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
-        super.touchesEnded(touches, with: event)
-        onGrabChange(false)
-    }
-
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
-        super.touchesCancelled(touches, with: event)
-        onGrabChange(false)
-    }
-}
-
-private struct ArcPan: UIGestureRecognizerRepresentable {
-    var coordSpace: String
-    var onGrab: (Bool) -> Void
-    var onMove: (CGPoint) -> Void
-
-    func makeCoordinator(converter _: CoordinateSpaceConverter) -> Coordinator {
-        Coordinator()
-    }
-
-    func makeUIGestureRecognizer(context: Context) -> GrabPanRecognizer {
-        let recognizer = GrabPanRecognizer()
-        recognizer.onGrabChange = onGrab
-        recognizer.delegate = context.coordinator
-        return recognizer
-    }
-
-    func updateUIGestureRecognizer(_ recognizer: GrabPanRecognizer, context _: Context) {
-        recognizer.onGrabChange = onGrab
-    }
-
-    func handleUIGestureRecognizerAction(_ recognizer: GrabPanRecognizer, context: Context) {
-        // The handle is positioned away from the gauge origin, so read the touch
-        // in the gauge's named space rather than the handle's local space.
-        switch recognizer.state {
-        case .began, .changed: onMove(context.converter.location(in: .named(coordSpace)))
-        default: break
-        }
-    }
-
-    /// Makes the enclosing scroll view wait for this recognizer to fail before it
-    /// scrolls, so an on-handle drag wins even when it moves vertically (the arc's
-    /// ends). Touches off the handle never reach this recognizer, so the rest of
-    /// the card scrolls untouched.
-    final class Coordinator: NSObject, UIGestureRecognizerDelegate {
-        func gestureRecognizer(
-            _: UIGestureRecognizer,
-            shouldBeRequiredToFailBy other: UIGestureRecognizer,
-        ) -> Bool {
-            other is UIPanGestureRecognizer && other.view is UIScrollView
-        }
-    }
-}
+// iOS UIKit types (GrabPanRecognizer, ArcPan) are in DoseIntensityCard+iOS.swift.
 
 extension SpectrumBand {
     /// Localized display name for the band key.
@@ -690,7 +629,7 @@ extension SpectrumBand {
     // Wrapped in fillers so the segment seams and the scroll-past behavior are
     // both visible in the canvas.
     return ScrollView {
-        VStack(spacing: 16) {
+        VStack(spacing: Spacing.xxl) {
             Color.gray.opacity(0.12).frame(height: 200).overlay(Text("scroll above"))
             DoseIntensityCard(
                 bands: bands,

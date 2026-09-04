@@ -24,7 +24,7 @@ struct ReportsView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 14) {
+            VStack(spacing: Spacing.xxl) {
                 modePicker
                 scopeSummary
                 if model.hasScope {
@@ -33,7 +33,7 @@ struct ReportsView: View {
                 }
             }
             .padding(.horizontal)
-            .padding(.top, 4)
+            .padding(.top, Spacing.xs)
             .padding(.bottom, 80)
         }
         .background(Theme.background)
@@ -58,7 +58,7 @@ struct ReportsView: View {
             }
         }
         .pickerStyle(.segmented)
-        .padding(.vertical, 4)
+        .padding(.vertical, Spacing.xs)
     }
 
     // MARK: - Scope Summary
@@ -95,7 +95,7 @@ struct ReportsView: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
             .font(.subheadline)
-            .padding(16)
+            .padding(Spacing.xxl)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(Text("Select sessions"))
@@ -105,22 +105,21 @@ struct ReportsView: View {
     private var dateRangeRows: some View {
         VStack(spacing: 0) {
             DatePicker("From", selection: $model.customStart, displayedComponents: .date)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
-            Divider().padding(.leading, 16)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.vertical, Spacing.lg)
+            Divider().padding(.leading, Spacing.xxl)
             DatePicker("To", selection: $model.customEnd, displayedComponents: .date)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.vertical, Spacing.lg)
             if model.entryCountInScope > 0 {
-                Divider().padding(.leading, 16)
+                Divider().padding(.leading, Spacing.xxl)
                 HStack {
                     Text("\(model.entryCountInScope) entries across \(model.substancesInScope.count) substances")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                     Spacer()
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.vertical, Spacing.md)
             }
         }
     }
@@ -135,7 +134,9 @@ struct ReportsView: View {
                 title: "Clinical Report",
                 description: "Key findings, medication summary, dose trends — for your doctor",
             ) {
-                await generateClinicalReport()
+                #if canImport(UIKit)
+                    await generateClinicalReport()
+                #endif
             }
 
             cardDivider
@@ -172,8 +173,29 @@ struct ReportsView: View {
             ) {
                 await exportMarkdownAction()
             }
+
+            cardDivider
+
+            ExportCard(
+                icon: "quote.opening",
+                tint: .purple,
+                title: "Trip Report",
+                description: tripReportDescription,
+            ) {
+                await exportTripReportsAction()
+            }
         }
         .themeCard()
+    }
+
+    /// Says up front how many of the selected sessions have notes, so a tap
+    /// with nothing to export is never a surprise.
+    private var tripReportDescription: LocalizedStringKey {
+        switch model.sessionsWithNotes(in: selectedSessionObjects).count {
+        case 0: "Notes at their T+ offsets, descriptors by domain — none of the selected sessions has notes yet"
+        case 1: "Notes at their T+ offsets, descriptors by domain — 1 session with notes"
+        case let count: "Notes at their T+ offsets, descriptors by domain — \(count) sessions with notes"
+        }
     }
 
     private var cardDivider: some View {
@@ -198,12 +220,12 @@ struct ReportsView: View {
                         .foregroundStyle(Theme.secondaryLabel)
                 }
                 .font(.subheadline)
-                .padding(16)
+                .padding(Spacing.xxl)
             }
             .buttonStyle(.plain)
 
             if model.substanceFilterExpanded {
-                Divider().padding(.leading, 16)
+                Divider().padding(.leading, Spacing.xxl)
 
                 HStack {
                     Spacer()
@@ -219,12 +241,12 @@ struct ReportsView: View {
                             .foregroundStyle(Theme.accent)
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.top, 6)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.top, Spacing.sm)
 
                 ForEach(model.substancesInScope, id: \.self) { substance in
                     Button { model.toggleSubstance(substance) } label: {
-                        HStack(spacing: 12) {
+                        HStack(spacing: Spacing.xl) {
                             let included = model.isSubstanceIncluded(substance)
                             Image(systemName: included ? "checkmark.circle.fill" : "circle")
                                 .foregroundStyle(included ? Theme.accent : Theme.secondaryLabel)
@@ -233,12 +255,12 @@ struct ReportsView: View {
                                 .font(.subheadline)
                             Spacer()
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 6)
+                        .padding(.horizontal, Spacing.xxl)
+                        .padding(.vertical, Spacing.sm)
                     }
                     .buttonStyle(.plain)
                 }
-                .padding(.bottom, 8)
+                .padding(.bottom, Spacing.md)
             }
         }
         .themeCard()
@@ -246,99 +268,101 @@ struct ReportsView: View {
 
     // MARK: - Export actions
 
-    private func generateClinicalReport() async {
-        model.isExporting = true
-        defer { model.isExporting = false }
+    #if canImport(UIKit)
+        private func generateClinicalReport() async {
+            model.isExporting = true
+            defer { model.isExporting = false }
 
-        let range = model.reportDateRange
-        let filteredEntries = allEntries.filter {
-            $0.timestamp >= range.start && $0.timestamp <= range.end
-                && model.isSubstanceIncluded($0.substance)
-        }
+            let range = model.reportDateRange
+            let filteredEntries = allEntries.filter {
+                $0.timestamp >= range.start && $0.timestamp <= range.end
+                    && model.isSubstanceIncluded($0.substance)
+            }
 
-        let entrySnapshots = filteredEntries.map { entry in
-            PDFReportGenerator.EntrySnapshot(
-                substance: entry.substance,
-                amount: entry.amount,
-                unit: entry.unit,
-                route: entry.route.displayName,
-                timestamp: entry.timestamp,
-                notes: entry.notes,
-                identityKey: entry.identityKey,
-                routeRaw: entry.route.rawValue,
-                substanceID: SubstanceStore.shared.substanceID(forNameOrAlias: entry.substance),
-                halfLifeMinutes: SubstanceLibrary.lookup(entry.substance)?.halfLifeMinutes,
+            let entrySnapshots = filteredEntries.map { entry in
+                PDFReportGenerator.EntrySnapshot(
+                    substance: entry.substance,
+                    amount: entry.amount,
+                    unit: entry.unit,
+                    route: entry.route.displayName,
+                    timestamp: entry.timestamp,
+                    notes: entry.notes,
+                    identityKey: entry.identityKey,
+                    routeRaw: entry.route.rawValue,
+                    substanceID: SubstanceStore.shared.substanceID(forNameOrAlias: entry.substance),
+                    halfLifeMinutes: SubstanceLibrary.lookup(entry.substance)?.halfLifeMinutes,
+                )
+            }
+
+            let doseSnapshots = dailyItems.map { item in
+                PDFReportGenerator.DailyDoseSnapshot(
+                    substance: item.substance,
+                    amount: item.amount,
+                    unit: item.unit,
+                    route: item.route.displayName,
+                    sortOrder: item.sortOrder,
+                    identityKey: item.identityKey,
+                    routeRaw: item.route.rawValue,
+                )
+            }
+
+            let substances = Array(Set(filteredEntries.map(\.substance)))
+            let interactions = InteractionChecker.checkBatch(substances, against: filteredEntries, policy: .warn)
+            let interactionSnapshots = interactions.map { i in
+                PDFReportGenerator.InteractionSnapshot(
+                    severity: i.severity,
+                    substanceA: i.substanceA,
+                    substanceB: i.substanceB,
+                    description: i.description,
+                    drugClassesA: InteractionChecker.drugClasses(for: i.substanceA),
+                    drugClassesB: InteractionChecker.drugClasses(for: i.substanceB),
+                )
+            }
+
+            let hexMap = substanceColors.reduce(into: [String: String]()) { $0[$1.substance] = $1.hexColor }
+            let clinicalReport = ClinicalStatsResolver.report(
+                entries: filteredEntries, hexMap: hexMap, start: range.start, end: range.end,
             )
-        }
 
-        let doseSnapshots = dailyItems.map { item in
-            PDFReportGenerator.DailyDoseSnapshot(
-                substance: item.substance,
-                amount: item.amount,
-                unit: item.unit,
-                route: item.route.displayName,
-                sortOrder: item.sortOrder,
-                identityKey: item.identityKey,
-                routeRaw: item.route.rawValue,
+            let compressedRaw = interactionSnapshots.map {
+                (
+                    severity: $0.severity,
+                    substanceA: $0.substanceA,
+                    substanceB: $0.substanceB,
+                    description: $0.description,
+                    drugClassesA: $0.drugClassesA,
+                    drugClassesB: $0.drugClassesB,
+                )
+            }
+            let compressed = ClinicalStats.compressInteractions(compressedRaw)
+            let findings = ClinicalStats.findings(report: clinicalReport, interactions: compressed)
+
+            var data = PDFReportGenerator.ReportData(
+                entries: entrySnapshots,
+                dailyDoseItems: doseSnapshots,
+                interactions: interactionSnapshots,
+                startDate: range.start,
+                endDate: range.end,
+                notes: model.notes,
+                patientName: model.patientName,
             )
+            data.clinical = clinicalReport
+            data.findings = findings
+            data.compressedInteractions = compressed
+
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let filename = "Piru Report \(formatter.string(from: .now)).pdf"
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
+
+            await Task.detached {
+                let pdfData = PDFReportGenerator.generate(from: data)
+                try? pdfData.write(to: url)
+            }.value
+
+            model.shareItems = [url]
         }
-
-        let substances = Array(Set(filteredEntries.map(\.substance)))
-        let interactions = InteractionChecker.checkBatch(substances, against: filteredEntries, policy: .warn)
-        let interactionSnapshots = interactions.map { i in
-            PDFReportGenerator.InteractionSnapshot(
-                severity: i.severity,
-                substanceA: i.substanceA,
-                substanceB: i.substanceB,
-                description: i.description,
-                drugClassesA: InteractionChecker.drugClasses(for: i.substanceA),
-                drugClassesB: InteractionChecker.drugClasses(for: i.substanceB),
-            )
-        }
-
-        let hexMap = substanceColors.reduce(into: [String: String]()) { $0[$1.substance] = $1.hexColor }
-        let clinicalReport = ClinicalStatsResolver.report(
-            entries: filteredEntries, hexMap: hexMap, start: range.start, end: range.end,
-        )
-
-        let compressedRaw = interactionSnapshots.map {
-            (
-                severity: $0.severity,
-                substanceA: $0.substanceA,
-                substanceB: $0.substanceB,
-                description: $0.description,
-                drugClassesA: $0.drugClassesA,
-                drugClassesB: $0.drugClassesB,
-            )
-        }
-        let compressed = ClinicalStats.compressInteractions(compressedRaw)
-        let findings = ClinicalStats.findings(report: clinicalReport, interactions: compressed)
-
-        var data = PDFReportGenerator.ReportData(
-            entries: entrySnapshots,
-            dailyDoseItems: doseSnapshots,
-            interactions: interactionSnapshots,
-            startDate: range.start,
-            endDate: range.end,
-            notes: model.notes,
-            patientName: model.patientName,
-        )
-        data.clinical = clinicalReport
-        data.findings = findings
-        data.compressedInteractions = compressed
-
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let filename = "Piru Report \(formatter.string(from: .now)).pdf"
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
-
-        await Task.detached {
-            let pdfData = PDFReportGenerator.generate(from: data)
-            try? pdfData.write(to: url)
-        }.value
-
-        model.shareItems = [url]
-    }
+    #endif
 
     private func exportImages(stitched: Bool) async {
         model.isExporting = true
@@ -363,6 +387,12 @@ struct ReportsView: View {
         defer { model.isExporting = false }
 
         let md = await model.exportMarkdown(sessions: selectedSessionObjects, colors: substanceColors)
+        guard !md.isEmpty else { return }
+        model.shareItems = [md]
+    }
+
+    private func exportTripReportsAction() async {
+        let md = model.exportTripReports(sessions: selectedSessionObjects)
         guard !md.isEmpty else { return }
         model.shareItems = [md]
     }
@@ -405,7 +435,7 @@ private struct SessionPickerSheet: View {
             List {
                 ForEach(sessions) { summary in
                     Button { model.toggleSession(summary.id) } label: {
-                        HStack(spacing: 12) {
+                        HStack(spacing: Spacing.xl) {
                             let selected = model.selectedSessions.contains(summary.id)
                             Image(systemName: selected ? "checkmark.circle.fill" : "circle")
                                 .foregroundStyle(selected ? Theme.accent : Theme.secondaryLabel)
@@ -416,23 +446,20 @@ private struct SessionPickerSheet: View {
                                 HStack {
                                     if let title = summary.title {
                                         Text(title)
-                                            .font(.subheadline.weight(.semibold))
+                                            .sectionLabel()
                                     }
                                     Text(summary.startDate.formatted(Self.dayFormat))
                                         .font(.subheadline.weight(summary.title == nil ? .semibold : .regular))
                                         .foregroundStyle(summary.title == nil ? .primary : Theme.secondaryLabel)
                                 }
 
-                                HStack(spacing: 6) {
+                                HStack(spacing: Spacing.sm) {
                                     Text(summary.timeLabel)
-                                        .font(.caption)
-                                        .foregroundStyle(Theme.secondaryLabel)
+                                        .captionSecondary()
                                     Text("·")
-                                        .font(.caption)
-                                        .foregroundStyle(Theme.secondaryLabel)
+                                        .captionSecondary()
                                     Text(summary.substanceSummary)
-                                        .font(.caption)
-                                        .foregroundStyle(Theme.secondaryLabel)
+                                        .captionSecondary()
                                         .lineLimit(1)
                                 }
                             }
@@ -442,8 +469,7 @@ private struct SessionPickerSheet: View {
                             Text(summary.doseCount == 1
                                 ? String(localized: "1 dose")
                                 : String(localized: "\(summary.doseCount) doses"))
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
+                                .captionSecondary()
                                 .monospacedDigit()
                         }
                     }
@@ -453,7 +479,7 @@ private struct SessionPickerSheet: View {
                 }
             }
             .navigationTitle("Select Sessions")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: {
@@ -507,13 +533,12 @@ private struct ExportCard: View {
                     .foregroundStyle(tint)
                     .frame(width: 28, alignment: .center)
 
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(title)
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                         .foregroundStyle(.primary)
                     Text(description)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                         .fixedSize(horizontal: false, vertical: true)
                 }
 
@@ -528,7 +553,7 @@ private struct ExportCard: View {
                         .foregroundStyle(Theme.secondaryLabel)
                 }
             }
-            .padding(16)
+            .padding(Spacing.xxl)
         }
         .buttonStyle(.plain)
         .accessibilityElement(children: .combine)

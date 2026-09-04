@@ -102,7 +102,7 @@ struct MedTimeConsequenceLine: View {
     let minutesOfDay: Int
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             Label {
                 effectText
             } icon: {
@@ -119,9 +119,8 @@ struct MedTimeConsequenceLine: View {
                 }
             }
         }
-        .font(.caption)
-        .foregroundStyle(Theme.secondaryLabel)
-        .padding(.top, 2)
+        .captionSecondary()
+        .padding(.top, Spacing.xxs)
     }
 
     private var times: (onset: Date, wearOff: Date, effectsEnd: Date) {

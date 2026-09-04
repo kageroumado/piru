@@ -14,30 +14,18 @@ enum Theme {
     /// default skin.
     static var accent: Color { skin.accent }
 
-    // `legibleYellow` lived here. It was a hue pretending to be a role, and the
-    // whole design system exists because of what that cost: the same "darken it
-    // for light mode" fix was independently rediscovered four times, in four
-    // files, none of which could share the others' work.
-    //
-    // Its four consumers each turned out to be a different *kind* of thing —
-    // one L1 status (interaction caution) and three L2 encoding scales (dose
-    // tier, and two evidence grades). Naming by appearance is what let them all
-    // collapse onto one value; naming by role is what pulled them apart.
-    // See `design-system/color/color-system.md`.
-
-    /// De-emphasized body text. ~700 call sites, so this accessor stays even
-    /// though the value comes from the asset catalog.
+    /// De-emphasized body text. Kept as an accessor over the catalog symbol
+    /// for its ~600 call sites; gated by `ColorContrastTests`.
     ///
-    /// Gated by `ColorContrastTests` at WCAG AA 4.5:1 against the measured
-    /// card — not pure white, which is the optimistic mistake that once put a
-    /// wrong number in the audit's own findings.
+    /// Never swap this for the system `.secondary`: it measures 2.17:1 on the
+    /// light card and fails WCAG AA.
     static var secondaryLabel: Color { skin.secondaryLabel }
 
     // MARK: - Surfaces
 
-    // Colorsets rather than `UIColor { traits }` closures: a closure branches on
-    // `userInterfaceStyle` alone, so it cannot express high contrast at all —
-    // as colorsets they gain the Any+HC / Dark+HC slots.
+    // Colorsets, never `UIColor { traits }` closures: a closure branches on
+    // `userInterfaceStyle` alone and cannot express the Any+HC / Dark+HC
+    // variants.
 
     /// Page backdrop. True black in dark mode for OLED in the default skin.
     static var background: Color { skin.background }
@@ -47,6 +35,20 @@ enum Theme {
 
     /// Text-field and other input fills.
     static var inputBackground: Color { skin.inputBackground }
+
+    // MARK: - Card geometry
+
+    /// The card corner the app draws when nothing overrides it. `22` matches
+    /// the system grouped-list / Library card rounding. A skin with a fixed
+    /// ``Skin/cardCornerRadius`` (its cards are drawn objects, not system
+    /// surfaces) takes precedence in ``themeCard``.
+    static let cardCornerRadius: CGFloat = 22
+
+    /// The standard card shape — concentric, so it inherits its radius from the
+    /// enclosing container and only falls back to ``cardCornerRadius``.
+    static var cardShape: ConcentricRectangle {
+        ConcentricRectangle(corners: .concentric(minimum: .fixed(skin.cardCornerRadius ?? cardCornerRadius)), isUniform: true)
+    }
 }
 
 // MARK: - Root
@@ -132,9 +134,6 @@ extension View {
     /// a fixed radius breaks it the moment a card is nested or the container
     /// rounding changes.
     ///
-    /// `minimum: 22` matches the system grouped-list / Library card rounding
-    /// (the 16 the app shipped with read too boxy beside them).
-    ///
     /// Note: this does not also call `containerShape`, which requires an
     /// `InsettableShape` that `ConcentricRectangle` is not. Cards still derive
     /// from whatever container the system provides (sheet, screen, grouped
@@ -143,7 +142,7 @@ extension View {
     ///
     /// A skin with a fixed ``Skin/cardCornerRadius`` (its cards are drawn
     /// objects, not system surfaces) overrides the caller's radius.
-    func themeCard(cornerRadius: CGFloat = 22) -> some View {
+    func themeCard(cornerRadius: CGFloat = Theme.cardCornerRadius) -> some View {
         let radius = SkinStore.shared.current.cardCornerRadius ?? cornerRadius
         return modifier(ThemedBackground(
             shape: ConcentricRectangle(corners: .concentric(minimum: .fixed(radius)), isUniform: true),
@@ -154,7 +153,7 @@ extension View {
     /// shared grouped container, where the container draws the background and the
     /// row should not.
     @ViewBuilder
-    func themeCard(enabled: Bool, cornerRadius: CGFloat = 16) -> some View {
+    func themeCard(enabled: Bool, cornerRadius: CGFloat = Theme.cardCornerRadius) -> some View {
         if enabled {
             themeCard(cornerRadius: cornerRadius)
         } else {

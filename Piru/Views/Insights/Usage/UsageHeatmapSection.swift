@@ -21,7 +21,7 @@ struct UsageHeatmapSection: View {
     }
 
     var body: some View {
-        UsageSectionCard(title: "Activity", subtitle: subtitle) {
+        UsageSectionCard(title: "Activity") {
             if categories.count > 1 {
                 UsageCategoryFilterBar(categories: categories, selection: $categoryFilter)
             }
@@ -43,10 +43,6 @@ struct UsageHeatmapSection: View {
             )
         }
         .onChange(of: heatmap.weekStarts.first) { selectedDay = nil }
-    }
-
-    private var subtitle: LocalizedStringKey {
-        metric == .commonDoses ? "Which days and hours, by common-dose units" : "Which days and hours you log on"
     }
 
     /// The histogram's data in the active metric: the selected day's hours if a
@@ -185,12 +181,12 @@ private struct UsageHeatmapGrid: View {
         let value = displayValue(cellData)
         let isFuture = day > layout.lastInRange
         let isSelected = cellData.map { selectedDay == $0.date && value > 0 } ?? false
-        return RoundedRectangle(cornerRadius: 3)
+        return RoundedRectangle(cornerRadius: Theme.CornerRadius.tiny)
             .fill(fill(value: value, isFuture: isFuture))
             .frame(width: layout.cell, height: layout.cell)
             .overlay {
                 if isSelected {
-                    RoundedRectangle(cornerRadius: 3)
+                    RoundedRectangle(cornerRadius: Theme.CornerRadius.tiny)
                         .stroke(Color.primary, lineWidth: 1.5)
                 }
             }
@@ -243,7 +239,7 @@ private struct UsageHeatmapGrid: View {
                     // are spelled out.
                     if row.isMultiple(of: 2), symbols.indices.contains(weekday - 1) {
                         Text(symbols[weekday - 1])
-                            .font(.system(size: 9))
+                            .font(.chartAnnotation)
                             .foregroundStyle(Theme.secondaryLabel)
                             .fixedSize()
                     } else {
@@ -290,7 +286,7 @@ private struct UsageHeatmapGrid: View {
         // not gray. Every past day is a square: gray when empty, so a quiet run
         // reads as a real absence rather than a gap in the grid.
         if isFuture { return .clear }
-        guard value > 0 else { return Color(.tertiarySystemFill) }
+        guard value > 0 else { return Color.platformTertiarySystemFill }
         let peak = max(metric == .commonDoses ? heatmap.maxCommon : Double(heatmap.maxCount), 0.0001)
         let fraction = min(1, value / peak)
         return accent.opacity(0.28 + 0.72 * fraction)
@@ -326,8 +322,8 @@ private struct UsageHourHistogram: View {
         let items = bins.enumerated().map { Bin(hour: $0.offset, value: $0.element) }
         let total = bins.reduce(0, +)
 
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            HStack(spacing: Spacing.sm) {
                 Text("Hour of day")
                     .font(.caption.weight(.medium))
                     .foregroundStyle(Theme.secondaryLabel)
@@ -365,7 +361,7 @@ private struct UsageHourHistogram: View {
             .chartXAxis {
                 AxisMarks(values: [0.0, 6.0, 12.0, 18.0]) { value in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                        .foregroundStyle(Theme.secondaryLabel.opacity(0.5))
+                        .foregroundStyle(Theme.secondaryLabel.opacity(Theme.Opacity.dimmed))
                     AxisValueLabel {
                         if let hour = value.as(Double.self) {
                             Text(hourLabel(Int(hour)))

@@ -27,11 +27,10 @@ struct DrugClassGroupView: View {
             }
             .listRowBackground(CardBackground())
         }
-        .listStyle(.insetGrouped)
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .insetGroupedListStyle()
+        .themedPage()
         .navigationTitle(Text(category.browseTitle))
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .task {
             if classes.isEmpty { classes = SubstanceStore.shared.classContexts(in: category) }
         }
@@ -45,19 +44,16 @@ struct ClassRow: View {
     let accent: Color
 
     var body: some View {
-        HStack(spacing: 10) {
-            Circle()
-                .fill(accent)
-                .frame(width: 9, height: 9)
-            VStack(alignment: .leading, spacing: 2) {
+        HStack(spacing: Spacing.lg) {
+            LegendDot(color: accent, size: .large)
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 // `verbatim`: a class name is data, read from the research
                 // write-up, not a catalog key.
                 Text(verbatim: item.title)
                     .font(.body)
                 if let subtitle = item.subtitle {
                     Text(verbatim: subtitle)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                        .captionSecondary()
                         .lineLimit(2)
                 }
             }
@@ -66,7 +62,7 @@ struct ClassRow: View {
                 .font(.caption.monospacedDigit())
                 .foregroundStyle(Theme.secondaryLabel)
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
     }
 }
 
@@ -96,11 +92,10 @@ struct DrugClassDetailView: View {
                 references(context.references)
             }
         }
-        .listStyle(.insetGrouped)
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .insetGroupedListStyle()
+        .themedPage()
         .navigationTitle(Text(verbatim: context?.title ?? ""))
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .task {
             if context == nil { context = SubstanceStore.shared.classContext(slug: slug) }
         }
@@ -110,7 +105,7 @@ struct DrugClassDetailView: View {
     /// so the screen opens with what this *is* rather than with a paragraph.
     private func header(_ context: SubstanceStore.ClassContext) -> some View {
         Section {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: Spacing.md) {
                 Text(verbatim: context.title)
                     .font(.piru(.title2, weight: .bold))
                     .fixedSize(horizontal: false, vertical: true)
@@ -127,7 +122,7 @@ struct DrugClassDetailView: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, Spacing.xs)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .listRowBackground(CardBackground())
@@ -144,7 +139,7 @@ struct DrugClassDetailView: View {
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(.vertical, 2)
+                    .padding(.vertical, Spacing.xxs)
             } header: {
                 Text(title)
             }
@@ -214,9 +209,8 @@ struct DrugClassListView: View {
                 .listRowBackground(CardBackground())
             }
         }
-        .listStyle(.insetGrouped)
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .insetGroupedListStyle()
+        .themedPage()
         .task {
             guard groups.isEmpty else { return }
             // Families ordered by how many classes they hold, so the ones with

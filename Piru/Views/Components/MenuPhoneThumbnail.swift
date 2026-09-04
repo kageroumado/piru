@@ -42,7 +42,7 @@ struct MenuPhoneThumbnail: View {
                 width: body.width - sideInset * 2,
                 height: body.maxY - body.height * 0.06 - contentTop,
             )
-            sketch(context, content, color.opacity(0.5))
+            sketch(context, content, color.opacity(Theme.Opacity.dimmed))
         }
     }
 }

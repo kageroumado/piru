@@ -1,5 +1,10 @@
 import SwiftUI
-import UIKit
+
+#if canImport(UIKit)
+    import UIKit
+#elseif canImport(AppKit)
+    import AppKit
+#endif
 
 /// The "Share Substance" surface: a custom sheet reached from the substance
 /// screen's share button. Renders the colorful ``SubstanceShareCard`` specimen
@@ -19,9 +24,9 @@ struct SubstanceShareSheet: View {
     @State private var mechanism: MechanismOfAction?
     @State private var monoamineProfile: MonoamineProfile?
     @State private var moleculeLoaded = false
-    @State private var images: [ShareDetailLevel: UIImage] = [:]
+    @State private var images: [ShareDetailLevel: PlatformImage] = [:]
     @State private var imageFileURL: URL?
-    @State private var imageSourceView: UIView?
+    @State private var imageSourceView: PlatformView?
     @State private var justCopied = false
     @State private var contentHeight: CGFloat = 460
     @State private var safeAreaBottom: CGFloat = 34
@@ -31,24 +36,24 @@ struct SubstanceShareSheet: View {
         contentHeight + Self.chromeAllowance + safeAreaBottom
     }
 
-    private var currentImage: UIImage? {
+    private var currentImage: PlatformImage? {
         images[detail]
     }
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 16) {
+                VStack(spacing: Spacing.xxl) {
                     detailPicker
                     imageCard
                     actions
                 }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 16)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.bottom, Spacing.xxl)
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { contentHeight = $0 }
             }
             .navigationTitle("Share Substance")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: {
@@ -83,11 +88,11 @@ struct SubstanceShareSheet: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 18).fill(Color.primary.opacity(0.04))
                 if let currentImage {
-                    Image(uiImage: currentImage)
+                    Image(platformImage: currentImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .clipShape(RoundedRectangle(cornerRadius: 14))
-                        .padding(10)
+                        .padding(Spacing.lg)
                         .overlay { ZoomSourceView { imageSourceView = $0 } }
                         .overlay(alignment: .bottomTrailing) {
                             Label("Tap to view", systemImage: "arrow.up.left.and.arrow.down.right")
@@ -96,7 +101,7 @@ struct SubstanceShareSheet: View {
                                 .padding(.horizontal, 9)
                                 .padding(.vertical, 5)
                                 .background(.regularMaterial, in: Capsule())
-                                .padding(16)
+                                .padding(Spacing.xxl)
                                 .allowsHitTesting(false)
                         }
                         .onTapGesture { openViewer() }
@@ -113,10 +118,10 @@ struct SubstanceShareSheet: View {
     // MARK: actions
 
     private var actions: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: Spacing.lg) {
             Button { copy() } label: {
                 Label(justCopied ? "Copied" : "Copy", systemImage: justCopied ? "checkmark" : "doc.on.doc")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
@@ -126,7 +131,7 @@ struct SubstanceShareSheet: View {
 
             Button { share() } label: {
                 Label("Share", systemImage: "square.and.arrow.up")
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
@@ -171,7 +176,7 @@ struct SubstanceShareSheet: View {
         )
         let renderer = ImageRenderer(content: card)
         renderer.scale = 3
-        if let image = renderer.uiImage {
+        if let image = renderer.platformImage {
             images[detail] = image
         }
         refreshFileURL()
@@ -196,7 +201,7 @@ struct SubstanceShareSheet: View {
 
     private func copy() {
         guard let currentImage else { return }
-        UIPasteboard.general.image = currentImage
+        PlatformPasteboard.copy(image: currentImage)
         justCopied = true
         Task {
             try? await Task.sleep(for: UITiming.copiedFlash)

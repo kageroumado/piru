@@ -1,0 +1,9 @@
+{
+  "source": "ANSM Base de données publique des médicaments (BDPM)",
+  "url": "https://base-donnees-publique.medicaments.gouv.fr/download/file/",
+  "license": "Licence Ouverte / Open Licence (Etalab)",
+  "fetched_at": "2026-09-01T21:35:32+00:00",
+  "products_total": 15859,
+  "products_kept": 4565,
+  "presentations": 6693
+}

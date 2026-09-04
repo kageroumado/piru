@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import VisionKit
 
 // MARK: - Tools summary card
 
@@ -41,7 +42,7 @@ struct InventorySummaryCard: View {
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
             } else {
-                VStack(spacing: 10) {
+                VStack(spacing: Spacing.lg) {
                     ForEach(topItems) { item in
                         InventorySummaryRow(item: item, colorMap: colorMap)
                     }
@@ -65,7 +66,7 @@ private struct InventorySummaryRow: View {
     let colorMap: [String: Color]
 
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: Spacing.md) {
             GlanceRow(dotColor: SubstancePalette.color(for: item.substance, colorMap: colorMap), title: Text(item.displayTitle)) {
                 StockAmountText(item: item, style: .subheadline)
             }
@@ -92,13 +93,18 @@ struct InventoryListView: View {
     @Environment(\.modelContext) private var modelContext
 
     @Bindable private var model = InventoryListModel.shared
-    /// Scoped to this `List` (not the whole navigation stack) so entering it from
-    /// the menu's "Edit" doesn't put unrelated screens into edit mode.
-    @State private var editMode: EditMode = .inactive
+    // Scoped to this `List` (not the whole navigation stack) so entering it from
+    // the menu's "Edit" doesn't put unrelated screens into edit mode.
+    #if canImport(UIKit)
+        @State private var editMode: EditMode = .inactive
+    #endif
     /// A plain local sheet rather than a `SheetRoute`: the editor takes the model
     /// and its current section list as inputs, neither of which a `Codable`
     /// deep-linkable route can carry.
     @State private var showsClassOrder = false
+    /// The box scanner: substance, strength and pack count read off a box land
+    /// in the add form prefilled.
+    @State private var showsScanner = false
 
     private var colorMap: [String: Color] {
         Array(substanceColors).colorMap
@@ -118,17 +124,31 @@ struct InventoryListView: View {
         }
         .background(Theme.background)
         .navigationTitle("Inventory")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .toolbar { toolbarContent }
         // Always-visible rather than pull-to-reveal: with dozens of tracked items
         // search is the primary way in, and a hidden field reads as "there is no
         // search here".
-        .searchable(text: $model.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search Inventory"))
-        .sheet(isPresented: $showsClassOrder) {
-            // Seeded with the manager's *current* section order, so the editor
-            // opens showing exactly what's on screen behind it.
-            InventoryClassOrderView(model: model, categories: sections.compactMap(\.category))
-        }
+        .searchable(text: $model.searchText, placement: .automatic, prompt: Text("Search Inventory"))
+        #if os(iOS)
+            .fullScreenCover(isPresented: $showsScanner) {
+                LabelScannerView { reading in
+                    Task {
+                        let identified = await BoxIdentifier.identify(reading)
+                        navigator.present(.inventoryItemForm(
+                            id: nil,
+                            prefillSubstance: identified.canonicalName,
+                            prefill: identified.inventoryPrefill,
+                        ))
+                    }
+                }
+            }
+        #endif
+            .sheet(isPresented: $showsClassOrder) {
+                // Seeded with the manager's *current* section order, so the editor
+                // opens showing exactly what's on screen behind it.
+                InventoryClassOrderView(model: model, categories: sections.compactMap(\.category))
+            }
     }
 
     // MARK: Empty states
@@ -187,13 +207,15 @@ struct InventoryListView: View {
                     }
                 }
             }
-            .listStyle(.insetGrouped)
+            .insetGroupedListStyle()
             .scrollContentBackground(.hidden)
-            .listSectionSpacing(16)
-            .environment(\.editMode, $editMode)
-            .safeAreaBar(edge: .top) {
-                if model.hasActiveFilters { InventoryFilterBar(model: model) }
-            }
+            #if canImport(UIKit)
+                .listSectionSpacing(16)
+                .environment(\.editMode, $editMode)
+            #endif
+                .safeAreaBar(edge: .top) {
+                    if model.hasActiveFilters { InventoryFilterBar(model: model) }
+                }
         }
     }
 
@@ -228,7 +250,7 @@ struct InventoryListView: View {
         return Button {
             withAnimation(.snappy(duration: 0.25)) { model.toggleCollapsed(category) }
         } label: {
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 Image(systemName: category.icon)
                     .font(.caption2)
                     .accessibilityHidden(true)
@@ -258,24 +280,54 @@ struct InventoryListView: View {
     /// so nothing competes with getting back out.
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
-        if editMode == .active {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Done") { editMode = .inactive }
-                    .fontWeight(.semibold)
+        #if canImport(UIKit)
+            if editMode == .active {
+                ToolbarItem(placement: .platformTopBarTrailing) {
+                    Button("Done") { editMode = .inactive }
+                        .fontWeight(.semibold)
+                }
+            } else {
+                if !items.isEmpty {
+                    ToolbarItem(placement: .platformTopBarTrailing) {
+                        InventoryOptionsMenu(
+                            model: model,
+                            categories: model.availableCategories(in: items),
+                            editMode: $editMode,
+                            onArrangeClasses: { showsClassOrder = true },
+                        )
+                    }
+                    ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
+                }
+                if DataScannerViewController.isSupported {
+                    ToolbarItem(placement: .platformTopBarTrailing) {
+                        Button {
+                            showsScanner = true
+                        } label: {
+                            Image(systemName: "barcode.viewfinder")
+                        }
+                        .accessibilityLabel("Scan a box")
+                    }
+                }
+                ToolbarItem(placement: .platformTopBarTrailing) {
+                    Button {
+                        navigator.present(.inventoryItemForm(id: nil))
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    .accessibilityLabel("Add Inventory Item")
+                }
             }
-        } else {
+        #else
             if !items.isEmpty {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .automatic) {
                     InventoryOptionsMenu(
                         model: model,
                         categories: model.availableCategories(in: items),
-                        editMode: $editMode,
                         onArrangeClasses: { showsClassOrder = true },
                     )
                 }
-                ToolbarSpacer(.fixed, placement: .topBarTrailing)
             }
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .automatic) {
                 Button {
                     navigator.present(.inventoryItemForm(id: nil))
                 } label: {
@@ -283,7 +335,7 @@ struct InventoryListView: View {
                 }
                 .accessibilityLabel("Add Inventory Item")
             }
-        }
+        #endif
     }
 
     // MARK: Actions
@@ -319,10 +371,10 @@ private struct InventoryRow: View {
     @Environment(\.modelContext) private var modelContext
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            HStack(spacing: Spacing.md) {
                 Image(systemName: "circle.fill")
-                    .font(.system(size: 9))
+                    .font(.chartAnnotation)
                     .foregroundStyle(SubstancePalette.color(for: item.substance, colorMap: colorMap))
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
@@ -344,7 +396,7 @@ private struct InventoryRow: View {
                     .padding(.leading, 17)
             }
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, Spacing.xxs)
         .accessibilityElement(children: .combine)
     }
 

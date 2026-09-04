@@ -4,7 +4,7 @@ import SwiftUI
 // MARK: - Quick-Log Edit Sheet
 
 /// The Log screen's single Edit surface: the meds order, the favorites
-/// order, and drink presets, one sheet. The list is permanently in edit mode
+/// order, drink presets, and the dock's shortcuts and label, one sheet. The list is permanently in edit mode
 /// so rows show the standard reorder grabbers and delete controls — a bare
 /// long-press drag technically reorders outside edit mode, but nothing
 /// advertises it. The `editMode` environment stays scoped to the `List`
@@ -21,6 +21,11 @@ struct QuickLogEditSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appNavigator) private var navigator
     @State private var customStore = CustomSubstanceStore.shared
+    @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
+    /// The "Now" pill's quick offsets — the same shared-suite key the pill
+    /// reads and `DoseTimeSettingsView` writes.
+    @AppStorage(DoseTimeDefaults.choicesKey, store: UserDefaults(suiteName: DoseTimeDefaults.suite))
+    private var doseTimeChoicesRaw = DoseTimeDefaults.defaultRaw
 
     @State private var path = NavigationPath()
 
@@ -32,16 +37,34 @@ struct QuickLogEditSheet: View {
                     favoritesSection
                 }
                 drinksSections
+                doseTimesSection
+                DockShortcutsSection(path: $path)
+                DockLabelsSection(path: $path)
+                orderSection
             }
-            .environment(\.editMode, .constant(.active))
+            .permanentEditMode()
+            .navigationDestination(for: DockEditRoute.self) { route in
+                switch route {
+                case .addShortcut:
+                    DockShortcutPicker()
+                case .addLabel:
+                    DockLabelForm(index: nil, existing: nil)
+                case let .editLabel(index):
+                    let labels = DockPreferences.shared.labels
+                    DockLabelForm(index: index, existing: labels.indices.contains(index) ? labels[index] : nil)
+                }
+            }
             .navigationDestination(for: CustomDrinkPreset.self) { preset in
                 DrinkPresetForm(preset: preset, substanceName: preset.substanceName)
             }
             .navigationDestination(for: NewDrinkRoute.self) { route in
                 DrinkPresetForm(preset: nil, substanceName: route.substanceName)
             }
+            .navigationDestination(for: DoseTimesRoute.self) { _ in
+                DoseTimeSettingsView()
+            }
             .navigationTitle("Edit")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
@@ -81,9 +104,9 @@ struct QuickLogEditSheet: View {
     /// Name + dose and reminder times — plain rows, matching the favorites
     /// section below. Editing schedules lives in the My Meds hub.
     private func medRow(_ item: DailyDoseItem) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             Text(item.productName ?? customStore.displayName(for: item.substance))
-            HStack(spacing: 4) {
+            HStack(spacing: Spacing.xs) {
                 Text(verbatim: "\(item.amount.doseFormatted) \(item.unit)")
                 if let first = item.reminderTimesMinutes.sorted().first,
                    let time = Calendar.current.date(
@@ -101,8 +124,7 @@ struct QuickLogEditSheet: View {
                     }
                 }
             }
-            .font(.caption)
-            .foregroundStyle(Theme.secondaryLabel)
+            .captionSecondary()
             .accessibilityElement(children: .combine)
         }
     }
@@ -133,7 +155,7 @@ struct QuickLogEditSheet: View {
     private var favoritesSection: some View {
         Section {
             ForEach(favorites) { favorite in
-                HStack(spacing: 10) {
+                HStack(spacing: Spacing.lg) {
                     Circle()
                         .fill(color(for: favorite.substance))
                         .frame(width: 10, height: 10)
@@ -145,8 +167,6 @@ struct QuickLogEditSheet: View {
         } header: {
             Text("Favorites")
                 .textCase(nil)
-        } footer: {
-            Text("Drag to reorder. Swipe left to remove.")
         }
     }
 
@@ -162,7 +182,9 @@ struct QuickLogEditSheet: View {
             favorite.sortOrder = index
         }
         try? modelContext.save()
-        PhoneSyncCoordinator.shared.pushManifest()
+        #if os(iOS)
+            PhoneSyncCoordinator.shared.pushManifest()
+        #endif
     }
 
     private func deleteFavorites(at offsets: IndexSet) {
@@ -170,7 +192,9 @@ struct QuickLogEditSheet: View {
             modelContext.delete(favorites[index])
         }
         try? modelContext.save()
-        PhoneSyncCoordinator.shared.pushManifest()
+        #if os(iOS)
+            PhoneSyncCoordinator.shared.pushManifest()
+        #endif
     }
 
     // MARK: Drinks
@@ -255,7 +279,56 @@ struct QuickLogEditSheet: View {
         }
         try? modelContext.save()
     }
+
+    // MARK: Order
+
+    private var orderSection: some View {
+        Section {
+            Toggle(isOn: $quickLogFixedOrder) {
+                Label("Keep Order", systemImage: "pin")
+            }
+            .tint(Theme.accent)
+        } footer: {
+            Text("Keep doses in a fixed order. When off, logging a dose moves it to the front.")
+        }
+    }
+
+    // MARK: Dose times
+
+    /// The offsets the tray's "Now" pill offers, with the editor Settings also
+    /// pushes — the pill is edited where it's used, not only under Settings.
+    private var doseTimesSection: some View {
+        Section {
+            Button {
+                path.append(DoseTimesRoute())
+            } label: {
+                Label {
+                    VStack(alignment: .leading, spacing: Spacing.xxs) {
+                        Text("Edit Dose Times…")
+                        Text(doseTimesSummary)
+                            .captionSecondary()
+                    }
+                } icon: {
+                    Image(systemName: "clock.arrow.circlepath")
+                }
+            }
+        } header: {
+            Text("Dose Times")
+                .textCase(nil)
+        } footer: {
+            Text("The quick offsets in the “Now” menu when logging a dose.")
+        }
+    }
+
+    private var doseTimesSummary: String {
+        DoseTimeDefaults.parse(doseTimeChoicesRaw)
+            .map { TrayTime.offsetLabel(minutes: $0) }
+            .joined(separator: " · ")
+    }
 }
+
+/// Push target for the "Now" pill's offset editor.
+private struct DoseTimesRoute: Hashable {}
 
 /// Push target for creating a new drink preset in a given substance's group —
 /// `CustomDrinkPreset` itself routes to the edit form.

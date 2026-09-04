@@ -24,11 +24,12 @@ struct LibraryBrowseView: View {
     var body: some View {
         ScrollView {
             if loaded {
-                LazyVStack(spacing: 12) {
-                    if !favoriteSubstances.isEmpty {
-                        LibraryFavoritesCard(substances: favoriteSubstances, total: favoriteSubstances.count)
-                    }
-                    LibraryCustomCard()
+                LazyVStack(spacing: Spacing.xl) {
+                    LibraryYoursCard(
+                        favorites: favoriteSubstances,
+                        isExpanded: expanded.contains("yours"),
+                        toggle: { toggle("yours") },
+                    )
                     ForEach(visibleFamilies) { family in
                         LibraryFamilyCard(
                             family: family,
@@ -37,8 +38,8 @@ struct LibraryBrowseView: View {
                         )
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.top, 4)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.top, Spacing.xs)
                 .padding(.bottom, 28)
             } else {
                 ProgressView()
@@ -47,8 +48,7 @@ struct LibraryBrowseView: View {
                     .padding(.top, 80)
             }
         }
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .themedPage()
         .task {
             // Resolve against the warmed batch cache so the ~12 category counts
             // and favorite lookups are dict hits, not a cold main-thread resolve.
@@ -149,7 +149,7 @@ private struct LibraryFamilyCard: View {
         } else if let source = family.source {
             NavigationLink(value: source.route) {
                 surface {
-                    VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading, spacing: Spacing.xs) {
                         header(chevron: "chevron.right", count: groupCount)
                         if family.highlightsRisk {
                             riskBadge.padding(.top, 5)
@@ -165,16 +165,16 @@ private struct LibraryFamilyCard: View {
 
     private var umbrella: some View {
         surface {
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: Spacing.xl) {
                 Button(action: toggle) {
-                    header(chevron: "chevron.down", rotates: true)
+                    header(chevron: "chevron.right", rotates: true)
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityValue(isExpanded ? Text("Expanded") : Text("Collapsed"))
 
                 if isExpanded {
-                    VStack(spacing: 8) {
+                    VStack(spacing: Spacing.md) {
                         ForEach(family.subclasses) { sub in
                             NavigationLink(value: sub.route) {
                                 LibrarySubclassRow(sub: sub)
@@ -187,7 +187,7 @@ private struct LibraryFamilyCard: View {
                     // geometry morph flash a one-line description at the boundary).
                     .transition(.scale(scale: 0.92, anchor: .top).combined(with: .opacity))
                 } else {
-                    FlowLayout(spacing: 6) {
+                    FlowLayout(spacing: Spacing.sm) {
                         ForEach(family.subclasses) { sub in
                             chip(sub)
                         }
@@ -206,7 +206,7 @@ private struct LibraryFamilyCard: View {
     /// right chevron.
     private func header(chevron: String?, rotates: Bool = false, count: Int? = nil) -> some View {
         HStack(alignment: .top, spacing: 0) {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 Image(systemName: family.icon)
                     .font(.system(size: 21, weight: .semibold))
                     .foregroundStyle(.white)
@@ -222,12 +222,12 @@ private struct LibraryFamilyCard: View {
                     .frame(maxWidth: 210, alignment: .leading)
             }
             Spacer(minLength: 8)
-            HStack(spacing: 6) {
+            HStack(spacing: Spacing.sm) {
                 // Group size, like the inner sub-rows show. Only on navigating
                 // cards — umbrellas expand to reveal their sub-rows' own counts.
                 if let count {
                     Text("\(count)")
-                        .font(.subheadline.weight(.semibold))
+                        .sectionLabel()
                         .monospacedDigit()
                         .foregroundStyle(.white.opacity(0.9))
                 }
@@ -235,11 +235,11 @@ private struct LibraryFamilyCard: View {
                     Image(systemName: chevron)
                         .font(.subheadline.weight(.bold))
                         .foregroundStyle(.white.opacity(0.9))
-                        .rotationEffect(.degrees(rotates && isExpanded ? 180 : 0))
+                        .rotationEffect(.degrees(rotates && isExpanded ? 90 : 0))
                         .accessibilityHidden(true)
                 }
             }
-            .padding(.top, 4)
+            .padding(.top, Spacing.xs)
             // Lift the count/chevron off the molecule skeleton behind them.
             .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)
         }
@@ -277,7 +277,7 @@ private struct LibraryFamilyCard: View {
         Text(sub.title)
             .font(.caption.weight(.semibold))
             .foregroundStyle(.white)
-            .padding(.horizontal, 10)
+            .padding(.horizontal, Spacing.lg)
             .padding(.vertical, 5)
             .background(.white.opacity(0.22), in: Capsule())
     }
@@ -312,16 +312,16 @@ private struct LibrarySubclassRow: View {
     }
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.xl) {
             Image(systemName: sub.category.icon)
                 .font(.system(size: 15, weight: .semibold))
                 .foregroundStyle(.white)
                 .frame(width: 32, height: 32)
                 .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
                 .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(sub.title)
-                    .font(.subheadline.weight(.semibold))
+                    .sectionLabel()
                     .foregroundStyle(.white)
                 Text(sub.blurb)
                     .font(.caption2)
@@ -331,12 +331,12 @@ private struct LibrarySubclassRow: View {
             }
             Spacer(minLength: 6)
             Text("\(count)")
-                .font(.subheadline.weight(.semibold))
+                .sectionLabel()
                 .foregroundStyle(.white.opacity(0.92))
                 .monospacedDigit()
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(.white.opacity(Theme.Opacity.strong))
                 .accessibilityHidden(true)
         }
         .padding(.horizontal, 13)
@@ -345,113 +345,204 @@ private struct LibrarySubclassRow: View {
         .background(.white.opacity(0.17), in: RoundedRectangle(cornerRadius: 15, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 15, style: .continuous)
-                .strokeBorder(.white.opacity(0.18), lineWidth: 0.5),
+                .strokeBorder(.white.opacity(Theme.Opacity.tintActive), lineWidth: 0.5),
         )
         .contentShape(Rectangle())
     }
 }
 
-// MARK: - Favorites Card
+// MARK: - Yours Card (favorites · colors · custom substances · custom units)
 
-/// The user's favorites as a gradient card matching the family cards — a warm
-/// gold surface with a big faint star hero, sitting at the top of the browse
-/// flow. Single card: taps straight through to the full favorites list.
-private struct LibraryFavoritesCard: View {
-    let substances: [Substance]
-    let total: Int
+/// The user's own layer over the library as one umbrella card in the family
+/// style: a gradient surface with a star hero that expands in place into four
+/// sub-rows — favorites, substance colors, custom substances, custom units — each pushing its
+/// own list. Always present, counts included, so each row has somewhere to go
+/// before it has anything to count.
+private struct LibraryYoursCard: View {
+    let favorites: [Substance]
+    let isExpanded: Bool
+    let toggle: () -> Void
 
-    /// Raspberry — distinct from the warm Stimulants orange the gold used to clash
-    /// with, and from the cool Common blue.
+    @Query(sort: \SubstanceColor.substance) private var substanceColors: [SubstanceColor]
+
+    /// Raspberry — distinct from the warm Stimulants orange and the cool Common blue.
     private static let accent = Color(red: 0.85, green: 0.26, blue: 0.47)
 
-    private var exemplarLine: String {
-        substances.prefix(3).map(\.displayTitle).joined(separator: " · ")
-    }
-
-    var body: some View {
-        NavigationLink(value: PushRoute.libraryFavorites) {
-            FamilyGradientCard(color: Self.accent) {
-                Image(systemName: "star.fill")
-                    .font(.system(size: 152))
-                    .foregroundStyle(.white.opacity(0.16))
-                    .rotationEffect(.degrees(8))
-                    .offset(x: 30, y: -18)
-                    .accessibilityHidden(true)
-            } content: {
-                HStack(alignment: .top, spacing: 0) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Image(systemName: "star.fill")
-                            .font(.system(size: 21, weight: .semibold))
-                            .foregroundStyle(.white)
-                            .accessibilityHidden(true)
-                            .frame(height: 28, alignment: .leading)
-                        Text("Favorites")
-                            .font(.piru(size: 20, weight: .bold, relativeTo: .title3))
-                            .foregroundStyle(.white)
-                        // The saved-count now sits by the chevron, so this card drops
-                        // its count subtitle and runs a line shorter than the rest.
-                        Text(exemplarLine)
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.white.opacity(0.92))
-                            .lineLimit(1)
-                            .frame(maxWidth: 220, alignment: .leading)
-                            .padding(.top, 5)
-                    }
-                    Spacer(minLength: 8)
-                    HStack(spacing: 6) {
-                        Text("\(total)")
-                            .font(.subheadline.weight(.semibold))
-                            .monospacedDigit()
-                            .foregroundStyle(.white.opacity(0.9))
-                        Image(systemName: "chevron.right")
-                            .font(.subheadline.weight(.bold))
-                            .foregroundStyle(.white.opacity(0.9))
-                            .accessibilityHidden(true)
-                    }
-                    .padding(.top, 4)
-                    .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)
-                }
-            }
-        }
-        .buttonStyle(.plain)
-    }
-}
-
-// MARK: - Custom Substances Card
-
-private struct LibraryCustomCard: View {
     private var customCount: Int {
         CustomSubstanceStore.shared.all.count
     }
 
+    private var rows: [LibraryYoursSubRow.Model] {
+        [
+            .init(
+                id: "favorites",
+                icon: "star.fill",
+                title: "Favorites",
+                blurb: favorites.isEmpty
+                    ? Text("Star a substance to keep it here")
+                    : Text(verbatim: favorites.prefix(3).map(\.displayTitle).joined(separator: " · ")),
+                count: favorites.count,
+                route: .libraryFavorites,
+            ),
+            .init(
+                id: "colors",
+                icon: "paintpalette.fill",
+                title: "Colors",
+                blurb: Text("A color for every substance you log"),
+                count: substanceColors.count,
+                route: .libraryColors,
+            ),
+            .init(
+                id: "custom",
+                icon: "sparkles",
+                title: "Custom Substances",
+                blurb: Text("Substances you added or customized"),
+                count: customCount,
+                route: .libraryCustom,
+            ),
+            .init(
+                id: "units",
+                icon: "ruler.fill",
+                title: "Custom Units",
+                blurb: Text("Units you defined for your doses"),
+                count: CustomUnitStore.shared.all.count,
+                route: .libraryUnits,
+            ),
+        ]
+    }
+
     var body: some View {
-        if customCount > 0 {
-            NavigationLink(value: PushRoute.libraryCustom) {
-                FamilyGradientCard(color: Theme.accent, cornerRadius: 22, padding: 16) {
-                    Image(systemName: "sparkles")
-                        .font(.system(size: 100, weight: .regular))
-                        .foregroundStyle(.white.opacity(0.12))
-                        .offset(x: 30, y: 10)
-                        .accessibilityHidden(true)
-                } content: {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Image(systemName: "sparkles")
-                            .font(.system(size: 19, weight: .semibold))
-                            .foregroundStyle(.white)
-                            .frame(height: 26, alignment: .leading)
-                            .accessibilityHidden(true)
-                        Spacer(minLength: 14)
-                        Text("Custom")
-                            .font(.piru(size: 20, weight: .bold, relativeTo: .title3))
-                            .foregroundStyle(.white)
-                        Text("^[\(customCount) substances](inflect: true) you added or customized")
-                            .font(.footnote)
-                            .foregroundStyle(.white.opacity(0.9))
-                            .fixedSize(horizontal: false, vertical: true)
+        FamilyGradientCard(color: Self.accent) {
+            Image(systemName: "star.fill")
+                .font(.system(size: 152))
+                .foregroundStyle(.white.opacity(isExpanded ? 0.08 : 0.16))
+                .rotationEffect(.degrees(8))
+                .offset(x: 30, y: -18)
+                .accessibilityHidden(true)
+        } content: {
+            VStack(alignment: .leading, spacing: Spacing.xl) {
+                Button(action: toggle) {
+                    header.contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityValue(isExpanded ? Text("Expanded") : Text("Collapsed"))
+
+                if isExpanded {
+                    VStack(spacing: Spacing.md) {
+                        ForEach(rows) { row in
+                            NavigationLink(value: row.route) {
+                                LibraryYoursSubRow(model: row)
+                            }
+                            .buttonStyle(.plain)
+                        }
                     }
+                    .transition(.scale(scale: 0.92, anchor: .top).combined(with: .opacity))
+                } else {
+                    FlowLayout(spacing: Spacing.sm) {
+                        ForEach(rows) { row in
+                            chip(row)
+                        }
+                    }
+                    .transition(.scale(scale: 0.96, anchor: .top).combined(with: .opacity))
                 }
             }
-            .buttonStyle(.plain)
         }
+    }
+
+    private var header: some View {
+        HStack(alignment: .top, spacing: 0) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                Image(systemName: "person.crop.circle.fill")
+                    .font(.system(size: 21, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(height: 28, alignment: .leading)
+                    .accessibilityHidden(true)
+                Text("Yours")
+                    .font(.piru(size: 20, weight: .bold, relativeTo: .title3))
+                    .foregroundStyle(.white)
+                Text("Favorites, colors, units, and the substances you added.")
+                    .font(.footnote)
+                    .foregroundStyle(.white.opacity(0.93))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: 210, alignment: .leading)
+            }
+            Spacer(minLength: 8)
+            Image(systemName: "chevron.right")
+                .font(.subheadline.weight(.bold))
+                .foregroundStyle(.white.opacity(0.9))
+                .rotationEffect(.degrees(isExpanded ? 90 : 0))
+                .accessibilityHidden(true)
+                .padding(.top, Spacing.xs)
+                .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)
+        }
+    }
+
+    private func chip(_ row: LibraryYoursSubRow.Model) -> some View {
+        HStack(spacing: 5) {
+            Text(row.title)
+            Text("\(row.count)")
+                .monospacedDigit()
+                .foregroundStyle(.white.opacity(0.75))
+        }
+        .font(.caption.weight(.semibold))
+        .foregroundStyle(.white)
+        .padding(.horizontal, Spacing.lg)
+        .padding(.vertical, 5)
+        .background(.white.opacity(0.22), in: Capsule())
+    }
+}
+
+/// One expanded row of the Yours card, in the family sub-row recipe: an icon
+/// tile, title and blurb, the count, and the push chevron.
+private struct LibraryYoursSubRow: View {
+    struct Model: Identifiable {
+        let id: String
+        let icon: String
+        let title: LocalizedStringKey
+        let blurb: Text
+        let count: Int
+        let route: PushRoute
+    }
+
+    let model: Model
+
+    var body: some View {
+        HStack(spacing: Spacing.xl) {
+            Image(systemName: model.icon)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 32, height: 32)
+                .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
+                Text(model.title)
+                    .sectionLabel()
+                    .foregroundStyle(.white)
+                model.blurb
+                    .font(.caption2)
+                    .foregroundStyle(.white.opacity(0.85))
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 6)
+            Text("\(model.count)")
+                .sectionLabel()
+                .foregroundStyle(.white.opacity(0.92))
+                .monospacedDigit()
+            Image(systemName: "chevron.right")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.white.opacity(Theme.Opacity.strong))
+                .accessibilityHidden(true)
+        }
+        .padding(.horizontal, 13)
+        .padding(.vertical, 11)
+        .frame(maxWidth: .infinity)
+        .background(.white.opacity(0.17), in: RoundedRectangle(cornerRadius: 15, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 15, style: .continuous)
+                .strokeBorder(.white.opacity(Theme.Opacity.tintActive), lineWidth: 0.5),
+        )
+        .contentShape(Rectangle())
+        .accessibilityElement(children: .combine)
     }
 }

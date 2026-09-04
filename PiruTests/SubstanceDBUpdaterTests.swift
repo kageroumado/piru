@@ -41,6 +41,15 @@ struct SubstanceDBManifestTests {
     }
 
     @Test
+    func `isOlderThan falls back to the build timestamp when versions tie`() {
+        let morning = stubManifest(version: "2026-09-01.0", generatedAt: "2026-09-01T14:31:05Z")
+        let night = stubManifest(version: "2026-09-01.0", generatedAt: "2026-09-01T23:40:45Z")
+        #expect(morning.isOlderThan(night))
+        #expect(!night.isOlderThan(morning))
+        #expect(!night.isOlderThan(night))
+    }
+
+    @Test
     func `isOlderThan distinguishes same-day rebuilds via suffix`() {
         let first = stubManifest(version: "2026-05-25.0")
         let second = stubManifest(version: "2026-05-25.1")
@@ -79,11 +88,11 @@ struct SubstanceDBManifestTests {
         #expect(decoded == original)
     }
 
-    private func stubManifest(version: String) -> SubstanceDBManifest {
+    private func stubManifest(version: String, generatedAt: String = "2026-05-25T00:00:00Z") -> SubstanceDBManifest {
         SubstanceDBManifest(
             schemaVersion: 1,
             contentVersion: version,
-            generatedAt: "2026-05-25T00:00:00Z",
+            generatedAt: generatedAt,
             generatorVersion: "test",
             substanceCount: 100,
             sources: [:],

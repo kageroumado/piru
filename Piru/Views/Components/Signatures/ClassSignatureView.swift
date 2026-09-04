@@ -36,8 +36,8 @@ struct SignatureCaption: View {
     var showsCitationLink = true
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(alignment: .firstTextBaseline, spacing: 4) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.xs) {
                 Text(caption)
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)

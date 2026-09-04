@@ -9,13 +9,13 @@ struct WaterHeatCard: View {
     let guidance: WaterHeatGuidance
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 6) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            HStack(spacing: Spacing.sm) {
                 Spacer(minLength: 0)
                 EditorialPill(
                     label: Text(guidance.headline),
                     foreground: Theme.accent,
-                    background: Theme.accent.opacity(0.12),
+                    background: Theme.accent.opacity(Theme.Opacity.tint),
                 )
                 .accessibilityLabel(Text("Guideline: \(guidance.headline)"))
             }
