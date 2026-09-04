@@ -73,7 +73,7 @@ struct SessionShareCard: View {
         }
         .padding(20)
         .frame(width: cardWidth)
-        .background(Theme.background)
+        .skinBackdrop()
         .environment(\.colorScheme, scheme)
     }
 

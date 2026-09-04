@@ -23,6 +23,15 @@ T = {
     "Follow System": ("跟随系统", "跟隨系統"),
     "Light Mode": ("浅色模式", "淺色模式"),
     "Dark Mode": ("深色模式", "深色模式"),
+    "Decorations": ("装饰", "裝飾"),
+    "Stars, hearts, and stickers behind everything. Off automatically with Reduce Motion.": (
+        "背后的星星、爱心和贴纸。开启“减弱动态效果”时会自动关闭。",
+        "背後的星星、愛心和貼紙。開啟「減少動態效果」時會自動關閉。",
+    ),
+    "♡ peaceful & fluffy ♡": ("♡ 平静又蓬松 ♡", "♡ 平靜又蓬鬆 ♡"),
+    "☆ dream more ☆": ("☆ 多做梦 ☆", "☆ 多做夢 ☆"),
+    "★ more more jump! ★": ("★ 再跳再跳！★", "★ 再跳再跳！★"),
+    "♡ be gentle w/ me ♡": ("♡ 请温柔待我 ♡", "♡ 請溫柔待我 ♡"),
     "Every skin has a light and a dark side. Follow System switches with iOS.": (
         "每个皮肤都有浅色和深色两面。跟随系统会随 iOS 切换。",
         "每個皮膚都有淺色和深色兩面。跟隨系統會隨 iOS 切換。",
@@ -6043,6 +6052,8 @@ if __name__ == "__main__":
         "A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay exactly as they are.",
         "Follow System", "Light Mode", "Dark Mode",
         "Every skin has a light and a dark side. Follow System switches with iOS.",
+        "Decorations", "Stars, hearts, and stickers behind everything. Off automatically with Reduce Motion.",
+        "♡ peaceful & fluffy ♡", "☆ dream more ☆", "★ more more jump! ★", "♡ be gentle w/ me ♡",
         # Library "Yours" card
         "Yours",
         "Favorites, colors, and the substances you added.",

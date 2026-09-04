@@ -269,7 +269,7 @@ struct SessionDetailView: View {
         #if canImport(UIKit)
             .listSectionSpacing(Spacing.xxl)
         #endif
-            .background(Theme.background)
+            .skinBackdrop()
             .readableWidth()
             .task(id: colorSignature) {
                 model.loadColorMap(colors: substanceColors)

@@ -19,6 +19,17 @@ struct AppearanceSettingsView: View {
                     Text("A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay exactly as they are.")
                 }
 
+                if skins.current.decorations != nil {
+                    Section {
+                        Toggle(isOn: decorationsBinding) {
+                            Label("Decorations", systemImage: "sparkles")
+                        }
+                        .tint(Theme.accent)
+                    } footer: {
+                        Text("Stars, hearts, and stickers behind everything. Off automatically with Reduce Motion.")
+                    }
+                }
+
                 Section {
                     Picker(selection: colorSchemeBinding) {
                         ForEach(SkinColorScheme.allCases) { scheme in
@@ -35,8 +46,15 @@ struct AppearanceSettingsView: View {
             .listRowBackground(CardBackground())
         }
         .scrollContentBackground(.hidden)
-        .background(Theme.background)
+        .skinBackdrop()
         .navigationTitle("Appearance")
+    }
+
+    private var decorationsBinding: Binding<Bool> {
+        Binding(
+            get: { skins.decorationsEnabled },
+            set: { skins.setDecorationsEnabled($0) },
+        )
     }
 
     private var colorSchemeBinding: Binding<SkinColorScheme> {

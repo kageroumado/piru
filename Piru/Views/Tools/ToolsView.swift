@@ -126,7 +126,7 @@ struct ToolsView: View {
             .padding(.top, Spacing.xs)
             .padding(.bottom, 80)
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .appNavigationBar("Tools")
     }
 }

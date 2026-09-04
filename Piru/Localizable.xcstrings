@@ -4918,6 +4918,9 @@
         }
       }
     },
+    "A functional grouping rather than a mechanistic one: compounds taken for cognition, with radically different pharmacology and, mostly, thin human evidence." : {
+
+    },
     "A heads-up if one substance's daily total climbs into a heavy range, or tracked stock runs low." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5321,8 +5324,23 @@
         }
       }
     },
+    "A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay exactly as they are." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮肤会改变应用的颜色、卡片和字体。你的物质颜色、时间轴和所有图表都保持原样。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮膚會改變應用程式的顏色、卡片和字體。你的物質顏色、時間軸和所有圖表都保持原樣。"
+          }
+        }
+      }
+    },
     "A summary of how the drug affects the brain's three main signaling chemicals — serotonin, dopamine, and noradrenaline — and whether it releases them or blocks their reuptake. The slider shows which one it leans toward." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5847,6 +5865,12 @@
           }
         }
       }
+    },
+    "Act at the CB1 receptor. The phytocannabinoids are partial agonists with a natural ceiling; the synthetic ones are full agonists without it, which is the whole of the difference in risk." : {
+
+    },
+    "Act at the κ-opioid receptor rather than 5-HT2A, which is why the experience is nothing like a classical psychedelic — dysphoric, disorienting, and usually brief." : {
+
     },
     "Action" : {
       "extractionState" : "stale",
@@ -7247,6 +7271,12 @@
         }
       }
     },
+    "Agonists at the 5-HT2A receptor. That single action reshapes perception, thought and the sense of self; the family splits by chemistry — phenethylamines, tryptamines, and the ergolines LSD belongs to." : {
+
+    },
+    "Agonists at the µ-opioid receptor: analgesia, warmth and sedation, and depressed breathing by the same mechanism. Tolerance to the first outpaces tolerance to the last, which is what makes the margin narrow." : {
+
+    },
     "Alarmnummer" : {
       "localizations" : {
         "zh-Hans" : {
@@ -8315,6 +8345,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隨時"
+          }
+        }
+      }
+    },
+    "Appearance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外观"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外觀"
           }
         }
       }
@@ -9651,6 +9697,9 @@
         }
       }
     },
+    "Bind the α2δ subunit of voltage-gated calcium channels, reducing excitatory transmitter release. Not GABAergic despite the name." : {
+
+    },
     "binding" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -9880,6 +9929,21 @@
           }
         }
       }
+    },
+    "Block dopamine D2 receptors, and usually several serotonin receptors alongside. Sedating, and a common blunting agent for other substances." : {
+
+    },
+    "Block histamine H1 receptors. The first-generation ones cross into the brain and are strongly anticholinergic, which is why they sedate — and, in quantity, deliriate." : {
+
+    },
+    "Block muscarinic acetylcholine receptors. Unlike psychedelics they produce true hallucinations — things that are not there and are not recognised as unreal — alongside amnesia and a narrow margin to toxicity." : {
+
+    },
+    "Block the NMDA glutamate receptor, uncoupling perception from the body that reports it. The effect scales sharply with dose, from analgesia through anaesthesia." : {
+
+    },
+    "Block the orexin receptors that hold wakefulness in place, rather than enhancing GABA. They add next-day sedation with other depressants but not brainstem respiratory depression." : {
+
     },
     "Blocks 5-HT₂A while weakly inhibiting serotonin reuptake. The receptor block dominates at low doses, which is why trazodone reached far more people as a sleep drug than as an antidepressant." : {
       "localizations" : {
@@ -10544,7 +10608,6 @@
       }
     },
     "Buprenorphine is a partial agonist with a ceiling on its effect on breathing, so risk doesn't scale the way a full agonist's does. CDC excludes it from MME entirely and says it should not be counted toward a daily total." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11977,7 +12040,6 @@
       }
     },
     "Clinical consensus" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14398,6 +14460,9 @@
         }
       }
     },
+    "Damp excessive neuronal firing, by sodium-channel block, GABA enhancement or SV2A binding depending on the drug." : {
+
+    },
     "Danger" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14426,6 +14491,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "危險"
+          }
+        }
+      }
+    },
+    "Dark Mode" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色模式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色模式"
           }
         }
       }
@@ -18131,6 +18212,22 @@
         }
       }
     },
+    "ely.pink" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ely.pink"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ely.pink"
+          }
+        }
+      }
+    },
     "Emax" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18946,7 +19043,6 @@
       }
     },
     "Estimates from primary literature." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -19330,6 +19426,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隔日"
+          }
+        }
+      }
+    },
+    "Every skin has a light and a dark side. Follow System switches with iOS." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个皮肤都有浅色和深色两面。跟随系统会随 iOS 切换。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每個皮膚都有淺色和深色兩面。跟隨系統會隨 iOS 切換。"
           }
         }
       }
@@ -20264,6 +20376,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "氟馬西尼"
+          }
+        }
+      }
+    },
+    "Follow System" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟随系统"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟隨系統"
           }
         }
       }
@@ -22833,7 +22961,6 @@
       }
     },
     "How your body breaks the drug down — which liver enzymes do the work, what byproducts (metabolites) form, and whether those are still active. The percentage is each enzyme's rough share of clearance." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25279,6 +25406,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每隔幾小時吃些清淡的食物,即使不餓。"
+          }
+        }
+      }
+    },
+    "Light Mode" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浅色模式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "淺色模式"
           }
         }
       }
@@ -29463,6 +29606,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "夜間"
+          }
+        }
+      }
+    },
+    "Night and pink, stickers and pixels" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜色与粉色，贴纸与像素"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜色與粉色，貼紙與像素"
           }
         }
       }
@@ -33812,6 +33971,22 @@
         }
       }
     },
+    "Piru" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru"
+          }
+        }
+      }
+    },
     "Piru and PsychonautWiki files are plain JSON. Imports add to your journal (duplicates skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files." : {
       "localizations" : {
         "zh-Hans" : {
@@ -34388,6 +34563,12 @@
         }
       }
     },
+    "Positive allosteric modulators at GABA-A — they amplify the brain's own inhibitory signal rather than acting on their own. That ceiling is why they are relatively safe alone and dangerous with anything else that sedates." : {
+
+    },
+    "Positive allosteric modulators of the AMPA glutamate receptor. The high-impact ones carry convulsant liability; the low-impact ones are safer and weaker." : {
+
+    },
     "Potency" : {
       "localizations" : {
         "zh-Hans" : {
@@ -34846,6 +35027,9 @@
     "Projected Steady State" : {
 
     },
+    "Promote wakefulness without the dopaminergic surge of a classical stimulant. Mechanism is still argued over; the effect is alertness without much euphoria." : {
+
+    },
     "Propranolol" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35272,6 +35456,9 @@
       }
     },
     "Raise dopamine and noradrenaline signalling, which raises drive, attention and wakefulness — and heart rate and temperature with them. They differ mostly in how they do it: releasing the neurotransmitter, or blocking its reuptake." : {
+
+    },
+    "Raise serotonin, noradrenaline or dopamine signalling over weeks rather than hours. The class matters here mostly for what it blocks or stacks with." : {
 
     },
     "Raise strength" : {
@@ -36508,6 +36695,9 @@
           }
         }
       }
+    },
+    "Release serotonin, along with dopamine and noradrenaline — warmth, closeness and emotional openness rather than the perceptual change of a psychedelic. Most are amphetamines with a methylenedioxy ring." : {
+
     },
     "Release window" : {
       "localizations" : {
@@ -40124,6 +40314,9 @@
         }
       }
     },
+    "Short chains of amino acids acting at hormone or growth-factor receptors. Almost all are injected, and almost none have long-term human data." : {
+
+    },
     "short-acting" : {
       "localizations" : {
         "zh-Hans" : {
@@ -40760,6 +40953,22 @@
         }
       }
     },
+    "Skin" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮肤"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮膚"
+          }
+        }
+      }
+    },
     "Skip" : {
       "localizations" : {
         "zh-Hans" : {
@@ -41071,6 +41280,9 @@
     "Slow" : {
 
     },
+    "Slow central nervous system activity, mostly through GABA. Their doses add up with each other in a way that is easy to underestimate." : {
+
+    },
     "Slow metabolizer" : {
       "localizations" : {
         "zh-Hans" : {
@@ -41205,6 +41417,22 @@
     },
     "Social" : {
       "comment" : "Effect domain"
+    },
+    "Soft pink, hot pink, liquid glass" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "柔粉、亮粉、液态玻璃"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "柔粉、亮粉、液態玻璃"
+          }
+        }
+      }
     },
     "Solution Concentration" : {
       "localizations" : {
@@ -42771,7 +42999,6 @@
       }
     },
     "Stronger doesn't mean more dangerous — it's just how tightly the drug grips that one target in the lab." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -43336,7 +43563,6 @@
       }
     },
     "Suppresses the enzyme that makes serotonin, so recovery takes weeks." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -46352,7 +46578,6 @@
       }
     },
     "Transdermal fentanyl is dosed in micrograms per hour — a rate, not a mass, so it shares no unit space with the mg-based table (CDC gives 2.4 MME per mcg/hr). Absorption also changes with heat and other factors." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -47832,6 +48057,9 @@
           }
         }
       }
+    },
+    "Vitamins, minerals, amino acids and plant preparations. Pharmacologically a mixed bag, and the place where interactions are most often assumed to be absent." : {
+
     },
     "Vitamins, minerals, and nutrients." : {
       "localizations" : {
@@ -50209,178 +50437,98 @@
         }
       }
     },
-    "Appearance" : {
+    "Decorations" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "外观"
+            "value" : "装饰"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "外觀"
+            "value" : "裝飾"
           }
         }
       }
     },
-    "Skin" : {
+    "Stars, hearts, and stickers behind everything. Off automatically with Reduce Motion." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "皮肤"
+            "value" : "背后的星星、爱心和贴纸。开启“减弱动态效果”时会自动关闭。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "皮膚"
+            "value" : "背後的星星、愛心和貼紙。開啟「減少動態效果」時會自動關閉。"
           }
         }
       }
     },
-    "Piru" : {
+    "♡ peaceful & fluffy ♡" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Piru"
+            "value" : "♡ 平静又蓬松 ♡"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Piru"
+            "value" : "♡ 平靜又蓬鬆 ♡"
           }
         }
       }
     },
-    "Soft pink, hot pink, liquid glass" : {
+    "☆ dream more ☆" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "柔粉、亮粉、液态玻璃"
+            "value" : "☆ 多做梦 ☆"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "柔粉、亮粉、液態玻璃"
+            "value" : "☆ 多做夢 ☆"
           }
         }
       }
     },
-    "ely.pink" : {
+    "★ more more jump! ★" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ely.pink"
+            "value" : "★ 再跳再跳！★"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ely.pink"
+            "value" : "★ 再跳再跳！★"
           }
         }
       }
     },
-    "Night and pink, stickers and pixels" : {
+    "♡ be gentle w/ me ♡" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "夜色与粉色，贴纸与像素"
+            "value" : "♡ 请温柔待我 ♡"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "夜色與粉色，貼紙與像素"
-          }
-        }
-      }
-    },
-    "A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay exactly as they are." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "皮肤会改变应用的颜色、卡片和字体。你的物质颜色、时间轴和所有图表都保持原样。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "皮膚會改變應用程式的顏色、卡片和字體。你的物質顏色、時間軸和所有圖表都保持原樣。"
-          }
-        }
-      }
-    },
-    "Follow System" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "跟随系统"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "跟隨系統"
-          }
-        }
-      }
-    },
-    "Light Mode" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "浅色模式"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "淺色模式"
-          }
-        }
-      }
-    },
-    "Dark Mode" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "深色模式"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "深色模式"
-          }
-        }
-      }
-    },
-    "Every skin has a light and a dark side. Follow System switches with iOS." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每个皮肤都有浅色和深色两面。跟随系统会随 iOS 切换。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每個皮膚都有淺色和深色兩面。跟隨系統會隨 iOS 切換。"
+            "value" : "♡ 請溫柔待我 ♡"
           }
         }
       }

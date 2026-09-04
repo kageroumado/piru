@@ -118,7 +118,7 @@ struct MoveToSessionView: View {
                     .scrollContentBackground(.hidden)
                 }
             }
-            .background(Theme.background)
+            .skinBackdrop()
             .navigationTitle("Move \(dose.substance)")
             .inlineNavigationTitle()
             .navigationDestination(item: $retimeTarget) { session in

@@ -68,7 +68,7 @@ struct InteractionCheckerView: View {
             .padding(.bottom, 80)
         }
         .scrollDismissesKeyboard(.interactively)
-        .background(Theme.background)
+        .skinBackdrop()
         .task(id: DoseLogService.shared.revision) {
             rebuildUsedCounts()
         }

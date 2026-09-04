@@ -36,7 +36,7 @@ struct ReportsView: View {
             .padding(.top, Spacing.xs)
             .padding(.bottom, 80)
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .task(id: scopeToken) {
             await SubstanceStore.shared.ensureAllLoaded()
             model.recompute(sessions: sessions, entries: allEntries)

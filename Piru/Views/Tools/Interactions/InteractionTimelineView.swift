@@ -262,7 +262,7 @@ struct InteractionTimelineView: View {
             }
             .padding()
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .navigationTitle("Interaction Timeline")
         .inlineNavigationTitle()
         .task(id: model.curveInputs) { model.recompute() }

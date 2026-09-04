@@ -48,7 +48,7 @@ struct SteadyStateProjectionView: View {
             .padding()
             .padding(.bottom, 40)
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .task(id: refreshToken) {
             await SubstanceStore.shared.ensureAllLoaded()
             projections = SteadyStateProjectionBuilder.compute(entries: allEntries, colorMap: substanceColors.colorMap)

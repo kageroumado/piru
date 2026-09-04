@@ -122,7 +122,7 @@ struct InventoryListView: View {
                 list
             }
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .navigationTitle("Inventory")
         .inlineNavigationTitle()
         .toolbar { toolbarContent }

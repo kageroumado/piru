@@ -46,7 +46,7 @@ struct IdentifyBoxView: View {
             .padding(.top, Spacing.xs)
             .padding(.bottom, 80)
         }
-        .background(Theme.background)
+        .skinBackdrop()
         #if os(iOS)
             .fullScreenCover(isPresented: $showScanner) {
                 LabelScannerView { reading in

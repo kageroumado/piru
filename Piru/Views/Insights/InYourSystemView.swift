@@ -41,7 +41,7 @@ struct InYourSystemView: View {
             }
             .padding()
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .task(id: refreshToken) {
             try? await Task.sleep(for: .milliseconds(200))
             guard !Task.isCancelled else { return }

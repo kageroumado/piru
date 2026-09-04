@@ -45,7 +45,7 @@ struct OpioidEquivalenceToolView: View {
             .padding()
         }
         .scrollDismissesKeyboard(.interactively)
-        .background(Theme.background)
+        .skinBackdrop()
         .appNavigationBar("Opioid Equivalence")
     }
 

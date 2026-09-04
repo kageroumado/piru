@@ -180,7 +180,7 @@ struct QuickLogView: View {
                 // problem and don't expose this layer.)
                 .accessibilityHidden(showEditSheet || showCustomForm || showScanner || navigator.sheetStack.count > 1)
                 .scrollDismissesKeyboard(.interactively)
-                .background(Theme.background)
+                .skinBackdrop()
                 .navigationTitle("Log")
                 .inlineNavigationTitle()
                 .toolbar {

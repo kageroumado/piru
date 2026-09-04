@@ -99,7 +99,7 @@ struct InsightGroupView: View {
             .padding(.top, Spacing.xs)
             .padding(.bottom, 40)
         }
-        .background(Theme.background)
+        .skinBackdrop()
     }
 }
 

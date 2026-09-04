@@ -27,7 +27,7 @@ struct SteadyStateView: View {
             }
             .padding()
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .onChange(of: inputs.recomputeKey) { inputs.refresh() }
     }
 }

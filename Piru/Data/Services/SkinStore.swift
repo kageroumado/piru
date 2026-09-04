@@ -15,6 +15,9 @@ final class SkinStore {
 
     private(set) var current: Skin
     private(set) var colorScheme: SkinColorScheme
+    /// Whether a decorated skin draws its glyphs and blinkies. Ignored by
+    /// skins without decorations.
+    private(set) var decorationsEnabled: Bool
 
     private let defaults: UserDefaults
 
@@ -37,6 +40,12 @@ final class SkinStore {
         } else {
             colorScheme = SkinDefaults.colorSchemeDefault
         }
+        decorationsEnabled = defaults.object(forKey: SkinDefaults.decorationsKey) as? Bool ?? SkinDefaults.decorationsDefault
+    }
+
+    func setDecorationsEnabled(_ enabled: Bool) {
+        defaults.set(enabled, forKey: SkinDefaults.decorationsKey)
+        if enabled != decorationsEnabled { decorationsEnabled = enabled }
     }
 
     /// Always writes, so the app-group key exists for the extensions even when

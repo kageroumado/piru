@@ -33,7 +33,7 @@ struct EffectSandboxView: View {
                 doseList
             }
         }
-        .background(Theme.background)
+        .skinBackdrop()
         #if canImport(UIKit)
             .background { BackSwipeSuspender(isSuspended: isAdjustingDose) }
         #endif

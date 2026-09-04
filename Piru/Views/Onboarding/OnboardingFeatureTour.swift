@@ -122,7 +122,7 @@ struct PhoneMock<Content: View>: View {
             Spacer(minLength: 0)
         }
         .frame(width: Self.mockWidth, height: Self.mockHeight)
-        .background(Theme.background)
+        .skinBackdrop()
         .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 36, style: .continuous)
@@ -432,5 +432,5 @@ private struct InsightsMock: View {
 
 #Preview {
     OnboardingFeatureTour()
-        .background(Theme.background)
+        .skinBackdrop()
 }

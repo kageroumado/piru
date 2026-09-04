@@ -50,7 +50,7 @@ struct VolumetricDosingView: View {
             .padding()
         }
         .scrollDismissesKeyboard(.interactively)
-        .background(Theme.background)
+        .skinBackdrop()
     }
 
     // MARK: - Header

@@ -51,6 +51,18 @@ struct SkinStoreTests {
         #expect(SkinStore(defaults: defaults).current == SkinDefaults.skinDefault)
     }
 
+    @Test("Decorations toggle persists and only decorated skins carry a set")
+    func decorations() {
+        let defaults = freshDefaults()
+        let store = SkinStore(defaults: defaults)
+        #expect(store.decorationsEnabled == SkinDefaults.decorationsDefault)
+        store.setDecorationsEnabled(false)
+        #expect(SkinStore(defaults: defaults).decorationsEnabled == false)
+        #expect(Skin.piru.decorations == nil)
+        #expect((Skin.elyPink.decorations?.glyphs.count ?? 0) >= 8)
+        #expect((Skin.elyPink.decorations?.slogans.count ?? 0) >= 3)
+    }
+
     @Test("Theme resolves through the active skin's palette")
     func themeFollowsSkin() {
         let skin = SkinStore.shared.current

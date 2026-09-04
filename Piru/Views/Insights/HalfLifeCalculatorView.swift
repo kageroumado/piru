@@ -43,7 +43,7 @@ struct HalfLifeCalculatorView: View {
             }
             .padding()
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .task { await model.loadHalfLifeCount() }
     }
 }

@@ -240,5 +240,5 @@ private struct OnboardingVitalsSampleChart: View {
 
 #Preview {
     OnboardingHealthStep()
-        .background(Theme.background)
+        .skinBackdrop()
 }

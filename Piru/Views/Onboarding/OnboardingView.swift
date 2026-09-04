@@ -80,7 +80,7 @@ private struct OnboardingStepChrome: ViewModifier {
     func body(content: Content) -> some View {
         content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Theme.background.ignoresSafeArea())
+            .skinBackdrop()
             .inlineNavigationTitle()
         #if canImport(UIKit)
             .toolbarBackground(.hidden, for: .navigationBar)

@@ -166,6 +166,32 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
+    // MARK: - Decorations
+
+    /// The chaos layer: glyph stickers and blinkies drifting behind every
+    /// screen. `nil` for skins that keep the ground plain. Colours come from the
+    /// skin's own tokens; the app draws them, so nothing here is content.
+    var decorations: SkinDecorations? {
+        switch self {
+        case .piru: nil
+        case .elyPink: SkinDecorations(
+            glyphs: [
+                SkinGlyph("★", semantic(.caution, .accent)), SkinGlyph("☆", semantic(.caution, .accent)),
+                SkinGlyph("✦", .white), SkinGlyph("✧", .white),
+                SkinGlyph("♡", accentMark), SkinGlyph("♥", accentMark), SkinGlyph("✿", accentMark),
+                SkinGlyph("✚", eyebrow), SkinGlyph("♠", eyebrow), SkinGlyph("✗", eyebrow),
+                SkinGlyph("✦", semantic(.success, .accent)),
+            ],
+            slogans: [
+                "♡ peaceful & fluffy ♡",
+                "☆ dream more ☆",
+                "★ more more jump! ★",
+                "♡ be gentle w/ me ♡",
+            ],
+        )
+        }
+    }
+
     // MARK: - Surface treatment
 
     /// How cards and capsules are drawn. The default skin keeps the app's
@@ -242,6 +268,24 @@ enum SemanticVariant: CaseIterable, Sendable {
     case text, accent
 }
 
+/// A skin's background decoration set. Glyphs are scattered and animated by
+/// `SkinBackdrop`; slogans are the site's blinkies, localized like any string.
+struct SkinDecorations: Sendable {
+    let glyphs: [SkinGlyph]
+    let slogans: [LocalizedStringResource]
+}
+
+/// One sticker glyph in a token colour.
+struct SkinGlyph: Sendable {
+    let symbol: String
+    let color: Color
+
+    init(_ symbol: String, _ color: Color) {
+        self.symbol = symbol
+        self.color = color
+    }
+}
+
 /// The card treatment a skin asks for. See ``ThemedBackground``.
 enum SkinSurface: Equatable, Sendable {
     /// `.ultraThinMaterial` in light, the skin's `cardBackground` in dark —
@@ -284,8 +328,10 @@ nonisolated enum SkinDefaults {
     static let suite = "group.dev.yumeji.piru"
     static let skinKey = "skin"
     static let colorSchemeKey = "skinColorScheme"
+    static let decorationsKey = "skinDecorations"
     static let skinDefault: Skin = .piru
     static let colorSchemeDefault: SkinColorScheme = .system
+    static let decorationsDefault = true
 
     /// The persisted skin, for targets without a `SkinStore` (widgets). Falls
     /// back to the default when the stored value names a skin this build lacks.

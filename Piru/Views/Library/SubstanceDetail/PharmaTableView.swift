@@ -49,7 +49,7 @@ struct PharmaTableView: View {
                 PharmaTableGrid(model: model, columns: visibleColumns, headerOffset: headerOffset)
             }
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .navigationTitle(Text("Pharma Table"))
         .inlineNavigationTitle()
         .toolbar {
@@ -219,7 +219,7 @@ private struct PharmaHeaderRow: View {
             }
         }
         .frame(height: PharmaTableMetrics.headerHeight)
-        .background(Theme.background)
+        .skinBackdrop()
     }
 }
 

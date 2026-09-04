@@ -48,7 +48,7 @@ struct BenzoEquivalenceToolView: View {
             .padding()
         }
         .scrollDismissesKeyboard(.interactively)
-        .background(Theme.background)
+        .skinBackdrop()
         .appNavigationBar("Benzo Equivalence")
         .task { load() }
         .sheet(item: $picking) { target in

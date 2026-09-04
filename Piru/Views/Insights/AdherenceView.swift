@@ -31,7 +31,7 @@ struct AdherenceView: View {
                 }
                 .padding()
             }
-            .background(Theme.background)
+            .skinBackdrop()
             .task(id: DoseLogService.shared.revision) {
                 await model.recompute(
                     entries: allEntries,
@@ -72,7 +72,7 @@ private struct AdherenceEmptyState: View {
             .tint(Theme.accent)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Theme.background)
+        .skinBackdrop()
     }
 }
 
