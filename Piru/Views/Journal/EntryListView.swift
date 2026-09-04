@@ -7,7 +7,7 @@ import TipKit
 /// The Journal's three views. `grouped` buckets entries under a secondary key
 /// (``JournalGroupKey``) picked in the options popover.
 enum JournalGrouping: String, CaseIterable {
-    // Order drives the grouping menu; Days is the default so it leads.
+    // Order drives the grouping menu.
     case byDay = "Days"
     case timeline = "Timeline"
     case grouped = "Grouped"
@@ -102,7 +102,7 @@ struct EntryListView: View {
     /// searching the Library instead when a query finds no journal entries.
     var onSwitchToLibrary: (() -> Void)?
 
-    @AppStorage("journalGrouping", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var grouping: JournalGrouping = .byDay
+    @AppStorage("journalGrouping", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var grouping: JournalGrouping = .timeline
     @AppStorage("journalGroupKey", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var groupKey: JournalGroupKey = .substance
     @State private var showingCalendar = false
 

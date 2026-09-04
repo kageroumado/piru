@@ -14,10 +14,10 @@ struct TimelineStripDayContent: View {
 
     /// Horizontal inset of every bubble within its column, so a session
     /// envelope's edge stays visible around the bubbles it wraps.
-    private static let bubbleInset: CGFloat = 8
+    private static let bubbleInset: CGFloat = 6
     /// A curve's full amplitude, as a fraction of the width available beyond
     /// the axis — wider would add precision the model doesn't have.
-    private static let maxAmplitudeFraction: CGFloat = 0.6
+    private static let maxAmplitudeFraction: CGFloat = 0.38
     /// The day tag's inset from the slice's top; a break above the slice is
     /// inset enough on its own.
     private static let dayTagTop: CGFloat = 4
@@ -174,8 +174,6 @@ struct TimelineStripDayContent: View {
 
     /// Gridlines end this far before the bubbles' left edge.
     private static let gridlineInset: CGFloat = 12
-    /// The Now line ends this far before the bubble column.
-    private static let nowLineInset: CGFloat = 8
     /// A curve's fill fades to nothing this far right of its peak.
     private static let fillFadeOverrun: CGFloat = 40
     /// Stroke width of every curve.
@@ -245,7 +243,7 @@ struct TimelineStripDayContent: View {
         if let y = day.nowY {
             var nowLine = Path()
             nowLine.move(to: CGPoint(x: axisX, y: y))
-            nowLine.addLine(to: CGPoint(x: max(axisX, columnX - Self.nowLineInset), y: y))
+            nowLine.addLine(to: CGPoint(x: max(axisX, columnX), y: y))
             context.stroke(nowLine, with: .color(Theme.accent.opacity(0.65)), style: StrokeStyle(lineWidth: 2.5, lineCap: .round))
         }
 
@@ -445,7 +443,7 @@ struct SessionEnvelopeButton: View {
                 .shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.04), radius: 12, y: 4)
                 .overlay(alignment: .bottomTrailing) {
                     // Chevron styled and inset identically to the bubbles'
-                    // (bubble inset 8 + bubble padding 10), so the two columns
+                    // (bubble inset 6 + bubble padding 10), so the two columns
                     // of chevrons align.
                     HStack(spacing: Spacing.md) {
                         Text("Session")
@@ -456,8 +454,8 @@ struct SessionEnvelopeButton: View {
                             .foregroundStyle(.tertiary)
                             .accessibilityHidden(true)
                     }
-                    .padding(.trailing, 18)
-                    .padding(.bottom, Spacing.sm)
+                    .padding(.trailing, 16)
+                    .padding(.vertical, Spacing.sm)
                 }
                 .contentShape(.rect)
         }

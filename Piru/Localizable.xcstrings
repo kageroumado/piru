@@ -269,6 +269,9 @@
         }
       }
     },
+    "/day" : {
+
+    },
     "#" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1685,6 +1688,7 @@
       }
     },
     "%@ this month" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2323,6 +2327,7 @@
       }
     },
     "%lld doses due" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3283,6 +3288,9 @@
       }
     },
     "%lld%% load" : {
+
+    },
+    "%lld%% remaining" : {
 
     },
     "%lld%% tolerance" : {
@@ -7322,6 +7330,9 @@
         }
       }
     },
+    "Alerts" : {
+
+    },
     "All" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7822,6 +7833,7 @@
       }
     },
     "Always show the full-height timeline. When off, graphs start compact — expand from the graph menu." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7964,6 +7976,12 @@
           }
         }
       }
+    },
+    "An existing iCloud backup was found" : {
+
+    },
+    "An existing iCloud backup was found. Merge it with your current data to restore it, or remove it to start fresh." : {
+
     },
     "An opioid overdose is a sudden loss of consciousness with no warning — you can't give yourself naloxone. Don't use alone: someone with you needs naloxone and should call emergency services. Nodding off can also lead to choking on vomit or burns, so never use where you might pass out unattended." : {
       "localizations" : {
@@ -8414,6 +8432,7 @@
       }
     },
     "Are you sure you want to delete all your data? This action cannot be undone." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8719,6 +8738,9 @@
           }
         }
       }
+    },
+    "Automatic backups are off until you turn them on. Replacing your data on restore takes a recoverable snapshot first." : {
+
     },
     "Automatic backups use a random key kept in your iCloud Keychain. It never leaves your devices in readable form, so iCloud only ever holds an unreadable blob." : {
       "localizations" : {
@@ -9090,6 +9112,15 @@
           }
         }
       }
+    },
+    "Backup Merged" : {
+
+    },
+    "Backup Removed" : {
+
+    },
+    "Backups are opt-in" : {
+
     },
     "Backups are opt-in and end-to-end encrypted with your key." : {
       "localizations" : {
@@ -13498,6 +13529,9 @@
         }
       }
     },
+    "Copies set aside automatically (after an upgrade hiccup) or before a restore appear here, ready to restore." : {
+
+    },
     "Copy" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14549,6 +14583,7 @@
 
     },
     "Day Grouping" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14677,6 +14712,7 @@
       }
     },
     "Days used, cumulative exposure, dose trend, and overlap — for you or your doctor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16297,6 +16333,7 @@
       }
     },
     "Dose Reminders" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16476,6 +16513,9 @@
         }
       }
     },
+    "Doses before this hour count toward the previous day. Set to 12 AM for standard calendar days." : {
+
+    },
     "Doses in other units aren't counted." : {
       "localizations" : {
         "zh-Hans" : {
@@ -16493,6 +16533,7 @@
       }
     },
     "Doses logged before this hour count toward the previous day — so a 2 AM dose stays with the night before instead of starting a new day at midnight. Set to 12 AM for standard calendar days." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17153,6 +17194,7 @@
       }
     },
     "During a Session" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18703,6 +18745,9 @@
           }
         }
       }
+    },
+    "Entries from the backup will be added to your current data. Duplicates are skipped. Automatic backups will be turned on." : {
+
     },
     "Entries per day" : {
       "localizations" : {
@@ -24513,7 +24558,14 @@
         }
       }
     },
+    "Keep doses in a fixed order. When off, logging a dose moves it to the front." : {
+
+    },
+    "Keep Order" : {
+
+    },
     "Keep Quick-Log Order" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24562,6 +24614,7 @@
       }
     },
     "Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25471,6 +25524,7 @@
       }
     },
     "Live Activity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25881,6 +25935,7 @@
       }
     },
     "Log doses to see your patterns" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -27128,6 +27183,12 @@
         }
       }
     },
+    "Merge Backup" : {
+
+    },
+    "Merge Failed" : {
+
+    },
     "Merge keeps your current entries and adds the backup's. Replace deletes your current data first (a recovery snapshot is taken automatically) and restores only the backup." : {
       "localizations" : {
         "zh-Hans" : {
@@ -27145,6 +27206,7 @@
       }
     },
     "Merge repeat doses into one curve. When off, each dose draws its own line." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -31175,6 +31237,7 @@
       }
     },
     "Nothing due right now" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -31239,6 +31302,7 @@
       }
     },
     "Nothing is deleted by surprise" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -31398,6 +31462,9 @@
         }
       }
     },
+    "Notifications are turned off in Settings. Alerts below can't be delivered until they're allowed again." : {
+
+    },
     "Notifications Disabled" : {
       "localizations" : {
         "zh-Hans" : {
@@ -31431,6 +31498,7 @@
       }
     },
     "Notifications for Piru are turned off in Settings. None of the alerts below can be delivered until they're allowed again." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -31573,6 +31641,9 @@
           }
         }
       }
+    },
+    "Nudges and re-asks stay silent during quiet hours. Scheduled reminders and safety warnings still come through." : {
+
     },
     "Numer alarmowy" : {
       "localizations" : {
@@ -32821,6 +32892,7 @@
       }
     },
     "Past 2 weeks" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -32915,6 +32987,9 @@
           }
         }
       }
+    },
+    "Pause silences everything without losing your choices. Live Activity shows tracking on your Lock Screen." : {
+
     },
     "PDF" : {
       "localizations" : {
@@ -33196,7 +33271,11 @@
         }
       }
     },
+    "Permanently deletes every dose, session, and setting. If iCloud backup is on, it is disabled and the backup is removed." : {
+
+    },
     "Permanently removes every dose, session, and setting. A recoverable snapshot is taken first." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -33749,7 +33828,11 @@
         }
       }
     },
+    "Piru asks the system once. You choose exactly what it sends below." : {
+
+    },
     "Piru asks the system once. You choose exactly what it's allowed to send below." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -33884,6 +33967,7 @@
       }
     },
     "Piru never deletes a store outright. Copies set aside automatically (after an upgrade hiccup) or before you deleted or restored data appear here, ready to restore." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -33900,6 +33984,7 @@
       }
     },
     "Piru only sends the notifications listed on this screen." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36633,6 +36718,7 @@
       }
     },
     "Reminders fire at each med's times. Quiet meds share one reminder per time of day. Logging a dose clears its follow-ups." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -36680,6 +36766,9 @@
         }
       }
     },
+    "Removal Failed" : {
+
+    },
     "Remove" : {
       "localizations" : {
         "zh-Hans" : {
@@ -36712,6 +36801,9 @@
         }
       }
     },
+    "Remove Backup?" : {
+
+    },
     "Remove dose" : {
       "localizations" : {
         "zh-Hans" : {
@@ -36727,6 +36819,9 @@
           }
         }
       }
+    },
+    "Remove Existing Backup" : {
+
     },
     "Remove filter" : {
       "localizations" : {
@@ -36937,6 +37032,7 @@
       }
     },
     "Replacing your data on restore takes a recoverable snapshot first. Backups are always optional and off until you turn them on." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -37401,6 +37497,9 @@
         }
       }
     },
+    "Restore from Backup" : {
+
+    },
     "Restore Latest iCloud Backup" : {
       "localizations" : {
         "zh-Hans" : {
@@ -37448,6 +37547,9 @@
           }
         }
       }
+    },
+    "Restoring…" : {
+
     },
     "Results" : {
       "localizations" : {
@@ -39528,6 +39630,7 @@
       }
     },
     "Session nudges, re-asks, and next-dose reminders inside this window stay silent. Routine reminders at times you set, and cumulative dose warnings, still come through." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40102,6 +40205,7 @@
       }
     },
     "Show a Live Activity on your Lock Screen when tracking starts. You can also start one from any session." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -40506,6 +40610,7 @@
       }
     },
     "Silences everything without losing your choices below." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -41759,6 +41864,9 @@
           }
         }
       }
+    },
+    "Stacking merges redoses into one curve and splits busy sessions into lanes. Expanding starts the graph full-height." : {
+
     },
     "Stacking opioids is unpredictable — respiratory depression risk compounds." : {
       "localizations" : {
@@ -43991,6 +44099,7 @@
       }
     },
     "That's everything today" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44007,6 +44116,7 @@
       }
     },
     "That's everything today — %lld days and counting" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -44246,6 +44356,12 @@
         }
       }
     },
+    "The existing iCloud backup was removed." : {
+
+    },
+    "The existing iCloud backup will be permanently deleted. This cannot be undone." : {
+
+    },
     "The fast gap is the rush. Because the fast signal catches up within minutes, that gap is effectively proportional to how quickly dopamine rose. The slow gap is the high while it stays positive; once the slow expectation overshoots the falling dopamine, the same term turns into part of the comedown." : {
       "localizations" : {
         "zh-Hans" : {
@@ -44406,6 +44522,9 @@
           }
         }
       }
+    },
+    "The iCloud backup was merged with your data. Automatic backups are now on." : {
+
     },
     "The idea" : {
       "localizations" : {
@@ -45134,6 +45253,9 @@
         }
       }
     },
+    "This permanently deletes all your data and cannot be undone. If iCloud backup is on, it will be disabled and the backup removed." : {
+
+    },
     "This replaces your current data with the %@ in this copy. A snapshot of your current data is taken first, so it's reversible. Restart Piru afterwards to load it." : {
       "localizations" : {
         "zh-Hans" : {
@@ -45510,6 +45632,7 @@
       }
     },
     "Timed from the typical onset and duration of each dose you log, for its substance and route. These are estimates from published data — Piru doesn't sense anything." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -45620,6 +45743,9 @@
           }
         }
       }
+    },
+    "Timing is based on published pharmacology data. Piru estimates — it never senses anything." : {
+
     },
     "Tips as substances wear off — tap a category below." : {
       "localizations" : {
@@ -45991,6 +46117,7 @@
       }
     },
     "Totals include scheduled meds, as-needed doses, and everything else — the safety net doesn't care why you took it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -46306,6 +46433,9 @@
           }
         }
       }
+    },
+    "Trends, exposure, and overlap" : {
+
     },
     "triazolam, alprazolam, lorazepam" : {
       "extractionState" : "stale",
@@ -47946,6 +48076,9 @@
         }
       }
     },
+    "We found an existing backup in your iCloud. Pick up where you left off, or start fresh." : {
+
+    },
     "Weekly" : {
       "localizations" : {
         "zh-Hans" : {
@@ -48300,6 +48433,7 @@
       }
     },
     "When a session reaches this many different substances, the timeline splits overlapping curves into separate stacked lanes — one per substance — so a busy session stays readable. When off, every curve is always overlaid on one graph." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

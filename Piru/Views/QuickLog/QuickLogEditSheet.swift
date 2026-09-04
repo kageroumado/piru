@@ -21,6 +21,7 @@ struct QuickLogEditSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appNavigator) private var navigator
     @State private var customStore = CustomSubstanceStore.shared
+    @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
     /// The "Now" pill's quick offsets — the same shared-suite key the pill
     /// reads and `DoseTimeSettingsView` writes.
     @AppStorage(DoseTimeDefaults.choicesKey, store: UserDefaults(suiteName: DoseTimeDefaults.suite))
@@ -39,6 +40,7 @@ struct QuickLogEditSheet: View {
                 doseTimesSection
                 DockShortcutsSection(path: $path)
                 DockLabelsSection(path: $path)
+                orderSection
             }
             .permanentEditMode()
             .navigationDestination(for: DockEditRoute.self) { route in
@@ -276,6 +278,19 @@ struct QuickLogEditSheet: View {
             modelContext.delete(presets[index])
         }
         try? modelContext.save()
+    }
+
+    // MARK: Order
+
+    private var orderSection: some View {
+        Section {
+            Toggle(isOn: $quickLogFixedOrder) {
+                Label("Keep Order", systemImage: "pin")
+            }
+            .tint(Theme.accent)
+        } footer: {
+            Text("Keep doses in a fixed order. When off, logging a dose moves it to the front.")
+        }
     }
 
     // MARK: Dose times

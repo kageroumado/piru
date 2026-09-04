@@ -22,25 +22,9 @@ struct NotificationSettingsView: View {
                     await requestPermission()
                 }
 
-                pauseSection
+                globalSection
 
-                liveActivitySection
-
-                categorySummarySection(
-                    category: .reminders,
-                    header: "Dose Reminders",
-                    footer: "Reminders fire at each med's times. Quiet meds share one reminder per time of day. Logging a dose clears its follow-ups.",
-                )
-                categorySummarySection(
-                    category: .session,
-                    header: "During a Session",
-                    footer: "Timed from the typical onset and duration of each dose you log, for its substance and route. These are estimates from published data — Piru doesn't sense anything.",
-                )
-                categorySummarySection(
-                    category: .safety,
-                    header: "Safety & Supplies",
-                    footer: "Totals include scheduled meds, as-needed doses, and everything else — the safety net doesn't care why you took it.",
-                )
+                alertsSection
 
                 quietHoursSection
             }
@@ -60,44 +44,46 @@ struct NotificationSettingsView: View {
 
     // MARK: - Sections
 
-    private var pauseSection: some View {
+    private var globalSection: some View {
         Section {
             Toggle(isOn: pauseAllBinding) {
                 Label("Pause All Notifications", systemImage: "bell.slash")
             }
             .tint(Theme.accent)
             .disabled(authStatus == .denied)
+
+            Toggle(isOn: $autoLiveActivity) {
+                Label("Automatic Live Activity", systemImage: "bolt.heart")
+            }
+            .tint(Theme.accent)
         } footer: {
-            Text("Silences everything without losing your choices below.")
+            Text("Pause silences everything without losing your choices. Live Activity shows tracking on your Lock Screen.")
         }
     }
 
-    private func categorySummarySection(
-        category: NotificationCategory,
-        header: LocalizedStringKey,
-        footer: LocalizedStringKey,
-    ) -> some View {
+    private var alertsSection: some View {
         Section {
-            NavigationLink {
-                NotificationTypeDetailSheet(
-                    category: category,
-                    nextFireDates: nextFireDates,
-                    disabled: rowsDisabled,
-                )
-            } label: {
-                VStack(alignment: .leading, spacing: Spacing.xs) {
-                    Label(category.title, systemImage: category.symbol)
-                    let summary = enabledSummary(for: category)
-                    Text(summary)
-                        .captionSecondary()
+            ForEach(NotificationCategory.allCases, id: \.self) { category in
+                NavigationLink {
+                    NotificationTypeDetailSheet(
+                        category: category,
+                        nextFireDates: nextFireDates,
+                        disabled: rowsDisabled,
+                    )
+                } label: {
+                    VStack(alignment: .leading, spacing: Spacing.xs) {
+                        Label(category.title, systemImage: category.symbol)
+                        Text(enabledSummary(for: category))
+                            .captionSecondary()
+                    }
                 }
+                .disabled(rowsDisabled)
+                .opacity(rowsDisabled ? 0.55 : 1)
             }
-            .disabled(rowsDisabled)
-            .opacity(rowsDisabled ? 0.55 : 1)
         } header: {
-            Text(header)
+            Text("Alerts")
         } footer: {
-            Text(footer)
+            Text("Timing is based on published pharmacology data. Piru estimates — it never senses anything.")
         }
     }
 
@@ -142,20 +128,7 @@ struct NotificationSettingsView: View {
         } header: {
             Text("Quiet Hours")
         } footer: {
-            Text("Session nudges, re-asks, and next-dose reminders inside this window stay silent. Routine reminders at times you set, and cumulative dose warnings, still come through.")
-        }
-    }
-
-    private var liveActivitySection: some View {
-        Section {
-            Toggle(isOn: $autoLiveActivity) {
-                Label("Automatic Live Activity", systemImage: "bolt.heart")
-            }
-            .tint(Theme.accent)
-        } header: {
-            Text("Live Activity")
-        } footer: {
-            Text("Show a Live Activity on your Lock Screen when tracking starts. You can also start one from any session.")
+            Text("Nudges and re-asks stay silent during quiet hours. Scheduled reminders and safety warnings still come through.")
         }
     }
 
@@ -228,7 +201,7 @@ struct NotificationSettingsView: View {
 // MARK: - Notification Category
 
 /// Groups notification types into the three spec sections.
-nonisolated enum NotificationCategory {
+nonisolated enum NotificationCategory: CaseIterable {
     case reminders
     case session
     case safety
@@ -470,11 +443,11 @@ private struct NotificationPermissionSection: View {
         } footer: {
             switch status {
             case .denied:
-                Text("Notifications for Piru are turned off in Settings. None of the alerts below can be delivered until they're allowed again.")
+                Text("Notifications are turned off in Settings. Alerts below can't be delivered until they're allowed again.")
             case .notDetermined:
-                Text("Piru asks the system once. You choose exactly what it's allowed to send below.")
+                Text("Piru asks the system once. You choose exactly what it sends below.")
             default:
-                Text("Piru only sends the notifications listed on this screen.")
+                EmptyView()
             }
         }
     }

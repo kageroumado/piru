@@ -210,9 +210,8 @@ struct QuickLogView: View {
                     }
                     // One standard Edit action, text-labeled per the HIG ("Edit"
                     // is the canonical hard-to-symbolize action) — one sheet for
-                    // everything editable here: routines & prescriptions and the
-                    // favorites order. The "Fixed Order" toggle lives in
-                    // Settings ▸ Journal ("Keep Quick-Log Order").
+                    // everything editable here: routines & prescriptions, the
+                    // favorites order, and the "Keep Order" toggle.
                     ToolbarItem(placement: .platformTopBarTrailing) {
                         Button("Edit") {
                             showEditSheet = true

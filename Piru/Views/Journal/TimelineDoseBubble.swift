@@ -61,7 +61,7 @@ struct TimelineDoseBubble: View {
                     .foregroundStyle(.tertiary)
                     .accessibilityHidden(true)
             }
-            .padding(.horizontal, Spacing.md)
+            .padding(.horizontal, Spacing.lg)
             .frame(height: Self.height(for: style))
             .contentShape(.rect)
             .glassEffect(.regular.tint(item.color.opacity(TimelineGlass.tintOpacity)), in: .rect(cornerRadius: Self.cornerRadius))
