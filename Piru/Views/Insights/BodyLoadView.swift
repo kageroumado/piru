@@ -243,7 +243,7 @@ struct BodyLoadView: View {
 
 // MARK: - Chart
 
-private struct BodyLoadChart: View {
+struct BodyLoadChart: View {
     let series: [BodyLoadTrail.Series]
     let dates: [Date]
     @Binding var selectedDate: Date?
@@ -318,7 +318,7 @@ private struct BodyLoadChart: View {
 /// The tooltip for `chartXSelection`: the estimated real amount of each substance
 /// in the body at the scrubbed instant — restoring the magnitude the normalized
 /// lines drop.
-private struct BodyLoadReadout: View {
+struct BodyLoadReadout: View {
     let series: [BodyLoadTrail.Series]
     let date: Date
 

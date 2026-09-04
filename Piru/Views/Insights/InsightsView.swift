@@ -159,6 +159,10 @@ struct InsightsView: View {
     @State private var model = InsightsModel()
 
     private let calendarColumns = Array(repeating: GridItem(.flexible(), spacing: 3), count: 7)
+    private let compactColumns = [
+        GridItem(.flexible(), spacing: Spacing.xl),
+        GridItem(.flexible(), spacing: Spacing.xl),
+    ]
 
     var body: some View {
         ScrollView {
@@ -168,8 +172,23 @@ struct InsightsView: View {
                 adherenceCard
                 InsightsToleranceCard()
                 InsightsReceptorLoadCard()
-                patternsCard
-                reportsCard
+
+                LazyVGrid(columns: compactColumns, spacing: Spacing.xl) {
+                    InsightCompactCard(
+                        icon: "list.clipboard",
+                        tint: .brown,
+                        title: "Patterns",
+                        subtitle: "Trends, exposure, and overlap",
+                        route: .insight(.patterns),
+                    )
+                    InsightCompactCard(
+                        icon: "square.and.arrow.up.on.square",
+                        tint: .indigo,
+                        title: "Reports",
+                        subtitle: "Export sessions, generate clinical reports",
+                        route: .insight(.reports),
+                    )
+                }
             }
             .padding(.horizontal)
             .padding(.top, Spacing.xs)
@@ -245,10 +264,7 @@ struct InsightsView: View {
                             Text("\(sub.totalRemaining.doseFormatted) \(sub.unit)")
                                 .sectionLabel()
                                 .foregroundStyle(sub.color)
-                            Text("\(Int((1 - sub.eliminatedFraction) * 100))%")
-                                .captionSecondary()
-                                .monospacedDigit()
-                                .frame(width: 34, alignment: .trailing)
+                            RemainingBar(fraction: 1 - sub.eliminatedFraction, color: sub.color)
                         }
                         .accessibilityElement(children: .combine)
                     }
@@ -272,11 +288,13 @@ struct InsightsView: View {
                         if let a = model.adherence {
                             Text("\(a.streak)")
                                 .font(.system(.title2, design: .rounded, weight: .bold))
-                            Text(a.streak == 1 ? "day streak" : "day streak")
+                            Text("day streak")
                                 .font(.subheadline)
                                 .foregroundStyle(Theme.secondaryLabel)
                             Spacer()
-                            Text("\(a.monthText) this month")
+                            Text("\(a.monthText)")
+                                .font(.system(.title2, design: .rounded, weight: .bold))
+                            Text(Date.now.formatted(.dateTime.month(.wide)))
                                 .font(.subheadline)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
@@ -289,11 +307,6 @@ struct InsightsView: View {
 
     private var miniCalendar: some View {
         VStack(spacing: 5) {
-            Text(Date.now.formatted(.dateTime.month(.wide)))
-                .font(.caption2.weight(.semibold))
-                .foregroundStyle(Theme.secondaryLabel)
-                .frame(maxWidth: .infinity, alignment: .leading)
-
             LazyVGrid(columns: calendarColumns, spacing: 3) {
                 ForEach(Array(model.monthCells.enumerated()), id: \.offset) { _, cell in
                     if let cell {
@@ -326,37 +339,71 @@ struct InsightsView: View {
         }
     }
 
-    // MARK: - Patterns
-
-    private var patternsCard: some View {
-        largeCard(icon: "list.clipboard", tint: .brown, title: "Patterns", route: .insight(.patterns)) {
-            if allEntries.isEmpty {
-                emptyContent("Log doses to see your patterns")
-            } else {
-                Text("Days used, cumulative exposure, dose trend, and overlap — for you or your doctor")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-        }
-    }
-
-    // MARK: - Reports
-
-    private var reportsCard: some View {
-        largeCard(icon: "square.and.arrow.up.on.square", tint: .indigo, title: "Reports", route: .insight(.reports)) {
-            Text("Export sessions, generate clinical reports")
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-    }
-
     private func emptyContent(_ message: LocalizedStringKey) -> some View {
         Text(message)
             .font(.subheadline)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+// MARK: - Remaining bar
+
+/// A small capsule progress bar showing the remaining fraction of a substance,
+/// matching the compact `DosePhaseProgressBar` style from timeline dose pills.
+private struct RemainingBar: View {
+    let fraction: Double
+    let color: Color
+
+    var body: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Capsule().fill(color.opacity(Theme.Opacity.tint))
+                Capsule()
+                    .fill(color)
+                    .frame(width: max(0, geo.size.width * fraction))
+            }
+        }
+        .frame(width: 40, height: 3)
+        .accessibilityLabel(Text("\(Int(fraction * 100))% remaining"))
+    }
+}
+
+// MARK: - Compact card
+
+/// A half-width insight card: tinted icon, title, and subtitle in a compact
+/// `themeCard`, matching the Tools tab's grid density.
+private struct InsightCompactCard: View {
+    let icon: String
+    var tint: Color = Theme.accent
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
+    let route: PushRoute
+
+    var body: some View {
+        NavigationLink(value: route) {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
+                Image(systemName: icon)
+                    .font(.title3)
+                    .foregroundStyle(tint)
+                    .accessibilityHidden(true)
+                Text(title)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.primary)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .themeCard()
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 }
 

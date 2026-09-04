@@ -31,7 +31,6 @@ struct SubstanceDetailLayout: View {
     /// The user's personal-override notes for this substance, if any.
     let personalNotes: String?
     let showAllEffects: Binding<Bool>
-    let showAllInventory: Binding<Bool>
     let cautionsExpanded: Binding<Bool>
     let onGlossary: (PharmacologyGlossarySheet.Topic) -> Void
 
@@ -79,7 +78,6 @@ struct SubstanceDetailLayout: View {
             substanceName: substance.name,
             selectedSaltForm: selectedSaltForm,
             inventoryItems: inventoryItems,
-            showAllInventory: showAllInventory,
         )
 
         // How Long It Stays — the benzodiazepine duration ladder, directly above

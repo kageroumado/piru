@@ -589,7 +589,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 26.0;
-};
+			};
 			name = Debug;
 		};
 		0B3399123025398900182A68 /* Release configuration for PBXNativeTarget "PiruWatch Watch App" */ = {
@@ -627,7 +627,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 26.0;
-};
+			};
 			name = Release;
 		};
 		0B33C3A73025783800182A68 /* Debug configuration for PBXNativeTarget "PiruComplicationExtension" */ = {

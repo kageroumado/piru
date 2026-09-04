@@ -9,8 +9,6 @@ struct InventoryStockSection: View {
     let substanceName: String
     let selectedSaltForm: String?
     let inventoryItems: [InventoryItem]
-    @Binding var showAllInventory: Bool
-
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
 
@@ -48,7 +46,7 @@ struct InventoryStockSection: View {
             HStack {
                 Text("Inventory")
                 Spacer()
-                Button { showAllInventory = true } label: {
+                Button { navigator.push(.tool(.inventory)) } label: {
                     HStack(spacing: Spacing.xxs) {
                         Text("Show All")
                         Image(systemName: "chevron.right").font(.caption2)

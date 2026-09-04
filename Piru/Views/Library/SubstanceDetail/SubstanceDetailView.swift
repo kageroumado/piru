@@ -49,8 +49,6 @@ struct SubstanceDetailView: View {
     /// Drives the push to the grouped "All effects" screen from the Effects
     /// header's "Show All" (a header NavigationLink isn't reliably hittable).
     @State private var showAllEffects = false
-    /// Drives the push to the full Inventory list from the stock card's "Show All".
-    @State private var showAllInventory = false
     /// Presents the "Share Substance" sheet (colorful specimen card + detail picker).
     @State private var showShareSheet = false
     /// Whether the header's 40pt display title is still on screen. The bar title
@@ -205,7 +203,6 @@ struct SubstanceDetailView: View {
                 selectedSaltForm: selectedSaltForm,
                 personalNotes: personalOverride?.notes,
                 showAllEffects: $showAllEffects,
-                showAllInventory: $showAllInventory,
                 cautionsExpanded: $cautionsExpanded,
                 onGlossary: { glossaryTopic = $0 },
             )
@@ -257,9 +254,6 @@ struct SubstanceDetailView: View {
         }
         .sheet(isPresented: $showShareSheet) {
             SubstanceShareSheet(substance: substance, route: routes.activeSubstanceRoute)
-        }
-        .navigationDestination(isPresented: $showAllInventory) {
-            InventoryListView()
         }
         .toolbar { toolbarContent }
         .task(id: TaskKey(substanceName: substance.name, profile: profile)) {
