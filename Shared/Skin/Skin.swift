@@ -218,7 +218,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .piru: nil
         // The site's `h1` in both modes: near-black outline, dark-wine drop.
         case .elyPink: SkinTitleOutline(
-            fill: accentMark,
+            fill: .Skin.Elypink.Title.fill,
             stroke: .Skin.Elypink.Title.stroke,
             shadow: .Skin.Elypink.Title.shadow,
             shadowOffset: CGSize(width: 3, height: 3),

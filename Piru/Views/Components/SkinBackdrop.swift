@@ -225,10 +225,16 @@ private struct TapTrail: ViewModifier {
     func body(content: Content) -> some View {
         if let glyph = skins.current.decorations?.tapGlyph, skins.decorationsEnabled, !reduceMotion {
             content
-                .simultaneousGesture(SpatialTapGesture().onEnded { value in
-                    puffs.append(Puff(point: value.location))
-                    if puffs.count > 12 { puffs.removeFirst() }
-                })
+                // Not a SwiftUI gesture: a `simultaneousGesture` tap on an
+                // ancestor cancels `List` row selection, so NavigationLinks
+                // in the Library stopped opening. A window-level recognizer
+                // that only *observes* (and always fails) never competes.
+                .background {
+                    TouchObserver { point in
+                        puffs.append(Puff(point: point))
+                        if puffs.count > 12 { puffs.removeFirst() }
+                    }
+                }
                 .overlay {
                     ForEach(puffs) { puff in
                         TapPuff(glyph: glyph, at: puff.point) {
@@ -236,9 +242,62 @@ private struct TapTrail: ViewModifier {
                         }
                     }
                     .allowsHitTesting(false)
+                    // Touch points come in window coordinates.
+                    .ignoresSafeArea()
                 }
         } else {
             content
+        }
+    }
+}
+
+/// Reports every touch-down in the window, in window coordinates, without
+/// taking part in gesture resolution: the recognizer fails as soon as a touch
+/// begins, and cancels nothing, so every control underneath sees the touch
+/// exactly as it would without it.
+private struct TouchObserver: UIViewRepresentable {
+    let onTouch: (CGPoint) -> Void
+
+    func makeUIView(context: Context) -> HostView {
+        let view = HostView()
+        view.onTouch = onTouch
+        return view
+    }
+
+    func updateUIView(_ uiView: HostView, context: Context) {
+        uiView.onTouch = onTouch
+    }
+
+    final class HostView: UIView {
+        var onTouch: ((CGPoint) -> Void)?
+        private let spy = TouchSpy()
+
+        override func didMoveToWindow() {
+            super.didMoveToWindow()
+            spy.view?.removeGestureRecognizer(spy)
+            guard let window else { return }
+            spy.onTouch = { [weak self] point in self?.onTouch?(point) }
+            window.addGestureRecognizer(spy)
+        }
+
+        override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? { nil }
+    }
+
+    final class TouchSpy: UIGestureRecognizer {
+        var onTouch: ((CGPoint) -> Void)?
+
+        init() {
+            super.init(target: nil, action: nil)
+            cancelsTouchesInView = false
+            delaysTouchesBegan = false
+            delaysTouchesEnded = false
+        }
+
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+            if let touch = touches.first, let view {
+                onTouch?(touch.location(in: view))
+            }
+            state = .failed
         }
     }
 }

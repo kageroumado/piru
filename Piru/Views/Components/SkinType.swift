@@ -204,16 +204,17 @@ enum SkinNavigationTitles {
         let inline = UIFont.TextStyle.headline
         var largeAttributes: [NSAttributedString.Key: Any] = [.font: uiFont(family, weight: .bold, style: large)]
         if let outline = skin.titleOutline {
-            // The site's `h1`: filled, outlined, with a hard unblurred drop.
-            // `strokeWidth` is a percentage of the point size (negative =
-            // fill *and* stroke), so -6 is about 2pt on a 34pt title.
+            // The site's `h1`: filled, with a hard unblurred drop. **No
+            // `.strokeWidth` here**: UIKit strokes every contour of the glyph,
+            // and Fredoka (a variable font with overlapping components) shows
+            // the stroke along each internal overlap as dark seams inside the
+            // letters. The SwiftUI hero gets its outline from stacked shadows
+            // of the composite fill instead (`.skinHeroTitle()`).
             let drop = NSShadow()
             drop.shadowColor = UIColor(outline.shadow)
             drop.shadowOffset = outline.shadowOffset
             drop.shadowBlurRadius = 0
             largeAttributes[.foregroundColor] = UIColor(outline.fill)
-            largeAttributes[.strokeColor] = UIColor(outline.stroke)
-            largeAttributes[.strokeWidth] = -6
             largeAttributes[.shadow] = drop
         }
         bar.largeTitleTextAttributes = largeAttributes
