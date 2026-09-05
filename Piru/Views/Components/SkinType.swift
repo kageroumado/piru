@@ -75,14 +75,35 @@ enum SkinFace {
     /// this returned the right face, which is why card titles were the system
     /// font under a Fredoka nav title. Scaled by `UIFontMetrics` for Dynamic Type.
     static func font(family: String, weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle, scaling: Bool = true) -> Font {
-        let descriptor = UIFontDescriptor(fontAttributes: [
-            .family: family,
-            .traits: [UIFontDescriptor.TraitKey.weight: uiWeight(weight)],
-        ])
-        let base = UIFont(descriptor: descriptor, size: size)
+        let base = baseFont(family: family, weight: weight, size: size)
         // `scaling: false` is for the fixed-size chart/stat roles in TextRoles,
         // which are laid out against fixed-height cards and gutters.
         return Font(scaling ? UIFontMetrics(forTextStyle: style.uiTextStyle).scaledFont(for: base) : base)
+    }
+
+    /// Descriptor matching is font *lookup* — a real cost, and this runs on
+    /// every text render of every skinned title and chip. Cached per
+    /// family/weight/size; a journal screen resolves the same handful of
+    /// fonts thousands of times.
+    private struct FontKey: Hashable {
+        let family: String
+        let weight: UIFont.Weight.RawValue
+        let size: CGFloat
+    }
+
+    private static var fontCache: [FontKey: UIFont] = [:]
+
+    private static func baseFont(family: String, weight: Font.Weight, size: CGFloat) -> UIFont {
+        let uiWeight = uiWeight(weight)
+        let key = FontKey(family: family, weight: uiWeight.rawValue, size: size)
+        if let cached = fontCache[key] { return cached }
+        let descriptor = UIFontDescriptor(fontAttributes: [
+            .family: family,
+            .traits: [UIFontDescriptor.TraitKey.weight: uiWeight],
+        ])
+        let font = UIFont(descriptor: descriptor, size: size)
+        fontCache[key] = font
+        return font
     }
 
     /// The registered PostScript-style name for `family` at `weight`, or nil.

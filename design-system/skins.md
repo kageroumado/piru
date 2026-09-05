@@ -112,10 +112,12 @@ surfaces and carries no skin chrome.
 The chaos layer. Every screen root says `.skinBackdrop()` instead of
 `.background(Theme.background)`; for a skin whose `Skin.decorations` is
 non-nil (and the Appearance toggle is on) that is the background colour plus a
-seeded starfield, a warm glow at the top, sixteen drifting glyph stickers and
-three of the site's blinkies, all at low opacity and biased to the margins.
-Glyph colours are the skin's own tokens; slogans are `LocalizedStringResource`s.
-Positions are seeded by screen size, so a screen is stable across appearances.
+seeded starfield, a warm glow at the top, and a field of glyph stickers on a
+jittered grid — roughly one per 110pt cell, a few cells left empty — that bob,
+sway, twinkle (sparkles) and turn (sparkles, flowers, crosses), all from one
+`TimelineView` clock. Glyph colours are the skin's own tokens. Positions are
+seeded by screen size, so a screen is stable across appearances. Blinkies were
+tried and dropped: text in the background competes with text in the content.
 Motion stops under Reduce Motion. Graph code that *fills* with
 `Theme.background` (dot rings, fades) is untouched — it never went through
 `.background()`.
@@ -128,3 +130,6 @@ Motion stops under Reduce Motion. Graph code that *fills* with
   renderers, which stay on the system face by design.
 - Title sparkles: navigation titles are UIKit-drawn, so the site's ✦ stickers
   on the title have no SwiftUI hook yet.
+- A **starfield skin** (Astrelia-inspired night sky: steel-blue ground, a
+  dense twinkling starfield, ✦ ✧ ⋆ ☾ stickers in gold/white/blue) on the same
+  decoration machinery — after kagerou.glass. Tokens are in the project memory.

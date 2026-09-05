@@ -5,15 +5,17 @@ extension View {
     /// decorated skin with decorations on — the chaos layer over it. Replaces
     /// `.background(Theme.background)` at every screen root; graph code that
     /// *fills* with `Theme.background` (dot rings, fades) keeps the plain colour.
+    /// Screen roots only: a component that paints this multiplies the layer.
     func skinBackdrop() -> some View {
         background { SkinBackdrop().ignoresSafeArea() }
     }
 }
 
-/// Starfield, a warm glow at the top, drifting glyph stickers, and a few of the
-/// site's blinkies — all at low opacity, all behind the content, all seeded so
-/// a screen looks the same every time it appears. Motion stops under Reduce
-/// Motion, and the whole layer is a plain colour when the toggle is off.
+/// Starfield, a warm glow at the top, and a field of glyph stickers that bob,
+/// sway, twinkle and turn — all at low opacity, all behind the content, all
+/// seeded so a screen looks the same every time it appears. One clock drives
+/// every sticker. Motion stops under Reduce Motion, and the whole layer is a
+/// plain colour when the toggle is off.
 struct SkinBackdrop: View {
     @State private var skins = SkinStore.shared
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -26,14 +28,14 @@ struct SkinBackdrop: View {
                 Starfield()
                 GeometryReader { geo in
                     let places = placements(in: geo.size, decor: decor)
-                    // One clock drives every glyph's drift — nineteen
-                    // `repeatForever` animations per screen was enough to
-                    // stall the main thread on a device.
-                    TimelineView(.periodic(from: .now, by: reduceMotion ? 3600 : 1 / 12)) { timeline in
+                    TimelineView(.periodic(from: .now, by: reduceMotion ? 3600 : 1 / 15)) { timeline in
                         let t = timeline.date.timeIntervalSinceReferenceDate
                         ForEach(Array(places.enumerated()), id: \.offset) { _, place in
+                            let motion = place.motion(at: t, animate: !reduceMotion)
                             sticker(place, decor: decor)
-                                .position(x: place.x, y: place.y + drift(place, at: t, animate: !reduceMotion))
+                                .opacity(place.opacity * motion.brightness)
+                                .rotationEffect(motion.spin)
+                                .position(x: place.x + motion.dx, y: place.y + motion.dy)
                                 .accessibilityHidden(true)
                         }
                     }
@@ -52,73 +54,79 @@ struct SkinBackdrop: View {
         )
     }
 
-    /// The site's `drift`: a slow ±5pt bob on each sticker's own phase.
-    private func drift(_ place: Placement, at t: TimeInterval, animate: Bool) -> CGFloat {
-        guard animate, case .glyph = place.kind else { return 0 }
-        let period = 5 + place.phase * 4
-        return 5 * sin((t / period + place.phase) * 2 * .pi)
-    }
-
-    @ViewBuilder
     private func sticker(_ place: Placement, decor: SkinDecorations) -> some View {
-        switch place.kind {
-        case let .glyph(index):
-            let glyph = decor.glyphs[index % decor.glyphs.count]
-            Text(verbatim: glyph.symbol)
-                .font(.system(size: place.size))
-                .foregroundStyle(glyph.color)
-                .shadow(color: glyph.color.opacity(0.7), radius: 6)
-                .opacity(place.opacity)
-        case let .slogan(index):
-            // Blinky colours cycle the token colours only (gold, accent, wine);
-            // white is a sparkle colour, not a text colour on the pink ground.
-            let tinted = decor.glyphs.filter { $0.color != .white }
-            Blinky(text: decor.slogans[index % decor.slogans.count], color: tinted[(index * 3) % max(tinted.count, 1)].color)
-                .opacity(place.opacity)
-        }
+        let glyph = decor.glyphs[place.glyph % decor.glyphs.count]
+        return Text(verbatim: glyph.symbol)
+            .font(.system(size: place.size))
+            .foregroundStyle(glyph.color)
+            .shadow(color: glyph.color.opacity(0.7), radius: 6)
     }
 
     // MARK: - Layout
 
     struct Placement {
-        enum Kind { case glyph(Int), slogan(Int) }
-        let kind: Kind
+        let glyph: Int
         let x: CGFloat
         let y: CGFloat
         let size: CGFloat
         let opacity: Double
         let phase: Double
+        /// Sparkles, flowers and crosses turn; stars and hearts only drift.
+        let spins: Bool
+        /// Sparkles twinkle.
+        let twinkles: Bool
+
+        struct Motion {
+            let dx: CGFloat
+            let dy: CGFloat
+            let spin: Angle
+            let brightness: Double
+        }
+
+        /// The site's `drift` (a slow bob), `.bob` sway, `.spin` (8–12s) and
+        /// the ✦ twinkle, each on this sticker's own phase.
+        func motion(at t: TimeInterval, animate: Bool) -> Motion {
+            guard animate else { return Motion(dx: 0, dy: 0, spin: .zero, brightness: 1) }
+            let bob = 4 + phase * 4
+            let sway = 5 + (1 - phase) * 5
+            let dy = 8 * sin((t / bob + phase) * 2 * .pi)
+            let dx = 4 * sin((t / sway + phase * 3) * 2 * .pi)
+            let spin: Angle = spins ? .degrees((t / (8 + phase * 4)) * 360 * (phase < 0.5 ? 1 : -1)) : .zero
+            let brightness = twinkles ? 0.55 + 0.45 * (0.5 + 0.5 * sin((t / 1.6 + phase) * 2 * .pi)) : 1
+            return Motion(dx: dx, dy: dy, spin: spin, brightness: brightness)
+        }
     }
 
-    /// Sixteen glyphs and three blinkies, seeded by the screen's size so the
-    /// same screen is stable across appearances but two screens differ. Kept
-    /// toward the edges: the middle is where cards and rows live, and a glyph
-    /// under text is chaos, not charm.
+    /// One sticker per cell of a jittered grid, so the field is spread rather
+    /// than clumped, a little bigger and brighter toward the edges. Seeded by
+    /// the screen size so a screen is stable across appearances.
     private func placements(in size: CGSize, decor: SkinDecorations) -> [Placement] {
-        guard size.width > 0, size.height > 0 else { return [] }
+        guard size.width > 0, size.height > 0, !decor.glyphs.isEmpty else { return [] }
         var rng = SeededRNG(seed: UInt64(size.width) &* 7919 &+ UInt64(size.height) &* 104_729)
+        let columns = 4
+        let rows = max(6, Int(size.height / 110))
+        let cellW = size.width / CGFloat(columns)
+        let cellH = (size.height - 80) / CGFloat(rows)
         var out: [Placement] = []
-        for i in 0 ..< 16 {
-            // Edge bias: pull x toward the margins, y anywhere below the title.
-            // Left cluster starts past the timeline's 58pt hour rail; right
-            // cluster hugs the trailing margin.
-            let raw = rng.unit()
-            let x = raw < 0.5 ? 90 + raw * 2 * size.width * 0.18 : size.width - 8 - (1 - raw) * 2 * size.width * 0.20
-            let y = 90 + rng.unit() * (size.height - 220)
-            out.append(Placement(
-                kind: .glyph(i),
-                x: x, y: y,
-                size: 13 + rng.unit() * 16,
-                opacity: 0.28 + rng.unit() * 0.32,
-                phase: rng.unit(),
-            ))
-        }
-        // Blinkies keep to the trailing margin, clear of the hour rail and the
-        // leading edge where rows start their text.
-        for i in 0 ..< min(3, decor.slogans.count) {
-            let x = size.width - 84 - rng.unit() * 30
-            let y = size.height * (0.28 + Double(i) * 0.24) + rng.unit() * 30
-            out.append(Placement(kind: .slogan(i), x: x, y: y, size: 0, opacity: 0.45, phase: rng.unit()))
+        for row in 0 ..< rows {
+            for col in 0 ..< columns {
+                // Leave a few cells empty so it reads as scattered, not tiled.
+                if rng.unit() < 0.18 { continue }
+                let x = CGFloat(col) * cellW + 12 + rng.unit() * (cellW - 24)
+                let y = 80 + CGFloat(row) * cellH + 8 + rng.unit() * (cellH - 16)
+                let edge = min(x, size.width - x) / (size.width / 2) // 0 at the edge, 1 at centre
+                let glyph = Int(rng.next() % UInt64(decor.glyphs.count))
+                let symbol = decor.glyphs[glyph].symbol
+                out.append(Placement(
+                    glyph: glyph,
+                    x: x, y: y,
+                    size: 12 + rng.unit() * 14 + (1 - edge) * 8,
+                    opacity: 0.22 + rng.unit() * 0.3 + (1 - edge) * 0.12,
+                    phase: rng.unit(),
+                    spins: ["✦", "✧", "✿", "✗", "✚"].contains(symbol),
+                    twinkles: ["✦", "✧", "☆"].contains(symbol),
+                ))
+            }
         }
         return out
     }
@@ -126,31 +134,12 @@ struct SkinBackdrop: View {
 
 // MARK: - Pieces
 
-/// One of the site's blinkies: a bordered pixel-face slogan with a soft glow.
-private struct Blinky: View {
-    let text: LocalizedStringResource
-    let color: Color
-
-    var body: some View {
-        Text(text)
-            .font(.piruLabel(.caption2))
-            .lineLimit(1)
-            .padding(.horizontal, 7)
-            .padding(.vertical, 3)
-            .foregroundStyle(color)
-            .background(Theme.inputBackground)
-            .overlay(Rectangle().strokeBorder(color, lineWidth: 2))
-            .shadow(color: color.opacity(0.5), radius: 6)
-            .fixedSize()
-    }
-}
-
 /// Faint dots, like the site's starfield ground. Drawn once per size.
 private struct Starfield: View {
     var body: some View {
         Canvas { context, size in
             var rng = SeededRNG(seed: 0xE1A5)
-            for _ in 0 ..< 90 {
+            for _ in 0 ..< 110 {
                 let x = rng.unit() * size.width
                 let y = rng.unit() * size.height
                 let r = 0.6 + rng.unit() * 1.1

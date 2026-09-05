@@ -60,7 +60,6 @@ struct SkinStoreTests {
         #expect(SkinStore(defaults: defaults).decorationsEnabled == false)
         #expect(Skin.piru.decorations == nil)
         #expect((Skin.elyPink.decorations?.glyphs.count ?? 0) >= 8)
-        #expect((Skin.elyPink.decorations?.slogans.count ?? 0) >= 3)
     }
 
     @Test("Theme resolves through the active skin's palette")

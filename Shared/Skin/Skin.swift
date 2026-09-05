@@ -168,8 +168,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
 
     // MARK: - Decorations
 
-    /// The chaos layer: glyph stickers and blinkies drifting behind every
-    /// screen. `nil` for skins that keep the ground plain. Colours come from the
+    /// The chaos layer: glyph stickers drifting behind every screen. `nil` for skins that keep the ground plain. Colours come from the
     /// skin's own tokens; the app draws them, so nothing here is content.
     var decorations: SkinDecorations? {
         switch self {
@@ -182,12 +181,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                 SkinGlyph("✚", eyebrow), SkinGlyph("♠", eyebrow), SkinGlyph("✗", eyebrow),
                 SkinGlyph("✦", semantic(.success, .accent)),
             ],
-            slogans: [
-                "♡ peaceful & fluffy ♡",
-                "☆ dream more ☆",
-                "★ more more jump! ★",
-                "♡ be gentle w/ me ♡",
-            ],
+
         )
         }
     }
@@ -268,11 +262,10 @@ enum SemanticVariant: CaseIterable, Sendable {
     case text, accent
 }
 
-/// A skin's background decoration set. Glyphs are scattered and animated by
-/// `SkinBackdrop`; slogans are the site's blinkies, localized like any string.
+/// A skin's background decoration set: the glyph stickers `SkinBackdrop`
+/// scatters and animates.
 struct SkinDecorations: Sendable {
     let glyphs: [SkinGlyph]
-    let slogans: [LocalizedStringResource]
 }
 
 /// One sticker glyph in a token colour.
