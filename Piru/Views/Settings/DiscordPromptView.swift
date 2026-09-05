@@ -47,7 +47,7 @@ struct DiscordPromptView: View {
                     .cardTitle()
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, Spacing.xxl)
-                    .background(Self.blurple, in: Capsule())
+                    .background(Self.blurple, in: skinChipShape())
                     .foregroundStyle(.white)
             }
             .accessibilityAddTraits(.isLink)

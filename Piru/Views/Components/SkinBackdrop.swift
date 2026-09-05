@@ -170,3 +170,144 @@ private struct SeededRNG {
         Double(next() >> 11) / Double(1 << 53)
     }
 }
+
+// MARK: - Flourishes
+
+extension View {
+    /// The skin's corner glyphs on a large card — ✧ hanging off the top-right
+    /// edge, ♡ off the bottom-left — for a decorated skin with decorations on.
+    /// Glance cards only: on a dense row the pair would collide with its text.
+    func skinFrameCorners() -> some View {
+        modifier(SkinFrameCorners())
+    }
+
+    /// The site's cursor trail: a glyph floats up and fades from every tap.
+    /// Attached once at the root; a simultaneous gesture, so buttons and
+    /// scrolling are untouched.
+    func tapTrail() -> some View {
+        modifier(TapTrail())
+    }
+}
+
+private struct SkinFrameCorners: ViewModifier {
+    @State private var skins = SkinStore.shared
+
+    func body(content: Content) -> some View {
+        if let corners = skins.current.decorations?.frameCorners, skins.decorationsEnabled {
+            content
+                .overlay(alignment: .topTrailing) { glyph(corners.0).offset(x: 6, y: -11) }
+                .overlay(alignment: .bottomLeading) { glyph(corners.1).offset(x: -6, y: 9) }
+        } else {
+            content
+        }
+    }
+
+    private func glyph(_ glyph: SkinGlyph) -> some View {
+        Text(verbatim: glyph.symbol)
+            .font(.system(size: 18))
+            .foregroundStyle(glyph.color)
+            .shadow(color: glyph.color.opacity(0.8), radius: 5)
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
+    }
+}
+
+private struct TapTrail: ViewModifier {
+    @State private var skins = SkinStore.shared
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var puffs: [Puff] = []
+
+    struct Puff: Identifiable {
+        let id = UUID()
+        let point: CGPoint
+    }
+
+    func body(content: Content) -> some View {
+        if let glyph = skins.current.decorations?.tapGlyph, skins.decorationsEnabled, !reduceMotion {
+            content
+                .simultaneousGesture(SpatialTapGesture().onEnded { value in
+                    puffs.append(Puff(point: value.location))
+                    if puffs.count > 12 { puffs.removeFirst() }
+                })
+                .overlay {
+                    ForEach(puffs) { puff in
+                        TapPuff(glyph: glyph, at: puff.point) {
+                            puffs.removeAll { $0.id == puff.id }
+                        }
+                    }
+                    .allowsHitTesting(false)
+                }
+        } else {
+            content
+        }
+    }
+}
+
+/// One ♡ from a tap: rises, shrinks, turns and fades over 0.8 s — the site's
+/// `@keyframes tr` — then removes itself.
+private struct TapPuff: View {
+    let glyph: SkinGlyph
+    let point: CGPoint
+    let finished: () -> Void
+    @State private var flown = false
+
+    init(glyph: SkinGlyph, at point: CGPoint, finished: @escaping () -> Void) {
+        self.glyph = glyph
+        self.point = point
+        self.finished = finished
+    }
+
+    var body: some View {
+        Text(verbatim: glyph.symbol)
+            .font(.system(size: 22))
+            .foregroundStyle(glyph.color)
+            .shadow(color: .white.opacity(0.9), radius: 4)
+            .scaleEffect(flown ? 0.2 : 1)
+            .rotationEffect(.degrees(flown ? 40 : 0))
+            .opacity(flown ? 0 : 1)
+            .position(x: point.x, y: point.y - (flown ? 28 : 0))
+            .accessibilityHidden(true)
+            .onAppear {
+                withAnimation(.easeOut(duration: 0.8)) { flown = true }
+            }
+            .task {
+                try? await Task.sleep(for: .milliseconds(850))
+                finished()
+            }
+    }
+}
+
+// MARK: - Hero title
+
+extension View {
+    /// The skin's outlined hero title on a SwiftUI-drawn title (the substance
+    /// name): the same fill, outline and hard drop the navigation bar's large
+    /// title gets from ``SkinNavigationTitles``. SwiftUI cannot stroke text,
+    /// so the outline is eight zero-radius shadows — the site's own trick.
+    func skinHeroTitle() -> some View {
+        modifier(SkinHeroTitle())
+    }
+}
+
+private struct SkinHeroTitle: ViewModifier {
+    @State private var skins = SkinStore.shared
+
+    func body(content: Content) -> some View {
+        if let outline = skins.current.titleOutline {
+            let s = outline.stroke
+            content
+                .foregroundStyle(outline.fill)
+                .shadow(color: s, radius: 0, x: -2, y: -2)
+                .shadow(color: s, radius: 0, x: 2, y: -2)
+                .shadow(color: s, radius: 0, x: -2, y: 2)
+                .shadow(color: s, radius: 0, x: 2, y: 2)
+                .shadow(color: s, radius: 0, x: -2, y: 0)
+                .shadow(color: s, radius: 0, x: 2, y: 0)
+                .shadow(color: s, radius: 0, x: 0, y: -2)
+                .shadow(color: s, radius: 0, x: 0, y: 2)
+                .shadow(color: outline.shadow, radius: 0, x: outline.shadowOffset.width, y: outline.shadowOffset.height)
+        } else {
+            content
+        }
+    }
+}

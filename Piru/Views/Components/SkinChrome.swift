@@ -111,3 +111,14 @@ extension Text {
         }
     }
 }
+
+/// The shape of a small filled chip drawn outside the chip primitives — the
+/// white-on-gradient chips on the Library cards. A capsule, or the skin's
+/// squared chip corner.
+func skinChipShape() -> AnyShape {
+    if let radius = SkinStore.shared.current.chipCornerRadius {
+        AnyShape(RoundedRectangle(cornerRadius: radius, style: .continuous))
+    } else {
+        AnyShape(Capsule())
+    }
+}

@@ -360,7 +360,7 @@ struct QuickLogCardList: View {
             .sectionLabel()
             .padding(.horizontal, 14)
             .padding(.vertical, 9)
-            .background(Color.platformSecondarySystemFill, in: Capsule())
+            .background(Color.platformSecondarySystemFill, in: skinChipShape())
             .foregroundStyle(Theme.secondaryLabel)
         }
         .buttonStyle(.plain)
@@ -410,7 +410,7 @@ struct QuickLogCardList: View {
                 allStaged
                     ? Theme.accent
                     : done ? Color.successAccent.opacity(Theme.Opacity.tint) : Theme.accent.opacity(Theme.Opacity.tint),
-                in: Capsule(),
+                in: skinChipShape(),
             )
             .foregroundStyle(
                 allStaged

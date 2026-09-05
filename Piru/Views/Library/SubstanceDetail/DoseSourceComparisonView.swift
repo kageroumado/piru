@@ -142,7 +142,7 @@ private struct LadderRow: View {
                         .textCase(.uppercase)
                         .foregroundStyle(accent)
                         .padding(.horizontal, 7).padding(.vertical, Spacing.xxs)
-                        .background(accent.opacity(Theme.Opacity.tint), in: Capsule())
+                        .background(accent.opacity(Theme.Opacity.tint), in: skinChipShape())
                 }
                 Spacer(minLength: 8)
                 Text(commonText)

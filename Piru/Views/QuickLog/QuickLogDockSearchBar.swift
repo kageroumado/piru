@@ -44,7 +44,7 @@ struct DockSearchBar: View {
             }
             .padding(.horizontal, 14)
             .frame(height: QuickLogDockMetrics.fieldHeight)
-            .background(Color.platformSecondarySystemFill, in: Capsule())
+            .background(Color.platformSecondarySystemFill, in: skinChipShape())
 
             if searchActive {
                 // Same fill and height as the field — the pair reads as one

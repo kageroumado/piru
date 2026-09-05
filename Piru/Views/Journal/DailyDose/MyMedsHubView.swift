@@ -226,11 +226,7 @@ private struct MedRow: View {
                             .foregroundStyle(.primary)
                         if item.isQuiet {
                             Text("quiet")
-                                .font(.caption2.weight(.semibold))
-                                .padding(.horizontal, Spacing.sm)
-                                .padding(.vertical, 1)
-                                .background(Color.platformTertiarySystemFill, in: Capsule())
-                                .foregroundStyle(Theme.secondaryLabel)
+                                .capsuleChip(text: Theme.secondaryLabel, fill: Theme.secondaryLabel)
                         }
                     }
                     Text(subtitle)

@@ -453,7 +453,7 @@ struct MetabolismRow: View {
                         .foregroundStyle(Theme.secondaryLabel)
                         .padding(.horizontal, 7)
                         .padding(.vertical, Spacing.xxs)
-                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: Capsule())
+                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: skinChipShape())
                 }
             }
             sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)
@@ -538,7 +538,7 @@ struct MetabolismRow: View {
                         .foregroundStyle(Theme.secondaryLabel)
                         .padding(.horizontal, 7)
                         .padding(.vertical, Spacing.xxs)
-                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: Capsule())
+                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: skinChipShape())
                 }
             }
 
@@ -572,7 +572,7 @@ struct MetabolismRow: View {
                     .foregroundStyle(active ? accent : .secondary)
                     .padding(.horizontal, Spacing.sm)
                     .padding(.vertical, 1)
-                    .background((active ? accent : Theme.secondaryLabel).opacity(Theme.Opacity.tint), in: Capsule())
+                    .background((active ? accent : Theme.secondaryLabel).opacity(Theme.Opacity.tint), in: skinChipShape())
             }
         }
         .contentShape(Rectangle())
@@ -605,7 +605,7 @@ struct MetabolismRow: View {
                         .foregroundStyle(Theme.secondaryLabel)
                         .padding(.horizontal, 7)
                         .padding(.vertical, Spacing.xxs)
-                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: Capsule())
+                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: skinChipShape())
                 }
             }
             sourceLine(slug: hit.sourceSlug, detail: nil, doi: hit.doi, pmid: hit.pmid, accent: accent)

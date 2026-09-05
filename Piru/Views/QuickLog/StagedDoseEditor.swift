@@ -395,7 +395,7 @@ private struct DrinkPresetMenu: View {
             .font(.footnote.weight(.semibold))
             .padding(.horizontal, 11)
             .frame(height: pillHeight)
-            .background(Theme.accent.opacity(Theme.Opacity.tint), in: Capsule())
+            .background(Theme.accent.opacity(Theme.Opacity.tint), in: skinChipShape())
             .foregroundStyle(Theme.accent)
         }
         .buttonStyle(.plain)

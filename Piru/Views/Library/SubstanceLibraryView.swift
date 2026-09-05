@@ -540,7 +540,7 @@ struct SubstanceRowView: View {
                     .foregroundStyle(Theme.secondaryLabel)
                     .padding(.horizontal, Spacing.md)
                     .padding(.vertical, 3)
-                    .background(.fill.tertiary, in: Capsule())
+                    .background(.fill.tertiary, in: skinChipShape())
             } else if showsCategoryBadge {
                 Text(substance.category.displayName)
                     .capsuleChip(text: substance.category.labelColor, fill: substance.category.color)

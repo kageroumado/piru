@@ -160,7 +160,7 @@ struct InYourBodyView: View {
                     .padding(.vertical, 5)
                     .background(selectedCategory == nil ? Theme.accent.opacity(0.15) : Color.platformTertiarySystemFill)
                     .foregroundStyle(selectedCategory == nil ? Theme.accent : .primary)
-                    .clipShape(Capsule())
+                    .clipShape(skinChipShape())
             }
             .buttonStyle(.plain)
 
@@ -180,7 +180,7 @@ struct InYourBodyView: View {
                     .padding(.vertical, 5)
                     .background(selectedCategory == entry.category ? entry.category.color.opacity(0.15) : Color.platformTertiarySystemFill)
                     .foregroundStyle(selectedCategory == entry.category ? entry.category.color : .primary)
-                    .clipShape(Capsule())
+                    .clipShape(skinChipShape())
                 }
                 .buttonStyle(.plain)
             }

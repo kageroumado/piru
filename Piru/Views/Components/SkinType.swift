@@ -202,7 +202,21 @@ enum SkinNavigationTitles {
         }
         let large = UIFont.TextStyle.largeTitle
         let inline = UIFont.TextStyle.headline
-        bar.largeTitleTextAttributes = [.font: uiFont(family, weight: .bold, style: large)]
+        var largeAttributes: [NSAttributedString.Key: Any] = [.font: uiFont(family, weight: .bold, style: large)]
+        if let outline = skin.titleOutline {
+            // The site's `h1`: filled, outlined, with a hard unblurred drop.
+            // `strokeWidth` is a percentage of the point size (negative =
+            // fill *and* stroke), so -6 is about 2pt on a 34pt title.
+            let drop = NSShadow()
+            drop.shadowColor = UIColor(outline.shadow)
+            drop.shadowOffset = outline.shadowOffset
+            drop.shadowBlurRadius = 0
+            largeAttributes[.foregroundColor] = UIColor(outline.fill)
+            largeAttributes[.strokeColor] = UIColor(outline.stroke)
+            largeAttributes[.strokeWidth] = -6
+            largeAttributes[.shadow] = drop
+        }
+        bar.largeTitleTextAttributes = largeAttributes
         bar.titleTextAttributes = [.font: uiFont(family, weight: .semibold, style: inline)]
     }
 

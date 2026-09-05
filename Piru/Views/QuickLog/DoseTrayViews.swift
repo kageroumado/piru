@@ -141,7 +141,7 @@ struct TrayCommitBar: View {
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: DoseTrayMetrics.controlHeight)
-                .background(Theme.accent, in: Capsule())
+                .background(Theme.accent, in: skinChipShape())
         }
         .buttonStyle(.plain)
         .disabled(!model.isCommittable)

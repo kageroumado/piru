@@ -314,7 +314,7 @@ struct DescriptorChips: View {
                 }
                 .padding(.horizontal, Spacing.lg)
                 .padding(.vertical, Spacing.sm)
-                .background(Theme.accent.opacity(Theme.Opacity.tint), in: Capsule())
+                .background(Theme.accent.opacity(Theme.Opacity.tint), in: skinChipShape())
                 .foregroundStyle(Theme.accent)
                 .contentShape(Capsule())
                 .onTapGesture { onRemove?(id) }

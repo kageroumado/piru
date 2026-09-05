@@ -25,6 +25,20 @@ struct ContentView: View {
             .modifier(DiscordInviteModifier())
             .modifier(StoreDiagnosticsModifier())
             .onOpenURL { handleDeepLink($0) }
+            #if DEBUG
+                // `-piruRoute <piru://url>` lands on a screen at launch, for
+                // simulator screenshots: `simctl openurl` is blocked by the
+                // untappable "Open in Piru?" sheet.
+                .task {
+                    let args = ProcessInfo.processInfo.arguments
+                    guard let i = args.firstIndex(of: "-piruRoute"), args.indices.contains(i + 1),
+                          let url = URL(string: args[i + 1]) else { return }
+                    // A substance route resolves in the pushed view's body; a
+                    // cold `SubstanceStore.all` asserts in DEBUG.
+                    await SubstanceStore.shared.ensureAllLoaded()
+                    handleDeepLink(url)
+                }
+            #endif
             .onChange(of: scenePhase) {
                 if scenePhase == .active {
                     ActiveSessionManager.shared.refresh()

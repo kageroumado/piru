@@ -9,9 +9,10 @@ extension View {
         font(.caption).foregroundStyle(Theme.secondaryLabel)
     }
 
-    /// The label above a group of rows inside a card.
+    /// The label above a group of rows inside a card. In the skin's label
+    /// face — the eyebrow is where a skin's pixel face reaches every screen.
     func sectionLabel() -> some View {
-        font(.subheadline.weight(.semibold))
+        font(.piruLabel(.subheadline, weight: .semibold))
     }
 
     /// The title of a card or a banner. In the skin's display face.

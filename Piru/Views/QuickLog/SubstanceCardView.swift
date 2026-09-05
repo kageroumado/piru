@@ -227,7 +227,7 @@ struct SubstanceCardView: View, Equatable {
                     .padding(.vertical, 7)
                     .background(.tint.opacity(Theme.Opacity.tint))
                     .foregroundStyle(.tint)
-                    .clipShape(Capsule())
+                    .clipShape(skinChipShape())
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Custom dose of \(customSubstanceStore.displayName(for: group.substanceName))")
@@ -340,7 +340,7 @@ struct SubstanceCardView: View, Equatable {
             .foregroundStyle(.white)
             .padding(.horizontal, 5)
             .padding(.vertical, 1)
-            .background(Theme.accent, in: Capsule())
+            .background(Theme.accent, in: skinChipShape())
             .offset(x: 6, y: -7)
     }
 }

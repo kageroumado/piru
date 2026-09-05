@@ -64,6 +64,7 @@ struct SkinnedRoot<Content: View>: View {
             // Re-created on a skin change, so UIKit bars pick up the new
             // title face from the appearance proxy.
             .id(skins.current)
+            .tapTrail()
             .tint(Theme.accent)
             .fontDesign(skins.current.fontDesign)
             .preferredColorScheme(skins.colorScheme.colorScheme)
@@ -83,9 +84,13 @@ struct SkinnedRoot<Content: View>: View {
 struct ThemedBackground<S: Shape>: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
     let shape: S
+    /// Draw the skin's dashed inner border (``Skin/cardInsetDash``). On for
+    /// cards, off for capsules — a dash inside a pill reads as a broken ring.
+    var insetDash = false
 
     func body(content: Content) -> some View {
-        switch SkinStore.shared.current.surface {
+        let skin = SkinStore.shared.current
+        switch skin.surface {
         case .glass:
             if colorScheme == .dark {
                 content.background(Theme.cardBackground, in: shape)
@@ -97,6 +102,13 @@ struct ThemedBackground<S: Shape>: ViewModifier {
                 shape.fill(shadow).offset(shadowOffset)
                 shape.fill(Theme.cardBackground)
                 shape.stroke(stroke, lineWidth: strokeWidth)
+                if insetDash, let dash = skin.cardInsetDash {
+                    // `ConcentricRectangle` is not insettable; a padded frame
+                    // draws the same shape 5pt inside the card.
+                    shape
+                        .stroke(dash.opacity(0.55), style: StrokeStyle(lineWidth: 1.5, dash: [4, 4]))
+                        .padding(5)
+                }
             }
         }
     }
@@ -146,6 +158,7 @@ extension View {
         let radius = SkinStore.shared.current.cardCornerRadius ?? cornerRadius
         return modifier(ThemedBackground(
             shape: ConcentricRectangle(corners: .concentric(minimum: .fixed(radius)), isUniform: true),
+            insetDash: true,
         ))
     }
 
@@ -161,7 +174,13 @@ extension View {
         }
     }
 
+    /// A capsule, or — under an edged skin, whose chips and fields are all
+    /// squared — the skin's input rounding.
     func themeCapsule() -> some View {
-        modifier(ThemedBackground(shape: Capsule()))
+        let shape: AnyShape = switch SkinStore.shared.current.surface {
+        case .glass: AnyShape(Capsule())
+        case .edged: AnyShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.input, style: .continuous))
+        }
+        return modifier(ThemedBackground(shape: shape))
     }
 }

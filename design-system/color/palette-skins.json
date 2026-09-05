@@ -1,7 +1,7 @@
 {
  "_meta": {
   "space": "oklch",
-  "note": "ely.pink skin. light = the site's ♡ pink mode, dark = its ☾ night default. Text roles gated AA 4.5:1, marks 3:1, on that skin's own card. Sources: ~/Developer/website main/index.html :root and html[data-theme=\"light\"]; the four light text twins are the site's values with L lowered until they clear 4.5:1."
+  "note": "ely.pink skin. light = the site's \u2661 pink mode, dark = its \u263e night default. Text roles gated AA 4.5:1, marks 3:1, on that skin's own card. Sources: ~/Developer/website main/index.html :root and html[data-theme=\"light\"]; the four light text twins are the site's values with L lowered until they clear 4.5:1."
  },
  "skins": {
   "elypink": {
@@ -219,6 +219,30 @@
      0.14249,
      0.0289,
      297.5311
+    ]
+   },
+   "title/stroke": {
+    "light": [
+     0.14249,
+     0.0289,
+     297.5311
+    ],
+    "dark": [
+     0.14249,
+     0.0289,
+     297.5311
+    ]
+   },
+   "title/shadow": {
+    "light": [
+     0.39934,
+     0.13482,
+     358.84385
+    ],
+    "dark": [
+     0.39934,
+     0.13482,
+     358.84385
     ]
    }
   }

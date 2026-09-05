@@ -122,6 +122,40 @@ Motion stops under Reduce Motion. Graph code that *fills* with
 `Theme.background` (dot rings, fades) is untouched — it never went through
 `.background()`.
 
+Two more flourishes live in the same file, both keyed off `Skin.decorations`
+and the Appearance toggle: `.skinFrameCorners()` puts the site's ✧ / ♡ pair on
+a glance card's top-right and bottom-left edges (glance cards only — on a
+dense row they would collide with text), and `.tapTrail()` at the root spawns
+a ♡ that floats up and fades from every tap (a simultaneous gesture, so
+buttons and scrolling never see it). `.skinHeroTitle()` is the site's `h1`
+for a SwiftUI-drawn title: fill in the mark colour, a near-black outline
+(eight zero-radius shadows — SwiftUI cannot stroke text) and a hard dark-wine
+drop. The UIKit large title gets the same treatment through the appearance
+proxy (`Skin.titleOutline`, tokens `skin/<id>/title/{stroke,shadow}`).
+
+## The edged card, in full
+
+Under `.edged`, `themeCard` draws: the hard offset shadow, the solid card
+fill, the stroke, and the site's `.frame::before` — a dashed inset border in
+`Skin.cardInsetDash` (`themeCapsule` skips the dash; a dash inside a pill
+reads as a broken ring). The Library / Search gradient tiles
+(`FamilyGradientCard`) get the stroke and hard shadow too, and every small
+tinted chip drawn outside the chip primitives takes `skinChipShape()` — a
+capsule, or the skin's 3pt square — so nothing on an edged screen is still a
+pill. `themeCapsule` (search fields) squares to the input radius.
+
+What stays flat: `List` / `Form` sections. Rows share the system's clipped
+section container, so a per-row stroke would be cut at every corner and a
+section-level edge has no hook. They keep the solid card fill only.
+
+## Screenshots without tapping
+
+DEBUG builds accept `-piruRoute <piru://url>` as a launch argument and land on
+that screen (after `SubstanceStore.ensureAllLoaded()`), because `simctl
+openurl` is stopped by the untappable "Open in Piru?" sheet. Combine with
+`AppNavigator.selectedTab` in the standard defaults and the app-group `skin`
+key to screenshot any screen in any skin.
+
 ## Later
 
 - Per-file section headers (eyebrows) are private today; a shared component

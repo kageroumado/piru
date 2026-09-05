@@ -57,7 +57,7 @@ struct ExperimentalTag: View {
             .foregroundStyle(Theme.secondaryLabel)
             .padding(.horizontal, 7)
             .padding(.vertical, Spacing.xxs)
-            .background(Color.platformSecondarySystemFill, in: Capsule())
+            .background(Color.platformSecondarySystemFill, in: skinChipShape())
     }
 }
 

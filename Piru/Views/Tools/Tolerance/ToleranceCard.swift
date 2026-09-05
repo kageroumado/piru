@@ -105,7 +105,7 @@ struct ToleranceBar: View {
                                 .frame(width: max(0, geo.size.width * band.widthFraction))
                         }
                     }
-                    .clipShape(Capsule())
+                    .clipShape(skinChipShape())
                 }
             }
             .frame(height: 10)

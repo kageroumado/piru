@@ -181,7 +181,47 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                 SkinGlyph("✚", eyebrow), SkinGlyph("♠", eyebrow), SkinGlyph("✗", eyebrow),
                 SkinGlyph("✦", semantic(.success, .accent)),
             ],
+            // The site's `.term::before/::after`: ✧ on the top-right edge, ♡
+            // on the bottom-left.
+            frameCorners: (SkinGlyph("✧", semantic(.caution, .accent)), SkinGlyph("♡", accentMark)),
+            // The site's cursor trail: a ♡ that floats up from every tap.
+            tapGlyph: SkinGlyph("♡", accentMark),
+        )
+        }
+    }
 
+    /// A dashed inner border inside every card — the site's `.frame::before`
+    /// (`2px dashed var(--pink-hot)` inset 6px). `nil` for skins whose cards
+    /// are plain surfaces.
+    var cardInsetDash: Color? {
+        switch self {
+        case .piru: nil
+        case .elyPink: accentMark
+        }
+    }
+
+    /// The corner of a small filled chip that is not drawn by ``SkinChrome``'s
+    /// primitives (the white chips on the Library's gradient cards). `nil`
+    /// keeps a capsule; an edged skin squares them like every other chip.
+    var chipCornerRadius: CGFloat? {
+        switch self {
+        case .piru: nil
+        case .elyPink: 3
+        }
+    }
+
+    /// The navigation large title's treatment: the site's `h1` — a fill in
+    /// the mark colour, an outline, a hard offset drop shadow, no blur.
+    /// `nil` leaves the system's plain title.
+    var titleOutline: SkinTitleOutline? {
+        switch self {
+        case .piru: nil
+        // The site's `h1` in both modes: near-black outline, dark-wine drop.
+        case .elyPink: SkinTitleOutline(
+            fill: accentMark,
+            stroke: .Skin.Elypink.Title.stroke,
+            shadow: .Skin.Elypink.Title.shadow,
+            shadowOffset: CGSize(width: 3, height: 3),
         )
         }
     }
@@ -263,9 +303,24 @@ enum SemanticVariant: CaseIterable, Sendable {
 }
 
 /// A skin's background decoration set: the glyph stickers `SkinBackdrop`
-/// scatters and animates.
+/// scatters and animates, the pair that sits on a glance card's corners, and
+/// the one that floats up from a tap.
 struct SkinDecorations: Sendable {
     let glyphs: [SkinGlyph]
+    /// (top-right, bottom-left) on the large cards. `nil` for none.
+    let frameCorners: (SkinGlyph, SkinGlyph)?
+    /// Spawned at every tap by `TapTrail`. `nil` for none.
+    let tapGlyph: SkinGlyph?
+}
+
+/// An outlined, hard-shadowed navigation title. Applied through UIKit's
+/// appearance proxy by `SkinNavigationTitles`, since large titles are drawn
+/// by the navigation bar, not SwiftUI.
+struct SkinTitleOutline: Sendable {
+    let fill: Color
+    let stroke: Color
+    let shadow: Color
+    let shadowOffset: CGSize
 }
 
 /// One sticker glyph in a token colour.

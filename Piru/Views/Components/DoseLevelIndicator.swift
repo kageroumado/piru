@@ -30,7 +30,7 @@ struct DoseLevelIndicator: View {
                 }
             }
             .frame(height: 6)
-            .clipShape(Capsule())
+            .clipShape(skinChipShape())
 
             HStack(spacing: 0) {
                 ForEach(Array(segments.enumerated()), id: \.offset) { index, segment in

@@ -164,7 +164,7 @@ private struct ReadChipView: View {
         }
         .padding(.horizontal, Spacing.lg)
         .padding(.vertical, Spacing.sm)
-        .background(.fill.tertiary, in: Capsule())
+        .background(.fill.tertiary, in: skinChipShape())
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(accessibilityText)
     }

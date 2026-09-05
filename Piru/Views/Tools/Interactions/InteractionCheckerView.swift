@@ -278,7 +278,7 @@ struct InteractionCheckerView: View {
                             .font(.caption2)
                             .padding(.horizontal, Spacing.sm)
                             .padding(.vertical, Spacing.xxs)
-                            .background(.fill.secondary, in: Capsule())
+                            .background(.fill.secondary, in: skinChipShape())
                     }
                     .padding(.horizontal, Spacing.xxl)
                     .padding(.vertical, Spacing.lg)
@@ -306,7 +306,7 @@ struct InteractionCheckerView: View {
                             .font(.caption2)
                             .padding(.horizontal, Spacing.sm)
                             .padding(.vertical, Spacing.xxs)
-                            .background(Theme.accent.opacity(Theme.Opacity.emphasis), in: Capsule())
+                            .background(Theme.accent.opacity(Theme.Opacity.emphasis), in: skinChipShape())
                             .foregroundStyle(Theme.accent)
                     }
                     .padding(.horizontal, Spacing.xxl)
@@ -337,7 +337,7 @@ struct InteractionCheckerView: View {
             .padding(.vertical, 7)
             .background(color.opacity(Theme.Opacity.tint))
             .foregroundStyle(color)
-            .clipShape(Capsule())
+            .clipShape(skinChipShape())
         }
         .accessibilityLabel(removable ? Text("Remove \(name)") : Text(name))
     }

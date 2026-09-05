@@ -70,7 +70,7 @@ private struct JournalFilterChip: View {
             .font(.subheadline.weight(.medium))
             .padding(.horizontal, Spacing.xl)
             .padding(.vertical, Spacing.md)
-            .background(Theme.accent, in: Capsule())
+            .background(Theme.accent, in: skinChipShape())
             .foregroundStyle(.white)
         }
         .buttonStyle(.plain)
