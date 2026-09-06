@@ -534,6 +534,7 @@ final class DoseTrayModel {
         colorHex: String?,
         librarySubstance: Substance?,
         productName: String? = nil,
+        saltForm: String? = nil,
         isFromDailySet: Bool = false,
         isBackgroundMed: Bool = false,
         volumeML: Double? = nil,
@@ -541,7 +542,7 @@ final class DoseTrayModel {
         drinkName: String? = nil,
         emoji: String? = nil,
     ) {
-        let identity = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: librarySubstance, route: route)
+        let identity = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: librarySubstance, route: route, saltForm: saltForm)
         if let index = stagedIndex(identity: identity, route: route, unit: unit) {
             if let componentIndex = staged[index].components.firstIndex(where: { Self.sameAmount($0.amount, amount) }) {
                 staged[index].components[componentIndex].count += 1
@@ -555,7 +556,7 @@ final class DoseTrayModel {
                 amount: amount,
                 unit: unit,
                 route: route,
-                saltForm: librarySubstance?.saltForms(for: route).first,
+                saltForm: saltForm ?? librarySubstance?.saltForms(for: route).first,
                 isomer: Self.seedIsomer(productName: productName, librarySubstance: librarySubstance, route: route),
                 productName: productName,
                 colorHex: colorHex,
@@ -603,13 +604,14 @@ final class DoseTrayModel {
         productName: String?,
         librarySubstance: Substance?,
         route: RouteOfAdministration,
+        saltForm: String? = nil,
     ) -> String {
         QuickLogDose.identityKey(
             substanceUID: librarySubstance?.substanceUID,
             substance: substance,
             isomer: seedIsomer(productName: productName, librarySubstance: librarySubstance, route: route),
             releaseForm: SubstanceLibrary.releaseForm(for: productName ?? substance),
-            saltForm: librarySubstance?.saltForms(for: route).first,
+            saltForm: saltForm ?? librarySubstance?.saltForms(for: route).first,
         )
     }
 
@@ -624,18 +626,19 @@ final class DoseTrayModel {
         colorHex: String?,
         librarySubstance: Substance?,
         productName: String? = nil,
+        saltForm: String? = nil,
     ) {
         // A by-volume substance (alcohol) must draft in its canonical unit —
         // the drink editor (By Drink / By Weight) gates on it, so a draft
         // arriving as "units" (a recent's chip unit) would silently lose the
         // whole volumetric logger.
         let unit = librarySubstance?.byVolumeDosing?.canonicalUnit ?? unit
-        let identity = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: librarySubstance, route: route)
+        let identity = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: librarySubstance, route: route, saltForm: saltForm)
         if let index = stagedIndex(identity: identity, route: route, unit: unit) {
             expandedItemIDs.insert(staged[index].id)
             return
         }
-        let saltForm = librarySubstance?.saltForms(for: route).first
+        let saltForm = saltForm ?? librarySubstance?.saltForms(for: route).first
         // By-volume substances (alcohol) start empty so the drink presets build the
         // dose up from zero, rather than adding onto a reference-dose default.
         let isByVolume = librarySubstance?.byVolumeDosing.map { unit == $0.canonicalUnit } ?? false

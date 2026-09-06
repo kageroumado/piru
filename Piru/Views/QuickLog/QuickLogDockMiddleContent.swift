@@ -126,6 +126,7 @@ struct DockMiddleContent: View {
                 colorHex: payload.colorHex ?? content.cachedColorLookup[payload.substance.lowercased()],
                 librarySubstance: payload.librarySubstance,
                 productName: payload.productName,
+                saltForm: payload.saltForm,
                 volumeML: payload.volumeML,
                 abv: payload.abv,
                 drinkName: payload.drinkName,
@@ -146,6 +147,7 @@ struct DockMiddleContent: View {
                 colorHex: payload.colorHex ?? content.cachedColorLookup[payload.substance.lowercased()],
                 librarySubstance: payload.librarySubstance,
                 productName: payload.productName,
+                saltForm: payload.saltForm,
             )
         }
         onDidStage()

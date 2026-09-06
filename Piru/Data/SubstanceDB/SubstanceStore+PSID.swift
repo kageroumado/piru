@@ -62,6 +62,14 @@ extension SubstanceStore {
         aliasReleaseFormIndex[nameOrAlias.lowercased()]
     }
 
+    /// The injectable-ester label a logged name/alias names ("Estradiol Valerate" →
+    /// `"Valerate"`), or `nil` for a name that doesn't name an ester. The salt/ester
+    /// sibling of ``releaseForm(forNameOrAlias:)``; lets a search stage the dose with
+    /// the ester pre-selected on `saltForm`.
+    func saltForm(forNameOrAlias nameOrAlias: String) -> String? {
+        aliasSaltFormIndex[nameOrAlias.lowercased()]
+    }
+
     /// Row ids sharing the PSID FAMILY `uid`, in canonical-name order; empty when
     /// unknown. Usually one row, several for co-familied-but-unfolded pairs.
     func substanceIDs(forUID uid: String) -> [Int64] {

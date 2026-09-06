@@ -229,6 +229,12 @@ final class SubstanceStore {
     /// duration, so this recovers *which form a logged string named* — it never
     /// selects a dose ladder, and there is deliberately no release picker.
     private(set) var aliasReleaseFormIndex: [String: String] = [:]
+    /// Normalized alias → injectable-ester label ("estradiol valerate" →
+    /// "Valerate"), from `aliases.salt_form`. The salt/ester sibling of
+    /// ``aliasReleaseFormIndex``: lets a search for "Estradiol Valerate" stage the
+    /// dose with the ester pre-set on `saltForm`. Populated only for esters (mineral
+    /// salts normalize onto the base and can't be tagged).
+    private(set) var aliasSaltFormIndex: [String: String] = [:]
     /// Lowercased product name → the strengths it ships in (`product_strengths`).
     /// Lets a logged brand ("concerta") be entered as a *pill* by tapping a real
     /// strength. Display/entry only — see ``ProductStrengths``. Built at load by a
@@ -700,7 +706,7 @@ final class SubstanceStore {
     private func buildIndexes() {
         do {
             let (names, aliases, aliasDisplay, aliasFacets, displayNames, uids, formTitles, stubs):
-                ([(String, Int64, String)], [(String, Int64)], [(String, String)], [(String, String?, String?)], [(String, String)], [(Int64, String)], [(FormKey, String)], Set<Int64>) = try substancesDB.read { db in
+                ([(String, Int64, String)], [(String, Int64)], [(String, String)], [(String, String?, String?, String?)], [(String, String)], [(Int64, String)], [(FormKey, String)], Set<Int64>) = try substancesDB.read { db in
                     let nameRows = try Row.fetchAll(db, sql: "SELECT id, canonical_name, substance_uid, is_stub FROM substances ORDER BY canonical_name COLLATE NOCASE")
                     let names = nameRows.map { ($0["canonical_name"] as String, $0["id"] as Int64, ($0["canonical_name"] as String).lowercased()) }
                     // Rows the build flagged as carrying no dose data at all. Kept
@@ -713,16 +719,17 @@ final class SubstanceStore {
                         guard let uid = row["substance_uid"] as String? else { return nil }
                         return (row["id"] as Int64, uid)
                     }
-                    let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias, alias_normalized, isomer, release_form FROM aliases")
+                    let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias, alias_normalized, isomer, release_form, salt_form FROM aliases")
                     let aliases = aliasRows.map { ($0["alias_normalized"] as String, $0["substance_id"] as Int64) }
                     let aliasDisplay = aliasRows.map { ($0["alias_normalized"] as String, $0["alias"] as String) }
                     // Only the facet-bearing rows — the vast majority of aliases name
                     // the plain/unspecified form and would just bloat both indexes.
-                    let aliasFacets = aliasRows.compactMap { row -> (String, String?, String?)? in
+                    let aliasFacets = aliasRows.compactMap { row -> (String, String?, String?, String?)? in
                         let iso = row["isomer"] as String?
                         let release = row["release_form"] as String?
-                        guard iso != nil || release != nil else { return nil }
-                        return (row["alias_normalized"] as String, iso, release)
+                        let salt = row["salt_form"] as String?
+                        guard iso != nil || release != nil || salt != nil else { return nil }
+                        return (row["alias_normalized"] as String, iso, release, salt)
                     }
                     let sourceRows = try Row.fetchAll(db, sql: "SELECT slug, display_name FROM sources")
                     let displayNames = sourceRows.map { ($0["slug"] as String, $0["display_name"] as String) }
@@ -790,12 +797,15 @@ final class SubstanceStore {
             // build reports any such collision for triage.
             var aix: [String: String] = [:]
             var arx: [String: String] = [:]
-            for (alias, iso, release) in aliasFacets {
+            var asx: [String: String] = [:]
+            for (alias, iso, release, salt) in aliasFacets {
                 if let iso, aix[alias] == nil { aix[alias] = iso }
                 if let release, arx[alias] == nil { arx[alias] = release }
+                if let salt, asx[alias] == nil { asx[alias] = salt }
             }
             self.aliasIsomerIndex = aix
             self.aliasReleaseFormIndex = arx
+            self.aliasSaltFormIndex = asx
             // `substance_forms`' PK already makes these unique; uniquing defensively
             // rather than trapping at launch, matching `nameIndex` above.
             self.formTitleIndex = Dictionary(formTitles, uniquingKeysWith: { first, _ in first })

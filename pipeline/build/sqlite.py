@@ -723,10 +723,13 @@ CREATE TABLE aliases (
     -- NULL for a plain synonym that names the parent's canonical/unspecified form.
     -- Populated by annotate_alias_facets().
     --
-    -- `salt_form` is intentionally never populated: normalise() strips salt suffixes
-    -- ("Magnesium Citrate" → "magnesium"), so a salt alias collides with the base's
-    -- normalized key and can't be tagged unambiguously — and DoseEntry stores
-    -- `saltForm` as a scalar anyway. Kept for symmetry with the other two axes.
+    -- `salt_form` is populated only for injectable-ester aliases ("Estradiol
+    -- Valerate" → salt_form='Valerate'), whose suffixes normalise() does NOT strip,
+    -- so they stay distinct from the base's normalized key. It stays NULL for
+    -- mineral salts (normalise() strips "Magnesium Citrate" → "magnesium", so a salt
+    -- alias would collide with the base and can't be tagged unambiguously) and for
+    -- plain synonyms. Populated for esters in build_ester_pk(). DoseEntry stores
+    -- `saltForm` as a scalar, so a resolver recovers the ester from this facet.
     isomer           TEXT,
     salt_form        TEXT,
     release_form     TEXT,
@@ -11737,6 +11740,17 @@ class Build:
                 ),
             )
             inserted += 1
+            # Make the ester searchable: "Estradiol Valerate" resolves to Estradiol
+            # with the ester on the salt_form facet, so a search stages the dose with
+            # the ester pre-selected — mirroring how a brand alias carries
+            # release_form. Ester suffixes are not stripped by normalise(), so the
+            # alias stays distinct from the base ("estradiol valerate" ≠ "estradiol").
+            ester_alias = f"{parent} {row['ester_label']}"
+            self._add_alias(prow[0], ester_alias, None)
+            self.cur.execute(
+                "UPDATE aliases SET salt_form=? WHERE substance_id=? AND lower(alias)=lower(?)",
+                (row["ester_label"], prow[0], ester_alias),
+            )
         if missing_parent:
             print(
                 f"  ester pk: {len(missing_parent)} ester(s) whose parent substance "
