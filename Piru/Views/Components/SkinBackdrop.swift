@@ -522,7 +522,8 @@ private nonisolated struct SceneRenderer {
                 layer.translateBy(x: x, y: y)
                 layer.rotate(by: .degrees(tiltDeg))
                 layer.scaleBy(x: unit, y: unit)
-                species.draw(in: &layer, time: time, motion: motion, bell: color, dark: dark, showFace: scale > 0.8)
+                // Every creature keeps every feature at every size.
+                species.draw(in: &layer, time: time, motion: motion, bell: color, dark: dark, showFace: true)
             }
         }
     }
