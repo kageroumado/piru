@@ -243,27 +243,35 @@ struct StagedDoseUnitMenu: View {
 /// keyboard.
 struct StagedDoseByDrinkBlock: View {
     @Bindable var model: StagedDoseEditorModel
+    /// The concentration capability — drives the copy (Strength/% vs
+    /// Concentration/(mg/mL)) and the readout unit (g + std drinks vs mg).
+    let capability: ByVolumeDosing
+    /// The converted canonical amount (grams of ethanol, or mg of ester).
     let grams: Double?
     let level: DoseLevel?
     var abvFocus: FocusState<Bool>.Binding
     var volumeFocus: FocusState<Bool>.Binding
 
+    private var strengthStep: Double {
+        capability.isMassPerVolume ? 5 : 0.5
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.lg) {
             StagedDoseByDrinkRow(
-                label: "Strength",
+                label: Text(capability.strengthFieldLabel),
                 text: $model.abvText,
                 focus: abvFocus,
-                trailing: Text(verbatim: "%")
+                trailing: Text(verbatim: capability.strengthUnitLabel)
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(Theme.secondaryLabel),
-                onDec: { model.adjustABV(-0.5) },
-                onInc: { model.adjustABV(0.5) },
+                onDec: { model.adjustStrength(-strengthStep, capability: capability) },
+                onInc: { model.adjustStrength(strengthStep, capability: capability) },
                 decLabel: "Lower strength",
                 incLabel: "Raise strength",
             )
             StagedDoseByDrinkRow(
-                label: "Volume",
+                label: Text("Volume"),
                 text: $model.volumeText,
                 focus: volumeFocus,
                 trailing: StagedDoseVolumeUnitMenu(unit: $model.volumeUnit),
@@ -279,14 +287,17 @@ struct StagedDoseByDrinkBlock: View {
     @ViewBuilder
     private var readout: some View {
         if let grams {
-            let drinks = ByVolumeDosing.standardDrinks(grams: grams)
             HStack(spacing: Spacing.sm) {
-                Text("\(Int(grams.rounded())) g")
+                Text("\(Int(grams.rounded())) \(capability.canonicalUnit)")
                     .fontWeight(.semibold)
                     .foregroundStyle(level?.labelColor ?? .primary)
                     .contentTransition(.numericText())
-                Text("· \(drinks, format: .number.precision(.fractionLength(1))) std drinks")
-                    .foregroundStyle(Theme.secondaryLabel)
+                if !capability.isMassPerVolume {
+                    // The US-standard-drink gloss is alcohol-only.
+                    let drinks = ByVolumeDosing.standardDrinks(grams: grams)
+                    Text("· \(drinks, format: .number.precision(.fractionLength(1))) std drinks")
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
                 if let level {
                     Middot().foregroundStyle(.tertiary)
                     Text(level.displayName)
@@ -307,7 +318,7 @@ struct StagedDoseByDrinkBlock: View {
 /// capsule itself; the unit is a trailing overlay so it never shifts the number
 /// off-center (mirrors the amount field).
 struct StagedDoseByDrinkRow<Trailing: View>: View {
-    let label: LocalizedStringKey
+    let label: Text
     @Binding var text: String
     var focus: FocusState<Bool>.Binding
     let trailing: Trailing
@@ -318,7 +329,7 @@ struct StagedDoseByDrinkRow<Trailing: View>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
-            Text(label)
+            label
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(Theme.secondaryLabel)
             HStack(spacing: Spacing.md) {

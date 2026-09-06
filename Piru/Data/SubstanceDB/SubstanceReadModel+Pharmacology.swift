@@ -686,11 +686,22 @@ extension SubstanceReadModel {
         var out: [String: ByVolumeDosing] = [:]
         for row in rows {
             guard let sid: Int64 = row["sid"], let name: String = row["name"],
-                  row["concentration_kind"] == "percent_by_volume",
-                  let density: Double = row["density_g_per_ml"], density > 0,
+                  let kind: String = row["concentration_kind"],
                   let unit: String = row["canonical_unit"] else { continue }
+            let concentration: ByVolumeDosing.Concentration
+            switch kind {
+            case "percent_by_volume":
+                // Alcohol: density is required — the conversion is undefined without it.
+                guard let density: Double = row["density_g_per_ml"], density > 0 else { continue }
+                concentration = .percentByVolume(densityGramsPerML: density)
+            case "mass_per_volume":
+                // Injectable esters: mg = volume x concentration, no density term.
+                concentration = .massPerVolume
+            default:
+                continue
+            }
             let capability = ByVolumeDosing(
-                concentration: .percentByVolume(densityGramsPerML: density),
+                concentration: concentration,
                 canonicalUnit: unit,
                 standardUnitMass: row["standard_unit_mass"] ?? 0,
                 standardUnitLabel: row["standard_unit_label"] ?? "",

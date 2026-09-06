@@ -25,8 +25,27 @@ struct StagedDoseEditor: View {
     @State private var showDrinkManager = false
     @State private var profileStore = UserProfileStore.shared
 
-    /// The By Drink / By Weight choice persists across doses.
-    @AppStorage("alcoholEditorByDrink") private var byDrinkPreferred = true
+    /// The volume-vs-mass choice persists across doses, separately per kind:
+    /// alcohol defaults to By Drink (it has presets), an injectable ester to By
+    /// Mass (concentration is user-entered, so typing mg is the low-friction path).
+    @AppStorage("alcoholEditorByDrink") private var alcoholByVolume = true
+    @AppStorage("esterEditorByVolume") private var esterByVolume = false
+
+    /// Whether the current dose edits by volume (By Drink / By Volume) rather than
+    /// mass, reading the preference that matches this substance's concentration kind.
+    private var byDrinkPreferred: Bool {
+        byVolumeCapability?.isMassPerVolume == true ? esterByVolume : alcoholByVolume
+    }
+
+    private var byDrinkBinding: Binding<Bool> {
+        Binding(
+            get: { byDrinkPreferred },
+            set: { newValue in
+                if byVolumeCapability?.isMassPerVolume == true { esterByVolume = newValue }
+                else { alcoholByVolume = newValue }
+            },
+        )
+    }
 
     @FocusState private var amountFocused: Bool
     @FocusState private var noteFocused: Bool
@@ -123,8 +142,8 @@ struct StagedDoseEditor: View {
         // In By Weight, editing grams re-projects the volume (holding ABV) so the
         // By Drink fields stay consistent when the user flips back — never zeroed.
         .onChange(of: item.amount) {
-            guard byVolumeCapability != nil, !byDrinkPreferred else { return }
-            model.reprojectVolumeFromGrams(item: &item)
+            guard let capability = byVolumeCapability, !byDrinkPreferred else { return }
+            model.reprojectVolumeFromGrams(item: &item, capability: capability)
         }
         .onChange(of: byDrinkPreferred) {
             if byDrinkPreferred {
@@ -160,12 +179,14 @@ struct StagedDoseEditor: View {
     /// plain −/+ stepper.
     @ViewBuilder
     private var inputBlock: some View {
-        if byVolumeCapability != nil {
-            // By Drink (the two-tier strength + volume logger) vs By Weight (the
-            // grams stepper).
-            Picker("Input", selection: $byDrinkPreferred) {
-                Text("By Drink").tag(true)
-                Text("By Weight").tag(false)
+        if let capability = byVolumeCapability {
+            // The concentration+volume logger vs the plain mass stepper. Labels
+            // adapt to the kind: By Drink/By Weight for alcohol, By Volume/By Mass
+            // for an injectable ester.
+            let modes = capability.modeLabels
+            Picker("Input", selection: byDrinkBinding) {
+                Text(modes.volume).tag(true)
+                Text(modes.mass).tag(false)
             }
             .pickerStyle(.segmented)
             .labelsHidden()
@@ -173,6 +194,7 @@ struct StagedDoseEditor: View {
             if byDrinkPreferred {
                 StagedDoseByDrinkBlock(
                     model: model,
+                    capability: capability,
                     grams: customDrinkGrams,
                     level: item.doseLevel,
                     abvFocus: $abvFocused,
@@ -225,8 +247,15 @@ struct StagedDoseEditor: View {
     /// By-volume capability for this staged substance (alcohol), gated on the
     /// canonical "g" unit so the drink chips show only when the dose is in grams.
     private var byVolumeCapability: ByVolumeDosing? {
-        guard item.unit == "g" else { return nil }
-        return item.librarySubstance?.byVolumeDosing
+        guard let cap = item.librarySubstance?.byVolumeDosing,
+              item.unit == cap.canonicalUnit else { return nil }
+        // An injectable ester's volumetric input only makes sense on an injection
+        // route (a vial drawn in mL); oral/transdermal estradiol stays a plain mg
+        // log. Alcohol (percent-by-volume) has no route gate.
+        if cap.isMassPerVolume {
+            guard item.route == .intramuscular || item.route == .subcutaneous else { return nil }
+        }
+        return cap
     }
 
     private var customDrinkGrams: Double? {
@@ -410,10 +439,12 @@ private struct DrinkPresetMenu: View {
 }
 
 extension CustomDrinkPreset {
-    /// "330 mL · 5%" for a fixed-volume preset, or just "5%" for strength-only.
-    /// Volume renders in the user's preferred unit (mL / fl oz), like the editor.
+    /// "330 mL · 5%" for an alcohol preset, "40 mg/mL" for an ester concentration
+    /// preset (usually strength-only). Volume renders in the user's preferred unit.
     @MainActor var detailLabel: String {
-        let strength = "\(ByVolumeDosing.formatTrimmed(strengthABV))%"
+        let strengthUnit = SubstanceLibrary.lookup(substanceName)?.byVolumeDosing?.strengthUnitLabel ?? "%"
+        let sep = strengthUnit == "%" ? "" : " "
+        let strength = "\(ByVolumeDosing.formatTrimmed(strengthABV))\(sep)\(strengthUnit)"
         guard let volumeML else { return strength }
         let unit = ByVolumeDefaults.preferredVolumeUnit
         let volume = Measurement(value: volumeML, unit: UnitVolume.milliliters).converted(to: unit)

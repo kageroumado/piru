@@ -18,9 +18,12 @@ nonisolated struct ByVolumeDosing: Hashable {
         /// Percent volume-by-volume of a liquid with the given density (g/mL).
         /// Alcohol: the strength field is ABV %, ethanol density 0.789 g/mL at 20 °C.
         case percentByVolume(densityGramsPerML: Double)
-        // Future: `case massPerVolume` — mg/mL stock solutions (GHB/GBL, RC stock),
-        // where the strength field is a concentration in mg/mL. Adopting it needs
-        // only a new case here + a curated blob, no new input UI.
+        /// A dissolved solid at a concentration in ``canonicalUnit`` per mL — the
+        /// strength field *is* that concentration (mg/mL for an injectable ester in
+        /// oil). `mass = volume × concentration`, no density term. The concentration
+        /// varies by ester and product, so it is user-entered per dose (and saved as
+        /// a preset), never a shipped default.
+        case massPerVolume
     }
 
     let concentration: Concentration
@@ -42,6 +45,20 @@ nonisolated struct ByVolumeDosing: Hashable {
         switch concentration {
         case let .percentByVolume(density):
             Self.grams(volumeML: volumeML, abv: strength, densityGramsPerML: density)
+        case .massPerVolume:
+            Self.mass(volumeML: volumeML, concentrationPerML: strength)
+        }
+    }
+
+    /// Inverse of ``canonicalAmount(volumeML:strength:)`` — the volume that yields
+    /// `amount` canonical units at `strength`. Keeps the By-Volume volume field
+    /// consistent when the dose is edited by mass. 0 for a strength of 0.
+    func volumeML(forAmount amount: Double, strength: Double) -> Double {
+        switch concentration {
+        case let .percentByVolume(density):
+            Self.volumeML(grams: amount, abv: strength, densityGramsPerML: density)
+        case .massPerVolume:
+            Self.volumeML(mass: amount, concentrationPerML: strength)
         }
     }
 
@@ -87,6 +104,25 @@ nonisolated struct ByVolumeDosing: Hashable {
               grams > 0, abv > 0, densityGramsPerML > 0
         else { return 0 }
         return grams / ((abv / 100) * densityGramsPerML)
+    }
+
+    /// Canonical mass in `volumeML` of a solution at `concentrationPerML` (e.g.
+    /// mg of ester in mL of oil at mg/mL). `mass = volumeML × concentrationPerML`.
+    /// Non-finite or non-positive inputs yield 0 (blank field → no dose, never NaN).
+    nonisolated static func mass(volumeML: Double, concentrationPerML: Double) -> Double {
+        guard volumeML.isFinite, concentrationPerML.isFinite,
+              volumeML > 0, concentrationPerML > 0
+        else { return 0 }
+        return volumeML * concentrationPerML
+    }
+
+    /// Inverse of ``mass(volumeML:concentrationPerML:)`` — the volume that holds
+    /// `mass` at `concentrationPerML`. Non-finite / non-positive inputs yield 0.
+    nonisolated static func volumeML(mass: Double, concentrationPerML: Double) -> Double {
+        guard mass.isFinite, concentrationPerML.isFinite,
+              mass > 0, concentrationPerML > 0
+        else { return 0 }
+        return mass / concentrationPerML
     }
 
     /// Approximate US standard-drink equivalent of a grams-of-ethanol amount —
@@ -158,6 +194,30 @@ extension DrinkPreset.Kind {
 }
 
 extension ByVolumeDosing {
+    /// A dissolved-solid concentration (mg/mL) rather than alcohol's %ABV. Drives
+    /// the shared By-Volume UI's copy so one component serves both adopters.
+    var isMassPerVolume: Bool {
+        if case .massPerVolume = concentration { return true }
+        return false
+    }
+
+    /// Title for the strength field: "Concentration" for an ester, "Strength" for
+    /// alcohol.
+    var strengthFieldLabel: LocalizedStringResource {
+        isMassPerVolume ? "Concentration" : "Strength"
+    }
+
+    /// Unit suffix on the strength field: "mg/mL" for an ester, "%" for alcohol.
+    var strengthUnitLabel: String {
+        isMassPerVolume ? "\(canonicalUnit)/mL" : "%"
+    }
+
+    /// The two input-mode labels: (volume-mode, mass-mode). "By Volume"/"By Mass"
+    /// for an ester; "By Drink"/"By Weight" for alcohol.
+    var modeLabels: (volume: LocalizedStringResource, mass: LocalizedStringResource) {
+        isMassPerVolume ? ("By Volume", "By Mass") : ("By Drink", "By Weight")
+    }
+
     /// Trim a numeric value for display/storage: integer when whole, else one
     /// decimal. Shared by the input field, the presets, and the breadcrumb.
     nonisolated static func formatTrimmed(_ value: Double) -> String {

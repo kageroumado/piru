@@ -1,6 +1,6 @@
 # Piru SQLite build report
 
-Built 2026-09-06.1 → `Piru/Data/piru-substances.sqlite` (19,062,784 bytes, sha256 `ece8b5f62a632c91a0cb27fa6f23588b651b99f36bf3bb13bd05263522bbb088`)
+Built 2026-09-06.4 → `Piru/Data/piru-substances.sqlite` (19,062,784 bytes, sha256 `21a893e196038f35d2ecd18052a938f1c80ee8bf85eb2e7a22a30f19ed6c3d8e`)
 
 ## Row counts
 
@@ -55,7 +55,7 @@ Built 2026-09-06.1 → `Piru/Data/piru-substances.sqlite` (19,062,784 bytes, sha
 | withdrawal_timing_bands | 3 |
 | withdrawal_acting_class | 9 |
 | taper_interventions | 16 |
-| by_volume_dosing | 1 |
+| by_volume_dosing | 2 |
 | drink_presets | 4 |
 | zero_order_kinetics | 1 |
 | saturable_kinetics | 6 |

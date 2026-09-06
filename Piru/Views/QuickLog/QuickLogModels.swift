@@ -201,12 +201,19 @@ struct DoseChip: Identifiable, Equatable {
         amount.doseFormatted
     }
 
-    /// Subtitle for a detailed drink chip: "330 mL · 6% · 16 g" (volume/strength
-    /// only shown when known); falls back to just the grams.
+    /// Subtitle for a detailed by-volume chip: "330 mL · 6% · 16 g" for alcohol,
+    /// "1 mL · 40 mg/mL · 40 mg" for an injectable ester (volume/strength only
+    /// shown when known); falls back to just the amount.
     var detailLine: String {
         var parts: [String] = []
         if let volumeML { parts.append("\(Int(volumeML.rounded())) mL") }
-        if let abv { parts.append("\(ByVolumeDosing.formatTrimmed(abv))%") }
+        if let abv {
+            // Alcohol (canonical "g") logs %ABV; a mass-per-volume ester logs a
+            // concentration in <unit>/mL.
+            parts.append(unit == "g"
+                ? "\(ByVolumeDosing.formatTrimmed(abv))%"
+                : "\(ByVolumeDosing.formatTrimmed(abv)) \(unit)/mL")
+        }
         parts.append("\(formattedAmount) \(unit)")
         return parts.joined(separator: " · ")
     }
