@@ -233,15 +233,16 @@ struct StagedDose: Identifiable, Equatable {
         librarySubstance?.substanceUID
     }
 
-    /// Injectable hormone esters offered for `route` (Estradiol → Cypionate /
-    /// Valerate / Enanthate), from the `ester_pk` table. Empty unless the route is
-    /// IM/SC and the substance has ester data. Esters are offered on both injection
-    /// routes regardless of a parameter set's nominal route, so a person can log the
-    /// ester they actually used — a route/parameter mismatch is the Injection Levels
-    /// tool's note to make, not a reason to hide the ester.
+    /// Hormone esters offered for `route` (Estradiol → Cypionate / Valerate /
+    /// Enanthate), from the `ester_pk` table. Offered on oral as well as the two
+    /// injection routes — estradiol valerate is also an oral tablet (Progynova), and
+    /// the ester is meaningful on either. Empty on other routes (patches are plain
+    /// estradiol) and for substances with no ester data. The depot curve still only
+    /// consumes IM/SC doses; a route/parameter mismatch is the tool's note to make,
+    /// not a reason to hide the ester the person actually took.
     @MainActor
     func esterForms(for route: RouteOfAdministration) -> [String] {
-        guard route == .intramuscular || route == .subcutaneous,
+        guard route == .oral || route == .intramuscular || route == .subcutaneous,
               let uid = substanceUID else { return [] }
         return SubstanceStore.shared.esters(forParentUID: uid).map(\.label)
     }

@@ -203,7 +203,7 @@ struct EntryEditContent: View {
     /// picker (Estradiol → Cypionate / Valerate / Enanthate). Empty unless the
     /// route is IM/SC and the substance has `ester_pk` data.
     private var draftEsterForms: [String] {
-        guard draft.route == .intramuscular || draft.route == .subcutaneous,
+        guard draft.route == .oral || draft.route == .intramuscular || draft.route == .subcutaneous,
               let uid = substance?.substanceUID else { return [] }
         return SubstanceStore.shared.esters(forParentUID: uid).map(\.label)
     }

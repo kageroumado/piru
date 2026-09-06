@@ -181,6 +181,10 @@ struct DockMiddleContent: View {
         var results: [QuickLogSearchResult] = recentCards.map { .recent($0) }
         results += content.cachedLibraryResults
             .filter { match in
+                // An ester match ("Estradiol Valerate") is a distinct form from a
+                // plain-Estradiol recent — it stages a different dose (the ester
+                // pre-set), so keep it rather than dedup it against the base.
+                if let alias = match.matchedAlias, SubstanceLibrary.saltForm(for: alias) != nil { return true }
                 let uidDuplicate = match.substance.substanceUID.map { !$0.isEmpty && recentUIDs.contains($0) } ?? false
                 return !(uidDuplicate || recentNames.contains(match.substance.name.lowercased()))
             }
