@@ -236,6 +236,7 @@ struct StagedDoseEditor: View {
             selectedName: item.drinkName,
             currentName: model.drinkName,
             currentEmoji: model.drinkEmoji,
+            isMassPerVolume: byVolumeCapability?.isMassPerVolume ?? false,
             pillHeight: pillHeight,
             onSelect: { apply(preset: $0) },
             onManage: { showDrinkManager = true },
@@ -357,14 +358,16 @@ struct StagedDoseEditor: View {
 
 // MARK: - Drink Preset Menu
 
-/// The drink chip's menu for a by-volume substance (alcohol): the saved
-/// presets — emoji + name with a strength/volume subtitle — plus "Edit
-/// Drinks…" opening the full manager sheet. Same affordance as the route
-/// pill beside it, so no bespoke inline surface to discover.
+/// The chip's menu for a by-volume substance: the saved presets — emoji + name
+/// with a strength/volume subtitle — plus an edit item opening the full manager
+/// sheet. Same affordance as the route pill beside it, so no bespoke inline
+/// surface to discover. Copy is kind-aware: alcohol saves *drinks*, an injectable
+/// ester saves *concentrations*, so the placeholder and edit item read accordingly.
 private struct DrinkPresetMenu: View {
     let selectedName: String?
     let currentName: String
     let currentEmoji: String
+    let isMassPerVolume: Bool
     let pillHeight: CGFloat
     let onSelect: (CustomDrinkPreset) -> Void
     let onManage: () -> Void
@@ -376,6 +379,7 @@ private struct DrinkPresetMenu: View {
         selectedName: String?,
         currentName: String,
         currentEmoji: String,
+        isMassPerVolume: Bool,
         pillHeight: CGFloat,
         onSelect: @escaping (CustomDrinkPreset) -> Void,
         onManage: @escaping () -> Void,
@@ -383,6 +387,7 @@ private struct DrinkPresetMenu: View {
         self.selectedName = selectedName
         self.currentName = currentName
         self.currentEmoji = currentEmoji
+        self.isMassPerVolume = isMassPerVolume
         self.pillHeight = pillHeight
         self.onSelect = onSelect
         self.onManage = onManage
@@ -415,12 +420,17 @@ private struct DrinkPresetMenu: View {
             }
             Divider()
             Button(action: onManage) {
-                Label("Edit Drinks…", systemImage: "pencil")
+                Label(
+                    isMassPerVolume ? String(localized: "Edit concentrations…") : String(localized: "Edit Drinks…"),
+                    systemImage: "pencil",
+                )
             }
         } label: {
             HStack(spacing: 5) {
                 if !currentEmoji.isEmpty { Text(currentEmoji) }
-                Text(currentName.isEmpty ? String(localized: "Drink") : currentName)
+                Text(currentName.isEmpty
+                    ? (isMassPerVolume ? String(localized: "Concentration") : String(localized: "Drink"))
+                    : currentName)
                     .lineLimit(1)
                 Image(systemName: "chevron.down")
                     .font(.caption2.weight(.semibold))

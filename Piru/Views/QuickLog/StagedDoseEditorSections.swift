@@ -309,8 +309,15 @@ struct StagedDoseByDrinkBlock: View {
             .frame(maxWidth: .infinity)
             // One spoken element instead of a run broken by a lone "·" stop.
             .accessibilityElement(children: .combine)
+        } else if capability.isMassPerVolume {
+            // A volume with no concentration can't become a dose — the mg on the
+            // syringe depend entirely on the vial's mg/mL. Say so where it's typed.
+            Text("Enter the vial's concentration — a volume alone isn't a dose.")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
-        // No placeholder when empty — the strength/volume steppers are right above.
+        // No placeholder for the empty alcohol case — the steppers are right above.
     }
 }
 

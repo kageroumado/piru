@@ -56,10 +56,33 @@ final class InjectionLevelsModel {
     var referenceLow: Double?
     var referenceHigh: Double?
 
+    /// Personal amplitude multiplier — the "run high / run low" knob. When
+    /// ``autoCalibrateFromLabs`` is on and labs exist, the lab fit drives amplitude
+    /// and this is displayed as the fitted scale; otherwise the user sets it by hand
+    /// (someone who knows they metabolize differently but hasn't tested yet). Applied
+    /// as `d = d_pop · multiplier`. Persisted by the view via `@AppStorage`.
+    var personalMultiplier: Double = 1.0
+    /// Whether to let the user's lab results set the calibration automatically. Off
+    /// hands the amplitude to ``personalMultiplier`` even when labs exist.
+    var autoCalibrateFromLabs: Bool = true
+    /// Whether a ≥2-lab calibration also fits the terminal rate `k1`, not just amplitude.
+    var fitRates: Bool = true
+
     // MARK: Synced from the view's SwiftData queries
 
     /// Qualifying injections pulled from the dose log (date, mg), or empty.
     private(set) var loggedInjections: [(date: Date, doseMg: Double)] = []
+    /// The ester the user logs most often for this analyte, if their doses name one
+    /// — the log-first default so the curve opens on the ester they actually inject
+    /// rather than the alphabetical first.
+    private(set) var preferredEsterID: String?
+    /// One-shot guard: once the source (log vs manual) has been defaulted from real
+    /// data, never override the user's later choice.
+    private var sourceDefaulted = false
+    /// One-shot guard: the ester is defaulted alphabetically before the log syncs,
+    /// then upgraded once to the ester the user actually logs — after which a manual
+    /// pick stands.
+    private var esterDefaulted = false
     /// Lab measurements for the active analyte, canonical unit, calibration-included.
     private(set) var calibrationMeasurements: [DepotCalibration.Measurement] = []
     /// Whether the log has any qualifying injections for the active analyte.
@@ -83,6 +106,24 @@ final class InjectionLevelsModel {
         SubstanceStore.shared.estersForAnalyte(analyte.key)
     }
 
+    /// Whether the user has any lab measurements included in calibration.
+    var hasLabs: Bool {
+        !calibrationMeasurements.isEmpty
+    }
+
+    /// Whether the current curve is driven by a lab fit (auto on + labs present).
+    var isLabDriven: Bool {
+        autoCalibrateFromLabs && calibration != nil
+    }
+
+    /// The amplitude multiplier currently in effect — the lab-fit scale when
+    /// lab-driven, otherwise the user's manual personal multiplier. What the
+    /// calibration control displays.
+    var effectiveMultiplier: Double {
+        if let cal = calibration, autoCalibrateFromLabs { return cal.scale }
+        return personalMultiplier
+    }
+
     // MARK: Recompute key
 
     struct RecomputeKey: Equatable {
@@ -93,6 +134,9 @@ final class InjectionLevelsModel {
         let useLogHistory: Bool
         let referenceLow: Double?
         let referenceHigh: Double?
+        let personalMultiplier: Double
+        let autoCalibrateFromLabs: Bool
+        let fitRates: Bool
         let logSignature: Int
         let labSignature: Int
     }
@@ -102,6 +146,8 @@ final class InjectionLevelsModel {
             analyte: analyte, esterID: selectedEsterID, doseMg: doseMg,
             intervalDays: intervalDays, useLogHistory: useLogHistory,
             referenceLow: referenceLow, referenceHigh: referenceHigh,
+            personalMultiplier: personalMultiplier,
+            autoCalibrateFromLabs: autoCalibrateFromLabs, fitRates: fitRates,
             logSignature: signature(of: loggedInjections.map { ($0.date, $0.doseMg) }),
             labSignature: signature(of: calibrationMeasurements.map { ($0.date, $0.value) }),
         )
@@ -120,38 +166,66 @@ final class InjectionLevelsModel {
 
     /// Adopt the qualifying injections and lab results the view read from SwiftData.
     /// `injections` are already filtered to the active analyte (IM/SC, mg-convertible).
-    func sync(injections: [(date: Date, doseMg: Double)], measurements: [DepotCalibration.Measurement]) {
+    func sync(
+        injections: [(date: Date, doseMg: Double)],
+        measurements: [DepotCalibration.Measurement],
+        preferredEsterID: String? = nil,
+    ) {
         loggedInjections = injections.sorted { $0.date < $1.date }
         calibrationMeasurements = measurements
+        self.preferredEsterID = preferredEsterID
     }
 
     /// Pick the analyte's default ester if none is selected (or the current one no
-    /// longer belongs to the analyte). Log-first default: turn off history when the
-    /// log has nothing.
+    /// longer belongs to the analyte) — the ester the user logs most, else the first.
+    /// Log-first source default: prefer the log the moment it has data (one-shot, so
+    /// a later manual toggle stands), and never offer manual-only as "log".
     func selectDefaultsIfNeeded() {
         let esters = availableEsters
+        let preferred = preferredEsterID.flatMap { id in esters.first { $0.esterID == id }?.esterID }
         if selectedEsterID == nil || !esters.contains(where: { $0.esterID == selectedEsterID }) {
-            selectedEsterID = esters.first?.esterID
+            selectedEsterID = preferred ?? esters.first?.esterID
+            if preferred != nil { esterDefaulted = true }
+        } else if !esterDefaulted, let preferred, preferred != selectedEsterID {
+            // The log synced after the first (alphabetical) default — upgrade once to
+            // the ester the user actually logs. A later manual pick sets it too.
+            selectedEsterID = preferred
+            esterDefaulted = true
         }
-        if !hasLogHistory { useLogHistory = false }
+        if hasLogHistory {
+            if !sourceDefaulted { useLogHistory = true; sourceDefaulted = true }
+        } else {
+            useLogHistory = false
+        }
     }
 
     // MARK: Compute
 
     func refresh() {
-        guard let ester = selectedEster else { result = nil; calibration = nil; return }
+        guard let ester = selectedEster, let population = ester.parameters else {
+            result = nil; calibration = nil; return
+        }
 
-        let injections = injectionsForCurve(ester: ester)
+        let injections = injectionsForCurve(ester: ester, population: population)
         guard !injections.isEmpty else { result = nil; calibration = nil; return }
 
-        // Calibrate amplitude to the user's labs, if any.
-        let cal = DepotCalibration.calibrate(
-            population: ester.parameters,
-            injections: injections,
-            measurements: calibrationMeasurements,
-        )
+        // Calibrate to the user's labs when allowed; otherwise fall to the manual
+        // personal multiplier. The lab fit is amplitude-only for one result, and
+        // amplitude + terminal rate for two or more (when rate-fit is on).
+        let cal = autoCalibrateFromLabs
+            ? DepotCalibration.calibrate(
+                population: population,
+                injections: injections,
+                measurements: calibrationMeasurements,
+                fitRate: fitRates,
+            )
+            : nil
         calibration = cal
-        let params = cal.map { ester.parameters.withAmplitude($0.calibratedAmplitude) } ?? ester.parameters
+        let params: PKModel.DepotParameters = if let cal {
+            population.withK1Scale(cal.k1Scale).withAmplitude(cal.calibratedAmplitude)
+        } else {
+            population.withAmplitude(population.d * max(0.05, personalMultiplier))
+        }
 
         let (rangeStart, rangeEnd, cycleDays) = window(injections: injections)
         let curve = PKModel.depotCurve(
@@ -191,17 +265,17 @@ final class InjectionLevelsModel {
 
     // MARK: Curve inputs
 
-    private func injectionsForCurve(ester: EsterPKRecord) -> [(date: Date, doseMg: Double)] {
+    private func injectionsForCurve(ester _: EsterPKRecord, population: PKModel.DepotParameters) -> [(date: Date, doseMg: Double)] {
         if useLogHistory, hasLogHistory { return loggedInjections }
-        return synthesizedSchedule(ester: ester)
+        return synthesizedSchedule(population: population)
     }
 
     /// A regular schedule anchored so "now" sits at steady state: doses every
     /// `interval` for enough cycles to plateau, then one projected cycle ahead.
-    private func synthesizedSchedule(ester: EsterPKRecord) -> [(date: Date, doseMg: Double)] {
+    private func synthesizedSchedule(population: PKModel.DepotParameters) -> [(date: Date, doseMg: Double)] {
         guard let dose = doseMg, dose > 0, let interval = intervalDays, interval > 0 else { return [] }
         // Cycles needed to reach steady state: ~5 terminal half-lives, capped.
-        let terminalHalfLife = log(2) / max(ester.parameters.k1, 1e-6) // days
+        let terminalHalfLife = log(2) / max(population.k1, 1e-6) // days
         let cycles = min(max(Int((5 * terminalHalfLife / interval).rounded(.up)), 6), 60)
         let now = Date.now
         let start = now.addingTimeInterval(-Double(cycles) * interval * PKModel.secondsPerDay)

@@ -18,9 +18,11 @@ struct EsterPKRecord: Equatable, Identifiable, Sendable {
     let parentUID: String?
     /// User-facing ester name (`"Cypionate"`, `"Enanthate"`, …).
     let label: String
-    /// The depot rate constants + amplitude (rates per day).
-    let parameters: PKModel.DepotParameters
-    /// Provenance confidence: `"high"`, `"medium"`, or `"low"`.
+    /// The depot rate constants + amplitude (rates per day), or `nil` for a
+    /// catalog-only ester (e.g. Undecylate) that ships no validated curve — real
+    /// and loggable, but the tool declines to draw it rather than guess one.
+    let parameters: PKModel.DepotParameters?
+    /// Provenance confidence: `"high"`, `"medium"`, `"low"`, or `"none"` (no curve).
     let confidence: String
     /// Attribution string shown on the tool's provenance card.
     let provenance: String
@@ -29,6 +31,11 @@ struct EsterPKRecord: Equatable, Identifiable, Sendable {
 
     var id: String {
         esterID
+    }
+
+    /// Whether this ester carries a validated curve the tool can draw.
+    var isModelable: Bool {
+        parameters != nil
     }
 }
 
@@ -39,22 +46,26 @@ extension SubstanceStore {
         esterPKIndex[id]
     }
 
-    /// Every ester the DB carries for an analyte (`"estradiol"`), ester-id-ordered
-    /// for a stable picker. Empty when the analyte has no shipped parameters.
+    /// Every **modelable** ester the DB carries for an analyte (`"estradiol"`),
+    /// ester-id-ordered for a stable picker. The Injection Levels tool draws only
+    /// these — a catalog-only ester (no curve) is excluded here so the tool never
+    /// offers one it can't project. Empty when the analyte has no shipped curves.
     func estersForAnalyte(_ analyte: String) -> [EsterPKRecord] {
         esterPKIndex.values
-            .filter { $0.analyte == analyte }
+            .filter { $0.analyte == analyte && $0.isModelable }
             .sorted { $0.esterID < $1.esterID }
     }
 
-    /// The analytes that have any shipped ester PK data, alphabetized. The tool
+    /// The analytes that have any modelable ester PK data, alphabetized. The tool
     /// offers an analyte only when it can actually draw a curve for it.
     func analytesWithEsterData() -> [String] {
-        Set(esterPKIndex.values.map(\.analyte)).sorted()
+        Set(esterPKIndex.values.filter(\.isModelable).map(\.analyte)).sorted()
     }
 
-    /// The esters whose parent PSID FAMILY matches `uid` — how a logged Estradiol
-    /// IM dose finds the esters it could be.
+    /// Every ester whose parent PSID FAMILY matches `uid` — modelable or not — how a
+    /// logged Estradiol IM/SC/oral dose finds the esters it could be. Includes
+    /// catalog-only esters (Undecylate) so they can be logged, titled, and searched
+    /// even though the tool won't draw them.
     func esters(forParentUID uid: String) -> [EsterPKRecord] {
         esterPKIndex.values
             .filter { $0.parentUID == uid }

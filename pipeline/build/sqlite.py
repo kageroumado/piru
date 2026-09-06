@@ -833,6 +833,12 @@ CREATE TABLE product_durations (
 -- `substance_id`/`parent_uid` tie the ester to its base substance for the coverage
 -- gate and for matching a logged IM/SC dose to its ester. Read by
 -- SubstanceStore.esterPK(forEsterID:) / estersForAnalyte(_:).
+--
+-- `modelable` = 1 when the row carries a validated curve (d/k1/k2/k3 present); 0 for
+-- a catalog-only ester that real guides list and people inject but no retrievable
+-- human concentration-time data can parameterize (e.g. undecylate). A non-modelable
+-- ester is still loggable, titled, and searchable — the tool just declines to draw
+-- it a curve rather than pretending to know one. So d/k1/k2/k3 are nullable.
 CREATE TABLE ester_pk (
     ester_id     TEXT PRIMARY KEY,
     analyte      TEXT NOT NULL,
@@ -840,10 +846,11 @@ CREATE TABLE ester_pk (
     substance_id INTEGER REFERENCES substances(id),
     parent_uid   TEXT,
     ester_label  TEXT NOT NULL,
-    d            REAL NOT NULL,
-    k1           REAL NOT NULL,
-    k2           REAL NOT NULL,
-    k3           REAL NOT NULL,
+    modelable    INTEGER NOT NULL DEFAULT 1,
+    d            REAL,
+    k1           REAL,
+    k2           REAL,
+    k3           REAL,
     confidence   TEXT NOT NULL,
     provenance   TEXT NOT NULL,
     routes       TEXT NOT NULL
@@ -11718,11 +11725,20 @@ class Build:
             if prow is None:
                 missing_parent.append(f"{row['ester_id']} ({parent})")
                 continue
+            # A catalog-only ester (undecylate) ships without rate constants — real,
+            # loggable, but with no validated curve to draw. `modelable` records that;
+            # the four rates go in as NULL rather than a fabricated fit.
+            modelable = row.get("modelable", True)
+            rates = (
+                (float(row["d"]), float(row["k1"]), float(row["k2"]), float(row["k3"]))
+                if modelable
+                else (None, None, None, None)
+            )
             self.cur.execute(
                 "INSERT OR REPLACE INTO ester_pk "
                 "(ester_id, analyte, parent, substance_id, parent_uid, ester_label, "
-                "d, k1, k2, k3, confidence, provenance, routes) "
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                "modelable, d, k1, k2, k3, confidence, provenance, routes) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 (
                     row["ester_id"],
                     row["analyte"],
@@ -11730,10 +11746,8 @@ class Build:
                     prow[0],
                     uids.get(prow[0]),
                     row["ester_label"],
-                    float(row["d"]),
-                    float(row["k1"]),
-                    float(row["k2"]),
-                    float(row["k3"]),
+                    1 if modelable else 0,
+                    *rates,
                     row["confidence"],
                     row["provenance"],
                     json.dumps(row.get("routes", ["IM"])),

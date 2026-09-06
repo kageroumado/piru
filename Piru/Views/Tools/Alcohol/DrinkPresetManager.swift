@@ -7,11 +7,12 @@ import SwiftUI
 
 // MARK: - Drink Preset Manager
 
-/// Full management surface for a by-volume substance's drink presets, presented
-/// as a sheet from the drink chip's "Edit Drinks…" menu item. A native List
-/// permanently in edit mode: grabbers reorder, minus/swipe deletes, tap a row
-/// to edit it, `+` to add — the same pattern as ``QuickLogEditSheet`` (see
-/// there for why rows are `Button`s and `editMode` is scoped to the `List`).
+/// Full management surface for a by-volume substance's presets, presented as a
+/// sheet from the chip's edit menu item. A native List permanently in edit mode:
+/// grabbers reorder, minus/swipe deletes, tap a row to edit it, `+` to add — the
+/// same pattern as ``QuickLogEditSheet`` (see there for why rows are `Button`s and
+/// `editMode` is scoped to the `List`). Copy adapts to the by-volume kind: alcohol
+/// manages *drinks*, an injectable ester manages *concentrations*.
 struct DrinkPresetManagerView: View {
     let substanceName: String
 
@@ -27,6 +28,10 @@ struct DrinkPresetManagerView: View {
             filter: #Predicate { $0.substanceName == lower },
             sort: [SortDescriptor(\.sortOrder), SortDescriptor(\.createdAt)],
         )
+    }
+
+    private var isMassPerVolume: Bool {
+        SubstanceLibrary.lookup(substanceName)?.byVolumeDosing?.isMassPerVolume ?? false
     }
 
     var body: some View {
@@ -49,7 +54,7 @@ struct DrinkPresetManagerView: View {
             .navigationDestination(for: CustomDrinkPreset.self) { preset in
                 DrinkPresetForm(preset: preset, substanceName: substanceName)
             }
-            .navigationTitle("Drinks")
+            .navigationTitle(isMassPerVolume ? Text("Concentrations") : Text("Drinks"))
             .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -58,7 +63,7 @@ struct DrinkPresetManagerView: View {
                     } label: {
                         Image(systemName: "plus")
                     }
-                    .accessibilityLabel("New Drink")
+                    .accessibilityLabel(isMassPerVolume ? Text("New concentration") : Text("New Drink"))
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
@@ -121,10 +126,12 @@ struct DrinkPresetRow: View {
 
 // MARK: - Add / Edit Form
 
-/// One drink preset's editor: emoji + name, strength, and an optional fixed
-/// serving volume. Strength + name define a preset; a fixed-volume preset (a
-/// 330 mL can) fills both dials on select, a strength-only one (an IPA you
-/// pour freely) fills just the strength.
+/// One preset's editor: emoji + name, strength, and an optional fixed serving
+/// volume. Strength + name define a preset; a fixed-volume preset (a 330 mL can)
+/// fills both dials on select, a strength-only one (an IPA you pour freely) fills
+/// just the strength. For a mass-per-volume substance (an injectable ester) the
+/// strength is a concentration (mg/mL) and there is no fixed serving — the volume
+/// drawn varies per injection — so the volume section is hidden.
 /// Internal (not private) so ``QuickLogEditSheet`` can push the same editor.
 struct DrinkPresetForm: View {
     /// `nil` creates a new preset on save.
@@ -141,8 +148,27 @@ struct DrinkPresetForm: View {
     @State private var volumeUnit: UnitVolume = ByVolumeDefaults.preferredVolumeUnit
     @State private var fixedVolume = true
 
-    private var enteredABV: Double? {
-        guard let value = Double(strengthText.replacingOccurrences(of: ",", with: ".")), value > 0, value <= 95 else { return nil }
+    private var capability: ByVolumeDosing? {
+        SubstanceLibrary.lookup(substanceName)?.byVolumeDosing
+    }
+
+    private var isMassPerVolume: Bool {
+        capability?.isMassPerVolume ?? false
+    }
+
+    private var strengthUnitLabel: String {
+        capability?.strengthUnitLabel ?? "%"
+    }
+
+    private var defaultEmoji: String {
+        isMassPerVolume ? "💉" : "🍺"
+    }
+
+    /// Concentration/ABV cap: a percent tops out at 95; a mass concentration
+    /// (mg/mL) has no meaningful upper bound to clamp here.
+    private var enteredStrength: Double? {
+        guard let value = Double(strengthText.replacingOccurrences(of: ",", with: ".")), value > 0 else { return nil }
+        if !isMassPerVolume, value > 95 { return nil }
         return value
     }
 
@@ -152,7 +178,7 @@ struct DrinkPresetForm: View {
     }
 
     private var canSave: Bool {
-        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && enteredABV != nil
+        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && enteredStrength != nil
     }
 
     var body: some View {
@@ -163,19 +189,19 @@ struct DrinkPresetForm: View {
                         EmojiField(text: $emoji)
                             .frame(width: IconSize.touchTarget, height: IconSize.touchTarget)
                             .background(Color.platformSecondarySystemFill, in: RoundedRectangle(cornerRadius: Theme.CornerRadius.medium, style: .continuous))
-                            .accessibilityLabel("Drink emoji")
+                            .accessibilityLabel(isMassPerVolume ? Text("Concentration emoji") : Text("Drink emoji"))
                     #else
                         TextField("", text: $emoji)
                             .frame(width: IconSize.touchTarget, height: IconSize.touchTarget)
                             .multilineTextAlignment(.center)
-                            .accessibilityLabel("Drink emoji")
+                            .accessibilityLabel(isMassPerVolume ? Text("Concentration emoji") : Text("Drink emoji"))
                     #endif
-                    TextField("Name (e.g. IPA)", text: $name)
+                    TextField(isMassPerVolume ? String(localized: "Name (e.g. EV 40)") : String(localized: "Name (e.g. IPA)"), text: $name)
                         .wordsAutocapitalize()
                 }
             }
             Section {
-                LabeledContent("Strength") {
+                LabeledContent {
                     // One HStack — LabeledContent stacks multiple content
                     // views vertically.
                     HStack(spacing: Spacing.xs) {
@@ -183,31 +209,37 @@ struct DrinkPresetForm: View {
                             .decimalKeyboard()
                             .multilineTextAlignment(.trailing)
                             .frame(maxWidth: 80)
-                        Text(verbatim: "%")
+                        Text(verbatim: strengthUnitLabel)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
+                } label: {
+                    Text(isMassPerVolume ? "Concentration" : "Strength")
                 }
-                Toggle("Fixed serving size", isOn: $fixedVolume)
-                    .tint(Theme.accent)
-                if fixedVolume {
-                    LabeledContent("Volume") {
-                        HStack(spacing: Spacing.xs) {
-                            TextField("0", text: $volumeText)
-                                .decimalKeyboard()
-                                .multilineTextAlignment(.trailing)
-                                .frame(maxWidth: 80)
-                            Picker("Volume unit", selection: $volumeUnit) {
-                                Text(verbatim: "mL").tag(UnitVolume.milliliters)
-                                Text(verbatim: "fl oz").tag(UnitVolume.fluidOunces)
+                // A concentration (mg/mL) is the whole preset; the volume drawn
+                // varies per injection, so the fixed-serving section is alcohol-only.
+                if !isMassPerVolume {
+                    Toggle("Fixed serving size", isOn: $fixedVolume)
+                        .tint(Theme.accent)
+                    if fixedVolume {
+                        LabeledContent("Volume") {
+                            HStack(spacing: Spacing.xs) {
+                                TextField("0", text: $volumeText)
+                                    .decimalKeyboard()
+                                    .multilineTextAlignment(.trailing)
+                                    .frame(maxWidth: 80)
+                                Picker("Volume unit", selection: $volumeUnit) {
+                                    Text(verbatim: "mL").tag(UnitVolume.milliliters)
+                                    Text(verbatim: "fl oz").tag(UnitVolume.fluidOunces)
+                                }
+                                .labelsHidden()
+                                .fixedSize()
                             }
-                            .labelsHidden()
-                            .fixedSize()
                         }
                     }
                 }
             }
         }
-        .navigationTitle(preset == nil ? "New Drink" : "Edit Drink")
+        .navigationTitle(formTitle)
         .inlineNavigationTitle()
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
@@ -223,8 +255,19 @@ struct DrinkPresetForm: View {
         }
     }
 
+    private var formTitle: Text {
+        if isMassPerVolume {
+            return preset == nil ? Text("New concentration") : Text("Edit concentration")
+        }
+        return preset == nil ? Text("New Drink") : Text("Edit Drink")
+    }
+
     private func seed() {
-        guard let preset else { return }
+        guard let preset else {
+            emoji = defaultEmoji
+            if isMassPerVolume { fixedVolume = false }
+            return
+        }
         name = preset.name
         emoji = preset.emoji
         strengthText = ByVolumeDefaults.format(preset.strengthABV)
@@ -236,9 +279,10 @@ struct DrinkPresetForm: View {
 
     private func save() {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty, let abv = enteredABV else { return }
-        let glyph = emoji.isEmpty ? "🍺" : emoji
-        let volume = fixedVolume ? enteredVolumeML : nil
+        guard !trimmed.isEmpty, let abv = enteredStrength else { return }
+        let glyph = emoji.isEmpty ? defaultEmoji : emoji
+        // A mass-per-volume preset is strength-only — never a fixed serving volume.
+        let volume = (!isMassPerVolume && fixedVolume) ? enteredVolumeML : nil
 
         if let preset {
             preset.name = trimmed

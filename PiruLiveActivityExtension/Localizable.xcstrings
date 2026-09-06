@@ -189,6 +189,12 @@
         }
       }
     },
+    "By Mass" : {
+
+    },
+    "By Volume" : {
+
+    },
     "Come-up" : {
       "localizations" : {
         "zh-Hans" : {
@@ -204,6 +210,9 @@
           }
         }
       }
+    },
+    "Concentration" : {
+
     },
     "Custom days" : {
       "localizations" : {
@@ -655,6 +664,9 @@
           }
         }
       }
+    },
+    "Strength" : {
+
     },
     "Subcutaneous" : {
       "localizations" : {

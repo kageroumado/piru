@@ -8084,6 +8084,38 @@
         }
       }
     },
+    "Amplitude and shape both fit to your results — your terminal release ran %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "幅度和形状均已拟合到你的结果——你的末端释放%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "幅度和形狀均已擬合到你的結果——你的末端釋放%@。"
+          }
+        }
+      }
+    },
+    "Amplitude fit to your result. Add a second test on a different day and the curve's shape fits too." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "幅度已拟合到你的结果。在不同日期再做一次检测，曲线形状也能拟合。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "幅度已擬合到你的結果。在不同日期再做一次檢測，曲線形狀也能擬合。"
+          }
+        }
+      }
+    },
     "An electrolyte drink is better than plain water if available." : {
       "localizations" : {
         "zh-Hans" : {
@@ -10766,6 +10798,9 @@
         }
       }
     },
+    "By Mass" : {
+
+    },
     "By mechanism" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10813,6 +10848,9 @@
           }
         }
       }
+    },
+    "By Volume" : {
+
     },
     "By Weight" : {
       "localizations" : {
@@ -13402,6 +13440,22 @@
         }
       }
     },
+    "Concentration emoji" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浓度表情符号"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "濃度表情符號"
+          }
+        }
+      }
+    },
     "Concentration over time" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13414,6 +13468,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "濃度隨時間變化"
+          }
+        }
+      }
+    },
+    "Concentrations" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "濃度"
           }
         }
       }
@@ -17685,6 +17755,38 @@
         }
       }
     },
+    "Edit concentration" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯濃度"
+          }
+        }
+      }
+    },
+    "Edit concentrations…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑浓度…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯濃度…"
+          }
+        }
+      }
+    },
     "Edit Custom Unit" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18846,6 +18948,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "輸入通行碼"
+          }
+        }
+      }
+    },
+    "Enter the vial's concentration — a volume alone isn't a dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请输入药瓶的浓度——仅有体积并不构成剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請輸入藥瓶的濃度——僅有體積並不構成劑量。"
           }
         }
       }
@@ -20247,6 +20365,22 @@
     "Faster CYP2D6 clearance — shorter duration." : {
 
     },
+    "faster than the population (%@×)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "比人群更快（%@×）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "比人群更快（%@×）"
+          }
+        }
+      }
+    },
     "Fatigue, irritability, and low mood are all normal parts of this process." : {
       "localizations" : {
         "zh-Hans" : {
@@ -20496,6 +20630,22 @@
     },
     "First-hand reports. Opens in your browser." : {
       "comment" : "Reports link caption"
+    },
+    "Fit the curve's shape, not just its height" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拟合曲线的形状，而不只是高度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "擬合曲線的形狀，而不只是高度"
+          }
+        }
+      }
     },
     "Fixed Order" : {
       "extractionState" : "stale",
@@ -28738,6 +28888,22 @@
         }
       }
     },
+    "More on injectable estradiol dosing (diyhrt.info)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多注射用雌二醇剂量信息（diyhrt.info）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多注射用雌二醇劑量資訊（diyhrt.info）"
+          }
+        }
+      }
+    },
     "More patients BZD-free at week 5; lower withdrawal incidence and anxiety in elderly." : {
       "localizations" : {
         "zh-Hans" : {
@@ -29379,6 +29545,22 @@
         }
       }
     },
+    "Name (e.g. EV 40)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名称（例如 EV 40）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名稱（例如 EV 40）"
+          }
+        }
+      }
+    },
     "Name (e.g. IPA)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -29620,6 +29802,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "切勿驟然停用苯二氮䓬。戒斷可能有危險（癲癇發作）；緩慢遞減才是安全之道。"
+          }
+        }
+      }
+    },
+    "New concentration" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新建浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增濃度"
           }
         }
       }
@@ -32168,6 +32366,22 @@
         }
       }
     },
+    "Nudge this if you run higher or lower than average. A blood test replaces it with a fit to your own levels — far better than a guess." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你比平均水平偏高或偏低，可微调此值。一次血检会用对你自身水平的拟合取而代之——远胜于猜测。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你比平均水平偏高或偏低，可微調此值。一次血檢會用對你自身水平的擬合取而代之——遠勝於猜測。"
+          }
+        }
+      }
+    },
     "Nudges and re-asks stay silent during quiet hours. Scheduled reminders and safety warnings still come through." : {
 
     },
@@ -33865,6 +34079,22 @@
         }
       }
     },
+    "Personal calibration" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "个人校准"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "個人校準"
+          }
+        }
+      }
+    },
     "Personal or family history of thyroid cancer" : {
       "localizations" : {
         "zh-Hans" : {
@@ -34939,6 +35169,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "熱門程度"
+          }
+        }
+      }
+    },
+    "Population curves scatter widely between people, so uncalibrated numbers are a starting point, not a reading. A blood test pins the height to you; two on different days pin the shape as well. Retesting after any change — dose, ester, interval, injection site — keeps the fit honest, because one measurement can't tell a high peak from a slow decline." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "人群曲线在不同人之间差异很大，因此未校准的数值只是起点，而非读数。一次血检可把高度锚定到你；不同日期的两次血检还能锚定形状。任何改变——剂量、酯类、间隔、注射部位——之后重新检测能让拟合保持可靠，因为单次测量无法分辨高峰值与缓慢下降。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "人群曲線在不同人之間差異很大，因此未校準的數值只是起點，而非讀數。一次血檢可把高度錨定到你；不同日期的兩次血檢還能錨定形狀。任何改變——劑量、酯類、間隔、注射部位——之後重新檢測能讓擬合保持可靠，因為單次測量無法分辨高峰值與緩慢下降。"
           }
         }
       }
@@ -40463,6 +40709,22 @@
         }
       }
     },
+    "Set from my lab results" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据我的化验结果设定"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根據我的化驗結果設定"
+          }
+        }
+      }
+    },
     "Set Time" : {
       "localizations" : {
         "zh-Hans" : {
@@ -41765,6 +42027,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "CYP2D6 清除較慢——%@ 的持續時間可能更長，多次給藥時可能蓄積。"
+          }
+        }
+      }
+    },
+    "slower than the population (%@×)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "比人群更慢（%@×）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "比人群更慢（%@×）"
           }
         }
       }
@@ -43510,6 +43788,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "皮下注射"
+          }
+        }
+      }
+    },
+    "Subcutaneous injection reaches levels close to intramuscular for these esters — 196 vs 190 pg/mL in one head-to-head — so the same curve serves both routes (Herndon 2023; Misakian 2025)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对这些酯类，皮下注射达到的水平与肌肉注射接近——一项头对头比较中为 196 对 190 pg/mL——因此同一条曲线可用于两种途径（Herndon 2023；Misakian 2025）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對這些酯類，皮下注射達到的水平與肌肉注射接近——一項頭對頭比較中為 196 對 190 pg/mL——因此同一條曲線可用於兩種途徑（Herndon 2023；Misakian 2025）。"
           }
         }
       }

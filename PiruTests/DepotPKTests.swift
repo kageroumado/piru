@@ -140,7 +140,7 @@ struct DepotCalibrationTests {
     }
 
     @Test
-    func `Two consistent measurements recover the true scale with small residual`() {
+    func `Amplitude-only fit recovers the true scale exactly with small residual`() {
         let now = Date(timeIntervalSinceReferenceDate: 0)
         let injections = [
             (date: now, doseMg: 5.0),
@@ -154,9 +154,36 @@ struct DepotCalibrationTests {
             DepotCalibration.Measurement(date: now.addingTimeInterval(4 * 86_400), value: trueLevel(4)),
             DepotCalibration.Measurement(date: now.addingTimeInterval(18 * 86_400), value: trueLevel(18)),
         ]
-        let result = DepotCalibration.calibrate(population: Self.cypionate, injections: injections, measurements: measurements)
+        // fitRate off → pure amplitude fit, exact for amplitude-only data.
+        let result = DepotCalibration.calibrate(population: Self.cypionate, injections: injections, measurements: measurements, fitRate: false)
         #expect(abs((result?.scale ?? 0) - 1.5) < 1e-6)
+        #expect(result?.k1Scale == 1.0)
         #expect((result?.residualRMS ?? 99) < 1e-3)
+    }
+
+    @Test
+    func `Rate-fit recovers a rate-scaled curve two params from two points`() {
+        let now = Date(timeIntervalSinceReferenceDate: 0)
+        let injections = [
+            (date: now, doseMg: 5.0),
+            (date: now.addingTimeInterval(14 * 86_400), doseMg: 5.0),
+        ]
+        // Synthesize a user whose amplitude is 1.5× AND whose terminal rate k1 runs
+        // 1.3× the population — the shape the amplitude-only fit structurally can't reach.
+        let trueParams = Self.cypionate.withK1Scale(1.3).withAmplitude(Self.cypionate.d * 1.5)
+        func trueLevel(_ days: Double) -> Double {
+            PKModel.depotConcentrationMultiDose(injections: injections, at: now.addingTimeInterval(days * 86_400), parameters: trueParams)
+        }
+        let measurements = [
+            DepotCalibration.Measurement(date: now.addingTimeInterval(4 * 86_400), value: trueLevel(4)),
+            DepotCalibration.Measurement(date: now.addingTimeInterval(20 * 86_400), value: trueLevel(20)),
+        ]
+        let result = DepotCalibration.calibrate(population: Self.cypionate, injections: injections, measurements: measurements)
+        #expect(result?.didFitRate == true)
+        #expect(abs((result?.k1Scale ?? 0) - 1.3) < 5e-3)
+        #expect(abs((result?.scale ?? 0) - 1.5) < 5e-3)
+        // Two params through two points → residual ≈ 0.
+        #expect((result?.residualRMS ?? 99) < 1e-2)
     }
 
     @Test

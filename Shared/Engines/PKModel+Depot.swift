@@ -32,9 +32,20 @@ extension PKModel {
             self.k3 = k3
         }
 
-        /// The same parameters with a replaced amplitude — the calibration output (shape held, y-axis scaled).
+        /// The same parameters with a replaced amplitude — the amplitude-calibration
+        /// output (shape held, y-axis scaled).
         func withAmplitude(_ newD: Double) -> DepotParameters {
             DepotParameters(d: newD, k1: k1, k2: k2, k3: k3)
+        }
+
+        /// The same parameters with `k1` (the slow terminal depot-release rate)
+        /// scaled by `s` — the rate-fit output (v2 calibration). Scaling k1 stretches
+        /// or compresses the curve's rise and terminal decay in time, which is where
+        /// individual depot variation (injection depth, oil vehicle, SC vs IM) lands;
+        /// k2/k3 stay put so the fitted k1 never crosses them. `min(k1·s, k2, k3)`
+        /// bound is enforced by the caller's `[0.5, 2]×` search range.
+        func withK1Scale(_ s: Double) -> DepotParameters {
+            DepotParameters(d: d, k1: k1 * s, k2: k2, k3: k3)
         }
     }
 

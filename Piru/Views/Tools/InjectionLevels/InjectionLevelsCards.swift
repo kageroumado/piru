@@ -38,6 +38,9 @@ struct LabCalibrationSection: View {
             .tint(Theme.accent)
             .controlSize(.small)
 
+            Divider()
+            CalibrationControl(model: model)
+
             ReferenceLinesEditor(model: model, unit: model.analyte.canonicalUnit)
         }
         .padding()
@@ -83,6 +86,79 @@ struct LabCalibrationSection: View {
         .swipeActions {
             Button(role: .destructive) { onDelete(lab) } label: { Label("Delete", systemImage: "trash") }
         }
+    }
+}
+
+// MARK: - Personal calibration control
+
+/// The amplitude "run high / run low" knob and its lab-driven state. When the user
+/// has labs and auto-calibration is on, the fit owns the amplitude and this shows it
+/// read-only (plus a note when the shape — the terminal rate — was fitted too); with
+/// no labs or auto off, it's a hand-set multiplier. Never a target: it scales the
+/// estimate to the person, it doesn't recommend a level.
+private struct CalibrationControl: View {
+    @Bindable var model: InjectionLevelsModel
+
+    private var multiplierText: String {
+        "×\(model.effectiveMultiplier.formatted(.number.precision(.fractionLength(2))))"
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            HStack {
+                Text("Personal calibration")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.secondaryLabel)
+                Spacer()
+                Text(multiplierText)
+                    .font(.subheadline.weight(.semibold).monospacedDigit())
+                    .foregroundStyle(model.isLabDriven ? Theme.accent : Theme.secondaryLabel)
+            }
+
+            if model.hasLabs {
+                Toggle(isOn: $model.autoCalibrateFromLabs) {
+                    Text("Set from my lab results")
+                        .font(.subheadline)
+                }
+                .tint(Theme.accent)
+            }
+
+            if model.isLabDriven {
+                if let cal = model.calibration, cal.didFitRate {
+                    Text("Amplitude and shape both fit to your results — your terminal release ran \(ratePhrase(cal.k1Scale)).")
+                        .font(.caption2)
+                        .foregroundStyle(Theme.secondaryLabel)
+                } else {
+                    Text("Amplitude fit to your result. Add a second test on a different day and the curve's shape fits too.")
+                        .font(.caption2)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+                if model.calibrationMeasurements.count >= 2 {
+                    Toggle(isOn: $model.fitRates) {
+                        Text("Fit the curve's shape, not just its height")
+                            .font(.subheadline)
+                    }
+                    .tint(Theme.accent)
+                }
+            } else {
+                Slider(value: $model.personalMultiplier, in: 0.3 ... 3.0, step: 0.05)
+                    .tint(Theme.accent)
+                Text("Nudge this if you run higher or lower than average. A blood test replaces it with a fit to your own levels — far better than a guess.")
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+        }
+    }
+
+    /// A fully-formed comparative — "faster than the population (1.3×)" — so it folds
+    /// into "…your terminal release ran %@." as one localizable unit. A String (not
+    /// Text) so it interpolates as a single `%@` catalog placeholder.
+    private func ratePhrase(_ k1Scale: Double) -> String {
+        // k1 larger → faster terminal release/decay; smaller → slower.
+        let factor = (k1Scale >= 1 ? k1Scale : 1 / k1Scale).formatted(.number.precision(.fractionLength(2)))
+        return k1Scale >= 1
+            ? String(localized: "faster than the population (\(factor)×)")
+            : String(localized: "slower than the population (\(factor)×)")
     }
 }
 
@@ -142,8 +218,16 @@ struct InjectionLevelsProvenanceCard: View {
             Text("Older lab data used radioimmunoassay; modern LC-MS/MS reads lower. Calibrating to your own results absorbs whichever assay your lab uses.")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
+            Text("Subcutaneous injection reaches levels close to intramuscular for these esters — 196 vs 190 pg/mL in one head-to-head — so the same curve serves both routes (Herndon 2023; Misakian 2025).")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
             Link(destination: URL(string: "https://github.com/WHSAH/estrannaise.js")!) {
                 Text("Parameters from estrannaise.js (MIT), cross-checked against primary literature")
+                    .font(.caption2)
+            }
+            .tint(Theme.accent)
+            Link(destination: URL(string: "https://diyhrt.info/transfem/dosing/")!) {
+                Text("More on injectable estradiol dosing (diyhrt.info)")
                     .font(.caption2)
             }
             .tint(Theme.accent)

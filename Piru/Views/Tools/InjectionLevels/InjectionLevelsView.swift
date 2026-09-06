@@ -17,6 +17,12 @@ struct InjectionLevelsView: View {
     @State private var model = InjectionLevelsModel()
     @State private var showingAddLab = false
 
+    // Durable calibration preferences, mirrored into the model each session (the
+    // model is the live source during a session; these persist it across launches).
+    @AppStorage("injLevelsPersonalMultiplier") private var storedMultiplier = 1.0
+    @AppStorage("injLevelsAutoCalibrate") private var storedAutoCalibrate = true
+    @AppStorage("injLevelsFitRates") private var storedFitRates = true
+
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
@@ -48,6 +54,9 @@ struct InjectionLevelsView: View {
         .background(Theme.background)
         .task {
             await SubstanceStore.shared.ensureAllLoaded()
+            model.personalMultiplier = storedMultiplier
+            model.autoCalibrateFromLabs = storedAutoCalibrate
+            model.fitRates = storedFitRates
             model.selectDefaultsIfNeeded()
             syncAndRefresh()
         }
@@ -55,6 +64,9 @@ struct InjectionLevelsView: View {
         .onChange(of: model.analyte) { model.selectDefaultsIfNeeded(); syncAndRefresh() }
         .onChange(of: doseEntries.count) { syncAndRefresh() }
         .onChange(of: labs.count) { syncAndRefresh() }
+        .onChange(of: model.personalMultiplier) { storedMultiplier = model.personalMultiplier }
+        .onChange(of: model.autoCalibrateFromLabs) { storedAutoCalibrate = model.autoCalibrateFromLabs }
+        .onChange(of: model.fitRates) { storedFitRates = model.fitRates }
         .sheet(isPresented: $showingAddLab) {
             AddLabResultSheet(analyte: model.analyte, ester: model.selectedEster) { measurement in
                 modelContext.insert(measurement)
@@ -75,7 +87,8 @@ struct InjectionLevelsView: View {
         let measurements = analyteLabs
             .filter { !$0.excludedFromCalibration }
             .map { DepotCalibration.Measurement(date: $0.date, value: $0.value) }
-        model.sync(injections: injections, measurements: measurements)
+        let preferred = InjectionLevelsView.dominantEsterID(from: doseEntries, analyte: model.analyte)
+        model.sync(injections: injections, measurements: measurements, preferredEsterID: preferred)
         model.selectDefaultsIfNeeded()
         model.refresh()
     }
@@ -109,6 +122,26 @@ struct InjectionLevelsView: View {
             out.append((entry.timestamp, mg))
         }
         return out
+    }
+
+    /// The modelable ester the user logs most for `analyte`, from the ester named on
+    /// their qualifying doses' `saltForm` — the log-first default ester. `nil` when
+    /// no logged dose names a modelable ester (→ fall back to the first ester).
+    static func dominantEsterID(from entries: [DoseEntry], analyte: Analyte) -> String? {
+        let store = SubstanceStore.shared
+        let esters = store.estersForAnalyte(analyte.key) // modelable only
+        let familyUIDs = Set(esters.compactMap(\.parentUID))
+        guard !familyUIDs.isEmpty else { return nil }
+        var counts: [String: Int] = [:] // esterID → times logged
+        for entry in entries {
+            guard entry.route == .intramuscular || entry.route == .subcutaneous else { continue }
+            let uid = entry.substanceUID ?? store.substanceUID(forNameOrAlias: entry.substance)
+            guard let uid, familyUIDs.contains(uid), let label = entry.saltForm else { continue }
+            guard let esterID = esters.first(where: { $0.label == label && $0.parentUID == uid })?.esterID else { continue }
+            counts[esterID, default: 0] += 1
+        }
+        // Most-logged wins; ties break on esterID for a stable default.
+        return counts.sorted { $0.value != $1.value ? $0.value > $1.value : $0.key < $1.key }.first?.key
     }
 }
 
@@ -307,6 +340,8 @@ private struct InjectionLevelsExplanationCard: View {
             Text("An injected ester releases slowly from an oil depot, is cleaved to the free hormone, then cleared. This curve models that from your doses.")
                 .captionSecondary()
             Text("It estimates a level from doses you enter — it never recommends a dose or a level to aim for. Add lab results to calibrate it to you.")
+                .captionSecondary()
+            Text("Population curves scatter widely between people, so uncalibrated numbers are a starting point, not a reading. A blood test pins the height to you; two on different days pin the shape as well. Retesting after any change — dose, ester, interval, injection site — keeps the fit honest, because one measurement can't tell a high peak from a slow decline.")
                 .captionSecondary()
         }
         .frame(maxWidth: .infinity, alignment: .leading)

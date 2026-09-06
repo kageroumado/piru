@@ -886,7 +886,7 @@ final class SubstanceStore {
             let rows = try substancesDB.read { db in
                 try Row.fetchAll(db, sql: """
                 SELECT ester_id, analyte, parent, parent_uid, ester_label,
-                       d, k1, k2, k3, confidence, provenance, routes
+                       modelable, d, k1, k2, k3, confidence, provenance, routes
                   FROM ester_pk
                 """)
             }
@@ -896,16 +896,22 @@ final class SubstanceStore {
                     [String].self,
                     from: Data((row["routes"] as String).utf8),
                 )) ?? ["IM"])
+                // A catalog-only ester (modelable=0) carries NULL rates — loggable,
+                // but the tool draws no curve for it.
+                let params: PKModel.DepotParameters? = if (row["modelable"] as Int) != 0,
+                                                          let d = row["d"] as Double?, let k1 = row["k1"] as Double?,
+                                                          let k2 = row["k2"] as Double?, let k3 = row["k3"] as Double? {
+                    PKModel.DepotParameters(d: d, k1: k1, k2: k2, k3: k3)
+                } else {
+                    nil
+                }
                 index[row["ester_id"] as String] = EsterPKRecord(
                     esterID: row["ester_id"] as String,
                     analyte: row["analyte"] as String,
                     parent: row["parent"] as String,
                     parentUID: row["parent_uid"] as String?,
                     label: row["ester_label"] as String,
-                    parameters: PKModel.DepotParameters(
-                        d: row["d"] as Double, k1: row["k1"] as Double,
-                        k2: row["k2"] as Double, k3: row["k3"] as Double,
-                    ),
+                    parameters: params,
                     confidence: row["confidence"] as String,
                     provenance: row["provenance"] as String,
                     routes: routes,

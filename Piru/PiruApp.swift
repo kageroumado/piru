@@ -155,6 +155,11 @@ struct PiruApp: App {
                     // daily meds), so they key on substance identity instead of a
                     // name — additive, never-drop, guarded once. See D.2.3.
                     CuratedIdentityBackfillMigration.runIfNeeded(container: container)
+                    // One-time: reclassify rows typed as an ester name ("Estradiol
+                    // Valerate") onto the base substance + ester facet, so they title,
+                    // feed the Injection Levels tool, and dedup like a picker-logged
+                    // ester. Snapshot-first for dose history — see EsterIdentityBackfillMigration.
+                    EsterIdentityBackfillMigration.runIfNeeded(container: container)
                     ActiveSessionManager.shared.recoverSession(container: container)
                     // Warm the inventory caches so badges/widget read fresh
                     // numbers on first paint (cheap; only touches tracked items).
