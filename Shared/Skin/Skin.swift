@@ -167,6 +167,8 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                     haloColor: .Skin.Tsuki.Star.halo,
                     density: 0.55,
                     moon: true,
+                    moonInk: palette.titleStroke,
+                    moonBlush: semantic(.danger, .accent),
                     glows: [
                         SkinGlow(palette.shadow, at: UnitPoint(x: 0.7, y: 0.3), opacity: 0.22),
                         SkinGlow(semantic(.info, .accent), at: UnitPoint(x: 0.15, y: 0.85), opacity: 0.12),
@@ -490,8 +492,11 @@ struct SkinNightSky: Sendable {
     let haloColor: Color
     /// 1.0 is Astrelia's dense field; Tsuki is sparser.
     let density: Double
-    /// A crescent moon in the top-right.
+    /// A sleeping crescent moon.
     let moon: Bool
+    /// Its closed eyes and smile, and its blush.
+    var moonInk: Color = .black
+    var moonBlush: Color = .pink
     let glows: [SkinGlow]
 }
 

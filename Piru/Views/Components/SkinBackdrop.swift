@@ -50,7 +50,11 @@ struct SkinBackdrop: View {
                     let t = reduceMotion ? 0 : timeline.date.timeIntervalSinceReferenceDate
                     // Polled, not observed — see `SkinMotion.tilt`.
                     let tilt = reduceMotion ? .zero : SkinMotion.shared.tilt
-                    Canvas(rendersAsynchronously: true) { context, size in
+                    // `@Sendable`: a closure formed in this main-actor body
+                    // would otherwise inherit main-actor isolation, and the
+                    // asynchronous renderer calls it off the main thread on
+                    // hardware. Everything it captures is a `Sendable` value.
+                    Canvas(rendersAsynchronously: true) { @Sendable context, size in
                         SceneRenderer(decor: decor, atlas: atlas, size: size, time: t, dark: dark, tilt: tilt).draw(in: &context)
                     }
                 }
@@ -84,7 +88,13 @@ struct SkinBackdrop: View {
 /// Draws one frame of a scene. A value, rebuilt per frame; every random
 /// choice comes from `SeededRNG` re-seeded the same way, so the frame is a
 /// pure function of size and time.
-private struct SceneRenderer {
+///
+/// `nonisolated`: `Canvas(rendersAsynchronously: true)` draws on a
+/// background thread on hardware (the simulator draws on main), and under
+/// the project's `MainActor` default isolation an implicitly main-actor
+/// renderer traps on its first off-main call — a launch crash the simulator
+/// never showed. Everything it reads is a `Sendable` value.
+private nonisolated struct SceneRenderer {
     let decor: SkinDecorations
     /// Every glyph at every size bucket, rendered once — see ``GlyphAtlas``.
     let atlas: [Image]
@@ -279,7 +289,7 @@ private struct SceneRenderer {
             layer.fill(Path(ellipseIn: CGRect(x: bite.x - r * 0.9, y: bite.y - r * 0.9, width: r * 1.8, height: r * 1.8)), with: .color(.black))
         }
         // Face on the thick side of the crescent.
-        let ink = Color.Skin.Tsuki.Title.stroke.opacity(0.85)
+        let ink = sky.moonInk.opacity(0.85)
         var eyes = Path()
         for ex in [-0.62, -0.28] as [CGFloat] {
             let e = CGPoint(x: center.x + ex * r, y: center.y + r * 0.18)
@@ -295,7 +305,7 @@ private struct SceneRenderer {
         // Blush.
         for bx in [-0.8, -0.1] as [CGFloat] {
             let b = CGPoint(x: center.x + bx * r, y: center.y + r * 0.36)
-            context.fill(Path(ellipseIn: CGRect(x: b.x - 4, y: b.y - 2.5, width: 8, height: 5)), with: .color(Color.Skin.Tsuki.Semantic.Danger.accent.opacity(0.35)))
+            context.fill(Path(ellipseIn: CGRect(x: b.x - 4, y: b.y - 2.5, width: 8, height: 5)), with: .color(sky.moonBlush.opacity(0.35)))
         }
     }
 
@@ -547,7 +557,7 @@ private enum GlyphAtlas {
 }
 
 /// SplitMix64 — deterministic, so a screen's decoration is the same every time.
-private struct SeededRNG {
+private nonisolated struct SeededRNG {
     private var state: UInt64
 
     init(seed: UInt64) { state = seed }
