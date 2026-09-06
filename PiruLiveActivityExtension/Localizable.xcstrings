@@ -212,7 +212,20 @@
       }
     },
     "Concentration" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "濃度"
+          }
+        }
+      }
     },
     "Custom days" : {
       "localizations" : {
@@ -666,7 +679,20 @@
       }
     },
     "Strength" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "濃度"
+          }
+        }
+      }
     },
     "Subcutaneous" : {
       "localizations" : {

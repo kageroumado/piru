@@ -4413,6 +4413,22 @@
         }
       }
     },
+    "1M" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1个月"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1個月"
+          }
+        }
+      }
+    },
     "1Y" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4445,6 +4461,22 @@
         }
       }
     },
+    "3M" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3个月"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3個月"
+          }
+        }
+      }
+    },
     "5 min" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4463,6 +4495,22 @@
     },
     "5-HT₂A receptor" : {
 
+    },
+    "6M" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6个月"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6個月"
+          }
+        }
+      }
     },
     "7-aminoclonazepam has no meaningful activity at GABA-A — it's an inactive metabolite used as a urinary marker for clonazepam exposure, not a contributor to the drug's effect." : {
       "localizations" : {
@@ -36190,6 +36238,9 @@
           }
         }
       }
+    },
+    "Range" : {
+
     },
     "Ranges from about %lld to %lld %@ across the cycle" : {
       "localizations" : {

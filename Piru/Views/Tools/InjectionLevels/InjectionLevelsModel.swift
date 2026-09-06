@@ -68,6 +68,48 @@ final class InjectionLevelsModel {
     /// Whether a ≥2-lab calibration also fits the terminal rate `k1`, not just amplitude.
     var fitRates: Bool = true
 
+    /// Preset visible window for the chart. Depot cycles run days-to-weeks over months
+    /// of history, so a fixed all-time span buries the recent detail — this zooms it.
+    var chartRange: ChartRange = .quarter
+    /// A continuous window width (days) set by pinch, overriding ``chartRange`` until a
+    /// preset is tapped again. `nil` → the preset governs.
+    var pinchVisibleDays: Double?
+
+    /// The visible window width in days, or `nil` for the whole logged span.
+    var effectiveVisibleDays: Double? {
+        pinchVisibleDays ?? chartRange.days
+    }
+
+    /// The chart's zoom presets — a menu of common windows plus the full span.
+    enum ChartRange: String, CaseIterable, Identifiable, Sendable {
+        case month
+        case quarter
+        case halfYear
+        case all
+        var id: String {
+            rawValue
+        }
+
+        /// Window width in days, or `nil` for the whole logged span.
+        var days: Double? {
+            switch self {
+            case .month: 30
+            case .quarter: 91
+            case .halfYear: 182
+            case .all: nil
+            }
+        }
+
+        var label: LocalizedStringResource {
+            switch self {
+            case .month: "1M"
+            case .quarter: "3M"
+            case .halfYear: "6M"
+            case .all: "All"
+            }
+        }
+    }
+
     // MARK: Synced from the view's SwiftData queries
 
     /// Qualifying injections pulled from the dose log (date, mg), or empty.
@@ -137,6 +179,7 @@ final class InjectionLevelsModel {
         let personalMultiplier: Double
         let autoCalibrateFromLabs: Bool
         let fitRates: Bool
+        let visibleDays: Double?
         let logSignature: Int
         let labSignature: Int
     }
@@ -148,6 +191,7 @@ final class InjectionLevelsModel {
             referenceLow: referenceLow, referenceHigh: referenceHigh,
             personalMultiplier: personalMultiplier,
             autoCalibrateFromLabs: autoCalibrateFromLabs, fitRates: fitRates,
+            visibleDays: effectiveVisibleDays,
             logSignature: signature(of: loggedInjections.map { ($0.date, $0.doseMg) }),
             labSignature: signature(of: calibrationMeasurements.map { ($0.date, $0.value) }),
         )
@@ -291,7 +335,10 @@ final class InjectionLevelsModel {
         return injections
     }
 
-    /// The date span to draw and the length of one modeled cycle (days).
+    /// The date span to draw and the length of one modeled cycle (days). The start is
+    /// clamped to the visible window (``effectiveVisibleDays``) so a long history zooms
+    /// to recent detail; earlier injections still contribute to the curve (the
+    /// superposition sums all prior doses), they're just off-screen.
     private func window(injections: [(date: Date, doseMg: Double)]) -> (Date, Date, Double) {
         let dates = injections.map(\.date).sorted()
         let first = dates.first ?? .now
@@ -300,7 +347,10 @@ final class InjectionLevelsModel {
         // End one cycle past the last injection (or now, whichever is later) so the
         // current/next trough is visible.
         let end = max(last.addingTimeInterval(cycleDays * PKModel.secondsPerDay), Date.now)
-        return (first, end, cycleDays)
+        let start = effectiveVisibleDays.map { days in
+            max(first, end.addingTimeInterval(-days * PKModel.secondsPerDay))
+        } ?? first
+        return (start, end, cycleDays)
     }
 
     private func medianIntervalDays(_ dates: [Date]) -> Double? {

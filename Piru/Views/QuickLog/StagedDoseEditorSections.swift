@@ -275,8 +275,8 @@ struct StagedDoseByDrinkBlock: View {
                 text: $model.volumeText,
                 focus: volumeFocus,
                 trailing: StagedDoseVolumeUnitMenu(unit: $model.volumeUnit),
-                onDec: { model.adjustVolume(-1) },
-                onInc: { model.adjustVolume(1) },
+                onDec: { model.adjustVolume(-1, capability: capability) },
+                onInc: { model.adjustVolume(1, capability: capability) },
                 decLabel: "Lower volume",
                 incLabel: "Raise volume",
             )

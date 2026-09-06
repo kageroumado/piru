@@ -72,9 +72,14 @@ final class StagedDoseEditorModel {
         return g > 0 ? g : nil
     }
 
-    /// Millilitre step for the volume stepper, unit-aware: 10 mL, or 0.5 fl oz.
-    var volumeStep: Double {
-        volumeUnit == .fluidOunces ? 0.5 : 10
+    /// Volume-stepper step in the displayed unit. Kind- and unit-aware: an injectable
+    /// ester is drawn in tenths of a millilitre (a syringe, ~0.1–2 mL), so it steps by
+    /// 0.1 mL; alcohol is poured in tens of millilitres (a glass), so it steps by 10 mL.
+    func volumeStep(capability: ByVolumeDosing?) -> Double {
+        if capability?.isMassPerVolume == true {
+            return volumeUnit == .fluidOunces ? 0.05 : 0.1
+        }
+        return volumeUnit == .fluidOunces ? 0.5 : 10
     }
 
     func unitMenuChoices(current: String) -> [String] {
@@ -131,9 +136,9 @@ final class StagedDoseEditorModel {
     }
 
     /// Bump the volume field by one `volumeStep` in the displayed unit, clamped ≥ 0.
-    func adjustVolume(_ steps: Double) {
+    func adjustVolume(_ steps: Double, capability: ByVolumeDosing?) {
         let current = Double(volumeText.replacingOccurrences(of: ",", with: ".")) ?? 0
-        let next = max(0, current + steps * volumeStep)
+        let next = max(0, current + steps * volumeStep(capability: capability))
         volumeText = next > 0 ? ByVolumeDefaults.format(next) : ""
         stepTick += 1
     }
