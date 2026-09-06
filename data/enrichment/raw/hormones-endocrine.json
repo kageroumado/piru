@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Estradiol",
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "2-hydroxyestradiol",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:12865317",
+        "notes": "CYP3A4 has strong activity for estradiol 2-hydroxylation (with CYP1A2 the principal hepatic oxidative pathway). Strong CYP3A4 inducers lower circulating estrogen, the basis of reduced contraceptive/HRT efficacy with enzyme inducers."
+      },
+      {
+        "enzyme": "CYP1A2",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "2-hydroxyestradiol",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:12865317",
+        "notes": "CYP1A2 has the highest activity for estradiol 2-hydroxylation. CYP1A2 induction (e.g. tobacco smoke) accelerates estradiol clearance and lowers levels."
+      }
+    ]
+  }
+]
