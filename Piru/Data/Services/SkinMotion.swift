@@ -15,8 +15,12 @@ import SwiftUI
 final class SkinMotion {
     static let shared = SkinMotion()
 
-    /// -1 … 1 on each axis, 0 at rest. Read inside a view body to track it.
-    private(set) var tilt: CGPoint = .zero
+    /// -1 … 1 on each axis, 0 at rest. **Not observed**: it changes 30 times
+    /// a second, and a view that tracked it would re-render every live
+    /// backdrop on every tick on top of its own clock — which is exactly what
+    /// hung the phone. The backdrop reads it inside its timeline closure, so
+    /// each frame just picks up the latest value.
+    @ObservationIgnored private(set) var tilt: CGPoint = .zero
 
     private var rest: (x: Double, y: Double)?
     private var users = 0

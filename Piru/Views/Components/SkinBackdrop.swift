@@ -26,9 +26,12 @@ extension View {
 /// additively, or a colour only reads as paler, not as emitting.
 struct SkinBackdrop: View {
     @State private var skins = SkinStore.shared
-    @State private var motion = SkinMotion.shared
+    /// The screen this backs is on screen. Every tab root and every pushed
+    /// screen keeps its backdrop alive; only the visible one may tick.
+    @State private var visible = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.displayScale) private var displayScale
 
     var body: some View {
         ZStack {
@@ -40,17 +43,27 @@ struct SkinBackdrop: View {
                 // Resolved outside the canvas: reads inside the renderer
                 // closure are not tracked by Observation.
                 let dark = colorScheme == .dark
-                let tilt = reduceMotion ? .zero : motion.tilt
-                TimelineView(.animation(minimumInterval: 1 / 30, paused: reduceMotion)) { timeline in
+                let animate = !reduceMotion && visible
+                let interval: Double = if case .stickers = decor.scene { 1 / 20 } else { 1 / 30 }
+                let atlas = GlyphAtlas.images(for: skins.current, decor: decor, dark: dark, scale: displayScale)
+                TimelineView(.animation(minimumInterval: interval, paused: !animate)) { timeline in
                     let t = reduceMotion ? 0 : timeline.date.timeIntervalSinceReferenceDate
+                    // Polled, not observed — see `SkinMotion.tilt`.
+                    let tilt = reduceMotion ? .zero : SkinMotion.shared.tilt
                     Canvas(rendersAsynchronously: true) { context, size in
-                        SceneRenderer(decor: decor, size: size, time: t, dark: dark, tilt: tilt).draw(in: &context)
+                        SceneRenderer(decor: decor, atlas: atlas, size: size, time: t, dark: dark, tilt: tilt).draw(in: &context)
                     }
                 }
                 .allowsHitTesting(false)
                 .accessibilityHidden(true)
-                .onAppear { if !reduceMotion { motion.retain() } }
-                .onDisappear { if !reduceMotion { motion.release() } }
+                .onAppear {
+                    visible = true
+                    if !reduceMotion { SkinMotion.shared.retain() }
+                }
+                .onDisappear {
+                    visible = false
+                    if !reduceMotion { SkinMotion.shared.release() }
+                }
             }
         }
     }
@@ -73,6 +86,8 @@ struct SkinBackdrop: View {
 /// pure function of size and time.
 private struct SceneRenderer {
     let decor: SkinDecorations
+    /// Every glyph at every size bucket, rendered once — see ``GlyphAtlas``.
+    let atlas: [Image]
     let size: CGSize
     let time: TimeInterval
     let dark: Bool
@@ -83,6 +98,14 @@ private struct SceneRenderer {
     /// glass) slides opposite the tilt, farther layers less.
     private func parallax(_ depth: Double) -> CGSize {
         CGSize(width: -tilt.x * 34 * depth, height: tilt.y * 26 * depth)
+    }
+
+    /// Sticker sizes are bucketed so each glyph is rendered a handful of
+    /// times into the atlas instead of laid out once per sticker per frame.
+    static let glyphSizes: [CGFloat] = [12, 16, 20, 26, 34]
+
+    static func atlasIndex(glyph: Int, bucket: Int) -> Int {
+        glyph * glyphSizes.count + bucket
     }
 
     func draw(in context: inout GraphicsContext) {
@@ -161,7 +184,8 @@ private struct SceneRenderer {
                 let x = CGFloat(col) * cellW + 12 + rng.unit() * (cellW - 24)
                 let y = 80 + CGFloat(row) * cellH + 8 + rng.unit() * (cellH - 16)
                 let edge = min(x, size.width - x) / (size.width / 2) // 0 at the edge, 1 at centre
-                let glyph = glyphs[Int(rng.next() % UInt64(glyphs.count))]
+                let glyphIndex = Int(rng.next() % UInt64(glyphs.count))
+                let glyph = glyphs[glyphIndex]
                 let fontSize = 12 + rng.unit() * 14 + (1 - edge) * 8
                 let opacity = 0.22 + rng.unit() * 0.3 + (1 - edge) * 0.12
                 let phase = rng.unit()
@@ -183,12 +207,15 @@ private struct SceneRenderer {
                 if twinkles {
                     bloom(glyph.color, at: center, radius: fontSize * 0.9, alpha: 0.35 * opacity * brightness, in: &context)
                 }
-                let text = context.resolve(Text(verbatim: glyph.symbol).font(.system(size: fontSize)).foregroundStyle(glyph.color))
+                let bucket = Self.glyphSizes.indices.min { abs(Self.glyphSizes[$0] - fontSize) < abs(Self.glyphSizes[$1] - fontSize) } ?? 0
+                let index = Self.atlasIndex(glyph: glyphIndex, bucket: bucket)
+                guard atlas.indices.contains(index) else { continue }
+                let image = context.resolve(atlas[index])
                 context.drawLayer { layer in
                     layer.opacity = opacity * brightness
                     layer.translateBy(x: center.x, y: center.y)
                     layer.rotate(by: .degrees(spin))
-                    layer.draw(text, at: .zero, anchor: .center)
+                    layer.draw(image, at: .zero, anchor: .center)
                 }
             }
         }
@@ -484,6 +511,40 @@ private struct SceneRenderer {
 }
 
 // MARK: - Pieces
+
+/// The glyph stickers as bitmaps: every glyph of a skin at every size bucket,
+/// rendered once per skin and appearance and kept. Text layout is the
+/// expensive part of a sticker; at 20 fps across every live backdrop it was
+/// enough to hang the phone. A bitmap blit is not.
+private enum GlyphAtlas {
+    private static var cache: [String: [Image]] = [:]
+
+    @MainActor
+    static func images(for skin: Skin, decor: SkinDecorations, dark: Bool, scale: CGFloat) -> [Image] {
+        let key = "\(skin.rawValue)|\(dark)|\(scale)"
+        if let cached = cache[key] { return cached }
+        var images: [Image] = []
+        for glyph in decor.glyphs {
+            for size in SceneRenderer.glyphSizes {
+                let renderer = ImageRenderer(content:
+                    Text(verbatim: glyph.symbol)
+                        .font(.system(size: size))
+                        .foregroundStyle(glyph.color)
+                        .padding(4)
+                        .environment(\.colorScheme, dark ? .dark : .light))
+                renderer.scale = scale
+                renderer.isOpaque = false
+                if let cg = renderer.cgImage {
+                    images.append(Image(decorative: cg, scale: scale))
+                } else {
+                    images.append(Image(systemName: "circle.fill"))
+                }
+            }
+        }
+        cache[key] = images
+        return images
+    }
+}
 
 /// SplitMix64 — deterministic, so a screen's decoration is the same every time.
 private struct SeededRNG {
