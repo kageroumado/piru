@@ -2,68 +2,12 @@ import Charts
 import SwiftData
 import SwiftUI
 
-/// Insights → In Your Body → Steady state. Where a *regularly* dosed substance
-/// settles, projected from the log's own inferred cadence rather than a form the
-/// user types into the Steady-State tool. For each substance dosed on a steady
-/// enough schedule it feeds ``SteadyStateModel`` the median dose and median
-/// interval and shows the accumulation curve and plateau.
-///
-/// Only substances with a regular cadence appear — steady state is meaningless
-/// for one-off or bursty use, so an irregular log yields the empty state rather
-/// than a confident plateau nobody is dosing toward.
-struct SteadyStateProjectionView: View {
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
-    @Query private var substanceColors: [SubstanceColor]
-
-    @State private var projections: [SteadyStateProjection] = []
-    @State private var loaded = false
-
-    /// Recompute token: the dose-log revision plus the color assignments.
-    private var refreshToken: Int {
-        var hasher = Hasher()
-        hasher.combine(DoseLogService.shared.revision)
-        hasher.combine(ColorsFingerprint.make(substanceColors))
-        return hasher.finalize()
-    }
-
-    var body: some View {
-        ScrollView {
-            VStack(spacing: Spacing.xxl) {
-                if !loaded {
-                    ProgressView().padding(.top, 60)
-                } else if projections.isEmpty {
-                    ContentUnavailableView(
-                        "No Steady Cadence Yet",
-                        systemImage: "arrow.up.forward.circle",
-                        description: Text("Steady state needs a regular schedule. Log a substance on a consistent cadence and its plateau appears here."),
-                    )
-                    .padding(.top, 40)
-                } else {
-                    ForEach(projections) { projection in
-                        SteadyStateProjectionCard(projection: projection)
-                    }
-                    disclaimer
-                }
-            }
-            .padding()
-            .padding(.bottom, 40)
-        }
-        .background(Theme.background)
-        .task(id: refreshToken) {
-            await SubstanceStore.shared.ensureAllLoaded()
-            projections = SteadyStateProjectionBuilder.compute(entries: allEntries, colorMap: substanceColors.colorMap)
-            loaded = true
-        }
-    }
-
-    private var disclaimer: some View {
-        Text("A projection from your median dose and spacing, assuming you keep that cadence and linear kinetics. Body content in the dose's units, not a plasma level.")
-            .font(.caption2)
-            .foregroundStyle(Theme.secondaryLabel)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, Spacing.xs)
-    }
-}
+// Steady-state projection from the log's own inferred cadence: the shared
+// ``SteadyStateProjectionCard`` plus the ``SteadyStateProjectionBuilder`` that
+// mines each regularly-dosed substance's median dose and interval and feeds
+// ``SteadyStateModel``. Rendered inside ``InYourBodyView``'s steady-state
+// section. Only substances with a regular cadence yield a projection —
+// steady state is meaningless for one-off or bursty use.
 
 // MARK: - Card
 
