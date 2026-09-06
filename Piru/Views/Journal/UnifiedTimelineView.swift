@@ -17,7 +17,9 @@ import SwiftUI
 /// times), a per-substance PK spine, and dose cards connected to their true
 /// position on the axis. Doses belonging to one ``Session`` are wrapped in a
 /// tappable envelope that opens the session detail — the timeline → session
-/// → dose hierarchy.
+/// → dose hierarchy. A session with a single dose in a day draws no
+/// envelope, so that bubble opens the session itself
+/// (``TimelineDayLayout/CardGroup/sessionOpenedByBubble``).
 struct UnifiedTimelineView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var entries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
@@ -46,15 +48,7 @@ struct UnifiedTimelineView: View {
                             TimelineDayContent(
                                 day: day,
                                 onEntryTap: { entry in
-                                    // A lone dose draws no session envelope, so its
-                                    // bubble is the only way into the session — notes,
-                                    // check-ins and splitting live there, and the entry
-                                    // stays one tap further in.
-                                    if let session = entry.session, session.doses?.count == 1 {
-                                        navigator.push(.session(id: session.id))
-                                    } else {
-                                        navigator.push(.entry(timestamp: entry.timestamp, id: entry.id))
-                                    }
+                                    navigator.push(.entry(timestamp: entry.timestamp, id: entry.id))
                                 },
                                 onSessionTap: { sessionID in
                                     navigator.push(.session(id: sessionID))
@@ -358,6 +352,10 @@ struct TimelineDayLayout: Identifiable {
         /// Resolved top of the card stack (after collision push-down).
         var topY: CGFloat = 0
         var inSession = false
+        /// Trailing (oldest) items the strip does not draw: their session
+        /// envelope ran past the slice's mapped span, and they stand behind
+        /// its "+n more" footer instead. Always 0 outside an envelope.
+        var hiddenItemCount = 0
         /// `false` when the group's time capsule would overprint the "Now"
         /// tag in the gutter — Now wins (``TimelineGutterLabels``).
         var showsTimeLabel = true
@@ -365,6 +363,20 @@ struct TimelineDayLayout: Identifiable {
         var height: CGFloat {
             CGFloat(items.count) * cardHeight
                 + CGFloat(items.count - 1) * TimelineDayLayout.cardSpacing
+        }
+
+        /// The items the strip draws as bubbles.
+        var visibleItems: ArraySlice<CardItem> {
+            items.dropLast(hiddenItemCount)
+        }
+
+        /// The session this group's bubbles open, when the bubble is the
+        /// only door to it: a session with a single dose in this slice draws
+        /// no envelope, and the session's notes, check-ins and splitting
+        /// would otherwise be unreachable from the strip. Inside an
+        /// envelope the bubble opens its dose and the envelope the session.
+        var sessionOpenedByBubble: UUID? {
+            inSession ? nil : sessionID
         }
 
         var centerY: CGFloat {
@@ -398,6 +410,9 @@ struct TimelineDayLayout: Identifiable {
         let id: UUID
         let yStart: CGFloat
         let yEnd: CGFloat
+        /// Doses of the run drawn as a "+n more" footer instead of bubbles,
+        /// because the bubbles would have run past the slice.
+        let hiddenDoseCount: Int
     }
 
     /// One substance's effect curve as (y, 0…1) points, y ascending (newest

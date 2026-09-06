@@ -88,7 +88,13 @@ struct TimelineListDayContent: View {
                                 item: item,
                                 style: day.style.bubbleStyle,
                                 pkMode: day.style.pkMode,
-                            ) { onEntryTap(item.entry) }
+                            ) {
+                                if let sessionID = group.sessionOpenedByBubble {
+                                    onSessionTap(sessionID)
+                                } else {
+                                    onEntryTap(item.entry)
+                                }
+                            }
                         }
                     }
                 }

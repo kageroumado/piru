@@ -245,13 +245,19 @@ struct TimelineStripBuilder {
     /// peak; below it, the span is dead time compression may squeeze.
     static let activeThreshold = 0.05
 
-    /// Room a slice's cards need so they never spill into the next day.
+    /// Room a slice's cards need so they never spill into the next day:
+    /// every card stacked from under the day tag, with envelope padding
+    /// counted for each group, down to ``sliceBottomMargin``.
     private static func minimumSliceHeight(groups: [TimelineDayLayout.CardGroup]) -> CGFloat {
-        groups.map(\.height).reduce(0, +)
+        TimelineStripDayContent.reservedTop(breakAbove: 0) + TimelineGutterLabels.gap
+            + groups.map(\.height).reduce(0, +)
             + CGFloat(max(0, groups.count - 1)) * TimelineDayLayout.groupGap
             + CGFloat(groups.count) * TimelineDayLayout.envelopePad * 2
-            + TimelineDayLayout.envelopeFooterHeight + 40
+            + TimelineDayLayout.envelopeFooterHeight + sliceBottomMargin
     }
+
+    /// Clear space a session envelope keeps above the slice's bottom edge.
+    private static let sliceBottomMargin: CGFloat = 12
 
     /// Effect mode: from the dose to the moment its curve drops below
     /// ``activeThreshold`` of its own peak.
@@ -362,45 +368,61 @@ struct TimelineStripBuilder {
         // Anchor each group's center at its time, then push down (into the
         // past) whatever collides — the connectors keep the true position
         // legible. The newest group also clears the day tag's row, so its
-        // capsule never slides under the tag.
+        // capsule never slides under the tag. A session run is fitted the
+        // moment its oldest group lands, so the groups below it lay out
+        // against the run's final position.
         let reservedTop = TimelineStripDayContent.reservedTop(breakAbove: breakAbove)
+        func floorY(_ k: Int) -> CGFloat {
+            k == 0
+                ? padAbove[0] + reservedTop + TimelineGutterLabels.gap
+                : groups[k - 1].bottomY + padBelow[k - 1] + TimelineDayLayout.groupGap + padAbove[k]
+        }
+        // With the axis off nothing is positioned in time, so no run needs
+        // fitting.
+        let lastCardBottomLimit = style.showsAxis
+            ? mapHeight - Self.sliceBottomMargin - TimelineDayLayout.envelopePad - TimelineDayLayout.envelopeFooterHeight
+            : .infinity
+        var envelopes: [TimelineDayLayout.SessionEnvelope] = []
         for k in groups.indices {
             groups[k].timeY = localY(groups[k].representativeTime)
-            var top = groups[k].timeY - groups[k].height / 2
-            if k == 0 {
-                top = max(top, padAbove[0] + reservedTop + TimelineGutterLabels.gap)
-            } else {
-                top = max(
-                    top,
-                    groups[k - 1].topY + groups[k - 1].height
-                        + padBelow[k - 1] + TimelineDayLayout.groupGap + padAbove[k],
-                )
+            groups[k].topY = max(groups[k].timeY - groups[k].height / 2, floorY(k))
+            if let run = runs.first(where: { $0.range.upperBound == k }) {
+                envelopes.append(Self.fitRun(
+                    &groups,
+                    sessionID: run.sessionID,
+                    range: run.range,
+                    floor: floorY(run.range.lowerBound),
+                    limit: lastCardBottomLimit,
+                ))
             }
-            groups[k].topY = top
         }
 
-        let envelopes = runs.map { run in
-            let newest = groups[run.range.lowerBound]
-            let oldest = groups[run.range.upperBound]
-            return TimelineDayLayout.SessionEnvelope(
-                id: run.sessionID,
-                yStart: newest.topY - TimelineDayLayout.envelopePad,
-                yEnd: oldest.bottomY + TimelineDayLayout.envelopePad + TimelineDayLayout.envelopeFooterHeight,
-            )
-        }
+        let deepestBottom = max(
+            groups.filter { !$0.inSession }.map(\.bottomY).max() ?? 0,
+            envelopes.map(\.yEnd).max() ?? 0,
+        )
+        let totalHeight = max(mapHeight, deepestBottom + Self.sliceBottomMargin)
 
-        let deepestBottom = groups.indices.map { groups[$0].bottomY + padBelow[$0] }.max() ?? 0
-        let totalHeight = max(mapHeight, deepestBottom + 12)
-
+        // A hidden dose's connector runs to the "+n more" footer that stands
+        // in for its bubble.
+        let moreRowY: [UUID: CGFloat] = Dictionary(
+            envelopes.filter { $0.hiddenDoseCount > 0 }
+                .map { ($0.id, $0.yEnd - TimelineDayLayout.envelopeFooterHeight / 2) },
+            uniquingKeysWith: { first, _ in first },
+        )
         var doseDots: [TimelineDayLayout.DoseDot] = []
         var connectors: [TimelineDayLayout.Connector] = []
         for group in groups {
             for (itemIndex, item) in group.items.enumerated() {
                 let dotY = localY(item.entry.timestamp)
                 doseDots.append(TimelineDayLayout.DoseDot(y: dotY, color: item.color))
-                let cardCenterY = group.topY
-                    + CGFloat(itemIndex) * (group.cardHeight + TimelineDayLayout.cardSpacing)
-                    + group.cardHeight / 2
+                let cardCenterY: CGFloat = if itemIndex >= group.visibleItems.count, let sessionID = group.sessionID, let y = moreRowY[sessionID] {
+                    y
+                } else {
+                    group.topY
+                        + CGFloat(itemIndex) * (group.cardHeight + TimelineDayLayout.cardSpacing)
+                        + group.cardHeight / 2
+                }
                 connectors.append(TimelineDayLayout.Connector(fromY: dotY, toY: cardCenterY, color: item.color))
             }
         }
@@ -794,6 +816,59 @@ struct TimelineStripBuilder {
     }
 
     // MARK: Static helpers
+
+    /// Keeps a session run's envelope inside its slice. `limit` is the
+    /// lowest y the run's last bubble may reach. A run whose stack runs past
+    /// it is first pulled up, oldest group first and each only as far as the
+    /// group below requires — a bubble floating above its moment is what
+    /// its connector is for. When the run's newest group hits `floor` (the
+    /// day tag, or the group above) and the stack still overruns, the
+    /// bubbles past the limit are hidden behind the envelope's "+n more"
+    /// footer; the first bubble always shows.
+    static func fitRun(
+        _ groups: inout [TimelineDayLayout.CardGroup],
+        sessionID: UUID,
+        range: ClosedRange<Int>,
+        floor: CGFloat,
+        limit: CGFloat,
+    ) -> TimelineDayLayout.SessionEnvelope {
+        let lo = range.lowerBound
+        let hi = range.upperBound
+        if groups[hi].bottomY > limit {
+            groups[hi].topY = min(groups[hi].topY, limit - groups[hi].height)
+            for k in stride(from: hi - 1, through: lo, by: -1) {
+                groups[k].topY = min(groups[k].topY, groups[k + 1].topY - TimelineDayLayout.groupGap - groups[k].height)
+            }
+            if groups[lo].topY < floor {
+                groups[lo].topY = floor
+                for k in stride(from: lo + 1, through: hi, by: 1) {
+                    groups[k].topY = max(groups[k].topY, groups[k - 1].bottomY + TimelineDayLayout.groupGap)
+                }
+            }
+        }
+
+        var hidden = 0
+        var lastVisibleBottom = groups[lo].topY + groups[lo].cardHeight
+        for k in lo ... hi {
+            var visible = 0
+            for i in groups[k].items.indices {
+                let bottom = groups[k].topY
+                    + CGFloat(i + 1) * groups[k].cardHeight
+                    + CGFloat(i) * TimelineDayLayout.cardSpacing
+                guard bottom <= limit || (k == lo && i == 0) else { break }
+                visible = i + 1
+                lastVisibleBottom = bottom
+            }
+            groups[k].hiddenItemCount = groups[k].items.count - visible
+            hidden += groups[k].hiddenItemCount
+        }
+        return TimelineDayLayout.SessionEnvelope(
+            id: sessionID,
+            yStart: groups[lo].topY - TimelineDayLayout.envelopePad,
+            yEnd: lastVisibleBottom + TimelineDayLayout.envelopePad + TimelineDayLayout.envelopeFooterHeight,
+            hiddenDoseCount: hidden,
+        )
+    }
 
     private static func makeGroups(
         dayEntries: [DoseEntry],

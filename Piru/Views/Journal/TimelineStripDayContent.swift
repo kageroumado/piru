@@ -118,7 +118,7 @@ struct TimelineStripDayContent: View {
     private func bubbleColumn(width: CGFloat) -> some View {
         ZStack(alignment: .topLeading) {
             ForEach(day.envelopes) { envelope in
-                SessionEnvelopeButton { onSessionTap(envelope.id) }
+                SessionEnvelopeButton(hiddenDoseCount: envelope.hiddenDoseCount) { onSessionTap(envelope.id) }
                     .frame(width: width, height: envelope.yEnd - envelope.yStart)
                     .offset(y: envelope.yStart)
             }
@@ -129,12 +129,18 @@ struct TimelineStripDayContent: View {
                 ZStack(alignment: .topLeading) {
                     ForEach(day.cardGroups) { group in
                         VStack(spacing: TimelineDayLayout.cardSpacing) {
-                            ForEach(group.items) { item in
+                            ForEach(group.visibleItems) { item in
                                 TimelineDoseBubble(
                                     item: item,
                                     style: day.style.bubbleStyle,
                                     pkMode: day.style.pkMode,
-                                ) { onEntryTap(item.entry) }
+                                ) {
+                                    if let sessionID = group.sessionOpenedByBubble {
+                                        onSessionTap(sessionID)
+                                    } else {
+                                        onEntryTap(item.entry)
+                                    }
+                                }
                             }
                         }
                         .padding(.horizontal, Self.bubbleInset)
@@ -417,9 +423,12 @@ struct TimelineStripDayContent: View {
 
 /// The tappable tray a session's bubbles sit in — a frosted material with a
 /// hairline and the same top highlight the bubbles carry, one step quieter,
-/// with a "Session ›" footer that opens the session. Material rather than
-/// glass: the bubbles are glass already, and glass stacked on glass smears.
+/// with a "Session ›" footer that opens the session. When the strip had no
+/// room for every bubble, the footer also counts the doses it stands in for.
+/// Material rather than glass: the bubbles are glass already, and glass
+/// stacked on glass smears.
 struct SessionEnvelopeButton: View {
+    var hiddenDoseCount = 0
     let onTap: () -> Void
     @Environment(\.colorScheme) private var colorScheme
 
@@ -441,11 +450,17 @@ struct SessionEnvelopeButton: View {
                         )
                 }
                 .shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.04), radius: 12, y: 4)
-                .overlay(alignment: .bottomTrailing) {
+                .overlay(alignment: .bottom) {
                     // Chevron styled and inset identically to the bubbles'
                     // (bubble inset 6 + bubble padding 10), so the two columns
                     // of chevrons align.
                     HStack(spacing: Spacing.md) {
+                        if hiddenDoseCount > 0 {
+                            Text("+\(hiddenDoseCount) more")
+                                .font(.caption.weight(.medium))
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                        Spacer(minLength: 0)
                         Text("Session")
                             .font(.caption.weight(.medium))
                             .foregroundStyle(Theme.secondaryLabel)
@@ -454,7 +469,7 @@ struct SessionEnvelopeButton: View {
                             .foregroundStyle(.tertiary)
                             .accessibilityHidden(true)
                     }
-                    .padding(.trailing, 16)
+                    .padding(.horizontal, 16)
                     .padding(.vertical, Spacing.sm)
                 }
                 .contentShape(.rect)
