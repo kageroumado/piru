@@ -276,36 +276,42 @@ private nonisolated struct SceneRenderer {
     /// Tsuki's sleeping moon: a crescent in the top-right with a breathing
     /// glow, closed eyes and a small smile.
     private func drawMoon(_ sky: SkinNightSky, in context: inout GraphicsContext) {
-        let r: CGFloat = 34
+        // Proportions measured off Tsuki's app icon (moon r ≈ 300 px there):
+        // the bite opens to the right, and the face is small and clustered on
+        // the thick left body, a little below centre.
+        let r: CGFloat = 38
         let shift = parallax(0.9)
-        let center = CGPoint(x: size.width - 70 + shift.width, y: size.height * 0.42 + shift.height)
+        let center = CGPoint(x: size.width - 74 + shift.width, y: size.height * 0.42 + shift.height)
         let breathe = 0.5 + 0.5 * sin(time * 2 * .pi / 3)
-        bloom(sky.haloColor, at: center, radius: r * 2.6 + 6 * breathe, alpha: (dark ? 0.5 : 0.3) * (0.7 + 0.3 * breathe), in: &context)
+        bloom(sky.haloColor, at: center, radius: r * 2.4 + 6 * breathe, alpha: (dark ? 0.5 : 0.3) * (0.7 + 0.3 * breathe), in: &context)
         context.drawLayer { layer in
             layer.fill(Path(ellipseIn: CGRect(x: center.x - r, y: center.y - r, width: r * 2, height: r * 2)), with: .color(sky.starColor.opacity(dark ? 0.95 : 0.9)))
-            // Cut the crescent with a second circle offset up-right.
             layer.blendMode = .destinationOut
-            let bite = CGPoint(x: center.x + r * 0.55, y: center.y - r * 0.35)
-            layer.fill(Path(ellipseIn: CGRect(x: bite.x - r * 0.9, y: bite.y - r * 0.9, width: r * 1.8, height: r * 1.8)), with: .color(.black))
+            let bite = CGPoint(x: center.x + r * 0.50, y: center.y - r * 0.05)
+            let br = r * 0.92
+            layer.fill(Path(ellipseIn: CGRect(x: bite.x - br, y: bite.y - br, width: br * 2, height: br * 2)), with: .color(.black))
         }
-        // Face on the thick side of the crescent.
         let ink = sky.moonInk.opacity(0.85)
+        let stroke = StrokeStyle(lineWidth: max(1.2, r * 0.035), lineCap: .round)
+        func at(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: center.x + x * r, y: center.y + y * r) }
+        // Happy closed eyes: "∩" arcs.
         var eyes = Path()
-        for ex in [-0.62, -0.28] as [CGFloat] {
-            let e = CGPoint(x: center.x + ex * r, y: center.y + r * 0.18)
-            eyes.move(to: CGPoint(x: e.x - 4, y: e.y))
-            eyes.addQuadCurve(to: CGPoint(x: e.x + 4, y: e.y), control: CGPoint(x: e.x, y: e.y + 4))
+        for eye in [at(-0.75, 0.18), at(-0.60, 0.15)] {
+            let half = r * 0.07
+            eyes.move(to: CGPoint(x: eye.x - half, y: eye.y))
+            eyes.addQuadCurve(to: CGPoint(x: eye.x + half, y: eye.y), control: CGPoint(x: eye.x, y: eye.y - r * 0.09))
         }
         var smile = Path()
-        let m = CGPoint(x: center.x - r * 0.45, y: center.y + r * 0.5)
-        smile.move(to: CGPoint(x: m.x - 3.5, y: m.y))
-        smile.addQuadCurve(to: CGPoint(x: m.x + 3.5, y: m.y), control: CGPoint(x: m.x, y: m.y + 3.5))
-        context.stroke(eyes, with: .color(ink), style: StrokeStyle(lineWidth: 1.6, lineCap: .round))
-        context.stroke(smile, with: .color(ink), style: StrokeStyle(lineWidth: 1.4, lineCap: .round))
-        // Blush.
-        for bx in [-0.8, -0.1] as [CGFloat] {
-            let b = CGPoint(x: center.x + bx * r, y: center.y + r * 0.36)
-            context.fill(Path(ellipseIn: CGRect(x: b.x - 4, y: b.y - 2.5, width: 8, height: 5)), with: .color(sky.moonBlush.opacity(0.35)))
+        let m = at(-0.67, 0.29)
+        smile.move(to: CGPoint(x: m.x - r * 0.06, y: m.y))
+        smile.addQuadCurve(to: CGPoint(x: m.x + r * 0.06, y: m.y), control: CGPoint(x: m.x, y: m.y + r * 0.07))
+        context.stroke(eyes, with: .color(ink), style: stroke)
+        context.stroke(smile, with: .color(ink), style: stroke)
+        for blush in [at(-0.84, 0.28), at(-0.50, 0.24)] {
+            context.fill(
+                Path(ellipseIn: CGRect(x: blush.x - r * 0.05, y: blush.y - r * 0.035, width: r * 0.10, height: r * 0.07)),
+                with: .color(sky.moonBlush.opacity(0.4)),
+            )
         }
     }
 
@@ -320,45 +326,121 @@ private nonisolated struct SceneRenderer {
                 startPoint: .zero, endPoint: CGPoint(x: 0, y: size.height),
             ),
         )
+        // Night dive in the dark; sunlit deep in the light.
         drawRays(water, in: &context)
+        drawCaustics(water, in: &context)
+        drawSurface(water, in: &context)
         drawDots(in: &context, count: 50, alpha: 0.08 ... 0.3, color: water.bubble, twinkle: true)
+        drawFog(water, in: &context)
         drawJellyfish(water, in: &context)
         drawBubbles(water, in: &context)
-        // The glass: a faint vignette so the edges read as a window frame.
+        // The glass: a vignette so the edges read as a window frame.
         let reach = max(size.width, size.height) * 0.72
         context.fill(
             Path(CGRect(origin: .zero, size: size)),
             with: .radialGradient(
-                Gradient(colors: [water.deep.opacity(0), water.deep.opacity(dark ? 0.55 : 0.25)]),
+                Gradient(colors: [water.deep.opacity(0), water.deep.opacity(dark ? 0.6 : 0.25)]),
                 center: CGPoint(x: size.width / 2, y: size.height / 2), startRadius: reach * 0.45, endRadius: reach,
             ),
         )
     }
 
-    /// Light from the surface: a few translucent wedges swaying slowly.
+    /// Caustics: slow sine ripples near the surface, two speeds so they
+    /// interfere, fading with depth.
+    private func drawCaustics(_ water: SkinUnderwater, in context: inout GraphicsContext) {
+        var rng = SeededRNG(seed: 0xCA05)
+        if dark { context.blendMode = .plusLighter }
+        let band = size.height * 0.28
+        let shift = parallax(0.18)
+        for i in 0 ..< 6 {
+            let y0 = 24 + band * Double(i) / 6 + shift.height
+            let amp = 4 + rng.unit() * 6
+            let wavelength = 70 + rng.unit() * 60
+            let phase = rng.unit() * 6.28
+            let speed1 = 0.5 + rng.unit() * 0.4
+            let speed2 = 0.25 + rng.unit() * 0.2
+            let fade = 1 - Double(i) / 6
+            let alpha = (dark ? 0.07 : 0.15) * fade
+            var ripple = Path()
+            var x: CGFloat = -20
+            var first = true
+            while x <= size.width + 20 {
+                let y = y0 + amp * sin(x / wavelength + time * speed1 + phase) + amp * 0.5 * sin(x / (wavelength * 0.55) - time * speed2)
+                if first { ripple.move(to: CGPoint(x: x + shift.width, y: y)); first = false } else { ripple.addLine(to: CGPoint(x: x + shift.width, y: y)) }
+                x += 12
+            }
+            context.stroke(ripple, with: .color(water.ray.opacity(alpha)), style: StrokeStyle(lineWidth: 1.5 + rng.unit() * 1.5, lineCap: .round))
+        }
+        context.blendMode = .normal
+    }
+
+    /// The surface: a bright band at the top in the light; a faint wavering
+    /// line in the dark.
+    private func drawSurface(_ water: SkinUnderwater, in context: inout GraphicsContext) {
+        if dark {
+            var line = Path()
+            var x: CGFloat = 0
+            line.move(to: CGPoint(x: 0, y: 6))
+            while x <= size.width {
+                line.addLine(to: CGPoint(x: x, y: 6 + 2 * sin(x / 40 + time * 0.8)))
+                x += 10
+            }
+            context.blendMode = .plusLighter
+            context.stroke(line, with: .color(water.ray.opacity(0.06)), lineWidth: 1)
+            context.blendMode = .normal
+        } else {
+            context.fill(
+                Path(CGRect(x: 0, y: 0, width: size.width, height: 110)),
+                with: .linearGradient(
+                    Gradient(colors: [water.ray.opacity(0.45), water.ray.opacity(0)]),
+                    startPoint: .zero, endPoint: CGPoint(x: 0, y: 110),
+                ),
+            )
+        }
+    }
+
+    /// Depth fog over the bottom of the column, drawn before the jellies so
+    /// the far ones sink into it.
+    private func drawFog(_ water: SkinUnderwater, in context: inout GraphicsContext) {
+        context.fill(
+            Path(CGRect(x: 0, y: size.height * 0.55, width: size.width, height: size.height * 0.45)),
+            with: .linearGradient(
+                Gradient(colors: [water.deep.opacity(0), water.deep.opacity(dark ? 0.4 : 0.15)]),
+                startPoint: CGPoint(x: 0, y: size.height * 0.55), endPoint: CGPoint(x: 0, y: size.height),
+            ),
+        )
+    }
+
+    /// Light from the surface: translucent wedges swaying slowly, each drawn
+    /// as three nested wedges so its edges fade across. Faint moon rays at
+    /// night; sun in the light.
     private func drawRays(_ water: SkinUnderwater, in context: inout GraphicsContext) {
         var rng = SeededRNG(seed: 0xA7)
         if dark { context.blendMode = .plusLighter }
         let shift = parallax(0.12)
-        for i in 0 ..< 8 {
+        let count = dark ? 5 : 8
+        let reach = size.height * (dark ? 0.6 : 0.9)
+        for i in 0 ..< count {
             let x = size.width * (0.05 + 0.9 * rng.unit()) + shift.width
             let width = 14 + rng.unit() * 30
             let phase = rng.unit() * 6.28
             let sway = (6 + rng.unit() * 8) * sin(time * 2 * .pi / (9 + Double(i)) + phase)
-            let alpha = (dark ? 0.09 : 0.2) * (0.7 + 0.3 * sin(time / 3 + phase))
-            var ray = Path()
-            ray.move(to: CGPoint(x: x - width * 0.3, y: -20))
-            ray.addLine(to: CGPoint(x: x + width * 0.3, y: -20))
-            ray.addLine(to: CGPoint(x: x + width * 1.3 + sway * 6, y: size.height))
-            ray.addLine(to: CGPoint(x: x - width * 1.3 + sway * 6, y: size.height))
-            ray.closeSubpath()
-            context.fill(
-                ray,
-                with: .linearGradient(
-                    Gradient(colors: [water.ray.opacity(alpha), water.ray.opacity(0)]),
-                    startPoint: .zero, endPoint: CGPoint(x: 0, y: size.height * 0.85),
-                ),
-            )
+            let alpha = (dark ? 0.05 : 0.18) * (0.7 + 0.3 * sin(time / 3 + phase)) / 3
+            for spread in [1.0, 0.66, 0.33] as [CGFloat] {
+                var ray = Path()
+                ray.move(to: CGPoint(x: x - width * 0.3 * spread, y: -20))
+                ray.addLine(to: CGPoint(x: x + width * 0.3 * spread, y: -20))
+                ray.addLine(to: CGPoint(x: x + width * 1.3 * spread + sway * 6, y: size.height))
+                ray.addLine(to: CGPoint(x: x - width * 1.3 * spread + sway * 6, y: size.height))
+                ray.closeSubpath()
+                context.fill(
+                    ray,
+                    with: .linearGradient(
+                        Gradient(colors: [water.ray.opacity(alpha), water.ray.opacity(0)]),
+                        startPoint: .zero, endPoint: CGPoint(x: 0, y: reach),
+                    ),
+                )
+            }
         }
         context.blendMode = .normal
     }
@@ -381,11 +463,13 @@ private nonisolated struct SceneRenderer {
                 Path(ellipseIn: CGRect(x: x - r, y: y - r, width: r * 2, height: r * 2)),
                 with: .color(water.bubble.opacity(alpha)), lineWidth: 0.9,
             )
-            // The highlight that makes a ring read as a sphere.
-            context.fill(
-                Path(ellipseIn: CGRect(x: x - r * 0.45, y: y - r * 0.55, width: r * 0.5, height: r * 0.4)),
-                with: .color(water.bubble.opacity(alpha * 0.9)),
-            )
+            // The highlight that makes a ring read as a sphere — sunlight only.
+            if !dark {
+                context.fill(
+                    Path(ellipseIn: CGRect(x: x - r * 0.45, y: y - r * 0.55, width: r * 0.5, height: r * 0.4)),
+                    with: .color(water.bubble.opacity(alpha * 0.9)),
+                )
+            }
         }
     }
 
@@ -418,7 +502,7 @@ private nonisolated struct SceneRenderer {
             let phase = rng.unit() * 6.28
             let period = 1.15 + rng.unit() * 0.6
             let start = rng.unit() * span
-            let color = water.bells[i % water.bells.count]
+            let bellColor = water.bells[i % water.bells.count]
             let c = contraction(time / period + phase)
             // Depth from size: the small ones are far, behind more water.
             let depth = (scale - 0.55) / 0.7
@@ -431,13 +515,15 @@ private nonisolated struct SceneRenderer {
             let w = 18 * scale * (1 - 0.14 * c)
             let h = 15 * scale * (1 + 0.16 * c)
             let alpha = (dark ? 1.0 : 0.85) * (0.55 + 0.45 * depth)
+            // Light lost with distance: far jellies sink toward the water.
+            let color = depth < 0.5 ? bellColor.mix(with: water.deep, by: (0.5 - depth) * 0.8) : bellColor
 
             context.drawLayer { layer in
                 layer.translateBy(x: x, y: y)
                 layer.rotate(by: .degrees(tiltDeg))
                 if dark { layer.blendMode = .plusLighter }
-                // Bloom under the bell.
-                bloom(color, at: .zero, radius: w * 2.4, alpha: (dark ? 0.32 : 0.2) * (0.8 + 0.2 * c), in: &layer)
+                // Bloom under the bell: at night the jelly is the light.
+                bloom(color, at: .zero, radius: w * (dark ? 2.8 : 2.2), alpha: (dark ? 0.4 : 0.16) * (0.8 + 0.2 * c), in: &layer)
                 layer.blendMode = .normal
 
                 // Tentacles first, so the bell sits over their roots. Five
