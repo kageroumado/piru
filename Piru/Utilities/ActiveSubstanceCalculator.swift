@@ -52,12 +52,15 @@ enum ActiveSubstanceCalculator {
         }
 
         // Half-life resolution goes through the shared `PKResolver`; the local cache just
-        // avoids re-resolving the same name across a long dose log.
+        // avoids re-resolving the same name across a long dose log. Depot doses bypass
+        // the cache (their half-life depends on the ester on the entry, not just the
+        // name) and the acute duration below, so they read as a slow depot decay.
         var halfLifeCache: [String: Double] = [:]
-        func resolveHalfLife(substance: Substance?, entryName: String) -> Double? {
-            let key = entryName.lowercased()
+        func resolveHalfLife(substance: Substance?, entry: DoseEntry) -> Double? {
+            if let depot = PKResolver.depotHalfLifeMinutes(entry: entry) { return depot }
+            let key = entry.substance.lowercased()
             if let cached = halfLifeCache[key] { return cached }
-            guard let hl = PKResolver.halfLifeMinutes(substance: substance, entryName: entryName) else { return nil }
+            guard let hl = PKResolver.halfLifeMinutes(substance: substance, entryName: entry.substance) else { return nil }
             halfLifeCache[key] = hl
             return hl
         }
@@ -90,19 +93,24 @@ enum ActiveSubstanceCalculator {
             // release, so its dose contributes a body-load estimate with the right
             // absorption limb — unlike a bare unmodeled form, which we still skip.
             let productDuration = entry.productDuration
-            if productDuration == nil, entry.namesUnmodeledForm { continue }
-            guard let halfLife = resolveHalfLife(substance: substance, entryName: entry.substance) else { continue }
+            let isDepot = PKResolver.isDepot(entry: entry)
+            // A depot bypasses the unmodeled-form skip (it has no acute form to model,
+            // but its slow persistence is exactly what a body-load readout is for).
+            if !isDepot, productDuration == nil, entry.namesUnmodeledForm { continue }
+            guard let halfLife = resolveHalfLife(substance: substance, entry: entry) else { continue }
 
             let elapsed = now.timeIntervalSince(entry.timestamp) / 60
             guard elapsed >= 0 else { continue }
 
             // The product envelope wins the absorption limb; otherwise the
-            // route/salt/isomer-specific profile. See `PKResolver.rateConstants`.
+            // route/salt/isomer-specific profile. A depot has no acute absorption
+            // limb — its slow release IS the rate — so it takes the default `ka`
+            // proportional to its (long) `ke`, giving a slow-rise, slow-fall shape.
             let (ke, ka) = PKResolver.rateConstants(
                 halfLifeMinutes: halfLife,
-                duration: productDuration ?? substance?.resolveDuration(
+                duration: isDepot ? nil : (productDuration ?? substance?.resolveDuration(
                     for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer,
-                ),
+                )),
             )
             let remaining = entry.amount * PKModel.fractionRemainingInBody(at: elapsed, ke: ke, ka: ka)
             let fraction = remaining / entry.amount
@@ -239,6 +247,13 @@ extension ActiveSubstanceState {
         // heavy per-substance chem/mechanism SQL. Falls back to the full lookup
         // when the batch cache is cold or the substance is custom-only.
         guard let substance = SubstanceLibrary.lookup(entry.substance) else { return nil }
+        // A depot administration (an injectable ester; a formulation flagged depot)
+        // releases over days-to-weeks and has no acute psychoactive curve — the same
+        // reasoning as an unmodeled form below, so it shows as a bare marker rather
+        // than borrowing the parent's acute profile (estradiol's IM curve for an
+        // Estradiol Valerate depot). The Injection Levels tool models its serum
+        // curve; the body-load readout uses its depot half-life (PKResolver).
+        if PKResolver.isDepot(entry: entry) { return nil }
         // An extended-release product we model per-product ("Concerta", "Adderall
         // XR") draws ITS authored envelope — the whole point of the product-duration
         // table — even though its release form is otherwise unmodeled.

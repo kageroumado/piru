@@ -93,10 +93,8 @@ struct TimelineStripBuilder {
         var states: [ActiveSubstanceState] = []
         var statesByEntry: [PersistentIdentifier: ActiveSubstanceState] = [:]
         for entry in entries {
-            // A depot injection (an injectable ester) has no acute onset/peak/offset
-            // to draw — its release runs over days-to-weeks — so it gets no effect
-            // state: the dose still shows as a bubble, just without a curve or phase.
-            if Self.isDepotInjection(entry) { continue }
+            // Depot doses get no effect state (ActiveSubstanceState.from returns nil
+            // for them centrally) — no acute curve or phase, just the dose bubble.
             let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
             guard let state = ActiveSubstanceState.from(entry: entry, colorHex: hex) else { continue }
             states.append(state)
@@ -841,29 +839,17 @@ struct TimelineStripBuilder {
         return groups.reversed()
     }
 
-    /// Whether a dose is a depot injection — an injectable ester (Estradiol Valerate
-    /// IM/SC). Its release runs over days-to-weeks, so the acute onset/peak/offset
-    /// effect model and the half-life "in your system" readout don't apply; the
-    /// Injection Levels tool models it instead. The dose still shows as a bubble.
-    static func isDepotInjection(_ entry: DoseEntry) -> Bool {
-        guard entry.route == .intramuscular || entry.route == .subcutaneous else { return false }
-        let uid = entry.substanceUID ?? SubstanceStore.shared.substanceUID(forNameOrAlias: entry.substance)
-        return SubstanceStore.shared.isEster(entry.saltForm, forParentUID: uid)
-    }
-
     /// Fraction of each dose still in the body, keyed by entry identity.
     /// Mirrors ``ActiveSubstanceCalculator``'s gates (supplements and unmodeled
     /// forms contribute nothing; ≤3% counts as cleared) so the card badge and
-    /// the In Your System readout can never disagree about what is active.
+    /// the In Your System readout can never disagree about what is active — depot
+    /// doses included, on their long depot half-life (PKResolver).
     private static func computeRemainingFractions(entries: [DoseEntry]) -> [PersistentIdentifier: Double] {
         var result: [PersistentIdentifier: Double] = [:]
         var substanceCache: [String: Substance?] = [:]
         let now = Date.now
 
         for entry in entries {
-            // Depot injections don't model on the acute half-life timeline (see
-            // isDepotInjection) — the Injection Levels tool is their home.
-            if isDepotInjection(entry) { continue }
             let key = entry.substance.lowercased()
             let substance: Substance?
             if let cached = substanceCache[key] {
@@ -874,18 +860,19 @@ struct TimelineStripBuilder {
             }
 
             if substance?.category == .supplement { continue }
+            let isDepot = PKResolver.isDepot(entry: entry)
             let productDuration = entry.productDuration
-            if productDuration == nil, entry.namesUnmodeledForm { continue }
-            guard let halfLife = PKResolver.halfLifeMinutes(substance: substance, entryName: entry.substance) else { continue }
+            if !isDepot, productDuration == nil, entry.namesUnmodeledForm { continue }
+            guard let halfLife = PKResolver.halfLifeMinutes(for: entry, substance: substance) else { continue }
 
             let elapsed = now.timeIntervalSince(entry.timestamp) / 60
             guard elapsed >= 0, elapsed < halfLife * 6 else { continue }
 
             let (ke, ka) = PKResolver.rateConstants(
                 halfLifeMinutes: halfLife,
-                duration: productDuration ?? substance?.resolveDuration(
+                duration: isDepot ? nil : (productDuration ?? substance?.resolveDuration(
                     for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer,
-                ),
+                )),
             )
             let fraction = PKModel.fractionRemainingInBody(at: elapsed, ke: ke, ka: ka)
             if fraction > 0.03 {

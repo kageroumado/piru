@@ -48,14 +48,19 @@ extension BodyLevelsManager {
                 // honest absorption limb.
                 if substance?.category == .supplement { continue }
                 let productDuration = entry.productDuration
-                if productDuration == nil, entry.namesUnmodeledForm { continue }
-                guard let params = PKResolver.params(
-                    substance: substance,
-                    entryName: entry.substance,
-                    duration: productDuration ?? substance?.resolveDuration(
+                // A depot administration keeps its slow depot half-life and no acute
+                // absorption limb (see PKResolver / ActiveSubstanceCalculator), so it
+                // plots as a slow depot decay rather than a fast base-drug spike.
+                let isDepot = PKResolver.isDepot(entry: entry)
+                if !isDepot, productDuration == nil, entry.namesUnmodeledForm { continue }
+                guard let halfLife = PKResolver.halfLifeMinutes(for: entry, substance: substance) else { continue }
+                let (ke, ka) = PKResolver.rateConstants(
+                    halfLifeMinutes: halfLife,
+                    duration: isDepot ? nil : (productDuration ?? substance?.resolveDuration(
                         for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer,
-                    ),
-                ) else { continue }
+                    )),
+                )
+                let params = PKResolver.Params(halfLifeMinutes: halfLife, ke: ke, ka: ka)
 
                 let name = substance?.name ?? entry.substance
                 let key = "\(name)|\(unitFamily(entry.unit))"
