@@ -284,6 +284,18 @@ private nonisolated struct SceneRenderer {
         let center = CGPoint(x: size.width - 74 + shift.width, y: size.height * 0.42 + shift.height)
         let breathe = 0.5 + 0.5 * sin(time * 2 * .pi / 3)
         bloom(sky.haloColor, at: center, radius: r * 2.4 + 6 * breathe, alpha: (dark ? 0.5 : 0.3) * (0.7 + 0.3 * breathe), in: &context)
+        if let resource = sky.moonImage {
+            // The icon's own moon, face and glow included; its crescent spans
+            // about 0.85 of the image width, so size the image from the radius.
+            let image = context.resolve(Image(resource))
+            let side = r * 2.35
+            let rect = CGRect(x: center.x - side / 2, y: center.y - side * image.size.height / image.size.width / 2, width: side, height: side * image.size.height / image.size.width)
+            context.drawLayer { layer in
+                layer.opacity = dark ? 1 : 0.92
+                layer.draw(image, in: rect)
+            }
+            return
+        }
         context.drawLayer { layer in
             layer.fill(Path(ellipseIn: CGRect(x: center.x - r, y: center.y - r, width: r * 2, height: r * 2)), with: .color(sky.starColor.opacity(dark ? 0.95 : 0.9)))
             layer.blendMode = .destinationOut
@@ -473,134 +485,44 @@ private nonisolated struct SceneRenderer {
         }
     }
 
-    /// rocuronium's bell: a fast squeeze over the first quarter of the cycle,
-    /// then a smoother glide back with a small refill overshoot. 0 at rest.
-    private func contraction(_ u: Double) -> Double {
-        let f = u.truncatingRemainder(dividingBy: 1)
-        if f < 0.26 {
-            let p = f / 0.26
-            return 1 - pow(1 - p, 3)
-        }
-        let v = (f - 0.26) / 0.74
-        let glide = 1 - (v * v * v * (v * (v * 6 - 15) + 10))
-        return glide - 0.17 * sin(.pi * pow(v, 0.72)) * (1 - glide)
-    }
-
-    /// Jellyfish swimming up. Each is a pure function of `(lane, time)`: it
-    /// rises at its own speed, sways, pulses its bell on the contraction
-    /// curve, and its tentacles lag behind the bell's own motion rather than
-    /// being steered — no history buffer, exact under dropped frames.
+    /// Jellyfish swimming up: rocuronium's cast and Piru's own, each a pure
+    /// function of `(lane, time)` (see `SkinJellies.swift`). Species by seeded
+    /// draw; the small ones are far, behind more water, move less and lose
+    /// light with distance.
     private func drawJellyfish(_ water: SkinUnderwater, in context: inout GraphicsContext) {
         guard !water.bells.isEmpty else { return }
         var rng = SeededRNG(seed: 0x1E11 &+ UInt64(size.width))
-        let count = max(3, Int(size.height / 190))
+        let count = max(4, Int(size.height / 160))
         let span = size.height + 320
+        let cast: [JellySpecies] = [.piru, .piru, .remi, .remi, .sparkler, .aurora, .koko, .bitjelly]
         for i in 0 ..< count {
             let laneX = size.width * (0.12 + 0.76 * rng.unit())
             let scale = 0.55 + rng.unit() * 0.7
             let speed = 9 + rng.unit() * 9
-            let phase = rng.unit() * 6.28
-            let period = 1.15 + rng.unit() * 0.6
+            let phase = rng.unit()
             let start = rng.unit() * span
+            let species = cast[Int(rng.next() % UInt64(cast.count))]
             let bellColor = water.bells[i % water.bells.count]
-            let c = contraction(time / period + phase)
-            // Depth from size: the small ones are far, behind more water.
             let depth = (scale - 0.55) / 0.7
             let shift = parallax(0.25 + 0.75 * depth)
-            // Pulse-and-glide: the surge follows the squeeze.
-            let surge = 10 * c * scale
-            let y = size.height + 160 - (start + speed * (0.7 + 0.3 * depth) * time).truncatingRemainder(dividingBy: span) - surge + shift.height
-            let x = laneX + 14 * scale * sin(time * 2 * .pi / (7 + Double(i)) + phase) + shift.width
-            let tiltDeg = 3.5 * sin(time * 2 * .pi / 9 + phase)
-            let w = 18 * scale * (1 - 0.14 * c)
-            let h = 15 * scale * (1 + 0.16 * c)
+            // Every species is sized by its bell, whatever units it draws in.
+            let unit = 34 * scale / species.bellWidth
+            let rise = speed * (0.7 + 0.3 * depth)
+            let beat = species.beat
+            let motion = JellyMotion(period: beat.period, amp: beat.amp, sway: 14 * scale / unit, swayPeriod: 7 + Double(i), rise: rise / unit, phase: phase)
+            let off = motion.offset(at: time)
+            let x = laneX + off.x * unit + shift.width
+            let y = size.height + 160 - (start + rise * time).truncatingRemainder(dividingBy: span) + (off.y + rise / unit * time) * unit + shift.height
+            let tiltDeg = 3.5 * sin(time * 2 * .pi / 9 + phase * 6.28)
             let alpha = (dark ? 1.0 : 0.85) * (0.55 + 0.45 * depth)
             // Light lost with distance: far jellies sink toward the water.
             let color = depth < 0.5 ? bellColor.mix(with: water.deep, by: (0.5 - depth) * 0.8) : bellColor
-
             context.drawLayer { layer in
+                layer.opacity = alpha
                 layer.translateBy(x: x, y: y)
                 layer.rotate(by: .degrees(tiltDeg))
-                if dark { layer.blendMode = .plusLighter }
-                // Bloom under the bell: at night the jelly is the light.
-                bloom(color, at: .zero, radius: w * (dark ? 2.8 : 2.2), alpha: (dark ? 0.4 : 0.16) * (0.8 + 0.2 * c), in: &layer)
-                layer.blendMode = .normal
-
-                // Tentacles first, so the bell sits over their roots. Five
-                // strands from the hem, each a tapered ribbon that lags.
-                let periods: [Double] = [3.1, 3.5, 2.9, 3.4, 3.2]
-                let offsets: [Double] = [0, 0.35, 0.6, 0.2, 0.5]
-                for k in 0 ..< 5 {
-                    let root = CGPoint(x: w * (-0.72 + 0.36 * CGFloat(k)), y: h * 0.28)
-                    let length = h * (2.6 + 0.6 * Double(k % 2))
-                    let width: CGFloat = 2.2 * scale
-                    var left: [CGPoint] = []
-                    var right: [CGPoint] = []
-                    for s in stride(from: 0.0, through: 1.0, by: 0.1) {
-                        let sway = sin(time * 2 * .pi / periods[k] - 2.4 * s + offsets[k] * 6.28 + phase) * 7 * scale * (0.2 + s)
-                        let p = CGPoint(x: root.x + sway, y: root.y + length * s)
-                        let half = width * (1 - s)
-                        left.append(CGPoint(x: p.x - half, y: p.y))
-                        right.append(CGPoint(x: p.x + half, y: p.y))
-                    }
-                    var ribbon = Path()
-                    ribbon.move(to: left[0])
-                    for p in left.dropFirst() { ribbon.addLine(to: p) }
-                    for p in right.reversed() { ribbon.addLine(to: p) }
-                    ribbon.closeSubpath()
-                    layer.fill(
-                        ribbon,
-                        with: .linearGradient(
-                            Gradient(colors: [color.opacity(0.75 * alpha), color.opacity(0)]),
-                            startPoint: root, endPoint: CGPoint(x: root.x, y: root.y + length),
-                        ),
-                    )
-                }
-                // Two frilly oral arms in the middle, in the pink.
-                let pink = water.bells[water.bells.count - 1]
-                for k in 0 ..< 2 {
-                    let root = CGPoint(x: w * (-0.18 + 0.36 * CGFloat(k)), y: h * 0.25)
-                    let length = h * 1.7
-                    var arm = Path()
-                    arm.move(to: root)
-                    for s in stride(from: 0.0, through: 1.0, by: 0.1) {
-                        let wave = sin(time * 3 + s * 9 + Double(k) * 2 + phase) * 3 * scale * s
-                        arm.addLine(to: CGPoint(x: root.x + wave, y: root.y + length * s))
-                    }
-                    layer.stroke(arm, with: .color(pink.opacity(0.7 * alpha)), style: StrokeStyle(lineWidth: 2.4 * scale * (1 - 0.3 * c), lineCap: .round))
-                }
-
-                // The bell: a dome with a scalloped hem, lit from the top.
-                var bell = Path()
-                bell.move(to: CGPoint(x: -w, y: 0))
-                bell.addQuadCurve(to: CGPoint(x: w, y: 0), control: CGPoint(x: 0, y: -2.3 * h))
-                let scallops = 4
-                for n in 0 ..< scallops {
-                    let x0 = w - (2 * w) * CGFloat(n) / CGFloat(scallops)
-                    let x1 = w - (2 * w) * CGFloat(n + 1) / CGFloat(scallops)
-                    bell.addQuadCurve(to: CGPoint(x: x1, y: 0), control: CGPoint(x: (x0 + x1) / 2, y: h * 0.32 * (1 + 0.5 * c)))
-                }
-                bell.closeSubpath()
-                layer.fill(
-                    bell,
-                    with: .radialGradient(
-                        Gradient(colors: [
-                            Color.white.opacity(0.92 * alpha), color.opacity(0.78 * alpha), color.opacity(0.22 * alpha),
-                        ]),
-                        center: CGPoint(x: 0, y: -h * 0.9), startRadius: 0, endRadius: w * 1.5,
-                    ),
-                )
-                layer.stroke(bell, with: .color(color.opacity(0.55 * alpha)), lineWidth: 0.8)
-                // A rim highlight and two sleepy eyes.
-                var rim = Path()
-                rim.move(to: CGPoint(x: -w * 0.55, y: -h * 0.95))
-                rim.addQuadCurve(to: CGPoint(x: w * 0.35, y: -h * 1.15), control: CGPoint(x: -w * 0.1, y: -h * 1.55))
-                layer.stroke(rim, with: .color(Color.white.opacity(0.55 * alpha)), style: StrokeStyle(lineWidth: 1.2 * scale, lineCap: .round))
-                let ink = Color.black.opacity(0.55 * alpha)
-                for ex in [-0.3, 0.3] as [CGFloat] {
-                    let e = CGPoint(x: ex * w, y: -h * 0.35)
-                    layer.fill(Path(ellipseIn: CGRect(x: e.x - 1.3 * scale, y: e.y - 1.3 * scale, width: 2.6 * scale, height: 2.6 * scale)), with: .color(ink))
-                }
+                layer.scaleBy(x: unit, y: unit)
+                species.draw(in: &layer, time: time, motion: motion, bell: color, dark: dark, showFace: scale > 0.8)
             }
         }
     }

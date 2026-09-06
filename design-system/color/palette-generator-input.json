@@ -4411,7 +4411,7 @@
   "skin/elypink/eyebrow": {
    "any": {
     "oklch": [
-     0.48834,
+     0.47834,
      0.16721,
      8.85951
     ]
@@ -4427,7 +4427,7 @@
   "skin/elypink/text/secondary": {
    "any": {
     "oklch": [
-     0.51041,
+     0.46541,
      0.04476,
      347.22316
     ]
@@ -4443,7 +4443,7 @@
   "skin/elypink/accent/text": {
    "any": {
     "oklch": [
-     0.58038,
+     0.48538,
      0.21703,
      1.29836
     ]
@@ -4475,7 +4475,7 @@
   "skin/elypink/semantic/success/text": {
    "any": {
     "oklch": [
-     0.53616,
+     0.44616,
      0.10851,
      166.17623
     ]
@@ -4507,7 +4507,7 @@
   "skin/elypink/semantic/caution/text": {
    "any": {
     "oklch": [
-     0.55285,
+     0.46285,
      0.11139,
      82.69645
     ]
@@ -4539,7 +4539,7 @@
   "skin/elypink/semantic/info/text": {
    "any": {
     "oklch": [
-     0.55012,
+     0.45512,
      0.06478,
      234.48491
     ]
@@ -4571,7 +4571,7 @@
   "skin/elypink/semantic/danger/text": {
    "any": {
     "oklch": [
-     0.52488,
+     0.48488,
      0.19837,
      16.83837
     ]
@@ -4827,7 +4827,7 @@
   "skin/tsuki/semantic/success/text": {
    "any": {
     "oklch": [
-     0.53247,
+     0.50747,
      0.10493,
      162.47912
     ]
@@ -4859,7 +4859,7 @@
   "skin/tsuki/semantic/caution/text": {
    "any": {
     "oklch": [
-     0.52896,
+     0.51896,
      0.10388,
      80.92295
     ]
@@ -5115,7 +5115,7 @@
   "skin/astrelia/text/secondary": {
    "any": {
     "oklch": [
-     0.51274,
+     0.48774,
      0.04972,
      268.95366
     ]
@@ -5131,7 +5131,7 @@
   "skin/astrelia/accent/text": {
    "any": {
     "oklch": [
-     0.51591,
+     0.48591,
      0.08533,
      235.79027
     ]
@@ -5179,7 +5179,7 @@
   "skin/astrelia/semantic/success/text": {
    "any": {
     "oklch": [
-     0.53247,
+     0.47747,
      0.10493,
      162.47912
     ]
@@ -5211,7 +5211,7 @@
   "skin/astrelia/semantic/caution/text": {
    "any": {
     "oklch": [
-     0.54225,
+     0.49225,
      0.10115,
      85.28236
     ]
@@ -5275,7 +5275,7 @@
   "skin/astrelia/semantic/danger/text": {
    "any": {
     "oklch": [
-     0.51702,
+     0.51202,
      0.1829,
      10.26143
     ]
@@ -5483,7 +5483,7 @@
   "skin/jellyfish/text/secondary": {
    "any": {
     "oklch": [
-     0.53576,
+     0.50076,
      0.04582,
      220.20065
     ]
@@ -5499,7 +5499,7 @@
   "skin/jellyfish/accent/text": {
    "any": {
     "oklch": [
-     0.53765,
+     0.49265,
      0.09034,
      208.96317
     ]
@@ -5547,7 +5547,7 @@
   "skin/jellyfish/semantic/success/text": {
    "any": {
     "oklch": [
-     0.52986,
+     0.48986,
      0.11531,
      156.35862
     ]
@@ -5643,7 +5643,7 @@
   "skin/jellyfish/semantic/danger/text": {
    "any": {
     "oklch": [
-     0.55297,
+     0.52797,
      0.19374,
      11.32621
     ]

@@ -49,7 +49,7 @@ struct SoftButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         let skin = SkinStore.shared.current
-        let shape = RoundedRectangle(cornerRadius: (skin.cardCornerRadius ?? 16) - 2, style: .continuous)
+        let shape = RoundedRectangle(cornerRadius: 14, style: .continuous)
         let pressed = configuration.isPressed
         configuration.label
             .foregroundStyle(prominence == .prominent ? skin.onAccent : skin.accent)
@@ -76,7 +76,7 @@ struct EdgedButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         let skin = SkinStore.shared.current
-        let shape = RoundedRectangle(cornerRadius: skin.cardCornerRadius ?? 12, style: .continuous)
+        let shape = RoundedRectangle(cornerRadius: 12, style: .continuous)
         let pressed = configuration.isPressed
         // Fill is the text-safe accent, not the vivid mark: `onAccent` is gated
         // against it (6.4:1 night, 4.8:1 pink), and a label is small copy.

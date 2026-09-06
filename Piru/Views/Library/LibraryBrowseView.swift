@@ -111,7 +111,7 @@ struct FamilyGradientCard<Hero: View, Content: View>: View {
 
     var body: some View {
         let skin = SkinStore.shared.current
-        let shape = RoundedRectangle(cornerRadius: skin.cardCornerRadius ?? cornerRadius, style: .continuous)
+        let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
         content()
             // White text on a light gradient. The colours are deliberately vivid
             // and ungated (see `design-system/color/build_l2_scales.py`), so

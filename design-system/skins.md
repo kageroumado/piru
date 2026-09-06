@@ -150,12 +150,22 @@ composite `plusLighter` (additive) so a colour reads as emitting, not paler.
   per-star twinkle and drift in three size tiers (the brightest get four
   points), Tsuki's sleeping crescent moon with a breathing glow, a thinner
   glyph field.
-- `.underwater` (Jellyfish): a depth gradient, eight swaying light rays,
-  twinkling plankton, jellyfish swimming up (rocuronium's contraction curve
-  for the bell pulse, a surge that follows the squeeze, five tapered
-  tentacle ribbons that *lag* the bell by sampling the same closed-form
-  motion, two oral arms, sleepy eyes), rising bubbles, and a vignette so the
-  edges read as glass.
+- `.underwater` (Jellyfish): a night dive in the dark (faint soft-edged
+  moon rays, caustic ripples near the surface, depth fog, blooms) and a
+  sunlit deep in the light; twinkling plankton, rising bubbles, a vignette so
+  the edges read as glass; and the cast of `SkinJellies.swift` swimming up —
+  rocuronium's five mascots (Remi, Bitjelly, Koko, Aurora, Sparkler, ported
+  with permission; their colours are their own hex palette, art rather than
+  UI roles) and Piru's own jelly. Each is a pure function of `(time,
+  motion)`: the bell pulses on rocuronium's contraction curve, tentacles
+  *lag* the bell by evaluating the swimmer's closed-form motion in the past,
+  and roots are sampled off the hem the bell is drawing that frame, so
+  nothing floats free. Species are cast by seeded draw; the small ones are
+  far, dimmer, faceless, and sink into the fog.
+- Tsuki's moon is the app icon's own crescent (`skin/tsuki/moon` imageset,
+  lifted from the icon with its glow and face by
+  `build_skin_palettes.py`'s sibling scratch script; the mask is the fitted
+  outer and bite circles), drawn by the canvas with a breathing halo.
 
 **Parallax.** `SkinMotion` low-pass filters device gravity into a resting
 reference and reports the deviation as a tilt; every layer slides opposite
@@ -188,6 +198,16 @@ reads as a broken ring). The Library / Search gradient tiles
 tinted chip drawn outside the chip primitives takes `skinChipShape()` — a
 capsule, or the skin's 3pt square — so nothing on an edged screen is still a
 pill. `themeCapsule` (search fields) squares to the input radius.
+
+**A skin never changes a container's shape.** Cards keep the radius their
+caller asked for (22 for cards, 16 for the timeline envelope, 18 for tiles),
+so what nests inside keeps nesting; skins change fill, edge and shadow only.
+Chips are not containers and may square.
+
+**Contrast is gated on the page background too.** Hour labels, gutter marks
+and eyebrows sit on the background, not a card, so `build_skin_palettes.py`
+pushes every text role until it clears 4.5:1 on both surfaces and
+`ColorContrastTests` checks both.
 
 What stays flat: `List` / `Form` sections. Rows share the system's clipped
 section container, so a per-row stroke would be cut at every corner and a

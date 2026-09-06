@@ -167,6 +167,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                     haloColor: .Skin.Tsuki.Star.halo,
                     density: 0.55,
                     moon: true,
+                    moonImage: .Skin.Tsuki.moon,
                     moonInk: palette.titleStroke,
                     moonBlush: semantic(.danger, .accent),
                     glows: [
@@ -283,17 +284,6 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         )
         case .tsuki: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 14)
         case .jellyfish: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 18)
-        }
-    }
-
-    /// A fixed card radius for skins whose cards are drawn objects rather than
-    /// system-concentric surfaces. `nil` keeps the caller's (concentric) radius.
-    var cardCornerRadius: CGFloat? {
-        switch self {
-        case .piru: nil
-        case .elyPink, .astrelia: 12
-        case .tsuki: 16
-        case .jellyfish: 20
         }
     }
 
@@ -494,7 +484,10 @@ struct SkinNightSky: Sendable {
     let density: Double
     /// A sleeping crescent moon.
     let moon: Bool
-    /// Its closed eyes and smile, and its blush.
+    /// The moon as drawn art — Tsuki's own icon, lifted with its glow — or
+    /// `nil` to draw a crescent by hand.
+    var moonImage: ImageResource? = nil
+    /// The hand-drawn crescent's closed eyes and smile, and its blush.
     var moonInk: Color = .black
     var moonBlush: Color = .pink
     let glows: [SkinGlow]

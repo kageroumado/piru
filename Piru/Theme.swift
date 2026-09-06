@@ -39,15 +39,13 @@ enum Theme {
     // MARK: - Card geometry
 
     /// The card corner the app draws when nothing overrides it. `22` matches
-    /// the system grouped-list / Library card rounding. A skin with a fixed
-    /// ``Skin/cardCornerRadius`` (its cards are drawn objects, not system
-    /// surfaces) takes precedence in ``themeCard``.
+    /// the system grouped-list / Library card rounding.
     static let cardCornerRadius: CGFloat = 22
 
     /// The standard card shape — concentric, so it inherits its radius from the
     /// enclosing container and only falls back to ``cardCornerRadius``.
     static var cardShape: ConcentricRectangle {
-        ConcentricRectangle(corners: .concentric(minimum: .fixed(skin.cardCornerRadius ?? cardCornerRadius)), isUniform: true)
+        ConcentricRectangle(corners: .concentric(minimum: .fixed(cardCornerRadius)), isUniform: true)
     }
 }
 
@@ -158,12 +156,12 @@ extension View {
     /// list); they just don't yet re-publish themselves as a container for
     /// their own children. Nested content still needs an explicit radius.
     ///
-    /// A skin with a fixed ``Skin/cardCornerRadius`` (its cards are drawn
-    /// objects, not system surfaces) overrides the caller's radius.
+    /// A skin never changes a container's shape — a card's radius is the
+    /// caller's, so what nests inside it (the timeline envelope's bubbles, a
+    /// grouped list's rows) keeps nesting. Skins change fill, edge and shadow only.
     func themeCard(cornerRadius: CGFloat = Theme.cardCornerRadius) -> some View {
-        let radius = SkinStore.shared.current.cardCornerRadius ?? cornerRadius
-        return modifier(ThemedBackground(
-            shape: ConcentricRectangle(corners: .concentric(minimum: .fixed(radius)), isUniform: true),
+        modifier(ThemedBackground(
+            shape: ConcentricRectangle(corners: .concentric(minimum: .fixed(cornerRadius)), isUniform: true),
             insetDash: true,
         ))
     }

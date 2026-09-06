@@ -304,6 +304,26 @@ struct ColorContrastTests {
         }
     }
 
+    /// Timeline hour labels, gutter marks and section eyebrows sit on the page
+    /// background, not on a card — so text tokens are gated there as well.
+    @Test
+    func `Every skin's text tokens are legible on its page background`() {
+        for skin in Skin.allCases where skin != .piru {
+            for style in [UIUserInterfaceStyle.light, .dark] {
+                let surface = RGB(skin.background, style: style)
+                let mode = style == .light ? "light" : "dark"
+                let texts: [(String, Color)] = [
+                    ("secondaryLabel", skin.secondaryLabel), ("eyebrow", skin.eyebrow), ("accent", skin.accent),
+                ] + SemanticRole.allCases.map { ("\($0) text", skin.semantic($0, .text)) }
+                for (name, color) in texts {
+                    let resolved = RGB(color, style: style)
+                    let ratio = resolved.contrastRatio(against: surface)
+                    #expect(ratio >= Self.textGate, "\(skin.rawValue) \(name) \(resolved.hex) is \(ratio.to2dp):1 on its \(mode) background")
+                }
+            }
+        }
+    }
+
     @Test
     func `Every skin's marks clear the non-text floor on its card`() {
         for skin in Skin.allCases {

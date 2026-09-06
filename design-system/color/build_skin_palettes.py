@@ -115,11 +115,13 @@ for skin, tokens in SKINS.items():
     entry = {}
     for mode_i, mode in enumerate(("light", "dark")):
         card = hex_to_rgb(tokens["surface/card"][mode_i])
+        bg = hex_to_rgb(tokens["surface/background"][mode_i])
         darken = mode == "light"
         for name, pair in tokens.items():
             rgb = hex_to_rgb(pair[mode_i]); lch = oklch(rgb)
             if name in TEXT_ROLES:
                 lch, rgb = gate(lch, card, TEXT, darken)
+                lch, rgb = gate(lch, bg, TEXT, darken)
             elif name in MARK_ROLES:
                 lch, rgb = gate(lch, card, MARK, darken)
             elif name == "accent/on":
@@ -128,8 +130,21 @@ for skin, tokens in SKINS.items():
                 report.append(f"  {skin} {mode} accent/on on accent/text = {r:.2f}")
             entry.setdefault(name, {})[mode] = [round(x, 5) for x in lch]
             if name in TEXT_ROLES or name in MARK_ROLES:
-                report.append(f"  {skin} {mode} {name:26s} {rgb_to_hex(rgb)} {wcag_ratio(rgb, card):.2f}")
+                report.append(f"  {skin} {mode} {name:26s} {rgb_to_hex(rgb)} card {wcag_ratio(rgb, card):.2f} bg {wcag_ratio(rgb, bg):.2f}")
     out["skins"][skin] = entry
+
+# ely.pink's tokens are the site's own, hand-tuned against the card; push only its text
+# roles' L until they also clear the page background, the way the three above are gated.
+ely = out["skins"]["elypink"]
+for mode in ("light", "dark"):
+    card = oklch_to_rgb(fit_chroma(tuple(ely["surface/card"][mode])))
+    bg = oklch_to_rgb(fit_chroma(tuple(ely["surface/background"][mode])))
+    for name in TEXT_ROLES:
+        lch = tuple(ely[name][mode])
+        lch, rgb = gate(lch, card, TEXT, mode == "light")
+        lch, rgb = gate(lch, bg, TEXT, mode == "light")
+        ely[name][mode] = [round(x, 5) for x in lch]
+        report.append(f"  elypink {mode} {name:26s} {rgb_to_hex(rgb)} card {wcag_ratio(rgb, card):.2f} bg {wcag_ratio(rgb, bg):.2f}")
 json.dump(out, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'palette-skins.json'), 'w'), indent=1)
 open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'palette-skins.json'), 'a').write("\n")
 print("\n".join(report))
