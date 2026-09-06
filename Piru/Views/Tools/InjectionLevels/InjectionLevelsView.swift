@@ -22,6 +22,9 @@ struct InjectionLevelsView: View {
     @AppStorage("injLevelsPersonalMultiplier") private var storedMultiplier = 1.0
     @AppStorage("injLevelsAutoCalibrate") private var storedAutoCalibrate = true
     @AppStorage("injLevelsFitRates") private var storedFitRates = true
+    /// Vial strength for mL-logged injections, per analyte (`0` = unset).
+    @AppStorage("injLevelsVolumeConcentration.estradiol") private var storedEstradiolConcentration = 0.0
+    @AppStorage("injLevelsVolumeConcentration.testosterone") private var storedTestosteroneConcentration = 0.0
 
     var body: some View {
         ScrollView {
@@ -58,11 +61,20 @@ struct InjectionLevelsView: View {
             model.personalMultiplier = storedMultiplier
             model.autoCalibrateFromLabs = storedAutoCalibrate
             model.fitRates = storedFitRates
+            model.volumeConcentrationMgPerML = storedConcentration
             model.selectDefaultsIfNeeded()
             syncAndRefresh()
         }
         .onChange(of: model.recomputeKey) { model.refresh() }
-        .onChange(of: model.analyte) { model.selectDefaultsIfNeeded(); syncAndRefresh() }
+        .onChange(of: model.analyte) {
+            model.volumeConcentrationMgPerML = storedConcentration
+            model.selectDefaultsIfNeeded()
+            syncAndRefresh()
+        }
+        .onChange(of: model.volumeConcentrationMgPerML) {
+            storedConcentration = model.volumeConcentrationMgPerML
+            syncAndRefresh()
+        }
         .onChange(of: doseEntries.count) { syncAndRefresh() }
         .onChange(of: labs.count) { syncAndRefresh() }
         .onChange(of: model.personalMultiplier) { storedMultiplier = model.personalMultiplier }
@@ -83,13 +95,39 @@ struct InjectionLevelsView: View {
         labs.filter { $0.analyteKey == model.analyte.key }
     }
 
+    /// The persisted vial concentration for the active analyte; `nil` when unset.
+    private var storedConcentration: Double? {
+        get {
+            let stored = switch model.analyte {
+            case .estradiol: storedEstradiolConcentration
+            case .testosterone: storedTestosteroneConcentration
+            }
+            return stored > 0 ? stored : nil
+        }
+        nonmutating set {
+            switch model.analyte {
+            case .estradiol: storedEstradiolConcentration = newValue ?? 0
+            case .testosterone: storedTestosteroneConcentration = newValue ?? 0
+            }
+        }
+    }
+
     private func syncAndRefresh() {
-        let injections = InjectionLevelsView.injections(from: doseEntries, analyte: model.analyte)
+        let log = InjectionLevelsView.injections(
+            from: doseEntries, analyte: model.analyte,
+            volumeConcentrationMgPerML: model.volumeConcentrationMgPerML,
+        )
         let measurements = analyteLabs
             .filter { !$0.excludedFromCalibration }
             .map { DepotCalibration.Measurement(date: $0.date, value: $0.value) }
         let preferred = InjectionLevelsView.dominantEsterID(from: doseEntries, analyte: model.analyte)
-        model.sync(injections: injections, measurements: measurements, preferredEsterID: preferred)
+        model.sync(
+            injections: log.injections,
+            volumeLoggedCount: log.volumeLoggedCount,
+            suggestedConcentration: log.latestLoggedConcentration,
+            measurements: measurements,
+            preferredEsterID: preferred,
+        )
         model.selectDefaultsIfNeeded()
         model.refresh()
     }
@@ -106,23 +144,56 @@ struct InjectionLevelsView: View {
         syncAndRefresh()
     }
 
-    /// Pull qualifying injections from the dose log for an analyte: IM/SC route, a
-    /// substance in the analyte's PSID family, and a mg-convertible dose unit.
-    static func injections(from entries: [DoseEntry], analyte: Analyte) -> [(date: Date, doseMg: Double)] {
+    /// What the dose log holds for an analyte: the injections the curve can use, how
+    /// many more were logged in mL and await a vial concentration, and the
+    /// concentration the user most recently logged a volumetric dose at.
+    struct LogInjections {
+        var injections: [(date: Date, doseMg: Double)] = []
+        var volumeLoggedCount = 0
+        var latestLoggedConcentration: Double?
+    }
+
+    /// Pull qualifying injections from the dose log for an analyte: IM/SC route and a
+    /// substance in the analyte's PSID family. A dose in mg (or µg) joins as is; a
+    /// dose logged in mL joins at `volumeConcentrationMgPerML`, and is only counted
+    /// while that is unset.
+    static func injections(
+        from entries: [DoseEntry],
+        analyte: Analyte,
+        volumeConcentrationMgPerML: Double? = nil,
+    ) -> LogInjections {
         let store = SubstanceStore.shared
         let familyUIDs = Set(store.estersForAnalyte(analyte.key).compactMap(\.parentUID))
-        guard !familyUIDs.isEmpty else { return [] }
-        var out: [(date: Date, doseMg: Double)] = []
+        guard !familyUIDs.isEmpty else { return LogInjections() }
+        var log = LogInjections()
         for entry in entries {
             guard entry.route == .intramuscular || entry.route == .subcutaneous else { continue }
             let uid = entry.substanceUID ?? store.substanceUID(forNameOrAlias: entry.substance)
             guard let uid, familyUIDs.contains(uid) else { continue }
-            guard let scale = DoseEquivalent.milligramScale(ofDoseUnit: entry.unit) else { continue }
-            let mg = entry.amount * scale
+            // A dose logged by volume × concentration keeps its mass in `amount`;
+            // its concentration is the best default for the mL-only doses.
+            if entry.volumeML != nil, let concentration = entry.abv, concentration > 0 {
+                log.latestLoggedConcentration = concentration
+            }
+            let mg: Double
+            if let scale = DoseEquivalent.milligramScale(ofDoseUnit: entry.unit) {
+                mg = entry.amount * scale
+            } else if Self.isVolumeUnit(entry.unit) {
+                log.volumeLoggedCount += 1
+                guard let concentration = volumeConcentrationMgPerML, concentration > 0 else { continue }
+                mg = entry.amount * concentration
+            } else {
+                continue
+            }
             guard mg > 0 else { continue }
-            out.append((entry.timestamp, mg))
+            log.injections.append((entry.timestamp, mg))
         }
-        return out
+        return log
+    }
+
+    private static func isVolumeUnit(_ unit: String) -> Bool {
+        let normalized = unit.trimmingCharacters(in: .whitespaces).lowercased()
+        return normalized == "ml" || normalized == "cc"
     }
 
     /// The modelable ester the user logs most for `analyte`, from the ester named on
@@ -137,7 +208,10 @@ struct InjectionLevelsView: View {
         for entry in entries {
             guard entry.route == .intramuscular || entry.route == .subcutaneous else { continue }
             let uid = entry.substanceUID ?? store.substanceUID(forNameOrAlias: entry.substance)
-            guard let uid, familyUIDs.contains(uid), let label = entry.saltForm else { continue }
+            // A dose logged before esters moved onto `saltForm` names its ester in
+            // the substance string ("Estradiol Enanthate").
+            let label = entry.saltForm ?? store.saltForm(forNameOrAlias: entry.substance)
+            guard let uid, familyUIDs.contains(uid), let label else { continue }
             guard let esterID = esters.first(where: { $0.label == label && $0.parentUID == uid })?.esterID else { continue }
             counts[esterID, default: 0] += 1
         }
@@ -171,6 +245,19 @@ private struct InjectionLevelsInputSection: View {
                 .pickerStyle(.segmented)
             }
 
+            if model.volumeLoggedInjectionCount > 0 {
+                VStack(alignment: .leading, spacing: Spacing.sm) {
+                    labeledField(String(localized: "Vial concentration"), value: $model.volumeConcentrationMgPerML, unit: "mg/mL")
+                    if model.volumeConcentrationMgPerML ?? 0 > 0 {
+                        Text("\(model.volumeLoggedInjectionCount) injections logged in mL are converted at this strength")
+                            .captionSecondary()
+                    } else {
+                        Text("\(model.volumeLoggedInjectionCount) injections are logged in mL — enter the vial strength to include them")
+                            .captionSecondary()
+                    }
+                }
+            }
+
             if model.hasLogHistory {
                 Picker("Source", selection: $model.useLogHistory) {
                     Text("From your log").tag(true)
@@ -186,6 +273,11 @@ private struct InjectionLevelsInputSection: View {
                 HStack(spacing: Spacing.xl) {
                     labeledField(String(localized: "Dose each time"), value: $model.doseMg, unit: "mg")
                     labeledField(String(localized: "Every"), value: $model.intervalDays, unit: String(localized: "days"))
+                }
+                if model.hasLogHistory {
+                    Text("Projected from today, continuing from your log").captionSecondary()
+                } else {
+                    Text("Projected from today").captionSecondary()
                 }
             }
         }

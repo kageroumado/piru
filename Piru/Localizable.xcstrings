@@ -2623,6 +2623,22 @@
         }
       }
     },
+    "%lld injections are logged in mL — enter the vial strength to include them" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 次注射以 mL 记录 — 输入药瓶浓度以纳入"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 次注射以 mL 記錄 — 輸入藥瓶濃度以納入"
+          }
+        }
+      }
+    },
     "%lld injections from your log" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2635,6 +2651,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "來自你記錄的 %lld 次注射"
+          }
+        }
+      }
+    },
+    "%lld injections logged in mL are converted at this strength" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已按此浓度换算 %lld 次以 mL 记录的注射"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已按此濃度換算 %lld 次以 mL 記錄的注射"
           }
         }
       }
@@ -35727,6 +35759,38 @@
         }
       }
     },
+    "Projected from today" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从今天起推算"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從今天起推算"
+          }
+        }
+      }
+    },
+    "Projected from today, continuing from your log" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从今天起推算，接续你的记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從今天起推算，接續你的記錄"
+          }
+        }
+      }
+    },
     "Projected Steady State" : {
 
     },
@@ -48804,6 +48868,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "瓶內總量"
+          }
+        }
+      }
+    },
+    "Vial concentration" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药瓶浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥瓶濃度"
           }
         }
       }

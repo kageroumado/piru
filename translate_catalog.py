@@ -35,6 +35,20 @@ T = {
     "Ester": ("酯类", "酯類"),
     "No specific ester": ("不指定酯类", "不指定酯類"),
     "From your log": ("来自你的记录", "來自你的記錄"),
+    "Vial concentration": ("药瓶浓度", "藥瓶濃度"),
+    "%lld injections logged in mL are converted at this strength": (
+        "已按此浓度换算 %lld 次以 mL 记录的注射",
+        "已按此濃度換算 %lld 次以 mL 記錄的注射",
+    ),
+    "%lld injections are logged in mL — enter the vial strength to include them": (
+        "%lld 次注射以 mL 记录 — 输入药瓶浓度以纳入",
+        "%lld 次注射以 mL 記錄 — 輸入藥瓶濃度以納入",
+    ),
+    "Projected from today": ("从今天起推算", "從今天起推算"),
+    "Projected from today, continuing from your log": (
+        "从今天起推算，接续你的记录",
+        "從今天起推算，接續你的記錄",
+    ),
     "Manual schedule": ("手动方案", "手動方案"),
     "%lld injections from your log": ("来自你记录的 %lld 次注射", "來自你記錄的 %lld 次注射"),
     "Every": ("每", "每"),
@@ -6167,6 +6181,12 @@ if __name__ == "__main__":
         "No specific ester",
         "From your log",
         "Manual schedule",
+        # Injection Levels mL conversion + schedule origin (2026-09-07)
+        "Vial concentration",
+        "%lld injections logged in mL are converted at this strength",
+        "%lld injections are logged in mL — enter the vial strength to include them",
+        "Projected from today",
+        "Projected from today, continuing from your log",
         "%lld injections from your log",
         "Every",
         "Estimated %@ level",

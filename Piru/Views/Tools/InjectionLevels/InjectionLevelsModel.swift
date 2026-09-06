@@ -53,6 +53,10 @@ final class InjectionLevelsModel {
     var intervalDays: Double? = 14
     /// Log-first: prefer the dose log when it has qualifying injections.
     var useLogHistory: Bool = true
+    /// Vial strength (mg/mL) applied to injections logged by volume with no
+    /// concentration of their own, so they can join the curve. Persisted by the
+    /// view via `@AppStorage`, per analyte.
+    var volumeConcentrationMgPerML: Double?
     var referenceLow: Double?
     var referenceHigh: Double?
 
@@ -114,6 +118,9 @@ final class InjectionLevelsModel {
 
     /// Qualifying injections pulled from the dose log (date, mg), or empty.
     private(set) var loggedInjections: [(date: Date, doseMg: Double)] = []
+    /// Qualifying injections logged in mL with no concentration of their own. They
+    /// join ``loggedInjections`` at ``volumeConcentrationMgPerML`` once it is set.
+    private(set) var volumeLoggedInjectionCount = 0
     /// The ester the user logs most often for this analyte, if their doses name one
     /// — the log-first default so the curve opens on the ester they actually inject
     /// rather than the alphabetical first.
@@ -174,6 +181,7 @@ final class InjectionLevelsModel {
         let doseMg: Double?
         let intervalDays: Double?
         let useLogHistory: Bool
+        let volumeConcentrationMgPerML: Double?
         let referenceLow: Double?
         let referenceHigh: Double?
         let personalMultiplier: Double
@@ -188,6 +196,7 @@ final class InjectionLevelsModel {
         RecomputeKey(
             analyte: analyte, esterID: selectedEsterID, doseMg: doseMg,
             intervalDays: intervalDays, useLogHistory: useLogHistory,
+            volumeConcentrationMgPerML: volumeConcentrationMgPerML,
             referenceLow: referenceLow, referenceHigh: referenceHigh,
             personalMultiplier: personalMultiplier,
             autoCalibrateFromLabs: autoCalibrateFromLabs, fitRates: fitRates,
@@ -209,13 +218,22 @@ final class InjectionLevelsModel {
     // MARK: Sync from view
 
     /// Adopt the qualifying injections and lab results the view read from SwiftData.
-    /// `injections` are already filtered to the active analyte (IM/SC, mg-convertible).
+    /// `injections` are already filtered to the active analyte (IM/SC, mg-convertible);
+    /// `volumeLoggedCount` is how many were logged in mL (converted or awaiting a concentration).
+    /// `suggestedConcentration` is the mg/mL the user last logged a volumetric dose
+    /// at — adopted only while no concentration has been entered.
     func sync(
         injections: [(date: Date, doseMg: Double)],
+        volumeLoggedCount: Int = 0,
+        suggestedConcentration: Double? = nil,
         measurements: [DepotCalibration.Measurement],
         preferredEsterID: String? = nil,
     ) {
         loggedInjections = injections.sorted { $0.date < $1.date }
+        volumeLoggedInjectionCount = volumeLoggedCount
+        if volumeConcentrationMgPerML == nil, let suggestedConcentration, suggestedConcentration > 0 {
+            volumeConcentrationMgPerML = suggestedConcentration
+        }
         calibrationMeasurements = measurements
         self.preferredEsterID = preferredEsterID
     }
@@ -309,44 +327,66 @@ final class InjectionLevelsModel {
 
     // MARK: Curve inputs
 
+    /// Whether the curve is the log as it stands, rather than a schedule projected
+    /// forward from today.
+    private var drawsLogOnly: Bool {
+        useLogHistory && hasLogHistory
+    }
+
     private func injectionsForCurve(ester _: EsterPKRecord, population: PKModel.DepotParameters) -> [(date: Date, doseMg: Double)] {
-        if useLogHistory, hasLogHistory { return loggedInjections }
+        if drawsLogOnly { return loggedInjections }
         return synthesizedSchedule(population: population)
     }
 
-    /// A regular schedule anchored so "now" sits at steady state: doses every
-    /// `interval` for enough cycles to plateau, then one projected cycle ahead.
-    private func synthesizedSchedule(population: PKModel.DepotParameters) -> [(date: Date, doseMg: Double)] {
-        guard let dose = doseMg, dose > 0, let interval = intervalDays, interval > 0 else { return [] }
-        // Cycles needed to reach steady state: ~5 terminal half-lives, capped.
+    /// How far past today a manual schedule is projected: the visible window, or
+    /// enough cycles to reach steady state (~5 terminal half-lives) for "All".
+    private func projectionDays(population: PKModel.DepotParameters, interval: Double) -> Double {
+        if let days = effectiveVisibleDays { return max(days, interval) }
         let terminalHalfLife = log(2) / max(population.k1, 1e-6) // days
         let cycles = min(max(Int((5 * terminalHalfLife / interval).rounded(.up)), 6), 60)
+        return Double(cycles) * interval
+    }
+
+    /// A regular schedule from today forward, on top of whatever the log already
+    /// holds: the logged injections stay in the superposition as the level the
+    /// schedule starts from, and the first scheduled dose lands one interval after
+    /// the last logged one — or today, when that is already past or there is no
+    /// log. Nothing before today is invented.
+    private func synthesizedSchedule(population: PKModel.DepotParameters) -> [(date: Date, doseMg: Double)] {
+        guard let dose = doseMg, dose > 0, let interval = intervalDays, interval > 0 else { return [] }
         let now = Date.now
-        let start = now.addingTimeInterval(-Double(cycles) * interval * PKModel.secondsPerDay)
-        var injections: [(date: Date, doseMg: Double)] = []
-        var n = 0
-        let horizon = now.addingTimeInterval(interval * PKModel.secondsPerDay)
-        while true {
-            let date = start.addingTimeInterval(Double(n) * interval * PKModel.secondsPerDay)
-            if date > horizon { break }
-            injections.append((date, dose))
-            n += 1
+        let step = interval * PKModel.secondsPerDay
+        let horizon = now.addingTimeInterval(projectionDays(population: population, interval: interval) * PKModel.secondsPerDay)
+        var injections = loggedInjections
+        var next = loggedInjections.last.map { $0.date.addingTimeInterval(step) } ?? now
+        if next < now { next = now }
+        while next <= horizon {
+            injections.append((next, dose))
+            next = next.addingTimeInterval(step)
         }
         return injections
     }
 
-    /// The date span to draw and the length of one modeled cycle (days). The start is
-    /// clamped to the visible window (``effectiveVisibleDays``) so a long history zooms
-    /// to recent detail; earlier injections still contribute to the curve (the
-    /// superposition sums all prior doses), they're just off-screen.
+    /// The date span to draw and the length of one modeled cycle (days).
+    ///
+    /// Drawing the log: the span ends one cycle past the last injection (or now),
+    /// and starts at the visible window (``effectiveVisibleDays``) before that, so a
+    /// long history zooms to recent detail; earlier injections still contribute to
+    /// the curve (the superposition sums all prior doses), they're just off-screen.
+    ///
+    /// Projecting a schedule: the span runs from today to the end of the projection,
+    /// so the chart opens on the level the schedule starts from.
     private func window(injections: [(date: Date, doseMg: Double)]) -> (Date, Date, Double) {
+        let now = Date.now
+        if !drawsLogOnly, let interval = intervalDays, interval > 0 {
+            let last = injections.map(\.date).max() ?? now
+            return (now, max(last, now), interval)
+        }
         let dates = injections.map(\.date).sorted()
-        let first = dates.first ?? .now
-        let last = dates.last ?? .now
+        let first = dates.first ?? now
+        let last = dates.last ?? now
         let cycleDays = medianIntervalDays(dates) ?? intervalDays ?? 14
-        // End one cycle past the last injection (or now, whichever is later) so the
-        // current/next trough is visible.
-        let end = max(last.addingTimeInterval(cycleDays * PKModel.secondsPerDay), Date.now)
+        let end = max(last.addingTimeInterval(cycleDays * PKModel.secondsPerDay), now)
         let start = effectiveVisibleDays.map { days in
             max(first, end.addingTimeInterval(-days * PKModel.secondsPerDay))
         } ?? first
