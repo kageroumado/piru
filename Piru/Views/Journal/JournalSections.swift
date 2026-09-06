@@ -217,7 +217,7 @@ private struct SubstanceEntryRow: View {
                 .fill(color)
                 .frame(width: 10, height: 10)
             VStack(alignment: .leading, spacing: Spacing.xs) {
-                Text(CustomSubstanceStore.shared.displayName(for: entry.substance))
+                Text(DoseTitle.resolve(for: entry))
                     .sectionLabel()
                 Text("\(entry.amount.doseFormatted) \(entry.unit) — \(String(localized: entry.route.localizedName))")
                     .captionSecondary()

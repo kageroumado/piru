@@ -7,17 +7,19 @@ import SwiftUI
 /// curve draws, the tablet-strength chips appear, and the title becomes the brand
 /// with the molecule as its subtitle.
 ///
-/// The menu is progressive, mirroring how a person narrows down: **Regular** (the
-/// base immediate-release form, which draws the substance's own curve) or
-/// **Extended-release ▸**, whose submenu lists the flagship/curve brands with the
-/// niche ones tucked under **More…**. Selecting a brand sets `productName` +
-/// `releaseForm` and clears the isomer (every brand here is the racemic parent —
-/// the enantiomer axis, Focalin, is its own picker and its own search).
+/// The menu is progressive, mirroring how a person narrows down: **Unbranded** (no
+/// specific brand — draws the substance's own curve), then an **Immediate-release ▸**
+/// group (Medikinet, Ritalin) and an **Extended-release ▸** group (Concerta,
+/// Ritalin LA), each listing its flagship/curve brands with the niche ones tucked
+/// under **More…**. Selecting a brand sets `productName` + `releaseForm` and clears
+/// the isomer (every brand here is the racemic parent — the enantiomer axis,
+/// Focalin, is its own picker and its own search).
 ///
 /// It shows only when the substance has an extended-release brand — that is the
-/// choice worth surfacing; an immediate-release-only substance stays a plain log
-/// and reaches any brand label by search. Brand names are proper nouns and are not
-/// localized; "Regular", "Extended-release", and "More…" are.
+/// multi-formulation case worth surfacing; an immediate-release-only substance
+/// stays a plain log and reaches any brand label by search. Brand names are proper
+/// nouns and are not localized; "Unbranded", "Immediate-release",
+/// "Extended-release", and "More…" are.
 struct BrandPicker: View {
     /// The substance's branded products, flagships first (see ``SubstanceStore/brandProducts(forUID:)``).
     let brands: [SubstanceStore.BrandProduct]
@@ -40,6 +42,12 @@ struct BrandPicker: View {
         brands.filter(\.isExtendedRelease)
     }
 
+    /// Immediate-release / base brands (Medikinet, Ritalin, Equasym) — the ones a
+    /// person on the plain form actually holds, grouped apart from the XR products.
+    private var immediateReleaseBrands: [SubstanceStore.BrandProduct] {
+        brands.filter { !$0.isExtendedRelease }
+    }
+
     /// The brand the current `productName` names, if it is one of this substance's
     /// listed products; `nil` for the base form or a product not in the list (a
     /// niche brand reached by search still shows its own name via ``label``).
@@ -52,7 +60,7 @@ struct BrandPicker: View {
     /// menu, so a searched niche brand still reads correctly), else the base form.
     private var label: String {
         if let productName, !productName.isEmpty { return productName }
-        return String(localized: "Regular", comment: "Brand picker: the base immediate-release form")
+        return String(localized: "Unbranded", comment: "Brand picker: no specific brand — the plain substance")
     }
 
     private func isSelected(_ brand: SubstanceStore.BrandProduct) -> Bool {
@@ -102,20 +110,38 @@ struct BrandPicker: View {
             selectRegular()
         } label: {
             if currentBrand == nil {
-                Label(String(localized: "Regular", comment: "Brand picker: the base immediate-release form"), systemImage: "checkmark")
+                Label(String(localized: "Unbranded", comment: "Brand picker: no specific brand — the plain substance"), systemImage: "checkmark")
             } else {
-                Text(String(localized: "Regular", comment: "Brand picker: the base immediate-release form"))
+                Text(String(localized: "Unbranded", comment: "Brand picker: no specific brand — the plain substance"))
             }
         }
 
-        let flagship = extendedReleaseBrands.filter(\.isFlagship)
-        let niche = extendedReleaseBrands.filter { !$0.isFlagship }
-        Menu(String(localized: "Extended-release", comment: "Brand picker: the extended-release brand group")) {
+        if !immediateReleaseBrands.isEmpty {
+            brandGroup(
+                String(localized: "Immediate-release", comment: "Brand picker: the immediate-release brand group"),
+                immediateReleaseBrands,
+            )
+        }
+        if !extendedReleaseBrands.isEmpty {
+            brandGroup(
+                String(localized: "Extended-release", comment: "Brand picker: the extended-release brand group"),
+                extendedReleaseBrands,
+            )
+        }
+    }
+
+    /// One release-form submenu: the flagship brands, with the niche ones tucked
+    /// under a nested "More…" so the common products lead.
+    @ViewBuilder
+    private func brandGroup(_ title: String, _ list: [SubstanceStore.BrandProduct]) -> some View {
+        let flagship = list.filter(\.isFlagship)
+        let niche = list.filter { !$0.isFlagship }
+        Menu(title) {
             ForEach(flagship, id: \.name) { brand in
                 brandButton(brand)
             }
             if !niche.isEmpty {
-                Menu(String(localized: "More…", comment: "Brand picker: submenu of niche extended-release brands")) {
+                Menu(String(localized: "More…", comment: "Brand picker: submenu of niche brands")) {
                     ForEach(niche, id: \.name) { brand in
                         brandButton(brand)
                     }

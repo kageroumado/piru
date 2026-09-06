@@ -230,7 +230,10 @@ final class StagedDoseEditorModel {
     func seedPillIfNeeded(_ product: ProductStrengths, item: inout StagedDose) {
         guard !pillSeeded else { return }
         pillSeeded = true
-        for strength in product.strengths where strength > 0 {
+        // Largest strength first, so a 10 mg dose seeds as one 10 mg tablet rather
+        // than two 5 mg — matching how a person actually holds their pills (the box
+        // is 20 mg tablets, not four 5s).
+        for strength in product.strengths.sorted(by: >) where strength > 0 {
             let ratio = item.amount / strength
             let rounded = ratio.rounded()
             if rounded >= 1, abs(ratio - rounded) < 0.001 {

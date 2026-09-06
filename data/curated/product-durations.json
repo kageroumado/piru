@@ -90,6 +90,111 @@
         "offset": { "min": 300, "max": 420 },
         "total": { "min": 900, "max": 960 }
       }
+    },
+    {
+      "parent": "Amphetamine",
+      "product": "Dexedrine Spansule",
+      "route": "oral",
+      "basis": "convention",
+      "source": "cc717b9b-22ea-4c60-a1d4-ee38a40bce78",
+      "note": "Dextroamphetamine SR beads; label says 'once-daily'; convention ~8–10 h. Same SPL as IR tablet.",
+      "duration": {
+        "onset": { "min": 30, "max": 60 },
+        "comeup": { "min": 60, "max": 120 },
+        "peak": { "min": 150, "max": 240 },
+        "offset": { "min": 180, "max": 240 },
+        "total": { "min": 480, "max": 600 }
+      }
+    },
+    {
+      "parent": "Methylphenidate",
+      "product": "Medikinet XL",
+      "route": "oral",
+      "basis": "convention",
+      "source": null,
+      "note": "Bimodal beads 50/50 IR+DR, same design as Ritalin LA. EMA SmPC; convention ~8 h. No SPL (European only).",
+      "duration": {
+        "onset": { "min": 20, "max": 45 },
+        "comeup": { "min": 60, "max": 120 },
+        "peak": { "min": 150, "max": 210 },
+        "offset": { "min": 150, "max": 210 },
+        "total": { "min": 420, "max": 540 }
+      }
+    },
+    {
+      "parent": "Methylphenidate",
+      "product": "Equasym XL",
+      "route": "oral",
+      "basis": "convention",
+      "source": null,
+      "note": "30/70 IR/ER beads, same ratio as Metadate CD. EMA SmPC; convention ~8 h. European only.",
+      "duration": {
+        "onset": { "min": 20, "max": 45 },
+        "comeup": { "min": 60, "max": 120 },
+        "peak": { "min": 150, "max": 210 },
+        "offset": { "min": 150, "max": 210 },
+        "total": { "min": 420, "max": 540 }
+      }
+    },
+    {
+      "parent": "Methylphenidate",
+      "product": "Aptensio XR",
+      "route": "oral",
+      "basis": "convention",
+      "source": null,
+      "note": "Multi-layer beads 40% IR / 60% ER. NDA 206255; convention ~12 h. FDA label not in openFDA; PK from review docs.",
+      "duration": {
+        "onset": { "min": 30, "max": 60 },
+        "comeup": { "min": 90, "max": 150 },
+        "peak": { "min": 240, "max": 300 },
+        "offset": { "min": 240, "max": 300 },
+        "total": { "min": 660, "max": 720 }
+      }
+    },
+    {
+      "parent": "Methylphenidate",
+      "product": "Adhansia XR",
+      "route": "oral",
+      "basis": "convention",
+      "source": null,
+      "note": "Multi-layer beads ~20% IR / ~80% ER. Ascending profile, longest-acting MPH at ~16 h. FDA-approved 2019.",
+      "duration": {
+        "onset": { "min": 30, "max": 60 },
+        "comeup": { "min": 120, "max": 180 },
+        "peak": { "min": 300, "max": 420 },
+        "offset": { "min": 300, "max": 420 },
+        "total": { "min": 900, "max": 960 }
+      }
+    },
+    {
+      "parent": "Methylphenidate",
+      "product": "Biphentin",
+      "route": "oral",
+      "basis": "convention",
+      "source": null,
+      "note": "40/60 IR/ER multi-layer beads, bimodal (Tmax ~1.5 h + ~6 h); convention ~10–12 h. Canada only (Purdue Pharma Canada).",
+      "duration": {
+        "onset": { "min": 20, "max": 45 },
+        "comeup": { "min": 90, "max": 150 },
+        "peak": { "min": 210, "max": 300 },
+        "offset": { "min": 210, "max": 300 },
+        "total": { "min": 600, "max": 720 }
+      }
+    },
+    {
+      "parent": "Methylphenidate",
+      "product": "Foquest",
+      "route": "oral",
+      "basis": "convention",
+      "source": null,
+      "note": "~20% IR / ~80% ER ascending, same design as Adhansia XR; ~16 h, longest-acting Canadian MPH. Canada only.",
+      "duration": {
+        "onset": { "min": 30, "max": 60 },
+        "comeup": { "min": 120, "max": 180 },
+        "peak": { "min": 300, "max": 420 },
+        "offset": { "min": 300, "max": 420 },
+        "total": { "min": 900, "max": 960 }
+      }
     }
   ]
 }

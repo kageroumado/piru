@@ -821,6 +821,31 @@ CREATE TABLE product_durations (
     total_min          REAL, total_max          REAL
 );
 
+-- Depot (oil/IM) PK parameters for injectable hormone esters (data/curated/
+-- ester_pk/*.json) — the three-compartment rate constants the Injection Levels
+-- tool needs to draw a serum-level curve for estradiol/testosterone esters. Rates
+-- are per DAY (depot kinetics run on days-to-weeks, unlike the per-minute oral
+-- model); `d` folds F/Vd into one amplitude in the analyte's canonical output unit
+-- per mg (pg/mL for estradiol, ng/dL for testosterone). Keyed by `ester_id`;
+-- `substance_id`/`parent_uid` tie the ester to its base substance for the coverage
+-- gate and for matching a logged IM/SC dose to its ester. Read by
+-- SubstanceStore.esterPK(forEsterID:) / estersForAnalyte(_:).
+CREATE TABLE ester_pk (
+    ester_id     TEXT PRIMARY KEY,
+    analyte      TEXT NOT NULL,
+    parent       TEXT NOT NULL,
+    substance_id INTEGER REFERENCES substances(id),
+    parent_uid   TEXT,
+    ester_label  TEXT NOT NULL,
+    d            REAL NOT NULL,
+    k1           REAL NOT NULL,
+    k2           REAL NOT NULL,
+    k3           REAL NOT NULL,
+    confidence   TEXT NOT NULL,
+    provenance   TEXT NOT NULL,
+    routes       TEXT NOT NULL
+);
+
 -- Marketed products the box scanner identifies by barcode (Specs/box-scanner-
 -- tool.md): a brand + strength + form under a substance the catalog knows, one
 -- row per distinct product — every repackager's listing of the same
@@ -11672,6 +11697,54 @@ class Build:
             "product_durations_missing_parent": len(missing_parent),
         }
 
+    def build_ester_pk(self) -> dict[str, int]:
+        """Load depot PK parameters for injectable hormone esters (ester_pk/*.json)
+        into `ester_pk`, so the Injection Levels tool can draw a serum-level curve.
+
+        Same coverage discipline as build_product_strengths(): each ester's `parent`
+        must resolve to a substance (an ester whose parent is absent is dead data —
+        skipped and reported, not failed). `parent_uid` is stored so a logged IM/SC
+        dose can be matched to its ester family."""
+        inserted, missing_parent = 0, []
+        uids = dict(self.cur.execute("SELECT id, substance_uid FROM substances").fetchall())
+        for row in collision_registry.ester_pk_registry():
+            parent = row["parent"]
+            prow = self.cur.execute(
+                "SELECT id FROM substances WHERE canonical_name=?", (parent,)
+            ).fetchone()
+            if prow is None:
+                missing_parent.append(f"{row['ester_id']} ({parent})")
+                continue
+            self.cur.execute(
+                "INSERT OR REPLACE INTO ester_pk "
+                "(ester_id, analyte, parent, substance_id, parent_uid, ester_label, "
+                "d, k1, k2, k3, confidence, provenance, routes) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                (
+                    row["ester_id"],
+                    row["analyte"],
+                    parent,
+                    prow[0],
+                    uids.get(prow[0]),
+                    row["ester_label"],
+                    float(row["d"]),
+                    float(row["k1"]),
+                    float(row["k2"]),
+                    float(row["k3"]),
+                    row["confidence"],
+                    row["provenance"],
+                    json.dumps(row.get("routes", ["IM"])),
+                ),
+            )
+            inserted += 1
+        if missing_parent:
+            print(
+                f"  ester pk: {len(missing_parent)} ester(s) whose parent substance "
+                f"is absent, skipped: {', '.join(missing_parent)}",
+                file=sys.stderr,
+            )
+        return {"ester_pk": inserted, "ester_pk_missing_parent": len(missing_parent)}
+
     def build_substance_forms(self) -> dict[str, int]:
         """Enumerate `substance_forms` — one row per distinct (uid, stereo, salt,
         release) the catalog knows, each with a composed check-valid PSID and a
@@ -13917,6 +13990,8 @@ def main() -> int:
     print(f"Product strengths: {strengths}", file=sys.stderr)
     product_durations = build.build_product_durations()
     print(f"Product durations: {product_durations}", file=sys.stderr)
+    ester_pk = build.build_ester_pk()
+    print(f"Ester PK: {ester_pk}", file=sys.stderr)
     coded = build.build_product_codes()
     print(f"Product codes: {coded}", file=sys.stderr)
     alias_collisions = build.audit_alias_collisions()

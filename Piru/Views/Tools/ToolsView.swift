@@ -17,6 +17,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
     case inventory
     case effectSandbox
     case steadyState
+    case injectionLevels
     case drugClasses
     /// The box scanner as a reference: point the camera at any medication box
     /// and open what the library knows about what is inside.
@@ -41,6 +42,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .inventory: "Inventory"
         case .effectSandbox: "Effect Estimator"
         case .steadyState: "Steady State"
+        case .injectionLevels: "Injection Levels"
         case .drugClasses: "Drug Classes"
         case .identify: "Identify a Box"
         }
@@ -61,6 +63,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .inventory: "Track how much you have on hand"
         case .effectSandbox: "Compare substances and preview how they may feel"
         case .steadyState: "Where a repeated dose settles, and when"
+        case .injectionLevels: "Project hormone levels from injectable esters"
         case .drugClasses: "What the members of a family share"
         case .identify: "Point at any medication box to see what's inside it"
         }
@@ -80,6 +83,7 @@ nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
         case .inventory: "shippingbox"
         case .effectSandbox: "slider.horizontal.2.square"
         case .steadyState: "chart.line.flattrend.xyaxis"
+        case .injectionLevels: "syringe"
         case .drugClasses: "square.stack.3d.up"
         case .identify: "barcode.viewfinder"
         }
@@ -98,7 +102,8 @@ struct ToolsView: View {
     private let compactTools: [Tool] = [
         .identify, .effectSandbox,
         .calculator, .steadyState,
-        .volumetric, .pharma,
+        .injectionLevels, .volumetric,
+        .pharma,
         .benzoEquivalence, .opioidEquivalence,
     ]
 

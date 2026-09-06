@@ -149,7 +149,7 @@ struct MedFormView: View {
     private var substanceSection: some View {
         @Bindable var draft = draft
         return Section("Med") {
-            SubstanceSearchField(text: $draft.substance) { selected, product in
+            SubstanceSearchField(text: $draft.substance, keepsMatchedName: true) { selected, product in
                 selectSubstance(selected, product: product)
             } onCustom: {
                 useCustomSubstance()
@@ -423,7 +423,9 @@ struct MedFormView: View {
 
     private func loadItem() {
         if let item {
-            draft.substance = item.substance
+            // Show the brand the med was saved under ("Medikinet") in the field,
+            // while identity resolution below still keys off the canonical name.
+            draft.substance = item.productName ?? item.substance
             draft.amount = item.amount
             draft.unit = item.unit
             draft.route = item.route
@@ -451,15 +453,20 @@ struct MedFormView: View {
 
         let sortedTimes = Array(Set(draft.times.map(\.minutes))).sorted()
         let identity = resolvedIdentity()
+        // The field text may read as the brand the user picked ("Medikinet"); the
+        // stored substance is always the canonical family (Methylphenidate), with
+        // the brand kept separately in `productName`. A hand-typed custom substance
+        // has no `selectedSubstance`, so its typed name is the substance.
+        let canonicalSubstance = draft.selectedSubstance?.name ?? draft.substance
         let target: DailyDoseItem
         if let item {
             target = item
         } else {
-            target = DailyDoseItem(substance: draft.substance, amount: parsedAmount, sortOrder: existingItems.count)
+            target = DailyDoseItem(substance: canonicalSubstance, amount: parsedAmount, sortOrder: existingItems.count)
             modelContext.insert(target)
         }
 
-        target.substance = draft.substance
+        target.substance = canonicalSubstance
         target.amount = parsedAmount
         target.unit = draft.unit
         target.route = draft.route

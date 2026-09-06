@@ -814,6 +814,7 @@ struct TimelineStripBuilder {
                     let running = state.map { $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) > now } ?? false
                     return TimelineDayLayout.CardItem(
                         entry: entry,
+                        displayName: DoseTitle.resolve(for: entry),
                         color: SubstancePalette.color(for: entry.substance, colorMap: colorMap),
                         remainingFraction: remainingFractions[entry.persistentModelID],
                         state: running ? state : nil,

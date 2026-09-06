@@ -37,7 +37,7 @@ struct TimelineDoseBubble: View {
     }
 
     private var displayName: String {
-        CustomSubstanceStore.shared.displayName(for: item.entry.substance)
+        item.displayName
     }
 
     private var doseText: String {

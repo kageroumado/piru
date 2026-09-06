@@ -78,6 +78,7 @@ nonisolated enum StoreRecovery {
             NotificationPreferences.self,
             RoutineOccurrence.self,
             SessionNote.self,
+            LabMeasurement.self,
         ]
     }
 

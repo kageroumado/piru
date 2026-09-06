@@ -130,7 +130,7 @@ struct EntryDetailView: View {
                     deleteEntry()
                 }
             } message: {
-                Text("\(entry.amount.doseFormatted) \(entry.unit) \(CustomSubstanceStore.shared.displayName(for: entry.substance)) on \(entry.timestamp.formatted(date: .abbreviated, time: .shortened))")
+                Text("\(entry.amount.doseFormatted) \(entry.unit) \(DoseTitle.resolve(for: entry)) on \(entry.timestamp.formatted(date: .abbreviated, time: .shortened))")
             }
             .sheet(isPresented: $showColorPicker) {
                 SubstanceColorPickerView(

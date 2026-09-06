@@ -1772,6 +1772,16 @@
         }
       }
     },
+    "%@–%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@–%2$@ %3$@"
+          }
+        }
+      }
+    },
     "%@–%@ days" : {
       "comment" : "Long-acting release window",
       "localizations" : {
@@ -2609,6 +2619,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "過去 14 天共 %lld 次"
+          }
+        }
+      }
+    },
+    "%lld injections from your log" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自你记录的 %lld 次注射"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自你記錄的 %lld 次注射"
           }
         }
       }
@@ -4302,6 +4328,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "1項隨機對照試驗 (n = %lld) + 開放研究 (n = 282)"
+          }
+        }
+      }
+    },
+    "1 result" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 项结果"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 項結果"
           }
         }
       }
@@ -6153,6 +6195,22 @@
         }
       }
     },
+    "Add a blood test to pin this curve to your own levels. The band narrows once you do." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加一次血检，把曲线锚定到你自己的水平。添加后范围带会变窄。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入一次血檢，把曲線錨定到你自己的水平。加入後範圍帶會變窄。"
+          }
+        }
+      }
+    },
     "Add a calibrated substance" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -6347,6 +6405,38 @@
         }
       }
     },
+    "Add Favorite" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加收藏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增收藏"
+          }
+        }
+      }
+    },
+    "Add Favorite…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加收藏…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增收藏…"
+          }
+        }
+      }
+    },
     "Add Inventory Item" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6359,6 +6449,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新增庫存項目"
+          }
+        }
+      }
+    },
+    "Add lab result" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加化验结果"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入化驗結果"
           }
         }
       }
@@ -6487,6 +6593,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新增預設"
+          }
+        }
+      }
+    },
+    "Add Preset…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加预设…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增預設…"
           }
         }
       }
@@ -7982,6 +8104,22 @@
     },
     "An existing iCloud backup was found. Merge it with your current data to restore it, or remove it to start fresh." : {
 
+    },
+    "An injected ester releases slowly from an oil depot, is cleaved to the free hormone, then cleared. This curve models that from your doses." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "注射用酯类会从油性储库缓慢释放，被裂解为游离激素，再被清除。此曲线据此从你的剂量建模。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "注射用酯類會從油性儲庫緩慢釋放，被裂解為游離激素，再被清除。此曲線據此從你的劑量建模。"
+          }
+        }
+      }
     },
     "An opioid overdose is a sudden loss of consciousness with no warning — you can't give yourself naloxone. Don't use alone: someone with you needs naloxone and should call emergency services. Nodding off can also lead to choking on vomit or burns, so never use where you might pass out unattended." : {
       "localizations" : {
@@ -10761,6 +10899,22 @@
         }
       }
     },
+    "Calibrate to your lab results" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "校准到你的化验结果"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "校準到你的化驗結果"
+          }
+        }
+      }
+    },
     "Calibrated" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10773,6 +10927,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已校準"
+          }
+        }
+      }
+    },
+    "Calibrated · %lld results" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已校准 · %lld 项结果"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已校準 · %lld 項結果"
           }
         }
       }
@@ -16741,6 +16911,22 @@
         }
       }
     },
+    "Draw date" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "采血日期"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "採血日期"
+          }
+        }
+      }
+    },
     "Drink" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17518,6 +17704,7 @@
       }
     },
     "Edit Dose Times…" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18861,6 +19048,22 @@
         }
       }
     },
+    "Ester" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "酯类"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "酯類"
+          }
+        }
+      }
+    },
     "Estimate active levels over time" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18897,6 +19100,22 @@
         }
       }
     },
+    "Estimated %@ level" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预计%@水平"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預計%@水平"
+          }
+        }
+      }
+    },
     "Estimated from effect curves · %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -18925,6 +19144,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "根據你過去 7 天的日均用量估算。僅在大多數日子都用藥時顯示，以免偶爾一次造成偏差。"
+          }
+        }
+      }
+    },
+    "Estimated level over time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "水平随时间变化"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "水平隨時間變化"
+          }
+        }
+      }
+    },
+    "Estimated peak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预计峰值"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預計峰值"
+          }
+        }
+      }
+    },
+    "Estimated trough" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预计谷值"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預計谷值"
           }
         }
       }
@@ -18990,6 +19257,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在估算你體內還剩多少……"
+          }
+        }
+      }
+    },
+    "Estradiol" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "雌二醇"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "雌二醇"
           }
         }
       }
@@ -19074,6 +19357,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "晚上"
+          }
+        }
+      }
+    },
+    "Every" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每"
           }
         }
       }
@@ -19490,6 +19789,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "過度鎮靜和呼吸抑制的風險。"
+          }
+        }
+      }
+    },
+    "Excluded from calibration" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已排除于校准"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已排除於校準"
           }
         }
       }
@@ -20604,6 +20919,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "來自你的自動 iCloud 備份"
+          }
+        }
+      }
+    },
+    "From your log" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自你的记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自你的記錄"
           }
         }
       }
@@ -22154,6 +22485,22 @@
         }
       }
     },
+    "High line" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上参考线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上參考線"
+          }
+        }
+      }
+    },
     "High potassium" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22361,6 +22708,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "歷史記錄"
+          }
+        }
+      }
+    },
+    "Hormone" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "激素"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "激素"
           }
         }
       }
@@ -23393,6 +23756,23 @@
         }
       }
     },
+    "Immediate-release" : {
+      "comment" : "Brand picker: the immediate-release brand group",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速释"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速釋"
+          }
+        }
+      }
+    },
     "Immune modulators and steroids." : {
       "localizations" : {
         "zh-Hans" : {
@@ -23848,6 +24228,22 @@
         }
       }
     },
+    "Included in calibration" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已纳入校准"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已納入校準"
+          }
+        }
+      }
+    },
     "Includes %lld min of workout — the dose rows leave it out" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24085,6 +24481,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "初始量"
+          }
+        }
+      }
+    },
+    "Injectable ester data isn't available in this build." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此版本未包含注射用酯类数据。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此版本未包含注射用酯類數據。"
+          }
+        }
+      }
+    },
+    "Injection" : {
+
+    },
+    "Injection Levels" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "注射水平"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "注射水平"
           }
         }
       }
@@ -24409,6 +24840,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "異構體"
+          }
+        }
+      }
+    },
+    "It estimates a level from doses you enter — it never recommends a dose or a level to aim for. Add lab results to calibrate it to you." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它根据你输入的剂量推算水平——绝不建议剂量或目标水平。添加化验结果即可校准到你自己。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它根據你輸入的劑量推算水平——絕不建議劑量或目標水平。加入化驗結果即可校準到你自己。"
           }
         }
       }
@@ -25459,6 +25906,22 @@
         }
       }
     },
+    "Lines you choose to see — not a target the app sets." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你自行选择显示的线——并非应用设定的目标。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你自行選擇顯示的線——並非應用設定的目標。"
+          }
+        }
+      }
+    },
     "Linka bezpeci" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26243,6 +26706,22 @@
         }
       }
     },
+    "Low line" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下参考线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下參考線"
+          }
+        }
+      }
+    },
     "Low potassium" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26534,6 +27013,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "手動匯出會以 600,000 輪 PBKDF2 將你的通行碼轉換為金鑰。通行碼絕不會被儲存或傳送。請選擇一個你不會忘記的通行碼——它無法找回。"
+          }
+        }
+      }
+    },
+    "Manual schedule" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手动方案"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手動方案"
           }
         }
       }
@@ -28294,7 +28789,7 @@
       }
     },
     "More…" : {
-      "comment" : "Brand picker: submenu of niche extended-release brands",
+      "comment" : "Brand picker: submenu of niche brands",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -29159,6 +29654,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新增飲品"
+          }
+        }
+      }
+    },
+    "New Drink…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增饮品…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增飲品…"
           }
         }
       }
@@ -31709,6 +32220,22 @@
         }
       }
     },
+    "of the cycle, between your lines" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "周期内，位于两条参考线之间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "週期內，位於兩條參考線之間"
+          }
+        }
+      }
+    },
     "Off" : {
       "localizations" : {
         "zh-Hans" : {
@@ -31785,6 +32312,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "好"
+          }
+        }
+      }
+    },
+    "Older lab data used radioimmunoassay; modern LC-MS/MS reads lower. Calibrating to your own results absorbs whichever assay your lab uses." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "较早的化验数据用放射免疫法；现代 LC-MS/MS 读数更低。校准到你自己的结果可消化你所用化验方法的差异。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "較早的化驗數據用放射免疫法；現代 LC-MS/MS 讀數更低。校準到你自己的結果可消化你所用化驗方法的差異。"
           }
         }
       }
@@ -32727,6 +33270,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正向變構調節劑 (PAM)"
+          }
+        }
+      }
+    },
+    "Parameters from estrannaise.js (MIT), cross-checked against primary literature" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参数来自 estrannaise.js（MIT），并与原始文献交叉核对"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "參數來自 estrannaise.js（MIT），並與原始文獻交叉核對"
           }
         }
       }
@@ -34827,6 +35386,22 @@
         }
       }
     },
+    "Project hormone levels from injectable esters" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据注射用酯类推算激素水平"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根據注射用酯類推算激素水平"
+          }
+        }
+      }
+    },
     "Projected · %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35351,6 +35926,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "緩和期"
+          }
+        }
+      }
+    },
+    "Ranges from about %lld to %lld %@ across the cycle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ranges from about %1$lld to %2$lld %3$@ across the cycle"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "整个周期内约在 %lld 到 %lld %@ 之间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "整個週期內約在 %lld 到 %lld %@ 之間"
           }
         }
       }
@@ -36310,6 +36907,28 @@
         }
       }
     },
+    "Reference high" : {
+
+    },
+    "Reference lines" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参考线"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "參考線"
+          }
+        }
+      }
+    },
+    "Reference low" : {
+
+    },
     "References" : {
       "localizations" : {
         "zh-Hans" : {
@@ -36343,7 +36962,7 @@
       }
     },
     "Regular" : {
-      "comment" : "Brand picker: the base immediate-release form\nIsomer picker: the standard/unspecified parent form",
+      "comment" : "Isomer picker: the standard/unspecified parent form",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -39533,6 +40152,22 @@
         }
       }
     },
+    "Serum level" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清水平"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清水平"
+          }
+        }
+      }
+    },
     "Servicios de Emergencia" : {
       "localizations" : {
         "zh-Hans" : {
@@ -41511,7 +42146,6 @@
       }
     },
     "Source" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -41992,6 +42626,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "為物質加星即可收藏於此"
+          }
+        }
+      }
+    },
+    "Star a substance to keep it in your quick-log favorites." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "给物质加星，即可保留在快速记录的收藏中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為物質加星，即可保留在快速記錄的收藏中。"
           }
         }
       }
@@ -44034,6 +44684,22 @@
         }
       }
     },
+    "Testosterone" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睾酮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睾酮"
+          }
+        }
+      }
+    },
     "Text" : {
       "localizations" : {
         "zh-Hans" : {
@@ -45465,6 +46131,22 @@
         }
       }
     },
+    "Time in range" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在范围内的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在範圍內的時間"
+          }
+        }
+      }
+    },
     "Time of Day" : {
       "localizations" : {
         "zh-Hans" : {
@@ -46249,6 +46931,7 @@
       }
     },
     "Track what you take — and understand how it affects your body." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -46773,6 +47456,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未分組"
+          }
+        }
+      }
+    },
+    "Unbranded" : {
+      "comment" : "Brand picker: no specific brand — the plain substance",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无品牌"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無品牌"
+          }
+        }
+      }
+    },
+    "Uncalibrated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未校准"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未校準"
           }
         }
       }
@@ -48612,6 +49328,22 @@
     "Where each regularly dosed substance settles, based on your log's cadence" : {
 
     },
+    "Where these numbers come from" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些数值的来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些數值的來源"
+          }
+        }
+      }
+    },
     "Where this comes from" : {
       "localizations" : {
         "zh-Hans" : {
@@ -49901,6 +50633,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "當剩餘量低於此值時會突出顯示。設為 0 可停用。"
+          }
+        }
+      }
+    },
+    "Your result is stored in %@; enter it in whichever unit your lab reported." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的结果以 %@ 存储；可按化验单上报告的任意单位输入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的結果以 %@ 儲存；可按化驗單上報告的任意單位輸入。"
           }
         }
       }

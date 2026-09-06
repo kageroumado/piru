@@ -242,6 +242,11 @@ final class SubstanceStore {
     /// umbrella. Built at load by a small separate read so its absence in an older
     /// bundled DB degrades to "base curve / marker" rather than failing the build.
     private(set) var productDurationIndex: [String: DurationProfile] = [:]
+    /// `ester_id` → depot PK parameters for an injectable hormone ester
+    /// (`ester_pk`). Feeds the Injection Levels tool's three-compartment serum-level
+    /// curve. Built at load by a small separate read so its absence in an older
+    /// bundled DB degrades to "tool shows no esters" rather than failing the build.
+    private(set) var esterPKIndex: [String: EsterPKRecord] = [:]
     /// Composed form titles from `substance_forms` — "Methylphenidate",
     /// "Methylphenidate XR", "Dexmethylphenidate XR" (the cross-axis Focalin XR
     /// form), "Naltrexone Depot". The build composes these once, so the app never
@@ -861,6 +866,44 @@ final class SubstanceStore {
             self.productDurationIndex = index
         } catch {
             logger.warning("buildIndexes: product_durations unavailable (\(error.localizedDescription, privacy: .public)) — extended-release curves fall back")
+        }
+
+        // Depot PK parameters for injectable hormone esters (`ester_pk`), read
+        // separately for the same degrade-gracefully reason: a bundled DB predating
+        // the table leaves the Injection Levels tool with no esters to offer rather
+        // than failing the whole index build.
+        do {
+            let rows = try substancesDB.read { db in
+                try Row.fetchAll(db, sql: """
+                SELECT ester_id, analyte, parent, parent_uid, ester_label,
+                       d, k1, k2, k3, confidence, provenance, routes
+                  FROM ester_pk
+                """)
+            }
+            var index: [String: EsterPKRecord] = [:]
+            for row in rows {
+                let routes = ((try? JSONDecoder().decode(
+                    [String].self,
+                    from: Data((row["routes"] as String).utf8),
+                )) ?? ["IM"])
+                index[row["ester_id"] as String] = EsterPKRecord(
+                    esterID: row["ester_id"] as String,
+                    analyte: row["analyte"] as String,
+                    parent: row["parent"] as String,
+                    parentUID: row["parent_uid"] as String?,
+                    label: row["ester_label"] as String,
+                    parameters: PKModel.DepotParameters(
+                        d: row["d"] as Double, k1: row["k1"] as Double,
+                        k2: row["k2"] as Double, k3: row["k3"] as Double,
+                    ),
+                    confidence: row["confidence"] as String,
+                    provenance: row["provenance"] as String,
+                    routes: routes,
+                )
+            }
+            self.esterPKIndex = index
+        } catch {
+            logger.warning("buildIndexes: ester_pk unavailable (\(error.localizedDescription, privacy: .public)) — Injection Levels tool has no ester data")
         }
 
         // Branded products (`aliases` kind='brand') grouped by FAMILY uid for the

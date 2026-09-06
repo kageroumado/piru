@@ -1,0 +1,40 @@
+{
+  "_comment": "Depot (oil/IM) three-compartment PK parameters for injectable estradiol esters, feeding the Injection Levels tool (Specs/injection-levels-tool.md). Model form: E2(t) = dose·d·k1·k2·[ e^(-k1 t)/((k1-k2)(k1-k3)) - e^(-k2 t)/((k1-k2)(k2-k3)) + e^(-k3 t)/((k1-k3)(k2-k3)) ]; rates per DAY, dose in mg, output in pg/mL. Parameters are the estrannaise.js MAP/MCMC fits (github.com/WHSAH/estrannaise.js, MIT), each independently cross-checked against the retrievable primary literature — the full provenance, confidence reasoning, and caveats are in Specs/evidence/estradiol-tool/ester-pk-parameters.json. Only the three esters that spec recommends shipping are here: cypionate + enanthate (ship_with_confidence) and valerate (ship_attributed). Benzoate is omitted (its Tmax/amplitude conflict with Oriowo 1980 is unresolved) and undecylate is omitted (no retrievable human concentration-time data to validate any parameter). `d` is unvalidated amplitude for every ester (no retrievable paper publishes an EV/EC Cmax for oil solution) — which is exactly why the tool offers lab calibration to pin it per-user. SC is treated as equivalent to IM per Sierra-Ramirez 2011 (PMID 22078184), which found SC/IM PK parameters similar. Consumed by pipeline/build/sqlite.py build_ester_pk() → the `ester_pk` table.",
+  "analyte": "estradiol",
+  "parent": "Estradiol",
+  "esters": [
+    {
+      "ester_id": "estradiol_cypionate",
+      "ester_label": "Cypionate",
+      "d": 246.0,
+      "k1": 0.0825,
+      "k2": 3.57,
+      "k3": 0.669,
+      "confidence": "high",
+      "provenance": "estrannaise.js (MIT) fit. Cross-checked vs Oriowo 1980 (PMID 7389356, Tmax ~4 d) and Rahimy 1999 (PMID 10640167, terminal t½ ~8 d) — two independent primaries corroborate two model parameters. Amplitude (d) unvalidated.",
+      "routes": ["IM", "SC"]
+    },
+    {
+      "ester_id": "estradiol_valerate",
+      "ester_label": "Valerate",
+      "d": 478.0,
+      "k1": 0.236,
+      "k2": 4.85,
+      "k3": 1.24,
+      "confidence": "medium",
+      "provenance": "estrannaise.js (MIT) fit. Tmax 1.90 d and terminal t½ 2.94 d reproduce Oriowo 1980 (PMID 7389356) summary statistics at the same 5 mg dose. Amplitude (d) unvalidated.",
+      "routes": ["IM"]
+    },
+    {
+      "ester_id": "estradiol_enanthate",
+      "ester_label": "Enanthate",
+      "d": 191.4,
+      "k1": 0.119,
+      "k2": 0.601,
+      "k3": 0.402,
+      "confidence": "medium",
+      "provenance": "estrannaise.js (MIT) fit. Terminal rate k1=0.119/d (t½ 5.82 d) agrees within 5% with Wiemeyer 1986 (PMID 3814225) fitted elimination t½ 5.57 d — the strongest cross-validation in the set. Rise phase (Tmax) is lower-confidence; amplitude (d) unvalidated.",
+      "routes": ["IM"]
+    }
+  ]
+}

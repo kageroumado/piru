@@ -116,7 +116,7 @@ struct EntrySiblingRow: View {
     let colorMap: [String: Color]
 
     var body: some View {
-        let name = CustomSubstanceStore.shared.displayName(for: dose.substance)
+        let name = DoseTitle.resolve(for: dose)
         let time = sessionActive
             ? EntryDoseFormat.relativeText(from: dose.timestamp, now: .now)
             : dose.timestamp.formatted(date: .omitted, time: .shortened)

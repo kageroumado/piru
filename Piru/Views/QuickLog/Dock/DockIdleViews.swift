@@ -165,12 +165,26 @@ struct DockLabelText: View {
     @State private var context = DockLabelContext()
 
     var body: some View {
-        Text(verbatim: DockLabel.resolve(preferences.labels, in: context))
-            .font((compact ? Font.caption : Font.subheadline).weight(.semibold))
-            .foregroundStyle(Theme.accent)
-            .lineLimit(1)
-            .minimumScaleFactor(0.8)
+        label
             .task(id: recomputeKey) { await recompute() }
+    }
+
+    @ViewBuilder
+    private var label: some View {
+        let resolved = DockLabel.resolve(preferences.labels, in: context)
+        if resolved == DockLabel.unavailable {
+            // Nothing to say: a small neutral pill rather than a bare dash.
+            Capsule()
+                .fill(.secondary)
+                .frame(width: 32, height: 5)
+                .accessibilityHidden(true)
+        } else {
+            Text(verbatim: resolved)
+                .font((compact ? Font.caption : Font.subheadline).weight(.semibold))
+                .foregroundStyle(.primary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+        }
     }
 
     private var recomputeKey: String {

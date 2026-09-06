@@ -377,6 +377,11 @@ struct TimelineDayLayout: Identifiable {
 
     struct CardItem: Identifiable {
         let entry: DoseEntry
+        /// The dose's title, resolved once here (a derive layer) through the shared
+        /// ``DoseTitle/resolve(for:)`` — so the bubble shows the brand ("Medikinet")
+        /// the entry was logged under, matching the session/journal rows, not the
+        /// bare canonical substance.
+        let displayName: String
         let color: Color
         let remainingFraction: Double?
         /// The dose's acute-effect state while its effects are still running
