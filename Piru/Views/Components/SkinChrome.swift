@@ -33,7 +33,35 @@ extension View {
                 shadow: shadow,
                 shadowOffset: shadowOffset,
             ))
+        case let .soft(stroke, glow, glowRadius):
+            buttonStyle(SoftButtonStyle(prominence: prominence, stroke: stroke, glow: glow, glowRadius: glowRadius))
         }
+    }
+}
+
+/// A glowing button: solid fill, hairline, a coloured bloom beneath that
+/// brightens on press — the way Tsuki signals selection.
+struct SoftButtonStyle: ButtonStyle {
+    let prominence: SkinButtonProminence
+    let stroke: Color
+    let glow: Color
+    let glowRadius: CGFloat
+
+    func makeBody(configuration: Configuration) -> some View {
+        let skin = SkinStore.shared.current
+        let shape = RoundedRectangle(cornerRadius: (skin.cardCornerRadius ?? 16) - 2, style: .continuous)
+        let pressed = configuration.isPressed
+        configuration.label
+            .foregroundStyle(prominence == .prominent ? skin.onAccent : skin.accent)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .background {
+                shape.fill(prominence == .prominent ? skin.accent : skin.cardBackground)
+                    .shadow(color: glow.opacity(pressed ? 0.7 : 0.4), radius: pressed ? glowRadius * 0.6 : glowRadius, y: 3)
+                shape.stroke(stroke.opacity(prominence == .prominent ? 0.0 : 0.4), lineWidth: 1)
+            }
+            .scaleEffect(pressed ? 0.97 : 1)
+            .animation(.easeOut(duration: 0.12), value: pressed)
     }
 }
 
@@ -80,7 +108,7 @@ extension Text {
             .padding(.horizontal, horizontal)
             .padding(.vertical, vertical)
         switch SkinStore.shared.current.surface {
-        case .glass:
+        case .glass, .soft:
             base
                 .background(fill.opacity(Theme.Opacity.tint), in: Capsule())
                 .foregroundStyle(text)
@@ -104,7 +132,7 @@ extension Text {
             .padding(.vertical, vertical)
             .foregroundStyle(Theme.secondaryLabel)
         switch SkinStore.shared.current.surface {
-        case .glass:
+        case .glass, .soft:
             base.overlay(Capsule().strokeBorder(stroke, lineWidth: 1))
         case .edged:
             base.overlay(RoundedRectangle(cornerRadius: 3, style: .continuous).strokeBorder(stroke, lineWidth: 1.5))

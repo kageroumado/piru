@@ -45,15 +45,31 @@ roles stay split: a colour that is a fine mark can still fail as small copy
   user; only the chrome around them changes.
 - **Copy.** Strings stay Piru's voice in every skin.
 
+## The skins
+
+| Skin | Source | Surface | Type | Scene |
+|---|---|---|---|---|
+| Piru | the app's own | glass | system | none |
+| ely.pink | `~/Developer/website main` | edged, dashed inset, hard drop | Fredoka + DotGothic16 | stickers |
+| Tsuki | `~/Developer/Tsuki` | soft (hairline + lavender glow) | `.rounded` | night sky, sparse, sleeping moon |
+| Starfield | `~/Developer/website main/astrelia` | edged | Fredoka | night sky, dense, gold |
+| Jellyfish | rocuronium's jellyfish | soft (hairline + cyan glow) | `.rounded` | underwater |
+
+Light modes for Tsuki, Starfield and Jellyfish are invented — a moonlit
+lavender day, a dawn sky, a shallow lagoon — since their sources are dark
+only; every one is gated by `ColorContrastTests` like the rest.
+
 ## Adding a skin
 
-1. `Skin`: add the case, its name/tagline, `surface`, `fontDesign`.
-2. Palette: add `skin/<id>/surface/{background,card,input}`, `skin/<id>/text/secondary`,
-   `skin/<id>/accent`, and any `skin/<id>/semantic/*` overrides to
-   `palette-generator-input.json`; regenerate; wire the accessors.
-3. `ColorContrastTests`: add the skin's measured card colours to the surface
-   table so its tokens are gated.
-4. Nothing else. The picker lists `Skin.allCases`.
+1. Palette: seed `skin/<id>/…` as hex in `color/build_skin_palettes.py` — it
+   gates text 4.5:1 and marks 3:1 against the skin's own card and writes
+   Oklch into `palette-skins.json`; then `build_generator_input.py` and
+   `generate_colorsets.py`.
+2. `Skin`: add the case, its name/tagline, a `SkinPalette` from the generated
+   symbols, `surface`, `fontDesign` / `typeface`, `decorations`.
+3. `translate_catalog.py`: the name and tagline.
+4. Nothing else. `ColorContrastTests` iterates `Skin.allCases`; the picker
+   lists them.
 
 ## Form: `Piru/Views/Components/SkinChrome.swift`
 
@@ -69,8 +85,11 @@ each branching on `Skin.surface`:
   a colour on a tint of itself asymptotes around 4.5:1 in dark mode), a stroked
   square on the input surface under an edge. Takes a text style, not a `Font`,
   so the edged branch can set the skin's label face.
-- `SkinSticker` — a group's label (the timeline day header). Material capsule,
-  or the site's tab: accent fill, stroke, hard shadow in the eyebrow colour.
+
+Three surfaces: `.glass` (the default's material), `.edged` (solid, stroke,
+hard offset shadow — ely.pink, Starfield) and `.soft` (solid, 1pt hairline at
+low opacity, a coloured glow, never a black shadow — Tsuki, Jellyfish).
+`SoftButtonStyle` is the soft skins' button: the glow brightens on press.
 
 ## Type: `Piru/Views/Components/SkinType.swift`
 
@@ -109,18 +128,44 @@ surfaces and carries no skin chrome.
 
 ## Decorations: `Piru/Views/Components/SkinBackdrop.swift`
 
-The chaos layer. Every screen root says `.skinBackdrop()` instead of
+Every screen root says `.skinBackdrop()` instead of
 `.background(Theme.background)`; for a skin whose `Skin.decorations` is
-non-nil (and the Appearance toggle is on) that is the background colour plus a
-seeded starfield, a warm glow at the top, and a field of glyph stickers on a
-jittered grid — roughly one per 110pt cell, a few cells left empty — that bob,
-sway, twinkle (sparkles) and turn (sparkles, flowers, crosses), all from one
-`TimelineView` clock. Glyph colours are the skin's own tokens. Positions are
-seeded by screen size, so a screen is stable across appearances. Blinkies were
-tried and dropped: text in the background competes with text in the content.
-Motion stops under Reduce Motion. Graph code that *fills* with
-`Theme.background` (dot rings, fades) is untouched — it never went through
-`.background()`.
+non-nil (and the Appearance toggle is on) that is the background colour plus
+**one `Canvas` on one `TimelineView` clock** (30 fps, paused under Reduce
+Motion) that draws the skin's `SkinScene` and then its glyph stickers. One
+draw pass per frame per screen, however much is in it — the phone froze once
+when this was many animated views instead.
+
+Everything is a pure function of `(size, time)` from a seeded RNG: a screen
+looks the same every time, and nothing keeps a history buffer. Rules from
+rocuronium's jellyfish: glows are radial gradients that reach zero alpha at
+their edge, never `.blur`/`.shadow` filters, and over dark water they
+composite `plusLighter` (additive) so a colour reads as emitting, not paler.
+
+- `.stickers` (ely.pink): warm glow, dotted ground, the full glyph field on a
+  jittered grid (~one per 110pt cell) that bobs, sways, twinkles and turns.
+  Blinkies were tried and dropped: text in the background competes with text
+  in the content.
+- `.nightSky` (Tsuki, Starfield): nebula glows, a haloed starfield with
+  per-star twinkle and drift in three size tiers (the brightest get four
+  points), Tsuki's sleeping crescent moon with a breathing glow, a thinner
+  glyph field.
+- `.underwater` (Jellyfish): a depth gradient, eight swaying light rays,
+  twinkling plankton, jellyfish swimming up (rocuronium's contraction curve
+  for the bell pulse, a surge that follows the squeeze, five tapered
+  tentacle ribbons that *lag* the bell by sampling the same closed-form
+  motion, two oral arms, sleepy eyes), rising bubbles, and a vignette so the
+  edges read as glass.
+
+**Parallax.** `SkinMotion` low-pass filters device gravity into a resting
+reference and reports the deviation as a tilt; every layer slides opposite
+the tilt scaled by its depth (rays far, small jellies farther than big ones,
+bubbles by size, stars by tier, the moon nearest) — the window into the
+aquarium. Zero on the simulator, on the Mac, and under Reduce Motion; the
+motion manager runs only while a backdrop is on screen.
+
+Graph code that *fills* with `Theme.background` (dot rings, fades) is
+untouched — it never went through `.background()`.
 
 Two more flourishes live in the same file, both keyed off `Skin.decorations`
 and the Appearance toggle: `.skinFrameCorners()` puts the site's ✧ / ♡ pair on
@@ -164,6 +209,4 @@ key to screenshot any screen in any skin.
   renderers, which stay on the system face by design.
 - Title sparkles: navigation titles are UIKit-drawn, so the site's ✦ stickers
   on the title have no SwiftUI hook yet.
-- A **starfield skin** (Astrelia-inspired night sky: steel-blue ground, a
-  dense twinkling starfield, ✦ ✧ ⋆ ☾ stickers in gold/white/blue) on the same
-  decoration machinery — after kagerou.glass. Tokens are in the project memory.
+- kagerou.glass, the other developer's site, as a skin.

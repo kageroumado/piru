@@ -97,6 +97,12 @@ struct ThemedBackground<S: Shape>: ViewModifier {
             } else {
                 content.background(.ultraThinMaterial, in: shape)
             }
+        case let .soft(stroke, glow, glowRadius):
+            content.background {
+                shape.fill(Theme.cardBackground)
+                    .shadow(color: glow.opacity(colorScheme == .dark ? 0.28 : 0.35), radius: glowRadius, y: 4)
+                shape.stroke(stroke.opacity(0.35), lineWidth: 1)
+            }
         case let .edged(stroke, strokeWidth, shadow, shadowOffset):
             content.background {
                 shape.fill(shadow).offset(shadowOffset)
@@ -129,7 +135,7 @@ struct CardBackground: View {
             } else {
                 Rectangle().fill(.ultraThinMaterial)
             }
-        case .edged:
+        case .edged, .soft:
             Theme.cardBackground
         }
     }
@@ -178,7 +184,7 @@ extension View {
     /// squared — the skin's input rounding.
     func themeCapsule() -> some View {
         let shape: AnyShape = switch SkinStore.shared.current.surface {
-        case .glass: AnyShape(Capsule())
+        case .glass, .soft: AnyShape(Capsule())
         case .edged: AnyShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.input, style: .continuous))
         }
         return modifier(ThemedBackground(shape: shape))

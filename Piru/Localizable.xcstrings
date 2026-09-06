@@ -4145,6 +4145,74 @@
         }
       }
     },
+    "★ more more jump! ★" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "★ 再跳再跳！★"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "★ 再跳再跳！★"
+          }
+        }
+      }
+    },
+    "☆ dream more ☆" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "☆ 多做梦 ☆"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "☆ 多做夢 ☆"
+          }
+        }
+      }
+    },
+    "♡ be gentle w/ me ♡" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "♡ 请温柔待我 ♡"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "♡ 請溫柔待我 ♡"
+          }
+        }
+      }
+    },
+    "♡ peaceful & fluffy ♡" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "♡ 平静又蓬松 ♡"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "♡ 平靜又蓬鬆 ♡"
+          }
+        }
+      }
+    },
     "0" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14841,6 +14909,22 @@
         }
       }
     },
+    "Decorations" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "装饰"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "裝飾"
+          }
+        }
+      }
+    },
     "Decrease" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14901,6 +14985,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "深層"
+          }
+        }
+      }
+    },
+    "Deep purple night, a sleeping moon" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深紫夜色，一轮睡着的月亮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深紫夜色，一輪睡著的月亮"
+          }
+        }
+      }
+    },
+    "Deep water, bioluminescence, jellyfish" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深水、生物荧光、水母"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深水、生物螢光、水母"
           }
         }
       }
@@ -24585,6 +24701,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "IUPAC 名稱"
+          }
+        }
+      }
+    },
+    "Jellyfish" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "水母"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "水母"
           }
         }
       }
@@ -42224,6 +42356,38 @@
         }
       }
     },
+    "Starfield" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星野"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星野"
+          }
+        }
+      }
+    },
+    "Stars, hearts, and stickers behind everything. Off automatically with Reduce Motion." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "背后的星星、爱心和贴纸。开启“减弱动态效果”时会自动关闭。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "背後的星星、愛心和貼紙。開啟「減少動態效果」時會自動關閉。"
+          }
+        }
+      }
+    },
     "start" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -42657,6 +42821,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "穩態需要規律的用藥安排。按固定節奏記錄某種物質，其平台值就會顯示在這裡。"
+          }
+        }
+      }
+    },
+    "Steel blue and gold under a thousand stars" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "千星之下的钢蓝与金"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "千星之下的鋼藍與金"
           }
         }
       }
@@ -46475,6 +46655,7 @@
       }
     },
     "Track what you take — and understand how it affects your body." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -46788,6 +46969,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "嘗試調整篩選條件。"
+          }
+        }
+      }
+    },
+    "Tsuki" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tsuki"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tsuki"
           }
         }
       }
@@ -50433,102 +50630,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-鴉片受體配體"
-          }
-        }
-      }
-    },
-    "Decorations" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "装饰"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "裝飾"
-          }
-        }
-      }
-    },
-    "Stars, hearts, and stickers behind everything. Off automatically with Reduce Motion." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "背后的星星、爱心和贴纸。开启“减弱动态效果”时会自动关闭。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "背後的星星、愛心和貼紙。開啟「減少動態效果」時會自動關閉。"
-          }
-        }
-      }
-    },
-    "♡ peaceful & fluffy ♡" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "♡ 平静又蓬松 ♡"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "♡ 平靜又蓬鬆 ♡"
-          }
-        }
-      }
-    },
-    "☆ dream more ☆" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "☆ 多做梦 ☆"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "☆ 多做夢 ☆"
-          }
-        }
-      }
-    },
-    "★ more more jump! ★" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "★ 再跳再跳！★"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "★ 再跳再跳！★"
-          }
-        }
-      }
-    },
-    "♡ be gentle w/ me ♡" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "♡ 请温柔待我 ♡"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "♡ 請溫柔待我 ♡"
           }
         }
       }

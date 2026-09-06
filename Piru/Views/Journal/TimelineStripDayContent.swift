@@ -446,7 +446,7 @@ struct SessionEnvelopeButton: View {
                         )
                 }
                 .shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.04), radius: 12, y: 4)
-        case .edged:
+        case .edged, .soft:
             Color.clear.themeCard(cornerRadius: Self.cornerRadius)
         }
     }

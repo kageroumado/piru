@@ -5368,6 +5368,22 @@
     ]
    }
   },
+  "skin/astrelia/title/fill": {
+   "any": {
+    "oklch": [
+     0.26999,
+     0.0609,
+     270.10249
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.75037,
+     0.11106,
+     90.34461
+    ]
+   }
+  },
   "skin/jellyfish/surface/background": {
    "any": {
     "oklch": [

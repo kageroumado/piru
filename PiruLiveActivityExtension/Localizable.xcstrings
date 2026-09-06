@@ -253,6 +253,12 @@
         }
       }
     },
+    "Deep purple night, a sleeping moon" : {
+
+    },
+    "Deep water, bioluminescence, jellyfish" : {
+
+    },
     "Elapsed" : {
       "localizations" : {
         "zh-Hans" : {
@@ -460,6 +466,9 @@
           }
         }
       }
+    },
+    "Jellyfish" : {
+
     },
     "Light Mode" : {
       "localizations" : {
@@ -768,6 +777,12 @@
         }
       }
     },
+    "Starfield" : {
+
+    },
+    "Steel blue and gold under a thousand stars" : {
+
+    },
     "Subcutaneous" : {
       "localizations" : {
         "zh-Hans" : {
@@ -847,6 +862,9 @@
           }
         }
       }
+    },
+    "Tsuki" : {
+
     },
     "Unverified" : {
       "localizations" : {

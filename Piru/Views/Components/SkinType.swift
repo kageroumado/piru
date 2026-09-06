@@ -1,5 +1,9 @@
 import SwiftUI
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#else
+    import AppKit
+#endif
 
 // The typography layer of the skin system. Two roles: display (titles) and
 // label (chips, eyebrows). Body copy is always the system face — a skin
@@ -47,6 +51,7 @@ extension Font {
     }
 }
 
+#if canImport(UIKit)
 /// Resolves a skin's family + weight to a **registered font name**, and builds
 /// the `Font` through UIKit.
 ///
@@ -195,14 +200,18 @@ enum SkinNavigationTitles {
     @MainActor
     static func apply(_ skin: Skin) {
         let bar = UINavigationBar.appearance()
-        guard let family = skin.typeface.display else {
-            bar.largeTitleTextAttributes = nil
-            bar.titleTextAttributes = nil
-            return
-        }
         let large = UIFont.TextStyle.largeTitle
         let inline = UIFont.TextStyle.headline
-        var largeAttributes: [NSAttributedString.Key: Any] = [.font: uiFont(family, weight: .bold, style: large)]
+        var largeAttributes: [NSAttributedString.Key: Any] = [:]
+        if let family = skin.typeface.display {
+            largeAttributes[.font] = uiFont(family, weight: .bold, style: large)
+            bar.titleTextAttributes = [.font: uiFont(family, weight: .semibold, style: inline)]
+        } else if let design = skin.fontDesign {
+            largeAttributes[.font] = systemFont(design: design, weight: .bold, style: large)
+            bar.titleTextAttributes = [.font: systemFont(design: design, weight: .semibold, style: inline)]
+        } else {
+            bar.titleTextAttributes = nil
+        }
         if let outline = skin.titleOutline {
             // The site's `h1`: filled, with a hard unblurred drop. **No
             // `.strokeWidth` here**: UIKit strokes every contour of the glyph,
@@ -213,12 +222,26 @@ enum SkinNavigationTitles {
             let drop = NSShadow()
             drop.shadowColor = UIColor(outline.shadow)
             drop.shadowOffset = outline.shadowOffset
-            drop.shadowBlurRadius = 0
-            largeAttributes[.foregroundColor] = UIColor(outline.fill)
+            drop.shadowBlurRadius = outline.shadowBlur
+            if let fill = outline.fill { largeAttributes[.foregroundColor] = UIColor(fill) }
             largeAttributes[.shadow] = drop
         }
-        bar.largeTitleTextAttributes = largeAttributes
-        bar.titleTextAttributes = [.font: uiFont(family, weight: .semibold, style: inline)]
+        bar.largeTitleTextAttributes = largeAttributes.isEmpty ? nil : largeAttributes
+    }
+
+    /// The system face in a design (`.rounded` for Tsuki), for the bar — a
+    /// root `.fontDesign` reaches SwiftUI text only, never UIKit's titles.
+    private static func systemFont(design: Font.Design, weight: UIFont.Weight, style: UIFont.TextStyle) -> UIFont {
+        let base = UIFont.preferredFont(forTextStyle: style)
+        let uiDesign: UIFontDescriptor.SystemDesign = switch design {
+        case .rounded: .rounded
+        case .serif: .serif
+        case .monospaced: .monospaced
+        default: .default
+        }
+        let descriptor = (base.fontDescriptor.withDesign(uiDesign) ?? base.fontDescriptor)
+            .addingAttributes([.traits: [UIFontDescriptor.TraitKey.weight: weight]])
+        return UIFontMetrics(forTextStyle: style).scaledFont(for: UIFont(descriptor: descriptor, size: base.pointSize))
     }
 
     /// The same family + weight descriptor `SkinFace` renders with, as a `UIFont`.
@@ -231,3 +254,67 @@ enum SkinNavigationTitles {
         return UIFontMetrics(forTextStyle: style).scaledFont(for: UIFont(descriptor: descriptor, size: size))
     }
 }
+#else
+
+    /// macOS: the app is built for the Mac as well, where fonts resolve
+    /// through AppKit. `Font.custom` with the family name is enough there —
+    /// the variable-font trap this file works around is a UIKit one.
+    enum SkinFace {
+        static func display(weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle, scaling: Bool = true) -> Font? {
+            SkinStore.shared.current.typeface.display.map { font(family: $0, weight: weight, size: size, relativeTo: style, scaling: scaling) }
+        }
+
+        static func label(weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle) -> Font? {
+            SkinStore.shared.current.typeface.label.map { font(family: $0, weight: weight, size: size, relativeTo: style) }
+        }
+
+        static func font(family: String, weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle, scaling: Bool = true) -> Font {
+            (scaling ? Font.custom(family, size: size, relativeTo: style) : Font.custom(family, fixedSize: size)).weight(weight)
+        }
+
+        static func registered(_ family: String, weight: Font.Weight) -> String? {
+            NSFontManager.shared.availableFontFamilies.contains(family) ? family : nil
+        }
+    }
+
+    extension Font.TextStyle {
+        var defaultWeight: Font.Weight {
+            self == .headline ? .semibold : .regular
+        }
+
+        var isDisplay: Bool {
+            switch self {
+            case .largeTitle, .title, .title2, .title3, .headline: true
+            default: false
+            }
+        }
+
+        var defaultPointSize: CGFloat {
+            NSFont.preferredFont(forTextStyle: nsTextStyle).pointSize
+        }
+
+        var nsTextStyle: NSFont.TextStyle {
+            switch self {
+            case .largeTitle: .largeTitle
+            case .title: .title1
+            case .title2: .title2
+            case .title3: .title3
+            case .headline: .headline
+            case .subheadline: .subheadline
+            case .body: .body
+            case .callout: .callout
+            case .footnote: .footnote
+            case .caption: .caption1
+            case .caption2: .caption2
+            @unknown default: .body
+            }
+        }
+    }
+
+    /// macOS has no UIKit navigation bar to style; SwiftUI titles take the
+    /// root `fontDesign` and `.skinHeroTitle()` on their own.
+    enum SkinNavigationTitles {
+        @MainActor
+        static func apply(_ skin: Skin) {}
+    }
+#endif

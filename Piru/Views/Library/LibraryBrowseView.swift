@@ -148,6 +148,8 @@ private struct FamilyGradientCardEdge: ViewModifier {
         switch surface {
         case .glass:
             content.shadow(color: color.opacity(0.3), radius: 10, x: 0, y: 5)
+        case let .soft(_, _, glowRadius):
+            content.shadow(color: color.opacity(0.45), radius: glowRadius, x: 0, y: 5)
         case let .edged(stroke, strokeWidth, shadow, shadowOffset):
             content
                 .background(shape.fill(shadow).offset(shadowOffset))
