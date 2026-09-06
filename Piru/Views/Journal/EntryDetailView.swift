@@ -274,6 +274,9 @@ struct EntryDetailView: View {
         // drop them and reschedule from its new time.
         DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: previousTimestamp, in: modelContext)
 
+        // The tick every derived surface keys its rebuild on — the timeline
+        // strip lays a moved dose out at its new time only after this.
+        DoseLogService.shared.changed()
         // Inventory recompute (scoped to the old + new substance) and the widget
         // reload are deferred off the edit-commit path — neither is on screen.
         DoseLogService.shared.scheduleDeferredBookkeeping(
