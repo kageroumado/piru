@@ -5504,6 +5504,9 @@ T = {
     # Alcohol by-volume input (2026-06-22)
     "By Drink": ("按饮品", "按飲品"),
     "By Weight": ("按重量", "按重量"),
+    "By Volume": ("按体积", "按體積"),
+    "By Mass": ("按质量", "按質量"),
+    "Session complete": ("记录已结束", "記錄已結束"),
     "Volume": ("容量", "容量"),
     "Strength": ("浓度", "濃度"),
     "% ABV": ("% 酒精度", "% 酒精度"),
