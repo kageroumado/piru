@@ -233,6 +233,19 @@ struct StagedDose: Identifiable, Equatable {
         librarySubstance?.substanceUID
     }
 
+    /// Injectable hormone esters offered for `route` (Estradiol → Cypionate /
+    /// Valerate / Enanthate), from the `ester_pk` table. Empty unless the route is
+    /// IM/SC and the substance has ester data. Esters are offered on both injection
+    /// routes regardless of a parameter set's nominal route, so a person can log the
+    /// ester they actually used — a route/parameter mismatch is the Injection Levels
+    /// tool's note to make, not a reason to hide the ester.
+    @MainActor
+    func esterForms(for route: RouteOfAdministration) -> [String] {
+        guard route == .intramuscular || route == .subcutaneous,
+              let uid = substanceUID else { return [] }
+        return SubstanceStore.shared.esters(forParentUID: uid).map(\.label)
+    }
+
     /// The locale-stable identity anchor to snapshot onto the committed dose —
     /// the full composed form title across both facets ("Dexmethylphenidate XR"),
     /// not just the isomer's name. See ``DoseTitle/snapshot(canonicalName:isomer:releaseForm:)``.
@@ -260,12 +273,21 @@ struct StagedDose: Identifiable, Equatable {
     /// facets a staged dose can't have yet resolved.
     var displayTitle: String {
         if let relabel = CustomSubstanceStore.shared.relabel(forCanonicalName: substanceName) { return relabel }
-        if let productName, !productName.isEmpty { return productName }
-        if let isomer, let librarySubstance,
-           let named = librarySubstance.isomerOptions(for: route).first(where: { $0.code == isomer })?.displayName {
-            return named
+        let base: String = if let productName, !productName.isEmpty {
+            productName
+        } else if let isomer, let librarySubstance,
+                  let named = librarySubstance.isomerOptions(for: route).first(where: { $0.code == isomer })?.displayName {
+            named
+        } else {
+            CustomSubstanceStore.shared.displayName(for: substanceName)
         }
-        return CustomSubstanceStore.shared.displayName(for: substanceName)
+        // Fold an injectable ester into the name — "Estradiol Valerate" — matching
+        // ``DoseTitle/resolve(for:)`` so the tray and the journal row agree.
+        if SubstanceStore.shared.isEster(saltForm, forParentUID: substanceUID),
+           let ester = saltForm, !base.localizedCaseInsensitiveContains(ester) {
+            return "\(base) \(ester)"
+        }
+        return base
     }
 
     static func lookupReferenceDose(substance: Substance?, route: RouteOfAdministration, unit: String, saltForm: String? = nil, isomer: String? = nil) -> Double? {

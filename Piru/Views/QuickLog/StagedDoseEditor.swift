@@ -74,6 +74,11 @@ struct StagedDoseEditor: View {
                     selection: $item.saltForm,
                     style: .menuPill(namespace: namespace, id: "salt-\(item.id)", height: pillHeight),
                 )
+                EsterPicker(
+                    forms: item.esterForms(for: item.route),
+                    selection: $item.saltForm,
+                    style: .menuPill(namespace: namespace, id: "ester-\(item.id)", height: pillHeight),
+                )
                 BrandPicker(
                     brands: brandProducts,
                     productName: $item.productName,

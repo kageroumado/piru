@@ -67,7 +67,13 @@ struct EntryEditContent: View {
                 }
             }
             .onChange(of: draft.route) {
-                SaltPicker.revalidate(&draft.saltForm, against: draftSaltForms)
+                // saltForm is the shared salt/ester axis — reconcile against
+                // whichever this substance uses (see StagedDoseRouteMenu).
+                if draftSaltForms.isEmpty {
+                    EsterPicker.revalidate(&draft.saltForm, against: draftEsterForms)
+                } else {
+                    SaltPicker.revalidate(&draft.saltForm, against: draftSaltForms)
+                }
                 IsomerPicker.revalidate(&draft.isomer, against: draftIsomerOptions)
                 if let sub = substance {
                     draft.unit = sub.unit(for: draft.route, saltForm: draft.saltForm, isomer: draft.isomer)
@@ -79,6 +85,7 @@ struct EntryEditContent: View {
                         draft.unit = sub.unit(for: draft.route, saltForm: draft.saltForm, isomer: draft.isomer)
                     }
                 }
+            EsterPicker(forms: draftEsterForms, selection: $draft.saltForm, style: .formRow)
             IsomerPicker(options: draftIsomerOptions, selection: $draft.isomer, style: .formRow)
                 .onChange(of: draft.isomer) {
                     if let sub = substance {
@@ -190,6 +197,15 @@ struct EntryEditContent: View {
     /// Salt forms offered for the draft route — drives the edit-mode salt picker.
     private var draftSaltForms: [String] {
         substance?.saltForms(for: draft.route) ?? []
+    }
+
+    /// Injectable-ester labels for the draft route — drives the edit-mode ester
+    /// picker (Estradiol → Cypionate / Valerate / Enanthate). Empty unless the
+    /// route is IM/SC and the substance has `ester_pk` data.
+    private var draftEsterForms: [String] {
+        guard draft.route == .intramuscular || draft.route == .subcutaneous,
+              let uid = substance?.substanceUID else { return [] }
+        return SubstanceStore.shared.esters(forParentUID: uid).map(\.label)
     }
 
     /// Named isomer options for the draft route — drives the edit-mode isomer picker.

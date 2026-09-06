@@ -617,7 +617,16 @@ struct StagedDoseRouteMenu: View {
                 ForEach(RouteOfAdministration.allCases) { route in
                     Button {
                         item.route = route
-                        SaltPicker.revalidate(&item.saltForm, against: item.librarySubstance?.saltForms(for: route) ?? [])
+                        // saltForm is the shared salt/ester axis: a real salt route
+                        // defaults to its first form, but an ester is only ever
+                        // kept-or-cleared (never assumed), so pick the reconciler
+                        // that fits which axis this substance uses.
+                        let saltForms = item.librarySubstance?.saltForms(for: route) ?? []
+                        if saltForms.isEmpty {
+                            EsterPicker.revalidate(&item.saltForm, against: item.esterForms(for: route))
+                        } else {
+                            SaltPicker.revalidate(&item.saltForm, against: saltForms)
+                        }
                         IsomerPicker.revalidate(
                             &item.isomer,
                             against: (item.librarySubstance?.isomerOptions(for: route) ?? []).map {

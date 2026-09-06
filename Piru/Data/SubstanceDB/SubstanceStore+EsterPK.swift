@@ -60,4 +60,12 @@ extension SubstanceStore {
             .filter { $0.parentUID == uid }
             .sorted { $0.esterID < $1.esterID }
     }
+
+    /// Whether `label` names an injectable ester of the substance family `uid` —
+    /// distinguishes an ester on `saltForm` ("Valerate") from a mineral salt so a
+    /// title can fold in the ester ("Estradiol Valerate") without touching salts.
+    func isEster(_ label: String?, forParentUID uid: String?) -> Bool {
+        guard let label, !label.isEmpty, let uid else { return false }
+        return esters(forParentUID: uid).contains { $0.label == label }
+    }
 }

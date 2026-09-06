@@ -62,6 +62,11 @@ import SwiftData
             /// trip-report fixture), and a psilocybin session ~90 min in right
             /// now with its first notes (the check-in offer + live markers).
             case psychonaut
+            /// Feminizing HRT: estradiol valerate 4 mg IM every 5 days for ~13
+            /// weeks, plus two blood draws — the injectable-ester fixture. Gives
+            /// the ester picker real IM doses to attribute and the Injection Levels
+            /// tool a steady-state log-driven curve with lab calibration.
+            case transfemHRT
         }
 
         /// Seed the persona named by `-piruPersona`, if any. Returns `true`
@@ -107,6 +112,7 @@ import SwiftData
             case .rareOpener: seedRareOpener(context: context)
             case .medsLowStock: seedMedsPersona(context: context, sporadic: false, lowStock: true)
             case .psychonaut: seedPsychonaut(context: context)
+            case .transfemHRT: seedTransfemHRT(context: context)
             }
 
             // Inventory caches are a replay over doses, so they can only be
@@ -140,6 +146,51 @@ import SwiftData
             try? context.delete(model: ToleranceState.self)
             try? context.delete(model: CustomSubstanceRecord.self)
             try? context.delete(model: CustomDrinkPreset.self)
+            try? context.delete(model: LabMeasurement.self)
+        }
+
+        // MARK: - Transfem HRT (injectable ester fixture)
+
+        /// Estradiol valerate 4 mg IM every 5 days for ~13 weeks (a steady
+        /// monotherapy cadence), plus two blood draws that read a little apart so
+        /// calibration has something to fit. Every dose carries `saltForm:
+        /// "Valerate"`, so the ester picker shows the stored ester and the
+        /// Injection Levels tool attributes the log to estradiol valerate.
+        @MainActor
+        private static func seedTransfemHRT(context: ModelContext) {
+            var rng = SeededRNG(seed: 20_260_906)
+            let cal = Calendar.current
+            let today = cal.startOfDay(for: .now)
+
+            var daysAgo = 90
+            while daysAgo >= 0 {
+                let jitter = Double.random(in: -0.4 ... 0.4, using: &rng) * 3_600
+                let ts = today.addingTimeInterval(-Double(daysAgo) * 86_400 + 9 * 3_600 + jitter)
+                context.insert(DoseEntry(
+                    substance: "Estradiol",
+                    amount: 4, unit: "mg", route: .intramuscular,
+                    saltForm: "Valerate",
+                    timestamp: ts,
+                    tags: ["hrt"],
+                ))
+                daysAgo -= 5
+            }
+
+            // Two draws, both a trough-ish window after a dose, reading a touch
+            // apart so the calibrated curve isn't a flat line.
+            context.insert(LabMeasurement(
+                date: today.addingTimeInterval(-52 * 86_400 + 8 * 3_600),
+                analyteKey: "estradiol", value: 138, inputUnit: "pg/mL",
+                esterID: "estradiol_valerate",
+            ))
+            context.insert(LabMeasurement(
+                date: today.addingTimeInterval(-19 * 86_400 + 8 * 3_600),
+                analyteKey: "estradiol", value: 165, inputUnit: "pg/mL",
+                esterID: "estradiol_valerate",
+            ))
+
+            context.insert(SubstanceColor(substance: "estradiol", hexColor: "f5a3c7"))
+            context.insert(QuickLogDose(substance: "Estradiol", route: .intramuscular, amount: 4, unit: "mg", sortOrder: 0))
         }
 
         // MARK: - Import fixture (-piruImportFile <path>)

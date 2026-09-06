@@ -58,20 +58,29 @@ enum DoseTitle {
         //    for a picked isomer, "Methylphenidate XR" for a recovered brand.
         //    Safe to render only because an unmodeled form no longer draws a
         //    contradicting curve (D.4/LB-2).
-        if entry.namesAForm, let composed = SubstanceLibrary.formTitle(
+        let base: String = if entry.namesAForm, let composed = SubstanceLibrary.formTitle(
             for: canonical, isomer: entry.isomer, release: entry.releaseForm,
         ) {
-            return composed
+            composed
+        } else if let substance {
+            // 4/5. No facets: the catalog's plain (regionalized) title, else the
+            //      snapshot for a substance the catalog no longer knows, else the
+            //      string the dose was logged under — which is never dropped.
+            substance.displayTitle
+        } else if let snapshot = entry.displayNameSnapshot?.trimmingCharacters(in: .whitespaces), !snapshot.isEmpty {
+            snapshot
+        } else {
+            entry.substance
         }
 
-        // 4/5. No facets: the catalog's plain (regionalized) title, else the
-        //      snapshot for a substance the catalog no longer knows, else the
-        //      string the dose was logged under — which is never dropped.
-        if let substance { return substance.displayTitle }
-        if let snapshot = entry.displayNameSnapshot?.trimmingCharacters(in: .whitespaces), !snapshot.isEmpty {
-            return snapshot
+        // Fold an injectable ester into the name — "Estradiol Valerate". Only an
+        // ester on `saltForm`, not a mineral salt (which stays a chip), and never
+        // over a relabel/product name above.
+        if SubstanceStore.shared.isEster(entry.saltForm, forParentUID: substance?.substanceUID),
+           let ester = entry.saltForm, !base.localizedCaseInsensitiveContains(ester) {
+            return "\(base) \(ester)"
         }
-        return entry.substance
+        return base
     }
 
     /// The locale-stable identity anchor to persist on a dose —

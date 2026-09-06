@@ -5188,6 +5188,7 @@
       }
     },
     "A projection from your median dose and spacing, assuming you keep that cadence and linear kinetics. Body content in the dose's units, not a plasma level." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10245,9 +10246,6 @@
       }
     },
     "Body content" : {
-
-    },
-    "Body levels over time, with steady-state projections" : {
 
     },
     "Body load" : {
@@ -30864,7 +30862,24 @@
         }
       }
     },
+    "No specific ester" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不指定酯类"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不指定酯類"
+          }
+        }
+      }
+    },
     "No Steady Cadence Yet" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -43064,10 +43079,8 @@
         }
       }
     },
-    "Steady State Calculator" : {
-
-    },
     "Steady state needs a regular schedule. Log a substance on a consistent cadence and its plateau appears here." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -43745,6 +43758,7 @@
       }
     },
     "Substances you log will appear here while they're still estimated to be in your body." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
