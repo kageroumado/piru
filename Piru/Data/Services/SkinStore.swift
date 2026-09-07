@@ -41,6 +41,11 @@ final class SkinStore {
             colorScheme = SkinDefaults.colorSchemeDefault
         }
         decorationsEnabled = defaults.object(forKey: SkinDefaults.decorationsKey) as? Bool ?? SkinDefaults.decorationsDefault
+        #if DEBUG
+            // `-piruNoDecor` launches with the decoration layer off, to tell a
+            // backdrop problem from everything else on a device.
+            if ProcessInfo.processInfo.arguments.contains("-piruNoDecor") { decorationsEnabled = false }
+        #endif
     }
 
     func setDecorationsEnabled(_ enabled: Bool) {

@@ -1,9 +1,9 @@
 import SwiftUI
 
 /// The per-substance elimination curve — multi-dose one-compartment decay with
-/// 50%/25% milestone lines, a "now" dot, and adaptive time-axis labels.
-/// Extracted from ``InYourSystemView`` so the session detail's In Your Body
-/// section renders the identical curve.
+/// 50%/25% milestone lines, a "now" dot, and adaptive time-axis labels. Shared
+/// by ``InYourBodyView`` and the session detail's In Your Body section so both
+/// render the identical curve.
 ///
 /// When ``projection`` is set **and the substance meaningfully accumulates**
 /// (ratio ≥ 1.15), the curve extends past "now" with dashed projected future

@@ -34,6 +34,10 @@ struct QuickLogStagePayload {
     /// Never a lookup key: `substance` stays canonical and every resolve keeps
     /// going through it (`Specs/psid-identity-consumption.md` LB-1).
     var productName: String?
+    /// The injectable ester the search matched ("Valerate"), for a dose staged from
+    /// an ester alias ("Estradiol Valerate"). Stored on `saltForm`, not `productName`
+    /// — the ester is a form facet, not a brand. `nil` everywhere else.
+    var saltForm: String?
     /// By-volume drink metadata carried from a recent's chip, so a re-logged
     /// drink re-stages exactly (name, strength, volume — chip parity) instead
     /// of opening a blank drink draft. `nil` everywhere else.
@@ -149,6 +153,8 @@ struct QuickLogSearchResults: View {
     /// region-resolved, which `substance_forms` deliberately is not, so a UK user
     /// searching a paracetamol brand should not be told it is "Acetaminophen".
     private func resolvedIdentity(_ substance: Substance, matchedAlias: String) -> String {
+        // An ester alias already titles the row "Estradiol Valerate" (matchedAlias);
+        // the subtitle is the base molecule, so fall through to displayTitle for it.
         let namesAForm = SubstanceLibrary.releaseForm(for: matchedAlias) != nil
             || SubstanceLibrary.isomer(for: matchedAlias) != nil
         if namesAForm, let composed = SubstanceLibrary.formTitle(for: matchedAlias) {
@@ -238,15 +244,23 @@ struct QuickLogSearchResults: View {
                 emoji: chip?.emoji,
             )
         case let .library(match):
+            // An ester alias ("Estradiol Valerate") rides on saltForm, not
+            // productName — it's a form facet, not a brand.
+            if let alias = match.matchedAlias, let ester = SubstanceLibrary.saltForm(for: alias) {
+                return payload(for: match.substance, productName: nil, saltForm: ester)
+            }
             return payload(for: match.substance, productName: match.matchedAlias)
         case let .custom(substance):
             return payload(for: substance, productName: nil)
         }
     }
 
-    private func payload(for substance: Substance, productName: String?) -> QuickLogStagePayload {
-        let route = substance.defaultRoute
-        let unit = substance.defaultUnit
+    private func payload(for substance: Substance, productName: String?, saltForm: String? = nil) -> QuickLogStagePayload {
+        // An injectable ester ("Estradiol Valerate") stages on its declared route
+        // (IM/SC from ester_pk), not the base substance's default (oral) — logging
+        // a depot ester by mouth is meaningless.
+        let route = esterRoute(for: substance, saltForm: saltForm) ?? substance.defaultRoute
+        let unit = substance.unit(for: route, saltForm: saltForm, isomer: nil)
         return QuickLogStagePayload(
             // Canonical, always — `substance` is the lookup key every downstream
             // resolve depends on. The user's word rides alongside in `productName`
@@ -254,11 +268,25 @@ struct QuickLogSearchResults: View {
             substance: substance.name,
             route: route,
             unit: unit,
-            amount: StagedDose.lookupReferenceDose(substance: substance, route: route, unit: unit) ?? 0,
+            amount: StagedDose.lookupReferenceDose(substance: substance, route: route, unit: unit, saltForm: saltForm) ?? 0,
             colorHex: nil,
             librarySubstance: substance,
             productName: productName,
+            saltForm: saltForm,
         )
+    }
+
+    /// The injection route a searched ester should stage on — its declared
+    /// `ester_pk` route (IM/SC), or `nil` when `saltForm` names no ester.
+    private func esterRoute(for substance: Substance, saltForm: String?) -> RouteOfAdministration? {
+        guard let saltForm, let uid = substance.substanceUID else { return nil }
+        let route = SubstanceStore.shared.esters(forParentUID: uid)
+            .first { $0.label == saltForm }?.routes.first
+        switch route {
+        case "SC": return .subcutaneous
+        case "IM": return .intramuscular
+        default: return nil
+        }
     }
 
     private func createCustomRow(_ action: @escaping () -> Void) -> some View {

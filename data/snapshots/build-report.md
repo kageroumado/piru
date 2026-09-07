@@ -1,15 +1,15 @@
 # Piru SQLite build report
 
-Built 2026-09-02.0 → `Piru/Data/piru-substances.sqlite` (19,054,592 bytes, sha256 `9bbcddc70797daee1744aa982672cb195c97cb695176337b0923e75729fadcc5`)
+Built 2026-09-06.7 → `Piru/Data/piru-substances.sqlite` (19,062,784 bytes, sha256 `3ebdfc86ccaed0bf6306d82e545a2431e6b2b0aef89c1f90d8def878edf34a21`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
 | substances | 1,689 |
-| aliases | 5,359 |
+| aliases | 5,368 |
 | sources | 17 |
-| citations | 2,882 |
+| citations | 2,883 |
 | categories | 1,560 |
 | tags | 7,050 |
 | dose_ranges | 2,496 |
@@ -32,7 +32,7 @@ Built 2026-09-02.0 → `Piru/Data/piru-substances.sqlite` (19,054,592 bytes, sha
 | neuroimaging | 52 |
 | pk_routes | 434 |
 | concentration_effects | 23 |
-| metabolism | 558 |
+| metabolism | 560 |
 | drug_interactions_pk | 205 |
 | pharmacogenetics | 305 |
 | off_targets | 209 |
@@ -55,7 +55,7 @@ Built 2026-09-02.0 → `Piru/Data/piru-substances.sqlite` (19,054,592 bytes, sha
 | withdrawal_timing_bands | 3 |
 | withdrawal_acting_class | 9 |
 | taper_interventions | 16 |
-| by_volume_dosing | 1 |
+| by_volume_dosing | 2 |
 | drink_presets | 4 |
 | zero_order_kinetics | 1 |
 | saturable_kinetics | 6 |

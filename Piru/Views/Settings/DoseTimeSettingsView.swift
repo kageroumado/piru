@@ -71,8 +71,9 @@ struct DoseTimeSettingsView: View {
 }
 
 /// Picks a new "When" preset as hours + minutes, rejecting duplicates and values
-/// outside ``DoseTimeDefaults/range``.
-private struct DoseTimeAddSheet: View {
+/// outside ``DoseTimeDefaults/range``. Shared by ``DoseTimeSettingsView`` and the
+/// quick-log Edit sheet's inline dose-times list.
+struct DoseTimeAddSheet: View {
     let existing: [Int]
     let onAdd: (Int) -> Void
 

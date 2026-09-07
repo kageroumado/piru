@@ -25,8 +25,27 @@ struct StagedDoseEditor: View {
     @State private var showDrinkManager = false
     @State private var profileStore = UserProfileStore.shared
 
-    /// The By Drink / By Weight choice persists across doses.
-    @AppStorage("alcoholEditorByDrink") private var byDrinkPreferred = true
+    /// The volume-vs-mass choice persists across doses, separately per kind:
+    /// alcohol defaults to By Drink (it has presets), an injectable ester to By
+    /// Mass (concentration is user-entered, so typing mg is the low-friction path).
+    @AppStorage("alcoholEditorByDrink") private var alcoholByVolume = true
+    @AppStorage("esterEditorByVolume") private var esterByVolume = false
+
+    /// Whether the current dose edits by volume (By Drink / By Volume) rather than
+    /// mass, reading the preference that matches this substance's concentration kind.
+    private var byDrinkPreferred: Bool {
+        byVolumeCapability?.isMassPerVolume == true ? esterByVolume : alcoholByVolume
+    }
+
+    private var byDrinkBinding: Binding<Bool> {
+        Binding(
+            get: { byDrinkPreferred },
+            set: { newValue in
+                if byVolumeCapability?.isMassPerVolume == true { esterByVolume = newValue }
+                else { alcoholByVolume = newValue }
+            },
+        )
+    }
 
     @FocusState private var amountFocused: Bool
     @FocusState private var noteFocused: Bool
@@ -74,6 +93,11 @@ struct StagedDoseEditor: View {
                     selection: $item.saltForm,
                     style: .menuPill(namespace: namespace, id: "salt-\(item.id)", height: pillHeight),
                 )
+                EsterPicker(
+                    forms: item.esterForms(for: item.route),
+                    selection: $item.saltForm,
+                    style: .menuPill(namespace: namespace, id: "ester-\(item.id)", height: pillHeight),
+                )
                 BrandPicker(
                     brands: brandProducts,
                     productName: $item.productName,
@@ -118,8 +142,8 @@ struct StagedDoseEditor: View {
         // In By Weight, editing grams re-projects the volume (holding ABV) so the
         // By Drink fields stay consistent when the user flips back — never zeroed.
         .onChange(of: item.amount) {
-            guard byVolumeCapability != nil, !byDrinkPreferred else { return }
-            model.reprojectVolumeFromGrams(item: &item)
+            guard let capability = byVolumeCapability, !byDrinkPreferred else { return }
+            model.reprojectVolumeFromGrams(item: &item, capability: capability)
         }
         .onChange(of: byDrinkPreferred) {
             if byDrinkPreferred {
@@ -155,12 +179,14 @@ struct StagedDoseEditor: View {
     /// plain −/+ stepper.
     @ViewBuilder
     private var inputBlock: some View {
-        if byVolumeCapability != nil {
-            // By Drink (the two-tier strength + volume logger) vs By Weight (the
-            // grams stepper).
-            Picker("Input", selection: $byDrinkPreferred) {
-                Text("By Drink").tag(true)
-                Text("By Weight").tag(false)
+        if let capability = byVolumeCapability {
+            // The concentration+volume logger vs the plain mass stepper. Labels
+            // adapt to the kind: By Drink/By Weight for alcohol, By Volume/By Mass
+            // for an injectable ester.
+            let modes = capability.modeLabels
+            Picker("Input", selection: byDrinkBinding) {
+                Text(modes.volume).tag(true)
+                Text(modes.mass).tag(false)
             }
             .pickerStyle(.segmented)
             .labelsHidden()
@@ -168,6 +194,7 @@ struct StagedDoseEditor: View {
             if byDrinkPreferred {
                 StagedDoseByDrinkBlock(
                     model: model,
+                    capability: capability,
                     grams: customDrinkGrams,
                     level: item.doseLevel,
                     abvFocus: $abvFocused,
@@ -209,6 +236,7 @@ struct StagedDoseEditor: View {
             selectedName: item.drinkName,
             currentName: model.drinkName,
             currentEmoji: model.drinkEmoji,
+            isMassPerVolume: byVolumeCapability?.isMassPerVolume ?? false,
             pillHeight: pillHeight,
             onSelect: { apply(preset: $0) },
             onManage: { showDrinkManager = true },
@@ -220,8 +248,15 @@ struct StagedDoseEditor: View {
     /// By-volume capability for this staged substance (alcohol), gated on the
     /// canonical "g" unit so the drink chips show only when the dose is in grams.
     private var byVolumeCapability: ByVolumeDosing? {
-        guard item.unit == "g" else { return nil }
-        return item.librarySubstance?.byVolumeDosing
+        guard let cap = item.librarySubstance?.byVolumeDosing,
+              item.unit == cap.canonicalUnit else { return nil }
+        // An injectable ester's volumetric input only makes sense on an injection
+        // route (a vial drawn in mL); oral/transdermal estradiol stays a plain mg
+        // log. Alcohol (percent-by-volume) has no route gate.
+        if cap.isMassPerVolume {
+            guard item.route == .intramuscular || item.route == .subcutaneous else { return nil }
+        }
+        return cap
     }
 
     private var customDrinkGrams: Double? {
@@ -323,14 +358,16 @@ struct StagedDoseEditor: View {
 
 // MARK: - Drink Preset Menu
 
-/// The drink chip's menu for a by-volume substance (alcohol): the saved
-/// presets — emoji + name with a strength/volume subtitle — plus "Edit
-/// Drinks…" opening the full manager sheet. Same affordance as the route
-/// pill beside it, so no bespoke inline surface to discover.
+/// The chip's menu for a by-volume substance: the saved presets — emoji + name
+/// with a strength/volume subtitle — plus an edit item opening the full manager
+/// sheet. Same affordance as the route pill beside it, so no bespoke inline
+/// surface to discover. Copy is kind-aware: alcohol saves *drinks*, an injectable
+/// ester saves *concentrations*, so the placeholder and edit item read accordingly.
 private struct DrinkPresetMenu: View {
     let selectedName: String?
     let currentName: String
     let currentEmoji: String
+    let isMassPerVolume: Bool
     let pillHeight: CGFloat
     let onSelect: (CustomDrinkPreset) -> Void
     let onManage: () -> Void
@@ -342,6 +379,7 @@ private struct DrinkPresetMenu: View {
         selectedName: String?,
         currentName: String,
         currentEmoji: String,
+        isMassPerVolume: Bool,
         pillHeight: CGFloat,
         onSelect: @escaping (CustomDrinkPreset) -> Void,
         onManage: @escaping () -> Void,
@@ -349,6 +387,7 @@ private struct DrinkPresetMenu: View {
         self.selectedName = selectedName
         self.currentName = currentName
         self.currentEmoji = currentEmoji
+        self.isMassPerVolume = isMassPerVolume
         self.pillHeight = pillHeight
         self.onSelect = onSelect
         self.onManage = onManage
@@ -381,12 +420,17 @@ private struct DrinkPresetMenu: View {
             }
             Divider()
             Button(action: onManage) {
-                Label("Edit Drinks…", systemImage: "pencil")
+                Label(
+                    isMassPerVolume ? String(localized: "Edit concentrations…") : String(localized: "Edit Drinks…"),
+                    systemImage: "pencil",
+                )
             }
         } label: {
             HStack(spacing: 5) {
                 if !currentEmoji.isEmpty { Text(currentEmoji) }
-                Text(currentName.isEmpty ? String(localized: "Drink") : currentName)
+                Text(currentName.isEmpty
+                    ? (isMassPerVolume ? String(localized: "Concentration") : String(localized: "Drink"))
+                    : currentName)
                     .lineLimit(1)
                 Image(systemName: "chevron.down")
                     .font(.caption2.weight(.semibold))
@@ -405,10 +449,12 @@ private struct DrinkPresetMenu: View {
 }
 
 extension CustomDrinkPreset {
-    /// "330 mL · 5%" for a fixed-volume preset, or just "5%" for strength-only.
-    /// Volume renders in the user's preferred unit (mL / fl oz), like the editor.
+    /// "330 mL · 5%" for an alcohol preset, "40 mg/mL" for an ester concentration
+    /// preset (usually strength-only). Volume renders in the user's preferred unit.
     @MainActor var detailLabel: String {
-        let strength = "\(ByVolumeDosing.formatTrimmed(strengthABV))%"
+        let strengthUnit = SubstanceLibrary.lookup(substanceName)?.byVolumeDosing?.strengthUnitLabel ?? "%"
+        let sep = strengthUnit == "%" ? "" : " "
+        let strength = "\(ByVolumeDosing.formatTrimmed(strengthABV))\(sep)\(strengthUnit)"
         guard let volumeML else { return strength }
         let unit = ByVolumeDefaults.preferredVolumeUnit
         let volume = Measurement(value: volumeML, unit: UnitVolume.milliliters).converted(to: unit)

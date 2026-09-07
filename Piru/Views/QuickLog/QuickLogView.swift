@@ -291,7 +291,16 @@ struct QuickLogView: View {
                     let matches = await SubstanceLibrary.searchMatchesAsync(searchText)
                     guard !Task.isCancelled else { return }
                     content.setLibraryResults(
-                        matches.filter { !content.cachedHistoryNames.contains($0.substance.name.lowercased()) },
+                        matches.filter { match in
+                            // Keep an ester match ("Estradiol Valerate") even when its
+                            // base substance is in history — it stages a distinct form
+                            // (the ester pre-set), so it must survive the history filter
+                            // just as it survives the recents dedup below. Otherwise the
+                            // ester is unsearchable for exactly the people who log the
+                            // base, which is everyone injecting it.
+                            if let alias = match.matchedAlias, SubstanceLibrary.saltForm(for: alias) != nil { return true }
+                            return !content.cachedHistoryNames.contains(match.substance.name.lowercased())
+                        },
                     )
                 }
         }

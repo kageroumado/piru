@@ -192,6 +192,7 @@ private struct PushRouteView: View {
         case .inventory: InventoryListView()
         case .effectSandbox: EffectSandboxView()
         case .steadyState: SteadyStateView()
+        case .injectionLevels: InjectionLevelsView()
         case .drugClasses: DrugClassListView()
         case .identify: IdentifyBoxView()
         }

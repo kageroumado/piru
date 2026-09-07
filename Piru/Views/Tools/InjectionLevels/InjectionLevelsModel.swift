@@ -1,0 +1,447 @@
+import Foundation
+import Observation
+
+/// The depot serum-level curve the ``InjectionLevelsView`` draws, plus the metrics
+/// read off it. Pure value type so the view stays cheap to re-render.
+struct DepotCurveResult: Equatable, Sendable {
+    struct Point: Equatable, Sendable {
+        let date: Date
+        /// Calibrated (or population) predicted level, canonical unit.
+        let level: Double
+        /// Typical-range band around the level.
+        let bandLow: Double
+        let bandHigh: Double
+    }
+
+    let points: [Point]
+    let injectionDates: [Date]
+    let range: ClosedRange<Date>
+
+    /// Estimated trough / peak over the last modeled cycle, with band edges.
+    let trough: Double
+    let troughLow: Double
+    let troughHigh: Double
+    let peak: Double
+    let peakLow: Double
+    let peakHigh: Double
+
+    /// Fraction of the last cycle spent between the user's reference lines, or `nil`
+    /// when the user has not set both.
+    let timeInRange: Double?
+
+    var maxBandHigh: Double {
+        points.map(\.bandHigh).max() ?? peakHigh
+    }
+}
+
+/// The Injection Levels tool's inputs and the curve projected from them
+/// (Specs/injection-levels-tool.md §6). Follows the ``SteadyStateInputs`` pattern:
+/// ``result`` is **stored**, recomputed by ``refresh()`` only when ``recomputeKey``
+/// changes — the superposition loop is O(samples × doses) and must not run in `body`.
+///
+/// The tool predicts a concentration from doses the user enters or logged. It never
+/// recommends a dose, an interval, or a level to aim for; reference lines are the
+/// user's own.
+@Observable
+@MainActor
+final class InjectionLevelsModel {
+    // MARK: Inputs
+
+    var analyte: Analyte = .estradiol
+    var selectedEsterID: String?
+    var doseMg: Double? = 5
+    var intervalDays: Double? = 14
+    /// Log-first: prefer the dose log when it has qualifying injections.
+    var useLogHistory: Bool = true
+    /// Vial strength (mg/mL) applied to injections logged by volume with no
+    /// concentration of their own, so they can join the curve. Persisted by the
+    /// view via `@AppStorage`, per analyte.
+    var volumeConcentrationMgPerML: Double?
+    /// Manual schedule: begin from the level the log puts in the body today, with
+    /// the next dose one interval after the last logged one. Off (or with no log):
+    /// begin from ``startingLevel`` today.
+    var startFromLog = true
+    /// Manual schedule, not continuing from the log: the level already in the body
+    /// today (canonical unit), decaying at the ester's terminal rate. `nil` or 0 is
+    /// a clean start.
+    var startingLevel: Double?
+    var referenceLow: Double?
+    var referenceHigh: Double?
+
+    /// Personal amplitude multiplier — the "run high / run low" knob. When
+    /// ``autoCalibrateFromLabs`` is on and labs exist, the lab fit drives amplitude
+    /// and this is displayed as the fitted scale; otherwise the user sets it by hand
+    /// (someone who knows they metabolize differently but hasn't tested yet). Applied
+    /// as `d = d_pop · multiplier`. Persisted by the view via `@AppStorage`.
+    var personalMultiplier: Double = 1.0
+    /// Whether to let the user's lab results set the calibration automatically. Off
+    /// hands the amplitude to ``personalMultiplier`` even when labs exist.
+    var autoCalibrateFromLabs: Bool = true
+    /// Whether a ≥2-lab calibration also fits the terminal rate `k1`, not just amplitude.
+    var fitRates: Bool = true
+
+    /// Preset visible window for the chart. Depot cycles run days-to-weeks over months
+    /// of history, so a fixed all-time span buries the recent detail — this zooms it.
+    var chartRange: ChartRange = .quarter
+    /// A continuous window width (days) set by pinch, overriding ``chartRange`` until a
+    /// preset is tapped again. `nil` → the preset governs.
+    var pinchVisibleDays: Double?
+
+    /// The visible window width in days, or `nil` for the whole logged span.
+    var effectiveVisibleDays: Double? {
+        pinchVisibleDays ?? chartRange.days
+    }
+
+    /// The chart's zoom presets — a menu of common windows plus the full span.
+    enum ChartRange: String, CaseIterable, Identifiable, Sendable {
+        case month
+        case quarter
+        case halfYear
+        case all
+        var id: String {
+            rawValue
+        }
+
+        /// Window width in days, or `nil` for the whole logged span.
+        var days: Double? {
+            switch self {
+            case .month: 30
+            case .quarter: 91
+            case .halfYear: 182
+            case .all: nil
+            }
+        }
+
+        var label: LocalizedStringResource {
+            switch self {
+            case .month: "1M"
+            case .quarter: "3M"
+            case .halfYear: "6M"
+            case .all: "All"
+            }
+        }
+    }
+
+    // MARK: Synced from the view's SwiftData queries
+
+    /// Qualifying injections pulled from the dose log (date, mg), or empty.
+    private(set) var loggedInjections: [(date: Date, doseMg: Double)] = []
+    /// Qualifying injections logged in mL with no concentration of their own. They
+    /// join ``loggedInjections`` at ``volumeConcentrationMgPerML`` once it is set.
+    private(set) var volumeLoggedInjectionCount = 0
+    /// The ester the user logs most often for this analyte, if their doses name one
+    /// — the log-first default so the curve opens on the ester they actually inject
+    /// rather than the alphabetical first.
+    private(set) var preferredEsterID: String?
+    /// One-shot guard: once the source (log vs manual) has been defaulted from real
+    /// data, never override the user's later choice.
+    private var sourceDefaulted = false
+    /// One-shot guard: the ester is defaulted alphabetically before the log syncs,
+    /// then upgraded once to the ester the user actually logs — after which a manual
+    /// pick stands.
+    private var esterDefaulted = false
+    /// Lab measurements for the active analyte, canonical unit, calibration-included.
+    private(set) var calibrationMeasurements: [DepotCalibration.Measurement] = []
+    /// Whether the log has any qualifying injections for the active analyte.
+    var hasLogHistory: Bool {
+        !loggedInjections.isEmpty
+    }
+
+    // MARK: Outputs
+
+    private(set) var result: DepotCurveResult?
+    private(set) var calibration: DepotCalibration.Result?
+
+    /// The selected ester's DB record, resolved live from the store.
+    var selectedEster: EsterPKRecord? {
+        guard let id = selectedEsterID else { return nil }
+        return SubstanceStore.shared.esterPK(forEsterID: id)
+    }
+
+    /// The esters available for the active analyte, for the picker.
+    var availableEsters: [EsterPKRecord] {
+        SubstanceStore.shared.estersForAnalyte(analyte.key)
+    }
+
+    /// Whether the user has any lab measurements included in calibration.
+    var hasLabs: Bool {
+        !calibrationMeasurements.isEmpty
+    }
+
+    /// Whether the current curve is driven by a lab fit (auto on + labs present).
+    var isLabDriven: Bool {
+        autoCalibrateFromLabs && calibration != nil
+    }
+
+    /// The amplitude multiplier currently in effect — the lab-fit scale when
+    /// lab-driven, otherwise the user's manual personal multiplier. What the
+    /// calibration control displays.
+    var effectiveMultiplier: Double {
+        if let cal = calibration, autoCalibrateFromLabs { return cal.scale }
+        return personalMultiplier
+    }
+
+    // MARK: Recompute key
+
+    struct RecomputeKey: Equatable {
+        let analyte: Analyte
+        let esterID: String?
+        let doseMg: Double?
+        let intervalDays: Double?
+        let useLogHistory: Bool
+        let volumeConcentrationMgPerML: Double?
+        let startFromLog: Bool
+        let startingLevel: Double?
+        let referenceLow: Double?
+        let referenceHigh: Double?
+        let personalMultiplier: Double
+        let autoCalibrateFromLabs: Bool
+        let fitRates: Bool
+        let visibleDays: Double?
+        let logSignature: Int
+        let labSignature: Int
+    }
+
+    var recomputeKey: RecomputeKey {
+        RecomputeKey(
+            analyte: analyte, esterID: selectedEsterID, doseMg: doseMg,
+            intervalDays: intervalDays, useLogHistory: useLogHistory,
+            volumeConcentrationMgPerML: volumeConcentrationMgPerML,
+            startFromLog: startFromLog, startingLevel: startingLevel,
+            referenceLow: referenceLow, referenceHigh: referenceHigh,
+            personalMultiplier: personalMultiplier,
+            autoCalibrateFromLabs: autoCalibrateFromLabs, fitRates: fitRates,
+            visibleDays: effectiveVisibleDays,
+            logSignature: signature(of: loggedInjections.map { ($0.date, $0.doseMg) }),
+            labSignature: signature(of: calibrationMeasurements.map { ($0.date, $0.value) }),
+        )
+    }
+
+    private func signature(of pairs: [(Date, Double)]) -> Int {
+        var hasher = Hasher()
+        for (date, value) in pairs {
+            hasher.combine(date.timeIntervalSinceReferenceDate.rounded())
+            hasher.combine(value)
+        }
+        return hasher.finalize()
+    }
+
+    // MARK: Sync from view
+
+    /// Adopt the qualifying injections and lab results the view read from SwiftData.
+    /// `injections` are already filtered to the active analyte (IM/SC, mg-convertible);
+    /// `volumeLoggedCount` is how many were logged in mL (converted or awaiting a concentration).
+    /// `suggestedConcentration` is the mg/mL the user last logged a volumetric dose
+    /// at — adopted only while no concentration has been entered.
+    func sync(
+        injections: [(date: Date, doseMg: Double)],
+        volumeLoggedCount: Int = 0,
+        suggestedConcentration: Double? = nil,
+        measurements: [DepotCalibration.Measurement],
+        preferredEsterID: String? = nil,
+    ) {
+        loggedInjections = injections.sorted { $0.date < $1.date }
+        volumeLoggedInjectionCount = volumeLoggedCount
+        if volumeConcentrationMgPerML == nil, let suggestedConcentration, suggestedConcentration > 0 {
+            volumeConcentrationMgPerML = suggestedConcentration
+        }
+        calibrationMeasurements = measurements
+        self.preferredEsterID = preferredEsterID
+    }
+
+    /// Pick the analyte's default ester if none is selected (or the current one no
+    /// longer belongs to the analyte) — the ester the user logs most, else the first.
+    /// Log-first source default: prefer the log the moment it has data (one-shot, so
+    /// a later manual toggle stands), and never offer manual-only as "log".
+    func selectDefaultsIfNeeded() {
+        let esters = availableEsters
+        let preferred = preferredEsterID.flatMap { id in esters.first { $0.esterID == id }?.esterID }
+        if selectedEsterID == nil || !esters.contains(where: { $0.esterID == selectedEsterID }) {
+            selectedEsterID = preferred ?? esters.first?.esterID
+            if preferred != nil { esterDefaulted = true }
+        } else if !esterDefaulted, let preferred, preferred != selectedEsterID {
+            // The log synced after the first (alphabetical) default — upgrade once to
+            // the ester the user actually logs. A later manual pick sets it too.
+            selectedEsterID = preferred
+            esterDefaulted = true
+        }
+        if hasLogHistory {
+            if !sourceDefaulted { useLogHistory = true; sourceDefaulted = true }
+        } else {
+            useLogHistory = false
+        }
+    }
+
+    // MARK: Compute
+
+    func refresh() {
+        guard let ester = selectedEster, let population = ester.parameters else {
+            result = nil; calibration = nil; return
+        }
+
+        let injections = injectionsForCurve(ester: ester, population: population)
+        guard !injections.isEmpty else { result = nil; calibration = nil; return }
+
+        // Calibrate to the user's labs when allowed; otherwise fall to the manual
+        // personal multiplier. The lab fit is amplitude-only for one result, and
+        // amplitude + terminal rate for two or more (when rate-fit is on).
+        let cal = autoCalibrateFromLabs
+            ? DepotCalibration.calibrate(
+                population: population,
+                injections: injections,
+                measurements: calibrationMeasurements,
+                fitRate: fitRates,
+            )
+            : nil
+        calibration = cal
+        let params: PKModel.DepotParameters = if let cal {
+            population.withK1Scale(cal.k1Scale).withAmplitude(cal.calibratedAmplitude)
+        } else {
+            population.withAmplitude(population.d * max(0.05, personalMultiplier))
+        }
+
+        let (rangeStart, rangeEnd, cycleDays) = window(injections: injections)
+        let curve = PKModel.depotCurve(
+            injections: injections, over: rangeStart ... rangeEnd, parameters: params,
+        )
+
+        let band = bandFraction(confidence: ester.confidence, calibrated: cal != nil)
+        // A manual start level is a depot already in the body: it decays from
+        // today at the terminal rate, under the scheduled doses.
+        let baseline = startsFromEnteredLevel ? max(0, startingLevel ?? 0) : 0
+        let points = curve.map { pt in
+            let days = max(0, pt.date.timeIntervalSince(rangeStart)) / PKModel.secondsPerDay
+            let level = pt.pgPerML + baseline * exp(-params.k1 * days)
+            return DepotCurveResult.Point(
+                date: pt.date, level: level,
+                bandLow: max(0, level * (1 - band)),
+                bandHigh: level * (1 + band),
+            )
+        }
+
+        // Trough / peak over the last full cycle.
+        let cycleStart = rangeEnd.addingTimeInterval(-cycleDays * PKModel.secondsPerDay)
+        let cyclePoints = points.filter { $0.date >= cycleStart }
+        let trough = cyclePoints.map(\.level).min() ?? 0
+        let peak = cyclePoints.map(\.level).max() ?? 0
+
+        var timeInRange: Double?
+        if let low = referenceLow, let high = referenceHigh, high > low, !cyclePoints.isEmpty {
+            let inRange = cyclePoints.filter { $0.level >= low && $0.level <= high }.count
+            timeInRange = Double(inRange) / Double(cyclePoints.count)
+        }
+
+        result = DepotCurveResult(
+            points: points,
+            injectionDates: injections.map(\.date).filter { rangeStart ... rangeEnd ~= $0 },
+            range: rangeStart ... rangeEnd,
+            trough: trough, troughLow: max(0, trough * (1 - band)), troughHigh: trough * (1 + band),
+            peak: peak, peakLow: max(0, peak * (1 - band)), peakHigh: peak * (1 + band),
+            timeInRange: timeInRange,
+        )
+    }
+
+    // MARK: Curve inputs
+
+    /// Whether the curve is the log as it stands, rather than a schedule projected
+    /// forward from today.
+    private var drawsLogOnly: Bool {
+        useLogHistory && hasLogHistory
+    }
+
+    /// Manual schedule that carries the log forward: the logged doses stay in the
+    /// superposition and the schedule picks up after the last of them.
+    var continuesFromLog: Bool {
+        !drawsLogOnly && startFromLog && hasLogHistory
+    }
+
+    /// Manual schedule from a level the user typed (or from zero).
+    private var startsFromEnteredLevel: Bool {
+        !drawsLogOnly && !continuesFromLog
+    }
+
+    private func injectionsForCurve(ester _: EsterPKRecord, population: PKModel.DepotParameters) -> [(date: Date, doseMg: Double)] {
+        if drawsLogOnly { return loggedInjections }
+        return synthesizedSchedule(population: population)
+    }
+
+    /// How far past today a manual schedule is projected: the visible window, or
+    /// enough cycles to reach steady state (~5 terminal half-lives) for "All".
+    private func projectionDays(population: PKModel.DepotParameters, interval: Double) -> Double {
+        if let days = effectiveVisibleDays { return max(days, interval) }
+        let terminalHalfLife = log(2) / max(population.k1, 1e-6) // days
+        let cycles = min(max(Int((5 * terminalHalfLife / interval).rounded(.up)), 6), 60)
+        return Double(cycles) * interval
+    }
+
+    /// A regular schedule from today forward. Continuing from the log, the logged
+    /// injections stay in the superposition as the level the schedule starts from,
+    /// and the first scheduled dose lands one interval after the last logged one —
+    /// or today, when that is already past. Otherwise the first dose is today and
+    /// ``startingLevel`` stands in for the body's history. Nothing before today is
+    /// invented.
+    private func synthesizedSchedule(population: PKModel.DepotParameters) -> [(date: Date, doseMg: Double)] {
+        guard let dose = doseMg, dose > 0, let interval = intervalDays, interval > 0 else { return [] }
+        let now = Date.now
+        let step = interval * PKModel.secondsPerDay
+        let horizon = now.addingTimeInterval(projectionDays(population: population, interval: interval) * PKModel.secondsPerDay)
+        let history = continuesFromLog ? loggedInjections : []
+        var injections = history
+        var next = history.last.map { $0.date.addingTimeInterval(step) } ?? now
+        if next < now { next = now }
+        while next <= horizon {
+            injections.append((next, dose))
+            next = next.addingTimeInterval(step)
+        }
+        return injections
+    }
+
+    /// The date span to draw and the length of one modeled cycle (days).
+    ///
+    /// Drawing the log: the span ends one cycle past the last injection (or now),
+    /// and starts at the visible window (``effectiveVisibleDays``) before that, so a
+    /// long history zooms to recent detail; earlier injections still contribute to
+    /// the curve (the superposition sums all prior doses), they're just off-screen.
+    ///
+    /// Projecting a schedule: the span runs from today to the end of the projection,
+    /// so the chart opens on the level the schedule starts from.
+    private func window(injections: [(date: Date, doseMg: Double)]) -> (Date, Date, Double) {
+        let now = Date.now
+        if !drawsLogOnly, let interval = intervalDays, interval > 0 {
+            let last = injections.map(\.date).max() ?? now
+            return (now, max(last, now), interval)
+        }
+        let dates = injections.map(\.date).sorted()
+        let first = dates.first ?? now
+        let last = dates.last ?? now
+        let cycleDays = medianIntervalDays(dates) ?? intervalDays ?? 14
+        let end = max(last.addingTimeInterval(cycleDays * PKModel.secondsPerDay), now)
+        let start = effectiveVisibleDays.map { days in
+            max(first, end.addingTimeInterval(-days * PKModel.secondsPerDay))
+        } ?? first
+        return (start, end, cycleDays)
+    }
+
+    private func medianIntervalDays(_ dates: [Date]) -> Double? {
+        guard dates.count >= 2 else { return nil }
+        let gaps = zip(dates.dropFirst(), dates).map { ($0.timeIntervalSince($1)) / PKModel.secondsPerDay }
+            .filter { $0 > 0 }.sorted()
+        guard !gaps.isEmpty else { return nil }
+        return gaps[gaps.count / 2]
+    }
+
+    /// Typical-range band as a fraction of the level. Pre-calibration reflects
+    /// inter-individual variation (wide on purpose — the invitation to calibrate);
+    /// post-calibration reflects only shape + assay + within-individual noise
+    /// (Specs/injection-levels-tool.md §4). Mapped from the ester's confidence tier.
+    private func bandFraction(confidence: String, calibrated: Bool) -> Double {
+        switch (confidence, calibrated) {
+        case ("high", false): 0.25
+        case ("high", true): 0.18
+        case ("medium", false): 0.45
+        case ("medium", true): 0.22
+        case (_, false): 0.50
+        case (_, true): 0.25
+        }
+    }
+}

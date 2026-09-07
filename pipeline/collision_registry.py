@@ -34,6 +34,7 @@ _RELEASE_FAMILIES = _REGISTRY.parent / "release-families.json"
 _BRANDS = _REGISTRY.parent / "brands.json"
 _PRODUCT_STRENGTHS = _REGISTRY.parent / "product-strengths.json"
 _PRODUCT_DURATIONS = _REGISTRY.parent / "product-durations.json"
+_ESTER_PK = _REGISTRY.parent / "ester_pk"
 
 
 def load() -> dict:
@@ -96,6 +97,29 @@ def product_durations_registry() -> list[dict]:
     if not _PRODUCT_DURATIONS.exists():
         return []
     return json.loads(_PRODUCT_DURATIONS.read_text()).get("products", [])
+
+
+def ester_pk_registry() -> list[dict]:
+    """Curated depot PK parameters for injectable hormone esters (from
+    ``data/curated/ester_pk/*.json``, one file per analyte):
+    ``[{analyte, parent, ester_id, ester_label, d, k1, k2, k3, confidence,
+    provenance, routes:[...]}, ...]`` — rates per day, `d` in output-unit per mg
+    (pg/mL for estradiol, ng/dL for testosterone).
+
+    Feeds the Injection Levels tool's three-compartment depot curve. Keyed by
+    `ester_id`; `parent` ties each ester to its base substance for the coverage
+    gate (an ester whose parent is absent is dead data — skipped, not failed).
+    Consumed by sqlite.py build_ester_pk(). Empty list if the directory is absent."""
+    if not _ESTER_PK.exists():
+        return []
+    rows: list[dict] = []
+    for path in sorted(_ESTER_PK.glob("*.json")):
+        doc = json.loads(path.read_text())
+        analyte = doc.get("analyte")
+        parent = doc.get("parent")
+        for ester in doc.get("esters", []):
+            rows.append({"analyte": analyte, "parent": parent, **ester})
+    return rows
 
 
 def distinct_clusters() -> list[list[str]]:

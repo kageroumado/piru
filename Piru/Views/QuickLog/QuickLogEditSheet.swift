@@ -28,21 +28,38 @@ struct QuickLogEditSheet: View {
     private var doseTimeChoicesRaw = DoseTimeDefaults.defaultRaw
 
     @State private var path = NavigationPath()
+    /// The "Now" pill offsets, edited inline (mirrors ``DoseTimeSettingsView``);
+    /// persisted back to `doseTimeChoicesRaw` on change.
+    @State private var doseTimeChoices: [Int] = []
+    @State private var showAddDoseTime = false
 
     var body: some View {
         NavigationStack(path: $path) {
             List {
                 medsSection
-                if !favorites.isEmpty {
-                    favoritesSection
-                }
+                favoritesSection
                 drinksSections
                 doseTimesSection
                 DockShortcutsSection(path: $path)
+                    .listRowBackground(CardBackground())
                 DockLabelsSection(path: $path)
+                    .listRowBackground(CardBackground())
                 orderSection
             }
             .permanentEditMode()
+            .themedPage()
+            .sheet(isPresented: $showAddDoseTime) {
+                DoseTimeAddSheet(existing: doseTimeChoices) { minutes in
+                    doseTimeChoices.append(minutes)
+                }
+            }
+            .onAppear { doseTimeChoices = DoseTimeDefaults.parse(doseTimeChoicesRaw) }
+            .onChange(of: doseTimeChoices) { _, new in
+                doseTimeChoicesRaw = DoseTimeDefaults.format(new)
+            }
+            .navigationDestination(for: AddFavoriteRoute.self) { _ in
+                AddFavoriteView()
+            }
             .navigationDestination(for: DockEditRoute.self) { route in
                 switch route {
                 case .addShortcut:
@@ -59,9 +76,6 @@ struct QuickLogEditSheet: View {
             }
             .navigationDestination(for: NewDrinkRoute.self) { route in
                 DrinkPresetForm(preset: nil, substanceName: route.substanceName)
-            }
-            .navigationDestination(for: DoseTimesRoute.self) { _ in
-                DoseTimeSettingsView()
             }
             .navigationTitle("Edit")
             .inlineNavigationTitle()
@@ -91,7 +105,11 @@ struct QuickLogEditSheet: View {
             .onDelete(perform: deleteMeds)
 
             Button {
-                navigator.present(.dailyDoseSettings)
+                // This sheet lives on top of the navigator's Log cover, which is
+                // the app's single sheet — so open the hub by swapping the cover,
+                // not by stacking a third sheet (which SwiftUI refuses).
+                dismiss()
+                navigator.present(.dailyDoseSettings, replacingTop: true)
             } label: {
                 Label("Manage Meds…", systemImage: "pills")
             }
@@ -99,6 +117,7 @@ struct QuickLogEditSheet: View {
             Text("My Meds")
                 .textCase(nil)
         }
+        .listRowBackground(CardBackground())
     }
 
     /// Name + dose and reminder times — plain rows, matching the favorites
@@ -164,10 +183,17 @@ struct QuickLogEditSheet: View {
             }
             .onMove(perform: moveFavorites)
             .onDelete(perform: deleteFavorites)
+
+            Button {
+                path.append(AddFavoriteRoute())
+            } label: {
+                Label("Add Favorite…", systemImage: "star")
+            }
         } header: {
             Text("Favorites")
                 .textCase(nil)
         }
+        .listRowBackground(CardBackground())
     }
 
     private func color(for substance: String) -> Color {
@@ -241,11 +267,12 @@ struct QuickLogEditSheet: View {
                 Button {
                     path.append(NewDrinkRoute(substanceName: group.substance))
                 } label: {
-                    Label("New Drink", systemImage: "plus.circle")
+                    Label("New Drink…", systemImage: "plus.circle")
                 }
             } header: {
                 drinksHeader(for: group.substance, soleGroup: groups.count == 1)
             }
+            .listRowBackground(CardBackground())
         }
     }
 
@@ -291,6 +318,7 @@ struct QuickLogEditSheet: View {
         } footer: {
             Text("Keep doses in a fixed order. When off, logging a dose moves it to the front.")
         }
+        .listRowBackground(CardBackground())
     }
 
     // MARK: Dose times
@@ -299,17 +327,17 @@ struct QuickLogEditSheet: View {
     /// pushes — the pill is edited where it's used, not only under Settings.
     private var doseTimesSection: some View {
         Section {
-            Button {
-                path.append(DoseTimesRoute())
-            } label: {
-                Label {
-                    VStack(alignment: .leading, spacing: Spacing.xxs) {
-                        Text("Edit Dose Times…")
-                        Text(doseTimesSummary)
-                            .captionSecondary()
-                    }
-                } icon: {
-                    Image(systemName: "clock.arrow.circlepath")
+            ForEach(doseTimeChoices, id: \.self) { minutes in
+                Label(TrayTime.offsetLabel(minutes: minutes), systemImage: "clock.arrow.circlepath")
+            }
+            .onDelete(perform: deleteDoseTimes)
+            .onMove(perform: moveDoseTimes)
+
+            if doseTimeChoices.count < DoseTimeDefaults.maxCount {
+                Button {
+                    showAddDoseTime = true
+                } label: {
+                    Label("Add Preset…", systemImage: "plus.circle")
                 }
             }
         } header: {
@@ -318,20 +346,72 @@ struct QuickLogEditSheet: View {
         } footer: {
             Text("The quick offsets in the “Now” menu when logging a dose.")
         }
+        .listRowBackground(CardBackground())
     }
 
-    private var doseTimesSummary: String {
-        DoseTimeDefaults.parse(doseTimeChoicesRaw)
-            .map { TrayTime.offsetLabel(minutes: $0) }
-            .joined(separator: " · ")
+    private func deleteDoseTimes(at offsets: IndexSet) {
+        // Keep at least one preset so the "Now" menu never empties out.
+        guard doseTimeChoices.count - offsets.count >= 1 else { return }
+        doseTimeChoices.remove(atOffsets: offsets)
+    }
+
+    private func moveDoseTimes(from source: IndexSet, to destination: Int) {
+        doseTimeChoices.move(fromOffsets: source, toOffset: destination)
     }
 }
 
-/// Push target for the "Now" pill's offset editor.
-private struct DoseTimesRoute: Hashable {}
+/// Push target for adding a favorite substance from the Edit sheet.
+private struct AddFavoriteRoute: Hashable {}
 
 /// Push target for creating a new drink preset in a given substance's group —
 /// `CustomDrinkPreset` itself routes to the edit form.
 private struct NewDrinkRoute: Hashable {
     let substanceName: String
+}
+
+// MARK: - Add favorite
+
+/// A substance picker pushed from the Edit sheet's Favorites section: choosing a
+/// substance stars it (creates a ``FavoriteSubstance``) and pops back.
+private struct AddFavoriteView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+    @Query(sort: \FavoriteSubstance.sortOrder) private var favorites: [FavoriteSubstance]
+    @State private var query = ""
+
+    private var favoriteNames: Set<String> {
+        Set(favorites.map { $0.substance.lowercased() })
+    }
+
+    var body: some View {
+        List {
+            Section {
+                SubstanceSearchField(text: $query, favoriteNames: favoriteNames) { substance, _ in
+                    add(substance)
+                }
+            } footer: {
+                Text("Star a substance to keep it in your quick-log favorites.")
+            }
+            .listRowBackground(CardBackground())
+        }
+        .themedPage()
+        .navigationTitle("Add Favorite")
+        .inlineNavigationTitle()
+    }
+
+    private func add(_ substance: Substance) {
+        guard !favoriteNames.contains(substance.name.lowercased()) else {
+            dismiss()
+            return
+        }
+        let favorite = FavoriteSubstance(substance: substance.name)
+        favorite.sortOrder = favorites.count
+        favorite.substanceUID = substance.substanceUID
+        modelContext.insert(favorite)
+        try? modelContext.save()
+        #if os(iOS)
+            PhoneSyncCoordinator.shared.pushManifest()
+        #endif
+        dismiss()
+    }
 }

@@ -10,41 +10,50 @@ struct SubstanceSearchField: View {
     var onCustom: (() -> Void)?
     var locked: Bool
     var favoriteNames: Set<String>
+    /// When true, the field keeps the matched brand the user tapped ("Medikinet")
+    /// instead of resetting to the canonical name — for callers that store the
+    /// canonical identity separately (via the `onSelect` substance) and want the
+    /// box to keep reading the user's word. Default off: callers that persist the
+    /// field text as the substance identity (Inventory) must keep the canonical.
+    var keepsMatchedName: Bool
 
-    @State private var results: [Substance] = []
+    @State private var results: [SubstanceMatch] = []
     @State private var showResults = false
     @State private var suppressSearch = false
     @State private var searchTrigger = 0
     @FocusState private var isFocused: Bool
 
-    init(text: Binding<String>, locked: Bool = false, favoriteNames: Set<String> = [], onSelect: @escaping (Substance, String?) -> Void, onCustom: (() -> Void)? = nil) {
+    init(text: Binding<String>, locked: Bool = false, favoriteNames: Set<String> = [], keepsMatchedName: Bool = false, onSelect: @escaping (Substance, String?) -> Void, onCustom: (() -> Void)? = nil) {
         _text = text
         self.locked = locked
         self.favoriteNames = favoriteNames
+        self.keepsMatchedName = keepsMatchedName
         self.onSelect = onSelect
         self.onCustom = onCustom
     }
 
-    /// The product name to carry for a tapped result: the alias the current query
-    /// matched, resolved through the same ranked search the quick-log capture uses
-    /// (`SubstanceMatch/matchedAlias`), so both paths keep the user's word the same
-    /// way. `nil` when the query was the canonical/display name.
-    private func matchedProduct(for substance: Substance) -> String? {
-        SubstanceLibrary.searchMatches(text).first { $0.substance.id == substance.id }?.matchedAlias
-    }
-
     private var hasExactMatch: Bool {
         let q = text.lowercased()
-        return results.contains { $0.name.lowercased() == q || $0.aliases.contains { $0.lowercased() == q } }
+        return results.contains {
+            $0.substance.name.lowercased() == q || $0.substance.aliases.contains { $0.lowercased() == q }
+        }
     }
 
-    /// Canonical name + aliases for the subtitle, dropping whichever entries the
-    /// title (``Substance/displayTitle``) already shows, so the line doesn't echo
-    /// the title back (e.g. title "2-Br-DCK" → subtitle "Bromoketamine, …").
-    private func secondaryNames(for substance: Substance) -> String? {
-        let title = substance.displayTitle.lowercased()
-        let names = ([substance.name] + substance.aliases)
-            .filter { $0.lowercased() != title }
+    /// Canonical name + aliases for the subtitle, dropping whichever entry the row
+    /// title already shows (the matched brand, e.g. "Medikinet", or the display
+    /// title) and leading with the canonical name so a brand row reads "Medikinet"
+    /// over "Methylphenidate, Ritalin, …".
+    private func secondaryNames(for match: SubstanceMatch) -> String? {
+        let shown = match.displayName.lowercased()
+        let candidates = [match.substance.displayTitle, match.substance.name] + match.substance.aliases
+        var seen = Set<String>()
+        var names: [String] = []
+        for name in candidates {
+            let key = name.lowercased()
+            guard key != shown, !seen.contains(key) else { continue }
+            seen.insert(key)
+            names.append(name)
+        }
         return names.isEmpty ? nil : names.prefix(3).joined(separator: ", ")
     }
 
@@ -71,13 +80,13 @@ struct SubstanceSearchField: View {
                     guard searchTrigger > 0 else { return }
                     try? await Task.sleep(for: .milliseconds(150))
                     guard !Task.isCancelled, !text.isEmpty, isFocused else { return }
-                    let raw = await SubstanceLibrary.searchAsync(text, limit: 12)
+                    let raw = await SubstanceLibrary.searchMatchesAsync(text, limit: 12)
                     guard !Task.isCancelled else { return }
                     if favoriteNames.isEmpty {
                         results = raw
                     } else {
-                        let favs = raw.filter { favoriteNames.contains($0.name.lowercased()) }
-                        let rest = raw.filter { !favoriteNames.contains($0.name.lowercased()) }
+                        let favs = raw.filter { favoriteNames.contains($0.substance.name.lowercased()) }
+                        let rest = raw.filter { !favoriteNames.contains($0.substance.name.lowercased()) }
                         results = favs + rest
                     }
                     showResults = true
@@ -94,24 +103,24 @@ struct SubstanceSearchField: View {
             if showResults {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 0) {
-                        ForEach(results.prefix(12)) { substance in
+                        ForEach(results.prefix(12)) { match in
+                            let substance = match.substance
                             Button {
-                                let product = matchedProduct(for: substance)
                                 suppressSearch = true
-                                text = substance.name
+                                text = keepsMatchedName ? match.displayName : substance.name
                                 showResults = false
                                 isFocused = false
-                                onSelect(substance, product)
+                                onSelect(substance, match.matchedAlias)
                             } label: {
                                 HStack {
                                     VStack(alignment: .leading, spacing: Spacing.xxs) {
                                         HStack(spacing: Spacing.xs) {
-                                            // Show the same presentation name as
-                                            // the journal / quick-log (display
-                                            // override, regional name); the
-                                            // canonical name still leads the
-                                            // subtitle so it stays discoverable.
-                                            Text(substance.displayTitle)
+                                            // Lead with the matched name — the brand
+                                            // the user typed ("Medikinet") when they
+                                            // searched one, else the display title —
+                                            // matching quick-log; the canonical name
+                                            // leads the subtitle so it stays clear.
+                                            Text(match.displayName)
                                                 .font(.body)
                                                 .foregroundStyle(.primary)
                                             if favoriteNames.contains(substance.name.lowercased()) {
@@ -121,7 +130,7 @@ struct SubstanceSearchField: View {
                                                     .accessibilityHidden(true)
                                             }
                                         }
-                                        if let secondary = secondaryNames(for: substance) {
+                                        if let secondary = secondaryNames(for: match) {
                                             Text(secondary)
                                                 .captionSecondary()
                                         }

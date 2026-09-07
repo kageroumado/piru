@@ -3791,11 +3791,22 @@ class TestSignatureGates(unittest.TestCase):
         names = {r[0] for r in rows}
         self.assertIn("Alcohol", names, f"no by-volume row for Alcohol: {sorted(names)}")
         for name, kind, unit, density, mass, label in rows:
-            self.assertEqual(kind, "percent_by_volume", f"{name}: unrenderable concentration kind")
+            self.assertIn(
+                kind,
+                ("percent_by_volume", "mass_per_volume"),
+                f"{name}: unrenderable concentration kind",
+            )
             self.assertTrue(unit, f"{name}: no canonical unit to store the converted mass in")
-            self.assertIsNotNone(density, f"{name}: percent-by-volume with no density")
-            self.assertGreater(density, 0, f"{name}: non-positive density")
+            if kind == "percent_by_volume":
+                # grams = volume x (ABV/100) x density — undefined without density.
+                self.assertIsNotNone(density, f"{name}: percent-by-volume with no density")
+                self.assertGreater(density, 0, f"{name}: non-positive density")
+            else:
+                # mass = volume x concentration(mg/mL) — no density term; the
+                # concentration is user-entered, so no shipped default belongs here.
+                self.assertIsNone(density, f"{name}: mass-per-volume must not ship a density")
             if name == "Alcohol":
+                self.assertEqual(kind, "percent_by_volume")
                 self.assertAlmostEqual(density, 0.789, places=3)
                 self.assertEqual(mass, 14, "a US standard drink is 14 g of ethanol (NIAAA)")
                 self.assertEqual(label, "drink")

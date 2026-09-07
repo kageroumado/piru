@@ -233,6 +233,20 @@ struct StagedDose: Identifiable, Equatable {
         librarySubstance?.substanceUID
     }
 
+    /// Hormone esters offered for `route` (Estradiol → Cypionate / Valerate /
+    /// Enanthate), from the `ester_pk` table. Offered on oral as well as the two
+    /// injection routes — estradiol valerate is also an oral tablet (Progynova), and
+    /// the ester is meaningful on either. Empty on other routes (patches are plain
+    /// estradiol) and for substances with no ester data. The depot curve still only
+    /// consumes IM/SC doses; a route/parameter mismatch is the tool's note to make,
+    /// not a reason to hide the ester the person actually took.
+    @MainActor
+    func esterForms(for route: RouteOfAdministration) -> [String] {
+        guard route == .oral || route == .intramuscular || route == .subcutaneous,
+              let uid = substanceUID else { return [] }
+        return SubstanceStore.shared.esters(forParentUID: uid).map(\.label)
+    }
+
     /// The locale-stable identity anchor to snapshot onto the committed dose —
     /// the full composed form title across both facets ("Dexmethylphenidate XR"),
     /// not just the isomer's name. See ``DoseTitle/snapshot(canonicalName:isomer:releaseForm:)``.
@@ -260,12 +274,21 @@ struct StagedDose: Identifiable, Equatable {
     /// facets a staged dose can't have yet resolved.
     var displayTitle: String {
         if let relabel = CustomSubstanceStore.shared.relabel(forCanonicalName: substanceName) { return relabel }
-        if let productName, !productName.isEmpty { return productName }
-        if let isomer, let librarySubstance,
-           let named = librarySubstance.isomerOptions(for: route).first(where: { $0.code == isomer })?.displayName {
-            return named
+        let base: String = if let productName, !productName.isEmpty {
+            productName
+        } else if let isomer, let librarySubstance,
+                  let named = librarySubstance.isomerOptions(for: route).first(where: { $0.code == isomer })?.displayName {
+            named
+        } else {
+            CustomSubstanceStore.shared.displayName(for: substanceName)
         }
-        return CustomSubstanceStore.shared.displayName(for: substanceName)
+        // Fold an injectable ester into the name — "Estradiol Valerate" — matching
+        // ``DoseTitle/resolve(for:)`` so the tray and the journal row agree.
+        if SubstanceStore.shared.isEster(saltForm, forParentUID: substanceUID),
+           let ester = saltForm, !base.localizedCaseInsensitiveContains(ester) {
+            return "\(base) \(ester)"
+        }
+        return base
     }
 
     static func lookupReferenceDose(substance: Substance?, route: RouteOfAdministration, unit: String, saltForm: String? = nil, isomer: String? = nil) -> Double? {
@@ -512,6 +535,7 @@ final class DoseTrayModel {
         colorHex: String?,
         librarySubstance: Substance?,
         productName: String? = nil,
+        saltForm: String? = nil,
         isFromDailySet: Bool = false,
         isBackgroundMed: Bool = false,
         volumeML: Double? = nil,
@@ -519,7 +543,7 @@ final class DoseTrayModel {
         drinkName: String? = nil,
         emoji: String? = nil,
     ) {
-        let identity = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: librarySubstance, route: route)
+        let identity = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: librarySubstance, route: route, saltForm: saltForm)
         if let index = stagedIndex(identity: identity, route: route, unit: unit) {
             if let componentIndex = staged[index].components.firstIndex(where: { Self.sameAmount($0.amount, amount) }) {
                 staged[index].components[componentIndex].count += 1
@@ -533,7 +557,7 @@ final class DoseTrayModel {
                 amount: amount,
                 unit: unit,
                 route: route,
-                saltForm: librarySubstance?.saltForms(for: route).first,
+                saltForm: saltForm ?? librarySubstance?.saltForms(for: route).first,
                 isomer: Self.seedIsomer(productName: productName, librarySubstance: librarySubstance, route: route),
                 productName: productName,
                 colorHex: colorHex,
@@ -581,13 +605,14 @@ final class DoseTrayModel {
         productName: String?,
         librarySubstance: Substance?,
         route: RouteOfAdministration,
+        saltForm: String? = nil,
     ) -> String {
         QuickLogDose.identityKey(
             substanceUID: librarySubstance?.substanceUID,
             substance: substance,
             isomer: seedIsomer(productName: productName, librarySubstance: librarySubstance, route: route),
             releaseForm: SubstanceLibrary.releaseForm(for: productName ?? substance),
-            saltForm: librarySubstance?.saltForms(for: route).first,
+            saltForm: saltForm ?? librarySubstance?.saltForms(for: route).first,
         )
     }
 
@@ -602,18 +627,19 @@ final class DoseTrayModel {
         colorHex: String?,
         librarySubstance: Substance?,
         productName: String? = nil,
+        saltForm: String? = nil,
     ) {
         // A by-volume substance (alcohol) must draft in its canonical unit —
         // the drink editor (By Drink / By Weight) gates on it, so a draft
         // arriving as "units" (a recent's chip unit) would silently lose the
         // whole volumetric logger.
         let unit = librarySubstance?.byVolumeDosing?.canonicalUnit ?? unit
-        let identity = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: librarySubstance, route: route)
+        let identity = Self.stagedIdentity(substance: substance, productName: productName, librarySubstance: librarySubstance, route: route, saltForm: saltForm)
         if let index = stagedIndex(identity: identity, route: route, unit: unit) {
             expandedItemIDs.insert(staged[index].id)
             return
         }
-        let saltForm = librarySubstance?.saltForms(for: route).first
+        let saltForm = saltForm ?? librarySubstance?.saltForms(for: route).first
         // By-volume substances (alcohol) start empty so the drink presets build the
         // dose up from zero, rather than adding onto a reference-dose default.
         let isByVolume = librarySubstance?.byVolumeDosing.map { unit == $0.canonicalUnit } ?? false

@@ -243,32 +243,40 @@ struct StagedDoseUnitMenu: View {
 /// keyboard.
 struct StagedDoseByDrinkBlock: View {
     @Bindable var model: StagedDoseEditorModel
+    /// The concentration capability — drives the copy (Strength/% vs
+    /// Concentration/(mg/mL)) and the readout unit (g + std drinks vs mg).
+    let capability: ByVolumeDosing
+    /// The converted canonical amount (grams of ethanol, or mg of ester).
     let grams: Double?
     let level: DoseLevel?
     var abvFocus: FocusState<Bool>.Binding
     var volumeFocus: FocusState<Bool>.Binding
 
+    private var strengthStep: Double {
+        capability.isMassPerVolume ? 5 : 0.5
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.lg) {
             StagedDoseByDrinkRow(
-                label: "Strength",
+                label: Text(capability.strengthFieldLabel),
                 text: $model.abvText,
                 focus: abvFocus,
-                trailing: Text(verbatim: "%")
+                trailing: Text(verbatim: capability.strengthUnitLabel)
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(Theme.secondaryLabel),
-                onDec: { model.adjustABV(-0.5) },
-                onInc: { model.adjustABV(0.5) },
+                onDec: { model.adjustStrength(-strengthStep, capability: capability) },
+                onInc: { model.adjustStrength(strengthStep, capability: capability) },
                 decLabel: "Lower strength",
                 incLabel: "Raise strength",
             )
             StagedDoseByDrinkRow(
-                label: "Volume",
+                label: Text("Volume"),
                 text: $model.volumeText,
                 focus: volumeFocus,
                 trailing: StagedDoseVolumeUnitMenu(unit: $model.volumeUnit),
-                onDec: { model.adjustVolume(-1) },
-                onInc: { model.adjustVolume(1) },
+                onDec: { model.adjustVolume(-1, capability: capability) },
+                onInc: { model.adjustVolume(1, capability: capability) },
                 decLabel: "Lower volume",
                 incLabel: "Raise volume",
             )
@@ -279,14 +287,17 @@ struct StagedDoseByDrinkBlock: View {
     @ViewBuilder
     private var readout: some View {
         if let grams {
-            let drinks = ByVolumeDosing.standardDrinks(grams: grams)
             HStack(spacing: Spacing.sm) {
-                Text("\(Int(grams.rounded())) g")
+                Text("\(Int(grams.rounded())) \(capability.canonicalUnit)")
                     .fontWeight(.semibold)
                     .foregroundStyle(level?.labelColor ?? .primary)
                     .contentTransition(.numericText())
-                Text("· \(drinks, format: .number.precision(.fractionLength(1))) std drinks")
-                    .foregroundStyle(Theme.secondaryLabel)
+                if !capability.isMassPerVolume {
+                    // The US-standard-drink gloss is alcohol-only.
+                    let drinks = ByVolumeDosing.standardDrinks(grams: grams)
+                    Text("· \(drinks, format: .number.precision(.fractionLength(1))) std drinks")
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
                 if let level {
                     Middot().foregroundStyle(.tertiary)
                     Text(level.displayName)
@@ -298,8 +309,15 @@ struct StagedDoseByDrinkBlock: View {
             .frame(maxWidth: .infinity)
             // One spoken element instead of a run broken by a lone "·" stop.
             .accessibilityElement(children: .combine)
+        } else if capability.isMassPerVolume {
+            // A volume with no concentration can't become a dose — the mg on the
+            // syringe depend entirely on the vial's mg/mL. Say so where it's typed.
+            Text("Enter the vial's concentration — a volume alone isn't a dose.")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
-        // No placeholder when empty — the strength/volume steppers are right above.
+        // No placeholder for the empty alcohol case — the steppers are right above.
     }
 }
 
@@ -307,7 +325,7 @@ struct StagedDoseByDrinkBlock: View {
 /// capsule itself; the unit is a trailing overlay so it never shifts the number
 /// off-center (mirrors the amount field).
 struct StagedDoseByDrinkRow<Trailing: View>: View {
-    let label: LocalizedStringKey
+    let label: Text
     @Binding var text: String
     var focus: FocusState<Bool>.Binding
     let trailing: Trailing
@@ -318,7 +336,7 @@ struct StagedDoseByDrinkRow<Trailing: View>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
-            Text(label)
+            label
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(Theme.secondaryLabel)
             HStack(spacing: Spacing.md) {
@@ -617,7 +635,16 @@ struct StagedDoseRouteMenu: View {
                 ForEach(RouteOfAdministration.allCases) { route in
                     Button {
                         item.route = route
-                        SaltPicker.revalidate(&item.saltForm, against: item.librarySubstance?.saltForms(for: route) ?? [])
+                        // saltForm is the shared salt/ester axis: a real salt route
+                        // defaults to its first form, but an ester is only ever
+                        // kept-or-cleared (never assumed), so pick the reconciler
+                        // that fits which axis this substance uses.
+                        let saltForms = item.librarySubstance?.saltForms(for: route) ?? []
+                        if saltForms.isEmpty {
+                            EsterPicker.revalidate(&item.saltForm, against: item.esterForms(for: route))
+                        } else {
+                            SaltPicker.revalidate(&item.saltForm, against: saltForms)
+                        }
                         IsomerPicker.revalidate(
                             &item.isomer,
                             against: (item.librarySubstance?.isomerOptions(for: route) ?? []).map {

@@ -216,10 +216,18 @@ struct EntryReadHero: View {
         }
     }
 
-    /// "IPA · 568 mL · 6% ABV" for a dose logged by volume, else nil.
+    /// "IPA · 568 mL · 6% ABV" for alcohol, "40 mL · 40 mg/mL" for an injectable
+    /// ester, for a dose logged by volume, else nil.
     private var byVolumeDisplayLine: String? {
         guard let ml = entry.volumeML, let abv = entry.abv else { return nil }
-        return ByVolumeBreadcrumb.make(name: entry.drinkName, volumeML: ml, abv: abv)
+        if entry.unit == "g" {
+            return ByVolumeBreadcrumb.make(name: entry.drinkName, volumeML: ml, abv: abv)
+        }
+        let core = "\(ByVolumeDosing.formatTrimmed(ml)) mL · \(ByVolumeDosing.formatTrimmed(abv)) \(entry.unit)/mL"
+        if let name = entry.drinkName?.trimmingCharacters(in: .whitespaces), !name.isEmpty {
+            return "\(name) · \(core)"
+        }
+        return core
     }
 
     /// Dose level of the committed entry, classified against the ladder the dose

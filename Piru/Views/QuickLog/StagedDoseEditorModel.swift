@@ -72,9 +72,14 @@ final class StagedDoseEditorModel {
         return g > 0 ? g : nil
     }
 
-    /// Millilitre step for the volume stepper, unit-aware: 10 mL, or 0.5 fl oz.
-    var volumeStep: Double {
-        volumeUnit == .fluidOunces ? 0.5 : 10
+    /// Volume-stepper step in the displayed unit. Kind- and unit-aware: an injectable
+    /// ester is drawn in tenths of a millilitre (a syringe, ~0.1–2 mL), so it steps by
+    /// 0.1 mL; alcohol is poured in tens of millilitres (a glass), so it steps by 10 mL.
+    func volumeStep(capability: ByVolumeDosing?) -> Double {
+        if capability?.isMassPerVolume == true {
+            return volumeUnit == .fluidOunces ? 0.05 : 0.1
+        }
+        return volumeUnit == .fluidOunces ? 0.5 : 10
     }
 
     func unitMenuChoices(current: String) -> [String] {
@@ -120,18 +125,20 @@ final class StagedDoseEditorModel {
 
     // MARK: - By-volume dials
 
-    /// Bump the ABV field by `delta`, clamped to a sane 0–95% and reformatted.
-    func adjustABV(_ delta: Double) {
+    /// Bump the strength field by `delta`, reformatted. Alcohol %ABV clamps to
+    /// 0–95; a mg/mL concentration has no upper bound.
+    func adjustStrength(_ delta: Double, capability: ByVolumeDosing) {
         let current = Double(abvText.replacingOccurrences(of: ",", with: ".")) ?? 0
-        let next = min(95, max(0, ((current + delta) * 10).rounded() / 10))
+        let raw = max(0, ((current + delta) * 10).rounded() / 10)
+        let next = capability.isMassPerVolume ? raw : min(95, raw)
         abvText = next > 0 ? ByVolumeDefaults.format(next) : ""
         stepTick += 1
     }
 
     /// Bump the volume field by one `volumeStep` in the displayed unit, clamped ≥ 0.
-    func adjustVolume(_ steps: Double) {
+    func adjustVolume(_ steps: Double, capability: ByVolumeDosing?) {
         let current = Double(volumeText.replacingOccurrences(of: ",", with: ".")) ?? 0
-        let next = max(0, current + steps * volumeStep)
+        let next = max(0, current + steps * volumeStep(capability: capability))
         volumeText = next > 0 ? ByVolumeDefaults.format(next) : ""
         stepTick += 1
     }
@@ -147,13 +154,15 @@ final class StagedDoseEditorModel {
     /// if it only has grams from a By-Weight edit, derive a volume at a default
     /// strength) so By Drink is never blank. `force` overwrites existing text.
     func seedByDrinkFieldsIfNeeded(from item: StagedDose, capability: ByVolumeDosing?, force: Bool = false) {
-        guard capability != nil else { return }
+        guard let capability else { return }
         if !force, !(volumeText.isEmpty && abvText.isEmpty) { return }
         if let abv = item.abv, let ml = item.volumeML {
             abvText = ByVolumeDefaults.format(abv)
             volumeText = ByVolumeDefaults.format(Measurement(value: ml, unit: .milliliters).converted(to: volumeUnit).value)
-        } else if item.amount > 0 {
-            // Grams-only dose: hold a default strength and back-derive the volume.
+        } else if item.amount > 0, !capability.isMassPerVolume {
+            // Alcohol grams-only dose: hold a default 5% ABV and back-derive volume
+            // so By Drink is never blank. An ester has no default concentration to
+            // assume — leave the fields blank for the user to enter the vial's mg/mL.
             let abv = item.abv ?? 5
             abvText = ByVolumeDefaults.format(abv)
             let ml = ByVolumeDosing.volumeML(grams: item.amount, abv: abv)
@@ -164,10 +173,17 @@ final class StagedDoseEditorModel {
     /// In By Weight, keep `item.volumeML` consistent with the edited grams by
     /// re-deriving volume at the held ABV — so flipping back to By Drink shows a
     /// matching volume rather than a stale or zeroed one.
-    func reprojectVolumeFromGrams(item: inout StagedDose) {
-        let abv = item.abv ?? 5
-        item.abv = abv
-        item.volumeML = item.amount > 0 ? ByVolumeDosing.volumeML(grams: item.amount, abv: abv) : nil
+    func reprojectVolumeFromGrams(item: inout StagedDose, capability: ByVolumeDosing) {
+        if capability.isMassPerVolume {
+            // Only reproject against a concentration the user actually entered —
+            // there is no default mg/mL to assume.
+            guard let strength = item.abv, strength > 0 else { return }
+            item.volumeML = item.amount > 0 ? capability.volumeML(forAmount: item.amount, strength: strength) : nil
+        } else {
+            let abv = item.abv ?? 5
+            item.abv = abv
+            item.volumeML = item.amount > 0 ? ByVolumeDosing.volumeML(grams: item.amount, abv: abv) : nil
+        }
     }
 
     /// Push the custom drink's grams + metadata onto the staged dose. Only writes
@@ -230,7 +246,10 @@ final class StagedDoseEditorModel {
     func seedPillIfNeeded(_ product: ProductStrengths, item: inout StagedDose) {
         guard !pillSeeded else { return }
         pillSeeded = true
-        for strength in product.strengths where strength > 0 {
+        // Largest strength first, so a 10 mg dose seeds as one 10 mg tablet rather
+        // than two 5 mg — matching how a person actually holds their pills (the box
+        // is 20 mg tablets, not four 5s).
+        for strength in product.strengths.sorted(by: >) where strength > 0 {
             let ratio = item.amount / strength
             let rounded = ratio.rounded()
             if rounded >= 1, abs(ratio - rounded) < 0.001 {

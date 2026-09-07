@@ -189,6 +189,38 @@
         }
       }
     },
+    "By Mass" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按质量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按質量"
+          }
+        }
+      }
+    },
+    "By Volume" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按体积"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按體積"
+          }
+        }
+      }
+    },
     "Come-up" : {
       "localizations" : {
         "zh-Hans" : {
@@ -201,6 +233,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "上升期"
+          }
+        }
+      }
+    },
+    "Concentration" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "濃度"
           }
         }
       }
@@ -238,20 +286,7 @@
       }
     },
     "Dark Mode" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "深色模式"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "深色模式"
-          }
-        }
-      }
+
     },
     "Deep purple night, a sleeping moon" : {
 
@@ -276,20 +311,7 @@
       }
     },
     "ely.pink" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ely.pink"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ely.pink"
-          }
-        }
-      }
+
     },
     "Every 2 days" : {
       "localizations" : {
@@ -340,20 +362,7 @@
       }
     },
     "Follow System" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "跟随系统"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "跟隨系統"
-          }
-        }
-      }
+
     },
     "Heart rate" : {
       "localizations" : {
@@ -471,20 +480,7 @@
 
     },
     "Light Mode" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "浅色模式"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "淺色模式"
-          }
-        }
-      }
+
     },
     "Low confidence" : {
       "localizations" : {
@@ -535,20 +531,7 @@
       }
     },
     "Night and pink, stickers and pixels" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夜色与粉色，贴纸与像素"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夜色與粉色，貼紙與像素"
-          }
-        }
-      }
+
     },
     "No active doses" : {
       "localizations" : {
@@ -679,20 +662,7 @@
       }
     },
     "Piru" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru"
-          }
-        }
-      }
+
     },
     "Rectal" : {
       "localizations" : {
@@ -727,7 +697,20 @@
       }
     },
     "Session complete" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录已结束"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄已結束"
+          }
+        }
+      }
     },
     "Shot" : {
       "localizations" : {
@@ -746,20 +729,7 @@
       }
     },
     "Soft pink, hot pink, liquid glass" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "柔粉、亮粉、液态玻璃"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "柔粉、亮粉、液態玻璃"
-          }
-        }
-      }
+
     },
     "Specific days" : {
       "localizations" : {
@@ -782,6 +752,22 @@
     },
     "Steel blue and gold under a thousand stars" : {
 
+    },
+    "Strength" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浓度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "濃度"
+          }
+        }
+      }
     },
     "Subcutaneous" : {
       "localizations" : {

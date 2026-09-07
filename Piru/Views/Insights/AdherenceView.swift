@@ -72,7 +72,7 @@ private struct AdherenceEmptyState: View {
             .tint(Theme.accent)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Theme.background)
+        .skinBackdrop()
     }
 }
 

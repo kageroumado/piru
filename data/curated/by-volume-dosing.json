@@ -1,7 +1,13 @@
 {
-  "_comment": "Substances whose natural dose input is a concentration applied to a measured volume rather than a mass typed directly. Alcohol is the only adopter: the user measures a 330 mL can at 5% ABV and Piru stores the canonical grams of ethanol the dose ladder and PK model run on. The arithmetic is exact and uncontested — grams = volume x (strength/100) x density — so what belongs here is the density, the colloquial standard-unit mass, and the tappable presets, never a model or a threshold.",
+  "_comment": "Substances whose natural dose input is a concentration applied to a measured volume rather than a mass typed directly. Alcohol (percent_by_volume: grams = volume x strength/100 x density) and injectable estradiol esters (mass_per_volume: mg = volume x concentration in mg/mL, no density term) are the adopters. What belongs here is the exact conversion inputs, never a model or a threshold. Estradiol ships NO concentration preset: a vial's mg/mL varies by ester and product, so the user enters it (and saves their own presets) — 'volume is meaningless without concentration' (transfemscience.org).",
   "source": "piru-curated",
   "substances": [
+    {
+      "substance": "Estradiol",
+      "concentrationKind": "mass_per_volume",
+      "canonicalUnit": "mg",
+      "notes": "Injectable estradiol esters are drawn from an oil vial in millilitres; the dose in mg is volume x the vial's concentration (mg/mL). The concentration is user-entered because it varies by ester and product (e.g. estradiol valerate 20-40 mg/mL, cypionate 5 mg/mL) — no shipped default. Only surfaced on IM/SC routes; oral/transdermal estradiol stays a plain mg log."
+    },
     {
       "substance": "Alcohol",
       "concentrationKind": "percent_by_volume",

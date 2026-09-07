@@ -229,6 +229,12 @@ final class SubstanceStore {
     /// duration, so this recovers *which form a logged string named* — it never
     /// selects a dose ladder, and there is deliberately no release picker.
     private(set) var aliasReleaseFormIndex: [String: String] = [:]
+    /// Normalized alias → injectable-ester label ("estradiol valerate" →
+    /// "Valerate"), from `aliases.salt_form`. The salt/ester sibling of
+    /// ``aliasReleaseFormIndex``: lets a search for "Estradiol Valerate" stage the
+    /// dose with the ester pre-set on `saltForm`. Populated only for esters (mineral
+    /// salts normalize onto the base and can't be tagged).
+    private(set) var aliasSaltFormIndex: [String: String] = [:]
     /// Lowercased product name → the strengths it ships in (`product_strengths`).
     /// Lets a logged brand ("concerta") be entered as a *pill* by tapping a real
     /// strength. Display/entry only — see ``ProductStrengths``. Built at load by a
@@ -242,6 +248,11 @@ final class SubstanceStore {
     /// umbrella. Built at load by a small separate read so its absence in an older
     /// bundled DB degrades to "base curve / marker" rather than failing the build.
     private(set) var productDurationIndex: [String: DurationProfile] = [:]
+    /// `ester_id` → depot PK parameters for an injectable hormone ester
+    /// (`ester_pk`). Feeds the Injection Levels tool's three-compartment serum-level
+    /// curve. Built at load by a small separate read so its absence in an older
+    /// bundled DB degrades to "tool shows no esters" rather than failing the build.
+    private(set) var esterPKIndex: [String: EsterPKRecord] = [:]
     /// Composed form titles from `substance_forms` — "Methylphenidate",
     /// "Methylphenidate XR", "Dexmethylphenidate XR" (the cross-axis Focalin XR
     /// form), "Naltrexone Depot". The build composes these once, so the app never
@@ -695,7 +706,7 @@ final class SubstanceStore {
     private func buildIndexes() {
         do {
             let (names, aliases, aliasDisplay, aliasFacets, displayNames, uids, formTitles, stubs):
-                ([(String, Int64, String)], [(String, Int64)], [(String, String)], [(String, String?, String?)], [(String, String)], [(Int64, String)], [(FormKey, String)], Set<Int64>) = try substancesDB.read { db in
+                ([(String, Int64, String)], [(String, Int64)], [(String, String)], [(String, String?, String?, String?)], [(String, String)], [(Int64, String)], [(FormKey, String)], Set<Int64>) = try substancesDB.read { db in
                     let nameRows = try Row.fetchAll(db, sql: "SELECT id, canonical_name, substance_uid, is_stub FROM substances ORDER BY canonical_name COLLATE NOCASE")
                     let names = nameRows.map { ($0["canonical_name"] as String, $0["id"] as Int64, ($0["canonical_name"] as String).lowercased()) }
                     // Rows the build flagged as carrying no dose data at all. Kept
@@ -708,16 +719,17 @@ final class SubstanceStore {
                         guard let uid = row["substance_uid"] as String? else { return nil }
                         return (row["id"] as Int64, uid)
                     }
-                    let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias, alias_normalized, isomer, release_form FROM aliases")
+                    let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias, alias_normalized, isomer, release_form, salt_form FROM aliases")
                     let aliases = aliasRows.map { ($0["alias_normalized"] as String, $0["substance_id"] as Int64) }
                     let aliasDisplay = aliasRows.map { ($0["alias_normalized"] as String, $0["alias"] as String) }
                     // Only the facet-bearing rows — the vast majority of aliases name
                     // the plain/unspecified form and would just bloat both indexes.
-                    let aliasFacets = aliasRows.compactMap { row -> (String, String?, String?)? in
+                    let aliasFacets = aliasRows.compactMap { row -> (String, String?, String?, String?)? in
                         let iso = row["isomer"] as String?
                         let release = row["release_form"] as String?
-                        guard iso != nil || release != nil else { return nil }
-                        return (row["alias_normalized"] as String, iso, release)
+                        let salt = row["salt_form"] as String?
+                        guard iso != nil || release != nil || salt != nil else { return nil }
+                        return (row["alias_normalized"] as String, iso, release, salt)
                     }
                     let sourceRows = try Row.fetchAll(db, sql: "SELECT slug, display_name FROM sources")
                     let displayNames = sourceRows.map { ($0["slug"] as String, $0["display_name"] as String) }
@@ -785,12 +797,15 @@ final class SubstanceStore {
             // build reports any such collision for triage.
             var aix: [String: String] = [:]
             var arx: [String: String] = [:]
-            for (alias, iso, release) in aliasFacets {
+            var asx: [String: String] = [:]
+            for (alias, iso, release, salt) in aliasFacets {
                 if let iso, aix[alias] == nil { aix[alias] = iso }
                 if let release, arx[alias] == nil { arx[alias] = release }
+                if let salt, asx[alias] == nil { asx[alias] = salt }
             }
             self.aliasIsomerIndex = aix
             self.aliasReleaseFormIndex = arx
+            self.aliasSaltFormIndex = asx
             // `substance_forms`' PK already makes these unique; uniquing defensively
             // rather than trapping at launch, matching `nameIndex` above.
             self.formTitleIndex = Dictionary(formTitles, uniquingKeysWith: { first, _ in first })
@@ -861,6 +876,50 @@ final class SubstanceStore {
             self.productDurationIndex = index
         } catch {
             logger.warning("buildIndexes: product_durations unavailable (\(error.localizedDescription, privacy: .public)) — extended-release curves fall back")
+        }
+
+        // Depot PK parameters for injectable hormone esters (`ester_pk`), read
+        // separately for the same degrade-gracefully reason: a bundled DB predating
+        // the table leaves the Injection Levels tool with no esters to offer rather
+        // than failing the whole index build.
+        do {
+            let rows = try substancesDB.read { db in
+                try Row.fetchAll(db, sql: """
+                SELECT ester_id, analyte, parent, parent_uid, ester_label,
+                       modelable, d, k1, k2, k3, confidence, provenance, routes
+                  FROM ester_pk
+                """)
+            }
+            var index: [String: EsterPKRecord] = [:]
+            for row in rows {
+                let routes = ((try? JSONDecoder().decode(
+                    [String].self,
+                    from: Data((row["routes"] as String).utf8),
+                )) ?? ["IM"])
+                // A catalog-only ester (modelable=0) carries NULL rates — loggable,
+                // but the tool draws no curve for it.
+                let params: PKModel.DepotParameters? = if (row["modelable"] as Int) != 0,
+                                                          let d = row["d"] as Double?, let k1 = row["k1"] as Double?,
+                                                          let k2 = row["k2"] as Double?, let k3 = row["k3"] as Double? {
+                    PKModel.DepotParameters(d: d, k1: k1, k2: k2, k3: k3)
+                } else {
+                    nil
+                }
+                index[row["ester_id"] as String] = EsterPKRecord(
+                    esterID: row["ester_id"] as String,
+                    analyte: row["analyte"] as String,
+                    parent: row["parent"] as String,
+                    parentUID: row["parent_uid"] as String?,
+                    label: row["ester_label"] as String,
+                    parameters: params,
+                    confidence: row["confidence"] as String,
+                    provenance: row["provenance"] as String,
+                    routes: routes,
+                )
+            }
+            self.esterPKIndex = index
+        } catch {
+            logger.warning("buildIndexes: ester_pk unavailable (\(error.localizedDescription, privacy: .public)) — Injection Levels tool has no ester data")
         }
 
         // Branded products (`aliases` kind='brand') grouped by FAMILY uid for the

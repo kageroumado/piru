@@ -139,6 +139,13 @@ enum SubstanceLibrary {
         SubstanceStore.shared.releaseForm(forNameOrAlias: nameOrAlias)
     }
 
+    /// The injectable-ester label a name/alias names ("Estradiol Valerate" →
+    /// `"Valerate"`), or `nil`. Lets a search stage the dose with the ester
+    /// pre-selected on `saltForm`.
+    static func saltForm(for nameOrAlias: String) -> String? {
+        SubstanceStore.shared.saltForm(forNameOrAlias: nameOrAlias)
+    }
+
     /// The composed display title for the form a name/alias names ("Concerta" →
     /// "Methylphenidate XR"), or `nil` when it resolves to no enumerated form.
     /// Used by the PSID backfill to snapshot a resolved dose's title.
