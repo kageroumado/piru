@@ -35,7 +35,61 @@ extension View {
             ))
         case let .soft(stroke, glow, glowRadius):
             buttonStyle(SoftButtonStyle(prominence: prominence, stroke: stroke, glow: glow, glowRadius: glowRadius))
+        case let .frosted(stroke, highlight):
+            buttonStyle(SoftButtonStyle(prominence: prominence, stroke: stroke, glow: highlight, glowRadius: 10))
+        case let .paper(stroke, _):
+            buttonStyle(PaperButtonStyle(prominence: prominence, stroke: stroke))
+        case let .neon(stroke, glow):
+            buttonStyle(NeonButtonStyle(prominence: prominence, stroke: stroke, glow: glow))
         }
+    }
+}
+
+/// A paper button: the ink stroke, a flat fill, and a press that darkens the
+/// fill the way pressed paper does. No shadow anywhere on paper.
+struct PaperButtonStyle: ButtonStyle {
+    let prominence: SkinButtonProminence
+    let stroke: Color
+
+    func makeBody(configuration: Configuration) -> some View {
+        let skin = SkinStore.shared.current
+        let shape = RoundedRectangle(cornerRadius: 10, style: .continuous)
+        let pressed = configuration.isPressed
+        configuration.label
+            .foregroundStyle(prominence == .prominent ? skin.onAccent : skin.accent)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .background {
+                shape.fill(prominence == .prominent ? skin.accent : skin.cardBackground)
+                    .brightness(pressed ? -0.08 : 0)
+                shape.stroke(stroke.opacity(prominence == .prominent ? 0.5 : 0.35), lineWidth: 1)
+            }
+            .animation(.easeOut(duration: 0.1), value: pressed)
+    }
+}
+
+/// A neon button: a phosphor stroke with its glow, text in the accent, and a
+/// press that fills the tube.
+struct NeonButtonStyle: ButtonStyle {
+    let prominence: SkinButtonProminence
+    let stroke: Color
+    let glow: Color
+
+    func makeBody(configuration: Configuration) -> some View {
+        let skin = SkinStore.shared.current
+        let shape = RoundedRectangle(cornerRadius: 3, style: .continuous)
+        let pressed = configuration.isPressed
+        let filled = prominence == .prominent || pressed
+        configuration.label
+            .foregroundStyle(filled ? skin.onAccent : skin.accent)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .background {
+                shape.fill(filled ? skin.accent : skin.cardBackground.opacity(0.85))
+                    .shadow(color: glow.opacity(pressed ? 0.9 : 0.55), radius: pressed ? 12 : 8)
+                shape.stroke(stroke, lineWidth: 1.5)
+            }
+            .animation(.easeOut(duration: 0.1), value: pressed)
     }
 }
 
@@ -108,9 +162,23 @@ extension Text {
             .padding(.horizontal, horizontal)
             .padding(.vertical, vertical)
         switch SkinStore.shared.current.surface {
-        case .glass, .soft:
+        case .glass, .soft, .frosted:
             base
                 .background(fill.opacity(Theme.Opacity.tint), in: Capsule())
+                .foregroundStyle(text)
+        case .paper:
+            let shape = RoundedRectangle(cornerRadius: 2, style: .continuous)
+            base
+                .background(fill.opacity(Theme.Opacity.tint), in: shape)
+                .overlay(shape.strokeBorder(text.opacity(0.35), lineWidth: 1))
+                .foregroundStyle(text)
+        case .neon:
+            let shape = RoundedRectangle(cornerRadius: 1, style: .continuous)
+            base
+                .textCase(.uppercase)
+                .background(Theme.inputBackground, in: shape)
+                .overlay(shape.strokeBorder(fill, lineWidth: 1))
+                .shadow(color: fill.opacity(0.45), radius: 4)
                 .foregroundStyle(text)
         case .edged:
             let shape = RoundedRectangle(cornerRadius: 3, style: .continuous)
@@ -132,8 +200,12 @@ extension Text {
             .padding(.vertical, vertical)
             .foregroundStyle(Theme.secondaryLabel)
         switch SkinStore.shared.current.surface {
-        case .glass, .soft:
+        case .glass, .soft, .frosted:
             base.overlay(Capsule().strokeBorder(stroke, lineWidth: 1))
+        case .paper:
+            base.overlay(RoundedRectangle(cornerRadius: 2, style: .continuous).strokeBorder(stroke, lineWidth: 1))
+        case .neon:
+            base.overlay(RoundedRectangle(cornerRadius: 1, style: .continuous).strokeBorder(stroke, lineWidth: 1))
         case .edged:
             base.overlay(RoundedRectangle(cornerRadius: 3, style: .continuous).strokeBorder(stroke, lineWidth: 1.5))
         }

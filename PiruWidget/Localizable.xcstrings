@@ -191,6 +191,22 @@
         }
       }
     },
+    "A sky that follows the day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随一天变化的天空"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨一天變化的天空"
+          }
+        }
+      }
+    },
     "Afterglow" : {
       "localizations" : {
         "zh-Hans" : {
@@ -367,6 +383,9 @@
         }
       }
     },
+    "Cool blue-gray, quiet" : {
+
+    },
     "Countdown to your next scheduled med." : {
       "localizations" : {
         "zh-Hans" : {
@@ -432,13 +451,52 @@
       }
     },
     "Dark Mode" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色模式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色模式"
+          }
+        }
+      }
     },
     "Deep purple night, a sleeping moon" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深紫夜色，一轮睡着的月亮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深紫夜色，一輪睡著的月亮"
+          }
+        }
+      }
     },
     "Deep water, bioluminescence, jellyfish" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深水、生物荧光、水母"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深水、生物螢光、水母"
+          }
+        }
+      }
     },
     "Due" : {
       "localizations" : {
@@ -489,7 +547,20 @@
       }
     },
     "ely.pink" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ely.pink"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ely.pink"
+          }
+        }
+      }
     },
     "Every 2 days" : {
       "localizations" : {
@@ -539,7 +610,39 @@
         }
       }
     },
+    "Fireflies and an aurora" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "萤火虫与极光"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "螢火蟲與極光"
+          }
+        }
+      }
+    },
     "Follow System" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟随系统"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟隨系統"
+          }
+        }
+      }
+    },
+    "Graphite" : {
 
     },
     "Heart rate" : {
@@ -574,6 +677,22 @@
         }
       }
     },
+    "Hebi Arcade" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hebi 街机"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hebi 街機"
+          }
+        }
+      }
+    },
     "High confidence" : {
       "localizations" : {
         "zh-Hans" : {
@@ -586,6 +705,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "高可信度"
+          }
+        }
+      }
+    },
+    "Hotaru" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotaru"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotaru"
           }
         }
       }
@@ -671,7 +806,36 @@
       }
     },
     "Jellyfish" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "水母"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "水母"
+          }
+        }
+      }
+    },
+    "Kumo" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kumo"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kumo"
+          }
+        }
+      }
     },
     "Last Dose" : {
       "localizations" : {
@@ -690,6 +854,22 @@
       }
     },
     "Light Mode" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浅色模式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "淺色模式"
+          }
+        }
+      }
+    },
+    "Linen" : {
 
     },
     "Logs one dose of a scheduled med." : {
@@ -804,6 +984,25 @@
         }
       }
     },
+    "Neon City on a CRT" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CRT 上的霓虹城"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CRT 上的霓虹城"
+          }
+        }
+      }
+    },
+    "Neutral grays, nothing moving" : {
+
+    },
     "Next Dose" : {
       "localizations" : {
         "zh-Hans" : {
@@ -821,7 +1020,20 @@
       }
     },
     "Night and pink, stickers and pixels" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜色与粉色，贴纸与像素"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜色與粉色，貼紙與像素"
+          }
+        }
+      }
     },
     "No active doses" : {
       "localizations" : {
@@ -1015,6 +1227,22 @@
         }
       }
     },
+    "Paper Garden" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "纸庭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "紙庭"
+          }
+        }
+      }
+    },
     "Peak" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1027,6 +1255,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "巔峰"
+          }
+        }
+      }
+    },
+    "Periwinkle, snow and frost" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长春花蓝、雪与霜"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長春花藍、雪與霜"
           }
         }
       }
@@ -1048,7 +1292,20 @@
       }
     },
     "Piru" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru"
+          }
+        }
+      }
     },
     "Rectal" : {
       "localizations" : {
@@ -1162,8 +1419,41 @@
         }
       }
     },
-    "Soft pink, hot pink, liquid glass" : {
+    "Skin" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮肤"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮膚"
+          }
+        }
+      }
+    },
+    "Slate" : {
 
+    },
+    "Soft pink, hot pink, liquid glass" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "柔粉、亮粉、液态玻璃"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "柔粉、亮粉、液態玻璃"
+          }
+        }
+      }
     },
     "Specific days" : {
       "localizations" : {
@@ -1182,10 +1472,36 @@
       }
     },
     "Starfield" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星野"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星野"
+          }
+        }
+      }
     },
     "Steel blue and gold under a thousand stars" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "千星之下的钢蓝与金"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "千星之下的鋼藍與金"
+          }
+        }
+      }
     },
     "Strength" : {
       "localizations" : {
@@ -1413,7 +1729,20 @@
       }
     },
     "Tsuki" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tsuki"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tsuki"
+          }
+        }
+      }
     },
     "Unverified" : {
       "localizations" : {
@@ -1427,6 +1756,25 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未核實"
+          }
+        }
+      }
+    },
+    "Warm paper and charcoal, quiet" : {
+
+    },
+    "Washi, raked sand, sakura" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "和纸、枯山水、樱花"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "和紙、枯山水、櫻花"
           }
         }
       }
@@ -1459,6 +1807,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "葡萄酒"
+          }
+        }
+      }
+    },
+    "Yuki" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yuki"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yuki"
           }
         }
       }

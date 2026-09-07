@@ -65,7 +65,8 @@ extension Font {
 enum SkinFace {
     /// The skin's display family at `weight`, as a `Font`, or nil for system.
     static func display(weight: Font.Weight, size: CGFloat, relativeTo style: Font.TextStyle, scaling: Bool = true) -> Font? {
-        SkinStore.shared.current.typeface.display.map { font(family: $0, weight: weight, size: size, relativeTo: style, scaling: scaling) }
+        let typeface = SkinStore.shared.current.typeface
+        return typeface.display.map { font(family: $0, weight: weight, size: size * typeface.displayScale, relativeTo: style, scaling: scaling) }
     }
 
     /// The skin's label family at `weight`, as a `Font`, or nil for system.
@@ -204,8 +205,9 @@ enum SkinNavigationTitles {
         let inline = UIFont.TextStyle.headline
         var largeAttributes: [NSAttributedString.Key: Any] = [:]
         if let family = skin.typeface.display {
-            largeAttributes[.font] = uiFont(family, weight: .bold, style: large)
-            bar.titleTextAttributes = [.font: uiFont(family, weight: .semibold, style: inline)]
+            let scale = skin.typeface.displayScale
+            largeAttributes[.font] = uiFont(family, weight: .bold, style: large, scale: scale)
+            bar.titleTextAttributes = [.font: uiFont(family, weight: .semibold, style: inline, scale: scale)]
         } else if let design = skin.fontDesign {
             largeAttributes[.font] = systemFont(design: design, weight: .bold, style: large)
             bar.titleTextAttributes = [.font: systemFont(design: design, weight: .semibold, style: inline)]
@@ -245,8 +247,8 @@ enum SkinNavigationTitles {
     }
 
     /// The same family + weight descriptor `SkinFace` renders with, as a `UIFont`.
-    private static func uiFont(_ family: String, weight: UIFont.Weight, style: UIFont.TextStyle) -> UIFont {
-        let size = UIFont.preferredFont(forTextStyle: style).pointSize
+    private static func uiFont(_ family: String, weight: UIFont.Weight, style: UIFont.TextStyle, scale: CGFloat = 1) -> UIFont {
+        let size = UIFont.preferredFont(forTextStyle: style).pointSize * scale
         let descriptor = UIFontDescriptor(fontAttributes: [
             .family: family,
             .traits: [UIFontDescriptor.TraitKey.weight: weight],

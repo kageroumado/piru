@@ -38,6 +38,8 @@
 	<array>
 		<string>Fredoka-Variable.ttf</string>
 		<string>DotGothic16-Regular.ttf</string>
+		<string>Fraunces-Variable.ttf</string>
+		<string>PressStart2P-Regular.ttf</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>

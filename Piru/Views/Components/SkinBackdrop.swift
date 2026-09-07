@@ -46,16 +46,19 @@ struct SkinBackdrop: View {
                 let animate = !reduceMotion && visible
                 let interval: Double = if case .stickers = decor.scene { 1 / 20 } else { 1 / 30 }
                 let atlas = GlyphAtlas.images(for: skins.current, decor: decor, dark: dark, scale: displayScale)
+                let textures = SkinTextures.tiles(for: decor.scene, dark: dark, scale: displayScale)
                 TimelineView(.animation(minimumInterval: interval, paused: !animate)) { timeline in
                     let t = reduceMotion ? 0 : timeline.date.timeIntervalSinceReferenceDate
                     // Polled, not observed — see `SkinMotion.tilt`.
                     let tilt = reduceMotion ? .zero : SkinMotion.shared.tilt
+                    // The wall clock, for a sky that follows the day.
+                    let clock = SceneClock(date: timeline.date)
                     // `@Sendable`: a closure formed in this main-actor body
                     // would otherwise inherit main-actor isolation, and the
                     // asynchronous renderer calls it off the main thread on
                     // hardware. Everything it captures is a `Sendable` value.
                     Canvas(rendersAsynchronously: true) { @Sendable context, size in
-                        SceneRenderer(decor: decor, atlas: atlas, size: size, time: t, dark: dark, tilt: tilt).draw(in: &context)
+                        SceneRenderer(decor: decor, atlas: atlas, textures: textures, size: size, time: t, dark: dark, tilt: tilt, clock: clock).draw(in: &context)
                     }
                 }
                 .allowsHitTesting(false)
@@ -94,19 +97,37 @@ struct SkinBackdrop: View {
 /// the project's `MainActor` default isolation an implicitly main-actor
 /// renderer traps on its first off-main call — a launch crash the simulator
 /// never showed. Everything it reads is a `Sendable` value.
-private nonisolated struct SceneRenderer {
+/// The real time of day, for scenes that follow it. Read on the main thread
+/// once per frame; a value, so the renderer can carry it off-main.
+nonisolated struct SceneClock: Sendable {
+    /// 0 … 1 from local midnight.
+    let dayFraction: Double
+    /// 1 … 12.
+    let month: Int
+
+    init(date: Date) {
+        let parts = Calendar.current.dateComponents([.hour, .minute, .month], from: date)
+        dayFraction = (Double(parts.hour ?? 12) * 60 + Double(parts.minute ?? 0)) / 1440
+        month = parts.month ?? 6
+    }
+}
+
+nonisolated struct SceneRenderer {
     let decor: SkinDecorations
     /// Every glyph at every size bucket, rendered once — see ``GlyphAtlas``.
     let atlas: [Image]
+    /// Grain and scanline tiles, rendered once — see ``SkinTextures``.
+    let textures: SkinTextures.Tiles
     let size: CGSize
     let time: TimeInterval
     let dark: Bool
     /// Device tilt, -1 … 1 per axis. Zero on the simulator and at rest.
     let tilt: CGPoint
+    let clock: SceneClock
 
     /// The window into the aquarium: a layer at `depth` (0 far, 1 at the
     /// glass) slides opposite the tilt, farther layers less.
-    private func parallax(_ depth: Double) -> CGSize {
+    func parallax(_ depth: Double) -> CGSize {
         CGSize(width: -tilt.x * 34 * depth, height: tilt.y * 26 * depth)
     }
 
@@ -131,13 +152,28 @@ private nonisolated struct SceneRenderer {
         case let .underwater(water):
             drawWater(water, in: &context)
             drawGlyphs(in: &context, share: 0.3)
+        case let .paper(garden):
+            drawPaperGarden(garden, in: &context)
+            drawGlyphs(in: &context, share: 0.35)
+        case let .fireflies(night):
+            drawFireflies(night, in: &context)
+            drawGlyphs(in: &context, share: 0.25)
+        case let .snow(snow):
+            drawSnow(snow, in: &context)
+            drawGlyphs(in: &context, share: 0.3)
+        case let .arcade(arcade):
+            drawArcade(arcade, in: &context)
+            drawGlyphs(in: &context, share: 0.3)
+        case let .sky(sky):
+            drawSky(sky, in: &context)
+            drawGlyphs(in: &context, share: 0.3)
         }
     }
 
     // MARK: Shared pieces
 
     /// Faint dots — the sticker skin's ground, the plankton in deep water.
-    private func drawDots(in context: inout GraphicsContext, count: Int, alpha: ClosedRange<Double>, color: Color, twinkle: Bool = false) {
+    func drawDots(in context: inout GraphicsContext, count: Int, alpha: ClosedRange<Double>, color: Color, twinkle: Bool = false) {
         var rng = SeededRNG(seed: 0xE1A5)
         for _ in 0 ..< count {
             let x = rng.unit() * size.width
@@ -149,7 +185,7 @@ private nonisolated struct SceneRenderer {
         }
     }
 
-    private func drawGlows(_ glows: [SkinGlow], in context: inout GraphicsContext) {
+    func drawGlows(_ glows: [SkinGlow], in context: inout GraphicsContext) {
         let reach = max(size.width, size.height) * 0.75
         for glow in glows {
             let center = CGPoint(x: glow.center.x * size.width, y: glow.center.y * size.height)
@@ -164,7 +200,7 @@ private nonisolated struct SceneRenderer {
     }
 
     /// A soft bloom: a radial gradient to zero alpha, never a blur.
-    private func bloom(_ color: Color, at center: CGPoint, radius: CGFloat, alpha: Double, in context: inout GraphicsContext) {
+    func bloom(_ color: Color, at center: CGPoint, radius: CGFloat, alpha: Double, in context: inout GraphicsContext) {
         context.fill(
             Path(ellipseIn: CGRect(x: center.x - radius, y: center.y - radius, width: radius * 2, height: radius * 2)),
             with: .radialGradient(
@@ -179,7 +215,7 @@ private nonisolated struct SceneRenderer {
     /// One sticker per cell of a jittered grid, so the field is spread rather
     /// than clumped, a little bigger and brighter toward the edges. `share`
     /// thins the field for scenes that carry their own life.
-    private func drawGlyphs(in context: inout GraphicsContext, share: Double) {
+    func drawGlyphs(in context: inout GraphicsContext, share: Double) {
         let glyphs = decor.glyphs
         guard size.width > 0, size.height > 0, !glyphs.isEmpty else { return }
         var rng = SeededRNG(seed: UInt64(size.width) &* 7919 &+ UInt64(size.height) &* 104_729)
@@ -236,9 +272,24 @@ private nonisolated struct SceneRenderer {
     /// Tsuki's `FloatingStarsView`: each star has its own twinkle speed, a
     /// sine drift, and a halo behind a bright core — the halo a gradient, so
     /// it costs one fill.
-    private func drawStars(_ sky: SkinNightSky, in context: inout GraphicsContext) {
-        var rng = SeededRNG(seed: 0x57A2 &+ UInt64(size.height))
+    func drawStars(_ sky: SkinNightSky, in context: inout GraphicsContext) {
+        var rng = SeededRNG(seed: sky.seed &+ UInt64(size.height))
         let count = Int(170 * sky.density * Double(size.height) / 900)
+        // The Milky Way: a soft diagonal band of faint stars and haze.
+        if sky.milkyWay {
+            let a = CGPoint(x: -20, y: size.height * 0.15), b = CGPoint(x: size.width + 20, y: size.height * 0.75)
+            var band = Path()
+            band.move(to: a); band.addLine(to: b)
+            context.stroke(band, with: .color(sky.haloColor.opacity(dark ? 0.07 : 0.05)), style: StrokeStyle(lineWidth: 160, lineCap: .round))
+            context.stroke(band, with: .color(sky.starColor.opacity(dark ? 0.05 : 0.03)), style: StrokeStyle(lineWidth: 80, lineCap: .round))
+            for _ in 0 ..< 140 {
+                let u = rng.unit(), spread = (rng.unit() - 0.5) * 120 * (rng.unit() - 0.5) * 2
+                let x = a.x + (b.x - a.x) * u - spread * 0.6
+                let y = a.y + (b.y - a.y) * u + spread
+                let r = 0.4 + rng.unit() * 0.6
+                context.fill(Path(ellipseIn: CGRect(x: x - r, y: y - r, width: r * 2, height: r * 2)), with: .color(sky.starColor.opacity((dark ? 0.6 : 0.4) * (0.5 + 0.5 * rng.unit()))))
+            }
+        }
         if dark { context.blendMode = .plusLighter }
         for i in 0 ..< count {
             let baseX = rng.unit() * size.width
@@ -492,15 +543,17 @@ private nonisolated struct SceneRenderer {
     private func drawJellyfish(_ water: SkinUnderwater, in context: inout GraphicsContext) {
         guard !water.bells.isEmpty else { return }
         var rng = SeededRNG(seed: 0x1E11 &+ UInt64(size.width))
-        let count = max(4, Int(size.height / 160))
-        let span = size.height + 320
+        // Enough of them, evenly staggered along the wrap, that one is always
+        // rising into view: a swimmer every ~8 s at these speeds.
+        let count = max(8, Int(size.height / 90))
+        let span = size.height + 240
         let cast: [JellySpecies] = [.piru, .piru, .remi, .remi, .sparkler, .aurora, .koko, .bitjelly]
         for i in 0 ..< count {
             let laneX = size.width * (0.12 + 0.76 * rng.unit())
             let scale = 0.55 + rng.unit() * 0.7
-            let speed = 9 + rng.unit() * 9
+            let speed = 12 + rng.unit() * 12
             let phase = rng.unit()
-            let start = rng.unit() * span
+            let start = (Double(i) / Double(count) + rng.unit() * 0.08) * span
             let species = cast[Int(rng.next() % UInt64(cast.count))]
             let bellColor = water.bells[i % water.bells.count]
             let depth = (scale - 0.55) / 0.7
@@ -566,7 +619,7 @@ private enum GlyphAtlas {
 }
 
 /// SplitMix64 — deterministic, so a screen's decoration is the same every time.
-private nonisolated struct SeededRNG {
+nonisolated struct SeededRNG {
     private var state: UInt64
 
     init(seed: UInt64) { state = seed }

@@ -54,6 +54,14 @@ roles stay split: a colour that is a fine mark can still fail as small copy
 | Tsuki | `~/Developer/Tsuki` | soft (hairline + lavender glow) | `.rounded` | night sky, sparse, sleeping moon |
 | Starfield | `~/Developer/website main/astrelia` | edged | Fredoka | night sky, dense, gold |
 | Jellyfish | rocuronium's jellyfish | soft (hairline + cyan glow) | `.rounded` | underwater |
+| Graphite | — | glass | system | none — a muted skin |
+| Linen | — | paper | system | none — a muted skin |
+| Slate | — | soft (slate glow) | system | none — a muted skin |
+| Paper Garden | `~/Developer/Origami` + `~/Developer/Kaze` | paper (grain, ink hairline, no shadow) | Fraunces | raked sand around stones, sakura, fireflies at night |
+| Hotaru | `~/Developer/Hotaru` | soft (lime glow) | system | fireflies, fog, a tree line, an aurora |
+| Yuki | `~/Developer/Yuki` | soft (periwinkle glow) | `.rounded` | snow, frost at the corners |
+| Hebi Arcade | `~/Developer/Hebi` (Neon City) | neon (phosphor stroke + glow) | Press Start 2P (scaled .72) | a perspective grid, pixel stars, a snake, scanlines |
+| Kumo | `~/Developer/Kumo` | frosted (translucent, hairline, highlight) | system | a sky by the real clock and season |
 
 Light modes for Tsuki, Starfield and Jellyfish are invented — a moonlit
 lavender day, a dawn sky, a shallow lagoon — since their sources are dark
@@ -86,10 +94,17 @@ each branching on `Skin.surface`:
   square on the input surface under an edge. Takes a text style, not a `Font`,
   so the edged branch can set the skin's label face.
 
-Three surfaces: `.glass` (the default's material), `.edged` (solid, stroke,
-hard offset shadow — ely.pink, Starfield) and `.soft` (solid, 1pt hairline at
-low opacity, a coloured glow, never a black shadow — Tsuki, Jellyfish).
-`SoftButtonStyle` is the soft skins' button: the glow brightens on press.
+Six surfaces: `.glass` (the default's material — Piru, Graphite), `.edged`
+(solid, stroke, hard offset shadow — ely.pink, Starfield), `.soft` (solid,
+1pt hairline at low opacity, a coloured glow, never a black shadow — Tsuki,
+Jellyfish, Hotaru, Yuki, Slate), `.paper` (matte, ink hairline, no shadow, a
+grain tile — Paper Garden, Linen), `.neon` (translucent dark fill, 1.5pt phosphor stroke, outer
+glow, inner highlight — Hebi Arcade) and `.frosted` (translucent white,
+white hairline, a top highlight, no material — Kumo, so the sky shows
+through). Buttons: `SoftButtonStyle` (glow brightens on press),
+`PaperButtonStyle` (fill darkens), `NeonButtonStyle` (the tube fills).
+Textures come from `SkinTextures`: a 96pt grain tile and a 1×3 scanline tile
+rendered once per appearance and painted by tiling, one fill per frame.
 
 ## Type: `Piru/Views/Components/SkinType.swift`
 
@@ -167,6 +182,33 @@ composite `plusLighter` (additive) so a colour reads as emitting, not paler.
   `build_skin_palettes.py`'s sibling scratch script; the mask is the fitted
   outer and bite circles), drawn by the canvas with a breathing halo.
 
+- `.paper` (Paper Garden): Origami's washi gradient and grain, Kaze's fine
+  rake bending around two stones with concentric rings, the stones with
+  their gradient and moss, sakura petals on Kaze's fall, its fireflies (with
+  their blink keyframes) after dark, its vignette floored at .5.
+- `.fireflies` (Hotaru): the shaders' ground, fog and tree line; 120
+  fireflies with the shader's blink (`pulse²·flicker`), size and two-term
+  glow, additive; three aurora ribbons on its wave cycling green → cyan →
+  purple → pink. By day: pollen motes and morning mist.
+- `.snow` (Yuki): its `SnowfallView` numbers in closed form (60 flakes,
+  speeds, drift, depth fade), frost blooms and crystals at the top corners,
+  a drift along the top edge.
+- `.arcade` (Hebi): a perspective floor scrolling toward the viewer in the
+  wall and border colours, 2×2 pixel stars, a snake walking a seeded random
+  walk on a 12pt grid one step every .16 s with the game's glow ladder, its
+  food blinking ahead of it, scanlines and a vignette.
+- `.sky` (Kumo): `SceneClock` reads the wall clock each frame; the sky is
+  Kumo's night / day / sunset stops lerped through dawn (5–7) and dusk
+  (17–20), light mode kept to the day family and dark to the night family;
+  a sun or moon on an arc; its 80 stars; its three cloud layers on their own
+  speeds; snow in Dec–Feb and rain in Mar–Apr and Oct–Nov with its particle
+  numbers; the night aurora band.
+
+**Muted skins** (Graphite, Linen, Slate) have `decorations == nil`: palette,
+surface and type only, nothing moving, for people who want none of it. Two
+night skies never share a star map: `SkinNightSky.seed` differs per skin
+and Starfield adds a Milky Way band.
+
 **Parallax.** `SkinMotion` low-pass filters device gravity into a resting
 reference and reports the deviation as a tilt; every layer slides opposite
 the tilt scaled by its depth (rays far, small jellies farther than big ones,
@@ -229,4 +271,5 @@ key to screenshot any screen in any skin.
   renderers, which stay on the system face by design.
 - Title sparkles: navigation titles are UIKit-drawn, so the site's ✦ stickers
   on the title have no SwiftUI hook yet.
+- The next batch from the user's apps: Shrine, Mochi, Shizuka, Hoshi, Hanabi.
 - kagerou.glass, the other developer's site, as a skin.

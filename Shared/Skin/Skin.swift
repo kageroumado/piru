@@ -31,6 +31,12 @@ import SwiftUI
 enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// The app's own look: soft pink light, hot pink dark, Liquid Glass.
     case piru
+    /// Graphite — neutral grays, nothing moving. For people who want none of it.
+    case graphite
+    /// Linen — warm paper and charcoal, quiet.
+    case linen
+    /// Slate — cool blue-gray, quiet.
+    case slate
     /// ely.pink — the author's homepage. Night (plum-black, hot pink, lilac,
     /// mint) and pink (cream cards on a pink ground with near-black edges).
     /// Solid edged cards with hard offset shadows; nothing tilts.
@@ -44,6 +50,20 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// Jellyfish — deep water. Bioluminescent cyan and violet, soft glowing
     /// cards, bubbles rising and jellyfish swimming up behind everything.
     case jellyfish
+    /// Paper garden — Origami's washi and Kaze's raked sand: matte paper,
+    /// washi red, stones and moss, sakura petals.
+    case paperGarden
+    /// Hotaru — the author's ambient-art app. Fireflies over a dark meadow,
+    /// an aurora at the top.
+    case hotaru
+    /// Yuki — the author's Pomodoro. Periwinkle, snow and frost, dual.
+    case yuki
+    /// Hebi arcade — the snake game's Neon City: magenta and cyan phosphor,
+    /// a perspective grid, a pixel face.
+    case hebi
+    /// Kumo — the author's weather app. A sky that follows the real time of
+    /// day and the season, frosted cards that let it through.
+    case kumo
 
     var id: String { rawValue }
 
@@ -51,10 +71,18 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     var displayName: LocalizedStringResource {
         switch self {
         case .piru: "Piru"
+        case .graphite: "Graphite"
+        case .linen: "Linen"
+        case .slate: "Slate"
         case .elyPink: "ely.pink"
         case .tsuki: "Tsuki"
         case .astrelia: "Starfield"
         case .jellyfish: "Jellyfish"
+        case .paperGarden: "Paper Garden"
+        case .hotaru: "Hotaru"
+        case .yuki: "Yuki"
+        case .hebi: "Hebi Arcade"
+        case .kumo: "Kumo"
         }
     }
 
@@ -62,10 +90,18 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     var tagline: LocalizedStringResource {
         switch self {
         case .piru: "Soft pink, hot pink, liquid glass"
+        case .graphite: "Neutral grays, nothing moving"
+        case .linen: "Warm paper and charcoal, quiet"
+        case .slate: "Cool blue-gray, quiet"
         case .elyPink: "Night and pink, stickers and pixels"
         case .tsuki: "Deep purple night, a sleeping moon"
         case .astrelia: "Steel blue and gold under a thousand stars"
         case .jellyfish: "Deep water, bioluminescence, jellyfish"
+        case .paperGarden: "Washi, raked sand, sakura"
+        case .hotaru: "Fireflies and an aurora"
+        case .yuki: "Periwinkle, snow and frost"
+        case .hebi: "Neon City on a CRT"
+        case .kumo: "A sky that follows the day"
         }
     }
 
@@ -89,10 +125,18 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     var palette: SkinPalette {
         switch self {
         case .piru: .piru
+        case .graphite: .graphite
+        case .linen: .linen
+        case .slate: .slate
         case .elyPink: .elyPink
         case .tsuki: .tsuki
         case .astrelia: .astrelia
         case .jellyfish: .jellyfish
+        case .paperGarden: .paperGarden
+        case .hotaru: .hotaru
+        case .yuki: .yuki
+        case .hebi: .hebi
+        case .kumo: .kumo
         }
     }
 
@@ -140,7 +184,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// draws them, so nothing here is content.
     var decorations: SkinDecorations? {
         switch self {
-        case .piru:
+        case .piru, .graphite, .linen, .slate:
             nil
         case .elyPink:
             SkinDecorations(
@@ -166,6 +210,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                     starColor: .Skin.Tsuki.Star.core,
                     haloColor: .Skin.Tsuki.Star.halo,
                     density: 0.55,
+                    seed: 0x7511,
                     moon: true,
                     moonImage: .Skin.Tsuki.moon,
                     moonInk: palette.titleStroke,
@@ -189,6 +234,8 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                     starColor: .Skin.Astrelia.Star.core,
                     haloColor: .Skin.Astrelia.Star.halo,
                     density: 1.0,
+                    seed: 0xA57A,
+                    milkyWay: true,
                     moon: false,
                     glows: [
                         SkinGlow(accentMark, at: UnitPoint(x: 0.5, y: -0.06), opacity: 0.16),
@@ -218,6 +265,70 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                 // A bubble from every tap.
                 tapGlyph: SkinGlyph("○", .Skin.Jellyfish.Water.bubble),
             )
+        case .paperGarden:
+            SkinDecorations(
+                scene: .paper(SkinPaperGarden(
+                    sand1: .Skin.Papergarden.Garden.sand1, sand2: .Skin.Papergarden.Garden.sand2,
+                    groove: .Skin.Papergarden.Garden.groove, stone: .Skin.Papergarden.Garden.stone,
+                    moss: .Skin.Papergarden.Garden.moss, petal: .Skin.Papergarden.Garden.petal,
+                    firefly: .Skin.Papergarden.Garden.firefly, grain: palette.shadow,
+                )),
+                glyphs: [
+                    SkinGlyph("✿", .Skin.Papergarden.Garden.petal), SkinGlyph("❀", .Skin.Papergarden.Garden.petal),
+                    SkinGlyph("✾", semantic(.caution, .accent)), SkinGlyph("〜", palette.stroke),
+                ],
+                frameCorners: (SkinGlyph("✿", .Skin.Papergarden.Garden.petal), SkinGlyph("❀", semantic(.caution, .accent))),
+                tapGlyph: SkinGlyph("✿", .Skin.Papergarden.Garden.petal),
+            )
+        case .hotaru:
+            SkinDecorations(
+                scene: .fireflies(SkinFireflies(
+                    core: .Skin.Hotaru.Night.core, glow: .Skin.Hotaru.Night.glow,
+                    fog: .Skin.Hotaru.Night.fog, tree: .Skin.Hotaru.Night.tree,
+                    aurora: [.Skin.Hotaru.Night.aurora1, .Skin.Hotaru.Night.aurora2, .Skin.Hotaru.Night.aurora3, .Skin.Hotaru.Night.aurora4],
+                )),
+                glyphs: [SkinGlyph("✦", .Skin.Hotaru.Night.core), SkinGlyph("✧", .Skin.Hotaru.Night.glow), SkinGlyph("·", .Skin.Hotaru.Night.core)],
+                frameCorners: nil,
+                tapGlyph: SkinGlyph("✦", .Skin.Hotaru.Night.glow),
+            )
+        case .yuki:
+            SkinDecorations(
+                scene: .snow(SkinSnow(flake: .Skin.Yuki.Snow.flake, frost: .Skin.Yuki.Snow.frost)),
+                glyphs: [SkinGlyph("❄", .Skin.Yuki.Snow.flake), SkinGlyph("✻", .Skin.Yuki.Snow.frost), SkinGlyph("❅", accentMark)],
+                frameCorners: (SkinGlyph("❄", .Skin.Yuki.Snow.flake), SkinGlyph("✻", .Skin.Yuki.Snow.frost)),
+                tapGlyph: SkinGlyph("❄", .Skin.Yuki.Snow.flake),
+            )
+        case .hebi:
+            SkinDecorations(
+                scene: .arcade(SkinArcade(
+                    grid: .Skin.Hebi.Arcade.grid, wall: .Skin.Hebi.Arcade.wall, border: .Skin.Hebi.Arcade.border,
+                    snake: .Skin.Hebi.Arcade.snake, snakeBody: .Skin.Hebi.Arcade.snakeBody,
+                    food: .Skin.Hebi.Arcade.food, star: .Skin.Hebi.Arcade.star,
+                )),
+                glyphs: [
+                    SkinGlyph("▪", accentMark), SkinGlyph("▴", .Skin.Hebi.Arcade.food),
+                    SkinGlyph("●", semantic(.caution, .accent)), SkinGlyph("✦", accentMark),
+                ],
+                frameCorners: (SkinGlyph("✦", accentMark), SkinGlyph("▪", .Skin.Hebi.Arcade.food)),
+                tapGlyph: SkinGlyph("▪", .Skin.Hebi.Arcade.food),
+            )
+        case .kumo:
+            SkinDecorations(
+                scene: .sky(SkinSky(
+                    night: (.Skin.Kumo.Sky.night1, .Skin.Kumo.Sky.night2),
+                    day: (.Skin.Kumo.Sky.day1, .Skin.Kumo.Sky.day2),
+                    sunset: (.Skin.Kumo.Sky.sunset1, .Skin.Kumo.Sky.sunset2),
+                    cloud: .Skin.Kumo.Sky.cloud, star: .Skin.Kumo.Sky.star, rain: .Skin.Kumo.Sky.rain,
+                    sun: .Skin.Kumo.Sky.sun, moon: .Skin.Kumo.Sky.moon,
+                    auroraPurple: semantic(.info, .accent), auroraCyan: accentMark,
+                )),
+                glyphs: [
+                    SkinGlyph("☁", .Skin.Kumo.Sky.cloud), SkinGlyph("✦", semantic(.caution, .accent)),
+                    SkinGlyph("☾", .Skin.Kumo.Sky.moon), SkinGlyph("✧", .Skin.Kumo.Sky.sun),
+                ],
+                frameCorners: (SkinGlyph("☁", .Skin.Kumo.Sky.cloud), SkinGlyph("✦", semantic(.caution, .accent))),
+                tapGlyph: SkinGlyph("✦", semantic(.caution, .accent)),
+            )
         }
     }
 
@@ -227,7 +338,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     var cardInsetDash: Color? {
         switch self {
         case .elyPink: accentMark
-        case .piru, .tsuki, .astrelia, .jellyfish: nil
+        case .piru, .graphite, .linen, .slate, .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo: nil
         }
     }
 
@@ -237,7 +348,9 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     var chipCornerRadius: CGFloat? {
         switch self {
         case .elyPink, .astrelia: 3
-        case .piru, .tsuki, .jellyfish: nil
+        case .paperGarden: 2
+        case .hebi: 0
+        case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .hotaru, .yuki, .kumo: nil
         }
     }
 
@@ -246,7 +359,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// `nil` leaves the system's plain title.
     var titleOutline: SkinTitleOutline? {
         switch self {
-        case .piru: nil
+        case .piru, .graphite, .linen, .slate: nil
         // The site's `h1`: hot pink at night, near-black in pink mode, with a
         // hard drop (wine at night, hot pink in pink mode).
         case .elyPink: SkinTitleOutline(
@@ -258,9 +371,19 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
             shadow: palette.titleShadow, shadowOffset: CGSize(width: 3, height: 3), shadowBlur: 0,
         )
         // Soft skins: no outline, the label colour, a coloured glow beneath.
-        case .tsuki, .jellyfish: SkinTitleOutline(
+        case .tsuki, .jellyfish, .hotaru, .yuki, .kumo: SkinTitleOutline(
             fill: nil, stroke: nil,
             shadow: palette.titleShadow, shadowOffset: .zero, shadowBlur: 14,
+        )
+        // Ink with a hard sakura drop, no outline: a stamp on paper.
+        case .paperGarden: SkinTitleOutline(
+            fill: palette.titleFill, stroke: nil,
+            shadow: palette.titleShadow, shadowOffset: CGSize(width: 2, height: 2), shadowBlur: 0,
+        )
+        // A neon sign: cyan tube, magenta glow.
+        case .hebi: SkinTitleOutline(
+            fill: palette.titleFill, stroke: nil,
+            shadow: palette.titleShadow, shadowOffset: .zero, shadowBlur: 10,
         )
         }
     }
@@ -273,7 +396,9 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// and a coloured glow — never a black shadow.
     var surface: SkinSurface {
         switch self {
-        case .piru: .glass
+        case .piru, .graphite: .glass
+        case .linen: .paper(stroke: palette.stroke, grain: palette.shadow)
+        case .slate: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 10)
         case .elyPink: .edged(
             stroke: palette.stroke, strokeWidth: 2.5,
             shadow: palette.shadow, shadowOffset: CGSize(width: 3, height: 3),
@@ -284,6 +409,11 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         )
         case .tsuki: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 14)
         case .jellyfish: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 18)
+        case .hotaru: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 16)
+        case .yuki: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 12)
+        case .paperGarden: .paper(stroke: palette.stroke, grain: palette.shadow)
+        case .hebi: .neon(stroke: palette.stroke, glow: palette.shadow)
+        case .kumo: .frosted(stroke: palette.stroke, highlight: palette.shadow)
         }
     }
 
@@ -300,9 +430,10 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// `SkinTypeTests` enforces the exclusion.
     var fontDesign: Font.Design? {
         switch self {
-        case .piru, .elyPink, .astrelia: nil
-        // Tsuki is `.rounded` throughout; the jellyfish skin borrows it.
-        case .tsuki, .jellyfish: .rounded
+        case .piru, .graphite, .linen, .slate, .elyPink, .astrelia, .paperGarden, .hotaru, .hebi, .kumo: nil
+        // Tsuki is `.rounded` throughout; the jellyfish skin borrows it, and
+        // Yuki's ultralight rounded timer is its whole identity.
+        case .tsuki, .jellyfish, .yuki: .rounded
         }
     }
 
@@ -312,12 +443,16 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// are small and carry most of a skin's character.
     var typeface: SkinTypeface {
         switch self {
-        case .piru, .tsuki, .jellyfish: SkinTypeface(display: nil, label: nil)
+        case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .yuki, .hotaru, .kumo: SkinTypeface(display: nil, label: nil)
         // Fredoka (variable, 159 KB) for titles; DotGothic16 (2 MB, includes
         // kana + JIS kanji) for chips and badges. Both SIL OFL, in Piru/Fonts.
         case .elyPink: SkinTypeface(display: "Fredoka", label: "DotGothic16")
         // Astrelia's site sets its titles in Fredoka too.
         case .astrelia: SkinTypeface(display: "Fredoka", label: nil)
+        // Fraunces (variable), a soft serif for paper.
+        case .paperGarden: SkinTypeface(display: "Fraunces", label: nil)
+        // Press Start 2P is set wide; scaled down so a large title fits the bar.
+        case .hebi: SkinTypeface(display: "Press Start 2P", label: "Press Start 2P", displayScale: 0.72)
         }
     }
 }
@@ -357,6 +492,42 @@ struct SkinPalette: Sendable {
         }
         return variant == .text ? pair.text : pair.accent
     }
+
+    static let graphite = SkinPalette(
+        accent: .Skin.Graphite.Accent.text, accentMark: .Skin.Graphite.Accent.mark, onAccent: .Skin.Graphite.Accent.on,
+        secondaryLabel: .Skin.Graphite.Text.secondary,
+        background: .Skin.Graphite.Surface.background, cardBackground: .Skin.Graphite.Surface.card, inputBackground: .Skin.Graphite.Surface.input,
+        eyebrow: .Skin.Graphite.eyebrow, stroke: .Skin.Graphite.stroke, shadow: .Skin.Graphite.shadow,
+        titleFill: .primary, titleStroke: .Skin.Graphite.Title.stroke, titleShadow: .Skin.Graphite.Title.shadow,
+        danger: (.Skin.Graphite.Semantic.Danger.text, .Skin.Graphite.Semantic.Danger.accent),
+        caution: (.Skin.Graphite.Semantic.Caution.text, .Skin.Graphite.Semantic.Caution.accent),
+        success: (.Skin.Graphite.Semantic.Success.text, .Skin.Graphite.Semantic.Success.accent),
+        info: (.Skin.Graphite.Semantic.Info.text, .Skin.Graphite.Semantic.Info.accent),
+    )
+
+    static let linen = SkinPalette(
+        accent: .Skin.Linen.Accent.text, accentMark: .Skin.Linen.Accent.mark, onAccent: .Skin.Linen.Accent.on,
+        secondaryLabel: .Skin.Linen.Text.secondary,
+        background: .Skin.Linen.Surface.background, cardBackground: .Skin.Linen.Surface.card, inputBackground: .Skin.Linen.Surface.input,
+        eyebrow: .Skin.Linen.eyebrow, stroke: .Skin.Linen.stroke, shadow: .Skin.Linen.shadow,
+        titleFill: .primary, titleStroke: .Skin.Linen.Title.stroke, titleShadow: .Skin.Linen.Title.shadow,
+        danger: (.Skin.Linen.Semantic.Danger.text, .Skin.Linen.Semantic.Danger.accent),
+        caution: (.Skin.Linen.Semantic.Caution.text, .Skin.Linen.Semantic.Caution.accent),
+        success: (.Skin.Linen.Semantic.Success.text, .Skin.Linen.Semantic.Success.accent),
+        info: (.Skin.Linen.Semantic.Info.text, .Skin.Linen.Semantic.Info.accent),
+    )
+
+    static let slate = SkinPalette(
+        accent: .Skin.Slate.Accent.text, accentMark: .Skin.Slate.Accent.mark, onAccent: .Skin.Slate.Accent.on,
+        secondaryLabel: .Skin.Slate.Text.secondary,
+        background: .Skin.Slate.Surface.background, cardBackground: .Skin.Slate.Surface.card, inputBackground: .Skin.Slate.Surface.input,
+        eyebrow: .Skin.Slate.eyebrow, stroke: .Skin.Slate.stroke, shadow: .Skin.Slate.shadow,
+        titleFill: .primary, titleStroke: .Skin.Slate.Title.stroke, titleShadow: .Skin.Slate.Title.shadow,
+        danger: (.Skin.Slate.Semantic.Danger.text, .Skin.Slate.Semantic.Danger.accent),
+        caution: (.Skin.Slate.Semantic.Caution.text, .Skin.Slate.Semantic.Caution.accent),
+        success: (.Skin.Slate.Semantic.Success.text, .Skin.Slate.Semantic.Success.accent),
+        info: (.Skin.Slate.Semantic.Info.text, .Skin.Slate.Semantic.Info.accent),
+    )
 
     static let piru = SkinPalette(
         accent: .accent, accentMark: .accent, onAccent: .white,
@@ -406,6 +577,66 @@ struct SkinPalette: Sendable {
         info: (.Skin.Astrelia.Semantic.Info.text, .Skin.Astrelia.Semantic.Info.accent),
     )
 
+    static let paperGarden = SkinPalette(
+        accent: .Skin.Papergarden.Accent.text, accentMark: .Skin.Papergarden.Accent.mark, onAccent: .Skin.Papergarden.Accent.on,
+        secondaryLabel: .Skin.Papergarden.Text.secondary,
+        background: .Skin.Papergarden.Surface.background, cardBackground: .Skin.Papergarden.Surface.card, inputBackground: .Skin.Papergarden.Surface.input,
+        eyebrow: .Skin.Papergarden.eyebrow, stroke: .Skin.Papergarden.stroke, shadow: .Skin.Papergarden.shadow,
+        titleFill: .Skin.Papergarden.Title.fill, titleStroke: .Skin.Papergarden.Title.stroke, titleShadow: .Skin.Papergarden.Title.shadow,
+        danger: (.Skin.Papergarden.Semantic.Danger.text, .Skin.Papergarden.Semantic.Danger.accent),
+        caution: (.Skin.Papergarden.Semantic.Caution.text, .Skin.Papergarden.Semantic.Caution.accent),
+        success: (.Skin.Papergarden.Semantic.Success.text, .Skin.Papergarden.Semantic.Success.accent),
+        info: (.Skin.Papergarden.Semantic.Info.text, .Skin.Papergarden.Semantic.Info.accent),
+    )
+
+    static let hotaru = SkinPalette(
+        accent: .Skin.Hotaru.Accent.text, accentMark: .Skin.Hotaru.Accent.mark, onAccent: .Skin.Hotaru.Accent.on,
+        secondaryLabel: .Skin.Hotaru.Text.secondary,
+        background: .Skin.Hotaru.Surface.background, cardBackground: .Skin.Hotaru.Surface.card, inputBackground: .Skin.Hotaru.Surface.input,
+        eyebrow: .Skin.Hotaru.eyebrow, stroke: .Skin.Hotaru.stroke, shadow: .Skin.Hotaru.shadow,
+        titleFill: .Skin.Hotaru.Title.fill, titleStroke: .Skin.Hotaru.Title.stroke, titleShadow: .Skin.Hotaru.Title.shadow,
+        danger: (.Skin.Hotaru.Semantic.Danger.text, .Skin.Hotaru.Semantic.Danger.accent),
+        caution: (.Skin.Hotaru.Semantic.Caution.text, .Skin.Hotaru.Semantic.Caution.accent),
+        success: (.Skin.Hotaru.Semantic.Success.text, .Skin.Hotaru.Semantic.Success.accent),
+        info: (.Skin.Hotaru.Semantic.Info.text, .Skin.Hotaru.Semantic.Info.accent),
+    )
+
+    static let yuki = SkinPalette(
+        accent: .Skin.Yuki.Accent.text, accentMark: .Skin.Yuki.Accent.mark, onAccent: .Skin.Yuki.Accent.on,
+        secondaryLabel: .Skin.Yuki.Text.secondary,
+        background: .Skin.Yuki.Surface.background, cardBackground: .Skin.Yuki.Surface.card, inputBackground: .Skin.Yuki.Surface.input,
+        eyebrow: .Skin.Yuki.eyebrow, stroke: .Skin.Yuki.stroke, shadow: .Skin.Yuki.shadow,
+        titleFill: .Skin.Yuki.Title.fill, titleStroke: .Skin.Yuki.Title.stroke, titleShadow: .Skin.Yuki.Title.shadow,
+        danger: (.Skin.Yuki.Semantic.Danger.text, .Skin.Yuki.Semantic.Danger.accent),
+        caution: (.Skin.Yuki.Semantic.Caution.text, .Skin.Yuki.Semantic.Caution.accent),
+        success: (.Skin.Yuki.Semantic.Success.text, .Skin.Yuki.Semantic.Success.accent),
+        info: (.Skin.Yuki.Semantic.Info.text, .Skin.Yuki.Semantic.Info.accent),
+    )
+
+    static let hebi = SkinPalette(
+        accent: .Skin.Hebi.Accent.text, accentMark: .Skin.Hebi.Accent.mark, onAccent: .Skin.Hebi.Accent.on,
+        secondaryLabel: .Skin.Hebi.Text.secondary,
+        background: .Skin.Hebi.Surface.background, cardBackground: .Skin.Hebi.Surface.card, inputBackground: .Skin.Hebi.Surface.input,
+        eyebrow: .Skin.Hebi.eyebrow, stroke: .Skin.Hebi.stroke, shadow: .Skin.Hebi.shadow,
+        titleFill: .Skin.Hebi.Title.fill, titleStroke: .Skin.Hebi.Title.stroke, titleShadow: .Skin.Hebi.Title.shadow,
+        danger: (.Skin.Hebi.Semantic.Danger.text, .Skin.Hebi.Semantic.Danger.accent),
+        caution: (.Skin.Hebi.Semantic.Caution.text, .Skin.Hebi.Semantic.Caution.accent),
+        success: (.Skin.Hebi.Semantic.Success.text, .Skin.Hebi.Semantic.Success.accent),
+        info: (.Skin.Hebi.Semantic.Info.text, .Skin.Hebi.Semantic.Info.accent),
+    )
+
+    static let kumo = SkinPalette(
+        accent: .Skin.Kumo.Accent.text, accentMark: .Skin.Kumo.Accent.mark, onAccent: .Skin.Kumo.Accent.on,
+        secondaryLabel: .Skin.Kumo.Text.secondary,
+        background: .Skin.Kumo.Surface.background, cardBackground: .Skin.Kumo.Surface.card, inputBackground: .Skin.Kumo.Surface.input,
+        eyebrow: .Skin.Kumo.eyebrow, stroke: .Skin.Kumo.stroke, shadow: .Skin.Kumo.shadow,
+        titleFill: .Skin.Kumo.Title.fill, titleStroke: .Skin.Kumo.Title.stroke, titleShadow: .Skin.Kumo.Title.shadow,
+        danger: (.Skin.Kumo.Semantic.Danger.text, .Skin.Kumo.Semantic.Danger.accent),
+        caution: (.Skin.Kumo.Semantic.Caution.text, .Skin.Kumo.Semantic.Caution.accent),
+        success: (.Skin.Kumo.Semantic.Success.text, .Skin.Kumo.Semantic.Success.accent),
+        info: (.Skin.Kumo.Semantic.Info.text, .Skin.Kumo.Semantic.Info.accent),
+    )
+
     static let jellyfish = SkinPalette(
         accent: .Skin.Jellyfish.Accent.text, accentMark: .Skin.Jellyfish.Accent.mark, onAccent: .Skin.Jellyfish.Accent.on,
         secondaryLabel: .Skin.Jellyfish.Text.secondary,
@@ -425,6 +656,9 @@ struct SkinTypeface: Equatable, Sendable {
     let display: String?
     /// Chips, badges — small categorical labels, never body copy or data.
     let label: String?
+    /// Multiplies the display face's point size: a face set wide (a pixel
+    /// face) needs less than the style's size to fit the same line.
+    var displayScale: CGFloat = 1
 }
 
 /// The L1 status roles. A closed set — see `design-system/README.md`.
@@ -462,6 +696,64 @@ enum SkinScene: Sendable {
     /// Deep water: a depth gradient, light rays, rising bubbles, and
     /// jellyfish swimming up.
     case underwater(SkinUnderwater)
+    /// Washi paper, raked sand around stones, sakura petals.
+    case paper(SkinPaperGarden)
+    /// A dark meadow: fireflies, fog, a tree line, an aurora.
+    case fireflies(SkinFireflies)
+    /// Falling snow and frost at the corners.
+    case snow(SkinSnow)
+    /// A perspective neon grid, pixel stars, a snake.
+    case arcade(SkinArcade)
+    /// A sky that follows the real time of day and season.
+    case sky(SkinSky)
+}
+
+struct SkinPaperGarden: Sendable {
+    let sand1: Color
+    let sand2: Color
+    let groove: Color
+    let stone: Color
+    let moss: Color
+    let petal: Color
+    let firefly: Color
+    let grain: Color
+}
+
+struct SkinFireflies: Sendable {
+    let core: Color
+    let glow: Color
+    let fog: Color
+    let tree: Color
+    /// Green, cyan, purple, pink — cycled along the ribbons.
+    let aurora: [Color]
+}
+
+struct SkinSnow: Sendable {
+    let flake: Color
+    let frost: Color
+}
+
+struct SkinArcade: Sendable {
+    let grid: Color
+    let wall: Color
+    let border: Color
+    let snake: Color
+    let snakeBody: Color
+    let food: Color
+    let star: Color
+}
+
+struct SkinSky: Sendable {
+    let night: (Color, Color)
+    let day: (Color, Color)
+    let sunset: (Color, Color)
+    let cloud: Color
+    let star: Color
+    let rain: Color
+    let sun: Color
+    let moon: Color
+    let auroraPurple: Color
+    let auroraCyan: Color
 }
 
 /// A radial glow on the ground: colour, centre, peak opacity.
@@ -482,6 +774,10 @@ struct SkinNightSky: Sendable {
     let haloColor: Color
     /// 1.0 is Astrelia's dense field; Tsuki is sparser.
     let density: Double
+    /// The star map's seed — two night skies must never share one.
+    var seed: UInt64 = 0x57A2
+    /// A denser diagonal band of faint stars, the Milky Way.
+    var milkyWay = false
     /// A sleeping crescent moon.
     let moon: Bool
     /// The moon as drawn art — Tsuki's own icon, lifted with its glow — or
@@ -541,6 +837,15 @@ enum SkinSurface: Equatable, Sendable {
     /// Solid `cardBackground`, a 1pt hairline in `stroke` at low opacity, and
     /// a coloured `glow` of `glowRadius` — never a black shadow.
     case soft(stroke: Color, glow: Color, glowRadius: CGFloat)
+    /// Matte paper: solid fill, a 1pt ink `stroke` at low opacity, no shadow,
+    /// and a `grain` tile over the fill.
+    case paper(stroke: Color, grain: Color)
+    /// Phosphor: a translucent dark fill, a 1.5pt `stroke` in the accent, an
+    /// outer `glow` of the same colour, and an inner highlight line.
+    case neon(stroke: Color, glow: Color)
+    /// Frosted glass with no material: a translucent white fill, a white
+    /// hairline `stroke`, and a `highlight` line along the top edge.
+    case frosted(stroke: Color, highlight: Color)
 }
 
 /// The user's light/dark override. `system` defers to iOS.

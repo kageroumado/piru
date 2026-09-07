@@ -101,6 +101,27 @@ struct ThemedBackground<S: Shape>: ViewModifier {
                     .shadow(color: glow.opacity(colorScheme == .dark ? 0.28 : 0.35), radius: glowRadius, y: 4)
                 shape.stroke(stroke.opacity(0.35), lineWidth: 1)
             }
+        case let .paper(stroke, grain):
+            content.background {
+                shape.fill(Theme.cardBackground)
+                shape.fill(SkinTextures.grain(grain, dark: colorScheme == .dark))
+                shape.stroke(stroke.opacity(0.18), lineWidth: 1)
+            }
+        case let .neon(stroke, glow):
+            content.background {
+                shape.fill(Theme.cardBackground.opacity(colorScheme == .dark ? 0.85 : 1))
+                    .shadow(color: glow.opacity(colorScheme == .dark ? 0.55 : 0.25), radius: 8)
+                shape.stroke(stroke, lineWidth: 1.5)
+                shape.stroke(Color.white.opacity(0.18), lineWidth: 0.5).padding(2)
+            }
+        case let .frosted(stroke, highlight):
+            content.background {
+                shape.fill(Color.white.opacity(colorScheme == .dark ? 0.08 : 0.55))
+                shape.stroke(stroke.opacity(colorScheme == .dark ? 0.15 : 0.6), lineWidth: 1)
+                shape.stroke(highlight.opacity(0.25), lineWidth: 1).mask {
+                    LinearGradient(colors: [.white, .clear], startPoint: .top, endPoint: UnitPoint(x: 0.5, y: 0.25))
+                }
+            }
         case let .edged(stroke, strokeWidth, shadow, shadowOffset):
             content.background {
                 shape.fill(shadow).offset(shadowOffset)
@@ -133,8 +154,10 @@ struct CardBackground: View {
             } else {
                 Rectangle().fill(.ultraThinMaterial)
             }
-        case .edged, .soft:
+        case .edged, .soft, .paper, .neon:
             Theme.cardBackground
+        case .frosted:
+            Color.white.opacity(colorScheme == .dark ? 0.08 : 0.55)
         }
     }
 }
@@ -182,8 +205,9 @@ extension View {
     /// squared — the skin's input rounding.
     func themeCapsule() -> some View {
         let shape: AnyShape = switch SkinStore.shared.current.surface {
-        case .glass, .soft: AnyShape(Capsule())
-        case .edged: AnyShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.input, style: .continuous))
+        case .glass, .soft, .frosted: AnyShape(Capsule())
+        case .edged, .paper: AnyShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.input, style: .continuous))
+        case .neon: AnyShape(RoundedRectangle(cornerRadius: 2, style: .continuous))
         }
         return modifier(ThemedBackground(shape: shape))
     }

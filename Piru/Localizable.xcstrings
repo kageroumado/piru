@@ -5808,6 +5808,22 @@
         }
       }
     },
+    "A sky that follows the day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随一天变化的天空"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨一天變化的天空"
+          }
+        }
+      }
+    },
     "A summary of how the drug affects the brain's three main signaling chemicals — serotonin, dopamine, and noradrenaline — and whether it releases them or blocks their reuptake. The slider shows which one it leans toward." : {
       "localizations" : {
         "zh-Hans" : {
@@ -14676,6 +14692,22 @@
         }
       }
     },
+    "Cool blue-gray, quiet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冷蓝灰，安静"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冷藍灰，安靜"
+          }
+        }
+      }
+    },
     "Coordination" : {
       "localizations" : {
         "zh-Hans" : {
@@ -21956,6 +21988,22 @@
         }
       }
     },
+    "Fireflies and an aurora" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "萤火虫与极光"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "螢火蟲與極光"
+          }
+        }
+      }
+    },
     "Fires when the model's next dose window opens after a logged dose. Estimate only." : {
       "localizations" : {
         "zh-Hans" : {
@@ -23327,6 +23375,22 @@
         }
       }
     },
+    "Graphite" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "石墨"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "石墨"
+          }
+        }
+      }
+    },
     "Group by" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23948,6 +24012,22 @@
         }
       }
     },
+    "Hebi Arcade" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hebi 街机"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hebi 街機"
+          }
+        }
+      }
+    },
     "Height and shape fit to your results. Terminal release %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -24379,6 +24459,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "激素、甲狀腺與代謝藥物。"
+          }
+        }
+      }
+    },
+    "Hotaru" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotaru"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotaru"
           }
         }
       }
@@ -27042,6 +27138,22 @@
         }
       }
     },
+    "Kumo" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kumo"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kumo"
+          }
+        }
+      }
+    },
     "Lab calibration" : {
       "localizations" : {
         "zh-Hans" : {
@@ -27713,6 +27825,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Linea de Prevencion del Suicidio"
+          }
+        }
+      }
+    },
+    "Linen" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "亚麻"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "亞麻"
           }
         }
       }
@@ -31550,6 +31678,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "需要填寫劑量"
+          }
+        }
+      }
+    },
+    "Neon City on a CRT" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CRT 上的霓虹城"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CRT 上的霓虹城"
+          }
+        }
+      }
+    },
+    "Neutral grays, nothing moving" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中性灰，静止不动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中性灰，靜止不動"
           }
         }
       }
@@ -35505,6 +35665,22 @@
         }
       }
     },
+    "Paper Garden" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "纸庭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "紙庭"
+          }
+        }
+      }
+    },
     "Parameters from estrannaise.js (MIT), checked against the literature" : {
       "localizations" : {
         "zh-Hans" : {
@@ -36113,6 +36289,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "時段"
+          }
+        }
+      }
+    },
+    "Periwinkle, snow and frost" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长春花蓝、雪与霜"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長春花藍、雪與霜"
           }
         }
       }
@@ -44325,6 +44517,22 @@
         }
       }
     },
+    "Slate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "板岩"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "板岩"
+          }
+        }
+      }
+    },
     "Sleep" : {
       "localizations" : {
         "zh-Hans" : {
@@ -52067,6 +52275,22 @@
         }
       }
     },
+    "Warm paper and charcoal, quiet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暖纸与炭色，安静"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暖紙與炭色，安靜"
+          }
+        }
+      }
+    },
     "Warmth, empathy, and emotional openness." : {
       "localizations" : {
         "zh-Hans" : {
@@ -52111,6 +52335,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在藥效消退前提醒你，讓落差不至於讓你措手不及。需在每劑的緩和期提醒頁面單獨開啟。"
+          }
+        }
+      }
+    },
+    "Washi, raked sand, sakura" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "和纸、枯山水、樱花"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "和紙、枯山水、櫻花"
           }
         }
       }
@@ -54186,6 +54426,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的"
+          }
+        }
+      }
+    },
+    "Yuki" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yuki"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yuki"
           }
         }
       }

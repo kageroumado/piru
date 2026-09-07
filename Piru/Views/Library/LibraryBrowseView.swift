@@ -150,6 +150,14 @@ private struct FamilyGradientCardEdge: ViewModifier {
             content.shadow(color: color.opacity(0.3), radius: 10, x: 0, y: 5)
         case let .soft(_, _, glowRadius):
             content.shadow(color: color.opacity(0.45), radius: glowRadius, x: 0, y: 5)
+        case .frosted:
+            content.shadow(color: color.opacity(0.35), radius: 10, x: 0, y: 5)
+        case let .paper(stroke, _):
+            content.overlay(shape.stroke(stroke.opacity(0.25), lineWidth: 1))
+        case let .neon(stroke, glow):
+            content
+                .overlay(shape.stroke(stroke, lineWidth: 1.5))
+                .shadow(color: glow.opacity(0.45), radius: 8)
         case let .edged(stroke, strokeWidth, shadow, shadowOffset):
             content
                 .background(shape.fill(shadow).offset(shadowOffset))
