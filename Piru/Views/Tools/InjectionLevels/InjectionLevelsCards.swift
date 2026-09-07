@@ -14,7 +14,7 @@ struct LabCalibrationSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.lg) {
             HStack {
-                Text("Calibrate to your lab results")
+                Text("Lab calibration")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
                 Spacer()
@@ -22,7 +22,7 @@ struct LabCalibrationSection: View {
             }
 
             if labs.isEmpty {
-                Text("Add a blood test to pin this curve to your own levels. The band narrows once you do.")
+                Text("Add a blood test to fit the curve to you. The band narrows.")
                     .captionSecondary()
             } else {
                 ForEach(labs) { lab in
@@ -117,7 +117,7 @@ private struct CalibrationControl: View {
 
             if model.hasLabs {
                 Toggle(isOn: $model.autoCalibrateFromLabs) {
-                    Text("Set from my lab results")
+                    Text("Use my lab results")
                         .font(.subheadline)
                 }
                 .tint(Theme.accent)
@@ -125,17 +125,17 @@ private struct CalibrationControl: View {
 
             if model.isLabDriven {
                 if let cal = model.calibration, cal.didFitRate {
-                    Text("Amplitude and shape both fit to your results — your terminal release ran \(ratePhrase(cal.k1Scale)).")
+                    Text("Height and shape fit to your results. Terminal release \(ratePhrase(cal.k1Scale)).")
                         .font(.caption2)
                         .foregroundStyle(Theme.secondaryLabel)
                 } else {
-                    Text("Amplitude fit to your result. Add a second test on a different day and the curve's shape fits too.")
+                    Text("Height fit to your result. A second test on another day fits the shape too.")
                         .font(.caption2)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
                 if model.calibrationMeasurements.count >= 2 {
                     Toggle(isOn: $model.fitRates) {
-                        Text("Fit the curve's shape, not just its height")
+                        Text("Fit shape as well as height")
                             .font(.subheadline)
                     }
                     .tint(Theme.accent)
@@ -143,22 +143,22 @@ private struct CalibrationControl: View {
             } else {
                 Slider(value: $model.personalMultiplier, in: 0.3 ... 3.0, step: 0.05)
                     .tint(Theme.accent)
-                Text("Nudge this if you run higher or lower than average. A blood test replaces it with a fit to your own levels — far better than a guess.")
+                Text("Adjust if you run higher or lower than average. A blood test replaces this with a fit.")
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
             }
         }
     }
 
-    /// A fully-formed comparative — "faster than the population (1.3×)" — so it folds
-    /// into "…your terminal release ran %@." as one localizable unit. A String (not
-    /// Text) so it interpolates as a single `%@` catalog placeholder.
+    /// A fully-formed comparative — "1.30× faster than average" — so it folds into
+    /// "…Terminal release %@." as one localizable unit. A String (not Text) so it
+    /// interpolates as a single `%@` catalog placeholder.
     private func ratePhrase(_ k1Scale: Double) -> String {
         // k1 larger → faster terminal release/decay; smaller → slower.
         let factor = (k1Scale >= 1 ? k1Scale : 1 / k1Scale).formatted(.number.precision(.fractionLength(2)))
         return k1Scale >= 1
-            ? String(localized: "faster than the population (\(factor)×)")
-            : String(localized: "slower than the population (\(factor)×)")
+            ? String(localized: "\(factor)× faster than average")
+            : String(localized: "\(factor)× slower than average")
     }
 }
 
@@ -177,7 +177,7 @@ private struct ReferenceLinesEditor: View {
                 field(String(localized: "Low line"), value: $model.referenceLow)
                 field(String(localized: "High line"), value: $model.referenceHigh)
             }
-            Text("Lines you choose to see — not a target the app sets.")
+            Text("Your own lines. Piru sets no target.")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
         }
@@ -206,7 +206,7 @@ struct InjectionLevelsProvenanceCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
             HStack {
-                Text("Where these numbers come from")
+                Text("Sources")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
                 Spacer()
@@ -215,14 +215,14 @@ struct InjectionLevelsProvenanceCard: View {
             Text(ester.provenance)
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
-            Text("Older lab data used radioimmunoassay; modern LC-MS/MS reads lower. Calibrating to your own results absorbs whichever assay your lab uses.")
+            Text("Older studies used radioimmunoassay; modern LC-MS/MS reads lower. Calibrating to your own results absorbs the difference.")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
-            Text("Subcutaneous injection reaches levels close to intramuscular for these esters — 196 vs 190 pg/mL in one head-to-head — so the same curve serves both routes (Herndon 2023; Misakian 2025).")
+            Text("Subcutaneous and intramuscular reach similar levels (196 vs 190 pg/mL head-to-head), so one curve serves both (Herndon 2023; Misakian 2025).")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
             Link(destination: URL(string: "https://github.com/WHSAH/estrannaise.js")!) {
-                Text("Parameters from estrannaise.js (MIT), cross-checked against primary literature")
+                Text("Parameters from estrannaise.js (MIT), checked against the literature")
                     .font(.caption2)
             }
             .tint(Theme.accent)
@@ -285,7 +285,7 @@ struct AddLabResultSheet: View {
                         .labelsHidden()
                     }
                 } footer: {
-                    Text("Your result is stored in \(analyte.canonicalUnit); enter it in whichever unit your lab reported.")
+                    Text("Enter it in your lab's unit. Stored in \(analyte.canonicalUnit).")
                 }
             }
             .navigationTitle(Text("Add lab result"))

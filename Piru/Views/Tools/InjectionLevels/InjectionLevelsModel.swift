@@ -57,6 +57,14 @@ final class InjectionLevelsModel {
     /// concentration of their own, so they can join the curve. Persisted by the
     /// view via `@AppStorage`, per analyte.
     var volumeConcentrationMgPerML: Double?
+    /// Manual schedule: begin from the level the log puts in the body today, with
+    /// the next dose one interval after the last logged one. Off (or with no log):
+    /// begin from ``startingLevel`` today.
+    var startFromLog = true
+    /// Manual schedule, not continuing from the log: the level already in the body
+    /// today (canonical unit), decaying at the ester's terminal rate. `nil` or 0 is
+    /// a clean start.
+    var startingLevel: Double?
     var referenceLow: Double?
     var referenceHigh: Double?
 
@@ -182,6 +190,8 @@ final class InjectionLevelsModel {
         let intervalDays: Double?
         let useLogHistory: Bool
         let volumeConcentrationMgPerML: Double?
+        let startFromLog: Bool
+        let startingLevel: Double?
         let referenceLow: Double?
         let referenceHigh: Double?
         let personalMultiplier: Double
@@ -197,6 +207,7 @@ final class InjectionLevelsModel {
             analyte: analyte, esterID: selectedEsterID, doseMg: doseMg,
             intervalDays: intervalDays, useLogHistory: useLogHistory,
             volumeConcentrationMgPerML: volumeConcentrationMgPerML,
+            startFromLog: startFromLog, startingLevel: startingLevel,
             referenceLow: referenceLow, referenceHigh: referenceHigh,
             personalMultiplier: personalMultiplier,
             autoCalibrateFromLabs: autoCalibrateFromLabs, fitRates: fitRates,
@@ -295,11 +306,16 @@ final class InjectionLevelsModel {
         )
 
         let band = bandFraction(confidence: ester.confidence, calibrated: cal != nil)
+        // A manual start level is a depot already in the body: it decays from
+        // today at the terminal rate, under the scheduled doses.
+        let baseline = startsFromEnteredLevel ? max(0, startingLevel ?? 0) : 0
         let points = curve.map { pt in
-            DepotCurveResult.Point(
-                date: pt.date, level: pt.pgPerML,
-                bandLow: max(0, pt.pgPerML * (1 - band)),
-                bandHigh: pt.pgPerML * (1 + band),
+            let days = max(0, pt.date.timeIntervalSince(rangeStart)) / PKModel.secondsPerDay
+            let level = pt.pgPerML + baseline * exp(-params.k1 * days)
+            return DepotCurveResult.Point(
+                date: pt.date, level: level,
+                bandLow: max(0, level * (1 - band)),
+                bandHigh: level * (1 + band),
             )
         }
 
@@ -333,6 +349,17 @@ final class InjectionLevelsModel {
         useLogHistory && hasLogHistory
     }
 
+    /// Manual schedule that carries the log forward: the logged doses stay in the
+    /// superposition and the schedule picks up after the last of them.
+    var continuesFromLog: Bool {
+        !drawsLogOnly && startFromLog && hasLogHistory
+    }
+
+    /// Manual schedule from a level the user typed (or from zero).
+    private var startsFromEnteredLevel: Bool {
+        !drawsLogOnly && !continuesFromLog
+    }
+
     private func injectionsForCurve(ester _: EsterPKRecord, population: PKModel.DepotParameters) -> [(date: Date, doseMg: Double)] {
         if drawsLogOnly { return loggedInjections }
         return synthesizedSchedule(population: population)
@@ -347,18 +374,20 @@ final class InjectionLevelsModel {
         return Double(cycles) * interval
     }
 
-    /// A regular schedule from today forward, on top of whatever the log already
-    /// holds: the logged injections stay in the superposition as the level the
-    /// schedule starts from, and the first scheduled dose lands one interval after
-    /// the last logged one — or today, when that is already past or there is no
-    /// log. Nothing before today is invented.
+    /// A regular schedule from today forward. Continuing from the log, the logged
+    /// injections stay in the superposition as the level the schedule starts from,
+    /// and the first scheduled dose lands one interval after the last logged one —
+    /// or today, when that is already past. Otherwise the first dose is today and
+    /// ``startingLevel`` stands in for the body's history. Nothing before today is
+    /// invented.
     private func synthesizedSchedule(population: PKModel.DepotParameters) -> [(date: Date, doseMg: Double)] {
         guard let dose = doseMg, dose > 0, let interval = intervalDays, interval > 0 else { return [] }
         let now = Date.now
         let step = interval * PKModel.secondsPerDay
         let horizon = now.addingTimeInterval(projectionDays(population: population, interval: interval) * PKModel.secondsPerDay)
-        var injections = loggedInjections
-        var next = loggedInjections.last.map { $0.date.addingTimeInterval(step) } ?? now
+        let history = continuesFromLog ? loggedInjections : []
+        var injections = history
+        var next = history.last.map { $0.date.addingTimeInterval(step) } ?? now
         if next < now { next = now }
         while next <= horizon {
             injections.append((next, dose))

@@ -249,10 +249,10 @@ private struct InjectionLevelsInputSection: View {
                 VStack(alignment: .leading, spacing: Spacing.sm) {
                     labeledField(String(localized: "Vial concentration"), value: $model.volumeConcentrationMgPerML, unit: "mg/mL")
                     if model.volumeConcentrationMgPerML ?? 0 > 0 {
-                        Text("\(model.volumeLoggedInjectionCount) injections logged in mL are converted at this strength")
+                        Text("\(model.volumeLoggedInjectionCount) mL injections converted at this strength")
                             .captionSecondary()
                     } else {
-                        Text("\(model.volumeLoggedInjectionCount) injections are logged in mL — enter the vial strength to include them")
+                        Text("\(model.volumeLoggedInjectionCount) injections are in mL. Enter the vial strength to include them.")
                             .captionSecondary()
                     }
                 }
@@ -275,9 +275,19 @@ private struct InjectionLevelsInputSection: View {
                     labeledField(String(localized: "Every"), value: $model.intervalDays, unit: String(localized: "days"))
                 }
                 if model.hasLogHistory {
-                    Text("Projected from today, continuing from your log").captionSecondary()
+                    Toggle(isOn: $model.startFromLog) {
+                        Text("Start from your log")
+                            .font(.subheadline)
+                    }
+                    .tint(Theme.accent)
+                }
+                if model.continuesFromLog {
+                    Text("Starts at today's level from your log. Next dose one interval after your last.")
+                        .captionSecondary()
                 } else {
-                    Text("Projected from today").captionSecondary()
+                    labeledField(String(localized: "Starting level"), value: $model.startingLevel, unit: model.analyte.canonicalUnit)
+                    Text("The level in your body today, if any. First dose today.")
+                        .captionSecondary()
                 }
             }
         }
@@ -483,11 +493,11 @@ private struct InjectionLevelsMetricsCard: View {
 private struct InjectionLevelsExplanationCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.lg) {
-            Text("An injected ester releases slowly from an oil depot, is cleaved to the free hormone, then cleared. This curve models that from your doses.")
+            Text("An injected ester releases slowly from the oil depot, splits into the free hormone, and clears. The curve models that from your doses.")
                 .captionSecondary()
-            Text("It estimates a level from doses you enter — it never recommends a dose or a level to aim for. Add lab results to calibrate it to you.")
+            Text("It estimates a level. It never suggests a dose or a target. Lab results calibrate it to you.")
                 .captionSecondary()
-            Text("Population curves scatter widely between people, so uncalibrated numbers are a starting point, not a reading. A blood test pins the height to you; two on different days pin the shape as well. Retesting after any change — dose, ester, interval, injection site — keeps the fit honest, because one measurement can't tell a high peak from a slow decline.")
+            Text("Levels vary a lot between people, so an uncalibrated curve is a starting point, not a reading. One blood test sets the height. Two on different days set the shape too. Retest after any change in dose, ester, interval, or site.")
                 .captionSecondary()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -503,7 +513,7 @@ private struct InjectionLevelsNoDataCard: View {
                 .font(.title2)
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
-            Text("Injectable ester data isn't available in this build.")
+            Text("No injectable ester data in this build.")
                 .font(.subheadline)
                 .foregroundStyle(Theme.secondaryLabel)
                 .multilineTextAlignment(.center)
