@@ -11,11 +11,23 @@ import SwiftData
 final class ActiveSessionManager {
     static let shared = ActiveSessionManager()
 
-    private(set) var activeEntries: [(snapshot: DoseSnapshot, duration: DurationProfile?, colorHex: String)] = []
+    private(set) var activeEntries: [(snapshot: DoseSnapshot, duration: DurationProfile?, colorHex: String)] = [] {
+        didSet { statesMemo = nil }
+    }
     /// Substance → color hex, refreshed alongside `activeEntries`. `private(set)`
     /// like its siblings so an external write can't invalidate accessory
     /// consumers out from under the manager (all writers are internal).
-    private(set) var cachedColorMap: [String: String] = [:]
+    private(set) var cachedColorMap: [String: String] = [:] {
+        didSet { statesMemo = nil }
+    }
+
+    /// ``activeSubstanceStates`` for the current `activeEntries` × `cachedColorMap`
+    /// × body weight. Building the states runs a library resolve and a
+    /// zero-order-kinetics DB read per active dose, and the journal list reads
+    /// the property once per body pass — so it is built once per change, not
+    /// per pass. Cleared by the two `didSet`s above; the weight is part of the
+    /// key because it feeds the states and has its own store.
+    @ObservationIgnored private var statesMemo: (weightKg: Double, states: [ActiveSubstanceState])?
 
     private var pruneTask: Task<Void, Never>?
 
@@ -35,7 +47,11 @@ final class ActiveSessionManager {
 
     /// Active substance states for UI display (e.g. session accessory view).
     var activeSubstanceStates: [ActiveSubstanceState] {
-        buildSubstanceStates(colorMap: cachedColorMap)
+        let weightKg = UserProfileStore.shared.effectiveWeightKg
+        if let statesMemo, statesMemo.weightKg == weightKg { return statesMemo.states }
+        let states = buildSubstanceStates(colorMap: cachedColorMap)
+        statesMemo = (weightKg, states)
+        return states
     }
 
     // MARK: - Session Recovery

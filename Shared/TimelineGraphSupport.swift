@@ -107,7 +107,7 @@ enum SessionGraphDefaults {
 }
 
 /// A dose without duration data, shown as a timestamp marker on the graph.
-struct DoseMarker: Hashable {
+nonisolated struct DoseMarker: Hashable, Codable, Sendable {
     let substanceName: String
     let timestamp: Date
     let colorHex: String

@@ -71,7 +71,14 @@ enum PKResolver {
     /// valerate, ~8 d for cypionate); a catalog-only ester (undecylate, no curve)
     /// or a non-ester depot falls back to ``defaultDepotHalfLifeDays``.
     static func depotHalfLifeMinutes(entry: DoseEntry) -> Double? {
-        guard isDepot(entry: entry) else { return nil }
+        depotHalfLifeMinutes(entry: entry, isDepot: isDepot(entry: entry))
+    }
+
+    /// ``depotHalfLifeMinutes(entry:)`` for a caller that has already asked
+    /// ``isDepot(entry:)`` — the check reads the entry's route, form and salt
+    /// and resolves the parent substance, so a per-entry loop asks once.
+    static func depotHalfLifeMinutes(entry: DoseEntry, isDepot: Bool) -> Double? {
+        guard isDepot else { return nil }
         if let uid = entry.substanceUID ?? SubstanceStore.shared.substanceUID(forNameOrAlias: entry.substance),
            let label = entry.saltForm,
            let k1 = SubstanceStore.shared.esters(forParentUID: uid).first(where: { $0.label == label })?.parameters?.k1,

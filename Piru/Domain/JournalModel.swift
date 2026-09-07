@@ -22,7 +22,7 @@ final class JournalModel {
     /// Per-entry category + timeline inputs, resolved once. This is the only
     /// place that hits `SubstanceLibrary` / computes PK inputs; filtering and
     /// regrouping then read from here instead of re-resolving on every tap.
-    struct EntryDerived {
+    nonisolated struct EntryDerived: Codable, Sendable {
         let category: SubstanceCategory
         let state: ActiveSubstanceState?
         let marker: DoseMarker?
@@ -180,15 +180,62 @@ final class JournalModel {
 
     /// The fields `derived` actually depends on, hashed cheaply (no SQL / PK).
     /// Drives the diff: an entry whose fingerprint is unchanged keeps its cached
-    /// `EntryDerived` instead of re-resolving the substance + timeline.
+    /// `EntryDerived` instead of re-resolving the substance + timeline. Stable
+    /// across processes, so a fingerprint read back from ``JournalDeriveCache``
+    /// compares against the live row.
     private static func fingerprint(_ entry: DoseEntry) -> Int {
-        var hasher = Hasher()
+        var hasher = StableHasher()
         hasher.combine(entry.timestamp)
         hasher.combine(entry.amount)
         hasher.combine(entry.substance)
-        hasher.combine(entry.route)
+        hasher.combine(entry.route.rawValue)
         hasher.combine(entry.unit)
+        hasher.combine(entry.saltForm ?? "")
+        hasher.combine(entry.isomer ?? "")
+        hasher.combine(entry.releaseForm ?? "")
+        hasher.combine(entry.displayNameSnapshot ?? "")
         return hasher.finalize()
+    }
+
+    /// Everything the resolution reads that lives outside the dose log and the
+    /// color map, folded into the launch cache's key so a change to any of it
+    /// misses: the body weight scaling dose intensity, the custom-substance
+    /// overlay, the substance database in use and its source order.
+    private static func deriveCacheKey(entries: [DoseEntry], colorSignature: Int) -> JournalDeriveCache.Key {
+        JournalDeriveCache.Key(
+            storeGeneration: DoseLogService.storeGeneration,
+            entryCount: entries.count,
+            newestTimestamp: entries.map(\.timestamp).max(),
+            colorSignature: colorSignature,
+            weightKg: UserProfileStore.shared.effectiveWeightKg,
+            customSignature: LaunchCacheInputs.customSubstanceSignature,
+            databaseSignature: LaunchCacheInputs.databaseSignature,
+            appBuild: LaunchCacheInputs.appBuild,
+        )
+    }
+
+    /// Seed `derived` and `fingerprints` from the launch cache's rows, matched
+    /// to the live entries by id, and publish them so the first regroup paints
+    /// full cards. Rows the cache lacks (or whose fingerprint no longer matches)
+    /// fall through to the diff and resolve normally.
+    private func seed(from rows: [UUID: JournalDeriveCache.Row], entries: [DoseEntry], colorSignature: Int) -> Bool {
+        var seededDerived: [PersistentIdentifier: EntryDerived] = [:]
+        var seededFingerprints: [PersistentIdentifier: Int] = [:]
+        seededDerived.reserveCapacity(entries.count)
+        seededFingerprints.reserveCapacity(entries.count)
+        for entry in entries {
+            guard let row = rows[entry.id] else { continue }
+            let id = entry.persistentModelID
+            seededDerived[id] = row.derived
+            seededFingerprints[id] = row.fingerprint
+        }
+        guard !seededDerived.isEmpty else { return false }
+        derived = seededDerived
+        fingerprints = seededFingerprints
+        lastColorSignature = colorSignature
+        derivedRevision += 1
+        rebuildFacets(entries: entries)
+        return true
     }
 
     /// Resolve a single entry's category + timeline inputs (the expensive part:
@@ -234,17 +281,26 @@ final class JournalModel {
         deriveGeneration += 1
         let gen = deriveGeneration
 
+        let colorSignature = LaunchCacheInputs.colorSignature(colors)
+        let cacheKey = Self.deriveCacheKey(entries: entries, colorSignature: colorSignature)
+
+        // The first derive of the process reads the launch cache (decoded off
+        // the main actor) while the batch cache prefill finishes.
+        let isFirstDerive = fingerprints.isEmpty && !entries.isEmpty
+        async let cachedRows: [UUID: JournalDeriveCache.Row]? = isFirstDerive ? await JournalDeriveCache.load(matching: cacheKey) : nil
+
         // Resolve against the lightweight batch cache (category, dose-ranges,
         // durations, half-life). Awaiting the off-main prefill started at launch
         // turns the per-entry resolves into dict hits instead of ~50 cold heavy
         // SQL reads on the main actor. A newer derive may land while we wait.
         await SubstanceStore.shared.ensureAllLoaded()
+        let rows = await cachedRows
         guard gen == deriveGeneration else { return }
 
-        let colorSignature = colors.reduce(into: Hasher()) { h, c in
-            h.combine(c.substance)
-            h.combine(c.hexColor)
-        }.finalize()
+        if let rows, seed(from: rows, entries: entries, colorSignature: colorSignature) {
+            onPrefixReady()
+        }
+
         let colorsChanged = colorSignature != lastColorSignature
         let hexMap = Array(colors).hexColorMap
 
@@ -356,6 +412,15 @@ final class JournalModel {
             derivedRevision += 1
         }
         rebuildFacets(entries: entries)
+
+        var cacheRows: [UUID: JournalDeriveCache.Row] = [:]
+        cacheRows.reserveCapacity(entries.count)
+        for entry in entries {
+            let id = entry.persistentModelID
+            guard let fingerprint = newFingerprints[id], let derived = newDerived[id] else { continue }
+            cacheRows[entry.id] = JournalDeriveCache.Row(fingerprint: fingerprint, derived: derived)
+        }
+        JournalDeriveCache.save(cacheRows, key: cacheKey)
     }
 
     /// Recompute the category facets + tag list from the (already resolved)

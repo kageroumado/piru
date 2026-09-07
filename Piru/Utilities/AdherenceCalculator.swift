@@ -202,7 +202,13 @@ enum AdherenceCalculator {
         let dayStart = calendar.startOfDay(for: date)
         let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart.addingTimeInterval(86_400)
         let dayEntries = entries.filter { $0.timestamp >= dayStart && $0.timestamp < dayEnd }
+        return dayStatus(for: date, dayEntries: dayEntries, items: items)
+    }
 
+    /// ``dayStatus(for:entries:items:)`` over entries already narrowed to the
+    /// day — the year walk buckets once and calls this per day, instead of
+    /// scanning the whole year's entries 366 times.
+    nonisolated static func dayStatus(for date: Date, dayEntries: [EntrySnapshot], items: [DailyItemSnapshot]) -> AdherenceStatus {
         let dueItems = items.filter {
             !$0.isAsNeeded && isDue(startDate: $0.startDate, frequency: $0.frequency, frequencyDays: $0.frequencyDays, on: date)
         }
@@ -241,10 +247,12 @@ enum AdherenceCalculator {
     ) -> Int {
         let calendar = Calendar.current
         guard let start = calendar.date(byAdding: .day, value: -dayCount, to: now) else { return 0 }
+        let entriesByDay = Dictionary(grouping: entries) { calendar.startOfDay(for: $0.timestamp) }
         var days: [(date: Date, status: AdherenceStatus)] = []
         var day = start
         while day <= now {
-            days.append((date: day, status: dayStatus(for: day, entries: entries, items: items)))
+            let dayEntries = entriesByDay[calendar.startOfDay(for: day)] ?? []
+            days.append((date: day, status: dayStatus(for: day, dayEntries: dayEntries, items: items)))
             guard let next = calendar.date(byAdding: .day, value: 1, to: day) else { break }
             day = next
         }

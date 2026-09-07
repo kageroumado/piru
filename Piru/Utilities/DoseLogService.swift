@@ -139,8 +139,20 @@ final class DoseLogService {
     /// Announce that the dose log changed after a commit the caller performed itself — an in-place edit,
     /// the quick-log tray's batched multi-insert, or an import. The caller owns insert/edit + `save()`;
     /// this only emits the change tick that wakes the derived caches.
+    /// Persistent counterpart of ``revision``: bumped on every commit and kept
+    /// in the app-group defaults, so a cache written in one launch can be
+    /// validated in the next (``revision`` restarts at 0 per process).
+    nonisolated static var storeGeneration: Int {
+        UserDefaults(suiteName: "group.dev.yumeji.piru")?.integer(forKey: storeGenerationKey) ?? 0
+    }
+
+    private nonisolated static let storeGenerationKey = "doseLogStoreGeneration"
+
     func changed() {
         revision += 1
+        if let defaults = UserDefaults(suiteName: "group.dev.yumeji.piru") {
+            defaults.set(defaults.integer(forKey: Self.storeGenerationKey) + 1, forKey: Self.storeGenerationKey)
+        }
         for continuation in changeContinuations.values {
             continuation.yield(())
         }

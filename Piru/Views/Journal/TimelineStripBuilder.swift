@@ -20,6 +20,21 @@ struct TimelineStripBuilder {
     /// Raw entries per substance (lowercased name, ascending) — the PK mode's
     /// input.
     private let entriesBySubstance: [String: [DoseEntry]]
+    /// Sessions materialized by one fetch, keyed by identifier. `entry.session`
+    /// hands back a fault, and reading its `id` fires a one-row fetch — one per
+    /// session per build (508 in a launch trace). Resolving through this map
+    /// reads a live object instead; an entry whose session is not in the map
+    /// falls back to the relationship.
+    private let sessionsByID: [PersistentIdentifier: Session]
+
+    private func session(of entry: DoseEntry) -> Session? {
+        Self.session(of: entry, in: sessionsByID)
+    }
+
+    private static func session(of entry: DoseEntry, in sessions: [PersistentIdentifier: Session]) -> Session? {
+        guard let session = entry.session else { return nil }
+        return sessions[session.persistentModelID] ?? session
+    }
 
     /// One day of the strip: its groups (newest first) and its time range
     /// [bottomTime, topTime) on the strip.
@@ -80,10 +95,12 @@ struct TimelineStripBuilder {
         compressGaps: Bool,
         style: TimelineDayLayout.Style,
         heartRate: [HeartRateSample] = [],
+        sessions: [PersistentIdentifier: Session] = [:],
     ) {
         guard !entries.isEmpty else { return nil }
         self.colorMap = colorMap
         self.style = style
+        sessionsByID = sessions
         self.heartRate = heartRate.sorted { $0.date < $1.date }
         remainingFractions = Self.computeRemainingFractions(entries: entries)
 
@@ -109,7 +126,7 @@ struct TimelineStripBuilder {
 
         var sessions: [UUID: Session] = [:]
         for entry in entries {
-            if let session = entry.session {
+            if let session = Self.session(of: entry, in: sessionsByID) {
                 sessions[session.id] = session
             }
         }
@@ -194,6 +211,7 @@ struct TimelineStripBuilder {
                 colorMap: colorMap,
                 remainingFractions: remainingFractions,
                 statesByEntry: statesByEntry,
+                sessions: sessionsByID,
                 cardHeight: cardHeight,
                 now: currentTime,
             )
@@ -414,7 +432,7 @@ struct TimelineStripBuilder {
         var connectors: [TimelineDayLayout.Connector] = []
         for group in groups {
             for (itemIndex, item) in group.items.enumerated() {
-                let dotY = localY(item.entry.timestamp)
+                let dotY = localY(item.timestamp)
                 doseDots.append(TimelineDayLayout.DoseDot(y: dotY, color: item.color))
                 let cardCenterY: CGFloat = if itemIndex >= group.visibleItems.count, let sessionID = group.sessionID, let y = moreRowY[sessionID] {
                     y
@@ -875,6 +893,7 @@ struct TimelineStripBuilder {
         colorMap: [String: Color],
         remainingFractions: [PersistentIdentifier: Double],
         statesByEntry: [PersistentIdentifier: ActiveSubstanceState],
+        sessions: [PersistentIdentifier: Session],
         cardHeight: CGFloat,
         now: Date,
     ) -> [TimelineDayLayout.CardGroup] {
@@ -885,7 +904,7 @@ struct TimelineStripBuilder {
             guard !currentBatch.isEmpty else { return }
             let repTime = currentBatch[currentBatch.count / 2].timestamp
             groups.append(TimelineDayLayout.CardGroup(
-                id: currentBatch[0].persistentModelID,
+                id: currentBatch[0].id,
                 items: currentBatch.reversed().map { entry in
                     let state = statesByEntry[entry.persistentModelID]
                     let running = state.map { $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) > now } ?? false
@@ -898,7 +917,7 @@ struct TimelineStripBuilder {
                     )
                 },
                 representativeTime: repTime,
-                sessionID: currentBatch[0].session?.id,
+                sessionID: session(of: currentBatch[0], in: sessions)?.id,
                 cardHeight: cardHeight,
             ))
             currentBatch = []

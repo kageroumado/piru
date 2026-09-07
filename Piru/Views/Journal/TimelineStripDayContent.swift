@@ -8,7 +8,7 @@ import SwiftUI
 /// eye reconstructs the covered part.
 struct TimelineStripDayContent: View {
     let day: TimelineDayLayout
-    let onEntryTap: (DoseEntry) -> Void
+    let onEntryTap: (TimelineDayLayout.CardItem) -> Void
     let onSessionTap: (UUID) -> Void
     @Environment(\.appNavigator) private var navigator
 
@@ -138,7 +138,7 @@ struct TimelineStripDayContent: View {
                                     if let sessionID = group.sessionOpenedByBubble {
                                         onSessionTap(sessionID)
                                     } else {
-                                        onEntryTap(item.entry)
+                                        onEntryTap(item)
                                     }
                                 }
                             }

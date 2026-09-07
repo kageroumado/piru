@@ -8,13 +8,13 @@ import SwiftUI
 /// slice's y layout is ignored.
 struct TimelineListDayContent: View {
     let day: TimelineDayLayout
-    let onEntryTap: (DoseEntry) -> Void
+    let onEntryTap: (TimelineDayLayout.CardItem) -> Void
     let onSessionTap: (UUID) -> Void
     @Environment(\.appNavigator) private var navigator
 
     /// Consecutive groups sharing an envelope, or one group standing alone.
     private struct Run: Identifiable {
-        let id: PersistentIdentifier
+        let id: UUID
         let sessionID: UUID?
         let groups: [TimelineDayLayout.CardGroup]
     }
@@ -34,8 +34,8 @@ struct TimelineListDayContent: View {
     /// The notes falling below each group — between it and the next older
     /// one, keyed by group. Notes newer than the newest group are keyed by
     /// `nil` and lead the day.
-    private var notesByGroup: [PersistentIdentifier?: [TimelineDayLayout.NoteMark]] {
-        var result: [PersistentIdentifier?: [TimelineDayLayout.NoteMark]] = [:]
+    private var notesByGroup: [UUID?: [TimelineDayLayout.NoteMark]] {
+        var result: [UUID?: [TimelineDayLayout.NoteMark]] = [:]
         for note in day.noteMarks.sorted(by: { $0.timestamp > $1.timestamp }) {
             // Groups run newest first, so the group a note sits below is the
             // oldest one still newer than it.
@@ -76,7 +76,7 @@ struct TimelineListDayContent: View {
 
     private func groupRows(
         _ groups: [TimelineDayLayout.CardGroup],
-        notes: [PersistentIdentifier?: [TimelineDayLayout.NoteMark]],
+        notes: [UUID?: [TimelineDayLayout.NoteMark]],
     ) -> some View {
         VStack(spacing: TimelineDayLayout.groupGap) {
             ForEach(groups) { group in
@@ -92,7 +92,7 @@ struct TimelineListDayContent: View {
                                 if let sessionID = group.sessionOpenedByBubble {
                                     onSessionTap(sessionID)
                                 } else {
-                                    onEntryTap(item.entry)
+                                    onEntryTap(item)
                                 }
                             }
                         }

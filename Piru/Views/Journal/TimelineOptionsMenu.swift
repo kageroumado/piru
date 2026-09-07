@@ -16,7 +16,7 @@ nonisolated enum TimelineZoom {
 
 /// How much of a dose the timeline's bubbles spell out. Persisted as
 /// `timelineBubbleStyle` in the app-group defaults.
-nonisolated enum TimelineBubbleStyle: String {
+nonisolated enum TimelineBubbleStyle: String, Codable {
     /// Name over dose + route chip; the trailing readout beside them.
     case full
     /// Name and dose on one line, no route chip — the bubble demoted to a

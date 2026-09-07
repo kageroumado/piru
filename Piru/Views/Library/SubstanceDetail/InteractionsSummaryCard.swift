@@ -9,23 +9,30 @@ struct InteractionsSummaryCard: View {
     @Query private var entries: [DoseEntry]
 
     /// Bound to the still-plausibly-active horizon (the quick-log window's
-    /// 120 days clears even fluoxetine's ~5-half-life tail) and to the three
-    /// fields the active filter reads — the unbounded query materialized the
-    /// entire dose log on the main actor every time the Tools tab appeared.
-    /// Captured once at init; a few hours of drift across 120 days is nothing.
+    /// 120 days clears even fluoxetine's ~5-half-life tail) — the unbounded
+    /// query materialized the entire dose log on the main actor every time the
+    /// Tools tab appeared. Whole rows on purpose: narrowing with
+    /// `propertiesToFetch` left every object a partial fault that fired on its
+    /// first read, one per dose per appearance (12,536 faults in one Tools
+    /// session). Captured once at init; a few hours of drift across 120 days
+    /// is nothing.
     init() {
         let cutoff = Date.now.addingTimeInterval(-120 * 86_400)
-        var descriptor = FetchDescriptor<DoseEntry>(
+        let descriptor = FetchDescriptor<DoseEntry>(
             predicate: #Predicate { $0.timestamp >= cutoff },
             sortBy: [SortDescriptor(\.timestamp, order: .reverse)],
         )
-        descriptor.propertiesToFetch = [\.timestamp, \.substance, \.route]
         _entries = Query(descriptor)
     }
 
     @State private var top: [ActiveInteraction] = []
     /// How many ranked interactions beyond the shown ones exist.
     @State private var moreCount = 0
+    /// The dose-log revision `top` was computed from. The task below also
+    /// fires on every re-appearance of the Tools tab with the id unchanged,
+    /// and just reading `entries` then materializes the whole 120-day window
+    /// on the main actor (65–75 ms per appearance in the traces).
+    @State private var computedRevision: Int?
 
     /// A ranked interaction between two currently-active substances.
     private struct ActiveInteraction: Identifiable {
@@ -64,7 +71,11 @@ struct InteractionsSummaryCard: View {
         // pay an O(history) scan per body pass and subscribe this body to
         // every field of every dose.
         .task(id: DoseLogService.shared.revision) {
+            let revision = DoseLogService.shared.revision
+            if computedRevision == revision { return }
             await recompute()
+            guard !Task.isCancelled else { return }
+            computedRevision = revision
         }
     }
 

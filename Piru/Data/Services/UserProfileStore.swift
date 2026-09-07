@@ -206,6 +206,11 @@ final class UserProfileStore {
     /// Record a weight read from HealthKit. Non-finite or out-of-range values are ignored.
     func setHealthKitWeight(_ kg: Double) {
         guard kg.isFinite, Self.weightRangeKg.contains(kg) else { return }
+        // An unchanged reading is not written: the launch-time sync would
+        // otherwise save the main context every launch, and that save makes
+        // every `@Query` in the app re-evaluate its results (~150 ms on the
+        // main thread for the Journal's dose log alone).
+        if weightSource == .healthKit, weightKg == kg { return }
         persistWeight(kg, source: .healthKit)
     }
 

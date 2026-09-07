@@ -44,6 +44,17 @@ final class InsightsModel {
 
     private let calendar = Calendar.current
 
+    /// The change token the published values were computed from. The view's
+    /// `.task(id:)` also fires on re-appearance with the id unchanged; the
+    /// whole-log recompute below is main-actor work, so it runs only when
+    /// something it reads has changed.
+    @ObservationIgnored private var computedToken: Int?
+    /// When ``active`` was last computed; it decays with the clock, so it is
+    /// refreshed on re-appearance once it is a minute old even when the log
+    /// has not changed.
+    @ObservationIgnored private var activeComputedAt: Date = .distantPast
+    private static let activeStaleAfter: TimeInterval = 60
+
     func changeToken(substanceColors: [SubstanceColor], dailyItemCount: Int) -> Int {
         var hasher = Hasher()
         hasher.combine(DoseLogService.shared.revision)
@@ -61,6 +72,16 @@ final class InsightsModel {
         substanceColors: [SubstanceColor],
         container: ModelContainer,
     ) async {
+        let token = changeToken(substanceColors: substanceColors, dailyItemCount: dailyItems.count)
+        if computedToken == token {
+            // The In Your Body card decays with the clock even when nothing was
+            // logged, so it alone is refreshed once it has gone stale.
+            if Date.now.timeIntervalSince(activeComputedAt) > Self.activeStaleAfter {
+                active = ActiveSubstanceCalculator.compute(from: entries, colorMap: substanceColors.colorMap)
+                activeComputedAt = .now
+            }
+            return
+        }
         await SubstanceStore.shared.ensureAllLoaded()
         let cal = calendar
         var entriesByDay: [Date: [DoseEntry]] = [:]
@@ -68,11 +89,14 @@ final class InsightsModel {
             entriesByDay[cal.startOfDay(for: entry.timestamp), default: []].append(entry)
         }
 
-        adherence = computeMonthAdherence(cal: cal, entriesByDay: entriesByDay, dailyItems: dailyItems)
+        let cells = computeMonthCells(cal: cal, entriesByDay: entriesByDay, dailyItems: dailyItems)
+        monthCells = cells
+        adherence = Self.monthAdherence(fromCells: cells)
         usage = computeUsage(entries: entries)
         active = ActiveSubstanceCalculator.compute(from: entries, colorMap: substanceColors.colorMap)
+        activeComputedAt = .now
         dailyCounts = computeDailyCounts(cal: cal, entriesByDay: entriesByDay)
-        monthCells = computeMonthCells(cal: cal, entriesByDay: entriesByDay, dailyItems: dailyItems)
+        computedToken = token
 
         await refreshStreak(dailyItems: dailyItems, container: container)
     }
@@ -101,18 +125,12 @@ final class InsightsModel {
         return cells
     }
 
-    private func computeMonthAdherence(cal: Calendar, entriesByDay: [Date: [DoseEntry]], dailyItems: [DailyDoseItem]) -> AdherenceSummary {
-        guard !dailyItems.isEmpty else {
+    /// The month summary read off the calendar cells — the same per-day
+    /// adherence the mini calendar draws, computed once for both.
+    private static func monthAdherence(fromCells cells: [DayAdherence?]) -> AdherenceSummary {
+        let month = cells.compactMap(\.self)
+        guard !month.isEmpty else {
             return AdherenceSummary(streak: 0, monthPct: 0, hasData: false)
-        }
-
-        let monthStart = cal.date(from: cal.dateComponents([.year, .month], from: .now)) ?? .now
-        let range = cal.range(of: .day, in: .month, for: monthStart) ?? 1 ..< 2
-        var month: [DayAdherence] = []
-        for offset in range {
-            guard let date = cal.date(byAdding: .day, value: offset - 1, to: monthStart) else { continue }
-            let dayEntries = entriesByDay[cal.startOfDay(for: date)] ?? []
-            month.append(AdherenceCalculator.adherence(for: date, entries: dayEntries, dailyItems: dailyItems))
         }
         let actionable = month.filter { $0.status != .noData && $0.date <= .now }
         let due = actionable.reduce(0) { $0 + $1.totalCount }
@@ -124,7 +142,7 @@ final class InsightsModel {
 
     private func refreshStreak(dailyItems: [DailyDoseItem], container: ModelContainer) async {
         guard !dailyItems.isEmpty else { return }
-        let streak = await AdherenceStreakFetcher.currentStreak(container: container)
+        let streak = await AdherenceStreakStore.shared.currentStreak(items: dailyItems, container: container)
         guard let current = adherence else { return }
         adherence = AdherenceSummary(streak: streak, monthPct: current.monthPct, hasData: current.hasData || streak > 0)
     }

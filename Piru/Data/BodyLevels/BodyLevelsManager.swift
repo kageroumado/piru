@@ -25,8 +25,8 @@ nonisolated struct BodyLoadDose: Sendable {
 /// substance (per unit family); values are the estimated in-body amount at each
 /// sample date, and `fraction` normalizes each series to its own peak so lines in
 /// different units can share one axis without a dishonest cross-substance sum.
-struct BodyLoadTrail {
-    struct Point: Identifiable {
+nonisolated struct BodyLoadTrail: Codable, Sendable {
+    nonisolated struct Point: Identifiable, Codable, Sendable {
         let id: Int
         let date: Date
         /// Estimated in-body amount at `date`, in the series' unit.
@@ -35,7 +35,7 @@ struct BodyLoadTrail {
         let fraction: Double
     }
 
-    struct Series: Identifiable {
+    nonisolated struct Series: Identifiable, Codable, Sendable {
         let id: Int
         /// The name to show the user (relabels applied).
         let displayName: String
@@ -44,6 +44,44 @@ struct BodyLoadTrail {
         /// Peak in-body amount over the window, in `unit`.
         let peak: Double
         let points: [Point]
+
+        init(id: Int, displayName: String, color: Color, unit: String, peak: Double, points: [Point]) {
+            self.id = id
+            self.displayName = displayName
+            self.color = color
+            self.unit = unit
+            self.peak = peak
+            self.points = points
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id
+            case displayName
+            case colorHex
+            case unit
+            case peak
+            case points
+        }
+
+        init(from decoder: any Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            id = try c.decode(Int.self, forKey: .id)
+            displayName = try c.decode(String.self, forKey: .displayName)
+            color = try Color(hex: c.decode(String.self, forKey: .colorHex))
+            unit = try c.decode(String.self, forKey: .unit)
+            peak = try c.decode(Double.self, forKey: .peak)
+            points = try c.decode([Point].self, forKey: .points)
+        }
+
+        func encode(to encoder: any Encoder) throws {
+            var c = encoder.container(keyedBy: CodingKeys.self)
+            try c.encode(id, forKey: .id)
+            try c.encode(displayName, forKey: .displayName)
+            try c.encode(color.cacheHex(), forKey: .colorHex)
+            try c.encode(unit, forKey: .unit)
+            try c.encode(peak, forKey: .peak)
+            try c.encode(points, forKey: .points)
+        }
     }
 
     /// Sample grid, oldest → newest.
@@ -63,12 +101,15 @@ struct BodyLoadTrail {
 /// Computes the historic body-load trail from the dose log, sampled over a day
 /// grid, with the same proven shape as ``ToleranceStore``: an `@Observable`
 /// `@MainActor` singleton that resolves PK params on the main actor, runs the
-/// exponential replay off-main, caches per `(range, content-signature)`, and
+/// exponential replay off-main, caches per ``BodyLevelsTrailCache/Key``, and
 /// warms the default range in the background off a debounced dose-log loop so the
 /// first navigation to the graph is instant.
 ///
-/// The cache is keyed by a content signature so an unchanged log is a no-op, and
-/// by range so toggling 30D↔90D reuses earlier work. A dose never changes the
+/// The cache is keyed by the dose log's identity (store generation, count,
+/// newest timestamp) and the hour, so an unchanged log is a no-op, and by
+/// range so toggling 30D↔90D reuses earlier work. The warmed default range is
+/// also kept on disk (``BodyLevelsTrailCache``), so the warm after a launch
+/// whose log is unchanged reads a file instead of fetching the log. A dose never changes the
 /// past, so a future per-day causal cache could recompute only the tail past an
 /// edit; the whole-trail recompute here mirrors what `ToleranceStore` actually
 /// does today (one signature-gated replay) and is fast enough that the finer
@@ -81,7 +122,7 @@ final class BodyLevelsManager {
     /// The trail for the most recent view-driven ``refresh(entries:colors:range:now:)``.
     private(set) var trail: BodyLoadTrail?
 
-    @ObservationIgnored private var cache: [String: BodyLoadTrail] = [:]
+    @ObservationIgnored private var cache: [BodyLevelsTrailCache.Key: BodyLoadTrail] = [:]
     @ObservationIgnored private var container: ModelContainer?
     @ObservationIgnored private var context: ModelContext?
     @ObservationIgnored private var warmTask: Task<Void, Never>?
@@ -101,11 +142,17 @@ final class BodyLevelsManager {
         startBackgroundWarm()
     }
 
-    /// View-driven compute. Returns the cached trail when the `(range, content
-    /// signature)` is unchanged; otherwise resolves on the main actor, replays
-    /// off-main, caches, and publishes to ``trail``.
+    /// View-driven compute. Returns the cached trail when the `(range, log
+    /// identity)` key is unchanged; otherwise resolves on the main actor,
+    /// replays off-main, caches, and publishes to ``trail``.
     func refresh(entries: [DoseEntry], colors: [SubstanceColor], range: UsageTimeRange, now: Date = .now) async {
-        let key = Self.cacheKey(range: range, entries: entries, now: now)
+        let key = Self.key(
+            range: range,
+            entryCount: entries.count,
+            newestTimestamp: entries.map(\.timestamp).max(),
+            colorSignature: LaunchCacheInputs.colorSignature(colors),
+            now: now,
+        )
         if let cached = cache[key] {
             trail = cached
             return
@@ -129,16 +176,29 @@ final class BodyLevelsManager {
         }
     }
 
-    /// Pre-fill the cache for the default range from the store's own context,
-    /// without touching ``trail`` (the user may be viewing another range).
+    /// Pre-fill the cache for the default range without touching ``trail`` (the
+    /// user may be viewing another range). The log's identity is read off the
+    /// main actor first; only a key nobody has built yet — in memory or on disk —
+    /// fetches the log and resolves it here.
     private func warm() async {
-        guard let context else { return }
+        guard let container, let context else { return }
         let now = Date.now
+        let identity = await DoseLogIdentity.fetch(container: container)
+        let key = Self.key(
+            range: Self.warmRange,
+            entryCount: identity.entryCount,
+            newestTimestamp: identity.newestTimestamp,
+            colorSignature: LaunchCacheInputs.colorSignature(identity.colors),
+            now: now,
+        )
+        guard cache[key] == nil else { return }
+        if let cached = await BodyLevelsTrailCache.load(matching: key) {
+            cache[key] = cached
+            return
+        }
         let descriptor = FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.timestamp, order: .reverse)])
         guard let entries = try? context.fetch(descriptor) else { return }
         let colors = (try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []
-        let key = Self.cacheKey(range: Self.warmRange, entries: entries, now: now)
-        guard cache[key] == nil else { return }
         _ = await computeAndCache(entries: entries, colors: colors, range: Self.warmRange, key: key, now: now)
     }
 
@@ -146,7 +206,7 @@ final class BodyLevelsManager {
 
     private func computeAndCache(
         entries: [DoseEntry], colors: [SubstanceColor],
-        range: UsageTimeRange, key: String, now: Date,
+        range: UsageTimeRange, key: BodyLevelsTrailCache.Key, now: Date,
     ) async -> BodyLoadTrail {
         guard let plan = Plan.build(entries: entries, colors: colors, range: range, now: now) else {
             let empty = BodyLoadTrail.empty
@@ -164,6 +224,9 @@ final class BodyLevelsManager {
         }.value
         let built = plan.assemble(values: values)
         cache[key] = built
+        if range == Self.warmRange {
+            BodyLevelsTrailCache.save(built, key: key)
+        }
         return built
     }
 
@@ -195,29 +258,25 @@ final class BodyLevelsManager {
         return lo
     }
 
-    // MARK: Cache key / signature
+    // MARK: Cache key
 
-    private static func cacheKey(range: UsageTimeRange, entries: [DoseEntry], now: Date) -> String {
-        "\(range.rawValue)|\(signature(entries: entries, now: now))"
-    }
-
-    /// Order-independent XOR content signature over every dose at or before `now`,
-    /// hourly-bucketed so decay refreshes at most ~hourly and never on mere
-    /// navigation. Mirrors ``ToleranceStore``'s dedupe. Body weight is absent: the
-    /// first-order `fractionRemainingInBody` used here doesn't depend on it.
-    private static func signature(entries: [DoseEntry], now: Date) -> String {
-        var combined: UInt64 = 0
-        var count = 0
-        for entry in entries where entry.timestamp <= now {
-            count += 1
-            var hasher = Hasher()
-            hasher.combine(entry.substance)
-            hasher.combine(entry.amount)
-            hasher.combine(entry.unit)
-            hasher.combine(entry.timestamp)
-            hasher.combine(entry.route)
-            combined ^= UInt64(bitPattern: Int64(hasher.finalize()))
-        }
-        return "\(count)|\(combined)|\(Int(now.timeIntervalSince1970 / 3_600))"
+    /// The cache key for `range` over a log with this identity. Hourly-bucketed
+    /// so decay refreshes at most ~hourly and never on mere navigation. Body
+    /// weight is absent: the first-order `fractionRemainingInBody` used here
+    /// doesn't depend on it.
+    private static func key(
+        range: UsageTimeRange, entryCount: Int, newestTimestamp: Date?, colorSignature: Int, now: Date,
+    ) -> BodyLevelsTrailCache.Key {
+        BodyLevelsTrailCache.Key(
+            range: range.rawValue,
+            storeGeneration: DoseLogService.storeGeneration,
+            entryCount: entryCount,
+            newestTimestamp: newestTimestamp,
+            hourBucket: Int(now.timeIntervalSince1970 / 3_600),
+            colorSignature: colorSignature,
+            customSignature: LaunchCacheInputs.customSubstanceSignature,
+            databaseSignature: LaunchCacheInputs.databaseSignature,
+            appBuild: LaunchCacheInputs.appBuild,
+        )
     }
 }
