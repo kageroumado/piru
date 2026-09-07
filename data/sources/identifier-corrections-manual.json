@@ -195,5 +195,15 @@
     "smiles": "CCNC(=O)CC[C@@H](C(=O)O)N",
     "cas": "3081-61-6",
     "formula": "C7H14N2O3"
+  },
+  "4,4-DMAR": {
+    "inchikey": "NPILLHMQNMXXTL-UHFFFAOYSA-N",
+    "smiles": "CC1C(OC(=N1)N)C2=CC=C(C=C2)C",
+    "formula": "C11H14N2O"
+  },
+  "4-Chlorobuphedrone": {
+    "inchikey": "HLWONOFMIINPKV-UHFFFAOYSA-N",
+    "smiles": "CCC(C(=O)C1=CC=C(C=C1)Cl)NC",
+    "formula": "C11H14ClNO"
   }
 }

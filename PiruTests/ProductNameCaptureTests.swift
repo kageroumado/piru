@@ -187,7 +187,8 @@ struct ProductNameCaptureTests {
         #expect(ldx?.displayAliases.first == "Vyvanse")
 
         // A substance with many brands leads with the curated flagship (Ritalin,
-        // brand_rank 0) ahead of the auto-derived form brands (Concerta, rank 1) —
+        // brand_rank 0), then the curated second name (Concerta, rank 1), ahead
+        // of the auto-derived form brands (Biphentin and the XR crowd, rank 2) —
         // not the alphabetically-first "Adhansia XR".
         let mph = SubstanceLibrary.resolveFull("Methylphenidate")
         #expect(mph?.displayAliases.first == "Ritalin")
