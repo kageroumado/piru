@@ -304,13 +304,13 @@ struct IntensityGauge: View {
                     )
                 #else
                     .gesture(
-                            DragGesture(coordinateSpace: .named(coordSpace))
-                                .onChanged { value in
-                                    isGrabbed = true
-                                    onSelect(band(for: value.location, center: center))
-                                }
-                                .onEnded { _ in isGrabbed = false },
-                        )
+                        DragGesture(coordinateSpace: .named(coordSpace))
+                            .onChanged { value in
+                                isGrabbed = true
+                                onSelect(band(for: value.location, center: center))
+                            }
+                            .onEnded { _ in isGrabbed = false },
+                    )
                 #endif
             }
             .coordinateSpace(.named(coordSpace))
