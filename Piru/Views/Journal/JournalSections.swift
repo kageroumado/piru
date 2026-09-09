@@ -16,36 +16,40 @@ struct JournalDaySections: View {
     let activeID: UUID?
     let actions: SessionCardActionModel
 
-    var body: some View {
-        ForEach(days) { day in
-            // A day left empty by the live-session removal renders nothing (no
-            // orphan header); the session reappears here once it wears off.
+    /// Days with something to show once the live session is dropped, each
+    /// paired with its remaining cards. Filtered ahead of the `ForEach` so
+    /// every row body is one `Section`: a row that branches at its top level
+    /// makes `List` evaluate every row to learn its identity, instead of
+    /// templating the ids from the day ids alone.
+    private var visibleDays: [(day: SessionDay, cards: [SessionCard])] {
+        days.compactMap { day in
             let cards = day.sessions.filter { $0.id != activeID }
-            if !cards.isEmpty {
-                Section {
-                    // The day's sessions share one rounded container, separated by
-                    // inset hairlines — the day reads as a single unit rather than
-                    // a stack of floating cards. Each row is still its own plain
-                    // Button (programmatic push, no system disclosure chevron over
-                    // the graph), so taps stay per-session.
-                    VStack(spacing: 0) {
-                        ForEach(cards.enumerated(), id: \.element.id) { index, card in
-                            row(card)
-                            if index < cards.count - 1 {
-                                Divider()
-                                    .padding(.horizontal, 14)
-                            }
+            return cards.isEmpty ? nil : (day, cards)
+        }
+    }
+
+    var body: some View {
+        ForEach(visibleDays, id: \.day.id) { day, cards in
+            Section {
+                // The day's sessions share one rounded container, separated by
+                // inset hairlines — the day reads as a single unit rather than
+                // a stack of floating cards. Each row is still its own plain
+                // Button (programmatic push, no system disclosure chevron over
+                // the graph), so taps stay per-session.
+                VStack(spacing: 0) {
+                    ForEach(cards.enumerated(), id: \.element.id) { index, card in
+                        row(card)
+                        if index < cards.count - 1 {
+                            Divider()
+                                .padding(.horizontal, 14)
                         }
                     }
-                    .themeCard()
-                    .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16))
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                    // Scroll anchor for the calendar's "Jump to Date".
-                    .id(day.id)
-                } header: {
-                    JournalDayHeader(title: day.dateTitle, weekday: day.weekday)
                 }
+                .themeCard()
+                // Scroll anchor for the calendar's "Jump to Date".
+                .id(day.id)
+            } header: {
+                JournalDayHeader(title: day.dateTitle, weekday: day.weekday)
             }
         }
     }
@@ -91,7 +95,8 @@ private struct JournalDayHeader: View {
         // 16, its text at ~30), matching how the detail screens' section headers
         // sit in from the card edge. Plus a little more room beneath before the
         // day's container.
-        .listRowInsets(EdgeInsets(top: 0, leading: 30, bottom: 8, trailing: 16))
+        .padding(.leading, 14)
+        .padding(.bottom, Spacing.md)
     }
 }
 
@@ -197,9 +202,7 @@ private struct JournalEntryRow: View {
             SubstanceEntryRow(entry: entry, colorMap: colorMap)
         }
         .buttonStyle(.plain)
-        .listRowInsets(EdgeInsets(top: 5, leading: 16, bottom: 5, trailing: 16))
-        .listRowSeparator(.hidden)
-        .listRowBackground(Color.clear)
+        .padding(.vertical, 5)
     }
 }
 

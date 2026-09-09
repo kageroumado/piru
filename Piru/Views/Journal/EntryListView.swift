@@ -258,201 +258,246 @@ struct EntryListView: View {
         // entries; the hero card and the day list's "Active" badge share them.
         let activeStates = isSearchSurface ? [] : ActiveSessionManager.shared.activeSubstanceStates
         let activeID = activeSessionCard(states: activeStates)?.id
-        @Bindable var model = self.model
-        return List {
-            // Active-filter summary — the funnel's accent fill alone says *that*
-            // something is filtered; this strip says *what*, chip-per-value, each
-            // removable in place. It only exists while filtering, so the common
-            // (unfiltered) case pays no standing row for it.
-            if !isSearchSurface, model.hasActiveFilters {
-                JournalActiveFilterBar(
-                    tags: $model.filterTags,
-                    categories: $model.filterCategories,
-                    routes: $model.filterRoutes,
-                    onClear: { model.clearFilters() },
-                )
-                .listRowInsets(.rowFlush)
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-            }
-
-            // The daily meds front door — today's checklist, tap to log
-            // (Specs/meds-reminders-redesign.md). Renders nothing while the
-            // user has no meds, so a recreational-only journal never sees it.
-            if !isSearchSurface {
-                MyMedsCard()
-                    .listRowInsets(.rowStandard)
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-            }
-
-            // The state card: what's active right now, as a compact live
-            // status (dose · ROA · phase · countdown). Tapping opens *today's
-            // session* — the app is organized around sessions, so this is the
-            // door to the session detail, not a separate timeline surface. The
-            // feed reads plan (My Meds) → state (Active Now) → log (History).
-            if showActiveHero {
-                ActiveNowCard(
-                    states: activeStates,
-                    entries: entries,
-                    colors: substanceColors,
-                    colorMap: model.colorMap,
-                    onTap: {
-                        navigator.push(.timeline)
-                    },
-                )
-                .listRowInsets(.rowStandard)
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-            }
-
-            // No "History" label — the plan/state cards sit above, and the
-            // dated day headers below (Today, Yesterday, July 20…) already
-            // read as the record. The header was redundant chrome.
-
-            // Main content
-            switch grouping {
-            case .byDay: sessionGroupedContent(activeID: activeID)
-            case .timeline: timelineContent
-            case .grouped:
-                switch groupKey {
-                case .substance: JournalSubstanceSections(model: model)
-                case .category: JournalCategorySections(model: model)
-                }
-            }
+        return container {
+            rows(activeStates: activeStates, activeID: activeID)
         }
         .id(listIdentity)
-        .listStyle(.plain)
-        #if canImport(UIKit)
-            .listSectionSpacing(.custom(2))
-        #endif
-            .themedPage()
-            .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
-            .toolbar {
-                // Two controls, Files/Mail style: the funnel is the single home for
-                // narrowing (tags + categories + routes), the ellipsis for everything
-                // view-related (grouping thumbnails, Jump to Date, Settings, Help).
-                // The Timeline grouping adds a third, leading them: the strip's
-                // display options.
-                if !isSearchSurface {
-                    if grouping == .timeline {
-                        ToolbarItem(placement: .platformTopBarTrailing) {
-                            JournalTimelineOptionsButton(
-                                zoom: prefs.$zoom,
-                                compressGaps: prefs.$compressGaps,
-                                pkCurves: prefs.$pkCurves,
-                                showsAxis: prefs.$showsAxis,
-                                bubbleStyle: prefs.$bubbleStyle,
-                            )
-                        }
-                        ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
-                    }
+        .themedPage()
+        .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
+        .toolbar {
+            // Two controls, Files/Mail style: the funnel is the single home for
+            // narrowing (tags + categories + routes), the ellipsis for everything
+            // view-related (grouping thumbnails, Jump to Date, Settings, Help).
+            // The Timeline grouping adds a third, leading them: the strip's
+            // display options.
+            if !isSearchSurface {
+                if grouping == .timeline {
                     ToolbarItem(placement: .platformTopBarTrailing) {
-                        JournalFilterMenu(
-                            model: model,
-                            filterTags: $model.filterTags,
-                            filterCategories: $model.filterCategories,
-                            filterRoutes: $model.filterRoutes,
+                        JournalTimelineOptionsButton(
+                            zoom: prefs.$zoom,
+                            compressGaps: prefs.$compressGaps,
+                            pkCurves: prefs.$pkCurves,
+                            showsAxis: prefs.$showsAxis,
+                            bubbleStyle: prefs.$bubbleStyle,
                         )
                     }
                     ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
-                    ToolbarItem(placement: .platformTopBarTrailing) {
-                        JournalOptionsButton(grouping: $grouping, groupKey: $groupKey) { showingCalendar = true }
-                    }
+                }
+                ToolbarItem(placement: .platformTopBarTrailing) {
+                    JournalFilterMenu(
+                        model: model,
+                        filterTags: $model.filterTags,
+                        filterCategories: $model.filterCategories,
+                        filterRoutes: $model.filterRoutes,
+                    )
+                }
+                ToolbarSpacer(.fixed, placement: .platformTopBarTrailing)
+                ToolbarItem(placement: .platformTopBarTrailing) {
+                    JournalOptionsButton(grouping: $grouping, groupKey: $groupKey) { showingCalendar = true }
                 }
             }
-            .overlay {
-                // Gate the empty state on the first derive having finished: on a
-                // cold launch the initial rebuild awaits the substance-store
-                // warm-up, and flashing "No Entries" at a user who has entries
-                // reads as a blink of data loss. Until then, a spinner.
-                if model.filtered.isEmpty {
-                    if hasDerivedOnce {
-                        emptyState
-                    } else {
-                        ProgressView()
-                    }
+        }
+        .overlay {
+            // Gate the empty state on the first derive having finished: on a
+            // cold launch the initial rebuild awaits the substance-store
+            // warm-up, and flashing "No Entries" at a user who has entries
+            // reads as a blink of data loss. Until then, a spinner.
+            if model.filtered.isEmpty {
+                if hasDerivedOnce {
+                    emptyState
+                } else {
+                    ProgressView()
                 }
             }
-            // Single derive driver: runs once on appear (paints fast, no animation)
-            // and re-runs whenever the dose log commits a change (an edit / add /
-            // delete — every mutation path bumps `DoseLogService.revision`),
-            // debouncing briefly and animating the diff in. Keying off the one
-            // observed Int — instead of hashing every entry's fields in `body` —
-            // keeps this view from subscribing to every property of every dose.
-            // The model's generation guard makes a newer run supersede an in-flight
-            // one, so the overlap on first appear can't corrupt state.
-            .task(id: DoseLogService.shared.revision) {
-                // A `.task(id:)` also fires on re-appearance (a tab switch, a
-                // pop back) with the id unchanged; the derived data is still
-                // current then, and re-deriving it costs a ~400 ms hang.
-                let revision = DoseLogService.shared.revision
-                if hasDerivedOnce, derivedRevision == revision { return }
-                let isFirst = !hasLoadedOnce
-                hasLoadedOnce = true
-                if !isFirst {
-                    // Animate the diff so a newly-logged session slides in and pushes
-                    // the others down instead of snapping.
-                    try? await Task.sleep(for: .milliseconds(100))
-                    guard !Task.isCancelled else { return }
-                }
-                await rebuildAll(animated: !isFirst)
+        }
+        // Single derive driver: runs once on appear (paints fast, no animation)
+        // and re-runs whenever the dose log commits a change (an edit / add /
+        // delete — every mutation path bumps `DoseLogService.revision`),
+        // debouncing briefly and animating the diff in. Keying off the one
+        // observed Int — instead of hashing every entry's fields in `body` —
+        // keeps this view from subscribing to every property of every dose.
+        // The model's generation guard makes a newer run supersede an in-flight
+        // one, so the overlap on first appear can't corrupt state.
+        .task(id: DoseLogService.shared.revision) {
+            // A `.task(id:)` also fires on re-appearance (a tab switch, a
+            // pop back) with the id unchanged; the derived data is still
+            // current then, and re-deriving it costs a ~400 ms hang.
+            let revision = DoseLogService.shared.revision
+            if hasDerivedOnce, derivedRevision == revision { return }
+            let isFirst = !hasLoadedOnce
+            hasLoadedOnce = true
+            if !isFirst {
+                // Animate the diff so a newly-logged session slides in and pushes
+                // the others down instead of snapping.
+                try? await Task.sleep(for: .milliseconds(100))
                 guard !Task.isCancelled else { return }
-                hasDerivedOnce = true
-                derivedRevision = revision
             }
-            // Debounce the search filter: re-filtering the whole history runs on the
-            // main actor, so doing it on every keystroke stalled typing. An empty
-            // query (clearing search) regroups immediately. The `.task(id:)` cancels
-            // the prior pending filter when the text changes again.
-            .task(id: searchText) {
-                // First appear: the derive task owns the initial regroup, and it
-                // regroups with the live `searchText` when it lands — bucketing
-                // now would run against an empty `derived`.
-                guard hasDerivedOnce else { return }
-                if !searchText.isEmpty {
-                    try? await Task.sleep(for: .milliseconds(150))
-                    guard !Task.isCancelled else { return }
-                }
-                resetWindowAndRegroup()
-            }
-            .onChange(of: grouping) { resetWindowAndRegroup() }
-            .onChange(of: groupKey) { resetWindowAndRegroup() }
-            .onChange(of: model.filterSignature) { resetWindowAndRegroup() }
-            // The Timeline grouping's layouts. Waits a beat so the filter/search
-            // regroup above lands first — the timeline renders `model.filtered`
-            // whenever a filter or search is active, the raw log otherwise.
-            .task(id: timelineRebuildKey) {
-                guard grouping == .timeline else { return }
-                // The search surface keys this on the query text; a longer
-                // debounce there builds the strip once after typing pauses
-                // instead of once per keystroke.
-                try? await Task.sleep(for: .milliseconds(isSearchSurface ? 600 : 200))
+            await rebuildAll(animated: !isFirst)
+            guard !Task.isCancelled else { return }
+            hasDerivedOnce = true
+            derivedRevision = revision
+        }
+        // Debounce the search filter: re-filtering the whole history runs on the
+        // main actor, so doing it on every keystroke stalled typing. An empty
+        // query (clearing search) regroups immediately. The `.task(id:)` cancels
+        // the prior pending filter when the text changes again.
+        .task(id: searchText) {
+            // First appear: the derive task owns the initial regroup, and it
+            // regroups with the live `searchText` when it lands — bucketing
+            // now would run against an empty `derived`.
+            guard hasDerivedOnce else { return }
+            if !searchText.isEmpty {
+                try? await Task.sleep(for: .milliseconds(150))
                 guard !Task.isCancelled else { return }
-                let source = (model.hasActiveFilters || !searchText.isEmpty) ? model.filtered : entries
-                await timelineModel.rebuild(
-                    entries: source,
-                    colors: substanceColors,
-                    colorMap: substanceColors.colorMap,
-                    revision: timelineRebuildKey.hashValue,
-                    zoom: prefs.zoom,
-                    compressGaps: prefs.compressGaps,
-                    pkCurves: prefs.pkCurves,
-                    showsAxis: prefs.showsAxis,
-                    bubbleStyle: prefs.bubbleStyle,
-                    showsVitals: prefs.showsVitals,
-                    cacheable: !isSearchSurface && !model.hasActiveFilters && searchText.isEmpty,
-                )
             }
-            .onChange(of: colorSignature) {
-                Task { await rebuildAll(animated: true) }
+            resetWindowAndRegroup()
+        }
+        .onChange(of: grouping) { resetWindowAndRegroup() }
+        .onChange(of: groupKey) { resetWindowAndRegroup() }
+        .onChange(of: model.filterSignature) { resetWindowAndRegroup() }
+        // The Timeline grouping's layouts. Waits a beat so the filter/search
+        // regroup above lands first — the timeline renders `model.filtered`
+        // whenever a filter or search is active, the raw log otherwise.
+        .task(id: timelineRebuildKey) {
+            guard grouping == .timeline else { return }
+            let cacheable = !isSearchSurface && !model.hasActiveFilters && searchText.isEmpty
+            // The launch cache first, keyed off the store's identity, so a
+            // hit paints without reading `entries` (materializing the
+            // whole log on the main actor).
+            if cacheable, timelineModel.days.isEmpty,
+               await timelineModel.restoreCached(
+                   container: modelContext.container,
+                   revision: timelineRebuildKey.hashValue,
+                   zoom: prefs.zoom,
+                   compressGaps: prefs.compressGaps,
+                   pkCurves: prefs.pkCurves,
+                   showsAxis: prefs.showsAxis,
+                   bubbleStyle: prefs.bubbleStyle,
+                   showsVitals: prefs.showsVitals,
+               ) {
+                return
             }
-            .sheet(isPresented: $showingCalendar) {
-                calendarSheet(proxy: proxy)
-                    .presentationDetents([.medium])
-                    .presentationBackground(.regularMaterial)
+            // The search surface keys this on the query text; a longer
+            // debounce there builds the strip once after typing pauses
+            // instead of once per keystroke.
+            try? await Task.sleep(for: .milliseconds(isSearchSurface ? 600 : 200))
+            guard !Task.isCancelled else { return }
+            let source = (model.hasActiveFilters || !searchText.isEmpty) ? model.filtered : entries
+            await timelineModel.rebuild(
+                entries: source,
+                colors: substanceColors,
+                colorMap: substanceColors.colorMap,
+                revision: timelineRebuildKey.hashValue,
+                zoom: prefs.zoom,
+                compressGaps: prefs.compressGaps,
+                pkCurves: prefs.pkCurves,
+                showsAxis: prefs.showsAxis,
+                bubbleStyle: prefs.bubbleStyle,
+                showsVitals: prefs.showsVitals,
+                cacheable: cacheable,
+            )
+        }
+        .onChange(of: colorSignature) {
+            Task { await rebuildAll(animated: true) }
+        }
+        .sheet(isPresented: $showingCalendar) {
+            calendarSheet(proxy: proxy)
+                .presentationDetents([.medium])
+                .presentationBackground(.regularMaterial)
+        }
+        .sessionCardActions(cardActions, colors: substanceColors)
+    }
+
+    /// The Journal's rows, shared by both containers.
+    @ViewBuilder
+    private func rows(activeStates: [ActiveSubstanceState], activeID: UUID?) -> some View {
+        @Bindable var model = self.model
+
+        // Active-filter summary — the funnel's accent fill alone says *that*
+        // something is filtered; this strip says *what*, chip-per-value, each
+        // removable in place. It only exists while filtering, so the common
+        // (unfiltered) case pays no standing row for it.
+        if !isSearchSurface, model.hasActiveFilters {
+            JournalActiveFilterBar(
+                tags: $model.filterTags,
+                categories: $model.filterCategories,
+                routes: $model.filterRoutes,
+                onClear: { model.clearFilters() },
+            )
+            .listRowInsets(.rowFlush)
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
+        }
+
+        // The daily meds front door — today's checklist, tap to log
+        // (Specs/meds-reminders-redesign.md). Renders nothing while the
+        // user has no meds, so a recreational-only journal never sees it.
+        if !isSearchSurface {
+            MyMedsCard(substanceColors: substanceColors)
+                .listRowInsets(.rowStandard)
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+        }
+
+        // The state card: what's active right now, as a compact live
+        // status (dose · ROA · phase · countdown). Tapping opens *today's
+        // session* — the app is organized around sessions, so this is the
+        // door to the session detail, not a separate timeline surface. The
+        // feed reads plan (My Meds) → state (Active Now) → log (History).
+        if showActiveHero {
+            ActiveNowCard(
+                states: activeStates,
+                entries: entries,
+                colors: substanceColors,
+                colorMap: model.colorMap,
+                onTap: {
+                    navigator.push(.timeline)
+                },
+            )
+            .listRowInsets(.rowStandard)
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
+        }
+
+        // No "History" label — the plan/state cards sit above, and the
+        // dated day headers below (Today, Yesterday, July 20…) already
+        // read as the record. The header was redundant chrome.
+
+        // Main content
+        switch grouping {
+        case .byDay: sessionGroupedContent(activeID: activeID)
+        case .timeline: timelineContent
+        case .grouped:
+            switch groupKey {
+            case .substance: JournalSubstanceSections(model: model)
+            case .category: JournalCategorySections(model: model)
             }
-            .sessionCardActions(cardActions, colors: substanceColors)
+        }
+    }
+
+    /// The Timeline grouping keeps its 400-odd day slices in a `List`, whose
+    /// collection view recycles the cells that scroll away. The Days and
+    /// Grouped views show a windowed dozen rows, so they sit in one lazy
+    /// stack instead: one hosting view and one layout pass for the visible
+    /// rows, where a `List` gives every cell its own.
+    @ViewBuilder
+    private func container(@ViewBuilder content: () -> some View) -> some View {
+        if grouping == .timeline {
+            List {
+                content()
+            }
+            .listStyle(.plain)
+            #if canImport(UIKit)
+                .listSectionSpacing(.custom(2))
+            #endif
+        } else {
+            ScrollView {
+                LazyVStack(spacing: Spacing.xl) {
+                    content()
+                }
+                .padding(.horizontal, Spacing.xxl)
+            }
+        }
     }
 
     /// The List is recreated (scroll reset, fresh rows) when the view changes;

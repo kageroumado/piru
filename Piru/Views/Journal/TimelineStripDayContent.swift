@@ -63,7 +63,7 @@ struct TimelineStripDayContent: View {
     /// capsule is pinned by the dot in its slot.
     private var gutterMarks: some View {
         ZStack(alignment: .topLeading) {
-            ForEach(Array(day.hourTicks.enumerated()), id: \.offset) { _, tick in
+            ForEach(day.hourTicks) { tick in
                 if let label = tick.label {
                     TimelineHourMark(text: label)
                         .offset(x: TimelineGutter.edgeInset, y: tick.y - TimelineGutterMarkMetrics.singleLineHeight / 2)
@@ -104,7 +104,7 @@ struct TimelineStripDayContent: View {
     /// drawn above the capsules so a capsule hanging across the axis is
     /// pinned by its dot.
     private var doseDots: some View {
-        ForEach(Array(day.doseDots.enumerated()), id: \.offset) { _, dot in
+        ForEach(day.doseDots) { dot in
             LegendDot(color: dot.color)
                 .padding(1.5)
                 .background(Theme.background, in: Circle())

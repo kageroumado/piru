@@ -200,16 +200,6 @@ final class UnifiedTimelineModel {
             preferences: preferences,
             now: now,
         )
-        // First build of this process: a cache written by the last launch from
-        // this exact log and these preferences paints the strip without the
-        // build (the file decodes off the main actor).
-        if cacheable, days.isEmpty, !entries.isEmpty,
-           let cached = await TimelineStripCache.load(matching: cacheKey, now: now) {
-            guard !Task.isCancelled else { return }
-            days = cached
-            builtKey = key
-            return
-        }
         await SubstanceStore.shared.ensureAllLoaded()
         guard !Task.isCancelled else { return }
         let sessions = Self.sessionsByID(of: entries)
@@ -257,6 +247,40 @@ final class UnifiedTimelineModel {
         if cacheable {
             TimelineStripCache.save(built, key: cacheKey, now: now)
         }
+    }
+
+    /// Paint the strip from the launch cache when one was written by the last
+    /// launch from this exact log and these preferences. The log's identity
+    /// comes from a `COUNT` and a one-row fetch on ``DatabaseActor``, so a hit
+    /// never materializes the dose log on the main actor; the file decodes
+    /// off the main actor. `false` on a miss, leaving the build to
+    /// ``rebuild(entries:colors:colorMap:revision:zoom:compressGaps:pkCurves:showsAxis:bubbleStyle:showsVitals:cacheable:)``.
+    func restoreCached(
+        container: ModelContainer,
+        revision: Int,
+        zoom: Double,
+        compressGaps: Bool,
+        pkCurves: Bool,
+        showsAxis: Bool,
+        bubbleStyle: TimelineBubbleStyle,
+        showsVitals: Bool,
+    ) async -> Bool {
+        guard days.isEmpty else { return false }
+        let preferences = "\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)"
+        let now = Date.now
+        let identity = await DoseLogIdentity.fetch(container: container)
+        guard identity.entryCount > 0, !Task.isCancelled else { return false }
+        let cacheKey = TimelineStripCache.key(
+            storeGeneration: DoseLogService.storeGeneration,
+            entryCount: identity.entryCount,
+            newestTimestamp: identity.newestTimestamp,
+            preferences: preferences,
+            now: now,
+        )
+        guard let cached = await TimelineStripCache.load(matching: cacheKey, now: now), !Task.isCancelled else { return false }
+        days = cached
+        builtKey = "\(revision)|\(preferences)|\(identity.entryCount)"
+        return true
     }
 
     /// Every `Session` in one fetch, keyed by identifier, for the builder's
@@ -576,25 +600,30 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
         var phase: TimelineCurvePhase?
     }
 
-    struct DoseDot: Equatable, Codable {
+    struct DoseDot: Identifiable, Equatable, Codable {
+        /// ``DoseEntry/id`` of the dose the dot marks.
+        let id: UUID
         let y: CGFloat
         let color: Color
 
-        init(y: CGFloat, color: Color) {
+        init(id: UUID, y: CGFloat, color: Color) {
+            self.id = id
             self.y = y
             self.color = color
         }
 
-        private enum CodingKeys: String, CodingKey { case y, color }
+        private enum CodingKeys: String, CodingKey { case id, y, color }
 
         init(from decoder: Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
+            id = try c.decode(UUID.self, forKey: .id)
             y = try c.decode(CGFloat.self, forKey: .y)
             color = try Color(hex: c.decode(String.self, forKey: .color))
         }
 
         func encode(to encoder: Encoder) throws {
             var c = encoder.container(keyedBy: CodingKeys.self)
+            try c.encode(id, forKey: .id)
             try c.encode(y, forKey: .y)
             try c.encode(color.cacheHex(), forKey: .color)
         }
@@ -652,7 +681,9 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
         let besideCapsule: Bool
     }
 
-    struct HourTick: Equatable, Codable {
+    struct HourTick: Identifiable, Equatable, Codable {
+        /// The hour the tick marks; one tick per hour, so it is the identity.
+        let id: Date
         let y: CGFloat
         /// The hour as the locale writes it on its own (``TimelineHourMark``),
         /// or `nil` when the gridline stands alone — its label would collide

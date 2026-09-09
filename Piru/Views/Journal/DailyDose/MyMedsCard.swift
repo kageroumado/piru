@@ -12,9 +12,11 @@ struct MyMedsCard: View {
     @Environment(\.appNavigator) private var navigator
 
     @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
-    @Query private var todayEntries: [DoseEntry]
+    /// The last 48 hours of doses: what the interaction check reads, and the
+    /// pool today's undo picks from.
     @Query private var recentEntries: [DoseEntry]
-    @Query private var substanceColors: [SubstanceColor]
+    /// The Journal already holds the color query; one subscription serves both.
+    let substanceColors: [SubstanceColor]
     /// Yesterday's and today's occurrences — today's drive the slot states,
     /// yesterday's `missed` rows the missed-yesterday info line.
     @Query private var recentOccurrences: [RoutineOccurrence]
@@ -30,13 +32,9 @@ struct MyMedsCard: View {
     /// missed-day keys, refreshed off `body`.
     @State private var info = MyMedsInfoModel()
 
-    init() {
-        let dayStart = Calendar.current.startOfDay(for: .now)
+    init(substanceColors: [SubstanceColor]) {
+        self.substanceColors = substanceColors
         let yesterdayStart = Self.yesterdayStart
-        _todayEntries = Query(
-            filter: #Predicate<DoseEntry> { $0.timestamp >= dayStart },
-            sort: \DoseEntry.timestamp,
-        )
         let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
         _recentEntries = Query(
             filter: #Predicate<DoseEntry> { $0.timestamp >= cutoff },
@@ -45,6 +43,11 @@ struct MyMedsCard: View {
         _recentOccurrences = Query(
             filter: #Predicate<RoutineOccurrence> { $0.dueDay >= yesterdayStart },
         )
+    }
+
+    private var todayEntries: [DoseEntry] {
+        let dayStart = Calendar.current.startOfDay(for: .now)
+        return recentEntries.filter { $0.timestamp >= dayStart }
     }
 
     private static var yesterdayStart: Date {

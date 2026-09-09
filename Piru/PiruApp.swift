@@ -186,7 +186,7 @@ struct PiruApp: App {
                     // Roll the routine follow-up horizon forward (they're
                     // materialized as one-shots over a few days) and drop
                     // today's re-asks for routines already logged.
-                    DoseNotificationManager.syncMedReminders(in: container.mainContext)
+                    await DoseNotificationManager.syncMedRemindersIfNeeded(container: container)
                     // If the user connected Apple Health for body weight, silently refresh it
                     // (no prompt). On a revoked/empty read we deliberately KEEP the last-known weight
                     // rather than clear it — a slightly stale real weight beats reverting to the 60 kg
@@ -242,7 +242,7 @@ struct PiruApp: App {
                 // warmed it, and a cold `SubstanceStore.all` asserts in DEBUG.
                 Task(name: "Sync med reminders") {
                     await SubstanceStore.shared.ensureAllLoaded()
-                    DoseNotificationManager.syncMedReminders(in: container.mainContext)
+                    await DoseNotificationManager.syncMedRemindersIfNeeded(container: container)
                 }
             }
             // Opt-in, end-to-end encrypted iCloud backup on backgrounding. No-op

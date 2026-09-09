@@ -46,20 +46,34 @@ nonisolated enum JournalDeriveCache {
     /// against inputs the key does not see.
     static let maxAge: TimeInterval = 7 * 24 * 60 * 60
 
+    /// The key and build time alone, beside the payload, so a miss is decided
+    /// without decoding every row.
+    private nonisolated struct Header: Codable {
+        let key: Key
+        let builtAt: Date
+    }
+
     private static var url: URL? {
         guard let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return nil }
         return base.appendingPathComponent("journal-derive.cache")
     }
 
+    private static var headerURL: URL? {
+        url.map { $0.deletingPathExtension().appendingPathExtension("key") }
+    }
+
     /// The cached rows by entry id when they were built from exactly `key`
     /// within ``maxAge``, decoded off the main actor; `nil` otherwise.
     static func load(matching key: Key, now: Date = .now) async -> [UUID: Row]? {
-        guard let url else { return nil }
+        guard let url, let headerURL else { return nil }
         return await Task.detached(priority: .userInitiated) { () -> [UUID: Row]? in
-            guard let data = try? Data(contentsOf: url),
+            guard let headerData = try? Data(contentsOf: headerURL),
+                  let header = try? JSONDecoder().decode(Header.self, from: headerData),
+                  header.key == key,
+                  now.timeIntervalSince(header.builtAt) < maxAge,
+                  let data = try? Data(contentsOf: url),
                   let payload = try? JSONDecoder().decode(Payload.self, from: data),
                   payload.key == key,
-                  now.timeIntervalSince(payload.builtAt) < maxAge,
                   !payload.rows.isEmpty
             else { return nil }
             var rows: [UUID: Row] = [:]
@@ -73,7 +87,7 @@ nonisolated enum JournalDeriveCache {
 
     /// Write `rows` as the cache for `key`, encoding off the main actor.
     static func save(_ rows: [UUID: Row], key: Key, now: Date = .now) {
-        guard let url, !rows.isEmpty else { return }
+        guard let url, let headerURL, !rows.isEmpty else { return }
         var keyed: [String: Row] = [:]
         keyed.reserveCapacity(rows.count)
         for (id, row) in rows {
@@ -81,14 +95,17 @@ nonisolated enum JournalDeriveCache {
         }
         let payload = Payload(key: key, builtAt: now, rows: keyed)
         Task.detached(priority: .utility) {
-            guard let data = try? JSONEncoder().encode(payload) else { return }
+            guard let data = try? JSONEncoder().encode(payload),
+                  let headerData = try? JSONEncoder().encode(Header(key: key, builtAt: now)) else { return }
             try? data.write(to: url, options: .atomic)
+            try? headerData.write(to: headerURL, options: .atomic)
         }
     }
 
     /// Remove the cache, for a store restore or a wipe.
     static func clear() {
-        guard let url else { return }
+        guard let url, let headerURL else { return }
         try? FileManager.default.removeItem(at: url)
+        try? FileManager.default.removeItem(at: headerURL)
     }
 }

@@ -36,12 +36,21 @@ nonisolated enum BodyLevelsTrailCache {
         return base.appendingPathComponent("body-levels.cache")
     }
 
+    /// The key alone, beside the payload, so a miss is decided without
+    /// decoding the trail.
+    private static var headerURL: URL? {
+        url.map { $0.deletingPathExtension().appendingPathExtension("key") }
+    }
+
     /// The cached trail when it was built from exactly `key`, decoded off the
     /// main actor; `nil` otherwise.
     static func load(matching key: Key) async -> BodyLoadTrail? {
-        guard let url else { return nil }
+        guard let url, let headerURL else { return nil }
         return await Task.detached(priority: .utility) { () -> BodyLoadTrail? in
-            guard let data = try? Data(contentsOf: url),
+            guard let headerData = try? Data(contentsOf: headerURL),
+                  let header = try? JSONDecoder().decode(Key.self, from: headerData),
+                  header == key,
+                  let data = try? Data(contentsOf: url),
                   let payload = try? JSONDecoder().decode(Payload.self, from: data),
                   payload.key == key
             else { return nil }
@@ -49,19 +58,24 @@ nonisolated enum BodyLevelsTrailCache {
         }.value
     }
 
-    /// Write `trail` as the cache for `key`, encoding off the main actor.
+    /// Write `trail` as the cache for `key`, encoding off the main actor. The
+    /// key file is written after the payload, so a reader never trusts a key
+    /// whose payload is still being replaced.
     static func save(_ trail: BodyLoadTrail, key: Key) {
-        guard let url else { return }
+        guard let url, let headerURL else { return }
         let payload = Payload(key: key, trail: trail)
         Task.detached(priority: .utility) {
-            guard let data = try? JSONEncoder().encode(payload) else { return }
+            guard let data = try? JSONEncoder().encode(payload),
+                  let headerData = try? JSONEncoder().encode(key) else { return }
             try? data.write(to: url, options: .atomic)
+            try? headerData.write(to: headerURL, options: .atomic)
         }
     }
 
     /// Remove the cache, for a store restore or a wipe.
     static func clear() {
-        guard let url else { return }
+        guard let url, let headerURL else { return }
         try? FileManager.default.removeItem(at: url)
+        try? FileManager.default.removeItem(at: headerURL)
     }
 }

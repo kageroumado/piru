@@ -17,7 +17,7 @@ nonisolated enum TimelineStripCache {
     nonisolated struct Key: Codable, Equatable, Sendable {
         /// Bumped when the encoded layout changes shape, so a file from an
         /// older build misses instead of half-decoding.
-        var format = 3
+        var format = 4
         let storeGeneration: Int
         let entryCount: Int
         let newestTimestamp: Date?
@@ -48,40 +48,60 @@ nonisolated enum TimelineStripCache {
         )
     }
 
+    /// The key and build time alone, beside the payload, so a miss is decided
+    /// by reading a few hundred bytes instead of decoding the whole strip
+    /// (12 MB for a multi-year log).
+    private nonisolated struct Header: Codable {
+        let key: Key
+        let builtAt: Date
+    }
+
     private static var url: URL? {
         guard let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return nil }
         return base.appendingPathComponent("timeline-strip.cache")
     }
 
+    private static var headerURL: URL? {
+        url.map { $0.deletingPathExtension().appendingPathExtension("key") }
+    }
+
     /// The cached layouts when they were built from exactly `key` within
     /// ``maxAge``, decoded off the main actor; `nil` otherwise.
     static func load(matching key: Key, now: Date = .now) async -> [TimelineDayLayout]? {
-        guard let url else { return nil }
+        guard let url, let headerURL else { return nil }
         return await Task.detached(priority: .userInitiated) { () -> [TimelineDayLayout]? in
-            guard let data = try? Data(contentsOf: url),
+            guard let headerData = try? Data(contentsOf: headerURL),
+                  let header = try? JSONDecoder().decode(Header.self, from: headerData),
+                  header.key == key,
+                  now.timeIntervalSince(header.builtAt) < maxAge,
+                  let data = try? Data(contentsOf: url),
                   let payload = try? JSONDecoder().decode(Payload.self, from: data),
                   payload.key == key,
-                  now.timeIntervalSince(payload.builtAt) < maxAge,
                   !payload.days.isEmpty
             else { return nil }
             return payload.days
         }.value
     }
 
-    /// Write `days` as the cache for `key`, encoding off the main actor.
+    /// Write `days` as the cache for `key`, encoding off the main actor. The
+    /// header is written after the payload, so a reader never trusts a key
+    /// whose payload is still being replaced.
     static func save(_ days: [TimelineDayLayout], key: Key, now: Date = .now) {
-        guard let url, !days.isEmpty else { return }
+        guard let url, let headerURL, !days.isEmpty else { return }
         let payload = Payload(key: key, builtAt: now, days: days)
         Task.detached(priority: .utility) {
-            guard let data = try? JSONEncoder().encode(payload) else { return }
+            guard let data = try? JSONEncoder().encode(payload),
+                  let headerData = try? JSONEncoder().encode(Header(key: key, builtAt: now)) else { return }
             try? data.write(to: url, options: .atomic)
+            try? headerData.write(to: headerURL, options: .atomic)
         }
     }
 
     /// Remove the cache, for a store restore or a wipe.
     static func clear() {
-        guard let url else { return }
+        guard let url, let headerURL else { return }
         try? FileManager.default.removeItem(at: url)
+        try? FileManager.default.removeItem(at: headerURL)
     }
 }
 

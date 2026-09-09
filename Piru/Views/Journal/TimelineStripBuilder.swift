@@ -433,7 +433,7 @@ struct TimelineStripBuilder {
         for group in groups {
             for (itemIndex, item) in group.items.enumerated() {
                 let dotY = localY(item.timestamp)
-                doseDots.append(TimelineDayLayout.DoseDot(y: dotY, color: item.color))
+                doseDots.append(TimelineDayLayout.DoseDot(id: item.id, y: dotY, color: item.color))
                 let cardCenterY: CGFloat = if itemIndex >= group.visibleItems.count, let sessionID = group.sessionID, let y = moreRowY[sessionID] {
                     y
                 } else {
@@ -609,10 +609,10 @@ struct TimelineStripBuilder {
                 && TimelineGutterLabels.hourLabelFits(y: y, doseYs: visibleDoseYs, nowY: nowY, reservedTop: reservedTop)
                 && lastLabelY - y >= labelSpacing
             if labelFits {
-                ticks.append(TimelineDayLayout.HourTick(y: y, label: TimelineHourMark.label(for: t)))
+                ticks.append(TimelineDayLayout.HourTick(id: t, y: y, label: TimelineHourMark.label(for: t)))
                 lastLabelY = y
             } else {
-                ticks.append(TimelineDayLayout.HourTick(y: y, label: nil))
+                ticks.append(TimelineDayLayout.HourTick(id: t, y: y, label: nil))
             }
         }
         return ticks

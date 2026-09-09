@@ -299,6 +299,21 @@ enum DoseNotificationManager {
     /// over raw dose scans.
     static func syncMedReminders(in context: ModelContext) {
         RoutineOccurrenceService.reconcile(in: context)
+        scheduleMedReminders(in: context)
+    }
+
+    /// ``syncMedReminders(in:)`` for launch and foreground: the reconcile's
+    /// decision runs on ``DatabaseActor`` first, and the main-context
+    /// reconcile (its fetches and its save) happens only when that decision
+    /// found something to write. The reminder schedule is refreshed either way.
+    static func syncMedRemindersIfNeeded(container: ModelContainer) async {
+        if await RoutineOccurrenceService.needsReconcile(container: container) {
+            RoutineOccurrenceService.reconcile(in: container.mainContext)
+        }
+        scheduleMedReminders(in: container.mainContext)
+    }
+
+    private static func scheduleMedReminders(in context: ModelContext) {
         let items = (try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []
         let satisfied = RoutineOccurrenceService.satisfiedSlotKeys(in: context)
         let askAgainDefault = (try? context.fetch(FetchDescriptor<NotificationPreferences>()))?

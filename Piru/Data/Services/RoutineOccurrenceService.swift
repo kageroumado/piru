@@ -21,22 +21,223 @@ enum RoutineOccurrenceService {
     /// Re-derive today's occurrence truth: expire past-day pendings to
     /// `missed`, materialize today's occurrences for due meds' slots, and
     /// re-run dose matching. `skipped` is a sticky user choice and survives;
-    /// `logged` rows whose dose disappeared revert to `pending`.
+    /// `logged` rows whose dose disappeared revert to `pending`. Saves only
+    /// when the plan has something to write: an unchanged day leaves the
+    /// context untouched, so no `@Query` re-evaluates for nothing.
     static func reconcile(in context: ModelContext, now: Date = .now) {
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: now)
-
-        expirePastPendings(before: today, in: context)
-
-        let items = (try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []
-        let occurrences = todaysOccurrences(today, in: context)
-
-        let dueItems = items.filter { !$0.isAsNeeded && AdherenceCalculator.isDue($0, on: today) }
-
-        let current = materialize(dueItems: dueItems, existing: occurrences, today: today, in: context)
-        match(occurrences: current, today: today, now: now, in: context)
-
+        let today = Calendar.current.startOfDay(for: now)
+        let plan = plan(from: context, today: today)
+        guard !plan.isEmpty else { return }
+        apply(plan, in: context, today: today)
         try? context.save()
+    }
+
+    /// Whether ``reconcile(in:now:)`` would write anything, decided on
+    /// ``DatabaseActor`` over a fresh context, so the launch and foreground
+    /// syncs skip the main-actor fetches and the save on an unchanged day.
+    @DatabaseActor
+    static func needsReconcile(container: ModelContainer, now: Date = .now) -> Bool {
+        let context = ModelContext(container)
+        let today = Calendar.current.startOfDay(for: now)
+        return !plan(from: context, today: today).isEmpty
+    }
+
+    // MARK: - Snapshots
+
+    /// The reconcile's inputs as values, so the same decision runs on the
+    /// main context (to apply) and on ``DatabaseActor`` (to ask).
+    nonisolated struct ItemSnapshot: Sendable {
+        let substance: String
+        let substanceUID: String?
+        let route: RouteOfAdministration
+        /// Sorted reminder times, or a single `nil` "anytime" slot.
+        let slots: [Int?]
+    }
+
+    nonisolated struct OccurrenceSnapshot: Sendable, LiveOccurrence {
+        let id: PersistentIdentifier
+        let substance: String
+        let substanceUID: String?
+        let route: RouteOfAdministration
+        let slotMinutes: Int?
+        let state: RoutineOccurrence.State
+        let satisfyingEntryID: UUID?
+    }
+
+    nonisolated struct EntrySnapshot: Sendable {
+        let id: UUID
+        let substance: String
+        let substanceUID: String?
+        let route: RouteOfAdministration
+        let timestamp: Date
+    }
+
+    /// What one reconcile has to write. Empty on an unchanged day.
+    nonisolated struct Plan: Sendable {
+        struct NewOccurrence: Sendable {
+            let substance: String
+            let substanceUID: String?
+            let route: RouteOfAdministration
+            let slotMinutes: Int?
+            let state: RoutineOccurrence.State
+            let satisfyingEntryID: UUID?
+        }
+
+        /// Past-day pendings that become `missed`.
+        var expire: [PersistentIdentifier] = []
+        var inserts: [NewOccurrence] = []
+        /// Today's pendings whose (med × slot) is no longer due.
+        var deletes: [PersistentIdentifier] = []
+        /// Existing occurrences whose match outcome changed.
+        var updates: [PersistentIdentifier: (state: RoutineOccurrence.State, satisfyingEntryID: UUID?)] = [:]
+
+        var isEmpty: Bool {
+            expire.isEmpty && inserts.isEmpty && deletes.isEmpty && updates.isEmpty
+        }
+    }
+
+    /// Read today's inputs from `context` and plan the reconcile.
+    private nonisolated static func plan(from context: ModelContext, today: Date) -> Plan {
+        let pendingRaw = RoutineOccurrence.State.pending.rawValue
+        let expiredPredicate = #Predicate<RoutineOccurrence> { $0.dueDay < today && $0.stateRaw == pendingRaw }
+        let expired = ((try? context.fetch(FetchDescriptor(predicate: expiredPredicate))) ?? []).map(\.persistentModelID)
+
+        let items = ((try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? [])
+            .filter { !$0.isAsNeeded && AdherenceCalculator.isDue(startDate: $0.startDate, frequency: $0.frequency, frequencyDays: $0.frequencyDays, on: today) }
+            .map { item in
+                let times = item.reminderTimesMinutes.sorted()
+                return ItemSnapshot(substance: item.substance, substanceUID: item.substanceUID, route: item.route, slots: times.isEmpty ? [nil] : times)
+            }
+        let occurrencePredicate = #Predicate<RoutineOccurrence> { $0.dueDay == today }
+        let occurrences = ((try? context.fetch(FetchDescriptor(predicate: occurrencePredicate))) ?? []).map {
+            OccurrenceSnapshot(
+                id: $0.persistentModelID, substance: $0.substance, substanceUID: $0.substanceUID, route: $0.route,
+                slotMinutes: $0.slotMinutes, state: $0.state, satisfyingEntryID: $0.satisfyingEntryID,
+            )
+        }
+        // The fallback keeps the upper bound past `now` rather than silently
+        // narrowing the window to [today, now) if the calendar math ever fails.
+        let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: today) ?? today.addingTimeInterval(86_400)
+        let entryPredicate = #Predicate<DoseEntry> { $0.timestamp >= today && $0.timestamp < dayEnd }
+        let entries = ((try? context.fetch(FetchDescriptor(predicate: entryPredicate))) ?? [])
+            .map { EntrySnapshot(id: $0.id, substance: $0.substance, substanceUID: $0.substanceUID, route: $0.route, timestamp: $0.timestamp) }
+
+        return plan(dueItems: items, occurrences: occurrences, expired: expired, entries: entries)
+    }
+
+    /// The pure reconcile: which occurrences to create, drop, expire, and
+    /// which match outcomes changed. The §D matching rules run as a batch
+    /// over today's entries in timestamp order: identity (uid-first, else
+    /// name) + route, one claim per entry, nearest slot time on a tie.
+    /// Unclaimed occurrences revert to `pending`, which is the whole
+    /// delete/edit reconciliation.
+    nonisolated static func plan(
+        dueItems: [ItemSnapshot],
+        occurrences: [OccurrenceSnapshot],
+        expired: [PersistentIdentifier],
+        entries: [EntrySnapshot],
+    ) -> Plan {
+        var plan = Plan()
+        plan.expire = expired
+
+        // Today's live set: the existing rows that still correspond to a due
+        // slot (or are settled history), plus a row for every due slot without
+        // one. Each live row is keyed by its position in `live`.
+        struct Live: LiveOccurrence {
+            let substance: String
+            let substanceUID: String?
+            let route: RouteOfAdministration
+            let slotMinutes: Int?
+            let state: RoutineOccurrence.State
+            let existing: OccurrenceSnapshot?
+        }
+        var live: [Live] = []
+        for occurrence in occurrences {
+            let stillDue = dueItems.contains { item in
+                item.slots.contains { corresponds(occurrence, to: item, slot: $0) }
+            }
+            if occurrence.state == .pending, !stillDue {
+                plan.deletes.append(occurrence.id)
+            } else {
+                live.append(Live(
+                    substance: occurrence.substance, substanceUID: occurrence.substanceUID, route: occurrence.route,
+                    slotMinutes: occurrence.slotMinutes, state: occurrence.state, existing: occurrence,
+                ))
+            }
+        }
+        for item in dueItems {
+            for slot in item.slots where !live.contains(where: { corresponds($0, to: item, slot: slot) }) {
+                live.append(Live(
+                    substance: item.substance, substanceUID: item.substanceUID, route: item.route,
+                    slotMinutes: slot, state: .pending, existing: nil,
+                ))
+            }
+        }
+
+        var claimed = Set<Int>()
+        var assignment: [Int: UUID] = [:]
+        for entry in entries.sorted(by: { $0.timestamp < $1.timestamp }) {
+            let entryMinutes = minutesOfDay(entry.timestamp)
+            let best = live.indices
+                .filter { live[$0].state != .skipped && !claimed.contains($0) && matches(entry: entry, occurrence: live[$0]) }
+                .min { distance(entryMinutes, toSlotAt: live[$0].slotMinutes) < distance(entryMinutes, toSlotAt: live[$1].slotMinutes) }
+            guard let best else { continue }
+            claimed.insert(best)
+            assignment[best] = entry.id
+        }
+
+        for (index, row) in live.enumerated() {
+            let outcome: (state: RoutineOccurrence.State, satisfyingEntryID: UUID?) = if row.state == .skipped {
+                (.skipped, row.existing?.satisfyingEntryID)
+            } else if let entryID = assignment[index] {
+                (.logged, entryID)
+            } else {
+                (.pending, nil)
+            }
+            if let existing = row.existing {
+                if existing.state != outcome.state || existing.satisfyingEntryID != outcome.satisfyingEntryID {
+                    plan.updates[existing.id] = outcome
+                }
+            } else {
+                plan.inserts.append(Plan.NewOccurrence(
+                    substance: row.substance, substanceUID: row.substanceUID, route: row.route,
+                    slotMinutes: row.slotMinutes, state: outcome.state, satisfyingEntryID: outcome.satisfyingEntryID,
+                ))
+            }
+        }
+        return plan
+    }
+
+    /// Write `plan` into `context` (no save).
+    private static func apply(_ plan: Plan, in context: ModelContext, today: Date) {
+        for id in plan.expire {
+            if let occurrence = context.model(for: id) as? RoutineOccurrence {
+                occurrence.state = .missed
+            }
+        }
+        for id in plan.deletes {
+            if let occurrence = context.model(for: id) as? RoutineOccurrence {
+                context.delete(occurrence)
+            }
+        }
+        for (id, outcome) in plan.updates {
+            if let occurrence = context.model(for: id) as? RoutineOccurrence {
+                occurrence.state = outcome.state
+                occurrence.satisfyingEntryID = outcome.satisfyingEntryID
+            }
+        }
+        for new in plan.inserts {
+            let occurrence = RoutineOccurrence(
+                substance: new.substance,
+                substanceUID: new.substanceUID,
+                route: new.route,
+                dueDay: today,
+                slotMinutes: new.slotMinutes,
+            )
+            occurrence.state = new.state
+            occurrence.satisfyingEntryID = new.satisfyingEntryID
+            context.insert(occurrence)
+        }
     }
 
     /// The stable key of one (med × slot): identity (uid when resolved, else
@@ -86,143 +287,34 @@ enum RoutineOccurrenceService {
         try? context.save()
     }
 
-    // MARK: - Reconcile steps
-
-    /// A day ended with the occurrence still pending → `missed`. Neutral
-    /// history (spec §D: never surfaced as a scoreboard or a reprimand).
-    private static func expirePastPendings(before today: Date, in context: ModelContext) {
-        let pendingRaw = RoutineOccurrence.State.pending.rawValue
-        let predicate = #Predicate<RoutineOccurrence> { $0.dueDay < today && $0.stateRaw == pendingRaw }
-        let expired = (try? context.fetch(FetchDescriptor(predicate: predicate))) ?? []
-        for occurrence in expired {
-            occurrence.state = .missed
-        }
-    }
-
-    /// A due med's slots for one day: its sorted reminder times, or a single
-    /// `nil` "anytime" slot when it has none.
-    private static func slots(of item: DailyDoseItem) -> [Int?] {
-        let times = item.reminderTimesMinutes.sorted()
-        return times.isEmpty ? [nil] : times
-    }
-
-    /// Create today's missing occurrences and drop today's *pending* ones
-    /// whose (med × slot) no longer exists or isn't due (edit/removal
-    /// mid-day) — `logged`/`skipped` rows stay as history. Returns today's
-    /// live set.
-    private static func materialize(
-        dueItems: [DailyDoseItem],
-        existing: [RoutineOccurrence],
-        today: Date,
-        in context: ModelContext,
-    ) -> [RoutineOccurrence] {
-        var result = existing
-        for item in dueItems {
-            for slot in slots(of: item)
-                where !result.contains(where: { corresponds($0, to: item, slot: slot) }) {
-                let occurrence = RoutineOccurrence(
-                    substance: item.substance,
-                    substanceUID: item.substanceUID,
-                    route: item.route,
-                    dueDay: today,
-                    slotMinutes: slot,
-                )
-                context.insert(occurrence)
-                result.append(occurrence)
-            }
-        }
-        for occurrence in result where occurrence.state == .pending
-            && !dueItems.contains(where: { item in
-                slots(of: item).contains { corresponds(occurrence, to: item, slot: $0) }
-            }) {
-            context.delete(occurrence)
-            result.removeAll { $0 === occurrence }
-        }
-        return result
-    }
-
-    /// The §D matching rules, applied as a batch over today's entries in
-    /// timestamp order: identity (uid-first, else name) + route, one claim per
-    /// entry, nearest slot time on a tie. Unclaimed occurrences revert to
-    /// `pending` — which is the whole delete/edit reconciliation.
-    private static func match(
-        occurrences: [RoutineOccurrence],
-        today: Date,
-        now _: Date,
-        in context: ModelContext,
-    ) {
-        // The fallback keeps the upper bound past `now` rather than silently
-        // narrowing the window to [today, now) if the calendar math ever fails.
-        let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: today) ?? today.addingTimeInterval(86_400)
-        let predicate = #Predicate<DoseEntry> { $0.timestamp >= today && $0.timestamp < dayEnd }
-        let entries = ((try? context.fetch(FetchDescriptor(predicate: predicate))) ?? [])
-            .sorted { $0.timestamp < $1.timestamp }
-
-        var claimed: Set<PersistentIdentifier> = []
-        var assignment: [PersistentIdentifier: UUID] = [:]
-
-        for entry in entries {
-            let candidates = occurrences.filter {
-                $0.state != .skipped
-                    && !claimed.contains($0.persistentModelID)
-                    && matches(entry: entry, occurrence: $0)
-            }
-            guard !candidates.isEmpty else { continue }
-            let entryMinutes = minutesOfDay(entry.timestamp)
-            let best = candidates.min { lhs, rhs in
-                distance(entryMinutes, toSlotAt: lhs.slotMinutes)
-                    < distance(entryMinutes, toSlotAt: rhs.slotMinutes)
-            }
-            guard let best else { continue }
-            claimed.insert(best.persistentModelID)
-            assignment[best.persistentModelID] = entry.id
-        }
-
-        for occurrence in occurrences where occurrence.state != .skipped {
-            if let entryID = assignment[occurrence.persistentModelID] {
-                occurrence.state = .logged
-                occurrence.satisfyingEntryID = entryID
-            } else {
-                occurrence.state = .pending
-                occurrence.satisfyingEntryID = nil
-            }
-        }
-    }
-
     // MARK: - Joins
 
     /// Occurrence ↔ (med, slot) correspondence: identity + route + slot.
-    private static func corresponds(_ occurrence: RoutineOccurrence, to item: DailyDoseItem, slot: Int?) -> Bool {
+    private nonisolated static func corresponds(_ occurrence: some LiveOccurrence, to item: ItemSnapshot, slot: Int?) -> Bool {
         occurrence.slotMinutes == slot
             && occurrence.route == item.route
-            && identityMatches(
-                nameA: occurrence.substance, uidA: occurrence.substanceUID,
-                nameB: item.substance, uidB: item.substanceUID,
-            )
+            && identityMatches(nameA: occurrence.substance, uidA: occurrence.substanceUID, nameB: item.substance, uidB: item.substanceUID)
     }
 
     /// Entry ↔ occurrence match: identity (uid when both sides have one, else
     /// case-insensitive name) and route (spec §D).
-    private static func matches(entry: DoseEntry, occurrence: RoutineOccurrence) -> Bool {
+    private nonisolated static func matches(entry: EntrySnapshot, occurrence: some LiveOccurrence) -> Bool {
         entry.route == occurrence.route
-            && identityMatches(
-                nameA: entry.substance, uidA: entry.substanceUID,
-                nameB: occurrence.substance, uidB: occurrence.substanceUID,
-            )
+            && identityMatches(nameA: entry.substance, uidA: entry.substanceUID, nameB: occurrence.substance, uidB: occurrence.substanceUID)
     }
 
-    private static func identityMatches(nameA: String, uidA: String?, nameB: String, uidB: String?) -> Bool {
+    private nonisolated static func identityMatches(nameA: String, uidA: String?, nameB: String, uidB: String?) -> Bool {
         if let uidA, let uidB { return uidA == uidB }
         return nameA.lowercased() == nameB.lowercased()
     }
 
-    private static func minutesOfDay(_ date: Date) -> Int {
+    private nonisolated static func minutesOfDay(_ date: Date) -> Int {
         let parts = Calendar.current.dateComponents([.hour, .minute], from: date)
         return (parts.hour ?? 0) * 60 + (parts.minute ?? 0)
     }
 
     /// An anytime slot sorts after any timed slot.
-    private static func distance(_ minutes: Int, toSlotAt slotMinutes: Int?) -> Int {
+    private nonisolated static func distance(_ minutes: Int, toSlotAt slotMinutes: Int?) -> Int {
         guard let slotMinutes else { return .max }
         return abs(minutes - slotMinutes)
     }
@@ -231,4 +323,13 @@ enum RoutineOccurrenceService {
         let predicate = #Predicate<RoutineOccurrence> { $0.dueDay == today }
         return (try? context.fetch(FetchDescriptor(predicate: predicate))) ?? []
     }
+}
+
+/// The identity fields the matching joins read, shared by an existing
+/// occurrence and one the plan is about to create.
+nonisolated protocol LiveOccurrence {
+    var substance: String { get }
+    var substanceUID: String? { get }
+    var route: RouteOfAdministration { get }
+    var slotMinutes: Int? { get }
 }
