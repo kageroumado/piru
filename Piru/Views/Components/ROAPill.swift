@@ -20,10 +20,11 @@ struct ROAPill: View {
         /// Standalone placements: the entry-detail hero, the active-session row.
         case regular
 
-        var font: Font {
+        /// The text style, not a `Font`: the skin's chip primitive sets the face.
+        var textStyle: Font.TextStyle {
             switch self {
-            case .compact: .caption2.weight(.semibold)
-            case .regular: .caption.weight(.semibold)
+            case .compact: .caption2
+            case .regular: .caption
             }
         }
 
@@ -37,16 +38,16 @@ struct ROAPill: View {
     }
 
     var body: some View {
+        // The label takes the gated text variant, the fill the accent; the
+        // skin draws the form (see `skinChip`, which owns the tint rule).
         Text(String(localized: route.localizedName).lowercased())
-            .font(size.font)
-            .lineLimit(1)
-            .padding(.horizontal, size.horizontalPadding)
-            .padding(.vertical, size.verticalPadding)
-            // Never raise this tint past ~0.10: a colour on a tint of itself
-            // asymptotes around 4.5:1 in dark mode regardless of lightness, so
-            // a heavier tint fails WCAG AA and no hue retune can fix it. The
-            // label takes the gated text variant, the fill the accent.
-            .background(route.tintColor.opacity(Theme.Opacity.tint), in: Capsule())
-            .foregroundStyle(route.tintTextColor)
+            .skinChip(
+                text: route.tintTextColor,
+                fill: route.tintColor,
+                style: size.textStyle,
+                weight: .semibold,
+                horizontal: size.horizontalPadding,
+                vertical: size.verticalPadding,
+            )
     }
 }

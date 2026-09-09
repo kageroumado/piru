@@ -15,7 +15,7 @@ struct ElevenHydroxyTHCCard: View {
             HStack(alignment: .top, spacing: Spacing.lg) {
                 Image(systemName: "clock.badge.exclamationmark")
                     .foregroundStyle(.cautionAccent)
-                    .font(.title3)
+                    .font(.piru(.title3))
                     .padding(.top, Spacing.xxs)
                     .accessibilityHidden(true)
 

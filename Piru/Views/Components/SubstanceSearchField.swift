@@ -140,7 +140,7 @@ struct SubstanceSearchField: View {
                                         .font(.caption2)
                                         .padding(.horizontal, Spacing.sm)
                                         .padding(.vertical, Spacing.xxs)
-                                        .background(.fill.secondary, in: Capsule())
+                                        .background(.fill.secondary, in: skinChipShape())
                                 }
                                 .padding(.horizontal, Spacing.xl)
                                 .padding(.vertical, Spacing.md)
@@ -175,7 +175,7 @@ struct SubstanceSearchField: View {
                                         .font(.caption2)
                                         .padding(.horizontal, Spacing.sm)
                                         .padding(.vertical, Spacing.xxs)
-                                        .background(Theme.accent.opacity(Theme.Opacity.emphasis), in: Capsule())
+                                        .background(Theme.accent.opacity(Theme.Opacity.emphasis), in: skinChipShape())
                                         .foregroundStyle(Theme.accent)
                                 }
                                 .padding(.horizontal, Spacing.xl)

@@ -56,14 +56,14 @@ struct ByVolumeDoseInputView: View {
                     } label: {
                         VStack(spacing: Spacing.xs) {
                             Image(systemName: preset.systemImage)
-                                .font(.title3)
+                                .font(.piru(.title3))
                             Text(preset.name)
                                 .font(.caption)
                         }
                         .frame(width: 60)
                         .padding(.vertical, Spacing.md)
                     }
-                    .buttonStyle(.glass)
+                    .skinButtonStyle(.neutral)
                     .tint(Theme.accent)
                     .accessibilityLabel(Text(preset.name))
                 }
@@ -125,7 +125,7 @@ struct ByVolumeDoseInputView: View {
         if let grams, let standardDrinks {
             VStack(alignment: .leading, spacing: 1) {
                 Text("\(Int(grams.rounded())) g")
-                    .font(.title2)
+                    .font(.piru(.title2))
                     .fontWeight(.semibold)
                     .foregroundStyle(readoutColor ?? .primary)
                     .contentTransition(.numericText())

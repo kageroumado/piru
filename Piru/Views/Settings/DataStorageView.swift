@@ -501,7 +501,7 @@ private struct OptionRow: View {
         Button(action: action) {
             HStack(alignment: .top, spacing: Spacing.xl) {
                 Image(systemName: systemImage)
-                    .font(.title3).foregroundStyle(Theme.accent).frame(width: IconSize.iconSmall)
+                    .font(.piru(.title3)).foregroundStyle(Theme.accent).frame(width: IconSize.iconSmall)
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(title).foregroundStyle(.primary)
@@ -530,7 +530,7 @@ private struct DataActionRow: View {
         Button(action: action) {
             HStack(alignment: .top, spacing: Spacing.xl) {
                 Image(systemName: systemImage)
-                    .font(.title3).foregroundStyle(Theme.accent).frame(width: IconSize.iconSmall)
+                    .font(.piru(.title3)).foregroundStyle(Theme.accent).frame(width: IconSize.iconSmall)
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(title).foregroundStyle(.primary)
@@ -609,7 +609,7 @@ private struct HowItWorksRow: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: Spacing.xl) {
-            Image(systemName: icon).font(.title3).foregroundStyle(Theme.accent).frame(width: IconSize.iconSmall)
+            Image(systemName: icon).font(.piru(.title3)).foregroundStyle(Theme.accent).frame(width: IconSize.iconSmall)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(title).sectionLabel()
@@ -659,7 +659,7 @@ private struct RecoverableRow: View {
         Button(action: action) {
             HStack(alignment: .top, spacing: Spacing.xl) {
                 Image(systemName: store.isIntentional ? "clock.arrow.circlepath" : "exclamationmark.arrow.circlepath")
-                    .font(.title3)
+                    .font(.piru(.title3))
                     .foregroundStyle(store.isIntentional ? Theme.secondaryLabel : .cautionAccent)
                     .frame(width: IconSize.iconSmall)
                     .accessibilityHidden(true)

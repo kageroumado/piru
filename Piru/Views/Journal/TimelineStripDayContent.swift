@@ -256,16 +256,21 @@ struct TimelineStripDayContent: View {
         // Only the strip's very top edge cuts curves mid-flight — fade
         // them into the background there. Day boundaries fade nothing;
         // the strip continues.
+        // Erased (destination-out), not painted: a skin's backdrop behind the
+        // strip is a gradient, so a band of the flat background colour showed
+        // as a darker strip across the top.
         if day.showsLiveEdge {
             let fadeHeight: CGFloat = 28
+            context.blendMode = .destinationOut
             context.fill(
                 Path(CGRect(x: 0, y: 0, width: size.width, height: fadeHeight)),
                 with: .linearGradient(
-                    Gradient(colors: [Theme.background, Theme.background.opacity(0)]),
+                    Gradient(colors: [.black, .black.opacity(0)]),
                     startPoint: .zero,
                     endPoint: CGPoint(x: 0, y: fadeHeight),
                 ),
             )
+            context.blendMode = .normal
         }
     }
 
@@ -434,8 +439,13 @@ struct SessionEnvelopeButton: View {
 
     private static let cornerRadius: CGFloat = 16
 
-    var body: some View {
-        Button(action: onTap) {
+    /// The envelope is chrome, not graph: under glass it is the timeline's
+    /// frosted frame; an edged skin draws it as one of its cards (solid,
+    /// stroked, hard shadow).
+    @ViewBuilder
+    private var envelopeSurface: some View {
+        switch SkinStore.shared.current.surface {
+        case .glass:
             RoundedRectangle(cornerRadius: Self.cornerRadius, style: .continuous)
                 .fill(.ultraThinMaterial)
                 .overlay {
@@ -450,6 +460,20 @@ struct SessionEnvelopeButton: View {
                         )
                 }
                 .shadow(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.04), radius: 12, y: 4)
+        case .edged, .soft, .paper, .neon, .frosted:
+            // An explicit shape, not the concentric card: concentric takes
+            // the radius as a minimum and inherits the screen's corner here,
+            // which is how the envelope stopped matching its bubbles.
+            Color.clear.modifier(ThemedBackground(
+                shape: RoundedRectangle(cornerRadius: Self.cornerRadius, style: .continuous),
+                insetDash: true,
+            ))
+        }
+    }
+
+    var body: some View {
+        Button(action: onTap) {
+            envelopeSurface
                 .overlay(alignment: .bottom) {
                     // Chevron styled and inset identically to the bubbles'
                     // (bubble inset 6 + bubble padding 10), so the two columns

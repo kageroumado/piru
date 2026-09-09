@@ -45,7 +45,7 @@ struct OpioidEquivalenceToolView: View {
             .padding()
         }
         .scrollDismissesKeyboard(.interactively)
-        .background(Theme.background)
+        .skinBackdrop()
         .appNavigationBar("Opioid Equivalence")
     }
 
@@ -54,7 +54,7 @@ struct OpioidEquivalenceToolView: View {
     private var headerCard: some View {
         VStack(spacing: Spacing.sm) {
             Image(systemName: "cross.case")
-                .font(.largeTitle)
+                .font(.piru(.largeTitle))
                 .foregroundStyle(Theme.accent)
                 .accessibilityHidden(true)
             Text("Opioid Equivalence")
@@ -149,7 +149,7 @@ struct OpioidEquivalenceToolView: View {
                let result = from.equivalentDose(forDoseMg: dose, in: to),
                let mme = from.mme(forDoseMg: dose) {
                 Text("≈ \(EquivalenceFormat.mg(result)) mg")
-                    .font(.title.weight(.bold))
+                    .font(.piru(.title, weight: .bold))
                     .foregroundStyle(Theme.accent)
                     .contentTransition(.numericText())
                     .animation(.default, value: result)
@@ -160,7 +160,7 @@ struct OpioidEquivalenceToolView: View {
                 mmeBadge(mme)
             } else {
                 Text("--")
-                    .font(.title.weight(.bold))
+                    .font(.piru(.title, weight: .bold))
                     .foregroundStyle(Theme.secondaryLabel)
                 Text(fallbackReason)
                     .font(.caption2)

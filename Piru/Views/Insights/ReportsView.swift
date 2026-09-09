@@ -36,7 +36,7 @@ struct ReportsView: View {
             .padding(.top, Spacing.xs)
             .padding(.bottom, 80)
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .task(id: scopeToken) {
             await SubstanceStore.shared.ensureAllLoaded()
             model.recompute(sessions: sessions, entries: allEntries)
@@ -529,7 +529,7 @@ private struct ExportCard: View {
         } label: {
             HStack(spacing: 14) {
                 Image(systemName: icon)
-                    .font(.title3)
+                    .font(.piru(.title3))
                     .foregroundStyle(tint)
                     .frame(width: 28, alignment: .center)
 

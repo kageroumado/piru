@@ -252,7 +252,8 @@ private struct SubstanceDetailHeader: View {
         } header: {
             VStack(alignment: .leading, spacing: 5) {
                 Text(substance.displayTitle)
-                    .font(.system(size: 40, weight: .heavy, design: .rounded))
+                    .font(.piru(size: 40, weight: .heavy, design: .rounded, relativeTo: .largeTitle))
+                    .skinHeroTitle()
                     // `Color.primary`, not `.primary`: a section header carries a
                     // secondary style, and the hierarchical `.primary` resolves to
                     // the primary *level of that style* — which is still gray. The
@@ -289,7 +290,7 @@ private struct SubstanceDetailHeader: View {
                                 .sectionLabel()
                                 .padding(.horizontal, Spacing.lg)
                                 .padding(.vertical, 5)
-                                .background(Color.platformTertiarySystemFill, in: Capsule())
+                                .background(Color.platformTertiarySystemFill, in: skinChipShape())
                         }
                         if overflowCount > 0 {
                             Text("+ \(overflowCount) chemical names", comment: "Alias overflow count")
@@ -336,7 +337,7 @@ struct CategoryChip: View {
             // 0.10 is the alpha every scale's `text` variant is gated against. At
             // 0.14 this measured 4.40:1 on device — a fill a few percent darker
             // than the one a token was derived for is enough to fail its gate.
-            .background(category.color.opacity(Theme.Opacity.tint), in: Capsule())
+            .background(category.color.opacity(Theme.Opacity.tint), in: skinChipShape())
             .accessibilityLabel(Text(category.displayName))
     }
 }

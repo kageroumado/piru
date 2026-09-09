@@ -31,7 +31,7 @@ struct AdherenceView: View {
                 }
                 .padding()
             }
-            .background(Theme.background)
+            .skinBackdrop()
             .task(id: DoseLogService.shared.revision) {
                 await model.recompute(
                     entries: allEntries,
@@ -68,11 +68,11 @@ private struct AdherenceEmptyState: View {
                     .font(.body.weight(.semibold))
                     .padding(.horizontal, Spacing.xxxl)
             }
-            .buttonStyle(.glassProminent)
+            .skinButtonStyle(.prominent)
             .tint(Theme.accent)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Theme.background)
+        .skinBackdrop()
     }
 }
 
@@ -134,7 +134,7 @@ private struct AdherenceTodayCard: View {
                             .sectionLabel()
                             .frame(maxWidth: .infinity)
                     }
-                    .buttonStyle(.glass)
+                    .skinButtonStyle(.neutral)
                     .tint(Theme.accent)
                 }
             }
@@ -159,7 +159,7 @@ private struct TodayAdherenceRow: View {
     var body: some View {
         HStack(spacing: Spacing.xl) {
             Image(systemName: done ? "checkmark.circle.fill" : "circle")
-                .font(.title3)
+                .font(.piru(.title3))
                 .foregroundStyle(done ? Color.successAccent : Color.platformTertiaryLabel)
             VStack(alignment: .leading, spacing: 1) {
                 Text(title)
@@ -194,12 +194,12 @@ private struct AdherenceStreakCard: View {
     var body: some View {
         HStack(spacing: 14) {
             Image(systemName: "flame.fill")
-                .font(.largeTitle)
+                .font(.piru(.largeTitle))
                 .foregroundStyle(.orange)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text("\(streak)")
-                    .font(.system(.largeTitle, design: .rounded, weight: .bold))
+                    .font(.piru(.largeTitle, design: .rounded, weight: .bold))
                 Text(streak == 1 ? "day streak" : "days streak")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -207,7 +207,7 @@ private struct AdherenceStreakCard: View {
             Spacer()
             VStack(alignment: .trailing, spacing: Spacing.xxs) {
                 Text("\(Int(adherenceRate * 100))%")
-                    .font(.system(.title2, design: .rounded, weight: .semibold))
+                    .font(.piru(.title2, design: .rounded, weight: .semibold))
                     .foregroundStyle(adherenceRate >= 0.8 ? Color.successText : adherenceRate >= 0.5 ? Color.Semantic.Caution.text : Color.Semantic.Danger.text)
                 Text("this month")
                     .captionSecondary()
@@ -454,7 +454,7 @@ struct AdherenceDayDetailSheet: View {
                         HStack(spacing: Spacing.xl) {
                             Image(systemName: itemAdherence.taken ? "checkmark.circle.fill" : "xmark.circle.fill")
                                 .foregroundStyle(itemAdherence.taken ? Color.successAccent : Color.Semantic.Danger.accent)
-                                .font(.title3)
+                                .font(.piru(.title3))
                                 .accessibilityHidden(true)
 
                             VStack(alignment: .leading, spacing: Spacing.xxs) {
@@ -564,7 +564,7 @@ private struct AdherenceMonthPicker: View {
                     .accessibilityLabel(Text("Previous Year"))
                     Spacer()
                     Text(verbatim: "\(pickerYear)")
-                        .font(.title3.weight(.bold))
+                        .font(.piru(.title3, weight: .bold))
                     Spacer()
                     Button {
                         withAnimation(.snappy) { pickerYear += 1 }

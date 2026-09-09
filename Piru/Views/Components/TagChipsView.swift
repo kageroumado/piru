@@ -61,7 +61,7 @@ struct TagEditorView: View {
                         .padding(.vertical, Spacing.xs)
                         .background(Theme.accent.opacity(Theme.Opacity.tint))
                         .foregroundStyle(Theme.accent)
-                        .clipShape(Capsule())
+                        .clipShape(skinChipShape())
                     }
                 }
             }
@@ -93,7 +93,7 @@ struct TagEditorView: View {
                                 .padding(.vertical, Spacing.xs)
                                 .background(Color.platformSecondarySystemFill)
                                 .foregroundStyle(Theme.secondaryLabel)
-                                .clipShape(Capsule())
+                                .clipShape(skinChipShape())
                         }
                     }
                 }

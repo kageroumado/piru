@@ -174,7 +174,7 @@ private struct BalanceArc: View {
         return CGPoint(x: center.x + radius * cos(radians), y: center.y + radius * sin(radians))
     }
 
-    private struct ArcShape: Shape {
+    private nonisolated struct ArcShape: Shape {
         let radius: CGFloat
 
         func path(in rect: CGRect) -> Path {
@@ -203,7 +203,7 @@ private struct BalanceReadout: View {
         VStack(alignment: .leading, spacing: 3) {
             if model.focus != nil, !model.ratioText.isEmpty {
                 Text(model.ratioText)
-                    .font(.title3.weight(.bold))
+                    .font(.piru(.title3, weight: .bold))
                     .foregroundStyle(accent)
             }
             Text(model.valueText)

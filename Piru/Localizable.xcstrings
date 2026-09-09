@@ -5372,6 +5372,9 @@
         }
       }
     },
+    "A functional grouping rather than a mechanistic one: compounds taken for cognition, with radically different pharmacology and, mostly, thin human evidence." : {
+
+    },
     "A heads-up if one substance's daily total climbs into a heavy range, or tracked stock runs low." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5789,8 +5792,39 @@
         }
       }
     },
+    "A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay exactly as they are." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮肤会改变应用的颜色、卡片和字体。你的物质颜色、时间轴和所有图表都保持原样。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮膚會改變應用程式的顏色、卡片和字體。你的物質顏色、時間軸和所有圖表都保持原樣。"
+          }
+        }
+      }
+    },
+    "A sky that follows the day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随一天变化的天空"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨一天變化的天空"
+          }
+        }
+      }
+    },
     "A summary of how the drug affects the brain's three main signaling chemicals — serotonin, dopamine, and noradrenaline — and whether it releases them or blocks their reuptake. The slider shows which one it leans toward." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6328,6 +6362,12 @@
           }
         }
       }
+    },
+    "Act at the CB1 receptor. The phytocannabinoids are partial agonists with a natural ceiling; the synthetic ones are full agonists without it, which is the whole of the difference in risk." : {
+
+    },
+    "Act at the κ-opioid receptor rather than 5-HT2A, which is why the experience is nothing like a classical psychedelic — dysphoric, disorienting, and usually brief." : {
+
     },
     "Action" : {
       "extractionState" : "stale",
@@ -7854,6 +7894,12 @@
         }
       }
     },
+    "Agonists at the 5-HT2A receptor. That single action reshapes perception, thought and the sense of self; the family splits by chemistry — phenethylamines, tryptamines, and the ergolines LSD belongs to." : {
+
+    },
+    "Agonists at the µ-opioid receptor: analgesia, warmth and sedation, and depressed breathing by the same mechanism. Tolerance to the first outpaces tolerance to the last, which is what makes the margin narrow." : {
+
+    },
     "Alarmnummer" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9041,6 +9087,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隨時"
+          }
+        }
+      }
+    },
+    "Appearance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外观"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外觀"
           }
         }
       }
@@ -10468,6 +10530,9 @@
         }
       }
     },
+    "Bind the α2δ subunit of voltage-gated calcium channels, reducing excitatory transmitter release. Not GABAergic despite the name." : {
+
+    },
     "binding" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -10710,6 +10775,21 @@
           }
         }
       }
+    },
+    "Block dopamine D2 receptors, and usually several serotonin receptors alongside. Sedating, and a common blunting agent for other substances." : {
+
+    },
+    "Block histamine H1 receptors. The first-generation ones cross into the brain and are strongly anticholinergic, which is why they sedate — and, in quantity, deliriate." : {
+
+    },
+    "Block muscarinic acetylcholine receptors. Unlike psychedelics they produce true hallucinations — things that are not there and are not recognised as unreal — alongside amnesia and a narrow margin to toxicity." : {
+
+    },
+    "Block the NMDA glutamate receptor, uncoupling perception from the body that reports it. The effect scales sharply with dose, from analgesia through anaesthesia." : {
+
+    },
+    "Block the orexin receptors that hold wakefulness in place, rather than enhancing GABA. They add next-day sedation with other depressants but not brainstem respiratory depression." : {
+
     },
     "Blocks 5-HT₂A while weakly inhibiting serotonin reuptake. The receptor block dominates at low doses, which is why trazodone reached far more people as a sleep drug than as an antidepressant." : {
       "localizations" : {
@@ -11409,7 +11489,6 @@
       }
     },
     "Buprenorphine is a partial agonist with a ceiling on its effect on breathing, so risk doesn't scale the way a full agonist's does. CDC excludes it from MME entirely and says it should not be counted toward a daily total." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13000,7 +13079,6 @@
       }
     },
     "Clinical consensus" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14614,6 +14692,22 @@
         }
       }
     },
+    "Cool blue-gray, quiet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冷蓝灰，安静"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冷藍灰，安靜"
+          }
+        }
+      }
+    },
     "Coordination" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15544,6 +15638,9 @@
         }
       }
     },
+    "Damp excessive neuronal firing, by sodium-channel block, GABA enhancement or SV2A binding depending on the drug." : {
+
+    },
     "Danger" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15572,6 +15669,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "危險"
+          }
+        }
+      }
+    },
+    "Dark Mode" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色模式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色模式"
           }
         }
       }
@@ -15932,6 +16045,22 @@
         }
       }
     },
+    "Decorations" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "装饰"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "裝飾"
+          }
+        }
+      }
+    },
     "Decrease" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15992,6 +16121,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "深層"
+          }
+        }
+      }
+    },
+    "Deep purple night, a sleeping moon" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深紫夜色，一轮睡着的月亮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深紫夜色，一輪睡著的月亮"
+          }
+        }
+      }
+    },
+    "Deep water, bioluminescence, jellyfish" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深水、生物荧光、水母"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深水、生物螢光、水母"
           }
         }
       }
@@ -17696,6 +17857,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "劑量體積"
+          }
+        }
+      }
+    },
+    "dose.wiki" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dose.wiki"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dose.wiki"
           }
         }
       }
@@ -19482,6 +19659,22 @@
         }
       }
     },
+    "ely.pink" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ely.pink"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ely.pink"
+          }
+        }
+      }
+    },
     "Emax" : {
       "localizations" : {
         "zh-Hans" : {
@@ -20463,7 +20656,6 @@
       }
     },
     "Estimates from primary literature." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20892,6 +21084,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隔日"
+          }
+        }
+      }
+    },
+    "Every skin has a light and a dark side. Follow System switches with iOS." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个皮肤都有浅色和深色两面。跟随系统会随 iOS 切换。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每個皮膚都有淺色和深色兩面。跟隨系統會隨 iOS 切換。"
           }
         }
       }
@@ -21796,6 +22004,22 @@
         }
       }
     },
+    "Fireflies and an aurora" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "萤火虫与极光"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "螢火蟲與極光"
+          }
+        }
+      }
+    },
     "Fires when the model's next dose window opens after a logged dose. Estimate only." : {
       "localizations" : {
         "zh-Hans" : {
@@ -21971,6 +22195,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "氟馬西尼"
+          }
+        }
+      }
+    },
+    "Follow System" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟随系统"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟隨系統"
           }
         }
       }
@@ -23151,6 +23391,22 @@
         }
       }
     },
+    "Graphite" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "石墨"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "石墨"
+          }
+        }
+      }
+    },
     "Group by" : {
       "localizations" : {
         "zh-Hans" : {
@@ -23772,6 +24028,39 @@
         }
       }
     },
+    "Hebi Arcade" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hebi 街机"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hebi 街機"
+          }
+        }
+      }
+    },
+    "Hebi Arcade (WIP)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hebi Arcade (WIP)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hebi Arcade (WIP)"
+          }
+        }
+      }
+    },
     "Height and shape fit to your results. Terminal release %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -24203,6 +24492,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "激素、甲狀腺與代謝藥物。"
+          }
+        }
+      }
+    },
+    "Hotaru" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotaru"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotaru"
+          }
+        }
+      }
+    },
+    "Hotaru (WIP)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotaru (WIP)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotaru (WIP)"
           }
         }
       }
@@ -24672,7 +24994,6 @@
       }
     },
     "How your body breaks the drug down — which liver enzymes do the work, what byproducts (metabolites) form, and whether those are still active. The percentage is each enzyme's rough share of clearance." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -25487,6 +25808,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "與靜息心率 %lld bpm 相當"
+          }
+        }
+      }
+    },
+    "In partnership with dose.wiki ↗" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与 dose.wiki 合作 ↗"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與 dose.wiki 合作 ↗"
           }
         }
       }
@@ -26442,6 +26779,22 @@
         }
       }
     },
+    "Jellyfish" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "水母"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "水母"
+          }
+        }
+      }
+    },
     "Join Discord" : {
       "localizations" : {
         "zh-Hans" : {
@@ -26847,6 +27200,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kriisipuhelin"
+          }
+        }
+      }
+    },
+    "Kumo" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kumo"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kumo"
           }
         }
       }
@@ -27334,6 +27703,22 @@
         }
       }
     },
+    "Light Mode" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浅色模式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "淺色模式"
+          }
+        }
+      }
+    },
     "Light movement helps — even a short walk speeds recovery." : {
       "localizations" : {
         "zh-Hans" : {
@@ -27506,6 +27891,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Linea de Prevencion del Suicidio"
+          }
+        }
+      }
+    },
+    "Linen" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "亚麻"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "亞麻"
           }
         }
       }
@@ -31347,6 +31748,38 @@
         }
       }
     },
+    "Neon City on a CRT" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CRT 上的霓虹城"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CRT 上的霓虹城"
+          }
+        }
+      }
+    },
+    "Neutral grays, nothing moving" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中性灰，静止不动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中性灰，靜止不動"
+          }
+        }
+      }
+    },
     "Never" : {
       "localizations" : {
         "zh-Hans" : {
@@ -31836,6 +32269,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "夜間"
+          }
+        }
+      }
+    },
+    "Night and pink, stickers and pixels" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜色与粉色，贴纸与像素"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜色與粉色，貼紙與像素"
           }
         }
       }
@@ -35282,6 +35731,22 @@
         }
       }
     },
+    "Paper Garden" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "纸庭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "紙庭"
+          }
+        }
+      }
+    },
     "Parameters from estrannaise.js (MIT), checked against the literature" : {
       "localizations" : {
         "zh-Hans" : {
@@ -35894,6 +36359,22 @@
         }
       }
     },
+    "Periwinkle, snow and frost" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长春花蓝、雪与霜"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長春花藍、雪與霜"
+          }
+        }
+      }
+    },
     "Permanently deletes every dose, session, and setting. If iCloud backup is on, it is disabled and the backup is removed." : {
       "localizations" : {
         "zh-Hans" : {
@@ -36477,6 +36958,22 @@
         }
       }
     },
+    "Piru" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru"
+          }
+        }
+      }
+    },
     "Piru and PsychonautWiki files are plain JSON. Imports add to your journal (duplicates skipped). Encrypted restores can merge or replace. Inventory is included in Piru and encrypted backups, but not PsychonautWiki files." : {
       "localizations" : {
         "zh-Hans" : {
@@ -36871,6 +37368,22 @@
         }
       }
     },
+    "Plum and fuchsia, from the open encyclopedia" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "梅紫与紫红，来自开放百科"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "梅紫與紫紅，來自開放百科"
+          }
+        }
+      }
+    },
     "Point at a barcode or label, then tap a highlighted area" : {
       "localizations" : {
         "zh-Hans" : {
@@ -37095,6 +37608,12 @@
           }
         }
       }
+    },
+    "Positive allosteric modulators at GABA-A — they amplify the brain's own inhibitory signal rather than acting on their own. That ceiling is why they are relatively safe alone and dangerous with anything else that sedates." : {
+
+    },
+    "Positive allosteric modulators of the AMPA glutamate receptor. The high-impact ones carry convulsant liability; the low-impact ones are safer and weaker." : {
+
     },
     "Potency" : {
       "localizations" : {
@@ -37630,6 +38149,9 @@
         }
       }
     },
+    "Promote wakefulness without the dopaminergic surge of a classical stimulant. Mechanism is still argued over; the effect is alertness without much euphoria." : {
+
+    },
     "Propranolol" : {
       "localizations" : {
         "zh-Hans" : {
@@ -38096,6 +38618,9 @@
           }
         }
       }
+    },
+    "Raise serotonin, noradrenaline or dopamine signalling over weeks rather than hours. The class matters here mostly for what it blocks or stacks with." : {
+
     },
     "Raise strength" : {
       "localizations" : {
@@ -39470,6 +39995,9 @@
           }
         }
       }
+    },
+    "Release serotonin, along with dopamine and noradrenaline — warmth, closeness and emotional openness rather than the perceptual change of a psychedelic. Most are amphetamines with a methylenedioxy ring." : {
+
     },
     "Release window" : {
       "localizations" : {
@@ -43275,6 +43803,9 @@
         }
       }
     },
+    "Short chains of amino acids acting at hormone or growth-factor receptors. Almost all are injected, and almost none have long-term human data." : {
+
+    },
     "short-acting" : {
       "localizations" : {
         "zh-Hans" : {
@@ -43924,6 +44455,22 @@
         }
       }
     },
+    "Skin" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮肤"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "皮膚"
+          }
+        }
+      }
+    },
     "Skip" : {
       "localizations" : {
         "zh-Hans" : {
@@ -44048,6 +44595,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今天已跳過"
+          }
+        }
+      }
+    },
+    "Slate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "板岩"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "板岩"
           }
         }
       }
@@ -44261,6 +44824,9 @@
         }
       }
     },
+    "Slow central nervous system activity, mostly through GABA. Their doses add up with each other in a way that is easy to underestimate." : {
+
+    },
     "Slow metabolizer" : {
       "localizations" : {
         "zh-Hans" : {
@@ -44436,6 +45002,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "社交"
+          }
+        }
+      }
+    },
+    "Soft pink, hot pink, liquid glass" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "柔粉、亮粉、液态玻璃"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "柔粉、亮粉、液態玻璃"
           }
         }
       }
@@ -45258,6 +45840,38 @@
         }
       }
     },
+    "Starfield" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星野"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星野"
+          }
+        }
+      }
+    },
+    "Stars, hearts, and stickers behind everything. Off automatically with Reduce Motion." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "背后的星星、爱心和贴纸。开启“减弱动态效果”时会自动关闭。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "背後的星星、愛心和貼紙。開啟「減少動態效果」時會自動關閉。"
+          }
+        }
+      }
+    },
     "start" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -45741,6 +46355,22 @@
         }
       }
     },
+    "Steel blue and gold under a thousand stars" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "千星之下的钢蓝与金"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "千星之下的鋼藍與金"
+          }
+        }
+      }
+    },
     "Step %lld of %lld" : {
       "localizations" : {
         "zh-Hans" : {
@@ -46079,7 +46709,6 @@
       }
     },
     "Stronger doesn't mean more dangerous — it's just how tightly the drug grips that one target in the lab." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -46691,7 +47320,6 @@
       }
     },
     "Suppresses the enzyme that makes serotonin, so recovery takes weeks." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -49913,7 +50541,6 @@
       }
     },
     "Transdermal fentanyl is dosed in micrograms per hour — a rate, not a mass, so it shares no unit space with the mg-based table (CDC gives 2.4 MME per mcg/hr). Absorption also changes with heat and other factors." : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -50137,6 +50764,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "嘗試調整篩選條件。"
+          }
+        }
+      }
+    },
+    "Tsuki" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tsuki"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tsuki"
           }
         }
       }
@@ -51535,6 +52178,9 @@
         }
       }
     },
+    "Vitamins, minerals, amino acids and plant preparations. Pharmacologically a mixed bag, and the place where interactions are most often assumed to be absent." : {
+
+    },
     "Vitamins, minerals, and nutrients." : {
       "localizations" : {
         "zh-Hans" : {
@@ -51711,6 +52357,22 @@
         }
       }
     },
+    "Warm paper and charcoal, quiet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暖纸与炭色，安静"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暖紙與炭色，安靜"
+          }
+        }
+      }
+    },
     "Warmth, empathy, and emotional openness." : {
       "localizations" : {
         "zh-Hans" : {
@@ -51755,6 +52417,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在藥效消退前提醒你，讓落差不至於讓你措手不及。需在每劑的緩和期提醒頁面單獨開啟。"
+          }
+        }
+      }
+    },
+    "Washi, raked sand, sakura" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "和纸、枯山水、樱花"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "和紙、枯山水、櫻花"
           }
         }
       }
@@ -53830,6 +54508,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的"
+          }
+        }
+      }
+    },
+    "Yuki" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yuki"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yuki"
           }
         }
       }

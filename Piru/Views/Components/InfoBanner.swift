@@ -19,7 +19,7 @@ struct InfoBanner<Content: View>: View {
     var body: some View {
         HStack(alignment: .top, spacing: Spacing.lg) {
             Image(systemName: icon)
-                .font(.title3)
+                .font(.piru(.title3))
                 .foregroundStyle(iconTint)
                 .accessibilityHidden(true)
 

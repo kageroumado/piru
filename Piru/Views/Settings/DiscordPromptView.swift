@@ -17,7 +17,7 @@ struct DiscordPromptView: View {
                     dismiss()
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .font(.title2)
+                        .font(.piru(.title2))
                         .foregroundStyle(Theme.secondaryLabel)
                 }
                 .accessibilityLabel("Close")
@@ -30,7 +30,7 @@ struct DiscordPromptView: View {
                 .accessibilityHidden(true)
 
             Text("Join the community")
-                .font(.title2.weight(.bold))
+                .font(.piru(.title2, weight: .bold))
                 .accessibilityAddTraits(.isHeader)
 
             Text("Have feedback, questions, or want to discuss the app? Join our Discord — we'd love to hear from you.")
@@ -47,7 +47,7 @@ struct DiscordPromptView: View {
                     .cardTitle()
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, Spacing.xxl)
-                    .background(Self.blurple, in: Capsule())
+                    .background(Self.blurple, in: skinChipShape())
                     .foregroundStyle(.white)
             }
             .accessibilityAddTraits(.isLink)

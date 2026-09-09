@@ -110,6 +110,8 @@ struct FamilyGradientCard<Hero: View, Content: View>: View {
     @ViewBuilder var content: () -> Content
 
     var body: some View {
+        let skin = SkinStore.shared.current
+        let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
         content()
             // White text on a light gradient. The colours are deliberately vivid
             // and ungated (see `design-system/color/build_l2_scales.py`), so
@@ -128,8 +130,39 @@ struct FamilyGradientCard<Hero: View, Content: View>: View {
                     endPoint: .bottomTrailing,
                 ),
             )
-            .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
-            .shadow(color: color.opacity(0.3), radius: 10, x: 0, y: 5)
+            .clipShape(shape)
+            .modifier(FamilyGradientCardEdge(shape: shape, color: color, surface: skin.surface))
+    }
+}
+
+/// The gradient card's edge, by skin: the soft tinted drop shadow the app
+/// shipped with, or the edged skin's stroke and hard offset shadow — the same
+/// treatment as every other card, so the gradient tiles stop reading as
+/// imports from another app.
+private struct FamilyGradientCardEdge: ViewModifier {
+    let shape: RoundedRectangle
+    let color: Color
+    let surface: SkinSurface
+
+    func body(content: Content) -> some View {
+        switch surface {
+        case .glass:
+            content.shadow(color: color.opacity(0.3), radius: 10, x: 0, y: 5)
+        case let .soft(_, _, glowRadius):
+            content.shadow(color: color.opacity(0.45), radius: glowRadius, x: 0, y: 5)
+        case .frosted:
+            content.shadow(color: color.opacity(0.35), radius: 10, x: 0, y: 5)
+        case let .paper(stroke, _):
+            content.overlay(shape.stroke(stroke.opacity(0.25), lineWidth: 1))
+        case let .neon(stroke, glow):
+            content
+                .overlay(shape.stroke(stroke, lineWidth: 1.5))
+                .shadow(color: glow.opacity(0.45), radius: 8)
+        case let .edged(stroke, strokeWidth, shadow, shadowOffset):
+            content
+                .background(shape.fill(shadow).offset(shadowOffset))
+                .overlay(shape.stroke(stroke, lineWidth: strokeWidth))
+        }
     }
 }
 
@@ -213,7 +246,7 @@ private struct LibraryFamilyCard: View {
                     .frame(height: 28, alignment: .leading)
                     .accessibilityHidden(true)
                 Text(family.title)
-                    .font(.system(size: 20, weight: .bold))
+                    .font(.piru(size: 20, weight: .bold, relativeTo: .title3))
                     .foregroundStyle(.white)
                 Text(family.blurb)
                     .font(.footnote)
@@ -270,7 +303,7 @@ private struct LibraryFamilyCard: View {
             .foregroundStyle(.white)
             .padding(.horizontal, 9)
             .padding(.vertical, 5)
-            .background(.black.opacity(0.22), in: Capsule())
+            .background(.black.opacity(0.22), in: skinChipShape())
     }
 
     private func chip(_ sub: LibrarySubclass) -> some View {
@@ -279,7 +312,7 @@ private struct LibraryFamilyCard: View {
             .foregroundStyle(.white)
             .padding(.horizontal, Spacing.lg)
             .padding(.vertical, 5)
-            .background(.white.opacity(0.22), in: Capsule())
+            .background(.white.opacity(0.22), in: skinChipShape())
     }
 
     // MARK: Surface
@@ -458,7 +491,7 @@ private struct LibraryYoursCard: View {
                     .frame(height: 28, alignment: .leading)
                     .accessibilityHidden(true)
                 Text("Yours")
-                    .font(.system(size: 20, weight: .bold))
+                    .font(.piru(size: 20, weight: .bold, relativeTo: .title3))
                     .foregroundStyle(.white)
                 Text("Favorites, colors, units, and the substances you added.")
                     .font(.footnote)
@@ -488,7 +521,7 @@ private struct LibraryYoursCard: View {
         .foregroundStyle(.white)
         .padding(.horizontal, Spacing.lg)
         .padding(.vertical, 5)
-        .background(.white.opacity(0.22), in: Capsule())
+        .background(.white.opacity(0.22), in: skinChipShape())
     }
 }
 

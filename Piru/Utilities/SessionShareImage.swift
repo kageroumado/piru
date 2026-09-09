@@ -215,7 +215,7 @@ struct SessionShareCard: View {
     private var entriesSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("^[\(displays.count) entry](inflect: true)")
-                .font(.headline)
+                .font(.piru(.headline))
                 .foregroundStyle(.primary)
             if twoColumn {
                 let mid = (displays.count + 1) / 2

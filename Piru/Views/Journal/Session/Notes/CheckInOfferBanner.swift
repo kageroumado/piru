@@ -12,7 +12,7 @@ struct CheckInOfferBanner: View {
             VStack(alignment: .leading, spacing: Spacing.xl) {
                 HStack(alignment: .top, spacing: Spacing.xl) {
                     Image(systemName: "quote.bubble")
-                        .font(.title2)
+                        .font(.piru(.title2))
                         .foregroundStyle(Theme.accent)
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: Spacing.xs) {
@@ -39,7 +39,7 @@ struct CheckInOfferBanner: View {
                         Text("T+30 m · 1 h · 2 h · 4 h · 6 h")
                             .frame(maxWidth: .infinity)
                     }
-                    .buttonStyle(.glassProminent)
+                    .skinButtonStyle(.prominent)
                     .tint(Theme.accent)
                     Button {
                         enable(.everyHour)

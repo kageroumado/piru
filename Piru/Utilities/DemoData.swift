@@ -208,7 +208,14 @@ import SwiftData
         /// fill it and mask the failure).
         @MainActor
         static func insertImportFileData(container: ModelContainer) -> Bool {
-            guard let path = UserDefaults.standard.string(forKey: "piruImportFile") else { return false }
+            guard let argument = UserDefaults.standard.string(forKey: "piruImportFile") else { return false }
+            // A bare filename resolves inside the app's Documents folder, so a
+            // file dropped in with `devicectl device copy to … Documents/x.json`
+            // can be imported on a device whose container path is opaque.
+            let path = argument.hasPrefix("/")
+                ? argument
+                : FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                .appendingPathComponent(argument).path
             let context = container.mainContext
             guard let data = FileManager.default.contents(atPath: path) else {
                 print("DemoData: -piruImportFile could not read '\(path)'")

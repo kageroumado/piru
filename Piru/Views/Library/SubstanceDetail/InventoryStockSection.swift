@@ -97,7 +97,7 @@ struct InventoryStockSection: View {
                 .foregroundStyle(Theme.accent)
                 .padding(.horizontal, 14)
                 .padding(.vertical, Spacing.md)
-                .background(Theme.accent.opacity(Theme.Opacity.tint), in: Capsule())
+                .background(Theme.accent.opacity(Theme.Opacity.tint), in: skinChipShape())
         }
         .buttonStyle(.plain)
     }

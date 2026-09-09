@@ -86,7 +86,7 @@ private struct JournalDayHeader: View {
             Text(title)
                 .cardTitle()
             Text(weekday)
-                .font(.headline.weight(.regular))
+                .font(.piru(.headline, weight: .regular))
                 .foregroundStyle(Theme.secondaryLabel)
             Spacer()
         }

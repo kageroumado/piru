@@ -107,7 +107,7 @@ struct ActiveNowCard: View {
         // Big dose amount + route badge, mirroring the dose-detail hero.
         HStack(alignment: .center, spacing: Spacing.md) {
             Text(verbatim: "\(state.amount.doseFormatted) \(state.unit)")
-                .font(.system(.title, design: .rounded).weight(.bold))
+                .font(.piru(.title, design: .rounded, weight: .bold))
                 .lineLimit(1)
             Spacer(minLength: 8)
             ROAPill(route: RouteOfAdministration.from(string: state.route), size: .regular)

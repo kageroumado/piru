@@ -46,7 +46,7 @@ struct IdentifyBoxView: View {
             .padding(.top, Spacing.xs)
             .padding(.bottom, 80)
         }
-        .background(Theme.background)
+        .skinBackdrop()
         #if os(iOS)
             .fullScreenCover(isPresented: $showScanner) {
                 LabelScannerView { reading in
@@ -164,7 +164,7 @@ private struct ReadChipView: View {
         }
         .padding(.horizontal, Spacing.lg)
         .padding(.vertical, Spacing.sm)
-        .background(.fill.tertiary, in: Capsule())
+        .background(.fill.tertiary, in: skinChipShape())
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(accessibilityText)
     }

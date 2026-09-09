@@ -283,7 +283,7 @@ struct DockLabelForm: View {
                 } label: {
                     Image(systemName: "checkmark")
                 }
-                .buttonStyle(.glassProminent)
+                .skinButtonStyle(.prominent)
                 .disabled(!isValid)
                 .accessibilityLabel("Save")
             }

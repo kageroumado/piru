@@ -49,7 +49,7 @@ struct PharmaTableView: View {
                 PharmaTableGrid(model: model, columns: visibleColumns, headerOffset: headerOffset)
             }
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .navigationTitle(Text("Pharma Table"))
         .inlineNavigationTitle()
         .toolbar {
@@ -451,7 +451,7 @@ private struct PharmaEmptyState: View {
     var body: some View {
         VStack(spacing: Spacing.md) {
             Image(systemName: "tablecells")
-                .font(.largeTitle)
+                .font(.piru(.largeTitle))
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
             Text("No substances match these filters.")

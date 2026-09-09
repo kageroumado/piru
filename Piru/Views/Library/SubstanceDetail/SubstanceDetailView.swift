@@ -231,7 +231,7 @@ struct SubstanceDetailView: View {
         // sits behind the whole list and simply runs off the trailing edge.
         .background(alignment: .topTrailing) {
             ZStack(alignment: .topTrailing) {
-                Theme.background
+                SkinBackdrop()
                 if let structure = model.moleculeStructure {
                     MoleculeWatermark(structure: structure)
                         .frame(width: 260, height: 260)

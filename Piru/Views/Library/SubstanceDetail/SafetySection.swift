@@ -139,7 +139,7 @@ private struct ContraindicationsDisclosure: View {
                 .foregroundStyle(Theme.secondaryLabel)
                 .padding(.horizontal, Spacing.sm)
                 .padding(.vertical, 1)
-                .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: Capsule())
+                .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: skinChipShape())
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

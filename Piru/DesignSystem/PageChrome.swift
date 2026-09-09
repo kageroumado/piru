@@ -6,7 +6,7 @@ extension View {
     /// list reaches true black in dark mode like every other surface.
     func themedPage() -> some View {
         scrollContentBackground(.hidden)
-            .background(Theme.background)
+            .skinBackdrop()
             .readableWidth()
     }
 }

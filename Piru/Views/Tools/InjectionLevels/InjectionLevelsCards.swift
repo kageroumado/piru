@@ -246,7 +246,7 @@ struct InjectionLevelsProvenanceCard: View {
             .font(.caption2.weight(.semibold))
             .padding(.horizontal, Spacing.md)
             .padding(.vertical, Spacing.xxs)
-            .background(Theme.accent.opacity(Theme.Opacity.tint), in: Capsule())
+            .background(Theme.accent.opacity(Theme.Opacity.tint), in: skinChipShape())
             .foregroundStyle(Theme.accent)
     }
 }

@@ -186,7 +186,7 @@ private struct UsageOverviewCard<Art: View>: View {
                 Spacer(minLength: 0)
             }
             Text(value)
-                .font(.system(.title2, design: .rounded, weight: .semibold))
+                .font(.piru(.title2, design: .rounded, weight: .semibold))
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
             if let caption {

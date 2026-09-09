@@ -226,7 +226,7 @@ struct InventoryFilterBar: View {
             .font(.footnote.weight(.medium))
             .padding(.horizontal, Spacing.lg)
             .padding(.vertical, 5)
-            .background(Theme.accent.opacity(Theme.Opacity.tint), in: Capsule())
+            .background(Theme.accent.opacity(Theme.Opacity.tint), in: skinChipShape())
             .foregroundStyle(Theme.accent)
         }
         .buttonStyle(.plain)

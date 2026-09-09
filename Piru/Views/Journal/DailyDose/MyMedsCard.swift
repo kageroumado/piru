@@ -430,18 +430,11 @@ private struct MyMedsHeader: View {
     private var progressChip: some View {
         if isComplete {
             Text(chipText)
-                .font(.caption2.weight(.semibold))
-                .padding(.horizontal, 7)
-                .padding(.vertical, Spacing.xxs)
-                .background(Theme.accent.opacity(0.12), in: Capsule())
-                .foregroundStyle(Theme.accent)
+                .capsuleChip(text: Theme.accent, fill: Theme.accent)
         } else {
             Text("\(takenCount)/\(total)")
-                .font(.caption2.weight(.bold).monospacedDigit())
-                .padding(.horizontal, 7)
-                .padding(.vertical, Spacing.xxs)
-                .background(Color.platformTertiarySystemFill, in: Capsule())
-                .foregroundStyle(Theme.secondaryLabel)
+                .monospacedDigit()
+                .capsuleChip(text: Theme.secondaryLabel, fill: Theme.secondaryLabel)
         }
     }
 
@@ -604,11 +597,7 @@ private struct SlotRowView: View {
                             .foregroundStyle(Theme.secondaryLabel)
                     } else if due, timeText != nil {
                         Text("due")
-                            .font(.caption2.weight(.bold))
-                            .padding(.horizontal, 7)
-                            .padding(.vertical, Spacing.xxs)
-                            .background(Theme.accent.opacity(0.15), in: Capsule())
-                            .foregroundStyle(Theme.accent)
+                            .capsuleChip(text: Theme.accent, fill: Theme.accent)
                     }
                     trailingDetail
                 }

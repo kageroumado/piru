@@ -48,7 +48,7 @@ struct OnboardingFeatureTour: View {
             Spacer(minLength: 0)
             VStack(spacing: Spacing.md) {
                 Text(item.title)
-                    .font(.title2.weight(.bold))
+                    .font(.piru(.title2, weight: .bold))
                 Text(item.caption)
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -122,7 +122,7 @@ struct PhoneMock<Content: View>: View {
             Spacer(minLength: 0)
         }
         .frame(width: Self.mockWidth, height: Self.mockHeight)
-        .background(Theme.background)
+        .skinBackdrop()
         .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 36, style: .continuous)

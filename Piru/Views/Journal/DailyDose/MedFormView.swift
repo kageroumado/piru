@@ -134,7 +134,7 @@ struct MedFormView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button { save() } label: { Image(systemName: "checkmark").fontWeight(.semibold) }
-                        .buttonStyle(.glassProminent)
+                        .skinButtonStyle(.prominent)
                         .disabled(draft.substance.isEmpty || draft.amount == nil
                             || (draft.frequency == .specificDays && draft.selectedWeekdays.isEmpty))
                         .accessibilityLabel("Save")

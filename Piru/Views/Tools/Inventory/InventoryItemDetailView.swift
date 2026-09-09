@@ -143,7 +143,7 @@ struct InventoryItemDetailView: View {
                     .font(.heroStat)
                     .foregroundStyle(status.numberColor)
                 Text(item.unit)
-                    .font(.title3.weight(.medium))
+                    .font(.piru(.title3, weight: .medium))
                     .foregroundStyle(Theme.secondaryLabel)
             }
         }

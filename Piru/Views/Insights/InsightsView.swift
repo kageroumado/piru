@@ -212,7 +212,7 @@ struct InsightsView: View {
             .padding(.top, Spacing.xs)
             .padding(.bottom, 80)
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .appNavigationBar("Insights")
         .task(id: model.changeToken(substanceColors: substanceColors, dailyItemCount: dailyItems.count)) {
             await model.recompute(
@@ -232,13 +232,13 @@ struct InsightsView: View {
                 VStack(alignment: .leading, spacing: Spacing.xl) {
                     HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
                         Text("\(u.total)")
-                            .font(.system(.title2, design: .rounded, weight: .bold))
+                            .font(.piru(.title2, design: .rounded, weight: .bold))
                         Text("entries")
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
                         Spacer()
                         Text("\(u.perDayText)")
-                            .font(.system(.title2, design: .rounded, weight: .bold))
+                            .font(.piru(.title2, design: .rounded, weight: .bold))
                         Text("/day")
                             .font(.subheadline)
                             .foregroundStyle(Theme.secondaryLabel)
@@ -304,13 +304,13 @@ struct InsightsView: View {
                     HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
                         if let a = model.adherence {
                             Text("\(a.streak)")
-                                .font(.system(.title2, design: .rounded, weight: .bold))
+                                .font(.piru(.title2, design: .rounded, weight: .bold))
                             Text("day streak")
                                 .font(.subheadline)
                                 .foregroundStyle(Theme.secondaryLabel)
                             Spacer()
                             Text("\(a.monthText)")
-                                .font(.system(.title2, design: .rounded, weight: .bold))
+                                .font(.piru(.title2, design: .rounded, weight: .bold))
                             Text(Date.now.formatted(.dateTime.month(.wide)))
                                 .font(.subheadline)
                                 .foregroundStyle(Theme.secondaryLabel)
@@ -401,7 +401,7 @@ private struct InsightCompactCard: View {
         NavigationLink(value: route) {
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 Image(systemName: icon)
-                    .font(.title3)
+                    .font(.piru(.title3))
                     .foregroundStyle(tint)
                     .accessibilityHidden(true)
                 Text(title)
@@ -453,7 +453,7 @@ private struct InsightsToleranceCard: View {
             if notable.isEmpty {
                 HStack(alignment: .center, spacing: 14) {
                     Image(systemName: "checkmark.seal.fill")
-                        .font(.title)
+                        .font(.piru(.title))
                         .foregroundStyle(Color.successAccent)
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: Spacing.xxs) {

@@ -80,7 +80,7 @@ private struct OnboardingStepChrome: ViewModifier {
     func body(content: Content) -> some View {
         content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Theme.background.ignoresSafeArea())
+            .skinBackdrop()
             .inlineNavigationTitle()
         #if canImport(UIKit)
             .toolbarBackground(.hidden, for: .navigationBar)
@@ -204,7 +204,7 @@ struct OnboardingLayout<Hero: View, Mid: View, Footer: View>: View {
                             .padding(.bottom, 28)
                         VStack(spacing: Spacing.lg) {
                             Text(title)
-                                .font(.largeTitle.weight(.bold))
+                                .font(.piru(.largeTitle, weight: .bold))
                                 .multilineTextAlignment(.center)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .accessibilityAddTraits(.isHeader)

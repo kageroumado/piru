@@ -21,6 +21,12 @@ struct SettingsView: View {
                         Label("Journal", systemImage: "book")
                     }
 
+                    NavigationLink {
+                        AppearanceSettingsView()
+                    } label: {
+                        Label("Appearance", systemImage: "paintbrush")
+                    }
+
                     Picker(selection: profileBinding) {
                         ForEach(UserProfile.allCases) { profile in
                             Label {

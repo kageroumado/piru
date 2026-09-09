@@ -489,7 +489,7 @@ struct SubstanceShareCard: View {
                 leanBarHero(monoamineProfile)
             } else {
                 Text(mechanism.summary)
-                    .font(.headline.weight(.semibold))
+                    .font(.piru(.headline, weight: .semibold))
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)
                     .fixedSize(horizontal: false, vertical: true)
@@ -625,7 +625,7 @@ struct SubstanceShareCard: View {
             .font(.caption.weight(.bold))
             .foregroundStyle(.white)
             .padding(.horizontal, Spacing.lg).padding(.vertical, Spacing.xs)
-            .background(tint.mix(with: .white, by: 0.12).opacity(0.85), in: Capsule())
+            .background(tint.mix(with: .white, by: 0.12).opacity(0.85), in: skinChipShape())
     }
 
     private func bindingTable(_ mechanism: MechanismOfAction) -> some View {

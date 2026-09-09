@@ -97,7 +97,7 @@ struct DoseEffectsCard: View {
             if let tiers, let activeTier, let selectedTier = tiers.tier(activeTier) {
                 HStack(alignment: .firstTextBaseline) {
                     Text(selectedTier.name)
-                        .font(.title3.weight(.bold))
+                        .font(.piru(.title3, weight: .bold))
                     Spacer(minLength: 8)
                     Text(selectedTier.fullValue)
                         .font(.system(.title2, design: .rounded).weight(.heavy).monospacedDigit())
@@ -281,7 +281,7 @@ struct DoseEffectsCard: View {
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
                 Text(window)
-                    .font(.system(.headline, design: .rounded).weight(.semibold))
+                    .font(.piru(.headline, design: .rounded, weight: .semibold))
             }
         }
         .accessibilityElement(children: .combine)

@@ -278,7 +278,7 @@ struct RouteChips: View {
                             .padding(.horizontal, 14)
                             .padding(.vertical, Spacing.md)
                             .background(
-                                Capsule().fill(isOn ? Theme.accent : Color.platformTertiarySystemFill),
+                                skinChipShape().fill(isOn ? Theme.accent : Color.platformTertiarySystemFill),
                             )
                     }
                     .buttonStyle(.plain)
@@ -315,11 +315,12 @@ private struct LogThisButton: View {
                     Text("Log this", comment: "Primary action when the substance has no dose ladder")
                 }
             }
-            .sectionLabel()
+            // A primary action, not an eyebrow: the system face in every skin.
+            .font(.piru(.subheadline, weight: .semibold))
             .frame(maxWidth: .infinity)
             .padding(.vertical, 3)
         }
-        .buttonStyle(.glassProminent)
+        .skinButtonStyle(.prominent)
         .tint(Theme.accent)
     }
 }

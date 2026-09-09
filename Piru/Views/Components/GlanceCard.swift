@@ -114,6 +114,7 @@ struct GlanceCard<Content: View>: View {
             .padding(Spacing.xxl)
             .frame(maxWidth: .infinity, alignment: .leading)
             .themeCard()
+            .skinFrameCorners()
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)

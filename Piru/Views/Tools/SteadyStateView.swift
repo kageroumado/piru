@@ -27,7 +27,7 @@ struct SteadyStateView: View {
             }
             .padding()
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .onChange(of: inputs.recomputeKey) { inputs.refresh() }
     }
 }
@@ -224,7 +224,7 @@ private struct SteadyStateMetricTile: View {
                 .foregroundStyle(Theme.secondaryLabel)
                 .textCase(.uppercase)
             Text(value)
-                .font(.system(.title2, design: .rounded, weight: .bold))
+                .font(.piru(.title2, design: .rounded, weight: .bold))
             Text(sub)
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -244,7 +244,7 @@ private struct SteadyStateNoDataCard: View {
     var body: some View {
         VStack(spacing: Spacing.lg) {
             Image(systemName: "clock.badge.questionmark")
-                .font(.title2)
+                .font(.piru(.title2))
                 .accessibilityHidden(true)
                 .foregroundStyle(Theme.secondaryLabel)
             Text("Half-life data not available for \(substanceName ?? "this substance").")

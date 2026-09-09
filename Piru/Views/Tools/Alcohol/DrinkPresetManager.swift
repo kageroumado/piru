@@ -71,7 +71,7 @@ struct DrinkPresetManagerView: View {
                     } label: {
                         Image(systemName: "checkmark")
                     }
-                    .buttonStyle(.glassProminent)
+                    .skinButtonStyle(.prominent)
                     .accessibilityLabel("Done")
                 }
             }
@@ -110,7 +110,7 @@ struct DrinkPresetRow: View {
     var body: some View {
         HStack(spacing: Spacing.xl) {
             Text(preset.emoji)
-                .font(.title3)
+                .font(.piru(.title3))
             Text(preset.name)
             Spacer()
             Text(preset.detailLabel)

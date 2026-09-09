@@ -240,7 +240,7 @@ struct SubstanceStatusMarker: View {
             .padding(.vertical, Spacing.xs)
             // Matches ``CategoryChip``'s fill: 0.10 is the alpha the accent
             // scales' text variants are contrast-gated against.
-            .background(kind.markColor.opacity(Theme.Opacity.tint), in: Capsule())
+            .background(kind.markColor.opacity(Theme.Opacity.tint), in: skinChipShape())
             .fixedSize(horizontal: false, vertical: true)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(Text(kind.detail))

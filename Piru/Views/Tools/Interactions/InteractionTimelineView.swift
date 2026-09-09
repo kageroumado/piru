@@ -262,7 +262,7 @@ struct InteractionTimelineView: View {
             }
             .padding()
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .navigationTitle("Interaction Timeline")
         .inlineNavigationTitle()
         .task(id: model.curveInputs) { model.recompute() }
@@ -286,7 +286,7 @@ struct InteractionTimelineView: View {
     private var missingDataSection: some View {
         VStack(spacing: Spacing.lg) {
             Image(systemName: "clock.badge.questionmark")
-                .font(.title2)
+                .font(.piru(.title2))
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
             ForEach(model.missingData, id: \.self) { name in

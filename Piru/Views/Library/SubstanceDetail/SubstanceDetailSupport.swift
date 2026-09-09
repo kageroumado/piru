@@ -99,7 +99,7 @@ struct CollapsibleSection<Content: View>: View {
                         .foregroundStyle(Theme.secondaryLabel)
                         .padding(.horizontal, Spacing.sm)
                         .padding(.vertical, 1)
-                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: Capsule())
+                        .background(Theme.secondaryLabel.opacity(Theme.Opacity.tint), in: skinChipShape())
                 }
                 if let onInfo {
                     Spacer(minLength: 0)
@@ -133,7 +133,7 @@ struct EditorialPill: View {
             .foregroundStyle(foreground)
             .padding(.horizontal, Spacing.md)
             .padding(.vertical, 3)
-            .background(background, in: Capsule())
+            .background(background, in: skinChipShape())
             .fixedSize()
     }
 }
@@ -330,7 +330,7 @@ struct SourceAttributionExplainer: View {
                     } label: {
                         Image(systemName: "checkmark")
                     }
-                    .buttonStyle(.glassProminent)
+                    .skinButtonStyle(.prominent)
                     .accessibilityLabel(Text("Done"))
                 }
             }

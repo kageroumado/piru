@@ -45,7 +45,7 @@ struct PatternsView: View {
             .padding()
             .padding(.bottom, 40)
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .toolbar {
             if !allEntries.isEmpty {
                 ToolbarItem(placement: .platformTopBarTrailing) { rangeMenu }
@@ -125,7 +125,7 @@ private struct HolidayCard: View {
     private func tile(_ value: String, _ label: LocalizedStringKey) -> some View {
         VStack(alignment: .leading, spacing: Spacing.xxs) {
             Text(value)
-                .font(.title3.weight(.bold))
+                .font(.piru(.title3, weight: .bold))
                 .monospacedDigit()
             Text(label)
                 .font(.caption2)

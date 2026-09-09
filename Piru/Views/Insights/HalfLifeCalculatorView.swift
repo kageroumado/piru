@@ -43,7 +43,7 @@ struct HalfLifeCalculatorView: View {
             }
             .padding()
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .task { await model.loadHalfLifeCount() }
     }
 }
@@ -259,7 +259,7 @@ private struct HalfLifeCurrentAmountCard: View {
                     .foregroundStyle(Theme.secondaryLabel)
                 HStack(alignment: .firstTextBaseline, spacing: Spacing.xs) {
                     Text(remaining.doseFormatted)
-                        .font(.system(.title, design: .rounded, weight: .bold))
+                        .font(.piru(.title, design: .rounded, weight: .bold))
                         .foregroundStyle(Theme.accent)
                     Text(unit)
                         .font(.subheadline)
@@ -269,7 +269,7 @@ private struct HalfLifeCurrentAmountCard: View {
             Spacer()
             VStack(alignment: .trailing, spacing: Spacing.xs) {
                 Text("\(Int(max(0, min(100, (1 - remaining / dose) * 100))))%")
-                    .font(.system(.title2, design: .rounded, weight: .semibold))
+                    .font(.piru(.title2, design: .rounded, weight: .semibold))
                 Text("eliminated")
                     .captionSecondary()
             }
@@ -366,7 +366,7 @@ private struct HalfLifeNoDataCard: View {
     var body: some View {
         VStack(spacing: Spacing.lg) {
             Image(systemName: "clock.badge.questionmark")
-                .font(.title2)
+                .font(.piru(.title2))
                 .foregroundStyle(Theme.secondaryLabel)
                 .accessibilityHidden(true)
             Text("Half-life data not available for \(substanceName ?? "this substance").")

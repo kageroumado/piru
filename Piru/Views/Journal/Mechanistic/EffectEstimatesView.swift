@@ -57,7 +57,7 @@ struct ExperimentalTag: View {
             .foregroundStyle(Theme.secondaryLabel)
             .padding(.horizontal, 7)
             .padding(.vertical, Spacing.xxs)
-            .background(Color.platformSecondarySystemFill, in: Capsule())
+            .background(Color.platformSecondarySystemFill, in: skinChipShape())
     }
 }
 
@@ -143,7 +143,7 @@ struct EffectEstimatesView: View {
         .insetGroupedListStyle()
         .scrollContentBackground(.hidden)
         .compactListSectionSpacing()
-        .background(Theme.background)
+        .skinBackdrop()
         .readableWidth()
         .navigationTitle("Effect Estimates")
         #if canImport(UIKit)
@@ -369,7 +369,7 @@ struct EffectModelExplainerView: View {
         .insetGroupedListStyle()
         .scrollContentBackground(.hidden)
         .compactListSectionSpacing()
-        .background(Theme.background)
+        .skinBackdrop()
         .readableWidth()
         .navigationTitle("How this works")
         #if canImport(UIKit)

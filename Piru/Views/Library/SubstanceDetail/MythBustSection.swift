@@ -144,7 +144,7 @@ private struct MythCitationChip: View {
         .foregroundStyle(foreground)
         .padding(.horizontal, Spacing.md)
         .padding(.vertical, Spacing.xs)
-        .background(background, in: Capsule())
+        .background(background, in: skinChipShape())
         .accessibilityLabel(accessibilityLabel)
     }
 

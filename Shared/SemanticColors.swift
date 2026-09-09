@@ -33,41 +33,43 @@ import SwiftUI
 ///
 /// ## Isolation
 ///
-/// These are `@MainActor` by default isolation, and cannot be `nonisolated`:
-/// Xcode's generated asset symbols are themselves main-actor-isolated under the
-/// project's `-default-isolation MainActor`, so forwarding to them from a
-/// `nonisolated` context does not compile. (Verified empirically — an earlier
-/// note in `design-system/color/asset-catalog-migration.md` claimed a catalog
-/// lookup was isolation-free; that is true of the *API*, not of the generated
-/// symbols as this project compiles them.)
+/// `ShapeStyle` is `Sendable`, so these members are `nonisolated`, and so is
+/// `Skin.current` — keep it that way: a main-actor read here would fail to
+/// compile from this extension.
 ///
 /// Rationale, measurements, and the migration plan: `design-system/`.
+///
+/// ## Skins
+///
+/// Each shorthand resolves through `Skin.current`, so a skin that re-seeds the
+/// status ladder (ely.pink) is honoured everywhere these are used, with the
+/// same `text` / `accent` split and the same gates.
 public extension ShapeStyle where Self == Color {
     /// Destructive or genuinely dangerous states. Small copy.
     static var dangerText: Color {
-        .Semantic.Danger.text
+        Skin.current.semantic(.danger, .text)
     }
     /// Destructive or genuinely dangerous states. Standalone marks.
     static var dangerAccent: Color {
-        .Semantic.Danger.accent
+        Skin.current.semantic(.danger, .accent)
     }
 
     /// Advisory states that are not dangerous. Small copy.
     static var cautionText: Color {
-        .Semantic.Caution.text
+        Skin.current.semantic(.caution, .text)
     }
     /// Advisory states that are not dangerous. Standalone marks.
     static var cautionAccent: Color {
-        .Semantic.Caution.accent
+        Skin.current.semantic(.caution, .accent)
     }
 
     /// Neutral information carrying no valence. Small copy.
     static var infoText: Color {
-        .Semantic.Info.text
+        Skin.current.semantic(.info, .text)
     }
     /// Neutral information carrying no valence. Standalone marks.
     static var infoAccent: Color {
-        .Semantic.Info.accent
+        Skin.current.semantic(.info, .accent)
     }
 
     /// A completed, confirmed, or on-track state. Small copy.

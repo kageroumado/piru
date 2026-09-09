@@ -360,7 +360,7 @@ struct QuickLogCardList: View {
             .sectionLabel()
             .padding(.horizontal, 14)
             .padding(.vertical, 9)
-            .background(Color.platformSecondarySystemFill, in: Capsule())
+            .background(Color.platformSecondarySystemFill, in: skinChipShape())
             .foregroundStyle(Theme.secondaryLabel)
         }
         .buttonStyle(.plain)
@@ -410,7 +410,7 @@ struct QuickLogCardList: View {
                 allStaged
                     ? Theme.accent
                     : done ? Color.successAccent.opacity(Theme.Opacity.tint) : Theme.accent.opacity(Theme.Opacity.tint),
-                in: Capsule(),
+                in: skinChipShape(),
             )
             .foregroundStyle(
                 allStaged
@@ -474,7 +474,7 @@ struct QuickLogCardList: View {
                     }
                     Spacer()
                     Image(systemName: staged ? "checkmark.circle.fill" : "circle")
-                        .font(.title3)
+                        .font(.piru(.title3))
                         .foregroundStyle(staged ? Theme.accent : Color.platformTertiaryLabel)
                         .contentTransition(.symbolEffect(.replace))
                 }

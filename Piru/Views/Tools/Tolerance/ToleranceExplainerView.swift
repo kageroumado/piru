@@ -258,7 +258,7 @@ struct ToleranceExplainerView: View {
     private func concept(icon: String, tint: Color, title: LocalizedStringKey, body: LocalizedStringKey) -> some View {
         HStack(alignment: .top, spacing: Spacing.xl) {
             Image(systemName: icon)
-                .font(.title3)
+                .font(.piru(.title3))
                 .foregroundStyle(tint)
                 .frame(width: 28)
                 .padding(.top, Spacing.xxs)

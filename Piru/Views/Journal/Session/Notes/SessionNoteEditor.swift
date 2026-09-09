@@ -76,7 +76,7 @@ struct SessionNoteEditor: View {
                     } label: {
                         Image(systemName: "checkmark").font(.body.weight(.semibold))
                     }
-                    .buttonStyle(.glassProminent)
+                    .skinButtonStyle(.prominent)
                     .tint(Theme.accent)
                     .disabled(!draft.hasContent)
                     .accessibilityLabel(Text("Save"))
@@ -314,7 +314,7 @@ struct DescriptorChips: View {
                 }
                 .padding(.horizontal, Spacing.lg)
                 .padding(.vertical, Spacing.sm)
-                .background(Theme.accent.opacity(Theme.Opacity.tint), in: Capsule())
+                .background(Theme.accent.opacity(Theme.Opacity.tint), in: skinChipShape())
                 .foregroundStyle(Theme.accent)
                 .contentShape(Capsule())
                 .onTapGesture { onRemove?(id) }

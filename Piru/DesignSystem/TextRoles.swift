@@ -9,19 +9,23 @@ extension View {
         font(.caption).foregroundStyle(Theme.secondaryLabel)
     }
 
-    /// The label above a group of rows inside a card.
+    /// The label above a group of rows inside a card. Always the system face:
+    /// this role also carries data (receptor names, section titles), and a
+    /// skin's label face is for chips and badges, where a word is a token,
+    /// not something to read.
     func sectionLabel() -> some View {
         font(.subheadline.weight(.semibold))
     }
 
-    /// The title of a card or a banner.
+    /// The title of a card or a banner. In the skin's display face.
     func cardTitle() -> some View {
-        font(.headline)
+        font(.piru(.headline))
     }
 
-    /// The title at the top of a screen or a full-width sheet.
+    /// The title at the top of a screen or a full-width sheet. In the skin's
+    /// display face.
     func screenTitle() -> some View {
-        font(.title3.weight(.semibold))
+        font(.piru(.title3, weight: .semibold))
     }
 }
 
@@ -56,7 +60,9 @@ extension Font {
     /// Pinned to `.system(size: 38, weight: .bold)`, the most frequent form in
     /// the 38–40 pt cluster across `Piru/Views` (3 sites; next is
     /// `size: 40, weight: .heavy, design: .rounded` at 2).
-    static let heroStat = Font.system(size: 38, weight: .bold)
+    static var heroStat: Font {
+        .piru(size: 38, weight: .bold, relativeTo: .largeTitle, scaling: false)
+    }
 
     /// 17 pt semibold — a heading that must hold a fixed optical size beside a
     /// chart or a fixed-height header.
@@ -67,5 +73,7 @@ extension Font {
     /// Pinned to `.system(size: 17, weight: .semibold)`, the most frequent form
     /// in the 17 pt cluster across `Piru/Views` (5 sites; next is
     /// `size: 17, weight: .bold` at 1).
-    static let sectionTitle = Font.system(size: 17, weight: .semibold)
+    static var sectionTitle: Font {
+        .piru(size: 17, weight: .semibold, relativeTo: .headline, scaling: false)
+    }
 }

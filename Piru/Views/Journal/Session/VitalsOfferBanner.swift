@@ -22,7 +22,7 @@ struct VitalsOfferBanner: View {
             VStack(alignment: .leading, spacing: Spacing.xl) {
                 HStack(alignment: .top, spacing: Spacing.xl) {
                     Image(systemName: "heart.text.square")
-                        .font(.title2)
+                        .font(.piru(.title2))
                         .foregroundStyle(VitalsPalette.heart)
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: Spacing.xs) {
@@ -51,7 +51,7 @@ struct VitalsOfferBanner: View {
                     }
                     .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(.glassProminent)
+                .skinButtonStyle(.prominent)
                 .controlSize(.regular)
                 .tint(Theme.accent)
                 .disabled(isConnectingVitals)

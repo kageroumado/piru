@@ -10,7 +10,7 @@ struct QuickLogHelpBanner: View {
         VStack(alignment: .leading, spacing: Spacing.xl) {
             HStack(spacing: Spacing.lg) {
                 Image(systemName: "hand.raised.fill")
-                    .font(.title2)
+                    .font(.piru(.title2))
                     .foregroundStyle(.infoText)
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: Spacing.xxs) {

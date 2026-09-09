@@ -55,7 +55,7 @@ struct InjectionLevelsView: View {
             }
             .padding()
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .task {
             await SubstanceStore.shared.ensureAllLoaded()
             model.personalMultiplier = storedMultiplier

@@ -48,7 +48,7 @@ struct BenzoEquivalenceToolView: View {
             .padding()
         }
         .scrollDismissesKeyboard(.interactively)
-        .background(Theme.background)
+        .skinBackdrop()
         .appNavigationBar("Benzo Equivalence")
         .task { load() }
         .sheet(item: $picking) { target in
@@ -79,7 +79,7 @@ struct BenzoEquivalenceToolView: View {
     private var headerCard: some View {
         VStack(spacing: Spacing.sm) {
             Image(systemName: "moon.fill")
-                .font(.largeTitle)
+                .font(.piru(.largeTitle))
                 .foregroundStyle(Theme.accent)
                 .accessibilityHidden(true)
             Text("Benzo Equivalence")
@@ -159,7 +159,7 @@ struct BenzoEquivalenceToolView: View {
 
             if let from, let to, let dose, let result = from.equivalentDose(forDoseMg: dose, in: to) {
                 Text("≈ \(EquivalenceFormat.mg(result)) mg")
-                    .font(.title.weight(.bold))
+                    .font(.piru(.title, weight: .bold))
                     .foregroundStyle(Theme.accent)
                     .contentTransition(.numericText())
                     .animation(.default, value: result)
@@ -178,7 +178,7 @@ struct BenzoEquivalenceToolView: View {
                     .padding(.top, Spacing.xxs)
             } else {
                 Text("--")
-                    .font(.title.weight(.bold))
+                    .font(.piru(.title, weight: .bold))
                     .foregroundStyle(Theme.secondaryLabel)
                 Text(unconvertibleReason)
                     .font(.caption2)

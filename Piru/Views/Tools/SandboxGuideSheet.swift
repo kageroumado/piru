@@ -44,7 +44,7 @@ struct SandboxGuideSheet: View {
                     } label: {
                         Image(systemName: "checkmark").font(.body.weight(.semibold))
                     }
-                    .buttonStyle(.glassProminent)
+                    .skinButtonStyle(.prominent)
                     .tint(Theme.accent)
                     .accessibilityLabel(Text("Done"))
                 }

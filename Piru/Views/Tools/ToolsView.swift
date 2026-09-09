@@ -131,7 +131,7 @@ struct ToolsView: View {
             .padding(.top, Spacing.xs)
             .padding(.bottom, 80)
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .appNavigationBar("Tools")
     }
 }
@@ -145,7 +145,7 @@ private struct ToolCompactCard: View {
         NavigationLink(value: PushRoute.tool(tool)) {
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 Image(systemName: tool.icon)
-                    .font(.title3)
+                    .font(.piru(.title3))
                     .foregroundStyle(Theme.accent)
                     .accessibilityHidden(true)
                 Text(tool.name)

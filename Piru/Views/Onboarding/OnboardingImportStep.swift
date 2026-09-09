@@ -89,5 +89,5 @@ struct OnboardingImportStep: View {
 
 #Preview {
     OnboardingImportStep()
-        .background(Theme.background)
+        .skinBackdrop()
 }

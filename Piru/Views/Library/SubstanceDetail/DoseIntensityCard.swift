@@ -450,7 +450,7 @@ private struct SelectorMotion: Equatable {
 /// with round caps, so its ends are fully rounded (a capsule bent along the
 /// arc). A filled shape — not a live stroke — so it can carry a glass effect.
 /// `startDeg` animates, which slides the selector between bands.
-private struct ArcSegment: Shape {
+private nonisolated struct ArcSegment: Shape {
     var startDeg: Double
     var sweepDeg: Double
     var radius: Double
@@ -530,7 +530,7 @@ private struct ArcPlacement: ViewModifier, Animatable {
 /// inside the animation window would freeze one but not the other, visibly
 /// detaching the ridges from the pill. Drawn from the same interpolated angle
 /// in the same pass, the two cannot come apart: a hitch stalls both.
-private struct GrabberRidges: Shape {
+private nonisolated struct GrabberRidges: Shape {
     var startDeg: Double
     var sweepDeg: Double
     var radius: Double
@@ -577,7 +577,7 @@ private struct GrabberRidges: Shape {
 /// The dial's tap target: the swept band of the arc, not the box around it, so a
 /// tap anywhere on the arc selects that band while the open bottom stays
 /// scrollable.
-private struct ArcRing: Shape {
+private nonisolated struct ArcRing: Shape {
     let center: CGPoint
     let radius: Double
     let thickness: Double

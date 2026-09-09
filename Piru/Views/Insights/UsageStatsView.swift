@@ -51,7 +51,7 @@ struct UsageStatsView: View {
             .padding(.horizontal)
             .padding(.bottom, 40)
         }
-        .background(Theme.background)
+        .skinBackdrop()
         .toolbar {
             if !allEntries.isEmpty {
                 ToolbarItem(placement: .platformTopBarTrailing) { filterMenu }

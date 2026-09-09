@@ -1,0 +1,9 @@
+{
+  "info": {
+    "author": "generate_colorsets.py",
+    "version": 1
+  },
+  "properties": {
+    "provides-namespace": true
+  }
+}

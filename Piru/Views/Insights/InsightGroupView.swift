@@ -99,7 +99,7 @@ struct InsightGroupView: View {
             .padding(.top, Spacing.xs)
             .padding(.bottom, 40)
         }
-        .background(Theme.background)
+        .skinBackdrop()
     }
 }
 
@@ -171,7 +171,7 @@ private struct BodyLoadPreview: View {
         if let trail = manager.trail, !trail.isEmpty {
             HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
                 Text("\(trail.series.count)")
-                    .font(.system(.title3, design: .rounded, weight: .bold))
+                    .font(.piru(.title3, design: .rounded, weight: .bold))
                 Text(trail.series.count == 1 ? "substance modeled" : "substances modeled")
                     .font(.subheadline)
                     .foregroundStyle(Theme.secondaryLabel)
