@@ -154,6 +154,7 @@ Piru is free software under the **GNU General Public License v3** — see [LICEN
 
 - **iOS 26 or later.** The interface is built around Liquid Glass; earlier iOS is not supported.
 - **Xcode 26+** with Swift 6 to build — clone, open `Piru.xcodeproj`, and Run.
+- **To contribute:** SwiftFormat 0.63, SwiftLint 0.65, and Ruff 0.15.15 — CI checks with these, see [CONTRIBUTING.md](CONTRIBUTING.md#style).
 
 The bundled substance library is built by an offline, reproducible Python pipeline from committed
 source snapshots — see [`pipeline/`](pipeline/).

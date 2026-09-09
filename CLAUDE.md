@@ -55,6 +55,28 @@ xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro 
 
 ```
 
+## Lint & format — pinned tool versions
+
+CI runs `swiftformat --lint .`, `swiftlint lint --quiet`, `ruff format --check .`, and `ruff check .` and fails the PR on any violation. **Match these versions locally before pushing** — a different SwiftFormat release enables different default rules, so a tree that is clean on one version is red on another (0.62 made `wrapIfStatementBodies` a default rule and produced 1,300+ phantom violations until it was disabled).
+
+| Tool | Version | Where the pin lives |
+|---|---|---|
+| SwiftFormat | **0.63.0** | `.github/workflows/ci.yml` (`SWIFTFORMAT_VERSION`, release binary) |
+| SwiftLint | **0.65.1** | `.github/workflows/ci.yml` (`SWIFTLINT_VERSION`, release binary) |
+| Ruff | **0.15.15** | `.github/workflows/ci.yml` + `.pre-commit-config.yaml` (`rev: v0.15.15`) |
+| Python | **3.13** | `.github/workflows/ci.yml` |
+| RDKit | **2026.3.4** | `.github/workflows/ci.yml` (hard dependency of the data checks) |
+
+```bash
+swiftformat --version && swiftlint --version && ruff --version   # compare against the table
+brew upgrade swiftformat swiftlint && pip install ruff==0.15.15   # bring local up to CI
+pre-commit install --hook-type pre-commit --hook-type pre-push     # once per clone; formats on commit, lints on push
+```
+
+- **Before pushing: `swiftformat .` then `ruff format .`**, then `swiftformat --lint .` must print nothing. Agent worktrees have no pre-commit hooks, so this is a manual step there.
+- **When CI goes red on format but local is green**, the versions differ: bring local up to the table. **To move CI to a new SwiftFormat**, bump `SWIFTFORMAT_VERSION`, run `swiftformat --lint .` locally on that version, `--disable` any newly-default rule the repo never opted into in `.swiftformat` rather than reflowing the tree, and update this table and CONTRIBUTING.md in the same commit.
+- `.swiftformat` keeps `redundantSelf`, `wrapIfStatementBodies`, and `wrapIfExpressionBodies` disabled on purpose; the file says why.
+
 ## Releases & schema versioning
 
 - **Each shipped build is git-tagged** (`vMAJOR.MINOR-bBUILD`). Run `git tag --sort=-creatordate | head` to find the current shipped baseline; everything after the newest tag is **unreleased**. Tag every release going forward so this stays true.

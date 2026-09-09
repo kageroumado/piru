@@ -79,15 +79,26 @@ run it; don't hand-edit `Localizable.xcstrings`. The full workflow is in [CLAUDE
 
 ## Style
 
-SwiftFormat (`.swiftformat`) and SwiftLint (`.swiftlint.yml`) for Swift; ruff for the Python pipeline. A
-pre-commit config wires all of them together — install it once and they run automatically:
+SwiftFormat (`.swiftformat`) and SwiftLint (`.swiftlint.yml`) for Swift; ruff (`ruff.toml`) for the Python
+pipeline. CI runs all three and fails the PR on any violation, so **use the same versions CI does** — each
+SwiftFormat release turns on new default rules, and a tree that is clean on one version is red on the next:
+
+| Tool | Version |
+|---|---|
+| SwiftFormat | 0.63.0 |
+| SwiftLint | 0.65.1 |
+| Ruff | 0.15.15 |
+| Python (pipeline) | 3.13 |
 
 ```sh
+brew install swiftformat swiftlint && pip install ruff==0.15.15
+swiftformat --version && swiftlint --version && ruff --version
 pip install pre-commit && pre-commit install --hook-type pre-commit --hook-type pre-push
 ```
 
-`swiftformat --lint .` runs as a pre-push gate and again in CI; a push that isn't format-clean is refused
-before it leaves your machine.
+The pre-commit config formats staged files on commit; `swiftformat --lint .` and the Python CI job run again
+as a pre-push gate, so a push that isn't clean is refused before it leaves your machine. Before opening a
+PR, `swiftformat .` and `ruff format .` and confirm `swiftformat --lint .` prints nothing.
 
 ## Layout
 

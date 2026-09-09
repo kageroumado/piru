@@ -153,9 +153,28 @@ jobs:
   swift-lint:
     name: Swift (format + lint)
     runs-on: macos-latest
+    # Pinned release binaries, never `brew install`: brew serves whichever
+    # version is current that day, and each SwiftFormat release turns on new
+    # default rules, so an unpinned CI goes red on a tree that is clean locally.
+    # These versions are documented in CLAUDE.md and CONTRIBUTING.md; change
+    # them together.
+    env:
+      SWIFTFORMAT_VERSION: 0.63.0
+      SWIFTLINT_VERSION: 0.65.1
     steps:
       - uses: actions/checkout@v5
-      - run: brew install swiftformat swiftlint
+      - name: Install SwiftFormat ${{ env.SWIFTFORMAT_VERSION }}
+        run: |
+          curl -sSL -o /tmp/swiftformat.zip "https://github.com/nicklockwood/SwiftFormat/releases/download/${SWIFTFORMAT_VERSION}/swiftformat.zip"
+          unzip -q -o /tmp/swiftformat.zip -d /tmp/swiftformat
+          sudo install -m 755 /tmp/swiftformat/swiftformat /usr/local/bin/swiftformat
+          swiftformat --version
+      - name: Install SwiftLint ${{ env.SWIFTLINT_VERSION }}
+        run: |
+          curl -sSL -o /tmp/swiftlint.zip "https://github.com/realm/SwiftLint/releases/download/${SWIFTLINT_VERSION}/portable_swiftlint.zip"
+          unzip -q -o /tmp/swiftlint.zip -d /tmp/swiftlint
+          sudo install -m 755 /tmp/swiftlint/swiftlint /usr/local/bin/swiftlint
+          swiftlint --version
       - name: SwiftFormat (check only)
         run: swiftformat --lint .
       - name: SwiftLint
