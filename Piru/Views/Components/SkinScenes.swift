@@ -447,6 +447,48 @@ nonisolated extension SceneRenderer {
             }
         }
     }
+
+    // MARK: - dose.wiki
+
+    /// dose.wiki's home page: its four page halos breathing slowly, its
+    /// molecule ring large and faint behind the right half of the screen, and
+    /// one node pulse walking the ring's six outer vertices.
+    func drawMolecule(_ molecule: SkinMolecule, in context: inout GraphicsContext) {
+        // Halos: the site's `--theme-page-halo-*`, each breathing ±20% on its
+        // own phase. Their light page is near-white with barely a tint.
+        let mode = dark ? 1.0 : 0.15
+        let breathing = molecule.halos.enumerated().map { i, halo in
+            SkinGlow(halo.color, at: halo.center, opacity: halo.opacity * mode * (0.8 + 0.2 * sin(time / 8 + Double(i) * 1.7)))
+        }
+        drawGlows(breathing, in: &context)
+
+        // The ring: their logo as a template, tinted with the skin's ink.
+        let shift = parallax(0.5)
+        let width = size.width * 1.05
+        let center = CGPoint(x: size.width * 0.66 + shift.width, y: size.height * 0.40 + sin(time / 9) * 8 + shift.height)
+        var image = context.resolve(Image(molecule.image))
+        image.shading = .color(molecule.ink)
+        let height = width * image.size.height / image.size.width
+        let rect = CGRect(x: center.x - width / 2, y: center.y - height / 2, width: width, height: height)
+        context.drawLayer { layer in
+            layer.opacity = dark ? 0.045 : 0.03
+            layer.draw(image, in: rect)
+        }
+
+        // One pulse walking the mark's three outer nodes (right, bottom-left,
+        // top-left), one node every 2.4 s.
+        let radius = width * 0.43
+        let step = time / 2.4
+        let index = Int(step.rounded(.down)) % 3
+        let fraction = step - step.rounded(.down)
+        let angle = Double(index) * 2 * Double.pi / 3
+        let node = CGPoint(x: center.x + cos(angle) * radius, y: center.y + sin(angle) * radius)
+        let envelope = sin(fraction * .pi)
+        context.drawLayer { layer in
+            if dark { layer.blendMode = .plusLighter }
+            bloom(molecule.ink, at: node, radius: 28, alpha: (dark ? 0.08 : 0.05) * envelope, in: &layer)
+        }
+    }
 }
 
 private nonisolated extension Path {

@@ -64,6 +64,9 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// Kumo — the author's weather app. A sky that follows the real time of
     /// day and the season, frosted cards that let it through.
     case kumo
+    /// dose.wiki — the partner encyclopedia's plum and fuchsia, their dose-tier
+    /// ramp as the semantic colours, their molecule ring behind everything.
+    case doseWiki
 
     var id: String { rawValue }
 
@@ -83,6 +86,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .yuki: "Yuki"
         case .hebi: "Hebi Arcade"
         case .kumo: "Kumo"
+        case .doseWiki: "dose.wiki"
         }
     }
 
@@ -102,6 +106,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .yuki: "Periwinkle, snow and frost"
         case .hebi: "Neon City on a CRT"
         case .kumo: "A sky that follows the day"
+        case .doseWiki: "Plum and fuchsia, from the open encyclopedia"
         }
     }
 
@@ -137,6 +142,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .yuki: .yuki
         case .hebi: .hebi
         case .kumo: .kumo
+        case .doseWiki: .doseWiki
         }
     }
 
@@ -329,6 +335,23 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                 frameCorners: (SkinGlyph("☁", .Skin.Kumo.Sky.cloud), SkinGlyph("✦", semantic(.caution, .accent))),
                 tapGlyph: SkinGlyph("✦", semantic(.caution, .accent)),
             )
+        case .doseWiki:
+            // The site is quiet: its page halos, its molecule ring, no stickers.
+            SkinDecorations(
+                scene: .molecule(SkinMolecule(
+                    image: .Skin.Dosewiki.molecule,
+                    ink: .Skin.Dosewiki.Molecule.ink,
+                    halos: [
+                        SkinGlow(.Skin.Dosewiki.Halo.top, at: UnitPoint(x: 0.5, y: 0), opacity: 0.16),
+                        SkinGlow(.Skin.Dosewiki.Halo.left, at: UnitPoint(x: 0, y: 0.5), opacity: 0.09),
+                        SkinGlow(.Skin.Dosewiki.Halo.right, at: UnitPoint(x: 1, y: 0.6), opacity: 0.08),
+                        SkinGlow(.Skin.Dosewiki.Halo.bottom, at: UnitPoint(x: 0.5, y: 1), opacity: 0.07),
+                    ],
+                )),
+                glyphs: [],
+                frameCorners: nil,
+                tapGlyph: nil,
+            )
         }
     }
 
@@ -338,7 +361,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     var cardInsetDash: Color? {
         switch self {
         case .elyPink: accentMark
-        case .piru, .graphite, .linen, .slate, .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo: nil
+        case .piru, .graphite, .linen, .slate, .tsuki, .astrelia, .jellyfish, .paperGarden, .hotaru, .yuki, .hebi, .kumo, .doseWiki: nil
         }
     }
 
@@ -350,7 +373,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .elyPink, .astrelia: 3
         case .paperGarden: 2
         case .hebi: 0
-        case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .hotaru, .yuki, .kumo: nil
+        case .piru, .graphite, .linen, .slate, .tsuki, .jellyfish, .hotaru, .yuki, .kumo, .doseWiki: nil
         }
     }
 
@@ -359,7 +382,8 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// `nil` leaves the system's plain title.
     var titleOutline: SkinTitleOutline? {
         switch self {
-        case .piru, .graphite, .linen, .slate: nil
+        // dose.wiki's wordmark is flat; only `.wiki` takes the accent.
+        case .piru, .graphite, .linen, .slate, .doseWiki: nil
         // The site's `h1`: hot pink at night, near-black in pink mode, with a
         // hard drop (wine at night, hot pink in pink mode).
         case .elyPink: SkinTitleOutline(
@@ -414,6 +438,8 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .paperGarden: .paper(stroke: palette.stroke, grain: palette.shadow)
         case .hebi: .neon(stroke: palette.stroke, glow: palette.shadow)
         case .kumo: .frosted(stroke: palette.stroke, highlight: palette.shadow)
+        // Their cards: a fuchsia hairline over a plum panel, a soft dark shadow.
+        case .doseWiki: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 12)
         }
     }
 
@@ -430,7 +456,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// `SkinTypeTests` enforces the exclusion.
     var fontDesign: Font.Design? {
         switch self {
-        case .piru, .graphite, .linen, .slate, .elyPink, .astrelia, .paperGarden, .hotaru, .hebi, .kumo: nil
+        case .piru, .graphite, .linen, .slate, .elyPink, .astrelia, .paperGarden, .hotaru, .hebi, .kumo, .doseWiki: nil
         // Tsuki is `.rounded` throughout; the jellyfish skin borrows it, and
         // Yuki's ultralight rounded timer is its whole identity.
         case .tsuki, .jellyfish, .yuki: .rounded
@@ -453,6 +479,9 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .paperGarden: SkinTypeface(display: "Fraunces", label: nil)
         // Press Start 2P is set wide; scaled down so a large title fits the bar.
         case .hebi: SkinTypeface(display: "Press Start 2P", label: "Press Start 2P", displayScale: 0.72)
+        // Saira (variable, OFL): the squarish geometric sans closest to their
+        // wordmark, which the site's font loader hides. Set a touch wide.
+        case .doseWiki: SkinTypeface(display: "Saira", label: nil, displayScale: 0.94)
         }
     }
 }
@@ -637,6 +666,18 @@ struct SkinPalette: Sendable {
         info: (.Skin.Kumo.Semantic.Info.text, .Skin.Kumo.Semantic.Info.accent),
     )
 
+    static let doseWiki = SkinPalette(
+        accent: .Skin.Dosewiki.Accent.text, accentMark: .Skin.Dosewiki.Accent.mark, onAccent: .Skin.Dosewiki.Accent.on,
+        secondaryLabel: .Skin.Dosewiki.Text.secondary,
+        background: .Skin.Dosewiki.Surface.background, cardBackground: .Skin.Dosewiki.Surface.card, inputBackground: .Skin.Dosewiki.Surface.input,
+        eyebrow: .Skin.Dosewiki.eyebrow, stroke: .Skin.Dosewiki.stroke, shadow: .Skin.Dosewiki.shadow,
+        titleFill: .Skin.Dosewiki.Title.fill, titleStroke: .Skin.Dosewiki.Title.stroke, titleShadow: .Skin.Dosewiki.Title.shadow,
+        danger: (.Skin.Dosewiki.Semantic.Danger.text, .Skin.Dosewiki.Semantic.Danger.accent),
+        caution: (.Skin.Dosewiki.Semantic.Caution.text, .Skin.Dosewiki.Semantic.Caution.accent),
+        success: (.Skin.Dosewiki.Semantic.Success.text, .Skin.Dosewiki.Semantic.Success.accent),
+        info: (.Skin.Dosewiki.Semantic.Info.text, .Skin.Dosewiki.Semantic.Info.accent),
+    )
+
     static let jellyfish = SkinPalette(
         accent: .Skin.Jellyfish.Accent.text, accentMark: .Skin.Jellyfish.Accent.mark, onAccent: .Skin.Jellyfish.Accent.on,
         secondaryLabel: .Skin.Jellyfish.Text.secondary,
@@ -706,6 +747,18 @@ enum SkinScene: Sendable {
     case arcade(SkinArcade)
     /// A sky that follows the real time of day and season.
     case sky(SkinSky)
+    /// dose.wiki: their page halos and their molecule ring, faint and slow.
+    case molecule(SkinMolecule)
+}
+
+struct SkinMolecule: Sendable {
+    /// The ring: their mark as a template image, resolved here on the main
+    /// actor because the renderer is not.
+    let image: ImageResource
+    /// The ring is tinted with this.
+    let ink: Color
+    /// The site's page halos, top / left / right / bottom.
+    let halos: [SkinGlow]
 }
 
 struct SkinPaperGarden: Sendable {
@@ -757,7 +810,7 @@ struct SkinSky: Sendable {
 }
 
 /// A radial glow on the ground: colour, centre, peak opacity.
-struct SkinGlow: Sendable {
+nonisolated struct SkinGlow: Sendable {
     let color: Color
     let center: UnitPoint
     let opacity: Double

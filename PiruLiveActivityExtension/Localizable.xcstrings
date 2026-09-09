@@ -270,7 +270,20 @@
       }
     },
     "Cool blue-gray, quiet" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冷蓝灰，安静"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冷藍灰，安靜"
+          }
+        }
+      }
     },
     "Custom days" : {
       "localizations" : {
@@ -351,6 +364,9 @@
           }
         }
       }
+    },
+    "dose.wiki" : {
+
     },
     "Elapsed" : {
       "localizations" : {
@@ -465,7 +481,20 @@
       }
     },
     "Graphite" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "石墨"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "石墨"
+          }
+        }
+      }
     },
     "Heart rate" : {
       "localizations" : {
@@ -660,7 +689,20 @@
       }
     },
     "Linen" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "亚麻"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "亞麻"
+          }
+        }
+      }
     },
     "Low confidence" : {
       "localizations" : {
@@ -727,7 +769,20 @@
       }
     },
     "Neutral grays, nothing moving" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中性灰，静止不动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中性灰，靜止不動"
+          }
+        }
+      }
     },
     "Night and pink, stickers and pixels" : {
       "localizations" : {
@@ -921,6 +976,9 @@
         }
       }
     },
+    "Plum and fuchsia, from the open encyclopedia" : {
+
+    },
     "Rectal" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1003,7 +1061,20 @@
       }
     },
     "Slate" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "板岩"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "板岩"
+          }
+        }
+      }
     },
     "Soft pink, hot pink, liquid glass" : {
       "localizations" : {
@@ -1198,7 +1269,20 @@
       }
     },
     "Warm paper and charcoal, quiet" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暖纸与炭色，安静"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暖紙與炭色，安靜"
+          }
+        }
+      }
     },
     "Washi, raked sand, sakura" : {
       "localizations" : {

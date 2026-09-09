@@ -9063,6 +9063,422 @@
      253.13841
     ]
    }
+  },
+  "skin/dosewiki/surface/background": {
+   "any": {
+    "oklch": [
+     0.99509,
+     0.00173,
+     321.84053
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.1506,
+     0.03975,
+     312.95503
+    ]
+   }
+  },
+  "skin/dosewiki/surface/card": {
+   "any": {
+    "oklch": [
+     0.96003,
+     0.0221,
+     325.46056
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.18534,
+     0.07182,
+     317.36851
+    ]
+   }
+  },
+  "skin/dosewiki/surface/input": {
+   "any": {
+    "oklch": [
+     0.94037,
+     0.02903,
+     325.5903
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.20511,
+     0.06289,
+     316.12956
+    ]
+   }
+  },
+  "skin/dosewiki/stroke": {
+   "any": {
+    "oklch": [
+     0.90011,
+     0.02868,
+     323.83652
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.46041,
+     0.07873,
+     320.70418
+    ]
+   }
+  },
+  "skin/dosewiki/shadow": {
+   "any": {
+    "oklch": [
+     0.48002,
+     0.13994,
+     317.69012
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "skin/dosewiki/eyebrow": {
+   "any": {
+    "oklch": [
+     0.42091,
+     0.04997,
+     315.68651
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.78968,
+     0.00777,
+     311.70694
+    ]
+   }
+  },
+  "skin/dosewiki/text/secondary": {
+   "any": {
+    "oklch": [
+     0.35012,
+     0.0575,
+     315.36519
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.89449,
+     0.00011,
+     259.98196
+    ]
+   }
+  },
+  "skin/dosewiki/accent/text": {
+   "any": {
+    "oklch": [
+     0.4899,
+     0.18949,
+     326.01716
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.83303,
+     0.13225,
+     321.39128
+    ]
+   }
+  },
+  "skin/dosewiki/accent/mark": {
+   "any": {
+    "oklch": [
+     0.58003,
+     0.15646,
+     326.03328
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.83303,
+     0.13225,
+     321.39128
+    ]
+   }
+  },
+  "skin/dosewiki/accent/on": {
+   "any": {
+    "oklch": [
+     1.0,
+     0.00013,
+     259.98196
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.1506,
+     0.03975,
+     312.95503
+    ]
+   }
+  },
+  "skin/dosewiki/semantic/success/text": {
+   "any": {
+    "oklch": [
+     0.48932,
+     0.10225,
+     165.49238
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.78049,
+     0.10487,
+     165.17516
+    ]
+   }
+  },
+  "skin/dosewiki/semantic/success/accent": {
+   "any": {
+    "oklch": [
+     0.57974,
+     0.12008,
+     164.90424
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.78049,
+     0.10487,
+     165.17516
+    ]
+   }
+  },
+  "skin/dosewiki/semantic/caution/text": {
+   "any": {
+    "oklch": [
+     0.54007,
+     0.11941,
+     82.24944
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.83966,
+     0.11459,
+     81.7495
+    ]
+   }
+  },
+  "skin/dosewiki/semantic/caution/accent": {
+   "any": {
+    "oklch": [
+     0.58007,
+     0.11941,
+     82.24944
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.83966,
+     0.11459,
+     81.7495
+    ]
+   }
+  },
+  "skin/dosewiki/semantic/info/text": {
+   "any": {
+    "oklch": [
+     0.52975,
+     0.12049,
+     235.37261
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.80085,
+     0.10511,
+     235.01841
+    ]
+   }
+  },
+  "skin/dosewiki/semantic/info/accent": {
+   "any": {
+    "oklch": [
+     0.57975,
+     0.12049,
+     235.37261
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.80085,
+     0.10511,
+     235.01841
+    ]
+   }
+  },
+  "skin/dosewiki/semantic/danger/text": {
+   "any": {
+    "oklch": [
+     0.5492,
+     0.12053,
+     15.53385
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.78019,
+     0.11905,
+     16.23869
+    ]
+   }
+  },
+  "skin/dosewiki/semantic/danger/accent": {
+   "any": {
+    "oklch": [
+     0.5792,
+     0.12053,
+     15.53385
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.78019,
+     0.11905,
+     16.23869
+    ]
+   }
+  },
+  "skin/dosewiki/title/fill": {
+   "any": {
+    "oklch": [
+     0.26955,
+     0.08185,
+     315.2514
+    ]
+   },
+   "dark": {
+    "oklch": [
+     1.0,
+     0.00013,
+     259.98196
+    ]
+   }
+  },
+  "skin/dosewiki/title/stroke": {
+   "any": {
+    "oklch": [
+     0.26955,
+     0.08185,
+     315.2514
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.1506,
+     0.03975,
+     312.95503
+    ]
+   }
+  },
+  "skin/dosewiki/title/shadow": {
+   "any": {
+    "oklch": [
+     0.90011,
+     0.02868,
+     323.83652
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.29279,
+     0.07287,
+     316.27851
+    ]
+   }
+  },
+  "skin/dosewiki/molecule/ink": {
+   "any": {
+    "oklch": [
+     0.4899,
+     0.18949,
+     326.01716
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.83303,
+     0.13225,
+     321.39128
+    ]
+   }
+  },
+  "skin/dosewiki/halo/top": {
+   "any": {
+    "oklch": [
+     0.48928,
+     0.18672,
+     340.2558
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.4598,
+     0.12043,
+     317.77252
+    ]
+   }
+  },
+  "skin/dosewiki/halo/left": {
+   "any": {
+    "oklch": [
+     0.48928,
+     0.18672,
+     340.2558
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.45913,
+     0.10109,
+     325.65099
+    ]
+   }
+  },
+  "skin/dosewiki/halo/right": {
+   "any": {
+    "oklch": [
+     0.54134,
+     0.24668,
+     293.00159
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.46015,
+     0.09899,
+     290.08701
+    ]
+   }
+  },
+  "skin/dosewiki/halo/bottom": {
+   "any": {
+    "oklch": [
+     0.54134,
+     0.24668,
+     293.00159
+    ]
+   },
+   "dark": {
+    "oklch": [
+     0.66676,
+     0.25912,
+     322.13071
+    ]
+   }
   }
  }
 }

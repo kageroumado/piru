@@ -38,6 +38,9 @@ T = {
     "Neon City on a CRT": ("CRT 上的霓虹城", "CRT 上的霓虹城"),
     "Kumo": ("Kumo", "Kumo"),
     "A sky that follows the day": ("随一天变化的天空", "隨一天變化的天空"),
+    "dose.wiki": ("dose.wiki", "dose.wiki"),
+    "Plum and fuchsia, from the open encyclopedia": ("梅紫与紫红，来自开放百科", "梅紫與紫紅，來自開放百科"),
+    "In partnership with dose.wiki ↗": ("与 dose.wiki 合作 ↗", "與 dose.wiki 合作 ↗"),
     "A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay exactly as they are.": (
         "皮肤会改变应用的颜色、卡片和字体。你的物质颜色、时间轴和所有图表都保持原样。",
         "皮膚會改變應用程式的顏色、卡片和字體。你的物質顏色、時間軸和所有圖表都保持原樣。",
@@ -6671,6 +6674,7 @@ if __name__ == "__main__":
         "Paper Garden", "Washi, raked sand, sakura",
         "Hotaru", "Fireflies and an aurora", "Yuki", "Periwinkle, snow and frost", "Hebi Arcade", "Neon City on a CRT",
         "Kumo", "A sky that follows the day",
+        "dose.wiki", "Plum and fuchsia, from the open encyclopedia", "In partnership with dose.wiki ↗",
         "A skin changes the app's colors, cards, and type. Your substance colors, the timeline, and every chart stay exactly as they are.",
         "Follow System", "Light Mode", "Dark Mode",
         "Every skin has a light and a dark side. Follow System switches with iOS.",

@@ -30,6 +30,16 @@ struct AppearanceSettingsView: View {
                     }
                 }
 
+                if skins.current == .doseWiki {
+                    Section {
+                        Link(destination: URL(string: "https://dose.wiki")!) {
+                            Label("In partnership with dose.wiki ↗", systemImage: "hexagon")
+                                .font(.footnote)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                    }
+                }
+
                 Section {
                     Picker(selection: colorSchemeBinding) {
                         ForEach(SkinColorScheme.allCases) { scheme in

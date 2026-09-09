@@ -167,6 +167,8 @@ nonisolated struct SceneRenderer {
         case let .sky(sky):
             drawSky(sky, in: &context)
             drawGlyphs(in: &context, share: 0.3)
+        case let .molecule(molecule):
+            drawMolecule(molecule, in: &context)
         }
     }
 

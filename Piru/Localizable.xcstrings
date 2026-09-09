@@ -17861,6 +17861,22 @@
         }
       }
     },
+    "dose.wiki" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dose.wiki"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dose.wiki"
+          }
+        }
+      }
+    },
     "Dosed in low milligrams — use a milligram scale (0.001 g). Can't be measured by eye or kitchen scale." : {
       "localizations" : {
         "zh-Hans" : {
@@ -25758,6 +25774,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "與靜息心率 %lld bpm 相當"
+          }
+        }
+      }
+    },
+    "In partnership with dose.wiki ↗" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与 dose.wiki 合作 ↗"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與 dose.wiki 合作 ↗"
           }
         }
       }
@@ -37298,6 +37330,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "請在「設定」中開啟通知以使用緩和期提醒。"
+          }
+        }
+      }
+    },
+    "Plum and fuchsia, from the open encyclopedia" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "梅紫与紫红，来自开放百科"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "梅紫與紫紅，來自開放百科"
           }
         }
       }

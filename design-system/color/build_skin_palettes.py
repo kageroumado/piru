@@ -316,7 +316,39 @@ SKINS = {
   "jelly/cyan":         ("#58e0f5", "#58e0f5"),
   "jelly/pink":         ("#ff9bdd", "#ff9bdd"),
  },
+ "dosewiki": {
+  # dose.wiki's own tokens (their CSS, brand hue 326, plum hue 318), oklch
+  # converted with colorimetry.py. Dark is their default appearance.
+  "surface/background": ("#fefdfe", "#110617"),   # light: oklch(99.4% .002 326); dark: their body bg
+  "surface/card":       ("#faedfa", "#1f0527"),   # frosted-panel-primary / panel-base
+  "surface/input":      ("#f6e5f6", "#220c2a"),   # oklch(94% .03 326) / control-base
+  "stroke":             ("#e8d8e9", "#6c4973"),   # card border: oklch(48% .13 326)/.2 and rgb(240 171 252)/.16, composited over the card
+  "shadow":             ("#7d3f90", "#000000"),   # the soft glow: oklch(48% .14 318) / black
+  "eyebrow":            ("#584560", "#bcb9be"),   # text-muted
+  "text/secondary":     ("#46314f", "#dcdcdc"),   # text-secondary
+  "accent/text":        ("#932998", "#f0abfc"),   # --theme-accent: oklch(49% .19 326) / fuchsia-300
+  "accent/mark":        ("#a854ab", "#f0abfc"),   # accent-soft / accent
+  "accent/on":          ("#ffffff", "#110617"),   # their filled button: light fuchsia with dark text
+  # the semantic pairs are their dose-tier ramp: threshold, light, moderate, heavy
+  "semantic/success/text":   ("#007252", "#71cda7"),   # oklch(58% .12 165) pushed darker so it clears 4.5 in P3 / oklch(78% .105 165)
+  "semantic/success/accent": ("#0a9068", "#71cda7"),
+  "semantic/caution/text":   ("#9d7200", "#f0c36f"),   # oklch(58% .12 82) / oklch(84% .115 82)
+  "semantic/caution/accent": ("#9d7200", "#f0c36f"),
+  "semantic/info/text":      ("#0e84b7", "#76c9f8"),   # oklch(58% .12 235) / oklch(80% .105 235)
+  "semantic/info/accent":    ("#0e84b7", "#76c9f8"),
+  "semantic/danger/text":    ("#b65962", "#fa979d"),   # oklch(58% .12 16) / oklch(78% .12 16)
+  "semantic/danger/accent":  ("#b65962", "#fa979d"),
+  "title/fill":         ("#351741", "#ffffff"),
+  "title/stroke":       ("#351741", "#110617"),
+  "title/shadow":       ("#e8d8e9", "#3a1f44"),
+  "molecule/ink":       ("#932998", "#f0abfc"),   # the ring, drawn as a template at low alpha
+  "halo/top":           ("#9f2180", "#733f83"),   # home-glow-top / page-halo-top oklch(46% .12 318)
+  "halo/left":          ("#9f2180", "#744276"),   # page-halo-left oklch(46% .1 326)
+  "halo/right":         ("#7c3aed", "#584d8b"),   # page-halo-right oklch(46% .1 290)
+  "halo/bottom":        ("#7c3aed", "#d946ef"),   # home-glow-bottom
+ },
 }
+
 TEXT_ROLES = {"eyebrow", "text/secondary", "accent/text", "semantic/success/text", "semantic/caution/text", "semantic/info/text", "semantic/danger/text"}
 MARK_ROLES = {"accent/mark", "semantic/success/accent", "semantic/caution/accent", "semantic/info/accent", "semantic/danger/accent"}
 

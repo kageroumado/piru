@@ -62,10 +62,19 @@ roles stay split: a colour that is a fine mark can still fail as small copy
 | Yuki | `~/Developer/Yuki` | soft (periwinkle glow) | `.rounded` | snow, frost at the corners |
 | Hebi Arcade | `~/Developer/Hebi` (Neon City) | neon (phosphor stroke + glow) | Press Start 2P (scaled .72) | a perspective grid, pixel stars, a snake, scanlines |
 | Kumo | `~/Developer/Kumo` | frosted (translucent, hairline, highlight) | system | a sky by the real clock and season |
+| dose.wiki | https://dose.wiki (partner; their CSS tokens, hue 326/318) | soft (fuchsia hairline + dark shadow) | Saira (scaled .94) | their page halos and molecule ring, one node pulse |
 
 Light modes for Tsuki, Starfield and Jellyfish are invented — a moonlit
 lavender day, a dawn sky, a shallow lagoon — since their sources are dark
 only; every one is gated by `ColorContrastTests` like the rest.
+
+## Surfaces are closed
+
+Six surfaces exist (glass, edged, soft, paper, neon, frosted) and that is
+the set: every surface touches `ThemedBackground`, `CardBackground`,
+`themeCapsule`, the chips, the buttons, the Library card edge and the session
+envelope, and verifying a new one across all of that is more than a skin is
+worth. A new skin picks one of the six. (Decided 2026-09-08.)
 
 ## Adding a skin
 
@@ -197,6 +206,13 @@ composite `plusLighter` (additive) so a colour reads as emitting, not paler.
   wall and border colours, 2×2 pixel stars, a snake walking a seeded random
   walk on a 12pt grid one step every .16 s with the game's glow ladder, its
   food blinking ahead of it, scanlines and a vignette.
+- `.molecule` (dose.wiki): the site's four page halos breathing on slow
+  phases (`drawGlows`), their logo as a template image tinted with the skin
+  ink at 5–7% behind the right half of the screen, and one bloom walking the
+  ring's six outer vertices. The semantic pairs are their dose-tier ramp
+  (threshold green, light blue, moderate amber, heavy red), so a Piru warning
+  reads in the family a dose.wiki reader knows. The logo is their mark: it
+  ships only with their okay.
 - `.sky` (Kumo): `SceneClock` reads the wall clock each frame; the sky is
   Kumo's night / day / sunset stops lerped through dawn (5–7) and dusk
   (17–20), light mode kept to the day family and dark to the night family;
