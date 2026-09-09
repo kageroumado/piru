@@ -8,7 +8,7 @@ struct AppearanceSettingsView: View {
         List {
             Group {
                 Section {
-                    ForEach(Skin.allCases) { skin in
+                    ForEach(Skin.available) { skin in
                         SkinRow(skin: skin, isSelected: skin == skins.current) {
                             skins.setSkin(skin)
                         }

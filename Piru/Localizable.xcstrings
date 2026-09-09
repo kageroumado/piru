@@ -24029,6 +24029,7 @@
       }
     },
     "Hebi Arcade" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24040,6 +24041,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hebi 街機"
+          }
+        }
+      }
+    },
+    "Hebi Arcade (WIP)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hebi Arcade (WIP)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hebi Arcade (WIP)"
           }
         }
       }
@@ -24480,6 +24497,7 @@
       }
     },
     "Hotaru" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24491,6 +24509,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hotaru"
+          }
+        }
+      }
+    },
+    "Hotaru (WIP)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotaru (WIP)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotaru (WIP)"
           }
         }
       }

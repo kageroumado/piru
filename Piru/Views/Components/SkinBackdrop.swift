@@ -277,21 +277,6 @@ nonisolated struct SceneRenderer {
     func drawStars(_ sky: SkinNightSky, in context: inout GraphicsContext) {
         var rng = SeededRNG(seed: sky.seed &+ UInt64(size.height))
         let count = Int(170 * sky.density * Double(size.height) / 900)
-        // The Milky Way: a soft diagonal band of faint stars and haze.
-        if sky.milkyWay {
-            let a = CGPoint(x: -20, y: size.height * 0.15), b = CGPoint(x: size.width + 20, y: size.height * 0.75)
-            var band = Path()
-            band.move(to: a); band.addLine(to: b)
-            context.stroke(band, with: .color(sky.haloColor.opacity(dark ? 0.07 : 0.05)), style: StrokeStyle(lineWidth: 160, lineCap: .round))
-            context.stroke(band, with: .color(sky.starColor.opacity(dark ? 0.05 : 0.03)), style: StrokeStyle(lineWidth: 80, lineCap: .round))
-            for _ in 0 ..< 140 {
-                let u = rng.unit(), spread = (rng.unit() - 0.5) * 120 * (rng.unit() - 0.5) * 2
-                let x = a.x + (b.x - a.x) * u - spread * 0.6
-                let y = a.y + (b.y - a.y) * u + spread
-                let r = 0.4 + rng.unit() * 0.6
-                context.fill(Path(ellipseIn: CGRect(x: x - r, y: y - r, width: r * 2, height: r * 2)), with: .color(sky.starColor.opacity((dark ? 0.6 : 0.4) * (0.5 + 0.5 * rng.unit()))))
-            }
-        }
         if dark { context.blendMode = .plusLighter }
         for i in 0 ..< count {
             let baseX = rng.unit() * size.width
@@ -545,24 +530,25 @@ nonisolated struct SceneRenderer {
     private func drawJellyfish(_ water: SkinUnderwater, in context: inout GraphicsContext) {
         guard !water.bells.isEmpty else { return }
         var rng = SeededRNG(seed: 0x1E11 &+ UInt64(size.width))
-        // Enough of them, evenly staggered along the wrap, that one is always
-        // rising into view: a swimmer every ~8 s at these speeds.
-        let count = max(8, Int(size.height / 90))
+        // Evenly staggered along the wrap, all at one pace: jellies with their
+        // own speeds lap each other and drift into packs within minutes, so
+        // depth shows in size and parallax, never in speed.
+        let count = max(6, Int(size.height / 120))
         let span = size.height + 240
+        let speed = 16.0
         let cast: [JellySpecies] = [.piru, .piru, .remi, .remi, .sparkler, .aurora, .koko, .bitjelly]
         for i in 0 ..< count {
             let laneX = size.width * (0.12 + 0.76 * rng.unit())
             let scale = 0.55 + rng.unit() * 0.7
-            let speed = 12 + rng.unit() * 12
             let phase = rng.unit()
-            let start = (Double(i) / Double(count) + rng.unit() * 0.08) * span
+            let start = (Double(i) + rng.unit() * 0.25) / Double(count) * span
             let species = cast[Int(rng.next() % UInt64(cast.count))]
             let bellColor = water.bells[i % water.bells.count]
             let depth = (scale - 0.55) / 0.7
             let shift = parallax(0.25 + 0.75 * depth)
             // Every species is sized by its bell, whatever units it draws in.
             let unit = 34 * scale / species.bellWidth
-            let rise = speed * (0.7 + 0.3 * depth)
+            let rise = speed
             let beat = species.beat
             let motion = JellyMotion(period: beat.period, amp: beat.amp, sway: 14 * scale / unit, swayPeriod: 7 + Double(i), rise: rise / unit, phase: phase)
             let off = motion.offset(at: time)

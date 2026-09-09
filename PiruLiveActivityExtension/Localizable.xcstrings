@@ -366,7 +366,20 @@
       }
     },
     "dose.wiki" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dose.wiki"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dose.wiki"
+          }
+        }
+      }
     },
     "Elapsed" : {
       "localizations" : {
@@ -529,6 +542,7 @@
       }
     },
     "Hebi Arcade" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -543,6 +557,9 @@
           }
         }
       }
+    },
+    "Hebi Arcade (WIP)" : {
+
     },
     "High confidence" : {
       "localizations" : {
@@ -561,6 +578,7 @@
       }
     },
     "Hotaru" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -575,6 +593,9 @@
           }
         }
       }
+    },
+    "Hotaru (WIP)" : {
+
     },
     "Inhalation" : {
       "localizations" : {
@@ -977,7 +998,20 @@
       }
     },
     "Plum and fuchsia, from the open encyclopedia" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "梅紫与紫红，来自开放百科"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "梅紫與紫紅，來自開放百科"
+          }
+        }
+      }
     },
     "Rectal" : {
       "localizations" : {

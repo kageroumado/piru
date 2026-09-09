@@ -323,7 +323,7 @@ SKINS = {
   "surface/card":       ("#faedfa", "#1f0527"),   # frosted-panel-primary / panel-base
   "surface/input":      ("#f6e5f6", "#220c2a"),   # oklch(94% .03 326) / control-base
   "stroke":             ("#e8d8e9", "#6c4973"),   # card border: oklch(48% .13 326)/.2 and rgb(240 171 252)/.16, composited over the card
-  "shadow":             ("#7d3f90", "#000000"),   # the soft glow: oklch(48% .14 318) / black
+  "shadow":             ("#ffffff", "#f0abfc"),   # the frosted highlight along the card's top: white / fuchsia-300
   "eyebrow":            ("#584560", "#bcb9be"),   # text-muted
   "text/secondary":     ("#46314f", "#dcdcdc"),   # text-secondary
   "accent/text":        ("#932998", "#f0abfc"),   # --theme-accent: oklch(49% .19 326) / fuchsia-300
@@ -340,7 +340,7 @@ SKINS = {
   "semantic/danger/accent":  ("#b65962", "#fa979d"),
   "title/fill":         ("#351741", "#ffffff"),
   "title/stroke":       ("#351741", "#110617"),
-  "title/shadow":       ("#e8d8e9", "#3a1f44"),
+  "title/shadow":       ("#e9b8ee", "#a21caf"),   # the title's fuchsia glow / fuchsia-700
   "molecule/ink":       ("#932998", "#f0abfc"),   # the ring, drawn as a template at low alpha
   "halo/top":           ("#9f2180", "#733f83"),   # home-glow-top / page-halo-top oklch(46% .12 318)
   "halo/left":          ("#9f2180", "#744276"),   # page-halo-left oklch(46% .1 326)

@@ -70,6 +70,14 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
 
     var id: String { rawValue }
 
+    /// Skins kept in the code but out of the picker for now. Paper Garden is
+    /// shelved (2026-09-09) until its paper surface and garden get a polish
+    /// pass; everything it needs stays in place so un-shelving is one line.
+    nonisolated static let shelved: Set<Skin> = [.paperGarden]
+
+    /// What the picker offers.
+    static var available: [Skin] { allCases.filter { !shelved.contains($0) } }
+
     /// Picker name. Localized like every user-facing string.
     var displayName: LocalizedStringResource {
         switch self {
@@ -82,9 +90,9 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .astrelia: "Starfield"
         case .jellyfish: "Jellyfish"
         case .paperGarden: "Paper Garden"
-        case .hotaru: "Hotaru"
+        case .hotaru: "Hotaru (WIP)"
         case .yuki: "Yuki"
-        case .hebi: "Hebi Arcade"
+        case .hebi: "Hebi Arcade (WIP)"
         case .kumo: "Kumo"
         case .doseWiki: "dose.wiki"
         }
@@ -241,7 +249,6 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                     haloColor: .Skin.Astrelia.Star.halo,
                     density: 1.0,
                     seed: 0xA57A,
-                    milkyWay: true,
                     moon: false,
                     glows: [
                         SkinGlow(accentMark, at: UnitPoint(x: 0.5, y: -0.06), opacity: 0.16),
@@ -336,7 +343,8 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                 tapGlyph: SkinGlyph("✦", semantic(.caution, .accent)),
             )
         case .doseWiki:
-            // The site is quiet: its page halos, its molecule ring, no stickers.
+            // The site is quiet: its page halos, its molecule ring, no sticker
+            // field — only a hex node at a glance card's corner and on a tap.
             SkinDecorations(
                 scene: .molecule(SkinMolecule(
                     image: .Skin.Dosewiki.molecule,
@@ -349,8 +357,8 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
                     ],
                 )),
                 glyphs: [],
-                frameCorners: nil,
-                tapGlyph: nil,
+                frameCorners: (SkinGlyph("⬡", accentMark), SkinGlyph("·", accentMark)),
+                tapGlyph: SkinGlyph("⬡", accentMark),
             )
         }
     }
@@ -382,8 +390,7 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
     /// `nil` leaves the system's plain title.
     var titleOutline: SkinTitleOutline? {
         switch self {
-        // dose.wiki's wordmark is flat; only `.wiki` takes the accent.
-        case .piru, .graphite, .linen, .slate, .doseWiki: nil
+        case .piru, .graphite, .linen, .slate: nil
         // The site's `h1`: hot pink at night, near-black in pink mode, with a
         // hard drop (wine at night, hot pink in pink mode).
         case .elyPink: SkinTitleOutline(
@@ -395,7 +402,8 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
             shadow: palette.titleShadow, shadowOffset: CGSize(width: 3, height: 3), shadowBlur: 0,
         )
         // Soft skins: no outline, the label colour, a coloured glow beneath.
-        case .tsuki, .jellyfish, .hotaru, .yuki, .kumo: SkinTitleOutline(
+        // dose.wiki's glow is fuchsia, the halo their wordmark sits in.
+        case .tsuki, .jellyfish, .hotaru, .yuki, .kumo, .doseWiki: SkinTitleOutline(
             fill: nil, stroke: nil,
             shadow: palette.titleShadow, shadowOffset: .zero, shadowBlur: 14,
         )
@@ -438,8 +446,9 @@ enum Skin: String, CaseIterable, Identifiable, Sendable {
         case .paperGarden: .paper(stroke: palette.stroke, grain: palette.shadow)
         case .hebi: .neon(stroke: palette.stroke, glow: palette.shadow)
         case .kumo: .frosted(stroke: palette.stroke, highlight: palette.shadow)
-        // Their cards: a fuchsia hairline over a plum panel, a soft dark shadow.
-        case .doseWiki: .soft(stroke: palette.stroke, glow: palette.shadow, glowRadius: 12)
+        // Their panels: a translucent plum with a top-left radial highlight
+        // under a fuchsia hairline; frosted is the nearest of the six.
+        case .doseWiki: .frosted(stroke: palette.stroke, highlight: palette.shadow)
         }
     }
 
@@ -829,8 +838,6 @@ struct SkinNightSky: Sendable {
     let density: Double
     /// The star map's seed — two night skies must never share one.
     var seed: UInt64 = 0x57A2
-    /// A denser diagonal band of faint stars, the Milky Way.
-    var milkyWay = false
     /// A sleeping crescent moon.
     let moon: Bool
     /// The moon as drawn art — Tsuki's own icon, lifted with its glow — or
@@ -941,7 +948,7 @@ nonisolated enum SkinDefaults {
     /// The persisted skin, for targets without a `SkinStore` (widgets). Falls
     /// back to the default when the stored value names a skin this build lacks.
     static func storedSkin(in defaults: UserDefaults? = UserDefaults(suiteName: suite)) -> Skin {
-        guard let raw = defaults?.string(forKey: skinKey), let skin = Skin(rawValue: raw) else {
+        guard let raw = defaults?.string(forKey: skinKey), let skin = Skin(rawValue: raw), !Skin.shelved.contains(skin) else {
             return skinDefault
         }
         return skin

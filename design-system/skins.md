@@ -57,12 +57,12 @@ roles stay split: a colour that is a fine mark can still fail as small copy
 | Graphite | — | glass | system | none — a muted skin |
 | Linen | — | paper | system | none — a muted skin |
 | Slate | — | soft (slate glow) | system | none — a muted skin |
-| Paper Garden | `~/Developer/Origami` + `~/Developer/Kaze` | paper (grain, ink hairline, no shadow) | Fraunces | raked sand around stones, sakura, fireflies at night |
-| Hotaru | `~/Developer/Hotaru` | soft (lime glow) | system | fireflies, fog, a tree line, an aurora |
+| Paper Garden (shelved, `Skin.shelved`) | `~/Developer/Origami` + `~/Developer/Kaze` | paper (grain, ink hairline, no shadow) | Fraunces | raked sand around stones, sakura, fireflies at night |
+| Hotaru (WIP) | `~/Developer/Hotaru` | soft (lime glow) | system | fireflies, fog, a tree line, an aurora |
 | Yuki | `~/Developer/Yuki` | soft (periwinkle glow) | `.rounded` | snow, frost at the corners |
-| Hebi Arcade | `~/Developer/Hebi` (Neon City) | neon (phosphor stroke + glow) | Press Start 2P (scaled .72) | a perspective grid, pixel stars, a snake, scanlines |
+| Hebi Arcade (WIP) | `~/Developer/Hebi` (Neon City) | neon (phosphor stroke + glow) | Press Start 2P (scaled .72) | a perspective grid, pixel stars, a real snake game replayed from a seed, scanlines |
 | Kumo | `~/Developer/Kumo` | frosted (translucent, hairline, highlight) | system | a sky by the real clock and season |
-| dose.wiki | https://dose.wiki (partner; their CSS tokens, hue 326/318) | soft (fuchsia hairline + dark shadow) | Saira (scaled .94) | their page halos and molecule ring, one node pulse |
+| dose.wiki | https://dose.wiki (partner; their CSS tokens, hue 326/318) | frosted (fuchsia hairline + highlight) | Saira (scaled .94) | their page halos and molecule ring, one node pulse |
 
 Light modes for Tsuki, Starfield and Jellyfish are invented — a moonlit
 lavender day, a dawn sky, a shallow lagoon — since their sources are dark
@@ -222,8 +222,7 @@ composite `plusLighter` (additive) so a colour reads as emitting, not paler.
 
 **Muted skins** (Graphite, Linen, Slate) have `decorations == nil`: palette,
 surface and type only, nothing moving, for people who want none of it. Two
-night skies never share a star map: `SkinNightSky.seed` differs per skin
-and Starfield adds a Milky Way band.
+night skies never share a star map: `SkinNightSky.seed` differs per skin.
 
 **Parallax.** `SkinMotion` low-pass filters device gravity into a resting
 reference and reports the deviation as a tilt; every layer slides opposite

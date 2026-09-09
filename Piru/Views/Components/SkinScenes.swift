@@ -319,37 +319,30 @@ nonisolated extension SceneRenderer {
         context.stroke(horizon, with: .color(arcade.border.opacity(0.7)), lineWidth: 1.5)
         bloom(arcade.border, at: CGPoint(x: size.width / 2, y: vp), radius: size.width * 0.5, alpha: dark ? 0.18 : 0.08, in: &context)
         context.blendMode = .normal
-        // The snake: a seeded random walk on a 12pt grid in the upper half,
-        // one step every .16 s, drawn as its last 12 cells.
+        // The snake: a real game on a 12pt grid in the upper half, one step
+        // every .16 s. It steers toward the food, never reverses, never
+        // crosses its own body, grows when it eats, and when it traps itself
+        // the round ends and a new snake starts. Deterministic from the seed,
+        // so the frame at any time is the same on every device.
         let cell: CGFloat = 12
         let cols = Int(size.width / cell), rows = Int(vp * 0.9 / cell)
-        var walk = SeededRNG(seed: 0x5AAE)
-        var path: [(Int, Int)] = []
-        var pos = (cols / 2, rows / 2), dir = (1, 0)
-        for _ in 0 ..< 600 {
-            if walk.unit() < 0.18 { dir = walk.unit() < 0.5 ? (-dir.1, dir.0) : (dir.1, -dir.0) }
-            var next = (pos.0 + dir.0, pos.1 + dir.1)
-            if next.0 < 1 || next.0 >= cols - 1 || next.1 < 1 || next.1 >= rows - 1 { dir = (-dir.0, -dir.1); next = (pos.0 + dir.0, pos.1 + dir.1) }
-            pos = next
-            path.append(pos)
-        }
-        let step = Int(time / 0.16) % path.count
+        let game = SnakeGame(cols: cols, rows: rows, seed: 0x5AAE)
+        let state = game.state(atStep: Int(time / 0.16) % SnakeGame.tapeLength)
         let shift = parallax(0.6)
-        for k in 0 ..< 12 {
-            let idx = (step - k + path.count) % path.count
-            let (cx, cy) = path[idx]
+        for (k, (cx, cy)) in state.body.enumerated() {
             let rect = CGRect(x: CGFloat(cx) * cell + 1 + shift.width, y: CGFloat(cy) * cell + 1 + shift.height, width: cell - 2, height: cell - 2)
             let head = k == 0
             let color = head ? arcade.snake : arcade.snakeBody
-            if dark { bloom(color, at: CGPoint(x: rect.midX, y: rect.midY), radius: head ? 14 : 8, alpha: head ? 0.5 : 0.25, in: &context) }
-            context.fill(Path(roundedRect: rect, cornerRadius: 2), with: .color(color.opacity(head ? 1 : 0.85 - Double(k) * 0.04)))
+            if dark, k < 12 { bloom(color, at: CGPoint(x: rect.midX, y: rect.midY), radius: head ? 14 : 8, alpha: head ? 0.5 : 0.25, in: &context) }
+            let fade = max(0.35, 0.85 - Double(k) * 0.03)
+            context.fill(Path(roundedRect: rect, cornerRadius: 2), with: .color(color.opacity(head ? 1 : fade)))
             if head {
                 for ex in [0.3, 0.7] {
                     context.fill(Path(CGRect(x: rect.minX + rect.width * ex - 1, y: rect.minY + 3, width: 2, height: 2)), with: .color(.black.opacity(0.8)))
                 }
             }
         }
-        let (fx, fy) = path[(step + 20) % path.count]
+        let (fx, fy) = state.food
         let food = CGRect(x: CGFloat(fx) * cell + 2 + shift.width, y: CGFloat(fy) * cell + 2 + shift.height, width: cell - 4, height: cell - 4)
         let blink = 0.6 + 0.4 * (sin(time * 2 * 6.28) > 0 ? 1 : 0)
         bloom(arcade.food, at: CGPoint(x: food.midX, y: food.midY), radius: 12, alpha: 0.3 * blink, in: &context)
@@ -494,5 +487,83 @@ nonisolated extension SceneRenderer {
 private nonisolated extension Path {
     func offsetBy(dx: CGFloat, dy: CGFloat) -> Path {
         applying(CGAffineTransform(translationX: dx, y: dy))
+    }
+}
+
+// MARK: - Snake
+
+/// Hebi's game, replayed for the backdrop: a snake on a grid that chases the
+/// food with the three turns the real game allows, growing as it eats. It is a
+/// pure function of (grid, seed, step), simulated from the start each frame —
+/// at most `tapeLength` cheap steps — so the renderer keeps no state.
+nonisolated struct SnakeGame {
+    struct State {
+        /// Head first.
+        var body: [(Int, Int)]
+        var food: (Int, Int)
+    }
+
+    /// Steps before the replay loops.
+    static let tapeLength = 900
+    static let startLength = 6
+    static let maxLength = 32
+
+    let cols: Int, rows: Int, seed: UInt64
+
+    func state(atStep target: Int) -> State {
+        var rng = SeededRNG(seed: seed)
+        var body = Self.freshSnake(cols: cols, rows: rows)
+        var dir = (1, 0)
+        var food = Self.placeFood(avoiding: body, cols: cols, rows: rows, rng: &rng)
+        var step = 0
+        while step < target {
+            step += 1
+            let head = body[0]
+            // The three legal moves, forward first; the tail cell frees up
+            // unless this step eats, so it is not an obstacle.
+            let candidates = [dir, (-dir.1, dir.0), (dir.1, -dir.0)]
+            var best: ((Int, Int), Int)? = nil
+            for d in candidates {
+                let next = (head.0 + d.0, head.1 + d.1)
+                guard next.0 >= 0, next.0 < cols, next.1 >= 0, next.1 < rows else { continue }
+                let eats = next == food
+                let obstacle = body.dropLast(eats ? 0 : 1).contains { $0 == next }
+                if obstacle { continue }
+                let distance = abs(next.0 - food.0) + abs(next.1 - food.1)
+                // A little waver so the path reads as play, not a ruler.
+                let score = distance + (rng.unit() < 0.15 ? 2 : 0)
+                if best == nil || score < best!.1 { best = (d, score) }
+            }
+            guard let move = best?.0 else {
+                // Trapped: the round ends and a new snake starts in the middle.
+                body = Self.freshSnake(cols: cols, rows: rows)
+                dir = (1, 0)
+                food = Self.placeFood(avoiding: body, cols: cols, rows: rows, rng: &rng)
+                continue
+            }
+            dir = move
+            let next = (head.0 + dir.0, head.1 + dir.1)
+            body.insert(next, at: 0)
+            if next == food {
+                if body.count > Self.maxLength { body.removeLast() }
+                food = Self.placeFood(avoiding: body, cols: cols, rows: rows, rng: &rng)
+            } else {
+                body.removeLast()
+            }
+        }
+        return State(body: body, food: food)
+    }
+
+    private static func freshSnake(cols: Int, rows: Int) -> [(Int, Int)] {
+        let y = rows / 2, x = cols / 2
+        return (0 ..< startLength).map { (x - $0, y) }
+    }
+
+    private static func placeFood(avoiding body: [(Int, Int)], cols: Int, rows: Int, rng: inout SeededRNG) -> (Int, Int) {
+        for _ in 0 ..< 64 {
+            let cell = (Int(rng.next() % UInt64(max(cols, 1))), Int(rng.next() % UInt64(max(rows, 1))))
+            if !body.contains(where: { $0 == cell }) { return cell }
+        }
+        return (0, 0)
     }
 }
