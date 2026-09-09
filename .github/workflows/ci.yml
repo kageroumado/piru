@@ -176,8 +176,11 @@ jobs:
       - name: Build SubstanceCollector (SPM)
         run: swift build --package-path pipeline/fetch/collector
       # Requires a runner Xcode with the iOS 26 SDK + an iPhone 17 Pro simulator.
+      # `pipefail`: without it the step's status is `tail`'s, and a failing
+      # test run reads green.
       - name: Build & test the app
         run: |
+          set -o pipefail
           xcodebuild -scheme Piru \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
             test | tail -40

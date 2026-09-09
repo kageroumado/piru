@@ -116,10 +116,12 @@ struct DockLabelResolverTests {
     }
 
     @Test
-    func `Default list keeps today's behavior`() {
+    func `Default list shows due meds first, then the next-med timer`() {
         let labels = DockLabel.defaultLabels
-        #expect(DockLabel.resolve(labels, in: context()) == "Log a dose")
+        #expect(DockLabel.resolve(labels, in: context()) == DockLabel.unavailable)
         var ctx = context()
+        ctx.nextMed = DockMedRef(name: "Memantine", at: date(hour: 14, minute: 0))
+        #expect(DockLabel.resolve(labels, in: ctx) == "Next: Memantine in 2h")
         ctx.dueMedNames = ["Memantine"]
         #expect(DockLabel.resolve(labels, in: ctx) == "Memantine due")
     }

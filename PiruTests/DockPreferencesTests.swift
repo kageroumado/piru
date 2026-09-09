@@ -17,7 +17,7 @@ struct DockPreferencesTests {
     func `Fresh store yields the defaults`() {
         let prefs = DockPreferences(defaults: makeDefaults())
         #expect(prefs.shortcuts == [.inventory])
-        #expect(prefs.labels == [.due, .text("Log a dose")])
+        #expect(prefs.labels == [.due, .timer(.untilNextMed)])
     }
 
     @Test
@@ -62,7 +62,7 @@ struct DockPreferencesTests {
     func `Adding an identical label is a no-op`() {
         let prefs = DockPreferences(defaults: makeDefaults())
         prefs.addLabel(.due)
-        #expect(prefs.labels == [.due, .text("Log a dose")])
+        #expect(prefs.labels == [.due, .timer(.untilNextMed)])
         prefs.addLabel(.timer(.sinceLastDose))
         #expect(prefs.labels.last == .timer(.sinceLastDose))
     }

@@ -385,6 +385,22 @@ final class CustomSubstanceStore {
     /// point, so it cannot drift from `all`.
     private var canonicalIndex: [String: CustomSubstanceEntry]?
 
+    /// Lowercased stored name → entry. Every library lookup (each active dose,
+    /// each timeline bubble, each row) asks this store for an override first,
+    /// so the exact-name check is a dict hit, not a scan that lowercases every
+    /// stored name per call. Built beside ``byCanonicalKey``; same lifetime.
+    private var lowercasedNameIndex: [String: CustomSubstanceEntry]?
+
+    private var byLowercasedName: [String: CustomSubstanceEntry] {
+        if let lowercasedNameIndex { return lowercasedNameIndex }
+        let built = Dictionary(
+            all.map { ($0.name.lowercased(), $0) },
+            uniquingKeysWith: { first, _ in first },
+        )
+        lowercasedNameIndex = built
+        return built
+    }
+
     private var byCanonicalKey: [String: CustomSubstanceEntry] {
         if let canonicalIndex { return canonicalIndex }
         let built = Dictionary(
@@ -396,10 +412,12 @@ final class CustomSubstanceStore {
     }
 
     func first(whereName name: String) -> CustomSubstanceEntry? {
-        // Exact match first: it is the common case and costs nothing. The
-        // canonical index is the fallback that makes an alias spelling resolve.
-        let needle = name.lowercased()
-        if let exact = all.first(where: { $0.name.lowercased() == needle }) { return exact }
+        // Nothing stored means nothing to override: skip both index builds and
+        // the canonical-key resolve, which is the common case for every lookup.
+        guard !all.isEmpty else { return nil }
+        // Exact match first: it is the common case. The canonical index is the
+        // fallback that makes an alias spelling resolve.
+        if let exact = byLowercasedName[name.lowercased()] { return exact }
         return byCanonicalKey[Self.canonicalKey(name)]
     }
 
@@ -493,6 +511,7 @@ final class CustomSubstanceStore {
             .map(\.asEntry)
             .sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
         canonicalIndex = nil
+        lowercasedNameIndex = nil
         writeMirror()
     }
 

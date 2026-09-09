@@ -17,7 +17,7 @@ struct TimelineSessionFitTests {
             return TimelineDayLayout.CardItem(entry: entry, displayName: "Mephedrone", color: .pink, remainingFraction: nil, state: nil)
         }
         var group = TimelineDayLayout.CardGroup(
-            id: items[0].entry.persistentModelID,
+            id: items[0].id,
             items: items,
             representativeTime: timestamp,
             sessionID: UUID(),

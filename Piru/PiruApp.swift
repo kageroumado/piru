@@ -78,9 +78,11 @@ struct PiruApp: App {
 
         // Automatic lightweight migration fills the SAME UUID into every
         // pre-existing DoseEntry when it adds `id` (the default expression is
-        // evaluated once) — uniquify before any UI reads. Idempotent and cheap
-        // when there's nothing to do.
-        StoreRecovery.backfillDuplicateEntryIDs(container: container)
+        // evaluated once) — uniquify before any UI reads. Idempotent; gated so
+        // the full-log fetch runs once per build and store change.
+        LaunchPassGate.run("duplicateEntryIDs", container: container) {
+            StoreRecovery.backfillDuplicateEntryIDs(container: container)
+        }
 
         // Routes notification taps (routine reminders carry a piru:// deep
         // link). The center holds its delegate weakly — the shared instance
@@ -145,8 +147,12 @@ struct PiruApp: App {
                     // heuristic chained together (nonstop redosing / long-acting tails).
                     SessionService.resplitOverlongSessions(in: container.mainContext)
                     // Give every pre-notes summary its place on the session
-                    // timeline (additive; idempotent).
-                    SessionNoteService.migrateLegacySummaries(in: container.mainContext)
+                    // timeline (additive; idempotent). Gated: its walk over every
+                    // session with a summary only finds new work after a restore
+                    // or an import, both of which bump the store generation.
+                    LaunchPassGate.run("sessionNoteSummaries", container: container) {
+                        SessionNoteService.migrateLegacySummaries(in: container.mainContext)
+                    }
                     // One-time: remap every logged dose onto its stable PSID identity
                     // (substanceUID + displayNameSnapshot). Backup-first, additive,
                     // never-drop, guarded once — see PSIDBackfillMigration. Runs here
@@ -161,11 +167,19 @@ struct PiruApp: App {
                     // Valerate") onto the base substance + ester facet, so they title,
                     // feed the Injection Levels tool, and dedup like a picker-logged
                     // ester. Snapshot-first for dose history — see EsterIdentityBackfillMigration.
-                    EsterIdentityBackfillMigration.runIfNeeded(container: container)
+                    // Gated on the store token: its scan of every `saltForm == nil`
+                    // row only finds new work after a dose write or an app update.
+                    LaunchPassGate.run("esterIdentityBackfill", container: container) {
+                        EsterIdentityBackfillMigration.runIfNeeded(container: container)
+                    }
                     ActiveSessionManager.shared.recoverSession(container: container)
                     // Warm the inventory caches so badges/widget read fresh
-                    // numbers on first paint (cheap; only touches tracked items).
-                    InventoryService.recomputeAll(in: container.mainContext)
+                    // numbers on first paint. Stock edits recompute their own item
+                    // as they save, so only a dose-log change can leave a stale
+                    // quantity behind; the gate skips the replay otherwise.
+                    LaunchPassGate.run("inventoryRecompute", container: container) {
+                        InventoryService.recomputeAll(in: container.mainContext)
+                    }
                     // Meds redesign cutover: fold the routine layer (time,
                     // remind, follow-up cadence) into per-med fields once.
                     // Runs before the reminder sync so folded state is what
@@ -215,9 +229,14 @@ struct PiruApp: App {
         .onChange(of: scenePhase) { _, phase in
             // Coming back to the foreground: re-derive inventory caches so any
             // doses logged from the widget / other surfaces while away are
-            // reflected, and a crossed threshold can notify.
+            // reflected, and a crossed threshold can notify. The gate shares
+            // its name with the launch pass, so the first activation after a
+            // launch that already replayed the log is skipped, and a later one
+            // replays only when the dose count or generation moved.
             if phase == .active {
-                InventoryService.recomputeAll(in: container.mainContext)
+                LaunchPassGate.run("inventoryRecompute", container: container) {
+                    InventoryService.recomputeAll(in: container.mainContext)
+                }
                 // Same horizon-roll as launch: doses logged from other
                 // surfaces while away may have satisfied a routine. The sync
                 // resolves med names, so it waits for the substance cache —

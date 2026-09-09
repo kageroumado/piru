@@ -56,8 +56,8 @@ enum ActiveSubstanceCalculator {
         // the cache (their half-life depends on the ester on the entry, not just the
         // name) and the acute duration below, so they read as a slow depot decay.
         var halfLifeCache: [String: Double] = [:]
-        func resolveHalfLife(substance: Substance?, entry: DoseEntry) -> Double? {
-            if let depot = PKResolver.depotHalfLifeMinutes(entry: entry) { return depot }
+        func resolveHalfLife(substance: Substance?, entry: DoseEntry, isDepot: Bool) -> Double? {
+            if let depot = PKResolver.depotHalfLifeMinutes(entry: entry, isDepot: isDepot) { return depot }
             let key = entry.substance.lowercased()
             if let cached = halfLifeCache[key] { return cached }
             guard let hl = PKResolver.halfLifeMinutes(substance: substance, entryName: entry.substance) else { return nil }
@@ -97,7 +97,7 @@ enum ActiveSubstanceCalculator {
             // A depot bypasses the unmodeled-form skip (it has no acute form to model,
             // but its slow persistence is exactly what a body-load readout is for).
             if !isDepot, productDuration == nil, entry.namesUnmodeledForm { continue }
-            guard let halfLife = resolveHalfLife(substance: substance, entry: entry) else { continue }
+            guard let halfLife = resolveHalfLife(substance: substance, entry: entry, isDepot: isDepot) else { continue }
 
             let elapsed = now.timeIntervalSince(entry.timestamp) / 60
             guard elapsed >= 0 else { continue }

@@ -284,16 +284,33 @@ final class ToleranceStore {
         }
     }
 
-    /// Fetch the dose log from the store's own context (lean — only the fields ``SimDose`` reads) and
-    /// recompute. The signature gate inside ``recompute(from:now:)`` skips redundant work.
+    /// Fetch the dose log as value snapshots on ``DatabaseActor`` and recompute.
+    /// The fetch is explicitly off-main: a bare `Task` in this `@MainActor`
+    /// class inherits the main actor, and a year of rows materialized there is
+    /// a ~150 ms stall at launch and after every dose change. The signature
+    /// gate inside ``recompute(snapshots:now:)`` skips redundant work.
     private func recomputeFromStore(now: Date = .now) async {
-        guard let context else { return }
-        // Cutoff computed outside the predicate — `#Predicate` can't call `addingTimeInterval`.
+        guard let container else { return }
         let cutoff = now.addingTimeInterval(-Self.warmFetchLookbackDays * 86_400)
-        var descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.timestamp >= cutoff })
-        descriptor.propertiesToFetch = [\.substance, \.amount, \.unit, \.timestamp]
-        guard let entries = try? context.fetch(descriptor) else { return }
-        await recompute(from: entries, now: now)
+        let snapshots = await Self.fetchSnapshots(since: cutoff, container: container)
+        await recompute(snapshots: snapshots, now: now)
+    }
+
+    /// One logged dose reduced to the fields the replay reads, so the fetch
+    /// and the mapping can happen off the main actor.
+    nonisolated struct DoseSnapshot: Sendable {
+        let substance: String
+        let amount: Double
+        let unit: String
+        let timestamp: Date
+    }
+
+    @DatabaseActor
+    private static func fetchSnapshots(since cutoff: Date, container: ModelContainer) -> [DoseSnapshot] {
+        let context = ModelContext(container)
+        let descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.timestamp >= cutoff })
+        let entries = (try? context.fetch(descriptor)) ?? []
+        return entries.map { DoseSnapshot(substance: $0.substance, amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp) }
     }
 
     /// Recompute every target's tolerance from the dose log and refresh the cache. Call after the dose
@@ -304,11 +321,18 @@ final class ToleranceStore {
     /// the cooperative pool so the UI never stalls. A signature gate skips the work entirely when the
     /// inputs are unchanged, so navigating back into the tool is free.
     func recompute(from entries: [DoseEntry], now: Date = .now) async {
+        let snapshots = entries.map { DoseSnapshot(substance: $0.substance, amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp) }
+        await recompute(snapshots: snapshots, now: now)
+    }
+
+    /// ``recompute(from:now:)`` over value snapshots — the shape both the tool's
+    /// `@Query` and the background fetch reduce to.
+    func recompute(snapshots entries: [DoseSnapshot], now: Date = .now) async {
         let weightKg = UserProfileStore.shared.effectiveWeightKg
         let signature = Self.signature(entries: entries, weightKg: weightKg, now: now)
         if signature == lastSignature { return }
 
-        // Snapshot to Sendable values + resolve each unique substance once (kills the per-dose N+1).
+        // Sendable replay values + resolve each unique substance once (kills the per-dose N+1).
         let doses = entries.map {
             SimDose(substance: $0.substance, amountMg: DoseUnit.convert($0.amount, from: $0.unit, to: "mg"), timestamp: $0.timestamp)
         }
@@ -357,10 +381,11 @@ final class ToleranceStore {
     /// per-substance mode appears, so the default per-mechanism view never pays for it.
     func recomputePerSubstance(from entries: [DoseEntry], now: Date = .now) async {
         let weightKg = UserProfileStore.shared.effectiveWeightKg
-        let signature = Self.signature(entries: entries, weightKg: weightKg, now: now)
+        let snapshots = entries.map { DoseSnapshot(substance: $0.substance, amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp) }
+        let signature = Self.signature(entries: snapshots, weightKg: weightKg, now: now)
         if signature == perSubstanceSignature { return }
 
-        let doses = entries.map {
+        let doses = snapshots.map {
             SimDose(substance: $0.substance, amountMg: DoseUnit.convert($0.amount, from: $0.unit, to: "mg"), timestamp: $0.timestamp)
         }
         // Resolve pharmacology for every logged substance and the class representatives once (shared
@@ -494,7 +519,7 @@ final class ToleranceStore {
     /// Only doses **inside the lookback window** are hashed — exactly the set ``simulate`` integrates —
     /// so the tool (which passes the whole `@Query`) and the background refresh (which fetches a
     /// lookback-filtered set) produce the *same* signature and dedupe against each other's work.
-    private static func signature(entries: [DoseEntry], weightKg: Double, now: Date) -> String {
+    private static func signature(entries: [DoseSnapshot], weightKg: Double, now: Date) -> String {
         let cutoff = now.addingTimeInterval(-defaultLookbackDays * 86_400)
         // Order-independent: the tool passes a reverse-chron `@Query` while the background path fetches in
         // store order, so combine per-entry hashes with XOR (commutative) rather than a sequential

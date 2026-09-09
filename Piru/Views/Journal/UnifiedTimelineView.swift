@@ -45,16 +45,9 @@ struct UnifiedTimelineView: View {
                             .padding(.top, 80)
                     } else {
                         ForEach(model.days) { day in
-                            TimelineDayContent(
-                                day: day,
-                                onEntryTap: { entry in
-                                    navigator.push(.entry(timestamp: entry.timestamp, id: entry.id))
-                                },
-                                onSessionTap: { sessionID in
-                                    navigator.push(.session(id: sessionID))
-                                },
-                            )
-                            .id(day.date)
+                            TimelineDayContent(day: day)
+                                .equatable()
+                                .id(day.date)
                         }
                     }
                 }
@@ -180,6 +173,9 @@ final class UnifiedTimelineModel {
     /// builds never set it, so they are redone on next appearance.
     private var builtKey: String?
 
+    /// `cacheable` is true only for the unfiltered journal strip: the launch
+    /// cache (``TimelineStripCache``) is keyed by the whole log, so a filtered
+    /// or searched strip must neither read nor write it.
     func rebuild(
         entries: [DoseEntry],
         colors: [SubstanceColor],
@@ -191,11 +187,32 @@ final class UnifiedTimelineModel {
         showsAxis: Bool,
         bubbleStyle: TimelineBubbleStyle,
         showsVitals: Bool,
+        cacheable: Bool = true,
     ) async {
-        let key = "\(revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(entries.count)"
+        let preferences = "\(zoom)|\(compressGaps)|\(pkCurves)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)"
+        let key = "\(revision)|\(preferences)|\(entries.count)"
         if key == builtKey, !days.isEmpty { return }
+        let now = Date.now
+        let cacheKey = TimelineStripCache.key(
+            storeGeneration: DoseLogService.storeGeneration,
+            entryCount: entries.count,
+            newestTimestamp: entries.map(\.timestamp).max(),
+            preferences: preferences,
+            now: now,
+        )
+        // First build of this process: a cache written by the last launch from
+        // this exact log and these preferences paints the strip without the
+        // build (the file decodes off the main actor).
+        if cacheable, days.isEmpty, !entries.isEmpty,
+           let cached = await TimelineStripCache.load(matching: cacheKey, now: now) {
+            guard !Task.isCancelled else { return }
+            days = cached
+            builtKey = key
+            return
+        }
         await SubstanceStore.shared.ensureAllLoaded()
         guard !Task.isCancelled else { return }
+        let sessions = Self.sessionsByID(of: entries)
 
         let heartRate = showsAxis && showsVitals ? await Self.recentHeartRate(entries: entries) : []
         guard !Task.isCancelled else { return }
@@ -212,6 +229,7 @@ final class UnifiedTimelineModel {
                 pkMode: pkCurves,
             ),
             heartRate: heartRate,
+            sessions: sessions,
         ) else {
             days = []
             builtKey = key
@@ -226,7 +244,9 @@ final class UnifiedTimelineModel {
         built.reserveCapacity(builder.sliceCount)
         for index in 0 ..< builder.sliceCount {
             built.append(builder.layout(sliceAt: index))
-            if index == 9 || (index > 9 && (index - 9).isMultiple(of: 30)) {
+            // Small chunks: each slice is a few ms of layout on the main actor,
+            // and a 30-slice chunk between yields is a 250 ms stall at launch.
+            if index == 9 || (index > 9 && (index - 9).isMultiple(of: 6)) {
                 days = built
                 await Task.yield()
                 guard !Task.isCancelled else { return }
@@ -234,6 +254,17 @@ final class UnifiedTimelineModel {
         }
         days = built
         builtKey = key
+        if cacheable {
+            TimelineStripCache.save(built, key: cacheKey, now: now)
+        }
+    }
+
+    /// Every `Session` in one fetch, keyed by identifier, for the builder's
+    /// session reads (see `TimelineStripBuilder.session(of:)`).
+    private static func sessionsByID(of entries: [DoseEntry]) -> [PersistentIdentifier: Session] {
+        guard let context = entries.first?.modelContext,
+              let sessions = try? context.fetch(FetchDescriptor<Session>()) else { return [:] }
+        return Dictionary(sessions.map { ($0.persistentModelID, $0) }, uniquingKeysWith: { first, _ in first })
     }
 
     /// How far back the heart-rate trace is read. A wrist sensor records
@@ -267,12 +298,27 @@ final class UnifiedTimelineModel {
 /// One day slice of the strip. Axis on: the strip layout
 /// (``TimelineStripDayContent``); axis off: the bubbles as a plain list
 /// (``TimelineListDayContent``).
-struct TimelineDayContent: View {
+///
+/// `Equatable` on the layout alone: the strip has hundreds of these, and every
+/// evaluation of the list around them (a navigation push, a tab switch) would
+/// re-run all of their bodies if they took tap closures, which are fresh
+/// identities each pass. The taps push through the navigator here, so the
+/// only input is the value the day was laid out from.
+struct TimelineDayContent: View, Equatable {
     let day: TimelineDayLayout
-    let onEntryTap: (DoseEntry) -> Void
-    let onSessionTap: (UUID) -> Void
+    @Environment(\.appNavigator) private var navigator
+
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.day == rhs.day
+    }
 
     var body: some View {
+        let onEntryTap: (TimelineDayLayout.CardItem) -> Void = { item in
+            navigator.push(.entry(timestamp: item.timestamp, id: item.id))
+        }
+        let onSessionTap: (UUID) -> Void = { sessionID in
+            navigator.push(.session(id: sessionID))
+        }
         if day.style.showsAxis {
             TimelineStripDayContent(day: day, onEntryTap: onEntryTap, onSessionTap: onSessionTap)
         } else {
@@ -287,7 +333,7 @@ struct TimelineDayContent: View {
 /// as across the whole strip — larger y = earlier. `mapHeight` is the slice's
 /// share of the global time map; `totalHeight` can exceed it when displaced
 /// cards spill past the mapped span.
-struct TimelineDayLayout: Identifiable {
+nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
     let date: Date
     let isToday: Bool
     let style: Style
@@ -321,7 +367,7 @@ struct TimelineDayLayout: Identifiable {
     }
 
     /// The display options the slice was laid out for.
-    struct Style: Equatable {
+    struct Style: Equatable, Codable {
         /// Off: no strip, ruler or curves — the bubbles stack as a list.
         let showsAxis: Bool
         let bubbleStyle: TimelineBubbleStyle
@@ -337,8 +383,12 @@ struct TimelineDayLayout: Identifiable {
     /// Base vertical resolution at zoom 1 — uniform across the whole strip.
     static let basePointsPerMinute: CGFloat = 1.4
 
-    struct CardGroup: Identifiable {
-        let id: PersistentIdentifier
+    struct CardGroup: Identifiable, Equatable, Codable {
+        /// ``DoseEntry/id`` of the group's first dose. Never a `PersistentIdentifier`:
+        /// one decoded from the launch cache and a live one for the same row
+        /// compare equal but hash differently, and SwiftUI's `ForEach` trapped on
+        /// exactly that the first time a cached strip was rebuilt after a log.
+        let id: UUID
         /// Newest first — matching the axis direction.
         let items: [CardItem]
         let representativeTime: Date
@@ -387,8 +437,17 @@ struct TimelineDayLayout: Identifiable {
         }
     }
 
-    struct CardItem: Identifiable {
-        let entry: DoseEntry
+    /// One dose as the strip draws it — plain values, no `@Model` reference,
+    /// so a whole layout can be encoded to the launch cache and decoded off
+    /// the main actor.
+    struct CardItem: Identifiable, Equatable, Codable {
+        /// ``DoseEntry/id`` — the row identity and what a tap pushes. Never
+        /// a `PersistentIdentifier` (see ``CardGroup/id``).
+        let id: UUID
+        let timestamp: Date
+        let amount: Double
+        let unit: String
+        let route: RouteOfAdministration
         /// The dose's title, resolved once here (a derive layer) through the shared
         /// ``DoseTitle/resolve(for:)`` — so the bubble shows the brand ("Medikinet")
         /// the entry was logged under, matching the session/journal rows, not the
@@ -401,12 +460,58 @@ struct TimelineDayLayout: Identifiable {
         /// for ended doses and doses without duration data.
         let state: ActiveSubstanceState?
 
-        var id: PersistentIdentifier {
-            entry.persistentModelID
+        init(entry: DoseEntry, displayName: String, color: Color, remainingFraction: Double?, state: ActiveSubstanceState?) {
+            id = entry.id
+            timestamp = entry.timestamp
+            amount = entry.amount
+            unit = entry.unit
+            route = entry.route
+            self.displayName = displayName
+            self.color = color
+            self.remainingFraction = remainingFraction
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id
+            case timestamp
+            case amount
+            case unit
+            case route
+            case displayName
+            case color
+            case remainingFraction
+            case state
+        }
+
+        init(from decoder: Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            id = try c.decode(UUID.self, forKey: .id)
+            timestamp = try c.decode(Date.self, forKey: .timestamp)
+            amount = try c.decode(Double.self, forKey: .amount)
+            unit = try c.decode(String.self, forKey: .unit)
+            route = try c.decode(RouteOfAdministration.self, forKey: .route)
+            displayName = try c.decode(String.self, forKey: .displayName)
+            color = try Color(hex: c.decode(String.self, forKey: .color))
+            remainingFraction = try c.decodeIfPresent(Double.self, forKey: .remainingFraction)
+            state = try c.decodeIfPresent(ActiveSubstanceState.self, forKey: .state)
+        }
+
+        func encode(to encoder: Encoder) throws {
+            var c = encoder.container(keyedBy: CodingKeys.self)
+            try c.encode(id, forKey: .id)
+            try c.encode(timestamp, forKey: .timestamp)
+            try c.encode(amount, forKey: .amount)
+            try c.encode(unit, forKey: .unit)
+            try c.encode(route, forKey: .route)
+            try c.encode(displayName, forKey: .displayName)
+            try c.encode(color.cacheHex(), forKey: .color)
+            try c.encodeIfPresent(remainingFraction, forKey: .remainingFraction)
+            try c.encodeIfPresent(state, forKey: .state)
         }
     }
 
-    struct SessionEnvelope: Identifiable {
+    struct SessionEnvelope: Identifiable, Equatable, Codable {
         let id: UUID
         let yStart: CGFloat
         let yEnd: CGFloat
@@ -420,36 +525,117 @@ struct TimelineDayLayout: Identifiable {
     /// slices join seamlessly. Each point carries the phase of the newest dose
     /// covering it, which the stroke draws as a color shift along the line;
     /// body-load curves model no phases and carry `nil`.
-    struct CurveSeries {
+    struct CurveSeries: Equatable, Codable {
         let color: Color
         let points: [CurvePoint]
+
+        init(color: Color, points: [CurvePoint]) {
+            self.color = color
+            self.points = points
+        }
+
+        private enum CodingKeys: String, CodingKey { case color, points }
+
+        /// Points travel as one flat number array — `y` to a tenth of a point,
+        /// `v` to four places, the phase as its case index (−1 for none) — a
+        /// fifth of the keyed form's bytes: the curves are most of the strip's
+        /// launch cache, and the layout does not resolve finer than that.
+        init(from decoder: Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            color = try Color(hex: c.decode(String.self, forKey: .color))
+            let flat = try c.decode([Double].self, forKey: .points)
+            var decoded: [CurvePoint] = []
+            decoded.reserveCapacity(flat.count / 3)
+            var i = 0
+            while i + 2 < flat.count {
+                let phaseIndex = Int(flat[i + 2])
+                let phase = TimelineCurvePhase.allCases.indices.contains(phaseIndex) ? TimelineCurvePhase.allCases[phaseIndex] : nil
+                decoded.append(CurvePoint(y: flat[i], v: flat[i + 1], phase: phase))
+                i += 3
+            }
+            points = decoded
+        }
+
+        func encode(to encoder: Encoder) throws {
+            var c = encoder.container(keyedBy: CodingKeys.self)
+            try c.encode(color.cacheHex(), forKey: .color)
+            var flat: [Double] = []
+            flat.reserveCapacity(points.count * 3)
+            for point in points {
+                flat.append((Double(point.y) * 10).rounded() / 10)
+                flat.append((point.v * 10_000).rounded() / 10_000)
+                flat.append(Double(point.phase.flatMap { TimelineCurvePhase.allCases.firstIndex(of: $0) } ?? -1))
+            }
+            try c.encode(flat, forKey: .points)
+        }
     }
 
-    struct CurvePoint: Equatable {
+    struct CurvePoint: Equatable, Codable {
         let y: CGFloat
         let v: Double
         var phase: TimelineCurvePhase?
     }
 
-    struct DoseDot {
+    struct DoseDot: Equatable, Codable {
         let y: CGFloat
         let color: Color
+
+        init(y: CGFloat, color: Color) {
+            self.y = y
+            self.color = color
+        }
+
+        private enum CodingKeys: String, CodingKey { case y, color }
+
+        init(from decoder: Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            y = try c.decode(CGFloat.self, forKey: .y)
+            color = try Color(hex: c.decode(String.self, forKey: .color))
+        }
+
+        func encode(to encoder: Encoder) throws {
+            var c = encoder.container(keyedBy: CodingKeys.self)
+            try c.encode(y, forKey: .y)
+            try c.encode(color.cacheHex(), forKey: .color)
+        }
     }
 
     /// A thin line from a dose's true position on the time axis to the
     /// vertical center of its card — the card can sit away from its moment
     /// when several land in one stretch, and with many entries in one hour
     /// the connectors are what say which dot belongs to which card.
-    struct Connector {
+    struct Connector: Equatable, Codable {
         let fromY: CGFloat
         let toY: CGFloat
         let color: Color
+
+        init(fromY: CGFloat, toY: CGFloat, color: Color) {
+            self.fromY = fromY
+            self.toY = toY
+            self.color = color
+        }
+
+        private enum CodingKeys: String, CodingKey { case fromY, toY, color }
+
+        init(from decoder: Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            fromY = try c.decode(CGFloat.self, forKey: .fromY)
+            toY = try c.decode(CGFloat.self, forKey: .toY)
+            color = try Color(hex: c.decode(String.self, forKey: .color))
+        }
+
+        func encode(to encoder: Encoder) throws {
+            var c = encoder.container(keyedBy: CodingKeys.self)
+            try c.encode(fromY, forKey: .fromY)
+            try c.encode(toY, forKey: .toY)
+            try c.encode(color.cacheHex(), forKey: .color)
+        }
     }
 
     /// One session note at its own moment on the axis. It lives in the lane
     /// between the curves and the bubble column, never in the gutter, so it
     /// can't collide with a dose capsule.
-    struct NoteMark: Identifiable {
+    struct NoteMark: Identifiable, Equatable, Codable {
         let id: UUID
         let sessionID: UUID
         let kind: SessionNote.Kind
@@ -466,7 +652,7 @@ struct TimelineDayLayout: Identifiable {
         let besideCapsule: Bool
     }
 
-    struct HourTick {
+    struct HourTick: Equatable, Codable {
         let y: CGFloat
         /// The hour as the locale writes it on its own (``TimelineHourMark``),
         /// or `nil` when the gridline stands alone — its label would collide

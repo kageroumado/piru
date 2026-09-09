@@ -59,8 +59,8 @@ private struct SheetLayer: ViewModifier {
                 }
             #else
                 .sheet(item: binding(fullScreen: true)) { route in
-                        routeContent(route)
-                    }
+                    routeContent(route)
+                }
             #endif
         }
     }

@@ -178,6 +178,8 @@ struct EntryListView: View {
     /// would bucket against an empty `derived` and paint every day card
     /// graph-less — the cold-launch no-graphs flash.
     @State private var hasDerivedOnce = false
+    /// The dose-log revision the derived data was last built from.
+    @State private var derivedRevision: Int?
 
     /// Content fingerprint of the color assignments. Drives the recolor derive
     /// on *edits*, not just adds/removes: recoloring an existing substance
@@ -381,6 +383,11 @@ struct EntryListView: View {
             // The model's generation guard makes a newer run supersede an in-flight
             // one, so the overlap on first appear can't corrupt state.
             .task(id: DoseLogService.shared.revision) {
+                // A `.task(id:)` also fires on re-appearance (a tab switch, a
+                // pop back) with the id unchanged; the derived data is still
+                // current then, and re-deriving it costs a ~400 ms hang.
+                let revision = DoseLogService.shared.revision
+                if hasDerivedOnce, derivedRevision == revision { return }
                 let isFirst = !hasLoadedOnce
                 hasLoadedOnce = true
                 if !isFirst {
@@ -390,7 +397,9 @@ struct EntryListView: View {
                     guard !Task.isCancelled else { return }
                 }
                 await rebuildAll(animated: !isFirst)
+                guard !Task.isCancelled else { return }
                 hasDerivedOnce = true
+                derivedRevision = revision
             }
             // Debounce the search filter: re-filtering the whole history runs on the
             // main actor, so doing it on every keystroke stalled typing. An empty
@@ -415,7 +424,10 @@ struct EntryListView: View {
             // whenever a filter or search is active, the raw log otherwise.
             .task(id: timelineRebuildKey) {
                 guard grouping == .timeline else { return }
-                try? await Task.sleep(for: .milliseconds(200))
+                // The search surface keys this on the query text; a longer
+                // debounce there builds the strip once after typing pauses
+                // instead of once per keystroke.
+                try? await Task.sleep(for: .milliseconds(isSearchSurface ? 600 : 200))
                 guard !Task.isCancelled else { return }
                 let source = (model.hasActiveFilters || !searchText.isEmpty) ? model.filtered : entries
                 await timelineModel.rebuild(
@@ -429,6 +441,7 @@ struct EntryListView: View {
                     showsAxis: prefs.showsAxis,
                     bubbleStyle: prefs.bubbleStyle,
                     showsVitals: prefs.showsVitals,
+                    cacheable: !isSearchSurface && !model.hasActiveFilters && searchText.isEmpty,
                 )
             }
             .onChange(of: colorSignature) {
@@ -458,19 +471,12 @@ struct EntryListView: View {
     /// options live in the toolbar (``JournalTimelineOptionsButton``).
     private var timelineContent: some View {
         ForEach(timelineModel.days) { day in
-            TimelineDayContent(
-                day: day,
-                onEntryTap: { entry in
-                    navigator.push(.entry(timestamp: entry.timestamp, id: entry.id))
-                },
-                onSessionTap: { sessionID in
-                    navigator.push(.session(id: sessionID))
-                },
-            )
-            .id(day.date)
-            .listRowInsets(.rowFlush)
-            .listRowSeparator(.hidden)
-            .listRowBackground(Color.clear)
+            TimelineDayContent(day: day)
+                .equatable()
+                .id(day.date)
+                .listRowInsets(.rowFlush)
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
         }
     }
 

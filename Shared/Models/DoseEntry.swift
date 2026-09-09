@@ -13,7 +13,11 @@ import SwiftData
 /// ## Storage Conventions
 /// - ``route`` is a `RouteOfAdministration` enum that SwiftData persists via
 ///   its `String` `rawValue` (`"oral"`, `"insufflation"`, etc.), making the
-///   column human-readable and stable across renames of the Swift type.
+///   column human-readable and stable across renames of the Swift type. Every
+///   read goes through the enum's `Decodable` conformance; keep it declared as
+///   the enum regardless — re-declaring it as a `String` attribute with
+///   `@Attribute(originalName: "route")` is not a lightweight migration, and a
+///   store opened by such a build falls back to temporary storage.
 /// - ``tags`` is a computed view over ``tagsRaw``, a comma-separated string.
 ///   Tags are CSV-encoded rather than stored as a relationship because
 ///   SwiftData arrays of value types are awkward to query across targets

@@ -149,10 +149,15 @@ enum SessionService {
     /// themselves (existing sessions are left intact), so a fresh store gets a
     /// complete, correct grouping and an import builds its own sessions.
     static func assignUnassignedDoses(in context: ModelContext) {
-        let all = (try? context.fetch(
-            FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.timestamp)]),
+        // Only the session-less rows: this runs every launch, and fetching the
+        // whole log to filter it in memory costs ~75 ms of main-thread time for
+        // a result that is normally empty.
+        let unassigned = (try? context.fetch(
+            FetchDescriptor<DoseEntry>(
+                predicate: #Predicate { $0.session == nil },
+                sortBy: [SortDescriptor(\.timestamp)],
+            ),
         )) ?? []
-        let unassigned = all.filter { $0.session == nil }
         guard !unassigned.isEmpty else { return }
 
         let groups = SessionClustering.cluster(unassigned.map(clusterDose))

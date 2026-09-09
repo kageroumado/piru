@@ -52,11 +52,11 @@ final class MyMedsModel {
         return slots.sorted { ($0.time ?? .max) < ($1.time ?? .max) }
     }
 
-    /// The past-year streak — fetch, snapshot, and calendar walk all on
-    /// ``DatabaseActor``, so the main actor never materializes a year of rows.
+    /// The past-year streak, from the shared ``AdherenceStreakStore`` — a cache
+    /// hit unless the dose log or the schedule changed since it was last walked.
     func refreshStreak(items: [DailyDoseItem], container: ModelContainer) async {
         guard !items.isEmpty else { return }
-        streak = await AdherenceStreakFetcher.currentStreak(container: container)
+        streak = await AdherenceStreakStore.shared.currentStreak(items: items, container: container)
     }
 
     /// Whether the tapped slots may log straight away. When they may not, the
@@ -90,7 +90,22 @@ final class MyMedsInfoModel {
 
     private let defaults = UserDefaults(suiteName: "group.dev.yumeji.piru")
 
+    /// The (dose-log revision, schedule) the projections were built from. The
+    /// card's `.task(id:)` also fires on re-appearance with the id unchanged,
+    /// and each refresh is a stock fetch plus a dose fetch per tracked med.
+    @ObservationIgnored private var refreshedKey: Int?
+
     func refresh(items: [DailyDoseItem], in context: ModelContext) {
+        var hasher = Hasher()
+        hasher.combine(DoseLogService.shared.revision)
+        for item in items {
+            hasher.combine(item.persistentModelID)
+            hasher.combine(item.isAsNeeded)
+        }
+        let key = hasher.finalize()
+        if refreshedKey == key { return }
+        refreshedKey = key
+
         var projections: [MyMedsInfo.SupplyProjection] = []
         var seen = Set<UUID>()
         for item in items where !item.isAsNeeded {

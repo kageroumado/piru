@@ -74,6 +74,18 @@ final class SubstanceStore {
     /// launch.
     private(set) var enabledSourceOrder: [String] = []
 
+    /// Identity of the data every resolution reads: the substance database
+    /// file in use (path, size, modification date) and the enabled source
+    /// order. A launch cache of resolved values keys on this, so a database
+    /// update or a source reorder misses instead of serving stale rows.
+    var dataSignature: String {
+        let url = Self.resolveSubstancesDBURL()
+        let attributes = (try? FileManager.default.attributesOfItem(atPath: url.path)) ?? [:]
+        let size = (attributes[.size] as? NSNumber)?.int64Value ?? 0
+        let modified = (attributes[.modificationDate] as? Date)?.timeIntervalSinceReferenceDate ?? 0
+        return "\(url.lastPathComponent)|\(size)|\(modified)|\(enabledSourceOrder.joined(separator: ","))"
+    }
+
     /// Cached resolved substances keyed by canonical name (case-insensitive).
     /// Cleared when the user changes source priority.
     ///

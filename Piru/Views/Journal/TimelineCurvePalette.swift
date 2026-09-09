@@ -4,7 +4,7 @@ import SwiftUI
 /// carries it as a color shift along the line — the substance color itself at
 /// the peak, lighter while the effect is arriving, warmer and deeper while it
 /// leaves, washed out once only the afterglow is left.
-nonisolated enum TimelineCurvePhase: Hashable, CaseIterable {
+nonisolated enum TimelineCurvePhase: Hashable, CaseIterable, Codable {
     /// From the dose to the end of the come-up.
     case onset
     case peak

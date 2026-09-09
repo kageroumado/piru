@@ -11425,10 +11425,11 @@ class Build:
         # (release XR brands, isomer-variant brands) plus curated flagship base
         # brands (brands.json) — every other alias stays NULL. `kind` drives no
         # fold, no facet, no dose: it is a display-ordering hint only.
-        # Two tiers so the subtitle leads with the iconic base brand. Form-map
-        # brands (release/isomer products the pipeline already enumerates) rank 1;
-        # the curated flagships (brands.json — the base brands people know) rank 0,
-        # seeded second so a brand in both ends at the flagship rank.
+        # Three tiers so the subtitle leads with the names people know. Form-map
+        # brands (release/isomer products the pipeline already enumerates) rank 2;
+        # the curated entries (brands.json) rank 0 for the flagship base brand and
+        # 1 for a well-known second brand, seeded second so a brand in both ends
+        # at its curated rank.
         form_brands: list[tuple[str, str]] = []
         for b in self._release_registry.get("brands", []):
             form_brands.append((b["parent"], b["brand"]))
@@ -11437,8 +11438,8 @@ class Build:
                 for nm in v.get("brands") or []:
                     form_brands.append((fam["parent"], nm))
         # A brands.json entry defaults to the flagship rank 0 but may opt down to 1
-        # (e.g. Daytrana — a real brand, but a niche patch that should not lead
-        # Ritalin in the Methylphenidate subtitle).
+        # (Concerta — the second name people know for Methylphenidate, ahead of
+        # the form-map crowd but never leading Ritalin).
         flagship_brands = [
             (b["parent"], b["brand"], b.get("rank", 0)) for b in collision_registry.brand_registry()
         ]
@@ -11446,7 +11447,7 @@ class Build:
         brand = 0
         for parent, name in form_brands:
             brand += self.cur.execute(
-                "UPDATE aliases SET kind='brand', brand_rank=1 WHERE alias_normalized=? AND substance_id="
+                "UPDATE aliases SET kind='brand', brand_rank=2 WHERE alias_normalized=? AND substance_id="
                 "(SELECT id FROM substances WHERE canonical_name=?)"
                 " AND kind IS NOT 'distinct_substance'",
                 (normalise(name), parent),

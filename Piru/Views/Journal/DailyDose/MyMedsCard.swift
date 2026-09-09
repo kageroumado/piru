@@ -169,7 +169,12 @@ struct MyMedsCard: View {
             .padding(.bottom, Spacing.lg)
             .padding(.horizontal, Spacing.xxl)
             .themeCard()
-            .task { await model.refreshStreak(items: items, container: modelContext.container) }
+            // Both keyed on the commit counter: an id-less `.task` re-fires on
+            // every appearance, and a List recycles this row while scrolling,
+            // which would run the year-scale streak fetch mid-scroll.
+            .task(id: DoseLogService.shared.revision) {
+                await model.refreshStreak(items: items, container: modelContext.container)
+            }
             .task(id: DoseLogService.shared.revision) {
                 info.refresh(items: items, in: modelContext)
             }

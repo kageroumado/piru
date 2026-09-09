@@ -41,7 +41,7 @@ struct TimelineDoseBubble: View {
     }
 
     private var doseText: String {
-        "\(item.entry.amount.doseFormatted) \(item.entry.unit)"
+        "\(item.amount.doseFormatted) \(item.unit)"
     }
 
     var body: some View {
@@ -90,7 +90,7 @@ struct TimelineDoseBubble: View {
                     Text(verbatim: doseText)
                         .font(.footnote)
                         .foregroundStyle(Theme.secondaryLabel)
-                    ROAPill(route: item.entry.route, size: .compact)
+                    ROAPill(route: item.route, size: .compact)
                     Spacer(minLength: 4)
                     trailingReadout
                 }
@@ -119,7 +119,10 @@ struct TimelineDoseBubble: View {
                     .font(.caption.weight(.semibold).monospacedDigit())
                     .foregroundStyle(item.color)
             }
-        } else if let state = item.state {
+        } else if let state = item.state, state.doseTimestamp.addingTimeInterval(state.totalMinutes * 60) > .now {
+            // Only a dose still inside its window gets the minute clock; every
+            // historical bubble would otherwise schedule its own timer and a
+            // subgraph that evaluates to nothing.
             TimelineView(.periodic(from: .now, by: 60)) { context in
                 let now = context.date
                 let end = state.doseTimestamp.addingTimeInterval(state.totalMinutes * 60)

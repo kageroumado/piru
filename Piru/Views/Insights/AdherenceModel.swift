@@ -77,6 +77,6 @@ final class AdherenceModel {
             streak = 0
             return
         }
-        streak = await AdherenceStreakFetcher.currentStreak(container: container)
+        streak = await AdherenceStreakStore.shared.currentStreak(items: dailyItems, container: container)
     }
 }

@@ -152,7 +152,7 @@
       "classA": "dissociative",
       "classB": "benzodiazepine",
       "severity": "unsafe",
-      "note": "Significant respiratory depression risk and profound loss of consciousness."
+      "note": "Severe respiratory depression and loss of consciousness."
     },
     {
       "classA": "benzodiazepine",
@@ -381,7 +381,7 @@
       "classA": "barbiturate",
       "classB": "antihistamine",
       "severity": "unsafe",
-      "note": "Heavy additive sedation — profound drowsiness and impaired breathing."
+      "note": "Heavy additive sedation — deep drowsiness and impaired breathing."
     },
     {
       "classA": "barbiturate",
@@ -509,7 +509,7 @@
       "classA": "stimulant",
       "classB": "snri",
       "severity": "caution",
-      "note": "Cardiovascular strain and potential serotonin interaction — monitor heart rate and blood pressure."
+      "note": "Cardiovascular strain and serotonin risk — watch your heart rate and blood pressure."
     },
     {
       "classA": "antipsychotic",

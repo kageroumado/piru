@@ -235,8 +235,10 @@ private struct SubstanceSearchResultsList: View {
 private struct RecentSubstancesSection: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
 
-    /// Resolved once per dose-history change instead of per body — each rebuild
-    /// is up to 10 synchronous `SubstanceLibrary.resolveFull` calls.
+    /// Resolved once per dose-history change instead of per body. The rows
+    /// show name and category, so this is the batch-projection ``SubstanceLibrary/lookup(_:)``
+    /// — never ``SubstanceLibrary/resolveFull(_:)``, which is ~21 SQL on the
+    /// main actor per substance, a 250 ms hang when the Search tab opens.
     @State private var recentSubstances: [Substance] = []
 
     private var recentSignature: Int {
@@ -254,7 +256,7 @@ private struct RecentSubstancesSection: View {
         var result: [Substance] = []
         for entry in recentEntries {
             let key = entry.substance.lowercased()
-            if seen.insert(key).inserted, let substance = SubstanceLibrary.resolveFull(key) {
+            if seen.insert(key).inserted, let substance = SubstanceLibrary.lookup(key) {
                 result.append(substance)
                 if result.count >= 10 { break }
             }
